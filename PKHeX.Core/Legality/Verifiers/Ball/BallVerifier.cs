@@ -132,7 +132,7 @@ public sealed class BallVerifier : Verifier
             return GetValid(LBallEnc); // Poké Ball
 
         var enc = data.EncounterMatch;
-        int species = enc.Species;
+        var species = enc.Species;
         if (pk.Gender == 2 || BallBreedLegality.BreedMaleOnly6.Contains(species)) // Genderless
             return VerifyBallEquals(data, (int)Poke); // Must be Pokéball as ball can only pass via mother (not Ditto!)
 
@@ -180,7 +180,7 @@ public sealed class BallVerifier : Verifier
         {
             if (BallBreedLegality.Ban_Gen3Ball.Contains(species))
                 return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_Gen3BallHidden.Contains(species | (enc.Form << 11)) && IsHiddenAndNotPossible(pk))
+            if (BallBreedLegality.Ban_Gen3BallHidden.Contains((ushort)(species | (enc.Form << 11))) && IsHiddenAndNotPossible(pk))
                 return GetInvalid(LBallAbility);
             return GetValid(LBallSpeciesPass);
         }
@@ -204,7 +204,7 @@ public sealed class BallVerifier : Verifier
         if (pk.Ball == (int)Poke)
             return GetValid(LBallEnc); // Poké Ball
 
-        int species = data.EncounterMatch.Species;
+        var species = data.EncounterMatch.Species;
         if (species is >= 722 and <= 730) // G7 Starters
             return VerifyBallEquals(data, (int)Poke);
 
@@ -222,7 +222,7 @@ public sealed class BallVerifier : Verifier
         {
             if (!BallBreedLegality.Inherit_Apricorn7.Contains(species))
                 return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_NoHidden7Apricorn.Contains(species | (pk.Form << 11)) && IsHiddenAndNotPossible(pk))
+            if (BallBreedLegality.Ban_NoHidden7Apricorn.Contains((ushort)(species | (pk.Form << 11))) && IsHiddenAndNotPossible(pk))
                 return GetInvalid(LBallAbility);
             return GetValid(LBallSpeciesPass);
         }
@@ -277,7 +277,7 @@ public sealed class BallVerifier : Verifier
 
     private CheckResult VerifyBallEggGen8BDSP(LegalityAnalysis data)
     {
-        int species = data.EncounterMatch.Species;
+        var species = data.EncounterMatch.Species;
         if (species == (int)Species.Phione)
             return VerifyBallEquals(data, (int)Poke);
 
@@ -312,7 +312,7 @@ public sealed class BallVerifier : Verifier
         {
             if (!BallBreedLegality.Inherit_Apricorn7.Contains(species))
                 return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_NoHidden8Apricorn.Contains(species | (pk.Form << 11)) && IsHiddenAndNotPossible(pk)) // lineage is 3->2->origin
+            if (BallBreedLegality.Ban_NoHidden8Apricorn.Contains((ushort)(species | (pk.Form << 11))) && IsHiddenAndNotPossible(pk)) // lineage is 3->2->origin
                 return GetInvalid(LBallAbility);
             return GetValid(LBallSpeciesPass);
         }
@@ -364,7 +364,7 @@ public sealed class BallVerifier : Verifier
         if (pk.Ball == (int)Poke)
             return GetValid(LBallEnc); // Poké Ball
 
-        int species = data.EncounterMatch.Species;
+        var species = data.EncounterMatch.Species;
         if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // G8 Starters
             return VerifyBallEquals(data, (int)Poke);
 
@@ -390,7 +390,7 @@ public sealed class BallVerifier : Verifier
         {
             if (!BallBreedLegality.Inherit_Apricorn7.Contains(species))
                 return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_NoHidden8Apricorn.Contains(species | (pk.Form << 11)) && IsHiddenAndNotPossible(pk)) // lineage is 3->2->origin
+            if (BallBreedLegality.Ban_NoHidden8Apricorn.Contains((ushort)(species | (pk.Form << 11))) && IsHiddenAndNotPossible(pk)) // lineage is 3->2->origin
                 return GetInvalid(LBallAbility);
             return GetValid(LBallSpeciesPass);
         }
@@ -451,7 +451,7 @@ public sealed class BallVerifier : Verifier
         return !AbilityVerifier.CanAbilityPatch(pk.Format, pk.PersonalInfo.Abilities, pk.Species);
     }
 
-    private static bool IsGalarCatchAndBreed(int species)
+    private static bool IsGalarCatchAndBreed(ushort species)
     {
         if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // starter
             return false;

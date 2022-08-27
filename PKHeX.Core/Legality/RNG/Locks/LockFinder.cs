@@ -68,7 +68,7 @@ public static class LockFinder
     /// <param name="pkPID">PID of the entity</param>
     /// <param name="IV1">First 3 IVs combined</param>
     /// <param name="IV2">Last 3 IVs combined</param>
-    public static bool IsColoStarterValid(int species, ref uint seed, int TID, int SID, uint pkPID, uint IV1, uint IV2)
+    public static bool IsColoStarterValid(ushort species, ref uint seed, int TID, int SID, uint pkPID, uint IV1, uint IV2)
     {
         // reverse the seed the bare minimum
         int rev = 2;

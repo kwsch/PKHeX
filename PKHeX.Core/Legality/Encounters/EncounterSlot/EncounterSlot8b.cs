@@ -33,13 +33,13 @@ public sealed record EncounterSlot8b : EncounterSlot
     {
         if (IsUnderground)
         {
-            if (GetBaseEggMove(out int move1))
+            if (GetBaseEggMove(out var move1))
                 pk.RelearnMove1 = move1;
         }
         pk.SetRandomEC();
     }
 
-    public bool CanBeUndergroundMove(int move)
+    public bool CanBeUndergroundMove(ushort move)
     {
         var et = PersonalTable.BDSP;
         var sf = et.GetFormEntry(Species, Form);
@@ -53,7 +53,7 @@ public sealed record EncounterSlot8b : EncounterSlot
         return Array.IndexOf(baseEgg, move) >= 0;
     }
 
-    public bool GetBaseEggMove(out int move)
+    public bool GetBaseEggMove(out ushort move)
     {
         var et = PersonalTable.BDSP;
         var sf = et.GetFormEntry(Species, Form);

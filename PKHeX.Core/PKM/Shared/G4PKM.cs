@@ -11,8 +11,8 @@ public abstract class G4PKM : PKM,
     protected G4PKM(int size) : base(size) { }
 
     // Maximums
-    public sealed override int MaxMoveID => Legal.MaxMoveID_4;
-    public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_4;
+    public sealed override ushort MaxMoveID => Legal.MaxMoveID_4;
+    public sealed override ushort MaxSpeciesID => Legal.MaxSpeciesID_4;
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_4;
     public sealed override int MaxItemID => Legal.MaxItemID_4_HGSS;
     public sealed override int MaxBallID => Legal.MaxBallID_4;

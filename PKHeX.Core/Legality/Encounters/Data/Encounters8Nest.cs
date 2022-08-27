@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.GameVersion;
 
@@ -411,12 +411,12 @@ internal static partial class Encounters8Nest
     /// <summary>
     /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.
     /// </summary>
-    internal static readonly HashSet<int> InaccessibleRank12DistributionLocations = new() {154,178,186,188,190,192,194,226,228,230,234}; // Areas that are entirely restricted to water
+    internal static readonly HashSet<byte> InaccessibleRank12DistributionLocations = new() {154,178,186,188,190,192,194,226,228,230,234}; // Areas that are entirely restricted to water
 
     /// <summary>
     /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.
     /// </summary>
-    internal static readonly Dictionary<int, byte[]> InaccessibleRank12Nests = new()
+    internal static readonly Dictionary<byte, byte[]> InaccessibleRank12Nests = new()
     {
         {128, new byte[] {6,43}}, // East Lake Axewell
         {130, new byte[] {6,41,43}}, // West Lake Axewell

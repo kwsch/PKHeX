@@ -21,7 +21,7 @@ public sealed class ShowdownSet : IBattleTemplate
     private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(DefaultLanguage);
 
     /// <inheritdoc/>
-    public int Species { get; private set; } = -1;
+    public ushort Species { get; private set; }
 
     /// <inheritdoc/>
     public EntityContext Context { get; private set; } = RecentTrainerCache.Context;
@@ -54,7 +54,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public string FormName { get; private set; } = string.Empty;
 
     /// <inheritdoc/>
-    public int Form { get; private set; }
+    public byte Form { get; private set; }
 
     /// <inheritdoc/>
     public int[] EVs { get; } = {00, 00, 00, 00, 00, 00};
@@ -66,7 +66,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public int HiddenPowerType { get; set; } = -1;
 
     /// <inheritdoc/>
-    public int[] Moves { get; } = {0, 0, 0, 0};
+    public ushort[] Moves { get; } = {0, 0, 0, 0};
 
     /// <inheritdoc/>
     public bool CanGigantamax { get; set; }
@@ -159,10 +159,10 @@ public sealed class ShowdownSet : IBattleTemplate
                 int move = StringUtil.FindIndexIgnoreCase(Strings.movelist, moveString);
                 if (move < 0)
                     InvalidLines.Add($"Unknown Move: {moveString}");
-                else if (Array.IndexOf(Moves, move) != -1)
+                else if (Array.IndexOf(Moves, (ushort)move) != -1)
                     InvalidLines.Add($"Duplicate Move: {moveString}");
                 else
-                    Moves[movectr++] = move;
+                    Moves[movectr++] = (ushort)move;
 
                 if (movectr == MaxMoveCount)
                     return; // End of moves, end of set data
@@ -370,7 +370,7 @@ public sealed class ShowdownSet : IBattleTemplate
     private IEnumerable<string> GetStringMoves()
     {
         var moves = Strings.Move;
-        foreach (int move in Moves)
+        foreach (var move in Moves)
         {
             if (move == 0 || (uint)move >= moves.Count)
                 continue;
@@ -425,7 +425,7 @@ public sealed class ShowdownSet : IBattleTemplate
         if (pk is IDynamaxLevel d)
             DynamaxLevel = d.DynamaxLevel;
 
-        if (Array.IndexOf(Moves, (int)Move.HiddenPower) != -1)
+        if (Array.IndexOf(Moves, (ushort)Move.HiddenPower) != -1)
             HiddenPowerType = HiddenPower.GetType(IVs, Context);
         if (pk is IHyperTrain h)
         {
@@ -513,19 +513,26 @@ public sealed class ShowdownSet : IBattleTemplate
             speciesLine = speciesLine[..^Gmax.Length];
         }
 
-        if ((Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine)) >= 0) // success, nothing else!
+        var speciesIndex = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine);
+        if (speciesIndex > 0)
+        {
+            // success, nothing else !
+            Species = (ushort)speciesIndex;
             return true;
+        }
 
         // Form string present.
         int end = speciesLine.LastIndexOf('-');
         if (end < 0)
             return false;
 
-        Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine[..end]);
-        FormName = speciesLine[(end + 1)..];
-
-        if (Species >= 0)
+        speciesIndex = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine[..end]);
+        if (speciesIndex > 0)
+        {
+            Species = (ushort)speciesIndex;
+            FormName = speciesLine[(end + 1)..];
             return true;
+        }
 
         // failure to parse, check edge cases
         foreach (var e in DashedSpecies)
@@ -542,10 +549,15 @@ public sealed class ShowdownSet : IBattleTemplate
         end = speciesLine.LastIndexOf('-', Math.Max(0, end - 1));
         if (end < 0)
             return false;
-        Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine[..end]);
-        FormName = speciesLine[(end + 1)..];
 
-        return Species >= 0;
+        speciesIndex = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine[..end]);
+        if (speciesIndex > 0)
+        {
+            Species = (ushort)speciesIndex;
+            FormName = speciesLine[(end + 1)..];
+            return true;
+        }
+        return false;
     }
 
     private void ParseSpeciesNickname(string line)

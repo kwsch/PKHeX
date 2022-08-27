@@ -2,7 +2,7 @@ namespace PKHeX.Core;
 
 internal static class LearnSource1
 {
-    internal static readonly int[] TMHM_RBY =
+    internal static readonly ushort[] TMHM_RBY =
     {
         005, 013, 014, 018, 025, 092, 032, 034, 036, 038,
         061, 055, 058, 059, 063, 006, 066, 068, 069, 099,

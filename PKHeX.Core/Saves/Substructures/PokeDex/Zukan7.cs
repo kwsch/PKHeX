@@ -23,25 +23,24 @@ public class Zukan7 : Zukan
     protected sealed override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
     protected sealed override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
 
-    private readonly IList<int> FormBaseSpecies;
+    private readonly IList<ushort> FormBaseSpecies;
 
     public Zukan7(SAV7SM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexSM) { }
     public Zukan7(SAV7USUM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexUSUM) { }
     protected Zukan7(SAV7b sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexGG) { }
 
-    private Zukan7(SaveFile sav, int dex, int langflag, Func<int, int, int, int> form) : base(sav, dex, langflag)
+    private Zukan7(SaveFile sav, int dex, int langflag, Func<ushort, int, int, int> form) : base(sav, dex, langflag)
     {
         DexFormIndexFetcher = form;
         FormBaseSpecies = GetFormIndexBaseSpeciesList();
         Debug.Assert(!SAV.State.Exportable || ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex)) == MAGIC);
     }
 
-    public Func<int, int, int, int> DexFormIndexFetcher { get; }
+    public Func<ushort, int, int, int> DexFormIndexFetcher { get; }
 
-    protected sealed override void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true)
+    protected sealed override void SetAllDexSeenFlags(int baseBit, byte form, int gender, bool isShiny, bool value = true)
     {
-        int species = baseBit + 1;
-
+        var species = (ushort)(baseBit + 1);
         if (species == (int)Species.Castform)
             isShiny = false;
 
@@ -73,12 +72,12 @@ public class Zukan7 : Zukan
         }
     }
 
-    protected override bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
+    protected override bool GetSaneFormsToIterate(ushort species, out int formStart, out int formEnd, int formIn)
     {
         return SanitizeFormsToIterate(species, out formStart, out formEnd, formIn, SAV is SAV7USUM);
     }
 
-    public static bool SanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn, bool USUM)
+    public static bool SanitizeFormsToIterate(ushort species, out int formStart, out int formEnd, int formIn, bool USUM)
     {
         // 004AA370 in Moon
         // Simplified in terms of usage -- only overrides to give all the battle forms for a pk
@@ -169,7 +168,7 @@ public class Zukan7 : Zukan
     /// </summary>
     public uint CurrentViewedDex => (ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + 4)) >> 9) & 0x3FF;
 
-    public IEnumerable<int> GetAllFormEntries(int species)
+    public IEnumerable<int> GetAllFormEntries(ushort species)
     {
         var fc = SAV.Personal[species].FormCount;
         for (int j = 1; j < fc; j++)
@@ -191,7 +190,7 @@ public class Zukan7 : Zukan
         }
     }
 
-    public int GetDexFormIndex(int species, int fc, int f)
+    public int GetDexFormIndex(ushort species, int fc, int f)
     {
         var index = DexFormIndexFetcher(species, fc, f);
         if (index < 0)
@@ -208,7 +207,7 @@ public class Zukan7 : Zukan
 
         // Add forms
         int ctr = max + 1;
-        for (int species = 1; species <= max; species++)
+        for (ushort species = 1; species <= max; species++)
         {
             int c = SAV.Personal[species].FormCount;
             for (int f = 1; f < c; f++)
@@ -224,10 +223,10 @@ public class Zukan7 : Zukan
     /// <summary>
     /// Gets a list of Species IDs that a given dex-form index corresponds to.
     /// </summary>
-    private List<int> GetFormIndexBaseSpeciesList()
+    private List<ushort> GetFormIndexBaseSpeciesList()
     {
-        var baseSpecies = new List<int>();
-        for (int species = 1; species <= SAV.MaxSpeciesID; species++)
+        var baseSpecies = new List<ushort>();
+        for (ushort species = 1; species <= SAV.MaxSpeciesID; species++)
         {
             int c = SAV.Personal[species].FormCount;
             for (int f = 1; f < c; f++)
@@ -251,11 +250,11 @@ public class Zukan7 : Zukan
             return SAV.Personal[index + 1].Gender;
 
         index -= SAV.MaxSpeciesID;
-        int species = FormBaseSpecies[index];
+        ushort species = FormBaseSpecies[index];
         return SAV.Personal[species].Gender;
     }
 
-    public int GetBaseSpecies(int index)
+    public ushort GetBaseSpecies(ushort index)
     {
         if (index <= SAV.MaxSpeciesID)
             return index;
@@ -274,7 +273,7 @@ public class Zukan7 : Zukan
             SetFlag(PokeDexLanguageFlags, lbit, value);
     }
 
-    public bool[] GetLanguageBitflags(int species)
+    public bool[] GetLanguageBitflags(ushort species)
     {
         var result = new bool[DexLangIDCount];
         int bit = species - 1;
@@ -286,7 +285,7 @@ public class Zukan7 : Zukan
         return result;
     }
 
-    public void SetLanguageBitflags(int species, bool[] value)
+    public void SetLanguageBitflags(ushort species, bool[] value)
     {
         int bit = species - 1;
         for (int i = 0; i < DexLangIDCount; i++)
@@ -299,11 +298,11 @@ public class Zukan7 : Zukan
     public void ToggleLanguageFlagsAll(bool value)
     {
         var arr = GetBlankLanguageBits(value);
-        for (int i = 1; i <= SAV.MaxSpeciesID; i++)
+        for (ushort i = 1; i <= SAV.MaxSpeciesID; i++)
             SetLanguageBitflags(i, arr);
     }
 
-    public void ToggleLanguageFlagsSingle(int species, bool value)
+    public void ToggleLanguageFlagsSingle(ushort species, bool value)
     {
         var arr = GetBlankLanguageBits(value);
         SetLanguageBitflags(species, arr);

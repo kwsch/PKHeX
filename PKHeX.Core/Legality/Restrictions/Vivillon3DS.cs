@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -245,7 +245,7 @@ public static class Vivillon3DS
     /// </summary>
     /// <param name="country">Country ID</param>
     /// <param name="region">Subregion ID</param>
-    public static int GetPattern(byte country, byte region)
+    public static byte GetPattern(byte country, byte region)
     {
         var ct = Array.Find(RegionFormTable, t => t.CountryID == country);
         if (ct == null) // empty = no forms referenced
@@ -256,14 +256,16 @@ public static class Vivillon3DS
             if (sub.Regions.Contains(region))
                 return sub.Form;
         }
-
+        
         return ct.BaseForm;
     }
 
-    private static int GetPattern(byte country)
+    private static byte GetPattern(byte country)
     {
         var form = Array.FindIndex(VivillonCountryTable, z => z.Contains(country));
-        return Math.Max(0, form);
+        if (form == -1)
+            return 0;
+        return (byte)form;
     }
 
     /// <summary>

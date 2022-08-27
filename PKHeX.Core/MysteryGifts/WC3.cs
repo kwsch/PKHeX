@@ -26,7 +26,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     public override int EggLocation { get => 0; set {} }
     public override GameVersion Version { get; set; }
     public int Language { get; init; } = -1;
-    public override int Species { get; set; }
+    public override ushort Species { get; set; }
     public override bool IsEgg { get; set; }
     public override Moveset Moves { get; set; }
     public bool NotDistributed { get; init; }
@@ -61,7 +61,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     public override bool IsEntity { get; set; } = true;
     public override bool Empty => false;
     public override int Gender { get; set; }
-    public override int Form { get; set; }
+    public override byte Form { get; set; }
 
     // Synthetic
     private readonly int? _metLevel;
@@ -160,9 +160,9 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     {
         if (!Moves.HasMoves) // not completely defined
         {
-            Span<int> moves = stackalloc int[4];
+            Span<ushort> moves = stackalloc ushort[4];
             MoveList.GetCurrentMoves(pk, Species, Form, (GameVersion)pk.Version, Level, moves);
-            Moves = new((ushort)moves[0], (ushort)moves[1], (ushort)moves[2], (ushort)moves[3]);
+            Moves = new(moves[0], moves[1], moves[2], moves[3]);
         }
 
         pk.SetMoves(Moves);

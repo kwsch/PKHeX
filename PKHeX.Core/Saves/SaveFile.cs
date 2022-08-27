@@ -90,8 +90,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public abstract IPersonalTable Personal { get; }
     public abstract int OTLength { get; }
     public abstract int NickLength { get; }
-    public abstract int MaxMoveID { get; }
-    public abstract int MaxSpeciesID { get; }
+    public abstract ushort MaxMoveID { get; }
+    public abstract ushort MaxSpeciesID { get; }
     public abstract int MaxAbilityID { get; }
     public abstract int MaxItemID { get; }
     public abstract int MaxBallID { get; }
@@ -418,12 +418,38 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #region Pokédex
     public int PokeDex { get; protected set; } = int.MinValue;
     public bool HasPokeDex => PokeDex > -1;
-    public virtual bool GetSeen(int species) => false;
-    public virtual void SetSeen(int species, bool seen) { }
-    public virtual bool GetCaught(int species) => false;
-    public virtual void SetCaught(int species, bool caught) { }
-    public int SeenCount => HasPokeDex ? Enumerable.Range(1, MaxSpeciesID).Count(GetSeen) : 0;
-    public int CaughtCount => HasPokeDex ? Enumerable.Range(1, MaxSpeciesID).Count(GetCaught) : 0;
+    public virtual bool GetSeen(ushort species) => false;
+    public virtual void SetSeen(ushort species, bool seen) { }
+    public virtual bool GetCaught(ushort species) => false;
+    public virtual void SetCaught(ushort species, bool caught) { }
+    public int SeenCount
+    {
+        get
+        {
+            int ctr = 0;
+            for (ushort i = 1; i <= MaxSpeciesID; i++)
+            {
+                if (GetSeen(i))
+                    ctr++;
+            }
+            return ctr;
+        }
+    }
+
+    /// <summary> Count of unique Species Caught (Owned) </summary>
+    public int CaughtCount
+    {
+        get
+        {
+            int ctr = 0;
+            for (ushort i = 1; i <= MaxSpeciesID; i++)
+            {
+                if (GetCaught(i))
+                    ctr++;
+            }
+            return ctr;
+        }
+    }
     public decimal PercentSeen => (decimal) SeenCount / MaxSpeciesID;
     public decimal PercentCaught => (decimal)CaughtCount / MaxSpeciesID;
     #endregion

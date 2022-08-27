@@ -17,9 +17,9 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
     private const int MaxSpecies = Legal.MaxSpeciesID_8_R2;
     private const LearnEnvironment Game = SWSH;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -28,7 +28,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -36,14 +36,14 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return moves.IndexOf(move) != -1;
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -74,7 +74,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
+    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
     {
         var tutor = Array.IndexOf(Tutors_SWSH, move);
         if (tutor == -1)
@@ -82,7 +82,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return pi.SpecialTutors[0][tutor];
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species switch
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species switch
     {
         (int)Species.Necrozma => move switch
         {
@@ -102,7 +102,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         _ => false,
     };
 
-    private bool GetIsSharedEggMove(PersonalInfo pi, int move)
+    private bool GetIsSharedEggMove(PersonalInfo pi, ushort move)
     {
         var entry = (PersonalInfo8SWSH)pi;
         var baseSpecies = entry.HatchSpecies;
@@ -110,7 +110,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
     }
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, int move)
+    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
     {
         var index = Array.IndexOf(TypeTutor8, move);
         if (index == -1)
@@ -118,7 +118,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = TM_SWSH.AsSpan().IndexOf(move);
         if (index == -1)
@@ -126,7 +126,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsTR(PersonalInfo info, PKM pk, EvoCriteria evo, int move, LearnOption option)
+    private static bool GetIsTR(PersonalInfo info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)
     {
         if (pk is not ITechRecord8 tr)
             return false;
@@ -236,7 +236,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         }
     }
 
-    public static readonly int[] TM_SWSH =
+    public static readonly ushort[] TM_SWSH =
     {
         005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
         345, 076, 669, 083, 086, 091, 103, 113, 115, 219,
@@ -250,7 +250,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
     };
 
-    internal static readonly int[] TR_SWSH =
+    internal static readonly ushort[] TR_SWSH =
     {
         014, 034, 053, 056, 057, 058, 059, 067, 085, 087,
         089, 094, 097, 116, 118, 126, 127, 133, 141, 161,
@@ -264,7 +264,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
     };
 
-    internal static readonly int[] TypeTutor8 =
+    internal static readonly ushort[] TypeTutor8 =
     {
         (int)Move.GrassPledge,
         (int)Move.FirePledge,
@@ -276,7 +276,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         (int)Move.SteelBeam,
     };
 
-    internal static readonly int[] Tutors_SWSH =
+    internal static readonly ushort[] Tutors_SWSH =
     {
         805, 807, 812, 804,
         803, 813, 811, 810,

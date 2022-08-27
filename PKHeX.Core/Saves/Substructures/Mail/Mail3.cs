@@ -42,7 +42,7 @@ public sealed class Mail3 : MailDetail
 
     public override ushort AuthorTID { get => ReadUInt16LittleEndian(Data.AsSpan(0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), value); }
     public override ushort AuthorSID { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }
-    public override int AppearPKM { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)(value == 0 ? 1 : value)); }
+    public override ushort AppearPKM { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)(value == 0 ? 1 : value)); }
     public override int MailType { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), (ushort)value); }
 
     public override bool? IsEmpty => MailType switch

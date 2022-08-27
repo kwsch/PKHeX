@@ -113,7 +113,7 @@ public static class MoveInfo
 
         for (int i = 0; i < 4; i++)
         {
-            var move = (ushort)pk.GetMove(i);
+            var move = pk.GetMove(i);
             if (hs.Contains(move))
                 return true;
         }

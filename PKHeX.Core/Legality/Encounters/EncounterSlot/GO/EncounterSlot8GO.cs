@@ -19,7 +19,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
     /// </remarks>
     public PogoImportFormat OriginFormat { get; }
 
-    public EncounterSlot8GO(EncounterArea8g area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type, PogoImportFormat originFormat)
+    public EncounterSlot8GO(EncounterArea8g area, ushort species, byte form, int start, int end, Shiny shiny, Gender gender, PogoType type, PogoImportFormat originFormat)
         : base(area, species, form, start, end, shiny, gender, type)
     {
         OriginFormat = originFormat;
@@ -28,7 +28,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
     /// <summary>
     /// Checks if the <seealso cref="Ball"/> is compatible with the <seealso cref="PogoType"/>.
     /// </summary>
-    public bool IsBallValid(Ball ball, int currentSpecies)
+    public bool IsBallValid(Ball ball, ushort currentSpecies)
     {
         // GO does not natively produce Shedinja when evolving Nincada, and thus must be evolved in future games.
         if (currentSpecies == (int)Core.Species.Shedinja && currentSpecies != Species)
@@ -135,7 +135,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         pk.SetMaximumPPCurrent(moves);
     }
 
-    public ReadOnlySpan<int> GetInitialMoves(int level) => MoveLevelUp.GetEncounterMoves(Species, Form, level, OriginGroup);
+    public ReadOnlySpan<ushort> GetInitialMoves(int level) => MoveLevelUp.GetEncounterMoves(Species, Form, level, OriginGroup);
 
     public override EncounterMatchRating GetMatchRating(PKM pk)
     {

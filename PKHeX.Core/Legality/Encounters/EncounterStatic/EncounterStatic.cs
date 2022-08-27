@@ -10,8 +10,8 @@ namespace PKHeX.Core;
 /// </remarks>
 public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IMoveset, IEncounterMatch
 {
-    public int Species { get; init; }
-    public int Form { get; init; }
+    public ushort Species { get; init; }
+    public byte Form { get; init; }
     public virtual byte Level { get; init; }
     public virtual byte LevelMin => Level;
     public virtual byte LevelMax => Level;

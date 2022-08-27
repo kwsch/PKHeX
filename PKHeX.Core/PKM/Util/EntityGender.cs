@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 public static class EntityGender
 {
@@ -31,7 +31,7 @@ public static class EntityGender
     /// <param name="pid">Personality ID.</param>
     /// <returns>Gender ID (0/1/2)</returns>
     /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
-    public static int GetFromPID(int species, uint pid)
+    public static int GetFromPID(ushort species, uint pid)
     {
         int gt = PKX.Personal[species].Gender;
         return GetFromPIDAndRatio(pid, gt);

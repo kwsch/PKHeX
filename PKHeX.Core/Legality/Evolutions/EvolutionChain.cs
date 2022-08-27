@@ -11,13 +11,13 @@ internal static class EvolutionChain
 {
     public static EvolutionHistory GetEvolutionChainsAllGens(PKM pk, IEncounterTemplate enc)
     {
-        var origin = new EvolutionOrigin((ushort)enc.Species, (byte)enc.Version, (byte)enc.Generation, enc.LevelMin, (byte)pk.CurrentLevel);
+        var origin = new EvolutionOrigin(enc.Species, (byte)enc.Version, (byte)enc.Generation, enc.LevelMin, (byte)pk.CurrentLevel);
         if (!pk.IsEgg && enc is not EncounterInvalid)
             return GetEvolutionChainsSearch(pk, origin);
 
         var history = new EvolutionHistory();
         var group = EvolutionGroupUtil.GetCurrentGroup(pk);
-        var chain = group.GetInitialChain(pk, origin, (ushort)pk.Species, (byte)pk.Form);
+        var chain = group.GetInitialChain(pk, origin, pk.Species, pk.Form);
         history.Set(pk.Context, chain);
         return history;
     }
@@ -25,7 +25,7 @@ internal static class EvolutionChain
     public static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc)
     {
         var group = EvolutionGroupUtil.GetCurrentGroup(pk);
-        ReadOnlySpan<EvoCriteria> chain = group.GetInitialChain(pk, enc, (ushort)pk.Species, (byte)pk.Form);
+        ReadOnlySpan<EvoCriteria> chain = group.GetInitialChain(pk, enc, pk.Species, pk.Form);
 
         var history = new EvolutionHistory();
         while (true)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -27,7 +27,7 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_XY;
     public SaveBlockAccessor6XY Blocks { get; }
     protected override SaveFile CloneInternal() => new SAV6XY((byte[])Data.Clone());
-    public override int MaxMoveID => Legal.MaxMoveID_6_XY;
+    public override ushort MaxMoveID => Legal.MaxMoveID_6_XY;
     public override int MaxItemID => Legal.MaxItemID_6_XY;
     public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
 
@@ -140,10 +140,10 @@ public sealed class SAV6XY : SAV6, ISaveBlock6XY, IMultiplayerSprite
     protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }
     protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.GetGifts(); set => Blocks.MysteryGift.SetGifts(value); }
 
-    public override bool GetCaught(int species) => Blocks.Zukan.GetCaught(species);
-    public override bool GetSeen(int species) => Blocks.Zukan.GetSeen(species);
-    public override void SetSeen(int species, bool seen) => Blocks.Zukan.SetSeen(species, seen);
-    public override void SetCaught(int species, bool caught) => Blocks.Zukan.SetCaught(species, caught);
+    public override bool GetCaught(ushort species) => Blocks.Zukan.GetCaught(species);
+    public override bool GetSeen(ushort species) => Blocks.Zukan.GetSeen(species);
+    public override void SetSeen(ushort species, bool seen) => Blocks.Zukan.SetSeen(species, seen);
+    public override void SetCaught(ushort species, bool caught) => Blocks.Zukan.SetCaught(species, caught);
 
     public override int CurrentBox { get => Blocks.BoxLayout.CurrentBox; set => Blocks.BoxLayout.CurrentBox = value; }
     protected override int GetBoxWallpaperOffset(int box) => Blocks.BoxLayout.GetBoxWallpaperOffset(box);

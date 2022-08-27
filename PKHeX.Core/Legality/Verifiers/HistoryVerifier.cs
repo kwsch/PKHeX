@@ -257,7 +257,7 @@ public sealed class HistoryVerifier : Verifier
         _ => GetBaseFriendship(generation, enc.Species, enc.Form),
     };
 
-    private static int GetBaseFriendship(int generation, int species, int form) => generation switch
+    private static int GetBaseFriendship(int generation, ushort species, int form) => generation switch
     {
         6 => PersonalTable.AO[species].BaseFriendship,
         7 => PersonalTable.USUM[species].BaseFriendship,

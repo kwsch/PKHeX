@@ -11,12 +11,12 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
 {
     public bool HasMoves => Move1 != 0;
 
-    public bool Contains(int move) => move == Move1 || move == Move2 || move == Move3 || move == Move4;
+    public bool Contains(ushort move) => move == Move1 || move == Move2 || move == Move3 || move == Move4;
     public bool AnyAbove(int max) => Move1 > max || Move2 > max || Move3 > max || Move4 > max;
 
-    public int[] ToArray() => new int[] { Move1, Move2, Move3, Move4 };
+    public ushort[] ToArray() => new[] { Move1, Move2, Move3, Move4 };
 
-    public void CopyTo(Span<int> moves)
+    public void CopyTo(Span<ushort> moves)
     {
         moves[3] = Move4;
         moves[2] = Move3;
@@ -24,7 +24,7 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
         moves[0] = Move1;
     }
 
-    public bool ContainsAny(ReadOnlySpan<int> moves)
+    public bool ContainsAny(ReadOnlySpan<ushort> moves)
     {
         foreach (var move in moves)
         {
@@ -34,7 +34,7 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
         return false;
     }
 
-    public bool ContainsAll(ReadOnlySpan<int> needs)
+    public bool ContainsAll(ReadOnlySpan<ushort> needs)
     {
         foreach (var move in needs)
         {
@@ -61,26 +61,26 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
         return sb.ToString();
     }
 
-    public int BitOverlap(ReadOnlySpan<int> span)
+    public int BitOverlap(ReadOnlySpan<ushort> span)
     {
         // Flag each present index; having all moves will have all bitflags.
         int flags = 0;
         for (var i = 0; i < span.Length; i++)
         {
-            int move = span[i];
+            var move = span[i];
             if (Contains(move))
                 flags |= 1 << i;
         }
         return flags;
     }
 
-    public static int BitOverlap(Span<int> moves, Span<int> span)
+    public static int BitOverlap(Span<ushort> moves, Span<ushort> span)
     {
         // Flag each present index; having all moves will have all bitflags.
         int flags = 0;
         for (var i = 0; i < span.Length; i++)
         {
-            int move = span[i];
+            var move = span[i];
             if (moves.Contains(move))
                 flags |= 1 << i;
         }

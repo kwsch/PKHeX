@@ -179,7 +179,7 @@ public static class CommonEdits
         {
             // In Generation 1/2 Format sets, when IVs are not specified with a Hidden Power set, we might not have the hidden power type.
             // Under this scenario, just force the Hidden Power type.
-            if (Array.IndexOf(Set.Moves, (int)Move.HiddenPower) != -1 && pk.HPType != Set.HiddenPowerType)
+            if (Array.IndexOf(Set.Moves, (ushort)Move.HiddenPower) != -1 && pk.HPType != Set.HiddenPowerType)
             {
                 if (Array.Exists(Set.IVs, static iv => iv >= 30))
                     pk.SetHiddenPower(Set.HiddenPowerType);

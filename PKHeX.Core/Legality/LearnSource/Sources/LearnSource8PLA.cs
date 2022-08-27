@@ -16,9 +16,9 @@ public sealed class LearnSource8LA : ILearnSource
     private const int MaxSpecies = Legal.MaxSpeciesID_8a;
     private const LearnEnvironment Game = PLA;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -27,7 +27,7 @@ public sealed class LearnSource8LA : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -46,7 +46,7 @@ public sealed class LearnSource8LA : ILearnSource
         return default;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
     {
         (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
         (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
@@ -56,9 +56,9 @@ public sealed class LearnSource8LA : ILearnSource
         _ => false,
     };
 
-    private static bool GetIsMoveShop(PersonalInfo pi, int move)
+    private static bool GetIsMoveShop(PersonalInfo pi, ushort move)
     {
-        var index = Legal.MoveShop8_LA.AsSpan().IndexOf((ushort)move);
+        var index = Legal.MoveShop8_LA.AsSpan().IndexOf(move);
         if (index == -1)
             return false;
         return pi.SpecialTutors[0][index];

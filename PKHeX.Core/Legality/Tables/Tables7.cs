@@ -99,11 +99,11 @@ public static partial class Legal
         921, 922, 923, 924, 925, 926,
     });
 
-    public static readonly Dictionary<int, int> ZCrystalDictionary = GetDictionary(Pouch_ZCrystal_USUM, Pouch_ZCrystalHeld_USUM);
+    public static readonly Dictionary<ushort, ushort> ZCrystalDictionary = GetDictionary(Pouch_ZCrystal_USUM, Pouch_ZCrystalHeld_USUM);
 
-    private static Dictionary<int, int> GetDictionary(IReadOnlyList<ushort> key, IReadOnlyList<ushort> held)
+    private static Dictionary<ushort, ushort> GetDictionary(IReadOnlyList<ushort> key, IReadOnlyList<ushort> held)
     {
-        var result = new Dictionary<int, int>(held.Count);
+        var result = new Dictionary<ushort, ushort>(held.Count);
         for (int i = 0; i < key.Count; i++)
             result.Add(key[i], held[i]);
         return result;
@@ -112,7 +112,7 @@ public static partial class Legal
     internal static readonly ushort[] HeldItems_SM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_SM);
     internal static readonly ushort[] HeldItems_USUM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_USUM, Pouch_Roto_USUM);
 
-    internal static readonly HashSet<int> AlolanOriginForms = new()
+    internal static readonly HashSet<ushort> AlolanOriginForms = new()
     {
         (int)Rattata,
         (int)Raticate,
@@ -131,14 +131,14 @@ public static partial class Legal
         (int)Muk,
     };
 
-    internal static readonly HashSet<int> AlolanVariantEvolutions12 = new()
+    internal static readonly HashSet<ushort> AlolanVariantEvolutions12 = new()
     {
         (int)Raichu,
         (int)Exeggutor,
         (int)Marowak,
     };
 
-    public static readonly HashSet<int> PastGenAlolanNatives = new()
+    public static readonly HashSet<ushort> PastGenAlolanNatives = new()
     {
         010, 011, 012, 019, 020, 021, 022, 025, 026, 027, 028, 035, 036, 037, 038, 039, 040, 041, 042, 046, 047, 050,
         051, 052, 053, 054, 055, 056, 057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 072, 073, 074, 075,
@@ -185,14 +185,14 @@ public static partial class Legal
         100, 101, // Voltorb & Electrode
     };
 
-    internal static readonly HashSet<int> Totem_Alolan = new()
+    internal static readonly HashSet<ushort> Totem_Alolan = new()
     {
         (int)Raticate, // (Normal, Alolan, Totem)
         (int)Marowak, // (Normal, Alolan, Totem)
         (int)Mimikyu, // (Normal, Busted, Totem, Totem_Busted)
     };
 
-    internal static readonly HashSet<int> Totem_NoTransfer = new()
+    internal static readonly HashSet<ushort> Totem_NoTransfer = new()
     {
         (int)Marowak,
         (int)Araquanid,
@@ -200,7 +200,7 @@ public static partial class Legal
         (int)Ribombee,
     };
 
-    internal static readonly HashSet<int> Totem_USUM = new()
+    internal static readonly HashSet<ushort> Totem_USUM = new()
     {
         (int)Raticate,
         (int)Gumshoos,

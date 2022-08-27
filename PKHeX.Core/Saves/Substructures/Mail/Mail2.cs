@@ -113,7 +113,7 @@ public sealed class Mail2 : MailDetail
         set => WriteUInt16BigEndian(Data.AsSpan(OFS_AUTHOR_ID, 2), value);
     }
 
-    public override int AppearPKM { get => Data[OFS_APPEAR]; set => Data[OFS_APPEAR] = (byte)value; }
+    public override ushort AppearPKM { get => Data[OFS_APPEAR]; set => Data[OFS_APPEAR] = (byte)value; }
     public override int MailType  { get => Data[OFS_TYPE];   set => Data[OFS_TYPE]   = (byte)value; }
 
     public override bool? IsEmpty => MailType switch

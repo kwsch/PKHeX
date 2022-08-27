@@ -240,7 +240,7 @@ public partial class SAV_Database : Form
         CB_GameOrigin.InitializeBinding();
         CB_HPType.InitializeBinding();
 
-        var comboAny = new ComboItem(MsgAny, -1);
+        var comboAny = new ComboItem(MsgAny, 0);
 
         var species = new List<ComboItem>(GameInfo.SpeciesDataSource);
         species.RemoveAt(0);
@@ -491,7 +491,7 @@ public partial class SAV_Database : Form
             Version = WinFormsUtil.GetIndex(CB_GameOrigin),
             HiddenPowerType = WinFormsUtil.GetIndex(CB_HPType),
 
-            Species = WinFormsUtil.GetIndex(CB_Species),
+            Species = (ushort)WinFormsUtil.GetIndex(CB_Species),
             Ability = WinFormsUtil.GetIndex(CB_Ability),
             Nature = WinFormsUtil.GetIndex(CB_Nature),
             Item = WinFormsUtil.GetIndex(CB_HeldItem),
@@ -504,10 +504,10 @@ public partial class SAV_Database : Form
             IVType = CB_IV.SelectedIndex,
         };
 
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move1));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move2));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move3));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move4));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move1));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move2));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move3));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move4));
 
         if (CHK_Shiny.CheckState != CheckState.Indeterminate)
             settings.SearchShiny = CHK_Shiny.CheckState == CheckState.Checked;

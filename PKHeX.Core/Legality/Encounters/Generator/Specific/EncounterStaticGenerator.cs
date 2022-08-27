@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -108,9 +108,9 @@ public static class EncounterStaticGenerator
         }
     }
 
-    private static int GetVCSpecies(ReadOnlySpan<EvoCriteria> chain, PKM pk, int max)
+    private static ushort GetVCSpecies(ReadOnlySpan<EvoCriteria> chain, PKM pk, int max)
     {
-        int species = pk.Species;
+        ushort species = pk.Species;
         foreach (var z in chain)
         {
             if (z.Species > max)

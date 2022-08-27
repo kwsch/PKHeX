@@ -13,7 +13,7 @@ public sealed class SecretBase3Team
     private const int O_EV = 0x42;
 
     private static int GetOffsetPID(int index) => O_PID + (index * 4);
-    private static int GetOffsetMove(int index, int move) => O_Moves + (index * 8) + (move * 2);
+    private static int GetOffsetMove(int index, int moveIndex) => O_Moves + (index * 8) + (moveIndex * 2);
     private static int GetOffsetSpecies(int index) => O_Species + (index * 2);
     private static int GetOffsetItem(int index) => O_Item + (index * 2);
 
@@ -52,7 +52,7 @@ public sealed class SecretBase3Team
     {
         var pk = Team[index];
         WriteUInt32LittleEndian(Data.AsSpan(GetOffsetPID(index)), pk.PID);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index)), (ushort)pk.Species);
+        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index)), pk.Species);
         WriteUInt16LittleEndian(Data.AsSpan(GetOffsetItem(index)), (ushort)pk.HeldItem);
         WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 0)), (ushort)pk.Move1);
         WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 1)), (ushort)pk.Move2);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -26,19 +26,19 @@ public sealed class Hall4
 
     public uint Key { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
 
-    public ushort GetCount(int battleType, int species)
+    public ushort GetCount(int battleType, ushort species)
     {
         var offset = GetRecordOffset(battleType, species);
         return ReadUInt16LittleEndian(Data[offset..]);
     }
 
-    public void SetCount(int battleType, int species, ushort value)
+    public void SetCount(int battleType, ushort species, ushort value)
     {
         var offset = GetRecordOffset(battleType, species);
         WriteUInt16LittleEndian(Data[offset..], value);
     }
 
-    private static int GetRecordOffset(int battleType, int species)
+    private static int GetRecordOffset(int battleType, ushort species)
     {
         if ((uint)species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));

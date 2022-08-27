@@ -273,10 +273,10 @@ public partial class SAV_MailBox : Form
         mail.AuthorTID = (ushort)NUD_AuthorTID.Value;
         mail.MailType = CBIndexToMailType(CB_MailType.SelectedIndex);
         // ReSharper disable once ConstantNullCoalescingCondition
-        int v = (int?)CB_AppearPKM1.SelectedValue ?? 0;
+        var species = (ushort)WinFormsUtil.GetIndex(CB_AppearPKM1);
         if (Gen == 2)
         {
-            mail.AppearPKM = v;
+            mail.AppearPKM = species;
             mail.SetMessage(TB_MessageBody21.Text, TB_MessageBody22.Text);
             return;
         }
@@ -288,7 +288,7 @@ public partial class SAV_MailBox : Form
         }
         if (Gen == 3)
         {
-            mail.AppearPKM = SpeciesConverter.GetG3Species(v);
+            mail.AppearPKM = SpeciesConverter.GetG3Species(species);
             return;
         }
 
@@ -303,7 +303,15 @@ public partial class SAV_MailBox : Form
         {
             case Mail4 m4:
                 for (int i = 0; i < AppearPKMs.Length; i++)
-                    m4.SetAppearSpecies(i, (AppearPKMs[i].SelectedValue as int?) + 7 ?? 0);
+                {
+                    var index = WinFormsUtil.GetIndex(AppearPKMs[i]);
+                    if (index == -1)
+                        index = 0;
+                    else
+                        index += 7;
+                    m4.SetAppearSpecies(i, (ushort)index);
+                }
+
                 break;
             case Mail5 m5:
                 for (int i = 0; i < Miscs.Length; i++)
@@ -503,10 +511,10 @@ public partial class SAV_MailBox : Form
         TB_AuthorName.Text = mail.AuthorName;
         NUD_AuthorTID.Value = mail.AuthorTID;
         CB_MailType.SelectedIndex = MailTypeToCBIndex(mail);
-        int v = mail.AppearPKM;
+        var species = mail.AppearPKM;
         if (Gen == 2)
         {
-            AppearPKMs[0].SelectedValue = v;
+            AppearPKMs[0].SelectedValue = (int)species;
             TB_MessageBody21.Text = mail.GetMessage(false);
             TB_MessageBody22.Text = mail.GetMessage(true);
             editing = false;
@@ -520,7 +528,7 @@ public partial class SAV_MailBox : Form
         }
         if (Gen == 3)
         {
-            AppearPKMs[0].SelectedValue = SpeciesConverter.GetG4Species(v);
+            AppearPKMs[0].SelectedValue = (int)SpeciesConverter.GetG4Species(species);
             editing = false;
             return;
         }

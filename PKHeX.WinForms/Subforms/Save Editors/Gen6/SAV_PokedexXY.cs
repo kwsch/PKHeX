@@ -42,7 +42,7 @@ public partial class SAV_PokedexXY : Form
     private readonly CheckBox[] CL;
     private readonly Zukan6XY Zukan;
     private bool editing;
-    private int species = -1;
+    private ushort species = ushort.MaxValue;
 
     private void ChangeCBSpecies(object sender, EventArgs e)
     {
@@ -50,7 +50,7 @@ public partial class SAV_PokedexXY : Form
         SetEntry();
 
         editing = true;
-        species = (int)CB_Species.SelectedValue;
+        species = (ushort)CB_Species.SelectedValue;
         LB_Species.SelectedIndex = species - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
         LB_Species.TopIndex = LB_Species.SelectedIndex;
         GetEntry();
@@ -63,8 +63,8 @@ public partial class SAV_PokedexXY : Form
         SetEntry();
 
         editing = true;
-        species = LB_Species.SelectedIndex + 1;
-        CB_Species.SelectedValue = species;
+        species = (ushort)(LB_Species.SelectedIndex + 1);
+        CB_Species.SelectedValue = (int)species;
         GetEntry();
         editing = false;
     }
@@ -162,7 +162,7 @@ public partial class SAV_PokedexXY : Form
 
     private void SetEntry()
     {
-        if (species < 0)
+        if (species > 721)
             return;
 
         Zukan.SetCaught(species, CP[0].Checked);

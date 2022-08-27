@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using FluentAssertions;
 using Xunit;
 using static PKHeX.Core.Species;
@@ -17,10 +17,11 @@ public static class TempTests
     [InlineData(Spiritomb, FoulPlay)]
     public static void CanLearnEggMoveBDSP(Species species, Move move)
     {
-        MoveEgg.GetEggMoves(8, (int)species, 0, GameVersion.BD).Contains((int)move).Should().BeFalse();
+        MoveEgg.GetEggMoves(8, (ushort)species, 0, GameVersion.BD).Contains((ushort)move).Should().BeFalse();
 
-        var pb8 = new PB8 { Species = (int)species };
-        var encs = EncounterMovesetGenerator.GenerateEncounters(pb8, new[] { (int)move }, GameVersion.BD);
+        var pb8 = new PB8 { Species = (ushort)species };
+        var encs = EncounterMovesetGenerator.GenerateEncounters(pb8, new[] { (ushort)move }, GameVersion.BD);
+
         encs.Any().Should().BeFalse("Unavailable until HOME update supports BD/SP.");
     }
 }

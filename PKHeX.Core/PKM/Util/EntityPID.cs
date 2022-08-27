@@ -16,7 +16,7 @@ public static class EntityPID
     /// <param name="oldPID">Current PID</param>
     /// <remarks>Used to retain ability bits.</remarks>
     /// <returns>Rerolled PID.</returns>
-    public static uint GetRandomPID(Random rnd, int species, int gender, int origin, int nature, int form, uint oldPID)
+    public static uint GetRandomPID(Random rnd, ushort species, int gender, int origin, int nature, int form, uint oldPID)
     {
         // Gen6+ (and VC) PIDs do not tie PID to Nature/Gender/Ability
         if (origin >= 24)
@@ -64,15 +64,15 @@ public static class EntityPID
                 return pid;
         }
     }
-
+    
     /// <summary>
     /// Gets the Unown Forme ID from PID.
     /// </summary>
     /// <param name="pid">Personality ID</param>
     /// <remarks>Should only be used for 3rd Generation origin specimens.</remarks>
-    public static int GetUnownForm3(uint pid)
+    public static byte GetUnownForm3(uint pid)
     {
         var value = ((pid & 0x3000000) >> 18) | ((pid & 0x30000) >> 12) | ((pid & 0x300) >> 6) | (pid & 0x3);
-        return (int)(value % 28);
+        return (byte)(value % 28);
     }
 }

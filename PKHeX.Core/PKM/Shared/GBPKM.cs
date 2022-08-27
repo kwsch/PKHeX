@@ -131,19 +131,13 @@ public abstract class GBPKM : PKM
         }
     }
 
-    public sealed override int Form
+    public sealed override byte Form
     {
         get
         {
             if (Species != 201) // Unown
                 return 0;
-
-            uint formeVal = 0;
-            formeVal |= (uint)((IV_ATK & 0x6) << 5);
-            formeVal |= (uint)((IV_DEF & 0x6) << 3);
-            formeVal |= (uint)((IV_SPE & 0x6) << 1);
-            formeVal |= (uint)((IV_SPC & 0x6) >> 1);
-            return (int)(formeVal / 10);
+            return GetUnownFormValue(IV_ATK, IV_DEF, IV_SPE, IV_SPC);
         }
         set
         {
@@ -152,6 +146,16 @@ public abstract class GBPKM : PKM
             while (Form != value)
                 SetRandomIVs(0);
         }
+    }
+
+    private static byte GetUnownFormValue(int atk, int def, int spe, int spc)
+    {
+        ushort formeVal = 0;
+        formeVal |= (ushort)((atk & 0x6) << 5);
+        formeVal |= (ushort)((def & 0x6) << 3);
+        formeVal |= (ushort)((spe & 0x6) << 1);
+        formeVal |= (ushort)((spc & 0x6) >> 1);
+        return (byte)(formeVal / 10);
     }
 
     public abstract int EV_SPC { get; set; }

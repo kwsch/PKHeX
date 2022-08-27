@@ -20,10 +20,12 @@ public static class EncounterLearn
     /// </summary>
     public const string NoMatches = "None";
 
+    private const string DefaultLanguage = GameLanguage.DefaultLanguage;
+
     /// <summary>
     /// Checks if a <see cref="species"/> can learn all input <see cref="moves"/>.
     /// </summary>
-    public static bool CanLearn(string species, IEnumerable<string> moves, int form = 0, string lang = GameLanguage.DefaultLanguage)
+    public static bool CanLearn(string species, IEnumerable<string> moves, byte form = 0, string lang = DefaultLanguage)
     {
         var encounters = GetLearn(species, moves, form, lang);
         return encounters.Any();
@@ -32,7 +34,7 @@ public static class EncounterLearn
     /// <summary>
     /// Gets a summary of all encounters where a <see cref="species"/> can learn all input <see cref="moves"/>.
     /// </summary>
-    public static IEnumerable<string> GetLearnSummary(string species, IEnumerable<string> moves, int form = 0, string lang = GameLanguage.DefaultLanguage)
+    public static IEnumerable<string> GetLearnSummary(string species, IEnumerable<string> moves, byte form = 0, string lang = DefaultLanguage)
     {
         var encounters = GetLearn(species, moves, form, lang);
         var msg = Summarize(encounters).ToList();
@@ -44,24 +46,33 @@ public static class EncounterLearn
     /// <summary>
     /// Gets all encounters where a <see cref="species"/> can learn all input <see cref="moves"/>.
     /// </summary>
-    public static IEnumerable<IEncounterable> GetLearn(string species, IEnumerable<string> moves, int form = 0, string lang = GameLanguage.DefaultLanguage)
+    public static IEnumerable<IEncounterable> GetLearn(string species, IEnumerable<string> moves, byte form = 0, string lang = DefaultLanguage)
     {
         var str = GameInfo.GetStrings(lang);
 
         var speciesID = StringUtil.FindIndexIgnoreCase(str.specieslist, species);
-        var moveIDs = StringUtil.GetIndexes(str.movelist, moves.ToList());
+        if (speciesID <= 0)
+            return Array.Empty<IEncounterable>();
 
-        return GetLearn(speciesID, moveIDs, form);
+        var moveIDs = StringUtil.GetIndexes(str.movelist, moves.ToList());
+        if (Array.Exists(moveIDs, static z => z <= 0))
+            return Array.Empty<IEncounterable>();
+
+        var span = new ushort[moveIDs.Length];
+        for (int i = 0; i < moveIDs.Length; i++)
+            span[i] = (ushort)moveIDs[i];
+
+        return GetLearn((ushort)speciesID, span, form);
     }
 
     /// <summary>
     /// Gets all encounters where a <see cref="species"/> can learn all input <see cref="moves"/>.
     /// </summary>
-    public static IEnumerable<IEncounterable> GetLearn(int species, int[] moves, int form = 0)
+    public static IEnumerable<IEncounterable> GetLearn(ushort species, ushort[] moves, byte form = 0)
     {
-        if (species <= 0)
+        if (species == 0)
             return Array.Empty<IEncounterable>();
-        if (Array.Exists(moves, z => z < 0))
+        if (Array.Exists(moves, z => z == 0))
             return Array.Empty<IEncounterable>();
 
         var blank = EntityBlank.GetIdealBlank(species, form);

@@ -24,14 +24,14 @@ public class GeneratorTests
 
     [Theory(Skip = "Feature not ready yet")]
     [MemberData(nameof(PokemonGenerationTestData))]
-    public void PokemonGenerationReturnsLegalPokemon(int species)
+    public void PokemonGenerationReturnsLegalPokemon(ushort species)
     {
         int count = 0;
         var tr = new SimpleTrainerInfo(GameVersion.SN);
 
         var pk = new PK7 { Species = species };
         pk.Gender = pk.GetSaneGender();
-        var ez = EncounterMovesetGenerator.GeneratePKMs(pk, tr);
+        var ez = EncounterMovesetGenerator.GeneratePKMs(pk, tr, pk.Moves);
         foreach (var e in ez)
         {
             var la = new LegalityAnalysis(e);

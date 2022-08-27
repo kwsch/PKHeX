@@ -32,9 +32,9 @@ internal static class EvolutionRestrictions
         {(int)Qwilfish,   new(11, (int)BarbBarrage)},
     };
 
-    private readonly record struct MoveEvolution(int ReferenceIndex, int Move);
+    private readonly record struct MoveEvolution(int ReferenceIndex, ushort Move);
 
-    private static readonly int[] FairyMoves =
+    private static readonly ushort[] FairyMoves =
     {
         (int)SweetKiss,
         (int)Charm,
@@ -132,7 +132,7 @@ internal static class EvolutionRestrictions
             return true;
 
         // OK if un-evolved from original encounter
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (info.EncounterMatch.Species == species)
             return true;
 
@@ -214,7 +214,7 @@ internal static class EvolutionRestrictions
         return lvl;
     }
 
-    private static bool IsMoveInherited(PKM pk, LegalInfo info, int move)
+    private static bool IsMoveInherited(PKM pk, LegalInfo info, ushort move)
     {
         // In 3DS games, the inherited move must be in the relearn moves.
         if (info.Generation >= 6 && !pk.IsOriginalMovesetDeleted())
@@ -227,18 +227,18 @@ internal static class EvolutionRestrictions
         return DidLearnAndForget(info);
     }
 
-    private static bool IsMoveInherited(PKM pk, LegalInfo info, ReadOnlySpan<int> moves)
+    private static bool IsMoveInherited(PKM pk, LegalInfo info, ReadOnlySpan<ushort> moves)
     {
         // In 3DS games, the inherited move must be in the relearn moves.
         if (info.Generation >= 6)
         {
-            Span<int> relearn = stackalloc int[4];
+            Span<ushort> relearn = stackalloc ushort[4];
             pk.GetRelearnMoves(relearn);
             return relearn.IndexOfAny(moves) != -1;
         }
 
         // In Pre-3DS games, the move is inherited if it has the move and it can be hatched with the move.
-        Span<int> pkMoves = stackalloc int[4];
+        Span<ushort> pkMoves = stackalloc ushort[4];
         pk.GetMoves(pkMoves);
         var index = pkMoves.IndexOfAny(moves);
         if (index != -1)

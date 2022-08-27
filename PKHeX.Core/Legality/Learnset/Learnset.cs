@@ -11,42 +11,17 @@ public sealed class Learnset
     /// <summary>
     /// Moves that can be learned.
     /// </summary>
-    internal readonly int[] Moves;
+    internal readonly ushort[] Moves;
 
     /// <summary>
     /// Levels at which a move at a given index can be learned.
     /// </summary>
-    private readonly int[] Levels;
+    private readonly byte[] Levels;
 
-    public Learnset(int[] moves, int[] levels)
+    public Learnset(ushort[] moves, byte[] levels)
     {
         Moves = moves;
         Levels = levels;
-    }
-
-    /// <summary>
-    /// Returns the moves a Pokémon can learn between the specified level range.
-    /// </summary>
-    /// <param name="maxLevel">Maximum level</param>
-    /// <param name="minLevel">Minimum level</param>
-    /// <returns>Array of Move IDs</returns>
-    public int[] GetMoves(int maxLevel, int minLevel = 0)
-    {
-        if (minLevel <= 1 && maxLevel >= 100)
-            return Moves;
-        if (minLevel > maxLevel)
-            return Array.Empty<int>();
-        int start = Array.FindIndex(Levels, z => z >= minLevel);
-        if (start < 0)
-            return Array.Empty<int>();
-        int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
-        if (end < 0)
-            return Array.Empty<int>();
-
-        var length = end - start + 1;
-        if (length == Moves.Length)
-            return Moves;
-        return Moves.AsSpan(start, length).ToArray();
     }
 
     public (bool HasMoves, int Start, int End) GetMoveRange(int maxLevel, int minLevel = 0)
@@ -69,10 +44,10 @@ public sealed class Learnset
     /// <remarks>In Generation 1, it is not possible to learn any moves lower than these encounter moves.</remarks>
     /// <param name="level">The level the Pokémon was encountered at.</param>
     /// <returns>Array of Move IDs</returns>
-    public int[] GetEncounterMoves(int level)
+    public ushort[] GetEncounterMoves(int level)
     {
         const int count = 4;
-        var moves = new int[count];
+        var moves = new ushort[count];
         SetEncounterMoves(level, moves);
         return moves;
     }
@@ -83,14 +58,14 @@ public sealed class Learnset
     /// <param name="moves">Move array to write to</param>
     /// <param name="ctr">Starting index to begin overwriting at</param>
     /// <returns>Array of Move IDs</returns>
-    public void SetEncounterMoves(int level, Span<int> moves, int ctr = 0)
+    public void SetEncounterMoves(int level, Span<ushort> moves, int ctr = 0)
     {
         for (int i = 0; i < Moves.Length; i++)
         {
             if (Levels[i] > level)
                 break;
 
-            int move = Moves[i];
+            var move = Moves[i];
             bool alreadyHasMove = moves.IndexOf(move) >= 0;
             if (alreadyHasMove)
                 continue;
@@ -100,7 +75,7 @@ public sealed class Learnset
         }
     }
 
-    public void SetEncounterMovesBackwards(int level, Span<int> moves, int ctr = 0)
+    public void SetEncounterMovesBackwards(int level, Span<ushort> moves, int ctr = 0)
     {
         int index = Array.FindLastIndex(Levels, z => z <= level);
 
@@ -129,13 +104,13 @@ public sealed class Learnset
     }
 
     /// <summary>Adds the learned moves by level up to the specified level.</summary>
-    public void SetLevelUpMoves(int startLevel, int endLevel, Span<int> moves, int ctr = 0)
+    public void SetLevelUpMoves(int startLevel, int endLevel, Span<ushort> moves, int ctr = 0)
     {
         int startIndex = Array.FindIndex(Levels, z => z >= startLevel);
         int endIndex = Array.FindIndex(Levels, z => z > endLevel);
         for (int i = startIndex; i < endIndex; i++)
         {
-            int move = Moves[i];
+            var move = Moves[i];
             bool alreadyHasMove = moves.IndexOf(move) >= 0;
             if (alreadyHasMove)
                 continue;
@@ -148,14 +123,14 @@ public sealed class Learnset
     /// <summary>Adds the moves that are gained upon evolving.</summary>
     /// <param name="moves">Move array to write to</param>
     /// <param name="ctr">Starting index to begin overwriting at</param>
-    public void SetEvolutionMoves(Span<int> moves, int ctr = 0)
+    public void SetEvolutionMoves(Span<ushort> moves, int ctr = 0)
     {
         for (int i = 0; i < Moves.Length; i++)
         {
             if (Levels[i] != 0)
                 break;
 
-            int move = Moves[i];
+            var move = Moves[i];
             bool alreadyHasMove = moves.IndexOf(move) >= 0;
             if (alreadyHasMove)
                 continue;
@@ -166,7 +141,7 @@ public sealed class Learnset
     }
 
     /// <summary>Adds the learned moves by level up to the specified level.</summary>
-    public void SetLevelUpMoves(int startLevel, int endLevel, Span<int> moves, ReadOnlySpan<int> ignore, int ctr = 0)
+    public void SetLevelUpMoves(int startLevel, int endLevel, Span<ushort> moves, ReadOnlySpan<ushort> ignore, int ctr = 0)
     {
         int startIndex = Array.FindIndex(Levels, z => z >= startLevel);
         if (startIndex == -1)
@@ -176,7 +151,7 @@ public sealed class Learnset
             endIndex = Levels.Length;
         for (int i = startIndex; i < endIndex; i++)
         {
-            int move = Moves[i];
+            var move = Moves[i];
             if (ignore.IndexOf(move) >= 0)
                 continue;
 
@@ -193,14 +168,14 @@ public sealed class Learnset
     /// <param name="moves">Move array to write to</param>
     /// <param name="ignore">Ignored moves</param>
     /// <param name="ctr">Starting index to begin overwriting at</param>
-    public void SetEvolutionMoves(Span<int> moves, ReadOnlySpan<int> ignore, int ctr = 0)
+    public void SetEvolutionMoves(Span<ushort> moves, ReadOnlySpan<ushort> ignore, int ctr = 0)
     {
         for (int i = 0; i < Moves.Length; i++)
         {
             if (Levels[i] != 0)
                 break;
 
-            int move = Moves[i];
+            var move = Moves[i];
             if (ignore.IndexOf(move) >= 0)
                 continue;
 
@@ -239,7 +214,7 @@ public sealed class Learnset
         return Math.Max(end - 4, 1);
     }
 
-    public int GetMoveLevel(int move)
+    public int GetMoveLevel(ushort move)
     {
         var index = Array.LastIndexOf(Moves, move);
         if (index == -1)
@@ -247,23 +222,22 @@ public sealed class Learnset
         return Levels[index];
     }
 
-    private Dictionary<int, int>? Learn;
+    private Dictionary<ushort, byte>? Learn;
 
-    private Dictionary<int, int> GetDictionary()
+    private Dictionary<ushort, byte> GetDictionary()
     {
-        var dict = new Dictionary<int, int>();
-        for (int i = 0; i < Moves.Length; i++)
-        {
-            if (!dict.ContainsKey(Moves[i]))
-                dict.Add(Moves[i], Levels[i]);
-        }
+        // Create a dictionary, with the move as the key and the level as the value.
+        // Due to the ordering of the object, this will result in fetching the lowest level for a move.
+        var dict = new Dictionary<ushort, byte>(Moves.Length);
+        for (int i = Moves.Length - 1; i >= 0; i--)
+            dict[Moves[i]] = Levels[i];
         return dict;
     }
 
     /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
     /// <param name="move">Move ID</param>
     /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
-    public int GetLevelLearnMove(int move)
+    public int GetLevelLearnMove(ushort move)
     {
         return (Learn ??= GetDictionary()).TryGetValue(move, out var level) ? level : -1;
     }
@@ -272,7 +246,7 @@ public sealed class Learnset
     /// <param name="move">Move ID</param>
     /// <param name="min">Minimum level to start looking at.</param>
     /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
-    public int GetLevelLearnMove(int move, int min)
+    public int GetLevelLearnMove(ushort move, int min)
     {
         for (int i = 0; i < Moves.Length; i++)
         {
@@ -286,7 +260,7 @@ public sealed class Learnset
         return -1;
     }
 
-    public ReadOnlySpan<int> GetBaseEggMoves(int level)
+    public ReadOnlySpan<ushort> GetBaseEggMoves(int level)
     {
         // Count moves <= level
         var count = 0;
@@ -299,7 +273,7 @@ public sealed class Learnset
 
         // Return a slice containing the moves <= level.
         if (count == 0)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
 
         int start = 0;
         if (count > 4)

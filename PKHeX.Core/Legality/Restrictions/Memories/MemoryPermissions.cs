@@ -40,7 +40,7 @@ public static class MemoryPermissions
         return mem.CanUseItemGeneric(item);
     }
 
-    public static bool CanUseItem(EntityContext context, int item, int species)
+    public static bool CanUseItem(EntityContext context, int item, ushort species)
     {
         if (IsUsedKeyItemUnspecific(context, item))
             return true;
@@ -55,7 +55,7 @@ public static class MemoryPermissions
         return mem.IsUsedKeyItemUnspecific(item);
     }
 
-    private static bool IsUsedKeyItemSpecific(EntityContext context, int item, int species)
+    private static bool IsUsedKeyItemSpecific(EntityContext context, int item, ushort species)
     {
         var mem = Memories.GetContext(context);
         return mem.IsUsedKeyItemSpecific(item, species);
@@ -129,29 +129,29 @@ public static class MemoryPermissions
         return enc is EncounterEgg { Generation: < 6 }; // egg moves that are no longer in the movepool
     }
 
-    public static bool GetCanRelearnMove(PKM pk, int move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
+    public static bool GetCanRelearnMove(PKM pk, ushort move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
     {
         if (context == EntityContext.Gen6)
         {
             Span<MoveResult> result = stackalloc MoveResult[1];
-            Span<int> moves = stackalloc int[] { move };
+            Span<ushort> moves = stackalloc ushort[] { move };
             LearnGroup6.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
             return result[0].Valid;
         }
         if (context == EntityContext.Gen8)
         {
             Span<MoveResult> result = stackalloc MoveResult[1];
-            Span<int> moves = stackalloc int[] { move };
+            Span<ushort> moves = stackalloc ushort[] { move };
             LearnGroup8.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
             return result[0].Valid;
         }
         return false;
     }
 
-    private static bool GetCanKnowMove(PKM pk, int move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
+    private static bool GetCanKnowMove(PKM pk, ushort move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
     {
         if (pk.Species == (int)Smeargle)
-            return MoveInfo.IsValidSketch((ushort)move, context);
+            return MoveInfo.IsValidSketch(move, context);
 
         ILearnGroup game;
         if (context == EntityContext.Gen6)
@@ -162,12 +162,12 @@ public static class MemoryPermissions
             return false;
 
         Span<MoveResult> result = stackalloc MoveResult[1];
-        Span<int> moves = stackalloc int[] { move };
+        Span<ushort> moves = stackalloc ushort[] { move };
         LearnVerifierHistory.MarkAndIterate(result, moves, enc, pk, history, game, MoveSourceType.All, LearnOption.AtAnyTime);
         return result[0].Valid;
     }
 
-    public static bool GetCanBeCaptured(int species, EntityContext gen, GameVersion version) => gen switch
+    public static bool GetCanBeCaptured(ushort species, EntityContext gen, GameVersion version) => gen switch
     {
         EntityContext.Gen6 => version switch
         {
@@ -191,7 +191,7 @@ public static class MemoryPermissions
         _ => false,
     };
 
-    private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
+    private static bool GetCanBeCaptured(ushort species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
     {
         if (area.Any(loc => loc.HasSpecies(species)))
             return true;

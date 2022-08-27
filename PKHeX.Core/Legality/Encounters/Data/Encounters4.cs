@@ -263,11 +263,11 @@ internal static class Encounters4
         //new(DPPt) { Species = 493, Form = 0, Level = 80, Location = 086, GroundTile = Cave }, // Arceus @ Hall of Origin (Unreleased)
 
         // Roamers
-        new(DPPt) { Roaming = true, Species = 481, Level = 50, GroundTile = Grass | Water  }, // Mesprit
-        new(DPPt) { Roaming = true, Species = 488, Level = 50, GroundTile = Grass | Water }, // Cresselia
-        new(Pt) { Roaming = true, Species = 144, Level = 60, GroundTile = Grass | Water }, // Articuno
-        new(Pt) { Roaming = true, Species = 145, Level = 60, GroundTile = Grass | Water }, // Zapdos
-        new(Pt) { Roaming = true, Species = 146, Level = 60, GroundTile = Grass | Water }, // Moltres
+        new(DPPt) { Roaming = true, Location = 16, Species = 481, Level = 50, GroundTile = Grass | Water }, // Mesprit
+        new(DPPt) { Roaming = true, Location = 16, Species = 488, Level = 50, GroundTile = Grass | Water }, // Cresselia
+        new(Pt)   { Roaming = true, Location = 16, Species = 144, Level = 60, GroundTile = Grass | Water }, // Articuno
+        new(Pt)   { Roaming = true, Location = 16, Species = 145, Level = 60, GroundTile = Grass | Water }, // Zapdos
+        new(Pt)   { Roaming = true, Location = 16, Species = 146, Level = 60, GroundTile = Grass | Water }, // Moltres
     };
 
     private static readonly EncounterStatic4[] Encounter_HGSS =
@@ -360,12 +360,12 @@ internal static class Encounters4
         new(HGSS) { Species = 487, Level = 01, Location = 231, Gift = true, GroundTile = Max_Pt, Form = 1, HeldItem = 112 }, // Giratina @ Sinjoh Ruins
 
         // Johto Roamers
-        new(HGSS) { Roaming = true, Species = 243, Level = 40, GroundTile = Grass | Water }, // Raikou
-        new(HGSS) { Roaming = true, Species = 244, Level = 40, GroundTile = Grass | Water }, // Entei
+        new(HGSS) { Roaming = true, Species = 243, Location = 177, Level = 40, GroundTile = Grass | Water }, // Raikou
+        new(HGSS) { Roaming = true, Species = 244, Location = 177, Level = 40, GroundTile = Grass | Water }, // Entei
 
         // Kanto Roamers
-        new(HG  ) { Roaming = true, Species = 380, Level = 35, GroundTile = Grass | Water }, // Latias
-        new(  SS) { Roaming = true, Species = 381, Level = 35, GroundTile = Grass | Water }, // Latios
+        new(HG  ) { Roaming = true, Species = 380, Location = 149, Level = 35, GroundTile = Grass | Water }, // Latias
+        new(  SS) { Roaming = true, Species = 381, Location = 149, Level = 35, GroundTile = Grass | Water }, // Latios
     };
     #endregion
     #region Trade Tables

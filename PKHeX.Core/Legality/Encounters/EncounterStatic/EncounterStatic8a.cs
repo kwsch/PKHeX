@@ -20,7 +20,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     public bool HasFixedWeight => WeightScalar != NoScalar;
     private const byte NoScalar = 0;
 
-    public EncounterStatic8a(ushort species, ushort form, byte level, byte h = NoScalar, byte w = NoScalar) : this(GameVersion.PLA)
+    public EncounterStatic8a(ushort species, byte form, byte level, byte h = NoScalar, byte w = NoScalar) : this(GameVersion.PLA)
     {
         Species = species;
         Form = form;
@@ -140,7 +140,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
             return false;
 
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         var mastery = Legal.MasteryLA[index];
         if (Moves.HasMoves)
             Moves.CopyTo(moves);
@@ -153,7 +153,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
         var pa8 = (PA8)pk;
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         var (learn, mastery) = GetLevelUpInfo();
         LoadInitialMoveset(pa8, moves, learn, level);
         pk.SetMoves(moves);
@@ -169,14 +169,14 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         return (learn, mastery);
     }
 
-    public void LoadInitialMoveset(PA8 pa8, Span<int> moves, Learnset learn, int level)
+    public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level)
     {
         if (Moves.HasMoves)
             Moves.CopyTo(moves);
         else
             learn.SetEncounterMoves(level, moves);
         if (IsAlpha)
-            pa8.AlphaMove = (ushort)moves[0];
+            pa8.AlphaMove = moves[0];
     }
 
     private OverworldParam8a GetParams()

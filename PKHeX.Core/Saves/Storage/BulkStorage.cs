@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -36,8 +36,8 @@ public abstract class BulkStorage : SaveFile
     public sealed override int MaxEV => blank.MaxEV;
     public sealed override int Generation => blank.Format;
     public sealed override EntityContext Context => blank.Context;
-    public sealed override int MaxMoveID => blank.MaxMoveID;
-    public sealed override int MaxSpeciesID => blank.MaxSpeciesID;
+    public sealed override ushort MaxMoveID => blank.MaxMoveID;
+    public sealed override ushort MaxSpeciesID => blank.MaxSpeciesID;
     public sealed override int MaxAbilityID => blank.MaxAbilityID;
     public sealed override int MaxItemID => blank.MaxItemID;
     public sealed override int MaxBallID => blank.MaxBallID;

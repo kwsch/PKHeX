@@ -80,10 +80,10 @@ public sealed class PersonalInfo8BDSP : PersonalInfo
     //public uint TM4 { get => ReadUInt32LittleEndian(Data.AsSpan(0x34)); set => WriteUInt16LittleEndian(Data.AsSpan(0x34)); }
     //public uint Tutor { get => ReadUInt32LittleEndian(Data.AsSpan(0x38)); set => WriteUInt16LittleEndian(Data.AsSpan(0x38)); }
 
-    public int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3C), (ushort)value); }
-    public int HatchSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x3E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3E), (ushort)value); }
-    public int HatchFormIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x40)); set => WriteUInt16LittleEndian(Data.AsSpan(0x40), (ushort)value); }
-    public int PokeDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x42)); set => WriteUInt16LittleEndian(Data.AsSpan(0x42), (ushort)value); }
+    public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3C), value); }
+    public ushort HatchSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x3E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x3E), value); }
+    public ushort HatchFormIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x40)); set => WriteUInt16LittleEndian(Data.AsSpan(0x40), value); }
+    public ushort PokeDexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x42)); set => WriteUInt16LittleEndian(Data.AsSpan(0x42), value); }
 
     public IReadOnlyList<int> Items
     {

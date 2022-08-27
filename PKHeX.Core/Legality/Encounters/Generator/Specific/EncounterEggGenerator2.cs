@@ -17,7 +17,7 @@ internal static class EncounterEggGenerator2
 
     public static IEnumerable<EncounterEgg> GenerateEggs(PKM pk, EvoCriteria[] chain, bool all = false)
     {
-        int species = pk.Species;
+        var species = pk.Species;
         if (!Breeding.CanHatchAsEgg(species))
             yield break;
 
@@ -42,7 +42,7 @@ internal static class EncounterEggGenerator2
         yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS, EntityContext.Gen2); // gen2 egg
     }
 
-    private static bool GetCanBeCrystalEgg(PKM pk, int species, bool all)
+    private static bool GetCanBeCrystalEgg(PKM pk, ushort species, bool all)
     {
         if (!ParseSettings.AllowGen2Crystal(pk))
             return false;

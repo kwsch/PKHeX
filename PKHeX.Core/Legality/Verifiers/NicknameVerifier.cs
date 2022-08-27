@@ -159,7 +159,7 @@ public sealed class NicknameVerifier : Verifier
             }
             for (int i = 0; i < SpeciesName.SpeciesDict.Count; i++)
             {
-                if (!SpeciesName.SpeciesDict[i].TryGetValue(nickname, out int species))
+                if (!SpeciesName.SpeciesDict[i].TryGetValue(nickname, out var species))
                     continue;
                 var msg = species == pk.Species && i != pk.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
                 data.AddLine(Get(msg, ParseSettings.NicknamedAnotherSpecies));
@@ -216,7 +216,7 @@ public sealed class NicknameVerifier : Verifier
 
     private static bool IsNicknameValid(PKM pk, IEncounterTemplate enc, string nickname)
     {
-        int species = pk.Species;
+        ushort species = pk.Species;
         int format = pk.Format;
         int language = pk.Language;
         if (SpeciesName.GetSpeciesNameGeneration(species, language, format) == nickname)

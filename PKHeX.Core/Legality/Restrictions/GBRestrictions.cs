@@ -63,7 +63,7 @@ internal static class GBRestrictions
         (int)Haunter,
     };
 
-    public static bool RateMatchesEncounter(int species, GameVersion version, byte rate)
+    public static bool RateMatchesEncounter(ushort species, GameVersion version, byte rate)
     {
         if (version.Contains(YW))
         {
@@ -90,7 +90,7 @@ internal static class GBRestrictions
         }
 
         // Krabby encounter trade special catch rate
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (catch_rate == 204 && (species is (int)Krabby or (int)Kingler))
             return true;
 
@@ -101,7 +101,7 @@ internal static class GBRestrictions
     }
 
     /// <summary>
-    /// Checks if the <see cref="pk"/> can inhabit <see cref="GameVersion.Gen1"></see>
+    /// Checks if the <see cref="pk"/> can inhabit <see cref="Gen1"></see>
     /// </summary>
     /// <param name="pk">Data to check</param>
     /// <returns>true if can inhabit, false if not.</returns>
@@ -119,7 +119,7 @@ internal static class GBRestrictions
             return false;
 
         // Sanity check species, if it could have existed as a pre-evolution.
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (species <= MaxSpeciesID_1)
             return true;
         return EvolutionLegality.FutureEvolutionsGen1.Contains(species);

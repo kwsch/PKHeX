@@ -19,9 +19,9 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
     private const LearnEnvironment Game = C;
     private const int CountTMHM = 57;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[species];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if (species > Legal.MaxSpeciesID_2)
@@ -30,7 +30,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -38,14 +38,14 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
@@ -64,7 +64,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(PKM pk, int species, int move)
+    private static bool GetIsSpecialTutor(PKM pk, ushort species, ushort move)
     {
         if (!ParseSettings.AllowGen2Crystal(pk))
             return false;
@@ -75,7 +75,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return info.TMHM[CountTMHM + tutor];
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TMHM_GSC, move);
         if (index == -1)
@@ -128,7 +128,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         }
     }
 
-    public static void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
+    public static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> init)
     {
         var species = enc.Species;
         var learn = Learnsets[species];

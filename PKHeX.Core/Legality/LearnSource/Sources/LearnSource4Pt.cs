@@ -20,9 +20,9 @@ public sealed class LearnSource4Pt : ILearnSource, IEggSource
     private const int Generation = 4;
     private const int CountTM = 92;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -31,7 +31,7 @@ public sealed class LearnSource4Pt : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -39,14 +39,14 @@ public sealed class LearnSource4Pt : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -76,7 +76,7 @@ public sealed class LearnSource4Pt : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
     {
         (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
         (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
@@ -86,16 +86,16 @@ public sealed class LearnSource4Pt : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(int species, int move)
+    private static bool GetIsTypeTutor(ushort species, ushort move)
     {
         var index = Array.IndexOf(SpecialTutors_4, move);
         if (index == -1)
             return false;
-        var list = SpecialTutors_Compatibility_4[index].AsSpan();
-        return list.IndexOf(species) != -1;
+        var list = SpecialTutors_Compatibility_4[index];
+        return Array.IndexOf(list, species) != -1;
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
+    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
     {
         var index = Array.IndexOf(Tutors_4, move);
         if (index == -1)
@@ -103,7 +103,7 @@ public sealed class LearnSource4Pt : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TM_4, move);
         if (index == -1)
@@ -111,7 +111,7 @@ public sealed class LearnSource4Pt : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsHM(PersonalInfo info, int move)
+    private static bool GetIsHM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(HM_DPPt, move);
         if (index == -1)

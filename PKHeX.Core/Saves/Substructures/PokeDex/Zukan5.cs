@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -23,7 +23,7 @@ public sealed class Zukan5 : Zukan
         DexFormIndexFetcher = DexFormUtil.GetDexFormIndexBW;
     }
 
-    public readonly Func<int, int, int> DexFormIndexFetcher;
+    public readonly Func<ushort, int, int> DexFormIndexFetcher;
 
     protected override int GetDexLangFlag(int lang)
     {
@@ -35,7 +35,7 @@ public sealed class Zukan5 : Zukan
         return lang;
     }
 
-    protected override bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
+    protected override bool GetSaneFormsToIterate(ushort species, out int formStart, out int formEnd, int formIn)
     {
         formStart = 0;
         formEnd = 0;
@@ -58,11 +58,11 @@ public sealed class Zukan5 : Zukan
             SetFlag(PokeDexLanguageFlags, lbit, value);
     }
 
-    protected override void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true)
+    protected override void SetAllDexSeenFlags(int baseBit, byte form, int gender, bool isShiny, bool value = true)
     {
         var shiny = isShiny ? 1 : 0;
         SetDexFlags(baseBit, baseBit, gender, shiny);
-        SetFormFlags(baseBit + 1, form, shiny, value);
+        SetFormFlags((ushort)(baseBit + 1), form, shiny, value);
     }
 
     public override void SetDex(PKM pk)
@@ -108,19 +108,19 @@ public sealed class Zukan5 : Zukan
         }
         return false;
     }
-
+    
     private int FormLen => SAV is SAV5B2W2 ? 0xB : 0x9;
     private int FormDex => 0x8 + (BitSeenSize * 9);
 
     private void SetFormFlags(PKM pk)
     {
-        int species = pk.Species;
-        int form = pk.Form;
+        var species = pk.Species;
+        var form = pk.Form;
         var shiny = pk.IsShiny ? 1 : 0;
         SetFormFlags(species, form, shiny);
     }
 
-    private void SetFormFlags(int species, int form, int shiny, bool value = true)
+    private void SetFormFlags(ushort species, byte form, int shiny, bool value = true)
     {
         int fc = SAV.Personal[species].FormCount;
         int f = DexFormIndexFetcher(species, fc);
@@ -153,7 +153,7 @@ public sealed class Zukan5 : Zukan
         return false;
     }
 
-    public bool[] GetLanguageBitflags(int species)
+    public bool[] GetLanguageBitflags(ushort species)
     {
         var result = new bool[DexLangIDCount];
         int bit = species - 1;
@@ -165,7 +165,7 @@ public sealed class Zukan5 : Zukan
         return result;
     }
 
-    public void SetLanguageBitflags(int species, bool[] value)
+    public void SetLanguageBitflags(ushort species, bool[] value)
     {
         int bit = species - 1;
         for (int i = 0; i < DexLangIDCount; i++)
@@ -178,11 +178,11 @@ public sealed class Zukan5 : Zukan
     public void ToggleLanguageFlagsAll(bool value)
     {
         var arr = GetBlankLanguageBits(value);
-        for (int i = 1; i <= SAV.MaxSpeciesID; i++)
+        for (ushort i = 1; i <= SAV.MaxSpeciesID; i++)
             SetLanguageBitflags(i, arr);
     }
 
-    public void ToggleLanguageFlagsSingle(int species, bool value)
+    public void ToggleLanguageFlagsSingle(ushort species, bool value)
     {
         var arr = GetBlankLanguageBits(value);
         SetLanguageBitflags(species, arr);

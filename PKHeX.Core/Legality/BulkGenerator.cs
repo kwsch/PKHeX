@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,16 +11,22 @@ public static class BulkGenerator
 {
     public static List<PKM> GetLivingDex(this SaveFile sav)
     {
-        var speciesToGenerate = Enumerable.Range(1, sav.MaxSpeciesID);
+        var speciesToGenerate = GetAll(1, sav.MaxSpeciesID);
         return GetLivingDex(sav, speciesToGenerate);
     }
 
-    private static List<PKM> GetLivingDex(SaveFile sav, IEnumerable<int> speciesToGenerate)
+    private static IEnumerable<ushort> GetAll(ushort min, ushort max)
+    {
+        for (ushort i = min; i <= max; i++)
+            yield return i;
+    }
+
+    private static List<PKM> GetLivingDex(SaveFile sav, IEnumerable<ushort> speciesToGenerate)
     {
         return sav.GetLivingDex(speciesToGenerate, sav.BlankPKM);
     }
 
-    public static List<PKM> GetLivingDex(this ITrainerInfo tr, IEnumerable<int> speciesToGenerate, PKM blank)
+    public static List<PKM> GetLivingDex(this ITrainerInfo tr, IEnumerable<ushort> speciesToGenerate, PKM blank)
     {
         var result = new List<PKM>();
         var destType = blank.GetType();
@@ -31,7 +37,7 @@ public static class BulkGenerator
             pk.Gender = pk.GetSaneGender();
 
             var pi = pk.PersonalInfo;
-            for (int f = 0; f < pi.FormCount; f++)
+            for (byte f = 0; f < pi.FormCount; f++)
             {
                 var entry = tr.GetLivingEntry(pk, s, f, destType);
                 if (entry == null)
@@ -43,13 +49,13 @@ public static class BulkGenerator
         return result;
     }
 
-    public static PKM? GetLivingEntry(this ITrainerInfo tr, PKM template, int species, int form, Type destType)
+    public static PKM? GetLivingEntry(this ITrainerInfo tr, PKM template, ushort species, byte form, Type destType)
     {
         template.Species = species;
         template.Form = form;
         template.Gender = template.GetSaneGender();
 
-        var f = EncounterMovesetGenerator.GeneratePKMs(template, tr).FirstOrDefault();
+        var f = EncounterMovesetGenerator.GeneratePKMs(template, tr, template.Moves).FirstOrDefault();
         if (f == null)
             return null;
 

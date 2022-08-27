@@ -19,7 +19,7 @@ public sealed partial class MemoryContext8 : MemoryContext
     public override bool CanUseItemGeneric(int item) => true; // todo
 
     public override bool IsUsedKeyItemUnspecific(int item) => false;
-    public override bool IsUsedKeyItemSpecific(int item, int species) => KeyItemMemoryArgsGen8.TryGetValue(species, out var value) && value.Contains((ushort)item);
+    public override bool IsUsedKeyItemSpecific(int item, ushort species) => KeyItemMemoryArgsGen8.TryGetValue(species, out var value) && value.Contains((ushort)item);
     public override bool CanHoldItem(int item) => Legal.HeldItems_SWSH.Contains((ushort)item);
 
     public override bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory) => pkmVersion switch
@@ -54,7 +54,7 @@ public sealed partial class MemoryContext8 : MemoryContext
         };
     }
 
-    private static bool CanObtainMemorySWSH(int memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
+    private static bool CanObtainMemorySWSH(byte memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
 
     public override bool CanWinLotoID(int item) => LotoPrizeSWSH.Contains((ushort)item);
 

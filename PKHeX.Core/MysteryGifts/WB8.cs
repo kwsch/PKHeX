@@ -162,17 +162,17 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
         set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x276), (ushort)value);
     }
 
-    public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x278)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x278), (ushort)value); }
-    public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27A)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27A), (ushort)value); }
-    public int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C), (ushort)value); }
-    public int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27E)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27E), (ushort)value); }
-    public int RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x280)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x280), (ushort)value); }
-    public int RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x282)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x282), (ushort)value); }
-    public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x284)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x284), (ushort)value); }
-    public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x286)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x286), (ushort)value); }
+    public ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x278)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x278), value); }
+    public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27A)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27A), value); }
+    public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C), value); }
+    public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27E)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27E), value); }
+    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x280)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x280), value); }
+    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x282)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x282), value); }
+    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x284)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x284), value); }
+    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x286)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x286), value); }
 
-    public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x288)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x288), (ushort)value); }
-    public override int Form { get => Data[CardStart + 0x28A]; set => Data[CardStart + 0x28A] = (byte)value; }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x288)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x288), value); }
+    public override byte Form { get => Data[CardStart + 0x28A]; set => Data[CardStart + 0x28A] = value; }
     public override int Gender { get => Data[CardStart + 0x28B]; set => Data[CardStart + 0x28B] = (byte)value; }
     public override byte Level { get => Data[CardStart + 0x28C]; set => Data[CardStart + 0x28C] = value; }
     public override bool IsEgg { get => Data[CardStart + 0x28D] == 1; set => Data[CardStart + 0x28D] = value ? (byte)1 : (byte)0; }
@@ -324,7 +324,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
 
     public override Moveset Moves
     {
-        get => new((ushort)Move1, (ushort)Move2, (ushort)Move3, (ushort)Move4);
+        get => new(Move1, Move2, Move3, Move4);
         set
         {
             Move1 = value.Move1;
@@ -336,7 +336,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
 
     public override Moveset Relearn
     {
-        get => new((ushort)RelearnMove1, (ushort)RelearnMove2, (ushort)RelearnMove3, (ushort)RelearnMove4);
+        get => new(RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4);
         set
         {
             RelearnMove1 = value.Move1;

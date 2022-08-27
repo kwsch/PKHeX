@@ -70,33 +70,6 @@ public static partial class Legal
         1828,
     };
 
-    internal static readonly HashSet<int> HisuiOriginForms = new()
-    {
-        (int)Species.Sneasel,
-        (int)Species.Growlithe,
-        (int)Species.Arcanine,
-        (int)Species.Voltorb,
-        (int)Species.Electrode,
-        (int)Species.Qwilfish,
-        (int)Species.Sliggoo,
-        (int)Species.Goodra,
-    };
-
-    internal static readonly IReadOnlyDictionary<int, int> HisuiForm0Evolutions = new Dictionary<int, int>
-    {
-        {(int)Species.Sneasler, 1},
-    };
-
-    internal static readonly HashSet<int> HisuiVariantFormEvolutions = new()
-    {
-        (int)Species.Decidueye,
-        (int)Species.Typhlosion,
-        (int)Species.Samurott,
-        (int)Species.Lilligant,
-        (int)Species.Braviary,
-        (int)Species.Avalugg,
-    };
-
     #region Moves
 
     internal static readonly ushort[] MoveShop8_LA =

@@ -50,14 +50,14 @@ public sealed record EncounterSlot6AO : EncounterSlot
 
     protected override HiddenAbilityPermission IsHiddenAbilitySlot() => CanDexNav || IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
-    private ReadOnlySpan<int> GetDexNavMoves()
+    private ReadOnlySpan<ushort> GetDexNavMoves()
     {
         var et = EvolutionTree.Evolves6;
-        var baby = et.GetBaseSpeciesForm((ushort)Species, (byte)Form);
+        var baby = et.GetBaseSpeciesForm(Species, Form);
         return MoveEgg.GetEggMoves(6, baby.Species, baby.Form, Version);
     }
 
-    public bool CanBeDexNavMove(int move)
+    public bool CanBeDexNavMove(ushort move)
     {
         var baseEgg = GetDexNavMoves();
         return baseEgg.Contains(move);

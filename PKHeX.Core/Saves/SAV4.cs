@@ -88,8 +88,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public sealed override int MaxMoney => 999999;
     public sealed override int MaxCoins => 50_000;
 
-    public sealed override int MaxMoveID => Legal.MaxMoveID_4;
-    public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_4;
+    public sealed override ushort MaxMoveID => Legal.MaxMoveID_4;
+    public sealed override ushort MaxSpeciesID => Legal.MaxSpeciesID_4;
     // MaxItemID
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_4;
     public sealed override int MaxBallID => Legal.MaxBallID_4;
@@ -426,8 +426,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     }
 
     protected sealed override void SetDex(PKM pk) => Dex.SetDex(pk);
-    public sealed override bool GetCaught(int species) => Dex.GetCaught(species);
-    public sealed override bool GetSeen(int species) => Dex.GetSeen(species);
+    public sealed override bool GetCaught(ushort species) => Dex.GetCaught(species);
+    public sealed override bool GetSeen(ushort species) => Dex.GetSeen(species);
 
     public int DexUpgraded
     {

@@ -13,7 +13,7 @@ public sealed class LearnGroup5 : ILearnGroup
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation is Generation ? null : LearnGroup4.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen5;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history,
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
         IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen5;
@@ -26,16 +26,16 @@ public sealed class LearnGroup5 : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
     {
-        ReadOnlySpan<int> eggMoves, levelMoves;
+        ReadOnlySpan<ushort> eggMoves, levelMoves;
         if (egg.Version > GameVersion.B) // B2/W2
         {
             var inst = LearnSource5B2W2.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
                 ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<int>.Empty;
+                : ReadOnlySpan<ushort>.Empty;
         }
         else
         {
@@ -43,7 +43,7 @@ public sealed class LearnGroup5 : ILearnGroup
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
                 ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<int>.Empty;
+                : ReadOnlySpan<ushort>.Empty;
         }
 
         for (var i = result.Length - 1; i >= 0; i--)
@@ -55,12 +55,12 @@ public sealed class LearnGroup5 : ILearnGroup
                 result[i] = new(LearnMethod.EggMove);
             else if (levelMoves.Contains(move))
                 result[i] = new(LearnMethod.InheritLevelUp);
-            else if (move is (int)Move.VoltTackle && egg.CanHaveVoltTackle)
+            else if (move is (ushort)Move.VoltTackle && egg.CanHaveVoltTackle)
                 result[i] = new(LearnMethod.SpecialEgg);
         }
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage,
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage,
         MoveSourceType types, LearnOption option)
     {
         if (evo.Species is not ((int)Species.Deoxys or (int)Species.Giratina or (int)Species.Shaymin))
@@ -79,7 +79,7 @@ public sealed class LearnGroup5 : ILearnGroup
             CheckInternal(result, current, pk, evo with {Form = (byte)i}, stage, types, option);
     }
 
-    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option)
+    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option)
     {
         var b2w2 = LearnSource5B2W2.Instance;
         var species = evo.Species;

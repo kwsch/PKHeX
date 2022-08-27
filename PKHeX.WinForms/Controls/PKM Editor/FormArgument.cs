@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -7,14 +7,14 @@ namespace PKHeX.WinForms.Controls;
 public partial class FormArgument : UserControl
 {
     private bool IsRawMode;
-    private int CurrentSpecies;
+    private ushort CurrentSpecies;
     private int CurrentForm;
     private int CurrentGeneration;
     private bool FieldsLoaded;
 
     public FormArgument() => InitializeComponent();
 
-    public void LoadArgument(IFormArgument f, int species, int form, int generation)
+    public void LoadArgument(IFormArgument f, ushort species, int form, int generation)
     {
         FieldsLoaded = false;
         var max = FormArgumentUtil.GetFormArgumentMax(species, form, generation);

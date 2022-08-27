@@ -18,7 +18,7 @@ public interface ILearnSource
     /// <param name="types">Types of move sources to iterate</param>
     /// <param name="option">Option to check if it can be currently known, or previously known.</param>
     /// <returns>Details about how the move can be learned. Will be equivalent to default if cannot learn.</returns>
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current);
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current);
 
     /// <summary>
     /// Yields an iterable list of all potential moves that an <see cref="evo"/> can learn from this <see cref="ILearnSource"/>.
@@ -34,7 +34,7 @@ public interface ILearnSource
     /// </summary>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
-    public Learnset GetLearnset(int species, int form);
+    public Learnset GetLearnset(ushort species, int form);
 
     /// <summary>
     /// Gets the <see cref="PersonalInfo"/> for the given <see cref="species"/> and <see cref="form"/>.
@@ -43,5 +43,5 @@ public interface ILearnSource
     /// <param name="form">Entity form</param>
     /// <param name="pi">Result value</param>
     /// <returns>True if the <see cref="PersonalInfo"/> reference is a valid entity reference.</returns>
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi);
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi);
 }

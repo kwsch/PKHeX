@@ -12,7 +12,7 @@ public static class MoveApplicator
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="moves"><see cref="PKM.Moves"/> to use.</param>
-    public static void SetMaximumPPUps(this PKM pk, ReadOnlySpan<int> moves)
+    public static void SetMaximumPPUps(this PKM pk, ReadOnlySpan<ushort> moves)
     {
         pk.Move1_PPUps = GetPPUpCount(moves[0]);
         pk.Move2_PPUps = GetPPUpCount(moves[1]);
@@ -20,7 +20,7 @@ public static class MoveApplicator
         pk.Move4_PPUps = GetPPUpCount(moves[3]);
 
         pk.SetMaximumPPCurrent(moves);
-        static int GetPPUpCount(int moveID) => moveID > 0 ? 3 : 0;
+        static int GetPPUpCount(ushort moveID) => moveID != 0 ? 3 : 0;
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public static class MoveApplicator
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetMaximumPPUps(this PKM pk)
     {
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         pk.GetMoves(moves);
         pk.SetMaximumPPUps(moves);
     }
@@ -40,9 +40,9 @@ public static class MoveApplicator
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="input"><see cref="PKM.Moves"/> to set.</param>
     /// <param name="maxPP">Option to maximize PP Ups</param>
-    public static void SetMoves(this PKM pk, ReadOnlySpan<int> input, bool maxPP = false)
+    public static void SetMoves(this PKM pk, ReadOnlySpan<ushort> input, bool maxPP = false)
     {
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         if (input.Length <= 4)
             input.CopyTo(moves);
         else
@@ -69,7 +69,7 @@ public static class MoveApplicator
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-    public static void SetMaximumPPCurrent(this PKM pk, ReadOnlySpan<int> moves)
+    public static void SetMaximumPPCurrent(this PKM pk, ReadOnlySpan<ushort> moves)
     {
         pk.Move1_PP = moves.Length == 0 ? 0 : pk.GetMovePP(moves[0], pk.Move1_PPUps);
         pk.Move2_PP = moves.Length <= 1 ? 0 : pk.GetMovePP(moves[1], pk.Move2_PPUps);
@@ -96,7 +96,7 @@ public static class MoveApplicator
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetMaximumPPCurrent(this PKM pk)
     {
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         pk.GetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
     }

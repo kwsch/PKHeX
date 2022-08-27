@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -28,7 +28,7 @@ public partial class SAV_EventReset1 : Form
             var specName = split[0][G1OverworldSpawner.FlagPropertyPrefix.Length..];
 
             // convert species name to current localization language
-            int species = SpeciesName.GetSpeciesID(specName);
+            var species = SpeciesName.GetSpeciesID(specName);
             var pkmname = GameInfo.Strings.specieslist[species];
 
             if (split.Length != 1)

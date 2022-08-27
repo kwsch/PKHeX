@@ -100,18 +100,18 @@ public sealed class PersonalInfo8LA : PersonalInfo
 
     public override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
 
-    public int HatchSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), (ushort)value); }
+    public ushort HatchSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), value); }
     public int HatchFormIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x58), (ushort)value); } // local region base form
     public ushort RegionalFlags { get => ReadUInt16LittleEndian(Data.AsSpan(0x5A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), value); }
     public bool IsRegionalForm { get => (RegionalFlags & 1) == 1; set => RegionalFlags = (ushort)((RegionalFlags & 0xFFFE) | (value ? 1 : 0)); }
-    public int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x5C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), (ushort)value); }
-    public int Form { get => ReadUInt16LittleEndian(Data.AsSpan(0x5E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), (ushort)value); }
-    public int DexIndexHisui { get => ReadUInt16LittleEndian(Data.AsSpan(0x60)); set => WriteUInt16LittleEndian(Data.AsSpan(0x60), (ushort)value); }
-    public int DexIndexLocal1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x62)); set => WriteUInt16LittleEndian(Data.AsSpan(0x62), (ushort)value); }
-    public int DexIndexLocal2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x64)); set => WriteUInt16LittleEndian(Data.AsSpan(0x64), (ushort)value); }
-    public int DexIndexLocal3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x66)); set => WriteUInt16LittleEndian(Data.AsSpan(0x66), (ushort)value); }
-    public int DexIndexLocal4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value); }
-    public int DexIndexLocal5 { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value); }
+    public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x5C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5C), value); }
+    public byte Form { get => Data[0x5E]; set => WriteUInt16LittleEndian(Data.AsSpan(0x5E), value); }
+    public ushort DexIndexHisui  { get => ReadUInt16LittleEndian(Data.AsSpan(0x60)); set => WriteUInt16LittleEndian(Data.AsSpan(0x60), value); }
+    public ushort DexIndexLocal1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x62)); set => WriteUInt16LittleEndian(Data.AsSpan(0x62), value); }
+    public ushort DexIndexLocal2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x64)); set => WriteUInt16LittleEndian(Data.AsSpan(0x64), value); }
+    public ushort DexIndexLocal3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x66)); set => WriteUInt16LittleEndian(Data.AsSpan(0x66), value); }
+    public ushort DexIndexLocal4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value); }
+    public ushort DexIndexLocal5 { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value); }
 
     public int GetMoveShopCount()
     {

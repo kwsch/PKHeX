@@ -43,7 +43,7 @@ public partial class SAV_PokedexSM : Form
     private readonly Zukan7 Dex;
     private bool editing;
     private bool allModifying;
-    private int currentSpecies = -1;
+    private ushort currentSpecies = ushort.MaxValue;
     private readonly CheckBox[] CP, CL;
 
     private void ChangeCBSpecies(object sender, EventArgs e)
@@ -53,7 +53,7 @@ public partial class SAV_PokedexSM : Form
         SetEntry();
 
         editing = true;
-        currentSpecies = (int)CB_Species.SelectedValue;
+        currentSpecies = (ushort)CB_Species.SelectedValue;
         LB_Species.SelectedIndex = currentSpecies - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
         LB_Species.TopIndex = LB_Species.SelectedIndex;
         if (!allModifying) FillLBForms();
@@ -68,8 +68,8 @@ public partial class SAV_PokedexSM : Form
         SetEntry();
 
         editing = true;
-        currentSpecies = LB_Species.SelectedIndex + 1;
-        CB_Species.SelectedValue = currentSpecies;
+        currentSpecies = (ushort)(LB_Species.SelectedIndex + 1);
+        CB_Species.SelectedValue = (int)currentSpecies;
         if (!allModifying)
             FillLBForms();
         GetEntry();
@@ -83,7 +83,7 @@ public partial class SAV_PokedexSM : Form
         SetEntry();
 
         editing = true;
-        int fspecies = LB_Species.SelectedIndex + 1;
+        var fspecies = (ushort)(LB_Species.SelectedIndex + 1);
         var bspecies = Dex.GetBaseSpecies(fspecies);
         int form = LB_Forms.SelectedIndex;
         if (form > 0)
@@ -92,7 +92,7 @@ public partial class SAV_PokedexSM : Form
             if (fc > 1) // actually has forms
             {
                 int f = Dex.GetDexFormIndex(bspecies, fc, form);
-                currentSpecies = f >= 0 ? f + 1 : bspecies;
+                currentSpecies = f >= 0 ? (ushort)(f + 1) : bspecies;
             }
             else
             {
@@ -118,7 +118,7 @@ public partial class SAV_PokedexSM : Form
         LB_Forms.DataSource = null;
         LB_Forms.Items.Clear();
 
-        int fspecies = LB_Species.SelectedIndex + 1;
+        var fspecies = (ushort)(LB_Species.SelectedIndex + 1);
         var bspecies = Dex.GetBaseSpecies(fspecies);
         bool hasForms = FormInfo.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
         LB_Forms.Enabled = hasForms;
@@ -339,19 +339,19 @@ public partial class SAV_PokedexSM : Form
 
     private void SetAll(object sender, int lang)
     {
-        for (int i = 0; i < SAV.MaxSpeciesID; i++)
+        for (ushort i = 1; i <= SAV.MaxSpeciesID; i++)
         {
-            int species = i + 1;
-            var gt = Dex.GetBaseSpeciesGenderValue(i);
+            var index = (ushort)(i - 1);
+            var gt = Dex.GetBaseSpeciesGenderValue(index);
 
             // Set base species flags
-            LB_Species.SelectedIndex = i;
+            LB_Species.SelectedIndex = index;
             SetSeen(sender, gt, false);
             if (sender != mnuSeenAll)
                 SetCaught(sender, gt, lang, false);
 
             // Set form flags
-            var entries = Dex.GetAllFormEntries(species).Where(z => z >= SAV.MaxSpeciesID).Distinct();
+            var entries = Dex.GetAllFormEntries(i).Where(z => z >= SAV.MaxSpeciesID).Distinct();
             foreach (var f in entries)
             {
                 LB_Species.SelectedIndex = f;

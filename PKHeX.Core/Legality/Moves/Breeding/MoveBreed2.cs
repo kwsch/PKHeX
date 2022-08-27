@@ -15,16 +15,20 @@ public static class MoveBreed2
     private const int level = 5;
 
     /// <inheritdoc cref="MoveBreed.Validate"/>
-    public static bool Validate(int species, GameVersion version, ReadOnlySpan<int> moves, Span<byte> origins)
+    public static bool Validate(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
     {
-        var count = moves.IndexOf(0);
+        var count = moves.IndexOf((ushort)0);
         if (count == 0)
             return false;
         if (count == -1)
             count = moves.Length;
 
-        var learn = GameData.GetLearnsets(version);
-        var table = GameData.GetPersonal(version);
+        (Learnset[] learn, PersonalTable2 table) = version == GameVersion.C
+            ? (Legal.LevelUpC, PersonalTable.C)
+            : (Legal.LevelUpGS, PersonalTable.GS);
+        if (!table.IsSpeciesInGame(species))
+            return false;
+
         var learnset = learn[species];
         var pi = table[species];
         var egg = (version == GameVersion.C ? Legal.EggMovesC : Legal.EggMovesGS)[species].Moves;
@@ -145,7 +149,7 @@ public static class MoveBreed2
         return true;
     }
 
-    private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ReadOnlySpan<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, GameVersion version)
+    private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ReadOnlySpan<ushort> eggMoves, int count, bool inheritLevelUp, PersonalInfo2 info, GameVersion version)
     {
         var possible = value.Possible;
         var learn = value.Learnset;

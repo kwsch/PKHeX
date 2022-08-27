@@ -17,9 +17,9 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
     private const int MaxSpecies = Legal.MaxSpeciesID_6;
     private const LearnEnvironment Game = ORAS;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -28,7 +28,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         return true;
     }
 
-    public bool GetIsEggMove(int species, int form, int move)
+    public bool GetIsEggMove(ushort species, int form, ushort move)
     {
         if ((uint)species > MaxSpecies)
             return false;
@@ -36,14 +36,14 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         return moves.GetHasEggMove(move);
     }
 
-    public ReadOnlySpan<int> GetEggMoves(int species, int form)
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, int form)
     {
         if ((uint)species > MaxSpecies)
-            return ReadOnlySpan<int>.Empty;
+            return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -68,7 +68,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, int move, LearnOption option) => evo.Species switch
+    private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species switch
     {
         (int)Species.Keldeo => move is (int)Move.SecretSword,
         (int)Species.Meloetta => move is (int)Move.RelicSong,
@@ -84,7 +84,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, int move)
+    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
     {
         var tutors = Tutors_AO;
         for (int i = 0; i < tutors.Length; i++)
@@ -103,7 +103,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, int move)
+    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
     {
         var tutors = Tutors_AO;
         for (int i = 0; i < tutors.Length; i++)
@@ -116,7 +116,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         return false;
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TMHM_AO, move);
         if (index == -1)
@@ -192,7 +192,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         }
     }
 
-    internal static readonly int[] TMHM_AO =
+    internal static readonly ushort[] TMHM_AO =
     {
         468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
         241, 269, 058, 059, 063, 113, 182, 240, 355, 219,
@@ -208,11 +208,11 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         15, 19, 57, 70, 127, 249, 291,
     };
 
-    private static readonly int[][] Tutors_AO =
+    private static readonly ushort[][] Tutors_AO =
     {
-        new[] {450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008},
-        new[] {277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231},
-        new[] {020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352},
-        new[] {380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285},
+        new ushort[] {450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008},
+        new ushort[] {277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231},
+        new ushort[] {020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352},
+        new ushort[] {380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285},
     };
 }

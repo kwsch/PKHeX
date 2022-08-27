@@ -45,7 +45,7 @@ public class ShowdownSetTests
         var la = new LegalityAnalysis(pk);
         Assert.True(la.Valid);
 
-        var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info).ToList();
+        var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info, pk7.Moves).ToList();
         foreach (var t in test)
         {
             var convert = t.ConvertToPKM(info);

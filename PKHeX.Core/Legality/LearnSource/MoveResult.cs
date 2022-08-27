@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// <param name="EvoStage">Evolution stage index within the <see cref="MoveLearnInfo.Environment"/> evolution list it existed in.</param>
 /// <param name="Generation">Rough indicator of generation the <see cref="MoveLearnInfo.Environment"/> was.</param>
 /// <param name="Expect">Optional value used when the move is not legal, to indicate that another move ID should have been in that move slot instead.</param>
-public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, byte Generation = 0, short Expect = 0)
+public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, byte Generation = 0, ushort Expect = 0)
 {
     public bool IsParsed => this != default;
     public bool Valid => Info.Method.IsValid();
@@ -66,7 +66,7 @@ public readonly record struct MoveResult(MoveLearnInfo Info, byte EvoStage = 0, 
     public static readonly MoveResult Duplicate = new(LearnMethod.Duplicate);
     public static readonly MoveResult EmptyInvalid = new(LearnMethod.EmptyInvalid);
     public static readonly MoveResult Sketch = new(LearnMethod.Sketch);
-    public static MoveResult Unobtainable(int expect) => new(LearnMethod.UnobtainableExpect) { Expect = (short)expect };
+    public static MoveResult Unobtainable(ushort expect) => new(LearnMethod.UnobtainableExpect) { Expect = expect };
     public static MoveResult Unobtainable() => new(LearnMethod.Unobtainable);
 
     public static bool AllValid(ReadOnlySpan<MoveResult> span)

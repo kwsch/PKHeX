@@ -66,7 +66,7 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public ulong Tracker { get => _coreData.Tracker; set => _coreData.Tracker = value; }
     public override uint EncryptionConstant { get => _coreData.EncryptionConstant; set => _coreData.EncryptionConstant = value; }
     public bool IsBadEgg { get => _coreData.IsBadEgg; set => _coreData.IsBadEgg = value; }
-    public override int Species { get => _coreData.Species; set => _coreData.Species = value; }
+    public override ushort Species { get => _coreData.Species; set => _coreData.Species = value; }
     public override int TID { get => _coreData.TID; set => _coreData.TID = value; }
     public override int SID { get => _coreData.SID; set => _coreData.SID = value; }
     public override uint EXP { get => _coreData.EXP; set => _coreData.EXP = value; }
@@ -79,7 +79,7 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public override int StatNature { get => _coreData.StatNature; set => _coreData.StatNature = value; }
     public override bool FatefulEncounter { get => _coreData.FatefulEncounter; set => _coreData.FatefulEncounter = value; }
     public override int Gender { get => _coreData.Gender; set => _coreData.Gender = value; }
-    public override int Form { get => _coreData.Form; set => _coreData.Form = value; }
+    public override byte Form { get => _coreData.Form; set => _coreData.Form = value; }
     public override int EV_HP { get => _coreData.EV_HP; set => _coreData.EV_HP = value; }
     public override int EV_ATK { get => _coreData.EV_ATK; set => _coreData.EV_ATK = value; }
     public override int EV_DEF { get => _coreData.EV_DEF; set => _coreData.EV_DEF = value; }
@@ -183,10 +183,10 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
 
     #region Children
 
-    public override int Move1       { get => LatestGameData.Move1      ; set => LatestGameData.Move1       = value; }
-    public override int Move2       { get => LatestGameData.Move2      ; set => LatestGameData.Move2       = value; }
-    public override int Move3       { get => LatestGameData.Move3      ; set => LatestGameData.Move3       = value; }
-    public override int Move4       { get => LatestGameData.Move4      ; set => LatestGameData.Move4       = value; }
+    public override ushort Move1       { get => LatestGameData.Move1      ; set => LatestGameData.Move1       = value; }
+    public override ushort Move2       { get => LatestGameData.Move2      ; set => LatestGameData.Move2       = value; }
+    public override ushort Move3       { get => LatestGameData.Move3      ; set => LatestGameData.Move3       = value; }
+    public override ushort Move4       { get => LatestGameData.Move4      ; set => LatestGameData.Move4       = value; }
     public override int Move1_PP    { get => LatestGameData.Move1_PP   ; set => LatestGameData.Move1_PP    = value; }
     public override int Move2_PP    { get => LatestGameData.Move2_PP   ; set => LatestGameData.Move2_PP    = value; }
     public override int Move3_PP    { get => LatestGameData.Move3_PP   ; set => LatestGameData.Move3_PP    = value; }
@@ -216,8 +216,8 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public override int MaxEV => 252;
     public override int OTLength => 12;
     public override int NickLength => 12;
-    public override int MaxMoveID => Legal.MaxMoveID_8a;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_8a;
+    public override ushort MaxMoveID => Legal.MaxMoveID_8a;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8a;
     public override int MaxAbilityID => Legal.MaxAbilityID_8a;
     public override int MaxItemID => Legal.MaxItemID_8a;
     public override int MaxBallID => Legal.MaxBallID_8a;

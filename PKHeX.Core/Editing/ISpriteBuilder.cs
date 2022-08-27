@@ -9,14 +9,14 @@ public interface ISpriteBuilder<T>
     /// <summary>
     /// Gets a sprite using the requested parameters.
     /// </summary>
-    T GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny,
+    T GetSprite(ushort species, byte form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny,
         int generation = -1,
         SpriteBuilderTweak tweak = SpriteBuilderTweak.None);
 
     /// <summary>
     /// Revises the sprite using the requested parameters.
     /// </summary>
-    T GetSprite(T baseSprite, int species, int heldItem, bool isEgg, Shiny shiny,
+    T GetSprite(T baseSprite, ushort species, int heldItem, bool isEgg, Shiny shiny,
         int generation = -1,
         SpriteBuilderTweak tweak = SpriteBuilderTweak.None);
 

@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -48,8 +47,11 @@ public sealed record EncounterStatic3 : EncounterStatic
         if (!Roaming)
             return Location == met;
 
-        var table = Version <= GameVersion.E ? Roaming_MetLocation_RSE : Roaming_MetLocation_FRLG;
-        return table.Contains(met);
+        // Route 101-138
+        if (Version <= GameVersion.E)
+            return met is >= 16 and <= 49;
+        // Route 1-25 encounter is possible either in grass or on water
+        return met is >= 101 and <= 125;
     }
 
     protected override bool IsMatchPartial(PKM pk)
@@ -62,24 +64,6 @@ public sealed record EncounterStatic3 : EncounterStatic
     protected override void SetMetData(PKM pk, int level, DateTime today)
     {
         pk.Met_Level = level;
-        pk.Met_Location = !Roaming ? Location : (Version <= GameVersion.E ? Roaming_MetLocation_RSE : Roaming_MetLocation_FRLG)[0];
+        pk.Met_Location = !Roaming ? Location : (Version <= GameVersion.E ? 16 : 101);
     }
-
-    private static readonly int[] Roaming_MetLocation_FRLG =
-    {
-        // Route 1-25 encounter is possible either in grass or on water
-        101,102,103,104,105,106,107,108,109,110,
-        111,112,113,114,115,116,117,118,119,120,
-        121,122,123,124,125,
-    };
-
-    private static readonly int[] Roaming_MetLocation_RSE =
-    {
-        // Roaming encounter is possible in tall grass and on water
-        // Route 101-138
-        16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-        26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
-        36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
-        46, 47, 48, 49,
-    };
 }

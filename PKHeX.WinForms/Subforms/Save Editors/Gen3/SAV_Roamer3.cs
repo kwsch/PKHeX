@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -25,7 +25,7 @@ public partial class SAV_Roamer3 : Form
         TB_PID.Text = $"{Reader.PID:X8}";
         CHK_Shiny.Checked = Reader.IsShiny(Reader.PID);
 
-        CB_Species.SelectedValue = Reader.Species;
+        CB_Species.SelectedValue = (int)Reader.Species;
         var IVs = Reader.IVs;
 
         var iv = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV};
@@ -44,7 +44,7 @@ public partial class SAV_Roamer3 : Form
             IVs[i] = Util.ToInt32(iv[i].Text);
 
         Reader.PID = Util.GetHexValue(TB_PID.Text);
-        Reader.Species = WinFormsUtil.GetIndex(CB_Species);
+        Reader.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         Reader.SetIVs(IVs);
         Reader.Active = CHK_Active.Checked;
         Reader.CurrentLevel = (int)NUD_Level.Value;

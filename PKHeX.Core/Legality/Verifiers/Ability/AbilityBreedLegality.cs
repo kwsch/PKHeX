@@ -11,7 +11,7 @@ internal static class AbilityBreedLegality
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen5"/>
     /// </summary>
-    internal static readonly HashSet<int> BanHidden5 = new()
+    internal static readonly HashSet<ushort> BanHidden5 = new()
     {
         // Only males distributed; unable to pass to offspring
         (int)Bulbasaur, (int)Charmander, (int)Squirtle,
@@ -70,7 +70,7 @@ internal static class AbilityBreedLegality
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen6"/>
     /// </summary>
-    internal static readonly HashSet<int> BanHidden6 = new()
+    internal static readonly HashSet<ushort> BanHidden6 = new()
     {
         // Not available at Friend Safari or Horde Encounter
         (int)Flabébé + (2 << 11), // Orange
@@ -108,7 +108,7 @@ internal static class AbilityBreedLegality
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen7"/>
     /// </summary>
-    internal static readonly HashSet<int> BanHidden7 = new()
+    internal static readonly HashSet<ushort> BanHidden7 = new()
     {
         // SOS slots have 0 call rate
         (int)Wimpod,
@@ -147,12 +147,12 @@ internal static class AbilityBreedLegality
     // <summary>
     // Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen8"/>
     // </summary>
-    // internal static readonly HashSet<int> BanHidden8 = new(); // none as of DLC 1!
+    // internal static readonly HashSet<ushort> BanHidden8 = new(); // none as of DLC 1!
 
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.BDSP"/>
     /// </summary>
-    internal static readonly HashSet<int> BanHidden8b = new()
+    internal static readonly HashSet<ushort> BanHidden8b = new()
     {
         (int)Rotom,
         (int)Rotom + (1 << 11),

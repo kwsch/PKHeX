@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
@@ -113,7 +113,7 @@ public static class EncounterOrigin
     {
         var species = pk.Species;
 
-        if (Future_LevelUp.TryGetValue(species | (pk.Form << 11), out var delta))
+        if (Future_LevelUp.TryGetValue((ushort)(species | (pk.Form << 11)), out var delta))
             return met - delta;
 
         if (generation < 4 && Future_LevelUp4.Contains(species) && (pk.Format <= 7 || !Future_LevelUp4_Not8.Contains(species)))
@@ -125,7 +125,7 @@ public static class EncounterOrigin
     /// <summary>
     /// Species introduced in Generation 2 that require a level up to evolve into from a specimen that originated in a previous generation.
     /// </summary>
-    private static readonly HashSet<int> Future_LevelUp2 = new()
+    private static readonly HashSet<ushort> Future_LevelUp2 = new()
     {
         (int)Crobat,
         (int)Espeon,
@@ -136,7 +136,7 @@ public static class EncounterOrigin
     /// <summary>
     /// Species introduced in Generation 4 that require a level up to evolve into from a specimen that originated in a previous generation.
     /// </summary>
-    private static readonly HashSet<int> Future_LevelUp4 = new()
+    private static readonly HashSet<ushort> Future_LevelUp4 = new()
     {
         (int)Ambipom,
         (int)Weavile,
@@ -154,7 +154,7 @@ public static class EncounterOrigin
     /// <summary>
     /// Species introduced in Generation 4 that used to require a level up to evolve prior to Generation 8.
     /// </summary>
-    private static readonly HashSet<int> Future_LevelUp4_Not8 = new()
+    private static readonly HashSet<ushort> Future_LevelUp4_Not8 = new()
     {
         (int)Magnezone, // Thunder Stone
         (int)Leafeon, // Leaf Stone
@@ -164,7 +164,7 @@ public static class EncounterOrigin
     /// <summary>
     /// Species introduced in Generation 6+ that require a level up to evolve into from a specimen that originated in a previous generation.
     /// </summary>
-    private static readonly Dictionary<int, int> Future_LevelUp = new()
+    private static readonly Dictionary<ushort, byte> Future_LevelUp = new()
     {
         // Gen6
         {(int)Sylveon, 1},

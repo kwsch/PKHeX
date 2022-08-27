@@ -48,7 +48,7 @@ public partial class SAV_PokedexGG : Form
     private readonly Zukan7b Dex;
     private bool editing;
     private bool allModifying;
-    private int currentSpecies = -1;
+    private ushort currentSpecies = ushort.MaxValue;
     private readonly CheckBox[] CP, CL;
 
     private readonly CheckBox[] RecordUsed;
@@ -66,7 +66,7 @@ public partial class SAV_PokedexGG : Form
         SetEntry();
 
         editing = true;
-        currentSpecies = (int)CB_Species.SelectedValue;
+        currentSpecies = (ushort)CB_Species.SelectedValue;
         LB_Species.SelectedIndex = currentSpecies - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
         LB_Species.TopIndex = LB_Species.SelectedIndex;
         if (!allModifying) FillLBForms();
@@ -80,8 +80,8 @@ public partial class SAV_PokedexGG : Form
         SetEntry();
 
         editing = true;
-        currentSpecies = LB_Species.SelectedIndex + 1;
-        CB_Species.SelectedValue = currentSpecies;
+        currentSpecies = (ushort)(LB_Species.SelectedIndex + 1);
+        CB_Species.SelectedValue = (int)currentSpecies;
         if (!allModifying) FillLBForms();
         GetEntry();
         editing = false;
@@ -94,7 +94,7 @@ public partial class SAV_PokedexGG : Form
         SetEntry();
 
         editing = true;
-        int fspecies = LB_Species.SelectedIndex + 1;
+        var fspecies = (ushort)(LB_Species.SelectedIndex + 1);
         var bspecies = Dex.GetBaseSpecies(fspecies);
         int form = LB_Forms.SelectedIndex;
         if (form > 0)
@@ -104,7 +104,7 @@ public partial class SAV_PokedexGG : Form
             {
                 int f = Dex.DexFormIndexFetcher(bspecies, fc, SAV.MaxSpeciesID - 1);
                 if (f >= 0) // bit index valid
-                    currentSpecies = f + form + 1;
+                    currentSpecies = (ushort)(f + form + 1);
                 else
                     currentSpecies = bspecies;
             }
@@ -118,7 +118,7 @@ public partial class SAV_PokedexGG : Form
             currentSpecies = bspecies;
         }
 
-        CB_Species.SelectedValue = currentSpecies;
+        CB_Species.SelectedValue = (int)currentSpecies;
         LB_Species.SelectedIndex = currentSpecies - 1;
         LB_Species.TopIndex = LB_Species.SelectedIndex;
         GetEntry();
@@ -131,7 +131,7 @@ public partial class SAV_PokedexGG : Form
         LB_Forms.DataSource = null;
         LB_Forms.Items.Clear();
 
-        int fspecies = LB_Species.SelectedIndex + 1;
+        var fspecies = (ushort)(LB_Species.SelectedIndex + 1);
         var bspecies = Dex.GetBaseSpecies(fspecies);
         bool hasForms = FormInfo.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
         LB_Forms.Enabled = hasForms;
@@ -209,7 +209,7 @@ public partial class SAV_PokedexGG : Form
 
     private void GetEntry()
     {
-        int pk = currentSpecies - 1;
+        var pk = (ushort)(currentSpecies - 1);
         editing = true;
         CHK_P1.Enabled = currentSpecies <= SAV.MaxSpeciesID;
         CHK_P1.Checked = CHK_P1.Enabled && Dex.GetCaught(currentSpecies);
@@ -233,7 +233,7 @@ public partial class SAV_PokedexGG : Form
             CL[i].Checked = CL[i].Enabled && Dex.GetLanguageFlag(pk, i);
         }
 
-        int speciesID = Dex.GetBaseSpecies(currentSpecies);
+        var speciesID = Dex.GetBaseSpecies(currentSpecies);
         LoadRecord(speciesID, Math.Max(0, LB_Forms.SelectedIndex));
 
         editing = false;
@@ -260,11 +260,11 @@ public partial class SAV_PokedexGG : Form
         for (int i = 0; i < 9; i++)
             Dex.SetLanguageFlag(pk, i, CL[i].Checked);
 
-        int speciesID = Dex.GetBaseSpecies(currentSpecies);
+        var speciesID = Dex.GetBaseSpecies(currentSpecies);
         SetRecord(speciesID, Math.Max(0, LB_Forms.SelectedIndex));
     }
 
-    private void LoadRecord(int species, int form)
+    private void LoadRecord(ushort species, int form)
     {
         bool hasRecord = Zukan7b.TryGetSizeEntryIndex(species, form, out var index);
         GB_SizeRecords.Visible = hasRecord;
@@ -283,7 +283,7 @@ public partial class SAV_PokedexGG : Form
         set(DexSizeType.MaxWeight, NUD_RWeightMaxHeight, NUD_RWeightMax, CHK_RMaxWeight);
     }
 
-    private void SetRecord(int species, int form)
+    private void SetRecord(ushort species, int form)
     {
         bool hasRecord = Zukan7b.TryGetSizeEntryIndex(species, form, out var index);
         if (!hasRecord)
@@ -448,10 +448,10 @@ public partial class SAV_PokedexGG : Form
         }
     }
 
-    private static IEnumerable<int> GetLegalSpecies()
+    private static IEnumerable<ushort> GetLegalSpecies()
     {
         foreach (var z in Enumerable.Range(1, 151))
-            yield return z;
+            yield return (ushort)z;
         yield return 808;
         yield return 809;
     }

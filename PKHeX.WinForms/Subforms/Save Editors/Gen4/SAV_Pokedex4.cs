@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -47,7 +47,7 @@ public partial class SAV_Pokedex4 : Form
 
     private readonly CheckBox[] CL;
     private bool editing;
-    private int species = -1;
+    private ushort species = ushort.MaxValue;
     private const int LangCount = 6; // No Korean
 
     private void ChangeCBSpecies(object sender, EventArgs e)
@@ -57,7 +57,7 @@ public partial class SAV_Pokedex4 : Form
         SetEntry();
 
         editing = true;
-        species = (int)CB_Species.SelectedValue;
+        species = (ushort)CB_Species.SelectedValue;
         LB_Species.SelectedIndex = species - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
         LB_Species.TopIndex = LB_Species.SelectedIndex;
         GetEntry();
@@ -71,8 +71,8 @@ public partial class SAV_Pokedex4 : Form
         SetEntry();
 
         editing = true;
-        species = LB_Species.SelectedIndex + 1;
-        CB_Species.SelectedValue = species;
+        species = (ushort)(LB_Species.SelectedIndex + 1);
+        CB_Species.SelectedValue = (int)species;
         GetEntry();
         editing = false;
     }
@@ -159,7 +159,7 @@ public partial class SAV_Pokedex4 : Form
 
     private void SetEntry()
     {
-        if (species < 0)
+        if (species > 493)
             return;
 
         var dex = SAV.Dex;
@@ -238,8 +238,8 @@ public partial class SAV_Pokedex4 : Form
         else
             args = SetDexArgs.None;
 
-        for (int i = 0; i < LB_Species.Items.Count; i++)
-            SAV.Dex.ModifyAll(i + 1, args, lang);
+        for (ushort i = 1; i <= 493; i++)
+            SAV.Dex.ModifyAll(i, args, lang);
 
         GetEntry();
         System.Media.SystemSounds.Asterisk.Play();

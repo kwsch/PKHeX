@@ -17,7 +17,7 @@ public static class EncounterEggGenerator
     public static IEnumerable<EncounterEgg> GenerateEggs(PKM pk, EvoCriteria[] chain, int generation, bool all = false)
     {
         System.Diagnostics.Debug.Assert(generation >= 3); // if generating Gen2 eggs, use the other generator.
-        int currentSpecies = pk.Species;
+        var currentSpecies = pk.Species;
         if (!Breeding.CanHatchAsEgg(currentSpecies))
             yield break;
 
@@ -35,7 +35,7 @@ public static class EncounterEggGenerator
         int max = GetMaxSpeciesOrigin(generation);
 
         var (species, form) = GetBaseSpecies(chain, 0);
-        if ((uint)species <= max)
+        if (species != 0 && species <= max)
         {
             // NOTE: THE SPLIT-BREED SECTION OF CODE SHOULD BE EXACTLY THE SAME AS THE BELOW SECTION
             if (FormInfo.IsBattleOnlyForm(species, form, generation))
@@ -83,16 +83,16 @@ public static class EncounterEggGenerator
         return ver < GameVersion.GP; // lgpe and sw/sh don't have a sister pair
     }
 
-    private static (int Species, int Form) GetBaseSpecies(EvoCriteria[] evolutions, int skipOption)
+    private static (ushort Species, byte Form) GetBaseSpecies(EvoCriteria[] evolutions, int skipOption)
     {
-        int species = evolutions[0].Species;
+        ushort species = evolutions[0].Species;
         if (species == (int)Species.Shedinja) // Shedinja
             return ((int)Species.Nincada, 0); // Nincada
 
         // skip n from end, return empty if invalid index
         int index = evolutions.Length - 1 - skipOption;
         if ((uint)index >= evolutions.Length)
-            return (-1, 0);
+            return default;
         var evo = evolutions[index];
         return (evo.Species, evo.Form);
     }

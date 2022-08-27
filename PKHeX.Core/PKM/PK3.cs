@@ -71,7 +71,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     #region Block A
     public override ushort SpeciesID3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), value); } // raw access
 
-    public override int Species
+    public override ushort Species 
     {
         get => SpeciesConverter.GetG4Species(SpeciesID3);
         set
@@ -95,10 +95,10 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     #endregion
 
     #region Block B
-    public override int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x2C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2C), (ushort)value); }
-    public override int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x2E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2E), (ushort)value); }
-    public override int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x30)); set => WriteUInt16LittleEndian(Data.AsSpan(0x30), (ushort)value); }
-    public override int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x32)); set => WriteUInt16LittleEndian(Data.AsSpan(0x32), (ushort)value); }
+    public override ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x2C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2C), value); }
+    public override ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x2E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x2E), value); }
+    public override ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x30)); set => WriteUInt16LittleEndian(Data.AsSpan(0x30), value); }
+    public override ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x32)); set => WriteUInt16LittleEndian(Data.AsSpan(0x32), value); }
     public override int Move1_PP { get => Data[0x34]; set => Data[0x34] = (byte)value; }
     public override int Move2_PP { get => Data[0x35]; set => Data[0x35] = (byte)value; }
     public override int Move3_PP { get => Data[0x36]; set => Data[0x36] = (byte)value; }
@@ -323,7 +323,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         }
 
         // Remove HM moves
-        ReadOnlySpan<int> banned = LearnSource3.HM_3;
+        ReadOnlySpan<ushort> banned = LearnSource3.HM_3;
         if (banned.Contains(Move1)) pk4.Move1 = 0;
         if (banned.Contains(Move2)) pk4.Move2 = 0;
         if (banned.Contains(Move3)) pk4.Move3 = 0;

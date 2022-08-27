@@ -177,12 +177,12 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x78), (ushort)value);
     }
 
-    public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7A)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7A), (ushort)value); }
-    public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7C), (ushort)value); }
-    public int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7E)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7E), (ushort)value); }
-    public int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x80), (ushort)value); }
-    public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x82)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x82), (ushort)value); }
-    public override int Form { get => Data[CardStart + 0x84]; set => Data[CardStart + 0x84] = (byte)value; }
+    public ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7A)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7A), value); }
+    public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7C), value); }
+    public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x7E)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x7E), value); }
+    public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x80)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x80), value); }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x82)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x82), value); }
+    public override byte Form { get => Data[CardStart + 0x84]; set => Data[CardStart + 0x84] = value; }
 
     // public int Language { get => Data[CardStart + 0x85]; set => Data[CardStart + 0x85] = (byte)value; }
 
@@ -220,10 +220,10 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     public ushort AdditionalItem { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xD2)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xD2), value); }
 
     public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0xD4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xD4), value); }
-    public int RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xD8), (ushort)value); }
-    public int RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDA), (ushort)value); }
-    public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC), (ushort)value); }
-    public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDE)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDE), (ushort)value); }
+    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xD8)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xD8), value); }
+    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDA)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDA), value); }
+    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDC), value); }
+    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0xDE)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0xDE), value); }
 
     public byte AV_HP  { get => Data[CardStart + 0xE5]; set => Data[CardStart + 0xE5] = value; }
     public byte AV_ATK { get => Data[CardStart + 0xE6]; set => Data[CardStart + 0xE6] = value; }
@@ -270,7 +270,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
 
     public override Moveset Moves
     {
-        get => new((ushort)Move1, (ushort)Move2, (ushort)Move3, (ushort)Move4);
+        get => new(Move1, Move2, Move3, Move4);
         set
         {
             Move1 = value.Move1;
@@ -282,7 +282,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
 
     public override Moveset Relearn
     {
-        get => new((ushort)RelearnMove1, (ushort)RelearnMove2, (ushort)RelearnMove3, (ushort)RelearnMove4);
+        get => new(RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4);
         set
         {
             RelearnMove1 = value.Move1;

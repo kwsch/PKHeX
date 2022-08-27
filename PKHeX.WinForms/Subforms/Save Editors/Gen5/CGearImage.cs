@@ -30,6 +30,6 @@ public static class CGearImage
         const int bpp = 4;
         Debug.Assert(data.Length == Width * Height * bpp);
 
-        return CGearBackground.GetBackground(data, bpp);
+        return CGearBackground.GetBackground(data);
     }
 }

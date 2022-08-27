@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -20,7 +20,7 @@ public partial class SAV_SimplePokedex : Form
         var speciesNames = GameInfo.Strings.specieslist;
         for (int i = 0; i < seen.Length; i++)
         {
-            int species = i + 1;
+            ushort species = (ushort)(i + 1);
             seen[i] = SAV.GetSeen(species);
             caught[i] = SAV.GetCaught(species);
             CLB_Seen.Items.Add(speciesNames[species]);
@@ -39,7 +39,7 @@ public partial class SAV_SimplePokedex : Form
     {
         for (int i = 0; i < seen.Length; i++)
         {
-            int species = i + 1;
+            ushort species = (ushort)(i + 1);
             SAV.SetSeen(species, seen[i]);
             SAV.SetCaught(species, caught[i]);
         }

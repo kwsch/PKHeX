@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using static PKHeX.Core.GroundTileAllowed;
 
 namespace PKHeX.Core;
@@ -28,9 +27,29 @@ public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Ver
         if (pk is not G4PKM pk4)
             return true;
 
-        var locs = GetRoamLocations(Species, pk4.GroundTile);
-        return locs.Contains(pk4.Met_Location);
+        return pk4.GroundTile switch
+        {
+            GroundTileType.Grass => IsMatchLocationGrass(Location, pk4.Met_Location),
+            GroundTileType.Water => IsMatchLocationWater(Location, pk4.Met_Location),
+            _ => false,
+        };
     }
+
+    private static bool IsMatchLocationGrass(int location, int met) => location switch
+    {
+        FirstS => IsMatchRoamerLocation(PermitGrassS, met, FirstS),
+        FirstJ => IsMatchRoamerLocation(PermitGrassJ, met, FirstJ),
+        FirstH => IsMatchRoamerLocation(PermitGrassH, met, FirstH),
+        _ => false,
+    };
+
+    private static bool IsMatchLocationWater(int location, int met) => location switch
+    {
+        FirstS => IsMatchRoamerLocation(PermitWaterS, met, FirstS),
+        FirstJ => IsMatchRoamerLocation(PermitWaterJ, met, FirstJ),
+        FirstH => IsMatchRoamerLocation(PermitWaterH, met, FirstH),
+        _ => false,
+    };
 
     protected override bool IsMatchEggLocation(PKM pk)
     {
@@ -94,70 +113,30 @@ public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Ver
     protected override void SetMetData(PKM pk, int level, DateTime today)
     {
         var pk4 = (PK4)pk;
-        var type = pk4.GroundTile = GroundTile.GetIndex();
-        pk.Met_Location = Roaming ? GetRoamLocations(Species, type)[0] : Location;
+        pk4.GroundTile = Roaming ? GroundTileType.Grass : GroundTile.GetIndex();
+        pk.Met_Location = Location;
         pk.Met_Level = level;
         pk.MetDate = today;
     }
 
-    private static int[] GetRoamLocations(int species, GroundTileType type) => species switch
+    public static bool IsMatchRoamerLocation(uint permit, int location, int first)
     {
-        481 or 488 or 144 or 145 or 146 => type == GroundTileType.Grass ? Roaming_MetLocation_DPPt_Grass : Roaming_MetLocation_DPPt_Surf,
-        243 or 244 => type == GroundTileType.Grass ? Roaming_MetLocation_HGSS_Johto_Grass : Roaming_MetLocation_HGSS_Johto_Surf,
-        380 or 381 => type == GroundTileType.Grass ? Roaming_MetLocation_HGSS_Kanto_Grass : Roaming_MetLocation_HGSS_Kanto_Surf,
-        _ => throw new ArgumentOutOfRangeException(nameof(species)),
-    };
+        var value = location - first;
+        if ((uint)value >= 64)
+            return false;
+        return (permit & (1u << value)) != 0;
+    }
 
-    private static readonly int[] Roaming_MetLocation_DPPt_Grass =
-    {
-        // Routes 201-218, 221-222 can be encountered in grass
-        16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-        26, 27, 28, 29, 30, 31, 32, 33, 36, 37,
-        47,     // Valley Windworks
-        49,     // Fuego Ironworks
-    };
+    // Merged all locations into a bitmask for quick computation.
+    private const int FirstS = 16;
+    private const uint PermitGrassS = 0x8033FFFF; // 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,         36, 37, 47, 49,
+    private const uint PermitWaterS = 0x803E3B9E; //         18, 19, 20,         23, 24, 25,     27, 28, 29,             33, 34, 35, 36, 37, 47, 49,
 
-    private static readonly int[] Roaming_MetLocation_DPPt_Surf =
-    {
-        // Routes 203-205, 208-210, 212-214, 218-222 can be encountered in water
-        18, 19, 20, 23, 24, 25, 27, 28, 29, 33,
-        34, 35, 36, 37,
-        47,     // Valley Windworks
-        49,     // Fuego Ironworks
-    };
+    private const int FirstJ = 177;
+    private const uint PermitGrassJ = 0x0003E7FF; // 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187,                     190, 191, 192, 193, 194,
+    private const uint PermitWaterJ = 0x0001E06E; //      178, 179, 180,      182, 183,                                         190, 191, 192, 193,
 
-    // Grass 29-39, 42-46, 47, 48
-    // Surf 30-32 34-35, 40-45, 47
-    // Route 45 inaccessible surf
-    private static readonly int[] Roaming_MetLocation_HGSS_Johto_Grass =
-    {
-        // Routes 29-48 can be encountered in grass
-        // Won't go to routes 40,41,47,48
-        177, 178, 179, 180, 181, 182, 183, 184, 185, 186,
-        187,                     190, 191, 192, 193, 194,
-    };
-
-    private static readonly int[] Roaming_MetLocation_HGSS_Johto_Surf =
-    {
-        // Routes 30-32,34-35,40-45 and 47 can be encountered in water
-        // Won't go to routes 40,41,47,48
-        178, 179, 180, 182, 183, 190, 191, 192, 193,
-    };
-
-    private static readonly int[] Roaming_MetLocation_HGSS_Kanto_Grass =
-    {
-        // Route 01-18,21,22,24,26 and 28 can be encountered in grass
-        // Won't go to route 23 25 27
-        149, 150, 151, 152, 153, 154, 155, 156, 157, 158,
-        159, 160, 161, 162, 163, 164, 165, 166,
-        169, 170,      172,      174,      176,
-    };
-
-    private static readonly int[] Roaming_MetLocation_HGSS_Kanto_Surf =
-    {
-        // Route 4,6,9,10,12,13,19-22,24,26 and 28 can be encountered in water
-        // Won't go to route 23 25 27
-        152, 154, 157, 158, 160, 161, 167, 168, 169, 170,
-        172,      174,      176,
-    };
+    private const int FirstH = 149;
+    private const uint PermitGrassH = 0x0AB3FFFF; // 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166,           169, 170, 172,      174,      176, 
+    private const uint PermitWaterH = 0x0ABC1B28; //                152,      154,           157, 158,      160, 161,                          167, 168, 169, 170, 172,      174,      176,
 }

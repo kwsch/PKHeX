@@ -58,7 +58,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
         pk.SetRandomEC();
     }
 
-    internal static EncounterStatic7 GetVC1(int species, byte metLevel)
+    internal static EncounterStatic7 GetVC1(ushort species, byte metLevel)
     {
         bool mew = species == (int)Core.Species.Mew;
         return new EncounterStatic7(GameVersion.RBY)
@@ -74,7 +74,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
         };
     }
 
-    internal static EncounterStatic7 GetVC2(int species, byte metLevel)
+    internal static EncounterStatic7 GetVC2(ushort species, byte metLevel)
     {
         bool mew = species == (int)Core.Species.Mew;
         bool fateful = mew || species == (int)Core.Species.Celebi;

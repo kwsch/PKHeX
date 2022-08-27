@@ -214,8 +214,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public override PKM BlankPKM => new PK1(Japanese);
     public override Type PKMType => typeof(PK1);
 
-    public override int MaxMoveID => Legal.MaxMoveID_1;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
+    public override ushort MaxMoveID => Legal.MaxMoveID_1;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_1;
     public override int MaxAbilityID => Legal.MaxAbilityID_1;
     public override int MaxItemID => Legal.MaxItemID_1;
     public override int MaxBallID => 0; // unused
@@ -498,7 +498,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     // Pokédex
     protected override void SetDex(PKM pk)
     {
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (!CanSetDex(species))
             return;
 
@@ -506,7 +506,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         SetSeen(pk.Species, true);
     }
 
-    private bool CanSetDex(int species)
+    private bool CanSetDex(ushort species)
     {
         if (species <= 0)
             return false;
@@ -517,19 +517,19 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         return true;
     }
 
-    public override bool GetSeen(int species) => GetDexFlag(Offsets.DexSeen, species);
-    public override bool GetCaught(int species) => GetDexFlag(Offsets.DexCaught, species);
-    public override void SetSeen(int species, bool seen) => SetDexFlag(Offsets.DexSeen, species, seen);
-    public override void SetCaught(int species, bool caught) => SetDexFlag(Offsets.DexCaught, species, caught);
+    public override bool GetSeen(ushort species) => GetDexFlag(Offsets.DexSeen, species);
+    public override bool GetCaught(ushort species) => GetDexFlag(Offsets.DexCaught, species);
+    public override void SetSeen(ushort species, bool seen) => SetDexFlag(Offsets.DexSeen, species, seen);
+    public override void SetCaught(ushort species, bool caught) => SetDexFlag(Offsets.DexCaught, species, caught);
 
-    private bool GetDexFlag(int region, int species)
+    private bool GetDexFlag(int region, ushort species)
     {
         int bit = species - 1;
         int ofs = bit >> 3;
         return GetFlag(region + ofs, bit & 7);
     }
 
-    private void SetDexFlag(int region, int species, bool value)
+    private void SetDexFlag(int region, ushort species, bool value)
     {
         int bit = species - 1;
         int ofs = bit >> 3;

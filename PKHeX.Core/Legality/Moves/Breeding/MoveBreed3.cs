@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.EggSource34;
 using static PKHeX.Core.LearnSource3;
 
@@ -15,16 +16,25 @@ public static class MoveBreed3
     private const int level = 5;
 
     /// <inheritdoc cref="MoveBreed.Validate"/>
-    public static bool Validate(int species, GameVersion version, ReadOnlySpan<int> moves, Span<byte> origins)
+    public static bool Validate(ushort species, GameVersion version, ReadOnlySpan<ushort> moves, Span<byte> origins)
     {
-        var count = moves.IndexOf(0);
+        var count = moves.IndexOf((ushort)0);
         if (count == 0)
             return false;
         if (count == -1)
             count = moves.Length;
 
-        var learn = GameData.GetLearnsets(version);
-        var table = GameData.GetPersonal(version);
+        (Learnset[] learn, PersonalTable3 table) = version switch
+        {
+            R or S => (Legal.LevelUpRS, PersonalTable.RS),
+            E      => (Legal.LevelUpE,  PersonalTable.E ),
+            FR     => (Legal.LevelUpFR, PersonalTable.FR),
+            LG     => (Legal.LevelUpLG, PersonalTable.LG),
+            _ => throw new ArgumentException($"Invalid version: {version}"),
+        };
+        if (!table.IsSpeciesInGame(species))
+            return false;
+
         var learnset = learn[species];
         var pi = table[species];
         var egg = Legal.EggMovesRS[species].Moves;
@@ -32,7 +42,7 @@ public static class MoveBreed3
         var actual = MemoryMarshal.Cast<byte, EggSource34>(origins);
         Span<byte> possible = stackalloc byte[count];
         var value = new BreedInfo<EggSource34>(actual, possible, learnset, moves, level);
-        if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle && version == GameVersion.E)
+        if (species is (int)Species.Pichu && moves[count - 1] is (int)Move.VoltTackle && version == E)
             actual[--count] = VoltTackle;
 
         bool valid;
@@ -140,7 +150,7 @@ public static class MoveBreed3
         return true;
     }
 
-    private static void MarkMovesForOrigin(in BreedInfo<EggSource34> value, ReadOnlySpan<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info)
+    private static void MarkMovesForOrigin(in BreedInfo<EggSource34> value, ReadOnlySpan<ushort> eggMoves, int count, bool inheritLevelUp, PersonalInfo3 info)
     {
         var possible = value.Possible;
         var learn = value.Learnset;

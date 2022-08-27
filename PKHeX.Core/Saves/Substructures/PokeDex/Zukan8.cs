@@ -18,7 +18,7 @@ public sealed class Zukan8 : ZukanBase
     /// <summary>
     /// Reverses a Species into the component <see cref="Zukan8Index"/> information.
     /// </summary>
-    public readonly IReadOnlyDictionary<int, Zukan8Index> DexLookup;
+    public readonly IReadOnlyDictionary<ushort, Zukan8Index> DexLookup;
 
     public Zukan8(SAV8SWSH sav, SCBlock galar, SCBlock rigel1, SCBlock rigel2) : base(sav, 0)
     {
@@ -26,7 +26,7 @@ public sealed class Zukan8 : ZukanBase
         Rigel1 = rigel1;
         Rigel2 = rigel2;
         var revision = GetRevision();
-        DexLookup = GetDexLookup(PersonalTable.SWSH, revision);
+        DexLookup = GetDexLookup(PersonalTable.SWSH, revision, Zukan8Index.TotalCount);
     }
 
     /// <summary>
@@ -52,10 +52,10 @@ public sealed class Zukan8 : ZukanBase
     private static bool GetFlag(byte[] data, int baseOffset, int bitIndex) => FlagUtil.GetFlag(data, baseOffset + (bitIndex >> 3), bitIndex);
     private static void SetFlag(byte[] data, int baseOffset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, baseOffset + (bitIndex >> 3), bitIndex, value);
 
-    private static Dictionary<int, Zukan8Index> GetDexLookup(PersonalTable8SWSH pt, int dexRevision)
+    private static Dictionary<ushort, Zukan8Index> GetDexLookup(PersonalTable8SWSH pt, int dexRevision, int count)
     {
-        var lookup = new Dictionary<int, Zukan8Index>();
-        for (int i = 1; i <= MaxSpeciesID; i++)
+        var lookup = new Dictionary<ushort, Zukan8Index>(count);
+        for (ushort i = 1; i <= MaxSpeciesID; i++)
         {
             var p = pt[i];
             var index = p.PokeDexIndex;
@@ -88,10 +88,10 @@ public sealed class Zukan8 : ZukanBase
         return lookup;
     }
 
-    public static List<Zukan8EntryInfo> GetRawIndexes(PersonalTable8SWSH pt, int dexRevision)
+    public static List<Zukan8EntryInfo> GetRawIndexes(PersonalTable8SWSH pt, int dexRevision, int count)
     {
-        var result = new List<Zukan8EntryInfo>();
-        for (int i = 1; i <= MaxSpeciesID; i++)
+        var result = new List<Zukan8EntryInfo>(count);
+        for (ushort i = 1; i <= MaxSpeciesID; i++)
         {
             var p = pt[i];
             var index = p.PokeDexIndex;
@@ -101,7 +101,7 @@ public sealed class Zukan8 : ZukanBase
         if (dexRevision == 0)
             return result;
 
-        for (int i = 1; i <= MaxSpeciesID; i++)
+        for (ushort i = 1; i <= MaxSpeciesID; i++)
         {
             var p = pt[i];
             var index = p.ArmorDexIndex;
@@ -111,7 +111,7 @@ public sealed class Zukan8 : ZukanBase
         if (dexRevision == 1)
             return result;
 
-        for (int i = 1; i <= MaxSpeciesID; i++)
+        for (ushort i = 1; i <= MaxSpeciesID; i++)
         {
             var p = pt[i];
             var index = p.CrownDexIndex;
@@ -181,9 +181,9 @@ public sealed class Zukan8 : ZukanBase
     // Next 4 bytes are Unused(?)
     private const int OFS_UNK2 = 0x2C;
 
-    public bool GetEntry(int species, out Zukan8Index entry) => DexLookup.TryGetValue(species, out entry);
+    public bool GetEntry(ushort species, out Zukan8Index entry) => DexLookup.TryGetValue(species, out entry);
 
-    public override bool GetSeen(int species)
+    public override bool GetSeen(ushort species)
     {
         if (!GetEntry(species, out var entry))
             return false;
@@ -205,7 +205,7 @@ public sealed class Zukan8 : ZukanBase
         return false;
     }
 
-    public bool GetSeenRegion(int species, int form, int region)
+    public bool GetSeenRegion(ushort species, int form, int region)
     {
         if (!GetEntry(species, out var entry))
             return false;
@@ -227,7 +227,7 @@ public sealed class Zukan8 : ZukanBase
         return GetFlag(data, offset + ofs, form);
     }
 
-    public void SetSeenRegion(int species, int form, int region, bool value = true)
+    public void SetSeenRegion(ushort species, int form, int region, bool value = true)
     {
         if (!GetEntry(species, out var entry))
             return;
@@ -248,12 +248,12 @@ public sealed class Zukan8 : ZukanBase
         SetFlag(data, index + ofs, form, value);
     }
 
-    public override bool GetCaught(int species) => GetCaughtFlagID(species, 0);
-    public void SetCaught(int species, bool value = true) => SetCaughtFlagID(species, 0, value);
-    public bool GetCaughtGigantamaxed(int species) => GetCaughtFlagID(species, 1);
-    public void SetCaughtGigantamax(int species, bool value = true) => SetCaughtFlagID(species, 1, value);
-    public bool GetIsLanguageIndexObtained(int species, int langIndex) => GetCaughtFlagID(species, 2 + langIndex);
-    public void SetIsLanguageIndexObtained(int species, int langIndex, bool value = true) => SetCaughtFlagID(species, 2 + langIndex, value);
+    public override bool GetCaught(ushort species) => GetCaughtFlagID(species, 0);
+    public void SetCaught(ushort species, bool value = true) => SetCaughtFlagID(species, 0, value);
+    public bool GetCaughtGigantamaxed(ushort species) => GetCaughtFlagID(species, 1);
+    public void SetCaughtGigantamax(ushort species, bool value = true) => SetCaughtFlagID(species, 1, value);
+    public bool GetIsLanguageIndexObtained(ushort species, int langIndex) => GetCaughtFlagID(species, 2 + langIndex);
+    public void SetIsLanguageIndexObtained(ushort species, int langIndex, bool value = true) => SetCaughtFlagID(species, 2 + langIndex, value);
 
     public bool GetCaught(Zukan8Index entry) => GetCaughtFlagID(entry, 0);
     public void SetCaught(Zukan8Index entry, bool value = true) => SetCaughtFlagID(entry, 0, value);
@@ -262,7 +262,7 @@ public sealed class Zukan8 : ZukanBase
     public bool GetIsLanguageIndexObtained(Zukan8Index entry, int langIndex) => GetCaughtFlagID(entry, 2 + langIndex);
     public void SetIsLanguageIndexObtained(Zukan8Index entry, int langIndex, bool value = true) => SetCaughtFlagID(entry, 2 + langIndex, value);
 
-    private bool GetCaughtFlagID(int species, int bit)
+    private bool GetCaughtFlagID(ushort species, int bit)
     {
         if (!GetEntry(species, out var entry))
             return false;
@@ -276,7 +276,7 @@ public sealed class Zukan8 : ZukanBase
         return GetFlag(data, entry.Offset + OFS_CAUGHT, bit);
     }
 
-    public void SetCaughtFlagID(int species, int bit, bool value = true)
+    public void SetCaughtFlagID(ushort species, int bit, bool value = true)
     {
         if (!GetEntry(species, out var entry))
             return;
@@ -290,7 +290,7 @@ public sealed class Zukan8 : ZukanBase
         SetFlag(data, entry.Offset + OFS_CAUGHT, bit, value);
     }
 
-    public bool GetIsLanguageObtained(int species, int language)
+    public bool GetIsLanguageObtained(ushort species, int language)
     {
         int langIndex = GetDexLangFlag(language);
         if (langIndex < 0)
@@ -299,7 +299,7 @@ public sealed class Zukan8 : ZukanBase
         return GetIsLanguageIndexObtained(species, langIndex);
     }
 
-    public void SetIsLanguageObtained(int species, int language, bool value = true)
+    public void SetIsLanguageObtained(ushort species, int language, bool value = true)
     {
         int langIndex = GetDexLangFlag(language);
         if (langIndex < 0)
@@ -308,7 +308,7 @@ public sealed class Zukan8 : ZukanBase
         SetIsLanguageIndexObtained(species, langIndex, value);
     }
 
-    public uint GetFormDisplayed(int species)
+    public uint GetFormDisplayed(ushort species)
     {
         if (!GetEntry(species, out var entry))
             return 0;
@@ -324,7 +324,7 @@ public sealed class Zukan8 : ZukanBase
         return (value >> 15) & 0x1FFF; // (0x1FFF is really overkill, GameFreak)
     }
 
-    public void SetFormDisplayed(int species, uint value = 0)
+    public void SetFormDisplayed(ushort species, uint value = 0)
     {
         if (!GetEntry(species, out var entry))
             return;
@@ -342,7 +342,7 @@ public sealed class Zukan8 : ZukanBase
         WriteUInt32LittleEndian(span, update);
     }
 
-    public uint GetGenderDisplayed(int species)
+    public uint GetGenderDisplayed(ushort species)
     {
         if (!GetEntry(species, out var entry))
             return 0;
@@ -358,7 +358,7 @@ public sealed class Zukan8 : ZukanBase
         return (value >> 29) & 3;
     }
 
-    public void SetGenderDisplayed(int species, uint value = 0)
+    public void SetGenderDisplayed(ushort species, uint value = 0)
     {
         if (!GetEntry(species, out var entry))
             return;
@@ -376,25 +376,25 @@ public sealed class Zukan8 : ZukanBase
         WriteUInt32LittleEndian(span, update);
     }
 
-    public bool GetDisplayDynamaxInstead(int species) => GetCaughtFlagID(species, 28);
-    public void SetDisplayDynamaxInstead(int species, bool value = true) => SetCaughtFlagID(species, 28, value);
-    public bool GetDisplayShiny(int species) => GetCaughtFlagID(species, 31);
-    public void SetDisplayShiny(int species, bool value = true) => SetCaughtFlagID(species, 31, value);
+    public bool GetDisplayDynamaxInstead(ushort species) => GetCaughtFlagID(species, 28);
+    public void SetDisplayDynamaxInstead(ushort species, bool value = true) => SetCaughtFlagID(species, 28, value);
+    public bool GetDisplayShiny(ushort species) => GetCaughtFlagID(species, 31);
+    public void SetDisplayShiny(ushort species, bool value = true) => SetCaughtFlagID(species, 31, value);
 
-    public void SetCaughtFlags32(int species, uint value) => SetU32(species, value, OFS_CAUGHT);
-    public uint GetBattledCount(int species) => GetU32(species, OFS_BATTLED);
-    public void SetBattledCount(int species, uint value) => SetU32(species, value, OFS_BATTLED);
+    public void SetCaughtFlags32(ushort species, uint value) => SetU32(species, value, OFS_CAUGHT);
+    public uint GetBattledCount(ushort species) => GetU32(species, OFS_BATTLED);
+    public void SetBattledCount(ushort species, uint value) => SetU32(species, value, OFS_BATTLED);
 
-    public uint GetUnk1Count(int species) => GetU32(species, OFS_UNK1);
-    public void SetUnk1Count(int species, uint value) => SetU32(species, value, OFS_UNK1);
-    public uint GetUnk2Count(int species) => GetU32(species, OFS_UNK2);
-    public void SetUnk2Count(int species, uint value) => SetU32(species, value, OFS_UNK2);
-    public bool GetCaughtGigantamax1(int species) => GetFlag28(species, 0);
-    public void SetCaughtGigantamax1(int species, bool value = true) => SetFlag28(species, 0, value);
+    public uint GetUnk1Count(ushort species) => GetU32(species, OFS_UNK1);
+    public void SetUnk1Count(ushort species, uint value) => SetU32(species, value, OFS_UNK1);
+    public uint GetUnk2Count(ushort species) => GetU32(species, OFS_UNK2);
+    public void SetUnk2Count(ushort species, uint value) => SetU32(species, value, OFS_UNK2);
+    public bool GetCaughtGigantamax1(ushort species) => GetFlag28(species, 0);
+    public void SetCaughtGigantamax1(ushort species, bool value = true) => SetFlag28(species, 0, value);
     public bool GetCaughtGigantamax1(Zukan8Index entry) => GetFlag28(entry, 0);
     public void SetCaughtGigantamax1(Zukan8Index entry, bool value = true) => SetFlag28(entry, 0, value);
 
-    private bool GetFlag28(int species, int bit)
+    private bool GetFlag28(ushort species, int bit)
     {
         if (!GetEntry(species, out var entry))
             return false;
@@ -402,7 +402,7 @@ public sealed class Zukan8 : ZukanBase
         return GetFlag28(entry, bit);
     }
 
-    public void SetFlag28(int species, int bit, bool value = true)
+    public void SetFlag28(ushort species, int bit, bool value = true)
     {
         if (!GetEntry(species, out var entry))
             return;
@@ -435,7 +435,7 @@ public sealed class Zukan8 : ZukanBase
     public uint GetUnk2Count(Zukan8Index entry) => GetU32(entry, OFS_UNK2);
     public void SetUnk2Count(Zukan8Index entry, uint value) => SetU32(entry, value, OFS_UNK2);
 
-    private uint GetU32(int species, int ofs)
+    private uint GetU32(ushort species, int ofs)
     {
         if (!GetEntry(species, out var entry))
             return 0;
@@ -451,7 +451,7 @@ public sealed class Zukan8 : ZukanBase
         return ReadUInt32LittleEndian(data.AsSpan(index + ofs));
     }
 
-    private void SetU32(int species, uint value, int ofs)
+    private void SetU32(ushort species, uint value, int ofs)
     {
         if (!GetEntry(species, out var entry))
             return;
@@ -472,7 +472,7 @@ public sealed class Zukan8 : ZukanBase
     #region Inherited
     public override void SetDex(PKM pk)
     {
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (!GetEntry(species, out _))
             return;
         if (pk.IsEgg) // do not add
@@ -527,7 +527,7 @@ public sealed class Zukan8 : ZukanBase
             CaughtNone(kvp.Key);
     }
 
-    private void CaughtNone(int species)
+    private void CaughtNone(ushort species)
     {
         SetCaughtFlags32(species, 0);
         SetUnk1Count(species, 0);
@@ -539,7 +539,7 @@ public sealed class Zukan8 : ZukanBase
         SetAllSeen(true, shinyToo);
     }
 
-    private void SeenAll(int species, int fc, bool shinyToo, bool value = true)
+    private void SeenAll(ushort species, int fc, bool shinyToo, bool value = true)
     {
         var pt = PersonalTable.SWSH;
         for (int form = 0; form < fc; form++)
@@ -555,7 +555,7 @@ public sealed class Zukan8 : ZukanBase
             ClearGigantamaxFlags(species);
     }
 
-    private void SeenAll(int species, int bitIndex, bool value, IGenderDetail pi, bool shinyToo)
+    private void SeenAll(ushort species, int bitIndex, bool value, IGenderDetail pi, bool shinyToo)
     {
         if (pi.IsDualGender || !value)
         {
@@ -576,7 +576,7 @@ public sealed class Zukan8 : ZukanBase
         }
     }
 
-    private void ClearGigantamaxFlags(int species)
+    private void ClearGigantamaxFlags(ushort species)
     {
         SetSeenRegion(species, 63, 0, false);
         SetSeenRegion(species, 63, 1, false);
@@ -600,7 +600,7 @@ public sealed class Zukan8 : ZukanBase
         }
     }
 
-    private void SetAllCaught(int species, bool value = true, bool shinyToo = false)
+    private void SetAllCaught(ushort species, bool value = true, bool shinyToo = false)
     {
         SetCaught(species);
         for (int i = 0; i < 11; i++)
@@ -631,7 +631,7 @@ public sealed class Zukan8 : ZukanBase
         }
     }
 
-    private void SetAllSeen(int species, bool value = true, bool shinyToo = false)
+    private void SetAllSeen(ushort species, bool value = true, bool shinyToo = false)
     {
         var pi = PersonalTable.SWSH[species];
         var fc = pi.FormCount;
@@ -660,13 +660,13 @@ public sealed class Zukan8 : ZukanBase
         }
     }
 
-    public override void SetDexEntryAll(int species, bool shinyToo = false)
+    public override void SetDexEntryAll(ushort species, bool shinyToo = false)
     {
         SetAllSeen(species, true, shinyToo);
         SetAllCaught(species, true);
     }
 
-    public override void ClearDexEntryAll(int species)
+    public override void ClearDexEntryAll(ushort species)
     {
         if (!GetEntry(species, out var entry))
             return;
@@ -689,7 +689,7 @@ public sealed class Zukan8 : ZukanBase
         }
     }
 
-    private static readonly HashSet<int> SpeciesWithGigantamaxData = new()
+    private static readonly HashSet<ushort> SpeciesWithGigantamaxData = new()
     {
         (int)Species.Charizard,
         (int)Species.Butterfree,
@@ -732,7 +732,7 @@ public sealed class Zukan8 : ZukanBase
 /// </summary>
 /// <param name="DexType">Which block stores the Pokédex entry.</param>
 /// <param name="Index">Index that the Pokédex entry is stored at.</param>
-public readonly record struct Zukan8Index(Zukan8Type DexType, int Index)
+public readonly record struct Zukan8Index(Zukan8Type DexType, ushort Index)
 {
     public override string ToString() => $"{Index:000} - {DexType}";
 
@@ -750,27 +750,27 @@ public readonly record struct Zukan8Index(Zukan8Type DexType, int Index)
     private const int GalarCount = 400; // Count within Galar dex
     private const int Rigel1Count = 211; // Count within Armor dex
     private const int Rigel2Count = 210; // Count within Crown dex
-#if DEBUG
     public const int TotalCount = GalarCount + Rigel1Count + Rigel2Count;
+#if DEBUG
     /// <summary>
     /// Gets the <see cref="Zukan8Index"/> from the absolute (overall) dex index. Don't use this method unless you're analyzing things.
     /// </summary>
     /// <param name="index">Unique Pokédex index (incremental). Should be 0-indexed.</param>
-    public static Zukan8Index GetFromAbsoluteIndex(int index)
+    public static Zukan8Index GetFromAbsoluteIndex(ushort index)
     {
-        if (index < 0)
+        if (index > TotalCount)
             return new Zukan8Index();
 
         if (index < GalarCount)
-            return new Zukan8Index(Zukan8Type.Galar, index + 1);
+            return new Zukan8Index(Zukan8Type.Galar, ++index);
         index -= GalarCount;
 
         if (index < Rigel1Count)
-            return new Zukan8Index(Zukan8Type.Armor, index + 1);
+            return new Zukan8Index(Zukan8Type.Armor, ++index);
         index -= Rigel1Count;
 
         if (index < Rigel2Count)
-            return new Zukan8Index(Zukan8Type.Crown, index + 1);
+            return new Zukan8Index(Zukan8Type.Crown, ++index);
 
         throw new ArgumentOutOfRangeException(nameof(index));
     }
@@ -788,13 +788,13 @@ public readonly record struct Zukan8Index(Zukan8Type DexType, int Index)
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-    public string GetEntryName(IReadOnlyList<string> speciesNames, int species)
+    public string GetEntryName(IReadOnlyList<string> speciesNames, ushort species)
     {
         return $"{DexPrefix}.{Index:000} - {speciesNames[species]}";
     }
 }
 
-public readonly record struct Zukan8EntryInfo(int Species, Zukan8Index Entry)
+public readonly record struct Zukan8EntryInfo(ushort Species, Zukan8Index Entry)
 {
     public string GetEntryName(IReadOnlyList<string> speciesNames) => Entry.GetEntryName(speciesNames, Species);
 }

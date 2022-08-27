@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -27,8 +27,8 @@ public sealed class SAV2Stadium : SAV_STADIUM
     public override int BoxCount => Japanese ? 9 : 14;
     public override int BoxSlotCount => Japanese ? 30 : 20;
 
-    public override int MaxMoveID => Legal.MaxMoveID_2;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
+    public override ushort MaxMoveID => Legal.MaxMoveID_2;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_2;
     public override int MaxAbilityID => Legal.MaxAbilityID_2;
     public override int MaxItemID => Legal.MaxItemID_2;
 

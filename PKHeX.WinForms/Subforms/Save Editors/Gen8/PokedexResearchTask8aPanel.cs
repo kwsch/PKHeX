@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Drawing;
@@ -9,7 +9,7 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class PokedexResearchTask8aPanel : UserControl
 {
-    public int Species { get; private set; }
+    public ushort Species { get; private set; }
     public int ReportedCount { get; private set; }
     public PokedexResearchTask8a Task { get; private set; } = new();
 
@@ -43,7 +43,7 @@ public partial class PokedexResearchTask8aPanel : UserControl
         TimeTaskDescriptions = timeTasks;
     }
 
-    public void SetTask(int species, PokedexResearchTask8a task, int reportedLevel)
+    public void SetTask(ushort species, PokedexResearchTask8a task, int reportedLevel)
     {
         Species = species;
         Task = task;

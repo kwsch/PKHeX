@@ -58,7 +58,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     // Simple Generated Attributes
     public ReadOnlySpan<bool> TechRecordPermitFlags => Span<bool>.Empty;
-    public ReadOnlySpan<int> TechRecordPermitIndexes => LearnSource8SWSH.TR_SWSH.AsSpan();
+    public ReadOnlySpan<ushort> TechRecordPermitIndexes => LearnSource8SWSH.TR_SWSH.AsSpan();
     public ReadOnlySpan<bool> MoveShopPermitFlags => PersonalInfo.SpecialTutors[0];
     public ReadOnlySpan<ushort> MoveShopPermitIndexes => Legal.MoveShop8_LA;
 
@@ -142,7 +142,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     // Structure
     #region Block A
-    public override int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x08)); set => WriteUInt16LittleEndian(Data.AsSpan(0x08), (ushort)value); }
+    public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x08)); set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value); }
     public override int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
     public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value); }
     public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value); }
@@ -165,7 +165,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override int Gender { get => (Data[0x22] >> 2) & 0x3; set => Data[0x22] = (byte)((Data[0x22] & 0xF3) | (value << 2)); }
     // 0x23 alignment unused
 
-    public override int Form { get => ReadUInt16LittleEndian(Data.AsSpan(0x24)); set => WriteUInt16LittleEndian(Data.AsSpan(0x24), (ushort)value); }
+    public override byte Form { get => Data[0x24]; set => WriteUInt16LittleEndian(Data.AsSpan(0x24), value); }
     public override int EV_HP { get => Data[0x26]; set => Data[0x26] = (byte)value; }
     public override int EV_ATK { get => Data[0x27]; set => Data[0x27] = (byte)value; }
     public override int EV_DEF { get => Data[0x28]; set => Data[0x28] = (byte)value; }
@@ -355,10 +355,10 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     // 0x53 unused
 
-    public override int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x54)); set => WriteUInt16LittleEndian(Data.AsSpan(0x54), (ushort)value); }
-    public override int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), (ushort)value); }
-    public override int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x58), (ushort)value); }
-    public override int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x5A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), (ushort)value); }
+    public override ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x54)); set => WriteUInt16LittleEndian(Data.AsSpan(0x54), value); }
+    public override ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), value); }
+    public override ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x58), value); }
+    public override ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x5A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x5A), value); }
 
     public override int Move1_PP { get => Data[0x5C]; set => Data[0x5C] = (byte)value; }
     public override int Move2_PP { get => Data[0x5D]; set => Data[0x5D] = (byte)value; }
@@ -379,10 +379,10 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override int Move3_PPUps { get => Data[0x88]; set => Data[0x88] = (byte)value; }
     public override int Move4_PPUps { get => Data[0x89]; set => Data[0x89] = (byte)value; }
 
-    public override int RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x8A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8A), (ushort)value); }
-    public override int RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x8C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8C), (ushort)value); }
-    public override int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), (ushort)value); }
-    public override int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x90)); set => WriteUInt16LittleEndian(Data.AsSpan(0x90), (ushort)value); }
+    public override ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x8A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8A), value); }
+    public override ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x8C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8C), value); }
+    public override ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), value); }
+    public override ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x90)); set => WriteUInt16LittleEndian(Data.AsSpan(0x90), value); }
 
     public override int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(0x92)); set => WriteUInt16LittleEndian(Data.AsSpan(0x92), (ushort)value); }
     private uint IV32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x94)); set => WriteUInt32LittleEndian(Data.AsSpan(0x94), value); }
@@ -731,8 +731,8 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     }
 
     // Maximums
-    public override int MaxMoveID => Legal.MaxMoveID_8a;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_8a;
+    public override ushort MaxMoveID => Legal.MaxMoveID_8a;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_8a;
     public override int MaxAbilityID => Legal.MaxAbilityID_8a;
     public override int MaxItemID => Legal.MaxItemID_8a;
     public override int MaxBallID => Legal.MaxBallID_8a;
@@ -1066,7 +1066,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
         var index = table.GetFormIndex(Species, Form);
         var learn = learnsets[index];
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         learn.SetEncounterMoves(CurrentLevel, moves);
         SetMoves(moves);
         this.SetMaximumPPCurrent(moves);

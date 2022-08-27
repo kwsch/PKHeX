@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -59,9 +59,9 @@ public static class EntityTemplates
         }
     }
 
-    private static int GetTemplateSpecies(PKM pk, ITrainerInfo tr)
+    private static ushort GetTemplateSpecies(PKM pk, ITrainerInfo tr)
     {
-        int species = tr is IGameValueLimit s ? s.MaxSpeciesID : ((GameVersion)pk.Version).GetMaxSpeciesID();
+        ushort species = tr is IGameValueLimit s ? s.MaxSpeciesID : ((GameVersion)pk.Version).GetMaxSpeciesID();
         if (species <= 0)
             species = pk.MaxSpeciesID;
         return species;

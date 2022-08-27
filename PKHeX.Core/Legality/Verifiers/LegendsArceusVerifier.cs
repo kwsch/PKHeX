@@ -64,7 +64,7 @@ public sealed class LegendsArceusVerifier : Verifier
             return;
 
         // Get the bare minimum moveset.
-        Span<int> expect = stackalloc int[4];
+        Span<ushort> expect = stackalloc ushort[4];
         var minMoveCount = LoadBareMinimumMoveset(data.EncounterMatch, data.Info.EvoChainsAllGens, pa, expect);
 
         // Flag move slots that are empty.
@@ -79,7 +79,7 @@ public sealed class LegendsArceusVerifier : Verifier
     /// <summary>
     /// Gets the expected minimum count of moves, and modifies the input <see cref="moves"/> with the bare minimum move IDs.
     /// </summary>
-    private static int LoadBareMinimumMoveset(ISpeciesForm enc, EvolutionHistory h, PA8 pa, Span<int> moves)
+    private static int LoadBareMinimumMoveset(ISpeciesForm enc, EvolutionHistory h, PA8 pa, Span<ushort> moves)
     {
         // Get any encounter moves
         var pt = PersonalTable.LA;
@@ -90,12 +90,12 @@ public sealed class LegendsArceusVerifier : Verifier
             ms.LoadInitialMoveset(pa, moves, moveset, pa.Met_Level);
         else
             moveset.SetEncounterMoves(pa.Met_Level, moves);
-        var count = moves.IndexOf(0);
+        var count = moves.IndexOf((ushort)0);
         if ((uint)count >= 4)
             return 4;
 
         var purchasedCount = pa.GetPurchasedCount();
-        Span<int> purchased = stackalloc int[purchasedCount];
+        Span<ushort> purchased = stackalloc ushort[purchasedCount];
         LoadPurchasedMoves(pa, purchased);
 
         // If it can be leveled up in other games, level it up in other games.
@@ -105,7 +105,7 @@ public sealed class LegendsArceusVerifier : Verifier
         // Level up to current level
         var level = pa.CurrentLevel;
         moveset.SetLevelUpMoves(pa.Met_Level, level, moves, purchased, count);
-        count = moves.IndexOf(0);
+        count = moves.IndexOf((ushort)0);
         if ((uint)count >= 4)
             return 4;
 
@@ -117,7 +117,7 @@ public sealed class LegendsArceusVerifier : Verifier
             var x = pt.GetFormIndex(evo.Species, evo.Form);
             var m = learn[x];
             m.SetEvolutionMoves(moves, purchased, count);
-            count = moves.IndexOf(0);
+            count = moves.IndexOf((ushort)0);
             if ((uint)count >= 4)
                 return 4;
         }
@@ -128,7 +128,7 @@ public sealed class LegendsArceusVerifier : Verifier
         return AddMasteredMissing(pa, moves, count, moveset, currentLearn, level);
     }
 
-    private static void LoadPurchasedMoves(IMoveShop8 pa, Span<int> result)
+    private static void LoadPurchasedMoves(IMoveShop8 pa, Span<ushort> result)
     {
         int ctr = 0;
         var purchased = pa.MoveShopPermitIndexes;
@@ -139,7 +139,7 @@ public sealed class LegendsArceusVerifier : Verifier
         }
     }
 
-    private static int AddMasteredMissing(PA8 pa, Span<int> current, int ctr, Learnset baseLearn, Learnset currentLearn, int level)
+    private static int AddMasteredMissing(PA8 pa, Span<ushort> current, int ctr, Learnset baseLearn, Learnset currentLearn, int level)
     {
         for (int i = 0; i < pa.MoveShopPermitIndexes.Length; i++)
         {

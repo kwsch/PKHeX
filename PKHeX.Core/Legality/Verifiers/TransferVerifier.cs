@@ -218,7 +218,7 @@ public sealed class TransferVerifier : Verifier
         }
     }
 
-    private static void FlagIncompatibleTransferMove(PKM pk, Span<MoveResult> parse, int move, int gen)
+    private static void FlagIncompatibleTransferMove(PKM pk, Span<MoveResult> parse, ushort move, int gen)
     {
         int index = pk.GetMoveIndex(move);
         if (index < 0)

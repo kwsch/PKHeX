@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// <param name="Argument">Conditional Argument (different from <see cref="Level"/>)</param>
 /// <param name="Level">Conditional Argument (different from <see cref="Argument"/>)</param>
 /// <param name="LevelUp">Indicates if a level up is required to trigger evolution.</param>
-public readonly record struct EvolutionMethod(EvolutionType Method, ushort Species, byte Form = 0, ushort Argument = 0, byte Level = 0, byte LevelUp = 0)
+public readonly record struct EvolutionMethod(EvolutionType Method, ushort Species, byte Form = 0, ushort Argument = 0, byte Level = 0, byte LevelUp = 0) : ISpeciesForm
 {
     /// <summary>Evolve to Species</summary>
     public ushort Species { get; } = Species;

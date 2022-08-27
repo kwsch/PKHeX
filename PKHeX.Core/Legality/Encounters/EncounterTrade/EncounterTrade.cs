@@ -11,8 +11,8 @@ namespace PKHeX.Core;
 /// </remarks>
 public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMoveset, IEncounterMatch
 {
-    public int Species { get; init; }
-    public int Form { get; init; }
+    public ushort Species { get; init; }
+    public byte Form { get; init; }
     public byte Level { get; init; }
     public virtual byte LevelMin => Level;
     public byte LevelMax => 100;
@@ -83,7 +83,7 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
         if (level == 0)
             level = Math.Max((byte)1, LevelMin);
 
-        int species = Species;
+        ushort species = Species;
         if (EvolveOnTrade)
             species++;
 

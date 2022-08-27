@@ -114,7 +114,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     }
 
     // Properties
-    public virtual int Species { get => -1; set { } }
+    public virtual ushort Species { get => 0; set { } }
     public abstract AbilityPermission Ability { get; }
     public abstract bool GiftUsed { get; set; }
     public abstract string CardTitle { get; set; }
@@ -147,7 +147,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     public virtual int HeldItem { get => -1; set { } }
     public virtual int AbilityType { get => -1; set { } }
     public abstract int Gender { get; set; }
-    public abstract int Form { get; set; }
+    public abstract byte Form { get; set; }
     public abstract int TID { get; set; }
     public abstract int SID { get; set; }
     public abstract string OT_Name { get; set; }
@@ -174,5 +174,5 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     /// <summary>
     /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its current move list.
     /// </summary>
-    public bool HasMove(int move) => Moves.Contains(move);
+    public bool HasMove(ushort move) => Moves.Contains(move);
 }

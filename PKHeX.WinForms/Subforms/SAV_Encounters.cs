@@ -161,7 +161,7 @@ public partial class SAV_Encounters : Form
 
         var editor = PKME_Tabs.Data;
         var tree = EvolutionTree.GetEvolutionTree(editor.Context);
-        bool isInChain = tree.IsSpeciesDerivedFrom((ushort)editor.Species, (byte)editor.Form, enc.Species, enc.Form);
+        bool isInChain = tree.IsSpeciesDerivedFrom(editor.Species, editor.Form, enc.Species, enc.Form);
 
         if (!settings.UseTabsAsCriteriaAnySpecies)
         {
@@ -182,7 +182,7 @@ public partial class SAV_Encounters : Form
         CB_Species.InitializeBinding();
         CB_GameOrigin.InitializeBinding();
 
-        var Any = new ComboItem(MsgAny, -1);
+        var Any = new ComboItem(MsgAny, 0);
 
         var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
         DS_Species.RemoveAt(0); DS_Species.Insert(0, Any); CB_Species.DataSource = DS_Species;
@@ -232,7 +232,7 @@ public partial class SAV_Encounters : Form
         var pk = SAV.BlankPKM;
 
         var versions = settings.GetVersions(SAV);
-        var species = settings.Species <= 0 ? Enumerable.Range(1, SAV.MaxSpeciesID) : new[] { settings.Species };
+        var species = settings.Species <= 0 ? GetFullRange(SAV.MaxSpeciesID) : new[] { settings.Species };
         var results = GetAllSpeciesFormEncounters(species, SAV.Personal, versions, moves, pk, token);
         if (settings.SearchEgg != null)
             results = results.Where(z => z.EggEncounter == settings.SearchEgg);
@@ -270,7 +270,13 @@ public partial class SAV_Encounters : Form
         return results;
     }
 
-    private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<int> species, IPersonalTable pt, IReadOnlyList<GameVersion> versions, int[] moves, PKM pk, CancellationToken token)
+    private static IEnumerable<ushort> GetFullRange(int max)
+    {
+        for (ushort i = 1; i <= max; i++)
+            yield return i;
+    }
+
+    private static IEnumerable<IEncounterInfo> GetAllSpeciesFormEncounters(IEnumerable<ushort> species, IPersonalTable pt, IReadOnlyList<GameVersion> versions, ushort[] moves, PKM pk, CancellationToken token)
     {
         foreach (var s in species)
         {
@@ -285,7 +291,7 @@ public partial class SAV_Encounters : Form
                 pi = PersonalTable.USUM.GetFormEntry(s, 0);
                 fc = pi.FormCount;
             }
-            for (int f = 0; f < fc; f++)
+            for (byte f = 0; f < fc; f++)
             {
                 if (FormInfo.IsBattleOnlyForm(s, f, pk.Format))
                     continue;
@@ -314,7 +320,7 @@ public partial class SAV_Encounters : Form
         }
     }
 
-    private static IEnumerable<IEncounterInfo> GetEncounters(int species, int form, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
+    private static IEnumerable<IEncounterInfo> GetEncounters(ushort species, byte form, ushort[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
     {
         pk.Species = species;
         pk.Form = form;
@@ -329,16 +335,16 @@ public partial class SAV_Encounters : Form
             Format = SAV.Generation, // 0->(n-1) => 1->n
             Generation = SAV.Generation,
 
-            Species = WinFormsUtil.GetIndex(CB_Species),
+            Species = (ushort)WinFormsUtil.GetIndex(CB_Species),
 
             BatchInstructions = RTB_Instructions.Lines,
             Version = WinFormsUtil.GetIndex(CB_GameOrigin),
         };
 
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move1));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move2));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move3));
-        settings.AddMove(WinFormsUtil.GetIndex(CB_Move4));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move1));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move2));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move3));
+        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move4));
 
         if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
             settings.SearchEgg = CHK_IsEgg.CheckState == CheckState.Checked;

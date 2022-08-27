@@ -45,7 +45,7 @@ public sealed record EncounterArea7b : EncounterArea
 
     private EncounterSlot7b ReadSlot(ReadOnlySpan<byte> entry)
     {
-        int species = entry[0]; // always < 255; only original 151
+        ushort species = entry[0]; // always < 255; only original 151
         // form is always 0
         byte min = entry[2];
         byte max = entry[3];

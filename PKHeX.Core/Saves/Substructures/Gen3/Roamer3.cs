@@ -34,9 +34,9 @@ public sealed class Roamer3 : IContestStats, IContestStatsMutable
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 4), value);
     }
 
-    public int Species
+    public ushort Species
     {
-        get => SpeciesConverter.GetG4Species(ReadInt16LittleEndian(Data.AsSpan(Offset + 8)));
+        get => SpeciesConverter.GetG4Species(ReadUInt16LittleEndian(Data.AsSpan(Offset + 8)));
         set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 8), SpeciesConverter.GetG3Species(value));
     }
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -93,12 +92,12 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); }
     public int Ball { get => Data[0xE]; set => Data[0xE] = (byte)value; }
     public int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x10)); set => WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value); }
-    public int Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x12)); set => WriteUInt16LittleEndian(Data.AsSpan(0x12), (ushort)value); }
-    public int Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14), (ushort)value); }
-    public int Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), (ushort)value); }
-    public int Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), (ushort)value); }
-    public int Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), (ushort)value); }
-    public int Form { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
+    public ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x12)); set => WriteUInt16LittleEndian(Data.AsSpan(0x12), value); }
+    public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14), value); }
+    public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x16)); set => WriteUInt16LittleEndian(Data.AsSpan(0x16), value); }
+    public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), value); }
+    public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x1A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), value); }
+    public byte Form { get => Data[0x1C]; set => Data[0x1C] = value; }
     public int Language { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
 
     public string Nickname
@@ -140,14 +139,14 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }
     public bool IsEgg { get => Data[0x69] == 1; set => Data[0x69] = value ? (byte)1 : (byte)0; }
     public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x6C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x6C), value); }
-    public int RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x70)); set => WriteUInt16LittleEndian(Data.AsSpan(0x70), (ushort)value); }
-    public int RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x72)); set => WriteUInt16LittleEndian(Data.AsSpan(0x72), (ushort)value); }
-    public int RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x74)); set => WriteUInt16LittleEndian(Data.AsSpan(0x74), (ushort)value); }
-    public int RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x76)); set => WriteUInt16LittleEndian(Data.AsSpan(0x76), (ushort)value); }
-    public int OT_Intensity { get => Data[0x78]; set => Data[0x78] = (byte)value; }
-    public int OT_Memory { get => Data[0x79]; set => Data[0x79] = (byte)value; }
-    public int OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0x7A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7A), (ushort)value); }
-    public int OT_Feeling { get => Data[0x7C]; set => Data[0x7C] = (byte)value; }
+    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(0x70)); set => WriteUInt16LittleEndian(Data.AsSpan(0x70), value); }
+    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(0x72)); set => WriteUInt16LittleEndian(Data.AsSpan(0x72), value); }
+    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x74)); set => WriteUInt16LittleEndian(Data.AsSpan(0x74), value); }
+    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x76)); set => WriteUInt16LittleEndian(Data.AsSpan(0x76), value); }
+    public byte OT_Intensity { get => Data[0x78]; set => Data[0x78] = value; }
+    public byte OT_Memory { get => Data[0x79]; set => Data[0x79] = value; }
+    public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0x7A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x7A), value); }
+    public byte OT_Feeling { get => Data[0x7C]; set => Data[0x7C] = value; }
 
     private byte RIB0 { get => Data[0x0C]; set => Data[0x0C] = value; }
     private byte RIB1 { get => Data[0x0D]; set => Data[0x0D] = value; }
@@ -172,27 +171,27 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public byte LevelMin => MetLevel;
     public byte LevelMax => MetLevel;
 
-    public IReadOnlyList<int> Moves
+    public Moveset Moves
     {
-        get => new[] { Move1, Move2, Move3, Move4 };
+        get => new(Move1, Move2, Move3, Move4);
         set
         {
-            if (value.Count > 0) Move1 = value[0];
-            if (value.Count > 1) Move2 = value[1];
-            if (value.Count > 2) Move3 = value[2];
-            if (value.Count > 3) Move4 = value[3];
+            Move1 = value.Move1;
+            Move2 = value.Move2;
+            Move3 = value.Move3;
+            Move4 = value.Move4;
         }
     }
 
-    public IReadOnlyList<int> RelearnMoves
+    public Moveset RelearnMoves
     {
-        get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
+        get => new(RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4);
         set
         {
-            if (value.Count > 0) RelearnMove1 = value[0];
-            if (value.Count > 1) RelearnMove2 = value[1];
-            if (value.Count > 2) RelearnMove3 = value[2];
-            if (value.Count > 3) RelearnMove4 = value[3];
+            RelearnMove1 = value.Move1;
+            RelearnMove2 = value.Move2;
+            RelearnMove3 = value.Move3;
+            RelearnMove4 = value.Move4;
         }
     }
 

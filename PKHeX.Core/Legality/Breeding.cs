@@ -32,7 +32,7 @@ public static class Breeding
     /// <summary>
     /// Species that have special handling for breeding.
     /// </summary>
-    internal static readonly HashSet<int> MixedGenderBreeding = new()
+    internal static readonly HashSet<ushort> MixedGenderBreeding = new()
     {
         (int)NidoranF,
         (int)NidoranM,
@@ -48,7 +48,7 @@ public static class Breeding
     /// </summary>
     /// <param name="species">Entity species ID</param>
     /// <returns>True if can inherit moves, false if cannot.</returns>
-    internal static bool GetCanInheritMoves(int species)
+    internal static bool GetCanInheritMoves(ushort species)
     {
         if (Legal.FixedGenderFromBiGender.Contains(species)) // Nincada -> Shedinja loses gender causing 'false', edge case
             return true;
@@ -60,7 +60,7 @@ public static class Breeding
         return false;
     }
 
-    private static readonly HashSet<int> SplitBreed_3 = new()
+    private static readonly HashSet<ushort> SplitBreed_3 = new()
     {
         // Incense
         (int)Marill, (int)Azumarill,
@@ -70,7 +70,7 @@ public static class Breeding
     /// <summary>
     /// Species that can yield a different baby species when bred.
     /// </summary>
-    private static readonly HashSet<int> SplitBreed = new(SplitBreed_3)
+    private static readonly HashSet<ushort> SplitBreed = new(SplitBreed_3)
     {
         // Incense
         (int)Chansey, (int)Blissey,
@@ -82,11 +82,11 @@ public static class Breeding
         (int)Chimecho,
     };
 
-    internal static ICollection<int> GetSplitBreedGeneration(int generation) => generation switch
+    internal static ICollection<ushort> GetSplitBreedGeneration(int generation) => generation switch
     {
         3 => SplitBreed_3,
         4 or 5 or 6 or 7 or 8 => SplitBreed,
-        _ => Array.Empty<int>(),
+        _ => Array.Empty<ushort>(),
     };
 
     /// <summary>
@@ -94,7 +94,7 @@ public static class Breeding
     /// </summary>
     /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
     /// <param name="species">Current species</param>
-    public static bool CanHatchAsEgg(int species) => !NoHatchFromEgg.Contains(species);
+    public static bool CanHatchAsEgg(ushort species) => !NoHatchFromEgg.Contains(species);
 
     /// <summary>
     /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="generation"/>.
@@ -103,7 +103,7 @@ public static class Breeding
     /// <param name="species">Current species</param>
     /// <param name="form">Current form</param>
     /// <param name="generation">Generation of origin</param>
-    public static bool CanHatchAsEgg(int species, int form, int generation)
+    public static bool CanHatchAsEgg(ushort species, int form, int generation)
     {
         if (form == 0)
             return true;
@@ -118,10 +118,10 @@ public static class Breeding
     }
 
     /// <summary>
-    /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(int,int,int)"/>
+    /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,int,int)"/>
     /// </summary>
     /// <returns>True if can be bred.</returns>
-    private static bool IsBreedableForm(int species, int form) => species switch
+    private static bool IsBreedableForm(ushort species, int form) => species switch
     {
         (int)Pikachu or (int)Eevee => false, // can't get these forms as egg
         (int)Pichu => false, // can't get Spiky Ear Pichu eggs
@@ -137,7 +137,7 @@ public static class Breeding
     /// <param name="species">Current species</param>
     /// <param name="form">Current form</param>
     /// <param name="game">Game of origin</param>
-    public static bool CanHatchAsEgg(int species, int form, GameVersion game)
+    public static bool CanHatchAsEgg(ushort species, int form, GameVersion game)
     {
         // Sanity check form for origin
         var pt = GameData.GetPersonal(game);
@@ -151,7 +151,7 @@ public static class Breeding
     /// <summary>
     /// Species that cannot hatch from an egg.
     /// </summary>
-    private static readonly HashSet<int> NoHatchFromEgg = new()
+    private static readonly HashSet<ushort> NoHatchFromEgg = new()
     {
         // Gen1
         (int)Ditto,

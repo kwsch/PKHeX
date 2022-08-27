@@ -20,7 +20,7 @@ public sealed class LearnGroup7 : ILearnGroup
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen7;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         var mode = GetCheckMode(pk);
@@ -34,16 +34,16 @@ public sealed class LearnGroup7 : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
     {
-        ReadOnlySpan<int> eggMoves, levelMoves;
+        ReadOnlySpan<ushort> eggMoves, levelMoves;
         if (egg.Version > GameVersion.Y) // OR/AS
         {
             var inst = LearnSource7USUM.Instance;
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
                 ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<int>.Empty;
+                : ReadOnlySpan<ushort>.Empty;
         }
         else
         {
@@ -51,7 +51,7 @@ public sealed class LearnGroup7 : ILearnGroup
             eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
             levelMoves = egg.CanInheritMoves
                 ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<int>.Empty;
+                : ReadOnlySpan<ushort>.Empty;
         }
 
         for (var i = result.Length - 1; i >= 0; i--)
@@ -85,7 +85,7 @@ public sealed class LearnGroup7 : ILearnGroup
         USUM,
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option, CheckMode mode)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option, CheckMode mode)
     {
         if (!FormChangeUtil.ShouldIterateForms(evo.Species, evo.Form, Generation, option))
         {
@@ -103,7 +103,7 @@ public sealed class LearnGroup7 : ILearnGroup
             CheckInternal(result, current, pk, evo with { Form = (byte)i }, stage, types, option, mode);
     }
 
-    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option, CheckMode mode)
+    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option, CheckMode mode)
     {
         // We can check if it has visited specific sources. We won't check the games it hasn't visited.
         if (mode == CheckMode.Both)
@@ -114,7 +114,7 @@ public sealed class LearnGroup7 : ILearnGroup
             CheckSingle(result, current, pk, evo, stage, LearnSource7SM.Instance, types, option);
     }
 
-    private static void CheckBoth(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option)
+    private static void CheckBoth(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option)
     {
         var uu = LearnSource7USUM.Instance;
         var species = evo.Species;
@@ -144,7 +144,7 @@ public sealed class LearnGroup7 : ILearnGroup
         }
     }
 
-    private static void CheckSingle<T>(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, T game, MoveSourceType types, LearnOption option) where T : ILearnSource
+    private static void CheckSingle<T>(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, T game, MoveSourceType types, LearnOption option) where T : ILearnSource
     {
         var species = evo.Species;
         if (!game.TryGetPersonal(species, evo.Form, out var pi))

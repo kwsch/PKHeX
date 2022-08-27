@@ -37,7 +37,7 @@ public sealed class QRPK7 : IEncounterInfo
     public int IV_SPA { get => (int)(IV32 >> 20) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 20)) | (uint)((value > 31 ? 31 : value) << 20)); }
     public int IV_SPD { get => (int)(IV32 >> 25) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 25)) | (uint)((value > 31 ? 31 : value) << 25)); }
     public uint PID => ReadUInt32LittleEndian(Data.AsSpan(0x10));
-    public int Species => ReadUInt16LittleEndian(Data.AsSpan(0x14));
+    public ushort Species => ReadUInt16LittleEndian(Data.AsSpan(0x14));
     public ushort HeldItem => ReadUInt16LittleEndian(Data.AsSpan(0x16));
     public ushort Move1 => ReadUInt16LittleEndian(Data.AsSpan(0x18));
     public ushort Move2 => ReadUInt16LittleEndian(Data.AsSpan(0x1A));
@@ -48,13 +48,13 @@ public sealed class QRPK7 : IEncounterInfo
     public int Nature => Data[0x22];
     public bool FatefulEncounter => (Data[0x23] & 1) == 1;
     public int Gender => (Data[0x23] >> 1) & 3;
-    public int Form => Data[0x23] >> 3;
-    public int EV_HP => Data[0x24];
-    public int EV_ATK => Data[0x25];
-    public int EV_DEF => Data[0x26];
-    public int EV_SPE => Data[0x27];
-    public int EV_SPA => Data[0x28];
-    public int EV_SPD => Data[0x29];
+    public byte Form => (byte)(Data[0x23] >> 3);
+    public byte EV_HP => Data[0x24];
+    public byte EV_ATK => Data[0x25];
+    public byte EV_DEF => Data[0x26];
+    public byte EV_SPE => Data[0x27];
+    public byte EV_SPA => Data[0x28];
+    public byte EV_SPD => Data[0x29];
     public int Unk_2A => Data[0x2A];
     public int Friendship => Data[0x2B];
     public int Ball => Data[0x2C];

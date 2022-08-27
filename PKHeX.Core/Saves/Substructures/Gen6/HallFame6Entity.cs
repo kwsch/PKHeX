@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -21,7 +21,7 @@ public readonly ref struct HallFame6Entity
     public ushort SID { get => ReadUInt16LittleEndian(Data[0x12..]); set => WriteUInt16LittleEndian(Data[0x12..], value); }
     private uint Pack { get => ReadUInt32LittleEndian(Data[0x14..]); set => WriteUInt32LittleEndian(Data[0x14..], value); }
 
-    public uint Form { get => Pack & 0x1Fu; set => Pack = (Pack & ~0x1Fu) | (value & 0x1F); }
+    public byte Form { get => (byte)(Pack & 0x1Fu); set => Pack = (Pack & ~0x1Fu) | (value & 0x1Fu); }
     public uint Gender { get => (Pack >> 05) & 0x03u; set => Pack = (Pack & ~(0x03u << 05)) | ((value & 0x03) << 05); }
     public uint Level { get => (Pack >> 07) & 0x7Fu; set => Pack = (Pack & ~(0x7Fu << 07)) | ((value & 0x7F) << 07); }
     private uint Shiny { get => (Pack >> 14) & 0x01u; set => Pack = (Pack & ~(0x01u << 14)) | ((value & 0x01) << 14); }

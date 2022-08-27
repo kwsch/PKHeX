@@ -23,7 +23,7 @@ public sealed class LearnGroup8 : ILearnGroup
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedSWSH;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history,
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
         IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         var evos = history.Gen8;
@@ -50,7 +50,7 @@ public sealed class LearnGroup8 : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EvoCriteria evo)
+    private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EvoCriteria evo)
     {
         var game = LearnSource8SWSH.Instance;
         var entry = PersonalTable.SWSH.GetFormEntry(evo.Species, evo.Form);
@@ -68,13 +68,13 @@ public sealed class LearnGroup8 : ILearnGroup
         }
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, EncounterEgg egg)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
     {
         var game = LearnSource8SWSH.Instance;
-        ReadOnlySpan<int> eggMoves = game.GetEggMoves(egg.Species, egg.Form);
-        ReadOnlySpan<int> levelMoves = egg.CanInheritMoves
+        ReadOnlySpan<ushort> eggMoves = game.GetEggMoves(egg.Species, egg.Form);
+        ReadOnlySpan<ushort> levelMoves = egg.CanInheritMoves
             ? game.GetLearnset(egg.Species, egg.Form).Moves
-            : ReadOnlySpan<int>.Empty;
+            : ReadOnlySpan<ushort>.Empty;
 
         for (var i = result.Length - 1; i >= 0; i--)
         {
@@ -90,7 +90,7 @@ public sealed class LearnGroup8 : ILearnGroup
         }
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (!FormChangeUtil.ShouldIterateForms(evo.Species, evo.Form, Generation, option))
         {
@@ -108,7 +108,7 @@ public sealed class LearnGroup8 : ILearnGroup
             CheckInternal(result, current, pk, evo with { Form = (byte)i }, stage, type, option);
     }
 
-    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type, LearnOption option)
+    private static void CheckInternal(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType type, LearnOption option)
     {
         var game = LearnSource8SWSH.Instance;
         if (!game.TryGetPersonal(evo.Species, evo.Form, out var pi))

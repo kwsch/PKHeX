@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using static PKHeX.Core.PokedexType8a;
 using static PKHeX.Core.PokedexResearchTaskType8a;
 
@@ -30,7 +29,7 @@ public sealed class PokedexSave8a
 
     private const int DexInvalid = 0;
 
-    public static int GetDexIndex(PokedexType8a which, int species)
+    public static ushort GetDexIndex(PokedexType8a which, ushort species)
     {
         // Check species is valid
         if ((uint)species > MaxSpeciesID)
@@ -61,7 +60,7 @@ public sealed class PokedexSave8a
         return DexInvalid;
     }
 
-    private static int GetLocalIndex(PokedexType8a which, PersonalInfo8LA entry) => which switch
+    private static ushort GetLocalIndex(PokedexType8a which, PersonalInfo8LA entry) => which switch
     {
         Local1 => entry.DexIndexLocal1,
         Local2 => entry.DexIndexLocal2,
@@ -78,7 +77,7 @@ public sealed class PokedexSave8a
     public static int GetDexTotalCount(PokedexType8a which)
     {
         var count = 0;
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             if (GetDexIndex(which, species) != DexInvalid)
                 count++;
@@ -89,7 +88,7 @@ public sealed class PokedexSave8a
     public int GetDexTotalEverBeenUpdated()
     {
         var count = 0;
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             if (SaveData.GetResearchEntry(species).HasEverBeenUpdated)
                 count++;
@@ -101,7 +100,7 @@ public sealed class PokedexSave8a
     {
         all = true;
         var count = 0;
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             if (GetDexIndex(which, species) == DexInvalid)
                 continue;
@@ -116,14 +115,14 @@ public sealed class PokedexSave8a
 
     public int GetDexGetCount(PokedexType8a which) => GetDexGetCount(which, out _);
 
-    public int GetPokeGetCount(int species) => species < MAX_SPECIES ? SaveData.GetPokeGetCount(species) : 0;
+    public int GetPokeGetCount(ushort species) => species < MAX_SPECIES ? SaveData.GetPokeGetCount(species) : 0;
 
-    public bool GetPokeHasAnyReport(int species) => species < MAX_SPECIES && SaveData.HasAnyReport(species);
+    public bool GetPokeHasAnyReport(ushort species) => species < MAX_SPECIES && SaveData.HasAnyReport(species);
 
     public int GetCompletePokeAnyDexNum()
     {
         var complete = 0;
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             if (IsComplete(species))
                 complete++;
@@ -131,9 +130,9 @@ public sealed class PokedexSave8a
         return complete;
     }
 
-    public int GetPokeResearchRate(int species)
+    public int GetPokeResearchRate(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return 0;
 
         var rawRate = SaveData.GetPokeResearchRate(species);
@@ -143,17 +142,17 @@ public sealed class PokedexSave8a
         return rawRate;
     }
 
-    public bool IsComplete(int species) => GetPokeResearchRate(species) >= 100;
+    public bool IsComplete(ushort species) => GetPokeResearchRate(species) >= 100;
 
-    public bool IsPerfect(int species) => SaveData.IsPerfect(species);
+    public bool IsPerfect(ushort species) => SaveData.IsPerfect(species);
 
-    public int GetUpdateIndex(int species) => SaveData.GetResearchEntry(species).UpdateCounter;
-    public int GetLastReportedIndex(int species) => SaveData.GetResearchEntry(species).LastUpdatedReportCounter;
+    public int GetUpdateIndex(ushort species) => SaveData.GetResearchEntry(species).UpdateCounter;
+    public int GetLastReportedIndex(ushort species) => SaveData.GetResearchEntry(species).LastUpdatedReportCounter;
 
     public int GetCompletePokeNum()
     {
         var complete = 0;
-        for (var species = 0; species <= MaxSpeciesID; species++)
+        for (ushort species = 0; species <= MaxSpeciesID; species++)
         {
             if (GetDexIndex(Hisui, species) != 0 && IsComplete(species))
                 complete++;
@@ -165,7 +164,7 @@ public sealed class PokedexSave8a
     {
         var count = 0;
 
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             // Only allow reports of pokemon in hisui dex
             if (GetDexIndex(Hisui, species) == 0)
@@ -187,7 +186,7 @@ public sealed class PokedexSave8a
     {
         var count = 0;
 
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             // Only allow reports of pokemon which have been caught
             if (SaveData.GetPokeGetCount(species) == 0)
@@ -199,9 +198,9 @@ public sealed class PokedexSave8a
         return count;
     }
 
-    public int GetUnreportedTaskCount(int species)
+    public int GetUnreportedTaskCount(ushort species)
     {
-        if ((uint)species >= MAX_SPECIES)
+        if (species >= MAX_SPECIES)
             return 0;
 
         if (!TryGetResearchTasks(species, out var tasks))
@@ -218,12 +217,23 @@ public sealed class PokedexSave8a
 
     public void UpdateAllReportPoke() => UpdateAllReportPoke(out _);
 
-    public void UpdateAllReportPoke(out PokedexUpdateInfo8a outInfo) => UpdateSpecificReportPoke(out outInfo, Enumerable.Range(1, MaxSpeciesID));
+    public void UpdateAllReportPoke(out PokedexUpdateInfo8a outInfo) => UpdateSpecificReportPoke(out outInfo, GetAll());
 
-    public void UpdateSpecificReportPoke(int species) => UpdateSpecificReportPoke(species, out _);
-    public void UpdateSpecificReportPoke(int species, out PokedexUpdateInfo8a outInfo) => UpdateSpecificReportPoke(out outInfo, Enumerable.Range(species, 1));
+    public void UpdateSpecificReportPoke(ushort species) => UpdateSpecificReportPoke(species, out _);
+    public void UpdateSpecificReportPoke(ushort species, out PokedexUpdateInfo8a outInfo) => UpdateSpecificReportPoke(out outInfo, GetAll(species));
 
-    private void UpdateSpecificReportPoke(out PokedexUpdateInfo8a outInfo, IEnumerable<int> speciesToUpdate)
+    private static IEnumerable<ushort> GetAll(ushort species)
+    {
+        yield return species;
+    }
+
+    private static IEnumerable<ushort> GetAll()
+    {
+        for (ushort i = 0; i < MaxSpeciesID; i++)
+            yield return i;
+    }
+
+    private void UpdateSpecificReportPoke(out PokedexUpdateInfo8a outInfo, IEnumerable<ushort> speciesToUpdate)
     {
         // Get the save file's rank.
         var urankBlock = SaveFile.Accessor.GetBlock(SaveBlockAccessor8LA.KExpeditionTeamRank);
@@ -251,7 +261,7 @@ public sealed class PokedexSave8a
         var numPokesWithNewlyCompletedTasks = 0;
 
         // Iterate, processing all species.
-        foreach (var species in speciesToUpdate)
+        foreach (ushort species in speciesToUpdate)
         {
             // Only process species with dex ids
             if (GetDexIndex(Hisui, species) == 0)
@@ -424,7 +434,7 @@ public sealed class PokedexSave8a
     {
         var allPokeResearchPoint = 0;
 
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             // Only return pokemon with all required tasks complete
             if (!IsAllRequiredTasksComplete(species))
@@ -443,7 +453,7 @@ public sealed class PokedexSave8a
 
     public int GetTotalResearchPoint() => SaveData.GetTotalResearchPoint();
 
-    public int GetResearchTaskLevel(int species, int taskIndex, out int reportedLevel, out int curValue, out int unreportedLevel)
+    public int GetResearchTaskLevel(ushort species, int taskIndex, out int reportedLevel, out int curValue, out int unreportedLevel)
     {
         // Default to all zeroes
         reportedLevel = 0;
@@ -486,7 +496,7 @@ public sealed class PokedexSave8a
         return unreportedLevel - reportedLevel;
     }
 
-    private int GetCurrentResearchLevel(int species, PokedexResearchTask8a task, PokedexSaveResearchEntry speciesEntry) => task.Task switch
+    private int GetCurrentResearchLevel(ushort species, PokedexResearchTask8a task, PokedexSaveResearchEntry speciesEntry) => task.Task switch
     {
         ObtainForms  => GetObtainedFormCounts(species),
         PartOfArceus => GetPartOfArceusValue(task.Hash_08),
@@ -495,7 +505,7 @@ public sealed class PokedexSave8a
     };
 
     // Find all forms obtained (including gender variants)
-    public int GetObtainedFormCounts(int species, int overridePack = -1)
+    public int GetObtainedFormCounts(ushort species, int overridePack = -1)
     {
         int count = 0;
         var formCount = Personal[species].FormCount;
@@ -526,7 +536,7 @@ public sealed class PokedexSave8a
         return count;
     }
 
-    public static bool HasMultipleGenders(int species)
+    public static bool HasMultipleGenders(ushort species)
     {
         var formCount = Personal[species].FormCount;
         for (var form = 0; form < formCount; form++)
@@ -550,7 +560,7 @@ public sealed class PokedexSave8a
         Span<bool> localComplete = stackalloc bool[] { true, true, true, true, true };
         Span<bool> localPerfect = stackalloc bool[] { true, true, true, true, true };
 
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             var dexHisui = GetDexIndex(Hisui, species);
             if (dexHisui == DexInvalid)
@@ -620,7 +630,7 @@ public sealed class PokedexSave8a
         SetPokeSeenInWildImpl(pk);
     }
 
-    public void SetPokeHasBeenUpdated(int species)
+    public void SetPokeHasBeenUpdated(ushort species)
     {
         if ((uint)species >= MAX_SPECIES)
             return;
@@ -646,7 +656,7 @@ public sealed class PokedexSave8a
             SetSelectedGenderForm(pk);
     }
 
-    private void IncreaseResearchTaskProgress(int species, PokedexResearchTaskType8a task, ushort delta, bool doIncrease = true, int idx = -1)
+    private void IncreaseResearchTaskProgress(ushort species, PokedexResearchTaskType8a task, ushort delta, bool doIncrease = true, int idx = -1)
     {
         // Only perform research updates for valid species
         if ((uint)species >= MAX_SPECIES)
@@ -666,7 +676,7 @@ public sealed class PokedexSave8a
         researchEntry.IncreaseCurrentResearchLevel(task, idx, delta);
     }
 
-    public bool GetResearchTaskProgressByForce(int species, PokedexResearchTaskType8a type, int idx, out int curValue)
+    public bool GetResearchTaskProgressByForce(ushort species, PokedexResearchTaskType8a type, int idx, out int curValue)
     {
         curValue = 0;
 
@@ -678,7 +688,7 @@ public sealed class PokedexSave8a
         return true;
     }
 
-    public void SetResearchTaskProgressByForce(int species, PokedexResearchTaskType8a task, int value, int idx)
+    public void SetResearchTaskProgressByForce(ushort species, PokedexResearchTaskType8a task, int value, int idx)
     {
         // Only perform research updates for valid species
         if ((uint)species >= MAX_SPECIES)
@@ -694,13 +704,13 @@ public sealed class PokedexSave8a
         researchEntry.SetCurrentResearchLevel(task, idx, value);
     }
 
-    public void SetResearchTaskProgressByForce(int species, PokedexResearchTask8a task, int value)
+    public void SetResearchTaskProgressByForce(ushort species, PokedexResearchTask8a task, int value)
         => SetResearchTaskProgressByForce(species, task.Task, value, task.Index);
 
-    private void IncrementResearchTaskProgress(int species, PokedexResearchTaskType8a task, bool doIncrease = true, int idx = -1)
+    private void IncrementResearchTaskProgress(ushort species, PokedexResearchTaskType8a task, bool doIncrease = true, int idx = -1)
         => IncreaseResearchTaskProgress(species, task, 1, doIncrease, idx);
 
-    public bool HasPokeEverBeenUpdated(int species)
+    public bool HasPokeEverBeenUpdated(ushort species)
     {
         if ((uint)species >= MAX_SPECIES)
             return false;
@@ -708,25 +718,25 @@ public sealed class PokedexSave8a
         return SaveData.GetResearchEntry(species).HasEverBeenUpdated;
     }
 
-    public byte GetPokeSeenInWildFlags(int species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.SeenInWildFlags : (byte)0;
-    public byte GetPokeObtainFlags(int species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.ObtainFlags : (byte)0;
-    public byte GetPokeCaughtInWildFlags(int species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.CaughtInWildFlags : (byte)0;
+    public byte GetPokeSeenInWildFlags(ushort species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.SeenInWildFlags : (byte)0;
+    public byte GetPokeObtainFlags(ushort species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.ObtainFlags : (byte)0;
+    public byte GetPokeCaughtInWildFlags(ushort species, int form) => SaveData.TryGetStatisticsEntry(species, form, out var statEntry) ? statEntry.CaughtInWildFlags : (byte)0;
 
-    public void SetPokeSeenInWildFlags(int species, int form, byte flags)
+    public void SetPokeSeenInWildFlags(ushort species, int form, byte flags)
     {
         if (SaveData.TryGetStatisticsEntry(species, form, out var statEntry))
         {
             statEntry.SeenInWildFlags = flags;
         }
     }
-    public void SetPokeObtainFlags(int species, int form, byte flags)
+    public void SetPokeObtainFlags(ushort species, int form, byte flags)
     {
         if (SaveData.TryGetStatisticsEntry(species, form, out var statEntry))
         {
             statEntry.ObtainFlags = flags;
         }
     }
-    public void SetPokeCaughtInWildFlags(int species, int form, byte flags)
+    public void SetPokeCaughtInWildFlags(ushort species, int form, byte flags)
     {
         if (SaveData.TryGetStatisticsEntry(species, form, out var statEntry))
         {
@@ -734,13 +744,13 @@ public sealed class PokedexSave8a
         }
     }
 
-    public bool HasAnyPokeSeenInWildFlags(int species, int form) => GetPokeSeenInWildFlags(species, form) != 0;
+    public bool HasAnyPokeSeenInWildFlags(ushort species, int form) => GetPokeSeenInWildFlags(species, form) != 0;
 
-    public bool HasAnyPokeObtainFlags(int species, int form) => GetPokeObtainFlags(species, form) != 0;
+    public bool HasAnyPokeObtainFlags(ushort species, int form) => GetPokeObtainFlags(species, form) != 0;
 
-    public bool HasAnyPokeCaughtInWildFlags(int species, int form) => GetPokeCaughtInWildFlags(species, form) != 0;
+    public bool HasAnyPokeCaughtInWildFlags(ushort species, int form) => GetPokeCaughtInWildFlags(species, form) != 0;
 
-    public int GetSelectedForm(int species)
+    public int GetSelectedForm(ushort species)
     {
         if ((uint)species >= MAX_SPECIES)
             return 0;
@@ -748,7 +758,7 @@ public sealed class PokedexSave8a
         return SaveData.GetResearchEntry(species).SelectedForm;
     }
 
-    public bool GetSelectedAlpha(int species)
+    public bool GetSelectedAlpha(ushort species)
     {
         if ((uint)species >= MAX_SPECIES)
             return false;
@@ -756,7 +766,7 @@ public sealed class PokedexSave8a
         return SaveData.GetResearchEntry(species).SelectedAlpha;
     }
 
-    public bool GetSelectedShiny(int species)
+    public bool GetSelectedShiny(ushort species)
     {
         if ((uint)species >= MAX_SPECIES)
             return false;
@@ -764,7 +774,7 @@ public sealed class PokedexSave8a
         return SaveData.GetResearchEntry(species).SelectedShiny;
     }
 
-    public bool GetSelectedGender1(int species)
+    public bool GetSelectedGender1(ushort species)
     {
         if ((uint)species >= MAX_SPECIES)
             return false;
@@ -772,7 +782,7 @@ public sealed class PokedexSave8a
         return SaveData.GetResearchEntry(species).SelectedGender1;
     }
 
-    public bool GetSolitudeComplete(int species)
+    public bool GetSolitudeComplete(ushort species)
     {
         if ((uint)species >= MAX_SPECIES)
             return false;
@@ -780,7 +790,7 @@ public sealed class PokedexSave8a
         return SaveData.GetResearchEntry(species).IsSolitudeComplete;
     }
 
-    public void SetSolitudeComplete(int species, bool value)
+    public void SetSolitudeComplete(ushort species, bool value)
     {
         if ((uint)species >= MAX_SPECIES)
             return;
@@ -790,18 +800,18 @@ public sealed class PokedexSave8a
 
     public void SetSolitudeAll(bool value = true)
     {
-        for (int i = MaxSpeciesID; i >= 1; i--)
+        for (ushort i = MaxSpeciesID; i >= 1; i--)
         {
             // Set only species captures with dex indexes.
             var index = GetDexIndex(Hisui, i);
-            if (index == -1)
+            if (index == DexInvalid)
                 continue;
 
             SaveData.GetResearchEntry(i).IsSolitudeComplete = value;
         }
     }
 
-    public void OnPokeEvolve(PKM pk, int fromSpecies)
+    public void OnPokeEvolve(PKM pk, ushort fromSpecies)
     {
         OnPokeEvolved(fromSpecies, pk.Species);
         OnPokeGet_NoSpecialCatch(pk);
@@ -894,34 +904,34 @@ public sealed class PokedexSave8a
         SetPokeObtained(pk, caught);
     }
 
-    private void OnPokeObtained(int species) => IncrementResearchTaskProgress(species, Catch);
+    private void OnPokeObtained(ushort species) => IncrementResearchTaskProgress(species, Catch);
 
-    private void OnPokeAlphaCaught(int species, bool alpha) => IncrementResearchTaskProgress(species, CatchAlpha, alpha);
+    private void OnPokeAlphaCaught(ushort species, bool alpha) => IncrementResearchTaskProgress(species, CatchAlpha, alpha);
 
-    private void OnPokeLargeCaught(int species, float height) => IncrementResearchTaskProgress(species, CatchLarge, IsPokeLarge(species, height));
+    private void OnPokeLargeCaught(ushort species, float height) => IncrementResearchTaskProgress(species, CatchLarge, IsPokeLarge(species, height));
 
-    private void OnPokeSmallCaught(int species, float height) => IncrementResearchTaskProgress(species, CatchSmall, IsPokeSmall(species, height));
-    private void OnPokeHeavyCaught(int species, float weight) => IncrementResearchTaskProgress(species, CatchHeavy, IsPokeHeavy(species, weight));
-    private void OnPokeLightCaught(int species, float weight) => IncrementResearchTaskProgress(species, CatchLight, IsPokeLight(species, weight));
+    private void OnPokeSmallCaught(ushort species, float height) => IncrementResearchTaskProgress(species, CatchSmall, IsPokeSmall(species, height));
+    private void OnPokeHeavyCaught(ushort species, float weight) => IncrementResearchTaskProgress(species, CatchHeavy, IsPokeHeavy(species, weight));
+    private void OnPokeLightCaught(ushort species, float weight) => IncrementResearchTaskProgress(species, CatchLight, IsPokeLight(species, weight));
 
-    public static bool IsPokeLarge(int species, float height) => TryGetTriggeredTask(species, CatchLarge, out var task) && height >= task.Threshold;
-    public static bool IsPokeSmall(int species, float height) => TryGetTriggeredTask(species, CatchSmall, out var task) && height <= task.Threshold;
-    public static bool IsPokeHeavy(int species, float weight) => TryGetTriggeredTask(species, CatchHeavy, out var task) && weight >= task.Threshold / 10.0;
-    public static bool IsPokeLight(int species, float weight) => TryGetTriggeredTask(species, CatchLight, out var task) && weight <= task.Threshold / 10.0;
+    public static bool IsPokeLarge(ushort species, float height) => TryGetTriggeredTask(species, CatchLarge, out var task) && height >= task.Threshold;
+    public static bool IsPokeSmall(ushort species, float height) => TryGetTriggeredTask(species, CatchSmall, out var task) && height <= task.Threshold;
+    public static bool IsPokeHeavy(ushort species, float weight) => TryGetTriggeredTask(species, CatchHeavy, out var task) && weight >= task.Threshold / 10.0;
+    public static bool IsPokeLight(ushort species, float weight) => TryGetTriggeredTask(species, CatchLight, out var task) && weight <= task.Threshold / 10.0;
 
-    private void OnPokeCaughtSleeping(int species) => IncrementResearchTaskProgress(species, CatchSleeping);
+    private void OnPokeCaughtSleeping(ushort species) => IncrementResearchTaskProgress(species, CatchSleeping);
 
-    private void OnPokeCaughtInAir(int species) => IncrementResearchTaskProgress(species, CatchInAir);
+    private void OnPokeCaughtInAir(ushort species) => IncrementResearchTaskProgress(species, CatchInAir);
 
-    private void OnPokeCaughtNotSpotted(int species) => IncrementResearchTaskProgress(species, CatchNotSpotted);
-    private void OnPokeCaughtAtTime(int species, PokedexTimeOfDay8a timeOfDay) => IncrementResearchTaskProgress(species, CatchAtTime, CanUpdateCatchAtTime(species, timeOfDay));
+    private void OnPokeCaughtNotSpotted(ushort species) => IncrementResearchTaskProgress(species, CatchNotSpotted);
+    private void OnPokeCaughtAtTime(ushort species, PokedexTimeOfDay8a timeOfDay) => IncrementResearchTaskProgress(species, CatchAtTime, CanUpdateCatchAtTime(species, timeOfDay));
 
-    public static bool CanUpdateCatchAtTime(int species, PokedexTimeOfDay8a timeOfDay) => TryGetTriggeredTask(species, timeOfDay, out var task) && task.TimeOfDay != PokedexTimeOfDay8a.Invalid;
+    public static bool CanUpdateCatchAtTime(ushort species, PokedexTimeOfDay8a timeOfDay) => TryGetTriggeredTask(species, timeOfDay, out var task) && task.TimeOfDay != PokedexTimeOfDay8a.Invalid;
 
     public int GetTotalGetAnyDexCount()
     {
         var count = 0;
-        for (var species = 1; species <= MaxSpeciesID; species++)
+        for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
             if (GetPokeGetCount(species) > 0)
                 count++;
@@ -929,7 +939,7 @@ public sealed class PokedexSave8a
         return count;
     }
 
-    public bool IsNewUnreportedPoke(int species)
+    public bool IsNewUnreportedPoke(ushort species)
     {
         if ((uint)species >= MAX_SPECIES)
             return false;
@@ -949,12 +959,12 @@ public sealed class PokedexSave8a
 
     public void OnPokeDefeated(PKM pk) => OnPokeDefeated(pk, MoveType.Any);
 
-    private void OnPokeDefeated(int species) => IncrementResearchTaskProgress(species, Defeat);
+    private void OnPokeDefeated(ushort species) => IncrementResearchTaskProgress(species, Defeat);
 
-    private void OnPokeDefeatedWithMoveType(int species, MoveType moveType)
+    private void OnPokeDefeatedWithMoveType(ushort species, MoveType moveType)
         => IncrementResearchTaskProgress(species, DefeatWithMoveType, TryGetTriggeredTask(species, moveType, out var task), task.Index);
 
-    public void OnPokeUseMove(PKM pk, int move)
+    public void OnPokeUseMove(PKM pk, ushort move)
     {
         if (pk.IsEgg || IsNoblePokemon(pk.Species, pk.Form))
             return;
@@ -962,16 +972,16 @@ public sealed class PokedexSave8a
         OnPokeUseMove(pk.Species, move);
     }
 
-    private void OnPokeUseMove(int species, int move)
+    private void OnPokeUseMove(ushort species, ushort move)
         => IncrementResearchTaskProgress(species, UseMove, TryGetTriggeredTask(species, move, out var task), task.Index);
 
-    public void OnPokeEvolved(int fromSpecies, int toSpecies)
+    public void OnPokeEvolved(ushort fromSpecies, ushort toSpecies)
     {
         OnPokeEvolved(fromSpecies);
         OnPokeEvolved(toSpecies);
     }
 
-    private void OnPokeEvolved(int species) => IncrementResearchTaskProgress(species, Evolve);
+    private void OnPokeEvolved(ushort species) => IncrementResearchTaskProgress(species, Evolve);
 
     public void OnPokeGivenFood(PKM pk)
     {
@@ -981,7 +991,7 @@ public sealed class PokedexSave8a
         OnPokeGivenFood(pk.Species);
     }
 
-    private void OnPokeGivenFood(int species) => IncrementResearchTaskProgress(species, GiveFood);
+    private void OnPokeGivenFood(ushort species) => IncrementResearchTaskProgress(species, GiveFood);
 
     public void OnPokeStunnedWithItem(PKM pk)
     {
@@ -991,7 +1001,7 @@ public sealed class PokedexSave8a
         OnPokeStunnedWithItem(pk.Species);
     }
 
-    private void OnPokeStunnedWithItem(int species) => IncrementResearchTaskProgress(species, StunWithItems);
+    private void OnPokeStunnedWithItem(ushort species) => IncrementResearchTaskProgress(species, StunWithItems);
 
     public void OnPokeScaredWithScatterBang(PKM pk)
     {
@@ -1001,7 +1011,7 @@ public sealed class PokedexSave8a
         OnPokeScaredWithScatterBang(pk.Species);
     }
 
-    private void OnPokeScaredWithScatterBang(int species) => IncrementResearchTaskProgress(species, ScareWithScatterBang);
+    private void OnPokeScaredWithScatterBang(ushort species) => IncrementResearchTaskProgress(species, ScareWithScatterBang);
 
     public void OnPokeLuredWithPokeshiDoll(PKM pk)
     {
@@ -1011,7 +1021,7 @@ public sealed class PokedexSave8a
         OnPokeLuredWithPokeshiDoll(pk.Species);
     }
 
-    private void OnPokeLuredWithPokeshiDoll(int species) => IncrementResearchTaskProgress(species, LureWithPokeshiDoll);
+    private void OnPokeLuredWithPokeshiDoll(ushort species) => IncrementResearchTaskProgress(species, LureWithPokeshiDoll);
 
     public void OnPokeUseStrongStyleMove(PKM pk)
     {
@@ -1021,7 +1031,7 @@ public sealed class PokedexSave8a
         OnPokeUseStrongStyleMove(pk.Species);
     }
 
-    private void OnPokeUseStrongStyleMove(int species) => IncrementResearchTaskProgress(species, UseStrongStyleMove);
+    private void OnPokeUseStrongStyleMove(ushort species) => IncrementResearchTaskProgress(species, UseStrongStyleMove);
 
     public void OnPokeUseAgileStyleMove(PKM pk)
     {
@@ -1031,7 +1041,7 @@ public sealed class PokedexSave8a
         OnPokeUseAgileStyleMove(pk.Species);
     }
 
-    private void OnPokeUseAgileStyleMove(int species) => IncrementResearchTaskProgress(species, UseAgileStyleMove);
+    private void OnPokeUseAgileStyleMove(ushort species) => IncrementResearchTaskProgress(species, UseAgileStyleMove);
 
     public void OnPokeLeapFromTree(PKM pk)
     {
@@ -1041,7 +1051,7 @@ public sealed class PokedexSave8a
         OnPokeLeapFromTree(pk.Species);
     }
 
-    private void OnPokeLeapFromTree(int species) => IncrementResearchTaskProgress(species, LeapFromTrees);
+    private void OnPokeLeapFromTree(ushort species) => IncrementResearchTaskProgress(species, LeapFromTrees);
     public void OnPokeLeapFromLeaves(PKM pk)
     {
         if (pk.IsEgg || IsNoblePokemon(pk.Species, pk.Form))
@@ -1050,7 +1060,7 @@ public sealed class PokedexSave8a
         OnPokeLeapFromLeaves(pk.Species);
     }
 
-    private void OnPokeLeapFromLeaves(int species) => IncrementResearchTaskProgress(species, LeapFromLeaves);
+    private void OnPokeLeapFromLeaves(ushort species) => IncrementResearchTaskProgress(species, LeapFromLeaves);
     public void OnPokeLeapFromSnow(PKM pk)
     {
         if (pk.IsEgg || IsNoblePokemon(pk.Species, pk.Form))
@@ -1059,7 +1069,7 @@ public sealed class PokedexSave8a
         OnPokeLeapFromSnow(pk.Species);
     }
 
-    private void OnPokeLeapFromSnow(int species) => IncrementResearchTaskProgress(species, LeapFromSnow);
+    private void OnPokeLeapFromSnow(ushort species) => IncrementResearchTaskProgress(species, LeapFromSnow);
     public void OnPokeLeapFromOre(PKM pk)
     {
         if (pk.IsEgg || IsNoblePokemon(pk.Species, pk.Form))
@@ -1068,7 +1078,7 @@ public sealed class PokedexSave8a
         OnPokeLeapFromOre(pk.Species);
     }
 
-    private void OnPokeLeapFromOre(int species) => IncrementResearchTaskProgress(species, LeapFromOre);
+    private void OnPokeLeapFromOre(ushort species) => IncrementResearchTaskProgress(species, LeapFromOre);
     public void OnPokeLeapFromTussock(PKM pk)
     {
         if (pk.IsEgg || IsNoblePokemon(pk.Species, pk.Form))
@@ -1077,9 +1087,9 @@ public sealed class PokedexSave8a
         OnPokeLeapFromTussock(pk.Species);
     }
 
-    private void OnPokeLeapFromTussock(int species) => IncrementResearchTaskProgress(species, LeapFromTussocks);
+    private void OnPokeLeapFromTussock(ushort species) => IncrementResearchTaskProgress(species, LeapFromTussocks);
 
-    public bool IsAllRequiredTasksComplete(int species)
+    public bool IsAllRequiredTasksComplete(ushort species)
     {
         if (!TryGetResearchTasks(species, out var tasks))
             return true;
@@ -1121,10 +1131,10 @@ public sealed class PokedexSave8a
         return SaveFile.Accessor.GetBlock((uint)(hash & 0xFFFFFFFF)).Data[0];
     }
 
-    public static bool IsAnyTaskTriggered(int species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay)
+    public static bool IsAnyTaskTriggered(ushort species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay)
         => TryGetTriggeredTask(species, which, moveType, move, timeOfDay, out _);
 
-    public static int GetTriggeredTaskFinalThreshold(int species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay)
+    public static int GetTriggeredTaskFinalThreshold(ushort species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay)
     {
         if (!TryGetTriggeredTask(species, which, moveType, move, timeOfDay, out var task))
             return 0;
@@ -1132,16 +1142,16 @@ public sealed class PokedexSave8a
         return task.TaskThresholds[^1];
     }
 
-    private static bool TryGetTriggeredTask(int species, PokedexResearchTaskType8a which, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, PokedexResearchTaskType8a which, out PokedexResearchTask8a outTask)
         => TryGetTriggeredTask(species, which, MoveType.Any, -1, PokedexTimeOfDay8a.Invalid, out outTask);
-    private static bool TryGetTriggeredTask(int species, MoveType moveType, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, MoveType moveType, out PokedexResearchTask8a outTask)
         => TryGetTriggeredTask(species, DefeatWithMoveType, moveType, -1, PokedexTimeOfDay8a.Invalid, out outTask);
-    private static bool TryGetTriggeredTask(int species, int move, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, int move, out PokedexResearchTask8a outTask)
         => TryGetTriggeredTask(species, UseMove, MoveType.Any, move, PokedexTimeOfDay8a.Invalid, out outTask);
-    private static bool TryGetTriggeredTask(int species, PokedexTimeOfDay8a timeOfDay, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, PokedexTimeOfDay8a timeOfDay, out PokedexResearchTask8a outTask)
         => TryGetTriggeredTask(species, CatchAtTime, MoveType.Any, -1, timeOfDay, out outTask);
 
-    private static bool TryGetTriggeredTask(int species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay, out PokedexResearchTask8a outTask)
+    private static bool TryGetTriggeredTask(ushort species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay, out PokedexResearchTask8a outTask)
     {
         outTask = new PokedexResearchTask8a();
 
@@ -1173,7 +1183,7 @@ public sealed class PokedexSave8a
 
     public void SetSelectedGenderForm(PKM pk) => SetSelectedGenderForm(pk.Species, pk.Form, pk.Gender == 1, pk.IsShiny, ((PA8)pk).IsAlpha);
 
-    public void SetSelectedGenderForm(int species, int form, bool gender1, bool shiny, bool alpha)
+    public void SetSelectedGenderForm(ushort species, int form, bool gender1, bool shiny, bool alpha)
     {
         if ((uint)species >= MAX_SPECIES || (uint)form >= MAX_FORM)
             return;
@@ -1302,11 +1312,11 @@ public sealed class PokedexSave8a
 
     public int GetGlobalFormField() => SaveData.GetGlobalFormField();
 
-    public bool HasFormStorage(int species, int form) => SaveData.TryGetStatisticsEntry(species, form, out _);
+    public bool HasFormStorage(ushort species, int form) => SaveData.TryGetStatisticsEntry(species, form, out _);
 
-    public bool IsBlacklisted(int species, int form) => IsNoblePokemon(species, form);
+    public bool IsBlacklisted(ushort species, int form) => IsNoblePokemon(species, form);
 
-    public bool GetSizeStatistics(int species, int form, out bool hasMax, out float minHeight, out float maxHeight, out float minWeight, out float maxWeight)
+    public bool GetSizeStatistics(ushort species, int form, out bool hasMax, out float minHeight, out float maxHeight, out float minWeight, out float maxWeight)
     {
         hasMax = false;
         minHeight = 0;
@@ -1326,7 +1336,7 @@ public sealed class PokedexSave8a
         return true;
     }
 
-    public void SetSizeStatistics(int species, int form, bool hasMax, float minHeight, float maxHeight, float minWeight, float maxWeight)
+    public void SetSizeStatistics(ushort species, int form, bool hasMax, float minHeight, float maxHeight, float minWeight, float maxWeight)
     {
         if (minHeight < 0)
             minHeight = 0;
@@ -1351,7 +1361,7 @@ public sealed class PokedexSave8a
             SetPokeHasBeenUpdated(species);
     }
 
-    public static bool IsNoblePokemon(int species, int form) => form switch
+    public static bool IsNoblePokemon(ushort species, int form) => form switch
     {
         1 => species == 900,
         2 => species is 59 or 101 or 549 or 713,
@@ -1378,7 +1388,7 @@ public sealed class PokedexSave8a
         _ => false,
     };
 
-    private static bool TryGetResearchTasks(int species, [NotNullWhen(true)] out PokedexResearchTask8a[]? tasks)
+    private static bool TryGetResearchTasks(ushort species, [NotNullWhen(true)] out PokedexResearchTask8a[]? tasks)
     {
         var dexIndex = GetDexIndex(Hisui, species);
         if (dexIndex == DexInvalid)

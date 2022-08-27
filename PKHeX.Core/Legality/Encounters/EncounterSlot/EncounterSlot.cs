@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Wild Encounter Slot data
 /// </summary>
 /// <remarks>Wild encounter slots are found as random encounters in-game.</remarks>
-public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, byte LevelMin, byte LevelMax) : IEncounterable, IEncounterMatch
+public abstract record EncounterSlot(EncounterArea Area, ushort Species, byte Form, byte LevelMin, byte LevelMax) : IEncounterable, IEncounterMatch
 {
     public abstract int Generation { get; }
     public abstract EntityContext Context { get; }
@@ -169,10 +169,10 @@ public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, 
 
     public bool IsRandomUnspecificForm => Form >= FormDynamic;
     private const int FormDynamic = FormVivillon;
-    protected internal const int FormVivillon = 30;
-    protected internal const int FormRandom = 31;
+    protected internal const byte FormVivillon = 30;
+    protected internal const byte FormRandom = 31;
 
-    private static int GetWildForm(PKM pk, int form, ITrainerInfo sav)
+    private static byte GetWildForm(PKM pk, byte form, ITrainerInfo sav)
     {
         if (form < FormDynamic) // specified form
             return form;
@@ -180,11 +180,11 @@ public abstract record EncounterSlot(EncounterArea Area, int Species, int Form, 
         if (form == FormRandom) // flagged as totally random
         {
             if (pk.Species == (int)Minior)
-                return 7 + Util.Rand.Next(7);
-            return Util.Rand.Next(pk.PersonalInfo.FormCount);
+                return (byte)Util.Rand.Next(7, 14);
+            return (byte)Util.Rand.Next(pk.PersonalInfo.FormCount);
         }
 
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (species is >= (int)Scatterbug and <= (int)Vivillon)
         {
             if (sav is IRegionOrigin o)

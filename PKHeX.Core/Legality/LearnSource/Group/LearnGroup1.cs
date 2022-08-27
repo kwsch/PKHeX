@@ -20,7 +20,7 @@ public sealed class LearnGroup1 : ILearnGroup
 
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen1;
 
-    public bool Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
+    public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (enc.Generation == Generation && types.HasFlagFast(MoveSourceType.Encounter))
@@ -36,7 +36,7 @@ public sealed class LearnGroup1 : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    private static void FlagEvolutionSlots(Span<MoveResult> result, ReadOnlySpan<int> current, EvolutionHistory history)
+    private static void FlagEvolutionSlots(Span<MoveResult> result, ReadOnlySpan<ushort> current, EvolutionHistory history)
     {
         for (int i = 0; i < result.Length; i++)
         {
@@ -85,13 +85,13 @@ public sealed class LearnGroup1 : ILearnGroup
         return false;
     }
 
-    private static void FlagFishyMoveSlots(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc)
+    private static void FlagFishyMoveSlots(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc)
     {
-        var occupied = current.Length - current.Count(0);
+        var occupied = current.Length - current.Count((ushort)0);
         if (occupied == 4)
             return;
 
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         GetEncounterMoves(enc, moves);
 
         // Count the amount of initial moves not present in the current list.
@@ -114,10 +114,10 @@ public sealed class LearnGroup1 : ILearnGroup
         }
     }
 
-    private static int CountMissing(ReadOnlySpan<int> current, ReadOnlySpan<int> moves)
+    private static int CountMissing(ReadOnlySpan<ushort> current, ReadOnlySpan<ushort> moves)
     {
         int count = 0;
-        foreach (int expect in moves)
+        foreach (var expect in moves)
         {
             if (expect == 0)
                 break;
@@ -127,9 +127,9 @@ public sealed class LearnGroup1 : ILearnGroup
         return count;
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<int> current, IEncounterTemplate enc, PKM pk)
+    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc, PKM pk)
     {
-        Span<int> moves = stackalloc int[4];
+        Span<ushort> moves = stackalloc ushort[4];
         if (enc is IMoveset {Moves: {HasMoves: true} x})
             x.CopyTo(moves);
         else
@@ -152,7 +152,7 @@ public sealed class LearnGroup1 : ILearnGroup
         return rate is 0 || GBRestrictions.IsTradebackCatchRate(rate);
     }
 
-    private static void GetEncounterMoves(IEncounterTemplate enc, Span<int> moves)
+    private static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> moves)
     {
         if (enc.Version is GameVersion.YW or GameVersion.RBY)
             LearnSource1YW.Instance.GetEncounterMoves(enc, moves);
@@ -160,7 +160,7 @@ public sealed class LearnGroup1 : ILearnGroup
             LearnSource1RB.Instance.GetEncounterMoves(enc, moves);
     }
 
-    private static void Check(Span<MoveResult> result, ReadOnlySpan<int> current, PKM pk, EvoCriteria evo, int stage, LearnOption option = LearnOption.Current, MoveSourceType types = MoveSourceType.All)
+    private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, LearnOption option = LearnOption.Current, MoveSourceType types = MoveSourceType.All)
     {
         var rb = LearnSource1RB.Instance;
         if (!rb.TryGetPersonal(evo.Species, evo.Form, out var rp))
@@ -244,7 +244,7 @@ public sealed class LearnGroup1 : ILearnGroup
         }
         else
         {
-            Span<int> moves = stackalloc int[4];
+            Span<ushort> moves = stackalloc ushort[4];
             GetEncounterMoves(enc, moves);
             foreach (var move in moves)
                 result[move] = true;

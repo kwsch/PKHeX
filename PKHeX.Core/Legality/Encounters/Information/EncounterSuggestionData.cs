@@ -7,8 +7,8 @@ public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn
 {
     private readonly IEncounterable? Encounter;
 
-    public int Species { get; }
-    public int Form { get; }
+    public ushort Species { get; }
+    public byte Form { get; }
     public int Location { get; }
 
     public byte LevelMin { get; }

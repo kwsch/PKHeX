@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -38,13 +38,13 @@ public sealed class PK2 : GBPKML, ICaughtData2
     protected override byte[] Encrypt() => new PokeList2(this).Write();
 
     #region Stored Attributes
-    public override int Species { get => Data[0]; set => Data[0] = (byte)value; }
+    public override ushort Species { get => Data[0]; set => Data[0] = (byte)value; }
     public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);
     public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
-    public override int Move1 { get => Data[2]; set => Data[2] = (byte)value; }
-    public override int Move2 { get => Data[3]; set => Data[3] = (byte)value; }
-    public override int Move3 { get => Data[4]; set => Data[4] = (byte)value; }
-    public override int Move4 { get => Data[5]; set => Data[5] = (byte)value; }
+    public override ushort Move1 { get => Data[2]; set => Data[2] = (byte)value; }
+    public override ushort Move2 { get => Data[3]; set => Data[3] = (byte)value; }
+    public override ushort Move3 { get => Data[4]; set => Data[4] = (byte)value; }
+    public override ushort Move4 { get => Data[5]; set => Data[5] = (byte)value; }
     public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x08)) >> 8; set => WriteUInt32BigEndian(Data.AsSpan(8), (value << 8) | Data[0xB]); }
     public override int EV_HP  { get => ReadUInt16BigEndian(Data.AsSpan(0x0B)); set => WriteUInt16BigEndian(Data.AsSpan(0xB), (ushort)value); }
@@ -98,8 +98,8 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public override int Version { get => (int)GameVersion.GSC; set { } }
 
     // Maximums
-    public override int MaxMoveID => Legal.MaxMoveID_2;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_2;
+    public override ushort MaxMoveID => Legal.MaxMoveID_2;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_2;
     public override int MaxAbilityID => Legal.MaxAbilityID_2;
     public override int MaxItemID => Legal.MaxItemID_2;
 

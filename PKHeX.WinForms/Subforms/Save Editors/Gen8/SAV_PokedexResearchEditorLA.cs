@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -12,7 +12,7 @@ public partial class SAV_PokedexResearchEditorLA : Form
     private readonly SAV8LA SAV;
     private readonly PokedexSave8a Dex;
 
-    private readonly int Species;
+    private readonly ushort Species;
 
     private readonly bool WasEmpty;
 
@@ -21,7 +21,7 @@ public partial class SAV_PokedexResearchEditorLA : Form
     private readonly int[] TaskIndexes;
     private readonly int[] TaskParameters;
 
-    public SAV_PokedexResearchEditorLA(SAV8LA sav, int species, int dexIdx, IReadOnlyList<string> tasks, IReadOnlyList<string> timeTasks)
+    public SAV_PokedexResearchEditorLA(SAV8LA sav, ushort species, int dexIdx, IReadOnlyList<string> tasks, IReadOnlyList<string> timeTasks)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

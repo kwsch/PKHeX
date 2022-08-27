@@ -8,7 +8,7 @@ public static partial class Legal
     /// <summary>
     /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
     /// </summary>
-    public static readonly HashSet<int> BattleFrontierBanlist = new()
+    public static readonly HashSet<ushort> BattleFrontierBanlist = new()
     {
         (int)Mewtwo, (int)Mew,
         (int)Lugia, (int)HoOh, (int)Celebi,
@@ -23,7 +23,7 @@ public static partial class Legal
     /// <summary>
     /// Species that are from Mythical Distributions (disallowed species for competitive rulesets)
     /// </summary>
-    public static readonly HashSet<int> Mythicals = new()
+    public static readonly HashSet<ushort> Mythicals = new()
     {
         (int)Mew,
         (int)Celebi,
@@ -39,7 +39,7 @@ public static partial class Legal
     /// <summary>
     /// Species classified as "Legend" by the game code.
     /// </summary>
-    public static readonly HashSet<int> Legends = new()
+    public static readonly HashSet<ushort> Legends = new()
     {
         (int)Mewtwo, (int)Mew,
         (int)Lugia, (int)HoOh, (int)Celebi,
@@ -55,7 +55,7 @@ public static partial class Legal
     /// <summary>
     /// Species classified as "SubLegend" by the game code.
     /// </summary>
-    public static readonly HashSet<int> SubLegends = new()
+    public static readonly HashSet<ushort> SubLegends = new()
     {
         (int)Articuno, (int)Zapdos, (int)Moltres,
         (int)Raikou, (int)Entei, (int)Suicune,
@@ -71,7 +71,7 @@ public static partial class Legal
     /// <summary>
     /// Species that evolve from a Bi-Gendered species into a Single-Gender.
     /// </summary>
-    public static readonly HashSet<int> FixedGenderFromBiGender = new()
+    public static readonly HashSet<ushort> FixedGenderFromBiGender = new()
     {
         (int)Nincada,
         (int)Shedinja, // (G)

@@ -78,14 +78,14 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
 
     public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about
 
-    public override int Species { get => Gift.IsManaphyEgg ? 490 : Gift.Species; set => Gift.Species = value; }
+    public override ushort Species { get => Gift.IsManaphyEgg ? (ushort)490 : Gift.Species; set => Gift.Species = value; }
     public override Moveset Moves { get => Gift.Moves; set => Gift.Moves = value; }
     public override int HeldItem { get => Gift.HeldItem; set => Gift.HeldItem = value; }
     public override bool IsShiny => Gift.IsShiny;
     public override Shiny Shiny => Gift.Shiny;
     public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }
     public override int Gender { get => Gift.Gender; set => Gift.Gender = value; }
-    public override int Form { get => Gift.Form; set => Gift.Form = value; }
+    public override byte Form { get => Gift.Form; set => Gift.Form = value; }
     public override int TID { get => Gift.TID; set => Gift.TID = value; }
     public override int SID { get => Gift.SID; set => Gift.SID = value; }
     public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }

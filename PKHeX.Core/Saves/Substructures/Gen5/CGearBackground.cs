@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -114,9 +115,9 @@ public sealed class CGearBackground
         return data;
     }
 
-    private static bool IsCGB(IReadOnlyList<byte> data)
+    private static bool IsCGB(ReadOnlySpan<byte> data)
     {
-        if (data.Count != SIZE_CGB)
+        if (data.Length != SIZE_CGB)
             return false;
 
         // check odd bytes for anything not rotation flag
@@ -218,21 +219,26 @@ public sealed class CGearBackground
         return (ushort)val;
     }
 
-    private static readonly int[] Convert5To8 = { 0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
+    private static readonly byte[] Convert5To8 = // 0x20 entries
+    {
+        0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
         0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
         0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
-        0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF };
+        0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF,
+    };
 
     /// <summary>
-    /// Creates a new C-Gear Background object from an input image data byte array
+    /// Creates a new C-Gear Background object from an input image data byte array, with 32 bits per pixel.
     /// </summary>
     /// <param name="data">Image data</param>
-    /// <param name="bpp">Bytes per pixel</param>
     /// <returns>new C-Gear Background object</returns>
-    public static CGearBackground GetBackground(byte[] data, int bpp = 4)
+    public static CGearBackground GetBackground(ReadOnlySpan<byte> data)
     {
-        int[] pixels = new int[data.Length / bpp];
-        Buffer.BlockCopy(data, 0, pixels, 0, data.Length);
+        const int bpp = 4;
+        if (Width * Height * bpp != data.Length)
+            throw new ArgumentException("Invalid image data size.");
+
+        var pixels = MemoryMarshal.Cast<byte, int>(data);
         var colors = GetColorData(pixels);
 
         var Palette = colors.Distinct().ToArray();
@@ -248,15 +254,15 @@ public sealed class CGearBackground
         return new CGearBackground(Palette, tilelist.ToArray(), tm);
     }
 
-    private static int[] GetColorData(IReadOnlyList<int> pixels)
+    private static int[] GetColorData(ReadOnlySpan<int> pixels)
     {
-        int[] colors = new int[pixels.Count];
-        for (int i = 0; i < pixels.Count; i++)
+        int[] colors = new int[pixels.Length];
+        for (int i = 0; i < pixels.Length; i++)
             colors[i] = GetRGB555_32(pixels[i]);
         return colors;
     }
 
-    private static Tile[] GetTiles(IReadOnlyList<int> colors, int[] palette)
+    private static Tile[] GetTiles(ReadOnlySpan<int> colors, ReadOnlySpan<int> palette)
     {
         var tiles = new Tile[TileCount];
         for (int i = 0; i < tiles.Length; i++)
@@ -264,7 +270,7 @@ public sealed class CGearBackground
         return tiles;
     }
 
-    private static Tile GetTile(IReadOnlyList<int> colors, ReadOnlySpan<int> palette, int tileIndex)
+    private static Tile GetTile(ReadOnlySpan<int> colors, ReadOnlySpan<int> palette, int tileIndex)
     {
         int x = (tileIndex * 8) % Width;
         int y = 8 * ((tileIndex * 8) / Width);
@@ -285,7 +291,7 @@ public sealed class CGearBackground
         return t;
     }
 
-    private static void GetTileList(IReadOnlyList<Tile> tiles, out List<Tile> tilelist, out TileMap tm)
+    private static void GetTileList(ReadOnlySpan<Tile> tiles, out List<Tile> tilelist, out TileMap tm)
     {
         tilelist = new List<Tile> { tiles[0] };
         tm = new TileMap(new byte[2 * Width * Height / 64]);
@@ -407,10 +413,10 @@ public sealed class Tile
         return PixelData;
     }
 
-    private static byte[] FlipX(IReadOnlyList<byte> data, int width, int bpp = 4)
+    private static byte[] FlipX(ReadOnlySpan<byte> data, int width, int bpp = 4)
     {
-        byte[] result = new byte[data.Count];
-        int pixels = data.Count / bpp;
+        byte[] result = new byte[data.Length];
+        int pixels = data.Length / bpp;
         for (int i = 0; i < pixels; i++)
         {
             int x = i % width;
@@ -428,10 +434,10 @@ public sealed class Tile
         return result;
     }
 
-    private static byte[] FlipY(IReadOnlyList<byte> data, int height, int bpp = 4)
+    private static byte[] FlipY(ReadOnlySpan<byte> data, int height, int bpp = 4)
     {
-        byte[] result = new byte[data.Count];
-        int pixels = data.Count / bpp;
+        byte[] result = new byte[data.Length];
+        int pixels = data.Length / bpp;
         int width = pixels / height;
         for (int i = 0; i < pixels; i++)
         {

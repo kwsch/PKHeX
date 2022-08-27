@@ -16,7 +16,7 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
     public byte SlotNumber { get; }
     public override Ball FixedBall => Ball.Poke;
 
-    public EncounterSlot2(EncounterArea2 area, byte species, byte min, byte max, byte slot) : base(area, species, species == 201 ? FormRandom : 0, min, max)
+    public EncounterSlot2(EncounterArea2 area, byte species, byte min, byte max, byte slot) : base(area, species, species == 201 ? FormRandom : (byte)0, min, max)
     {
         SlotNumber = slot;
     }

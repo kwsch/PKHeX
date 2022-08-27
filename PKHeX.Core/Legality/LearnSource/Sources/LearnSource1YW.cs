@@ -16,9 +16,9 @@ public sealed class LearnSource1YW : ILearnSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpY;
     private const LearnEnvironment Game = YW;
 
-    public Learnset GetLearnset(int species, int form) => Learnsets[species];
+    public Learnset GetLearnset(ushort species, int form) => Learnsets[species];
 
-    public bool TryGetPersonal(int species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, int form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
         if (form is not 0 || species > Legal.MaxSpeciesID_1)
@@ -27,7 +27,7 @@ public sealed class LearnSource1YW : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, int move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
@@ -46,7 +46,7 @@ public sealed class LearnSource1YW : ILearnSource
         return default;
     }
 
-    private static bool GetIsTutor(int species, int move)
+    private static bool GetIsTutor(ushort species, ushort move)
     {
         // No special tutors besides Stadium, which is GB-era only.
         if (!ParseSettings.AllowGBCartEra)
@@ -58,7 +58,7 @@ public sealed class LearnSource1YW : ILearnSource
         return species is (int)Species.Pikachu or (int)Species.Raichu;
     }
 
-    private static bool GetIsTM(PersonalInfo info, int move)
+    private static bool GetIsTM(PersonalInfo info, ushort move)
     {
         var index = Array.IndexOf(TMHM_RBY, move);
         if (index == -1)
@@ -102,7 +102,7 @@ public sealed class LearnSource1YW : ILearnSource
         }
     }
 
-    public void GetEncounterMoves(IEncounterTemplate enc, Span<int> init)
+    public void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> init)
     {
         var species = enc.Species;
         if (!TryGetPersonal(species, 0, out var personal))
@@ -111,7 +111,7 @@ public sealed class LearnSource1YW : ILearnSource
         var pi = (PersonalInfo1)personal;
         var learn = Learnsets[species];
         pi.GetMoves(init);
-        var start = (4 - init.Count(0)) & 3;
+        var start = (4 - init.Count((ushort)0)) & 3;
         learn.SetEncounterMoves(enc.LevelMin, init, start);
     }
 }

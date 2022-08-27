@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -43,9 +43,9 @@ public sealed class PokedexSaveData
     public void SetPokedexCompleted(PokedexType8a which) => GlobalData.Flags |= (uint)(which < PokedexType8a.Count ? (1 << (int)which) : 1);
     public void SetPokedexPerfect(PokedexType8a which) => GlobalData.Flags |= (uint)((which < PokedexType8a.Count ? (1 << (int)which) : 1) << 6);
 
-    public PokedexSaveResearchEntry GetResearchEntry(int species) => ResearchEntries[species];
+    public PokedexSaveResearchEntry GetResearchEntry(ushort species) => ResearchEntries[species];
 
-    public bool TryGetStatisticsEntry(int species, int form, [NotNullWhen(true)] out PokedexSaveStatisticsEntry? entry)
+    public bool TryGetStatisticsEntry(ushort species, int form, [NotNullWhen(true)] out PokedexSaveStatisticsEntry? entry)
     {
         var fstIdIndex = Array.BinarySearch(PokedexConstants8a.FormStorageIndexIds, (ushort)(species | (form << 11)));
         if (fstIdIndex >= 0)
@@ -71,8 +71,8 @@ public sealed class PokedexSaveData
         return TryGetStatisticsEntry(pk.Species, pk.Form, out entry);
     }
 
-    public int GetPokeGetCount(int species) => GetResearchEntry(species).NumObtained;
-    public int GetPokeResearchRate(int species) => GetResearchEntry(species).ResearchRate;
+    public int GetPokeGetCount(ushort species) => GetResearchEntry(species).NumObtained;
+    public int GetPokeResearchRate(ushort species) => GetResearchEntry(species).ResearchRate;
 
     public ushort NextUpdateCounter()
     {
@@ -108,8 +108,8 @@ public sealed class PokedexSaveData
 
     public void SetTotalResearchPoint(int tp) => GlobalData.TotalResearchPoints = tp;
 
-    public bool HasAnyReport(int species) => GetResearchEntry(species).HasAnyReport;
-    public bool IsPerfect(int species) => GetResearchEntry(species).IsPerfect;
+    public bool HasAnyReport(ushort species) => GetResearchEntry(species).HasAnyReport;
+    public bool IsPerfect(ushort species) => GetResearchEntry(species).IsPerfect;
 
     public void SetGlobalField04(byte v) => GlobalData.Field_04 = v;
     public byte GetGlobalField04() => GlobalData.Field_04;

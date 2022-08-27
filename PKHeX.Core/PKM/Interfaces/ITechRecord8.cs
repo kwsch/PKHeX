@@ -15,7 +15,7 @@ public interface ITechRecord8
     /// <summary>
     /// Individual accessed move IDs that a given TR teaches.
     /// </summary>
-    ReadOnlySpan<int> TechRecordPermitIndexes { get; }
+    ReadOnlySpan<ushort> TechRecordPermitIndexes { get; }
 
     /// <summary>
     /// Indicates if the TR has been previously used on this entity to learn the move.

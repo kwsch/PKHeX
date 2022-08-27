@@ -61,7 +61,7 @@ public static class SearchUtil
         _ => true,
     };
 
-    public static bool SatisfiesFilterMoves(PKM pk, IReadOnlyList<int> requiredMoves)
+    public static bool SatisfiesFilterMoves(PKM pk, IReadOnlyList<ushort> requiredMoves)
     {
         foreach (var m in requiredMoves)
         {

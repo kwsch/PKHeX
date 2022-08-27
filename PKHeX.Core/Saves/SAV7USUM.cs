@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -34,8 +34,8 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_USUM;
     protected override SaveFile CloneInternal() => new SAV7USUM((byte[])Data.Clone());
     public override int EventFlagCount => 4960;
-    public override int MaxMoveID => Legal.MaxMoveID_7_USUM;
-    public override int MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
+    public override ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
+    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
     public override int MaxAbilityID => Legal.MaxAbilityID_7_USUM;
 

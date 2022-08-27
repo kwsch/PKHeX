@@ -25,7 +25,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public ulong Tracker { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x00), value); }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x08), value); }
     public bool IsBadEgg { get => Data[Offset + 0x0C] != 0; set => Data[Offset + 0x0C] = (byte)(value ? 1 : 0); }
-    public int Species { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0D)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0D), (ushort)value); }
+    public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0D)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0D), value); }
     public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0F)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0F), (ushort)value); }
     public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x11)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x11), (ushort)value); }
     public uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x13)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x13), value); }
@@ -38,7 +38,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public int StatNature { get => Data[Offset + 0x22]; set => Data[Offset + 0x22] = (byte)value; }
     public bool FatefulEncounter { get => Data[Offset + 0x23] != 0; set => Data[Offset + 0x23] = (byte)(value ? 1 : 0); }
     public int Gender { get => Data[Offset + 0x24]; set => Data[Offset + 0x24] = (byte)value; }
-    public int Form { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x25)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x25), (ushort)value); }
+    public byte Form { get => Data[Offset + 0x25]; set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x25), value); }
     public int EV_HP { get => Data[Offset + 0x27]; set => Data[Offset + 0x27] = (byte)value; }
     public int EV_ATK { get => Data[Offset + 0x28]; set => Data[Offset + 0x28] = (byte)value; }
     public int EV_DEF { get => Data[Offset + 0x29]; set => Data[Offset + 0x29] = (byte)value; }

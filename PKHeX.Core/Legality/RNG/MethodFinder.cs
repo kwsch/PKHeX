@@ -360,11 +360,11 @@ public static class MethodFinder
         if (pid > 0xFF)
             return GetNonMatch(out pidiv);
 
-        (int species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
+        (var species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
         if ((uint)species > Legal.MaxSpeciesID_4)
             return GetNonMatch(out pidiv);
 
-        static int getRatio(int species) => PersonalTable.HGSS[species].Gender;
+        static int getRatio(ushort species) => PersonalTable.HGSS[species].Gender;
         switch (genderValue)
         {
             case 2: break; // can't cute charm a genderless pk
@@ -527,7 +527,7 @@ public static class MethodFinder
     private static bool IsAzurillEdgeCaseM(PKM pk, uint nature, uint oldpid)
     {
         // check for Azurill evolution edge case... 75% F-M is now 50% F-M; was this a F->M bend?
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (species is not ((int)Species.Marill or (int)Species.Azumarill))
             return false;
 
@@ -934,7 +934,7 @@ public static class MethodFinder
     /// <summary>
     /// There are some edge cases when the gender ratio changes across evolutions.
     /// </summary>
-    private static (int Species, int Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, int currentSpecies) => currentSpecies switch
+    private static (ushort Species, int Gender) GetCuteCharmGenderSpecies(PKM pk, uint pid, ushort currentSpecies) => currentSpecies switch
     {
         // Nincada evo chain travels from M/F -> Genderless Shedinja
         (int)Species.Shedinja  => ((int)Species.Nincada, EntityGender.GetFromPID((int)Species.Nincada, pid)),

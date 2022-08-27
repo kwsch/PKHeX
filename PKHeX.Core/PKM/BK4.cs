@@ -51,7 +51,7 @@ public sealed class BK4 : G4PKM
     public override ushort Checksum { get => ReadUInt16BigEndian(Data.AsSpan(0x06)); set => WriteUInt16BigEndian(Data.AsSpan(0x06), value); }
 
     #region Block A
-    public override int Species { get => ReadUInt16BigEndian(Data.AsSpan(0x08)); set => WriteUInt16BigEndian(Data.AsSpan(0x08), (ushort)value); }
+    public override ushort Species { get => ReadUInt16BigEndian(Data.AsSpan(0x08)); set => WriteUInt16BigEndian(Data.AsSpan(0x08), value); }
     public override int HeldItem { get => ReadUInt16BigEndian(Data.AsSpan(0x0A)); set => WriteUInt16BigEndian(Data.AsSpan(0x0A), (ushort)value); }
     public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), (ushort)value); }
     public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0x0E)); set => WriteUInt16BigEndian(Data.AsSpan(0x0E), (ushort)value); }
@@ -118,10 +118,10 @@ public sealed class BK4 : G4PKM
     #endregion
 
     #region Block B
-    public override int Move1 { get => ReadUInt16BigEndian(Data.AsSpan(0x28)); set => WriteUInt16BigEndian(Data.AsSpan(0x28), (ushort)value); }
-    public override int Move2 { get => ReadUInt16BigEndian(Data.AsSpan(0x2A)); set => WriteUInt16BigEndian(Data.AsSpan(0x2A), (ushort)value); }
-    public override int Move3 { get => ReadUInt16BigEndian(Data.AsSpan(0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(0x2C), (ushort)value); }
-    public override int Move4 { get => ReadUInt16BigEndian(Data.AsSpan(0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(0x2E), (ushort)value); }
+    public override ushort Move1 { get => ReadUInt16BigEndian(Data.AsSpan(0x28)); set => WriteUInt16BigEndian(Data.AsSpan(0x28), value); }
+    public override ushort Move2 { get => ReadUInt16BigEndian(Data.AsSpan(0x2A)); set => WriteUInt16BigEndian(Data.AsSpan(0x2A), value); }
+    public override ushort Move3 { get => ReadUInt16BigEndian(Data.AsSpan(0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(0x2C), value); }
+    public override ushort Move4 { get => ReadUInt16BigEndian(Data.AsSpan(0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(0x2E), value); }
     public override int Move1_PP { get => Data[0x30]; set => Data[0x30] = (byte)value; }
     public override int Move2_PP { get => Data[0x31]; set => Data[0x31] = (byte)value; }
     public override int Move3_PP { get => Data[0x32]; set => Data[0x32] = (byte)value; }
@@ -179,7 +179,7 @@ public sealed class BK4 : G4PKM
 
     public override bool FatefulEncounter { get => (Data[0x40] & 0x80) == 0x80; set => Data[0x40] = (byte)((Data[0x40] & ~0x80) | (value ? 0x80 : 0)); }
     public override int Gender { get => (Data[0x40] >> 5) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x60) | ((value & 3) << 5)); }
-    public override int Form { get => Data[0x40] & 0x1F; set => Data[0x40] = (byte)((Data[0x40] & ~0x1F) | (value & 0x1F)); }
+    public override byte Form { get => (byte)(Data[0x40] & 0x1F); set => Data[0x40] = (byte)((Data[0x40] & ~0x1F) | (value & 0x1F)); }
     public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte)value; }
 
     // 0x42-0x43 Unused

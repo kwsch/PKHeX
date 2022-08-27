@@ -56,7 +56,7 @@ public static class SpriteUtil
 
     public static Image? GetItemSprite(int item) => Resources.ResourceManager.GetObject($"item_{item}") as Image;
 
-    public static Image GetSprite(int species, int form, int gender, uint formarg, int item, bool isegg, Shiny shiny, int generation = -1, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
+    public static Image GetSprite(ushort species, byte form, int gender, uint formarg, int item, bool isegg, Shiny shiny, int generation = -1, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
     {
         return Spriter.GetSprite(species, form, gender, formarg, item, isegg, shiny, generation, tweak);
     }

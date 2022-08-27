@@ -63,7 +63,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber
     public string Username1 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x00, 0x10));
     public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x10, 0x20));
 
-    public int Species => ReadInt32LittleEndian(Data.AsSpan(0x28));
+    public ushort Species => ReadUInt16LittleEndian(Data.AsSpan(0x28)); // s32, just read as u16
     public int CP => ReadInt32LittleEndian(Data.AsSpan(0x2C));
     public float LevelF => ReadSingleLittleEndian(Data.AsSpan(0x30));
     public byte Level => Math.Max((byte)1, (byte)Math.Round(LevelF));
@@ -106,7 +106,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber
 
     public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
 
-    public int Form => Data[0x72];
+    public byte Form => Data[0x72];
     public bool IsShiny => Data[0x73] == 1;
 
     // https://bulbapedia.bulbagarden.net/wiki/List_of_moves_in_Pok%C3%A9mon_GO

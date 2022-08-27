@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -7,12 +7,12 @@ namespace PKHeX.Core;
 /// </summary>
 public static class DexFormUtil
 {
-    public static int GetDexFormIndexSM(int species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_SM);
-    public static int GetDexFormIndexUSUM(int species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_USUM);
-    public static int GetDexFormIndexGG(int species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_GG);
-    public static int GetDexFormCountSM(int species) => GetDexFormCount(species, formtable_SM);
-    public static int GetDexFormCountUSUM(int species) => GetDexFormCount(species, formtable_USUM);
-    public static int GetDexFormCountGG(int species) => GetDexFormCount(species, formtable_GG);
+    public static int GetDexFormIndexSM(ushort species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_SM);
+    public static int GetDexFormIndexUSUM(ushort species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_USUM);
+    public static int GetDexFormIndexGG(ushort species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_GG);
+    public static int GetDexFormCountSM(ushort species) => GetDexFormCount(species, formtable_SM);
+    public static int GetDexFormCountUSUM(ushort species) => GetDexFormCount(species, formtable_USUM);
+    public static int GetDexFormCountGG(ushort species) => GetDexFormCount(species, formtable_GG);
 
     private static readonly ushort[] formtable_SM = // u16 species, u16 formcount
     {
@@ -94,7 +94,7 @@ public static class DexFormUtil
         0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
     };
 
-    private static int GetDexFormBitIndex(int species, int formCount, int start, IReadOnlyList<ushort> formTable)
+    private static int GetDexFormBitIndex(ushort species, int formCount, int start, IReadOnlyList<ushort> formTable)
     {
         int formIndex = start;
         for (int i = 0; i < formTable.Count; i += 2)
@@ -109,7 +109,7 @@ public static class DexFormUtil
         return -1;
     }
 
-    private static int GetDexFormCount(int species, IReadOnlyList<ushort> formTable)
+    private static int GetDexFormCount(ushort species, IReadOnlyList<ushort> formTable)
     {
         for (int i = 0; i < formTable.Count; i += 2)
         {
@@ -119,9 +119,9 @@ public static class DexFormUtil
         return 0;
     }
 
-    public static int GetDexFormIndexBW(int species, int formCount)
+    public static int GetDexFormIndexBW(ushort species, int formCount)
     {
-        if (formCount < 1 || species < 0)
+        if (formCount < 1 || species > Legal.MaxSpeciesID_5)
             return -1; // invalid
         return species switch
         {
@@ -145,9 +145,9 @@ public static class DexFormUtil
         };
     }
 
-    public static int GetDexFormIndexB2W2(int species, int formCount)
+    public static int GetDexFormIndexB2W2(ushort species, int formCount)
     {
-        if (formCount < 1 || species < 0)
+        if (formCount < 1 || species > Legal.MaxSpeciesID_5)
             return -1; // invalid
         return species switch
         {
@@ -160,9 +160,9 @@ public static class DexFormUtil
         };
     }
 
-    public static int GetDexFormIndexXY(int species, int formCount)
+    public static int GetDexFormIndexXY(ushort species, int formCount)
     {
-        if (formCount < 1 || species < 0)
+        if (formCount < 1 || species > Legal.MaxSpeciesID_6)
             return -1; // invalid
         return species switch
         {
@@ -206,9 +206,9 @@ public static class DexFormUtil
         };
     }
 
-    public static int GetDexFormIndexORAS(int species, int formCount)
+    public static int GetDexFormIndexORAS(ushort species, int formCount)
     {
-        if (formCount < 1 || species < 0)
+        if (formCount < 1 || species > Legal.MaxSpeciesID_6)
             return -1; // invalid
         return species switch
         {

@@ -18,9 +18,9 @@ public sealed class TeamLock
     /// </summary>
     public readonly int Species;
 
-    public TeamLock(int species, NPCLock[] locks) : this(species, string.Empty, locks) { }
+    public TeamLock(ushort species, NPCLock[] locks) : this(species, string.Empty, locks) { }
 
-    public TeamLock(int species, string comment, NPCLock[] locks)
+    public TeamLock(ushort species, string comment, NPCLock[] locks)
     {
         Species = species;
         Locks = locks;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -86,7 +86,7 @@ public static class FormArgumentUtil
     /// <param name="form">Entity Species</param>
     /// <param name="generation">Entity current format generation</param>
     /// <param name="value">Value to apply</param>
-    public static void ChangeFormArgument(this IFormArgument f, int species, int form, int generation, uint value)
+    public static void ChangeFormArgument(this IFormArgument f, ushort species, int form, int generation, uint value)
     {
         if (!IsFormArgumentTypeDatePair(species, form))
         {
@@ -108,7 +108,7 @@ public static class FormArgumentUtil
             f.FormArgumentMaximum = Math.Max(f.FormArgumentMaximum, elapsed);
     }
 
-    public static uint GetFormArgumentMax(int species, int form, int generation)
+    public static uint GetFormArgumentMax(ushort species, int form, int generation)
     {
         if (generation <= 5)
             return 0;
@@ -129,7 +129,7 @@ public static class FormArgumentUtil
         };
     }
 
-    public static bool IsFormArgumentTypeDatePair(int species, int form) => species switch
+    public static bool IsFormArgumentTypeDatePair(ushort species, int form) => species switch
     {
         (int)Furfrou when form != 0 => true,
         (int)Hoopa when form == 1 => true,

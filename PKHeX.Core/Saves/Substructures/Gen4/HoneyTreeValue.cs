@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -23,19 +23,19 @@ public sealed class HoneyTreeValue
         Data = data;
     }
 
-    public static readonly int[][] TableDP =
+    public static readonly ushort[][] TableDP =
     {
-        new[] {000, 000, 000, 000, 000, 000},
-        new[] {265, 266, 415, 412, 420, 190},
-        new[] {415, 412, 420, 190, 214, 265},
-        new[] {446, 446, 446, 446, 446, 446},
+        new ushort[] {000, 000, 000, 000, 000, 000},
+        new ushort[] {265, 266, 415, 412, 420, 190},
+        new ushort[] {415, 412, 420, 190, 214, 265},
+        new ushort[] {446, 446, 446, 446, 446, 446},
     };
 
-    public static readonly int[][] TablePt =
+    public static readonly ushort[][] TablePt =
     {
         TableDP[0],
-        new[] {415, 265, 412, 420, 190, 190},
-        new[] {412, 420, 415, 190, 190, 214},
+        new ushort[] {415, 265, 412, 420, 190, 190},
+        new ushort[] {412, 420, 415, 190, 190, 214},
         TableDP[3],
     };
 }

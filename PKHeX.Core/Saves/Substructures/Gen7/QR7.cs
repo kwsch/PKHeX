@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -20,7 +20,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class QR7
 {
-    private static readonly HashSet<int> GenderDifferences = new()
+    private static readonly HashSet<ushort> GenderDifferences = new()
     {
         003, 012, 019, 020, 025, 026, 041, 042, 044, 045,
         064, 065, 084, 085, 097, 111, 112, 118, 119, 123,
@@ -44,10 +44,10 @@ public static class QR7
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     };
 
-    private static byte[] GetRawQR(int species, int form, bool shiny, int gender)
+    private static byte[] GetRawQR(ushort species, int form, bool shiny, int gender)
     {
         var basedata = (byte[])BaseQR.Clone();
-        WriteUInt16LittleEndian(basedata.AsSpan(0x28), (ushort)species);
+        WriteUInt16LittleEndian(basedata.AsSpan(0x28), species);
 
         var pi = PersonalTable.USUM.GetFormEntry(species, form);
         bool biGender = false;

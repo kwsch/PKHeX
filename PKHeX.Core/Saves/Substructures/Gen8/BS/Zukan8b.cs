@@ -135,7 +135,7 @@ public sealed class Zukan8b : ZukanBase
 
     public Zukan8b(SAV8BS sav, int dex) : base(sav, dex) { }
 
-    public ZukanState8b GetState(int species)
+    public ZukanState8b GetState(ushort species)
     {
         if ((uint)species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -145,7 +145,7 @@ public sealed class Zukan8b : ZukanBase
         return (ZukanState8b)ReadInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset));
     }
 
-    public void SetState(int species, ZukanState8b state)
+    public void SetState(ushort species, ZukanState8b state)
     {
         if ((uint)species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -173,7 +173,7 @@ public sealed class Zukan8b : ZukanBase
         WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), value ? 1u : 0u);
     }
 
-    public void GetGenderFlags(int species, out bool m, out bool f, out bool ms, out bool fs)
+    public void GetGenderFlags(ushort species, out bool m, out bool f, out bool ms, out bool fs)
     {
         m  = GetBoolean(species - 1, OFS_MALE);
         f  = GetBoolean(species - 1, OFS_FEMALE);
@@ -181,7 +181,7 @@ public sealed class Zukan8b : ZukanBase
         fs = GetBoolean(species - 1, OFS_FEMALESHINY);
     }
 
-    public void SetGenderFlags(int species, bool m, bool f, bool ms, bool fs)
+    public void SetGenderFlags(ushort species, bool m, bool f, bool ms, bool fs)
     {
         SetBoolean(species - 1, OFS_MALE, m);
         SetBoolean(species - 1, OFS_FEMALE, f);
@@ -189,7 +189,7 @@ public sealed class Zukan8b : ZukanBase
         SetBoolean(species - 1, OFS_FEMALESHINY, fs);
     }
 
-    public bool GetLanguageFlag(int species, int language)
+    public bool GetLanguageFlag(ushort species, int language)
     {
         if ((uint)species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -203,7 +203,7 @@ public sealed class Zukan8b : ZukanBase
         return (current & (1 << languageBit)) != 0;
     }
 
-    public void SetLanguageFlag(int species, int language, bool value)
+    public void SetLanguageFlag(ushort species, int language, bool value)
     {
         if ((uint)species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -219,7 +219,7 @@ public sealed class Zukan8b : ZukanBase
         WriteInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), update);
     }
 
-    public void SetLanguageFlags(int species, int value)
+    public void SetLanguageFlags(ushort species, int value)
     {
         if ((uint)species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -250,7 +250,7 @@ public sealed class Zukan8b : ZukanBase
         set => WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + OFS_FLAG_NATIONAL), value ? 1u : 0u);
     }
 
-    public bool GetHasFormFlag(int species, int form, bool shiny)
+    public bool GetHasFormFlag(ushort species, byte form, bool shiny)
     {
         var ct = GetFormCount(species);
         if (ct == 0)
@@ -262,10 +262,10 @@ public sealed class Zukan8b : ZukanBase
         return ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset)) == 1;
     }
 
-    public void SetHasFormFlag(int species, int form, bool shiny, bool value)
+    public void SetHasFormFlag(ushort species, byte form, bool shiny, bool value)
     {
         var formCount = GetFormCount(species);
-        if (formCount is 0 || (uint)form >= formCount)
+        if (formCount is 0 || form >= formCount)
             return;
 
         var baseOffset = GetFormOffset(species);
@@ -274,7 +274,7 @@ public sealed class Zukan8b : ZukanBase
         WriteUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), value ? 1u : 0u);
     }
 
-    public static int GetFormCount(int species) => species switch
+    public static int GetFormCount(ushort species) => species switch
     {
         (int)Species.Unown     => COUNT_UNOWN,
         (int)Species.Castform  => COUNT_CASTFORM,
@@ -292,7 +292,7 @@ public sealed class Zukan8b : ZukanBase
         _ => 0,
     };
 
-    private static int GetFormSize(int species) => species switch
+    private static int GetFormSize(ushort species) => species switch
     {
         (int)Species.Unown     => SIZE_UNOWN,
         (int)Species.Castform  => SIZE_CASTFORM,
@@ -310,7 +310,7 @@ public sealed class Zukan8b : ZukanBase
         _ => 0,
     };
 
-    private static int GetFormOffset(int species) => species switch
+    private static int GetFormOffset(ushort species) => species switch
     {
         (int)Species.Unown     => OFS_UNOWN,
         (int)Species.Castform  => OFS_CASTFORM,
@@ -328,13 +328,13 @@ public sealed class Zukan8b : ZukanBase
         _ => 0,
     };
 
-    public bool GetHeard(int species) => GetState(species) >= ZukanState8b.HeardOf;
-    public override bool GetSeen(int species) => GetState(species) >= ZukanState8b.Seen;
-    public override bool GetCaught(int species) => GetState(species) >= ZukanState8b.Caught;
+    public bool GetHeard(ushort species) => GetState(species) >= ZukanState8b.HeardOf;
+    public override bool GetSeen(ushort species) => GetState(species) >= ZukanState8b.Seen;
+    public override bool GetCaught(ushort species) => GetState(species) >= ZukanState8b.Caught;
 
     public override void SetDex(PKM pk)
     {
-        int species = pk.Species;
+        ushort species = pk.Species;
         if (species is 0 or > Legal.MaxSpeciesID_4)
             return;
         if (pk.IsEgg) // do not add
@@ -350,7 +350,7 @@ public sealed class Zukan8b : ZukanBase
             ((SAV8BS)SAV).ZukanExtra.SetDex(originalState, pk.EncryptionConstant, pk.Gender, shiny);
     }
 
-    private void SetGenderFlag(int species, int gender, bool shiny)
+    private void SetGenderFlag(ushort species, int gender, bool shiny)
     {
         switch (gender)
         {
@@ -363,18 +363,18 @@ public sealed class Zukan8b : ZukanBase
         }
     }
 
-    private void SetGenderFlagMale(int species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_MALESHINY : OFS_MALE, true);
-    private void SetGenderFlagFemale(int species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_FEMALESHINY : OFS_FEMALE, true);
+    private void SetGenderFlagMale(ushort species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_MALESHINY : OFS_MALE, true);
+    private void SetGenderFlagFemale(ushort species, bool shiny) => SetBoolean(species - 1, shiny ? OFS_FEMALESHINY : OFS_FEMALE, true);
 
     public override void SeenNone()
     {
-        for (int species = 1; species <= Legal.MaxSpeciesID_4; species++)
+        for (ushort species = 1; species <= Legal.MaxSpeciesID_4; species++)
             ClearDexEntryAll(species);
     }
 
     public override void CaughtNone()
     {
-        for (int species = 1; species <= Legal.MaxSpeciesID_4; species++)
+        for (ushort species = 1; species <= Legal.MaxSpeciesID_4; species++)
         {
             if (GetCaught(species))
                 SetState(species, ZukanState8b.Seen);
@@ -385,7 +385,7 @@ public sealed class Zukan8b : ZukanBase
     public override void SeenAll(bool shinyToo = false)
     {
         var pt = Personal;
-        for (int i = 1; i <= Legal.MaxSpeciesID_4; i++)
+        for (ushort i = 1; i <= Legal.MaxSpeciesID_4; i++)
         {
             if (!GetSeen(i))
                 SetState(i, ZukanState8b.Seen);
@@ -398,14 +398,14 @@ public sealed class Zukan8b : ZukanBase
 
     public override void CompleteDex(bool shinyToo = false)
     {
-        for (int species = 1; species <= Legal.MaxSpeciesID_4; species++)
+        for (ushort species = 1; species <= Legal.MaxSpeciesID_4; species++)
             SetDexEntryAll(species, shinyToo);
     }
 
     public override void CaughtAll(bool shinyToo = false)
     {
         var pt = Personal;
-        for (int species = 1; species <= Legal.MaxSpeciesID_4; species++)
+        for (ushort species = 1; species <= Legal.MaxSpeciesID_4; species++)
         {
             SetState(species, ZukanState8b.Caught);
             var pi = pt[species];
@@ -419,7 +419,7 @@ public sealed class Zukan8b : ZukanBase
     public override void SetAllSeen(bool value = true, bool shinyToo = false)
     {
         var pt = Personal;
-        for (int species = 1; species <= Legal.MaxSpeciesID_4; species++)
+        for (ushort species = 1; species <= Legal.MaxSpeciesID_4; species++)
         {
             if (value)
             {
@@ -437,7 +437,7 @@ public sealed class Zukan8b : ZukanBase
         }
     }
 
-    public override void SetDexEntryAll(int species, bool shinyToo = false)
+    public override void SetDexEntryAll(ushort species, bool shinyToo = false)
     {
         SetState(species, ZukanState8b.Caught);
 
@@ -450,7 +450,7 @@ public sealed class Zukan8b : ZukanBase
         var formCount = GetFormCount(species);
         if (formCount is not 0)
         {
-            for (int form = 0; form < formCount; form++)
+            for (byte form = 0; form < formCount; form++)
             {
                 SetHasFormFlag(species, form, false, true);
                 if (shinyToo)
@@ -460,15 +460,15 @@ public sealed class Zukan8b : ZukanBase
         SetLanguageFlags(species, LANGUAGE_ALL);
     }
 
-    public override void ClearDexEntryAll(int species)
+    public override void ClearDexEntryAll(ushort species)
     {
         SetState(species, ZukanState8b.None);
         SetGenderFlags(species, false, false, false, false);
-
+        
         var formCount = GetFormCount(species);
         if (formCount is not 0)
         {
-            for (int form = 0; form < formCount; form++)
+            for (byte form = 0; form < formCount; form++)
             {
                 SetHasFormFlag(species, form, false, false);
                 SetHasFormFlag(species, form, true, false);

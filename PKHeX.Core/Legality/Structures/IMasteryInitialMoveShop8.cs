@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public interface IMasteryInitialMoveShop8
 {
     (Learnset Learn, Learnset Mastery) GetLevelUpInfo();
-    void LoadInitialMoveset(PA8 pa8, Span<int> moves, Learnset learn, int level);
+    void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level);
     bool IsForcedMasteryCorrect(PKM pk);
 }
 
@@ -18,7 +18,7 @@ public static class MasteryInitialMoveShop8Extensions
     {
         if (pk is PA8 pa8)
         {
-            Span<int> moves = stackalloc int[4];
+            Span<ushort> moves = stackalloc ushort[4];
             var level = pa8.Met_Level;
             var (learn, mastery) = enc.GetLevelUpInfo();
             enc.LoadInitialMoveset(pa8, moves, learn, level);

@@ -25,7 +25,7 @@ public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
 
     public override Ball FixedBall => Type.GetValidBall();
 
-    protected EncounterSlotGO(EncounterArea area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type) : base(area, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL)
+    protected EncounterSlotGO(EncounterArea area, ushort species, byte form, int start, int end, Shiny shiny, Gender gender, PogoType type) : base(area, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL)
     {
         StartDate = start;
         EndDate = end;

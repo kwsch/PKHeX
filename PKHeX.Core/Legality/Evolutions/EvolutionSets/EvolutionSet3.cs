@@ -49,7 +49,7 @@ public static class EvolutionSet3
     {
         var evos = new EvolutionMethod[Legal.MaxSpeciesID_3 + 1][];
         evos[0] = Array.Empty<EvolutionMethod>();
-        for (int i = 1; i <= Legal.MaxSpeciesIndex_3; i++)
+        for (ushort i = 1; i <= Legal.MaxSpeciesIndex_3; i++)
         {
             int g4species = SpeciesConverter.GetG4Species(i);
             if (g4species == 0)

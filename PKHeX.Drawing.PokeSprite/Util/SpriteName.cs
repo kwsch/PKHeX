@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text;
 using PKHeX.Core;
 
@@ -21,7 +21,7 @@ public static class SpriteName
     /// <summary>
     /// Gets the resource name of the Pokémon sprite.
     /// </summary>
-    public static string GetResourceStringSprite(int species, int form, int gender, uint formarg, int generation = PKX.Generation, bool shiny = false)
+    public static string GetResourceStringSprite(ushort species, int form, int gender, uint formarg, int generation = PKX.Generation, bool shiny = false)
     {
         if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
             form = 0;
@@ -71,7 +71,7 @@ public static class SpriteName
     /// <summary>
     /// Species that show their default Species sprite regardless of current <see cref="PKM.Form"/>
     /// </summary>
-    private static readonly HashSet<int> SpeciesDefaultFormSprite = new()
+    private static readonly HashSet<ushort> SpeciesDefaultFormSprite = new()
     {
         (int)Species.Mothim,
         (int)Species.Scatterbug,
@@ -86,7 +86,7 @@ public static class SpriteName
     /// <summary>
     /// Species that show a <see cref="PKM.Gender"/> specific Sprite
     /// </summary>
-    private static readonly HashSet<int> SpeciesGenderedSprite = new()
+    private static readonly HashSet<ushort> SpeciesGenderedSprite = new()
     {
         (int)Species.Pikachu,
         (int)Species.Hippopotas,

@@ -47,7 +47,7 @@ public static class LearnPossible
         }
     }
 
-    private static void SetAll(ReadOnlySpan<int> moves, Span<bool> result)
+    private static void SetAll(ReadOnlySpan<ushort> moves, Span<bool> result)
     {
         foreach (var move in moves)
             result[move] = true;

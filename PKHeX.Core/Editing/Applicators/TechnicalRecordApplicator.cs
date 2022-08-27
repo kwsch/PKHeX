@@ -30,7 +30,7 @@ public static class TechnicalRecordApplicator
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="moves">Moves to set flags for. If a move is not a Technical Record, it is skipped.</param>
-    public static void SetRecordFlags(this ITechRecord8 pk, ReadOnlySpan<int> moves)
+    public static void SetRecordFlags(this ITechRecord8 pk, ReadOnlySpan<ushort> moves)
     {
         var permit = pk.TechRecordPermitFlags;
         var moveIDs = pk.TechRecordPermitIndexes;

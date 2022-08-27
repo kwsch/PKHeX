@@ -174,7 +174,7 @@ public partial class SAV_MysteryGiftDB : Form
         CB_HeldItem.InitializeBinding();
         CB_Species.InitializeBinding();
 
-        var comboAny = new ComboItem(MsgAny, -1);
+        var comboAny = new ComboItem(MsgAny, 0);
 
         var species = new List<ComboItem>(GameInfo.SpeciesDataSource);
         species.RemoveAt(0);
@@ -300,9 +300,9 @@ public partial class SAV_MysteryGiftDB : Form
         }
 
         // Primary Searchables
-        int species = WinFormsUtil.GetIndex(CB_Species);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         int item = WinFormsUtil.GetIndex(CB_HeldItem);
-        if (species != -1) res = res.Where(pk => pk.Species == species);
+        if (species != 0) res = res.Where(pk => pk.Species == species);
         if (item != -1) res = res.Where(pk => pk.HeldItem == item);
 
         // Secondary Searchables
@@ -310,10 +310,10 @@ public partial class SAV_MysteryGiftDB : Form
         int move2 = WinFormsUtil.GetIndex(CB_Move2);
         int move3 = WinFormsUtil.GetIndex(CB_Move3);
         int move4 = WinFormsUtil.GetIndex(CB_Move4);
-        if (move1 != -1) res = res.Where(mg => mg.HasMove(move1));
-        if (move2 != -1) res = res.Where(mg => mg.HasMove(move2));
-        if (move3 != -1) res = res.Where(mg => mg.HasMove(move3));
-        if (move4 != -1) res = res.Where(mg => mg.HasMove(move4));
+        if (move1 != -1) res = res.Where(mg => mg.HasMove((ushort)move1));
+        if (move2 != -1) res = res.Where(mg => mg.HasMove((ushort)move2));
+        if (move3 != -1) res = res.Where(mg => mg.HasMove((ushort)move3));
+        if (move4 != -1) res = res.Where(mg => mg.HasMove((ushort)move4));
 
         var shiny = CHK_Shiny.CheckState;
         if (shiny == CheckState.Checked) res = res.Where(pk => pk.IsShiny);

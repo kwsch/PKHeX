@@ -1,10 +1,9 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Base class for Pokédex logic operations.
+/// Base class for PokÃ©dex logic operations.
 /// </summary>
 public abstract class ZukanBase
 {
@@ -19,20 +18,45 @@ public abstract class ZukanBase
 
     #region Overall Info
     /// <summary> Count of unique Species Seen </summary>
-    public int SeenCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetSeen);
+    public int SeenCount
+    {
+        get
+        {
+            int ctr = 0;
+            for (ushort i = 1; i <= SAV.MaxSpeciesID; i++)
+            {
+                if (GetSeen(i))
+                    ctr++;
+            }
+            return ctr;
+        }
+    }
+
     /// <summary> Count of unique Species Caught (Owned) </summary>
-    public int CaughtCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetCaught);
+    public int CaughtCount
+    {
+        get
+        {
+            int ctr = 0;
+            for (ushort i = 1; i <= SAV.MaxSpeciesID; i++)
+            {
+                if (GetCaught(i))
+                    ctr++;
+            }
+            return ctr;
+        }
+    }
 
     public decimal PercentSeen => (decimal)SeenCount / SAV.MaxSpeciesID;
     public decimal PercentCaught => (decimal)CaughtCount / SAV.MaxSpeciesID;
     #endregion
 
     /// <summary> Gets if the Species has been Seen by the player. </summary>
-    public abstract bool GetSeen(int species);
+    public abstract bool GetSeen(ushort species);
     /// <summary> Gets if the Species has been Caught (Owned) by the player. </summary>
-    public abstract bool GetCaught(int species);
+    public abstract bool GetCaught(ushort species);
 
-    /// <summary> Adds the Pokémon's information to the Pokédex. </summary>
+    /// <summary> Adds the PokÃ©mon's information to the PokÃ©dex. </summary>
     public abstract void SetDex(PKM pk);
 
     #region Overall Manipulation
@@ -44,13 +68,13 @@ public abstract class ZukanBase
     public abstract void CaughtAll(bool shinyToo = false);
     public abstract void SetAllSeen(bool value = true, bool shinyToo = false);
 
-    public abstract void SetDexEntryAll(int species, bool shinyToo = false);
-    public abstract void ClearDexEntryAll(int species);
+    public abstract void SetDexEntryAll(ushort species, bool shinyToo = false);
+    public abstract void ClearDexEntryAll(ushort species);
     #endregion
 }
 
 /// <summary>
-/// Base class for Pokédex operations, exposing the shared structure features used by Generations 5, 6, and 7.
+/// Base class for PokÃ©dex operations, exposing the shared structure features used by Generations 5, 6, and 7.
 /// </summary>
 public abstract class Zukan : ZukanBase
 {
@@ -70,18 +94,18 @@ public abstract class Zukan : ZukanBase
     protected abstract int DexLangIDCount { get; }
     protected abstract int GetDexLangFlag(int lang);
 
-    protected abstract bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn);
+    protected abstract bool GetSaneFormsToIterate(ushort species, out int formStart, out int formEnd, int formIn);
     protected virtual void SetSpindaDexData(PKM pk, bool alreadySeen) { }
     protected abstract void SetAllDexFlagsLanguage(int bit, int lang, bool value = true);
-    protected abstract void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true);
+    protected abstract void SetAllDexSeenFlags(int baseBit, byte b, int gender, bool isShiny, bool value = true);
 
     protected bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
     protected void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
 
-    public override bool GetCaught(int species) => GetFlag(OFS_CAUGHT, species - 1);
-    public virtual void SetCaught(int species, bool value = true) => SetFlag(OFS_CAUGHT, species - 1, value);
+    public override bool GetCaught(ushort species) => GetFlag(OFS_CAUGHT, species - 1);
+    public virtual void SetCaught(ushort species, bool value = true) => SetFlag(OFS_CAUGHT, species - 1, value);
 
-    public override bool GetSeen(int species)
+    public override bool GetSeen(ushort species)
     {
         // check all 4 seen flags (gender/shiny)
         for (int i = 0; i < 4; i++)
@@ -92,8 +116,8 @@ public abstract class Zukan : ZukanBase
         return false;
     }
 
-    public bool GetSeen(int species, int bitRegion) => GetFlag(OFS_SEEN + (bitRegion * BitSeenSize), species - 1);
-    public void SetSeen(int species, int bitRegion, bool value) => SetFlag(OFS_SEEN + (bitRegion * BitSeenSize), species - 1, value);
+    public bool GetSeen(ushort species, int bitRegion) => GetFlag(OFS_SEEN + (bitRegion * BitSeenSize), species - 1);
+    public void SetSeen(ushort species, int bitRegion, bool value) => SetFlag(OFS_SEEN + (bitRegion * BitSeenSize), species - 1, value);
 
     public bool GetDisplayed(int bit, int bitRegion) => GetFlag(OFS_SEEN + ((bitRegion + 4) * BitSeenSize), bit);
     public void SetDisplayed(int bit, int bitRegion, bool value) => SetFlag(OFS_SEEN + ((bitRegion + 4) * BitSeenSize), bit, value);
@@ -101,7 +125,7 @@ public abstract class Zukan : ZukanBase
     public bool GetLanguageFlag(int bit, int lang) => GetFlag(PokeDexLanguageFlags, (bit * DexLangIDCount) + lang);
     public void SetLanguageFlag(int bit, int lang, bool value) => SetFlag(PokeDexLanguageFlags, (bit * DexLangIDCount) + lang, value);
 
-    public virtual void SetSeen(int species, bool value = true)
+    public virtual void SetSeen(ushort species, bool value = true)
     {
         if (!value)
         {
@@ -119,7 +143,7 @@ public abstract class Zukan : ZukanBase
         SetAllDexSeenFlags(species - 1, 0, gender, false);
     }
 
-    private void ClearSeen(int species)
+    private void ClearSeen(ushort species)
     {
         SetCaught(species, false);
         for (int i = 0; i < 4; i++)
@@ -128,24 +152,24 @@ public abstract class Zukan : ZukanBase
 
     public override void SetDex(PKM pk)
     {
-        if ((uint)(pk.Species - 1) >= (uint)SAV.MaxSpeciesID) // out of range
+        if ((uint)(pk.Species - 1) >= SAV.MaxSpeciesID) // out of range
             return;
         if (pk.IsEgg) // do not add
             return;
 
-        int species = pk.Species;
+        var species = pk.Species;
         if (species == (int)Species.Spinda)
             SetSpindaDexData(pk, GetSeen(species));
 
         int bit = pk.Species - 1;
-        int form = pk.Form;
+        var form = pk.Form;
         int gender = pk.Gender & 1;
         bool shiny = pk.IsShiny;
         int lang = pk.Language;
         SetDex(species, bit, form, gender, shiny, lang);
     }
 
-    protected virtual void SetDex(int species, int bit, int form, int gender, bool shiny, int lang)
+    protected virtual void SetDex(ushort species, int bit, byte form, int gender, bool shiny, int lang)
     {
         SetCaught(species); // Set the Owned Flag
         SetAllDexSeenFlags(bit, form, gender, shiny); // genderless -> male
@@ -213,27 +237,26 @@ public abstract class Zukan : ZukanBase
 
     public void SetAllCaught(bool value = true, bool shinyToo = false)
     {
-        for (int i = 0; i < SAV.MaxSpeciesID; i++)
+        for (ushort i = 1; i <= SAV.MaxSpeciesID; i++)
         {
-            int species = i + 1;
-            SetCaught(species, value); // Set the Owned Flag
-            SetSeenSingle(i + 1, value, shinyToo);
+            SetCaught(i, value); // Set the Owned Flag
+            SetSeenSingle(i, value, shinyToo);
         }
     }
 
     public override void SetAllSeen(bool value = true, bool shinyToo = false)
     {
-        for (int i = 0; i < SAV.MaxSpeciesID; i++)
-            SetSeenSingle(i + 1, value, shinyToo);
+        for (ushort i = 1; i <= SAV.MaxSpeciesID; i++)
+            SetSeenSingle(i, value, shinyToo);
     }
 
-    public override void SetDexEntryAll(int species, bool shinyToo = false)
+    public override void SetDexEntryAll(ushort species, bool shinyToo = false)
     {
         SetSeenSingle(species, true, shinyToo);
         SetCaughtSingle(species);
     }
 
-    public override void ClearDexEntryAll(int species)
+    public override void ClearDexEntryAll(ushort species)
     {
         SetSeenSingle(species, false);
         SetCaughtSingle(species, false);
@@ -244,28 +267,28 @@ public abstract class Zukan : ZukanBase
         if (max <= 0)
             max = SAV.MaxSpeciesID;
 
-        for (int i = 1; i <= max; i++)
+        for (ushort i = 1; i <= max; i++)
         {
             SetSeenSingle(i, value, shinyToo);
             SetCaughtSingle(i, value);
         }
     }
 
-    public void SetCaughtSingle(int species, bool value = true)
+    public void SetCaughtSingle(ushort species, bool value = true)
     {
         SetCaught(species, value);
         int baseBit = species - 1;
         SetAllDexFlagsLanguage(baseBit, value);
     }
 
-    public void SetSeenSingle(int species, bool seen = true, bool shinyToo = false)
+    public void SetSeenSingle(ushort species, bool seen = true, bool shinyToo = false)
     {
         SetSeen(species, seen);
 
         var entry = SAV.Personal[species];
         int baseBit = species - 1;
         int fc = entry.FormCount;
-        for (int f = 0; f < fc; f++)
+        for (byte f = 0; f < fc; f++)
         {
             if (!entry.OnlyFemale)
             {

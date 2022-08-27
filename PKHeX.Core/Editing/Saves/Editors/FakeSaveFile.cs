@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -22,8 +22,8 @@ public sealed class FakeSaveFile : SaveFile
     public override void SetBoxName(int box, string value) { }
     public override int OTLength => 5;
     public override int NickLength => 5;
-    public override int MaxMoveID => 5;
-    public override int MaxSpeciesID => 1;
+    public override ushort MaxMoveID => 5;
+    public override ushort MaxSpeciesID => 1;
     public override int MaxItemID => 5;
     public override int MaxBallID => 5;
     public override int MaxGameID => 5;

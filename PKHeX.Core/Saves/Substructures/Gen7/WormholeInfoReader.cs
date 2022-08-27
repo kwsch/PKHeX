@@ -33,13 +33,11 @@ public sealed class WormholeInfoReader
             if (value is < 1 or > WormholeSlotMax)
                 return;
             for (int i = 1; i <= WormholeSlotMax; i++)
-            {
                 SAV.SetEventFlag(i, value != i);
-            }
         }
     }
 
-    public static readonly int[] StandardWormholes =
+    public static readonly ushort[] StandardWormholes =
     {
         256, // Red
         257, // Green
@@ -47,9 +45,9 @@ public sealed class WormholeInfoReader
         259, // Blue
     };
 
-    public static readonly int[] WormholeSlotsRed =
+    public static readonly ushort[] WormholeSlotsRed =
     {
-        -1, // filler used for indexing with slot number
+        0, // filler used for indexing with slot number
         144, // Articuno
         145, // Zapdos
         146, // Moltres
@@ -67,9 +65,9 @@ public sealed class WormholeInfoReader
         277, // Swellow
     };
 
-    public static readonly int[] WormholeSlotsGreen =
+    public static readonly ushort[] WormholeSlotsGreen =
     {
-        -1, // filler used for indexing with slot number
+        0, // filler used for indexing with slot number
         150, // Mewtwo
         243, // Raikou
         244, // Entei
@@ -87,9 +85,9 @@ public sealed class WormholeInfoReader
         326, // Grumpig
     };
 
-    public static readonly int[] WormholeSlotsYellow =
+    public static readonly ushort[] WormholeSlotsYellow =
     {
-        -1, // filler used for indexing with slot number
+        0, // filler used for indexing with slot number
         377, // Regirock
         378, // Regice
         379, // Registeel
@@ -98,8 +96,8 @@ public sealed class WormholeInfoReader
         486, // Regigigas
         484, // Palkia
         487, // Giratina
-        -1, // unused
-        -1, // unused
+        0, // unused
+        0, // unused
         460, // Abomasnow
         308, // Medicham
         450, // Hippowdon
@@ -107,9 +105,9 @@ public sealed class WormholeInfoReader
         219, // Magcargo
     };
 
-    public static readonly int[] WormholeSlotsBlue =
+    public static readonly ushort[] WormholeSlotsBlue =
     {
-        -1, // filler used for indexing with slot number
+        0, // filler used for indexing with slot number
         245, // Suicune
         249, // Lugia
         380, // Latias
@@ -119,7 +117,7 @@ public sealed class WormholeInfoReader
         481, // Mesprit
         482, // Azelf
         646, // Kyurem
-        -1, // unused
+        0, // unused
         689, // Barbaracle
         271, // Lombre
         618, // Stunfisk
@@ -127,10 +125,10 @@ public sealed class WormholeInfoReader
         195, // Quagsire
     };
 
-    public static int WormholeSlotToPokemon(int mapid, int slot)
+    public static ushort WormholeSlotToPokemon(int mapid, int slot)
     {
         if (slot is < 1 or > WormholeSlotMax)
-            return -1;
+            return 0;
 
         return mapid switch
         {
@@ -138,7 +136,7 @@ public sealed class WormholeInfoReader
             257 => WormholeSlotsGreen[slot],
             258 => WormholeSlotsYellow[slot],
             259 => WormholeSlotsBlue[slot],
-            _ => -1,
+            _ => 0,
         };
     }
 }
