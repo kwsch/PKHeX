@@ -101,7 +101,7 @@ internal static class GBRestrictions
     }
 
     /// <summary>
-    /// Checks if the <see cref="pk"/> can inhabit <see cref="GameVersion.Gen1"></see>
+    /// Checks if the <see cref="pk"/> can inhabit <see cref="Gen1"></see>
     /// </summary>
     /// <param name="pk">Data to check</param>
     /// <returns>true if can inhabit, false if not.</returns>
