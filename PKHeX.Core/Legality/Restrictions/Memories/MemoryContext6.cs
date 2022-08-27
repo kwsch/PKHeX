@@ -10,7 +10,7 @@ public sealed partial class MemoryContext6 : MemoryContext
     public static readonly MemoryContext6 Instance = new();
     private MemoryContext6() { }
 
-    private static ICollection<int> GetPokeCenterLocations(GameVersion game)
+    private static ICollection<byte> GetPokeCenterLocations(GameVersion game)
     {
         return GameVersion.XY.Contains(game) ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;
     }
@@ -19,7 +19,9 @@ public sealed partial class MemoryContext6 : MemoryContext
     {
         if (game == GameVersion.Any)
             return GetHasPokeCenterLocation(GameVersion.X, loc) || GetHasPokeCenterLocation(GameVersion.AS, loc);
-        return GetPokeCenterLocations(game).Contains(loc);
+        if (loc > byte.MaxValue)
+            return false;
+        return GetPokeCenterLocations(game).Contains((byte)loc);
     }
 
     public static int GetMemoryRarity(int memory) => (uint)memory >= MemoryRandChance.Length ? -1 : MemoryRandChance[memory];
@@ -68,8 +70,8 @@ public sealed partial class MemoryContext6 : MemoryContext
         return false; // todo
     }
 
-    private static bool CanObtainMemoryAO(int memory) => memory <= MAX_MEMORY_ID_AO && !Memory_NotAO.Contains(memory);
-    private static bool CanObtainMemoryXY(int memory) => memory <= MAX_MEMORY_ID_XY && !Memory_NotXY.Contains(memory);
+    private static bool CanObtainMemoryAO(byte memory) => memory <= MAX_MEMORY_ID_AO && !Memory_NotAO.Contains(memory);
+    private static bool CanObtainMemoryXY(byte memory) => memory <= MAX_MEMORY_ID_XY && !Memory_NotXY.Contains(memory);
     public override bool CanObtainMemoryHT(GameVersion pkmVersion, byte memory) => CanObtainMemory(memory);
 
     public override bool CanWinLotoID(int item) => LotoPrizeXYAO.Contains((ushort)item);

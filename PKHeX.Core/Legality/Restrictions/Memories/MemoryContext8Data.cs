@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
 public partial class MemoryContext8
 {
-    private static readonly int[] Memory_NotSWSH =
+    private static readonly byte[] Memory_NotSWSH =
     {
         10, // {0} got treats from {1}. {4} that {3}.
         17, // {0} battled at {1}’s side and beat {2}. {4} that {3}.
@@ -42,7 +42,7 @@ public partial class MemoryContext8
         89, // When {0} was in a Box, it had a weird dream in which {1} was using the move {2}. {4} that {3}.
     };
 
-    private static readonly Dictionary<int, ushort[]> KeyItemMemoryArgsGen8 = new()
+    private static readonly Dictionary<ushort, ushort[]> KeyItemMemoryArgsGen8 = new()
     {
         {(int) Species.Rotom, new ushort[] {1278}}, // Rotom Catalog
         {(int) Species.Kyurem, new ushort[] {628, 629}}, // DNA Splicers

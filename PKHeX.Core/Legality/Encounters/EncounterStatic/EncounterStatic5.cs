@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -25,7 +23,7 @@ public record EncounterStatic5(GameVersion Version) : EncounterStatic(Version)
     {
         if (!Roaming)
             return base.IsMatchLocation(pk);
-        return Roaming_MetLocation_BW.Contains(pk.Met_Location);
+        return IsRoamerMet(pk.Met_Location);
     }
 
     protected override bool IsMatchEggLocation(PKM pk)
@@ -45,12 +43,15 @@ public record EncounterStatic5(GameVersion Version) : EncounterStatic(Version)
         return true;
     }
 
-    private static readonly int[] Roaming_MetLocation_BW =
+    // 25,26,27,28, // Route 12, 13, 14, 15 Night latter half
+    // 15,16,31,    // Route 2, 3, 18 Morning
+    // 17,18,29,    // Route 4, 5, 16 Daytime
+    // 19,20,21,    // Route 6, 7, 8 Evening
+    // 22,23,24,    // Route 9, 10, 11 Night former half
+    private static bool IsRoamerMet(int location)
     {
-        25,26,27,28, // Route 12, 13, 14, 15 Night latter half
-        15,16,31,    // Route 2, 3, 18 Morning
-        17,18,29,    // Route 4, 5, 16 Daytime
-        19,20,21,    // Route 6, 7, 8 Evening
-        22,23,24,    // Route 9, 10, 11 Night former half
-    };
+        if ((uint)location >= 32)
+            return false;
+        return (0b10111111111111111000000000000000 & (1 << location)) != 0;
+    }
 }

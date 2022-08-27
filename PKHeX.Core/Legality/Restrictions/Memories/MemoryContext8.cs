@@ -54,7 +54,7 @@ public sealed partial class MemoryContext8 : MemoryContext
         };
     }
 
-    private static bool CanObtainMemorySWSH(int memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
+    private static bool CanObtainMemorySWSH(byte memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
 
     public override bool CanWinLotoID(int item) => LotoPrizeSWSH.Contains((ushort)item);
 

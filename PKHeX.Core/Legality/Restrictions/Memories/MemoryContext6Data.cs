@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
 // data tables stored separately!
 public partial class MemoryContext6
 {
-    private static readonly int[] Memory_NotXY =
+    private static readonly byte[] Memory_NotXY =
     {
         65, // {0} was with {1} when (he/she) built a Secret Base. {4} that {3}.
         66, // {0} participated in a contest with {1} and impressed many people. {4} that {3}.
@@ -14,7 +14,7 @@ public partial class MemoryContext6
         69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
     };
 
-    private static readonly int[] Memory_NotAO =
+    private static readonly byte[] Memory_NotAO =
     {
         11, // {0} went clothes shopping with {1}. {4} that {3}.
         43, // {0} was impressed by the speed of the train it took with {1}. {4} that {3}.
@@ -38,7 +38,7 @@ public partial class MemoryContext6
     /// <summary>
     /// Kalos locations with a Pokémon Center
     /// </summary>
-    private static readonly int[] LocationsWithPokeCenter_XY =
+    private static readonly byte[] LocationsWithPokeCenter_XY =
     {
         // Kalos locations with a PKMN CENTER
         018, // Santalune City
@@ -60,7 +60,7 @@ public partial class MemoryContext6
     /// <summary>
     /// Hoenn locations with a Pokémon Center
     /// </summary>
-    private static readonly int[] LocationsWithPokeCenter_AO =
+    private static readonly byte[] LocationsWithPokeCenter_AO =
     {
         // Hoenn locations with a PKMN CENTER
         172, // Oldale Town
@@ -117,7 +117,7 @@ public partial class MemoryContext6
         0xB770B0, 0x881F7A, 0x839F7A, 0x839F7A, 0x839F7A, 0x53897F, 0x41BB6F, 0x0C35FF, 0x8BBF7F, 0x8BBF7F,
     };
 
-    private static readonly Dictionary<int, ushort[]> KeyItemMemoryArgsGen6 = new()
+    private static readonly Dictionary<ushort, ushort[]> KeyItemMemoryArgsGen6 = new()
     {
         {(int) Species.Shaymin, new ushort[] {466}}, // Gracidea
         {(int) Species.Tornadus, new ushort[] {638}}, // Reveal Glass
