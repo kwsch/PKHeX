@@ -42,16 +42,16 @@ internal static class LearnVerifierEgg
         int i = 0;
         if (initial.Move1 != 0)
         {
-            result[i++] = GetMethodInitial(current[i], initial.Move1);
+            result[i] = GetMethodInitial(current[i], initial.Move1); i++;
             if (initial.Move2 != 0)
             {
-                result[i++] = GetMethodInitial(current[i], initial.Move2);
+                result[i] = GetMethodInitial(current[i], initial.Move2); i++;
                 if (initial.Move3 != 0)
                 {
-                    result[i++] = GetMethodInitial(current[i], initial.Move3);
+                    result[i] = GetMethodInitial(current[i], initial.Move3); i++;
                     if (initial.Move4 != 0)
                     {
-                        result[i++] = GetMethodInitial(current[i], initial.Move4);
+                        result[i] = GetMethodInitial(current[i], initial.Move4); i++;
                     }
                 }
             }
