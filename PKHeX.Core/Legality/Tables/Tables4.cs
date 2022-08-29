@@ -90,7 +90,7 @@ public static partial class Legal
     internal static readonly ushort[] HeldItems_HGSS = ArrayUtil.ConcatAll(Pouch_Items_HGSS, Pouch_Mail_HGSS, Pouch_Medicine_HGSS, Pouch_Berries_HGSS, Pouch_Ball_Pt, Pouch_TMHM_HGSS.Slice(0, Pouch_TMHM_HGSS.Length - 8));
     #endregion
 
-    internal static readonly bool[] ReleasedHeldItems_4 = GetPermitList(MaxItemID_4_HGSS, HeldItems_HGSS, new ushort[]
+    internal static readonly bool[] ReleasedHeldItems_4 = GetPermitList(MaxItemID_4_HGSS, HeldItems_HGSS, stackalloc ushort[]
     {
         005, // Safari Ball
         016, // Cherish Ball

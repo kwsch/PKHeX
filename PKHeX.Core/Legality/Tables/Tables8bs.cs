@@ -95,7 +95,7 @@ public static partial class Legal
     internal static readonly ushort[] HeldItems_BS = ArrayUtil.ConcatAll(Pouch_Items_BS, Pouch_Berries_BS, Pouch_TMHM_BS, Pouch_Medicine_BS, Pouch_Treasure_BS);
 
     #region Unreleased Items
-    internal static readonly bool[] ReleasedHeldItems_8b = GetPermitList(MaxItemID_8b, HeldItems_BS, new ushort[]
+    internal static readonly bool[] ReleasedHeldItems_8b = GetPermitList(MaxItemID_8b, HeldItems_BS, stackalloc ushort[]
     {
         044, // Sacred Ash
         537, // Prism Scale

@@ -168,7 +168,7 @@ public static partial class Legal
         332, 334, 336, 338, 340, 342, 344, 346,      350, 352, 354,
     };
 
-    internal static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItem_AO, new ushort[]
+    internal static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItem_AO, stackalloc ushort[]
     {
         005, // Safari Ball
         016, // Cherish Ball

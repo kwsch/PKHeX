@@ -82,7 +82,7 @@ public static partial class Legal
         590, 591, 592, 593,
     };
 
-    internal static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3, HeldItems_RS, new ushort[] {005}); // Safari Ball
+    internal static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3, HeldItems_RS, stackalloc ushort[] {005}); // Safari Ball
 
     // 064 is an unused location for Meteor Falls
     // 084 is Inside of a truck, no possible pokemon can be hatched there

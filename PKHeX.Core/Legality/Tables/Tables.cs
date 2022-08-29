@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
@@ -90,7 +91,7 @@ public static partial class Legal
         (int)Meowstic, // (M/F) form specific
     };
 
-    private static bool[] GetPermitList(int max, IEnumerable<ushort> held)
+    private static bool[] GetPermitList(int max, ReadOnlySpan<ushort> held)
     {
         var result = new bool[max + 1];
         foreach (var item in held)
@@ -98,7 +99,7 @@ public static partial class Legal
         return result;
     }
 
-    private static bool[] GetPermitList(int max, IEnumerable<ushort> held, IEnumerable<ushort> unreleased)
+    private static bool[] GetPermitList(int max, ReadOnlySpan<ushort> held, ReadOnlySpan<ushort> unreleased)
     {
         var result = GetPermitList(max, held);
         foreach (var u in unreleased)

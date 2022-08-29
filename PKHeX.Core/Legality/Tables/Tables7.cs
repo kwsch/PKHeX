@@ -234,7 +234,7 @@ public static partial class Legal
     };
 
     #region Unreleased Items
-    internal static readonly bool[] ReleasedHeldItems_7 = GetPermitList(MaxItemID_7_USUM, HeldItems_USUM, new ushort[]
+    internal static readonly bool[] ReleasedHeldItems_7 = GetPermitList(MaxItemID_7_USUM, HeldItems_USUM, stackalloc ushort[]
     {
         005, // Safari Ball
         016, // Cherish Ball

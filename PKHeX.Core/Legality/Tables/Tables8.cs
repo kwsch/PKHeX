@@ -230,7 +230,7 @@ public static partial class Legal
     public static bool IsDynamaxCrystal(ushort item) => item is >= DMAX_START and <= DMAX_END;
     public static bool IsDynamaxCrystalAvailable(ushort item) => item is >= DMAX_START and <= DMAX_LEGAL_END;
 
-    internal static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, new ushort[]
+    internal static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, stackalloc ushort[]
     {
         298, // Flame Plate
         299, // Splash Plate
