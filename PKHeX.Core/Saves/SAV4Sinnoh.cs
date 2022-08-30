@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -229,5 +229,5 @@ public enum PoketchApp
 
 public readonly record struct MunchlaxTreeSet4(int Tree1, int Tree2, int Tree3, int Tree4)
 {
-    public int[] ToArray() => new[] { Tree1, Tree2, Tree3, Tree4 };
+    public bool Contains(int tree) => tree == Tree1 || tree == Tree2 || tree == Tree3 || tree == Tree4;
 }
