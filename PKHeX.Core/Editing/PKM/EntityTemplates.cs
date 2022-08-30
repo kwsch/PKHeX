@@ -62,7 +62,7 @@ public static class EntityTemplates
     private static ushort GetTemplateSpecies(PKM pk, ITrainerInfo tr)
     {
         ushort species = tr is IGameValueLimit s ? s.MaxSpeciesID : ((GameVersion)pk.Version).GetMaxSpeciesID();
-        if (species <= 0)
+        if (species == 0)
             species = pk.MaxSpeciesID;
         return species;
     }

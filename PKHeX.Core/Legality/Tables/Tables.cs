@@ -91,19 +91,30 @@ public static partial class Legal
         (int)Meowstic, // (M/F) form specific
     };
 
-    private static bool[] GetPermitList(int max, ReadOnlySpan<ushort> held)
+    /// <summary>
+    /// Gets a permit list with the permitted indexes, then un-flags the indexes that are not permitted.
+    /// </summary>
+    /// <param name="max">Maximum index expected to allow</param>
+    /// <param name="allowed">Allowed indexes</param>
+    private static bool[] GetPermitList(int max, ReadOnlySpan<ushort> allowed)
     {
         var result = new bool[max + 1];
-        foreach (var item in held)
-            result[item] = true;
+        foreach (var index in allowed)
+            result[index] = true;
         return result;
     }
 
-    private static bool[] GetPermitList(int max, ReadOnlySpan<ushort> held, ReadOnlySpan<ushort> unreleased)
+    /// <summary>
+    /// Gets a permit list with the permitted indexes, then un-flags the indexes that are not permitted.
+    /// </summary>
+    /// <param name="max">Maximum index expected to allow</param>
+    /// <param name="allowed">Allowed indexes (may have some disallowed)</param>
+    /// <param name="disallow">Disallowed indexes</param>
+    private static bool[] GetPermitList(int max, ReadOnlySpan<ushort> allowed, ReadOnlySpan<ushort> disallow)
     {
-        var result = GetPermitList(max, held);
-        foreach (var u in unreleased)
-            result[u] = false;
+        var result = GetPermitList(max, allowed);
+        foreach (var index in disallow)
+            result[index] = false;
         return result;
     }
 }

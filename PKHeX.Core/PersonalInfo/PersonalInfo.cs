@@ -82,7 +82,7 @@ public abstract class PersonalInfo : IPersonalInfo
 
     public bool HasForm(byte form)
     {
-        if (form <= 0) // no form requested
+        if (form == 0) // no form requested
             return false;
         if (FormStatsIndex <= 0) // no forms present
             return false;

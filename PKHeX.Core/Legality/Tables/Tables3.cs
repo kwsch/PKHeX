@@ -97,6 +97,7 @@ public static partial class Legal
         060, 061, 062, 063, 065, 066, 067, 068, 069, 070     , 072, 073, 074     , 076     , 078, 079, 080,
         081, 082, 083, 085, 086, 087,
     };
+
     // 155 - 158 Sevii Isle 6-9 Unused
     // 171 - 173 Sevii Isle 22-24 Unused
     internal static readonly HashSet<byte> ValidMet_FRLG = new()

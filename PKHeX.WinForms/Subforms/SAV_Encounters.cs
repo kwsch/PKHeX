@@ -224,15 +224,15 @@ public partial class SAV_Encounters : Form
     private IEnumerable<IEncounterInfo> SearchDatabase(CancellationToken token)
     {
         var settings = GetSearchSettings();
-        var moves = settings.Moves.ToArray();
 
         // If nothing is specified, instead of just returning all possible encounters, just return nothing.
-        if (settings.Species <= 0 && moves.Length == 0 && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
+        if (settings.Species == 0 && settings.Moves.Count == 0 && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
             return Array.Empty<IEncounterInfo>();
         var pk = SAV.BlankPKM;
 
+        var moves = settings.Moves.ToArray();
         var versions = settings.GetVersions(SAV);
-        var species = settings.Species <= 0 ? GetFullRange(SAV.MaxSpeciesID) : new[] { settings.Species };
+        var species = settings.Species == 0 ? GetFullRange(SAV.MaxSpeciesID) : new[] { settings.Species };
         var results = GetAllSpeciesFormEncounters(species, SAV.Personal, versions, moves, pk, token);
         if (settings.SearchEgg != null)
             results = results.Where(z => z.EggEncounter == settings.SearchEgg);

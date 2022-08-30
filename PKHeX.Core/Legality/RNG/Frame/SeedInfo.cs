@@ -59,7 +59,7 @@ public readonly record struct SeedInfo(uint Seed, bool Charm3 = false)
         foreach (var seed in seeds)
             yield return new SeedInfo(seed);
     }
-    
+
     /// <summary>
     /// Yields an enumerable list of seeds until another valid PID breaks the chain.
     /// </summary>

@@ -149,7 +149,7 @@ public sealed partial class MemoryContext8 : MemoryContext
     {
         if (memory >= MemoryFeelings.Length)
             return false;
-        if (feeling <= 0)
+        if (feeling == 0)
             return false; // Different from Gen6; this +1 is to match them treating 0 as empty
         return (MemoryFeelings[memory] & (1 << --feeling)) != 0;
     }

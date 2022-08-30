@@ -66,7 +66,7 @@ public class BreedTests
         var test = MoveBreed.Validate(gen, (ushort)species, form, game, moves, result);
         test.Should().BeFalse();
     }
-    
+
     [Theory]
     [InlineData(GD, Bulbasaur, 0, Growl, Tackle)] // swap order, two base moves
     [InlineData(UM, Charmander, 0, Ember, BellyDrum, Scratch, Growl)] // swap order, inherit + egg moves

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,7 +24,7 @@ public sealed class BatchEditor
     /// <returns>Result of the attempted modification.</returns>
     public bool Process(PKM pk, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
     {
-        if (pk.Species <= 0)
+        if (pk.Species == 0)
             return false;
         if (!pk.Valid)
         {

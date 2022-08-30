@@ -71,7 +71,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     #region Block A
     public override ushort SpeciesID3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), value); } // raw access
 
-    public override ushort Species 
+    public override ushort Species
     {
         get => SpeciesConverter.GetG4Species(SpeciesID3);
         set

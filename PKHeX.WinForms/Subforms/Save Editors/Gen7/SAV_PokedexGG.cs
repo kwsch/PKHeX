@@ -241,7 +241,7 @@ public partial class SAV_PokedexGG : Form
 
     private void SetEntry()
     {
-        if (currentSpecies <= 0)
+        if (currentSpecies == 0)
             return;
 
         int pk = currentSpecies - 1;

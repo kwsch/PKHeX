@@ -508,7 +508,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     private bool CanSetDex(ushort species)
     {
-        if (species <= 0)
+        if (species == 0)
             return false;
         if (species > MaxSpeciesID)
             return false;

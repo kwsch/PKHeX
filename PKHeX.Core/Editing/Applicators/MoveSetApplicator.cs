@@ -54,16 +54,8 @@ public static class MoveSetApplicator
     /// <summary>
     /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
     /// </summary>
-    /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="enc">Encounter the relearn moves should be suggested for. If not provided, will try to detect it via legality analysis. </param>
-    /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-    public static IReadOnlyList<ushort> GetSuggestedRelearnMoves(this PKM pk, IEncounterTemplate? enc = null) => GetSuggestedRelearnMoves(new LegalityAnalysis(pk), enc);
-
-    /// <summary>
-    /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
-    /// </summary>
     /// <param name="legal"><see cref="LegalityAnalysis"/> which contains parsed information pertaining to legality.</param>
-    /// <param name="enc">Encounter the relearn moves should be suggested for. If not provided, will try to detect it via legality analysis. </param>
+    /// <param name="enc">Encounter the relearn moves should be suggested for. If not provided, will use the original encounter from the analysis. </param>
     /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
     public static IReadOnlyList<ushort> GetSuggestedRelearnMoves(this LegalityAnalysis legal, IEncounterTemplate? enc = null)
     {

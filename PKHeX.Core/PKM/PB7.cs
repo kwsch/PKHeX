@@ -62,7 +62,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value);
     }
 
-    public override ushort Species 
+    public override ushort Species
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value);

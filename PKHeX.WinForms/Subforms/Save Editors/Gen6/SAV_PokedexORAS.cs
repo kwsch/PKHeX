@@ -153,7 +153,7 @@ public partial class SAV_PokedexORAS : Form
 
     private void SetEntry()
     {
-        if (species < 0)
+        if (species == 0)
             return;
 
         Zukan.SetCaught(species, CP[0].Checked);

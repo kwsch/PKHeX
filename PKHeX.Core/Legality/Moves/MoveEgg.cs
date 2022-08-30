@@ -46,7 +46,7 @@ public static class MoveEgg
             return Array.Empty<ushort>();
 
         var entry = table[species];
-        if (form <= 0 || entry.FormTableIndex <= species)
+        if (form == 0 || species >= entry.FormTableIndex)
             return entry.Moves;
 
         // Sanity check form in the event it is out of range.

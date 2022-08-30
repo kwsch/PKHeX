@@ -226,16 +226,16 @@ public partial class SAV_PokedexSM : Form
 
     private void SetEntry()
     {
-        if (currentSpecies <= 0)
+        if (currentSpecies == 0)
             return;
 
-        int pk = currentSpecies - 1;
+        int bit = currentSpecies - 1;
 
         for (int i = 0; i < 4; i++)
             Dex.SetSeen(currentSpecies, i, CP[i + 1].Checked);
 
         for (int i = 0; i < 4; i++)
-            Dex.SetDisplayed(pk, i, CP[i + 5].Checked);
+            Dex.SetDisplayed(bit, i, CP[i + 5].Checked);
 
         if (currentSpecies > SAV.MaxSpeciesID)
             return;
@@ -243,7 +243,7 @@ public partial class SAV_PokedexSM : Form
         Dex.SetCaught(currentSpecies, CHK_P1.Checked);
 
         for (int i = 0; i < 9; i++)
-            Dex.SetLanguageFlag(pk, i, CL[i].Checked);
+            Dex.SetLanguageFlag(bit, i, CL[i].Checked);
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)

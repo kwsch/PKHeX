@@ -118,7 +118,7 @@ public static class Breeding
     }
 
     /// <summary>
-    /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,int,int)"/>
+    /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,byte,int)"/>
     /// </summary>
     /// <returns>True if can be bred.</returns>
     private static bool IsBreedableForm(ushort species, byte form) => species switch

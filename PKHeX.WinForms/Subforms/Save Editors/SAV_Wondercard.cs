@@ -86,8 +86,12 @@ public partial class SAV_Wondercard : Form
         try
         {
             // only check if the form is visible (not opening)
-            if (Visible && g.GiftUsed && DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgMsyteryGiftUsedAlert, MsgMysteryGiftUsedFix))
-                g.GiftUsed = false;
+            if (Visible && g.GiftUsed)
+            {
+                var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgMsyteryGiftUsedAlert, MsgMysteryGiftUsedFix);
+                if (prompt == DialogResult.Yes)
+                    g.GiftUsed = false;
+            }
 
             RTB.Lines = g.GetDescription().ToArray();
             PB_Preview.Image = g.Sprite();
@@ -96,8 +100,8 @@ public partial class SAV_Wondercard : Form
         // Some user input mystery gifts can have out-of-bounds values. Just swallow any exception.
         catch (Exception e)
         {
-            WinFormsUtil.Error(MsgMysteryGiftParseTypeUnknown, e);
             RTB.Clear();
+            WinFormsUtil.Error(MsgMysteryGiftParseTypeUnknown, e);
         }
     }
 
@@ -128,17 +132,21 @@ public partial class SAV_Wondercard : Form
     // Mystery Gift IO (.file<->window)
     private void B_Import_Click(object sender, EventArgs e)
     {
-        using var import = new OpenFileDialog {Filter = WinFormsUtil.GetMysterGiftFilter(SAV.Generation, SAV.Version) };
-        if (import.ShowDialog() != DialogResult.OK) return;
+        var fileFilter = WinFormsUtil.GetMysterGiftFilter(SAV.Generation, SAV.Version);
+        using var import = new OpenFileDialog { Filter = fileFilter };
+        if (import.ShowDialog() != DialogResult.OK)
+            return;
 
-        string path = import.FileName;
-        var g = MysteryGift.GetMysteryGift(File.ReadAllBytes(path), Path.GetExtension(path));
-        if (g == null)
+        var path = import.FileName;
+        var data = File.ReadAllBytes(path);
+        var ext = Path.GetExtension(path);
+        var gift = MysteryGift.GetMysteryGift(data, ext);
+        if (gift == null)
         {
             WinFormsUtil.Error(MsgMysteryGiftInvalid, path);
             return;
         }
-        ViewGiftData(g);
+        ViewGiftData(gift);
     }
 
     private void B_Output_Click(object sender, EventArgs e)
@@ -148,18 +156,21 @@ public partial class SAV_Wondercard : Form
         WinFormsUtil.ExportMGDialog(mg, SAV.Version);
     }
 
-    private static int GetLastUnfilledByType(MysteryGift Gift, MysteryGiftAlbum Album)
+    private static int GetLastUnfilledByType(MysteryGift gift, MysteryGiftAlbum album)
     {
-        for (int i = 0; i < Album.Gifts.Length; i++)
+        var gifts = album.Gifts;
+        for (int i = 0; i < gifts.Length; i++)
         {
-            if (!Album.Gifts[i].Empty)
+            var exist = gifts[i];
+            if (!exist.Empty)
                 continue;
-            if (Album.Gifts[i].Type != Gift.Type)
+            if (exist.Type != gift.Type)
                 continue;
             return i;
         }
         return -1;
     }
+
     // Mystery Gift RW (window<->sav)
     private void ClickView(object sender, EventArgs e)
     {

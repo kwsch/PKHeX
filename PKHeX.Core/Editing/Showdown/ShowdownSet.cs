@@ -262,7 +262,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private string GetText(GameStrings? strings = null)
     {
-        if (Species is <= 0 or > MAX_SPECIES)
+        if (Species is 0 or > MAX_SPECIES)
             return string.Empty;
 
         if (strings != null)
@@ -402,7 +402,7 @@ public sealed class ShowdownSet : IBattleTemplate
     /// <returns>New ShowdownSet object representing the input <see cref="pk"/></returns>
     public ShowdownSet(PKM pk)
     {
-        if (pk.Species <= 0)
+        if (pk.Species == 0)
             return;
 
         Context = pk.Context;

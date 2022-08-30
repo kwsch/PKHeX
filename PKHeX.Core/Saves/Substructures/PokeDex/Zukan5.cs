@@ -108,7 +108,7 @@ public sealed class Zukan5 : Zukan
         }
         return false;
     }
-    
+
     private int FormLen => SAV is SAV5B2W2 ? 0xB : 0x9;
     private int FormDex => 0x8 + (BitSeenSize * 9);
 

@@ -533,7 +533,7 @@ public sealed class Zukan8 : ZukanBase
         SetUnk1Count(species, 0);
         SetUnk2Count(species, 0);
     }
-    
+
     public override void SeenAll(bool shinyToo = false)
     {
         SetAllSeen(true, shinyToo);

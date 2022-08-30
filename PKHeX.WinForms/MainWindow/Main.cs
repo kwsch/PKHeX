@@ -482,7 +482,7 @@ public partial class Main : Form
         // Get Simulator Data
         var Set = new ShowdownSet(Clipboard.GetText());
 
-        if (Set.Species < 0)
+        if (Set.Species == 0)
         { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, Set.Text))

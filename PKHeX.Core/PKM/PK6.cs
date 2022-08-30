@@ -50,7 +50,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value);
     }
 
-    public override ushort Species 
+    public override ushort Species
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x08));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value);

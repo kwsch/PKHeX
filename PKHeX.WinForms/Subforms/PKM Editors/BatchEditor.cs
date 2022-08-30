@@ -227,7 +227,7 @@ public partial class BatchEditor : Form
             var pk = data[i].Entity;
 
             var spec = pk.Species;
-            if (spec <= 0 || spec > max)
+            if (spec == 0 || spec > max)
                 continue;
 
             if (entry.Source is SlotInfoBox info && SAV.GetSlotFlags(info.Box, info.Slot).IsOverwriteProtected())
