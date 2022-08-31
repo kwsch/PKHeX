@@ -1,7 +1,20 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/06/26 - New Update:
+22/08/31 - New Update:
+ - Legality:
+ - - Refactored move validation and evolution branching to better handle sidegame alterations.
+ - - Refactored some data structures for faster program performance.
+ - - Refactored some validators for faster performance (ex. Ribbons).
+ - Added: More event flag/constant names. Thanks @tastymeatball and @CanoeHope !
+ - Added: Advanced tab of PKM/MGDB/Encounter Database now shows a batch editor command builder.
+ - Added: Can now copy a folder path prior to importing/exporting individual box data entities. Thanks @berichan !
+ - Changed: PKM Editor ball selection window is now sorted by legality. Setting available to revert to ordered by ball ID.
+ - Fixed: Event Flag editor custom work value now clamped to correct maximum. Thanks @PKMWM1 !
+ - Fixed: Colosseum/XD playtime values now read & write correctly. Thanks @trigger-segfault !
+ - Fixed: Colosseum format entities now read/write friendship correctly.
+
+22/06/26 - New Update: (224234) [5220293]
  - Legality:
  - - Added: Current Handler legality for the save file is now checked. Having incorrect Handling Trainer data will be flagged.
  - - Added: Marking legality now flags illegal marking values that can cause crashes in all Gen8 games (not yet patched).

@@ -100,7 +100,7 @@ public static partial class Legal
     /// <param name="pk">Entity to check</param>
     internal static bool IsOriginalMovesetDeleted(this PKM pk)
     {
-        if (pk.Format == 8 && pk.Generation == 8)
+        if (pk.Format == 8)
             return IsSideGameTransferDeletedMoveset(pk);
         return pk is IBattleVersion { BattleVersion: not 0 };
     }

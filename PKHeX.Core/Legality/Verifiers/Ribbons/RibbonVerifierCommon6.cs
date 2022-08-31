@@ -91,11 +91,20 @@ public static class RibbonVerifierCommon6
 
     private static void GetInvalidRibbons6Memory(IRibbonSetMemory6 r, RibbonVerifierArguments args, ref RibbonResultList list)
     {
-        (int contest, int battle) = RibbonRules.GetMaxMemoryCounts(args.History, args.Entity, args.Encounter);
-        if (r.RibbonCountMemoryContest > contest || r.HasContestMemoryRibbon != (r.RibbonCountMemoryContest != 0))
+        var format = args.Entity.Format;
+        (byte contest, byte battle) = RibbonRules.GetMaxMemoryCounts(args.History, args.Entity, args.Encounter);
+        if (!IsCountFlagValid(r.RibbonCountMemoryContest, r.HasContestMemoryRibbon, format, contest))
             list.Add(CountMemoryContest);
-        if (r.RibbonCountMemoryBattle > battle || r.HasBattleMemoryRibbon != (r.RibbonCountMemoryBattle != 0))
+        if (!IsCountFlagValid(r.RibbonCountMemoryBattle, r.HasBattleMemoryRibbon, format, battle))
             list.Add(CountMemoryBattle);
+    }
+
+    private static bool IsCountFlagValid(byte count, bool state, int format, byte max)
+    {
+        if (count > max)
+            return false;
+        bool expect = format >= 8 && count != 0; // Gen8+ use flag, Gen6/7 do not set it.
+        return state == expect;
     }
 
     private static void FlagContestAffection(IRibbonSetCommon6 r, ref RibbonResultList list, int current)
