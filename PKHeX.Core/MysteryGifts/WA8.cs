@@ -238,12 +238,12 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public ushort OT_TextVar   { get => ReadUInt16LittleEndian(Data.AsSpan(0x274)); set => WriteUInt16LittleEndian(Data.AsSpan(0x274), value); }
 
     // Only derivations to WC8
-    public byte GV_HP  { get => Data[0x27E]; set => Data[0x27E] = value; }
-    public byte GV_ATK { get => Data[0x27F]; set => Data[0x27F] = value; }
-    public byte GV_DEF { get => Data[0x280]; set => Data[0x280] = value; }
-    public byte GV_SPE { get => Data[0x281]; set => Data[0x281] = value; }
-    public byte GV_SPA { get => Data[0x282]; set => Data[0x282] = value; }
-    public byte GV_SPD { get => Data[0x283]; set => Data[0x283] = value; }
+    public byte GV_HP  { get => Data[0x276]; set => Data[0x276] = value; }
+    public byte GV_ATK { get => Data[0x277]; set => Data[0x277] = value; }
+    public byte GV_DEF { get => Data[0x278]; set => Data[0x278] = value; }
+    public byte GV_SPE { get => Data[0x279]; set => Data[0x279] = value; }
+    public byte GV_SPA { get => Data[0x27A]; set => Data[0x27A] = value; }
+    public byte GV_SPD { get => Data[0x27B]; set => Data[0x27B] = value; }
 
     // Meta Accessible Properties
     public override int[] IVs

@@ -240,7 +240,7 @@ public partial class SAV_Database : Form
         CB_GameOrigin.InitializeBinding();
         CB_HPType.InitializeBinding();
 
-        var comboAny = new ComboItem(MsgAny, 0);
+        var comboAny = new ComboItem(MsgAny, -1);
 
         var species = new List<ComboItem>(GameInfo.SpeciesDataSource);
         species.RemoveAt(0);

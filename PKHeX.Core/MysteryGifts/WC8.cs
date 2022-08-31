@@ -691,7 +691,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (pk is PK8 and IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pk.Species, pk.Form, Species, Form))
             return false;
 
-        if (pk is not IDynamaxLevel dl || dl.DynamaxLevel < DynamaxLevel)
+        if (pk is PK8 pk8 && pk8.DynamaxLevel < DynamaxLevel)
             return false;
 
         if (IsHOMEGift && pk is IScaledSize s)

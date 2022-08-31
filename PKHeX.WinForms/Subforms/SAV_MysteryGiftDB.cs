@@ -174,7 +174,7 @@ public partial class SAV_MysteryGiftDB : Form
         CB_HeldItem.InitializeBinding();
         CB_Species.InitializeBinding();
 
-        var comboAny = new ComboItem(MsgAny, 0);
+        var comboAny = new ComboItem(MsgAny, -1);
 
         var species = new List<ComboItem>(GameInfo.SpeciesDataSource);
         species.RemoveAt(0);
@@ -300,9 +300,9 @@ public partial class SAV_MysteryGiftDB : Form
         }
 
         // Primary Searchables
-        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
+        var species = WinFormsUtil.GetIndex(CB_Species);
         int item = WinFormsUtil.GetIndex(CB_HeldItem);
-        if (species != 0) res = res.Where(pk => pk.Species == species);
+        if (species != -1) res = res.Where(pk => pk.Species == species);
         if (item != -1) res = res.Where(pk => pk.HeldItem == item);
 
         // Secondary Searchables
