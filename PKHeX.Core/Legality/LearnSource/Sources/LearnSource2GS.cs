@@ -73,9 +73,9 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
+        bool removeVC = pk.Format == 1 || pk.VC1;
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
-            bool removeVC = pk.Format == 1 || pk.VC1;
             var learn = GetLearnset(evo.Species, evo.Form);
             var min = ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, min);
@@ -85,7 +85,7 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
                 for (int i = end; i >= start; i--)
                 {
                     var move = moves[i];
-                    if (!removeVC || move < Legal.MaxMoveID_1)
+                    if (!removeVC || move <= Legal.MaxMoveID_1)
                         result[move] = true;
                 }
             }
@@ -98,7 +98,11 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
             for (int i = 0; i < moves.Length; i++)
             {
                 if (flags[i])
-                    result[moves[i]] = true;
+                {
+                    var move = moves[i];
+                    if (!removeVC || move <= Legal.MaxMoveID_1)
+                        result[move] = true;
+                }
             }
         }
     }
