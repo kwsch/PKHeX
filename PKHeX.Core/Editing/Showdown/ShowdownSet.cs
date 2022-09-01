@@ -200,34 +200,38 @@ public sealed class ShowdownSet : IBattleTemplate
         return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, naturestr)) >= 0;
     }
 
-    private bool ParseEntry(string identifier, string value)
+    private bool ParseEntry(string identifier, string value) => identifier switch
     {
-        switch (identifier)
-        {
-            case "Ability" or "Trait": return (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0;
-            case "Shiny": return Shiny = StringUtil.IsMatchIgnoreCase("Yes", value);
-            case "Gigantamax": return CanGigantamax = StringUtil.IsMatchIgnoreCase("Yes", value);
-            case "Nature": return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, value)) >= 0;
-            case "EV" or "EVs": ParseLineEVs(value); return true;
-            case "IV" or "IVs": ParseLineIVs(value); return true;
-            case "Dynamax Level": return ParseDynamax(value);
-            case "Level":
-            {
-                if (!int.TryParse(value.Trim(), out int val))
-                    return false;
-                Level = val;
-                return true;
-            }
-            case "Friendship" or "Happiness":
-            {
-                if (!int.TryParse(value.Trim(), out int val))
-                    return false;
-                Friendship = val;
-                return true;
-            }
-            default:
-                return false;
-        }
+        "Ability" or "Trait"        => (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0,
+        "Nature"                    => (Nature  = StringUtil.FindIndexIgnoreCase(Strings.natures    , value)) >= 0,
+        "Shiny"                     => Shiny         = StringUtil.IsMatchIgnoreCase("Yes", value),
+        "Gigantamax"                => CanGigantamax = StringUtil.IsMatchIgnoreCase("Yes", value),
+        "Friendship" or "Happiness" => ParseFriendship(value),
+        "EV" or "EVs"               => ParseLineEVs(value),
+        "IV" or "IVs"               => ParseLineIVs(value),
+        "Level"                     => ParseLevel(value),
+        "Dynamax Level"             => ParseDynamax(value),
+        _ => false,
+    };
+
+    private bool ParseLevel(string value)
+    {
+        if (!int.TryParse(value.Trim(), out var val))
+            return false;
+        if ((uint)val is 0 or > 100)
+            return false;
+        Level = val;
+        return true;
+    }
+
+    private bool ParseFriendship(string value)
+    {
+        if (!int.TryParse(value.Trim(), out var val))
+            return false;
+        if ((uint)val > byte.MaxValue)
+            return false;
+        Friendship = val;
+        return true;
     }
 
     private bool ParseDynamax(string value)
@@ -630,7 +634,7 @@ public sealed class ShowdownSet : IBattleTemplate
         return hiddenPowerName;
     }
 
-    private void ParseLineEVs(string line)
+    private bool ParseLineEVs(string line)
     {
         var list = SplitLineStats(line);
         if ((list.Length & 1) == 1)
@@ -647,9 +651,10 @@ public sealed class ShowdownSet : IBattleTemplate
             }
             EVs[index] = value;
         }
+        return true;
     }
 
-    private void ParseLineIVs(string line)
+    private bool ParseLineIVs(string line)
     {
         var list = SplitLineStats(line);
         if ((list.Length & 1) == 1)
@@ -666,6 +671,7 @@ public sealed class ShowdownSet : IBattleTemplate
             }
             IVs[index] = value;
         }
+        return true;
     }
 
     private static string RemoveAll(string original, ReadOnlySpan<char> remove)

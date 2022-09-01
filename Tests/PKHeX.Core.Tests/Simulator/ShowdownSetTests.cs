@@ -182,6 +182,27 @@ public class ShowdownSetTests
         la.Valid.Should().BeTrue();
     }
 
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(256)]
+    public void BadFriendshipNotParsed(int value)
+    {
+        string input = $@"Eevee\nFriendship: {value}";
+        var set = new ShowdownSet(input);
+        set.Level.Should().NotBe(value);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(0)]
+    [InlineData(101)]
+    public void BadLevelNotParsed(int value)
+    {
+        string input = $@"Eevee\nLevel: {value}";
+        var set = new ShowdownSet(input);
+        set.Level.Should().NotBe(value);
+    }
+
     private const string LowLevelElectrode =
         @"BOLICHI (Electrode)
 IVs: 19 HP / 16 Atk / 18 Def / 25 SpA / 19 SpD / 25 Spe
