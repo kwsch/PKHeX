@@ -53,50 +53,50 @@ internal static class EncountersWC3
     internal static readonly WC3[] Encounter_Event3_FRLG =
     {
         // PCJP - Egg Pokémon Present Eggs (March 21 to April 4, 2004)
-        new() { Species = 043, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(073) }, // Oddish with Leech Seed
-        new() { Species = 052, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(080) }, // Meowth with Petal Dance
-        new() { Species = 060, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(186) }, // Poliwag with Sweet Kiss
-        new() { Species = 069, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(298) }, // Bellsprout with Teeter Dance
+        new() { Species = 043, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(071,073,000,000), Method = PIDType.Method_2 }, // Oddish with Leech Seed
+        new() { Species = 052, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(010,045,080,000), Method = PIDType.Method_2 }, // Meowth with Petal Dance
+        new() { Species = 060, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(145,186,000,000), Method = PIDType.Method_2 }, // Poliwag with Sweet Kiss
+        new() { Species = 069, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(022,298,000,000), Method = PIDType.Method_2 }, // Bellsprout with Teeter Dance
 
         // PCNY - Wish Eggs (December 16, 2004, to January 2, 2005)
-        new() { Species = 083, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(273, 281) }, // Farfetch'd with Wish & Yawn
-        new() { Species = 096, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(273, 187) }, // Drowzee with Wish & Belly Drum
-        new() { Species = 102, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(273, 230) }, // Exeggcute with Wish & Sweet Scent
-        new() { Species = 108, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(273, 215) }, // Lickitung with Wish & Heal Bell
-        new() { Species = 113, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(273, 230) }, // Chansey with Wish & Sweet Scent
-        new() { Species = 115, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Method = PIDType.Method_2, Moves = new(273, 281) }, // Kangaskhan with Wish & Yawn
+        new() { Species = 083, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(281,273,000,000), Method = PIDType.Method_2 }, // Farfetch'd with Wish & Yawn
+        new() { Species = 096, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(187,273,000,000), Method = PIDType.Method_2 }, // Drowzee with Wish & Belly Drum
+        new() { Species = 102, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(230,273,000,000), Method = PIDType.Method_2 }, // Exeggcute with Wish & Sweet Scent
+        new() { Species = 108, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(215,273,000,000), Method = PIDType.Method_2 }, // Lickitung with Wish & Heal Bell
+        new() { Species = 113, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(230,273,000,000), Method = PIDType.Method_2 }, // Chansey with Wish & Sweet Scent
+        new() { Species = 115, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(281,273,000,000), Method = PIDType.Method_2 }, // Kangaskhan with Wish & Yawn
 
         // PokePark Eggs - Wondercard
-        new() { Species = 054, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(300), Method = PIDType.Method_2 }, // Psyduck with Mud Sport
-        new() { Species = 172, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(266), Method = PIDType.Method_2 }, // Pichu with Follow me
-        new() { Species = 174, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(321), Method = PIDType.Method_2 }, // Igglybuff with Tickle
-        new() { Species = 222, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(300), Method = PIDType.Method_2 }, // Corsola with Mud Sport
-        new() { Species = 276, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(297), Method = PIDType.Method_2 }, // Taillow with Feather Dance
-        new() { Species = 283, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(300), Method = PIDType.Method_2 }, // Surskit with Mud Sport
-        new() { Species = 293, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(298), Method = PIDType.Method_2 }, // Whismur with Teeter Dance
-        new() { Species = 300, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(205), Method = PIDType.Method_2 }, // Skitty with Rollout
-        new() { Species = 311, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(346), Method = PIDType.Method_2 }, // Plusle with Water Sport
-        new() { Species = 312, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(300), Method = PIDType.Method_2 }, // Minun with Mud Sport
-        new() { Species = 325, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(253), Method = PIDType.Method_2 }, // Spoink with Uproar
-        new() { Species = 327, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(047), Method = PIDType.Method_2 }, // Spinda with Sing
-        new() { Species = 331, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(227), Method = PIDType.Method_2 }, // Cacnea with Encore
-        new() { Species = 341, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(346), Method = PIDType.Method_2 }, // Corphish with Water Sport
-        new() { Species = 360, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(321), Method = PIDType.Method_2 }, // Wynaut with Tickle
+        new() { Species = 054, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(346,010,039,300), Method = PIDType.Method_2 }, // Psyduck with Mud Sport
+        new() { Species = 172, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(084,204,266,000), Method = PIDType.Method_2 }, // Pichu with Follow me
+        new() { Species = 174, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(047,204,111,321), Method = PIDType.Method_2 }, // Igglybuff with Tickle
+        new() { Species = 222, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(033,300,000,000), Method = PIDType.Method_2 }, // Corsola with Mud Sport
+        new() { Species = 276, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(064,045,116,297), Method = PIDType.Method_2 }, // Taillow with Feather Dance
+        new() { Species = 283, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(145,300,000,000), Method = PIDType.Method_2 }, // Surskit with Mud Sport
+        new() { Species = 293, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(001,253,298,000), Method = PIDType.Method_2 }, // Whismur with Teeter Dance
+        new() { Species = 300, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(045,033,039,205), Method = PIDType.Method_2 }, // Skitty with Rollout
+        new() { Species = 311, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(045,086,346,000), Method = PIDType.Method_2 }, // Plusle with Water Sport
+        new() { Species = 312, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(045,086,300,000), Method = PIDType.Method_2 }, // Minun with Mud Sport
+        new() { Species = 325, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(150,253,000,000), Method = PIDType.Method_2 }, // Spoink with Uproar
+        new() { Species = 327, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(033,253,047,000), Method = PIDType.Method_2 }, // Spinda with Sing
+        new() { Species = 331, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(040,043,071,227), Method = PIDType.Method_2 }, // Cacnea with Encore
+        new() { Species = 341, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(145,346,000,000), Method = PIDType.Method_2 }, // Corphish with Water Sport
+        new() { Species = 360, IsEgg = true, Fateful = true, Level = 05, TID = -1, SID = -1, Version = GameVersion.FRLG, Moves = new(150,204,227,321), Method = PIDType.Method_2 }, // Wynaut with Tickle
     };
 
     internal static readonly WC3[] Encounter_Event3_RS =
     {
         // PCJP - Pokémon Center 5th Anniversary Eggs (April 25 to May 18, 2003)
-        new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new(298) }, // Pichu with Teeter Dance
-        new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new(273) }, // Pichu with Wish
-        new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R_S, Moves = new(298) }, // Pichu with Teeter Dance
-        new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R_S, Moves = new(273) }, // Pichu with Wish
-        new() { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new(204 ) }, // Ralts with Charm
-        new() { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new(273) }, // Ralts with Wish
-        new() { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new(180) }, // Absol with Spite
-        new() { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new(273) }, // Absol with Wish
-        new() { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new(334) }, // Bagon with Iron Defense
-        new() { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Method = PIDType.BACD_R, Moves = new(273) }, // Bagon with Wish
+        new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(084,204,298,000), Method = PIDType.BACD_R }, // Pichu with Teeter Dance
+        new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(084,204,273,000), Method = PIDType.BACD_R }, // Pichu with Wish
+        new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(084,204,298,000), Method = PIDType.BACD_R_S }, // Pichu with Teeter Dance
+        new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(084,204,273,000), Method = PIDType.BACD_R_S }, // Pichu with Wish
+        new() { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(045,204,000,000), Method = PIDType.BACD_R }, // Ralts with Charm
+        new() { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(04,2735,000,000), Method = PIDType.BACD_R }, // Ralts with Wish
+        new() { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(010,043,180,000), Method = PIDType.BACD_R }, // Absol with Spite
+        new() { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(010,043,273,000), Method = PIDType.BACD_R }, // Absol with Wish
+        new() { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(099,044,334,000), Method = PIDType.BACD_R }, // Bagon with Iron Defense
+        new() { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(099,044,273,000), Method = PIDType.BACD_R }, // Bagon with Wish
 
         // Negai Boshi Jirachi
         new() { Species = 385, Level = 05, TID = 30719, OT_Gender = 0, OT_Name = "ネガイボシ", Version = GameVersion.R, Method = PIDType.BACD_R, Language = (int)LanguageID.Japanese, Shiny = Shiny.Never },
@@ -236,19 +236,19 @@ internal static class EncountersWC3
     internal static readonly WC3[] Encounter_Event3_Common =
     {
         // Pokémon Box -- RSE Recipient
-        new() { Species = 333, IsEgg = true, Level = 05, Moves = new(206), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Swablu Egg with False Swipe
-        new() { Species = 263, IsEgg = true, Level = 05, Moves = new(245), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Zigzagoon Egg with Extreme Speed
-        new() { Species = 300, IsEgg = true, Level = 05, Moves = new(006), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Skitty Egg with Pay Day
-        new() { Species = 172, IsEgg = true, Level = 05, Moves = new(057), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Pichu Egg with Surf
+        new() { Species = 333, IsEgg = true, Level = 05, Moves = new(064,045,206,000), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Swablu Egg with False Swipe
+        new() { Species = 263, IsEgg = true, Level = 05, Moves = new(033,045,039,245), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Zigzagoon Egg with Extreme Speed
+        new() { Species = 300, IsEgg = true, Level = 05, Moves = new(033,045,039,006), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Skitty Egg with Pay Day
+        new() { Species = 172, IsEgg = true, Level = 05, Moves = new(084,204,057,000), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Pichu Egg with Surf
         // Pokémon Box -- FRLG Recipient
-        new() { Species = 333, IsEgg = true, Level = 05, Moves = new(206), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Swablu Egg with False Swipe
-        new() { Species = 263, IsEgg = true, Level = 05, Moves = new(245), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Zigzagoon Egg with Extreme Speed
-        new() { Species = 300, IsEgg = true, Level = 05, Moves = new(006), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Skitty Egg with Pay Day
-        new() { Species = 172, IsEgg = true, Level = 05, Moves = new(057), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Pichu Egg with Surf
+        new() { Species = 333, IsEgg = true, Level = 05, Moves = new(064,045,206,000), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Swablu Egg with False Swipe
+        new() { Species = 263, IsEgg = true, Level = 05, Moves = new(033,045,039,245), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Zigzagoon Egg with Extreme Speed
+        new() { Species = 300, IsEgg = true, Level = 05, Moves = new(033,045,039,006), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Skitty Egg with Pay Day
+        new() { Species = 172, IsEgg = true, Level = 05, Moves = new(084,204,057,000), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Pichu Egg with Surf
 
         // PokePark Eggs - DS Download Play
         new() { Species = 054, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new(300), Method = PIDType.BACD_R }, // Psyduck with Mud Sport
-        new() { Species = 172, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new(266), Method = PIDType.BACD_R }, // Pichu with Follow me
+        new() { Species = 172, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new(266), Method = PIDType.BACD_R }, // Pichu with Follow Me
         new() { Species = 174, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new(321), Method = PIDType.BACD_R }, // Igglybuff with Tickle
         new() { Species = 222, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new(300), Method = PIDType.BACD_R }, // Corsola with Mud Sport
         new() { Species = 276, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new(297), Method = PIDType.BACD_R }, // Taillow with Feather Dance
