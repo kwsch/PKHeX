@@ -127,7 +127,7 @@ public sealed class LearnGroup6 : ILearnGroup
                 result[i] = new(chk, (byte)stage, Generation);
                 continue;
             }
-            xy.GetCanLearn(pk, ao_pi, evo, move, types & MoveSourceType.LevelUp, option);
+            chk = xy.GetCanLearn(pk, ao_pi, evo, move, types & MoveSourceType.LevelUp, option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }

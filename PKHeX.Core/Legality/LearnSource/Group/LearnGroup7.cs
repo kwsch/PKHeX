@@ -138,7 +138,7 @@ public sealed class LearnGroup7 : ILearnGroup
 
             if (evo.Species > Legal.MaxSpeciesID_7)
                 continue;
-            sm.GetCanLearn(pk, uu_pi, evo, move, types & MoveSourceType.LevelUp, option);
+            chk = sm.GetCanLearn(pk, uu_pi, evo, move, types & MoveSourceType.LevelUp, option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }
