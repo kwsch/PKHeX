@@ -58,7 +58,7 @@ public sealed class LearnGroup3 : ILearnGroup
             if (level == -1 || !nincada.InsideLevelRange(level))
                 continue;
 
-            var info = new MoveLearnInfo(LearnMethod.ShedinjaEvo, LearnEnvironment.Pt, (byte)level);
+            var info = new MoveLearnInfo(LearnMethod.ShedinjaEvo, LearnEnvironment.E, (byte)level);
             result[i] = new MoveResult(info, 0, Generation);
             break; // Can only have one Ninjask move.
         }
@@ -168,7 +168,7 @@ public sealed class LearnGroup3 : ILearnGroup
         foreach (var evo in evos)
             GetAllMoves(result, pk, evo, types);
 
-        if (enc.Species is (int)Species.Nincada && evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
+        if (evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
         {
             var shedinja = LearnSource3E.Instance;
             var moves = shedinja.GetLearnset((int)Species.Ninjask, 0);

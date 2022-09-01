@@ -166,7 +166,7 @@ public sealed class LearnGroup4 : ILearnGroup
         foreach (var evo in evos)
             GetAllMoves(result, pk, evo, types);
 
-        if (enc.Species is (int)Species.Nincada && evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
+        if (evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
         {
             var shedinja = LearnSource4Pt.Instance;
             var moves = shedinja.GetLearnset((int)Species.Ninjask, 0);
