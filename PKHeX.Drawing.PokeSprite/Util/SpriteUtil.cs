@@ -92,9 +92,6 @@ public static class SpriteUtil
 
     private static Image GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
     {
-        if (!pk.Valid)
-            return Spriter.None;
-
         bool inBox = (uint)slot < MaxSlotCount;
         bool empty = pk.Species == 0;
         var tweak = inBox && BoxWallpaper.IsWallpaperRed(sav.Version, sav.GetBoxWallpaper(box))
