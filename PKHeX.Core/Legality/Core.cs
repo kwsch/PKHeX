@@ -98,18 +98,11 @@ public static partial class Legal
     /// </summary>
     /// <remarks>Already checked for generations &lt; 8.</remarks>
     /// <param name="pk">Entity to check</param>
-    internal static bool IsOriginalMovesetDeleted(this PKM pk)
-    {
-        if (pk.Format == 8)
-            return IsSideGameTransferDeletedMoveset(pk);
-        return pk is IBattleVersion { BattleVersion: not 0 };
-    }
-
-    private static bool IsSideGameTransferDeletedMoveset(PKM pk) => pk switch
+    internal static bool IsOriginalMovesetDeleted(this PKM pk) => pk switch
     {
         PA8 pa8 => !pa8.LA,
         PB8 pb8 => !pb8.BDSP,
-        PK8 pk8 => pk8.IsSideTransfer,
+        PK8 pk8 => pk8.IsSideTransfer || pk8.BattleVersion != 0,
         _ => false,
     };
 
