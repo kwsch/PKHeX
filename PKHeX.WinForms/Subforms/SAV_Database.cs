@@ -491,7 +491,7 @@ public partial class SAV_Database : Form
             Version = WinFormsUtil.GetIndex(CB_GameOrigin),
             HiddenPowerType = WinFormsUtil.GetIndex(CB_HPType),
 
-            Species = (ushort)WinFormsUtil.GetIndex(CB_Species),
+            Species = GetU16(CB_Species),
             Ability = WinFormsUtil.GetIndex(CB_Ability),
             Nature = WinFormsUtil.GetIndex(CB_Nature),
             Item = WinFormsUtil.GetIndex(CB_HeldItem),
@@ -504,10 +504,18 @@ public partial class SAV_Database : Form
             IVType = CB_IV.SelectedIndex,
         };
 
-        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move1));
-        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move2));
-        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move3));
-        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move4));
+        static ushort GetU16(ListControl cb)
+        {
+            var val = WinFormsUtil.GetIndex(cb);
+            if (val <= 0)
+                return 0;
+            return (ushort)val;
+        }
+
+        settings.AddMove(GetU16(CB_Move1));
+        settings.AddMove(GetU16(CB_Move2));
+        settings.AddMove(GetU16(CB_Move3));
+        settings.AddMove(GetU16(CB_Move4));
 
         if (CHK_Shiny.CheckState != CheckState.Indeterminate)
             settings.SearchShiny = CHK_Shiny.CheckState == CheckState.Checked;

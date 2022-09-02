@@ -335,16 +335,24 @@ public partial class SAV_Encounters : Form
             Format = SAV.Generation, // 0->(n-1) => 1->n
             Generation = SAV.Generation,
 
-            Species = (ushort)WinFormsUtil.GetIndex(CB_Species),
+            Species = GetU16(CB_Species),
 
             BatchInstructions = RTB_Instructions.Lines,
             Version = WinFormsUtil.GetIndex(CB_GameOrigin),
         };
 
-        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move1));
-        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move2));
-        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move3));
-        settings.AddMove((ushort)WinFormsUtil.GetIndex(CB_Move4));
+        static ushort GetU16(ListControl cb)
+        {
+            var val = WinFormsUtil.GetIndex(cb);
+            if (val <= 0)
+                return 0;
+            return (ushort)val;
+        }
+
+        settings.AddMove(GetU16(CB_Move1));
+        settings.AddMove(GetU16(CB_Move2));
+        settings.AddMove(GetU16(CB_Move3));
+        settings.AddMove(GetU16(CB_Move4));
 
         if (CHK_IsEgg.CheckState != CheckState.Indeterminate)
             settings.SearchEgg = CHK_IsEgg.CheckState == CheckState.Checked;
