@@ -92,7 +92,7 @@ internal static class EncountersWC3
         new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(084,204,298,000), Method = PIDType.BACD_R_S }, // Pichu with Teeter Dance
         new() { Species = 172, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(084,204,273,000), Method = PIDType.BACD_R_S }, // Pichu with Wish
         new() { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(045,204,000,000), Method = PIDType.BACD_R }, // Ralts with Charm
-        new() { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(04,2735,000,000), Method = PIDType.BACD_R }, // Ralts with Wish
+        new() { Species = 280, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(045,273,000,000), Method = PIDType.BACD_R }, // Ralts with Wish
         new() { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(010,043,180,000), Method = PIDType.BACD_R }, // Absol with Spite
         new() { Species = 359, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(010,043,273,000), Method = PIDType.BACD_R }, // Absol with Wish
         new() { Species = 371, IsEgg = true, Level = 05, OT_Name = "オヤＮＡＭＥ", TID = -1, SID = -1, Version = GameVersion.R, Moves = new(099,044,334,000), Method = PIDType.BACD_R }, // Bagon with Iron Defense
