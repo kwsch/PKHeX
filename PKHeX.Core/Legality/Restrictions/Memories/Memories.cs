@@ -32,6 +32,14 @@ public static class Memories
         return (MemoryArgType)type;
     }
 
+    public static EntityContext GetContextHandler(EntityContext current) => current switch
+    {
+        EntityContext.Gen7 => EntityContext.Gen6,
+        EntityContext.Gen8a => EntityContext.Gen8,
+        EntityContext.Gen8b => EntityContext.Gen8,
+        _ => current,
+    };
+
     public static MemoryContext GetContext(EntityContext context) => context.Generation() switch
     {
         <=7 => MemoryContext6.Instance,

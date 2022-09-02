@@ -123,7 +123,8 @@ public static class EncounterFinder
             if (m is IMemoryHT h && MemoryPermissions.IsMemoryOfKnownMove(h.HT_Memory) && !pk.HasMove(h.HT_TextVar))
             {
                 var mem = MemoryVariableSet.Read(m, 1);
-                if (!MemoryPermissions.CanKnowMove(pk, mem, pk.Context, info))
+                var context = Memories.GetContextHandler(pk.Context);
+                if (!MemoryPermissions.CanKnowMove(pk, mem, context, info))
                     return false;
             }
         }
