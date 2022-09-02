@@ -49,10 +49,16 @@ internal static class LearnVerifierHistory
 
     private static void MarkSpecialMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc, PKM pk)
     {
-        if (enc is IMoveset { Moves: {HasMoves: true} moves})
+        if (enc is IMoveset { Moves: { HasMoves: true } moves })
+        {
             MarkInitialMoves(result, current, moves);
+        }
         else if (enc is EncounterSlot8GO g)
-            MarkInitialMoves(result, current, g.GetInitialMoves(pk.Met_Level));
+        {
+            Span<ushort> initial = stackalloc ushort[4];
+            g.GetInitialMoves(pk.Met_Level, initial);
+            MarkInitialMoves(result, current, initial);
+        }
     }
 
     private static bool Iterate(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc, ILearnGroup game, MoveSourceType types, LearnOption option)

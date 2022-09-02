@@ -62,8 +62,9 @@ public sealed class PersonalInfo2 : PersonalInfo
     public override int EV_SPD { get => SPD; set { } }
 
     // Future game values, unused
-    public override IReadOnlyList<int> Abilities { get => Array.Empty<int>(); set { } }
-    public override int GetAbilityIndex(int abilityID) => -1;
+    public override int GetIndexOfAbility(int abilityID) => -1;
+    public override int GetAbilityAtIndex(int abilityIndex) => -1;
+    public override int AbilityCount => 0;
     public override int BaseFriendship { get => 70; set { } }
     public override int EscapeRate { get => 0; set { } }
     public override int Color { get => 0; set { } }

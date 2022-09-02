@@ -165,7 +165,8 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
         }
         else
         {
-            var moves = MoveLevelUp.GetEncounterMoves(pk, level, version);
+            Span<ushort> moves = stackalloc ushort[4];
+            MoveLevelUp.GetEncounterMoves(moves, pk, level, version);
             pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
         }

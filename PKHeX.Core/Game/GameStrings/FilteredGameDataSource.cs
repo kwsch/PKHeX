@@ -80,21 +80,18 @@ public sealed class FilteredGameDataSource
 
     public IReadOnlyList<ComboItem> GetAbilityList(PKM pk)
     {
-        var abilities = pk.PersonalInfo.Abilities;
-        int format = pk.Format;
-        return GetAbilityList(abilities, format);
+        return GetAbilityList(pk.PersonalInfo, pk.Format);
     }
 
-    public IReadOnlyList<ComboItem> GetAbilityList(IReadOnlyList<int> abilities, int format)
+    public IReadOnlyList<ComboItem> GetAbilityList(IPersonalAbility pi, int format)
     {
-        var count = format == 3 && (abilities[1] == 0 || abilities[1] == abilities[0]) ? 1 : abilities.Count;
-        var list = new ComboItem[count];
+        var list = new ComboItem[pi.AbilityCount];
 
         var alist = Source.Strings.Ability;
         var suffix = AbilityIndexSuffixes;
         for (int i = 0; i < list.Length; i++)
         {
-            var ability = abilities[i];
+            var ability = pi.GetAbilityAtIndex(i);
             list[i] = new ComboItem(alist[ability] + suffix[i], ability);
         }
 

@@ -73,9 +73,15 @@ public sealed class IndividualValueVerifier : Verifier
     {
         var pk = data.Entity;
         if (pk.GO)
+        {
             VerifyIVsGoTransfer(data);
-        else if (pk.AbilityNumber == 4 && !AbilityVerifier.CanAbilityPatch(pk.Format, pk.PersonalInfo.Abilities, pk.Species))
-            VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
+        }
+        else if (pk.AbilityNumber == 4)
+        {
+            var abilities = (IPersonalAbility12H)pk.PersonalInfo;
+            if (!AbilityVerifier.CanAbilityPatch(pk.Format, abilities, pk.Species))
+                VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
+        }
     }
 
     private void VerifyIVsGen8(LegalityAnalysis data)

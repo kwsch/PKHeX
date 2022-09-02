@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -28,9 +30,12 @@ public static class BattleVersionExtensions
     /// <param name="version">Version to apply</param>
     public static void AdaptToBattleVersion(this IBattleVersion v, PKM pk, GameVersion version)
     {
-        var moves = MoveLevelUp.GetEncounterMoves(pk, pk.CurrentLevel, version);
-        pk.Move1 = pk.Move2 = pk.Move3 = pk.Move4 = 0;
-        pk.RelearnMove1 = pk.RelearnMove2 = pk.RelearnMove3 = pk.RelearnMove4 = 0;
+        var empty = new Moveset();
+        pk.SetMoves(empty);
+        pk.SetRelearnMoves(empty);
+
+        Span<ushort> moves = stackalloc ushort[4];
+        MoveLevelUp.GetEncounterMoves(moves, pk, pk.CurrentLevel, version);
         pk.SetMoves(moves);
         pk.FixMoves();
         v.BattleVersion = (byte) version;

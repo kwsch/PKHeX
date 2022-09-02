@@ -242,7 +242,11 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             pk.Version = (int)GameVersion.W + rnd.Next(4);
 
         if (Move1 == 0) // No moves defined
-            pk.Moves = MoveLevelUp.GetEncounterMoves(Species, Form, Level, (GameVersion)pk.Version);
+        {
+            Span<ushort> moves = stackalloc ushort[4];
+            MoveLevelUp.GetEncounterMoves(moves, Species, Form, Level, (GameVersion)pk.Version);
+            pk.SetMoves(moves);
+        }
 
         pk.SetMaximumPPCurrent();
 

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core;
@@ -106,22 +105,22 @@ public sealed record EncounterCriteria
 
     private static AbilityPermission GetAbilityNumber(int ability, IPersonalAbility pi)
     {
-        var abilities = pi.Abilities;
-        if (abilities.Count < 2)
-            return 0;
-        var dual = GetAbilityValueDual(ability, abilities);
-        if (abilities.Count == 2) // prior to gen5
+        var count = pi.AbilityCount;
+        if (count < 2 || pi is not IPersonalAbility12 a)
+            return Any12;
+        var dual = GetAbilityValueDual(ability, a);
+        if (count == 2 || pi is not IPersonalAbility12H h) // prior to gen5
             return dual;
-        if (abilities[2] == ability)
-            return dual == 0 ? Any12H : OnlyHidden;
+        if (ability == h.AbilityH)
+            return dual == Any12 ? Any12H : OnlyHidden;
         return dual;
     }
 
-    private static AbilityPermission GetAbilityValueDual(int ability, IReadOnlyList<int> abilities)
+    private static AbilityPermission GetAbilityValueDual(int ability, IPersonalAbility12 a)
     {
-        if (ability == abilities[0])
-            return ability != abilities[1] ? OnlyFirst : Any12;
-        return ability == abilities[1] ? OnlySecond : Any12;
+        if (ability == a.Ability1)
+            return ability != a.Ability2 ? OnlyFirst : Any12;
+        return ability == a.Ability2 ? OnlySecond : Any12;
     }
 
     /// <summary>

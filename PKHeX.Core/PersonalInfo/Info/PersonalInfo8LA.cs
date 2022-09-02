@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
-public sealed class PersonalInfo8LA : PersonalInfo
+public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H
 {
     public const int SIZE = 0xB0;
     private readonly byte[] Data;
@@ -66,39 +65,13 @@ public sealed class PersonalInfo8LA : PersonalInfo
     public override int EscapeRate { get => 0; set { } } // moved?
     public override int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)value); }
     public int FormSprite { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)value); } // ???
-    public override byte FormCount { get => Data[0x20]; set => Data[0x20] = (byte)value; }
+    public override byte FormCount { get => Data[0x20]; set => Data[0x20] = value; }
     public override int Color { get => Data[0x21] & 0x3F; set => Data[0x21] = (byte)((Data[0x21] & 0xC0) | (value & 0x3F)); }
     public bool IsPresentInGame { get => ((Data[0x21] >> 6) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x40) | (value ? 0x40 : 0)); }
     public bool SpriteForm { get => ((Data[0x21] >> 7) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x80) | (value ? 0x80 : 0)); }
     public override int BaseEXP { get => ReadUInt16LittleEndian(Data.AsSpan(0x22)); set => WriteUInt16LittleEndian(Data.AsSpan(0x22), (ushort)value); }
     public override int Height { get => ReadUInt16LittleEndian(Data.AsSpan(0x24)); set => WriteUInt16LittleEndian(Data.AsSpan(0x24), (ushort)value); }
     public override int Weight { get => ReadUInt16LittleEndian(Data.AsSpan(0x26)); set => WriteUInt16LittleEndian(Data.AsSpan(0x26), (ushort)value); }
-
-    public IReadOnlyList<int> Items
-    {
-        get => new[] { Item1, Item2, Item3 };
-        set
-        {
-            if (value.Count != 3) return;
-            Item1 = value[0];
-            Item2 = value[1];
-            Item3 = value[2];
-        }
-    }
-
-    public override IReadOnlyList<int> Abilities
-    {
-        get => new[] { Ability1, Ability2, AbilityH };
-        set
-        {
-            if (value.Count != 3) return;
-            Ability1 = value[0];
-            Ability2 = value[1];
-            AbilityH = value[2];
-        }
-    }
-
-    public override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
 
     public ushort HatchSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x56)); set => WriteUInt16LittleEndian(Data.AsSpan(0x56), value); }
     public int HatchFormIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x58)); set => WriteUInt16LittleEndian(Data.AsSpan(0x58), (ushort)value); } // local region base form
@@ -112,6 +85,16 @@ public sealed class PersonalInfo8LA : PersonalInfo
     public ushort DexIndexLocal3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x66)); set => WriteUInt16LittleEndian(Data.AsSpan(0x66), value); }
     public ushort DexIndexLocal4 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value); }
     public ushort DexIndexLocal5 { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value); }
+
+    public override int AbilityCount => 3;
+    public override int GetIndexOfAbility(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
+    public override int GetAbilityAtIndex(int abilityIndex) => abilityIndex switch
+    {
+        0 => Ability1,
+        1 => Ability2,
+        2 => AbilityH,
+        _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
+    };
 
     public int GetMoveShopCount()
     {

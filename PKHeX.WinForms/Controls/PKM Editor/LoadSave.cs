@@ -405,14 +405,14 @@ public partial class PKMEditor
     private static int GetAbilityIndex4(PKM pk)
     {
         var pi = pk.PersonalInfo;
-        int abilityIndex = pi.GetAbilityIndex(pk.Ability);
+        int abilityIndex = pi.GetIndexOfAbility(pk.Ability);
         if (abilityIndex < 0)
             return 0;
         if (abilityIndex >= 2)
             return 2;
 
-        var abils = pi.Abilities;
-        if (abils[0] == abils[1])
+        var abils = (IPersonalAbility12)pi;
+        if (abils.GetIsAbility12Same())
             return pk.PIDAbility;
         return abilityIndex;
     }

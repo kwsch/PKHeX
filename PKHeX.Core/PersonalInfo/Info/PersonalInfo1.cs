@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -53,8 +52,9 @@ public sealed class PersonalInfo1 : PersonalInfo
     // Future game values, unused
     public override int EggGroup1 { get => 0; set { } }
     public override int EggGroup2 { get => 0; set { } }
-    public override IReadOnlyList<int> Abilities { get => Array.Empty<int>(); set { } }
-    public override int GetAbilityIndex(int abilityID) => -1;
+    public override int GetIndexOfAbility(int abilityID) => -1;
+    public override int GetAbilityAtIndex(int abilityIndex) => -1;
+    public override int AbilityCount => 0;
     public override int Gender { get; set; }
     public override int HatchCycles { get => 0; set { } }
     public override int BaseFriendship { get => 0; set { } }

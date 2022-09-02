@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the Black 2 &amp; White 2 games.
 /// </summary>
-public sealed class PersonalInfo5B2W2 : PersonalInfo
+public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H
 {
     public const int SIZE = 0x4C;
     private readonly byte[] Data;
@@ -72,7 +71,7 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo
     public override int EscapeRate { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
     public override int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), (ushort)value); }
     public int FormSprite { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)value); }
-    public override byte FormCount { get => Data[0x20]; set => Data[0x20] = (byte)value; }
+    public override byte FormCount { get => Data[0x20]; set => Data[0x20] = value; }
     public override int Color { get => Data[0x21] & 0x3F; set => Data[0x21] = (byte)((Data[0x21] & 0xC0) | (value & 0x3F)); }
     public bool SpriteFlip { get => ((Data[0x21] >> 6) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x40) | (value ? 0x40 : 0)); }
     public bool SpriteForm { get => ((Data[0x21] >> 7) & 1) == 1; set => Data[0x21] = (byte)((Data[0x21] & ~0x80) | (value ? 0x80 : 0)); }
@@ -81,31 +80,15 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo
     public override int Height { get => ReadUInt16LittleEndian(Data.AsSpan(0x24)); set => WriteUInt16LittleEndian(Data.AsSpan(0x24), (ushort)value); }
     public override int Weight { get => ReadUInt16LittleEndian(Data.AsSpan(0x26)); set => WriteUInt16LittleEndian(Data.AsSpan(0x26), (ushort)value); }
 
-    public IReadOnlyList<int> Items
+    public override int AbilityCount => 3;
+    public override int GetIndexOfAbility(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
+    public override int GetAbilityAtIndex(int abilityIndex) => abilityIndex switch
     {
-        get => new[] { Item1, Item2, Item3 };
-        set
-        {
-            if (value.Count != 3) return;
-            Item1 = value[0];
-            Item2 = value[1];
-            Item3 = value[2];
-        }
-    }
-
-    public override IReadOnlyList<int> Abilities
-    {
-        get => new[] { Ability1, Ability2, AbilityH };
-        set
-        {
-            if (value.Count != 3) return;
-            Ability1 = (byte)value[0];
-            Ability2 = (byte)value[1];
-            AbilityH = (byte)value[2];
-        }
-    }
-
-    public override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
+        0 => Ability1,
+        1 => Ability2,
+        2 => AbilityH,
+        _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
+    };
 
     public bool HasHiddenAbility => AbilityH != Ability1;
 }

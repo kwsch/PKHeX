@@ -321,7 +321,7 @@ public partial class SAV_SecretBase : Form
 
     private void SetAbilityList(ushort species, byte form, int abilityIndex)
     {
-        var abilities = PersonalTable.AO.GetFormEntry(species, form).Abilities;
+        var abilities = PersonalTable.AO.GetFormEntry(species, form);
         var list = GameInfo.FilteredSources.GetAbilityList(abilities, 6);
         CB_Ability.DataSource = new BindingSource(list, null);
         CB_Ability.SelectedIndex = abilityIndex < 3 ? abilityIndex : 0;

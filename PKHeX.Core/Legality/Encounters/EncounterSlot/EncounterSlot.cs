@@ -124,7 +124,8 @@ public abstract record EncounterSlot(EncounterArea Area, ushort Species, byte Fo
 
     protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
-        var moves = MoveLevelUp.GetEncounterMoves(pk, level, version);
+        Span<ushort> moves = stackalloc ushort[4];
+        MoveLevelUp.GetEncounterMoves(moves, pk, level, version);
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
     }

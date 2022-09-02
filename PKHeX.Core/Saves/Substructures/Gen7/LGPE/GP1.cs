@@ -190,8 +190,9 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber
         else if (isShiny)
             pk.PID ^= 0x1000_0000;
 
-        var moves = MoveLevelUp.GetEncounterMoves(pk, Level, GameVersion.GO);
-        pk.Moves = moves;
+        Span<ushort> moves = stackalloc ushort[4];
+        MoveLevelUp.GetEncounterMoves(moves, pk, pk.CurrentLevel, GameVersion.GO);
+        pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
         pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 

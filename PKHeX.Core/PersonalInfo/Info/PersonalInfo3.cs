@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 3 games.
 /// </summary>
-public sealed class PersonalInfo3 : PersonalInfo
+public sealed class PersonalInfo3 : PersonalInfo, IPersonalAbility12
 {
     public const int SIZE = 0x1C;
     private readonly byte[] Data;
@@ -47,29 +46,14 @@ public sealed class PersonalInfo3 : PersonalInfo
     public override int Color { get => Data[0x19] & 0x7F; set => Data[0x19] = (byte)((Data[0x19] & 0x80) | value); }
     public bool NoFlip { get => Data[0x19] >> 7 == 1; set => Data[0x19] = (byte)(Color | (value ? 0x80 : 0)); }
 
-    public IReadOnlyList<int> Items
+    public override int AbilityCount => 2;
+    public override int GetIndexOfAbility(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : -1;
+    public override int GetAbilityAtIndex(int abilityIndex) => abilityIndex switch
     {
-        get => new[] { Item1, Item2 };
-        set
-        {
-            if (value.Count != 2) return;
-            Item1 = value[0];
-            Item2 = value[1];
-        }
-    }
-
-    public override IReadOnlyList<int> Abilities
-    {
-        get => new[] { Ability1, Ability2 };
-        set
-        {
-            if (value.Count != 2) return;
-            Ability1 = (byte)value[0];
-            Ability2 = (byte)value[1];
-        }
-    }
-
-    public override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : -1;
+        0 => Ability1,
+        1 => Ability2,
+        _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
+    };
     public int GetAbility(bool second) => second && HasSecondAbility ? Ability2 : Ability1;
 
     public bool HasSecondAbility => Ability1 != Ability2;

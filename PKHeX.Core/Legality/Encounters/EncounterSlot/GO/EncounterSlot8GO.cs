@@ -120,9 +120,8 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         pk.Gender = gender;
 
         pk.AbilityNumber = 1 << ability;
-        var abilities = pi.Abilities;
-        if ((uint)ability < abilities.Count)
-            pk.Ability = abilities[ability];
+        if ((uint)ability < pi.AbilityCount)
+            pk.Ability = pi.GetAbilityAtIndex(ability);
 
         pk.SetRandomIVsGO();
         base.SetPINGA(pk, criteria);
@@ -130,12 +129,20 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
 
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
-        var moves = GetInitialMoves(level);
+        Span<ushort> moves = stackalloc ushort[4];
+        GetInitialMoves(level, moves);
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
     }
 
-    public ReadOnlySpan<ushort> GetInitialMoves(int level) => MoveLevelUp.GetEncounterMoves(Species, Form, level, OriginGroup);
+    public void GetInitialMoves(int level, Span<ushort> moves) => MoveLevelUp.GetEncounterMoves(moves, Species, Form, level, OriginGroup);
+
+    public ReadOnlySpan<ushort> GetInitialMoves(int level)
+    {
+        var result = new ushort[4];
+        GetInitialMoves(level, result);
+        return result;
+    }
 
     public override EncounterMatchRating GetMatchRating(PKM pk)
     {

@@ -499,8 +499,10 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         {
             case 1 or 2 or 4: // Valid Ability Numbers
                 int index = an >> 1;
-                if (PersonalInfo.Abilities[index] == Ability) // correct pair
-                    pk7.Ability = pk7.PersonalInfo.Abilities[index];
+
+                var abilities = (IPersonalAbility12H)PersonalInfo;
+                if (abilities.GetAbilityAtIndex(index) == Ability) // correct pair
+                    pk7.Ability = pk7.PersonalInfo.GetAbilityAtIndex(index);
                 break;
         }
 

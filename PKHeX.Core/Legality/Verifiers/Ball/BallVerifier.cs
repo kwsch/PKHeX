@@ -448,7 +448,8 @@ public sealed class BallVerifier : Verifier
     {
         if (pk.AbilityNumber != 4)
             return false;
-        return !AbilityVerifier.CanAbilityPatch(pk.Format, pk.PersonalInfo.Abilities, pk.Species);
+        var abilities = (IPersonalAbility12H)pk.PersonalInfo;
+        return !AbilityVerifier.CanAbilityPatch(pk.Format, abilities, pk.Species);
     }
 
     private static bool IsGalarCatchAndBreed(ushort species)

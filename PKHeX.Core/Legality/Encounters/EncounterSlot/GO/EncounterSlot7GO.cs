@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -47,7 +49,8 @@ public sealed record EncounterSlot7GO : EncounterSlotGO
 
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
-        var moves = MoveLevelUp.GetEncounterMoves(pk, level, GameVersion.GG);
+        Span<ushort> moves = stackalloc ushort[4];
+        MoveLevelUp.GetEncounterMoves(moves, pk, level, GameVersion.GG);
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
     }

@@ -56,7 +56,7 @@ public static class CommonEdits
     {
         if (abil < 0)
             return;
-        var index = pk.PersonalInfo.GetAbilityIndex(abil);
+        var index = pk.PersonalInfo.GetIndexOfAbility(abil);
         index = Math.Max(0, index);
         pk.SetAbilityIndex(index);
     }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -31,8 +30,9 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract int HatchCycles { get; set; }
     public abstract int BaseFriendship { get; set; }
     public abstract int EXPGrowth { get; set; }
-    public abstract IReadOnlyList<int> Abilities { get; set; }
-    public abstract int GetAbilityIndex(int abilityID);
+    public abstract int GetIndexOfAbility(int abilityID);
+    public abstract int GetAbilityAtIndex(int abilityIndex);
+    public abstract int AbilityCount { get; }
     public abstract int EscapeRate { get; set; }
     public virtual byte FormCount { get; set; } = 1;
     public virtual int FormStatsIndex { get; set; }

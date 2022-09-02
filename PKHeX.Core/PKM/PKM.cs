@@ -503,7 +503,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
                 return -1;
 
             if (Version == (int) CXD)
-                return PersonalInfo.GetAbilityIndex(Ability); // Can mismatch; not tied to PID
+                return PersonalInfo.GetIndexOfAbility(Ability); // Can mismatch; not tied to PID
             return (int)((Gen5 ? PID >> 16 : PID) & 1);
         }
     }
@@ -630,9 +630,9 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public virtual void RefreshAbility(int n)
     {
         AbilityNumber = 1 << n;
-        var abilities = PersonalInfo.Abilities;
-        if ((uint)n < abilities.Count)
-            Ability = abilities[n];
+        IPersonalAbility pi = PersonalInfo;
+        if ((uint)n < pi.AbilityCount)
+            Ability = pi.GetAbilityAtIndex(n);
     }
 
     /// <summary>

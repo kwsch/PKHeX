@@ -188,19 +188,6 @@ public sealed class Learnset
         }
     }
 
-    public IList<int> GetUniqueMovesLearned(IEnumerable<int> seed, int maxLevel, int minLevel = 0)
-    {
-        int start = Array.FindIndex(Levels, z => z >= minLevel);
-        int end = Array.FindLastIndex(Levels, z => z <= maxLevel);
-        var list = new List<int>(seed);
-        for (int i = start; i <= end; i++)
-        {
-            if (!list.Contains(Moves[i]))
-                list.Add(Moves[i]);
-        }
-        return list;
-    }
-
     /// <summary>Returns the index of the lowest level move if the Pokémon were encountered at the specified level.</summary>
     /// <remarks>Helps determine the minimum level an encounter can be at.</remarks>
     /// <param name="level">The level the Pokémon was encountered at.</param>

@@ -50,12 +50,12 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version) : EncounterS
             var num = pk.AbilityNumber;
             if (num == 4)
             {
-                if (Ability is not OnlyHidden && !AbilityVerifier.CanAbilityPatch(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities, pk.Species))
+                if (Ability is not OnlyHidden && !AbilityVerifier.CanAbilityPatch(8, PersonalTable.SWSH.GetFormEntry(Species, Form), pk.Species))
                     return EncounterMatchRating.DeferredErrors;
             }
             else if (Ability.IsSingleValue(out int index) && 1 << index != num) // Fixed regular ability
             {
-                if (Ability is OnlyFirst or OnlySecond && !AbilityVerifier.CanAbilityCapsule(8, PersonalTable.SWSH.GetFormEntry(Species, Form).Abilities))
+                if (Ability is OnlyFirst or OnlySecond && !AbilityVerifier.CanAbilityCapsule(8, PersonalTable.SWSH.GetFormEntry(Species, Form)))
                     return EncounterMatchRating.DeferredErrors;
             }
         }

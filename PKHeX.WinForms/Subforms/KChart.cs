@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -79,20 +78,13 @@ public partial class KChart : Form
         cells[c++].Value = p.SPD.ToString("000");
         cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.SPE);
         cells[c++].Value = p.SPE.ToString("000");
-        var abils = p.Abilities;
-        cells[c++].Value = GetAbility(abils, 0);
-        cells[c++].Value = GetAbility(abils, 1);
-        cells[c].Value = GetAbility(abils, 2);
+        var abils = p.AbilityCount;
+        cells[c++].Value = abilities[abils > 0 ? p.GetAbilityAtIndex(0) : 0];
+        cells[c++].Value = abilities[abils > 1 ? p.GetAbilityAtIndex(1) : 0];
+        cells[c].Value   = abilities[abils > 2 ? p.GetAbilityAtIndex(2) : 0];
 
         row.Height = SpriteUtil.Spriter.Height + 1;
         DGV.Rows.Add(row);
-    }
-
-    private string GetAbility(IReadOnlyList<int> abilityIDs, int index)
-    {
-        if ((uint)index >= abilityIDs.Count)
-            return abilities[0];
-        return abilities[abilityIDs[index]];
     }
 
     private static bool GetIsNative(IPersonalInfo personalInfo, ushort s) => personalInfo switch
@@ -100,6 +92,7 @@ public partial class KChart : Form
         PersonalInfo7 => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
         PersonalInfo8SWSH ss => ss.IsInDex,
         PersonalInfo8BDSP bs => bs.IsInDex,
+        PersonalInfo8LA bs => bs.IsPresentInGame,
         _ => true,
     };
 }
