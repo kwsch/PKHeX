@@ -153,27 +153,17 @@ public static class RibbonVerifierCommon6
     private static void CheckMaisonRibbons(IRibbonSetCommon6 r, RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var pk = args.Entity;
-        var enc = args.Encounter;
-
         if (!RibbonRules.IsAllowedBattleFrontier(pk.Species))
         {
-            // Can get Memory without ribbon if it is in party.
             if (r.RibbonBattlerSkillful)
                 list.Add(BattlerSkillful);
             if (r.RibbonBattlerExpert)
                 list.Add(BattlerExpert);
-            return;
         }
 
-        bool hasChatelaine6Memory = GetHasGen6ChatelaineMemory(pk, enc);
-        if (!hasChatelaine6Memory)
-            return;
-
-        if (r.RibbonBattlerSkillful || r.RibbonBattlerExpert)
-            return;
-
-        list.Add(BattlerSkillful, true);
-        //list.Add(BattlerExpert, true); // overkill to flag both as required. One is sufficient.
+        // const int memChatelaine = 30;
+        // Gen6 can get the memory on those who did not participate by being in the party with other participants.
+        // This includes those who cannot enter into the Maison; having memory and no ribbon.
     }
 
     private static bool GetHasGen6ChampMemory(PKM pk, IEncounterTemplate enc)
@@ -185,17 +175,5 @@ public static class RibbonVerifierCommon6
         const int memChampion = 27;
         return (enc.Generation == 6 && m.OT_Memory == memChampion)
                   || (pk.Format < 8 && m.HT_Memory == memChampion);
-    }
-
-    private static bool GetHasGen6ChatelaineMemory(PKM pk, IEncounterTemplate enc)
-    {
-        if (pk is not ITrainerMemories m)
-            return false;
-
-        // Gen6 can get the memory on those who did not participate by being in the party with other participants.
-        // This includes those who cannot enter into the Maison; having memory and no ribbon.
-        const int memChatelaine = 30;
-        return (enc.Generation == 6 && m.OT_Memory == memChatelaine)
-                  || (pk.Format < 8 && m.HT_Memory == memChatelaine);
     }
 }
