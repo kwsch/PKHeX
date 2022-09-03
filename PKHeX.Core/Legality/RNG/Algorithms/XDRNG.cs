@@ -102,6 +102,9 @@ public static class XDRNG
         }
     }
 
+    public const int MaxCountSeedsPID = 2;
+    public const int MaxCountSeedsIV = 6;
+
     public static int GetSeeds(Span<uint> result, uint pid)
     {
         uint first = pid & 0xffff0000;

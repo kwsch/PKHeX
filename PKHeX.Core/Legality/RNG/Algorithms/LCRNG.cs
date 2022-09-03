@@ -99,6 +99,9 @@ public static class LCRNG
         }
     }
 
+    public const int MaxCountSeedsPID = 3;
+    public const int MaxCountSeedsIV = 6;
+
     private const uint LCRNG_MUL = Mult;
     private const uint LCRNG_SUB = unchecked(Add - 0xFFFF); // 0xFFFF6074
     private const ulong LCRNG_BASE = (Mult + 1ul) * 0xFFFF; // 0x41C60CA7B192

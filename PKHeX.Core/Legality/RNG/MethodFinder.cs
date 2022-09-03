@@ -28,36 +28,41 @@ public static class MethodFinder
             temp[i] = (uint)pk.GetIV(i);
         ReadOnlySpan<uint> IVs = temp;
 
-        if (GetLCRNGMatch(top, bot, IVs, out PIDIV pidiv))
+        // Between XDRNG and LCRNG, the LCRNG will have the most results.
+        // Reuse our temp buffer across all methods.
+        const int maxResults = LCRNG.MaxCountSeedsIV;
+        Span<uint> seeds = stackalloc uint[maxResults];
+
+        if (GetLCRNGMatch(seeds, top, bot, IVs, out PIDIV pidiv))
             return pidiv;
-        if (pk.Species == (int)Species.Unown && GetLCRNGUnownMatch(top, bot, IVs, out pidiv)) // frlg only
+        if (pk.Species == (int)Species.Unown && GetLCRNGUnownMatch(seeds, top, bot, IVs, out pidiv)) // frlg only
             return pidiv;
-        if (GetColoStarterMatch(pk, top, bot, IVs, out pidiv))
+        if (GetColoStarterMatch(seeds, pk, top, bot, IVs, out pidiv))
             return pidiv;
-        if (GetXDRNGMatch(pk, top, bot, IVs, out pidiv))
+        if (GetXDRNGMatch(seeds, pk, top, bot, IVs, out pidiv))
             return pidiv;
 
         // Special cases
-        if (GetLCRNGRoamerMatch(top, bot, IVs, out pidiv))
+        if (GetLCRNGRoamerMatch(seeds, top, bot, IVs, out pidiv))
             return pidiv;
-        if (GetChannelMatch(top, bot, IVs, out pidiv, pk))
+        if (GetChannelMatch(seeds, top, bot, IVs, out pidiv, pk))
             return pidiv;
-        if (GetMG4Match(pid, IVs, out pidiv))
+        if (GetMG4Match(seeds, pid, IVs, out pidiv))
             return pidiv;
 
-        if (GetBACDMatch(pk, pid, IVs, out pidiv))
+        if (GetBACDMatch(seeds, pk, pid, IVs, out pidiv))
             return pidiv;
-        if (GetModifiedPIDMatch(pk, pid, IVs, out pidiv))
+        if (GetModifiedPIDMatch(seeds, pk, pid, IVs, out pidiv))
             return pidiv;
 
         return PIDIV.None; // no match
     }
 
-    private static bool GetModifiedPIDMatch(PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetModifiedPIDMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         if (pk.IsShiny)
         {
-            if (GetChainShinyMatch(pk, pid, IVs, out pidiv))
+            if (GetChainShinyMatch(seeds, pk, pid, IVs, out pidiv))
                 return true;
             if (GetModified8BitMatch(pk, pid, out pidiv))
                 return true;
@@ -78,9 +83,8 @@ public static class MethodFinder
             : GetG5MGShinyMatch(pk, pid, out pidiv) || (pid <= 0xFF && GetCuteCharmMatch(pk, pid, out pidiv));
     }
 
-    private static bool GetLCRNGMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetLCRNGMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        Span<uint> seeds = stackalloc uint[4];
         var count = LCRNG.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
         var iv1 = GetIVChunk(IVs, 0);
@@ -149,10 +153,9 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetLCRNGUnownMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetLCRNGUnownMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
-        Span<uint> seeds = stackalloc uint[4];
         var count = LCRNG.GetSeeds(seeds, top, bot); // reversed!
         var reg = seeds[..count];
         var iv1 = GetIVChunk(IVs, 0);
@@ -221,13 +224,12 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetLCRNGRoamerMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetLCRNGRoamerMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         if (IVs[2] != 0 || IVs[3] != 0 || IVs[4] != 0 || IVs[5] != 0 || IVs[1] > 7)
             return GetNonMatch(out pidiv);
 
         var iv1 = GetIVChunk(IVs, 0);
-        Span<uint> seeds = stackalloc uint[4];
         var count = LCRNG.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
         foreach (var seed in reg)
@@ -243,9 +245,8 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetXDRNGMatch(PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetXDRNGMatch(Span<uint> seeds, PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        Span<uint> seeds = stackalloc uint[4];
         var count = XDRNG.GetSeeds(seeds, top, bot);
         var xdc = seeds[..count];
         foreach (var seed in xdc)
@@ -294,7 +295,7 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetChannelMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv, PKM pk)
+    private static bool GetChannelMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv, PKM pk)
     {
         var ver = pk.Version;
         if (ver is not ((int)GameVersion.R or (int)GameVersion.S))
@@ -304,7 +305,6 @@ public static class MethodFinder
         if ((undo > 7 ? 0 : 1) != ((bot >> 16) ^ pk.SID ^ 40122))
             top = (undo << 16);
 
-        Span<uint> seeds = stackalloc uint[4];
         var count = XDRNG.GetSeeds(seeds, top, bot);
         var channel = seeds[..count];
         foreach (var seed in channel)
@@ -332,11 +332,10 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetMG4Match(uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetMG4Match(Span<uint> seeds, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         uint mg4Rev = ARNG.Prev(pid);
 
-        Span<uint> seeds = stackalloc uint[4];
         var count = LCRNG.GetSeeds(seeds, mg4Rev << 16, mg4Rev & 0xFFFF0000);
         var mg4 = seeds[..count];
         foreach (var seed in mg4)
@@ -376,10 +375,13 @@ public static class MethodFinder
             return GetNonMatch(out pidiv);
 
         (var species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
-        if ((uint)species > Legal.MaxSpeciesID_4)
-            return GetNonMatch(out pidiv);
+        static int getRatio(ushort species)
+        {
+            return species <= Legal.MaxSpeciesID_4
+                ? PersonalTable.HGSS[species].Gender
+                : PKX.Personal[species].Gender;
+        }
 
-        static int getRatio(ushort species) => PersonalTable.HGSS[species].Gender;
         switch (genderValue)
         {
             case 2: break; // can't cute charm a genderless pk
@@ -406,7 +408,7 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetChainShinyMatch(PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetChainShinyMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         // 13 shiny bits
         // PIDH & 7
@@ -415,7 +417,6 @@ public static class MethodFinder
         var bot = GetIVChunk(IVs, 0) << 16;
         var top = GetIVChunk(IVs, 3) << 16;
 
-        Span<uint> seeds = stackalloc uint[8];
         var count = LCRNG.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
         foreach (var seed in reg)
@@ -452,12 +453,11 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetBACDMatch(PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetBACDMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         var bot = GetIVChunk(IVs, 0) << 16;
         var top = GetIVChunk(IVs, 3) << 16;
 
-        Span<uint> seeds = stackalloc uint[8];
         var count = LCRNG.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
         PIDType type = BACD_U;
@@ -550,7 +550,7 @@ public static class MethodFinder
         return pid == oldpid;
     }
 
-    private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
+    private static bool GetColoStarterMatch(Span<uint> seeds, PKM pk, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         bool starter = pk.Version == (int)GameVersion.CXD && pk.Species switch
         {
@@ -564,7 +564,6 @@ public static class MethodFinder
         var iv1 = GetIVChunk(IVs, 0);
         var iv2 = GetIVChunk(IVs, 3);
 
-        Span<uint> seeds = stackalloc uint[8];
         var count = XDRNG.GetSeeds(seeds, top, bot);
         var xdc = seeds[..count];
         foreach (var seed in xdc)
@@ -864,6 +863,8 @@ public static class MethodFinder
 
         // Future evolutions
         (int)Species.Sylveon   => ((int)Species.Eevee, pk.Gender),
+        (int)Species.MrRime    => ((int)Species.MimeJr, pk.Gender),
+        (int)Species.Kleavor   => ((int)Species.Scyther, pk.Gender),
 
         _ => (currentSpecies, pk.Gender),
     };
@@ -874,7 +875,7 @@ public static class MethodFinder
         // Munchlax / Bonsly (10%/30%)
         // Encounter Slot Value (ESV) = 50%/35%/15% rarity (0-49, 50-84, 85-99)
 
-        Span<uint> seeds = stackalloc uint[4];
+        Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
         int count = XDRNG.GetSeeds(seeds, pk.EncryptionConstant);
         var reg = seeds[..count];
         foreach (var seed in reg)

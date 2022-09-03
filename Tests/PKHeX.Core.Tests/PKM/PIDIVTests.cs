@@ -216,7 +216,7 @@ public class PIDIVTest
     {
         uint first = (uint)(rand0 << 16);
         uint second = (uint)(rand1 << 16);
-        Span<uint> seeds = stackalloc uint[4];
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsPID];
         int count = LCRNG.GetSeeds(seeds, first, second);
         count.Should().NotBe(0);
 
@@ -241,7 +241,7 @@ public class PIDIVTest
             rand3 |= (uint)IVs[i+3] << (5 * i);
         }
 
-        Span<uint> seeds = stackalloc uint[8];
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
         int count = LCRNG.GetSeedsIVsSkip(seeds, rand1 << 16, rand3 << 16);
         var reg = seeds[..count];
         reg.IndexOf(0xFEE7047C).Should().NotBe(-1);
@@ -254,14 +254,15 @@ public class PIDIVTest
         const uint rand0 = 0x20AD96A9;
         const uint rand1 = 0x7E1DBEC8;
 
-        Span<uint> pidSeeds = stackalloc uint[8];
-        var cp = XDRNG.GetSeeds(pidSeeds, rand0 & 0xFFFF0000, rand1 & 0xFFFF0000);
-        var p = pidSeeds[..cp];
+        XDRNG.MaxCountSeedsIV.Should().BeGreaterThan(XDRNG.MaxCountSeedsPID);
+
+        Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsIV];
+        var cp = XDRNG.GetSeeds(seeds, rand0 & 0xFFFF0000, rand1 & 0xFFFF0000);
+        var p = seeds[..cp];
         p.IndexOf(seed).Should().NotBe(-1);
 
-        Span<uint> ivSeeds = stackalloc uint[8];
-        var ci = XDRNG.GetSeedsIVs(ivSeeds, rand0 & 0x7FFF0000, rand1 & 0x7FFF0000);
-        var i = ivSeeds[..ci];
+        var ci = XDRNG.GetSeedsIVs(seeds, rand0 & 0x7FFF0000, rand1 & 0x7FFF0000);
+        var i = seeds[..ci];
         i.IndexOf(seed).Should().NotBe(-1);
     }
 }

@@ -153,7 +153,7 @@ public static class PIDTests
     public static void VerifyResults(IReadOnlyList<uint[]> results, TeamLock[] team)
     {
         var pk = new PK3();
-        Span<uint> seeds = stackalloc uint[4];
+        Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
         for (int i = 0; i < results.Count; i++)
         {
             var result = results[i];
