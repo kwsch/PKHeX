@@ -242,7 +242,7 @@ public class PIDIVTest
         }
 
         Span<uint> seeds = stackalloc uint[8];
-        int count = LCRNG.GetSeedsIVsSkip(seeds, rand3 << 16, rand1 << 16);
+        int count = LCRNG.GetSeedsIVsSkip(seeds, rand1 << 16, rand3 << 16);
         var reg = seeds[..count];
         reg.IndexOf(0xFEE7047C).Should().NotBe(-1);
     }

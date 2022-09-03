@@ -142,7 +142,7 @@ public static class LCRNG
     {
         uint first = (spe | (spa << 5) | (spd << 10)) << 16;
         uint second = (hp | (atk << 5) | (def << 10)) << 16;
-        return GetSeedsIVsSkip(result, first, second);
+        return GetSeedsIVsSkip(result, second, first);
     }
 
     public static int GetSeeds(Span<uint> result, uint first, uint second)
@@ -189,9 +189,9 @@ public static class LCRNG
         return ctr;
     }
 
-    public static int GetSeedsSkip(Span<uint> result, uint second, uint first)
+    public static int GetSeedsSkip(Span<uint> result, uint first, uint second)
     {
-        ulong t = second - (first * LCRNGR_MUL_2) - LCRNGR_SUB_2;
+        ulong t = first - (second * LCRNGR_MUL_2) - LCRNGR_SUB_2;
         ulong x = (t * LCRNGR_PRIME_2) % LCRNGR_MUL_2; // 32bit, but keep as 64bit
         ulong kmax = (LCRNGR_BASE_2 - t) >> 32;
 
@@ -204,7 +204,7 @@ public static class LCRNG
                 ulong tmp = t + (k * 0x100000000);
                 // backward of 2 states to get the correct 16bits low for LCRNG
                 ushort low = (ushort)(((tmp / LCRNGR_MUL_2) * 0x95D9) + 0xB126);
-                result[ctr++] = Prev(second | low);
+                result[ctr++] = Prev(first | low);
             }
             k += ((LCRNGR_MUL_2 - r) + LCRNGR_SKIP1_2 - 1) / LCRNGR_SKIP1_2;
         }
@@ -213,7 +213,7 @@ public static class LCRNG
 
     public static int GetSeedsIVsSkip(Span<uint> result, uint first, uint second)
     {
-        ulong t = (second - (first * LCRNGR_MUL_2) - LCRNGR_SUB_2) & 0x7fffffff;
+        ulong t = (first - (second * LCRNGR_MUL_2) - LCRNGR_SUB_2) & 0x7fffffff;
         ulong x = ((t * LCRNGR_PRIME_2) % LCRNGR_MUL_2); // 32bit, but keep as 64bit
         ulong kmax = (LCRNGR_BASE_2 - t) >> 31;
 
@@ -225,7 +225,7 @@ public static class LCRNG
             {
                 ulong tmp = t + (k * 0x80000000);
                 ushort low = (ushort)(((tmp / LCRNGR_MUL_2) * 0x95D9) + 0xB126); // backward of 2 states to get the correct 16bits low for LCRNG
-                uint s = Prev(second | low);
+                uint s = Prev(first | low);
                 result[ctr++] = s;
                 result[ctr++] = s ^ 0x80000000;
             }
