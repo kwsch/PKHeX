@@ -154,17 +154,18 @@ public static class RibbonVerifierCommon6
     {
         var pk = args.Entity;
         var enc = args.Encounter;
-        bool hasChatelaine6Memory = GetHasGen6ChatelaineMemory(pk, enc);
 
         if (!RibbonRules.IsAllowedBattleFrontier(pk.Species))
         {
-            if (hasChatelaine6Memory || r.RibbonBattlerSkillful) // having memory and not ribbon is too rare, just flag here.
+            // Can get Memory without ribbon if it is in party.
+            if (r.RibbonBattlerSkillful)
                 list.Add(BattlerSkillful);
             if (r.RibbonBattlerExpert)
                 list.Add(BattlerExpert);
             return;
         }
 
+        bool hasChatelaine6Memory = GetHasGen6ChatelaineMemory(pk, enc);
         if (!hasChatelaine6Memory)
             return;
 
