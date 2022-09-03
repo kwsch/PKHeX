@@ -15,10 +15,11 @@ namespace PKHeX.Core;
 /// </remarks>
 public static class ARNG
 {
-    public const uint Mult = 0x6C078965;
-    public const uint Add = 0x00000001;
+    // Forward and reverse constants
+    public const uint Mult  = 0x6C078965;
+    public const uint Add   = 0x00000001;
     public const uint rMult = 0x9638806D;
-    public const uint rAdd = 0x69C77F93;
+    public const uint rAdd  = 0x69C77F93;
 
     /// <summary>
     /// Advances the RNG seed to the next state value.
