@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace PKHeX.Core;
@@ -21,7 +21,7 @@ public ref struct XorShift128
     [FieldOffset(0x8)] private readonly ulong s1;
 
     /// <summary>
-    /// Uses the <see cref="RNG.ARNG"/> to advance the seed for each 32-bit input.
+    /// Uses the <see cref="ARNG"/> to advance the seed for each 32-bit input.
     /// </summary>
     /// <param name="seed">32 bit seed</param>
     /// <remarks>sub_E0F5E0 in v1.1.3</remarks>

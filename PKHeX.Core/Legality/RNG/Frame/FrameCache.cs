@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Frame List used to cache <see cref="RNG"/> results.
+/// Frame List used to cache <see cref="LCRNG"/> results.
 /// </summary>
 public sealed class FrameCache
 {
@@ -18,7 +18,7 @@ public sealed class FrameCache
     /// Creates a new instance of a <see cref="FrameCache"/>.
     /// </summary>
     /// <param name="origin">Seed at frame 0.</param>
-    /// <param name="advance"><see cref="RNG"/> method used to get the next seed. Can use <see cref="RNG.Next"/> or <see cref="RNG.Prev"/>.</param>
+    /// <param name="advance"><see cref="LCRNG"/> method used to get the next seed. Can use <see cref="LCRNG.Next"/> or <see cref="LCRNG.Prev"/>.</param>
     public FrameCache(uint origin, Func<uint, uint> advance)
     {
         Advance = advance;

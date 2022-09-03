@@ -81,7 +81,7 @@ public static class MethodFinder
     private static bool GetLCRNGMatch(uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         Span<uint> seeds = stackalloc uint[4];
-        var count = LCRNG.GetSeeds(seeds, top, bot);
+        var count = LCRNG.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
         var iv1 = GetIVChunk(IVs, 0);
         var iv2 = GetIVChunk(IVs, 3);
@@ -127,7 +127,7 @@ public static class MethodFinder
                 }
             }
         }
-        count = LCRNG.GetSeedsSkip(seeds, top, bot);
+        count = LCRNG.GetSeedsSkip(seeds, bot, top);
         reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -153,7 +153,7 @@ public static class MethodFinder
     {
         // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
         Span<uint> seeds = stackalloc uint[4];
-        var count = LCRNG.GetSeeds(seeds, bot, top); // reversed!
+        var count = LCRNG.GetSeeds(seeds, top, bot); // reversed!
         var reg = seeds[..count];
         var iv1 = GetIVChunk(IVs, 0);
         var iv2 = GetIVChunk(IVs, 3);
@@ -199,7 +199,7 @@ public static class MethodFinder
                 }
             }
         }
-        count = LCRNG.GetSeedsSkip(seeds, bot, top); // reversed!
+        count = LCRNG.GetSeedsSkip(seeds, top, bot); // reversed!
         reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -228,7 +228,7 @@ public static class MethodFinder
 
         var iv1 = GetIVChunk(IVs, 0);
         Span<uint> seeds = stackalloc uint[4];
-        var count = LCRNG.GetSeeds(seeds, top, bot);
+        var count = LCRNG.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -300,9 +300,9 @@ public static class MethodFinder
         if (ver is not ((int)GameVersion.R or (int)GameVersion.S))
             return GetNonMatch(out pidiv);
 
-        var undo = top ^ 0x8000;
-        if ((undo > 7 ? 0 : 1) != (bot ^ pk.SID ^ 40122))
-            top = undo;
+        var undo = (top >> 16) ^ 0x8000;
+        if ((undo > 7 ? 0 : 1) != ((bot >> 16) ^ pk.SID ^ 40122))
+            top = (undo << 16);
 
         Span<uint> seeds = stackalloc uint[4];
         var count = XDRNG.GetSeeds(seeds, top, bot);
@@ -337,7 +337,7 @@ public static class MethodFinder
         uint mg4Rev = ARNG.Prev(pid);
 
         Span<uint> seeds = stackalloc uint[4];
-        var count = LCRNG.GetSeeds(seeds, mg4Rev >> 16, mg4Rev & 0xFFFF);
+        var count = LCRNG.GetSeeds(seeds, mg4Rev << 16, mg4Rev & 0xFFFF0000);
         var mg4 = seeds[..count];
         foreach (var seed in mg4)
         {
@@ -416,7 +416,7 @@ public static class MethodFinder
         var top = GetIVChunk(IVs, 3) << 16;
 
         Span<uint> seeds = stackalloc uint[8];
-        var count = LCRNG.GetSeedsIVs(seeds, top, bot);
+        var count = LCRNG.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -458,7 +458,7 @@ public static class MethodFinder
         var top = GetIVChunk(IVs, 3) << 16;
 
         Span<uint> seeds = stackalloc uint[8];
-        var count = LCRNG.GetSeedsIVs(seeds, top, bot);
+        var count = LCRNG.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
         PIDType type = BACD_U;
         foreach (var seed in reg)

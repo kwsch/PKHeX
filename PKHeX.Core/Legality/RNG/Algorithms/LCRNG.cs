@@ -147,8 +147,8 @@ public static class LCRNG
 
     public static int GetSeeds(Span<uint> result, uint first, uint second)
     {
-        uint t = second - (first * LCRNG_MUL) - LCRNG_SUB;
-        uint x = (t * LCRNG_PRIME) % LCRNG_MUL;
+        ulong t = second - (first * LCRNG_MUL) - LCRNG_SUB;
+        ulong x = (t * LCRNG_PRIME) % LCRNG_MUL; // 32bit, but keep as 64bit
         ulong kmax = (LCRNG_BASE - t) >> 32;
 
         int ctr = 0;
@@ -168,8 +168,8 @@ public static class LCRNG
 
     public static int GetSeedsIVs(Span<uint> result, uint first, uint second)
     {
-        uint t = (second - (first * LCRNG_MUL) - LCRNG_SUB) & 0x7fffffff;
-        uint x = (t * LCRNG_PRIME) % LCRNG_MUL;
+        ulong t = (second - (first * LCRNG_MUL) - LCRNG_SUB) & 0x7fffffff;
+        ulong x = (t * LCRNG_PRIME) % LCRNG_MUL; // 32bit, but keep as 64bit
         ulong kmax = (LCRNG_BASE - t) >> 31;
 
         int ctr = 0;
@@ -191,8 +191,8 @@ public static class LCRNG
 
     public static int GetSeedsSkip(Span<uint> result, uint second, uint first)
     {
-        uint t = second - (first * LCRNGR_MUL_2) - LCRNGR_SUB_2;
-        uint x = (t * LCRNGR_PRIME_2) % LCRNGR_MUL_2;
+        ulong t = second - (first * LCRNGR_MUL_2) - LCRNGR_SUB_2;
+        ulong x = (t * LCRNGR_PRIME_2) % LCRNGR_MUL_2; // 32bit, but keep as 64bit
         ulong kmax = (LCRNGR_BASE_2 - t) >> 32;
 
         int ctr = 0;
@@ -213,8 +213,8 @@ public static class LCRNG
 
     public static int GetSeedsIVsSkip(Span<uint> result, uint first, uint second)
     {
-        uint t = (second - (first * LCRNGR_MUL_2) - LCRNGR_SUB_2) & 0x7fffffff;
-        uint x = ((t * LCRNGR_PRIME_2) % LCRNGR_MUL_2);
+        ulong t = (second - (first * LCRNGR_MUL_2) - LCRNGR_SUB_2) & 0x7fffffff;
+        ulong x = ((t * LCRNGR_PRIME_2) % LCRNGR_MUL_2); // 32bit, but keep as 64bit
         ulong kmax = (LCRNGR_BASE_2 - t) >> 31;
 
         int ctr = 0;

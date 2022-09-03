@@ -210,13 +210,14 @@ public class PIDIVTest
     }
 
     [Theory]
-    [InlineData(0x00001234, 0xE161, 0x4DCB)]
+    [InlineData(0x00001234, 0x4DCB, 0xE161)]
+    [InlineData(0x00005678, 0x734D, 0xC596)]
     public void Method1(uint seed, ushort rand0, ushort rand1)
     {
-        uint top = (uint)(rand0 << 16);
-        uint bot = (uint)(rand1 << 16);
+        uint first = (uint)(rand0 << 16);
+        uint second = (uint)(rand1 << 16);
         Span<uint> seeds = stackalloc uint[4];
-        int count = LCRNG.GetSeeds(seeds, top, bot);
+        int count = LCRNG.GetSeeds(seeds, first, second);
         count.Should().NotBe(0);
 
         seeds[..count].IndexOf(seed).Should().NotBe(-1);
@@ -241,7 +242,7 @@ public class PIDIVTest
         }
 
         Span<uint> seeds = stackalloc uint[8];
-        int count = LCRNG.GetSeedsIVsSkip(seeds, rand1, rand3);
+        int count = LCRNG.GetSeedsIVsSkip(seeds, rand3 << 16, rand1 << 16);
         var reg = seeds[..count];
         reg.IndexOf(0xFEE7047C).Should().NotBe(-1);
     }
