@@ -21,6 +21,8 @@ public static class LCRNG
     public const uint Add   = 0x00006073;
     public const uint rMult = 0xEEB9EB65;
     public const uint rAdd  = 0x0A3561A1;
+    private const uint Mult2 = unchecked(Mult * Mult);
+    private const uint Add2 = unchecked(Add * (Mult + 1));
 
     /// <summary>
     /// Advances the RNG seed to the next state value.
@@ -29,6 +31,14 @@ public static class LCRNG
     /// <returns>Seed advanced a single time.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint Next(uint seed) => (seed * Mult) + Add;
+
+    /// <summary>
+    /// Advances the RNG seed forward 2 steps.
+    /// </summary>
+    /// <param name="seed">Current seed</param>
+    /// <returns>Seed advanced twice.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint Next2(uint seed) => (seed * Mult2) + Add2;
 
     /// <summary>
     /// Reverses the RNG seed to the previous state value.
@@ -65,36 +75,49 @@ public static class LCRNG
         return seed;
     }
 
-    // By abusing the innate properties of a LCG, we can calculate the seed from a known result.
-    // https://crypto.stackexchange.com/questions/10608/how-to-attack-a-fixed-lcg-with-partial-output/10629#10629
-    // https://github.com/StarfBerry/poke-scripts/blob/ebd5db0e8a48eb9fceaaebc4a8d907e88839ddcb/RNG/Euclid.py
-    // Using a Prime and Skip constant, we can avoid most values of `k` that do not produce a valid seed.
-    // Other ways to attack include a 2^8 time complexity meet-in-the-middle approach...
-    // However, the euclidean division approach here (forward/reverse + prime skips) is better performing.
-    // Instead of using yield and iterators, we calculate all results in a tight loop and return the count found.
-    // More discussion in the PokemonRNG Discord server: https://discord.com/channels/285269328469950464/551605684815265824/1015422870299611226
     public const int MaxCountSeedsPID = 3;
     public const int MaxCountSeedsIV = 6;
 
-    // Euclidean division constants
-    private const uint LCRNG_MUL = Mult;
-    private const uint LCRNG_SUB = unchecked(Add - 0xFFFF); // 0xFFFF6074
-    private const ulong LCRNG_BASE = (Mult + 1ul) * 0xFFFF; // 0x41C60CA7B192
-    private const uint LCRNG_PRIME = 0x25; // ideal prime skip
-    private const uint LCRNG_RMAX = 0x250000; // prime * 0x10000
-    private const uint LCRNG_SKIP1 = 0x73E2B0; // ??
-    private const uint LCRNG_SKIP2 = 0x39F158; // ??
+    static LCRNG()
+    {
+        // Populate Meet Middle Arrays
+        for (uint i = 0; i <= byte.MaxValue; i++)
+        {
+            SetFlagData(i, Mult, Add, flags, low8); // 1,2
+            SetFlagData(i, Mult2, Add2, g_flags, g_low8); // 1,3
+        }
+    }
 
-    // LCRNGR gives better skips than LCRNG when the second rand result is skipped (ex/ ACDE and ABCE).
-    private const uint LCRNGR_MUL_2 = unchecked(rMult * rMult); // 0xDC6C95D9
-    private const uint LCRNGR_SUB_2 = unchecked(rAdd * (1 + rMult)) - 0xFFFF; // 0x4D3BB127
-    private const ulong LCRNGR_BASE_2 = (LCRNGR_MUL_2 + 1ul) * 0xFFFF; // 0xDC6BB96D6A26
-    private const uint LCRNGR_PRIME_2 = 0x1F; // ideal prime skip
-    private const uint LCRNGR_RMAX_2 = 0x1F0000; // prime * 0x10000
-    private const uint LCRNGR_SKIP1_2 = 0xBAED7C; // ??
-    private const uint LCRNGR_SKIP2_2 = 0x5D76BE; // ??
-    private const ushort LCRNG_MUL_2_16 = unchecked((ushort)LCRNGR_MUL_2);
-    private const ushort LCRNG_ADD_2_16 = 0xB126; // ??
+    // Bruteforce cache for searching seeds
+    private const int cacheSize = 1 << 16;
+    private static readonly byte[] low8 = new byte[cacheSize];
+    private static readonly bool[] flags = new bool[cacheSize];
+    private static readonly byte[] g_low8 = new byte[cacheSize];
+    private static readonly bool[] g_flags = new bool[cacheSize];
+
+    private const uint k2 = Mult << 8;
+    private const uint k2s = Mult2 << 8;
+
+    #region Initialization
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void SetFlagData(uint i, uint mult, uint add, bool[] f, byte[] v)
+    {
+        // the second rand() also has 16 bits that aren't known. It is a 16 bit value added to either side.
+        // to consider these bits and their impact, they can at most increment/decrement the result by 1.
+        // with the current calc setup, the search loop's calculated value may be -1 (loop does subtraction)
+        // since LCGs are linear (hence the name), there's no values in adjacent cells. (no collisions)
+        // if we mark the prior adjacent cell, we eliminate the need to check flags twice on each loop.
+        uint right = (mult * i) + add;
+        ushort val = (ushort)(right >> 16);
+
+        f[val] = true; v[val] = (byte)i;
+        --val;
+        f[val] = true; v[val] = (byte)i;
+        // now the search only has to access the flags array once per loop.
+    }
+
+    #endregion
 
     /// <summary>
     /// Finds all seeds that can generate the <see cref="pid"/> by two successive rand() calls.
@@ -167,21 +190,18 @@ public static class LCRNG
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeeds(Span<uint> result, uint first, uint second)
     {
-        ulong t = second - (first * LCRNG_MUL) - LCRNG_SUB;
-        ulong x = (t * LCRNG_PRIME) % LCRNG_MUL; // 32bit, but keep as 64bit
-        ulong kmax = (LCRNG_BASE - t) >> 32;
-
         int ctr = 0;
-        for (ulong k = 0; k <= kmax;) // at most 117 iterations
+        uint k1 = second - (first * Mult);
+        for (uint i = 0, k3 = k1; i <= 255; ++i, k3 -= k2)
         {
-            ulong r = (x + (k * LCRNG_SKIP1)) % LCRNG_MUL;
-            if (r % LCRNG_PRIME == 0 && r < LCRNG_RMAX)
-            {
-                ulong tmp = t + (k * 0x1_0000_0000);
-                ushort low = (ushort)(tmp / LCRNG_MUL);
-                result[ctr++] = Prev(first | low);
-            }
-            k += ((LCRNG_MUL - r) + LCRNG_SKIP1 - 1) / LCRNG_SKIP1;
+            ushort val = (ushort)(k3 >> 16);
+            if (!flags[val])
+                continue;
+            // Verify PID calls line up
+            var seed = first | (i << 8) | low8[val];
+            var next = Next(seed);
+            if ((next & 0xFFFF0000) == second)
+                result[ctr++] = Prev(seed);
         }
         return ctr;
     }
@@ -195,23 +215,41 @@ public static class LCRNG
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsIVs(Span<uint> result, uint first, uint second)
     {
-        ulong t = (second - (first * LCRNG_MUL) - LCRNG_SUB) & 0x7FFF_FFFF;
-        ulong x = (t * LCRNG_PRIME) % LCRNG_MUL; // 32bit, but keep as 64bit
-        ulong kmax = (LCRNG_BASE - t) >> 31;
-
         int ctr = 0;
-        for (ulong k = 0; k <= kmax;) // at most 117 iterations
+        // Check with the top bit of the first call both
+        // flipped and unflipped to account for only knowing 15 bits
+        uint search1 = second - (first * Mult);
+        uint search2 = second - ((first ^ 0x80000000) * Mult);
+
+        for (uint i = 0; i <= 255; i++, search1 -= k2, search2 -= k2)
         {
-            ulong r = (x + (k * LCRNG_SKIP2)) % LCRNG_MUL;
-            if (r % LCRNG_PRIME == 0 && r < LCRNG_RMAX)
+            uint val = (ushort)(search1 >> 16);
+            if (flags[val])
             {
-                ulong tmp = t + (k * 0x8000_0000);
-                ushort low = (ushort)(tmp / LCRNG_MUL);
-                uint s = Prev(first | low);
-                result[ctr++] = s;
-                result[ctr++] = s ^ 0x8000_0000;
+                // Verify PID calls line up
+                var seed = first | (i << 8) | low8[val];
+                var next = Next(seed);
+                if ((next & 0x7FFF0000) == second)
+                {
+                    var origin = Prev(seed);
+                    result[ctr++] = origin;
+                    result[ctr++] = origin ^ 0x80000000;
+                }
             }
-            k += ((LCRNG_MUL - r) + LCRNG_SKIP2 - 1) / LCRNG_SKIP2;
+
+            val = (ushort)(search2 >> 16);
+            if (flags[val])
+            {
+                // Verify PID calls line up
+                var seed = first | (i << 8) | low8[val];
+                var next = Next(seed);
+                if ((next & 0x7FFF0000) == second)
+                {
+                    var origin = Prev(seed);
+                    result[ctr++] = origin;
+                    result[ctr++] = origin ^ 0x80000000;
+                }
+            }
         }
         return ctr;
     }
@@ -225,22 +263,19 @@ public static class LCRNG
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsSkip(Span<uint> result, uint first, uint third)
     {
-        ulong t = first - (third * LCRNGR_MUL_2) - LCRNGR_SUB_2;
-        ulong x = (t * LCRNGR_PRIME_2) % LCRNGR_MUL_2; // 32bit, but keep as 64bit
-        ulong kmax = (LCRNGR_BASE_2 - t) >> 32;
-
         int ctr = 0;
-        for (ulong k = 0; k <= kmax;) // at most 188 iterations
+        uint search = third - (first * Mult2);
+        for (uint i = 0; i <= 255; ++i, search -= k2s)
         {
-            ulong r = (x + (LCRNGR_SKIP1_2 * k)) % LCRNGR_MUL_2;
-            if (r % LCRNGR_PRIME_2 == 0 && r < LCRNGR_RMAX_2)
+            ushort val = (ushort)(search >> 16);
+            if (g_flags[val])
             {
-                ulong tmp = t + (k * 0x1_0000_0000);
-                // backward of 2 states to get the correct 16bits low for LCRNG
-                ushort low = (ushort)(((tmp / LCRNGR_MUL_2) * LCRNG_MUL_2_16) + LCRNG_ADD_2_16);
-                result[ctr++] = Prev(first | low);
+                // Verify PID calls line up
+                var seed = first | (i << 8) | g_low8[val];
+                var next = Next2(seed);
+                if ((next & 0xFFFF0000) == third)
+                    result[ctr++] = Prev(seed);
             }
-            k += ((LCRNGR_MUL_2 - r) + LCRNGR_SKIP1_2 - 1) / LCRNGR_SKIP1_2;
         }
         return ctr;
     }
@@ -254,24 +289,39 @@ public static class LCRNG
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsIVsSkip(Span<uint> result, uint first, uint third)
     {
-        ulong t = (first - (third * LCRNGR_MUL_2) - LCRNGR_SUB_2) & 0x7FFF_FFFF;
-        ulong x = ((t * LCRNGR_PRIME_2) % LCRNGR_MUL_2); // 32bit, but keep as 64bit
-        ulong kmax = (LCRNGR_BASE_2 - t) >> 31;
-
         int ctr = 0;
-        for (ulong k = 0; k <= kmax;) // at most 188 iterations
+        uint search1 = third - (first * Mult2);
+        uint search3 = third - ((first ^ 0x80000000) * Mult2);
+
+        for (uint i = 0; i <= 255; i++, search1 -= k2s, search3 -= k2s)
         {
-            ulong r = (x + (k * LCRNGR_SKIP2_2)) % LCRNGR_MUL_2;
-            if (r % LCRNGR_PRIME_2 == 0 && r < LCRNGR_RMAX_2)
+            uint val = (ushort)(search1 >> 16);
+            if (g_flags[val])
             {
-                ulong tmp = t + (k * 0x8000_0000);
-                // backward of 2 states to get the correct 16bits low for LCRNG
-                ushort low = (ushort)(((tmp / LCRNGR_MUL_2) * LCRNG_MUL_2_16) + LCRNG_ADD_2_16);
-                uint s = Prev(first | low);
-                result[ctr++] = s;
-                result[ctr++] = s ^ 0x8000_0000;
+                // Verify PID calls line up
+                var seed = first | (i << 8) | g_low8[val];
+                var next = Next2(seed);
+                if ((next & 0x7FFF0000) == third)
+                {
+                    var origin = Prev(seed);
+                    result[ctr++] = origin;
+                    result[ctr++] = origin ^ 0x80000000;
+                }
             }
-            k += ((LCRNGR_MUL_2 - r) + LCRNGR_SKIP2_2 - 1) / LCRNGR_SKIP2_2;
+
+            val = (ushort)(search3 >> 16);
+            if (g_flags[val])
+            {
+                // Verify PID calls line up
+                var seed = first | (i << 8) | g_low8[val];
+                var next = Next2(seed);
+                if ((next & 0x7FFF0000) == third)
+                {
+                    var origin = Prev(seed);
+                    result[ctr++] = origin;
+                    result[ctr++] = origin ^ 0x80000000;
+                }
+            }
         }
         return ctr;
     }
