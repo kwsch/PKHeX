@@ -62,7 +62,7 @@ public sealed class TeamLockResult
     {
         Locks = new Stack<NPCLock>((Specifications = teamSpec).Locks);
         Team = new Stack<SeedFrame>(Locks.Count);
-        Cache = new FrameCache(XDRNG.Prev2(originSeed), XDRNG.Prev);
+        Cache = new FrameCache(XDRNG.Prev2(originSeed));
         TSV = tsv;
 
         Valid = FindLockSeed();
