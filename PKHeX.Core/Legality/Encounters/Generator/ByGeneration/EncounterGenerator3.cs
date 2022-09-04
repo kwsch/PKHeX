@@ -232,11 +232,7 @@ public static class EncounterGenerator3
         var xdc = seeds[..count];
         foreach (var seed in xdc)
         {
-            var B = XDRNG.Prev(seed);
-            var A = XDRNG.Prev(B);
-            var C = XDRNG.Advance(A, 7);
-            var pidiv = new PIDIV(PIDType.CXD, XDRNG.Prev(C));
-
+            var pidiv = new PIDIV(PIDType.CXD, XDRNG.Next4(seed));
             if (!LockFinder.IsAllShadowLockValid(s, pidiv, pk))
                 continue;
             info.PIDIV = pidiv;

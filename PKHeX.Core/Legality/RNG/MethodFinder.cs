@@ -92,7 +92,7 @@ public static class MethodFinder
         foreach (var seed in reg)
         {
             // A and B are already used by PID
-            var B = LCRNG.Advance(seed, 2);
+            var B = LCRNG.Next2(seed);
 
             // Method 1/2/4 can use 3 different RNG frames
             var C = LCRNG.Next(B);
@@ -136,7 +136,7 @@ public static class MethodFinder
         foreach (var seed in reg)
         {
             // A and B are already used by PID
-            var C = LCRNG.Advance(seed, 3);
+            var C = LCRNG.Next3(seed);
 
             // Method 3
             var D = LCRNG.Next(C);
@@ -163,7 +163,7 @@ public static class MethodFinder
         foreach (var seed in reg)
         {
             // A and B are already used by PID
-            var B = LCRNG.Advance(seed, 2);
+            var B = LCRNG.Next2(seed);
 
             // Method 1/2/4 can use 3 different RNG frames
             var C = LCRNG.Next(B);
@@ -207,7 +207,7 @@ public static class MethodFinder
         foreach (var seed in reg)
         {
             // A and B are already used by PID
-            var C = LCRNG.Advance(seed, 3);
+            var C = LCRNG.Next3(seed);
 
             // Method 3
             var D = LCRNG.Next(C);
@@ -235,7 +235,7 @@ public static class MethodFinder
         foreach (var seed in reg)
         {
             // Only the first 8 bits are kept
-            var ivC = LCRNG.Advance(seed, 3) >> 16 & 0x00FF;
+            var ivC = LCRNG.Next3(seed) >> 16 & 0x00FF;
             if (iv1 != ivC)
                 continue;
 
@@ -309,7 +309,7 @@ public static class MethodFinder
         var channel = seeds[..count];
         foreach (var seed in channel)
         {
-            var C = XDRNG.Advance(seed, 3); // held item
+            var C = XDRNG.Next3(seed); // held item
             // no checks, held item can be swapped
 
             var D = XDRNG.Next(C); // Version
@@ -340,7 +340,7 @@ public static class MethodFinder
         var mg4 = seeds[..count];
         foreach (var seed in mg4)
         {
-            var B = LCRNG.Advance(seed, 2);
+            var B = LCRNG.Next2(seed);
             var C = LCRNG.Next(B);
             var D = LCRNG.Next(C);
             if (!IVsMatch(C >> 16, D >> 16, IVs))
@@ -446,7 +446,7 @@ public static class MethodFinder
             if (upid != pid >> 16)
                 continue;
 
-            s = LCRNG.Reverse(lower, 2); // unroll one final time to get the origin seed
+            s = LCRNG.Prev2(lower); // unroll one final time to get the origin seed
             pidiv = new PIDIV(ChainShiny, s);
             return true;
         }

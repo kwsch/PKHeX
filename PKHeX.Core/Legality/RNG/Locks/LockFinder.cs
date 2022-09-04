@@ -53,7 +53,7 @@ public static class LockFinder
     public static bool IsXDStarterValid(uint seed, int TID, int SID)
     {
         // pidiv reversed 2x yields SID, 3x yields TID. shift by 7 if another PKM is generated prior
-        var SIDf = XDRNG.Reverse(seed, 2);
+        var SIDf = XDRNG.Prev2(seed);
         var TIDf = XDRNG.Prev(SIDf);
         return SIDf >> 16 == SID && TIDf >> 16 == TID;
     }
@@ -71,12 +71,11 @@ public static class LockFinder
     public static bool IsColoStarterValid(ushort species, ref uint seed, int TID, int SID, uint pkPID, uint IV1, uint IV2)
     {
         // reverse the seed the bare minimum
-        int rev = 2;
-        if (species == (int)Species.Espeon)
-            rev += 7;
+        uint SIDf = species == (int)Species.Espeon
+            ? XDRNG.Prev9(seed)
+            : XDRNG.Prev2(seed);
 
         // reverse until we find the TID/SID, then run the generation forward to see if it matches our inputs.
-        var SIDf = XDRNG.Reverse(seed, rev);
         int ctr = 0;
         uint temp;
         while ((temp = XDRNG.Prev(SIDf)) >> 16 != TID || SIDf >> 16 != SID)
@@ -96,7 +95,7 @@ public static class LockFinder
 
         if (!PIDIV.Equals(pkPID, IV1, IV2))
             return false;
-        seed = XDRNG.Reverse(SIDf, 2);
+        seed = XDRNG.Prev2(SIDf);
         return true;
     }
 
@@ -107,15 +106,15 @@ public static class LockFinder
 
     private static PIDIVGroup GenerateValidColoStarterPID(ref uint uSeed, int TID, int SID)
     {
-        uSeed = XDRNG.Advance(uSeed, 2); // skip fakePID
+        uSeed = XDRNG.Next2(uSeed); // skip fakePID
         var IV1 = (uSeed >> 16) & 0x7FFF;
         uSeed = XDRNG.Next(uSeed);
         var IV2 = (uSeed >> 16) & 0x7FFF;
         uSeed = XDRNG.Next(uSeed);
-        uSeed = XDRNG.Advance(uSeed, 1); // skip ability call
+        uSeed = XDRNG.Next(uSeed); // skip ability call
         var PID = GenerateStarterPID(ref uSeed, TID, SID);
 
-        uSeed = XDRNG.Advance(uSeed, 2); // PID calls consumed
+        uSeed = XDRNG.Next2(uSeed); // PID calls consumed
 
         return new PIDIVGroup(PID, IV1, IV2);
     }

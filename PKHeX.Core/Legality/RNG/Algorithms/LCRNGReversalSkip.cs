@@ -3,15 +3,12 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// 32 Bit Linear Congruential Random Number Generator
+/// Seed reversal logic for the <see cref="LCRNG"/> algorithm, with a gap in between the two observed rand() results.
 /// </summary>
-/// <remarks>Frame advancement for forward and reverse.
-/// <br>
-/// https://en.wikipedia.org/wiki/Linear_congruential_generator
-/// </br>
-/// <br>
-/// seed_n+1 = seed_n * <see cref="Mult"/> + <see cref="Add"/>
-/// </br>
+/// <remarks>
+/// Use a meet-in-the-middle attack to reduce the search space to 2^8 instead of 2^16
+/// flag/2^8 tables are precomputed and constant (unrelated to rand pairs)
+/// https://crypto.stackexchange.com/a/10609
 /// </remarks>
 public static class LCRNGReversalSkip
 {
@@ -19,8 +16,8 @@ public static class LCRNGReversalSkip
     private const int cacheSize = 1 << 16;
     private static readonly byte[] low8 = new byte[cacheSize];
     private static readonly bool[] flags = new bool[cacheSize];
-    private const uint Mult = LCRNG.Mult2;
-    private const uint Add = LCRNG.Add2;
+    private const uint Mult = unchecked(LCRNG.Mult * LCRNG.Mult);     // 0xC2A29A69
+    private const uint Add = unchecked(LCRNG.Add * (LCRNG.Mult + 1)); // 0xE97E7B6A
     private const uint k2 = Mult << 8;
 
     static LCRNGReversalSkip()

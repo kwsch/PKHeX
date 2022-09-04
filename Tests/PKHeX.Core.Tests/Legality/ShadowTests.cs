@@ -163,7 +163,7 @@ public static class PIDTests
             bool match = false;
             foreach (var s in reg)
             {
-                var seed = XDRNG.Reverse(s, 3);
+                var seed = XDRNG.Prev3(s);
                 PIDGenerator.SetValuesFromSeed(pk, PIDType.CXD, seed);
                 var info = MethodFinder.Analyze(pk);
                 info.OriginSeed.Should().Be(seed);

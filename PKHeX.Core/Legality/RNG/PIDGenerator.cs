@@ -86,12 +86,12 @@ public static class PIDGenerator
             case (int)Species.Umbreon or (int)Species.Eevee: // Colo Umbreon, XD Eevee
                 pk.TID = (int)((seed = XDRNG.Next(seed)) >> 16);
                 pk.SID = (int)((seed = XDRNG.Next(seed)) >> 16);
-                seed = XDRNG.Advance(seed, 2); // PID calls consumed
+                seed = XDRNG.Next2(seed); // PID calls consumed
                 break;
             case (int)Species.Espeon: // Colo Espeon
                 pk.TID = (int)((seed = XDRNG.Next(seed)) >> 16);
                 pk.SID = (int)((seed = XDRNG.Next(seed)) >> 16);
-                seed = XDRNG.Advance(seed, 9); // PID calls consumed, skip over Umbreon
+                seed = XDRNG.Next9(seed); // PID calls consumed, skip over Umbreon
                 break;
         }
         var A = XDRNG.Next(seed); // IV1
@@ -108,8 +108,7 @@ public static class PIDGenerator
 
     public static void SetValuesFromSeedXDRNG_EReader(PKM pk, uint seed)
     {
-        var A = XDRNG.Reverse(seed, 4);
-        var D = XDRNG.Next(A); // PID
+        var D = XDRNG.Prev3(seed); // PID
         var E = XDRNG.Next(D); // PID
 
         pk.PID = (D & 0xFFFF0000) | (E >> 16);
