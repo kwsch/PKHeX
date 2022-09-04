@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -9,12 +9,11 @@ public static class PIDGenerator
 {
     private static void SetValuesFromSeedLCRNG(PKM pk, PIDType type, uint seed)
     {
-        var rng = RNG.LCRNG;
-        var A = rng.Next(seed);
-        var B = rng.Next(A);
+        var A = LCRNG.Next(seed);
+        var B = LCRNG.Next(A);
         var skipBetweenPID = type is PIDType.Method_3 or PIDType.Method_3_Unown;
         if (skipBetweenPID) // VBlank skip between PID rand() [RARE]
-            B = rng.Next(B);
+            B = LCRNG.Next(B);
 
         var swappedPIDHalves = type is >= PIDType.Method_1_Unown and <= PIDType.Method_4_Unown;
         if (swappedPIDHalves) // switched order of PID halves, "BA.."
@@ -22,15 +21,15 @@ public static class PIDGenerator
         else
             pk.PID = (B & 0xFFFF0000) | (A >> 16);
 
-        var C = rng.Next(B);
+        var C = LCRNG.Next(B);
         var skipIV1Frame = type is PIDType.Method_2 or PIDType.Method_2_Unown;
         if (skipIV1Frame) // VBlank skip after PID
-            C = rng.Next(C);
+            C = LCRNG.Next(C);
 
-        var D = rng.Next(C);
+        var D = LCRNG.Next(C);
         var skipIV2Frame = type is PIDType.Method_4 or PIDType.Method_4_Unown;
         if (skipIV2Frame) // VBlank skip between IVs
-            D = rng.Next(D);
+            D = LCRNG.Next(D);
 
         Span<int> IVs = stackalloc int[6];
         MethodFinder.GetIVsInt32(IVs, C >> 16, D >> 16);
@@ -46,13 +45,12 @@ public static class PIDGenerator
 
     private static void SetValuesFromSeedBACD(PKM pk, PIDType type, uint seed)
     {
-        var rng = RNG.LCRNG;
         bool shiny = type is PIDType.BACD_R_S or PIDType.BACD_U_S;
-        uint X = shiny ? rng.Next(seed) : seed;
-        var A = rng.Next(X);
-        var B = rng.Next(A);
-        var C = rng.Next(B);
-        var D = rng.Next(C);
+        uint X = shiny ? LCRNG.Next(seed) : seed;
+        var A = LCRNG.Next(X);
+        var B = LCRNG.Next(A);
+        var C = LCRNG.Next(B);
+        var D = LCRNG.Next(C);
 
         if (shiny)
         {
@@ -83,25 +81,24 @@ public static class PIDGenerator
 
     private static void SetValuesFromSeedXDRNG(PKM pk, uint seed)
     {
-        var rng = RNG.XDRNG;
         switch (pk.Species)
         {
             case (int)Species.Umbreon or (int)Species.Eevee: // Colo Umbreon, XD Eevee
-                pk.TID = (int)((seed = rng.Next(seed)) >> 16);
-                pk.SID = (int)((seed = rng.Next(seed)) >> 16);
-                seed = rng.Advance(seed, 2); // PID calls consumed
+                pk.TID = (int)((seed = XDRNG.Next(seed)) >> 16);
+                pk.SID = (int)((seed = XDRNG.Next(seed)) >> 16);
+                seed = XDRNG.Next2(seed); // PID calls consumed
                 break;
             case (int)Species.Espeon: // Colo Espeon
-                pk.TID = (int)((seed = rng.Next(seed)) >> 16);
-                pk.SID = (int)((seed = rng.Next(seed)) >> 16);
-                seed = rng.Advance(seed, 9); // PID calls consumed, skip over Umbreon
+                pk.TID = (int)((seed = XDRNG.Next(seed)) >> 16);
+                pk.SID = (int)((seed = XDRNG.Next(seed)) >> 16);
+                seed = XDRNG.Next9(seed); // PID calls consumed, skip over Umbreon
                 break;
         }
-        var A = rng.Next(seed); // IV1
-        var B = rng.Next(A); // IV2
-        var C = rng.Next(B); // Ability?
-        var D = rng.Next(C); // PID
-        var E = rng.Next(D); // PID
+        var A = XDRNG.Next(seed); // IV1
+        var B = XDRNG.Next(A); // IV2
+        var C = XDRNG.Next(B); // Ability?
+        var D = XDRNG.Next(C); // PID
+        var E = XDRNG.Next(D); // PID
 
         pk.PID = (D & 0xFFFF0000) | (E >> 16);
         Span<int> IVs = stackalloc int[6];
@@ -111,23 +108,20 @@ public static class PIDGenerator
 
     public static void SetValuesFromSeedXDRNG_EReader(PKM pk, uint seed)
     {
-        var rng = RNG.XDRNG;
-        var A = rng.Reverse(seed, 4);
-        var D = rng.Next(A); // PID
-        var E = rng.Next(D); // PID
+        var D = XDRNG.Prev3(seed); // PID
+        var E = XDRNG.Next(D); // PID
 
         pk.PID = (D & 0xFFFF0000) | (E >> 16);
     }
 
     private static void SetValuesFromSeedChannel(PKM pk, uint seed)
     {
-        var rng = RNG.XDRNG;
-        var O = rng.Next(seed); // SID
-        var A = rng.Next(O); // PID
-        var B = rng.Next(A); // PID
-        var C = rng.Next(B); // Held Item
-        var D = rng.Next(C); // Version
-        var E = rng.Next(D); // OT Gender
+        var O = XDRNG.Next(seed); // SID
+        var A = XDRNG.Next(O); // PID
+        var B = XDRNG.Next(A); // PID
+        var C = XDRNG.Next(B); // Held Item
+        var D = XDRNG.Next(C); // Version
+        var E = XDRNG.Next(D); // OT Gender
 
         const int TID = 40122;
         var SID = (int)(O >> 16);
@@ -143,7 +137,7 @@ public static class PIDGenerator
         pk.Version = (int)(D >> 31) + 1; // 0-Sapphire, 1-Ruby
         pk.OT_Gender = (int)(E >> 31);
         Span<int> ivs = stackalloc int[6];
-        rng.GetSequentialIVsInt32(E, ivs);
+        XDRNG.GetSequentialIVsInt32(E, ivs);
         pk.SetIVs(ivs);
     }
 
@@ -204,7 +198,7 @@ public static class PIDGenerator
         // 1 3-bit for upper
         // 1 3-bit for lower
 
-        uint Next() => (seed = RNG.LCRNG.Next(seed)) >> 16;
+        uint Next() => (seed = LCRNG.Next(seed)) >> 16;
         uint lower = Next() & 7;
         uint upper = Next() & 7;
         for (int i = 0; i < 13; i++)
@@ -226,9 +220,8 @@ public static class PIDGenerator
             if (!MethodFinder.IsPokeSpotActivation(slot, seed, out _))
                 continue;
 
-            var rng = RNG.XDRNG;
-            var D = rng.Next(seed); // PID
-            var E = rng.Next(D); // PID
+            var D = XDRNG.Next(seed); // PID
+            var E = XDRNG.Next(D); // PID
 
             pk.PID = (D & 0xFFFF0000) | (E >> 16);
             if (!IsValidCriteria4(pk, nature, ability, gender))

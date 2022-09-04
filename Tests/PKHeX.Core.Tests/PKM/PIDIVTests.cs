@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using FluentAssertions;
 using PKHeX.Core;
@@ -145,11 +146,11 @@ public class PIDIVTest
     {
         // XD PokeSpots: Check all 3 Encounter Slots (examples are one for each location).
         var pkPS0 = new PK3 { PID = 0x7B2D9DA7 }; // Zubat (Cave)
-        Assert.True(MethodFinder.GetPokeSpotSeeds(pkPS0, 0).Any(), "PokeSpot encounter info mismatch (Common)");
+        Assert.True(MethodFinder.GetPokeSpotSeedFirst(pkPS0, 0).Type == PIDType.PokeSpot, "PokeSpot encounter info mismatch (Common)");
         var pkPS1 = new PK3 { PID = 0x3EE9AF66 }; // Gligar (Rock)
-        Assert.True(MethodFinder.GetPokeSpotSeeds(pkPS1, 1).Any(), "PokeSpot encounter info mismatch (Uncommon)");
+        Assert.True(MethodFinder.GetPokeSpotSeedFirst(pkPS1, 1).Type == PIDType.PokeSpot, "PokeSpot encounter info mismatch (Uncommon)");
         var pkPS2 = new PK3 { PID = 0x9B667F3C }; // Surskit (Oasis)
-        Assert.True(MethodFinder.GetPokeSpotSeeds(pkPS2, 2).Any(), "PokeSpot encounter info mismatch (Rare)");
+        Assert.True(MethodFinder.GetPokeSpotSeedFirst(pkPS2, 2).Type == PIDType.PokeSpot, "PokeSpot encounter info mismatch (Rare)");
     }
 
     [Fact]
@@ -208,6 +209,20 @@ public class PIDIVTest
         }
     }
 
+    [Theory]
+    [InlineData(0x00001234, 0x4DCB, 0xE161)]
+    [InlineData(0x00005678, 0x734D, 0xC596)]
+    public void Method1(uint seed, ushort rand0, ushort rand1)
+    {
+        uint first = (uint)(rand0 << 16);
+        uint second = (uint)(rand1 << 16);
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsPID];
+        int count = LCRNGReversal.GetSeeds(seeds, first, second);
+        count.Should().NotBe(0);
+
+        seeds[..count].IndexOf(seed).Should().NotBe(-1);
+    }
+
     [Fact]
     public void PIDIVMethod4IVs()
     {
@@ -225,7 +240,11 @@ public class PIDIVTest
             rand1 |= (uint)IVs[i] << (5 * i);
             rand3 |= (uint)IVs[i+3] << (5 * i);
         }
-        Assert.Contains(MethodFinder.GetSeedsFromIVsSkip(RNG.LCRNG, rand1, rand3), z => z == 0xFEE7047C);
+
+        Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
+        int count = LCRNGReversalSkip.GetSeedsIVs(seeds, rand1 << 16, rand3 << 16);
+        var reg = seeds[..count];
+        reg.IndexOf(0xFEE7047C).Should().NotBe(-1);
     }
 
     [Fact]
@@ -234,9 +253,16 @@ public class PIDIVTest
         const uint seed = 0x2E15555E;
         const uint rand0 = 0x20AD96A9;
         const uint rand1 = 0x7E1DBEC8;
-        var pidseeds = MethodFinder.GetSeedsFromPIDEuclid(RNG.XDRNG, rand0 >> 16,            rand1 >> 16);
-        var ivseeds = MethodFinder.GetSeedsFromIVsEuclid(RNG.XDRNG, (rand0 >> 16) & 0x7FFF, (rand1 >> 16) & 0x7FFF);
-        Assert.Contains(pidseeds, z => z == seed);
-        Assert.Contains(ivseeds, z => z == seed);
+
+        XDRNG.MaxCountSeedsIV.Should().BeGreaterThan(XDRNG.MaxCountSeedsPID);
+
+        Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsIV];
+        var cp = XDRNG.GetSeeds(seeds, rand0 & 0xFFFF0000, rand1 & 0xFFFF0000);
+        var p = seeds[..cp];
+        p.IndexOf(seed).Should().NotBe(-1);
+
+        var ci = XDRNG.GetSeedsIVs(seeds, rand0 & 0x7FFF0000, rand1 & 0x7FFF0000);
+        var i = seeds[..ci];
+        i.IndexOf(seed).Should().NotBe(-1);
     }
 }

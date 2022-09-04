@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
@@ -15,7 +15,6 @@ public sealed class FrameGenerator
     public readonly bool DPPt;
     public readonly bool AllowLeads;
     public readonly FrameType FrameType;
-    public readonly RNG RNG = RNG.LCRNG;
     public readonly bool Safari3;
 
     public Frame GetFrame(uint seed, LeadRequired lead) => new(seed, FrameType, lead);

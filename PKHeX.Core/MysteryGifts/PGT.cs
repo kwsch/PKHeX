@@ -208,8 +208,8 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         // Generate IVs
         if ((pk4.IV32 & 0x3FFF_FFFFu) == 0) // Ignore Nickname/Egg flag bits
         {
-            uint iv1 = ((seed = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
-            uint iv2 = ((RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
+            uint iv1 = ((seed = LCRNG.Next(seed)) >> 16) & 0x7FFF;
+            uint iv2 = ((LCRNG.Next(seed)) >> 16) & 0x7FFF;
             pk4.IV32 |= iv1 | (iv2 << 15);
         }
     }
@@ -252,14 +252,14 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         do
         {
-            uint pid1 = (seed = RNG.LCRNG.Next(seed)) >> 16; // low
-            uint pid2 = (seed = RNG.LCRNG.Next(seed)) & 0xFFFF0000; // hi
+            uint pid1 = (seed = LCRNG.Next(seed)) >> 16; // low
+            uint pid2 = (seed = LCRNG.Next(seed)) & 0xFFFF0000; // hi
             pk4.PID = pid2 | pid1;
             // sanity check gender for non-genderless PID cases
         } while (!pk4.IsGenderValid());
 
         while (pk4.IsShiny) // Call the ARNG to change the PID
-            pk4.PID = RNG.ARNG.Next(pk4.PID);
+            pk4.PID = ARNG.Next(pk4.PID);
         return seed;
     }
 

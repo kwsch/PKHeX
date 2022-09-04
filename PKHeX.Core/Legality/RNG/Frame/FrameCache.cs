@@ -1,34 +1,28 @@
-using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// Frame List used to cache <see cref="RNG"/> results.
+/// Frame List used to cache <see cref="XDRNG"/> results, lazily reversing backwards and keeping the previous results.
 /// </summary>
 public sealed class FrameCache
 {
     private const int DefaultSize = 32;
     private readonly List<uint> Seeds = new(DefaultSize);
     private readonly List<uint> Values = new(DefaultSize);
-    private readonly Func<uint, uint> Advance;
+    private uint Last;
 
     /// <summary>
     /// Creates a new instance of a <see cref="FrameCache"/>.
     /// </summary>
     /// <param name="origin">Seed at frame 0.</param>
-    /// <param name="advance"><see cref="RNG"/> method used to get the next seed. Can use <see cref="RNG.Next"/> or <see cref="RNG.Prev"/>.</param>
-    public FrameCache(uint origin, Func<uint, uint> advance)
-    {
-        Advance = advance;
-        Add(origin);
-    }
+    public FrameCache(uint origin) => Add(origin);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void Add(uint seed)
     {
-        Seeds.Add(seed);
+        Seeds.Add(Last = seed);
         Values.Add(seed >> 16);
     }
 
@@ -41,7 +35,7 @@ public sealed class FrameCache
         get
         {
             while (index >= Seeds.Count)
-                Add(Advance(Seeds[^1]));
+                Add(XDRNG.Prev(Last));
             return Values[index];
         }
     }
@@ -54,7 +48,7 @@ public sealed class FrameCache
     public uint GetSeed(int index)
     {
         while (index >= Seeds.Count)
-            Add(Advance(Seeds[^1]));
+            Add(XDRNG.Prev(Last));
         return Seeds[index];
     }
 }

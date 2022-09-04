@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -33,7 +33,7 @@ public static class MystryMew
         0xFE9D,
     };
 
-    private const int FramesPerMew = 5;
+  //private const int FramesPerMew = 5;
     private const int MewPerRestrictedSeed = 5;
 
     /// <summary>
@@ -48,7 +48,7 @@ public static class MystryMew
 
         uint position = (random % (MewPerRestrictedSeed - 1)) + 1;
         for (int i = 0; i < position; i++)
-            seed = RNG.LCRNG.Advance(seed, FramesPerMew);
+            seed = LCRNG.Next5(seed);
 
         return seed;
     }
@@ -63,7 +63,7 @@ public static class MystryMew
         {
             if (seed <= ushort.MaxValue)
                 return Array.BinarySearch(Seeds, (ushort)seed);
-            seed = RNG.LCRNG.Reverse(seed, FramesPerMew);
+            seed = LCRNG.Prev5(seed);
         }
 
         return -1;

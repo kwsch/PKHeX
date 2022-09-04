@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using PKHeX.Core;
@@ -153,13 +153,17 @@ public static class PIDTests
     public static void VerifyResults(IReadOnlyList<uint[]> results, TeamLock[] team)
     {
         var pk = new PK3();
+        Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
         for (int i = 0; i < results.Count; i++)
         {
             var result = results[i];
-            var seeds = getSeeds(result[^1]);
+            var pid = result[^1];
+            int count = XDRNG.GetSeeds(seeds, pid);
+            var reg = seeds[..count];
             bool match = false;
-            foreach (var seed in seeds)
+            foreach (var s in reg)
             {
+                var seed = XDRNG.Prev3(s);
                 PIDGenerator.SetValuesFromSeed(pk, PIDType.CXD, seed);
                 var info = MethodFinder.Analyze(pk);
                 info.OriginSeed.Should().Be(seed);
@@ -170,16 +174,6 @@ public static class PIDTests
                 break;
             }
             match.Should().BeTrue($"because the lock conditions for result {i} and species {team[0].Species} should have been verified");
-        }
-
-        static IEnumerable<uint> getSeeds(uint PID)
-        {
-            var top = PID >> 16;
-            var bot = PID & 0xFFFF;
-
-            var seeds = MethodFinder.GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
-            foreach (var s in seeds)
-                yield return RNG.XDRNG.Reverse(s, 3);
         }
     }
 
