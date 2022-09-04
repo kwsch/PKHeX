@@ -217,7 +217,7 @@ public class PIDIVTest
         uint first = (uint)(rand0 << 16);
         uint second = (uint)(rand1 << 16);
         Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsPID];
-        int count = LCRNG.GetSeeds(seeds, first, second);
+        int count = LCRNGReversal.GetSeeds(seeds, first, second);
         count.Should().NotBe(0);
 
         seeds[..count].IndexOf(seed).Should().NotBe(-1);
@@ -242,7 +242,7 @@ public class PIDIVTest
         }
 
         Span<uint> seeds = stackalloc uint[LCRNG.MaxCountSeedsIV];
-        int count = LCRNG.GetSeedsIVsSkip(seeds, rand1 << 16, rand3 << 16);
+        int count = LCRNGReversalSkip.GetSeedsIVs(seeds, rand1 << 16, rand3 << 16);
         var reg = seeds[..count];
         reg.IndexOf(0xFEE7047C).Should().NotBe(-1);
     }

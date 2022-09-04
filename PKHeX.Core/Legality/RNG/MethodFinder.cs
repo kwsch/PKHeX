@@ -85,7 +85,7 @@ public static class MethodFinder
 
     private static bool GetLCRNGMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        var count = LCRNG.GetSeeds(seeds, bot, top);
+        var count = LCRNGReversal.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
         var iv1 = GetIVChunk(IVs, 0);
         var iv2 = GetIVChunk(IVs, 3);
@@ -131,7 +131,7 @@ public static class MethodFinder
                 }
             }
         }
-        count = LCRNG.GetSeedsSkip(seeds, bot, top);
+        count = LCRNGReversalSkip.GetSeeds(seeds, bot, top);
         reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -156,7 +156,7 @@ public static class MethodFinder
     private static bool GetLCRNGUnownMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
         // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
-        var count = LCRNG.GetSeeds(seeds, top, bot); // reversed!
+        var count = LCRNGReversal.GetSeeds(seeds, top, bot); // reversed!
         var reg = seeds[..count];
         var iv1 = GetIVChunk(IVs, 0);
         var iv2 = GetIVChunk(IVs, 3);
@@ -202,7 +202,7 @@ public static class MethodFinder
                 }
             }
         }
-        count = LCRNG.GetSeedsSkip(seeds, top, bot); // reversed!
+        count = LCRNGReversalSkip.GetSeeds(seeds, top, bot); // reversed!
         reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -230,7 +230,7 @@ public static class MethodFinder
             return GetNonMatch(out pidiv);
 
         var iv1 = GetIVChunk(IVs, 0);
-        var count = LCRNG.GetSeeds(seeds, bot, top);
+        var count = LCRNGReversal.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -336,7 +336,7 @@ public static class MethodFinder
     {
         uint mg4Rev = ARNG.Prev(pid);
 
-        var count = LCRNG.GetSeeds(seeds, mg4Rev << 16, mg4Rev & 0xFFFF0000);
+        var count = LCRNGReversal.GetSeeds(seeds, mg4Rev << 16, mg4Rev & 0xFFFF0000);
         var mg4 = seeds[..count];
         foreach (var seed in mg4)
         {
@@ -417,7 +417,7 @@ public static class MethodFinder
         var bot = GetIVChunk(IVs, 0) << 16;
         var top = GetIVChunk(IVs, 3) << 16;
 
-        var count = LCRNG.GetSeedsIVs(seeds, bot, top);
+        var count = LCRNGReversal.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
         foreach (var seed in reg)
         {
@@ -458,7 +458,7 @@ public static class MethodFinder
         var bot = GetIVChunk(IVs, 0) << 16;
         var top = GetIVChunk(IVs, 3) << 16;
 
-        var count = LCRNG.GetSeedsIVs(seeds, bot, top);
+        var count = LCRNGReversal.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
         PIDType type = BACD_U;
         foreach (var seed in reg)

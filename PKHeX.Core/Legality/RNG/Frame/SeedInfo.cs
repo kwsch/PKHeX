@@ -56,8 +56,8 @@ public readonly record struct SeedInfo(uint Seed, bool Charm3 = false)
         // We must reverse the IVs to find all seeds that could generate this.
         // ESV,Proc,Nature,IV1,IV2; these do not do the nature loop for Method J/K so each seed originates a single seed frame.
 
-        var seeds = new uint[8];
-        int ctr = LCRNG.GetSeedsIVs(seeds, (uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
+        var seeds = new uint[LCRNG.MaxCountSeedsIV];
+        int ctr = LCRNGReversal.GetSeedsIVs(seeds, (uint)pk.IV_HP, (uint)pk.IV_ATK, (uint)pk.IV_DEF, (uint)pk.IV_SPA, (uint)pk.IV_SPD, (uint)pk.IV_SPE);
         for (int i = 0; i < ctr; i++)
             yield return new SeedInfo(seeds[i]);
     }
