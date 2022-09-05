@@ -303,9 +303,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         return false;
     }
 
-    private byte[] MatchMysteryGifts(DataMysteryGift[] value)
+    private bool MatchMysteryGifts(DataMysteryGift[] value, Span<byte> indexes)
     {
-        byte[] cardMatch = new byte[8];
         for (int i = 0; i < 8; i++)
         {
             if (value[i] is not PGT pgt)
@@ -313,11 +312,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
             if (pgt.CardType == 0) // empty
             {
-                cardMatch[i] = pgt.Slot = 0;
+                indexes[i] = pgt.Slot = 0;
                 continue;
             }
 
-            cardMatch[i] = pgt.Slot = 3;
+            indexes[i] = pgt.Slot = 3;
             for (byte j = 0; j < 3; j++)
             {
                 if (value[8 + j] is not PCD pcd)
@@ -329,11 +328,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
                 if (this is SAV4HGSS)
                     j++; // hgss 0,1,2; dppt 1,2,3
-                cardMatch[i] = pgt.Slot = j;
+                indexes[i] = pgt.Slot = j;
                 break;
             }
         }
-        return cardMatch;
+        return true;
     }
 
     public override MysteryGiftAlbum GiftAlbum
@@ -406,8 +405,9 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         }
         set
         {
-            var Matches = MatchMysteryGifts(value); // automatically applied
-            if (Matches.Length == 0)
+            Span<byte> indexes = stackalloc byte[8];
+            bool matchAny = MatchMysteryGifts(value, indexes); // automatically applied
+            if (!matchAny)
                 return;
 
             for (int i = 0; i < 8; i++) // 8 PGT

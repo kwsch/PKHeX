@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 
 namespace PKHeX.Core;
@@ -18,32 +17,6 @@ public static class StringUtil
     /// <param name="value">Value to search for</param>
     /// <returns>Index within <see cref="arr"/></returns>
     public static int FindIndexIgnoreCase(string[] arr, string value) => Array.FindIndex(arr, z => IsMatchIgnoreCase(z, value));
-
-    /// <summary>
-    /// Gets the indexes by calling <see cref="FindIndexIgnoreCase"/> for all <see cref="items"/>.
-    /// </summary>
-    /// <param name="arr">Array of strings to search in</param>
-    /// <param name="items">Items to search for</param>
-    /// <returns>Index within <see cref="arr"/></returns>
-    public static int[] GetIndexes(string[] arr, IReadOnlyList<string> items) => GetIndexes(arr, items, 0, items.Count);
-
-    /// <summary>
-    /// Gets the indexes by calling <see cref="FindIndexIgnoreCase"/> for all <see cref="items"/>.
-    /// </summary>
-    /// <param name="arr">Array of strings to search in</param>
-    /// <param name="items">Items to search for</param>
-    /// <param name="start">Starting index within <see cref="items"/></param>
-    /// <param name="length">Amount to convert within <see cref="items"/></param>
-    /// <returns>Index within <see cref="arr"/></returns>
-    public static int[] GetIndexes(string[] arr, IReadOnlyList<string> items, int start, int length)
-    {
-        if (length < 0)
-            length = items.Count - start;
-        var result = new int[length];
-        for (int i = 0; i < result.Length; i++)
-            result[i] = FindIndexIgnoreCase(arr, items[start + i]);
-        return result;
-    }
 
     public static bool IsMatchIgnoreCase(string string1, string string2)
     {

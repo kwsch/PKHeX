@@ -121,7 +121,7 @@ public partial class SAV_Pokedex4 : Form
 
         string[] formNames = GetFormNames4Dex(species);
 
-        var seen = forms.Where(z => z >= 0 && z < forms.Length).Distinct().Select((_, i) => formNames[forms[i]]).ToArray();
+        var seen = forms.Where(z => z != FORM_NONE && z < forms.Length).Distinct().Select((_, i) => formNames[forms[i]]).ToArray();
         var not = formNames.Except(seen).ToArray();
 
         LB_Form.Items.AddRange(seen);
@@ -184,10 +184,11 @@ public partial class SAV_Pokedex4 : Form
         var forms = SAV.Dex.GetForms(species);
         if (forms.Length > 0)
         {
-            int[] arr = new int[LB_Form.Items.Count];
+            var items = LB_Form.Items;
+            Span<byte> arr = stackalloc byte[items.Count];
             string[] formNames = GetFormNames4Dex(species);
-            for (int i = 0; i < LB_Form.Items.Count; i++)
-                arr[i] = Array.IndexOf(formNames, (string)LB_Form.Items[i]);
+            for (int i = 0; i < items.Count; i++)
+                arr[i] = (byte)Array.IndexOf(formNames, (string)items[i]); // shouldn't ever fail
             SAV.Dex.SetForms(species, arr);
         }
     }

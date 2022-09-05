@@ -831,7 +831,7 @@ public partial class SAV_Misc4 : Form
 
     private void SaveWalker(SAV4HGSS s)
     {
-        bool[] courses = new bool[32];
+        Span<bool> courses = stackalloc bool[32];
         for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++)
             courses[i] = CLB_WalkerCourses.GetItemChecked(i);
         s.SetPokewalkerCoursesUnlocked(courses);

@@ -54,13 +54,16 @@ public static class EncounterLearn
         if (speciesID <= 0)
             return Array.Empty<IEncounterable>();
 
-        var moveIDs = StringUtil.GetIndexes(str.movelist, moves.ToList());
-        if (Array.Exists(moveIDs, static z => z <= 0))
-            return Array.Empty<IEncounterable>();
-
-        var span = new ushort[moveIDs.Length];
-        for (int i = 0; i < moveIDs.Length; i++)
-            span[i] = (ushort)moveIDs[i];
+        var allMoves = moves.ToList();
+        var span = new ushort[allMoves.Count];
+        for (int i = 0; i < span.Length; i++)
+        {
+            var move = allMoves[i];
+            var index = StringUtil.FindIndexIgnoreCase(str.movelist, move);
+            if (index <= 0)
+                return Array.Empty<IEncounterable>();
+            span[i] = (ushort)index;
+        }
 
         return GetLearn((ushort)speciesID, span, form);
     }

@@ -336,14 +336,14 @@ public static class FrameFinder
             return false;
 
         // init natures
-        uint[] natures = new uint[25];
-        for (uint i = 0; i < 25; i++)
+        Span<byte> natures = stackalloc byte[25];
+        for (byte i = 0; i < 25; i++)
             natures[i] = i;
 
         // shuffle nature list
-        for (uint i = 0; i < 25; i++)
+        for (int i = 0; i < 25; i++)
         {
-            for (uint j = 1 + i; j < 25; j++)
+            for (int j = 1 + i; j < 25; j++)
             {
                 var s = stack.Pop();
                 if (((s >> 16) & 1) == 0)

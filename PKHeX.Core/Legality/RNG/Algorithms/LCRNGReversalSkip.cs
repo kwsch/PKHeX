@@ -114,7 +114,7 @@ public static class LCRNGReversalSkip
 
         for (uint i = 0; i <= 255; i++, search1 -= k2, search3 -= k2)
         {
-            uint val = (ushort)(search1 >> 16);
+            ushort val = (ushort)(search1 >> 16);
             if (flags[val])
             {
                 // Verify PID calls line up

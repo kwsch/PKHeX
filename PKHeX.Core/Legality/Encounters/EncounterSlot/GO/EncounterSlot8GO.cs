@@ -137,13 +137,6 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
 
     public void GetInitialMoves(int level, Span<ushort> moves) => MoveLevelUp.GetEncounterMoves(moves, Species, Form, level, OriginGroup);
 
-    public ReadOnlySpan<ushort> GetInitialMoves(int level)
-    {
-        var result = new ushort[4];
-        GetInitialMoves(level, result);
-        return result;
-    }
-
     public override EncounterMatchRating GetMatchRating(PKM pk)
     {
         if (IsMatchPartial(pk))
