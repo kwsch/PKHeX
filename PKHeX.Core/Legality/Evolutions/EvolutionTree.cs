@@ -53,17 +53,17 @@ public sealed class EvolutionTree
     };
 
     private readonly IReadOnlyList<EvolutionMethod[]> Entries;
-    private readonly GameVersion Game;
     private readonly IPersonalTable Personal;
     private readonly int MaxSpeciesTree;
     private readonly EvolutionReverseLookup Lineage;
+    private bool FormSeparateEvoData => MaxSpeciesTree > MaxSpeciesID_6;
+
     internal static int GetLookupKey(ushort species, byte form) => species | (form << 11);
 
     #region Constructor
 
     private EvolutionTree(ReadOnlySpan<byte> data, GameVersion game, IPersonalTable personal, int maxSpeciesTree)
     {
-        Game = game;
         Personal = personal;
         MaxSpeciesTree = maxSpeciesTree;
         Entries = GetEntries(data, game);
@@ -73,13 +73,12 @@ public sealed class EvolutionTree
 
     private EvolutionTree(BinLinkerAccessor data, GameVersion game, IPersonalTable personal, int maxSpeciesTree)
     {
-        Game = game;
         Personal = personal;
         MaxSpeciesTree = maxSpeciesTree;
         Entries = GetEntries(data, game);
 
         // Starting in Generation 7, forms have separate evolution data.
-        var oldStyle = game == Gen6;
+        var oldStyle = !FormSeparateEvoData;
         var connections = oldStyle ? CreateTreeOld() : CreateTree();
         Lineage = new(connections, maxSpeciesTree);
     }
@@ -286,8 +285,7 @@ public sealed class EvolutionTree
     /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
     public IEnumerable<(ushort Species, byte Form)> GetEvolutions(ushort species, byte form)
     {
-        int format = Game - Gen1 + 1;
-        int index = format < 7 ? species : Personal.GetFormIndex(species, form);
+        int index = !FormSeparateEvoData ? species : Personal.GetFormIndex(species, form);
         var evos = Entries[index];
         foreach (var method in evos)
         {
