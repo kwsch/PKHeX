@@ -78,9 +78,9 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
 
         return move switch
         {
-            (int)Move.SelfDestruct => Array.BinarySearch(SpecialTutors_XD_SelfDestruct, species) != -1,
-            (int)Move.SkyAttack => Array.BinarySearch(SpecialTutors_XD_SkyAttack, species) != -1,
-            (int)Move.Nightmare => Array.BinarySearch(SpecialTutors_XD_Nightmare, species) != -1,
+            (int)Move.SelfDestruct => Array.BinarySearch(SpecialTutors_XD_SelfDestruct, species) >= 0,
+            (int)Move.SkyAttack => Array.BinarySearch(SpecialTutors_XD_SkyAttack, species) >= 0,
+            (int)Move.Nightmare => Array.BinarySearch(SpecialTutors_XD_Nightmare, species) >= 0,
             _ => false,
         };
     }
@@ -147,11 +147,11 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
                     result[move] = true;
             }
 
-            if (Array.BinarySearch(SpecialTutors_XD_SelfDestruct, evo.Species) != -1)
+            if (Array.BinarySearch(SpecialTutors_XD_SelfDestruct, evo.Species) >= 0)
                 result[(int)Move.SelfDestruct] = true;
-            if (Array.BinarySearch(SpecialTutors_XD_SkyAttack, evo.Species) != -1)
+            if (Array.BinarySearch(SpecialTutors_XD_SkyAttack, evo.Species) >= 0)
                 result[(int)Move.SkyAttack] = true;
-            if (Array.BinarySearch(SpecialTutors_XD_Nightmare, evo.Species) != -1)
+            if (Array.BinarySearch(SpecialTutors_XD_Nightmare, evo.Species) >= 0)
                 result[(int)Move.Nightmare] = true;
         }
     }

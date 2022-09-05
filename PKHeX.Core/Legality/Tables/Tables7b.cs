@@ -126,7 +126,7 @@ public static partial class Legal
 
     #region Moves
 
-    public static bool IsAllowedMoveGG(ushort move) => Array.BinarySearch(AllowedMovesGG, move) != -1;
+    public static bool IsAllowedMoveGG(ushort move) => Array.BinarySearch(AllowedMovesGG, move) >= 0;
 
     private static readonly ushort[] AllowedMovesGG =
     {
