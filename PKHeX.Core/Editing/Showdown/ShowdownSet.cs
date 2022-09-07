@@ -202,15 +202,15 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseEntry(string identifier, string value) => identifier switch
     {
-        "Ability" or "Trait"        => (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0,
-        "Nature"                    => (Nature  = StringUtil.FindIndexIgnoreCase(Strings.natures    , value)) >= 0,
-        "Shiny"                     => Shiny         = StringUtil.IsMatchIgnoreCase("Yes", value),
-        "Gigantamax"                => CanGigantamax = StringUtil.IsMatchIgnoreCase("Yes", value),
-        "Friendship" or "Happiness" => ParseFriendship(value),
-        "EV" or "EVs"               => ParseLineEVs(value),
-        "IV" or "IVs"               => ParseLineIVs(value),
-        "Level"                     => ParseLevel(value),
-        "Dynamax Level"             => ParseDynamax(value),
+        "Ability"       => (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0,
+        "Nature"        => (Nature  = StringUtil.FindIndexIgnoreCase(Strings.natures    , value)) >= 0,
+        "Shiny"         => Shiny         = StringUtil.IsMatchIgnoreCase("Yes", value),
+        "Gigantamax"    => CanGigantamax = StringUtil.IsMatchIgnoreCase("Yes", value),
+        "Friendship"    => ParseFriendship(value),
+        "EVs"           => ParseLineEVs(value),
+        "IVs"           => ParseLineIVs(value),
+        "Level"         => ParseLevel(value),
+        "Dynamax Level" => ParseDynamax(value),
         _ => false,
     };
 
@@ -636,7 +636,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseLineEVs(string line)
     {
-        var list = SplitLineStats(line);
+        var list = line.Split(StatSplitters, StringSplitOptions.None);
         if ((list.Length & 1) == 1)
             InvalidLines.Add("Unknown EV input.");
         for (int i = 0; i < list.Length / 2; i++)
@@ -656,7 +656,7 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private bool ParseLineIVs(string line)
     {
-        var list = SplitLineStats(line);
+        var list = line.Split(StatSplitters, StringSplitOptions.None);
         if ((list.Length & 1) == 1)
             InvalidLines.Add("Unknown IV input.");
         for (int i = 0; i < list.Length / 2; i++)
@@ -686,14 +686,5 @@ public sealed class ShowdownSet : IBattleTemplate
         if (ctr == original.Length)
             return original;
         return new string(result[..ctr].ToArray());
-    }
-
-    private static string[] SplitLineStats(string line)
-    {
-        // Because people think they can type sets out...
-        return line
-            .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
-            .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
-            .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(StatSplitters, StringSplitOptions.None);
     }
 }
