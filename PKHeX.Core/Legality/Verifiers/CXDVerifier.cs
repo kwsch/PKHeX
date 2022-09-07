@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -27,13 +27,32 @@ public sealed class CXDVerifier : Verifier
         if (type is not (PIDType.CXD or PIDType.CXDAnti or PIDType.CXD_ColoStarter))
             return; // already flagged as invalid
 
-        var pk = data.Entity;
-        bool valid = enc.Species switch
+        bool valid;
+        if (enc.Species is (int)Species.Espeon or (int)Species.Umbreon)
         {
-            (int)Species.Eevee => LockFinder.IsXDStarterValid(seed, pk.TID, pk.SID),
-            (int)Species.Espeon or (int)Species.Umbreon => type == PIDType.CXD_ColoStarter,
-            _ => true,
-        };
+            valid = type == PIDType.CXD_ColoStarter;
+        }
+        else if (enc.Species == (int)Species.Eevee)
+        {
+            var pk = data.Entity;
+            if (type == PIDType.CXD_ColoStarter && pk.Species == (int)Species.Umbreon)
+            {
+                // reset pidiv type to be CXD -- ColoStarter is same correlation as Eevee->Umbreon
+                data.Info.PIDIV = new PIDIV(PIDType.CXD, seed);
+                valid = true;
+            }
+            else
+            {
+                valid = LockFinder.IsXDStarterValid(seed, pk.TID, pk.SID);
+                if (valid) // unroll seed to origin that generated TID/SID->pkm
+                    data.Info.PIDIV = new PIDIV(PIDType.CXD, XDRNG.Prev4(seed));
+            }
+        }
+        else
+        {
+            return;
+        }
+
         if (!valid)
             data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
     }
