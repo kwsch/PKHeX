@@ -1,3 +1,4 @@
+using PKHeX.Core.Saves.Substructures.Gen4;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -18,6 +19,8 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public override int BoxCount { get; }
     public override int SlotCount { get; }
+    public int MiiCount { get; }
+    public int MiiTrainerCount { get; }
 
     public override IPersonalTable Personal => PersonalTable.Pt;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
@@ -61,18 +64,50 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
          * uint32_t name4;
          */
 
-        var pkCountOffset = ReadInt32BigEndian(Data.AsSpan(0x34)) + 4;
-        SlotCount = ReadInt32BigEndian(Data.AsSpan(pkCountOffset));
-        BoxCount = (int)Math.Ceiling((decimal)SlotCount / SlotsPerBox);
+        MiiCountOffset = ReadInt32BigEndian(Data.AsSpan(0x24)) + 4;
+        MiiTrainerCountOffset = ReadInt32BigEndian(Data.AsSpan(0x2C)) + 4;
+        MiiCount = ReadInt32BigEndian(Data.AsSpan(MiiCountOffset));
+        MiiTrainerCount = ReadInt32BigEndian(Data.AsSpan(MiiTrainerCountOffset));
 
-        Box = pkCountOffset + 4;
+        MiiDataOffset = MiiCountOffset + 4;
+        MiiTrainerDataOffset = MiiTrainerCountOffset + 4;
+
+        PokemonCountOffset = ReadInt32BigEndian(Data.AsSpan(0x34)) + 4;
+        SlotCount = ReadInt32BigEndian(Data.AsSpan(PokemonCountOffset));
+        BoxCount = (int)Math.Ceiling((decimal)SlotCount / SlotsPerBox);
+        Box = PokemonCountOffset + 4;
 
         FinalCountOffset = ReadInt32BigEndian(Data.AsSpan(0x3C));
         FinalCount = ReadInt32BigEndian(Data.AsSpan(FinalCountOffset));
     }
 
+    public RanchMii GetRanchMii(int index)
+    {
+        if (index >= MiiCount)
+            throw new ArgumentOutOfRangeException(nameof(index));
+
+        int offset = MiiDataOffset + (RanchMii.SIZE * index);
+        byte[] miiData = Data.Slice(offset, RanchMii.SIZE);
+        return new RanchMii(miiData);
+    }
+
+    // TODO: Check maximum allowed Miis for current rank
+    public void SetRanchMii(RanchMii mii, int index)
+    {
+        if (index >= MiiCount)
+            throw new ArgumentOutOfRangeException(nameof(index));
+
+        int offset = MiiDataOffset + (RanchMii.SIZE * index);
+        SetData(Data, mii.Data, offset);
+    }
+
     private readonly int FinalCount;
     private readonly int FinalCountOffset;
+    private readonly int MiiDataOffset;
+    private readonly int MiiCountOffset;
+    private readonly int MiiTrainerDataOffset;
+    private readonly int MiiTrainerCountOffset;
+    private readonly int PokemonCountOffset;
 
     protected override void SetChecksums()
     {
