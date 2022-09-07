@@ -306,8 +306,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
     public override int PlayedHours
     {
-        get => (ushort)PlayedSpan.Hours + (PlayedSpan.Days * 24);
-        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromHours(time.Hours) + TimeSpan.FromHours(value); }
+        get => (ushort)PlayedSpan.TotalHours;
+        set { var time = PlayedSpan; PlayedSpan = time - TimeSpan.FromHours(time.TotalHours) + TimeSpan.FromHours(value); }
     }
 
     public override int PlayedMinutes
