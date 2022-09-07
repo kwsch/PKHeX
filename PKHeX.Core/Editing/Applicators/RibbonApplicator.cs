@@ -22,7 +22,7 @@ public static class RibbonApplicator
 
         // Ribbon Deadlock
         if (la.Entity is IRibbonSetCommon6 c6)
-            InvertDeadlockContest(c6, true, args);
+            InvertDeadlockContest(c6, true);
     }
 
     /// <summary>
@@ -73,14 +73,9 @@ public static class RibbonApplicator
         }
     }
 
-    private static void InvertDeadlockContest(IRibbonSetCommon6 c6, bool desiredState, RibbonVerifierArguments args)
+    private static void InvertDeadlockContest(IRibbonSetCommon6 c6, bool desiredState)
     {
-        // RibbonContestStar depends on having all contest ribbons, and having RibbonContestStar requires all.
-        // Since the above logic sets individual ribbons, we must try setting this deadlock pair manually.
-        if (c6.RibbonMasterToughness == desiredState || c6.RibbonContestStar == desiredState)
-            return;
-
-        c6.RibbonMasterToughness = c6.RibbonContestStar = desiredState;
-        FixInvalidRibbons(args);
+        if (desiredState)
+            c6.RibbonContestStar = c6.HasAllContestRibbons();
     }
 }
