@@ -44,7 +44,7 @@ public static class Vivillon3DS
         /* 0 Icy Snow    */ Region3DSFlags.Americas | Region3DSFlags.Europe,
         /* 1 Polar       */ Region3DSFlags.Americas | Region3DSFlags.Europe | Region3DSFlags.China,
         /* 2 Tundra      */ Region3DSFlags.Japan    | Region3DSFlags.Europe,
-        /* 3 Continental */ Region3DSFlags.Americas | Region3DSFlags.Europe | Region3DSFlags.China | Region3DSFlags.Korea | Region3DSFlags.Taiwan,
+        /* 3 Continental */ Region3DSFlags.Japan    | Region3DSFlags.Americas | Region3DSFlags.Europe | Region3DSFlags.China | Region3DSFlags.Korea | Region3DSFlags.Taiwan,
         /* 4 Garden      */                           Region3DSFlags.Europe,
         /* 5 Elegant     */ Region3DSFlags.Japan,
         /* 6 Meadow      */                           Region3DSFlags.Europe,
@@ -71,7 +71,7 @@ public static class Vivillon3DS
         /* 0 Icy Snow    */ new byte[] {018,076,096,100,107},
         /* 1 Polar       */ new byte[] {010,018,020,049,076,096,100,107,160},
         /* 2 Tundra      */ new byte[] {001,074,081,096},
-        /* 3 Continental */ new byte[] {010,067,073,074,075,077,078,084,087,094,096,097,100,107,128,136,144,160,169},
+        /* 3 Continental */ new byte[] {001,010,067,073,074,075,077,078,084,087,094,096,097,100,107,128,136,144,160,169},
         /* 4 Garden      */ new byte[] {065,082,095,110,125},
         /* 5 Elegant     */ new byte[] {001},
         /* 6 Meadow      */ new byte[] {066,077,078,083,086,088,105,108,122,127},
@@ -96,6 +96,7 @@ public static class Vivillon3DS
     {
         new(001, 05, // Japan: Elegant
             new FormSubregionTable(02, new byte[] {03,04}),
+            new FormSubregionTable(03, new byte[] {43}),
             new FormSubregionTable(13, new byte[] {48})),
 
         new(010, 14, // Argentina: Savanna
