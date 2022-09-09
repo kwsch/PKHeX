@@ -8,6 +8,23 @@ internal static partial class Encounters8Nest
     /// </summary>
     internal static readonly EncounterStatic8ND[] Dist_DLC2 =
     {
+        new(17,01,1) { Species = 872, Ability = A4, Moves = new(496, 196, 263, 181), Index = 113 }, // Snom
+        new(17,01,1) { Species = 771, Ability = A4, Moves = new(092, 220, 599, 000), Index = 113 }, // Pyukumuku
+        new(17,01,1) { Species = 871, Ability = A4, Moves = new(084, 061, 064, 031), Index = 113 }, // Pincurchin
+        new(30,03,2) { Species = 872, Ability = A4, Moves = new(496, 196, 263, 181), Index = 113 }, // Snom
+        new(30,03,2) { Species = 771, Ability = A4, Moves = new(092, 220, 599, 000), Index = 113 }, // Pyukumuku
+        new(30,03,2) { Species = 871, Ability = A4, Moves = new(716, 061, 398, 675), Index = 113 }, // Pincurchin
+        new(40,05,3) { Species = 872, Ability = A4, Moves = new(405, 196, 263, 181), Index = 113 }, // Snom
+        new(40,05,3) { Species = 771, Ability = A4, Moves = new(092, 220, 599, 000), Index = 113 }, // Pyukumuku
+        new(40,05,3) { Species = 871, Ability = A4, Moves = new(716, 710, 398, 675), Index = 113 }, // Pincurchin
+        new(50,08,4) { Species = 872, Ability = A4, Moves = new(405, 196, 263, 522), Index = 113 }, // Snom
+        new(50,08,4) { Species = 771, Ability = A4, Moves = new(092, 220, 599, 000), Index = 113 }, // Pyukumuku
+        new(50,08,4) { Species = 871, Ability = A4, Moves = new(716, 056, 398, 675), Index = 113 }, // Pincurchin
+        new(60,10,5) { Species = 872, Ability = A4, Moves = new(405, 196, 263, 522), Index = 113, Shiny = Shiny.Always }, // Snom
+        new(60,10,5) { Species = 872, Ability = A4, Moves = new(405, 196, 263, 522), Index = 113 }, // Snom
+        new(60,10,5) { Species = 771, Ability = A4, Moves = new(092, 220, 599, 213), Index = 113 }, // Pyukumuku
+        new(60,10,5) { Species = 871, Ability = A4, Moves = new(435, 056, 398, 675), Index = 113 }, // Pincurchin
+
         new(17,01,1) { Species = 859, Ability = A4, Moves = new(372, 044, 252, 590), Index = 111 }, // Impidimp
         new(30,03,2) { Species = 859, Ability = A4, Moves = new(399, 583, 252, 005), Index = 111 }, // Impidimp
         new(40,05,3) { Species = 860, Ability = A4, Moves = new(793, 583, 421, 025), Index = 111 }, // Morgrem
