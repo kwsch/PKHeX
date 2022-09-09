@@ -21,6 +21,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         None = 0,
         Pokemon = 1,
         Item = 2,
+        Clothing = 3,
     }
 
     public WA8() : this(new byte[Size]) { }
@@ -37,8 +38,8 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         set => WriteUInt16LittleEndian(Data.AsSpan(0x8), (ushort)value);
     }
 
-    public byte CardFlags { get => Data[0x10]; set => Data[0x10] = value; }
-    public GiftType CardType { get => (GiftType)Data[0x11]; set => Data[0x11] = (byte)value; }
+    public byte CardFlags { get => Data[0x0E]; set => Data[0x0E] = value; }
+    public GiftType CardType { get => (GiftType)Data[0x0F]; set => Data[0x0F] = (byte)value; }
     public bool GiftRepeatable { get => (CardFlags & 1) == 0; set => CardFlags = (byte)((CardFlags & ~1) | (value ? 0 : 1)); }
     public override bool GiftUsed { get => false; set { }  }
 
