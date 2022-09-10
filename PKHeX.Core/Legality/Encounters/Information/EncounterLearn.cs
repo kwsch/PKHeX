@@ -78,12 +78,45 @@ public static class EncounterLearn
         if (Array.Exists(moves, z => z == 0))
             return Array.Empty<IEncounterable>();
 
-        var blank = EntityBlank.GetIdealBlank(species, form);
-        blank.Species = species;
-        blank.Form = form;
-
         var vers = GameUtil.GameVersions;
-        return EncounterMovesetGenerator.GenerateEncounters(blank, moves, vers);
+        return GetLearnInternal(species, form, moves, vers);
+    }
+
+    private static IEnumerable<IEncounterable> GetLearnInternal(ushort species, byte form, ushort[] moves, GameVersion[] vers)
+    {
+        bool iterated = false;
+        if (PersonalTable.LA.IsPresentInGame(species, form))
+        {
+            var blank = new PA8 { Species = species, Form = form };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, GameVersion.PLA);
+            foreach (var enc in encs)
+                yield return enc;
+            iterated = true;
+        }
+        if (PersonalTable.BDSP.IsPresentInGame(species, form))
+        {
+            var blank = new PB8 { Species = species, Form = form };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, GameVersion.BD, GameVersion.SP);
+            foreach (var enc in encs)
+                yield return enc;
+            iterated = true;
+        }
+        if (PersonalTable.SWSH.IsPresentInGame(species, form))
+        {
+            var blank = new PK8 { Species = species, Form = form };
+            var v = vers.Where(z => z <= GameVersion.SH).ToArray();
+            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, v);
+            foreach (var enc in encs)
+                yield return enc;
+            iterated = true;
+        }
+        if (!iterated && PersonalTable.USUM.IsPresentInGame(species, form))
+        {
+            var blank = new PK7 { Species = species, Form = form };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, vers);
+            foreach (var enc in encs)
+                yield return enc;
+        }
     }
 
     /// <summary>

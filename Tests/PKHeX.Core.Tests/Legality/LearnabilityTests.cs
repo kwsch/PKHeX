@@ -50,4 +50,13 @@ public static class LearnabilityTests
         var encs = EncounterLearn.GetLearn(species, moves);
         encs.Any().Should().BeTrue($"{species} should be able to learn all moves: {string.Join(", ", moves)}");
     }
+
+    [Theory]
+    [InlineData(nameof(Species.Unown), "Hidden Power")]
+    [InlineData(nameof(Species.Pikachu), "Hidden Power")]
+    public static void VerifyCanLearnTM(string species, params string[] moves)
+    {
+        var can = EncounterLearn.CanLearn(species, moves);
+        can.Should().BeTrue($"{species} should be able to learn all moves: {string.Join(", ", moves)}");
+    }
 }
