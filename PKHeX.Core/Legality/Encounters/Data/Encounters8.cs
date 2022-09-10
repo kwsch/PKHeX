@@ -542,12 +542,12 @@ internal static class Encounters8
         new(SWSH) { Species = 028, Level = 42, Location = 184, Weather = Sandstorm }, // Sandslash in the Potbottom Desert
         new(SW  ) { Species = 628, Level = 42, Location = 184, Weather = Normal | Overcast | Raining | Sandstorm | Intense_Sun | Heavy_Fog }, // Braviary in the Potbottom Desert
         new(  SH) { Species = 630, Level = 42, Location = 184, Weather = Normal | Overcast | Raining | Sandstorm | Intense_Sun | Heavy_Fog }, // Mandibuzz in the Potbottom Desert
-        new(SWSH) { Species = 479, Level = 50, Location = 186, FlawlessIVCount = 3 }, // Rotom in the Workout Sea
-        new(SWSH) { Species = 479, Level = 50, Location = 186, Moves = new(435,506,268), Form = 01, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-1 in the Workout Sea
-        new(SWSH) { Species = 479, Level = 50, Location = 186, Moves = new(435,506,268), Form = 02, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-2 in the Workout Sea
-        new(SWSH) { Species = 479, Level = 50, Location = 186, Moves = new(435,506,268), Form = 03, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-3 in the Workout Sea
-        new(SWSH) { Species = 479, Level = 50, Location = 186, Moves = new(435,506,268), Form = 04, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-4 in the Workout Sea
-        new(SWSH) { Species = 479, Level = 50, Location = 186, Moves = new(435,506,268), Form = 05, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-5 in the Workout Sea
+        new(SWSH) { Species = 479, Level = 50, Location = 186, FlawlessIVCount = 3, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom in the Workout Sea
+        new(SWSH) { Species = 479, Level = 50, Location = 186, Form = 01, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-1 in the Workout Sea
+        new(SWSH) { Species = 479, Level = 50, Location = 186, Form = 02, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-2 in the Workout Sea
+        new(SWSH) { Species = 479, Level = 50, Location = 186, Form = 03, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-3 in the Workout Sea
+        new(SWSH) { Species = 479, Level = 50, Location = 186, Form = 04, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-4 in the Workout Sea
+        new(SWSH) { Species = 479, Level = 50, Location = 186, Form = 05, Weather = Normal | Stormy | Intense_Sun | Heavy_Fog }, // Rotom-5 in the Workout Sea
         new(SWSH) { Species = 132, Level = 50, Location = 186, FlawlessIVCount = 3 }, // Ditto in the Workout Sea
         //new(SWSH) { Species = 242, Level = 50, Location = -1 }, // Blissey
         new(SWSH) { Species = 103, Level = 50, Location = 190, Weather = Normal | Raining | Intense_Sun }, // Exeggutor in the Insular Sea
