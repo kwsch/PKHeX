@@ -31,8 +31,14 @@ public static class RibbonVerifierCommon4
             list.Add(ChampionSinnoh);
         if (!daily)
             FlagDaily(r, ref list);
+
+        // Gen6 can get individual ribbons via Ritzy Ribbon Retail -- OR/AS
+        // Gen4 Ribbon Syndicate is sequential purchase (prerequisite ribbon cannot be disjointed) -- DP/Pt
+        // Gen8 Ribbon Syndicate is sequential purchase (prerequisite ribbon cannot be disjointed) -- BD/SP
         if (!cosmetic)
             FlagCosmetic(r, ref list);
+        else if (!oras6)
+            FlagCosmeticRequsite(r, ref list);
     }
 
     private static void FlagDaily(IRibbonSetCommon4 r, ref RibbonResultList list)
@@ -51,6 +57,19 @@ public static class RibbonVerifierCommon4
         if (r.RibbonGorgeous) list.Add(Gorgeous);
         if (r.RibbonRoyal) list.Add(Royal);
         if (r.RibbonGorgeousRoyal) list.Add(GorgeousRoyal);
+    }
+
+    private static void FlagCosmeticRequsite(IRibbonSetCommon4 r, ref RibbonResultList list)
+    {
+        // Gorgeous -> Royal -> Gorgeous|Royal
+        bool preReq;
+        if (!r.RibbonRoyal) // 2
+            preReq = false; // Skip reading 1; lacking 2 => can't have 3.
+        else if (!(preReq = r.RibbonGorgeous))
+            list.Add(Royal); // Needed 1
+
+        if (!preReq && r.RibbonGorgeousRoyal) // 3
+            list.Add(GorgeousRoyal); // Needed 12
     }
 
     public static void ParseEgg(this IRibbonSetCommon4 r, ref RibbonResultList list)
