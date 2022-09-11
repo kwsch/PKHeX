@@ -738,6 +738,7 @@ public partial class Main : Form
 
         PKME_Tabs.Focus(); // flush any pending changes
         StoreLegalSaveGameData(sav);
+        ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
         RecentTrainerCache.SetRecentTrainer(sav);
         SpriteUtil.Initialize(sav); // refresh sprite generator
         dragout.Size = new Size(SpriteUtil.Spriter.Width, SpriteUtil.Spriter.Height);
@@ -877,8 +878,6 @@ public partial class Main : Form
 
     private static bool SanityCheckSAV(ref SaveFile sav)
     {
-        ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
-
         if (sav.State.Exportable && sav is SAV3 s3)
         {
             if (ModifierKeys == Keys.Control || s3.IsCorruptPokedexFF())

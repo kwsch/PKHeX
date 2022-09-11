@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace PKHeX.Core;
@@ -6,10 +6,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Tracks information about where the <see cref="SAV"/> originated from, and provides logic for saving to a file.
 /// </summary>
-public sealed class SaveFileMetadata
+public sealed record SaveFileMetadata(SaveFile SAV)
 {
-    private readonly SaveFile SAV;
-    public SaveFileMetadata(SaveFile sav) => SAV = sav;
+    public SaveFile SAV { private get; init; } = SAV;
 
     /// <summary>
     /// Full path where the <see cref="SAV"/> originated from.

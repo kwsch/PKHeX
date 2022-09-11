@@ -32,7 +32,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public SaveFile Clone()
     {
         var sav = CloneInternal();
-        sav.Metadata = Metadata;
+        sav.Metadata = Metadata with {SAV = sav};
         return sav;
     }
 
