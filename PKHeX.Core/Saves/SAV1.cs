@@ -258,7 +258,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public override string OT
     {
         get => GetString(Offsets.OT, OTLength);
-        set => SetString(Data.AsSpan(Offsets.OT, OTLength), value.AsSpan(), OTLength, StringConverterOption.Clear50);
+        set => SetString(Data.AsSpan(Offsets.OT, OTLength + 1), value.AsSpan(), OTLength, StringConverterOption.ClearZero);
     }
 
     public Span<byte> OT_Trash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
