@@ -1,6 +1,5 @@
 Tests/PKHeX.Core.Tests/Legality/Private/
 
-
 #################
 ## Eclipse
 #################
@@ -30,7 +29,6 @@ local.properties
 
 # PDT-specific
 .buildpath
-
 
 #################
 ## Visual Studio
@@ -169,7 +167,6 @@ UpgradeLog*.htm
 App_Data/*.mdf
 App_Data/*.ldf
 
-
 #############
 ## Qt Creator
 #############
@@ -185,7 +182,6 @@ App_Data/*.ldf
 .\#*
 *.elc
 
-
 #############
 ## Windows detritus
 #############
@@ -200,13 +196,11 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-
 #############
 ## OS X
 #############
 
 .DS_Store
-
 
 #############
 ## C#
@@ -214,7 +208,6 @@ $RECYCLE.BIN/
 
 *.resources
 pingme.txt
-
 
 #############
 ## Python
