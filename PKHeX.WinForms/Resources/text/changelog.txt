@@ -1,7 +1,14 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/08/31 - New Update:
+22/09/13 - New Update:
+ - Legality: Fixed small regressions in move / ribbon / memory legality checks.
+ - Changed: RNG pidiv detection speed drastically improved. Not that you'd really notice since everything is already fast.
+ - Fixed: BW personal data API has been regenerated to fix previous corrupted return values.
+ - Fixed: Colosseum/XD playtime values now set the Hour value correctly.
+ - Fixed: Gen1 OT name now writes the final terminator 0x50 when setting a 7-character-long trainer name.
+
+22/08/31 - New Update: (52021) [5272314]
  - Legality:
  - - Refactored move validation and evolution branching to better handle sidegame alterations.
  - - Refactored some data structures for faster program performance.
