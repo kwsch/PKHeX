@@ -92,7 +92,8 @@ public static class EncounterServerDate
         {0801, (new(2022, 02, 25), new(2022, 06, 01))}, // Teresa Roca Hisuian Growlithe
         {1201, (new(2022, 05, 31), new(2022, 08, 01))}, // 전이마을 Regigigas
         {1202, (new(2022, 05, 31), new(2022, 08, 01))}, // 빛나's Piplup
-        {1203, (new(2022, 08, 18), new(2022, 10, 31))}, // Arceus Chronicles Hisuian Growlithe
+        {1203, (new(2022, 08, 18), new(2022, 11, 01))}, // Arceus Chronicles Hisuian Growlithe
+        {0151, (new(2022, 09, 03), new(2022, 10, 01))}, // Otsukimi Festival 2022 Clefairy
 
         {9018, (new(2022, 05, 18), Never)}, // Hidden Ability Rowlet
         {9019, (new(2022, 05, 18), Never)}, // Hidden Ability Cyndaquil
