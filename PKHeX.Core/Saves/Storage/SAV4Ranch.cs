@@ -20,7 +20,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     public override int BoxCount { get; }
     public override int SlotCount { get; }
     public int MiiCount { get; }
-    public int MiiTrainerCount { get; }
+    public int TrainerMiiCount { get; }
 
     public override IPersonalTable Personal => PersonalTable.Pt;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
@@ -65,12 +65,12 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
          */
 
         MiiCountOffset = ReadInt32BigEndian(Data.AsSpan(0x24)) + 4;
-        MiiTrainerCountOffset = ReadInt32BigEndian(Data.AsSpan(0x2C)) + 4;
+        TrainerMiiCountOffset = ReadInt32BigEndian(Data.AsSpan(0x2C)) + 4;
         MiiCount = ReadInt32BigEndian(Data.AsSpan(MiiCountOffset));
-        MiiTrainerCount = ReadInt32BigEndian(Data.AsSpan(MiiTrainerCountOffset));
+        TrainerMiiCount = ReadInt32BigEndian(Data.AsSpan(TrainerMiiCountOffset));
 
         MiiDataOffset = MiiCountOffset + 4;
-        MiiTrainerDataOffset = MiiTrainerCountOffset + 4;
+        TrainerMiiDataOffset = TrainerMiiCountOffset + 4;
 
         PokemonCountOffset = ReadInt32BigEndian(Data.AsSpan(0x34)) + 4;
         SlotCount = ReadInt32BigEndian(Data.AsSpan(PokemonCountOffset));
@@ -101,12 +101,33 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         SetData(Data, mii.Data, offset);
     }
 
+    public RanchTrainerMii GetRanchTrainerMii(int index)
+    {
+        if (index >= TrainerMiiCount)
+            throw new ArgumentOutOfRangeException(nameof(index));
+
+        int offset = TrainerMiiDataOffset + (RanchTrainerMii.SIZE * index);
+        byte[] trainerMiiData = Data.Slice(offset, RanchTrainerMii.SIZE);
+        return new RanchTrainerMii(trainerMiiData);
+    }
+
+    // TODO: Check maximum allowed Mii Trainers
+    // int maxTrainers = Math.Min(MiiCount, 8);
+    public void SetRanchTrainerMii(RanchTrainerMii trainerMii, int index)
+    {
+        if (index >= TrainerMiiCount)
+            throw new ArgumentOutOfRangeException(nameof(index));
+
+        int offset = MiiDataOffset + (RanchTrainerMii.SIZE * index);
+        SetData(Data, trainerMii.Data, offset);
+    }
+
     private readonly int FinalCount;
     private readonly int FinalCountOffset;
     private readonly int MiiDataOffset;
     private readonly int MiiCountOffset;
-    private readonly int MiiTrainerDataOffset;
-    private readonly int MiiTrainerCountOffset;
+    private readonly int TrainerMiiDataOffset;
+    private readonly int TrainerMiiCountOffset;
     private readonly int PokemonCountOffset;
 
     protected override void SetChecksums()
