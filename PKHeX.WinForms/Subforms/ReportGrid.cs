@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -119,7 +119,7 @@ public partial class ReportGrid : Form
     private async Task Export_CSV(string path)
     {
         using var fs = new FileStream(path, FileMode.Create);
-        using var s = new StreamWriter(fs);
+        using var s = new StreamWriter(fs, System.Text.Encoding.Unicode);
 
         var headers = dgData.Columns.Cast<DataGridViewColumn>();
         await s.WriteLineAsync(string.Join(",", headers.Skip(1).Select(column => $"\"{column.HeaderText}\""))).ConfigureAwait(false);
