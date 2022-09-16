@@ -187,7 +187,7 @@ public sealed class EvolutionTree
     private void BanEvo(ushort species, byte form, Func<PKM, bool> func)
     {
         var key = GetLookupKey(species, form);
-        var node = Lineage[key];
+        ref var node = ref Lineage[key];
         node.Ban(func);
     }
 
