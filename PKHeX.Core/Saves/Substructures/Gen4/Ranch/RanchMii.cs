@@ -1,7 +1,7 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Core.Saves.Substructures.Gen4;
+namespace PKHeX.Core;
 
 public sealed class RanchMii
 {

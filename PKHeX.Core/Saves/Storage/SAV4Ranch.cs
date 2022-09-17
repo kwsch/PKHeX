@@ -1,4 +1,3 @@
-using PKHeX.Core.Saves.Substructures.Gen4;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -21,6 +20,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     public override int SlotCount { get; }
     public int MiiCount { get; }
     public int TrainerMiiCount { get; }
+    public int MaxToys { get; } = 6;
 
     public override IPersonalTable Personal => PersonalTable.Pt;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
@@ -79,6 +79,49 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
         FinalCountOffset = ReadInt32BigEndian(Data.AsSpan(0x3C));
         FinalCount = ReadInt32BigEndian(Data.AsSpan(FinalCountOffset));
+    }
+
+    public RanchLevel GetRanchLevel()
+    {
+        int ranchLevelIndex = Data[0x5A];
+        return new RanchLevel(ranchLevelIndex);
+    }
+
+    public void SetRanchLevel(byte levelIndex)
+    {
+        Data[0x5A] = levelIndex;
+    }
+
+    public RanchLevel GetPlannedRanchLevel()
+    {
+        int ranchLevelIndex = Data[0x5B];
+        return new RanchLevel(ranchLevelIndex);
+    }
+
+    public void SetPlannedRanchLevel(byte levelIndex)
+    {
+        Data[0x5B] = levelIndex;
+    }
+
+    public RanchToy GetRanchToy(int index)
+    {
+        if (index >= MaxToys)
+            throw new ArgumentOutOfRangeException(nameof(index));
+
+        int baseOffset = 0x227B;
+        int toyOffset = baseOffset + (RanchToy.SIZE * index);
+        byte[] toyData = Data.Slice(toyOffset, RanchToy.SIZE);
+        return new RanchToy(toyData);
+    }
+
+    public void SetRanchToy(RanchToy toy, int index)
+    {
+        if (index >= MaxToys)
+            throw new ArgumentOutOfRangeException(nameof(index));
+
+        int baseOffset = 0x227B;
+        int toyOffset = baseOffset + (RanchToy.SIZE * index);
+        SetData(Data, toy.Data, toyOffset);
     }
 
     public RanchMii GetRanchMii(int index)
