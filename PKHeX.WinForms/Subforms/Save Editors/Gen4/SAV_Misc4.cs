@@ -727,7 +727,7 @@ public partial class SAV_Misc4 : Form
 
     private void ChangeSpecies(object sender, EventArgs e)
     {
-        species = (ushort)CB_Species.SelectedValue;
+        species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         if (editing)
             return;
         editing = true;

@@ -53,7 +53,7 @@ public partial class SAV_PokedexSM : Form
         SetEntry();
 
         editing = true;
-        currentSpecies = (ushort)CB_Species.SelectedValue;
+        currentSpecies = (ushort)WinFormsUtil.GetIndex(CB_Species);
         LB_Species.SelectedIndex = currentSpecies - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
         LB_Species.TopIndex = LB_Species.SelectedIndex;
         if (!allModifying) FillLBForms();

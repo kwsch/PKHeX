@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -142,7 +142,7 @@ public sealed partial class SAV_EventWork : Form
                 {
                     if (editing)
                         return;
-                    var value = (int) cb.SelectedValue;
+                    var value = WinFormsUtil.GetIndex(cb);
                     editing = true;
                     var match = f.Options.FirstOrDefault(z => z.Value == value);
                     nud.Enabled = match?.Custom == true;

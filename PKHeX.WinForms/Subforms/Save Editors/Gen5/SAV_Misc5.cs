@@ -207,7 +207,7 @@ public partial class SAV_Misc5 : Form
             for (int i = 0; i < cbr.Length; i++)
             {
                 int c = SAV.Data[ofsRoamer + 0x2E + i];
-                var d = (int)cbr[i].SelectedValue;
+                var d = (ushort)WinFormsUtil.GetIndex(cbr[i]);
 
                 if (c == d)
                     continue;
