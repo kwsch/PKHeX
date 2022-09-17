@@ -71,6 +71,17 @@ public partial class EntityInstructionBuilder : UserControl
 
     public bool ReadOnly
     {
-        set => CB_Require.Visible = !value;
+        set
+        {
+            if (value)
+            {
+                CB_Require.Visible = false;
+                CB_Require.SelectedIndex = 1;
+            }
+            else
+            {
+                CB_Require.Visible = true;
+            }
+        }
     }
 }

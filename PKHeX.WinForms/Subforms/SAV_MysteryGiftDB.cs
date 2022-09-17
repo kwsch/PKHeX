@@ -20,12 +20,13 @@ public partial class SAV_MysteryGiftDB : Form
     private readonly SaveFile SAV;
     private readonly SAVEditor BoxView;
     private readonly SummaryPreviewer ShowSet = new();
+    private readonly EntityInstructionBuilder UC_Builder;
 
     public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        var UC_Builder = new EntityInstructionBuilder(() => tabs.PreparePKM())
+        UC_Builder = new EntityInstructionBuilder(() => tabs.PreparePKM())
         {
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
             Width = Tab_Advanced.Width,
@@ -33,6 +34,7 @@ public partial class SAV_MysteryGiftDB : Form
             ReadOnly = true,
         };
         Tab_Advanced.Controls.Add(UC_Builder);
+        UC_Builder.SendToBack();
 
         SAV = sav.SAV;
         BoxView = sav;
@@ -438,5 +440,17 @@ public partial class SAV_MysteryGiftDB : Form
             return;
 
         ShowSet.Show(pb, Results[index]);
+    }
+
+    private void B_Add_Click(object sender, EventArgs e)
+    {
+        var s = UC_Builder.Create();
+        if (s.Length == 0)
+        { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
+
+        if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
+            s = Environment.NewLine + s;
+
+        RTB_Instructions.AppendText(s);
     }
 }

@@ -22,12 +22,13 @@ public partial class SAV_Encounters : Form
     private readonly SummaryPreviewer ShowSet = new();
     private readonly TrainerDatabase Trainers;
     private readonly CancellationTokenSource TokenSource = new();
+    private readonly EntityInstructionBuilder UC_Builder;
 
     public SAV_Encounters(PKMEditor f1, TrainerDatabase db)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        var UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
+        UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
         {
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
             Width = Tab_Advanced.Width,
@@ -35,6 +36,7 @@ public partial class SAV_Encounters : Form
             ReadOnly = true,
         };
         Tab_Advanced.Controls.Add(UC_Builder);
+        UC_Builder.SendToBack();
 
         PKME_Tabs = f1;
         Trainers = db;
@@ -466,4 +468,16 @@ public partial class SAV_Encounters : Form
     }
 
     private void SAV_Encounters_FormClosing(object sender, FormClosingEventArgs e) => TokenSource.Cancel();
+
+    private void B_Add_Click(object sender, EventArgs e)
+    {
+        var s = UC_Builder.Create();
+        if (s.Length == 0)
+        { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
+
+        if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
+            s = Environment.NewLine + s;
+
+        RTB_Instructions.AppendText(s);
+    }
 }

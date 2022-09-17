@@ -72,6 +72,7 @@
             this.TC_SearchSettings = new System.Windows.Forms.TabControl();
             this.Tab_General = new System.Windows.Forms.TabPage();
             this.Tab_Advanced = new System.Windows.Forms.TabPage();
+            this.B_Add = new System.Windows.Forms.Button();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
@@ -589,6 +590,7 @@
             // 
             // Tab_Advanced
             // 
+            this.Tab_Advanced.Controls.Add(this.B_Add);
             this.Tab_Advanced.Controls.Add(this.RTB_Instructions);
             this.Tab_Advanced.Location = new System.Drawing.Point(4, 22);
             this.Tab_Advanced.Name = "Tab_Advanced";
@@ -596,6 +598,17 @@
             this.Tab_Advanced.TabIndex = 1;
             this.Tab_Advanced.Text = "Advanced";
             this.Tab_Advanced.UseVisualStyleBackColor = true;
+            // 
+            // B_Add
+            // 
+            this.B_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Add.Location = new System.Drawing.Point(196, -1);
+            this.B_Add.Name = "B_Add";
+            this.B_Add.Size = new System.Drawing.Size(57, 23);
+            this.B_Add.TabIndex = 121;
+            this.B_Add.Text = "Add";
+            this.B_Add.UseVisualStyleBackColor = true;
+            this.B_Add.Click += new System.EventHandler(this.B_Add_Click);
             // 
             // RTB_Instructions
             // 
@@ -692,5 +705,6 @@
         private System.Windows.Forms.TabPage Tab_General;
         private System.Windows.Forms.TabPage Tab_Advanced;
         private System.Windows.Forms.RichTextBox RTB_Instructions;
+        private System.Windows.Forms.Button B_Add;
     }
 }

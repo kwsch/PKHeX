@@ -21,12 +21,13 @@ public partial class SAV_Database : Form
     private readonly SaveFile SAV;
     private readonly SAVEditor BoxView;
     private readonly PKMEditor PKME_Tabs;
+    private readonly EntityInstructionBuilder UC_Builder;
 
     public SAV_Database(PKMEditor f1, SAVEditor saveditor)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        var UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
+        UC_Builder = new EntityInstructionBuilder(() => f1.PreparePKM())
         {
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
             Width = Tab_Advanced.Width,
@@ -34,6 +35,7 @@ public partial class SAV_Database : Form
             ReadOnly = true,
         };
         Tab_Advanced.Controls.Add(UC_Builder);
+        UC_Builder.SendToBack();
 
         SAV = saveditor.SAV;
         BoxView = saveditor;
@@ -722,5 +724,17 @@ public partial class SAV_Database : Form
             return;
 
         ShowSet.Show(pb, Results[index].Entity);
+    }
+
+    private void B_Add_Click(object sender, EventArgs e)
+    {
+        var s = UC_Builder.Create();
+        if (s.Length == 0)
+        { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
+
+        if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
+            s = Environment.NewLine + s;
+
+        RTB_Instructions.AppendText(s);
     }
 }
