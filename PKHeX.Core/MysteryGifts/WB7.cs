@@ -292,8 +292,17 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         }
     }
 
-    public override string OT_Name { get; set; } = string.Empty;
-    public string Nickname => string.Empty;
+    public override string OT_Name
+    {
+        get => GetOT(Language);
+        set
+        {
+            for (int i = 1; i < (int)LanguageID.ChineseT; i++)
+                SetOT(i, value);
+        }
+    }
+
+    public string Nickname => GetIsNicknamed(Language) ? GetNickname(Language) : string.Empty;
     public bool IsNicknamed => false;
     public int Language => 2;
 
@@ -309,6 +318,8 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
             return (int)LanguageID.English; // fallback
         return redeemLanguage;
     }
+
+    public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetOTOffset(language))) != 0;
 
     public string GetNickname(int language) => StringConverter8.GetString(Data.AsSpan(GetNicknameOffset(language), 0x1A));
     public void SetNickname(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetNicknameOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
@@ -341,8 +352,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
 
         var redeemLanguage = tr.Language;
         var language = GetLanguage(redeemLanguage);
-        var OT = GetOT(redeemLanguage);
-        bool isRedeemHT = OT.Length != 0;
+        bool hasOT = GetHasOT(redeemLanguage);
 
         var pk = new PB7
         {
@@ -373,9 +383,8 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
             AV_SPA = AV_SPA,
             AV_SPD = AV_SPD,
 
-            OT_Name = isRedeemHT ? OT : tr.OT,
+            OT_Name = hasOT ? GetOT(redeemLanguage) : tr.OT,
             OT_Gender = OTGender != 3 ? OTGender % 2 : tr.Gender,
-            CurrentHandler = isRedeemHT ? 1 : 0,
 
             EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth),
 
@@ -383,10 +392,11 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
             FatefulEncounter = true,
         };
 
-        if (isRedeemHT)
+        if (hasOT)
         {
             pk.HT_Name = tr.OT;
             pk.HT_Gender = tr.Gender;
+            pk.CurrentHandler = 1;
         }
 
         pk.SetMaximumPPCurrent();

@@ -352,8 +352,17 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         }
     }
 
-    public override string OT_Name { get; set; } = string.Empty;
-    public string Nickname => string.Empty;
+    public override string OT_Name
+    {
+        get => GetOT(Language);
+        set
+        {
+            for (int i = 1; i < (int)LanguageID.ChineseT; i++)
+                SetOT(i, value);
+        }
+    }
+
+    public string Nickname => GetIsNicknamed(Language) ? GetNickname(Language) : string.Empty;
     public bool IsNicknamed => false;
     public int Language => 2;
 
@@ -396,7 +405,6 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.LA.GetFormEntry(Species, Form);
         var language = tr.Language;
-        var OT = GetOT(language);
         bool hasOT = GetHasOT(language);
 
         var pk = new PA8
@@ -424,7 +432,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
             Version = OriginGame != 0 ? OriginGame : tr.Game,
 
-            OT_Name = OT.Length > 0 ? OT : tr.OT,
+            OT_Name = hasOT ? GetOT(language) : tr.OT,
             OT_Gender = OTGender < 2 ? OTGender : tr.Gender,
             HT_Name = hasOT ? tr.OT : string.Empty,
             HT_Gender = hasOT ? tr.Gender : 0,
