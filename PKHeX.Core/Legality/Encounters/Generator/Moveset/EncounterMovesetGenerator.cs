@@ -148,7 +148,9 @@ public static class EncounterMovesetGenerator
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ushort[] moves, GameVersion version)
     {
-        if (pk.Species == 0) // can enter this method after failing to set a species ID that cannot exist in the format
+        if (pk.Species == 0 || pk.Species > pk.MaxSpeciesID) // can enter this method after failing to set a species ID that cannot exist in the format
+            return Array.Empty<IEncounterable>();
+        if (AnyMoveOutOfRange(moves, pk.MaxMoveID))
             return Array.Empty<IEncounterable>();
         if (pk.Species is (int)Species.Smeargle && !IsPlausibleSmeargleMoveset(pk, moves))
             return Array.Empty<IEncounterable>();
@@ -162,6 +164,16 @@ public static class EncounterMovesetGenerator
         ushort[] needs = GetNeededMoves(pk, moves);
 
         return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain));
+    }
+    
+    private static bool AnyMoveOutOfRange(ReadOnlySpan<ushort> moves, ushort max)
+    {
+        foreach (var move in moves)
+        {
+            if (move > max)
+                return true;
+        }
+        return false;
     }
 
     private static bool IsPlausibleSmeargleMoveset(PKM pk, ReadOnlySpan<ushort> moves)
