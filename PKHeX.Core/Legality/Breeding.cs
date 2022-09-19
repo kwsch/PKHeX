@@ -139,13 +139,14 @@ public static class Breeding
     /// <param name="game">Game of origin</param>
     public static bool CanHatchAsEgg(ushort species, byte form, GameVersion game)
     {
-        // Sanity check form for origin
+        // If form cannot change, then it must be able to originate in the game.
         var pt = GameData.GetPersonal(game);
-        if (!pt.IsPresentInGame(species, form))
-            return false;
+        if (pt.IsPresentInGame(species, form))
+            return true;
 
-        var entry = pt.GetFormEntry(species, form);
-        return form < entry.FormCount || (species == (int)Rotom && form <= 5);
+        // Only way it can not exist is if it can change form.
+        // The only species that can do this is D/P Rotom, being changed in a future game.
+        return species is (int)Rotom && form <= 5 && game is D or P;
     }
 
     /// <summary>

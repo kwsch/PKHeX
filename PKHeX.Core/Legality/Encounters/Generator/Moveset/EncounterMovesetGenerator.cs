@@ -165,7 +165,7 @@ public static class EncounterMovesetGenerator
 
         return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain));
     }
-    
+
     private static bool AnyMoveOutOfRange(ReadOnlySpan<ushort> moves, ushort max)
     {
         foreach (var move in moves)
