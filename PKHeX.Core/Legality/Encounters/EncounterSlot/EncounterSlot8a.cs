@@ -67,6 +67,8 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
         pa8.SetEncounterMasteryFlags(moves, mastery, level);
+        if (pa8.AlphaMove != 0)
+            pa8.SetMasteryFlagMove(pa8.AlphaMove);
     }
 
     public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level)

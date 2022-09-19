@@ -824,10 +824,10 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
             SetMasteryFlagMove(GetMove(i));
     }
 
-    public void SetMasteryFlagMove(int move)
+    public void SetMasteryFlagMove(ushort move)
     {
         var moves = MoveShopPermitIndexes;
-        int flagIndex = moves.IndexOf((ushort)move);
+        int flagIndex = moves.IndexOf(move);
         if (flagIndex == -1)
             return;
         if (MoveShopPermitFlags[flagIndex])

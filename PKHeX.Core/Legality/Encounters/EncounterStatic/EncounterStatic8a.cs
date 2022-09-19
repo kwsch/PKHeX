@@ -55,7 +55,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, IsAlpha);
         // We don't override LevelMin, so just handle the two species cases.
         if (Species == (int)Core.Species.Zorua)
-            pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, 26, 28);
+            pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, 27, 29);
         else if (Species == (int)Core.Species.Phione)
             pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, 33, 36);
 
@@ -159,6 +159,8 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
         pa8.SetEncounterMasteryFlags(moves, mastery, level);
+        if (pa8.AlphaMove != 0)
+            pa8.SetMasteryFlagMove(pa8.AlphaMove);
     }
 
     public (Learnset Learn, Learnset Mastery) GetLevelUpInfo()
