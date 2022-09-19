@@ -217,7 +217,7 @@ public abstract class GBPKM : PKM
         return (ushort)((((2 * (baseStat + iv)) + effort) * level / 100) + 5);
     }
 
-    public sealed override int GetMovePP(int move, int ppUpCount)
+    public sealed override int GetMovePP(ushort move, int ppUpCount)
     {
         var pp = base.GetMovePP(move, 0);
         return pp + (ppUpCount * Math.Min(7, pp / 5));

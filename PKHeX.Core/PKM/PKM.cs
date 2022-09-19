@@ -794,14 +794,14 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// <param name="move">Move ID</param>
     /// <param name="ppUpCount">PP Ups count</param>
     /// <returns>Current PP for the move.</returns>
-    public virtual int GetMovePP(int move, int ppUpCount) => GetBasePP(move) * (5 + ppUpCount) / 5;
+    public virtual int GetMovePP(ushort move, int ppUpCount) => GetBasePP(move) * (5 + ppUpCount) / 5;
 
     /// <summary>
     /// Gets the base PP of a move ID depending on the <see cref="PKM"/>'s format.
     /// </summary>
     /// <param name="move">Move ID</param>
     /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
-    private int GetBasePP(int move) => MoveInfo.GetPP(Context, (ushort)move);
+    private int GetBasePP(ushort move) => MoveInfo.GetPP(Context, move);
 
     /// <summary>
     /// Applies a shiny <see cref="PID"/> to the <see cref="PKM"/>.

@@ -1003,18 +1003,19 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void RefreshMovePP(int index)
     {
-        var cb = Moves[index];
-        int move = WinFormsUtil.GetIndex(cb);
-        var ppUpControl = PPUps[index];
-        int ppUpCount = ppUpControl.SelectedIndex;
+        var moveCB = Moves[index];
+        var ppText = MovePP[index];
+        var ppUps = PPUps[index];
+        int move = WinFormsUtil.GetIndex(moveCB);
         if (move <= 0)
         {
-            ppUpControl.SelectedIndex = 0;
-            MovePP[index].Text = 0.ToString();
+            ppUps.SelectedIndex = 0;
+            ppText.Text = 0.ToString();
         }
         else
         {
-            MovePP[index].Text = Entity.GetMovePP(move, ppUpCount).ToString();
+            int ppUpCount = ppUps.SelectedIndex;
+            ppText.Text = Entity.GetMovePP((ushort)move, ppUpCount).ToString();
         }
     }
 
