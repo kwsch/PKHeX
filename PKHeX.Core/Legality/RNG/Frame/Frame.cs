@@ -1,8 +1,11 @@
+using System.Diagnostics;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// Represents an RNG seed and the conditions of which it occurs.
 /// </summary>
+[DebuggerDisplay($"{{{nameof(FrameType)},nq}}[{{{nameof(Lead)},nq}}]")]
 public sealed class Frame
 {
     /// <summary>
@@ -45,7 +48,7 @@ public sealed class Frame
     /// <returns>Slot number for this frame &amp; lead value.</returns>
     public bool IsSlotCompatibile<T>(T slot, PKM pk) where T : EncounterSlot, IMagnetStatic, INumberedSlot, ISlotRNGType
     {
-        if (FrameType != FrameType.MethodH) // gen3 always does level rand
+        if (FrameType != FrameType.MethodH && slot.Type is not (SlotType.HoneyTree or SlotType.BugContest)) // gen3 always does level rand
         {
             bool hasLevelCall = slot.IsRandomLevel;
             if (Lead.NeedsLevelCall() != hasLevelCall)

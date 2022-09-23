@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public abstract record EncounterArea(GameVersion Version) : IVersion
 {
     public int Location { get; protected init; }
-    public SlotType Type { get; protected init; } = SlotType.Any;
+    public SlotType Type { get; protected init; }
     protected abstract IReadOnlyList<EncounterSlot> Raw { get; }
 
     /// <summary>

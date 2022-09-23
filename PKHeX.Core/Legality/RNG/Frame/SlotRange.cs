@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using static PKHeX.Core.SlotType;
 
 namespace PKHeX.Core;
@@ -122,7 +122,10 @@ public static class SlotRange
     public static bool GetIsEncounterable<T>(T slot, FrameType frameType, int rand, LeadRequired lead) where T : ISlotRNGType
 #pragma warning restore IDE0060, RCS1163 // Unused parameter.
     {
-        if (slot.Type.IsSweetScentType())
+        var type = slot.Type;
+        if (type.IsSweetScentType())
+            return true;
+        if (type is HoneyTree)
             return true;
         return true; // todo
         //return GetCanEncounter(slot, frameType, rand, lead);
