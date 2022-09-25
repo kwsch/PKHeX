@@ -17,8 +17,7 @@ internal static class EncounterEggGenerator2
 
     public static IEnumerable<EncounterEgg> GenerateEggs(PKM pk, EvoCriteria[] chain, bool all = false)
     {
-        var species = pk.Species;
-        if (!Breeding.CanHatchAsEgg(species))
+        if (!Breeding.CanHatchAsEgg(chain[0].Species))
             yield break;
 
         var canBeEgg = all || GetCanBeEgg(pk);
@@ -34,43 +33,23 @@ internal static class EncounterEggGenerator2
         if (baseID.Form != 0)
             yield break; // Forms don't exist in Gen2, besides Unown (which can't breed). Nothing can form-change.
 
-        species = baseID.Species;
+        var species = baseID.Species;
         if (species > Legal.MaxSpeciesID_2)
             yield break;
-        if (GetCanBeCrystalEgg(pk, species, all))
-            yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C, EntityContext.Gen2); // gen2 egg
-        yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS, EntityContext.Gen2); // gen2 egg
-    }
 
-    private static bool GetCanBeCrystalEgg(PKM pk, ushort species, bool all)
-    {
-        if (!ParseSettings.AllowGen2Crystal(pk))
-            return false;
-
-        if (all)
-            return true;
-
-        // Check if the met data is present or could have been erased.
-        if (pk.Format > 2)
-            return true; // doesn't have original met location
-        if (pk.IsEgg)
-            return true; // doesn't have location yet
-        if (pk.Met_Level == 1) // Met location of 0 is valid -- second floor of every Pokémon Center 
-            return true; // has original met location
-        if (species < Legal.MaxSpeciesID_1)
-            return true; // can trade RBY to wipe location
-        if (pk.Species < Legal.MaxSpeciesID_1)
-            return true; // can trade RBY to wipe location
-
-        return false;
+        // Depending on the game it was hatched (GS vs C), met data will be present.
+        // Since met data can't be used to infer which game it was created on, we yield both if possible.
+        if (ParseSettings.AllowGen2Crystal(pk))
+            yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C, EntityContext.Gen2);
+        yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS, EntityContext.Gen2);
     }
 
     private static bool GetCanBeEgg(PKM pk)
     {
-        bool canBeEgg = !(pk.Format == 1 && !ParseSettings.AllowGen1Tradeback) && GetCanBeEgg2(pk);
-        if (!canBeEgg)
+        if (pk.Format == 1 && !ParseSettings.AllowGen1Tradeback)
             return false;
-
+        if (!GetCanBeEgg2(pk))
+            return false;
         if (!IsEvolutionValid(pk))
             return false;
 
@@ -79,21 +58,22 @@ internal static class EncounterEggGenerator2
 
     private static bool GetCanBeEgg2(PKM pk)
     {
+        if (pk.CurrentLevel < 5)
+            return false;
+
+        var format = pk.Format;
         if (pk.IsEgg)
-            return pk.Format == 2;
+            return format == 2;
+        if (format > 2)
+            return pk.Met_Level >= 5;
 
-        if (pk.Format > 2)
+        // 2->1->2 clears met info
+        return pk.Met_Level switch
         {
-            if (pk.Met_Level < 5)
-                return false;
-        }
-        else
-        {
-            if (pk.Met_Location != 0 && pk.Met_Level != 1) // 2->1->2 clears met info
-                return false;
-        }
-
-        return pk.CurrentLevel >= 5;
+            0 => pk.Met_Location == 0,
+            1 => true, // Met location of 0 is valid -- second floor of every Pokémon Center
+            _ => false,
+        };
     }
 
     private static bool IsEvolutionValid(PKM pk)
