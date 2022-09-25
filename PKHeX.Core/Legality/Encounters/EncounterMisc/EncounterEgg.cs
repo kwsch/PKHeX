@@ -59,6 +59,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
             {
                 pk.Met_Location = Locations.HatchLocationC;
                 pk.Met_Level = 1;
+                ((PK2)pk).Met_TimeOfDay = Util.Rand.Next(1, 4); // Morning | Day | Night
             }
             return pk;
         }
