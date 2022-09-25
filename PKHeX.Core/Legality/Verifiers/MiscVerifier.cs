@@ -155,7 +155,16 @@ public sealed class MiscVerifier : Verifier
             VerifyMiscEggCommon(data);
 
         if (pk is not PK1 pk1)
+        {
+            if (pk is ICaughtData2 { CaughtData: not 0 } t)
+            {
+                var time = t.Met_TimeOfDay;
+                bool valid = data.EncounterOriginal is EncounterTrade2 ? time == 0 : time is 1 or 2 or 3;
+                if (!valid)
+                    data.AddLine(new CheckResult(Severity.Invalid, LMetDetailTimeOfDay, Encounter));
+            }
             return;
+        }
 
         VerifyMiscG1Types(data, pk1);
         VerifyMiscG1CatchRate(data, pk1);

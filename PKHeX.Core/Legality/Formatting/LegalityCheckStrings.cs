@@ -325,6 +325,8 @@ public static class LegalityCheckStrings
     public static string LMemoryStatFriendshipHT0 { get; set; } = "Untraded: Handling Trainer Friendship should be 0.";
     public static string LMemoryStatFriendshipOTBaseEvent { get; set; } = "Event OT Friendship does not match base friendship.";
 
+    public static string LMetDetailTimeOfDay { get; set; } = "Met Time of Day value is not within the expected range.";
+
     public static string LMemoryStatFullness { get; set; } = "Fullness should be {0}.";
     public static string LMemoryStatEnjoyment { get; set; } = "Enjoyment should be {0}.";
 
