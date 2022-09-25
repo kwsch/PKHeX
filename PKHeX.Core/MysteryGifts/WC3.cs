@@ -206,8 +206,8 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 
         return version switch
         {
-            GameVersion.FRLG => GameVersion.FR + Util.Rand.Next(2), // or LG
-            GameVersion.RS or GameVersion.RSE => GameVersion.S + Util.Rand.Next(2), // or R
+            GameVersion.FRLG => Util.Rand.Next(2) == 0 ? GameVersion.FR : GameVersion.LG,
+            GameVersion.RS or GameVersion.RSE => Util.Rand.Next(2) == 0 ? GameVersion.R : GameVersion.S,
             GameVersion.COLO or GameVersion.XD => GameVersion.CXD,
             _ => throw new Exception($"Unknown GameVersion: {version}"),
         };

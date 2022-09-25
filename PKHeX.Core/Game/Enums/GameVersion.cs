@@ -1,14 +1,14 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Game Version ID enum shared between actual Version IDs and lumped version groupings.
 /// </summary>
-public enum GameVersion
+public enum GameVersion : byte
 {
     #region Indicators for method empty arguments & result indication. Not stored values.
-    Invalid = -2,
-    Any = -1,
-    Unknown = 0,
+    Any = 0,
+    Unknown = byte.MaxValue - 1,
+    Invalid = byte.MaxValue,
     #endregion
 
     // The following values are IDs stored within PKM data, and can also identify individual games.

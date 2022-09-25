@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface that exposes a <see cref="Version"/> to see which version the data originated in.
@@ -17,7 +17,7 @@ public static partial class Extensions
 
     public static GameVersion GetCompatibleVersion(this IVersion ver, GameVersion prefer)
     {
-        if (ver.CanBeReceivedBy(prefer) || ver.Version <= GameVersion.Unknown)
+        if (ver.CanBeReceivedBy(prefer) || ver.Version == GameVersion.Any)
             return prefer;
         return ver.GetSingleVersion();
     }

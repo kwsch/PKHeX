@@ -11,9 +11,6 @@ internal static class MoveList
 {
     internal static void GetCurrentMoves(PKM pk, ushort species, byte form, GameVersion gameSource, int lvl, Span<ushort> moves)
     {
-        if (gameSource == Any)
-            gameSource = (GameVersion)pk.Version;
-
         _ = gameSource switch
         {
             GSC or GS => Get(moves, LevelUpGS, species, lvl, pk.Format),
