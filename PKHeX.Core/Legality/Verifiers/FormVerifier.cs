@@ -66,6 +66,8 @@ public sealed class FormVerifier : Verifier
                 break;
             case Unown when Info.Generation == 2 && form >= 26:
                 return GetInvalid(string.Format(LFormInvalidRange, "Z", form == 26 ? "!" : "?"));
+            case Unown when Info.Generation == 3 && form != EntityPID.GetUnownForm3(pk.EncryptionConstant):
+                return GetInvalid(string.Format(LFormInvalidExpect_0, EntityPID.GetUnownForm3(pk.EncryptionConstant)));
             case Dialga or Palkia or Giratina or Arceus when form > 0 && pk is PA8: // can change forms with key items
                 break;
             case Giratina when form == 1 ^ pk.HeldItem == 112: // Giratina, Origin form only with Griseous Orb

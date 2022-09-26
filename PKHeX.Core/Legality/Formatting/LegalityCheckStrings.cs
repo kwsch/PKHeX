@@ -203,6 +203,7 @@ public static class LegalityCheckStrings
     public static string LFormPikachuCosplay { get; set; } = "Only Cosplay Pikachu can have this form.";
     public static string LFormPikachuCosplayInvalid { get; set; } = "Cosplay Pikachu cannot have the default form.";
     public static string LFormPikachuEventInvalid { get; set; } = "Event Pikachu cannot have the default form.";
+    public static string LFormInvalidExpect_0 { get; set; } = "Form is invalid, expected form index {0}.";
     public static string LFormValid { get; set; } = "Form is Valid.";
     public static string LFormVivillon { get; set; } = "Valid Vivillon pattern.";
     public static string LFormVivillonEventPre { get; set; } = "Event Vivillon pattern on pre-evolution.";

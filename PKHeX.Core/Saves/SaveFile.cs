@@ -140,7 +140,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #region Player Info
     public virtual int Gender { get; set; }
     public virtual int Language { get => -1; set { } }
-    public virtual int Game { get => -1; set { } }
+    public virtual int Game { get => (int)GameVersion.Any; set { } }
     public virtual int TID { get; set; }
     public virtual int SID { get; set; }
     public virtual string OT { get; set; } = "PKHeX";
