@@ -232,6 +232,7 @@ public static partial class Legal
 
     internal static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, stackalloc ushort[]
     {
+        016, // Cherish Ball
         298, // Flame Plate
         299, // Splash Plate
         300, // Zap Plate
@@ -248,7 +249,9 @@ public static partial class Legal
         311, // Draco Plate
         312, // Dread Plate
         313, // Iron Plate
-        // 644, // Pixie Plate
+
+        500, // Park Ball
+     // 644, // Pixie Plate
 
         1279, // ★And458 (Jangmo-o)
         1280, // ★And15 (Larvitar)
@@ -550,9 +553,6 @@ public static partial class Legal
         1576, // ★Aql7525
         1577, // ★Aql7602
         1578, // ★Aql7235
-
-        016, // Cherish Ball
-        500, // Park Ball
     });
     #endregion
 }
