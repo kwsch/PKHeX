@@ -423,6 +423,16 @@ public sealed class GameStrings : IBasicStrings
 
     private void SanitizeMetG6XY()
     {
+        // Add in the sub-location if available.
+        for (int i = 8; i <= 136; i += 2)
+        {
+            var nextLoc = metXY_00000[i + 1];
+            if (nextLoc.Length == 0)
+                continue;
+            metXY_00000[i + 1] = string.Empty;
+            metXY_00000[i] += $" ({nextLoc})";
+        }
+
         metXY_00000[104] += " (X/Y)";      // Victory Road
         metXY_00000[106] += " (X/Y)";      // Pokémon League
         metXY_00000[202] += " (OR/AS)";    // Pokémon League
