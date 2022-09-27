@@ -226,13 +226,16 @@ public static class GameUtil
     /// <param name="generation">Generation format minimum (necessary for the CXD/Gen4 swap etc)</param>
     public static IEnumerable<GameVersion> GetVersionsWithinRange(IGameValueLimit obj, int generation = -1)
     {
-        if (obj.MaxGameID == Legal.MaxGameID_7b) // edge case
+        var max = obj.MaxGameID;
+        if (max == Legal.MaxGameID_7b) // edge case
             return new[] {GO, GP, GE};
+        if (max == Legal.MaxGameID_8)
+            max = Legal.MaxGameID_8a;
         var versions = GameVersions
-            .Where(version => (GameVersion)obj.MinGameID <= version && version <= (GameVersion)obj.MaxGameID);
+            .Where(version => (GameVersion)obj.MinGameID <= version && version <= (GameVersion)max);
         if (generation < 0)
             return versions;
-        if (obj.MaxGameID == Legal.MaxGameID_7 && generation == 7)
+        if (max == Legal.MaxGameID_7 && generation == 7)
             versions = versions.Where(version => version != GO);
         return versions.Where(version => version.GetGeneration() <= generation);
     }
