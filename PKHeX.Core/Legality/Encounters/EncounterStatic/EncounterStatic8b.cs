@@ -20,7 +20,7 @@ public sealed record EncounterStatic8b : EncounterStatic, IStaticCorrelation8b
     protected override bool IsMatchLocation(PKM pk)
     {
         if (pk is PK8)
-            return Locations.IsValidMetBDSP(pk.Met_Location, pk.Version);
+            return Locations.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version);
         if (!Roaming)
             return base.IsMatchLocation(pk);
         return IsRoamingLocation(pk);
@@ -58,7 +58,7 @@ public sealed record EncounterStatic8b : EncounterStatic, IStaticCorrelation8b
                 if (EggLocation > 60000 && pk.Egg_Location == Locations.HOME_SWSHBDSPEgg)
                     return true;
                 // >60000 can be reset to Link Trade (30001), then altered differently.
-                return Locations.IsValidMetBDSP(pk.Egg_Location, pk.Version) && pk.Egg_Location == pk.Met_Location;
+                return Locations.IsValidMetBDSP((ushort)pk.Egg_Location, pk.Version) && pk.Egg_Location == pk.Met_Location;
             }
 
             // Hatched

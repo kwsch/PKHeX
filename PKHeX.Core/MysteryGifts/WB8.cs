@@ -35,7 +35,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
 
     // TODO: public byte RestrictVersion?
 
-    public bool CanBeReceivedByVersion(int v, PKM pk) => v is (int) GameVersion.BD or (int) GameVersion.SP || (pk is PK8 && Locations.IsValidMetBDSP(pk.Met_Location, pk.Version));
+    public bool CanBeReceivedByVersion(int v, PKM pk) => v is (int) GameVersion.BD or (int) GameVersion.SP || (pk is PK8 && Locations.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version));
 
     // General Card Properties
 
@@ -355,7 +355,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
                 SetOT(i, value);
         }
     }
-    
+
     public string Nickname => GetIsNicknamed(Language) ? GetNickname(Language) : string.Empty;
     public bool IsNicknamed => false;
     public int Language => 2;
@@ -670,7 +670,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
             if (!IsMatchEggLocation(pk)) return false;
             if (pk is PK8)
             {
-                if (!Locations.IsValidMetBDSP(pk.Met_Location, pk.Version))
+                if (!Locations.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version))
                     return false;
             }
             else

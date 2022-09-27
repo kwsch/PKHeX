@@ -126,7 +126,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
 
             var ball = b.Ball > (int)Core.Ball.Beast ? 4 : b.Ball;
             var ver = pkh.Version;
-            var loc = Locations.GetMetSWSH(b.Met_Location, ver);
+            var loc = Locations.GetMetSWSH((ushort)b.Met_Location, ver);
             return new GameDataPK8 { Ball = ball, Met_Location = loc, Egg_Location = loc != b.Met_Location ? Locations.HOME_SWSHBDSPEgg : b.Egg_Location };
         }
         if (pkh.DataPA8 is { } a)
@@ -136,7 +136,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
 
             var ball = a.Ball > (int)Core.Ball.Beast ? 4 : a.Ball;
             var ver = pkh.Version;
-            var loc = Locations.GetMetSWSH(a.Met_Location, ver);
+            var loc = Locations.GetMetSWSH((ushort)a.Met_Location, ver);
             return new GameDataPK8 { Ball = ball, Met_Location = loc, Egg_Location = loc != a.Met_Location ? Locations.HOME_SWSHBDSPEgg : a.Egg_Location };
         }
 
