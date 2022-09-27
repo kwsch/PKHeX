@@ -94,7 +94,7 @@ public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
             pk.MetDate = GetRandomValidDate();
         if (Gender != Gender.Random)
             pk.Gender = (int)Gender;
-        pk.SetRandomIVsGO(Type.GetMinIV(), Type.GetMaxIV());
+        pk.SetRandomIVsGO(Type.GetMinIV());
     }
 
     public bool GetIVsAboveMinimum(PKM pk)
@@ -103,14 +103,6 @@ public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
         if (min == 0)
             return true;
         return GetIVsAboveMinimum(pk, min);
-    }
-
-    public bool GetIVsBelowMaximum(PKM pk)
-    {
-        int max = Type.GetMaxIV();
-        if (max == 15)
-            return true;
-        return GetIVsBelowMaximum(pk, max);
     }
 
     private static bool GetIVsAboveMinimum(PKM pk, int min)
@@ -122,20 +114,9 @@ public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
         return pk.IV_HP >> 1 >= min; // HP
     }
 
-    private static bool GetIVsBelowMaximum(PKM pk, int max)
-    {
-        if (pk.IV_ATK >> 1 > max) // ATK
-            return false;
-        if (pk.IV_DEF >> 1 > max) // DEF
-            return false;
-        return pk.IV_HP >> 1 <= max; // HP
-    }
-
     public bool GetIVsValid(PKM pk)
     {
         if (!GetIVsAboveMinimum(pk))
-            return false;
-        if (!GetIVsBelowMaximum(pk))
             return false;
 
         // HP * 2 | 1 -> HP

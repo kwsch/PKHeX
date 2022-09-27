@@ -167,8 +167,6 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
             return true;
         if (!GetIVsAboveMinimum(pk))
             return true;
-        if (!GetIVsBelowMaximum(pk))
-            return true;
 
         // Eevee & Glaceon have different base friendships. Make sure if it is invalid that we yield the other encounter before.
         if (pk.OT_Friendship != OT_Friendship)
