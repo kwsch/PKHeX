@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -30,7 +30,10 @@ public static class EntityFileExtension
             result.Add("xk3"); // xd
         }
         if (maxGeneration >= 4)
+        {
             result.Add("bk4"); // battle revolution
+            result.Add("rk4"); // My Pokemon Ranch
+        }
         if (maxGeneration >= 7)
             result.Add(ExtensionPB7); // let's go
         if (maxGeneration >= 8)

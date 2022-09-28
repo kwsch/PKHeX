@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using static PKHeX.Core.EntityConverterResult;
 
@@ -119,6 +119,7 @@ public static class EntityConverter
         PK3 pk3 when destType == typeof(CK3) => pk3.ConvertToCK3(),
         PK3 pk3 when destType == typeof(XK3) => pk3.ConvertToXK3(),
         PK4 pk4 when destType == typeof(BK4) => pk4.ConvertToBK4(),
+        PK4 pk4 when destType == typeof(RK4) => pk4.ConvertToRK4(),
 
         PB8 pb8 when destType == typeof(PK8) => pb8.ConvertToPK8(),
         PK8 pk8 when destType == typeof(PB8) => pk8.ConvertToPB8(),
@@ -141,6 +142,7 @@ public static class EntityConverter
         CK3 ck3 => ck3.ConvertToPK3(),
         XK3 xk3 => xk3.ConvertToPK3(),
         BK4 bk4 => bk4.ConvertToPK4(),
+        RK4 rk4 => rk4.ConvertToPK4(),
 
         _ => InvalidTransfer(out result, NoTransferRoute),
     };
