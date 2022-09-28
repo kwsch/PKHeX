@@ -47,7 +47,7 @@ public sealed record EncounterStatic4Pokewalker : EncounterStatic
 
     protected override bool IsMatchPartial(PKM pk)
     {
-        if (Gift && pk.Ball != Ball)
+        if (pk.Ball != 4)
             return true;
         if (!IsCourseAvailable(pk.Language))
             return true;
@@ -121,5 +121,5 @@ public enum PokewalkerCourse4 : byte
     Sightseeing = 24, // JPN/KOR Exclusive
     WinnersPath = 25,
     AmityMeadow = 26, // JPN Exclusive
-    MAX_COUNT,
+    MAX_COUNT = 27,
 }
