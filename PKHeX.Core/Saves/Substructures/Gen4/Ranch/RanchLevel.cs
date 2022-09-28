@@ -55,7 +55,7 @@ public class RanchLevel
 
     private int GetMaxPkm()
     {
-        int[] maxPkmCounts = { 20, 25, 25, 30, 40, 50, 60, 80, 100, 150, 200, 250, 300, 350, 400, 500, 600, 700, 800, 900, 1000, 1000, 1000, 1000, 1000, 1000, 1500 };
+        int[] maxPkmCounts = { 20, 25, 30, 40, 50, 60, 80, 100, 150, 200, 250, 300, 350, 400, 500, 600, 700, 800, 900, 1000, 1000, 1000, 1000, 1000, 1000, 1500 };
         if (LevelIndex >= maxPkmCounts.Length)
             return maxPkmCounts[maxPkmCounts.Length - 1];
         else
