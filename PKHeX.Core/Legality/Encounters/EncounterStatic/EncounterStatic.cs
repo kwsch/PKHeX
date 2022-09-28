@@ -185,20 +185,29 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         switch (this)
         {
             // Cannot trade between languages
-            case IFixedGBLanguage e:
-                return e.Language == EncounterGBLanguage.Japanese ? 1 : 2;
+            case IFixedGBLanguage { Language:     EncounterGBLanguage.Japanese } when lang != 1:
+                pk.OT_Name = "ゲーフリ";
+                return (int)LanguageID.Japanese;
+            case IFixedGBLanguage { Language: not EncounterGBLanguage.Japanese } when lang == 1:
+                pk.OT_Name = "GF";
+                return (int)LanguageID.English;
 
             // E-Reader was only available to Japanese games.
-            case EncounterStaticShadow {EReader: true}:
+            case EncounterStaticShadow { EReader: true } when lang != 1:
             // Old Sea Map was only distributed to Japanese games.
-            case EncounterStatic3 when Species == (int)Core.Species.Mew:
+            case EncounterStatic3 { Species: (int)Core.Species.Mew } when lang != 1:
                 pk.OT_Name = "ゲーフリ";
                 return (int)LanguageID.Japanese;
 
             // Deoxys for Emerald was not available for Japanese games.
-            case EncounterStatic3 when Species == (int)Core.Species.Deoxys && Version == GameVersion.E && lang == 1:
+            case EncounterStatic3 { Species: (ushort)Core.Species.Deoxys, Version: GameVersion.E } when lang == 1:
                 pk.OT_Name = "GF";
                 return (int)LanguageID.English;
+
+            // Some Pokewalker courses are only available in Japanese(/Korean) games.
+            case EncounterStatic4Pokewalker p when !p.IsCourseAvailable(lang):
+                pk.OT_Name = "ゲーフリ";
+                return (int)LanguageID.Japanese;
 
             default:
                 return lang;
