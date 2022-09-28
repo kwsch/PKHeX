@@ -294,6 +294,15 @@ public abstract class G4PKM : PKM,
         return false;
     }
 
+    // Enforce DP content only (no PtHGSS)
+    protected void StripPtHGSSContent(PKM pk)
+    {
+        if (Form != 0 && !PersonalTable.DP[Species].HasForms && Species != 201)
+            pk.Form = 0;
+        if (HeldItem > Legal.MaxItemID_4_DP)
+            pk.HeldItem = 0;
+    }
+
     protected T ConvertTo<T>() where T : G4PKM, new()
     {
         var pk = new T
