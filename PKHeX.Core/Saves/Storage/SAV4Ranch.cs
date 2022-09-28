@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -10,8 +11,8 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 {
-    protected override int SIZE_STORED => 0x88 + 0x1C;
-    protected override int SIZE_PARTY => SIZE_STORED;
+    protected override int SIZE_STORED => PokeCrypto.SIZE_4RSTORED;
+    protected override int SIZE_PARTY => PokeCrypto.SIZE_4RSTORED;
 
     public int SaveRevision => Version == GameVersion.DP ? 0 : 1;
     public string SaveRevisionString => Version == GameVersion.DP ? "-DP" : "-Pt";
@@ -29,12 +30,11 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     protected internal override string ShortSummary => $"{OT} {PlayTimeString}";
     public override string Extension => ".bin";
 
-    protected override PKM GetPKM(byte[] data) => new PK4(data);
-    protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
+    protected override PKM GetPKM(byte[] data) => new RK4(data);
     public override StorageSlotSource GetSlotFlags(int index) => index >= SlotCount ? StorageSlotSource.Locked : StorageSlotSource.None;
     protected override bool IsSlotSwapProtected(int box, int slot) => IsSlotOverwriteProtected(box, slot);
 
-    public SAV4Ranch(byte[] data) : base(data, typeof(PK4), 0)
+    public SAV4Ranch(byte[] data) : base(data, typeof(RK4), 0)
     {
         Version = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? GameVersion.Pt : GameVersion.DP;
 
@@ -73,12 +73,12 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         TrainerMiiDataOffset = TrainerMiiCountOffset + 4;
 
         PokemonCountOffset = ReadInt32BigEndian(Data.AsSpan(0x34)) + 4;
-        SlotCount = ReadInt32BigEndian(Data.AsSpan(PokemonCountOffset));
+        SlotCount = GetRanchLevel().MaxPkm;
         BoxCount = (int)Math.Ceiling((decimal)SlotCount / SlotsPerBox);
         Box = PokemonCountOffset + 4;
 
-        FinalCountOffset = ReadInt32BigEndian(Data.AsSpan(0x3C));
-        FinalCount = ReadInt32BigEndian(Data.AsSpan(FinalCountOffset));
+        DataEndMarkerOffset = ReadInt32BigEndian(Data.AsSpan(0x3C));
+        DataEndMarker = ReadInt32BigEndian(Data.AsSpan(DataEndMarkerOffset));
     }
 
     public RanchLevel GetRanchLevel()
@@ -134,7 +134,6 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         return new RanchMii(miiData);
     }
 
-    // TODO: Check maximum allowed Miis for current rank
     public void SetRanchMii(RanchMii mii, int index)
     {
         if (index >= MiiCount)
@@ -154,19 +153,17 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         return new RanchTrainerMii(trainerMiiData);
     }
 
-    // TODO: Check maximum allowed Mii Trainers
-    // int maxTrainers = Math.Min(MiiCount, 8);
     public void SetRanchTrainerMii(RanchTrainerMii trainerMii, int index)
     {
         if (index >= TrainerMiiCount)
             throw new ArgumentOutOfRangeException(nameof(index));
 
-        int offset = MiiDataOffset + (RanchTrainerMii.SIZE * index);
+        int offset = TrainerMiiDataOffset + (RanchTrainerMii.SIZE * index);
         SetData(Data, trainerMii.Data, offset);
     }
 
-    private readonly int FinalCount;
-    private readonly int FinalCountOffset;
+    private readonly int DataEndMarker;
+    private int DataEndMarkerOffset;
     private readonly int MiiDataOffset;
     private readonly int MiiCountOffset;
     private readonly int TrainerMiiDataOffset;
@@ -176,14 +173,61 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     protected override void SetChecksums()
     {
         // ensure the final data is written if the user screws stuff up
-        WriteInt32BigEndian(Data.AsSpan(FinalCountOffset), FinalCount);
-        var goodlen = (FinalCountOffset + 4);
+        WriteInt32BigEndian(Data.AsSpan(DataEndMarkerOffset), DataEndMarker);
+        var goodlen = (DataEndMarkerOffset + 4);
         Array.Clear(Data, goodlen, Data.Length - goodlen);
 
         // 20 byte SHA checksum at the top of the file, which covers all data that follows.
         using var hash = SHA1.Create();
         var result = hash.ComputeHash(Data, 20, Data.Length - 20);
         SetData(result, 0);
+    }
+
+    protected override byte[] DecryptPKM(byte[] data)
+    {
+        byte[] pokeData = PokeCrypto.DecryptArray45(data.Slice(0, PokeCrypto.SIZE_4STORED));
+        byte[] ranchData = data.Slice(PokeCrypto.SIZE_4STORED, 0x1C);
+        byte[] finalData = new byte[SIZE_STORED];
+        pokeData.CopyTo(finalData, 0);
+        ranchData.CopyTo(finalData, PokeCrypto.SIZE_4STORED);
+        return finalData;
+    }
+
+    public void WriteBoxSlot(PKM pk, RanchPkOwnershipType ownershipType, ushort linkedGameTid, ushort linkedGameSid, string linkedGameTrainerName, Span<byte> data, int offset)
+    {
+        RK4 rk = (RK4) this.GetCompatiblePKM(pk);
+        rk.OwnershipType = ownershipType;
+        rk.LinkedGame_TID = linkedGameTid;
+        rk.LinkedGame_SID = linkedGameSid;
+        rk.LinkedGame_TrainerName = linkedGameTrainerName;
+
+        WriteBoxSlot(rk, data, offset);
+    }
+
+    public override void WriteBoxSlot(PKM pk, Span<byte> data, int offset)
+    {
+        bool isBlank = pk.Data.SequenceEqual(BlankPKM.Data);
+        if (pk is not RK4)
+        {
+            WriteBoxSlot(pk, RanchPkOwnershipType.Hayley, 0x00, 0x00, "", data, offset);
+            return;
+        }
+
+        if (!isBlank && (((RK4)pk).OwnershipType == RanchPkOwnershipType.None))
+            ((RK4)pk).OwnershipType = RanchPkOwnershipType.Hayley; // Pokemon without an Ownership type get erased when the save is loaded. Hayley is considered 'default'.
+
+        base.WriteBoxSlot(pk, data, offset);
+        if ((offset + SIZE_STORED) > DataEndMarkerOffset)
+        {
+            DataEndMarkerOffset = (offset + SIZE_STORED);
+            WriteInt32BigEndian(Data.AsSpan(0x3C), DataEndMarkerOffset);
+            WriteInt32BigEndian(Data.AsSpan(DataEndMarkerOffset), DataEndMarker);
+        }
+            
+        int pkStart = PokemonCountOffset + 4;
+        int pkEnd = DataEndMarkerOffset;
+        int pkCount = (pkEnd - pkStart) / SIZE_STORED;
+        WriteInt32BigEndian(Data.AsSpan(PokemonCountOffset), pkCount);
     }
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter4GC.GetStringUnicode(data);
