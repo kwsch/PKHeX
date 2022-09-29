@@ -9,6 +9,7 @@ public sealed class LearnGroup8a : ILearnGroup
 {
     public static readonly LearnGroup8a Instance = new();
     private const int Generation = 8;
+    private const EntityContext Context = EntityContext.Gen8a;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedPLA;
@@ -43,7 +44,7 @@ public sealed class LearnGroup8a : ILearnGroup
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Generation == Generation)
+        if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Context == Context)
             FlagEncounterMoves(enc, result);
 
         foreach (var evo in history.Gen8a)
