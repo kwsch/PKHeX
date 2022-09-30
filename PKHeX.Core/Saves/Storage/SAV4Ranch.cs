@@ -33,6 +33,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     protected override PKM GetPKM(byte[] data) => new RK4(data);
     public override StorageSlotSource GetSlotFlags(int index) => index >= SlotCount ? StorageSlotSource.Locked : StorageSlotSource.None;
     protected override bool IsSlotSwapProtected(int box, int slot) => IsSlotOverwriteProtected(box, slot);
+    public override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentSAV4Ranch(data);
 
     public SAV4Ranch(byte[] data) : base(data, typeof(RK4), 0)
     {
