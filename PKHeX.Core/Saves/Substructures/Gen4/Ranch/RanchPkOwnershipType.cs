@@ -5,7 +5,7 @@ public enum RanchPkOwnershipType : uint
     None              = 0x00000000U,
     Trainer           = 0x01000000U,
     Trainer_Conflict1 = 0x01000001U,
-    Trainer_Conflict2 = 0x01000002U, // I don't know if these conflict values are accurate, or even exist.
+    Trainer_Conflict2 = 0x01000002U,
     Trainer_Conflict3 = 0x01000003U,
     Trainer_Conflict4 = 0x01000004U, 
     Trainer_Conflict5 = 0x01000005U,

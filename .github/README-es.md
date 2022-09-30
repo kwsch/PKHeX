@@ -7,7 +7,7 @@ Editor de guardado de las series principales de Pokémon, programado en [C#](htt
 Soporta los siguientes archivos:
 * Archivos de guardado ("main", \*.sav, \*.dsv, \*.dat, \*.gci, \*.bin)
 * Archivos de Memory Card de GameCube (\*.raw, \*.bin) que contienen archivos de GC Pokémon.
-* Archivos de entidades individuales de Pokémon (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4)
+* Archivos de entidades individuales de Pokémon (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
 * Archivos de Regalos Misteriosos (\*.pgt, \*.pcd, \*.pgf, .wc\*) incluyendo conversión a .pk\*
 * Importar archivos de entidades de GO Park (\*.gp1) incluyendo conversión a .pb7
 * Importar equipos desde archivos Decrypted 3DS Battle Videos

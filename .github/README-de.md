@@ -7,7 +7,7 @@ Save Editor für die Pokémon Hauptreihe, geschrieben in [C#](https://de.wikiped
 Die folgenden Dateien werden unterstützt:
 * Spielstände ("main", \*.sav, \*.dsv, \*.dat, \*.gci, \*.bin)
 * GameCube Memory Card Daten (\*.raw, \*.bin), die GC Pokémon Spielstände enthalten.
-* Einzelne Pokémon (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4)
+* Einzelne Pokémon (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
 * Wunderkarten (\*.pgt, \*.pcd, \*.pgf, .wc\*), inklusive Konvertierung zu .pk\*
 * Import von GO Park Pokémon (\*.gp1) inklusive Konvertierung zu .pb7
 * Import von Teams aus entschlüsselten 3DS Battle Videos.
