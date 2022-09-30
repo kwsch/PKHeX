@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -295,9 +296,11 @@ public sealed class PK4 : G4PKM
 
     public RK4 ConvertToRK4()
     {
-        PK4 pkConvert = (PK4) this.Clone();
-        pkConvert.ResetPartyStats();
-        RK4 rk4 = pkConvert.ConvertTo<RK4>();
+        byte[] data = Data.AsSpan(0, PokeCrypto.SIZE_4RSTORED).ToArray();
+        for (int i = PokeCrypto.SIZE_4STORED; i < PokeCrypto.SIZE_4RSTORED; i++)
+            data[i] = 0;
+
+        RK4 rk4 = new RK4(data);
         rk4.OwnershipType = RanchPkOwnershipType.Hayley;
 
         rk4.RefreshChecksum();

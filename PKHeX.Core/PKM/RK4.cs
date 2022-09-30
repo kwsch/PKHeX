@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -310,7 +309,10 @@ public sealed class RK4 : G4PKM
 
     public PK4 ConvertToPK4()
     {
-        PK4 pk4 = ConvertTo<PK4>();
+        byte[] data = Data.AsSpan(0, PokeCrypto.SIZE_4STORED).ToArray();
+        PK4 pk4 = new PK4(data);
+        pk4.ResetPartyStats();
+
         pk4.RefreshChecksum();
         return pk4;
     }
