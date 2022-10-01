@@ -48,17 +48,21 @@ public sealed class Frame
     /// <returns>Slot number for this frame &amp; lead value.</returns>
     public bool IsSlotCompatibile<T>(T slot, PKM pk) where T : EncounterSlot, IMagnetStatic, INumberedSlot, ISlotRNGType
     {
-        if (FrameType != FrameType.MethodH && slot.Type is not (SlotType.HoneyTree or SlotType.BugContest)) // gen3 always does level rand
+        // The only level rand type slots are Honey Tree and National Park BCC
+        // Gen3 always does level rand, but the level ranges are same min,max.
+        if (FrameType != FrameType.MethodH)
         {
             bool hasLevelCall = slot.IsRandomLevel;
             if (Lead.NeedsLevelCall() != hasLevelCall)
                 return false;
         }
 
-        // Level is before Nature, but usually isn't varied. Check ESV calc first.
-        int s = GetSlot(slot);
-        if (s != slot.SlotNumber)
-            return false;
+        if (slot.Type is not (SlotType.HoneyTree))
+        {
+            int calcSlot = GetSlot(slot);
+            if (calcSlot != slot.SlotNumber)
+                return false;
+        }
 
         // Check Level Now
         int lvl = SlotRange.GetLevel(slot, Lead, RandLevel);

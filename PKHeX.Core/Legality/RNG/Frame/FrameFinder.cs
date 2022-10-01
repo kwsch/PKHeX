@@ -60,7 +60,6 @@ public static class FrameFinder
         // Level
         // Nature
         // Current Seed of the frame is the Level Calc (frame before nature)
-        var list = new List<Frame>();
         foreach (var f in frames)
         {
             bool noLead = !info.AllowLeads && f.Lead != LeadRequired.None;
@@ -77,13 +76,11 @@ public static class FrameFinder
 
             // Generate frames for other slots after the regular slots
             if (info.AllowLeads && (f.Lead is LeadRequired.CuteCharm or LeadRequired.None))
-                list.Add(f);
-        }
-        foreach (var f in list)
-        {
-            var leadframes = GenerateLeadSpecificFrames3(f, info);
-            foreach (var frame in leadframes)
-                yield return frame;
+            {
+                var leadframes = GenerateLeadSpecificFrames3(f, info);
+                foreach (var frame in leadframes)
+                    yield return frame;
+            }
         }
     }
 
@@ -160,7 +157,6 @@ public static class FrameFinder
 
     private static IEnumerable<Frame> RefineFrames4(IEnumerable<Frame> frames, FrameGenerator info)
     {
-        var list = new List<Frame>();
         foreach (var f in frames)
         {
             // Current Seed of the frame is the ESV.
@@ -170,23 +166,25 @@ public static class FrameFinder
             f.OriginSeed = LCRNG.Prev(f.Seed);
             yield return f;
 
+            if (f.Lead == LeadRequired.None)
+            {
+                var leadframes = GenerateLeadSpecificFrames4(f, info);
+                foreach (var frame in leadframes)
+                    yield return frame;
+            }
+
             // Create a copy for level; shift ESV and origin back
             var esv = f.OriginSeed >> 16;
             var origin = LCRNG.Prev(f.OriginSeed);
             var withLevel = info.GetFrame(f.Seed, f.Lead | LeadRequired.UsesLevelCall, esv, f.RandLevel, origin);
             yield return withLevel;
 
-            if (f.Lead != LeadRequired.None)
-                continue;
-
-            // Generate frames for other slots after the regular slots
-            list.Add(f);
-        }
-        foreach (var f in list)
-        {
-            var leadframes = GenerateLeadSpecificFrames4(f, info);
-            foreach (var frame in leadframes)
-                yield return frame;
+            if (f.Lead == LeadRequired.None)
+            {
+                var leadframes = GenerateLeadSpecificFrames4(withLevel, info);
+                foreach (var frame in leadframes)
+                    yield return frame;
+            }
         }
     }
 

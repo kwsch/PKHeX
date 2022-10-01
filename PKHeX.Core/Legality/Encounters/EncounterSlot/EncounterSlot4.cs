@@ -46,6 +46,22 @@ public sealed record EncounterSlot4 : EncounterSlot, IMagnetStatic, INumberedSlo
         return base.GetMatchRating(pk);
     }
 
+    protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+    {
+        int ctr = 0;
+        do
+        {
+            base.SetPINGA(pk, criteria);
+            var pidiv = MethodFinder.Analyze(pk);
+            var frames = FrameFinder.GetFrames(pidiv, pk);
+            foreach (var frame in frames)
+            {
+                if (frame.IsSlotCompatibile(this, pk))
+                    return;
+            }
+        } while (ctr++ < 10_000);
+    }
+
     private Ball GetRequiredBallValue()
     {
         if (Type is SlotType.BugContest)

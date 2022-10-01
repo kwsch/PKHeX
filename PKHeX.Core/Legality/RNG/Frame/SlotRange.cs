@@ -1,5 +1,5 @@
-using System.Linq;
 using static PKHeX.Core.SlotType;
+using static PKHeX.Core.SlotNumber;
 
 namespace PKHeX.Core;
 
@@ -8,17 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class SlotRange
 {
-    private static readonly Range[] H_OldRod = GetRanges(70, 30);
-    private static readonly Range[] H_GoodRod = GetRanges(60, 20, 20);
-    private static readonly Range[] H_SuperRod = GetRanges(40, 40, 15, 4, 1);
-    private static readonly Range[] H_Surf = GetRanges(60, 30, 5, 4, 1);
-    private static readonly Range[] H_Regular = GetRanges(20, 20, 10, 10, 10, 10, 5, 5, 4, 4, 1, 1);
-
-    private static readonly Range[] J_SuperRod = GetRanges(40, 40, 15, 4, 1);
-    private static readonly Range[] K_SuperRod = GetRanges(40, 30, 15, 10, 5);
-    private static readonly Range[] K_BCC = GetRanges(5,5,5,5, 10,10,10,10, 20,20).Reverse().ToArray();
-    private static readonly Range[] K_Headbutt = GetRanges(50, 15, 15, 10, 5, 5);
-
     private const int Invalid = -1; // all slots are [0,X], unsigned. This will always result in a non-match.
 
     /// <summary>
@@ -43,12 +32,12 @@ public static class SlotRange
 
         return type switch
         {
-            Old_Rod    => CalcSlot(ESV, H_OldRod),
-            Good_Rod   => CalcSlot(ESV, H_GoodRod),
-            Super_Rod  => CalcSlot(ESV, H_SuperRod),
-            Rock_Smash => CalcSlot(ESV, H_Surf),
-            Surf       => CalcSlot(ESV, H_Surf),
-            _          => CalcSlot(ESV, H_Regular),
+            Old_Rod    => GetHOldRod(ESV),
+            Good_Rod   => GetHGoodRod(ESV),
+            Super_Rod  => GetHSuperRod(ESV),
+            Rock_Smash => GetHSurf(ESV),
+            Surf       => GetHSurf(ESV),
+            _          => GetHRegular(ESV),
         };
     }
 
@@ -60,11 +49,11 @@ public static class SlotRange
         var ESV = rand % 100;
         return type switch
         {
-            Rock_Smash or Surf               => CalcSlot(ESV, H_Surf),
-            Old_Rod or Good_Rod or Super_Rod => CalcSlot(ESV, K_SuperRod),
-            BugContest                       => CalcSlot(ESV, K_BCC),
-            Headbutt or (Headbutt | Special) => CalcSlot(ESV, K_Headbutt),
-            _ => CalcSlot(ESV, H_Regular),
+            Rock_Smash or Surf               => GetHSurf(ESV),
+            Old_Rod or Good_Rod or Super_Rod => GetKSuperRod(ESV),
+            BugContest                       => GetKBCC(ESV),
+            Headbutt or (Headbutt | Special) => GetKHeadbutt(ESV),
+            _                                => GetHRegular(ESV),
         };
     }
 
@@ -76,39 +65,16 @@ public static class SlotRange
         uint ESV = rand / 656;
         return type switch
         {
-            Old_Rod or Rock_Smash or Surf => CalcSlot(ESV, H_Surf),
-            Good_Rod or Super_Rod         => CalcSlot(ESV, J_SuperRod),
+            Old_Rod or Rock_Smash or Surf => GetHSurf(ESV),
+            Good_Rod or Super_Rod         => GetJSuperRod(ESV),
             HoneyTree                     => 0,
-            _                             => CalcSlot(ESV, H_Regular),
+            _                             => GetHRegular(ESV),
         };
-    }
-
-    private readonly record struct Range(uint Min, uint Max);
-
-    private static Range[] GetRanges(params byte[] rates)
-    {
-        var len = rates.Length;
-        var arr = new Range[len];
-        uint sum = 0;
-        for (int i = 0; i < len; ++i)
-            arr[i] = new Range(sum, (sum += rates[i]) - 1);
-        return arr;
-    }
-
-    private static int CalcSlot(uint esv, Range[] ranges)
-    {
-        for (int i = 0; i < ranges.Length; ++i)
-        {
-            var (min, max) = ranges[i];
-            if (esv >= min && esv <= max)
-                return i;
-        }
-        return Invalid;
     }
 
     public static int GetLevel(EncounterSlot slot, LeadRequired lead, uint lvlrand)
     {
-        if (lead == LeadRequired.PressureHustleSpirit)
+        if ((lead & LeadRequired.PressureHustleSpiritFail) == LeadRequired.PressureHustleSpirit)
             return slot.LevelMax;
         if (slot.IsFixedLevel)
             return slot.LevelMin;
