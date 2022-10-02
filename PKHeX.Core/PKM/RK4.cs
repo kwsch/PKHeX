@@ -278,13 +278,40 @@ public sealed class RK4 : G4PKM
 
     #region My Pokémon Ranch Data
 
-    public RanchPkOwnershipType OwnershipType { get => (RanchPkOwnershipType)ReadUInt32BigEndian(Data.AsSpan(0x88)); set => WriteUInt32BigEndian(Data.AsSpan(0x88), ((uint)value)); }
-    public ushort LinkedGame_SID { get => ReadUInt16BigEndian(Data.AsSpan(0x8C)); set => WriteUInt16BigEndian(Data.AsSpan(0x8C), value); }
-    public ushort LinkedGame_TID { get => ReadUInt16BigEndian(Data.AsSpan(0x8E)); set => WriteUInt16BigEndian(Data.AsSpan(0x8E), value); }
-    public string LinkedGame_TrainerName
+    /* ====Metadata====
+     * uint8_t poke_type;// 01 trainer, 04 hayley, 05 traded
+     * unused alignment byte
+     * uint16_t tradeable;// 02 is tradeable, normal 00
+     * uint16_t tid;
+     * uint16_t sid;
+     * uint32_t name1;
+     * uint32_t name2;
+     * uint32_t name3;
+     * uint32_t name4;
+     */
+
+    // 4 bytes extra at the end of the metadata, unused/reserved; or, it's just extra for the Trainer Name.
+
+    public RanchOwnershipType OwnershipType
     {
-        get => StringConverter4.GetString(Data.AsSpan(0x90, 16));
-        set => StringConverter4.SetString(Data.AsSpan(0x90, 16), value.AsSpan(), 16, StringConverterOption.None);
+        get => (RanchOwnershipType)Data[0x88];
+        set => Data[0x88] = (byte)value;
+    }
+
+    public RanchOwnershipStatus OwnershipStatus
+    {
+        get => (RanchOwnershipStatus)ReadUInt16BigEndian(Data.AsSpan(0x8A));
+        set => WriteUInt16BigEndian(Data.AsSpan(0x8A), (ushort)value);
+    }
+
+    public ushort HT_TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x8C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8C), value); }
+    public ushort HT_SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x8E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x8E), value); }
+
+    public override Span<byte> HT_Trash => Data.AsSpan(0x90, 0x10);
+    public override string HT_Name
+    {
+        get => StringConverter4.GetString(HT_Trash);
+        set => StringConverter4.SetString(HT_Trash, value.AsSpan(), 7, StringConverterOption.None);
     }
 
     #endregion
@@ -310,9 +337,8 @@ public sealed class RK4 : G4PKM
     public PK4 ConvertToPK4()
     {
         byte[] data = Data.AsSpan(0, PokeCrypto.SIZE_4STORED).ToArray();
-        PK4 pk4 = new PK4(data);
+        var pk4 = new PK4(data);
         pk4.ResetPartyStats();
-
         pk4.RefreshChecksum();
         return pk4;
     }

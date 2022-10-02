@@ -301,7 +301,7 @@ public sealed class PK4 : G4PKM
             data[i] = 0;
 
         RK4 rk4 = new RK4(data);
-        rk4.OwnershipType = RanchPkOwnershipType.Hayley;
+        rk4.OwnershipType = RanchOwnershipType.Hayley;
 
         rk4.RefreshChecksum();
         return rk4;
