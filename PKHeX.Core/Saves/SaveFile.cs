@@ -534,7 +534,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public int NextOpenBoxSlot(int lastKnownOccupied = -1)
     {
         var storage = BoxBuffer.AsSpan();
-        int count = BoxSlotCount * BoxCount;
+        int count = SlotCount;
         for (int i = lastKnownOccupied + 1; i < count; i++)
         {
             int offset = GetBoxSlotOffset(i);

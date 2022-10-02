@@ -19,7 +19,7 @@ public static class BatchEditing
     {
         typeof (PK8), typeof (PA8), typeof (PB8),
         typeof (PB7),
-        typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4),
+        typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4), typeof(RK4),
         typeof (PK3), typeof (XK3), typeof (CK3),
         typeof (PK2), typeof (SK2), typeof (PK1),
     };

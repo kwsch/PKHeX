@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -12,7 +12,7 @@ public static class EntityDetection
         PokeCrypto.SIZE_2ULIST,   PokeCrypto.SIZE_2JLIST,   PokeCrypto.SIZE_2STADIUM,
         PokeCrypto.SIZE_3STORED,  PokeCrypto.SIZE_3PARTY,
         PokeCrypto.SIZE_3CSTORED, PokeCrypto.SIZE_3XSTORED,
-        PokeCrypto.SIZE_4STORED,  PokeCrypto.SIZE_4PARTY,
+        PokeCrypto.SIZE_4STORED,  PokeCrypto.SIZE_4PARTY,   PokeCrypto.SIZE_4RSTORED,
         PokeCrypto.SIZE_5PARTY,
         PokeCrypto.SIZE_6STORED,  PokeCrypto.SIZE_6PARTY,
         PokeCrypto.SIZE_8STORED,  PokeCrypto.SIZE_8PARTY,
@@ -29,6 +29,7 @@ public static class EntityDetection
     public static bool IsPresentGB(ReadOnlySpan<byte> data) => data[0] != 0; // Species non-zero
     public static bool IsPresentGC(ReadOnlySpan<byte> data) => ReadUInt16BigEndian(data) != 0; // Species non-zero
     public static bool IsPresentGBA(ReadOnlySpan<byte> data) => (data[0x13] & 0xFB) == 2; // ignore egg flag, must be FlagHasSpecies.
+    public static bool IsPresentSAV4Ranch(ReadOnlySpan<byte> data) => ReadUInt32LittleEndian(data) != 0 && ReadUInt32BigEndian(data) != 0x28; // Species non-zero, ignore file end marker
 
     public static bool IsPresent(ReadOnlySpan<byte> data)
     {

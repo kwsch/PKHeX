@@ -29,6 +29,7 @@ public static class EntityFormat
         SIZE_3CSTORED                 => FormatCK3,
         SIZE_3XSTORED                 => FormatXK3,
         SIZE_4PARTY or SIZE_4STORED   => GetFormat45(data),
+        SIZE_4RSTORED                 => FormatRK4,
         SIZE_5PARTY                   => FormatPK5,
         SIZE_6STORED                  => GetFormat67(data),
         SIZE_6PARTY                   => GetFormat67_PGT(data),
@@ -65,6 +66,8 @@ public static class EntityFormat
     // assumes decrypted state
     private static EntityFormatDetected GetFormat45(ReadOnlySpan<byte> data)
     {
+        if (data.Length == PokeCrypto.SIZE_4RSTORED)
+            return FormatRK4;
         if (ReadUInt16LittleEndian(data[0x4..]) != 0)
             return FormatBK4; // BK4 non-zero sanity
         if (data[0x5F] < 0x10 && ReadUInt16LittleEndian(data[0x80..]) < 0x3333)
@@ -114,6 +117,7 @@ public static class EntityFormat
         FormatXK3 => new XK3(data),
         FormatPK4 => new PK4(data),
         FormatBK4 => new BK4(data),
+        FormatRK4 => new RK4(data),
         FormatPK5 => new PK5(data),
         FormatPK6 => new PK6(data),
         FormatPK7 => new PK7(data),
@@ -202,7 +206,7 @@ public enum EntityFormatDetected
     FormatPK1,
     FormatPK2, FormatSK2,
     FormatPK3, FormatCK3, FormatXK3,
-    FormatPK4, FormatBK4, FormatPK5,
+    FormatPK4, FormatBK4, FormatRK4, FormatPK5,
     FormatPK6, FormatPK7, FormatPB7,
     FormatPK8, FormatPA8, FormatPB8,
 

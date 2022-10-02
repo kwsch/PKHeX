@@ -11,7 +11,7 @@ Pokémon core series save editor, programmed in [C#](https://en.wikipedia.org/wi
 Supports the following files:
 * Save files ("main", \*.sav, \*.dsv, \*.dat, \*.gci, \*.bin)
 * GameCube Memory Card files (\*.raw, \*.bin) containing GC Pokémon savegames.
-* Individual Pokémon entity files (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4)
+* Individual Pokémon entity files (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
 * Mystery Gift files (\*.pgt, \*.pcd, \*.pgf, .wc\*) including conversion to .pk\*
 * Importing GO Park entities (\*.gp1) including conversion to .pb7
 * Importing teams from Decrypted 3DS Battle Videos

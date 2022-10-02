@@ -31,6 +31,7 @@ public static class PokeCrypto
 
     internal const int SIZE_4PARTY = 236;
     internal const int SIZE_4STORED = 136;
+    internal const int SIZE_4RSTORED = 164; // 4STORED + 0x1C bytes of extra data
     private const int SIZE_4BLOCK = 32;
 
     internal const int SIZE_5PARTY = 220;
