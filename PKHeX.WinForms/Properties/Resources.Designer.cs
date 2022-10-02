@@ -793,6 +793,41 @@ namespace PKHeX.WinForms.Properties {
                 return ResourceManager.GetString("lang_zh", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to About=關於
+        ///BatchEditor=批量編輯器
+        ///ErrorWindow=錯誤
+        ///KChart=信息清單
+        ///Main=PKHeX
+        ///MemoryAmie=回憶編輯器
+        ///MoveShopEditor=招式商店編輯器
+        ///RibbonEditor=獎章
+        ///SAV_Apricorn=球果編輯
+        ///SAV_BerryField=樹果田檢視器
+        ///SAV_BlockDump8=存檔轉儲
+        ///SAV_BoxLayout=盒子外觀
+        ///SAV_BoxList=寄放系統
+        ///SAV_Capture7GG=捕獲記錄編輯
+        ///SAV_CGearSkin=C裝置皮膚
+        ///SAV_Database=資料庫
+        ///SAV_Encounters=資料庫
+        ///SAV_EventFlags=事件旗標編輯
+        ///SAV_EventReset1=事件重置
+        ///SAV_EventWork=事件標誌編輯器
+        ///SAV_FlagWork8b=事件標誌編輯器
+        ///SAV_FolderList=資料夾清單
+        ///SAV_GameSelect=遊戲選擇
+        ///SAV_HallOfFame=名人堂
+        ///SAV_HallOfFame7=名人堂
+        ///SAV_HoneyTree=甜甜蜜樹編輯
+        ///SA [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_zh2 {
+            get {
+                return ResourceManager.GetString("lang_zh2", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.

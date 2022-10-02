@@ -92,7 +92,12 @@ public enum ProgramLanguage
     한국어,
 
     /// <summary>
-    /// Chinese
+    /// Simplified Chinese
     /// </summary>
-    中文,
+    简体中文,
+
+    /// <summary>
+    /// Traditional Chinese
+    /// </summary>
+    繁體中文,
 }
