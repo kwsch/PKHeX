@@ -1,0 +1,482 @@
+0x089	s	獲得秘傳學習器01居合斬
+0x06E	s	獲得秘傳學習器02飛翔
+0x07A	s	獲得秘傳學習器03衝浪
+0x06A	s	獲得秘傳學習器04怪力
+0x06D	s	獲得秘傳學習器05閃光
+0x06B	s	獲得秘傳學習器06碎岩
+0x138	s	獲得秘傳學習器07攀瀑
+0x07B	s	獲得秘傳學習器08潛水
+0x05A	s	獲得音速自行車/越野自行車
+
+0x867	*	獲得岩石徽章
+0x868	*	獲得拳擊徽章
+0x869	*	獲得電力徽章
+0x86A	*	獲得烈焰徽章
+0x86B	*	獲得天秤徽章
+0x86C	*	獲得白羽徽章
+0x86D	*	獲得心靈徽章
+0x86E	*	獲得雨滴徽章
+
+0x099	g	在卡那茲市交換
+0x09A	g	在暮水鎮交換
+0x09B	g	在茵鬱市交換
+0x09C	g	在對戰開拓區交換
+
+0x097	g	獲得飄浮泡泡
+0x10A	g	獲得小果然的蛋
+0x12A	g	獲得鐵啞鈴
+
+0x13A	e	從神秘禮物中獲得極光船票
+0x13B	e	從神秘禮物中獲得神秘船票
+0x13C	e	從神秘禮物中獲得古航海圖
+
+0x1AE	e	顯示無限船票
+0x1AF	e	顯示極光船票
+0x1B0	e	顯示古航海圖
+0x1DB	e	顯示神秘船票
+
+0x8B3	e	可以前往南方孤島
+0x8D5	e	可以前往誕生之島
+0x8D6	e	可以前往邊境小島
+0x8E0	e	可以前往肚臍岩
+
+0x0FF	r	拉帝歐斯/拉帝亞斯遊走
+
+0x1CA	r	捕獲/打敗 夢幻
+0x091	r	捕獲/打敗 洛奇亞
+0x092	r	捕獲/打敗 鳳王
+0x1BB	r	捕獲/打敗 雷吉洛克
+0x1BC	r	捕獲/打敗 雷吉艾斯
+0x1BD	r	捕獲/打敗 雷吉斯奇魯
+0x1C9	r	捕獲/打敗 拉帝歐斯/拉帝亞斯
+0x1BE	r	捕獲/打敗 蓋歐卡
+0x1BF	r	捕獲/打敗 固拉多
+0x1C0	r	捕獲/打敗 烈空坐
+0x1AD	r	捕獲/打敗 代歐奇希斯
+
+0x2CE	r	隱藏地區 (夢幻)
+0x320	r	隱藏地區 (洛奇亞)
+0x321	r	隱藏地區 (鳳王)
+0x3A7	r	隱藏地區 (雷吉洛克)
+0x3A8	r	隱藏地區 (雷吉艾斯)
+0x3A9	r	隱藏地區 (雷吉斯奇魯)
+0x30E	r	隱藏地區 (蓋歐卡)
+0x30F	r	隱藏地區 (固拉多)
+0x305	r	隱藏地區 (烈空坐)
+0x2FB	r	隱藏地區 (代歐奇希斯)
+0x2FC	r	隱藏地區 (代歐奇希斯)
+0x3C3	r	隱藏地區 (根狀化石)
+0x3C4	r	隱藏地區 (爪子化石)	
+0x3C9	r	發現變隱龍 (茵鬱市)
+0x3CA	r	發現變隱龍 (120號道路，橋)
+0x3D5	r	發現變隱龍 (120號道路，橋)
+0x3D6	r	發現變隱龍 (120號道路，樓梯)
+0x3D9	r	發現變隱龍 (120號道路，標誌後面)
+0x3DA	r	發現變隱龍 (120號道路，漿果樹後面)
+0x3DB	r	發現變隱龍 (120號道路，左側長草迷宮)
+0x3DC	r	發現變隱龍 (120號道路，古代墳墓後)
+0x3DD	r	發現變隱龍 (119號道路，忍者男孩右邊)
+0x3DE	r	發現變隱龍 (119號道路，忍者男孩左邊)
+
+0x3CE	r	隱藏地區 (霹靂電球 1 在新紫堇)
+0x3CF	r	隱藏地區 (霹靂電球 2 在新紫堇)
+0x3D0	r	隱藏地區 (霹靂電球 3 在新紫堇)
+
+0x3D1	r	隱藏地區 (頑皮雷蛋 1 在海洋隊本部)
+0x3D2	r	隱藏地區 (頑皮雷蛋 2 在海洋隊本部)
+
+0x1B1	*	凱那市教授招式 (虛張聲勢)
+0x1B2	*	紫堇市教授招式 (滾動)
+0x1B3	*	綠蔭鎮教授招式 (連斬)
+0x1B4	*	釜炎鎮教授招式 (模仿)
+0x1B5	*	秋葉鎮教授招式 (揮指)
+0x1B6	*	茵郁市教授招式 (夢話)
+0x1B7	*	水靜市教授招式 (替身)
+0x1B8	*	綠嶺市教授招式 (爆裂拳)
+0x1B9	*	琉璃市教授招式 (捨身衝撞)
+0x1BA	*	暮水鎮教授招式 (大爆炸)
+
+0x860	s	獲得最初的寶可夢
+0x861	s	獲得寶可夢圖鑒
+0x862	s	獲得寶可夢領航員
+0x864	s	進入名人堂
+0x866	s	遇見時髦的人
+0x890	s	在家裏看電視
+0x894	s	混合存檔
+0x895	s	設置時鐘
+0x896	s	獲得全國圖鑒
+0x89A	s	淺灘洞穴潮水
+0x89B	s	獲得一個獎章
+0x8AB	s	解鎖真由美的電腦
+0x8AD	s	使用白色玻璃哨
+0x8AE	s	使用黑色玻璃哨
+0x8AF	s	完成佈告石室謎題 (1)
+0x0E4	s	完成佈告石室謎題 (2)
+0x8B0	s	完成雷吉洛克謎題
+0x8B1	s	完成雷吉艾斯謎題
+0x8B2	s	完成雷吉斯奇魯謎題
+0x8BF	s	可獲得貝殼之鈴
+0x8C0	*	獲得跑步鞋
+0x8C2	*	重置RTC啟用
+0x8DB	*	神秘禮物開啟
+0x8E4	s	獲得寶可夢圖鑒
+
+0x8C4	a	獲得銀色能力的象徵 (對戰塔)
+0x8C5	a	獲得金色能力的象徵 (對戰塔)
+0x8C6	a	獲得銀色戰術的象徵 (對戰巨蛋)
+0x8C7	a	獲得金色戰術的象徵 (對戰巨蛋)
+0x8C8	a	獲得銀色精神的象徵 (對戰宮殿)
+0x8C9	a	獲得金色精神的象徵 (對戰宮殿)
+0x8CA	a	獲得銀色毅力的象徵 (對戰競技場)
+0x8CB	a	獲得金色毅力的象徵 (對戰競技場)
+0x8CC	a	獲得銀色知識的象徵 (對戰工廠)
+0x8CD	a	獲得金色知識的象徵 (對戰工廠)
+0x8CE	a	獲得銀色運氣的象徵 (對戰水管)
+0x8CF	a	獲得金色運氣的象徵 (對戰水管)
+0x8D0	a	獲得銀色勇氣的象徵 (對戰金字塔)
+0x8D1	a	獲得金色勇氣的象徵 (對戰金字塔)
+0x8D2	*	獲得開拓通行證
+
+2186	m	Rain and Harsh Sunlight in Eastern Hoenn
+2159	f	Can Fly to Littleroot Town
+2160	f	Can Fly to Oldale Town
+2161	f	Can Fly to Dewford Town
+2162	f	Can Fly to Lavaridge Town
+2163	f	Can Fly to Fallarbor Town
+2164	f	Can Fly to Verdanturf Town
+2165	f	Can Fly to Pacifidlog Town
+2166	f	Can Fly to Petalburg City
+2167	f	Can Fly to Slateport City
+2168	f	Can Fly to Mauville City
+2169	f	Can Fly to Rustboro City
+2170	f	Can Fly to Fortree City
+2171	f	Can Fly to Lilycove City
+2172	f	Can Fly to Mossdeep City
+2173	f	Can Fly to Sootopolis City
+2174	f	Can Fly to Ever Grande City
+2216	f	Can Fly to Battle Frontier
+2204	m	Visited Flower Shop
+2205	m	Visited Mr. Briney's Cottage
+2206	m	Visited Abandoned Ship
+2207	m	Visited Seashore House
+2208	m	Visited New Mauville
+2209	m	Visited Old Lady's Rest Stop
+2210	m	Visited Trick House
+2211	m	Visited The Winstrate Family
+2212	m	Visited Glass Workshop
+2213	m	Visited Lanette's House
+2214	m	Visited Pokémon Day Care
+2215	m	Visited Seafloor Cavern
+2218	m	Visited Fiery Path
+2228	m	Visited Pokémon League
+2229	m	Visited Island Cave
+2230	m	Visited Desert Ruins
+2231	m	Visited Fossil Maniac's House
+2232	m	Visited Scorched Slab
+2233	m	Visited Ancient Tomb
+2234	m	Visited Tunneler's Rest House
+2235	m	Visited Hunter's House
+2236	m	Visited Sealed Chamber
+2238	m	Visited Sky Pillar
+2243	m	Visited Berry Master's House
+2268	m	Visited Mirage Tower
+2269	m	Visited Altering Cave
+2270	m	Visited Desert Underpass
+2274	m	Visited Trainer Hill
+0335	s	Chose Root Fossil in Mirage Tower (Claw Fossil in Desert Underpass)
+0336	s	Chose Claw Fossil in Mirage Tower (Root Fossil in Desert Underpass)
+0874	r	Desert Underpass Fossil Disappeared
+0768	s	Defeated The Winstrate Family
+1272	s	Defeated Steven in Meteor Falls
+1320	t	Had Aroma Lady Rose 1st Rematch
+1321	t	Had Aroma Lady Rose 2nd Rematch
+1322	t	Had Aroma Lady Rose 3rd Rematch
+1323	t	Had Aroma Lady Rose 4th Rematch
+1327	t	Had Ruin Maniac Dusty 1st Rematch
+1328	t	Had Ruin Maniac Dusty 2nd Rematch
+1329	t	Had Ruin Maniac Dusty 3rd Rematch
+1330	t	Had Ruin Maniac Dusty 4th Rematch
+1340	t	Had Tuber Lola 1st Rematch
+1341	t	Had Tuber Lola 2nd Rematch
+1342	t	Had Tuber Lola 3rd Rematch
+1343	t	Had Tuber Lola 4th Rematch
+1347	t	Had Tuber Ricky 1st Rematch
+1348	t	Had Tuber Ricky 2nd Rematch
+1349	t	Had Tuber Ricky 3rd Rematch
+1350	t	Had Tuber Ricky 4th Rematch
+1364	t	Had Cooltrainer Wilton 1st Rematch
+1365	t	Had Cooltrainer Wilton 2nd Rematch
+1366	t	Had Cooltrainer Wilton 3rd Rematch
+1367	t	Had Cooltrainer Wilton 4th Rematch
+1381	t	Had Cooltrainer Brooke 1st Rematch
+1382	t	Had Cooltrainer Brooke 2nd Rematch
+1383	t	Had Cooltrainer Brooke 3rd Rematch
+1384	t	Had Cooltrainer Brooke 4th Rematch
+1390	t	Had Hex Maniac Valerie 1st Rematch
+1391	t	Had Hex Maniac Valerie 2nd Rematch
+1392	t	Had Hex Maniac Valerie 3rd Rematch
+1393	t	Had Hex Maniac Valerie 4th Rematch
+1400	t	Had Lady Cindy 1st Rematch
+1401	t	Had Lady Cindy 2nd Rematch
+1402	t	Had Lady Cindy 3rd Rematch
+1403	t	Had Lady Cindy 4th Rematch
+1412	t	Had Beauty Jessica 1st Rematch
+1413	t	Had Beauty Jessica 2nd Rematch
+1414	t	Had Beauty Jessica 3rd Rematch
+1415	t	Had Beauty Jessica 4th Rematch
+1419	t	Had Rich Boy Winston 1st Rematch
+1420	t	Had Rich Boy Winston 2nd Rematch
+1421	t	Had Rich Boy Winston 3rd Rematch
+1422	t	Had Rich Boy Winston 4th Rematch
+1427	t	Had PokéManiac Steve 1st Rematch
+1428	t	Had PokéManiac Steve 2nd Rematch
+1429	t	Had PokéManiac Steve 3rd Rematch
+1430	t	Had PokéManiac Steve 4th Rematch
+1455	t	Had Swimmer♂ Tony 1st Rematch
+1456	t	Had Swimmer♂ Tony 2nd Rematch
+1457	t	Had Swimmer♂ Tony 3rd Rematch
+1458	t	Had Swimmer♂ Tony 4th Rematch
+1464	t	Had Black Belt Nob 1st Rematch
+1465	t	Had Black Belt Nob 2nd Rematch
+1466	t	Had Black Belt Nob 3rd Rematch
+1467	t	Had Black Belt Nob 4th Rematch
+1477	t	Had Guitarist Dalton 1st Rematch
+1478	t	Had Guitarist Dalton 2nd Rematch
+1479	t	Had Guitarist Dalton 3rd Rematch
+1480	t	Had Guitarist Dalton 4th Rematch
+1487	t	Had Kindler Bernie 1st Rematch
+1488	t	Had Kindler Bernie 2nd Rematch
+1489	t	Had Kindler Bernie 3rd Rematch
+1490	t	Had Kindler Bernie 4th Rematch
+1499	t	Had Camper Ethan 1st Rematch
+1500	t	Had Camper Ethan 2nd Rematch
+1501	t	Had Camper Ethan 3rd Rematch
+1502	t	Had Camper Ethan 4th Rematch
+1508	t	Had Bug Maniac Jeffrey 1st Rematch
+1509	t	Had Bug Maniac Jeffrey 2nd Rematch
+1510	t	Had Bug Maniac Jeffrey 3rd Rematch
+1511	t	Had Bug Maniac Jeffrey 4th Rematch
+1519	t	Had Psychic Cameron 1st Rematch
+1520	t	Had Psychic Cameron 2nd Rematch
+1521	t	Had Psychic Cameron 3rd Rematch
+1522	t	Had Psychic Cameron 4th Rematch
+1530	t	Had Psychic Jacki 1st Rematch
+1531	t	Had Psychic Jacki 2nd Rematch
+1532	t	Had Psychic Jacki 3rd Rematch
+1533	t	Had Psychic Jacki 4th Rematch
+1537	t	Had Gentleman Walter 1st Rematch
+1538	t	Had Gentleman Walter 2nd Rematch
+1539	t	Had Gentleman Walter 3rd Rematch
+1540	t	Had Gentleman Walter 4th Rematch
+1556	t	Had School Kid Jerry 1st Rematch
+1557	t	Had School Kid Jerry 2nd Rematch
+1558	t	Had School Kid Jerry 3rd Rematch
+1559	t	Had School Kid Jerry 4th Rematch
+1562	t	Had School Kid Karen 1st Rematch
+1563	t	Had School Kid Karen 2nd Rematch
+1564	t	Had School Kid Karen 3rd Rematch
+1565	t	Had School Kid Karen 4th Rematch
+1568	t	Had Sr. and Jr. Anna and Meg 1st Rematch
+1569	t	Had Sr. and Jr. Anna and Meg 2nd Rematch
+1570	t	Had Sr. and Jr. Anna and Meg 3rd Rematch
+1571	t	Had Sr. and Jr. Anna and Meg 4th Rematch
+1575	t	Had Pokéfan Miguel 1st Rematch
+1576	t	Had Pokéfan Miguel 2nd Rematch
+1577	t	Had Pokéfan Miguel 3rd Rematch
+1578	t	Had Pokéfan Miguel 4th Rematch
+1583	t	Had Pokéfan Isabel 1st Rematch
+1584	t	Had Pokéfan Isabel 2nd Rematch
+1585	t	Had Pokéfan Isabel 3rd Rematch
+1586	t	Had Pokéfan Isabel 4th Rematch
+1588	t	Had Expert Timothy 1st Rematch
+1589	t	Had Expert Timothy 2nd Rematch
+1590	t	Had Expert Timothy 3rd Rematch
+1591	t	Had Expert Timothy 4th Rematch
+1594	t	Had Expert Shelby 1st Rematch
+1595	t	Had Expert Shelby 2nd Rematch
+1596	t	Had Expert Shelby 3rd Rematch
+1597	t	Had Expert Shelby 4th Rematch
+1608	t	Had Youngster Calvin 1st Rematch
+1609	t	Had Youngster Calvin 2nd Rematch
+1610	t	Had Youngster Calvin 3rd Rematch
+1611	t	Had Youngster Calvin 4th Rematch
+1626	t	Had Fisherman Elliot 1st Rematch
+1627	t	Had Fisherman Elliot 2nd Rematch
+1628	t	Had Fisherman Elliot 3rd Rematch
+1629	t	Had Fisherman Elliot 4th Rematch
+1634	t	Had Triathlete Benjamin 1st Rematch
+1635	t	Had Triathlete Benjamin 2nd Rematch
+1636	t	Had Triathlete Benjamin 3rd Rematch
+1637	t	Had Triathlete Benjamin 4th Rematch
+1640	t	Had Triathlete Abigail 1st Rematch
+1641	t	Had Triathlete Abigail 2nd Rematch
+1642	t	Had Triathlete Abigail 3rd Rematch
+1643	t	Had Triathlete Abigail 4th Rematch
+1650	t	Had Triathlete Maria 1st Rematch
+1651	t	Had Triathlete Maria 2nd Rematch
+1652	t	Had Triathlete Maria 3rd Rematch
+1653	t	Had Triathlete Maria 4th Rematch
+1645	t	Had Triathlete Dylan 1st Rematch
+1646	t	Had Triathlete Dylan 2nd Rematch
+1647	t	Had Triathlete Dylan 3rd Rematch
+1648	t	Had Triathlete Dylan 4th Rematch
+1659	t	Had Triathlete Isaiah 1st Rematch
+1660	t	Had Triathlete Isaiah 2nd Rematch
+1661	t	Had Triathlete Isaiah 3rd Rematch
+1662	t	Had Triathlete Isaiah 4th Rematch
+1668	t	Had Triathlete Katelyn 1st Rematch
+1669	t	Had Triathlete Katelyn 2nd Rematch
+1670	t	Had Triathlete Katelyn 3rd Rematch
+1671	t	Had Triathlete Katelyn 4th Rematch
+1673	t	Had Dragon Tamer Nicolas 1st Rematch
+1674	t	Had Dragon Tamer Nicolas 2nd Rematch
+1675	t	Had Dragon Tamer Nicolas 3rd Rematch
+1676	t	Had Dragon Tamer Nicolas 4th Rematch
+1689	t	Had Bird Keeper Robert 1st Rematch
+1690	t	Had Bird Keeper Robert 2nd Rematch
+1691	t	Had Bird Keeper Robert 3rd Rematch
+1692	t	Had Bird Keeper Robert 4th Rematch
+1701	t	Had Ninja Boy Lao 1st Rematch
+1702	t	Had Ninja Boy Lao 2nd Rematch
+1703	t	Had Ninja Boy Lao 3rd Rematch
+1704	t	Had Ninja Boy Lao 4th Rematch
+1710	t	Had Battle Girl Cyndy 1st Rematch
+1711	t	Had Battle Girl Cyndy 2nd Rematch
+1712	t	Had Battle Girl Cyndy 3rd Rematch
+1713	t	Had Battle Girl Cyndy 4th Rematch
+1717	t	Had Parasol Lady Madeline 1st Rematch
+1718	t	Had Parasol Lady Madeline 2nd Rematch
+1719	t	Had Parasol Lady Madeline 3rd Rematch
+1720	t	Had Parasol Lady Madeline 4th Rematch
+1745	t	Had Swimmer♀ Jenny 1st Rematch
+1746	t	Had Swimmer♀ Jenny 2nd Rematch
+1747	t	Had Swimmer♀ Jenny 3rd Rematch
+1748	t	Had Swimmer♀ Jenny 4th Rematch
+1757	t	Had Picnicker Diana 1st Rematch
+1758	t	Had Picnicker Diana 2nd Rematch
+1759	t	Had Picnicker Diana 3rd Rematch
+1760	t	Had Picnicker Diana 4th Rematch
+1762	t	Had Twins Amy and Liv 1st Rematch
+1767	t	Had Twins Amy and Liv 2nd Rematch
+1768	t	Had Twins Amy and Liv 3rd Rematch
+1769	t	Had Twins Amy and Liv 4th Rematch
+1777	t	Had Sailor Ernest 1st Rematch
+1778	t	Had Sailor Ernest 2nd Rematch
+1779	t	Had Sailor Ernest 3rd Rematch
+1780	t	Had Sailor Ernest 4th Rematch
+1795	t	Had Collector Edwin 1st Rematch
+1796	t	Had Collector Edwin 2nd Rematch
+1797	t	Had Collector Edwin 3rd Rematch
+1798	t	Had Collector Edwin 4th Rematch
+1821	t	Had Pokémon Breeder Isaac 1st Rematch
+1822	t	Had Pokémon Breeder Isaac 2nd Rematch
+1823	t	Had Pokémon Breeder Isaac 3rd Rematch
+1824	t	Had Pokémon Breeder Isaac 4th Rematch
+1828	t	Had Pokémon Breeder Lydia 1st Rematch
+1829	t	Had Pokémon Breeder Lydia 2nd Rematch
+1830	t	Had Pokémon Breeder Lydia 3rd Rematch
+1831	t	Had Pokémon Breeder Lydia 4th Rematch
+1835	t	Had Pokémon Ranger Jackson 1st Rematch
+1836	t	Had Pokémon Ranger Jackson 2nd Rematch
+1837	t	Had Pokémon Ranger Jackson 3rd Rematch
+1838	t	Had Pokémon Ranger Jackson 4th Rematch
+1842	t	Had Pokémon Ranger Catherine 1st Rematch
+1843	t	Had Pokémon Ranger Catherine 2nd Rematch
+1844	t	Had Pokémon Ranger Catherine 3rd Rematch
+1845	t	Had Pokémon Ranger Catherine 4th Rematch
+1887	t	Had Lass Haley 1st Rematch
+1888	t	Had Lass Haley 2nd Rematch
+1889	t	Had Lass Haley 3rd Rematch
+1890	t	Had Lass Haley 4th Rematch
+1902	t	Had Bug Catcher James 1st Rematch
+1903	t	Had Bug Catcher James 2nd Rematch
+1904	t	Had Bug Catcher James 3rd Rematch
+1905	t	Had Bug Catcher James 4th Rematch
+1916	t	Had Hiker Trent 1st Rematch
+1917	t	Had Hiker Trent 2nd Rematch
+1918	t	Had Hiker Trent 3rd Rematch
+1919	t	Had Hiker Trent 4th Rematch
+1923	t	Had Young Couple Kira and Dan 1st Rematch
+1924	t	Had Young Couple Kira and Dan 2nd Rematch
+1925	t	Had Young Couple Kira and Dan 3rd Rematch
+1926	t	Had Young Couple Kira and Dan 4th Rematch
+1937	t	Had Pokémon Trainer Wally 1st Rematch
+1938	t	Had Pokémon Trainer Wally 2nd Rematch
+1939	t	Had Pokémon Trainer Wally 3rd Rematch
+1940	t	Had Pokémon Trainer Wally 4th Rematch
+1962	t	Had Old Couple John and Jay 1st Rematch
+1963	t	Had Old Couple John and Jay 2nd Rematch
+1964	t	Had Old Couple John and Jay 3rd Rematch
+1965	t	Had Old Couple John and Jay 4th Rematch
+1968	t	Had Sis and Bro Lila and Roy 1st Rematch
+1969	t	Had Sis and Bro Lila and Roy 2nd Rematch
+1970	t	Had Sis and Bro Lila and Roy 3rd Rematch
+1971	t	Had Sis and Bro Lila and Roy 4th Rematch
+2050	t	Had Leader Roxanne 1st Rematch
+2051	t	Had Leader Roxanne 2nd Rematch
+2052	t	Had Leader Roxanne 3rd Rematch
+2053	t	Had Leader Roxanne 4th Rematch
+2054	t	Had Leader Brawly 1st Rematch
+2055	t	Had Leader Brawly 2nd Rematch
+2056	t	Had Leader Brawly 3rd Rematch
+2057	t	Had Leader Brawly 4th Rematch
+2058	t	Had Leader Wattson 1st Rematch
+2059	t	Had Leader Wattson 2nd Rematch
+2060	t	Had Leader Wattson 3rd Rematch
+2061	t	Had Leader Wattson 4th Rematch
+2062	t	Had Leader Flannery 1st Rematch
+2063	t	Had Leader Flannery 2nd Rematch
+2064	t	Had Leader Flannery 3rd Rematch
+2065	t	Had Leader Flannery 4th Rematch
+2066	t	Had Leader Norman 1st Rematch
+2067	t	Had Leader Norman 2nd Rematch
+2068	t	Had Leader Norman 3rd Rematch
+2069	t	Had Leader Norman 4th Rematch
+2070	t	Had Leader Winona 1st Rematch
+2071	t	Had Leader Winona 2nd Rematch
+2072	t	Had Leader Winona 3rd Rematch
+2073	t	Had Leader Winona 4th Rematch
+2074	t	Had Leader Tate and Liza 1st Rematch
+2075	t	Had Leader Tate and Liza 2nd Rematch
+2076	t	Had Leader Tate and Liza 3rd Rematch
+2077	t	Had Leader Tate and Liza 4th Rematch
+2078	t	Had Leader Juan 1st Rematch
+2079	t	Had Leader Juan 2nd Rematch
+2080	t	Had Leader Juan 3rd Rematch
+2081	t	Had Leader Juan 4th Rematch
+2092	t	Had Ruin Maniac Andres 1st Rematch
+2093	t	Had Ruin Maniac Andres 2nd Rematch
+2094	t	Had Ruin Maniac Andres 3rd Rematch
+2095	t	Had Ruin Maniac Andres 4th Rematch
+2096	t	Had Sailor Cory 1st Rematch
+2097	t	Had Sailor Cory 2nd Rematch
+2098	t	Had Sailor Cory 3rd Rematch
+2099	t	Had Sailor Cory 4th Rematch
+2100	t	Had Triathlete Pablo 1st Rematch
+2101	t	Had Triathlete Pablo 2nd Rematch
+2102	t	Had Triathlete Pablo 3rd Rematch
+2103	t	Had Triathlete Pablo 4th Rematch
+2104	t	Had Black Belt Koji 1st Rematch
+2105	t	Had Black Belt Koji 2nd Rematch
+2106	t	Had Black Belt Koji 3rd Rematch
+2107	t	Had Black Belt Koji 4th Rematch
+2108	t	Had Cooltrainer Cristin 1st Rematch
+2109	t	Had Cooltrainer Cristin 2nd Rematch
+2110	t	Had Cooltrainer Cristin 3rd Rematch
+2111	t	Had Cooltrainer Cristin 4th Rematch
+2112	t	Had Guitarist Fernando 1st Rematch
+2113	t	Had Guitarist Fernando 2nd Rematch
+2114	t	Had Guitarist Fernando 3rd Rematch
+2115	t	Had Guitarist Fernando 4th Rematch
+2116	t	Had Hiker Sawyer 1st Rematch
+2117	t	Had Hiker Sawyer 2nd Rematch
+2118	t	Had Hiker Sawyer 3rd Rematch
+2119	t	Had Hiker Sawyer 4th Rematch
+2120	t	Had Pokémon Breeder Gabrielle 1st Rematch
+2121	t	Had Pokémon Breeder Gabrielle 2nd Rematch
+2122	t	Had Pokémon Breeder Gabrielle 3rd Rematch
+2123	t	Had Pokémon Breeder Gabrielle 4th Rematch
+2124	t	Had Beauty Thalia 1st Rematch
+2125	t	Had Beauty Thalia 2nd Rematch
+2126	t	Had Beauty Thalia 3rd Rematch
+2127	t	Had Beauty Thalia 4th Rematch

@@ -1,0 +1,24 @@
+0048	*	初始夥伴	0:木守宮,1:火稚鷄,2:水躍魚
+0074	g	Johto Starter	0:Not Chosen,28:Chikorita,29:Cyndaquil,30:Totodile
+0075	g	Sinnoh Starter	0:Not Chosen,31:Turtwig,32:Chimchar,33:Piplup
+0076	g	Unova Starter	0:Not Chosen,34:Snivy,35:Tepig,36:Oshawott
+0247	g	Regional Starters	0:Johto Starter Pending,3:Unova Starter Pending/Johto Starter Received,6:Sinnoh Starter Pending/Unova Starter Received,9:Sinnoh Starter Received (All Received)
+0060	*	小智
+0073	s	Route 101 Static Poochyena	0:Pending,1:Approached,2:Failed to Approach
+0118	s	Route 101 Event	0:Start of game,1:Birch under attack (Can Choose Starter),2:Asked to choose Starter (Can't Leave),3:Saved Birch,4:Rival will give DexNav,5:Static Poochyena Appeared,6:Static Poochyena Battled/Disappeared
+0215	+	Contest Spectacular Progress	0:Not Met Lisia,1:Met Lisia,2:Lisia in Contest Hall,3:Contest Costume Pending (Green Room),4:Contest Receptionist Explains Rules,5:Contest Receptionist Explained Rules,6:Green Room Event 1 Pending,7:Won 1st Normal Rank Contest,8:Green Room Event 2 Pending,9:Won 1st Super Rank Contest,10:Green Room Event 3 Pending,11:Won 1st Hyper Rank Contest,12:Green Room Event 4 Pending,13:Won 1st Master Rank Contest,14:Green Room Event 5 Pending,15:Cleared 4 Master Ranks,16:Green Room Event 6 Pending,17:Cleared All 5 Master Ranks,18:Green Room Event 7 Pending,19:Defeated Lisia,20:Green Room Event 8 Pending,21:Defeated Wallace and Lisia (All Completed)
+0217	g	Cosplay Pikachu Status	0:Not Competed in a Contest,1:Gift Pending,2:Received/Costume Changeable
+0218	s	Mauville Food Court Progress	0:Not Entered,1:Village Sub Accessible,3:Magnemite Croquette Accessible,5:Mauville Ramen Bowl Accessible,7:Defeated Fare Prince
+0223	s	Museum Curator Event (Contest Hall)	0:Not Activated,1:Pending,2:Activated
+0136	s	Route 118 Event	0:Will Meet Steven,1:Further Access Blocked,2:Allowed Further Access
+0167	s	Southern Island Story Event	0:Not Accessed,1:Entered Southern Island,2:Heard Message,4:Completed
+0168	s	Southern Island Story Lati@s	0:Not Received (Courtney/Matt Battle Pending),1:Received
+0163	s	Route 120 Event	0:Steven Appeared,1:Kecleon Battle Pending (Bridge),2:Kecleon Defeated,3:Allowed Further Access
+0196	s	Trick House Progress	0:Trick Master Hiding (Puzzle 1),1:Puzzle 1 Active,2:Finished Puzzle 1,3:Trick Master Hiding (Puzzle 2),4:Puzzle 2 Active,5:Finished Puzzle 2,6:Trick Master Hiding (Puzzle 3),7:Puzzle 3 Active,8:Finished Puzzle 3,9:Trick Master Hiding (Puzzle 4),10:Puzzle 4 Active,11:Finished Puzzle 4,12:Trick Master Hiding (Puzzle 5),13:Puzzle 5 Active,14:Finished Puzzle 5,15:Trick Master Hiding (Puzzle 6),16:Puzzle 6 Active,17:Finished Puzzle 6,18:All Puzzles Completed
+0197	s	Trick House Prize Room	0:TM12 Pending,1:Received TM12,2:Hard Stone Pending,3:Received Hard Stone,4:TM92 Pending,5:Received TM92,6:Smoke Ball Pending,7:Received Smoke Ball,8:Magnet Pending,9:Received Magnet,10:Red/Blue Tent Pending,11:Received Red/Blue Tent
+0198	s	Trick House Puzzle 1 Scroll	0:Not Memorized,1:Memorized
+0199	s	Trick House Puzzle 2 Scroll	0:Not Memorized,1:Memorized
+0200	s	Trick House Puzzle 3 Scroll	0:Not Memorized,1:Memorized
+0201	s	Trick House Puzzle 4 Scroll	0:Not Memorized,1:Memorized
+0202	s	Trick House Puzzle 5 Scroll	0:Not Memorized,1:Memorized
+0203	s	Trick House Puzzle 6 Scroll	0:Not Memorized,1:Memorized

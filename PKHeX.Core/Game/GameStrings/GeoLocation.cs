@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public static class GeoLocation
 {
     private static readonly string[]?[] CountryList = GetCountryList();
-    internal static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
+    internal static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko", "zh2" };
     private static readonly string[]?[]?[] RegionList = new string[CountryList.Length][][];
 
     /// <summary>
