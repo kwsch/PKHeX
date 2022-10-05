@@ -40,9 +40,9 @@ PKHeX 係 Windows 窗體應用程式，其須依賴於 [.NET Framework v4.6](htt
 
 PKHeX 之 QR 碼生成庫來源於 [QRCoder](https://github.com/codebude/QRCoder)， 其以 [MIT 許可證](https://github.com/codebude/QRCoder/blob/master/LICENSE.txt) 進行分發。
 
-PKHeX 之異色電腦圖學精靈集合庫來源於 [pokesprite](https://github.com/msikma/pokesprite)， 其以 [MIT 許可證](https://github.com/msikma/pokesprite/blob/master/LICENSE) 進行分發。
+PKHeX 之異色精靈圖示集合庫來源於 [pokesprite](https://github.com/msikma/pokesprite)， 其以 [MIT 許可證](https://github.com/msikma/pokesprite/blob/master/LICENSE) 進行分發。
 
-PKHeX 之「寶可夢傳説：阿爾宙斯」電腦圖學精靈集合庫來源於 [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) 項目，及其多位各界協作者和貢獻者。
+PKHeX 之「寶可夢傳説：阿爾宙斯」精靈圖示集合庫來源於 [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) 項目，及其多位各界協作者和貢獻者。
 ### IDE
 
 PKHeX 可透過如 [Visual Studio](https://visualstudio.microsoft.com/downloads/) 等各類 IDE ，開啓 .sln 或 .csproj 檔案以打開。
