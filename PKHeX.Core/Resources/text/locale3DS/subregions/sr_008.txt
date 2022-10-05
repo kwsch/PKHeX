@@ -1,2 +1,2 @@
-000,—,—,—,—,—,—,—,—
-001,アンギラ,Anguilla,Anguilla,Anguilla,Anguilla,Anguila,安圭拉,앵귈라
+000,—,—,—,—,—,—,—,—,—
+001,アンギラ,Anguilla,Anguilla,Anguilla,Anguilla,Anguila,安圭拉,앵귈라,安圭拉
