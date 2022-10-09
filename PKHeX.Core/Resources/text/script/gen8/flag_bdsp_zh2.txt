@@ -16,10 +16,10 @@
 114	*	FE_HIDEN_07_GET
 115	*	FE_HIDEN_08_GET
 
-464	*	FV_D02_FUUSEN (Valley Windworks Drifloon is Hidden)
-249	*	FE_D27R0103_LEGEND_CLEAR (Mesprit Left Verity Cavern)
-245	*	FE_D27R0103_LEGEND_CLEAR (Cresselia Left Fullmoon Island)
-393	*	FV_D05R0114_SPPOKE_01 (Spear Pillar Dialga/Palkia is Hidden)
+464	*	FV_D02_FUUSEN (山谷發電廠飄飄球正處於隱藏狀態)
+249	*	FE_D27R0103_LEGEND_CLEAR (艾姆利多經已離開心齊湖洞窟)
+245	*	FE_D27R0103_LEGEND_CLEAR (克雷色利亞經已離開滿月湖)
+393	*	FV_D05R0114_SPPOKE_01 (槍之柱之帝牙盧卡/帕路奇亞正處於隱藏狀態)
 
 262	g	FE_C05R0901_POKEMON_GET (經已接收禮物伊布)
 286	r	FE_D25R0106_SPPOKE_CLEAR (經已捕獲洛托姆)
