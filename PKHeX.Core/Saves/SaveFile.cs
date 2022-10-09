@@ -232,6 +232,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
             int ctr = 0;
             foreach (var exist in value.Where(pk => pk.Species != 0))
                 SetPartySlot(exist, PartyBuffer, GetPartyOffset(ctr++));
+            PartyCount = ctr;
             for (int i = ctr; i < 6; i++)
                 SetPartySlot(BlankPKM, PartyBuffer, GetPartyOffset(i));
         }

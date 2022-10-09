@@ -105,7 +105,7 @@ public sealed class SlotEditor<T>
         if (!Changelog.CanUndo)
             return;
         var slot = Changelog.Undo();
-        NotifySlotChanged(slot, SlotTouchType.Set, slot.Read(SAV));
+        NotifySlotChanged(slot, SlotTouchType.Delete, slot.Read(SAV));
     }
 
     public void Redo()
@@ -113,6 +113,6 @@ public sealed class SlotEditor<T>
         if (!Changelog.CanRedo)
             return;
         var slot = Changelog.Redo();
-        NotifySlotChanged(slot, SlotTouchType.Set, slot.Read(SAV));
+        NotifySlotChanged(slot, SlotTouchType.Delete, slot.Read(SAV));
     }
 }
