@@ -47,8 +47,9 @@ public static class SaveUtil
     public const int SIZE_G3COLO = 0x60000;
     public const int SIZE_G3XD = 0x56000;
     public const int SIZE_G3RAW = 0x20000;
+    public const int SIZE_G3EMU = 0x20010;
     public const int SIZE_G3RAWHALF = 0x10000;
-    public const int SIZE_G2STAD = 0x20000; // same as G3RAW_U
+    public const int SIZE_G2STAD = 0x20000; // same as G3RAW
     public const int SIZE_G2STADF = 0x1FF00;
     public const int SIZE_G2RAW_U = 0x8000;
     public const int SIZE_G2VC_U = 0x8010;
@@ -58,7 +59,7 @@ public static class SaveUtil
     public const int SIZE_G2VC_J = 0x10010;
     public const int SIZE_G2BAT_J = 0x1002C;
     public const int SIZE_G2EMU_J = 0x10030;
-    public const int SIZE_G1STAD = 0x20000; // same as G3RAW_U
+    public const int SIZE_G1STAD = 0x20000; // same as G3RAW
     public const int SIZE_G1STADF = 0x1FF00;
     public const int SIZE_G1STADJ = 0x8000; // same as G1RAW
     public const int SIZE_G1RAW = 0x8000;
@@ -111,7 +112,7 @@ public static class SaveUtil
         SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
         SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
         SIZE_G4BR, SIZE_G4RAW,
-        SIZE_G3BOX, SIZE_G3COLO, SIZE_G3XD, SIZE_G3RAW, SIZE_G3RAWHALF,
+        SIZE_G3BOX, SIZE_G3COLO, SIZE_G3XD, SIZE_G3RAW, SIZE_G3EMU, SIZE_G3RAWHALF,
         // SizesGen2 covers gen2 sizes since there's so many
         SIZE_G1RAW, SIZE_G1BAT,
 
@@ -280,7 +281,7 @@ public static class SaveUtil
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
     private static GameVersion GetIsG3SAV(ReadOnlySpan<byte> data)
     {
-        if (data.Length is not (SIZE_G3RAW or SIZE_G3RAWHALF))
+        if (data.Length is not (SIZE_G3RAW or SIZE_G3EMU or SIZE_G3RAWHALF))
             return Invalid;
 
         // check the save file(s)
