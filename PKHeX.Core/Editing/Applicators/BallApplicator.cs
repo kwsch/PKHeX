@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.Ball;
 
 namespace PKHeX.Core;
@@ -41,8 +40,10 @@ public static class BallApplicator
     /// <param name="pk">Pokémon to modify.</param>
     public static int ApplyBallLegalRandom(PKM pk)
     {
-        var balls = GetBallListFromColor(pk).ToArray();
-        Util.Shuffle(balls.AsSpan());
+        Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
+        var count = GetBallListFromColor(pk, balls);
+        balls = balls[..count];
+        Util.Shuffle(balls);
         return ApplyFirstLegalBall(pk, balls);
     }
 
@@ -55,7 +56,8 @@ public static class BallApplicator
     /// <param name="pk">Pokémon to modify.</param>
     public static int ApplyBallLegalByColor(PKM pk)
     {
-        var balls = GetBallListFromColor(pk);
+        Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
+        GetBallListFromColor(pk, balls);
         return ApplyFirstLegalBall(pk, balls);
     }
 
@@ -65,12 +67,13 @@ public static class BallApplicator
     /// <param name="pk">Pokémon to modify.</param>
     public static int ApplyBallNext(PKM pk)
     {
-        var balls = GetBallList(pk.Ball);
-        var next = balls.First();
+        Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
+        GetBallList(pk.Ball, balls);
+        var next = balls[0];
         return pk.Ball = (int)next;
     }
 
-    private static int ApplyFirstLegalBall(PKM pk, IEnumerable<Ball> balls)
+    private static int ApplyFirstLegalBall(PKM pk, Span<Ball> balls)
     {
         foreach (var b in balls)
         {
@@ -81,48 +84,78 @@ public static class BallApplicator
         return pk.Ball;
     }
 
-    private static IEnumerable<Ball> GetBallList(int ball)
+    private static int GetBallList(int ball, Span<Ball> result)
     {
         var balls = BallList;
         var currentBall = (Ball)ball;
-        return GetCircularOnce(balls, currentBall);
+        return GetCircularOnce(balls, currentBall, result);
     }
 
-    private static IEnumerable<Ball> GetBallListFromColor(PKM pk)
+    private static int GetBallListFromColor(PKM pk, Span<Ball> result)
     {
         // Gen1/2 don't store color in personal info
         var pi = pk.Format >= 3 ? pk.PersonalInfo : PersonalTable.USUM.GetFormEntry(pk.Species, 0);
         var color = (PersonalColor)pi.Color;
         var balls = BallColors[color];
         var currentBall = (Ball)pk.Ball;
-        return GetCircularOnce(balls, currentBall);
+        return GetCircularOnce(balls, currentBall, result);
     }
 
-    private static IEnumerable<T> GetCircularOnce<T>(T[] items, T current)
+    private static int GetCircularOnce<T>(T[] items, T current, Span<T> result)
     {
         var currentIndex = Array.IndexOf(items, current);
         if (currentIndex < 0)
             currentIndex = items.Length - 2;
-        for (int i = currentIndex + 1; i < items.Length; i++)
-            yield return items[i];
-        for (int i = 0; i <= currentIndex; i++)
-            yield return items[i];
-    }
 
-    private static readonly Ball[] BallList = (Ball[]) Enum.GetValues(typeof(Ball));
+        int ctr = 0;
+        for (int i = currentIndex + 1; i < items.Length; i++)
+            result[ctr++] = items[i];
+        for (int i = 0; i <= currentIndex; i++)
+            result[ctr++] = items[i];
+        return ctr;
+    }
+    
+    private static readonly Ball[] BallList = (Ball[])Enum.GetValues(typeof(Ball));
+    private static int MaxBallSpanAlloc => BallList.Length;
 
     static BallApplicator()
     {
-        var exclude = new[] {None, Poke};
-        var end = new[] {Poke};
-        var allBalls = BallList.Except(exclude).ToArray();
+        Span<Ball> exclude = stackalloc Ball[] {None, Poke};
+        Span<Ball> end = stackalloc Ball[] {Poke};
+        Span<Ball> all = stackalloc Ball[BallList.Length - exclude.Length];
+        all = all[..FillExcept(all, exclude, BallList)];
+
         var colors = (PersonalColor[])Enum.GetValues(typeof(PersonalColor));
         foreach (var c in colors)
         {
-            var matchingColors = BallColors[c];
-            var extra = allBalls.Except(matchingColors).ToArray();
-            Util.Shuffle(extra.AsSpan());
-            BallColors[c] = ArrayUtil.ConcatAll(matchingColors, extra, end);
+            // Replace the array reference with a new array that appends non-matching values, followed by the end values.
+            var defined = BallColors[c];
+            Span<Ball> match = (BallColors[c] = new Ball[all.Length + end.Length]);
+            defined.CopyTo(match);
+            FillExcept(match[defined.Length..], defined, all);
+            end.CopyTo(match[^end.Length..]);
+        }
+
+        static int FillExcept(Span<Ball> result, ReadOnlySpan<Ball> exclude, ReadOnlySpan<Ball> all)
+        {
+            int ctr = 0;
+            foreach (var b in all)
+            {
+                if (Contains(exclude, b))
+                    continue;
+                result[ctr++] = b;
+            }
+            return ctr;
+
+            static bool Contains(ReadOnlySpan<Ball> arr, Ball b)
+            {
+                foreach (var a in arr)
+                {
+                    if (a == b)
+                        return true;
+                }
+                return false;
+            }
         }
     }
 
