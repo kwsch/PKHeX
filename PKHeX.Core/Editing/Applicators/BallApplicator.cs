@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Ball;
@@ -23,7 +23,10 @@ public static class BallApplicator
         var clone = pk.Clone();
         foreach (var b in BallList)
         {
-            clone.Ball = (int)b;
+            var ball = (int)b;
+            clone.Ball = ball;
+            if (clone.Ball != ball)
+                continue; // Some setters guard against out of bounds values.
             if (new LegalityAnalysis(clone).Valid)
                 yield return b;
         }
