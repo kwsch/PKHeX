@@ -103,14 +103,17 @@ public static class EncounterSuggestion
 
         var table = EvolutionTree.GetEvolutionTree(pk.Context);
         int count = 1;
-        for (byte i = 100; i >= startLevel; i--)
+        byte i = 100;
+        while (true)
         {
             var evos = table.GetValidPreEvolutions(pk, levelMax: i, skipChecks: true, levelMin: startLevel);
             if (evos.Length < count) // lost an evolution, prior level was minimum current level
                 return GetMaxLevelMax(evos) + 1;
             count = evos.Length;
+            if (i == startLevel)
+                return startLevel;
+            --i;
         }
-        return startLevel;
     }
 
     private static int GetMaxLevelMax(EvoCriteria[] evos)
