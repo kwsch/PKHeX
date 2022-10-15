@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.AreaWeather8;
 using static PKHeX.Core.AreaSlotType8;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -37,7 +36,7 @@ public sealed record EncounterArea8 : EncounterArea
             return false;
 
         // Check if any of the other areas are the met location
-        return others.Contains((byte)location);
+        return Array.IndexOf(others, (byte)location) != -1;
     }
 
     public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
@@ -121,7 +120,7 @@ public sealed record EncounterArea8 : EncounterArea
     public static bool IsWildArea8Crown(int location) => location is >= 204 and <= 234 and not 206; // Slippery Slope -> Dyna Tree Hill, skip Freezington
 
     // Location, and areas that it can feed encounters to.
-    public static readonly IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>
+    public static readonly IReadOnlyDictionary<int, byte[]> ConnectingArea8 = new Dictionary<int, byte[]>
     {
         // Route 3
         // City of Motostoke

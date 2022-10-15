@@ -206,7 +206,7 @@ internal static partial class Encounters8Nest
     private const byte Nest195 = 195;
     private const byte Nest196 = 196;
 
-    internal static readonly IReadOnlyList<IReadOnlyList<byte>> NestLocations = new []
+    internal static readonly IReadOnlyList<byte[]> NestLocations = new []
     {
         new byte[] {144, 134, 122},      // 000 : Stony Wilderness, South Lake Miloch, Rolling Fields
         new byte[] {144, 126},           // 001 : Stony Wilderness, Watchtower Ruins
