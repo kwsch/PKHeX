@@ -738,9 +738,6 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override int MaxBallID => Legal.MaxBallID_8a;
     public override int MaxGameID => Legal.MaxGameID_8a;
 
-    // Casts are as per the game code; they may seem redundant but every bit of precision matters?
-    // This still doesn't precisely match :( -- just use a tolerance check when updating.
-    // If anyone can figure out how to get all precision to match, feel free to update :)
     public float HeightRatio => GetHeightRatio(HeightScalar);
     public float WeightRatio => GetWeightRatio(WeightScalar);
 
