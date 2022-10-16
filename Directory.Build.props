@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <Version>22.09.13</Version>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Product>PKHeX</Product>
+    <Company>Project Pokémon</Company>
+    <Authors>Kaphotics</Authors>
+    <Copyright>Kaphotics</Copyright>
+  </PropertyGroup>
+</Project>

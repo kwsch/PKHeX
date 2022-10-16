@@ -4,18 +4,12 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net46;net6.0-windows</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
-	<NeutralLanguage>en</NeutralLanguage>
     <PackageId>PKHeX</PackageId>
-    <Company>Project Pokémon</Company>
-    <Authors>Kaphotics</Authors>
-    <Product>PKHeX</Product>
     <Description>Pokémon Save Editor</Description>
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
     <StartupObject>PKHeX.WinForms.Program</StartupObject>
+    <RootNamespace>PKHeX.WinForms</RootNamespace>
     <AssemblyName>PKHeX</AssemblyName>
-    <Version>22.09.13</Version>
-    <LangVersion>10</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(Configuration)' == 'Release'">

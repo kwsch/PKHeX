@@ -2,17 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
-    <LangVersion>10</LangVersion>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <Description>Pokémon C# Class Library</Description>
     <RootNamespace>PKHeX.Core</RootNamespace>
-    <NeutralLanguage>en</NeutralLanguage>
-    <Company>Project Pokémon</Company>
-    <Copyright>Kaphotics</Copyright>
-    <Version>22.09.13</Version>
   </PropertyGroup>
 
   <PropertyGroup>
