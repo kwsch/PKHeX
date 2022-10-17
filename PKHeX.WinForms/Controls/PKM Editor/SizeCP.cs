@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -48,7 +48,7 @@ public partial class SizeCP : UserControl
         pk?.ResetCP();
     }
 
-    private static string GetString(float value) => value.ToString("F6", CultureInfo.InvariantCulture);
+    private static string GetString(float value) => value.ToString("R", CultureInfo.InvariantCulture);
 
     private void LoadStoredValues()
     {
