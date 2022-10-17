@@ -6,54 +6,14 @@ namespace PKHeX.Core;
 /// Seed reversal logic for the <see cref="LCRNG"/> algorithm, with a gap in between the two observed rand() results.
 /// </summary>
 /// <remarks>
-/// Use a meet-in-the-middle attack to reduce the search space to 2^8 instead of 2^16
-/// flag/2^8 tables are precomputed and constant (unrelated to rand pairs)
-/// https://crypto.stackexchange.com/a/10609
+/// Abuses the pattern in Low16 bit results of rand() to reduce the search space to 2^3 instead of 2^16
+/// https://github.com/StarfBerry/poke-scripts/blob/f641f3eab264e2caf1ee7c3c0e5553a9d8086921/RNG/LCG_Reversal.py#L19-L93
 /// </remarks>
 public static class LCRNGReversalSkip
 {
-    // Bruteforce cache for searching seeds
-    private const int cacheSize = 1 << 16;
-    private static readonly byte[] low8 = new byte[cacheSize];
-    private static readonly bool[] flags = new bool[cacheSize];
-    private const uint Mult = unchecked(LCRNG.Mult * LCRNG.Mult);     // 0xC2A29A69
-    private const uint Add = unchecked(LCRNG.Add * (LCRNG.Mult + 1)); // 0xE97E7B6A
-    private const uint k2 = Mult << 8;
-
-    static LCRNGReversalSkip()
-    {
-        // Populate Meet Middle Arrays
-        var f = flags;
-        var b = low8;
-        for (uint i = 0; i <= byte.MaxValue; i++)
-        {
-            // the second rand() also has 16 bits that aren't known. It is a 16 bit value added to either side.
-            // to consider these bits and their impact, they can at most increment/decrement the result by 1.
-            // with the current calc setup, the search loop's calculated value may be -1 (loop does subtraction)
-            // since LCGs are linear (hence the name), there's no values in adjacent cells. (no collisions)
-            // if we mark the prior adjacent cell, we eliminate the need to check flags twice on each loop.
-            uint right = (Mult * i) + Add;
-            ushort val = (ushort)(right >> 16);
-
-            f[val] = true; b[val] = (byte)i;
-            --val;
-            f[val] = true; b[val] = (byte)i;
-            // now the search only has to access the flags array once per loop.
-        }
-    }
-
-    /// <summary>
-    /// Finds all seeds that can generate the <see cref="pid"/> with a discarded rand() between the two halves.
-    /// </summary>
-    /// <param name="result">Result storage array, to be populated starting at index 0.</param>
-    /// <param name="pid">PID to be reversed into seeds that generate it.</param>
-    /// <returns>Count of results added to <see cref="result"/></returns>
-    public static int GetSeeds(Span<uint> result, uint pid)
-    {
-        uint first = pid << 16;
-        uint second = pid & 0xFFFF_0000;
-        return GetSeeds(result, first, second);
-    }
+    private const uint LCRNG_MOD_2 = 0x3A89; // u32(0x3a89 * LCRNG_MUL_2) < 2^16 (for seed and seed + 0x3a89, we have a good chance that the 16bit high of the next output will be the same for both)
+    private const uint LCRNG_PAT_2 = 0x2E4C; // pattern in the distribution of the "low solutions" modulo 0x3a89
+    private const uint LCRNG_INC_2 = 0x5831; // (((diff * 0x3a89 + 0x5831) >> 16) * 0x2e4c) % 0x3a89 line up with the first 16bit low solution modulo 0x3a89 if it exists (see diff definition in code)
 
     /// <summary>
     /// Finds all seeds that can generate the IVs, with a vblank skip between the two IV rand() calls.
@@ -82,19 +42,16 @@ public static class LCRNGReversalSkip
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeeds(Span<uint> result, uint first, uint third)
     {
+        var diff = (third - LCRNG.Next2(first)) >> 16;
+        var start = ((((diff * LCRNG_MOD_2) + LCRNG_INC_2) >> 16) * LCRNG_PAT_2) % LCRNG_MOD_2;
+
         int ctr = 0;
-        uint search = third - (first * Mult);
-        for (uint i = 0; i <= 255; ++i, search -= k2)
+        // at most 5 iterations
+        for (var low = start; low < 0x1_0000; low += LCRNG_MOD_2)
         {
-            ushort val = (ushort)(search >> 16);
-            if (flags[val])
-            {
-                // Verify PID calls line up
-                var seed = first | (i << 8) | low8[val];
-                var next = LCRNG.Next2(seed);
-                if ((next & 0xFFFF0000) == third)
-                    result[ctr++] = LCRNG.Prev(seed);
-            }
+            var seed = first | low;
+            if ((LCRNG.Next2(seed) & 0xffff0000) == third)
+                result[ctr++] = LCRNG.Prev(seed);
         }
         return ctr;
     }
@@ -108,40 +65,28 @@ public static class LCRNGReversalSkip
     /// <returns>Count of results added to <see cref="result"/></returns>
     public static int GetSeedsIVs(Span<uint> result, uint first, uint third)
     {
+        var diff = (third - LCRNG.Next2(first)) >> 16;
+        var start1 = ((((diff * LCRNG_MOD_2) + LCRNG_INC_2) >> 16) * LCRNG_PAT_2) % LCRNG_MOD_2;
+        var start2 = (((((diff ^ 0x8000) * LCRNG_MOD_2) + LCRNG_INC_2) >> 16) * LCRNG_PAT_2) % LCRNG_MOD_2;
+
         int ctr = 0;
-        uint search1 = third - (first * Mult);
-        uint search3 = third - ((first ^ 0x80000000) * Mult);
-
-        for (uint i = 0; i <= 255; i++, search1 -= k2, search3 -= k2)
-        {
-            ushort val = (ushort)(search1 >> 16);
-            if (flags[val])
-            {
-                // Verify PID calls line up
-                var seed = first | (i << 8) | low8[val];
-                var next = LCRNG.Next2(seed);
-                if ((next & 0x7FFF0000) == third)
-                {
-                    var origin = LCRNG.Prev(seed);
-                    result[ctr++] = origin;
-                    result[ctr++] = origin ^ 0x80000000;
-                }
-            }
-
-            val = (ushort)(search3 >> 16);
-            if (flags[val])
-            {
-                // Verify PID calls line up
-                var seed = first | (i << 8) | low8[val];
-                var next = LCRNG.Next2(seed);
-                if ((next & 0x7FFF0000) == third)
-                {
-                    var origin = LCRNG.Prev(seed);
-                    result[ctr++] = origin;
-                    result[ctr++] = origin ^ 0x80000000;
-                }
-            }
-        }
+        AddSeeds(result, start1, first, third, ref ctr);
+        AddSeeds(result, start2, first, third, ref ctr);
         return ctr;
+    }
+
+    private static void AddSeeds(Span<uint> result, uint start, uint first, uint second, ref int ctr)
+    {
+        // at most 5 iterations
+        for (var low = start; low <= 0x1_0000; low += LCRNG_MOD_2)
+        {
+            var test = first | low;
+            if ((LCRNG.Next2(test) & 0x7fff0000) != second)
+                continue;
+
+            var seed = LCRNG.Prev(test);
+            result[ctr++] = seed;
+            result[ctr++] = seed ^ 0x80000000;
+        }
     }
 }
