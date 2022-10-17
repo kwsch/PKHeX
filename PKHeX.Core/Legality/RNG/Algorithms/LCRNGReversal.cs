@@ -43,16 +43,16 @@ public static class LCRNGReversal
     public static int GetSeeds(Span<uint> result, uint first, uint second)
     {
         var diff = (second - (first * LCRNG.Mult)) >> 16;
-        var start = ((((diff * LCRNG_MOD) + LCRNG_INC) >> 16) * LCRNG_PAT) % LCRNG_MOD;
+        var low = ((((diff * LCRNG_MOD) + LCRNG_INC) >> 16) * LCRNG_PAT) % LCRNG_MOD;
 
         int ctr = 0;
         // at most 3 iterations
-        for (var low = start; low < 0x1_0000; low += LCRNG_MOD)
+        do
         {
             var seed = first | low;
             if ((LCRNG.Next(seed) & 0xffff0000) == second)
                 result[ctr++] = LCRNG.Prev(seed);
-        }
+        } while ((low += LCRNG_MOD) < 0x1_0000);
         return ctr;
     }
 
@@ -75,10 +75,10 @@ public static class LCRNGReversal
         return ctr;
     }
 
-    private static void AddSeeds(Span<uint> result, uint start, uint first, uint second, ref int ctr)
+    private static void AddSeeds(Span<uint> result, uint low, uint first, uint second, ref int ctr)
     {
         // at most 3 iterations
-        for (var low = start; low <= 0x1_0000; low += LCRNG_MOD)
+        do
         {
             var test = first | low;
             if ((LCRNG.Next(test) & 0x7fff0000) != second)
@@ -86,6 +86,6 @@ public static class LCRNGReversal
             var seed = LCRNG.Prev(test);
             result[ctr++] = seed;
             result[ctr++] = seed ^ 0x80000000;
-        }
+        } while ((low += LCRNG_MOD) < 0x1_0000);
     }
 }
