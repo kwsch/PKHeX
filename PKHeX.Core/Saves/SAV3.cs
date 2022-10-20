@@ -136,6 +136,23 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         return base.GetFinalData();
     }
 
+    /// <summary>
+    /// Writes the active save data to both save slots (0 and 1).
+    /// </summary>
+    /// <param name="data">Destination to write to. Usually want to pass in the <see cref="SaveFile.Data"/>.</param>
+    /// <remarks>Slot 1 is not written if the binary does not contain it.</remarks>
+    public void WriteBothSaveSlots(Span<byte> data)
+    {
+        WriteSectors(data, 0);
+        SetSlotChecksums(data, 0);
+
+        if (data.Length < SaveUtil.SIZE_G3RAW) // don't update second half if it doesn't exist
+            return;
+
+        WriteSectors(data, 1);
+        SetSlotChecksums(data, 1);
+    }
+
     protected sealed override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
     protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
     public sealed override PKM BlankPKM => new PK3();
@@ -190,16 +207,21 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     private const int COUNT_SLOTSPERBOX = 30;
 
     // Checksums
-    protected sealed override void SetChecksums()
+    private static void SetSlotChecksums(Span<byte> data, int slot)
     {
-        int start = ActiveSlot * SIZE_MAIN;
+        int start = slot * SIZE_MAIN;
         int end = start + SIZE_MAIN;
         for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
         {
-            var sector = Data.AsSpan(ofs, SIZE_SECTOR);
+            var sector = data.Slice(ofs, SIZE_SECTOR);
             ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
             WriteUInt16LittleEndian(sector[0xFF6..], chk);
         }
+    }
+
+    protected sealed override void SetChecksums()
+    {
+        SetSlotChecksums(Data, ActiveSlot);
 
         if (Data.Length < SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
             return;
