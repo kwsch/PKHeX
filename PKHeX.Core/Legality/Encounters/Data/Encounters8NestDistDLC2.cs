@@ -8,6 +8,13 @@ internal static partial class Encounters8Nest
     /// </summary>
     internal static readonly EncounterStatic8ND[] Dist_DLC2 =
     {
+        new(17,01,1) { Species = 824, Ability = A4, Moves = new(522, 000, 000, 000), Index = 115 }, // Blipbug
+        new(30,03,2) { Species = 833, Ability = A4, Moves = new(055, 033, 044, 029), Index = 115 }, // Chewtle
+        new(40,05,3) { Species = 832, Ability = A4, Moves = new(036, 024, 428, 086), Index = 115 }, // Dubwool
+        new(50,08,4) { Species = 823, Ability = A4, Moves = new(413, 442, 034, 681), Index = 115 }, // Corviknight
+      //new(60,10,5) { Species = 896, Ability = A0, Moves = new(556, 667, 370, 684), Index = 115, Shiny = Shiny.Never }, // Glastrier
+      //new(60,10,5) { Species = 897, Ability = A0, Moves = new(247, 261, 506, 555), Index = 115, Shiny = Shiny.Never }, // Spectrier
+
         new(17,01,1) { Species = 872, Ability = A4, Moves = new(496, 196, 263, 181), Index = 113 }, // Snom
         new(17,01,1) { Species = 771, Ability = A4, Moves = new(092, 220, 599, 000), Index = 113 }, // Pyukumuku
         new(17,01,1) { Species = 871, Ability = A4, Moves = new(084, 061, 064, 031), Index = 113 }, // Pincurchin
