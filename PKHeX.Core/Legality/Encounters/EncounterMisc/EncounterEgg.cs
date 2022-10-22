@@ -48,6 +48,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
         SetEncounterMoves(pk, version);
         pk.HealPP();
         SetPINGA(pk, criteria);
+        CommonEdits.SetShiny(pk, criteria.Shiny);
 
         if (gen <= 2)
         {
@@ -107,12 +108,16 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
 
     private static void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
-        pk.SetRandomIVs(minFlawless: 3);
+        criteria.SetRandomIVs(pk);
         if (pk.Format <= 2)
             return;
 
         int gender = criteria.GetGender(-1, pk.PersonalInfo);
         int nature = (int)criteria.GetNature(Nature.Random);
+        var permission = AbilityPermission.Any12;
+        if (pk.PersonalInfo is IPersonalAbility12H h && AbilityVerifier.CanAbilityPatch(pk.Format, h, pk.Species))
+            permission = AbilityPermission.Any12H;
+        int ability = criteria.GetAbilityFromNumber(permission);
 
         if (pk.Format <= 5)
         {
@@ -120,14 +125,14 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
             pk.Gender = gender;
             pk.SetPIDNature(nature);
             pk.Nature = nature;
-            pk.RefreshAbility(pk.PIDAbility);
+            pk.SetAbilityIndex(ability);
         }
         else
         {
             pk.PID = Util.Rand32();
             pk.Nature = nature;
             pk.Gender = gender;
-            pk.RefreshAbility(Util.Rand.Next(2));
+            pk.RefreshAbility(ability);
         }
         pk.StatNature = nature;
     }

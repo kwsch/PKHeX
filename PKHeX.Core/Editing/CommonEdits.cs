@@ -113,6 +113,9 @@ public static class CommonEdits
     /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
     public static bool SetShiny(PKM pk, Shiny type = Shiny.Random)
     {
+        if (type == Shiny.Never)
+            return SetUnshiny(pk);
+
         if (pk.IsShiny && type.IsValid(pk))
             return false;
 
