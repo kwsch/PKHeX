@@ -9,15 +9,15 @@ public class GeneralTests
     [Fact]
     public void SWSH_Hypothesis()
     {
-        GameVersion.SW.Should().BeEquivalentTo(44);
-        GameVersion.SH.Should().BeEquivalentTo(45);
+        GameVersion.SW.Should().Be((GameVersion)44);
+        GameVersion.SH.Should().Be((GameVersion)45);
     }
 
     [Fact]
     public void BDSP_Hypothesis()
     {
-        GameVersion.BD.Should().BeEquivalentTo(48);
-        GameVersion.SP.Should().BeEquivalentTo(49);
+        GameVersion.BD.Should().Be((GameVersion)48);
+        GameVersion.SP.Should().Be((GameVersion)49);
     }
 
     [Fact]

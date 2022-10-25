@@ -28,8 +28,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IndexRange" Version="1.0.0" />
-    <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="IndexRange" Version="1.0.2" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
   <ItemGroup>

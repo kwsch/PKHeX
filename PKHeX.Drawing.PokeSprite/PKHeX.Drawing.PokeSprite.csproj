@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net46</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;net46</TargetFrameworks>
     <RootNamespace>PKHeX.Drawing.PokeSprite</RootNamespace>
   </PropertyGroup>
 
@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
-    <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
-    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
   </ItemGroup>
 
 </Project>
