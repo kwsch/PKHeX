@@ -91,6 +91,8 @@ public static class RibbonVerifierUnique4
             list.Add(RibbonIndex4.AbilityMulti);
         if (r.RibbonAbilityPair)
             list.Add(RibbonIndex4.AbilityPair);
+        if (r.RibbonAbilityWorld)
+            list.Add(RibbonIndex4.AbilityWorld);
     }
 
     private static void FlagAnyContest3(IRibbonSetUnique4 r, ref RibbonResultList list)
