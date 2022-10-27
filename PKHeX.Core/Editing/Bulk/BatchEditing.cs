@@ -135,7 +135,7 @@ public static class BatchEditing
         }
         var props = Props[index];
         bool exits = props.TryGetValue(name, out pi);
-        if (!pi.CanWrite)
+        if (exits & !pi.CanWrite)
         {
             return false;
         }
