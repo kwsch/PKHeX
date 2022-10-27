@@ -1006,11 +1006,21 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         var shared = destProperties.Intersect(srcProperties);
         foreach (string property in shared)
         {
+            // Setter sanity check: a derived type may not implement a setter if its parent type has one.
+            if (!BatchEditing.TryGetHasProperty(result, property, out var pi))
+                continue;
+            if (!pi.CanWrite)
+                continue;
+
+            // Fetch the current value.
             if (!BatchEditing.TryGetHasProperty(this, property, out var src))
                 continue;
             var prop = src.GetValue(this);
-            if (prop is not (byte[] or null) && BatchEditing.TryGetHasProperty(result, property, out var pi))
-                ReflectUtil.SetValue(pi, result, prop);
+            if (prop is byte[] or null)
+                continue; // not a valid property transfer
+
+            // Write it to the destination.
+            ReflectUtil.SetValue(pi, result, prop);
         }
 
         // set shared properties for the Gen1/2 base class
