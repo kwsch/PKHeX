@@ -134,7 +134,12 @@ public static class BatchEditing
             return false;
         }
         var props = Props[index];
-        return props.TryGetValue(name, out pi);
+        bool exits = props.TryGetValue(name, out pi);
+        if (!pi.CanWrite)
+        {
+            return false;
+        }
+        return exits;
     }
 
     /// <summary>
