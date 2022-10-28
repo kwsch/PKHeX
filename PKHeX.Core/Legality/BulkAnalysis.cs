@@ -359,10 +359,19 @@ public sealed class BulkAnalysis
         if (pa.Info.Generation != ca.Info.Generation)
             return false;
 
-        if (pa.EncounterMatch.EggEncounter && pp.WasTradedEgg)
+        // Gen3/4 traded eggs do not have an Egg Location, and do not update the Version upon hatch.
+        // These eggs can obtain another trainer's TID/SID/OT and be valid with a different version ID.
+        if (pa.EncounterMatch.EggEncounter && IsTradedEggVersionNoUpdate(pp, pa))
             return false; // version doesn't update on trade
-        if (ca.EncounterMatch.EggEncounter && cp.WasTradedEgg)
+        if (ca.EncounterMatch.EggEncounter && IsTradedEggVersionNoUpdate(cp, ca))
             return false; // version doesn't update on trade
+
+        static bool IsTradedEggVersionNoUpdate(PKM pk, LegalityAnalysis la) => la.Info.Generation switch
+        {
+            3 => true, // No egg location, assume can be traded. Doesn't update version upon hatch.
+            4 => pk.WasTradedEgg, // Gen4 traded eggs do not update version upon hatch.
+            _ => false, // Gen5+ eggs have an egg location, and update the version upon hatch.
+        };
 
         return true;
     }
