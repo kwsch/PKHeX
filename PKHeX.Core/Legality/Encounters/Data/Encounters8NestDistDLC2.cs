@@ -8,6 +8,37 @@ internal static partial class Encounters8Nest
     /// </summary>
     internal static readonly EncounterStatic8ND[] Dist_DLC2 =
     {
+        new(17,01,1) { Species = 824, Ability = A4, Moves = new(522, 000, 000, 000), Index = 117 }, // Blipbug
+        new(30,03,2) { Species = 833, Ability = A4, Moves = new(055, 033, 044, 029), Index = 117 }, // Chewtle
+        new(40,05,3) { Species = 832, Ability = A4, Moves = new(036, 024, 428, 086), Index = 117 }, // Dubwool
+        new(50,08,4) { Species = 823, Ability = A4, Moves = new(413, 442, 034, 681), Index = 117 }, // Corviknight
+        new(17,01,1) { Species = 850, Ability = A4, Moves = new(172, 044, 035, 052), Index = 117 }, // Sizzlipede
+        new(30,03,2) { Species = 831, Ability = A4, Moves = new(036, 024, 029, 086), Index = 117 }, // Wooloo
+        new(40,05,3) { Species = 826, Ability = A4, Moves = new(405, 277, 371, 247), Index = 117 }, // Orbeetle
+        new(50,08,4) { Species = 132, Ability = A4, Moves = new(144, 000, 000, 000), Index = 117 }, // Ditto
+        new(60,10,5) { Species = 099, Ability = A4, Moves = new(534, 232, 023, 106), Index = 117, CanGigantamax = true }, // Kingler
+        new(60,10,5) { Species = 842, Ability = A4, Moves = new(787, 496, 406, 523), Index = 117, CanGigantamax = true }, // Appletun
+        new(60,10,5) { Species = 851, Ability = A4, Moves = new(141, 424, 422, 044), Index = 117, CanGigantamax = true }, // Centiskorch
+        new(60,10,5) { Species = 826, Ability = A4, Moves = new(405, 094, 202, 247), Index = 117, CanGigantamax = true }, // Orbeetle
+        new(60,10,5) { Species = 841, Ability = A4, Moves = new(406, 788, 491, 334), Index = 117, CanGigantamax = true }, // Flapple
+        new(60,10,5) { Species = 844, Ability = A4, Moves = new(693, 529, 201, 091), Index = 117, CanGigantamax = true }, // Sandaconda
+        new(60,10,5) { Species = 823, Ability = A4, Moves = new(413, 442, 269, 103), Index = 117, CanGigantamax = true }, // Corviknight
+        new(60,10,5) { Species = 861, Ability = A4, Moves = new(789, 793, 280, 409), Index = 117, CanGigantamax = true }, // Grimmsnarl
+        new(60,10,5) { Species = 569, Ability = A4, Moves = new(188, 499, 034, 707), Index = 117, CanGigantamax = true }, // Garbodor
+        new(60,10,5) { Species = 869, Ability = A4, Moves = new(577, 605, 105, 500), Index = 117, CanGigantamax = true }, // Alcremie
+        new(60,10,5) { Species = 834, Ability = A4, Moves = new(157, 710, 317, 334), Index = 117, CanGigantamax = true }, // Drednaw
+        new(60,10,5) { Species = 858, Ability = A4, Moves = new(605, 094, 595, 247), Index = 117, CanGigantamax = true }, // Hatterene
+        new(60,10,5) { Species = 012, Ability = A4, Moves = new(405, 403, 527, 078), Index = 117, CanGigantamax = true }, // Butterfree
+        new(60,10,5) { Species = 131, Ability = A4, Moves = new(057, 196, 058, 329), Index = 117, CanGigantamax = true }, // Lapras
+        new(60,10,5) { Species = 849, Ability = A4, Moves = new(786, 506, 474, 409), Index = 117, CanGigantamax = true }, // Toxtricity
+        new(60,10,5) { Species = 094, Ability = A4, Moves = new(247, 482, 094, 196), Index = 117, CanGigantamax = true }, // Gengar
+        new(60,10,5) { Species = 884, Ability = A4, Moves = new(430, 406, 085, 334), Index = 117, CanGigantamax = true }, // Duraludon
+        new(60,10,5) { Species = 849, Ability = A4, Moves = new(786, 506, 599, 409), Index = 117, Form = 1, CanGigantamax = true }, // Toxtricity-1
+        new(60,10,5) { Species = 839, Ability = A4, Moves = new(246, 053, 157, 523), Index = 117, CanGigantamax = true }, // Coalossal
+        new(60,10,5) { Species = 068, Ability = A4, Moves = new(238, 007, 008, 089), Index = 117, CanGigantamax = true }, // Machamp
+        new(60,10,5) { Species = 879, Ability = A4, Moves = new(442, 583, 438, 089), Index = 117, CanGigantamax = true }, // Copperajah
+        new(60,10,5) { Species = 143, Ability = A4, Moves = new(034, 442, 242, 428), Index = 117, CanGigantamax = true }, // Snorlax
+
         new(17,01,1) { Species = 824, Ability = A4, Moves = new(522, 000, 000, 000), Index = 115 }, // Blipbug
         new(30,03,2) { Species = 833, Ability = A4, Moves = new(055, 033, 044, 029), Index = 115 }, // Chewtle
         new(40,05,3) { Species = 832, Ability = A4, Moves = new(036, 024, 428, 086), Index = 115 }, // Dubwool
