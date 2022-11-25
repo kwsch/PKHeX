@@ -747,7 +747,7 @@ public sealed class MiscVerifier : Verifier
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                if ((pi ??= GetPersonal(evos[0])).TMHM[i])
+                if ((pi ??= GetPersonal(evos[0])).TMHM[i + PersonalInfo8SWSH.CountTM])
                     continue;
 
                 // Calyrex-0 can have TR flags for Calyrex-1/2 after it has force unlearned them.

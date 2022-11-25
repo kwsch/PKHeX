@@ -37,7 +37,7 @@ public static class LocalizationUtil
         {
             var p = props[i];
             var value = p.GetValue(null);
-            result[i] = $"{p}{TranslationSplitter}{value}";
+            result[i] = $"{p.Name}{TranslationSplitter}{value}";
         }
         return result;
     }

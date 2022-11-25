@@ -132,9 +132,9 @@ public sealed class Zukan9 : ZukanBase
         if (pi.DexIndex != 0)
             return (pi.DexGroup, pi.DexIndex);
 
-        for (int f = 0; f <= pi.FormCount; f++)
+        for (byte f = 1; f <= pi.FormCount; f++)
         {
-            pi = pt.GetFormEntry(species, 0);
+            pi = pt.GetFormEntry(species, f);
             if (pi.DexIndex != 0)
                 return (pi.DexGroup, pi.DexIndex);
         }
@@ -148,7 +148,7 @@ public sealed class Zukan9 : ZukanBase
 
     public override void CaughtNone()
     {
-        for (ushort i = 0; i < SAV.MaxSpeciesID; i++)
+        for (ushort i = 0; i <= SAV.MaxSpeciesID; i++)
         {
             var entry = Get(i);
             entry.ClearCaught();
@@ -192,7 +192,7 @@ public sealed class Zukan9 : ZukanBase
 
     public override void CompleteDex(bool shinyToo = false)
     {
-        for (ushort species = 0; species < SAV.MaxSpeciesID; species++)
+        for (ushort species = 0; species <= SAV.MaxSpeciesID; species++)
         {
             if (!SAV.Personal.IsSpeciesInGame(species))
                 continue;
@@ -205,7 +205,7 @@ public sealed class Zukan9 : ZukanBase
     public override void CaughtAll(bool shinyToo = false)
     {
         SeenAll(shinyToo);
-        for (ushort species = 0; species < SAV.MaxSpeciesID; species++)
+        for (ushort species = 0; species <= SAV.MaxSpeciesID; species++)
         {
             if (!SAV.Personal.IsSpeciesInGame(species))
                 continue;

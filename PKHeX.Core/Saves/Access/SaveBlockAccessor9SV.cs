@@ -949,7 +949,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint WSYS_GEM_CHANGE_POINT = 0xE1B947F5;
     private const uint WSYS_GEM_CHANGE_POINT_MAX = 0x6C1169C0;
     private const uint WSYS_GOZONJI_HINT_COUNT = 0x42579CF4;
-    private const uint KGameLanguage = 0x25839373; // WSYS_LANGUAGE_SELECT
+    public const uint KGameLanguage = 0x25839373; // WSYS_LANGUAGE_SELECT
     private const uint WSYS_LEAGUE_CARD_SELECT_CARD = 0xB5284E7C;
     private const uint WSYS_LEAGUE_CARD_SELECT_ICON = 0x45AEB78B;
     private const uint WSYS_NET_BATTLE_BGM_ID = 0x603562B5;

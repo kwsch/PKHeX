@@ -53,7 +53,7 @@ public sealed class TypeConverterU32 : TypeConverter
             return base.ConvertFrom(context, culture, value);
         if (input.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
             input = input[2..];
-        return uint.TryParse(input, System.Globalization.NumberStyles.HexNumber, culture, out var result) ? result : 0ul;
+        return uint.TryParse(input, System.Globalization.NumberStyles.HexNumber, culture, out var result) ? result : 0u;
     }
 }
 

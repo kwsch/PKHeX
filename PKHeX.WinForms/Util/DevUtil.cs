@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
             t.DropDownItems.Add(GetTranslationUpdater());
         }
 
-        private static readonly string[] Languages = {"ja", "fr", "it", "de", "es", "ko", "zh"};
+        private static readonly string[] Languages = {"ja", "fr", "it", "de", "es", "ko", "zh", "zh2"};
         private const string DefaultLanguage = GameLanguage.DefaultLanguage;
 
         public static bool IsUpdatingTranslations { get; private set; }

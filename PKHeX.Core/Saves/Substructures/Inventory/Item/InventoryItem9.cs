@@ -24,8 +24,8 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
     public uint Flags { get; set; }
     public uint Padding { get; set; }
 
-    public bool IsFavorite { get => (Flags & 0x2) != 0; set => Flags |= value ? 0x2u : 0x0u; }
-    public bool IsNew { get => (Flags & 0x1) != 0; set => Flags |= value ? 0x1u : 0x0u; }
+    public bool IsNew      { get => (Flags & 0x1) != 0; set => Flags = (Flags & ~0x1u) | (value ? 0x1u : 0x0u); }
+    public bool IsFavorite { get => (Flags & 0x2) != 0; set => Flags = (Flags & ~0x2u) | (value ? 0x2u : 0x0u); }
 
     public override string ToString() => $"{Index:000} x{Count}{(IsNew ? "*" : "")}{(IsFavorite ? "F" : "")} - {Flags:X8}";
 
