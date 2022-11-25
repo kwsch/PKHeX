@@ -297,17 +297,17 @@ public sealed class FormVerifier : Verifier
                 not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
                 not 0 when pk.CurrentLevel < 31 => GetInvalid(LFormArgumentHigh),
                 > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => HasVisitedPLA(data, Stantler) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
+                _ => arg == 0 || HasVisitedPLA(data, Stantler) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
             },
             Primeape => arg switch
             {
                 > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => HasVisitedSV(data, Primeape) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
+                _ => arg == 0 || HasVisitedSV(data, Primeape) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
             },
             Bisharp => arg switch
             {
                 > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => HasVisitedSV(data, Bisharp) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
+                _ => arg == 0 || HasVisitedSV(data, Bisharp) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
             },
             Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
             Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (uint)AlcremieDecoration.Ribbon),
