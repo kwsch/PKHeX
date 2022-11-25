@@ -58,7 +58,9 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
         WR7.Size => new WR7(data),
         WC8.Size => new WC8(data),
         WB8.Size => new WB8(data),
-        WA8.Size => new WA8(data),
+
+        // WA8/WC9: WA8 CardType >0 for wa8, 0 for wc9.
+        WA8.Size => data[0xF] > 0 ? new WA8(data) : new WC9(data),
 
         // WC6/WC7: Check year
         WC6.Size => ReadUInt32LittleEndian(data.AsSpan(0x4C)) / 10000 < 2000 ? new WC7(data) : new WC6(data),
