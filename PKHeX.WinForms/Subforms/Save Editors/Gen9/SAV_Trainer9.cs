@@ -48,8 +48,8 @@ public partial class SAV_Trainer9 : Form
         try
         {
             NUD_X.Value = (decimal)SAV.X;
-            NUD_Z.Value = (decimal)SAV.Y;
-            NUD_Y.Value = (decimal)SAV.Z;
+            NUD_Y.Value = (decimal)SAV.Y;
+            NUD_Z.Value = (decimal)SAV.Z;
         }
         // If we can't accurately represent the coordinates, don't allow them to be changed.
         catch { GB_Map.Enabled = false; }
