@@ -252,3 +252,4 @@ pip-log.txt
 #################
 
 *.userprefs
+/.vscode
