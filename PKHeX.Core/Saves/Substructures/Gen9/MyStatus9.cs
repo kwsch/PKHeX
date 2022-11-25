@@ -44,7 +44,7 @@ public sealed class MyStatus9 : SaveBlock<SAV9SV>
             // For runtime language, the game shifts all languages above Language 6 (unused) down one.
             if (value >= 6)
                 value--;
-            SAV.SetValue(SaveBlockAccessor8SWSH.KGameLanguage, (uint)value);
+            SAV.SetValue(SaveBlockAccessor9SV.KGameLanguage, (uint)value);
         }
     }
 
