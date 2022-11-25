@@ -154,15 +154,17 @@ public sealed class MiscVerifier : Verifier
         if (pk9.Tracker != 0)
             data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
 
-        if (enc is EncounterEgg && !Tera9RNG.IsMatchTeraTypePersonalEgg(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
+        if (enc is EncounterEgg or EncounterSlot9 && !Tera9RNG.IsMatchTeraTypePersonalEgg(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
             data.AddLine(GetInvalid(LTeraTypeMismatch));
 
         VerifyTechRecordSV(data, pk9);
     }
 
-    private static bool IsObedienceLevelValid(PKM pk9, byte current, int expectObey)
+    private static bool IsObedienceLevelValid(PKM pk, byte current, int expectObey)
     {
-        if (!pk9.IsUntraded)
+        if (current > pk.CurrentLevel)
+            return false;
+        if (!pk.IsUntraded)
             return current >= expectObey;
         return current == expectObey;
     }
