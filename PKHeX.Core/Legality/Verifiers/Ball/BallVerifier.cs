@@ -447,6 +447,10 @@ public sealed class BallVerifier : Verifier
 
     private CheckResult VerifyBallEggGen9(LegalityAnalysis data)
     {
+        var species = data.EncounterMatch.Species;
+        if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval) // G9 Starters
+            return VerifyBallEquals(data, (int)Poke);
+
         var pk = data.Entity;
         if (IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
             return GetValid(LBallSpeciesPass);
