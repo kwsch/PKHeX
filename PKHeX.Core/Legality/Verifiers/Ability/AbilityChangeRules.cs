@@ -111,9 +111,8 @@ public static class AbilityChangeRules
         {
             var evo = evos[i];
             var pi = table[evo.Species, evo.Form];
-            if (pi.GetIsAbility12Same())
-                continue;
-            return true;
+            if (!pi.GetIsAbility12Same())
+                return true;
         }
         return false;
     }
@@ -127,8 +126,7 @@ public static class AbilityChangeRules
             var evo = evos[i];
             var pi = table[evo.Species, evo.Form];
             if (pi.GetIsAbilityHiddenUnique())
-                continue;
-            return true;
+                return true;
         }
 
         // Some species have a distinct hidden ability only on another form, and can change between that form and its current form.
