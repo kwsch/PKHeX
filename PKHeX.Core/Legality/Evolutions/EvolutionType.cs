@@ -61,13 +61,13 @@ public enum EvolutionType : byte
 
     LevelUpWalkStepsWith = 50,
     LevelUpUnionCircle = 51, // Palafin
-    LevelUpInBattleEC25 = 52, // Maushold-0
+    LevelUpInBattleEC100 = 52, // Maushold-0
     LevelUpInBattleECElse = 53, // Maushold-1
     LevelUpCollect999 = 54, // Gimmighoul formarg 999
     LevelUpDefeatEquals = 55, // Kingambit
     LevelUpUseMoveSpecial = 56, // Annihilape
     LevelUpKnowMoveECElse = 57, // Dudunsparce-0
-    LevelUpKnowMoveEC25 = 58, // Dudunsparce-1
+    LevelUpKnowMoveEC100 = 58, // Dudunsparce-1
 
     LevelUpRecoilDamageMale = 59, // Basculegion-0
     LevelUpRecoilDamageFemale = 60, // Basculegion-1
@@ -137,13 +137,13 @@ public static class EvolutionTypeExtensions
         TowerOfWaters => false,
         LevelUpWalkStepsWith => true,
         LevelUpUnionCircle => true,
-        LevelUpInBattleEC25 => true,
+        LevelUpInBattleEC100 => true,
         LevelUpInBattleECElse => true,
         LevelUpCollect999 => true,
         LevelUpDefeatEquals => true,
         LevelUpUseMoveSpecial => true,
         LevelUpKnowMoveECElse => true,
-        LevelUpKnowMoveEC25 => true,
+        LevelUpKnowMoveEC100 => true,
         LevelUpRecoilDamageMale => true,
         LevelUpRecoilDamageFemale => true,
         Hisui => false, // stubbed

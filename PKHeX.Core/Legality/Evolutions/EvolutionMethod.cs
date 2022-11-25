@@ -96,10 +96,10 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
         // Version checks come in pairs, check for any pair match
         LevelUpVersion or LevelUpVersionDay or LevelUpVersionNight when ((pk.Version & 1) != (Argument & 1) && pk.IsUntraded) => skipChecks,
 
-        LevelUpKnowMoveEC25 when pk.EncryptionConstant % 25 != 0 => skipChecks,
-        LevelUpKnowMoveECElse when pk.EncryptionConstant % 25 == 0 => skipChecks,
-        LevelUpInBattleEC25 when pk.EncryptionConstant % 25 != 0 => skipChecks,
-        LevelUpInBattleECElse when pk.EncryptionConstant % 25 == 0 => skipChecks,
+        LevelUpKnowMoveEC100  when pk.EncryptionConstant % 100 != 0 => skipChecks,
+        LevelUpKnowMoveECElse when pk.EncryptionConstant % 100 == 0 => skipChecks,
+        LevelUpInBattleEC100  when pk.EncryptionConstant % 100 != 0 => skipChecks,
+        LevelUpInBattleECElse when pk.EncryptionConstant % 100 == 0 => skipChecks,
 
         _ => true,
     };
