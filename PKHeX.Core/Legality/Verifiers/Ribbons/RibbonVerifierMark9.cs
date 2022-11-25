@@ -10,7 +10,7 @@ public static class RibbonVerifierMark9
     public static void Parse(this IRibbonSetMark9 r, RibbonVerifierArguments args, ref RibbonResultList list)
     {
         if (r.RibbonMarkAlpha != MarkRules.IsMarkPresentAlpha(args.Encounter))
-            list.Add(MarkAlpha);
+            list.Add(MarkAlpha, !r.RibbonMarkAlpha);
         if (r.RibbonMarkGourmand && !MarkRules.IsMarkValidGourmand(args.History))
             list.Add(MarkGourmand);
         if (r.RibbonMarkItemfinder && !MarkRules.IsMarkValidItemFinder(args.History))
@@ -24,7 +24,7 @@ public static class RibbonVerifierMark9
         if (r.RibbonMarkPartner && !MarkRules.IsMarkValidPartner(args.History))
             list.Add(MarkPartner);
         if (r.RibbonMarkTitan != MarkRules.IsMarkPresentTitan(args.Encounter))
-            list.Add(MarkTitan, r.RibbonMarkTitan);
+            list.Add(MarkTitan, !r.RibbonMarkTitan);
     }
 
     public static void ParseEgg(this IRibbonSetMark9 r, ref RibbonResultList list)
