@@ -24,8 +24,9 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
     public uint Flags { get; set; }
     public uint Padding { get; set; }
 
-    public bool IsNew      { get => (Flags & 0x1) != 0; set => Flags = (Flags & ~0x1u) | (value ? 0x1u : 0x0u); }
+    public bool IsNew      { get => (Flags & 0x1) != 0; set => Flags = (Flags & ~0x1u) | (value ? 0x1u : 0x0u); } // red dot
     public bool IsFavorite { get => (Flags & 0x2) != 0; set => Flags = (Flags & ~0x2u) | (value ? 0x2u : 0x0u); }
+    public bool IsUpdated  { get => (Flags & 0x4) != 0; set => Flags = (Flags & ~0x4u) | (value ? 0x4u : 0x0u); } // always true if pouch is set
 
     public override string ToString() => $"{Index:000} x{Count}{(IsNew ? "*" : "")}{(IsFavorite ? "F" : "")} - {Flags:X8}";
 
@@ -34,7 +35,8 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
         Index = Count = 0;
         Flags = Padding = 0;
         IsFavorite = false;
-        IsNew = true;
+        IsUpdated = false;
+        IsNew = false;
         Pouch = PouchNone;
     }
 
@@ -54,9 +56,7 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
 
     public void Write(Span<byte> data)
     {
-        // Game bug: Flags 0/2 are always set, marking all items as new on save...
-        if (Pouch != PouchNone)
-            Flags |= 5;
+        IsUpdated = Pouch != PouchNone;
 
         // Index is not saved.
         WriteUInt32LittleEndian(data, Pouch);
@@ -76,6 +76,7 @@ public sealed record InventoryItem9 : InventoryItem, IItemFavorite, IItemNewFlag
         if (IsValidPouch)
             return;
         IsNew = true;
+        IsUpdated = true;
         IsFavorite = false;
     }
 
