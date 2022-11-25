@@ -94,8 +94,8 @@ namespace PKHeX.WinForms
             this.MT_LP = new System.Windows.Forms.MaskedTextBox();
             this.B_MaxLP = new System.Windows.Forms.Button();
             this.L_LP = new System.Windows.Forms.Label();
-            this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.Tab_MiscValues = new System.Windows.Forms.TabPage();
+            this.B_UnlockTMRecipes = new System.Windows.Forms.Button();
             this.B_CollectAllStakes = new System.Windows.Forms.Button();
             this.B_UnlockFlyLocations = new System.Windows.Forms.Button();
             this.GB_Map = new System.Windows.Forms.GroupBox();
@@ -105,6 +105,8 @@ namespace PKHeX.WinForms
             this.L_Y = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
+            this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
+            this.B_UnlockBikeUpgrades = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.Tab_MiscValues.SuspendLayout();
@@ -659,15 +661,10 @@ namespace PKHeX.WinForms
             this.L_LP.Text = "LP:";
             this.L_LP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // trainerID1
-            // 
-            this.trainerID1.Location = new System.Drawing.Point(6, 26);
-            this.trainerID1.Name = "trainerID1";
-            this.trainerID1.Size = new System.Drawing.Size(90, 74);
-            this.trainerID1.TabIndex = 66;
-            // 
             // Tab_MiscValues
             // 
+            this.Tab_MiscValues.Controls.Add(this.B_UnlockBikeUpgrades);
+            this.Tab_MiscValues.Controls.Add(this.B_UnlockTMRecipes);
             this.Tab_MiscValues.Controls.Add(this.B_CollectAllStakes);
             this.Tab_MiscValues.Controls.Add(this.B_UnlockFlyLocations);
             this.Tab_MiscValues.Controls.Add(this.GB_Map);
@@ -679,9 +676,19 @@ namespace PKHeX.WinForms
             this.Tab_MiscValues.Text = "Misc";
             this.Tab_MiscValues.UseVisualStyleBackColor = true;
             // 
+            // B_UnlockTMRecipes
+            // 
+            this.B_UnlockTMRecipes.Location = new System.Drawing.Point(248, 116);
+            this.B_UnlockTMRecipes.Name = "B_UnlockTMRecipes";
+            this.B_UnlockTMRecipes.Size = new System.Drawing.Size(120, 42);
+            this.B_UnlockTMRecipes.TabIndex = 62;
+            this.B_UnlockTMRecipes.Text = "Unlock All TM Recipes";
+            this.B_UnlockTMRecipes.UseVisualStyleBackColor = true;
+            this.B_UnlockTMRecipes.Click += new System.EventHandler(this.B_UnlockTMRecipes_Click);
+            // 
             // B_CollectAllStakes
             // 
-            this.B_CollectAllStakes.Location = new System.Drawing.Point(248, 82);
+            this.B_CollectAllStakes.Location = new System.Drawing.Point(248, 68);
             this.B_CollectAllStakes.Name = "B_CollectAllStakes";
             this.B_CollectAllStakes.Size = new System.Drawing.Size(120, 42);
             this.B_CollectAllStakes.TabIndex = 61;
@@ -691,7 +698,7 @@ namespace PKHeX.WinForms
             // 
             // B_UnlockFlyLocations
             // 
-            this.B_UnlockFlyLocations.Location = new System.Drawing.Point(248, 34);
+            this.B_UnlockFlyLocations.Location = new System.Drawing.Point(248, 20);
             this.B_UnlockFlyLocations.Name = "B_UnlockFlyLocations";
             this.B_UnlockFlyLocations.Size = new System.Drawing.Size(120, 42);
             this.B_UnlockFlyLocations.TabIndex = 60;
@@ -804,6 +811,23 @@ namespace PKHeX.WinForms
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // trainerID1
+            // 
+            this.trainerID1.Location = new System.Drawing.Point(6, 26);
+            this.trainerID1.Name = "trainerID1";
+            this.trainerID1.Size = new System.Drawing.Size(90, 74);
+            this.trainerID1.TabIndex = 66;
+            // 
+            // B_UnlockBikeUpgrades
+            // 
+            this.B_UnlockBikeUpgrades.Location = new System.Drawing.Point(248, 164);
+            this.B_UnlockBikeUpgrades.Name = "B_UnlockBikeUpgrades";
+            this.B_UnlockBikeUpgrades.Size = new System.Drawing.Size(120, 42);
+            this.B_UnlockBikeUpgrades.TabIndex = 63;
+            this.B_UnlockBikeUpgrades.Text = "Unlock All Bike Upgrades";
+            this.B_UnlockBikeUpgrades.UseVisualStyleBackColor = true;
+            this.B_UnlockBikeUpgrades.Click += new System.EventHandler(this.B_UnlockBikeUpgrades_Click);
+            // 
             // SAV_Trainer9
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -910,5 +934,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_MaxLP;
         private System.Windows.Forms.Button B_UnlockFlyLocations;
         private System.Windows.Forms.Button B_CollectAllStakes;
+        private System.Windows.Forms.Button B_UnlockTMRecipes;
+        private System.Windows.Forms.Button B_UnlockBikeUpgrades;
     }
 }

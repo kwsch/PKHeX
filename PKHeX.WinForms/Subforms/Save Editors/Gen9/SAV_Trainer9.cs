@@ -153,14 +153,7 @@ public partial class SAV_Trainer9 : Form
     {
         var blocks = new[]
         {
-            FSYS_YMAP_SCENARIO_DAN_AKU,
-            FSYS_YMAP_SCENARIO_DAN_DOKU,
-            FSYS_YMAP_SCENARIO_DAN_FAIRY,
-            FSYS_YMAP_SCENARIO_DAN_FINAL,
-            FSYS_YMAP_SCENARIO_DAN_FINAL_02,
-            FSYS_YMAP_SCENARIO_DAN_FINAL_03,
-            FSYS_YMAP_SCENARIO_DAN_HONOO,
-            FSYS_YMAP_SCENARIO_DAN_KAKUTOU,
+            #region Fly Flags
             FSYS_YMAP_FLY_01,
             FSYS_YMAP_FLY_03,
             FSYS_YMAP_FLY_12,
@@ -199,55 +192,10 @@ public partial class SAV_Trainer9 : Form
             FSYS_YMAP_FLY_MOKKAN,
             FSYS_YMAP_FLY_TSURUGI,
             FSYS_YMAP_FLY_UTSUWA,
-            FSYS_YMAP_SCENARIO_GYM_DENKI,
-            FSYS_YMAP_SCENARIO_GYM_DENKI_02,
-            FSYS_YMAP_SCENARIO_GYM_DENKI_03,
-            FSYS_YMAP_SCENARIO_GYM_CLEAR_DENKI,
-            FSYS_YMAP_SCENARIO_GYM_ESPER,
-            FSYS_YMAP_SCENARIO_GYM_ESPER_02,
-            FSYS_YMAP_SCENARIO_GYM_ESPER_03,
-            FSYS_YMAP_SCENARIO_GYM_CLEAR_ESPER,
-            FSYS_YMAP_SCENARIO_GYM_FINAL,
-            FSYS_YMAP_SCENARIO_GYM_FINAL_02,
-            FSYS_YMAP_SCENARIO_GYM_GHOST,
-            FSYS_YMAP_SCENARIO_GYM_GHOST_02,
-            FSYS_YMAP_SCENARIO_GYM_GHOST_03,
-            FSYS_YMAP_SCENARIO_GYM_CLEAR_GHOST,
-            FSYS_YMAP_SCENARIO_GYM_KOORI,
-            FSYS_YMAP_SCENARIO_GYM_KOORI_02,
-            FSYS_YMAP_SCENARIO_GYM_KOORI_03,
-            FSYS_YMAP_SCENARIO_GYM_CLEAR_KOORI,
-            FSYS_YMAP_SCENARIO_GYM_KUSA,
-            FSYS_YMAP_SCENARIO_GYM_KUSA_02,
-            FSYS_YMAP_SCENARIO_GYM_KUSA_03,
-            FSYS_YMAP_SCENARIO_GYM_CLEAR_KUSA,
-            FSYS_YMAP_SCENARIO_GYM_MIZU,
-            FSYS_YMAP_SCENARIO_GYM_MIZU_02,
-            FSYS_YMAP_SCENARIO_GYM_MIZU_03,
-            FSYS_YMAP_SCENARIO_GYM_CLEAR_MIZU,
-            FSYS_YMAP_SCENARIO_GYM_MUSI,
-            FSYS_YMAP_SCENARIO_GYM_MUSI_02,
-            FSYS_YMAP_SCENARIO_GYM_MUSI_03,
-            FSYS_YMAP_SCENARIO_GYM_CLEAR_MUSHI,
-            FSYS_YMAP_SCENARIO_GYM_NORMAL,
-            FSYS_YMAP_SCENARIO_GYM_NORMAL_02,
-            FSYS_YMAP_SCENARIO_GYM_NORMAL_03,
-            FSYS_YMAP_SCENARIO_GYM_CLEAR_NORMAL,
             FSYS_YMAP_MAGATAMA,
             FSYS_YMAP_MOKKAN,
             FSYS_YMAP_TSURUGI,
             FSYS_YMAP_UTSUWA,
-            FSYS_YMAP_SCENARIO_NUSI_DRAGON,
-            FSYS_YMAP_SCENARIO_NUSI_DRAGON_02,
-            FSYS_YMAP_SCENARIO_NUSHI_FINAL,
-            FSYS_YMAP_SCENARIO_NUSHI_FINAL_02,
-            FSYS_YMAP_SCENARIO_NUSI_HAGANE,
-            FSYS_YMAP_SCENARIO_NUSI_HAGANE_02,
-            FSYS_YMAP_SCENARIO_NUSI_HIKOU,
-            FSYS_YMAP_SCENARIO_NUSI_IWA,
-            FSYS_YMAP_SCENARIO_NUSI_IWA_02,
-            FSYS_YMAP_SCENARIO_NUSI_JIMEN,
-            FSYS_YMAP_SCENARIO_NUSI_JIMEN_02,
             FSYS_YMAP_POKECEN_02,
             FSYS_YMAP_POKECEN_03,
             FSYS_YMAP_POKECEN_04,
@@ -282,32 +230,7 @@ public partial class SAV_Trainer9 : Form
             FSYS_YMAP_POKECEN_33,
             FSYS_YMAP_POKECEN_34,
             FSYS_YMAP_POKECEN_35,
-            FSYS_YMAP_SCENARIO_00,
-            FSYS_YMAP_SCENARIO_01,
-            FSYS_YMAP_SCENARIO_02,
-            FSYS_YMAP_SCENARIO_03,
-            FSYS_YMAP_SCENARIO_04,
-            FSYS_YMAP_SCENARIO_05,
-            FSYS_YMAP_SCENARIO_06,
-            FSYS_YMAP_SCENARIO_07,
-            FSYS_YMAP_SCENARIO_08,
-            FSYS_YMAP_SCENARIO_COMMON_0060,
-            FSYS_YMAP_SCENARIO_COMMON_0090,
-            FSYS_YMAP_SCENARIO_COMMON_0095,
-            FSYS_YMAP_SCENARIO_COMMON_0100,
-            FSYS_YMAP_SCENARIO_COMMON_0130,
-            FSYS_YMAP_SCENARIO_COMMON_0170,
-            FSYS_YMAP_SCENARIO_COMMON_0185,
-            FSYS_YMAP_SCENARIO_COMMON_0190,
-            FSYS_YMAP_SCENARIO_COMMON_0210,
-            FSYS_YMAP_SCENARIO_COMMON_0220,
-            FSYS_YMAP_SCENARIO_COMMON_0225,
-            FSYS_YMAP_SCENARIO_COMMON_0990,
-            FSYS_YMAP_SCENARIO_COMMON_1010,
-            FSYS_YMAP_SCENARIO_COMMON_2000,
-            FSYS_YMAP_SCENARIO_COMMON_2030,
-            FSYS_YMAP_SCENARIO_COMMON_2070,
-            FSYS_YMAP_SCENARIO_COMMON_2080,
+            #endregion
         };
         var accessor = SAV.Accessor;
         foreach (var block in blocks)
@@ -318,6 +241,29 @@ public partial class SAV_Trainer9 : Form
     private void B_CollectAllStakes_Click(object sender, EventArgs e)
     {
         SAV.CollectAllStakes();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void B_UnlockTMRecipes_Click(object sender, EventArgs e)
+    {
+        SAV.UnlockAllTMRecipes();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void B_UnlockBikeUpgrades_Click(object sender, EventArgs e)
+    {
+        var blocks = new[]
+        {
+            "FSYS_RIDE_DASH_ENABLE",
+            "FSYS_RIDE_SWIM_ENABLE",
+            "FSYS_RIDE_HIJUMP_ENABLE",
+            "FSYS_RIDE_GLIDE_ENABLE",
+            "FSYS_RIDE_CLIMB_ENABLE",
+        };
+
+        var accessor = SAV.Accessor;
+        foreach (var block in blocks)
+            accessor.GetBlock(block).ChangeBooleanType(SCTypeCode.Bool2);
         System.Media.SystemSounds.Asterisk.Play();
     }
 }
