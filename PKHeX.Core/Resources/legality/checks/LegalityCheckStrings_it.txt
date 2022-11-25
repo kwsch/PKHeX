@@ -401,6 +401,6 @@ LTransferObedienceLevel = Invalid Obedience Level.
 LTransferOriginFInvalid0_1 = L'origine {0} non può esistere nell'attuale ({1}) file di salvataggio.
 LTransferPIDECBitFlip = Il PID dovrebbe essere uguale alla EC [con i bit superiori flippati]!
 LTransferPIDECEquals = Il PID dovrebbe essere uguale alla EC!
-LTransferPIDECXor = La Encryption Constant corrisponde ad uno shinyxored PID.
+LTransferPIDECXor = La Encryption Constant corrisponde ad un shiny-xored PID.
 LTransferTrackerMissing = Il codice di tracciamento di Pokémon Home è mancante.
 LTransferTrackerShouldBeZero = Il codice di tracciamento di Pokémon Home dovrebbe essere 0.
