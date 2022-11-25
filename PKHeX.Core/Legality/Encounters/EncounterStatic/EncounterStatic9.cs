@@ -4,14 +4,13 @@ namespace PKHeX.Core;
 /// Generation 9 Static Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterStatic"/>
-public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Version), IGemType, IObedienceLevelReadOnly
+public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Version), IGemType
 {
     public override int Generation => 9;
     public override EntityContext Context => EntityContext.Gen9;
     public byte Size { get; init; }
     public GemType TeraType { get; init; }
     public bool IsTitan { get; init; }
-    public byte Obedience_Level => StarterBoxLegend ? (byte)0 : Level;
 
     private bool NoScalarsDefined => Size == 0;
     public bool GiftWithLanguage => Gift; // Nice error by GameFreak -- all gifts (including eggs) set the HT_Language memory value in addition to OT_Language.
@@ -54,7 +53,7 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
             pk9.FormArgument = 1; // Not Ride Form.
         if (IsTitan)
             pk9.RibbonMarkTitan = true;
-        pk9.Obedience_Level = Obedience_Level;
+        pk9.Obedience_Level = (byte)pk9.Met_Level;
 
         const byte undefinedSize = 0;
         byte height, weight, scale;
