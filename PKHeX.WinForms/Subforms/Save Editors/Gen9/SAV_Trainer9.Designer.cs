@@ -96,6 +96,7 @@ namespace PKHeX.WinForms
             this.L_LP = new System.Windows.Forms.Label();
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
             this.Tab_MiscValues = new System.Windows.Forms.TabPage();
+            this.B_UnlockFlyLocations = new System.Windows.Forms.Button();
             this.GB_Map = new System.Windows.Forms.GroupBox();
             this.NUD_Z = new System.Windows.Forms.NumericUpDown();
             this.NUD_Y = new System.Windows.Forms.NumericUpDown();
@@ -666,6 +667,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_MiscValues
             // 
+            this.Tab_MiscValues.Controls.Add(this.B_UnlockFlyLocations);
             this.Tab_MiscValues.Controls.Add(this.GB_Map);
             this.Tab_MiscValues.Location = new System.Drawing.Point(4, 22);
             this.Tab_MiscValues.Name = "Tab_MiscValues";
@@ -674,6 +676,16 @@ namespace PKHeX.WinForms
             this.Tab_MiscValues.TabIndex = 4;
             this.Tab_MiscValues.Text = "Misc";
             this.Tab_MiscValues.UseVisualStyleBackColor = true;
+            // 
+            // B_UnlockFlyLocations
+            // 
+            this.B_UnlockFlyLocations.Location = new System.Drawing.Point(248, 34);
+            this.B_UnlockFlyLocations.Name = "B_UnlockFlyLocations";
+            this.B_UnlockFlyLocations.Size = new System.Drawing.Size(120, 42);
+            this.B_UnlockFlyLocations.TabIndex = 60;
+            this.B_UnlockFlyLocations.Text = "Unlock All Fly Locations";
+            this.B_UnlockFlyLocations.UseVisualStyleBackColor = true;
+            this.B_UnlockFlyLocations.Click += new System.EventHandler(this.B_UnlockFlyLocations_Click);
             // 
             // GB_Map
             // 
@@ -884,5 +896,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_X;
         private System.Windows.Forms.MaskedTextBox MT_LP;
         private System.Windows.Forms.Button B_MaxLP;
+        private System.Windows.Forms.Button B_UnlockFlyLocations;
     }
 }
