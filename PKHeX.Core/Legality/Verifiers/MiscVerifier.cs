@@ -148,16 +148,13 @@ public sealed class MiscVerifier : Verifier
         if (enc is EncounterEgg g && UnreleasedSV.Contains(g.Species | g.Form << 11))
             data.AddLine(GetInvalid(LTransferBad));
 
-        var expectObey = enc is IObedienceLevelReadOnly l ? l.Obedience_Level : Math.Max(1, pk9.Met_Level);
-        var current = pk9.Obedience_Level;
-        if (!IsObedienceLevelValid(pk9, current, expectObey))
+        if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.Met_Level))
             data.AddLine(GetInvalid(LTransferObedienceLevel));
 
         if (pk9.Tracker != 0)
             data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
 
-        bool onlyDefaultTeraType = enc.Context is not EntityContext.Gen9 || enc is EncounterEgg;
-        if (onlyDefaultTeraType && !Tera9RNG.IsMatchTeraTypePersonal(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
+        if (enc is EncounterEgg && !Tera9RNG.IsMatchTeraTypePersonalEgg(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
             data.AddLine(GetInvalid(LTeraTypeMismatch));
 
         VerifyTechRecordSV(data, pk9);

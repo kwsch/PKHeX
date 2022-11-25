@@ -57,11 +57,29 @@ public static class Tera9RNG
         }
         throw new ArgumentOutOfRangeException(nameof(gem), gem, null);
     }
+    
+    private static bool IsMatchType(IPersonalType pi, in byte original) => original == pi.Type1 || original == pi.Type2;
 
-    public static bool IsMatchTeraTypePersonal(in ushort species, in byte form, in byte original)
+    public static bool IsMatchTeraTypePersonalEgg(in ushort species, in byte form, in byte original) =>
+        FormInfo.IsFormChangeEgg(species)
+            ? IsMatchTeraTypePersonalAnyForm(species, original)
+            : IsMatchTeraTypePersonal(species, form, original);
+
+    public static bool IsMatchTeraTypePersonal(in ushort species, in byte form, in byte original) => IsMatchType(PersonalTable.SV[species, form], original);
+    public static bool IsMatchTeraTypePersonalAnyForm(in ushort species, in byte original)
     {
-        var pi = PersonalTable.SV[species, form];
-        return original == pi.Type1 || original == pi.Type2;
+        var pt = PersonalTable.SV;
+        var pi = pt.GetFormEntry(species, 0);
+        if (pi.IsPresentInGame && IsMatchType(pi, original))
+            return true;
+        var fc = pi.FormCount;
+        for (byte form = 1; form < fc; form++)
+        {
+            pi = pt.GetFormEntry(species, form);
+            if (pi.IsPresentInGame && IsMatchType(pi, original))
+                return true;
+        }
+        return false;
     }
 
     public static byte GetTeraTypeFromPersonal(in ushort species, in byte form, in ulong pivot)

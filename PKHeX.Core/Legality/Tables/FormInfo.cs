@@ -109,17 +109,23 @@ public static class FormInfo
         return false;
     }
 
+    public static bool IsFormChangeEgg(ushort species) => System.Array.IndexOf(FormChangeEgg, species) != -1;
+
+    private static readonly ushort[] FormChangeEgg =
+    {
+        (int)Burmy,
+        (int)Furfrou,
+        (int)Oricorio,
+    };
+
     /// <summary>
     /// Species that can change between their forms, regardless of origin.
     /// </summary>
     /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-    private static readonly HashSet<ushort> FormChange = new()
+    private static readonly HashSet<ushort> FormChange = new(FormChangeEgg)
     {
         // Sometimes considered for wild encounters
-        (int)Burmy,
         (int)Rotom,
-        (int)Furfrou,
-        (int)Oricorio,
 
         (int)Deoxys,
         (int)Dialga,
