@@ -89,6 +89,14 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
                 s3.Scale = PokeSizeUtil.GetRandomScalar();
         }
 
+        if (pk is ITeraType tera)
+        {
+            var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, Util.Rand.Rand64());
+            tera.TeraTypeOriginal = (MoveType)type;
+            if (criteria.TeraType != -1 && type != criteria.TeraType)
+                tera.SetTeraType(type); // sets the override type
+        }
+
         return pk;
     }
 
