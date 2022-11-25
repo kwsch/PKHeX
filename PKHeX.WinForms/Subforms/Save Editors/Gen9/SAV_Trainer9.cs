@@ -312,5 +312,12 @@ public partial class SAV_Trainer9 : Form
         var accessor = SAV.Accessor;
         foreach (var block in blocks)
             accessor.GetBlock(block).ChangeBooleanType(SCTypeCode.Bool2);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void B_CollectAllStakes_Click(object sender, EventArgs e)
+    {
+        SAV.CollectAllStakes();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 }

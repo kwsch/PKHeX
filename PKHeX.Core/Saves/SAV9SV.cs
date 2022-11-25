@@ -274,4 +274,18 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         var b = Blocks.GetBlock(SaveBlockAccessor9SV.KBoxWallpapers);
         b.Data[box] = (byte)value;
     }
+
+    public void CollectAllStakes()
+    {
+        for (int i = 14; i <= 17; i++)
+        {
+            for (int f = 1; f <= 8; f++)
+            {
+                var flag = $"FEVT_SUB_{i:000}_KUI_{f:00}_RELEASE".AsSpan();
+                var hash = (uint)FnvHash.HashFnv1a_64(flag);
+                var block = Accessor.GetBlock(hash);
+                block.ChangeBooleanType(SCTypeCode.Bool2);
+            }
+        }
+    }
 }
