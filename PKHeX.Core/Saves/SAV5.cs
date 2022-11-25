@@ -25,8 +25,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override int MaxEV => 255;
     public override int Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
-    public override int OTLength => 7;
-    public override int NickLength => 10;
+    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthNickname => 10;
     protected override int GiftCountMax => 12;
     public abstract int EventFlagCount { get; }
     public abstract int EventWorkCount { get; }

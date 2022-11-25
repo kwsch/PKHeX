@@ -63,8 +63,8 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override int MaxEV => 252;
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8a;
-    public override int OTLength => 12;
-    public override int NickLength => 12;
+    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthNickname => 12;
 
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
@@ -115,7 +115,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public PokedexSave8a PokedexSave => Blocks.PokedexSave;
     public BoxLayout8a BoxLayout => Blocks.BoxLayout;
     public MyItem8a Items => Blocks.Items;
-    public AdventureStart8a AdventureStart => Blocks.AdventureStart;
+    public Epoch1970Value AdventureStart => Blocks.AdventureStart;
     public LastSaved8a LastSaved => Blocks.LastSaved;
     public PlayTime8a Played => Blocks.Played;
     public AreaSpawnerSet8a AreaSpawners => new(Blocks.GetBlock(SaveBlockAccessor8LA.KSpawners));

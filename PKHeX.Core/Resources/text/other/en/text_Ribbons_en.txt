@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	Kalos Champion
+RibbonChampionKalos	Kalos Champion
 RibbonChampionG3	Champion (Gen3)
 RibbonChampionSinnoh	Sinnoh Champion
 RibbonBestFriends	Best Friends
@@ -149,5 +149,15 @@ RibbonMarkHumble	Humble Mark
 RibbonMarkThorny	Thorny Mark
 RibbonMarkVigor	Vigor Mark
 RibbonMarkSlump	Slump Mark
-RibbonPioneer	Pioneer
+RibbonHisui	Hisui
 RibbonTwinklingStar	Twinkling Star
+RibbonChampionPaldea	Paldea Champion
+RibbonMarkJumbo	Jumbo Mark
+RibbonMarkMini	Mini Mark
+RibbonMarkItemfinder	Itemfinder Mark
+RibbonMarkPartner	Partner Mark
+RibbonMarkGourmand	Gourmand Mark
+RibbonOnceInALifetime	Once-in-a-Lifetime
+RibbonMarkAlpha	Alpha Mark
+RibbonMarkMightiest	Mightiest Mark
+RibbonMarkTitan	Titan Mark

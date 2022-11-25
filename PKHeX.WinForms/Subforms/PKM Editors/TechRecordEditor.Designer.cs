@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class TechRecordEditor
     {
@@ -87,6 +87,7 @@
             this.CLB_Flags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CLB_Flags.CheckOnClick = true;
             this.CLB_Flags.FormattingEnabled = true;
             this.CLB_Flags.Location = new System.Drawing.Point(12, 12);
             this.CLB_Flags.Name = "CLB_Flags";

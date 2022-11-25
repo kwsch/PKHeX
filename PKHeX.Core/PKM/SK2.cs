@@ -18,8 +18,8 @@ public sealed class SK2 : GBPKM, ICaughtData2
     private const int StringLength = 12;
 
     public override EntityContext Context => EntityContext.Gen2;
-    public override int OTLength => StringLength;
-    public override int NickLength => StringLength;
+    public override int MaxStringLengthOT => StringLength;
+    public override int MaxStringLengthNickname => StringLength;
 
     public SK2(bool jp = false) : base(PokeCrypto.SIZE_2STADIUM) => IsEncodingJapanese = jp;
     public SK2(byte[] data) : this(data, IsJapanese(data)) { }

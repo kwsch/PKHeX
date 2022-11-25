@@ -28,7 +28,12 @@ public static class EncounterEggGenerator
         // version is a true indicator for all generation 3-5 origins
         var ver = (GameVersion)pk.Version;
         if (!Breeding.CanGameGenerateEggs(ver))
-            yield break;
+        {
+            if (ver == 0 && pk is PK9)
+                ver = GameVersion.SL;
+            else
+                yield break;
+        }
 
         var context = ver.GetContext();
         var lvl = EggStateLegality.GetEggLevel(generation);

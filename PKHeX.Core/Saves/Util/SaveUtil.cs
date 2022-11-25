@@ -15,6 +15,13 @@ public static class SaveUtil
 {
     public const int BEEF = 0x42454546;
 
+    public const int SIZE_G9_0   = 0x31626F; // 1.0.0 fresh
+    public const int SIZE_G9_0a  = 0x31627C; // 1.0.0 after multiplayer
+    public const int SIZE_G9_1   = 0x319DB3; // 1.0.1 fresh
+    public const int SIZE_G9_1a  = 0x319DC0; // 1.0.1 after multiplayer
+    public const int SIZE_G9_1A  = 0x31A2C0; // 1.0.0 -> 1.0.1
+    public const int SIZE_G9_1Aa = 0x31A2CD; // 1.0.1 -> 1.0.1 after multiplayer
+
     public const int SIZE_G8LA = 0x136DDE;
     public const int SIZE_G8LA_1 = 0x13AD06;
 
@@ -94,7 +101,14 @@ public static class SaveUtil
     };
 #endif
 
-    internal static readonly HashSet<int> SizesSWSH = new()
+    private static readonly HashSet<int> SizesSV = new()
+    {
+        SIZE_G9_0, SIZE_G9_0a,
+        SIZE_G9_1, SIZE_G9_1a,
+        SIZE_G9_1A, SIZE_G9_1Aa,
+    };
+
+    private static readonly HashSet<int> SizesSWSH = new()
     {
         SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B, SIZE_G8SWSH_3, SIZE_G8SWSH_3A, SIZE_G8SWSH_3B, SIZE_G8SWSH_3C,
     };
@@ -104,7 +118,7 @@ public static class SaveUtil
         SIZE_G2RAW_U, SIZE_G2VC_U, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J, SIZE_G2VC_J,
     };
 
-    private static readonly HashSet<int> Sizes = new(SizesGen2.Concat(SizesSWSH))
+    private static readonly HashSet<int> Sizes = new(SizesGen2.Concat(SizesSWSH).Concat(SizesSV))
     {
         SIZE_G8LA, SIZE_G8LA_1, SIZE_G8BDSP, SIZE_G8BDSP_1, SIZE_G8BDSP_2, SIZE_G8BDSP_3,
         // SizesSWSH covers gen8 sizes since there's so many
@@ -171,6 +185,8 @@ public static class SaveUtil
         if ((ver = GetIsG8SAV_BDSP(data)) != Invalid)
             return ver;
         if ((ver = GetIsG8SAV_LA(data)) != Invalid)
+            return ver;
+        if ((ver = GetIsG9SAV(data)) != Invalid)
             return ver;
 
         return Invalid;
@@ -530,6 +546,17 @@ public static class SaveUtil
         return SwishCrypto.GetIsHashValid(data) ? PLA : Invalid;
     }
 
+    /// <summary>Checks to see if the data belongs to a Gen8 save</summary>
+    /// <param name="data">Save data of which to determine the type</param>
+    /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
+    private static GameVersion GetIsG9SAV(byte[] data)
+    {
+        if (!SizesSV.Contains(data.Length))
+            return Invalid;
+
+        return SwishCrypto.GetIsHashValid(data) ? SV : Invalid;
+    }
+
     private static bool GetIsBank7(ReadOnlySpan<byte> data) => data.Length == SIZE_G7BANK && data[0] != 0;
     private static bool GetIsBank4(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) != 0; // box name present
     private static bool GetIsBank3(ReadOnlySpan<byte> data) => data.Length == SIZE_G4BANK && ReadUInt32LittleEndian(data[0x3FC00..]) == 0; // size collision with ^
@@ -636,6 +663,8 @@ public static class SaveUtil
             SWSH => new SAV8SWSH(data),
             BDSP => new SAV8BS(data),
             PLA => new SAV8LA(data),
+
+            SV => new SAV9SV(data),
 
             // Side Games
             COLO => new SAV3Colosseum(data),
@@ -782,6 +811,8 @@ public static class SaveUtil
         SW or SH or SWSH => new SAV8SWSH(),
         BD or SP or BDSP => new SAV8BS(),
         PLA => new SAV8LA(),
+
+        SL or VL or SV => new SAV9SV(),
 
         _ => throw new ArgumentOutOfRangeException(nameof(game)),
     };

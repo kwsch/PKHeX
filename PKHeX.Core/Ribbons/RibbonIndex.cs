@@ -108,8 +108,19 @@ public enum RibbonIndex : byte
     MarkVigor,
     MarkSlump,
 
-    Pioneer,
+    Hisui,
     TwinklingStar,
+
+    ChampionPaldea,
+    MarkJumbo,
+    MarkMini,
+    MarkItemfinder,
+    MarkPartner,
+    MarkGourmand,
+    OnceInALifetime,
+    MarkAlpha,
+    MarkMightiest,
+    MarkTitan,
 
     MAX_COUNT,
 }
@@ -145,6 +156,7 @@ public static class RibbonIndexExtensions
         Common6,
         Common7,
         Common8,
+        Common9,
     }
 
     private static RibbonIndexGroup GetGroup(this RibbonIndex r)
@@ -213,8 +225,20 @@ public static class RibbonIndexExtensions
             ChampionGalar => RibbonIndexGroup.Common8,
             TowerMaster => RibbonIndexGroup.Common8,
             MasterRank => RibbonIndexGroup.Common8,
-            Pioneer => RibbonIndexGroup.Common8,
+            Hisui => RibbonIndexGroup.Common8,
             TwinklingStar => RibbonIndexGroup.Common8,
+
+            ChampionPaldea => RibbonIndexGroup.Common9,
+            MarkJumbo => RibbonIndexGroup.Common9,
+            MarkMini => RibbonIndexGroup.Common9,
+            MarkItemfinder => RibbonIndexGroup.Common9,
+            MarkPartner => RibbonIndexGroup.Common9,
+            MarkGourmand => RibbonIndexGroup.Common9,
+            OnceInALifetime => RibbonIndexGroup.Common9,
+            MarkAlpha => RibbonIndexGroup.Common9,
+            MarkMightiest => RibbonIndexGroup.Common9,
+            MarkTitan => RibbonIndexGroup.Common9,
+
             _ => RibbonIndexGroup.None,
         };
     }
@@ -315,8 +339,26 @@ public static class RibbonIndexExtensions
                 if (r == ChampionGalar) c8.RibbonChampionGalar = state;
                 else if (r == TowerMaster) c8.RibbonTowerMaster = state;
                 else if (r == MasterRank) c8.RibbonMasterRank = state;
-                else if (r == Pioneer) c8.RibbonPioneer = state;
+                else if (r == Hisui) c8.RibbonHisui = state;
                 else if (r == TwinklingStar) c8.RibbonTwinklingStar = state;
+                return;
+            case RibbonIndexGroup.Common9:
+                if (pk is IRibbonSetCommon9 c9)
+                {
+                    if      (r == ChampionPaldea) c9.RibbonChampionPaldea = state;
+                    else if (r == OnceInALifetime) c9.RibbonOnceInALifetime = state;
+                }
+                else if (pk is IRibbonSetMark9 m9)
+                {
+                    if      (r == MarkJumbo) m9.RibbonMarkJumbo = state;
+                    else if (r == MarkMini) m9.RibbonMarkMini = state;
+                    else if (r == MarkItemfinder) m9.RibbonMarkItemfinder = state;
+                    else if (r == MarkPartner) m9.RibbonMarkPartner = state;
+                    else if (r == MarkGourmand) m9.RibbonMarkGourmand = state;
+                    else if (r == MarkAlpha) m9.RibbonMarkAlpha = state;
+                    else if (r == MarkMightiest) m9.RibbonMarkMightiest = state;
+                    else if (r == MarkTitan) m9.RibbonMarkTitan = state;
+                }
                 return;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -478,8 +520,18 @@ public static class RibbonIndexExtensions
         MarkThorny => nameof(IRibbonSetMark8.RibbonMarkThorny),
         MarkVigor => nameof(IRibbonSetMark8.RibbonMarkVigor),
         MarkSlump => nameof(IRibbonSetMark8.RibbonMarkSlump),
-        Pioneer => nameof(IRibbonSetCommon8.RibbonPioneer),
+        Hisui => nameof(IRibbonSetCommon8.RibbonHisui),
         TwinklingStar => nameof(IRibbonSetCommon8.RibbonTwinklingStar),
+        ChampionPaldea => nameof(IRibbonSetCommon9.RibbonChampionPaldea),
+        MarkJumbo => nameof(IRibbonSetMark9.RibbonMarkJumbo),
+        MarkMini => nameof(IRibbonSetMark9.RibbonMarkMini),
+        MarkItemfinder => nameof(IRibbonSetMark9.RibbonMarkItemfinder),
+        MarkPartner => nameof(IRibbonSetMark9.RibbonMarkPartner),
+        MarkGourmand => nameof(IRibbonSetMark9.RibbonMarkGourmand),
+        OnceInALifetime => nameof(IRibbonSetCommon9.RibbonOnceInALifetime),
+        MarkAlpha => nameof(IRibbonSetMark9.RibbonMarkAlpha),
+        MarkMightiest => nameof(IRibbonSetMark9.RibbonMarkMightiest),
+        MarkTitan => nameof(IRibbonSetMark9.RibbonMarkTitan),
         _ => throw new ArgumentOutOfRangeException(nameof(r), r, null),
     };
 }

@@ -238,8 +238,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public virtual int MinGameID => 0;
     public abstract int MaxIV { get; }
     public abstract int MaxEV { get; }
-    public abstract int OTLength { get; }
-    public abstract int NickLength { get; }
+    public abstract int MaxStringLengthOT { get; }
+    public abstract int MaxStringLengthNickname { get; }
 
     // Derived
     public virtual int SpriteItem => HeldItem;
@@ -293,11 +293,13 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public bool SWSH => Version is (int)SW or (int)SH;
     public virtual bool BDSP => Version is (int)BD or (int)SP;
     public virtual bool LA => Version is (int)PLA;
+    public bool SV => Version is (int)SL or (int)VL;
 
     public bool GO_LGPE => GO && Met_Location == Locations.GO7;
     public bool GO_HOME => GO && Met_Location == Locations.GO8;
     public bool VC => VC1 || VC2;
     public bool GG => LGPE || GO_LGPE;
+    public bool Gen9 => SV;
     public bool Gen8 => Version is >= 44 and <= 49 || GO_HOME;
     public bool Gen7 => Version is >= 30 and <= 33 || GG;
     public bool Gen6 => Version is >= 24 and <= 29;
@@ -312,6 +314,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     {
         get
         {
+            if (Gen9) return 9;
             if (Gen8) return 8;
             if (Gen7) return 7;
             if (Gen6) return 6;
@@ -745,7 +748,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         1 => Move2_PP = GetMovePP(Move2, Move2_PPUps),
         2 => Move3_PP = GetMovePP(Move3, Move3_PPUps),
         3 => Move4_PP = GetMovePP(Move4, Move4_PPUps),
-        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Index must be between 0 and 3."),
     };
 
     /// <summary>
@@ -1041,7 +1044,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         1 => Move2,
         2 => Move3,
         3 => Move4,
-        _ => throw new IndexOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Move index must be between 0 and 3."),
     };
 
     public ushort SetMove(int index, ushort value) => index switch
@@ -1050,7 +1053,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         1 => Move2 = value,
         2 => Move3 = value,
         3 => Move4 = value,
-        _ => throw new IndexOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Move index must be between 0 and 3."),
     };
 
     public ushort GetRelearnMove(int index) => index switch
@@ -1059,7 +1062,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         1 => RelearnMove2,
         2 => RelearnMove3,
         3 => RelearnMove4,
-        _ => throw new IndexOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Move index must be between 0 and 3."),
     };
 
     public ushort SetRelearnMove(int index, ushort value) => index switch
@@ -1068,7 +1071,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         1 => RelearnMove2 = value,
         2 => RelearnMove3 = value,
         3 => RelearnMove4 = value,
-        _ => throw new IndexOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Move index must be between 0 and 3."),
     };
 
     /// <summary>
@@ -1124,7 +1127,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         3 => EV_SPE,
         4 => EV_SPA,
         5 => EV_SPD,
-        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "EV index must be between 0 and 5."),
     };
 
     /// <summary>
@@ -1139,6 +1142,6 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         3 => IV_SPE,
         4 => IV_SPA,
         5 => IV_SPD,
-        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "IV index must be between 0 and 5."),
     };
 }

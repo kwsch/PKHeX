@@ -21,7 +21,7 @@ public static partial class Legal
         7, 54, 55, 58, 59, 61, 66, 67, 68, 69, 71, 127, 128, 130, 133, 134, 175, 178,
     };
 
-    internal static readonly ushort[] Pouch_Key_C = ArrayUtil.ConcatAll(Pouch_Key_GS, new ushort[]{70, 115, 116, 129});
+    internal static readonly ushort[] Pouch_Key_C = ArrayUtil.ConcatAll(Pouch_Key_GS, stackalloc ushort[] {70, 115, 116, 129});
 
     internal static readonly ushort[] Pouch_TMHM_GSC = {
         191, 192, 193, 194, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249,

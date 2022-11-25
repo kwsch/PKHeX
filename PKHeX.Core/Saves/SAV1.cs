@@ -229,8 +229,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public override int Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
     protected override int GiftCountMax => 0;
-    public override int OTLength => Japanese ? 5 : 7;
-    public override int NickLength => Japanese ? 5 : 10;
+    public override int MaxStringLengthOT => Japanese ? 5 : 7;
+    public override int MaxStringLengthNickname => Japanese ? 5 : 10;
     public override int BoxSlotCount => Japanese ? 30 : 20;
 
     public override bool HasParty => true;
@@ -257,8 +257,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     public override string OT
     {
-        get => GetString(Offsets.OT, OTLength);
-        set => SetString(Data.AsSpan(Offsets.OT, OTLength + 1), value.AsSpan(), OTLength, StringConverterOption.ClearZero);
+        get => GetString(Offsets.OT, MaxStringLengthOT);
+        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public Span<byte> OT_Trash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
@@ -279,8 +279,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     public string Rival
     {
-        get => GetString(Offsets.Rival, OTLength);
-        set => SetString(Data.AsSpan(Offsets.Rival, OTLength), value.AsSpan(), OTLength, StringConverterOption.Clear50);
+        get => GetString(Offsets.Rival, MaxStringLengthOT);
+        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT), value.AsSpan(), MaxStringLengthOT, StringConverterOption.Clear50);
     }
 
     public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
@@ -344,7 +344,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public int Badges
     {
         get => Data[Offsets.Badges];
-        set { if (value < 0) return; Data[Offsets.Badges] = (byte)value; }
+        set => Data[Offsets.Badges] = (byte)value;
     }
 
     private byte Options

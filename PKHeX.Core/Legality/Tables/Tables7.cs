@@ -54,7 +54,7 @@ public static partial class Legal
         841, 842, 843, 845, 847, 850, 857, 858, 860,
     };
 
-    internal static readonly ushort[] Pouch_Key_USUM = ArrayUtil.ConcatAll(Pouch_Key_SM, new ushort[] {
+    internal static readonly ushort[] Pouch_Key_USUM = ArrayUtil.ConcatAll(Pouch_Key_SM, stackalloc ushort[] {
         933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
         440,
     });
@@ -91,11 +91,11 @@ public static partial class Legal
         776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836,
     };
 
-    internal static readonly ushort[] Pouch_ZCrystal_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystal_SM, new ushort[] { // Bead
+    internal static readonly ushort[] Pouch_ZCrystal_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystal_SM, stackalloc ushort[] { // Bead
         927, 928, 929, 930, 931, 932,
     });
 
-    internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystalHeld_SM, new ushort[] { // Piece
+    internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystalHeld_SM, stackalloc ushort[] { // Piece
         921, 922, 923, 924, 925, 926,
     });
 

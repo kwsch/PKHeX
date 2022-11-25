@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core;
@@ -13,9 +13,10 @@ public static class Language
         (byte)Japanese,
         (byte)English,
         (byte)French,
-        (byte)German,
-        (byte)Spanish,
         (byte)Italian,
+        (byte)German,
+
+        (byte)Spanish,
 
         (byte)Korean, // GS
 
@@ -24,8 +25,8 @@ public static class Language
     };
 
     // check Korean for the VC case, never possible to match string outside of this case
-    private static readonly byte[] Languages_GB = Languages.AsSpan(0, 7).ToArray(); // [..KOR]
-    private static readonly byte[] Languages_3  = Languages.AsSpan(0, 6).ToArray(); // [..KOR)
+    private static ReadOnlySpan<byte> Languages_GB => Languages.AsSpan(0, 7); // [..KOR]
+    private static ReadOnlySpan<byte> Languages_3  => Languages.AsSpan(0, 6); // [..KOR)
     private const LanguageID SafeLanguage = English;
 
     public static ReadOnlySpan<byte> GetAvailableGameLanguages(int generation = PKX.Generation) => generation switch
@@ -37,11 +38,7 @@ public static class Language
         _           => Languages,
     };
 
-    private static bool HasLanguage(byte[] permitted, byte language)
-    {
-        int index = Array.IndexOf(permitted, language);
-        return index != -1;
-    }
+    private static bool HasLanguage(ReadOnlySpan<byte> permitted, byte language) => permitted.Contains(language);
 
     public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any) => generation switch
     {

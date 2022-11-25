@@ -32,28 +32,34 @@ public static class EncounterEvent
     /// <summary>Event Database for Generation 8</summary>
     public static IReadOnlyList<WC8> MGDB_G8 { get; private set; } = Array.Empty<WC8>();
 
-    /// <summary>Event Database for Generation 8 <see cref="GameVersion.BDSP"/></summary>
+    /// <summary>Event Database for Generation 8 <see cref="GameVersion.PLA"/></summary>
     public static IReadOnlyList<WA8> MGDB_G8A { get; private set; } = Array.Empty<WA8>();
 
     /// <summary>Event Database for Generation 8 <see cref="GameVersion.BDSP"/></summary>
     public static IReadOnlyList<WB8> MGDB_G8B { get; private set; } = Array.Empty<WB8>();
 
+    /// <summary>Event Database for Generation 9 <see cref="GameVersion.SV"/></summary>
+    public static IReadOnlyList<WC9> MGDB_G9 { get; private set; } = Array.Empty<WC9>();
+
     /// <summary>Indicates if the databases are initialized.</summary>
     public static bool Initialized => MGDB_G3.Count != 0;
 
-    private static PCD[] GetPCDDB(ReadOnlySpan<byte> bin) => Get(bin, PCD.Size, d => new PCD(d));
-    private static PGF[] GetPGFDB(ReadOnlySpan<byte> bin) => Get(bin, PGF.Size, d => new PGF(d));
+    private static PCD[] GetPCDDB(ReadOnlySpan<byte> bin) => Get(bin, PCD.Size, static d => new PCD(d));
+    private static PGF[] GetPGFDB(ReadOnlySpan<byte> bin) => Get(bin, PGF.Size, static d => new PGF(d));
 
     private static WC6[] GetWC6DB(ReadOnlySpan<byte> wc6bin, ReadOnlySpan<byte> wc6full) => WC6Full.GetArray(wc6full, wc6bin);
     private static WC7[] GetWC7DB(ReadOnlySpan<byte> wc7bin, ReadOnlySpan<byte> wc7full) => WC7Full.GetArray(wc7full, wc7bin);
 
-    private static WB7[] GetWB7DB(ReadOnlySpan<byte> bin) => Get(bin, WB7.SizeFull, d => new WB7(d));
-    private static WC8[] GetWC8DB(ReadOnlySpan<byte> bin) => Get(bin, WC8.Size, d => new WC8(d));
-    private static WB8[] GetWB8DB(ReadOnlySpan<byte> bin) => Get(bin, WB8.Size, d => new WB8(d));
-    private static WA8[] GetWA8DB(ReadOnlySpan<byte> bin) => Get(bin, WA8.Size, d => new WA8(d));
+    private static WB7[] GetWB7DB(ReadOnlySpan<byte> bin) => Get(bin, WB7.SizeFull, static d => new WB7(d));
+    private static WC8[] GetWC8DB(ReadOnlySpan<byte> bin) => Get(bin, WC8.Size, static d => new WC8(d));
+    private static WB8[] GetWB8DB(ReadOnlySpan<byte> bin) => Get(bin, WB8.Size, static d => new WB8(d));
+    private static WA8[] GetWA8DB(ReadOnlySpan<byte> bin) => Get(bin, WA8.Size, static d => new WA8(d));
+    private static WC9[] GetWC9DB(ReadOnlySpan<byte> bin) => Get(bin, WC9.Size, static d => new WC9(d));
 
     private static T[] Get<T>(ReadOnlySpan<byte> bin, int size, Func<byte[], T> ctor)
     {
+        // bin is a multiple of size
+        // bin.Length % size == 0
         var result = new T[bin.Length / size];
         System.Diagnostics.Debug.Assert(result.Length * size == bin.Length);
         for (int i = 0; i < result.Length; i++)
@@ -79,7 +85,10 @@ public static class EncounterEvent
         ICollection<WC8> g8 = GetWC8DB(Util.GetBinaryResource("wc8.pkl"));
         ICollection<WB8> b8 = GetWB8DB(Util.GetBinaryResource("wb8.pkl"));
         ICollection<WA8> a8 = GetWA8DB(Util.GetBinaryResource("wa8.pkl"));
+        ICollection<WC9> g9 = GetWC9DB(Util.GetBinaryResource("wc9.pkl"));
 
+        // Load external files
+        // For each file, load the gift object into the appropriate list.
         var gifts = GetGifts(paths);
         foreach (var gift in gifts)
         {
@@ -100,6 +109,7 @@ public static class EncounterEvent
                 case WC8 wc8: AddOrExpand(ref g8, wc8); continue;
                 case WB8 wb8: AddOrExpand(ref b8, wb8); continue;
                 case WA8 wa8: AddOrExpand(ref a8, wa8); continue;
+                case WC9 wc9: AddOrExpand(ref g9, wc9); continue;
             }
         }
 
@@ -123,6 +133,7 @@ public static class EncounterEvent
         MGDB_G8 = SetArray(g8);
         MGDB_G8A = SetArray(a8);
         MGDB_G8B = SetArray(b8);
+        MGDB_G9 = SetArray(g9);
     }
 
     private static IEnumerable<MysteryGift> GetGifts(IEnumerable<string> paths)
@@ -137,6 +148,10 @@ public static class EncounterEvent
         }
     }
 
+    /// <summary>
+    /// Gets all event gifts.
+    /// </summary>
+    /// <param name="sorted">If true, the result will be sorted by ascending species ID. Otherwise, will be ordered by generation ascending.</param>
     public static IEnumerable<MysteryGift> GetAllEvents(bool sorted = true)
     {
         var regular = new IReadOnlyList<MysteryGift>[]
@@ -149,6 +164,7 @@ public static class EncounterEvent
             MGDB_G8,
             MGDB_G8A,
             MGDB_G8B,
+            MGDB_G9,
         }.SelectMany(z => z);
         regular = regular.Where(mg => !mg.IsItem && mg.IsEntity && mg.Species > 0);
         var result = MGDB_G3.Concat(regular);

@@ -4,18 +4,18 @@ namespace PKHeX.Core;
 /// Generation 8 Trade Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterTrade"/>
-public sealed record EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
+public sealed record EncounterTrade8 : EncounterTrade, IDynamaxLevelReadOnly, IRelearn, IMemoryOTReadOnly
 {
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8;
     public override int Location => Locations.LinkTrade6NPC;
     public Moveset Relearn { get; init; }
 
-    public ushort OT_TextVar { get; set; }
-    public byte OT_Memory { get; set; }
-    public byte OT_Feeling { get; set; }
-    public byte OT_Intensity { get; set; }
-    public byte DynamaxLevel { get; set; }
+    public ushort OT_TextVar { get; }
+    public byte OT_Memory { get; }
+    public byte OT_Feeling { get; }
+    public byte OT_Intensity { get; }
+    public byte DynamaxLevel { get; init; }
     public byte FlawlessIVCount { get; init; }
     public override Shiny Shiny { get; }
 

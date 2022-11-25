@@ -506,7 +506,7 @@ Exuviation
 Vibra Soin
 Châtiment
 Chute Libre
-Chgt Vitesse
+Change-Vitesse
 Projection
 Calcination
 À la Queue
@@ -519,7 +519,7 @@ Feu d’Enfer
 Aire d’Eau
 Aire de Feu
 Aire d’Herbe
-Change Éclair
+Change-Éclair
 Survinsecte
 Piétisol
 Souffle Glacé
@@ -849,3 +849,53 @@ Typhon Fulgurant
 Typhon Pyrosable
 Prière Lunaire
 Extravaillance
+Téra Explosion
+Piège de Fil
+Talon-Marteau
+Hommage Posthume
+Lumino-Impact
+Plat du Jour
+Poing Sonique
+Habanerage
+Dérapage
+Prolifération
+Cryo-Pirouette
+Charge Glaive
+Second Souffle
+Salaison
+Triple Plongeon
+Toupie Éclat
+Décalquage
+Décharnement
+Génusection
+Magie Florale
+Chant Flamboyant
+Danse Aquatique
+Taurogne
+Ruée d’Or
+WAZA_SAIKOBUREIDO
+WAZA_HAIDOROSUTIIMU
+Cataclysme
+Nitro Crash
+Turbo Volt
+Queulonage
+Neigeux de Mots
+Grand Nettoyage
+Chute de Neige
+Bond
+Désherbaffe
+Douche Froide
+Hyperceuse
+Double Laser
+Poing de Colère
+Canon Blindé
+Lame en Peine
+Double Décharge
+Marteau Mastoc
+Vindicte
+Tranch’Aqua
+Crash Brûlant
+Crash Obscur
+Crash Toxique
+Crash Musclé
+Crash Magique

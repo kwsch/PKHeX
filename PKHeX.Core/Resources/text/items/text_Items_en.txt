@@ -431,10 +431,10 @@ Loot Sack
 Rule Book
 Poké Radar
 Point Card
-Journal
-Seal Case
+Guidebook
+Sticker Case
 Fashion Case
-Seal Bag
+Sticker Bag
 Pal Pad
 Works Key
 Old Charm
@@ -480,8 +480,8 @@ Red Scale
 Lost Item
 Pass
 Machine Part
-Silver Wing
-Rainbow Wing
+Silver Feather
+Rainbow Feather
 Mystery Egg
 Red Apricorn
 Blue Apricorn
@@ -945,7 +945,7 @@ N-Solarizer
 N-Lunarizer
 N-Solarizer
 N-Lunarizer
-Ilima Normalium Z
+Ilima’s Normalium Z
 Left Poké Ball
 Roto Hatch
 Roto Bargain
@@ -1827,3 +1827,575 @@ DS Sounds
 
 
 Legend Plate
+Rotom Phone
+Sandwich
+Koraidon’s Poké Ball
+Miraidon’s Poké Ball
+Tera Orb
+Scarlet Book
+Violet Book
+Kofu’s Wallet
+
+
+
+
+
+Tiny Bamboo Shoot
+Big Bamboo Shoot
+
+
+
+
+
+
+
+
+
+
+
+
+
+Scroll of Darkness
+Scroll of Waters
+
+
+Malicious Armor
+Normal Tera Shard
+Fire Tera Shard
+Water Tera Shard
+Electric Tera Shard
+Grass Tera Shard
+Ice Tera Shard
+Fighting Tera Shard
+Poison Tera Shard
+Ground Tera Shard
+Flying Tera Shard
+Psychic Tera Shard
+Bug Tera Shard
+Rock Tera Shard
+Ghost Tera Shard
+Dragon Tera Shard
+Dark Tera Shard
+Steel Tera Shard
+Fairy Tera Shard
+Booster Energy
+Ability Shield
+Clear Amulet
+Mirror Herb
+Punching Glove
+Covert Cloak
+Loaded Dice
+
+Baguette
+Mayonnaise
+Ketchup
+Mustard
+Butter
+Peanut Butter
+Chili Sauce
+Salt
+Pepper
+Yogurt
+Whipped Cream
+Cream Cheese
+Jam
+Marmalade
+Olive Oil
+Vinegar
+Sweet Herba Mystica
+Salty Herba Mystica
+Sour Herba Mystica
+Bitter Herba Mystica
+Spicy Herba Mystica
+Lettuce
+Tomato
+Cherry Tomatoes
+Cucumber
+Pickle
+Onion
+Red Onion
+Green Bell Pepper
+Red Bell Pepper
+Yellow Bell Pepper
+Avocado
+Bacon
+Ham
+Prosciutto
+Chorizo
+Herbed Sausage
+Hamburger
+Klawf Stick
+Smoked Fillet
+Fried Fillet
+Egg
+Potato Tortilla
+Tofu
+Rice
+Noodles
+Potato Salad
+Cheese
+Banana
+Strawberry
+Apple
+Kiwi
+Pineapple
+Jalapeño
+Horseradish
+Curry Powder
+Wasabi
+Watercress
+Basil
+
+
+
+
+
+
+
+
+
+Venonat Fang
+Diglett Dirt
+Meowth Fur
+Psyduck Down
+Mankey Fur
+Growlithe Fur
+Slowpoke Claw
+Magnemite Screw
+Grimer Toxin
+Shellder Pearl
+Gastly Gas
+Drowzee Fur
+Voltorb Sparks
+Scyther Claw
+Tauros Hair
+Magikarp Scales
+Ditto Goo
+Eevee Fur
+Dratini Scales
+Pichu Fur
+Igglybuff Fluff
+Mareep Wool
+Hoppip Leaf
+Sunkern Leaf
+Murkrow Bauble
+Misdreavus Tears
+Girafarig Fur
+Pineco Husk
+Dunsparce Scales
+Qwilfish Spines
+Heracross Claw
+Sneasel Claw
+Teddiursa Claw
+Delibird Parcel
+Houndour Fang
+Phanpy Nail
+Stantler Hair
+Larvitar Claw
+Wingull Feather
+Ralts Dust
+Surskit Syrup
+Shroomish Spores
+Slakoth Fur
+Makuhita Sweat
+Azurill Fur
+Sableye Gem
+Meditite Sweat
+Gulpin Mucus
+Numel Lava
+Torkoal Coal
+Spoink Pearl
+Cacnea Needle
+Swablu Fluff
+Zangoose Claw
+Seviper Fang
+Barboach Slime
+Shuppet Scrap
+Tropius Leaf
+Snorunt Fur
+Luvdisc Scales
+Bagon Scales
+Starly Feather
+Kricketot Shell
+Shinx Fang
+Combee Honey
+Pachirisu Fur
+Buizel Fur
+Shellos Mucus
+Drifloon Gas
+Stunky Fur
+Bronzor Fragment
+Bonsly Tears
+Happiny Dust
+Spiritomb Fragment
+Gible Scales
+Riolu Fur
+Hippopotas Sand
+Croagunk Poison
+Finneon Scales
+Snover Berries
+Rotom Sparks
+Petilil Leaf
+Basculin Fang
+Sandile Claw
+Zorua Fur
+Gothita Eyelash
+Deerling Hair
+Foongus Spores
+Alomomola Mucus
+Tynamo Slime
+Axew Scales
+Cubchoo Fur
+Cryogonal Ice
+Pawniard Blade
+Rufflet Feather
+Deino Scales
+Larvesta Fuzz
+Fletchling Feather
+Scatterbug Powder
+Litleo Tuft
+Flabébé Pollen
+Skiddo Leaf
+Skrelp Kelp
+Clauncher Claw
+Hawlucha Down
+Dedenne Fur
+Goomy Goo
+Klefki Key
+Bergmite Ice
+Noibat Fur
+Yungoos Fur
+Crabrawler Shell
+Oricorio Feather
+Rockruff Rock
+Mareanie Spike
+Mudbray Mud
+Fomantis Leaf
+Salandit Gas
+Bounsweet Sweat
+Oranguru Fur
+Passimian Fur
+Sandygast Sand
+Komala Claw
+Mimikyu Scrap
+Bruxish Tooth
+Chewtle Claw
+Skwovet Fur
+Arrokuda Scales
+Rookidee Feather
+Toxel Sparks
+Falinks Sweat
+Cufant Tarnish
+Rolycoly Coal
+Silicobra Sand
+Indeedee Fur
+Pincurchin Spines
+Snom Thread
+Impidimp Hair
+Applin Juice
+Sinistea Chip
+Hatenna Dust
+Stonjourner Stone
+Eiscue Down
+Dreepy Powder
+
+
+
+Lechonk Hair
+Tarountula Thread
+Nymble Claw
+Rellor Mud
+Greavard Wax
+Flittle Down
+Wiglett Sand
+Dondozo Whisker
+Veluza Fillet
+Finizen Mucus
+Smoliv Oil
+Capsakid Seed
+Tadbulb Mucus
+Varoom Fume
+Orthworm Tarnish
+Tandemaus Fur
+Cetoddle Grease
+Frigibax Scales
+Tatsugiri Scales
+Cyclizar Scales
+Pawmi Fur
+
+
+Wattrel Feather
+Bombirdier Feather
+Squawkabilly Feather
+Flamigo Down
+Klawf Claw
+Nacli Salt
+Glimmet Crystal
+Shroodle Ink
+Fidough Fur
+Maschiff Fang
+Bramblin Twig
+Gimmighoul Coin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tinkatink Hair
+Charcadet Soot
+Toedscool Flaps
+Wooper Slime
+TM100
+TM101
+TM102
+TM103
+TM104
+TM105
+TM106
+TM107
+TM108
+TM109
+TM110
+TM111
+TM112
+TM113
+TM114
+TM115
+TM116
+TM117
+TM118
+TM119
+TM120
+TM121
+TM122
+TM123
+TM124
+TM125
+TM126
+TM127
+TM128
+TM129
+TM130
+TM131
+TM132
+TM133
+TM134
+TM135
+TM136
+TM137
+TM138
+TM139
+TM140
+TM141
+TM142
+TM143
+TM144
+TM145
+TM146
+TM147
+TM148
+TM149
+TM150
+TM151
+TM152
+TM153
+TM154
+TM155
+TM156
+TM157
+TM158
+TM159
+TM160
+TM161
+TM162
+TM163
+TM164
+TM165
+TM166
+TM167
+TM168
+TM169
+TM170
+TM171
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Picnic Set
+
+Academy Bottle
+Academy Bottle
+Polka-Dot Bottle
+Striped Bottle
+Diamond Bottle
+Academy Cup
+Academy Cup
+Striped Cup
+Polka-Dot Cup
+Flower Pattern Cup
+Academy Tablecloth
+Academy Tablecloth
+Whimsical Tablecloth
+Leafy Tablecloth
+Spooky Tablecloth
+
+Academy Ball
+Academy Ball
+Marill Ball
+Yarn Ball
+Cyber Ball
+Gold Pick
+Silver Pick
+Red-Flag Pick
+Blue-Flag Pick
+Pika-Pika Pick
+Winking Pika Pick
+Vee-Vee Pick
+Smiling Vee Pick
+Blue Poké Ball Pick
+
+Auspicious Armor
+Leader’s Crest
+
+
+Pink Bottle
+Blue Bottle
+Yellow Bottle
+Steel Bottle (R)
+Steel Bottle (Y)
+Steel Bottle (B)
+Silver Bottle
+Barred Cup
+Diamond Pattern Cup
+Fire Pattern Cup
+Pink Cup
+Blue Cup
+Yellow Cup
+Pikachu Cup
+Eevee Cup
+Slowpoke Cup
+Silver Cup
+Exercise Ball
+Plaid Tablecloth (Y)
+Plaid Tablecloth (B)
+Plaid Tablecloth (R)
+B&W Grass Tablecloth
+Battle Tablecloth
+Monstrous Tablecloth
+Striped Tablecloth
+Diamond Tablecloth
+Polka-Dot Tablecloth
+Lilac Tablecloth
+Mint Tablecloth
+Peach Tablecloth
+Yellow Tablecloth
+Blue Tablecloth
+Pink Tablecloth
+Gold Bottle
+Bronze Bottle
+Gold Cup
+Bronze Cup
+Green Poké Ball Pick
+Red Poké Ball Pick
+Party Sparkler Pick
+Heroic Sword Pick
+Magical Star Pick
+Magical Heart Pick
+Parasol Pick
+Blue-Sky Flower Pick
+Sunset Flower Pick
+Sunrise Flower Pick
+Blue Dish
+Green Dish
+Orange Dish
+Red Dish
+White Dish
+Yellow Dish

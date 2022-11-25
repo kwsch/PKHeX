@@ -138,7 +138,7 @@ Calcinvolo
 Sguardo Feroce
 Mangiasogni
 Velenogas
-Attacco Pioggia
+Sferattacco
 Sanguisuga
 Demonbacio
 Aeroattacco
@@ -176,7 +176,7 @@ Maledizione
 Flagello
 Conversione2
 Aerocolpo
-Cottonspora
+Cotonspora
 Contropiede
 Dispetto
 Polneve
@@ -190,7 +190,7 @@ Fangobomba
 Fangosberla
 Octazooka
 Punte
-Falcecannone
+Elettrocannone
 Preveggenza
 Destinobbligato
 Ultimocanto
@@ -351,7 +351,7 @@ Dragodanza
 Cadutamassi
 Ondashock
 Idropulsar
-Obbliderio
+Desiderio Fatale
 Psicoslancio
 Trespolo
 Gravità
@@ -394,7 +394,7 @@ Acquanello
 Magnetascesa
 Fuococarica
 Palmoforza
-Forzasfera
+Sferapulsar
 Lucidatura
 Velenpuntura
 Neropulsar
@@ -503,7 +503,7 @@ Anticipo
 Cambiaposto
 Idrovampata
 Gettaguscio
-Ondasana
+Curapulsar
 Sciagura
 Cadutalibera
 Cambiomarcia
@@ -849,3 +849,53 @@ Tempesta Tonante
 Tempesta Ardente
 Invocaluna
 Baldimpulso
+Terascoppio
+Telatrappola
+Calcio ad Ascia
+Omaggio ai KO
+Fotocollisione
+Alta Cucina
+Pugnojet
+Essenza Piccante
+Slittaruote
+Infestazione
+Vortighiaccio
+Spadoncarica
+Preghiera Vitale
+Sotto Sale
+Triplo Tuffo
+Glitturbine
+Ricalco
+Alleggerimento
+Genufendente
+Prestigiafiore
+Canzone Ardente
+Idroballetto
+Scatenatoro
+Corsa all’Oro
+WAZA_SAIKOBUREIDO
+WAZA_HAIDOROSUTIIMU
+Catastrofe
+Turboschianto
+Fulmiscatto
+Tagliacoda
+Freddura
+Pulizie
+Vista Innevata
+Balzo
+Apripista
+Doccia Fredda
+Ipertrapano
+Doppioraggio
+Pugno Furibondo
+Corazza Cannone
+Lama del Rimorso
+Doppiolampo
+Granmartello
+Ritorsione
+Idrotaglio
+Turboustione
+Turbotenebra
+Turbotossina
+Turborissa
+Turboincanto

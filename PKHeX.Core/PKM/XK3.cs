@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon XD. </summary>
-public sealed class XK3 : G3PKM, IShadowPKM
+public sealed class XK3 : G3PKM, IShadowCapture
 {
     private static readonly ushort[] Unused =
     {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
+using static PKHeX.Core.Encounters3XDTeams;
+using static PKHeX.Core.Encounters3ColoTeams;
 
 namespace PKHeX.Tests.Legality.Shadow;
 
@@ -11,40 +13,40 @@ public static class ValidityTests
     public static IEnumerable<object[]> Lock1()
     {
         // Zubat (F) (Serious)
-        yield return new object[] { Encounters3Teams.Poochyena, 0xAF4E3161, new[] { 11, 29, 25, 6, 23, 10 } };
+        yield return new object[] { Poochyena, 0xAF4E3161, new[] { 11, 29, 25, 6, 23, 10 } };
 
         // Murkrow (M) (Docile)
-        yield return new object[] { Encounters3Teams.Pineco, 0xC3A0F1E5, new[] { 30, 3, 9, 10, 27, 30 } };
+        yield return new object[] { Pineco, 0xC3A0F1E5, new[] { 30, 3, 9, 10, 27, 30 } };
     }
 
     public static IEnumerable<object[]> Lock2()
     {
         // Goldeen (F) (Serious)
         // Horsea (M) (Quirky)
-        yield return new object[] { Encounters3Teams.Spheal, 0xA459BF44, new[] { 0, 11, 4, 28, 6, 13 } };
+        yield return new object[] { Spheal, 0xA459BF44, new[] { 0, 11, 4, 28, 6, 13 } };
 
         // Kirlia (M) (Hardy)
         // Linoone (F) (Hardy)
-        yield return new object[] { Encounters3Teams.Natu, 0x8E14DAB6, new[] { 29, 24, 30, 16, 3, 18 } };
+        yield return new object[] { Natu, 0x8E14DAB6, new[] { 29, 24, 30, 16, 3, 18 } };
 
         // Remoraid (M) (Docile) -- 73DB58CC
         // Golbat (M) (Bashful) -- F6B04390
-        yield return new object[] { Encounters3Teams.Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 } };
+        yield return new object[] { Roselia, 0x30E87CC7, new[] { 22, 11, 8, 26, 4, 29 } };
 
         // 519AEF0E
         // Duskull (M) (Quirky) -- 45BE3B97
         // Spinarak (F) (Hardy) -- E18F5A3E
-        yield return new object[] { Encounters3Teams.ColoMakuhita, 0xC252FEBA, new[] { 15, 9, 17, 16, 24, 22 } };
+        yield return new object[] { ColoMakuhita, 0xC252FEBA, new[] { 15, 9, 17, 16, 24, 22 } };
 
         // 559C5F72 -- Quirky F => skip
         // Duskull (M) (Quirky) -- A5AC2CCB
         // Spinarak (F) (Hardy) -- D08FF135
-        yield return new object[] { Encounters3Teams.ColoMakuhita, 0x61C676FC, new[] { 20, 28, 21, 18, 9, 1 } };
+        yield return new object[] { ColoMakuhita, 0x61C676FC, new[] { 20, 28, 21, 18, 9, 1 } };
 
         // 3CCB97BA -- Quirky F => skip * 2, Hardy Skip
         // Duskull (M) (Quirky) -- 7F0D6783 @ 161
         // Spinarak (F) (Hardy) -- 6C03F545 @ 182
-        yield return new object[] { Encounters3Teams.ColoMakuhita, 0x3B27608D, new[] { 7, 12, 5, 19, 3, 7 } };
+        yield return new object[] { ColoMakuhita, 0x3B27608D, new[] { 7, 12, 5, 19, 3, 7 } };
     }
 
     public static IEnumerable<object[]> Lock3()
@@ -52,17 +54,17 @@ public static class ValidityTests
         // Luvdisc (F) (Docile)
         // Beautifly (M) (Hardy)
         // Roselia (M) (Quirky)
-        yield return new object[] { Encounters3Teams.Delcatty, 0x9BECA2A6, new[] { 31, 31, 25, 13, 22, 1 } };
+        yield return new object[] { Delcatty, 0x9BECA2A6, new[] { 31, 31, 25, 13, 22, 1 } };
 
         // Kadabra (M) (Docile)
         // Sneasel (F) (Hardy)
         // Misdreavus (F) (Bashful)
-        yield return new object[] { Encounters3Teams.Meowth, 0x77D87601, new[] { 10, 27, 26, 13, 30, 19 } };
+        yield return new object[] { Meowth, 0x77D87601, new[] { 10, 27, 26, 13, 30, 19 } };
 
         // Ralts (M) (Docile)
         // Voltorb (-) (Hardy)
         // Bagon (F) (Quirky)
-        yield return new object[] { Encounters3Teams.Numel, 0x37F95B26, new[] { 11, 8, 5, 10, 28, 14 } };
+        yield return new object[] { Numel, 0x37F95B26, new[] { 11, 8, 5, 10, 28, 14 } };
     }
 
     public static IEnumerable<object[]> Lock4()
@@ -71,25 +73,25 @@ public static class ValidityTests
         // Jumpluff (M) (Docile)
         // Azumarill (F) (Hardy)
         // Shadow Tangela
-        yield return new object[] { Encounters3Teams.Butterfree, 0x2E49AC34, new[] { 15, 24, 7, 2, 11, 2 } };
+        yield return new object[] { Butterfree, 0x2E49AC34, new[] { 15, 24, 7, 2, 11, 2 } };
 
         // Huntail (M) (Docile)
         // Cacturne (F) (Hardy)
         // Weezing (F) (Serious)
         // Ursaring (F) (Bashful)
-        yield return new object[] { Encounters3Teams.Arbok, 0x1973FD07, new[] { 13, 30, 3, 16, 20, 9 } };
+        yield return new object[] { Arbok, 0x1973FD07, new[] { 13, 30, 3, 16, 20, 9 } };
 
         // Lairon (F) (Bashful)
         // Sealeo (F) (Serious)
         // Slowking (F) (Docile)
         // Ursaring (M) (Quirky)
-        yield return new object[] { Encounters3Teams.Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 } };
+        yield return new object[] { Primeape, 0x33893D4C, new[] { 26, 25, 24, 28, 29, 30 } };
     }
 
     public static IEnumerable<object[]> Lock5()
     {
         // many prior, all non shadow
-        yield return new object[] { Encounters3Teams.Seedot, 0x8CBD29DB, new[] { 19, 29, 30, 0, 7, 2 } };
+        yield return new object[] { Seedot, 0x8CBD29DB, new[] { 19, 29, 30, 0, 7, 2 } };
     }
 
     [Theory]
@@ -127,7 +129,7 @@ public static class PIDTests
                 new uint[] {0xF2AC8419, 0xADA208E3, 0xDB3A0BA6, 0x5EEF1076},
                 new uint[] {0x9D28899D, 0xA3ECC9F0, 0x606EC6F0, 0x451FAE3C},
             },
-            Encounters3Teams.Delcatty,
+            Delcatty,
         };
         yield return new object[]
         {
@@ -144,7 +146,7 @@ public static class PIDTests
                 new uint[] {0xC7315E32, 0x76566AA1, 0xC0CE436E, 0x98C45DA8, 0x9D1BDC4A},
                 new uint[] {0xB687F0AF, 0xC01DB6C6, 0xAD6DEC75, 0xDB041314, 0x0D949325},
             },
-            Encounters3Teams.Butterfree,
+            Butterfree,
         };
     }
 
@@ -177,7 +179,7 @@ public static class PIDTests
         }
     }
 
-    public static readonly uint[] Mawile =
+    public static readonly uint[] MawileTeamPIDs =
     {
         0x4C3005E8, // Loudred
         0xD28DE40E, // Girafarig (re - rolled 64 times to next viable match)
@@ -187,7 +189,7 @@ public static class PIDTests
     [Fact]
     public static void VerifyMawileAntishiny()
     {
-        VerifyResultsAntiShiny(Mawile, Encounters3Teams.Mawile, 12345, 51882, stackalloc[] {31, 30, 29, 31, 23, 27});
+        VerifyResultsAntiShiny(MawileTeamPIDs, Mawile, 12345, 51882, stackalloc[] {31, 30, 29, 31, 23, 27});
     }
 
     private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, int tid, int sid, ReadOnlySpan<int> ivs)

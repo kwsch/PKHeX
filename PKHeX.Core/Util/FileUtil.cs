@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -100,6 +100,16 @@ public static class FileUtil
         if (RentalTeam8.IsRentalTeam(data))
         {
             result = new RentalTeam8(data);
+            return true;
+        }
+        if (RentalTeam9.IsRentalTeam(data))
+        {
+            result = new RentalTeam9(data);
+            return true;
+        }
+        if (RentalTeamSet9.IsRentalTeamSet(data))
+        {
+            result = new RentalTeamSet9(data);
             return true;
         }
         return false;

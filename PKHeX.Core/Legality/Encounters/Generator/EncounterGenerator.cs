@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -28,6 +28,7 @@ public static class EncounterGenerator
         6 => EncounterGenerator6.GetEncounters(pk),
         7 => EncounterGenerator7.GetEncounters(pk),
         8 => EncounterGenerator8.GetEncounters(pk),
+        9 => EncounterGenerator9.GetEncounters(pk),
         _ => Array.Empty<IEncounterable>(),
     };
 }

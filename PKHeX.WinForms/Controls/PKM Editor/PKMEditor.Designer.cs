@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class PKMEditor
     {
@@ -147,10 +147,9 @@
             this.Label_MetLevel = new System.Windows.Forms.Label();
             this.TB_MetLevel = new System.Windows.Forms.MaskedTextBox();
             this.FLP_MetDate = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_ObedienceLevel = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_MetDate = new System.Windows.Forms.Label();
             this.CAL_MetDate = new System.Windows.Forms.DateTimePicker();
-            this.FLP_Fateful = new System.Windows.Forms.FlowLayoutPanel();
-            this.PAN_Fateful = new System.Windows.Forms.Panel();
             this.CHK_Fateful = new System.Windows.Forms.CheckBox();
             this.FLP_GroundTile = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_GroundTile = new System.Windows.Forms.Label();
@@ -236,6 +235,8 @@
             this.UC_HTGender = new PKHeX.WinForms.Controls.GenderToggle();
             this.UC_OTGender = new PKHeX.WinForms.Controls.GenderToggle();
             this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
+            this.L_ObedienceLevel = new System.Windows.Forms.Label();
+            this.TB_ObedienceLevel = new System.Windows.Forms.MaskedTextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -280,6 +281,7 @@
             this.Tab_Met.SuspendLayout();
             this.GB_EggConditions.SuspendLayout();
             this.FLP_Met.SuspendLayout();
+            this.FLP_ObedienceLevel.SuspendLayout();
             this.FLP_OriginGame.SuspendLayout();
             this.FLP_BattleVersion.SuspendLayout();
             this.FLP_MetLocation.SuspendLayout();
@@ -288,7 +290,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Ball)).BeginInit();
             this.FLP_MetLevel.SuspendLayout();
             this.FLP_MetDate.SuspendLayout();
-            this.FLP_Fateful.SuspendLayout();
             this.FLP_GroundTile.SuspendLayout();
             this.FLP_TimeOfDay.SuspendLayout();
             this.Tab_Stats.SuspendLayout();
@@ -1414,7 +1415,7 @@
             this.FLP_SizeCP.Location = new System.Drawing.Point(0, 482);
             this.FLP_SizeCP.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SizeCP.Name = "FLP_SizeCP";
-            this.FLP_SizeCP.Size = new System.Drawing.Size(272, 72);
+            this.FLP_SizeCP.Size = new System.Drawing.Size(272, 90);
             this.FLP_SizeCP.TabIndex = 21;
             // 
             // Tab_Met
@@ -1527,9 +1528,9 @@
             this.FLP_Met.Controls.Add(this.FLP_BattleVersion);
             this.FLP_Met.Controls.Add(this.FLP_MetLocation);
             this.FLP_Met.Controls.Add(this.FLP_Ball);
-            this.FLP_Met.Controls.Add(this.FLP_MetLevel);
             this.FLP_Met.Controls.Add(this.FLP_MetDate);
-            this.FLP_Met.Controls.Add(this.FLP_Fateful);
+            this.FLP_Met.Controls.Add(this.FLP_MetLevel);
+            this.FLP_Met.Controls.Add(this.FLP_ObedienceLevel);
             this.FLP_Met.Controls.Add(this.FLP_GroundTile);
             this.FLP_Met.Controls.Add(this.FLP_TimeOfDay);
             this.FLP_Met.Location = new System.Drawing.Point(0, 24);
@@ -1704,6 +1705,7 @@
             this.FLP_MetLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_MetLevel.Controls.Add(this.Label_MetLevel);
             this.FLP_MetLevel.Controls.Add(this.TB_MetLevel);
+            this.FLP_MetLevel.Controls.Add(this.CHK_Fateful);
             this.FLP_MetLevel.Location = new System.Drawing.Point(0, 84);
             this.FLP_MetLevel.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetLevel.Name = "FLP_MetLevel";
@@ -1727,8 +1729,41 @@
             this.TB_MetLevel.Margin = new System.Windows.Forms.Padding(0);
             this.TB_MetLevel.Mask = "000";
             this.TB_MetLevel.Name = "TB_MetLevel";
-            this.TB_MetLevel.Size = new System.Drawing.Size(134, 20);
+            this.TB_MetLevel.Size = new System.Drawing.Size(22, 20);
             this.TB_MetLevel.TabIndex = 4;
+            this.TB_MetLevel.Validated += new System.EventHandler(this.Update255_MTB);
+            // 
+            // FLP_ObedienceLevel
+            // 
+            this.FLP_ObedienceLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_ObedienceLevel.Controls.Add(this.L_ObedienceLevel);
+            this.FLP_ObedienceLevel.Controls.Add(this.TB_ObedienceLevel);
+            this.FLP_ObedienceLevel.Location = new System.Drawing.Point(0, 84);
+            this.FLP_ObedienceLevel.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_ObedienceLevel.Name = "FLP_ObedienceLevel";
+            this.FLP_ObedienceLevel.Size = new System.Drawing.Size(272, 21);
+            this.FLP_ObedienceLevel.TabIndex = 4;
+            // 
+            // L_ObedienceLevel
+            // 
+            this.L_ObedienceLevel.Location = new System.Drawing.Point(0, 0);
+            this.L_ObedienceLevel.Margin = new System.Windows.Forms.Padding(0);
+            this.L_ObedienceLevel.Name = "L_ObedienceLevel";
+            this.L_ObedienceLevel.Size = new System.Drawing.Size(98, 21);
+            this.L_ObedienceLevel.TabIndex = 3;
+            this.L_ObedienceLevel.Text = "Obedience Level:";
+            this.L_ObedienceLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_ObedienceLevel.Click += new System.EventHandler(this.L_Obedience_Click);
+            // 
+            // TB_ObedienceLevel
+            // 
+            this.TB_ObedienceLevel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_ObedienceLevel.Location = new System.Drawing.Point(98, 0);
+            this.TB_ObedienceLevel.Margin = new System.Windows.Forms.Padding(0);
+            this.TB_ObedienceLevel.Mask = "000";
+            this.TB_ObedienceLevel.Name = "TB_ObedienceLevel";
+            this.TB_ObedienceLevel.Size = new System.Drawing.Size(22, 20);
+            this.TB_ObedienceLevel.TabIndex = 4;
             this.TB_MetLevel.Validated += new System.EventHandler(this.Update255_MTB);
             // 
             // FLP_MetDate
@@ -1761,34 +1796,15 @@
             this.CAL_MetDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.CAL_MetDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_MetDate.Name = "CAL_MetDate";
-            this.CAL_MetDate.Size = new System.Drawing.Size(126, 20);
+            this.CAL_MetDate.Size = new System.Drawing.Size(134, 20);
             this.CAL_MetDate.TabIndex = 5;
             this.CAL_MetDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            // 
-            // FLP_Fateful
-            // 
-            this.FLP_Fateful.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Fateful.Controls.Add(this.PAN_Fateful);
-            this.FLP_Fateful.Controls.Add(this.CHK_Fateful);
-            this.FLP_Fateful.Location = new System.Drawing.Point(0, 126);
-            this.FLP_Fateful.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Fateful.Name = "FLP_Fateful";
-            this.FLP_Fateful.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Fateful.TabIndex = 5;
-            // 
-            // PAN_Fateful
-            // 
-            this.PAN_Fateful.Location = new System.Drawing.Point(0, 0);
-            this.PAN_Fateful.Margin = new System.Windows.Forms.Padding(0);
-            this.PAN_Fateful.Name = "PAN_Fateful";
-            this.PAN_Fateful.Size = new System.Drawing.Size(98, 21);
-            this.PAN_Fateful.TabIndex = 104;
             // 
             // CHK_Fateful
             // 
             this.CHK_Fateful.AutoSize = true;
-            this.CHK_Fateful.Location = new System.Drawing.Point(98, 3);
-            this.CHK_Fateful.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.CHK_Fateful.Location = new System.Drawing.Point(120, 3);
+            this.CHK_Fateful.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.CHK_Fateful.Name = "CHK_Fateful";
             this.CHK_Fateful.Size = new System.Drawing.Size(110, 17);
             this.CHK_Fateful.TabIndex = 6;
@@ -2743,7 +2759,7 @@
             this.SizeCP.Location = new System.Drawing.Point(50, 0);
             this.SizeCP.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
             this.SizeCP.Name = "SizeCP";
-            this.SizeCP.Size = new System.Drawing.Size(204, 68);
+            this.SizeCP.Size = new System.Drawing.Size(204, 90);
             this.SizeCP.TabIndex = 0;
             // 
             // Stats
@@ -2874,8 +2890,8 @@
             this.FLP_MetLevel.ResumeLayout(false);
             this.FLP_MetLevel.PerformLayout();
             this.FLP_MetDate.ResumeLayout(false);
-            this.FLP_Fateful.ResumeLayout(false);
-            this.FLP_Fateful.PerformLayout();
+            this.FLP_ObedienceLevel.ResumeLayout(false);
+            this.FLP_ObedienceLevel.PerformLayout();
             this.FLP_GroundTile.ResumeLayout(false);
             this.FLP_TimeOfDay.ResumeLayout(false);
             this.Tab_Stats.ResumeLayout(false);
@@ -3024,8 +3040,6 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_MetDate;
         private System.Windows.Forms.Label Label_MetDate;
         private System.Windows.Forms.DateTimePicker CAL_MetDate;
-        private System.Windows.Forms.FlowLayoutPanel FLP_Fateful;
-        private System.Windows.Forms.Panel PAN_Fateful;
         private System.Windows.Forms.CheckBox CHK_Fateful;
         private System.Windows.Forms.FlowLayoutPanel FLP_GroundTile;
         private System.Windows.Forms.Label Label_GroundTile;
@@ -3128,5 +3142,8 @@
         private GenderToggle UC_Gender;
         private GenderToggle UC_HTGender;
         private GenderToggle UC_OTGender;
+        private System.Windows.Forms.FlowLayoutPanel FLP_ObedienceLevel;
+        private System.Windows.Forms.Label L_ObedienceLevel;
+        private System.Windows.Forms.MaskedTextBox TB_ObedienceLevel;
     }
 }

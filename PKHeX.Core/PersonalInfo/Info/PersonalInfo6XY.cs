@@ -33,8 +33,8 @@ public sealed class PersonalInfo6XY : PersonalInfo, IPersonalAbility12H
     public override int SPE { get => Data[0x03]; set => Data[0x03] = (byte)value; }
     public override int SPA { get => Data[0x04]; set => Data[0x04] = (byte)value; }
     public override int SPD { get => Data[0x05]; set => Data[0x05] = (byte)value; }
-    public override int Type1 { get => Data[0x06]; set => Data[0x06] = (byte)value; }
-    public override int Type2 { get => Data[0x07]; set => Data[0x07] = (byte)value; }
+    public override byte Type1 { get => Data[0x06]; set => Data[0x06] = value; }
+    public override byte Type2 { get => Data[0x07]; set => Data[0x07] = value; }
     public override int CatchRate { get => Data[0x08]; set => Data[0x08] = (byte)value; }
     public override int EvoStage { get => Data[0x09]; set => Data[0x09] = (byte)value; }
     private int EVYield { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
@@ -51,7 +51,7 @@ public sealed class PersonalInfo6XY : PersonalInfo, IPersonalAbility12H
     public override int Gender { get => Data[0x12]; set => Data[0x12] = (byte)value; }
     public override int HatchCycles { get => Data[0x13]; set => Data[0x13] = (byte)value; }
     public override int BaseFriendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
-    public override int EXPGrowth { get => Data[0x15]; set => Data[0x15] = (byte)value; }
+    public override byte EXPGrowth { get => Data[0x15]; set => Data[0x15] = value; }
     public override int EggGroup1 { get => Data[0x16]; set => Data[0x16] = (byte)value; }
     public override int EggGroup2 { get => Data[0x17]; set => Data[0x17] = (byte)value; }
     public int Ability1 { get => Data[0x18]; set => Data[0x18] = (byte)value; }

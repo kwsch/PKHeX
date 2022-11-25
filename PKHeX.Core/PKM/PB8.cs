@@ -158,4 +158,10 @@ public sealed class PB8 : G8PKM
         SetMoves(moves);
         this.SetMaximumPPCurrent(moves);
     }
+
+    public PK9 ConvertToPK9()
+    {
+        // Todo: Transfer to PK9
+        return new PK9();
+    }
 }

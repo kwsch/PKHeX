@@ -470,7 +470,8 @@ public partial class SAV_MailBox : Form
 
     private void EntryControl(object sender, EventArgs e)
     {
-        if (editing) return;
+        if (editing)
+            return;
         editing = true;
         int partyIndex = LB_PartyHeld.SelectedIndex;
         int pcIndex = LB_PCBOX.SelectedIndex;
@@ -569,9 +570,11 @@ public partial class SAV_MailBox : Form
 
     private void NUD_MailIDn_ValueChanged(object sender, EventArgs e)
     {
-        if (editing || Gen != 3) return;
+        if (editing || Gen != 3)
+            return;
         int index = Array.IndexOf(PKMNUDs, (NumericUpDown)sender);
-        if (index < 0 || index >= p.Count) return;
+        if (index < 0 || index >= p.Count)
+            return;
         ((PK3)p[index]).HeldMailID = (sbyte)PKMNUDs[index].Value;
     }
 

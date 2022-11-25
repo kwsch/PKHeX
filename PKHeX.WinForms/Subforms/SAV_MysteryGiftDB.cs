@@ -149,7 +149,7 @@ public partial class SAV_MysteryGiftDB : Form
             WinFormsUtil.Alert(MsgExportWC3DataFail);
             return;
         }
-        WinFormsUtil.ExportMGDialog(g, SAV.Version);
+        WinFormsUtil.ExportMGDialog(g);
     }
 
     private int GetSenderIndex(object sender)
@@ -224,11 +224,13 @@ public partial class SAV_MysteryGiftDB : Form
 
         if (Main.Settings.MysteryDb.FilterUnavailableSpecies)
         {
+            static bool IsPresentInGameSV  (ISpeciesForm pk) => PersonalTable.SV.  IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameSWSH(ISpeciesForm pk) => PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameBDSP(ISpeciesForm pk) => PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameLA(ISpeciesForm pk) => PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form);
+            static bool IsPresentInGameLA  (ISpeciesForm pk) => PersonalTable.LA.  IsPresentInGame(pk.Species, pk.Form);
             db = SAV switch
             {
+                SAV9SV => db.Where(IsPresentInGameSV),
                 SAV8SWSH => db.Where(IsPresentInGameSWSH),
                 SAV8BS => db.Where(IsPresentInGameBDSP),
                 SAV8LA => db.Where(IsPresentInGameLA),

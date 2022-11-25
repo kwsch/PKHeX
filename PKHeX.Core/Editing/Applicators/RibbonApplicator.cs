@@ -62,7 +62,7 @@ public static class RibbonApplicator
             // Skip Marks, don't set them.
             for (RibbonIndex r = 0; r <= RibbonIndex.MasterRank; r++)
                 r.Fix(args, desiredState);
-            for (RibbonIndex r = RibbonIndex.Pioneer; r < RibbonIndex.MAX_COUNT; r++)
+            for (RibbonIndex r = RibbonIndex.Hisui; r < RibbonIndex.MAX_COUNT; r++)
                 r.Fix(args, desiredState);
         }
         else

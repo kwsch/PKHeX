@@ -7,7 +7,7 @@ public interface IRibbonSetCommon8
     bool RibbonTowerMaster { get; set; }
     bool RibbonMasterRank { get; set; }
     bool RibbonTwinklingStar { get; set; }
-    bool RibbonPioneer { get; set; }
+    bool RibbonHisui { get; set; }
 }
 
 internal static partial class RibbonExtensions
@@ -18,6 +18,6 @@ internal static partial class RibbonExtensions
         dest.RibbonTowerMaster = set.RibbonTowerMaster;
         dest.RibbonMasterRank = set.RibbonMasterRank;
         dest.RibbonTwinklingStar = set.RibbonTwinklingStar;
-        dest.RibbonPioneer = set.RibbonPioneer;
+        dest.RibbonHisui = set.RibbonHisui;
     }
 }

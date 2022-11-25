@@ -1,4 +1,4 @@
-﻿Spitzohr
+Spitzohr
 
 
 
@@ -1096,3 +1096,28 @@ Hisui
 Königs
 Königinnen
 Legende
+Fälschungs
+Original
+Paldea
+Zweisegment
+Dreisegment
+Alltags
+Helden
+Dreierfamilie
+Viererfamilie
+Gebogene
+Hängende
+Gestreckte
+Grün
+Truhen
+Wander
+Vollkommene
+Gehemmte
+Sprint
+Schwimm
+Schwingen
+Kompletter
+Begrenzter
+Fahr
+Wasser
+Gleit

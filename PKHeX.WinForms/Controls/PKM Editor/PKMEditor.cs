@@ -254,6 +254,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         EntityContext.Gen6 => (PopulateFieldsPK6, PreparePK6),
         EntityContext.Gen7 => (PopulateFieldsPK7, PreparePK7),
         EntityContext.Gen8 => (PopulateFieldsPK8, PreparePK8),
+        EntityContext.Gen9 => (PopulateFieldsPK9, PreparePK9),
 
         EntityContext.Gen7b => (PopulateFieldsPB7, PreparePB7),
         EntityContext.Gen8a => (PopulateFieldsPA8, PreparePA8),
@@ -507,7 +508,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PB_MarkShiny.Image = GetMarkSprite(PB_MarkShiny, !BTN_Shinytize.Enabled);
         PB_MarkCured.Image = GetMarkSprite(PB_MarkCured, CHK_Cured.Checked);
 
-        PB_Favorite.Image = GetMarkSprite(PB_Favorite, Entity is IFavorite {Favorite: true});
+        PB_Favorite.Image = GetMarkSprite(PB_Favorite, Entity is IFavorite {IsFavorite: true});
         PB_Origin.Image = GetOriginSprite(Entity);
 
         // Colored Markings
@@ -530,6 +531,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         OriginMark.Gen8Galar    => Properties.Resources.gen_8,
         OriginMark.Gen8Trio     => Properties.Resources.gen_bs,
         OriginMark.Gen8Arc      => Properties.Resources.gen_la,
+        OriginMark.Gen9Paldea   => Properties.Resources.gen_sv,
         OriginMark.GameBoy      => Properties.Resources.gen_vc,
         OriginMark.GO           => Properties.Resources.gen_go,
         OriginMark.LetsGo       => Properties.Resources.gen_gg,
@@ -619,7 +621,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void ClickFavorite(object sender, EventArgs e)
     {
         if (Entity is IFavorite pb7)
-            pb7.Favorite ^= true;
+            pb7.IsFavorite ^= true;
         SetMarkings();
     }
 
@@ -749,7 +751,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return false;
 
         var m = Legality.GetSuggestedRelearnMoves();
-        if (Entity.RelearnMoves.SequenceEqual(m) || m.Count != 4)
+        if (m.Count != 4 || Entity.RelearnMoves.SequenceEqual(m))
             return false;
 
         if (!silent)
@@ -1316,40 +1318,38 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void UpdateNicknameClick(object sender, MouseEventArgs e)
     {
-        TextBox tb = sender as TextBox ?? TB_Nickname;
-        // Special Character Form
         if (ModifierKeys != Keys.Control)
             return;
 
-        var sav = RequestSaveFile;
-
+        // Open Trash/Special Character form
+        // Set the string back to the entity in the right spot, so the span fetch has latest date.
+        Span<byte> trash;
+        TextBox tb = sender as TextBox ?? TB_Nickname;
         if (tb == TB_Nickname)
         {
             Entity.Nickname = tb.Text;
-            var span = Entity.Nickname_Trash;
-            var d = new TrashEditor(tb, span, sav);
-            d.ShowDialog();
-            tb.Text = d.FinalString;
-            d.FinalBytes.CopyTo(span);
+            trash = Entity.Nickname_Trash;
         }
         else if (tb == TB_OT)
         {
             Entity.OT_Name = tb.Text;
-            var span = Entity.OT_Trash;
-            var d = new TrashEditor(tb, span, sav);
-            d.ShowDialog();
-            tb.Text = d.FinalString;
-            d.FinalBytes.CopyTo(span);
+            trash = Entity.OT_Trash;
         }
         else if (tb == TB_HT)
         {
             Entity.HT_Name = tb.Text;
-            var span = Entity.HT_Trash;
-            var d = new TrashEditor(tb, span, sav);
-            d.ShowDialog();
-            tb.Text = d.FinalString;
-            d.FinalBytes.CopyTo(span);
+            trash = Entity.HT_Trash;
         }
+        else
+        {
+            return;
+        }
+
+        var sav = RequestSaveFile;
+        using var d = new TrashEditor(tb, trash, sav);
+        d.ShowDialog();
+        tb.Text = d.FinalString;
+        d.FinalBytes.CopyTo(trash);
     }
 
     private void UpdateNotOT(object sender, EventArgs e)
@@ -1395,7 +1395,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             {
                 var sav = SaveFileRequested.Invoke(this, e);
                 bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
-                var loc = isTraded ? Locations.TradedEggLocation(sav.Generation, sav.Version) : LocationEdits.GetNoneLocation(Entity);
+                var loc = isTraded
+                    ? Locations.TradedEggLocation(sav.Generation, sav.Version)
+                    : LocationEdits.GetNoneLocation(Entity);
                 CB_MetLocation.SelectedValue = loc;
             }
             else if (Entity.Format == 3)
@@ -1584,7 +1586,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
         FieldsLoaded = false;
         NUD_Purification.Value = CHK_Shadow.Checked ? 1 : Entity is CK3 && NUD_ShadowID.Value != 0 ? CK3.Purified : 0;
-        ((IShadowPKM)Entity).Purification = (int)NUD_Purification.Value;
+        ((IShadowCapture)Entity).Purification = (int)NUD_Purification.Value;
         UpdatePreviewSprite?.Invoke(this, EventArgs.Empty);
         FieldsLoaded = true;
     }
@@ -1761,7 +1763,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void B_Records_Click(object sender, EventArgs e)
     {
-        if (Entity is not ITechRecord8 t)
+        if (Entity is not ITechRecord t)
             return;
 
         if (ModifierKeys == Keys.Shift)
@@ -1814,7 +1816,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         var pb7 = t is PB7;
         int gen = t.Format;
-        FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowPKM;
+        FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowCapture;
         bool sizeCP = gen >= 8 || pb7;
         FLP_SizeCP.Visible = sizeCP;
         if (sizeCP)
@@ -1826,10 +1828,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         BTN_Medals.Visible = gen is 6 or 7 && !pb7;
         FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IRegionOrigin;
         FLP_OriginalNature.Visible = gen >= 8;
-        B_Records.Visible = t is ITechRecord8;
+        B_Records.Visible = t is ITechRecord;
         B_MoveShop.Visible = t is IMoveShop8Mastery;
         CB_HTLanguage.Visible = gen >= 8;
         L_AlphaMastered.Visible = CB_AlphaMastered.Visible = t is PA8;
+        FLP_ObedienceLevel.Visible = t is IObedienceLevel;
         Contest.ToggleInterface(Entity, Entity.Context);
 
         ToggleInterface(Entity.Format);
@@ -1873,9 +1876,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         TB_AbilityNumber.Visible = gen >= 6 && DEV_Ability.Enabled;
 
         // Met Tab
-        L_HomeTracker.Visible = TB_HomeTracker.Visible = gen >= 8;
         FLP_MetDate.Visible = gen >= 4;
-        FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = gen >= 3;
+        CHK_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = gen >= 3;
         FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;
         FLP_GroundTile.Visible = gen is 4 or 5 or 6;
         FLP_TimeOfDay.Visible = gen == 2;
@@ -1894,9 +1896,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PopulateFields(Entity);
 
         // Save File Specific Limits
-        TB_OT.MaxLength = Entity.OTLength;
-        TB_HT.MaxLength = Entity.OTLength;
-        TB_Nickname.MaxLength = Entity.NickLength;
+        TB_OT.MaxLength = Entity.MaxStringLengthOT;
+        TB_HT.MaxLength = Entity.MaxStringLengthOT;
+        TB_Nickname.MaxLength = Entity.MaxStringLengthNickname;
 
         // Hide Unused Tabs
         if (Entity.Format == 1 && tabMain.TabPages.Contains(Tab_Met))
@@ -1963,7 +1965,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity is not IBattleVersion b)
             return;
         var value = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
-        b.BattleVersion = value;
+        if (FieldsLoaded)
+            b.BattleVersion = value;
         PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, value != 0);
     }
 
@@ -1995,6 +1998,17 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         tabMain.SelectedTab = Tab_Met; // parent tab of CB_GameOrigin
         tabMain.SelectedTab = Tab_Main; // first tab
+    }
+
+    private void L_Obedience_Click(object sender, EventArgs e)
+    {
+        if (Entity is not IObedienceLevel l)
+            return;
+        var met = Util.ToInt32(TB_MetLevel.Text);
+        var suggest = l.GetSuggestedObedienceLevel(Entity, met);
+        var current = Util.ToInt32(TB_ObedienceLevel.Text);
+        if (suggest != current)
+            TB_ObedienceLevel.Text = suggest.ToString();
     }
 
     private void InitializeLanguage(ITrainerInfo sav)
@@ -2052,9 +2066,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             SetIfDifferentCount(langWith0, CB_HTLanguage, force);
 
             var game = source.Games;
-            var gamesWith0 = new List<ComboItem>(1 + game.Count) {GameInfo.Sources.Empty};
-            gamesWith0.AddRange(game);
-            SetIfDifferentCount(gamesWith0, CB_BattleVersion, force);
+            SetIfDifferentCount(game, CB_BattleVersion, force);
         }
         SetIfDifferentCount(source.Species, CB_Species, force);
 

@@ -1,4 +1,4 @@
-﻿using PKHeX.Core;
+using PKHeX.Core;
 using static PKHeX.Drawing.PokeSprite.SpriteBuilderMode;
 using static PKHeX.Drawing.PokeSprite.SpriteBuilderPreference;
 
@@ -9,6 +9,7 @@ public enum SpriteBuilderMode
     KeepCurrent,
     SpritesClassic5668,
     CircleMugshot5668,
+    SpritesArtwork5668,
 }
 
 public enum SpriteBuilderPreference
@@ -17,6 +18,7 @@ public enum SpriteBuilderPreference
     DoNotChange,
     ForceSprites,
     ForceMugshots,
+    ForceArtwork,
 }
 
 public static class SpriteBuilderUtil
@@ -27,10 +29,12 @@ public static class SpriteBuilderUtil
     {
         ForceMugshots => CircleMugshot5668,
         ForceSprites => SpritesClassic5668,
+        ForceArtwork => SpritesArtwork5668,
         DoNotChange => KeepCurrent,
         _ => sav switch // Default, suggest.
         {
             SAV8LA => CircleMugshot5668,
+            SAV9SV => SpritesArtwork5668,
             _ => SpritesClassic5668,
         },
     };

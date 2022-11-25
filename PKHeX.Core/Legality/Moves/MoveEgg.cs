@@ -30,6 +30,7 @@ public static class MoveEgg
         7 when version is US or UM => GetFormEggMoves(species, form, EggMovesUSUM),
         8 when version is SW or SH => GetFormEggMoves(species, form, EggMovesSWSH),
         8 when version is BD or SP => GetMovesSafe(EggMovesBDSP, species),
+        9 when version is SL or VL => GetFormEggMoves(EggMovesSV, PersonalTable.SV.GetFormIndex(species, form)),
         _ => Array.Empty<ushort>(),
     };
 
@@ -38,6 +39,13 @@ public static class MoveEgg
         if (species >= moves.Count)
             return Array.Empty<ushort>();
         return moves[species].Moves;
+    }
+
+    public static ushort[] GetFormEggMoves(IReadOnlyList<ushort[]> moves, int index)
+    {
+        if ((ushort)index >= moves.Count)
+            return Array.Empty<ushort>();
+        return moves[index];
     }
 
     public static ushort[] GetFormEggMoves(ushort species, byte form, IReadOnlyList<EggMoves7> table)

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class StatEditor
     {
@@ -111,6 +111,16 @@
             this.FLP_Characteristic = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_CharacteristicPrefix = new System.Windows.Forms.Label();
             this.L_Characteristic = new System.Windows.Forms.Label();
+            this.FLP_TeraType = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_TeraInner = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_TeraTypeDefaultPane = new System.Windows.Forms.FlowLayoutPanel();
+            this.PB_TeraType2 = new PKHeX.WinForms.Controls.TypePictureBox();
+            this.PB_TeraType1 = new PKHeX.WinForms.Controls.TypePictureBox();
+            this.L_TeraTypeOriginal = new System.Windows.Forms.Label();
+            this.CB_TeraTypeOriginal = new System.Windows.Forms.ComboBox();
+            this.L_TeraTypeOverride = new System.Windows.Forms.Label();
+            this.CB_TeraTypeOverride = new System.Windows.Forms.ComboBox();
+            this.PB_TeraType = new System.Windows.Forms.PictureBox();
             this.PAN_BTN = new System.Windows.Forms.Panel();
             this.BTN_RandomAVs = new System.Windows.Forms.Button();
             this.BTN_RandomIVs = new System.Windows.Forms.Button();
@@ -144,6 +154,12 @@
             this.FLP_StatsTotalRight.SuspendLayout();
             this.FLP_HPType.SuspendLayout();
             this.FLP_Characteristic.SuspendLayout();
+            this.FLP_TeraType.SuspendLayout();
+            this.FLP_TeraInner.SuspendLayout();
+            this.FLP_TeraTypeDefaultPane.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType)).BeginInit();
             this.PAN_BTN.SuspendLayout();
             this.FLP_DynamaxLevel.SuspendLayout();
             this.FLP_AlphaNoble.SuspendLayout();
@@ -161,13 +177,14 @@
             this.FLP_Stats.Controls.Add(this.FLP_StatsTotal);
             this.FLP_Stats.Controls.Add(this.FLP_HPType);
             this.FLP_Stats.Controls.Add(this.FLP_Characteristic);
+            this.FLP_Stats.Controls.Add(this.FLP_TeraType);
             this.FLP_Stats.Controls.Add(this.PAN_BTN);
             this.FLP_Stats.Controls.Add(this.FLP_DynamaxLevel);
             this.FLP_Stats.Controls.Add(this.FLP_AlphaNoble);
             this.FLP_Stats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Stats.Location = new System.Drawing.Point(0, 0);
             this.FLP_Stats.Name = "FLP_Stats";
-            this.FLP_Stats.Size = new System.Drawing.Size(312, 318);
+            this.FLP_Stats.Size = new System.Drawing.Size(312, 381);
             this.FLP_Stats.TabIndex = 106;
             // 
             // FLP_StatHeader
@@ -392,7 +409,7 @@
             this.Stat_HP.Mask = "00000";
             this.Stat_HP.Name = "Stat_HP";
             this.Stat_HP.PromptChar = ' ';
-            this.Stat_HP.Size = new System.Drawing.Size(37, 20);
+            this.Stat_HP.Size = new System.Drawing.Size(36, 20);
             this.Stat_HP.TabIndex = 45;
             this.Stat_HP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_HP.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -510,7 +527,7 @@
             this.Stat_ATK.Mask = "00000";
             this.Stat_ATK.Name = "Stat_ATK";
             this.Stat_ATK.PromptChar = ' ';
-            this.Stat_ATK.Size = new System.Drawing.Size(37, 20);
+            this.Stat_ATK.Size = new System.Drawing.Size(36, 20);
             this.Stat_ATK.TabIndex = 46;
             this.Stat_ATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_ATK.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -628,7 +645,7 @@
             this.Stat_DEF.Mask = "00000";
             this.Stat_DEF.Name = "Stat_DEF";
             this.Stat_DEF.PromptChar = ' ';
-            this.Stat_DEF.Size = new System.Drawing.Size(37, 20);
+            this.Stat_DEF.Size = new System.Drawing.Size(36, 20);
             this.Stat_DEF.TabIndex = 47;
             this.Stat_DEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_DEF.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -769,7 +786,7 @@
             this.Stat_SPA.Mask = "00000";
             this.Stat_SPA.Name = "Stat_SPA";
             this.Stat_SPA.PromptChar = ' ';
-            this.Stat_SPA.Size = new System.Drawing.Size(37, 20);
+            this.Stat_SPA.Size = new System.Drawing.Size(36, 20);
             this.Stat_SPA.TabIndex = 48;
             this.Stat_SPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_SPA.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -887,7 +904,7 @@
             this.Stat_SPD.Mask = "00000";
             this.Stat_SPD.Name = "Stat_SPD";
             this.Stat_SPD.PromptChar = ' ';
-            this.Stat_SPD.Size = new System.Drawing.Size(37, 20);
+            this.Stat_SPD.Size = new System.Drawing.Size(36, 20);
             this.Stat_SPD.TabIndex = 49;
             this.Stat_SPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_SPD.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -1005,7 +1022,7 @@
             this.Stat_SPE.Mask = "00000";
             this.Stat_SPE.Name = "Stat_SPE";
             this.Stat_SPE.PromptChar = ' ';
-            this.Stat_SPE.Size = new System.Drawing.Size(37, 20);
+            this.Stat_SPE.Size = new System.Drawing.Size(36, 20);
             this.Stat_SPE.TabIndex = 50;
             this.Stat_SPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_SPE.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -1126,18 +1143,17 @@
             this.Label_HiddenPowerPrefix.Location = new System.Drawing.Point(0, 0);
             this.Label_HiddenPowerPrefix.Margin = new System.Windows.Forms.Padding(0);
             this.Label_HiddenPowerPrefix.Name = "Label_HiddenPowerPrefix";
-            this.Label_HiddenPowerPrefix.Size = new System.Drawing.Size(174, 21);
+            this.Label_HiddenPowerPrefix.Size = new System.Drawing.Size(140, 21);
             this.Label_HiddenPowerPrefix.TabIndex = 29;
             this.Label_HiddenPowerPrefix.Text = "Hidden Power Type:";
             this.Label_HiddenPowerPrefix.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_HPType
             // 
-            this.CB_HPType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_HPType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_HPType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_HPType.DropDownWidth = 80;
             this.CB_HPType.FormattingEnabled = true;
-            this.CB_HPType.Location = new System.Drawing.Point(174, 0);
+            this.CB_HPType.Location = new System.Drawing.Point(140, 0);
             this.CB_HPType.Margin = new System.Windows.Forms.Padding(0);
             this.CB_HPType.Name = "CB_HPType";
             this.CB_HPType.Size = new System.Drawing.Size(70, 21);
@@ -1148,7 +1164,7 @@
             // 
             this.Label_HiddenPowerPower.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Label_HiddenPowerPower.Location = new System.Drawing.Point(244, 0);
+            this.Label_HiddenPowerPower.Location = new System.Drawing.Point(210, 0);
             this.Label_HiddenPowerPower.Margin = new System.Windows.Forms.Padding(0);
             this.Label_HiddenPowerPower.Name = "Label_HiddenPowerPower";
             this.Label_HiddenPowerPower.Size = new System.Drawing.Size(28, 21);
@@ -1187,13 +1203,128 @@
             this.L_Characteristic.Text = "(char)";
             this.L_Characteristic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // FLP_TeraType
+            // 
+            this.FLP_TeraType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_TeraType.Controls.Add(this.FLP_TeraInner);
+            this.FLP_TeraType.Controls.Add(this.PB_TeraType);
+            this.FLP_TeraType.Location = new System.Drawing.Point(0, 211);
+            this.FLP_TeraType.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_TeraType.Name = "FLP_TeraType";
+            this.FLP_TeraType.Size = new System.Drawing.Size(312, 61);
+            this.FLP_TeraType.TabIndex = 135;
+            // 
+            // FLP_TeraInner
+            // 
+            this.FLP_TeraInner.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_TeraInner.Controls.Add(this.FLP_TeraTypeDefaultPane);
+            this.FLP_TeraInner.Controls.Add(this.L_TeraTypeOriginal);
+            this.FLP_TeraInner.Controls.Add(this.CB_TeraTypeOriginal);
+            this.FLP_TeraInner.Controls.Add(this.L_TeraTypeOverride);
+            this.FLP_TeraInner.Controls.Add(this.CB_TeraTypeOverride);
+            this.FLP_TeraInner.Location = new System.Drawing.Point(0, 0);
+            this.FLP_TeraInner.Margin = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            this.FLP_TeraInner.Name = "FLP_TeraInner";
+            this.FLP_TeraInner.Size = new System.Drawing.Size(214, 60);
+            this.FLP_TeraInner.TabIndex = 136;
+            // 
+            // FLP_TeraTypeDefaultPane
+            // 
+            this.FLP_TeraTypeDefaultPane.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_TeraTypeDefaultPane.Controls.Add(this.PB_TeraType2);
+            this.FLP_TeraTypeDefaultPane.Controls.Add(this.PB_TeraType1);
+            this.FLP_TeraTypeDefaultPane.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.FLP_TeraTypeDefaultPane.Location = new System.Drawing.Point(0, 0);
+            this.FLP_TeraTypeDefaultPane.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_TeraTypeDefaultPane.Name = "FLP_TeraTypeDefaultPane";
+            this.FLP_TeraTypeDefaultPane.Size = new System.Drawing.Size(210, 10);
+            this.FLP_TeraTypeDefaultPane.TabIndex = 137;
+            // 
+            // PB_TeraType2
+            // 
+            this.PB_TeraType2.Location = new System.Drawing.Point(175, 0);
+            this.PB_TeraType2.Margin = new System.Windows.Forms.Padding(0);
+            this.PB_TeraType2.Name = "PB_TeraType2";
+            this.PB_TeraType2.Size = new System.Drawing.Size(35, 10);
+            this.PB_TeraType2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_TeraType2.TabIndex = 46;
+            this.PB_TeraType2.TabStop = false;
+            this.PB_TeraType2.Click += new System.EventHandler(this.PB_TeraType2_Click);
+            // 
+            // PB_TeraType1
+            // 
+            this.PB_TeraType1.Location = new System.Drawing.Point(140, 0);
+            this.PB_TeraType1.Margin = new System.Windows.Forms.Padding(0);
+            this.PB_TeraType1.Name = "PB_TeraType1";
+            this.PB_TeraType1.Size = new System.Drawing.Size(35, 10);
+            this.PB_TeraType1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_TeraType1.TabIndex = 47;
+            this.PB_TeraType1.TabStop = false;
+            this.PB_TeraType1.Click += new System.EventHandler(this.PB_TeraType1_Click);
+            // 
+            // L_TeraTypeOriginal
+            // 
+            this.L_TeraTypeOriginal.Location = new System.Drawing.Point(0, 10);
+            this.L_TeraTypeOriginal.Margin = new System.Windows.Forms.Padding(0);
+            this.L_TeraTypeOriginal.Name = "L_TeraTypeOriginal";
+            this.L_TeraTypeOriginal.Size = new System.Drawing.Size(140, 21);
+            this.L_TeraTypeOriginal.TabIndex = 29;
+            this.L_TeraTypeOriginal.Text = "Original Tera Type:";
+            this.L_TeraTypeOriginal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_TeraTypeOriginal.Click += new System.EventHandler(this.L_TeraTypeOriginal_Click);
+            // 
+            // CB_TeraTypeOriginal
+            // 
+            this.CB_TeraTypeOriginal.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TeraTypeOriginal.DropDownWidth = 80;
+            this.CB_TeraTypeOriginal.FormattingEnabled = true;
+            this.CB_TeraTypeOriginal.Location = new System.Drawing.Point(140, 10);
+            this.CB_TeraTypeOriginal.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_TeraTypeOriginal.Name = "CB_TeraTypeOriginal";
+            this.CB_TeraTypeOriginal.Size = new System.Drawing.Size(70, 21);
+            this.CB_TeraTypeOriginal.TabIndex = 44;
+            this.CB_TeraTypeOriginal.SelectedIndexChanged += new System.EventHandler(this.ChangeTeraType);
+            // 
+            // L_TeraTypeOverride
+            // 
+            this.L_TeraTypeOverride.Location = new System.Drawing.Point(0, 31);
+            this.L_TeraTypeOverride.Margin = new System.Windows.Forms.Padding(0);
+            this.L_TeraTypeOverride.Name = "L_TeraTypeOverride";
+            this.L_TeraTypeOverride.Size = new System.Drawing.Size(140, 21);
+            this.L_TeraTypeOverride.TabIndex = 29;
+            this.L_TeraTypeOverride.Text = "Override Tera Type:";
+            this.L_TeraTypeOverride.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_TeraTypeOverride.Click += new System.EventHandler(this.L_TeraTypeOverride_Click);
+            // 
+            // CB_TeraTypeOverride
+            // 
+            this.CB_TeraTypeOverride.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_TeraTypeOverride.DropDownWidth = 80;
+            this.CB_TeraTypeOverride.FormattingEnabled = true;
+            this.CB_TeraTypeOverride.Location = new System.Drawing.Point(140, 31);
+            this.CB_TeraTypeOverride.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_TeraTypeOverride.Name = "CB_TeraTypeOverride";
+            this.CB_TeraTypeOverride.Size = new System.Drawing.Size(70, 21);
+            this.CB_TeraTypeOverride.TabIndex = 44;
+            this.CB_TeraTypeOverride.SelectedIndexChanged += new System.EventHandler(this.ChangeTeraType);
+            // 
+            // PB_TeraType
+            // 
+            this.PB_TeraType.Location = new System.Drawing.Point(214, 0);
+            this.PB_TeraType.Margin = new System.Windows.Forms.Padding(0);
+            this.PB_TeraType.Name = "PB_TeraType";
+            this.PB_TeraType.Size = new System.Drawing.Size(60, 60);
+            this.PB_TeraType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PB_TeraType.TabIndex = 45;
+            this.PB_TeraType.TabStop = false;
+            // 
             // PAN_BTN
             // 
             this.PAN_BTN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.PAN_BTN.Controls.Add(this.BTN_RandomAVs);
             this.PAN_BTN.Controls.Add(this.BTN_RandomIVs);
             this.PAN_BTN.Controls.Add(this.BTN_RandomEVs);
-            this.PAN_BTN.Location = new System.Drawing.Point(3, 214);
+            this.PAN_BTN.Location = new System.Drawing.Point(3, 275);
             this.PAN_BTN.Name = "PAN_BTN";
             this.PAN_BTN.Size = new System.Drawing.Size(267, 31);
             this.PAN_BTN.TabIndex = 132;
@@ -1234,7 +1365,7 @@
             this.FLP_DynamaxLevel.Controls.Add(this.L_DynamaxLevel);
             this.FLP_DynamaxLevel.Controls.Add(this.CB_DynamaxLevel);
             this.FLP_DynamaxLevel.Controls.Add(this.CHK_Gigantamax);
-            this.FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 248);
+            this.FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 309);
             this.FLP_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_DynamaxLevel.Name = "FLP_DynamaxLevel";
             this.FLP_DynamaxLevel.Size = new System.Drawing.Size(272, 21);
@@ -1289,7 +1420,7 @@
             this.FLP_AlphaNoble.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_AlphaNoble.Controls.Add(this.CHK_IsAlpha);
             this.FLP_AlphaNoble.Controls.Add(this.CHK_IsNoble);
-            this.FLP_AlphaNoble.Location = new System.Drawing.Point(0, 269);
+            this.FLP_AlphaNoble.Location = new System.Drawing.Point(0, 330);
             this.FLP_AlphaNoble.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_AlphaNoble.Name = "FLP_AlphaNoble";
             this.FLP_AlphaNoble.Size = new System.Drawing.Size(270, 31);
@@ -1323,7 +1454,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.FLP_Stats);
             this.Name = "StatEditor";
-            this.Size = new System.Drawing.Size(312, 318);
+            this.Size = new System.Drawing.Size(312, 381);
             this.FLP_Stats.ResumeLayout(false);
             this.FLP_StatHeader.ResumeLayout(false);
             this.FLP_HackedStats.ResumeLayout(false);
@@ -1352,6 +1483,12 @@
             this.FLP_StatsTotalRight.PerformLayout();
             this.FLP_HPType.ResumeLayout(false);
             this.FLP_Characteristic.ResumeLayout(false);
+            this.FLP_TeraType.ResumeLayout(false);
+            this.FLP_TeraInner.ResumeLayout(false);
+            this.FLP_TeraTypeDefaultPane.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType)).EndInit();
             this.PAN_BTN.ResumeLayout(false);
             this.FLP_DynamaxLevel.ResumeLayout(false);
             this.FLP_DynamaxLevel.PerformLayout();
@@ -1457,5 +1594,15 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_AlphaNoble;
         public System.Windows.Forms.CheckBox CHK_IsAlpha;
         public System.Windows.Forms.CheckBox CHK_IsNoble;
+        private System.Windows.Forms.FlowLayoutPanel FLP_TeraType;
+        private System.Windows.Forms.Label L_TeraTypeOriginal;
+        public System.Windows.Forms.ComboBox CB_TeraTypeOriginal;
+        private System.Windows.Forms.FlowLayoutPanel FLP_TeraInner;
+        private System.Windows.Forms.Label L_TeraTypeOverride;
+        public System.Windows.Forms.ComboBox CB_TeraTypeOverride;
+        private System.Windows.Forms.PictureBox PB_TeraType;
+        private System.Windows.Forms.FlowLayoutPanel FLP_TeraTypeDefaultPane;
+        private PKHeX.WinForms.Controls.TypePictureBox PB_TeraType2;
+        private PKHeX.WinForms.Controls.TypePictureBox PB_TeraType1;
     }
 }

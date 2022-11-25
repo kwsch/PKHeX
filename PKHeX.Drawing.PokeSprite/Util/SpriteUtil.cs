@@ -14,6 +14,8 @@ public static class SpriteUtil
     public static readonly SpriteBuilder5668s SB8s = new();
     /// <summary>Circle sprite builder instance (used in Legends: Arceus)</summary>
     public static readonly SpriteBuilder5668c SB8c = new();
+    /// <summary>Circle sprite builder instance (used in Brilliant Diamond, Shining Pearl, Scarlet, and Violet)</summary>
+    public static readonly SpriteBuilder5668a SB8a = new();
 
     /// <summary>Current sprite builder reference used to build sprites.</summary>
     public static SpriteBuilder Spriter { get; private set; } = SB8s;
@@ -25,6 +27,7 @@ public static class SpriteUtil
     /// <remarks>If an out of bounds value is provided, will not change.</remarks>
     public static void ChangeMode(SpriteBuilderMode mode) => Spriter = mode switch
     {
+        SpriteBuilderMode.SpritesArtwork5668 => SB8a,
         SpriteBuilderMode.CircleMugshot5668 => SB8c,
         SpriteBuilderMode.SpritesClassic5668 => SB8s,
         _ => Spriter,
@@ -67,7 +70,7 @@ public static class SpriteUtil
         var shiny = !pk.IsShiny ? Shiny.Never : (ShinyExtensions.IsSquareShinyExist(pk) ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
 
         var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, shiny, pk.Format, tweak);
-        if (pk is IShadowPKM {IsShadow: true})
+        if (pk is IShadowCapture {IsShadow: true})
         {
             const int Lugia = (int)Species.Lugia;
             if (pk.Species == Lugia) // show XD shadow sprite
@@ -77,7 +80,7 @@ public static class SpriteUtil
             var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
             return ImageUtil.LayerImage(glowImg, img, 0, 0);
         }
-        if (pk is IGigantamax {CanGigantamax: true})
+        if (pk is IGigantamaxReadOnly { CanGigantamax: true})
         {
             var gm = Resources.dyna;
             return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
@@ -94,24 +97,32 @@ public static class SpriteUtil
     {
         bool inBox = (uint)slot < MaxSlotCount;
         bool empty = pk.Species == 0;
-        var tweak = inBox && BoxWallpaper.IsWallpaperRed(sav.Version, sav.GetBoxWallpaper(box))
+        var tweak = inBox && sav.IsWallpaperRed(box)
             ? SpriteBuilderTweak.BoxBackgroundRed
             : SpriteBuilderTweak.None;
         var sprite = empty ? Spriter.None : pk.Sprite(tweak: tweak);
 
-        if (!empty && flagIllegal)
+        if (!empty)
         {
-            var la = new LegalityAnalysis(pk, sav.Personal, box != -1 ? SlotOrigin.Box : SlotOrigin.Party);
-            if (!la.Valid)
-                sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
-            else if (pk.Format >= 8 && MoveInfo.IsDummiedMoveAny(pk))
-                sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
+            if (SpriteBuilder.ShowTeraType != SpriteBackgroundType.None && pk is ITeraType t)
+            {
+                var type = t.TeraType;
+                sprite = ApplyTeraColor((byte)type, sprite, SpriteBuilder.ShowTeraType);
+            }
+            if (flagIllegal)
+            {
+                var la = new LegalityAnalysis(pk, sav.Personal, box != -1 ? SlotOrigin.Box : SlotOrigin.Party);
+                if (!la.Valid)
+                    sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
+                else if (pk.Format >= 8 && MoveInfo.IsDummiedMoveAny(pk))
+                    sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
 
-            if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
-                sprite = ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);
+                if (SpriteBuilder.ShowEncounterColorPKM != SpriteBackgroundType.None)
+                    sprite = ApplyEncounterColor(la.EncounterOriginal, sprite, SpriteBuilder.ShowEncounterColorPKM);
 
-            if (SpriteBuilder.ShowExperiencePercent)
-                sprite = ApplyExperience(pk, sprite, la.EncounterMatch);
+                if (SpriteBuilder.ShowExperiencePercent)
+                    sprite = ApplyExperience(pk, sprite, la.EncounterMatch);
+            }
         }
         if (inBox) // in box
         {
@@ -138,24 +149,48 @@ public static class SpriteUtil
         return sprite;
     }
 
+    private static Image ApplyTeraColor(byte elementalType, Image img, SpriteBackgroundType type)
+    {
+        var color = TypeColor.GetTypeSpriteColor(elementalType);
+        var thk = SpriteBuilder.ShowTeraThicknessStripe;
+        var op  = SpriteBuilder.ShowTeraOpacityStripe;
+        var bg  = SpriteBuilder.ShowTeraOpacityBackground;
+        return ApplyColor(img, type, color, thk, op, bg);
+    }
+
     public static Image ApplyEncounterColor(IEncounterTemplate enc, Image img, SpriteBackgroundType type)
     {
         var index = (enc.GetType().Name.GetHashCode() * 0x43FD43FD);
         var color = Color.FromArgb(index);
+        var thk = SpriteBuilder.ShowEncounterThicknessStripe;
+        var op = SpriteBuilder.ShowEncounterOpacityStripe;
+        var bg = SpriteBuilder.ShowEncounterOpacityBackground;
+        return ApplyColor(img, type, color, thk, op, bg);
+    }
+
+    private static Image ApplyColor(Image img, SpriteBackgroundType type, Color color, int thick, byte opacStripe, byte opacBack)
+    {
         if (type == SpriteBackgroundType.BottomStripe)
         {
-            int stripeHeight = SpriteBuilder.ShowEncounterThicknessStripe; // from bottom
+            int stripeHeight = thick; // from bottom
             if ((uint)stripeHeight > img.Height) // clamp negative & too-high values back to height.
                 stripeHeight = img.Height;
 
-            byte opacity = SpriteBuilder.ShowEncounterOpacityStripe;
-            return ImageUtil.ChangeTransparentTo(img, color, opacity, img.Width * 4 * (img.Height - stripeHeight));
+            return ImageUtil.BlendTransparentTo(img, color, opacStripe, img.Width * 4 * (img.Height - stripeHeight));
         }
-        else // full background
+        if (type == SpriteBackgroundType.TopStripe)
         {
-            byte opacity = SpriteBuilder.ShowEncounterOpacityBackground;
-            return ImageUtil.ChangeTransparentTo(img, color, opacity);
+            int stripeHeight = thick; // from top
+            if ((uint)stripeHeight > img.Height) // clamp negative & too-high values back to height.
+                stripeHeight = img.Height;
+
+            return ImageUtil.BlendTransparentTo(img, color, opacStripe, 0, (img.Width * 4 * stripeHeight) - 4);
         }
+        if (type == SpriteBackgroundType.FullBackground) // full background
+        {
+            return ImageUtil.BlendTransparentTo(img, color, opacBack);
+        }
+        return img;
     }
 
     private static Image ApplyExperience(PKM pk, Image img, IEncounterTemplate? enc = null)
@@ -222,12 +257,12 @@ public static class SpriteUtil
             var ballSprite = GetBallSprite((int)b.FixedBall);
             img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
         }
-        if (enc is IGigantamax {CanGigantamax: true})
+        if (enc is IGigantamaxReadOnly {CanGigantamax: true})
         {
             var gm = Resources.dyna;
             img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
         }
-        if (enc is IAlpha { IsAlpha: true })
+        if (enc is IAlphaReadOnly { IsAlpha: true })
         {
             var alpha = Resources.alpha;
             img = ImageUtil.LayerImage(img, alpha, SlotTeamShiftX, 0);
@@ -262,7 +297,7 @@ public static class SpriteUtil
             img = ImageUtil.LayerImage(img, ballSprite, 0, img.Height - ballSprite.Height);
         }
 
-        if (gift is IGigantamax { CanGigantamax: true })
+        if (gift is IGigantamaxReadOnly { CanGigantamax: true })
         {
             var gm = Resources.dyna;
             img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);

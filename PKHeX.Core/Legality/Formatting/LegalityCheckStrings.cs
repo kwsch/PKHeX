@@ -62,6 +62,7 @@ public static class LegalityCheckStrings
 
     public static string LAbilityCapsuleUsed { get; set; } = "Ability available with Ability Capsule.";
     public static string LAbilityPatchUsed { get; set; } = "Ability available with Ability Patch.";
+    public static string LAbilityPatchRevertUsed { get; set; } = "Ability available with Ability Patch Revert.";
     public static string LAbilityFlag { get; set; } = "Ability matches ability number.";
     public static string LAbilityHiddenFail { get; set; } = "Hidden Ability mismatch for encounter type.";
     public static string LAbilityHiddenUnavailable { get; set; } = "Hidden Ability not available.";
@@ -266,7 +267,7 @@ public static class LegalityCheckStrings
     public static string LGeoNoCountryHT { get; set; } = "GeoLocation Memory: HT Name present but has no previous Country.";
     public static string LGeoNoRegion { get; set; } = "GeoLocation Memory: Region without Country.";
 
-    public static string LHyperBelow100 { get; set; } = "Can't Hyper Train a Pokémon that isn't level 100.";
+    public static string LHyperTooLow_0 { get; set; } = "Can't Hyper Train a Pokémon that isn't level {0}.";
     public static string LHyperPerfectAll { get; set; } = "Can't Hyper Train a Pokémon with perfect IVs.";
     public static string LHyperPerfectOne { get; set; } = "Can't Hyper Train a perfect IV.";
     public static string LHyperPerfectUnavailable { get; set; } = "Can't Hyper Train any IV(s).";
@@ -464,6 +465,11 @@ public static class LegalityCheckStrings
     public static string LSuperUnavailable { get; set; } = "Super Training missions are not available in games visited.";
     public static string LSuperUnused { get; set; } = "Unused Super Training Flag is flagged.";
 
+    public static string LTeraTypeIncorrect { get; set; } = "Tera Type does not match the expected value.";
+    public static string LTeraTypeMismatch { get; set; } = "Tera Type does not match either of the default types.";
+
+    public static string LTradeNotAvailable { get; set; } = "Encounter cannot be traded to the active trainer.";
+
     public static string LTransferBad { get; set; } = "Incorrectly transferred from previous generation.";
 
     public static string LTransferCurrentHandlerInvalid { get; set; } = "Invalid Current handler value, trainer details for save file expected another value.";
@@ -481,6 +487,7 @@ public static class LegalityCheckStrings
     public static string LTransferMoveG4HM { get; set; } = "Defog and Whirlpool. One of the two moves should have been removed before transferred to Generation 5.";
     public static string LTransferMoveHM { get; set; } = "Generation {0} HM. Should have been removed before transferred to Generation {1}.";
     public static string LTransferNature { get; set; } = "Invalid Nature for transfer Experience.";
+    public static string LTransferObedienceLevel { get; set; } = "Invalid Obedience Level.";
     public static string LTransferOriginFInvalid0_1 { get; set; } = "{0} origin cannot exist in the currently loaded ({1}) save file.";
     public static string LTransferPIDECBitFlip { get; set; } = "PID should be equal to EC [with top bit flipped]!";
     public static string LTransferPIDECEquals { get; set; } = "PID should be equal to EC!";

@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	Kalos Champion
+RibbonChampionKalos	Kalos Champion
 RibbonChampionG3	Champion (Gen3)
 RibbonChampionSinnoh	Sinnoh Champion
 RibbonBestFriends	Best Friends
@@ -149,5 +149,15 @@ RibbonMarkHumble	Emblema Ingenuità
 RibbonMarkThorny	Emblema Artificio
 RibbonMarkVigor	Emblema Vitalità
 RibbonMarkSlump	Emblema Sottotono
-RibbonPioneer	Pioneer
-RibbonTwinklingStar	Fiocco Stella Brillante
+RibbonHisui	Hisui
+RibbonTwinklingStar	Stella Brillante
+RibbonChampionPaldea	Campione Paldea
+RibbonMarkJumbo	Emblema Grande e Grosso
+RibbonMarkMini	Emblema Piccoletto
+RibbonMarkItemfinder	Emblema Pigliatutto
+RibbonMarkPartner	Emblema Compagno Fidato
+RibbonMarkGourmand	Emblema Gourmet
+RibbonOnceInALifetime	Eccezionale
+RibbonMarkAlpha	Emblema dell’Alfa
+RibbonMarkMightiest	Emblema della Forza Assoluta
+RibbonMarkTitan	Emblema del dominante

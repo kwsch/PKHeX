@@ -36,7 +36,8 @@ public partial class BatchEditor : Form
 
     private void B_Open_Click(object sender, EventArgs e)
     {
-        if (!B_Go.Enabled) return;
+        if (!B_Go.Enabled)
+            return;
         using var fbd = new FolderBrowserDialog();
         if (fbd.ShowDialog() != DialogResult.OK)
             return;
@@ -62,6 +63,7 @@ public partial class BatchEditor : Form
         if (s.Length == 0)
         { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
+        // If we already have text, add a new line (except if the last line is blank).
         if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
             s = Environment.NewLine + s;
 

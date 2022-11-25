@@ -19,6 +19,10 @@ public interface IEncounterTemplate : ISpeciesForm, IVersion, IGeneration, IShin
     /// Minimum level for the encounter.
     /// </summary>
     byte LevelMin { get; }
+
+    /// <summary>
+    /// Maximum level for the encounter.
+    /// </summary>
     byte LevelMax { get; }
 }
 

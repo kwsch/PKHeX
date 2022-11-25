@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	カロス チャンプ
+RibbonChampionKalos	カロス チャンプ
 RibbonChampionG3	チャンプ (Gen3)
 RibbonChampionSinnoh	シンオウ チャンプ
 RibbonBestFriends	なかよし
@@ -149,5 +149,15 @@ RibbonMarkHumble	ぼくとつのあかし
 RibbonMarkThorny	ふじゅんのあかし
 RibbonMarkVigor	げんきのあかし
 RibbonMarkSlump	ふちょうのあかし
-RibbonPioneer	Pioneer
+RibbonHisui	Hisui
 RibbonTwinklingStar	トゥインクルスターリボン
+RibbonChampionPaldea	パルデア　チャンプリボン
+RibbonMarkJumbo	でっかいあかし
+RibbonMarkMini	ちっちゃいあかし
+RibbonMarkItemfinder	ものひろいのあかし
+RibbonMarkPartner	あいぼうのあかし
+RibbonMarkGourmand	グルメなあかし
+RibbonOnceInALifetime	せんざいいちぐうリボン
+RibbonMarkAlpha	オヤブンのあかし
+RibbonMarkMightiest	さいきょうのあかし
+RibbonMarkTitan	ヌシのあかし

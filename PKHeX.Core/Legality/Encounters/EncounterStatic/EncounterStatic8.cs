@@ -6,17 +6,17 @@ namespace PKHeX.Core;
 /// Generation 8 Static Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterStatic"/>
-public sealed record EncounterStatic8(GameVersion Version) : EncounterStatic(Version), IDynamaxLevel, IGigantamax, IRelearn, IOverworldCorrelation8
+public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH) : EncounterStatic(Version), IDynamaxLevelReadOnly, IGigantamaxReadOnly, IRelearn, IOverworldCorrelation8
 {
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8;
     public bool ScriptedNoMarks { get; init; }
-    public bool CanGigantamax { get; set; }
-    public byte DynamaxLevel { get; set; }
+    public bool CanGigantamax { get; init; }
+    public byte DynamaxLevel { get; init; }
     public Moveset Relearn { get; init; }
     public Crossover8 Crossover { get; init; }
 
-    public AreaWeather8 Weather {get; init; } = AreaWeather8.Normal;
+    public AreaWeather8 Weather { get; init; } = AreaWeather8.Normal;
 
     protected override bool IsMatchLocation(PKM pk)
     {

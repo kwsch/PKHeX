@@ -64,7 +64,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public void SetValue<T>(uint key, T value) where T : struct => Blocks.SetBlockValueSafe(key, value);
     public Box8 BoxInfo => Blocks.BoxInfo;
     public Party8 PartyInfo => Blocks.PartyInfo;
-    public MyItem Items => Blocks.Items;
+    public MyItem8 Items => Blocks.Items;
     public MyStatus8 MyStatus => Blocks.MyStatus;
     public Misc8 Misc => Blocks.Misc;
     public Zukan8 Zukan => Blocks.Zukan;
@@ -149,8 +149,8 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public override int MaxEV => 252;
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8;
-    public override int OTLength => 12;
-    public override int NickLength => 12;
+    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthNickname => 12;
     protected override PKM GetPKM(byte[] data) => new PK8(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8(data);
 

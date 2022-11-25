@@ -5,12 +5,12 @@
     <RootNamespace>PKHeX.Drawing</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PKHeX.Core\PKHeX.Core.csproj" />
-  </ItemGroup>
-
   <ItemGroup Condition="$(TargetFramework.StartsWith('net6'))">
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
 </Project>

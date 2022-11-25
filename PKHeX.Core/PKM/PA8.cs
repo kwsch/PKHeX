@@ -7,14 +7,14 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, IGanbaru, IAlpha, INoble, ITechRecord8, ISociability, IMoveShop8Mastery,
-    IContestStats, IContestStatsMutable, IHyperTrain, IScaledSizeValue, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, IGanbaru, IAlpha, INoble, ITechRecord, ISociability, IMoveShop8Mastery,
+    IContestStats, IHyperTrain, IScaledSizeValue, IScaledSize3, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
 {
     private static readonly ushort[] Unused =
     {
         0x17, 0x1A, 0x1B, 0x23, 0x33,
         0x4C, 0x4D, 0x4E, 0x4F,
-        0x52, 0x53,
+        0x53,
         0xA0, 0xA1, 0xA2, 0xA3,
         0xAA, 0xAB,
         0xB4, 0xB5, 0xB6, 0xB7,
@@ -61,6 +61,8 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public ReadOnlySpan<ushort> TechRecordPermitIndexes => LearnSource8SWSH.TR_SWSH.AsSpan();
     public ReadOnlySpan<bool> MoveShopPermitFlags => PersonalInfo.SpecialTutors[0];
     public ReadOnlySpan<ushort> MoveShopPermitIndexes => Legal.MoveShop8_LA;
+    public int RecordCountTotal => 112;
+    public int RecordCountUsed => 0;
 
     public override int CurrentFriendship
     {
@@ -79,8 +81,8 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     // Maximums
     public override int MaxIV => 31;
     public override int MaxEV => 252;
-    public override int OTLength => 12;
-    public override int NickLength => 12;
+    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthNickname => 12;
 
     public override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
     public override int TSV => (TID ^ SID) >> 4;
@@ -149,7 +151,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
     public override int Ability { get => ReadUInt16LittleEndian(Data.AsSpan(0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14), (ushort)value); }
     public override int AbilityNumber { get => Data[0x16] & 7; set => Data[0x16] = (byte)((Data[0x16] & ~7) | (value & 7)); }
-    public bool Favorite { get => (Data[0x16] & 8) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~8) | ((value ? 1 : 0) << 3)); } // unused, was in LGPE but not in SWSH
+    public bool IsFavorite { get => (Data[0x16] & 8) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~8) | ((value ? 1 : 0) << 3)); } // unused, was in LGPE but not in SWSH
     public bool CanGigantamax { get => (Data[0x16] & 16) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~16) | (value ? 16 : 0)); }
     public bool IsAlpha { get => (Data[0x16] & 32) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~32) | ((value ? 1 : 0) << 5)); }
     public bool IsNoble { get => (Data[0x16] & 64) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~64) | ((value ? 1 : 0) << 6)); }
@@ -301,7 +303,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     public bool RibbonMarkVigor { get => FlagUtil.GetFlag(Data, 0x44, 0); set => FlagUtil.SetFlag(Data, 0x44, 0, value); }
     public bool RibbonMarkSlump { get => FlagUtil.GetFlag(Data, 0x44, 1); set => FlagUtil.SetFlag(Data, 0x44, 1, value); }
-    public bool RibbonPioneer { get => FlagUtil.GetFlag(Data, 0x44, 2); set => FlagUtil.SetFlag(Data, 0x44, 2, value); }
+    public bool RibbonHisui { get => FlagUtil.GetFlag(Data, 0x44, 2); set => FlagUtil.SetFlag(Data, 0x44, 2, value); }
     public bool RibbonTwinklingStar { get => FlagUtil.GetFlag(Data, 0x44, 3); set => FlagUtil.SetFlag(Data, 0x44, 3, value); }
     public bool RIB44_4 { get => FlagUtil.GetFlag(Data, 0x44, 4); set => FlagUtil.SetFlag(Data, 0x44, 4, value); }
     public bool RIB44_5 { get => FlagUtil.GetFlag(Data, 0x44, 5); set => FlagUtil.SetFlag(Data, 0x44, 5, value); }
@@ -317,7 +319,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public bool RIB45_6 { get => FlagUtil.GetFlag(Data, 0x45, 6); set => FlagUtil.SetFlag(Data, 0x45, 6, value); }
     public bool RIB45_7 { get => FlagUtil.GetFlag(Data, 0x45, 7); set => FlagUtil.SetFlag(Data, 0x45, 7, value); }
 
-    public bool RIB46_0 { get => FlagUtil.GetFlag(Data, 0x41, 0); set => FlagUtil.SetFlag(Data, 0x41, 0, value); }
+    public bool RIB46_0 { get => FlagUtil.GetFlag(Data, 0x46, 0); set => FlagUtil.SetFlag(Data, 0x46, 0, value); }
     public bool RIB46_1 { get => FlagUtil.GetFlag(Data, 0x46, 1); set => FlagUtil.SetFlag(Data, 0x46, 1, value); }
     public bool RIB46_2 { get => FlagUtil.GetFlag(Data, 0x46, 2); set => FlagUtil.SetFlag(Data, 0x46, 2, value); }
     public bool RIB46_3 { get => FlagUtil.GetFlag(Data, 0x46, 3); set => FlagUtil.SetFlag(Data, 0x46, 3, value); }
@@ -351,7 +353,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     public byte HeightScalar { get => Data[0x50]; set => Data[0x50] = value; }
     public byte WeightScalar { get => Data[0x51]; set => Data[0x51] = value; }
-    public byte HeightScalarCopy { get => Data[0x52]; set => Data[0x52] = value; }
+    public byte Scale { get => Data[0x52]; set => Data[0x52] = value; }
 
     // 0x53 unused
 
@@ -1018,7 +1020,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
             RibbonMarkThorny = RibbonMarkThorny,
             RibbonMarkVigor = RibbonMarkVigor,
             RibbonMarkSlump = RibbonMarkSlump,
-            RibbonPioneer = RibbonPioneer,
+            RibbonHisui = RibbonHisui,
             RibbonTwinklingStar = RibbonTwinklingStar,
 
             AffixedRibbon = AffixedRibbon,
@@ -1035,7 +1037,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
             CanGigantamax = CanGigantamax,
             DynamaxLevel = DynamaxLevel,
 
-            Favorite = Favorite,
+            IsFavorite = IsFavorite,
             MarkValue = MarkValue,
         };
 
@@ -1051,7 +1053,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     public void SanitizeImport()
     {
-        HeightScalarCopy = HeightScalar;
+        Scale = HeightScalar;
         ResetHeight();
         ResetWeight();
     }
@@ -1067,5 +1069,11 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         learn.SetEncounterMoves(CurrentLevel, moves);
         SetMoves(moves);
         this.SetMaximumPPCurrent(moves);
+    }
+
+    public PK9 ConvertToPK9()
+    {
+        // Todo: Transfer to PK9
+        return new PK9();
     }
 }

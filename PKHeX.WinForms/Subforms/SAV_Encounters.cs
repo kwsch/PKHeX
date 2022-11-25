@@ -247,11 +247,13 @@ public partial class SAV_Encounters : Form
 
         if (Main.Settings.EncounterDb.FilterUnavailableSpecies)
         {
+            static bool IsPresentInGameSV  (ISpeciesForm pk) => PersonalTable.SV  .IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameSWSH(ISpeciesForm pk) => PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameBDSP(ISpeciesForm pk) => PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameLA  (ISpeciesForm pk) => PersonalTable.LA  .IsPresentInGame(pk.Species, pk.Form);
             results = SAV switch
             {
+                SAV9SV => results.Where(IsPresentInGameSV),
                 SAV8SWSH => results.Where(IsPresentInGameSWSH),
                 SAV8BS => results.Where(IsPresentInGameBDSP),
                 SAV8LA => results.Where(IsPresentInGameLA),

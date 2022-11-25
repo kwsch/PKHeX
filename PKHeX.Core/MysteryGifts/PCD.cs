@@ -167,7 +167,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         if (wc.OT_Gender < 3 && wc.OT_Gender != pk.OT_Gender) return false;
 
         // Milotic is the only gift to come with Contest stats.
-        if (wc.Species == (int)Core.Species.Milotic && pk is IContestStats s && s.IsContestBelow(wc))
+        if (wc.Species == (int)Core.Species.Milotic && pk is IContestStatsReadOnly s && s.IsContestBelow(wc))
             return false;
 
         if (IsRandomPID())

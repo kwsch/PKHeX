@@ -42,8 +42,8 @@ public abstract class BulkStorage : SaveFile
     public sealed override int MaxItemID => blank.MaxItemID;
     public sealed override int MaxBallID => blank.MaxBallID;
     public sealed override int MaxGameID => blank.MaxGameID;
-    public sealed override int OTLength => blank.OTLength;
-    public sealed override int NickLength => blank.NickLength;
+    public sealed override int MaxStringLengthOT => blank.MaxStringLengthOT;
+    public sealed override int MaxStringLengthNickname => blank.MaxStringLengthNickname;
     public bool IsBigEndian => blank is BK4 or XK3 or CK3;
 
     public override int BoxCount { get; }

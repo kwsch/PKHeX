@@ -42,6 +42,7 @@ public static class ItemRestrictions
         EntityContext.Gen6 => ReleasedHeldItems_6,
         EntityContext.Gen7 => ReleasedHeldItems_7,
         EntityContext.Gen8 => ReleasedHeldItems_8,
+        EntityContext.Gen9 => ReleasedHeldItems_9,
 
         EntityContext.Gen8b => ReleasedHeldItems_8b,
         _ => Array.Empty<bool>(), // lgp/e, pla, etc

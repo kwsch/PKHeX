@@ -78,13 +78,15 @@ public partial class SAV_SimplePokedex : Form
 
     private void CLB_Seen_ItemCheck(object sender, ItemCheckEventArgs e)
     {
-        if (!initialized) return;
+        if (!initialized)
+            return;
         seen[e.Index] = e.NewValue == CheckState.Checked;
     }
 
     private void CLB_Caught_ItemCheck(object sender, ItemCheckEventArgs e)
     {
-        if (!initialized) return;
+        if (!initialized)
+            return;
         caught[e.Index] = e.NewValue == CheckState.Checked;
     }
 }

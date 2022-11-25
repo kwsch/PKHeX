@@ -11,7 +11,7 @@ public interface ISaveBlock8LA
     PokedexSave8a PokedexSave { get; }
     BoxLayout8a BoxLayout { get; }
     MyItem8a Items { get; }
-    AdventureStart8a AdventureStart { get; }
+    Epoch1970Value AdventureStart { get; }
     LastSaved8a LastSaved { get; }
     PlayTime8a Played { get; }
 }

@@ -111,7 +111,7 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
         pk.IsAlpha = IsAlpha;
         pk.IsNoble = IsNoble;
         pk.AlphaMove = AlphaMove;
-        pk.HeightScalarCopy = HeightScalarCopy;
+        pk.Scale = HeightScalarCopy;
         pk.HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
         pk.WeightAbsolute = pk.CalcWeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
         pk.GV_HP = GV_HP;

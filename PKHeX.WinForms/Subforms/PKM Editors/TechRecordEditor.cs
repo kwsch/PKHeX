@@ -6,12 +6,12 @@ namespace PKHeX.WinForms;
 
 public partial class TechRecordEditor : Form
 {
-    private readonly ITechRecord8 Record;
+    private readonly ITechRecord Record;
     private readonly PKM Entity;
 
-    public TechRecordEditor(ITechRecord8 techRecord8, PKM pk)
+    public TechRecordEditor(ITechRecord techRecord, PKM pk)
     {
-        Record = techRecord8;
+        Record = techRecord;
         Entity = pk;
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -40,13 +40,15 @@ public partial class TechRecordEditor : Form
 
     private void LoadRecords()
     {
-        for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
+        var range = Record.TechRecordPermitIndexes;
+        for (int i = 0; i < range.Length; i++)
             CLB_Flags.SetItemChecked(i, Record.GetMoveRecordFlag(i));
     }
 
     private void Save()
     {
-        for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
+        var range = Record.TechRecordPermitIndexes;
+        for (int i = 0; i < range.Length; i++)
             Record.SetMoveRecordFlag(i, CLB_Flags.GetItemChecked(i));
     }
 
@@ -55,7 +57,7 @@ public partial class TechRecordEditor : Form
         Save();
         if (ModifierKeys == Keys.Shift)
         {
-            Record.SetRecordFlags(true);
+            Record.SetRecordFlags(true, Record.RecordCountUsed);
         }
         else if (ModifierKeys == Keys.Control)
         {

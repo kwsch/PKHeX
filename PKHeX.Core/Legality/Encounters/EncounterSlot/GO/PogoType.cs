@@ -19,6 +19,8 @@ public enum PogoType : byte
     Raid = 10,
     /// <summary> Mythical Pokémon captured after completing Raid Battles. </summary>
     RaidM,
+    /// <summary> Ultra Beasts captured after completing Raid Battles. Only Beast Balls can be used. </summary>
+    RaidUB,
 
     /// <summary> Pokémon captured after completing Field Research. </summary>
     Research = 20,
@@ -52,6 +54,7 @@ public static class PogoTypeExtensions
         PogoType.EggS => 8,
         PogoType.Raid => 20,
         PogoType.RaidM => 20,
+        PogoType.RaidUB => 20,
         PogoType.Research => 15,
         PogoType.ResearchM => 15,
         PogoType.ResearchP => 15,
@@ -104,6 +107,7 @@ public static class PogoTypeExtensions
         PogoType.EggS => Ball.Poke,
         PogoType.Raid => Ball.Premier,
         PogoType.RaidM => Ball.Premier,
+        PogoType.RaidUB => Ball.Beast,
         PogoType.ResearchP => Ball.Poke,
         PogoType.ResearchUB => Ball.Beast,
         PogoType.Shadow => Ball.Premier,

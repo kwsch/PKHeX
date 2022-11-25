@@ -11,6 +11,11 @@ namespace PKHeX.Core;
 public static class PersonalTable
 {
     /// <summary>
+    /// Personal Table used in <see cref="GameVersion.SV"/>.
+    /// </summary>
+    public static readonly PersonalTable9SV SV = new(GetTable("sv"));
+
+    /// <summary>
     /// Personal Table used in <see cref="GameVersion.PLA"/>.
     /// </summary>
     public static readonly PersonalTable8LA LA = new(GetTable("la"));
@@ -119,17 +124,8 @@ public static class PersonalTable
 
     static PersonalTable() // Finish Setup
     {
-        FixPersonalTableG1();
         PopulateGen3Tutors();
         PopulateGen4Tutors();
-        CopyDexitGenders();
-    }
-
-    private static void FixPersonalTableG1()
-    {
-        var gs = GS.Table;
-        RB.LoadValuesFrom(gs);
-        Y.LoadValuesFrom(gs);
     }
 
     private static void PopulateGen3Tutors()
@@ -137,61 +133,15 @@ public static class PersonalTable
         // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
         var machine = BinLinkerAccessor.Get(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
         var tutors = BinLinkerAccessor.Get(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
-        var table = E.Table;
-        for (ushort i = Legal.MaxSpeciesID_3; i >= 1; i--)
-        {
-            var entry = table[i];
-            entry.AddTMHM(machine[i]);
-            entry.AddTypeTutors(tutors[i]);
-
-            // Copy to other tables
-            RS.Table[i].TMHM = FR.Table[i].TMHM = LG.Table[i].TMHM = entry.TMHM;
-            RS.Table[i].TypeTutors = FR.Table[i].TypeTutors = LG.Table[i].TypeTutors = entry.TypeTutors;
-        }
+        E.LoadTables(machine, tutors);
+        FR.CopyTables(E);
+        LG.CopyTables(E);
+        RS.CopyTables(E);
     }
 
     private static void PopulateGen4Tutors()
     {
         var tutors = BinLinkerAccessor.Get(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
-        var table = HGSS.Table;
-        var count = tutors.Length;
-        for (ushort i = 1; i < count; i++)
-            table[i].AddTypeTutors(tutors[i]);
-    }
-
-    /// <summary>
-    /// Sword/Shield do not contain personal data (stubbed) for all species that are not allowed to visit the game.
-    /// Copy all the genders from <see cref="USUM"/>'s table for all past species, since we need it for <see cref="PKX.Personal"/> gender lookups for all generations.
-    /// </summary>
-    private static void CopyDexitGenders()
-    {
-        var swsh = SWSH.Table;
-        var usum = USUM.Table;
-
-        for (ushort i = 1; i <= Legal.MaxSpeciesID_7_USUM; i++)
-        {
-            var ss = swsh[i];
-            if (ss.HP == 0)
-                ss.Gender = usum[i].Gender;
-        }
-
-        var la = LA;
-        for (ushort i = 1; i <= Legal.MaxSpeciesID_8_R2; i++)
-        {
-            var e = la.Table[i];
-            var fc = e.FormCount;
-            for (byte f = 0; f < fc; f++)
-            {
-                var l = la.GetFormEntry(i, f);
-                if (l.HP != 0)
-                    continue;
-                var s = SWSH.GetFormEntry(i, f);
-                l.Ability1 = s.Ability1;
-                l.Ability2 = s.Ability2;
-                l.AbilityH = s.AbilityH;
-                l.Gender = s.Gender;
-                l.EXPGrowth = s.EXPGrowth;
-            }
-        }
+        HGSS.LoadTables(tutors);
     }
 }

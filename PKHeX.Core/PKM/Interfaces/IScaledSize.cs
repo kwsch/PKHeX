@@ -3,10 +3,18 @@ namespace PKHeX.Core;
 /// <summary>
 /// Stores scalars that range from 0-255.
 /// </summary>
-public interface IScaledSize
+public interface IScaledSize : IScaledSizeReadOnly
 {
-    byte WeightScalar { get; set; }
-    byte HeightScalar { get; set; }
+    new byte WeightScalar { get; set; }
+    new byte HeightScalar { get; set; }
+}
+
+/// <summary>
+/// Stores scalars that range from 0-255.
+/// </summary>
+public interface IScaledSize3
+{
+    byte Scale { get; set; }
 }
 
 /// <summary>

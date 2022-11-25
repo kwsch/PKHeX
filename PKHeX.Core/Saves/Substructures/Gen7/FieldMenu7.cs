@@ -21,6 +21,6 @@ public sealed class FieldMenu7 : SaveBlock<SAV7>
     public string RotomOT
     {
         get => SAV.GetString(Offset + 0x30, 0x1A);
-        set => SAV.SetString(Data.AsSpan(Offset + 0x30, 0x1A), value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
+        set => SAV.SetString(Data.AsSpan(Offset + 0x30, 0x1A), value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 }

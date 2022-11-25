@@ -10,8 +10,8 @@ public abstract class GBPKML : GBPKM
 {
     internal const int StringLengthJapanese = 6;
     internal const int StringLengthNotJapan = 11;
-    public sealed override int OTLength => Japanese ? 5 : 7;
-    public sealed override int NickLength => Japanese ? 5 : 10;
+    public sealed override int MaxStringLengthOT => Japanese ? 5 : 7;
+    public sealed override int MaxStringLengthNickname => Japanese ? 5 : 10;
     public sealed override bool Japanese => RawOT.Length == StringLengthJapanese;
 
     internal readonly byte[] RawOT;

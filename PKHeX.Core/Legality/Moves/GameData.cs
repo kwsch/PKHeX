@@ -46,6 +46,8 @@ public static class GameData
         BD or SP or BDSP => Legal.LevelUpBDSP,
         PLA => Legal.LevelUpLA,
 
+        SL or VL => Legal.LevelUpSV,
+
         Gen1 => Legal.LevelUpY,
         Gen2 => Legal.LevelUpC,
         Gen3 => Legal.LevelUpE,
@@ -55,6 +57,7 @@ public static class GameData
         Gen7 => Legal.LevelUpSM,
         Gen7b => Legal.LevelUpGG,
         Gen8 => Legal.LevelUpSWSH,
+        Gen9 => Legal.LevelUpSV,
 
         Stadium => Legal.LevelUpY,
         Stadium2 => Legal.LevelUpGS,
@@ -91,6 +94,8 @@ public static class GameData
         SW or SH or SWSH => PersonalTable.SWSH,
         BD or SP or BDSP => PersonalTable.BDSP,
         PLA => PersonalTable.LA,
+
+        SL or VL or SV => PersonalTable.SV,
 
         Gen1 => PersonalTable.Y,
         Gen2 => PersonalTable.C,

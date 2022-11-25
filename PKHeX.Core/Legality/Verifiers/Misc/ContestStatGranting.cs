@@ -1,7 +1,7 @@
 ﻿namespace PKHeX.Core;
 
 /// <summary>
-/// Rules for how <see cref="IContestStats"/> are acquired.
+/// Rules for how <see cref="IContestStatsReadOnly"/> are acquired.
 /// </summary>
 /// <seealso cref="ContestStatGrantingSheen"/>
 public enum ContestStatGranting

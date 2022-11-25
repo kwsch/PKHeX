@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PersonalTable4 : IPersonalTable, IPersonalTable<PersonalInfo4>
 {
-    internal readonly PersonalInfo4[] Table;
+    private readonly PersonalInfo4[] Table;
     private const int SIZE = PersonalInfo4.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_4;
     public int MaxSpeciesID => MaxSpecies;
@@ -61,4 +61,11 @@ public sealed class PersonalTable4 : IPersonalTable, IPersonalTable<PersonalInfo
     PersonalInfo IPersonalTable.this[int index] => this[index];
     PersonalInfo IPersonalTable.this[ushort species, byte form] => this[species, form];
     PersonalInfo IPersonalTable.GetFormEntry(ushort species, byte form) => GetFormEntry(species, form);
+
+    public void LoadTables(BinLinkerAccessor tutors)
+    {
+        var table = Table;
+        for (int i = Legal.MaxSpeciesID_4; i >= 1; i--)
+            table[i].AddTypeTutors(tutors[i]);
+    }
 }

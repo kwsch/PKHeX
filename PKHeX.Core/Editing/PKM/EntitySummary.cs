@@ -58,12 +58,12 @@ public class EntitySummary // do NOT seal, allow inheritance
     public int SPA_EV => pk.EV_SPA;
     public int SPD_EV => pk.EV_SPD;
     public int SPE_EV => pk.EV_SPE;
-    public int Cool => pk is IContestStats s ? s.CNT_Cool : 0;
-    public int Beauty => pk is IContestStats s ? s.CNT_Beauty : 0;
-    public int Cute => pk is IContestStats s ? s.CNT_Cute : 0;
-    public int Smart => pk is IContestStats s ? s.CNT_Smart : 0;
-    public int Tough => pk is IContestStats s ? s.CNT_Tough : 0;
-    public int Sheen => pk is IContestStats s ? s.CNT_Sheen : 0;
+    public int Cool => pk is IContestStatsReadOnly s ? s.CNT_Cool : 0;
+    public int Beauty => pk is IContestStatsReadOnly s ? s.CNT_Beauty : 0;
+    public int Cute => pk is IContestStatsReadOnly s ? s.CNT_Cute : 0;
+    public int Smart => pk is IContestStatsReadOnly s ? s.CNT_Smart : 0;
+    public int Tough => pk is IContestStatsReadOnly s ? s.CNT_Tough : 0;
+    public int Sheen => pk is IContestStatsReadOnly s ? s.CNT_Sheen : 0;
     public int Markings => pk.MarkValue;
 
     public string NotOT => pk.Format > 5 ? pk.HT_Name : "N/A";

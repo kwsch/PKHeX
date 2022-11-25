@@ -282,8 +282,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override int Generation => 2;
     public override EntityContext Context => EntityContext.Gen2;
     protected override int GiftCountMax => 0;
-    public override int OTLength => Japanese || Korean ? 5 : 7;
-    public override int NickLength => Japanese || Korean ? 5 : 10;
+    public override int MaxStringLengthOT => Japanese || Korean ? 5 : 7;
+    public override int MaxStringLengthNickname => Japanese || Korean ? 5 : 10;
     public override int BoxSlotCount => Japanese ? 30 : 20;
 
     public override bool HasParty => true;
@@ -323,8 +323,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override string OT
     {
-        get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength);
-        set => SetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * OTLength), value.AsSpan(), 8, StringConverterOption.Clear50);
+        get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthOT);
+        set => SetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthOT), value.AsSpan(), 8, StringConverterOption.Clear50);
     }
 
     public Span<byte> OT_Trash
@@ -335,8 +335,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public string Rival
     {
-        get => GetString(Offsets.Rival, (Korean ? 2 : 1) * OTLength);
-        set => SetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * OTLength), value.AsSpan(), 8, StringConverterOption.Clear50);
+        get => GetString(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthOT);
+        set => SetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthOT), value.AsSpan(), 8, StringConverterOption.Clear50);
     }
 
     public Span<byte> Rival_Trash

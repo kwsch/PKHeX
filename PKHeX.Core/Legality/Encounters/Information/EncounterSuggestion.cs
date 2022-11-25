@@ -60,6 +60,7 @@ public static class EncounterSuggestion
         4 => traded ? Locations.LinkTrade4 : Locations.Daycare4,
         5 => traded ? Locations.LinkTrade5 : Locations.Daycare5,
         8 when BDSP.Contains(version)=> traded ? Locations.LinkTrade6NPC : Locations.Daycare8b,
+        9 => Locations.Picnic9,
         _ => traded ? Locations.LinkTrade6 : Locations.Daycare5,
     };
 

@@ -673,7 +673,8 @@ public partial class SAV_FestivalPlaza : Form
 
     private void B_DelVisitor_Click(object sender, EventArgs e)
     {
-        if (entry < 0) return;
+        if (entry < 0)
+            return;
         var facility = f[entry];
         // there is a unknown value when not introduced...no reproducibility, just mistake?
         if (facility.IsIntroduced)
@@ -690,7 +691,8 @@ public partial class SAV_FestivalPlaza : Form
 
     private void B_ImportParty_Click(object sender, EventArgs e)
     {
-        if (!SAV.HasParty) return;
+        if (!SAV.HasParty)
+            return;
         var party = SAV.PartyData;
         string msg = string.Empty;
         for (int i = 0; i < 3; i++)
@@ -719,7 +721,8 @@ public partial class SAV_FestivalPlaza : Form
 
     private void NUD_Grade_ValueChanged(object sender, EventArgs e)
     {
-        if (editing) return;
+        if (editing)
+            return;
         int max = (Math.Min(49, (int)NUD_Grade.Value) / 10 * 3) + 2;
         editing = true;
         if (NUD_Defeated.Value > max)

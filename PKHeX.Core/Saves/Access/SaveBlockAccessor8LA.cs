@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -14,7 +14,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     public PokedexSave8a PokedexSave { get; }
     public BoxLayout8a BoxLayout { get; }
     public MyItem8a Items { get; }
-    public AdventureStart8a AdventureStart { get; }
+    public Epoch1970Value AdventureStart { get; }
     public Coordinates8a Coordinates { get; }
     public LastSaved8a LastSaved { get; }
     public PlayerFashion8a FashionPlayer { get; }
@@ -29,7 +29,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
         PartyInfo = new Party8a(sav, GetBlock(KParty));
         MyStatus = new MyStatus8a(sav, GetBlock(KMyStatus));
         Items = new MyItem8a(sav, GetBlock(KItemRegular));
-        AdventureStart = new AdventureStart8a(sav, GetBlock(KAdventureStart));
+        AdventureStart = new Epoch1970Value(GetBlock(KAdventureStart));
         LastSaved = new LastSaved8a(sav, GetBlock(KLastSaved));
         Played = new PlayTime8a(sav, GetBlock(KPlayTime));
         Coordinates = new Coordinates8a(sav, GetBlock(KCoordinates));

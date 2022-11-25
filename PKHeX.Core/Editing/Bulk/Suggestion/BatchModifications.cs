@@ -13,7 +13,7 @@ internal static class BatchModifications
     public static ModifyResult SetSuggestedRelearnData(BatchInfo info, string propValue)
     {
         var pk = info.Entity;
-        if (pk is ITechRecord8 t)
+        if (pk is ITechRecord t)
         {
             t.ClearRecordFlags();
             if (IsAll(propValue))

@@ -75,8 +75,8 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
 
     public override int MaxIV => 31;
     public override int MaxEV => 252;
-    public override int OTLength => 12;
-    public override int NickLength => 12;
+    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthNickname => 12;
     protected override int GiftCountMax => 48;
     protected override int GiftFlagMax => 0x100 * 8;
     public int EventFlagCount => 4160; // 0xDC0 (true max may be up to 0x7F less. 23A8 starts u64 hashvals)

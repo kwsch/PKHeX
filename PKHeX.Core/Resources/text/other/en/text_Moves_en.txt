@@ -849,3 +849,53 @@ Wildbolt Storm
 Sandsear Storm
 Lunar Blessing
 Take Heart
+Tera Blast
+Silk Trap
+Axe Kick
+Last Respects
+Lumina Crash
+Order Up
+Jet Punch
+Spicy Extract
+Spin Out
+Population Bomb
+Ice Spinner
+Glaive Rush
+Revival Blessing
+Salt Cure
+Triple Dive
+Mortal Spin
+Doodle
+Fillet Away
+Kowtow Cleave
+Flower Trick
+Torch Song
+Aqua Step
+Raging Bull
+Make It Rain
+WAZA_SAIKOBUREIDO
+WAZA_HAIDOROSUTIIMU
+Ruination
+Collision Course
+Electro Drift
+Shed Tail
+Chilly Reception
+Tidy Up
+Snowscape
+Pounce
+Trailblaze
+Chilling Water
+Hyper Drill
+Twin Beam
+Rage Fist
+Armor Cannon
+Bitter Blade
+Double Shock
+Gigaton Hammer
+Comeuppance
+Aqua Cutter
+Blazing Torque
+Wicked Torque
+Noxious Torque
+Combat Torque
+Magical Torque

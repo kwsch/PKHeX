@@ -30,9 +30,11 @@ public enum BoxManipType
     SortTraining,
     SortOwner,
     SortType,
+    SortTypeTera,
     SortVersion,
     SortBST,
     SortCP,
+    SortScale,
     SortLegal,
     SortEncounterType,
 

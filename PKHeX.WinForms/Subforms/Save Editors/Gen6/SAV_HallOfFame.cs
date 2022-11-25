@@ -18,13 +18,17 @@ public partial class SAV_HallOfFame : Form
     private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
     private readonly byte[] data;
 
+    private const int Count = 16;
+    private const int StructureSize = 0x1B4;
+    private const int StructureTotal = Count * StructureSize;
+
     public SAV_HallOfFame(SAV6 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV6)(Origin = sav).Clone();
 
-        data = SAV.Data.Slice(SAV.HoF, 0x1B40); // Copy HoF section of save into Data
+        data = SAV.Data.Slice(SAV.HoF, StructureTotal); // Copy HoF section of save into Data
         Setup();
         LB_DataEntry.SelectedIndex = 0;
         NUP_PartyIndex_ValueChanged(this, EventArgs.Empty);
@@ -74,7 +78,7 @@ public partial class SAV_HallOfFame : Form
         RTB.Font = new Font("Courier New", 8);
         RTB.LanguageOption = RichTextBoxLanguageOptions.DualFont;
         int index = LB_DataEntry.SelectedIndex;
-        int offset = index * 0x1B4;
+        int offset = index * StructureSize;
 
         uint vnd = ReadUInt32LittleEndian(data.AsSpan(offset + 0x1B0));
         uint vn = vnd & 0xFF;
@@ -159,7 +163,7 @@ public partial class SAV_HallOfFame : Form
     {
         editing = false;
         int index = LB_DataEntry.SelectedIndex;
-        int offset = (index * 0x1B4) + ((Convert.ToInt32(NUP_PartyIndex.Value)-1) * HallFame6Entity.SIZE);
+        int offset = (index * StructureSize) + ((Convert.ToInt32(NUP_PartyIndex.Value)-1) * HallFame6Entity.SIZE);
 
         if (offset < 0)
             return;
@@ -202,7 +206,7 @@ public partial class SAV_HallOfFame : Form
 
         int index = LB_DataEntry.SelectedIndex;
         int partymember = Convert.ToInt32(NUP_PartyIndex.Value) - 1;
-        int offset = (index * 0x1B4) + (partymember * HallFame6Entity.SIZE);
+        int offset = (index * StructureSize) + (partymember * HallFame6Entity.SIZE);
         var span = data.AsSpan(offset, HallFame6Entity.SIZE);
         var entry = new HallFame6Entity(span)
         {
@@ -225,7 +229,7 @@ public partial class SAV_HallOfFame : Form
             OT_Gender = (uint)EntityGender.GetFromString(Label_OTGender.Text) & 1,
         };
 
-        offset = index * 0x1B4;
+        offset = index * StructureSize;
 
         uint vnd = 0;
         uint date = 0;
@@ -355,15 +359,23 @@ public partial class SAV_HallOfFame : Form
 
     private void B_Delete_Click(object sender, EventArgs e)
     {
-        if (LB_DataEntry.SelectedIndex < 1) { WinFormsUtil.Alert("Cannot delete your first Hall of Fame Clear entry."); return; }
+        if (LB_DataEntry.SelectedIndex < 1)
+        {
+            WinFormsUtil.Alert("Cannot delete your first Hall of Fame Clear entry.");
+            return;
+        }
+
         int index = LB_DataEntry.SelectedIndex;
-        if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete Entry {index} from your records?") != DialogResult.Yes)
+        var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Delete Entry {index} from your records?");
+        if (prompt != DialogResult.Yes)
             return;
 
-        int offset = index * 0x1B4;
-        if (index != 15) Array.Copy(data, offset + 0x1B4, data, offset, 0x1B4 * (15 - index));
+        int offset = index * StructureSize;
+        if (index != 15)
+            Array.Copy(data, offset + StructureSize, data, offset, StructureSize * (Count - 1 - index));
+
         // Ensure Last Entry is Cleared
-        Array.Copy(new byte[0x1B4], 0, data, 0x1B4 * 15, 0x1B4);
+        data.AsSpan(StructureSize * (Count - 1), StructureSize).Fill(0);
         DisplayEntry(LB_DataEntry, EventArgs.Empty);
     }
 

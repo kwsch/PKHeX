@@ -17,10 +17,10 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
     public byte Country { get; set; } = 49; // USA
 
     public int Game { get; }
-    public int Generation { get; set; } = PKX.Generation;
-    public EntityContext Context { get; set; } = PKX.Context;
+    public int Generation { get; init; } = PKX.Generation;
+    public EntityContext Context { get; init; } = PKX.Context;
 
-    public SimpleTrainerInfo(GameVersion game = GameVersion.SW)
+    public SimpleTrainerInfo(GameVersion game = PKX.Version)
     {
         Game = (int) game;
         SanityCheckRegionOrigin(game);
@@ -40,6 +40,7 @@ public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
         Gender = other.Gender;
         Language = other.Language;
         Generation = other.Generation;
+        Context = other.Context;
 
         if (other is IRegionOrigin r)
             r.CopyRegionOrigin(this);

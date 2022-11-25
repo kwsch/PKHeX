@@ -1,14 +1,14 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Exposes memory details for the Original Trainer.
 /// </summary>
-public interface IMemoryOT
+public interface IMemoryOT : IMemoryOTReadOnly
 {
-    byte OT_Memory { get; set; }
-    byte OT_Intensity { get; set; }
-    byte OT_Feeling { get; set; }
-    ushort OT_TextVar { get; set; }
+    new byte OT_Memory { get; set; }
+    new byte OT_Intensity { get; set; }
+    new byte OT_Feeling { get; set; }
+    new ushort OT_TextVar { get; set; }
 }
 
 public static partial class Extensions

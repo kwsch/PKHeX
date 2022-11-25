@@ -24,6 +24,7 @@ public sealed class EvolutionTree
     public static readonly EvolutionTree Evolves8 = new(GetReader("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
     public static readonly EvolutionTree Evolves8a = new(GetReader("la"), PLA, PersonalTable.LA, MaxSpeciesID_8a);
     public static readonly EvolutionTree Evolves8b = new(GetReader("bs"), BDSP, PersonalTable.BDSP, MaxSpeciesID_8b);
+    public static readonly EvolutionTree Evolves9 = new(GetReader("sv"), Gen9, PersonalTable.SV, MaxSpeciesID_9);
 
     private static ReadOnlySpan<byte> GetResource(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
     private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetResource(resource), resource);
@@ -46,6 +47,7 @@ public sealed class EvolutionTree
         EntityContext.Gen6 => Evolves6,
         EntityContext.Gen7 => Evolves7,
         EntityContext.Gen8 => Evolves8,
+        EntityContext.Gen9 => Evolves9,
         EntityContext.Gen7b => Evolves7b,
         EntityContext.Gen8a => Evolves8a,
         EntityContext.Gen8b => Evolves8b,
@@ -146,7 +148,7 @@ public sealed class EvolutionTree
     private static IReadOnlyList<EvolutionMethod[]> GetEntries(BinLinkerAccessor data, GameVersion game) => game switch
     {
         Gen6 => EvolutionSet6.GetArray(data),
-        Gen7 or Gen8 or BDSP => EvolutionSet7.GetArray(data, false),
+        Gen7 or Gen8 or BDSP or Gen9 => EvolutionSet7.GetArray(data, false),
         PLA => EvolutionSet7.GetArray(data, true),
         _ => throw new ArgumentOutOfRangeException(nameof(game)),
     };
@@ -181,7 +183,7 @@ public sealed class EvolutionTree
     private void FixEvoTreeBS()
     {
         BanEvo((int)Species.Glaceon, 0, pk => pk.CurrentLevel == pk.Met_Level); // Ice Stone is unreleased, requires Route 217 Ice Rock Level Up instead
-        BanEvo((int)Species.Milotic, 0, pk => pk is IContestStats { CNT_Beauty: < 170 } || pk.CurrentLevel == pk.Met_Level); // Prism Scale is unreleased, requires 170 Beauty Level Up instead
+        BanEvo((int)Species.Milotic, 0, pk => pk is IContestStatsReadOnly { CNT_Beauty: < 170 } || pk.CurrentLevel == pk.Met_Level); // Prism Scale is unreleased, requires 170 Beauty Level Up instead
     }
 
     private void BanEvo(ushort species, byte form, Func<PKM, bool> func)

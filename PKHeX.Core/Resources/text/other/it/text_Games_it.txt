@@ -48,3 +48,5 @@ Scudo
 Leggende: Arceus
 Diamante Lucente
 Perla Splendente
+Scarlatto
+Violetto

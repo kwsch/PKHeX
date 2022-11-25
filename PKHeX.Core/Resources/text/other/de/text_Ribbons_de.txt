@@ -149,5 +149,15 @@ RibbonMarkHumble	Arglos-Zeichen
 RibbonMarkThorny	Scheinheilig-Zeichen
 RibbonMarkVigor	Elan-Zeichen
 RibbonMarkSlump	Formtief-Zeichen
-RibbonPioneer	Pioneer
+RibbonHisui	Hisui
 RibbonTwinklingStar	Glitzersternband
+RibbonChampionPaldea	Paldea-Champs
+RibbonMarkJumbo	Riesen-Zeichen
+RibbonMarkMini	Winzlings-Zeichen
+RibbonMarkItemfinder	Aufsammler-Zeichen
+RibbonMarkPartner	Partner-Zeichen
+RibbonMarkGourmand	Gourmet-Zeichen
+RibbonOnceInALifetime	Glückstrefferband
+RibbonMarkAlpha	Elite-Zeichen
+RibbonMarkMightiest	Titanen-Zeichen
+RibbonMarkTitan	Herrscher-Zeichen

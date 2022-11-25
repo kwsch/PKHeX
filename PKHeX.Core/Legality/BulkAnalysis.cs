@@ -203,6 +203,8 @@ public sealed class BulkAnalysis
             var withOT = tr.IsFromTrainer(pk);
             var flag = pk.CurrentHandler;
             var expect = withOT ? 0 : 1;
+            if (pk.Version == 0)
+                expect = 0;
             if (flag != expect)
                 AddLine(cs, LegalityCheckStrings.LTransferCurrentHandlerInvalid, CheckIdentifier.Trainer);
 
@@ -352,7 +354,7 @@ public sealed class BulkAnalysis
 
     private static bool IsSharedVersion(PKM pp, LegalityAnalysis pa, PKM cp, LegalityAnalysis ca)
     {
-        if (pp.Version == cp.Version)
+        if (pp.Version == cp.Version || pp.Version == 0 || cp.Version == 0)
             return false;
 
         // Traded eggs retain the original version ID, only on the same generation

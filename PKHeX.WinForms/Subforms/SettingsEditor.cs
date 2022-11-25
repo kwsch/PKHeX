@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -38,7 +38,8 @@ public partial class SettingsEditor : Form
     private void LoadSettings(object obj)
     {
         var type = obj.GetType();
-        var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type);
+        var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(type)
+            .OrderBy(z => z);
         foreach (var p in props)
         {
             var state = ReflectUtil.GetValue(obj, p);

@@ -62,21 +62,24 @@ public partial class SAV_PokedexGG : Form
 
     private void ChangeCBSpecies(object sender, EventArgs e)
     {
-        if (editing) return;
+        if (editing)
+            return;
         SetEntry();
 
         editing = true;
         currentSpecies = (ushort)WinFormsUtil.GetIndex(CB_Species);
         LB_Species.SelectedIndex = currentSpecies - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
         LB_Species.TopIndex = LB_Species.SelectedIndex;
-        if (!allModifying) FillLBForms();
+        if (!allModifying)
+            FillLBForms();
         GetEntry();
         editing = false;
     }
 
     private void ChangeLBSpecies(object sender, EventArgs e)
     {
-        if (editing) return;
+        if (editing)
+            return;
         SetEntry();
 
         editing = true;
@@ -89,8 +92,10 @@ public partial class SAV_PokedexGG : Form
 
     private void ChangeLBForms(object sender, EventArgs e)
     {
-        if (allModifying) return;
-        if (editing) return;
+        if (allModifying)
+            return;
+        if (editing)
+            return;
         SetEntry();
 
         editing = true;
@@ -127,7 +132,8 @@ public partial class SAV_PokedexGG : Form
 
     private bool FillLBForms()
     {
-        if (allModifying) return false;
+        if (allModifying)
+            return false;
         LB_Forms.DataSource = null;
         LB_Forms.Items.Clear();
 
@@ -135,7 +141,8 @@ public partial class SAV_PokedexGG : Form
         var bspecies = Dex.GetBaseSpecies(fspecies);
         bool hasForms = FormInfo.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
         LB_Forms.Enabled = hasForms;
-        if (!hasForms) return false;
+        if (!hasForms)
+            return false;
         var ds = FormConverter.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context).ToList();
         if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
         {

@@ -2,14 +2,14 @@ namespace PKHeX.Core;
 
 internal static class Locations8
 {
-    internal static readonly ushort[] Met0 =
+    internal static readonly byte[] Met0 =
     {
              002, 004, 006, 008,
              012, 014, 016, 018,
         020, 022, 024,      028,
         030, 032, 034, 036,
         040,      044, 046, 048,
-        052, 054, 056, 058,
+             052, 054, 056, 058,
         060,      064, 066, 068,
         070, 072,      076, 078,
         080,      084, 086, 088,

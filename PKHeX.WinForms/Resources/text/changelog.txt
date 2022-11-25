@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/09/13 - New Update:
+22/11/24 - New Update:
+ - Introducing Scarlet & Violet Support! Thanks @SciresM, @sora10pls, @Lusamine!
+ - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for SV parsing.
+ - - Save Data is similar to SW/SH; a pokedex, trainer, inventory, Raid, and block data editor are provided.
+ - - Encounter legality has been reverse engineered & modeled to pre-compute possible met locations for overworld interactables.
+ - Added:
+ - - Gen9 SV wild encounters are now generated with RNG patterns matching the game. Thanks @Lusamine !
+ - - Gen9 SV zone unlock cheat to fly to all locations. Thanks @sora10pls !
+ - - Gen9 Tera Type is indicated on the Stats page as well as mini sprite previews. Clicking the Original label will toggle the original type.
+ - - Gen9 Obedience Level tracks the level the entity arrived with the current handler.
+ - - Gen4 Ranch support extended. Thanks @Zazsona !
+ - - Ribbon Editor now sorts and highlights valid ribbons that can be applied.
+ - Changed:
+ - - Gen3/4 LCRNG reversal algorithms improved (50x faster!). Thanks @StarfBerry (Parzival)!
+ - - Display precision of Height/Weight float values now shows a round-trip equal value instead of potentially truncating decimals.
+ - - Clicking stat labels now changes nature amplification. Refer to the shortcut list for more info.
+ - - Settings window can now be resized.
+ - - Gen3 mGBA saves with new RTC footer now are recognized correctly. Thanks @Bl4ckSh4rk !
+ - Fixed:
+ - - Too many things to list! Thanks everyone who has highlighted issues / contributed fixes in the past 2.5 months!
+
+22/09/13 - New Update: (315677) [5587991]
  - Legality: Fixed small regressions in move / ribbon / memory legality checks.
  - Changed: RNG pidiv detection speed drastically improved. Not that you'd really notice since everything is already fast.
  - Fixed: BW personal data API has been regenerated to fix previous corrupted return values.

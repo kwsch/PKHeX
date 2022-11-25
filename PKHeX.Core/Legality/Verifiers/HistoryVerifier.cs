@@ -86,6 +86,7 @@ public sealed class HistoryVerifier : Verifier
     private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch
     {
         EncounterStatic7b { Location: 28 } => true, // LGP/E Starter
+        EncounterStatic9  { Species: 998 or 999, Level: 68 } => true, // SV Ride legend
         _ => false,
     };
 
@@ -118,7 +119,7 @@ public sealed class HistoryVerifier : Verifier
             // If none match, then it is not a valid OT friendship.
             var fs = pk.OT_Friendship;
             var enc = data.Info.EncounterMatch;
-            if (GetBaseFriendship(enc, origin) != fs)
+            if (GetBaseFriendship(enc) != fs)
                 data.AddLine(GetInvalid(LMemoryStatFriendshipOTBaseEvent));
         }
     }
@@ -198,6 +199,16 @@ public sealed class HistoryVerifier : Verifier
 
     private void VerifyHTLanguage(LegalityAnalysis data, IHandlerLanguage h, PKM pk)
     {
+        var enc = data.EncounterOriginal;
+        if (enc is EncounterStatic9 { GiftWithLanguage: true })
+        {
+            if (h.HT_Language == 0)
+                data.AddLine(GetInvalid(LMemoryHTLanguage));
+            else if (pk.IsUntraded && h.HT_Language != pk.Language)
+                data.AddLine(GetInvalid(LMemoryHTLanguage));
+            return;
+        }
+
         if (h.HT_Language == 0)
         {
             if (!string.IsNullOrWhiteSpace(pk.HT_Name))
@@ -245,23 +256,20 @@ public sealed class HistoryVerifier : Verifier
         };
     }
 
-    private static int GetBaseFriendship(IEncounterTemplate enc, int generation) => enc switch
+    private static int GetBaseFriendship(IEncounterTemplate enc) => enc switch
     {
         IFixedOTFriendship f => f.OT_Friendship,
-
-        { Version: GameVersion.BDSP or GameVersion.BD or GameVersion.SP }
-            => PersonalTable.BDSP.GetFormEntry(enc.Species, enc.Form).BaseFriendship,
-        { Version: GameVersion.PLA }
-            => PersonalTable.LA  .GetFormEntry(enc.Species, enc.Form).BaseFriendship,
-
-        _ => GetBaseFriendship(generation, enc.Species, enc.Form),
+        _ => GetBaseFriendship(enc.Context, enc.Species, enc.Form),
     };
 
-    private static int GetBaseFriendship(int generation, ushort species, byte form) => generation switch
+    private static int GetBaseFriendship(EntityContext context, ushort species, byte form) => context switch
     {
-        6 => PersonalTable.AO[species].BaseFriendship,
-        7 => PersonalTable.USUM[species].BaseFriendship,
-        8 => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
-        _ => throw new ArgumentOutOfRangeException(nameof(generation)),
+        EntityContext.Gen6  => PersonalTable.AO[species].BaseFriendship,
+        EntityContext.Gen7  => PersonalTable.USUM[species].BaseFriendship,
+        EntityContext.Gen8  => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
+        EntityContext.Gen8a => PersonalTable.LA.GetFormEntry(species, form).BaseFriendship,
+        EntityContext.Gen8b => PersonalTable.BDSP.GetFormEntry(species, form).BaseFriendship,
+        EntityContext.Gen9  => PersonalTable.SV.GetFormEntry(species, form).BaseFriendship,
+        _ => throw new ArgumentOutOfRangeException(nameof(context)),
     };
 }

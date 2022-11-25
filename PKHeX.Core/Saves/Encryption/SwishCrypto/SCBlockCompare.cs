@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -72,7 +72,7 @@ public sealed class SCBlockCompare
             if (x1.Type is SCTypeCode.Object or SCTypeCode.Array)
             {
                 if (!x1.Data.SequenceEqual(x2.Data))
-                    ValueChanged.Add($"{name} - Bytes Changed");
+                    ValueChanged.Add($"Bytes Changed: Length: {x1.Data.Length} {name}");
                 continue;
             }
 
@@ -113,16 +113,19 @@ public sealed class SCBlockCompare
         AddIfPresent(result, AddedKeys, "Blocks Added:");
         AddIfPresent(result, RemovedKeys, "Blocks Removed:");
         AddIfPresent(result, TypesChanged, "BlockType Changed:");
-        AddIfPresent(result, ValueChanged, "Value Changed:");
+        AddIfPresent(result, ValueChanged, "Value Changed:", true);
 
         return result;
 
-        static void AddIfPresent(List<string> result, ICollection<string> list, string hdr)
+        static void AddIfPresent(List<string> result, ICollection<string> list, string hdr, bool sort = false)
         {
             if (list.Count == 0)
                 return;
             result.Add(hdr);
-            result.AddRange(list);
+            if (!sort)
+                result.AddRange(list);
+            else
+                result.AddRange(list.OrderBy(z => z));
             result.Add(string.Empty);
         }
     }

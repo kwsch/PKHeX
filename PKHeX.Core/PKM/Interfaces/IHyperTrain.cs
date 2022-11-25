@@ -110,6 +110,19 @@ public static partial class Extensions
         _ => true,
     };
 
+    /// <summary>
+    /// Indicates if Hyper Training is available for toggling.
+    /// </summary>
+    /// <param name="_">Entity to train</param>
+    /// <param name="h">History of evolutions present as</param>
+    /// <returns>True if available, otherwise false.</returns>
+    public static int GetHyperTrainMinLevel(this IHyperTrain _, EvolutionHistory h)
+    {
+        if (h.HasVisitedGen9)
+            return 50;
+        return 100;
+    }
+
     /// <inheritdoc cref="IsHyperTrainingAvailable(IHyperTrain, EvolutionHistory)"/>
     /// <param name="pk">Entity data</param>
     /// <param name="h">History of evolutions present as</param>
@@ -120,7 +133,8 @@ public static partial class Extensions
         if (!t.IsHyperTrainingAvailable(h))
             return false;
 
-        // Gated behind level 100.
-        return pk.CurrentLevel == 100;
+        // Gated behind level.
+        var min = t.GetHyperTrainMinLevel(h);
+        return pk.CurrentLevel >= min;
     }
 }

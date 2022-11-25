@@ -13,13 +13,20 @@ public static class EvolutionSet7
 
     private static EvolutionMethod[] GetMethods(ReadOnlySpan<byte> data, bool LevelUpBypass)
     {
-        var evos = new EvolutionMethod[data.Length / SIZE];
-        for (int i = 0; i < data.Length; i += SIZE)
+        if (data.Length == 0)
+            return Array.Empty<EvolutionMethod>();
+
+        var result = new EvolutionMethod[data.Length / SIZE];
+        int i = 0, offset = 0;
+        while (true)
         {
-            var entry = data.Slice(i, SIZE);
-            evos[i / SIZE] = ReadEvolution(entry, LevelUpBypass);
+            var entry = data.Slice(offset, SIZE);
+            result[i] = ReadEvolution(entry, LevelUpBypass);
+            offset += SIZE;
+            if (offset >= data.Length)
+                return result;
+            i++;
         }
-        return evos;
     }
 
     private static EvolutionMethod ReadEvolution(ReadOnlySpan<byte> entry, bool levelUpBypass)

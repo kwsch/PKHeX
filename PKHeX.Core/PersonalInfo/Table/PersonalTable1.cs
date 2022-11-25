@@ -35,20 +35,14 @@ public sealed class PersonalTable1 : IPersonalTable, IPersonalTable<PersonalInfo
     PersonalInfo IPersonalTable.this[ushort species, byte form] => this[species, form];
     PersonalInfo IPersonalTable.GetFormEntry(ushort species, byte form) => GetFormEntry(species, form);
 
-    public void LoadValuesFrom(PersonalInfo2[] data)
-    {
-        for (int i = MaxSpecies; i >= 0; i--)
-            Table[i].Gender = data[i].Gender;
-    }
-
     /// <summary>
     /// Checks to see if either of the input type combinations exist in the table.
     /// </summary>
-    /// <remarks>Only useful for checking Generation 1 <see cref="PK1.Type_A"/> and <see cref="PK1.Type_B"/> properties.</remarks>
+    /// <remarks>Only useful for checking Generation 1 <see cref="PK1.Type1"/> and <see cref="PK1.Type2"/> properties.</remarks>
     /// <param name="type1">First type</param>
     /// <param name="type2">Second type</param>
     /// <returns>Indication that the combination exists in the table.</returns>
-    public bool IsValidTypeCombination(int type1, int type2)
+    public bool IsValidTypeCombination(byte type1, byte type2)
     {
         for (int i = 1; i <= MaxSpecies; i++)
         {

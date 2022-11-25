@@ -88,9 +88,10 @@ public static class RibbonRules
         bool hasRealDate = enc.Version == GameVersion.GO || enc is IEncounterServerDate { IsDateRestricted: true };
         if (hasRealDate)
         {
+            // Ranked is still ongoing, but the use of Mythicals was restricted to Series 13 only.
             var met = pk.MetDate;
-            if (met > new DateTime(2022, 11, 1)) // Series 13 end date +1 day (wiggle room)
-                return false; // Ranked is done!
+            if (Legal.Mythicals.Contains(pk.Species) && met > new DateTime(2022, 11, 1))
+                return false;
         }
 
         // Series 13 rule-set was the first time Ranked Battles allowed the use of Mythical Pokémon.
@@ -261,7 +262,7 @@ public static class RibbonRules
             return false;
 
         // Ribbon is awarded when the Pokémon is purified in the game of origin.
-        if (pk is IShadowPKM { IsShadow: true })
+        if (pk is IShadowCapture { IsShadow: true })
             return false;
 
         return true;
@@ -300,12 +301,18 @@ public static class RibbonRules
         return default;
     }
 
+    /// <summary>
+    /// Checks if the input evolution history could have participated in Generation 3 contests.
+    /// </summary>
     public static bool IsAllowedContest3(EvolutionHistory evos)
     {
         // Any species can enter contests in Gen3.
         return evos.HasVisitedGen3;
     }
 
+    /// <summary>
+    /// Checks if the input evolution history could have participated in Generation 4 contests.
+    /// </summary>
     public static bool IsAllowedContest4(EvolutionHistory evos)
     {
         if (!evos.HasVisitedGen4)
@@ -314,6 +321,9 @@ public static class RibbonRules
         return IsAllowedContest4(head.Species, head.Form);
     }
 
+    /// <summary>
+    /// Checks if the input species-form could have participated in Generation 4 contests.
+    /// </summary>
     public static bool IsAllowedContest4(ushort species, byte form) => species switch
     {
         // Disallow Unown and Ditto, and Spiky Pichu (cannot trade)
@@ -323,8 +333,14 @@ public static class RibbonRules
         _ => true,
     };
 
+    /// <summary>
+    /// Checks if the input species could have participated in any Battle Frontier trial.
+    /// </summary>
     public static bool IsAllowedBattleFrontier(ushort species) => !Legal.BattleFrontierBanlist.Contains(species);
 
+    /// <summary>
+    /// Checks if the input species could have participated in Generation 4's Battle Frontier.
+    /// </summary>
     public static bool IsAllowedBattleFrontier4(EvolutionHistory evos)
     {
         if (!evos.HasVisitedGen4)
@@ -333,9 +349,12 @@ public static class RibbonRules
         return IsAllowedBattleFrontier(head.Species, head.Form, 4);
     }
 
-    public static bool IsAllowedBattleFrontier(ushort species, byte form, int gen)
+    /// <summary>
+    /// Checks if the input species-form could have participated in a specific Battle Frontier trial.
+    /// </summary>
+    public static bool IsAllowedBattleFrontier(ushort species, byte form, int generation)
     {
-        if (gen == 4 && species == (int)Species.Pichu && form == 1) // spiky
+        if (generation == 4 && species == (int)Species.Pichu && form == 1) // spiky
             return false;
         return IsAllowedBattleFrontier(species);
     }

@@ -23,7 +23,7 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         pi = Personal[species];
         return true;
@@ -31,7 +31,7 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         var moves = EggMoves[species];
         return moves.GetHasEggMove(move);

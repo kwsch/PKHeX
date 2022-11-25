@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	卡洛斯冠军
+RibbonChampionKalos	卡洛斯冠军
 RibbonChampionG3	冠军 (3代)
 RibbonChampionSinnoh	神奥冠军
 RibbonBestFriends	好友
@@ -149,5 +149,15 @@ RibbonMarkHumble	木讷之证
 RibbonMarkThorny	不纯之证
 RibbonMarkVigor	活力之证
 RibbonMarkSlump	不振之证
-RibbonPioneer	先驱之证
+RibbonHisui	洗翠的样子
 RibbonTwinklingStar	闪亮之星奖章
+RibbonChampionPaldea	帕底亚冠军奖章
+RibbonMarkJumbo	大个子之证
+RibbonMarkMini	小不点之证
+RibbonMarkItemfinder	捡拾之证
+RibbonMarkPartner	搭档之证
+RibbonMarkGourmand	美食之证
+RibbonOnceInALifetime	千载难逢奖章
+RibbonMarkAlpha	头目之证
+RibbonMarkMightiest	最强之证
+RibbonMarkTitan	宝主之证

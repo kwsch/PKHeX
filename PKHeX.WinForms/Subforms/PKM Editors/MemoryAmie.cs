@@ -149,7 +149,7 @@ public partial class MemoryAmie : Form
 
         // Affection no longer stored in gen8+, so only show in gen6/7.
         L_OT_Affection.Visible = L_CT_Affection.Visible = M_OT_Affection.Visible = M_CT_Affection.Visible = Entity.Format <= 7;
-        L_Sociability.Visible = MT_Sociability.Visible = Entity.Format >= 8;
+        L_Sociability.Visible = MT_Sociability.Visible = Entity is ISociability;
     }
 
     private void SaveFields()
@@ -299,7 +299,8 @@ public partial class MemoryAmie : Form
         if (m == CB_CTMemory || m == CB_OTMemory)
             UpdateMemoryDisplay(m);
 
-        if (!init) return;
+        if (!init)
+            return;
         RTB_OT.Text = GetMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, Entity.OT_Name);
         RTB_CT.Text = GetMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, Entity.HT_Name);
     }
@@ -331,7 +332,8 @@ public partial class MemoryAmie : Form
 
     private void Update255_MTB(object sender, EventArgs e)
     {
-        if (sender is not MaskedTextBox tb) return;
+        if (sender is not MaskedTextBox tb)
+            return;
         if (Util.ToInt32(tb.Text) > byte.MaxValue)
             tb.Text = "255";
     }

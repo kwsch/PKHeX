@@ -19,6 +19,7 @@ public static partial class Legal
         (int)Xerneas, (int)Yveltal, (int)Zygarde, (int)Diancie, (int)Hoopa, (int)Volcanion,
         (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
         (int)Meltan, (int)Melmetal,
+        (int)Koraidon, (int)Miraidon,
     };
 
     /// <summary>
@@ -51,6 +52,7 @@ public static partial class Legal
         (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
         (int)Meltan, (int)Melmetal,
         (int)Zacian, (int)Zamazenta, (int)Eternatus, (int)Zarude, (int)Calyrex,
+        (int)Koraidon, (int)Miraidon,
     };
 
     /// <summary>
@@ -67,6 +69,7 @@ public static partial class Legal
         (int)Nihilego, (int)Buzzwole, (int)Pheromosa, (int)Xurkitree, (int)Celesteela, (int)Kartana, (int)Guzzlord,
         (int)Poipole, (int)Naganadel, (int)Stakataka, (int)Blacephalon,
         (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier, (int)Enamorus,
+        (int)TingLu, (int)ChienPao, (int)WoChien, (int)ChiYu,
     };
 
     /// <summary>
@@ -89,6 +92,9 @@ public static partial class Legal
 
         (int)Espurr,
         (int)Meowstic, // (M/F) form specific
+
+        (int)Lechonk,
+        (int)Oinkologne, // (M/F) form specific
     };
 
     /// <summary>

@@ -22,7 +22,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         pi = Personal[species, form];
         return true;
@@ -30,7 +30,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         var moves = MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
         return moves.IndexOf(move) != -1;
@@ -38,7 +38,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
         return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
     }
@@ -128,7 +128,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     private static bool GetIsTR(PersonalInfo info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)
     {
-        if (pk is not ITechRecord8 tr)
+        if (pk is not ITechRecord tr)
             return false;
 
         var index = TR_SWSH.AsSpan().IndexOf(move);
@@ -185,7 +185,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
                     result[moves[i]] = true;
             }
 
-            if (pk is ITechRecord8)
+            if (pk is ITechRecord)
             {
                 var trFlags = flags.AsSpan(PersonalInfo8SWSH.CountTM);
                 var trMoves = TR_SWSH.AsSpan();

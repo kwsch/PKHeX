@@ -99,8 +99,8 @@
             this.TC_SearchSettings = new System.Windows.Forms.TabControl();
             this.Tab_General = new System.Windows.Forms.TabPage();
             this.Tab_Advanced = new System.Windows.Forms.TabPage();
-            this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
             this.B_Add = new System.Windows.Forms.Button();
+            this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
             this.FLP_Egg.SuspendLayout();
@@ -890,6 +890,7 @@
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",
+            ".pk9",
             ".pk8",
             ".pk7",
             ".pk6",
@@ -987,6 +988,17 @@
             this.Tab_Advanced.Text = "Advanced";
             this.Tab_Advanced.UseVisualStyleBackColor = true;
             // 
+            // B_Add
+            // 
+            this.B_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Add.Location = new System.Drawing.Point(196, -1);
+            this.B_Add.Name = "B_Add";
+            this.B_Add.Size = new System.Drawing.Size(57, 23);
+            this.B_Add.TabIndex = 122;
+            this.B_Add.Text = "Add";
+            this.B_Add.UseVisualStyleBackColor = true;
+            this.B_Add.Click += new System.EventHandler(this.B_Add_Click);
+            // 
             // RTB_Instructions
             // 
             this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -998,17 +1010,6 @@
             this.RTB_Instructions.Size = new System.Drawing.Size(256, 320);
             this.RTB_Instructions.TabIndex = 120;
             this.RTB_Instructions.Text = "";
-            // 
-            // B_Add
-            // 
-            this.B_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Add.Location = new System.Drawing.Point(196, -1);
-            this.B_Add.Name = "B_Add";
-            this.B_Add.Size = new System.Drawing.Size(57, 23);
-            this.B_Add.TabIndex = 122;
-            this.B_Add.Text = "Add";
-            this.B_Add.UseVisualStyleBackColor = true;
-            this.B_Add.Click += new System.EventHandler(this.B_Add_Click);
             // 
             // SAV_Database
             // 

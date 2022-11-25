@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Calculations for <see cref="PKM.EXP"/> and <see cref="PKM.CurrentLevel"/>.
@@ -11,7 +11,7 @@ public static class Experience
     /// <param name="exp">Experience points</param>
     /// <param name="growth">Experience growth rate</param>
     /// <returns>Current level of the species.</returns>
-    public static int GetLevel(uint exp, int growth)
+    public static int GetLevel(uint exp, byte growth)
     {
         if (exp >= ExpTable[99, growth])
             return 100;
@@ -27,7 +27,7 @@ public static class Experience
     /// <param name="level">Current level</param>
     /// <param name="growth">Growth Rate type</param>
     /// <returns>Experience points needed to have specified level.</returns>
-    public static uint GetEXP(int level, int growth)
+    public static uint GetEXP(int level, byte growth)
     {
         if (level <= 1)
             return 0;
@@ -49,9 +49,9 @@ public static class Experience
     /// <param name="level">Current Level</param>
     /// <param name="growth">Growth Rate type</param>
     /// <returns>EXP to level up</returns>
-    public static uint GetEXPToLevelUp(int level, int growth)
+    public static uint GetEXPToLevelUp(int level, byte growth)
     {
-        if (level >= 100)
+        if ((uint)level >= 100)
             return 0;
         var current = ExpTable[level - 1, growth];
         var next = ExpTable[level, growth];
@@ -65,9 +65,9 @@ public static class Experience
     /// <param name="exp">Current Experience</param>
     /// <param name="growth">Growth Rate type</param>
     /// <returns>Percentage [0,1.00)</returns>
-    public static double GetEXPToLevelUpPercentage(int level, uint exp, int growth)
+    public static double GetEXPToLevelUpPercentage(int level, uint exp, byte growth)
     {
-        if (level >= 100)
+        if ((uint)level >= 100)
             return 0;
         var current = ExpTable[level - 1, growth];
         var next = ExpTable[level, growth];

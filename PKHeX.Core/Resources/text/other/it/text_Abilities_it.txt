@@ -36,7 +36,7 @@ Clorofilla
 Risplendi
 Traccia
 Macroforza
-Velenopunto
+Velenopunte
 Forza Interiore
 Magmascudo
 Idrovelo
@@ -266,3 +266,34 @@ Nitrito Bianco
 Nitrito Nero
 Sintonia Equina
 Sintonia Equina
+Odore Tenace
+Spargisemi
+Termoscambio
+Iraguscio
+Sale Purificante
+Bentostato
+Vento Propizio
+Cane da Guardia
+Portamassi
+Energia Eolica
+Supercambio
+Torre di Comando
+Convertivolt
+Paleoattivazione
+Carica Quark
+Corpo Aureo
+Vaso Nefasto
+Spada Nefasta
+Amuleto Nefasto
+Monile Nefasto
+Ritmo d’Oricalco
+Motore Adronico
+Scrocco
+Ruminante
+Affilama
+Generale Supremo
+Coprotagonismo
+Mantossina
+Codarmatura
+Mangiaterra
+Micoforza

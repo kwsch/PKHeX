@@ -108,8 +108,8 @@ public sealed class SAV4BR : SaveFile
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     protected override int GiftCountMax => 1;
-    public override int OTLength => 7;
-    public override int NickLength => 10;
+    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 999999;
     public override int Language => (int)LanguageID.English; // prevent KOR from inhabiting
 

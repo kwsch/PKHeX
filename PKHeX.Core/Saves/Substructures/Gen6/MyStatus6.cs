@@ -99,7 +99,7 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
     public string OT
     {
         get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
+        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     private Span<byte> GetSayingSpan(int say) => Data.AsSpan(GetSayingOffset(say), SAV6.LongStringLength);

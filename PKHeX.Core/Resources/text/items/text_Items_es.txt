@@ -37,9 +37,9 @@ Raíz Energía
 Polvo Curación
 Hierba Revivir
 Éter
-Píldora Éter
+Éter Máximo
 Elixir
-Píldora Elixir
+Elixir Máximo
 Galleta Lava
 Zumo de Baya
 Ceniza Sagrada
@@ -54,14 +54,14 @@ Zinc
 PP Máximos
 Barrita Plus
 Protección X
-Gragea Crítica
+Crítico X
 Ataque X
 Defensa X
 Velocidad X
 Precisión X
-At. Especial X
-Def. Especial X
-Poké Muñeco
+Ataque Especial X
+Defensa Especial X
+Pokémuñeco
 Cola Skitty
 Flauta Azul
 Flauta Amarilla
@@ -214,7 +214,7 @@ Baya Magua
 Polvo Brillo
 Hierba Blanca
 Brazal Firme
-Repartir Exp
+Repartir Experiencia
 Garra Rápida
 Cascabel Alivio
 Hierba Mental
@@ -228,7 +228,7 @@ Diente Marino
 Escama Marina
 Bola de Humo
 Piedra Eterna
-Cinta Focus
+Cinta Aguante
 Huevo Suerte
 Periscopio
 Revest. Metálico
@@ -273,7 +273,7 @@ Hierba Única
 Toxisfera
 Llamasfera
 Polvo Veloz
-Banda Focus
+Banda Aguante
 Telescopio
 Metrónomo
 Bola Férrea
@@ -426,17 +426,17 @@ MO05
 MO06
 (?)
 (?)
-Kit Explorador
+Kit de Explorador
 Saca Botín
 Reglamento
 Poké Radar
-Tarjeta Puntos
+Tarjeta de Puntos
 Guía de Viaje
 Caja de Sellos
 Caja Corazón
-Bolsa Sellos
-Bloc amigos
-Llave Central
+Bolsa de Sellos
+Bloc de Amigos
+Llave de la Central
 Talismán
 Llave Galaxia
 Cadena Roja
@@ -452,16 +452,16 @@ Bici
 Llave Suite
 Carta Prof. Oak
 Pluma Lunar
-Carné Socio
+Carné de Socio
 Flauta Azur
 Ticket del Barco
-Pase Concurso
+Pase de Concurso
 Piedra Magma
 Paquete
 Cupón 1
 Cupón 2
 Cupón 3
-Llave Almacén
+Llave del Almacén
 Medicina Secreta
 Cámara Lucha
 Gracídea
@@ -474,14 +474,14 @@ Tarjeta Azul
 Cola Slowpoke
 Cascabel Claro
 Llave Magnética
-Llave Sótano
-Regadera
+Llave del Sótano
+Squirgadera
 Escama Roja
 Objeto Perdido
 Magnetopase
 Maquinaria
-Ala Plateada
-Ala Arcoíris
+Pluma Plateada
+Pluma Arcoíris
 Huevo Misterioso
 Bonguri Rojo
 Bonguri Azul
@@ -500,7 +500,7 @@ Luna Ball
 Competi Ball
 Parque Ball
 Álbum
-Lector GB
+Reproductor GB
 Cascabel Oleaje
 Caramelo Furia
 Tarjeta Datos 01
@@ -536,7 +536,7 @@ Prisma Rojo
 Prisma Azul
 Misticristal
 Escama Bella
-Mineral Evol
+Mineral Evolutivo
 Piedra Pómez
 Casco Dentado
 Globo Helio
@@ -548,19 +548,19 @@ Pila
 Botón Escape
 Gema Fuego
 Gema Agua
-Gema Eléctrica
+Gema Eléctrico
 Gema Planta
 Gema Hielo
 Gema Lucha
 Gema Veneno
 Gema Tierra
-Gema Voladora
-Gema Psíquica
+Gema Volador
+Gema Psíquico
 Gema Bicho
 Gema Roca
 Gema Fantasma
 Gema Dragón
-Gema Siniestra
+Gema Siniestro
 Gema Acero
 Gema Normal
 Pluma Vigor
@@ -580,32 +580,32 @@ Neceser
 Cráneo Dragón
 Seta Aroma
 Maxipepita
-Sarta Perlas
+Sarta de Perlas
 Fragmento Cometa
-Real Cobre
-Real Plata
-Real Oro
-Ánfora
-Brazal
+Real de Cobre
+Real de Plata
+Real de Oro
+Ánfora Antigua
+Brazal Antiguo
 Efigie Antigua
 Corona Antigua
 Porcehelado
 Crítico X 2
 Velocidad X 2
-At. Esp. X 2
-Def. Esp. X 2
+Ataque Especial X 2
+Defensa Especial X 2
 Defensa X 2
 Ataque X 2
 Precisión X 2
 Velocidad X 3
-At. Esp. X 3
-Def. Esp. X 3
+Ataque Especial X 3
+Defensa Especial X 3
 Defensa X 3
 Ataque X 3
 Precisión X 3
 Velocidad X 6
-At. Esp. X 6
-Def. Esp. X 6
+Ataque Especial X 6
+Defensa Especial X 6
 Defensa X 6
 Ataque X 6
 Precisión X 6
@@ -625,7 +625,7 @@ Envío 1
 Envío 2
 Envío 3
 Videomisor
-Caja Insignias
+Caja de Insignias
 Punta ADN
 Punta ADN
 Pase
@@ -643,13 +643,13 @@ Holomisor
 Carta Profesor
 Patines
 Tabla Duende
-Cáps. Habilidad
+Cápsula Habilidad
 Dulce de Nata
 Saquito Fragante
 Musgo Brillante
 Bola de Nieve
 Gafa Protectora
-Poké Flauta
+Pokéflauta
 Abono Fértil
 Abono Sorpresa
 Abono Fructífero
@@ -693,14 +693,14 @@ MT97
 MT98
 MT99
 MT100
-Pase Central
+Pase de la Central
 Mega-Aro
 Piedra Insólita
 Piedra Común
 Vale Descuento
-Llave Ascensor
+Llave del Ascensor
 Abono del TMV
-Emblema Kalos
+Emblema de Kalos
 Guía de Aventura
 Estatuilla Rara
 Portalentillas
@@ -732,7 +732,7 @@ Ll. Habitación 1
 Ll. Habitación 2
 Ll. Habitación 4
 Ll. Habitación 6
-Llave Almacén
+Llave del Almacén
 Detector Devon
 Ticket del Barco
 MO07
@@ -741,7 +741,7 @@ Traje de Gala
 Vestido de Gala
 Traje Magma
 Traje Aqua
-Entrada para dos
+Entrada para Dos
 Megapulsera
 Megacollar
 Megagafas
@@ -772,7 +772,7 @@ Beedrillita
 Meteorito
 Meteorito
 Piedra Activadora
-Frag. Meteorito
+Fragmento Meteorito
 Flauta Eón
 Normastal Z
 Pirostal Z
@@ -876,7 +876,7 @@ Visor Silph
 Paquete
 Llave Magnética
 Dentadura de Oro
-Llave Ascensor
+Llave del Ascensor
 Cubresuelos
 Paracontacto
 Semilla Electro
@@ -1585,7 +1585,7 @@ Tarjeta Chic
 Pase Armadura
 Bici Rotom
 Bici Rotom
-Amuleto Exp
+Amuleto Experiencia
 Duralium
 Amuleto Emblema
 Riendas Unión
@@ -1642,7 +1642,7 @@ Poké Ball
 Super Ball
 Ultra Ball
 Pluma Ball
-Poké Muñeca
+Pokémuñeca
 (?)
 Bola Humareda
 Bola Ruidosa
@@ -1718,7 +1718,7 @@ Bola Ruidosa
 Bola Humareda
 (?)
 (?)
-Poké Muñeca
+Pokémuñeca
 Calmasfera Volcán
 Calmasfera Montaña
 Calmasfera Nieve
@@ -1827,3 +1827,575 @@ Reproductor DS
 
 
 Tabla Legendaria
+SmartRotom
+Bocadillo
+Poké Ball de Koraidon
+Poké Ball de Miraidon
+Orbe Teracristal
+Libro Escarlata
+Libro Púrpura
+Cartera de Fuco
+
+
+
+
+
+Bambú Pequeño
+Bambú Grande
+
+
+
+
+
+
+
+
+
+
+
+
+
+Manuscrito Sombras
+Manuscrito Aguas
+
+
+Armadura Maldita
+Teralito Normal
+Teralito Fuego
+Teralito Agua
+Teralito Eléctrico
+Teralito Planta
+Teralito Hielo
+Teralito Lucha
+Teralito Veneno
+Teralito Tierra
+Teralito Volador
+Teralito Psíquico
+Teralito Bicho
+Teralito Roca
+Teralito Fantasma
+Teralito Dragón
+Teralito Siniestro
+Teralito Acero
+Teralito Hada
+Energía Potenciadora
+Escudo Habilidad
+Amuleto Puro
+Hierba Copia
+Guante de Boxeo
+Capa Furtiva
+Dado Trucado
+
+Barra de Pan
+Mayonesa
+Kétchup
+Mostaza
+Mantequilla
+Crema de Cacahuete
+Salsa Picante
+Sal
+Pimienta
+Yogur
+Nata Montada
+Queso Crema
+Confitura de Bayas
+Mermelada
+Aceite de Oliva
+Vinagre
+Especia Oculta Dulce
+Especia Oculta Salada
+Especia Oculta Ácida
+Especia Oculta Amarga
+Especia Oculta Picante
+Lechuga
+Tomate
+Tomate Cherri
+Pepino
+Pepinillo
+Cebolla
+Cebolla Roja
+Pimiento Verde
+Pimiento Rojo
+Pimiento Amarillo
+Aguacate
+Panceta
+Jamón Cocido
+Jamón Serrano
+Chorizo
+Butifarra
+Hamburguesa
+Surimi de Klawf
+Filete Ahumado
+Filete Frito
+Huevo Cocido
+Tortilla
+Tofu
+Arroz
+Fideos
+Ensaladilla
+Queso
+Plátano
+Fresa
+Manzana
+Kiwi
+Piña
+Jalapeño
+Rábano Picante
+Curri en Polvo
+Wasabi
+Berros
+Albahaca
+
+
+
+
+
+
+
+
+
+Colmillo de Venonat
+Tierra de Diglett
+Pelo de Meowth
+Plumón de Psyduck
+Pelo de Mankey
+Pelo de Growlithe
+Garra de Slowpoke
+Tornillo de Magnemite
+Toxinas de Grimer
+Perla de Shellder
+Gas de Gastly
+Pelo de Drowzee
+Electricidad de Voltorb
+Garra de Scyther
+Pelo de Tauros
+Escama de Magikarp
+Pegote de Ditto
+Pelo de Eevee
+Escama de Dratini
+Pelo de Pichu
+Pelo de Igglybuff
+Lana de Mareep
+Hoja de Hoppip
+Hoja de Sunkern
+Tesoro de Murkrow
+Lágrima de Misdreavus
+Pelo de Girafarig
+Corteza de Pineco
+Escama de Dunsparce
+Púa de Qwilfish
+Garra de Heracross
+Garra de Sneasel
+Garra de Teddiursa
+Paquete de Delibird
+Colmillo de Houndour
+Uña de Phanpy
+Pelo de Stantler
+Garra de Larvitar
+Pluma de Wingull
+Pertenencia de Ralts
+Néctar de Surskit
+Esporas de Shroomish
+Pelo de Slakoth
+Sudor de Makuhita
+Pelo de Azurill
+Gema de Sableye
+Sudor de Meditite
+Secreción de Gulpin
+Lava de Numel
+Carbón de Torkoal
+Perla de Spoink
+Espina de Cacnea
+Pluma de Swablu
+Garra de Zangoose
+Colmillo de Seviper
+Secreción de Barboach
+Retal de Shuppet
+Hoja de Tropius
+Pelo de Snorunt
+Escama de Luvdisc
+Escama de Bagon
+Pluma de Starly
+Muda de Kricketot
+Colmillo de Shinx
+Miel de Combee
+Pelo de Pachirisu
+Pelo de Buizel
+Secreción de Shellos
+Gas de Drifloon
+Pelo de Stunky
+Fragmento de Bronzor
+Lágrima de Bonsly
+Pertenencia de Happiny
+Fragmento de Spiritomb
+Escama de Gible
+Pelo de Riolu
+Arena de Hippopotas
+Toxinas de Croagunk
+Escama de Finneon
+Baya de Snover
+Electricidad de Rotom
+Hoja de Petilil
+Colmillo de Basculin
+Garra de Sandile
+Pelo de Zorua
+Pestaña de Gothita
+Pelo de Deerling
+Esporas de Foongus
+Secreción de Alomomola
+Secreción de Tynamo
+Escama de Axew
+Pelo de Cubchoo
+Hielo de Cryogonal
+Cuchilla de Pawniard
+Pluma de Rufflet
+Escama de Deino
+Pelo de Larvesta
+Pluma de Fletchling
+Polvo de Scatterbug
+Mechón de Litleo
+Polen de Flabébé
+Hoja de Skiddo
+Alga de Skrelp
+Pinza de Clauncher
+Plumón de Hawlucha
+Pelo de Dedenne
+Secreción de Goomy
+Llave de Klefki
+Hielo de Bergmite
+Pelo de Noibat
+Pelo de Yungoos
+Cáscara de Crabrawler
+Pluma de Oricorio
+Roca de Rockruff
+Aguijón de Mareanie
+Lodo de Mudbray
+Hoja de Fomantis
+Gas de Salandit
+Sudor de Bounsweet
+Pelo de Oranguru
+Pelo de Passimian
+Arena de Sandygast
+Garra de Komala
+Retal de Mimikyu
+Diente de Bruxish
+Garra de Chewtle
+Pelo de Skwovet
+Escama de Arrokuda
+Pluma de Rookidee
+Electricidad de Toxel
+Sudor de Falinks
+Óxido de Cufant
+Carbón de Rolycoly
+Arena de Silicobra
+Pelo de Indeedee
+Púa de Pincurchin
+Hilo de Snom
+Pelo de Impidimp
+Zumo de Applin
+Fragmento de Sinistea
+Pertenencia de Hatenna
+Roca de Stonjourner
+Plumón de Eiscue
+Polvo de Dreepy
+
+
+
+Pelo de Lechonk
+Hilo de Tarountula
+Garra de Nymble
+Barro de Rellor
+Cera de Greavard
+Plumón de Flittle
+Arena de Wiglett
+Bigote de Dondozo
+Carne de Veluza
+Secreción de Finizen
+Aceite de Smoliv
+Semilla de Capsakid
+Secreción de Tadbulb
+Gas de Varoom
+Óxido de Orthworm
+Pelo de Tandemaus
+Grasa de Cetoddle
+Escama de Frigibax
+Escama de Tatsugiri
+Escama de Cyclizar
+Pelo de Pawmi
+
+
+Pluma de Wattrel
+Pluma de Bombirdier
+Pluma de Squawkabilly
+Plumón de Flamigo
+Pinza de Klawf
+Sal de Nacli
+Cristal de Glimmet
+Tinta de Shroodle
+Pelo de Fidough
+Colmillo de Maschiff
+Rama de Bramblin
+Moneda de Gimmighoul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pelo de Tinkatink
+Hollín de Charcadet
+Pliegue de Toedscool
+Secreción de Wooper
+MT100
+MT101
+MT102
+MT103
+MT104
+MT105
+MT106
+MT107
+MT108
+MT109
+MT110
+MT111
+MT112
+MT113
+MT114
+MT115
+MT116
+MT117
+MT118
+MT119
+MT120
+MT121
+MT122
+MT123
+MT124
+MT125
+MT126
+MT127
+MT128
+MT129
+MT130
+MT131
+MT132
+MT133
+MT134
+MT135
+MT136
+MT137
+MT138
+MT139
+MT140
+MT141
+MT142
+MT143
+MT144
+MT145
+MT146
+MT147
+MT148
+MT149
+MT150
+MT151
+MT152
+MT153
+MT154
+MT155
+MT156
+MT157
+MT158
+MT159
+MT160
+MT161
+MT162
+MT163
+MT164
+MT165
+MT166
+MT167
+MT168
+MT169
+MT170
+MT171
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Kit de Pícnic
+
+Termo Academia
+Termo Academia
+Termo Lunares
+Termo Rayas
+Termo Rombos
+Taza Academia
+Taza Academia
+Taza Raya Vertical
+Taza Lunares
+Taza Flores
+Mantel Academia
+Mantel Academia
+Mantel Cuco
+Mantel Naturaleza
+Mantel Espectral
+
+Pelota Academia
+Pelota Academia
+Pelota Marill
+Pelota Ovillo
+Pelota Cibernética
+Palillo Dorado
+Palillo Plateado
+Palillo Bandera Roja
+Palillo Bandera Azul
+Palillo Pikachu
+Palillo Pikaguiño
+Palillo Eevee
+Palillo Eevee Feliz
+Palillo Ball Azul
+
+Armadura Auspiciosa
+Distintivo de Líder
+
+
+Termo Rosa
+Termo Azul
+Termo Amarillo
+Termo Metal Rojo
+Termo Metal Amarillo
+Termo Metal Azul
+Termo Plateado
+Taza Raya Horizontal
+Taza Rombos
+Taza Llamas
+Taza Rosa
+Taza Azul
+Taza Amarilla
+Taza Pikachu
+Taza Eevee
+Taza Slowpoke
+Taza Plateada
+Pelota Pilates
+Mantel Cuadros Ámbar
+Mantel Cuadros Azul
+Mantel Cuadros Rojo
+Mantel Hierba Alta
+Mantel Combate
+Mantel Monstruoso
+Mantel Rayas
+Mantel Rombos
+Mantel Lunares
+Mantel Malva
+Mantel Menta
+Mantel Beis
+Mantel Amarillo
+Mantel Azul
+Mantel Rosa
+Termo Dorado
+Termo Bronceado
+Taza Dorada
+Taza Bronceada
+Palillo Ball Verde
+Palillo Ball Roja
+Palillo Bengala
+Palillo Heroico
+Palillo Estrella
+Palillo Corazón
+Palillo Sombrilla
+Palillo Flor Azul
+Palillo Flor Naranja
+Palillo Flor Rosa
+Plato Azul
+Plato Verde
+Plato Naranja
+Plato Rojo
+Plato Blanco
+Plato Amarillo

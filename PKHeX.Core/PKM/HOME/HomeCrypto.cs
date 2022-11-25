@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
@@ -21,6 +21,7 @@ public static class HomeCrypto
     internal const int SIZE_1GAME_PK8 = 0x44; // 68
     internal const int SIZE_1GAME_PA8 = 0x3C; // 60
     internal const int SIZE_1GAME_PB8 = 0x2B; // 43
+    internal const int SIZE_1GAME_PK9 = 0x39; // todo sv
     internal const int SIZE_1STORED = 0x1EE; // 494
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

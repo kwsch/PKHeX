@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
 /// </summary>
-public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber
+public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOnly
 {
     public const int SIZE = 0x1B0;
     public readonly byte[] Data;

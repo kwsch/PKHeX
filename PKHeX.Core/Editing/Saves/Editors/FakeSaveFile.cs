@@ -20,8 +20,8 @@ public sealed class FakeSaveFile : SaveFile
     public override int GetBoxOffset(int box) => -1;
     public override string GetBoxName(int box) => $"Box {box:00}";
     public override void SetBoxName(int box, string value) { }
-    public override int OTLength => 5;
-    public override int NickLength => 5;
+    public override int MaxStringLengthOT => 5;
+    public override int MaxStringLengthNickname => 5;
     public override ushort MaxMoveID => 5;
     public override ushort MaxSpeciesID => 1;
     public override int MaxItemID => 5;

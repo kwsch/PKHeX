@@ -389,10 +389,13 @@ public partial class SAV_Database : Form
 
         if (Main.Settings.EntityDb.FilterUnavailableSpecies)
         {
+            static bool IsPresentInGameSV  (ISpeciesForm pk) => pk is PK9 || PersonalTable.SV  .IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameSWSH(ISpeciesForm pk) => pk is PK8 || PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameBDSP(ISpeciesForm pk) => pk is PB8 || PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGamePLA (ISpeciesForm pk) => pk is PA8 || PersonalTable.LA  .IsPresentInGame(pk.Species, pk.Form);
-            if (sav is SAV8SWSH)
+            if (sav is SAV9SV)
+                result.RemoveAll(z => !IsPresentInGameSV(z.Entity));
+            else if (sav is SAV8SWSH)
                 result.RemoveAll(z => !IsPresentInGameSWSH(z.Entity));
             else if (sav is SAV8BS)
                 result.RemoveAll(z => !IsPresentInGameBDSP(z.Entity));

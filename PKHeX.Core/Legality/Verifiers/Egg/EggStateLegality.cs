@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -33,7 +33,7 @@ public static class EggStateLegality
     /// <returns>Usually 0...</returns>
     public static int GetMinimumEggHatchCycles(PKM pk) => pk switch
     {
-        PK2 or PB8 => 1, // no grace period between 1 step remaining and hatch
+        PK2 or PB8 or PK8 => 1, // no grace period between 1 step remaining and hatch
         _ => 0, // having several Eggs in your party and then hatching one will give the rest 0... they can then be boxed!
     };
 
@@ -85,6 +85,7 @@ public static class EggStateLegality
     public static bool IsValidHTEgg(PKM pk) => pk switch
     {
         PB8 { Met_Location: Locations.LinkTrade6NPC } pb8 when pb8.HT_Friendship == PersonalTable.BDSP[pb8.Species].BaseFriendship => true,
+        PK9 { CurrentHandler: 1, Met_Location: Locations.LinkTrade6, HT_Language: not 0 } => true,
         _ => false,
     };
 
@@ -132,6 +133,8 @@ public static class EggStateLegality
 
         SW or SH => Locations.HatchLocation8,
         BD or SP => Locations.HatchLocation8b,
+
+        SL or VL => Locations.HatchLocation9,
         _ => -1,
     };
 }

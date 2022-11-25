@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using System;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -24,9 +25,10 @@ public sealed class HyperTrainingVerifier : Verifier
             return;
         }
 
-        if (pk.CurrentLevel != 100)
+        var minLevel = t.GetHyperTrainMinLevel(data.Info.EvoChainsAllGens);
+        if (pk.CurrentLevel < minLevel)
         {
-            data.AddLine(GetInvalid(LHyperBelow100));
+            data.AddLine(GetInvalid(string.Format(LHyperTooLow_0, minLevel)));
             return;
         }
 
@@ -37,9 +39,17 @@ public sealed class HyperTrainingVerifier : Verifier
             return;
         }
 
-        // LGPE gold bottle cap applies to all IVs regardless
-        if (pk.GG && t.IsHyperTrainedAll()) // already checked for 6IV, therefore we're flawed on at least one IV
-            return;
+        // already checked for 6IV, therefore we're flawed on at least one IV
+        if (t.IsHyperTrainedAll())
+        {
+            // SV gold bottle cap applies to all IVs regardless
+            // LGPE gold bottle cap applies to all IVs regardless
+            var evos = data.Info.EvoChainsAllGens;
+            if (evos.HasVisitedGen9 && Array.Exists(evos.Gen9, x => x.LevelMax >= 50))
+                return;
+            if (evos.HasVisitedLGPE && Array.Exists(evos.Gen7b, x => x.LevelMax >= 100))
+                return;
+        }
 
         for (int i = 0; i < 6; i++) // Check individual IVs
         {

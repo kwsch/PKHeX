@@ -153,6 +153,18 @@ public sealed class TransferVerifier : Verifier
             data.AddLine(GetInvalid(LTransferBad));
     }
 
+    public void VerifyTransferLegalityG9(LegalityAnalysis data)
+    {
+        var enc = data.EncounterMatch;
+        if (enc.Generation != 9)
+            data.AddLine(GetInvalid(LTransferBad));
+
+        var pk = data.Entity;
+        var pt = PersonalTable.SV;
+        if (!pt.IsPresentInGame(pk.Species, pk.Form))
+            data.AddLine(GetInvalid(LTransferBad));
+    }
+
     // Encounters that originate in HOME -> transfer to save data
     private static bool IsHOMETrackerRequired(IEncounterTemplate enc) => enc switch
     {

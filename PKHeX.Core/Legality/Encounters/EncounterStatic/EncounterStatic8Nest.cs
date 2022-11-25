@@ -8,15 +8,15 @@ namespace PKHeX.Core;
 /// Generation 8 Nest Encounter (Raid)
 /// </summary>
 /// <inheritdoc cref="EncounterStatic"/>
-public abstract record EncounterStatic8Nest<T>(GameVersion Version) : EncounterStatic(Version), IGigantamax, IDynamaxLevel where T : EncounterStatic8Nest<T>
+public abstract record EncounterStatic8Nest<T>(GameVersion Version) : EncounterStatic(Version), IGigantamaxReadOnly, IDynamaxLevelReadOnly where T : EncounterStatic8Nest<T>
 {
     public sealed override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8;
     public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; }
     public static Action<PKM, T, EncounterCriteria>? GenerateData { private get; set; }
 
-    public bool CanGigantamax { get; set; }
-    public byte DynamaxLevel { get; set; }
+    public bool CanGigantamax { get; init; }
+    public byte DynamaxLevel { get; init; }
     public override int Location { get => SharedNest; init { } }
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)

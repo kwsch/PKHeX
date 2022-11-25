@@ -22,8 +22,8 @@ public sealed class SAV2Stadium : SAV_STADIUM
     public override int Generation => 2;
     public override EntityContext Context => EntityContext.Gen2;
     private const int StringLength = 12;
-    public override int OTLength => StringLength;
-    public override int NickLength => StringLength;
+    public override int MaxStringLengthOT => StringLength;
+    public override int MaxStringLengthNickname => StringLength;
     public override int BoxCount => Japanese ? 9 : 14;
     public override int BoxSlotCount => Japanese ? 30 : 20;
 

@@ -2,7 +2,7 @@ namespace PKHeX.Core;
 
 internal static class Locations7
 {
-    internal static readonly ushort[] Met0 =
+    internal static readonly byte[] Met0 =
     {
              002, 004, 006, 008,
         010, 012, 014, 016, 018,

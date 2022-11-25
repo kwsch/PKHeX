@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
 public sealed class PK5 : PKM, ISanityChecksum,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
-    IContestStats, IContestStatsMutable, IGroundTile
+    IContestStats, IGroundTile
 {
     private static readonly ushort[] Unused =
     {
@@ -299,8 +299,8 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int MaxGameID => Legal.MaxGameID_5; // B2
     public override int MaxIV => 31;
     public override int MaxEV => 255;
-    public override int OTLength => 7;
-    public override int NickLength => 10;
+    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthNickname => 10;
 
     // Methods
     protected override byte[] Encrypt()

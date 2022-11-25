@@ -1,4 +1,4 @@
--
+ー
 Duftnote
 Niesel
 Temposchub
@@ -18,7 +18,7 @@ Farbwechsel
 Immunität
 Feuerfänger
 Puderabwehr
-Tempomacher
+Gleichmut
 Saugnapf
 Bedroher
 Wegsperre
@@ -75,7 +75,7 @@ Pulverrauch
 Mentalkraft
 Panzerhaut
 Klimaschutz
-Fußangel
+Taumelschritt
 Starthilfe
 Rivalität
 Felsenfest
@@ -88,7 +88,7 @@ Wankelmut
 Trockenheit
 Download
 Eisenfaust
-Aufheber
+Giftheilung
 Anpassung
 Wertelink
 Hydration
@@ -115,7 +115,7 @@ Rauflust
 Sturmsog
 Eishaut
 Felskern
-Hagelalarm
+Schneeschauer
 Honigmaul
 Schnüffler
 Achtlos
@@ -178,7 +178,7 @@ Taktikwechsel
 Orkanschwingen
 Megawumme
 Pflanzenpelz
-Nutznießer
+Symbiose
 Krallenwucht
 Feenschicht
 Viskosität
@@ -266,3 +266,34 @@ Helles Wiehern
 Dunkles Wiehern
 Reitgespann
 Reitgespann
+Duftschwade
+Streusaat
+Thermowandel
+Wutpanzer
+Läutersalz
+Knusperkruste
+Windreiter
+Wachhund
+Steinträger
+Windkraft
+Superwechsel
+Kommandant
+Dynamo
+Paläosynthese
+Quantenantrieb
+Goldkörper
+Unheilsgefäß
+Unheilsschwert
+Unheilstafeln
+Unheilsjuwelen
+Orichalkum-Puls
+Hadronen-Motor
+Profiteur
+Wiederkäuer
+Scharfkantig
+Feldherr
+Synchronauftritt
+Giftbelag
+Schweifrüstung
+Bodenschmaus
+Myzelienkraft

@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using static PKHeX.Core.Encounters6;
+using static PKHeX.Core.Encounters6XY;
+using static PKHeX.Core.Encounters6AO;
 using static PKHeX.Core.Encounters8;
 using static PKHeX.Core.Move;
 using static PKHeX.Core.Species;

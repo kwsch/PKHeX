@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -67,9 +67,11 @@ public sealed class BoxMenuStrip : ContextMenuStrip
         [BoxManipType.SortTraining] = Resources.showdown,
         [BoxManipType.SortOwner] = Resources.users,
         [BoxManipType.SortType] = Resources.main,
+        [BoxManipType.SortTypeTera] = Resources.main,
         [BoxManipType.SortVersion] = Resources.numlohi,
         [BoxManipType.SortBST] = Resources.vallohi,
         [BoxManipType.SortCP] = Resources.vallohi,
+        [BoxManipType.SortScale] = Resources.vallohi,
         [BoxManipType.SortLegal] = Resources.export,
         [BoxManipType.SortEncounterType] = Resources.about,
 

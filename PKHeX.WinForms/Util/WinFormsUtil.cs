@@ -411,13 +411,12 @@ public static class WinFormsUtil
     /// Opens a dialog to save a <see cref="MysteryGift"/> file.
     /// </summary>
     /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
-    /// <param name="origin">Game the gift originates from</param>
     /// <returns>Result of whether or not the file was saved.</returns>
-    public static bool ExportMGDialog(DataMysteryGift gift, GameVersion origin)
+    public static bool ExportMGDialog(DataMysteryGift gift)
     {
         using var sfd = new SaveFileDialog
         {
-            Filter = GetMysterGiftFilter(gift.Generation, origin),
+            Filter = GetMysterGiftFilter(gift.Context),
             FileName = Util.CleanFileName(gift.FileName),
         };
         if (sfd.ShowDialog() != DialogResult.OK)
@@ -433,19 +432,19 @@ public static class WinFormsUtil
     /// <summary>
     /// Gets the File Dialog filter for a Mystery Gift I/O operation.
     /// </summary>
-    /// <param name="format">Format specifier for the </param>
-    /// <param name="origin">Game the format originated from/to</param>
-    public static string GetMysterGiftFilter(int format, GameVersion origin) => format switch
+    /// <param name="context">Context specifier for the </param>
+    public static string GetMysterGiftFilter(EntityContext context) => context switch
     {
-        4 => "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all,
-        5 => "Gen5 Mystery Gift|*.pgf" + all,
-        6 => "Gen6 Mystery Gift|*.wc6;*.wc6full" + all,
-        7 => GameVersion.GG.Contains(origin)
-            ? "Beluga Gift Record|*.wr7" + all
-            : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all,
-        8 when GameVersion.BDSP.Contains(origin) => "BD/SP Gift|*.wb8" + all,
-        8 when GameVersion.PLA.Contains(origin) => "Legends: Arceus Gift|*.wa8" + all,
-        8 => "Gen8 Mystery Gift|*.wc8" + all,
+        EntityContext.Gen4 => "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all,
+        EntityContext.Gen5 => "Gen5 Mystery Gift|*.pgf" + all,
+        EntityContext.Gen6 => "Gen6 Mystery Gift|*.wc6;*.wc6full" + all,
+        EntityContext.Gen7 => "Gen7 Mystery Gift|*.wc7;*.wc7full" + all,
+        EntityContext.Gen8 => "Gen8 Mystery Gift|*.wc8" + all,
+        EntityContext.Gen9 => "Gen9 Mystery Gift|*.wc9" + all,
+
+        EntityContext.Gen7b => "Beluga Gift Record|*.wr7" + all,
+        EntityContext.Gen8b => "BD/SP Gift|*.wb8" + all,
+        EntityContext.Gen8a => "Legends: Arceus Gift|*.wa8" + all,
         _ => string.Empty,
     };
 

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface that exposes a method to <see cref="Rejuvenate"/> data after converting.
@@ -52,10 +52,7 @@ public class LegalityRejuvenator : IEntityRejuvenator
         {
             var relearn = la.GetSuggestedRelearnMoves(enc);
             if (relearn.Count != 0)
-            {
-                for (int i = 0; i < relearn.Count; i++)
-                    pa8.SetRelearnMove(i, relearn[i]);
-            }
+                pa8.SetRelearnMoves(relearn);
 
             pa8.ClearMoveShopFlags();
             if (enc is IMasteryInitialMoveShop8 e)
@@ -94,9 +91,6 @@ public class LegalityRejuvenator : IEntityRejuvenator
         enc = la.EncounterOriginal;
         var relearn = la.GetSuggestedRelearnMoves(enc);
         if (relearn.Count != 0)
-        {
-            for (int i = 0; i < relearn.Count; i++)
-                result.SetRelearnMove(i, relearn[i]);
-        }
+            result.SetRelearnMoves(relearn);
     }
 }

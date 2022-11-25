@@ -52,6 +52,10 @@ public static class PokeCrypto
     internal const int SIZE_8APARTY = SIZE_8ASTORED + 0x10; // 0x178
     private const int SIZE_8ABLOCK = 88; // 0x58
 
+    internal const int SIZE_9STORED = SIZE_8STORED;
+    internal const int SIZE_9PARTY = SIZE_8PARTY;
+    private const int SIZE_9BLOCK = SIZE_8BLOCK;
+
     /// <summary>
     /// Positions for shuffling.
     /// </summary>
@@ -156,6 +160,21 @@ public static class PokeCrypto
     }
 
     /// <summary>
+    /// Decrypts a Gen9 pk byte array.
+    /// </summary>
+    /// <param name="ekm">Encrypted Pokémon data.</param>
+    /// <returns>Decrypted Pokémon data.</returns>
+    /// <returns>Encrypted Pokémon data.</returns>
+    public static byte[] DecryptArray9(Span<byte> ekm)
+    {
+        uint pv = ReadUInt32LittleEndian(ekm);
+        uint sv = (pv >> 13) & 31;
+
+        CryptPKM(ekm, pv, SIZE_9BLOCK);
+        return ShuffleArray(ekm, sv, SIZE_9BLOCK);
+    }
+
+    /// <summary>
     /// Encrypts a Gen8 pk byte array.
     /// </summary>
     /// <param name="pk">Decrypted Pokémon data.</param>
@@ -180,6 +199,20 @@ public static class PokeCrypto
 
         byte[] ekm = ShuffleArray(pk, blockPositionInvert[sv], SIZE_8ABLOCK);
         CryptPKM(ekm, pv, SIZE_8ABLOCK);
+        return ekm;
+    }
+
+    /// <summary>
+    /// Encrypts a Gen9 pk byte array.
+    /// </summary>
+    /// <param name="pk">Decrypted Pokémon data.</param>
+    public static byte[] EncryptArray9(ReadOnlySpan<byte> pk)
+    {
+        uint pv = ReadUInt32LittleEndian(pk);
+        uint sv = (pv >> 13) & 31;
+
+        byte[] ekm = ShuffleArray(pk, blockPositionInvert[sv], SIZE_9BLOCK);
+        CryptPKM(ekm, pv, SIZE_9BLOCK);
         return ekm;
     }
 
@@ -453,5 +486,16 @@ public static class PokeCrypto
         var span = pk.AsSpan();
         if (ReadUInt16LittleEndian(span[0x78..]) != 0 || ReadUInt16LittleEndian(span[0x128..]) != 0)
             pk = DecryptArray8A(span);
+    }
+
+    /// <summary>
+    /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.
+    /// </summary>
+    /// <remarks>Generation 9 Format encryption check</remarks>
+    public static void DecryptIfEncrypted9(ref byte[] pk)
+    {
+        var span = pk.AsSpan();
+        if (ReadUInt16LittleEndian(span[0x70..]) != 0 || ReadUInt16LittleEndian(span[0x110..]) != 0)
+            pk = DecryptArray9(span);
     }
 }

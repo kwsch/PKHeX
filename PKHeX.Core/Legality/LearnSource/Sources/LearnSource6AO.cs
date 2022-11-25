@@ -30,7 +30,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         var moves = EggMoves[species];
         return moves.GetHasEggMove(move);
@@ -38,7 +38,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }

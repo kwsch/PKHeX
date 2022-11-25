@@ -82,6 +82,7 @@ public static class EncounterVerifier
         7 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg7(pk),
         8 when GameVersion.BDSP.Contains((GameVersion)pk.Version) => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6NPC, Locations.Default8bNone) : VerifyEncounterEgg8BDSP(pk),
         8 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg8(pk),
+        9 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg9(pk),
         _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter),
     };
 
@@ -200,6 +201,15 @@ public static class EncounterVerifier
                 return VerifyEncounterEggLevelLoc(pk, 1, (location, game) => location == (game == GameVersion.SW ? Locations.HOME_SWBD : Locations.HOME_SHSP));
             return VerifyEncounterEggLevelLoc(pk, 1, Legal.ValidMet_SWSH);
         }
+
+        // no other games
+        return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+    }
+
+    private static CheckResult VerifyEncounterEgg9(PKM pk)
+    {
+        if (pk.SV)
+            return VerifyEncounterEggLevelLoc(pk, 1, Legal.IsValidEggHatchLocation9);
 
         // no other games
         return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);

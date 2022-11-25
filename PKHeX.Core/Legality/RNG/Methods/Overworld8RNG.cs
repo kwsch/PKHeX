@@ -227,16 +227,18 @@ public static class Overworld8RNG
     /// <returns>Seed</returns>
     public static uint GetOriginalSeed(PKM pk)
     {
-        var seed = pk.EncryptionConstant - unchecked((uint)Xoroshiro128Plus.XOROSHIRO_CONST);
-        if (seed == 0xD5B9C463) // Collision seed with the 0xFFFFFFFF re-roll.
-        {
-            var xoro = new Xoroshiro128Plus(seed);
-            /*  ec */ xoro.NextInt(uint.MaxValue);
-            var pid = xoro.NextInt(uint.MaxValue);
-            if (pid != pk.PID)
-                return 0xDD6295A4;
-        }
+        // The seed is always 32 bits, so we know 96 bits of the seed (zeroes and the 64bit const).
+        // Since the 32-bit EC is generated first by adding the two 64-bit RNG states, we can calc the other 32bits.
+        var enc = pk.EncryptionConstant;
+        const uint TwoSeedsEC = 0xF8572EBE;
+        if (enc != TwoSeedsEC)
+            return enc - unchecked((uint)Xoroshiro128Plus.XOROSHIRO_CONST);
 
-        return seed;
+        // Two seeds can result in an EC of 0xF8572EBE, so we need to check the PID as well.
+        // Seed => EC => PID
+        const uint Seed_1 = 0xD5B9C463; // First rand()
+        const uint Seed_2 = 0xDD6295A4; // First rand() is uint.MaxValue, rolls again.
+        const uint PID_1  = 0x8E72DCF6; // 0x7CE0596A for PID_2
+        return pk.PID == PID_1 ? Seed_1 : Seed_2; // don't care if the PID != second's case. Other validation will check.
     }
 }

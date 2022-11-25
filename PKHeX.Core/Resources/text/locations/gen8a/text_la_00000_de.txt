@@ -1,155 +1,155 @@
 －－－－－－－－－－
 
-an einem mysteriösen Ort
+Mysteriöser Ort
 
-an einem fernen Ort
+Ferner Ort
 
-in Jubeldorf
-im Obsidian-Grasland
-im Roten Sumpfland
-im Kobalt-Küstenland
-im Kraterberg-Hochland
-im Weißen Frostland
-in der Uralten Siedlung
-auf dem Ambitionshügel
-auf den Hufeisenwiesen
-auf dem Geweihbergweg
-auf der Geweihanhöhe
-am Obsidian-Wasserfall
-im Erztunnel
-in der Waldesküche
-im Innerwald
-auf dem Baumriesenkampffeld
-im Strapazenhain
-am See der Wahrheit
-in der Sandgemmenheide
-am Mündungsdamm
-auf der Flora-Rodefläche
-auf der Hamanasu-Insel
-in der Graslandbasis
-in der Anhöhenbasis
-in der Windpassage
-auf der Flora-Rodefläche
-bei der Felsenbrücke
-beim Moosfelsen
-auf den Güldenen Feldern
-in den Ruinen des Trostes
-im Großmaulmoor
-auf dem Schlammplateau
-im Purpurroten Moor
-auf dem Geröllhügel
-in der Diamant-Siedlung
-am See der Kühnheit
-auf dem Wolkenmeerkamm
-in den Nebelruinen
-[~ 44]
-auf der Prüfungsbarre
-auf den Surrenden Feldern
-in der Sumpflandbasis
-in der Ödnisbasis
-am Übergangshang
-am Ginkgo-Strand
-im Schaurigen Welkwald
-in der Versteckten Bucht
-auf dem Tombolo-Weg
-am Schleierkap
-beim Seegrasidyll
-auf der Feuerspei-Insel
-im Haus von Susuki
-auf dem Quellenpfad
-am Großfischfelsen
-am Inselblickufer
-im Windbruchwald
-[~ 62]
-im Gezeitentunnel
-in der Kleinen Meeresgrotte
-in der Strandbasis
-in der Küstenlandbasis
-in der Höhle der Umkehr
-am Lavadom-Schrein
-in der Hochlandbasis
-auf dem Sakralplateau
-im Wirrwald
-im Uralten Steinbruch
-auf dem Elysien-Bergpfad
-an der Einsamen Quelle
-am Feenweiher
-in den Geröllbergen
-auf dem Steinplattenpass
-[~ 78]
-in der Urzeitlichen Höhle
-bei der Kletterklippe
-bei den Elysien-Tempelruinen
-auf dem Mondgrußkampffeld
-in der Gipfelbasis
-im Gipfelschwadentunnel
-auf der Speersäule
-in der Bizarren Höhle
-in der Schneefeldbasis
-im Blizzardtal
-in der Gletscherpassage
-in der Eisigen Ödnis
-[~ 91]
-am Arktilas-Eisblock
-auf den Gletscherstufen
-am See der Stärke
-im Blizzard-Tempel
-in der Winterschlafhöhle
-bei den Firnfällen
-auf dem Lawinenhügel
-auf dem Pfad zum Kampffeld
-in der Perl-Siedlung
-am Geistesfelsen
-in der Eissäulenkammer
-in der Eisgipfelbasis
-in der Wahrheitsgrotte
-in der Kühnheitsgrotte
-auf der Wollgraswiese
-in der Bergbasis
-an der Steinpforte
-im Sinnoh-Tempel
-beim Eisfelsen
-in der Stärkegrotte
-in der Eisgipfelhöhle
-in der Geheimen Höhle
-im Galaktik-Hauptsitz
-im Gemischtwarenladen
-am Bonbonstand
-im Handwerksladen
-bei der Ginkgo-Gilde
-bei der Tauschbörse
-auf der Weide
-in der Schneiderei
-im Friseursalon
-im Fotoatelier
-auf dem Acker
-auf dem Übungsplatz
-am Glücksschrein
-im Quartier
-an der Küste der Verirrten
-bei den Sandfingern
-auf dem Pilgerpfad
-auf dem Platz der Huldigung
-am Haupttor
-am Strandtor
-auf der Fleetstraße
-auf der Floristraße
-am Strand des Aufbruchs
-auf dem Übungsgelände
-an einem Unbekannten Ort
-auf dem Bühnenkampffeld
-auf dem Lavakampffeld
-auf dem Eisgipfelkampffeld
-bei der Schneeblicktherme
-im Erdgeschoss
-in der ersten Etage
-in der zweiten Etage
-im Untergeschoss
-auf dem Prankenplatz
-auf der Diamant-Ebene
-auf den Griffel-Hügeln
-bei der Badelagune
-im Stillen Binnenmeer
+Jubeldorf
+Obsidian-Grasland
+Rotes Sumpfland
+Kobalt-Küstenland
+Kraterberg-Hochland
+Weißes Frostland
+Uralte Siedlung
+Ambitionshügel
+Hufeisenwiesen
+Geweihbergweg
+Geweihanhöhe
+Obsidian-Wasserfall
+Erztunnel
+Waldesküche
+Innerwald
+Baumriesenkampffeld
+Strapazenhain
+See der Wahrheit
+Sandgemmenheide
+Mündungsdamm
+Flora-Rodefläche
+Hamanasu-Insel
+Graslandbasis
+Anhöhenbasis
+Windpassage
+Flora-Rodefläche
+Felsenbrücke
+Moosfelsen
+Güldene Felder
+Ruinen des Trostes
+Großmaulmoor
+Schlammplateau
+Purpurrotes Moor
+Geröllhügel
+Diamant-Siedlung
+See der Kühnheit
+Wolkenmeerkamm
+Nebelruinen
+
+Prüfungsbarre
+Surrende Felder
+Sumpflandbasis
+Ödnisbasis
+Übergangshang
+Ginkgo-Strand
+Schauriger Welkwald
+Versteckte Bucht
+Tombolo-Weg
+Schleierkap
+Seegrasidyll
+Feuerspei-Insel
+Haus von Susuki
+Quellenpfad
+Großfischfelsen
+Inselblickufer
+Windbruchwald
+
+Gezeitentunnel
+Kleine Meeresgrotte
+Strandbasis
+Küstenlandbasis
+Höhle der Umkehr
+Lavadom-Schrein
+Hochlandbasis
+Sakralplateau
+Wirrwald
+Uralter Steinbruch
+Elysien-Bergpfad
+Einsame Quelle
+Feenweiher
+Geröllberge
+Steinplattenpass
+
+Urzeitliche Höhle
+Kletterklippe
+Elysien-Tempelruinen
+Mondgrußkampffeld
+Gipfelbasis
+Gipfelschwadentunnel
+Speersäule
+Bizarre Höhle
+Schneefeldbasis
+Blizzardtal
+Gletscherpassage
+Eisige Ödnis
+
+Arktilas-Eisblock
+Gletscherstufen
+See der Stärke
+Blizzard-Tempel
+Winterschlafhöhle
+Firnfälle
+Lawinenhügel
+Pfad zum Kampffeld
+Perl-Siedlung
+Geistesfelsen
+Eissäulenkammer
+Eisgipfelbasis
+Wahrheitsgrotte
+Kühnheitsgrotte
+Wollgraswiese
+Bergbasis
+Steinpforte
+Sinnoh-Tempel
+Eisfelsen
+Stärkegrotte
+Eisgipfelhöhle
+Geheime Höhle
+Galaktik-Hauptsitz
+Gemischtwarenladen
+Bonbonstand
+Handwerksladen
+Ginkgo-Gilde
+Tauschbörse
+Weide
+Schneiderei
+Friseursalon
+Fotoatelier
+Acker
+Übungsplatz
+Glücksschrein
+Quartier
+Küste der Verirrten
+Sandfinger
+Pilgerpfad
+Platz der Huldigung
+Haupttor
+Strandtor
+Fleetstraße
+Floristraße
+Strand des Aufbruchs
+Übungsgelände
+Unbekannter Ort
+Bühnenkampffeld
+Lavakampffeld
+Eisgipfelkampffeld
+Schneeblicktherme
+Erdgeschoss
+Erste Etage
+Zweite Etage
+Untergeschoss
+Prankenplatz
+Diamant-Ebene
+Griffel-Hügel
+Badelagune
+Stilles Binnenmeer
 Galaktik-Hauptsitz
 Haupttor
 Acker

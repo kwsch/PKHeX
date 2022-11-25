@@ -132,7 +132,7 @@ public partial class SAV_Wondercard : Form
     // Mystery Gift IO (.file<->window)
     private void B_Import_Click(object sender, EventArgs e)
     {
-        var fileFilter = WinFormsUtil.GetMysterGiftFilter(SAV.Generation, SAV.Version);
+        var fileFilter = WinFormsUtil.GetMysterGiftFilter(SAV.Context);
         using var import = new OpenFileDialog { Filter = fileFilter };
         if (import.ShowDialog() != DialogResult.OK)
             return;
@@ -153,7 +153,7 @@ public partial class SAV_Wondercard : Form
     {
         if (mg == null)
             return;
-        WinFormsUtil.ExportMGDialog(mg, SAV.Version);
+        WinFormsUtil.ExportMGDialog(mg);
     }
 
     private static int GetLastUnfilledByType(MysteryGift gift, MysteryGiftAlbum album)

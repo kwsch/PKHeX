@@ -17,7 +17,7 @@ public sealed class LegendsArceusVerifier : Verifier
 
         if (pa.IsNoble)
             data.AddLine(GetInvalid(LStatNobleInvalid));
-        if (pa.IsAlpha != data.EncounterMatch is IAlpha { IsAlpha: true })
+        if (pa.IsAlpha != data.EncounterMatch is IAlphaReadOnly { IsAlpha: true })
             data.AddLine(GetInvalid(LStatAlphaInvalid));
 
         CheckScalars(data, pa);
@@ -53,7 +53,7 @@ public sealed class LegendsArceusVerifier : Verifier
         }
 
         // No way to mutate the display height scalar value. Must match!
-        if (pa.HeightScalar != pa.HeightScalarCopy)
+        if (pa.HeightScalar != pa.Scale)
             data.AddLine(GetInvalid(LStatIncorrectHeightCopy, CheckIdentifier.Encounter));
     }
 

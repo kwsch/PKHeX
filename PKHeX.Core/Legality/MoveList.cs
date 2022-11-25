@@ -35,6 +35,9 @@ internal static class MoveList
             SW or SH or SWSH => Get(moves, LevelUpSWSH, PersonalTable.SWSH, species, form, lvl),
             BD or SP or BDSP => Get(moves, LevelUpBDSP, PersonalTable.BDSP, species, form, lvl),
             PLA => Get(moves, LevelUpLA, PersonalTable.LA, species, form, lvl),
+
+            SL or VL or SV => Get(moves, LevelUpSV, PersonalTable.SV, species, form, lvl),
+
             _ => moves,
         };
     }

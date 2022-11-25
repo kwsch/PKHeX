@@ -58,11 +58,25 @@ public enum EvolutionType : byte
     LevelUpNatureLowKey = 47, // Toxtricity
     TowerOfDarkness = 48, // Urshifu
     TowerOfWaters = 49, // Urshifu
-    UseItemFullMoon = 50, // Ursaluna
-    UseAgileStyleMoves = 51, // Wyrdeer
-    UseStrongStyleMoves = 52, // Overqwil
-    RecoilDamageMale = 53, // Basculegion-0
-    RecoilDamageFemale = 54, // Basculegion-1
+
+    LevelUpWalkStepsWith = 50,
+    LevelUpUnionCircle = 51, // Palafin
+    LevelUpInBattleEC25 = 52, // Maushold-0
+    LevelUpInBattleECElse = 53, // Maushold-1
+    LevelUpCollect999 = 54, // Gimmighoul formarg 999
+    LevelUpDefeatEquals = 55, // Kingambit
+    LevelUpUseMoveSpecial = 56, // Annihilape
+    LevelUpKnowMoveECElse = 57, // Dudunsparce-0
+    LevelUpKnowMoveEC25 = 58, // Dudunsparce-1
+
+    LevelUpRecoilDamageMale = 59, // Basculegion-0
+    LevelUpRecoilDamageFemale = 60, // Basculegion-1
+
+    Hisui = 61,
+
+    UseItemFullMoon = 90, // Ursaluna
+    UseMoveAgileStyle = 91, // Wyrdeer
+    UseMoveStrongStyle = 92, // Overqwil
 }
 
 public static class EvolutionTypeExtensions
@@ -121,11 +135,22 @@ public static class EvolutionTypeExtensions
         LevelUpNatureLowKey => true,
         TowerOfDarkness => false,
         TowerOfWaters => false,
+        LevelUpWalkStepsWith => true,
+        LevelUpUnionCircle => true,
+        LevelUpInBattleEC25 => true,
+        LevelUpInBattleECElse => true,
+        LevelUpCollect999 => true,
+        LevelUpDefeatEquals => true,
+        LevelUpUseMoveSpecial => true,
+        LevelUpKnowMoveECElse => true,
+        LevelUpKnowMoveEC25 => true,
+        LevelUpRecoilDamageMale => true,
+        LevelUpRecoilDamageFemale => true,
+        Hisui => false, // stubbed
+
         UseItemFullMoon => false,
-        UseAgileStyleMoves => false,
-        UseStrongStyleMoves => false,
-        RecoilDamageMale => false,
-        RecoilDamageFemale => false,
+        UseMoveAgileStyle => false,
+        UseMoveStrongStyle => false,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

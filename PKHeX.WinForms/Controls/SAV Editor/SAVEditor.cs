@@ -547,19 +547,26 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         SAV8SWSH swsh => new SAV_Trainer8(swsh),
         SAV8BS bs => new SAV_Trainer8b(bs),
         SAV8LA la => new SAV_Trainer8a(la),
+        SAV9SV sv => new SAV_Trainer9(sv),
         _ => new SAV_SimpleTrainer(sav),
     };
 
     private void B_OpenRaids_Click(object sender, EventArgs e)
     {
-        if (SAV is not SAV8SWSH swsh)
-            return;
-        if (sender == B_Raids)
-            OpenDialog(new SAV_Raid8(swsh, swsh.Raid));
-        else if (sender == B_RaidArmor)
-            OpenDialog(new SAV_Raid8(swsh, swsh.RaidArmor));
-        else
-            OpenDialog(new SAV_Raid8(swsh, swsh.RaidCrown));
+        if (SAV is SAV9SV sv)
+        {
+            if (sender == B_Raids)
+                OpenDialog(new SAV_Raid9(sv, sv.Raid));
+        }
+        else if (SAV is SAV8SWSH swsh)
+        {
+            if (sender == B_Raids)
+                OpenDialog(new SAV_Raid8(swsh, swsh.Raid));
+            else if (sender == B_RaidArmor)
+                OpenDialog(new SAV_Raid8(swsh, swsh.RaidArmor));
+            else
+                OpenDialog(new SAV_Raid8(swsh, swsh.RaidCrown));
+        }
     }
 
     private void B_OtherSlots_Click(object sender, EventArgs e)
@@ -642,6 +649,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             SAV8SWSH swsh => new SAV_PokedexSWSH(swsh),
             SAV8BS bs => new SAV_PokedexBDSP(bs),
             SAV8LA la => new SAV_PokedexLA(la),
+            SAV9SV swsh => new SAV_PokedexSV(swsh),
             _ => (Form?)null,
         };
         form?.ShowDialog();
@@ -1122,7 +1130,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenRTCEditor.Visible = sav.Generation == 2 || sav is IGen3Hoenn;
         B_MailBox.Visible = sav is SAV2 or SAV3 or SAV4 or SAV5;
 
-        B_Raids.Visible = sav is SAV8SWSH;
+        B_Raids.Visible = sav is SAV8SWSH or SAV9SV;
         B_RaidArmor.Visible = sav is SAV8SWSH {SaveRevision: >= 1};
         B_RaidCrown.Visible = sav is SAV8SWSH {SaveRevision: >= 2};
         GB_SAVtools.Visible = B_Blocks.Visible = true;

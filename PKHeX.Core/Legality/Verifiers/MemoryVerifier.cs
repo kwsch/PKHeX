@@ -30,6 +30,8 @@ public sealed class MemoryVerifier : Verifier
     {
         if (pk.BDSP || pk.LA)
             return !data.Info.EvoChainsAllGens.HasVisitedSWSH;
+        if (pk is PK9)
+            return true; // No memories.
         return false;
     }
 
@@ -195,7 +197,7 @@ public sealed class MemoryVerifier : Verifier
                 VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                 return;
 
-            case IMemoryOT t and not MysteryGift: // Ignore Mystery Gift cases (covered above)
+            case IMemoryOTReadOnly t and not MysteryGift: // Ignore Mystery Gift cases (covered above)
                 VerifyOTMemoryIs(data, t.OT_Memory, t.OT_Intensity, t.OT_TextVar, t.OT_Feeling);
                 return;
         }

@@ -42,7 +42,8 @@ public partial class SAV_PokedexBDSP : Form
 
     private void ChangeCBSpecies(object sender, EventArgs e)
     {
-        if (editing) return;
+        if (editing)
+            return;
         SetEntry();
 
         editing = true;
@@ -55,7 +56,8 @@ public partial class SAV_PokedexBDSP : Form
 
     private void ChangeLBSpecies(object sender, EventArgs e)
     {
-        if (editing) return;
+        if (editing)
+            return;
         SetEntry();
 
         editing = true;

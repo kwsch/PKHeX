@@ -345,5 +345,3 @@ public static class Overworld8aRNG
         return LevelMin + amp;
     }
 }
-
-public readonly record struct OverworldParam8a(bool IsAlpha, byte GenderRatio, byte FlawlessIVs, byte RollCount, Shiny Shiny = Shiny.Random);

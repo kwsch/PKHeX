@@ -57,8 +57,8 @@ public static class RibbonVerifierCommon8
             list.Add(TwinklingStar);
 
         // received when capturing photos with Pokémon in the Photography Studio
-        if (r.RibbonPioneer && !evos.HasVisitedPLA)
-            list.Add(Pioneer);
+        if (r.RibbonHisui && !evos.HasVisitedPLA)
+            list.Add(Hisui);
     }
 
     public static void ParseEgg(this IRibbonSetCommon8 r, ref RibbonResultList list)
@@ -71,7 +71,7 @@ public static class RibbonVerifierCommon8
             list.Add(MasterRank);
         if (r.RibbonTwinklingStar)
             list.Add(TwinklingStar);
-        if (r.RibbonPioneer)
-            list.Add(Pioneer);
+        if (r.RibbonHisui)
+            list.Add(Hisui);
     }
 }

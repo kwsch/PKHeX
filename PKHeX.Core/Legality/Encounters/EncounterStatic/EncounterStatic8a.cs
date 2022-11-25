@@ -6,14 +6,14 @@ namespace PKHeX.Core;
 /// Generation 8 Static Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterStatic"/>
-public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Version), IAlpha, IMasteryInitialMoveShop8
+public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Version), IAlphaReadOnly, IMasteryInitialMoveShop8, IScaledSizeReadOnly
 {
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8a;
 
     public byte HeightScalar { get; }
     public byte WeightScalar { get; }
-    public bool IsAlpha { get; set; }
+    public bool IsAlpha { get; init; }
     public EncounterStatic8aCorrelation Method { get; init; }
 
     public bool HasFixedHeight => HeightScalar != NoScalar;
@@ -43,7 +43,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
             pa.HeightScalar = HeightScalar;
         if (HasFixedWeight)
             pa.WeightScalar = WeightScalar;
-        pa.HeightScalarCopy = pa.HeightScalar;
+        pa.Scale = pa.HeightScalar;
 
         pa.ResetHeight();
         pa.ResetWeight();

@@ -46,7 +46,8 @@ public partial class SAV_PokedexORAS : Form
 
     private void ChangeCBSpecies(object sender, EventArgs e)
     {
-        if (editing) return;
+        if (editing)
+            return;
         SetEntry();
 
         editing = true;
@@ -59,7 +60,8 @@ public partial class SAV_PokedexORAS : Form
 
     private void ChangeLBSpecies(object sender, EventArgs e)
     {
-        if (editing) return;
+        if (editing)
+            return;
         SetEntry();
 
         editing = true;
@@ -348,7 +350,8 @@ public partial class SAV_PokedexORAS : Form
             return;
 
         // Only allow one form to be displayed if the user sets a new display value
-        if (e.NewValue != CheckState.Checked) return;
+        if (e.NewValue != CheckState.Checked)
+            return;
         for (int i = 0; i < CLB_FormDisplayed.Items.Count; i++)
         {
             if (i != e.Index)

@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	Campeón de Kalos
+RibbonChampionKalos	Campeón de Kalos
 RibbonChampionG3	Campeón (Gen3)
 RibbonChampionSinnoh	Campeón de Sinnoh
 RibbonBestFriends	Afecto
@@ -149,5 +149,15 @@ RibbonMarkHumble	Emblema Sencillez
 RibbonMarkThorny	Emblema Altanería
 RibbonMarkVigor	Emblema Vigor
 RibbonMarkSlump	Emblema Extenuación
-RibbonPioneer	Pioneer
-RibbonTwinklingStar	Cinta Estrella Rutilante
+RibbonHisui	Hisui
+RibbonTwinklingStar	Estrella Rutilante
+RibbonChampionPaldea	Campeón de Paldea
+RibbonMarkJumbo	Emblema Enormidad
+RibbonMarkMini	Emblema Miniatura
+RibbonMarkItemfinder	Emblema Recolección
+RibbonMarkPartner	Emblema Compañerismo
+RibbonMarkGourmand	Emblema Sibaritismo
+RibbonOnceInALifetime	Excepcionalidad
+RibbonMarkAlpha	Emblema Alfa
+RibbonMarkMightiest	Emblema Imbatibilidad
+RibbonMarkTitan	Emblema Dominancia

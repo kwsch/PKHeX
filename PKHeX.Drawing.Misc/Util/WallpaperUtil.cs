@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc.Properties;
 using static PKHeX.Core.GameVersion;
@@ -19,7 +19,14 @@ public static class WallpaperUtil
     {
         index++; // start indexes at 1
         var suffix = GetResourceSuffix(version, index);
-        return $"box_wp{index:00}{suffix}";
+        var variant = version switch
+        {
+            SL when index is 20 => "_n", // Naranja
+            VL when index is 20 => "_u", // Uva
+            _ => string.Empty,
+        };
+
+        return $"box_wp{index:00}{suffix}{variant}";
     }
 
     private static string GetResourceSuffix(GameVersion version, int index) => version.GetGeneration() switch
@@ -37,6 +44,7 @@ public static class WallpaperUtil
         7 when !GG.Contains(version) => "xy",
         8 when !SWSH.Contains(version) => "bdsp",
         8 => "swsh",
+        9 => "sv",
         _ => string.Empty,
     };
 }

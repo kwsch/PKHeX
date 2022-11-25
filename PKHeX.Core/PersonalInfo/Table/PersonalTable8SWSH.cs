@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PersonalTable8SWSH : IPersonalTable, IPersonalTable<PersonalInfo8SWSH>
 {
-    internal readonly PersonalInfo8SWSH[] Table;
+    private readonly PersonalInfo8SWSH[] Table;
     private const int SIZE = PersonalInfo8SWSH.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_8_R2;
     public int MaxSpeciesID => MaxSpecies;

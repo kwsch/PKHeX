@@ -58,6 +58,11 @@ public static partial class Legal
     internal static readonly Learnset[] LevelUpLA = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_la.pkl"), "la"));
     internal static readonly Learnset[] MasteryLA = LearnsetReader.GetArray(Get(Util.GetBinaryResource("mastery_la.pkl"), "la"));
 
+    // Gen 9
+    internal static readonly ushort[][] EggMovesSV = EggMoves9.GetArray(Get(Util.GetBinaryResource("eggmove_sv.pkl"), "sv"));
+    internal static readonly ushort[][] ReminderSV = EggMoves9.GetArray(Get(Util.GetBinaryResource("reminder_sv.pkl"), "sv"));
+    internal static readonly Learnset[] LevelUpSV = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_sv.pkl"), "sv"));
+
     internal static int GetMaxSpeciesOrigin(PKM pk)
     {
         if (pk.Format == 1)
@@ -77,6 +82,7 @@ public static partial class Legal
         6 => MaxSpeciesID_6,
         7 => MaxSpeciesID_7b,
         8 => MaxSpeciesID_8a,
+        9 => MaxSpeciesID_9,
         _ => -1,
     };
 
@@ -90,6 +96,7 @@ public static partial class Legal
         6 => (int) LanguageID.Korean,
         7 => (int) LanguageID.ChineseT,
         8 => (int) LanguageID.ChineseT,
+        9 => (int) LanguageID.ChineseT,
         _ => -1,
     };
 

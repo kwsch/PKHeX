@@ -82,5 +82,8 @@ public sealed class LegalInfo : IGeneration
         // We can call this method at the start for any Gen3+ encounter iteration.
         // We need to call this for each Gen1/2 encounter as Version is not stored for those origins.
         Generation = gen;
+
+        if (gen == -1 && Entity is PK9 { IsUnhatchedEgg: true })
+            Generation = 9;
     }
 }

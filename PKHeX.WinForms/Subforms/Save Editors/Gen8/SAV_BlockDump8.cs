@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -95,7 +95,7 @@ public partial class SAV_BlockDump8 : Form
             if (obj != null)
             {
                 var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(obj.GetType());
-                if (props.Count() > 1)
+                if (props.Count() > 1 || ModifierKeys == Keys.Shift)
                 {
                     PG_BlockView.Visible = true;
                     PG_BlockView.SelectedObject = obj;

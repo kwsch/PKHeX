@@ -84,7 +84,7 @@ public static class RibbonVerifierEvent4
             list.Add(Souvenir);
     }
 
-    public static void ParseEgg(this IRibbonSetEvent4 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void ParseEgg(this IRibbonSetEvent4 r, ref RibbonResultList list, RibbonVerifierArguments args)
     {
         var enc = args.Encounter;
         if (enc is IRibbonSetEvent4 e)

@@ -61,13 +61,13 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public string Rival
     {
         get => GetString(Rival_Trash);
-        set => SetString(Rival_Trash, value.AsSpan(), OTLength, StringConverterOption.ClearZero);
+        set => SetString(Rival_Trash, value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public Span<byte> Rival_Trash
     {
-        get => Data.AsSpan(0x23BA4, OTLength * 2);
-        set { if (value.Length == OTLength * 2) value.CopyTo(Data.AsSpan(0x23BA4)); }
+        get => Data.AsSpan(0x23BA4, MaxStringLengthOT * 2);
+        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(Data.AsSpan(0x23BA4)); }
     }
 
     public override string GetDaycareRNGSeed(int loc) => $"{Daycare.GetSeed()!:X16}";

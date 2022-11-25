@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 1 <see cref="PKM"/> format. </summary>
-public sealed class PK1 : GBPKML
+public sealed class PK1 : GBPKML, IPersonalType
 {
     public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
 
@@ -43,8 +43,8 @@ public sealed class PK1 : GBPKML
     public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x1)); set => WriteUInt16BigEndian(Data.AsSpan(0x1), (ushort)value); }
     public int Stat_LevelBox { get => Data[3]; set => Data[3] = (byte)value; }
     public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
-    public int Type_A { get => Data[5]; set => Data[5] = (byte)value; }
-    public int Type_B { get => Data[6]; set => Data[6] = (byte)value; }
+    public byte Type1 { get => Data[5]; set => Data[5] = value; }
+    public byte Type2 { get => Data[6]; set => Data[6] = value; }
     public byte Catch_Rate { get => Data[7]; set => Data[7] = value; }
     public override ushort Move1 { get => Data[8]; set => Data[8] = (byte)value; }
     public override ushort Move2 { get => Data[9]; set => Data[9] = (byte)value; }
@@ -101,8 +101,8 @@ public sealed class PK1 : GBPKML
         SpeciesID1 = updated;
 
         var pi = PersonalTable.RB[value];
-        Type_A = pi.Type1;
-        Type_B = pi.Type2;
+        Type1 = pi.Type1;
+        Type2 = pi.Type2;
 
         // Before updating catch rate, check if non-standard
         if (IsValidCatchRateAnyPreEvo((byte)value, Catch_Rate))

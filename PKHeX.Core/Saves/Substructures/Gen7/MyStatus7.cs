@@ -95,7 +95,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
     public string OT
     {
         get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.OTLength, StringConverterOption.ClearZero);
+        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public int DressUpSkinColor

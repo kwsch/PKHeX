@@ -190,8 +190,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public sealed override int Generation => 3;
     public sealed override EntityContext Context => EntityContext.Gen3;
     protected sealed override int GiftCountMax => 1;
-    public sealed override int OTLength => 7;
-    public sealed override int NickLength => 10;
+    public sealed override int MaxStringLengthOT => 7;
+    public sealed override int MaxStringLengthNickname => 10;
     public sealed override int MaxMoney => 999999;
 
     public sealed override bool HasParty => true;
@@ -305,7 +305,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         get => GetString(Small.AsSpan(0, 8));
         set
         {
-            int len = Japanese ? 5 : OTLength;
+            int len = Japanese ? 5 : MaxStringLengthOT;
             SetString(Small.AsSpan(0, len), value.AsSpan(), len, StringConverterOption.ClearFF);
         }
     }

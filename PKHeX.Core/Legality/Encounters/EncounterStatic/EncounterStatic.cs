@@ -107,9 +107,9 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
             s.HeightScalar = PokeSizeUtil.GetRandomScalar();
             s.WeightScalar = PokeSizeUtil.GetRandomScalar();
         }
-        if (this is IGigantamax g && pk is PK8 pg)
+        if (this is IGigantamaxReadOnly g && pk is PK8 pg)
             pg.CanGigantamax = g.CanGigantamax;
-        if (this is IDynamaxLevel d && pk is PK8 pd)
+        if (this is IDynamaxLevelReadOnly d && pk is PK8 pd)
             pd.DynamaxLevel = d.DynamaxLevel;
     }
 
@@ -250,7 +250,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         if (!IsMatchIVs(pk))
             return false;
 
-        if (this is IContestStats es && pk is IContestStats s && s.IsContestBelow(es))
+        if (this is IContestStatsReadOnly es && pk is IContestStatsReadOnly s && s.IsContestBelow(es))
             return false;
 
         // Defer to EC/PID check

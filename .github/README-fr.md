@@ -23,7 +23,7 @@ PKHeX attend des fichiers de sauvegarde qui ne sont pas chiffrés avec des clés
 
 ## Captures d'écran
 
-![Main Window](https://i.imgur.com/EhtQ14x.png)
+![Main Window](https://i.imgur.com/d63DD3I.png)
 
 ## Construction
 

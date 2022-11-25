@@ -105,7 +105,8 @@ public sealed class StrategyMemoEntry
     {
         get
         {
-            if (XD) return !Flag1;
+            if (XD)
+                return !Flag1;
             return Species != 0;
         }
         set
@@ -113,7 +114,7 @@ public sealed class StrategyMemoEntry
             if (XD)
                 Flag1 = !value;
             else if (!value)
-                new byte[StrategyMemo.SIZE_ENTRY].CopyTo(Data, 0);
+                Data.AsSpan(0, StrategyMemo.SIZE_ENTRY).Clear();
         }
     }
 
@@ -121,12 +122,14 @@ public sealed class StrategyMemoEntry
     {
         get
         {
-            if (XD) return false;
+            if (XD)
+                return false;
             return Flag0 || !Flag1;
         }
         set
         {
-            if (XD) return;
+            if (XD)
+                return;
             if (!value)
                 Flag1 = true;
         }

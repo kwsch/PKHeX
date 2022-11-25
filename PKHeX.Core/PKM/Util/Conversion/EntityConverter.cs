@@ -137,6 +137,10 @@ public static class EntityConverter
         PK7 pk7 => pk7.ConvertToPK8(),
         PB7 pb7 => pb7.ConvertToPK8(),
 
+        PK8 pk8 => pk8.ConvertToPK9(),
+        PB8 pb8 => pb8.ConvertToPK9(),
+        PA8 pa8 => pa8.ConvertToPK9(),
+
         // Side-Formats back to Mainline
         SK2 sk2 => sk2.ConvertToPK2(),
         CK3 ck3 => ck3.ConvertToPK3(),
@@ -215,11 +219,11 @@ public static class EntityConverter
         if (pk.HeldItem > limit.MaxItemID)
             pk.HeldItem = 0;
 
-        if (pk.Nickname.Length > limit.NickLength)
-            pk.Nickname = pk.Nickname[..pk.NickLength];
+        if (pk.Nickname.Length > limit.MaxStringLengthNickname)
+            pk.Nickname = pk.Nickname[..pk.MaxStringLengthNickname];
 
-        if (pk.OT_Name.Length > limit.OTLength)
-            pk.OT_Name = pk.OT_Name[..pk.OTLength];
+        if (pk.OT_Name.Length > limit.MaxStringLengthOT)
+            pk.OT_Name = pk.OT_Name[..pk.MaxStringLengthOT];
 
         if (pk.Move1 > limit.MaxMoveID || pk.Move2 > limit.MaxMoveID || pk.Move3 > limit.MaxMoveID || pk.Move4 > limit.MaxMoveID)
             pk.ClearInvalidMoves();

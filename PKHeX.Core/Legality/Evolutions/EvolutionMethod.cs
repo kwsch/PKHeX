@@ -90,19 +90,24 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
         LevelUpFormFemale1 when pk.Gender != 1 || pk.Form != 1 => false,
 
         // Permit the evolution if we're exploring for mistakes.
-        LevelUpBeauty when pk is IContestStats s && s.CNT_Beauty < Argument => skipChecks,
+        LevelUpBeauty when pk is IContestStatsReadOnly s && s.CNT_Beauty < Argument => skipChecks,
         LevelUpNatureAmped or LevelUpNatureLowKey when GetAmpLowKeyResult(pk.Nature) != pk.Form => skipChecks,
 
         // Version checks come in pairs, check for any pair match
         LevelUpVersion or LevelUpVersionDay or LevelUpVersionNight when ((pk.Version & 1) != (Argument & 1) && pk.IsUntraded) => skipChecks,
+
+        LevelUpKnowMoveEC25 when pk.EncryptionConstant % 25 != 0 => skipChecks,
+        LevelUpKnowMoveECElse when pk.EncryptionConstant % 25 == 0 => skipChecks,
+        LevelUpInBattleEC25 when pk.EncryptionConstant % 25 != 0 => skipChecks,
+        LevelUpInBattleECElse when pk.EncryptionConstant % 25 == 0 => skipChecks,
 
         _ => true,
     };
 
     private bool ValidNotLevelUp(PKM pk, bool skipChecks) => Method switch
     {
-        UseItemMale or RecoilDamageMale => pk.Gender == 0,
-        UseItemFemale or RecoilDamageFemale => pk.Gender == 1,
+        UseItemMale or LevelUpRecoilDamageMale => pk.Gender == 0,
+        UseItemFemale or LevelUpRecoilDamageFemale => pk.Gender == 1,
 
         Trade or TradeHeldItem or TradeShelmetKarrablast => !pk.IsUntraded || skipChecks,
         _ => true, // no conditions

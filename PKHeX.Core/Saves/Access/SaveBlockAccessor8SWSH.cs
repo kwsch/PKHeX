@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 // ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051 // Remove unused private members
 #pragma warning disable RCS1213 // Remove unused member declaration.
@@ -13,7 +13,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public override IReadOnlyList<SCBlock> BlockInfo { get; }
     public Box8 BoxInfo { get; }
     public Party8 PartyInfo { get; }
-    public MyItem Items { get; }
+    public MyItem8 Items { get; }
     public MyStatus8 MyStatus { get; }
     public Misc8 Misc { get; }
     public Zukan8 Zukan { get; }

@@ -34,10 +34,10 @@ Dicha
 Nado Rápido
 Clorofila
 Iluminación
-Rastro
+Calco
 Potencia
 Punto Tóxico
-Foco Interno
+Fuerza Mental
 Escudo Magma
 Velo Agua
 Imán
@@ -52,7 +52,7 @@ Fuga
 Vista Lince
 Corte Fuerte
 Recogida
-Ausente
+Pereza
 Entusiasmo
 Gran Encanto
 Más
@@ -62,7 +62,7 @@ Viscosidad
 Mudar
 Agallas
 Escama Especial
-Lodo Líquido
+Viscosecreción
 Espesura
 Mar Llamas
 Torrente
@@ -74,7 +74,7 @@ Espíritu Vital
 Humo Blanco
 Energía Pura
 Caparazón
-Bucle Aire
+Esclusa de Aire
 Tumbos
 Electromotor
 Rivalidad
@@ -266,3 +266,34 @@ Relincho Blanco
 Relincho Negro
 Unidad Ecuestre
 Unidad Ecuestre
+Olor Persistente
+Disemillar
+Termoconversión
+Coraza Ira
+Sal Purificadora
+Cuerpo Horneado
+Surcavientos
+Perro Guardián
+Transportarrocas
+Energía Eólica
+Cambio Heroico
+Comandar
+Dinamo
+Paleosíntesis
+Carga Cuark
+Cuerpo Áureo
+Caldero Debacle
+Espada Debacle
+Tablilla Debacle
+Abalorio Debacle
+Latido Oricalco
+Motor Hadrónico
+Oportunista
+Rumia
+Cortante
+General Supremo
+Unísono
+Capa Tóxica
+Cola Armadura
+Geofagia
+Poder Fúngico

@@ -12,6 +12,8 @@ public static class Locations
     public const ushort Daycare4 = 2000;
     public const ushort Daycare5 = 60002;
     public const ushort Daycare8b = 60010;
+    public const ushort Picnic9 = 30023;
+    public const ushort TeraCavern9 = 30024;
 
     public const ushort LinkTrade2NPC = 126;
     public const ushort LinkTrade3NPC = 254;
@@ -58,6 +60,9 @@ public static class Locations
 
     /// <summary> Solaceon Town in <see cref="GameVersion.BDSP"/> </summary>
     public const ushort HatchLocation8b = 446;
+
+    /// <summary> South Province (Area One) in <see cref="GameVersion.SV"/> </summary>
+    public const ushort HatchLocation9 = 6;
 
     /// <summary> Generation 1 -> Generation 7 Transfer Location (Kanto) </summary>
     public const ushort Transfer1 = 30013;
@@ -169,6 +174,7 @@ public static class Locations
     public static bool IsEggLocationBred5(int loc) => loc is Daycare5 or LinkTrade5;
     public static bool IsEggLocationBred6(int loc) => loc is Daycare5 or LinkTrade6;
     public static bool IsEggLocationBred8b(int loc) => loc is Daycare8b or LinkTrade6NPC;
+    public static bool IsEggLocationBred9(int loc) => loc is Picnic9 or LinkTrade6;
 
     public static int GetDaycareLocation(int generation, GameVersion version) => generation switch
     {
@@ -176,6 +182,7 @@ public static class Locations
         4 => Daycare4,
         5 => Daycare5,
         8 when version is GameVersion.BD or GameVersion.SP => Daycare8b,
+        9 => Picnic9,
         _ => Daycare5,
     };
 
@@ -194,4 +201,5 @@ public static class Locations
     public static bool IsMetLocation8SWSH(ushort z) => z <= 246; // at the Crown Tundra Station
     public static bool IsMetLocation8BDSP(ushort z) => z <= 657; // Ramanas Park (Genome Room)
     public static bool IsMetLocation8LA(ushort z) => z <= 155; // Training Grounds
+    public static bool IsMetLocation9SV(ushort z) => z <= 131; // Uva Academy
 }

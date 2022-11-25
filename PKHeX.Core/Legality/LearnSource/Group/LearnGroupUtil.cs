@@ -20,6 +20,7 @@ public static class LearnGroupUtil
         Gen6 => LearnGroup6.Instance,
         Gen7 => LearnGroup7.Instance,
         Gen8 => LearnGroup8.Instance,
+        Gen9 => LearnGroup9.Instance,
 
         Gen7b => LearnGroup7b.Instance,
         Gen8a => LearnGroup8a.Instance,

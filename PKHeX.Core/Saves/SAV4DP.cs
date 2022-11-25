@@ -147,8 +147,8 @@ public sealed class SAV4DP : SAV4Sinnoh
 
     public override Span<byte> Rival_Trash
     {
-        get => General.AsSpan(0x25A8, OTLength * 2);
-        set { if (value.Length == OTLength * 2) value.CopyTo(General.AsSpan(0x25A8)); }
+        get => General.AsSpan(0x25A8, MaxStringLengthOT * 2);
+        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(General.AsSpan(0x25A8)); }
     }
 
     public override int X2 { get => ReadUInt16LittleEndian(General.AsSpan(0x25FA)); set => WriteUInt16LittleEndian(General.AsSpan(0x25FA), (ushort)value); }

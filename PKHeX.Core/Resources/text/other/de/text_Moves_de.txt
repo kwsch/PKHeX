@@ -174,7 +174,7 @@ Flammenrad
 Schnarcher
 Fluch
 Dreschflegel
-Umwandlung2
+Umwandlung 2
 Luftstoß
 Baumwollsaat
 Gegenschlag
@@ -849,3 +849,53 @@ Donnerorkan
 Wüstenorkan
 Lunargebet
 Mutschub
+Tera-Ausbruch
+Fadenfalle
+Fersenkick
+Letzte Ehre
+Lichteinschlag
+Auftischen
+Düsenhieb
+Chili-Essenz
+Reifendrehung
+Mäuseplage
+Eiskreisel
+Großklingenstoß
+Vitalsegen
+Pökelsalz
+Tauchtriade
+Letalwirbler
+Abpausen
+Abspaltung
+Kniefallspalter
+Blumentrick
+Loderlied
+Wogentanz
+Rasender Stier
+Goldrausch
+WAZA_SAIKOBUREIDO
+WAZA_HAIDOROSUTIIMU
+Verderben
+Kollisionskurs
+Blitztour
+Schwanzabwurf
+Eisige Stimmung
+Aufräumen
+Schneelandschaft
+Anspringen
+Wegbereiter
+Kalte Dusche
+Hyperbohrer
+Doppelstrahl
+Zornesfaust
+Rüstungskanone
+Reueschwert
+Zweifachladung
+Riesenhammer
+Vendetta
+Aquaschnitt
+Hitzeturbo
+Finsterturbo
+Toxiturbo
+Raufturbo
+Zauberturbo

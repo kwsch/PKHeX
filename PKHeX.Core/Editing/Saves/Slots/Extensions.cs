@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -56,6 +56,7 @@ public static partial class Extensions
         SAV8SWSH ss => GetExtraSlots8(ss),
         SAV8BS bs => GetExtraSlots8b(bs),
         SAV8LA la => GetExtraSlots8a(la),
+        SAV9SV sv => GetExtraSlots9(sv),
         _ => None,
     };
 
@@ -220,8 +221,17 @@ public static partial class Extensions
         };
     }
 
-    private static List<SlotInfoMisc> GetExtraSlots8a(SAV8LA sav)
+    private static List<SlotInfoMisc> GetExtraSlots8a(SAV8LA _)
     {
         return new List<SlotInfoMisc>();
+    }
+
+    private static List<SlotInfoMisc> GetExtraSlots9(SAV9SV sav)
+    {
+        var list = new List<SlotInfoMisc>();
+        var block = sav.Blocks.GetBlockSafe(SaveBlockAccessor9SV.KFusedCalyrex);
+        var c = new SlotInfoMisc(block.Data, 3, 0, true) { Type = StorageSlotType.Fused };
+        list.Add(c);
+        return list;
     }
 }

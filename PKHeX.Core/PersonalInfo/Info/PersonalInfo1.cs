@@ -22,7 +22,7 @@ public sealed class PersonalInfo1 : PersonalInfo
         return Data;
     }
 
-    public int DEX_ID { get => Data[0x00]; set => Data[0x00] = (byte)value; }
+    public override int Gender { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int HP { get => Data[0x01]; set => Data[0x01] = (byte)value; }
     public override int ATK { get => Data[0x02]; set => Data[0x02] = (byte)value; }
     public override int DEF { get => Data[0x03]; set => Data[0x03] = (byte)value; }
@@ -30,15 +30,15 @@ public sealed class PersonalInfo1 : PersonalInfo
     public int SPC { get => Data[0x05]; set => Data[0x05] = (byte)value; }
     public override int SPA { get => SPC; set => SPC = value; }
     public override int SPD { get => SPC; set => SPC = value; }
-    public override int Type1 { get => Data[0x06]; set => Data[0x06] = (byte)value; }
-    public override int Type2 { get => Data[0x07]; set => Data[0x07] = (byte)value; }
+    public override byte Type1 { get => Data[0x06]; set => Data[0x06] = value; }
+    public override byte Type2 { get => Data[0x07]; set => Data[0x07] = value; }
     public override int CatchRate { get => Data[0x08]; set => Data[0x08] = (byte)value; }
     public override int BaseEXP { get => Data[0x09]; set => Data[0x09] = (byte)value; }
     public byte Move1 { get => Data[0x0F]; set => Data[0x0F] = value; }
     public byte Move2 { get => Data[0x10]; set => Data[0x10] = value; }
     public byte Move3 { get => Data[0x11]; set => Data[0x11] = value; }
     public byte Move4 { get => Data[0x12]; set => Data[0x12] = value; }
-    public override int EXPGrowth { get => Data[0x13]; set => Data[0x13] = (byte)value; }
+    public override byte EXPGrowth { get => Data[0x13]; set => Data[0x13] = value; }
 
     // EV Yields are just aliases for base stats in Gen I
     public override int EV_HP { get => HP; set { } }
@@ -55,7 +55,6 @@ public sealed class PersonalInfo1 : PersonalInfo
     public override int GetIndexOfAbility(int abilityID) => -1;
     public override int GetAbilityAtIndex(int abilityIndex) => -1;
     public override int AbilityCount => 0;
-    public override int Gender { get; set; }
     public override int HatchCycles { get => 0; set { } }
     public override int BaseFriendship { get => 0; set { } }
     public override int EscapeRate { get => 0; set { } }

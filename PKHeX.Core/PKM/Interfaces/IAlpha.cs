@@ -1,9 +1,9 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface that exposes an indication if the Pokémon is an alpha Pokémon.
 /// </summary>
-public interface IAlpha
+public interface IAlpha : IAlphaReadOnly
 {
-    bool IsAlpha { get; set; }
+    new bool IsAlpha { get; set; }
 }

@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 6 Static Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterStatic"/>
-public sealed record EncounterStatic6(GameVersion Version) : EncounterStatic(Version), IContestStats
+public sealed record EncounterStatic6(GameVersion Version) : EncounterStatic(Version), IContestStatsReadOnly
 {
     public override int Generation => 6;
     public override EntityContext Context => EntityContext.Gen6;

@@ -1,156 +1,156 @@
 ----------
 
-in una zona misteriosa
+Zona misteriosa
 
-in un luogo remoto
+Luogo remoto
 
-al Villaggio Giubilo
-nella Landa Ossidiana
-all’Acquitrino Vermiglio
-sulla Costa Oltremare
-alle Pendici Corona
-ai Ghiacci Candidi
-alla Dimora Remota
-sul Colle Ambizione
-alla Piana Ferdicavallo
-sul Sentiero Grancorno
-sull’Altura Grancorno
-alla Cascata Ossidiana
-nel Tunnel Minerario
-alla Cucina della Foresta
-nella Foresta Lontana
-all’Arena del Colosso
-nel Bosco Ostico
-al Lago Verità
-alla Pianura Sabbiafine
-alla Diga della Foce
-nel Giardino Bonificato
-sull’Isola Rosa Rugosa
-alla Base della Landa
-alla Base sull’Altura
-alla Spianata Filavento
-nel Giardino Bonificato
-sul Ponte Eroso
-al Masso Muschioso
-nel Bassopiano Dorato
-alle Rovine Flemma
-alla Palude Boccalarga
-sull’Altopiano Melmoso
-alla Palude Purpurea
-sul Pendio Rotolio
-al Campo Diamante
-al Lago Valore
-sulla Cresta Mardinubi
-alle Rovine Brumose
-[~ 44]
-sull’Isolotto della Prova
-alla Piana del Frullo
-alla Base dell’Acquitrino
-alla Base Brulla
-sul Clivo del Passaggio
-alla Spiaggia Ginkgo
-nel Fantasmeto
-alla Cala Celata
-sulla Via del Tombolo
-sul Capo Rupevelo
-nel Paradiso Erbamarina
-sull’Isola Mangiafuoco
-a Casa di Sinen
-sul Sentiero Fonte
-al Rifugio Pescegrosso
-alla Spiaggia Ondisola
-nella Foresta Controvento
-[~ 62]
-al Varco della Marea
-nella Cavità Marina
-alla Base sulla Spiaggia
-alla Base della Costa
-nella Grotta Ritorno
-al Tempietto Cratere
-alla Base sulle Pendici
-sull’Altura del Divino
-nel Bosco Labirinto
-nella Cava degli Antichi
-sul Sentiero dei Memordei
-alla Sorgente Recondita
-alla Fonte Folletto
-sul Massiccio Rotolio
-sulla Cresta Pietrinfila
-[~ 78]
-nella Caverna Primitiva
-alle Scarpate Scalande
-al Tempio dei Memordei
-all’Arena Accogliluna
-alla Base della Vetta
-sul Passo Nubiloso
-sulla Vetta Lancia
-nella Grotta Labirinto
-alla Base delle Nevi
-alla Valle Nevefitta
-sulla Via del Crepaccio
-alla Distesa Polare
-[~ 91]
-ai Blocchi d’Avalugg
-alla Scala del Ghiacciaio
-al Lago Arguzia
-al Tempio di Punta Neve
-nella Caverna del Letargo
-alla Cascata Tuttogelo
-sul Pendio Valanga
-sulla Via dell’Arena
-al Campo Perla
-alla Roccia dello Spirito
-al Colonnato Glaciale
-alla Base dei Ghiacci
-nella Grotta Verità
-nella Grotta Valore
-al Prato dei Pennacchi
-alla Base di Montagna
-alla Porta di Roccia
-al Tempio di Sinnoh
-al Masso Ghiacciato
-nella Grotta Arguzia
-nel Cunicolo dei Ghiacci
-nella Grotta Segreta
-alla Sede del Team Galassia
-all’Emporio
-al Chiosco di Caramelle
-alla Bottega
-alla Ditta Ginkgo
-al Banco degli Scambi
-al Pascolo
-alla Sartoria
-al Salone Acconciature
-allo Studio Fotografico
-al Podere
-all’Area Allenamento
-alla Pietra degli Amuleti
-all’Alloggio
-al Lido degli Sperduti
-alla Mano di Sabbia
-sulla Via dei Pellegrini
-alla Piazza della Preghiera
-alla Porta Principale
-alla Porta della Spiaggia
-in Via Canale
-in Corso Fiorito
-alla Spiaggia Origine
-allo Spiazzo Allenamento
-in un luogo sconosciuto
-all’Arena della Ribalta
-all’Arena della Lava
-all’Arena dell’Iceberg
-alle Terme Miraneve
-al piano terra
-al primo piano
-al secondo piano
-nel piano interrato
-al Ring Ursino
-alla Radura Diamante
-sul Monte degli Aipom
-nella Laguna Bagnetto
-nel Mar Silente
-alla Sede del Team Galassia
-alla Porta Principale
-al Podere
-all’Area Allenamento
+Villaggio Giubilo
+Landa Ossidiana
+Acquitrino Vermiglio
+Costa Oltremare
+Pendici Corona
+Ghiacci Candidi
+Dimora Remota
+Colle Ambizione
+Piana Ferdicavallo
+Sentiero Grancorno
+Altura Grancorno
+Cascata Ossidiana
+Tunnel Minerario
+Cucina della Foresta
+Foresta Lontana
+Arena del Colosso
+Bosco Ostico
+Lago Verità
+Pianura Sabbiafine
+Diga della Foce
+Giardino Bonificato
+Isola Rosa Rugosa
+Base della Landa
+Base sull’Altura
+Spianata Filavento
+Giardino Bonificato
+Ponte Eroso
+Masso Muschioso
+Bassopiano Dorato
+Rovine Flemma
+Palude Boccalarga
+Altopiano Melmoso
+Palude Purpurea
+Pendio Rotolio
+Campo Diamante
+Lago Valore
+Cresta Mardinubi
+Rovine Brumose
+
+Isolotto della Prova
+Piana del Frullo
+Base dell’Acquitrino
+Base Brulla
+Clivo del Passaggio
+Spiaggia Ginkgo
+Fantasmeto
+Cala Celata
+Via del Tombolo
+Capo Rupevelo
+Paradiso Erbamarina
+Isola Mangiafuoco
+Casa di Sinen
+Sentiero Fonte
+Rifugio Pescegrosso
+Spiaggia Ondisola
+Foresta Controvento
+
+Varco della Marea
+Cavità Marina
+Base sulla Spiaggia
+Base della Costa
+Grotta Ritorno
+Tempietto Cratere
+Base sulle Pendici
+Altura del Divino
+Bosco Labirinto
+Cava degli Antichi
+Sentiero Memordei
+Sorgente Recondita
+Fonte Folletto
+Massiccio Rotolio
+Cresta Pietrinfila
+
+Caverna Primitiva
+Scarpate Scalande
+Tempio dei Memordei
+Arena Accogliluna
+Base della Vetta
+Passo Nubiloso
+Vetta Lancia
+Grotta Labirinto
+Base delle Nevi
+Valle Nevefitta
+Via del Crepaccio
+Distesa Polare
+
+Blocchi d’Avalugg
+Scala del Ghiacciaio
+Lago Arguzia
+Tempio di Punta Neve
+Caverna del Letargo
+Cascata Tuttogelo
+Pendio Valanga
+Via dell’Arena
+Campo Perla
+Roccia dello Spirito
+Colonnato Glaciale
+Base dei Ghiacci
+Grotta Verità
+Grotta Valore
+Prato dei Pennacchi
+Base di Montagna
+Porta di Roccia
+Tempio di Sinnoh
+Masso Ghiacciato
+Grotta Arguzia
+Cunicolo dei Ghiacci
+Grotta Segreta
+Sede Team Galassia
+Emporio
+Chiosco di Caramelle
+Bottega
+Ditta Ginkgo
+Banco degli Scambi
+Pascolo
+Sartoria
+Salone Acconciature
+Studio Fotografico
+Podere
+Area Allenamento
+Pietra degli Amuleti
+Alloggio
+Lido degli Sperduti
+Mano di Sabbia
+Via dei Pellegrini
+Piazza Preghiera
+Porta Principale
+Porta della Spiaggia
+Via Canale
+Corso Fiorito
+Spiaggia Origine
+Spiazzo Allenamento
+Luogo sconosciuto
+Arena della Ribalta
+Arena della Lava
+Arena dell’Iceberg
+Terme Miraneve
+Piano terra
+Primo piano
+Secondo piano
+Piano interrato
+Ring Ursino
+Radura Diamante
+Monte degli Aipom
+Laguna Bagnetto
+Mar Silente
+Sede del Team Galassia
+Porta Principale
+Podere
+Area Allenamento

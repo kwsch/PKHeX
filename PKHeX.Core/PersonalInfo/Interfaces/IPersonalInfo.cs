@@ -18,5 +18,5 @@ public interface IPersonalInfo : IBaseStat, IEffortValueYield, IGenderDetail, IP
     /// <summary>
     /// Experience-Level Growth Rate type
     /// </summary>
-    int EXPGrowth { get; set; }
+    byte EXPGrowth { get; set; }
 }

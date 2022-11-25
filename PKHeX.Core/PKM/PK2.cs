@@ -164,7 +164,6 @@ public sealed class PK2 : GBPKML, ICaughtData2
         };
         RecentTrainerCache.SetConsoleRegionData3DS(pk7);
         RecentTrainerCache.SetFirstCountryRegion(pk7);
-        pk7.HealPP();
         var lang = TransferLanguage(RecentTrainerCache.Language);
         pk7.Language = lang;
         pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, lang, pk7.Format);
@@ -219,6 +218,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
                 pk7.SetMove(index, 0);
                 pk7.FixMoves();
             }
+            pk7.HealPP();
         }
 
         pk7.RefreshChecksum();

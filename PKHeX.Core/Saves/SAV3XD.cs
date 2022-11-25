@@ -194,8 +194,8 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public override int Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
     protected override int GiftCountMax => 1;
-    public override int OTLength => 7;
-    public override int NickLength => 10;
+    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 9999999;
 
     public override int BoxCount => 8;

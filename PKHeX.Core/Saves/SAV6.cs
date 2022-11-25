@@ -32,8 +32,8 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public int EventWorkCount => (EventFlag - EventWork) / sizeof(ushort);
     protected abstract int EventFlag { get; }
     protected abstract int EventWork { get; }
-    public override int OTLength => 12;
-    public override int NickLength => 12;
+    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthNickname => 12;
 
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_6;
     public override int MaxBallID => Legal.MaxBallID_6;

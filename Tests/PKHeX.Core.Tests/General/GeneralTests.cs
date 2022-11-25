@@ -21,6 +21,13 @@ public class GeneralTests
     }
 
     [Fact]
+    public void SV_Hypothesis()
+    {
+        GameVersion.SL.Should().Be((GameVersion)50);
+        GameVersion.VL.Should().Be((GameVersion)51);
+    }
+
+    [Fact]
     public void StringsLoad() => GameInfo.GetStrings(GameLanguage.DefaultLanguage);
 
     [Fact]

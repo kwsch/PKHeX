@@ -35,7 +35,7 @@ Placaje
 Golpe Cuerpo
 Constricción
 Derribo
-Golpe
+Saña
 Doble Filo
 Látigo
 Picotazo Veneno
@@ -127,13 +127,13 @@ Hueso Palo
 Llamarada
 Cascada
 Tenaza
-Rapidez
+Meteoros
 Cabezazo
 Clavo Cañón
 Restricción
 Amnesia
 Kinético
-Amortiguador
+Ovocuración
 Pat. Salto Alta
 Deslumbrar
 Comesueños
@@ -213,7 +213,7 @@ Ala de Acero
 Mal de Ojo
 Atracción
 Sonámbulo
-Campana Cura
+Cascabel Cura
 Retribución
 Presente
 Frustración
@@ -231,7 +231,7 @@ Giro Rápido
 Dulce Aroma
 Cola Férrea
 Garra Metal
-Tiro Vital
+Llave Vital
 Sol Matinal
 Síntesis
 Luz Lunar
@@ -242,7 +242,7 @@ Danza Lluvia
 Día Soleado
 Triturar
 Manto Espejo
-Más Psique
+Autosugestión
 Veloc. Extrema
 Poder Pasado
 Bola Sombra
@@ -292,7 +292,7 @@ Daño Secreto
 Buceo
 Empujón
 Camuflaje
-Ráfaga
+Luminicola
 Resplandor
 Bola Neblina
 Danza Pluma
@@ -322,7 +322,7 @@ Silbato
 Cosquillas
 Masa Cósmica
 Salpicar
-Doble Rayo
+Rayo Señal
 Puño Sombra
 Paranormal
 Gancho Alto
@@ -389,7 +389,7 @@ Castigo
 Abatidoras
 Golpe Bajo
 Púas Tóxicas
-Cambia Almas
+Cambiaalmas
 Acua Aro
 Levitón
 Envite Ígneo
@@ -418,7 +418,7 @@ Gigaimpacto
 Maquinación
 Puño Bala
 Alud
-Canto Helado
+Esquirla Helada
 Garra Umbría
 Colmillo Rayo
 Colmillo Hielo
@@ -463,11 +463,11 @@ Danza Lunar
 Agarrón
 Lluvia Ígnea
 Brecha Negra
-Fogonazo
+Fulgor Semilla
 Viento Aciago
 Golpe Umbrío
 Afilagarras
-Vastaguardia
+Vasta Guardia
 Isoguardia
 Isofuerza
 Zona Extraña
@@ -485,7 +485,7 @@ Danza Aleteo
 Cuerpo Pesado
 Sincrorruido
 Bola Voltio
-Anegar
+Empapar
 Nitrocarga
 Enrosque
 Puntapié
@@ -849,3 +849,53 @@ Electormenta
 Simún de Arena
 Plegaria Lunar
 Bálsamo Osado
+Teraexplosión
+Telatrampa
+Patada Hacha
+Homenaje Póstumo
+Fotocolisión
+Oído Cocina
+Puño Jet
+Extracto Picante
+Quemarrueda
+Proliferación
+Pirueta Helada
+Asalto Espadón
+Plegaria Vital
+Salazón
+Triple Inmersión
+Giro Mortífero
+Decalcomanía
+Deslome
+Genufendiente
+Truco Floral
+Canto Ardiente
+Danza Acuática
+Furia Taurina
+Fiebre Dorada
+WAZA_SAIKOBUREIDO
+WAZA_HAIDOROSUTIIMU
+Calamidad
+Nitrochoque
+Electroderrape
+Autotomía
+Fría Acogida
+Limpieza General
+Paisaje Nevado
+Brinco
+Abrecaminos
+Agua Fría
+Hipertaladro
+Láser Doble
+Puño Furia
+Cañón Armadura
+Espada Lamento
+Electropalmas
+Martillo Colosal
+Resarcimiento
+Tajo Acuático
+Pirochoque
+Ominochoque
+Ponzochoque
+Pugnachoque
+Feerichoque

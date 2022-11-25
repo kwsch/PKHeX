@@ -118,8 +118,8 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     public override int Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
     protected override int GiftCountMax => 1;
-    public override int OTLength => 7;
-    public override int NickLength => 10;
+    public override int MaxStringLengthOT => 7;
+    public override int MaxStringLengthNickname => 10;
     public override int MaxMoney => 999999;
     public override bool HasBoxWallpapers => false;
 

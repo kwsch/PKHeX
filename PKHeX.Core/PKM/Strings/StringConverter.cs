@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -27,6 +27,7 @@ public static class StringConverter
         6 => StringConverter6.GetString(data),
         7 => StringConverter7.GetString(data),
         8 => StringConverter8.GetString(data),
+        9 => StringConverter8.GetString(data),
         _ => throw new ArgumentOutOfRangeException(nameof(generation)),
     };
 
@@ -55,6 +56,7 @@ public static class StringConverter
         6 => StringConverter6.SetString(destBuffer, value, maxLength, option),
         7 => StringConverter7.SetString(destBuffer, value, maxLength, language, option),
         8 => StringConverter8.SetString(destBuffer, value, maxLength, option),
+        9 => StringConverter8.SetString(destBuffer, value, maxLength, option),
         _ => throw new ArgumentOutOfRangeException(nameof(generation)),
     };
 

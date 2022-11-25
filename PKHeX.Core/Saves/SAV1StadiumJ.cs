@@ -23,8 +23,8 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     public override int Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
     private const int StringLength = 6; // Japanese Only
-    public override int OTLength => StringLength;
-    public override int NickLength => StringLength;
+    public override int MaxStringLengthOT => StringLength;
+    public override int MaxStringLengthNickname => StringLength;
     public override int BoxCount => 4; // 8 boxes stored sequentially; latter 4 are backups
     public override int BoxSlotCount => 30;
 

@@ -24,7 +24,7 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
     {
         pi = null;
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         pi = Personal[species, form];
         return true;
@@ -32,7 +32,7 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
 
     public bool GetIsEggMove(ushort species, byte form, ushort move)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         var moves = MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
         return moves.IndexOf(move) != -1;
@@ -40,7 +40,7 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
         return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
     }

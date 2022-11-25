@@ -54,7 +54,7 @@ Zink
 AP-Top
 Spezialität
 Megablock
-Angriffplus
+X-Volltreffer
 X-Angriff
 X-Verteidigung
 X-Initiative
@@ -213,7 +213,7 @@ Jabocabeere
 Roselbeere
 Blendpuder
 Schlohkraut
-Machoband
+Machoschiene
 EP-Teiler
 Flinkklaue
 Sanftglocke
@@ -222,10 +222,10 @@ Wahlband
 King-Stein
 Silberstaub
 Münzamulett
-Schutzband
+Schutzsticker
 Seelentau
 Abysszahn
-Abyssplatte
+Abyssschuppe
 Rauchball
 Ewigstein
 Fokusband
@@ -233,7 +233,7 @@ Glücks-Ei
 Scope-Linse
 Metallmantel
 Überreste
-Drachenhaut
+Drachenschuppe
 Kugelblitz
 Pudersand
 Granitstein
@@ -250,7 +250,7 @@ Krummlöffel
 Holzkohle
 Drachenzahn
 Seidenschal
-Up-Grade
+Upgrade
 Muschelglocke
 Seerauch
 Laxrauch
@@ -476,7 +476,7 @@ Klarglocke
 Schlüsselkarte
 Kelleröffner
 Schiggykanne
-Rote Haut
+Rote Schuppe
 Fundsache
 Fahrschein
 Spule
@@ -573,7 +573,7 @@ Prachtfeder
 Schildfossil
 Federfossil
 Gartenpass
-Transferorb
+Transfer-Orb
 Traumball
 Pokéwedel
 Deko-Box
@@ -590,7 +590,7 @@ Alter Reif
 Alte Statue
 Alte Krone
 Stratos-Eis
-Angriffplus2
+X-Volltreffer 2
 X-Initiative 2
 X-Sp.-Ang. 2
 X-Sp.-Vert. 2
@@ -609,11 +609,11 @@ X-Sp.-Vert. 6
 X-Verteidigung 6
 X-Angriff 6
 X-Genauigkeit 6
-Fähigk.-Appell
+Fähigkeiten-Appell
 Itemabwurf
 Itemappell
 Umkehrappell
-Angriffplus3
+X-Volltreffer 3
 Lichtstein
 Dunkelstein
 TM93
@@ -643,7 +643,7 @@ Holo-Log
 Brief vom Prof
 Rollerskates
 Feentafel
-Fähigk.-Kapsel
+Fähigkeiten-Kapsel
 Sahnehäubchen
 Duftbeutel
 Leuchtmoos
@@ -844,7 +844,7 @@ Angel
 Maske des Profs
 Festival-Ticket
 Glitzerstein
-Zitterorb
+Zitter-Orb
 Zygarde-Würfel
 ???
 Eisstein
@@ -1604,7 +1604,7 @@ Polarkarotte
 Phantomkarotte
 Dyna-Erz
 Karottensamen
-Fähigk.-Pflaster
+Fähigkeiten-Pflaster
 Zügel des Bundes
 Zeitruhegabe
 Raumruhegabe
@@ -1827,3 +1827,575 @@ DS-Player
 
 
 Legendentafel
+Smart-Rotom
+Sandwich
+Koraidons Pokéball
+Miraidons Pokéball
+Terakristall-Orb
+Karmesinbuch
+Purpurbuch
+Kombus Geldbörse
+
+
+
+
+
+Minibambusspross
+Riesenbambusspross
+
+
+
+
+
+
+
+
+
+
+
+
+
+Unlicht-Schriftrolle
+Wasser-Schriftrolle
+
+
+Fluchrüstung
+Tera-Stück (Normal)
+Tera-Stück (Feuer)
+Tera-Stück (Wasser)
+Tera-Stück (Elektro)
+Tera-Stück (Pflanze)
+Tera-Stück (Eis)
+Tera-Stück (Kampf)
+Tera-Stück (Gift)
+Tera-Stück (Boden)
+Tera-Stück (Flug)
+Tera-Stück (Psycho)
+Tera-Stück (Käfer)
+Tera-Stück (Gestein)
+Tera-Stück (Geist)
+Tera-Stück (Drache)
+Tera-Stück (Unlicht)
+Tera-Stück (Stahl)
+Tera-Stück (Fee)
+Energiekapsel
+Fähigkeitenschild
+Neutralschmuck
+Kopierkraut
+Boxhandschuh
+Tarnumhang
+Gezinkter Würfel
+
+Baguette
+Mayonnaise
+Ketchup
+Senf
+Butter
+Erdnussbutter
+Chilisoße
+Salz
+Pfeffer
+Joghurt
+Schlagsahne
+Frischkäse
+Beerenkonfitüre
+Marmelade
+Olivenöl
+Essig
+Süßes Geheimgewürz
+Salziges Geheimgewürz
+Saures Geheimgewürz
+Bitteres Geheimgewürz
+Scharfes Geheimgewürz
+Salat
+Tomate
+Mini-Tomate
+Gurke
+Gewürzgurke
+Zwiebel
+Rote Zwiebel
+Grüne Paprika
+Rote Paprika
+Gelbe Paprika
+Avocado
+Gebratener Speck
+Kochschinken
+Roher Schinken
+Chorizo
+Kräuterwurst
+Frikadelle
+Klibbe-Stick
+Räucherfilet
+Frittierfilet
+Ei
+Tortilla
+Tofu
+Reis
+Nudeln
+Kartoffelsalat
+Scheibenkäse
+Banane
+Erdbeere
+Apfel
+Kiwi
+Ananas
+Jalapeño
+Meerrettich
+Currypulver
+Wasabi
+Kresse
+Basilikum
+
+
+
+
+
+
+
+
+
+Bluzuk-Zahn
+Digda-Erde
+Mauzi-Haar
+Enton-Daune
+Menki-Haar
+Fukano-Haar
+Flegmon-Kralle
+Magnetilo-Schraube
+Sleima-Toxin
+Muschas-Perle
+Nebulak-Gas
+Traumato-Haar
+Voltobal-Strom
+Sichlor-Kralle
+Tauros-Haar
+Karpador-Schuppe
+Ditto-Glibber
+Evoli-Haar
+Dratini-Schuppe
+Pichu-Haar
+Fluffeluff-Haar
+Voltilamm-Wolle
+Hoppspross-Blatt
+Sonnkern-Blatt
+Kramurx-Schatz
+Traunfugil-Träne
+Girafarig-Haar
+Tannza-Schale
+Dummisel-Schuppe
+Baldorfish-Stachel
+Skaraborn-Kralle
+Sniebel-Kralle
+Teddiursa-Kralle
+Botogel-Päckchen
+Hunduster-Zahn
+Phanpy-Kralle
+Damhirplex-Haar
+Larvitar-Kralle
+Wingull-Feder
+Trasla-Material
+Gehweiher-Nektar
+Knilz-Spore
+Bummelz-Haar
+Makuhita-Schweiß
+Azurill-Haar
+Zobiris-Edelstein
+Meditie-Schweiß
+Schluppuck-Schleim
+Camaub-Lava
+Qurtel-Kohle
+Spoink-Perle
+Tuska-Stachel
+Wablu-Feder
+Sengo-Kralle
+Vipitis-Zahn
+Schmerbe-Schleim
+Shuppet-Fetzen
+Tropius-Blatt
+Schneppke-Haar
+Liebiskus-Schuppe
+Kindwurm-Schuppe
+Staralili-Feder
+Zirpurze-Häutungsrest
+Sheinux-Zahn
+Wadribie-Honig
+Pachirisu-Haar
+Bamelin-Haar
+Schalellos-Schleim
+Driftlon-Gas
+Skunkapuh-Haar
+Bronzel-Splitter
+Mobai-Träne
+Wonneira-Material
+Kryppuk-Splitter
+Kaumalat-Schuppe
+Riolu-Haar
+Hippopotas-Sand
+Glibunkel-Toxin
+Finneon-Schuppe
+Shnebedeck-Beere
+Rotom-Strom
+Lilminip-Blatt
+Barschuft-Zahn
+Ganovil-Kralle
+Zorua-Haar
+Mollimorba-Wimper
+Sesokitz-Haar
+Tarnpignon-Spore
+Mamolida-Schleim
+Zapplardin-Schleim
+Milza-Schuppe
+Petznief-Haar
+Frigometri-Eis
+Gladiantri-Klinge
+Geronimatz-Feder
+Kapuno-Schuppe
+Ignivor-Haar
+Dartiri-Feder
+Purmel-Puder
+Leufeo-Mähnenhaar
+Flabébé-Pollen
+Mähikel-Blatt
+Algitt-Alge
+Scampisto-Schere
+Resladero-Daune
+Dedenne-Haar
+Viscora-Schleim
+Clavion-Schlüssel
+Arktip-Eis
+eF-eM-Haar
+Mangunior-Haar
+Krabbox-Schale
+Choreogel-Feder
+Wuffels-Stein
+Garstella-Stachel
+Pampuli-Schlamm
+Imantis-Blatt
+Molunk-Gas
+Frubberl-Schweiß
+Kommandutan-Haar
+Quartermak-Haar
+Sankabuh-Sand
+Koalelu-Kralle
+Mimigma-Fetzen
+Knirfish-Zahn
+Kamehaps-Kralle
+Raffel-Haar
+Pikuda-Schuppe
+Meikro-Feder
+Toxel-Strom
+Legios-Schweiß
+Kupfanti-Patina
+Klonkett-Kohle
+Salanga-Sand
+Servol-Haar
+Britzigel-Stachel
+Snomnom-Faden
+Bähmon-Haar
+Knapfel-Fruchtsaft
+Fatalitee-Splitter
+Brimova-Material
+Humanolith-Stein
+Kubuin-Daune
+Grolldra-Puder
+
+
+
+Ferkuli-Haar
+Tarundel-Faden
+Micrick-Kralle
+Relluk-Schlamm
+Gruff-Wachs
+Flattutu-Daune
+Schligda-Sand
+Heerashai-Bartel
+Agiluza-Filet
+Normifin-Schleim
+Olini-Öl
+Chilingel-Samen
+Blipp-Schleim
+Knattox-Gas
+Schlurm-Patina
+Zwieps-Haar
+Flaniwal-Fett
+Frospino-Schuppe
+Nigiragi-Schuppe
+Mopex-Schuppe
+Pamo-Haar
+
+
+Voltrel-Feder
+Adebom-Feder
+Krawalloro-Feder
+Flaminkno-Daune
+Klibbe-Schere
+Geosali-Salz
+Lumispross-Kristall
+Sproxi-Tinte
+Hefel-Haar
+Mobtiff-Zahn
+Weherba-Zweig
+Gierspenst-Münze
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Forgita-Haar
+Knarbon-Ruß
+Tentagra-Lamelle
+Felino-Schleim
+TM100
+TM101
+TM102
+TM103
+TM104
+TM105
+TM106
+TM107
+TM108
+TM109
+TM110
+TM111
+TM112
+TM113
+TM114
+TM115
+TM116
+TM117
+TM118
+TM119
+TM120
+TM121
+TM122
+TM123
+TM124
+TM125
+TM126
+TM127
+TM128
+TM129
+TM130
+TM131
+TM132
+TM133
+TM134
+TM135
+TM136
+TM137
+TM138
+TM139
+TM140
+TM141
+TM142
+TM143
+TM144
+TM145
+TM146
+TM147
+TM148
+TM149
+TM150
+TM151
+TM152
+TM153
+TM154
+TM155
+TM156
+TM157
+TM158
+TM159
+TM160
+TM161
+TM162
+TM163
+TM164
+TM165
+TM166
+TM167
+TM168
+TM169
+TM170
+TM171
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Picknick-Set
+Korb
+Akademie-Flasche
+Akademie-Flasche
+Punkte-Flasche
+Streifen-Flasche
+Rauten-Flasche
+Akademie-Tasse
+Akademie-Tasse
+Längsstreifen-Tasse
+Punkte-Tasse
+Blümchen-Tasse
+Akademie-Tischtuch
+Akademie-Tischtuch
+Zauber-Tischtuch
+Natur-Tischtuch
+Groll-Tischtuch
+
+Akademie-Ball
+Akademie-Ball
+Marill-Ball
+Woll-Ball
+Cyber-Ball
+Gold-Pikser
+Silber-Pikser
+Rotfahnen-Pikser
+Blaufahnen-Pikser
+Pikapika-Pikser
+Zwinker-Pika-Pikser
+Volivoli-Pikser
+Kicher-Voli-Pikser
+Blauball-Pikser
+
+Glorienrüstung
+Anführersymbol
+
+
+Pinke Flasche
+Blaue Flasche
+Gelbe Flasche
+Edelstahlflasche (R)
+Edelstahlflasche (G)
+Edelstahlflasche (B)
+Silber-Titanflasche
+Querstreifen-Tasse
+Rauten-Tasse
+Flammen-Tasse
+Pinke Tasse
+Blaue Tasse
+Gelbe Tasse
+Pikachu-Tasse
+Evoli-Tasse
+Flegmon-Tasse
+Silber-Titantasse
+Gymnastik-Ball
+Gelbkaro-Tischtuch
+Blaukaro-Tischtuch
+Rotkaro-Tischtuch
+Retro-Gras-Tischtuch
+Action-Tischtuch
+Ungeheuer-Tischtuch
+Streifen-Tischtuch
+Rauten-Tischtuch
+Punkte-Tischtuch
+Violettes Tischtuch
+Türkises Tischtuch
+Beiges Tischtuch
+Gelbes Tischtuch
+Blaues Tischtuch
+Pinkes Tischtuch
+Gold-Titanflasche
+Bronze-Titanflasche
+Gold-Titantasse
+Bronze-Titantasse
+Grünball-Pikser
+Rotball-Pikser
+Wunderkerzen-Pikser
+Heldenschwert-Pikser
+Zauberstern-Pikser
+Zauberherz-Pikser
+Schirmchen-Pikser
+Mittagsblumen-Pikser
+Abendblumen-Pikser
+Morgenblumen-Pikser
+Blauer Teller
+Grüner Teller
+Oranger Teller
+Roter Teller
+Weißer Teller
+Gelber Teller

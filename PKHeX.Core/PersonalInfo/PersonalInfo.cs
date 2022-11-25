@@ -20,8 +20,8 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract int EV_SPE { get; set; }
     public abstract int EV_SPA { get; set; }
     public abstract int EV_SPD { get; set; }
-    public abstract int Type1 { get; set; }
-    public abstract int Type2 { get; set; }
+    public abstract byte Type1 { get; set; }
+    public abstract byte Type2 { get; set; }
     public abstract int EggGroup1 { get; set; }
     public abstract int EggGroup2 { get; set; }
     public abstract int CatchRate { get; set; }
@@ -29,7 +29,7 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract int Gender { get; set; }
     public abstract int HatchCycles { get; set; }
     public abstract int BaseFriendship { get; set; }
-    public abstract int EXPGrowth { get; set; }
+    public abstract byte EXPGrowth { get; set; }
     public abstract int GetIndexOfAbility(int abilityID);
     public abstract int GetAbilityAtIndex(int abilityIndex);
     public abstract int AbilityCount { get; }

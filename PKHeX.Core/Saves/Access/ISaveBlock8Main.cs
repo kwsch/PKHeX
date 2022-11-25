@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface for Accessing named blocks within a Generation 8 save file.
@@ -7,7 +7,7 @@ public interface ISaveBlock8Main
 {
     Box8 BoxInfo { get; }
     Party8 PartyInfo { get; }
-    MyItem Items { get; }
+    MyItem8 Items { get; }
     MyStatus8 MyStatus { get; }
     Misc8 Misc { get; }
     Zukan8 Zukan { get; }

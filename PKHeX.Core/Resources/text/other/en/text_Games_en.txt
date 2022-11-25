@@ -48,3 +48,5 @@ Shield
 Legends: Arceus
 Brilliant Diamond
 Shining Pearl
+Scarlet
+Violet

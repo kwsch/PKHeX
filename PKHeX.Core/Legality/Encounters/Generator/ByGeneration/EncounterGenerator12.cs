@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using static PKHeX.Core.EncounterTradeGenerator;
 using static PKHeX.Core.EncounterStaticGenerator;
@@ -154,9 +154,9 @@ internal static class EncounterGenerator12
         EncounterTrade1 t1 when t1.GetMatchRating(pk) != Match => GBEncounterPriority.Least,
         EncounterTrade1 => GBEncounterPriority.TradeEncounterG1,
         EncounterTrade2 => GBEncounterPriority.TradeEncounterG2,
-        EncounterStatic => GBEncounterPriority.StaticEncounter,
-        EncounterSlot => GBEncounterPriority.WildEncounter,
-        _ => GBEncounterPriority.EggEncounter,
+        EncounterSlot1 or EncounterSlot2 => GBEncounterPriority.WildEncounter,
+        EncounterEgg => GBEncounterPriority.EggEncounter,
+        _ => GBEncounterPriority.StaticEncounter,
     };
 
     /// <summary>

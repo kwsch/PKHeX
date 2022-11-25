@@ -21,6 +21,7 @@ public static class Pokerus
     {
         PA8 pa8 => HasVisitedAnother(pa8),
         PB7 => false,
+        PK9 => false,
         _ => true,
     };
 

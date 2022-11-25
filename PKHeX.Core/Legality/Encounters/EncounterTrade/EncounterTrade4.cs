@@ -16,7 +16,7 @@ public abstract record EncounterTrade4(GameVersion Version) : EncounterTrade(Ver
 /// Generation 4 Trade Encounter with a fixed PID value.
 /// </summary>
 /// <inheritdoc cref="EncounterTrade4"/>
-public sealed record EncounterTrade4PID : EncounterTrade4, IContestStats
+public sealed record EncounterTrade4PID : EncounterTrade4, IContestStatsReadOnly
 {
     /// <summary>
     /// Fixed <see cref="PKM.PID"/> value the encounter must have.
@@ -60,7 +60,7 @@ public sealed record EncounterTrade4PID : EncounterTrade4, IContestStats
         if (!base.IsMatchExact(pk, evo))
             return false;
 
-        if (pk is IContestStats s && s.IsContestBelow(this))
+        if (pk is IContestStatsReadOnly s && s.IsContestBelow(this))
             return false;
 
         return true;

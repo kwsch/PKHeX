@@ -51,6 +51,7 @@ public static class MysteryGiftGenerator
             GameVersion.PLA => MGDB_G8A,
             _ => MGDB_G8,
         },
+        9 => MGDB_G9,
         _ => Array.Empty<MysteryGift>(),
     };
 

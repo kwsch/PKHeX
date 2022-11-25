@@ -25,6 +25,7 @@ public static class Breeding
         X, Y, OR, AS,
         SN, MN, US, UM,
         SW, SH, BD, SP,
+        SL, VL,
 
         GS,
     };
@@ -86,6 +87,7 @@ public static class Breeding
     {
         3 => SplitBreed_3,
         4 or 5 or 6 or 7 or 8 => SplitBreed,
+        // Gen9 does not have split-breed egg generation.
         _ => Array.Empty<ushort>(),
     };
 
@@ -205,5 +207,12 @@ public static class Breeding
         (int)Regieleki, (int)Regidrago,
         (int)Glastrier, (int)Spectrier, (int)Calyrex,
         (int)Enamorus,
+
+        // Gen9
+        (int)Gimmighoul, (int)Gholdengo,
+        (int)GreatTusk, (int)BruteBonnet, (int)_980, (int)SandyShocks, (int)ScreamTail, (int)FlutterMane, (int)SlitherWing, (int)RoaringMoon,
+        (int)IronTreads, (int)_987, (int)IronMoth, (int)IronHands, (int)IronJugulis, (int)IronThorns, (int)IronBundle, (int)IronValiant,
+        (int)TingLu, (int)ChienPao, (int)WoChien, (int)ChiYu,
+        (int)Koraidon, (int)Miraidon,
     };
 }

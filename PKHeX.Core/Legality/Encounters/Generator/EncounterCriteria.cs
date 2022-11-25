@@ -41,6 +41,8 @@ public sealed record EncounterCriteria
     /// </summary>
     public bool ForceMinLevelRange { get; set; }
 
+    public sbyte TeraType { get; init; } = -1;
+
     // unused
     public int HPType { get; init; } = -1;
 

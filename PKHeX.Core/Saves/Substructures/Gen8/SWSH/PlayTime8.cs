@@ -25,7 +25,6 @@ public sealed class PlayTime8 : SaveBlock<SAV8SWSH>
         set => Data[Offset + 3] = (byte)value;
     }
 
-    // TODO
     private uint LastSaved { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x4), value); }
     private int LastSavedYear { get => (int)(LastSaved & 0xFFF) + 1900; set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)(value - 1900); }
     private int LastSavedMonth { get => (int)((LastSaved >> 12) & 0xF) + 1; set => LastSaved = (LastSaved & 0xFFFF0FFF) | (((uint)(value - 1) & 0xF) << 12); }

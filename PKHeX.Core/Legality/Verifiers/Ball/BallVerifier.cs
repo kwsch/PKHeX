@@ -122,6 +122,7 @@ public sealed class BallVerifier : Verifier
         EntityContext.Gen7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
         EntityContext.Gen8 => VerifyBallEggGen8(data),
         EntityContext.Gen8b => VerifyBallEggGen8BDSP(data),
+        EntityContext.Gen9 => VerifyBallEggGen9(data),
         _ => NONE,
     };
 
@@ -441,6 +442,14 @@ public sealed class BallVerifier : Verifier
         if (ball > Beast)
             return GetInvalid(LBallUnavailable);
 
+        return NONE;
+    }
+
+    private CheckResult VerifyBallEggGen9(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+        if (IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
+            return GetValid(LBallSpeciesPass);
         return NONE;
     }
 

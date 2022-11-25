@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo3>
 {
-    internal readonly PersonalInfo3[] Table; // internal to share with Gen1 tables
+    private readonly PersonalInfo3[] Table; // internal to share with Gen1 tables
     private const int SIZE = PersonalInfo3.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_3;
     public int MaxSpeciesID => MaxSpecies;
@@ -45,4 +45,29 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
     PersonalInfo IPersonalTable.this[int index] => this[index];
     PersonalInfo IPersonalTable.this[ushort species, byte form] => this[species, form];
     PersonalInfo IPersonalTable.GetFormEntry(ushort species, byte form) => GetFormEntry(species, form);
+
+    internal void LoadTables(BinLinkerAccessor machine, BinLinkerAccessor tutors)
+    {
+        var table = Table;
+        for (int i = Legal.MaxSpeciesID_3; i >= 1; i--)
+        {
+            var entry = table[i];
+            entry.AddTMHM(machine[i]);
+            entry.AddTypeTutors(tutors[i]);
+        }
+    }
+
+    internal void CopyTables(PersonalTable3 pt)
+    {
+        // Copy to other tables
+        var other = pt.Table;
+        var table = Table;
+        for (int i = Legal.MaxSpeciesID_3; i >= 1; i--)
+        {
+            var entry = table[i];
+            var source = other[i];
+            entry.TMHM = source.TMHM;
+            entry.TypeTutors = source.TypeTutors;
+        }
+    }
 }

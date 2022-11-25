@@ -497,6 +497,7 @@
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",
+            ".wc9",
             ".wc8",
             ".wc7",
             ".wc6",

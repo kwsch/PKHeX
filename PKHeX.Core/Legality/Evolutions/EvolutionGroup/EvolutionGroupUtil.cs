@@ -17,6 +17,7 @@ public static class EvolutionGroupUtil
         Gen6 => EvolutionGroup6.Instance,
         Gen7 => EvolutionGroup7.Instance,
         Gen8 => EvolutionGroup8.Instance,
+        Gen9 => EvolutionGroup9.Instance,
 
         Gen7b => EvolutionGroup7b.Instance,
         Gen8a => EvolutionGroup8.Instance,

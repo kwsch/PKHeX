@@ -13,7 +13,7 @@ public sealed class ContestStatVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk is not IContestStats s)
+        if (pk is not IContestStatsReadOnly s)
             return;
 
         // If no stats have been increased from the initial amount, then we're done here.

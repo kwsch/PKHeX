@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.SWSH"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
-public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMoveShop8
+public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryInitialMoveShop8
 {
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8a;
@@ -32,7 +32,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
 
         var pa = (PA8)pk;
         if (IsAlpha)
-            pa.HeightScalarCopy = pa.HeightScalar = pa.WeightScalar = 255;
+            pa.Scale = pa.HeightScalar = pa.WeightScalar = 255;
         pa.ResetHeight();
         pa.ResetWeight();
     }
@@ -97,7 +97,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlpha, IMasteryInitialMov
         var pa8 = (PA8)pk;
         if (IsAlpha)
             pa8.IsAlpha = true;
-        pa8.HeightScalarCopy = pa8.HeightScalar;
+        pa8.Scale = pa8.HeightScalar;
     }
 
     protected override void ApplyDetailsBall(PKM pk) => pk.Ball = (int)Ball.LAPoke;

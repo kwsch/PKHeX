@@ -80,8 +80,8 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public int EventWorkCount => 1000;
     private int EventWork => AllBlocks[05].Offset;
     private int EventFlag => EventWork + (EventWorkCount * 2); // After Event Const (u16)*n
-    public override int OTLength => 12;
-    public override int NickLength => 12;
+    public override int MaxStringLengthOT => 12;
+    public override int MaxStringLengthNickname => 12;
 
     public override int MaxBallID => Legal.MaxBallID_7; // 26
     public override int MaxGameID => Legal.MaxGameID_7;

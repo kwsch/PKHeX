@@ -149,5 +149,15 @@ RibbonMarkHumble	순박의증표
 RibbonMarkThorny	불순의증표
 RibbonMarkVigor	기력의증표
 RibbonMarkSlump	피곤의증표
-RibbonPioneer	Pioneer
+RibbonHisui	Hisui
 RibbonTwinklingStar	트윙클스타리본
+RibbonChampionPaldea	팔데아챔피언리본
+RibbonMarkJumbo	커다란증표
+RibbonMarkMini	조그만증표
+RibbonMarkItemfinder	습득의증표
+RibbonMarkPartner	파트너의증표
+RibbonMarkGourmand	미식가의증표
+RibbonOnceInALifetime	천재일우리본
+RibbonMarkAlpha	우두머리의증표
+RibbonMarkMightiest	최강의증표
+RibbonMarkTitan	주인의증표

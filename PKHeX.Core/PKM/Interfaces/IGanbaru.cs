@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -118,7 +118,7 @@ public static class GanbaruExtensions
         3 => pk.GV_SPE = value,
         4 => pk.GV_SPA = value,
         5 => pk.GV_SPD = value,
-        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Index must be between 0 and 5."),
     };
 
     /// <summary>
@@ -134,7 +134,7 @@ public static class GanbaruExtensions
         3 => pk.GV_SPE,
         4 => pk.GV_SPA,
         5 => pk.GV_SPD,
-        _ => throw new ArgumentOutOfRangeException(nameof(index)),
+        _ => throw new ArgumentOutOfRangeException(nameof(index), index, "Index must be between 0 and 5."),
     };
 
     /// <summary>

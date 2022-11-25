@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 Base <see cref="PKM"/> Class
 /// </summary>
-public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats, IContestStatsMutable
+public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
 {
     protected G3PKM(byte[] data) : base(data) { }
     protected G3PKM(int size) : base(size) { }
@@ -19,8 +19,8 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public sealed override int MaxGameID => Legal.MaxGameID_3;
     public sealed override int MaxIV => 31;
     public sealed override int MaxEV => 255;
-    public sealed override int OTLength => 7;
-    public sealed override int NickLength => 10;
+    public sealed override int MaxStringLengthOT => 7;
+    public sealed override int MaxStringLengthNickname => 10;
 
     // Generated Attributes
     public sealed override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 3);

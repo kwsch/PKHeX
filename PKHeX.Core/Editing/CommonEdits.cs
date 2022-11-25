@@ -237,8 +237,10 @@ public static class CommonEdits
             c.CanGigantamax = Set.CanGigantamax;
         if (pk is IDynamaxLevel d)
             d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk, requested: Set.DynamaxLevel);
+        if (pk is ITeraType tera)
+            tera.SetTeraType(Set.TeraType);
 
-        if (pk is ITechRecord8 t)
+        if (pk is ITechRecord t)
         {
             t.ClearRecordFlags();
             t.SetRecordFlags(Set.Moves);

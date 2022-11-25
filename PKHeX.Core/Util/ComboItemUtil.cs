@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -52,7 +52,7 @@ public static partial class Util
         return list;
     }
 
-    public static IReadOnlyList<ComboItem> GetUnsortedCBList(IReadOnlyList<string> inStrings, ReadOnlySpan<byte> allowed)
+    public static ComboItem[] GetUnsortedCBList(IReadOnlyList<string> inStrings, ReadOnlySpan<byte> allowed)
     {
         var count = allowed.Length;
         var list = new ComboItem[count];
@@ -70,6 +70,18 @@ public static partial class Util
     {
         var item = new ComboItem(inStrings[index - offset], index);
         list.Add(item);
+    }
+
+    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, byte[] allowed)
+    {
+        int beginCount = cbList.Count;
+        cbList.Capacity += allowed.Length;
+        foreach (var index in allowed)
+        {
+            var item = new ComboItem(inStrings[index - offset], index);
+            cbList.Add(item);
+        }
+        cbList.Sort(beginCount, allowed.Length, Comparer);
     }
 
     public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, ushort[] allowed)

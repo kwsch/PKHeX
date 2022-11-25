@@ -6,7 +6,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Container block for Generation 8 saved Rental Teams
+/// Container block for a single Generation 8 saved Rental Team
 /// </summary>
 public sealed class RentalTeam8 : IRentalTeam<PK8>, IPokeGroup
 {

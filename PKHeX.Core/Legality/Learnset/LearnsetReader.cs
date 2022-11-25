@@ -68,7 +68,7 @@ public static class LearnsetReader
     /// <remarks>Count of moves, followed by Moves and Levels which are 16-bit</remarks>
     private static Learnset ReadLearnset16(ReadOnlySpan<byte> data)
     {
-        if (data.Length == 0)
+        if (data.Length <= 4)
             return EMPTY;
         var count = (data.Length / 4) - 1;
         var moves = new ushort[count];

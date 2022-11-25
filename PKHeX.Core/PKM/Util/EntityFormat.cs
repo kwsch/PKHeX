@@ -33,7 +33,7 @@ public static class EntityFormat
         SIZE_5PARTY                   => FormatPK5,
         SIZE_6STORED                  => GetFormat67(data),
         SIZE_6PARTY                   => GetFormat67_PGT(data),
-        SIZE_8PARTY  or SIZE_8STORED  => GetFormat8(data),
+        SIZE_8PARTY  or SIZE_8STORED  => GetFormat89(data),
         SIZE_8APARTY or SIZE_8ASTORED => FormatPA8,
         _ => None,
     };
@@ -66,7 +66,7 @@ public static class EntityFormat
     // assumes decrypted state
     private static EntityFormatDetected GetFormat45(ReadOnlySpan<byte> data)
     {
-        if (data.Length == PokeCrypto.SIZE_4RSTORED)
+        if (data.Length == SIZE_4RSTORED)
             return FormatRK4;
         if (ReadUInt16LittleEndian(data[0x4..]) != 0)
             return FormatBK4; // BK4 non-zero sanity
@@ -89,10 +89,22 @@ public static class EntityFormat
     /// <summary>
     /// Checks if the input <see cref="PK8"/> file is really a <see cref="PB8"/>.
     /// </summary>
-    private static EntityFormatDetected GetFormat8(ReadOnlySpan<byte> data)
+    private static EntityFormatDetected GetFormat89(ReadOnlySpan<byte> data)
     {
         var pk = new PK8(data.ToArray());
+        if (IsFormatReally9(pk))
+            return FormatPK9;
         return IsFormatReally8b(pk);
+    }
+
+    private static bool IsFormatReally9(PK8 pk)
+    {
+        // PK8: Unused Alignment, PK9: Obedience Level
+        if (pk.Data[0x11F] != 0)
+            return true;
+        // PK8: Version, PK9: Unused -- Version relocated to 0xCE
+        return pk.Data[0xDE] == 0;
+        // No need to check for other usages being different.
     }
 
     /// <summary>
@@ -127,6 +139,7 @@ public static class EntityFormat
         FormatPB8 => new PB8(data),
         Format6or7 => prefer == EntityContext.Gen6 ? new PK6(data) : new PK7(data),
         Format8or8b => prefer == EntityContext.Gen8b ? new PB8(data) : new PK8(data),
+        FormatPK9 => new PK9(data),
         _ => null,
     };
 
@@ -188,11 +201,11 @@ public static class EntityFormat
 
     private static EntityFormatDetected IsFormatReally8b(PK8 pk)
     {
+        if (pk.Species > Legal.MaxSpeciesID_4)
+            return FormatPK8;
         if (pk.DynamaxLevel != 0)
             return FormatPK8;
         if (pk.CanGigantamax)
-            return FormatPK8;
-        if (pk.Species > Legal.MaxSpeciesID_4)
             return FormatPK8;
 
         return Format8or8b;
@@ -209,6 +222,7 @@ public enum EntityFormatDetected
     FormatPK4, FormatBK4, FormatRK4, FormatPK5,
     FormatPK6, FormatPK7, FormatPB7,
     FormatPK8, FormatPA8, FormatPB8,
+    FormatPK9,
 
     Format6or7,
     Format8or8b,

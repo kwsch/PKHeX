@@ -165,8 +165,8 @@ public sealed class SAV4HGSS : SAV4
 
     public override Span<byte> Rival_Trash
     {
-        get => General.AsSpan(0x22D4, OTLength * 2);
-        set { if (value.Length == OTLength * 2) value.CopyTo(General.AsSpan(0x22D4)); }
+        get => General.AsSpan(0x22D4, MaxStringLengthOT * 2);
+        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(General.AsSpan(0x22D4)); }
     }
 
     public override int X2 { get => ReadUInt16LittleEndian(General.AsSpan(0x236E)); set => WriteUInt16LittleEndian(General.AsSpan(0x236E), (ushort)value); }

@@ -17,6 +17,7 @@ public static class BatchEditing
 {
     public static readonly Type[] Types =
     {
+        typeof (PK9),
         typeof (PK8), typeof (PA8), typeof (PB8),
         typeof (PB7),
         typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4), typeof(RK4),

@@ -28,6 +28,15 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         FlawlessIVCount = val;
     }
 
+    public static EncounterStatic8N Read(ReadOnlySpan<byte> data, GameVersion game) => new(data[6], data[7], data[8], data[9], game)
+    {
+        Species = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(data),
+        Form = data[2],
+        Gender = (sbyte)data[3],
+        Ability = (AbilityPermission)data[4],
+        CanGigantamax = data[5] != 0,
+    };
+
     private static readonly byte[] LevelCaps =
     {
         15, 20, // 0

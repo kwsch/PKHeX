@@ -581,14 +581,16 @@ public partial class SAV_Trainer7 : Form
 
     private void UpdateBallThrowTypeLearned(object sender, EventArgs e)
     {
-        if (Loading) return;
+        if (Loading)
+            return;
         if (!LB_BallThrowTypeLearned.GetSelected(0))
             LB_BallThrowTypeLearned.SetSelected(0, true);
     }
 
     private void UpdateBallThrowTypeUnlocked(object sender, EventArgs e)
     {
-        if (Loading) return;
+        if (Loading)
+            return;
         for (int i = 0; i < 2; i++)
         {
             if (!LB_BallThrowTypeUnlocked.GetSelected(i))

@@ -24,7 +24,7 @@ public sealed class MemoryStrings
         item8 = new Lazy<List<ComboItem>>(() => GetItems(EntityContext.Gen8));
         genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));
         moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist));
-        specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Locations6.Met0));
+        specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.Gen6.Met0, Locations6.Met0));
     }
 
     private List<ComboItem> GetItems(EntityContext context)

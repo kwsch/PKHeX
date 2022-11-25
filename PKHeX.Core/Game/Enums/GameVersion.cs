@@ -219,6 +219,16 @@ public enum GameVersion : byte
     /// Pokémon Shining Pearl (NX)
     /// </summary>
     SP = 49,
+
+    /// <summary>
+    /// Pokémon Scarlet (NX)
+    /// </summary>
+    SL = 50,
+
+    /// <summary>
+    /// Pokémon Violet (NX)
+    /// </summary>
+    VL = 51,
     #endregion
 
     // The following values are not actually stored values in pk data,
@@ -405,6 +415,14 @@ public enum GameVersion : byte
     BDSP,
 
     /// <summary>
+    /// Pokémon Scarlet &amp; Violet
+    /// </summary>
+    /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
+    /// <see cref="SL"/>
+    /// <see cref="VL"/>
+    SV,
+
+    /// <summary>
     /// Generation 1 Games
     /// </summary>
     /// <see cref="RBY"/>
@@ -465,6 +483,12 @@ public enum GameVersion : byte
     /// <see cref="BDSP"/>
     /// <see cref="PLA"/>
     Gen8,
+
+    /// <summary>
+    /// Generation 9 Games
+    /// </summary>
+    /// <see cref="SV"/>
+    Gen9,
 
     /// <summary>
     /// Pocket Monsters Stadium data origin identifier

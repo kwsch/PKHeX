@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	Maître Kalos
+RibbonChampionKalos	Maître Kalos
 RibbonChampionG3	Maître (Gen3)
 RibbonChampionSinnoh	Maître Sinnoh
 RibbonBestFriends	Affection
@@ -149,5 +149,15 @@ RibbonMarkHumble	Insigne Discrétion
 RibbonMarkThorny	Insigne Frime
 RibbonMarkVigor	Insigne Énergie
 RibbonMarkSlump	Insigne Blessure
-RibbonPioneer	Pioneer
-RibbonTwinklingStar	Ruban Étoile Brillante
+RibbonHisui	Hisui
+RibbonTwinklingStar	Étoile Brillante
+RibbonChampionPaldea	Maître de Paldea
+RibbonMarkJumbo	Insigne Maxi
+RibbonMarkMini	Insigne Mini
+RibbonMarkItemfinder	Insigne Ramassage
+RibbonMarkPartner	Insigne Amitié
+RibbonMarkGourmand	Insigne Gourmet
+RibbonOnceInALifetime	Exceptionnel
+RibbonMarkAlpha	Insigne Baron
+RibbonMarkMightiest	Insigne Surpuissant
+RibbonMarkTitan	Insigne Dominant

@@ -37,6 +37,7 @@ public static class MoveInfo
         Gen6 => MoveInfo6.MovePP,
         Gen7 => MoveInfo7.MovePP_SM,
         Gen8 => MoveInfo8.MovePP_SWSH,
+        Gen9 => MoveInfo9.MovePP_SV,
 
         Gen7b => MoveInfo7b.MovePP_GG,
         Gen8a => MoveInfo8a.MovePP_LA,
@@ -52,6 +53,7 @@ public static class MoveInfo
         Gen8 => MoveInfo8.DummiedMoves_SWSH,
         Gen8a => MoveInfo8a.DummiedMoves_LA,
         Gen8b => MoveInfo8b.DummiedMoves_BDSP,
+        Gen9 => MoveInfo9.DummiedMoves_SV,
         _ => Array.Empty<ushort>(),
     };
 
@@ -156,6 +158,7 @@ public static class MoveInfo
         Gen8 => Legal.MaxMoveID_8a,
         Gen8a => Legal.MaxMoveID_8a,
         Gen8b => Legal.MaxMoveID_8b,
+        Gen9 => Legal.MaxMoveID_9,
         _ => -1,
     };
 }

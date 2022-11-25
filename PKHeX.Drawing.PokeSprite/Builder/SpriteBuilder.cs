@@ -10,8 +10,11 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     public static bool ShowEncounterBall { get; set; } = true;
     public static SpriteBackgroundType ShowEncounterColor { get; set; } = SpriteBackgroundType.FullBackground;
     public static SpriteBackgroundType ShowEncounterColorPKM { get; set; }
+    public static SpriteBackgroundType ShowTeraType { get; set; } = SpriteBackgroundType.TopStripe;
     public static bool ShowExperiencePercent { get; set; }
-
+    public static byte ShowTeraOpacityStripe { get; set; }
+    public static int ShowTeraThicknessStripe { get; set; }
+    public static byte ShowTeraOpacityBackground { get; set; }
     public static byte ShowEncounterOpacityStripe { get; set; }
     public static byte ShowEncounterOpacityBackground { get; set; }
     public static int ShowEncounterThicknessStripe { get; set; }
@@ -174,11 +177,11 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
 
     private Image LayerOverImageItem(Image baseImage, int item, int generation)
     {
-        Image itemimg = generation switch
+        var lump = HeldItemLumpUtil.GetIsLump(item, generation);
+        var itemimg = lump switch
         {
-            <= 4 when item is >=  328 and <=  419 => ItemTM, // gen2/3/4 TM
-            8 when item is >=  328 and <=  427 => ItemTM, // BDSP TMs
-            >= 8 when item is >= 1130 and <= 1229 => ItemTR, // Gen8 TR
+            HeldItemLumpImage.TechnicalMachine => ItemTM,
+            HeldItemLumpImage.TechnicalRecord => ItemTR,
             _ => (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem,
         };
 
@@ -234,5 +237,10 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         ShowEncounterOpacityBackground = sprite.ShowEncounterOpacityBackground;
         ShowEncounterOpacityStripe = sprite.ShowEncounterOpacityStripe;
         ShowExperiencePercent = sprite.ShowExperiencePercent;
+
+        ShowTeraType = sprite.ShowTeraType;
+        ShowTeraThicknessStripe   = sprite.ShowTeraThicknessStripe;
+        ShowTeraOpacityBackground = sprite.ShowTeraOpacityBackground;
+        ShowTeraOpacityStripe     = sprite.ShowTeraOpacityStripe;
     }
 }

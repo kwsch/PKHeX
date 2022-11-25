@@ -119,3 +119,29 @@ public sealed class EggMoves7 : EggMoves
         return result;
     }
 }
+
+/// <summary>
+/// Raw Egg Move storage
+/// </summary>
+public static class EggMoves9
+{
+    public static ushort[][] GetArray(BinLinkerAccessor entries)
+    {
+        var result = new ushort[entries.Length][];
+        var empty = result[0] = Array.Empty<ushort>();
+        for (int i = 1; i < result.Length; i++)
+        {
+            var data = entries[i];
+            if (data.Length == 0)
+            {
+                result[i] = empty;
+                continue;
+            }
+            var moves = new ushort[data.Length >> 1];
+            for (int j = 0; j < data.Length; j+=2)
+                moves[j >> 1] = ReadUInt16LittleEndian(data[j..]);
+            result[i] = moves;
+        }
+        return result;
+    }
+}

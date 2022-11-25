@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -64,7 +64,7 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
             return default;
         var block = BlockInfo[index];
         if (block.Type != SCTypeCode.None) // not fake block
-            return (T)BlockInfo[index].GetValue();
+            return (T)block.GetValue();
         return default;
     }
 

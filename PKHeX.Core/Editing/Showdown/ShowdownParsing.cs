@@ -77,16 +77,19 @@ public static class ShowdownParsing
 
         return species switch
         {
-            (int)Basculin when form is "Blue"         => "Blue-Striped",
-            (int)Vivillon when form is "Poké Ball"    => "Pokeball",
-            (int)Zygarde                              => form.Replace("-C", string.Empty).Replace("50%", string.Empty),
+            (int)Basculin when form is "Blue"           => "Blue-Striped",
+            (int)Vivillon when form is "Poké Ball"      => "Pokeball",
+            (int)Zygarde                                => form.Replace("-C", string.Empty).Replace("50%", string.Empty),
             (int)Minior   when form.StartsWith("M-", StringComparison.OrdinalIgnoreCase)  => MiniorFormName,
-            (int)Minior                               => form.Replace("C-", string.Empty),
-            (int)Necrozma when form is "Dusk"         => $"{form}-Mane",
-            (int)Necrozma when form is "Dawn"         => $"{form}-Wings",
-            (int)Polteageist or (int)Sinistea         => form == "Antique" ? form : string.Empty,
+            (int)Minior                                 => form.Replace("C-", string.Empty),
+            (int)Necrozma when form is "Dusk"           => $"{form}-Mane",
+            (int)Necrozma when form is "Dawn"           => $"{form}-Wings",
+            (int)Polteageist or (int)Sinistea           => form == "Antique" ? form : string.Empty,
+            (int)Tauros when form is "Paldea (Fire)"    => "Paldea-Fire",
+            (int)Tauros when form is "Paldea (Water)"   => "Paldea-Water",
+            (int)Maushold when form is "Family of Four" => "Four",
 
-            (int)Furfrou or (int)Greninja or (int)Rockruff => string.Empty,
+            (int)Furfrou or (int)Greninja or (int)Rockruff or (int)Tatsugiri or (int)Koraidon or (int)Miraidon => string.Empty,
 
             _ => Legal.Totem_USUM.Contains(species) && form == "Large"
                 ? Legal.Totem_Alolan.Contains(species) && species != (int)Mimikyu ? "Alola-Totem" : "Totem"
@@ -118,6 +121,9 @@ public static class ShowdownParsing
             (int)Zygarde    when ability == 211         => $"{(string.IsNullOrWhiteSpace(form) ? "50%" : "10%")}-C",
             (int)Greninja   when ability == 210         => "Ash", // Battle Bond
             (int)Rockruff   when ability == 020         => "Dusk", // Rockruff-1
+            (int)Tauros     when form == "Paldea-Fire"  => "Paldea (Fire)",
+            (int)Tauros     when form == "Paldea-Water" => "Paldea (Water)",
+            (int)Maushold   when form == "Four"         => "Family of Four",
             (int)Urshifu or (int)Pikachu or (int)Alcremie => form.Replace('-', ' '), // Strike and Cosplay
 
             _ => Legal.Totem_USUM.Contains(species) && form.EndsWith("Totem", StringComparison.OrdinalIgnoreCase) ? "Large" : form,
@@ -207,8 +213,7 @@ public static class ShowdownParsing
     public static string GetLocalizedPreviewText(PKM pk, string language)
     {
         var set = new ShowdownSet(pk);
-        if (pk.Format <= 2) // Nature preview from IVs
-            set.Nature = Experience.GetNatureVC(pk.EXP);
+        set.InterpretAsPreview(pk);
         return set.LocalizedText(language);
     }
 }

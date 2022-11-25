@@ -150,23 +150,33 @@ public sealed class SearchSettings
 
     private bool SearchIntermediate(PKM pk)
     {
-        if (Generation > 0 && !SearchUtil.SatisfiesFilterGeneration(pk, Generation)) return false;
-        if (Moves.Count > 0 && !SearchUtil.SatisfiesFilterMoves(pk, Moves)) return false;
-        if (HiddenPowerType > -1 && pk.HPType != HiddenPowerType) return false;
-        if (SearchShiny != null && pk.IsShiny != SearchShiny) return false;
+        if (Generation > 0 && !SearchUtil.SatisfiesFilterGeneration(pk, Generation))
+            return false;
+        if (Moves.Count > 0 && !SearchUtil.SatisfiesFilterMoves(pk, Moves))
+            return false;
+        if (HiddenPowerType > -1 && pk.HPType != HiddenPowerType)
+            return false;
+        if (SearchShiny != null && pk.IsShiny != SearchShiny)
+            return false;
 
-        if (IVType > 0 && !SearchUtil.SatisfiesFilterIVs(pk, IVType)) return false;
-        if (EVType > 0 && !SearchUtil.SatisfiesFilterEVs(pk, EVType)) return false;
+        if (IVType > 0 && !SearchUtil.SatisfiesFilterIVs(pk, IVType))
+            return false;
+        if (EVType > 0 && !SearchUtil.SatisfiesFilterEVs(pk, EVType))
+            return false;
 
         return true;
     }
 
     private bool SearchComplex(PKM pk)
     {
-        if (SearchEgg != null && !FilterResultEgg(pk)) return false;
-        if (Level is { } x and not 0 && !SearchUtil.SatisfiesFilterLevel(pk, SearchLevel, x)) return false;
-        if (SearchLegal != null && new LegalityAnalysis(pk).Valid != SearchLegal) return false;
-        if (BatchFilters.Length != 0 && !SearchUtil.SatisfiesFilterBatchInstruction(pk, BatchFilters)) return false;
+        if (SearchEgg != null && !FilterResultEgg(pk))
+            return false;
+        if (Level is { } x and not 0 && !SearchUtil.SatisfiesFilterLevel(pk, SearchLevel, x))
+            return false;
+        if (SearchLegal != null && new LegalityAnalysis(pk).Valid != SearchLegal)
+            return false;
+        if (BatchFilters.Length != 0 && !SearchUtil.SatisfiesFilterBatchInstruction(pk, BatchFilters))
+            return false;
 
         return true;
     }

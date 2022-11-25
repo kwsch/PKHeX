@@ -26,7 +26,7 @@ public sealed class FilteredGameDataSource
         }
 
         var gamelist = GameUtil.GetVersionsWithinRange(sav, sav.Generation).ToList();
-        Games = Source.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value)).ToList();
+        Games = Source.VersionDataSource.Where(g => gamelist.Contains((GameVersion)g.Value) || g.Value == 0).ToList();
 
         Languages = GameDataSource.LanguageDataSource(sav.Generation);
         Balls = Source.BallDataSource.Where(b => b.Value <= sav.MaxBallID).ToList();
@@ -38,18 +38,40 @@ public sealed class FilteredGameDataSource
 
     private static IEnumerable<ComboItem> GetFilteredSpecies(IGameValueLimit sav, GameDataSource source, bool HaX = false)
     {
+        var all = source.SpeciesDataSource;
         if (HaX)
-            return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID);
+            return FilterAbove(all, sav.MaxSpeciesID);
 
         // Some games cannot acquire every Species that exists. Some can only acquire a subset.
         return sav switch
         {
-            SAV7b => source.SpeciesDataSource // LGPE: Kanto 151, Meltan/Melmetal
-                .Where(s => s.Value is <= (int)Core.Species.Mew or (int)Core.Species.Meltan or (int)Core.Species.Melmetal),
-            SAV8LA => source.SpeciesDataSource
-                .Where(s => PersonalTable.LA.IsSpeciesInGame((ushort)s.Value)),
-            _ => source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID),
+            SAV7b gg => FilterUnavailable(all, gg.Personal),
+            SAV8LA la => FilterUnavailable(all, la.Personal),
+#if !DEBUG // Mainline games can be useful to show all for testing. Only filter out unavailable species in release builds.
+            SAV8SWSH swsh => FilterUnavailable(all, swsh.Personal),
+            SAV9SV sv => FilterUnavailable(all, sv.Personal),
+#endif
+            _ => FilterAbove(all, sav.MaxSpeciesID),
         };
+
+        static IEnumerable<ComboItem> FilterAbove(IReadOnlyList<ComboItem> species, int limit)
+        {
+            foreach (var s in species)
+            {
+                if (s.Value <= limit)
+                    yield return s;
+            }
+        }
+
+        static IEnumerable<ComboItem> FilterUnavailable<T>(IReadOnlyList<ComboItem> source, T table) where T : IPersonalTable
+        {
+            foreach (var s in source)
+            {
+                var species = s.Value;
+                if (table.IsSpeciesInGame((ushort)species))
+                    yield return s;
+            }
+        }
     }
 
     private static IEnumerable<ComboItem> GetFilteredMoves(IGameValueLimit sav, GameDataSource source, bool HaX = false)
@@ -80,10 +102,10 @@ public sealed class FilteredGameDataSource
 
     public IReadOnlyList<ComboItem> GetAbilityList(PKM pk)
     {
-        return GetAbilityList(pk.PersonalInfo, pk.Format);
+        return GetAbilityList(pk.PersonalInfo);
     }
 
-    public IReadOnlyList<ComboItem> GetAbilityList(IPersonalAbility pi, int format)
+    public IReadOnlyList<ComboItem> GetAbilityList(IPersonalAbility pi)
     {
         var list = new ComboItem[pi.AbilityCount];
 
@@ -92,7 +114,8 @@ public sealed class FilteredGameDataSource
         for (int i = 0; i < list.Length; i++)
         {
             var ability = pi.GetAbilityAtIndex(i);
-            list[i] = new ComboItem(alist[ability] + suffix[i], ability);
+            var display = alist[ability] + suffix[i];
+            list[i] = new ComboItem(display, ability);
         }
 
         return list;

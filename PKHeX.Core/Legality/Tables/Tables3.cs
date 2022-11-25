@@ -39,15 +39,15 @@ public static partial class Legal
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
     };
 
-    internal static readonly ushort[] Pouch_Key_FRLG = ArrayUtil.ConcatAll(Pouch_Key_RS, new ushort[] { 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374 });
-    internal static readonly ushort[] Pouch_Key_E = ArrayUtil.ConcatAll(Pouch_Key_FRLG, new ushort[] { 375, 376 });
+    internal static readonly ushort[] Pouch_Key_FRLG = ArrayUtil.ConcatAll(Pouch_Key_RS, stackalloc ushort[] { 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374 });
+    internal static readonly ushort[] Pouch_Key_E = ArrayUtil.ConcatAll(Pouch_Key_FRLG, stackalloc ushort[] { 375, 376 });
 
     internal static readonly ushort[] Pouch_TMHM_RS = ArrayUtil.ConcatAll(Pouch_TM_RS, Pouch_HM_RS);
     internal static readonly ushort[] HeldItems_RS = ArrayUtil.ConcatAll(Pouch_Items_RS, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
     #endregion
 
     internal static readonly ushort[] Pouch_Cologne_COLO = {543, 544, 545};
-    internal static readonly ushort[] Pouch_Items_COLO = ArrayUtil.ConcatAll(Pouch_Items_RS, new ushort[] {537}); // Time Flute
+    internal static readonly ushort[] Pouch_Items_COLO = ArrayUtil.ConcatAll(Pouch_Items_RS, stackalloc ushort[] {537}); // Time Flute
     internal static readonly ushort[] HeldItems_COLO = ArrayUtil.ConcatAll(Pouch_Items_COLO, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
 
     internal static readonly ushort[] Pouch_Key_COLO =
@@ -60,7 +60,7 @@ public static partial class Legal
     };
 
     internal static readonly ushort[] Pouch_Cologne_XD = {513, 514, 515};
-    internal static readonly ushort[] Pouch_Items_XD = ArrayUtil.ConcatAll(Pouch_Items_RS, new ushort[] {511}); // Poké Snack
+    internal static readonly ushort[] Pouch_Items_XD = ArrayUtil.ConcatAll(Pouch_Items_RS, stackalloc ushort[] {511}); // Poké Snack
     internal static readonly ushort[] HeldItems_XD = ArrayUtil.ConcatAll(Pouch_Items_XD, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
 
     internal static readonly ushort[] Pouch_Key_XD =

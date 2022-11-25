@@ -279,9 +279,7 @@ public sealed class NicknameVerifier : Verifier
             case 3: VerifyTrade3(data, t); return;
             case 4: VerifyTrade4(data, t); return;
             case 5: VerifyTrade5(data, t); return;
-            case 6:
-            case 7:
-            case 8:
+            default:
                 VerifyTrade(data, t, data.Entity.Language); return;
         }
     }
@@ -484,7 +482,7 @@ public sealed class NicknameVerifier : Verifier
         }
         else // B2W2
         {
-            if (t.TID is Encounters5.YancyTID or Encounters5.CurtisTID)
+            if (t.TID is Encounters5B2W2.YancyTID or Encounters5B2W2.CurtisTID)
                 VerifyTradeOTOnly(data, t);
             else
                 VerifyTrade(data, t, lang);

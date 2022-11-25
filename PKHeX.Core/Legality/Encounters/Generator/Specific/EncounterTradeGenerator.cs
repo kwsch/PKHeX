@@ -100,19 +100,20 @@ public static class EncounterTradeGenerator
 
     private static EncounterTrade[] GetTable(GameVersion game) => game switch
     {
-        R or S or E => Encounters3.TradeGift_RSE,
-        FR or LG => Encounters3.TradeGift_FRLG,
-        D or P or Pt => Encounters4.TradeGift_DPPt,
-        HG or SS => Encounters4.TradeGift_HGSS,
-        B or W => Encounters5.TradeGift_BW,
-        B2 or W2 => Encounters5.TradeGift_B2W2,
-        X or Y => Encounters6.TradeGift_XY,
-        AS or OR => Encounters6.TradeGift_AO,
-        SN or MN => Encounters7.TradeGift_SM,
-        US or UM => Encounters7.TradeGift_USUM,
-        GP or GE => Encounters7b.TradeGift_GG,
+        R or S or E => Encounters3RSE.TradeGift_RSE,
+        FR or LG => Encounters3FRLG.TradeGift_FRLG,
+        D or P or Pt => Encounters4DPPt.TradeGift_DPPt,
+        HG or SS => Encounters4HGSS.TradeGift_HGSS,
+        B or W => Encounters5BW.TradeGift_BW,
+        B2 or W2 => Encounters5B2W2.TradeGift_B2W2,
+        X or Y => Encounters6XY.TradeGift_XY,
+        AS or OR => Encounters6AO.TradeGift_AO,
+        SN or MN => Encounters7SM.TradeGift_SM,
+        US or UM => Encounters7USUM.TradeGift_USUM,
+        GP or GE => Encounters7GG.TradeGift_GG,
         SW or SH => Encounters8.TradeGift_SWSH,
         BD or SP => Encounters8b.TradeGift_BDSP,
+        SL or VL => Encounters9.TradeGift_SV,
         _ => Array.Empty<EncounterTrade>(),
     };
 }

@@ -65,27 +65,21 @@ public sealed class AbilityVerifier : Verifier
             }
         }
 
+        var enc = data.EncounterMatch;
         if (format >= 8) // Ability Patch
         {
-            var evos = data.Info.EvoChainsAllGens;
-            if (pk.AbilityNumber == 4 && IsAccessibleAbilityPatch(evos) && abilities is IPersonalAbility12H h)
+            if (pk.AbilityNumber == 4 && !(enc is IFixedAbilityNumber f && f.Ability.CanBeHidden()))
             {
-                if (CanAbilityPatch(format, h, pk.Species))
+                if (AbilityChangeRules.IsAbilityPatchPossible(data.Info.EvoChainsAllGens))
                     return GetValid(LAbilityPatchUsed);
-
-                var e = data.EncounterOriginal;
-                if (e.Species != pk.Species)
-                {
-                    var temp = (IPersonalAbility12H)PKX.Personal.GetFormEntry(e.Species, e.Form);
-                    if (CanAbilityPatch(format, temp, e.Species))
-                        return GetValid(LAbilityPatchUsed);
-                }
-
-                // Verify later, it may be encountered with its hidden ability without using an ability patch.
+            }
+            else if (enc is IFixedAbilityNumber { Ability: AbilityPermission.OnlyHidden })
+            {
+                if (AbilityChangeRules.IsAbilityPatchRevertPossible(data.Info.EvoChainsAllGens, pk.AbilityNumber))
+                    return GetValid(LAbilityPatchRevertUsed);
             }
         }
 
-        var enc = data.EncounterMatch;
         if (enc is MysteryGift {Generation: >= 4} g)
             return VerifyAbilityMG(data, g, abilities);
 
@@ -166,7 +160,7 @@ public sealed class AbilityVerifier : Verifier
         var enc = data.Info.EncounterMatch;
         if (enc.Generation >= 6)
         {
-            if (IsAbilityCapsuleModified(pk, abilities, encounterAbility, data.Info.EvoChainsAllGens))
+            if (IsAbilityCapsuleModified(pk, encounterAbility, data.Info.EvoChainsAllGens))
                 return GetValid(LAbilityCapsuleUsed);
             if (pk.AbilityNumber != 1 << encounterAbility.GetSingleValue())
                 return INVALID;
@@ -205,7 +199,7 @@ public sealed class AbilityVerifier : Verifier
         if (state == AbilityState.CanMismatch || encounterAbility == 0)
             return CheckMatch(pk, abilities, enc.Generation, AbilityState.MustMatch, enc);
 
-        if (IsAbilityCapsuleModified(pk, abilities, encounterAbility, data.Info.EvoChainsAllGens))
+        if (IsAbilityCapsuleModified(pk, encounterAbility, data.Info.EvoChainsAllGens))
             return GetValid(LAbilityCapsuleUsed);
 
         return INVALID;
@@ -449,25 +443,11 @@ public sealed class AbilityVerifier : Verifier
         return VALID;
     }
 
-    private static bool IsAccessibleAbilityPatch(EvolutionHistory evosAll)
-    {
-        return evosAll.HasVisitedSWSH || evosAll.HasVisitedBDSP;
-    }
-
-    private static bool IsAccessibleAbilityCapsule(EvolutionHistory evosAll)
-    {
-        if (evosAll.HasVisitedGen6 || evosAll.HasVisitedGen7)
-            return true;
-        return evosAll.HasVisitedSWSH || evosAll.HasVisitedBDSP;
-    }
-
     // Ability Capsule can change between 1/2
-    private static bool IsAbilityCapsuleModified(PKM pk, IPersonalAbility12 abilities, AbilityPermission encounterAbility, EvolutionHistory evos)
+    private static bool IsAbilityCapsuleModified(PKM pk, AbilityPermission encounterAbility, EvolutionHistory evos)
     {
-        if (!IsAccessibleAbilityCapsule(evos))
+        if (!AbilityChangeRules.IsAbilityCapsulePossible(evos))
             return false; // Not available.
-        if (!CanAbilityCapsule(pk.Format, abilities))
-            return false;
         if (pk.AbilityNumber == 4)
             return false; // Cannot alter to hidden ability.
         if (encounterAbility == AbilityPermission.OnlyHidden)

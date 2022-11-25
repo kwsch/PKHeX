@@ -16,5 +16,6 @@ public class MarshalTests
         Marshal.SizeOf(typeof(EvolutionMethod)).Should().Be(8);
         Marshal.SizeOf(typeof(Moveset)).Should().Be(8);
         Marshal.SizeOf(typeof(IndividualValueSet)).Should().BeLessOrEqualTo(8);
+        Marshal.SizeOf(typeof(GenerateParam9)).Should().BeLessOrEqualTo(8);
     }
 }

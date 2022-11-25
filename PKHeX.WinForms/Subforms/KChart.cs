@@ -36,7 +36,7 @@ public partial class KChart : Form
             for (byte f = 0; f < fc; f++)
             {
                 var name = f == 0 ? species[s] : $"{species[s]}-{(f < formNames.Length ? formNames[f] : f.ToString())}";
-                PopEntry(s, f, name);
+                PopEntry(s, f, name, pt);
             }
         }
 
@@ -45,27 +45,27 @@ public partial class KChart : Form
         DGV.Sort(DGV.Columns[0], ListSortDirection.Ascending);
     }
 
-    private void PopEntry(ushort species, byte form, string name)
+    private void PopEntry(ushort species, byte form, string name, IPersonalTable pt)
     {
-        var p = SAV.Personal.GetFormEntry(species, form);
-        if (p.HP == 0)
+        if (!pt.IsPresentInGame(species, form))
             return;
 
+        var p = pt.GetFormEntry(species, form);
         var row = new DataGridViewRow();
         row.CreateCells(DGV);
         var cells = row.Cells;
         int c = 0;
 
         var bst = p.GetBaseStatTotal();
-        cells[c++].Value = species.ToString("000") + (form > 0 ? $"-{form:00}" : "");
+        cells[c++].Value = species.ToString(pt.MaxSpeciesID > 999 ? "0000" : "000") + (form > 0 ? $"-{form:00}" : "");
         cells[c++].Value = SpriteUtil.GetSprite(species, form, 0, 0, 0, false, Shiny.Never, SAV.Generation);
         cells[c++].Value = name;
         cells[c++].Value = GetIsNative(p, species);
         cells[c].Style.BackColor = ColorUtil.ColorBaseStatTotal(bst);
         cells[c++].Value = bst.ToString("000");
         cells[c++].Value = p.CatchRate.ToString("000");
-        cells[c++].Value = TypeSpriteUtil.GetTypeSprite(p.Type1, SAV.Generation);
-        cells[c++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : TypeSpriteUtil.GetTypeSprite(p.Type2, SAV.Generation);
+        cells[c++].Value = TypeSpriteUtil.GetTypeSpriteWide(p.Type1, SAV.Generation);
+        cells[c++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : TypeSpriteUtil.GetTypeSpriteWide(p.Type2, SAV.Generation);
         cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.HP);
         cells[c++].Value = p.HP.ToString("000");
         cells[c].Style.BackColor = ColorUtil.ColorBaseStat(p.ATK);
@@ -93,6 +93,7 @@ public partial class KChart : Form
         PersonalInfo8SWSH ss => ss.IsInDex,
         PersonalInfo8BDSP bs => bs.IsInDex,
         PersonalInfo8LA bs => bs.IsPresentInGame,
+        PersonalInfo9SV sv => sv.IsInDex,
         _ => true,
     };
 }

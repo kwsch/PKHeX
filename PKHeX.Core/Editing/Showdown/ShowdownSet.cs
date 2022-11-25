@@ -15,10 +15,17 @@ public sealed class ShowdownSet : IBattleTemplate
     private const string LineSplit = ": ";
     private const string ItemSplit = " @ ";
     private static readonly char[] ParenJunk = { '(', ')', '[', ']' };
-    private static readonly ushort[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
     internal const string DefaultLanguage = GameLanguage.DefaultLanguage;
     private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(DefaultLanguage);
+
+    private static readonly ushort[] DashedSpecies =
+    {
+        (int)NidoranF, (int)NidoranM,
+        (int)HoOh,
+        (int)Jangmoo, (int)Hakamoo, (int)Kommoo,
+        (int)TingLu, (int)ChienPao, (int)WoChien, (int)ChiYu,
+    };
 
     /// <inheritdoc/>
     public ushort Species { get; private set; }
@@ -48,7 +55,7 @@ public sealed class ShowdownSet : IBattleTemplate
     public int Friendship { get; private set; } = 255;
 
     /// <inheritdoc/>
-    public int Nature { get; set; } = -1;
+    public int Nature { get; private set; } = -1;
 
     /// <inheritdoc/>
     public string FormName { get; private set; } = string.Empty;
@@ -63,16 +70,18 @@ public sealed class ShowdownSet : IBattleTemplate
     public int[] IVs { get; } = {31, 31, 31, 31, 31, 31};
 
     /// <inheritdoc/>
-    public int HiddenPowerType { get; set; } = -1;
+    public int HiddenPowerType { get; private set; } = -1;
+
+    public MoveType TeraType { get; private set; } = MoveType.Any;
 
     /// <inheritdoc/>
     public ushort[] Moves { get; } = {0, 0, 0, 0};
 
     /// <inheritdoc/>
-    public bool CanGigantamax { get; set; }
+    public bool CanGigantamax { get; private set; }
 
     /// <inheritdoc/>
-    public byte DynamaxLevel { get; set; } = 10;
+    public byte DynamaxLevel { get; private set; } = 10;
 
     /// <summary>
     /// Any lines that failed to be parsed.
@@ -101,7 +110,7 @@ public sealed class ShowdownSet : IBattleTemplate
         Form = ShowdownParsing.GetFormFromString(FormName, Strings, Species, Context);
 
         // Handle edge case with fixed-gender forms.
-        if (Species is (int)Meowstic or (int)Indeedee or (int)Basculegion)
+        if (Species is (int)Meowstic or (int)Indeedee or (int)Basculegion or (int)Oinkologne)
             ReviseGenderedForms();
     }
 
@@ -211,6 +220,7 @@ public sealed class ShowdownSet : IBattleTemplate
         "IVs"           => ParseLineIVs(value),
         "Level"         => ParseLevel(value),
         "Dynamax Level" => ParseDynamax(value),
+        "Tera Type"     => ParseTeraType(value),
         _ => false,
     };
 
@@ -241,6 +251,17 @@ public sealed class ShowdownSet : IBattleTemplate
         if ((uint)val > 10)
             return false;
         return (DynamaxLevel = (byte)val) is (>= 0 and <= 10);
+    }
+
+    private bool ParseTeraType(string value)
+    {
+        Context = EntityContext.Gen9;
+        var types = Strings.types;
+        var val = StringUtil.FindIndexIgnoreCase(types, value);
+        if (val < 0)
+            return false;
+        TeraType = (MoveType)val;
+        return true;
     }
 
     /// <summary>
@@ -297,6 +318,8 @@ public sealed class ShowdownSet : IBattleTemplate
         // Secondary Stats
         if ((uint)Ability < Strings.Ability.Count)
             result.Add($"Ability: {Strings.Ability[Ability]}");
+        if (TeraType != MoveType.Any)
+            result.Add($"Tera Type: {Strings.Types[(int)TeraType]}");
         if (Level != 100)
             result.Add($"Level: {Level}");
         if (Shiny)
@@ -400,6 +423,16 @@ public sealed class ShowdownSet : IBattleTemplate
     };
 
     /// <summary>
+    /// Forces some properties to indicate the set for future display values.
+    /// </summary>
+    /// <param name="pk">PKM to convert to string</param>
+    public void InterpretAsPreview(PKM pk)
+    {
+        if (pk.Format <= 2) // Nature preview from IVs
+            Nature = Experience.GetNatureVC(pk.EXP);
+    }
+
+    /// <summary>
     /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
     /// </summary>
     /// <param name="pk">PKM to convert to string</param>
@@ -431,6 +464,8 @@ public sealed class ShowdownSet : IBattleTemplate
 
         if (Array.IndexOf(Moves, (ushort)Move.HiddenPower) != -1)
             HiddenPowerType = HiddenPower.GetType(IVs, Context);
+        if (pk is ITeraType t)
+            TeraType = t.TeraType;
         if (pk is IHyperTrain h)
         {
             for (int i = 0; i < 6; i++)

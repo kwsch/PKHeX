@@ -85,6 +85,13 @@ public static class EncounterLearn
     private static IEnumerable<IEncounterable> GetLearnInternal(ushort species, byte form, ushort[] moves, GameVersion[] vers)
     {
         bool iterated = false;
+        if (PersonalTable.SV.IsPresentInGame(species, form))
+        {
+            var blank = new PK9 { Species = species, Form = form };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(blank, moves, vers);
+            foreach (var enc in encs)
+                yield return enc;
+        }
         if (PersonalTable.LA.IsPresentInGame(species, form))
         {
             var blank = new PA8 { Species = species, Form = form };

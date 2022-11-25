@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PersonalTable2 : IPersonalTable, IPersonalTable<PersonalInfo2>
 {
-    internal readonly PersonalInfo2[] Table; // internal to share with Gen1 tables
+    private readonly PersonalInfo2[] Table; // internal to share with Gen1 tables
     private const int SIZE = PersonalInfo2.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
     public int MaxSpeciesID => MaxSpecies;

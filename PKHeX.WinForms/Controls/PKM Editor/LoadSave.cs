@@ -128,7 +128,7 @@ public partial class PKMEditor
         pk.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
     }
 
-    private void LoadShadow3(IShadowPKM pk)
+    private void LoadShadow3(IShadowCapture pk)
     {
         NUD_ShadowID.Value = pk.ShadowID;
         FLP_Purification.Visible = pk.ShadowID > 0;
@@ -151,7 +151,7 @@ public partial class PKMEditor
         }
     }
 
-    private void SaveShadow3(IShadowPKM pk)
+    private void SaveShadow3(IShadowCapture pk)
     {
         pk.ShadowID = (ushort)NUD_ShadowID.Value;
         if (pk.ShadowID > 0)
@@ -247,7 +247,7 @@ public partial class PKMEditor
         TB_MetLevel.Text = pk.Met_Level.ToString();
         CHK_Fateful.Checked = pk.FatefulEncounter;
 
-        if (pk is IContestStats s)
+        if (pk is IContestStatsReadOnly s)
             s.CopyContestStatsTo(Contest);
 
         TID_Trainer.LoadIDValues(pk);
@@ -264,7 +264,7 @@ public partial class PKMEditor
         pk.Nature = WinFormsUtil.GetIndex(CB_Nature);
         pk.Gender = UC_Gender.Gender;
 
-        if (pk is IContestStatsMutable s)
+        if (pk is IContestStats s)
             Contest.CopyContestStatsTo(s);
 
         pk.FatefulEncounter = CHK_Fateful.Checked;
@@ -478,5 +478,26 @@ public partial class PKMEditor
         pk8.IsAlpha = Stats.CHK_IsAlpha.Checked;
         pk8.IsNoble = Stats.CHK_IsNoble.Checked;
         pk8.AlphaMove = (ushort)WinFormsUtil.GetIndex(CB_AlphaMastered);
+    }
+
+    private void LoadMisc9(PK9 pk9)
+    {
+        CB_StatNature.SelectedValue = pk9.StatNature;
+        CB_HTLanguage.SelectedValue = (int)pk9.HT_Language;
+        TB_HomeTracker.Text = pk9.Tracker.ToString("X16");
+        CB_BattleVersion.SelectedValue = (int)pk9.BattleVersion;
+        Stats.CB_TeraTypeOriginal.SelectedValue = (int)pk9.TeraTypeOriginal;
+        Stats.CB_TeraTypeOverride.SelectedValue = (int)pk9.TeraTypeOverride;
+        TB_ObedienceLevel.Text = pk9.Obedience_Level.ToString();
+    }
+
+    private void SaveMisc9(PK9 pk9)
+    {
+        pk9.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
+        pk9.HT_Language = (byte)WinFormsUtil.GetIndex(CB_HTLanguage);
+        pk9.BattleVersion = (byte)WinFormsUtil.GetIndex(CB_BattleVersion);
+        pk9.TeraTypeOriginal = (MoveType)WinFormsUtil.GetIndex(Stats.CB_TeraTypeOriginal);
+        pk9.TeraTypeOverride = (MoveType)WinFormsUtil.GetIndex(Stats.CB_TeraTypeOverride);
+        pk9.Obedience_Level = (byte)Util.ToInt32(TB_ObedienceLevel.Text);
     }
 }

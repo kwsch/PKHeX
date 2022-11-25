@@ -162,7 +162,12 @@ public sealed class LegalityAnalysis
 
         int gen = Entity.Generation;
         if (gen <= 0)
-            gen = Entity.Format;
+        {
+            if (Entity is PK9 { IsUnhatchedEgg: true })
+                gen = 9;
+            else
+                gen = Entity.Format;
+        }
         return gen switch
         {
             3 => ParsePK3,
@@ -175,6 +180,7 @@ public sealed class LegalityAnalysis
             7 => ParsePK7,
 
             8 => ParsePK8,
+            9 => ParsePK9,
 
             _ => throw new ArgumentOutOfRangeException(nameof(gen)),
         };
@@ -246,6 +252,12 @@ public sealed class LegalityAnalysis
     {
         UpdateChecks();
         Transfer.VerifyTransferLegalityG8(this);
+    }
+
+    private void ParsePK9()
+    {
+        UpdateChecks();
+        Transfer.VerifyTransferLegalityG9(this);
     }
 
     /// <summary>

@@ -30,7 +30,7 @@ public partial class SAV_BoxLayout : Form
         TB_BoxName.MaxLength = SAV.Generation switch
         {
             6 or 7 => 14,
-            8 => 16,
+            >=8 => 16,
             _ => 8,
         };
         editing = false;
@@ -69,6 +69,9 @@ public partial class SAV_BoxLayout : Form
                 return true;
             case 8:
                 AddPlaceholder(CB_BG, 19);
+                return true;
+            case 9:
+                AddPlaceholder(CB_BG, 20);
                 return true;
             default:
                 return false;

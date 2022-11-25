@@ -5,16 +5,22 @@ using System.Linq;
 using static PKHeX.Core.Legal;
 using static PKHeX.Core.Encounters1;
 using static PKHeX.Core.Encounters2;
-using static PKHeX.Core.Encounters3;
-using static PKHeX.Core.Encounters3GC;
-using static PKHeX.Core.Encounters4;
-using static PKHeX.Core.Encounters5;
-using static PKHeX.Core.Encounters6;
-using static PKHeX.Core.Encounters7;
-using static PKHeX.Core.Encounters7b;
+using static PKHeX.Core.Encounters3RSE;
+using static PKHeX.Core.Encounters3FRLG;
+using static PKHeX.Core.Encounters3XD;
+using static PKHeX.Core.Encounters4DPPt;
+using static PKHeX.Core.Encounters4HGSS;
+using static PKHeX.Core.Encounters5BW;
+using static PKHeX.Core.Encounters5B2W2;
+using static PKHeX.Core.Encounters6XY;
+using static PKHeX.Core.Encounters6AO;
+using static PKHeX.Core.Encounters7SM;
+using static PKHeX.Core.Encounters7USUM;
+using static PKHeX.Core.Encounters7GG;
 using static PKHeX.Core.Encounters8;
 using static PKHeX.Core.Encounters8a;
 using static PKHeX.Core.Encounters8b;
+using static PKHeX.Core.Encounters9;
 using static PKHeX.Core.EncountersGO;
 
 using static PKHeX.Core.GameVersion;
@@ -70,12 +76,6 @@ public static class EncounterSlotGenerator
 
     public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pk, EvoCriteria[] chain, GameVersion gameSource)
     {
-        return GetRawEncounterSlots(pk, chain, gameSource);
-    }
-
-    public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pk, EvoCriteria[] chain)
-    {
-        var gameSource = (GameVersion)pk.Version;
         return GetRawEncounterSlots(pk, chain, gameSource);
     }
 
@@ -146,6 +146,9 @@ public static class EncounterSlotGenerator
         BD => SlotsBD,
         SP => SlotsSP,
         PLA => SlotsLA,
+
+        SL or VL => Slots,
+
         _ => Array.Empty<EncounterArea>(),
     };
 

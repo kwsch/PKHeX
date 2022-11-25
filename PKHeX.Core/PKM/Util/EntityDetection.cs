@@ -17,6 +17,7 @@ public static class EntityDetection
         PokeCrypto.SIZE_6STORED,  PokeCrypto.SIZE_6PARTY,
         PokeCrypto.SIZE_8STORED,  PokeCrypto.SIZE_8PARTY,
         PokeCrypto.SIZE_8ASTORED, PokeCrypto.SIZE_8APARTY,
+        PokeCrypto.SIZE_9STORED,  PokeCrypto.SIZE_9PARTY,
     };
 
     /// <summary>

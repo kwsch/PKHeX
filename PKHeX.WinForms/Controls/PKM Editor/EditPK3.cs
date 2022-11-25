@@ -15,7 +15,7 @@ public partial class PKMEditor
         LoadMisc3(pk3);
 
         CB_Ability.SelectedIndex = pk3.AbilityBit && CB_Ability.Items.Count > 1 ? 1 : 0;
-        if (pk3 is IShadowPKM s)
+        if (pk3 is IShadowCapture s)
             LoadShadow3(s);
 
         LoadPartyStats(pk3);
@@ -32,7 +32,7 @@ public partial class PKMEditor
         SaveMisc3(pk3);
 
         pk3.AbilityBit = CB_Ability.SelectedIndex != 0;
-        if (Entity is IShadowPKM ck3)
+        if (Entity is IShadowCapture ck3)
             SaveShadow3(ck3);
 
         SavePartyStats(pk3);

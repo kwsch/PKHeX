@@ -50,11 +50,13 @@ public sealed class GameDataSource
         }
         LegalMoveDataSource = legal;
 
-        VersionDataSource = GetVersionList(s);
+        var games = GetVersionList(s);
+        VersionDataSource = games;
 
         Met = new MetDataSource(s);
 
         Empty = new ComboItem(s.itemlist[0], 0);
+        games[^1] = Empty;
     }
 
     /// <summary> Strings that this object's lists were generated with. </summary>
@@ -83,11 +85,12 @@ public sealed class GameDataSource
         return Util.GetVariedCBListBall(itemList, ball_nums, ball_vals);
     }
 
-    private static IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
+    private static ComboItem[] GetVersionList(GameStrings s)
     {
         var list = s.gamelist;
         ReadOnlySpan<byte> games = stackalloc byte[]
         {
+            50, 51, // 9 sv
             47,     // 8 legends arceus
             48, 49, // 8 bdsp
             44, 45, // 8 swsh
@@ -107,6 +110,8 @@ public sealed class GameDataSource
             39, 40, 41, // 7vc2
             35, 36, 37, 38, // 7vc1
             34, // 7go
+
+            00,
         };
 
         return Util.GetUnsortedCBList(list, games);

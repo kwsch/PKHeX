@@ -16,6 +16,7 @@ internal static class BallUseLegality
         8 when GameVersion.BDSP.Contains(game) => WildPokeBalls4_HGSS,
         8 when GameVersion.PLA == game => WildPokeBalls8a,
         8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
+        9 => WildPokeballs9,
         _ => default,
     };
 
@@ -70,4 +71,6 @@ internal static class BallUseLegality
 
     private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);
     private const ulong WildPokeballs8g = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
+
+    internal const ulong WildPokeballs9 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
 }

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls;
 
-public partial class ContestStat : UserControl, IContestStats, IContestStatsMutable
+public partial class ContestStat : UserControl, IContestStats
 {
     public ContestStat()
     {
@@ -49,14 +49,15 @@ public partial class ContestStat : UserControl, IContestStats, IContestStatsMuta
 
     private void Update255_MTB(object sender, EventArgs e)
     {
-        if (sender is not MaskedTextBox tb) return;
+        if (sender is not MaskedTextBox tb)
+            return;
         if (Util.ToInt32(tb.Text) > byte.MaxValue)
             tb.Text = "255";
     }
 
     public void ToggleInterface(object o, EntityContext context)
     {
-        if (o is not IContestStats)
+        if (o is not IContestStatsReadOnly)
         {
             Visible = false;
             return;

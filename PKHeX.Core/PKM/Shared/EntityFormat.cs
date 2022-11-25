@@ -22,6 +22,7 @@ public enum EntityContext : byte
     Gen6 = 6,
     Gen7 = 7,
     Gen8 = 8,
+    Gen9 = 9,
 
     SplitInvalid,
     Gen7b,
@@ -53,6 +54,7 @@ public static class EntityContextExtensions
         Gen6 => GameVersion.AS,
         Gen7 => GameVersion.UM,
         Gen8 => GameVersion.SH,
+        Gen9 => GameVersion.SV,
 
         Gen7b => GameVersion.GP,
         Gen8a => GameVersion.PLA,

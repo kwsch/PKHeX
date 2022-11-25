@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -8,7 +8,8 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class EncounterUtil
 {
-    internal static BinLinkerAccessor Get(string resource, string ident) => BinLinkerAccessor.Get(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
+    internal static ReadOnlySpan<byte> Get(string resource) => Util.GetBinaryResource($"encounter_{resource}.pkl");
+    internal static BinLinkerAccessor Get(string resource, string ident) => BinLinkerAccessor.Get(Get(resource), ident);
 
     /// <summary>
     /// Gets the relevant <see cref="EncounterStatic"/> objects that appear in the relevant game.
@@ -16,9 +17,35 @@ internal static class EncounterUtil
     /// <param name="source">Table of valid encounters that appear for the game pairing</param>
     /// <param name="game">Game to filter for</param>
     /// <returns>Array of encounter objects that can be encountered in the input game</returns>
-    internal static T[] GetEncounters<T>(T[] source, GameVersion game) where T : EncounterStatic
+    internal static T[] GetEncounters<T>(T[] source, GameVersion game) where T : IVersion
     {
         return Array.FindAll(source, s => s.Version.Contains(game));
+    }
+
+    /// <summary>
+    /// Gets the relevant <see cref="EncounterStatic"/> objects that appear in the relevant game.
+    /// </summary>
+    /// <param name="source">Table of valid encounters that appear for the game pairing</param>
+    /// <param name="exclude">Game to filter out</param>
+    /// <returns>Array of encounter objects that can be encountered in the input game</returns>
+    internal static T[] GetEncounters<T>(T[][] source, GameVersion exclude) where T : EncounterStatic
+    {
+        var count = 0;
+        foreach (T[] arr in source)
+            count += arr.Length;
+
+        var temp = new T[count];
+        count = 0;
+        foreach (var arr in source)
+        {
+            foreach (var enc in arr)
+            {
+                if (enc.Version != exclude)
+                    temp[count++] = enc;
+            }
+        }
+        Array.Resize(ref temp, count);
+        return temp;
     }
 
     internal static T? GetMinByLevel<T>(EvoCriteria[] chain, IEnumerable<T> possible) where T : class, IEncounterTemplate

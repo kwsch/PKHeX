@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -36,27 +36,4 @@ public partial class SAV_Raid8 : Form
     }
 
     private void CB_Den_SelectedIndexChanged(object sender, EventArgs e) => LoadDen(CB_Den.SelectedIndex);
-
-    private void B_ActivateAll_Click(object sender, EventArgs e)
-    {
-        bool alt = (ModifierKeys & Keys.Alt) != 0;
-        if (alt)
-        {
-            if ((ModifierKeys & Keys.Control) == 0)
-            {
-                Raids.DectivateAllRaids();
-                LoadDen(CB_Den.SelectedIndex);
-            }
-            var txt = Raids.DumpAll();
-            var concat = string.Join(Environment.NewLine, txt);
-            if (WinFormsUtil.SetClipboardText(concat))
-                System.Media.SystemSounds.Asterisk.Play();
-            return;
-        }
-
-        bool rare = (ModifierKeys & Keys.Control) != 0;
-        bool isEvent = (ModifierKeys & Keys.Shift) != 0;
-        Raids.ActivateAllRaids(rare, isEvent);
-        LoadDen(CB_Den.SelectedIndex);
-    }
 }
