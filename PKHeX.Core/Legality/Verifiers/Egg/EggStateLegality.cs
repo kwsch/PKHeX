@@ -33,7 +33,7 @@ public static class EggStateLegality
     /// <returns>Usually 0...</returns>
     public static int GetMinimumEggHatchCycles(PKM pk) => pk switch
     {
-        PK2 or PB8 or PK8 => 1, // no grace period between 1 step remaining and hatch
+        PK2 or PB8 or PK9 => 1, // no grace period between 1 step remaining and hatch
         _ => 0, // having several Eggs in your party and then hatching one will give the rest 0... they can then be boxed!
     };
 
