@@ -9,19 +9,20 @@ namespace PKHeX.Core.Tests.Legality;
 public static class TempTests
 {
     [Theory]
-    [InlineData(Taillow, Boomburst)]
-    [InlineData(Plusle, TearfulLook)] [InlineData(Minun, TearfulLook)]
-    [InlineData(Luvdisc, HealPulse)]
-    [InlineData(Starly, Detect)]
-    [InlineData(Chatot, Boomburst)] [InlineData(Chatot, Encore)]
-    [InlineData(Spiritomb, FoulPlay)]
+    [InlineData(Fuecoco, Ember)]
+    [InlineData(Sprigatito, Leafage)]
+    [InlineData(Quaxly, WaterGun)]
+    [InlineData(Tadbulb, ThunderShock)]
+    [InlineData(Annihilape, RageFist)]
+    [InlineData(Nacli, RockThrow)]
+    [InlineData(Frigibax, IcyWind)]
     public static void CanLearnEggMoveBDSP(Species species, Move move)
     {
-        MoveEgg.GetEggMoves(8, (ushort)species, 0, GameVersion.BD).Contains((ushort)move).Should().BeFalse();
+        MoveEgg.GetEggMoves(9, (ushort)species, 0, GameVersion.SV).Contains((ushort)move).Should().BeFalse();
 
-        var pb8 = new PB8 { Species = (ushort)species };
-        var encs = EncounterMovesetGenerator.GenerateEncounters(pb8, new[] { (ushort)move }, GameVersion.BD);
+        var pk9 = new PK9 { Species = (ushort)species };
+        var encs = EncounterMovesetGenerator.GenerateEncounters(pk9, new[] { (ushort)move }, GameVersion.SV);
 
-        encs.Any().Should().BeFalse("Unavailable until HOME update supports BD/SP.");
+        encs.Any().Should().BeFalse("Unavailable until HOME update supports S/V.");
     }
 }
