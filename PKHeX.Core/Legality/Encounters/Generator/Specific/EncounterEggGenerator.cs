@@ -43,7 +43,7 @@ public static class EncounterEggGenerator
         if (species != 0 && species <= max)
         {
             // NOTE: THE SPLIT-BREED SECTION OF CODE SHOULD BE EXACTLY THE SAME AS THE BELOW SECTION
-            if (FormInfo.IsBattleOnlyForm(species, form, generation))
+            if (FormInfo.IsBattleOnlyForm(species, form, generation) || species is (int)Species.Rotom or (int)Species.Castform)
                 form = FormInfo.GetOutOfBattleForm(species, form, generation);
             if (Breeding.CanHatchAsEgg(species, form, ver))
             {
