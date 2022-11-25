@@ -2,7 +2,7 @@ PKHeX
 =====
 ![License](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
-本程式係基於 [C#](https://en.wikipedia.org/wiki/C_Sharp_%28programming_language%29) 語言進行編寫之寶可夢核心系列遊戲儲存資料編輯器。
+本程式係基於 [C#](https://zh.wikipedia.org/wiki/C♯) 語言進行編寫之寶可夢核心系列遊戲儲存資料編輯器。
 
 本程式支援下述檔案：
 * 儲存資料檔 ("main", \*.sav, \*.dsv, \*.dat, \*.gci, \*.bin)
@@ -49,4 +49,4 @@ PKHeX 可透過如 [Visual Studio](https://visualstudio.microsoft.com/downloads/
 
 ### GNU/Linux
 
-GNU/Linux 非本程式開發者主要作業系統，因而於 GNU/Linux 平臺上運行本程式時可能存在 Bug； 部分 Bug 亦並非來源於 GNU/Linux 平臺上 Mono/Wine 之特定源代碼，因而其他使用者可能無法復現你所遇到之 Bug。
+GNU/Linux 非本程式開發者主要作業系統，因而於 GNU/Linux 平臺上運行本程式時可能存在 Bug； 部分 Bug 亦可能由 Mono/Wine 等非 GNU/Linux 特定源代碼所引入，因而其他使用者可能無法復現你所遇到之 Bug。
