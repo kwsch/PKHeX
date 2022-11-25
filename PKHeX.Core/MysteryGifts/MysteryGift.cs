@@ -37,6 +37,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
         WC8.Size when ext is ".wc8" or ".wc8full" => new WC8(data),
         WB8.Size when ext is ".wb8" => new WB8(data),
         WA8.Size when ext is ".wa8" => new WA8(data),
+        WC9.Size when ext is ".wc9" => new WC9(data),
 
         WB7.SizeFull when ext == ".wb7full" => new WB7(data),
         WC6Full.Size when ext == ".wc6full" => new WC6Full(data).Gift,
