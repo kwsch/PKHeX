@@ -109,7 +109,7 @@ public sealed record EncounterDist9 : EncounterStatic, IGemType, ITeraRaid9
             if (GetIsPossibleSlot(seed, i))
                 return i;
         }
-        return -1;
+        return StageNone;
     }
 
     private bool GetIsPossibleSlot(uint seed, int stage)
@@ -117,9 +117,10 @@ public sealed record EncounterDist9 : EncounterStatic, IGemType, ITeraRaid9
         var totalScarlet = GetRandRateTotalScarlet(stage);
         if (totalScarlet != 0)
         {
-            var min = GetRandRateMinScarlet(stage);
             var rand = new Xoroshiro128Plus(seed);
+            _ = rand.NextInt(100);
             var val = rand.NextInt(totalScarlet);
+            var min = GetRandRateMinScarlet(stage);
             if ((uint)((int)val - min) < RandRate)
                 return true;
         }
@@ -127,9 +128,10 @@ public sealed record EncounterDist9 : EncounterStatic, IGemType, ITeraRaid9
         var totalViolet = GetRandRateTotalViolet(stage);
         if (totalViolet != 0)
         {
-            var min = GetRandRateMinViolet(stage);
             var rand = new Xoroshiro128Plus(seed);
+            _ = rand.NextInt(100);
             var val = rand.NextInt(totalViolet);
+            var min = GetRandRateMinViolet(stage);
             if ((uint)((int)val - min) < RandRate)
                 return true;
         }
