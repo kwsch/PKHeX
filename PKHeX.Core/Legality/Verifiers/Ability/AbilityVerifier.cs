@@ -66,14 +66,17 @@ public sealed class AbilityVerifier : Verifier
         }
 
         var enc = data.EncounterMatch;
+        if (pk.AbilityNumber == 4 && enc.Ability.CanBeHidden())
+            return VALID;
+
         if (format >= 8) // Ability Patch
         {
-            if (pk.AbilityNumber == 4 && !(enc is IFixedAbilityNumber f && f.Ability.CanBeHidden()))
+            if (pk.AbilityNumber == 4)
             {
                 if (AbilityChangeRules.IsAbilityPatchPossible(data.Info.EvoChainsAllGens))
                     return GetValid(LAbilityPatchUsed);
             }
-            else if (enc is IFixedAbilityNumber { Ability: AbilityPermission.OnlyHidden })
+            else if (enc.Ability == AbilityPermission.OnlyHidden)
             {
                 if (AbilityChangeRules.IsAbilityPatchRevertPossible(data.Info.EvoChainsAllGens, pk.AbilityNumber))
                     return GetValid(LAbilityPatchRevertUsed);
