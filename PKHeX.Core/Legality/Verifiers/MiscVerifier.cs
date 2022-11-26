@@ -156,6 +156,8 @@ public sealed class MiscVerifier : Verifier
 
         if (enc is EncounterEgg or EncounterSlot9 && !Tera9RNG.IsMatchTeraTypePersonalEgg(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
             data.AddLine(GetInvalid(LTeraTypeMismatch));
+        if (pk9.IsEgg && pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
+            data.AddLine(GetInvalid(LTeraTypeIncorrect));
 
         VerifyTechRecordSV(data, pk9);
     }
