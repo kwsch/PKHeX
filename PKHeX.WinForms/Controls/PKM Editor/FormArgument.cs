@@ -11,10 +11,11 @@ public partial class FormArgument : UserControl
     private byte CurrentForm;
     private int CurrentGeneration;
     private bool FieldsLoaded;
+    public bool IsControlVisible { get; private set; }
 
     public FormArgument() => InitializeComponent();
 
-    public void LoadArgument(IFormArgument f, ushort species, byte form, int generation)
+    public bool LoadArgument(IFormArgument f, ushort species, byte form, int generation)
     {
         FieldsLoaded = false;
         var max = FormArgumentUtil.GetFormArgumentMax(species, form, generation);
@@ -27,7 +28,8 @@ public partial class FormArgument : UserControl
             CB_FormArg.Visible = false;
             NUD_FormArg.Visible = false;
             FieldsLoaded = true;
-            return;
+            IsControlVisible = false;
+            return IsControlVisible;
         }
 
         bool named = FormConverter.GetFormArgumentIsNamedIndex(species);
@@ -37,7 +39,7 @@ public partial class FormArgument : UserControl
             {
                 CurrentValue = f.FormArgument;
                 FieldsLoaded = true;
-                return;
+                return IsControlVisible;
             }
             IsRawMode = false;
 
@@ -47,6 +49,7 @@ public partial class FormArgument : UserControl
             CB_FormArg.Items.AddRange(args);
             CB_FormArg.SelectedIndex = 0;
             CB_FormArg.Visible = true;
+            IsControlVisible = true;
         }
         else
         {
@@ -55,6 +58,7 @@ public partial class FormArgument : UserControl
             CB_FormArg.Visible = false;
             NUD_FormArg.Maximum = max;
             NUD_FormArg.Visible = true;
+            IsControlVisible = true;
         }
         CurrentSpecies = species;
         CurrentForm = form;
@@ -64,6 +68,7 @@ public partial class FormArgument : UserControl
         CurrentValue = isPair ? f.FormArgumentRemain : f.FormArgument;
 
         FieldsLoaded = true;
+        return IsControlVisible;
     }
 
     public void SaveArgument(IFormArgument f)

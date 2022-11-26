@@ -987,7 +987,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (FieldsLoaded)
             FA_Form.SaveArgument(f);
-        FA_Form.LoadArgument(f, Entity.Species, Entity.Form, Entity.Format);
+        L_FormArgument.Visible = FA_Form.LoadArgument(f, Entity.Species, Entity.Form, Entity.Format);
     }
 
     private void UpdatePP(object sender, EventArgs e)
