@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -18,6 +19,8 @@ public sealed class PIDVerifier : Verifier
         var enc = data.EncounterMatch;
         if (enc.Species == (int)Species.Wurmple)
             VerifyECPIDWurmple(data);
+        else if (enc.Species is (int)Species.Tandemaus or (int)Species.Dunsparce)
+            VerifyEC100(data);
 
         if (pk.PID == 0)
             data.AddLine(Get(LPIDZero, Severity.Fishy));
@@ -108,6 +111,27 @@ public sealed class PIDVerifier : Verifier
         else if (!WurmpleUtil.IsWurmpleEvoValid(pk))
         {
             data.AddLine(GetInvalid(LPIDEncryptWurmple, CheckIdentifier.EC));
+        }
+    }
+
+    private static void VerifyEC100(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+        var enc = data.EncounterMatch;
+        if (pk.Species == enc.Species)
+        {
+            uint evoVal = pk.EncryptionConstant % 100;
+            bool rare = evoVal == 0;
+            var (species, form) = enc.Species switch
+            {
+                (int)Species.Tandemaus => ((ushort)Species.Maushold,    rare ? 0 : 1),
+                (int)Species.Dunsparce => ((ushort)Species.Dudunsparce, rare ? 1 : 0),
+                _ => throw new ArgumentOutOfRangeException(nameof(enc.Species)),
+            };
+            var str = GameInfo.Strings;
+            var forms = FormConverter.GetFormList(species, str.Types, str.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen9);
+            var msg = string.Format(L_XRareFormEvo_0_1, forms[form], rare);
+            data.AddLine(GetValid(msg, CheckIdentifier.EC));
         }
     }
 
