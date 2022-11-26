@@ -59,6 +59,8 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
     {
         if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return false;
+        if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
+            return false;
         return base.IsMatchExact(pk, evo);
     }
 
