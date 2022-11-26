@@ -79,7 +79,34 @@ public static class BatchMods
 
         new ComplexSet(nameof(PKM.Species), value => value == "0", (pk, _) => Array.Clear(pk.Data, 0, pk.Data.Length)),
         new ComplexSet(nameof(PKM.IsNicknamed), value => string.Equals(value, "false", StringComparison.OrdinalIgnoreCase), (pk, _) => pk.SetDefaultNickname()),
+
+        // Complicated
+        new ComplexSet(nameof(PKM.EncryptionConstant), value => value.StartsWith(CONST_RAND), (pk, cmd) => SetComplicatedEC(pk, cmd.PropertyValue[^1])),
     };
+
+    private static void SetComplicatedEC(PKM pk, char option)
+    {
+        var rng = Util.Rand;
+        uint rand = rng.Rand32();
+        uint mod = 1, noise = 0;
+        if (pk.Species is >= (int)Species.Wurmple and <= (int)Species.Dustox)
+        {
+            mod = 10;
+            bool lower = option is '0' or 'B' or 'S' || WurmpleUtil.GetWurmpleEvoGroup(pk.Species) == 0;
+            noise = (lower ? 0u : 5u) + (uint)rng.Next(0, 5);
+        }
+        else if (pk.Species is (int)Species.Dunsparce or (int)Species.Dudunsparce or (int)Species.Tandemaus or (int)Species.Maushold)
+        {
+            mod = 100;
+            noise = option is '0' or '3' ? 0u : (uint)rng.Next(1, 100);
+        }
+        else if (option is >= '0' and <= '5')
+        {
+            mod = 6;
+            noise = (uint)(option - '0');
+        }
+        pk.EncryptionConstant = unchecked(rand - (rand % mod) + noise);
+    }
 
     private static void SetRandomEVs(PKM pk)
     {
