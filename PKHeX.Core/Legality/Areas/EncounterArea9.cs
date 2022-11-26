@@ -61,6 +61,14 @@ public sealed record EncounterArea9 : EncounterArea
                 if (!slot.IsLevelWithinRange(lvl))
                     break;
 
+                if (pk is ITeraType t)
+                {
+                    var orig = (byte)t.TeraTypeOriginal;
+                    var pi = PersonalTable.SV[slot.Species, slot.Form];
+                    if (pi.Type1 != orig && pi.Type2 != orig)
+                        break;
+                }
+
                 yield return slot;
                 break;
             }

@@ -154,7 +154,7 @@ public sealed class MiscVerifier : Verifier
         if (pk9.Tracker != 0)
             data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
 
-        if (enc is EncounterEgg or EncounterSlot9 && !Tera9RNG.IsMatchTeraTypePersonalEgg(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
+        if (enc is EncounterEgg && !Tera9RNG.IsMatchTeraTypePersonalEgg(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
             data.AddLine(GetInvalid(LTeraTypeMismatch));
         if (pk9.IsEgg && pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
             data.AddLine(GetInvalid(LTeraTypeIncorrect));
