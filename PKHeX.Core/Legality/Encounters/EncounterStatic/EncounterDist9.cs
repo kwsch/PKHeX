@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed record EncounterDist9 : EncounterStatic, IGemType, ITeraRaid9
+public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
 {
     public override int Generation => 9;
     public override int Location => Locations.TeraCavern9;

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 Tera Raid Encounter
 /// </summary>
-public sealed record EncounterTera9 : EncounterStatic, IGemType, ITeraRaid9
+public sealed record EncounterTera9 : EncounterStatic, ITeraRaid9
 {
     public override int Generation => 9;
     public override int Location => Locations.TeraCavern9;

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public static class Encounter9RNG
 {
     public static bool TryApply32<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, EncounterCriteria criteria)
-        where  TEnc : IEncounterTemplate, IGemType, ITeraRaid9
+        where  TEnc : IEncounterTemplate, ITeraRaid9
     {
         const int maxCtr = 100_000;
         var rand = new Xoroshiro128Plus(init);
@@ -301,8 +301,11 @@ public static class Encounter9RNG
     }
 }
 
-public interface ITeraRaid9
+public interface ITeraRaid9 : IGemType
 {
-    bool CanBeEncountered(uint seed);
+    bool IsDistribution { get; }
+    byte Index { get; }
     byte Stars { get; }
+    byte RandRate { get; }
+    bool CanBeEncountered(uint seed);
 }
