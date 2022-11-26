@@ -266,6 +266,7 @@ public sealed class HistoryVerifier : Verifier
     {
         EntityContext.Gen6  => PersonalTable.AO[species].BaseFriendship,
         EntityContext.Gen7  => PersonalTable.USUM[species].BaseFriendship,
+        EntityContext.Gen7b => PersonalTable.GG[species].BaseFriendship,
         EntityContext.Gen8  => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
         EntityContext.Gen8a => PersonalTable.LA.GetFormEntry(species, form).BaseFriendship,
         EntityContext.Gen8b => PersonalTable.BDSP.GetFormEntry(species, form).BaseFriendship,

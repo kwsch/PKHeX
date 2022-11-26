@@ -59,7 +59,7 @@ public static class LegalityCheckStrings
     public static string L_XEnigmaBerry_0 { get; set; } = "{0} Berry";
     public static string L_XMatches0_1 { get; set; } = "Matches: {0} {1}";
     public static string L_XWurmpleEvo_0 { get; set; } = "Wurmple Evolution: {0}";
-    public static string L_XRareFormEvo_0_1 { get; set; } = "Evovles into Form: {0} (rare: {1})";
+    public static string L_XRareFormEvo_0_1 { get; set; } = "Evolves into form: {0} (rare: {1})";
 
     public static string LAbilityCapsuleUsed { get; set; } = "Ability available with Ability Capsule.";
     public static string LAbilityPatchUsed { get; set; } = "Ability available with Ability Patch.";
