@@ -163,7 +163,7 @@ public sealed class Zukan9 : ZukanBase
         SetAllSeen(true, shinyToo);
     }
 
-    private void SeenAll(ushort species, byte fc, bool shinyToo, bool value = true)
+    private void SeenAll(ushort species, byte fc, bool value = true, bool shinyToo = false)
     {
         var pt = PersonalTable.SV;
         for (byte form = 0; form < fc; form++)
@@ -177,6 +177,8 @@ public sealed class Zukan9 : ZukanBase
     private void SeenAll(ushort species, byte form, bool value, IGenderDetail pi, bool shinyToo)
     {
         var entry = Get(species);
+        if (value && !entry.IsSeen)
+            entry.SetSeen(value);
         if (pi.IsDualGender || !value)
         {
             entry.SetIsGenderSeen(0, value);
@@ -255,7 +257,7 @@ public sealed class Zukan9 : ZukanBase
     {
         var pi = SAV.Personal[species];
         var fc = pi.FormCount;
-        SeenAll(species, fc, shinyToo, value);
+        SeenAll(species, fc, value, shinyToo);
     }
 
     public override void SetDexEntryAll(ushort species, bool shinyToo = false)

@@ -137,5 +137,6 @@ public readonly ref struct PokeDexEntry9SV
         SetDisplayGender(0);
         SetDisplayIsShiny(false);
         SetDisplayGenderIsDifferent(false);
+        FlagsLanguage = 0;
     }
 }
