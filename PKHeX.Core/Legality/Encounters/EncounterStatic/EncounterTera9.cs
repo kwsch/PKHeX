@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 9 Tera Raid Encounter
 /// </summary>
-public sealed record EncounterTera9 : EncounterStatic, IGemType
+public sealed record EncounterTera9 : EncounterStatic, IGemType, ITeraRaid9
 {
     public override int Generation => 9;
     public override int Location => Locations.TeraCavern9;
@@ -21,6 +21,8 @@ public sealed record EncounterTera9 : EncounterStatic, IGemType
     public short RandRateMinViolet { get; private init; } // weight chance total of all lower index encounters, for Violet
     public bool IsAvailableHostScarlet => RandRateMinScarlet != -1;
     public bool IsAvailableHostViolet => RandRateMinViolet != -1;
+
+    public bool CanBeEncountered(uint seed) => Tera9RNG.IsMatchStarChoice(seed, Stars, RandRate, RandRateMinScarlet, RandRateMinViolet);
 
     /// <summary>
     /// Fetches the rate sum for the base ROM raid, depending on star count.

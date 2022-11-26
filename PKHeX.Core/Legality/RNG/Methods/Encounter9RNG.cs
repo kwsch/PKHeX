@@ -5,14 +5,15 @@ namespace PKHeX.Core;
 
 public static class Encounter9RNG
 {
-    public static bool TryApply32(this EncounterTera9 enc, PK9 pk, in ulong init, in GenerateParam9 param, EncounterCriteria criteria)
+    public static bool TryApply32<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, EncounterCriteria criteria)
+        where  TEnc : IEncounterTemplate, IGemType, ITeraRaid9
     {
         const int maxCtr = 100_000;
         var rand = new Xoroshiro128Plus(init);
         for (int ctr = 0; ctr < maxCtr; ctr++)
         {
             uint seed = (uint)rand.NextInt(uint.MaxValue);
-            if (!Tera9RNG.IsMatchStarChoice(seed, enc.Stars, enc.RandRate, enc.RandRateMinScarlet, enc.RandRateMinViolet))
+            if (!enc.CanBeEncountered(seed))
                 continue;
             if (!GenerateData(pk, param, criteria, seed))
                 continue;
@@ -298,4 +299,10 @@ public static class Encounter9RNG
         var xor = pid ^ oid;
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
+}
+
+public interface ITeraRaid9
+{
+    bool CanBeEncountered(uint seed);
+    byte Stars { get; }
 }
