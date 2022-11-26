@@ -65,9 +65,10 @@ public sealed class Zukan9 : ZukanBase
     {
         if (pk.IsEgg) // do not add
             return;
-        ushort species = pk.Species;
+        var species = pk.Species;
+        var form = pk.Form;
         var pt = SAV.Personal;
-        if (!pt.IsPresentInGame(species, pk.Form))
+        if (!pt.IsPresentInGame(species, form))
             return;
 
         var entry = Get(species);
@@ -75,7 +76,9 @@ public sealed class Zukan9 : ZukanBase
             entry.SetDisplayIsNew();
 
         entry.SetCaught(true);
-        entry.SetDisplayForm(pk.Form);
+        entry.SetIsGenderSeen(pk.Gender, true);
+        entry.SetIsFormSeen(form, true);
+        entry.SetDisplayForm(form);
         entry.SetDisplayGender(pk.Gender);
         if (pk.IsShiny)
         {
