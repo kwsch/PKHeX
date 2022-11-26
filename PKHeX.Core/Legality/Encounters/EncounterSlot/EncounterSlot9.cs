@@ -28,5 +28,6 @@ public sealed record EncounterSlot9 : EncounterSlot
         if (Gender != -1)
             pk.Gender = (byte)Gender;
         pk9.Scale = PokeSizeUtil.GetRandomScalar();
+        pk9.EncryptionConstant = Util.Rand32();
     }
 }
