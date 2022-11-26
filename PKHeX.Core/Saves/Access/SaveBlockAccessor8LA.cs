@@ -4,7 +4,6 @@ namespace PKHeX.Core;
 
 // ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051 // Remove unused private members
-#pragma warning disable RCS1213 // Remove unused member declaration.
 public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
 {
     public override IReadOnlyList<SCBlock> BlockInfo { get; }

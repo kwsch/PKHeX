@@ -48,7 +48,7 @@ public sealed class LegalInfo : IGeneration
     public EvolutionHistory EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(Entity, EncounterMatch);
     private EvolutionHistory? _evochains;
 
-    /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
+    /// <summary>RNG related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
     public PIDIV PIDIV
     {
         get => _pidiv;
@@ -66,7 +66,7 @@ public sealed class LegalInfo : IGeneration
     /// <remarks>This boolean is true until all valid <see cref="PIDIV"/> encounters are tested, after which it is false.</remarks>
     public bool PIDIVMatches { get; internal set; } = true;
 
-    /// <summary>Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/> with explicit <see cref="RNG"/> <see cref="Frame"/> matching.</summary>
+    /// <summary>Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/> with explicit RNG <see cref="Frame"/> matching.</summary>
     /// <remarks>This boolean is true until all valid <see cref="Frame"/> entries are tested for all possible <see cref="EncounterSlot"/> matches, after which it is false.</remarks>
     public bool FrameMatches { get; internal set; } = true;
 

@@ -3,9 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 [Flags]
-#pragma warning disable RCS1154 // Sort enum members.
 public enum MoveSourceType
-#pragma warning restore RCS1154 // Sort enum members.
 {
     None,
     LevelUp         = 1 << 0,

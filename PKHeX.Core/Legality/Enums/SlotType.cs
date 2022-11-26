@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -8,7 +8,6 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Different from <see cref="GroundTileAllowed"/>, this corresponds to the method that the <see cref="IEncounterTemplate"/> may be encountered.</remarks>
 [Flags]
-#pragma warning disable RCS1191 // Declare enum value as combination of names.
 public enum SlotType : byte
 {
     /// <summary>

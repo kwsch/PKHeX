@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 // ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051 // Remove unused private members
-#pragma warning disable RCS1213 // Remove unused member declaration.
 
 namespace PKHeX.Core;
 

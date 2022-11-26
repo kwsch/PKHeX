@@ -299,8 +299,7 @@ public sealed class PK4 : G4PKM
         for (int i = PokeCrypto.SIZE_4STORED; i < PokeCrypto.SIZE_4RSTORED; i++)
             data[i] = 0;
 
-        RK4 rk4 = new RK4(data);
-        rk4.OwnershipType = RanchOwnershipType.Hayley;
+        var rk4 = new RK4(data) { OwnershipType = RanchOwnershipType.Hayley };
 
         rk4.RefreshChecksum();
         return rk4;
