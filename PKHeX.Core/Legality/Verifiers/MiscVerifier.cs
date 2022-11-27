@@ -200,6 +200,7 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Sliggoo | (1 << 11),
         (int)Species.Avalugg | (1 << 11),
         (int)Species.Lilligant | (1 << 11),
+        (int)Species.Braviary | (1 << 11),
         (int)Species.Overqwil,
         (int)Species.Wyrdeer,
         (int)Species.Kleavor,
