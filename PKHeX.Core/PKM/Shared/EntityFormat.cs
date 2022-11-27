@@ -54,7 +54,7 @@ public static class EntityContextExtensions
         Gen6 => GameVersion.AS,
         Gen7 => GameVersion.UM,
         Gen8 => GameVersion.SH,
-        Gen9 => GameVersion.SV,
+        Gen9 => GameVersion.VL,
 
         Gen7b => GameVersion.GP,
         Gen8a => GameVersion.PLA,
