@@ -198,6 +198,8 @@ public sealed class MiscVerifier : Verifier
 
         // Silly Workaround for evolution chain reversal not being iteratively implemented -- block Hisuians
         (int)Species.Sliggoo | (1 << 11),
+        (int)Species.Avalugg | (1 << 11),
+        (int)Species.Lilligant | (1 << 11),
         (int)Species.Overqwil,
         (int)Species.Wyrdeer,
         (int)Species.Kleavor,
