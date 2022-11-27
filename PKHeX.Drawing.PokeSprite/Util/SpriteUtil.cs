@@ -188,7 +188,7 @@ public static class SpriteUtil
         }
         if (type == SpriteBackgroundType.FullBackground) // full background
         {
-            return ImageUtil.BlendTransparentTo(img, color, opacBack);
+            return ImageUtil.ChangeTransparentTo(img, color, opacBack);
         }
         return img;
     }
