@@ -1,7 +1,24 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/11/24 - New Update:
+22/11/26 - New Update:
+ - Legality: 
+ - - Fixed: Encounter->PK9 small fixes added.
+ - - Added: Distribution Raids (Eevee) now recognized.
+ - - Fixed: Hidden Ability patch checks now behave correctly.
+ - - Fixed: Minor tweaks to tera type and encounter recognition.
+ - - Fixed: Gen8 technical records are checked correctly again.
+ - - Fixed: Maushold / Dudunsparce %100 evolution calc fixed (From %25).
+ - - Fixed: Gen9 obededience level for gift box legends now checked correctly (nonzero).
+ - - Still Pending: Wandering/Crossover encounter locations & marks (next release!)
+ - Added: Form Argument now has a label if the Form combobox is not being shown.
+ - Added: Cheat button to unlock all fly locations, and collect all stakes (sublegendary event). Thanks @sora10pls!
+ - Fixed: Gen9 raid seeds can now be correctly set via the GUI.
+ - Fixed: Gen9 xyz coordinates now read/write correctly instead of swapping y/z coordinates. Thanks @ih8ih8sn0w !
+ - Fixed: Gen9 Pokédex set now applies seen forms, and the Seen All / Caught / Complete cheats now behave as intended for all entries.
+ - Changed: Updated translation files. Thanks @easyworld, @manu098vm, @kitcham, @egzn !
+
+22/11/24 - New Update: (69113) [5657104]
  - Introducing Scarlet & Violet Support! Thanks @SciresM, @sora10pls, @Lusamine!
  - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for SV parsing.
  - - Save Data is similar to SW/SH; a pokedex, trainer, inventory, Raid, and block data editor are provided.
