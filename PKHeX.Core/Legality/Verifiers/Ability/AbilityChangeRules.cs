@@ -151,14 +151,13 @@ public static class AbilityChangeRules
         {
             var evo = evos[i];
             var pi = table[evo.Species, evo.Form];
-            if (revert && abilityIndex == 2 && !pi.GetIsAbility12Same())
+            if (revert && !pi.GetIsAbility12Same())
                 return true;
-            if (pi.GetIsAbilityHiddenUnique())
+            if (!pi.GetIsAbilityHiddenUnique())
                 continue;
+            if (abilityIndex == 1 || !pi.GetIsAbility12Same())
+                return true;
             revert = true;
-            if (pi.GetIsAbility12Same())
-                continue;
-            return true;
         }
         return false;
     }
