@@ -119,13 +119,14 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
     public override int TID
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x18));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x20), (ushort)value);
+        get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (0xF4240 * CardID)) & 0xFFFF);
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((SID << 16) | value) + (uint)(0xF4240 * CardID));
     }
 
-    public override int SID {
-        get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x1A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x18), (ushort)value);
+    public override int SID
+    {
+        get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (0xF4240 * CardID)) >> 16 & 0xFFFF);
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((value << 16) | TID) + (uint)(0xF4240 * CardID));
     }
 
     public int OriginGame
