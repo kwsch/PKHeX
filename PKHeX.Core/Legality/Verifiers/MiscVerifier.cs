@@ -801,7 +801,16 @@ public sealed class MiscVerifier : Verifier
                 if ((pi ??= GetPersonal(evos[0])).TMHM[i])
                     continue;
 
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(i))));
+                bool preEvoHas = false;
+                for (int p = 1; p < evos.Length; p++)
+                {
+                    if (!GetPersonal(evos[p]).TMHM[i])
+                        continue;
+                    preEvoHas = true;
+                    break;
+                }
+                if (!preEvoHas)
+                    data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(i))));
             }
         }
     }
