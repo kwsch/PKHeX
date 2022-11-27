@@ -801,6 +801,8 @@ public sealed class MiscVerifier : Verifier
                 if ((pi ??= GetPersonal(evos[0])).TMHM[i])
                     continue;
 
+                // Zoroark-0 cannot learn Encore via TM, but the pre-evolution Zorua-0 can via TM.
+                // Double check if any pre-evolutions can learn the TM.
                 bool preEvoHas = false;
                 for (int p = 1; p < evos.Length; p++)
                 {
