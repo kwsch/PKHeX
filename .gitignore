@@ -169,6 +169,17 @@ UpgradeLog*.htm
 App_Data/*.mdf
 App_Data/*.ldf
 
+# Local History for Visual Studio
+.localhistory/
+
+# Local History for Visual Studio Code
+.history/
+
+#################
+## Jetbrains
+#################
+.idea/
+*.sln.iml
 
 #############
 ## Qt Creator
@@ -220,7 +231,8 @@ pingme.txt
 ## Python
 #############
 
-*.py[co]
+*.py[cod]
+__pycache__/
 
 # Packages
 *.egg
