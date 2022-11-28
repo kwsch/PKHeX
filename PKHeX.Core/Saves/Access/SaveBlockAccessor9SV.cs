@@ -90,6 +90,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KBCATLotteryRewardItemArray = 0xA52B4811; // lottery_reward_item_array
     private const uint KBCATRaidEnemyArray = 0x0520A1B0; // raid_enemy_array
     private const uint KBCATRaidPriorityArray = 0x095451E4; // raid_priority_array
+    private const uint KBCATEventRaidIdentifier = 0x37B99B4D;
 
     #region YMAP - Display & Fly Flags -- internal name Fnv1aHash32
     private const uint FSYS_YMAP_SCENARIO_DAN_AKU = 0x1EE90D7F;
