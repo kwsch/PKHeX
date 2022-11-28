@@ -233,6 +233,7 @@ Main.L_DaycareSeed=시드
 Main.L_DC1=1:
 Main.L_DC2=2:
 Main.L_DynamaxLevel=다이맥스 레벨:
+Main.L_FormArgument=Form Argument:
 Main.L_Fused=Fused
 Main.L_GameSync=게임싱크 ID:
 Main.L_GTS=GTS
