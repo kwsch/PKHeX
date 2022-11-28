@@ -263,6 +263,7 @@ public partial class SAV_Database : Form
 
         var versions = new List<ComboItem>(GameInfo.VersionDataSource);
         versions.Insert(0, comboAny);
+        versions.RemoveAt(versions.Count - 1); // None
         CB_GameOrigin.DataSource = versions;
 
         string[] hptypes = new string[GameInfo.Strings.types.Length - 2];

@@ -201,7 +201,9 @@ public partial class SAV_Encounters : Form
         }
 
         var DS_Version = new List<ComboItem>(GameInfo.VersionDataSource);
-        DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
+        DS_Version.Insert(0, Any);
+        DS_Version.RemoveAt(DS_Version.Count - 1);
+        CB_GameOrigin.DataSource = DS_Version;
 
         // Trigger a Reset
         ResetFilters(this, EventArgs.Empty);
