@@ -233,6 +233,7 @@ Main.L_DaycareSeed=Semilla
 Main.L_DC1=1:
 Main.L_DC2=2:
 Main.L_DynamaxLevel=Nivel Dinamax:
+Main.L_FormArgument=Form Argument:
 Main.L_Fused=Fusionado
 Main.L_GameSync=ID de Sincronización:
 Main.L_GTS=GTS

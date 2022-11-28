@@ -233,6 +233,7 @@ Main.L_DaycareSeed=種子
 Main.L_DC1=1:
 Main.L_DC2=2:
 Main.L_DynamaxLevel=極巨化等級:
+Main.L_FormArgument=形態參數:
 Main.L_Fused=合體
 Main.L_GameSync=遊戲同步ID:
 Main.L_GTS=GTS

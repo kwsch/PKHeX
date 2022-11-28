@@ -233,6 +233,7 @@ Main.L_DaycareSeed=Seed
 Main.L_DC1=1:
 Main.L_DC2=2:
 Main.L_DynamaxLevel=Dynamax Level:
+Main.L_FormArgument=Form Argument:
 Main.L_Fused=Fused
 Main.L_GameSync=Game Sync ID:
 Main.L_GTS=GTS
