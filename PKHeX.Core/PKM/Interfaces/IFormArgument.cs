@@ -133,8 +133,8 @@ public static class FormArgumentUtil
         (int)Qwilfish when currentSpecies == (int)Overqwil => 20u,
         (int)Stantler when currentSpecies == (int)Wyrdeer => 20u,
         (int)Basculin when currentSpecies == (int)Basculegion => 294u,
-        (int)Primeape when currentSpecies == (int)Annihilape => 20u,
-        (int)Bisharp when currentSpecies == (int)Kingambit => 3u,
+        (int)Mankey or (int)Primeape when currentSpecies == (int)Annihilape => 20u,
+        (int)Pawniard or (int)Bisharp when currentSpecies == (int)Kingambit => 3u,
         (int)Gimmighoul when currentSpecies == (int)Gholdengo => 999u,
         _ => 0u,
     };
