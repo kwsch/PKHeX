@@ -238,7 +238,10 @@ public static class CommonEdits
         if (pk is IDynamaxLevel d)
             d.DynamaxLevel = d.GetSuggestedDynamaxLevel(pk, requested: Set.DynamaxLevel);
         if (pk is ITeraType tera)
-            tera.SetTeraType(Set.TeraType);
+        {
+            var type = Set.TeraType == MoveType.Any ? (MoveType)pk.PersonalInfo.Type1 : Set.TeraType;
+            tera.SetTeraType(type);
+        }
 
         if (pk is ITechRecord t)
         {
