@@ -199,7 +199,6 @@ public static partial class Legal
         0500, // Park Ball
         1785, // Strange Ball
 
-        0206, // Lansat Berry
         0207, // Starf Berry
         0208, // Enigma Berry
         0209, // Micle Berry
