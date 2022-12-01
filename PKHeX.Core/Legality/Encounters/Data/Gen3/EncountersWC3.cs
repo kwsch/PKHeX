@@ -238,12 +238,12 @@ internal static class EncountersWC3
         // Pokémon Box -- RSE Recipient
         new() { Species = 333, IsEgg = true, Level = 05, Moves = new(064,045,206,000), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Swablu Egg with False Swipe
         new() { Species = 263, IsEgg = true, Level = 05, Moves = new(033,045,039,245), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Zigzagoon Egg with Extreme Speed
-        new() { Species = 300, IsEgg = true, Level = 05, Moves = new(033,045,039,006), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Skitty Egg with Pay Day
+        new() { Species = 300, IsEgg = true, Level = 05, Moves = new(045,033,039,006), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Skitty Egg with Pay Day
         new() { Species = 172, IsEgg = true, Level = 05, Moves = new(084,204,057,000), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Pichu Egg with Surf
         // Pokémon Box -- FRLG Recipient
         new() { Species = 333, IsEgg = true, Level = 05, Moves = new(064,045,206,000), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Swablu Egg with False Swipe
         new() { Species = 263, IsEgg = true, Level = 05, Moves = new(033,045,039,245), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Zigzagoon Egg with Extreme Speed
-        new() { Species = 300, IsEgg = true, Level = 05, Moves = new(033,045,039,006), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Skitty Egg with Pay Day
+        new() { Species = 300, IsEgg = true, Level = 05, Moves = new(045,033,039,006), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Skitty Egg with Pay Day
         new() { Species = 172, IsEgg = true, Level = 05, Moves = new(084,204,057,000), Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Pichu Egg with Surf
 
         // PokePark Eggs - DS Download Play
