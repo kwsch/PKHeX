@@ -15,7 +15,7 @@ public static class Encounter9RNG
             uint seed = (uint)rand.NextInt(uint.MaxValue);
             if (!enc.CanBeEncountered(seed))
                 continue;
-            if (!GenerateData(pk, param, criteria, seed))
+            if (!GenerateData(pk, param, criteria, seed, param.IVs.IsSpecified))
                 continue;
 
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
@@ -78,23 +78,29 @@ public static class Encounter9RNG
 
         const int UNSET = -1;
         Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
-        const int MAX = 31;
-        for (int i = 0; i < enc.FlawlessIVs; i++)
+        if (enc.IVs.IsSpecified)
         {
-            int index;
-            do { index = (int)rand.NextInt(6); }
-            while (ivs[index] != UNSET);
-            ivs[index] = MAX;
+            enc.IVs.CopyToSpeedLast(ivs);
+        }
+        else
+        {
+            const int MAX = 31;
+            for (int i = 0; i < enc.FlawlessIVs; i++)
+            {
+                int index;
+                do { index = (int)rand.NextInt(6); }
+                while (ivs[index] != UNSET);
+                ivs[index] = MAX;
+            }
         }
 
+        if (!ignoreIVs && !criteria.IsIVsCompatible(ivs, 9))
+            return false;
         for (int i = 0; i < 6; i++)
         {
             if (ivs[i] == UNSET)
                 ivs[i] = (int)rand.NextInt(32);
         }
-
-        if (!ignoreIVs && !criteria.IsIVsCompatible(ivs, 9))
-            return false;
 
         pk.IV_HP = ivs[0];
         pk.IV_ATK = ivs[1];
@@ -123,7 +129,7 @@ public static class Encounter9RNG
             return false;
         pk.Gender = gender;
 
-        byte nature = pk.Species == (int)Species.Toxtricity
+        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : pk.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (byte)rand.NextInt(25);
         if (criteria.Nature != Nature.Random && nature != (int)criteria.Nature)
@@ -180,13 +186,20 @@ public static class Encounter9RNG
 
         const int UNSET = -1;
         Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
-        const int MAX = 31;
-        for (int i = 0; i < enc.FlawlessIVs; i++)
+        if (enc.IVs.IsSpecified)
         {
-            int index;
-            do { index = (int)rand.NextInt(6); }
-            while (ivs[index] != UNSET);
-            ivs[index] = MAX;
+            enc.IVs.CopyToSpeedLast(ivs);
+        }
+        else
+        {
+            const int MAX = 31;
+            for (int i = 0; i < enc.FlawlessIVs; i++)
+            {
+                int index;
+                do { index = (int)rand.NextInt(6); }
+                while (ivs[index] != UNSET);
+                ivs[index] = MAX;
+            }
         }
 
         for (int i = 0; i < 6; i++)
@@ -226,7 +239,7 @@ public static class Encounter9RNG
         if (pk.Gender != gender)
             return false;
 
-        int nature = pk.Species == (int)Species.Toxtricity
+        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : pk.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (byte)rand.NextInt(25);
         if (pk.Nature != nature)

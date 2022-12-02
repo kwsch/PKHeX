@@ -106,7 +106,8 @@ internal static class Encounters9
 
     private static readonly EncounterTera9[] Tera = EncounterTera9.GetArray(Get("gem_paldea"));
     private static readonly EncounterDist9[] Dist = EncounterDist9.GetArray(Get("dist_paldea"));
+    private static readonly EncounterMight9[] Might = EncounterMight9.GetArray(Get("might_paldea"));
     private static readonly EncounterFixed9[] Fixed = EncounterFixed9.GetArray(Get("fixed_paldea"));
-    internal static readonly EncounterStatic[] StaticSL = ArrayUtil.ConcatAll<EncounterStatic>(GetEncounters(Encounter_SV, SL), Tera, Dist, Fixed);
-    internal static readonly EncounterStatic[] StaticVL = ArrayUtil.ConcatAll<EncounterStatic>(GetEncounters(Encounter_SV, VL), Tera, Dist, Fixed);
+    internal static readonly EncounterStatic[] StaticSL = ArrayUtil.ConcatAll<EncounterStatic>(GetEncounters(Encounter_SV, SL), Tera, Dist, Might, Fixed);
+    internal static readonly EncounterStatic[] StaticVL = ArrayUtil.ConcatAll<EncounterStatic>(GetEncounters(Encounter_SV, VL), Tera, Dist, Might, Fixed);
 }

@@ -173,7 +173,6 @@ public sealed class MiscVerifier : Verifier
 
     private static readonly HashSet<int> UnreleasedSV = new()
     {
-        (int)Species.Charmander, // Charmander : distribution raids happening on Dec 1, 2022
         (int)Species.Raichu | (1 << 11), // Diglett-1
         (int)Species.Diglett | (1 << 11), // Diglett-1
         (int)Species.Meowth | (1 << 11), // Meowth-1

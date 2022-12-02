@@ -312,7 +312,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     }
 
     public int GetLanguage(int redeemLanguage) => Data[GetLanguageOffset(GetLanguageIndex(redeemLanguage))];
-    private static int GetLanguageOffset(int index) => 0x30 + (index * 0x1C) + 0x1A;
+    private static int GetLanguageOffset(int index) => 0x28 + (index * 0x1C) + 0x1A;
 
     public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetOTOffset(language))) != 0;
 

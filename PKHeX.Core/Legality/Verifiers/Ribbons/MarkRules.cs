@@ -160,7 +160,7 @@ public static class MarkRules
     public static bool IsMarkPresentMightiest(IEncounterTemplate enc)
     {
         // 7 star raids only.
-        return enc is EncounterTera9 { Stars: 7 };
+        return enc is EncounterMight9 { Stars: 7 };
     }
 
     /// <summary>

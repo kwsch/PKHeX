@@ -11,5 +11,8 @@ namespace PKHeX.Core;
 /// <param name="Scale">Scale value to generate. If zero, full random.</param>
 /// <param name="Ability">Ability type to generate.</param>
 /// <param name="Shiny">PID generation type.</param>
-public readonly record struct GenerateParam9(byte GenderRatio, byte FlawlessIVs, byte RollCount, byte Height, byte Weight, byte Scale,
-    AbilityPermission Ability = AbilityPermission.Any12, Shiny Shiny = Shiny.Random);
+/// <param name="Nature">Nature specification.</param>
+/// <param name="IVs">IV specification.</param>
+public readonly record struct GenerateParam9(byte GenderRatio, byte FlawlessIVs, byte RollCount, byte Height,
+    byte Weight, byte Scale, AbilityPermission Ability = AbilityPermission.Any12, Shiny Shiny = Shiny.Random,
+    Nature Nature = Nature.Random, IndividualValueSet IVs = default);

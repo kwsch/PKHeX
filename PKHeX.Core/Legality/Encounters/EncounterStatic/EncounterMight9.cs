@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
+public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
 {
     public override int Generation => 9;
     public override int Location => Locations.TeraCavern9;
@@ -13,6 +13,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
     public byte Index { get; private init; }
     public byte Stars { get; private init; }
     public byte RandRate { get; private init; } // weight chance of this encounter
+    public byte Scale { get; init; }
 
     public ushort RandRate0MinScarlet { get; private init; }
     public ushort RandRate0MinViolet { get; private init; }
@@ -60,7 +61,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
         3 => RandRate3MinScarlet,
         _ => throw new ArgumentOutOfRangeException(nameof(stage)),
     };
-    
+
     public ushort GetRandRateMinViolet(int stage) => stage switch
     {
         0 => RandRate0MinViolet,
@@ -74,7 +75,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
     private const int StageNone = -1;
 
     public bool CanBeEncountered(uint seed) => GetProgressMaximum(seed) != StageNone;
-    
+
     public int ProgressStageMin
     {
         get
@@ -138,20 +139,20 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
         return false;
     }
 
-    public static EncounterDist9[] GetArray(ReadOnlySpan<byte> data)
+    public static EncounterMight9[] GetArray(ReadOnlySpan<byte> data)
     {
         var count = data.Length / SerializedSize;
-        var result = new EncounterDist9[count];
+        var result = new EncounterMight9[count];
         for (int i = 0; i < result.Length; i++)
             result[i] = ReadEncounter(data.Slice(i * SerializedSize, SerializedSize));
         return result;
     }
 
-    private EncounterDist9() : base(GameVersion.SV) { }
+    private EncounterMight9() : base(GameVersion.SV) { }
 
-    private const int SerializedSize = WeightStart + (sizeof(ushort) * 2 * 2 * 4);
+    private const int SerializedSize = WeightStart + (sizeof(ushort) * 2 * 2 * 4) + 10;
     private const int WeightStart = 0x14;
-    private static EncounterDist9 ReadEncounter(ReadOnlySpan<byte> data) => new()
+    private static EncounterMight9 ReadEncounter(ReadOnlySpan<byte> data) => new()
     {
         Species = ReadUInt16LittleEndian(data),
         Form = data[0x02],
@@ -170,25 +171,29 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
         Stars = data[0x12],
         RandRate = data[0x13],
 
-        RandRate0MinScarlet   = ReadUInt16LittleEndian(data[WeightStart..]),
-        RandRate0MinViolet    = ReadUInt16LittleEndian(data[(WeightStart + sizeof(ushort))..]),
+        RandRate0MinScarlet = ReadUInt16LittleEndian(data[WeightStart..]),
+        RandRate0MinViolet = ReadUInt16LittleEndian(data[(WeightStart + sizeof(ushort))..]),
         RandRate0TotalScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 2))..]),
-        RandRate0TotalViolet  = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 3))..]),
+        RandRate0TotalViolet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 3))..]),
 
-        RandRate1MinScarlet   = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 4))..]),
-        RandRate1MinViolet    = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 5))..]),
+        RandRate1MinScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 4))..]),
+        RandRate1MinViolet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 5))..]),
         RandRate1TotalScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 6))..]),
-        RandRate1TotalViolet  = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 7))..]),
+        RandRate1TotalViolet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 7))..]),
 
-        RandRate2MinScarlet   = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 8))..]),
-        RandRate2MinViolet    = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 9))..]),
+        RandRate2MinScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 8))..]),
+        RandRate2MinViolet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 9))..]),
         RandRate2TotalScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 10))..]),
-        RandRate2TotalViolet  = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 11))..]),
+        RandRate2TotalViolet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 11))..]),
 
-        RandRate3MinScarlet   = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 12))..]),
-        RandRate3MinViolet    = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 13))..]),
+        RandRate3MinScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 12))..]),
+        RandRate3MinViolet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 13))..]),
         RandRate3TotalScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 14))..]),
-        RandRate3TotalViolet  = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 15))..]),
+        RandRate3TotalViolet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 15))..]),
+
+        Nature = (Nature)data[0x34],
+        IVs = new IndividualValueSet((sbyte)data[0x35], (sbyte)data[0x36], (sbyte)data[0x37], (sbyte)data[0x38], (sbyte)data[0x39], (sbyte)data[0x3A], data[0x3B]),
+        Scale = data[0x3C],
     };
 
     private static AbilityPermission GetAbility(byte b) => b switch
@@ -231,14 +236,19 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
                 return true;
         }
 
+        if (pk is IScaledSize3 s3 && s3.Scale != Scale)
+            return true;
+        if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
+            return true;
+
         var seed = Tera9RNG.GetOriginalSeed(pk);
         if (pk is ITeraType t && !Tera9RNG.IsMatchTeraType(seed, TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return true;
         if (!CanBeEncountered(seed))
             return true;
 
-        var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9((byte)pi.Gender, FlawlessIVCount, 1, 0, 0, 0, Ability, Shiny);
+        byte gender = GetGender();
+        var param = new GenerateParam9(gender, FlawlessIVCount, 1, 0, 0, Scale, Ability, Shiny, Nature, IVs);
         if (!Encounter9RNG.IsMatch(pk, param, seed))
             return true;
         return base.IsMatchPartial(pk);
@@ -249,6 +259,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
         base.ApplyDetails(tr, criteria, pk);
         var pk9 = (PK9)pk;
         pk9.Obedience_Level = (byte)pk9.Met_Level;
+        pk9.RibbonMarkMightiest = true;
     }
 
     protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
@@ -257,14 +268,22 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
 
         const byte rollCount = 1;
         const byte undefinedSize = 0;
-        var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9((byte)pi.Gender, FlawlessIVCount, rollCount,
-            undefinedSize, undefinedSize, undefinedSize,
-            Ability, Shiny);
+        byte gender = GetGender();
+        var param = new GenerateParam9(gender, FlawlessIVCount, rollCount,
+            undefinedSize, undefinedSize, Scale,
+            Ability, Shiny, Nature, IVs);
 
         var init = Util.Rand.Rand64();
         var success = this.TryApply32(pk9, init, param, criteria);
         if (!success)
             this.TryApply32(pk9, init, param, EncounterCriteria.Unrestricted);
     }
+
+    private byte GetGender() => Gender switch
+    {
+        0 => PersonalInfo.RatioMagicMale,
+        1 => PersonalInfo.RatioMagicFemale,
+        2 => PersonalInfo.RatioMagicGenderless,
+        _ => (byte)PersonalTable.SV.GetFormEntry(Species, Form).Gender,
+    };
 }

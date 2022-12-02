@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <Version>22.11.26</Version>
+    <Version>22.12.01</Version>
     <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
     <NeutralLanguage>en</NeutralLanguage>

@@ -1,7 +1,19 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/11/26 - New Update:
+22/12/01 - New Update:
+ - Added support for Scarlet & Violet 1.1.0.
+ - Legality:
+ - - Fixed: Gen9 banned species list updated.
+ - - Fixed: Gen9 TR flags now check pre-evolutions if the current evolution does not have a required move flag.
+ - - Fixed: Ability patch reverting check updated to account for single-evolution-chain cases.
+ - Fixed: Showdown Set imports without a Tera Type will default to the species' first type.
+ - Fixed: WC9 now generates with correct SID7. Thanks @Manu098vm !
+ - Fixed: Associating a pk9 file to PKHeX.exe now starts up properly.
+ - Fixed: Form argument suggestion for Mankey & Pawniard, when evolved to max evo stage, added.
+ - Changed: Updated translation files. Thanks @easyworld, @Yarkis01
+
+22/11/26 - New Update: (98776) [5755880]
  - Legality: 
  - - Fixed: Encounter->PK9 small fixes added.
  - - Added: Distribution Raids (Eevee) now recognized.

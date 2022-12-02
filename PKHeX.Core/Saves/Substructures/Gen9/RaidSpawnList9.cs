@@ -119,4 +119,5 @@ public enum TeraRaidContentType : uint
     Base05,
     Black6,
     Distribution,
+    Might7,
 }

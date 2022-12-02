@@ -19,8 +19,12 @@ public static class SaveUtil
     public const int SIZE_G9_0a  = 0x31627C; // 1.0.0 after multiplayer
     public const int SIZE_G9_1   = 0x319DB3; // 1.0.1 fresh
     public const int SIZE_G9_1a  = 0x319DC0; // 1.0.1 after multiplayer
+    public const int SIZE_G9_3   = 0x319DC3; // 1.1.0 fresh
+    public const int SIZE_G9_1Ba = 0x319DD0; // 1.0.1 -> 1.1.0
     public const int SIZE_G9_1A  = 0x31A2C0; // 1.0.0 -> 1.0.1
-    public const int SIZE_G9_1Aa = 0x31A2CD; // 1.0.1 -> 1.0.1 after multiplayer
+    public const int SIZE_G9_1Aa = 0x31A2CD; // 1.0.0 -> 1.0.1 -> 1.0.1 after multiplayer
+    public const int SIZE_G9_1Ab = 0x31A2DD; // 1.0.0 -> 1.0.1 -> 1.0.1 after multiplayer -> 1.1.0
+    public const int SIZE_G9_2   = 0x31A2D0; // 1.0.0 -> 1.1.0
 
     public const int SIZE_G8LA = 0x136DDE;
     public const int SIZE_G8LA_1 = 0x13AD06;
@@ -106,6 +110,8 @@ public static class SaveUtil
         SIZE_G9_0, SIZE_G9_0a,
         SIZE_G9_1, SIZE_G9_1a,
         SIZE_G9_1A, SIZE_G9_1Aa,
+        SIZE_G9_1Ba, SIZE_G9_1Ab,
+        SIZE_G9_2, SIZE_G9_3,
     };
 
     private static readonly HashSet<int> SizesSWSH = new()
