@@ -57,40 +57,23 @@ internal static class Encounters9
 
         #region Chest Form Gimmighoul
         // Gimmighoul has 13 separate static encounter entries, all differing by Level. These can be placed in numerous parts of the map, so for now, manually define them all here.
-      //new(SV) { Species = 976, Shiny = Never, Level = 01, Location = -01 }, // Gimmighoul
-
         new(SV) { Species = 976, Shiny = Never, Level = 05, Location = 006 }, // Gimmighoul - South Province (Area One)
-
         new(SV) { Species = 976, Shiny = Never, Level = 10, Location = 012 }, // Gimmighoul - South Province (Area Two)
         new(SV) { Species = 976, Shiny = Never, Level = 10, Location = 020 }, // Gimmighoul - South Province (Area Three)
-
         new(SV) { Species = 976, Shiny = Never, Level = 15, Location = 014 }, // Gimmighoul - South Province (Area Four)
         new(SV) { Species = 976, Shiny = Never, Level = 15, Location = 018 }, // Gimmighoul - South Province (Area Five)
         new(SV) { Species = 976, Shiny = Never, Level = 15, Location = 022 }, // Gimmighoul - West Province (Area One)
         new(SV) { Species = 976, Shiny = Never, Level = 15, Location = 034 }, // Gimmighoul - East Province (Area One)
-
         new(SV) { Species = 976, Shiny = Never, Level = 20, Location = 024 }, // Gimmighoul - Asado Desert
-
         new(SV) { Species = 976, Shiny = Never, Level = 25, Location = 032 }, // Gimmighoul - East Province (Area Three)
         new(SV) { Species = 976, Shiny = Never, Level = 25, Location = 058 }, // Gimmighoul - West Paldean Sea
-
-      //new(SV) { Species = 976, Shiny = Never, Level = 30, Location = -01 }, // Gimmighoul
-
         new(SV) { Species = 976, Shiny = Never, Level = 35, Location = 038 }, // Gimmighoul - Glaseado Mountain
-
         new(SV) { Species = 976, Shiny = Never, Level = 40, Location = 016 }, // Gimmighoul - South Province (Area Six)
-
-      //new(SV) { Species = 976, Shiny = Never, Level = 45, Location = -01 }, // Gimmighoul
-
         new(SV) { Species = 976, Shiny = Never, Level = 50, Location = 026 }, // Gimmighoul - West Province (Area Two)
         new(SV) { Species = 976, Shiny = Never, Level = 50, Location = 040 }, // Gimmighoul - Casseroya Lake
         new(SV) { Species = 976, Shiny = Never, Level = 50, Location = 046 }, // Gimmighoul - North Province (Area One)
         new(SV) { Species = 976, Shiny = Never, Level = 50, Location = 048 }, // Gimmighoul - North Province (Area Two)
         new(SV) { Species = 976, Shiny = Never, Level = 50, Location = 109 }, // Gimmighoul - Socarrat Trail
-
-      //new(SV) { Species = 976, Shiny = Never, Level = 55, Location = -01 }, // Gimmighoul
-
-      //new(SV) { Species = 976, Shiny = Never, Level = 60, Location = -01 }, // Gimmighoul
         #endregion
     };
 
