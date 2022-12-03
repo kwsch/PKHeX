@@ -99,6 +99,23 @@ public static class RibbonRules
         return true;
     }
 
+    public static bool IsRibbonValidMasterRankSV(PKM pk, IEncounterTemplate enc, EvolutionHistory evos)
+    {
+        if (pk.Format < 9)
+            return false;
+
+        if (Legal.Legends.Contains(pk.Species))
+            return false;
+        if (Legal.SubLegends.Contains(pk.Species))
+            return false;
+        if (pk.Species >= (int)Species.GreatTusk && pk.Species <= (int)Species.IronValiant)
+            return false;
+
+        var pt = PersonalTable.SV;
+        var pi = pt.GetFormEntry(pk.Species, pk.Form);
+        return pi.IsInDex; // no foreign species, such as Charmander, Wooper-0, and Meowth-2
+    }
+
     /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetCommon6.RibbonTraining"/> ribbon.
     /// </summary>

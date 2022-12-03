@@ -14,13 +14,19 @@ public static class RibbonVerifierCommon8
             list.Add(TowerMaster);
 
         var pk = args.Entity;
+        bool ranked = evos.HasVisitedSWSH || pk.SV;
+
         if (!evos.HasVisitedSWSH)
         {
             if (r.RibbonChampionGalar)
                 list.Add(ChampionGalar);
-            if (r.RibbonMasterRank)
-                list.Add(MasterRank);
         }
+
+        if (r.RibbonMasterRank && !ranked)
+        {
+            list.Add(MasterRank);
+        }
+
         else
         {
             // If it can exist in SW/SH, it can have the ribbon.
@@ -35,9 +41,13 @@ public static class RibbonVerifierCommon8
                     list.Add(ChampionGalar, true);
             }
 
-            // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
+            // Legends can compete in Ranked starting from Series 10.
             // Past gen Pokemon can get the ribbon only if they've been reset.
-            if (r.RibbonMasterRank && !RibbonRules.IsRibbonValidMasterRankSWSH(pk, enc, evos))
+            if (pk.Format == 8 && r.RibbonMasterRank && !RibbonRules.IsRibbonValidMasterRankSWSH(pk, enc, evos))
+                list.Add(MasterRank);
+
+            // Only Paldea natives can compete in Ranked. No Legends/Sub-Legends/Paradoxes as of Series 1.
+            if (pk.Format == 9 && r.RibbonMasterRank && !RibbonRules.IsRibbonValidMasterRankSV(pk, enc, evos))
                 list.Add(MasterRank);
 
             if (!r.RibbonTowerMaster)
