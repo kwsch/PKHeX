@@ -24,6 +24,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public PlayerFashion9 PlayerFashion { get; }
     public PlayerAppearance9 PlayerAppearance { get; }
     public RaidSpawnList9 Raid { get; }
+    public RaidSevenStar9 RaidSevenStar { get; }
     public FixedSpawnList9 FixedSpawns { get; }
 
     public SaveBlockAccessor9SV(SAV9SV sav)
@@ -42,6 +43,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
         PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
         Raid = new RaidSpawnList9(sav, GetBlock(KTeraRaids));
+        RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaids));
         FixedSpawns = new FixedSpawnList9(sav, GetBlock(KFixedSymbolRetainer));
     }
 
@@ -85,6 +87,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KPlayerPhoto2 = 0xF8B14C88;
     private const uint KFixedSymbolRetainer = 0x74ABB9CC;
     private const uint KRentalTeams = 0x19CB0339;
+    private const uint KSevenStarRaids = 0x8B14392F;
 
     private const uint KBCATFixedRewardItemArray = 0x7D6C2B82; // fixed_reward_item_array
     private const uint KBCATLotteryRewardItemArray = 0xA52B4811; // lottery_reward_item_array

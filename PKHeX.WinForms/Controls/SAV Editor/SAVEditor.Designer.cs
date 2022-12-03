@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class SAVEditor
     {
@@ -56,6 +56,7 @@
             this.FLP_SAVToolsMisc = new System.Windows.Forms.FlowLayoutPanel();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
+            this.B_VerifySaveEntities = new System.Windows.Forms.Button();
             this.Menu_ExportBAK = new System.Windows.Forms.Button();
             this.B_JPEG = new System.Windows.Forms.Button();
             this.CB_SaveSlot = new System.Windows.Forms.ComboBox();
@@ -95,6 +96,7 @@
             this.B_OtherSlots = new System.Windows.Forms.Button();
             this.B_OpenSealStickers = new System.Windows.Forms.Button();
             this.B_Poffins = new System.Windows.Forms.Button();
+            this.B_RaidsSevenStar = new System.Windows.Forms.Button();
             this.L_SaveSlot = new System.Windows.Forms.Label();
             this.L_Secure2 = new System.Windows.Forms.Label();
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
@@ -102,7 +104,6 @@
             this.TB_Secure1 = new System.Windows.Forms.TextBox();
             this.L_GameSync = new System.Windows.Forms.Label();
             this.TB_GameSync = new System.Windows.Forms.TextBox();
-            this.B_VerifySaveEntities = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -390,6 +391,16 @@
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
             // 
+            // B_VerifySaveEntities
+            // 
+            this.B_VerifySaveEntities.Location = new System.Drawing.Point(175, 3);
+            this.B_VerifySaveEntities.Name = "B_VerifySaveEntities";
+            this.B_VerifySaveEntities.Size = new System.Drawing.Size(80, 45);
+            this.B_VerifySaveEntities.TabIndex = 104;
+            this.B_VerifySaveEntities.Text = "Verify All PKMs";
+            this.B_VerifySaveEntities.UseVisualStyleBackColor = true;
+            this.B_VerifySaveEntities.Click += new System.EventHandler(this.ClickVerifyStoredEntities);
+            // 
             // Menu_ExportBAK
             // 
             this.Menu_ExportBAK.Location = new System.Drawing.Point(261, 3);
@@ -469,6 +480,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OtherSlots);
             this.FLP_SAVtools.Controls.Add(this.B_OpenSealStickers);
             this.FLP_SAVtools.Controls.Add(this.B_Poffins);
+            this.FLP_SAVtools.Controls.Add(this.B_RaidsSevenStar);
             this.FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_SAVtools.Location = new System.Drawing.Point(3, 16);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
@@ -818,6 +830,16 @@
             this.B_Poffins.UseVisualStyleBackColor = true;
             this.B_Poffins.Click += new System.EventHandler(this.B_Poffins_Click);
             // 
+            // B_RaidsSevenStar
+            // 
+            this.B_RaidsSevenStar.Location = new System.Drawing.Point(205, 291);
+            this.B_RaidsSevenStar.Name = "B_RaidsSevenStar";
+            this.B_RaidsSevenStar.Size = new System.Drawing.Size(95, 30);
+            this.B_RaidsSevenStar.TabIndex = 7;
+            this.B_RaidsSevenStar.Text = "Raids (7 Star)";
+            this.B_RaidsSevenStar.UseVisualStyleBackColor = true;
+            this.B_RaidsSevenStar.Click += new System.EventHandler(this.B_OpenRaids_Click);
+            // 
             // L_SaveSlot
             // 
             this.L_SaveSlot.AutoSize = true;
@@ -889,16 +911,6 @@
             this.TB_GameSync.TabIndex = 10;
             this.TB_GameSync.Text = "0000000000000000";
             this.TB_GameSync.Validated += new System.EventHandler(this.UpdateStringSeed);
-            // 
-            // B_VerifySaveEntities
-            // 
-            this.B_VerifySaveEntities.Location = new System.Drawing.Point(175, 3);
-            this.B_VerifySaveEntities.Name = "B_VerifySaveEntities";
-            this.B_VerifySaveEntities.Size = new System.Drawing.Size(80, 45);
-            this.B_VerifySaveEntities.TabIndex = 104;
-            this.B_VerifySaveEntities.Text = "Verify All PKMs";
-            this.B_VerifySaveEntities.UseVisualStyleBackColor = true;
-            this.B_VerifySaveEntities.Click += new System.EventHandler(this.ClickVerifyStoredEntities);
             // 
             // SAVEditor
             // 
@@ -998,5 +1010,6 @@
         private System.Windows.Forms.Button B_OpenSealStickers;
         private System.Windows.Forms.Button B_Poffins;
         private System.Windows.Forms.Button B_VerifySaveEntities;
+        private System.Windows.Forms.Button B_RaidsSevenStar;
     }
 }

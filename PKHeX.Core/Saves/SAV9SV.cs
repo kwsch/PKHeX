@@ -74,6 +74,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public PlayerFashion9 PlayerFashion => Blocks.PlayerFashion;
     public PlayerAppearance9 PlayerAppearance => Blocks.PlayerAppearance;
     public RaidSpawnList9 Raid => Blocks.Raid;
+    public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
     public FixedSpawnList9 FixedSpawns => Blocks.FixedSpawns;
     #endregion
 

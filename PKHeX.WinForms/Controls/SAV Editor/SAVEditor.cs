@@ -557,6 +557,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             if (sender == B_Raids)
                 OpenDialog(new SAV_Raid9(sv, sv.Raid));
+            else if (sender == B_RaidsSevenStar)
+                OpenDialog(new SAV_RaidSevenStar9(sv, sv.RaidSevenStar));
         }
         else if (SAV is SAV8SWSH swsh)
         {
