@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Object has Trainer ownership
@@ -13,10 +13,15 @@ public static partial class Extensions
 {
     public static int GetTrainerIDFormat(this ITrainerID tr)
     {
-        if (tr is PKM p)
+        if (tr is PKM pk)
         {
-            var format = p.Generation;
-            if ((format < 3 && p.Format >= 7) || format <= 0) // VC or bad gen
+            if (pk.Version is 0)
+                return pk.Format;
+
+            var format = pk.Generation;
+            if (format < 3 && pk.Format >= 7) // VC or bad gen
+                return 4; // use TID/SID 16bit style
+            if (format <= 0)
                 return 4; // use TID/SID 16bit style
             return format;
         }

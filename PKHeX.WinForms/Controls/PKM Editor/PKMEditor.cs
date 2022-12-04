@@ -1146,7 +1146,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void UpdateOriginGame(object sender, EventArgs e)
     {
         GameVersion version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
-        if (version.IsValidSavedVersion())
+        if (version is 0 || version.IsValidSavedVersion())
         {
             CheckMetLocationChange(version, Entity.Context);
             if (FieldsLoaded)
@@ -1174,6 +1174,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         // Does the list of locations need to be changed to another group?
         var group = GameUtil.GetMetLocationVersionGroup(version);
+        if (group is GameVersion.Invalid)
+            group = GameUtil.GetMetLocationVersionGroup(RequestSaveFile.Version);
         if (group != origintrack || context != originFormat)
             ReloadMetLocations(version, context);
         origintrack = group;
