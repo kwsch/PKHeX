@@ -41,13 +41,7 @@ public static class RibbonVerifierCommon8
                     list.Add(ChampionGalar, true);
             }
 
-            // Legends can compete in Ranked starting from Series 10.
-            // Past gen Pokemon can get the ribbon only if they've been reset.
-            if (pk.Format == 8 && r.RibbonMasterRank && !RibbonRules.IsRibbonValidMasterRankSWSH(pk, enc, evos))
-                list.Add(MasterRank);
-
-            // Only Paldea natives can compete in Ranked. No Legends/Sub-Legends/Paradoxes as of Series 1.
-            if (pk.Format == 9 && r.RibbonMasterRank && !RibbonRules.IsRibbonValidMasterRankSV(pk, enc, evos))
+            if (r.RibbonMasterRank && !RibbonRules.IsRibbonValidMasterRank(pk, enc, evos))
                 list.Add(MasterRank);
 
             if (!r.RibbonTowerMaster)
