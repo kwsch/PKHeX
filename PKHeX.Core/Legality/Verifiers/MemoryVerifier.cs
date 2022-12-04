@@ -321,7 +321,14 @@ public sealed class MemoryVerifier : Verifier
         {
             // No Memory
             case 0: // SWSH memory application has an off-by-one error: [0,99] + 1 <= chance --> don't apply
-                data.AddLine(Get(LMemoryMissingHT, memoryGen == Gen8 ? ParseSettings.Gen8MemoryMissingHT : Severity.Invalid));
+                var severity = memoryGen switch
+                {
+                    Gen8 when pk is not PK8 && !pk.SWSH => Severity.Valid,
+                    Gen8 => ParseSettings.Gen8MemoryMissingHT,
+                    _ => Severity.Invalid,
+                };
+                if (severity != Severity.Valid)
+                    data.AddLine(Get(LMemoryMissingHT, severity));
                 VerifyHTMemoryNone(data, mem);
                 return;
 
