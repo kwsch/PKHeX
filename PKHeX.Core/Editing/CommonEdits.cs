@@ -353,7 +353,7 @@ public static class CommonEdits
         if (pk.IsTradedEgg)
             pk.Egg_Location = pk.Met_Location;
         if (pk.Version == 0)
-            pk.Version = EggStateLegality.GetEggHatchVersion(pk, (GameVersion)(tr?.Game ?? RecentTrainerCache.Game));
+            pk.Version = (int)EggStateLegality.GetEggHatchVersion(pk, (GameVersion)(tr?.Game ?? RecentTrainerCache.Game));
         var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
         if (loc >= 0)
             pk.Met_Location = loc;
