@@ -341,8 +341,9 @@ public static class CommonEdits
     /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
     /// </summary>
     /// <param name="pk">PKM to apply hatch details to</param>
+    /// <param name="tr">Trainer to force hatch with if Version is not currently set.</param>
     /// <param name="reHatch">Re-hatch already hatched <see cref="PKM"/> inputs</param>
-    public static void ForceHatchPKM(this PKM pk, bool reHatch = false)
+    public static void ForceHatchPKM(this PKM pk, ITrainerInfo? tr = null, bool reHatch = false)
     {
         if (!pk.IsEgg && !reHatch)
             return;
@@ -351,6 +352,8 @@ public static class CommonEdits
         pk.CurrentFriendship = pk.PersonalInfo.BaseFriendship;
         if (pk.IsTradedEgg)
             pk.Egg_Location = pk.Met_Location;
+        if (pk.Version == 0)
+            pk.Version = EggStateLegality.GetEggHatchVersion(pk, (GameVersion)(tr?.Game ?? RecentTrainerCache.Game));
         var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
         if (loc >= 0)
             pk.Met_Location = loc;

@@ -64,17 +64,17 @@ public static class BoxManipDefaults
     /// <summary>
     /// Common modifying actions.
     /// </summary>
-    public static readonly IReadOnlyList<BoxManipModify> ModifyCommon = new List<BoxManipModify>
+    public static readonly IReadOnlyList<BoxManipBase> ModifyCommon = new List<BoxManipBase>
     {
-        new(ModifyHatchEggs, pk => pk.ForceHatchPKM(), s => s.Generation >= 2 && s is not SAV8LA),
-        new(ModifyMaxFriendship, pk => pk.MaximizeFriendship()),
-        new(ModifyMaxLevel, pk => pk.MaximizeLevel()),
-        new(ModifyResetMoves, pk => pk.SetMoves(pk.GetMoveSet()), s => s.Generation >= 3),
-        new(ModifyRandomMoves, pk => pk.SetMoves(pk.GetMoveSet(true))),
-        new(ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7 && s is not SAV8LA),
-        new(ModifyGanbaru,pk => ((IGanbaru)pk).SetSuggestedGanbaruValues(pk), s => s is SAV8LA),
-        new(ModifyRemoveNicknames, pk => pk.SetDefaultNickname()),
-        new(ModifyRemoveItem, pk => pk.HeldItem = 0, s => s.Generation >= 2),
-        new(ModifyHeal, pk => pk.Heal(), s => s.Generation >= 6), // HP stored in box, or official code has bugged transfer PP the user would like to rectify.
+        new BoxManipModifyComplex(ModifyHatchEggs, (pk, sav) => pk.ForceHatchPKM(sav), s => s.Generation >= 2 && s is not SAV8LA),
+        new BoxManipModify(ModifyMaxFriendship, pk => pk.MaximizeFriendship()),
+        new BoxManipModify(ModifyMaxLevel, pk => pk.MaximizeLevel()),
+        new BoxManipModify(ModifyResetMoves, pk => pk.SetMoves(pk.GetMoveSet()), s => s.Generation >= 3),
+        new BoxManipModify(ModifyRandomMoves, pk => pk.SetMoves(pk.GetMoveSet(true))),
+        new BoxManipModify(ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7 && s is not SAV8LA),
+        new BoxManipModify(ModifyGanbaru,pk => ((IGanbaru)pk).SetSuggestedGanbaruValues(pk), s => s is SAV8LA),
+        new BoxManipModify(ModifyRemoveNicknames, pk => pk.SetDefaultNickname()),
+        new BoxManipModify(ModifyRemoveItem, pk => pk.HeldItem = 0, s => s.Generation >= 2),
+        new BoxManipModify(ModifyHeal, pk => pk.Heal(), s => s.Generation >= 6), // HP stored in box, or official code has bugged transfer PP the user would like to rectify.
     };
 }

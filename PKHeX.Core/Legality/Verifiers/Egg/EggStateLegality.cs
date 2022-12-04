@@ -90,6 +90,18 @@ public static class EggStateLegality
     };
 
     /// <summary>
+    /// Gets a suggested Version for a hatched egg that originally lacked a Version value.
+    /// </summary>
+    /// <param name="pk">Egg Entity</param>
+    /// <param name="version">Potential version the egg was hatched in</param>
+    /// <returns>Very roughly sanitized version the egg was hatched in.</returns>
+    public static GameVersion GetEggHatchVersion(PKM pk, GameVersion version) => pk switch
+    {
+        PK9 => version is SL or VL ? version : SL,
+        _ => version,
+    };
+
+    /// <summary>
     /// Indicates if the <see cref="PKM.IsNicknamed"/> flag should be set for an Egg entity.
     /// </summary>
     /// <param name="enc">Encounter the egg was generated with</param>
