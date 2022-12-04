@@ -78,6 +78,13 @@ public sealed class TeraRaidDetail
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x08), (uint)value);
     }
 
+    [Category(General), Description("Zone-specific overworld spawn point for the raid crystal.")]
+    public uint SpawnPointID
+    {
+        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x0C));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x0C), value);
+    }
+
     [Category(General), Description("RNG Seed (32bit) for fetching the Raid data table and generating the raid."), TypeConverter(typeof(TypeConverterU32))]
     public uint Seed
     {
