@@ -67,7 +67,7 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
             height = weight = Gift ? Size : undefinedSize;
             scale = Size;
         }
-        
+
         const byte rollCount = 1;
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
         var param = new GenerateParam9((byte)pi.Gender, FlawlessIVCount, rollCount, height, weight, scale, Ability, Shiny);
@@ -76,7 +76,6 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
         var success = this.TryApply64(pk9, init, param, criteria, IVs.IsSpecified);
         if (!success)
             this.TryApply64(pk9, init, param, EncounterCriteria.Unrestricted, IVs.IsSpecified);
-
         if (IVs.IsSpecified)
         {
             pk.IV_HP = IVs.HP;
@@ -87,8 +86,8 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
             pk.IV_SPE = IVs.SPE;
         }
         if (Nature != Nature.Random)
-        {
             pk.Nature = pk.StatNature = (int)Nature;
-        }
+        if (Gender != -1)
+            pk.Gender = (byte)Gender;
     }
 }
