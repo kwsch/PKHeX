@@ -970,4 +970,70 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint WSYS_XMENU_RELEASE = 0x5452A1B1;
     private const uint WSYS_YMAP_CLEAR_EFFECT_DONE = 0x2F532744;
     #endregion
+
+    #region EncountOutbreakSave
+    private const uint KMassOutbreak01CenterPos   = 0x2ED42F4D; // EncountOutbreakSave_centerPos[0]
+    private const uint KMassOutbreak01DummyPos    = 0x4A13BE7C; // EncountOutbreakSave_dummyPos[0]
+    private const uint KMassOutbreak01Species     = 0x76A2F996; // EncountOutbreakSave_monsno[0]
+    private const uint KMassOutbreak01Form        = 0x29B4615D; // EncountOutbreakSave_formno[0]
+    private const uint KMassOutbreak01Found       = 0x7E203623; // EncountOutbreakSave_isFind[0]
+    private const uint KMassOutbreak01NumKOed     = 0x4B16FBC2; // EncountOutbreakSave_subjugationCount[0]
+    private const uint KMassOutbreak01TotalSpawns = 0xB7DC495A; // EncountOutbreakSave_subjugationLimit[0]
+
+    private const uint KMassOutbreak02CenterPos   = 0x2ED5F198; // EncountOutbreakSave_centerPos[1]
+    private const uint KMassOutbreak02DummyPos    = 0x4A118F71; // EncountOutbreakSave_dummyPos[1]
+    private const uint KMassOutbreak02Species     = 0x76A0BCF3; // EncountOutbreakSave_monsno[1]
+    private const uint KMassOutbreak02Form        = 0x29B84368; // EncountOutbreakSave_formno[1]
+    private const uint KMassOutbreak02Found       = 0x7E22DF86; // EncountOutbreakSave_isFind[1]
+    private const uint KMassOutbreak02NumKOed     = 0x4B14BF1F; // EncountOutbreakSave_subjugationCount[1]
+    private const uint KMassOutbreak02TotalSpawns = 0xB7DA0CB7; // EncountOutbreakSave_subjugationLimit[1]
+
+    private const uint KMassOutbreak03CenterPos   = 0x2ECE09D3; // EncountOutbreakSave_centerPos[2]
+    private const uint KMassOutbreak03DummyPos    = 0x4A0E135A; // EncountOutbreakSave_dummyPos[2]
+    private const uint KMassOutbreak03Species     = 0x76A97E38; // EncountOutbreakSave_monsno[2]
+    private const uint KMassOutbreak03Form        = 0x29AF8223; // EncountOutbreakSave_formno[2]
+    private const uint KMassOutbreak03Found       = 0x7E25155D; // EncountOutbreakSave_isFind[2]
+    private const uint KMassOutbreak03NumKOed     = 0x4B1CA6E4; // EncountOutbreakSave_subjugationCount[2]
+    private const uint KMassOutbreak03TotalSpawns = 0xB7E1F47C; // EncountOutbreakSave_subjugationLimit[2]
+
+    private const uint KMassOutbreak04CenterPos   = 0x2ED04676; // EncountOutbreakSave_centerPos[3]
+    private const uint KMassOutbreak04DummyPos    = 0x4A0BD6B7; // EncountOutbreakSave_dummyPos[3]
+    private const uint KMassOutbreak04Species     = 0x76A6E26D; // EncountOutbreakSave_monsno[3]
+    private const uint KMassOutbreak04Form        = 0x29B22B86; // EncountOutbreakSave_formno[3]
+    private const uint KMassOutbreak04Found       = 0x7E28F768; // EncountOutbreakSave_isFind[3]
+    private const uint KMassOutbreak04NumKOed     = 0x4B1A77D9; // EncountOutbreakSave_subjugationCount[3]
+    private const uint KMassOutbreak04TotalSpawns = 0xB7DFC571; // EncountOutbreakSave_subjugationLimit[3]
+
+    private const uint KMassOutbreak05CenterPos   = 0x2EC78531; // EncountOutbreakSave_centerPos[4]
+    private const uint KMassOutbreak05DummyPos    = 0x4A1FFBD8; // EncountOutbreakSave_dummyPos[4]
+    private const uint KMassOutbreak05Species     = 0x76986F3A; // EncountOutbreakSave_monsno[4]
+    private const uint KMassOutbreak05Form        = 0x29A9D701; // EncountOutbreakSave_formno[4]
+    private const uint KMassOutbreak05Found       = 0x7E13F8C7; // EncountOutbreakSave_isFind[4]
+    private const uint KMassOutbreak05NumKOed     = 0x4B23391E; // EncountOutbreakSave_subjugationCount[4]
+    private const uint KMassOutbreak05TotalSpawns = 0xB7E886B6; // EncountOutbreakSave_subjugationLimit[4]
+
+    private const uint KMassOutbreak06CenterPos   = 0x2ECB673C; // EncountOutbreakSave_centerPos[5]
+    private const uint KMassOutbreak06DummyPos    = 0x4A1C868D; // EncountOutbreakSave_dummyPos[5]
+    private const uint KMassOutbreak06Species     = 0x76947F97; // EncountOutbreakSave_monsno[5]
+    private const uint KMassOutbreak06Form        = 0x29AB994C; // EncountOutbreakSave_formno[5]
+    private const uint KMassOutbreak06Found       = 0x7E16A22A; // EncountOutbreakSave_isFind[5]
+    private const uint KMassOutbreak06NumKOed     = 0x4B208FBB; // EncountOutbreakSave_subjugationCount[5]
+    private const uint KMassOutbreak06TotalSpawns = 0xB7E49713; // EncountOutbreakSave_subjugationLimit[5]
+
+    private const uint KMassOutbreak07CenterPos   = 0x2EC1CC77; // EncountOutbreakSave_centerPos[6]
+    private const uint KMassOutbreak07DummyPos    = 0x4A1A50B6; // EncountOutbreakSave_dummyPos[6]
+    private const uint KMassOutbreak07Species     = 0x769D40DC; // EncountOutbreakSave_monsno[6]
+    private const uint KMassOutbreak07Form        = 0x29A344C7; // EncountOutbreakSave_formno[6]
+    private const uint KMassOutbreak07Found       = 0x7E1A8B01; // EncountOutbreakSave_isFind[6]
+    private const uint KMassOutbreak07NumKOed     = 0x4B28E440; // EncountOutbreakSave_subjugationCount[6]
+    private const uint KMassOutbreak07TotalSpawns = 0xB7EE31D8; // EncountOutbreakSave_subjugationLimit[6]
+
+    private const uint KMassOutbreak08CenterPos   = 0x2EC5BC1A; // EncountOutbreakSave_centerPos[7]
+    private const uint KMassOutbreak08DummyPos    = 0x4A166113; // EncountOutbreakSave_dummyPos[7]
+    private const uint KMassOutbreak08Species     = 0x769B11D1; // EncountOutbreakSave_monsno[7]
+    private const uint KMassOutbreak08Form        = 0x29A5EE2A; // EncountOutbreakSave_formno[7]
+    private const uint KMassOutbreak08Found       = 0x7E1C4D4C; // EncountOutbreakSave_isFind[7]
+    private const uint KMassOutbreak08NumKOed     = 0x4B256EF5; // EncountOutbreakSave_subjugationCount[7]
+    private const uint KMassOutbreak08TotalSpawns = 0xB7EABC8D; // EncountOutbreakSave_subjugationLimit[7]
+    #endregion
 }
