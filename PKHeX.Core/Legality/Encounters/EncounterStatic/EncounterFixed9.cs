@@ -35,7 +35,8 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
         Level = data[0x03],
         FlawlessIVCount = data[0x04],
         TeraType = (GemType)data[0x05],
-        // 2 bytes reserved
+        Gender = (sbyte)data[0x06],
+        // 1 byte reserved
         Moves = new Moveset(
             BinaryPrimitives.ReadUInt16LittleEndian(data[0x08..]),
             BinaryPrimitives.ReadUInt16LittleEndian(data[0x0A..]),
