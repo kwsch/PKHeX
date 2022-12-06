@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 public sealed class BoxLayout9 : SaveBlock<SAV9SV>, IBoxDetailName
 {
-    public const int BoxCount = 32;
+    public const int BoxCount = 33;
 
     private const int StringMaxLength = SAV6.LongStringLength / 2;
 
