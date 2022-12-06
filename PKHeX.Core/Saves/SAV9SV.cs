@@ -276,6 +276,12 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         b.Data[box] = (byte)value;
     }
 
+    public byte BoxLegendWallpaperFlag
+    {
+        get => Blocks.GetBlock(SaveBlockAccessor9SV.KBoxWallpapers).Data[BoxLayout9.BoxCount];
+        set => Blocks.GetBlock(SaveBlockAccessor9SV.KBoxWallpapers).Data[BoxLayout9.BoxCount] = value;
+    }
+
     public void CollectAllStakes()
     {
         for (int i = 14; i <= 17; i++)

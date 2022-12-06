@@ -3,11 +3,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Miscellaneous origination <see cref="ISlotInfo"/>
 /// </summary>
-public sealed record SlotInfoMisc(byte[] Data, int Slot, int Offset, bool PartyFormat = false) : ISlotInfo
+public sealed record SlotInfoMisc(byte[] Data, int Slot, int Offset, bool PartyFormat = false, bool Mutable = false) : ISlotInfo
 {
     public SlotOrigin Origin => PartyFormat ? SlotOrigin.Party : SlotOrigin.Box;
-    public bool CanWriteTo(SaveFile sav) => false;
-    public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pk) => WriteBlockedMessage.InvalidDestination;
+    public bool CanWriteTo(SaveFile sav) => Mutable;
+    public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pk) => Mutable ? WriteBlockedMessage.None : WriteBlockedMessage.InvalidDestination;
     public StorageSlotType Type { get; init; }
 
     public SlotInfoMisc(SaveFile sav, int slot, int offset, bool party = false) : this(GetBuffer(sav), slot, offset, party) { }

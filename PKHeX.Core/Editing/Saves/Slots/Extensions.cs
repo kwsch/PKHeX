@@ -228,7 +228,11 @@ public static partial class Extensions
 
     private static List<SlotInfoMisc> GetExtraSlots9(SAV9SV sav)
     {
-        var list = new List<SlotInfoMisc>();
+        var list = new List<SlotInfoMisc>
+        {
+            new(sav.BoxInfo.Data, 0, sav.GetBoxOffset(BoxLayout9.BoxCount), true, Mutable: true) { Type = StorageSlotType.Party },
+        };
+
         var block = sav.Blocks.GetBlockSafe(SaveBlockAccessor9SV.KFusedCalyrex);
         var c = new SlotInfoMisc(block.Data, 3, 0, true) { Type = StorageSlotType.Fused };
         list.Add(c);
