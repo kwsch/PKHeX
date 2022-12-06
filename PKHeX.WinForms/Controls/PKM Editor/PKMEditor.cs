@@ -1175,7 +1175,12 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // Does the list of locations need to be changed to another group?
         var group = GameUtil.GetMetLocationVersionGroup(version);
         if (group is GameVersion.Invalid)
-            group = GameUtil.GetMetLocationVersionGroup(RequestSaveFile.Version);
+        {
+            var sav = RequestSaveFile;
+            group = GameUtil.GetMetLocationVersionGroup(sav.Version);
+            if (group is GameVersion.Invalid || version is GameVersion.Any)
+                version = group = context.GetSingleGameVersion();
+        }
         if (group != origintrack || context != originFormat)
             ReloadMetLocations(version, context);
         origintrack = group;
@@ -1192,7 +1197,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         CB_EggLocation.DataSource = new BindingSource(eggList, null);
         CB_EggLocation.DropDownWidth = GetWidth(eggList, CB_EggLocation.Font);
 
-        static int GetWidth(IEnumerable<ComboItem> items, Font f) =>
+        static int GetWidth(IReadOnlyList<ComboItem> items, Font f) => items.Count == 0 ? throw new ArgumentException("Expected items in array.", nameof(items)) :
             items.Max(z => TextRenderer.MeasureText(z.Text, f).Width) +
             SystemInformation.VerticalScrollBarWidth;
 
