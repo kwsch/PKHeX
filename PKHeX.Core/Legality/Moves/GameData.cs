@@ -46,7 +46,7 @@ public static class GameData
         BD or SP or BDSP => Legal.LevelUpBDSP,
         PLA => Legal.LevelUpLA,
 
-        SL or VL => Legal.LevelUpSV,
+        SL or VL or SV => Legal.LevelUpSV,
 
         Gen1 => Legal.LevelUpY,
         Gen2 => Legal.LevelUpC,
