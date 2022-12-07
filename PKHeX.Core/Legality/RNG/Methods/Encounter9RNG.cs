@@ -55,26 +55,7 @@ public static class Encounter9RNG
     {
         var rand = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rand.NextInt(uint.MaxValue);
-        var fakeTID = (uint)rand.NextInt();
-        uint pid = (uint)rand.NextInt();
-        bool isShiny;
-        uint xor;
-        if (enc.Shiny == Shiny.Random) // let's decide if it's shiny or not!
-        {
-            xor = GetShinyXor(pid, fakeTID);
-            isShiny = xor < 16;
-            if (isShiny && xor != 0)
-                xor = 1;
-        }
-        else
-        {
-            // no need to calculate a fake trainer
-            xor = 0;
-            isShiny = enc.Shiny == Shiny.Always;
-        }
-
-        ForceShinyState(pk, isShiny, ref pid, xor);
-        pk.PID = pid;
+        pk.PID = GetAdaptedPID(ref rand, pk, enc);
 
         const int UNSET = -1;
         Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
@@ -149,38 +130,7 @@ public static class Encounter9RNG
         if (pk.EncryptionConstant != (uint)rand.NextInt(uint.MaxValue))
             return false;
 
-        var fakeTID = (uint)rand.NextInt();
-        uint pid = (uint)rand.NextInt();
-        bool isShiny;
-        uint xor;
-        if (enc.Shiny == Shiny.Random) // let's decide if it's shiny or not!
-        {
-            int i = 1;
-            while (true)
-            {
-                xor = GetShinyXor(pid, fakeTID);
-                isShiny = xor < 16;
-                if (isShiny)
-                {
-                    if (xor != 0)
-                        xor = 1;
-                    break;
-                }
-                if (i >= enc.RollCount)
-                    break;
-                pid = (uint)rand.NextInt();
-                i++;
-            }
-        }
-        else
-        {
-            // no need to calculate a fake trainer
-            isShiny = enc.Shiny == Shiny.Always;
-            xor = 0;
-        }
-
-        ForceShinyState(pk, isShiny, ref pid, xor);
-
+        var pid = GetAdaptedPID(ref rand, pk, enc);
         if (pk.PID != pid)
             return false;
 
@@ -264,6 +214,53 @@ public static class Encounter9RNG
                 return false;
         }
         return true;
+    }
+
+    private static uint GetAdaptedPID(ref Xoroshiro128Plus rand, PKM pk, in GenerateParam9 enc)
+    {
+        var fakeTID = (uint)rand.NextInt();
+        uint pid = (uint)rand.NextInt();
+        if (enc.Shiny == Shiny.Random) // let's decide if it's shiny or not!
+        {
+            int i = 1;
+            bool isShiny;
+            uint xor;
+            while (true)
+            {
+                xor = GetShinyXor(pid, fakeTID);
+                isShiny = xor < 16;
+                if (isShiny)
+                {
+                    if (xor != 0)
+                        xor = 1;
+                    break;
+                }
+                if (i >= enc.RollCount)
+                    break;
+                pid = (uint)rand.NextInt();
+                i++;
+            }
+            ForceShinyState(pk, isShiny, ref pid, xor);
+        }
+        else if (enc.Shiny == Shiny.Always)
+        {
+            var tid = (ushort)fakeTID;
+            var sid = (ushort)(fakeTID >> 16);
+            if (!GetIsShiny(tid, sid, pid)) // battled
+                pid = GetShinyPID(tid, sid, pid, 0);
+            if (!GetIsShiny(pk.TID, pk.SID, pid)) // captured
+                pid = GetShinyPID(pk.TID, pk.SID, pid, GetShinyXor(pid, fakeTID) == 0 ? 0 : 1);
+        }
+        else // Never
+        {
+            var tid = (ushort)fakeTID;
+            var sid = (ushort)(fakeTID >> 16);
+            if (GetIsShiny(tid, sid, pid)) // battled
+                pid ^= 0x1000_0000;
+            if (GetIsShiny(pk.TID, pk.SID, pid)) // captured
+                pid ^= 0x1000_0000;
+        }
+        return pid;
     }
 
     public static int GetGender(in int ratio, in ulong rand100) => ratio switch

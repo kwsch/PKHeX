@@ -57,7 +57,7 @@ public static class Tera9RNG
         }
         throw new ArgumentOutOfRangeException(nameof(gem), gem, null);
     }
-    
+
     private static bool IsMatchType(IPersonalType pi, in byte original) => original == pi.Type1 || original == pi.Type2;
 
     public static bool IsMatchTeraTypePersonalEgg(in ushort species, in byte form, in byte original) =>
@@ -87,7 +87,7 @@ public static class Tera9RNG
         var pi = PersonalTable.SV[species, form];
         return pivot == 0 ? pi.Type1 : pi.Type2;
     }
-    
+
     public static bool IsMatchStarChoice(in uint seed, in byte stars, in byte raidRate, in short randRateMinScarlet, in short randRateMinViolet)
     {
         // When determining a raid, the game takes the u32 seed and does two rand calls.
