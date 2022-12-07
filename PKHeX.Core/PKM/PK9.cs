@@ -539,7 +539,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
         {
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
             // If not matching the trainer details, mark as a traded egg.
-            if (!IsTradedEgg && tr.Gender == Gender && tr.Language == Language && tr.OT == OT_Name)
+            if (!IsTradedEgg && tr.Gender == OT_Gender && tr.Language == Language && tr.OT == OT_Name)
             {
                 OT_Trash.Clear();
                 Nickname_Trash.Clear();
@@ -553,6 +553,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
             else
             {
                 HT_Name = tr.OT;
+                HT_Gender = tr.Gender;
                 HT_Language = (byte)tr.Language;
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6);
                 CurrentHandler = 1;

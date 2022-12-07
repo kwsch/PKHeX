@@ -29,7 +29,8 @@ internal static class EncounterGenerator9
             if (ctr != 0) yield break;
         }
 
-        if (Locations.IsEggLocationBred9(pk.Egg_Location))
+        // While an unhatched picnic egg, the Version remains 0.
+        if (Locations.IsEggLocationBred9(pk.Egg_Location) && !(pk.IsEgg && pk.Version != 0))
         {
             foreach (var z in GenerateEggs(pk, 9))
             { yield return z; ++ctr; }
