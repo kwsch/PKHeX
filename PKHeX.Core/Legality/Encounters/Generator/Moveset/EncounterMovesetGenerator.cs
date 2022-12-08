@@ -295,13 +295,13 @@ public static class EncounterMovesetGenerator
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<MysteryGift> GetGifts(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
     {
-        var format = pk.Format;
+        var context = pk.Context;
         var gifts = MysteryGiftGenerator.GetPossible(pk, chain, version);
         foreach (var gift in gifts)
         {
             if (gift is WC3 {NotDistributed: true})
                 continue;
-            if (!IsSane(chain, gift, format))
+            if (!IsSane(chain, gift, context))
                 continue;
             if (needs.Length == 0)
             {
@@ -325,11 +325,11 @@ public static class EncounterMovesetGenerator
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<EncounterStatic> GetStatic(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
     {
-        var format = pk.Format;
+        var context = pk.Context;
         var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
         foreach (var enc in encounters)
         {
-            if (!IsSane(chain, enc, format))
+            if (!IsSane(chain, enc, context))
                 continue;
             if (needs.Length == 0)
             {
@@ -380,11 +380,11 @@ public static class EncounterMovesetGenerator
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<EncounterTrade> GetTrades(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
     {
-        var format = pk.Format;
+        var context = pk.Context;
         var trades = EncounterTradeGenerator.GetPossible(pk, chain, version);
         foreach (var trade in trades)
         {
-            if (!IsSane(chain, trade, format))
+            if (!IsSane(chain, trade, context))
                 continue;
             if (needs.Length == 0)
             {
@@ -417,11 +417,11 @@ public static class EncounterMovesetGenerator
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<EncounterSlot> GetSlots(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
     {
-        var format = pk.Format;
+        var context = pk.Context;
         var slots = EncounterSlotGenerator.GetPossible(pk, chain, version);
         foreach (var slot in slots)
         {
-            if (!IsSane(chain, slot, format))
+            if (!IsSane(chain, slot, context))
                 continue;
 
             if (needs.Length == 0)
@@ -442,7 +442,7 @@ public static class EncounterMovesetGenerator
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsSane(ReadOnlySpan<EvoCriteria> chain, IEncounterTemplate enc, int format)
+    private static bool IsSane(ReadOnlySpan<EvoCriteria> chain, IEncounterTemplate enc, EntityContext current)
     {
         foreach (var evo in chain)
         {
@@ -450,11 +450,11 @@ public static class EncounterMovesetGenerator
                 continue;
             if (evo.Form == enc.Form)
                 return true;
-            if (FormInfo.IsFormChangeable(enc.Species, enc.Form, evo.Form, enc.Generation))
+            if (FormInfo.IsFormChangeable(enc.Species, enc.Form, evo.Form, enc.Context, current))
                 return true;
             if (enc is EncounterSlot {IsRandomUnspecificForm: true} or EncounterStatic {IsRandomUnspecificForm: true})
                 return true;
-            if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && format > 7) // totems get form wiped
+            if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && current.Generation() > 7) // totems get form wiped
                 return true;
             break;
         }

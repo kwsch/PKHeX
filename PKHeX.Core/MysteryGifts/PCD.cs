@@ -160,7 +160,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
                 return false;
         }
 
-        if (wc.Form != evo.Form && !FormInfo.IsFormChangeable(wc.Species, wc.Form, pk.Form, pk.Format))
+        if (wc.Form != evo.Form && !FormInfo.IsFormChangeable(wc.Species, wc.Form, pk.Form, Context, pk.Context))
             return false;
 
         if (wc.Ball != pk.Ball) return false;

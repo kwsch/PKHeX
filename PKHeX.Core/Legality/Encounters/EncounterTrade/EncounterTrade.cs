@@ -206,7 +206,7 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
         if (CurrentLevel != -1 && CurrentLevel > pk.CurrentLevel)
             return false;
 
-        if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, pk.Format))
+        if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
         if (OTGender != -1 && OTGender != pk.OT_Gender)
             return false;

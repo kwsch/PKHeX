@@ -125,7 +125,8 @@ public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
         if (data.Length != SIZE)
             return false;
         var team = new RentalTeam9(data).GetTeam();
-        return team.All(x => x.ChecksumValid);
+        // Checksum can be invalid for whatever reason. Just sanity check a little.
+        return team.All(x => (uint)x.Species <= x.MaxSpeciesID && x.Moves.All(y => (uint)y <= x.MaxMoveID));
     }
 
     public static RentalTeam9 GetFrom(ReadOnlySpan<byte> data, int index)

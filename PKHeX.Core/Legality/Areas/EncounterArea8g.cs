@@ -120,7 +120,7 @@ public sealed record EncounterArea8g : EncounterArea, ISpeciesForm
                 return evo;
 
             // Check for form mismatches
-            if (FormInfo.IsFormChangeable(Species, Form, evo.Form, pk.Format))
+            if (FormInfo.IsFormChangeable(Species, Form, evo.Form, EntityContext.Gen8, pk.Context))
                 return evo;
             if (Species == (int)Core.Species.Burmy)
                 return evo;

@@ -278,7 +278,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     {
         if (IsRandomUnspecificForm)
             return true;
-        return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pk.Form, pk.Format);
+        return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context);
     }
 
     // override me if the encounter type has any eggs
