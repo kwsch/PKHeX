@@ -16,6 +16,8 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
     private byte Location1 { get; init; }
     private byte Location2 { get; init; }
 
+    private const int MinScaleStrongTera = 200; // [200,255]
+
     public static EncounterFixed9[] GetArray(ReadOnlySpan<byte> data)
     {
         const int size = 0x14;
@@ -57,8 +59,14 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
-            return false;
+        if (TeraType != GemType.Random)
+        {
+            if (pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
+                return false;
+            if (pk is IScaledSize3 { Scale: < MinScaleStrongTera })
+                return false;
+        }
+
         if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
         return base.IsMatchExact(pk, evo);
@@ -76,6 +84,6 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
 
         pk9.HeightScalar = PokeSizeUtil.GetRandomScalar();
         pk9.WeightScalar = PokeSizeUtil.GetRandomScalar();
-        pk9.Scale = PokeSizeUtil.GetRandomScalar();
+        pk9.Scale = TeraType != 0 ? (byte)(MinScaleStrongTera + Util.Rand.Next(byte.MaxValue - MinScaleStrongTera + 1)) : PokeSizeUtil.GetRandomScalar();
     }
 }
