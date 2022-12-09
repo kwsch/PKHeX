@@ -59,13 +59,10 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (TeraType != GemType.Random)
-        {
-            if (pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
-                return false;
-            if (pk is IScaledSize3 { Scale: < MinScaleStrongTera })
-                return false;
-        }
+        if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
+            return false;
+        if (TeraType != 0 && pk is IScaledSize3 { Scale: < MinScaleStrongTera })
+            return false;
 
         if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
