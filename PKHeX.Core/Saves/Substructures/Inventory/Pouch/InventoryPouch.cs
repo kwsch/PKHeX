@@ -264,6 +264,8 @@ public abstract class InventoryPouch
             return InventoryPouch8.GetSuggestedCount(Type, item, requestVal);
         if (sav is not SAV8BS && ItemConverter.IsItemHM((ushort)item, sav.Generation))
             return 1;
+        if (sav is SAV9SV)
+            return InventoryPouch9.GetSuggestedCount(Type, item, requestVal);
         return Math.Min(MaxCount, requestVal);
     }
 
