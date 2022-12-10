@@ -223,6 +223,7 @@ public sealed class SAV3GCMemoryCard
             : Directory_Block;
 
         // Search for pokemon savegames in the directory
+        SaveGameCount = 0;
         for (int i = 0; i < NumEntries_Directory; i++)
         {
             int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (i * DENTRY_SIZE);
@@ -240,7 +241,6 @@ public sealed class SAV3GCMemoryCard
             if (dataEnd > Data.Length)
                 continue;
 
-            SaveGameCount = 0;
             var header = Data.AsSpan(offset, 4);
             var ver = SaveHandlerGCI.GetGameCode(header);
             if (ver == GameVersion.COLO)
@@ -250,14 +250,14 @@ public sealed class SAV3GCMemoryCard
                 EntryCOLO = i;
                 SaveGameCount++;
             }
-            if (ver == GameVersion.XD)
+            else if (ver == GameVersion.XD)
             {
                 if (HasXD) // another entry already exists
                     return GCMemoryCardState.DuplicateXD;
                 EntryXD = i;
                 SaveGameCount++;
             }
-            if (ver == GameVersion.RSBOX)
+            else if (ver == GameVersion.RSBOX)
             {
                 if (HasRSBOX) // another entry already exists
                     return GCMemoryCardState.DuplicateRSBOX;
