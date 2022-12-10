@@ -46,7 +46,7 @@ public sealed record EncounterArea9 : EncounterArea
             var max = slot[5];
             var time = slot[6];
 
-            result[i] = new EncounterSlot9(this, species, form, min, max, gender);
+            result[i] = new EncounterSlot9(this, species, form, min, max, gender, time);
         }
         return result;
     }

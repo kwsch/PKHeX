@@ -61,22 +61,26 @@ internal static class EncounterGenerator9
             yield break;
         }
 
-        // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
-        var encs = GetValidStaticEncounter(pk, chain, game);
-        foreach (var z in encs)
+        if (pk is not IRibbonIndex r || !r.HasEncounterMark())
         {
-            var match = z.GetMatchRating(pk);
-            if (match == Match)
+            var encs = GetValidStaticEncounter(pk, chain, game);
+            foreach (var z in encs)
             {
-                yield return z;
-            }
-            else if (match < rating)
-            {
-                cache = z;
-                rating = match;
+                var match = z.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return z;
+                }
+                else if (match < rating)
+                {
+                    cache = z;
+                    rating = match;
+                }
             }
         }
 
+        // Wild encounters are more permissive than static encounters.
+        // Can have encounter marks, can have varied scales/shiny states.
         foreach (var z in GetValidWildEncounters(pk, chain, game))
         {
             var match = z.GetMatchRating(pk);

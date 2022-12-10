@@ -9,11 +9,6 @@ namespace PKHeX.Core;
 public static class MarkRules
 {
     /// <summary>
-    /// Checks if the ribbon index is one of the specific SW/SH encounter-only marks. These marks are granted when the encounter spawns in the wild.
-    /// </summary>
-    public static bool IsEncounterMark(this RibbonIndex m) => (byte)m is >= (int)MarkLunchtime and <= (int)MarkSlump;
-
-    /// <summary>
     /// Checks if an encounter-only mark is possible to obtain for the encounter, if not lost via data manipulation.
     /// </summary>
     public static bool IsEncounterMarkAllowed(LegalityAnalysis data)
@@ -35,39 +30,50 @@ public static class MarkRules
     /// <summary>
     /// Checks if a SW/SH mark is valid.
     /// </summary>
-    public static bool IsMarkValid8(RibbonIndex mark, PKM pk, IEncounterTemplate enc)
+    public static bool IsEncounterMarkValid(RibbonIndex mark, PKM pk, IEncounterTemplate enc) => enc switch
     {
-        return IsEncounterMarkAllowedAny(enc) && IsMarkAllowedSpecific(mark, pk, enc);
-    }
+        EncounterSlot8 or EncounterStatic8 { Gift: false, ScriptedNoMarks: false } => IsMarkAllowedSpecific8(mark, pk, enc),
+        EncounterSlot9 s => IsMarkAllowedSpecific9(mark, s),
+        _ => false,
+    };
 
     /// <summary>
     /// Checks if a specific encounter mark is disallowed.
     /// </summary>
     /// <returns>False if mark is disallowed based on specific conditions.</returns>
-    public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterTemplate x) => mark switch
+    public static bool IsMarkAllowedSpecific8(RibbonIndex mark, PKM pk, IEncounterTemplate x) => mark switch
     {
         MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
         MarkFishing when !IsMarkAllowedFishing(x) => false,
         MarkMisty when x.Generation == 8 && pk.Met_Level < EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60Fog(pk.Met_Location) => false,
         MarkDestiny => x is EncounterSlot9, // Capture on Birthday
-        >= MarkCloudy and <= MarkMisty => IsWeatherPermitted(mark, x),
+        >= MarkCloudy and <= MarkMisty => IsWeatherPermitted8(mark, x),
         _ => true,
     };
 
-    private static bool IsWeatherPermitted(RibbonIndex mark, IEncounterTemplate enc)
+    /// <summary>
+    /// Checks if a specific encounter mark is disallowed.
+    /// </summary>
+    /// <returns>False if mark is disallowed based on specific conditions.</returns>
+    public static bool IsMarkAllowedSpecific9(RibbonIndex mark, EncounterSlot9 x) => mark switch
     {
-        var permit = mark.GetWeather8();
+        MarkCurry => false,
+        MarkFishing => false,
+        MarkDestiny => true, // Capture on Birthday
+        >= MarkLunchtime and <= MarkDawn => x.CanSpawnAtTime(mark),
+        >= MarkCloudy and <= MarkMisty => x.CanSpawnInWeather(mark),
+        _ => true,
+    };
 
-        // Encounter slots check location weather, while static encounters check weather per encounter.
-        return enc switch
-        {
-            EncounterSlot8 w => IsSlotWeatherPermitted(permit, w),
-            EncounterStatic8 s => s.Weather.HasFlag(permit),
-            _ => false,
-        };
-    }
+    // Encounter slots check location weather, while static encounters check weather per encounter.
+    private static bool IsWeatherPermitted8(RibbonIndex mark, IEncounterTemplate enc) => enc switch
+    {
+        EncounterSlot8 w => IsSlotWeatherPermittedSWSH(mark.GetWeather8(), w),
+        EncounterStatic8 s => s.Weather.HasFlag(mark.GetWeather8()),
+        _ => false,
+    };
 
-    private static bool IsSlotWeatherPermitted(AreaWeather8 permit, EncounterSlot8 s)
+    private static bool IsSlotWeatherPermittedSWSH(AreaWeather8 permit, EncounterSlot8 s)
     {
         var location = s.Location;
         // If it's not in the main table, it can only have Normal weather.
@@ -85,18 +91,7 @@ public static class MarkRules
     }
 
     /// <summary>
-    /// Checks if any encounter-only mark is available for the <see cref="enc"/>.
-    /// </summary>
-    public static bool IsEncounterMarkAllowedAny(IEncounterTemplate enc) => enc.Generation >= 8 && enc switch
-    {
-        // Gen 8
-        EncounterSlot8 or EncounterStatic8 { Gift: false, ScriptedNoMarks: false } => true,
-        EncounterSlot9 => true,
-        _ => false,
-    };
-
-    /// <summary>
-    /// Checks if a <see cref="RibbonIndex.MarkCurry"/> mark is valid.
+    /// Checks if a <see cref="MarkCurry"/> mark is valid.
     /// </summary>
     public static bool IsMarkAllowedCurry(PKM pk, IEncounterTemplate enc)
     {
@@ -109,7 +104,7 @@ public static class MarkRules
     }
 
     /// <summary>
-    /// Checks if a <see cref="RibbonIndex.MarkFishing"/> mark is valid.
+    /// Checks if a <see cref="MarkFishing"/> mark is valid.
     /// </summary>
     public static bool IsMarkAllowedFishing(IEncounterTemplate enc)
     {

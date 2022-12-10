@@ -56,6 +56,13 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
         return loc == Location0 || loc == Location1 || loc == Location2;
     }
 
+    protected override bool IsMatchForm(PKM pk, EvoCriteria evo)
+    {
+        if (Species is (int)Core.Species.Deerling or (int)Core.Species.Sawsbuck)
+            return pk.Form <= 3;
+        return base.IsMatchForm(pk, evo);
+    }
+
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))

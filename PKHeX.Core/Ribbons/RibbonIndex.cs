@@ -129,7 +129,20 @@ public static class RibbonIndexExtensions
 {
     public static bool GetRibbonIndex(this IRibbonIndex x, RibbonIndex r) => x.GetRibbon((int)r);
     public static void SetRibbonIndex(this IRibbonIndex x, RibbonIndex r, bool value = true) => x.SetRibbon((int)r, value);
-    public static bool IsMark(this RibbonIndex r) => r is >= MarkLunchtime and <= MarkSlump;
+    public static bool IsEncounterMark(this RibbonIndex r) => r is >= MarkLunchtime and <= MarkSlump;
+
+    /// <summary>
+    /// Checks if the ribbon index is one of the specific wild encounter-only marks. These marks are granted when the encounter spawns in the wild.
+    /// </summary>
+    public static bool HasEncounterMark(this IRibbonIndex m)
+    {
+        for (int i = (int)MarkLunchtime; i <= (int)MarkSlump; i++)
+        {
+            if (m.GetRibbon(i))
+                return true;
+        }
+        return false;
+    }
 
     public static AreaWeather8 GetWeather8(this RibbonIndex x) => x switch
     {
@@ -147,7 +160,7 @@ public static class RibbonIndexExtensions
     private enum RibbonIndexGroup : byte
     {
         None,
-        Mark,
+        EncounterMark,
         CountMemory,
         Common3,
         Common4,
@@ -161,8 +174,8 @@ public static class RibbonIndexExtensions
 
     private static RibbonIndexGroup GetGroup(this RibbonIndex r)
     {
-        if (r.IsMark())
-            return RibbonIndexGroup.Mark;
+        if (r.IsEncounterMark())
+            return RibbonIndexGroup.EncounterMark;
         return r switch
         {
             ChampionG3 => RibbonIndexGroup.Common3,
@@ -249,8 +262,8 @@ public static class RibbonIndexExtensions
         var group = r.GetGroup();
         switch (group)
         {
-            case RibbonIndexGroup.Mark:
-                r.FixMark(pk, state);
+            case RibbonIndexGroup.EncounterMark:
+                r.FixEncounterMark(pk, state);
                 return;
             case RibbonIndexGroup.CountMemory:
                 if (pk is not IRibbonSetMemory6 m6)
@@ -365,7 +378,7 @@ public static class RibbonIndexExtensions
         }
     }
 
-    private static void FixMark(this RibbonIndex r, PKM pk, bool state)
+    private static void FixEncounterMark(this RibbonIndex r, PKM pk, bool state)
     {
         if (pk is not IRibbonSetMark8 m)
             return;
