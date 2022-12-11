@@ -48,7 +48,7 @@ public sealed class MarkVerifier : Verifier
                 return;
             }
 
-            bool result = MarkRules.IsMarkValid8(mark, data.Entity, data.EncounterMatch);
+            bool result = MarkRules.IsEncounterMarkValid(mark, data.Entity, data.EncounterMatch);
             if (!result)
             {
                 data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(mark))));
@@ -103,7 +103,7 @@ public sealed class MarkVerifier : Verifier
         var enc = data.EncounterOriginal;
         if (affix.IsEncounterMark())
         {
-            if (!MarkRules.IsMarkValid8(affix, pk, enc))
+            if (!MarkRules.IsEncounterMarkValid(affix, pk, enc))
                 data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe(affix))));
             return;
         }

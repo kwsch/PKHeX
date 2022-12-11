@@ -12,6 +12,8 @@ public sealed record EncounterArea9 : EncounterArea
 {
     public readonly EncounterSlot9[] Slots;
 
+    public ushort CrossFrom { get; init; }
+
     protected override IReadOnlyList<EncounterSlot> Raw => Slots;
 
     public static EncounterArea9[] GetAreas(BinLinkerAccessor input, GameVersion game)
@@ -25,12 +27,13 @@ public sealed record EncounterArea9 : EncounterArea
     private EncounterArea9(ReadOnlySpan<byte> areaData, GameVersion game) : base(game)
     {
         Location = areaData[0];
-        Slots = ReadSlots(areaData[2..]);
+        CrossFrom = areaData[2];
+        Slots = ReadSlots(areaData[4..]);
     }
 
     private EncounterSlot9[] ReadSlots(ReadOnlySpan<byte> areaData)
     {
-        const int size = 6;
+        const int size = 8;
         var result = new EncounterSlot9[areaData.Length / size];
         for (int i = 0; i < result.Length; i++)
         {
@@ -38,9 +41,12 @@ public sealed record EncounterArea9 : EncounterArea
             var species = ReadUInt16LittleEndian(slot);
             var form = slot[2];
             var gender = (sbyte)slot[3];
+
             var min = slot[4];
             var max = slot[5];
-            result[i] = new EncounterSlot9(this, species, form, min, max, gender);
+            var time = slot[6];
+
+            result[i] = new EncounterSlot9(this, species, form, min, max, gender, time);
         }
         return result;
     }

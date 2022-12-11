@@ -37,7 +37,8 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
         Level = data[0x03],
         FlawlessIVCount = data[0x04],
         TeraType = (GemType)data[0x05],
-        // 2 bytes reserved
+        Gender = (sbyte)data[0x06],
+        // 1 byte reserved
         Moves = new Moveset(
             BinaryPrimitives.ReadUInt16LittleEndian(data[0x08..]),
             BinaryPrimitives.ReadUInt16LittleEndian(data[0x0A..]),
@@ -55,6 +56,13 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
             return true;
         var loc = pk.Met_Location;
         return loc == Location0 || loc == Location1 || loc == Location2;
+    }
+
+    protected override bool IsMatchForm(PKM pk, EvoCriteria evo)
+    {
+        if (Species is (int)Core.Species.Deerling or (int)Core.Species.Sawsbuck)
+            return pk.Form <= 3;
+        return base.IsMatchForm(pk, evo);
     }
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
