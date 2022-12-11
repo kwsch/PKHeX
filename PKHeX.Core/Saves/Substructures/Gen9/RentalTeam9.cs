@@ -10,10 +10,10 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
 {
-    private const int LEN_OT = 8; // char
+    private const int LEN_OT = 11; // char
     private const int LEN_TEAMNAME = 10; // char
 
-    private const int LEN_META = sizeof(ushort) + sizeof(char) * (LEN_OT + LEN_TEAMNAME) + sizeof(uint) + 6;
+    private const int LEN_META = sizeof(ushort) + (sizeof(char) * (LEN_OT + LEN_TEAMNAME)) + sizeof(uint);
     private const int LEN_STORED = PokeCrypto.SIZE_8STORED; // 0x148
     private const int LEN_POKE = PokeCrypto.SIZE_8PARTY; // 0x158
     private const int LEN_PARTYSTAT = LEN_POKE - PokeCrypto.SIZE_8STORED; // 0x10
@@ -29,7 +29,7 @@ public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
     private const int OFS_END = OFS_6 + LEN_POKE;
     public const int SIZE = OFS_END + sizeof(uint); // 0x844
 
-    private readonly byte[] Data;
+    public readonly byte[] Data;
 
     public RentalTeam9(byte[] data) => Data = data;
 
@@ -42,21 +42,9 @@ public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
 
     private Span<byte> Player_Trash => Data.AsSpan(OFS_META + 0x02, LEN_OT * sizeof(char));
 
-    public ushort Unknown
-    {
-        get => ReadUInt16LittleEndian(Data.AsSpan(OFS_META + 0x12));
-        set => WriteUInt16LittleEndian(Data.AsSpan(OFS_META + 0x12), value);
-    }
-    
-    public uint Unknown2
-    {
-        get => ReadUInt32LittleEndian(Data.AsSpan(OFS_META + 0x14));
-        set => WriteUInt32LittleEndian(Data.AsSpan(OFS_META + 0x14), value);
-    }
-
     private Span<byte> TeamName_Trash => Data.AsSpan(OFS_META + 0x18, LEN_TEAMNAME * sizeof(char));
 
-    public uint Number
+    public uint Language
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(OFS_META + 0x2C));
         set => WriteUInt32LittleEndian(Data.AsSpan(OFS_META + 0x2C), value);
@@ -65,15 +53,16 @@ public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
     public string PlayerName
     {
         get => StringConverter8.GetString(Player_Trash);
-        set => StringConverter8.SetString(Player_Trash, value.AsSpan(), LEN_OT);
+        set => StringConverter8.SetString(Player_Trash, value.AsSpan(), 10);
     }
-    
+
     public string TeamName
     {
         get => StringConverter8.GetString(TeamName_Trash);
         set => StringConverter8.SetString(TeamName_Trash, value.AsSpan(), LEN_TEAMNAME);
     }
-    public uint End
+
+    public uint EntityCount
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(OFS_END));
         set => WriteUInt32LittleEndian(Data.AsSpan(OFS_END), value);
@@ -137,4 +126,6 @@ public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
     }
 
     public void WriteTo(Span<byte> data, int index) => Data.CopyTo(data[(index * SIZE)..]);
+
+    public ushort EntityChecksum => Checksums.CRC16_CCITT(Data.AsSpan(OFS_1, OFS_END - OFS_1));
 }

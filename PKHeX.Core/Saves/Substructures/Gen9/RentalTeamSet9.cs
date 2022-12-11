@@ -9,8 +9,9 @@ namespace PKHeX.Core;
 public sealed class RentalTeamSet9 : IPokeGroup
 {
     public const int SIZE = Count * RentalTeam9.SIZE;
-    private const int Count = 5;
-    private readonly byte[] Data;
+    public const int Count = 5;
+    public readonly byte[] Data;
+
     public RentalTeamSet9(byte[] data) => Data = data;
 
     public RentalTeam9 GetRentalTeam(int index) => RentalTeam9.GetFrom(Data, index);
