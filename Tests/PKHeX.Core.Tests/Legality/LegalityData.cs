@@ -36,4 +36,21 @@ public class LegalityData
             t2.IsLevelUpRequired().Should().BeTrue();
         }
     }
+
+    [Fact]
+    public void EvolutionsOrderedSV()
+    {
+        // SV Crabrawler added a second, UseItem evolution method. Need to be sure it's before the more restrictive level-up method.
+        var tree = EvolutionTree.Evolves9;
+        var fEntries = typeof(EvolutionTree).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).First(z => z.Name == "Entries");
+        if (fEntries.GetValue(tree) is not IReadOnlyList<EvolutionMethod[]> entries)
+            throw new ArgumentException(nameof(entries));
+        var crab = entries[(int)Species.Crabrawler];
+
+        var t1 = crab[0].Method;
+        var t2 = crab[1].Method;
+
+        t1.IsLevelUpRequired().Should().BeFalse();
+        t2.IsLevelUpRequired().Should().BeTrue();
+    }
 }
