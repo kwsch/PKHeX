@@ -6,6 +6,7 @@
 1216	g	Received Gift Cosmog
 0499	g	Received Gift Type: Null
 0160	*	Moone [0] / Sunne Portal [1]
+3155	*	Unlocked IV Judge
 3113	s	Received Ride Pager
 3114	s	Unlocked Tauros Charge
 3115	s	Unlocked Stoutland Search

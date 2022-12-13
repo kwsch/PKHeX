@@ -52,6 +52,7 @@
 1552	r	Necrozma Capturado
 4370	r	(UM) Stakataka en Bosque de Poni
 4371	r	(US) Blacephalon en Bosque de Poni
+4115	*	Desbloqueado Juez de IV
 4545	s	Debloqueado Lanturn 360
 4546	s	Debloqueado Primarina Twist
 4547	s	Debloqueado Starmie 720

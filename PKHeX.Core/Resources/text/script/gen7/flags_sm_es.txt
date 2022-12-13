@@ -6,6 +6,7 @@
 1216	g	Recibido Cosmog de Regalo
 0499	g	Recibido Código Cero de Regalo
 0160	*	Moone [0] / Sunne Portal [1]
+3155	*	Desbloqueado Juez de IV
 3113	s	Received Ride Pager
 3114	s	Desbloqueado Carga Tauros
 3115	s	Desbloqueado Olfateo Stoutland

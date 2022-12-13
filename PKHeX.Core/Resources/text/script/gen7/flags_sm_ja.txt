@@ -6,6 +6,7 @@
 1216	g	コスモッグ 受け取り済み
 0499	g	タイプ：ヌル 受け取り済み
 0160	*	Moone [0] / Sunne Portal [1]
+3155	*	Unlocked IV Judge
 3113	s	Received Ride Pager
 3114	s	ケンタロス　ラッシュ 使用可能
 3115	s	ムーランド サーチ 使用可能

@@ -52,6 +52,7 @@
 1552	r	Necrozma Captured
 4370	r	(UM) Stakataka in Poni Grove
 4371	r	(US) Blacephalon in Poni Grove
+4115	*	Unlocked IV Judge
 4545	s	Unlocked Lanturn 360
 4546	s	Unlocked Primarina Twist
 4547	s	Unlocked Starmie 720
