@@ -43,12 +43,12 @@ internal static class Encounters9
         new(SV) { Species = 997, Shiny = Never, Level = 60, Location = 048, Size = 128, FlawlessIVCount = 3 }, // Chi-Yu
 
         // Former Titans
-        new(SV) { Species = 944, Shiny = Never, Level = 29, Location = 032, Size = 255, Ability = OnlyFirst,  Gender = 0, Nature = Nature.Quirky,  IVs = new(30,30,30,30,30,30), Moves = new(231,029,035,201), IsTitan = true }, // Orthworm
-        new(SV) { Species = 952, Shiny = Never, Level = 57, Location = 040, Size = 255, Ability = OnlyFirst,  Gender = 0, Nature = Nature.Quiet,   IVs = new(30,30,30,30,30,30), Moves = new(330,196,269,406), IsTitan = true }, // Tatsugiri
-        new(SV) { Species = 959, Shiny = Never, Level = 20, Location = 022, Size = 255, Ability = OnlyHidden, Gender = 1, Nature = Nature.Jolly,   IVs = new(30,30,30,30,30,30), Moves = new(088,017,365,259), IsTitan = true }, // Bombirdier
         new(SV) { Species = 962, Shiny = Never, Level = 16, Location = 020, Size = 255, Ability = OnlyFirst,  Gender = 1, Nature = Nature.Gentle,  IVs = new(30,30,30,30,30,30), Moves = new(011,249,335,317), IsTitan = true }, // Klawf
+        new(SV) { Species = 959, Shiny = Never, Level = 20, Location = 022, Size = 255, Ability = OnlyHidden, Gender = 1, Nature = Nature.Jolly,   IVs = new(30,30,30,30,30,30), Moves = new(088,017,365,259), IsTitan = true }, // Bombirdier
+        new(SV) { Species = 944, Shiny = Never, Level = 29, Location = 032, Size = 255, Ability = OnlyFirst,  Gender = 0, Nature = Nature.Quirky,  IVs = new(30,30,30,30,30,30), Moves = new(231,029,035,201), IsTitan = true }, // Orthworm
         new(SL) { Species = 978, Shiny = Never, Level = 45, Location = 024, Size = 255, Ability = OnlyFirst,              Nature = Nature.Naughty, IVs = new(30,30,30,30,30,30), Moves = new(229,280,282,707), IsTitan = true }, // Great Tusk
-        new(VL) { Species = 986, Shiny = Never, Level = 45, Location = 024, Size = 255, Ability = OnlyFirst,              Nature = Nature.Naughty, IVs = new(30,30,30,30,30,30), Moves = new(229,280,442,707), IsTitan = true }, // Iron Treads
+        new(VL) { Species = 986, Shiny = Never, Level = 45, Location = 024, Size = 255, Ability = OnlyFirst,              Nature = Nature.Naughty, IVs = new(30,30,30,30,30,30), Moves = new(229,442,282,707), IsTitan = true }, // Iron Treads
+        new(SV) { Species = 952, Shiny = Never, Level = 57, Location = 040, Size = 255, Ability = OnlyFirst,  Gender = 0, Nature = Nature.Quiet,   IVs = new(30,30,30,30,30,30), Moves = new(330,196,269,406), IsTitan = true }, // Tatsugiri
 
         // Dummy Tatsugiri
         new(SV) { Species = 952, Shiny = Never, Level = 45, Location = 040, Size = 128,          }, // Tatsugiri
