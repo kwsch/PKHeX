@@ -25,7 +25,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public PlayerAppearance9 PlayerAppearance { get; }
     public RaidSpawnList9 Raid { get; }
     public RaidSevenStar9 RaidSevenStar { get; }
-    public FixedSpawnList9 FixedSpawns { get; }
 
     public SaveBlockAccessor9SV(SAV9SV sav)
     {
@@ -44,7 +43,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
         Raid = new RaidSpawnList9(sav, GetBlock(KTeraRaids));
         RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaids));
-        FixedSpawns = new FixedSpawnList9(sav, GetBlock(KFixedSymbolRetainer));
     }
 
     // Arrays (Blocks)
@@ -64,6 +62,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KPlayTime = 0xEDAFF794; // Time Played
     private const uint KSessionLength = 0x1522C79C; // Milliseconds(?) elapsed
     private const uint KOverworld = 0x173304D8; // [0x158+7C][20] overworld pokemon
+    private const uint KGimmighoul = 0x53DC955C; // ulong seed x2 (today and tomorrow); Gimmighoul struct (0x20): bool is_active, u64 hash, u64 seed, bool ??, bool first_time
     private const uint KTeraRaids = 0xCAAC8800;
     public const uint KBoxesUnlocked = 0x71825204;
     public const uint KFusedCalyrex = 0x916BCA9E; // Calyrex
@@ -72,6 +71,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMysteryGift = 0x99E1625E;
     private const uint KLastSaved = 0x7495969E; // u64 time_t
     private const uint KEnrollmentDate = 0xC7409C89;
+    private const uint KPlayRecords = 0x549B6033; // 0x18 per entry, first 8 bytes always 01, u64 fnv hash of entry, last 8 bytes value
     private const uint KSandwiches = 0x29B4AED2; // [0xC][151] index, unlocked, times made
     private const uint KCurrentClothing = 0x64235B3D;
     private const uint KCurrentAppearance = 0x812FC3E3;
@@ -85,7 +85,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KFashionUnlockedPhoneCase = 0xED0AC675;
     private const uint KPlayerPhoto1 = 0x14C5A101;
     private const uint KPlayerPhoto2 = 0xF8B14C88;
-    private const uint KFixedSymbolRetainer = 0x74ABB9CC;
     private const uint KRentalTeams = 0x19CB0339;
     private const uint KSevenStarRaids = 0x8B14392F;
 
@@ -937,7 +936,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KIndexReceivedBadgeGround = 0xBDAC74B3; // WEVT_NUSHI_JIMEN_CLEAR
     private const uint WEVT_RIDE_HAPPINESS = 0xD9DF9254;
     private const uint WEVT_SUB_047_RACIPE_BADGE_RELEASE = 0x8A3575A5;
-    
+
     // 0 = sealed, 1 = seal lifted, 2 = captured
     private const uint KShrineStateTingLu = 0xA3B2E1E8; // WEVT_SUB_014_EVENT_STATE_UTHUWA
     private const uint KShrineStateChienPao = 0xB6D28884; // WEVT_SUB_015_EVENT_STATE_TSURUGI
@@ -1035,5 +1034,20 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak08Found       = 0x7E1C4D4C; // EncountOutbreakSave_isFind[7]
     private const uint KMassOutbreak08NumKOed     = 0x4B256EF5; // EncountOutbreakSave_subjugationCount[7]
     private const uint KMassOutbreak08TotalSpawns = 0xB7EABC8D; // EncountOutbreakSave_subjugationLimit[7]
+    #endregion
+
+    #region Fixed Symbol Encounter Storage
+    // Each struct is 0x170: u64 hash, bool active, 0x158 bytes pkm, 7 bytes alignment, u32 unknown, 4 bytes alignment
+    // Game fills up each block in this order, and checks them in this order when loading up previously-encountered fixed spawns.
+    private const uint KFixedSymbolRetainer01 = 0x74ABBD32;
+    private const uint KFixedSymbolRetainer02 = 0x74ABBEE5;
+    private const uint KFixedSymbolRetainer03 = 0x74ABB9CC;
+    private const uint KFixedSymbolRetainer04 = 0x74ABBB7F;
+    private const uint KFixedSymbolRetainer05 = 0x74ABB666;
+    private const uint KFixedSymbolRetainer06 = 0x74ABB819;
+    private const uint KFixedSymbolRetainer07 = 0x74ABB300;
+    private const uint KFixedSymbolRetainer08 = 0x74ABB4B3;
+    private const uint KFixedSymbolRetainer09 = 0x74ABCACA;
+    private const uint KFixedSymbolRetainer10 = 0x74ABCC7D;
     #endregion
 }

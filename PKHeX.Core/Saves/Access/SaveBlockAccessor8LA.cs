@@ -67,6 +67,7 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     public const uint KMassOutbreak = 0x1E0F1BA3;
     public const uint KMassiveMassOutbreak = 0x7799EB86;
     private const uint KCaptureRecords = 0x6506EE96; // 1000 entries, 0x1C each
+    private const uint KPlayRecords = 0x549B6033; // 0x18 per entry, first 8 bytes always 01, u64 fnv hash of entry, last 8 bytes value.
     private const uint KOtherPlayerLostSatchels = 0x05E7EBEB;
     private const uint KMyLostSatchels = 0xC5D7112B;
     private const uint KNobleRematchRecords = 0xB9252862; // Best times of Noble rematches

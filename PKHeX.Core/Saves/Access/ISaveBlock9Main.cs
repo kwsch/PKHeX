@@ -18,5 +18,4 @@ public interface ISaveBlock9Main
     PlayerFashion9 PlayerFashion { get; }
     PlayerAppearance9 PlayerAppearance { get; }
     RaidSpawnList9 Raid { get; }
-    FixedSpawnList9 FixedSpawns { get; }
 }
