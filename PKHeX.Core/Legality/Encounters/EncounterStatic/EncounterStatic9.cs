@@ -13,8 +13,9 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
     public bool IsTitan { get; init; }
 
     private bool NoScalarsDefined => Size == 0;
-    public bool GiftWithLanguage => Gift; // Nice error by GameFreak -- all gifts (including eggs) set the HT_Language memory value in addition to OT_Language.
+    public bool GiftWithLanguage => Gift && !ScriptedYungoos; // Nice error by GameFreak -- all gifts (including eggs) set the HT_Language memory value in addition to OT_Language.
     public bool StarterBoxLegend => Gift && Species is (int)Core.Species.Koraidon or (int)Core.Species.Miraidon;
+    public bool ScriptedYungoos => Species == (int)Core.Species.Yungoos && Level == 2;
 
     protected override bool IsMatchPartial(PKM pk)
     {
@@ -47,7 +48,7 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
     {
         base.ApplyDetails(tr, criteria, pk);
         var pk9 = (PK9)pk;
-        if (Gift)
+        if (Gift && !ScriptedYungoos)
             pk9.HT_Language = (byte)pk.Language;
         if (StarterBoxLegend)
             pk9.FormArgument = 1; // Not Ride Form.

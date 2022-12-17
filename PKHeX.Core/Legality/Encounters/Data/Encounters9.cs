@@ -32,6 +32,9 @@ internal static class Encounters9
         new(SL) { Gift = true, Species = 052, Shiny = Never, Level = 05, Location = 130, Form = 2, FlawlessIVCount = 3 }, // Meowth-2
         new(VL) { Gift = true, Species = 052, Shiny = Never, Level = 05, Location = 131, Form = 2, FlawlessIVCount = 3 }, // Meowth-2
 
+        // Scripted
+        new (SV) { Gift = true, Species = 734, Level = 02, Location = 064 }, // Yungoos level 2, no Marks in Inlet Grotto. Only Poké Ball available in early game.
+
         // Box Legendary (Battle Form)
         new(SL) { Species = 998, Shiny = Never, Level = 72, Location = 124, Size = 128, Ability = OnlyFirst, Nature = Nature.Adamant, TeraType = GemType.Fighting, IVs = new(25,31,25,31,31,25), Moves = new(416,339,878,053) }, // Koraidon
         new(VL) { Species = 999, Shiny = Never, Level = 72, Location = 124, Size = 128, Ability = OnlyFirst, Nature = Nature.Modest,  TeraType = GemType.Electric, IVs = new(25,31,25,31,31,25), Moves = new(063,268,879,408) }, // Miraidon
