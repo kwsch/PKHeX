@@ -58,7 +58,7 @@ public partial class KChart : Form
 
         var bst = p.GetBaseStatTotal();
         cells[c++].Value = species.ToString(pt.MaxSpeciesID > 999 ? "0000" : "000") + (form > 0 ? $"-{form:00}" : "");
-        cells[c++].Value = SpriteUtil.GetSprite(species, form, 0, 0, 0, false, Shiny.Never, SAV.Generation);
+        cells[c++].Value = SpriteUtil.GetSprite(species, form, 0, 0, 0, false, Shiny.Never, SAV.Context);
         cells[c++].Value = name;
         cells[c++].Value = GetIsNative(p, species);
         cells[c].Style.BackColor = ColorUtil.ColorBaseStatTotal(bst);

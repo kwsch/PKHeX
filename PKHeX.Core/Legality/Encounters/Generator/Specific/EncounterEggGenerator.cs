@@ -21,10 +21,6 @@ public static class EncounterEggGenerator
         if (!Breeding.CanHatchAsEgg(currentSpecies))
             yield break;
 
-        var currentForm = pk.Form;
-        if (!Breeding.CanHatchAsEgg(currentSpecies, currentForm, generation))
-            yield break; // can't originate from eggs
-
         // version is a true indicator for all generation 3-5 origins
         var ver = (GameVersion)pk.Version;
         if (!Breeding.CanGameGenerateEggs(ver))
@@ -36,6 +32,10 @@ public static class EncounterEggGenerator
         }
 
         var context = ver.GetContext();
+        var currentForm = pk.Form;
+        if (!Breeding.CanHatchAsEgg(currentSpecies, currentForm, context))
+            yield break; // can't originate from eggs
+
         var lvl = EggStateLegality.GetEggLevel(generation);
         int max = GetMaxSpeciesOrigin(generation);
 

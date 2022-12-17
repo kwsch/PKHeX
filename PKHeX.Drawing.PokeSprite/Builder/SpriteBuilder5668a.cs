@@ -20,8 +20,8 @@ public sealed class SpriteBuilder5668a : SpriteBuilder
     public override bool HasFallbackMethod => true;
 
     protected override string GetSpriteStringSpeciesOnly(ushort species) => 'a' + $"_{species}";
-    protected override string GetSpriteAll(ushort species, byte form, int gender, uint formarg, bool shiny, int generation) => 'a' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
-    protected override string GetSpriteAllSecondary(ushort species, byte form, int gender, uint formarg, bool shiny, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
+    protected override string GetSpriteAll(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context) => 'a' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, context, shiny);
+    protected override string GetSpriteAllSecondary(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, context, shiny);
     protected override string GetItemResourceName(int item) => 'a' + $"item_{item}";
     protected override Bitmap Unknown => Resources.b_unknown;
     protected override Bitmap GetEggSprite(ushort species) => species == (int)Species.Manaphy ? Resources.a_490_e : Resources.a_egg;

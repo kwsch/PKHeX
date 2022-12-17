@@ -59,9 +59,9 @@ public static class SpriteUtil
 
     public static Image? GetItemSprite(int item) => Resources.ResourceManager.GetObject($"item_{item}") as Image;
 
-    public static Image GetSprite(ushort species, byte form, int gender, uint formarg, int item, bool isegg, Shiny shiny, int generation = -1, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
+    public static Image GetSprite(ushort species, byte form, int gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
     {
-        return Spriter.GetSprite(species, form, gender, formarg, item, isegg, shiny, generation, tweak);
+        return Spriter.GetSprite(species, form, gender, formarg, item, isegg, shiny, context, tweak);
     }
 
     private static Image GetSprite(PKM pk, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
@@ -69,12 +69,12 @@ public static class SpriteUtil
         var formarg = pk is IFormArgument f ? f.FormArgument : 0;
         var shiny = !pk.IsShiny ? Shiny.Never : (ShinyExtensions.IsSquareShinyExist(pk) ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
 
-        var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, shiny, pk.Format, tweak);
+        var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, shiny, pk.Context, tweak);
         if (pk is IShadowCapture {IsShadow: true})
         {
             const int Lugia = (int)Species.Lugia;
             if (pk.Species == Lugia) // show XD shadow sprite
-                img = Spriter.GetSprite(Spriter.ShadowLugia, Lugia, pk.SpriteItem, pk.IsEgg, shiny, pk.Format, tweak);
+                img = Spriter.GetSprite(Spriter.ShadowLugia, Lugia, pk.SpriteItem, pk.IsEgg, shiny, pk.Context, tweak);
 
             GetSpriteGlow(pk, 75, 0, 130, out var pixels, out var baseSprite, true);
             var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
@@ -219,7 +219,7 @@ public static class SpriteUtil
     {
         bool egg = pk.IsEgg;
         var formarg = pk is IFormArgument f ? f.FormArgument : 0;
-        baseSprite = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, 0, egg, Shiny.Never, pk.Format);
+        baseSprite = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, 0, egg, Shiny.Never, pk.Context);
         GetSpriteGlow(baseSprite, blue, green, red, out pixels, forceHollow || egg);
     }
 
@@ -251,7 +251,7 @@ public static class SpriteUtil
         if (enc is MysteryGift g)
             return GetMysteryGiftPreviewPoke(g);
         var gender = GetDisplayGender(enc);
-        var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny ? Shiny.Always : Shiny.Never, enc.Generation);
+        var img = GetSprite(enc.Species, enc.Form, gender, 0, 0, enc.EggEncounter, enc.IsShiny ? Shiny.Always : Shiny.Never, enc.Context);
         if (SpriteBuilder.ShowEncounterBall && enc is IFixedBall {FixedBall: not Ball.None} b)
         {
             var ballSprite = GetBallSprite((int)b.FixedBall);
@@ -286,10 +286,10 @@ public static class SpriteUtil
     public static Image GetMysteryGiftPreviewPoke(MysteryGift gift)
     {
         if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
-            return GetSprite((int)Species.Manaphy, 0, 2, 0, 0, true, Shiny.Never, gift.Generation);
+            return GetSprite((int)Species.Manaphy, 0, 2, 0, 0, true, Shiny.Never, gift.Context);
 
         var gender = Math.Max(0, gift.Gender);
-        var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny ? Shiny.Always : Shiny.Never, gift.Generation);
+        var img = GetSprite(gift.Species, gift.Form, gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny ? Shiny.Always : Shiny.Never, gift.Context);
 
         if (SpriteBuilder.ShowEncounterBall && gift is IFixedBall { FixedBall: not Ball.None } b)
         {
