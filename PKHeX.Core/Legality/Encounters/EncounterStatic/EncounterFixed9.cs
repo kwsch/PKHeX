@@ -1,5 +1,5 @@
 using System;
-using System.Buffers.Binary;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -15,6 +15,7 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
     private byte Location0 { get; init; }
     private byte Location1 { get; init; }
     private byte Location2 { get; init; }
+    private byte Location3 { get; init; }
 
     private const int MinScaleStrongTera = 200; // [200,255]
 
@@ -32,7 +33,7 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
 
     private static EncounterFixed9 ReadEncounter(ReadOnlySpan<byte> data) => new()
     {
-        Species = BinaryPrimitives.ReadUInt16LittleEndian(data),
+        Species = ReadUInt16LittleEndian(data),
         Form = data[0x02],
         Level = data[0x03],
         FlawlessIVCount = data[0x04],
@@ -40,14 +41,14 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
         Gender = (sbyte)data[0x06],
         // 1 byte reserved
         Moves = new Moveset(
-            BinaryPrimitives.ReadUInt16LittleEndian(data[0x08..]),
-            BinaryPrimitives.ReadUInt16LittleEndian(data[0x0A..]),
-            BinaryPrimitives.ReadUInt16LittleEndian(data[0x0C..]),
-            BinaryPrimitives.ReadUInt16LittleEndian(data[0x0E..])),
+            ReadUInt16LittleEndian(data[0x08..]),
+            ReadUInt16LittleEndian(data[0x0A..]),
+            ReadUInt16LittleEndian(data[0x0C..]),
+            ReadUInt16LittleEndian(data[0x0E..])),
         Location0 = data[0x10],
         Location1 = data[0x11],
         Location2 = data[0x12],
-        // 1 byte reserved
+        Location3 = data[0x13],
     };
 
     protected override bool IsMatchLocation(PKM pk)
@@ -55,7 +56,7 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
         if (!pk.HasOriginalMetLocation)
             return true;
         var loc = pk.Met_Location;
-        return loc == Location0 || loc == Location1 || loc == Location2;
+        return loc == Location0 || loc == Location1 || loc == Location2 || loc == Location3;
     }
 
     protected override bool IsMatchForm(PKM pk, EvoCriteria evo)

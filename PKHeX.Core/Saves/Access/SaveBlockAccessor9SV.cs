@@ -85,6 +85,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KFashionUnlockedPhoneCase = 0xED0AC675;
     private const uint KPlayerPhoto1 = 0x14C5A101;
     private const uint KPlayerPhoto2 = 0xF8B14C88;
+    private const uint KPlayerTrainerIcon = 0xD41F4FC4;
     private const uint KRentalTeams = 0x19CB0339;
     private const uint KSevenStarRaids = 0x8B14392F;
 
