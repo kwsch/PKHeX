@@ -110,6 +110,7 @@ public static partial class Legal
         PA8 pa8 => !pa8.LA,
         PB8 pb8 => !pb8.BDSP,
         PK8 pk8 => pk8.IsSideTransfer || pk8.BattleVersion != 0,
+        PK9 pk9 => !pk9.SV,
         _ => false,
     };
 
@@ -129,7 +130,7 @@ public static partial class Legal
     public static bool IsPPUpAvailable(ushort moveID) => moveID switch
     {
         0 => false,
-        (int)Move.Sketch => false,
+        (int)Move.Sketch => false, // BD/SP v1.0 could use PP Ups on Sketch, but not in later versions. Disallow anyways.
         (int)Move.RevivalBlessing => false,
         _ => true,
     };

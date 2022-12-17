@@ -567,12 +567,18 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void ClickGender(object sender, EventArgs e)
     {
-        if (!Entity.PersonalInfo.IsDualGender)
+        var pi = Entity.PersonalInfo;
+        if (!pi.IsDualGender)
+        {
+            var expect = pi.FixedGender();
+            if (UC_Gender.Gender != expect)
+                UC_Gender.Gender = expect;
             return; // can't toggle
+        }
 
         var (canToggle, gender) = UC_Gender.ToggleGender();
         if (!canToggle)
-            return;
+            gender = UC_Gender.Gender = 0; // fix bad genders
         if (Entity.Format <= 2)
         {
             Stats.SetATKIVGender(gender);
