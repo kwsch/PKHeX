@@ -369,7 +369,7 @@ public sealed class MiscVerifier : Verifier
     {
         var pk = data.Entity;
 
-        if (!Legal.IsPPUpAvailable(pk)) // No PP Ups
+        if (!Legal.IsPPUpAvailable(pk)) // No PP Ups for format
         {
             if (pk.Move1_PPUps is not 0)
                 data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 1), CurrentMove));
@@ -378,6 +378,17 @@ public sealed class MiscVerifier : Verifier
             if (pk.Move3_PPUps is not 0)
                 data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 3), CurrentMove));
             if (pk.Move4_PPUps is not 0)
+                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 4), CurrentMove));
+        }
+        else // Check specific move indexes
+        {
+            if (!Legal.IsPPUpAvailable(pk.Move1) && pk.Move1_PPUps is not 0)
+                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 1), CurrentMove));
+            if (!Legal.IsPPUpAvailable(pk.Move2) && pk.Move2_PPUps is not 0)
+                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 2), CurrentMove));
+            if (!Legal.IsPPUpAvailable(pk.Move3) && pk.Move3_PPUps is not 0)
+                data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 3), CurrentMove));
+            if (!Legal.IsPPUpAvailable(pk.Move4) && pk.Move4_PPUps is not 0)
                 data.AddLine(GetInvalid(string.Format(LMovePPUpsTooHigh_0, 4), CurrentMove));
         }
 

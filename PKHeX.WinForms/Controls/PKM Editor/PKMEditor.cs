@@ -604,11 +604,22 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void ClickPPUps(object sender, EventArgs e)
     {
         bool min = (ModifierKeys & Keys.Control) != 0 || !Legal.IsPPUpAvailable(Entity);
-        static int GetValue(ListControl cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
-        CB_PPu1.SelectedIndex = GetValue(CB_Move1, min);
-        CB_PPu2.SelectedIndex = GetValue(CB_Move2, min);
-        CB_PPu3.SelectedIndex = GetValue(CB_Move3, min);
-        CB_PPu4.SelectedIndex = GetValue(CB_Move4, min);
+        if (min)
+        {
+            CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = 0;
+            return;
+        }
+        
+        static int GetValue(ListControl cb)
+        {
+            ushort move = (ushort)WinFormsUtil.GetIndex(cb);
+            return Legal.IsPPUpAvailable(move) ? 3 : 0;
+        }
+
+        CB_PPu1.SelectedIndex = GetValue(CB_Move1);
+        CB_PPu2.SelectedIndex = GetValue(CB_Move2);
+        CB_PPu3.SelectedIndex = GetValue(CB_Move3);
+        CB_PPu4.SelectedIndex = GetValue(CB_Move4);
     }
 
     private void ClickMarking(object sender, EventArgs e)

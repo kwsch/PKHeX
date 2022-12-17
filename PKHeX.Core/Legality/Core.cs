@@ -122,6 +122,18 @@ public static partial class Legal
         return pk is not PA8;
     }
 
+    /// <summary>
+    /// Indicate if PP Ups are available for use.
+    /// </summary>
+    /// <param name="moveID">Move ID</param>
+    public static bool IsPPUpAvailable(ushort moveID) => moveID switch
+    {
+        0 => false,
+        (int)Move.Sketch => false,
+        (int)Move.RevivalBlessing => false,
+        _ => true,
+    };
+
     public static int GetMaxLengthOT(int generation, LanguageID language) => language switch
     {
         LanguageID.ChineseS or LanguageID.ChineseT => 6,
