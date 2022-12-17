@@ -983,7 +983,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void RefreshFormArguments()
     {
         if (Entity is not IFormArgument f)
+        {
+            L_FormArgument.Visible = false;
             return;
+        }
 
         if (FieldsLoaded)
             FA_Form.SaveArgument(f);
@@ -1841,6 +1844,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         L_AlphaMastered.Visible = CB_AlphaMastered.Visible = t is PA8;
         FLP_ObedienceLevel.Visible = t is IObedienceLevel;
         Contest.ToggleInterface(Entity, Entity.Context);
+        if (t is not IFormArgument)
+            L_FormArgument.Visible = false;
 
         ToggleInterface(Entity.Format);
     }
