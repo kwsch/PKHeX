@@ -1439,6 +1439,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             // Wipe egg memories
             if (Entity.Format >= 6 && ModifyPKM)
                 Entity.ClearMemories();
+
+            if (Entity is PK9)
+                CB_GameOrigin.SelectedValue = 0;
         }
         else // Not Egg
         {
