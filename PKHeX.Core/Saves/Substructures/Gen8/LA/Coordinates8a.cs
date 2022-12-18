@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.ComponentModel;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
