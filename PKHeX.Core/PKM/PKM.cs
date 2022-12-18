@@ -257,16 +257,23 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
         }
     }
 
+    private bool IsDisplay7 => Generation switch
+    {
+        >= 7 => true,
+        -1 when IsEgg && this is PK9 => true,
+        _ => false,
+    };
+
     public int DisplayTID
     {
-        get => Generation >= 7 ? TrainerID7 : TID;
-        set { if (Generation >= 7) TrainerID7 = value; else TID = value; }
+        get => IsDisplay7 ? TrainerID7 : TID;
+        set { if (IsDisplay7) TrainerID7 = value; else TID = value; }
     }
 
     public int DisplaySID
     {
-        get => Generation >= 7 ? TrainerSID7 : SID;
-        set { if (Generation >= 7) TrainerSID7 = value; else SID = value; }
+        get => IsDisplay7 ? TrainerSID7 : SID;
+        set { if (IsDisplay7) TrainerSID7 = value; else SID = value; }
     }
 
     private void SetID7(int sid7, int tid7)
