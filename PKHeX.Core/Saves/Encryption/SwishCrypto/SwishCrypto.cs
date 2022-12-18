@@ -54,25 +54,13 @@ public static class SwishCrypto
             region[i] ^= xp[i % xp.Length];
     }
 
-    private static byte[] ComputeHash(byte[] data)
+    private static void ComputeHash(ReadOnlySpan<byte> data, Span<byte> hash)
     {
-#if !NET46
         using var h = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         h.AppendData(IntroHashBytes);
-        h.AppendData(data, 0, data.Length - SIZE_HASH);
+        h.AppendData(data[..^SIZE_HASH]);
         h.AppendData(OutroHashBytes);
-        return h.GetHashAndReset();
-#else
-        var intro = IntroHashBytes;
-        var outro = OutroHashBytes;
-        using var stream = new MemoryStream(intro.Length + data.Length - SIZE_HASH + outro.Length);
-        stream.Write(intro, 0, intro.Length);
-        stream.Write(data, 0, data.Length - SIZE_HASH); // hash is at the end
-        stream.Write(outro, 0, outro.Length);
-        stream.Seek(0, SeekOrigin.Begin);
-        using var sha = SHA256.Create();
-        return sha.ComputeHash(stream);
-#endif
+        h.TryGetCurrentHash(hash, out _);
     }
 
     /// <summary>
@@ -80,11 +68,12 @@ public static class SwishCrypto
     /// </summary>
     /// <param name="data">Encrypted save data</param>
     /// <returns>True if hash matches</returns>
-    public static bool GetIsHashValid(byte[] data)
+    public static bool GetIsHashValid(ReadOnlySpan<byte> data)
     {
-        var hash = ComputeHash(data);
-        var span = data.AsSpan()[^hash.Length..];
-        return span.SequenceEqual(hash);
+        Span<byte> computed = stackalloc byte[SIZE_HASH];
+        ComputeHash(data, computed);
+        var stored = data[^computed.Length..];
+        return computed.SequenceEqual(stored);
     }
 
     /// <summary>
@@ -127,8 +116,8 @@ public static class SwishCrypto
         var result = GetDecryptedRawData(blocks);
         CryptStaticXorpadBytes(result);
 
-        var hash = ComputeHash(result);
-        hash.CopyTo(result, result.Length - SIZE_HASH);
+        var hash = result.AsSpan()[^SIZE_HASH..];
+        ComputeHash(result, hash);
 
         return result;
     }
@@ -144,10 +133,9 @@ public static class SwishCrypto
         foreach (var block in blocks)
             block.WriteBlock(bw);
 
-        // Allocate hash bytes at the end
-        for (int i = 0; i < SIZE_HASH; i++)
-            bw.Write((byte)0);
-
-        return ms.ToArray();
+        var result = new byte[ms.Position + SIZE_HASH];
+        ms.Position = 0;
+        _ = ms.Read(result);
+        return result;
     }
 }

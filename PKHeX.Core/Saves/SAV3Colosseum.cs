@@ -28,6 +28,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     private const int SLOT_START = 0x6000;
     private const int SLOT_COUNT = 3;
 
+    private const int sha1HashSize = 20;
+
     private int SaveCount = -1;
     private int SaveIndex = -1;
     private readonly StrategyMemo StrategyMemo;
@@ -89,8 +91,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         {
             int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
             ReadOnlySpan<byte> slot = Data.AsSpan(slotOffset, SLOT_SIZE);
-            Span<byte> digest = stackalloc byte[20];
-            slot[^20..].CopyTo(digest);
+            Span<byte> digest = stackalloc byte[sha1HashSize];
+            slot[^sha1HashSize..].CopyTo(digest);
 
             // Decrypt Slot
             Data = DecryptColosseum(slot, digest);
@@ -116,8 +118,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
 
         // Get updated save slot data
         ReadOnlySpan<byte> slot = Data;
-        Span<byte> digest = stackalloc byte[20];
-        slot[^20..].CopyTo(digest);
+        Span<byte> digest = stackalloc byte[sha1HashSize];
+        slot[^sha1HashSize..].CopyTo(digest);
         byte[] newSAV = EncryptColosseum(slot, digest);
 
         // Put save slot back in original save data
@@ -159,21 +161,21 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     private static byte[] EncryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
     {
         if (input.Length != SLOT_SIZE)
-            throw new ArgumentException(nameof(input));
+            throw new ArgumentException("Incorrect slot size", nameof(input));
 
         byte[] output = input.ToArray();
 
         // NOT key
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < digest.Length; i++)
             digest[i] = (byte)~digest[i];
 
-        using var sha1 = SHA1.Create();
-        for (int i = 0x18; i < 0x1DFD8; i += 20)
+        var crypt = output.AsSpan(0x18, SLOT_SIZE - (2 * sha1HashSize));
+        for (int i = 0; i < crypt.Length; i += sha1HashSize)
         {
-            for (int j = 0; j < 20; j++)
-                output[i + j] ^= digest[j];
-            byte[] key = sha1.ComputeHash(output, i, 20); // update digest
-            key.AsSpan(0, 20).CopyTo(digest); // for use in next loop
+            var slice = crypt.Slice(i, digest.Length);
+            for (int j = 0; j < digest.Length; j++)
+                slice[j] ^= digest[j];
+            SHA1.HashData(slice, digest); // update digest
         }
         return output;
     }
@@ -181,47 +183,55 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     private static byte[] DecryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
     {
         if (input.Length != SLOT_SIZE)
-            throw new ArgumentException(nameof(input));
+            throw new ArgumentException("Incorrect slot size", nameof(input));
 
         byte[] output = input.ToArray();
 
         // NOT key
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < digest.Length; i++)
             digest[i] = (byte)~digest[i];
 
-        using var sha1 = SHA1.Create();
-        for (int i = 0x18; i < 0x1DFD8; i += 20)
+        Span<byte> hash = stackalloc byte[sha1HashSize];
+        var crypt = output.AsSpan(0x18, SLOT_SIZE - (2 * sha1HashSize));
+        for (int i = 0; i < crypt.Length; i += sha1HashSize)
         {
-            byte[] key = sha1.ComputeHash(output, i, 20); // update digest
-            for (int j = 0; j < 20; j++)
-                output[i + j] ^= digest[j];
-            key.AsSpan(0, 20).CopyTo(digest); // for use in next loop
+            var slice = crypt.Slice(i, sha1HashSize);
+            SHA1.HashData(slice, hash); // update digest
+            for (int j = 0; j < digest.Length; j++)
+                slice[j] ^= digest[j];
+            hash.CopyTo(digest); // for use in next loop
         }
         return output;
     }
 
     protected override void SetChecksums()
     {
+        var data = Data.AsSpan();
+        var header = data[..0x20];
+        var payload = data[..(SLOT_SIZE - (2 * sha1HashSize))];
+        var hash = data[^sha1HashSize..];
+        var headerCHK = data[0x0C..];
+
         // Clear Header Checksum
-        var headerCHK = Data.AsSpan(12);
         WriteInt32BigEndian(headerCHK, 0);
         // Compute checksum of data
-        using var sha1 = SHA1.Create();
-        byte[] checksum = sha1.ComputeHash(Data, 0, 0x1DFD8);
-        // Set Checksum to end
-        var checkSpan = checksum.AsSpan();
-        checkSpan.CopyTo(Data.AsSpan(Data.Length - checkSpan.Length));
+        SHA1.HashData(payload, hash);
 
         // Compute new header checksum
-        var header = Data.AsSpan(0, 0x20);
-        int newHC = 0;
-        for (int i = 0; i < 0x18; i += 4)
-            newHC -= ReadInt32BigEndian(header[i..]);
-        newHC -= ReadInt32BigEndian(header[0x18..]) ^ ~ReadInt32BigEndian(checkSpan);
-        newHC -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(checkSpan[4..]);
+        int newHC = ComputeHeaderChecksum(header, hash);
 
         // Set Header Checksum
         WriteInt32BigEndian(headerCHK, newHC);
+    }
+
+    private static int ComputeHeaderChecksum(Span<byte> header, Span<byte> hash)
+    {
+        int result = 0;
+        for (int i = 0; i < 0x18; i += 4)
+            result -= ReadInt32BigEndian(header[i..]);
+        result -= ReadInt32BigEndian(header[0x18..]) ^ ~ReadInt32BigEndian(hash);
+        result -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(hash[4..]);
+        return result;
     }
 
     public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
@@ -230,28 +240,25 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     {
         get
         {
-            byte[] data = (byte[])Data.Clone();
-            var hc = data.AsSpan(12);
+            var data = Data.AsSpan();
+            var header = data[..0x20];
+            var payload = data[..(SLOT_SIZE - (2 * sha1HashSize))];
+            var storedHash = data[^sha1HashSize..];
+            var hc = header[0x0C..];
+
             int oldHC = ReadInt32BigEndian(hc);
             // Clear Header Checksum
-            WriteUInt32BigEndian(hc, 0);
-            using var sha1 = SHA1.Create();
-            byte[] checksum = sha1.ComputeHash(data, 0, 0x1DFD8);
-            var checkSpan = checksum.AsSpan();
+            WriteInt32BigEndian(hc, 0);
+            Span<byte> currentHash = stackalloc byte[sha1HashSize];
+            SHA1.HashData(payload, currentHash);
 
             // Compute new header checksum
-            var header = data.AsSpan(0, 0x20);
-            int newHC = 0;
-            for (int i = 0; i < 0x18; i += 4)
-                newHC -= ReadInt32BigEndian(header[i..]);
+            int newHC = ComputeHeaderChecksum(header, currentHash);
 
-            newHC -= ReadInt32BigEndian(header[0x18..]) ^ ~ReadInt32BigEndian(checkSpan);
-            newHC -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(checkSpan[4..]);
-
-            var chk = data.AsSpan(data.Length - 20, 20);
-
+            // Restore old header checksum
+            WriteInt32BigEndian(hc, oldHC);
             bool isHeaderValid = newHC == oldHC;
-            bool isBodyValid = chk.SequenceEqual(checkSpan);
+            bool isBodyValid = storedHash.SequenceEqual(currentHash);
             static string valid(bool s) => s ? "Valid" : "Invalid";
             return $"Header Checksum {valid(isHeaderValid)}, Body Checksum {valid(isBodyValid)}.";
         }

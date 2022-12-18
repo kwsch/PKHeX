@@ -163,30 +163,28 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     #region Checksums
 
-    private const int HashOffset = SaveUtil.SIZE_G8BDSP - 0x10;
-    private Span<byte> CurrentHash => Data.AsSpan(SaveUtil.SIZE_G8BDSP - 0x10, 0x10);
-
-    private byte[] ComputeHash()
+    private const int HashLength = 0x10;
+    private const int HashOffset = SaveUtil.SIZE_G8BDSP - HashLength;
+    private Span<byte> CurrentHash => Data.AsSpan(HashOffset, HashLength);
+    private static void ComputeHash(ReadOnlySpan<byte> data, Span<byte> dest)
     {
-        CurrentHash.Clear();
-        using var md5 = new MD5CryptoServiceProvider();
-        return md5.ComputeHash(Data);
+        using var h = IncrementalHash.CreateHash(HashAlgorithmName.MD5);
+        h.AppendData(data[..HashOffset]);
+        Span<byte> zeroes = stackalloc byte[HashLength]; // Hash is zeroed prior to computing over the payload. Treat it as zero.
+        h.AppendData(zeroes);
+        h.AppendData(data[(HashOffset + HashLength)..]);
+        h.TryGetCurrentHash(dest, out _);
     }
 
-    protected override void SetChecksums() => ComputeHash().CopyTo(Data, HashOffset);
+    protected override void SetChecksums() => ComputeHash(Data, CurrentHash);
+    public override bool ChecksumsValid => GetIsHashValid(Data, CurrentHash);
     public override string ChecksumInfo => !ChecksumsValid ? "MD5 Hash Invalid" : string.Empty;
 
-    public override bool ChecksumsValid
+    public static bool GetIsHashValid(ReadOnlySpan<byte> data, ReadOnlySpan<byte> currentHash)
     {
-        get
-        {
-            // Cache hash and restore it after computation
-            var original = CurrentHash.ToArray();
-            var newHash = ComputeHash();
-            var result = newHash.AsSpan().SequenceEqual(original);
-            original.AsSpan().CopyTo(CurrentHash);
-            return result;
-        }
+        Span<byte> computed = stackalloc byte[HashLength];
+        ComputeHash(data, computed);
+        return computed.SequenceEqual(currentHash);
     }
 
     #endregion

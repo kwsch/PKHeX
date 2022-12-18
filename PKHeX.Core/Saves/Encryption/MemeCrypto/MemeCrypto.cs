@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Security.Cryptography;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -73,23 +73,22 @@ public static class MemeCrypto
         output = input.ToArray();
 
         var sigBuffer = key.RsaPublic(input[^0x60..]);
-        using var sha1 = SHA1.Create();
-        if (DecryptCompare(output, sigBuffer, key, sha1))
+        if (DecryptCompare(output, sigBuffer, key))
             return true;
         sigBuffer[0x0] |= 0x80;
-        if (DecryptCompare(output, sigBuffer, key, sha1))
+        if (DecryptCompare(output, sigBuffer, key))
             return true;
 
         output = Array.Empty<byte>();
         return false;
     }
 
-    private static bool DecryptCompare(byte[] output, ReadOnlySpan<byte> sigBuffer, MemeKey key, SHA1 sha1)
+    private static bool DecryptCompare(byte[] output, ReadOnlySpan<byte> sigBuffer, MemeKey key)
     {
         sigBuffer.CopyTo(output.AsSpan(output.Length - 0x60));
         key.AesDecrypt(output).CopyTo(output);
         // Check for 8-byte equality.
-        var hash = sha1.ComputeHash(output, 0, output.Length - 0x8);
+        var hash = SHA1.HashData(output.AsSpan(0, output.Length - 0x8));
         var computed = ReadUInt64LittleEndian(hash.AsSpan());
         var existing = ReadUInt64LittleEndian(output.AsSpan(output.Length - 0x8));
         return computed == existing;
@@ -135,11 +134,11 @@ public static class MemeCrypto
         var output = input.ToArray();
 
         // Copy in the SHA1 signature
-        using (var sha1 = SHA1.Create())
-        {
-            var hash = sha1.ComputeHash(output, 0, output.Length - 8);
-            hash.AsSpan(0, 8).CopyTo(output.AsSpan(output.Length - 8, 8));
-        }
+        var payload = output.AsSpan(0, output.Length - 8);
+        var hash = output.AsSpan(output.Length - 8, 8);
+        Span<byte> tmp = stackalloc byte[0x20];
+        SHA1.HashData(payload, tmp);
+        tmp[..hash.Length].CopyTo(hash);
 
         // Perform AES operations
         output = key.AesEncrypt(output);
@@ -171,11 +170,8 @@ public static class MemeCrypto
 
         // Store current signature
         var oldSig = sav7.Slice(MemeCryptoOffset, MemeCryptoSignatureLength).ToArray();
-
-        using var sha256 = SHA256.Create();
-        var newSig = sha256.ComputeHash(result, ChecksumTableOffset, ChecksumSignatureLength);
         Span<byte> sigSpan = stackalloc byte[MemeCryptoSignatureLength];
-        newSig.CopyTo(sigSpan);
+        SHA256.HashData(result.AsSpan(ChecksumTableOffset, ChecksumSignatureLength), sigSpan);
 
         if (VerifyMemeData(oldSig, out var memeSig, MemeKeyIndex.PokedexAndSaveFile))
             memeSig.AsSpan()[0x20..0x80].CopyTo(sigSpan[0x20..]);

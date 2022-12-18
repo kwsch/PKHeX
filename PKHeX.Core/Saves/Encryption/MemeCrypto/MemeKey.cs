@@ -62,9 +62,7 @@ public sealed class MemeKey
         var buffer = new byte[DER.Length + data.Length - 0x60];
         DER.CopyTo(buffer, 0);
         data[..(buffer.Length - DER.Length)].CopyTo(buffer.AsSpan(DER.Length));
-
-        using var sha1 = SHA1.Create();
-        var result = sha1.ComputeHash(buffer);
+        var result = SHA1.HashData(buffer);
         return result.AsSpan(0, 0x10).ToArray();
     }
 

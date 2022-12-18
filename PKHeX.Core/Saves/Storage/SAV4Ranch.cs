@@ -145,17 +145,19 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
         SetData(Data, mii.Data, offset);
     }
 
+    private const int sha1HashSize = 20;
+
     protected override void SetChecksums()
     {
-        // ensure the final data is written if the user screws stuff up
-        WriteInt32BigEndian(Data.AsSpan(DataEndMarkerOffset), DataEndMarker);
-        var goodlen = (DataEndMarkerOffset + 4);
-        Array.Clear(Data, goodlen, Data.Length - goodlen);
+        var data = Data.AsSpan();
+        // ensure the final data is cleared if the user screws stuff up
+        WriteInt32BigEndian(data[DataEndMarkerOffset..], DataEndMarker);
+        data[(DataEndMarkerOffset + 4)..].Clear();
 
         // 20 byte SHA checksum at the top of the file, which covers all data that follows.
-        using var hash = SHA1.Create();
-        var result = hash.ComputeHash(Data, 20, Data.Length - 20);
-        SetData(result, 0);
+        var hash = data[..sha1HashSize];
+        var payload = data[sha1HashSize..];
+        SHA1.HashData(payload, hash);
     }
 
     protected override byte[] DecryptPKM(byte[] data)
