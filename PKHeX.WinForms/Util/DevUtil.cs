@@ -76,9 +76,7 @@ namespace PKHeX.WinForms
                 var loc = Path.Combine(dir, fn);
                 if (File.Exists(loc))
                     File.Delete(loc);
-                File.Move(f, loc);
-                // if net framework support is ever removed, use the new overload instead of the stuff above:
-                // File.Move(f, loc, true);
+                File.Move(f, loc, true);
             }
 
             Application.Exit();
