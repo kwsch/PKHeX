@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -13,6 +13,8 @@ public static class ReflectUtil
     {
         var v = pi.GetValue(obj, null);
         var c = ConvertValue(value, pi.PropertyType);
+        if (v is null)
+            return c is null;
         return v.Equals(c);
     }
 
@@ -24,8 +26,6 @@ public static class ReflectUtil
 
     public static object? GetValue(object obj, string name) => GetPropertyInfo(obj.GetType().GetTypeInfo(), name)?.GetValue(obj);
     public static void SetValue(object obj, string name, object value) => GetPropertyInfo(obj.GetType().GetTypeInfo(), name)?.SetValue(obj, value, null);
-    public static object GetValue(Type t, string propertyName) => t.GetTypeInfo().GetDeclaredProperty(propertyName).GetValue(null);
-    public static void SetValue(Type t, string propertyName, object value) => t.GetTypeInfo().GetDeclaredProperty(propertyName).SetValue(null, value);
 
     public static IEnumerable<string> GetPropertiesStartWithPrefix(Type type, string prefix)
     {
@@ -46,14 +46,17 @@ public static class ReflectUtil
     public static IEnumerable<PropertyInfo> GetAllPropertyInfoCanWritePublic(Type type)
     {
         return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
-            .Where(p => p.CanWrite && p.SetMethod.IsPublic);
+            .Where(CanWritePublic);
     }
 
     public static IEnumerable<PropertyInfo> GetAllPropertyInfoPublic(Type type)
     {
         return type.GetTypeInfo().GetAllTypeInfo().SelectMany(GetAllProperties)
-            .Where(p => (p.CanRead && p.GetMethod.IsPublic) || (p.CanWrite && p.SetMethod.IsPublic));
+            .Where(p => p.CanReadPublic() || p.CanWritePublic());
     }
+
+    private static bool CanReadPublic(this PropertyInfo p) => p.CanRead && (p.GetMethod?.IsPublic ?? false);
+    private static bool CanWritePublic(this PropertyInfo p) => p.CanWrite && (p.SetMethod?.IsPublic ?? false);
 
     public static IEnumerable<string> GetPropertiesPublic(Type type)
     {
@@ -65,7 +68,7 @@ public static class ReflectUtil
     public static IEnumerable<string> GetPropertiesCanWritePublicDeclared(Type type)
     {
         return type.GetTypeInfo().GetAllProperties()
-                .Where(p => p.CanWrite && p.SetMethod.IsPublic)
+                .Where(CanWritePublic)
                 .Select(p => p.Name)
                 .Distinct()
             ;
@@ -82,7 +85,7 @@ public static class ReflectUtil
 
         if (type.IsEnum)
         {
-            var str = value.ToString();
+            var str = value.ToString() ?? string.Empty;
             if (int.TryParse(str, out var integer))
                 return Convert.ChangeType(integer, type);
             return Enum.Parse(type, str, true);
@@ -144,13 +147,13 @@ public static class ReflectUtil
     {
         var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
         var consts = fields.Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType == typeof(T));
-        return consts.ToDictionary(x => (T)x.GetRawConstantValue(), z => z.Name);
+        return consts.ToDictionary(z => (T)(z.GetRawConstantValue() ?? throw new NullReferenceException(nameof(z.Name))), z => z.Name);
     }
 
     public static Dictionary<T, string> GetAllPropertiesOfType<T>(this Type type, object obj) where T : class
     {
         var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         var ofType = props.Where(fi => typeof(T).IsAssignableFrom(fi.PropertyType));
-        return ofType.ToDictionary(x => (T)x.GetValue(obj), z => z.Name);
+        return ofType.ToDictionary(x => (T)(x.GetValue(obj) ?? throw new NullReferenceException(nameof(x.Name))), z => z.Name);
     }
 }

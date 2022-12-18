@@ -51,7 +51,7 @@ public sealed class BitmapAnimator : Timer
             GlowCache[i] = null;
     }
 
-    public void Start(PictureBox pbox, Image baseImage, byte[] glowData, Image original, Image extra)
+    public void Start(PictureBox pbox, Image baseImage, byte[] glowData, Image? original, Image extra)
     {
         Enabled = false;
         imgWidth = baseImage.Width;

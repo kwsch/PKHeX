@@ -64,11 +64,11 @@ public static class WinFormsUtil
             {
                 case T p:
                     return p;
-                case ToolStripItem t:
-                    sender = t.Owner;
+                case ToolStripItem { Owner: { } o}:
+                    sender = o;
                     continue;
-                case ContextMenuStrip c:
-                    sender = c.SourceControl;
+                case ContextMenuStrip { SourceControl: { } s }:
+                    sender = s;
                     continue;
                 default:
                     return default;

@@ -615,7 +615,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             CB_PPu1.SelectedIndex = CB_PPu2.SelectedIndex = CB_PPu3.SelectedIndex = CB_PPu4.SelectedIndex = 0;
             return;
         }
-        
+
         static int GetValue(ListControl cb)
         {
             ushort move = (ushort)WinFormsUtil.GetIndex(cb);

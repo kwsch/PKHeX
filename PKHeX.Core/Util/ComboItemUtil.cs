@@ -136,6 +136,11 @@ public static partial class Util
     {
         private readonly Comparison<T> Comparison;
         public FunctorComparer(Comparison<T> comparison) => Comparison = comparison;
-        public int Compare(T x, T y) => Comparison(x, y);
+        public int Compare(T? x, T? y)
+        {
+            if (x == null)
+                return y == null ? 0 : -1;
+            return y == null ? 1 : Comparison(x, y);
+        }
     }
 }

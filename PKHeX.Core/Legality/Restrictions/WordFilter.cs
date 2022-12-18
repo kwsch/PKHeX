@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace PKHeX.Core;
@@ -50,8 +50,8 @@ public static class WordFilter
         // Check dictionary
         lock (dictLock)
         {
-            if (Lookup.TryGetValue(msg, out regMatch))
-                return !ReferenceEquals(regMatch, NoMatch);
+            if (Lookup.TryGetValue(msg, out var dictMatch))
+                return !ReferenceEquals(regMatch = dictMatch, NoMatch);
         }
 
         // not in dictionary, check patterns

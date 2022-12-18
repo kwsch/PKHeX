@@ -375,7 +375,7 @@ public static class BatchEditing
         if (cmd.Random)
             val = cmd.RandomValue;
         else if (cmd.PropertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(cmd.PropertyValue[1..], out var opi))
-            val = opi.GetValue(pk);
+            val = opi.GetValue(pk) ?? throw new NullReferenceException();
         else
             val = cmd.PropertyValue;
 

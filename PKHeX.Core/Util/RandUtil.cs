@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public static partial class Util
 {
     // Multithread safe rand, ha
-    public static Random Rand => _local.Value;
+    public static Random Rand => _local.Value!;
     private static int randomSeed = Environment.TickCount;
 
     private static readonly ThreadLocal<Random> _local = new(() =>

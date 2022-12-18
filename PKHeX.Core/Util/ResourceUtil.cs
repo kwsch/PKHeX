@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
@@ -157,7 +158,7 @@ public static partial class Util
         return LoadStringList(fileName, txt);
     }
 
-    public static bool IsStringListCached(string fileName, out string[] result)
+    public static bool IsStringListCached(string fileName, [NotNullWhen(true)] out string[]? result)
     {
         lock (getStringListLoadLock) // Make sure only one thread can read the cache
             return stringListCache.TryGetValue(fileName, out result);

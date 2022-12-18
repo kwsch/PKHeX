@@ -64,7 +64,7 @@ public sealed class SlotCache : IComparable<SlotCache>
         return string.CompareOrdinal(Identify(), other.Identify());
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (ReferenceEquals(this, obj))
             return true;

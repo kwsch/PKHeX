@@ -133,11 +133,7 @@ public partial class Main : Form
                 return true;
         }
 
-#if !NET6_0_OR_GREATER
-        var path = Process.GetCurrentProcess().MainModule!.FileName!;
-#else
         var path = Environment.ProcessPath!;
-#endif
         return Path.GetFileNameWithoutExtension(path).EndsWith(nameof(HaX));
     }
 
@@ -807,11 +803,12 @@ public partial class Main : Form
     private static string GetProgramTitle()
     {
 #if DEBUG
-        var date = File.GetLastWriteTime(Assembly.GetEntryAssembly()!.Location);
+        // Get the file path that started this exe.
+        var date = File.GetLastWriteTime(Environment.ProcessPath!);
         string version = $"d-{date:yyyyMMdd}";
 #else
-            var ver = CurrentProgramVersion;
-            string version = $"{2000+ver.Major:00}{ver.Minor:00}{ver.Build:00}";
+        var ver = CurrentProgramVersion;
+        string version = $"{2000+ver.Major:00}{ver.Minor:00}{ver.Build:00}";
 #endif
         return $"PKH{(HaX ? "a" : "e")}X ({version})";
     }
@@ -1090,7 +1087,9 @@ public partial class Main : Form
     {
         pk ??= PreparePKM(false); // don't perform control loss click
 
-        dragout.ContextMenuStrip.Enabled = pk.Species != 0 || HaX; // Species
+        var menu = dragout.ContextMenuStrip;
+        if (menu != null)
+            menu.Enabled = pk.Species != 0 || HaX; // Species
 
         pb.Image = pk.Sprite(C_SAV.SAV, -1, -1, flagIllegal: false);
         if (pb.BackColor == SlotUtil.BadDataColor)

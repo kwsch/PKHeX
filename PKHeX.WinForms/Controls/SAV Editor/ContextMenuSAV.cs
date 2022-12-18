@@ -116,7 +116,9 @@ public partial class ContextMenuSAV : UserControl
     {
         var items = ((ContextMenuStrip)sender).Items;
 
-        object ctrl = ((ContextMenuStrip)sender).SourceControl;
+        object? ctrl = ((ContextMenuStrip)sender).SourceControl;
+        if (ctrl is null)
+            return;
         var info = GetSenderInfo(ref ctrl);
         bool SlotFull = (ctrl as PictureBox)?.Image != null;
         bool Editable = info.Slot.CanWriteTo(info.View.SAV);
