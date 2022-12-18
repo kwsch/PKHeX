@@ -31,7 +31,7 @@ public sealed class MyItem9 : MyItem
         item.Pouch = GetPouchIndex(GetType(itemIndex));
         item.Write(span);
     }
-    
+
     public static InventoryType GetType(ushort itemIndex)
     {
         var types = new[]
@@ -93,7 +93,7 @@ public sealed class MyItem9 : MyItem
         }
     }
 
-    private InventoryPouch9 MakePouch(InventoryType type, Func<ushort, bool>? isLegal = null)
+    private static InventoryPouch9 MakePouch(InventoryType type, Func<ushort, bool>? isLegal = null)
     {
         ushort[] legal = GetLegal(type);
         var max = GetMax(type);

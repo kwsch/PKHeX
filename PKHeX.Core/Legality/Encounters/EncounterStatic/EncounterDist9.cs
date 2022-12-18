@@ -60,7 +60,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
         3 => RandRate3MinScarlet,
         _ => throw new ArgumentOutOfRangeException(nameof(stage)),
     };
-    
+
     public ushort GetRandRateMinViolet(int stage) => stage switch
     {
         0 => RandRate0MinViolet,
@@ -74,7 +74,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
     private const int StageNone = -1;
 
     public bool CanBeEncountered(uint seed) => GetProgressMaximum(seed) != StageNone;
-    
+
     public int ProgressStageMin
     {
         get

@@ -29,7 +29,6 @@ public sealed class ConfigSave9 : SaveBlock<SAV9SV>
      * Last 8 bits unused?
      */
 
-
     public int ConfigValue
     {
         get => BinaryPrimitives.ReadInt32LittleEndian(Data.AsSpan(Offset));

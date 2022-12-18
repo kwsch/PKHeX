@@ -26,8 +26,6 @@ public sealed class PropertyComparer<T> : IComparer<T> where T : class
 
     public int Compare(T? x, T? y)
     {
-        if (x == null) throw new ArgumentNullException(nameof(x));
-        if (y == null) throw new ArgumentNullException(nameof(y));
         return reverse * comparer.Compare(propertyDescriptor.GetValue(x), propertyDescriptor.GetValue(y));
     }
 

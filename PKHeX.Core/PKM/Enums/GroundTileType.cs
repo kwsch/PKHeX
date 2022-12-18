@@ -8,6 +8,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Used in Generation 4 games, this value is set depending on what type of overworld tile the player is standing on when the <see cref="PKM"/> is obtained.
 /// </remarks>
+#pragma warning disable CA1069, RCS1234 // Enums values should not be duplicated
 public enum GroundTileType : byte
 {
     None     = 00, // No animation for the tile

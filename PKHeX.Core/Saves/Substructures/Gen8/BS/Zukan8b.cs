@@ -464,7 +464,7 @@ public sealed class Zukan8b : ZukanBase
     {
         SetState(species, ZukanState8b.None);
         SetGenderFlags(species, false, false, false, false);
-        
+
         var formCount = GetFormCount(species);
         if (formCount is not 0)
         {

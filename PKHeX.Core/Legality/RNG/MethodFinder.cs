@@ -705,7 +705,7 @@ public static class MethodFinder
             val |= IVs[i+start] << (5*i);
         return val;
     }
-    
+
     public static bool IsPokeSpotActivation(int slot, uint seed, out uint s)
     {
         s = seed;

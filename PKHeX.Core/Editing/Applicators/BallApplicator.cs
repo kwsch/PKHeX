@@ -114,7 +114,7 @@ public static class BallApplicator
             result[ctr++] = items[i];
         return ctr;
     }
-    
+
     private static readonly Ball[] BallList = (Ball[])Enum.GetValues(typeof(Ball));
     private static int MaxBallSpanAlloc => BallList.Length;
 

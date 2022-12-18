@@ -337,7 +337,7 @@ public sealed class FormVerifier : Verifier
             _ => VerifyFormArgumentNone(pk, f),
         };
     }
-    
+
     private static bool HasVisitedPLA(LegalityAnalysis data, Species species)
     {
         var evos = data.Info.EvoChainsAllGens;
