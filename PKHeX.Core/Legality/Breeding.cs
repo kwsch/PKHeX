@@ -104,16 +104,16 @@ public static class Breeding
     /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
     /// <param name="species">Current species</param>
     /// <param name="form">Current form</param>
-    /// <param name="generation">Generation of origin</param>
-    public static bool CanHatchAsEgg(ushort species, byte form, int generation)
+    /// <param name="context">Generation of origin</param>
+    public static bool CanHatchAsEgg(ushort species, byte form, EntityContext context)
     {
         if (form == 0)
             return true;
 
-        if (FormInfo.IsTotemForm(species, form, generation))
+        if (FormInfo.IsTotemForm(species, form, context))
             return false;
 
-        if (FormInfo.IsLordForm(species, form, generation))
+        if (FormInfo.IsLordForm(species, form, context))
             return false;
 
         return IsBreedableForm(species, form);

@@ -11,7 +11,7 @@ public static class HeldItemLumpUtil
 {
     public static bool IsLump(this HeldItemLumpImage image) => image != HeldItemLumpImage.NotLump;
 
-    public static HeldItemLumpImage GetIsLump(int item, int generation) => generation switch
+    public static HeldItemLumpImage GetIsLump(int item, EntityContext context) => context.Generation() switch
     {
         <= 4 when item is (>= 0328 and <= 0419) => HeldItemLumpImage.TechnicalMachine, // gen2/3/4 TM
         8 when item is (>= 0328 and <= 0427) => HeldItemLumpImage.TechnicalMachine, // BDSP TMs

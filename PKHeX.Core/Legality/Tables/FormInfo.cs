@@ -237,13 +237,13 @@ public static class FormInfo
     /// </summary>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
-    /// <param name="format">Current generation format</param>
-    public static bool IsTotemForm(ushort species, byte form, int format) => format == 7 && IsTotemForm(species, form);
+    /// <param name="context">Current generation format</param>
+    public static bool IsTotemForm(ushort species, byte form, EntityContext context) => context == EntityContext.Gen7 && IsTotemForm(species, form);
 
     /// <summary>
     /// Checks if the <see cref="form"/> for the <see cref="species"/> is a Totem form.
     /// </summary>
-    /// <remarks>Use <see cref="IsTotemForm(ushort,byte,int)"/> if you aren't 100% sure the format is 7.</remarks>
+    /// <remarks>Use <see cref="IsTotemForm(ushort,byte,EntityContext)"/> if you aren't 100% sure the format is 7.</remarks>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
     public static bool IsTotemForm(ushort species, byte form)
@@ -271,9 +271,9 @@ public static class FormInfo
         return --form;
     }
 
-    public static bool IsLordForm(ushort species, byte form, int generation)
+    public static bool IsLordForm(ushort species, byte form, EntityContext context)
     {
-        if (generation != 8)
+        if (context != EntityContext.Gen8a)
             return false;
         return IsLordForm(species, form);
     }

@@ -193,7 +193,7 @@ public partial class SAV_HallOfFame : Form
         Label_OTGender.Text = gendersymbols[(int)entry.OT_Gender];
         UpdateNickname(sender, e);
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, 6);
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
         editing = true;
     }
 
@@ -244,7 +244,7 @@ public partial class SAV_HallOfFame : Form
         WriteUInt32LittleEndian(data.AsSpan(offset + 0x1B0), vnd);
 
         var shiny = entry.IsShiny ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, 6);
+        bpkx.Image = SpriteUtil.GetSprite(entry.Species, entry.Form, (int)entry.Gender, 0, entry.HeldItem, false, shiny, EntityContext.Gen6);
         DisplayEntry(this, EventArgs.Empty); // refresh text view
     }
 
@@ -297,7 +297,7 @@ public partial class SAV_HallOfFame : Form
         var gender = EntityGender.GetFromString(Label_Gender.Text);
         var item = WinFormsUtil.GetIndex(CB_HeldItem);
         var shiny = CHK_Shiny.Checked ? Shiny.Always : Shiny.Never;
-        bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, shiny, 6);
+        bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, shiny, EntityContext.Gen6);
 
         Write_Entry(this, EventArgs.Empty);
     }

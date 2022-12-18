@@ -53,8 +53,8 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
 
     protected abstract string GetSpriteStringSpeciesOnly(ushort species);
 
-    protected abstract string GetSpriteAll(ushort species, byte form, int gender, uint formarg, bool shiny, int generation);
-    protected abstract string GetSpriteAllSecondary(ushort species, byte form, int gender, uint formarg, bool shiny, int generation);
+    protected abstract string GetSpriteAll(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context);
+    protected abstract string GetSpriteAllSecondary(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context);
     protected abstract string GetItemResourceName(int item);
     protected abstract Bitmap Unknown { get; }
     protected abstract Bitmap GetEggSprite(ushort species);
@@ -103,67 +103,71 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     /// <param name="heldItem">Entity held item ID</param>
     /// <param name="isEgg">Is currently in an egg</param>
     /// <param name="shiny">Is it shiny</param>
-    /// <param name="generation"></param>
+    /// <param name="context">Context the sprite is for</param>
     /// <param name="tweak"></param>
-    public Image GetSprite(ushort species, byte form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, int generation = -1, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
+    public Image GetSprite(ushort species, byte form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, EntityContext context = EntityContext.None, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
     {
         if (species == 0)
             return None;
 
-        if (generation == 3 && species == (int)Species.Deoxys) // Depends on Gen3 save file version
+        if (context == EntityContext.Gen3 && species == (int)Species.Deoxys) // Depends on Gen3 save file version
             form = GetDeoxysForm(Game);
-        else if (generation == 4 && species == (int)Species.Arceus) // Curse type's existence in Gen4
+        else if (context == EntityContext.Gen4 && species == (int)Species.Arceus) // Curse type's existence in Gen4
             form = GetArceusForm4(form);
 
-        var baseImage = GetBaseImage(species, form, gender, formarg, shiny.IsShiny(), generation);
-        return GetSprite(baseImage, species, heldItem, isEgg, shiny, generation, tweak);
+        var baseImage = GetBaseImage(species, form, gender, formarg, shiny.IsShiny(), context);
+        return GetSprite(baseImage, species, heldItem, isEgg, shiny, context, tweak);
     }
 
-    public Image GetSprite(Image baseSprite, ushort species, int heldItem, bool isEgg, Shiny shiny, int generation = -1, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
+    public Image GetSprite(Image baseSprite, ushort species, int heldItem, bool isEgg, Shiny shiny, EntityContext context = EntityContext.None, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
     {
         if (isEgg)
             baseSprite = LayerOverImageEgg(baseSprite, species, heldItem != 0);
         if (heldItem > 0)
-            baseSprite = LayerOverImageItem(baseSprite, heldItem, generation);
+            baseSprite = LayerOverImageItem(baseSprite, heldItem, context);
         if (shiny.IsShiny())
-            baseSprite = LayerOverImageShiny(baseSprite, tweak, generation >= 8 && shiny == Shiny.AlwaysSquare ? Shiny.AlwaysSquare : Shiny.Always);
+        {
+            if (shiny == Shiny.AlwaysSquare && context.Generation() != 8)
+                shiny = Shiny.Always;
+            baseSprite = LayerOverImageShiny(baseSprite, tweak, shiny);
+        }
         return baseSprite;
     }
 
-    private Image GetBaseImage(ushort species, byte form, int gender, uint formarg, bool shiny, int generation)
+    private Image GetBaseImage(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
     {
-        var img = FormInfo.IsTotemForm(species, form, generation)
-            ? GetBaseImageTotem(species, form, gender, formarg, shiny, generation)
-            : GetBaseImageDefault(species, form, gender, formarg, shiny, generation);
-        return img ?? GetBaseImageFallback(species, form, gender, formarg, shiny, generation);
+        var img = FormInfo.IsTotemForm(species, form, context)
+            ? GetBaseImageTotem(species, form, gender, formarg, shiny, context)
+            : GetBaseImageDefault(species, form, gender, formarg, shiny, context);
+        return img ?? GetBaseImageFallback(species, form, gender, formarg, shiny, context);
     }
 
-    private Image? GetBaseImageTotem(ushort species, byte form, int gender, uint formarg, bool shiny, int generation)
+    private Image? GetBaseImageTotem(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
     {
         var baseform = FormInfo.GetTotemBaseForm(species, form);
-        var baseImage = GetBaseImageDefault(species, baseform, gender, formarg, shiny, generation);
+        var baseImage = GetBaseImageDefault(species, baseform, gender, formarg, shiny, context);
         if (baseImage == null)
             return null;
         return ImageUtil.ToGrayscale(baseImage);
     }
 
-    private Image? GetBaseImageDefault(ushort species, byte form, int gender, uint formarg, bool shiny, int generation)
+    private Image? GetBaseImageDefault(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
     {
-        var file = GetSpriteAll(species, form, gender, formarg, shiny, generation);
+        var file = GetSpriteAll(species, form, gender, formarg, shiny, context);
         var resource = (Image?)Resources.ResourceManager.GetObject(file);
         if (resource is null && HasFallbackMethod)
         {
-            file = GetSpriteAllSecondary(species, form, gender, formarg, shiny, generation);
+            file = GetSpriteAllSecondary(species, form, gender, formarg, shiny, context);
             resource = (Image?)Resources.ResourceManager.GetObject(file);
         }
         return resource;
     }
 
-    private Image GetBaseImageFallback(ushort species, byte form, int gender, uint formarg, bool shiny, int generation)
+    private Image GetBaseImageFallback(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
     {
         if (shiny) // try again without shiny
         {
-            var img = GetBaseImageDefault(species, form, gender, formarg, false, generation);
+            var img = GetBaseImageDefault(species, form, gender, formarg, false, context);
             if (img != null)
                 return img;
         }
@@ -175,9 +179,9 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         return ImageUtil.LayerImage(baseImage, Unknown, 0, 0, UnknownFormTransparency);
     }
 
-    private Image LayerOverImageItem(Image baseImage, int item, int generation)
+    private Image LayerOverImageItem(Image baseImage, int item, EntityContext context)
     {
-        var lump = HeldItemLumpUtil.GetIsLump(item, generation);
+        var lump = HeldItemLumpUtil.GetIsLump(item, context);
         var itemimg = lump switch
         {
             HeldItemLumpImage.TechnicalMachine => ItemTM,

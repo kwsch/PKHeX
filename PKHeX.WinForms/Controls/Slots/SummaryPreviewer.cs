@@ -30,7 +30,7 @@ public sealed class SummaryPreviewer
         }
 
         if (Main.Settings.Hover.HoverSlotPlayCry)
-            Cry.PlayCry(pk, pk.Format);
+            Cry.PlayCry(pk, pk.Context);
     }
 
     public void Show(Control pb, IEncounterInfo enc)
@@ -49,7 +49,7 @@ public sealed class SummaryPreviewer
         }
 
         if (Main.Settings.Hover.HoverSlotPlayCry)
-            Cry.PlayCry(enc, enc.Generation);
+            Cry.PlayCry(enc, enc.Context);
     }
 
     public static IEnumerable<string> GetTextLines(IEncounterInfo enc)

@@ -21,7 +21,7 @@ public static class SpriteName
     /// <summary>
     /// Gets the resource name of the Pokémon sprite.
     /// </summary>
-    public static string GetResourceStringSprite(ushort species, byte form, int gender, uint formarg, int generation = PKX.Generation, bool shiny = false)
+    public static string GetResourceStringSprite(ushort species, byte form, int gender, uint formarg, EntityContext context = PKX.Context, bool shiny = false)
     {
         if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
             form = 0;
@@ -35,7 +35,7 @@ public static class SpriteName
 
             if (species == (int) Species.Pikachu)
             {
-                if (generation == 6)
+                if (context == EntityContext.Gen6)
                 {
                     sb.Append(Cosplay);
                     gender = 1; // Cosplay Pikachu gift can only be Female, but personal entries are set to be either Gender
