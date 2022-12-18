@@ -25,7 +25,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         pi = null;
         if (!Personal.IsPresentInGame(species, form))
             return false;
-        pi = Personal[species];
+        pi = Personal[species, form];
         return true;
     }
 

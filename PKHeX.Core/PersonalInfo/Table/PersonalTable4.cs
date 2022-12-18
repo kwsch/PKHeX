@@ -65,7 +65,17 @@ public sealed class PersonalTable4 : IPersonalTable, IPersonalTable<PersonalInfo
     public void LoadTables(BinLinkerAccessor tutors)
     {
         var table = Table;
-        for (int i = Legal.MaxSpeciesID_4; i >= 1; i--)
-            table[i].AddTypeTutors(tutors[i]);
+        for (ushort i = Legal.MaxSpeciesID_4; i != 0; i--)
+        {
+            // Set to form 0 and copy the reference to all other form entries.
+            var form0 = table[i];
+            form0.AddTypeTutors(tutors[i]);
+            var fc = form0.FormCount;
+            for (byte f = 1; f < fc; f++)
+            {
+                var pi = table[form0.FormIndex(i, f)];
+                pi.TypeTutors = form0.TypeTutors;
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         pi = null;
         if (species > MaxSpecies)
             return false;
-        pi = Personal[species];
+        pi = Personal[species, form];
         return true;
     }
 
