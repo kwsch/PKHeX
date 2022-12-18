@@ -1,7 +1,17 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-22/12/01 - New Update:
+22/12/18 - New Update:
+ - Gen9 SV Added wandering/crossover logic for wild encounter location detection.
+ - Gen9 SV Added weather/time/personality Mark logic for wild encounters.
+ - Gen9 SV Removed inaccessible egg moves.
+ - Gen9 SV legality quirks ironed out, detection should be pretty reliable now.
+ - Added: SV 7-Star Raid record editor added. Thanks @sora10pls!
+ - Added: Form Argument numeric up-down now has a label in the PKM Editor.
+ - Fixed: Gen3 GC memory cards with multiple save files now read correctly again. Thanks @TheZett!
+ - Changed: Updated translation files. Thanks @easyworld, @Yarkis01, @Korados
+
+22/12/01 - New Update: (188923) [5944803]
  - Added support for Scarlet & Violet 1.1.0.
  - Legality:
  - - Fixed: Gen9 banned species list updated.
