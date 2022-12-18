@@ -410,19 +410,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public int SuperTrainingMedalCount(int maxCount = 30)
     {
         uint value = SuperTrainBitFlags >> 2;
-#if NET6_0_OR_GREATER
         return System.Numerics.BitOperations.PopCount(value);
-#else
-        int TrainCount = 0;
-        for (int i = 0; i < maxCount; i++)
-        {
-            if ((value & 1) != 0)
-                TrainCount++;
-            value >>= 1;
-        }
-
-        return TrainCount;
-#endif
     }
 
     public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
