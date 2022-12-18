@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <TargetFramework>net7.0</TargetFramework>
     <Description>Pokémon C# Class Library</Description>
     <RootNamespace>PKHeX.Core</RootNamespace>
   </PropertyGroup>
@@ -26,11 +26,6 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="IndexRange" Version="1.0.2" />
-    <PackageReference Include="System.Memory" Version="4.5.5" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\**" />
