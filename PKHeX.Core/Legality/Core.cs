@@ -110,7 +110,7 @@ public static partial class Legal
         PA8 pa8 => !pa8.LA,
         PB8 pb8 => !pb8.BDSP,
         PK8 pk8 => pk8.IsSideTransfer || pk8.BattleVersion != 0,
-        PK9 pk9 => !pk9.SV,
+        PK9 pk9 => !(pk9.SV || (pk9.IsEgg && pk9.Version == 0)),
         _ => false,
     };
 
