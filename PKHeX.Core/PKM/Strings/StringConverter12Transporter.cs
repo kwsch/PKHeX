@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -19,7 +19,7 @@ public static class StringConverter12Transporter
     {
         Span<char> result = stackalloc char[data.Length];
         int length = LoadString1(data, result, jp);
-        return new string(result[..length].ToArray());
+        return new string(result[..length]);
     }
 
     private static int LoadString1(ReadOnlySpan<byte> data, Span<char> result, bool jp)

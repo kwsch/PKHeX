@@ -36,8 +36,8 @@ public static class StringUtil
             start = line.IndexOfNth(separator, nth - 1, start + 1);
         var end = line.IndexOfNth(separator, 1, start + 1);
         if (end == -1)
-            return new string(line[(start + 1)..].ToArray());
-        return new string(line[(start + 1)..end].ToArray());
+            return new string(line[(start + 1)..]);
+        return new string(line[(start + 1)..end]);
     }
 
     private static int IndexOfNth(this ReadOnlySpan<char> s, char t, int n, int start)

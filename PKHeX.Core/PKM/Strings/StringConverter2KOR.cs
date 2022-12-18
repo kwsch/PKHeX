@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,7 +34,7 @@ public static class StringConverter2KOR
     {
         Span<char> result = stackalloc char[data.Length];
         int length = LoadString(data, result);
-        return new string(result[..length].ToArray());
+        return new string(result[..length]);
     }
 
     private static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
@@ -129,7 +129,7 @@ public static class StringConverter2KOR
     /// <returns>Localized Name for Generation 2</returns>
     public static string LocalizeKOR2(string nick)
     {
-        if (KorG2Localized.TryGetValue(nick, out string localized))
+        if (KorG2Localized.TryGetValue(nick, out var localized))
             return localized;
         return nick;
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.StringConverter4Util;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -83,7 +83,7 @@ public static class StringConverter4GC
     {
         Span<char> result = stackalloc char[data.Length];
         var length = LoadStringUnicode(data, result);
-        return new string(result[..length].ToArray());
+        return new string(result[..length]);
     }
 
     private static int LoadStringUnicode(ReadOnlySpan<byte> data, Span<char> result)

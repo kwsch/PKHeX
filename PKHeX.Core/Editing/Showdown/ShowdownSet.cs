@@ -720,6 +720,6 @@ public sealed class ShowdownSet : IBattleTemplate
         }
         if (ctr == original.Length)
             return original;
-        return new string(result[..ctr].ToArray());
+        return new string(result[..ctr]);
     }
 }

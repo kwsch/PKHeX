@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -28,7 +28,7 @@ public static class StringConverter3
                 break;
             result[i] = c;
         }
-        return new string(result[..i].ToArray());
+        return new string(result[..i]);
     }
 
     /// <summary>

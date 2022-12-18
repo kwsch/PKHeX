@@ -125,7 +125,7 @@ public static class SpeciesName
 
         // Gen1/2 species names do not have spaces.
         if (generation >= 3)
-            return new string(result.ToArray());
+            return new string(result);
 
         int indexSpace = result.IndexOf(' ');
         if (indexSpace != -1)
@@ -134,7 +134,7 @@ public static class SpeciesName
             result[(indexSpace+1)..].CopyTo(result[indexSpace..]);
             result = result[..^1];
         }
-        return new string(result.ToArray());
+        return new string(result);
     }
 
     private static string GetEggName1234(ushort species, int language, int generation)

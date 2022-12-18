@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -18,7 +18,7 @@ public static class StringConverter6
     {
         Span<char> result = stackalloc char[data.Length];
         int length = LoadString(data, result);
-        return new string(result[..length].ToArray());
+        return new string(result[..length]);
     }
 
     private static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
