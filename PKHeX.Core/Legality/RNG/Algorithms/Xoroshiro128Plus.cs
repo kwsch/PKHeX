@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -18,9 +19,6 @@ public ref struct Xoroshiro128Plus
     public (ulong s0, ulong s1) GetState() => (s0, s1);
     public string FullState => $"{s1:X16}{s0:X16}";
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static ulong RotateLeft(ulong x, int k) => (x << k) | (x >> -k);
-
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.
     /// </summary>
@@ -33,8 +31,8 @@ public ref struct Xoroshiro128Plus
 
         _s1 ^= _s0;
         // Final calculations and store back to fields
-        s0 = RotateLeft(_s0, 24) ^ _s1 ^ (_s1 << 16);
-        s1 = RotateLeft(_s1, 37);
+        s0 = BitOperations.RotateLeft(_s0, 24) ^ _s1 ^ (_s1 << 16);
+        s1 = BitOperations.RotateLeft(_s1, 37);
 
         return result;
     }
@@ -47,9 +45,9 @@ public ref struct Xoroshiro128Plus
     {
         var _s0 = s0;
         var _s1 = s1;
-        _s1 = RotateLeft(_s1, 27);
+        _s1 = BitOperations.RotateLeft(_s1, 27);
         _s0 = _s0 ^ _s1 ^ (_s1 << 16);
-        _s0 = RotateLeft(_s0, 40);
+        _s0 = BitOperations.RotateLeft(_s0, 40);
         _s1 ^= _s0;
         ulong result = _s0 + _s1;
 
@@ -78,16 +76,7 @@ public ref struct Xoroshiro128Plus
     /// Next Power of Two
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static ulong GetBitmask(ulong x)
-    {
-        x--; // comment out to always take the next biggest power of two, even if x is already a power of two
-        x |= x >> 1;
-        x |= x >> 2;
-        x |= x >> 4;
-        x |= x >> 8;
-        x |= x >> 16;
-        return x;
-    }
+    private static ulong GetBitmask(ulong x) => (1UL << (BitOperations.Log2(--x) + 1)) - 1;
 
     /// <summary>
     /// Gets a random float value.
