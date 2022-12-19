@@ -17,7 +17,7 @@ public sealed class PK4 : G4PKM
     public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
     public override EntityContext Context => EntityContext.Gen4;
-    public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormEntry(Species, Form);
+    public override PersonalInfo4 PersonalInfo => PersonalTable.HGSS.GetFormEntry(Species, Form);
 
     public PK4() : base(PokeCrypto.SIZE_4PARTY) { }
     public PK4(byte[] data) : base(DecryptParty(data)) { }

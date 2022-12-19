@@ -33,7 +33,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     public int MaxToys => RanchLevel.GetMaxToys(CurrentRanchLevelIndex);
     public int MaxMiiCount => RanchLevel.GetMaxMiis(CurrentRanchLevelIndex);
 
-    public override IPersonalTable Personal => PersonalTable.Pt;
+    public override PersonalTable4 Personal => PersonalTable.Pt;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
     protected override SaveFile CloneInternal() => new SAV4Ranch((byte[])Data.Clone());
     protected internal override string ShortSummary => $"{OT} {PlayTimeString}";

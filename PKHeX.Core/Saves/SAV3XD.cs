@@ -54,7 +54,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         Initialize();
     }
 
-    public override IPersonalTable Personal => PersonalTable.RS;
+    public override PersonalTable3 Personal => PersonalTable.RS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_XD;
 
     private readonly bool Japanese;

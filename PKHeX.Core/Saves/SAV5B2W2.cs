@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -21,7 +21,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
         Initialize();
     }
 
-    public override IPersonalTable Personal => PersonalTable.B2W2;
+    public override PersonalTable5B2W2 Personal => PersonalTable.B2W2;
     public SaveBlockAccessor5B2W2 Blocks { get; }
     protected override SaveFile CloneInternal() => new SAV5B2W2((byte[]) Data.Clone());
     public override int EventWorkCount => 0x1AF; // this doesn't seem right?

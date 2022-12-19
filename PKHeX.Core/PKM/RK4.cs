@@ -20,7 +20,7 @@ public sealed class RK4 : G4PKM
     public override int SIZE_PARTY => PokeCrypto.SIZE_4RSTORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_4RSTORED;
     public override EntityContext Context => EntityContext.Gen4;
-    public override PersonalInfo PersonalInfo => PersonalTable.Pt.GetFormEntry(Species, Form);
+    public override PersonalInfo4 PersonalInfo => PersonalTable.Pt.GetFormEntry(Species, Form);
 
     public RK4() : base(PokeCrypto.SIZE_4RSTORED) { }
     public RK4(byte[] data) : base(Decrypt(data)) { }

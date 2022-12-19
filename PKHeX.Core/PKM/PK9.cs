@@ -26,7 +26,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     };
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
-    public override PersonalInfo PersonalInfo => PersonalTable.SV.GetFormEntry(Species, Form);
+    public override PersonalInfo9SV PersonalInfo => PersonalTable.SV.GetFormEntry(Species, Form);
     public override bool IsNative => SWSH;
     public override EntityContext Context => EntityContext.Gen9;
 

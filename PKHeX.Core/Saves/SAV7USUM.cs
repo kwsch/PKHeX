@@ -30,7 +30,7 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
         ReloadBattleTeams();
     }
 
-    public override IPersonalTable Personal => PersonalTable.USUM;
+    public override PersonalTable7 Personal => PersonalTable.USUM;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_USUM;
     protected override SaveFile CloneInternal() => new SAV7USUM((byte[])Data.Clone());
     public override int EventFlagCount => 4960;

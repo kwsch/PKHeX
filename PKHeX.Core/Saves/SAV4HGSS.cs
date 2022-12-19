@@ -25,7 +25,7 @@ public sealed class SAV4HGSS : SAV4
     public override Zukan4 Dex { get; }
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS((byte[])Data.Clone()) : new SAV4HGSS();
 
-    public override IPersonalTable Personal => PersonalTable.HGSS;
+    public override PersonalTable4 Personal => PersonalTable.HGSS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     private const int GeneralSize = 0xF628;

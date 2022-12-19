@@ -10,6 +10,8 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     protected G3PKM(byte[] data) : base(data) { }
     protected G3PKM(int size) : base(size) { }
 
+    public abstract override PersonalInfo3 PersonalInfo { get; }
+
     // Maximums
     public sealed override ushort MaxMoveID => Legal.MaxMoveID_3;
     public sealed override ushort MaxSpeciesID => Legal.MaxSpeciesID_3;
@@ -27,7 +29,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public sealed override int TSV => (TID ^ SID) >> 3;
     public sealed override bool Japanese => Language == (int)LanguageID.Japanese;
 
-    public sealed override int Ability { get => ((PersonalInfo3)PersonalInfo).GetAbility(AbilityBit); set { } }
+    public sealed override int Ability { get => PersonalInfo.GetAbility(AbilityBit); set { } }
     public sealed override uint EncryptionConstant { get => PID; set { } }
     public sealed override int Nature { get => (int)(PID % 25); set { } }
     public sealed override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
@@ -74,7 +76,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     {
         if (Species is (int)Core.Species.Granbull or (int)Core.Species.Vibrava or (int)Core.Species.Flygon)
             return;
-        AbilityBit = n == 1 && ((PersonalInfo3)PersonalInfo).HasSecondAbility;
+        AbilityBit = n == 1 && PersonalInfo.HasSecondAbility;
     }
 
     public override bool Valid { get => true; set { } }

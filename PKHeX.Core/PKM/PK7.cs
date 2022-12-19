@@ -17,7 +17,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override EntityContext Context => EntityContext.Gen7;
-    public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormEntry(Species, Form);
+    public override PersonalInfo7 PersonalInfo => PersonalTable.USUM.GetFormEntry(Species, Form);
 
     public PK7() : base(PokeCrypto.SIZE_6PARTY) { }
     public PK7(byte[] data) : base(DecryptParty(data)) { }

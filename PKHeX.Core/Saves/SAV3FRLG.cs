@@ -13,7 +13,7 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     protected override SaveFile CloneInternal() => new SAV3FRLG(Write());
     public override GameVersion Version { get; protected set; } = GameVersion.FR; // allow mutation
     private PersonalTable3 _personal = PersonalTable.FR;
-    public override IPersonalTable Personal => _personal;
+    public override PersonalTable3 Personal => _personal;
 
     public override int EventFlagCount => 8 * 288;
     public override int EventWorkCount => 0x100;

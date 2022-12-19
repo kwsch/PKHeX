@@ -13,7 +13,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     public override int SaveRevision => 0;
     public override string SaveRevisionString => "0"; // so we're different from Japanese SAV1Stadium naming...
 
-    public override IPersonalTable Personal => PersonalTable.Y;
+    public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => ushort.MaxValue;
     public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
     public override GameVersion Version { get; protected set; } = GameVersion.StadiumJ;

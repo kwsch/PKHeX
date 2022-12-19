@@ -29,7 +29,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     };
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
-    public override PersonalInfo PersonalInfo => PersonalTable.LA.GetFormEntry(Species, Form);
+    public override PersonalInfo8LA PersonalInfo => PersonalTable.LA.GetFormEntry(Species, Form);
 
     public override EntityContext Context => EntityContext.Gen8a;
     public override bool IsNative => LA;

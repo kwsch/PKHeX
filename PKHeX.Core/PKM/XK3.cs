@@ -20,7 +20,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
     public override EntityContext Context => EntityContext.Gen3;
-    public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
+    public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
     public XK3(byte[] data) : base(data) { }
     public XK3() : base(PokeCrypto.SIZE_3XSTORED) { }
     public override PKM Clone() => new XK3((byte[])Data.Clone()){Purification = Purification};

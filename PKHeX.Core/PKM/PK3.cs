@@ -15,7 +15,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
     public override EntityContext Context => EntityContext.Gen3;
-    public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
+    public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
 

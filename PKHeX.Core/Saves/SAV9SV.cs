@@ -53,7 +53,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     protected override void SetChecksums() { } // None!
     protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
-    public override IPersonalTable Personal => PersonalTable.SV;
+    public override PersonalTable9SV Personal => PersonalTable.SV;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SV;
 
     #region Blocks

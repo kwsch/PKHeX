@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
 public sealed class PK2 : GBPKML, ICaughtData2
 {
-    public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
+    public override PersonalInfo2 PersonalInfo => PersonalTable.C[Species];
 
     internal const byte EggSpeciesValue = 0xFD;
     public override bool Valid => Species is <= Legal.MaxSpeciesID_2 or EggSpeciesValue; // egg

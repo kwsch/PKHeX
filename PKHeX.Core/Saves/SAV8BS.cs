@@ -110,7 +110,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8b;
-    public override IPersonalTable Personal => PersonalTable.BDSP;
+    public override PersonalTable8BDSP Personal => PersonalTable.BDSP;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
     public override ushort MaxMoveID => Legal.MaxMoveID_8b;

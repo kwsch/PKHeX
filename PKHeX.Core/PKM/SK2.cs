@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 2 <see cref="PKM"/> format for <see cref="GameVersion.Stadium2"/>. </summary>
 public sealed class SK2 : GBPKM, ICaughtData2
 {
-    public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
+    public override PersonalInfo2 PersonalInfo => PersonalTable.C[Species];
 
     public override bool Valid => Species <= 252;
 

@@ -27,7 +27,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int SIZE_STORED => SIZE;
     private const int SIZE = 260;
     public override EntityContext Context => EntityContext.Gen7b;
-    public override PersonalInfo PersonalInfo => PersonalTable.GG.GetFormEntry(Species, Form);
+    public override PersonalInfo7GG PersonalInfo => PersonalTable.GG.GetFormEntry(Species, Form);
 
     public PB7() : base(SIZE) { }
     public PB7(byte[] data) : base(DecryptParty(data)) { }

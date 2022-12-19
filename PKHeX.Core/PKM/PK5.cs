@@ -24,7 +24,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
     public override EntityContext Context => EntityContext.Gen5;
-    public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormEntry(Species, Form);
+    public override PersonalInfo5B2W2 PersonalInfo => PersonalTable.B2W2.GetFormEntry(Species, Form);
 
     public PK5() : base(PokeCrypto.SIZE_5PARTY) { }
     public PK5(byte[] data) : base(DecryptParty(data)) { }
@@ -539,9 +539,9 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
     private int CalculateAbilityIndex()
     {
-        var pi = (PersonalInfo5B2W2) PersonalInfo;
         if (HiddenAbility)
             return 2;
+        var pi = PersonalInfo;
         if (pi.Ability1 == Ability)
             return 0;
         if (pi.Ability2 == Ability)

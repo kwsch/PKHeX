@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 1 <see cref="PKM"/> format. </summary>
 public sealed class PK1 : GBPKML, IPersonalType
 {
-    public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
+    public override PersonalInfo1 PersonalInfo => PersonalTable.Y[Species];
 
     public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 

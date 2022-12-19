@@ -18,8 +18,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public bool Japanese { get; }
     public bool Korean => false;
 
-    private readonly PersonalTable1 Table;
-    public override IPersonalTable Personal => Table;
+    public override PersonalTable1 Personal { get; }
+
     public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
 
     public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
@@ -33,7 +33,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         Version = version;
         Japanese = japanese;
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-        Table = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
+        Personal = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         Initialize(version);
         ClearBoxes();
     }
@@ -44,7 +44,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
         Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
-        Table = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
+        Personal = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         if (Version == GameVersion.Invalid)
             return;
 
