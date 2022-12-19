@@ -13,14 +13,14 @@ public ref struct SCXorShift32
     private int Counter;
     private uint Seed;
 
-    public SCXorShift32(uint seed)
+    public SCXorShift32(uint seed) => Seed = GetInitialSeed(seed);
+
+    private static uint GetInitialSeed(uint seed)
     {
         var pop_count = System.Numerics.BitOperations.PopCount(seed);
         for (var i = 0; i < pop_count; i++)
             seed = XorshiftAdvance(seed);
-
-        Counter = 0;
-        Seed = seed;
+        return seed;
     }
 
     /// <summary>
