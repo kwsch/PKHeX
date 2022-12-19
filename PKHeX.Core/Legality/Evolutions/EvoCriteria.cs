@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 public readonly record struct EvoCriteria : ISpeciesForm
 {
-    public ushort Species { get; init; }
+    public required ushort Species { get; init; }
     public byte Form { get; init; }
 
     public byte LevelUpRequired { get; init; }

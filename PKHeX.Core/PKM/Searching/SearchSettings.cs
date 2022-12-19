@@ -12,7 +12,7 @@ public sealed class SearchSettings
 {
     public int Format { get; init; }
     public int Generation { get; init; }
-    public ushort Species { get; init; }
+    public required ushort Species { get; init; }
     public int Ability { get; init; } = -1;
     public int Nature { get; init; } = -1;
     public int Item { get; init; } = -1;
