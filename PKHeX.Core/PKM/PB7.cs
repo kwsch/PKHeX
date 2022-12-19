@@ -40,7 +40,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         return data;
     }
 
-    public override PKM Clone() => new PB7((byte[])Data.Clone());
+    public override PB7 Clone() => new((byte[])Data.Clone());
 
     // Structure
     #region Block A

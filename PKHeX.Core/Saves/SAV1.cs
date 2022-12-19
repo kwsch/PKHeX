@@ -203,7 +203,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     }
 
     // Configuration
-    protected override SaveFile CloneInternal() => new SAV1(Write(), Version);
+    protected override SAV1 CloneInternal() => new(Write(), Version);
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
@@ -211,7 +211,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     private int SIZE_STOREDBOX => PokeList1.GetDataLength(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
     private int SIZE_STOREDPARTY => PokeList1.GetDataLength(PokeListType.Party, Japanese);
 
-    public override PKM BlankPKM => new PK1(Japanese);
+    public override PK1 BlankPKM => new(Japanese);
     public override Type PKMType => typeof(PK1);
 
     public override ushort MaxMoveID => Legal.MaxMoveID_1;
@@ -483,11 +483,11 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         // Don't allow for custom box names
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override PK1 GetPKM(byte[] data)
     {
         if (data.Length == SIZE_STORED)
             return new PokeList1(data, PokeListType.Single, Japanese)[0];
-        return new PK1(data);
+        return new(data);
     }
 
     protected override byte[] DecryptPKM(byte[] data)

@@ -38,7 +38,7 @@ public sealed class PB8 : G8PKM
     }
 
     public PB8(byte[] data) : base(data) { }
-    public override PKM Clone() => new PB8((byte[])Data.Clone());
+    public override PB8 Clone() => new((byte[])Data.Clone());
 
     public bool IsDprIllegal
     {

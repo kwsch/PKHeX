@@ -43,7 +43,7 @@ public sealed class BK4 : G4PKM
 
     public BK4() : this(new byte[PokeCrypto.SIZE_4STORED]) { }
 
-    public override PKM Clone() => new BK4((byte[])Data.Clone());
+    public override BK4 Clone() => new((byte[])Data.Clone());
 
     // Structure
     public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x00)); set => WriteUInt32BigEndian(Data.AsSpan(0x00), value); }

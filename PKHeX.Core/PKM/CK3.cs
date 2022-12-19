@@ -26,7 +26,7 @@ public sealed class CK3 : G3PKM, IShadowCapture
     public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
     public CK3(byte[] data) : base(data) { }
     public CK3() : this(new byte[PokeCrypto.SIZE_3CSTORED]) { }
-    public override PKM Clone() => new CK3((byte[])Data.Clone());
+    public override CK3 Clone() => new((byte[])Data.Clone());
 
     // Trash Bytes
     public override Span<byte> OT_Trash => Data.AsSpan(0x18, 22);

@@ -38,7 +38,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     }
 
     public PK9(byte[] data) : base(DecryptParty(data)) { }
-    public override PKM Clone() => new PK9((byte[])Data.Clone());
+    public override PK9 Clone() => new((byte[])Data.Clone());
 
     private static byte[] DecryptParty(byte[] data)
     {

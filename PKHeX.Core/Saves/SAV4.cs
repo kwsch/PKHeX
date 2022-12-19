@@ -53,7 +53,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     }
 
     // Configuration
-    protected sealed override SaveFile CloneInternal()
+    protected sealed override SAV4 CloneInternal()
     {
         var sav = CloneInternal4();
         SetData(sav.General, General, 0);
@@ -73,7 +73,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
     protected sealed override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
     protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
-    public sealed override PKM BlankPKM => new PK4();
+    public sealed override PK4 BlankPKM => new();
     public sealed override Type PKMType => typeof(PK4);
 
     public sealed override int BoxCount => 18;
@@ -251,7 +251,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public override uint SecondsToStart { get => ReadUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x34)); set => WriteUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x34), value); }
     public override uint SecondsToFame { get => ReadUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x3C)); set => WriteUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x3C), value); }
 
-    protected sealed override PKM GetPKM(byte[] data) => new PK4(data);
+    protected sealed override PK4 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
     protected sealed override void SetPKM(PKM pk, bool isParty = false)

@@ -175,7 +175,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }
     public bool IsPower { get => CardType == 3; set { if (value) CardType = 3; } }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PK5 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
@@ -287,7 +287,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PK5 pk, EncounterCriteria criteria)
     {
         var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
         pk.Nature = (int)criteria.GetNature((Nature)Nature);
@@ -314,7 +314,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         _ => AbilityPermission.Any12H,
     };
 
-    private void SetPID(PKM pk, int av)
+    private void SetPID(PK5 pk, int av)
     {
         if (PID != 0)
         {
@@ -351,8 +351,8 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         2 when !IsEgg => Shiny.Always,
         _ => Shiny.Random, // 1
     };
-
-    private void SetIVs(PKM pk)
+    
+    private void SetIVs(PK5 pk)
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);

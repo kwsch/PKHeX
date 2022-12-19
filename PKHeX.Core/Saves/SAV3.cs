@@ -155,7 +155,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
 
     protected sealed override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
     protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
-    public sealed override PKM BlankPKM => new PK3();
+    public sealed override PK3 BlankPKM => new();
     public sealed override Type PKMType => typeof(PK3);
 
     public sealed override ushort MaxMoveID => Legal.MaxMoveID_3;
@@ -197,7 +197,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public sealed override bool HasParty => true;
 
     public sealed override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGBA(data);
-    protected sealed override PKM GetPKM(byte[] data) => new PK3(data);
+    protected sealed override PK3 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray3(data);
 
     protected sealed override byte[] BoxBuffer => Storage;

@@ -34,7 +34,7 @@ public sealed class PK8 : G8PKM
 
     public PK8() => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
     public PK8(byte[] data) : base(data) { }
-    public override PKM Clone() => new PK8((byte[])Data.Clone());
+    public override PK8 Clone() => new((byte[])Data.Clone());
 
     public void Trade(ITrainerInfo tr, int Day = 1, int Month = 1, int Year = 2015)
     {

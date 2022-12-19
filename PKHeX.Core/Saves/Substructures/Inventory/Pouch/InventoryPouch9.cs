@@ -16,7 +16,7 @@ public sealed class InventoryPouch9 : InventoryPouch
         PouchIndex = pouch;
     }
 
-    public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem9 { Index = itemID, Count = count, IsNew = true };
+    public override InventoryItem9 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = true };
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {

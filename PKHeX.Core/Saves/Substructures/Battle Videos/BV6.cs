@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -13,7 +13,7 @@ public sealed class BV6 : BattleVideo
     private readonly byte[] Data;
     private const int PlayerCount = 4;
 
-    public override IReadOnlyList<PKM> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
+    public override IReadOnlyList<PK6> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
     public override int Generation => 6;
 
     internal new static bool IsValid(ReadOnlySpan<byte> data)
@@ -74,11 +74,11 @@ public sealed class BV6 : BattleVideo
         }
     }
 
-    public IReadOnlyList<PKM[]> PlayerTeams
+    public IReadOnlyList<PK6[]> PlayerTeams
     {
         get
         {
-            var Teams = new PKM[PlayerCount][];
+            var Teams = new PK6[PlayerCount][];
             for (int t = 0; t < PlayerCount; t++)
                 Teams[t] = GetTeam(t);
             return Teams;
@@ -91,9 +91,9 @@ public sealed class BV6 : BattleVideo
         }
     }
 
-    public PKM[] GetTeam(int t)
+    public PK6[] GetTeam(int t)
     {
-        var team = new PKM[6];
+        var team = new PK6[6];
         const int start = 0xE18;
         for (int p = 0; p < 6; p++)
         {
@@ -105,7 +105,7 @@ public sealed class BV6 : BattleVideo
         return team;
     }
 
-    public void SetTeam(IReadOnlyList<PKM> team, int t)
+    public void SetTeam(IReadOnlyList<PK6> team, int t)
     {
         const int start = 0xE18;
         for (int p = 0; p < 6; p++)

@@ -74,7 +74,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 
     public override AbilityPermission Ability => AbilityPermission.Any12;
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         PK3 pk = new()
         {

@@ -27,9 +27,9 @@ public sealed class PK2 : GBPKML, ICaughtData2
         return data;
     }
 
-    public override PKM Clone()
+    public override PK2 Clone()
     {
-        var clone = new PK2((byte[])Data.Clone(), Japanese) { IsEgg = IsEgg };
+        PK2 clone = new((byte[])Data.Clone(), Japanese) { IsEgg = IsEgg };
         OT_Trash.CopyTo(clone.OT_Trash);
         Nickname_Trash.CopyTo(clone.Nickname_Trash);
         return clone;

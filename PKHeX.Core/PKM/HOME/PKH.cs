@@ -283,7 +283,7 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
         }
     }
 
-    public override PKM Clone() => new PKH((byte[])Data.Clone())
+    public override PKH Clone() => new((byte[])Data.Clone())
     {
         DataPK8 = DataPK8?.Clone(),
         DataPA8 = DataPA8?.Clone(),

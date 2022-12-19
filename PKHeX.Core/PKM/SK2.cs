@@ -25,7 +25,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public SK2(byte[] data) : this(data, IsJapanese(data)) { }
     public SK2(byte[] data, bool jp) : base(data) => IsEncodingJapanese = jp;
 
-    public override PKM Clone() => new SK2((byte[])Data.Clone(), Japanese)
+    public override SK2 Clone() => new((byte[])Data.Clone(), Japanese)
     {
         IsEgg = IsEgg,
     };

@@ -35,11 +35,11 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public override PersonalTable4 Personal => PersonalTable.Pt;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
-    protected override SaveFile CloneInternal() => new SAV4Ranch((byte[])Data.Clone());
+    protected override SAV4Ranch CloneInternal() => new((byte[])Data.Clone());
     protected internal override string ShortSummary => $"{OT} {PlayTimeString}";
     public override string Extension => ".bin";
 
-    protected override PKM GetPKM(byte[] data) => new RK4(data);
+    protected override RK4 GetPKM(byte[] data) => new(data);
     public override StorageSlotSource GetSlotFlags(int index) => index >= SlotCount ? StorageSlotSource.Locked : StorageSlotSource.None;
     protected override bool IsSlotSwapProtected(int box, int slot) => IsSlotOverwriteProtected(box, slot);
     public override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentSAV4Ranch(data);

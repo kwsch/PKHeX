@@ -95,16 +95,11 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     }
 
     // Configuration
-    protected override SaveFile CloneInternal()
-    {
-        var data = GetInnerData();
-        var sav = MemoryCard is not null ? new SAV3RSBox(data, MemoryCard) : new SAV3RSBox(data);
-        return sav;
-    }
+    protected override SAV3RSBox CloneInternal() => new(GetInnerData()) { MemoryCard = MemoryCard };
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
-    public override PKM BlankPKM => new PK3();
+    public override PK3 BlankPKM => new();
     public override Type PKMType => typeof(PK3);
 
     public override ushort MaxMoveID => Legal.MaxMoveID_3;
@@ -180,11 +175,11 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
         SetString(span, value.AsSpan(), 8, StringConverterOption.ClearZero);
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override PK3 GetPKM(byte[] data)
     {
         if (data.Length != PokeCrypto.SIZE_3STORED)
             Array.Resize(ref data, PokeCrypto.SIZE_3STORED);
-        return new PK3(data);
+        return new(data);
     }
 
     protected override byte[] DecryptPKM(byte[] data)

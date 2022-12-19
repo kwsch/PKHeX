@@ -27,9 +27,9 @@ public sealed class PK1 : GBPKML, IPersonalType
         return data;
     }
 
-    public override PKM Clone()
+    public override PK1 Clone()
     {
-        var clone = new PK1((byte[])Data.Clone(), Japanese);
+        PK1 clone = new((byte[])Data.Clone(), Japanese);
         OT_Trash.CopyTo(clone.OT_Trash);
         Nickname_Trash.CopyTo(clone.Nickname_Trash);
         return clone;

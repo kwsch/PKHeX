@@ -11,7 +11,7 @@ public sealed class Bank3 : BulkStorage
 
     public override PersonalTable3 Personal => PersonalTable.RS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
-    protected override SaveFile CloneInternal() => new Bank3((byte[])Data.Clone());
+    protected override Bank3 CloneInternal() => new((byte[])Data.Clone());
     public override string PlayTimeString => Checksums.CRC16Invert(Data).ToString("X4");
     protected internal override string ShortSummary => PlayTimeString;
     public override string Extension => ".gst";

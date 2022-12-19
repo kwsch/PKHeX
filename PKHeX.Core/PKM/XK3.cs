@@ -23,7 +23,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
     public XK3(byte[] data) : base(data) { }
     public XK3() : base(PokeCrypto.SIZE_3XSTORED) { }
-    public override PKM Clone() => new XK3((byte[])Data.Clone()){Purification = Purification};
+    public override XK3 Clone() => new((byte[])Data.Clone()) { Purification = Purification };
     public override void RefreshChecksum() => Valid = true;
 
     // Trash Bytes

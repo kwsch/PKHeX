@@ -67,7 +67,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     // Configuration
     protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
-    public override PKM BlankPKM => new PK7();
+    public override PK7 BlankPKM => new();
     public override Type PKMType => typeof(PK7);
 
     public override int BoxCount => 32;
@@ -85,7 +85,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     public override int MaxBallID => Legal.MaxBallID_7; // 26
     public override int MaxGameID => Legal.MaxGameID_7;
-    protected override PKM GetPKM(byte[] data) => new PK7(data);
+    protected override PK7 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
 
     // Feature Overrides

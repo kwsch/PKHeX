@@ -102,7 +102,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     protected override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8PARTY;
-    public override PKM BlankPKM => new PB8();
+    public override PB8 BlankPKM => new();
     public override Type PKMType => typeof(PB8);
 
     public override int BoxCount => BoxLayout8b.BoxCount;
@@ -132,7 +132,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
 
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BS;
-    protected override SaveFile CloneInternal() => new SAV8BS((byte[])(Data.Clone()));
+    protected override SAV8BS CloneInternal() => new((byte[])(Data.Clone()));
 
     protected override byte[] GetFinalData()
     {
@@ -189,7 +189,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     #endregion
 
-    protected override PKM GetPKM(byte[] data) => new PB8(data);
+    protected override PB8 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8(data);
 
     #region Blocks
@@ -331,8 +331,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         protected set => PartyInfo.PartyCount = value;
     }
 
-    public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(Data, offset, SIZE_PARTY)); // party format in boxes!
+    public override PB8 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public override PB8 GetBoxSlot(int offset) => GetDecryptedPKM(GetData(Data, offset, SIZE_PARTY)); // party format in boxes!
 
     public enum TopMenuItemType
     {

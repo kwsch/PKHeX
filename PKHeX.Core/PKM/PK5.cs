@@ -36,7 +36,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
         return data;
     }
 
-    public override PKM Clone() => new PK5((byte[])Data.Clone());
+    public override PK5 Clone() => new((byte[])Data.Clone());
     public override void RefreshChecksum() => Checksum = CalculateChecksum();
     public override bool ChecksumValid => CalculateChecksum() == Checksum;
     public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }

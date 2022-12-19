@@ -29,7 +29,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         return data;
     }
 
-    public override PKM Clone() => new PK7((byte[])Data.Clone());
+    public override PK7 Clone() => new((byte[])Data.Clone());
 
     // Structure
     #region Block A

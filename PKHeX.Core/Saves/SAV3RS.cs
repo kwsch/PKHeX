@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 public sealed class SAV3RS : SAV3, IGen3Hoenn
 {
     // Configuration
-    protected override SaveFile CloneInternal() => new SAV3RS(Write());
+    protected override SAV3RS CloneInternal() => new(Write());
     public override GameVersion Version { get => GameVersion.RS; protected set { } }
     public override PersonalTable3 Personal => PersonalTable.RS;
 

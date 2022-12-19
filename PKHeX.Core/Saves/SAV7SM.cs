@@ -35,7 +35,7 @@ public sealed class SAV7SM : SAV7, ISaveBlock7SM
 
     public override PersonalTable7 Personal => PersonalTable.SM;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SM;
-    protected override SaveFile CloneInternal() => new SAV7SM((byte[])Data.Clone());
+    protected override SAV7SM CloneInternal() => new((byte[])Data.Clone());
 
     #region Blocks
     public SaveBlockAccessor7SM Blocks { get; }

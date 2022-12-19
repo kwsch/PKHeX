@@ -23,7 +23,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
 
     public override PersonalTable5B2W2 Personal => PersonalTable.B2W2;
     public SaveBlockAccessor5B2W2 Blocks { get; }
-    protected override SaveFile CloneInternal() => new SAV5B2W2((byte[]) Data.Clone());
+    protected override SAV5B2W2 CloneInternal() => new((byte[]) Data.Clone());
     public override int EventWorkCount => 0x1AF; // this doesn't seem right?
     public override int EventFlagCount => 0xBF8;
     protected override int EventWorkOffset => 0x1FF00;

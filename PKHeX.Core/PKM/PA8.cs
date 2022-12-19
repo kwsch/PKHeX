@@ -39,7 +39,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override int SIZE_PARTY => PokeCrypto.SIZE_8APARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_8ASTORED;
     public override bool ChecksumValid => CalculateChecksum() == Checksum;
-    public override PKM Clone() => new PA8((byte[])Data.Clone());
+    public override PA8 Clone() => new((byte[])Data.Clone());
 
     private static byte[] DecryptParty(byte[] data)
     {

@@ -14,7 +14,7 @@ public sealed class InventoryPouch8 : InventoryPouch
     public InventoryPouch8(InventoryType type, ushort[] legal, int maxCount, int offset, int size, Func<ushort, bool>? isLegal = null)
         : base(type, legal, maxCount, offset, size, isLegal) { }
 
-    public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem8 { Index = itemID, Count = count };
+    public override InventoryItem8 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {

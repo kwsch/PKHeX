@@ -19,7 +19,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     // Configuration
     protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
-    public override PKM BlankPKM => new PK6();
+    public override PK6 BlankPKM => new();
     public override Type PKMType => typeof(PK6);
 
     public override int BoxCount => 31;
@@ -39,7 +39,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public override int MaxBallID => Legal.MaxBallID_6;
     public override int MaxGameID => Legal.MaxGameID_6; // OR
 
-    protected override PKM GetPKM(byte[] data) => new PK6(data);
+    protected override PK6 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
 
     protected int WondercardFlags { get; set; } = int.MinValue;

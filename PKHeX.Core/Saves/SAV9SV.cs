@@ -78,12 +78,12 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
     #endregion
 
-    protected override SaveFile CloneInternal()
+    protected override SAV9SV CloneInternal()
     {
         var blockCopy = new SCBlock[AllBlocks.Count];
         for (int i = 0; i < AllBlocks.Count; i++)
             blockCopy[i] = AllBlocks[i].Clone();
-        return new SAV9SV(blockCopy);
+        return new(blockCopy);
     }
 
     public override ushort MaxMoveID => Legal.MaxMoveID_9;
@@ -111,7 +111,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     protected override int SIZE_STORED => PokeCrypto.SIZE_9STORED;
     protected override int SIZE_PARTY  => PokeCrypto.SIZE_9PARTY;
     public override int SIZE_BOXSLOT   => PokeCrypto.SIZE_9PARTY;
-    public override PKM BlankPKM => new PK9();
+    public override PK9 BlankPKM => new();
     public override Type PKMType => typeof(PK9);
 
     public override int BoxCount => BoxLayout9.BoxCount;
@@ -120,7 +120,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override EntityContext Context => EntityContext.Gen9;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
-    protected override PKM GetPKM(byte[] data) => new PK9(data);
+    protected override PK9 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray9(data);
 
     public override GameVersion Version => Game switch
@@ -218,8 +218,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     protected override byte[] BoxBuffer => BoxInfo.Data;
     protected override byte[] PartyBuffer => PartyInfo.Data;
-    public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
+    public override PK9 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
 
     //public int GetRecord(int recordID) => Records.GetRecord(recordID);
     //public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);

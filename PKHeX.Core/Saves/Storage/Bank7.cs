@@ -13,7 +13,7 @@ public sealed class Bank7 : BulkStorage
 
     public override PersonalTable7 Personal => PersonalTable.USUM;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SM;
-    protected override SaveFile CloneInternal() => new Bank7((byte[])Data.Clone(), PKMType, BoxStart, SlotsPerBox);
+    protected override Bank7 CloneInternal() => new((byte[])Data.Clone(), PKMType, BoxStart, SlotsPerBox);
     public override string PlayTimeString => $"{Year:00}{Month:00}{Day:00}_{Hours:00}ː{Minutes:00}";
     protected internal override string ShortSummary => PlayTimeString;
     private const int GroupNameSize = 0x20;

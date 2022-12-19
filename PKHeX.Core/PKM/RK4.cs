@@ -32,7 +32,7 @@ public sealed class RK4 : G4PKM
         return data;
     }
 
-    public override PKM Clone() => new RK4((byte[])Data.Clone());
+    public override RK4 Clone() => new((byte[])Data.Clone());
 
     // Structure
     public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }

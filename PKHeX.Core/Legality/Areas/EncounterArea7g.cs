@@ -17,7 +17,7 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
     public byte Form { get; }
     public readonly EncounterSlot7GO[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot7GO> Raw => Slots;
 
     private EncounterArea7g(ushort species, byte form, EncounterSlot7GO[] slots) : base(GameVersion.GO)
     {
@@ -68,7 +68,7 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
         return new EncounterSlot7GO(area, species, form, start, end, shiny, gender, type);
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot7GO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         // Find the first chain that has slots defined.
         // Since it is possible to evolve before transferring, we only need the highest evolution species possible.

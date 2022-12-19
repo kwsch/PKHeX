@@ -119,7 +119,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         return true;
     }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         return Gift.ConvertToPKM(tr, criteria);
     }

@@ -7,7 +7,7 @@ public sealed class FakeSaveFile : SaveFile
 {
     public static readonly FakeSaveFile Default = new();
     protected internal override string ShortSummary => "Fake Save File";
-    protected override SaveFile CloneInternal() => this;
+    protected override FakeSaveFile CloneInternal() => this;
     public override string Extension => string.Empty;
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
@@ -33,9 +33,9 @@ public sealed class FakeSaveFile : SaveFile
     protected override void SetChecksums() { }
 
     public override Type PKMType => typeof(PK3);
-    protected override PKM GetPKM(byte[] data) => BlankPKM;
+    protected override PK3 GetPKM(byte[] data) => BlankPKM;
     protected override byte[] DecryptPKM(byte[] data) => data;
-    public override PKM BlankPKM => new PK3();
+    public override PK3 BlankPKM => new();
     public override EntityContext Context => EntityContext.Gen3;
     protected override int SIZE_STORED => 0;
     protected override int SIZE_PARTY => 0;

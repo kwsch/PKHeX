@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -18,7 +18,7 @@ public sealed record EncounterArea2 : EncounterArea
     public readonly IReadOnlyList<byte> Rates;
     public readonly EncounterSlot2[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot2> Raw => Slots;
 
     public static EncounterArea2[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -73,13 +73,13 @@ public sealed record EncounterArea2 : EncounterArea
         return slots;
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot2> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         if (pk is not ICaughtData2 {CaughtData: not 0} pk2)
             return GetSlotsFuzzy(chain);
 
         if (pk2.Met_Location != Location)
-            return Array.Empty<EncounterSlot>();
+            return Array.Empty<EncounterSlot2>();
         return GetSlotsSpecificLevelTime(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
     }
 

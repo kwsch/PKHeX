@@ -133,7 +133,7 @@ public sealed class WR7 : DataMysteryGift
         }
     }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         // this method shouldn't really be called, use the WB7 data not the WR7 data.
         if (!IsEntity)

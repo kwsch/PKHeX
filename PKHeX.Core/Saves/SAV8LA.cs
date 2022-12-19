@@ -55,10 +55,10 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     protected override int SIZE_STORED => PokeCrypto.SIZE_8ASTORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_8APARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8ASTORED;
-    protected override PKM GetPKM(byte[] data) => new PA8(data);
+    protected override PA8 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8A(data);
 
-    public override PKM BlankPKM => new PA8();
+    public override PA8 BlankPKM => new();
     public override Type PKMType => typeof(PA8);
     public override int MaxEV => 252;
     public override int Generation => 8;
@@ -88,12 +88,12 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override PersonalTable8LA Personal => PersonalTable.LA;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_LA;
 
-    protected override SaveFile CloneInternal()
+    protected override SAV8LA CloneInternal()
     {
         var blockCopy = new SCBlock[AllBlocks.Count];
         for (int i = 0; i < AllBlocks.Count; i++)
             blockCopy[i] = AllBlocks[i].Clone();
-        return new SAV8LA(blockCopy);
+        return new(blockCopy);
     }
 
     public override ushort MaxMoveID => Legal.MaxMoveID_8a;

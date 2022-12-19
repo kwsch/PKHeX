@@ -11,7 +11,7 @@ public sealed class Bank4 : BulkStorage
 
     public override PersonalTable4 Personal => PersonalTable.HGSS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
-    protected override SaveFile CloneInternal() => new Bank4((byte[])Data.Clone());
+    protected override Bank4 CloneInternal() => new((byte[])Data.Clone());
     public override string PlayTimeString => Checksums.CRC16Invert(Data).ToString("X4");
     protected internal override string ShortSummary => PlayTimeString;
     public override string Extension => ".stk";

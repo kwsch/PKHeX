@@ -81,12 +81,12 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
     #endregion
 
-    protected override SaveFile CloneInternal()
+    protected override SAV8SWSH CloneInternal()
     {
         var blockCopy = new SCBlock[AllBlocks.Count];
         for (int i = 0; i < AllBlocks.Count; i++)
             blockCopy[i] = AllBlocks[i].Clone();
-        return new SAV8SWSH(blockCopy);
+        return new(blockCopy);
     }
 
     private ushort m_spec, m_item, m_move, m_abil;
@@ -142,7 +142,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     protected override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8PARTY;
-    public override PKM BlankPKM => new PK8();
+    public override PK8 BlankPKM => new();
     public override Type PKMType => typeof(PK8);
 
     public override int BoxCount => BoxLayout8.BoxCount;
@@ -151,7 +151,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public override EntityContext Context => EntityContext.Gen8;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
-    protected override PKM GetPKM(byte[] data) => new PK8(data);
+    protected override PK8 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8(data);
 
     public override GameVersion Version => Game switch
@@ -247,8 +247,8 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
 
     protected override byte[] BoxBuffer => BoxInfo.Data;
     protected override byte[] PartyBuffer => PartyInfo.Data;
-    public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
+    public override PK8 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public override PK8 GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
 
     public int GetRecord(int recordID) => Records.GetRecord(recordID);
     public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);

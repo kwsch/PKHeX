@@ -71,7 +71,7 @@ public sealed class SAV4BR : SaveFile
     }
 
     // Configuration
-    protected override SaveFile CloneInternal() => new SAV4BR(Write());
+    protected override SAV4BR CloneInternal() => new(Write());
 
     public readonly IReadOnlyList<string> SaveNames = new string[SAVE_COUNT];
 
@@ -94,7 +94,7 @@ public sealed class SAV4BR : SaveFile
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 4;
-    public override PKM BlankPKM => new BK4();
+    public override BK4 BlankPKM => new();
     public override Type PKMType => typeof(BK4);
 
     public override ushort MaxMoveID => 467;
@@ -225,7 +225,7 @@ public sealed class SAV4BR : SaveFile
         SetString(span, value.AsSpan(), BoxNameLength / 2, StringConverterOption.ClearZero);
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override BK4 GetPKM(byte[] data)
     {
         if (data.Length != SIZE_STORED)
             Array.Resize(ref data, SIZE_STORED);

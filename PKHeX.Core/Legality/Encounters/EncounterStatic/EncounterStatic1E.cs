@@ -60,11 +60,11 @@ public sealed record EncounterStatic1E : EncounterStatic1, IFixedGBLanguage
         _ => true,
     };
 
-    protected override PKM GetBlank(ITrainerInfo tr) => Language switch
+    protected override PK1 GetBlank(ITrainerInfo tr) => Language switch
     {
-        EncounterGBLanguage.Japanese => new PK1(true),
-        EncounterGBLanguage.International => new PK1(),
-        _ => new PK1(tr.Language == 1),
+        EncounterGBLanguage.Japanese => new(true),
+        EncounterGBLanguage.International => new(),
+        _ => new(tr.Language == 1),
     };
 
     protected override void ApplyDetails(ITrainerInfo tr, EncounterCriteria criteria, PKM pk)

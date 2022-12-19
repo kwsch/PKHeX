@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -73,11 +73,11 @@ public sealed record EncounterStatic2E : EncounterStatic2, IFixedGBLanguage
 
     protected override int GetMinimalLevel() => CurrentLevel == -1 ? base.GetMinimalLevel() : CurrentLevel;
 
-    protected override PKM GetBlank(ITrainerInfo tr) => Language switch
+    protected override PK2 GetBlank(ITrainerInfo tr) => Language switch
     {
-        EncounterGBLanguage.Japanese => new PK2(true),
-        EncounterGBLanguage.International => new PK2(),
-        _ => new PK2(tr.Language == 1),
+        EncounterGBLanguage.Japanese => new(true),
+        EncounterGBLanguage.International => new(),
+        _ => new(tr.Language == 1),
     };
 
     protected override void ApplyDetails(ITrainerInfo tr, EncounterCriteria criteria, PKM pk)

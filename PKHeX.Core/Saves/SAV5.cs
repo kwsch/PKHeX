@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
 {
-    protected override PKM GetPKM(byte[] data) => new PK5(data);
+    protected override PK5 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
     protected internal override string ShortSummary => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
@@ -18,7 +18,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BW;
     protected override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
-    public override PKM BlankPKM => new PK5();
+    public override PK5 BlankPKM => new();
     public override Type PKMType => typeof(PK5);
 
     public override int BoxCount => 24;

@@ -29,11 +29,11 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         return data;
     }
 
-    public override PKM Clone()
+    public override PK3 Clone()
     {
         // Don't use the byte[] constructor, the DecryptIfEncrypted call is based on checksum.
         // An invalid checksum will shuffle the data; we already know it's un-shuffled. Set up manually.
-        var pk = new PK3();
+        PK3 pk = new();
         Data.CopyTo(pk.Data, 0);
         return pk;
     }
