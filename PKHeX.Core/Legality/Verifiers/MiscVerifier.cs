@@ -142,7 +142,7 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
         var enc = data.EncounterOriginal;
-        if (CheckHeightWeightOdds(enc) && pk9.HeightScalar == 0 && pk9.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+        if (CheckHeightWeightOdds(enc) && pk9 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
             data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
 
         if (enc is EncounterEgg g && UnreleasedSV.Contains(g.Species | g.Form << 11))
@@ -642,7 +642,7 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(LStatDynamaxInvalid));
         }
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pk8.HeightScalar == 0 && pk8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pk8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
             data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pk8);
@@ -676,7 +676,7 @@ public sealed class MiscVerifier : Verifier
         if (pa8.GetMoveRecordFlagAny() && !pa8.IsEgg) // already checked for eggs
             data.AddLine(GetInvalid(LEggRelearnFlags));
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pa8.HeightScalar == 0 && pa8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pa8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
             data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pa8);
@@ -716,7 +716,7 @@ public sealed class MiscVerifier : Verifier
         if (pb8.GetMoveRecordFlagAny() && !pb8.IsEgg) // already checked for eggs
             data.AddLine(GetInvalid(LEggRelearnFlags));
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pb8.HeightScalar == 0 && pb8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pb8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
             data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pb8);

@@ -99,7 +99,7 @@ public sealed class BulkAnalysis
                 {
                     var tracker = home.Tracker;
                     if (Trackers.TryGetValue(tracker, out var clone))
-                        AddLine(cs, clone!, "Clone detected (Duplicate Tracker).", Encounter);
+                        AddLine(cs, clone, "Clone detected (Duplicate Tracker).", Encounter);
                     else
                         Trackers.Add(tracker, cs);
                 }
@@ -118,7 +118,7 @@ public sealed class BulkAnalysis
             }
 
             CloneFlags[i] = true;
-            AddLine(ps!, cs, "Clone detected (Details).", Encounter);
+            AddLine(ps, cs, "Clone detected (Details).", Encounter);
         }
     }
 
@@ -160,7 +160,7 @@ public sealed class BulkAnalysis
             var id = cp.Entity.EncryptionConstant;
 
             var cr = new CombinedReference(cp, ca);
-            if (!dict.TryGetValue(id, out var pa) || pa is null)
+            if (!dict.TryGetValue(id, out var pa))
             {
                 dict.Add(id, cr);
                 continue;
@@ -182,7 +182,7 @@ public sealed class BulkAnalysis
             var id = g345 ? cp.Entity.EncryptionConstant : cp.Entity.PID;
 
             var cr = new CombinedReference(cp, ca);
-            if (!dict.TryGetValue(id, out var pr) || pr is null)
+            if (!dict.TryGetValue(id, out var pr))
             {
                 dict.Add(id, cr);
                 continue;
@@ -232,7 +232,7 @@ public sealed class BulkAnalysis
             var id = cs.Entity.TID + (cs.Entity.SID << 16);
             Debug.Assert(cs.Entity.TID <= ushort.MaxValue);
 
-            if (!dict.TryGetValue(id, out var pr) || pr is null)
+            if (!dict.TryGetValue(id, out var pr))
             {
                 var r = new CombinedReference(cs, ca);
                 dict.Add(id, r);

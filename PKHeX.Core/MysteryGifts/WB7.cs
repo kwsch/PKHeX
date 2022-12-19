@@ -574,7 +574,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk.IsEgg && !pk.IsNative)
+            if (pk is { IsEgg: true, IsNative: false })
                 return false;
         }
         else

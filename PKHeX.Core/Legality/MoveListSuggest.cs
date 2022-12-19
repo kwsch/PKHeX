@@ -11,7 +11,7 @@ public static class MoveListSuggest
 {
     private static ushort[] GetSuggestedMoves(PKM pk, EvolutionHistory evoChains, MoveSourceType types, IEncounterTemplate enc)
     {
-        if (pk.IsEgg && pk.Format <= 5) // pre relearn
+        if (pk is { IsEgg: true, Format: <= 5 }) // pre relearn
         {
             var moves = new ushort[4];
             MoveList.GetCurrentMoves(pk, pk.Species, 0, (GameVersion)pk.Version, pk.CurrentLevel, moves);
@@ -68,7 +68,7 @@ public static class MoveListSuggest
         if (!analysis.Parsed)
             return new ushort[4];
         var pk = analysis.Entity;
-        if (pk.IsEgg && pk.Format >= 6)
+        if (pk is { IsEgg: true, Format: >= 6 })
             return pk.RelearnMoves;
 
         if (pk.IsEgg)

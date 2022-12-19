@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -108,7 +108,7 @@ public sealed class TrainerNameVerifier : Verifier
 
         if (pk.OT_Gender == 1)
         {
-            if (pk is ICaughtData2 {CaughtData:0} || (pk.Format > 2 && pk.VC1) || data is {EncounterOriginal: {Generation:1} or EncounterStatic2E {IsGift:true}})
+            if (pk is ICaughtData2 {CaughtData:0} or { Format: > 2, VC1: true } || data is {EncounterOriginal: {Generation:1} or EncounterStatic2E {IsGift:true}})
                 data.AddLine(GetInvalid(LG1OTGender));
         }
     }

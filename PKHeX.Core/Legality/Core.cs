@@ -110,7 +110,7 @@ public static partial class Legal
         PA8 pa8 => !pa8.LA,
         PB8 pb8 => !pb8.BDSP,
         PK8 pk8 => pk8.IsSideTransfer || pk8.BattleVersion != 0,
-        PK9 pk9 => !(pk9.SV || (pk9.IsEgg && pk9.Version == 0)),
+        PK9 pk9 => !(pk9.SV || pk9 is { IsEgg: true, Version: 0 }),
         _ => false,
     };
 
@@ -186,7 +186,7 @@ public static partial class Legal
 
     public static bool IsMetAsEgg(PKM pk) => pk switch
     {
-        PA8 or PK8 => pk.Egg_Location is not 0 || (pk.BDSP && pk.Egg_Day is not 0),
+        PA8 or PK8 => pk.Egg_Location is not 0 || pk is { BDSP: true, Egg_Day: not 0 },
         PB8 pb8 => pb8.Egg_Location is not Locations.Default8bNone,
         _ => pk.Egg_Location is not 0,
     };

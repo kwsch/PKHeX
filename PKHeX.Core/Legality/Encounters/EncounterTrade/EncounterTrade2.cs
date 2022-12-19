@@ -30,7 +30,7 @@ public sealed record EncounterTrade2 : EncounterTradeGB
                 return false;
             if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pk))
                 return false;
-            if (pk.Format == 2 && pk.Met_Location is not (0 or 126))
+            if (pk is { Format: 2, Met_Location: not (0 or 126) })
                 return false;
         }
 

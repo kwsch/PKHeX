@@ -470,7 +470,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
             while (!CanBeReceivedByVersion(pk.Version, pk));
         }
 
-        if (pk.TID == 0 && pk.SID == 0)
+        if (pk is { TID: 0, SID: 0 })
         {
             pk.TID = tr.TID;
             pk.SID = tr.SID;
@@ -653,7 +653,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
             {
                 if (pk.Egg_Location != Locations.LinkTrade6NPC)
                     return false;
-                if (PIDType == ShinyType8.Random && pk.IsShiny && pk.ShinyXor > 1)
+                if (PIDType == ShinyType8.Random && pk is { IsShiny: true, ShinyXor: > 1 })
                     return false; // shiny traded egg will always have xor0/1.
             }
             if (!Shiny.IsValid(pk))
@@ -661,7 +661,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk.IsEgg && !pk.IsNative)
+            if (pk is { IsEgg: true, IsNative: false })
                 return false;
         }
         else

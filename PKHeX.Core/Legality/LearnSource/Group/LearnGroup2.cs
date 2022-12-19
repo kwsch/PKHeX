@@ -103,7 +103,7 @@ public sealed class LearnGroup2 : ILearnGroup
         for (int i = result.Length - 1; i >= 0; i--)
         {
             ref var entry = ref result[i];
-            if (entry.Valid && entry.Generation > 2)
+            if (entry is { Valid: true, Generation: > 2 })
                 continue;
 
             var move = current[i];

@@ -13,7 +13,7 @@ public partial class SAV_Capture7GG : Form
 
     private readonly Zukan7b Dex;
     private readonly CaptureRecords Captured;
-    private ushort Index = ushort.MaxValue;
+    private ushort Index;
     private bool Loading;
 
     public SAV_Capture7GG(SaveFile sav)

@@ -54,7 +54,7 @@ public static class Breeding
         if (Legal.FixedGenderFromBiGender.Contains(species)) // Nincada -> Shedinja loses gender causing 'false', edge case
             return true;
         var pi = PKX.Personal[species];
-        if (!pi.Genderless && !pi.OnlyMale)
+        if (pi is { Genderless: false, OnlyMale: false })
             return true;
         if (MixedGenderBreeding.Contains(species))
             return true;
@@ -99,7 +99,7 @@ public static class Breeding
     public static bool CanHatchAsEgg(ushort species) => !NoHatchFromEgg.Contains(species);
 
     /// <summary>
-    /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="generation"/>.
+    /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="context"/>.
     /// </summary>
     /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
     /// <param name="species">Current species</param>
@@ -120,7 +120,7 @@ public static class Breeding
     }
 
     /// <summary>
-    /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,byte,int)"/>
+    /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,byte,EntityContext)"/>
     /// </summary>
     /// <returns>True if can be bred.</returns>
     private static bool IsBreedableForm(ushort species, byte form) => species switch

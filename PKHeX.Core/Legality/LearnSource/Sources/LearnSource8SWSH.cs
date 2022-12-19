@@ -142,7 +142,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
         if (option != LearnOption.Current && !pk.SWSH && pk.IsOriginalMovesetDeleted())
             return true;
-        if (index == 12 && evo.Species == (int)Species.Calyrex && evo.Form == 0) // TR12
+        if (index == 12 && evo is { Species: (int)Species.Calyrex, Form: 0 }) // TR12
             return true; // Agility Calyrex without TR glitch.
 
         return false;
@@ -194,7 +194,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
                     var move = trMoves[index];
                     if (trFlags[index])
                         result[move] = true;
-                    else if (index == 12 && evo.Species == (int)Species.Calyrex && evo.Form == 0) // TR12
+                    else if (index == 12 && evo is { Species: (int)Species.Calyrex, Form: 0 }) // TR12
                         result[move] = true; // Agility Calyrex without TR glitch.
                 }
             }

@@ -38,7 +38,7 @@ public sealed class NHarmoniaVerifier : Verifier
     private static bool VerifyNsPKMIVsValid(PKM pk)
     {
         // All are 30.
-        return pk.IV_HP == 30 && pk.IV_ATK == 30 && pk.IV_DEF == 30 && pk.IV_SPA == 30 && pk.IV_SPD == 30 && pk.IV_SPE == 30;
+        return pk is { IV_HP: 30, IV_ATK: 30, IV_DEF: 30, IV_SPA: 30, IV_SPD: 30, IV_SPE: 30 };
     }
 
     private static bool VerifyNsPKMOTValid(PKM pk)

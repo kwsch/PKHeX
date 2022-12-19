@@ -59,7 +59,7 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
         if (wc6.Data.Length != WC6.Size)
             throw new InvalidCastException(nameof(wc6));
 
-        if (wc6.CardID == 2048 && wc6.ItemID == 726) // Eon Ticket (OR/AS)
+        if (wc6 is { CardID: 2048, ItemID: 726 }) // Eon Ticket (OR/AS)
         {
             if (SAV is not SAV6AO ao)
                 return;

@@ -261,7 +261,7 @@ public sealed class FormVerifier : Verifier
         return (Species)pk.Species switch
         {
             // Transfer Edge Cases -- Bank wipes the form but keeps old FormArgument value.
-            Furfrou when pk.Format == 7 && pk.Form == 0 &&
+            Furfrou when pk is { Context: EntityContext.Gen7, Form: 0 } &&
                          ((enc.Generation == 6 && f.FormArgument <= byte.MaxValue) || IsFormArgumentDayCounterValid(f, 5, true))
                 => GetValid(LFormArgumentValid),
 
@@ -376,7 +376,7 @@ public sealed class FormVerifier : Verifier
         {
             if (f.FormArgument != 0)
             {
-                if (pk.Species == (int)Furfrou && pk.Form == 0 && (f.FormArgument & ~0xFF_00_00u) == 0)
+                if (pk is { Species: (int)Furfrou, Form: 0 } && (f.FormArgument & ~0xFF_00_00u) == 0)
                     return GetValid(LFormArgumentValid);
                 return GetInvalid(LFormArgumentNotAllowed);
             }
@@ -385,7 +385,7 @@ public sealed class FormVerifier : Verifier
 
         if (f.FormArgument != 0)
         {
-            if (pk.Species == (int)Furfrou && pk.Form == 0 && (f.FormArgument & ~0xFFu) == 0)
+            if (pk is { Species: (int)Furfrou, Form: 0 } && (f.FormArgument & ~0xFFu) == 0)
                 return GetValid(LFormArgumentValid);
             return GetInvalid(LFormArgumentNotAllowed);
         }

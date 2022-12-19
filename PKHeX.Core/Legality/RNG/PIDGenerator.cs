@@ -365,7 +365,7 @@ public static class PIDGenerator
             return specific;
         if (pk.Version == 15)
             return PIDType.CXD;
-        if (pk.Gen3 && pk.Species == (int)Species.Unown)
+        if (pk is { Species: (int)Species.Unown, Gen3: true })
         {
             return Util.Rand.Next(3) switch
             {

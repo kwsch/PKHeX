@@ -12,7 +12,7 @@ public partial class SAV_PokedexSV : Form
     private readonly SAV9SV SAV;
     private readonly Zukan9 Dex;
 
-    private int lastIndex = -1;
+    private int lastIndex;
     private readonly bool CanSave;
     private readonly bool Loading;
 

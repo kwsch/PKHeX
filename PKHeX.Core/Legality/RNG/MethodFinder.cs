@@ -778,7 +778,7 @@ public static class MethodFinder
 
         // only 8 bits are stored instead of 32 -- 5 bits HP, 3 bits for ATK.
         // return pk.IV32 <= 0xFF;
-        return pk.IV_DEF == 0 && pk.IV_SPE == 0 && pk.IV_SPA == 0 && pk.IV_SPD == 0 && pk.IV_ATK <= 7;
+        return pk is { IV_DEF: 0, IV_SPE: 0, IV_SPA: 0, IV_SPD: 0, IV_ATK: <= 7 };
     }
 
     public static bool IsCompatible4(this PIDType val, IEncounterTemplate encounter, PKM pk) => encounter switch
@@ -795,7 +795,7 @@ public static class MethodFinder
         EncounterSlot4 w => val switch
         {
             // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
-            ChainShiny => pk.IsShiny && !pk.HGSS && (w.GroundTile & GroundTileAllowed.Grass) != 0 && !Locations.IsSafariZoneLocation4(w.Location),
+            ChainShiny => pk is { IsShiny: true, HGSS: false } && (w.GroundTile & GroundTileAllowed.Grass) != 0 && !Locations.IsSafariZoneLocation4(w.Location),
             CuteCharm => IsCuteCharm4Valid(encounter, pk),
             _ => val is Method_1,
         },

@@ -831,7 +831,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             if (encounter.HasGroundTile(Entity.Format))
                 CB_GroundTile.SelectedValue = (int)encounter.GetSuggestedGroundTile();
 
-            if (Entity.Gen6 && Entity.WasEgg && ModifyPKM)
+            if (Entity is { Gen6: true, WasEgg: true } && ModifyPKM)
                 Entity.SetHatchMemory6();
         }
 

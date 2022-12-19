@@ -230,7 +230,7 @@ public partial class SAV_Encounters : Form
         var settings = GetSearchSettings();
 
         // If nothing is specified, instead of just returning all possible encounters, just return nothing.
-        if (settings.Species == 0 && settings.Moves.Count == 0 && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
+        if (settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
             return Array.Empty<IEncounterInfo>();
         var pk = SAV.BlankPKM;
 

@@ -173,11 +173,10 @@ public static class WinFormsTranslator
 
     public static void DumpAll(params string[] banlist)
     {
-        foreach (var c in Context)
+        foreach (var (lang, value) in Context)
         {
-            var lang = c.Key;
             var fn = GetTranslationFileNameExternal(lang);
-            var lines = c.Value.Write();
+            var lines = value.Write();
             var result = lines.Where(z => !banlist.Any(z.Contains));
             File.WriteAllLines(fn, result);
         }

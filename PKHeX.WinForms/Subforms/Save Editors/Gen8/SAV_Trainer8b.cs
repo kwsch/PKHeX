@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -93,7 +93,7 @@ public partial class SAV_Trainer8b : Form
     private void Save()
     {
         SaveTrainerInfo();
-        if (SAV.TID == 0 && SAV.SID == 0)
+        if (SAV is { TID: 0, SID: 0 })
             SAV.SID = 1; // Cannot have an all-zero ID.
 
         // Trickle down the changes to the extra record block.

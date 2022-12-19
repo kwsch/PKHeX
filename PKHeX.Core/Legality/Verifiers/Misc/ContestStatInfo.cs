@@ -59,8 +59,8 @@ public static class ContestStatInfo
         3 => pk.Format < 6    ? CorrelateSheen : Mixed,
         4 => pk.Format < 6    ? CorrelateSheen : Mixed,
 
-        5 => pk.Format < 6           ? None : !h.HasVisitedBDSP ? NoSheen : Mixed, // ORAS Contests
-        6 => !pk.AO && pk.IsUntraded ? None : !h.HasVisitedBDSP ? NoSheen : Mixed,
+        5 => pk.Format < 6                         ? None : !h.HasVisitedBDSP ? NoSheen : Mixed, // ORAS Contests
+        6 => pk is { AO: false, IsUntraded: true } ? None : !h.HasVisitedBDSP ? NoSheen : Mixed,
 
         _ => h.HasVisitedBDSP ? CorrelateSheen : None, // BDSP Contests
     };

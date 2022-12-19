@@ -139,7 +139,7 @@ public static class MysteryUtil
             return false;
         }
 
-        if (g is WC6 && g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
+        if (g is WC6 { CardID: 2048, ItemID: 726 }) // Eon Ticket (OR/AS)
         {
             if (sav is not SAV6AO)
             {

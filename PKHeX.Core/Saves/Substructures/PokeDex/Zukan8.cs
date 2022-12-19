@@ -134,10 +134,8 @@ public sealed class Zukan8 : ZukanBase
     public IList<string> GetEntryNames(IReadOnlyList<string> speciesNames)
     {
         var dex = new List<string>();
-        foreach (var d in DexLookup)
+        foreach (var (species, entry) in DexLookup)
         {
-            var species = d.Key;
-            var entry = d.Value;
             var name = entry.GetEntryName(speciesNames, species);
             dex.Add(name);
         }

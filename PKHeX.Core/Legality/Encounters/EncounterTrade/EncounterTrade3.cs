@@ -63,7 +63,7 @@ public sealed record EncounterTrade3 : EncounterTrade, IContestStatsReadOnly
         var pk3 = (PK3) pk;
 
         // Italian LG Jynx untranslated from English name
-        if (Species == (int)Core.Species.Jynx && pk3.Version == (int)GameVersion.LG && pk3.Language == (int)LanguageID.Italian)
+        if (Species == (int)Core.Species.Jynx && pk3 is { Version: (int)GameVersion.LG, Language: (int)LanguageID.Italian })
         {
             pk3.OT_Name = GetOT((int)LanguageID.English);
             pk3.SetNickname(GetNickname((int)LanguageID.English));

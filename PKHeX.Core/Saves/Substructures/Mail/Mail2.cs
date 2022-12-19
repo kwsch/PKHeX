@@ -27,7 +27,7 @@ public sealed class Mail2 : MailDetail
 
     public Mail2(SAV2 sav, int index) : base(sav.GetData(GetMailOffset(index), 0x2F), GetMailOffset(index))
     {
-        US = !sav.Japanese && !sav.Korean;
+        US = sav is { Japanese: false, Korean: false };
     }
 
     private static int GetMailOffset(int index)

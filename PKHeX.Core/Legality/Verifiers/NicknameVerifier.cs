@@ -38,7 +38,7 @@ public sealed class NicknameVerifier : Verifier
             return;
         }
 
-        if (pk.Format <= 7 && pk.IsNicknamed) // can nickname afterwards
+        if (pk is { Format: <= 7, IsNicknamed: true }) // can nickname afterwards
         {
             if (pk.VC)
                 VerifyG1NicknameWithinBounds(data, nickname.AsSpan());
@@ -374,7 +374,7 @@ public sealed class NicknameVerifier : Verifier
         if (t.Species == (int)Species.Magikarp)
         {
             // Japanese 
-            if (pk.Language == (int)Japanese && pk.OT_Name is "Diamond." or "Pearl.")
+            if (pk is { Language: (int)Japanese, OT_Name: "Diamond." or "Pearl." })
             {
                 // Traded between players, the original OT is replaced with the above OT (version dependent) as the original OT is >6 chars in length.
                 VerifyTradeNickname(data, t, t.Nicknames[(int)German], pk);

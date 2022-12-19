@@ -94,12 +94,12 @@ public sealed class LearnSource7GG : ILearnSource
 
         if (types.HasFlagFast(MoveSourceType.SpecialTutor))
         {
-            if (evo.Species == (int)Species.Pikachu && evo.Form == 8) // Partner
+            if (evo is { Species: (int)Species.Pikachu, Form: 8 }) // Partner
             {
                 foreach (var move in Tutor_StarterPikachu)
                     result[move] = true;
             }
-            else if (evo.Species == (int)Species.Eevee && evo.Form == 1) // Partner
+            else if (evo is { Species: (int)Species.Eevee, Form: 1 }) // Partner
             {
                 foreach (var move in Tutor_StarterEevee)
                     result[move] = true;

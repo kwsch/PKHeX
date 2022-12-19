@@ -44,7 +44,7 @@ public static class QR7
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     };
 
-    private static byte[] GetRawQR(ushort species, byte form, bool shiny, int gender)
+    private static byte[] GetRawQR(ushort species, byte form, bool shiny, byte gender)
     {
         var basedata = (byte[])BaseQR.Clone();
         WriteUInt16LittleEndian(basedata.AsSpan(0x28), species);
@@ -60,8 +60,8 @@ public static class QR7
         else
             biGender = !GenderDifferences.Contains(species);
 
-        basedata[0x2A] = (byte)form;
-        basedata[0x2B] = (byte)gender;
+        basedata[0x2A] = form;
+        basedata[0x2B] = gender;
         basedata[0x2C] = shiny ? (byte)1 : (byte)0;
         basedata[0x2D] = biGender ? (byte)1 : (byte)0;
         return basedata;
@@ -89,7 +89,7 @@ public static class QR7
         WriteInt32LittleEndian(span[0x10..], num_copies); // No need to check max num_copies, payload parser handles it on-console.
 
         pk7.EncryptedPartyData.CopyTo(span[0x30..]); // Copy in pokemon data
-        GetRawQR(pk7.Species, pk7.Form, pk7.IsShiny, pk7.Gender).CopyTo(span[0x140..]);
+        GetRawQR(pk7.Species, pk7.Form, pk7.IsShiny, (byte)pk7.Gender).CopyTo(span[0x140..]);
 
         var chk = Checksums.CRC16Invert(span[..0x1A0]);
         WriteUInt16LittleEndian(span[0x1A0..], chk);

@@ -81,7 +81,7 @@ internal static class EncounterGenerator12
     private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pk)
     {
         // If the current data indicates that it must have originated from Crystal, only yield encounter data from Crystal.
-        bool crystal = (pk is ICaughtData2 {CaughtData: not 0}) || (pk.Format >= 7 && pk.OT_Gender == 1);
+        bool crystal = pk is ICaughtData2 { CaughtData: not 0 } or { Format: >= 7, OT_Gender: 1 };
         if (crystal)
             return GenerateRawEncounters12(pk, GameVersion.C);
 

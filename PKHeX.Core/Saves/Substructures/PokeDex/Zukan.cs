@@ -296,7 +296,7 @@ public abstract class Zukan : ZukanBase
                 if (shinyToo)
                     SetAllDexSeenFlags(baseBit, f, 0, true, seen);
             }
-            if (!entry.OnlyMale && !entry.Genderless)
+            if (entry is { OnlyMale: false, Genderless: false })
             {
                 SetAllDexSeenFlags(baseBit, f, 1, false, seen);
                 if (shinyToo)

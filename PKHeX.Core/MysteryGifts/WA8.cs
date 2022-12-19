@@ -659,7 +659,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             {
                 if (pk.Egg_Location != Locations.LinkTrade6)
                     return false;
-                if (PIDType == ShinyType8.Random && pk.IsShiny && pk.ShinyXor > 1)
+                if (PIDType == ShinyType8.Random && pk is { IsShiny: true, ShinyXor: > 1 })
                     return false; // shiny traded egg will always have xor0/1.
             }
             if (!Shiny.IsValid(pk))
@@ -667,7 +667,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk.IsEgg && !pk.IsNative)
+            if (pk is { IsEgg: true, IsNative: false })
                 return false;
         }
         else

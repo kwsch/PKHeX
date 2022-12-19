@@ -17,12 +17,12 @@ public sealed class TrainerIDVerifier : Verifier
 
         if (pk.BDSP)
         {
-            if (pk.TID == 0 && pk.SID == 0) // Game loops to ensure a nonzero full-ID
+            if (pk is { TID: 0, SID: 0 }) // Game loops to ensure a nonzero full-ID
             {
                 data.AddLine(GetInvalid(LOT_IDInvalid));
                 return;
             }
-            if (pk.TID == 0xFFFF && pk.SID == 0x7FFF) // int.MaxValue cannot be yielded by Unity's Random.Range[min, max)
+            if (pk is { SID: 0x7FFF, TID: 0xFFFF }) // int.MaxValue cannot be yielded by Unity's Random.Range[min, max)
             {
                 data.AddLine(GetInvalid(LOT_IDInvalid));
                 return;
@@ -34,7 +34,7 @@ public sealed class TrainerIDVerifier : Verifier
             return;
         }
 
-        if (pk.TID == 0 && pk.SID == 0)
+        if (pk is { TID: 0, SID: 0 })
         {
             data.AddLine(Get(LOT_IDs0, Severity.Fishy));
         }

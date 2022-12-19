@@ -21,7 +21,7 @@ public static class StringConverter4GC
     {
         Span<char> result = stackalloc char[data.Length];
         var length = LoadString(data, result);
-        return new string(result[..length].ToArray());
+        return new string(result[..length]);
     }
 
     private static int LoadString(ReadOnlySpan<byte> data, Span<char> result)

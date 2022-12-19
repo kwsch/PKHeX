@@ -403,7 +403,7 @@ public static class CommonEdits
     /// <param name="la">Precomputed optional</param>
     public static void SetDefaultNickname(this PKM pk, LegalityAnalysis la)
     {
-        if (la.Parsed && la.EncounterOriginal is EncounterTrade {HasNickname: true} t)
+        if (la is { Parsed: true, EncounterOriginal: EncounterTrade {HasNickname: true} t })
             pk.SetNickname(t.GetNickname(pk.Language));
         else
             pk.ClearNickname();

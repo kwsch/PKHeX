@@ -332,7 +332,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     /// </summary>
     protected virtual bool IsMatchPartial(PKM pk)
     {
-        if (pk.Format >= 5 && pk.AbilityNumber == 4 && this.IsPartialMatchHidden(pk.Species, Species))
+        if (pk is { Format: >= 5, AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))
             return true;
         return pk.FatefulEncounter != Fateful;
     }

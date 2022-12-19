@@ -12,7 +12,7 @@ public partial class ContextMenuSAV : UserControl
     public ContextMenuSAV() => InitializeComponent();
 
     public SaveDataEditor<PictureBox> Editor { private get; set; } = null!;
-    public SlotChangeManager Manager { get; set; } = null!;
+    public required SlotChangeManager Manager { get; init; }
 
     public Action<LegalityAnalysis>? RequestEditorLegality;
 

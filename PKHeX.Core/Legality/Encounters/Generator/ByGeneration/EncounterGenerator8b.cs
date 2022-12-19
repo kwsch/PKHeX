@@ -36,7 +36,7 @@ internal static class EncounterGenerator8b
         EncounterMatchRating rating = MaxNotMatch;
 
         // Trades
-        if (!pk.IsEgg && pk.Met_Location == Locations.LinkTrade6NPC)
+        if (pk is { IsEgg: false, Met_Location: Locations.LinkTrade6NPC })
         {
             foreach (var z in GetValidEncounterTrades(pk, chain, game))
             {

@@ -156,7 +156,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
                 return false;
             if (wc.CurrentLevel != pk.Met_Level)
                 return false;
-            if (pk.IsEgg && !pk.IsNative)
+            if (pk is { IsEgg: true, IsNative: false })
                 return false;
         }
 

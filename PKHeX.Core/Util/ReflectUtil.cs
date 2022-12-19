@@ -146,7 +146,7 @@ public static class ReflectUtil
     public static Dictionary<T, string> GetAllConstantsOfType<T>(this Type type) where T : struct
     {
         var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-        var consts = fields.Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType == typeof(T));
+        var consts = fields.Where(fi => fi is { IsLiteral: true, IsInitOnly: false } && fi.FieldType == typeof(T));
         return consts.ToDictionary(z => (T)(z.GetRawConstantValue() ?? throw new NullReferenceException(nameof(z.Name))), z => z.Name);
     }
 

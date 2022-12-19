@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.Encounters8Nest;
+using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core;
 
@@ -25,7 +25,7 @@ public sealed record EncounterStatic8NC(GameVersion Version) : EncounterStatic8N
             return false;
         if (lvl is < 20 or > 55)
             return false;
-        if (pk.Met_Location == Watchtower && pk.IsShiny)
+        if (pk is { Met_Location: Watchtower, IsShiny: true })
             return false; // host cannot downlevel and be shiny
         return lvl % 5 == 0;
     }

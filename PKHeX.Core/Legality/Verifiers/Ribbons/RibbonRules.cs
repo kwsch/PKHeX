@@ -28,7 +28,7 @@ public static class RibbonRules
     public static bool IsRibbonValidEffort(PKM pk, EvolutionHistory evos, int gen) => gen switch
     {
         5 when pk.Format == 5 => false, // Not available in BW/B2W2
-        8 when !evos.HasVisitedSWSH && !evos.HasVisitedBDSP => false, // not available in PLA
+        8 when evos is { HasVisitedSWSH: false, HasVisitedBDSP: false } => false, // not available in PLA
         _ => true,
     };
 
@@ -38,7 +38,7 @@ public static class RibbonRules
     public static bool IsRibbonValidBestFriends(PKM pk, EvolutionHistory evos, int gen) => gen switch
     {
         < 7 when pk is { IsUntraded: true } and IAffection { OT_Affection: < 255 } => false, // Gen6/7 uses affection. Can't lower it on OT!
-        8 when !evos.HasVisitedSWSH && !evos.HasVisitedBDSP => false, // Gen8+ replaced with Max Friendship.
+        8 when evos is { HasVisitedSWSH: false, HasVisitedBDSP: false } => false, // Gen8+ replaced with Max Friendship.
         _ => true,
     };
 

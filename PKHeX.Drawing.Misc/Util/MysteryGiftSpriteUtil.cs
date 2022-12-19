@@ -24,7 +24,7 @@ public static class MysteryGiftSpriteUtil
 
     private static Image GetBaseImage(MysteryGift gift)
     {
-        if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
+        if (gift is { IsEgg: true, Species: (int)Species.Manaphy }) // Manaphy Egg
             return SpriteUtil.GetMysteryGiftPreviewPoke(gift);
         if (gift.IsEntity)
             return SpriteUtil.GetMysteryGiftPreviewPoke(gift);

@@ -116,7 +116,7 @@ public sealed record EncounterArea6XY : EncounterArea
                 if (!slot.IsLevelWithinRange(pk.Met_Level))
                     break;
 
-                if (slot.Form != evo.Form && !slot.IsRandomUnspecificForm && slot.Species is not ((int)Species.Burmy or (int)Species.Furfrou))
+                if (slot.Form != evo.Form && slot is { IsRandomUnspecificForm: false, Species: not ((int)Species.Burmy or (int)Species.Furfrou) })
                 {
                     // Only slot that can be form-mismatched via Pressure is Flabébé
                     if (slot.Species != (int)Species.Flabébé)

@@ -47,7 +47,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     public bool RibbonChampionRegional { get; set; }
     public bool RibbonChampionNational { get; set; }
 
-    public string? Nickname { get; set; }
+    public string? Nickname { get; init; }
 
     // Description
     public override string CardTitle { get; set; } = "Generation 3 Event";
