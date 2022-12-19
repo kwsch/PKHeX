@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -17,14 +17,14 @@ public sealed class MyItem7SM : MyItem
     {
         get
         {
-            InventoryPouch[] pouch =
+            InventoryPouch7[] pouch =
             {
-                new InventoryPouch7(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, Offset + Medicine),
-                new InventoryPouch7(InventoryType.Items, Legal.Pouch_Items_SM, 999, Offset + HeldItem),
-                new InventoryPouch7(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, Offset + TMHM),
-                new InventoryPouch7(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, Offset + Berry),
-                new InventoryPouch7(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, Offset + KeyItem),
-                new InventoryPouch7(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, Offset + ZCrystals),
+                new(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, Offset + Medicine),
+                new(InventoryType.Items, Legal.Pouch_Items_SM, 999, Offset + HeldItem),
+                new(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, Offset + TMHM),
+                new(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, Offset + Berry),
+                new(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, Offset + KeyItem),
+                new(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, Offset + ZCrystals),
             };
             return pouch.LoadAll(Data);
         }
