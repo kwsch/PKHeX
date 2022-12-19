@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="SM"/>.
 /// </summary>
-public sealed class LearnSource7SM : ILearnSource, IEggSource
+public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource 
 {
     public static readonly LearnSource7SM Instance = new();
     private static readonly PersonalTable7 Personal = PersonalTable.SM;
@@ -21,7 +21,7 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo7? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -45,7 +45,7 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
         return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo7 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -91,7 +91,7 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsTypeTutor(PersonalInfo7 pi, ushort move)
     {
         var index = Array.IndexOf(LearnSource5.TypeTutor567, move);
         if (index == -1)
@@ -99,7 +99,7 @@ public sealed class LearnSource7SM : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo7 info, ushort move)
     {
         var index = Array.IndexOf(TMHM_SM, move);
         if (index == -1)

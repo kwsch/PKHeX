@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="YW"/>.
 /// </summary>
-public sealed class LearnSource1YW : ILearnSource
+public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
 {
     public static readonly LearnSource1YW Instance = new();
     private static readonly PersonalTable1 Personal = PersonalTable.Y;
@@ -18,7 +18,7 @@ public sealed class LearnSource1YW : ILearnSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo1? pi)
     {
         pi = null;
         if (form is not 0 || species > Legal.MaxSpeciesID_1)
@@ -27,7 +27,7 @@ public sealed class LearnSource1YW : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo1 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
@@ -58,7 +58,7 @@ public sealed class LearnSource1YW : ILearnSource
         return species is (int)Species.Pikachu or (int)Species.Raichu;
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo1 info, ushort move)
     {
         var index = Array.IndexOf(TMHM_RBY, move);
         if (index == -1)
@@ -108,9 +108,8 @@ public sealed class LearnSource1YW : ILearnSource
         if (!TryGetPersonal(species, 0, out var personal))
             return;
 
-        var pi = (PersonalInfo1)personal;
         var learn = Learnsets[species];
-        pi.GetMoves(init);
+        personal.GetMoves(init);
         var start = (4 - init.Count((ushort)0)) & 3;
         learn.SetEncounterMoves(enc.LevelMin, init, start);
     }

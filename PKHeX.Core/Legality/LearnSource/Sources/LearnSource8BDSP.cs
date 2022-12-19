@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="BDSP"/>.
 /// </summary>
-public sealed class LearnSource8BDSP : ILearnSource, IEggSource
+public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSource
 {
     public static readonly LearnSource8BDSP Instance = new();
     private static readonly PersonalTable8BDSP Personal = PersonalTable.BDSP;
@@ -19,7 +19,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo8BDSP? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -47,7 +47,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return arr[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8BDSP pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -82,15 +82,14 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         _ => false,
     };
 
-    private bool GetIsSharedEggMove(PersonalInfo pi, ushort move)
+    private bool GetIsSharedEggMove(PersonalInfo8BDSP pi, ushort move)
     {
-        var entry = (PersonalInfo8BDSP)pi;
-        var baseSpecies = entry.HatchSpecies;
-        var baseForm = entry.HatchFormIndex;
+        var baseSpecies = pi.HatchSpecies;
+        var baseForm = pi.HatchFormIndex;
         return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
     }
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsTypeTutor(PersonalInfo8BDSP pi, ushort move)
     {
         var index = Array.IndexOf(TypeTutor8b, move);
         if (index == -1)
@@ -98,7 +97,7 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo8BDSP info, ushort move)
     {
         var index = Array.IndexOf(TMHM_BDSP, move);
         if (index == -1)
@@ -125,9 +124,8 @@ public sealed class LearnSource8BDSP : ILearnSource, IEggSource
 
         if (types.HasFlagFast(MoveSourceType.SharedEggMove))
         {
-            var entry = (PersonalInfo8BDSP)pi;
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndex;
+            var baseSpecies = pi.HatchSpecies;
+            var baseForm = pi.HatchFormIndex;
             var egg = GetEggMoves(baseSpecies, baseForm);
             foreach (var move in egg)
                 result[move] = true;

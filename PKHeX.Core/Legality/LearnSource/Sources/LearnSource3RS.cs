@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="RS"/>.
 /// </summary>
-public sealed class LearnSource3RS : ILearnSource, IEggSource
+public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
 {
     public static readonly LearnSource3RS Instance = new();
     private static readonly PersonalTable3 Personal = PersonalTable.RS;
@@ -22,7 +22,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo3? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -46,7 +46,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo3 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -85,7 +85,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         };
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo3 info, ushort move)
     {
         var index = Array.IndexOf(TM_3, move);
         if (index == -1)
@@ -93,7 +93,7 @@ public sealed class LearnSource3RS : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsHM(PersonalInfo info, ushort move)
+    private static bool GetIsHM(PersonalInfo3 info, ushort move)
     {
         var index = Array.IndexOf(HM_3, move);
         if (index == -1)

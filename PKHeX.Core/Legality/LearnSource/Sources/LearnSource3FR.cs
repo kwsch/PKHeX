@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="FR"/>.
 /// </summary>
-public sealed class LearnSource3FR : ILearnSource, IEggSource
+public sealed class LearnSource3FR : ILearnSource<PersonalInfo3>, IEggSource
 {
     public static readonly LearnSource3FR Instance = new();
     private static readonly PersonalTable3 Personal = PersonalTable.FR;
@@ -21,9 +21,9 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
     private const int CountTM = 50;
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
-    internal PersonalInfo this[ushort species] => Personal[species];
+    internal PersonalInfo3 this[ushort species] => Personal[species];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo3? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -47,7 +47,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo3 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -79,7 +79,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo3 info, ushort move)
     {
         var index = Array.IndexOf(TM_3, move);
         if (index == -1)
@@ -87,7 +87,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsHM(PersonalInfo info, ushort move)
+    private static bool GetIsHM(PersonalInfo3 info, ushort move)
     {
         var index = Array.IndexOf(HM_3, move);
         if (index == -1)

@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="HGSS"/>.
 /// </summary>
-public sealed class LearnSource4HGSS : ILearnSource, IEggSource
+public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
 {
     public static readonly LearnSource4HGSS Instance = new();
     private static readonly PersonalTable4 Personal = PersonalTable.HGSS;
@@ -22,7 +22,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo4? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -46,7 +46,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo4 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -95,7 +95,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
         return Array.IndexOf(list, species) != -1;
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsSpecialTutor(PersonalInfo4 pi, ushort move)
     {
         var index = Array.IndexOf(Tutors_4, move);
         if (index == -1)
@@ -103,7 +103,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo4 info, ushort move)
     {
         var index = Array.IndexOf(TM_4, move);
         if (index == -1)
@@ -111,7 +111,7 @@ public sealed class LearnSource4HGSS : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsHM(PersonalInfo info, ushort move)
+    private static bool GetIsHM(PersonalInfo4 info, ushort move)
     {
         var index = Array.IndexOf(HM_HGSS, move);
         if (index == -1)

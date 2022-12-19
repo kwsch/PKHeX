@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="ORAS"/>.
 /// </summary>
-public sealed class LearnSource6AO : ILearnSource, IEggSource
+public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
 {
     public static readonly LearnSource6AO Instance = new();
     private static readonly PersonalTable6AO Personal = PersonalTable.AO;
@@ -19,7 +19,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo6AO? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -43,7 +43,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo6AO pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -84,7 +84,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsTypeTutor(PersonalInfo6AO pi, ushort move)
     {
         var tutors = Tutors_AO;
         for (int i = 0; i < tutors.Length; i++)
@@ -103,7 +103,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsSpecialTutor(PersonalInfo6AO pi, ushort move)
     {
         var tutors = Tutors_AO;
         for (int i = 0; i < tutors.Length; i++)
@@ -116,7 +116,7 @@ public sealed class LearnSource6AO : ILearnSource, IEggSource
         return false;
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo6AO info, ushort move)
     {
         var index = Array.IndexOf(TMHM_AO, move);
         if (index == -1)

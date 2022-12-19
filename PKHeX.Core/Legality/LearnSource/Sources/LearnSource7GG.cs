@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="USUM"/>.
 /// </summary>
-public sealed class LearnSource7GG : ILearnSource
+public sealed class LearnSource7GG : ILearnSource<PersonalInfo7GG>
 {
     public static readonly LearnSource7GG Instance = new();
     private static readonly PersonalTable7GG Personal = PersonalTable.GG;
@@ -19,7 +19,7 @@ public sealed class LearnSource7GG : ILearnSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo7GG? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -28,7 +28,7 @@ public sealed class LearnSource7GG : ILearnSource
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo7GG pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -56,7 +56,7 @@ public sealed class LearnSource7GG : ILearnSource
         return false;
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo7GG info, ushort move)
     {
         var index = Array.IndexOf(TMHM_GG, move);
         if (index == -1)

@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="B2W2"/>.
 /// </summary>
-public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
+public sealed class LearnSource5B2W2 : ILearnSource<PersonalInfo5B2W2>, IEggSource
 {
     public static readonly LearnSource5B2W2 Instance = new();
     private static readonly PersonalTable5B2W2 Personal = PersonalTable.B2W2;
@@ -20,7 +20,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo5B2W2? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -44,7 +44,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo5B2W2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -69,7 +69,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsSpecialTutor(PersonalInfo5B2W2 pi, ushort move)
     {
         var tutors = Tutors_B2W2;
         for (int i = 0; i < tutors.Length; i++)
@@ -100,7 +100,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsTypeTutor(PersonalInfo5B2W2 pi, ushort move)
     {
         var index = Array.IndexOf(TypeTutor567, move);
         if (index == -1)
@@ -108,7 +108,7 @@ public sealed class LearnSource5B2W2 : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo5B2W2 info, ushort move)
     {
         var index = Array.IndexOf(TMHM_BW, move);
         if (index == -1)

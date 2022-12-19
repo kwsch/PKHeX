@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="SWSH"/>.
 /// </summary>
-public sealed class LearnSource8SWSH : ILearnSource, IEggSource
+public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSource
 {
     public static readonly LearnSource8SWSH Instance = new();
     private static readonly PersonalTable8SWSH Personal = PersonalTable.SWSH;
@@ -19,7 +19,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo8SWSH? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -43,7 +43,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8SWSH pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -74,7 +74,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsSpecialTutor(PersonalInfo8SWSH pi, ushort move)
     {
         var tutor = Array.IndexOf(Tutors_SWSH, move);
         if (tutor == -1)
@@ -102,15 +102,14 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         _ => false,
     };
 
-    private bool GetIsSharedEggMove(PersonalInfo pi, ushort move)
+    private bool GetIsSharedEggMove(PersonalInfo8SWSH pi, ushort move)
     {
-        var entry = (PersonalInfo8SWSH)pi;
-        var baseSpecies = entry.HatchSpecies;
-        var baseForm = entry.HatchFormIndexEverstone;
+        var baseSpecies = pi.HatchSpecies;
+        var baseForm = pi.HatchFormIndexEverstone;
         return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
     }
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsTypeTutor(PersonalInfo8SWSH pi, ushort move)
     {
         var index = Array.IndexOf(TypeTutor8, move);
         if (index == -1)
@@ -118,7 +117,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo8SWSH info, ushort move)
     {
         var index = TM_SWSH.AsSpan().IndexOf(move);
         if (index == -1)
@@ -126,7 +125,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsTR(PersonalInfo info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)
+    private static bool GetIsTR(PersonalInfo8SWSH info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)
     {
         if (pk is not ITechRecord tr)
             return false;
@@ -167,9 +166,8 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
         if (types.HasFlagFast(MoveSourceType.SharedEggMove))
         {
-            var entry = (PersonalInfo8SWSH)pi;
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndexEverstone;
+            var baseSpecies = pi.HatchSpecies;
+            var baseForm = pi.HatchFormIndexEverstone;
             var egg = GetEggMoves(baseSpecies, baseForm);
             foreach (var move in egg)
                 result[move] = true;

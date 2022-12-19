@@ -144,7 +144,7 @@ public sealed class LearnGroup7 : ILearnGroup
         }
     }
 
-    private static void CheckSingle<T>(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, T game, MoveSourceType types, LearnOption option) where T : ILearnSource
+    private static void CheckSingle(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, ILearnSource<PersonalInfo7> game, MoveSourceType types, LearnOption option)
     {
         var species = evo.Species;
         if (!game.TryGetPersonal(species, evo.Form, out var pi))

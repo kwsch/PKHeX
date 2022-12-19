@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="XY"/>.
 /// </summary>
-public sealed class LearnSource6XY : ILearnSource, IEggSource
+public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
 {
     public static readonly LearnSource6XY Instance = new();
     private static readonly PersonalTable6XY Personal = PersonalTable.XY;
@@ -19,7 +19,7 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo6XY? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -43,7 +43,7 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo6XY pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -81,7 +81,7 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsTypeTutor(PersonalInfo6XY pi, ushort move)
     {
         var index = Array.IndexOf(LearnSource5.TypeTutor567, move);
         if (index == -1)
@@ -89,7 +89,7 @@ public sealed class LearnSource6XY : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo6XY info, ushort move)
     {
         var index = Array.IndexOf(TMHM_XY, move);
         if (index == -1)

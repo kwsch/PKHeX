@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="PLA"/>.
 /// </summary>
-public sealed class LearnSource8LA : ILearnSource
+public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
 {
     public static readonly LearnSource8LA Instance = new();
     private static readonly PersonalTable8LA Personal = PersonalTable.LA;
@@ -18,7 +18,7 @@ public sealed class LearnSource8LA : ILearnSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo8LA? pi)
     {
         pi = null;
         if ((uint)species > MaxSpecies)
@@ -26,8 +26,8 @@ public sealed class LearnSource8LA : ILearnSource
         pi = Personal[species, form];
         return true;
     }
-
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8LA pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -56,7 +56,7 @@ public sealed class LearnSource8LA : ILearnSource
         _ => false,
     };
 
-    private static bool GetIsMoveShop(PersonalInfo pi, ushort move)
+    private static bool GetIsMoveShop(PersonalInfo8LA pi, ushort move)
     {
         var index = Legal.MoveShop8_LA.AsSpan().IndexOf(move);
         if (index == -1)

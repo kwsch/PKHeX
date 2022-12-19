@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="SV"/>.
 /// </summary>
-public sealed class LearnSource9SV : ILearnSource, IEggSource, IReminderSource
+public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, IReminderSource
 {
     public static readonly LearnSource9SV Instance = new();
     private static readonly PersonalTable9SV Personal = PersonalTable.SV;
@@ -20,7 +20,7 @@ public sealed class LearnSource9SV : ILearnSource, IEggSource, IReminderSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo9SV? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -63,7 +63,7 @@ public sealed class LearnSource9SV : ILearnSource, IEggSource, IReminderSource
         return Reminder[index].AsSpan();
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo9SV pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -88,7 +88,7 @@ public sealed class LearnSource9SV : ILearnSource, IEggSource, IReminderSource
         return default;
     }
 
-    private static bool GetIsTM(PersonalInfo info, PKM pk, ushort move, LearnOption option)
+    private static bool GetIsTM(PersonalInfo9SV info, PKM pk, ushort move, LearnOption option)
     {
         var index = TM_SV.AsSpan().IndexOf(move);
         if (index == -1)
@@ -137,9 +137,8 @@ public sealed class LearnSource9SV : ILearnSource, IEggSource, IReminderSource
 
         if (types.HasFlagFast(MoveSourceType.SharedEggMove))
         {
-            var entry = (PersonalInfo9SV)pi;
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndexEverstone;
+            var baseSpecies = pi.HatchSpecies;
+            var baseForm = pi.HatchFormIndexEverstone;
             var egg = GetEggMoves(baseSpecies, baseForm);
             foreach (var move in egg)
                 result[move] = true;

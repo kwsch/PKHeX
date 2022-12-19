@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="BW"/>.
 /// </summary>
-public sealed class LearnSource5BW : ILearnSource, IEggSource
+public sealed class LearnSource5BW : ILearnSource<PersonalInfo5BW>, IEggSource
 {
     public static readonly LearnSource5BW Instance = new();
     private static readonly PersonalTable5BW Personal = PersonalTable.BW;
@@ -20,7 +20,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo5BW? pi)
     {
         pi = null;
         if (!Personal.IsPresentInGame(species, form))
@@ -44,7 +44,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo5BW pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))
         {
@@ -82,7 +82,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsTypeTutor(PersonalInfo5BW pi, ushort move)
     {
         var index = Array.IndexOf(TypeTutor567, move);
         if (index == -1)
@@ -90,7 +90,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo5BW info, ushort move)
     {
         var index = Array.IndexOf(TMHM_BW, move);
         if (index == -1)

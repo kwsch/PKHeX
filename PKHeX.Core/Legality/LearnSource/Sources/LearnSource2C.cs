@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="C"/>.
 /// </summary>
-public sealed class LearnSource2C : ILearnSource, IEggSource
+public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
 {
     public static readonly LearnSource2C Instance = new();
     private static readonly PersonalTable2 Personal = PersonalTable.C;
@@ -21,7 +21,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo2? pi)
     {
         pi = null;
         if (species > Legal.MaxSpeciesID_2)
@@ -45,7 +45,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
@@ -75,7 +75,7 @@ public sealed class LearnSource2C : ILearnSource, IEggSource
         return info.TMHM[CountTMHM + tutor];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo2 info, ushort move)
     {
         var index = Array.IndexOf(TMHM_GSC, move);
         if (index == -1)
