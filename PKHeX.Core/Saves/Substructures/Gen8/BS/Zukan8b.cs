@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Pokédex structure used for Brilliant Diamond &amp; Shining Pearl.
 /// </summary>
 /// <remarks>size 0x30B8, struct_name ZUKAN_WORK</remarks>
-public sealed class Zukan8b : ZukanBase
+public sealed class Zukan8b : ZukanBase<SAV8BS>
 {
     /* Structure Notes:
         u32 [493] state: None/HeardOf/Seen/Captured
@@ -347,7 +347,7 @@ public sealed class Zukan8b : ZukanBase
         SetLanguageFlag(species, pk.Language, true);
         SetHasFormFlag(species, pk.Form, shiny, true);
         if (species is (int)Species.Spinda)
-            ((SAV8BS)SAV).ZukanExtra.SetDex(originalState, pk.EncryptionConstant, pk.Gender, shiny);
+            SAV.ZukanExtra.SetDex(originalState, pk.EncryptionConstant, pk.Gender, shiny);
     }
 
     private void SetGenderFlag(ushort species, int gender, bool shiny)

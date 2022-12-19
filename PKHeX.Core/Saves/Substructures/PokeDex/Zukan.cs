@@ -5,12 +5,12 @@ namespace PKHeX.Core;
 /// <summary>
 /// Base class for Pokédex logic operations.
 /// </summary>
-public abstract class ZukanBase
+public abstract class ZukanBase<T> where T : SaveFile
 {
-    protected readonly SaveFile SAV;
+    protected readonly T SAV;
     public readonly int PokeDex;
 
-    protected ZukanBase(SaveFile sav, int dex)
+    protected ZukanBase(T sav, int dex)
     {
         SAV = sav;
         PokeDex = dex;
@@ -76,11 +76,11 @@ public abstract class ZukanBase
 /// <summary>
 /// Base class for Pokédex operations, exposing the shared structure features used by Generations 5, 6, and 7.
 /// </summary>
-public abstract class Zukan : ZukanBase
+public abstract class Zukan<T> : ZukanBase<T> where T : SaveFile
 {
     protected readonly int PokeDexLanguageFlags;
 
-    protected Zukan(SaveFile sav, int dex, int langflag) : base(sav, dex)
+    protected Zukan(T sav, int dex, int langflag) : base(sav, dex)
     {
         PokeDexLanguageFlags = langflag;
         if (langflag > dex)

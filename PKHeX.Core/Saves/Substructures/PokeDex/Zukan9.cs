@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.SV"/>.
 /// </summary>>
-public sealed class Zukan9 : ZukanBase
+public sealed class Zukan9 : ZukanBase<SAV9SV>
 {
     private readonly SCBlock Paldea;
 
@@ -127,9 +127,9 @@ public sealed class Zukan9 : ZukanBase
         return 0;
     }
 
-    public static (byte Group, ushort Index) GetDexIndex(ushort species)
+    public (byte Group, ushort Index) GetDexIndex(ushort species)
     {
-        var pt = PersonalTable.SV;
+        var pt = SAV.Personal;
         // For each form including form 0, check the dex index.
         var pi = pt.GetFormEntry(species, 0);
         if (pi.DexIndex != 0)
@@ -165,7 +165,7 @@ public sealed class Zukan9 : ZukanBase
 
     private void SeenAll(ushort species, byte fc, bool value = true, bool shinyToo = false)
     {
-        var pt = PersonalTable.SV;
+        var pt = SAV.Personal;
         for (byte form = 0; form < fc; form++)
         {
             var pi = pt.GetFormEntry(species, form);

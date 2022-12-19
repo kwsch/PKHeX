@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used by <see cref="SAV4"/> games.
 /// </summary>
-public sealed class Zukan4 : ZukanBase
+public sealed class Zukan4 : ZukanBase<SAV4>
 {
     private readonly byte[] Data;
     private readonly int Offset;

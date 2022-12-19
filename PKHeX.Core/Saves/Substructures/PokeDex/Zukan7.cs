@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for Generation 7 games.
 /// </summary>>
-public class Zukan7 : Zukan
+public class Zukan7 : Zukan<SaveFile>
 {
     private const int MAGIC = 0x2F120F17;
     private const int SIZE_MAGIC = 4;

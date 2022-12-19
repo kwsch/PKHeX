@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for Generation 6 games.
 /// </summary>
-public abstract class Zukan6 : Zukan
+public abstract class Zukan6 : Zukan<SAV6>
 {
     protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
     protected override int OFS_CAUGHT => 0x8;
