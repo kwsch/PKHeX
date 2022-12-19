@@ -156,6 +156,63 @@ public static class ShowdownParsing
             yield return new ShowdownSet(setLines);
     }
 
+    /// <inheritdoc cref="GetShowdownSets(IEnumerable{string})"/>
+    public static IEnumerable<ShowdownSet> GetShowdownSets(ReadOnlyMemory<char> text)
+    {
+        int start = 0;
+        do
+        {
+            var span = text.Span;
+            var slice = span[start..];
+            var set = GetShowdownSet(slice, out int length);
+            if (set.Species == 0)
+                break;
+            yield return set;
+            start += length;
+        }
+        while (start < text.Length);
+    }
+
+    /// <inheritdoc cref="GetShowdownSets(ReadOnlyMemory{char})"/>
+    public static IEnumerable<ShowdownSet> GetShowdownSets(string text) => GetShowdownSets(text.AsMemory());
+
+    private static int GetLength(ReadOnlySpan<char> text)
+    {
+        // Find the end of the Showdown Set lines.
+        // The end is implied when:
+        // - we see a completely whitespace or empty line, or
+        // - we witness four 'move' definition lines.
+        int length = 0;
+        int moveCount = 4;
+
+        while (true)
+        {
+            var newline = text.IndexOf('\n');
+            if (newline == -1)
+                return length + text.Length;
+
+            var slice = text[..newline];
+            var used = newline + 1;
+            length += used;
+
+            if (slice.IsEmpty || slice.IsWhiteSpace())
+                return length;
+            if (slice.TrimStart()[0] is '-' or '–' && --moveCount == 0)
+                return length;
+            text = text[used..];
+        }
+    }
+
+    public static ShowdownSet GetShowdownSet(ReadOnlySpan<char> text, out int length)
+    {
+        length = GetLength(text);
+        var slice = text[..length];
+        var set = new ShowdownSet(slice);
+        while (length < text.Length && text[length] is '\r' or '\n' or ' ')
+            length++;
+        return set;
+    }
+
     /// <summary>
     /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
     /// </summary>

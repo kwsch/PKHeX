@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using FluentAssertions;
 using PKHeX.Core;
@@ -37,7 +36,7 @@ public class ShowdownSetTests
         var first = encounters.FirstOrDefault();
         Assert.NotNull(first);
 
-        var egg = (EncounterEgg)first!;
+        var egg = (EncounterEgg)first;
         var info = new SimpleTrainerInfo(GameVersion.SN);
         var pk = egg.ConvertToPKM(info);
         Assert.True(pk.Species != set.Species);
@@ -65,7 +64,7 @@ public class ShowdownSetTests
         var first = encs.FirstOrDefault();
         Assert.NotNull(first);
 
-        var wc3 = (WC3)first!;
+        var wc3 = (WC3)first;
         var info = new SimpleTrainerInfo(GameVersion.R);
         var pk = wc3.ConvertToPKM(info);
 
@@ -84,9 +83,8 @@ public class ShowdownSetTests
         var first = encs.FirstOrDefault();
         Assert.NotNull(first);
 
-        var enc = first!;
         var info = new SimpleTrainerInfo(GameVersion.SN);
-        var pk = enc.ConvertToPKM(info);
+        var pk = first.ConvertToPKM(info);
 
         var la = new LegalityAnalysis(pk);
         Assert.True(la.Valid);
@@ -136,9 +134,8 @@ public class ShowdownSetTests
         var first = encs.FirstOrDefault();
         Assert.NotNull(first);
 
-        var enc = first!;
         var info = new SimpleTrainerInfo(GameVersion.SN);
-        var pk = enc.ConvertToPKM(info);
+        var pk = first.ConvertToPKM(info);
 
         var la = new LegalityAnalysis(pk);
         Assert.True(la.Valid);
@@ -148,11 +145,10 @@ public class ShowdownSetTests
     public void SimulatorParseMultiple()
     {
         var text = string.Join("\r\n\r\n", Sets);
-        var lines = text.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None);
-        var sets = ShowdownParsing.GetShowdownSets(lines);
+        var sets = ShowdownParsing.GetShowdownSets(text);
         Assert.True(sets.Count() == Sets.Length);
 
-        sets = ShowdownParsing.GetShowdownSets(Enumerable.Empty<string>());
+        sets = ShowdownParsing.GetShowdownSets(string.Empty);
         Assert.True(!sets.Any());
 
         sets = ShowdownParsing.GetShowdownSets(new [] {"", "   ", " "});

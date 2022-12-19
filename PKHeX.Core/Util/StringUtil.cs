@@ -16,9 +16,17 @@ public static class StringUtil
     /// <param name="arr">Array of strings to search in</param>
     /// <param name="value">Value to search for</param>
     /// <returns>Index within <see cref="arr"/></returns>
-    public static int FindIndexIgnoreCase(string[] arr, string value) => Array.FindIndex(arr, z => IsMatchIgnoreCase(z, value));
+    public static int FindIndexIgnoreCase(string[] arr, ReadOnlySpan<char> value)
+    {
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (IsMatchIgnoreCase(arr[i], value))
+                return i;
+        }
+        return -1;
+    }
 
-    public static bool IsMatchIgnoreCase(string string1, string string2)
+    public static bool IsMatchIgnoreCase(ReadOnlySpan<char> string1, ReadOnlySpan<char> string2)
     {
         if (string1.Length != string2.Length)
             return false;
