@@ -86,7 +86,7 @@ public partial class SAV_FolderList : Form
         locs.AddRange(GetUserPaths());
         locs.AddRange(GetConsolePaths(drives));
         locs.AddRange(GetSwitchPaths(drives));
-        return locs.GroupBy(z => z.Path).Select(z => z.First())
+        return locs.DistinctBy(z => z.Path)
             .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
     }
 

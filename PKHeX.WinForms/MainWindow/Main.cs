@@ -182,7 +182,8 @@ public partial class Main : Form
         var sav = SaveUtil.GetBlankSAV(ver, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
         {
-            ver = (GameVersion)GameInfo.VersionDataSource.Max(z => z.Value);
+            var max = GameInfo.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
+            ver = (GameVersion)max.Value;
             sav = SaveUtil.GetBlankSAV(ver, tr, lang);
         }
         OpenSAV(sav, string.Empty);

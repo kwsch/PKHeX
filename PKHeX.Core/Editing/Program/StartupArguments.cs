@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -103,7 +103,11 @@ public sealed class StartupArguments
         var tr = SaveUtil.GetSafeTrainerName(current, lang);
         var sav = SaveUtil.GetBlankSAV(version, tr, lang);
         if (sav.Version == GameVersion.Invalid) // will fail to load
-            sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), tr, lang);
+        {
+            var max = GameInfo.VersionDataSource.MaxBy(z => z.Value) ?? throw new Exception();
+            var ver = (GameVersion)max.Value;
+            sav = SaveUtil.GetBlankSAV(ver, tr, lang);
+        }
         return sav;
     }
 
