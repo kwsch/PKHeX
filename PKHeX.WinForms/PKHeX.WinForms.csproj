@@ -13,9 +13,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <OutputType>Exe</OutputType>
+    <DebugType>portable</DebugType>
     <SelfContained>false</SelfContained>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishTrimmed>false</PublishTrimmed>
+    <EmbedAllSources>true</EmbedAllSources>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <PublishDir>bin\Release\net7.0-windows\publish\</PublishDir>
   </PropertyGroup>
 
   <ItemGroup>
