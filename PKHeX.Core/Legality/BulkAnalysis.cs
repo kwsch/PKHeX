@@ -230,7 +230,6 @@ public sealed class BulkAnalysis
             var cs = AllData[i];
             var ca = AllAnalysis[i];
             var id = cs.Entity.ID32;
-            Debug.Assert(cs.Entity.TID16 <= ushort.MaxValue);
 
             if (!dict.TryGetValue(id, out var pr))
             {

@@ -215,7 +215,8 @@ public sealed class PK1 : GBPKML, IPersonalType
         switch (IsShiny ? Shiny.Always : Shiny.Never)
         {
             case Shiny.Always when !pk7.IsShiny: // Force Square
-                pk7.PID = (pk7.TID16 ^ 0u ^ (pk7.PID & 0xFFFF) ^ 0u) << 16 | (pk7.PID & 0xFFFFu);
+                var low = pk7.PID & 0xFFFF;
+                pk7.PID = (low ^ pk7.TID16 ^ 0u) << 16 | low;
                 break;
             case Shiny.Never when pk7.IsShiny: // Force Not Shiny
                 pk7.PID ^= 0x1000_0000;

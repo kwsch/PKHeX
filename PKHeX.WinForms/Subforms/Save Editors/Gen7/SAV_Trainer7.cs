@@ -468,7 +468,7 @@ public partial class SAV_Trainer7 : Form
         for (int i = 0; i < listbox.Items.Count; i++)
         {
             if (listbox.GetSelected(i))
-                bits |= (uint)(1 << i);
+                bits |= 1u << i;
         }
         return bits;
     }

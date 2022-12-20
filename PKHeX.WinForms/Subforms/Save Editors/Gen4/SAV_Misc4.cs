@@ -170,9 +170,9 @@ public partial class SAV_Misc4 : Form
             if (FlyDestC[i] < 32)
             {
                 if (CLB_FlyDest.GetItemChecked(i))
-                    valFly |= (uint) 1 << FlyDestC[i];
+                    valFly |= 1u << FlyDestC[i];
                 else
-                    valFly &= ~((uint) 1 << FlyDestC[i]);
+                    valFly &= ~(1u << FlyDestC[i]);
             }
             else
             {

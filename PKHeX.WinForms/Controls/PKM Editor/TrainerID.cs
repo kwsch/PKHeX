@@ -158,10 +158,8 @@ public partial class TrainerID : UserControl
         if (repack > uint.MaxValue)
         {
             TB_SID7.Text = (sid - 1).ToString();
-            return;
+            return; // GUI triggers change event, so we'll eventually reach below.
         }
-
-        Trainer.SID16 = (ushort)(repack >> 16);
-        Trainer.TID16 = (ushort)repack;
+        Trainer.SetTrainerID7(sid, tid);
     }
 }

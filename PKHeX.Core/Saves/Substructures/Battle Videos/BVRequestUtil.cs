@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -16,10 +16,10 @@ public static class BVRequestUtil
         return $"https://ctr-bnda-live.s3.amazonaws.com/10.CTR_BNDA_datastore/ds/1/data/{video_id:D11}-00001"; // Sun datastore
     }
 
-    public static ulong StrToU64(string input, out bool valid)
+    public static ulong StrToU64(ReadOnlySpan<char> input, out bool valid)
     {
-        var chk = Pull(0, 4) >> 4; // first four chars are checksum bits
-        var result = Pull(4, input.Length); // next 12 chars are the 70 value bits
+        var chk = Pull(input[..4]) >> 4; // first four chars are checksum bits
+        var result = Pull(input[4..]); // next 12 chars are the 70 value bits
 
         Span<byte> temp = stackalloc byte[8];
         WriteUInt64LittleEndian(temp, result);
@@ -27,12 +27,11 @@ public static class BVRequestUtil
         valid = chk == actual;
         return result;
 
-        ulong Pull(int start, int count)
+        static ulong Pull(ReadOnlySpan<char> input)
         {
             ulong val = 0;
-            for (int i = start; i < count; i++)
+            foreach (char c in input)
             {
-                var c = input[i];
                 if (c == '-')
                     continue;
 

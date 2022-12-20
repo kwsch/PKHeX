@@ -559,8 +559,8 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     {
         ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
         ShinyType8.Random       => Util.Rand32(), // Random, Any
-        ShinyType8.AlwaysStar   => (1u ^ tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF)) << 16 | (PID & 0xFFFF), // Fixed, Force Star
-        ShinyType8.AlwaysSquare => (0u ^ tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF)) << 16 | (PID & 0xFFFF), // Fixed, Force Square
+        ShinyType8.AlwaysStar   => (1u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Star
+        ShinyType8.AlwaysSquare => (0u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Square
         ShinyType8.FixedValue   => GetFixedPID(tr),
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };

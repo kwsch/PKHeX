@@ -516,8 +516,8 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
                 pk.PID = Util.Rand32();
                 break;
             case ShinyType6.Always: // Random Shiny
-                pk.PID = Util.Rand32();
-                pk.PID = (uint)(((pk.TID16 ^ pk.SID16 ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
+                var low = Util.Rand32() & 0xFFFF;
+                pk.PID = ((low ^ pk.TID16 ^ pk.SID16) << 16) | low;
                 break;
             case ShinyType6.Never: // Random Nonshiny
                 pk.PID = Util.Rand32();

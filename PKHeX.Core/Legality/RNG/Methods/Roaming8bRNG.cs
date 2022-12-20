@@ -246,9 +246,10 @@ public static class Roaming8bRNG
             return pid;
 
         var isShiny = xor < 16;
-        if (isShiny)
-            return (((xor == 0 ? 0u : 1u) ^ tr.TID16 ^ tr.SID16 ^ (pid & 0xFFFF)) << 16) | (pid & 0xFFFF); // force same shiny star type
-        return pid ^ 0x1000_0000;
+        if (!isShiny)
+            return pid ^ 0x1000_0000;
+        var low = pid & 0xFFFF;
+        return (((xor == 0 ? 0u : 1u) ^ tr.TID16 ^ tr.SID16 ^ low) << 16) | low; // force same shiny star type
     }
 
     private static Shiny GetRareType(uint xor) => xor switch
@@ -258,14 +259,9 @@ public static class Roaming8bRNG
         _ => Shiny.Never,
     };
 
-    private static uint GetShinyXor(int tid, int sid, uint pid)
+    private static uint GetShinyXor(uint pid, uint id32)
     {
-        return GetShinyXor(pid, (uint)((sid << 16) | tid));
-    }
-
-    private static uint GetShinyXor(uint pid, uint oid)
-    {
-        var xor = pid ^ oid;
+        var xor = pid ^ id32;
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
 }

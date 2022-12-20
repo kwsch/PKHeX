@@ -756,7 +756,7 @@ public static class SaveUtil
 
         // Secondary Properties may not be used but can be filled in as template.
         (uint tid, uint sid) = sav.Generation >= 7 ? (1234u, 123456u) : (12345u, 54321u);
-        ((ITrainerID32)sav).SetDisplayID(tid, sid);
+        sav.SetDisplayID(tid, sid);
         sav.Language = (int)language;
 
         // Only set geolocation data for 3DS titles

@@ -221,7 +221,7 @@ public partial class SAV_PokedexGG : Form
         CHK_P1.Enabled = currentSpecies <= SAV.MaxSpeciesID;
         CHK_P1.Checked = CHK_P1.Enabled && Dex.GetCaught(currentSpecies);
 
-        int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
+        var gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
         bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
         bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
@@ -347,7 +347,7 @@ public partial class SAV_PokedexGG : Form
         {
             CHK_P1.Checked = ModifierKeys != Keys.Control;
         }
-        int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
+        byte gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
         bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
         bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
@@ -463,7 +463,7 @@ public partial class SAV_PokedexGG : Form
         yield return 809;
     }
 
-    private void SetCaught(object sender, int gt, int lang, bool isForm)
+    private void SetCaught(object sender, byte gt, int lang, bool isForm)
     {
         CHK_P1.Checked = mnuCaughtNone != sender;
         for (int j = 0; j < CL.Length; j++)
@@ -502,7 +502,7 @@ public partial class SAV_PokedexGG : Form
             (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled;
     }
 
-    private void SetSeen(object sender, int gt, bool isForm)
+    private void SetSeen(object sender, byte gt, bool isForm)
     {
         foreach (CheckBox t in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
             t.Checked = mnuSeenNone != sender && t.Enabled;

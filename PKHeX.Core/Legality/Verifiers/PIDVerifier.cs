@@ -126,7 +126,7 @@ public sealed class PIDVerifier : Verifier
             {
                 (int)Species.Tandemaus => ((ushort)Species.Maushold,    rare ? 0 : 1),
                 (int)Species.Dunsparce => ((ushort)Species.Dudunsparce, rare ? 1 : 0),
-                _ => throw new ArgumentOutOfRangeException(nameof(enc.Species)),
+                _ => throw new ArgumentOutOfRangeException(nameof(enc.Species), "Incorrect EC%100 species."),
             };
             var str = GameInfo.Strings;
             var forms = FormConverter.GetFormList(species, str.Types, str.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen9);
@@ -192,10 +192,9 @@ public sealed class PIDVerifier : Verifier
             return false;
         }
 
-        uint pid = pk.PID;
-        uint LID = pid & 0xFFFF;
-        uint HID = pid >> 16;
-        uint XOR = pk.TID16 ^ LID ^ pk.SID16 ^ HID;
+        var pid = pk.PID;
+        var tmp = pid ^ pk.ID32;
+        var XOR = (ushort)(tmp ^ (tmp >> 16));
 
         // Ensure we don't have a shiny.
         if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
@@ -228,7 +227,9 @@ public sealed class PIDVerifier : Verifier
     private static bool GetExpectedTransferPID(PKM pk, out uint expect)
     {
         var ec = pk.EncryptionConstant; // should be original PID
-        bool xorPID = ((pk.TID16 ^ pk.SID16 ^ (int) (ec & 0xFFFF) ^ (int) (ec >> 16)) & ~0x7) == 8;
+        var tmp = ec ^ pk.ID32;
+        var xor = tmp ^ (tmp >> 16);
+        bool xorPID = (xor & 0xFFF8u) == 8;
         expect = (xorPID ? (ec ^ 0x80000000) : ec);
         return xorPID;
     }

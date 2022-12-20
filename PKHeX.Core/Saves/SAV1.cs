@@ -129,7 +129,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         {
             var slotOfs = boxDest + (i * SIZE_STORED);
             var slotData = Data.AsSpan(slotOfs, SIZE_STORED);
-            PK1 pk = (PK1)GetPKM(slotData.ToArray());
+            PK1 pk = GetPKM(slotData.ToArray());
             if (pk.Species > 0)
                 boxPL[slot++] = pk;
         }
@@ -176,7 +176,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         int pSlot = 0;
         for (int i = 0; i < 6; i++)
         {
-            PK1 partyPK = (PK1)GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
+            PK1 partyPK = GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
             if (partyPK.Species > 0)
                 partyPL[pSlot++] = partyPK;
         }

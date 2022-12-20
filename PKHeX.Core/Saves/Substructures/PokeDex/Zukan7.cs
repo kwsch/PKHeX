@@ -239,7 +239,7 @@ public class Zukan7 : Zukan<SaveFile>
         return baseSpecies;
     }
 
-    public int GetBaseSpeciesGenderValue(int index)
+    public byte GetBaseSpeciesGenderValue(int index)
     {
         // meowstic special handling
         const int meow = 678;

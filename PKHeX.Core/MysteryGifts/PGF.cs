@@ -331,7 +331,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
         if (PIDType == 2) // Always
         {
-            uint gb = pk.PID & 0xFF;
+            var gb = (byte)pk.PID;
             pk.PID = PIDGenerator.GetMG5ShinyPID(gb, (uint)av, pk.TID16, pk.SID16);
         }
         else if (PIDType != 1) // Force Not Shiny

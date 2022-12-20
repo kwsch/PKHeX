@@ -91,7 +91,7 @@ public static class BatchMods
         pk.SetEVs(evs);
     }
 
-    private static Shiny GetRequestedShinyState(string text) => text.Length == 0 ? Shiny.Random : GetRequestedShinyState(text[^1]);
+    private static Shiny GetRequestedShinyState(ReadOnlySpan<char> text) => text.Length == 0 ? Shiny.Random : GetRequestedShinyState(text[^1]);
 
     private static Shiny GetRequestedShinyState(char last) => last switch
     {

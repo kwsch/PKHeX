@@ -231,19 +231,19 @@ public static class PIDGenerator
         }
     }
 
-    public static uint GetMG5ShinyPID(uint gval, uint av, uint TID16, uint SID16)
+    public static uint GetMG5ShinyPID(uint gval, uint av, ushort TID16, ushort SID16)
     {
-        uint PID = ((TID16 ^ SID16 ^ gval) << 16) | gval;
+        uint PID = ((gval ^ TID16 ^ SID16) << 16) | gval;
         if ((PID & 0x10000) != av << 16)
             PID ^= 0x10000;
         return PID;
     }
 
-    public static uint GetPokeWalkerPID(uint TID16, uint SID16, uint nature, int gender, byte gr)
+    public static uint GetPokeWalkerPID(ushort TID16, ushort SID16, uint nature, int gender, byte gr)
     {
         if (nature >= 24)
             nature = 0;
-        uint pid = (((TID16 ^ SID16) >> 8) ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
+        uint pid = ((((uint)TID16 ^ SID16) >> 8) ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
         // Ensure nature is set to required nature without affecting shininess
         pid += nature - (pid % 25);
 

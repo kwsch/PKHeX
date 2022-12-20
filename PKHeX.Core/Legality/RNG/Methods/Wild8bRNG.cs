@@ -155,8 +155,9 @@ public static class Wild8bRNG
 
         var isShiny = xor < 16;
         if (isShiny)
-            return (((xor == 0 ? 0u : 1u) ^ tr.TID16 ^ tr.SID16 ^ (pid & 0xFFFF)) << 16) | (pid & 0xFFFF); // force same shiny star type
-        return pid ^ 0x1000_0000;
+            return pid ^ 0x1000_0000;
+        var low = pid & 0xFFFF;
+        return (((xor == 0 ? 0u : 1u) ^ tr.TID16 ^ tr.SID16 ^ low) << 16) | low; // force same shiny star type
     }
 
     private static Shiny GetRareType(uint xor) => xor switch
@@ -166,9 +167,9 @@ public static class Wild8bRNG
         _ => Shiny.Never,
     };
 
-    private static uint GetShinyXor(uint pid, uint oid)
+    private static uint GetShinyXor(uint pid, uint id32)
     {
-        var xor = pid ^ oid;
+        var xor = pid ^ id32;
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
 }

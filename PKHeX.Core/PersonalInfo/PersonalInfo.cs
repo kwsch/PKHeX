@@ -91,13 +91,13 @@ public abstract class PersonalInfo : IPersonalInfo
         return true;
     }
 
-    public const int RatioMagicGenderless = 255;
-    public const int RatioMagicFemale = 254;
-    public const int RatioMagicMale = 0;
+    public const byte RatioMagicGenderless = 255;
+    public const byte RatioMagicFemale = 254;
+    public const byte RatioMagicMale = 0;
 
-    public static bool IsSingleGender(int gt) => (uint)(gt - 1) >= 253;
+    public static bool IsSingleGender(byte gt) => gt - 1u >= 253;
 
-    public bool IsDualGender => (uint)(Gender - 1) < 253;
+    public bool IsDualGender => Gender - 1u < 253;
     public bool Genderless => Gender == RatioMagicGenderless;
     public bool OnlyFemale => Gender == RatioMagicFemale;
     public bool OnlyMale => Gender == RatioMagicMale;

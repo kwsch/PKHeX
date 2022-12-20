@@ -186,9 +186,14 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
 
         bool isShiny = pk.IsShiny;
         if (IsShiny && !isShiny) // Force Square
-            pk.PID = (uint)(((sav.TID16 ^ sav.SID16 ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
+        {
+            var low = pk.PID & 0xFFFF;
+            pk.PID = ((low ^ sav.TID16 ^ sav.SID16) << 16) | low;
+        }
         else if (isShiny)
+        {
             pk.PID ^= 0x1000_0000;
+        }
 
         Span<ushort> moves = stackalloc ushort[4];
         MoveLevelUp.GetEncounterMoves(moves, pk, pk.CurrentLevel, GameVersion.GO);

@@ -68,7 +68,7 @@ public static class LockFinder
     /// <param name="pkPID">PID of the entity</param>
     /// <param name="IV1">First 3 IVs combined</param>
     /// <param name="IV2">Last 3 IVs combined</param>
-    public static bool IsColoStarterValid(ushort species, ref uint seed, uint TID16, uint SID16, uint pkPID, uint IV1, uint IV2)
+    public static bool IsColoStarterValid(ushort species, ref uint seed, ushort TID16, ushort SID16, uint pkPID, uint IV1, uint IV2)
     {
         // reverse the seed the bare minimum
         uint SIDf = species == (int)Species.Espeon
@@ -104,7 +104,7 @@ public static class LockFinder
         public bool Equals(uint pid, uint iv1, uint iv2) => PID == pid && IV1 == iv1 && IV2 == iv2;
     }
 
-    private static PIDIVGroup GenerateValidColoStarterPID(ref uint uSeed, uint TID16, uint SID16)
+    private static PIDIVGroup GenerateValidColoStarterPID(ref uint uSeed, ushort TID16, ushort SID16)
     {
         uSeed = XDRNG.Next2(uSeed); // skip fakePID
         var IV1 = (uSeed >> 16) & 0x7FFF;
@@ -119,9 +119,9 @@ public static class LockFinder
         return new PIDIVGroup(PID, IV1, IV2);
     }
 
-    private static bool IsShiny(uint TID16, uint SID16, uint PID) => (TID16 ^ SID16 ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;
+    private static bool IsShiny(ushort TID16, ushort SID16, uint PID) => ((PID >> 16) ^ TID16 ^ SID16 ^ (PID & 0xFFFF)) < 8;
 
-    private static uint GenerateStarterPID(ref uint uSeed, uint TID16, uint SID16)
+    private static uint GenerateStarterPID(ref uint uSeed, ushort TID16, ushort SID16)
     {
         uint PID;
         const byte ratio = 0x1F; // 12.5% F (can't be female)

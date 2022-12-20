@@ -468,7 +468,7 @@ public static class CommonEdits
                 '0' or '3' => 0u,
                 _ when pk.Species is (int)Species.Dudunsparce && pk.Form == 1 => 0, // 3 Segment
                 _ when pk.Species is (int)Species.Maushold && pk.Form == 0 => 0, // Family of 3
-                _ => (uint)rng.Next(1, 100)
+                _ => (uint)rng.Next(1, 100),
             };
         }
         else if (option is >= '0' and <= '5')

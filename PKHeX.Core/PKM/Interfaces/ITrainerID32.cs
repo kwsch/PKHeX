@@ -37,7 +37,7 @@ public static class ITrainerID32Extensions
     public static uint GetTrainerSID7(this ITrainerID32 tr) => tr.ID32 / 1000000;
     public static uint SetTrainerTID7(this ITrainerID32 tr, uint value) => tr.ID32 = ((tr.ID32 / 1000000) * 1000000) + value;
     public static uint SetTrainerSID7(this ITrainerID32 tr, uint value) => tr.ID32 = (value * 1000000) + (tr.ID32 % 1000000);
-    public static uint SetTrainerID16(this ITrainerID32 tr, uint tid16, uint sid16) => tr.ID32 = (sid16 << 16) | tid16;
+    public static uint SetTrainerID16(this ITrainerID32 tr, ushort tid16, ushort sid16) => tr.ID32 = ((uint)sid16 << 16) | tid16;
     public static uint SetTrainerID7(this ITrainerID32 tr, uint sid7, uint tid7) => tr.ID32 = (sid7 * 1000000) + tid7;
 
     public static uint GetDisplayTID(this ITrainerID32 tr) => tr.TrainerIDDisplayFormat switch
@@ -75,7 +75,7 @@ public static class ITrainerID32Extensions
         switch (tr.TrainerIDDisplayFormat)
         {
             case SixDigit: tr.SetTrainerID7(sid, tid); break;
-            default: tr.SetTrainerID16(tid, sid); break;
+            default: tr.SetTrainerID16((ushort)tid, (ushort)sid); break;
         }
     }
 }

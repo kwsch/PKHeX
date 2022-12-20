@@ -98,7 +98,8 @@ public sealed class Roamer3 : IContestStats
     /// <returns>Indication if the PID is shiny for the trainer.</returns>
     public bool IsShiny(uint pid)
     {
-        var xor = (ushort)(SAV.SID16 ^ SAV.TID16 ^ (pid >> 16) ^ pid);
+        var tmp = SAV.ID32 ^ pid;
+        var xor = (tmp >> 16) ^ (tmp & 0xFFFF);
         return xor < 8;
     }
 

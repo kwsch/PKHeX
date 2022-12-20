@@ -7,10 +7,10 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class BatchModifications
 {
-    private static bool IsAll(string p) => p.EndsWith("All", StringComparison.OrdinalIgnoreCase);
-    private static bool IsNone(string p) => p.EndsWith("None", StringComparison.OrdinalIgnoreCase);
+    private static bool IsAll(ReadOnlySpan<char> p) => p.EndsWith("All", StringComparison.OrdinalIgnoreCase);
+    private static bool IsNone(ReadOnlySpan<char> p) => p.EndsWith("None", StringComparison.OrdinalIgnoreCase);
 
-    public static ModifyResult SetSuggestedRelearnData(BatchInfo info, string propValue)
+    public static ModifyResult SetSuggestedRelearnData(BatchInfo info, ReadOnlySpan<char> propValue)
     {
         var pk = info.Entity;
         if (pk is ITechRecord t)
@@ -32,7 +32,7 @@ internal static class BatchModifications
         return ModifyResult.Modified;
     }
 
-    public static ModifyResult SetSuggestedMasteryData(BatchInfo info, string propValue)
+    public static ModifyResult SetSuggestedMasteryData(BatchInfo info, ReadOnlySpan<char> propValue)
     {
         var pk = info.Entity;
         if (pk is not IMoveShop8Mastery t)
@@ -52,7 +52,7 @@ internal static class BatchModifications
         return ModifyResult.Modified;
     }
 
-    public static ModifyResult SetSuggestedRibbons(BatchInfo info, string value)
+    public static ModifyResult SetSuggestedRibbons(BatchInfo info, ReadOnlySpan<char> value)
     {
         if (IsNone(value))
             RibbonApplicator.RemoveAllValidRibbons(info.Legality);
@@ -111,7 +111,7 @@ internal static class BatchModifications
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="la">Legality Information matched to.</param>
     /// <param name="option">Option to apply with</param>
-    public static ModifyResult SetContestStats(PKM pk, LegalityAnalysis la, string option)
+    public static ModifyResult SetContestStats(PKM pk, LegalityAnalysis la, ReadOnlySpan<char> option)
     {
         if (option.Length != 0 && option[BatchEditing.CONST_SUGGEST.Length..] is not "0")
             pk.SetMaxContestStats(la.EncounterMatch, la.Info.EvoChainsAllGens);

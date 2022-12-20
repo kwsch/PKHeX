@@ -52,7 +52,7 @@ public static class GenderApplicator
     /// <returns>Most-legal <see cref="PKM.Gender"/> value</returns>
     public static int GetSaneGender(this PKM pk)
     {
-        int gt = pk.PersonalInfo.Gender;
+        var gt = pk.PersonalInfo.Gender;
         switch (gt)
         {
             case PersonalInfo.RatioMagicGenderless: return 2;

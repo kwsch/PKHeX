@@ -300,7 +300,7 @@ public partial class SAV_Misc3 : Form
             int p = BFF[Facility][2 + BFV[BFF[Facility][0]].Length + BattleType] + RBi;
             const int offset = 0xCDC;
             var current = ReadUInt32LittleEndian(SAV.Small.AsSpan(offset));
-            var update = (current & (uint)~(1 << p)) | (uint)((CHK_Continue.Checked ? 1 : 0) << p);
+            var update = (current & ~(1u << p)) | (CHK_Continue.Checked ? 1u : 0) << p;
             WriteUInt32LittleEndian(SAV.Small.AsSpan(offset), update);
             return;
         }

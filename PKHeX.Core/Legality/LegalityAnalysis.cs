@@ -160,14 +160,7 @@ public sealed class LegalityAnalysis
         if (Entity.Format <= 2) // prior to storing GameVersion
             return ParsePK1;
 
-        int gen = Entity.Generation;
-        if (gen <= 0)
-        {
-            if (Entity is PK9 { IsUnhatchedEgg: true })
-                gen = 9;
-            else
-                gen = Entity.Format;
-        }
+        var gen = GetParseFormat();
         return gen switch
         {
             3 => ParsePK3,
@@ -184,6 +177,16 @@ public sealed class LegalityAnalysis
 
             _ => throw new ArgumentOutOfRangeException(nameof(gen)),
         };
+    }
+
+    private int GetParseFormat()
+    {
+        int gen = Entity.Generation;
+        if (gen > 0)
+            return gen;
+        if (Entity is PK9 { IsUnhatchedEgg: true })
+            return 9;
+        return Entity.Format;
     }
 
     private void ParsePK1()

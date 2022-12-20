@@ -56,7 +56,7 @@ public sealed class TrainerIDVerifier : Verifier
         }
     }
 
-    public static bool IsOTIDSuspicious(uint tid16, uint sid16) => (tid16, sid16) switch
+    public static bool IsOTIDSuspicious(ushort tid16, ushort sid16) => (tid16, sid16) switch
     {
         (12345, 54321) => true,
         (15040, 18831) => true, // 1234_123456 (SID7_TID7)

@@ -198,16 +198,13 @@ public static class Overworld8RNG
         }
         return NoMatchIVs;
     }
+
     private static bool GetIsShiny(uint id32, uint pid) => GetShinyXor(pid, id32) < 16;
+    private static uint GetShinyPID(ushort tid, ushort sid, uint pid, uint type) => (((pid & 0xFFFF) ^ tid ^ sid ^ type) << 16) | (pid & 0xFFFF);
 
-    private static uint GetShinyPID(uint tid, uint sid, uint pid, int type)
+    private static uint GetShinyXor(uint pid, uint id32)
     {
-        return (uint)(((tid ^ sid ^ (pid & 0xFFFF) ^ type) << 16) | (pid & 0xFFFF));
-    }
-
-    private static uint GetShinyXor(uint pid, uint oid)
-    {
-        var xor = pid ^ oid;
+        var xor = pid ^ id32;
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
 

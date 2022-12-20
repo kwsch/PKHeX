@@ -54,7 +54,7 @@ internal static class Encounters9
         new(SV) { Species = 952, Shiny = Never, Level = 57, Location = 040, Size = 255, Ability = OnlyFirst,  Gender = 0, Nature = Nature.Quiet,   IVs = new(30,30,30,30,30,30), Moves = new(330,196,269,406), IsTitan = true }, // Tatsugiri
 
         // Dummy Tatsugiri
-        new(SV) { Species = 952, Shiny = Never, Level = 45, Location = 040, Size = 128,          }, // Tatsugiri
+        new(SV) { Species = 952, Shiny = Never, Level = 45, Location = 040, Size = 128           }, // Tatsugiri
         new(SV) { Species = 952, Shiny = Never, Level = 45, Location = 040, Size = 128, Form = 1 }, // Tatsugiri-1
         new(SV) { Species = 952, Shiny = Never, Level = 45, Location = 040, Size = 128, Form = 2 }, // Tatsugiri-2
 
@@ -85,8 +85,8 @@ internal static class Encounters9
 
     internal static readonly EncounterTrade9[] TradeGift_SV =
     {
-        new(SV, 872,10) {                       TID7 = 050724, IVs = new(31,18,13,20,28,26), OTGender = 0, Gender = 1, Nature = Nature.Bashful, }, // Snom
-        new(SV, 194,18) { Ability = OnlySecond, TID7 = 033081, IVs = new(27,18,25,13,16,31), OTGender = 1, Gender = 0, Nature = Nature.Relaxed, }, // Wooper
+        new(SV, 872,10) {                       TID7 = 050724, IVs = new(31,18,13,20,28,26), OTGender = 0, Gender = 1, Nature = Nature.Bashful }, // Snom
+        new(SV, 194,18) { Ability = OnlySecond, TID7 = 033081, IVs = new(27,18,25,13,16,31), OTGender = 1, Gender = 0, Nature = Nature.Relaxed }, // Wooper
         new(SV, 093,25) { Ability = OnlyFirst,  TID7 = 016519, IVs = new(14,20,25,31,28,16), OTGender = 1, Gender = 1, Nature = Nature.Lonely, EvolveOnTrade = true }, // Haunter
     };
 

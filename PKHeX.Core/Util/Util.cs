@@ -19,9 +19,6 @@ public static partial class Util
     /// <inheritdoc cref="GetHexValue64(ReadOnlySpan{char})"/>
     public static ulong GetHexValue64(string value) => GetHexValue64(value.AsSpan());
 
-    /// <inheritdoc cref="GetBytesFromHexString(ReadOnlySpan{char})"/>
-    public static byte[] GetBytesFromHexString(string value) => GetBytesFromHexString(value.AsSpan());
-
     /// <inheritdoc cref="GetHexStringFromBytes(ReadOnlySpan{byte})"/>
     public static string GetHexStringFromBytes(byte[] data, int offset, int length) => GetHexStringFromBytes(data.AsSpan(offset, length));
 

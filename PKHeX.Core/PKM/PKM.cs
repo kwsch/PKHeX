@@ -545,7 +545,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual bool IsGenderValid()
     {
         int gender = Gender;
-        int gv = PersonalInfo.Gender;
+        var gv = PersonalInfo.Gender;
         if (gv == PersonalInfo.RatioMagicGenderless)
             return gender == 2;
         if (gv == PersonalInfo.RatioMagicFemale)

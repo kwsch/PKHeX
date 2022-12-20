@@ -24,7 +24,7 @@ public static class EntityPID
 
         // Below logic handles Gen3-5.
         // No need to get form specific entry, as Gen3-5 do not have that feature.
-        int gt = PKX.Personal[species].Gender;
+        var gt = PKX.Personal[species].Gender;
         bool g34 = origin <= 15;
         uint abilBitVal = g34 ? oldPID & 0x0000_0001 : oldPID & 0x0001_0000;
 

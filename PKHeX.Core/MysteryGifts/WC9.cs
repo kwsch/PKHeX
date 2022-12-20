@@ -481,9 +481,9 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
             if (IsHOMEGift)
             {
-                pk.TrainerSID7 = 0;
+                pk.ID32 %= 1_000_000;
                 while (pk.TSV == 0)
-                    pk.TrainerID7 = (uint)Util.Rand.Next(16, 999_999 + 1);
+                    pk.ID32 = (uint)Util.Rand.Next(16, 999_999 + 1);
             }
         }
 
@@ -560,8 +560,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     {
         ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
         ShinyType8.Random       => Util.Rand32(), // Random, Any
-        ShinyType8.AlwaysStar   => ((1u ^ tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF)) << 16) | (PID & 0xFFFF), // Fixed, Force Star
-        ShinyType8.AlwaysSquare => ((0u ^ tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF)) << 16) | (PID & 0xFFFF), // Fixed, Force Square
+        ShinyType8.AlwaysStar   => (1u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Star
+        ShinyType8.AlwaysSquare => (0u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Square
         ShinyType8.FixedValue   => GetFixedPID(tr),
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };

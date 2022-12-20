@@ -375,7 +375,7 @@ public static class MethodFinder
             return GetNonMatch(out pidiv);
 
         (var species, int genderValue) = GetCuteCharmGenderSpecies(pk, pid, pk.Species);
-        static int getRatio(ushort species)
+        static byte getRatio(ushort species)
         {
             return species <= Legal.MaxSpeciesID_4
                 ? PersonalTable.HGSS[species].Gender
@@ -541,7 +541,7 @@ public static class MethodFinder
         if (species is not ((int)Species.Marill or (int)Species.Azumarill))
             return false;
 
-        const int AzurillGenderRatio = 0xBF;
+        const byte AzurillGenderRatio = 0xBF;
         var gender = EntityGender.GetFromPIDAndRatio(pk.PID, AzurillGenderRatio);
         if (gender != 1)
             return false;
@@ -823,7 +823,9 @@ public static class MethodFinder
         bool IsAntiShinyARNG()
         {
             var shinyPID = ARNG.Prev(pk.PID);
-            return (pk.TID16 ^ pk.SID16 ^ (shinyPID & 0xFFFF) ^ (shinyPID >> 16)) < 8; // shiny proc
+            var tmp = pk.ID32 ^ shinyPID;
+            var xor = (ushort)(tmp ^ (tmp >> 16));
+            return xor < 8; // shiny proc
         }
     }
 
