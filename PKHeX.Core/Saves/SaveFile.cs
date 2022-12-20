@@ -141,8 +141,9 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual int Gender { get; set; }
     public virtual int Language { get => -1; set { } }
     public virtual int Game { get => (int)GameVersion.Any; set { } }
-    public virtual int TID { get; set; }
-    public virtual int SID { get; set; }
+    public virtual uint ID32 { get; set; }
+    public virtual uint TID16 { get; set; }
+    public virtual uint SID16 { get; set; }
     public virtual string OT { get; set; } = "PKHeX";
     public virtual int PlayedHours { get; set; }
     public virtual int PlayedMinutes { get; set; }
@@ -152,30 +153,12 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual uint Money { get; set; }
     public abstract int BoxCount { get; }
     public virtual int SlotCount => BoxCount * BoxSlotCount;
-    public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
-    public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
     public virtual int MaxMoney => 9999999;
     public virtual int MaxCoins => 9999;
 
-    public int DisplayTID
-    {
-        get => Generation >= 7 ? TrainerID7 : TID;
-        set { if (Generation >= 7) TrainerID7 = value; else TID = value; }
-    }
+    public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
-    public int DisplaySID
-    {
-        get => Generation >= 7 ? TrainerSID7 : SID;
-        set { if (Generation >= 7) TrainerSID7 = value; else SID = value; }
-    }
     #endregion
-
-    private void SetID7(int sid7, int tid7)
-    {
-        var oid = (sid7 * 1_000_000) + (tid7 % 1_000_000);
-        TID = (ushort)oid;
-        SID = oid >> 16;
-    }
 
     #region Party
     public virtual int PartyCount { get; protected set; }

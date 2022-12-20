@@ -153,25 +153,30 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         _ => throw new ArgumentOutOfRangeException(),
     };
 
-    private int GetShinyXor()
+    private uint GetShinyXor()
     {
         // Player owned anti-shiny fixed PID
-        if (TID == 0 && SID == 0)
-            return int.MaxValue;
+        if (ID32 == 0)
+            return uint.MaxValue;
 
-        var pid = PID;
-        var psv = (int)((pid >> 16) ^ (pid & 0xFFFF));
-        var tsv = (TID ^ SID);
-        return psv ^ tsv;
+        var xor = PID ^ ID32;
+        return (xor >> 16) ^ (xor & 0xFFFF);
     }
 
-    public override int TID
+    public override uint ID32
+    {
+        get => ReadUInt32LittleEndian(Data.AsSpan(0x68));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0x68), value);
+    }
+
+    public override uint TID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x68));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value);
     }
 
-    public override int SID {
+    public override uint SID16
+    {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x6A));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value);
     }
@@ -362,8 +367,8 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         {
             Species = Species,
             HeldItem = HeldItem,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             Met_Level = metLevel,
             Form = Form,
             EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
@@ -446,8 +451,8 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
         if (OTGender == 3)
         {
-            pk.TID = tr.TID;
-            pk.SID = tr.SID;
+            pk.TID16 = tr.TID16;
+            pk.SID16 = tr.SID16;
         }
 
         pk.MetDate = Date ?? DateTime.Now;
@@ -512,7 +517,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
                 break;
             case ShinyType6.Always: // Random Shiny
                 pk.PID = Util.Rand32();
-                pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
+                pk.PID = (uint)(((pk.TID16 ^ pk.SID16 ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
                 break;
             case ShinyType6.Never: // Random Nonshiny
                 pk.PID = Util.Rand32();
@@ -551,7 +556,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public bool IsAshGreninjaWC7(PKM pk)
     {
-        return CardID == 2046 && ((pk.SID << 16) | pk.TID) == 0x79F57B49;
+        return CardID == 2046 && ((pk.SID16 << 16) | pk.TID16) == 0x79F57B49;
     }
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
@@ -560,8 +565,8 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         {
             if (OTGender != 3)
             {
-                if (SID != pk.SID) return false;
-                if (TID != pk.TID) return false;
+                if (SID16 != pk.SID16) return false;
+                if (TID16 != pk.TID16) return false;
                 if (OTGender != pk.OT_Gender) return false;
             }
             if (!string.IsNullOrEmpty(OT_Name) && OT_Name != pk.OT_Name) return false;

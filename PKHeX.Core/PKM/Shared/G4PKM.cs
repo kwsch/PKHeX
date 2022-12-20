@@ -21,8 +21,8 @@ public abstract class G4PKM : PKM,
     public sealed override int MaxStringLengthOT => 7;
     public sealed override int MaxStringLengthNickname => 10;
 
-    public sealed override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
-    public sealed override int TSV => (TID ^ SID) >> 3;
+    public sealed override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
+    public sealed override uint TSV => (TID16 ^ SID16) >> 3;
 
     protected bool PtHGSS => Pt || HGSS;
 
@@ -282,10 +282,10 @@ public abstract class G4PKM : PKM,
     }
 
     // Synthetic Trading Logic
-    public bool Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2009)
+    public bool Trade(string SAV_Trainer, uint savID32, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2009)
     {
         // Eggs do not have any modifications done if they are traded
-        if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+        if (IsEgg && !(SAV_Trainer == OT_Name && savID32 == ID32 && SAV_GENDER == OT_Gender))
         {
             SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade4);
             return true;
@@ -309,8 +309,8 @@ public abstract class G4PKM : PKM,
             PID = PID,
             Species = Species,
             HeldItem = HeldItem,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             EXP = EXP,
             OT_Friendship = OT_Friendship,
             Ability = Ability,

@@ -30,8 +30,8 @@ public static class EntityTemplates
 
         pk.OT_Name = tr.OT;
         pk.OT_Gender = tr.Gender;
-        pk.TID = tr.TID;
-        pk.SID = tr.SID;
+        pk.TID16 = tr.TID16;
+        pk.SID16 = tr.SID16;
         if (tr is IRegionOrigin o && pk is IRegionOrigin gt)
         {
             gt.ConsoleRegion = o.ConsoleRegion;

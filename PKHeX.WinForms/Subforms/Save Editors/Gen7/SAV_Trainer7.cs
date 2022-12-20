@@ -103,7 +103,7 @@ public partial class SAV_Trainer7 : Form
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV);
+        trainerID1.LoadIDValues(SAV, SAV.Generation);
         MT_Money.Text = SAV.Money.ToString();
 
         CB_Country.SelectedValue = (int)SAV.Country;

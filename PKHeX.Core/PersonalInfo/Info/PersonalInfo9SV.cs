@@ -48,7 +48,7 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H
     public override int EV_SPE { get => (EVYield >> 6) & 0x3; set => EVYield = (EVYield & ~(0x3 << 6)) | ((value & 0x3) << 6); }
     public override int EV_SPA { get => (EVYield >> 8) & 0x3; set => EVYield = (EVYield & ~(0x3 << 8)) | ((value & 0x3) << 8); }
     public override int EV_SPD { get => (EVYield >> 10) & 0x3; set => EVYield = (EVYield & ~(0x3 << 10)) | ((value & 0x3) << 10); }
-    public override int Gender         { get => Data[0x0C]; set => Data[0x0C] = (byte)value; }
+    public override byte Gender         { get => Data[0x0C]; set => Data[0x0C] = value; }
     public override int HatchCycles    { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
     public override int BaseFriendship { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
     public override byte EXPGrowth     { get => Data[0x0F]; set => Data[0x0F] = value; }

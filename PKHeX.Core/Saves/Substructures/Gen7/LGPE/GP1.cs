@@ -156,8 +156,8 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
             Met_Day = Day,
             CurrentLevel = Level,
             Met_Level = Level,
-            TID = sav.TID,
-            SID = sav.SID,
+            TID16 = sav.TID16,
+            SID16 = sav.SID16,
             OT_Name = sav.OT,
             Ball = 4,
             Language = sav.Language,
@@ -186,7 +186,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
 
         bool isShiny = pk.IsShiny;
         if (IsShiny && !isShiny) // Force Square
-            pk.PID = (uint)(((sav.TID ^ sav.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
+            pk.PID = (uint)(((sav.TID16 ^ sav.SID16 ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
         else if (isShiny)
             pk.PID ^= 0x1000_0000;
 

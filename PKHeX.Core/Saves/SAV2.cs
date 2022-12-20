@@ -180,7 +180,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             int slot = 0;
             for (int j = 0; j < boxPL.Pokemon.Length; j++)
             {
-                PK2 boxPK = (PK2) GetPKM(GetData(GetBoxOffset(i) + (j * SIZE_STORED), SIZE_STORED));
+                PK2 boxPK = GetPKM(GetData(GetBoxOffset(i) + (j * SIZE_STORED), SIZE_STORED));
                 if (boxPK.Species > 0)
                     boxPL[slot++] = boxPK;
             }
@@ -195,7 +195,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         int pSlot = 0;
         for (int i = 0; i < 6; i++)
         {
-            PK2 partyPK = (PK2)GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
+            PK2 partyPK = GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
             if (partyPK.Species > 0)
                 partyPL[pSlot++] = partyPK;
         }
@@ -357,13 +357,19 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
-    public override int TID
+    public override uint ID32
+    {
+        get => TID16;
+        set => TID16 = (ushort)value;
+    }
+
+    public override uint TID16
     {
         get => ReadUInt16BigEndian(Data.AsSpan(Offsets.Trainer1));
         set => WriteUInt16BigEndian(Data.AsSpan(Offsets.Trainer1), (ushort)value);
     }
 
-    public override int SID { get => 0; set { } }
+    public override uint SID16 { get => 0; set { } }
 
     public override int PlayedHours
     {
@@ -709,7 +715,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     private ushort GetResetKey()
     {
-        var value = (TID >> 8) + (TID & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
+        var value = (TID16 >> 8) + (TID16 & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
         var ot = Data.AsSpan(Offsets.Trainer1 + 2, 5);
         var sum = 0;
         foreach (var b in ot)

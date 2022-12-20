@@ -43,7 +43,7 @@ public sealed class NHarmoniaVerifier : Verifier
 
     private static bool VerifyNsPKMOTValid(PKM pk)
     {
-        if (pk.TID != 00002 || pk.SID != 00000)
+        if (pk.TID16 != 00002 || pk.SID16 != 00000)
             return false;
         var ot = pk.OT_Name;
         if (ot.Length != 1)

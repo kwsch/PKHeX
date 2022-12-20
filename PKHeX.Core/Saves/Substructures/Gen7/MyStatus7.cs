@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -10,16 +10,22 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
 
     public MyStatus7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
     public int Game

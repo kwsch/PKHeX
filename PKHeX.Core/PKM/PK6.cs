@@ -62,13 +62,19 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value);
     }
 
-    public override int TID
+    public override uint ID32
+    {
+        get => ReadUInt32LittleEndian(Data.AsSpan(0x0C));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value);
+    }
+
+    public override uint TID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x0C));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value);
     }
 
-    public override int SID
+    public override uint SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x0E));
         set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value);
@@ -409,7 +415,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     protected override bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
             return false;
 
         CurrentHandler = 0;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls;
@@ -11,7 +11,7 @@ public partial class PKMEditor
             throw new FormatException(nameof(Entity));
 
         LoadMisc1(pk1);
-        TID_Trainer.LoadIDValues(pk1);
+        TID_Trainer.LoadIDValues(pk1, pk1.Format);
         CR_PK1.LoadPK1(pk1);
 
         // Attempt to detect language

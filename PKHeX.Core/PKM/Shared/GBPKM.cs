@@ -106,15 +106,16 @@ public abstract class GBPKM : PKM
     public sealed override int Nature { get => 0; set { } }
     public sealed override bool ChecksumValid => true;
     public sealed override bool FatefulEncounter { get => false; set { } }
-    public sealed override int TSV => 0x0000;
-    public sealed override int PSV => 0xFFFF;
+    public sealed override uint TSV => 0x0000;
+    public sealed override uint PSV => 0xFFFF;
     public sealed override int Characteristic => -1;
     public sealed override int MarkValue { get => 0; set { } }
     public sealed override int Ability { get => -1; set { } }
     public sealed override int CurrentHandler { get => 0; set { } }
     public sealed override int Egg_Location { get => 0; set { } }
     public sealed override int Ball { get => 0; set { } }
-    public sealed override int SID { get => 0; set { } }
+    public sealed override uint ID32 { get => TID16; set { } }
+    public sealed override uint SID16 { get => 0; set { } }
     #endregion
 
     public sealed override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;

@@ -166,13 +166,19 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         set => SetString(General.AsSpan(Trainer1, 16), value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
-    public override int TID
+    public override uint ID32
+    {
+        get => ReadUInt32LittleEndian(General.AsSpan(Trainer1 + 0x10));
+        set => WriteUInt32LittleEndian(General.AsSpan(Trainer1 + 0x10), value);
+    }
+
+    public override uint TID16
     {
         get => ReadUInt16LittleEndian(General.AsSpan(Trainer1 + 0x10));
         set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x10), (ushort)value);
     }
 
-    public override int SID
+    public override uint SID16
     {
         get => ReadUInt16LittleEndian(General.AsSpan(Trainer1 + 0x12));
         set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x12), (ushort)value);
@@ -259,7 +265,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         var pk4 = (PK4)pk;
         // Apply to this Save File
         DateTime Date = DateTime.Now;
-        if (pk4.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+        if (pk4.Trade(OT, ID32, Gender, Date.Day, Date.Month, Date.Year))
             pk.RefreshChecksum();
     }
 

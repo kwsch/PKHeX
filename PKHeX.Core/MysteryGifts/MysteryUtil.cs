@@ -102,7 +102,7 @@ public static class MysteryUtil
 
     private static void AddLinesPKM(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
     {
-        var id = gift.Generation < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{gift.TrainerSID7:D4}]{gift.TrainerID7:D6}";
+        var id = gift.Generation < 7 ? $"{gift.TID16:D5}/{gift.SID16:D5}" : $"[{gift.TrainerSID7:D4}]{gift.TrainerID7:D6}";
 
         var first =
             $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem >= 0 ? gift.HeldItem : 0]}  --- "

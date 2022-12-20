@@ -144,13 +144,19 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         _ => throw new ArgumentOutOfRangeException(),
     };
 
-    public override int TID
+    public override uint ID32
+    {
+        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x68));
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x68), value);
+    }
+
+    public override uint TID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x68));
         set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x68), (ushort)value);
     }
 
-    public override int SID {
+    public override uint SID16 {
         get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A));
         set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A), (ushort)value);
     }
@@ -358,8 +364,8 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         {
             Species = Species,
             HeldItem = HeldItem,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             Met_Level = metLevel,
             Form = Form,
             EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
@@ -410,8 +416,8 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
 
         if (OTGender == 3)
         {
-            pk.TID = tr.TID;
-            pk.SID = tr.SID;
+            pk.TID16 = tr.TID16;
+            pk.SID16 = tr.SID16;
         }
 
         pk.MetDate = Date ?? DateTime.Now;
@@ -479,7 +485,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
                 break;
             case ShinyType6.Always: // Random Shiny
                 pk.PID = Util.Rand32();
-                pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
+                pk.PID = ((pk.TID16 ^ pk.SID16 ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF);
                 break;
             case ShinyType6.Never: // Random Nonshiny
                 pk.PID = Util.Rand32();
@@ -545,8 +551,8 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         {
             if (OTGender != 3)
             {
-                if (SID != pk.SID) return false;
-                if (TID != pk.TID) return false;
+                if (SID16 != pk.SID16) return false;
+                if (TID16 != pk.TID16) return false;
                 if (OTGender != pk.OT_Gender) return false;
             }
             var OT = GetOT(pk.Language);

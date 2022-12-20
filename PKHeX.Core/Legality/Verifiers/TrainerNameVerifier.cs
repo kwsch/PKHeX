@@ -93,7 +93,7 @@ public sealed class TrainerNameVerifier : Verifier
 
         if (tr.Length == 0)
         {
-            if (pk is SK2 {TID: 0, IsRental: true})
+            if (pk is SK2 {TID16: 0, IsRental: true})
             {
                 data.AddLine(Get(LOTShort, Severity.Fishy));
             }

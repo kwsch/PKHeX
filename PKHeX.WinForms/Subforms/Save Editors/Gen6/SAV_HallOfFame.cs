@@ -155,7 +155,7 @@ public partial class SAV_HallOfFame : Form
         s.Add($"Move 4: {str.Move[entry.Move4]}");
 
         string OTGender = gendersymbols[(int)entry.OT_Gender];
-        s.Add($"OT: {entry.OT_Name} ({OTGender}) ({entry.TID}/{entry.SID})");
+        s.Add($"OT: {entry.OT_Name} ({OTGender}) ({entry.TID16}/{entry.SID16})");
         s.Add(string.Empty);
     }
 
@@ -178,8 +178,8 @@ public partial class SAV_HallOfFame : Form
 
         TB_EC.Text = entry.EncryptionConstant.ToString("X8");
 
-        TB_TID.Text = entry.TID.ToString("00000");
-        TB_SID.Text = entry.SID.ToString("00000");
+        TB_TID.Text = entry.TID16.ToString("00000");
+        TB_SID.Text = entry.SID16.ToString("00000");
 
         TB_Nickname.Text = entry.Nickname;
         TB_OT.Text = entry.OT_Name;
@@ -217,8 +217,8 @@ public partial class SAV_HallOfFame : Form
             Move3 = Convert.ToUInt16(CB_Move3.SelectedValue),
             Move4 = Convert.ToUInt16(CB_Move4.SelectedValue),
             EncryptionConstant = Util.GetHexValue(TB_EC.Text),
-            TID = Convert.ToUInt16(TB_TID.Text),
-            SID = Convert.ToUInt16(TB_SID.Text),
+            TID16 = Convert.ToUInt16(TB_TID.Text),
+            SID16 = Convert.ToUInt16(TB_SID.Text),
             Form = (byte)CB_Form.SelectedIndex,
             Gender = (uint)EntityGender.GetFromString(Label_Gender.Text) & 0x3,
             Level = Convert.ToUInt16(TB_Level.Text),

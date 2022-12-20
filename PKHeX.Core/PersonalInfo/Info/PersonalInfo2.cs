@@ -36,7 +36,7 @@ public sealed class PersonalInfo2 : PersonalInfo
     public override int BaseEXP { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
     public int Item1 { get => Data[0xB]; set => Data[0xB] = (byte)value; }
     public int Item2 { get => Data[0xC]; set => Data[0xC] = (byte)value; }
-    public override int Gender { get => Data[0xD]; set => Data[0xD] = (byte)value; }
+    public override byte Gender { get => Data[0xD]; set => Data[0xD] = value; }
     public override int HatchCycles { get => Data[0xF]; set => Data[0xF] = (byte)value; }
     public override byte EXPGrowth { get => Data[0x16]; set => Data[0x16] = value; }
     public override int EggGroup1 { get => Data[0x17] & 0xF; set => Data[0x17] = (byte)((Data[0x17] & 0xF0) | value); }

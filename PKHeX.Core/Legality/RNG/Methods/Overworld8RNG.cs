@@ -37,7 +37,7 @@ public static class Overworld8RNG
 
         // PID
         var pid = (uint) xoro.NextInt(uint.MaxValue);
-        var xor = GetShinyXor(pk.TID, pk.SID, pid);
+        var xor = GetShinyXor(pk.ID32, pid);
         var type = GetRareType(xor);
         if (shiny == Shiny.Never)
         {
@@ -136,15 +136,15 @@ public static class Overworld8RNG
         // Check forced shiny
         if (pk.IsShiny)
         {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
+            if (GetIsShiny(pk.ID32, pid))
                 return false;
 
-            pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+            pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
             return pid == pk.PID;
         }
 
         // Check forced non-shiny
-        if (!GetIsShiny(pk.TID, pk.SID, pid))
+        if (!GetIsShiny(pk.ID32, pid))
             return false;
 
         pid ^= 0x1000_0000;
@@ -198,20 +198,11 @@ public static class Overworld8RNG
         }
         return NoMatchIVs;
     }
+    private static bool GetIsShiny(uint id32, uint pid) => GetShinyXor(pid, id32) < 16;
 
-    private static uint GetShinyPID(int tid, int sid, uint pid, int type)
+    private static uint GetShinyPID(uint tid, uint sid, uint pid, int type)
     {
         return (uint)(((tid ^ sid ^ (pid & 0xFFFF) ^ type) << 16) | (pid & 0xFFFF));
-    }
-
-    private static bool GetIsShiny(int tid, int sid, uint pid)
-    {
-        return GetShinyXor(pid, (uint)((sid << 16) | tid)) < 16;
-    }
-
-    private static uint GetShinyXor(int tid, int sid, uint pid)
-    {
-        return GetShinyXor(pid, (uint)((sid << 16) | tid));
     }
 
     private static uint GetShinyXor(uint pid, uint oid)

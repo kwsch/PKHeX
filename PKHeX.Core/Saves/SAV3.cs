@@ -316,13 +316,19 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         set => Small[8] = (byte)value;
     }
 
-    public sealed override int TID
+    public sealed override uint ID32
+    {
+        get => ReadUInt32LittleEndian(Small.AsSpan(0x0A));
+        set => WriteUInt32LittleEndian(Small.AsSpan(0x0A), value);
+    }
+
+    public sealed override uint TID16
     {
         get => ReadUInt16LittleEndian(Small.AsSpan(0xA));
         set => WriteUInt16LittleEndian(Small.AsSpan(0xA), (ushort)value);
     }
 
-    public sealed override int SID
+    public sealed override uint SID16
     {
         get => ReadUInt16LittleEndian(Small.AsSpan(0xC));
         set => WriteUInt16LittleEndian(Small.AsSpan(0xC), (ushort)value);

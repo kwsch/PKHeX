@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Minimal Trainer Information necessary for generating a <see cref="PKM"/>.
 /// </summary>
-public interface ITrainerInfo : ITrainerID
+public interface ITrainerInfo : ITrainerID32
 {
     string OT { get; }
     int Gender { get; }
@@ -19,8 +19,8 @@ public static class TrainerInfoExtensions
     public static void ApplyTo(this ITrainerInfo info, PKM pk)
     {
         pk.OT_Name = info.OT;
-        pk.TID = info.TID;
-        pk.SID = pk.Format < 3 || pk.VC ? 0 : info.SID;
+        pk.TID16 = info.TID16;
+        pk.SID16 = pk.Format < 3 || pk.VC ? 0 : info.SID16;
         pk.OT_Gender = info.Gender;
         pk.Language = info.Language;
         pk.Version = info.Game;
@@ -62,14 +62,14 @@ public static class TrainerInfoExtensions
         if (tr.Game == (int)GameVersion.Any)
             return true;
 
-        if (tr.TID != pk.TID)
+        if (tr.TID16 != pk.TID16)
             return false;
         if (tr.OT != pk.OT_Name)
             return false;
         if (pk.Format <= 2)
             return false;
 
-        if (tr.SID != pk.SID)
+        if (tr.SID16 != pk.SID16)
             return false;
         if (pk.Format == 3)
             return false;

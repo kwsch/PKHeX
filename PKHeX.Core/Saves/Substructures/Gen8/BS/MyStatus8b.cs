@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -24,16 +24,22 @@ public sealed class MyStatus8b : SaveBlock<SAV8BS>
         set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1C), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1C));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x1C), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1C));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1C), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1E), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1E), value);
     }
 
     public uint Money

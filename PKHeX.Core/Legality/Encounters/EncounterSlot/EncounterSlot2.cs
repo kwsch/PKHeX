@@ -29,8 +29,8 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
 
         if (SlotType == SlotType.Headbutt)
         {
-            while (!IsTreeAvailable(pk2.TID))
-                pk2.TID = Util.Rand.Next(ushort.MaxValue + 1);
+            while (!IsTreeAvailable(pk2.TID16))
+                pk2.TID16 = (ushort)Util.Rand.Next(ushort.MaxValue + 1);
         }
 
         if (Version == GameVersion.C)
@@ -60,12 +60,12 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
         { 92, 0x2BB_3FF }, // Route 27
     };
 
-    internal bool IsTreeAvailable(int trainerID)
+    internal bool IsTreeAvailable(uint trainerID)
     {
         if (!Trees.TryGetValue(Location, out var permissions))
             return false;
 
-        var pivot = trainerID % 10;
+        var pivot = (int)(trainerID % 10);
         var type = Area.Type;
         return type switch
         {

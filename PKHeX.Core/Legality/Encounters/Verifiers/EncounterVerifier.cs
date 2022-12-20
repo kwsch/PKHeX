@@ -64,9 +64,9 @@ public static class EncounterVerifier
         return new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter);
     }
 
-    private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID tr, EncounterSlot2 s2)
+    private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID32 tr, EncounterSlot2 s2)
     {
-        return s2.IsTreeAvailable(tr.TID)
+        return s2.IsTreeAvailable(tr.TID16)
             ? new CheckResult(Severity.Valid, LG2TreeID, CheckIdentifier.Encounter)
             : new CheckResult(Severity.Invalid, LG2InvalidTileTreeNotFound, CheckIdentifier.Encounter);
     }

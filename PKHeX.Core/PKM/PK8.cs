@@ -42,7 +42,7 @@ public sealed class PK8 : G8PKM
         {
             // Eggs do not have any modifications done if they are traded
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
-            if ((tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
+            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6);
             return;
         }
@@ -79,7 +79,7 @@ public sealed class PK8 : G8PKM
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
             return false;
 
         CurrentHandler = 0;

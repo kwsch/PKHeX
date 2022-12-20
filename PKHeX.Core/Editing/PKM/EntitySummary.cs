@@ -81,9 +81,9 @@ public class EntitySummary // do NOT seal, allow inheritance
     public bool IsNicknamed => pk.IsNicknamed;
     public bool IsShiny => pk.IsShiny;
 
-    public int TID => pk.DisplayTID;
-    public int SID => pk.DisplaySID;
-    public int TSV => pk.TSV;
+    public uint TID16 => pk.TID16;
+    public uint SID16 => pk.SID16;
+    public uint TSV => pk.TSV;
     public int Move1_PP => pk.Move1_PP;
     public int Move2_PP => pk.Move2_PP;
     public int Move3_PP => pk.Move3_PP;

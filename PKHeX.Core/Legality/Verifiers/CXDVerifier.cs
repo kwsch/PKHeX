@@ -43,8 +43,8 @@ public sealed class CXDVerifier : Verifier
             }
             else
             {
-                valid = LockFinder.IsXDStarterValid(seed, pk.TID, pk.SID);
-                if (valid) // unroll seed to origin that generated TID/SID->pkm
+                valid = LockFinder.IsXDStarterValid(seed, pk.TID16, pk.SID16);
+                if (valid) // unroll seed to origin that generated TID16/SID16->pkm
                     data.Info.PIDIV = new PIDIV(PIDType.CXD, XDRNG.Prev4(seed));
             }
         }

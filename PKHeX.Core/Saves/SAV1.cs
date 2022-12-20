@@ -269,13 +269,19 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         set { }
     }
 
-    public override int TID
+    public override uint ID32
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TID));
-        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TID), (ushort)value);
+        get => TID16;
+        set => TID16 = (ushort)value;
     }
 
-    public override int SID { get => 0; set { } }
+    public override uint TID16
+    {
+        get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TID16));
+        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TID16), (ushort)value);
+    }
+
+    public override uint SID16 { get => 0; set { } }
 
     public string Rival
     {

@@ -26,7 +26,7 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract int EggGroup2 { get; set; }
     public abstract int CatchRate { get; set; }
     public virtual int EvoStage { get; set; }
-    public abstract int Gender { get; set; }
+    public abstract byte Gender { get; set; }
     public abstract int HatchCycles { get; set; }
     public abstract int BaseFriendship { get; set; }
     public abstract byte EXPGrowth { get; set; }

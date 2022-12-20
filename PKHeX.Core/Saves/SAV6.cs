@@ -58,8 +58,9 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     protected internal const int ShortStringLength = 0x1A; // bytes, not characters
 
     // Player Information
-    public override int TID { get => Status.TID; set => Status.TID = value; }
-    public override int SID { get => Status.SID; set => Status.SID = value; }
+    public override uint ID32 { get => Status.ID32; set => Status.ID32 = value; }
+    public override uint TID16 { get => Status.TID16; set => Status.TID16 = (ushort)value; }
+    public override uint SID16 { get => Status.SID16; set => Status.SID16 = (ushort)value; }
     public override int Game { get => Status.Game; set => Status.Game = value; }
     public override int Gender { get => Status.Gender; set => Status.Gender = value; }
     public override int Language { get => Status.Language; set => Status.Language = value; }

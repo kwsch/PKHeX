@@ -25,8 +25,8 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public sealed override int MaxStringLengthNickname => 10;
 
     // Generated Attributes
-    public sealed override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
-    public sealed override int TSV => (TID ^ SID) >> 3;
+    public sealed override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
+    public sealed override uint TSV => (TID16 ^ SID16) >> 3;
     public sealed override bool Japanese => Language == (int)LanguageID.Japanese;
 
     public sealed override int Ability { get => PersonalInfo.GetAbility(AbilityBit); set { } }
@@ -142,8 +142,8 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         SpeciesID3 = SpeciesID3,
         Language = Language,
         PID = PID,
-        TID = TID,
-        SID = SID,
+        TID16 = TID16,
+        SID16 = SID16,
         EXP = EXP,
         HeldItem = HeldItem,
         AbilityBit = AbilityBit,

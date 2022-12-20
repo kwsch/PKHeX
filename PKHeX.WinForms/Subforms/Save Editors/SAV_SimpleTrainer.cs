@@ -35,8 +35,8 @@ public partial class SAV_SimpleTrainer : Form
 
         TB_OTName.Text = SAV.OT;
         CB_Gender.SelectedIndex = SAV.Gender;
-        MT_TID.Text = SAV.TID.ToString("00000");
-        MT_SID.Text = SAV.SID.ToString("00000");
+        MT_TID.Text = SAV.TID16.ToString("00000");
+        MT_SID.Text = SAV.SID16.ToString("00000");
         MT_Money.Text = SAV.Money.ToString();
         MT_Hours.Text = SAV.PlayedHours.ToString();
         MT_Minutes.Text = SAV.PlayedMinutes.ToString();
@@ -188,8 +188,8 @@ public partial class SAV_SimpleTrainer : Form
             SAV.OT = TB_OTName.Text;
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
-        SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
-        SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
+        SAV.TID16 = (ushort)Util.ToUInt32(MT_TID.Text);
+        SAV.SID16 = (ushort)Util.ToUInt32(MT_SID.Text);
         SAV.Money = Util.ToUInt32(MT_Money.Text);
 
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);

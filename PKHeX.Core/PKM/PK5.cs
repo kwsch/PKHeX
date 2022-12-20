@@ -60,8 +60,9 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #region Block A
     public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x08)); set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value); }
     public override int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
-    public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value); }
-    public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value); }
+    public override uint ID32 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value); }
+    public override uint TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value); }
+    public override uint SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value); }
     public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
     public override int OT_Friendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
@@ -270,8 +271,8 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #endregion
 
     // Generated Attributes
-    public override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
-    public override int TSV => (TID ^ SID) >> 3;
+    public override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
+    public override uint TSV => (TID16 ^ SID16) >> 3;
 
     public override int Characteristic
     {
@@ -310,9 +311,9 @@ public sealed class PK5 : PKM, ISanityChecksum,
     }
 
     // Synthetic Trading Logic
-    public bool Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2013)
+    public bool Trade(string SAV_Trainer, uint savID32, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2013)
     {
-        if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+        if (IsEgg && !(SAV_Trainer == OT_Name && savID32 == ID32 && SAV_GENDER == OT_Gender))
         {
             SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade5);
             return true;
@@ -348,8 +349,8 @@ public sealed class PK5 : PKM, ISanityChecksum,
         {
             EncryptionConstant = PID,
             Species = Species,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             EXP = EXP,
             PID = PID,
             Ability = Ability,

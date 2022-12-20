@@ -7,16 +7,22 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
 {
     public MyStatus6(SAV6 sav, int offset) : base(sav) => Offset = offset;
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
     public int Game

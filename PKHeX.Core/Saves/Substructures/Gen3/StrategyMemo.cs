@@ -97,8 +97,14 @@ public sealed class StrategyMemoEntry
 
     private bool Flag0 { get => Data[0] >> 6 == 1; set { Data[0] &= 0xBF; if (value) Data[0] |= 0x40; } } // Unused
     private bool Flag1 { get => Data[0] >> 7 == 1; set { Data[0] &= 0x7F; if (value) Data[0] |= 0x80; } } // Complete Entry
-    public int SID { get => ReadUInt16BigEndian(Data.AsSpan(4)); set => WriteUInt16BigEndian(Data.AsSpan(4), (ushort)value); }
-    public int TID { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
+
+    public uint ID32
+    {
+        get => ReadUInt32BigEndian(Data.AsSpan(0x04));
+        set => WriteUInt32BigEndian(Data.AsSpan(0x04), value);
+    }
+    public ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(4)); set => WriteUInt16BigEndian(Data.AsSpan(4), value); }
+    public ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), value); }
     public uint PID { get => ReadUInt32BigEndian(Data.AsSpan(8)); set => WriteUInt32BigEndian(Data.AsSpan(8), value); }
 
     public bool Seen
@@ -136,5 +142,5 @@ public sealed class StrategyMemoEntry
     }
 
     public bool IsEmpty => Species == 0;
-    public bool Matches(ushort species, uint pid, int tid, int sid) => Species == species && PID == pid && TID == tid && SID == sid;
+    public bool Matches(ushort species, uint pid, uint id32) => Species == species && PID == pid && ID32 == id32;
 }

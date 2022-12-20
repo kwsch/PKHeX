@@ -53,7 +53,7 @@ public partial class SAV_Trainer8b : Form
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV);
+        trainerID1.LoadIDValues(SAV, SAV.Generation);
         MT_Money.Text = SAV.Money.ToString();
         CB_Language.SelectedValue = SAV.Language;
         TB_Rival.Text = SAV.Rival;
@@ -93,11 +93,11 @@ public partial class SAV_Trainer8b : Form
     private void Save()
     {
         SaveTrainerInfo();
-        if (SAV is { TID: 0, SID: 0 })
-            SAV.SID = 1; // Cannot have an all-zero ID.
+        if (SAV is { TID16: 0, SID16: 0 })
+            SAV.SID16 = 1; // Cannot have an all-zero ID.
 
         // Trickle down the changes to the extra record block.
-        if (SAV.HasFirstSaveFileExpansion && (SAV.OT != Origin.OT || SAV.TID != Origin.TID || SAV.SID != Origin.SID))
+        if (SAV.HasFirstSaveFileExpansion && (SAV.OT != Origin.OT || SAV.TID16 != Origin.TID16 || SAV.SID16 != Origin.SID16))
             SAV.RecordAdd.ReplaceOT(Origin, SAV);
     }
 

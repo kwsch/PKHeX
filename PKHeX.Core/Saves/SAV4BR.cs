@@ -176,9 +176,9 @@ public sealed class SAV4BR : SaveFile
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
 
-    public override int TID
+    public override uint TID16
     {
-        get => (Data[(_currentSlot * SIZE_SLOT) + 0x12867] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12860];
+        get => (ushort)((Data[(_currentSlot * SIZE_SLOT) + 0x12867] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12860]);
         set
         {
             Data[(_currentSlot * SIZE_SLOT) + 0x12867] = (byte)(value >> 8);
@@ -186,9 +186,9 @@ public sealed class SAV4BR : SaveFile
         }
     }
 
-    public override int SID
+    public override uint SID16
     {
-        get => (Data[(_currentSlot * SIZE_SLOT) + 0x12865] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12866];
+        get => (ushort)((Data[(_currentSlot * SIZE_SLOT) + 0x12865] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12866]);
         set
         {
             Data[(_currentSlot * SIZE_SLOT) + 0x12865] = (byte)(value >> 8);
@@ -241,7 +241,7 @@ public sealed class SAV4BR : SaveFile
         var pk4 = (BK4)pk;
         // Apply to this Save File
         DateTime Date = DateTime.Now;
-        if (pk4.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+        if (pk4.Trade(OT, ID32, Gender, Date.Day, Date.Month, Date.Year))
             pk.RefreshChecksum();
     }
 

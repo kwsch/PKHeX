@@ -128,33 +128,33 @@ internal static class Encounters1
     internal static readonly EncounterStatic1E[] StaticEventsVC =
     {
         // Event Mew
-        new(151, 5, RBY) { IVs = Flawless15, TID = 22796, OT_Name = "GF", Language = International },
-        new(151, 5, RBY) { IVs = Flawless15, TID = 22796, OT_Name = "ゲーフリ" },
+        new(151, 5, RBY) { IVs = Flawless15, TID16 = 22796, OT_Name = "GF", Language = International },
+        new(151, 5, RBY) { IVs = Flawless15, TID16 = 22796, OT_Name = "ゲーフリ" },
     };
 
     internal static readonly EncounterStatic1E[] StaticEventsGB =
     {
         // Stadium 1 (International)
-        new(001, 05, Stadium) {Moves = new(033, 045), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Bulbasaur
-        new(004, 05, Stadium) {Moves = new(010, 043), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Charmander
-        new(007, 05, Stadium) {Moves = new(033, 045), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Squirtle
-        new(106, 20, Stadium) {Moves = new(024, 096), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Hitmonlee
-        new(107, 20, Stadium) {Moves = new(004, 097), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Hitmonchan
-        new(133, 25, Stadium) {Moves = new(033, 039), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Eevee
-        new(138, 20, Stadium) {Moves = new(055, 110), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Omanyte
-        new(140, 20, Stadium) {Moves = new(010, 106), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Kabuto
-        new(054, 15, Stadium) {Moves = new(133, 010), TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Psyduck (Amnesia)
+        new(001, 05, Stadium) {Moves = new(033, 045), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Bulbasaur
+        new(004, 05, Stadium) {Moves = new(010, 043), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Charmander
+        new(007, 05, Stadium) {Moves = new(033, 045), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Squirtle
+        new(106, 20, Stadium) {Moves = new(024, 096), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Hitmonlee
+        new(107, 20, Stadium) {Moves = new(004, 097), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Hitmonchan
+        new(133, 25, Stadium) {Moves = new(033, 039), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Eevee
+        new(138, 20, Stadium) {Moves = new(055, 110), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Omanyte
+        new(140, 20, Stadium) {Moves = new(010, 106), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Kabuto
+        new(054, 15, Stadium) {Moves = new(133, 010), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Psyduck (Amnesia)
 
         // Stadium 2 (Japan)
-        new(001, 05, Stadium) {Moves = new(033, 045), TID = 1999, OT_Name = StadiumOT_JPN}, // Bulbasaur
-        new(004, 05, Stadium) {Moves = new(010, 043), TID = 1999, OT_Name = StadiumOT_JPN}, // Charmander
-        new(007, 05, Stadium) {Moves = new(033, 045), TID = 1999, OT_Name = StadiumOT_JPN}, // Squirtle
-        new(106, 20, Stadium) {Moves = new(024, 096), TID = 1999, OT_Name = StadiumOT_JPN}, // Hitmonlee
-        new(107, 20, Stadium) {Moves = new(004, 097), TID = 1999, OT_Name = StadiumOT_JPN}, // Hitmonchan
-        new(133, 25, Stadium) {Moves = new(033, 039), TID = 1999, OT_Name = StadiumOT_JPN}, // Eevee
-        new(138, 20, Stadium) {Moves = new(055, 110), TID = 1999, OT_Name = StadiumOT_JPN}, // Omanyte
-        new(140, 20, Stadium) {Moves = new(010, 106), TID = 1999, OT_Name = StadiumOT_JPN}, // Kabuto
-        new(054, 15, Stadium) {Moves = new(133, 010), TID = 1999, OT_Name = StadiumOT_JPN}, // Psyduck (Amnesia)
+        new(001, 05, Stadium) {Moves = new(033, 045), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Bulbasaur
+        new(004, 05, Stadium) {Moves = new(010, 043), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Charmander
+        new(007, 05, Stadium) {Moves = new(033, 045), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Squirtle
+        new(106, 20, Stadium) {Moves = new(024, 096), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Hitmonlee
+        new(107, 20, Stadium) {Moves = new(004, 097), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Hitmonchan
+        new(133, 25, Stadium) {Moves = new(033, 039), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Eevee
+        new(138, 20, Stadium) {Moves = new(055, 110), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Omanyte
+        new(140, 20, Stadium) {Moves = new(010, 106), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Kabuto
+        new(054, 15, Stadium) {Moves = new(133, 010), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Psyduck (Amnesia)
 
         new(151, 5, RB) {IVs = Yoshira, OT_Names = YoshiOT, Language = International }, // Yoshira Mew Events
         new(151, 5, RB) {IVs = Yoshira, OT_Names = TourOT, Language = International }, // Pokémon 2000 Stadium Tour Mew

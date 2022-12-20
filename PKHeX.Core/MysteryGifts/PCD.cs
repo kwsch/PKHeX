@@ -86,8 +86,9 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }
     public override int Gender { get => Gift.Gender; set => Gift.Gender = value; }
     public override byte Form { get => Gift.Form; set => Gift.Form = value; }
-    public override int TID { get => Gift.TID; set => Gift.TID = value; }
-    public override int SID { get => Gift.SID; set => Gift.SID = value; }
+    public override uint ID32 { get => Gift.ID32; set => Gift.ID32 = value; }
+    public override uint TID16 { get => Gift.TID16; set => Gift.TID16 = value; }
+    public override uint SID16 { get => Gift.SID16; set => Gift.SID16 = value; }
     public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
     public override AbilityPermission Ability => Gift.Ability;
     public override bool HasFixedIVs => Gift.HasFixedIVs;
@@ -131,8 +132,8 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         var wc = Gift.PK;
         if (!wc.IsEgg)
         {
-            if (wc.TID != pk.TID) return false;
-            if (wc.SID != pk.SID) return false;
+            if (wc.TID16 != pk.TID16) return false;
+            if (wc.SID16 != pk.SID16) return false;
             if (wc.OT_Name != pk.OT_Name) return false;
             if (wc.OT_Gender != pk.OT_Gender) return false;
             if (wc.Language != 0 && wc.Language != pk.Language) return false;

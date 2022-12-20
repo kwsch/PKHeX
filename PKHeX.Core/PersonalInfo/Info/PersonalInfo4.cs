@@ -44,7 +44,7 @@ public sealed class PersonalInfo4 : PersonalInfo, IPersonalAbility12
     public override int EV_SPD { get => (EVYield >> 10) & 0x3; set => EVYield = (EVYield & ~(0x3 << 10)) | ((value & 0x3) << 10); }
     public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0xC)); set => WriteInt16LittleEndian(Data.AsSpan(0xC), (short)value); }
     public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0xE)); set => WriteInt16LittleEndian(Data.AsSpan(0xE), (short)value); }
-    public override int Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+    public override byte Gender { get => Data[0x10]; set => Data[0x10] = value; }
     public override int HatchCycles { get => Data[0x11]; set => Data[0x11] = (byte)value; }
     public override int BaseFriendship { get => Data[0x12]; set => Data[0x12] = (byte)value; }
     public override byte EXPGrowth { get => Data[0x13]; set => Data[0x13] = value; }

@@ -26,7 +26,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
         pi = Personal[species, form];
         return true;
     }
-    
+
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8LA pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlagFast(MoveSourceType.LevelUp))

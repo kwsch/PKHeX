@@ -192,13 +192,13 @@ public static class PIDTests
         VerifyResultsAntiShiny(MawileTeamPIDs, Mawile, 12345, 51882, stackalloc[] {31, 30, 29, 31, 23, 27});
     }
 
-    private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, int tid, int sid, ReadOnlySpan<int> ivs)
+    private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, ushort tid, ushort sid, ReadOnlySpan<int> ivs)
     {
         var pk3 = new PK3
         {
             PID = resultPIDs[^1],
-            TID = tid,
-            SID = sid,
+            TID16 = tid,
+            SID16 = sid,
         };
         pk3.SetIVs(ivs);
 

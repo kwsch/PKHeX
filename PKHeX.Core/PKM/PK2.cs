@@ -45,7 +45,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public override ushort Move2 { get => Data[3]; set => Data[3] = (byte)value; }
     public override ushort Move3 { get => Data[4]; set => Data[4] = (byte)value; }
     public override ushort Move4 { get => Data[5]; set => Data[5] = (byte)value; }
-    public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
+    public override uint TID16 { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x08)) >> 8; set => WriteUInt32BigEndian(Data.AsSpan(8), (value << 8) | Data[0xB]); }
     public override int EV_HP  { get => ReadUInt16BigEndian(Data.AsSpan(0x0B)); set => WriteUInt16BigEndian(Data.AsSpan(0xB), (ushort)value); }
     public override int EV_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x0D)); set => WriteUInt16BigEndian(Data.AsSpan(0xD), (ushort)value); }
@@ -136,7 +136,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
         {
             EncryptionConstant = rnd.Rand32(),
             Species = Species,
-            TID = TID,
+            TID16 = TID16,
             CurrentLevel = CurrentLevel,
             EXP = EXP,
             Met_Level = CurrentLevel,
@@ -182,7 +182,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
         switch (IsShiny ? Shiny.Always : Shiny.Never)
         {
             case Shiny.Always when !pk7.IsShiny: // Force Square
-                pk7.PID = (uint)(((pk7.TID ^ 0 ^ (pk7.PID & 0xFFFF) ^ 0) << 16) | (pk7.PID & 0xFFFF));
+                pk7.PID = ((pk7.TID16 ^ 0 ^ (pk7.PID & 0xFFFF) ^ 0) << 16) | (pk7.PID & 0xFFFF);
                 break;
             case Shiny.Never when pk7.IsShiny: // Force Not Shiny
                 pk7.PID ^= 0x1000_0000;
@@ -233,7 +233,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
         Move2 = Move2,
         Move3 = Move3,
         Move4 = Move4,
-        TID = TID,
+        TID16 = TID16,
         EXP = EXP,
         EV_HP = EV_HP,
         EV_ATK = EV_ATK,

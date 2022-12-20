@@ -253,8 +253,9 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public void SetEventFlag(int flagNumber, bool value) => FlagWork.SetFlag(flagNumber, value);
 
     // Player Information
-    public override int TID { get => MyStatus.TID; set => MyStatus.TID = value; }
-    public override int SID { get => MyStatus.SID; set => MyStatus.SID = value; }
+    public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
+    public override uint TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = (ushort)value; }
+    public override uint SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = (ushort)value; }
     public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
     public override int Gender { get => MyStatus.Male ? 0 : 1; set => MyStatus.Male = value == 0; }
     public override int Language { get => Config.Language; set => Config.Language = value; }

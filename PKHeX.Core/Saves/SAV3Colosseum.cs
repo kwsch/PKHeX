@@ -315,10 +315,9 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         {
             entry.Species = pk.Species;
             entry.PID = pk.PID;
-            entry.TID = pk.TID;
-            entry.SID = pk.SID;
+            entry.ID32 = pk.ID32;
         }
-        if (entry.Matches(pk.Species, pk.PID, pk.TID, pk.SID))
+        if (entry.Matches(pk.Species, pk.PID, pk.ID32))
         {
             entry.Seen = true;
             entry.Owned = true;
@@ -362,8 +361,10 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
     public override string OT { get => GetString(0x78, 20); set { SetString(Data.AsSpan(0x78, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); OT2 = value; } }
     public string OT2 { get => GetString(0x8C, 20); set => SetString(Data.AsSpan(0x8C, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
-    public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(0xA4)); set => WriteUInt16BigEndian(Data.AsSpan(0xA4), (ushort)value); }
-    public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0xA6)); set => WriteUInt16BigEndian(Data.AsSpan(0xA6), (ushort)value); }
+
+    public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(0xA4)); set => WriteUInt32BigEndian(Data.AsSpan(0xA4), value); }
+    public override uint SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xA4)); set => WriteUInt16BigEndian(Data.AsSpan(0xA4), (ushort)value); }
+    public override uint TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xA6)); set => WriteUInt16BigEndian(Data.AsSpan(0xA6), (ushort)value); }
 
     public override int Gender { get => Data[0xAF8]; set => Data[0xAF8] = (byte)value; }
     public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(0xAFC)); set => WriteUInt32BigEndian(Data.AsSpan(0xAFC), value); }

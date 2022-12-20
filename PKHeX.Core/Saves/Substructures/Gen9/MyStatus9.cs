@@ -7,16 +7,22 @@ public sealed class MyStatus9 : SaveBlock<SAV9SV>
 {
     public MyStatus9(SAV9SV sav, SCBlock block) : base(sav, block.Data) { }
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x00));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value);
+        get => ReadUInt32LittleEndian(Data);
+        set => WriteUInt32LittleEndian(Data, value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(0x00));
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x02));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value);
     }
 
     public int Game

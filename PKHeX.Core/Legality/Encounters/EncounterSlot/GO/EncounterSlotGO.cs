@@ -138,7 +138,7 @@ public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
         {
             case Shiny.Random when !pk.IsShiny && criteria.Shiny.IsShiny():
             case Shiny.Always when !pk.IsShiny: // Force Square
-                pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
+                pk.PID = (uint)(((pk.TID16 ^ pk.SID16 ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
                 break;
 
             case Shiny.Random when pk.IsShiny && !criteria.Shiny.IsShiny():

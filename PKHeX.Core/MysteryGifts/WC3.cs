@@ -18,10 +18,13 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     /// </summary>
     public PIDType Method;
 
+    private const ushort UnspecifiedID = ushort.MaxValue;
+
     public override string OT_Name { get; set; } = string.Empty;
     public int OT_Gender { get; init; } = 3;
-    public override int TID { get; set; }
-    public override int SID { get; set; }
+    public override uint ID32 { get => (uint)(SID16 << 16 | TID16); set => (SID16, TID16) = ((ushort)(value >> 16), (ushort)value); }
+    public override uint TID16 { get; set; } = UnspecifiedID;
+    public override uint SID16 { get; set; } = UnspecifiedID;
     public override int Location { get; set; } = 255;
     public override int EggLocation { get => 0; set {} }
     public override GameVersion Version { get; set; }
@@ -105,8 +108,8 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         else
         {
             pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : tr.Gender;
-            pk.TID = TID;
-            pk.SID = SID;
+            pk.TID16 = TID16;
+            pk.SID16 = SID16;
 
             pk.Language = (int)GetSafeLanguage((LanguageID)tr.Language);
             pk.OT_Name = !string.IsNullOrWhiteSpace(OT_Name) ? OT_Name : tr.OT;
@@ -141,8 +144,8 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         }
 
         pk.OT_Gender = sav.Gender;
-        pk.TID = sav.TID;
-        pk.SID = sav.SID;
+        pk.TID16 = sav.TID16;
+        pk.SID16 = sav.SID16;
         pk.Met_Location = pk.FRLG ? 146 /* Four Island */ : 32; // Route 117
         pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
         pk.Met_Level = 0; // hatched
@@ -172,7 +175,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     private void SetPINGA(PK3 pk, EncounterCriteria _)
     {
         var seed = Util.Rand32();
-        seed = TID == 06930 ? MystryMew.GetSeed(seed, Method) : GetSaneSeed(seed);
+        seed = TID16 == 06930 ? MystryMew.GetSeed(seed, Method) : GetSaneSeed(seed);
         PIDGenerator.SetValuesFromSeed(pk, Method, seed);
     }
 
@@ -222,8 +225,8 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         bool hatchedEgg = IsEgg && !pk.IsEgg;
         if (!hatchedEgg)
         {
-            if (SID != -1 && SID != pk.SID) return false;
-            if (TID != -1 && TID != pk.TID) return false;
+            if (SID16 != UnspecifiedID && SID16 != pk.SID16) return false;
+            if (TID16 != UnspecifiedID && TID16 != pk.TID16) return false;
             if (OT_Gender < 3 && OT_Gender != pk.OT_Gender) return false;
             var wcOT = OT_Name;
             if (!string.IsNullOrEmpty(wcOT))

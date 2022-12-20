@@ -71,15 +71,15 @@ public sealed class SecretBase3
         set => value.Write().CopyTo(Data, Offset + 50);
     }
 
-    public int TID
+    public int TID16
     {
         get => (ushort)OT_ID;
-        set => OT_ID = (ushort)(SID | (ushort)value);
+        set => OT_ID = (ushort)(SID16 | (ushort)value);
     }
 
-    public int SID
+    public int SID16
     {
         get => (ushort)OT_ID >> 8;
-        set => OT_ID = (ushort)(((ushort)value << 16) | TID);
+        set => OT_ID = (ushort)(((ushort)value << 16) | TID16);
     }
 }

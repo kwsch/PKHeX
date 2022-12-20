@@ -71,8 +71,8 @@ public sealed class HallFame3PKM
     private readonly int Offset;
     private readonly bool Japanese;
 
-    public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(0 + Offset), (ushort)value); }
-    public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(2 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(2 + Offset), (ushort)value); }
+    public int TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(0 + Offset), (ushort)value); }
+    public int SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(2 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(2 + Offset), (ushort)value); }
     public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(4 + Offset)); set => WriteUInt32LittleEndian(Data.AsSpan(4 + Offset), value); }
     private int SpecLevel { get => ReadUInt16LittleEndian(Data.AsSpan(8 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(8 + Offset), (ushort)value); }
 

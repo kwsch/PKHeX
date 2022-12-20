@@ -18,7 +18,9 @@ public sealed record EncounterStatic1E : EncounterStatic1, IFixedGBLanguage
     public IReadOnlyList<string> OT_Names { get; init; } = Array.Empty<string>();
 
     /// <summary> Trainer ID for the event. </summary>
-    public int TID { get; init; } = -1;
+    public ushort TID16 { get; init; } = UnspecifiedID;
+
+    public const ushort UnspecifiedID = 0;
 
     public EncounterStatic1E(byte species, byte level, GameVersion game) : base(species, level, game)
     {
@@ -36,7 +38,7 @@ public sealed record EncounterStatic1E : EncounterStatic1, IFixedGBLanguage
         if (!IsShinyValid(pk))
             return false;
 
-        if (TID != -1 && pk.TID != TID)
+        if (TID16 != UnspecifiedID && pk.TID16 != TID16)
             return false;
 
         if (OT_Name.Length != 0)
@@ -81,8 +83,8 @@ public sealed record EncounterStatic1E : EncounterStatic1, IFixedGBLanguage
                 pk1.Catch_Rate = Util.Rand.Next(2) == 0 ? (byte)167 : (byte)168;
         }
 
-        if (TID != -1)
-            pk.TID = TID;
+        if (TID16 != UnspecifiedID)
+            pk.TID16 = TID16;
 
         if (OT_Name.Length != 0)
             pk.OT_Name = OT_Name;

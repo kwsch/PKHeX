@@ -141,8 +141,9 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     };
 
     // Player Information
-    public override int TID { get => Blocks.Status.TID; set => Blocks.Status.TID = value; }
-    public override int SID { get => Blocks.Status.SID; set => Blocks.Status.SID = value; }
+    public override uint ID32 { get => Blocks.Status.ID32; set => Blocks.Status.ID32 = value; }
+    public override uint TID16 { get => Blocks.Status.TID16; set => Blocks.Status.TID16 = (ushort)value; }
+    public override uint SID16 { get => Blocks.Status.SID16; set => Blocks.Status.SID16 = (ushort)value; }
     public override int Game { get => Blocks.Status.Game; set => Blocks.Status.Game = value; }
     public override int Gender { get => Blocks.Status.Gender; set => Blocks.Status.Gender = value; }
     public override int Language { get => Blocks.Status.Language; set => Blocks.Config.Language = Blocks.Status.Language = value; } // stored in multiple places

@@ -22,7 +22,7 @@ public sealed class PersonalInfo1 : PersonalInfo
         return Data;
     }
 
-    public override int Gender { get => Data[0x00]; set => Data[0x00] = (byte)value; }
+    public override byte Gender { get => Data[0x00]; set => Data[0x00] = value; }
     public override int HP { get => Data[0x01]; set => Data[0x01] = (byte)value; }
     public override int ATK { get => Data[0x02]; set => Data[0x02] = (byte)value; }
     public override int DEF { get => Data[0x03]; set => Data[0x03] = (byte)value; }

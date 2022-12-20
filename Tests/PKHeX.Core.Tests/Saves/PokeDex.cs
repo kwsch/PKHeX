@@ -28,7 +28,7 @@ public static class PokeDex
 
     private static void SetDexSpecies(SaveFile sav, ushort species, int regionSize)
     {
-        var pk5 = new PK5 {Species = species, TID = 1337}; // non-shiny
+        var pk5 = new PK5 {Species = species, TID16 = 1337}; // non-shiny
         pk5.Gender = pk5.GetSaneGender();
 
         sav.SetBoxSlotAtIndex(pk5, 0);

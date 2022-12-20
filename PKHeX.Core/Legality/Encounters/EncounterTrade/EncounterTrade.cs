@@ -34,8 +34,8 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
 
     public int EggLocation { get; init; }
 
-    public ushort TID { get; init; }
-    public ushort SID { get; init; }
+    public ushort TID16 { get; init; }
+    public ushort SID16 { get; init; }
 
     public Moveset Moves { get; init; }
     public IndividualValueSet IVs { get; init; }
@@ -47,8 +47,8 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     {
         init
         {
-            TID = (ushort) value;
-            SID = (ushort)(value >> 16);
+            TID16 = (ushort) value;
+            SID16 = (ushort)(value >> 16);
         }
     }
 
@@ -97,8 +97,8 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
 
         pk.CurrentLevel = level;
         pk.Version = (int) version;
-        pk.TID = TID;
-        pk.SID = SID;
+        pk.TID16 = TID16;
+        pk.SID16 = SID16;
         pk.Ball = Ball;
         pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
@@ -195,9 +195,9 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
 
         if (!IsMatchNatureGenderShiny(pk))
             return false;
-        if (TID != pk.TID)
+        if (TID16 != pk.TID16)
             return false;
-        if (SID != pk.SID)
+        if (SID16 != pk.SID16)
             return false;
 
         if (!IsMatchLevel(pk, evo))

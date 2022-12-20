@@ -51,7 +51,7 @@ public sealed class PB8 : G8PKM
         if (IsEgg)
         {
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
-            if ((tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
+            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
 
             // Unfortunately, BDSP doesn't return if it's an egg, and can update the HT details & handler.
@@ -99,7 +99,7 @@ public sealed class PB8 : G8PKM
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
             return false;
 
         CurrentHandler = 0;

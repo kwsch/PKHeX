@@ -28,8 +28,9 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x08), value); }
     public bool IsBadEgg { get => Data[Offset + 0x0C] != 0; set => Data[Offset + 0x0C] = (byte)(value ? 1 : 0); }
     public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0D)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0D), value); }
-    public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0F)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0F), (ushort)value); }
-    public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x11)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x11), (ushort)value); }
+    public uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x0F)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x0F), value); }
+    public uint TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0F)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0F), (ushort)value); }
+    public uint SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x11)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x11), (ushort)value); }
     public uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x13)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x13), value); }
     public int Ability { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x17)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x17), (ushort)value); }
     public int AbilityNumber { get => Data[Offset + 0x19] & 7; set => Data[Offset + 0x19] = (byte)((Data[Offset + 0x19] & ~7) | (value & 7)); }
@@ -294,6 +295,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public int MarkingCount => 6;
 
+    public TrainerIDFormat TrainerIDDisplayFormat => ((GameVersion)Version).GetGeneration() >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
+
     public int GetMarking(int index)
     {
         if ((uint)index >= MarkingCount)
@@ -316,8 +319,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         pk.Species = Species;
         pk.Form = Form;
         pk.Gender = Gender;
-        pk.TID = TID;
-        pk.SID = SID;
+        pk.TID16 = TID16;
+        pk.SID16 = SID16;
         pk.EXP = EXP;
         pk.Ability = Ability;
         pk.AbilityNumber = AbilityNumber;

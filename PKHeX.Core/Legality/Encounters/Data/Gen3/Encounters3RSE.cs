@@ -84,13 +84,13 @@ internal static class Encounters3RSE
 
     internal static readonly EncounterTrade3[] TradeGift_RSE =
     {
-        new(RS, 0x00009C40, 296, 05) { Ability = OnlySecond, TID = 49562, SID = 00000, OTGender = 0, Gender = 0, IVs = new(5,5,4,4,4,4), Contest = TradeContest_Tough }, // Slakoth (Level 5 Breeding) -> Makuhita
-        new(RS, 0x498A2E17, 300, 03) { Ability = OnlyFirst,  TID = 02259, SID = 00000, OTGender = 1, Gender = 1, IVs = new(5,4,4,5,4,4), Contest = TradeContest_Cute }, // Pikachu (Level 3 Viridian Forest) -> Skitty
-        new(RS, 0x4C970B7F, 222, 21) { Ability = OnlySecond, TID = 50183, SID = 00000, OTGender = 1, Gender = 1, IVs = new(4,4,5,4,4,5), Contest = TradeContest_Beauty }, // Bellossom (Level 21 Oddish -> Gloom -> Bellossom) -> Corsola
-        new(E , 0x00000084, 273, 04) { Ability = OnlySecond, TID = 38726, SID = 00000, OTGender = 0, Gender = 0, IVs = new(5,4,5,4,4,4), Contest = TradeContest_Cool }, // Ralts (Level 4 Route 102) -> Seedot
-        new(E , 0x0000006F, 311, 05) { Ability = OnlyFirst,  TID = 08460, SID = 00001, OTGender = 0, Gender = 1, IVs = new(4,4,4,5,5,4), Contest = TradeContest_Cute }, // Volbeat (Level 5 Breeding) -> Plusle
-        new(E , 0x0000007F, 116, 05) { Ability = OnlyFirst,  TID = 46285, SID = 00000, OTGender = 0, Gender = 0, IVs = new(5,4,4,4,5,4), Contest = TradeContest_Tough }, // Bagon (Level 5 Breeding) -> Horsea*
-        new(E , 0x0000008B, 052, 03) { Ability = OnlyFirst,  TID = 25945, SID = 00001, OTGender = 1, Gender = 0, IVs = new(4,5,4,5,4,4), Contest = TradeContest_Clever }, // Skitty (Level 3 Trade)-> Meowth*
+        new(RS, 0x00009C40, 296, 05) { Ability = OnlySecond, TID16 = 49562, SID16 = 00000, OTGender = 0, Gender = 0, IVs = new(5,5,4,4,4,4), Contest = TradeContest_Tough }, // Slakoth (Level 5 Breeding) -> Makuhita
+        new(RS, 0x498A2E17, 300, 03) { Ability = OnlyFirst,  TID16 = 02259, SID16 = 00000, OTGender = 1, Gender = 1, IVs = new(5,4,4,5,4,4), Contest = TradeContest_Cute }, // Pikachu (Level 3 Viridian Forest) -> Skitty
+        new(RS, 0x4C970B7F, 222, 21) { Ability = OnlySecond, TID16 = 50183, SID16 = 00000, OTGender = 1, Gender = 1, IVs = new(4,4,5,4,4,5), Contest = TradeContest_Beauty }, // Bellossom (Level 21 Oddish -> Gloom -> Bellossom) -> Corsola
+        new(E , 0x00000084, 273, 04) { Ability = OnlySecond, TID16 = 38726, SID16 = 00000, OTGender = 0, Gender = 0, IVs = new(5,4,5,4,4,4), Contest = TradeContest_Cool }, // Ralts (Level 4 Route 102) -> Seedot
+        new(E , 0x0000006F, 311, 05) { Ability = OnlyFirst,  TID16 = 08460, SID16 = 00001, OTGender = 0, Gender = 1, IVs = new(4,4,4,5,5,4), Contest = TradeContest_Cute }, // Volbeat (Level 5 Breeding) -> Plusle
+        new(E , 0x0000007F, 116, 05) { Ability = OnlyFirst,  TID16 = 46285, SID16 = 00000, OTGender = 0, Gender = 0, IVs = new(5,4,4,4,5,4), Contest = TradeContest_Tough }, // Bagon (Level 5 Breeding) -> Horsea*
+        new(E , 0x0000008B, 052, 03) { Ability = OnlyFirst,  TID16 = 25945, SID16 = 00001, OTGender = 1, Gender = 0, IVs = new(4,5,4,5,4,4), Contest = TradeContest_Clever }, // Skitty (Level 3 Trade)-> Meowth*
         //  If Pokémon with * is evolved in a Generation IV or V game, its Ability will become its second Ability.
     };
 

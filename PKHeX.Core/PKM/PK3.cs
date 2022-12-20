@@ -48,8 +48,9 @@ public sealed class PK3 : G3PKM, ISanityChecksum
 
     // 0x20 Intro
     public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
-    public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), (ushort)value); }
-    public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(0x06), (ushort)value); }
+    public override uint ID32 { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), (ushort)value); }
+    public override uint TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), (ushort)value); }
+    public override uint SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(0x06), (ushort)value); }
     public override string Nickname
     {
         get => StringConverter3.GetString(Nickname_Trash, Japanese);
@@ -216,8 +217,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         {
             PID = PID,
             Species = Species,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             EXP = IsEgg ? Experience.GetEXP(5, PersonalInfo.EXPGrowth) : EXP,
             Gender = EntityGender.GetFromPID(Species, PID),
             Form = Form,

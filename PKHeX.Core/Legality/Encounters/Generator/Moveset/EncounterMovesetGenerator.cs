@@ -34,7 +34,7 @@ public static class EncounterMovesetGenerator
     /// <remarks>When updating, update the sister <see cref="GenerateEncounters(PKM,ITrainerInfo,ushort[],GameVersion[])"/> method.</remarks>
     public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, ushort[] moves, params GameVersion[] versions)
     {
-        pk.TID = info.TID;
+        pk.TID16 = info.TID16;
         var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
         foreach (var ver in vers)
         {
@@ -63,7 +63,7 @@ public static class EncounterMovesetGenerator
     /// <remarks>When updating, update the sister <see cref="GeneratePKMs(PKM,ITrainerInfo,ushort[],GameVersion[])"/> method.</remarks>
     public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, ITrainerInfo info, ushort[] moves, params GameVersion[] versions)
     {
-        pk.TID = info.TID;
+        pk.TID16 = info.TID16;
         var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
         foreach (var ver in vers)
         {

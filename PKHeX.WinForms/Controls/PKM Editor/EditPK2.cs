@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls;
@@ -18,7 +18,7 @@ public partial class PKMEditor
         LoadMisc1(pk2);
         LoadMisc2(pk2);
 
-        TID_Trainer.LoadIDValues(pk2);
+        TID_Trainer.LoadIDValues(pk2, pk2.Format);
         TB_MetLevel.Text = c2.Met_Level.ToString();
         CB_MetLocation.SelectedValue = c2.Met_Location;
         CB_MetTimeOfDay.SelectedIndex = c2.Met_TimeOfDay;

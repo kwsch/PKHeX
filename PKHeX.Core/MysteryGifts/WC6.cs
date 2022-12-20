@@ -138,20 +138,19 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         _ => throw new ArgumentOutOfRangeException(),
     };
 
-    private int GetShinyXor()
+    private uint GetShinyXor()
     {
         // Player owned anti-shiny fixed PID
-        if (TID == 0 && SID == 0)
-            return int.MaxValue;
+        if (ID32 == 0)
+            return uint.MaxValue;
 
-        var pid = PID;
-        var psv = (int)((pid >> 16) ^ (pid & 0xFFFF));
-        var tsv = TID ^ SID;
-        return psv ^ tsv;
+        var xor = PID ^ ID32;
+        return (xor >> 16) ^ (xor & 0xFFFF);
     }
 
-    public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value); }
-    public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value); }
+    public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x68)); set => WriteUInt32LittleEndian(Data.AsSpan(0x68), value); }
+    public override uint TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value); }
+    public override uint SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value); }
     public int OriginGame { get => Data[0x6C]; set => Data[0x6C] = (byte)value; }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x70)); set => WriteUInt32LittleEndian(Data.AsSpan(0x70), value); }
     public override int Ball { get => Data[0x76]; set => Data[0x76] = (byte)value; }
@@ -306,8 +305,8 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         {
             Species = Species,
             HeldItem = HeldItem,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             Met_Level = currentLevel,
             Form = Form,
             EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
@@ -469,7 +468,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
                 break;
             case ShinyType6.Always: // Random Shiny
                 pk.PID = Util.Rand32();
-                pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
+                pk.PID = ((pk.TID16 ^ pk.SID16 ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF);
                 break;
             case ShinyType6.Never: // Random Nonshiny
                 pk.PID = Util.Rand32();
@@ -527,8 +526,8 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
                 // Skip ID check if ORASDEMO Simulated wc6
                 if (CardID != 0)
                 {
-                    if (SID != pk.SID) return false;
-                    if (TID != pk.TID) return false;
+                    if (SID16 != pk.SID16) return false;
+                    if (TID16 != pk.TID16) return false;
                 }
                 if (OTGender != pk.OT_Gender) return false;
             }

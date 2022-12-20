@@ -142,7 +142,7 @@ public partial class SAV_Misc5 : Form
             }
 
             // LibertyPass
-            valLibPass = keyLibPass ^ (uint)((SAV.SID << 16) | SAV.TID);
+            valLibPass = keyLibPass ^ (uint)((SAV.SID16 << 16) | SAV.TID16);
             bLibPass = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass)) == valLibPass;
             CHK_LibertyPass.Checked = bLibPass;
         }

@@ -90,7 +90,7 @@ public sealed class PIDVerifier : Verifier
     {
         var pk = data.Entity;
         var pid = pk.EncryptionConstant;
-        var result = (pid & 1) ^ (pid >> 31) ^ (pk.TID & 1) ^ (pk.SID & 1);
+        var result = (pid & 1) ^ (pid >> 31) ^ (pk.TID16 & 1) ^ (pk.SID16 & 1);
         if (result != 0)
             data.AddLine(GetInvalid(LPIDTypeMismatch));
     }
@@ -171,7 +171,7 @@ public sealed class PIDVerifier : Verifier
         // Check for Gen3-5 => Gen6 edge case being incorrectly applied here.
         if ((pk.PID ^ 0x80000000) == pk.EncryptionConstant)
         {
-            int xor = pk.TSV ^ pk.PSV;
+            var xor = pk.ShinyXor;
             if (xor >> 3 == 1) // 8 <= x <= 15
                 data.AddLine(Get(LTransferPIDECXor, Severity.Fishy, CheckIdentifier.EC));
         }
@@ -195,7 +195,7 @@ public sealed class PIDVerifier : Verifier
         uint pid = pk.PID;
         uint LID = pid & 0xFFFF;
         uint HID = pid >> 16;
-        uint XOR = (uint)(pk.TID ^ LID ^ pk.SID ^ HID);
+        uint XOR = (uint)(pk.TID16 ^ LID ^ pk.SID16 ^ HID);
 
         // Ensure we don't have a shiny.
         if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
@@ -228,7 +228,7 @@ public sealed class PIDVerifier : Verifier
     private static bool GetExpectedTransferPID(PKM pk, out uint expect)
     {
         var ec = pk.EncryptionConstant; // should be original PID
-        bool xorPID = ((pk.TID ^ pk.SID ^ (int) (ec & 0xFFFF) ^ (int) (ec >> 16)) & ~0x7) == 8;
+        bool xorPID = ((pk.TID16 ^ pk.SID16 ^ (int) (ec & 0xFFFF) ^ (int) (ec >> 16)) & ~0x7) == 8;
         expect = (xorPID ? (ec ^ 0x80000000) : ec);
         return xorPID;
     }

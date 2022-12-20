@@ -249,7 +249,7 @@ public partial class PKMEditor
         if (pk is IContestStatsReadOnly s)
             s.CopyContestStatsTo(Contest);
 
-        TID_Trainer.LoadIDValues(pk);
+        TID_Trainer.LoadIDValues(pk, pk.Format);
 
         // Load Extrabyte Value
         var offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);

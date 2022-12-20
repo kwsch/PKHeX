@@ -86,8 +86,9 @@ public sealed class WR7 : DataMysteryGift
 
     public override int Gender { get; set; }
     public override byte Form { get; set; }
-    public override int TID { get; set; }
-    public override int SID { get; set; }
+    public override uint ID32 { get; set; }
+    public override uint TID16 { get; set; }
+    public override uint SID16 { get; set; }
 
     public override string OT_Name
     {

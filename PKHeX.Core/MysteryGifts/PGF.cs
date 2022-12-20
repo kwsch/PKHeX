@@ -15,8 +15,9 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public PGF() : this(new byte[Size]) { }
     public PGF(byte[] data) : base(data) { }
 
-    public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
-    public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value); }
+    public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
+    public override uint TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
+    public override uint SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value); }
     public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
     // Unused 0x05 0x06, 0x07
     public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); }
@@ -252,15 +253,15 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
         if (IsEgg) // User's
         {
-            pk.TID = tr.TID;
-            pk.SID = tr.SID;
+            pk.TID16 = tr.TID16;
+            pk.SID16 = tr.SID16;
             pk.OT_Name = tr.OT;
             pk.OT_Gender = tr.Gender;
         }
         else // Hardcoded
         {
-            pk.TID = TID;
-            pk.SID = SID;
+            pk.TID16 = TID16;
+            pk.SID16 = SID16;
             pk.OT_Name = OT_Name;
             pk.OT_Gender = (OTGender == 3 ? tr.Gender : OTGender) & 1; // some events have variable gender based on receiving SaveFile
         }
@@ -331,7 +332,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         if (PIDType == 2) // Always
         {
             uint gb = pk.PID & 0xFF;
-            pk.PID = PIDGenerator.GetMG5ShinyPID(gb, (uint)av, pk.TID, pk.SID);
+            pk.PID = PIDGenerator.GetMG5ShinyPID(gb, (uint)av, pk.TID16, pk.SID16);
         }
         else if (PIDType != 1) // Force Not Shiny
         {
@@ -351,7 +352,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         2 when !IsEgg => Shiny.Always,
         _ => Shiny.Random, // 1
     };
-    
+
     private void SetIVs(PK5 pk)
     {
         Span<int> finalIVs = stackalloc int[6];
@@ -366,8 +367,8 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     {
         if (!IsEgg)
         {
-            if (SID != pk.SID) return false;
-            if (TID != pk.TID) return false;
+            if (SID16 != pk.SID16) return false;
+            if (TID16 != pk.TID16) return false;
             if (OT_Name != pk.OT_Name) return false;
             if (OTGender < 3 && OTGender != pk.OT_Gender) return false;
             if (PID != 0 && pk.PID != PID) return false;

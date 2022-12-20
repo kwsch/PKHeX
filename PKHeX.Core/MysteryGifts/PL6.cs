@@ -86,8 +86,8 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public PL6_PKM() : this(new byte[Size]) { }
     public PL6_PKM(byte[] data) => Data = data;
 
-    public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
-    public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value); }
+    public int TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
+    public int SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value); }
     public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); }
     public int Ball { get => Data[0xE]; set => Data[0xE] = (byte)value; }

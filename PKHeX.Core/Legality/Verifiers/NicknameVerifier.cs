@@ -329,7 +329,7 @@ public sealed class NicknameVerifier : Verifier
     private static void VerifyTrade4(LegalityAnalysis data, EncounterTrade t)
     {
         var pk = data.Entity;
-        if (pk.TID == 1000)
+        if (pk.TID16 == 1000)
         {
             VerifyTradeOTOnly(data, t);
             return;
@@ -482,7 +482,7 @@ public sealed class NicknameVerifier : Verifier
         }
         else // B2W2
         {
-            if (t.TID is Encounters5B2W2.YancyTID or Encounters5B2W2.CurtisTID)
+            if (t.TID16 is Encounters5B2W2.YancyTID or Encounters5B2W2.CurtisTID)
                 VerifyTradeOTOnly(data, t);
             else
                 VerifyTrade(data, t, lang);

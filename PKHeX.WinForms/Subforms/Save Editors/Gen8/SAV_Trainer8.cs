@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -66,7 +66,7 @@ public partial class SAV_Trainer8 : Form
         TB_TrainerCardNumber.Text = SAV.Blocks.TrainerCard.Number;
         MT_TrainerCardID.Text = SAV.Blocks.TrainerCard.TrainerID.ToString("000000");
         MT_RotoRally.Text = SAV.Blocks.TrainerCard.RotoRallyScore.ToString();
-        trainerID1.LoadIDValues(SAV);
+        trainerID1.LoadIDValues(SAV, SAV.Generation);
         MT_Money.Text = SAV.Money.ToString();
         MT_Watt.Text = SAV.MyStatus.Watt.ToString();
         CB_Language.SelectedValue = SAV.Language;

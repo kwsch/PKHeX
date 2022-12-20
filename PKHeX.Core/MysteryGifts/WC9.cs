@@ -105,30 +105,38 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         _ => Shiny.Never,
     };
 
-    private int GetShinyXor()
+    private uint GetShinyXor()
     {
         // Player owned anti-shiny fixed PID
-        if (TID == 0 && SID == 0)
-            return int.MaxValue;
+        if (ID32 == 0)
+            return uint.MaxValue;
 
-        var pid = PID;
-        var psv = (int)((pid >> 16) ^ (pid & 0xFFFF));
-        var tsv = (TID ^ SID);
-        return psv ^ tsv;
+        var xor = PID ^ ID32;
+        return (xor >> 16) ^ (xor & 0xFFFF);
     }
 
     // When applying the TID32, the game sets the DisplayTID7 directly, then sets pk9.DisplaySID7 as (wc9.DisplaySID7 - wc9.CardID)
     // Since we expose the 16bit (pk9) component values here, just adjust them accordingly with an inlined calc.
-    public override int TID
+    public override uint ID32
     {
-        get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000 * CardID)) & 0xFFFF);
-        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((SID << 16) | value) + (uint)(1000000 * CardID));
+        get => (uint)((TID16 << 16) | SID16);
+        set
+        {
+            TID16 = (ushort)(value >> 16);
+            SID16 = (ushort)(value & 0xFFFF);
+        }
     }
 
-    public override int SID
+    public override uint TID16
+    {
+        get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000 * CardID)) & 0xFFFF);
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((SID16 << 16) | value) + (uint)(1000000 * CardID));
+    }
+
+    public override uint SID16
     {
         get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000 * CardID)) >> 16 & 0xFFFF);
-        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((value << 16) | TID) + (uint)(1000000 * CardID));
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((value << 16) | TID16) + (uint)(1000000 * CardID));
     }
 
     public int OriginGame
@@ -407,8 +415,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         var pk = new PK9
         {
             EncryptionConstant = EncryptionConstant != 0 || IsHOMEGift ? EncryptionConstant : Util.Rand32(),
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             Species = Species,
             Form = Form,
             CurrentLevel = currentLevel,
@@ -468,16 +476,14 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
         if (OTGender >= 2)
         {
-            pk.TID = tr.TID;
-            pk.SID = tr.SID;
+            pk.TID16 = tr.TID16;
+            pk.SID16 = tr.SID16;
 
             if (IsHOMEGift)
             {
                 pk.TrainerSID7 = 0;
                 while (pk.TSV == 0)
-                {
-                    pk.TrainerID7 = Util.Rand.Next(16, 999_999 + 1);
-                }
+                    pk.TrainerID7 = (uint)Util.Rand.Next(16, 999_999 + 1);
             }
         }
 
@@ -550,20 +556,20 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         _ => AbilityPermission.Any12H,
     };
 
-    private uint GetPID(ITrainerID tr, ShinyType8 type) => type switch
+    private uint GetPID(ITrainerID32 tr, ShinyType8 type) => type switch
     {
         ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
         ShinyType8.Random       => Util.Rand32(), // Random, Any
-        ShinyType8.AlwaysStar   => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
-        ShinyType8.AlwaysSquare => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
+        ShinyType8.AlwaysStar   => (((tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
+        ShinyType8.AlwaysSquare => (((tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
         ShinyType8.FixedValue   => GetFixedPID(tr),
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-    private uint GetFixedPID(ITrainerID tr)
+    private uint GetFixedPID(ITrainerID32 tr)
     {
         var pid = PID;
-        if (pid != 0 && !(TID == 0 && SID == 0))
+        if (pid != 0 && ID32 != 0)
             return pid;
 
         if (!tr.IsShiny(pid, 9))
@@ -573,13 +579,9 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         return pid;
     }
 
-    private static uint GetAntishinyFixedHOME(ITrainerID tr)
-    {
-        var fid = (uint)(tr.SID << 16) | (uint)tr.TID;
-        return fid ^ 0x10u;
-    }
+    private static uint GetAntishinyFixedHOME(ITrainerID32 tr) => tr.ID32 ^ 0x10u;
 
-    private static uint GetAntishiny(ITrainerID tr)
+    private static uint GetAntishiny(ITrainerID32 tr)
     {
         var pid = Util.Rand32();
         if (tr.IsShiny(pid, 9))
@@ -626,8 +628,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         {
             if (OTGender < 2)
             {
-                if (SID != pk.SID) return false;
-                if (TID != pk.TID) return false;
+                if (SID16 != pk.SID16) return false;
+                if (TID16 != pk.TID16) return false;
                 if (OTGender != pk.OT_Gender) return false;
             }
 

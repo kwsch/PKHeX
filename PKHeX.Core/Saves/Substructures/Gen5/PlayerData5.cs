@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -19,16 +19,22 @@ public sealed class PlayerData5 : SaveBlock<SAV5>
         set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x14 + 0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14 + 0), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x14));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x14), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x14 + 0));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14 + 0), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x14 + 2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14 + 2), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14 + 2), value);
     }
 
     public int Language

@@ -52,8 +52,8 @@ public class GeneratorTests
         var criteria = EncounterCriteria.Unrestricted;
         var tr = new SimpleTrainerInfo(GameVersion.B2)
         {
-            TID = 57600,
-            SID = 62446,
+            TID16 = 57600,
+            SID16 = 62446,
         };
 
         for (var nature = Nature.Hardy; nature <= Nature.Quirky; nature++)
@@ -62,8 +62,8 @@ public class GeneratorTests
             var pk = ez.ConvertToPKM(tr, criteria);
             pk.Nature.Should().Be((int)nature, "not nature locked");
             pk.IsShiny.Should().BeTrue("encounter is shiny locked");
-            pk.TID.Should().Be(tr.TID);
-            pk.SID.Should().Be(tr.SID);
+            pk.TID16.Should().Be(tr.TID16);
+            pk.SID16.Should().Be(tr.SID16);
         }
     }
 }

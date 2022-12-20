@@ -83,17 +83,17 @@ internal static class Encounters6XY
     #region Trade Tables
     internal static readonly EncounterTrade6[] TradeGift_XY =
     {
-        new(XY, 01,3,23,049) { Species = 129, Level = 05, Ability = OnlyFirst,  TID = 44285, IVs = new(-1,31,-1,-1,31,-1), Gender = 0, Nature = Nature.Adamant }, // Magikarp
-        new(XY, 10,3,00,000) { Species = 133, Level = 05, Ability = OnlyFirst,  TID = 29294, Gender = 1, Nature = Nature.Docile }, // Eevee
+        new(XY, 01,3,23,049) { Species = 129, Level = 05, Ability = OnlyFirst,  TID16 = 44285, IVs = new(-1,31,-1,-1,31,-1), Gender = 0, Nature = Nature.Adamant }, // Magikarp
+        new(XY, 10,3,00,000) { Species = 133, Level = 05, Ability = OnlyFirst,  TID16 = 29294, Gender = 1, Nature = Nature.Docile }, // Eevee
 
-        new(XY, 15,4,13,017) { Species = 083, Level = 10, Ability = OnlyFirst,  TID = 00185, IVs = new(-1,-1,-1,31,-1,-1), Gender = 0, Nature = Nature.Jolly }, // Farfetch'd
-        new(XY, 17,5,08,025) { Species = 208, Level = 20, Ability = OnlyFirst,  TID = 19250, IVs = new(-1,-1,31,-1,-1,-1), Gender = 1, Nature = Nature.Impish }, // Steelix
-        new(XY, 18,7,20,709) { Species = 625, Level = 50, Ability = OnlyFirst,  TID = 03447, IVs = new(-1,31,-1,-1,-1,-1), Gender = 0, Nature = Nature.Adamant }, // Bisharp
+        new(XY, 15,4,13,017) { Species = 083, Level = 10, Ability = OnlyFirst,  TID16 = 00185, IVs = new(-1,-1,-1,31,-1,-1), Gender = 0, Nature = Nature.Jolly }, // Farfetch'd
+        new(XY, 17,5,08,025) { Species = 208, Level = 20, Ability = OnlyFirst,  TID16 = 19250, IVs = new(-1,-1,31,-1,-1,-1), Gender = 1, Nature = Nature.Impish }, // Steelix
+        new(XY, 18,7,20,709) { Species = 625, Level = 50, Ability = OnlyFirst,  TID16 = 03447, IVs = new(-1,31,-1,-1,-1,-1), Gender = 0, Nature = Nature.Adamant }, // Bisharp
 
-        new(XY, 02,3,11,005) { Species = 656, Level = 05, Ability = OnlyFirst,  TID = 00037, IVs = new(20,20,20,31,20,20), Gender = 0, Nature = Nature.Jolly }, // Froakie
-        new(XY, 02,3,09,005) { Species = 650, Level = 05, Ability = OnlyFirst,  TID = 00037, IVs = new(20,31,20,20,20,20), Gender = 0, Nature = Nature.Adamant }, // Chespin
-        new(XY, 02,3,18,005) { Species = 653, Level = 05, Ability = OnlyFirst,  TID = 00037, IVs = new(20,20,20,20,31,20), Gender = 0, Nature = Nature.Modest }, // Fennekin
-        new(XY, 51,4,04,033) { Species = 280, Level = 05, Ability = OnlyFirst,  TID = 37110, IVs = new(20,20,20,31,31,20), Gender = 1, Nature = Nature.Modest, IsNicknamed = false }, // Ralts
+        new(XY, 02,3,11,005) { Species = 656, Level = 05, Ability = OnlyFirst,  TID16 = 00037, IVs = new(20,20,20,31,20,20), Gender = 0, Nature = Nature.Jolly }, // Froakie
+        new(XY, 02,3,09,005) { Species = 650, Level = 05, Ability = OnlyFirst,  TID16 = 00037, IVs = new(20,31,20,20,20,20), Gender = 0, Nature = Nature.Adamant }, // Chespin
+        new(XY, 02,3,18,005) { Species = 653, Level = 05, Ability = OnlyFirst,  TID16 = 00037, IVs = new(20,20,20,20,31,20), Gender = 0, Nature = Nature.Modest }, // Fennekin
+        new(XY, 51,4,04,033) { Species = 280, Level = 05, Ability = OnlyFirst,  TID16 = 37110, IVs = new(20,20,20,31,31,20), Gender = 1, Nature = Nature.Modest, IsNicknamed = false }, // Ralts
     };
     #endregion
 

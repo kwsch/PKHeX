@@ -156,9 +156,9 @@ internal static class Encounters6AO
     #region Trade Tables
     internal static readonly EncounterTrade6[] TradeGift_AO =
     {
-        new(ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = OnlySecond, TID = 30724, IVs = new(-1,31,-1,-1,-1,-1), Gender = 0, Nature = Nature.Brave }, // Makuhita
-        new(ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = OnlyFirst,  TID = 03239, IVs = new(-1,-1,-1,31,-1,-1), Gender = 1, Nature = Nature.Naughty }, // Skitty
-        new(ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = OnlyHidden, TID = 00325, IVs = new(31,-1,-1,-1,-1,31), Gender = 1, Nature = Nature.Calm }, // Corsola
+        new(ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = OnlySecond, TID16 = 30724, IVs = new(-1,31,-1,-1,-1,-1), Gender = 0, Nature = Nature.Brave }, // Makuhita
+        new(ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = OnlyFirst,  TID16 = 03239, IVs = new(-1,-1,-1,31,-1,-1), Gender = 1, Nature = Nature.Naughty }, // Skitty
+        new(ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = OnlyHidden, TID16 = 00325, IVs = new(31,-1,-1,-1,-1,31), Gender = 1, Nature = Nature.Calm }, // Corsola
     };
     #endregion
 

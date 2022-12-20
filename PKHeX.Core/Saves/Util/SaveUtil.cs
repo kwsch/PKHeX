@@ -755,16 +755,8 @@ public static class SaveUtil
             sav.Language = (int)language;
 
         // Secondary Properties may not be used but can be filled in as template.
-        if (sav.Generation >= 7)
-        {
-            sav.TrainerID7 = 123456;
-            sav.TrainerSID7 = 1234;
-        }
-        else
-        {
-            sav.TID = 12345;
-            sav.SID = 54321;
-        }
+        (uint tid, uint sid) = sav.Generation >= 7 ? (1234u, 123456u) : (12345u, 54321u);
+        ((ITrainerID32)sav).SetDisplayID(tid, sid);
         sav.Language = (int)language;
 
         // Only set geolocation data for 3DS titles

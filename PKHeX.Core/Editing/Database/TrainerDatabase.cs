@@ -131,7 +131,7 @@ public sealed class TrainerDatabase
     {
         var result = new SimpleTrainerInfo((GameVersion)pk.Version)
         {
-            TID = pk.TID, SID = pk.SID, OT = pk.OT_Name, Gender = pk.OT_Gender,
+            TID16 = pk.TID16, SID16 = pk.SID16, OT = pk.OT_Name, Gender = pk.OT_Gender,
             Language = pk.Language,
             Generation = pk.Generation,
         };

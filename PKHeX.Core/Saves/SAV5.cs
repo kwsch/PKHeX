@@ -115,14 +115,15 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
         var pk5 = (PK5)pk;
         // Apply to this Save File
         DateTime Date = DateTime.Now;
-        if (pk5.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+        if (pk5.Trade(OT, ID32, Gender, Date.Day, Date.Month, Date.Year))
             pk.RefreshChecksum();
     }
 
     // Player Data
     public override string OT { get => PlayerData.OT; set => PlayerData.OT = value; }
-    public override int TID { get => PlayerData.TID; set => PlayerData.TID = value; }
-    public override int SID { get => PlayerData.SID; set => PlayerData.SID = value; }
+    public override uint ID32 { get => PlayerData.ID32; set => PlayerData.ID32 = value; }
+    public override uint TID16 { get => PlayerData.TID16; set => PlayerData.TID16 = (ushort)value; }
+    public override uint SID16 { get => PlayerData.SID16; set => PlayerData.SID16 = (ushort)value; }
     public override int Language { get => PlayerData.Language; set => PlayerData.Language = value; }
     public override int Game { get => PlayerData.Game; set => PlayerData.Game = value; }
     public override int Gender { get => PlayerData.Gender; set => PlayerData.Gender = value; }

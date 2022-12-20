@@ -1186,7 +1186,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         PB_Origin.Image = GetOriginSprite(Entity);
-        TID_Trainer.LoadIDValues(Entity);
+        TID_Trainer.LoadIDValues(Entity, Entity.Format);
         UpdateLegality();
     }
 
@@ -1421,7 +1421,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             if (Entity.Format >= 4)
             {
                 var sav = SaveFileRequested.Invoke(this, e);
-                bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
+                bool isTraded = sav.OT != TB_OT.Text || sav.TID16 != Entity.TID16 || sav.SID16 != Entity.SID16;
                 var loc = isTraded
                     ? Locations.TradedEggLocation(sav.Generation, sav.Version)
                     : LocationEdits.GetNoneLocation(Entity);

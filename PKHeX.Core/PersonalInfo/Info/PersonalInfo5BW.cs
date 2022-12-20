@@ -47,7 +47,7 @@ public sealed class PersonalInfo5BW : PersonalInfo, IPersonalAbility12H
     public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteInt16LittleEndian(Data.AsSpan(0x0C), (short)value); }
     public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteInt16LittleEndian(Data.AsSpan(0x0E), (short)value); }
     public int Item3 { get => ReadInt16LittleEndian(Data.AsSpan(0x10)); set => WriteInt16LittleEndian(Data.AsSpan(0x10), (short)value); }
-    public override int Gender { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+    public override byte Gender { get => Data[0x12]; set => Data[0x12] = value; }
     public override int HatchCycles { get => Data[0x13]; set => Data[0x13] = (byte)value; }
     public override int BaseFriendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override byte EXPGrowth { get => Data[0x15]; set => Data[0x15] = value; }
