@@ -38,8 +38,8 @@ public sealed class SavePreview
     public string Played => Save.PlayTimeString.PadLeft(9, '0');
     public string FileTime => File.GetLastWriteTimeUtc(FilePath).ToString("yyyy.MM.dd:hh:mm:ss");
 
-    public string TID => ((ITrainerID32)Save).GetDisplayTID().ToString(Save.TrainerIDDisplayFormat.GetTrainerIDFormatString());
-    public string SID => ((ITrainerID32)Save).GetDisplaySID().ToString(Save.TrainerIDDisplayFormat.GetTrainerIDFormatString());
+    public string TID => Save.GetDisplayTID().ToString(Save.TrainerIDDisplayFormat.GetTrainerIDFormatStringTID());
+    public string SID => Save.GetDisplaySID().ToString(Save.TrainerIDDisplayFormat.GetTrainerIDFormatStringSID());
 
     // ReSharper disable once MemberCanBePrivate.Local
     // ReSharper disable once UnusedAutoPropertyAccessor.Local

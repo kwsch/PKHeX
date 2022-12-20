@@ -74,14 +74,14 @@ public partial class TrainerID : UserControl
 
     private void LoadTID(ITrainerID32 tr)
     {
-        TB_TID.Text = tr.TID16.ToString("D5");
-        TB_SID.Text = tr.TID16.ToString("D5");
+        TB_TID.Text = tr.TID16.ToString(TrainerIDExtensions.TID16);
+        TB_SID.Text = tr.TID16.ToString(TrainerIDExtensions.SID16);
     }
 
     private void LoadTID7(ITrainerID32 tr)
     {
-        TB_TID7.Text = tr.TrainerID7.ToString("D6");
-        TB_SID7.Text = tr.TrainerSID7.ToString("D4");
+        TB_TID7.Text = tr.GetTrainerTID7().ToString(TrainerIDExtensions.TID7);
+        TB_SID7.Text = tr.GetTrainerSID7().ToString(TrainerIDExtensions.SID7);
     }
 
     private void SetFormat(TrainerIDFormat display, int format)

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Mystery Gift Template File
 /// </summary>
-public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
+public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainerID32
 {
     /// <summary>
     /// Determines whether or not the given length of bytes is valid for a mystery gift.
@@ -172,8 +172,11 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
 
     public Ball FixedBall => (Ball)Ball;
 
-    public uint TrainerID7 => ID32 % 1000000;
-    public uint TrainerSID7 => ID32 / 1000000;
+    public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
+    public uint TrainerTID7 { get => this.GetTrainerTID7(); set => this.SetTrainerTID7(value); }
+    public uint TrainerSID7 { get => this.GetTrainerSID7(); set => this.SetTrainerSID7(value); }
+    public uint DisplayTID { get => this.GetDisplayTID(); set => this.SetDisplayTID(value); }
+    public uint DisplaySID { get => this.GetDisplaySID(); set => this.SetDisplaySID(value); }
 
     /// <summary>
     /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its current move list.

@@ -474,7 +474,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             {
                 pk.TrainerSID7 = 0;
                 while (pk.TSV == 0)
-                    pk.TrainerID7 = (uint)Util.Rand.Next(16, 999_999 + 1);
+                    pk.TrainerTID7 = (uint)Util.Rand.Next(16, 999_999 + 1);
             }
         }
 

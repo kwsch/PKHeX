@@ -72,17 +72,11 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int Ball { get; set; }
     public abstract int Met_Level { get; set; }
 
-    public uint TrainerID7
-    {
-        get => ((ITrainerID32)this).TrainerID7;
-        set => ((ITrainerID32)this).TrainerID7 = value;
-    }
-
-    public uint TrainerSID7
-    {
-        get => ((ITrainerID32)this).TrainerSID7;
-        set => ((ITrainerID32)this).TrainerSID7 = value;
-    }
+    // Aliases of ID32
+    public uint TrainerTID7 { get => this.GetTrainerTID7(); set => this.SetTrainerTID7(value); }
+    public uint TrainerSID7 { get => this.GetTrainerSID7(); set => this.SetTrainerSID7(value); }
+    public uint DisplayTID { get => this.GetDisplayTID(); set => this.SetDisplayTID(value); }
+    public uint DisplaySID { get => this.GetDisplaySID(); set => this.SetDisplaySID(value); }
 
     // Battle
     public abstract ushort Move1 { get; set; }

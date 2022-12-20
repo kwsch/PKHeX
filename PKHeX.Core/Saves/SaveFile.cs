@@ -157,6 +157,10 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual int MaxCoins => 9999;
 
     public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
+    public uint TrainerTID7 { get => this.GetTrainerTID7(); set => this.SetTrainerTID7(value); }
+    public uint TrainerSID7 { get => this.GetTrainerSID7(); set => this.SetTrainerSID7(value); }
+    public uint DisplayTID { get => this.GetDisplayTID(); set => this.SetDisplayTID(value); }
+    public uint DisplaySID { get => this.GetDisplaySID(); set => this.SetDisplaySID(value); }
 
     #endregion
 
