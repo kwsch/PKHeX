@@ -142,8 +142,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual int Language { get => -1; set { } }
     public virtual int Game { get => (int)GameVersion.Any; set { } }
     public virtual uint ID32 { get; set; }
-    public virtual uint TID16 { get; set; }
-    public virtual uint SID16 { get; set; }
+    public virtual ushort TID16 { get; set; }
+    public virtual ushort SID16 { get; set; }
     public virtual string OT { get; set; } = "PKHeX";
     public virtual int PlayedHours { get; set; }
     public virtual int PlayedMinutes { get; set; }

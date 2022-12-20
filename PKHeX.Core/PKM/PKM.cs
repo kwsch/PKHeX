@@ -65,8 +65,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract bool IsEgg { get; set; }
     public abstract bool IsNicknamed { get; set; }
     public abstract uint EXP { get; set; }
-    public abstract uint TID16 { get; set; }
-    public abstract uint SID16 { get; set; }
+    public abstract ushort TID16 { get; set; }
+    public abstract ushort SID16 { get; set; }
     public abstract string OT_Name { get; set; }
     public abstract int OT_Gender { get; set; }
     public abstract int Ball { get; set; }
@@ -822,14 +822,16 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         if (IsShiny && shiny.IsValid(this))
             return;
 
-        uint bits = shiny switch
+        ushort bits = shiny switch
         {
             Shiny.AlwaysSquare => 0,
             Shiny.AlwaysStar => 1,
             _ => (ushort)Util.Rand.Next(8),
         };
 
-        SID16 = ShinyXor ^ bits;
+        var current = ShinyXor;
+        current ^= bits;
+        SID16 = current;
     }
 
     /// <summary>

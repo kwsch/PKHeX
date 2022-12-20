@@ -54,7 +54,7 @@ public static class PIDGenerator
 
         if (shiny)
         {
-            uint PID = (X & 0xFFFF0000) | (pk.SID16 ^ pk.TID16 ^ (X >> 16));
+            uint PID = (X & 0xFFFF0000) | ((X >> 16) ^ pk.TID16 ^ pk.SID16);
             PID &= 0xFFFFFFF8;
             PID |= (B >> 16) & 0x7; // lowest 3 bits
 
@@ -63,7 +63,7 @@ public static class PIDGenerator
         else if (type is PIDType.BACD_R_AX or PIDType.BACD_U_AX)
         {
             uint low = B >> 16;
-            pk.PID = ((A & 0xFFFF0000) ^ ((pk.TID16 ^ pk.SID16 ^ low) << 16)) | low;
+            pk.PID = ((A & 0xFFFF0000) ^ ((low ^ pk.TID16 ^ pk.SID16) << 16)) | low;
         }
         else
         {
@@ -84,13 +84,13 @@ public static class PIDGenerator
         switch (pk.Species)
         {
             case (int)Species.Umbreon or (int)Species.Eevee: // Colo Umbreon, XD Eevee
-                pk.TID16 = (seed = XDRNG.Next(seed)) >> 16;
-                pk.SID16 = (seed = XDRNG.Next(seed)) >> 16;
+                pk.TID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
+                pk.SID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
                 seed = XDRNG.Next2(seed); // PID calls consumed
                 break;
             case (int)Species.Espeon: // Colo Espeon
-                pk.TID16 = (seed = XDRNG.Next(seed)) >> 16;
-                pk.SID16 = (seed = XDRNG.Next(seed)) >> 16;
+                pk.TID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
+                pk.SID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
                 seed = XDRNG.Next9(seed); // PID calls consumed, skip over Umbreon
                 break;
         }
@@ -123,12 +123,11 @@ public static class PIDGenerator
         var D = XDRNG.Next(C); // Version
         var E = XDRNG.Next(D); // OT Gender
 
-        const int TID16 = 40122;
+        const ushort TID16 = 40122;
+        pk.ID32 = (O & 0xFFFF0000) | TID16;
         var SID16 = O >> 16;
         var pid1 = A >> 16;
         var pid2 = B >> 16;
-        pk.TID16 = TID16;
-        pk.SID16 = SID16;
         var pid = (pid1 << 16) | pid2;
         if ((pid2 > 7 ? 0 : 1) != (pid1 ^ SID16 ^ TID16))
             pid ^= 0x80000000;

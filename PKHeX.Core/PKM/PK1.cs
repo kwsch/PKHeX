@@ -50,7 +50,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override ushort Move2 { get => Data[9]; set => Data[9] = (byte)value; }
     public override ushort Move3 { get => Data[10]; set => Data[10] = (byte)value; }
     public override ushort Move4 { get => Data[11]; set => Data[11] = (byte)value; }
-    public override uint TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xC)); set => WriteUInt16BigEndian(Data.AsSpan(0xC), (ushort)value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xC)); set => WriteUInt16BigEndian(Data.AsSpan(0xC), value); }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0xE)) >> 8; set => WriteUInt32BigEndian(Data.AsSpan(0xE), (value << 8) | Data[0x11]); }
     public override int EV_HP { get => ReadUInt16BigEndian(Data.AsSpan(0x11)); set => WriteUInt16BigEndian(Data.AsSpan(0x11), (ushort)value); }
     public override int EV_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x13)); set => WriteUInt16BigEndian(Data.AsSpan(0x13), (ushort)value); }
@@ -215,7 +215,7 @@ public sealed class PK1 : GBPKML, IPersonalType
         switch (IsShiny ? Shiny.Always : Shiny.Never)
         {
             case Shiny.Always when !pk7.IsShiny: // Force Square
-                pk7.PID = ((pk7.TID16 ^ 0 ^ (pk7.PID & 0xFFFF) ^ 0) << 16) | (pk7.PID & 0xFFFF);
+                pk7.PID = (pk7.TID16 ^ 0u ^ (pk7.PID & 0xFFFF) ^ 0u) << 16 | (pk7.PID & 0xFFFFu);
                 break;
             case Shiny.Never when pk7.IsShiny: // Force Not Shiny
                 pk7.PID ^= 0x1000_0000;

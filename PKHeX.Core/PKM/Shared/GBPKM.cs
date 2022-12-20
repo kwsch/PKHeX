@@ -115,7 +115,7 @@ public abstract class GBPKM : PKM
     public sealed override int Egg_Location { get => 0; set { } }
     public sealed override int Ball { get => 0; set { } }
     public sealed override uint ID32 { get => TID16; set { } }
-    public sealed override uint SID16 { get => 0; set { } }
+    public sealed override ushort SID16 { get => 0; set { } }
     #endregion
 
     public sealed override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;

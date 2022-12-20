@@ -20,7 +20,7 @@ public sealed record EncounterStatic2E : EncounterStatic2, IFixedGBLanguage
     private const ushort UnspecifiedID = 0;
 
     /// <summary> Trainer ID for the event. </summary>
-    public uint TID16 { get; init; } = UnspecifiedID;
+    public ushort TID16 { get; init; } = UnspecifiedID;
 
     public bool IsGift => TID16 != UnspecifiedID;
 

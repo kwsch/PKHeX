@@ -152,8 +152,8 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     public abstract int Gender { get; set; }
     public abstract byte Form { get; set; }
     public abstract uint ID32 { get; set; }
-    public abstract uint TID16 { get; set; }
-    public abstract uint SID16 { get; set; }
+    public abstract ushort TID16 { get; set; }
+    public abstract ushort SID16 { get; set; }
     public abstract string OT_Name { get; set; }
     public abstract int Location { get; set; }
 

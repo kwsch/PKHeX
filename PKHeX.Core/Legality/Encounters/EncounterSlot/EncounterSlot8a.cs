@@ -218,7 +218,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
     {
         var pt = PersonalTable.LA;
         var entry = pt.GetFormEntry(Species, Form);
-        return (byte)entry.Gender;
+        return entry.Gender;
     }
 
     // hardcoded 7 to assume max dex progress + shiny charm.

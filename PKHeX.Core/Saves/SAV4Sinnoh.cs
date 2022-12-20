@@ -127,7 +127,7 @@ public abstract class SAV4Sinnoh : SAV4
             SetData(General, tree.Data, OFS_HONEY + (HONEY_SIZE * index));
     }
 
-    public MunchlaxTreeSet4 GetMunchlaxTrees() => CalculateMunchlaxTrees((ushort)TID16, (ushort)SID16);
+    public MunchlaxTreeSet4 GetMunchlaxTrees() => CalculateMunchlaxTrees(TID16, SID16);
 
     public static MunchlaxTreeSet4 CalculateMunchlaxTrees(ushort tid, ushort sid)
     {

@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 public interface ITrainerID32 : ITrainerID
 {
     uint ID32 { get; set; }
-    uint TID16 { get => ID32 & 0xFFFF; set => ID32 = (ID32 & 0xFFFF0000) | (value & 0xFFFF); }
-    uint SID16 { get => ID32 >> 16;    set => ID32 = (value << 16) | TID16; }
+    ushort TID16 { get => (ushort)(ID32 & 0xFFFF); set => ID32 = (ID32 & 0xFFFF0000u) | value; }
+    ushort SID16 { get => (ushort)(ID32 >> 16);    set => ID32 = ((uint)value << 16) | TID16; }
 
     uint TrainerID7 { get => ID32 % 1000000; set => SetID7(TrainerSID7, value); }
     uint TrainerSID7 { get => ID32 / 1000000; set => SetID7(value, TrainerID7); }
@@ -28,7 +28,7 @@ public interface ITrainerID32 : ITrainerID
         switch (TrainerIDDisplayFormat)
         {
             case SixDigit: TrainerID7 = value; break;
-            default: TID16 = value; break;
+            default: TID16 = (ushort)value; break;
         }
     }
 
@@ -37,7 +37,7 @@ public interface ITrainerID32 : ITrainerID
         switch (TrainerIDDisplayFormat)
         {
             case SixDigit: TrainerSID7 = value; break;
-            default: SID16 = value; break;
+            default: SID16 = (ushort)value; break;
         }
     }
 

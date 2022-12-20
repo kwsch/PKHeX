@@ -22,7 +22,7 @@ public static class LockFinder
         if (teams.Length == 0)
             return true;
 
-        var tsv = s.Version == GameVersion.XD ? (pk.TID16 ^ pk.SID16) >> 3 : uint.MaxValue; // no xd shiny shadow mons
+        var tsv = s.Version == GameVersion.XD ? (uint)(pk.TID16 ^ pk.SID16) >> 3 : uint.MaxValue; // no xd shiny shadow mons
         return IsAllShadowLockValid(pv, teams, tsv);
     }
 

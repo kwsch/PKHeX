@@ -39,7 +39,7 @@ public partial class TrainerID : UserControl
     {
         if (DisplayType is TrainerIDFormat.None)
             return uint.MaxValue;
-        var xor = Trainer.SID16 ^ Trainer.TID16;
+        var xor = (uint)(Trainer.SID16 ^ Trainer.TID16);
         if (XorFormat <= 5)
             return xor >> 3;
         return xor >> 4;
@@ -144,9 +144,9 @@ public partial class TrainerID : UserControl
                 mt.Text = (value = ushort.MaxValue).ToString();
 
             if (mt == TB_TID)
-                Trainer.TID16 = value;
+                Trainer.TID16 = (ushort)value;
             else
-                Trainer.SID16 = value;
+                Trainer.SID16 = (ushort)value;
         }
 
         UpdatedID?.Invoke(sender, e);

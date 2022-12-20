@@ -69,8 +69,8 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public bool IsBadEgg { get => _coreData.IsBadEgg; set => _coreData.IsBadEgg = value; }
     public override ushort Species { get => _coreData.Species; set => _coreData.Species = value; }
     public override uint ID32 { get => _coreData.ID32; set => _coreData.ID32 = value; }
-    public override uint TID16 { get => _coreData.TID16; set => _coreData.TID16 = value; }
-    public override uint SID16 { get => _coreData.SID16; set => _coreData.SID16 = value; }
+    public override ushort TID16 { get => _coreData.TID16; set => _coreData.TID16 = value; }
+    public override ushort SID16 { get => _coreData.SID16; set => _coreData.SID16 = value; }
     public override uint EXP { get => _coreData.EXP; set => _coreData.EXP = value; }
     public override int Ability { get => _coreData.Ability; set => _coreData.Ability = value; }
     public override int AbilityNumber { get => _coreData.AbilityNumber; set => _coreData.AbilityNumber = value; }
@@ -162,7 +162,7 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public override int CurrentFriendship { get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship; set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; } }
 
     public override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
-    public override uint TSV => (TID16 ^ SID16) >> 4;
+    public override uint TSV => (uint)(TID16 ^ SID16) >> 4;
 
     public override int Characteristic
     {

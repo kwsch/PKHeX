@@ -194,8 +194,8 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     public override void WriteBoxSlot(PKM pk, Span<byte> data, int offset)
     {
         base.WriteBoxSlot(pk, data, offset);
-        WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED)..], (ushort)pk.TID16);
-        WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED + 2)..], (ushort)pk.SID16);
+        WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED)..], pk.TID16);
+        WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED + 2)..], pk.SID16);
     }
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter3.GetString(data, Japanese);

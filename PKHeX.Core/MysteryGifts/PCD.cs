@@ -87,8 +87,8 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override int Gender { get => Gift.Gender; set => Gift.Gender = value; }
     public override byte Form { get => Gift.Form; set => Gift.Form = value; }
     public override uint ID32 { get => Gift.ID32; set => Gift.ID32 = value; }
-    public override uint TID16 { get => Gift.TID16; set => Gift.TID16 = value; }
-    public override uint SID16 { get => Gift.SID16; set => Gift.SID16 = value; }
+    public override ushort TID16 { get => Gift.TID16; set => Gift.TID16 = value; }
+    public override ushort SID16 { get => Gift.SID16; set => Gift.SID16 = value; }
     public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
     public override AbilityPermission Ability => Gift.Ability;
     public override bool HasFixedIVs => Gift.HasFixedIVs;

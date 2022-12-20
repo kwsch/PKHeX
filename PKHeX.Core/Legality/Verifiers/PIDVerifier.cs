@@ -195,7 +195,7 @@ public sealed class PIDVerifier : Verifier
         uint pid = pk.PID;
         uint LID = pid & 0xFFFF;
         uint HID = pid >> 16;
-        uint XOR = (uint)(pk.TID16 ^ LID ^ pk.SID16 ^ HID);
+        uint XOR = pk.TID16 ^ LID ^ pk.SID16 ^ HID;
 
         // Ensure we don't have a shiny.
         if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)

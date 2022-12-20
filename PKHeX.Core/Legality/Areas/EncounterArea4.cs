@@ -110,7 +110,7 @@ public sealed record EncounterArea4 : EncounterArea
         // We didn't encode the honey tree index to the encounter slot resource.
         // Check if any of the slot's location doesn't match any of the groupC trees' area location ID.
         var location = pk.Met_Location;
-        var trees = SAV4Sinnoh.CalculateMunchlaxTrees((ushort)pk.TID16, (ushort)pk.SID16);
+        var trees = SAV4Sinnoh.CalculateMunchlaxTrees(pk.TID16, pk.SID16);
         return LocationID_HoneyTree[trees.Tree1] != location
                && LocationID_HoneyTree[trees.Tree2] != location
                && LocationID_HoneyTree[trees.Tree3] != location

@@ -238,7 +238,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
             return true;
 
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9((byte)pi.Gender, FlawlessIVCount, 1, 0, 0, 0, Ability, Shiny);
+        var param = new GenerateParam9(pi.Gender, FlawlessIVCount, 1, 0, 0, 0, Ability, Shiny);
         if (!Encounter9RNG.IsMatch(pk, param, seed))
             return true;
         return base.IsMatchPartial(pk);
@@ -258,7 +258,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
         const byte rollCount = 1;
         const byte undefinedSize = 0;
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9((byte)pi.Gender, FlawlessIVCount, rollCount,
+        var param = new GenerateParam9(pi.Gender, FlawlessIVCount, rollCount,
             undefinedSize, undefinedSize, undefinedSize,
             Ability, Shiny);
 

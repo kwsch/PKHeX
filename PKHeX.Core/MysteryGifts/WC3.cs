@@ -23,8 +23,8 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     public override string OT_Name { get; set; } = string.Empty;
     public int OT_Gender { get; init; } = 3;
     public override uint ID32 { get => (uint)(SID16 << 16 | TID16); set => (SID16, TID16) = ((ushort)(value >> 16), (ushort)value); }
-    public override uint TID16 { get; set; } = UnspecifiedID;
-    public override uint SID16 { get; set; } = UnspecifiedID;
+    public override ushort TID16 { get; set; } = UnspecifiedID;
+    public override ushort SID16 { get; set; } = UnspecifiedID;
     public override int Location { get; set; } = 255;
     public override int EggLocation { get => 0; set {} }
     public override GameVersion Version { get; set; }

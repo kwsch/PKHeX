@@ -363,13 +363,13 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => TID16 = (ushort)value;
     }
 
-    public override uint TID16
+    public override ushort TID16
     {
         get => ReadUInt16BigEndian(Data.AsSpan(Offsets.Trainer1));
-        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.Trainer1), (ushort)value);
+        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.Trainer1), value);
     }
 
-    public override uint SID16 { get => 0; set { } }
+    public override ushort SID16 { get => 0; set { } }
 
     public override int PlayedHours
     {

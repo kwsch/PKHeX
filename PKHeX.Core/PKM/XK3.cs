@@ -61,8 +61,8 @@ public sealed class XK3 : G3PKM, IShadowCapture
     // 0x1E-0x1F Unknown
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x20)); set => WriteUInt32BigEndian(Data.AsSpan(0x20), value); }
     public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(0x24)); set => WriteUInt32BigEndian(Data.AsSpan(0x24), value); }
-    public override uint SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), (ushort)value); }
-    public override uint TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), (ushort)value); }
+    public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), value); }
     public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x28)); set => WriteUInt32BigEndian(Data.AsSpan(0x28), value); }
     // 0x2A-0x2B Unknown
     // 0x2C-0x2F Battle Related

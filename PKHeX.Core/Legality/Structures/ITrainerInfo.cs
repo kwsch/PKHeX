@@ -20,7 +20,7 @@ public static class TrainerInfoExtensions
     {
         pk.OT_Name = info.OT;
         pk.TID16 = info.TID16;
-        pk.SID16 = pk.Format < 3 || pk.VC ? 0 : info.SID16;
+        pk.SID16 = pk.Format < 3 || pk.VC ? (ushort)0 : info.SID16;
         pk.OT_Gender = info.Gender;
         pk.Language = info.Language;
         pk.Version = info.Game;

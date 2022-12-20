@@ -149,8 +149,8 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     }
 
     public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x68)); set => WriteUInt32LittleEndian(Data.AsSpan(0x68), value); }
-    public override uint TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value); }
-    public override uint SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value); }
+    public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x68)); set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value); }
+    public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x6A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value); }
     public int OriginGame { get => Data[0x6C]; set => Data[0x6C] = (byte)value; }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x70)); set => WriteUInt32LittleEndian(Data.AsSpan(0x70), value); }
     public override int Ball { get => Data[0x76]; set => Data[0x76] = (byte)value; }
@@ -468,7 +468,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
                 break;
             case ShinyType6.Always: // Random Shiny
                 pk.PID = Util.Rand32();
-                pk.PID = ((pk.TID16 ^ pk.SID16 ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF);
+                pk.PID = ((pk.PID & 0xFFFF) ^ pk.TID16 ^ pk.SID16) << 16 | (pk.PID & 0xFFFF);
                 break;
             case ShinyType6.Never: // Random Nonshiny
                 pk.PID = Util.Rand32();

@@ -22,7 +22,7 @@ public abstract class G4PKM : PKM,
     public sealed override int MaxStringLengthNickname => 10;
 
     public sealed override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
-    public sealed override uint TSV => (TID16 ^ SID16) >> 3;
+    public sealed override uint TSV => (uint)(TID16 ^ SID16) >> 3;
 
     protected bool PtHGSS => Pt || HGSS;
 

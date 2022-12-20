@@ -54,8 +54,8 @@ public sealed class BK4 : G4PKM
     public override ushort Species { get => ReadUInt16BigEndian(Data.AsSpan(0x08)); set => WriteUInt16BigEndian(Data.AsSpan(0x08), value); }
     public override int HeldItem { get => ReadUInt16BigEndian(Data.AsSpan(0x0A)); set => WriteUInt16BigEndian(Data.AsSpan(0x0A), (ushort)value); }
     public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(0x0C)); set => WriteUInt32BigEndian(Data.AsSpan(0x0C), value); }
-    public override uint SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), (ushort)value); }
-    public override uint TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x0E)); set => WriteUInt16BigEndian(Data.AsSpan(0x0E), (ushort)value); }
+    public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x0E)); set => WriteUInt16BigEndian(Data.AsSpan(0x0E), value); }
 
     public override uint EXP
     {

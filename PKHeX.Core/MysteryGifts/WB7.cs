@@ -150,15 +150,15 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x68), value);
     }
 
-    public override uint TID16
+    public override ushort TID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x68));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x68), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x68), value);
     }
 
-    public override uint SID16 {
+    public override ushort SID16 {
         get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A), value);
     }
 
     public int OriginGame
@@ -485,7 +485,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
                 break;
             case ShinyType6.Always: // Random Shiny
                 pk.PID = Util.Rand32();
-                pk.PID = ((pk.TID16 ^ pk.SID16 ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF);
+                pk.PID = (((pk.PID & 0xFFFF) ^ pk.TID16 ^ pk.SID16) << 16) | (pk.PID & 0xFFFF);
                 break;
             case ShinyType6.Never: // Random Nonshiny
                 pk.PID = Util.Rand32();

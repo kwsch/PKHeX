@@ -70,8 +70,8 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override string ChecksumInfo => string.Empty;
     public override int BoxCount => BoxLayout8a.BoxCount; // 32
     public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
-    public override uint TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
-    public override uint SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
+    public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
+    public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
     public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
     public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }

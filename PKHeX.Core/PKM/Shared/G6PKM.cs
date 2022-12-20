@@ -44,7 +44,7 @@ public abstract class G6PKM : PKM, ISanityChecksum
     }
 
     public sealed override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
-    public sealed override uint TSV => (TID16 ^ SID16) >> 4;
+    public sealed override uint TSV => (uint)(TID16 ^ SID16) >> 4;
     public sealed override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == Generation; // immediately terminated HT_Name data (\0)
 
     // Complex Generated Attributes

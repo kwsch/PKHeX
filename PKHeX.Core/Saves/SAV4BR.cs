@@ -176,7 +176,7 @@ public sealed class SAV4BR : SaveFile
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
 
-    public override uint TID16
+    public override ushort TID16
     {
         get => (ushort)((Data[(_currentSlot * SIZE_SLOT) + 0x12867] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12860]);
         set
@@ -186,7 +186,7 @@ public sealed class SAV4BR : SaveFile
         }
     }
 
-    public override uint SID16
+    public override ushort SID16
     {
         get => (ushort)((Data[(_currentSlot * SIZE_SLOT) + 0x12865] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12866]);
         set

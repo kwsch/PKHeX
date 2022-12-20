@@ -6,8 +6,8 @@ namespace PKHeX.Core;
 public sealed record SimpleTrainerInfo : ITrainerInfo, IRegionOrigin
 {
     public string OT { get; set; } = "PKHeX";
-    public uint TID16 { get; set; } = 12345;
-    public uint SID16 { get; set; } = 54321;
+    public ushort TID16 { get; set; } = 12345;
+    public ushort SID16 { get; set; } = 54321;
     public int Gender { get; set; }
     public int Language { get; set; } = (int)LanguageID.English;
     public uint ID32 { get => (uint)(TID16 | (SID16 << 16)); set => (TID16, SID16) = ((ushort)value, (ushort)(value >> 16)); }

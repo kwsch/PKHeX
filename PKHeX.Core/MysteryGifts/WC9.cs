@@ -127,13 +127,13 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         }
     }
 
-    public override uint TID16
+    public override ushort TID16
     {
         get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000 * CardID)) & 0xFFFF);
         set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((SID16 << 16) | value) + (uint)(1000000 * CardID));
     }
 
-    public override uint SID16
+    public override ushort SID16
     {
         get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000 * CardID)) >> 16 & 0xFFFF);
         set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((value << 16) | TID16) + (uint)(1000000 * CardID));
@@ -560,8 +560,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     {
         ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
         ShinyType8.Random       => Util.Rand32(), // Random, Any
-        ShinyType8.AlwaysStar   => (((tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
-        ShinyType8.AlwaysSquare => (((tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
+        ShinyType8.AlwaysStar   => ((1u ^ tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF)) << 16) | (PID & 0xFFFF), // Fixed, Force Star
+        ShinyType8.AlwaysSquare => ((0u ^ tr.TID16 ^ tr.SID16 ^ (PID & 0xFFFF)) << 16) | (PID & 0xFFFF), // Fixed, Force Square
         ShinyType8.FixedValue   => GetFixedPID(tr),
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };

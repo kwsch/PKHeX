@@ -169,16 +169,16 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         set => WriteUInt32LittleEndian(Data.AsSpan(0x68), value);
     }
 
-    public override uint TID16
+    public override ushort TID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x68));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x68), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x68), value);
     }
 
-    public override uint SID16
+    public override ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x6A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x6A), value);
     }
 
     public int OriginGame

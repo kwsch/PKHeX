@@ -172,16 +172,16 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         set => WriteUInt32LittleEndian(General.AsSpan(Trainer1 + 0x10), value);
     }
 
-    public override uint TID16
+    public override ushort TID16
     {
         get => ReadUInt16LittleEndian(General.AsSpan(Trainer1 + 0x10));
-        set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x10), (ushort)value);
+        set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x10), value);
     }
 
-    public override uint SID16
+    public override ushort SID16
     {
         get => ReadUInt16LittleEndian(General.AsSpan(Trainer1 + 0x12));
-        set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x12), (ushort)value);
+        set => WriteUInt16LittleEndian(General.AsSpan(Trainer1 + 0x12), value);
     }
 
     public override uint Money

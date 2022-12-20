@@ -117,8 +117,8 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override int Gender { get => PK.Gender; set => PK.Gender = value; }
     public override byte Form { get => PK.Form; set => PK.Form = value; }
     public override uint ID32 { get => PK.ID32; set => PK.ID32= value; }
-    public override uint TID16 { get => (ushort)PK.TID16; set => PK.TID16 = value; }
-    public override uint SID16 { get => (ushort)PK.SID16; set => PK.SID16 = value; }
+    public override ushort TID16 { get => PK.TID16; set => PK.TID16 = value; }
+    public override ushort SID16 { get => PK.SID16; set => PK.SID16 = value; }
     public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
     public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
     public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }

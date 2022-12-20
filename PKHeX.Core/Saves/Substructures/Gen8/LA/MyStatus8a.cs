@@ -18,16 +18,16 @@ public sealed class MyStatus8a : SaveBlock<SAV8LA>
         set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value);
     }
 
-    public uint TID16
+    public ushort TID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x10));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x10), value);
     }
 
-    public uint SID16
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x12));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x12), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x12), value);
     }
 
     public int Game
