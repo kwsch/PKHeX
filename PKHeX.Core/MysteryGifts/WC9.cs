@@ -388,7 +388,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
     public override GameVersion Version
     {
-        get => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.SWSH;
+        get => OriginGame != 0 ? (GameVersion)OriginGame : GameVersion.SV;
         set { }
     }
 
