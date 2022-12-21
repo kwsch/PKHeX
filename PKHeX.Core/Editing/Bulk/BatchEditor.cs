@@ -65,10 +65,10 @@ public sealed class BatchEditor
         return result;
     }
 
-    public static BatchEditor Execute(IList<string> lines, IEnumerable<PKM> data)
+    public static BatchEditor Execute(ReadOnlySpan<string> lines, IEnumerable<PKM> data)
     {
         var editor = new BatchEditor();
-        var sets = StringInstructionSet.GetBatchSets(lines).ToArray();
+        var sets = StringInstructionSet.GetBatchSets(lines);
         foreach (var pk in data)
         {
             foreach (var set in sets)

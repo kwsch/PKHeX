@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace PKHeX.Core;
 
@@ -72,52 +74,130 @@ public sealed class StringInstruction
         }
     }
 
-    public static IEnumerable<StringInstruction> GetFilters(IEnumerable<string> lines)
+    public static List<StringInstruction> GetFilters(ReadOnlySpan<char> text) => GetFilters(text.EnumerateLines());
+
+    public static List<StringInstruction> GetFilters(ReadOnlySpan<string> lines)
     {
+        var result = new List<StringInstruction>(lines.Length);
         foreach (var line in lines)
         {
-            if (line.Length is 0 || line[0] is not (Exclude or Require))
-                continue;
-
-            const int start = 1;
-            var splitIndex = line.IndexOf(SplitInstruction, start);
-            if (splitIndex == -1)
-                continue;
-            var noExtra = line.IndexOf(SplitInstruction, splitIndex + 1);
-            if (noExtra != -1)
-                continue;
-
-            var name = line.AsSpan(start, splitIndex - start);
-            if (name.IsWhiteSpace())
-                continue;
-
-            bool eval = line[0] == Require;
-            var value = line[(splitIndex + 1)..];
-            yield return new StringInstruction(name.ToString(), value) { Evaluator = eval };
+            if (TryParseFilter(line, out var entry))
+                result.Add(entry);
         }
+        return result;
     }
 
-    public static IEnumerable<StringInstruction> GetInstructions(IEnumerable<string> lines)
+    public static List<StringInstruction> GetFilters(SpanLineEnumerator lines)
     {
+        var result = new List<StringInstruction>();
         foreach (var line in lines)
         {
-            if (line.Length is 0 || line[0] is not Apply)
-                continue;
-
-            const int start = 1;
-            var splitIndex = line.IndexOf(SplitInstruction, start);
-            if (splitIndex == -1)
-                continue;
-            var noExtra = line.IndexOf(SplitInstruction, splitIndex + 1);
-            if (noExtra != -1)
-                continue;
-
-            var name = line.AsSpan(start, splitIndex - start);
-            if (name.IsWhiteSpace())
-                continue;
-
-            var value = line[(splitIndex + 1)..];
-            yield return new StringInstruction(name.ToString(), value);
+            if (TryParseFilter(line, out var entry))
+                result.Add(entry);
         }
+        return result;
+    }
+
+    public static List<StringInstruction> GetFilters(IReadOnlyList<string> lines)
+    {
+        var result = new List<StringInstruction>(lines.Count);
+        foreach (var line in lines)
+        {
+            if (TryParseFilter(line, out var entry))
+                result.Add(entry);
+        }
+        return result;
+    }
+
+    public static List<StringInstruction> GetFilters(IEnumerable<string> lines)
+    {
+        var result = new List<StringInstruction>();
+        foreach (var line in lines)
+        {
+            if (TryParseFilter(line, out var entry))
+                result.Add(entry);
+        }
+        return result;
+    }
+    
+    public static List<StringInstruction> GetInstructions(ReadOnlySpan<char> text) => GetInstructions(text.EnumerateLines());
+
+    public static List<StringInstruction> GetInstructions(ReadOnlySpan<string> lines)
+    {
+        var result = new List<StringInstruction>(lines.Length);
+        foreach (var line in lines)
+        {
+            if (TryParseInstruction(line, out var entry))
+                result.Add(entry);
+        }
+        return result;
+    }
+
+    public static List<StringInstruction> GetInstructions(SpanLineEnumerator lines)
+    {
+        var result = new List<StringInstruction>();
+        foreach (var line in lines)
+        {
+            if (TryParseInstruction(line, out var entry))
+                result.Add(entry);
+        }
+        return result;
+    }
+
+    public static List<StringInstruction> GetInstructions(IReadOnlyList<string> lines)
+    {
+        var result = new List<StringInstruction>(lines.Count);
+        foreach (var line in lines)
+        {
+            if (TryParseInstruction(line, out var entry))
+                result.Add(entry);
+        }
+        return result;
+    }
+
+    public static List<StringInstruction> GetInstructions(IEnumerable<string> lines)
+    {
+        var result = new List<StringInstruction>();
+        foreach (var line in lines)
+        {
+            if (TryParseInstruction(line, out var entry))
+                result.Add(entry);
+        }
+        return result;
+    }
+
+    private static bool TryParseFilter(ReadOnlySpan<char> line, [NotNullWhen(true)] out StringInstruction? entry)
+    {
+        entry = null;
+        if (line.Length is 0 || line[0] is not (Exclude or Require))
+            return false;
+        return TryParseSplitTuple(line[1..], ref entry, line[0] == Require);
+    }
+
+    private static bool TryParseInstruction(ReadOnlySpan<char> line, [NotNullWhen(true)] out StringInstruction? entry)
+    {
+        entry = null;
+        if (line.Length is 0 || line[0] is not Apply)
+            return false;
+        return TryParseSplitTuple(line[1..], ref entry);
+    }
+
+    private static bool TryParseSplitTuple(ReadOnlySpan<char> tuple, [NotNullWhen(true)] ref StringInstruction? entry, bool eval = default)
+    {
+        var splitIndex = tuple.IndexOf(SplitInstruction);
+        if (splitIndex <= 0)
+            return false;
+
+        var name = tuple[..splitIndex];
+        if (name.IsWhiteSpace())
+            return false;
+
+        var value = tuple[(splitIndex + 1)..];
+        var noExtra = value.IndexOf(SplitInstruction);
+        if (noExtra != -1)
+            return false;
+
+        entry = new StringInstruction(name.ToString(), value.ToString()) { Evaluator = eval };
+        return true;
     }
 }

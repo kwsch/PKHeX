@@ -266,9 +266,10 @@ public partial class SAV_Encounters : Form
         if (token.IsCancellationRequested)
             return results;
 
-        if (RTB_Instructions.Lines.Any(line => line.Length > 0))
+        ReadOnlySpan<char> batchText = RTB_Instructions.Text;
+        if (batchText.Length > 0 && StringInstructionSet.HasEmptyLine(batchText))
         {
-            var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
+            var filters = StringInstruction.GetFilters(batchText);
             BatchEditing.ScreenStrings(filters);
             results = results.Where(enc => BatchEditing.IsFilterMatch(filters, enc)); // Compare across all filters
         }
@@ -343,7 +344,7 @@ public partial class SAV_Encounters : Form
 
             Species = GetU16(CB_Species),
 
-            BatchInstructions = RTB_Instructions.Lines,
+            BatchInstructions = RTB_Instructions.Text,
             Version = WinFormsUtil.GetIndex(CB_GameOrigin),
         };
 
@@ -479,9 +480,11 @@ public partial class SAV_Encounters : Form
         if (s.Length == 0)
         { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
-        if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
-            s = Environment.NewLine + s;
-
+        // If we already have text, add a new line (except if the last line is blank).
+        var tb = RTB_Instructions;
+        var batchText = tb.Text;
+        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+            tb.AppendText(Environment.NewLine);
         RTB_Instructions.AppendText(s);
     }
 }
