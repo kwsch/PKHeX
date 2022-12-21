@@ -95,7 +95,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         // Purifier = subOffsets[14] + 0xA8;
 
         bool jp = subLength[7] == 0x1E00;
-        memo = new StrategyMemo(Data, Memo, xd: true);
+        memo = new StrategyMemo(Data.AsSpan(Memo, subLength[5]), xd: true);
         info = new ShadowInfoTableXD(Data.AsSpan(Shadow, subLength[7]), jp);
         return jp;
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -122,19 +123,30 @@ public partial class SAV_Misc3 : Form
                 itemlist[i] = $"(Item #{i:000})";
         }
 
-        const int oldsea = 0x178;
-        int[] tickets = {0x109, 0x113, 0x172, 0x173, oldsea }; // item IDs
+        const ushort oldsea = 0x178;
+        Span<ushort> tickets = stackalloc ushort[] {0x109, 0x113, 0x172, 0x173, oldsea }; // item IDs
         if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[oldsea]} (unreleased)?"))
-            tickets = tickets.Take(tickets.Length - 1).ToArray(); // remove old sea map
+            tickets = tickets[..^1]; // remove old sea map
 
         var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
         if (p == null)
             throw new ArgumentException(nameof(InventoryType));
 
         // check for missing tickets
-        var missing = tickets.Where(z => !p.Items.Any(item => item.Index == z && item.Count == 1)).ToList();
-        var have = tickets.Except(missing).ToList();
-        if (missing.Count == 0)
+        Span<ushort> have = stackalloc ushort[tickets.Length]; int h = 0;
+        Span<ushort> missing = stackalloc ushort[tickets.Length]; int m = 0;
+        foreach (var item in tickets)
+        {
+            bool has = Array.Exists(p.Items, z => z.Index == item);
+            if (has)
+                have[h++] = item;
+            else
+                missing[m++] = item;
+        }
+        have = have[..h];
+        missing = missing[..m];
+
+        if (missing.Length == 0)
         {
             WinFormsUtil.Alert("Already have all tickets.");
             B_GetTickets.Enabled = false;
@@ -143,18 +155,29 @@ public partial class SAV_Misc3 : Form
 
         // check for space
         int end = Array.FindIndex(p.Items, static z => z.Index == 0);
-        if (end + missing.Count >= p.Items.Length)
+        if (end + missing.Length >= p.Items.Length)
         {
             WinFormsUtil.Alert("Not enough space in pouch.", "Please use the InventoryEditor.");
             B_GetTickets.Enabled = false;
             return;
         }
 
-        var added = string.Join(", ", missing.Select(u => itemlist[u]));
-        var addmsg = $"Add the following items?{Environment.NewLine}{added}";
-        if (have.Count > 0)
+        static string Format(ReadOnlySpan<ushort> items, ReadOnlySpan<string> names)
         {
-            string had = string.Join(", ", have.Select(u => itemlist[u]));
+            var sbAdd = new StringBuilder();
+            foreach (var item in items)
+            {
+                if (sbAdd.Length > 0)
+                    sbAdd.Append(", ");
+                sbAdd.Append(names[item]);
+            }
+            return sbAdd.ToString();
+        }
+        var added = Format(missing, itemlist);
+        var addmsg = $"Add the following items?{Environment.NewLine}{added}";
+        if (have.Length > 0)
+        {
+            string had = Format(have, itemlist);
             var havemsg = $"Already have:{Environment.NewLine}{had}";
             addmsg += Environment.NewLine + Environment.NewLine + havemsg;
         }
@@ -162,7 +185,7 @@ public partial class SAV_Misc3 : Form
             return;
 
         // insert items at the end
-        for (int i = 0; i < missing.Count; i++)
+        for (int i = 0; i < missing.Length; i++)
         {
             var item = p.Items[end + i];
             item.Index = missing[i];

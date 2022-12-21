@@ -69,7 +69,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
                 PartyCount++;
         }
 
-        var memo = new StrategyMemo(Data, Memo, xd: false);
+        var memo = new StrategyMemo(Data.AsSpan(Memo), xd: false);
         return memo;
     }
 

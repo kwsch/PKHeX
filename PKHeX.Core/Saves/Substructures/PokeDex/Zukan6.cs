@@ -146,7 +146,7 @@ public abstract class Zukan6 : Zukan<SAV6>
         return result;
     }
 
-    public void SetLanguageBitflags(ushort species, bool[] value)
+    public void SetLanguageBitflags(ushort species, ReadOnlySpan<bool> value)
     {
         int bit = species - 1;
         for (int i = 0; i < DexLangIDCount; i++)

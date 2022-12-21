@@ -13,28 +13,28 @@ public sealed class StrategyMemo
     private StrategyMemoEntry? this[int Species] => Entries.Find(e => e.Species == Species);
     private readonly ushort _unk;
 
-    public StrategyMemo(bool xd = true) : this(new byte[4], 0, xd) { }
+    public StrategyMemo(bool xd = true) : this(stackalloc byte[4], xd) { }
 
-    public StrategyMemo(byte[] input, int offset, bool xd)
+    public StrategyMemo(Span<byte> block, bool xd)
     {
         XD = xd;
-        int count = ReadUInt16BigEndian(input.AsSpan(offset));
+        int count = ReadUInt16BigEndian(block);
         if (count > MAX_COUNT)
             count = MAX_COUNT;
-        _unk = ReadUInt16BigEndian(input.AsSpan(offset + 2));
+        _unk = ReadUInt16BigEndian(block[2..]);
 
         Entries = new List<StrategyMemoEntry>(count);
         for (int i = 0; i < count; i++)
         {
-            var entry = Read(input, offset, i);
+            var entry = Read(block, i);
             Entries.Add(entry);
         }
     }
 
-    private StrategyMemoEntry Read(byte[] input, int offset, int index)
+    private StrategyMemoEntry Read(Span<byte> block, int index)
     {
-        var ofs = 4 + offset + (SIZE_ENTRY * index);
-        var span = input.AsSpan(ofs, SIZE_ENTRY);
+        var ofs = 4 + (SIZE_ENTRY * index);
+        var span = block.Slice(ofs, SIZE_ENTRY);
         var data = span.ToArray();
         return new StrategyMemoEntry(XD, data);
     }

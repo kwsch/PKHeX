@@ -20,7 +20,7 @@ public static class QRMessageUtil
     /// <param name="message">QR Message</param>
     /// <param name="context">Preferred <see cref="PKM.Context"/> to expect.</param>
     /// <returns>Decoded <see cref="PKM"/> object, null if invalid.</returns>
-    public static PKM? GetPKM(string message, EntityContext context)
+    public static PKM? GetPKM(ReadOnlySpan<char> message, EntityContext context)
     {
         var data = DecodeMessagePKM(message);
         if (data == null)
@@ -71,13 +71,13 @@ public static class QRMessageUtil
         return GetMessageBase64(data, server);
     }
 
-    public static string GetMessageBase64(byte[] data, string server)
+    public static string GetMessageBase64(ReadOnlySpan<byte> data, string server)
     {
         string payload = Convert.ToBase64String(data);
         return server + payload;
     }
 
-    private static byte[]? DecodeMessagePKM(string message)
+    private static byte[]? DecodeMessagePKM(ReadOnlySpan<char> message)
     {
         if (message.Length < 32) // arbitrary length check; everything should be greater than this
             return null;
@@ -89,11 +89,11 @@ public static class QRMessageUtil
         const int g7size = 0xE8;
         const int g7intro = 0x30;
         if (message.StartsWith("POKE", StringComparison.Ordinal) && message.Length > g7intro + g7size) // G7 data
-            return GetBytesFromMessage(message.AsSpan(g7intro), g7size);
+            return GetBytesFromMessage(message[g7intro..], g7size);
         return null;
     }
 
-    private static byte[]? DecodeMessageDataBase64(string url)
+    private static byte[]? DecodeMessageDataBase64(ReadOnlySpan<char> url)
     {
         if (url.Length == 0 || url[^1] == '#')
             return null;
@@ -104,7 +104,11 @@ public static class QRMessageUtil
             if (payloadBegin < 0) // bad URL, need the payload separator
                 return null;
             url = url[(payloadBegin + 1)..]; // Trim URL to right after #
-            return Convert.FromBase64String(url);
+            // Decode unicode string
+            var data = new byte[url.Length];
+            if (!Convert.TryFromBase64Chars(url, data, out int bytesWritten))
+                return null;
+            return data[..bytesWritten];
         }
         catch (FormatException)
         {

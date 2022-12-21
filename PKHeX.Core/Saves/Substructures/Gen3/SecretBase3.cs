@@ -59,11 +59,11 @@ public sealed class SecretBase3
     public byte TimesEntered { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = value; }
     public int Unused11  { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = (byte)value; } // alignment padding
 
-    public byte[] GetDecorations() => Data.Slice(Offset + 0x12, 0x10);
-    public void SetDecorations(byte[] value) => value.CopyTo(Data, Offset + 0x12);
+    public Span<byte> GetDecorations() => Data.AsSpan(Offset + 0x12, 0x10);
+    public void SetDecorations(Span<byte> value) => value.CopyTo(Data.AsSpan(Offset + 0x12, 0x10));
 
-    public byte[] GetDecorationCoordinates() => Data.Slice(Offset + 0x22, 0x10);
-    public void SetDecorationCoordinates(byte[] value) => value.CopyTo(Data, Offset + 0x22);
+    public Span<byte> GetDecorationCoordinates() => Data.Slice(Offset + 0x22, 0x10);
+    public void SetDecorationCoordinates(Span<byte> value) => value.CopyTo(Data.AsSpan(Offset + 0x22, 0x10));
 
     public SecretBase3Team Team
     {
