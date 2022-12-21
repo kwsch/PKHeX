@@ -65,8 +65,8 @@ public sealed class NicknameVerifier : Verifier
         // Non-nicknamed strings have already been checked.
         if (ParseSettings.CheckWordFilter && pk.IsNicknamed)
         {
-            if (WordFilter.IsFiltered(nickname, out string bad))
-                data.AddLine(GetInvalid($"Word Filter: {bad}"));
+            if (WordFilter.IsFiltered(nickname, out var badPattern))
+                data.AddLine(GetInvalid($"Word Filter: {badPattern}"));
             if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
                 data.AddLine(GetInvalid("Word Filter: Too many numbers."));
         }

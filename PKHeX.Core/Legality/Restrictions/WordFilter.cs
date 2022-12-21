@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace PKHeX.Core;
@@ -28,9 +29,7 @@ public static class WordFilter
     /// <summary>
     /// Due to some messages repeating (Trainer names), keep a list of repeated values for faster lookup.
     /// </summary>
-    private static readonly Dictionary<string, string> Lookup = new(INIT_COUNT);
-
-    private const string NoMatch = "";
+    private static readonly Dictionary<string, string?> Lookup = new(INIT_COUNT);
 
     /// <summary>
     /// Checks to see if a phrase contains filtered content.
@@ -38,11 +37,11 @@ public static class WordFilter
     /// <param name="message">Phrase to check for</param>
     /// <param name="regMatch">Matching regex that filters the phrase.</param>
     /// <returns>Boolean result if the message is filtered or not.</returns>
-    public static bool IsFiltered(string message, out string regMatch)
+    public static bool IsFiltered(string message, [NotNullWhen(true)] out string? regMatch)
     {
         if (string.IsNullOrWhiteSpace(message) || message.Length <= 1)
         {
-            regMatch = NoMatch;
+            regMatch = null;
             return false;
         }
 
@@ -50,8 +49,8 @@ public static class WordFilter
         // Check dictionary
         lock (dictLock)
         {
-            if (Lookup.TryGetValue(msg, out var dictMatch))
-                return !ReferenceEquals(regMatch = dictMatch, NoMatch);
+            if (Lookup.TryGetValue(msg, out regMatch))
+                return regMatch != null;
         }
 
         // not in dictionary, check patterns
@@ -72,7 +71,7 @@ public static class WordFilter
         {
             if ((Lookup.Count & ~MAX_COUNT) != 0)
                 Lookup.Clear(); // reset
-            Lookup[msg] = regMatch = NoMatch;
+            Lookup[msg] = regMatch = null;
         }
         return false;
     }

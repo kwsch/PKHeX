@@ -44,13 +44,13 @@ public sealed class TrainerNameVerifier : Verifier
 
         if (ParseSettings.CheckWordFilter)
         {
-            if (WordFilter.IsFiltered(ot, out string bad))
-                data.AddLine(GetInvalid($"Wordfilter: {bad}"));
+            if (WordFilter.IsFiltered(ot, out var badPattern))
+                data.AddLine(GetInvalid($"Wordfilter: {badPattern}"));
             if (ContainsTooManyNumbers(ot, data.Info.Generation))
                 data.AddLine(GetInvalid("Wordfilter: Too many numbers."));
 
-            if (WordFilter.IsFiltered(pk.HT_Name, out bad))
-                data.AddLine(GetInvalid($"Wordfilter: {bad}"));
+            if (WordFilter.IsFiltered(pk.HT_Name, out badPattern))
+                data.AddLine(GetInvalid($"Wordfilter: {badPattern}"));
         }
     }
 
