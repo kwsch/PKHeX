@@ -1,5 +1,7 @@
+using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace PKHeX.Core;
 
@@ -9,9 +11,20 @@ namespace PKHeX.Core;
 /// <remarks>https://en.wikipedia.org/wiki/Xoroshiro128%2B</remarks>
 /// <seealso cref="Xoroshiro128Plus"/>
 /// <remarks>Used by the Brilliant Diamond &amp; Shining Pearl games; differs in how values are yielded by Next calls.</remarks>
+[StructLayout(LayoutKind.Explicit)]
 public ref struct Xoroshiro128Plus8b
 {
-    private ulong s0, s1;
+    [FieldOffset(0)] private ulong s0;
+    [FieldOffset(8)] private ulong s1;
+    [FieldOffset(0)] public readonly UInt128 State;
+
+    public Xoroshiro128Plus8b(UInt128 state) => State = state;
+
+    public Xoroshiro128Plus8b(ulong s0, ulong s1)
+    {
+        this.s0 = s0;
+        this.s1 = s1;
+    }
 
     public Xoroshiro128Plus8b(ulong seed)
     {
@@ -25,15 +38,9 @@ public ref struct Xoroshiro128Plus8b
         seed = 0x94D049BB133111EB * (seed ^ (seed >> 27));
         return seed ^ (seed >> 31);
     }
-
-    public Xoroshiro128Plus8b(ulong s0, ulong s1)
-    {
-        this.s0 = s0;
-        this.s1 = s1;
-    }
-
+    
     public (ulong s0, ulong s1) GetState() => (s0, s1);
-    public string FullState => $"{s1:X16}{s0:X16}";
+    public string FullState => $"{State:X32}";
 
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.

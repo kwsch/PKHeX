@@ -1,5 +1,7 @@
+using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace PKHeX.Core;
 
@@ -7,17 +9,21 @@ namespace PKHeX.Core;
 /// Self-modifying RNG structure that implements xoroshiro128+
 /// </summary>
 /// <remarks>https://en.wikipedia.org/wiki/Xoroshiro128%2B</remarks>
+[StructLayout(LayoutKind.Explicit)]
 public ref struct Xoroshiro128Plus
 {
     public const ulong XOROSHIRO_CONST0= 0x0F4B17A579F18960;
     public const ulong XOROSHIRO_CONST = 0x82A2B175229D6A5B;
 
-    private ulong s0, s1;
+    [FieldOffset(0)] private ulong s0;
+    [FieldOffset(8)] private ulong s1;
+    [FieldOffset(0)] public readonly UInt128 State;
 
     public Xoroshiro128Plus(ulong s0 = XOROSHIRO_CONST0, ulong s1 = XOROSHIRO_CONST) => (this.s0, this.s1) = (s0, s1);
+    public Xoroshiro128Plus(UInt128 state) => State = state;
 
     public (ulong s0, ulong s1) GetState() => (s0, s1);
-    public string FullState => $"{s1:X16}{s0:X16}";
+    public string FullState() => $"{State:X32}";
 
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.

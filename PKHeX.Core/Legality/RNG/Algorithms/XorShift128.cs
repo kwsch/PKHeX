@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -19,6 +20,7 @@ public ref struct XorShift128
     // not really readonly! just prevents future updates from touching this.
     [FieldOffset(0x0)] private readonly ulong s0;
     [FieldOffset(0x8)] private readonly ulong s1;
+    [FieldOffset(0x0)] public readonly UInt128 State;
 
     /// <summary>
     /// Uses the <see cref="ARNG"/> to advance the seed for each 32-bit input.
@@ -47,9 +49,11 @@ public ref struct XorShift128
         this.w = w;
     }
 
+    public XorShift128(UInt128 state) => State = state;
+
     public (uint x, uint y, uint z, uint w) GetState32() => (x, y, z, w);
     public (ulong s0, ulong s1) GetState64() => (s0, s1);
-    public string FullState => $"{s1:X16}{s0:X16}";
+    public string FullState => $"{State:X32}";
 
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.
