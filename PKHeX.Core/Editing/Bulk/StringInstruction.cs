@@ -119,7 +119,7 @@ public sealed class StringInstruction
         }
         return result;
     }
-    
+
     public static List<StringInstruction> GetInstructions(ReadOnlySpan<char> text) => GetInstructions(text.EnumerateLines());
 
     public static List<StringInstruction> GetInstructions(ReadOnlySpan<string> lines)
@@ -166,7 +166,7 @@ public sealed class StringInstruction
         return result;
     }
 
-    private static bool TryParseFilter(ReadOnlySpan<char> line, [NotNullWhen(true)] out StringInstruction? entry)
+    public static bool TryParseFilter(ReadOnlySpan<char> line, [NotNullWhen(true)] out StringInstruction? entry)
     {
         entry = null;
         if (line.Length is 0 || line[0] is not (Exclude or Require))
@@ -174,7 +174,7 @@ public sealed class StringInstruction
         return TryParseSplitTuple(line[1..], ref entry, line[0] == Require);
     }
 
-    private static bool TryParseInstruction(ReadOnlySpan<char> line, [NotNullWhen(true)] out StringInstruction? entry)
+    public static bool TryParseInstruction(ReadOnlySpan<char> line, [NotNullWhen(true)] out StringInstruction? entry)
     {
         entry = null;
         if (line.Length is 0 || line[0] is not Apply)
@@ -182,22 +182,31 @@ public sealed class StringInstruction
         return TryParseSplitTuple(line[1..], ref entry);
     }
 
-    private static bool TryParseSplitTuple(ReadOnlySpan<char> tuple, [NotNullWhen(true)] ref StringInstruction? entry, bool eval = default)
+    public static bool TryParseSplitTuple(ReadOnlySpan<char> tuple, [NotNullWhen(true)] ref StringInstruction? entry, bool eval = default)
     {
+        if (!TryParseSplitTuple(tuple, out var name, out var value))
+            return false;
+        entry = new StringInstruction(name.ToString(), value.ToString()) { Evaluator = eval };
+        return true;
+    }
+
+    public static bool TryParseSplitTuple(ReadOnlySpan<char> tuple, out ReadOnlySpan<char> name, out ReadOnlySpan<char> value)
+    {
+        name = default;
+        value = default;
         var splitIndex = tuple.IndexOf(SplitInstruction);
         if (splitIndex <= 0)
             return false;
 
-        var name = tuple[..splitIndex];
+        name = tuple[..splitIndex];
         if (name.IsWhiteSpace())
             return false;
 
-        var value = tuple[(splitIndex + 1)..];
+        value = tuple[(splitIndex + 1)..];
         var noExtra = value.IndexOf(SplitInstruction);
         if (noExtra != -1)
             return false;
 
-        entry = new StringInstruction(name.ToString(), value.ToString()) { Evaluator = eval };
         return true;
     }
 }
