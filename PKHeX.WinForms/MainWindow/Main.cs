@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,7 +21,7 @@ namespace PKHeX.WinForms;
 
 public partial class Main : Form
 {
-    private static readonly Version CurrentProgramVersion = Assembly.GetExecutingAssembly().GetName().Version!;
+    private static readonly Version CurrentProgramVersion = Version.Parse(Application.ProductVersion);
 
     public Main()
     {
