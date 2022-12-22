@@ -71,9 +71,6 @@ public partial class SAV_FolderList : Form
         foreach (var loc in Paths)
             AddButton(loc.DisplayText, loc.Path);
 
-        dgDataRecent.DoubleBuffered(true);
-        dgDataBackup.DoubleBuffered(true);
-
         CenterToParent();
     }
 

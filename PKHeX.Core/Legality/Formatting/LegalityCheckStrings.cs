@@ -1,10 +1,13 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// Legality Check Message Strings to indicate why certain <see cref="PKM"/> <see cref="LegalInfo"/> values are flagged.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public static class LegalityCheckStrings
 {
     // Message String Name format: L/F[Category][Summary]

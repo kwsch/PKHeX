@@ -15,7 +15,6 @@ public partial class ReportGrid : Form
     public ReportGrid()
     {
         InitializeComponent();
-        dgData.DoubleBuffered(true);
         CenterToParent();
         GetContextMenu();
     }

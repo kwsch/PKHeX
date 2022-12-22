@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class ReportGrid
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dgData = new System.Windows.Forms.DataGridView();
+            this.dgData = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,6 +66,6 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgData;
+        private PKHeX.WinForms.Controls.DoubleBufferedDataGridView dgData;
     }
 }

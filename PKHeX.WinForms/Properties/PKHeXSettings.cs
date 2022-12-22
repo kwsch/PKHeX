@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO;
 using System.Text.Json;
@@ -12,6 +13,7 @@ using PKHeX.Drawing.PokeSprite;
 namespace PKHeX.WinForms;
 
 [Serializable]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public sealed class PKHeXSettings
 {
     public StartupSettings Startup { get; set; } = new();

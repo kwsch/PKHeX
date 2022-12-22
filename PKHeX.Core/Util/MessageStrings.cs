@@ -1,10 +1,13 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generic Message Strings used for messages shown to the user.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public static class MessageStrings
 {
     #region Generic Program Messages

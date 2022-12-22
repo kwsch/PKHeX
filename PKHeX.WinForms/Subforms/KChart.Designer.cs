@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class KChart
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.DGV = new System.Windows.Forms.DataGridView();
+            this.DGV = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
             this.d_Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Sprite = new System.Windows.Forms.DataGridViewImageColumn();
             this.SpecName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -231,7 +231,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.DataGridView DGV;
+        private PKHeX.WinForms.Controls.DoubleBufferedDataGridView DGV;
         private System.Windows.Forms.DataGridViewTextBoxColumn d_Index;
         private System.Windows.Forms.DataGridViewImageColumn Sprite;
         private System.Windows.Forms.DataGridViewTextBoxColumn SpecName;

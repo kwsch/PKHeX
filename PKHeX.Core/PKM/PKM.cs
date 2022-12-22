@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static PKHeX.Core.GameVersion;
+using static System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Object representing a <see cref="PKM"/>'s data and derived properties.
 /// </summary>
+[DynamicallyAccessedMembers(PublicProperties | NonPublicProperties | PublicParameterlessConstructor)]
 public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature
 {
     /// <summary>

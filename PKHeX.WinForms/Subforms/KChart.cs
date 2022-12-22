@@ -40,8 +40,6 @@ public partial class KChart : Form
             }
         }
 
-        DGV.DoubleBuffered(true);
-
         DGV.Sort(DGV.Columns[0], ListSortDirection.Ascending);
     }
 
