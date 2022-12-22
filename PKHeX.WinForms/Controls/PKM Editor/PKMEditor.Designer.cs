@@ -64,6 +64,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Form = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_FormLeft = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Form = new System.Windows.Forms.Label();
+            this.L_FormArgument = new System.Windows.Forms.Label();
             this.FLP_FormRight = new System.Windows.Forms.FlowLayoutPanel();
             this.CB_Form = new System.Windows.Forms.ComboBox();
             this.FA_Form = new PKHeX.WinForms.Controls.FormArgument();
@@ -237,7 +238,8 @@ namespace PKHeX.WinForms.Controls
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
-            this.L_FormArgument = new System.Windows.Forms.Label();
+            this.PAN_HandlerOT = new System.Windows.Forms.Panel();
+            this.PAN_HandlerHT = new System.Windows.Forms.Panel();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -293,7 +295,6 @@ namespace PKHeX.WinForms.Controls
             this.FLP_ObedienceLevel.SuspendLayout();
             this.FLP_GroundTile.SuspendLayout();
             this.FLP_TimeOfDay.SuspendLayout();
-            this.Tab_Stats.SuspendLayout();
             this.Tab_Attacks.SuspendLayout();
             this.FLP_MoveFlags.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove4)).BeginInit();
@@ -344,9 +345,9 @@ namespace PKHeX.WinForms.Controls
             // 
             this.Tab_Main.AllowDrop = true;
             this.Tab_Main.Controls.Add(this.FLP_Main);
-            this.Tab_Main.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Main.Location = new System.Drawing.Point(4, 24);
             this.Tab_Main.Name = "Tab_Main";
-            this.Tab_Main.Size = new System.Drawing.Size(307, 539);
+            this.Tab_Main.Size = new System.Drawing.Size(307, 537);
             this.Tab_Main.TabIndex = 0;
             this.Tab_Main.Text = "Main";
             this.Tab_Main.UseVisualStyleBackColor = true;
@@ -379,7 +380,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Main.Location = new System.Drawing.Point(0, 0);
             this.FLP_Main.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Main.Name = "FLP_Main";
-            this.FLP_Main.Size = new System.Drawing.Size(307, 539);
+            this.FLP_Main.Size = new System.Drawing.Size(307, 537);
             this.FLP_Main.TabIndex = 103;
             // 
             // FLP_PID
@@ -414,7 +415,7 @@ namespace PKHeX.WinForms.Controls
             this.Label_PID.Location = new System.Drawing.Point(70, 5);
             this.Label_PID.Margin = new System.Windows.Forms.Padding(0, 5, 0, 4);
             this.Label_PID.Name = "Label_PID";
-            this.Label_PID.Size = new System.Drawing.Size(28, 13);
+            this.Label_PID.Size = new System.Drawing.Size(28, 15);
             this.Label_PID.TabIndex = 0;
             this.Label_PID.Text = "PID:";
             this.Label_PID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -422,7 +423,7 @@ namespace PKHeX.WinForms.Controls
             // BTN_Shinytize
             // 
             this.BTN_Shinytize.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.BTN_Shinytize.Location = new System.Drawing.Point(46, 0);
+            this.BTN_Shinytize.Location = new System.Drawing.Point(46, 1);
             this.BTN_Shinytize.Margin = new System.Windows.Forms.Padding(0);
             this.BTN_Shinytize.Name = "BTN_Shinytize";
             this.BTN_Shinytize.Size = new System.Drawing.Size(24, 22);
@@ -436,7 +437,7 @@ namespace PKHeX.WinForms.Controls
             this.PB_ShinyStar.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.PB_ShinyStar.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon;
             this.PB_ShinyStar.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon;
-            this.PB_ShinyStar.Location = new System.Drawing.Point(24, 2);
+            this.PB_ShinyStar.Location = new System.Drawing.Point(24, 3);
             this.PB_ShinyStar.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
             this.PB_ShinyStar.Name = "PB_ShinyStar";
             this.PB_ShinyStar.Size = new System.Drawing.Size(20, 20);
@@ -450,7 +451,7 @@ namespace PKHeX.WinForms.Controls
             this.PB_ShinySquare.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.PB_ShinySquare.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
             this.PB_ShinySquare.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
-            this.PB_ShinySquare.Location = new System.Drawing.Point(2, 2);
+            this.PB_ShinySquare.Location = new System.Drawing.Point(2, 3);
             this.PB_ShinySquare.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
             this.PB_ShinySquare.Name = "PB_ShinySquare";
             this.PB_ShinySquare.Size = new System.Drawing.Size(20, 20);
@@ -475,7 +476,7 @@ namespace PKHeX.WinForms.Controls
             // 
             this.TB_PID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.TB_PID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_PID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TB_PID.Location = new System.Drawing.Point(0, 1);
             this.TB_PID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.TB_PID.MaxLength = 8;
@@ -489,6 +490,7 @@ namespace PKHeX.WinForms.Controls
             // UC_Gender
             // 
             this.UC_Gender.AllowClick = false;
+            this.UC_Gender.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.gender_0;
             this.UC_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.UC_Gender.Gender = 0;
             this.UC_Gender.Location = new System.Drawing.Point(63, 2);
@@ -501,7 +503,7 @@ namespace PKHeX.WinForms.Controls
             // BTN_RerollPID
             // 
             this.BTN_RerollPID.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.BTN_RerollPID.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTN_RerollPID.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.BTN_RerollPID.Location = new System.Drawing.Point(83, 1);
             this.BTN_RerollPID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
             this.BTN_RerollPID.Name = "BTN_RerollPID";
@@ -525,7 +527,7 @@ namespace PKHeX.WinForms.Controls
             // Label_Species
             // 
             this.Label_Species.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.Label_Species.Location = new System.Drawing.Point(0, 0);
+            this.Label_Species.Location = new System.Drawing.Point(0, 1);
             this.Label_Species.Margin = new System.Windows.Forms.Padding(0);
             this.Label_Species.Name = "Label_Species";
             this.Label_Species.Size = new System.Drawing.Size(98, 21);
@@ -542,7 +544,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Species.Location = new System.Drawing.Point(98, 0);
             this.CB_Species.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Species.Name = "CB_Species";
-            this.CB_Species.Size = new System.Drawing.Size(140, 21);
+            this.CB_Species.Size = new System.Drawing.Size(140, 23);
             this.CB_Species.TabIndex = 3;
             this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Species.SelectedValueChanged += new System.EventHandler(this.UpdateSpecies);
@@ -564,7 +566,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_NicknameLeft.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.FLP_NicknameLeft.Controls.Add(this.CHK_Nicknamed);
             this.FLP_NicknameLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.FLP_NicknameLeft.Location = new System.Drawing.Point(0, 0);
+            this.FLP_NicknameLeft.Location = new System.Drawing.Point(0, 1);
             this.FLP_NicknameLeft.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_NicknameLeft.Name = "FLP_NicknameLeft";
             this.FLP_NicknameLeft.Size = new System.Drawing.Size(98, 21);
@@ -573,10 +575,10 @@ namespace PKHeX.WinForms.Controls
             // CHK_Nicknamed
             // 
             this.CHK_Nicknamed.AutoSize = true;
-            this.CHK_Nicknamed.Location = new System.Drawing.Point(24, 3);
+            this.CHK_Nicknamed.Location = new System.Drawing.Point(18, 3);
             this.CHK_Nicknamed.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.CHK_Nicknamed.Name = "CHK_Nicknamed";
-            this.CHK_Nicknamed.Size = new System.Drawing.Size(74, 17);
+            this.CHK_Nicknamed.Size = new System.Drawing.Size(80, 19);
             this.CHK_Nicknamed.TabIndex = 4;
             this.CHK_Nicknamed.Text = "Nickname";
             this.CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -590,7 +592,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_Nickname.Margin = new System.Windows.Forms.Padding(0);
             this.TB_Nickname.MaxLength = 12;
             this.TB_Nickname.Name = "TB_Nickname";
-            this.TB_Nickname.Size = new System.Drawing.Size(140, 20);
+            this.TB_Nickname.Size = new System.Drawing.Size(140, 23);
             this.TB_Nickname.TabIndex = 5;
             this.TB_Nickname.TextChanged += new System.EventHandler(this.UpdateIsNicknamed);
             this.TB_Nickname.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
@@ -636,7 +638,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_EXP.Margin = new System.Windows.Forms.Padding(0);
             this.TB_EXP.Mask = "0000000";
             this.TB_EXP.Name = "TB_EXP";
-            this.TB_EXP.Size = new System.Drawing.Size(46, 20);
+            this.TB_EXP.Size = new System.Drawing.Size(46, 23);
             this.TB_EXP.TabIndex = 7;
             this.TB_EXP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EXP.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
@@ -659,7 +661,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_Level.Margin = new System.Windows.Forms.Padding(0);
             this.TB_Level.Mask = "000";
             this.TB_Level.Name = "TB_Level";
-            this.TB_Level.Size = new System.Drawing.Size(22, 20);
+            this.TB_Level.Size = new System.Drawing.Size(22, 23);
             this.TB_Level.TabIndex = 8;
             this.TB_Level.Click += new System.EventHandler(this.ClickLevel);
             this.TB_Level.TextChanged += new System.EventHandler(this.UpdateEXPLevel);
@@ -694,7 +696,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Nature.Location = new System.Drawing.Point(98, 0);
             this.CB_Nature.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Nature.Name = "CB_Nature";
-            this.CB_Nature.Size = new System.Drawing.Size(140, 21);
+            this.CB_Nature.Size = new System.Drawing.Size(140, 23);
             this.CB_Nature.TabIndex = 9;
             this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
@@ -729,7 +731,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_StatNature.Location = new System.Drawing.Point(98, 0);
             this.CB_StatNature.Margin = new System.Windows.Forms.Padding(0);
             this.CB_StatNature.Name = "CB_StatNature";
-            this.CB_StatNature.Size = new System.Drawing.Size(140, 21);
+            this.CB_StatNature.Size = new System.Drawing.Size(140, 23);
             this.CB_StatNature.TabIndex = 10;
             this.CB_StatNature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_StatNature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
@@ -767,6 +769,16 @@ namespace PKHeX.WinForms.Controls
             this.Label_Form.Text = "Form:";
             this.Label_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // L_FormArgument
+            // 
+            this.L_FormArgument.Location = new System.Drawing.Point(0, 21);
+            this.L_FormArgument.Margin = new System.Windows.Forms.Padding(0);
+            this.L_FormArgument.Name = "L_FormArgument";
+            this.L_FormArgument.Size = new System.Drawing.Size(98, 21);
+            this.L_FormArgument.TabIndex = 12;
+            this.L_FormArgument.Text = "Form Argument:";
+            this.L_FormArgument.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // FLP_FormRight
             // 
             this.FLP_FormRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -789,7 +801,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Form.Location = new System.Drawing.Point(0, 0);
             this.CB_Form.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Form.Name = "CB_Form";
-            this.CB_Form.Size = new System.Drawing.Size(123, 21);
+            this.CB_Form.Size = new System.Drawing.Size(123, 23);
             this.CB_Form.TabIndex = 12;
             this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
             // 
@@ -816,7 +828,7 @@ namespace PKHeX.WinForms.Controls
             // Label_HeldItem
             // 
             this.Label_HeldItem.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.Label_HeldItem.Location = new System.Drawing.Point(0, 0);
+            this.Label_HeldItem.Location = new System.Drawing.Point(0, 1);
             this.Label_HeldItem.Margin = new System.Windows.Forms.Padding(0);
             this.Label_HeldItem.Name = "Label_HeldItem";
             this.Label_HeldItem.Size = new System.Drawing.Size(98, 21);
@@ -832,7 +844,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_HeldItem.Location = new System.Drawing.Point(98, 0);
             this.CB_HeldItem.Margin = new System.Windows.Forms.Padding(0);
             this.CB_HeldItem.Name = "CB_HeldItem";
-            this.CB_HeldItem.Size = new System.Drawing.Size(140, 21);
+            this.CB_HeldItem.Size = new System.Drawing.Size(140, 23);
             this.CB_HeldItem.TabIndex = 10;
             this.CB_HeldItem.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_HeldItem.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
@@ -878,7 +890,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Ability.Location = new System.Drawing.Point(0, 0);
             this.CB_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Ability.Name = "CB_Ability";
-            this.CB_Ability.Size = new System.Drawing.Size(140, 21);
+            this.CB_Ability.Size = new System.Drawing.Size(140, 23);
             this.CB_Ability.TabIndex = 13;
             this.CB_Ability.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Ability.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
@@ -889,21 +901,21 @@ namespace PKHeX.WinForms.Controls
             this.DEV_Ability.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.DEV_Ability.Enabled = false;
             this.DEV_Ability.FormattingEnabled = true;
-            this.DEV_Ability.Location = new System.Drawing.Point(0, 21);
+            this.DEV_Ability.Location = new System.Drawing.Point(0, 23);
             this.DEV_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.DEV_Ability.Name = "DEV_Ability";
-            this.DEV_Ability.Size = new System.Drawing.Size(126, 21);
+            this.DEV_Ability.Size = new System.Drawing.Size(126, 23);
             this.DEV_Ability.TabIndex = 14;
             this.DEV_Ability.Visible = false;
             // 
             // TB_AbilityNumber
             // 
             this.TB_AbilityNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_AbilityNumber.Location = new System.Drawing.Point(126, 21);
+            this.TB_AbilityNumber.Location = new System.Drawing.Point(126, 23);
             this.TB_AbilityNumber.Margin = new System.Windows.Forms.Padding(0);
             this.TB_AbilityNumber.Mask = "0";
             this.TB_AbilityNumber.Name = "TB_AbilityNumber";
-            this.TB_AbilityNumber.Size = new System.Drawing.Size(19, 20);
+            this.TB_AbilityNumber.Size = new System.Drawing.Size(19, 23);
             this.TB_AbilityNumber.TabIndex = 14;
             this.TB_AbilityNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_AbilityNumber.Visible = false;
@@ -970,7 +982,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_Friendship.Margin = new System.Windows.Forms.Padding(0);
             this.TB_Friendship.Mask = "000";
             this.TB_Friendship.Name = "TB_Friendship";
-            this.TB_Friendship.Size = new System.Drawing.Size(22, 20);
+            this.TB_Friendship.Size = new System.Drawing.Size(22, 23);
             this.TB_Friendship.TabIndex = 11;
             this.TB_Friendship.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_Friendship.Validated += new System.EventHandler(this.Update255_MTB);
@@ -1004,7 +1016,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Language.Location = new System.Drawing.Point(98, 0);
             this.CB_Language.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Language.Name = "CB_Language";
-            this.CB_Language.Size = new System.Drawing.Size(140, 21);
+            this.CB_Language.Size = new System.Drawing.Size(140, 23);
             this.CB_Language.TabIndex = 15;
             this.CB_Language.SelectedIndexChanged += new System.EventHandler(this.UpdateNickname);
             // 
@@ -1033,10 +1045,10 @@ namespace PKHeX.WinForms.Controls
             // CHK_IsEgg
             // 
             this.CHK_IsEgg.AutoSize = true;
-            this.CHK_IsEgg.Location = new System.Drawing.Point(42, 3);
+            this.CHK_IsEgg.Location = new System.Drawing.Point(41, 3);
             this.CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.CHK_IsEgg.Name = "CHK_IsEgg";
-            this.CHK_IsEgg.Size = new System.Drawing.Size(56, 17);
+            this.CHK_IsEgg.Size = new System.Drawing.Size(57, 19);
             this.CHK_IsEgg.TabIndex = 16;
             this.CHK_IsEgg.Text = "Is Egg";
             this.CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1060,7 +1072,7 @@ namespace PKHeX.WinForms.Controls
             this.CHK_Infected.Location = new System.Drawing.Point(0, 3);
             this.CHK_Infected.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.CHK_Infected.Name = "CHK_Infected";
-            this.CHK_Infected.Size = new System.Drawing.Size(65, 17);
+            this.CHK_Infected.Size = new System.Drawing.Size(69, 19);
             this.CHK_Infected.TabIndex = 17;
             this.CHK_Infected.Text = "Infected";
             this.CHK_Infected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1070,10 +1082,10 @@ namespace PKHeX.WinForms.Controls
             // CHK_Cured
             // 
             this.CHK_Cured.AutoSize = true;
-            this.CHK_Cured.Location = new System.Drawing.Point(65, 3);
+            this.CHK_Cured.Location = new System.Drawing.Point(69, 3);
             this.CHK_Cured.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.CHK_Cured.Name = "CHK_Cured";
-            this.CHK_Cured.Size = new System.Drawing.Size(54, 17);
+            this.CHK_Cured.Size = new System.Drawing.Size(58, 19);
             this.CHK_Cured.TabIndex = 18;
             this.CHK_Cured.Text = "Cured";
             this.CHK_Cured.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1138,7 +1150,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_PKRSStrain.Location = new System.Drawing.Point(0, 0);
             this.CB_PKRSStrain.Margin = new System.Windows.Forms.Padding(0);
             this.CB_PKRSStrain.Name = "CB_PKRSStrain";
-            this.CB_PKRSStrain.Size = new System.Drawing.Size(43, 21);
+            this.CB_PKRSStrain.Size = new System.Drawing.Size(43, 23);
             this.CB_PKRSStrain.TabIndex = 19;
             this.CB_PKRSStrain.Visible = false;
             this.CB_PKRSStrain.SelectedValueChanged += new System.EventHandler(this.UpdatePKRSstrain);
@@ -1161,7 +1173,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_PKRSDays.Location = new System.Drawing.Point(68, 0);
             this.CB_PKRSDays.Margin = new System.Windows.Forms.Padding(0);
             this.CB_PKRSDays.Name = "CB_PKRSDays";
-            this.CB_PKRSDays.Size = new System.Drawing.Size(30, 21);
+            this.CB_PKRSDays.Size = new System.Drawing.Size(30, 23);
             this.CB_PKRSDays.TabIndex = 20;
             this.CB_PKRSDays.Visible = false;
             this.CB_PKRSDays.SelectedIndexChanged += new System.EventHandler(this.UpdatePKRSdays);
@@ -1196,7 +1208,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Country.Location = new System.Drawing.Point(98, 0);
             this.CB_Country.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Country.Name = "CB_Country";
-            this.CB_Country.Size = new System.Drawing.Size(140, 21);
+            this.CB_Country.Size = new System.Drawing.Size(140, 23);
             this.CB_Country.TabIndex = 21;
             this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
             this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
@@ -1231,7 +1243,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_SubRegion.Location = new System.Drawing.Point(98, 0);
             this.CB_SubRegion.Margin = new System.Windows.Forms.Padding(0);
             this.CB_SubRegion.Name = "CB_SubRegion";
-            this.CB_SubRegion.Size = new System.Drawing.Size(140, 21);
+            this.CB_SubRegion.Size = new System.Drawing.Size(140, 23);
             this.CB_SubRegion.TabIndex = 22;
             this.CB_SubRegion.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -1263,7 +1275,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_3DSReg.Location = new System.Drawing.Point(98, 0);
             this.CB_3DSReg.Margin = new System.Windows.Forms.Padding(0);
             this.CB_3DSReg.Name = "CB_3DSReg";
-            this.CB_3DSReg.Size = new System.Drawing.Size(140, 21);
+            this.CB_3DSReg.Size = new System.Drawing.Size(140, 23);
             this.CB_3DSReg.TabIndex = 23;
             // 
             // FLP_NSparkle
@@ -1293,7 +1305,7 @@ namespace PKHeX.WinForms.Controls
             this.CHK_NSparkle.Location = new System.Drawing.Point(98, 3);
             this.CHK_NSparkle.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.CHK_NSparkle.Name = "CHK_NSparkle";
-            this.CHK_NSparkle.Size = new System.Drawing.Size(56, 17);
+            this.CHK_NSparkle.Size = new System.Drawing.Size(59, 19);
             this.CHK_NSparkle.TabIndex = 18;
             this.CHK_NSparkle.Text = "Active";
             this.CHK_NSparkle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1330,7 +1342,7 @@ namespace PKHeX.WinForms.Controls
             0,
             0});
             this.NUD_ShadowID.Name = "NUD_ShadowID";
-            this.NUD_ShadowID.Size = new System.Drawing.Size(51, 20);
+            this.NUD_ShadowID.Size = new System.Drawing.Size(51, 23);
             this.NUD_ShadowID.TabIndex = 103;
             this.NUD_ShadowID.ValueChanged += new System.EventHandler(this.UpdateShadowID);
             // 
@@ -1371,7 +1383,7 @@ namespace PKHeX.WinForms.Controls
             0,
             -2147483648});
             this.NUD_Purification.Name = "NUD_Purification";
-            this.NUD_Purification.Size = new System.Drawing.Size(51, 20);
+            this.NUD_Purification.Size = new System.Drawing.Size(51, 23);
             this.NUD_Purification.TabIndex = 103;
             this.NUD_Purification.ValueChanged += new System.EventHandler(this.UpdatePurification);
             // 
@@ -1381,7 +1393,7 @@ namespace PKHeX.WinForms.Controls
             this.CHK_Shadow.Location = new System.Drawing.Point(149, 3);
             this.CHK_Shadow.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.CHK_Shadow.Name = "CHK_Shadow";
-            this.CHK_Shadow.Size = new System.Drawing.Size(65, 17);
+            this.CHK_Shadow.Size = new System.Drawing.Size(68, 19);
             this.CHK_Shadow.TabIndex = 16;
             this.CHK_Shadow.Text = "Shadow";
             this.CHK_Shadow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1474,10 +1486,10 @@ namespace PKHeX.WinForms.Controls
             this.Tab_Met.Controls.Add(this.CHK_AsEgg);
             this.Tab_Met.Controls.Add(this.GB_EggConditions);
             this.Tab_Met.Controls.Add(this.FLP_Met);
-            this.Tab_Met.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Met.Location = new System.Drawing.Point(4, 24);
             this.Tab_Met.Name = "Tab_Met";
             this.Tab_Met.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Met.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Met.Size = new System.Drawing.Size(307, 537);
             this.Tab_Met.TabIndex = 1;
             this.Tab_Met.Text = "Met";
             this.Tab_Met.UseVisualStyleBackColor = true;
@@ -1485,7 +1497,7 @@ namespace PKHeX.WinForms.Controls
             // TB_HomeTracker
             // 
             this.TB_HomeTracker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TB_HomeTracker.Location = new System.Drawing.Point(110, 296);
             this.TB_HomeTracker.MaxLength = 16;
             this.TB_HomeTracker.Name = "TB_HomeTracker";
@@ -1508,7 +1520,7 @@ namespace PKHeX.WinForms.Controls
             this.CHK_AsEgg.AutoSize = true;
             this.CHK_AsEgg.Location = new System.Drawing.Point(110, 198);
             this.CHK_AsEgg.Name = "CHK_AsEgg";
-            this.CHK_AsEgg.Size = new System.Drawing.Size(60, 17);
+            this.CHK_AsEgg.Size = new System.Drawing.Size(62, 19);
             this.CHK_AsEgg.TabIndex = 2;
             this.CHK_AsEgg.Text = "As Egg";
             this.CHK_AsEgg.UseVisualStyleBackColor = true;
@@ -1535,7 +1547,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_EggLocation.FormattingEnabled = true;
             this.CB_EggLocation.Location = new System.Drawing.Point(71, 19);
             this.CB_EggLocation.Name = "CB_EggLocation";
-            this.CB_EggLocation.Size = new System.Drawing.Size(122, 21);
+            this.CB_EggLocation.Size = new System.Drawing.Size(122, 23);
             this.CB_EggLocation.TabIndex = 4;
             this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
             this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
@@ -1548,7 +1560,7 @@ namespace PKHeX.WinForms.Controls
             this.CAL_EggDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.CAL_EggDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_EggDate.Name = "CAL_EggDate";
-            this.CAL_EggDate.Size = new System.Drawing.Size(122, 20);
+            this.CAL_EggDate.Size = new System.Drawing.Size(122, 23);
             this.CAL_EggDate.TabIndex = 5;
             this.CAL_EggDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -1614,7 +1626,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_GameOrigin.Location = new System.Drawing.Point(98, 0);
             this.CB_GameOrigin.Margin = new System.Windows.Forms.Padding(0);
             this.CB_GameOrigin.Name = "CB_GameOrigin";
-            this.CB_GameOrigin.Size = new System.Drawing.Size(134, 21);
+            this.CB_GameOrigin.Size = new System.Drawing.Size(134, 23);
             this.CB_GameOrigin.TabIndex = 1;
             this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.UpdateOriginGame);
             // 
@@ -1646,7 +1658,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_BattleVersion.Location = new System.Drawing.Point(98, 0);
             this.CB_BattleVersion.Margin = new System.Windows.Forms.Padding(0);
             this.CB_BattleVersion.Name = "CB_BattleVersion";
-            this.CB_BattleVersion.Size = new System.Drawing.Size(134, 21);
+            this.CB_BattleVersion.Size = new System.Drawing.Size(134, 23);
             this.CB_BattleVersion.TabIndex = 1;
             this.CB_BattleVersion.SelectedValueChanged += new System.EventHandler(this.CB_BattleVersion_SelectedValueChanged);
             // 
@@ -1681,7 +1693,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_MetLocation.Location = new System.Drawing.Point(98, 0);
             this.CB_MetLocation.Margin = new System.Windows.Forms.Padding(0);
             this.CB_MetLocation.Name = "CB_MetLocation";
-            this.CB_MetLocation.Size = new System.Drawing.Size(162, 21);
+            this.CB_MetLocation.Size = new System.Drawing.Size(162, 23);
             this.CB_MetLocation.TabIndex = 2;
             this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
             this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
@@ -1703,7 +1715,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_BallLeft.Controls.Add(this.Label_Ball);
             this.FLP_BallLeft.Controls.Add(this.PB_Ball);
             this.FLP_BallLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.FLP_BallLeft.Location = new System.Drawing.Point(0, 0);
+            this.FLP_BallLeft.Location = new System.Drawing.Point(0, 1);
             this.FLP_BallLeft.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_BallLeft.Name = "FLP_BallLeft";
             this.FLP_BallLeft.Size = new System.Drawing.Size(98, 21);
@@ -1714,11 +1726,11 @@ namespace PKHeX.WinForms.Controls
             // 
             this.Label_Ball.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.Label_Ball.AutoSize = true;
-            this.Label_Ball.Location = new System.Drawing.Point(71, 0);
+            this.Label_Ball.Location = new System.Drawing.Point(69, 0);
             this.Label_Ball.Margin = new System.Windows.Forms.Padding(0);
             this.Label_Ball.Name = "Label_Ball";
             this.Label_Ball.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.Label_Ball.Size = new System.Drawing.Size(27, 19);
+            this.Label_Ball.Size = new System.Drawing.Size(29, 21);
             this.Label_Ball.TabIndex = 2;
             this.Label_Ball.Text = "Ball:";
             this.Label_Ball.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1726,7 +1738,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Ball
             // 
-            this.PB_Ball.Location = new System.Drawing.Point(48, 0);
+            this.PB_Ball.Location = new System.Drawing.Point(46, 0);
             this.PB_Ball.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.PB_Ball.Name = "PB_Ball";
             this.PB_Ball.Size = new System.Drawing.Size(20, 20);
@@ -1742,7 +1754,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Ball.Location = new System.Drawing.Point(98, 0);
             this.CB_Ball.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Ball.Name = "CB_Ball";
-            this.CB_Ball.Size = new System.Drawing.Size(134, 21);
+            this.CB_Ball.Size = new System.Drawing.Size(134, 23);
             this.CB_Ball.TabIndex = 3;
             this.CB_Ball.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Ball.SelectedValueChanged += new System.EventHandler(this.UpdateBall);
@@ -1778,7 +1790,7 @@ namespace PKHeX.WinForms.Controls
             this.CAL_MetDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             this.CAL_MetDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_MetDate.Name = "CAL_MetDate";
-            this.CAL_MetDate.Size = new System.Drawing.Size(134, 20);
+            this.CAL_MetDate.Size = new System.Drawing.Size(134, 23);
             this.CAL_MetDate.TabIndex = 5;
             this.CAL_MetDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
@@ -1811,7 +1823,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_MetLevel.Margin = new System.Windows.Forms.Padding(0);
             this.TB_MetLevel.Mask = "000";
             this.TB_MetLevel.Name = "TB_MetLevel";
-            this.TB_MetLevel.Size = new System.Drawing.Size(22, 20);
+            this.TB_MetLevel.Size = new System.Drawing.Size(22, 23);
             this.TB_MetLevel.TabIndex = 4;
             this.TB_MetLevel.Validated += new System.EventHandler(this.Update255_MTB);
             // 
@@ -1821,7 +1833,7 @@ namespace PKHeX.WinForms.Controls
             this.CHK_Fateful.Location = new System.Drawing.Point(125, 3);
             this.CHK_Fateful.Margin = new System.Windows.Forms.Padding(5, 3, 3, 3);
             this.CHK_Fateful.Name = "CHK_Fateful";
-            this.CHK_Fateful.Size = new System.Drawing.Size(110, 17);
+            this.CHK_Fateful.Size = new System.Drawing.Size(119, 19);
             this.CHK_Fateful.TabIndex = 6;
             this.CHK_Fateful.Text = "Fateful Encounter";
             this.CHK_Fateful.UseVisualStyleBackColor = true;
@@ -1855,7 +1867,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_ObedienceLevel.Margin = new System.Windows.Forms.Padding(0);
             this.TB_ObedienceLevel.Mask = "000";
             this.TB_ObedienceLevel.Name = "TB_ObedienceLevel";
-            this.TB_ObedienceLevel.Size = new System.Drawing.Size(22, 20);
+            this.TB_ObedienceLevel.Size = new System.Drawing.Size(22, 23);
             this.TB_ObedienceLevel.TabIndex = 4;
             // 
             // FLP_GroundTile
@@ -1887,7 +1899,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_GroundTile.Location = new System.Drawing.Point(98, 0);
             this.CB_GroundTile.Margin = new System.Windows.Forms.Padding(0);
             this.CB_GroundTile.Name = "CB_GroundTile";
-            this.CB_GroundTile.Size = new System.Drawing.Size(134, 21);
+            this.CB_GroundTile.Size = new System.Drawing.Size(134, 23);
             this.CB_GroundTile.TabIndex = 7;
             // 
             // FLP_TimeOfDay
@@ -1924,7 +1936,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_MetTimeOfDay.Location = new System.Drawing.Point(98, 0);
             this.CB_MetTimeOfDay.Margin = new System.Windows.Forms.Padding(0);
             this.CB_MetTimeOfDay.Name = "CB_MetTimeOfDay";
-            this.CB_MetTimeOfDay.Size = new System.Drawing.Size(134, 21);
+            this.CB_MetTimeOfDay.Size = new System.Drawing.Size(134, 23);
             this.CB_MetTimeOfDay.TabIndex = 11;
             // 
             // Tab_Stats
@@ -1932,10 +1944,10 @@ namespace PKHeX.WinForms.Controls
             this.Tab_Stats.AllowDrop = true;
             this.Tab_Stats.Controls.Add(this.Stats);
             this.Tab_Stats.Controls.Add(this.Contest);
-            this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Stats.Location = new System.Drawing.Point(4, 24);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Stats.Size = new System.Drawing.Size(307, 537);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
@@ -1956,12 +1968,6 @@ namespace PKHeX.WinForms.Controls
             // 
             // Contest
             // 
-            this.Contest.CNT_Beauty = ((byte)(0));
-            this.Contest.CNT_Cool = ((byte)(0));
-            this.Contest.CNT_Cute = ((byte)(0));
-            this.Contest.CNT_Sheen = ((byte)(0));
-            this.Contest.CNT_Smart = ((byte)(0));
-            this.Contest.CNT_Tough = ((byte)(0));
             this.Contest.Location = new System.Drawing.Point(32, 290);
             this.Contest.Margin = new System.Windows.Forms.Padding(0);
             this.Contest.Name = "Contest";
@@ -1980,10 +1986,10 @@ namespace PKHeX.WinForms.Controls
             this.Tab_Attacks.Controls.Add(this.PB_WarnMove1);
             this.Tab_Attacks.Controls.Add(this.GB_RelearnMoves);
             this.Tab_Attacks.Controls.Add(this.GB_CurrentMoves);
-            this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Attacks.Location = new System.Drawing.Point(4, 24);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Attacks.Size = new System.Drawing.Size(307, 537);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
@@ -2005,7 +2011,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_AlphaMastered.FormattingEnabled = true;
             this.CB_AlphaMastered.Location = new System.Drawing.Point(123, 317);
             this.CB_AlphaMastered.Name = "CB_AlphaMastered";
-            this.CB_AlphaMastered.Size = new System.Drawing.Size(124, 21);
+            this.CB_AlphaMastered.Size = new System.Drawing.Size(124, 23);
             this.CB_AlphaMastered.TabIndex = 20;
             this.CB_AlphaMastered.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
             // 
@@ -2149,7 +2155,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_RelearnMove4.FormattingEnabled = true;
             this.CB_RelearnMove4.Location = new System.Drawing.Point(48, 92);
             this.CB_RelearnMove4.Name = "CB_RelearnMove4";
-            this.CB_RelearnMove4.Size = new System.Drawing.Size(124, 21);
+            this.CB_RelearnMove4.Size = new System.Drawing.Size(124, 23);
             this.CB_RelearnMove4.TabIndex = 16;
             this.CB_RelearnMove4.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
             this.CB_RelearnMove4.Leave += new System.EventHandler(this.ValidateComboBox2);
@@ -2162,7 +2168,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_RelearnMove3.FormattingEnabled = true;
             this.CB_RelearnMove3.Location = new System.Drawing.Point(48, 70);
             this.CB_RelearnMove3.Name = "CB_RelearnMove3";
-            this.CB_RelearnMove3.Size = new System.Drawing.Size(124, 21);
+            this.CB_RelearnMove3.Size = new System.Drawing.Size(124, 23);
             this.CB_RelearnMove3.TabIndex = 15;
             this.CB_RelearnMove3.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
             this.CB_RelearnMove3.Leave += new System.EventHandler(this.ValidateComboBox2);
@@ -2175,7 +2181,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_RelearnMove2.FormattingEnabled = true;
             this.CB_RelearnMove2.Location = new System.Drawing.Point(48, 48);
             this.CB_RelearnMove2.Name = "CB_RelearnMove2";
-            this.CB_RelearnMove2.Size = new System.Drawing.Size(124, 21);
+            this.CB_RelearnMove2.Size = new System.Drawing.Size(124, 23);
             this.CB_RelearnMove2.TabIndex = 14;
             this.CB_RelearnMove2.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
             this.CB_RelearnMove2.Leave += new System.EventHandler(this.ValidateComboBox2);
@@ -2188,7 +2194,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_RelearnMove1.FormattingEnabled = true;
             this.CB_RelearnMove1.Location = new System.Drawing.Point(48, 26);
             this.CB_RelearnMove1.Name = "CB_RelearnMove1";
-            this.CB_RelearnMove1.Size = new System.Drawing.Size(124, 21);
+            this.CB_RelearnMove1.Size = new System.Drawing.Size(124, 23);
             this.CB_RelearnMove1.TabIndex = 13;
             this.CB_RelearnMove1.SelectedIndexChanged += new System.EventHandler(this.ValidateMove);
             this.CB_RelearnMove1.Leave += new System.EventHandler(this.ValidateComboBox2);
@@ -2223,7 +2229,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_PP4.Mask = "000";
             this.TB_PP4.Name = "TB_PP4";
             this.TB_PP4.PromptChar = ' ';
-            this.TB_PP4.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP4.Size = new System.Drawing.Size(31, 23);
             this.TB_PP4.TabIndex = 16;
             this.TB_PP4.Validated += new System.EventHandler(this.Update255_MTB);
             // 
@@ -2233,7 +2239,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_PP3.Mask = "000";
             this.TB_PP3.Name = "TB_PP3";
             this.TB_PP3.PromptChar = ' ';
-            this.TB_PP3.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP3.Size = new System.Drawing.Size(31, 23);
             this.TB_PP3.TabIndex = 15;
             this.TB_PP3.Validated += new System.EventHandler(this.Update255_MTB);
             // 
@@ -2243,7 +2249,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_PP2.Mask = "000";
             this.TB_PP2.Name = "TB_PP2";
             this.TB_PP2.PromptChar = ' ';
-            this.TB_PP2.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP2.Size = new System.Drawing.Size(31, 23);
             this.TB_PP2.TabIndex = 14;
             this.TB_PP2.Validated += new System.EventHandler(this.Update255_MTB);
             // 
@@ -2253,7 +2259,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_PP1.Mask = "000";
             this.TB_PP1.Name = "TB_PP1";
             this.TB_PP1.PromptChar = ' ';
-            this.TB_PP1.Size = new System.Drawing.Size(31, 20);
+            this.TB_PP1.Size = new System.Drawing.Size(31, 23);
             this.TB_PP1.TabIndex = 13;
             this.TB_PP1.Validated += new System.EventHandler(this.Update255_MTB);
             // 
@@ -2288,7 +2294,7 @@ namespace PKHeX.WinForms.Controls
             "3"});
             this.CB_PPu4.Location = new System.Drawing.Point(172, 92);
             this.CB_PPu4.Name = "CB_PPu4";
-            this.CB_PPu4.Size = new System.Drawing.Size(38, 21);
+            this.CB_PPu4.Size = new System.Drawing.Size(38, 23);
             this.CB_PPu4.TabIndex = 12;
             this.CB_PPu4.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
@@ -2303,7 +2309,7 @@ namespace PKHeX.WinForms.Controls
             "3"});
             this.CB_PPu3.Location = new System.Drawing.Point(172, 70);
             this.CB_PPu3.Name = "CB_PPu3";
-            this.CB_PPu3.Size = new System.Drawing.Size(38, 21);
+            this.CB_PPu3.Size = new System.Drawing.Size(38, 23);
             this.CB_PPu3.TabIndex = 9;
             this.CB_PPu3.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
@@ -2318,7 +2324,7 @@ namespace PKHeX.WinForms.Controls
             "3"});
             this.CB_PPu2.Location = new System.Drawing.Point(172, 48);
             this.CB_PPu2.Name = "CB_PPu2";
-            this.CB_PPu2.Size = new System.Drawing.Size(38, 21);
+            this.CB_PPu2.Size = new System.Drawing.Size(38, 23);
             this.CB_PPu2.TabIndex = 6;
             this.CB_PPu2.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
@@ -2332,7 +2338,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Move4.IntegralHeight = false;
             this.CB_Move4.Location = new System.Drawing.Point(9, 92);
             this.CB_Move4.Name = "CB_Move4";
-            this.CB_Move4.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move4.Size = new System.Drawing.Size(121, 24);
             this.CB_Move4.TabIndex = 10;
             this.CB_Move4.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
             this.CB_Move4.DropDown += new System.EventHandler(this.ValidateMoveDropDown);
@@ -2352,7 +2358,7 @@ namespace PKHeX.WinForms.Controls
             "3"});
             this.CB_PPu1.Location = new System.Drawing.Point(172, 26);
             this.CB_PPu1.Name = "CB_PPu1";
-            this.CB_PPu1.Size = new System.Drawing.Size(38, 21);
+            this.CB_PPu1.Size = new System.Drawing.Size(38, 23);
             this.CB_PPu1.TabIndex = 3;
             this.CB_PPu1.SelectedIndexChanged += new System.EventHandler(this.UpdatePP);
             // 
@@ -2366,7 +2372,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Move3.IntegralHeight = false;
             this.CB_Move3.Location = new System.Drawing.Point(9, 70);
             this.CB_Move3.Name = "CB_Move3";
-            this.CB_Move3.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move3.Size = new System.Drawing.Size(121, 24);
             this.CB_Move3.TabIndex = 7;
             this.CB_Move3.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
             this.CB_Move3.DropDown += new System.EventHandler(this.ValidateMoveDropDown);
@@ -2385,7 +2391,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Move2.IntegralHeight = false;
             this.CB_Move2.Location = new System.Drawing.Point(9, 48);
             this.CB_Move2.Name = "CB_Move2";
-            this.CB_Move2.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move2.Size = new System.Drawing.Size(121, 24);
             this.CB_Move2.TabIndex = 4;
             this.CB_Move2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
             this.CB_Move2.DropDown += new System.EventHandler(this.ValidateMoveDropDown);
@@ -2404,7 +2410,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Move1.IntegralHeight = false;
             this.CB_Move1.Location = new System.Drawing.Point(9, 26);
             this.CB_Move1.Name = "CB_Move1";
-            this.CB_Move1.Size = new System.Drawing.Size(121, 21);
+            this.CB_Move1.Size = new System.Drawing.Size(121, 24);
             this.CB_Move1.TabIndex = 1;
             this.CB_Move1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ValidateMovePaint);
             this.CB_Move1.DropDown += new System.EventHandler(this.ValidateMoveDropDown);
@@ -2416,6 +2422,8 @@ namespace PKHeX.WinForms.Controls
             // Tab_OTMisc
             // 
             this.Tab_OTMisc.AllowDrop = true;
+            this.Tab_OTMisc.Controls.Add(this.PAN_HandlerHT);
+            this.Tab_OTMisc.Controls.Add(this.PAN_HandlerOT);
             this.Tab_OTMisc.Controls.Add(this.PB_BattleVersion);
             this.Tab_OTMisc.Controls.Add(this.PB_Origin);
             this.Tab_OTMisc.Controls.Add(this.PB_Favorite);
@@ -2427,10 +2435,10 @@ namespace PKHeX.WinForms.Controls
             this.Tab_OTMisc.Controls.Add(this.GB_ExtraBytes);
             this.Tab_OTMisc.Controls.Add(this.GB_OT);
             this.Tab_OTMisc.Controls.Add(this.Label_EncryptionConstant);
-            this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
+            this.Tab_OTMisc.Location = new System.Drawing.Point(4, 24);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(307, 537);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -2480,7 +2488,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_PKMEditors.Controls.Add(this.BTN_History);
             this.FLP_PKMEditors.Location = new System.Drawing.Point(49, 275);
             this.FLP_PKMEditors.Name = "FLP_PKMEditors";
-            this.FLP_PKMEditors.Size = new System.Drawing.Size(175, 25);
+            this.FLP_PKMEditors.Size = new System.Drawing.Size(191, 27);
             this.FLP_PKMEditors.TabIndex = 9;
             this.FLP_PKMEditors.WrapContents = false;
             // 
@@ -2494,7 +2502,7 @@ namespace PKHeX.WinForms.Controls
             this.BTN_Ribbons.Location = new System.Drawing.Point(1, 1);
             this.BTN_Ribbons.Margin = new System.Windows.Forms.Padding(1);
             this.BTN_Ribbons.Name = "BTN_Ribbons";
-            this.BTN_Ribbons.Size = new System.Drawing.Size(56, 23);
+            this.BTN_Ribbons.Size = new System.Drawing.Size(60, 25);
             this.BTN_Ribbons.TabIndex = 5;
             this.BTN_Ribbons.Text = "Ribbons";
             this.BTN_Ribbons.UseVisualStyleBackColor = true;
@@ -2507,10 +2515,10 @@ namespace PKHeX.WinForms.Controls
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BTN_Medals.AutoSize = true;
             this.BTN_Medals.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BTN_Medals.Location = new System.Drawing.Point(59, 1);
+            this.BTN_Medals.Location = new System.Drawing.Point(63, 1);
             this.BTN_Medals.Margin = new System.Windows.Forms.Padding(1);
             this.BTN_Medals.Name = "BTN_Medals";
-            this.BTN_Medals.Size = new System.Drawing.Size(51, 23);
+            this.BTN_Medals.Size = new System.Drawing.Size(55, 25);
             this.BTN_Medals.TabIndex = 7;
             this.BTN_Medals.Text = "Medals";
             this.BTN_Medals.UseVisualStyleBackColor = true;
@@ -2523,10 +2531,10 @@ namespace PKHeX.WinForms.Controls
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BTN_History.AutoSize = true;
             this.BTN_History.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BTN_History.Location = new System.Drawing.Point(112, 1);
+            this.BTN_History.Location = new System.Drawing.Point(120, 1);
             this.BTN_History.Margin = new System.Windows.Forms.Padding(1);
             this.BTN_History.Name = "BTN_History";
-            this.BTN_History.Size = new System.Drawing.Size(62, 23);
+            this.BTN_History.Size = new System.Drawing.Size(70, 25);
             this.BTN_History.TabIndex = 6;
             this.BTN_History.Text = "Memories";
             this.BTN_History.UseVisualStyleBackColor = true;
@@ -2535,7 +2543,7 @@ namespace PKHeX.WinForms.Controls
             // TB_EC
             // 
             this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.TB_EC.Location = new System.Drawing.Point(192, 307);
             this.TB_EC.MaxLength = 8;
             this.TB_EC.Name = "TB_EC";
@@ -2560,6 +2568,7 @@ namespace PKHeX.WinForms.Controls
             // UC_HTGender
             // 
             this.UC_HTGender.AllowClick = true;
+            this.UC_HTGender.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.gender_0;
             this.UC_HTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.UC_HTGender.Gender = 0;
             this.UC_HTGender.Location = new System.Drawing.Point(142, 22);
@@ -2576,7 +2585,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_HTLanguage.Location = new System.Drawing.Point(46, 43);
             this.CB_HTLanguage.Margin = new System.Windows.Forms.Padding(0);
             this.CB_HTLanguage.Name = "CB_HTLanguage";
-            this.CB_HTLanguage.Size = new System.Drawing.Size(126, 21);
+            this.CB_HTLanguage.Size = new System.Drawing.Size(126, 23);
             this.CB_HTLanguage.TabIndex = 15;
             // 
             // TB_HT
@@ -2585,7 +2594,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_HT.Location = new System.Drawing.Point(46, 20);
             this.TB_HT.MaxLength = 12;
             this.TB_HT.Name = "TB_HT";
-            this.TB_HT.Size = new System.Drawing.Size(94, 20);
+            this.TB_HT.Size = new System.Drawing.Size(94, 23);
             this.TB_HT.TabIndex = 1;
             this.TB_HT.WordWrap = false;
             this.TB_HT.TextChanged += new System.EventHandler(this.UpdateNotOT);
@@ -2603,7 +2612,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // BTN_RerollEC
             // 
-            this.BTN_RerollEC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F);
+            this.BTN_RerollEC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.BTN_RerollEC.Location = new System.Drawing.Point(128, 307);
             this.BTN_RerollEC.Name = "BTN_RerollEC";
             this.BTN_RerollEC.Size = new System.Drawing.Size(62, 20);
@@ -2745,7 +2754,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_ExtraByte.Location = new System.Drawing.Point(87, 19);
             this.TB_ExtraByte.Mask = "000";
             this.TB_ExtraByte.Name = "TB_ExtraByte";
-            this.TB_ExtraByte.Size = new System.Drawing.Size(28, 20);
+            this.TB_ExtraByte.Size = new System.Drawing.Size(28, 23);
             this.TB_ExtraByte.TabIndex = 2;
             this.TB_ExtraByte.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_ExtraByte.Validated += new System.EventHandler(this.UpdateExtraByteValue);
@@ -2756,7 +2765,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_ExtraBytes.FormattingEnabled = true;
             this.CB_ExtraBytes.Location = new System.Drawing.Point(20, 18);
             this.CB_ExtraBytes.Name = "CB_ExtraBytes";
-            this.CB_ExtraBytes.Size = new System.Drawing.Size(57, 21);
+            this.CB_ExtraBytes.Size = new System.Drawing.Size(57, 23);
             this.CB_ExtraBytes.TabIndex = 1;
             this.CB_ExtraBytes.SelectedIndexChanged += new System.EventHandler(this.UpdateExtraByteIndex);
             // 
@@ -2776,6 +2785,7 @@ namespace PKHeX.WinForms.Controls
             // UC_OTGender
             // 
             this.UC_OTGender.AllowClick = true;
+            this.UC_OTGender.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.gender_0;
             this.UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.UC_OTGender.Gender = 0;
             this.UC_OTGender.Location = new System.Drawing.Point(142, 48);
@@ -2797,7 +2807,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_OT.Location = new System.Drawing.Point(46, 46);
             this.TB_OT.MaxLength = 12;
             this.TB_OT.Name = "TB_OT";
-            this.TB_OT.Size = new System.Drawing.Size(94, 20);
+            this.TB_OT.Size = new System.Drawing.Size(94, 23);
             this.TB_OT.TabIndex = 3;
             this.TB_OT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
@@ -2820,15 +2830,19 @@ namespace PKHeX.WinForms.Controls
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_FormArgument
+            // PAN_HandlerOT
             // 
-            this.L_FormArgument.Location = new System.Drawing.Point(0, 21);
-            this.L_FormArgument.Margin = new System.Windows.Forms.Padding(0);
-            this.L_FormArgument.Name = "L_FormArgument";
-            this.L_FormArgument.Size = new System.Drawing.Size(98, 21);
-            this.L_FormArgument.TabIndex = 12;
-            this.L_FormArgument.Text = "Form Argument:";
-            this.L_FormArgument.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.PAN_HandlerOT.Location = new System.Drawing.Point(5, 15);
+            this.PAN_HandlerOT.Name = "PAN_HandlerOT";
+            this.PAN_HandlerOT.Size = new System.Drawing.Size(27, 68);
+            this.PAN_HandlerOT.TabIndex = 13;
+            // 
+            // PAN_HandlerHT
+            // 
+            this.PAN_HandlerHT.Location = new System.Drawing.Point(5, 92);
+            this.PAN_HandlerHT.Name = "PAN_HandlerHT";
+            this.PAN_HandlerHT.Size = new System.Drawing.Size(27, 68);
+            this.PAN_HandlerHT.TabIndex = 14;
             // 
             // PKMEditor
             // 
@@ -3158,5 +3172,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Label L_ObedienceLevel;
         private System.Windows.Forms.MaskedTextBox TB_ObedienceLevel;
         private System.Windows.Forms.Label L_FormArgument;
+        private System.Windows.Forms.Panel PAN_HandlerHT;
+        private System.Windows.Forms.Panel PAN_HandlerOT;
     }
 }

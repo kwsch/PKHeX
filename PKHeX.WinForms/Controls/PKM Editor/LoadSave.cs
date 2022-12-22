@@ -1,7 +1,6 @@
 using System;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing;
 using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms.Controls;
@@ -376,16 +375,16 @@ public partial class PKMEditor
 
     private void UpadteHandlingTrainerBackground(int handler)
     {
-        var activeColor = ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Set, 0.5);
+        var activeColor = SpriteUtil.Spriter.View;
         if (handler == 0) // OT
         {
-            GB_OT.BackgroundImage = activeColor;
-            GB_nOT.BackgroundImage = null;
+            PAN_HandlerOT.BackgroundImage = activeColor;
+            PAN_HandlerHT.BackgroundImage = null;
         }
         else // Handling Trainer
         {
-            GB_nOT.BackgroundImage = activeColor;
-            GB_OT.BackgroundImage = null;
+            PAN_HandlerHT.BackgroundImage = activeColor;
+            PAN_HandlerOT.BackgroundImage = null;
         }
     }
 
