@@ -37,7 +37,11 @@ public static class StringConverter2KOR
         return new string(result[..length]);
     }
 
-    private static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
+    /// <inheritdoc cref="GetString(ReadOnlySpan{byte})"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
     {
         if (data[0] == G1TradeOTCode)
         {

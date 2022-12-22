@@ -102,7 +102,12 @@ public static class StringConverter12
         return new string(result[..length]);
     }
 
-    private static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
+    /// <inheritdoc cref="GetString(ReadOnlySpan{byte},bool)"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <param name="jp">Data source is Japanese.</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
     {
         if (data[0] == G1TradeOTCode)
         {

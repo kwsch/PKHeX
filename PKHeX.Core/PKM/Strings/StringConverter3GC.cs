@@ -20,7 +20,11 @@ public static class StringConverter3GC
         return new string(result[..length]);
     }
 
-    private static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
+    /// <inheritdoc cref="GetString(ReadOnlySpan{byte})"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
     {
         int i = 0;
         for (; i < data.Length; i += 2)

@@ -24,7 +24,11 @@ public static class StringConverter4GC
         return new string(result[..length]);
     }
 
-    private static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
+    /// <inheritdoc cref="GetString(ReadOnlySpan{byte})"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
     {
         int i = 0;
         for (; i < data.Length; i += 2)
@@ -86,7 +90,11 @@ public static class StringConverter4GC
         return new string(result[..length]);
     }
 
-    private static int LoadStringUnicode(ReadOnlySpan<byte> data, Span<char> result)
+    /// <inheritdoc cref="GetStringUnicode(System.ReadOnlySpan{byte})"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadStringUnicode(ReadOnlySpan<byte> data, Span<char> result)
     {
         int i = 0;
         for (; i < data.Length; i += 2)

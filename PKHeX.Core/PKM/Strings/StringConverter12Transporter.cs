@@ -18,11 +18,16 @@ public static class StringConverter12Transporter
     public static string GetString(ReadOnlySpan<byte> data, bool jp)
     {
         Span<char> result = stackalloc char[data.Length];
-        int length = LoadString1(data, result, jp);
+        int length = LoadString(data, result, jp);
         return new string(result[..length]);
     }
 
-    private static int LoadString1(ReadOnlySpan<byte> data, Span<char> result, bool jp)
+    /// <inheritdoc cref="GetString(ReadOnlySpan{byte},bool)"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <param name="jp">Data source is Japanese.</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
     {
         var table = jp ? jp_table : us_table;
         int i = 0;
