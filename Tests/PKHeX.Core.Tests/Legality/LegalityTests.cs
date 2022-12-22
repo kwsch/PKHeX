@@ -34,9 +34,10 @@ public class LegalityTest
     [InlineData("censor")]
     [InlineData("buttnugget")]
     [InlineData("18넘")]
-    public void CensorsBadWords(string badword)
+    [InlineData("inoffensive", false)]
+    public void CensorsBadWords(string badword, bool value = true)
     {
-        WordFilter.IsFiltered(badword, out _).Should().BeTrue("the word should have been identified as a bad word");
+        WordFilter.TryMatch(badword, out _).Should().Be(value, "the word should have been identified as a bad word");
     }
 
     [Theory]
