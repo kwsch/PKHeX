@@ -17,12 +17,10 @@ public sealed class TrainerIDVerifier : Verifier
 
         if (pk.BDSP)
         {
-            if (pk is { TID16: 0, SID16: 0 }) // Game loops to ensure a nonzero full-ID
-            {
-                data.AddLine(GetInvalid(LOT_IDInvalid));
-                return;
-            }
-            if (pk is { SID16: 0x7FFF, TID16: 0xFFFF }) // int.MaxValue cannot be yielded by Unity's Random.Range[min, max)
+            // Game loops to ensure a nonzero full-ID
+            // int.MaxValue cannot be yielded by Unity's Random.Range[min, max)
+            var id32 = pk.ID32;
+            if (id32 is 0 or int.MaxValue)
             {
                 data.AddLine(GetInvalid(LOT_IDInvalid));
                 return;
@@ -34,7 +32,7 @@ public sealed class TrainerIDVerifier : Verifier
             return;
         }
 
-        if (pk is { TID16: 0, SID16: 0 })
+        if (pk is { ID32: 0 })
         {
             data.AddLine(Get(LOT_IDs0, Severity.Fishy));
         }
