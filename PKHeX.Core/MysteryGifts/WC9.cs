@@ -487,7 +487,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
             }
         }
 
-        pk.MetDate = IsDateRestricted && EncounterServerDate.WC9Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateTime.Now;
+        pk.MetDate = IsDateRestricted && EncounterServerDate.WC9Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateOnly.FromDateTime(DateTime.Now);
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -523,7 +523,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     private void SetEggMetData(PKM pk)
     {
         pk.IsEgg = true;
-        pk.EggMetDate = DateTime.Now;
+        pk.EggMetDate = DateOnly.FromDateTime(DateTime.Now);
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = true;
     }
@@ -536,7 +536,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         pk.Gender = criteria.GetGender(Gender, pi);
         var av = GetAbilityIndex(criteria);
         pk.RefreshAbility(av);
-        SetPID(pk, pk.MetDate ?? DateTime.UtcNow);
+        SetPID(pk, pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow));
         SetIVs(pk);
     }
 
@@ -589,7 +589,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         return pid;
     }
 
-    private void SetPID(PKM pk, DateTime date)
+    private void SetPID(PKM pk, DateOnly date)
     {
         pk.PID = GetPID(pk, PIDType);
     }

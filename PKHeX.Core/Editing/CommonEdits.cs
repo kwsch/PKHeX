@@ -350,7 +350,7 @@ public static class CommonEdits
         var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
         if (loc >= 0)
             pk.Met_Location = loc;
-        pk.MetDate = DateTime.Today;
+        pk.MetDate = DateOnly.FromDateTime(DateTime.Today);
         if (pk.Gen6)
             pk.SetHatchMemory6();
     }
@@ -364,7 +364,7 @@ public static class CommonEdits
     public static void SetEggMetData(this PKM pk, GameVersion origin, GameVersion dest)
     {
         bool traded = origin != dest;
-        var today = pk.MetDate = DateTime.Today;
+        var today = pk.MetDate = DateOnly.FromDateTime(DateTime.Today);
         pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
         pk.EggMetDate = today;
     }

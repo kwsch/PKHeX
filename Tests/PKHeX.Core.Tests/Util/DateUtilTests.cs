@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
@@ -62,8 +62,8 @@ public class DateUtilTests
     [InlineData(2000, 12, 1, 2000, 12, 31, 12)] // rand->+30
     public void CheckRandomDate(int y1, int m1, int d1, int y2, int m2, int d2, int seed)
     {
-        var start = new DateTime(y1, m1, d1);
-        var end = new DateTime(y2, m2, d2);
+        var start = new DateOnly(y1, m1, d1);
+        var end = new DateOnly(y2, m2, d2);
         (start <= end).Should().BeTrue();
 
         var r = new Random(seed);

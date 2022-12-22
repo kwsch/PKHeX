@@ -72,7 +72,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     /// <summary>
     /// Gets or sets the date of the card.
     /// </summary>
-    public DateTime? Date
+    public DateOnly? Date
     {
         get
         {
@@ -80,7 +80,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             if (!DateUtil.IsDateValid(Year, Month, Day))
                 return null;
 
-            return new DateTime((int)Year, (int)Month, (int)Day);
+            return new DateOnly((int)Year, (int)Month, (int)Day);
         }
         set
         {
@@ -455,7 +455,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = Date ?? DateTime.Now;
+        pk.MetDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
 
         pk.IsNicknamed = IsNicknamed;
         pk.Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);

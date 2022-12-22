@@ -139,10 +139,10 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         {
             bool traded = (int)Version == tr.Game;
             pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(Generation, Version, traded);
-            pk.EggMetDate = today;
+            pk.EggMetDate = DateOnly.FromDateTime(today);
         }
         pk.Egg_Location = EggLocation;
-        pk.EggMetDate = today;
+        pk.EggMetDate = DateOnly.FromDateTime(today);
     }
 
     protected virtual void SetMetData(PKM pk, int level, DateTime today)
@@ -153,7 +153,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         pk.Met_Location = Location;
         pk.Met_Level = level;
         if (pk.Format >= 4)
-            pk.MetDate = today;
+            pk.MetDate = DateOnly.FromDateTime(today);
     }
 
     protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)

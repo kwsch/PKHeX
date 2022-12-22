@@ -101,7 +101,7 @@ public sealed record EncounterStatic8b : EncounterStatic, IStaticCorrelation8b
     {
         pk.Met_Level = level;
         pk.Met_Location = !Roaming ? Location : Roaming_MetLocation_BDSP[0];
-        pk.MetDate = today;
+        pk.MetDate = DateOnly.FromDateTime(today);
     }
 
     // defined by mvpoke in encounter data

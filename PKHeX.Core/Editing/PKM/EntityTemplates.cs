@@ -17,7 +17,7 @@ public static class EntityTemplates
         pk.Move1 = (int)Move.Pound;
         pk.HealPP();
         pk.Ball = 4;
-        pk.MetDate = DateTime.Today;
+        pk.MetDate = DateOnly.FromDateTime(DateTime.Today);
 
         if (tr.Game >= 0)
             pk.Version = tr.Game;

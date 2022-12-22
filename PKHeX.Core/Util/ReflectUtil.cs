@@ -76,10 +76,10 @@ public static class ReflectUtil
 
     private static object? ConvertValue(object value, Type type)
     {
-        if (type == typeof(DateTime?)) // Used for PKM.MetDate and other similar properties
+        if (type == typeof(DateOnly?)) // Used for PKM.MetDate and other similar properties
         {
-            return DateTime.TryParseExact(value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateValue)
-                ? new DateTime?(dateValue)
+            return DateOnly.TryParseExact(value.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly dateValue)
+                ? new DateOnly?(dateValue)
                 : null;
         }
 

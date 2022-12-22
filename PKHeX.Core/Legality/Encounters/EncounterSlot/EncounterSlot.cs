@@ -165,7 +165,7 @@ public abstract record EncounterSlot(EncounterArea Area, ushort Species, byte Fo
         pk.Met_Level = level;
 
         if (pk.Format >= 4)
-            pk.MetDate = DateTime.Today;
+            pk.MetDate = DateOnly.FromDateTime(DateTime.Today);
     }
 
     public bool IsRandomUnspecificForm => Form >= FormDynamic;

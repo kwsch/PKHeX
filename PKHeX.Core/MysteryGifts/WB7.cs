@@ -76,7 +76,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     /// <summary>
     /// Gets or sets the date of the card.
     /// </summary>
-    public DateTime? Date
+    public DateOnly? Date
     {
         get
         {
@@ -84,7 +84,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
             if (!DateUtil.IsDateValid(Year, Month, Day))
                 return null;
 
-            return new DateTime((int)Year, (int)Month, (int)Day);
+            return new DateOnly((int)Year, (int)Month, (int)Day);
         }
         set
         {
@@ -420,7 +420,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
             pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = Date ?? DateTime.Now;
+        pk.MetDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
         pk.IsNicknamed = GetIsNicknamed(redeemLanguage);
         pk.Nickname = pk.IsNicknamed ? GetNickname(redeemLanguage) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 

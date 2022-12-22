@@ -312,8 +312,8 @@ public sealed class PK4 : G4PKM
         if (Data[0x5F] < 0x10 && ReadUInt16LittleEndian(Data.AsSpan(0x80)) > 0x4000)
             return new PK5(Data);
 
-        DateTime moment = DateTime.Now;
-
+        var moment = DateOnly.FromDateTime(DateTime.Now);
+        
         PK5 pk5 = new(Data.AsSpan(0, PokeCrypto.SIZE_5PARTY).ToArray()) // Convert away!
         {
             JunkByte = 0,

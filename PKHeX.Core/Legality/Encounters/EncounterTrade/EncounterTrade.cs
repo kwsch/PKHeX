@@ -175,14 +175,14 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
     private void SetEggMetData(PKM pk, DateTime time)
     {
         pk.Egg_Location = EggLocation;
-        pk.EggMetDate = time;
+        pk.EggMetDate = DateOnly.FromDateTime(time);
     }
 
     private static void SetMetData(PKM pk, int level, int location, DateTime time)
     {
         pk.Met_Level = level;
         pk.Met_Location = location;
-        pk.MetDate = time;
+        pk.MetDate = DateOnly.FromDateTime(time);
     }
 
     public virtual bool IsMatchExact(PKM pk, EvoCriteria evo)

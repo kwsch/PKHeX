@@ -23,13 +23,13 @@ public sealed class WR7 : DataMysteryGift
 
     public override AbilityPermission Ability => AbilityPermission.Any12H; // undefined
 
-    public uint Epoch
+    public long Epoch
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x00));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value);
+        get => ReadInt64LittleEndian(Data.AsSpan(0x00));
+        set => WriteInt64LittleEndian(Data.AsSpan(0x00), value);
     }
 
-    public DateTime Date => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Epoch);
+    public DateOnly Date => new DateOnly(1970, 1, 1).AddDays((int)(Epoch / 86400));
 
     public override int CardID
     {

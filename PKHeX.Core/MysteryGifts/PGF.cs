@@ -103,7 +103,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     /// <summary>
     /// Gets or sets the date of the card.
     /// </summary>
-    public DateTime? Date
+    public DateOnly? Date
     {
         get
         {
@@ -111,7 +111,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             if (!DateUtil.IsDateValid(Year, Month, Day))
                 return null;
 
-            return new DateTime(Year, Month, Day);
+            return new DateOnly(Year, Month, Day);
         }
         set
         {

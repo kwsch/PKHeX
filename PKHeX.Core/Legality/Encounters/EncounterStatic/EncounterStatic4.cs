@@ -116,7 +116,7 @@ public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Ver
         pk4.GroundTile = Roaming ? GroundTileType.Grass : GroundTile.GetIndex();
         pk.Met_Location = Location;
         pk.Met_Level = level;
-        pk.MetDate = today;
+        pk.MetDate = DateOnly.FromDateTime(today);
     }
 
     public static bool IsMatchRoamerLocation(uint permit, int location, int first)

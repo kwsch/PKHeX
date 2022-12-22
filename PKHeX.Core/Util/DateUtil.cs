@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -70,13 +70,13 @@ public static class DateUtil
     /// <param name="end">Last valid date</param>
     /// <param name="r">Random to use</param>
     /// <returns>Date within the specified range, inclusive.</returns>
-    public static DateTime GetRandomDateWithin(DateTime start, DateTime end, Random r)
+    public static DateOnly GetRandomDateWithin(DateOnly start, DateOnly end, Random r)
     {
-        var delta = end - start;
-        var bias = r.Next(delta.Days + 1);
+        var delta = end.DayNumber - start.DayNumber;
+        var bias = r.Next(delta + 1);
         return start.AddDays(bias);
     }
 
-    /// <inheritdoc cref="GetRandomDateWithin(DateTime,DateTime,Random)"/>
-    public static DateTime GetRandomDateWithin(DateTime start, DateTime end) => GetRandomDateWithin(start, end, Util.Rand);
+    /// <inheritdoc cref="GetRandomDateWithin(DateOnly,DateOnly,Random)"/>
+    public static DateOnly GetRandomDateWithin(DateOnly start, DateOnly end) => GetRandomDateWithin(start, end, Util.Rand);
 }

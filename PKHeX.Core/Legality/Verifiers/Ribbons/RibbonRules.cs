@@ -101,7 +101,7 @@ public static class RibbonRules
         {
             // Ranked is still ongoing, but the use of Mythicals was restricted to Series 13 only.
             var met = pk.MetDate;
-            if (Legal.Mythicals.Contains(pk.Species) && met > new DateTime(2022, 11, 1))
+            if (Legal.Mythicals.Contains(pk.Species) && met > new DateOnly(2022, 11, 1))
                 return false;
         }
 

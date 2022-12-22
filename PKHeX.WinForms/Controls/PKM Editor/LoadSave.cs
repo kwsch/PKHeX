@@ -276,7 +276,7 @@ public partial class PKMEditor
 
     private void LoadMisc4(PKM pk)
     {
-        CAL_MetDate.Value = pk.MetDate ?? new DateTime(2000, 1, 1);
+        CAL_MetDate.Value = pk.MetDate?.ToDateTime(new TimeOnly()) ?? new(2000, 1, 1);
         if (!Legal.IsMetAsEgg(pk))
         {
             CHK_AsEgg.Checked = GB_EggConditions.Enabled = false;
@@ -286,7 +286,7 @@ public partial class PKMEditor
         {
             // Was obtained initially as an egg.
             CHK_AsEgg.Checked = GB_EggConditions.Enabled = true;
-            CAL_EggDate.Value = pk.EggMetDate ?? new DateTime(2000, 1, 1);
+            CAL_EggDate.Value = pk.EggMetDate?.ToDateTime(new TimeOnly()) ?? new(2000, 1, 1);
         }
         CB_EggLocation.SelectedValue = pk.Egg_Location;
     }
@@ -295,7 +295,7 @@ public partial class PKMEditor
     {
         if (CHK_AsEgg.Checked) // If encountered as an egg, load the Egg Met data from fields.
         {
-            pk.EggMetDate = CAL_EggDate.Value;
+            pk.EggMetDate = DateOnly.FromDateTime(CAL_EggDate.Value);
             pk.Egg_Location = WinFormsUtil.GetIndex(CB_EggLocation);
         }
         else // Default Dates
@@ -308,7 +308,7 @@ public partial class PKMEditor
         if (pk.IsEgg && pk.Met_Location == LocationEdits.GetNoneLocation(pk)) // If still an egg, it has no hatch location/date. Zero it!
             pk.MetDate = null; // clear
         else
-            pk.MetDate = CAL_MetDate.Value;
+            pk.MetDate = DateOnly.FromDateTime(CAL_MetDate.Value);
 
         pk.Ability = WinFormsUtil.GetIndex(HaX ? DEV_Ability : CB_Ability);
     }

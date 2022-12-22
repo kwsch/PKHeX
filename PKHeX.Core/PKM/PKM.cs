@@ -156,14 +156,14 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// Not all <see cref="PKM"/> types support the <see cref="MetDate"/> property.  In these cases, this property will return null.
     /// If null is assigned to this property, it will be cleared.
     /// </remarks>
-    public DateTime? MetDate
+    public DateOnly? MetDate
     {
         get
         {
             // Check to see if date is valid
             if (!DateUtil.IsDateValid(2000 + Met_Year, Met_Month, Met_Day))
                 return null;
-            return new DateTime(2000 + Met_Year, Met_Month, Met_Day);
+            return new DateOnly(2000 + Met_Year, Met_Month, Met_Day);
         }
         set
         {
@@ -199,14 +199,14 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// Not all <see cref="PKM"/> types support the <see cref="EggMetDate"/> property.  In these cases, this property will return null.
     /// If null is assigned to this property, it will be cleared.
     /// </remarks>
-    public DateTime? EggMetDate
+    public DateOnly? EggMetDate
     {
         get
         {
             // Check to see if date is valid
             if (!DateUtil.IsDateValid(2000 + Egg_Year, Egg_Month, Egg_Day))
                 return null;
-            return new DateTime(2000 + Egg_Year, Egg_Month, Egg_Day);
+            return new DateOnly(2000 + Egg_Year, Egg_Month, Egg_Day);
         }
         set
         {
