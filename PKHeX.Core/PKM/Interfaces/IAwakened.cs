@@ -44,6 +44,20 @@ public static class AwakeningUtil
     public static void AwakeningSetAllTo(this IAwakened pk, byte value) => pk.AV_HP = pk.AV_ATK = pk.AV_DEF = pk.AV_SPE = pk.AV_SPA = pk.AV_SPD = value;
 
     /// <summary>
+    /// Sets all values to the bare minimum legal value.
+    /// </summary>
+    /// <param name="pk">Data to set values for</param>
+    public static void AwakeningMinimum(this IAwakened pk)
+    {
+        if (pk is not PB7 pb7)
+            return;
+
+        Span<byte> result = stackalloc byte[6];
+        GetExpectedMinimumAVs(result, pb7);
+        AwakeningSetVisual(pb7, result);
+    }
+
+    /// <summary>
     /// Sets all values to the specified value.
     /// </summary>
     /// <param name="pk">Data to set values for</param>
@@ -58,11 +72,11 @@ public static class AwakeningUtil
         GetExpectedMinimumAVs(result, pb7);
 
         var rnd = Util.Rand;
-        for (int i = 0; i < 6; i++)
+        foreach (ref var av in result)
         {
-            var realMin = Math.Max(min, result[i]);
-            var realMax = Math.Min(result[i], max);
-            result[i] = (byte)rnd.Next(realMin, realMax + 1);
+            var realMin = Math.Max(min, av);
+            var realMax = Math.Max(av, max);
+            av = (byte)rnd.Next(realMin, realMax + 1);
         }
         AwakeningSetVisual(pb7, result);
     }
