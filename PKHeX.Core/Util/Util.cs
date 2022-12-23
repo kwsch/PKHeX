@@ -7,21 +7,6 @@ namespace PKHeX.Core;
 
 public static partial class Util
 {
-    /// <inheritdoc cref="ToInt32(ReadOnlySpan{char})"/>
-    public static int ToInt32(string value) => ToInt32(value.AsSpan());
-
-    /// <inheritdoc cref="ToUInt32(ReadOnlySpan{char})"/>
-    public static uint ToUInt32(string value) => ToUInt32(value.AsSpan());
-
-    /// <inheritdoc cref="GetHexValue(ReadOnlySpan{char})"/>
-    public static uint GetHexValue(string value) => GetHexValue(value.AsSpan());
-
-    /// <inheritdoc cref="GetHexValue64(ReadOnlySpan{char})"/>
-    public static ulong GetHexValue64(string value) => GetHexValue64(value.AsSpan());
-
-    /// <inheritdoc cref="GetHexStringFromBytes(ReadOnlySpan{byte})"/>
-    public static string GetHexStringFromBytes(byte[] data, int offset, int length) => GetHexStringFromBytes(data.AsSpan(offset, length));
-
     /// <summary>
     /// Parses the string into an <see cref="int"/>, skipping all characters except for valid digits.
     /// </summary>
@@ -238,18 +223,6 @@ public static partial class Util
     {
         int index = input.IndexOf(c);
         return index < 0 ? input : input[..index];
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void TrimFromFirst(StringBuilder input, char c)
-    {
-        for (int i = 0; i < input.Length; i++)
-        {
-            if (input[i] != c)
-                continue;
-            input.Remove(i, input.Length - i);
-            return;
-        }
     }
 
     public static Dictionary<string, int>[] GetMultiDictionary(IReadOnlyList<IReadOnlyList<string>> nameArray, int start)

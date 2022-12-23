@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core;
+using System;
+
+namespace PKHeX.Core;
 
 public sealed class Daycare7 : SaveBlock<SAV7>
 {
@@ -30,7 +32,7 @@ public sealed class Daycare7 : SaveBlock<SAV7>
 
     public string RNGSeed
     {
-        get => Util.GetHexStringFromBytes(Data, Offset + 0x1DC, DaycareSeedSize / 2);
+        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x1DC, DaycareSeedSize / 2));
         set
         {
             if (value.Length != DaycareSeedSize)

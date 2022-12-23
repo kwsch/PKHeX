@@ -45,7 +45,7 @@ public sealed class MyStatus7b : SaveBlock<SAV7b>
 
     public string GameSyncID
     {
-        get => Util.GetHexStringFromBytes(Data, Offset + 0x10, GameSyncIDSize / 2);
+        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x10, GameSyncIDSize / 2));
         set
         {
             if (value.Length > 16)

@@ -42,7 +42,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
 
     public string GameSyncID
     {
-        get => Util.GetHexStringFromBytes(Data, Offset + 0x10, GameSyncIDSize / 2);
+        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x10, GameSyncIDSize / 2));
         set
         {
             if (value.Length != GameSyncIDSize)
@@ -55,7 +55,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
 
     public string NexUniqueID
     {
-        get => Util.GetHexStringFromBytes(Data, Offset + 0x18, NexUniqueIDSize / 2);
+        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x18, NexUniqueIDSize / 2));
         set
         {
             if (value.Length != NexUniqueIDSize)

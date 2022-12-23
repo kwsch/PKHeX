@@ -53,7 +53,7 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
 
     public string GameSyncID
     {
-        get => Util.GetHexStringFromBytes(Data, Offset + 0x08, GameSyncIDSize / 2);
+        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x08, GameSyncIDSize / 2));
         set
         {
             if (value.Length != GameSyncIDSize)
