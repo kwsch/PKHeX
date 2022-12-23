@@ -1881,6 +1881,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         ToggleSecrets(HideSecretValues, gen);
         GB_nOT.Visible = GB_RelearnMoves.Visible = gen >= 6;
+        PAN_HandlerOT.Visible = PAN_HandlerHT.Visible = gen >= 6;
 
         PB_Origin.Visible = gen >= 6;
         FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = gen == 5;
@@ -1901,7 +1902,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FLP_HeldItem.Visible = gen >= 2;
         CHK_IsEgg.Visible = gen >= 2;
         FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
-        UC_Gender.Visible = gen >= 2;
+        UC_Gender.Visible = UC_OTGender.Visible = gen >= 2;
         FLP_CatchRate.Visible = gen == 1;
 
         // HaX override, needs to be after DEV_Ability enabled assignment.

@@ -375,7 +375,7 @@ public partial class SAV_HallOfFame : Form
             Array.Copy(data, offset + StructureSize, data, offset, StructureSize * (Count - 1 - index));
 
         // Ensure Last Entry is Cleared
-        data.AsSpan(StructureSize * (Count - 1), StructureSize).Fill(0);
+        data.AsSpan(StructureSize * (Count - 1), StructureSize).Clear();
         DisplayEntry(LB_DataEntry, EventArgs.Empty);
     }
 

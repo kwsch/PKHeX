@@ -36,7 +36,7 @@ public static class BoxManipDefaults
         new BoxManipSort(SortTraining, list => list.OrderByCustom(pk => (pk.MaxEV * 6) - pk.EVTotal)),
         new BoxManipSortComplex(SortOwner, (list, sav) => list.OrderByOwnership(sav)),
         new BoxManipSort(SortType, list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)),
-        new BoxManipSort(SortTypeTera, list => list.OrderByCustom(pk => ((ITeraTypeReadOnly)pk).TeraType, pk => pk is ITeraTypeReadOnly)),
+        new BoxManipSort(SortTypeTera, list => list.OrderByCustom(pk => ((ITeraType)pk).GetTeraType()), s => s.BlankPKM is ITeraType),
         new BoxManipSort(SortVersion, list => list.OrderByCustom(pk => pk.Generation, pk => pk.Version, pk => pk.Met_Location), s => s.Generation >= 3),
         new BoxManipSort(SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.GetBaseStatTotal())),
         new BoxManipSort(SortCP, list => list.OrderByCustom(pk => pk is PB7 pb7 ? pb7.Stat_CP : 0), s => s is SAV7b),
