@@ -1427,7 +1427,7 @@ namespace PKHeX.WinForms.Controls
             this.ShinyLeaf.Location = new System.Drawing.Point(98, 0);
             this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
             this.ShinyLeaf.Name = "ShinyLeaf";
-            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
+            this.ShinyLeaf.Size = new System.Drawing.Size(165, 56);
             this.ShinyLeaf.TabIndex = 116;
             // 
             // FLP_CatchRate
