@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Mystery Gift Template File
 /// </summary>
-public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainerID32
+public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainerID32, IFatefulEncounterReadOnly
 {
     /// <summary>
     /// Determines whether or not the given length of bytes is valid for a mystery gift.
@@ -73,6 +73,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
     public string FileName => $"{CardHeader}.{Extension}";
     public abstract int Generation { get; }
     public abstract EntityContext Context { get; }
+    public abstract bool FatefulEncounter { get; }
 
     public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public abstract PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria);

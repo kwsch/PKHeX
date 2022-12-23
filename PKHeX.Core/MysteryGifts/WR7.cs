@@ -15,6 +15,7 @@ public sealed class WR7 : DataMysteryGift
     public const int Size = 0x140;
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
+    public override bool FatefulEncounter => true;
 
     public override GameVersion Version { get => GameVersion.GG; set { } }
 

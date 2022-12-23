@@ -51,7 +51,7 @@ internal static class Encounters7SM
         new(SM) // Magearna (Bottle Cap) 00 FF
         {
             Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, HeldItem = 795, Ability = OnlySecond,
-            Fateful = true, Relearn = new(705, 430, 381, 270), Ball = 0x10, // Cherish
+            FatefulEncounter = true, Relearn = new(705, 430, 381, 270), Ball = 0x10, // Cherish
         },
 
         // Static Encounters - 1.bin

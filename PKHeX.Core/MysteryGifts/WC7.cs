@@ -11,6 +11,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public const int Size = 0x108;
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
+    public override bool FatefulEncounter => true;
 
     public WC7() : this(new byte[Size]) { }
     public WC7(byte[] data) : base(data) { }

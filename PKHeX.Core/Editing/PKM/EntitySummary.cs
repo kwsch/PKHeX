@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Bindable summary object that can fetch strings that summarize a <see cref="PKM"/>.
 /// </summary>
-public class EntitySummary // do NOT seal, allow inheritance
+public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inheritance
 {
     private static readonly IReadOnlyList<string> GenderSymbols = GameInfo.GenderSymbolASCII;
 
@@ -76,7 +76,7 @@ public class EntitySummary // do NOT seal, allow inheritance
     public int MetLevel => pk.Met_Level;
     public int OT_Gender => pk.OT_Gender;
 
-    public bool FatefulFlag => pk.FatefulEncounter;
+    public bool FatefulEncounter => pk.FatefulEncounter;
     public bool IsEgg => pk.IsEgg;
     public bool IsNicknamed => pk.IsNicknamed;
     public bool IsShiny => pk.IsShiny;

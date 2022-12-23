@@ -11,7 +11,7 @@ namespace PKHeX.Core;
 /// Object representing a <see cref="PKM"/>'s data and derived properties.
 /// </summary>
 [DynamicallyAccessedMembers(PublicProperties | NonPublicProperties | PublicParameterlessConstructor)]
-public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature
+public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter
 {
     /// <summary>
     /// Valid file extensions that represent <see cref="PKM"/> data, without the leading '.'

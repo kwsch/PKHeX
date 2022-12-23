@@ -11,6 +11,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     public const int Size = 0x108;
     public const int SizeFull = 0x310;
     private const int CardStart = SizeFull - Size;
+    public override bool FatefulEncounter => true;
 
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7b;

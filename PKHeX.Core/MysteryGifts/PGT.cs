@@ -11,6 +11,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public const int Size = 0x104; // 260
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
+    public override bool FatefulEncounter => PK.FatefulEncounter;
 
     public override byte Level
     {

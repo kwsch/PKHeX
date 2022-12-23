@@ -58,9 +58,9 @@ internal static class Encounters3RSE
         new(378, 40, RSE) { Location = 081 }, // Regice @ Island Cave
         new(379, 40, RSE) { Location = 083 }, // Registeel @ Ancient Tomb
         new(380, 50, R  ) { Location = 073 }, // Latias @ Southern Island
-        new(380, 50,   E) { Location = 073, Fateful = true }, // Latias @ Southern Island
+        new(380, 50,   E) { Location = 073, FatefulEncounter = true }, // Latias @ Southern Island
         new(381, 50,  S ) { Location = 073 }, // Latios @ Southern Island
-        new(381, 50,   E) { Location = 073, Fateful = true }, // Latios @ Southern Island
+        new(381, 50,   E) { Location = 073, FatefulEncounter = true }, // Latios @ Southern Island
         new(382, 45,  S ) { Location = 072 }, // Kyogre @ Cave of Origin
         new(382, 70,   E) { Location = 203 }, // Kyogre @ Marine Cave
         new(383, 45, R  ) { Location = 072 }, // Groudon @ Cave of Origin
@@ -68,10 +68,10 @@ internal static class Encounters3RSE
         new(384, 70, RSE) { Location = 085 }, // Rayquaza @ Sky Pillar
 
         // Event
-        new(151, 30, E) { Location = 201, Fateful = true }, // Mew @ Faraway Island (Unreleased outside of Japan)
-        new(249, 70, E) { Location = 211, Fateful = true }, // Lugia @ Navel Rock
-        new(250, 70, E) { Location = 211, Fateful = true }, // Ho-Oh @ Navel Rock
-        new(386, 30, E) { Location = 200, Fateful = true, Form = 3 }, // Deoxys @ Birth Island
+        new(151, 30, E) { Location = 201, FatefulEncounter = true }, // Mew @ Faraway Island (Unreleased outside of Japan)
+        new(249, 70, E) { Location = 211, FatefulEncounter = true }, // Lugia @ Navel Rock
+        new(250, 70, E) { Location = 211, FatefulEncounter = true }, // Ho-Oh @ Navel Rock
+        new(386, 30, E) { Location = 200, FatefulEncounter = true, Form = 3 }, // Deoxys @ Birth Island
     };
 
     private static readonly EncounterStatic3[] Encounter_RSE = ArrayUtil.ConcatAll(Encounter_RSE_Roam, Encounter_RSE_Regular);

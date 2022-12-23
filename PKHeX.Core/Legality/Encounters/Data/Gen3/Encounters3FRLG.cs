@@ -69,10 +69,10 @@ internal static class Encounters3FRLG
         new(150, 70, FRLG) { Location = 141 }, // Mewtwo @ Cerulean Cave
 
         // Event
-        new(249, 70, FRLG) { Location = 174, Fateful = true }, // Lugia @ Navel Rock
-        new(250, 70, FRLG) { Location = 174, Fateful = true }, // Ho-Oh @ Navel Rock
-        new(386, 30, FR  ) { Location = 187, Fateful = true, Form = 1 }, // Deoxys @ Birth Island
-        new(386, 30,   LG) { Location = 187, Fateful = true, Form = 2 }, // Deoxys @ Birth Island
+        new(249, 70, FRLG) { Location = 174, FatefulEncounter = true }, // Lugia @ Navel Rock
+        new(250, 70, FRLG) { Location = 174, FatefulEncounter = true }, // Ho-Oh @ Navel Rock
+        new(386, 30, FR  ) { Location = 187, FatefulEncounter = true, Form = 1 }, // Deoxys @ Birth Island
+        new(386, 30,   LG) { Location = 187, FatefulEncounter = true, Form = 2 }, // Deoxys @ Birth Island
     };
 
     private static readonly EncounterStatic3[] Encounter_FRLG = ArrayUtil.ConcatAll(Encounter_FRLG_Roam, Encounter_FRLG_Stationary);

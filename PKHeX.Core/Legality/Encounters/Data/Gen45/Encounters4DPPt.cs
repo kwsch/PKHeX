@@ -79,7 +79,7 @@ internal static class Encounters4DPPt
         // Event
         //new(DP) { Species = 491, Level = 40, Location = 079, GroundTile = Grass }, // Darkrai @ Newmoon Island (Unreleased in Diamond and Pearl)
         new(Pt) { Species = 491, Level = 50, Location = 079, GroundTile = Grass }, // Darkrai @ Newmoon Island
-        new(Pt) { Species = 492, Form = 0, Level = 30, Location = 063, Fateful = true }, // Shaymin @ Flower Paradise
+        new(Pt) { Species = 492, Form = 0, Level = 30, Location = 063, FatefulEncounter = true }, // Shaymin @ Flower Paradise
         //new(DP) { Species = 492, Form = 0, Level = 30, Location = 063, Fateful = false }, // Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
         //new(DPPt) { Species = 493, Form = 0, Level = 80, Location = 086, GroundTile = Cave }, // Arceus @ Hall of Origin (Unreleased)
 

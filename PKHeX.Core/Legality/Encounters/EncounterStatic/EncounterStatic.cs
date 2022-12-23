@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
 /// </remarks>
-public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IMoveset, IEncounterMatch
+public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IMoveset, IEncounterMatch, IFatefulEncounterReadOnly
 {
     public ushort Species { get; init; }
     public byte Form { get; init; }
@@ -26,7 +26,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
 
     public ushort HeldItem { get; init; }
     public bool Gift { get; init; }
-    public bool Fateful { get; init; }
+    public bool FatefulEncounter { get; init; }
 
     public byte EggCycles { get; init; }
     public byte FlawlessIVCount { get; init; }
@@ -91,7 +91,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         SetPINGA(pk, criteria);
         SetEncounterMoves(pk, version, level);
 
-        if (Fateful)
+        if (FatefulEncounter)
             pk.FatefulEncounter = true;
 
         if (pk.Format < 6)
@@ -334,6 +334,6 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     {
         if (pk is { Format: >= 5, AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))
             return true;
-        return pk.FatefulEncounter != Fateful;
+        return pk.FatefulEncounter != FatefulEncounter;
     }
 }

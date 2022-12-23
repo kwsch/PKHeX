@@ -37,8 +37,8 @@ internal static class Encounters8b
         new(BDSP) { Gift = true, Species = 410, Level = 01, Location = 049, FlawlessIVCount = 3 }, // Shieldon
 
         // Game-specific gifts
-        new(BDSP) { Gift = true, Species = 151, Level = 01, Ability = OnlySecond, Location = 438, Shiny = Never, FlawlessIVCount = 3, Fateful = true }, // Mew
-        new(BDSP) { Gift = true, Species = 385, Level = 05, Ability = OnlySecond, Location = 438, Shiny = Never, FlawlessIVCount = 3, Fateful = true }, // Jirachi
+        new(BDSP) { Gift = true, Species = 151, Level = 01, Ability = OnlySecond, Location = 438, Shiny = Never, FlawlessIVCount = 3, FatefulEncounter = true }, // Mew
+        new(BDSP) { Gift = true, Species = 385, Level = 05, Ability = OnlySecond, Location = 438, Shiny = Never, FlawlessIVCount = 3, FatefulEncounter = true }, // Jirachi
 
         // Stationary
         new(BDSP) { Species = 425, Level = 22, Location = 197 }, // Drifloon
@@ -59,10 +59,10 @@ internal static class Encounters8b
         new(BDSP) { Species = 487, Level = 70, Location = 266, FlawlessIVCount = 3 }, // Giratina
 
         // Mythical
-        new(BDSP) { Species = 491, Level = 50, Location = 333, FlawlessIVCount = 3, Fateful = true }, // Darkrai
-        new(BDSP) { Species = 492, Level = 30, Location = 285, FlawlessIVCount = 3, Fateful = true }, // Shaymin
-        new(BD  ) { Species = 493, Level = 80, Location = 218, FlawlessIVCount = 3, Fateful = true }, // Arceus (Brilliant Diamond)
-        new(  SP) { Species = 493, Level = 80, Location = 618, FlawlessIVCount = 3, Fateful = true }, // Arceus (Shining Pearl)
+        new(BDSP) { Species = 491, Level = 50, Location = 333, FlawlessIVCount = 3, FatefulEncounter = true }, // Darkrai
+        new(BDSP) { Species = 492, Level = 30, Location = 285, FlawlessIVCount = 3, FatefulEncounter = true }, // Shaymin
+        new(BD  ) { Species = 493, Level = 80, Location = 218, FlawlessIVCount = 3, FatefulEncounter = true }, // Arceus (Brilliant Diamond)
+        new(  SP) { Species = 493, Level = 80, Location = 618, FlawlessIVCount = 3, FatefulEncounter = true }, // Arceus (Shining Pearl)
 
         // Ramanas Park (Pure Space)
         new(  SP) { Species = 144, Level = 70, Location = 506, FlawlessIVCount = 3, Ability = OnlyHidden }, // Articuno

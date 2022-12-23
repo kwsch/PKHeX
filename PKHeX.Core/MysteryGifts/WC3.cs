@@ -13,10 +13,12 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 {
     public override MysteryGift Clone() => (WC3)MemberwiseClone();
 
+    public WC3(bool fateful = false) => FatefulEncounter = fateful;
+
     /// <summary>
     /// Matched <see cref="PIDIV"/> Type
     /// </summary>
-    public PIDType Method;
+    public PIDType Method { get; init; }
 
     private const ushort UnspecifiedID = ushort.MaxValue;
 
@@ -34,7 +36,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     public override Moveset Moves { get; set; }
     public bool NotDistributed { get; init; }
     public override Shiny Shiny { get; init; }
-    public bool Fateful { get; init; } // Obedience Flag
+    public override bool FatefulEncounter { get; } // Obedience Flag
 
     // Mystery Gift Properties
     public override int Generation => 3;
@@ -94,7 +96,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
             RibbonChampionRegional = RibbonChampionRegional,
             RibbonChampionNational = RibbonChampionNational,
 
-            FatefulEncounter = Fateful,
+            FatefulEncounter = FatefulEncounter,
             Version = GetVersion(tr),
         };
         pk.EXP = Experience.GetEXP(Level, pk.PersonalInfo.EXPGrowth);
@@ -248,7 +250,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 
         if (Language != -1 && Language != pk.Language) return false;
         if (Ball != pk.Ball) return false;
-        if (Fateful != pk.FatefulEncounter)
+        if (FatefulEncounter != pk.FatefulEncounter)
         {
             // XD Gifts only at level 20 get flagged after transfer
             if (Version == GameVersion.XD != (pk is XK3))

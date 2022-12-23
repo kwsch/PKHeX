@@ -15,6 +15,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
 
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8b;
+    public override bool FatefulEncounter => true;
 
     public bool IsDateRestricted => IsHOMEGift;
     public bool IsEquivalentFixedECPID => EncryptionConstant != 0 && PIDType == ShinyType8.FixedValue && PID == EncryptionConstant;

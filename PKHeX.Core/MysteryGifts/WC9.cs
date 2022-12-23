@@ -15,6 +15,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
     public override int Generation => 9;
     public override EntityContext Context => EntityContext.Gen9;
+    public override bool FatefulEncounter => true;
 
     public enum GiftType : byte
     {

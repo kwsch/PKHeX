@@ -67,7 +67,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
             Gift = true, // Forces Poké Ball
             Ability = Legal.TransferSpeciesDefaultAbilityGen1(species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden, // Hidden by default, else first
             Shiny = mew ? Shiny.Never : Shiny.Random,
-            Fateful = mew,
+            FatefulEncounter = mew,
             Location = Locations.Transfer1,
             Level = metLevel,
             FlawlessIVCount = mew ? (byte)5 : (byte)3,
@@ -84,7 +84,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
             Gift = true, // Forces Poké Ball
             Ability = Legal.TransferSpeciesDefaultAbilityGen2(species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden, // Hidden by default, else first
             Shiny = mew ? Shiny.Never : Shiny.Random,
-            Fateful = fateful,
+            FatefulEncounter = fateful,
             Location = Locations.Transfer2,
             Level = metLevel,
             FlawlessIVCount = fateful ? (byte)5 : (byte)3,

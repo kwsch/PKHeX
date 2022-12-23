@@ -12,6 +12,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public const uint EonTicketConst = 0x225D73C2;
     public override int Generation => 6;
     public override EntityContext Context => EntityContext.Gen6;
+    public override bool FatefulEncounter => !IsLinkGift; // Link gifts do not set fateful encounter;
 
     public WC6() : this(new byte[Size]) { }
     public WC6(byte[] data) : base(data) { }
@@ -357,7 +358,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             OT_Memory = OT_Memory,
             OT_TextVar = OT_TextVar,
             OT_Feeling = OT_Feeling,
-            FatefulEncounter = !IsLinkGift, // Link gifts do not set fateful encounter
+            FatefulEncounter = FatefulEncounter,
 
             EV_HP = EV_HP,
             EV_ATK = EV_ATK,

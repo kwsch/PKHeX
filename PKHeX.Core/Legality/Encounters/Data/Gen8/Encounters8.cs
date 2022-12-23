@@ -580,7 +580,7 @@ internal static class Encounters8
         new()     { Species = 638, Level = 70, Location = 226, FlawlessIVCount = 3, Ability = OnlyFirst,  Weather = No_Sun_Sand }, // Cobalion at the Frigid Sea
         new()     { Species = 639, Level = 70, Location = 232, FlawlessIVCount = 3, Ability = OnlyFirst,  Weather = Overcast }, // Terrakion in Lakeside Cavern
         new()     { Species = 640, Level = 70, Location = 210, FlawlessIVCount = 3, Ability = OnlyFirst,  Weather = All_CT }, // Virizion at Giant's Bed
-        new()     { Species = 647, Level = 65, Location = 230, Moves = new(548,533,014,056), FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Form = 01, Fateful = true, Weather = All_Ballimere }, // Keldeo-1 at Ballimere Lake
+        new()     { Species = 647, Level = 65, Location = 230, Moves = new(548,533,014,056), FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  Form = 01, FatefulEncounter = true, Weather = All_Ballimere }, // Keldeo-1 at Ballimere Lake
       //new()     { Species = 896, Level = 75, Location = -1, Moves = new(556,037,419,023}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst }, // Glastrier
       //new()     { Species = 897, Level = 75, Location = -1, Moves = new(247,037,506,024}, FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst }, // Spectrier
         new()     { Species = 898, Level = 80, Location = 220, Moves = new(202,094,473,505), FlawlessIVCount = 3, Shiny = Never, Ability = OnlyFirst,  ScriptedNoMarks = true }, // Calyrex

@@ -59,7 +59,7 @@ internal static class Encounters7USUM
         new(USUM) // Magearna (Bottle Cap)
         {
             Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, HeldItem = 795, Ability = OnlySecond,
-            Fateful = true, Relearn = new(705, 430, 381, 270), Ball = 0x10, // Cherish
+            FatefulEncounter = true, Relearn = new(705, 430, 381, 270), Ball = 0x10, // Cherish
         },
 
         new(USUM) { Gift = true, Species = 718, Form = 0, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3 }, // Zygarde (50%)

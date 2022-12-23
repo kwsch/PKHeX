@@ -15,6 +15,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8a;
+    public override bool FatefulEncounter => true;
 
     public enum GiftType : byte
     {

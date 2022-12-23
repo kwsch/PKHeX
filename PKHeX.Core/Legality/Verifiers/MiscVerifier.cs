@@ -332,7 +332,7 @@ public sealed class MiscVerifier : Verifier
         var enc = data.EncounterMatch;
         switch (enc)
         {
-            case WC3 {Fateful: true} w:
+            case WC3 {FatefulEncounter: true} w:
                 if (w.IsEgg)
                 {
                     // Eggs hatched in RS clear the obedience flag!
@@ -355,7 +355,7 @@ public sealed class MiscVerifier : Verifier
                 VerifyReceivability(data, g);
                 VerifyFatefulMysteryGift(data, g);
                 return;
-            case EncounterStatic {Fateful: true}: // ingame fateful
+            case EncounterStatic {FatefulEncounter: true}: // ingame fateful
             case EncounterSlot3PokeSpot: // ingame pokespot
             case EncounterTrade4RanchSpecial: // ranch varied PID
                 VerifyFatefulIngameActive(data);

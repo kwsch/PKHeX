@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Core game data storage, format 1.
 /// </summary>
-public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature, IContestStats, IScaledSize, ITrainerMemories, IHandlerLanguage, IBattleVersion, IHyperTrain, IFormArgument, IFavorite,
+public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature, IFatefulEncounter, IContestStats, IScaledSize, ITrainerMemories, IHandlerLanguage, IBattleVersion, IHyperTrain, IFormArgument, IFavorite,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8,
     IRibbonSetCommon9, IRibbonSetMark9
