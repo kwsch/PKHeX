@@ -114,7 +114,7 @@ public abstract class GBPKM : PKM
     public sealed override int CurrentHandler { get => 0; set { } }
     public sealed override int Egg_Location { get => 0; set { } }
     public sealed override int Ball { get => 0; set { } }
-    public sealed override uint ID32 { get => TID16; set { } }
+    public sealed override uint ID32 { get => TID16; set => TID16 = (ushort)value; }
     public sealed override ushort SID16 { get => 0; set { } }
     #endregion
 

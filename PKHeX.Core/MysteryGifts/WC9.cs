@@ -119,24 +119,20 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     // Since we expose the 16bit (pk9) component values here, just adjust them accordingly with an inlined calc.
     public override uint ID32
     {
-        get => (uint)((TID16 << 16) | SID16);
-        set
-        {
-            TID16 = (ushort)(value >> 16);
-            SID16 = (ushort)(value & 0xFFFF);
-        }
+        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000u * (uint)CardID);
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), value + (1000000u * (uint)CardID));
     }
 
     public override ushort TID16
     {
-        get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000 * CardID)) & 0xFFFF);
-        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((SID16 << 16) | value) + (uint)(1000000 * CardID));
+        get => (ushort)(ID32 & 0xFFFF);
+        set => ID32 = ((uint)SID16 << 16) | value;
     }
 
     public override ushort SID16
     {
-        get => (ushort)((ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000 * CardID)) >> 16 & 0xFFFF);
-        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), (uint)((value << 16) | TID16) + (uint)(1000000 * CardID));
+        get => (ushort)(ID32 >> 16);
+        set => ID32 = ((uint)value << 16) | TID16;
     }
 
     public int OriginGame

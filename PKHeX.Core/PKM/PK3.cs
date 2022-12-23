@@ -48,7 +48,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
 
     // 0x20 Intro
     public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
-    public override uint ID32 { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), (ushort)value); }
+    public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x04)); set => WriteUInt32LittleEndian(Data.AsSpan(0x04), value); }
     public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x04)); set => WriteUInt16LittleEndian(Data.AsSpan(0x04), value); }
     public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x06)); set => WriteUInt16LittleEndian(Data.AsSpan(0x06), value); }
     public override string Nickname

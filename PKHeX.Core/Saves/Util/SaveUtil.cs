@@ -755,7 +755,7 @@ public static class SaveUtil
             sav.Language = (int)language;
 
         // Secondary Properties may not be used but can be filled in as template.
-        (uint tid, uint sid) = sav.Generation >= 7 ? (1234u, 123456u) : (12345u, 54321u);
+        (uint tid, uint sid) = sav.Generation >= 7 ? (123456u, 1234u) : (12345u, 54321u);
         sav.SetDisplayID(tid, sid);
         sav.Language = (int)language;
 

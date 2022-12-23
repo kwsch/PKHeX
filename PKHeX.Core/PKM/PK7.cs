@@ -65,8 +65,8 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     public override uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x0C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(0x0C));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value);
     }
 
     public override ushort TID16

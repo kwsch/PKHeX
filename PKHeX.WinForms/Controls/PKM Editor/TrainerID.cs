@@ -10,6 +10,8 @@ public partial class TrainerID : UserControl
     public TrainerID() => InitializeComponent();
     public event EventHandler? UpdatedID;
 
+    private bool LoadingFields;
+
     private int XorFormat;
     private TrainerIDFormat DisplayType { get; set; }
     private ITrainerID32 Trainer = null!;
@@ -64,18 +66,20 @@ public partial class TrainerID : UserControl
 
     private void LoadValues()
     {
+        LoadingFields = true;
         if (XorFormat <= 2)
             TB_TID.Text = Trainer.TID16.ToString();
         else if (DisplayType == TrainerIDFormat.SixteenBit)
             LoadTID(Trainer);
         else
             LoadTID7(Trainer);
+        LoadingFields = false;
     }
 
     private void LoadTID(ITrainerID32 tr)
     {
         TB_TID.Text = tr.TID16.ToString(TrainerIDExtensions.TID16);
-        TB_SID.Text = tr.TID16.ToString(TrainerIDExtensions.SID16);
+        TB_SID.Text = tr.SID16.ToString(TrainerIDExtensions.SID16);
     }
 
     private void LoadTID7(ITrainerID32 tr)
@@ -154,6 +158,9 @@ public partial class TrainerID : UserControl
 
     private void SanityCheckSID7(uint tid, uint sid)
     {
+        if (LoadingFields)
+            return;
+
         var repack = ((ulong)sid * 1_000_000) + tid;
         if (repack > uint.MaxValue)
         {
