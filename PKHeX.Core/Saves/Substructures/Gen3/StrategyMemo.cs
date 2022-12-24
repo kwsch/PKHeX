@@ -10,7 +10,7 @@ public sealed class StrategyMemo
     public const int SIZE_ENTRY = 12;
     private readonly List<StrategyMemoEntry> Entries;
     public const int MAX_COUNT = 500;
-    private StrategyMemoEntry? this[int Species] => Entries.Find(e => e.Species == Species);
+    private StrategyMemoEntry? this[ushort Species] => Entries.Find(e => e.Species == Species);
     private readonly ushort _unk;
 
     public StrategyMemo(bool xd = true) : this(stackalloc byte[4], xd) { }
@@ -51,7 +51,7 @@ public sealed class StrategyMemo
         return result;
     }
 
-    public StrategyMemoEntry GetEntry(int Species)
+    public StrategyMemoEntry GetEntry(ushort Species)
     {
         return this[Species] ?? new StrategyMemoEntry(XD);
     }

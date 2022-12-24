@@ -134,7 +134,7 @@ public partial class SAV_PokedexORAS : Form
         CLB_FormsSeen.Items.Clear();
         CLB_FormDisplayed.Items.Clear();
 
-        int fc = pi.FormCount;
+        var fc = pi.FormCount;
         int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
         if (f < 0)
             return;
@@ -170,7 +170,7 @@ public partial class SAV_PokedexORAS : Form
         ushort count = (ushort) Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text));
         Zukan.SetEncounterCount(species - 1, count);
 
-        int fc = SAV.Personal[species].FormCount;
+        var fc = SAV.Personal[species].FormCount;
         int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
         if (f < 0)
             return;

@@ -57,7 +57,7 @@ public static class PokeDex
         var dex = sav.PokeDex;
         var data = sav.Data;
 
-        int fc = sav.Personal[species].FormCount;
+        var fc = sav.Personal[species].FormCount;
         var bit = ((SAV5)sav).Zukan.DexFormIndexFetcher(species, fc);
         if (bit < 0)
             return;

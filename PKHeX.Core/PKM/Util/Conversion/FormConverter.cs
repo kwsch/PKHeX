@@ -896,8 +896,8 @@ public static class FormConverter
         result[8 * 7] = forms[RainbowSwirl];
 
         const int deco = 7;
-        const int fc = 9;
-        for (int f = 0; f < fc; f++)
+        const byte fc = 9;
+        for (byte f = 0; f < fc; f++)
         {
             int start = f * deco;
             // iterate downwards using form0 as pattern ref, replacing on final loop

@@ -23,7 +23,7 @@ public sealed class Zukan5 : Zukan<SAV5>
         DexFormIndexFetcher = DexFormUtil.GetDexFormIndexBW;
     }
 
-    public readonly Func<ushort, int, int> DexFormIndexFetcher;
+    public readonly Func<ushort, byte, int> DexFormIndexFetcher;
 
     protected override int GetDexLangFlag(int lang)
     {
@@ -122,7 +122,7 @@ public sealed class Zukan5 : Zukan<SAV5>
 
     private void SetFormFlags(ushort species, byte form, int shiny, bool value = true)
     {
-        int fc = SAV.Personal[species].FormCount;
+        var fc = SAV.Personal[species].FormCount;
         int f = DexFormIndexFetcher(species, fc);
         if (f < 0)
             return;
@@ -140,9 +140,9 @@ public sealed class Zukan5 : Zukan<SAV5>
     public bool GetFormFlag(int formIndex, int flagRegion) => GetFlag(FormDex + (FormLen * flagRegion), formIndex);
     public void SetFormFlag(int formIndex, int flagRegion, bool value = true) => SetFlag(FormDex + (FormLen * flagRegion), formIndex, value);
 
-    private bool GetIsFormDisplayed(int f, int fc)
+    private bool GetIsFormDisplayed(int f, byte formCount)
     {
-        for (int i = 0; i < fc; i++)
+        for (byte i = 0; i < formCount; i++)
         {
             var index = f + i;
             if (GetFormFlag(index, 2)) // Nonshiny

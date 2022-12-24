@@ -163,10 +163,10 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         SetAllSeen(true, shinyToo);
     }
 
-    private void SeenAll(ushort species, byte fc, bool value = true, bool shinyToo = false)
+    private void SeenAll(ushort species, byte formCount, bool value = true, bool shinyToo = false)
     {
         var pt = SAV.Personal;
-        for (byte form = 0; form < fc; form++)
+        for (byte form = 0; form < formCount; form++)
         {
             var pi = pt.GetFormEntry(species, form);
             var val = value && pi.IsPresentInGame;

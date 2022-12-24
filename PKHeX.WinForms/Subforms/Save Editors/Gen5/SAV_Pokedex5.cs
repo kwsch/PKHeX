@@ -138,7 +138,7 @@ public partial class SAV_Pokedex5 : Form
         CLB_FormsSeen.Items.Clear();
         CLB_FormDisplayed.Items.Clear();
 
-        int fc = pi.FormCount;
+        var fc = pi.FormCount;
         int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
         if (f < 0)
             return;
@@ -166,7 +166,7 @@ public partial class SAV_Pokedex5 : Form
         Dex.SetCaught(species, CP[0].Checked);
         for (int i = 0; i < 4; i++)
             Dex.SetSeen(species, i, CP[i + 1].Checked);
-
+        
         for (int i = 0; i < 4; i++)
             Dex.SetDisplayed(species - 1, i, CP[i + 5].Checked);
 
@@ -176,7 +176,7 @@ public partial class SAV_Pokedex5 : Form
                 Dex.SetLanguageFlag(species - 1, i, CL[i].Checked);
         }
 
-        int fc = SAV.Personal[species].FormCount;
+        var fc = SAV.Personal[species].FormCount;
         int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
         if (f < 0)
             return;

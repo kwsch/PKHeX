@@ -751,7 +751,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public void ResetWeight() => WeightAbsolute = CalcWeightAbsolute;
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    private static float GetHeightRatio(int heightScalar)
+    private static float GetHeightRatio(byte heightScalar)
     {
         // +/- 20% (down from +/- 40% in LGP/E)
         float result = heightScalar / 255f; // 0x437F0000
@@ -761,7 +761,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    private static float GetWeightRatio(int weightScalar)
+    private static float GetWeightRatio(byte weightScalar)
     {
         // +/- 20%
         float result = weightScalar / 255f; // 0x437F0000
@@ -771,14 +771,14 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetHeightAbsolute(IPersonalMisc p, int heightScalar)
+    public static float GetHeightAbsolute(IPersonalMisc p, byte heightScalar)
     {
         float HeightRatio = GetHeightRatio(heightScalar);
         return HeightRatio * p.Height;
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetWeightAbsolute(IPersonalMisc p, int heightScalar, int weightScalar)
+    public static float GetWeightAbsolute(IPersonalMisc p, byte heightScalar, byte weightScalar)
     {
         float HeightRatio = GetHeightRatio(heightScalar);
         float WeightRatio = GetWeightRatio(weightScalar);

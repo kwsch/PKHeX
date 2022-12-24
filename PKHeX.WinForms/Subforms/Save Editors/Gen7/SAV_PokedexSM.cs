@@ -88,7 +88,7 @@ public partial class SAV_PokedexSM : Form
         int form = LB_Forms.SelectedIndex;
         if (form > 0)
         {
-            int fc = SAV.Personal[bspecies].FormCount;
+            var fc = SAV.Personal[bspecies].FormCount;
             if (fc > 1) // actually has forms
             {
                 int f = Dex.GetDexFormIndex(bspecies, fc, form);
@@ -144,7 +144,7 @@ public partial class SAV_PokedexSM : Form
         }
         else
         {
-            int fc = SAV.Personal[bspecies].FormCount;
+            var fc = SAV.Personal[bspecies].FormCount;
             if (fc <= 1)
                 return true;
 

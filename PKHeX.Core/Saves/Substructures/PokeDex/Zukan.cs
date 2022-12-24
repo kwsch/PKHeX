@@ -287,7 +287,7 @@ public abstract class Zukan<T> : ZukanBase<T> where T : SaveFile
 
         var entry = SAV.Personal[species];
         int baseBit = species - 1;
-        int fc = entry.FormCount;
+        var fc = entry.FormCount;
         for (byte f = 0; f < fc; f++)
         {
             if (!entry.OnlyFemale)

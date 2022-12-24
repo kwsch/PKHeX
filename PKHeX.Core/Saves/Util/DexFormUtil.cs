@@ -7,9 +7,9 @@ namespace PKHeX.Core;
 /// </summary>
 public static class DexFormUtil
 {
-    public static int GetDexFormIndexSM(ushort species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_SM);
-    public static int GetDexFormIndexUSUM(ushort species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_USUM);
-    public static int GetDexFormIndexGG(ushort species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_GG);
+    public static int GetDexFormIndexSM(ushort species, byte formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_SM);
+    public static int GetDexFormIndexUSUM(ushort species, byte formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_USUM);
+    public static int GetDexFormIndexGG(ushort species, byte formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_GG);
     public static int GetDexFormCountSM(ushort species) => GetDexFormCount(species, formtable_SM);
     public static int GetDexFormCountUSUM(ushort species) => GetDexFormCount(species, formtable_USUM);
     public static int GetDexFormCountGG(ushort species) => GetDexFormCount(species, formtable_GG);
@@ -94,7 +94,7 @@ public static class DexFormUtil
         0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
     };
 
-    private static int GetDexFormBitIndex(ushort species, int formCount, int start, IReadOnlyList<ushort> formTable)
+    private static int GetDexFormBitIndex(ushort species, byte formCount, int start, IReadOnlyList<ushort> formTable)
     {
         int formIndex = start;
         for (int i = 0; i < formTable.Count; i += 2)
@@ -119,7 +119,7 @@ public static class DexFormUtil
         return 0;
     }
 
-    public static int GetDexFormIndexBW(ushort species, int formCount)
+    public static int GetDexFormIndexBW(ushort species, byte formCount)
     {
         if (formCount < 1 || species > Legal.MaxSpeciesID_5)
             return -1; // invalid
@@ -145,7 +145,7 @@ public static class DexFormUtil
         };
     }
 
-    public static int GetDexFormIndexB2W2(ushort species, int formCount)
+    public static int GetDexFormIndexB2W2(ushort species, byte formCount)
     {
         if (formCount < 1 || species > Legal.MaxSpeciesID_5)
             return -1; // invalid
@@ -160,7 +160,7 @@ public static class DexFormUtil
         };
     }
 
-    public static int GetDexFormIndexXY(ushort species, int formCount)
+    public static int GetDexFormIndexXY(ushort species, byte formCount)
     {
         if (formCount < 1 || species > Legal.MaxSpeciesID_6)
             return -1; // invalid
@@ -206,7 +206,7 @@ public static class DexFormUtil
         };
     }
 
-    public static int GetDexFormIndexORAS(ushort species, int formCount)
+    public static int GetDexFormIndexORAS(ushort species, byte formCount)
     {
         if (formCount < 1 || species > Legal.MaxSpeciesID_6)
             return -1; // invalid

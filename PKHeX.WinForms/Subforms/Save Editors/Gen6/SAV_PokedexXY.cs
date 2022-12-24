@@ -142,7 +142,7 @@ public partial class SAV_PokedexXY : Form
         CLB_FormsSeen.Items.Clear();
         CLB_FormDisplayed.Items.Clear();
 
-        int fc = pi.FormCount;
+        var fc = pi.FormCount;
         int f = DexFormUtil.GetDexFormIndexXY(species, fc);
         if (f < 0)
             return;
@@ -179,7 +179,7 @@ public partial class SAV_PokedexXY : Form
         if (CHK_F1.Enabled) // species < 650 // (1-649)
             Zukan.SetForeignFlag(species - 1, CHK_F1.Checked);
 
-        int fc = SAV.Personal[species].FormCount;
+        var fc = SAV.Personal[species].FormCount;
         int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
         if (f < 0)
             return;

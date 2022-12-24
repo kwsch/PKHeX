@@ -148,8 +148,8 @@ public partial class SAV_Misc4 : Form
 
         if (ofsUGFlagCount > 0)
         {
-            uint fc = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & 0xFFFFF;
-            NUD_UGFlags.Value = fc > 999999 ? 999999 : fc;
+            uint flagCount = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & 0xFFFFF;
+            NUD_UGFlags.Value = Math.Clamp(flagCount, 0, 999_999);
         }
         if (ofsMap > 0)
         {

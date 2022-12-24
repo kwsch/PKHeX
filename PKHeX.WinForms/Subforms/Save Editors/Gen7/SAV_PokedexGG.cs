@@ -163,7 +163,7 @@ public partial class SAV_PokedexGG : Form
         }
         else
         {
-            int fc = SAV.Personal[bspecies].FormCount;
+            var fc = SAV.Personal[bspecies].FormCount;
             if (fc <= 1)
                 return true;
 
@@ -280,7 +280,7 @@ public partial class SAV_PokedexGG : Form
 
         void set(DexSizeType type, NumericUpDown nudH, NumericUpDown nudW, CheckBox ck)
         {
-            nudH.Enabled = nudW.Enabled = ck.Checked = Dex.GetSizeData(type, index, out int h, out int w);
+            nudH.Enabled = nudW.Enabled = ck.Checked = Dex.GetSizeData(type, index, out byte h, out byte w);
             nudH.Value = h;
             nudW.Value = w;
         }
@@ -296,7 +296,7 @@ public partial class SAV_PokedexGG : Form
         if (!hasRecord)
             return;
 
-        static int get(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValue : (int) Math.Max(0, Math.Min(255, nud.Value));
+        static byte get(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValue : (byte)nud.Value;
 
         Dex.SetSizeData(DexSizeType.MinHeight, index, get(NUD_RHeightMin, CHK_RMinHeight), get(NUD_RHeightMinWeight, CHK_RMinHeight));
         Dex.SetSizeData(DexSizeType.MaxHeight, index, get(NUD_RHeightMax, CHK_RMaxHeight), get(NUD_RHeightMaxWeight, CHK_RMaxHeight));
