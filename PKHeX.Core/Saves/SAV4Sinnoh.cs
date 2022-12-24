@@ -45,11 +45,11 @@ public abstract class SAV4Sinnoh : SAV4
 
     public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         const int maxlen = 8;
         var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
-        SetString(span, value.AsSpan(), maxlen, StringConverterOption.ClearZero);
+        SetString(span, value, maxlen, StringConverterOption.ClearZero);
     }
     #endregion
 

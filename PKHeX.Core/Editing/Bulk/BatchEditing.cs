@@ -190,8 +190,12 @@ public static class BatchEditing
         foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
         {
             string pv = i.PropertyValue;
-            if (pv.StartsWith(CONST_SPECIAL) && !pv.StartsWith(CONST_BYTES, StringComparison.Ordinal) && pv.Contains(','))
-                i.SetRandRange(pv);
+            if (pv.StartsWith(CONST_SPECIAL) && !pv.StartsWith(CONST_BYTES, StringComparison.Ordinal))
+            {
+                var str = pv.AsSpan(1);
+                if (StringInstruction.IsRandomRange(str))
+                    i.SetRandomRange(str);
+            }
 
             SetInstructionScreenedValue(i);
         }

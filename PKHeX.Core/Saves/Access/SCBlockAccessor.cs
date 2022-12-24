@@ -34,15 +34,12 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
     #endregion
 
     #region Ease of Use Overloads
-    /// <inheritdoc cref="GetBlock(string)"/>
+    /// <inheritdoc cref="GetBlock(uint)"/>
     /// <param name="name">Block name (un-hashed)</param>
-    public SCBlock GetBlock(string name) => GetBlock(Hash(name.AsSpan()));
-
-    /// <inheritdoc cref="GetBlock(string)"/>
     public SCBlock GetBlock(ReadOnlySpan<char> name) => GetBlock(Hash(name));
     private static uint Hash(ReadOnlySpan<char> name) => (uint)FnvHash.HashFnv1a_64(name);
 
-    /// <inheritdoc cref="GetBlock(string)"/>
+    /// <inheritdoc cref="GetBlock(ReadOnlySpan{char})"/>
     public SCBlock GetBlock(ReadOnlySpan<byte> name) => GetBlock(Hash(name));
     private static uint Hash(ReadOnlySpan<byte> name) => (uint)FnvHash.HashFnv1a_64(name);
     #endregion

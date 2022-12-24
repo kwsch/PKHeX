@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -41,7 +41,7 @@ public sealed class BoxLayout7 : SaveBlock<SAV7>, IBoxDetailName, IBoxDetailWall
     private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
     private int GetBoxNameOffset(int box) => Offset + (SAV6.LongStringLength * box);
     public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
-    public void SetBoxName(int box, string value) => SAV.SetString(GetBoxNameSpan(box), value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => SAV.SetString(GetBoxNameSpan(box), value, StringMaxLength, StringConverterOption.ClearZero);
 
     public byte[] BoxFlags
     {

@@ -56,12 +56,23 @@ public sealed class StringInstruction
     public bool Random { get; private set; }
     public int RandomValue => Util.Rand.Next(RandomMinimum, RandomMaximum + 1);
 
-    public void SetRandRange(string pv)
+    public static bool IsRandomRange(ReadOnlySpan<char> str)
     {
-        string str = pv[1..];
-        var split = str.Split(SplitRange);
-        int.TryParse(split[0], out RandomMinimum);
-        int.TryParse(split[1], out RandomMaximum);
+        // Need at least one character on either side of the splitter char.
+        int index = str.IndexOf(SplitRange);
+        return index > 0 && index < str.Length - 1;
+    }
+
+    public void SetRandomRange(ReadOnlySpan<char> str)
+    {
+        var index = str.IndexOf(SplitRange);
+        if (index <= 0)
+            throw new ArgumentException($"Invalid Random Range: {str.ToString()}", nameof(str));
+
+        var min = str[..index];
+        var max = str[(index + 1)..];
+        int.TryParse(min, out RandomMinimum);
+        int.TryParse(max, out RandomMaximum);
 
         if (RandomMinimum == RandomMaximum)
         {

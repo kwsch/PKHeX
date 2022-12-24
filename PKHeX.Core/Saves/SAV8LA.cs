@@ -213,7 +213,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
 
     public override int GetBoxOffset(int box) => Box + (SIZE_BOXSLOT * box * 30);
     public override string GetBoxName(int box) => BoxLayout.GetBoxName(box);
-    public override void SetBoxName(int box, string value) => BoxLayout.SetBoxName(box, value);
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
 
     public override int GetBoxWallpaper(int box)
     {

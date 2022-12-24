@@ -99,7 +99,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
     public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
     public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
 
     protected int BattleBoxOffset;

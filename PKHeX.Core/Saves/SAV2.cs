@@ -562,11 +562,11 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         return GetString(Offsets.BoxNames + (box * len), len);
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         int len = Korean ? 17 : 9;
         var span = Data.AsSpan(Offsets.BoxNames + (box * len), len);
-        SetString(span, value.AsSpan(), 8, StringConverterOption.Clear50);
+        SetString(span, value, 8, StringConverterOption.Clear50);
     }
 
     protected override PK2 GetPKM(byte[] data)

@@ -476,11 +476,11 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         return StringConverter3.GetString(Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME), Japanese);
     }
 
-    public sealed override void SetBoxName(int box, string value)
+    public sealed override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         int offset = GetBoxOffset(COUNT_BOX);
         var dest = Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME);
-        SetString(dest, value.AsSpan(), COUNT_BOXNAME - 1, StringConverterOption.ClearZero);
+        SetString(dest, value, COUNT_BOXNAME - 1, StringConverterOption.ClearZero);
     }
     #endregion
 

@@ -100,10 +100,10 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
         return GetString(Data.AsSpan(GetBoxNameOffset(box), LongStringLength));
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = Data.AsSpan(GetBoxNameOffset(box), LongStringLength);
-        SetString(span, value.AsSpan(), LongStringLength / 2, StringConverterOption.ClearZero);
+        SetString(span, value, LongStringLength / 2, StringConverterOption.ClearZero);
     }
 
     protected override void SetPKM(PKM pk, bool isParty = false)

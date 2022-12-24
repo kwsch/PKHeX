@@ -484,7 +484,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         return $"BOX {box + 1}";
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         // Don't allow for custom box names
     }

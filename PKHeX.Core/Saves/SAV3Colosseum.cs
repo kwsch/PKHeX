@@ -279,9 +279,9 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         return GetString(Box + (0x24A4 * box), 16);
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
-        SetString(Data.AsSpan(Box + (0x24A4 * box), 16), value.AsSpan(), 8, StringConverterOption.ClearZero);
+        SetString(Data.AsSpan(Box + (0x24A4 * box), 16), value, 8, StringConverterOption.ClearZero);
     }
 
     protected override CK3 GetPKM(byte[] data)

@@ -163,7 +163,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
         return boxName;
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         int offset = Box + 0x1EC38 + (9 * box);
         var span = Data.AsSpan(offset, 9);
@@ -172,7 +172,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
             span.Clear();
             return;
         }
-        SetString(span, value.AsSpan(), 8, StringConverterOption.ClearZero);
+        SetString(span, value, 8, StringConverterOption.ClearZero);
     }
 
     protected override PK3 GetPKM(byte[] data)

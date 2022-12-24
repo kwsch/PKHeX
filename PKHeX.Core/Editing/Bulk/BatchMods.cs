@@ -51,7 +51,7 @@ public static class BatchMods
         new ComplexSuggestion(PROP_MOVEMASTERY, (_, value, info) => BatchModifications.SetSuggestedMasteryData(info, value)),
     };
 
-    private static DateOnly ParseDate(string val) => DateOnly.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture);
+    private static DateOnly ParseDate(ReadOnlySpan<char> val) => DateOnly.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture);
 
     public static readonly List<IComplexSet> ComplexMods = new()
     {

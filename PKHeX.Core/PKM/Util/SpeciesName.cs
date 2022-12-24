@@ -104,7 +104,7 @@ public static class SpeciesName
         if (species == 0)
             return GetEggName1234(species, language, generation);
 
-        string nick = GetSpeciesName(species, language);
+        var nick = GetSpeciesName(species, language);
         switch (language)
         {
             case (int)LanguageID.Korean when generation == 2:
@@ -193,7 +193,7 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-    public static bool IsNicknamedAnyLanguage(ushort species, string nickname, int generation = LatestGeneration)
+    public static bool IsNicknamedAnyLanguage(ushort species, ReadOnlySpan<char> nickname, int generation = LatestGeneration)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         foreach (var language in langs)
@@ -212,9 +212,10 @@ public static class SpeciesName
     /// <param name="language">Language ID of the Pokémon</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>True if it does not match the language name, False if not nicknamed (matches).</returns>
-    public static bool IsNicknamed(ushort species, string nickname, int language, int generation = LatestGeneration)
+    public static bool IsNicknamed(ushort species, ReadOnlySpan<char> nickname, int language, int generation = LatestGeneration)
     {
-        return GetSpeciesNameGeneration(species, language, generation) != nickname;
+        var expect = GetSpeciesNameGeneration(species, language, generation);
+        return !nickname.SequenceEqual(expect);
     }
 
     /// <summary>
@@ -225,13 +226,14 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-    public static int GetSpeciesNameLanguage(ushort species, int priorityLanguage, string nickname, int generation = LatestGeneration)
+    public static int GetSpeciesNameLanguage(ushort species, int priorityLanguage, ReadOnlySpan<char> nickname, int generation = LatestGeneration)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         var priorityIndex = langs.IndexOf((byte)priorityLanguage);
         if (priorityIndex != -1)
         {
-            if (GetSpeciesNameGeneration(species, priorityLanguage, generation) == nickname)
+            var expect = GetSpeciesNameGeneration(species, priorityLanguage, generation);
+            if (nickname.SequenceEqual(expect))
                 return priorityLanguage;
         }
 
@@ -245,13 +247,13 @@ public static class SpeciesName
     /// <param name="nickname">Current name</param>
     /// <param name="generation">Generation specific formatting option</param>
     /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-    public static int GetSpeciesNameLanguage(ushort species, string nickname, int generation = LatestGeneration)
+    public static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, int generation = LatestGeneration)
     {
         var langs = Language.GetAvailableGameLanguages(generation);
         return GetSpeciesNameLanguage(species, nickname, generation, langs);
     }
 
-    private static int GetSpeciesNameLanguage(ushort species, string nickname, int generation, ReadOnlySpan<byte> langs)
+    private static int GetSpeciesNameLanguage(ushort species, ReadOnlySpan<char> nickname, int generation, ReadOnlySpan<byte> langs)
     {
         foreach (var lang in langs)
         {

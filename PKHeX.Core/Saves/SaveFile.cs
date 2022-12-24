@@ -821,7 +821,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual bool HasNamableBoxes => HasBoxWallpapers;
 
     public abstract string GetBoxName(int box);
-    public abstract void SetBoxName(int box, string value);
+    public abstract void SetBoxName(int box, ReadOnlySpan<char> value);
     protected virtual int GetBoxWallpaperOffset(int box) => -1;
 
     public virtual int GetBoxWallpaper(int box)

@@ -276,7 +276,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
     public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
     public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = (byte)value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = (byte)value; }

@@ -335,9 +335,9 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public override int GetBoxOffset(int box) => GetBoxInfoOffset(box) + 20;
     public override string GetBoxName(int box) => GetString(GetBoxInfoOffset(box), 16);
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
-        SetString(Data.AsSpan(GetBoxInfoOffset(box), 20), value.AsSpan(), 8, StringConverterOption.ClearZero);
+        SetString(Data.AsSpan(GetBoxInfoOffset(box), 20), value, 8, StringConverterOption.ClearZero);
     }
 
     protected override XK3 GetPKM(byte[] data)

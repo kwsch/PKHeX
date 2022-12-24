@@ -63,16 +63,16 @@ public static class BVRequestUtil
         }
     }
 
-    private static string GetStringWithDashesEvery(char[] buff, int spacer)
+    private static string GetStringWithDashesEvery(ReadOnlySpan<char> buff, int spacer)
     {
-        var buff2 = new char[buff.Length + ((buff.Length / spacer) - 1)];
+        Span<char> buff2 = stackalloc char[buff.Length + ((buff.Length / spacer) - 1)];
         for (int i = 0, ctr = 0; i < buff.Length; i++)
         {
             buff2[ctr++] = buff[i];
             if (i % spacer == 3 && ctr < buff2.Length)
                 buff2[ctr++] = '-'; // add dash between every chunk of size {spacer}
         }
-        return string.Concat(buff2);
+        return new string(buff2);
     }
 
     private static char Set5BitToChar(char c)

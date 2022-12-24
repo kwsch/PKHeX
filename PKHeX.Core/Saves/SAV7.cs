@@ -162,7 +162,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
     public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
     public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
     public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }

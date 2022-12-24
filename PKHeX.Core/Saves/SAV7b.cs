@@ -124,7 +124,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     }
 
     public override string GetBoxName(int box) => $"Box {box + 1}";
-    public override void SetBoxName(int box, string value) { }
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) { }
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter8.GetString(data);
 

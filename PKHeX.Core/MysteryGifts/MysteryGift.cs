@@ -25,7 +25,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
     /// <param name="ext">Extension of the file from which the <paramref name="data"/> was retrieved.</param>
     /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> or <paramref name="ext"/> is invalid.</returns>
     /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
-    public static DataMysteryGift? GetMysteryGift(byte[] data, string ext) => data.Length switch
+    public static DataMysteryGift? GetMysteryGift(byte[] data, ReadOnlySpan<char> ext) => data.Length switch
     {
         PGT.Size when ext == ".pgt" => new PGT(data),
         PCD.Size when ext is ".pcd" or ".wc4" => new PCD(data),

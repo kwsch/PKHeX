@@ -369,11 +369,13 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     public bool IsNicknamed => false;
     public int Language => 2;
 
-    public string GetNickname(int language) => StringConverter8.GetString(Data.AsSpan(GetNicknameOffset(language), 0x1A));
-    public void SetNickname(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetNicknameOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+    private Span<byte> GetNicknameSpan(int language) => Data.AsSpan(GetNicknameOffset(language), 0x1A);
+    public string GetNickname(int language) => StringConverter8.GetString(GetNicknameSpan(language));
+    public void SetNickname(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetNicknameSpan(language), value, 12, StringConverterOption.ClearZero);
 
-    public string GetOT(int language) => StringConverter8.GetString(Data.AsSpan(GetOTOffset(language), 0x1A));
-    public void SetOT(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetOTOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+    private Span<byte> GetOTSpan(int language) => Data.AsSpan(GetOTOffset(language), 0x1A);
+    public string GetOT(int language) => StringConverter8.GetString(GetOTSpan(language));
+    public void SetOT(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetOTSpan(language), value, 12, StringConverterOption.ClearZero);
 
     private static int GetNicknameOffset(int language)
     {

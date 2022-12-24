@@ -187,7 +187,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
     public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
     protected override void SetPKM(PKM pk, bool isParty = false)

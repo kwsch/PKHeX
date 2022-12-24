@@ -111,7 +111,7 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
     private Span<byte> GetSayingSpan(int say) => Data.AsSpan(GetSayingOffset(say), SAV6.LongStringLength);
     private int GetSayingOffset(int say) => Offset + 0x7C + (SAV6.LongStringLength * say);
     private string GetSaying(int say) => SAV.GetString(GetSayingSpan(say));
-    private void SetSaying(int say, string value) => SAV.SetString(GetSayingSpan(say), value.AsSpan(), SAV6.LongStringLength / 2, StringConverterOption.ClearZero);
+    private void SetSaying(int say, ReadOnlySpan<char> value) => SAV.SetString(GetSayingSpan(say), value, SAV6.LongStringLength / 2, StringConverterOption.ClearZero);
 
     public string Saying1 { get => GetSaying(0); set => SetSaying(0, value); }
     public string Saying2 { get => GetSaying(1); set => SetSaying(1, value); }

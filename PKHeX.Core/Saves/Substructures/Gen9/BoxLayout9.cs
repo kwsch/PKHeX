@@ -21,10 +21,10 @@ public sealed class BoxLayout9 : SaveBlock<SAV9SV>, IBoxDetailName
         return SAV.GetString(span);
     }
 
-    public void SetBoxName(int box, string value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = GetBoxNameSpan(box);
-        SAV.SetString(span, value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
+        SAV.SetString(span, value, StringMaxLength, StringConverterOption.ClearZero);
     }
 
     public string this[int i]

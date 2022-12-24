@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -85,7 +85,7 @@ public static class MysteryGiftVerifier
         };
     }
 
-    private static bool CurrentOTMatchesReplaced(int format, string pkOtName)
+    private static bool CurrentOTMatchesReplaced(int format, ReadOnlySpan<char> pkOtName)
     {
         if (format <= 4 && IsMatchName(pkOtName, 4))
             return true;
@@ -98,7 +98,7 @@ public static class MysteryGiftVerifier
         return false;
     }
 
-    private static bool IsMatchName(string pkOtName, int generation)
+    private static bool IsMatchName(ReadOnlySpan<char> pkOtName, int generation)
     {
         return generation switch
         {

@@ -163,11 +163,11 @@ public sealed class SAV4BR : SaveFile
         return GetString(span);
     }
 
-    private void SetOTName(int slot, string name)
+    private void SetOTName(int slot, ReadOnlySpan<char> name)
     {
         var ofs = 0x390 + (0x6FF00 * slot);
         var span = Data.AsSpan(ofs, 16);
-        SetString(span, name.AsSpan(), 7, StringConverterOption.ClearZero);
+        SetString(span, name, 7, StringConverterOption.ClearZero);
     }
 
     public string CurrentOT { get => GetOTName(_currentSlot); set => SetOTName(_currentSlot, value); }
@@ -212,7 +212,7 @@ public sealed class SAV4BR : SaveFile
         return GetString(ofs, BoxNameLength);
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         if (BoxName < 0)
             return;
@@ -222,7 +222,7 @@ public sealed class SAV4BR : SaveFile
         if (ReadUInt16BigEndian(span) == 0)
             return;
 
-        SetString(span, value.AsSpan(), BoxNameLength / 2, StringConverterOption.ClearZero);
+        SetString(span, value, BoxNameLength / 2, StringConverterOption.ClearZero);
     }
 
     protected override BK4 GetPKM(byte[] data)
