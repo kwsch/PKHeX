@@ -38,7 +38,7 @@ public ref struct Xoroshiro128Plus8b
         seed = 0x94D049BB133111EB * (seed ^ (seed >> 27));
         return seed ^ (seed >> 31);
     }
-    
+
     public (ulong s0, ulong s1) GetState() => (s0, s1);
     public string FullState => $"{State:X32}";
 

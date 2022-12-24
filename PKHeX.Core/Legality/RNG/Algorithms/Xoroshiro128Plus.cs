@@ -63,26 +63,27 @@ public ref struct Xoroshiro128Plus
     }
 
     /// <summary>
-    /// Gets a random value that is less than <see cref="MOD"/>
+    /// Gets a random value that is less than <see cref="max"/>
     /// </summary>
-    /// <param name="MOD">Maximum value (exclusive). Generates a bitmask for the loop.</param>
+    /// <param name="max">Maximum value (exclusive). Generates a bitmask for the loop.</param>
     /// <returns>Random value</returns>
-    public ulong NextInt(ulong MOD = 0xFFFFFFFF)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ulong NextInt(ulong max = uint.MaxValue)
     {
-        ulong mask = GetBitmask(MOD);
-        ulong res;
-        do
+        ulong mask = GetBitmask(max);
+        while (true)
         {
-            res = Next() & mask;
-        } while (res >= MOD);
-        return res;
+            var result = Next() & mask;
+            if (result < max)
+                return result;
+        }
     }
 
     /// <summary>
-    /// Next Power of Two
+    /// Gets the inclusive range bitmask for the specified <see cref="exclusiveMax"/> value.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static ulong GetBitmask(ulong x) => (1UL << (BitOperations.Log2(--x) + 1)) - 1;
+    private static ulong GetBitmask(ulong exclusiveMax) => (1UL << (64 - BitOperations.LeadingZeroCount(--exclusiveMax))) - 1;
 
     /// <summary>
     /// Gets a random float value.
