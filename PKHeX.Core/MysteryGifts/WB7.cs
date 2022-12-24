@@ -355,7 +355,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
 
         var rnd = Util.Rand;
 
-        int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
+        int currentLevel = Level > 0 ? Level : (1 + rnd.Next(100));
         int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.GG.GetFormEntry(Species, Form);
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -46,8 +46,8 @@ public sealed class RaidSpawnList8 : SaveBlock<SAV8SWSH>
         {
             if (i == 16) // Watchtower, special
                 continue;
-            var star = (byte)rnd.Next(0, 5);
-            var rand = (byte)rnd.Next(1, 101);
+            var star = (byte)rnd.Next(5);
+            var rand = (byte)(1 + rnd.Next(100));
             GetRaid(i).Activate(star, rand, rare, isEvent);
         }
     }

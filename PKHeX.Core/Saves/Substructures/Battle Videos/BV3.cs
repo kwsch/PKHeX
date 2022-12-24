@@ -18,10 +18,13 @@ public sealed class BV3 : BattleVideo
     {
         if (data.Length != SIZE)
             return false;
-        var chk = ReadUInt32LittleEndian(data[(SIZE-4)..]);
+        var chkSpan = data[^4..];
+        var chk = ReadUInt32LittleEndian(chkSpan);
         if (chk > 0xF7080)
             return false; // max if all are FF
-        var expect = GetChecksum8(data);
+
+        var chkRegion = data[..^4];
+        var expect = GetByteSum(chkRegion);
         return chk == expect;
     }
 
@@ -93,13 +96,13 @@ public sealed class BV3 : BattleVideo
         set => WriteUInt32LittleEndian(Data.AsSpan(SIZE - 4), value);
     }
 
-    public bool IsChecksumValid() => Checksum == GetChecksum8(Data);
+    public bool IsChecksumValid() => Checksum == GetByteSum(Data.AsSpan()[..^4]);
 
-    public static uint GetChecksum8(ReadOnlySpan<byte> data)
+    public static uint GetByteSum(ReadOnlySpan<byte> data)
     {
         uint result = 0;
-        for (int i = 0; i < data.Length - 4; i++)
-            result += data[i];
+        foreach (byte b in data)
+            result += b;
         return result;
     }
 }

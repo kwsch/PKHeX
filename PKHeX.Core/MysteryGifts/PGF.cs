@@ -192,7 +192,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             Year = (byte)dt.Year;
         }
 
-        int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
+        int currentLevel = Level > 0 ? Level : 1 + rnd.Next(100);
         var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
         PK5 pk = new()
         {

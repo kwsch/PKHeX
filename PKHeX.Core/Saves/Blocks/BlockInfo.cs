@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -64,17 +64,18 @@ public abstract class BlockInfo
         list = new List<string>();
         for (int i = 0; i < blocks.Count; i++)
         {
-            if (blocks[i].Length + blocks[i].Offset > data.Length)
+            var block = blocks[i];
+            if (block.Length + block.Offset > data.Length)
             {
                 list.Add($"Block {i} Invalid Offset/Length.");
                 return invalid;
             }
 
-            if (blocks[i].ChecksumValid(data))
+            if (block.ChecksumValid(data))
                 continue;
 
             invalid++;
-            list.Add($"Invalid: {i:X2} @ Region {blocks[i].Offset:X5}");
+            list.Add($"Invalid: {i:X2} @ Region {block.Offset:X5}");
         }
         return invalid;
     }
