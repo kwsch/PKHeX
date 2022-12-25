@@ -20,7 +20,7 @@ public static partial class Util
         bool negative = false;
         foreach (var c in value)
         {
-            if (IsNum(c))
+            if (char.IsAsciiDigit(c))
             {
                 result *= 10;
                 result += c;
@@ -47,7 +47,7 @@ public static partial class Util
 
         foreach (var c in value)
         {
-            if (!IsNum(c))
+            if (!char.IsAsciiDigit(c))
                 continue;
             result *= 10;
             result += (uint)(c - '0');
@@ -68,17 +68,17 @@ public static partial class Util
 
         foreach (var c in value)
         {
-            if (IsNum(c))
+            if (char.IsAsciiDigit(c))
             {
                 result <<= 4;
                 result += (uint)(c - '0');
             }
-            else if (IsHexUpper(c))
+            else if (char.IsAsciiHexDigitUpper(c))
             {
                 result <<= 4;
                 result += (uint)(c - 'A' + 10);
             }
-            else if (IsHexLower(c))
+            else if (char.IsAsciiHexDigitLower(c))
             {
                 result <<= 4;
                 result += (uint)(c - 'a' + 10);
@@ -100,17 +100,17 @@ public static partial class Util
 
         foreach (var c in value)
         {
-            if (IsNum(c))
+            if (char.IsAsciiDigit(c))
             {
                 result <<= 4;
                 result += (uint)(c - '0');
             }
-            else if (IsHexUpper(c))
+            else if (char.IsAsciiHexDigitUpper(c))
             {
                 result <<= 4;
                 result += (uint)(c - 'A' + 10);
             }
-            else if (IsHexLower(c))
+            else if (char.IsAsciiHexDigitLower(c))
             {
                 result <<= 4;
                 result += (uint)(c - 'a' + 10);
@@ -146,11 +146,6 @@ public static partial class Util
         return new string(result);
     }
 
-    private static bool IsNum(char c) => (uint)(c - '0') <= 9;
-    private static bool IsHexUpper(char c) => (uint)(c - 'A') <= ('F' - 'A');
-    private static bool IsHexLower(char c) => (uint)(c - 'a') <= ('f' - 'a');
-    private static bool IsHex(char c) => IsNum(c) || IsHexUpper(c) || IsHexLower(c);
-
     /// <summary>
     /// Filters the string down to only valid hex characters, returning a new string.
     /// </summary>
@@ -164,7 +159,7 @@ public static partial class Util
         Span<char> result = stackalloc char[str.Length];
         foreach (var c in str)
         {
-            if (IsHex(c))
+            if (char.IsAsciiHexDigit(c))
                 result[ctr++] = c;
         }
         return new string(result[..ctr]);

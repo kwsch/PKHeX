@@ -77,22 +77,19 @@ public static class StringUtil
         return result;
     }
 
-    private static bool IsNum(char c) => (uint)(c - '0') <= 9;
-    private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
-
     private static byte DecodeTuple(char _0, char _1)
     {
         byte result;
-        if (IsNum(_0))
+        if (char.IsAsciiDigit(_0))
             result = (byte)((_0 - '0') << 4);
-        else if (IsHexUpper(_0))
+        else if (char.IsAsciiHexDigitUpper(_0))
             result = (byte)((_0 - 'A' + 10) << 4);
         else
             throw new ArgumentOutOfRangeException(nameof(_0));
 
-        if (IsNum(_1))
+        if (char.IsAsciiDigit(_1))
             result |= (byte)(_1 - '0');
-        else if (IsHexUpper(_1))
+        else if (char.IsAsciiHexDigitUpper(_1))
             result |= (byte)(_1 - 'A' + 10);
         else
             throw new ArgumentOutOfRangeException(nameof(_1));
