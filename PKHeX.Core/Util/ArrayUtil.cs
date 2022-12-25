@@ -55,27 +55,6 @@ public static class ArrayUtil
             yield return bin.Slice(i, size);
     }
 
-    public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data, int count)
-    {
-        bool[] result = new bool[count];
-        for (int i = 0; i < result.Length; i++)
-            result[i] = ((data[i >> 3] >> (i & 7)) & 0x1) == 1;
-        return result;
-    }
-
-    public static void SetBitFlagArray(Span<byte> data, ReadOnlySpan<bool> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            var ofs = i >> 3;
-            var mask = (1 << (i & 7));
-            if (value[i])
-                data[ofs] |= (byte)mask;
-            else
-                data[ofs] &= (byte)~mask;
-        }
-    }
-
     /// <summary>
     /// Copies a <see cref="T"/> list to the destination list, with an option to copy to a starting point.
     /// </summary>

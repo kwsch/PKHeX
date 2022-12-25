@@ -244,8 +244,8 @@ public sealed class SAV4HGSS : SAV4
     public uint PokewalkerSteps { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER), value); }
     public uint PokewalkerWatts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x4)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 4), value); }
 
-    public bool[] GetPokewalkerCoursesUnlocked() => ArrayUtil.GitBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), 32);
-    public void SetPokewalkerCoursesUnlocked(ReadOnlySpan<bool> value) => ArrayUtil.SetBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), value);
+    public bool[] GetPokewalkerCoursesUnlocked() => FlagUtil.GitBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), 32);
+    public void SetPokewalkerCoursesUnlocked(ReadOnlySpan<bool> value) => FlagUtil.SetBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), value);
 
     public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x8), value);
 
