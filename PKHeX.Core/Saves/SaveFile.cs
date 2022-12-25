@@ -929,4 +929,15 @@ public static class StorageUtil
 
         return true;
     }
+
+    public static int FindSlotIndex(this SaveFile sav, Func<PKM, bool> method, int maxCount)
+    {
+        for (int i = 0; i < maxCount; i++)
+        {
+            var pk = sav.GetBoxSlotAtIndex(i);
+            if (method(pk))
+                return i;
+        }
+        return -1;
+    }
 }
