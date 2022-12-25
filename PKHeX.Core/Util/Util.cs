@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace PKHeX.Core;
 
@@ -131,84 +130,78 @@ public static partial class Util
         return result;
     }
 
-    public static string GetHexStringFromBytes(ReadOnlySpan<byte> arr)
+    private const string HexChars = "0123456789ABCDEF";
+
+    public static string GetHexStringFromBytes(ReadOnlySpan<byte> data)
     {
-        var sb = new StringBuilder(arr.Length * 2);
-        for (int i = arr.Length - 1; i >= 0; i--)
-            sb.AppendFormat("{0:X2}", arr[i]);
-        return sb.ToString();
+        System.Diagnostics.Debug.Assert(data.Length <= 0x10 && System.Numerics.BitOperations.IsPow2((uint)data.Length));
+        Span<char> result = stackalloc char[data.Length * 2];
+        for (int i = 0; i < data.Length; i++)
+        {
+            // Write tuples from the opposite side of the result buffer.
+            var offset = (data.Length - i - 1) * 2;
+            result[offset + 0] = HexChars[data[i] >> 4];
+            result[offset + 1] = HexChars[data[i] & 0xF];
+        }
+        return new string(result);
     }
 
     private static bool IsNum(char c) => (uint)(c - '0') <= 9;
-    private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
-    private static bool IsHexLower(char c) => (uint)(c - 'a') <= 5;
+    private static bool IsHexUpper(char c) => (uint)(c - 'A') <= ('F' - 'A');
+    private static bool IsHexLower(char c) => (uint)(c - 'a') <= ('f' - 'a');
     private static bool IsHex(char c) => IsNum(c) || IsHexUpper(c) || IsHexLower(c);
 
     /// <summary>
     /// Filters the string down to only valid hex characters, returning a new string.
     /// </summary>
     /// <param name="str">Input string to filter</param>
-    public static string GetOnlyHex(string str)
+    public static string GetOnlyHex(ReadOnlySpan<char> str)
     {
-        if (string.IsNullOrWhiteSpace(str))
+        if (str.IsWhiteSpace())
             return string.Empty;
-        var sb = new StringBuilder(str.Length);
+
+        int ctr = 0;
+        Span<char> result = stackalloc char[str.Length];
         foreach (var c in str)
         {
             if (IsHex(c))
-                sb.Append(c);
+                result[ctr++] = c;
         }
-        return sb.ToString();
+        return new string(result[..ctr]);
     }
 
     /// <summary>
     /// Returns a new string with each word converted to its appropriate title case.
     /// </summary>
-    /// <param name="str">Input string to modify</param>
-    /// <param name="trim">Trim ends of whitespace</param>
-    public static string ToTitleCase(ReadOnlySpan<char> str, bool trim = false)
+    /// <param name="span">Input string to modify</param>
+    public static string ToTitleCase(ReadOnlySpan<char> span)
     {
-        int start = 0;
-        if (trim)
-        {
-            // Get First index that isn't a space
-            while (start < str.Length && char.IsWhiteSpace(str[start]))
-                start++;
-        }
-        if (start == str.Length)
+        if (span.IsEmpty)
             return string.Empty;
 
-        int end = str.Length - 1;
-        if (trim)
-        {
-            // Get Last index that isn't a space
-            while (end > start && char.IsWhiteSpace(str[end]))
-                end--;
-        }
-
-        var span = str.Slice(start, end - start + 1);
-        var sb = new StringBuilder(span.Length);
+        Span<char> result = stackalloc char[span.Length];
         // Add each word to the string builder. Continue from the first index that isn't a space.
         // Add the first character as uppercase, then add each successive character as lowercase.
         bool first = true;
-        foreach (char c in span)
+        for (var i = 0; i < span.Length; i++)
         {
+            char c = span[i];
             if (char.IsWhiteSpace(c))
             {
                 first = true;
-                sb.Append(c);
             }
             else if (first)
             {
-                sb.Append(char.ToUpper(c));
+                c = char.ToUpper(c);
                 first = false;
             }
             else
             {
-                sb.Append(char.ToLower(c));
+                c = char.ToLower(c);
             }
+            result[i] = c;
         }
-        return sb.ToString();
+        return new string(result);
     }
 
     /// <summary>

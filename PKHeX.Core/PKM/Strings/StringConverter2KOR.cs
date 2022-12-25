@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using static PKHeX.Core.StringConverter12;
 
@@ -16,10 +15,18 @@ public static class StringConverter2KOR
     /// </summary>
     public static bool GetIsG2Korean(ReadOnlySpan<char> str)
     {
-        var dict = U2GSC_KOR;
+        var all = U2GSC_KOR;
         foreach (var c in str)
         {
-            if (!dict.Any(d => d.ContainsKey(c)))
+            bool any = false;
+            foreach (var dict in all)
+            {
+                if (!dict.ContainsKey(c))
+                    continue;
+                any = true;
+                break;
+            }
+            if (!any)
                 return false;
         }
         return true;

@@ -46,7 +46,7 @@ public static class FileUtil
     /// <param name="ext">File extension used as a hint.</param>
     /// <param name="reference">Reference savefile used for PC Binary compatibility checks.</param>
     /// <returns>Supported file object reference, null if none found.</returns>
-    public static object? GetSupportedFile(byte[] data, string ext, SaveFile? reference = null)
+    public static object? GetSupportedFile(byte[] data, ReadOnlySpan<char> ext, SaveFile? reference = null)
     {
         if (TryGetSAV(data, out var sav))
             return sav;
@@ -175,7 +175,7 @@ public static class FileUtil
     /// <param name="ext">Format hint</param>
     /// <param name="sav">Reference savefile used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetPKM(byte[] data, [NotNullWhen(true)] out PKM? pk, string ext, ITrainerInfo? sav = null)
+    public static bool TryGetPKM(byte[] data, [NotNullWhen(true)] out PKM? pk, ReadOnlySpan<char> ext, ITrainerInfo? sav = null)
     {
         if (ext == ".pgt") // size collision with pk6
         {
@@ -230,7 +230,7 @@ public static class FileUtil
     /// <param name="mg">Output result</param>
     /// <param name="ext">Format hint</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
-    public static bool TryGetMysteryGift(byte[] data, [NotNullWhen(true)] out MysteryGift? mg, string ext)
+    public static bool TryGetMysteryGift(byte[] data, [NotNullWhen(true)] out MysteryGift? mg, ReadOnlySpan<char> ext)
     {
         mg = MysteryGift.GetMysteryGift(data, ext);
         return mg != null;

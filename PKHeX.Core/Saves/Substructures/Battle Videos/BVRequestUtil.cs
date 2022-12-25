@@ -47,18 +47,18 @@ public static class BVRequestUtil
         Span<byte> temp = stackalloc byte[8];
         WriteUInt64LittleEndian(temp, input);
         uint chk = Checksums.CRC16_CCITT(temp);
-        var buff = new char[16];
+        Span<char> buff = stackalloc char[16];
         int ctr = 15;
-        Push(input, 12); // store value bits
-        Push(chk << 4, 4); // store checksum bits
-        return !insertDash ? string.Concat(buff) : GetStringWithDashesEvery(buff, 4);
+        Push(buff, ref ctr, 12, input); // store value bits
+        Push(buff, ref ctr, 04, chk << 4); // store checksum bits
+        return !insertDash ? new string(buff) : GetStringWithDashesEvery(buff, 4);
 
-        void Push(ulong v, int count)
+        static void Push(Span<char> buff, ref int ctr, int bit5Chunks, ulong value)
         {
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < bit5Chunks; i++)
             {
-                buff[ctr--] = Set5BitToChar((char)(v & 0b11111));
-                v >>= 5;
+                buff[ctr--] = Set5BitToChar((char)(value & 0x1F));
+                value >>= 5;
             }
         }
     }

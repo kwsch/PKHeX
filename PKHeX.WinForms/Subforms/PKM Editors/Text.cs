@@ -175,10 +175,10 @@ public partial class TrashEditor : Form
             Bytes[i].Value = 0;
     }
 
-    private byte[] SetString(string text)
+    private byte[] SetString(ReadOnlySpan<char> text)
     {
         Span<byte> temp = stackalloc byte[Raw.Length];
-        var written = SAV.SetString(temp, text.AsSpan(), text.Length, StringConverterOption.None);
+        var written = SAV.SetString(temp, text, text.Length, StringConverterOption.None);
         return temp[..written].ToArray();
     }
 

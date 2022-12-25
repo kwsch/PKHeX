@@ -70,7 +70,7 @@ public sealed class StringInstructionSet
         {
             var slice = lines[start..];
             var count = GetInstructionSetLength(slice);
-            var set = slice[..count].ToArray();
+            var set = slice[..count];
             result[ctr++] = new StringInstructionSet(set);
             start += count + 1;
         }
