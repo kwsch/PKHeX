@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -95,15 +94,19 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     protected void ClearMemeCrypto()
     {
-        new byte[0x80].CopyTo(Data, AllBlocks[MemeCryptoBlock].Offset + 0x100);
+        // The MemeCrypto block is always zero -- they could have hidden a secret inside it, but they didn't.
+        Data.AsSpan(AllBlocks[MemeCryptoBlock].Offset + 0x100, MemeCrypto.SaveFileSignatureLength).Clear();
     }
 
     protected override byte[] GetFinalData()
     {
         BoxLayout.SaveBattleTeams();
         SetChecksums();
-        var result = MemeCrypto.Resign7(Data);
-        Debug.Assert(result != Data);
+
+        // Applying the MemeCrypto signature will invalidate the checksum for that block.
+        // This logic is not set up to revert that block after returning, so just return a copy of our data.
+        var result = (byte[])Data.Clone();
+        MemeCrypto.SignInPlace(result);
         return result;
     }
 

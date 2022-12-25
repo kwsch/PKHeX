@@ -1,8 +1,8 @@
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Numerics;
 using System.Security.Cryptography;
+using static PKHeX.Core.MemeKeyIndex;
 
 namespace PKHeX.Core;
 
@@ -27,256 +27,194 @@ public sealed class MemeKey
     public MemeKey(MemeKeyIndex key)
     {
         DER = GetMemeData(key);
-        var _N = DER.AsSpan(0x18, 0x61).ToArray();
-        var _E = DER.AsSpan(0x7B, 3).ToArray();
-        _N.AsSpan().Reverse();
-        _E.AsSpan().Reverse();
-        N = new BigInteger(_N);
-        E = new BigInteger(_E);
-
-        if (key == MemeKeyIndex.PokedexAndSaveFile)
-        {
-            var _D = D_3.AsSpan().ToArray();
-            _D.AsSpan().Reverse();
-            D = new BigInteger(_D);
-        }
-        else
-        {
-            D = INVALID;
-        }
+        N = new BigInteger(DER.AsSpan(0x18, 0x61), isUnsigned: true, isBigEndian: true);
+        E = new BigInteger(DER.AsSpan(0x7B, 0x03), isUnsigned: true, isBigEndian: true);
+        D = key == PokedexAndSaveFile ? new BigInteger(D_3, isUnsigned: true, isBigEndian: true) : default;
     }
 
     /// <summary>
     /// Indicates if this key can be used to resign messages.
     /// </summary>
-    public bool CanResign => D != INVALID;
+    public bool CanResign => D != default;
+
+    public const int SignatureLength = 0x60;
+    private const int chunk = 0x10;
+
+    /// <summary>
+    /// Performs Aes Decryption
+    /// </summary>
+    internal void AesDecrypt(Span<byte> data)
+    {
+        var payload = data[..^SignatureLength];
+        var sig = data[^SignatureLength..];
+        AesDecrypt(payload, sig);
+    }
+
+    /// <summary>
+    /// Perform Aes Encryption
+    /// </summary>
+    internal void AesEncrypt(Span<byte> data)
+    {
+        var payload = data[..^SignatureLength];
+        var sig = data[^SignatureLength..];
+        AesEncrypt(payload, sig);
+    }
+    
+    private void AesDecrypt(ReadOnlySpan<byte> data, Span<byte> sig)
+    {
+        using var aes = GetAesImpl(data);
+        Span<byte> temp = stackalloc byte[chunk];
+        Span<byte> nextXor = stackalloc byte[chunk];
+
+        for (var i = sig.Length - chunk; i >= 0; i -= chunk)
+        {
+            var slice = sig.Slice(i, chunk);
+            Xor(temp, slice);
+            aes.DecryptEcb(temp, temp, PaddingMode.None);
+            temp.CopyTo(slice);
+        }
+
+        Xor(temp, sig[^chunk..]);
+        GetSubKey(temp, nextXor);
+        for (var i = 0; i < sig.Length; i += chunk)
+            Xor(sig.Slice(i, chunk), nextXor);
+
+        nextXor.Clear();
+        for (var i = 0; i < sig.Length; i += chunk)
+        {
+            var slice = sig.Slice(i, chunk);
+            slice.CopyTo(temp);
+            aes.DecryptEcb(slice, slice, PaddingMode.None);
+            Xor(slice, nextXor);
+            temp.CopyTo(nextXor);
+        }
+    }
+
+    private void AesEncrypt(Span<byte> data, Span<byte> sig)
+    {
+        using var aes = GetAesImpl(data);
+        Span<byte> temp = stackalloc byte[chunk];
+        Span<byte> nextXor = stackalloc byte[chunk];
+
+        for (var i = 0; i < sig.Length; i += chunk)
+        {
+            var slice = sig.Slice(i, chunk);
+            Xor(slice, temp);
+            aes.EncryptEcb(slice, slice, PaddingMode.None);
+            slice.CopyTo(temp);
+        }
+
+        Xor(temp, sig[..chunk]);
+        GetSubKey(temp, nextXor);
+        for (var i = 0; i < sig.Length; i += chunk)
+            Xor(sig.Slice(i, chunk), nextXor);
+
+        temp.Clear();
+        for (var i = sig.Length - chunk; i >= 0; i -= chunk)
+        {
+            var slice = sig.Slice(i, chunk);
+            slice.CopyTo(nextXor);
+            aes.EncryptEcb(slice, slice, PaddingMode.None);
+            Xor(slice, temp);
+            nextXor.CopyTo(temp);
+        }
+    }
+
+    private Aes GetAesImpl(ReadOnlySpan<byte> payload)
+    {
+        // The C# implementation of AES isn't fully allocation-free, so some allocation on key & implementation is needed.
+        var key = GetAesKey(payload);
+
+        // Don't dispose in this method, let the consumer dispose.
+        var aes = Aes.Create();
+        aes.Mode = CipherMode.ECB;
+        aes.Padding = PaddingMode.None;
+        aes.Key = key;
+        // no IV -- all zero.
+        return aes;
+    }
 
     /// <summary>
     /// Get the AES key for this MemeKey
     /// </summary>
     private byte[] GetAesKey(ReadOnlySpan<byte> data)
     {
-        if (data.Length < 0x60)
-            throw new ArgumentException("Memebuffers must be atleast 0x60 bytes long!");
-
-        var buffer = new byte[DER.Length + data.Length - 0x60];
-        DER.CopyTo(buffer, 0);
-        data[..(buffer.Length - DER.Length)].CopyTo(buffer.AsSpan(DER.Length));
-        var result = SHA1.HashData(buffer);
-        return result.AsSpan(0, 0x10).ToArray();
-    }
-
-    /// <summary>
-    /// Performs Aes Decryption
-    /// </summary>
-    internal byte[] AesDecrypt(ReadOnlySpan<byte> input)
-    {
-        var key = GetAesKey(input);
-        var data = input[^0x60..];
-        var curblock = new byte[0x10];
-        var outdata = new byte[data.Length];
-        for (var i = data.Length - 0x10; i >= 0; i -= 0x10) // Reverse Phase 2
-        {
-            var slice = data.Slice(i, 0x10);
-            Xor(curblock, slice, curblock);
-            curblock = AesEcbDecrypt(key, curblock);
-            curblock.CopyTo(outdata, i);
-        }
-
-        // At this point we have Phase1(buf) ^ subkey.
-        // Subkey is (block first ^ block last) << 1
-        // We don't have block first or block last, though?
-        // How can we derive subkey?
-        // Well, (a ^ a) = 0. so (block first ^ subkey) ^ (block last ^ subkey)
-        // = block first ^ block last ;)
-        var last = outdata.AsSpan(((data.Length / 0x10) - 1) * 0x10, 0x10);
-        var first = outdata.AsSpan(0, 0x10);
-
-        Span<byte> subkey = stackalloc byte[0x10];
-        Xor(last, first, curblock);
-        GetSubKey(curblock, subkey);
-        for (var i = 0; i < data.Length; i += 0x10)
-        {
-            var slice = outdata.AsSpan(i, 0x10);
-            Xor(slice, subkey, slice);
-        }
-
-        // Now we have Phase1Encrypt(buf).
-        curblock.AsSpan().Clear(); // Clear to all zero
-        Span<byte> temp = stackalloc byte[0x10];
-        for (var i = 0; i < data.Length; i += 0x10) // Phase 1: CBC Encryption.
-        {
-            var slice = outdata.AsSpan(i, 0x10);
-            slice.CopyTo(curblock);
-            var temp1 = AesEcbDecrypt(key, curblock);
-            Xor(temp1, temp, slice);
-            curblock.CopyTo(temp);
-        }
-
-        var outbuf = input.ToArray();
-        outdata.AsSpan()[..0x60].CopyTo(outbuf.AsSpan()[^0x60..]);
-        return outbuf;
-    }
-
-    /// <summary>
-    /// Perform Aes Encryption
-    /// </summary>
-    internal byte[] AesEncrypt(ReadOnlySpan<byte> input)
-    {
-        var key = GetAesKey(input);
-        var data = input[^0x60..];
-        var curblock = new byte[0x10];
-        var outdata = new byte[data.Length];
-        for (var i = 0; i < data.Length; i += 0x10) // Phase 1: CBC Encryption.
-        {
-            var slice = data.Slice(i, 0x10);
-            Xor(curblock, slice, curblock);
-            curblock = AesEcbEncrypt(key, curblock);
-            curblock.CopyTo(outdata, i);
-        }
-
-        // In between - CMAC stuff
-        var inbet = outdata.AsSpan(0, 0x10);
-        Xor(curblock, inbet, curblock);
-
-        Span<byte> subkey = stackalloc byte[0x10];
-        GetSubKey(curblock, subkey);
-
-        Span<byte> temp = stackalloc byte[0x10];
-        curblock.AsSpan().Clear(); // Memcpy from an all-zero buffer
-        for (var i = data.Length - 0x10; i >= 0; i -= 0x10)
-        {
-            var slice = outdata.AsSpan(i, 0x10);
-            Xor(slice, subkey, curblock);
-            byte[] temp1 = AesEcbEncrypt(key, curblock);
-            Xor(temp1, temp, slice);
-            curblock.CopyTo(temp);
-        }
-
-        var outbuf = input.ToArray();
-        outdata.AsSpan()[..0x60].CopyTo(outbuf.AsSpan()[^0x60..]);
-
-        return outbuf;
+        // HashLengthInBytes is 20.
+        Span<byte> hash = stackalloc byte[20];
+        using var h = IncrementalHash.CreateHash(HashAlgorithmName.SHA1);
+        h.AppendData(DER);
+        h.AppendData(data);
+        h.TryGetCurrentHash(hash, out _);
+        return hash[..chunk].ToArray(); // need a byte[0x10] (not 0x14) for the AES impl
     }
 
     private static void GetSubKey(ReadOnlySpan<byte> temp, Span<byte> subkey)
     {
-        for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
+        for (var i = 0; i < temp.Length; i += 2) // Imperfect ROL implementation
         {
-            byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
-            subkey[ofs + 0] = (byte)((2 * b1) + (b2 >> 7));
-            subkey[ofs + 1] = (byte)(2 * b2);
-            if (ofs + 2 < temp.Length)
-                subkey[ofs + 1] += (byte)(temp[ofs + 2] >> 7);
+            byte b1 = temp[i + 0], b2 = temp[i + 1];
+            subkey[i + 0] = (byte)((2 * b1) + (b2 >> 7));
+            subkey[i + 1] = (byte)(2 * b2);
+            if (i + 2 < temp.Length)
+                subkey[i + 1] += (byte)(temp[i + 2] >> 7);
         }
         if ((temp[0] & 0x80) != 0)
             subkey[0xF] ^= 0x87;
     }
 
-    private static void Xor(ReadOnlySpan<byte> b1, ReadOnlySpan<byte> b2, Span<byte> result)
+    private static void Xor(Span<byte> b1, Span<byte> b2)
     {
-        Debug.Assert(b1.Length == b2.Length);
-        for (var i = 0; i < b1.Length; i++)
-            result[i] = (byte)(b1[i] ^ b2[i]);
+        Debug.Assert(b1.Length <= b2.Length);
+        for (var i = 0; i < b2.Length; i++)
+            b1[i] ^= b2[i];
     }
 
     /// <summary>
     /// Perform Rsa Decryption
     /// </summary>
-    internal byte[] RsaPrivate(ReadOnlySpan<byte> data)
+    internal void RsaPrivate(ReadOnlySpan<byte> data, Span<byte> outSig)
     {
-        var _M = new byte[data.Length + 1];
-        data.CopyTo(_M.AsSpan(1));
-        Array.Reverse(_M);
-        var M = new BigInteger(_M);
-
-        return Exponentiate(M, D);
+        var M = new BigInteger(data, isUnsigned: true, isBigEndian: true);
+        Exponentiate(M, D, outSig);
     }
 
     /// <summary>
     /// Perform Rsa Encryption
     /// </summary>
-    internal byte[] RsaPublic(ReadOnlySpan<byte> data)
+    internal void RsaPublic(ReadOnlySpan<byte> data, Span<byte> outSig)
     {
-        var _M = new byte[data.Length + 1];
-        data.CopyTo(_M.AsSpan(1));
-        Array.Reverse(_M);
-        var M = new BigInteger(_M);
-
-        return Exponentiate(M, E);
+        var M = new BigInteger(data, isUnsigned: true, isBigEndian: true);
+        Exponentiate(M, E, outSig);
     }
 
     #region MemeKey Helper Methods
-    /// <summary> Indicator value for a bad Exponent </summary>
-    private static readonly BigInteger INVALID = BigInteger.MinusOne;
 
     // Helper method for Modular Exponentiation
-    private byte[] Exponentiate(BigInteger M, BigInteger Power)
+    private void Exponentiate(BigInteger M, BigInteger Power, Span<byte> result)
     {
-        var rawSig = BigInteger.ModPow(M, Power, N).ToByteArray();
-        Array.Reverse(rawSig);
-        var outSig = new byte[0x60];
-        if (rawSig.Length < 0x60)
-            Array.Copy(rawSig, 0, outSig, 0x60 - rawSig.Length, rawSig.Length);
-        else if (rawSig.Length > 0x60)
-            Array.Copy(rawSig, rawSig.Length - 0x60, outSig, 0, 0x60);
-        else
-            Array.Copy(rawSig, outSig, 0x60);
-        return outSig;
+        var raw = BigInteger.ModPow(M, Power, N);
+        raw.TryWriteBytes(result, out _, isUnsigned: true, isBigEndian: true);
     }
 
     private static byte[] GetMemeData(MemeKeyIndex key) => key switch
     {
-        MemeKeyIndex.LocalWireless => DER_LW,
-        MemeKeyIndex.FriendlyCompetition => DER_0,
-        MemeKeyIndex.LiveCompetition => DER_1,
-        MemeKeyIndex.RentalTeam => DER_2,
-        MemeKeyIndex.PokedexAndSaveFile => DER_3,
-        MemeKeyIndex.GaOle => DER_4,
-        MemeKeyIndex.MagearnaEvent => DER_5,
-        MemeKeyIndex.MoncolleGet => DER_6,
-        MemeKeyIndex.IslandScanEventSpecial => DER_7,
-        MemeKeyIndex.TvTokyoDataBroadcasting => DER_8,
-        MemeKeyIndex.CapPikachuEvent => DER_9,
-        MemeKeyIndex.Unknown10 => DER_A,
-        MemeKeyIndex.Unknown11 => DER_B,
-        MemeKeyIndex.Unknown12 => DER_C,
-        MemeKeyIndex.Unknown13 => DER_D,
+        LocalWireless           => DER_LW,
+        FriendlyCompetition     => DER_0,
+        LiveCompetition         => DER_1,
+        RentalTeam              => DER_2,
+        PokedexAndSaveFile      => DER_3,
+        GaOle                   => DER_4,
+        MagearnaEvent           => DER_5,
+        MoncolleGet             => DER_6,
+        IslandScanEventSpecial  => DER_7,
+        TvTokyoDataBroadcasting => DER_8,
+        CapPikachuEvent         => DER_9,
+        Unknown10               => DER_A,
+        Unknown11               => DER_B,
+        Unknown12               => DER_C,
+        Unknown13               => DER_D,
         _ => throw new ArgumentOutOfRangeException(nameof(key), key, null),
     };
-
-    private static readonly byte[] rgbIV = new byte[0x10];
-
-    // Helper Method to perform AES ECB Encryption
-    private static byte[] AesEcbEncrypt(byte[] key, byte[] data)
-    {
-        using var ms = new MemoryStream(data.Length);
-        using var aes = Aes.Create();
-        aes.Mode = CipherMode.ECB;
-        aes.Padding = PaddingMode.None;
-
-        using var enc = aes.CreateEncryptor(key, rgbIV);
-        using var cs = new CryptoStream(ms, enc, CryptoStreamMode.Write);
-        cs.Write(data, 0, data.Length);
-        cs.FlushFinalBlock();
-
-        return ms.ToArray();
-    }
-
-    // Helper Method to perform AES ECB Decryption
-    private static byte[] AesEcbDecrypt(byte[] key, byte[] data)
-    {
-        using var ms = new MemoryStream(data.Length);
-        using var aes = Aes.Create();
-        aes.Mode = CipherMode.ECB;
-        aes.Padding = PaddingMode.None;
-
-        using var cs = new CryptoStream(ms, aes.CreateDecryptor(key, rgbIV), CryptoStreamMode.Write);
-        cs.Write(data, 0, data.Length);
-        cs.FlushFinalBlock();
-
-        return ms.ToArray();
-    }
 
     public static bool IsValidPokeKeyIndex(int index)
     {
