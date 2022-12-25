@@ -8,16 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class ArrayUtil
 {
-    public static bool IsRangeEmpty(this ReadOnlySpan<byte> data, byte value = 0)
-    {
-        for (int i = data.Length - 1; i >= 0; i--)
-        {
-            if (data[i] != value)
-                return false;
-        }
-        return true;
-    }
-
     public static int Count<T>(this Span<T> data, T value) where T : IEquatable<T>
     {
         return ((ReadOnlySpan<T>)data).Count(value);
