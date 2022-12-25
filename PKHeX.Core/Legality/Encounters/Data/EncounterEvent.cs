@@ -120,7 +120,7 @@ public static class EncounterEvent
 
             // rather than use Linq to build an array, just do it the quick way directly.
             var result = new T[arr.Count];
-            ((HashSet<T>)arr).CopyTo(result, 0);
+            ((IReadOnlySet<T>)arr).CopyTo(result);
             return result;
         }
 

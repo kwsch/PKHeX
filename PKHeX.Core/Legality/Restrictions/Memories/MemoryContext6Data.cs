@@ -46,7 +46,7 @@ public partial class MemoryContext6
         030, // Camphrier Town
         040, // Cyllage City
         044, // Ambrette Town
-        052, // Geosenge Towny
+        052, // Geosenge Town
         058, // Shalour City
         064, // Coumarine City
         070, // Laverre City

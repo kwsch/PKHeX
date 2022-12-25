@@ -156,7 +156,7 @@ public sealed class EvolutionTree
     private void FixEvoTreeSM()
     {
         // Sun/Moon lack Ultra's Kantonian evolution methods.
-        bool BanOnlySM(PKM pk) => pk is { IsUntraded: true, SM: true };
+        static bool BanOnlySM(PKM pk) => pk is { IsUntraded: true, SM: true };
         BanEvo((int)Species.Raichu, 0, BanOnlySM);
         BanEvo((int)Species.Marowak, 0, BanOnlySM);
         BanEvo((int)Species.Exeggutor, 0, BanOnlySM);
@@ -166,7 +166,7 @@ public sealed class EvolutionTree
     {
         // Gigantamax Pikachu, Meowth-0, and Eevee are prevented from evolving.
         // Raichu cannot be evolved to the Alolan variant at this time.
-        bool BanGmax(PKM pk) => pk is IGigantamax { CanGigantamax: true };
+        static bool BanGmax(PKM pk) => pk is IGigantamax { CanGigantamax: true };
         BanEvo((int)Species.Raichu, 0, BanGmax);
         BanEvo((int)Species.Raichu, 1, pk => (pk is IGigantamax {CanGigantamax: true}) || pk.Version is (int)GO or >= (int)GP);
         BanEvo((int)Species.Persian, 0, BanGmax);

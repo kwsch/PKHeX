@@ -230,7 +230,7 @@ public sealed class MemoryVerifier : Verifier
         switch (memory)
         {
             // No Memory
-            case 0: // SWSH trades don't set HT memories immediately, which is hilarious.
+            case 0: // SW/SH trades don't set HT memories immediately, which is hilarious.
                 data.AddLine(Get(LMemoryMissingOT, context == Gen8 ? Severity.Fishy : Severity.Invalid));
                 VerifyOTMemoryIs(data, 0, 0, 0, 0);
                 return;
@@ -320,7 +320,7 @@ public sealed class MemoryVerifier : Verifier
         switch (memory)
         {
             // No Memory
-            case 0: // SWSH memory application has an off-by-one error: [0,99] + 1 <= chance --> don't apply
+            case 0: // SW/SH memory application has an off-by-one error: [0,99] + 1 <= chance --> don't apply
                 var severity = memoryGen switch
                 {
                     Gen8 when pk is not PK8 && !pk.SWSH => Severity.Valid,

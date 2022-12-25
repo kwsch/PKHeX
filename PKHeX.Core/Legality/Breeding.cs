@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.Species;
@@ -83,12 +82,12 @@ public static class Breeding
         (int)Chimecho,
     };
 
-    internal static ICollection<ushort> GetSplitBreedGeneration(int generation) => generation switch
+    internal static IReadOnlySet<ushort>? GetSplitBreedGeneration(int generation) => generation switch
     {
         3 => SplitBreed_3,
         4 or 5 or 6 or 7 or 8 => SplitBreed,
         // Gen9 does not have split-breed egg generation.
-        _ => Array.Empty<ushort>(),
+        _ => null,
     };
 
     /// <summary>

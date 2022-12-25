@@ -224,7 +224,7 @@ public static class EncounterVerifier
         return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
     }
 
-    private static CheckResult VerifyEncounterEggLevelLoc(PKM pk, int eggLevel, ICollection<ushort> MetLocations)
+    private static CheckResult VerifyEncounterEggLevelLoc(PKM pk, int eggLevel, IReadOnlySet<ushort> MetLocations)
     {
         return VerifyEncounterEggLevelLoc(pk, eggLevel, (location, _) => MetLocations.Contains(location));
     }

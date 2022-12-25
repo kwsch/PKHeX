@@ -48,13 +48,13 @@ public static class MoveInfo
     /// <summary>
     /// Gets a collection that can be used to check if a move cannot be used in battle.
     /// </summary>
-    public static ICollection<ushort> GetDummiedMovesHashSet(EntityContext context) => context switch
+    public static IReadOnlySet<ushort>? GetDummiedMovesHashSet(EntityContext context) => context switch
     {
         Gen8 => MoveInfo8.DummiedMoves_SWSH,
         Gen8a => MoveInfo8a.DummiedMoves_LA,
         Gen8b => MoveInfo8b.DummiedMoves_BDSP,
         Gen9 => MoveInfo9.DummiedMoves_SV,
-        _ => Array.Empty<ushort>(),
+        _ => null,
     };
 
     /// <summary>
@@ -101,7 +101,7 @@ public static class MoveInfo
     public static bool IsDummiedMove(PKM pk, ushort move)
     {
         var hashSet = GetDummiedMovesHashSet(pk.Context);
-        return hashSet.Contains(move);
+        return hashSet?.Contains(move) ?? false;
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ public static class MoveInfo
     public static bool IsDummiedMoveAny(PKM pk)
     {
         var hs = GetDummiedMovesHashSet(pk.Context);
-        if (hs.Count == 0)
+        if (hs is null)
             return false;
 
         for (int i = 0; i < 4; i++)
@@ -134,7 +134,7 @@ public static class MoveInfo
             return false;
         if (context is Gen6 && move is ((int)ThousandArrows or (int)ThousandWaves))
             return false;
-        if (context is Gen8b) // can't Sketch unusable moves in BDSP, no Sketch in PLA
+        if (context is Gen8b) // can't Sketch unusable moves in BD/SP, no Sketch in PLA
         {
             if (MoveInfo8b.DummiedMoves_BDSP.Contains(move))
                 return false;

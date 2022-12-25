@@ -123,7 +123,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         byte[] newSAV = EncryptColosseum(slot, digest);
 
         // Put save slot back in original save data
-        byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[])BAK.Clone();
+        byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData().ToArray() : (byte[])BAK.Clone();
         Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
         return newFile;
     }

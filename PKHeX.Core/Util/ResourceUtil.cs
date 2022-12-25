@@ -197,7 +197,7 @@ public static partial class Util
             return Array.Empty<byte>();
 
         var buffer = new byte[resource.Length];
-        _ = resource.Read(buffer, 0, (int)resource.Length);
+        resource.ReadExactly(buffer);
         return buffer;
     }
 

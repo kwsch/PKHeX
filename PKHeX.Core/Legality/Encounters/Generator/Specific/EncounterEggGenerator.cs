@@ -53,7 +53,8 @@ public static class EncounterEggGenerator
             }
         }
 
-        if (!Breeding.GetSplitBreedGeneration(generation).Contains(currentSpecies))
+        var split = Breeding.GetSplitBreedGeneration(generation);
+        if (split is null || !split.Contains(currentSpecies))
             yield break; // no other possible species
 
         var otherSplit = species;

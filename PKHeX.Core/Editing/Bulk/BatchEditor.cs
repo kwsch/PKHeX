@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core;
@@ -52,7 +51,7 @@ public sealed class BatchEditor
     /// </summary>
     /// <param name="sets">Collection of modifications.</param>
     /// <returns>Friendly (multi-line) string indicating the result of the batch edits.</returns>
-    public string GetEditorResults(ICollection<StringInstructionSet> sets)
+    public string GetEditorResults(IReadOnlyCollection<StringInstructionSet> sets)
     {
         if (sets.Count == 0)
             return MsgBEInstructionNone;

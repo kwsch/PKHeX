@@ -700,7 +700,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (expectedBall < poke) // Not even Cherish balls are safe! They get set to the proto-Poké ball.
             expectedBall = poke;
         if (pk is PK8)
-            expectedBall = (int)Core.Ball.Poke; // Transferred to SWSH -> Regular Poké ball
+            expectedBall = (int)Core.Ball.Poke; // Transferred to SW/SH -> Regular Poké ball
         if (expectedBall != pk.Ball)
             return false;
 

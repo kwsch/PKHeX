@@ -143,7 +143,7 @@ public static class SwishCrypto
 
         var result = new byte[ms.Position + SIZE_HASH];
         ms.Position = 0;
-        _ = ms.Read(result);
+        ms.ReadExactly(result);
         return result;
     }
 }

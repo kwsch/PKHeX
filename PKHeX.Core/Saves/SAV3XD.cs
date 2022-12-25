@@ -157,7 +157,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
         // Put save slot back in original save data
         var destOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
-        byte[] dest = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[])BAK.Clone();
+        byte[] dest = MemoryCard != null ? MemoryCard.ReadSaveGameData().ToArray() : (byte[])BAK.Clone();
         var destSpan = dest.AsSpan(destOffset, Data.Length);
 
         // Get updated save slot data
