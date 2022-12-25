@@ -57,10 +57,7 @@ public static class BatchEditing
         var dict = new Dictionary<string, PropertyInfo>(expectedMax);
         var props = selector(type);
         foreach (var p in props)
-        {
-            if (!dict.ContainsKey(p.Name))
-                dict.Add(p.Name, p);
-        }
+            dict.TryAdd(p.Name, p);
         return dict;
     }
 

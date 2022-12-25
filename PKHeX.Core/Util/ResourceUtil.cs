@@ -172,14 +172,11 @@ public static partial class Util
     {
         if (txt == null)
             return Array.Empty<string>();
-        string[] raw = FastSplit(txt.AsSpan());
+        string[] raw = FastSplit(txt);
 
-        lock (getStringListLoadLock) // Make sure only one thread can write to the cache
-        {
-            if (!stringListCache.ContainsKey(file)) // Check cache again in case of race condition
-                stringListCache.Add(file, raw);
-        }
-
+        // Make sure only one thread can write to the cache
+        lock (getStringListLoadLock)
+            stringListCache.TryAdd(file, raw);
         return raw;
     }
 
