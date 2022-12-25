@@ -192,7 +192,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         dc.CopyTo(Data.AsSpan(Offsets.Daycare));
 
         SetChecksums();
-        return Data.AsSpan()[..^SIZE_RESERVED].ToArray();
+        return Data[..^SIZE_RESERVED];
     }
 
     private int GetBoxRawDataOffset(int box)

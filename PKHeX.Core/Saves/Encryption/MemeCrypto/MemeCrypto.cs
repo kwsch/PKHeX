@@ -140,7 +140,7 @@ public static class MemeCrypto
         // Perform AES operations
         key.AesEncrypt(data);
         var sigBuffer = data[^MemeKey.SignatureLength..];
-        sigBuffer[0] &= 0x7F;
+        sigBuffer[0] &= 0x7F; // chop off sign bit
         key.RsaPrivate(sigBuffer, sigBuffer);
     }
 

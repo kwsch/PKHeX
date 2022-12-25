@@ -220,7 +220,7 @@ public sealed class MemeKey
     {
         if (!Enum.IsDefined(typeof(MemeKeyIndex), index))
             return false;
-        return (MemeKeyIndex)index != MemeKeyIndex.LocalWireless;
+        return (MemeKeyIndex)index != LocalWireless;
     }
     #endregion
 

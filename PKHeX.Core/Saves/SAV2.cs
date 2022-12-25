@@ -245,9 +245,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
                     break;
             }
         }
-        byte[] outData = new byte[Data.Length - SIZE_RESERVED];
-        Array.Copy(Data, outData, outData.Length);
-        return outData;
+        return Data[..^SIZE_RESERVED];
     }
 
     // Configuration

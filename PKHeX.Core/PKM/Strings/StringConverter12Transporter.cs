@@ -68,13 +68,7 @@ public static class StringConverter12Transporter
 
     private static bool IsKata(ReadOnlySpan<char> chars)
     {
-        var span = Katakana.AsSpan();
-        foreach (var c in chars)
-        {
-            if (span.IndexOf(c) != -1)
-                return true;
-        }
-        return false;
+        return chars.IndexOfAny(Katakana) != -1;
     }
 
     private static bool IsHiragana(ReadOnlySpan<char> chars)
@@ -89,8 +83,8 @@ public static class StringConverter12Transporter
         return true;
     }
 
-    private static readonly char[] Katakana = { 'ベ', 'ペ', 'ヘ', 'リ' };
-    private static readonly char[] Hiragana = { 'べ', 'ぺ', 'へ', 'り' };
+    private const string Katakana = "ベペヘリ";
+    private const string Hiragana = "べぺへり";
 
     /// <summary>
     /// International 1->7 character translation table

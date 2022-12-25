@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
@@ -105,6 +105,6 @@ public class MemeCryptoTests
     [MemberData(nameof(KnownKeys))]
     public void TestVerifyKnownKeys(MemeKeyIndex keyIndex, byte[] key)
     {
-        MemeCrypto.VerifyMemeData(key, out _, keyIndex).Should().BeTrue("because they key should be valid");
+        MemeCrypto.VerifyMemeData(key, out _, keyIndex).Should().BeTrue("because the key should be valid");
     }
 }

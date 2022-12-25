@@ -13,7 +13,7 @@ public sealed class ShowdownSet : IBattleTemplate
     private static readonly string[] StatNames = { "HP", "Atk", "Def", "Spe", "SpA", "SpD" };
     private const string LineSplit = ": ";
     private const string ItemSplit = " @ ";
-    private static readonly char[] ParenJunk = { '(', ')', '[', ']' };
+    private const string ParenJunk = "()[]";
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
     internal const string DefaultLanguage = GameLanguage.DefaultLanguage;
     private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(DefaultLanguage);
@@ -634,7 +634,7 @@ public sealed class ShowdownSet : IBattleTemplate
         {
             line[..index].Trim().CopyTo(nickname);
             line[index..].Trim().CopyTo(species);
-            species = RemoveAll(species, ParenJunk); // Trim out excess data
+            RemoveAll(ref species, ParenJunk); // Trim out excess data
         }
         else // parenthesis value before: (Species) Nickname, incorrect
         {
@@ -679,7 +679,7 @@ public sealed class ShowdownSet : IBattleTemplate
         // Defined Hidden Power
         Span<char> type = stackalloc char[moveString.Length - hiddenPowerName.Length];
         moveString[hiddenPowerName.Length..].CopyTo(type);
-        type = RemoveAll(type, ParenJunk); // Trim out excess data
+        RemoveAll(ref type, ParenJunk); // Trim out excess data
         int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types, type) - 1; // Get HP Type
 
         HiddenPowerType = hpVal;
@@ -767,18 +767,16 @@ public sealed class ShowdownSet : IBattleTemplate
         }
     }
 
-    private static Span<char> RemoveAll(Span<char> buffer, ReadOnlySpan<char> remove)
+    private static void RemoveAll(ref Span<char> buffer, ReadOnlySpan<char> remove)
     {
         int ctr = 0;
         for (var i = 0; i < buffer.Length; i++)
         {
             char c = buffer[i];
-            if (remove.IndexOf(c) == -1)
+            if (!remove.Contains(c))
                 buffer[ctr++] = c;
         }
-
-        if (ctr == buffer.Length)
-            return buffer;
-        return buffer[..ctr];
+        if (ctr != buffer.Length)
+            buffer = buffer[..ctr];
     }
 }
