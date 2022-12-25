@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Text;
 
 namespace PKHeX.Core;
@@ -95,25 +96,18 @@ public static class QRMessageUtil
 
     private static byte[]? DecodeMessageDataBase64(ReadOnlySpan<char> url)
     {
-        if (url.Length == 0 || url[^1] == '#')
-            return null;
+        int payloadBegin = url.IndexOf('#');
+        if (payloadBegin == -1)
+            return null; // bad URL, need the payload separator
+        if (payloadBegin == url.Length - 1)
+            return null; // no payload
 
-        try
-        {
-            int payloadBegin = url.IndexOf('#');
-            if (payloadBegin < 0) // bad URL, need the payload separator
-                return null;
-            url = url[(payloadBegin + 1)..]; // Trim URL to right after #
-            // Decode unicode string
-            var data = new byte[url.Length];
-            if (!Convert.TryFromBase64Chars(url, data, out int bytesWritten))
-                return null;
-            return data[..bytesWritten];
-        }
-        catch (FormatException)
-        {
-            return null;
-        }
+        url = url[(payloadBegin + 1)..]; // Trim URL to right after #
+        // Decode unicode string -- size might be pretty big (user input), so just rent instead of stackalloc
+        var tmp = ArrayPool<byte>.Shared.Rent(url.Length);
+        var result = Convert.TryFromBase64Chars(url, tmp, out int bytesWritten) ? tmp[..bytesWritten] : null;
+        ArrayPool<byte>.Shared.Return(tmp);
+        return result;
     }
 
     private static byte[] GetBytesFromMessage(ReadOnlySpan<char> input, int count)
