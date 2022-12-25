@@ -46,10 +46,10 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -74,7 +74,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
             return;
 
         bool removeVC = pk.Format == 1 || pk.VC1;
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var min = ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
@@ -91,7 +91,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
             var moves = TMHM_GSC;

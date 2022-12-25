@@ -48,7 +48,7 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo3 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -56,7 +56,7 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             if (GetIsTM(pi, move))
                 return new(TMHM, Game);
@@ -64,7 +64,7 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
                 return new(TMHM, Game);
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
             return new(Tutor, Game);
 
         return default;
@@ -106,7 +106,7 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
@@ -118,7 +118,7 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
             var moves = TM_3;
@@ -139,7 +139,7 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
         {
             if (evo.Species == (int)Species.Mew)
             {

@@ -65,7 +65,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo9SV pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -73,16 +73,16 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.SharedEggMove) && GetIsEggMove(evo.Species, evo.Form, move))
+        if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsEggMove(evo.Species, evo.Form, move))
             return new(Shared, Game);
 
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, pk, move, option))
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, pk, move, option))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsReminderMove(evo.Species, evo.Form, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsReminderMove(evo.Species, evo.Form, move))
             return new(Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move))
             return new(Tutor, Game);
 
         return default;
@@ -123,7 +123,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
@@ -135,7 +135,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.SharedEggMove))
+        if (types.HasFlag(MoveSourceType.SharedEggMove))
         {
             var baseSpecies = pi.HatchSpecies;
             var baseForm = pi.HatchFormIndexEverstone;
@@ -144,7 +144,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
                 result[move] = true;
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
             var moves = TM_SV;
@@ -155,14 +155,14 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
         {
             var reminder = GetReminderMoves(evo.Species, evo.Form);
             foreach (var move in reminder)
                 result[move] = true;
         }
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
             var species = evo.Species;
             if (species is (int)Species.Rotom && pk.Form is not 0)

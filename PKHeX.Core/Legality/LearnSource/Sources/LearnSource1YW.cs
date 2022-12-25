@@ -29,13 +29,13 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo1 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
             return new(Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -71,7 +71,7 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var min = ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
@@ -84,7 +84,7 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
             var moves = TMHM_RBY;
@@ -95,7 +95,7 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
         {
             if (GetIsTutor(evo.Species, (int)Move.Surf))
                 result[(int)Move.Surf] = true;

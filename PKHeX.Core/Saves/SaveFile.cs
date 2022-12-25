@@ -511,8 +511,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     protected virtual IList<int>[] SlotPointers => new[] { TeamSlots };
     public virtual StorageSlotSource GetSlotFlags(int index) => StorageSlotSource.None;
     public StorageSlotSource GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
-    public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlagFast(StorageSlotSource.Locked);
-    public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlagFast(StorageSlotSource.Locked);
+    public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlag(StorageSlotSource.Locked);
+    public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlag(StorageSlotSource.Locked);
     public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
     public bool IsSlotOverwriteProtected(int index) => GetSlotFlags(index).IsOverwriteProtected();
 
@@ -556,7 +556,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         {
             foreach (int slotIndex in arrays)
             {
-                if (!GetSlotFlags(slotIndex).HasFlagFast(StorageSlotSource.Locked))
+                if (!GetSlotFlags(slotIndex).HasFlag(StorageSlotSource.Locked))
                     continue;
                 if (ArrayUtil.WithinRange(slotIndex, BoxStart * BoxSlotCount, (BoxEnd + 1) * BoxSlotCount))
                     return true;

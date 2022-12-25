@@ -29,7 +29,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8LA pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -37,10 +37,10 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsMoveShop(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsMoveShop(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
             return new(Tutor, Game);
 
         return default;
@@ -69,7 +69,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
@@ -81,7 +81,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             var flags = pi.SpecialTutors[0];
             var moves = Legal.MoveShop8_LA;
@@ -92,7 +92,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
             var species = evo.Species;
             if (species is (int)Species.Rotom && evo.Form is not 0)
