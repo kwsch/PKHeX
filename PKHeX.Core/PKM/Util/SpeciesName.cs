@@ -257,7 +257,8 @@ public static class SpeciesName
     {
         foreach (var lang in langs)
         {
-            if (GetSpeciesNameGeneration(species, lang, generation) == nickname)
+            var expect = GetSpeciesNameGeneration(species, lang, generation);
+            if (nickname.SequenceEqual(expect))
                 return lang;
         }
         return -1;

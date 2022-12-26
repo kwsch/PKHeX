@@ -264,7 +264,8 @@ public sealed class NicknameVerifier : Verifier
         {
             if (canHaveAnyLanguage)
                 return !SpeciesName.IsNicknamedAnyLanguage(species, nickname, 4);
-            return SpeciesName.GetSpeciesNameGeneration(species, language, 4) == nickname;
+            expect = SpeciesName.GetSpeciesNameGeneration(species, language, 4);
+            return nickname.SequenceEqual(expect);
         }
 
         return false;

@@ -828,7 +828,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
         var current = ShinyXor;
         current ^= bits;
-        SID16 = current;
+        SID16 ^= current;
     }
 
     /// <summary>
