@@ -273,7 +273,7 @@ public static class Vivillon3DS
     /// </summary>
     /// <remarks>Not to be confused with <see cref="Region3DSIndex"/>.</remarks>
     [Flags]
-    private enum Region3DSFlags : ushort
+    private enum Region3DSFlags : byte
     {
         None,
         Japan = 1,

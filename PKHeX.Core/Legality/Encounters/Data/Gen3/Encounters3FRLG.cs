@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
@@ -77,11 +78,11 @@ internal static class Encounters3FRLG
 
     private static readonly EncounterStatic3[] Encounter_FRLG = ArrayUtil.ConcatAll(Encounter_FRLG_Roam, Encounter_FRLG_Stationary);
 
-    private static readonly byte[] TradeContest_Cool = { 30, 05, 05, 05, 05, 10 };
-    private static readonly byte[] TradeContest_Beauty = { 05, 30, 05, 05, 05, 10 };
-    private static readonly byte[] TradeContest_Cute = { 05, 05, 30, 05, 05, 10 };
-    private static readonly byte[] TradeContest_Clever = { 05, 05, 05, 30, 05, 10 };
-    private static readonly byte[] TradeContest_Tough = { 05, 05, 05, 05, 30, 10 };
+    private static ReadOnlySpan<byte> TradeContest_Cool   => new byte[] { 30, 05, 05, 05, 05, 10 };
+    private static ReadOnlySpan<byte> TradeContest_Beauty => new byte[] { 05, 30, 05, 05, 05, 10 };
+    private static ReadOnlySpan<byte> TradeContest_Cute   => new byte[] { 05, 05, 30, 05, 05, 10 };
+    private static ReadOnlySpan<byte> TradeContest_Clever => new byte[] { 05, 05, 05, 30, 05, 10 };
+    private static ReadOnlySpan<byte> TradeContest_Tough  => new byte[] { 05, 05, 05, 05, 30, 10 };
 
     internal static readonly EncounterTrade3[] TradeGift_FRLG =
     {

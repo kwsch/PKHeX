@@ -70,8 +70,9 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public byte[] GetData(int offset, int length) => GetData(Data, offset, length);
     protected static byte[] GetData(byte[] data, int offset, int length) => data.Slice(offset, length);
     public void SetData(byte[] input, int offset) => SetData(Data, input, offset);
+    public void SetData(ReadOnlySpan<byte> input, int offset) => SetData(Data, input, offset);
 
-    public void SetData(Span<byte> dest, Span<byte> input, int offset)
+    public void SetData(Span<byte> dest, ReadOnlySpan<byte> input, int offset)
     {
         input.CopyTo(dest[offset..]);
         State.Edited = true;

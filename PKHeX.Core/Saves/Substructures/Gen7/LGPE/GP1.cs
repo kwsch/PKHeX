@@ -43,7 +43,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     /// <summary>
     /// First 0x20 bytes of an empty <see cref="GP1"/>, all other bytes are 0.
     /// </summary>
-    private static readonly byte[] Blank20 =
+    private static ReadOnlySpan<byte> Blank20 => new byte[]
     {
         0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x80, 0x3F, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F,
@@ -56,7 +56,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     public static byte[] GetBlank()
     {
         byte[] data = new byte[SIZE];
-        Blank20.CopyTo(data, 0x20);
+        Blank20.CopyTo(data);
         return data;
     }
 

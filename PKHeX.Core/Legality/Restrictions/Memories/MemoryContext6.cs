@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ public sealed partial class MemoryContext6 : MemoryContext
     public static readonly MemoryContext6 Instance = new();
     private MemoryContext6() { }
 
-    private static ICollection<byte> GetPokeCenterLocations(GameVersion game)
+    private static ReadOnlySpan<byte> GetPokeCenterLocations(GameVersion game)
     {
         return GameVersion.XY.Contains(game) ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;
     }

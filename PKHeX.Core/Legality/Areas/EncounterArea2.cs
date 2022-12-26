@@ -9,9 +9,9 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterArea2 : EncounterArea
 {
-    private static readonly byte[] BCC_SlotRates = { 20, 20, 10, 10, 05, 05, 10, 10, 05, 05 };
-    private static readonly byte[] RatesGrass = { 30, 30, 20, 10, 5, 4, 1 };
-    private static readonly byte[] RatesSurf = { 60, 30, 10 };
+    private static ReadOnlySpan<byte> BCC_SlotRates => new byte[] { 20, 20, 10, 10, 05, 05, 10, 10, 05, 05 };
+    private static ReadOnlySpan<byte> RatesGrass => new byte[] { 30, 30, 20, 10, 5, 4, 1 };
+    private static ReadOnlySpan<byte> RatesSurf => new byte[] { 60, 30, 10 };
 
     internal readonly EncounterTime Time;
     public readonly byte Rate;
@@ -47,12 +47,7 @@ public sealed record EncounterArea2 : EncounterArea
         {
             const int size = 4;
             int count = next.Length / size;
-            Rates = type switch
-            {
-                SlotType.BugContest => BCC_SlotRates,
-                SlotType.Grass => RatesGrass,
-                _ => RatesSurf,
-            };
+            Rates = Array.Empty<byte>(); // fetch as needed.
             Slots = ReadSlots(next, count);
         }
     }

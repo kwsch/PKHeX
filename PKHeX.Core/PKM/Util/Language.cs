@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Language
 {
-    private static readonly byte[] Languages =
+    private static ReadOnlySpan<byte> Languages => new[]
     {
         (byte)Japanese,
         (byte)English,
@@ -25,8 +25,8 @@ public static class Language
     };
 
     // check Korean for the VC case, never possible to match string outside of this case
-    private static ReadOnlySpan<byte> Languages_GB => Languages.AsSpan(0, 7); // [..KOR]
-    private static ReadOnlySpan<byte> Languages_3  => Languages.AsSpan(0, 6); // [..KOR)
+    private static ReadOnlySpan<byte> Languages_GB => Languages[..7]; // [..KOR]
+    private static ReadOnlySpan<byte> Languages_3  => Languages[..6]; // [..KOR)
     private const LanguageID SafeLanguage = English;
 
     public static ReadOnlySpan<byte> GetAvailableGameLanguages(int generation = PKX.Generation) => generation switch

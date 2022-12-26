@@ -306,14 +306,14 @@ public sealed class PK3 : G3PKM, ISanityChecksum
 
         // Yay for reusing string buffers! The game allocates a buffer and reuses it when creating strings.
         // Trash from the {unknown source} is currently in buffer. Set it to the Nickname region.
-        var trash = StringConverter345.G4TransferTrashBytes;
-        if (pk4.Language < trash.Length)
-            trash[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
+        var trash = StringConverter345.GetTrashBytes(pk4.Language);
+        var nickTrash = pk4.Nickname_Trash[4..]; // min of 1 char and terminator, ignore first 2.
+        trash.CopyTo(nickTrash);
         pk4.Nickname = IsEgg ? SpeciesName.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : Nickname;
         pk4.IsNicknamed = !IsEgg && IsNicknamed;
 
         // Trash from the current string (Nickname) is in our string buffer. Slap the OT name over-top.
-        Buffer.BlockCopy(pk4.Data, 0x48, pk4.Data, 0x68, 0x10);
+        nickTrash.CopyTo(pk4.OT_Trash);
         pk4.OT_Name = OT_Name;
 
         if (HeldItem > 0)

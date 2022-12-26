@@ -117,7 +117,7 @@ public sealed record EncounterArea4 : EncounterArea
                && LocationID_HoneyTree[trees.Tree4] != location;
     }
 
-    private static readonly byte[] LocationID_HoneyTree =
+    private static ReadOnlySpan<byte> LocationID_HoneyTree => new byte[]
     {
         20, // 00 Route 205 Floaroma
         20, // 01 Route 205 Eterna

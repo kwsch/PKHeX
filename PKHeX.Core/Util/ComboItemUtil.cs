@@ -72,7 +72,7 @@ public static partial class Util
         list.Add(item);
     }
 
-    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, byte[] allowed)
+    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, ReadOnlySpan<byte> allowed)
     {
         int beginCount = cbList.Count;
         cbList.Capacity += allowed.Length;

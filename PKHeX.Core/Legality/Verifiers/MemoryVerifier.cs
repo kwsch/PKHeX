@@ -40,7 +40,7 @@ public sealed class MemoryVerifier : Verifier
         var memory = MemoryVariableSet.Read((ITrainerMemories)pk, handler);
 
         // Actionable HM moves
-        int hmIndex = Array.IndexOf(MemoryContext6.MoveSpecificMemoryHM, memory.MemoryID);
+        int hmIndex = MemoryContext6.MoveSpecificMemoryHM.IndexOf(memory.MemoryID);
         if (hmIndex != -1)
         {
             if (context != Gen6) // Gen8 has no HMs, so this memory can never exist.

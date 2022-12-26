@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 
 namespace PKHeX.Core;
 
@@ -26,7 +26,7 @@ public sealed record EncounterTrade3 : EncounterTrade, IContestStatsReadOnly
     public byte CNT_Tough  { get; private init; }
     public byte CNT_Sheen  { get; private init; }
 
-    public IReadOnlyList<byte> Contest
+    public ReadOnlySpan<byte> Contest
     {
         init
         {
