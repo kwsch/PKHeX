@@ -71,10 +71,10 @@ public sealed class FormVerifier : Verifier
             case Dialga or Palkia or Giratina or Arceus when form > 0 && pk is PA8: // can change forms with key items
                 break;
 
-            case Dialga   when pk.Format >= 9 && form == 1 ^ pk.HeldItem == 1777: // Origin Forme Dialga with Adamant Crystal
-            case Palkia   when pk.Format >= 9 && form == 1 ^ pk.HeldItem == 1778: // Origin Forme Palkia with Lustrous Globe
-            case Giratina when pk.Format >= 9 && form == 1 ^ pk.HeldItem == 1779: // Origin Forme Giratina with Griseous Core
-            case Giratina when pk.Format <= 8 && form == 1 ^ pk.HeldItem == 0112: // Origin Forme Giratina with Griseous Orb
+            case Dialga   when pk.Format >= 9 && ((form == 1) != (pk.HeldItem == 1777)): // Origin Forme Dialga with Adamant Crystal
+            case Palkia   when pk.Format >= 9 && ((form == 1) != (pk.HeldItem == 1778)): // Origin Forme Palkia with Lustrous Globe
+            case Giratina when pk.Format >= 9 && ((form == 1) != (pk.HeldItem == 1779)): // Origin Forme Giratina with Griseous Core
+            case Giratina when pk.Format <= 8 && ((form == 1) != (pk.HeldItem == 0112)): // Origin Forme Giratina with Griseous Orb
                 return GetInvalid(LFormItemInvalid);
 
             case Arceus:

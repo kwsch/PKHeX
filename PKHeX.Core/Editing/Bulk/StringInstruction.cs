@@ -71,8 +71,8 @@ public sealed class StringInstruction
 
         var min = str[..index];
         var max = str[(index + 1)..];
-        int.TryParse(min, out RandomMinimum);
-        int.TryParse(max, out RandomMaximum);
+        _ = int.TryParse(min, out RandomMinimum);
+        _ = int.TryParse(max, out RandomMaximum);
 
         if (RandomMinimum == RandomMaximum)
         {

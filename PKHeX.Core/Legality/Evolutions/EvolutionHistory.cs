@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Stores the possible evolution bounds for a parsed entity with respect to its origins and game traversal.
 /// </summary>
-public class EvolutionHistory
+public sealed class EvolutionHistory
 {
     private static readonly EvoCriteria[] NONE = Array.Empty<EvoCriteria>();
     public static readonly EvolutionHistory Empty = new();

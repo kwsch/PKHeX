@@ -9,4 +9,3 @@ public sealed record NamedEventConst(string Name, ushort Value)
     public bool IsCustom => Value == CustomMagicValue;
     public const ushort CustomMagicValue = ushort.MaxValue;
 }
-

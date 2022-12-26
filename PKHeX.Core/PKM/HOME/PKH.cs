@@ -6,7 +6,7 @@ using static PKHeX.Core.Locations;
 namespace PKHeX.Core;
 
 /// <summary> Pokémon HOME <see cref="PKM"/> format. </summary>
-public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed, IContestStats, IScaledSize
+public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed, IContestStats, IScaledSize
 {
     public readonly GameDataCore _coreData;
     public GameDataPB7? DataPB7 { get; private set; }
@@ -161,7 +161,7 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
 
     public override int CurrentFriendship { get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship; set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; } }
 
-    public override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
+    public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;
     public override uint TSV => (uint)(TID16 ^ SID16) >> 4;
 
     public override int Characteristic

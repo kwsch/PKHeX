@@ -363,7 +363,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return Resources.warn;
 
         var dummied = MoveInfo.GetDummiedMovesHashSet(pk.Context);
-        if (dummied != null && dummied.Contains(pk.GetMove(index)))
+        if (dummied?.Contains(pk.GetMove(index)) == true)
             return Resources.hint;
 
         return null;

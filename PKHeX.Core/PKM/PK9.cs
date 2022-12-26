@@ -80,7 +80,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
 
-    public override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
+    public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;
     public override uint TSV => (uint)(TID16 ^ SID16) >> 4;
     public override bool IsUntraded => Data[0xA8] == 0 && Data[0xA8 + 1] == 0 && (IsUnhatchedEgg || Format == Generation); // immediately terminated HT_Name data (\0)
     public bool IsUnhatchedEgg => Version == 0 && IsEgg;

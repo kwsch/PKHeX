@@ -478,7 +478,7 @@ public sealed class GameStrings : IBasicStrings
             set.Met4[i] += " (-)";
     }
 
-    private void SanitizeMetGen7b(LocationSet6 set)
+    private static void SanitizeMetGen7b(LocationSet6 set)
     {
         for (int i = 48; i < 55; i++) // distinguish Event year duplicates
             set.Met4[i] += " (-)";

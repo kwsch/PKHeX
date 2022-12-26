@@ -46,7 +46,7 @@ public sealed class PKHeXSettings
         Converters = { new ColorJsonConverter() },
     };
 
-    public class ColorJsonConverter : JsonConverter<Color>
+    public sealed class ColorJsonConverter : JsonConverter<Color>
     {
         public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => ColorTranslator.FromHtml(reader.GetString() ?? string.Empty);
 
@@ -251,7 +251,7 @@ public sealed class AdvancedSettings
 }
 
 [Serializable]
-public class EntityDatabaseSettings
+public sealed class EntityDatabaseSettings
 {
     [LocalizedDescription("When loading content for the PKM Database, search within backup save files.")]
     public bool SearchBackups { get; set; } = true;

@@ -271,7 +271,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #endregion
 
     // Generated Attributes
-    public override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
+    public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 3;
     public override uint TSV => (uint)(TID16 ^ SID16) >> 3;
 
     public override int Characteristic

@@ -89,8 +89,9 @@ public static class EncounterServerDate
         {9017, (new(2022, 05, 18), Never)}, // Hidden Ability Piplup
     };
 
+    // ReSharper disable once CollectionNeverUpdated.Global
     /// <summary>
     /// Minimum date the gift can be received.
     /// </summary>
-    public static Dictionary<int, (DateOnly Start, DateOnly? End)> WC9Gifts = new(0);
+    public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC9Gifts = new(0);
 }

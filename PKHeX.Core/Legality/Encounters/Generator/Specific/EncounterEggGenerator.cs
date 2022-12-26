@@ -54,7 +54,7 @@ public static class EncounterEggGenerator
         }
 
         var split = Breeding.GetSplitBreedGeneration(generation);
-        if (split is null || !split.Contains(currentSpecies))
+        if (split?.Contains(currentSpecies) != true)
             yield break; // no other possible species
 
         var otherSplit = species;
