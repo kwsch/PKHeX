@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
 namespace PKHeX.Core;
@@ -43,23 +45,28 @@ public static class SwishCrypto
         0xD2, 0xD1, 0x50, 0x3D, 0xDE, 0x5B, 0x2E, 0x0E, 0x52, 0xFD, 0xDF, 0x2F, 0x7B, 0xCA, 0x63, 0x50,
         0xA4, 0x67, 0x5D, 0x23, 0x17, 0xC0, 0x52, 0xE1, 0xA6, 0x30, 0x7C, 0x2B, 0xB6, 0x70, 0x36, 0x5B,
         0x2A, 0x27, 0x69, 0x33, 0xF5, 0x63, 0x7B, 0x36, 0x3F, 0x26, 0x9B, 0xA3, 0xED, 0x7A, 0x53, 0x00,
-        0xA4, 0x48, 0xB3, 0x50, 0x9E, 0x14, 0xA0, 0x52, 0xDE, 0x7E, 0x10, 0x2B, 0x1B, 0x77, 0x6E,
+        0xA4, 0x48, 0xB3, 0x50, 0x9E, 0x14, 0xA0, 0x52, 0xDE, 0x7E, 0x10, 0x2B, 0x1B, 0x77, 0x6E, 0, // aligned to 0x80
     };
 
     public static void CryptStaticXorpadBytes(Span<byte> data)
     {
-        var xp = StaticXorpad;
-        var region = data[..^SIZE_HASH];
-
         // Apply the xorpad over each chunk of xorpad-sized spans.
-        // This is 4x as fast as a single loop with a modulus operation (benchmarked; modulo is slower).
-        for (int i = 0; i < region.Length; i += xp.Length)
+        // This is 30x as fast as a single loop with a modulus operation (benchmarked; modulo is slower).
+        // Marshal as a vectorized operation to speed up the process.
+        var xp = StaticXorpad;
+        var xp64 = MemoryMarshal.Cast<byte, Vector<ulong>>(xp);
+        var size = xp.Length - 1;
+        int iterations = data.Length / size;
+        do
         {
-            var len = Math.Min(xp.Length, region.Length - i);
-            var slice = region.Slice(i, len);
-            for (int j = 0; j < slice.Length; j++)
-                slice[j] ^= xp[j];
-        }
+            var slice = MemoryMarshal.Cast<byte, Vector<ulong>>(data[..xp.Length]);
+            for (int i = slice.Length - 1; i >= 0; i--)
+                slice[i] ^= xp64[i];
+            data = data[size..];
+        } while (--iterations != 0);
+        // Xor the remainder.
+        for (int i = data.Length - 1; i >= 0; i--)
+            data[i] ^= xp[i];
     }
 
     private static void ComputeHash(ReadOnlySpan<byte> data, Span<byte> hash)
@@ -94,8 +101,10 @@ public static class SwishCrypto
     /// </remarks>
     public static IReadOnlyList<SCBlock> Decrypt(Span<byte> data)
     {
-        CryptStaticXorpadBytes(data);
-        return ReadBlocks(data);
+        // ignore hash
+        var payload = data[..^SIZE_HASH];
+        CryptStaticXorpadBytes(payload);
+        return ReadBlocks(payload);
     }
 
     private const int BlockDataRatioEstimate1 = 777; // bytes per block, on average (generous)
@@ -122,11 +131,10 @@ public static class SwishCrypto
     public static byte[] Encrypt(IReadOnlyList<SCBlock> blocks)
     {
         var result = GetDecryptedRawData(blocks);
-        CryptStaticXorpadBytes(result);
-
-        var hash = result.AsSpan()[^SIZE_HASH..];
-        ComputeHash(result, hash);
-
+        var span = result.AsSpan();
+        var payload = span[..^SIZE_HASH];
+        CryptStaticXorpadBytes(payload);
+        ComputeHash(payload, span[^SIZE_HASH..]);
         return result;
     }
 
@@ -142,8 +150,9 @@ public static class SwishCrypto
             block.WriteBlock(bw);
 
         var result = new byte[ms.Position + SIZE_HASH];
+        var payload = result.AsSpan()[..^SIZE_HASH];
         ms.Position = 0;
-        ms.ReadExactly(result);
+        ms.ReadExactly(payload);
         return result;
     }
 }
