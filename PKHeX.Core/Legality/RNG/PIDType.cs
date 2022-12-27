@@ -187,5 +187,11 @@ public enum PIDType
     /// <remarks>Formulaic based on EC value = 32bit-seed.</remarks>
     Roaming8b,
 
+    /// <summary>
+    /// Generation 9 Tera Raid PID
+    /// </summary>
+    /// <remarks>Formulaic based on PID &amp; EC values from a 32bit-seed.</remarks>
+    Tera9,
+
     #endregion
 }

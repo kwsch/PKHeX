@@ -159,6 +159,12 @@ public sealed class MiscVerifier : Verifier
         if (pk9.IsEgg && pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
             data.AddLine(GetInvalid(LTeraTypeIncorrect));
 
+        if (enc is ITeraRaid9)
+        {
+            var seed = Tera9RNG.GetOriginalSeed(pk9);
+            data.Info.PIDIV = new PIDIV(PIDType.Tera9, seed);
+        }
+
         VerifyTechRecordSV(data, pk9);
     }
 
