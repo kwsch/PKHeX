@@ -36,5 +36,5 @@ public abstract class DataMysteryGift : MysteryGift
         return result;
     }
 
-    public override bool Empty => Data.AsSpan().IndexOfAnyExcept((byte)0) == -1;
+    public override bool Empty => Data.AsSpan().IndexOfAnyExcept<byte>(0) == -1;
 }

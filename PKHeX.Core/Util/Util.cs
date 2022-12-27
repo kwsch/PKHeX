@@ -134,7 +134,7 @@ public static partial class Util
 
     public static string GetHexStringFromBytes(ReadOnlySpan<byte> data)
     {
-        System.Diagnostics.Debug.Assert(data.Length <= 0x10 && System.Numerics.BitOperations.IsPow2((uint)data.Length));
+        System.Diagnostics.Debug.Assert(data.Length is (8 or 12 or 16));
         Span<char> result = stackalloc char[data.Length * 2];
         for (int i = 0; i < data.Length; i++)
         {

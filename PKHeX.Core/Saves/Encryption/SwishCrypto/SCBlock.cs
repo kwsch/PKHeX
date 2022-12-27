@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -187,9 +187,7 @@ public sealed class SCBlock
                 offset += num_bytes;
                 for (int i = 0; i < arr.Length; i++)
                     arr[i] ^= (byte)xk.Next();
-#if DEBUG
-                Debug.Assert(sub > SCTypeCode.Array || (sub == SCTypeCode.Bool3 && Array.TrueForAll(arr, z => z <= 2)) || Array.TrueForAll(arr, z => z <= 1));
-#endif
+                EnsureArrayIsSane(sub, arr);
                 return new SCBlock(key, arr, sub);
             }
 
@@ -203,6 +201,15 @@ public sealed class SCBlock
                 return new SCBlock(key, type, arr);
             }
         }
+    }
+
+    [Conditional("DEBUG")]
+    private static void EnsureArrayIsSane(SCTypeCode sub, ReadOnlySpan<byte> arr)
+    {
+        if (sub == SCTypeCode.Bool3)
+            Debug.Assert(arr.IndexOfAnyExcept<byte>(0, 1, 2) == -1);
+        else
+            Debug.Assert(sub > SCTypeCode.Array);
     }
 
     /// <summary>

@@ -19,11 +19,17 @@ public partial class TrashEditor : Form
         SAV = sav;
 
         FinalString = TB_NN.Text;
-        Raw = FinalBytes = raw.ToArray();
 
         editing = true;
         if (raw.Length != 0)
+        {
+            Raw = FinalBytes = raw.ToArray();
             AddTrashEditing(raw.Length);
+        }
+        else
+        {
+            Raw = FinalBytes = Array.Empty<byte>();
+        }
 
         var f = FontUtil.GetPKXFont();
         AddCharEditing(f);
@@ -187,7 +193,7 @@ public partial class TrashEditor : Form
     // Helpers
     private static Label GetLabel(string str) => new() {Text = str, AutoSize = true};
 
-    private static NumericUpDown GetNUD(int min, int max, bool hex) => new()
+    private static NumericUpDown GetNUD(byte min, byte max, bool hex) => new()
     {
         Maximum = max,
         Minimum = min,

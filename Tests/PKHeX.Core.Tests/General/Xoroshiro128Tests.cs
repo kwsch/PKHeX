@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+using System;
+using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
 
@@ -36,11 +37,12 @@ public static class Xoroshiro128Tests
 
     private static int GetFramesForward(ulong s0, ulong s1, ulong n0, ulong n1, int loop)
     {
+        var state = new UInt128(n1, n0);
         var rand = new Xoroshiro128Plus(s0, s1);
         for (int i = 0; i < loop; i++)
         {
             _ = rand.Next();
-            if (rand.GetState() == (n0, n1))
+            if (rand.FullState() == state)
                 return i;
         }
         return -1;
