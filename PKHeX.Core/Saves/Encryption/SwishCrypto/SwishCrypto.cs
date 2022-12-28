@@ -114,7 +114,7 @@ public static class SwishCrypto
     {
         var result = new List<SCBlock>(data.Length / BlockDataRatioEstimate2);
         int offset = 0;
-        while (offset < data.Length - SIZE_HASH)
+        while (offset < data.Length)
         {
             var block = SCBlock.ReadFromOffset(data, ref offset);
             result.Add(block);
