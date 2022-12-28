@@ -6,24 +6,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 4 games.
 /// </summary>
-public sealed class PersonalInfo4 : PersonalInfo, IPersonalAbility12
+public sealed class PersonalInfo4 : PersonalInfo, IPersonalAbility12, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x2C;
     private readonly byte[] Data;
 
-    public PersonalInfo4(byte[] data)
-    {
-        Data = data;
-        // Unpack TMHM & Tutors
-        TMHM = GetBits(Data.AsSpan(0x1C, 0x0D));
-        //TypeTutors = Array.Empty<bool>(); // not stored in personal -- default value
-    }
-
-    public override byte[] Write()
-    {
-        SetBits(TMHM, Data.AsSpan(0x1C));
-        return Data;
-    }
+    public PersonalInfo4(byte[] data) => Data = data;
+    public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -71,4 +60,87 @@ public sealed class PersonalInfo4 : PersonalInfo, IPersonalAbility12
     // Manually added attributes
     public override byte FormCount { get => Data[0x29]; set {} }
     public override int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x2A)); set {} }
+
+    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = FlagUtil.GitBitFlagArray(data);
+    public void CopyTypeTutors(PersonalInfo4 other) => TypeTutors = other.TypeTutors;
+
+    /// <summary>
+    /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
+    /// </summary>
+    public bool[] TypeTutors { get; private set; } = Array.Empty<bool>();
+
+    private const int TMHM = 0x1C;
+    private const int CountTM = 92;
+    private const int CountHM = 8;
+    private const int CountTMHM = CountTM + CountHM;
+    private const int ByteCountTM = (CountTMHM + 7) / 8;
+    private const int CountTutor = 0x34;
+
+    public bool GetIsLearnTM(int index)
+    {
+        if ((uint)index >= CountTM)
+            return false;
+        return (Data[TMHM + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTM(int index, bool value)
+    {
+        if ((uint)index >= CountTM)
+            return;
+        if (value)
+            Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var span = Data.AsSpan(TMHM, ByteCountTM);
+        for (int i = CountTM - 1; i >= 0; i--)
+        {
+            if ((span[i >> 3] & (i & 7)) != 0)
+                result[moves[i]] = true;
+        }
+    }
+
+    public bool GetIsLearnTutorType(int index)
+    {
+        if ((uint)index >= CountTutor)
+            return false;
+        return TypeTutors[index];
+    }
+
+    public void SetIsLearnTutorType(int index, bool value)
+    {
+        if ((uint)index >= CountTutor)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        TypeTutors[index] = value;
+    }
+
+    public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        for (int i = CountTutor - 1; i >= 0; i--)
+        {
+            if (TypeTutors[i])
+                result[moves[i]] = true;
+        }
+    }
+
+    public bool GetIsLearnHM(int index)
+    {
+        if ((uint)index >= CountHM)
+            return false;
+        index += CountTM;
+        return (Data[TMHM + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetAllLearnHM(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var span = Data.AsSpan(TMHM, ByteCountTM);
+        for (int i = CountTM + CountHM - 1; i >= CountTM; i--)
+        {
+            if ((span[i >> 3] & (i & 7)) != 0)
+                result[moves[i]] = true;
+        }
+    }
 }

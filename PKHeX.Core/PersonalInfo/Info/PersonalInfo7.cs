@@ -6,30 +6,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the Sun &amp; Moon games.
 /// </summary>
-public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H
+public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x54;
     private readonly byte[] Data;
 
-    public PersonalInfo7(byte[] data)
-    {
-        Data = data;
-        TMHM = GetBits(Data.AsSpan(0x28, 0x10)); // 36-39
-        TypeTutors = GetBits(Data.AsSpan(0x38, 0x4)); // 40
-
-        SpecialTutors = new[]
-        {
-            GetBits(Data.AsSpan(0x3C, 0x0A)),
-        };
-    }
-
-    public override byte[] Write()
-    {
-        SetBits(TMHM, Data.AsSpan(0x28));
-        SetBits(TypeTutors, Data.AsSpan(0x38));
-        SetBits(SpecialTutors[0], Data.AsSpan(0x3C));
-        return Data;
-    }
+    public PersonalInfo7(byte[] data) => Data = data;
+    public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -87,5 +70,107 @@ public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H
         1 => Ability2,
         2 => AbilityH,
         _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
+    };
+
+    private const int TMHM = 0x28;
+    private const int CountTM = 100;
+    private const int CountHM = 5;
+    private const int CountTMHM = CountTM + CountHM;
+    private const int ByteCountTM = (CountTMHM + 7) / 8;
+    private const int TypeTutor = 0x38;
+    private const int TypeTutorCount = 7;
+
+    public bool GetIsLearnTM(int index)
+    {
+        if ((uint)index >= CountTMHM)
+            return false;
+        return (Data[TMHM + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTM(int index, bool value)
+    {
+        if ((uint)index >= CountTMHM)
+            return;
+        if (value)
+            Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var span = Data.AsSpan(TMHM, ByteCountTM);
+        for (int i = CountTMHM - 1; i >= 0; i--)
+        {
+            if ((span[i >> 3] & (1 << (i & 7))) != 0)
+                result[moves[i]] = true;
+        }
+    }
+
+    public bool GetIsLearnTutorType(int index)
+    {
+        if ((uint)index >= 8)
+            return false;
+        return (Data[TypeTutor + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTutorType(int index, bool value)
+    {
+        if ((uint)index >= TypeTutorCount)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[TypeTutor + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TypeTutor + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var tutor = Data[TypeTutor];
+        for (int i = TypeTutorCount - 1; i >= 0; i--)
+        {
+            if ((tutor & (1 << (i & 7))) != 0)
+                result[moves[i]] = true;
+        }
+    }
+
+    private const int Tutor1 = 0x3C;
+    private const int TutorCount1 = 67;
+    private const int ByteCountTutor1 = (TutorCount1 + 7) / 8;
+
+    public bool GetIsLearnTutorSpecial(int index)
+    {
+        if ((uint)index >= TutorCount1)
+            return false;
+        return (Data[Tutor1 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public bool GetIsLearnTutorSpecial(ushort move)
+    {
+        var index = Array.IndexOf(Tutors_USUM, move);
+        if (index < 0)
+            return false;
+        return (Data[Tutor1 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetAllLearnTutorSpecial(Span<bool> result)
+    {
+        var moves = Tutors_USUM;
+        var span = Data.AsSpan(Tutor1, ByteCountTutor1);
+        for (int i = 0; i < moves.Length; i++)
+        {
+            if ((span[i >> 3] & (1 << (i & 7))) != 0)
+                result[moves[i]] = true;
+        }
+    }
+
+    private static readonly ushort[] Tutors_USUM =
+    {
+        450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
+        277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
+        020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
+        380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
+
+        477, 502, 432, 710, 707, 675, 673,
     };
 }

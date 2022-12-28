@@ -29,10 +29,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     }
 
     // Simple Generated Attributes
-    public ReadOnlySpan<bool> TechRecordPermitFlags => PersonalInfo.TMHM.AsSpan(PersonalInfo8SWSH.CountTM);
-    public ReadOnlySpan<ushort> TechRecordPermitIndexes => LearnSource8SWSH.TR_SWSH.AsSpan();
-    public int RecordCountTotal => 112;
-    public int RecordCountUsed => PersonalInfo8SWSH.CountTR;
+    public abstract IPermitRecord Permit { get; } // PersonalInfo derived metadata
 
     public override int CurrentFriendship
     {

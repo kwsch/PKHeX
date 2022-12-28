@@ -1,5 +1,3 @@
-using System;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -40,38 +38,6 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract int Color { get; set; }
     public virtual int Height { get; set; }
     public virtual int Weight { get; set; }
-
-    /// <summary>
-    /// TM/HM learn compatibility flags for individual moves.
-    /// </summary>
-    public bool[] TMHM = Array.Empty<bool>();
-
-    /// <summary>
-    /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
-    /// </summary>
-    public bool[] TypeTutors = Array.Empty<bool>();
-
-    /// <summary>
-    /// Special tutor learn compatibility flags for individual moves.
-    /// </summary>
-    public bool[][] SpecialTutors = Array.Empty<bool[]>();
-
-    protected static bool[] GetBits(ReadOnlySpan<byte> data)
-    {
-        bool[] result = new bool[data.Length << 3];
-        for (int i = result.Length - 1; i >= 0; i--)
-            result[i] = ((data[i >> 3] >> (i & 7)) & 0x1) == 1;
-        return result;
-    }
-
-    protected static void SetBits(ReadOnlySpan<bool> bits, Span<byte> data)
-    {
-        for (int i = bits.Length - 1; i >= 0; i--)
-            data[i>>3] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);
-    }
-
-    public void AddTMHM(ReadOnlySpan<byte> data) => TMHM = GetBits(data);
-    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = GetBits(data);
 
     public int FormIndex(ushort species, byte form)
     {
@@ -114,4 +80,23 @@ public abstract class PersonalInfo : IPersonalInfo
             return true;
         return form < FormCount;
     }
+}
+
+public interface IPersonalInfoTM
+{
+    bool GetIsLearnTM(int index);
+    void SetIsLearnTM(int index, bool value);
+
+}
+
+public interface IPersonalInfoTutorType
+{
+    bool GetIsLearnTutorType(int index);
+    void SetIsLearnTutorType(int index, bool value);
+}
+
+public interface IPersonalInfoTR
+{
+    bool GetIsLearnTR(int index);
+    void SetIsLearnTR(int index, bool value);
 }

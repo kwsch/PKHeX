@@ -51,7 +51,7 @@ public sealed class MemoryVerifier : Verifier
                 // All AO hidden machine permissions are super-sets of Gen 3-5 games.
                 // Don't need to check the move history -- a learned HM in a prior game can still be learned in Gen6.
                 var evos = info.EvoChainsAllGens.Gen6;
-                var exists = Array.Exists(evos, z => PersonalTable.AO.GetFormEntry(z.Species, 0).TMHM[100 + hmIndex]);
+                var exists = Array.Exists(evos, z => PersonalTable.AO.GetFormEntry(z.Species, 0).GetIsLearnHM(hmIndex));
                 if (!exists)
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
@@ -70,7 +70,7 @@ public sealed class MemoryVerifier : Verifier
                 return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
             // {0} saw {2} carrying {1} on its back. {4} that {3}.
-            case 21 when context != Gen6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).TMHM[101]: // Fly
+            case 21 when context != Gen6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).GetIsLearnHM(2): // Fly
                 return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
             // {0} used {2} at {1}’s instruction, but it had no effect. {4} that {3}.

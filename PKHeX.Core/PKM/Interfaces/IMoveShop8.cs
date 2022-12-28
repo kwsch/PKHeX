@@ -7,15 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public interface IMoveShop8
 {
-    /// <summary>
-    /// Individual accessed indexes indicate if they can be learned.
-    /// </summary>
-    ReadOnlySpan<bool> MoveShopPermitFlags { get; }
-
-    /// <summary>
-    /// Individual accessed move IDs that are provided by the Move Shop.
-    /// </summary>
-    ReadOnlySpan<ushort> MoveShopPermitIndexes { get; }
+    IPermitRecord Permit { get; }
 
     /// <summary>
     /// Indicates if the move shop offering at the requested index has been purchased.
@@ -71,11 +63,11 @@ public static class MoveShop8MasteryExtensions
 {
     public static bool IsValidPurchasedEncounter(this IMoveShop8 shop, Learnset learn, int level, ushort alpha, bool allowPurchasedAlpha)
     {
-        var permit = shop.MoveShopPermitIndexes;
-        var current = shop.MoveShopPermitFlags;
-        for (int i = 0; i < current.Length; i++)
+        var permit = shop.Permit.RecordPermitIndexes;
+        var current = shop.Permit;
+        for (int i = 0; i < current.RecordCountUsed; i++)
         {
-            if (!current[i])
+            if (!current.IsRecordPermitted(i))
                 continue;
 
             if (!shop.GetPurchasedRecordFlag(i))
@@ -102,7 +94,7 @@ public static class MoveShop8MasteryExtensions
         {
             if (move == 0)
                 continue;
-            var index = shop.MoveShopPermitIndexes.IndexOf(move);
+            var index = shop.Permit.RecordPermitIndexes.IndexOf(move);
             if (index == -1)
                 continue; // manually mastered for encounter, not a tutor
 

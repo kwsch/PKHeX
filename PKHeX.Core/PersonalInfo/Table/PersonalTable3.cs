@@ -63,11 +63,6 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
         var other = pt.Table;
         var table = Table;
         for (int i = Legal.MaxSpeciesID_3; i >= 1; i--)
-        {
-            var entry = table[i];
-            var source = other[i];
-            entry.TMHM = source.TMHM;
-            entry.TypeTutors = source.TypeTutors;
-        }
+            table[i].CopyFrom(other[i]);
     }
 }

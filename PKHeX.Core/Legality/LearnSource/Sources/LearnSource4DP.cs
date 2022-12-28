@@ -93,17 +93,13 @@ public sealed class LearnSource4DP : ILearnSource<PersonalInfo4>, IEggSource
     private static bool GetIsTM(PersonalInfo4 info, ushort move)
     {
         var index = Array.IndexOf(TM_4, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
     private static bool GetIsHM(PersonalInfo4 info, ushort move)
     {
         var index = Array.IndexOf(HM_DPPt, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[CountTM + index];
+        return info.GetIsLearnTM(CountTM + index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -125,40 +121,15 @@ public sealed class LearnSource4DP : ILearnSource<PersonalInfo4>, IEggSource
 
         if (types.HasFlag(MoveSourceType.Machine))
         {
-            var flags = pi.TMHM;
-            var moves = TM_4;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
+            pi.SetAllLearnTM(result, TM_4);
 
             if (pk.Format == Generation)
-            {
-                moves = HM_DPPt;
-                for (int i = 0; i < moves.Length; i++)
-                {
-                    if (flags[CountTM + i])
-                        result[moves[i]] = true;
-                }
-            }
-            else
-            {
-                // Permit Defog to leak through if transferred to Gen5+ (via HG/SS)
-                if (flags[CountTM + 4])
-                    result[(int)Move.Defog] = true;
-            }
+                pi.SetAllLearnHM(result, HM_DPPt);
+            else if (pi.GetIsLearnHM(4)) // Permit Defog to leak through if transferred to Gen5+ (via HG/SS)
+                result[(int)Move.Defog] = true;
         }
 
         if (types.HasFlag(MoveSourceType.SpecialTutor))
-        {
-            var flags = pi.TypeTutors;
-            var moves = Tutors_4;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTutorType(result, Tutors_4);
     }
 }

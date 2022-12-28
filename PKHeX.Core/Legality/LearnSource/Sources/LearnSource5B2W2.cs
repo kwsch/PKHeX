@@ -60,28 +60,13 @@ public sealed class LearnSource5B2W2 : ILearnSource<PersonalInfo5B2W2>, IEggSour
         if (types.HasFlag(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
             return new(Tutor, Game);
 
-        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && pi.GetIsTutorSpecial(move))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
             return new(Tutor, Game);
 
         return default;
-    }
-
-    private static bool GetIsSpecialTutor(PersonalInfo5B2W2 pi, ushort move)
-    {
-        var tutors = Tutors_B2W2;
-        for (int i = 0; i < tutors.Length; i++)
-        {
-            var tutor = Array.IndexOf(tutors[i], move);
-            if (tutor == -1)
-                continue;
-            if (pi.SpecialTutors[i][tutor])
-                return true;
-            break;
-        }
-        return false;
     }
 
     private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species switch
@@ -105,7 +90,7 @@ public sealed class LearnSource5B2W2 : ILearnSource<PersonalInfo5B2W2>, IEggSour
         var index = Array.IndexOf(TypeTutor567, move);
         if (index == -1)
             return false;
-        return pi.TypeTutors[index];
+        return pi.GetIsLearnTutorType(index);
     }
 
     private static bool GetIsTM(PersonalInfo5B2W2 info, ushort move)
@@ -113,7 +98,7 @@ public sealed class LearnSource5B2W2 : ILearnSource<PersonalInfo5B2W2>, IEggSour
         var index = Array.IndexOf(TMHM_BW, move);
         if (index == -1)
             return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -134,42 +119,11 @@ public sealed class LearnSource5B2W2 : ILearnSource<PersonalInfo5B2W2>, IEggSour
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_BW;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
-
+            pi.SetAllLearnTM(result, TMHM_BW);
         if (types.HasFlag(MoveSourceType.TypeTutor))
-        {
-            var flags = pi.TypeTutors;
-            var moves = TypeTutor567;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
-
+            pi.SetAllLearnTutorType(result, TypeTutor567);
         if (types.HasFlag(MoveSourceType.SpecialTutor))
-        {
-            // B2W2 Tutors
-            var tutors = Tutors_B2W2;
-            for (int i = 0; i < tutors.Length; i++)
-            {
-                var flags = pi.SpecialTutors[i];
-                var moves = tutors[i];
-                for (int m = 0; m < moves.Length; m++)
-                {
-                    if (flags[m])
-                        result[moves[m]] = true;
-                }
-            }
-        }
+            pi.SetAllLearnTutorSpecial(result);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
@@ -182,12 +136,4 @@ public sealed class LearnSource5B2W2 : ILearnSource<PersonalInfo5B2W2>, IEggSour
                 result[(int)Move.RelicSong] = true;
         }
     }
-
-    internal static readonly ushort[][] Tutors_B2W2 =
-    {
-        new ushort[] { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 },           // Driftveil City
-        new ushort[] { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 }, // Lentimas Town
-        new ushort[] { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355 },                     // Humilau City
-        new ushort[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 },           // Nacrene City
-    };
 }

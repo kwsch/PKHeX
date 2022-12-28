@@ -57,4 +57,24 @@ public sealed class PersonalInfo3 : PersonalInfo, IPersonalAbility12
     public int GetAbility(bool second) => second && HasSecondAbility ? Ability2 : Ability1;
 
     public bool HasSecondAbility => Ability1 != Ability2;
+
+    public void AddTMHM(ReadOnlySpan<byte> data) => TMHM = FlagUtil.GitBitFlagArray(data);
+
+    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = FlagUtil.GitBitFlagArray(data);
+
+    /// <summary>
+    /// TM/HM learn compatibility flags for individual moves.
+    /// </summary>
+    public bool[] TMHM { get; private set; } = Array.Empty<bool>();
+
+    /// <summary>
+    /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
+    /// </summary>
+    public bool[] TypeTutors { get; private set; } = Array.Empty<bool>();
+
+    public void CopyFrom(PersonalInfo3 other)
+    {
+        TMHM = other.TMHM;
+        TypeTutors = other.TypeTutors;
+    }
 }

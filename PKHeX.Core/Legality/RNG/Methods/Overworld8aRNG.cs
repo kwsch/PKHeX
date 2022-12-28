@@ -82,9 +82,7 @@ public static class Overworld8aRNG
 
         var index = GetRandomAlphaMoveIndex(seed, count);
         var alphaIndex = pi.GetMoveShopIndex(index);
-        var alphaMove = Legal.MoveShop8_LA[alphaIndex];
-
-        pa8.AlphaMove = alphaMove;
+        pa8.AlphaMove = PersonalInfo8LA.GetMoveShopMove(alphaIndex);
     }
 
     private static int GetRandomAlphaMoveIndex(ulong alphaSeed, int count)

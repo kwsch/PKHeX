@@ -56,10 +56,10 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
         if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(Array.IndexOf(LearnSource5.TypeTutor567, move)))
             return new(Tutor, Game);
 
-        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && pi.GetIsTutorSpecial(move))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
@@ -84,44 +84,10 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo6AO pi, ushort move)
-    {
-        var tutors = Tutors_AO;
-        for (int i = 0; i < tutors.Length; i++)
-        {
-            var tutor = Array.IndexOf(tutors[i], move);
-            if (tutor == -1)
-                continue;
-            if (pi.SpecialTutors[i][tutor])
-                return true;
-            break;
-        }
-
-        var index = Array.IndexOf(LearnSource5.TypeTutor567, move);
-        if (index == -1)
-            return false;
-        return pi.TypeTutors[index];
-    }
-
-    private static bool GetIsSpecialTutor(PersonalInfo6AO pi, ushort move)
-    {
-        var tutors = Tutors_AO;
-        for (int i = 0; i < tutors.Length; i++)
-        {
-            var index = Array.IndexOf(tutors[i], move);
-            if (index == -1)
-                continue;
-            return pi.SpecialTutors[i][index];
-        }
-        return false;
-    }
-
     private static bool GetIsTM(PersonalInfo6AO info, ushort move)
     {
         var index = Array.IndexOf(TMHM_AO, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -142,43 +108,11 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_AO;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
-
+            pi.SetAllLearnTM(result, TMHM_AO);
         if (types.HasFlag(MoveSourceType.TypeTutor))
-        {
-            // Beams
-            var flags = pi.TypeTutors;
-            var moves = LearnSource5.TypeTutor567;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
-
+            pi.SetAllLearnTutorType(result, LearnSource5.TypeTutor567);
         if (types.HasFlag(MoveSourceType.SpecialTutor))
-        {
-            // OR/AS Tutors
-            var tutors = Tutors_AO;
-            for (int i = 0; i < tutors.Length; i++)
-            {
-                var flags = pi.SpecialTutors[i];
-                var moves = tutors[i];
-                for (int m = 0; m < moves.Length; m++)
-                {
-                    if (flags[m])
-                        result[moves[m]] = true;
-                }
-            }
-        }
+            pi.SetAllLearnTutorSpecial(result);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
@@ -206,13 +140,5 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
         430, 433, 528, 290, 555, 267, 399, 612, 605, 590,
 
         15, 19, 57, 70, 127, 249, 291,
-    };
-
-    private static readonly ushort[][] Tutors_AO =
-    {
-        new ushort[] {450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008},
-        new ushort[] {277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231},
-        new ushort[] {020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352},
-        new ushort[] {380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285},
     };
 }

@@ -23,7 +23,7 @@ public partial class TechRecordEditor : Form
     private void PopulateRecords()
     {
         var names = GameInfo.Strings.Move;
-        var indexes = Record.TechRecordPermitIndexes;
+        var indexes = Record.Permit.RecordPermitIndexes;
         var lines = new string[indexes.Length];
         for (int i = 0; i < lines.Length; i++)
             lines[i] = $"{i:00} - {names[indexes[i]]}";
@@ -40,14 +40,14 @@ public partial class TechRecordEditor : Form
 
     private void LoadRecords()
     {
-        var range = Record.TechRecordPermitIndexes;
+        var range = Record.Permit.RecordPermitIndexes;
         for (int i = 0; i < range.Length; i++)
             CLB_Flags.SetItemChecked(i, Record.GetMoveRecordFlag(i));
     }
 
     private void Save()
     {
-        var range = Record.TechRecordPermitIndexes;
+        var range = Record.Permit.RecordPermitIndexes;
         for (int i = 0; i < range.Length; i++)
             Record.SetMoveRecordFlag(i, CLB_Flags.GetItemChecked(i));
     }
@@ -57,7 +57,7 @@ public partial class TechRecordEditor : Form
         Save();
         if (ModifierKeys == Keys.Shift)
         {
-            Record.SetRecordFlags(true, Record.RecordCountUsed);
+            Record.SetRecordFlags(true, Record.Permit.RecordCountUsed);
         }
         else if (ModifierKeys == Keys.Control)
         {

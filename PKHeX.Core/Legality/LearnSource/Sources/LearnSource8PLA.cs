@@ -37,7 +37,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsMoveShop(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnMoveShop(move))
             return new(TMHM, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
@@ -55,14 +55,6 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
         (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
         _ => false,
     };
-
-    private static bool GetIsMoveShop(PersonalInfo8LA pi, ushort move)
-    {
-        var index = Legal.MoveShop8_LA.AsSpan().IndexOf(move);
-        if (index == -1)
-            return false;
-        return pi.SpecialTutors[0][index];
-    }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
@@ -82,15 +74,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.SpecialTutors[0];
-            var moves = Legal.MoveShop8_LA;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnMoveShop(result);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {

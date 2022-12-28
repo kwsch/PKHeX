@@ -87,7 +87,7 @@ public sealed class LearnSource5BW : ILearnSource<PersonalInfo5BW>, IEggSource
         var index = Array.IndexOf(TypeTutor567, move);
         if (index == -1)
             return false;
-        return pi.TypeTutors[index];
+        return pi.GetIsLearnTutorType(index);
     }
 
     private static bool GetIsTM(PersonalInfo5BW info, ushort move)
@@ -95,7 +95,7 @@ public sealed class LearnSource5BW : ILearnSource<PersonalInfo5BW>, IEggSource
         var index = Array.IndexOf(TMHM_BW, move);
         if (index == -1)
             return false;
-        return info.TMHM[index] && index != 94; // TM95 not available in this game
+        return info.GetIsLearnTM(index) && index != 94; // TM95 not available in this game
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -117,31 +117,17 @@ public sealed class LearnSource5BW : ILearnSource<PersonalInfo5BW>, IEggSource
 
         if (types.HasFlag(MoveSourceType.Machine))
         {
-            var flags = pi.TMHM;
-            var moves = TMHM_BW;
-            for (int i = 95; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
             // TM95 is unavailable (Snarl - Lock Capsule)
-            for (int i = 0; i < 94; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
+            // Cache the current value to clear it if so.
+            var tm95 = result[(int)Move.Snarl];
+            pi.SetAllLearnTM(result, TMHM_BW);
+            if (!tm95)
+                result[(int)Move.Snarl] = tm95;
         }
 
         if (types.HasFlag(MoveSourceType.TypeTutor))
         {
-            // Beams
-            var flags = pi.TypeTutors;
-            var moves = TypeTutor567;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
+            pi.SetAllLearnTutorType(result, TypeTutor567);
         }
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))

@@ -29,6 +29,7 @@ public sealed class PK8 : G8PKM
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override PersonalInfo8SWSH PersonalInfo => PersonalTable.SWSH.GetFormEntry(Species, Form);
+    public override IPermitRecord Permit => PersonalInfo;
     public override bool IsNative => SWSH;
     public override EntityContext Context => EntityContext.Gen8;
 

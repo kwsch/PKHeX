@@ -30,6 +30,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override PersonalInfo8LA PersonalInfo => PersonalTable.LA.GetFormEntry(Species, Form);
+    public IPermitRecord Permit => PersonalInfo;
 
     public override EntityContext Context => EntityContext.Gen8a;
     public override bool IsNative => LA;
@@ -57,12 +58,6 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     }
 
     // Simple Generated Attributes
-    public ReadOnlySpan<bool> TechRecordPermitFlags => Span<bool>.Empty;
-    public ReadOnlySpan<ushort> TechRecordPermitIndexes => LearnSource8SWSH.TR_SWSH.AsSpan();
-    public ReadOnlySpan<bool> MoveShopPermitFlags => PersonalInfo.SpecialTutors[0];
-    public ReadOnlySpan<ushort> MoveShopPermitIndexes => Legal.MoveShop8_LA;
-    public int RecordCountTotal => 112;
-    public int RecordCountUsed => 0;
 
     public override int CurrentFriendship
     {
@@ -826,11 +821,12 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     public void SetMasteryFlagMove(ushort move)
     {
-        var moves = MoveShopPermitIndexes;
+        var permit = Permit;
+        var moves = permit.RecordPermitIndexes;
         int flagIndex = moves.IndexOf(move);
         if (flagIndex == -1)
             return;
-        if (MoveShopPermitFlags[flagIndex])
+        if (permit.IsRecordPermitted(flagIndex))
             SetMasteredRecordFlag(flagIndex, true);
     }
 

@@ -60,10 +60,10 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
         if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsSharedEggMove(pi, move))
             return new(Shared, Game);
 
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(Array.IndexOf(TMHM_BDSP, move)))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(Array.IndexOf(TypeTutor8b, move)))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
@@ -87,22 +87,6 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
         var baseSpecies = pi.HatchSpecies;
         var baseForm = pi.HatchFormIndex;
         return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
-    }
-
-    private static bool GetIsTypeTutor(PersonalInfo8BDSP pi, ushort move)
-    {
-        var index = Array.IndexOf(TypeTutor8b, move);
-        if (index == -1)
-            return false;
-        return pi.TypeTutors[index];
-    }
-
-    private static bool GetIsTM(PersonalInfo8BDSP info, ushort move)
-    {
-        var index = Array.IndexOf(TMHM_BDSP, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -132,26 +116,10 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_BDSP;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTM(result, TMHM_BDSP);
 
         if (types.HasFlag(MoveSourceType.TypeTutor))
-        {
-            var flags = pi.TypeTutors;
-            var moves = TypeTutor8b;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTutorType(result, TypeTutor8b);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {

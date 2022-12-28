@@ -63,7 +63,7 @@ public sealed class LearnSource1RB : ILearnSource<PersonalInfo1>
         var index = Array.IndexOf(TMHM_RBY, move);
         if (index == -1)
             return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -85,15 +85,7 @@ public sealed class LearnSource1RB : ILearnSource<PersonalInfo1>
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_RBY;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTM(result, TMHM_RBY);
 
         if (types.HasFlag(MoveSourceType.SpecialTutor))
         {

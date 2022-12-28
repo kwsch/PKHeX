@@ -53,10 +53,10 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(Array.IndexOf(TMHM_XY, move)))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(Array.IndexOf(LearnSource5.TypeTutor567, move)))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
@@ -81,22 +81,6 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo6XY pi, ushort move)
-    {
-        var index = Array.IndexOf(LearnSource5.TypeTutor567, move);
-        if (index == -1)
-            return false;
-        return pi.TypeTutors[index];
-    }
-
-    private static bool GetIsTM(PersonalInfo6XY info, ushort move)
-    {
-        var index = Array.IndexOf(TMHM_XY, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
-    }
-
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
@@ -115,27 +99,10 @@ public sealed class LearnSource6XY : ILearnSource<PersonalInfo6XY>, IEggSource
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_XY;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTM(result, TMHM_XY);
 
         if (types.HasFlag(MoveSourceType.TypeTutor))
-        {
-            // Beams
-            var flags = pi.TypeTutors;
-            var moves = LearnSource5.TypeTutor567;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTutorType(result, LearnSource5.TypeTutor567);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {

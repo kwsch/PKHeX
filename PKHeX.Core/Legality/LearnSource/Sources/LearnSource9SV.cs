@@ -90,10 +90,10 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
 
     private static bool GetIsTM(PersonalInfo9SV info, PKM pk, ushort move, LearnOption option)
     {
-        var index = TM_SV.AsSpan().IndexOf(move);
+        int index = info.RecordPermitIndexes.IndexOf(move);
         if (index == -1)
             return false;
-        if (!info.TMHM[index])
+        if (!info.GetIsLearnTM(index))
             return false;
         if (pk is not ITechRecord tr)
             return true;
@@ -145,15 +145,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TM_SV;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTM(result);
 
         if (types.HasFlag(MoveSourceType.SpecialTutor))
         {
@@ -169,26 +161,4 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
                 result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
         }
     }
-
-    public static readonly ushort[] TM_SV =
-    {
-        005, 036, 204, 313, 097, 189, 184, 182, 424, 422,
-        423, 352, 067, 491, 512, 522, 060, 109, 168, 574,
-        885, 884, 886, 451, 083, 263, 342, 332, 523, 506,
-        555, 232, 129, 345, 196, 341, 317, 577, 488, 490,
-        314, 500, 101, 374, 525, 474, 419, 203, 521, 241,
-        240, 201, 883, 684, 473, 091, 331, 206, 280, 428,
-        369, 421, 492, 706, 339, 403, 034, 007, 009, 008,
-        214, 402, 486, 409, 115, 113, 350, 127, 337, 605,
-        118, 447, 086, 398, 707, 156, 157, 269, 014, 776,
-        191, 390, 286, 430, 399, 141, 598, 019, 285, 442,
-        349, 408, 441, 164, 334, 404, 529, 261, 242, 271,
-        710, 202, 396, 366, 247, 406, 446, 304, 257, 412,
-        094, 484, 227, 057, 861, 053, 085, 583, 133, 347,
-        270, 676, 226, 414, 179, 058, 604, 580, 678, 581,
-        417, 126, 056, 059, 519, 518, 520, 528, 188, 089,
-        444, 566, 416, 307, 308, 338, 200, 315, 411, 437,
-        542, 433, 405, 063, 413, 394, 087, 370, 076, 434,
-        796, 851,
-    };
 }

@@ -17,7 +17,6 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
     private static readonly Learnset[] Learnsets = Legal.LevelUpC;
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
     private const LearnEnvironment Game = C;
-    private const int CountTMHM = 57;
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
 
@@ -72,7 +71,7 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
         if (tutor == -1)
             return false;
         var info = PersonalTable.C[species];
-        return info.TMHM[CountTMHM + tutor];
+        return info.GetIsLearnTutorType(tutor);
     }
 
     private static bool GetIsTM(PersonalInfo2 info, ushort move)
@@ -80,7 +79,7 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
         var index = Array.IndexOf(TMHM_GSC, move);
         if (index == -1)
             return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -107,29 +106,10 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_GSC;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                {
-                    var move = moves[i];
-                    if (!removeVC || move <= Legal.MaxMoveID_1)
-                        result[move] = true;
-                }
-            }
-        }
+            pi.SetAllLearnTM(result, TMHM_GSC);
 
         if (types.HasFlag(MoveSourceType.SpecialTutor))
-        {
-            var flags = pi.TMHM;
-            for (int i = CountTMHM; i < flags.Length; i++)
-            {
-                if (flags[i])
-                    result[Tutors_GSC[i - CountTMHM]] = true;
-            }
-        }
+            pi.SetAllLearnTutorType(result, Tutors_GSC);
     }
 
     public static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> init)

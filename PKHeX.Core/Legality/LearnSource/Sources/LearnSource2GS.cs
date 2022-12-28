@@ -65,7 +65,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
         var index = Array.IndexOf(TMHM_GSC, move);
         if (index == -1)
             return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -92,19 +92,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_GSC;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                {
-                    var move = moves[i];
-                    if (!removeVC || move <= Legal.MaxMoveID_1)
-                        result[move] = true;
-                }
-            }
-        }
+            pi.SetAllLearnTM(result, TMHM_GSC);
     }
 
     public static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> init)

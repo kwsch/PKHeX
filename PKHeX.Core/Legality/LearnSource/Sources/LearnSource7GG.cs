@@ -38,7 +38,7 @@ public sealed class LearnSource7GG : ILearnSource<PersonalInfo7GG>
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(Array.IndexOf(TMHM_GG, move)))
             return new(TMHM, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo.Species, evo.Form, move))
@@ -54,14 +54,6 @@ public sealed class LearnSource7GG : ILearnSource<PersonalInfo7GG>
         if (species == (int)Species.Eevee && form == 1) // Partner
             return Tutor_StarterEevee.AsSpan().Contains(move);
         return false;
-    }
-
-    private static bool GetIsTM(PersonalInfo7GG info, ushort move)
-    {
-        var index = Array.IndexOf(TMHM_GG, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -82,15 +74,7 @@ public sealed class LearnSource7GG : ILearnSource<PersonalInfo7GG>
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_GG;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTM(result, TMHM_GG);
 
         if (types.HasFlag(MoveSourceType.SpecialTutor))
         {

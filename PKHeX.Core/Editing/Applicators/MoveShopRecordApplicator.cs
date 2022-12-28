@@ -9,8 +9,8 @@ public static class MoveShopRecordApplicator
 {
     public static void ClearMoveShopFlags(this IMoveShop8 shop)
     {
-        var bits = shop.MoveShopPermitFlags;
-        for (int i = 0; i < bits.Length; i++)
+        var bits = shop.Permit;
+        for (int i = 0; i < bits.RecordCountUsed; i++)
             shop.SetPurchasedRecordFlag(i, false);
 
         if (shop is IMoveShop8Mastery m)
@@ -19,8 +19,8 @@ public static class MoveShopRecordApplicator
 
     public static void ClearMoveShopFlagsMastered(this IMoveShop8Mastery shop)
     {
-        var bits = shop.MoveShopPermitFlags;
-        for (int i = 0; i < bits.Length; i++)
+        var bits = shop.Permit;
+        for (int i = 0; i < bits.RecordCountUsed; i++)
             shop.SetMasteredRecordFlag(i, false);
     }
 
@@ -53,29 +53,29 @@ public static class MoveShopRecordApplicator
 
     public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level)
     {
-        var possible = shop.MoveShopPermitIndexes;
-        var permit = shop.MoveShopPermitFlags;
-        for (int index = 0; index < possible.Length; index++)
+        var permit = shop.Permit;
+        var possible = permit.RecordPermitIndexes;
+        for (int index = 0; index < permit.RecordCountUsed; index++)
         {
-            var move = possible[index];
-            var allowed = permit[index];
+            var allowed = permit.IsRecordPermitted(index);
             if (!allowed)
                 continue;
 
+            var move = possible[index];
             SetMasteredFlag(shop, learn, mastery, level, index, move);
         }
     }
 
     public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset learn, Learnset mastery, int level)
     {
-        var possible = shop.MoveShopPermitIndexes;
-        var permit = shop.MoveShopPermitFlags;
+        var permit = shop.Permit;
+        var possible = permit.RecordPermitIndexes;
         foreach (var move in moves)
         {
             var index = possible.IndexOf(move);
             if (index == -1)
                 continue;
-            if (!permit[index])
+            if (!permit.IsRecordPermitted(index))
                 continue;
             SetMasteredFlag(shop, learn, mastery, level, index, move);
         }
@@ -99,14 +99,14 @@ public static class MoveShopRecordApplicator
 
     public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset mastery, int level)
     {
-        var possible = shop.MoveShopPermitIndexes;
-        var permit = shop.MoveShopPermitFlags;
+        var permit = shop.Permit;
+        var possible = permit.RecordPermitIndexes;
         foreach (var move in moves)
         {
             var index = possible.IndexOf(move);
             if (index == -1)
                 continue;
-            if (!permit[index])
+            if (!permit.IsRecordPermitted(index))
                 continue;
 
             // If the Pokémon is caught with any move shop move in its learnset

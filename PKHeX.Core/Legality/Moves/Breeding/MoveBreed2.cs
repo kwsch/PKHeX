@@ -154,7 +154,6 @@ public static class MoveBreed2
         var possible = value.Possible;
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
-        var tm = info.TMHM;
 
         var moves = value.Moves;
         for (int i = 0; i < count; i++)
@@ -170,18 +169,12 @@ public static class MoveBreed2
             if (eggMoves.Contains(move))
                 possible[i] |= 1 << (int)FatherEgg;
 
-            var tmIndex = Array.IndexOf(TMHM_GSC, move, 0, 50);
-            if (tmIndex != -1 && tm[tmIndex])
-                possible[i] |= 1 << (int)FatherTM;
-
-            var hmIndex = Array.IndexOf(TMHM_GSC, move, 50);
-            if (hmIndex != -1 && tm[hmIndex + 50])
+            if (info.GetIsLearnTM(Array.IndexOf(TMHM_GSC, move)))
                 possible[i] |= 1 << (int)FatherTM;
 
             if (version is GameVersion.C)
             {
-                var tutorIndex = Array.IndexOf(Tutors_GSC, move);
-                if (tutorIndex != -1 && tm[57 + tutorIndex])
+                if (info.GetIsLearnTutorType(Array.IndexOf(Tutors_GSC, move)))
                     possible[i] |= 1 << (int)Tutor;
             }
         }

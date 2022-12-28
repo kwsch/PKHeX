@@ -74,7 +74,7 @@ public sealed class PersonalTable4 : IPersonalTable, IPersonalTable<PersonalInfo
             for (byte f = 1; f < fc; f++)
             {
                 var pi = table[form0.FormIndex(i, f)];
-                pi.TypeTutors = form0.TypeTutors;
+                pi.CopyTypeTutors(form0);
             }
         }
     }

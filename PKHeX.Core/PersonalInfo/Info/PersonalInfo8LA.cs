@@ -6,32 +6,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
-public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H
+public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H, IPermitRecord
 {
     public const int SIZE = 0xB0;
     private readonly byte[] Data;
 
-    public PersonalInfo8LA(byte[] data)
-    {
-        Data = data;
-        // TM/TR and Special Tutors are inaccessible; dummy data.
-
-        // 0xA8-0xAF are armor type tutors, one bit for each type
-        var moveShop = new bool[Legal.MoveShop8_LA.Length];
-        for (int i = 0; i < moveShop.Length; i++)
-            moveShop[i] = FlagUtil.GetFlag(Data, 0xA8 + (i >> 3), i);
-        SpecialTutors = new[]
-        {
-            moveShop,
-        };
-    }
-
-    public override byte[] Write()
-    {
-        for (int i = 0; i < SpecialTutors[0].Length; i++)
-            FlagUtil.SetFlag(Data, 0xA8 + (i >> 3), i, SpecialTutors[0][i]);
-        return Data;
-    }
+    public PersonalInfo8LA(byte[] data) => Data = data;
+    public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -96,31 +77,127 @@ public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H
         _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
     };
 
-    public int GetMoveShopCount()
-    {
-        // Return a count of true indexes from Tutors
-        var arr = SpecialTutors[0];
-        int count = 0;
-        foreach (var index in arr)
-        {
-            if (index)
-                count++;
-        }
-        return count;
-    }
+    private const int MoveShop = 0xA8;
+    private const int MoveShopCount = 61;
+
+    private ulong MoveShopBits => ReadUInt64LittleEndian(Data.AsSpan(MoveShop));
+
+    public int GetMoveShopCount() => System.Numerics.BitOperations.PopCount(MoveShopBits);
 
     public int GetMoveShopIndex(int randIndexFromCount)
     {
         // Return a count of true indexes from Tutors
-        var arr = SpecialTutors[0];
-        for (var i = 0; i < arr.Length; i++)
+        var bits = MoveShopBits;
+        for (int i = 0; i < MoveShopCount; i++)
         {
-            var index = arr[i];
-            if (!index)
-                continue;
-            if (randIndexFromCount-- == 0)
-                return i;
+            if ((bits & 1) == 1)
+            {
+                if (randIndexFromCount-- == 0)
+                    return i;
+            }
+            bits >>= 1;
         }
         throw new ArgumentOutOfRangeException(nameof(randIndexFromCount));
+    }
+
+    public bool IsRecordPermitted(int index)
+    {
+        return (MoveShopBits & (1ul << index)) != 0;
+    }
+
+    public bool GetIsLearnMoveShop(ushort move)
+    {
+        var moves = MoveShopMoves.AsSpan();
+        var index = moves.IndexOf(move);
+        return index != -1 && IsRecordPermitted(index);
+    }
+
+    public ReadOnlySpan<ushort> RecordPermitIndexes => MoveShopMoves;
+    public int RecordCountTotal => 64;
+    public int RecordCountUsed => MoveShopCount;
+    public bool HasMoveShop => MoveShopBits != 0;
+
+    internal static readonly ushort[] MoveShopMoves =
+    {
+        (int)Move.FalseSwipe,
+        (int)Move.FireFang,
+        (int)Move.ThunderFang,
+        (int)Move.IceFang,
+        (int)Move.IceBall,
+        (int)Move.RockSmash,
+        (int)Move.Spikes,
+        (int)Move.Bulldoze,
+        (int)Move.AerialAce,
+        (int)Move.StealthRock,
+        (int)Move.Swift,
+        (int)Move.TriAttack,
+        (int)Move.MagicalLeaf,
+        (int)Move.OminousWind,
+        (int)Move.PowerShift,
+        (int)Move.FocusEnergy,
+        (int)Move.BulkUp,
+        (int)Move.CalmMind,
+        (int)Move.Rest,
+        (int)Move.BabyDollEyes,
+        (int)Move.FirePunch,
+        (int)Move.ThunderPunch,
+        (int)Move.IcePunch,
+        (int)Move.DrainPunch,
+        (int)Move.PoisonJab,
+        (int)Move.PsychoCut,
+        (int)Move.ZenHeadbutt,
+        (int)Move.LeechLife,
+        (int)Move.XScissor,
+        (int)Move.RockSlide,
+        (int)Move.ShadowClaw,
+        (int)Move.IronHead,
+        (int)Move.IronTail,
+        (int)Move.MysticalFire,
+        (int)Move.WaterPulse,
+        (int)Move.ChargeBeam,
+        (int)Move.EnergyBall,
+        (int)Move.IcyWind,
+        (int)Move.SludgeBomb,
+        (int)Move.EarthPower,
+        (int)Move.ShadowBall,
+        (int)Move.Snarl,
+        (int)Move.FlashCannon,
+        (int)Move.DazzlingGleam,
+        (int)Move.GigaImpact,
+        (int)Move.AquaTail,
+        (int)Move.WildCharge,
+        (int)Move.HighHorsepower,
+        (int)Move.Megahorn,
+        (int)Move.StoneEdge,
+        (int)Move.Outrage,
+        (int)Move.PlayRough,
+        (int)Move.HyperBeam,
+        (int)Move.Flamethrower,
+        (int)Move.Thunderbolt,
+        (int)Move.IceBeam,
+        (int)Move.Psychic,
+        (int)Move.DarkPulse,
+        (int)Move.DracoMeteor,
+        (int)Move.SteelBeam,
+        (int)Move.VoltTackle,
+    };
+
+    public static ushort GetMoveShopMove(int index)
+    {
+        if ((uint)index >= MoveShopCount)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        return MoveShopMoves[index];
+    }
+
+    public void SetAllLearnMoveShop(Span<bool> result)
+    {
+        var moves = MoveShopMoves;
+        var bits = MoveShopBits;
+        for (int i = 0 ; i < MoveShopCount; i++)
+        {
+            if ((bits & 1) == 1)
+                result[moves[i]] = true;
+            bits >>= 1;
+        }
     }
 }

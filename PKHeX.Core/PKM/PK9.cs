@@ -27,6 +27,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override PersonalInfo9SV PersonalInfo => PersonalTable.SV.GetFormEntry(Species, Form);
+    public IPermitRecord Permit => PersonalInfo;
     public override bool IsNative => SWSH;
     public override EntityContext Context => EntityContext.Gen9;
 
@@ -466,8 +467,6 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     internal const int COUNT_RECORD = 200; // Up to 200 TM flags, but not all are used.
     private const int RecordLength = COUNT_RECORD / 8;
     internal Span<byte> RecordFlags => Data.AsSpan(RecordStart, RecordLength);
-    public int RecordCountTotal => COUNT_RECORD;
-    public int RecordCountUsed => PersonalInfo9SV.CountTM;
 
     public bool GetMoveRecordFlag(int index)
     {
@@ -500,9 +499,6 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     public override int Stat_SPA { get => ReadUInt16LittleEndian(Data.AsSpan(0x152)); set => WriteUInt16LittleEndian(Data.AsSpan(0x152), (ushort)value); }
     public override int Stat_SPD { get => ReadUInt16LittleEndian(Data.AsSpan(0x154)); set => WriteUInt16LittleEndian(Data.AsSpan(0x154), (ushort)value); }
     #endregion
-
-    public ReadOnlySpan<bool> TechRecordPermitFlags => PersonalInfo.TMHM.AsSpan();
-    public ReadOnlySpan<ushort> TechRecordPermitIndexes => LearnSource9SV.TM_SV.AsSpan();
 
     public override int MarkingCount => 6;
 

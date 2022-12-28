@@ -42,6 +42,8 @@ public static class FlagUtil
         return result;
     }
 
+    public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data) => GitBitFlagArray(data, data.Length << 3);
+
     public static void SetBitFlagArray(Span<byte> data, ReadOnlySpan<bool> value)
     {
         for (int i = 0; i < value.Length; i++)

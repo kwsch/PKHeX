@@ -55,13 +55,13 @@ public sealed class LearnSource7USUM : ILearnSource<PersonalInfo7>, IEggSource
                 return new(LevelUp, Game, 1);
         }
 
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(Array.IndexOf(TMHM_SM, move)))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(Array.IndexOf(LearnSource5.TypeTutor567, move)))
             return new(Tutor, Game);
 
-        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && pi.GetIsLearnTutorSpecial(move))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
@@ -94,32 +94,6 @@ public sealed class LearnSource7USUM : ILearnSource<PersonalInfo7>, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo7 pi, ushort move)
-    {
-        var index = Array.IndexOf(LearnSource5.TypeTutor567, move);
-        if (index == -1)
-            return false;
-        return pi.TypeTutors[index];
-    }
-
-    private static bool GetIsSpecialTutor(PersonalInfo7 pi, ushort move)
-    {
-        // US/UM Tutors
-        var tutors = Tutors_USUM;
-        var tutor = Array.IndexOf(tutors, move);
-        if (tutor == -1)
-            return false;
-        return pi.SpecialTutors[0][tutor];
-    }
-
-    private static bool GetIsTM(PersonalInfo7 info, ushort move)
-    {
-        var index = Array.IndexOf(TMHM_SM, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
-    }
-
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
@@ -138,39 +112,13 @@ public sealed class LearnSource7USUM : ILearnSource<PersonalInfo7>, IEggSource
         }
 
         if (types.HasFlag(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_SM;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTM(result, TMHM_SM);
 
         if (types.HasFlag(MoveSourceType.TypeTutor))
-        {
-            // Beams
-            var flags = pi.TypeTutors;
-            var moves = LearnSource5.TypeTutor567;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTutorType(result, LearnSource5.TypeTutor567);
 
         if (types.HasFlag(MoveSourceType.SpecialTutor))
-        {
-            // US/UM Tutors
-            var flags = pi.SpecialTutors[0];
-            var moves = Tutors_USUM;
-            for (int i = 0; i < flags.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+            pi.SetAllLearnTutorSpecial(result);
 
         if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
@@ -199,14 +147,4 @@ public sealed class LearnSource7USUM : ILearnSource<PersonalInfo7>, IEggSource
                 result[(int)Move.MoongeistBeam] = true;
         }
     }
-
-    private static readonly ushort[] Tutors_USUM =
-    {
-        450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
-        277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
-        020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
-        380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
-
-        477, 502, 432, 710, 707, 675, 673,
-    };
 }

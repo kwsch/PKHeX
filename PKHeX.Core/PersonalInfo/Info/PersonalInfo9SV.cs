@@ -6,30 +6,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.SV"/> games.
 /// </summary>
-public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H
+public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPermitRecord
 {
     public const int SIZE = 0x44;
     private readonly byte[] Data;
 
-    public const int CountTM = 172;
-
-    public PersonalInfo9SV(byte[] data)
-    {
-        Data = data;
-        TMHM = new bool[CountTM];
-
-        var tm = Data.AsSpan(0x2C);
-        for (var i = 0; i < CountTM; i++)
-            TMHM[i] = FlagUtil.GetFlag(tm, i >> 3, i);
-    }
-
-    public override byte[] Write()
-    {
-        var tm = Data.AsSpan(0x2C);
-        for (var i = 0; i < CountTM; i++)
-            FlagUtil.SetFlag(tm, i >> 3, i, TMHM[i]);
-        return Data;
-    }
+    public PersonalInfo9SV(byte[] data) => Data = data;
+    public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -92,5 +75,65 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H
         1 => Ability2,
         2 => AbilityH,
         _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
+    };
+
+    private const int TM = 0x2C;
+    private const int CountTM = 172;
+    private const int ByteCountTM = (CountTM + 7) / 8;
+
+    public bool GetIsLearnTM(int index)
+    {
+        if ((uint)index >= CountTM)
+            return false;
+        return (Data[TM + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTM(int index, bool value)
+    {
+        if ((uint)index >= CountTM)
+            return;
+        if (value)
+            Data[TM + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TM + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTM(Span<bool> result)
+    {
+        var moves = TM_SV;
+        var span = Data.AsSpan(TM, ByteCountTM);
+        for (int i = CountTM - 1; i >= 0; i--)
+        {
+            if ((span[i >> 3] & (1 << (i & 7))) != 0)
+                result[moves[i]] = true;
+        }
+    }
+
+    public bool IsRecordPermitted(int index) => GetIsLearnTM(index);
+
+    public ReadOnlySpan<ushort> RecordPermitIndexes => TM_SV;
+    public int RecordCountTotal => 200;
+    public int RecordCountUsed => CountTM;
+
+    private static readonly ushort[] TM_SV =
+    {
+        005, 036, 204, 313, 097, 189, 184, 182, 424, 422,
+        423, 352, 067, 491, 512, 522, 060, 109, 168, 574,
+        885, 884, 886, 451, 083, 263, 342, 332, 523, 506,
+        555, 232, 129, 345, 196, 341, 317, 577, 488, 490,
+        314, 500, 101, 374, 525, 474, 419, 203, 521, 241,
+        240, 201, 883, 684, 473, 091, 331, 206, 280, 428,
+        369, 421, 492, 706, 339, 403, 034, 007, 009, 008,
+        214, 402, 486, 409, 115, 113, 350, 127, 337, 605,
+        118, 447, 086, 398, 707, 156, 157, 269, 014, 776,
+        191, 390, 286, 430, 399, 141, 598, 019, 285, 442,
+        349, 408, 441, 164, 334, 404, 529, 261, 242, 271,
+        710, 202, 396, 366, 247, 406, 446, 304, 257, 412,
+        094, 484, 227, 057, 861, 053, 085, 583, 133, 347,
+        270, 676, 226, 414, 179, 058, 604, 580, 678, 581,
+        417, 126, 056, 059, 519, 518, 520, 528, 188, 089,
+        444, 566, 416, 307, 308, 338, 200, 315, 411, 437,
+        542, 433, 405, 063, 413, 394, 087, 370, 076, 434,
+        796, 851,
     };
 }

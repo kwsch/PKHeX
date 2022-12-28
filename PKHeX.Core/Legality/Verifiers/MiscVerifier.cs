@@ -6,7 +6,7 @@ using static PKHeX.Core.CheckIdentifier;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Verifies miscellaneous data including <see cref="PKM.FatefulEncounter"/> and minor values.
+/// Verifies miscellaneous data including <see cref="IFatefulEncounter.FatefulEncounter"/> and minor values.
 /// </summary>
 public sealed class MiscVerifier : Verifier
 {
@@ -749,11 +749,12 @@ public sealed class MiscVerifier : Verifier
 
     private void VerifyTechRecordSWSH<T>(LegalityAnalysis data, T pk) where T : PKM, ITechRecord
     {
-        static string GetMoveName(int index) => ParseSettings.MoveStrings[LearnSource8SWSH.TR_SWSH[index]];
+        string GetMoveName(int index) => ParseSettings.MoveStrings[pk.Permit.RecordPermitIndexes[index]];
         var evos = data.Info.EvoChainsAllGens.Gen8;
         if (evos.Length == 0)
         {
-            for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
+            var count = pk.Permit.RecordCountUsed;
+            for (int i = 0; i < count; i++)
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
@@ -764,11 +765,12 @@ public sealed class MiscVerifier : Verifier
         {
             static PersonalInfo8SWSH GetPersonal(EvoCriteria evo) => PersonalTable.SWSH.GetFormEntry(evo.Species, evo.Form);
             PersonalInfo8SWSH? pi = null;
-            for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
+            var count = pk.Permit.RecordCountUsed;
+            for (int i = 0; i < count; i++)
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                if ((pi ??= GetPersonal(evos[0])).TMHM[i + PersonalInfo8SWSH.CountTM])
+                if ((pi ??= GetPersonal(evos[0])).GetIsLearnTR(i))
                     continue;
 
                 // Calyrex-0 can have TR flags for Calyrex-1/2 after it has force unlearned them.
@@ -790,16 +792,17 @@ public sealed class MiscVerifier : Verifier
     private static bool CanLearnTR(ushort species, byte form, int tr)
     {
         var pi = PersonalTable.SWSH.GetFormEntry(species, form);
-        return pi.TMHM[tr + PersonalInfo8SWSH.CountTM];
+        return pi.GetIsLearnTR(tr);
     }
 
     private void VerifyTechRecordSV(LegalityAnalysis data, PK9 pk)
     {
-        static string GetMoveName(int index) => ParseSettings.MoveStrings[LearnSource9SV.TM_SV[index]];
+        string GetMoveName(int index) => ParseSettings.MoveStrings[pk.Permit.RecordPermitIndexes[index]];
         var evos = data.Info.EvoChainsAllGens.Gen9;
         if (evos.Length == 0)
         {
-            for (int i = 0; i < PersonalInfo9SV.CountTM; i++)
+            int count = pk.Permit.RecordCountUsed;
+            for (int i = 0; i < count; i++)
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
@@ -810,11 +813,12 @@ public sealed class MiscVerifier : Verifier
         {
             static PersonalInfo9SV GetPersonal(EvoCriteria evo) => PersonalTable.SV.GetFormEntry(evo.Species, evo.Form);
             PersonalInfo9SV? pi = null;
-            for (int i = 0; i < PersonalInfo9SV.CountTM; i++)
+            int count = pk.Permit.RecordCountUsed;
+            for (int i = 0; i < count; i++)
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                if ((pi ??= GetPersonal(evos[0])).TMHM[i])
+                if ((pi ??= GetPersonal(evos[0])).GetIsLearnTM(i))
                     continue;
 
                 // Zoroark-0 cannot learn Encore via TM, but the pre-evolution Zorua-0 can via TM.
@@ -822,7 +826,7 @@ public sealed class MiscVerifier : Verifier
                 bool preEvoHas = false;
                 for (int p = 1; p < evos.Length; p++)
                 {
-                    if (!GetPersonal(evos[p]).TMHM[i])
+                    if (!GetPersonal(evos[p]).GetIsLearnTM(i))
                         continue;
                     preEvoHas = true;
                     break;
