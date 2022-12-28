@@ -140,7 +140,7 @@ public sealed class PersonalInfo4 : PersonalInfo, IPersonalAbility12, IPersonalI
         for (int i = CountTM + CountHM - 1; i >= CountTM; i--)
         {
             if ((span[i >> 3] & (i & 7)) != 0)
-                result[moves[i]] = true;
+                result[moves[i - CountTM]] = true;
         }
     }
 }
