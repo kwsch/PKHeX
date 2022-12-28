@@ -26,7 +26,7 @@ public static class GenderApplicator
     /// <param name="gender">Desired <see cref="PKM.Gender"/> value to set.</param>
     public static void SetGender(this PKM pk, int gender)
     {
-        gender = Math.Min(2, Math.Max(0, gender));
+        gender = Math.Clamp(gender, 0, 2);
         if (pk.Gender == gender)
             return;
 

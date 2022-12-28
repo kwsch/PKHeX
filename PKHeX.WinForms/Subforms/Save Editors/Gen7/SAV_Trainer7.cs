@@ -30,7 +30,7 @@ public partial class SAV_Trainer7 : Form
         GetComboBoxes();
         GetTextBoxes();
 
-        TrainerStats.LoadRecords(SAV, Records.RecordList_7);
+        TrainerStats.LoadRecords(SAV, RecordLists.RecordList_7);
         TrainerStats.GetToolTipText = UpdateTip;
         CB_Fashion.SelectedIndex = 1;
 

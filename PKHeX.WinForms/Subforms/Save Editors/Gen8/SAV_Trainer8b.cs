@@ -32,7 +32,7 @@ public partial class SAV_Trainer8b : Form
         GetComboBoxes();
         GetTextBoxes();
 
-        TrainerStats.LoadRecords(SAV, Records.RecordList_8b);
+        TrainerStats.LoadRecords(SAV, Record8b.RecordList_8b);
 
         Loading = false;
     }
@@ -46,7 +46,7 @@ public partial class SAV_Trainer8b : Form
     private void GetTextBoxes()
     {
         // Get Data
-        CB_Game.SelectedIndex = Math.Max(0, Math.Min(1, SAV.Game - (int)GameVersion.BD));
+        CB_Game.SelectedIndex = Math.Clamp(SAV.Game - (int)GameVersion.BD, 0, 1);
         CB_Gender.SelectedIndex = SAV.Gender;
 
         NUD_BP.Value = SAV.BattleTower.BP;

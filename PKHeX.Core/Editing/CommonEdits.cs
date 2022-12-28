@@ -142,7 +142,7 @@ public static class CommonEdits
     /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
     public static void SetNature(this PKM pk, int nature)
     {
-        var value = Math.Min((int)Nature.Quirky, Math.Max((int)Nature.Hardy, nature));
+        var value = Math.Clamp(nature, (int)Nature.Hardy, (int)Nature.Quirky);
         var format = pk.Format;
         if (format >= 8)
             pk.StatNature = value;
@@ -313,7 +313,7 @@ public static class CommonEdits
 
         var sum = pk.EVTotal - pk.GetEV(index);
         int remaining = 510 - sum;
-        return Math.Min(Math.Max(remaining, 0), 252);
+        return Math.Clamp(remaining, 0, 252);
     }
 
     /// <summary>

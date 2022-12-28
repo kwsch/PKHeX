@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+using System;
 
 namespace PKHeX.Core;
 
 public abstract class RecordBlock<T> : SaveBlock<T>, IRecordStatStorage where T : SaveFile
 {
-    protected abstract IReadOnlyList<byte> RecordMax { get; }
+    protected abstract ReadOnlySpan<byte> RecordMax { get; }
     public abstract int GetRecord(int recordID);
     public abstract void SetRecord(int recordID, int value);
 

@@ -15,7 +15,7 @@ public sealed record EncounterArea2 : EncounterArea
 
     internal readonly EncounterTime Time;
     public readonly byte Rate;
-    public readonly IReadOnlyList<byte> Rates;
+    public readonly byte[]? Rates;
     public readonly EncounterSlot2[] Slots;
 
     protected override IReadOnlyList<EncounterSlot2> Raw => Slots;
@@ -47,7 +47,7 @@ public sealed record EncounterArea2 : EncounterArea
         {
             const int size = 4;
             int count = next.Length / size;
-            Rates = Array.Empty<byte>(); // fetch as needed.
+            Rates = null; // fetch as needed.
             Slots = ReadSlots(next, count);
         }
     }

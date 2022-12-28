@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -100,7 +100,7 @@ public sealed class SaveBlockAccessor6XY : ISaveBlockAccessor<BlockInfo6>, ISave
         Encount = new Encount6(sav, 0x17E00);
         MysteryGift = new MysteryBlock6(sav, 0x1BC00);
         SUBE = new SubEventLog6XY(sav, 0x1D800);
-        Records = new RecordBlock6(sav, 0x1E400);
+        Records = new RecordBlock6XY(sav, 0x1E400);
         SuperTrain = new SuperTrainBlock(sav, 0x1F200);
         Link = new LinkBlock6(sav, 0x1FE00);
         Maison = new MaisonBlock(sav, 0x1B000);

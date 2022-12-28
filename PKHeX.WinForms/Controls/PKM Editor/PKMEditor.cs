@@ -482,12 +482,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         bool tmp = FieldsLoaded;
         FieldsLoaded = false;
-        CB_Ability.DataSource = GameInfo.FilteredSources.GetAbilityList(Entity);
-        CB_Ability.SelectedIndex = GetSafeIndex(CB_Ability, abil); // restore original index if available
+        var items = GameInfo.FilteredSources.GetAbilityList(Entity);
+        CB_Ability.DataSource = items;
+        CB_Ability.SelectedIndex = Math.Clamp(abil, 0, items.Count - 1); // restore original index if available
         FieldsLoaded = tmp;
     }
-
-    private static int GetSafeIndex(ComboBox cb, int index) => Math.Max(0, Math.Min(cb.Items.Count - 1, index));
 
     private void UpdateIsShiny()
     {

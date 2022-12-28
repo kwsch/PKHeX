@@ -28,7 +28,7 @@ public partial class SAV_Trainer : Form
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
-        TrainerStats.LoadRecords(SAV, Records.RecordList_6);
+        TrainerStats.LoadRecords(SAV, RecordLists.RecordList_6);
         TrainerStats.GetToolTipText = UpdateTip;
 
         MaisonRecords = new[]

@@ -87,7 +87,7 @@ public sealed class PKHeXSettings
     {
         try
         {
-            File.WriteAllLines("config error.txt", new[] { x.ToString() });
+            File.WriteAllText("config error.txt", x.ToString());
         }
         catch (Exception)
         {

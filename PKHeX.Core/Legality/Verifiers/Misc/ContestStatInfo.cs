@@ -109,7 +109,7 @@ public static class ContestStatInfo
         avg = Math.Min(rawAvg, avg); // be generous
         avg = (BestSheenStat8b * avg) / MaxContestStat;
 
-        return Math.Min(BestSheenStat8b, Math.Max(LowestFeelPoffin8b, avg));
+        return Math.Clamp(avg, LowestFeelPoffin8b, BestSheenStat8b);
     }
 
     public static int CalculateMinimumSheen3(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
@@ -125,7 +125,7 @@ public static class ContestStatInfo
         avg = Math.Min(rawAvg, avg); // be generous
 
         avg = (BestSheenStat3 * avg) / MaxContestStat;
-        return Math.Min(BestSheenStat3, Math.Max(LowestFeelBlock3, avg));
+        return Math.Clamp(avg, LowestFeelBlock3, BestSheenStat3);
     }
 
     public static int CalculateMinimumSheen4(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
@@ -140,7 +140,7 @@ public static class ContestStatInfo
         var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
 
-        return Math.Min(MaxContestStat, Math.Max(LowestFeelPoffin4, avg));
+        return Math.Clamp(avg, LowestFeelPoffin4, MaxContestStat);
     }
 
     private static int CalculateMaximumSheen3(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
@@ -162,7 +162,7 @@ public static class ContestStatInfo
 
         // Prefer the bad-black-block correlation if more than 3 stats have gains >= 2.
         var permit = has3 ? (sum * 83 / 6) : (sum * 19 / 9);
-        return Math.Min(MaxContestStat, Math.Max(LowestFeelBlock3, permit));
+        return Math.Clamp(permit, LowestFeelBlock3, MaxContestStat);
     }
 
     private static int GetAverageFeel(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
