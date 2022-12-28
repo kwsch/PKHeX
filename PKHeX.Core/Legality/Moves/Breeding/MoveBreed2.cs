@@ -159,6 +159,8 @@ public static class MoveBreed2
         for (int i = 0; i < count; i++)
         {
             var move = moves[i];
+            if (move > byte.MaxValue)
+                continue;
 
             if (baseEgg.IndexOf(move) != -1)
                 possible[i] |= 1 << (int)Base;
@@ -169,12 +171,12 @@ public static class MoveBreed2
             if (eggMoves.Contains(move))
                 possible[i] |= 1 << (int)FatherEgg;
 
-            if (info.GetIsLearnTM(Array.IndexOf(TMHM_GSC, move)))
+            if (info.GetIsLearnTM(TMHM_GSC.IndexOf((byte)move)))
                 possible[i] |= 1 << (int)FatherTM;
 
             if (version is GameVersion.C)
             {
-                if (info.GetIsLearnTutorType(Array.IndexOf(Tutors_GSC, move)))
+                if (info.GetIsLearnTutorType(Tutors_GSC.IndexOf((byte)move)))
                     possible[i] |= 1 << (int)Tutor;
             }
         }

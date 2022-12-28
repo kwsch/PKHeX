@@ -22,9 +22,11 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo2? pi)
     {
-        pi = null;
-        if (species > Legal.MaxSpeciesID_2)
+        if (form is not 0 || species > MaxSpecies)
+        {
+            pi = null;
             return false;
+        }
         pi = Personal[species];
         return true;
     }
@@ -46,10 +48,13 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (move > byte.MaxValue)
+            return default;
+
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, (byte)move))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pk, evo.Species, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pk, evo.Species, (byte)move))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.LevelUp))
@@ -63,20 +68,20 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
         return default;
     }
 
-    private static bool GetIsSpecialTutor(PKM pk, ushort species, ushort move)
+    private static bool GetIsSpecialTutor(PKM pk, ushort species, byte move)
     {
         if (!ParseSettings.AllowGen2Crystal(pk))
             return false;
-        var tutor = Array.IndexOf(Tutors_GSC, move);
+        var tutor = Tutors_GSC.IndexOf(move);
         if (tutor == -1)
             return false;
         var info = PersonalTable.C[species];
         return info.GetIsLearnTutorType(tutor);
     }
 
-    private static bool GetIsTM(PersonalInfo2 info, ushort move)
+    private static bool GetIsTM(PersonalInfo2 info, byte move)
     {
-        var index = Array.IndexOf(TMHM_GSC, move);
+        var index = TMHM_GSC.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index);

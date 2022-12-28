@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -32,17 +31,6 @@ public sealed class PersonalInfo2 : PersonalInfo, IPersonalInfoTM, IPersonalInfo
     public override byte EXPGrowth { get => Data[0x16]; set => Data[0x16] = value; }
     public override int EggGroup1 { get => Data[0x17] & 0xF; set => Data[0x17] = (byte)((Data[0x17] & 0xF0) | value); }
     public override int EggGroup2 { get => Data[0x17] >> 4; set => Data[0x17] = (byte)((Data[0x17] & 0x0F) | (value << 4)); }
-
-    public IReadOnlyList<int> Items
-    {
-        get => new[] { Item1, Item2 };
-        set
-        {
-            if (value.Count != 2) return;
-            Item1 = value[0];
-            Item2 = value[1];
-        }
-    }
 
     // EV Yields are just aliases for base stats in Gen II
     public override int EV_HP { get => HP; set { } }
@@ -81,7 +69,7 @@ public sealed class PersonalInfo2 : PersonalInfo, IPersonalInfoTM, IPersonalInfo
             Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
     }
 
-    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
+    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<byte> moves)
     {
         var span = Data.AsSpan(TMHM, ByteCountTM);
         for (int index = CountTMHM - 1; index >= 0; index--)
@@ -112,7 +100,7 @@ public sealed class PersonalInfo2 : PersonalInfo, IPersonalInfoTM, IPersonalInfo
             Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
     }
 
-    public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<ushort> moves)
+    public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<byte> moves)
     {
         var span = Data.AsSpan(TMHM, ByteCountTM);
         for (int index = TutorTypeCount - 1; index >= 0; index--)

@@ -15,29 +15,35 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
     private static readonly PersonalTable1 Personal = PersonalTable.Y;
     private static readonly Learnset[] Learnsets = Legal.LevelUpY;
     private const LearnEnvironment Game = YW;
+    private const int MaxSpecies = Legal.MaxSpeciesID_1;
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo1? pi)
     {
-        pi = null;
-        if (form is not 0 || species > Legal.MaxSpeciesID_1)
+        if (form is not 0 || species > MaxSpecies)
+        {
+            pi = null;
             return false;
+        }
         pi = Personal[species];
         return true;
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo1 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (move > byte.MaxValue)
+            return default;
+
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, (byte)move))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, (byte)move))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
+            var learn = Learnsets[evo.Species];
             var level = learn.GetLevelLearnMove(move);
             if (level != -1 && evo.LevelMin <= level && level <= evo.LevelMax)
                 return new(LevelUp, Game, (byte)level);
@@ -46,7 +52,7 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
         return default;
     }
 
-    private static bool GetIsTutor(ushort species, ushort move)
+    private static bool GetIsTutor(ushort species, byte move)
     {
         // No special tutors besides Stadium, which is GB-era only.
         if (!ParseSettings.AllowGBCartEra)
@@ -58,9 +64,9 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
         return species is (int)Species.Pikachu or (int)Species.Raichu;
     }
 
-    private static bool GetIsTM(PersonalInfo1 info, ushort move)
+    private static bool GetIsTM(PersonalInfo1 info, byte move)
     {
-        var index = Array.IndexOf(TMHM_RBY, move);
+        var index = TMHM_RBY.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index);

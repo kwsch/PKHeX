@@ -80,7 +80,7 @@ public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
             Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
     }
 
-    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
+    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<byte> moves)
     {
         var span = Data.AsSpan(TMHM, ByteCountTM);
         for (int index = CountTMHM - 1; index >= 0; index--)

@@ -22,9 +22,11 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo2? pi)
     {
-        pi = null;
-        if (species > MaxSpecies)
+        if (form is not 0 || species > MaxSpecies)
+        {
+            pi = null;
             return false;
+        }
         pi = Personal[species];
         return true;
     }
@@ -46,12 +48,15 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (move > byte.MaxValue)
+            return default;
+
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, (byte)move))
             return new(TMHM, Game);
 
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
+            var learn = Learnsets[evo.Species];
             var level = learn.GetLevelLearnMove(move);
             if (level != -1 && evo.LevelMin <= level && level <= evo.LevelMax)
                 return new(LevelUp, Game, (byte)level);
@@ -60,9 +65,9 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
         return default;
     }
 
-    private static bool GetIsTM(PersonalInfo2 info, ushort move)
+    private static bool GetIsTM(PersonalInfo2 info, byte move)
     {
-        var index = Array.IndexOf(TMHM_GSC, move);
+        var index = TMHM_GSC.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index);
@@ -76,7 +81,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
         bool removeVC = pk.Format == 1 || pk.VC1;
         if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
+            var learn = Learnsets[evo.Species];
             var min = ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, min);
             if (hasMoves)
