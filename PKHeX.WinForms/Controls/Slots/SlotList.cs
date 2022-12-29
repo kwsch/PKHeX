@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -9,7 +9,7 @@ namespace PKHeX.WinForms.Controls;
 public partial class SlotList : UserControl, ISlotViewer<PictureBox>
 {
     private static readonly string[] names = Enum.GetNames(typeof(StorageSlotType));
-    private readonly LabelType[] Labels = new LabelType[names.Length];
+    private readonly Label[] Labels = new Label[names.Length];
     private readonly List<PictureBox> slots = new();
     private List<SlotInfoMisc> SlotOffsets = new();
     public int SlotCount { get; private set; }
@@ -43,7 +43,7 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
     {
         if (previous is not SlotInfoMisc m)
             return;
-        var index = SlotOffsets.FindIndex(z => m.Equals(z));
+        var index = SlotOffsets.FindIndex(m.Equals);
         if (index < 0)
             return;
         var pb = slots[index];
@@ -84,37 +84,52 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
     public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
     public int ViewIndex { get; set; } = -1;
 
-    private IEnumerable<PictureBox> LoadSlots(int after, Action<Control> enableDragDropContext)
+    private void LoadSlots(int count, Action<Control> enableDragDropContext)
     {
-        var generated = new List<PictureBox>();
-        int before = SlotCount;
-        SlotCount = after;
-        int diff = after - before;
-        if (diff > 0)
+        var controls = FLP_Slots.Controls;
+        controls.Clear();
+        if (count == 0)
         {
-            AddSlots(diff);
-            for (int i = before; i < after; i++)
-            {
-                var slot = slots[i];
-                enableDragDropContext(slot);
-                FLP_Slots.Controls.Add(slot);
-                FLP_Slots.SetFlowBreak(slot, true);
-                generated.Add(slot);
-            }
+            SlotCount = 0;
+            return;
         }
-        else
-        {
-            for (int i = before - 1; i >= after; i--)
-                FLP_Slots.Controls.Remove(slots[i]);
-        }
-        SetLabelVisibility();
-        return generated;
+        AddSlots(count, enableDragDropContext);
+        AddControls(count);
+        SlotCount = count;
     }
 
-    private void AddSlots(int count)
+    private void AddControls(int countTotal)
     {
-        for (int i = 0; i < count; i++)
-            slots.Add(GetPictureBox(i, SpriteUtil.Spriter));
+        var type = (StorageSlotType)(-1);
+        int added = -1;
+        for (int i = 0; i < countTotal; i++)
+        {
+            var info = SlotOffsets[i];
+            if (type != info.Type)
+            {
+                added++;
+                type = info.Type;
+                var label = Labels[(int)type];
+                FLP_Slots.Controls.Add(label, 0, added++);
+            }
+
+            var slot = slots[i];
+            FLP_Slots.Controls.Add(slot, 0, added);
+        }
+    }
+
+    private void AddSlots(int after, Action<Control> enableDragDropContext)
+    {
+        int before = SlotCount;
+        int diff = after - before;
+        if (diff <= 0)
+            return;
+        for (int i = 0; i < diff; i++)
+        {
+            var slot = GetPictureBox(i, SpriteUtil.Spriter);
+            enableDragDropContext(slot);
+            slots.Add(slot);
+        }
     }
 
     private const int PadPixels = 2;
@@ -126,53 +141,24 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
         Height = s.Height + 2,
         AllowDrop = true,
         Margin = new Padding(PadPixels),
+        Padding = Padding.Empty,
         SizeMode = PictureBoxSizeMode.CenterImage,
         Name = $"bpkm{index}",
     };
-
-    private sealed class LabelType : Label
-    {
-        public StorageSlotType Type;
-    }
 
     private void AddLabels()
     {
         for (var i = 0; i < names.Length; i++)
         {
             var name = names[i];
-            bool result = Enum.TryParse<StorageSlotType>(name, out var value);
-            if (!result)
-                continue;
-
-            var label = new LabelType
+            Labels[i] = new Label
             {
                 Name = $"L_{name}",
                 Text = name,
-                Type = value,
                 AutoSize = true,
-                Visible = false,
+                Margin = Padding.Empty,
+                Padding = Padding.Empty,
             };
-            Labels[i] = label;
-            FLP_Slots.Controls.Add(label);
-            FLP_Slots.SetFlowBreak(label, true);
-        }
-    }
-
-    private void SetLabelVisibility()
-    {
-        foreach (var l in Labels)
-        {
-            int index = SlotOffsets.FindIndex(z => z.Type == l.Type);
-            if (index < 0)
-            {
-                l.Visible = false;
-                continue;
-            }
-            int pos = FLP_Slots.Controls.IndexOf(slots[index]);
-            if (pos > FLP_Slots.Controls.IndexOf(l))
-                pos--;
-            FLP_Slots.Controls.SetChildIndex(l, pos);
-            l.Visible = true;
         }
     }
 }

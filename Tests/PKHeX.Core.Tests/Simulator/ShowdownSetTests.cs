@@ -20,7 +20,7 @@ public class ShowdownSetTests
         {
             var set = new ShowdownSet(setstr).Text;
             var lines = set.Split('\n').Select(z => z.Trim());
-            Assert.True(lines.All(z => setstr.Contains(z)), setstr);
+            Assert.True(lines.All(setstr.Contains), setstr);
         }
     }
 
