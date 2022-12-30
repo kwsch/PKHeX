@@ -173,7 +173,6 @@ public sealed class MiscVerifier : Verifier
 
     private static readonly HashSet<int> UnreleasedSV = new()
     {
-        (int)Species.Raichu | (1 << 11), // Diglett-1
         (int)Species.Diglett | (1 << 11), // Diglett-1
         (int)Species.Meowth | (1 << 11), // Meowth-1
         (int)Species.Growlithe | (1 << 11), // Growlithe-1
@@ -193,22 +192,22 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Carbink, // Carbink
         (int)Species.Rowlet, // Rowlet
         (int)Species.Grookey, // Grookey
-        (int)Species.Scorbunny, // Scorbunny
         (int)Species.Sobble, // Sobble
 
-        // Silly Workaround for evolution chain reversal not being iteratively implemented -- block Hisuians
-        (int)Species.Sliggoo | (1 << 11),
-        (int)Species.Avalugg | (1 << 11),
-        (int)Species.Lilligant | (1 << 11),
-        (int)Species.Braviary | (1 << 11),
-        (int)Species.Overqwil,
+        // Silly workaround for evolution chain reversal not being iteratively implemented -- block cross-gen evolution cases
+        (int)Species.Raichu | (1 << 11), // Raichu-1
+        (int)Species.Typhlosion | (1 << 11), // Typhlosion-1
+        (int)Species.Samurott | (1 << 11), // Samurott-1
+        (int)Species.Lilligant | (1 << 11), // Lilligant-1
+        (int)Species.Braviary | (1 << 11), // Braviary-1
+        (int)Species.Sliggoo | (1 << 11), // Sliggoo-1
+        (int)Species.Avalugg | (1 << 11), // Avalugg-1
+        (int)Species.Decidueye | (1 << 11), // Decidueye-1
+        
         (int)Species.Wyrdeer,
         (int)Species.Kleavor,
         (int)Species.Ursaluna,
-
-        (int)Species.Decidueye | (1 << 11), // Rowlet
-        (int)Species.Typhlosion | (1 << 11), // Cyndaquil
-        (int)Species.Samurott | (1 << 11), // Oshawott
+        (int)Species.Overqwil,
     };
 
     private void VerifyMiscPokerus(LegalityAnalysis data)

@@ -27,7 +27,7 @@ public sealed class RaidSevenStar9 : SaveBlock<SAV9SV>
 
 public sealed class SevenStarRaidDetail
 {
-    public const int SIZE = 0x06;
+    public const int SIZE = 0x08;
 
     private readonly byte[] Data;
     private readonly int Offset;
@@ -46,16 +46,20 @@ public sealed class SevenStarRaidDetail
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x00));
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value);
     }
+
     [Category(General), Description("Indicates if this Tera Raid Boss has been captured by the player.")]
     public bool Captured
     {
-        get => Data[Offset + 4] == 1;
-        set => Data[Offset + 4] = (byte)(value ? 1 : 0);
+        get => Data[Offset + 0x04] == 1;
+        set => Data[Offset + 0x04] = (byte)(value ? 1 : 0);
     }
+
     [Category(General), Description("Indicates if this Tera Raid Boss has been defeated at least once by the player.")]
     public bool Defeated
     {
-        get => Data[Offset + 5] == 1;
-        set => Data[Offset + 5] = (byte)(value ? 1 : 0);
+        get => Data[Offset + 0x05] == 1;
+        set => Data[Offset + 0x05] = (byte)(value ? 1 : 0);
     }
+
+    // 0x06 - 0x07 padding
 }
