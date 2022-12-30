@@ -53,10 +53,12 @@ public static class SwishCrypto
         // Apply the xorpad over each chunk of xorpad-sized spans.
         // This is 30x as fast as a single loop with a modulus operation (benchmarked; modulo is slower).
         // Marshal as a vectorized operation to speed up the process.
+        // Due to the xorpad being extended 0x7F->0x80, if len%7F==0, we miss the last vectored xor.
+        // Subtract 1 from the data size in the event that the length is an even multiple, to get one less iteration.
         var xp = StaticXorpad;
         var xp64 = MemoryMarshal.Cast<byte, Vector<ulong>>(xp);
         var size = xp.Length - 1;
-        int iterations = data.Length / size;
+        int iterations = (data.Length - 1) / size;
         do
         {
             var slice = MemoryMarshal.Cast<byte, Vector<ulong>>(data[..xp.Length]);
@@ -73,7 +75,7 @@ public static class SwishCrypto
     {
         using var h = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         h.AppendData(IntroHashBytes);
-        h.AppendData(data[..^SIZE_HASH]);
+        h.AppendData(data);
         h.AppendData(OutroHashBytes);
         h.TryGetCurrentHash(hash, out _);
     }
@@ -86,7 +88,7 @@ public static class SwishCrypto
     public static bool GetIsHashValid(ReadOnlySpan<byte> data)
     {
         Span<byte> computed = stackalloc byte[SIZE_HASH];
-        ComputeHash(data, computed);
+        ComputeHash(data[..^SIZE_HASH], computed);
         var stored = data[^computed.Length..];
         return computed.SequenceEqual(stored);
     }
