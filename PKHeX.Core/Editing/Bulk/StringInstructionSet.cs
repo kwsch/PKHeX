@@ -40,9 +40,16 @@ public sealed class StringInstructionSet
         Instructions = StringInstruction.GetInstructions(set);
     }
 
-    public static bool HasEmptyLine(ReadOnlySpan<char> text)
+    /// <summary>
+    /// Checks if the input <see cref="text"/> is potentially formatted incorrectly.
+    /// </summary>
+    /// <remarks>Normally, no blank lines should be present in the input.</remarks>
+    /// <returns>True if a blank line is found in the input.</returns>
+    public static bool HasEmptyLine(ReadOnlySpan<char> text) => HasEmptyLine(text.EnumerateLines());
+
+    /// <inheritdoc cref="HasEmptyLine(ReadOnlySpan{char})"/>
+    public static bool HasEmptyLine(SpanLineEnumerator lines)
     {
-        var lines = text.EnumerateLines();
         foreach (var line in lines)
         {
             if (line.IsEmpty || line.IsWhiteSpace())

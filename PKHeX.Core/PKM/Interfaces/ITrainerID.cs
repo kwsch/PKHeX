@@ -46,7 +46,7 @@ public static class TrainerIDExtensions
     /// </summary>
     public static TrainerIDFormat GetTrainerIDFormat(this ITrainerID tr) => tr switch
     {
-        IGeneration { Generation: 1 or 2 } => SixteenBitSingle,
+        PKM { Format: <= 2 }  => SixteenBitSingle,
         PKM { Version: 0 } pk => pk.Format     >= 7 ? SixDigit : SixteenBit,
         IGeneration sv        => sv.Generation >= 7 ? SixDigit : SixteenBit,
         _ => SixteenBit,

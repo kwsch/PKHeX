@@ -330,7 +330,7 @@ public partial class SAV_MysteryGiftDB : Form
         slotSelected = -1; // reset the slot last viewed
 
         ReadOnlySpan<char> batchText = RTB_Instructions.Text;
-        if (batchText.Length > 0 && StringInstructionSet.HasEmptyLine(batchText))
+        if (batchText.Length > 0 && !StringInstructionSet.HasEmptyLine(batchText))
         {
             var filters = StringInstruction.GetFilters(batchText);
             BatchEditing.ScreenStrings(filters);
