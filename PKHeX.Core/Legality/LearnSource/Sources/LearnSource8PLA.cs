@@ -21,7 +21,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo8LA? pi)
     {
         pi = null;
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         pi = Personal[species, form];
         return true;

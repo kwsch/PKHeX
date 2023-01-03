@@ -68,7 +68,7 @@ public static class SpeciesName
             return EggNames[language];
 
         var arr = SpeciesLang[language];
-        if ((uint)species >= arr.Count)
+        if (species >= arr.Count)
             return string.Empty;
 
         return arr[species];

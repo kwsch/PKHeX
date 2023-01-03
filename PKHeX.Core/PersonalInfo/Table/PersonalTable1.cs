@@ -28,7 +28,7 @@ public sealed class PersonalTable1 : IPersonalTable, IPersonalTable<PersonalInfo
     public PersonalInfo1 GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];
 
     public int GetFormIndex(ushort species, byte form) => IsSpeciesInGame(species) ? species : 0;
-    public bool IsSpeciesInGame(ushort species) => (uint)species <= MaxSpecies;
+    public bool IsSpeciesInGame(ushort species) => species <= MaxSpecies;
     public bool IsPresentInGame(ushort species, byte form) => form == 0 && IsSpeciesInGame(species);
 
     PersonalInfo IPersonalTable.this[int index] => this[index];

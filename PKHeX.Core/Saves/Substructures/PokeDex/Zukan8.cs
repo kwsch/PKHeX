@@ -215,7 +215,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
     {
         if ((uint)region >= SeenRegionCount)
             throw new ArgumentOutOfRangeException(nameof(region));
-        if ((uint)form > 63)
+        if (form > 63)
             return false;
 
         var dex = entry.DexType;

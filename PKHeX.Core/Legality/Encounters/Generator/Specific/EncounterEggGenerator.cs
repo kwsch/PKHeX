@@ -59,7 +59,7 @@ public static class EncounterEggGenerator
 
         var otherSplit = species;
         (species, form) = GetBaseSpecies(chain, 1);
-        if ((uint)species == otherSplit)
+        if (species == otherSplit)
             yield break;
 
         if (species <= max)

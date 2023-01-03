@@ -22,7 +22,7 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo6AO? pi)
     {
         pi = null;
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         pi = Personal[species, form];
         return true;

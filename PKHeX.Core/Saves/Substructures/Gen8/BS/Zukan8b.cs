@@ -137,7 +137,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
 
     public ZukanState8b GetState(ushort species)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
 
         var index = species - 1;
@@ -147,7 +147,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
 
     public void SetState(ushort species, ZukanState8b state)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
 
         var index = species - 1;
@@ -191,7 +191,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
 
     public bool GetLanguageFlag(ushort species, int language)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
         var languageBit = GetLanguageBit(language);
         if (languageBit == -1)
@@ -205,7 +205,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
 
     public void SetLanguageFlag(ushort species, int language, bool value)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
         var languageBit = GetLanguageBit(language);
         if (languageBit == -1)
@@ -221,7 +221,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
 
     public void SetLanguageFlags(ushort species, int value)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
 
         var index = species - 1;

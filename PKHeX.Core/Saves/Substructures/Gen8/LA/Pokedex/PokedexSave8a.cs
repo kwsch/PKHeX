@@ -32,7 +32,7 @@ public sealed class PokedexSave8a
     public static ushort GetDexIndex(PokedexType8a which, ushort species)
     {
         // Check species is valid
-        if ((uint)species > MaxSpeciesID)
+        if (species > MaxSpeciesID)
             return DexInvalid;
 
         // Check each form

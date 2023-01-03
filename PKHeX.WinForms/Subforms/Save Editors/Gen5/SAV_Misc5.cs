@@ -519,7 +519,7 @@ public partial class SAV_Misc5 : Form
     public static string GetSpeciesName(ushort species)
     {
         var arr = GameInfo.Strings.Species;
-        if ((uint)species >= arr.Count)
+        if (species >= arr.Count)
             return $"Invalid: {species}";
         return arr[species];
     }

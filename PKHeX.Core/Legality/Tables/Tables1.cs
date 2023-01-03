@@ -28,7 +28,7 @@ public static partial class Legal
 
     internal static bool TransferSpeciesDefaultAbilityGen1(ushort species)
     {
-        System.Diagnostics.Debug.Assert((uint)species <= MaxSpeciesID_1);
+        System.Diagnostics.Debug.Assert(species <= MaxSpeciesID_1);
         return species is (int)Gastly or (int)Haunter or (int)Gengar
             or (int)Koffing or (int)Weezing
             or (int)Mew;

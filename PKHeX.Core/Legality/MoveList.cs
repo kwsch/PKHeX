@@ -62,7 +62,7 @@ internal static class MoveList
 
     private static Span<ushort> Get(Span<ushort> moves, Learnset[] source, ushort species, int lvl, int format)
     {
-        if ((uint)species > MaxSpeciesID_2)
+        if (species > MaxSpeciesID_2)
             return moves;
 
         source[species].SetLevelUpMoves(1, lvl, moves);
