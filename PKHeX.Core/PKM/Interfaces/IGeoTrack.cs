@@ -122,7 +122,7 @@ public static partial class Extensions
 
         return result;
 
-        static GeoValid UpdateCheck(int country, int region, ref bool end)
+        static GeoValid UpdateCheck(byte country, byte region, ref bool end)
         {
             if (country != 0)
                 return end ? GeoValid.CountryAfterPreviousEmpty : GeoValid.Valid;

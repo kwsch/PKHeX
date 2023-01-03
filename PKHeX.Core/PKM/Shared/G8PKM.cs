@@ -419,8 +419,8 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
     public override int Version { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
     public byte BattleVersion { get => Data[0xDF]; set => Data[0xDF] = value; }
-    // public override int Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-    // public override int ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
+    // public override byte Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
+    // public override byte ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
     public override int Language { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
     // 0xE3 alignment
     public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(0xE4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xE4), value); }

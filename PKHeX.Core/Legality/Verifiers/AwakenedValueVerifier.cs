@@ -21,7 +21,7 @@ public sealed class AwakenedValueVerifier : Verifier
         Span<byte> required = stackalloc byte[6];
         AwakeningUtil.SetExpectedMinimumAVs(required, pb7);
         Span<byte> current = stackalloc byte[6];
-        AwakeningUtil.AwakeningSwapToVisualOrder(pb7, current);
+        AwakeningUtil.AwakeningGetVisual(pb7, current);
 
         // For each index of current, the value should be >= the required value.
         if (current[0] < required[0])

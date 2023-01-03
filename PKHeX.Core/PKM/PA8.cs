@@ -436,8 +436,8 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override byte Enjoyment { get => Data[0xED]; set => Data[0xED] = value; }
     public override int Version { get => Data[0xEE]; set => Data[0xEE] = (byte)value; }
     public byte BattleVersion { get => Data[0xEF]; set => Data[0xEF] = value; }
-    // public override int Region { get => Data[0xF0]; set => Data[0xF0] = (byte)value; }
-    // public override int ConsoleRegion { get => Data[0xF1]; set => Data[0xF1] = (byte)value; }
+    // public override byte Region { get => Data[0xF0]; set => Data[0xF0] = (byte)value; }
+    // public override byte ConsoleRegion { get => Data[0xF1]; set => Data[0xF1] = (byte)value; }
     public override int Language { get => Data[0xF2]; set => Data[0xF2] = (byte)value; }
     public int UnkF3 { get => Data[0xF3]; set => Data[0xF3] = (byte)value; }
     public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(0xF4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xF4), value); }
