@@ -416,29 +416,29 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         return NatureAmpTable[(5 * nature) + index];
     }
 
-    private static readonly sbyte[] NatureAmpTable =
+    private static ReadOnlySpan<sbyte> NatureAmpTable => new sbyte[]
     {
         0, 0, 0, 0, 0, // Hardy
         1,-1, 0, 0, 0, // Lonely
         1, 0, 0, 0,-1, // Brave
         1, 0,-1, 0, 0, // Adamant
         1, 0, 0,-1, 0, // Naughty
-        -1, 1, 0, 0, 0, // Bold
+       -1, 1, 0, 0, 0, // Bold
         0, 0, 0, 0, 0, // Docile
         0, 1, 0, 0,-1, // Relaxed
         0, 1,-1, 0, 0, // Impish
         0, 1, 0,-1, 0, // Lax
-        -1, 0, 0, 0, 1, // Timid
+       -1, 0, 0, 0, 1, // Timid
         0,-1, 0, 0, 1, // Hasty
         0, 0, 0, 0, 0, // Serious
         0, 0,-1, 0, 1, // Jolly
         0, 0, 0,-1, 1, // Naive
-        -1, 0, 1, 0, 0, // Modest
+       -1, 0, 1, 0, 0, // Modest
         0,-1, 1, 0, 0, // Mild
         0, 0, 1, 0,-1, // Quiet
         0, 0, 0, 0, 0, // Bashful
         0, 0, 1,-1, 0, // Rash
-        -1, 0, 0, 1, 0, // Calm
+       -1, 0, 0, 1, 0, // Calm
         0,-1, 0, 1, 0, // Gentle
         0, 0, 0, 1,-1, // Sassy
         0, 0,-1, 1, 0, // Careful
@@ -594,7 +594,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
             return GetRandomIndex(characterIndex);
         if (bits is 0)
             return 0;
-        Span<sbyte> amps = NatureAmpTable.AsSpan(5 * nature, 5);
+        var amps = NatureAmpTable.Slice(5 * nature, 5);
         if (amps[bits - 1] != -1) // not a negative stat
             return bits;
 

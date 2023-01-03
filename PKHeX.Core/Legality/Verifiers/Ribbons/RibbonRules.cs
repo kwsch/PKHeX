@@ -210,7 +210,7 @@ public static class RibbonRules
             var species = evo.Species;
             if (species >= arr.Length)
                 continue;
-            if (arr[species] != 0)
+            if (arr[species])
                 return true;
         }
         return false;
@@ -218,33 +218,58 @@ public static class RibbonRules
 
     // Derived from ROM data: true for all Footprint types besides 5 (5 = no feet).
     // If true, requires gaining 30 levels to obtain ribbon. If false, can obtain ribbon at any level.
-    private static ReadOnlySpan<byte> HasFootprintBDSP => new byte[]
+    private static ReadOnlySpan<bool> HasFootprintBDSP => new[]
     {
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1,
-        0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
-        1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1,
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1,
-        1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true, false,  true,  true, false,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true, false, false,  true, false,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true, false, false,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+       false, false,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true, false,  true,  true,
+       false,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true, false,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true, false,  true,  true, false, false,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true, false,  true,  true,  true,  true,  true,  true,
+        true,  true,  true, false,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true, false,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true, false,  true, false,  true,
+        true,  true,  true, false,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+       false,  true,  true,  true,  true,  true,  true,  true,  true, false,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true, false, false,  true,
+        true,  true,  true, false, false, false, false, false,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true, false,  true, false, false,  true, false, false, false,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true, false, false,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+        true,  true, false,  true,  true,  true,  true,  true,  true,  true,
+        true,  true,  true,  true, false,  true, false,  true,  true,  true,
+        true,  true,  true,  true,  true,  true, false,  true,  true,  true,
+        true,  true,  true,  true,
     };
 
     /// <summary>
@@ -347,15 +372,15 @@ public static class RibbonRules
         if (!evos.HasVisitedGen4)
             return false;
         var head = evos.Gen4[0];
-        return IsAllowedBattleFrontier(head.Species, head.Form, 4);
+        return IsAllowedBattleFrontier(head.Species, head.Form, EntityContext.Gen4);
     }
 
     /// <summary>
     /// Checks if the input species-form could have participated in a specific Battle Frontier trial.
     /// </summary>
-    public static bool IsAllowedBattleFrontier(ushort species, byte form, int generation)
+    public static bool IsAllowedBattleFrontier(ushort species, byte form, EntityContext context)
     {
-        if (generation == 4 && species == (int)Species.Pichu && form == 1) // spiky
+        if (context == EntityContext.Gen4 && species == (int)Species.Pichu && form == 1) // spiky
             return false;
         return IsAllowedBattleFrontier(species);
     }

@@ -608,7 +608,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         return NatureAmpTable[(5 * nature) + index];
     }
 
-    private static readonly sbyte[] NatureAmpTable =
+    private static ReadOnlySpan<sbyte> NatureAmpTable => new sbyte[]
     {
         0, 0, 0, 0, 0, // Hardy
         1,-1, 0, 0, 0, // Lonely
