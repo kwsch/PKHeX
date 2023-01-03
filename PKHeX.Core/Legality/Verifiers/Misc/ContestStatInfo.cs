@@ -173,7 +173,7 @@ public static class ContestStatInfo
 
     private static int GetGainedSum(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
     {
-        ReadOnlySpan<sbyte> span = NatureAmpTable.AsSpan(5 * nature, 5);
+        var span = NatureAmpTable.Slice(5 * nature, 5);
         int sum = 0;
         sum += GetAmpedStat(span, 0, s.CNT_Cool - initial.CNT_Cool);
         sum += GetAmpedStat(span, 1, s.CNT_Beauty - initial.CNT_Beauty);
@@ -223,7 +223,7 @@ public static class ContestStatInfo
         public byte CNT_Sheen => 0;
     }
 
-    private static readonly sbyte[] NatureAmpTable =
+    private static ReadOnlySpan<sbyte> NatureAmpTable => new sbyte[]
     {
         // Spicy, Dry, Sweet, Bitter, Sour
         0, 0, 0, 0, 0, // Hardy

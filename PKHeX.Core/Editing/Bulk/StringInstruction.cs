@@ -17,9 +17,10 @@ namespace PKHeX.Core;
 /// <see cref="Apply"/>
 public sealed class StringInstruction
 {
+    /// <summary> Property to modify. </summary>
     public string PropertyName { get; }
+    /// <summary> Value to set to the property. </summary>
     public string PropertyValue { get; private set; }
-
     /// <summary> True if ==, false if != </summary>
     public bool Evaluator { get; private init; }
 
@@ -29,10 +30,10 @@ public sealed class StringInstruction
         PropertyValue = value;
     }
 
-    public void SetScreenedValue(string[] arr)
+    public void SetScreenedValue(ReadOnlySpan<string> arr)
     {
-        int index = Array.IndexOf(arr, PropertyValue);
-        PropertyValue = index > -1 ? index.ToString() : PropertyValue;
+        int index = arr.IndexOf(PropertyValue);
+        PropertyValue = (uint)index >= arr.Length ? index.ToString() : PropertyValue;
     }
 
     public static readonly IReadOnlyList<char> Prefixes = new[] { Apply, Require, Exclude };
@@ -56,6 +57,9 @@ public sealed class StringInstruction
     public bool Random { get; private set; }
     public int RandomValue => Util.Rand.Next(RandomMinimum, RandomMaximum + 1);
 
+    /// <summary>
+    /// Checks if the input <see cref="str"/> is a valid "random range" specification.
+    /// </summary>
     public static bool IsRandomRange(ReadOnlySpan<char> str)
     {
         // Need at least one character on either side of the splitter char.
@@ -63,6 +67,10 @@ public sealed class StringInstruction
         return index > 0 && index < str.Length - 1;
     }
 
+    /// <summary>
+    /// Sets a "random range" specification to the instruction.
+    /// </summary>
+    /// <exception cref="ArgumentException">When the splitter is not present.</exception>
     public void SetRandomRange(ReadOnlySpan<char> str)
     {
         var index = str.IndexOf(SplitRange);

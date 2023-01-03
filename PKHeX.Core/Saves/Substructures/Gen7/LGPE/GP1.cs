@@ -24,7 +24,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPB7(tr, criteria);
 
     public GP1(byte[] data) => Data = data;
-    public GP1() : this((byte[])Blank.Clone()) { }
+    public GP1() : this(new byte[SIZE]) => InitializeBlank(Data);
     public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
 
     public static GP1 FromData(byte[] data, int offset)
@@ -35,9 +35,9 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
 
     private static GP1 FromData(ReadOnlySpan<byte> span)
     {
-        var gpkm = new GP1();
-        span[..SIZE].CopyTo(gpkm.Data);
-        return gpkm;
+        var result = new GP1();
+        span[..SIZE].CopyTo(result.Data);
+        return result;
     }
 
     /// <summary>
@@ -51,14 +51,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
         0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x85, 0xEC, 0x33, 0x01,
     };
 
-    public static readonly byte[] Blank = GetBlank();
-
-    public static byte[] GetBlank()
-    {
-        byte[] data = new byte[SIZE];
-        Blank20.CopyTo(data);
-        return data;
-    }
+    public static void InitializeBlank(Span<byte> data) => Blank20.CopyTo(data);
 
     public string Username1 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x00, 0x10));
     public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x10, 0x20));
@@ -138,6 +131,11 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     public string StatMove => $"{IV_HP:00}/{IV_ATK:00}/{IV_DEF:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
     public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ Lv. {Level:00} - {StatMove}, {GeoTime}.";
 
+    /// <summary>
+    /// GO Park transfers start with 2 AVs for all stats.
+    /// </summary>
+    public const byte InitialAV = 2;
+
     public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
 
     public PB7 ConvertToPB7(ITrainerInfo sav, EncounterCriteria criteria)
@@ -204,7 +202,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
         pk.HeightScalar = HeightScalar;
         pk.WeightScalar = WeightScalar;
 
-        pk.AwakeningSetAllTo(2);
+        pk.AwakeningSetAllTo(InitialAV); // 2
         pk.ResetCalculatedValues();
 
         return pk;

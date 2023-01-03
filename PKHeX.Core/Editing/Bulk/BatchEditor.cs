@@ -64,6 +64,12 @@ public sealed class BatchEditor
         return result;
     }
 
+    /// <summary>
+    /// Executes the batch instruction <see cref="lines"/> on the input <see cref="data"/>
+    /// </summary>
+    /// <param name="lines">Batch instruction line(s)</param>
+    /// <param name="data">Entities to modify</param>
+    /// <returns>Editor object if follow up modifications are desired.</returns>
     public static BatchEditor Execute(ReadOnlySpan<string> lines, IEnumerable<PKM> data)
     {
         var editor = new BatchEditor();

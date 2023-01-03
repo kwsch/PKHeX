@@ -137,13 +137,13 @@ public static class SlotRange
     /// <returns>Slot number from the slot data if the slot is selected on this frame, else an invalid slot value.</returns>
     internal static int GetSlotStaticMagnet<T>(T slot, uint esv) where T : EncounterSlot, IMagnetStatic, INumberedSlot
     {
-        if (slot.IsStaticSlot())
+        if (slot.IsStaticSlot)
         {
             var index = esv % slot.StaticCount;
             if (index == slot.StaticIndex)
                 return slot.SlotNumber;
         }
-        if (slot.IsMagnetSlot())
+        if (slot.IsMagnetSlot)
         {
             var index = esv % slot.MagnetPullCount;
             if (index == slot.MagnetPullIndex)

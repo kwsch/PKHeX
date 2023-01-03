@@ -110,6 +110,11 @@ public sealed class StringInstructionSet
         return result;
     }
 
+    /// <summary>
+    /// Scans through the <see cref="text"/> to count the amount of characters to consume.
+    /// </summary>
+    /// <param name="text">Multi line string</param>
+    /// <returns>Amount of characters comprising a set of instructions</returns>
     public static int GetInstructionSetLength(ReadOnlySpan<char> text)
     {
         int start = 0;
@@ -118,17 +123,25 @@ public sealed class StringInstructionSet
             var line = text[start..];
             if (line.Length != 0 && line[0] == SetSeparatorChar)
                 return start;
-            start++;
+            var next = line.IndexOf('\n');
+            if (next == -1)
+                return text.Length;
+            start += next + 1;
         }
         return start;
     }
 
+    /// <summary>
+    /// Scans through the <see cref="lines"/> to count the amount of valid lines to consume.
+    /// </summary>
+    /// <returns>Amount of lines comprising a set of instructions.</returns>
     public static int GetInstructionSetLength(ReadOnlySpan<string> lines)
     {
         int start = 0;
         while (start < lines.Length)
         {
-            if (lines[start++].StartsWith(SetSeparator, StringComparison.Ordinal))
+            var line = lines[start++];
+            if (line.Length != 0 && line[0] == SetSeparatorChar)
                 return start;
         }
         return start;

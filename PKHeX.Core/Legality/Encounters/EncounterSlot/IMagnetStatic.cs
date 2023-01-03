@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Contains information about the RNG restrictions for the slot, and any mutated RNG values.
@@ -19,14 +19,10 @@ public interface IMagnetStatic
     byte StaticCount { get; }
     /// <summary> Count of slots in the parent area that can be yielded by <see cref="Ability.MagnetPull"/> </summary>
     byte MagnetPullCount { get; }
-}
 
-public static class MagnetStaticExtensions
-{
-    private const byte NotMagnetStaticSlot = byte.MaxValue;
-    public static bool IsStaticSlot(this IMagnetStatic slot) => slot.StaticCount != 0 && slot.StaticIndex != NotMagnetStaticSlot;
-    public static bool IsMagnetSlot(this IMagnetStatic slot) => slot.MagnetPullCount != 0 && slot.MagnetPullIndex != NotMagnetStaticSlot;
+    bool IsStaticSlot => StaticCount != 0 && StaticIndex != byte.MaxValue;
+    bool IsMagnetSlot => MagnetPullCount != 0 && MagnetPullIndex != byte.MaxValue;
 
-    public static bool IsMatchStatic(this IMagnetStatic slot,  int index, int count) => index == slot.StaticIndex && count == slot.StaticCount;
-    public static bool IsMatchMagnet(this IMagnetStatic slot,  int index, int count) => index == slot.MagnetPullIndex && count == slot.MagnetPullCount;
+    bool IsMatchStatic(int index, int count) => index == StaticIndex && count == StaticCount;
+    bool IsMatchMagnet(int index, int count) => index == MagnetPullIndex && count == MagnetPullCount;
 }
