@@ -304,12 +304,3 @@ public static class Encounter9RNG
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
 }
-
-public interface ITeraRaid9 : IGemType
-{
-    bool IsDistribution { get; }
-    byte Index { get; }
-    byte Stars { get; }
-    byte RandRate { get; }
-    bool CanBeEncountered(uint seed);
-}
