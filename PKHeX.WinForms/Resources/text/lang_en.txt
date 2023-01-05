@@ -186,6 +186,7 @@ Main.B_Poffins=Poffins
 Main.B_RaidArmor=Raids (DLC 1)
 Main.B_RaidCrown=Raids (DLC 2)
 Main.B_Raids=Raids
+Main.B_RaidsSevenStar=Raids (7 Star)
 Main.B_Records=Technical Records
 Main.B_Reset=Reset
 Main.B_Roamer=Roamer

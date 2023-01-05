@@ -186,6 +186,7 @@ Main.B_Poffins=Poffin
 Main.B_RaidArmor=Raid (DLC 1)
 Main.B_RaidCrown=Raid (DLC 2)
 Main.B_Raids=Raid
+Main.B_RaidsSevenStar=Raids (7 Star)
 Main.B_Records=Dischi Tecnici
 Main.B_Reset=Reset
 Main.B_Roamer=Vaganti
