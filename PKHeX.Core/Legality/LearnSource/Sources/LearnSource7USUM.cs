@@ -42,7 +42,7 @@ public sealed class LearnSource7USUM : ILearnSource<PersonalInfo7>, IEggSource
     {
         if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
-        return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
+        return MoveEgg.GetFormEggMoves(species, form, EggMoves);
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo7 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

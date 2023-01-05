@@ -32,10 +32,10 @@ public sealed class RentalTeam8 : IRentalTeam<PK8>, IPokeGroup
     public RentalTeam8(byte[] data) => Data = data;
 
     public ulong ID { get => ReadUInt64LittleEndian(GetMetadataStart()); set => WriteUInt64LittleEndian(GetMetadataStart(), value); }
-    public string TeamID { get => StringConverter8.GetString(GetMetadataStart().Slice(8, 0x1C)); set => StringConverter8.SetString(GetMetadataStart().Slice(8, 0x1C), value.AsSpan(), 0x1C / 2); }
+    public string TeamID { get => StringConverter8.GetString(GetMetadataStart().Slice(8, 0x1C)); set => StringConverter8.SetString(GetMetadataStart().Slice(8, 0x1C), value, 0x1C / 2); }
     // 2 unused bytes, probably null terminator for TeamID
-    public string TeamName { get => StringConverter8.GetString(GetMetadataStart().Slice(0x26, 0x16)); set => StringConverter8.SetString(GetMetadataStart().Slice(0x26, 0x16), value.AsSpan(), 0x16 / 2); }
-    public string PlayerName { get => StringConverter8.GetString(GetMetadataStart().Slice(0x3C, 0x1A)); set => StringConverter8.SetString(GetMetadataStart().Slice(0x3C, 0x1A), value.AsSpan(), 0x1A / 2); }
+    public string TeamName { get => StringConverter8.GetString(GetMetadataStart().Slice(0x26, 0x16)); set => StringConverter8.SetString(GetMetadataStart().Slice(0x26, 0x16), value, 0x16 / 2); }
+    public string PlayerName { get => StringConverter8.GetString(GetMetadataStart().Slice(0x3C, 0x1A)); set => StringConverter8.SetString(GetMetadataStart().Slice(0x3C, 0x1A), value, 0x1A / 2); }
 
     public PK8 GetSlot(int slot)
     {

@@ -217,6 +217,15 @@ public sealed class EvolutionTree
         return GetExplicitLineage(species, form, pk, levelMin, levelMax, maxSpeciesOrigin, skipChecks, stopSpecies);
     }
 
+    private static int GetMaxSpeciesOrigin(PKM pk)
+    {
+        if (pk.Format == 1)
+            return MaxSpeciesID_1;
+        if (pk.Format == 2 || pk.VC)
+            return MaxSpeciesID_2;
+        return Legal.GetMaxSpeciesOrigin(pk.Generation);
+    }
+
     public bool IsSpeciesDerivedFrom(ushort species, byte form, int otherSpecies, int otherForm, bool ignoreForm = true)
     {
         var evos = GetEvolutionsAndPreEvolutions(species, form);

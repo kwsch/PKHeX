@@ -144,7 +144,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override string Nickname
     {
         get => StringConverter8.GetString(Nickname_Trash);
-        set => StringConverter8.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
     }
 
     public override ushort Move1
@@ -220,7 +220,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override string HT_Name
     {
         get => StringConverter8.GetString(HT_Trash);
-        set => StringConverter8.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
 
     public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
@@ -257,7 +257,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override string OT_Name
     {
         get => StringConverter8.GetString(OT_Trash);
-        set => StringConverter8.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
 
     public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }

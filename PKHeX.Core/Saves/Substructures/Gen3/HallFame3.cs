@@ -77,7 +77,7 @@ public sealed class HallFame3PKM : ISpeciesForm
     private int SpecLevel { get => ReadUInt16LittleEndian(Data.AsSpan(8 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(8 + Offset), (ushort)value); }
 
     private Span<byte> Nickname_Trash => Data.AsSpan(10 + Offset, 10);
-    public string Nickname { get => StringConverter3.GetString(Nickname_Trash, Japanese); set => StringConverter3.SetString(Nickname_Trash, value.AsSpan(), 10, Japanese, StringConverterOption.ClearZero); }
+    public string Nickname { get => StringConverter3.GetString(Nickname_Trash, Japanese); set => StringConverter3.SetString(Nickname_Trash, value, 10, Japanese, StringConverterOption.ClearZero); }
 
     public ushort Species { get => (ushort)(SpecLevel & 0x1FF); set => SpecLevel = (SpecLevel & 0xFE00) | value; }
     public byte Form => 0; // no forms; derive Unown's from PID else use the Version for Deoxys.

@@ -94,7 +94,7 @@ public sealed class WR7 : DataMysteryGift
     public override string OT_Name
     {
         get => StringConverter8.GetString(Data.AsSpan(0x120, 0x1A));
-        set => StringConverter8.SetString(Data.AsSpan(0x120, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(0x120, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
     public LanguageID LanguageReceived

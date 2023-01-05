@@ -175,7 +175,7 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     public string RivalName
     {
         get => GetString(Large.AsSpan(0x3A4C, 8));
-        set => SetString(Large.AsSpan(0x3A4C, 8), value.AsSpan(), 7, StringConverterOption.ClearZero);
+        set => SetString(Large.AsSpan(0x3A4C, 8), value, 7, StringConverterOption.ClearZero);
     }
 
     #endregion

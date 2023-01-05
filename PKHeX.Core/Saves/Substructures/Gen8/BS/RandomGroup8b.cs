@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -69,13 +69,13 @@ public sealed class RandomSeed8b
     public string GroupName
     {
         get => StringConverter8.GetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2));
-        set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2), value.AsSpan(), GROUP_NAME_SIZE, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_GROUPNAME, GROUP_NAME_SIZE * 2), value, GROUP_NAME_SIZE, StringConverterOption.ClearZero);
     }
 
     public string PlayerName
     {
         get => StringConverter8.GetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2));
-        set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2), value.AsSpan(), PERSON_NAME_SIZE, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(Offset + OFS_PLAYERNAME, PERSON_NAME_SIZE * 2), value, PERSON_NAME_SIZE, StringConverterOption.ClearZero);
     }
 
     public bool Male { get => Data[Offset + OFS_GENDER] == 1; set => Data[Offset + OFS_GENDER] = (byte)(value ? 1 : 0); }

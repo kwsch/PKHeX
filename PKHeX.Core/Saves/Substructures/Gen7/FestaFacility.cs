@@ -23,7 +23,7 @@ public sealed class FestaFacility
     public int Color { get => Data[0x01]; set => Data[0x01] = (byte)value; }
     public bool IsIntroduced { get => Data[0x02] != 0; set => Data[0x02] = value ? (byte)1 : (byte)0; }
     public int Gender { get => Data[0x03]; set => Data[0x03] = (byte)value; }
-    public string OT_Name { get => StringConverter7.GetString(Data.AsSpan(0x04, 0x1A)); set => StringConverter7.SetString(Data.AsSpan(0x04, 0x1A), value.AsSpan(), 12, Language, StringConverterOption.ClearZero); }
+    public string OT_Name { get => StringConverter7.GetString(Data.AsSpan(0x04, 0x1A)); set => StringConverter7.SetString(Data.AsSpan(0x04, 0x1A), value, 12, Language, StringConverterOption.ClearZero); }
 
     private int MessageMeet { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), (ushort)value); }
     private int MessagePart { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), (ushort)value); }

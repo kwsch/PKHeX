@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core;
+using System;
+
+namespace PKHeX.Core;
 
 public static class EntityFileNamer
 {
@@ -29,23 +31,23 @@ public sealed class DefaultEntityNamer : IFileNamer<PKM>
 
     private static string GetRegular(PKM pk)
     {
-        string form = pk.Form > 0 ? $"-{pk.Form:00}" : string.Empty;
-        string star = pk.IsShiny ? " ★" : string.Empty;
-        var chk = pk is ISanityChecksum s ? s.Checksum : PokeCrypto.GetCHK(pk.Data, pk.SIZE_STORED);
+        var chk = pk is ISanityChecksum s ? s.Checksum : PokeCrypto.GetCHK(pk.Data.AsSpan()[8..pk.SIZE_STORED]);
+        var form = pk.Form != 0 ? $"-{pk.Form:00}" : string.Empty;
+        var star = pk.IsShiny ? " ★" : string.Empty;
         return $"{pk.Species:000}{form}{star} - {pk.Nickname} - {chk:X4}{pk.EncryptionConstant:X8}";
     }
 
     private static string GetGBPKM(GBPKM gb)
     {
-        string form = gb.Form > 0 ? $"-{gb.Form:00}" : string.Empty;
-        string star = gb.IsShiny ? " ★" : string.Empty;
-        var raw = gb switch
+        ReadOnlySpan<byte> raw = gb switch
         {
             PK1 pk1 => new PokeList1(pk1).Write(),
             PK2 pk2 => new PokeList2(pk2).Write(),
             _ => gb.Data,
         };
         var checksum = Checksums.CRC16_CCITT(raw);
+        var form = gb.Form != 0 ? $"-{gb.Form:00}" : string.Empty;
+        var star = gb.IsShiny ? " ★" : string.Empty;
         return $"{gb.Species:000}{form}{star} - {gb.Nickname} - {checksum:X4}";
     }
 }

@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="SM"/>.
 /// </summary>
-public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource 
+public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource
 {
     public static readonly LearnSource7SM Instance = new();
     private static readonly PersonalTable7 Personal = PersonalTable.SM;
@@ -42,7 +42,7 @@ public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource
     {
         if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
-        return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
+        return MoveEgg.GetFormEggMoves(species, form, EggMoves);
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo7 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

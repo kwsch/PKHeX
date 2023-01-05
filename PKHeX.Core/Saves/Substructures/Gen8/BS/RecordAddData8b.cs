@@ -62,7 +62,7 @@ public sealed class RecordAdd8b
     public string OT
     {
         get => StringConverter8.GetString(Data.AsSpan(Offset + 0, 0x1A));
-        set => StringConverter8.SetString(Data.AsSpan(Offset + 0, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(Offset + 0, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
     // 1A reserved byte
     // 1B reserved byte

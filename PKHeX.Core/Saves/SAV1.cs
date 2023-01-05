@@ -258,7 +258,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public override string OT
     {
         get => GetString(Offsets.OT, MaxStringLengthOT);
-        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public Span<byte> OT_Trash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
@@ -286,7 +286,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public string Rival
     {
         get => GetString(Offsets.Rival, MaxStringLengthOT);
-        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT), value.AsSpan(), MaxStringLengthOT, StringConverterOption.Clear50);
+        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT), value, MaxStringLengthOT, StringConverterOption.Clear50);
     }
 
     public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }

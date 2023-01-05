@@ -271,7 +271,6 @@ public sealed class LegendsArceusVerifier : Verifier
             return; // okay
 
         var pi = PersonalTable.LA.GetFormEntry(enc.Species, enc.Form);
-        bool hasAnyTutor = pi.GetMoveShopCount() != 0;;
         if (!pi.HasMoveShop) // must have had a tutor flag
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeOther));
     }

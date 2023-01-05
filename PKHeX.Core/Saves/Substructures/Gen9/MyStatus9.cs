@@ -59,7 +59,7 @@ public sealed class MyStatus9 : SaveBlock<SAV9SV>
     public string OT
     {
         get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public byte BirthMonth { get => Data[0x5A]; set => Data[0x5A] = value; }

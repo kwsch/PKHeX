@@ -99,7 +99,7 @@ public sealed class SAV2Stadium : SAV_STADIUM
             Data[boxOfs] = 1;
             Data[boxOfs + 1] = (byte)count;
             Data[boxOfs + 4] = StringConverter12.G1TerminatorCode;
-            StringConverter12.SetString(Data.AsSpan(boxOfs + 0x10, 4), "1234".AsSpan(), 4, Japanese, StringConverterOption.None);
+            StringConverter12.SetString(Data.AsSpan(boxOfs + 0x10, 4), "1234", 4, Japanese, StringConverterOption.None);
         }
         else
         {

@@ -81,7 +81,7 @@ public sealed class BV7 : BattleVideo
         {
             string tr = value[i] == NPC ? string.Empty : value[i];
             var span = Data.AsSpan(0x12C + +(0x1A * i), 0x1A);
-            StringConverter7.SetString(span, tr.AsSpan(), 12, 0, StringConverterOption.ClearZero);
+            StringConverter7.SetString(span, tr, 12, 0, StringConverterOption.ClearZero);
         }
     }
 

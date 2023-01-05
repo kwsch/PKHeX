@@ -352,7 +352,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     public override string Nickname
     {
         get => StringConverter8.GetString(Nickname_Trash);
-        set => StringConverter8.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
     }
 
     // 2 bytes for \0, automatically handled above
@@ -399,7 +399,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     public override string HT_Name
     {
         get => StringConverter8.GetString(HT_Trash);
-        set => StringConverter8.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
 
     public override int HT_Gender { get => Data[0xC2]; set => Data[0xC2] = (byte)value; }
@@ -428,7 +428,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     public override string OT_Name
     {
         get => StringConverter8.GetString(OT_Trash);
-        set => StringConverter8.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
 
     public override int OT_Friendship { get => Data[0x112]; set => Data[0x112] = (byte)value; }

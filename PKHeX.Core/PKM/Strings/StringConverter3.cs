@@ -58,7 +58,7 @@ public static class StringConverter3
             value = value[..maxLength]; // Hard cap
 
         if (option is StringConverterOption.ClearFF)
-            buffer.Fill(0xFF);
+            buffer.Fill(TerminatorByte);
         else if (option is StringConverterOption.ClearZero)
             buffer.Clear();
 

@@ -144,7 +144,6 @@ public sealed class RecordBlock7SM : RecordBlock6
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
     };
-
 }
 
 public sealed class RecordBlock7USUM : RecordBlock6

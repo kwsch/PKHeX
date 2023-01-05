@@ -228,7 +228,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public string Nickname
     {
         get => StringConverter8.GetString(Nickname_Trash);
-        set => StringConverter8.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
     }
 
     public int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x62)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x62), (ushort)value); }
@@ -245,7 +245,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public string HT_Name
     {
         get => StringConverter8.GetString(HT_Trash);
-        set => StringConverter8.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
     public int HT_Gender      { get => Data[Offset + 0x8A]; set => Data[Offset + 0x8A] = (byte)value; }
     public byte HT_Language   { get => Data[Offset + 0x8B]; set => Data[Offset + 0x8B] = value; }
@@ -268,7 +268,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public string OT_Name
     {
         get => StringConverter8.GetString(OT_Trash);
-        set => StringConverter8.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
     public int OT_Friendship    { get => Data[Offset + 0xB7]; set => Data[Offset + 0xB7] = (byte)value; }
     public byte OT_Intensity    { get => Data[Offset + 0xB8]; set => Data[Offset + 0xB8] = value; }

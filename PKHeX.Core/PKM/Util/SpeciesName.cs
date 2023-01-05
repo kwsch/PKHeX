@@ -115,7 +115,7 @@ public static class SpeciesName
         }
 
         Span<char> result = stackalloc char[nick.Length];
-        nick.AsSpan().CopyTo(result);
+        nick.CopyTo(result);
 
         // All names are uppercase.
         for (int i = 0; i < result.Length; i++)

@@ -74,7 +74,7 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
         return flags;
     }
 
-    public static int BitOverlap(Span<ushort> moves, Span<ushort> span)
+    public static int BitOverlap(ReadOnlySpan<ushort> moves, ReadOnlySpan<ushort> span)
     {
         // Flag each present index; having all moves will have all bitflags.
         int flags = 0;

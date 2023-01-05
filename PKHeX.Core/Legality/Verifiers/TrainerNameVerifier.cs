@@ -104,7 +104,7 @@ public sealed class TrainerNameVerifier : Verifier
             }
         }
 
-        VerifyG1OTWithinBounds(data, tr.AsSpan());
+        VerifyG1OTWithinBounds(data, tr);
 
         if (pk.OT_Gender == 1)
         {

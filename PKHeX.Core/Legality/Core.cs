@@ -63,15 +63,6 @@ public static partial class Legal
     internal static readonly ushort[][] ReminderSV = EggMoves9.GetArray(Get(Util.GetBinaryResource("reminder_sv.pkl"), "sv"));
     internal static readonly Learnset[] LevelUpSV = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_sv.pkl"), "sv"));
 
-    internal static int GetMaxSpeciesOrigin(PKM pk)
-    {
-        if (pk.Format == 1)
-            return MaxSpeciesID_1;
-        if (pk.Format == 2 || pk.VC)
-            return MaxSpeciesID_2;
-        return GetMaxSpeciesOrigin(pk.Generation);
-    }
-
     internal static int GetMaxSpeciesOrigin(int generation) => generation switch
     {
         1 => MaxSpeciesID_1,
@@ -149,7 +140,7 @@ public static partial class Legal
         _ => generation >= 6 ? 12 : 10,
     };
 
-    public static bool GetIsFixedIVSequenceValidSkipRand(ReadOnlySpan<int> IVs, PKM pk, int max = 31)
+    public static bool GetIsFixedIVSequenceValidSkipRand(ReadOnlySpan<int> IVs, PKM pk, uint max = 31)
     {
         for (int i = 0; i < 6; i++)
         {

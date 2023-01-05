@@ -50,7 +50,7 @@ internal static class MoveList
         return moves;
     }
 
-    private static Span<ushort> Get(Span<ushort> moves, Learnset[] source, IPersonalTable pt, ushort species, byte form, int lvl)
+    private static Span<ushort> Get<T>(Span<ushort> moves, Learnset[] source, T pt, ushort species, byte form, int lvl) where T : IPersonalTable
     {
         if (!pt.IsPresentInGame(species, form))
             return moves;

@@ -61,7 +61,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public string Rival
     {
         get => GetString(Rival_Trash);
-        set => SetString(Rival_Trash, value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Rival_Trash, value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public Span<byte> Rival_Trash

@@ -5,6 +5,9 @@ using System.Globalization;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for parsing labeled scripted event schemas into labeled tags.
+/// </summary>
 public static class EventLabelParsing
 {
     private const char Split = '\t';

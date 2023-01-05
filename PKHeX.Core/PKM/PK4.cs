@@ -181,7 +181,7 @@ public sealed class PK4 : G4PKM
     public override string Nickname
     {
         get => StringConverter4.GetString(Nickname_Trash);
-        set => StringConverter4.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None);
+        set => StringConverter4.SetString(Nickname_Trash, value, 10, StringConverterOption.None);
     }
 
     // 0x5E unused
@@ -229,7 +229,7 @@ public sealed class PK4 : G4PKM
     public override string OT_Name
     {
         get => StringConverter4.GetString(OT_Trash);
-        set => StringConverter4.SetString(OT_Trash, value.AsSpan(), 7, StringConverterOption.None);
+        set => StringConverter4.SetString(OT_Trash, value, 7, StringConverterOption.None);
     }
 
     public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
@@ -313,7 +313,7 @@ public sealed class PK4 : G4PKM
             return new PK5(Data);
 
         var moment = DateOnly.FromDateTime(DateTime.Now);
-        
+
         PK5 pk5 = new(Data.AsSpan(0, PokeCrypto.SIZE_5PARTY).ToArray()) // Convert away!
         {
             JunkByte = 0,

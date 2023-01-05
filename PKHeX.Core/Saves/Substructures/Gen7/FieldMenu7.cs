@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -21,6 +21,6 @@ public sealed class FieldMenu7 : SaveBlock<SAV7>
     public string RotomOT
     {
         get => SAV.GetString(Offset + 0x30, 0x1A);
-        set => SAV.SetString(Data.AsSpan(Offset + 0x30, 0x1A), value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(Data.AsSpan(Offset + 0x30, 0x1A), value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 }

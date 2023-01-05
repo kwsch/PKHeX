@@ -163,7 +163,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public override string OT
     {
         get => GetString(General.AsSpan(Trainer1, 16));
-        set => SetString(General.AsSpan(Trainer1, 16), value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(General.AsSpan(Trainer1, 16), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public override uint ID32
@@ -245,7 +245,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public string Rival
     {
         get => GetString(Rival_Trash);
-        set => SetString(Rival_Trash, value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Rival_Trash, value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public abstract Span<byte> Rival_Trash { get; set; }

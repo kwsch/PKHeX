@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -50,7 +50,7 @@ public abstract class GBPKML : GBPKM
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
         var len = Nickname_Trash.Length;
         byte[] data = new byte[len];
-        SetString(name.AsSpan(), data, len, StringConverterOption.Clear50);
+        SetString(name, data, len, StringConverterOption.Clear50);
         if (!Korean)
         {
             // Decimal point<->period fix
@@ -83,7 +83,7 @@ public abstract class GBPKML : GBPKM
             if (!IsNicknamed && Nickname == value)
                 return;
 
-            SetStringKeepTerminatorStyle(value.AsSpan(), RawNickname);
+            SetStringKeepTerminatorStyle(value, RawNickname);
         }
     }
 
@@ -92,14 +92,14 @@ public abstract class GBPKML : GBPKM
         get
         {
             if (Korean)
-                return StringConverter2KOR.GetString(RawOT.AsSpan());
-            return StringConverter12.GetString(RawOT.AsSpan(), Japanese);
+                return StringConverter2KOR.GetString(RawOT);
+            return StringConverter12.GetString(RawOT, Japanese);
         }
         set
         {
             if (value == OT_Name)
                 return;
-            SetStringKeepTerminatorStyle(value.AsSpan(), RawOT);
+            SetStringKeepTerminatorStyle(value, RawOT);
         }
     }
 

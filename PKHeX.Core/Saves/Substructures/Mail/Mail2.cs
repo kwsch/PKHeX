@@ -72,7 +72,7 @@ public sealed class Mail2 : MailDetail
         set
         {
             var span = Data.AsSpan(0, LINE_LENGTH);
-            SetString(span[..^1], value.AsSpan(), LINE_LENGTH - 1);
+            SetString(span[..^1], value, LINE_LENGTH - 1);
             span[^1] = 0x4E;
         }
     }
@@ -83,7 +83,7 @@ public sealed class Mail2 : MailDetail
         set
         {
             var span = Data.AsSpan(LINE_LENGTH, LINE_LENGTH);
-            SetString(span[..^1], value.AsSpan(), LINE_LENGTH - 1);
+            SetString(span[..^1], value, LINE_LENGTH - 1);
             span[^1] = 0x4E;
         }
     }
@@ -96,7 +96,7 @@ public sealed class Mail2 : MailDetail
         get => GetString(Data.AsSpan(OFS_AUTHOR, AUTHOR_LENGTH + 1));
         set
         {
-            SetString(Data.AsSpan(OFS_AUTHOR, 8), value.AsSpan(), AUTHOR_LENGTH);
+            SetString(Data.AsSpan(OFS_AUTHOR, 8), value, AUTHOR_LENGTH);
             Nationality = 0; // ??
         }
     }

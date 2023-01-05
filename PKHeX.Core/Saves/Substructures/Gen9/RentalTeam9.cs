@@ -53,13 +53,13 @@ public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
     public string PlayerName
     {
         get => StringConverter8.GetString(Player_Trash);
-        set => StringConverter8.SetString(Player_Trash, value.AsSpan(), 10);
+        set => StringConverter8.SetString(Player_Trash, value, 10);
     }
 
     public string TeamName
     {
         get => StringConverter8.GetString(TeamName_Trash);
-        set => StringConverter8.SetString(TeamName_Trash, value.AsSpan(), LEN_TEAMNAME);
+        set => StringConverter8.SetString(TeamName_Trash, value, LEN_TEAMNAME);
     }
 
     public uint EntityCount

@@ -64,11 +64,13 @@ public static class StringConverter12
     {
         foreach (var b in data)
         {
-            if (b is >= 0xC0 and <= 0xC6)
+            if (IsGermanicGlyph(b))
                 return true;
         }
         return false;
     }
+
+    private static bool IsGermanicGlyph(byte b) => b - 0xC0u <= 6;
 
     /// <summary>
     /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
@@ -83,7 +85,7 @@ public static class StringConverter12
             if (!table.TryGetValue(c, out var b))
                 continue;
 
-            if (b is >= 0xC0 and <= 0xC6)
+            if (IsGermanicGlyph(b))
                 return true;
         }
         return false;

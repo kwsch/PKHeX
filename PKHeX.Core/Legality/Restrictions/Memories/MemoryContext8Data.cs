@@ -70,7 +70,7 @@ public partial class MemoryContext8
         1260, 1261, 1262, 1263,
     };
 
-    private static readonly ushort[] LotoPrizeSWSH =
+    private static ReadOnlySpan<byte> LotoPrizeSWSH => new byte[]
     {
         0001, 0033, 0050, 0051, 0053,
     };
@@ -266,7 +266,7 @@ public partial class MemoryContext8
         2, 3, 3, 3, 3, 4, 5, 3, 3, 3,
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
     };
-    
+
 #if FALSE
     // [0,99]+1 >= CHANCE -> abort
     // this silly +1 causes:

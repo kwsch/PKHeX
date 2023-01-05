@@ -54,7 +54,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override string Nickname
     {
         get => StringConverter3.GetString(Nickname_Trash, Japanese);
-        set => StringConverter3.SetString(Nickname_Trash, (IsEgg ? EggNameJapanese : value).AsSpan(), 10, Japanese, StringConverterOption.None);
+        set => StringConverter3.SetString(Nickname_Trash, IsEgg ? EggNameJapanese : value, 10, Japanese, StringConverterOption.None);
     }
     public override int Language { get => Data[0x12]; set => Data[0x12] = (byte)value; }
     public bool FlagIsBadEgg   { get => (Data[0x13] & 1) != 0; set => Data[0x13] = (byte)((Data[0x13] & ~1) | (value ? 1 : 0)); }
@@ -63,7 +63,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override string OT_Name
     {
         get => StringConverter3.GetString(OT_Trash, Japanese);
-        set => StringConverter3.SetString(OT_Trash, value.AsSpan(), 7, Japanese, StringConverterOption.None);
+        set => StringConverter3.SetString(OT_Trash, value, 7, Japanese, StringConverterOption.None);
     }
     public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
     public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }

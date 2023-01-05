@@ -40,7 +40,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override void RefreshChecksum() => Checksum = CalculateChecksum();
     public override bool ChecksumValid => CalculateChecksum() == Checksum;
     public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
-    private ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, PokeCrypto.SIZE_4STORED);
+    private ushort CalculateChecksum() => PokeCrypto.GetCHK(Data.AsSpan()[8..PokeCrypto.SIZE_4STORED]);
 
     // Trash Bytes
     public override Span<byte> Nickname_Trash => Data.AsSpan(0x48, 22);
@@ -189,7 +189,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #endregion
 
     #region Block C
-    public override string Nickname { get => StringConverter5.GetString(Nickname_Trash); set => StringConverter5.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None); }
+    public override string Nickname { get => StringConverter5.GetString(Nickname_Trash); set => StringConverter5.SetString(Nickname_Trash, value, 10, StringConverterOption.None); }
     // 0x5E unused
     public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
     private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -232,7 +232,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     #endregion
 
     #region Block D
-    public override string OT_Name { get => StringConverter5.GetString(OT_Trash); set => StringConverter5.SetString(OT_Trash, value.AsSpan(), 7, StringConverterOption.None); }
+    public override string OT_Name { get => StringConverter5.GetString(OT_Trash); set => StringConverter5.SetString(OT_Trash, value, 7, StringConverterOption.None); }
     public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
     public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
     public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }

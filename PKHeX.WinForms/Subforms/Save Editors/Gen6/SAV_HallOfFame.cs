@@ -391,7 +391,7 @@ public partial class SAV_HallOfFame : Form
         int offset = (team * (4 + (6 * HallFame6Entity.SIZE))) + (member * HallFame6Entity.SIZE);
         var nicktrash = data.AsSpan(offset + 0x18, 26);
         var text = tb.Text;
-        SAV.SetString(nicktrash, text.AsSpan(), 12, StringConverterOption.ClearZero);
+        SAV.SetString(nicktrash, text, 12, StringConverterOption.ClearZero);
         var d = new TrashEditor(tb, nicktrash, SAV);
         d.ShowDialog();
         tb.Text = d.FinalString;

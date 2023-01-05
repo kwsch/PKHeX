@@ -74,7 +74,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override string CardTitle
     {
         get => StringConverter4.GetString(CardTitleSpan);
-        set => StringConverter4.SetString(CardTitleSpan, value.AsSpan(), TitleLength / 2, StringConverterOption.ClearFF);
+        set => StringConverter4.SetString(CardTitleSpan, value, TitleLength / 2, StringConverterOption.ClearFF);
     }
 
     public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about

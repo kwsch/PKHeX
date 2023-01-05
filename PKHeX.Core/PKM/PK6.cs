@@ -226,7 +226,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string Nickname
     {
         get => StringConverter6.GetString(Nickname_Trash);
-        set => StringConverter6.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter6.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
     }
 
     public override ushort Move1
@@ -303,7 +303,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string HT_Name
     {
         get => StringConverter6.GetString(HT_Trash);
-        set => StringConverter6.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter6.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
     public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
     public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
@@ -339,7 +339,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string OT_Name
     {
         get => StringConverter6.GetString(OT_Trash);
-        set => StringConverter6.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter6.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
     public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
     public byte OT_Affection { get => Data[0xCB]; set => Data[0xCB] = value; }

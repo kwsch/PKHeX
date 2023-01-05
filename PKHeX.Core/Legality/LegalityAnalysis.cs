@@ -27,11 +27,6 @@ public sealed class LegalityAnalysis
     public IReadOnlyList<CheckResult> Results => Parse;
 
     /// <summary>
-    /// Only use this when trying to mutate the legality. Not for use when checking legality.
-    /// </summary>
-    public void ResetParse() => Parse.Clear();
-
-    /// <summary>
     /// Matched encounter data for the <see cref="Entity"/>.
     /// </summary>
     public IEncounterable EncounterMatch => Info.EncounterMatch;

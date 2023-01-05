@@ -288,7 +288,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         {
             for (int f = 1; f <= 8; f++)
             {
-                var flag = $"FEVT_SUB_{i:000}_KUI_{f:00}_RELEASE".AsSpan();
+                var flag = $"FEVT_SUB_{i:000}_KUI_{f:00}_RELEASE";
                 var hash = (uint)FnvHash.HashFnv1a_64(flag);
                 var block = Accessor.GetBlock(hash);
                 block.ChangeBooleanType(SCTypeCode.Bool2);
@@ -311,7 +311,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         for (int i = 1; i <= 171; i++)
         {
-            var flag = $"FSYS_UI_WAZA_MACHINE_RELEASE_{i:000}".AsSpan();
+            var flag = $"FSYS_UI_WAZA_MACHINE_RELEASE_{i:000}";
             var hash = (uint)FnvHash.HashFnv1a_64(flag);
             var block = Accessor.GetBlock(hash);
             block.ChangeBooleanType(SCTypeCode.Bool2);

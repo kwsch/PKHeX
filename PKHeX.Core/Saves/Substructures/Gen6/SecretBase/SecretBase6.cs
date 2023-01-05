@@ -92,7 +92,7 @@ public class SecretBase6
     public string TrainerName
     {
         get => StringConverter6.GetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes));
-        set => StringConverter6.SetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes), value.AsSpan(), NameLength, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes), value, NameLength, StringConverterOption.ClearZero);
     }
 
     private Span<byte> GetMessageSpan(int index) => Data.AsSpan(Offset + 0x234 + (MessageLengthBytes * index), MessageLengthBytes);

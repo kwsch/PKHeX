@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -191,7 +191,7 @@ public sealed class RecvData8b
     public string OT
     {
         get => StringConverter8.GetString(Data.AsSpan(Offset + 0x1E, 0x1A));
-        set => StringConverter8.SetString(Data.AsSpan(Offset + 0x1E, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(Offset + 0x1E, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
     public byte OT_Gender { get => Data[Offset + 0x38]; set => Data[Offset + 0x38] = value; }

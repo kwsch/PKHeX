@@ -56,10 +56,9 @@ public static class StringConverter12Transporter
         if (!IsHiragana(chars))
             return;
 
-        var span = Katakana.AsSpan();
         for (int i = 0; i < chars.Length; i++)
         {
-            int index = span.IndexOf(chars[i]);
+            int index = Katakana.IndexOf(chars[i]);
             if (index == -1)
                 continue;
             chars[i] = Hiragana[index];

@@ -188,7 +188,7 @@ public partial class TrashEditor : Form
         return temp[..written].ToArray();
     }
 
-    private string GetString() => SAV.GetString(Raw.AsSpan());
+    private string GetString() => SAV.GetString(Raw);
 
     // Helpers
     private static Label GetLabel(string str) => new() {Text = str, AutoSize = true};

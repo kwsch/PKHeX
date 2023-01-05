@@ -198,7 +198,7 @@ public sealed class BK4 : G4PKM
     #endregion
 
     #region Block C
-    public override string Nickname { get => StringConverter4GC.GetString(Nickname_Trash); set => StringConverter4GC.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None); }
+    public override string Nickname { get => StringConverter4GC.GetString(Nickname_Trash); set => StringConverter4GC.SetString(Nickname_Trash, value, 10, StringConverterOption.None); }
     // 0x5E unused
     public override int Version { get => Data[0x5F]; set => Data[0x5F] = (byte)value; }
     private byte RIB8 { get => Data[0x60]; set => Data[0x60] = value; } // Sinnoh 3
@@ -241,7 +241,7 @@ public sealed class BK4 : G4PKM
     #endregion
 
     #region Block D
-    public override string OT_Name { get => StringConverter4GC.GetString(OT_Trash); set => StringConverter4GC.SetString(OT_Trash, value.AsSpan(), 7, StringConverterOption.None); }
+    public override string OT_Name { get => StringConverter4GC.GetString(OT_Trash); set => StringConverter4GC.SetString(OT_Trash, value, 7, StringConverterOption.None); }
     public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
     public override int Egg_Month { get => Data[0x79]; set => Data[0x79] = (byte)value; }
     public override int Egg_Day { get => Data[0x7A]; set => Data[0x7A] = (byte)value; }
@@ -285,7 +285,7 @@ public sealed class BK4 : G4PKM
     // Methods
     protected override ushort CalculateChecksum()
     {
-        ReadOnlySpan<byte> arr = Data.AsSpan();
+        ReadOnlySpan<byte> arr = Data;
         ushort chk = 0;
         for (int i = 8; i < PokeCrypto.SIZE_4STORED; i += 2)
             chk += ReadUInt16BigEndian(arr[i..]);

@@ -245,11 +245,11 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
                 int lang = SpeciesName.GetSpeciesNameLanguage(Species, Language, value, 7);
                 if (lang is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT)
                 {
-                    StringConverter7.SetString(Nickname_Trash, value.AsSpan(), 12, lang, StringConverterOption.None, chinese: true);
+                    StringConverter7.SetString(Nickname_Trash, value, 12, lang, StringConverterOption.None, chinese: true);
                     return;
                 }
             }
-            StringConverter7.SetString(Nickname_Trash, value.AsSpan(), 12, 0, StringConverterOption.None);
+            StringConverter7.SetString(Nickname_Trash, value, 12, 0, StringConverterOption.None);
         }
     }
 
@@ -327,7 +327,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string HT_Name
     {
         get => StringConverter7.GetString(HT_Trash);
-        set => StringConverter7.SetString(HT_Trash, value.AsSpan(), 12, 0, StringConverterOption.None);
+        set => StringConverter7.SetString(HT_Trash, value, 12, 0, StringConverterOption.None);
     }
 
     public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
@@ -364,7 +364,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string OT_Name
     {
         get => StringConverter7.GetString(OT_Trash);
-        set => StringConverter7.SetString(OT_Trash, value.AsSpan(), 12, 0, StringConverterOption.None);
+        set => StringConverter7.SetString(OT_Trash, value, 12, 0, StringConverterOption.None);
     }
 
     public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }

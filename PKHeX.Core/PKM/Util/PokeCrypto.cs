@@ -100,7 +100,7 @@ public static class PokeCrypto
     /// <summary>
     /// Positions for unshuffling.
     /// </summary>
-    internal static ReadOnlySpan<byte> blockPositionInvert => new byte[]
+    private static ReadOnlySpan<byte> blockPositionInvert => new byte[]
     {
         0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23,
         0, 1, 2, 4, 3, 5, 6, 7, // duplicates of 0-7 to eliminate modulus
@@ -406,16 +406,14 @@ public static class PokeCrypto
     }
 
     /// <summary>
-    /// Gets the checksum of a 232 byte array.
+    /// Gets the 16-bit checksum of a byte array.
     /// </summary>
     /// <param name="data">Decrypted Pokémon data.</param>
-    /// <param name="partyStart">Offset at which the Stored data ends and the Party data starts.</param>
-    public static ushort GetCHK(ReadOnlySpan<byte> data, int partyStart)
+    public static ushort GetCHK(ReadOnlySpan<byte> data)
     {
         ushort chk = 0;
-        var span = data[0x08..partyStart];
-        for (int i = 0; i < span.Length; i += 2)
-            chk += ReadUInt16LittleEndian(span[i..]);
+        for (int i = 0; i < data.Length; i += 2)
+            chk += ReadUInt16LittleEndian(data[i..]);
         return chk;
     }
 
@@ -424,14 +422,7 @@ public static class PokeCrypto
     /// </summary>
     /// <param name="data">Decrypted Pokémon data.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ushort GetCHK3(ReadOnlySpan<byte> data)
-    {
-        ushort chk = 0;
-        var span = data[0x20..SIZE_3STORED];
-        for (int i = 0; i < span.Length; i += 2)
-            chk += ReadUInt16LittleEndian(span[i..]);
-        return chk;
-    }
+    public static ushort GetCHK3(ReadOnlySpan<byte> data) => GetCHK(data[0x20..SIZE_3STORED]);
 
     /// <summary>
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.

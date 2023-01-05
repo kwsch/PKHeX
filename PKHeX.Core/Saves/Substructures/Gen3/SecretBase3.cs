@@ -38,7 +38,7 @@ public sealed class SecretBase3
     public string OT_Name
     {
         get => StringConverter3.GetString(Data.AsSpan(Offset + 2, 7), Japanese);
-        set => StringConverter3.SetString(Data.AsSpan(Offset + 2, 7), value.AsSpan(), 7, Japanese, StringConverterOption.ClearFF);
+        set => StringConverter3.SetString(Data.AsSpan(Offset + 2, 7), value, 7, Japanese, StringConverterOption.ClearFF);
     }
 
     public uint OT_ID

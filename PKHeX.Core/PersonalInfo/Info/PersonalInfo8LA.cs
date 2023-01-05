@@ -117,7 +117,7 @@ public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H, IPermit
     public int RecordCountUsed => MoveShopCount;
     public bool HasMoveShop => MoveShopBits != 0;
 
-    internal static readonly ushort[] MoveShopMoves =
+    private static readonly ushort[] MoveShopMoves =
     {
         (int)Move.FalseSwipe,
         (int)Move.FireFang,

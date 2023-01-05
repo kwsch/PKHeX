@@ -41,7 +41,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     {
         // Max len 36 char, followed by null terminator
         get => StringConverter7.GetString(Data.AsSpan(2, 0x4A));
-        set => StringConverter7.SetString(Data.AsSpan(2, 0x4A), value.AsSpan(), 36, Language, StringConverterOption.ClearZero);
+        set => StringConverter7.SetString(Data.AsSpan(2, 0x4A), value, 36, Language, StringConverterOption.ClearZero);
     }
 
     internal uint RawDate
@@ -215,7 +215,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public string Nickname
     {
         get => StringConverter7.GetString(Data.AsSpan(0x86, 0x1A));
-        set => StringConverter7.SetString(Data.AsSpan(0x86, 0x1A), value.AsSpan(), 12, Language, StringConverterOption.ClearZero);
+        set => StringConverter7.SetString(Data.AsSpan(0x86, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
     }
 
     public int Nature { get => (sbyte)Data[0xA0]; set => Data[0xA0] = (byte)value; }
@@ -245,7 +245,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public override string OT_Name
     {
         get => StringConverter7.GetString(Data.AsSpan(0xB6, 0x1A));
-        set => StringConverter7.SetString(Data.AsSpan(0xB6, 0x1A), value.AsSpan(), 12, Language, StringConverterOption.ClearZero);
+        set => StringConverter7.SetString(Data.AsSpan(0xB6, 0x1A), value, 12, Language, StringConverterOption.ClearZero);
     }
 
     public override byte Level { get => Data[0xD0]; set => Data[0xD0] = value; }

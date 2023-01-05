@@ -45,7 +45,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     {
         // Max len 36 char, followed by null terminator
         get => StringConverter8.GetString(Data.AsSpan(CardStart + 2, 0x4A));
-        set => StringConverter8.SetString(Data.AsSpan(CardStart + 2, 0x4A), value.AsSpan(), 36, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(CardStart + 2, 0x4A), value, 36, StringConverterOption.ClearZero);
     }
 
     private uint RawDate

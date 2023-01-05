@@ -306,7 +306,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         set
         {
             int len = Japanese ? 5 : MaxStringLengthOT;
-            SetString(Small.AsSpan(0, len), value.AsSpan(), len, StringConverterOption.ClearFF);
+            SetString(Small.AsSpan(0, len), value, len, StringConverterOption.ClearFF);
         }
     }
 

@@ -284,7 +284,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public string Rival
     {
         get => GetString(0x55F4, 0x1A);
-        set => SetString(Data.AsSpan(0x55F4, 0x1A), value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Data.AsSpan(0x55F4, 0x1A), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public short ZoneID // map

@@ -37,6 +37,9 @@ public static class ArrayUtil
     public static byte[] Slice(this byte[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
     public static T[] Slice<T>(this T[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
 
+    /// <summary>
+    /// Checks the range (exclusive max) if the <see cref="value"/> is inside.
+    /// </summary>
     public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
 
     public static IEnumerable<T[]> EnumerateSplit<T>(T[] bin, int size, int start = 0)

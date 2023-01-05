@@ -43,7 +43,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         var index = Personal.GetFormIndex(species, form);
         if (index >= EggMoves.Length)
             return ReadOnlySpan<ushort>.Empty;
-        return EggMoves[index].AsSpan();
+        return EggMoves[index];
     }
 
     public bool GetIsReminderMove(ushort species, byte form, ushort move)
@@ -60,7 +60,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         var index = Personal.GetFormIndex(species, form);
         if (index >= Reminder.Length)
             return ReadOnlySpan<ushort>.Empty;
-        return Reminder[index].AsSpan();
+        return Reminder[index];
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo9SV pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

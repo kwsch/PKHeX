@@ -40,7 +40,7 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
     {
         if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
-        return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
+        return MoveEgg.GetFormEggMoves(species, form, EggMoves);
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8SWSH pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
@@ -61,7 +61,7 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
 
         if (types.HasFlag(MoveSourceType.TechnicalRecord) && GetIsTR(pi, pk, evo, move, option))
             return new(TMHM, Game);
-        
+
         if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(move))
             return new(Tutor, Game);
 

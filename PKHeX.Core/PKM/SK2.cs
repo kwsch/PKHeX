@@ -94,7 +94,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override string Nickname
     {
         get => StringConverter12.GetString(Nickname_Trash, Japanese);
-        set => StringConverter12.SetString(Nickname_Trash, value.AsSpan(), 12, Japanese, StringConverterOption.None);
+        set => StringConverter12.SetString(Nickname_Trash, value, 12, Japanese, StringConverterOption.None);
     }
 
     public override string OT_Name
@@ -107,7 +107,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
                 OT_Trash.Clear();
                 return;
             }
-            StringConverter12.SetString(OT_Trash, value.AsSpan(), StringLength, Japanese, StringConverterOption.None);
+            StringConverter12.SetString(OT_Trash, value, StringLength, Japanese, StringConverterOption.None);
         }
     }
 
@@ -135,7 +135,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     {
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
         byte[] data = new byte[name.Length];
-        StringConverter12.SetString(data, name.AsSpan(), data.Length, Japanese, StringConverterOption.Clear50);
+        StringConverter12.SetString(data, name, data.Length, Japanese, StringConverterOption.Clear50);
         return data;
     }
 

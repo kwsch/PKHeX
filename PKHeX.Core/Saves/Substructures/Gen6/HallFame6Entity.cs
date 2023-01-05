@@ -47,12 +47,12 @@ public readonly ref struct HallFame6Entity
     public string Nickname
     {
         get => StringConverter6.GetString(Nick_Trash);
-        set => StringConverter6.SetString(Nick_Trash, value.AsSpan(), 12, Option);
+        set => StringConverter6.SetString(Nick_Trash, value, 12, Option);
     }
 
     public string OT_Name
     {
         get => StringConverter6.GetString(OT_Trash);
-        set => StringConverter6.SetString(OT_Trash, value.AsSpan(), 12, Option);
+        set => StringConverter6.SetString(OT_Trash, value, 12, Option);
     }
 }

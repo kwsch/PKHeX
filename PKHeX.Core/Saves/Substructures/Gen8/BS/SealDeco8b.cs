@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -39,7 +39,7 @@ public sealed class SealBallDecoData8b : SaveBlock<SAV8BS>
     private static void SetCapsules(IReadOnlyList<SealCapsule8b> value)
     {
         if (value.Count != COUNT_CAPSULE)
-            throw new ArgumentOutOfRangeException(nameof(value.Count));
+            throw new ArgumentException($"Expected {COUNT_CAPSULE} items, received {value.Count}.", nameof(value));
         // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
     }
 }
@@ -81,7 +81,7 @@ public sealed class SealCapsule8b
     private static void SetSeals(IReadOnlyList<AffixSealData8b> value)
     {
         if (value.Count != COUNT_SEAL)
-            throw new ArgumentOutOfRangeException(nameof(value.Count));
+            throw new ArgumentException($"Expected {COUNT_SEAL} items, received {value.Count}.", nameof(value));
         // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
     }
 }

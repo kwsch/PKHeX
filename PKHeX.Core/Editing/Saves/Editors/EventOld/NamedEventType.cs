@@ -3,6 +3,9 @@ using static PKHeX.Core.NamedEventType;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Type of scripted event label
+/// </summary>
 public enum NamedEventType
 {
     None,
