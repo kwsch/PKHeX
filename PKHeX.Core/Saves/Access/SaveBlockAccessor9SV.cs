@@ -608,35 +608,37 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FEVT_NUSHI_JIMEN_FOOD_GET = 0xAD1BA90E;
     private const uint FEVT_SEAMLESS_TALK_BATTLE_LOSE = 0x924E346A;
     private const uint FEVT_SERI_LEGEND_0112 = 0x8048F243;
-    private const uint FEVT_SERI_LEGEND_0135 = 0x804E5454;
-    private const uint FEVT_SERI_LEGEND_0136 = 0x804E596D;
-    private const uint FEVT_SERI_LEGEND_0298 = 0x8E874DC8;
-    private const uint FEVT_SERI_LEGEND_0299 = 0x8E874F7B;
-    private const uint FEVT_SERI_LEGEND_0300 = 0x895CD8D6;
-    private const uint FEVT_SERI_LEGEND_0301 = 0x895CDA89;
-    private const uint FEVT_SERI_LEGEND_0302 = 0x895CD570;
-    private const uint FEVT_SERI_LEGEND_0303 = 0x895CD723;
-    private const uint FEVT_SERI_LEGEND_0304 = 0x895CDFA2;
-    private const uint FEVT_SERI_LEGEND_0305 = 0x895CE155;
-    private const uint FEVT_SERI_LEGEND_0306 = 0x895CDC3C;
-    private const uint FEVT_SERI_LEGEND_0307 = 0x895CDDEF;
-    private const uint FEVT_SERI_LEGEND_0308 = 0x895CE66E;
-    private const uint FEVT_SERI_LEGEND_0309 = 0x895CE821;
-    private const uint FEVT_SERI_LEGEND_0310 = 0x895FF25F;
-    private const uint FEVT_SERI_LEGEND_0311 = 0x895FF0AC;
-    private const uint FEVT_SERI_LEGEND_0312 = 0x895FF5C5;
-    private const uint FEVT_SERI_LEGEND_0313 = 0x895FF412;
-    private const uint FEVT_SERI_LEGEND_0638 = 0xA1E7C2EE;
-    private const uint FEVT_SERI_LEGEND_0644 = 0xA1D94C55;
-    private const uint FEVT_SERI_LEGEND_0765 = 0x9CA69C5B;
-    private const uint FEVT_SERI_LEGEND_1103 = 0x32CAE86C;
-    private const uint FEVT_SERI_LEGEND_1104 = 0x32CAE6B9;
-    private const uint FEVT_SERI_LEGEND_1278 = 0x246C9C43;
-    private const uint FEVT_SERI_LEGEND_1590 = 0x1F3F28F8;
-    private const uint FEVT_SERI_LEGEND_1777 = 0x16729999;
-    private const uint FEVT_SERI_LEGEND_1778 = 0x1672A8E4;
-    private const uint FEVT_SERI_LEGEND_1857 = 0x06B12DD6;
-    private const uint FEVT_SERI_LEGEND_1858 = 0x06B14087;
+    private const uint KPurchasedGriseousOrb = 0xF917055C; // should be FEVT_SERI_LEGEND_0112 but that block key is not used...
+    private const uint KPurchasedAdamantOrb = 0x804E5454; // FEVT_SERI_LEGEND_0135
+    private const uint KPurchasedLustrousOrb = 0x804E596D; // FEVT_SERI_LEGEND_0136
+    private const uint KPurchasedFlamePlate = 0x8E874DC8; // FEVT_SERI_LEGEND_0298
+    private const uint KPurchasedSplashPlate = 0x8E874F7B; // FEVT_SERI_LEGEND_0299
+    private const uint KPurchasedZapPlate = 0x895CD8D6; // FEVT_SERI_LEGEND_0300
+    private const uint KPurchasedMeadowPlate = 0x895CDA89; // FEVT_SERI_LEGEND_0301
+    private const uint KPurchasedIciclePlate = 0x895CD570; // FEVT_SERI_LEGEND_0302
+    private const uint KPurchasedFistPlate = 0x895CD723; // FEVT_SERI_LEGEND_0303
+    private const uint KPurchasedToxicPlate = 0x895CDFA2; // FEVT_SERI_LEGEND_0304
+    private const uint KPurchasedEarthPlate = 0x895CE155; // FEVT_SERI_LEGEND_0305
+    private const uint KPurchasedSkyPlate = 0x895CDC3C; // FEVT_SERI_LEGEND_0306
+    private const uint KPurchasedMindPlate = 0x895CDDEF; // FEVT_SERI_LEGEND_0307
+    private const uint KPurchasedInsectPlate = 0x895CE66E; // FEVT_SERI_LEGEND_0308
+    private const uint KPurchasedStonePlate = 0x895CE821; // FEVT_SERI_LEGEND_0309
+    private const uint KPurchasedSpookyPlate = 0x895FF25F; // FEVT_SERI_LEGEND_0310
+    private const uint KPurchasedDracoPlate = 0x895FF0AC; // FEVT_SERI_LEGEND_0311
+    private const uint KPurchasedDreadPlate = 0x895FF5C5; // FEVT_SERI_LEGEND_0312
+    private const uint KPurchasedIronPlate = 0x895FF412; // FEVT_SERI_LEGEND_0313
+    private const uint KPurchasedRevealGlass = 0xA1E7C2EE; // FEVT_SERI_LEGEND_0638
+    private const uint KPurchasedPixiePlate = 0xA1D94C55; // FEVT_SERI_LEGEND_0644
+    private const uint KPurchasedPrisonBottle = 0x9CA69C5B; // FEVT_SERI_LEGEND_0765
+    private const uint KPurchasedRustedSword = 0x32CAE86C; // FEVT_SERI_LEGEND_1103
+    private const uint KPurchasedRustedShield = 0x32CAE6B9; // FEVT_SERI_LEGEND_1104
+    private const uint KPurchasedRotomCatalog = 0x246C9C43; // FEVT_SERI_LEGEND_1278
+    private const uint KPurchasedReinsOfUnity = 0x1F3F28F8; // FEVT_SERI_LEGEND_1590
+    private const uint KPurchasedAdamantCrystal = 0x16729999; // FEVT_SERI_LEGEND_1777
+    private const uint KPurchasedLustrousGlobe = 0x1672A8E4; // FEVT_SERI_LEGEND_1778
+    private const uint KPurchasedGriseousCore = 0xFE092048; // should be FEVT_SERI_LEGEND_1779 but no such block key exists...
+    private const uint KPurchasedScrollOfDarkness = 0x06B12DD6; // FEVT_SERI_LEGEND_1857
+    private const uint KPurchasedScrollOfWaters = 0x06B14087; // FEVT_SERI_LEGEND_1858
     private const uint FEVT_SUB_014_CHALLENGED_TODAY = 0x7E1AB823;
     private const uint KRemovedStakeTingLu1 = 0x12AC859B; // FEVT_SUB_014_KUI_01_RELEASE
     private const uint KRemovedStakeTingLu2 = 0x8DEDB4EE; // FEVT_SUB_014_KUI_02_RELEASE
@@ -676,10 +678,10 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KCapturedBoxLegendary = 0x987B8A24; // FEVT_SUB_018_CAPTURED
     private const uint FEVT_SUB_020_END = 0x711B3174;
     private const uint FEVT_SUB_026_TALKED = 0x367A9A06;
-    private const uint KHasPlayRecordsLGPE = 0x2F9CC37D; // FEVT_SUB_028_HAVE_BELUGA_SAVE_DATA
-    private const uint KHasPlayRecordsBDSP = 0xC4B1323E; // FEVT_SUB_028_HAVE_DELPHIS_SAVE_DATA
-    private const uint KHasPlayRecordsLA = 0x592092B7; // FEVT_SUB_028_HAVE_HAYABUSA_SAVE_DATA
-    private const uint KHasPlayRecordsSWSH = 0xE454155A; // FEVT_SUB_028_HAVE_ORION_SAVE_DATA
+    private const uint KHasSaveDataLGPE = 0x2F9CC37D; // FEVT_SUB_028_HAVE_BELUGA_SAVE_DATA
+    private const uint KHasSaveDataBDSP = 0xC4B1323E; // FEVT_SUB_028_HAVE_DELPHIS_SAVE_DATA
+    private const uint KHasSaveDataLA = 0x592092B7; // FEVT_SUB_028_HAVE_HAYABUSA_SAVE_DATA
+    private const uint KHasSaveDataSWSH = 0xE454155A; // FEVT_SUB_028_HAVE_ORION_SAVE_DATA
     private const uint FEVT_SUB_043_TALKED_01 = 0xF5A9841D;
     private const uint FEVT_SUB_043_TALKED_02 = 0xF5A97F04;
     private const uint FEVT_SUB_043_TALKED_03 = 0xF5A980B7;
@@ -709,6 +711,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FEVT_TAKARA_CHANGE_TUTORIAL_CLEAR = 0x96124E87;
     #endregion
 
+    #region Former Titans
     private const uint KBattledExTitanTatsugiri = 0xA3AD7A61; // NUSHI_DRAGON_AFTER
     private const uint KBattledExTitanOrthworm = 0xA9B66964; // NUSHI_HAGANE_AFTER
     private const uint KBattledExTitanBombirdier = 0xE5751F6B; // NUSHI_HIKO_AFTER
@@ -739,6 +742,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint SUSHI_DAMMY_17 = 0x127F9BF7;
     private const uint SUSHI_DAMMY_18 = 0x127F8946;
     private const uint SUSHI_DAMMY_19 = 0x127F8AF9;
+    #endregion
 
     #region WEVT
     private const uint WEVT_6TH_GYM_BATTLE_FIRST_POKEMON = 0xBF269C72;
