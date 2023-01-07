@@ -203,8 +203,6 @@ public sealed class BulkAnalysis
             var withOT = tr.IsFromTrainer(pk);
             var flag = pk.CurrentHandler;
             var expect = withOT ? 0 : 1;
-            if (pk.Version == 0)
-                expect = 0;
             if (flag != expect)
                 AddLine(cs, LegalityCheckStrings.LTransferCurrentHandlerInvalid, CheckIdentifier.Trainer);
 

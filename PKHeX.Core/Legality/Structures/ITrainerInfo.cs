@@ -59,25 +59,62 @@ public static class TrainerInfoExtensions
 
     public static bool IsFromTrainer(this ITrainerInfo tr, PKM pk)
     {
+        if (pk.IsEgg)
+            return tr.IsFromTrainerEgg(pk);
+
         if (tr.Game == (int)GameVersion.Any)
             return true;
 
-        if (tr.TID16 != pk.TID16)
-            return false;
-        if (tr.OT != pk.OT_Name)
-            return false;
-        if (pk.Format <= 2)
-            return false;
-
-        if (tr.SID16 != pk.SID16)
-            return false;
-        if (pk.Format == 3)
-            return false;
-
-        if (tr.Gender != pk.OT_Gender)
+        if (!IsFromTrainerNoVersion(tr, pk))
             return false;
 
         return IsMatchVersion(tr, pk);
+    }
+
+    public static bool IsFromTrainerNoVersion(ITrainerInfo tr, PKM pk)
+    {
+        if (tr.ID32 != pk.ID32)
+            return false;
+        if (tr.OT != pk.OT_Name)
+            return false;
+
+        if (pk.Format == 3)
+            return true; // Generation 3 does not check ot gender nor pokemon version
+
+        if (tr.Gender != pk.OT_Gender)
+        {
+            if (pk.Format == 2)
+                return pk is ICaughtData2 { CaughtData: 0 };
+            return false;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Only call this if it is still an egg.
+    /// </summary>
+    public static bool IsFromTrainerEgg(this ITrainerInfo tr, PKM pk)
+    {
+        System.Diagnostics.Debug.Assert(pk.IsEgg);
+
+        if (tr.Context != pk.Context)
+            return false;
+        if (tr.ID32 != pk.ID32)
+            return false;
+        if (tr.Gender != pk.OT_Gender)
+            return false;
+
+        if (tr.Game != pk.Version)
+        {
+            // PK9 does not store version for Picnic eggs.
+            if (pk is PK9 { Version: 0 }) { }
+            else { return false; }
+        }
+
+        if (tr.OT != pk.OT_Name)
+            return false;
+
+        return true;
     }
 
     private static bool IsMatchVersion(ITrainerInfo tr, PKM pk)
