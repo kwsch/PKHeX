@@ -9,13 +9,15 @@ namespace PKHeX.Core;
 
 public static class ReflectUtil
 {
-    public static bool IsValueEqual(this PropertyInfo pi, object obj, object value)
+    public static int CompareTo(this PropertyInfo pi, object obj, object value)
     {
         var v = pi.GetValue(obj, null);
         var c = ConvertValue(value, pi.PropertyType);
         if (v is null)
-            return c is null;
-        return v.Equals(c);
+            return 0;
+        if (c is IComparable c1 && v is IComparable c2)
+            return c2.CompareTo(c1);
+        return 0;
     }
 
     public static void SetValue(PropertyInfo pi, object obj, object value)

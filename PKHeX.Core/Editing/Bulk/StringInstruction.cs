@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using static PKHeX.Core.InstructionComparer;
 
 namespace PKHeX.Core;
 
@@ -12,8 +13,8 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Can be a filter (skip), or a modification instruction (modify)
 /// </remarks>
-/// <see cref="Exclude"/>
-/// <see cref="Require"/>
+/// <see cref="FilterNotEqual"/>
+/// <see cref="FilterEqual"/>
 /// <see cref="Apply"/>
 public sealed class StringInstruction
 {
@@ -21,8 +22,8 @@ public sealed class StringInstruction
     public string PropertyName { get; }
     /// <summary> Value to set to the property. </summary>
     public string PropertyValue { get; private set; }
-    /// <summary> True if ==, false if != </summary>
-    public bool Evaluator { get; private init; }
+    /// <summary> Filter Comparison Type </summary>
+    public InstructionComparer Comparer { get; private init; }
 
     public StringInstruction(string name, string value)
     {
@@ -36,11 +37,16 @@ public sealed class StringInstruction
         PropertyValue = (uint)index >= arr.Length ? index.ToString() : PropertyValue;
     }
 
-    public static readonly IReadOnlyList<char> Prefixes = new[] { Apply, Require, Exclude };
-    private const char Exclude = '!';
-    private const char Require = '=';
+    public static readonly IReadOnlyList<char> Prefixes = new[] { Apply, FilterEqual, FilterNotEqual, FilterGreaterThan, FilterGreaterThanOrEqual, FilterLessThan, FilterLessThanOrEqual };
     private const char Apply = '.';
     private const char SplitRange = ',';
+
+    private const char FilterEqual = '=';
+    private const char FilterNotEqual = '!';
+    private const char FilterGreaterThan = '>';
+    private const char FilterLessThan = '<';
+    private const char FilterGreaterThanOrEqual = '≥';
+    private const char FilterLessThanOrEqual = '≤';
 
     /// <summary>
     /// Character which divides a property and a value.
@@ -188,9 +194,12 @@ public sealed class StringInstruction
     public static bool TryParseFilter(ReadOnlySpan<char> line, [NotNullWhen(true)] out StringInstruction? entry)
     {
         entry = null;
-        if (line.Length is 0 || line[0] is not (Exclude or Require))
+        if (line.Length is 0)
             return false;
-        return TryParseSplitTuple(line[1..], ref entry, line[0] == Require);
+        var comparer = GetComparer(line[0]);
+        if (!comparer.IsSupportedComparer())
+            return false;
+        return TryParseSplitTuple(line[1..], ref entry, comparer);
     }
 
     public static bool TryParseInstruction(ReadOnlySpan<char> line, [NotNullWhen(true)] out StringInstruction? entry)
@@ -201,11 +210,11 @@ public sealed class StringInstruction
         return TryParseSplitTuple(line[1..], ref entry);
     }
 
-    public static bool TryParseSplitTuple(ReadOnlySpan<char> tuple, [NotNullWhen(true)] ref StringInstruction? entry, bool eval = default)
+    public static bool TryParseSplitTuple(ReadOnlySpan<char> tuple, [NotNullWhen(true)] ref StringInstruction? entry, InstructionComparer eval = default)
     {
         if (!TryParseSplitTuple(tuple, out var name, out var value))
             return false;
-        entry = new StringInstruction(name.ToString(), value.ToString()) { Evaluator = eval };
+        entry = new StringInstruction(name.ToString(), value.ToString()) { Comparer = eval };
         return true;
     }
 
@@ -228,4 +237,79 @@ public sealed class StringInstruction
 
         return true;
     }
+
+    public static InstructionComparer GetComparer(char c) => c switch
+    {
+        FilterEqual => IsEqual,
+        FilterNotEqual => IsNotEqual,
+        FilterGreaterThan => IsGreaterThan,
+        FilterLessThan => IsLessThan,
+        FilterGreaterThanOrEqual => IsGreaterThanOrEqual,
+        FilterLessThanOrEqual => IsLessThanOrEqual,
+        _ => None,
+    };
+}
+
+/// <summary>
+/// Value comparison type
+/// </summary>
+public enum InstructionComparer : byte
+{
+    None,
+    IsEqual,
+    IsNotEqual,
+    IsGreaterThan,
+    IsGreaterThanOrEqual,
+    IsLessThan,
+    IsLessThanOrEqual,
+}
+
+public static class InstructionComparerExtensions
+{
+    /// <summary>
+    /// Indicates if the <see cref="comparer"/> is supported by the logic.
+    /// </summary>
+    /// <param name="comparer">Type of comparison requested</param>
+    /// <returns>True if supported, false if unsupported.</returns>
+    public static bool IsSupportedComparer(this InstructionComparer comparer) => comparer switch
+    {
+        IsEqual => true,
+        IsNotEqual => true,
+        IsGreaterThan => true,
+        IsGreaterThanOrEqual => true,
+        IsLessThan => true,
+        IsLessThanOrEqual => true,
+        _ => false,
+    };
+
+    /// <summary>
+    /// Checks if the compare operator is satisfied by a boolean comparison result.
+    /// </summary>
+    /// <param name="comparer">Type of comparison requested</param>
+    /// <param name="compareResult">Result from Equals comparison</param>
+    /// <returns>True if satisfied</returns>
+    /// <remarks>Only use this method if the comparison is boolean only. Use the <see cref="IsCompareOperator"/> otherwise.</remarks>
+    public static bool IsCompareEquivalence(this InstructionComparer comparer, bool compareResult) => comparer switch
+    {
+        IsEqual => compareResult,
+        IsNotEqual => !compareResult,
+        _ => false,
+    };
+
+    /// <summary>
+    /// Checks if the compare operator is satisfied by the <see cref="IComparable.CompareTo"/> result.
+    /// </summary>
+    /// <param name="comparer">Type of comparison requested</param>
+    /// <param name="compareResult">Result from CompareTo</param>
+    /// <returns>True if satisfied</returns>
+    public static bool IsCompareOperator(this InstructionComparer comparer, int compareResult) => comparer switch
+    {
+        IsEqual => compareResult is 0,
+        IsNotEqual => compareResult is not 0,
+        IsGreaterThan => compareResult > 0,
+        IsGreaterThanOrEqual => compareResult >= 0,
+        IsLessThan => compareResult < 0,
+        IsLessThanOrEqual => compareResult <= 0,
+        _ => false,
+    };
 }

@@ -43,18 +43,20 @@ namespace PKHeX.WinForms.Controls
             // 
             this.L_PropValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_PropValue.AutoSize = true;
-            this.L_PropValue.Location = new System.Drawing.Point(171, 24);
+            this.L_PropValue.Location = new System.Drawing.Point(200, 28);
+            this.L_PropValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_PropValue.Name = "L_PropValue";
-            this.L_PropValue.Size = new System.Drawing.Size(73, 13);
+            this.L_PropValue.Size = new System.Drawing.Size(80, 15);
             this.L_PropValue.TabIndex = 18;
             this.L_PropValue.Text = "PropertyValue";
             // 
             // L_PropType
             // 
             this.L_PropType.AutoSize = true;
-            this.L_PropType.Location = new System.Drawing.Point(47, 24);
+            this.L_PropType.Location = new System.Drawing.Point(55, 28);
+            this.L_PropType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_PropType.Name = "L_PropType";
-            this.L_PropType.Size = new System.Drawing.Size(70, 13);
+            this.L_PropType.Size = new System.Drawing.Size(76, 15);
             this.L_PropType.TabIndex = 17;
             this.L_PropType.Text = "PropertyType";
             // 
@@ -64,12 +66,17 @@ namespace PKHeX.WinForms.Controls
             this.CB_Require.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Require.FormattingEnabled = true;
             this.CB_Require.Items.AddRange(new object[] {
-            "Set Equal To",
-            "Require Equals",
-            "Require Not Equals"});
-            this.CB_Require.Location = new System.Drawing.Point(174, 0);
+            "Set",
+            "==",
+            "!=",
+            ">",
+            ">=",
+            "<",
+            "<="});
+            this.CB_Require.Location = new System.Drawing.Point(203, 0);
+            this.CB_Require.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CB_Require.Name = "CB_Require";
-            this.CB_Require.Size = new System.Drawing.Size(116, 21);
+            this.CB_Require.Size = new System.Drawing.Size(135, 23);
             this.CB_Require.TabIndex = 16;
             // 
             // CB_Property
@@ -80,9 +87,10 @@ namespace PKHeX.WinForms.Controls
             this.CB_Property.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.CB_Property.DropDownWidth = 200;
             this.CB_Property.FormattingEnabled = true;
-            this.CB_Property.Location = new System.Drawing.Point(50, 0);
+            this.CB_Property.Location = new System.Drawing.Point(58, 0);
+            this.CB_Property.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CB_Property.Name = "CB_Property";
-            this.CB_Property.Size = new System.Drawing.Size(118, 21);
+            this.CB_Property.Size = new System.Drawing.Size(137, 23);
             this.CB_Property.TabIndex = 15;
             this.CB_Property.SelectedIndexChanged += new System.EventHandler(this.CB_Property_SelectedIndexChanged);
             // 
@@ -91,22 +99,24 @@ namespace PKHeX.WinForms.Controls
             this.CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Location = new System.Drawing.Point(0, 0);
+            this.CB_Format.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.CB_Format.Name = "CB_Format";
-            this.CB_Format.Size = new System.Drawing.Size(44, 21);
+            this.CB_Format.Size = new System.Drawing.Size(51, 23);
             this.CB_Format.TabIndex = 14;
             this.CB_Format.SelectedIndexChanged += new System.EventHandler(this.CB_Format_SelectedIndexChanged);
             // 
             // EntityInstructionBuilder
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.L_PropValue);
             this.Controls.Add(this.L_PropType);
             this.Controls.Add(this.CB_Require);
             this.Controls.Add(this.CB_Property);
             this.Controls.Add(this.CB_Format);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "EntityInstructionBuilder";
-            this.Size = new System.Drawing.Size(290, 40);
+            this.Size = new System.Drawing.Size(338, 46);
             this.ResumeLayout(false);
             this.PerformLayout();
 

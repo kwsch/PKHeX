@@ -262,7 +262,7 @@ public static class BatchEditing
         {
             if (cmd.PropertyName is PROP_TYPENAME)
             {
-                if ((obj.GetType().Name == cmd.PropertyValue) != cmd.Evaluator)
+                if (!cmd.Comparer.IsCompareEquivalence(cmd.PropertyValue == obj.GetType().Name))
                     return false;
                 continue;
             }
@@ -271,7 +271,7 @@ public static class BatchEditing
                 return false;
             try
             {
-                if (pi.IsValueEqual(obj, cmd.PropertyValue) == cmd.Evaluator)
+                if (cmd.Comparer.IsCompareOperator(pi.CompareTo(obj, cmd.PropertyValue)))
                     continue;
             }
             // User provided inputs can mismatch the type's required value format, and fail to be compared.
@@ -427,7 +427,7 @@ public static class BatchEditing
             return false;
         if (!pi.CanRead)
             return false;
-        return pi.IsValueEqual(pk, cmd.PropertyValue) == cmd.Evaluator;
+        return cmd.Comparer.IsCompareOperator(pi.CompareTo(pk, cmd.PropertyValue));
     }
 
     /// <summary>
