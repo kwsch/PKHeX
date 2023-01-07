@@ -53,8 +53,8 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
 
     public static void InitializeBlank(Span<byte> data) => Blank20.CopyTo(data);
 
-    public string Username1 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x00, 0x10));
-    public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x10, 0x20));
+    public string Username1 => Util.TrimFromZero(Encoding.ASCII.GetString(Data.AsSpan(0x00, 0x10)));
+    public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data.AsSpan(0x10, 0x10)));
 
     public ushort Species => ReadUInt16LittleEndian(Data.AsSpan(0x28)); // s32, just read as u16
     public int CP => ReadInt32LittleEndian(Data.AsSpan(0x2C));

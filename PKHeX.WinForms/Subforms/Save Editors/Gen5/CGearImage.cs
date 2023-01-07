@@ -7,17 +7,29 @@ using PKHeX.Drawing;
 
 namespace PKHeX.WinForms;
 
+/// <summary>
+/// Utility logic to convert images to C-Gear Backgrounds and reverse.
+/// </summary>
 public static class CGearImage
 {
+    private const int Width = CGearBackground.Width;
+    private const int Height = CGearBackground.Height;
+
+    /// <summary>
+    /// Gets the visual image of a <see cref="CGearBackground"/>.
+    /// </summary>
     public static Bitmap GetBitmap(CGearBackground bg)
     {
-        return ImageUtil.GetBitmap(bg.GetImageData(), CGearBackground.Width, CGearBackground.Height);
+        var data = bg.GetImageData();
+        return ImageUtil.GetBitmap(data, Width, Height);
     }
 
+    /// <summary>
+    /// Converts a <see cref="Bitmap"/> to a <see cref="CGearBackground"/>.
+    /// </summary>
+    /// <exception cref="ArgumentException"></exception>
     public static CGearBackground GetCGearBackground(Bitmap img)
     {
-        const int Width = CGearBackground.Width;
-        const int Height = CGearBackground.Height;
         if (img.Width != Width)
             throw new ArgumentException($"Invalid image width. Expected {Width} pixels wide.");
         if (img.Height != Height)
