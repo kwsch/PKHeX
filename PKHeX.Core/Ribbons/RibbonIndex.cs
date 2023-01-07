@@ -361,7 +361,7 @@ public static class RibbonIndexExtensions
                     if      (r == ChampionPaldea) c9.RibbonChampionPaldea = state;
                     else if (r == OnceInALifetime) c9.RibbonOnceInALifetime = state;
                 }
-                else if (pk is IRibbonSetMark9 m9)
+                if (pk is IRibbonSetMark9 m9)
                 {
                     if      (r == MarkJumbo) m9.RibbonMarkJumbo = state;
                     else if (r == MarkMini) m9.RibbonMarkMini = state;
