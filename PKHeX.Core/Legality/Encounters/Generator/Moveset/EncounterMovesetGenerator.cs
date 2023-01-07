@@ -180,7 +180,7 @@ public static class EncounterMovesetGenerator
     {
         foreach (var move in moves)
         {
-            if (!MoveInfo.IsValidSketch(move, pk.Context))
+            if (!MoveInfo.IsSketchValid(move, pk.Context))
                 return false;
         }
         return true;

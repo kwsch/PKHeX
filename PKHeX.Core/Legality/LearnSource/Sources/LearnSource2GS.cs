@@ -48,7 +48,7 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (move > byte.MaxValue)
+        if (move > Legal.MaxMoveID_2) // byte
             return default;
 
         if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, (byte)move))

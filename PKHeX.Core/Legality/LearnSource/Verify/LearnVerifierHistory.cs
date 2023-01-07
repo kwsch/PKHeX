@@ -125,7 +125,7 @@ internal static class LearnVerifierHistory
             var move = current[i];
             if (move == 0)
                 result[i] = MoveResult.Empty;
-            else if (MoveInfo.IsValidSketch(move, pk.Context))
+            else if (MoveInfo.IsSketchValid(move, pk.Context))
                 result[i] = MoveResult.Sketch;
             else
                 result[i] = MoveResult.Unobtainable();

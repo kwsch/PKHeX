@@ -159,7 +159,7 @@ public static class MoveBreed2
         for (int i = 0; i < count; i++)
         {
             var move = moves[i];
-            if (move > byte.MaxValue)
+            if (move > Legal.MaxMoveID_2) // byte
                 continue;
 
             if (baseEgg.IndexOf(move) != -1)

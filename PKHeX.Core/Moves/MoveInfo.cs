@@ -81,21 +81,6 @@ public static class MoveInfo
     public static bool IsMoveKnowable(ushort move) => !IsMoveZ(move) && !IsMoveDynamax(move);
 
     /// <summary>
-    /// Checks if the move can be sketched in any game.
-    /// </summary>
-    public static bool IsMoveSketch(ushort move) => move switch
-    {
-        // Can't Sketch
-        (int)Struggle => false,
-        (int)Chatter => false,
-
-        // Unreleased
-        (int)LightofRuin => false,
-
-        _ => IsMoveKnowable(move),
-    };
-
-    /// <summary>
     /// Checks if the <see cref="move"/> is unable to be used in battle.
     /// </summary>
     public static bool IsDummiedMove(PKM pk, ushort move)
@@ -128,22 +113,43 @@ public static class MoveInfo
     /// <param name="move">Move ID</param>
     /// <param name="context">Generation to check</param>
     /// <returns>True if can be sketched, false if not available.</returns>
-    public static bool IsValidSketch(ushort move, EntityContext context)
+    public static bool IsSketchValid(ushort move, EntityContext context)
     {
-        if (!IsMoveSketch(move))
+        if (move > GetMaxMoveID(context))
             return false;
-        if (context is Gen6 && move is ((int)ThousandArrows or (int)ThousandWaves))
+        if (!IsSketchPossible(move))
             return false;
-        if (context is Gen8b) // can't Sketch unusable moves in BD/SP, no Sketch in PLA
-        {
-            if (MoveInfo8b.DummiedMoves_BDSP.Contains(move))
-                return false;
-            if (move > Legal.MaxMoveID_8)
-                return false;
-        }
-
-        return move <= GetMaxMoveID(context);
+        if (!IsSketchPossible(move, context))
+            return false;
+        return true;
     }
+
+    /// <summary>
+    /// Checks if the move can be sketched in any game.
+    /// </summary>
+    private static bool IsSketchPossible(ushort move) => move switch
+    {
+        // Can't Sketch
+        (int)Struggle => false,
+        (int)Chatter => false,
+
+        // Unreleased
+        (int)LightofRuin => false,
+
+        _ => IsMoveKnowable(move),
+    };
+
+    /// <summary>
+    /// Checks if the move can be sketched in a specific game context. Pre-check with <see cref="IsSketchPossible(ushort)"/>.
+    /// </summary>
+    /// <param name="move"></param>
+    /// <param name="context"></param>
+    private static bool IsSketchPossible(ushort move, EntityContext context) => context switch
+    {
+        Gen6 when move is (int)ThousandArrows or (int)ThousandWaves => false,
+        Gen8b when MoveInfo8b.DummiedMoves_BDSP.Contains(move) => false,
+        _ => true,
+    };
 
     private static int GetMaxMoveID(EntityContext context) => context switch
     {
