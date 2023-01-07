@@ -1,9 +1,8 @@
 using System;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests;
+namespace PKHeX.Core.Tests;
 
 public static class Xoroshiro128Tests
 {

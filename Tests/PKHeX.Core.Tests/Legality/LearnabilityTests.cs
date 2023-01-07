@@ -1,9 +1,8 @@
 using System.Linq;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests.Legality;
+namespace PKHeX.Core.Tests.Legality;
 
 public static class LearnabilityTests
 {

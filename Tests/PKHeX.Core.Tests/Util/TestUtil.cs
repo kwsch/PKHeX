@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace PKHeX.Tests;
+namespace PKHeX.Core.Tests;
 
 internal static class TestUtil
 {

@@ -1,8 +1,7 @@
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests.Util;
+namespace PKHeX.Core.Tests.Util;
 
 public class GeoLocationTests
 {

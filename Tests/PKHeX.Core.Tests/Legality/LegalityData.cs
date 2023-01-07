@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests.Legality;
+namespace PKHeX.Core.Tests.Legality;
 
 public class LegalityData
 {

@@ -1,9 +1,8 @@
 using System;
 using Xunit;
 using FluentAssertions;
-using PKHeX.Core;
 
-namespace PKHeX.Tests.Saves;
+namespace PKHeX.Core.Tests.Saves;
 
 public static class PokeDex
 {

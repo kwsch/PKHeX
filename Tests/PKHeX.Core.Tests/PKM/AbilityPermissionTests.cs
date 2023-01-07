@@ -1,8 +1,7 @@
-﻿using FluentAssertions;
-using PKHeX.Core;
+using FluentAssertions;
 using Xunit;
 
-namespace PKHeX.Tests.PKM;
+namespace PKHeX.Core.Tests.PKM;
 
 public static class AbilityPermissionTests
 {

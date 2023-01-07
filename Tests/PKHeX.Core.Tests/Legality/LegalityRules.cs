@@ -1,8 +1,7 @@
-﻿using FluentAssertions;
-using PKHeX.Core;
+using FluentAssertions;
 using Xunit;
 
-namespace PKHeX.Tests.Legality;
+namespace PKHeX.Core.Tests.Legality;
 
 public class LegalityRules
 {

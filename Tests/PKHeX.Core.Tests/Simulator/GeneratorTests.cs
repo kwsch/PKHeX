@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests.Simulator;
+namespace PKHeX.Core.Tests.Simulator;
 
 public class GeneratorTests
 {

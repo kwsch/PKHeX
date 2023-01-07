@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using PKHeX.Core;
 using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace PKHeX.Tests.Legality;
+namespace PKHeX.Core.Tests.Legality;
 
 public class LegalityTest
 {

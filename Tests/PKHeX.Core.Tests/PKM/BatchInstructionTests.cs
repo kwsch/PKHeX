@@ -1,7 +1,6 @@
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
-namespace PKHeX.Tests;
+namespace PKHeX.Core.Tests;
 
 public class BatchInstructionTests
 {
@@ -20,5 +19,19 @@ public class BatchInstructionTests
         lines += "\n;\n.Species=0";
         var extra = StringInstructionSet.GetInstructionSetLength(lines);
         (len + 1).Should().Be(extra);
+    }
+
+    [Theory]
+    [InlineData('=')]
+    [InlineData('!')]
+    [InlineData('>')]
+    [InlineData('<')]
+    [InlineData('≥')]
+    [InlineData('≤')]
+    [InlineData('f', false)]
+    public void ParseComparer(char c, bool expect = true)
+    {
+        var comparer = StringInstruction.GetComparer(c);
+        comparer.IsSupportedComparer().Should().Be(expect);
     }
 }

@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 using static PKHeX.Core.Encounters3XDTeams;
 using static PKHeX.Core.Encounters3ColoTeams;
 
-namespace PKHeX.Tests.Legality.Shadow;
+namespace PKHeX.Core.Tests.Legality.Shadow;
 
 public static class ValidityTests
 {
