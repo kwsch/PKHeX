@@ -85,7 +85,7 @@ public static class EggStateLegality
     public static bool IsValidHTEgg(PKM pk) => pk switch
     {
         PB8 { Met_Location: Locations.LinkTrade6NPC } pb8 when pb8.HT_Friendship == PersonalTable.BDSP[pb8.Species].BaseFriendship => true,
-        PK9 { CurrentHandler: 1, Met_Location: Locations.LinkTrade6, HT_Language: not 0 } => true,
+        PK9 { Met_Location: Locations.LinkTrade6, HT_Language: not 0 } => true, // fine regardless of handler (trade-back)
         _ => false,
     };
 
