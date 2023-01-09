@@ -16,12 +16,12 @@ public static class EncounterMovesetGenerator
     /// Order in which <see cref="IEncounterable"/> objects are yielded from the <see cref="GenerateVersionEncounters"/> generator.
     /// </summary>
     // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-    public static IReadOnlyCollection<EncounterOrder> PriorityList { get; set; } = PriorityList = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
+    public static IReadOnlyCollection<EncounterTypeGroup> PriorityList { get; set; } = PriorityList = (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
 
     /// <summary>
     /// Resets the <see cref="PriorityList"/> to the default values.
     /// </summary>
-    public static void ResetFilters() => PriorityList = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
+    public static void ResetFilters() => PriorityList = (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
 
     /// <summary>
     /// Gets possible <see cref="PKM"/> objects that allow all moves requested to be learned.
@@ -162,8 +162,9 @@ public static class EncounterMovesetGenerator
         var et = EvolutionTree.GetEvolutionTree(context);
         var chain = et.GetValidPreEvolutions(pk, levelMax: 100, skipChecks: true);
         ushort[] needs = GetNeededMoves(pk, moves);
+        var generator = EncounterGenerator.GetGenerator(version);
 
-        return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain));
+        return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain, generator));
     }
 
     private static bool AnyMoveOutOfRange(ReadOnlySpan<ushort> moves, ushort max)
@@ -231,15 +232,15 @@ public static class EncounterMovesetGenerator
         return result[..ctr].ToArray();
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, ushort[] needs, GameVersion version, EncounterOrder type, EvoCriteria[] chain)
+    private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, ushort[] needs, GameVersion version, EncounterTypeGroup type, EvoCriteria[] chain, IEncounterGenerator generator)
     {
         return type switch
         {
-            EncounterOrder.Egg => GetEggs(pk, needs, chain, version),
-            EncounterOrder.Mystery => GetGifts(pk, needs, chain, version),
-            EncounterOrder.Static => GetStatic(pk, needs, chain, version),
-            EncounterOrder.Trade => GetTrades(pk, needs, chain, version),
-            EncounterOrder.Slot => GetSlots(pk, needs, chain, version),
+            EncounterTypeGroup.Egg => GetEggs(pk, needs, chain, version, generator),
+            EncounterTypeGroup.Mystery => GetGifts(pk, needs, chain, version, generator),
+            EncounterTypeGroup.Static => GetStatic(pk, needs, chain, version, generator),
+            EncounterTypeGroup.Trade => GetTrades(pk, needs, chain, version, generator),
+            EncounterTypeGroup.Slot => GetSlots(pk, needs, chain, version, generator),
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
         };
     }
@@ -251,15 +252,14 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for. Necessary for retrieving possible Egg Moves.</param>
+    /// <param name="generator"></param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<IEncounterable> GetEggs(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         if (!Breeding.CanGameGenerateEggs(version))
             yield break; // no eggs from these games
-        int gen = version.GetGeneration();
-        var eggs = gen == 2
-            ? EncounterEggGenerator2.GenerateEggs(pk, chain, all: true)
-            : EncounterEggGenerator.GenerateEggs(pk, chain, gen, all: true);
+
+        var eggs = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Egg);
         foreach (var egg in eggs)
         {
             if (needs.Length == 0)
@@ -271,12 +271,12 @@ public static class EncounterMovesetGenerator
             var eggMoves = MoveEgg.GetEggMoves(egg.Species, egg.Form, egg.Version, egg.Generation);
             int flags = Moveset.BitOverlap(eggMoves, needs);
             var vt = Array.IndexOf(needs, (ushort)Move.VoltTackle);
-            if (vt != -1 && egg.CanHaveVoltTackle)
+            if (vt != -1 && egg is EncounterEgg { CanHaveVoltTackle: true })
                 flags |= 1 << vt;
 
             if (egg.Generation <= 2)
             {
-                var tmp = MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.Level, egg.Version);
+                var tmp = MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.LevelMin, egg.Version);
                 flags |= Moveset.BitOverlap(tmp, needs);
             }
 
@@ -292,26 +292,28 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for.</param>
+    /// <param name="generator">Generator</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<MysteryGift> GetGifts(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<IEncounterable> GetGifts(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         var context = pk.Context;
-        var gifts = MysteryGiftGenerator.GetPossible(pk, chain, version);
-        foreach (var gift in gifts)
+        var gifts = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Mystery);
+        foreach (var g in gifts)
         {
-            if (gift is WC3 {NotDistributed: true})
-                continue;
-            if (!IsSane(chain, gift, context))
+            if (!IsSane(chain, g, context))
                 continue;
             if (needs.Length == 0)
             {
-                yield return gift;
+                yield return g;
                 continue;
             }
-
-            var flags = gift.Moves.BitOverlap(needs) | gift.Relearn.BitOverlap(needs);
+            var flags = 0;
+            if (g is IMoveset m)
+                flags = m.Moves.BitOverlap(needs);
+            if (g is IRelearn r)
+                flags |= r.Relearn.BitOverlap(needs);
             if (flags == (1 << needs.Length) - 1)
-                yield return gift;
+                yield return g;
         }
     }
 
@@ -322,11 +324,12 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for.</param>
+    /// <param name="generator"></param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<EncounterStatic> GetStatic(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<IEncounterable> GetStatic(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         var context = pk.Context;
-        var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
+        var encounters = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Static);
         foreach (var enc in encounters)
         {
             if (!IsSane(chain, enc, context))
@@ -338,36 +341,26 @@ public static class EncounterMovesetGenerator
             }
 
             // Some rare encounters have special moves hidden in the Relearn section (Gen7 Wormhole Ho-Oh). Include relearn moves
-            var flags = enc.Moves.BitOverlap(needs);
-            if (enc is IRelearn { Relearn: { HasMoves: true } r })
-                flags |= r.BitOverlap(needs);
-
-            if (enc.Generation <= 2)
-            {
-                var tmp = MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.Level, enc.Version);
-                flags |= Moveset.BitOverlap(tmp, needs);
-            }
-
+            var flags = GetMoveMaskConsiderGen2(needs, enc);
             if (flags == (1 << needs.Length) - 1)
                 yield return enc;
         }
+    }
 
-        int gen = version.GetGeneration();
-        if ((uint)gen >= 3)
-            yield break;
-
-        var gifts = EncounterStaticGenerator.GetPossibleGBGifts(chain, version);
-        foreach (var enc in gifts)
+    private static int GetMoveMaskConsiderGen2(ReadOnlySpan<ushort> needs, IEncounterTemplate enc)
+    {
+        var flags = 0;
+        if (enc is IMoveset m)
+            flags = m.Moves.BitOverlap(needs);
+        if (enc is IRelearn { Relearn: { HasMoves: true } r })
+            flags |= r.BitOverlap(needs);
+        if (enc.Generation <= 2)
         {
-            if (needs.Length == 0)
-            {
-                yield return enc;
-                continue;
-            }
-            var flags = enc.Moves.BitOverlap(needs);
-            if (flags == (1 << needs.Length) - 1)
-                yield return enc;
+            Span<ushort> moves = stackalloc ushort[4];
+             MoveLevelUp.GetEncounterMoves(moves, enc.Species, 0, enc.LevelMin, enc.Version);
+            flags |= Moveset.BitOverlap(moves, needs);
         }
+        return flags;
     }
 
     /// <summary>
@@ -377,11 +370,12 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Specific version to iterate for.</param>
+    /// <param name="generator"></param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<EncounterTrade> GetTrades(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<IEncounterable> GetTrades(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         var context = pk.Context;
-        var trades = EncounterTradeGenerator.GetPossible(pk, chain, version);
+        var trades = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Trade);
         foreach (var trade in trades)
         {
             if (!IsSane(chain, trade, context))
@@ -392,16 +386,7 @@ public static class EncounterMovesetGenerator
                 continue;
             }
 
-            var flags = trade.Moves.BitOverlap(needs);
-            if (trade is IRelearn { Relearn: { HasMoves: true } r })
-                flags |= r.BitOverlap(needs);
-
-            if (trade.Generation <= 2)
-            {
-                var tmp = MoveLevelUp.GetEncounterMoves(trade.Species, 0, trade.Level, trade.Version);
-                flags |= Moveset.BitOverlap(tmp, needs);
-            }
-
+            var flags = GetMoveMaskConsiderGen2(needs, trade);
             if (flags == (1 << needs.Length) - 1)
                 yield return trade;
         }
@@ -414,11 +399,12 @@ public static class EncounterMovesetGenerator
     /// <param name="needs">Moves which cannot be taught by the player.</param>
     /// <param name="chain">Origin possible evolution chain</param>
     /// <param name="version">Origin version</param>
+    /// <param name="generator"></param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    private static IEnumerable<EncounterSlot> GetSlots(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<IEncounterable> GetSlots(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         var context = pk.Context;
-        var slots = EncounterSlotGenerator.GetPossible(pk, chain, version);
+        var slots = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Slot);
         foreach (var slot in slots)
         {
             if (!IsSane(chain, slot, context))

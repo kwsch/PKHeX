@@ -147,7 +147,10 @@ public static class MoveListSuggest
             return result;
 
         // Try again with the other split-breed species if possible.
-        var other = EncounterEggGenerator.GenerateEggs(tmp, generation);
+        var generator = EncounterGenerator.GetGenerator(enc.Version);
+        var tree = EvolutionTree.GetEvolutionTree(enc.Context);
+        var chain = tree.GetValidPreEvolutions(pk, 100, skipChecks: true);
+        var other = generator.GetPossible(pk, chain, enc.Version, EncounterTypeGroup.Egg);
         foreach (var incense in other)
         {
             if (incense.Species != enc.Species)

@@ -20,25 +20,18 @@ internal static class EncountersWC3
     private static IEnumerable<WC3> GetIngameCXDData()
     {
         var langs = new[]{LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish};
-        string[] p = {string.Empty, "コロシアム", "COLOS", "COLOSSEUM", "ARENA", "COLOSSEUM", string.Empty, "CLAUDIO" };
-        string[] c = {string.Empty, "アゲト", "AGATE", "SAMARAGD", "SOFO", "EMERITAE", string.Empty, "ÁGATA" };
         string[] h = {string.Empty, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", string.Empty, "HORDEL"};
         string[] d = {string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN"};
-        string[] m = {string.Empty, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG", string.Empty, "ERNESTO"}; // truncated on ck3->pk3 transfer
         string[] z = {string.Empty, "コンセント", "ZAPRONG", "ZAPRONG", "ZAPRONG", "ZAPRONG", string.Empty, "ZAPRONG"};
 
         return langs.SelectMany(l => GetIngame((int)l));
         IEnumerable<WC3> GetIngame(int l)
         {
             var id = (LanguageID) l;
-            var nd = id != LanguageID.Japanese;
             return new WC3[]
             {
                 // Colosseum
-                new() { Species = 025, Level = 10, Language = l, Location = 255, ID32 = 31121, OT_Gender = 0, OT_Name = p[l], Version = GameVersion.R,    CardTitle = $"Colosseum Pikachu ({id})",Method = PIDType.CXD, Shiny = Shiny.Never, NotDistributed = nd }, // Colosseum Pikachu bonus gift
-                new() { Species = 251, Level = 10, Language = l, Location = 255, ID32 = 31121, OT_Gender = 1, OT_Name = c[l], Version = GameVersion.R,    CardTitle = $"Agate Celebi ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, NotDistributed = nd }, // Ageto Celebi bonus gift
                 new() { Species = 311, Level = 13, Language = l, Location = 254, ID32 = 37149, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new(045, 086, 098, 270) }, // Plusle @ Ingame Trade
-                new() { Species = 250, Level = 70, Language = l, Location = 255, ID32 = 10048, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new(105, 126, 241, 129) }, // Ho-oh @ Mt. Battle
                 // XD
                 new(true) { Species = 239, Level = 20, Language = l, Location = 164, TID16 = 41400, OT_Gender = 0, OT_Name = h[l], Version = GameVersion.XD,   CardTitle = $"Trade Togepi ({id})",     Method = PIDType.CXD, Moves = new(008, 007, 009, 238), Nickname = z[l] }, // Elekid @ Snagem Hideout
                 new(true) { Species = 307, Level = 20, Language = l, Location = 116, TID16 = 37149, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Trapinch ({id})",   Method = PIDType.CXD, Moves = new(223, 093, 247, 197) }, // Meditite @ Pyrite Town
@@ -47,8 +40,33 @@ internal static class EncountersWC3
             };
         }
     }
+    
+    private static IEnumerable<WC3> GetIngameCXDDataMainline()
+    {
+        var langs = new[] { LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish };
+        string[] p = { string.Empty, "コロシアム", "COLOS", "COLOSSEUM", "ARENA", "COLOSSEUM", string.Empty, "CLAUDIO" };
+        string[] c = { string.Empty, "アゲト", "AGATE", "SAMARAGD", "SOFO", "EMERITAE", string.Empty, "ÁGATA" };
+        string[] m = { string.Empty, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG", string.Empty, "ERNESTO" }; // truncated on ck3->pk3 transfer
 
-    internal static readonly WC3[] Encounter_Event3 = Encounter_Event3_Special.Concat(GetIngameCXDData()).ToArray();
+        return langs.SelectMany(l => GetIngame((int)l));
+        IEnumerable<WC3> GetIngame(int l)
+        {
+            var id = (LanguageID)l;
+            var nd = id != LanguageID.Japanese;
+            return new WC3[]
+            {
+                // Colosseum
+                new() { Species = 025, Level = 10, Language = l, Location = 255, ID32 = 31121, OT_Gender = 0, OT_Name = p[l], Version = GameVersion.R,    CardTitle = $"Colosseum Pikachu ({id})",Method = PIDType.CXD, Shiny = Shiny.Never, NotDistributed = nd }, // Colosseum Pikachu bonus gift
+                new() { Species = 251, Level = 10, Language = l, Location = 255, ID32 = 31121, OT_Gender = 1, OT_Name = c[l], Version = GameVersion.R,    CardTitle = $"Agate Celebi ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, NotDistributed = nd }, // Ageto Celebi bonus gift
+                new() { Species = 250, Level = 70, Language = l, Location = 255, ID32 = 10048, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new(105, 126, 241, 129) }, // Ho-oh @ Mt. Battle
+            };
+        }
+    }
+
+    internal static readonly WC3[] Encounter_WC3CXD = GetIngameCXDData().ToArray();
+    internal static readonly WC3[] Encounter_WC3CXDMain = GetIngameCXDDataMainline().ToArray();
+
+    internal static readonly WC3[] Encounter_Event3 = ArrayUtil.ConcatAll(Encounter_Event3_Special, Encounter_WC3CXD, Encounter_WC3CXDMain);
 
     internal static readonly WC3[] Encounter_Event3_FRLG =
     {

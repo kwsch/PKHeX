@@ -63,7 +63,7 @@ public static class Breeding
     private static readonly HashSet<ushort> SplitBreed_3 = new()
     {
         // Incense
-        (int)Marill, (int)Azumarill,
+        (int)Marill,
         (int)Wobbuffet,
     };
 
@@ -73,12 +73,12 @@ public static class Breeding
     private static readonly HashSet<ushort> SplitBreed = new(SplitBreed_3)
     {
         // Incense
-        (int)Chansey, (int)Blissey,
-        (int)MrMime, (int)MrRime,
+        (int)Chansey,
+        (int)MrMime,
         (int)Snorlax,
         (int)Sudowoodo,
         (int)Mantine,
-        (int)Roselia, (int)Roserade,
+        (int)Roselia,
         (int)Chimecho,
     };
 

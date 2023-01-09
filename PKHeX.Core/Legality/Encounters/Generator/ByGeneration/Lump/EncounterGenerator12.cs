@@ -1,102 +1,39 @@
 using System.Collections.Generic;
-
-using static PKHeX.Core.EncounterTradeGenerator;
-using static PKHeX.Core.EncounterStaticGenerator;
-using static PKHeX.Core.EncounterSlotGenerator;
-using static PKHeX.Core.EncounterEggGenerator2;
 using static PKHeX.Core.EncounterMatchRating;
 
 namespace PKHeX.Core;
 
 /// <summary>
-/// This class is essentially a sub-class of <see cref="EncounterGenerator"/> specialized for Gen1 & Gen2 encounters.
+/// Dual-generator implementation to yield from multiple sets of games at the same time.
 /// </summary>
-internal static class EncounterGenerator12
+internal sealed class EncounterGenerator12 : IEncounterGenerator
 {
-    internal static IEnumerable<IEncounterable> GetEncounters12(PKM pk, LegalInfo info)
+    public static readonly EncounterGenerator12 Instance = new();
+
+    public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        foreach (var z in GenerateFilteredEncounters12(pk))
+        foreach (var z in GetEncounters(pk))
         {
             info.StoreMetadata(z.Generation);
             yield return z;
         }
     }
 
-    private static IEnumerable<IEncounterable> GenerateRawEncounters12(PKM pk, GameVersion game)
-    {
-        // Since encounter matching is super weak due to limited stored data in the structure
-        // Calculate all 3 at the same time and pick the best result (by species).
-        // Favor special event move gifts as Static Encounters when applicable
-        var chain = EncounterOrigin.GetOriginChain12(pk, game);
-
-        IEncounterable? deferred = null;
-        foreach (var t in GetValidEncounterTradesVC(pk, chain, game))
-        {
-            // Gen2 trades are strictly matched (OT/Nick), while Gen1 trades allow for deferral (shrug).
-            if (t is EncounterTrade1 t1 && t1.GetMatchRating(pk) != Match)
-            {
-                deferred ??= t;
-                continue;
-            }
-            yield return t;
-        }
-        foreach (var s in GetValidStaticEncounter(pk, chain, game))
-        {
-            yield return s;
-        }
-        foreach (var e in GetValidWildEncounters12(pk, chain, game))
-        {
-            yield return e;
-        }
-        if (game != GameVersion.RBY)
-        {
-            foreach (var e in GenerateEggs(pk, chain))
-                yield return e;
-        }
-
-        foreach (var s in GenerateGBEvents(pk, chain, game))
-        {
-            yield return s;
-        }
-
-        if (deferred != null)
-            yield return deferred;
-    }
-
-    private static IEnumerable<EncounterStatic> GenerateGBEvents(PKM pk, EvoCriteria[] chain, GameVersion game)
-    {
-        if (pk.Korean) // only GS; no events
-            yield break;
-
-        foreach (var e in GetValidGBGifts(pk, chain, game))
-        {
-            foreach (var evo in chain)
-            {
-                if (e.IsMatchExact(pk, evo))
-                    yield return e;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pk)
+    private static IEnumerable<IEncounterable> GetEncounters(PKM pk)
     {
         // If the current data indicates that it must have originated from Crystal, only yield encounter data from Crystal.
         bool crystal = pk is ICaughtData2 { CaughtData: not 0 } or { Format: >= 7, OT_Gender: 1 };
         if (crystal)
-            return GenerateRawEncounters12(pk, GameVersion.C);
+            return EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.C);
 
         var visited = GBRestrictions.GetTradebackStatusInitial(pk);
-        switch (visited)
+        return visited switch
         {
-            case PotentialGBOrigin.Gen1Only:
-                return GenerateRawEncounters12(pk, GameVersion.RBY);
-            case PotentialGBOrigin.Gen2Only:
-                return GenerateRawEncounters12(pk, GameVersion.GSC);
-            default:
-                if (pk.Korean)
-                    return GenerateFilteredEncounters12BothKorean(pk);
-                return GenerateFilteredEncounters12Both(pk);
-        }
+            PotentialGBOrigin.Gen1Only => EncounterGenerator1.Instance.GetEncounters(pk, GameVersion.RBY),
+            PotentialGBOrigin.Gen2Only => EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.GSC),
+            _ when pk.Korean => GenerateFilteredEncounters12BothKorean(pk),
+            _ => GenerateFilteredEncounters12Both(pk),
+        };
     }
 
     private static IEnumerable<IEncounterable> GenerateFilteredEncounters12BothKorean(PKM pk)
@@ -105,7 +42,7 @@ internal static class EncounterGenerator12
         // Yield GS first, then Crystal, then RBY. Anything other than GS will be flagged by later checks.
 
         var deferred = new List<IEncounterable>();
-        var get2 = GenerateRawEncounters12(pk, GameVersion.GSC);
+        var get2 = EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.GSC);
         foreach (var enc in get2)
         {
             if (enc.Version == GameVersion.C)
@@ -117,7 +54,7 @@ internal static class EncounterGenerator12
         foreach (var enc in deferred)
             yield return enc;
 
-        var get1 = GenerateRawEncounters12(pk, GameVersion.RBY);
+        var get1 = EncounterGenerator1.Instance.GetEncounters(pk, GameVersion.RBY);
         foreach (var enc in get1)
             yield return enc;
     }
@@ -126,8 +63,8 @@ internal static class EncounterGenerator12
     {
         // Iterate over both games, consuming from one list at a time until the other list has higher priority encounters
         // Buffer the encounters so that we can consume each iterator separately
-        var get1 = GenerateRawEncounters12(pk, GameVersion.RBY);
-        var get2 = GenerateRawEncounters12(pk, GameVersion.GSC);
+        var get1 = EncounterGenerator1.Instance.GetEncounters(pk, GameVersion.RBY);
+        var get2 = EncounterGenerator2.Instance.GetEncounters(pk, GameVersion.GSC);
         using var g1i = new PeekEnumerator<IEncounterable>(get1);
         using var g2i = new PeekEnumerator<IEncounterable>(get2);
         while (g2i.PeekIsNext() || g1i.PeekIsNext())
@@ -170,5 +107,19 @@ internal static class EncounterGenerator12
         StaticEncounter,
         TradeEncounterG1,
         TradeEncounterG2,
+    }
+
+    public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
+    {
+        // Don't call this method.
+        return GetEncounters(pk, info);
+    }
+
+    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    {
+        // Don't call this method.
+        if (game.GetGeneration() == 1)
+            return EncounterGenerator1.Instance.GetPossible(pk, chain, game, groups);
+        return EncounterGenerator2.Instance.GetPossible(pk, chain, game, groups);
     }
 }

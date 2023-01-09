@@ -89,7 +89,7 @@ public partial class SAV_Encounters : Form
 
     private void GetTypeFilters()
     {
-        var types = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
+        var types = (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
         var checks = types.Select(z => new CheckBox
         {
             Name = z.ToString(),
@@ -106,10 +106,10 @@ public partial class SAV_Encounters : Form
         }
     }
 
-    private EncounterOrder[] GetTypes()
+    private EncounterTypeGroup[] GetTypes()
     {
         return TypeFilters.Controls.OfType<CheckBox>().Where(z => z.Checked).Select(z => z.Name)
-            .Select(z => (EncounterOrder)Enum.Parse(typeof(EncounterOrder), z)).ToArray();
+            .Select(z => (EncounterTypeGroup)Enum.Parse(typeof(EncounterTypeGroup), z)).ToArray();
     }
 
     private readonly PictureBox[] PKXBOXES;

@@ -44,11 +44,12 @@ public class ShowdownSetTests
         Assert.True(la.Valid);
 
         var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info, pk7.Moves).ToList();
-        foreach (var t in test)
+        for (var i = 0; i < test.Count; i++)
         {
+            var t = test[i];
             var convert = t.ConvertToPKM(info);
             var la2 = new LegalityAnalysis(convert);
-            Assert.True(la2.Valid);
+            la2.Valid.Should().BeTrue($"Encounter {i} should have generated legally: {t}");
         }
     }
 

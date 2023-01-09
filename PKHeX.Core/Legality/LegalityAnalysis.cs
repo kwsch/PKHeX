@@ -277,7 +277,7 @@ public sealed class LegalityAnalysis
         var enc = (Info.EncounterOriginalGB = EncounterMatch);
         if (enc is EncounterInvalid)
             return;
-        var vc = EncounterStaticGenerator.GetVCStaticTransferEncounter(Entity, enc, Info.EvoChainsAllGens.Gen7);
+        var vc = EncounterGenerator7.GetVCStaticTransferEncounter(Entity, enc.Species, Info.EvoChainsAllGens.Gen7);
         Info.EncounterMatch = vc;
 
         Transfer.VerifyVCEncounter(Entity, enc, vc, this);

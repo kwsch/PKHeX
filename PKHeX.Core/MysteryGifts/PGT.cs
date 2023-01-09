@@ -12,6 +12,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public override bool FatefulEncounter => PK.FatefulEncounter;
+    public override GameVersion Version { get => (GameVersion)PK.Version; set => PK.Version = (int)value; }
 
     public override byte Level
     {

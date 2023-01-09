@@ -1,18 +1,21 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// Enumeration for indicating the various "base type" category of encounter templates.
 /// </summary>
-public enum EncounterOrder
+[Flags]
+public enum EncounterTypeGroup
 {
     /// <summary> Bred egg from the Daycare/etc. </summary>
-    Egg,
+    Egg = 1 << 0,
     /// <summary> Mystery Gift data from external distributions. </summary>
-    Mystery,
+    Mystery = 1 << 1,
     /// <summary> Static encounter / gift in-game. </summary>
-    Static,
+    Static = 1 << 2,
     /// <summary> Trade encounter from an in-game NPC. </summary>
-    Trade,
+    Trade = 1 << 3,
     /// <summary> Wild encounter </summary>
-    Slot,
+    Slot = 1 << 4,
 }
