@@ -34,7 +34,10 @@ public static class EncounterMovesetGenerator
     /// <remarks>When updating, update the sister <see cref="GenerateEncounters(PKM,ITrainerInfo,ushort[],GameVersion[])"/> method.</remarks>
     public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, ushort[] moves, params GameVersion[] versions)
     {
-        pk.TID16 = info.TID16;
+        if (!IsSane(pk, moves))
+            yield break;
+
+        pk.TID16 = info.TID16; // Necessary for Gen2 Headbutt encounters.
         var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
         foreach (var ver in vers)
         {
@@ -63,7 +66,10 @@ public static class EncounterMovesetGenerator
     /// <remarks>When updating, update the sister <see cref="GeneratePKMs(PKM,ITrainerInfo,ushort[],GameVersion[])"/> method.</remarks>
     public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, ITrainerInfo info, ushort[] moves, params GameVersion[] versions)
     {
-        pk.TID16 = info.TID16;
+        if (!IsSane(pk, moves))
+            yield break;
+
+        pk.TID16 = info.TID16; // Necessary for Gen2 Headbutt encounters.
         var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
         foreach (var ver in vers)
         {
@@ -108,6 +114,9 @@ public static class EncounterMovesetGenerator
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, ushort[] moves, params GameVersion[] versions)
     {
+        if (!IsSane(pk, moves))
+            yield break;
+
         if (versions.Length > 0)
         {
             foreach (var enc in GenerateEncounters(pk, moves, (IReadOnlyList<GameVersion>)versions))
@@ -132,6 +141,9 @@ public static class EncounterMovesetGenerator
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, ushort[] moves, IReadOnlyList<GameVersion> vers)
     {
+        if (!IsSane(pk, moves))
+            yield break;
+
         foreach (var ver in vers)
         {
             foreach (var enc in GenerateVersionEncounters(pk, moves, ver))
@@ -146,25 +158,33 @@ public static class EncounterMovesetGenerator
     /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
     /// <param name="version">Specific version to iterate for.</param>
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-    public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ushort[] moves, GameVersion version)
+    private static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ReadOnlySpan<ushort> moves, GameVersion version)
     {
-        if (pk.Species == 0 || pk.Species > pk.MaxSpeciesID) // can enter this method after failing to set a species ID that cannot exist in the format
-            return Array.Empty<IEncounterable>();
-        if (AnyMoveOutOfRange(moves, pk.MaxMoveID))
-            return Array.Empty<IEncounterable>();
-        if (pk.Species is (int)Species.Smeargle && !IsPlausibleSmeargleMoveset(pk, moves))
-            return Array.Empty<IEncounterable>();
-
         pk.Version = (int)version;
+
         var context = pk.Context;
         if (context is EntityContext.Gen2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
             context = EntityContext.Gen1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
         var et = EvolutionTree.GetEvolutionTree(context);
         var chain = et.GetValidPreEvolutions(pk, levelMax: 100, skipChecks: true);
-        ushort[] needs = GetNeededMoves(pk, moves);
+
+        var needs = GetNeededMoves(pk, moves, version);
         var generator = EncounterGenerator.GetGenerator(version);
 
         return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain, generator));
+    }
+
+    private static bool IsSane(PKM pk, ReadOnlySpan<ushort> moves)
+    {
+        var species = pk.Species;
+        if ((uint)(species - 1) >= pk.MaxSpeciesID) // can enter this method after failing to set a species ID that cannot exist in the format
+            return false;
+        if (AnyMoveOutOfRange(moves, pk.MaxMoveID))
+            return false;
+        if (species is (int)Species.Smeargle && !IsPlausibleSmeargleMoveset(pk.Context, moves))
+            return false;
+
+        return true;
     }
 
     private static bool AnyMoveOutOfRange(ReadOnlySpan<ushort> moves, ushort max)
@@ -177,26 +197,25 @@ public static class EncounterMovesetGenerator
         return false;
     }
 
-    private static bool IsPlausibleSmeargleMoveset(PKM pk, ReadOnlySpan<ushort> moves)
+    private static bool IsPlausibleSmeargleMoveset(EntityContext context, ReadOnlySpan<ushort> moves)
     {
         foreach (var move in moves)
         {
-            if (!MoveInfo.IsSketchValid(move, pk.Context))
+            if (!MoveInfo.IsSketchValid(move, context))
                 return false;
         }
         return true;
     }
 
-    private static ushort[] GetNeededMoves(PKM pk, ReadOnlySpan<ushort> moves)
+    private static ushort[] GetNeededMoves(PKM pk, ReadOnlySpan<ushort> moves, GameVersion ver)
     {
         if (pk.Species == (int)Species.Smeargle)
             return Array.Empty<ushort>();
 
         // Roughly determine the generation the PKM is originating from
-        var ver = pk.Version;
         int origin = pk.Generation;
         if (origin < 0)
-            origin = ((GameVersion)ver).GetGeneration();
+            origin = ver.GetGeneration();
 
         // Temporarily replace the Version for VC1 transfers, so that they can have VC2 moves if needed.
         bool vcBump = origin == 1 && pk.Format >= 7;
@@ -225,7 +244,7 @@ public static class EncounterMovesetGenerator
         ArrayPool<bool>.Shared.Return(rent);
 
         if (vcBump)
-            pk.Version = ver;
+            pk.Version = (int)ver;
 
         if (ctr == 0)
             return Array.Empty<ushort>();
