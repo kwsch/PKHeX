@@ -5,11 +5,15 @@ namespace PKHeX.Core;
 /// <summary>
 /// Object stores a numerical trainer ID.
 /// </summary>
-public interface ITrainerID32 : ITrainerID
+public interface ITrainerID32 : ITrainerID16
 {
     uint ID32 { get; set; }
-    ushort TID16 { get; set; }
     ushort SID16 { get; set; }
+}
+
+public interface ITrainerID16 : ITrainerID
+{
+    ushort TID16 { get; set; }
 }
 
 public static class ITrainerID32Extensions

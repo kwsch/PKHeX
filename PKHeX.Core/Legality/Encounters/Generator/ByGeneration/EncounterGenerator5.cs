@@ -39,8 +39,8 @@ internal sealed class EncounterGenerator5 : IEncounterGenerator
         }
         if (groups.HasFlag(Slot))
         {
-            var table = GetAreas(game);
-            foreach (var enc in GetPossibleSlots(chain, table))
+            var areas = GetAreas(game);
+            foreach (var enc in GetPossibleSlots(chain, areas))
                 yield return enc;
         }
         if (groups.HasFlag(Trade))
@@ -79,13 +79,20 @@ internal sealed class EncounterGenerator5 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea5[] table)
+    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea5[] areas)
     {
-        foreach (var enc in table)
+        foreach (var area in areas)
         {
-            var slots = enc.GetSpecies(chain);
-            foreach (var slot in slots)
-                yield return slot;
+            foreach (var slot in area.Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 

@@ -28,5 +28,4 @@ public abstract record EncounterArea(GameVersion Version) : IVersion
     public virtual bool IsMatchLocation(int location) => Location == location;
 
     public bool HasSpecies(ushort species) => Raw.Any(z => z.Species == species);
-    public IEnumerable<EncounterSlot> GetSpecies(EvoCriteria[] chain) => Raw.Where(z => chain.Any(c => z.Species == c.Species));
 }

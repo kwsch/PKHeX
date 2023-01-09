@@ -33,9 +33,18 @@ internal sealed class EncounterGenerator6 : IEncounterGenerator
         }
         if (groups.HasFlag(Slot))
         {
-            var areas = GetAreas(game);
-            foreach (var enc in GetPossibleSlots(chain, areas))
-                yield return enc;
+            if (game is GameVersion.X or GameVersion.Y)
+            {
+                var areas = game == GameVersion.X ? Encounters6XY.SlotsX : Encounters6XY.SlotsY;
+                foreach (var enc in GetPossibleSlots(chain, areas))
+                    yield return enc;
+            }
+            else if (game is GameVersion.AS or GameVersion.OR)
+            {
+                var areas = game == GameVersion.AS ? Encounters6AO.SlotsA : Encounters6AO.SlotsO;
+                foreach (var enc in GetPossibleSlots(chain, areas))
+                    yield return enc;
+            }
         }
         if (groups.HasFlag(Trade))
         {
@@ -72,14 +81,38 @@ internal sealed class EncounterGenerator6 : IEncounterGenerator
             }
         }
     }
-
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea[] areas)
+    
+    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea6XY[] areas)
     {
-        foreach (var enc in areas)
+        foreach (var area in areas)
         {
-            var slots = enc.GetSpecies(chain);
-            foreach (var slot in slots)
-                yield return slot;
+            foreach (var slot in area.Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+                    yield return slot;
+                    break;
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea6AO[] areas)
+    {
+        foreach (var area in areas)
+        {
+            foreach (var slot in area.Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 

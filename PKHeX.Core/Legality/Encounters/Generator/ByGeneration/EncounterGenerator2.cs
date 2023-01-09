@@ -41,7 +41,7 @@ internal sealed class EncounterGenerator2 : IEncounterGenerator
         if (groups.HasFlag(Slot))
         {
             var areas = GetAreas(game, korean);
-            foreach (var enc in GetPossibleSlots(chain, areas))
+            foreach (var enc in GetPossibleSlots(chain, areas, pk))
                 yield return enc;
         }
     }
@@ -88,13 +88,23 @@ internal sealed class EncounterGenerator2 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea2[] areas)
+    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea2[] areas, ITrainerID16 pk)
     {
         foreach (var area in areas)
         {
-            var slots = area.GetSpecies(chain);
-            foreach (var slot in slots)
-                yield return slot;
+            foreach (var slot in area.Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+
+                    if (slot.IsHeadbutt && !slot.IsTreeAvailable(pk.TID16))
+                        break;
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 

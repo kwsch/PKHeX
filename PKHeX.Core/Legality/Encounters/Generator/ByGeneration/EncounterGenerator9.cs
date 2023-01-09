@@ -82,9 +82,16 @@ internal sealed class EncounterGenerator9 : IEncounterGenerator
     {
         foreach (var area in areas)
         {
-            var slots = area.GetSpecies(chain);
-            foreach (var slot in slots)
-                yield return slot;
+            foreach (var slot in area.Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 
@@ -211,9 +218,14 @@ internal sealed class EncounterGenerator9 : IEncounterGenerator
         // Can have encounter marks, can have varied scales/shiny states.
         if (CanBeWildEncounter(pk))
         {
-            foreach (var z in Encounters9.Slots)
+            var location = pk.Met_Location;
+            var areas = Encounters9.Slots;
+            foreach (var area in areas)
             {
-                var slots = z.GetSpecies(chain);
+                if (!area.IsMatchLocation(location))
+                    continue;
+
+                var slots = area.GetMatchingSlots(pk, chain);
                 foreach (var slot in slots)
                 {
                     var match = slot.GetMatchRating(pk);

@@ -48,11 +48,18 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
 
     private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea3XD[] areas)
     {
-        foreach (var enc in areas)
+        foreach (var area in areas)
         {
-            var slots = enc.GetSpecies(chain);
-            foreach (var slot in slots)
-                yield return slot;
+            foreach (var slot in area.Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 

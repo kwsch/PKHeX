@@ -32,8 +32,8 @@ internal sealed class EncounterGenerator8b : IEncounterGenerator
         }
         if (groups.HasFlag(Slot))
         {
-            var table = game == GameVersion.BD ? Encounters8b.SlotsBD : Encounters8b.SlotsSP;
-            foreach (var enc in GetPossibleSlots(chain, table))
+            var areas = game == GameVersion.BD ? Encounters8b.SlotsBD : Encounters8b.SlotsSP;
+            foreach (var enc in GetPossibleSlots(chain, areas))
                 yield return enc;
         }
         if (groups.HasFlag(Trade))
@@ -75,9 +75,16 @@ internal sealed class EncounterGenerator8b : IEncounterGenerator
     {
         foreach (var area in areas)
         {
-            var slots = area.GetSpecies(chain);
-            foreach (var slot in slots)
-                yield return slot;
+            foreach (var slot in area.Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 

@@ -85,12 +85,15 @@ internal sealed class EncounterGenerator1 : IEncounterGenerator
     {
         foreach (var area in areas)
         {
-            var slots = area.GetSpecies(chain);
-            foreach (var slot in slots)
+            foreach (var slot in area.Slots)
             {
-                if (slot.Species == 0)
-                    continue;
-                yield return slot;
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+                    yield return slot;
+                    break;
+                }
             }
         }
     }

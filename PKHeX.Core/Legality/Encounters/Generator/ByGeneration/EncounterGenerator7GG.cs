@@ -73,8 +73,16 @@ public sealed class EncounterGenerator7GG : IEncounterGenerator
     {
         foreach (var area in areas)
         {
-            foreach (var result in area.GetSpecies(chain))
-                yield return result;
+            foreach (var slot in area.Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != slot.Species)
+                        continue;
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 
