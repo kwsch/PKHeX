@@ -113,5 +113,6 @@ internal static class Encounters3XD
         new(92, 041, 21, 304, 21, 194, 21), // Cave (Zubat, Aron, Wooper)
     };
 
-    internal static readonly EncounterStatic[] Encounter_CXD = ArrayUtil.ConcatAll<EncounterStatic>(Encounters3Colo.Encounter_ColoGift, Encounters3Colo.Encounter_Colo, Encounter_XDGift, Encounter_XD);
+    internal static readonly EncounterStatic3[] Encounter_CXDGift   = ArrayUtil.ConcatAll(Encounters3Colo.Encounter_ColoGift, Encounter_XDGift);
+    internal static readonly EncounterStaticShadow[] Encounter_CXDShadow = ArrayUtil.ConcatAll(Encounters3Colo.Encounter_Colo, Encounter_XD);
 }
