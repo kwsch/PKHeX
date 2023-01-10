@@ -21,7 +21,7 @@ public static class MoveLevelUp
 
         // The initial moves are seeded from Personal rather than learn.
         table[index].GetMoves(result);
-        int start = Math.Max(0, result.IndexOf((ushort)0));
+        int start = Math.Max(0, result.IndexOf<ushort>(0));
 
         learn[index].SetEncounterMoves(level, result, start);
     }
@@ -39,12 +39,5 @@ public static class MoveLevelUp
             var index = table.GetFormIndex(species, form);
             learn[index].SetEncounterMoves(level, result);
         }
-    }
-
-    public static ushort[] GetEncounterMoves(ushort species, byte form, int level, GameVersion version)
-    {
-        var result = new ushort[4];
-        GetEncounterMoves(result, species, form, level, version);
-        return result;
     }
 }

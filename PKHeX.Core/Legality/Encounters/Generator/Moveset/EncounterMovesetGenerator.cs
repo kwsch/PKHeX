@@ -4,6 +4,7 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using static PKHeX.Core.EncounterTypeGroup;
 
 namespace PKHeX.Core;
 
@@ -252,17 +253,15 @@ public static class EncounterMovesetGenerator
     }
 
     private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, ushort[] needs, GameVersion version, EncounterTypeGroup type, EvoCriteria[] chain, IEncounterGenerator generator)
+        => type switch
     {
-        return type switch
-        {
-            EncounterTypeGroup.Egg => GetEggs(pk, needs, chain, version, generator),
-            EncounterTypeGroup.Mystery => GetGifts(pk, needs, chain, version, generator),
-            EncounterTypeGroup.Static => GetStatic(pk, needs, chain, version, generator),
-            EncounterTypeGroup.Trade => GetTrades(pk, needs, chain, version, generator),
-            EncounterTypeGroup.Slot => GetSlots(pk, needs, chain, version, generator),
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
-        };
-    }
+        Egg => GetEggs(pk, needs, chain, version, generator),
+        Mystery => GetGifts(pk, needs, chain, version, generator),
+        Static => GetStatic(pk, needs, chain, version, generator),
+        Trade => GetTrades(pk, needs, chain, version, generator),
+        Slot => GetSlots(pk, needs, chain, version, generator),
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+    };
 
     /// <summary>
     /// Gets possible encounters that allow all moves requested to be learned.
@@ -278,7 +277,7 @@ public static class EncounterMovesetGenerator
         if (!Breeding.CanGameGenerateEggs(version))
             yield break; // no eggs from these games
 
-        var eggs = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Egg);
+        var eggs = generator.GetPossible(pk, chain, version, Egg);
         foreach (var egg in eggs)
         {
             if (needs.Length == 0)
@@ -292,12 +291,8 @@ public static class EncounterMovesetGenerator
             var vt = Array.IndexOf(needs, (ushort)Move.VoltTackle);
             if (vt != -1 && egg is EncounterEgg { CanHaveVoltTackle: true })
                 flags |= 1 << vt;
-
-            if (egg.Generation <= 2)
-            {
-                var tmp = MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.LevelMin, egg.Version);
-                flags |= Moveset.BitOverlap(tmp, needs);
-            }
+            else if (egg.Generation <= 2)
+                flags |= GetMoveMaskGen2(needs, egg);
 
             if (flags == (1 << needs.Length) - 1)
                 yield return egg;
@@ -316,7 +311,7 @@ public static class EncounterMovesetGenerator
     private static IEnumerable<IEncounterable> GetGifts(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         var context = pk.Context;
-        var gifts = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Mystery);
+        var gifts = generator.GetPossible(pk, chain, version, Mystery);
         foreach (var g in gifts)
         {
             if (!IsSane(chain, g, context))
@@ -348,7 +343,7 @@ public static class EncounterMovesetGenerator
     private static IEnumerable<IEncounterable> GetStatic(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         var context = pk.Context;
-        var encounters = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Static);
+        var encounters = generator.GetPossible(pk, chain, version, Static);
         foreach (var enc in encounters)
         {
             if (!IsSane(chain, enc, context))
@@ -366,22 +361,6 @@ public static class EncounterMovesetGenerator
         }
     }
 
-    private static int GetMoveMaskConsiderGen2(ReadOnlySpan<ushort> needs, IEncounterTemplate enc)
-    {
-        var flags = 0;
-        if (enc is IMoveset m)
-            flags = m.Moves.BitOverlap(needs);
-        if (enc is IRelearn { Relearn: { HasMoves: true } r })
-            flags |= r.BitOverlap(needs);
-        if (enc.Generation <= 2)
-        {
-            Span<ushort> moves = stackalloc ushort[4];
-             MoveLevelUp.GetEncounterMoves(moves, enc.Species, 0, enc.LevelMin, enc.Version);
-            flags |= Moveset.BitOverlap(moves, needs);
-        }
-        return flags;
-    }
-
     /// <summary>
     /// Gets possible encounters that allow all moves requested to be learned.
     /// </summary>
@@ -394,7 +373,7 @@ public static class EncounterMovesetGenerator
     private static IEnumerable<IEncounterable> GetTrades(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         var context = pk.Context;
-        var trades = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Trade);
+        var trades = generator.GetPossible(pk, chain, version, Trade);
         foreach (var trade in trades)
         {
             if (!IsSane(chain, trade, context))
@@ -423,25 +402,12 @@ public static class EncounterMovesetGenerator
     private static IEnumerable<IEncounterable> GetSlots(PKM pk, ushort[] needs, EvoCriteria[] chain, GameVersion version, IEncounterGenerator generator)
     {
         var context = pk.Context;
-        var slots = generator.GetPossible(pk, chain, version, EncounterTypeGroup.Slot);
+        var slots = generator.GetPossible(pk, chain, version, Slot);
         foreach (var slot in slots)
         {
             if (!IsSane(chain, slot, context))
                 continue;
-
-            if (needs.Length == 0)
-            {
-                yield return slot;
-                continue;
-            }
-
-            if (slot is IMoveset m && m.Moves.ContainsAll(needs))
-                yield return slot;
-            else if (needs.Length == 1 && slot is EncounterSlot6AO {CanDexNav: true} dn && dn.CanBeDexNavMove(needs[0]))
-                yield return slot;
-            else if (needs.Length == 1 && slot is EncounterSlot8b {IsUnderground: true} ug && ug.CanBeUndergroundMove(needs[0]))
-                yield return slot;
-            else if (slot.Generation <= 2 && HasAllMoves(needs, MoveLevelUp.GetEncounterMoves(slot.Species, 0, slot.LevelMin, slot.Version)))
+            if (needs.Length == 0 || HasAllNeededMovesSlot(needs, slot))
                 yield return slot;
         }
     }
@@ -466,17 +432,41 @@ public static class EncounterMovesetGenerator
         return false;
     }
 
-    private static bool HasAllMoves(ReadOnlySpan<ushort> needs, IEnumerable<ushort> extra)
+    private static int GetMoveMaskConsiderGen2(ReadOnlySpan<ushort> needs, IEncounterTemplate enc)
     {
-        // Flag each present index; having all moves will have all bitflags.
-        int flags = 0;
-        foreach (var move in extra)
-        {
-            var index = needs.IndexOf(move);
-            if (index == -1)
-                continue;
-            flags |= 1 << index;
-        }
+        var flags = 0;
+        if (enc is IMoveset m)
+            flags = m.Moves.BitOverlap(needs);
+        if (enc is IRelearn { Relearn: { HasMoves: true } r })
+            flags |= r.BitOverlap(needs);
+        if (enc.Generation <= 2)
+            flags |= GetMoveMaskGen2(needs, enc);
+        return flags;
+    }
+
+    private static int GetMoveMaskGen2(ReadOnlySpan<ushort> needs, IEncounterTemplate enc)
+    {
+        Span<ushort> moves = stackalloc ushort[4];
+        MoveLevelUp.GetEncounterMoves(moves, enc.Species, 0, enc.LevelMin, enc.Version);
+        return Moveset.BitOverlap(moves, needs);
+    }
+
+    private static bool HasAllNeededMovesSlot(ReadOnlySpan<ushort> needs, IEncounterTemplate slot)
+    {
+        if (slot is IMoveset m)
+            return m.Moves.ContainsAll(needs);
+        if (needs.Length == 1 && slot is EncounterSlot6AO dn)
+            return dn.CanDexNav && dn.CanBeDexNavMove(needs[0]);
+        if (needs.Length == 1 && slot is EncounterSlot8b ug)
+            return ug.IsUnderground && ug.CanBeUndergroundMove(needs[0]);
+        if (slot.Generation <= 2)
+            return HasAllNeededMovesEncounter2(needs, slot);
+        return false;
+    }
+
+    private static bool HasAllNeededMovesEncounter2(ReadOnlySpan<ushort> needs, IEncounterTemplate enc)
+    {
+        int flags = GetMoveMaskGen2(needs, enc);
         return flags == (1 << needs.Length) - 1;
     }
 }

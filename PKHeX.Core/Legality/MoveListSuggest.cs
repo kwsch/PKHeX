@@ -26,12 +26,16 @@ public static class MoveListSuggest
         {
             var lvl = pk.Format >= 7 ? pk.Met_Level : pk.CurrentLevel;
             var ver = enc.Version;
-            return MoveLevelUp.GetEncounterMoves(enc.Species, 0, lvl, ver);
+            var result = new ushort[4];
+            MoveLevelUp.GetEncounterMoves(result, enc.Species, 0, lvl, ver);
+            return result;
         }
 
         if (pk.Species == enc.Species)
         {
-            return MoveLevelUp.GetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, (GameVersion)pk.Version);
+            var result = new ushort[4];
+            MoveLevelUp.GetEncounterMoves(result, pk.Species, pk.Form, pk.CurrentLevel, (GameVersion)pk.Version);
+            return result;
         }
 
         return GetValidMoves(pk, enc, evoChains, types);
