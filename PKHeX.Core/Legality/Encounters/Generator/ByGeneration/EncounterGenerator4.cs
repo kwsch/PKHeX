@@ -8,7 +8,7 @@ using static PKHeX.Core.EncounterMatchRating;
 
 namespace PKHeX.Core;
 
-internal sealed class EncounterGenerator4 : IEncounterGenerator
+public sealed class EncounterGenerator4 : IEncounterGenerator
 {
     public static readonly EncounterGenerator4 Instance = new();
 
@@ -160,7 +160,7 @@ internal sealed class EncounterGenerator4 : IEncounterGenerator
             {
                 if (mg.Version != game)
                     continue;
-                
+
                 foreach (var evo in chain)
                 {
                     if (evo.Species != mg.Species)
@@ -195,7 +195,7 @@ internal sealed class EncounterGenerator4 : IEncounterGenerator
                 break;
             }
         }
-        
+
         IEncounterable? deferred = null;
         IEncounterable? partial = null;
 
@@ -254,7 +254,7 @@ internal sealed class EncounterGenerator4 : IEncounterGenerator
                     yield return slot;
                 }
             }
-            
+
             info.FrameMatches = false;
             if (deferred is EncounterSlot4 x)
                 yield return x;

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Dual-generator implementation to yield from multiple sets of games at the same time.
 /// </summary>
-internal sealed class EncounterGenerator12 : IEncounterGenerator
+public sealed class EncounterGenerator12 : IEncounterGenerator
 {
     public static readonly EncounterGenerator12 Instance = new();
 

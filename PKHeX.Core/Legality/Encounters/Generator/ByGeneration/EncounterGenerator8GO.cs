@@ -40,7 +40,7 @@ public sealed class EncounterGenerator8GO : IEncounterGenerator
     {
         if (!CanBeWildEncounter(pk))
             yield break;
-        
+
         IEncounterable? deferred = null;
         IEncounterable? partial = null;
 

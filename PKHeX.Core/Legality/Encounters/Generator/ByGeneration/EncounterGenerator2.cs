@@ -7,7 +7,7 @@ using static PKHeX.Core.EncounterMatchRating;
 
 namespace PKHeX.Core;
 
-internal sealed class EncounterGenerator2 : IEncounterGenerator
+public sealed class EncounterGenerator2 : IEncounterGenerator
 {
     public static readonly EncounterGenerator2 Instance = new();
 
@@ -189,7 +189,6 @@ internal sealed class EncounterGenerator2 : IEncounterGenerator
             yield return enc;
         }
 
-
         if (deferred != null)
             yield return deferred;
     }
@@ -246,7 +245,7 @@ internal sealed class EncounterGenerator2 : IEncounterGenerator
         // Sanity Check 3
         if (!PersonalTable.C.IsPresentInGame(species, form))
             yield break;
-        
+
         // Gen2 was before split-breed species existed; try to ensure that the egg we try and match to can actually originate in the game.
         // Species must be < 251
         // Form must be 0 (Unown cannot breed).

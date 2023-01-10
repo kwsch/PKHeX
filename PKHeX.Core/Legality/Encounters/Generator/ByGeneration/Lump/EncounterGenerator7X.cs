@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-internal sealed class EncounterGenerator7X : IEncounterGenerator
+public sealed class EncounterGenerator7X : IEncounterGenerator
 {
     public static readonly EncounterGenerator7X Instance = new();
 

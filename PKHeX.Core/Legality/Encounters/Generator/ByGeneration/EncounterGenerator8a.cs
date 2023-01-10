@@ -32,7 +32,7 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
                 yield return enc;
         }
     }
-    
+
     private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WA8> table)
     {
         foreach (var e in table)

@@ -6,7 +6,7 @@ using static PKHeX.Core.EncounterMatchRating;
 
 namespace PKHeX.Core;
 
-internal sealed class EncounterGenerator8b : IEncounterGenerator
+public sealed class EncounterGenerator8b : IEncounterGenerator
 {
     public static readonly EncounterGenerator8b Instance = new();
 

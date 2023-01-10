@@ -121,7 +121,6 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         return GetEncounters(pk, chain, info);
     }
 
-
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
         info.PIDIV = MethodFinder.Analyze(pk);

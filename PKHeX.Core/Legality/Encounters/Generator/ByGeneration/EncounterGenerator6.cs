@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 
 using static PKHeX.Core.EncounterStateUtil;
 using static PKHeX.Core.EncounterTypeGroup;
 using static PKHeX.Core.EncounterMatchRating;
-using System;
 
 namespace PKHeX.Core;
 
-internal sealed class EncounterGenerator6 : IEncounterGenerator
+public sealed class EncounterGenerator6 : IEncounterGenerator
 {
     public static readonly EncounterGenerator6 Instance = new();
 
@@ -81,7 +81,7 @@ internal sealed class EncounterGenerator6 : IEncounterGenerator
             }
         }
     }
-    
+
     private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea6XY[] areas)
     {
         foreach (var area in areas)
@@ -295,7 +295,7 @@ internal sealed class EncounterGenerator6 : IEncounterGenerator
         GameVersion.OR => Encounters6AO.SlotsO,
         _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
     };
-    
+
     private static EncounterTrade6[] GetTrades(GameVersion gameSource) => gameSource switch
     {
         GameVersion.X => Encounters6XY.TradeGift_XY,
@@ -304,7 +304,7 @@ internal sealed class EncounterGenerator6 : IEncounterGenerator
         GameVersion.OR => Encounters6AO.TradeGift_AO,
         _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
     };
-    
+
     private const int Generation = 6;
     private const EntityContext Context = EntityContext.Gen6;
     private const byte EggLevel = 1;

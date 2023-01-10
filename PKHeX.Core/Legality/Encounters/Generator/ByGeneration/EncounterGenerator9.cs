@@ -6,7 +6,7 @@ using static PKHeX.Core.EncounterMatchRating;
 
 namespace PKHeX.Core;
 
-internal sealed class EncounterGenerator9 : IEncounterGenerator
+public sealed class EncounterGenerator9 : IEncounterGenerator
 {
     public static readonly EncounterGenerator9 Instance = new();
 
@@ -151,7 +151,7 @@ internal sealed class EncounterGenerator9 : IEncounterGenerator
             if (yielded)
                 yield break;
         }
-        
+
         IEncounterable? cache = null;
         EncounterMatchRating rating = MaxNotMatch;
 
@@ -281,7 +281,6 @@ internal sealed class EncounterGenerator9 : IEncounterGenerator
             form = FormInfo.GetOutOfBattleForm(species, form, Generation);
         return new EncounterEgg(species, form, EggLevel, Generation, version, Context);
     }
-
 
     private static (ushort Species, byte Form) GetBaby(EvoCriteria lowest)
     {

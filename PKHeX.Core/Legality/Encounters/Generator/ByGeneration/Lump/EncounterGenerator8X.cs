@@ -4,7 +4,7 @@ using static PKHeX.Core.Locations;
 
 namespace PKHeX.Core;
 
-internal sealed class EncounterGenerator8X : IEncounterGenerator
+public sealed class EncounterGenerator8X : IEncounterGenerator
 {
     public static readonly EncounterGenerator8X Instance = new();
 

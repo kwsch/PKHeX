@@ -7,7 +7,7 @@ using static PKHeX.Core.EncounterMatchRating;
 
 namespace PKHeX.Core;
 
-internal sealed class EncounterGenerator5 : IEncounterGenerator
+public sealed class EncounterGenerator5 : IEncounterGenerator
 {
     public static readonly EncounterGenerator5 Instance = new();
 
@@ -254,7 +254,7 @@ internal sealed class EncounterGenerator5 : IEncounterGenerator
         GameVersion.W2 => Encounters5B2W2.TradeGift_B2W2,
         _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
     };
-    
+
     private const int Generation = 5;
     private const EntityContext Context = EntityContext.Gen5;
     private const byte EggLevel = 1;
