@@ -21,7 +21,7 @@ public static class Encounter9RNG
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
             pk.TeraTypeOriginal = (MoveType)type;
             if (criteria.TeraType != -1 && type != criteria.TeraType)
-                pk.SetTeraType(type); // sets the override type
+                pk.SetTeraType((MoveType)criteria.TeraType); // sets the override type
             return true; // done.
         }
         return false;
@@ -41,7 +41,7 @@ public static class Encounter9RNG
             var type = Tera9RNG.GetTeraType(seed, enc.TeraType, enc.Species, enc.Form);
             pk.TeraTypeOriginal = (MoveType)type;
             if (criteria.TeraType != -1 && type != criteria.TeraType)
-                pk.SetTeraType(type); // sets the override type
+                pk.SetTeraType((MoveType)criteria.TeraType); // sets the override type
             return true; // done.
         }
         return false;
