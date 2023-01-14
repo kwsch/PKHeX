@@ -36,8 +36,8 @@ public sealed class Roamer3 : IContestStats
 
     public ushort Species
     {
-        get => SpeciesConverter.GetG4Species(ReadUInt16LittleEndian(Data.AsSpan(Offset + 8)));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 8), SpeciesConverter.GetG3Species(value));
+        get => SpeciesConverter.GetNational3(ReadUInt16LittleEndian(Data.AsSpan(Offset + 8)));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 8), SpeciesConverter.GetInternal3(value));
     }
 
     public int HP_Current

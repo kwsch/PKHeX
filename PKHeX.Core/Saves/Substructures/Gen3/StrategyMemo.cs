@@ -84,11 +84,11 @@ public sealed class StrategyMemoEntry
         get
         {
             var val = (ushort)(ReadUInt16BigEndian(Data.AsSpan(0)) & 0x1FF);
-            return SpeciesConverter.GetG4Species(val);
+            return SpeciesConverter.GetNational3(val);
         }
         set
         {
-            var val = SpeciesConverter.GetG3Species(value);
+            var val = SpeciesConverter.GetInternal3(value);
             var cval = ReadUInt16BigEndian(Data.AsSpan(0));
             cval &= 0xE00; val &= 0x1FF; cval |= val;
             WriteUInt16BigEndian(Data.AsSpan(0x00), cval);

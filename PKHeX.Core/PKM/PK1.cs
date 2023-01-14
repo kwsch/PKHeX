@@ -38,8 +38,8 @@ public sealed class PK1 : GBPKML, IPersonalType
     protected override byte[] Encrypt() => new PokeList1(this).Write();
 
     #region Stored Attributes
-    public byte SpeciesID1 { get => Data[0]; set => Data[0] = value; } // raw access
-    public override ushort Species { get => SpeciesConverter.GetG1Species(SpeciesID1); set => SetSpeciesValues(value); }
+    public byte SpeciesInternal { get => Data[0]; set => Data[0] = value; } // raw access
+    public override ushort Species { get => SpeciesConverter.GetNational1(SpeciesInternal); set => SetSpeciesValues(value); }
     public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x1)); set => WriteUInt16BigEndian(Data.AsSpan(0x1), (ushort)value); }
     public int Stat_LevelBox { get => Data[3]; set => Data[3] = (byte)value; }
     public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
@@ -94,11 +94,11 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     private void SetSpeciesValues(ushort value)
     {
-        var updated = SpeciesConverter.SetG1Species(value);
-        if (SpeciesID1 == updated)
+        var updated = SpeciesConverter.GetInternal1(value);
+        if (SpeciesInternal == updated)
             return;
 
-        SpeciesID1 = updated;
+        SpeciesInternal = updated;
 
         var pi = PersonalTable.RB[value];
         Type1 = pi.Type1;

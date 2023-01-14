@@ -50,7 +50,7 @@ public partial class SAV_Misc3 : Form
                 cba[i].InitializeBinding();
                 cba[i].DataSource = new BindingSource(legal, null);
                 var g3Species = SAV.GetWork(0x43 + i);
-                var species = SpeciesConverter.GetG4Species(g3Species);
+                var species = SpeciesConverter.GetNational3(g3Species);
                 cba[i].SelectedValue = (int)species;
             }
         }
@@ -75,7 +75,7 @@ public partial class SAV_Misc3 : Form
             for (int i = 0; i < cba.Length; i++)
             {
                 var species = (ushort) WinFormsUtil.GetIndex(cba[i]);
-                var g3Species = SpeciesConverter.GetG3Species(species);
+                var g3Species = SpeciesConverter.GetInternal3(species);
                 SAV.SetWork(0x43 + i, g3Species);
             }
         }

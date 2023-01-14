@@ -54,7 +54,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
         MarkValue = (MarkValue & ~(1 << index)) | ((value & 1) << index);
     }
 
-    public abstract ushort SpeciesID3 { get; set; } // raw access
+    public abstract ushort SpeciesInternal { get; set; } // raw access
 
     public sealed override byte Form
     {
@@ -139,7 +139,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     /// <returns>New object with transferred properties.</returns>
     protected T ConvertTo<T>() where T : G3PKM, new() => new()
     {
-        SpeciesID3 = SpeciesID3,
+        SpeciesInternal = SpeciesInternal,
         Language = Language,
         PID = PID,
         TID16 = TID16,

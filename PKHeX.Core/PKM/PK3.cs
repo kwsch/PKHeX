@@ -70,15 +70,15 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }
 
     #region Block A
-    public override ushort SpeciesID3 { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), value); } // raw access
+    public override ushort SpeciesInternal { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), value); } // raw access
 
     public override ushort Species
     {
-        get => SpeciesConverter.GetG4Species(SpeciesID3);
+        get => SpeciesConverter.GetNational3(SpeciesInternal);
         set
         {
-            var s3 = SpeciesConverter.GetG3Species(value);
-            FlagHasSpecies = (SpeciesID3 = s3) != 0;
+            var s3 = SpeciesConverter.GetInternal3(value);
+            FlagHasSpecies = (SpeciesInternal = s3) != 0;
         }
     }
 

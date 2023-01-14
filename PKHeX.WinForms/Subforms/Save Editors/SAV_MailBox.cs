@@ -288,7 +288,7 @@ public partial class SAV_MailBox : Form
         }
         if (Gen == 3)
         {
-            mail.AppearPKM = SpeciesConverter.GetG3Species(species);
+            mail.AppearPKM = SpeciesConverter.GetInternal3(species);
             return;
         }
 
@@ -529,7 +529,7 @@ public partial class SAV_MailBox : Form
         }
         if (Gen == 3)
         {
-            AppearPKMs[0].SelectedValue = (int)SpeciesConverter.GetG4Species(species);
+            AppearPKMs[0].SelectedValue = (int)SpeciesConverter.GetNational3(species);
             editing = false;
             return;
         }

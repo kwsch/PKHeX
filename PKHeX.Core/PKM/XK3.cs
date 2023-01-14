@@ -31,8 +31,8 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override Span<byte> Nickname_Trash => Data.AsSpan(0x4E, 22);
     public Span<byte> NicknameCopy_Trash => Data.AsSpan(0x64, 22);
 
-    public override ushort SpeciesID3 { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt16BigEndian(Data.AsSpan(0x00), value); } // raw access
-    public override ushort Species { get => SpeciesConverter.GetG4Species(SpeciesID3); set => SpeciesID3 = SpeciesConverter.GetG3Species(value); }
+    public override ushort SpeciesInternal { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt16BigEndian(Data.AsSpan(0x00), value); } // raw access
+    public override ushort Species { get => SpeciesConverter.GetNational3(SpeciesInternal); set => SpeciesInternal = SpeciesConverter.GetInternal3(value); }
     public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
     public override int HeldItem { get => ReadUInt16BigEndian(Data.AsSpan(0x02)); set => WriteUInt16BigEndian(Data.AsSpan(0x02), (ushort)value); }
     public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x04)); set => WriteUInt16BigEndian(Data.AsSpan(0x04), (ushort)value); }
@@ -222,7 +222,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
                 pk.FatefulEncounter = true;
             }
         }
-        pk.FlagHasSpecies = pk.SpeciesID3 != 0; // Update Flag
+        pk.FlagHasSpecies = pk.SpeciesInternal != 0; // Update Flag
         pk.RefreshChecksum();
         return pk;
     }
