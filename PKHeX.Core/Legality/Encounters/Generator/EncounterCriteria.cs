@@ -25,7 +25,7 @@ public sealed record EncounterCriteria
     /// <remarks> Leave as <see cref="Core.Nature.Random"/> to not restrict nature. </remarks>
     public Nature Nature { get; init; } = Nature.Random;
 
-    /// <summary> End result's nature. </summary>
+    /// <summary> End result's shininess. </summary>
     /// <remarks> Leave as <see cref="Core.Shiny.Random"/> to not restrict shininess. </remarks>
     public Shiny Shiny { get; init; }
 
@@ -103,6 +103,7 @@ public sealed record EncounterCriteria
         AbilityNumber = GetAbilityNumber(s.Ability, pi),
         Nature = NatureUtil.GetNature(s.Nature),
         Shiny = s.Shiny ? Shiny.Always : Shiny.Never,
+        TeraType = (sbyte)s.TeraType,
     };
 
     private static AbilityPermission GetAbilityNumber(int ability, IPersonalAbility pi)
