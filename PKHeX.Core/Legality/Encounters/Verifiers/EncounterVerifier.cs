@@ -168,6 +168,17 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounterEgg5(PKM pk)
     {
+        // Two game-specific locations we need to double check for.
+        // White / White2 cannot access Black Gate (112)
+        // Black / Black2 cannot access White Gate (113)
+        var met = pk.Met_Location;
+        var delta = (uint)(met - 112);
+        if (delta <= 1)
+        {
+            var ver = pk.Version & 1; // W*=0, B*=1
+            if (ver == delta)
+                return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        }
         return VerifyEncounterEggLevelLoc(pk, 1, pk.B2W2 ? Legal.ValidMet_B2W2 : Legal.ValidMet_BW);
     }
 
