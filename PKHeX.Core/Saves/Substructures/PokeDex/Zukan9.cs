@@ -169,30 +169,32 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         for (byte form = 0; form < formCount; form++)
         {
             var pi = pt.GetFormEntry(species, form);
-            var val = value && pi.IsPresentInGame;
-            SeenAll(species, form, val, pi, shinyToo);
+            var seenSpecies = value;
+            bool seenForm = seenSpecies && pi.IsPresentInGame;
+            SeenAll(species, form, pi, shinyToo, seenSpecies, seenForm);
         }
     }
 
-    private void SeenAll(ushort species, byte form, bool value, IGenderDetail pi, bool shinyToo)
+    private void SeenAll(ushort species, byte form, IGenderDetail pi, bool shinyToo, bool seenSpecies, bool seenForm)
     {
         var entry = Get(species);
-        if (value && !entry.IsSeen)
-            entry.SetSeen(value);
-        if (pi.IsDualGender || !value)
+        if (seenSpecies && !entry.IsSeen)
+            entry.SetSeen(seenSpecies);
+
+        if (!seenSpecies || (seenForm && pi.IsDualGender))
         {
-            entry.SetIsGenderSeen(0, value);
-            entry.SetIsGenderSeen(1, value);
+            entry.SetIsGenderSeen(0, seenForm);
+            entry.SetIsGenderSeen(1, seenForm);
         }
         else
         {
             var gender = pi.FixedGender();
-            entry.SetIsGenderSeen(gender, value);
+            entry.SetIsGenderSeen(gender, seenForm);
         }
-        entry.SetIsFormSeen(form, value);
+        entry.SetIsFormSeen(form, seenForm);
 
-        if (!value || shinyToo)
-            entry.SetSeenIsShiny(value);
+        if (!seenSpecies || shinyToo)
+            entry.SetSeenIsShiny(seenSpecies);
     }
 
     public override void CompleteDex(bool shinyToo = false)
