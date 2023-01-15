@@ -306,7 +306,9 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
 
         var egg = CreateEggEncounter(species, form, version);
         yield return egg;
-        bool otherVersion = pk is { IsEgg: false, Egg_Location: Locations.LinkTrade6 };
+        if (pk.IsEgg)
+            yield break;
+        bool otherVersion = pk is { Egg_Location: Locations.LinkTrade6 };
         if (otherVersion)
             yield return egg with { Version = GetOtherGamePair(version) };
 
