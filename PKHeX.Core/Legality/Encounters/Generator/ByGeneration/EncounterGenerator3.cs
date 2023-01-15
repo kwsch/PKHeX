@@ -12,7 +12,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 {
     public static readonly EncounterGenerator3 Instance = new();
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
         if (groups.HasFlag(Mystery))
         {
@@ -29,7 +29,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         }
         if (groups.HasFlag(Egg))
         {
-            var eggs = GetEggs(pk, chain, game);
+            var eggs = GetEggs(chain, game);
             foreach (var egg in eggs)
                 yield return egg;
         }
@@ -252,7 +252,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         }
 
         // Due to the lack of Egg Met Location, eggs can be confused with Slots. Yield them now.
-        var eggs = GetEggs(pk, chain, game);
+        var eggs = GetEggs(chain, game);
         foreach (var z in eggs)
             yield return z;
 
@@ -335,7 +335,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
     private const EntityContext Context = EntityContext.Gen3;
     private const byte EggLevel = 5;
 
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<EncounterEgg> GetEggs(EvoCriteria[] chain, GameVersion version)
     {
         var devolved = chain[^1];
 
@@ -355,6 +355,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
             yield break;
 
         yield return CreateEggEncounter(species, form, version);
+        // Version is not updated when hatching an Egg in Gen3. Version is a clear indicator of the game it originated on.
 
         // Check for split-breed
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);

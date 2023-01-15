@@ -92,9 +92,9 @@ public sealed class EggMoves7 : EggMoves
     /// <summary>
     /// Points to the index where form data is, within the parent Egg Move object array.
     /// </summary>
-    public readonly int FormTableIndex;
+    public readonly ushort FormTableIndex;
 
-    private EggMoves7(ushort[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;
+    private EggMoves7(ushort[] moves, ushort formIndex = 0) : base(moves) => FormTableIndex = formIndex;
 
     public static EggMoves7[] GetArray(BinLinkerAccessor entries)
     {
@@ -104,7 +104,7 @@ public sealed class EggMoves7 : EggMoves
         {
             var data = entries[i];
             int count = ReadInt16LittleEndian(data[2..]);
-            int formIndex = ReadInt16LittleEndian(data);
+            var formIndex = ReadUInt16LittleEndian(data);
             if (count == 0)
             {
                 // Might need to keep track of the Form Index for unavailable forms pointing to valid forms.

@@ -87,7 +87,7 @@ public sealed class Frame
     /// </summary>
     /// <param name="slot">Slot Data</param>
     /// <returns>Slot number for this frame &amp; lead value.</returns>
-    private int GetSlot<T>(T slot) where T : EncounterSlot, IMagnetStatic, INumberedSlot, ISlotRNGType
+    private int GetSlot<T>(T slot) where T : IMagnetStatic, INumberedSlot, ISlotRNGType
     {
         // Static and Magnet Pull do a slot search rather than slot mapping 0-99.
         return Lead != LeadRequired.StaticMagnet

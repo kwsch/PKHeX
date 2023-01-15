@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Wild Encounter Slot data
 /// </summary>
 /// <remarks>Wild encounter slots are found as random encounters in-game.</remarks>
-public abstract record EncounterSlot(EncounterArea Area, ushort Species, byte Form, byte LevelMin, byte LevelMax) : IEncounterable, IEncounterMatch
+public abstract record EncounterSlot(EncounterArea Area, ushort Species, byte Form, byte LevelMin, byte LevelMax) : IEncounterable, IEncounterMatch, IEncounterFormRandom
 {
     public abstract int Generation { get; }
     public abstract EntityContext Context { get; }

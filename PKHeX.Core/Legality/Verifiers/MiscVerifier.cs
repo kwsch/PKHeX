@@ -360,9 +360,7 @@ public sealed class MiscVerifier : Verifier
                 VerifyReceivability(data, g);
                 VerifyFatefulMysteryGift(data, g);
                 return;
-            case EncounterStatic {FatefulEncounter: true}: // ingame fateful
-            case EncounterSlot3PokeSpot: // ingame pokespot
-            case EncounterTrade4RanchSpecial: // ranch varied PID
+            case IFatefulEncounterReadOnly {FatefulEncounter: true}: // ingame fateful
                 VerifyFatefulIngameActive(data);
                 return;
         }
@@ -472,18 +470,11 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(LPIDTypeMismatch, PID));
         }
 
-        bool shouldHave = GetFatefulState(g);
+        bool shouldHave = g.FatefulEncounter;
         var result = pk.FatefulEncounter == shouldHave
             ? GetValid(LFatefulMystery, Fateful)
             : GetInvalid(LFatefulMysteryMissing, Fateful);
         data.AddLine(result);
-    }
-
-    private static bool GetFatefulState(MysteryGift g)
-    {
-        if (g is WC6 {IsLinkGift: true})
-            return false; // Pokémon Link fake-gifts do not have Fateful
-        return true;
     }
 
     private static void VerifyReceivability(LegalityAnalysis data, MysteryGift g)

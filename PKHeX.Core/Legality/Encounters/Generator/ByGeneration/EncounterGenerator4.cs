@@ -21,11 +21,11 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
        return GetEncounters(pk, chain, info);
     }
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
         if (groups.HasFlag(Mystery))
         {
-            if (pk.Species == (int)Species.Manaphy)
+            if (chain[^1].Species == (int)Species.Manaphy)
                 yield return RangerManaphy;
 
             var table = EncounterEvent.MGDB_G4;
@@ -34,7 +34,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         }
         if (groups.HasFlag(Egg))
         {
-            var eggs = GetEggs(pk, chain, game);
+            var eggs = GetEggs(chain, game);
             foreach (var enc in eggs)
                 yield return enc;
         }
@@ -178,7 +178,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         }
         if (Locations.IsEggLocationBred4(pk.Egg_Location, game))
         {
-            var eggs = GetEggs(pk, chain, game);
+            var eggs = GetEggs(chain, game);
             foreach (var egg in eggs)
                 yield return egg;
         }
@@ -333,7 +333,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
     private const EntityContext Context = EntityContext.Gen4;
     private const byte EggLevel = 1;
 
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<EncounterEgg> GetEggs(EvoCriteria[] chain, GameVersion version)
     {
         var devolved = chain[^1];
 
@@ -353,6 +353,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
             yield break;
 
         yield return CreateEggEncounter(species, form, version);
+        // Version is not updated when hatching an Egg in Gen4. Version is a clear indicator of the game it originated on.
 
         // Check for split-breed
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);

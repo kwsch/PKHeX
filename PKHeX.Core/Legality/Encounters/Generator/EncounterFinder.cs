@@ -66,7 +66,7 @@ public static class EncounterFinder
             break;
         }
 
-        if (info is { FrameMatches: false, EncounterMatch: EncounterSlot {Version: not GameVersion.CXD} }) // if false, all valid RNG frame matches have already been consumed
+        if (info is { FrameMatches: false, EncounterMatch: EncounterSlot }) // if false, all valid RNG frame matches have already been consumed
             info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, LEncConditionBadRNGFrame, CheckIdentifier.PID)); // todo for further confirmation
         if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
             info.Parse.Add(new CheckResult(Severity.Invalid, LPIDTypeMismatch, CheckIdentifier.PID));

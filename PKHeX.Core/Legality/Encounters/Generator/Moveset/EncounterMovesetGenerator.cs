@@ -423,7 +423,7 @@ public static class EncounterMovesetGenerator
                 return true;
             if (FormInfo.IsFormChangeable(enc.Species, enc.Form, evo.Form, enc.Context, current))
                 return true;
-            if (enc is EncounterSlot {IsRandomUnspecificForm: true} or EncounterStatic {IsRandomUnspecificForm: true})
+            if (enc is IEncounterFormRandom { IsRandomUnspecificForm: true })
                 return true;
             if (enc is EncounterStatic7 {IsTotem: true} && evo.Form == 0 && current.Generation() > 7) // totems get form wiped
                 return true;

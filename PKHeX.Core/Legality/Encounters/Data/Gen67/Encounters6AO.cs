@@ -118,8 +118,8 @@ internal static class Encounters6AO
         new(ORAS) { Species = 646, Level = 50, Location = 342, FlawlessIVCount = 3 }, // Kyurem
 
         // Devon Scope Kecleon
-        //new EncounterStatic { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119 -- dexnav encounter slot collision; prefer EncounterSlot
-        //new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120 -- dexnav encounter slot collision; prefer EncounterSlot
+        //new(ORAS) { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119 -- dexnav encounter slot collision; prefer EncounterSlot
+        //new(ORAS) { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120 -- dexnav encounter slot collision; prefer EncounterSlot
         new(ORAS) { Species = 352, Level = 40, Location = 176, Gender = 1 }, // Kecleon @ Lavaridge
         new(ORAS) { Species = 352, Level = 45, Location = 196, Ability = OnlyHidden }, // Kecleon @ Mossdeep City
 

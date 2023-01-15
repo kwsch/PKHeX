@@ -17,7 +17,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         return GetEncounters(pk, chain, info);
     }
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
         if (groups.HasFlag(Mystery))
         {
@@ -27,7 +27,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         }
         if (groups.HasFlag(Egg))
         {
-            var eggs = GetEggs(pk, chain, game);
+            var eggs = GetEggs(chain, game);
             foreach (var enc in eggs)
                 yield return enc;
         }
@@ -138,7 +138,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
 
         if (Locations.IsEggLocationBred5(pk.Egg_Location))
         {
-            var eggs = GetEggs(pk, chain, game);
+            var eggs = GetEggs(chain, game);
             foreach (var egg in eggs)
             {
                 yield return egg;
@@ -259,7 +259,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
     private const EntityContext Context = EntityContext.Gen5;
     private const byte EggLevel = 1;
 
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<EncounterEgg> GetEggs(EvoCriteria[] chain, GameVersion version)
     {
         var devolved = chain[^1];
 
@@ -279,6 +279,8 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
             yield break;
 
         yield return CreateEggEncounter(species, form, version);
+        // Both B/W and B2/W2 have the same egg move sets, so there is no point generating other-game pair encounters for traded eggs.
+        // When hatched, the entity's Version is updated to the OT's.
 
         // Check for split-breed
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);

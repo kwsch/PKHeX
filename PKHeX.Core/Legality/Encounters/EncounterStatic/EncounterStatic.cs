@@ -46,11 +46,6 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     public string LongName => $"{_name} ({Version})";
     public bool IsShiny => Shiny.IsShiny();
 
-    public bool IsRandomUnspecificForm => Form >= FormDynamic;
-    private const int FormDynamic = FormVivillon;
-    internal const int FormVivillon = 30;
-    //protected const int FormRandom = 31;
-
     protected virtual PKM GetBlank(ITrainerInfo tr) => EntityBlank.GetBlank(Generation, Version);
 
     public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
@@ -276,8 +271,6 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
 
     protected virtual bool IsMatchForm(PKM pk, EvoCriteria evo)
     {
-        if (IsRandomUnspecificForm)
-            return true;
         return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context);
     }
 

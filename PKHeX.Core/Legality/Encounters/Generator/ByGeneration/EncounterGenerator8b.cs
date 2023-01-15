@@ -10,7 +10,7 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
 {
     public static readonly EncounterGenerator8b Instance = new();
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
         if (groups.HasFlag(Mystery))
         {
@@ -20,7 +20,7 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
         }
         if (groups.HasFlag(Egg))
         {
-            var eggs = GetEggs(pk, chain, game);
+            var eggs = GetEggs(chain, game);
             foreach (var enc in eggs)
                 yield return enc;
         }
@@ -134,7 +134,7 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
 
         if (Locations.IsEggLocationBred8b(pk.Egg_Location))
         {
-            var egg = GetEggs(pk, chain, game);
+            var egg = GetEggs(chain, game);
             foreach (var enc in egg)
             {
                 yield return enc;
@@ -275,7 +275,7 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
         };
         if (wasEgg && pk.Met_Level == 1)
         {
-            var egg = GetEggs(pk, chain, game);
+            var egg = GetEggs(chain, game);
             foreach (var enc in egg)
             {
                 yield return enc;
@@ -374,7 +374,7 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
     private const EntityContext Context = EntityContext.Gen8b;
     private const byte EggLevel = 1;
 
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain, GameVersion version)
+    private static IEnumerable<EncounterEgg> GetEggs(EvoCriteria[] chain, GameVersion version)
     {
         var devolved = chain[^1];
 

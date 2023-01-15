@@ -24,10 +24,6 @@ internal static class Encounters9
         new(SV) { Gift = true, Species = 909, Shiny = Never, Level = 05, Location = 080, Ability = OnlyFirst, Size = 128 }, // Fuecoco
         new(SV) { Gift = true, Species = 912, Shiny = Never, Level = 05, Location = 080, Ability = OnlyFirst, Size = 128 }, // Quaxly
 
-        // Box Legendary (Ride Form)
-        new(SL) { Gift = true, Species = 1007, Shiny = Never, Level = 68, Location = 070, Ability = OnlyFirst, Size = 128, Nature = Nature.Quirky, TeraType = GemType.Dragon, IVs = new(31,31,28,31,31,28), Moves = new(053,878,203,851) }, // Koraidon
-        new(VL) { Gift = true, Species = 1008, Shiny = Never, Level = 68, Location = 070, Ability = OnlyFirst, Size = 128, Nature = Nature.Quirky, TeraType = GemType.Dragon, IVs = new(31,31,28,31,31,28), Moves = new(408,879,203,851) }, // Miraidon
-
         // Galarian Meowth from Salvatore (Specific Met Location depending on game, inside Academy's Staff Quarters)
         new(SL) { Gift = true, Species = 052, Shiny = Never, Level = 05, Location = 130, Form = 2, FlawlessIVCount = 3 }, // Meowth-2
         new(VL) { Gift = true, Species = 052, Shiny = Never, Level = 05, Location = 131, Form = 2, FlawlessIVCount = 3 }, // Meowth-2
@@ -38,6 +34,10 @@ internal static class Encounters9
         // Box Legendary (Battle Form)
         new(SL) { Species = 1007, Shiny = Never, Level = 72, Location = 124, Size = 128, Ability = OnlyFirst, Nature = Nature.Adamant, TeraType = GemType.Fighting, IVs = new(25,31,25,31,31,25), Moves = new(416,339,878,053) }, // Koraidon
         new(VL) { Species = 1008, Shiny = Never, Level = 72, Location = 124, Size = 128, Ability = OnlyFirst, Nature = Nature.Modest,  TeraType = GemType.Electric, IVs = new(25,31,25,31,31,25), Moves = new(063,268,879,408) }, // Miraidon
+
+        // Box Legendary (Ride Form)
+        new(SL) { Gift = true, Species = 1007, Shiny = Never, Level = 68, Location = 070, Ability = OnlyFirst, Size = 128, Nature = Nature.Quirky, TeraType = GemType.Dragon, IVs = new(31,31,28,31,31,28), Moves = new(053,878,203,851) }, // Koraidon
+        new(VL) { Gift = true, Species = 1008, Shiny = Never, Level = 68, Location = 070, Ability = OnlyFirst, Size = 128, Nature = Nature.Quirky, TeraType = GemType.Dragon, IVs = new(31,31,28,31,31,28), Moves = new(408,879,203,851) }, // Miraidon
 
         // Treasures of Ruin
         new(SV) { Species = 1001, Shiny = Never, Level = 60, Location = 006, Size = 128, FlawlessIVCount = 3 }, // Wo-Chien

@@ -132,25 +132,6 @@ public static class Breeding
     };
 
     /// <summary>
-    /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="game"/>.
-    /// </summary>
-    /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
-    /// <param name="species">Current species</param>
-    /// <param name="form">Current form</param>
-    /// <param name="game">Game of origin</param>
-    public static bool CanHatchAsEgg(ushort species, byte form, GameVersion game)
-    {
-        // If form cannot change, then it must be able to originate in the game.
-        var pt = GameData.GetPersonal(game);
-        if (pt.IsPresentInGame(species, form))
-            return true;
-
-        // Only way it can not exist is if it can change form.
-        // The only species that can do this is D/P Rotom, being changed in a future game.
-        return species is (int)Rotom && form <= 5 && game is D or P;
-    }
-
-    /// <summary>
     /// Species that cannot hatch from an egg.
     /// </summary>
     private static readonly HashSet<ushort> NoHatchFromEgg = new()
