@@ -16,7 +16,7 @@ public static class Encounters5B2W2
     static Encounters5B2W2() => MarkEncounterTradeStrings(TradeGift_B2W2_Regular, TradeB2W2);
 
     #region DreamWorld Encounter
-    public static readonly EncounterStatic5[] DreamWorld_B2W2 = DreamWorldEntry.GetArray(B2W2, new DreamWorldEntry[]
+    public static readonly EncounterStatic5[] DreamWorld_B2W2 = DreamWorldEntry.GetArray(B2W2, stackalloc DreamWorldEntry[]
     {
         // Pleasant Forest
         new(535, 10, 496, 414, 352), // Tympole

@@ -1,12 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Intermediary Representation of Dream World Data
 /// </summary>
-internal record DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, ushort Move2 = 0, ushort Move3 = 0, byte Form = 0, sbyte Gender = -1)
+public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, ushort Move2 = 0, ushort Move3 = 0, byte Form = 0, sbyte Gender = -1)
 {
     private int EntryCount => Move1 == 0 ? 1 : Move2 == 0 ? 1 : Move3 == 0 ? 2 : 3;
 
@@ -49,10 +48,12 @@ internal record DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, us
         Moves = new(move),
     };
 
-    public static EncounterStatic5[] GetArray(GameVersion game, IReadOnlyList<DreamWorldEntry> t)
+    public static EncounterStatic5[] GetArray(GameVersion game, ReadOnlySpan<DreamWorldEntry> t)
     {
         // Split encounters with multiple permitted special moves -- a pk can only be obtained with 1 of the special moves!
-        var count = t.Sum(z => z.EntryCount);
+        int count = 0;
+        foreach (var e in t)
+            count += e.EntryCount;
         var result = new EncounterStatic5[count];
 
         int ctr = 0;

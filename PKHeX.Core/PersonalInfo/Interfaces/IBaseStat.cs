@@ -38,7 +38,7 @@ public interface IBaseStat
     int SPE { get; set; }
 }
 
-public static class IBaseStatExtensions
+public static class BaseStatExtensions
 {
     /// <summary>
     /// Base Stat Total sum of all stats.
@@ -59,6 +59,11 @@ public static class IBaseStatExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 
+    /// <summary>
+    /// Gathers the base stat values into the <see cref="span"/> then sorts (by value) lowest to highest.
+    /// </summary>
+    /// <param name="pi">Stat implementation to load from</param>
+    /// <param name="span">Result storage</param>
     public static void GetSortedStatIndexes(this IBaseStat pi, Span<(int Index, int Stat)> span)
     {
         for (int i = 0; i < span.Length; i++)

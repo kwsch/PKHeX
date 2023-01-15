@@ -9,38 +9,35 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class MoveList
 {
-    internal static void GetCurrentMoves(PKM pk, ushort species, byte form, GameVersion gameSource, int lvl, Span<ushort> moves)
+    internal static void GetCurrentMoves(PKM pk, ushort species, byte form, GameVersion gameSource, int lvl, Span<ushort> moves) => _ = gameSource switch
     {
-        _ = gameSource switch
-        {
-            GSC or GS => Get(moves, LevelUpGS, species, lvl, pk.Format),
-            C => Get(moves, LevelUpC, species, lvl, pk.Format),
+        GSC or GS => Get(moves, LevelUpGS, species, lvl, pk.Format),
+        C => Get(moves, LevelUpC, species, lvl, pk.Format),
 
-            R or S or RS => Get(moves, LevelUpRS, species, lvl),
-            E => Get(moves, LevelUpE, species, lvl),
-            FR or LG or FRLG => Get(moves, LevelUpFR, species, lvl),
+        R or S or RS => Get(moves, LevelUpRS, species, lvl),
+        E => Get(moves, LevelUpE, species, lvl),
+        FR or LG or FRLG => Get(moves, LevelUpFR, species, lvl),
 
-            D or P or DP => Get(moves, LevelUpDP, species, lvl),
-            Pt => Get(moves, LevelUpPt, species, lvl),
-            HG or SS or HGSS => Get(moves, LevelUpHGSS, species, lvl),
+        D or P or DP => Get(moves, LevelUpDP, species, lvl),
+        Pt => Get(moves, LevelUpPt, species, lvl),
+        HG or SS or HGSS => Get(moves, LevelUpHGSS, species, lvl),
 
-            B or W or BW => Get(moves, LevelUpBW, species, lvl),
-            B2 or W2 or B2W2 => Get(moves, LevelUpB2W2, species, lvl),
+        B or W or BW => Get(moves, LevelUpBW, species, lvl),
+        B2 or W2 or B2W2 => Get(moves, LevelUpB2W2, species, lvl),
 
-            X or Y or XY => Get(moves, LevelUpXY, species, lvl),
-            AS or OR or ORAS => Get(moves, LevelUpAO, species, lvl),
+        X or Y or XY => Get(moves, LevelUpXY, species, lvl),
+        AS or OR or ORAS => Get(moves, LevelUpAO, species, lvl),
 
-            SN or MN or SM => Get(moves, LevelUpSM, PersonalTable.SM, species, form, lvl),
-            US or UM or USUM => Get(moves, LevelUpUSUM, PersonalTable.USUM, species, form, lvl),
-            SW or SH or SWSH => Get(moves, LevelUpSWSH, PersonalTable.SWSH, species, form, lvl),
-            BD or SP or BDSP => Get(moves, LevelUpBDSP, PersonalTable.BDSP, species, form, lvl),
-            PLA => Get(moves, LevelUpLA, PersonalTable.LA, species, form, lvl),
+        SN or MN or SM => Get(moves, LevelUpSM, PersonalTable.SM, species, form, lvl),
+        US or UM or USUM => Get(moves, LevelUpUSUM, PersonalTable.USUM, species, form, lvl),
+        SW or SH or SWSH => Get(moves, LevelUpSWSH, PersonalTable.SWSH, species, form, lvl),
+        BD or SP or BDSP => Get(moves, LevelUpBDSP, PersonalTable.BDSP, species, form, lvl),
+        PLA => Get(moves, LevelUpLA, PersonalTable.LA, species, form, lvl),
 
-            SL or VL or SV => Get(moves, LevelUpSV, PersonalTable.SV, species, form, lvl),
+        SL or VL or SV => Get(moves, LevelUpSV, PersonalTable.SV, species, form, lvl),
 
-            _ => moves,
-        };
-    }
+        _ => moves,
+    };
 
     private static Span<ushort> Get(Span<ushort> moves, Learnset[] source, ushort species, int lvl)
     {

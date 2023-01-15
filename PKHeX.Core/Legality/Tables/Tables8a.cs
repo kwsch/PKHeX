@@ -68,8 +68,4 @@ public static partial class Legal
         1805, 1806, 1807,
         1828,
     };
-
-    #region Moves
-
-    #endregion
 }

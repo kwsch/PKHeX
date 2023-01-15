@@ -256,6 +256,12 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
 
     public bool IsRecordPermitted(int index) => GetIsLearnTR(index);
 
+    public bool GetIsLearnTM(ushort move)
+    {
+        var index = TM_SWSH.AsSpan().IndexOf(move);
+        return GetIsLearnTM(index);
+    }
+
     public static ReadOnlySpan<ushort> RecordedMoves => TR_SWSH;
     public ReadOnlySpan<ushort> RecordPermitIndexes => TR_SWSH;
     public int RecordCountTotal => 112;

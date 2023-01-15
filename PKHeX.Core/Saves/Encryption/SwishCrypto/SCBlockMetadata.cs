@@ -96,7 +96,7 @@ public sealed class SCBlockMetadata
         if (block.Data.Length != 0)
         {
             var obj = BlockList.FirstOrDefault(z => ReferenceEquals(z.Key.Data, block.Data));
-            if (!obj.Equals(default))
+            if (obj is not (null, null))
             {
                 saveBlock = obj.Key;
                 return obj.Value;

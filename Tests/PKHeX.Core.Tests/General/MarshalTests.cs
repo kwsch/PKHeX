@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.InteropServices;
 using FluentAssertions;
 using Xunit;
@@ -6,15 +7,17 @@ namespace PKHeX.Core.Tests.General;
 
 public class MarshalTests
 {
-    [Fact]
-    public void MarshalSize()
-    {
-        Marshal.SizeOf(typeof(NPCLock)).Should().BeLessOrEqualTo(8);
-        Marshal.SizeOf(typeof(PIDIV)).Should().Be(8);
-        Marshal.SizeOf(typeof(MoveResult)).Should().Be(8);
-        Marshal.SizeOf(typeof(EvolutionMethod)).Should().Be(8);
-        Marshal.SizeOf(typeof(Moveset)).Should().Be(8);
-        Marshal.SizeOf(typeof(IndividualValueSet)).Should().BeLessOrEqualTo(8);
-        Marshal.SizeOf(typeof(GenerateParam9)).Should().BeLessOrEqualTo(16);
-    }
+    [Theory]
+    [InlineData(8, typeof(PIDIV))]
+    [InlineData(8, typeof(MoveResult))]
+    [InlineData(8, typeof(EvolutionMethod))]
+    [InlineData(8, typeof(Moveset))]
+    public void MarshalSizeExact(int expect, Type t) => Marshal.SizeOf(t).Should().Be(expect);
+
+    [Theory]
+    [InlineData( 8, typeof(NPCLock))]
+    [InlineData( 8, typeof(IndividualValueSet))]
+    [InlineData(16, typeof(GenerateParam9))]
+    [InlineData(16, typeof(DreamWorldEntry))]
+    public void MarshalSizeLessThanEqual(int expect, Type t) => Marshal.SizeOf(t).Should().BeLessOrEqualTo(expect);
 }

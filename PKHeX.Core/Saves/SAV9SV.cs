@@ -135,6 +135,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
 
     // Player Information
+    public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
     public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
     public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
     public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }

@@ -190,7 +190,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
                 break;
         }
 
-        int abil = Legal.TransferSpeciesDefaultAbilityGen2(Species) ? 0 : 2; // Hidden
+        int abil = TransporterLogic.IsHiddenDisallowedVC2(Species) ? 0 : 2; // Hidden
         pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 
         if (special)

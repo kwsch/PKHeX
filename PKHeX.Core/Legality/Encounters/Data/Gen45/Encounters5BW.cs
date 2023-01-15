@@ -15,12 +15,9 @@ public static class Encounters5BW
 
     static Encounters5BW() => MarkEncounterTradeStrings(TradeGift_BW, TradeBW);
 
-    #region Dream Radar Tables
-
-    #endregion
     #region DreamWorld Encounter
 
-    public static readonly EncounterStatic5[] DreamWorld_BW = DreamWorldEntry.GetArray(BW, new DreamWorldEntry[]
+    public static readonly EncounterStatic5[] DreamWorld_BW = DreamWorldEntry.GetArray(BW, stackalloc DreamWorldEntry[]
     {
         // Pleasant Forest
         new(029, 10, 010, 389, 162), // Nidoran♀

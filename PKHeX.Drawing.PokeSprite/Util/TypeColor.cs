@@ -5,8 +5,17 @@ using static PKHeX.Core.MoveType;
 
 namespace PKHeX.Drawing.PokeSprite;
 
+/// <summary>
+/// Utility class for getting the color of a <see cref="MoveType"/>.
+/// </summary>
 public static class TypeColor
 {
+    /// <summary>
+    /// Gets the color of a <see cref="MoveType"/>.
+    /// </summary>
+    /// <param name="type">Type to get the color of.</param>
+    /// <returns>Color of the type.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static Color GetTypeSpriteColor(byte type) => (MoveType)type switch
     {
         Normal   => Color.FromArgb(159, 161, 159),
