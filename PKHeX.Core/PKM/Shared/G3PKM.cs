@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 Base <see cref="PKM"/> Class
 /// </summary>
-public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
+public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IRibbonSetRibbons, IContestStats
 {
     protected G3PKM(byte[] data) : base(data) { }
     protected G3PKM(int size) : base(size) { }
@@ -104,6 +104,7 @@ public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonS
     public abstract bool Unused2 { get; set; }
     public abstract bool Unused3 { get; set; }
     public abstract bool Unused4 { get; set; }
+    public abstract int RibbonCount { get; }
 
     public abstract byte CNT_Cool   { get; set; }
     public abstract byte CNT_Beauty { get; set; }

@@ -49,7 +49,18 @@ public interface IRibbonSetMark8
     bool RibbonMarkVigor { get; set; }
     bool RibbonMarkSlump { get; set; }
 
-    bool HasMark();
+    bool HasMarkEncounter8 { get; }
+}
+
+public interface IRibbonSetRibbons
+{
+    int RibbonCount { get; }
+}
+
+public interface IRibbonSetMarks
+{
+    int MarkCount { get; }
+    int RibbonMarkCount { get; }
 }
 
 internal static partial class RibbonExtensions

@@ -46,7 +46,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         if (groups.HasFlag(Trade))
         {
             var table = GetTrades(game);
-            foreach (var enc in GetPossibleTrades(chain, table))
+            foreach (var enc in GetPossibleTrades(chain, table, game))
                 yield return enc;
         }
     }
@@ -96,10 +96,12 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade[] table)
+    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade[] table, GameVersion game)
     {
         foreach (var enc in table)
         {
+            if (enc.Version < GameVersion.BW && enc.Version != game)
+                continue;
             foreach (var evo in chain)
             {
                 if (evo.Species != enc.Species)

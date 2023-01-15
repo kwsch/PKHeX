@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -181,6 +182,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override bool Unused3 { get => (RIB0 & (1 << 29)) == 1 << 29; set => RIB0 = ((RIB0 & ~(1u << 29)) | (value ? 1u << 29 : 0u)); }
     public override bool Unused4 { get => (RIB0 & (1 << 30)) == 1 << 30; set => RIB0 = ((RIB0 & ~(1u << 30)) | (value ? 1u << 30 : 0u)); }
     public override bool FatefulEncounter { get => RIB0 >> 31 == 1; set => RIB0 = (RIB0 & ~(1 << 31)) | (uint)(value ? 1 << 31 : 0); }
+    public override int RibbonCount => BitOperations.PopCount(RIB0 & 0b00000111_11111111_11111111_11111111);
+
     #endregion
 
     #region Battle Stats

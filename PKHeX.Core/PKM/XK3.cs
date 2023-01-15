@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -110,6 +111,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override bool Unused2                 { get => (RIB0 & (1 << 02)) == 1 << 02; set => RIB0 = (ushort)((RIB0 & ~(1 << 02)) | (value ? 1 << 02 : 0)); }
     public override bool Unused3                 { get => (RIB0 & (1 << 01)) == 1 << 01; set => RIB0 = (ushort)((RIB0 & ~(1 << 01)) | (value ? 1 << 01 : 0)); }
     public override bool Unused4                 { get => (RIB0 & (1 << 00)) == 1 << 00; set => RIB0 = (ushort)((RIB0 & ~(1 << 00)) | (value ? 1 << 00 : 0)); }
+    public override int RibbonCount => BitOperations.PopCount((uint)(RIB0 & 0b1111_1111_1111_0000)) + RibbonCountG3Cool + RibbonCountG3Beauty + RibbonCountG3Cute + RibbonCountG3Smart + RibbonCountG3Tough;
     // 0x7E-0x7F Unknown
 
     // Moves

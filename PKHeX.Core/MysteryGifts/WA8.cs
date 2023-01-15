@@ -196,17 +196,21 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     private const int RibbonBytesCount = 0x20;
     private const int RibbonByteNone = 0xFF; // signed -1
 
-    public bool HasMark()
+    private ReadOnlySpan<byte> RibbonSpan => Data.AsSpan(RibbonBytesOffset, RibbonBytesCount);
+
+    public bool HasMarkEncounter8
     {
-        for (int i = 0; i < RibbonBytesCount; i++)
+        get
         {
-            var value = Data[RibbonBytesOffset + i];
-            if (value == RibbonByteNone)
-                return false;
-            if ((RibbonIndex)value is >= MarkLunchtime and <= MarkSlump)
-                return true;
+            foreach (var value in RibbonSpan)
+            {
+                if (value == RibbonByteNone)
+                    return false; // end
+                if (((RibbonIndex)value).IsEncounterMark8())
+                    return true;
+            }
+            return false;
         }
-        return false;
     }
 
     public byte GetRibbonAtIndex(int byteIndex)

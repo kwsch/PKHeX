@@ -41,6 +41,8 @@ public static class BoxManipDefaults
         new BoxManipSort(SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.GetBaseStatTotal())),
         new BoxManipSort(SortCP, list => list.OrderByCustom(pk => pk is PB7 pb7 ? pb7.Stat_CP : 0), s => s is SAV7b),
         new BoxManipSort(SortScale, list => list.OrderByCustom(pk => pk is IScaledSize3 s3 ? s3.Scale : -1), s => s.BlankPKM is IScaledSize3),
+        new BoxManipSort(SortRibbons, list => list.OrderByCustom(pk => pk is IRibbonSetRibbons s ? int.MaxValue - s.RibbonCount : 0), s => s.BlankPKM is IRibbonSetRibbons),
+        new BoxManipSort(SortMarks, list => list.OrderByCustom(pk => pk is IRibbonSetMarks s ? int.MaxValue - s.MarkCount : 0), s => s.BlankPKM is IRibbonSetMarks),
         new BoxManipSort(SortLegal, list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)),
         new BoxManipSort(SortEncounterType, list => list.OrderByCustom(pk => new LegalityAnalysis(pk).Info.EncounterMatch.LongName)),
     };

@@ -12,7 +12,7 @@ public interface IRibbonSetMark9
     bool RibbonMarkMightiest { get; set; }
     bool RibbonMarkTitan { get; set; }
 
-    bool HasMark();
+    bool HasMarkEncounter9 { get; }
 }
 
 internal static partial class RibbonExtensions

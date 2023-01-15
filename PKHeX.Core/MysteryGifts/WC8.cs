@@ -196,17 +196,21 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     private const int RibbonBytesCount = 0x20;
     private const int RibbonByteNone = 0xFF; // signed -1
 
-    public bool HasMark()
+    public bool HasMarkEncounter8
     {
-        for (int i = 0; i < RibbonBytesCount; i++)
+        get
         {
-            var value = Data[RibbonBytesOffset + i];
-            if (value == RibbonByteNone)
-                return false;
-            if ((RibbonIndex)value is >= MarkLunchtime and <= MarkSlump)
-                return true;
+            for (int i = 0; i < RibbonBytesCount; i++)
+            {
+                var value = Data[RibbonBytesOffset + i];
+                if (value == RibbonByteNone)
+                    return false;
+                if ((RibbonIndex)value is >= MarkLunchtime and <= MarkSlump)
+                    return true;
+            }
+
+            return false;
         }
-        return false;
     }
 
     public byte GetRibbonAtIndex(int byteIndex)

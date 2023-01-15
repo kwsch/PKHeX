@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 4 <see cref="PKM"/> format. </summary>
 public abstract class G4PKM : PKM,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats, IGroundTile
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons, IContestStats, IGroundTile
 {
     protected G4PKM(byte[] data) : base(data) { }
     protected G4PKM(int size) : base(size) { }
@@ -144,6 +144,7 @@ public abstract class G4PKM : PKM,
     public abstract bool RibbonFootprint { get; set; }
     public abstract bool RibbonRecord { get; set; }
     public abstract bool RibbonLegend { get; set; }
+    public abstract int RibbonCount { get; }
 
     // Unused
     public abstract bool RIB3_4 { get; set; }

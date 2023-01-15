@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
 public sealed class PK5 : PKM, ISanityChecksum,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4,
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons,
     IContestStats, IGroundTile
 {
     private static readonly ushort[] Unused =
@@ -83,8 +84,8 @@ public sealed class PK5 : PKM, ISanityChecksum,
 
     private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
     private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2
-    private byte RIB2 { get => Data[0x26]; set => Data[0x26] = value; } // Unova 1
-    private byte RIB3 { get => Data[0x27]; set => Data[0x27] = value; } // Unova 2
+    private byte RIB2 { get => Data[0x26]; set => Data[0x26] = value; } // Sinnoh 3
+    private byte RIB3 { get => Data[0x27]; set => Data[0x27] = value; } // Sinnoh 4
     public bool RibbonChampionSinnoh    { get => (RIB0 & (1 << 0)) == 1 << 0; set => RIB0 = (byte)((RIB0 & ~(1 << 0)) | (value ? 1 << 0 : 0)); }
     public bool RibbonAbility           { get => (RIB0 & (1 << 1)) == 1 << 1; set => RIB0 = (byte)((RIB0 & ~(1 << 1)) | (value ? 1 << 1 : 0)); }
     public bool RibbonAbilityGreat      { get => (RIB0 & (1 << 2)) == 1 << 2; set => RIB0 = (byte)((RIB0 & ~(1 << 2)) | (value ? 1 << 2 : 0)); }
@@ -117,6 +118,10 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public bool RIB3_5 { get => (RIB3 & (1 << 5)) == 1 << 5; set => RIB3 = (byte)((RIB3 & ~(1 << 5)) | (value ? 1 << 5 : 0)); } // Unused
     public bool RIB3_6 { get => (RIB3 & (1 << 6)) == 1 << 6; set => RIB3 = (byte)((RIB3 & ~(1 << 6)) | (value ? 1 << 6 : 0)); } // Unused
     public bool RIB3_7 { get => (RIB3 & (1 << 7)) == 1 << 7; set => RIB3 = (byte)((RIB3 & ~(1 << 7)) | (value ? 1 << 7 : 0)); } // Unused
+
+    public int RibbonCount => BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x30)) & 0b00001111_11111111__11111111_11111111)
+                            + BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x3C)))
+                            + BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x60)) & 0b00000000_00001111__11111111_11111111);
     #endregion
 
     #region Block B

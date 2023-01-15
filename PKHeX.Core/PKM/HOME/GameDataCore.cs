@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -136,6 +137,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public byte RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = value) != 0; }
     public byte RibbonCountMemoryBattle  { get => Data[0x3D]; set => HasBattleMemoryRibbon  = (Data[0x3D] = value) != 0; }
+    // !!! no padding, unlike PKM formats!
 
     // 0x3E Ribbon 3
     public bool RibbonMarkMisty        { get => GetFlag(0x3E, 0); set => SetFlag(0x3E, 0, value); }
@@ -210,15 +212,17 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public bool RIB47_6                { get => GetFlag(0x45, 6); set => SetFlag(0x45, 6, value); }
     public bool RIB47_7                { get => GetFlag(0x45, 7); set => SetFlag(0x45, 7, value); }
 
-    public bool HasMark()
-    {
-        var d = Data.AsSpan();
-        if ((ReadUInt16LittleEndian(d[0x3A..]) & 0xFFE0) != 0)
-            return true;
-        if (ReadUInt32LittleEndian(d[0x3E..]) != 0)
-            return true;
-        return (d[0x42] & 3) != 0;
-    }
+
+    public int RibbonCount     => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b00000000_00011111__11111111_11111111__11111111_11111111__11111111_11111111)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00000100_00011100__00000000_00000000__00000000_00000000);
+    public int MarkCount       => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b11111111_11100000__00000000_00000000__00000000_00000000__00000000_00000000)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00111011_11100011__11111111_11111111__11111111_11111111);
+    public int RibbonMarkCount => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b11111111_11111111__11111111_11111111__11111111_11111111__11111111_11111111)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00111111_11111111__11111111_11111111__11111111_11111111);
+
+    public bool HasMarkEncounter8 => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b11111111_11100000__00000000_00000000__00000000_00000000__00000000_00000000)
+                                   + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00000000_00000011__11111111_11111111__11111111_11111111) != 0;
+    public bool HasMarkEncounter9 => (Data[Offset + 0x43] & 0b00111000) != 0;
 
     public byte HeightScalar { get => Data[Offset + 0x46]; set => Data[Offset + 0x46] = value; }
     public byte WeightScalar { get => Data[Offset + 0x47]; set => Data[Offset + 0x47] = value; }
