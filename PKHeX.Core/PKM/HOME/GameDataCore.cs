@@ -212,7 +212,6 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public bool RIB47_6                { get => GetFlag(0x45, 6); set => SetFlag(0x45, 6, value); }
     public bool RIB47_7                { get => GetFlag(0x45, 7); set => SetFlag(0x45, 7, value); }
 
-
     public int RibbonCount     => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b00000000_00011111__11111111_11111111__11111111_11111111__11111111_11111111)
                                 + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00000100_00011100__00000000_00000000__00000000_00000000);
     public int MarkCount       => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b11111111_11100000__00000000_00000000__00000000_00000000__00000000_00000000)

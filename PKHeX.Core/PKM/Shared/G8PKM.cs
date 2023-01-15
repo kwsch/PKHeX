@@ -315,7 +315,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public int RibbonMarkCount => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x34)) & 0b11111111_11111111__11111111_11111111__11111111_11111111__11111111_11111111)
                                 + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000000_00001111__11111111_11111111__11111111_11111111);
 
-    public bool HasMarkEncounter8 => RibbonMarkCount != 0;
+    public bool HasMarkEncounter8 => MarkCount != 0;
 
     public uint Sociability { get => ReadUInt32LittleEndian(Data.AsSpan(0x48)); set => WriteUInt32LittleEndian(Data.AsSpan(0x48), value); }
 
