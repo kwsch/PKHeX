@@ -55,13 +55,7 @@ internal static class GBRestrictions
         (int)Dragonite,
     };
 
-    internal static readonly HashSet<byte> Trade_Evolution1 = new()
-    {
-        (int)Kadabra,
-        (int)Machoke,
-        (int)Graveler,
-        (int)Haunter,
-    };
+    internal static bool IsTradeEvolution1(ushort species) => species is (int)Kadabra or (int)Machoke or (int)Graveler or (int)Haunter;
 
     public static bool RateMatchesEncounter(ushort species, GameVersion version, byte rate)
     {

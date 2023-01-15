@@ -111,7 +111,9 @@ public sealed class LevelVerifier : Verifier
         var species = pk.Species;
 
         // This check is only applicable if it's a trade evolution that has not been evolved.
-        if (!GBRestrictions.Trade_Evolution1.Contains((byte)enc.Species) || enc.Species != species)
+        if (enc.Species != species)
+            return false;
+        if (!GBRestrictions.IsTradeEvolution1(enc.Species))
             return false;
 
         // Context check is only applicable to gen1/2; transferring to Gen2 is a trade.

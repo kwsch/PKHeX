@@ -14,9 +14,6 @@ public sealed class CXDVerifier : Verifier
         var pk = data.Entity;
         if (data.EncounterMatch is EncounterStatic3 s3)
             VerifyCXDStarterCorrelation(data, s3);
-        else if (pk.Egg_Location != 0 && pk is not PB8 {Egg_Location: Locations.Default8bNone}) // can't obtain eggs in CXD
-            data.AddLine(GetInvalid(LEncInvalid, CheckIdentifier.Encounter)); // invalid encounter
-
         if (pk.OT_Gender == 1)
             data.AddLine(GetInvalid(LG3OTGender, CheckIdentifier.Trainer));
     }
