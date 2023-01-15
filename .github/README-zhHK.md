@@ -46,7 +46,3 @@ PKHeX 之「寶可夢傳説：阿爾宙斯」精靈圖示集合庫來源於 [Nat
 ### IDE
 
 PKHeX 可透過如 [Visual Studio](https://visualstudio.microsoft.com/downloads/) 等各類 IDE ，開啓 .sln 或 .csproj 檔案以打開。
-
-### GNU/Linux
-
-GNU/Linux 非本程式開發者主要作業系統，因而於 GNU/Linux 平臺上運行本程式時可能存在 Bug； 部分 Bug 亦可能由 Mono/Wine 等非 GNU/Linux 特定源代碼所引入，因而其他使用者可能無法復現你所遇到之 Bug。

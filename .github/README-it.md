@@ -47,7 +47,3 @@ La collezione di sprite per Leggende Pokémon: Arceus è presa dal [National Pok
 ### IDE
 
 PKHeX può essere aperto con IDE come [Visual Studio](https://visualstudio.microsoft.com/it/downloads/) aprendo il file .sln o il file .csproj.
-
-### GNU/Linux
-
-GNU/Linux non è il Sistema Operativo principale dei developer di questo programma, quindi potrebbero esserci bug; alcuni potrebbero provenire da codice GNU/Linux non specifico da Mono/Wine, per cui alcuni utenti potrebbero non essere in grado di riprodurre l'errore riscontrato.

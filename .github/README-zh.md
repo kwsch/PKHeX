@@ -28,9 +28,9 @@ PKHeX 所读取存档文件必须是未经主机唯一密钥加密，因此请�
 
 ## 构建
 
-PKHeX 是 Windows 窗口应用程序，依赖于 [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137) 而运行，同时具有对 .[NET 6.0](https://www.microsoft.com/en-us/download/details.aspx?id=48137) 的实验性支持。
+PKHeX 是 Windows 窗口应用程序，依赖于 [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)。
 
-可以使用任何支持 C# 10 的编译器生成可执行文件。
+可以使用任何支持 C# 11 的编译器生成可执行文件。
 
 ### 构建配置
 
@@ -46,7 +46,3 @@ PKHeX 的“宝可梦传说：阿尔宙斯”精灵图片集来源于 [National 
 ### IDE
 
 PKHeX 可以通过打开 .sln 或 .csproj 文件来使用 [Visual Studio](https://visualstudio.microsoft.com/downloads/) 等 IDE 打开。
-
-### GNU/Linux
-
-GNU/Linux 非本程序开发人员主要操作系统，因此在 GNU/Linux 平台上运行本程序时可能存在 Bug； 部分 Bug 可能来自于 Mono/Wine 等非 GNU/Linux 特定源代码，因而其他使用者可能无法复现你所遇到的 Bug。

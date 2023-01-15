@@ -47,7 +47,3 @@ PKHeXs Pokémon Legends: Arceus Sprites kommen vom [National Pokédex - Icon Dex
 ### IDE
 
 PKHeX kann mit IDEs wie [Visual Studio](https://visualstudio.microsoft.com/de/downloads/) durch das Öffnen der .sln oder .csproj Dateien geöffnet werden.
-
-### GNU/Linux
-
-Da GNU/Linux nicht das Hauptbetriebssystem der PKHeX Entwickler ist können Bugs auftreten. Manche kommen möglicherweise von GNU/Linux spezifischem Code in Mono/Wine und können deshalb nicht von jedem reproduziert werden kann.
