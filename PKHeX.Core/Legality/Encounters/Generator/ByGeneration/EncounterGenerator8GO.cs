@@ -38,6 +38,8 @@ public sealed class EncounterGenerator8GO : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
+        if (pk.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
+            yield break;
         if (!CanBeWildEncounter(pk))
             yield break;
 
@@ -52,7 +54,8 @@ public sealed class EncounterGenerator8GO : IEncounterGenerator
                 if (area.Species != evo.Species)
                     continue;
 
-                foreach (var z in area.Slots)
+                var slots = area.GetMatchingSlots(pk, evo);
+                foreach (var z in slots)
                 {
                     var match = z.GetMatchRating(pk);
                     switch (match)

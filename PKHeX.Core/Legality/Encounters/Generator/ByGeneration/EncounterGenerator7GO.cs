@@ -52,7 +52,8 @@ public sealed class EncounterGenerator7GO : IEncounterGenerator
                 if (area.Species != evo.Species)
                     continue;
 
-                foreach (var z in area.Slots)
+                var slots = area.GetMatchingSlots(pk, evo);
+                foreach (var z in slots)
                 {
                     var match = z.GetMatchRating(pk);
                     switch (match)

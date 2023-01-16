@@ -75,10 +75,15 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
         // PoGoEncTool has already extrapolated the evolutions to separate encounters!
         var sf = Array.Find(chain, z => z.Species == Species && z.Form == Form);
         if (sf == default)
-            yield break;
+            return Array.Empty<EncounterSlot7GO>();
 
+        return GetMatchingSlots(pk, sf);
+    }
+
+    public IEnumerable<EncounterSlot7GO> GetMatchingSlots(PKM pk, EvoCriteria evo)
+    {
         var stamp = EncounterSlotGO.GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
-        var met = Math.Max(sf.LevelMin, pk.Met_Level);
+        var met = Math.Max(evo.LevelMin, pk.Met_Level);
         EncounterSlot7GO? deferredIV = null;
 
         foreach (var slot in Slots)
