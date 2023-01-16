@@ -73,7 +73,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsEggMove(evo.Species, evo.Form, move))
+        if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsSharedEggMove(pi, move))
             return new(Shared, Game);
 
         if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, pk, move, option))
@@ -117,6 +117,13 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         },
         _ => false,
     };
+
+    private bool GetIsSharedEggMove(PersonalInfo9SV pi, ushort move)
+    {
+        var baseSpecies = pi.HatchSpecies;
+        var baseForm = pi.HatchFormIndexEverstone;
+        return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
+    }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
