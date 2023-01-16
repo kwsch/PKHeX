@@ -285,6 +285,12 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         // When hatched, the entity's Version is updated to the OT's.
 
         // Check for split-breed
+        if (species == devolved.Species)
+        {
+            if (chain.Length < 2)
+                yield break; // no split-breed
+            devolved = chain[^2];
+        }
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);
         if (splitSet is null)
             yield break; // Shouldn't happen.

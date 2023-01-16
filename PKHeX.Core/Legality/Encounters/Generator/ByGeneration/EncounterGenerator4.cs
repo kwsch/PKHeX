@@ -158,9 +158,6 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
             bool yielded = false;
             foreach (var mg in EncounterEvent.MGDB_G4)
             {
-                if (mg.Version != game)
-                    continue;
-
                 foreach (var evo in chain)
                 {
                     if (evo.Species != mg.Species)
@@ -356,6 +353,12 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         // Version is not updated when hatching an Egg in Gen4. Version is a clear indicator of the game it originated on.
 
         // Check for split-breed
+        if (species == devolved.Species)
+        {
+            if (chain.Length < 2)
+                yield break; // no split-breed
+            devolved = chain[^2];
+        }
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);
         if (splitSet is null)
             yield break; // Shouldn't happen.

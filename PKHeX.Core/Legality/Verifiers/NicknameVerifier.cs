@@ -148,7 +148,7 @@ public sealed class NicknameVerifier : Verifier
     {
         if (pk.IsNicknamed)
         {
-            if (CanNicknameForeign8Plus(data, pk))
+            if (data.Info.Generation >= 8 && CanNicknameForeign8Plus(data, pk))
             {
                 // Can only nickname if it matches your language.
                 // Setting the nickname to the same as the species name does not set the Nickname flag (equals unmodified, no flag)

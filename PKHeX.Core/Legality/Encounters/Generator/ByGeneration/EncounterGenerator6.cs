@@ -337,6 +337,12 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
             yield return egg with { Version = GetOtherGamePair(version) };
 
         // Check for split-breed
+        if (species == devolved.Species)
+        {
+            if (chain.Length < 2)
+                yield break; // no split-breed
+            devolved = chain[^2];
+        }
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);
         if (splitSet is null)
             yield break; // Shouldn't happen.

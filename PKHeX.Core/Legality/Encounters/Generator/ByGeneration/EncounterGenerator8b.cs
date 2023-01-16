@@ -182,10 +182,15 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
 
         if (CanBeWildEncounter(pk))
         {
+            bool hasOriginalLocation = pk is not PK8;
+            var location = pk.Met_Location;
             var encWild = game == GameVersion.BD ? Encounters8b.SlotsBD : Encounters8b.SlotsSP;
-            foreach (var enc in encWild)
+            foreach (var area in encWild)
             {
-                var slots = enc.GetMatchingSlots(pk, chain);
+                if (hasOriginalLocation && !area.IsMatchLocation(location))
+                    continue;
+
+                var slots = area.GetMatchingSlots(pk, chain);
                 foreach (var slot in slots)
                 {
                     var match = slot.GetMatchRating(pk);
@@ -396,6 +401,12 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
         yield return CreateEggEncounter(species, form, version);
 
         // Check for split-breed
+        if (species == devolved.Species)
+        {
+            if (chain.Length < 2)
+                yield break; // no split-breed
+            devolved = chain[^2];
+        }
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);
         if (splitSet is null)
             yield break; // Shouldn't happen.

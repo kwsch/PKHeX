@@ -358,6 +358,12 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         // Version is not updated when hatching an Egg in Gen3. Version is a clear indicator of the game it originated on.
 
         // Check for split-breed
+        if (species == devolved.Species)
+        {
+            if (chain.Length < 2)
+                yield break; // no split-breed
+            devolved = chain[^2];
+        }
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);
         if (splitSet is null)
             yield break; // Shouldn't happen.

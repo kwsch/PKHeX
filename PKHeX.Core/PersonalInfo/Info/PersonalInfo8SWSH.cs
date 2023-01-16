@@ -262,6 +262,18 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         return GetIsLearnTM(index);
     }
 
+    public bool GetIsLearnTutorType(ushort move)
+    {
+        var index = TypeTutor8.AsSpan().IndexOf(move);
+        return GetIsLearnTutorType(index);
+    }
+
+    public bool GetIsLearnTutorSpecial(ushort move)
+    {
+        var index = Tutors_SWSH.AsSpan().IndexOf(move);
+        return GetIsLearnTutorSpecial(index);
+    }
+
     public static ReadOnlySpan<ushort> RecordedMoves => TR_SWSH;
     public ReadOnlySpan<ushort> RecordPermitIndexes => TR_SWSH;
     public int RecordCountTotal => 112;

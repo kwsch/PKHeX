@@ -135,7 +135,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
             var eggs = GetEggs(pk, chain, game);
             foreach (var egg in eggs)
                 yield return egg;
-            if (chain[0].Species != (int)Species.Eevee) // Static encounter clash (gift egg)
+            if (chain[^1].Species != (int)Species.Eevee) // Static encounter clash (gift egg)
                 yield break;
         }
 
@@ -313,6 +313,12 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
             yield return egg with { Version = GetOtherGamePair(version) };
 
         // Check for split-breed
+        if (species == devolved.Species)
+        {
+            if (chain.Length < 2)
+                yield break; // no split-breed
+            devolved = chain[^2];
+        }
         var splitSet = Breeding.GetSplitBreedGeneration(Generation);
         if (splitSet is null)
             yield break; // Shouldn't happen.
