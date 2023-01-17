@@ -147,9 +147,10 @@ public sealed record EncounterTrade4RanchGift : EncounterTrade4
 /// Generation 4 Trade Encounter with a fixed location and version, as well as special details.
 /// </summary>
 /// <inheritdoc cref="EncounterTrade4"/>
-public sealed record EncounterTrade4RanchSpecial : EncounterTrade4
+public sealed record EncounterTrade4RanchSpecial : EncounterTrade4, IFatefulEncounterReadOnly
 {
     public override int Location => 3000;
+    public bool FatefulEncounter => true;
 
     public EncounterTrade4RanchSpecial(ushort species, byte level) : base(GameVersion.D)
     {

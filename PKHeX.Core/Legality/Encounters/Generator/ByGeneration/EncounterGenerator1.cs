@@ -126,13 +126,14 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
                 if (evo.Species != enc.Species)
                     continue;
                 if (!enc.IsMatchExact(pk, evo))
-                    continue;
+                    break;
 
                 var match = enc.GetMatchRating(pk);
                 if (match != Match)
                     deferred = enc;
                 else
                     yield return enc;
+                break;
             }
         }
         foreach (var enc in GetStatic(game))
@@ -146,8 +147,8 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
                     continue;
                 if (enc.IsMatchExact(pk, evo))
                     yield return enc;
+                break;
             }
-            yield return enc;
         }
         if (CanBeWildEncounter(pk))
         {
@@ -169,8 +170,8 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
                     continue;
                 if (enc.IsMatchExact(pk, evo))
                     yield return enc;
+                break;
             }
-            yield return enc;
         }
 
         if (deferred != null)
