@@ -329,7 +329,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_HPRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_HPRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HPRight.Name = "FLP_HPRight";
-            this.FLP_HPRight.Size = new System.Drawing.Size(228, 24);
+            this.FLP_HPRight.Size = new System.Drawing.Size(228, 23);
             this.FLP_HPRight.TabIndex = 1;
             // 
             // TB_BaseHP
@@ -339,11 +339,10 @@ namespace PKHeX.WinForms.Controls
             this.TB_BaseHP.Location = new System.Drawing.Point(0, 0);
             this.TB_BaseHP.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_BaseHP.Mask = "000";
-            this.TB_BaseHP.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_BaseHP.Name = "TB_BaseHP";
             this.TB_BaseHP.PromptChar = ' ';
             this.TB_BaseHP.ReadOnly = true;
-            this.TB_BaseHP.Size = new System.Drawing.Size(32, 24);
+            this.TB_BaseHP.Size = new System.Drawing.Size(32, 23);
             this.TB_BaseHP.TabIndex = 0;
             this.TB_BaseHP.TabStop = false;
             this.TB_BaseHP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -354,9 +353,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_IVHP.Location = new System.Drawing.Point(40, 0);
             this.TB_IVHP.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_IVHP.Mask = "00";
-            this.TB_IVHP.MinimumSize = new System.Drawing.Size(24, 24);
             this.TB_IVHP.Name = "TB_IVHP";
-            this.TB_IVHP.Size = new System.Drawing.Size(24, 24);
+            this.TB_IVHP.Size = new System.Drawing.Size(24, 23);
             this.TB_IVHP.TabIndex = 1;
             this.TB_IVHP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_IVHP.Click += new System.EventHandler(this.ClickIV);
@@ -368,9 +366,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_EVHP.Location = new System.Drawing.Point(72, 0);
             this.TB_EVHP.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_EVHP.Mask = "000";
-            this.TB_EVHP.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_EVHP.Name = "TB_EVHP";
-            this.TB_EVHP.Size = new System.Drawing.Size(32, 24);
+            this.TB_EVHP.Size = new System.Drawing.Size(32, 23);
             this.TB_EVHP.TabIndex = 2;
             this.TB_EVHP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVHP.Click += new System.EventHandler(this.ClickEV);
@@ -409,10 +406,9 @@ namespace PKHeX.WinForms.Controls
             this.Stat_HP.Location = new System.Drawing.Point(188, 0);
             this.Stat_HP.Margin = new System.Windows.Forms.Padding(0);
             this.Stat_HP.Mask = "00000";
-            this.Stat_HP.MinimumSize = new System.Drawing.Size(40, 24);
             this.Stat_HP.Name = "Stat_HP";
             this.Stat_HP.PromptChar = ' ';
-            this.Stat_HP.Size = new System.Drawing.Size(40, 24);
+            this.Stat_HP.Size = new System.Drawing.Size(40, 23);
             this.Stat_HP.TabIndex = 10;
             this.Stat_HP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_HP.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -452,7 +448,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_AtkRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_AtkRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_AtkRight.Name = "FLP_AtkRight";
-            this.FLP_AtkRight.Size = new System.Drawing.Size(228, 24);
+            this.FLP_AtkRight.Size = new System.Drawing.Size(228, 23);
             this.FLP_AtkRight.TabIndex = 2;
             // 
             // TB_BaseATK
@@ -462,11 +458,10 @@ namespace PKHeX.WinForms.Controls
             this.TB_BaseATK.Location = new System.Drawing.Point(0, 0);
             this.TB_BaseATK.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_BaseATK.Mask = "000";
-            this.TB_BaseATK.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_BaseATK.Name = "TB_BaseATK";
             this.TB_BaseATK.PromptChar = ' ';
             this.TB_BaseATK.ReadOnly = true;
-            this.TB_BaseATK.Size = new System.Drawing.Size(32, 24);
+            this.TB_BaseATK.Size = new System.Drawing.Size(32, 23);
             this.TB_BaseATK.TabIndex = 0;
             this.TB_BaseATK.TabStop = false;
             this.TB_BaseATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -477,9 +472,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_IVATK.Location = new System.Drawing.Point(40, 0);
             this.TB_IVATK.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_IVATK.Mask = "00";
-            this.TB_IVATK.MinimumSize = new System.Drawing.Size(24, 24);
             this.TB_IVATK.Name = "TB_IVATK";
-            this.TB_IVATK.Size = new System.Drawing.Size(24, 24);
+            this.TB_IVATK.Size = new System.Drawing.Size(24, 23);
             this.TB_IVATK.TabIndex = 1;
             this.TB_IVATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_IVATK.Click += new System.EventHandler(this.ClickIV);
@@ -491,9 +485,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_EVATK.Location = new System.Drawing.Point(72, 0);
             this.TB_EVATK.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_EVATK.Mask = "000";
-            this.TB_EVATK.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_EVATK.Name = "TB_EVATK";
-            this.TB_EVATK.Size = new System.Drawing.Size(32, 24);
+            this.TB_EVATK.Size = new System.Drawing.Size(32, 23);
             this.TB_EVATK.TabIndex = 2;
             this.TB_EVATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVATK.Click += new System.EventHandler(this.ClickEV);
@@ -532,10 +525,9 @@ namespace PKHeX.WinForms.Controls
             this.Stat_ATK.Location = new System.Drawing.Point(188, 0);
             this.Stat_ATK.Margin = new System.Windows.Forms.Padding(0);
             this.Stat_ATK.Mask = "00000";
-            this.Stat_ATK.MinimumSize = new System.Drawing.Size(40, 24);
             this.Stat_ATK.Name = "Stat_ATK";
             this.Stat_ATK.PromptChar = ' ';
-            this.Stat_ATK.Size = new System.Drawing.Size(40, 24);
+            this.Stat_ATK.Size = new System.Drawing.Size(40, 23);
             this.Stat_ATK.TabIndex = 10;
             this.Stat_ATK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_ATK.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -575,7 +567,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_DefRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_DefRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_DefRight.Name = "FLP_DefRight";
-            this.FLP_DefRight.Size = new System.Drawing.Size(228, 24);
+            this.FLP_DefRight.Size = new System.Drawing.Size(228, 23);
             this.FLP_DefRight.TabIndex = 3;
             // 
             // TB_BaseDEF
@@ -585,11 +577,10 @@ namespace PKHeX.WinForms.Controls
             this.TB_BaseDEF.Location = new System.Drawing.Point(0, 0);
             this.TB_BaseDEF.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_BaseDEF.Mask = "000";
-            this.TB_BaseDEF.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_BaseDEF.Name = "TB_BaseDEF";
             this.TB_BaseDEF.PromptChar = ' ';
             this.TB_BaseDEF.ReadOnly = true;
-            this.TB_BaseDEF.Size = new System.Drawing.Size(32, 24);
+            this.TB_BaseDEF.Size = new System.Drawing.Size(32, 23);
             this.TB_BaseDEF.TabIndex = 0;
             this.TB_BaseDEF.TabStop = false;
             this.TB_BaseDEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -600,9 +591,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_IVDEF.Location = new System.Drawing.Point(40, 0);
             this.TB_IVDEF.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_IVDEF.Mask = "00";
-            this.TB_IVDEF.MinimumSize = new System.Drawing.Size(24, 24);
             this.TB_IVDEF.Name = "TB_IVDEF";
-            this.TB_IVDEF.Size = new System.Drawing.Size(24, 24);
+            this.TB_IVDEF.Size = new System.Drawing.Size(24, 23);
             this.TB_IVDEF.TabIndex = 1;
             this.TB_IVDEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_IVDEF.Click += new System.EventHandler(this.ClickIV);
@@ -614,9 +604,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_EVDEF.Location = new System.Drawing.Point(72, 0);
             this.TB_EVDEF.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_EVDEF.Mask = "000";
-            this.TB_EVDEF.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_EVDEF.Name = "TB_EVDEF";
-            this.TB_EVDEF.Size = new System.Drawing.Size(32, 24);
+            this.TB_EVDEF.Size = new System.Drawing.Size(32, 23);
             this.TB_EVDEF.TabIndex = 2;
             this.TB_EVDEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVDEF.Click += new System.EventHandler(this.ClickEV);
@@ -655,10 +644,9 @@ namespace PKHeX.WinForms.Controls
             this.Stat_DEF.Location = new System.Drawing.Point(188, 0);
             this.Stat_DEF.Margin = new System.Windows.Forms.Padding(0);
             this.Stat_DEF.Mask = "00000";
-            this.Stat_DEF.MinimumSize = new System.Drawing.Size(40, 24);
             this.Stat_DEF.Name = "Stat_DEF";
             this.Stat_DEF.PromptChar = ' ';
-            this.Stat_DEF.Size = new System.Drawing.Size(40, 24);
+            this.Stat_DEF.Size = new System.Drawing.Size(40, 23);
             this.Stat_DEF.TabIndex = 10;
             this.Stat_DEF.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_DEF.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -721,7 +709,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_SpARight.Location = new System.Drawing.Point(80, 0);
             this.FLP_SpARight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpARight.Name = "FLP_SpARight";
-            this.FLP_SpARight.Size = new System.Drawing.Size(228, 24);
+            this.FLP_SpARight.Size = new System.Drawing.Size(228, 23);
             this.FLP_SpARight.TabIndex = 4;
             // 
             // TB_BaseSPA
@@ -731,11 +719,10 @@ namespace PKHeX.WinForms.Controls
             this.TB_BaseSPA.Location = new System.Drawing.Point(0, 0);
             this.TB_BaseSPA.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_BaseSPA.Mask = "000";
-            this.TB_BaseSPA.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_BaseSPA.Name = "TB_BaseSPA";
             this.TB_BaseSPA.PromptChar = ' ';
             this.TB_BaseSPA.ReadOnly = true;
-            this.TB_BaseSPA.Size = new System.Drawing.Size(32, 24);
+            this.TB_BaseSPA.Size = new System.Drawing.Size(32, 23);
             this.TB_BaseSPA.TabIndex = 0;
             this.TB_BaseSPA.TabStop = false;
             this.TB_BaseSPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -746,9 +733,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_IVSPA.Location = new System.Drawing.Point(40, 0);
             this.TB_IVSPA.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_IVSPA.Mask = "00";
-            this.TB_IVSPA.MinimumSize = new System.Drawing.Size(24, 24);
             this.TB_IVSPA.Name = "TB_IVSPA";
-            this.TB_IVSPA.Size = new System.Drawing.Size(24, 24);
+            this.TB_IVSPA.Size = new System.Drawing.Size(24, 23);
             this.TB_IVSPA.TabIndex = 1;
             this.TB_IVSPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_IVSPA.Click += new System.EventHandler(this.ClickIV);
@@ -760,9 +746,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_EVSPA.Location = new System.Drawing.Point(72, 0);
             this.TB_EVSPA.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_EVSPA.Mask = "000";
-            this.TB_EVSPA.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_EVSPA.Name = "TB_EVSPA";
-            this.TB_EVSPA.Size = new System.Drawing.Size(32, 24);
+            this.TB_EVSPA.Size = new System.Drawing.Size(32, 23);
             this.TB_EVSPA.TabIndex = 2;
             this.TB_EVSPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVSPA.Click += new System.EventHandler(this.ClickEV);
@@ -801,10 +786,9 @@ namespace PKHeX.WinForms.Controls
             this.Stat_SPA.Location = new System.Drawing.Point(188, 0);
             this.Stat_SPA.Margin = new System.Windows.Forms.Padding(0);
             this.Stat_SPA.Mask = "00000";
-            this.Stat_SPA.MinimumSize = new System.Drawing.Size(40, 24);
             this.Stat_SPA.Name = "Stat_SPA";
             this.Stat_SPA.PromptChar = ' ';
-            this.Stat_SPA.Size = new System.Drawing.Size(40, 24);
+            this.Stat_SPA.Size = new System.Drawing.Size(40, 23);
             this.Stat_SPA.TabIndex = 10;
             this.Stat_SPA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_SPA.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -844,7 +828,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_SpDRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_SpDRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpDRight.Name = "FLP_SpDRight";
-            this.FLP_SpDRight.Size = new System.Drawing.Size(228, 24);
+            this.FLP_SpDRight.Size = new System.Drawing.Size(228, 23);
             this.FLP_SpDRight.TabIndex = 5;
             // 
             // TB_BaseSPD
@@ -854,11 +838,10 @@ namespace PKHeX.WinForms.Controls
             this.TB_BaseSPD.Location = new System.Drawing.Point(0, 0);
             this.TB_BaseSPD.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_BaseSPD.Mask = "000";
-            this.TB_BaseSPD.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_BaseSPD.Name = "TB_BaseSPD";
             this.TB_BaseSPD.PromptChar = ' ';
             this.TB_BaseSPD.ReadOnly = true;
-            this.TB_BaseSPD.Size = new System.Drawing.Size(32, 24);
+            this.TB_BaseSPD.Size = new System.Drawing.Size(32, 23);
             this.TB_BaseSPD.TabIndex = 0;
             this.TB_BaseSPD.TabStop = false;
             this.TB_BaseSPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -869,9 +852,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_IVSPD.Location = new System.Drawing.Point(40, 0);
             this.TB_IVSPD.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_IVSPD.Mask = "00";
-            this.TB_IVSPD.MinimumSize = new System.Drawing.Size(24, 24);
             this.TB_IVSPD.Name = "TB_IVSPD";
-            this.TB_IVSPD.Size = new System.Drawing.Size(24, 24);
+            this.TB_IVSPD.Size = new System.Drawing.Size(24, 23);
             this.TB_IVSPD.TabIndex = 1;
             this.TB_IVSPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_IVSPD.Click += new System.EventHandler(this.ClickIV);
@@ -883,9 +865,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_EVSPD.Location = new System.Drawing.Point(72, 0);
             this.TB_EVSPD.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_EVSPD.Mask = "000";
-            this.TB_EVSPD.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_EVSPD.Name = "TB_EVSPD";
-            this.TB_EVSPD.Size = new System.Drawing.Size(32, 24);
+            this.TB_EVSPD.Size = new System.Drawing.Size(32, 23);
             this.TB_EVSPD.TabIndex = 2;
             this.TB_EVSPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVSPD.Click += new System.EventHandler(this.ClickEV);
@@ -924,10 +905,9 @@ namespace PKHeX.WinForms.Controls
             this.Stat_SPD.Location = new System.Drawing.Point(188, 0);
             this.Stat_SPD.Margin = new System.Windows.Forms.Padding(0);
             this.Stat_SPD.Mask = "00000";
-            this.Stat_SPD.MinimumSize = new System.Drawing.Size(40, 24);
             this.Stat_SPD.Name = "Stat_SPD";
             this.Stat_SPD.PromptChar = ' ';
-            this.Stat_SPD.Size = new System.Drawing.Size(40, 24);
+            this.Stat_SPD.Size = new System.Drawing.Size(40, 23);
             this.Stat_SPD.TabIndex = 10;
             this.Stat_SPD.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_SPD.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -967,7 +947,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_SpeRight.Location = new System.Drawing.Point(80, 0);
             this.FLP_SpeRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpeRight.Name = "FLP_SpeRight";
-            this.FLP_SpeRight.Size = new System.Drawing.Size(228, 24);
+            this.FLP_SpeRight.Size = new System.Drawing.Size(228, 23);
             this.FLP_SpeRight.TabIndex = 6;
             // 
             // TB_BaseSPE
@@ -977,11 +957,10 @@ namespace PKHeX.WinForms.Controls
             this.TB_BaseSPE.Location = new System.Drawing.Point(0, 0);
             this.TB_BaseSPE.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_BaseSPE.Mask = "000";
-            this.TB_BaseSPE.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_BaseSPE.Name = "TB_BaseSPE";
             this.TB_BaseSPE.PromptChar = ' ';
             this.TB_BaseSPE.ReadOnly = true;
-            this.TB_BaseSPE.Size = new System.Drawing.Size(32, 24);
+            this.TB_BaseSPE.Size = new System.Drawing.Size(32, 23);
             this.TB_BaseSPE.TabIndex = 0;
             this.TB_BaseSPE.TabStop = false;
             this.TB_BaseSPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -992,9 +971,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_IVSPE.Location = new System.Drawing.Point(40, 0);
             this.TB_IVSPE.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_IVSPE.Mask = "00";
-            this.TB_IVSPE.MinimumSize = new System.Drawing.Size(24, 24);
             this.TB_IVSPE.Name = "TB_IVSPE";
-            this.TB_IVSPE.Size = new System.Drawing.Size(24, 24);
+            this.TB_IVSPE.Size = new System.Drawing.Size(24, 23);
             this.TB_IVSPE.TabIndex = 1;
             this.TB_IVSPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_IVSPE.Click += new System.EventHandler(this.ClickIV);
@@ -1006,9 +984,8 @@ namespace PKHeX.WinForms.Controls
             this.TB_EVSPE.Location = new System.Drawing.Point(72, 0);
             this.TB_EVSPE.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_EVSPE.Mask = "000";
-            this.TB_EVSPE.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_EVSPE.Name = "TB_EVSPE";
-            this.TB_EVSPE.Size = new System.Drawing.Size(32, 24);
+            this.TB_EVSPE.Size = new System.Drawing.Size(32, 23);
             this.TB_EVSPE.TabIndex = 2;
             this.TB_EVSPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_EVSPE.Click += new System.EventHandler(this.ClickEV);
@@ -1047,10 +1024,9 @@ namespace PKHeX.WinForms.Controls
             this.Stat_SPE.Location = new System.Drawing.Point(188, 0);
             this.Stat_SPE.Margin = new System.Windows.Forms.Padding(0);
             this.Stat_SPE.Mask = "00000";
-            this.Stat_SPE.MinimumSize = new System.Drawing.Size(40, 24);
             this.Stat_SPE.Name = "Stat_SPE";
             this.Stat_SPE.PromptChar = ' ';
-            this.Stat_SPE.Size = new System.Drawing.Size(40, 24);
+            this.Stat_SPE.Size = new System.Drawing.Size(40, 23);
             this.Stat_SPE.TabIndex = 10;
             this.Stat_SPE.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Stat_SPE.TextChanged += new System.EventHandler(this.UpdateHackedStatText);
@@ -1099,10 +1075,9 @@ namespace PKHeX.WinForms.Controls
             this.TB_BST.Location = new System.Drawing.Point(0, 0);
             this.TB_BST.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_BST.MaxLength = 3;
-            this.TB_BST.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_BST.Name = "TB_BST";
             this.TB_BST.ReadOnly = true;
-            this.TB_BST.Size = new System.Drawing.Size(32, 24);
+            this.TB_BST.Size = new System.Drawing.Size(32, 23);
             this.TB_BST.TabIndex = 0;
             this.TB_BST.TabStop = false;
             this.TB_BST.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1113,10 +1088,9 @@ namespace PKHeX.WinForms.Controls
             this.TB_IVTotal.Location = new System.Drawing.Point(40, 0);
             this.TB_IVTotal.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_IVTotal.MaxLength = 1;
-            this.TB_IVTotal.MinimumSize = new System.Drawing.Size(24, 24);
             this.TB_IVTotal.Name = "TB_IVTotal";
             this.TB_IVTotal.ReadOnly = true;
-            this.TB_IVTotal.Size = new System.Drawing.Size(24, 24);
+            this.TB_IVTotal.Size = new System.Drawing.Size(24, 23);
             this.TB_IVTotal.TabIndex = 41;
             this.TB_IVTotal.TabStop = false;
             this.TB_IVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -1140,10 +1114,9 @@ namespace PKHeX.WinForms.Controls
             this.TB_AVTotal.Location = new System.Drawing.Point(112, 0);
             this.TB_AVTotal.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
             this.TB_AVTotal.MaxLength = 4;
-            this.TB_AVTotal.MinimumSize = new System.Drawing.Size(32, 24);
             this.TB_AVTotal.Name = "TB_AVTotal";
             this.TB_AVTotal.ReadOnly = true;
-            this.TB_AVTotal.Size = new System.Drawing.Size(32, 24);
+            this.TB_AVTotal.Size = new System.Drawing.Size(32, 23);
             this.TB_AVTotal.TabIndex = 3;
             this.TB_AVTotal.TabStop = false;
             this.TB_AVTotal.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

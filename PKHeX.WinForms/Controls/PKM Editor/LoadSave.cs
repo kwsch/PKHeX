@@ -9,13 +9,13 @@ public partial class PKMEditor
 {
     private void LoadNickname(PKM pk)
     {
-        CHK_Nicknamed.Checked = pk.IsNicknamed;
+        CHK_NicknamedFlag.Checked = pk.IsNicknamed;
         TB_Nickname.Text = pk.Nickname;
     }
 
     private void SaveNickname(PKM pk)
     {
-        pk.IsNicknamed = CHK_Nicknamed.Checked;
+        pk.IsNicknamed = CHK_NicknamedFlag.Checked;
         pk.Nickname = TB_Nickname.Text;
     }
 

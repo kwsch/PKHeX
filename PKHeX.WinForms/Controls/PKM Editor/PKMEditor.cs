@@ -1114,7 +1114,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         UC_Gender.Gender = Entity.GetSaneGender();
 
         // If species changes and no nickname, set the new name == speciesName.
-        if (!CHK_Nicknamed.Checked)
+        if (!CHK_NicknamedFlag.Checked)
             UpdateNickname(sender, e);
 
         UpdateLegality();
@@ -1241,7 +1241,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         Entity.Nickname = TB_Nickname.Text;
-        if (CHK_Nicknamed.Checked)
+        if (CHK_NicknamedFlag.Checked)
             return;
 
         var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
@@ -1252,7 +1252,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             species = 0; // get the egg name.
 
         if (SpeciesName.IsNicknamedAnyLanguage(species, TB_Nickname.Text, Entity.Format))
-            CHK_Nicknamed.Checked = true;
+            CHK_NicknamedFlag.Checked = true;
     }
 
     private void UpdateNickname(object sender, EventArgs e)
@@ -1268,7 +1268,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             }
         }
 
-        if (CHK_Nicknamed.Checked)
+        if (CHK_NicknamedFlag.Checked)
             return;
 
         // Fetch Current Species and set it as Nickname Text
@@ -1390,7 +1390,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 TB_OT.Text = Entity.OT_Name;
             }
 
-            CHK_Nicknamed.Checked = EggStateLegality.IsNicknameFlagSet(Entity);
+            CHK_NicknamedFlag.Checked = EggStateLegality.IsNicknameFlagSet(Entity);
             TB_Nickname.Text = SpeciesName.GetEggName(WinFormsUtil.GetIndex(CB_Language), Entity.Format);
 
             // Wipe egg memories
@@ -1402,7 +1402,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         else // Not Egg
         {
-            if (!CHK_Nicknamed.Checked)
+            if (!CHK_NicknamedFlag.Checked)
                 UpdateNickname(this, EventArgs.Empty);
 
             TB_Friendship.Text = Entity.PersonalInfo.BaseFriendship.ToString();
@@ -1422,7 +1422,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
             var nick = SpeciesName.GetEggName(WinFormsUtil.GetIndex(CB_Language), Entity.Format);
             if (TB_Nickname.Text == nick)
-                CHK_Nicknamed.Checked = false;
+                CHK_NicknamedFlag.Checked = false;
         }
 
         UpdateNickname(this, EventArgs.Empty);
@@ -2087,10 +2087,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             SetIfDifferentCount(source.Moves, CB_AlphaMastered, force);
     }
 
-    private void ChangeSelectedTabIndex(object? sender, EventArgs e)
-    {
-        Hidden_TC.SelectedIndex = TC_Editor.SelectedIndex;
-    }
+    private void ChangeSelectedTabIndex(object? sender, EventArgs e) => Hidden_TC.SelectedIndex = TC_Editor.SelectedIndex;
+    private void CHK_Nicknamed_Click(object? sender, EventArgs e) => CHK_NicknamedFlag.Checked ^= true;
 
     private void PB_MarkShiny_Click(object sender, EventArgs e)
     {

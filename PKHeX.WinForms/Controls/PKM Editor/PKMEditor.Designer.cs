@@ -47,7 +47,8 @@ namespace PKHeX.WinForms.Controls
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.FLP_Nickname = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_NicknameLeft = new System.Windows.Forms.FlowLayoutPanel();
-            this.CHK_Nicknamed = new System.Windows.Forms.CheckBox();
+            this.CHK_Nicknamed = new System.Windows.Forms.Label();
+            this.CHK_NicknamedFlag = new System.Windows.Forms.CheckBox();
             this.TB_Nickname = new System.Windows.Forms.TextBox();
             this.FLP_EXPLevel = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_EXP = new System.Windows.Forms.Label();
@@ -562,6 +563,7 @@ namespace PKHeX.WinForms.Controls
             // 
             this.FLP_NicknameLeft.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.FLP_NicknameLeft.Controls.Add(this.CHK_Nicknamed);
+            this.FLP_NicknameLeft.Controls.Add(this.CHK_NicknamedFlag);
             this.FLP_NicknameLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.FLP_NicknameLeft.Location = new System.Drawing.Point(0, 0);
             this.FLP_NicknameLeft.Margin = new System.Windows.Forms.Padding(0);
@@ -572,15 +574,27 @@ namespace PKHeX.WinForms.Controls
             // CHK_Nicknamed
             // 
             this.CHK_Nicknamed.AutoSize = true;
-            this.CHK_Nicknamed.Location = new System.Drawing.Point(24, 3);
-            this.CHK_Nicknamed.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.CHK_Nicknamed.Location = new System.Drawing.Point(40, 0);
+            this.CHK_Nicknamed.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_Nicknamed.MinimumSize = new System.Drawing.Size(0, 24);
             this.CHK_Nicknamed.Name = "CHK_Nicknamed";
-            this.CHK_Nicknamed.Size = new System.Drawing.Size(80, 19);
-            this.CHK_Nicknamed.TabIndex = 4;
-            this.CHK_Nicknamed.Text = "Nickname";
+            this.CHK_Nicknamed.Size = new System.Drawing.Size(64, 24);
+            this.CHK_Nicknamed.TabIndex = 5;
+            this.CHK_Nicknamed.Text = "Nickname:";
             this.CHK_Nicknamed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Nicknamed.UseVisualStyleBackColor = true;
-            this.CHK_Nicknamed.CheckedChanged += new System.EventHandler(this.UpdateNickname);
+            this.CHK_Nicknamed.Click += new System.EventHandler(this.CHK_Nicknamed_Click);
+            // 
+            // CHK_NicknamedFlag
+            // 
+            this.CHK_NicknamedFlag.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.CHK_NicknamedFlag.Location = new System.Drawing.Point(24, 0);
+            this.CHK_NicknamedFlag.Margin = new System.Windows.Forms.Padding(0);
+            this.CHK_NicknamedFlag.Name = "CHK_NicknamedFlag";
+            this.CHK_NicknamedFlag.Size = new System.Drawing.Size(16, 24);
+            this.CHK_NicknamedFlag.TabIndex = 4;
+            this.CHK_NicknamedFlag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CHK_NicknamedFlag.UseVisualStyleBackColor = true;
+            this.CHK_NicknamedFlag.CheckedChanged += new System.EventHandler(this.UpdateNickname);
             // 
             // TB_Nickname
             // 
@@ -2928,7 +2942,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.ComboBox CB_Species;
         private System.Windows.Forms.FlowLayoutPanel FLP_Nickname;
         private System.Windows.Forms.FlowLayoutPanel FLP_NicknameLeft;
-        private System.Windows.Forms.CheckBox CHK_Nicknamed;
+        private System.Windows.Forms.CheckBox CHK_NicknamedFlag;
         private System.Windows.Forms.TextBox TB_Nickname;
         private System.Windows.Forms.FlowLayoutPanel FLP_EXPLevel;
         private System.Windows.Forms.Label Label_EXP;
@@ -3115,5 +3129,6 @@ namespace PKHeX.WinForms.Controls
         private StatEditor Stats;
         private ContestStat Contest;
         private TrainerID TID_Trainer;
+        private System.Windows.Forms.Label CHK_Nicknamed;
     }
 }
