@@ -227,7 +227,7 @@ namespace PKHeX.WinForms.Controls
             this.TB_OT = new System.Windows.Forms.TextBox();
             this.Label_OT = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
-            this.TC_Editor = new PKHeX.WinForms.Controls.VerticalTabControl();
+            this.TC_Editor = new PKHeX.WinForms.Controls.VerticalTabControlEntityEditor();
             this.Tab_Main = new System.Windows.Forms.TabPage();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
@@ -3116,7 +3116,7 @@ namespace PKHeX.WinForms.Controls
         private MoveChoice MC_Move2;
         private MoveChoice MC_Move3;
         private MoveChoice MC_Move4;
-        private PKHeX.WinForms.Controls.VerticalTabControl TC_Editor;
+        private PKHeX.WinForms.Controls.VerticalTabControlEntityEditor TC_Editor;
         private System.Windows.Forms.TabPage Tab_Main;
         private System.Windows.Forms.TabPage Tab_Met;
         private System.Windows.Forms.TabPage Tab_Stats;
