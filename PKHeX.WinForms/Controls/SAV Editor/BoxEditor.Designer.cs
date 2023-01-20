@@ -37,10 +37,11 @@
             // B_BoxRight
             // 
             this.B_BoxRight.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_BoxRight.Location = new System.Drawing.Point(193, -1);
+            this.B_BoxRight.Location = new System.Drawing.Point(200, 0);
+            this.B_BoxRight.Margin = new System.Windows.Forms.Padding(0);
             this.B_BoxRight.Name = "B_BoxRight";
-            this.B_BoxRight.Size = new System.Drawing.Size(27, 23);
-            this.B_BoxRight.TabIndex = 65;
+            this.B_BoxRight.Size = new System.Drawing.Size(24, 24);
+            this.B_BoxRight.TabIndex = 2;
             this.B_BoxRight.Text = ">>";
             this.B_BoxRight.UseVisualStyleBackColor = true;
             this.B_BoxRight.Click += new System.EventHandler(this.ClickBoxRight);
@@ -48,10 +49,11 @@
             // B_BoxLeft
             // 
             this.B_BoxLeft.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_BoxLeft.Location = new System.Drawing.Point(31, -1);
+            this.B_BoxLeft.Location = new System.Drawing.Point(32, 0);
+            this.B_BoxLeft.Margin = new System.Windows.Forms.Padding(0);
             this.B_BoxLeft.Name = "B_BoxLeft";
-            this.B_BoxLeft.Size = new System.Drawing.Size(27, 23);
-            this.B_BoxLeft.TabIndex = 64;
+            this.B_BoxLeft.Size = new System.Drawing.Size(24, 24);
+            this.B_BoxLeft.TabIndex = 0;
             this.B_BoxLeft.Text = "<<";
             this.B_BoxLeft.UseVisualStyleBackColor = true;
             this.B_BoxLeft.Click += new System.EventHandler(this.ClickBoxLeft);
@@ -92,10 +94,12 @@
             "Box 29",
             "Box 30",
             "Box 31"});
-            this.CB_BoxSelect.Location = new System.Drawing.Point(62, 0);
+            this.CB_BoxSelect.Location = new System.Drawing.Point(64, 0);
+            this.CB_BoxSelect.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_BoxSelect.MinimumSize = new System.Drawing.Size(128, 0);
             this.CB_BoxSelect.Name = "CB_BoxSelect";
-            this.CB_BoxSelect.Size = new System.Drawing.Size(127, 21);
-            this.CB_BoxSelect.TabIndex = 63;
+            this.CB_BoxSelect.Size = new System.Drawing.Size(128, 23);
+            this.CB_BoxSelect.TabIndex = 1;
             this.CB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.GetBox);
             // 
             // BoxPokeGrid
@@ -105,7 +109,7 @@
             this.BoxPokeGrid.Margin = new System.Windows.Forms.Padding(0);
             this.BoxPokeGrid.Name = "BoxPokeGrid";
             this.BoxPokeGrid.Size = new System.Drawing.Size(251, 160);
-            this.BoxPokeGrid.TabIndex = 66;
+            this.BoxPokeGrid.TabIndex = 3;
             // 
             // BoxEditor
             // 

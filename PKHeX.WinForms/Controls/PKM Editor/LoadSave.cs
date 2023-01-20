@@ -97,34 +97,34 @@ public partial class PKMEditor
 
     private void LoadMoves(PKM pk)
     {
-        CB_Move1.SelectedValue = (int)pk.Move1;
-        CB_Move2.SelectedValue = (int)pk.Move2;
-        CB_Move3.SelectedValue = (int)pk.Move3;
-        CB_Move4.SelectedValue = (int)pk.Move4;
-        LoadClamp(CB_PPu1, pk.Move1_PPUps);
-        LoadClamp(CB_PPu2, pk.Move2_PPUps);
-        LoadClamp(CB_PPu3, pk.Move3_PPUps);
-        LoadClamp(CB_PPu4, pk.Move4_PPUps);
-        TB_PP1.Text = pk.Move1_PP.ToString();
-        TB_PP2.Text = pk.Move2_PP.ToString();
-        TB_PP3.Text = pk.Move3_PP.ToString();
-        TB_PP4.Text = pk.Move4_PP.ToString();
+        MC_Move1.SelectedMove = pk.Move1;
+        MC_Move2.SelectedMove = pk.Move2;
+        MC_Move3.SelectedMove = pk.Move3;
+        MC_Move4.SelectedMove = pk.Move4;
+        MC_Move1.PPUps = pk.Move1_PPUps;
+        MC_Move2.PPUps = pk.Move2_PPUps;
+        MC_Move3.PPUps = pk.Move3_PPUps;
+        MC_Move4.PPUps = pk.Move4_PPUps;
+        MC_Move1.PP = pk.Move1_PP;
+        MC_Move2.PP = pk.Move2_PP;
+        MC_Move3.PP = pk.Move3_PP;
+        MC_Move4.PP = pk.Move4_PP;
     }
 
     private void SaveMoves(PKM pk)
     {
-        pk.Move1 = (ushort)WinFormsUtil.GetIndex(CB_Move1);
-        pk.Move2 = (ushort)WinFormsUtil.GetIndex(CB_Move2);
-        pk.Move3 = (ushort)WinFormsUtil.GetIndex(CB_Move3);
-        pk.Move4 = (ushort)WinFormsUtil.GetIndex(CB_Move4);
-        pk.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
-        pk.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
-        pk.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
-        pk.Move4_PP = WinFormsUtil.GetIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
-        pk.Move1_PPUps = WinFormsUtil.GetIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
-        pk.Move2_PPUps = WinFormsUtil.GetIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
-        pk.Move3_PPUps = WinFormsUtil.GetIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
-        pk.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+        pk.Move1 = MC_Move1.SelectedMove;
+        pk.Move2 = MC_Move2.SelectedMove;
+        pk.Move3 = MC_Move3.SelectedMove;
+        pk.Move4 = MC_Move4.SelectedMove;
+        pk.Move1_PP = MC_Move1.PP;
+        pk.Move2_PP = MC_Move2.PP;
+        pk.Move3_PP = MC_Move3.PP;
+        pk.Move4_PP = MC_Move4.PP;
+        pk.Move1_PPUps = MC_Move1.PPUps;
+        pk.Move2_PPUps = MC_Move2.PPUps;
+        pk.Move3_PPUps = MC_Move3.PPUps;
+        pk.Move4_PPUps = MC_Move4.PPUps;
     }
 
     private void LoadShadow3(IShadowCapture pk)

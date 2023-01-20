@@ -35,6 +35,8 @@ public partial class StatEditor : UserControl
     public IMainEditor MainEditor { private get; set; } = null!;
     public bool HaX { get => CHK_HackedStats.Enabled; set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }
 
+    private readonly ToolTip EVTip = new();
+
     public bool Valid
     {
         get
