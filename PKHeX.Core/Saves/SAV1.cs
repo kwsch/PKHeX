@@ -481,6 +481,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     public override string GetBoxName(int box)
     {
+        if (Japanese)
+            return $"ボックス{box + 1}";
         return $"BOX {box + 1}";
     }
 
