@@ -1121,3 +1121,6 @@ Limitado
 Conducción
 Flote
 Planeo
+Combatiente
+Ardiente
+Acuática

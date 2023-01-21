@@ -1121,3 +1121,6 @@ Bridé
 Terrestre
 Aquatique
 Aérien
+Combative
+Flamboyante
+Aquatique

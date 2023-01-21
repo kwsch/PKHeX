@@ -85,8 +85,6 @@ public static class ShowdownParsing
             (int)Necrozma when form is "Dusk"           => $"{form}-Mane",
             (int)Necrozma when form is "Dawn"           => $"{form}-Wings",
             (int)Polteageist or (int)Sinistea           => form == "Antique" ? form : string.Empty,
-            (int)Tauros when form is "Paldea (Fire)"    => "Paldea-Fire",
-            (int)Tauros when form is "Paldea (Water)"   => "Paldea-Water",
             (int)Maushold when form is "Family of Four" => "Four",
 
             (int)Furfrou or (int)Greninja or (int)Rockruff or (int)Tatsugiri or (int)Koraidon or (int)Miraidon => string.Empty,
@@ -121,8 +119,6 @@ public static class ShowdownParsing
             (int)Zygarde    when ability == 211         => $"{(string.IsNullOrWhiteSpace(form) ? "50%" : "10%")}-C",
             (int)Greninja   when ability == 210         => "Ash", // Battle Bond
             (int)Rockruff   when ability == 020         => "Dusk", // Rockruff-1
-            (int)Tauros     when form == "Paldea-Fire"  => "Paldea (Fire)",
-            (int)Tauros     when form == "Paldea-Water" => "Paldea (Water)",
             (int)Maushold   when form == "Four"         => "Family of Four",
             (int)Urshifu or (int)Pikachu or (int)Alcremie => form.Replace('-', ' '), // Strike and Cosplay
 

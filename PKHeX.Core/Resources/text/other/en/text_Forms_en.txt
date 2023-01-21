@@ -1121,3 +1121,6 @@ Low-Power
 Drive
 Aquatic
 Glide
+Combat
+Blaze
+Aqua
