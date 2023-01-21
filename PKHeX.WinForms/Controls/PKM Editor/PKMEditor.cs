@@ -45,7 +45,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         bool Criteria(Control c) => c.BackColor == Draw.InvalidSelection && c is ComboBox { Items.Count: not 0 };
         ValidatedControls = new ValidationRequiredSet[]
         {
-            new(Moves, _ => true, Criteria),
+            new(Moves, _ => true, z => Criteria(((MoveChoice)z).CB_Move)),
             new(new[] {CB_Species}, _ => true, Criteria),
             new(new[] {CB_HeldItem}, pk => pk.Format >= 2, Criteria),
             new(new[] {CB_Ability, CB_Nature, CB_MetLocation, CB_Ball}, pk => pk.Format >= 3, Criteria),
@@ -277,11 +277,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void SetPKMFormatExtraBytes(PKM pk)
     {
         var extraBytes = pk.ExtraBytes;
-        GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Count != 0;
+        FLP_ExtraBytes.Visible = FLP_ExtraBytes.Enabled = extraBytes.Count != 0;
         CB_ExtraBytes.Items.Clear();
         foreach (var b in extraBytes)
             CB_ExtraBytes.Items.Add($"0x{b:X2}");
-        if (GB_ExtraBytes.Enabled)
+        if (FLP_ExtraBytes.Enabled)
             CB_ExtraBytes.SelectedIndex = 0;
     }
 
@@ -677,12 +677,23 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (!GB_nOT.Visible)
             return;
 
-        if (sender == GB_OT || sender == PAN_HandlerOT)
-            Entity.CurrentHandler = 0;
+        int handler = 0;
+        if (sender == GB_OT)
+            handler = 0;
         else if (TB_HT.Text.Length > 0)
-            Entity.CurrentHandler = 1;
-        UpadteHandlingTrainerBackground(Entity.CurrentHandler);
+            handler = 1;
+        UpdateHandlerSelected(handler);
+    }
 
+    private void ChangeHandlerIndex(object sender, EventArgs e)
+    {
+        UpdateHandlerSelected(CB_Handler.SelectedIndex & 1);
+    }
+
+    private void UpdateHandlerSelected(int handler)
+    {
+        Entity.CurrentHandler = handler;
+        UpadteHandlingTrainerBackground(Entity.CurrentHandler);
         ReloadToFriendshipTextBox(Entity);
     }
 
@@ -1808,7 +1819,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         int gen = t.Format;
         FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowCapture;
         bool sizeCP = gen >= 8 || pb7;
-        ShinyLeaf.Visible = sizeCP;
+        SizeCP.Visible = sizeCP;
         if (sizeCP)
             SizeCP.ToggleVisibility(t);
         PB_Favorite.Visible = t is IFavorite;
@@ -1820,7 +1831,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FLP_OriginalNature.Visible = gen >= 8;
         B_RelearnFlags.Visible = t is ITechRecord;
         B_MoveShop.Visible = t is IMoveShop8Mastery;
-        CB_HTLanguage.Visible = gen >= 8;
+        FLP_HTLanguage.Visible = gen >= 8;
         L_AlphaMastered.Visible = CB_AlphaMastered.Visible = t is PA8;
         FLP_ObedienceLevel.Visible = t is IObedienceLevel;
         Contest.ToggleInterface(Entity, Entity.Context);
@@ -1840,8 +1851,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void ToggleInterface(int gen)
     {
         ToggleSecrets(HideSecretValues, gen);
-        GB_nOT.Visible = GB_RelearnMoves.Visible = gen >= 6;
-        PAN_HandlerOT.Visible = PAN_HandlerHT.Visible = gen >= 6;
+        FLP_Handler.Visible = GB_nOT.Visible = FLP_HT.Visible = GB_RelearnMoves.Visible = gen >= 6;
 
         PB_Origin.Visible = gen >= 6;
         FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = gen == 5;
@@ -1853,7 +1863,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         CB_Ability.Visible = !DEV_Ability.Enabled && gen >= 3;
         FLP_Nature.Visible = gen >= 3;
         FLP_Ability.Visible = gen >= 3;
-        GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = gen >= 3;
+        FLP_ExtraBytes.Visible = gen >= 3;
         GB_Markings.Visible = gen >= 3;
         CB_Form.Enabled = gen >= 3;
         FA_Form.Visible = gen >= 6;

@@ -1,7 +1,7 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms.Controls;
 
@@ -366,8 +366,8 @@ public partial class PKMEditor
 
         TB_HT.Text = handler;
         UC_HTGender.Gender = gender;
-        if (handler.Length == 0)
-            UC_HTGender.Visible = false;
+        bool hasValue = handler.Length != 0;
+        L_CurrentHandler.Visible = CB_Handler.Visible = UC_HTGender.Visible = hasValue;
 
         // Indicate who is currently in possession of the PKM
         UpadteHandlingTrainerBackground(pk.CurrentHandler);
@@ -375,16 +375,17 @@ public partial class PKMEditor
 
     private void UpadteHandlingTrainerBackground(int handler)
     {
-        var activeColor = SpriteUtil.Spriter.View;
         if (handler == 0) // OT
         {
-            PAN_HandlerOT.BackgroundImage = activeColor;
-            PAN_HandlerHT.BackgroundImage = null;
+            GB_OT.ForeColor = Color.Red;
+            GB_nOT.ResetForeColor();
+            CB_Handler.SelectedIndex = 0;
         }
         else // Handling Trainer
         {
-            PAN_HandlerHT.BackgroundImage = activeColor;
-            PAN_HandlerOT.BackgroundImage = null;
+            GB_nOT.ForeColor = Color.Red;
+            GB_OT.ResetForeColor();
+            CB_Handler.SelectedIndex = 1;
         }
     }
 

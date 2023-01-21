@@ -99,15 +99,6 @@ namespace PKHeX.WinForms.Controls
             this.CB_PKRSStrain = new System.Windows.Forms.ComboBox();
             this.Label_PKRSdays = new System.Windows.Forms.Label();
             this.CB_PKRSDays = new System.Windows.Forms.ComboBox();
-            this.FLP_Country = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_Country = new System.Windows.Forms.Label();
-            this.CB_Country = new System.Windows.Forms.ComboBox();
-            this.FLP_SubRegion = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_SubRegion = new System.Windows.Forms.Label();
-            this.CB_SubRegion = new System.Windows.Forms.ComboBox();
-            this.FLP_3DSRegion = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_3DSRegion = new System.Windows.Forms.Label();
-            this.CB_3DSReg = new System.Windows.Forms.ComboBox();
             this.FLP_NSparkle = new System.Windows.Forms.FlowLayoutPanel();
             this.L_NSparkle = new System.Windows.Forms.Label();
             this.CHK_NSparkle = new System.Windows.Forms.CheckBox();
@@ -207,26 +198,42 @@ namespace PKHeX.WinForms.Controls
             this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
             this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
             this.Hidden_OTMisc = new System.Windows.Forms.TabPage();
-            this.TB_HomeTracker = new System.Windows.Forms.TextBox();
-            this.L_HomeTracker = new System.Windows.Forms.Label();
-            this.PAN_HandlerHT = new System.Windows.Forms.Panel();
-            this.PAN_HandlerOT = new System.Windows.Forms.Panel();
-            this.TB_EC = new System.Windows.Forms.TextBox();
-            this.GB_nOT = new System.Windows.Forms.GroupBox();
-            this.UC_HTGender = new PKHeX.WinForms.Controls.GenderToggle();
-            this.CB_HTLanguage = new System.Windows.Forms.ComboBox();
-            this.TB_HT = new System.Windows.Forms.TextBox();
-            this.Label_PrevOT = new System.Windows.Forms.Label();
-            this.BTN_RerollEC = new System.Windows.Forms.Button();
-            this.GB_ExtraBytes = new System.Windows.Forms.GroupBox();
-            this.TB_ExtraByte = new System.Windows.Forms.MaskedTextBox();
-            this.CB_ExtraBytes = new System.Windows.Forms.ComboBox();
-            this.GB_OT = new System.Windows.Forms.GroupBox();
+            this.FLP_OTMisc = new System.Windows.Forms.FlowLayoutPanel();
+            this.GB_OT = new System.Windows.Forms.Label();
             this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
-            this.UC_OTGender = new PKHeX.WinForms.Controls.GenderToggle();
-            this.TB_OT = new System.Windows.Forms.TextBox();
+            this.FLP_OT = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_OT = new System.Windows.Forms.Label();
+            this.TB_OT = new System.Windows.Forms.TextBox();
+            this.UC_OTGender = new PKHeX.WinForms.Controls.GenderToggle();
+            this.FLP_Country = new System.Windows.Forms.FlowLayoutPanel();
+            this.Label_Country = new System.Windows.Forms.Label();
+            this.CB_Country = new System.Windows.Forms.ComboBox();
+            this.FLP_SubRegion = new System.Windows.Forms.FlowLayoutPanel();
+            this.Label_SubRegion = new System.Windows.Forms.Label();
+            this.CB_SubRegion = new System.Windows.Forms.ComboBox();
+            this.FLP_3DSRegion = new System.Windows.Forms.FlowLayoutPanel();
+            this.Label_3DSRegion = new System.Windows.Forms.Label();
+            this.CB_3DSReg = new System.Windows.Forms.ComboBox();
+            this.FLP_Handler = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_CurrentHandler = new System.Windows.Forms.Label();
+            this.CB_Handler = new System.Windows.Forms.ComboBox();
+            this.GB_nOT = new System.Windows.Forms.Label();
+            this.FLP_HT = new System.Windows.Forms.FlowLayoutPanel();
+            this.Label_PrevOT = new System.Windows.Forms.Label();
+            this.TB_HT = new System.Windows.Forms.TextBox();
+            this.UC_HTGender = new PKHeX.WinForms.Controls.GenderToggle();
+            this.FLP_HTLanguage = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_LanguageHT = new System.Windows.Forms.Label();
+            this.CB_HTLanguage = new System.Windows.Forms.ComboBox();
+            this.FLP_ExtraBytes = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_ExtraBytes = new System.Windows.Forms.Label();
+            this.CB_ExtraBytes = new System.Windows.Forms.ComboBox();
+            this.TB_ExtraByte = new System.Windows.Forms.MaskedTextBox();
+            this.L_HomeTracker = new System.Windows.Forms.Label();
+            this.TB_HomeTracker = new System.Windows.Forms.TextBox();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
+            this.TB_EC = new System.Windows.Forms.TextBox();
+            this.BTN_RerollEC = new System.Windows.Forms.Button();
             this.TC_Editor = new PKHeX.WinForms.Controls.VerticalTabControlEntityEditor();
             this.Tab_Main = new System.Windows.Forms.TabPage();
             this.Tab_Met = new System.Windows.Forms.TabPage();
@@ -264,9 +271,6 @@ namespace PKHeX.WinForms.Controls
             this.FLP_EggPKRSRight.SuspendLayout();
             this.FLP_PKRS.SuspendLayout();
             this.FLP_PKRSRight.SuspendLayout();
-            this.FLP_Country.SuspendLayout();
-            this.FLP_SubRegion.SuspendLayout();
-            this.FLP_3DSRegion.SuspendLayout();
             this.FLP_NSparkle.SuspendLayout();
             this.FLP_ShadowID.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_ShadowID)).BeginInit();
@@ -314,9 +318,15 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)(this.PB_Origin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_BattleVersion)).BeginInit();
             this.Hidden_OTMisc.SuspendLayout();
-            this.GB_nOT.SuspendLayout();
-            this.GB_ExtraBytes.SuspendLayout();
-            this.GB_OT.SuspendLayout();
+            this.FLP_OTMisc.SuspendLayout();
+            this.FLP_OT.SuspendLayout();
+            this.FLP_Country.SuspendLayout();
+            this.FLP_SubRegion.SuspendLayout();
+            this.FLP_3DSRegion.SuspendLayout();
+            this.FLP_Handler.SuspendLayout();
+            this.FLP_HT.SuspendLayout();
+            this.FLP_HTLanguage.SuspendLayout();
+            this.FLP_ExtraBytes.SuspendLayout();
             this.TC_Editor.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -367,9 +377,6 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Main.Controls.Add(this.FLP_Language);
             this.FLP_Main.Controls.Add(this.FLP_EggPKRS);
             this.FLP_Main.Controls.Add(this.FLP_PKRS);
-            this.FLP_Main.Controls.Add(this.FLP_Country);
-            this.FLP_Main.Controls.Add(this.FLP_SubRegion);
-            this.FLP_Main.Controls.Add(this.FLP_3DSRegion);
             this.FLP_Main.Controls.Add(this.FLP_NSparkle);
             this.FLP_Main.Controls.Add(this.FLP_ShadowID);
             this.FLP_Main.Controls.Add(this.FLP_Purification);
@@ -474,13 +481,13 @@ namespace PKHeX.WinForms.Controls
             // 
             this.TB_PID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.TB_PID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_PID.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TB_PID.Location = new System.Drawing.Point(0, 1);
-            this.TB_PID.Margin = new System.Windows.Forms.Padding(0, 1, 0, 0);
+            this.TB_PID.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TB_PID.Location = new System.Drawing.Point(0, 3);
+            this.TB_PID.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.TB_PID.MaxLength = 8;
             this.TB_PID.Name = "TB_PID";
             this.TB_PID.PlaceholderText = "12345678";
-            this.TB_PID.Size = new System.Drawing.Size(72, 22);
+            this.TB_PID.Size = new System.Drawing.Size(64, 20);
             this.TB_PID.TabIndex = 1;
             this.TB_PID.MouseHover += new System.EventHandler(this.UpdateTSV);
             this.TB_PID.Validated += new System.EventHandler(this.Update_ID);
@@ -491,7 +498,7 @@ namespace PKHeX.WinForms.Controls
             this.UC_Gender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UC_Gender.BackgroundImage")));
             this.UC_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.UC_Gender.Gender = 0;
-            this.UC_Gender.Location = new System.Drawing.Point(72, 0);
+            this.UC_Gender.Location = new System.Drawing.Point(64, 0);
             this.UC_Gender.Margin = new System.Windows.Forms.Padding(0);
             this.UC_Gender.Name = "UC_Gender";
             this.UC_Gender.Size = new System.Drawing.Size(24, 24);
@@ -502,10 +509,10 @@ namespace PKHeX.WinForms.Controls
             // 
             this.BTN_RerollPID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.BTN_RerollPID.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.BTN_RerollPID.Location = new System.Drawing.Point(96, 0);
+            this.BTN_RerollPID.Location = new System.Drawing.Point(88, 0);
             this.BTN_RerollPID.Margin = new System.Windows.Forms.Padding(0);
             this.BTN_RerollPID.Name = "BTN_RerollPID";
-            this.BTN_RerollPID.Size = new System.Drawing.Size(48, 24);
+            this.BTN_RerollPID.Size = new System.Drawing.Size(56, 24);
             this.BTN_RerollPID.TabIndex = 1;
             this.BTN_RerollPID.Text = "Reroll";
             this.BTN_RerollPID.UseVisualStyleBackColor = true;
@@ -1190,112 +1197,12 @@ namespace PKHeX.WinForms.Controls
             this.CB_PKRSDays.Visible = false;
             this.CB_PKRSDays.SelectedIndexChanged += new System.EventHandler(this.UpdatePKRSdays);
             // 
-            // FLP_Country
-            // 
-            this.FLP_Country.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Country.Controls.Add(this.Label_Country);
-            this.FLP_Country.Controls.Add(this.CB_Country);
-            this.FLP_Country.Location = new System.Drawing.Point(0, 328);
-            this.FLP_Country.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Country.Name = "FLP_Country";
-            this.FLP_Country.Size = new System.Drawing.Size(272, 24);
-            this.FLP_Country.TabIndex = 13;
-            // 
-            // Label_Country
-            // 
-            this.Label_Country.Location = new System.Drawing.Point(0, 0);
-            this.Label_Country.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_Country.Name = "Label_Country";
-            this.Label_Country.Size = new System.Drawing.Size(104, 24);
-            this.Label_Country.TabIndex = 16;
-            this.Label_Country.Text = "Country:";
-            this.Label_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Country
-            // 
-            this.CB_Country.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Country.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Country.DropDownWidth = 180;
-            this.CB_Country.FormattingEnabled = true;
-            this.CB_Country.Location = new System.Drawing.Point(104, 0);
-            this.CB_Country.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Country.Name = "CB_Country";
-            this.CB_Country.Size = new System.Drawing.Size(144, 23);
-            this.CB_Country.TabIndex = 21;
-            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
-            this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
-            // 
-            // FLP_SubRegion
-            // 
-            this.FLP_SubRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_SubRegion.Controls.Add(this.Label_SubRegion);
-            this.FLP_SubRegion.Controls.Add(this.CB_SubRegion);
-            this.FLP_SubRegion.Location = new System.Drawing.Point(0, 352);
-            this.FLP_SubRegion.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_SubRegion.Name = "FLP_SubRegion";
-            this.FLP_SubRegion.Size = new System.Drawing.Size(272, 24);
-            this.FLP_SubRegion.TabIndex = 14;
-            // 
-            // Label_SubRegion
-            // 
-            this.Label_SubRegion.Location = new System.Drawing.Point(0, 0);
-            this.Label_SubRegion.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_SubRegion.Name = "Label_SubRegion";
-            this.Label_SubRegion.Size = new System.Drawing.Size(104, 24);
-            this.Label_SubRegion.TabIndex = 17;
-            this.Label_SubRegion.Text = "Sub Region:";
-            this.Label_SubRegion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_SubRegion
-            // 
-            this.CB_SubRegion.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_SubRegion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_SubRegion.DropDownWidth = 180;
-            this.CB_SubRegion.FormattingEnabled = true;
-            this.CB_SubRegion.Location = new System.Drawing.Point(104, 0);
-            this.CB_SubRegion.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_SubRegion.Name = "CB_SubRegion";
-            this.CB_SubRegion.Size = new System.Drawing.Size(144, 23);
-            this.CB_SubRegion.TabIndex = 22;
-            this.CB_SubRegion.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
-            // 
-            // FLP_3DSRegion
-            // 
-            this.FLP_3DSRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_3DSRegion.Controls.Add(this.Label_3DSRegion);
-            this.FLP_3DSRegion.Controls.Add(this.CB_3DSReg);
-            this.FLP_3DSRegion.Location = new System.Drawing.Point(0, 376);
-            this.FLP_3DSRegion.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_3DSRegion.Name = "FLP_3DSRegion";
-            this.FLP_3DSRegion.Size = new System.Drawing.Size(272, 24);
-            this.FLP_3DSRegion.TabIndex = 15;
-            // 
-            // Label_3DSRegion
-            // 
-            this.Label_3DSRegion.Location = new System.Drawing.Point(0, 0);
-            this.Label_3DSRegion.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_3DSRegion.Name = "Label_3DSRegion";
-            this.Label_3DSRegion.Size = new System.Drawing.Size(104, 24);
-            this.Label_3DSRegion.TabIndex = 18;
-            this.Label_3DSRegion.Text = "3DS Region:";
-            this.Label_3DSRegion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_3DSReg
-            // 
-            this.CB_3DSReg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_3DSReg.FormattingEnabled = true;
-            this.CB_3DSReg.Location = new System.Drawing.Point(104, 0);
-            this.CB_3DSReg.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_3DSReg.Name = "CB_3DSReg";
-            this.CB_3DSReg.Size = new System.Drawing.Size(144, 23);
-            this.CB_3DSReg.TabIndex = 23;
-            // 
             // FLP_NSparkle
             // 
             this.FLP_NSparkle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_NSparkle.Controls.Add(this.L_NSparkle);
             this.FLP_NSparkle.Controls.Add(this.CHK_NSparkle);
-            this.FLP_NSparkle.Location = new System.Drawing.Point(0, 400);
+            this.FLP_NSparkle.Location = new System.Drawing.Point(0, 328);
             this.FLP_NSparkle.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_NSparkle.Name = "FLP_NSparkle";
             this.FLP_NSparkle.Size = new System.Drawing.Size(272, 24);
@@ -1328,7 +1235,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_ShadowID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_ShadowID.Controls.Add(this.L_ShadowID);
             this.FLP_ShadowID.Controls.Add(this.NUD_ShadowID);
-            this.FLP_ShadowID.Location = new System.Drawing.Point(0, 424);
+            this.FLP_ShadowID.Location = new System.Drawing.Point(0, 352);
             this.FLP_ShadowID.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_ShadowID.Name = "FLP_ShadowID";
             this.FLP_ShadowID.Size = new System.Drawing.Size(272, 24);
@@ -1364,7 +1271,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Purification.Controls.Add(this.L_HeartGauge);
             this.FLP_Purification.Controls.Add(this.NUD_Purification);
             this.FLP_Purification.Controls.Add(this.CHK_Shadow);
-            this.FLP_Purification.Location = new System.Drawing.Point(0, 448);
+            this.FLP_Purification.Location = new System.Drawing.Point(0, 376);
             this.FLP_Purification.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Purification.Name = "FLP_Purification";
             this.FLP_Purification.Size = new System.Drawing.Size(272, 24);
@@ -1417,7 +1324,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_CatchRate.Controls.Add(this.L_CatchRate);
             this.FLP_CatchRate.Controls.Add(this.CR_PK1);
-            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 472);
+            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 400);
             this.FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_CatchRate.Name = "FLP_CatchRate";
             this.FLP_CatchRate.Size = new System.Drawing.Size(288, 24);
@@ -2491,16 +2398,7 @@ namespace PKHeX.WinForms.Controls
             // Hidden_OTMisc
             // 
             this.Hidden_OTMisc.AllowDrop = true;
-            this.Hidden_OTMisc.Controls.Add(this.TB_HomeTracker);
-            this.Hidden_OTMisc.Controls.Add(this.L_HomeTracker);
-            this.Hidden_OTMisc.Controls.Add(this.PAN_HandlerHT);
-            this.Hidden_OTMisc.Controls.Add(this.PAN_HandlerOT);
-            this.Hidden_OTMisc.Controls.Add(this.TB_EC);
-            this.Hidden_OTMisc.Controls.Add(this.GB_nOT);
-            this.Hidden_OTMisc.Controls.Add(this.BTN_RerollEC);
-            this.Hidden_OTMisc.Controls.Add(this.GB_ExtraBytes);
-            this.Hidden_OTMisc.Controls.Add(this.GB_OT);
-            this.Hidden_OTMisc.Controls.Add(this.Label_EncryptionConstant);
+            this.Hidden_OTMisc.Controls.Add(this.FLP_OTMisc);
             this.Hidden_OTMisc.Location = new System.Drawing.Point(4, 5);
             this.Hidden_OTMisc.Margin = new System.Windows.Forms.Padding(0);
             this.Hidden_OTMisc.Name = "Hidden_OTMisc";
@@ -2509,98 +2407,267 @@ namespace PKHeX.WinForms.Controls
             this.Hidden_OTMisc.Text = "OT/Misc";
             this.Hidden_OTMisc.UseVisualStyleBackColor = true;
             // 
-            // TB_HomeTracker
+            // FLP_OTMisc
             // 
-            this.TB_HomeTracker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TB_HomeTracker.Location = new System.Drawing.Point(128, 296);
-            this.TB_HomeTracker.Margin = new System.Windows.Forms.Padding(0);
-            this.TB_HomeTracker.MaxLength = 16;
-            this.TB_HomeTracker.MinimumSize = new System.Drawing.Size(136, 24);
-            this.TB_HomeTracker.Name = "TB_HomeTracker";
-            this.TB_HomeTracker.PlaceholderText = "0123456789ABCDEF";
-            this.TB_HomeTracker.Size = new System.Drawing.Size(136, 24);
-            this.TB_HomeTracker.TabIndex = 45;
-            this.TB_HomeTracker.Validated += new System.EventHandler(this.Update_ID64);
+            this.FLP_OTMisc.Controls.Add(this.GB_OT);
+            this.FLP_OTMisc.Controls.Add(this.TID_Trainer);
+            this.FLP_OTMisc.Controls.Add(this.FLP_OT);
+            this.FLP_OTMisc.Controls.Add(this.FLP_Country);
+            this.FLP_OTMisc.Controls.Add(this.FLP_SubRegion);
+            this.FLP_OTMisc.Controls.Add(this.FLP_3DSRegion);
+            this.FLP_OTMisc.Controls.Add(this.FLP_Handler);
+            this.FLP_OTMisc.Controls.Add(this.GB_nOT);
+            this.FLP_OTMisc.Controls.Add(this.FLP_HT);
+            this.FLP_OTMisc.Controls.Add(this.FLP_HTLanguage);
+            this.FLP_OTMisc.Controls.Add(this.FLP_ExtraBytes);
+            this.FLP_OTMisc.Controls.Add(this.L_HomeTracker);
+            this.FLP_OTMisc.Controls.Add(this.TB_HomeTracker);
+            this.FLP_OTMisc.Controls.Add(this.Label_EncryptionConstant);
+            this.FLP_OTMisc.Controls.Add(this.TB_EC);
+            this.FLP_OTMisc.Controls.Add(this.BTN_RerollEC);
+            this.FLP_OTMisc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FLP_OTMisc.Location = new System.Drawing.Point(0, 0);
+            this.FLP_OTMisc.Name = "FLP_OTMisc";
+            this.FLP_OTMisc.Size = new System.Drawing.Size(296, 391);
+            this.FLP_OTMisc.TabIndex = 46;
             // 
-            // L_HomeTracker
+            // GB_OT
             // 
-            this.L_HomeTracker.Location = new System.Drawing.Point(8, 296);
-            this.L_HomeTracker.Name = "L_HomeTracker";
-            this.L_HomeTracker.Size = new System.Drawing.Size(120, 24);
-            this.L_HomeTracker.TabIndex = 44;
-            this.L_HomeTracker.Text = "HOME Tracker:";
-            this.L_HomeTracker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.FLP_OTMisc.SetFlowBreak(this.GB_OT, true);
+            this.GB_OT.Location = new System.Drawing.Point(56, 16);
+            this.GB_OT.Margin = new System.Windows.Forms.Padding(56, 16, 0, 0);
+            this.GB_OT.Name = "GB_OT";
+            this.GB_OT.Size = new System.Drawing.Size(216, 24);
+            this.GB_OT.TabIndex = 47;
+            this.GB_OT.Text = "Trainer Information";
+            this.GB_OT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // PAN_HandlerHT
+            // TID_Trainer
             // 
-            this.PAN_HandlerHT.Location = new System.Drawing.Point(8, 116);
-            this.PAN_HandlerHT.Name = "PAN_HandlerHT";
-            this.PAN_HandlerHT.Size = new System.Drawing.Size(24, 64);
-            this.PAN_HandlerHT.TabIndex = 1;
-            this.PAN_HandlerHT.Click += new System.EventHandler(this.ClickGT);
+            this.TID_Trainer.Location = new System.Drawing.Point(64, 40);
+            this.TID_Trainer.Margin = new System.Windows.Forms.Padding(64, 0, 0, 0);
+            this.TID_Trainer.Name = "TID_Trainer";
+            this.TID_Trainer.Size = new System.Drawing.Size(208, 24);
+            this.TID_Trainer.TabIndex = 1;
             // 
-            // PAN_HandlerOT
+            // FLP_OT
             // 
-            this.PAN_HandlerOT.Location = new System.Drawing.Point(8, 24);
-            this.PAN_HandlerOT.Name = "PAN_HandlerOT";
-            this.PAN_HandlerOT.Size = new System.Drawing.Size(24, 64);
-            this.PAN_HandlerOT.TabIndex = 0;
-            this.PAN_HandlerOT.Click += new System.EventHandler(this.ClickGT);
+            this.FLP_OT.Controls.Add(this.Label_OT);
+            this.FLP_OT.Controls.Add(this.TB_OT);
+            this.FLP_OT.Controls.Add(this.UC_OTGender);
+            this.FLP_OT.Location = new System.Drawing.Point(0, 64);
+            this.FLP_OT.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_OT.Name = "FLP_OT";
+            this.FLP_OT.Size = new System.Drawing.Size(272, 24);
+            this.FLP_OT.TabIndex = 2;
             // 
-            // TB_EC
+            // Label_OT
             // 
-            this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_EC.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.TB_EC.Location = new System.Drawing.Point(128, 272);
-            this.TB_EC.Margin = new System.Windows.Forms.Padding(0);
-            this.TB_EC.MaxLength = 8;
-            this.TB_EC.MinimumSize = new System.Drawing.Size(72, 24);
-            this.TB_EC.Name = "TB_EC";
-            this.TB_EC.PlaceholderText = "12345678";
-            this.TB_EC.Size = new System.Drawing.Size(72, 24);
-            this.TB_EC.TabIndex = 41;
-            this.TB_EC.Validated += new System.EventHandler(this.Update_ID);
+            this.Label_OT.Location = new System.Drawing.Point(0, 0);
+            this.Label_OT.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_OT.Name = "Label_OT";
+            this.Label_OT.Size = new System.Drawing.Size(104, 24);
+            this.Label_OT.TabIndex = 2;
+            this.Label_OT.Text = "OT:";
+            this.Label_OT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_OT.Click += new System.EventHandler(this.ClickOT);
+            // 
+            // TB_OT
+            // 
+            this.TB_OT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_OT.Location = new System.Drawing.Point(104, 0);
+            this.TB_OT.Margin = new System.Windows.Forms.Padding(0);
+            this.TB_OT.MaxLength = 12;
+            this.TB_OT.Name = "TB_OT";
+            this.TB_OT.Size = new System.Drawing.Size(94, 23);
+            this.TB_OT.TabIndex = 3;
+            this.TB_OT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
+            // 
+            // UC_OTGender
+            // 
+            this.UC_OTGender.AllowClick = true;
+            this.UC_OTGender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UC_OTGender.BackgroundImage")));
+            this.UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.UC_OTGender.Gender = 0;
+            this.UC_OTGender.Location = new System.Drawing.Point(198, 0);
+            this.UC_OTGender.Margin = new System.Windows.Forms.Padding(0);
+            this.UC_OTGender.Name = "UC_OTGender";
+            this.UC_OTGender.Size = new System.Drawing.Size(24, 24);
+            this.UC_OTGender.TabIndex = 4;
+            // 
+            // FLP_Country
+            // 
+            this.FLP_Country.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_Country.Controls.Add(this.Label_Country);
+            this.FLP_Country.Controls.Add(this.CB_Country);
+            this.FLP_Country.Location = new System.Drawing.Point(0, 88);
+            this.FLP_Country.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_Country.Name = "FLP_Country";
+            this.FLP_Country.Size = new System.Drawing.Size(272, 24);
+            this.FLP_Country.TabIndex = 3;
+            // 
+            // Label_Country
+            // 
+            this.Label_Country.Location = new System.Drawing.Point(0, 0);
+            this.Label_Country.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_Country.Name = "Label_Country";
+            this.Label_Country.Size = new System.Drawing.Size(104, 24);
+            this.Label_Country.TabIndex = 16;
+            this.Label_Country.Text = "Country:";
+            this.Label_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Country
+            // 
+            this.CB_Country.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Country.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Country.DropDownWidth = 180;
+            this.CB_Country.FormattingEnabled = true;
+            this.CB_Country.Location = new System.Drawing.Point(104, 0);
+            this.CB_Country.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_Country.Name = "CB_Country";
+            this.CB_Country.Size = new System.Drawing.Size(126, 23);
+            this.CB_Country.TabIndex = 21;
+            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
+            this.CB_Country.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
+            // 
+            // FLP_SubRegion
+            // 
+            this.FLP_SubRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_SubRegion.Controls.Add(this.Label_SubRegion);
+            this.FLP_SubRegion.Controls.Add(this.CB_SubRegion);
+            this.FLP_SubRegion.Location = new System.Drawing.Point(0, 112);
+            this.FLP_SubRegion.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_SubRegion.Name = "FLP_SubRegion";
+            this.FLP_SubRegion.Size = new System.Drawing.Size(272, 24);
+            this.FLP_SubRegion.TabIndex = 4;
+            // 
+            // Label_SubRegion
+            // 
+            this.Label_SubRegion.Location = new System.Drawing.Point(0, 0);
+            this.Label_SubRegion.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_SubRegion.Name = "Label_SubRegion";
+            this.Label_SubRegion.Size = new System.Drawing.Size(104, 24);
+            this.Label_SubRegion.TabIndex = 17;
+            this.Label_SubRegion.Text = "Sub Region:";
+            this.Label_SubRegion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_SubRegion
+            // 
+            this.CB_SubRegion.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_SubRegion.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_SubRegion.DropDownWidth = 180;
+            this.CB_SubRegion.FormattingEnabled = true;
+            this.CB_SubRegion.Location = new System.Drawing.Point(104, 0);
+            this.CB_SubRegion.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_SubRegion.Name = "CB_SubRegion";
+            this.CB_SubRegion.Size = new System.Drawing.Size(126, 23);
+            this.CB_SubRegion.TabIndex = 22;
+            this.CB_SubRegion.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
+            // 
+            // FLP_3DSRegion
+            // 
+            this.FLP_3DSRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_3DSRegion.Controls.Add(this.Label_3DSRegion);
+            this.FLP_3DSRegion.Controls.Add(this.CB_3DSReg);
+            this.FLP_3DSRegion.Location = new System.Drawing.Point(0, 136);
+            this.FLP_3DSRegion.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_3DSRegion.Name = "FLP_3DSRegion";
+            this.FLP_3DSRegion.Size = new System.Drawing.Size(272, 24);
+            this.FLP_3DSRegion.TabIndex = 5;
+            // 
+            // Label_3DSRegion
+            // 
+            this.Label_3DSRegion.Location = new System.Drawing.Point(0, 0);
+            this.Label_3DSRegion.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_3DSRegion.Name = "Label_3DSRegion";
+            this.Label_3DSRegion.Size = new System.Drawing.Size(104, 24);
+            this.Label_3DSRegion.TabIndex = 18;
+            this.Label_3DSRegion.Text = "3DS Region:";
+            this.Label_3DSRegion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_3DSReg
+            // 
+            this.CB_3DSReg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_3DSReg.FormattingEnabled = true;
+            this.CB_3DSReg.Location = new System.Drawing.Point(104, 0);
+            this.CB_3DSReg.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_3DSReg.Name = "CB_3DSReg";
+            this.CB_3DSReg.Size = new System.Drawing.Size(126, 23);
+            this.CB_3DSReg.TabIndex = 23;
+            // 
+            // FLP_Handler
+            // 
+            this.FLP_Handler.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_Handler.Controls.Add(this.L_CurrentHandler);
+            this.FLP_Handler.Controls.Add(this.CB_Handler);
+            this.FLP_Handler.Location = new System.Drawing.Point(0, 176);
+            this.FLP_Handler.Margin = new System.Windows.Forms.Padding(0, 16, 0, 8);
+            this.FLP_Handler.Name = "FLP_Handler";
+            this.FLP_Handler.Size = new System.Drawing.Size(272, 24);
+            this.FLP_Handler.TabIndex = 49;
+            // 
+            // L_CurrentHandler
+            // 
+            this.L_CurrentHandler.Location = new System.Drawing.Point(0, 0);
+            this.L_CurrentHandler.Margin = new System.Windows.Forms.Padding(0);
+            this.L_CurrentHandler.Name = "L_CurrentHandler";
+            this.L_CurrentHandler.Size = new System.Drawing.Size(128, 24);
+            this.L_CurrentHandler.TabIndex = 18;
+            this.L_CurrentHandler.Text = "Current Handler:";
+            this.L_CurrentHandler.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Handler
+            // 
+            this.CB_Handler.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Handler.FormattingEnabled = true;
+            this.CB_Handler.Items.AddRange(new object[] {
+            "OT",
+            "HT"});
+            this.CB_Handler.Location = new System.Drawing.Point(128, 0);
+            this.CB_Handler.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_Handler.Name = "CB_Handler";
+            this.CB_Handler.Size = new System.Drawing.Size(48, 23);
+            this.CB_Handler.TabIndex = 4;
+            this.CB_Handler.SelectedIndexChanged += new System.EventHandler(this.ChangeHandlerIndex);
             // 
             // GB_nOT
             // 
-            this.GB_nOT.Controls.Add(this.UC_HTGender);
-            this.GB_nOT.Controls.Add(this.CB_HTLanguage);
-            this.GB_nOT.Controls.Add(this.TB_HT);
-            this.GB_nOT.Controls.Add(this.Label_PrevOT);
-            this.GB_nOT.Location = new System.Drawing.Point(40, 109);
+            this.FLP_OTMisc.SetFlowBreak(this.GB_nOT, true);
+            this.GB_nOT.Location = new System.Drawing.Point(56, 208);
+            this.GB_nOT.Margin = new System.Windows.Forms.Padding(56, 0, 0, 0);
             this.GB_nOT.Name = "GB_nOT";
-            this.GB_nOT.Size = new System.Drawing.Size(192, 72);
-            this.GB_nOT.TabIndex = 20;
-            this.GB_nOT.TabStop = false;
+            this.GB_nOT.Size = new System.Drawing.Size(216, 24);
+            this.GB_nOT.TabIndex = 48;
             this.GB_nOT.Text = "Latest (not OT) Handler";
+            this.GB_nOT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // UC_HTGender
+            // FLP_HT
             // 
-            this.UC_HTGender.AllowClick = true;
-            this.UC_HTGender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UC_HTGender.BackgroundImage")));
-            this.UC_HTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.UC_HTGender.Gender = 0;
-            this.UC_HTGender.Location = new System.Drawing.Point(144, 16);
-            this.UC_HTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
-            this.UC_HTGender.Name = "UC_HTGender";
-            this.UC_HTGender.Size = new System.Drawing.Size(24, 24);
-            this.UC_HTGender.TabIndex = 3;
+            this.FLP_HT.Controls.Add(this.Label_PrevOT);
+            this.FLP_HT.Controls.Add(this.TB_HT);
+            this.FLP_HT.Controls.Add(this.UC_HTGender);
+            this.FLP_HT.Location = new System.Drawing.Point(0, 232);
+            this.FLP_HT.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_HT.Name = "FLP_HT";
+            this.FLP_HT.Size = new System.Drawing.Size(272, 24);
+            this.FLP_HT.TabIndex = 10;
             // 
-            // CB_HTLanguage
+            // Label_PrevOT
             // 
-            this.CB_HTLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_HTLanguage.FormattingEnabled = true;
-            this.CB_HTLanguage.Location = new System.Drawing.Point(48, 40);
-            this.CB_HTLanguage.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_HTLanguage.Name = "CB_HTLanguage";
-            this.CB_HTLanguage.Size = new System.Drawing.Size(126, 23);
-            this.CB_HTLanguage.TabIndex = 4;
+            this.Label_PrevOT.Location = new System.Drawing.Point(0, 0);
+            this.Label_PrevOT.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_PrevOT.Name = "Label_PrevOT";
+            this.Label_PrevOT.Size = new System.Drawing.Size(104, 24);
+            this.Label_PrevOT.TabIndex = 1;
+            this.Label_PrevOT.Text = "OT:";
+            this.Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_PrevOT.Click += new System.EventHandler(this.ClickCT);
             // 
             // TB_HT
             // 
             this.TB_HT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_HT.Location = new System.Drawing.Point(48, 16);
+            this.TB_HT.Location = new System.Drawing.Point(104, 0);
+            this.TB_HT.Margin = new System.Windows.Forms.Padding(0);
             this.TB_HT.MaxLength = 12;
             this.TB_HT.Name = "TB_HT";
             this.TB_HT.Size = new System.Drawing.Size(94, 23);
@@ -2609,42 +2676,86 @@ namespace PKHeX.WinForms.Controls
             this.TB_HT.TextChanged += new System.EventHandler(this.UpdateNotOT);
             this.TB_HT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
             // 
-            // Label_PrevOT
+            // UC_HTGender
             // 
-            this.Label_PrevOT.Location = new System.Drawing.Point(4, 23);
-            this.Label_PrevOT.Name = "Label_PrevOT";
-            this.Label_PrevOT.Size = new System.Drawing.Size(40, 13);
-            this.Label_PrevOT.TabIndex = 1;
-            this.Label_PrevOT.Text = "OT:";
-            this.Label_PrevOT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_PrevOT.Click += new System.EventHandler(this.ClickCT);
+            this.UC_HTGender.AllowClick = true;
+            this.UC_HTGender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UC_HTGender.BackgroundImage")));
+            this.UC_HTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.UC_HTGender.Gender = 0;
+            this.UC_HTGender.Location = new System.Drawing.Point(198, 0);
+            this.UC_HTGender.Margin = new System.Windows.Forms.Padding(0);
+            this.UC_HTGender.Name = "UC_HTGender";
+            this.UC_HTGender.Size = new System.Drawing.Size(24, 24);
+            this.UC_HTGender.TabIndex = 3;
             // 
-            // BTN_RerollEC
+            // FLP_HTLanguage
             // 
-            this.BTN_RerollEC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.BTN_RerollEC.Location = new System.Drawing.Point(200, 272);
-            this.BTN_RerollEC.Margin = new System.Windows.Forms.Padding(0);
-            this.BTN_RerollEC.Name = "BTN_RerollEC";
-            this.BTN_RerollEC.Size = new System.Drawing.Size(64, 24);
-            this.BTN_RerollEC.TabIndex = 42;
-            this.BTN_RerollEC.Text = "Reroll";
-            this.BTN_RerollEC.UseVisualStyleBackColor = true;
-            this.BTN_RerollEC.Click += new System.EventHandler(this.UpdateRandomEC);
+            this.FLP_HTLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_HTLanguage.Controls.Add(this.L_LanguageHT);
+            this.FLP_HTLanguage.Controls.Add(this.CB_HTLanguage);
+            this.FLP_HTLanguage.Location = new System.Drawing.Point(0, 256);
+            this.FLP_HTLanguage.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_HTLanguage.Name = "FLP_HTLanguage";
+            this.FLP_HTLanguage.Size = new System.Drawing.Size(272, 24);
+            this.FLP_HTLanguage.TabIndex = 11;
             // 
-            // GB_ExtraBytes
+            // L_LanguageHT
             // 
-            this.GB_ExtraBytes.Controls.Add(this.TB_ExtraByte);
-            this.GB_ExtraBytes.Controls.Add(this.CB_ExtraBytes);
-            this.GB_ExtraBytes.Location = new System.Drawing.Point(80, 200);
-            this.GB_ExtraBytes.Name = "GB_ExtraBytes";
-            this.GB_ExtraBytes.Size = new System.Drawing.Size(112, 48);
-            this.GB_ExtraBytes.TabIndex = 30;
-            this.GB_ExtraBytes.TabStop = false;
-            this.GB_ExtraBytes.Text = "Extra Bytes";
+            this.L_LanguageHT.Location = new System.Drawing.Point(0, 0);
+            this.L_LanguageHT.Margin = new System.Windows.Forms.Padding(0);
+            this.L_LanguageHT.Name = "L_LanguageHT";
+            this.L_LanguageHT.Size = new System.Drawing.Size(104, 24);
+            this.L_LanguageHT.TabIndex = 18;
+            this.L_LanguageHT.Text = "Language:";
+            this.L_LanguageHT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_HTLanguage
+            // 
+            this.CB_HTLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_HTLanguage.FormattingEnabled = true;
+            this.CB_HTLanguage.Location = new System.Drawing.Point(104, 0);
+            this.CB_HTLanguage.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_HTLanguage.Name = "CB_HTLanguage";
+            this.CB_HTLanguage.Size = new System.Drawing.Size(126, 23);
+            this.CB_HTLanguage.TabIndex = 4;
+            // 
+            // FLP_ExtraBytes
+            // 
+            this.FLP_ExtraBytes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_ExtraBytes.Controls.Add(this.L_ExtraBytes);
+            this.FLP_ExtraBytes.Controls.Add(this.CB_ExtraBytes);
+            this.FLP_ExtraBytes.Controls.Add(this.TB_ExtraByte);
+            this.FLP_ExtraBytes.Location = new System.Drawing.Point(0, 304);
+            this.FLP_ExtraBytes.Margin = new System.Windows.Forms.Padding(0, 24, 0, 8);
+            this.FLP_ExtraBytes.Name = "FLP_ExtraBytes";
+            this.FLP_ExtraBytes.Size = new System.Drawing.Size(272, 24);
+            this.FLP_ExtraBytes.TabIndex = 20;
+            // 
+            // L_ExtraBytes
+            // 
+            this.L_ExtraBytes.Location = new System.Drawing.Point(0, 0);
+            this.L_ExtraBytes.Margin = new System.Windows.Forms.Padding(0);
+            this.L_ExtraBytes.Name = "L_ExtraBytes";
+            this.L_ExtraBytes.Size = new System.Drawing.Size(128, 24);
+            this.L_ExtraBytes.TabIndex = 18;
+            this.L_ExtraBytes.Text = "Extra Bytes:";
+            this.L_ExtraBytes.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_ExtraBytes
+            // 
+            this.CB_ExtraBytes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_ExtraBytes.FormattingEnabled = true;
+            this.CB_ExtraBytes.Location = new System.Drawing.Point(128, 0);
+            this.CB_ExtraBytes.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_ExtraBytes.Name = "CB_ExtraBytes";
+            this.CB_ExtraBytes.Size = new System.Drawing.Size(64, 23);
+            this.CB_ExtraBytes.TabIndex = 1;
+            this.CB_ExtraBytes.SelectedIndexChanged += new System.EventHandler(this.UpdateExtraByteIndex);
             // 
             // TB_ExtraByte
             // 
-            this.TB_ExtraByte.Location = new System.Drawing.Point(72, 16);
+            this.TB_ExtraByte.Location = new System.Drawing.Point(200, 0);
+            this.TB_ExtraByte.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.TB_ExtraByte.Mask = "000";
             this.TB_ExtraByte.Name = "TB_ExtraByte";
             this.TB_ExtraByte.Size = new System.Drawing.Size(32, 23);
@@ -2652,78 +2763,63 @@ namespace PKHeX.WinForms.Controls
             this.TB_ExtraByte.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_ExtraByte.Validated += new System.EventHandler(this.UpdateExtraByteValue);
             // 
-            // CB_ExtraBytes
+            // L_HomeTracker
             // 
-            this.CB_ExtraBytes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_ExtraBytes.FormattingEnabled = true;
-            this.CB_ExtraBytes.Location = new System.Drawing.Point(8, 16);
-            this.CB_ExtraBytes.Name = "CB_ExtraBytes";
-            this.CB_ExtraBytes.Size = new System.Drawing.Size(57, 23);
-            this.CB_ExtraBytes.TabIndex = 1;
-            this.CB_ExtraBytes.SelectedIndexChanged += new System.EventHandler(this.UpdateExtraByteIndex);
+            this.L_HomeTracker.Location = new System.Drawing.Point(0, 336);
+            this.L_HomeTracker.Margin = new System.Windows.Forms.Padding(0);
+            this.L_HomeTracker.Name = "L_HomeTracker";
+            this.L_HomeTracker.Size = new System.Drawing.Size(128, 24);
+            this.L_HomeTracker.TabIndex = 30;
+            this.L_HomeTracker.Text = "HOME Tracker:";
+            this.L_HomeTracker.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // GB_OT
+            // TB_HomeTracker
             // 
-            this.GB_OT.Controls.Add(this.TID_Trainer);
-            this.GB_OT.Controls.Add(this.UC_OTGender);
-            this.GB_OT.Controls.Add(this.TB_OT);
-            this.GB_OT.Controls.Add(this.Label_OT);
-            this.GB_OT.Location = new System.Drawing.Point(40, 16);
-            this.GB_OT.Name = "GB_OT";
-            this.GB_OT.Size = new System.Drawing.Size(192, 72);
-            this.GB_OT.TabIndex = 10;
-            this.GB_OT.TabStop = false;
-            this.GB_OT.Text = "Trainer Information";
-            // 
-            // TID_Trainer
-            // 
-            this.TID_Trainer.Location = new System.Drawing.Point(8, 16);
-            this.TID_Trainer.Margin = new System.Windows.Forms.Padding(0);
-            this.TID_Trainer.Name = "TID_Trainer";
-            this.TID_Trainer.Size = new System.Drawing.Size(166, 24);
-            this.TID_Trainer.TabIndex = 1;
-            // 
-            // UC_OTGender
-            // 
-            this.UC_OTGender.AllowClick = true;
-            this.UC_OTGender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UC_OTGender.BackgroundImage")));
-            this.UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.UC_OTGender.Gender = 0;
-            this.UC_OTGender.Location = new System.Drawing.Point(144, 40);
-            this.UC_OTGender.Margin = new System.Windows.Forms.Padding(3, 2, 2, 1);
-            this.UC_OTGender.Name = "UC_OTGender";
-            this.UC_OTGender.Size = new System.Drawing.Size(24, 24);
-            this.UC_OTGender.TabIndex = 4;
-            // 
-            // TB_OT
-            // 
-            this.TB_OT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_OT.Location = new System.Drawing.Point(48, 40);
-            this.TB_OT.Margin = new System.Windows.Forms.Padding(0);
-            this.TB_OT.MaxLength = 12;
-            this.TB_OT.Name = "TB_OT";
-            this.TB_OT.Size = new System.Drawing.Size(94, 23);
-            this.TB_OT.TabIndex = 3;
-            this.TB_OT.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UpdateNicknameClick);
-            // 
-            // Label_OT
-            // 
-            this.Label_OT.Location = new System.Drawing.Point(8, 40);
-            this.Label_OT.Name = "Label_OT";
-            this.Label_OT.Size = new System.Drawing.Size(40, 24);
-            this.Label_OT.TabIndex = 2;
-            this.Label_OT.Text = "OT:";
-            this.Label_OT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_OT.Click += new System.EventHandler(this.ClickOT);
+            this.TB_HomeTracker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TB_HomeTracker.Location = new System.Drawing.Point(128, 338);
+            this.TB_HomeTracker.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.TB_HomeTracker.MaxLength = 16;
+            this.TB_HomeTracker.Name = "TB_HomeTracker";
+            this.TB_HomeTracker.PlaceholderText = "0123456789ABCDEF";
+            this.TB_HomeTracker.Size = new System.Drawing.Size(120, 20);
+            this.TB_HomeTracker.TabIndex = 31;
+            this.TB_HomeTracker.Validated += new System.EventHandler(this.Update_ID64);
             // 
             // Label_EncryptionConstant
             // 
-            this.Label_EncryptionConstant.Location = new System.Drawing.Point(0, 272);
+            this.Label_EncryptionConstant.Location = new System.Drawing.Point(0, 360);
+            this.Label_EncryptionConstant.Margin = new System.Windows.Forms.Padding(0);
             this.Label_EncryptionConstant.Name = "Label_EncryptionConstant";
             this.Label_EncryptionConstant.Size = new System.Drawing.Size(128, 24);
-            this.Label_EncryptionConstant.TabIndex = 40;
+            this.Label_EncryptionConstant.TabIndex = 32;
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TB_EC
+            // 
+            this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TB_EC.Location = new System.Drawing.Point(128, 362);
+            this.TB_EC.Margin = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.TB_EC.MaxLength = 8;
+            this.TB_EC.Name = "TB_EC";
+            this.TB_EC.PlaceholderText = "12345678";
+            this.TB_EC.Size = new System.Drawing.Size(64, 20);
+            this.TB_EC.TabIndex = 33;
+            this.TB_EC.Validated += new System.EventHandler(this.Update_ID);
+            // 
+            // BTN_RerollEC
+            // 
+            this.BTN_RerollEC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.BTN_RerollEC.Location = new System.Drawing.Point(192, 360);
+            this.BTN_RerollEC.Margin = new System.Windows.Forms.Padding(0);
+            this.BTN_RerollEC.Name = "BTN_RerollEC";
+            this.BTN_RerollEC.Size = new System.Drawing.Size(56, 24);
+            this.BTN_RerollEC.TabIndex = 34;
+            this.BTN_RerollEC.Text = "Reroll";
+            this.BTN_RerollEC.UseVisualStyleBackColor = true;
+            this.BTN_RerollEC.Click += new System.EventHandler(this.UpdateRandomEC);
             // 
             // TC_Editor
             // 
@@ -2851,9 +2947,6 @@ namespace PKHeX.WinForms.Controls
             this.FLP_EggPKRSRight.PerformLayout();
             this.FLP_PKRS.ResumeLayout(false);
             this.FLP_PKRSRight.ResumeLayout(false);
-            this.FLP_Country.ResumeLayout(false);
-            this.FLP_SubRegion.ResumeLayout(false);
-            this.FLP_3DSRegion.ResumeLayout(false);
             this.FLP_NSparkle.ResumeLayout(false);
             this.FLP_NSparkle.PerformLayout();
             this.FLP_ShadowID.ResumeLayout(false);
@@ -2911,13 +3004,19 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)(this.PB_Origin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_BattleVersion)).EndInit();
             this.Hidden_OTMisc.ResumeLayout(false);
-            this.Hidden_OTMisc.PerformLayout();
-            this.GB_nOT.ResumeLayout(false);
-            this.GB_nOT.PerformLayout();
-            this.GB_ExtraBytes.ResumeLayout(false);
-            this.GB_ExtraBytes.PerformLayout();
-            this.GB_OT.ResumeLayout(false);
-            this.GB_OT.PerformLayout();
+            this.FLP_OTMisc.ResumeLayout(false);
+            this.FLP_OTMisc.PerformLayout();
+            this.FLP_OT.ResumeLayout(false);
+            this.FLP_OT.PerformLayout();
+            this.FLP_Country.ResumeLayout(false);
+            this.FLP_SubRegion.ResumeLayout(false);
+            this.FLP_3DSRegion.ResumeLayout(false);
+            this.FLP_Handler.ResumeLayout(false);
+            this.FLP_HT.ResumeLayout(false);
+            this.FLP_HT.PerformLayout();
+            this.FLP_HTLanguage.ResumeLayout(false);
+            this.FLP_ExtraBytes.ResumeLayout(false);
+            this.FLP_ExtraBytes.PerformLayout();
             this.TC_Editor.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -3054,7 +3153,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button BTN_Medals;
         private System.Windows.Forms.Button BTN_History;
         private System.Windows.Forms.TextBox TB_EC;
-        private System.Windows.Forms.GroupBox GB_nOT;
         private System.Windows.Forms.TextBox TB_HT;
         private System.Windows.Forms.Label Label_PrevOT;
         private System.Windows.Forms.Button BTN_RerollEC;
@@ -3067,10 +3165,8 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.PictureBox PB_MarkShiny;
         private System.Windows.Forms.PictureBox PB_Mark1;
         private System.Windows.Forms.PictureBox PB_Mark4;
-        private System.Windows.Forms.GroupBox GB_ExtraBytes;
         private System.Windows.Forms.MaskedTextBox TB_ExtraByte;
         private System.Windows.Forms.ComboBox CB_ExtraBytes;
-        private System.Windows.Forms.GroupBox GB_OT;
         private System.Windows.Forms.TextBox TB_OT;
         private System.Windows.Forms.Label Label_OT;
         private System.Windows.Forms.Label Label_EncryptionConstant;
@@ -3108,8 +3204,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Label L_ObedienceLevel;
         private System.Windows.Forms.MaskedTextBox TB_ObedienceLevel;
         private System.Windows.Forms.Label L_FormArgument;
-        private System.Windows.Forms.Panel PAN_HandlerHT;
-        private System.Windows.Forms.Panel PAN_HandlerOT;
         private System.Windows.Forms.Label Label_MetLocation;
         private System.Windows.Forms.FlowLayoutPanel FLP_Moves;
         private MoveChoice MC_Move1;
@@ -3130,5 +3224,17 @@ namespace PKHeX.WinForms.Controls
         private ContestStat Contest;
         private TrainerID TID_Trainer;
         private System.Windows.Forms.Label CHK_Nicknamed;
+        private System.Windows.Forms.FlowLayoutPanel FLP_OTMisc;
+        private System.Windows.Forms.Label GB_OT;
+        private System.Windows.Forms.FlowLayoutPanel FLP_OT;
+        private System.Windows.Forms.Label GB_nOT;
+        private System.Windows.Forms.FlowLayoutPanel FLP_HT;
+        private System.Windows.Forms.FlowLayoutPanel FLP_HTLanguage;
+        private System.Windows.Forms.Label L_LanguageHT;
+        private System.Windows.Forms.FlowLayoutPanel FLP_ExtraBytes;
+        private System.Windows.Forms.Label L_ExtraBytes;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Handler;
+        private System.Windows.Forms.Label L_CurrentHandler;
+        private System.Windows.Forms.ComboBox CB_Handler;
     }
 }
