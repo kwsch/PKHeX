@@ -25,7 +25,7 @@ internal static class LearnVerifierHistory
     public static void MarkAndIterate(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc, PKM pk, EvolutionHistory history, ILearnGroup game,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (!pk.IsOriginalMovesetDeleted() && types.HasFlagFast(MoveSourceType.Encounter))
+        if (!pk.IsOriginalMovesetDeleted() && types.HasFlag(MoveSourceType.Encounter))
         {
             // Knock off relearn moves if available.
             if (pk.Format >= 6)
@@ -125,7 +125,7 @@ internal static class LearnVerifierHistory
             var move = current[i];
             if (move == 0)
                 result[i] = MoveResult.Empty;
-            else if (MoveInfo.IsValidSketch(move, pk.Context))
+            else if (MoveInfo.IsSketchValid(move, pk.Context))
                 result[i] = MoveResult.Sketch;
             else
                 result[i] = MoveResult.Unobtainable();

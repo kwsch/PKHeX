@@ -99,7 +99,7 @@ public sealed class BulkAnalysis
                 {
                     var tracker = home.Tracker;
                     if (Trackers.TryGetValue(tracker, out var clone))
-                        AddLine(cs, clone!, "Clone detected (Duplicate Tracker).", Encounter);
+                        AddLine(cs, clone, "Clone detected (Duplicate Tracker).", Encounter);
                     else
                         Trackers.Add(tracker, cs);
                 }
@@ -118,7 +118,7 @@ public sealed class BulkAnalysis
             }
 
             CloneFlags[i] = true;
-            AddLine(ps!, cs, "Clone detected (Details).", Encounter);
+            AddLine(ps, cs, "Clone detected (Details).", Encounter);
         }
     }
 
@@ -135,7 +135,7 @@ public sealed class BulkAnalysis
 
         foreach (var dupe in dupes)
         {
-            var tidGroup = dupe.GroupBy(z => z.Slot.Entity.TID | (z.Slot.Entity.SID << 16))
+            var tidGroup = dupe.GroupBy(z => z.Slot.Entity.TID16 | (z.Slot.Entity.SID16 << 16))
                 .Select(z => z.ToList())
                 .Where(z => z.Count >= 2).ToList();
             if (tidGroup.Count == 0)
@@ -160,7 +160,7 @@ public sealed class BulkAnalysis
             var id = cp.Entity.EncryptionConstant;
 
             var cr = new CombinedReference(cp, ca);
-            if (!dict.TryGetValue(id, out var pa) || pa is null)
+            if (!dict.TryGetValue(id, out var pa))
             {
                 dict.Add(id, cr);
                 continue;
@@ -182,7 +182,7 @@ public sealed class BulkAnalysis
             var id = g345 ? cp.Entity.EncryptionConstant : cp.Entity.PID;
 
             var cr = new CombinedReference(cp, ca);
-            if (!dict.TryGetValue(id, out var pr) || pr is null)
+            if (!dict.TryGetValue(id, out var pr))
             {
                 dict.Add(id, cr);
                 continue;
@@ -203,8 +203,6 @@ public sealed class BulkAnalysis
             var withOT = tr.IsFromTrainer(pk);
             var flag = pk.CurrentHandler;
             var expect = withOT ? 0 : 1;
-            if (pk.Version == 0)
-                expect = 0;
             if (flag != expect)
                 AddLine(cs, LegalityCheckStrings.LTransferCurrentHandlerInvalid, CheckIdentifier.Trainer);
 
@@ -222,17 +220,16 @@ public sealed class BulkAnalysis
 
     private void CheckIDReuse()
     {
-        var dict = new Dictionary<int, CombinedReference>();
+        var dict = new Dictionary<uint, CombinedReference>();
         for (int i = 0; i < AllData.Count; i++)
         {
             if (CloneFlags[i])
                 continue; // already flagged
             var cs = AllData[i];
             var ca = AllAnalysis[i];
-            var id = cs.Entity.TID + (cs.Entity.SID << 16);
-            Debug.Assert(cs.Entity.TID <= ushort.MaxValue);
+            var id = cs.Entity.ID32;
 
-            if (!dict.TryGetValue(id, out var pr) || pr is null)
+            if (!dict.TryGetValue(id, out var pr))
             {
                 var r = new CombinedReference(cs, ca);
                 dict.Add(id, r);
@@ -241,7 +238,7 @@ public sealed class BulkAnalysis
 
             var pa = pr.Analysis;
             // ignore GB era collisions
-            // a 16bit TID can reasonably occur for multiple trainers, and versions 
+            // a 16bit TID16 can reasonably occur for multiple trainers, and versions 
             if (ca.Info.Generation <= 2 && pa.Info.Generation <= 2)
                 continue;
 
@@ -334,19 +331,19 @@ public sealed class BulkAnalysis
         var pp = ps.Entity;
         var cp = cs.Entity;
 
-        // 32bit ID-SID should only occur for one generation
-        // Trainer-ID-SID should only occur for one version
+        // 32bit ID-SID16 should only occur for one generation
+        // Trainer-ID-SID16 should only occur for one version
         if (IsSharedVersion(pp, pa, cp, ca))
         {
-            AddLine(ps, cs, "TID sharing across versions detected.", ident);
+            AddLine(ps, cs, "TID16 sharing across versions detected.", ident);
             return true;
         }
 
-        // ID-SID should only occur for one Trainer name
+        // ID-SID16 should only occur for one Trainer name
         if (pp.OT_Name != cp.OT_Name)
         {
             var severity = ca.Info.Generation == 4 ? Severity.Fishy : Severity.Invalid;
-            AddLine(ps, cs, "TID sharing across different trainer names detected.", ident, severity);
+            AddLine(ps, cs, "TID16 sharing across different trainer names detected.", ident, severity);
         }
 
         return false;
@@ -362,7 +359,7 @@ public sealed class BulkAnalysis
             return false;
 
         // Gen3/4 traded eggs do not have an Egg Location, and do not update the Version upon hatch.
-        // These eggs can obtain another trainer's TID/SID/OT and be valid with a different version ID.
+        // These eggs can obtain another trainer's TID16/SID16/OT and be valid with a different version ID.
         if (pa.EncounterMatch.EggEncounter && IsTradedEggVersionNoUpdate(pp, pa))
             return false; // version doesn't update on trade
         if (ca.EncounterMatch.EggEncounter && IsTradedEggVersionNoUpdate(cp, ca))

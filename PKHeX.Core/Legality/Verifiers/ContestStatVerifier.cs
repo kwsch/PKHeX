@@ -22,8 +22,8 @@ public sealed class ContestStatVerifier : Verifier
             return;
 
         // Check the correlation of Stats & Sheen!
-        // In generations 3,4 and BDSP, blocks/poffins have a feel(sheen) equal to sheen=sum(stats)/5, with +/- 10% for a favored stat.
-        // In generation 6 (ORAS), they don't award any sheen, so any value is legal.
+        // In generations 3,4 and BD/SP, blocks/poffins have a feel(sheen) equal to sheen=sum(stats)/5, with +/- 10% for a favored stat.
+        // In generation 6 (OR/AS), they don't award any sheen, so any value is legal.
 
         var correlation = GetContestStatRestriction(pk, data.Info.Generation, data.Info.EvoChainsAllGens);
         if (correlation == None)

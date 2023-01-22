@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -13,7 +13,7 @@ public sealed class BV6 : BattleVideo
     private readonly byte[] Data;
     private const int PlayerCount = 4;
 
-    public override IReadOnlyList<PKM> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
+    public override IReadOnlyList<PK6> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
     public override int Generation => 6;
 
     internal new static bool IsValid(ReadOnlySpan<byte> data)
@@ -30,13 +30,13 @@ public sealed class BV6 : BattleVideo
     public string Debug1
     {
         get => StringConverter6.GetString(Data.AsSpan(0x6, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x6, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(0x6, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
     public string Debug2
     {
         get => StringConverter6.GetString(Data.AsSpan(0x50, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x50, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(0x50, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
     public ulong RNGConst1 { get => ReadUInt64LittleEndian(Data.AsSpan(0x1A0)); set => WriteUInt64LittleEndian(Data.AsSpan(0x1A0), value); }
@@ -70,15 +70,15 @@ public sealed class BV6 : BattleVideo
         {
             var span = Data.AsSpan(0xEC + (0x1A * i), 0x1A);
             string tr = value[i] == NPC ? string.Empty : value[i];
-            StringConverter6.SetString(span, tr.AsSpan(), 12, StringConverterOption.ClearZero);
+            StringConverter6.SetString(span, tr, 12, StringConverterOption.ClearZero);
         }
     }
 
-    public IReadOnlyList<PKM[]> PlayerTeams
+    public IReadOnlyList<PK6[]> PlayerTeams
     {
         get
         {
-            var Teams = new PKM[PlayerCount][];
+            var Teams = new PK6[PlayerCount][];
             for (int t = 0; t < PlayerCount; t++)
                 Teams[t] = GetTeam(t);
             return Teams;
@@ -91,9 +91,9 @@ public sealed class BV6 : BattleVideo
         }
     }
 
-    public PKM[] GetTeam(int t)
+    public PK6[] GetTeam(int t)
     {
-        var team = new PKM[6];
+        var team = new PK6[6];
         const int start = 0xE18;
         for (int p = 0; p < 6; p++)
         {
@@ -105,7 +105,7 @@ public sealed class BV6 : BattleVideo
         return team;
     }
 
-    public void SetTeam(IReadOnlyList<PKM> team, int t)
+    public void SetTeam(IReadOnlyList<PK6> team, int t)
     {
         const int start = 0xE18;
         for (int p = 0; p < 6; p++)

@@ -6,15 +6,15 @@ namespace PKHeX.Core;
 
 /// <inheritdoc cref="EncounterArea" />
 /// <summary>
-/// <see cref="GameVersion.SWSH"/> encounter area
+/// <see cref="GameVersion.SV"/> encounter area
 /// </summary>
 public sealed record EncounterArea9 : EncounterArea
 {
     public readonly EncounterSlot9[] Slots;
 
-    public ushort CrossFrom { get; init; }
+    public ushort CrossFrom { get; }
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot9> Raw => Slots;
 
     public static EncounterArea9[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -51,7 +51,7 @@ public sealed record EncounterArea9 : EncounterArea
         return result;
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot9> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         var lvl = pk.Met_Level;
         foreach (var slot in Slots)

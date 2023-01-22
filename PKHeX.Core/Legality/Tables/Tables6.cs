@@ -146,9 +146,6 @@ public static partial class Legal
     internal static readonly ushort[] HeldItem_AO = ArrayUtil.ConcatAll(Pouch_Items_AO, Pouch_Medicine_AO, Pouch_Berry_XY);
     #endregion
 
-    #region TMHM
-
-    #endregion
 
     internal static readonly HashSet<ushort> ValidMet_XY = new()
     {

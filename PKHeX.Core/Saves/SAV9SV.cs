@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -52,7 +53,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     protected override void SetChecksums() { } // None!
     protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
-    public override IPersonalTable Personal => PersonalTable.SV;
+    public override PersonalTable9SV Personal => PersonalTable.SV;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SV;
 
     #region Blocks
@@ -77,12 +78,12 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
     #endregion
 
-    protected override SaveFile CloneInternal()
+    protected override SAV9SV CloneInternal()
     {
         var blockCopy = new SCBlock[AllBlocks.Count];
         for (int i = 0; i < AllBlocks.Count; i++)
             blockCopy[i] = AllBlocks[i].Clone();
-        return new SAV9SV(blockCopy);
+        return new(blockCopy);
     }
 
     public override ushort MaxMoveID => Legal.MaxMoveID_9;
@@ -110,7 +111,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     protected override int SIZE_STORED => PokeCrypto.SIZE_9STORED;
     protected override int SIZE_PARTY  => PokeCrypto.SIZE_9PARTY;
     public override int SIZE_BOXSLOT   => PokeCrypto.SIZE_9PARTY;
-    public override PKM BlankPKM => new PK9();
+    public override PK9 BlankPKM => new();
     public override Type PKMType => typeof(PK9);
 
     public override int BoxCount => BoxLayout9.BoxCount;
@@ -119,7 +120,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override EntityContext Context => EntityContext.Gen9;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
-    protected override PKM GetPKM(byte[] data) => new PK9(data);
+    protected override PK9 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray9(data);
 
     public override GameVersion Version => Game switch
@@ -134,8 +135,9 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         => StringConverter8.SetString(destBuffer, value, maxLength, option);
 
     // Player Information
-    public override int TID { get => MyStatus.TID; set => MyStatus.TID = value; }
-    public override int SID { get => MyStatus.SID; set => MyStatus.SID = value; }
+    public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
+    public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
+    public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
     public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
     public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
@@ -154,7 +156,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
     public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
     public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
     protected override void SetPKM(PKM pk, bool isParty = false)
@@ -217,8 +219,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     protected override byte[] BoxBuffer => BoxInfo.Data;
     protected override byte[] PartyBuffer => PartyInfo.Data;
-    public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
+    public override PK9 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public override PK9 GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
 
     //public int GetRecord(int recordID) => Records.GetRecord(recordID);
     //public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
@@ -287,7 +289,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         {
             for (int f = 1; f <= 8; f++)
             {
-                var flag = $"FEVT_SUB_{i:000}_KUI_{f:00}_RELEASE".AsSpan();
+                var flag = $"FEVT_SUB_{i:000}_KUI_{f:00}_RELEASE";
                 var hash = (uint)FnvHash.HashFnv1a_64(flag);
                 var block = Accessor.GetBlock(hash);
                 block.ChangeBooleanType(SCTypeCode.Bool2);
@@ -310,7 +312,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         for (int i = 1; i <= 171; i++)
         {
-            var flag = $"FSYS_UI_WAZA_MACHINE_RELEASE_{i:000}".AsSpan();
+            var flag = $"FSYS_UI_WAZA_MACHINE_RELEASE_{i:000}";
             var hash = (uint)FnvHash.HashFnv1a_64(flag);
             var block = Accessor.GetBlock(hash);
             block.ChangeBooleanType(SCTypeCode.Bool2);

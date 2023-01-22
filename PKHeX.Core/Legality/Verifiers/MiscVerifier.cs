@@ -6,7 +6,7 @@ using static PKHeX.Core.CheckIdentifier;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Verifies miscellaneous data including <see cref="PKM.FatefulEncounter"/> and minor values.
+/// Verifies miscellaneous data including <see cref="IFatefulEncounter.FatefulEncounter"/> and minor values.
 /// </summary>
 public sealed class MiscVerifier : Verifier
 {
@@ -74,12 +74,12 @@ public sealed class MiscVerifier : Verifier
         var enc = data.EncounterMatch;
         if (enc is IEncounterServerDate { IsDateRestricted: true } serverGift)
         {
-            var date = new DateTime(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
+            var date = new DateOnly(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
 
             // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
             if (enc is WB8 { CardID: 9015 or 9016 or 9017 } or WA8 { CardID: 9018 or 9019 or 9020 })
             {
-                if (date < new DateTime(2022, 5, 20) && pk.Language != (int)LanguageID.Japanese)
+                if (date < new DateOnly(2022, 5, 20) && pk.Language != (int)LanguageID.Japanese)
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
             }
 
@@ -142,7 +142,7 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
 
         var enc = data.EncounterOriginal;
-        if (CheckHeightWeightOdds(enc) && pk9.HeightScalar == 0 && pk9.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+        if (CheckHeightWeightOdds(enc) && pk9 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
             data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
 
         if (enc is EncounterEgg g && UnreleasedSV.Contains(g.Species | g.Form << 11))
@@ -158,6 +158,12 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LTeraTypeMismatch));
         if (pk9.IsEgg && pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
             data.AddLine(GetInvalid(LTeraTypeIncorrect));
+
+        if (enc is ITeraRaid9)
+        {
+            var seed = Tera9RNG.GetOriginalSeed(pk9);
+            data.Info.PIDIV = new PIDIV(PIDType.Tera9, seed);
+        }
 
         VerifyTechRecordSV(data, pk9);
     }
@@ -331,7 +337,7 @@ public sealed class MiscVerifier : Verifier
         var enc = data.EncounterMatch;
         switch (enc)
         {
-            case WC3 {Fateful: true} w:
+            case WC3 {FatefulEncounter: true} w:
                 if (w.IsEgg)
                 {
                     // Eggs hatched in RS clear the obedience flag!
@@ -354,9 +360,7 @@ public sealed class MiscVerifier : Verifier
                 VerifyReceivability(data, g);
                 VerifyFatefulMysteryGift(data, g);
                 return;
-            case EncounterStatic {Fateful: true}: // ingame fateful
-            case EncounterSlot3PokeSpot: // ingame pokespot
-            case EncounterTrade4RanchSpecial: // ranch varied PID
+            case IFatefulEncounterReadOnly {FatefulEncounter: true}: // ingame fateful
                 VerifyFatefulIngameActive(data);
                 return;
         }
@@ -466,18 +470,11 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(LPIDTypeMismatch, PID));
         }
 
-        bool shouldHave = GetFatefulState(g);
+        bool shouldHave = g.FatefulEncounter;
         var result = pk.FatefulEncounter == shouldHave
             ? GetValid(LFatefulMystery, Fateful)
             : GetInvalid(LFatefulMysteryMissing, Fateful);
         data.AddLine(result);
-    }
-
-    private static bool GetFatefulState(MysteryGift g)
-    {
-        if (g is WC6 {IsLinkGift: true})
-            return false; // Pokémon Link fake-gifts do not have Fateful
-        return true;
     }
 
     private static void VerifyReceivability(LegalityAnalysis data, MysteryGift g)
@@ -641,7 +638,7 @@ public sealed class MiscVerifier : Verifier
                 data.AddLine(GetInvalid(LStatDynamaxInvalid));
         }
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pk8.HeightScalar == 0 && pk8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pk8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
             data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pk8);
@@ -675,7 +672,7 @@ public sealed class MiscVerifier : Verifier
         if (pa8.GetMoveRecordFlagAny() && !pa8.IsEgg) // already checked for eggs
             data.AddLine(GetInvalid(LEggRelearnFlags));
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pa8.HeightScalar == 0 && pa8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pa8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
             data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pa8);
@@ -715,7 +712,7 @@ public sealed class MiscVerifier : Verifier
         if (pb8.GetMoveRecordFlagAny() && !pb8.IsEgg) // already checked for eggs
             data.AddLine(GetInvalid(LEggRelearnFlags));
 
-        if (CheckHeightWeightOdds(data.EncounterMatch) && pb8.HeightScalar == 0 && pb8.WeightScalar == 0 && ParseSettings.ZeroHeightWeight != Severity.Valid)
+        if (CheckHeightWeightOdds(data.EncounterMatch) && pb8 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
             data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
 
         VerifyTechRecordSWSH(data, pb8);
@@ -742,11 +739,12 @@ public sealed class MiscVerifier : Verifier
 
     private void VerifyTechRecordSWSH<T>(LegalityAnalysis data, T pk) where T : PKM, ITechRecord
     {
-        static string GetMoveName(int index) => ParseSettings.MoveStrings[LearnSource8SWSH.TR_SWSH[index]];
+        string GetMoveName(int index) => ParseSettings.MoveStrings[pk.Permit.RecordPermitIndexes[index]];
         var evos = data.Info.EvoChainsAllGens.Gen8;
         if (evos.Length == 0)
         {
-            for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
+            var count = pk.Permit.RecordCountUsed;
+            for (int i = 0; i < count; i++)
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
@@ -757,11 +755,12 @@ public sealed class MiscVerifier : Verifier
         {
             static PersonalInfo8SWSH GetPersonal(EvoCriteria evo) => PersonalTable.SWSH.GetFormEntry(evo.Species, evo.Form);
             PersonalInfo8SWSH? pi = null;
-            for (int i = 0; i < PersonalInfo8SWSH.CountTR; i++)
+            var count = pk.Permit.RecordCountUsed;
+            for (int i = 0; i < count; i++)
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                if ((pi ??= GetPersonal(evos[0])).TMHM[i + PersonalInfo8SWSH.CountTM])
+                if ((pi ??= GetPersonal(evos[0])).GetIsLearnTR(i))
                     continue;
 
                 // Calyrex-0 can have TR flags for Calyrex-1/2 after it has force unlearned them.
@@ -783,16 +782,17 @@ public sealed class MiscVerifier : Verifier
     private static bool CanLearnTR(ushort species, byte form, int tr)
     {
         var pi = PersonalTable.SWSH.GetFormEntry(species, form);
-        return pi.TMHM[tr + PersonalInfo8SWSH.CountTM];
+        return pi.GetIsLearnTR(tr);
     }
 
     private void VerifyTechRecordSV(LegalityAnalysis data, PK9 pk)
     {
-        static string GetMoveName(int index) => ParseSettings.MoveStrings[LearnSource9SV.TM_SV[index]];
+        string GetMoveName(int index) => ParseSettings.MoveStrings[pk.Permit.RecordPermitIndexes[index]];
         var evos = data.Info.EvoChainsAllGens.Gen9;
         if (evos.Length == 0)
         {
-            for (int i = 0; i < PersonalInfo9SV.CountTM; i++)
+            int count = pk.Permit.RecordCountUsed;
+            for (int i = 0; i < count; i++)
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
@@ -803,11 +803,12 @@ public sealed class MiscVerifier : Verifier
         {
             static PersonalInfo9SV GetPersonal(EvoCriteria evo) => PersonalTable.SV.GetFormEntry(evo.Species, evo.Form);
             PersonalInfo9SV? pi = null;
-            for (int i = 0; i < PersonalInfo9SV.CountTM; i++)
+            int count = pk.Permit.RecordCountUsed;
+            for (int i = 0; i < count; i++)
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                if ((pi ??= GetPersonal(evos[0])).TMHM[i])
+                if ((pi ??= GetPersonal(evos[0])).GetIsLearnTM(i))
                     continue;
 
                 // Zoroark-0 cannot learn Encore via TM, but the pre-evolution Zorua-0 can via TM.
@@ -815,7 +816,7 @@ public sealed class MiscVerifier : Verifier
                 bool preEvoHas = false;
                 for (int p = 1; p < evos.Length; p++)
                 {
-                    if (!GetPersonal(evos[p]).TMHM[i])
+                    if (!GetPersonal(evos[p]).GetIsLearnTM(i))
                         continue;
                     preEvoHas = true;
                     break;

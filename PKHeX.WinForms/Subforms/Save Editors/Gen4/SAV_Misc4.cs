@@ -148,8 +148,8 @@ public partial class SAV_Misc4 : Form
 
         if (ofsUGFlagCount > 0)
         {
-            uint fc = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & 0xFFFFF;
-            NUD_UGFlags.Value = fc > 999999 ? 999999 : fc;
+            uint flagCount = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & 0xFFFFF;
+            NUD_UGFlags.Value = Math.Clamp(flagCount, 0, 999_999);
         }
         if (ofsMap > 0)
         {
@@ -170,9 +170,9 @@ public partial class SAV_Misc4 : Form
             if (FlyDestC[i] < 32)
             {
                 if (CLB_FlyDest.GetItemChecked(i))
-                    valFly |= (uint) 1 << FlyDestC[i];
+                    valFly |= 1u << FlyDestC[i];
                 else
-                    valFly &= ~((uint) 1 << FlyDestC[i]);
+                    valFly &= ~(1u << FlyDestC[i]);
             }
             else
             {
@@ -210,7 +210,7 @@ public partial class SAV_Misc4 : Form
 
     #region Poketch
     private byte[] DotArtistByte = null!;
-    private byte[] ColorTable = null!;
+    private static ReadOnlySpan<byte> ColorTable => new byte[] { 248, 168, 88, 8 };
 
     private void ReadPoketch(SAV4Sinnoh s)
     {
@@ -227,7 +227,6 @@ public partial class SAV_Misc4 : Form
         }
 
         DotArtistByte = s.GetPoketchDotArtistData();
-        ColorTable = new byte[] { 248, 168, 88, 8 };
         SetPictureBoxFromFlags(DotArtistByte);
         string tip = "Guide about D&D ImageFile Format";
         tip += Environment.NewLine + " width = 24px";
@@ -256,7 +255,7 @@ public partial class SAV_Misc4 : Form
         PB_DotArtist.Image = GetDotArt(inp);
     }
 
-    private Bitmap GetDotArt(ReadOnlySpan<byte> inp)
+    private static Bitmap GetDotArt(ReadOnlySpan<byte> inp)
     {
         byte[] dupbyte = new byte[23040];
         for (int iy = 0; iy < 20; iy++)
@@ -386,16 +385,8 @@ public partial class SAV_Misc4 : Form
 
     private void SetFlagsFromClickPoint(int inpX, int inpY)
     {
-        static int Clamp(int value, int min, int max)
-        {
-            if (value < min)
-                return min;
-            if (value > max)
-                return max;
-            return value;
-        }
-        inpX = Clamp(inpX, 0, 95);
-        inpY = Clamp(inpY, 0, 79);
+        inpX = Math.Clamp(inpX, 0, 95);
+        inpY = Math.Clamp(inpY, 0, 79);
         int i = (inpX >> 2) + (24 * (inpY >> 2));
         byte[] ndab = new byte[120];
         DotArtistByte.CopyTo(ndab, 0);

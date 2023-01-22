@@ -17,7 +17,7 @@ public sealed record EncounterArea8g : EncounterArea, ISpeciesForm
     public byte Form { get; }
     public readonly EncounterSlot8GO[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot8GO> Raw => Slots;
 
     private EncounterArea8g(ushort species, byte form, EncounterSlot8GO[] slots) : base(GameVersion.GO)
     {
@@ -68,21 +68,23 @@ public sealed record EncounterArea8g : EncounterArea, ISpeciesForm
         return new EncounterSlot8GO(area, species, form, start, end, shiny, gender, type, format);
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot8GO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
-        if (pk.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
-            yield break;
-
         // Find the first chain that has slots defined.
         // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
         // PoGoEncTool has already extrapolated the evolutions to separate encounters!
         var sf = FindCriteriaToIterate(pk, chain);
         if (sf == default)
-            yield break;
+            return Array.Empty<EncounterSlot8GO>();
 
+        return GetMatchingSlots(pk, sf);
+    }
+
+    public IEnumerable<EncounterSlot8GO> GetMatchingSlots(PKM pk, EvoCriteria evo)
+    {
         var species = pk.Species;
         var ball = (Ball)pk.Ball;
-        var met = Math.Max(sf.LevelMin, pk.Met_Level);
+        var met = Math.Max(evo.LevelMin, pk.Met_Level);
         EncounterSlot8GO? deferredIV = null;
 
         foreach (var slot in Slots)

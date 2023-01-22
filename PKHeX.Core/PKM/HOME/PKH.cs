@@ -6,7 +6,7 @@ using static PKHeX.Core.Locations;
 namespace PKHeX.Core;
 
 /// <summary> Pokémon HOME <see cref="PKM"/> format. </summary>
-public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed, IContestStats, IScaledSize
+public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IRibbonSetAffixed, IContestStats, IScaledSize, IRibbonSetRibbons, IRibbonSetMarks
 {
     public readonly GameDataCore _coreData;
     public GameDataPB7? DataPB7 { get; private set; }
@@ -68,8 +68,9 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public override uint EncryptionConstant { get => _coreData.EncryptionConstant; set => _coreData.EncryptionConstant = value; }
     public bool IsBadEgg { get => _coreData.IsBadEgg; set => _coreData.IsBadEgg = value; }
     public override ushort Species { get => _coreData.Species; set => _coreData.Species = value; }
-    public override int TID { get => _coreData.TID; set => _coreData.TID = value; }
-    public override int SID { get => _coreData.SID; set => _coreData.SID = value; }
+    public override uint ID32 { get => _coreData.ID32; set => _coreData.ID32 = value; }
+    public override ushort TID16 { get => _coreData.TID16; set => _coreData.TID16 = value; }
+    public override ushort SID16 { get => _coreData.SID16; set => _coreData.SID16 = value; }
     public override uint EXP { get => _coreData.EXP; set => _coreData.EXP = value; }
     public override int Ability { get => _coreData.Ability; set => _coreData.Ability = value; }
     public override int AbilityNumber { get => _coreData.AbilityNumber; set => _coreData.AbilityNumber = value; }
@@ -151,6 +152,9 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
     public override string HT_Name { get => _coreData.HT_Name; set => _coreData.HT_Name = value; }
 
     public override int MarkingCount => _coreData.MarkingCount;
+    public int RibbonCount => _coreData.RibbonCount;
+    public int MarkCount => _coreData.MarkCount;
+    public int RibbonMarkCount => _coreData.RibbonMarkCount;
     public override int GetMarking(int index) => _coreData.GetMarking(index);
     public override void SetMarking(int index, int value) => _coreData.SetMarking(index, value);
 
@@ -160,8 +164,8 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
 
     public override int CurrentFriendship { get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship; set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; } }
 
-    public override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
-    public override int TSV => (TID ^ SID) >> 4;
+    public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;
+    public override uint TSV => (uint)(TID16 ^ SID16) >> 4;
 
     public override int Characteristic
     {
@@ -283,7 +287,7 @@ public class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVers
         }
     }
 
-    public override PKM Clone() => new PKH((byte[])Data.Clone())
+    public override PKH Clone() => new((byte[])Data.Clone())
     {
         DataPK8 = DataPK8?.Clone(),
         DataPA8 = DataPA8?.Clone(),

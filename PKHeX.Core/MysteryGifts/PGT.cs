@@ -11,6 +11,8 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public const int Size = 0x104; // 260
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
+    public override bool FatefulEncounter => IsManaphyEgg || PK.FatefulEncounter;
+    public override GameVersion Version { get => (GameVersion)PK.Version; set => PK.Version = (int)value; }
 
     public override byte Level
     {
@@ -116,8 +118,9 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override bool IsShiny => PK.IsShiny;
     public override int Gender { get => PK.Gender; set => PK.Gender = value; }
     public override byte Form { get => PK.Form; set => PK.Form = value; }
-    public override int TID { get => (ushort)PK.TID; set => PK.TID = value; }
-    public override int SID { get => (ushort)PK.SID; set => PK.SID = value; }
+    public override uint ID32 { get => PK.ID32; set => PK.ID32= value; }
+    public override ushort TID16 { get => PK.TID16; set => PK.TID16 = value; }
+    public override ushort SID16 { get => PK.SID16; set => PK.SID16 = value; }
     public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
     public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
     public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
@@ -128,7 +131,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
             PK.GetIVs(value);
     }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
@@ -138,8 +141,8 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         if (!IsHatched && Detail == 0)
         {
             pk4.OT_Name = tr.OT;
-            pk4.TID = tr.TID;
-            pk4.SID = tr.SID;
+            pk4.TID16 = tr.TID16;
+            pk4.SID16 = tr.SID16;
             pk4.OT_Gender = tr.Gender;
             pk4.Language = tr.Language;
         }
@@ -163,7 +166,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         {
             pk4.Met_Location = pk4.Egg_Location + 3000;
             pk4.Egg_Location = 0;
-            pk4.MetDate = DateTime.Now;
+            pk4.MetDate = DateOnly.FromDateTime(DateTime.Now);
             pk4.IsEgg = false;
         }
         else
@@ -237,7 +240,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         pk4.IsEgg = false;
         // Met Location & Date is modified when transferred to pk5; don't worry about it.
-        pk4.EggMetDate = DateTime.Now;
+        pk4.EggMetDate = DateOnly.FromDateTime(DateTime.Now);
     }
 
     private void SetUnhatchedEggDetails(PK4 pk4)
@@ -245,7 +248,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         pk4.IsEgg = true;
         pk4.IsNicknamed = false;
         pk4.Nickname = SpeciesName.GetEggName(pk4.Language, Generation);
-        pk4.EggMetDate = DateTime.Now;
+        pk4.EggMetDate = DateOnly.FromDateTime(DateTime.Now);
     }
 
     private static uint GeneratePID(uint seed, PK4 pk4)

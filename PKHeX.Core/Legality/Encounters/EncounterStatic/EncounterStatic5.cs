@@ -11,6 +11,8 @@ public record EncounterStatic5(GameVersion Version) : EncounterStatic(Version)
     public bool Roaming { get; init; }
     public bool IsWildCorrelationPID => !Roaming && Shiny == Shiny.Random && Species != (int)Core.Species.Crustle;
 
+    public bool EntreeForestDreamWorld => Location == 75;
+
     protected sealed override bool IsMatchPartial(PKM pk)
     {
         // BW/2 Jellicent collision with wild surf slot, resolved by duplicating the encounter with any abil

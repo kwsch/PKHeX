@@ -36,8 +36,8 @@ public sealed class Roamer3 : IContestStats
 
     public ushort Species
     {
-        get => SpeciesConverter.GetG4Species(ReadUInt16LittleEndian(Data.AsSpan(Offset + 8)));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 8), SpeciesConverter.GetG3Species(value));
+        get => SpeciesConverter.GetNational3(ReadUInt16LittleEndian(Data.AsSpan(Offset + 8)));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 8), SpeciesConverter.GetInternal3(value));
     }
 
     public int HP_Current
@@ -98,7 +98,8 @@ public sealed class Roamer3 : IContestStats
     /// <returns>Indication if the PID is shiny for the trainer.</returns>
     public bool IsShiny(uint pid)
     {
-        var xor = (ushort)(SAV.SID ^ SAV.TID ^ (pid >> 16) ^ pid);
+        var tmp = SAV.ID32 ^ pid;
+        var xor = (tmp >> 16) ^ (tmp & 0xFFFF);
         return xor < 8;
     }
 

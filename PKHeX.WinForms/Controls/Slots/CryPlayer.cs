@@ -44,7 +44,7 @@ public sealed class CryPlayer
 
     private static string GetCryFileName(ISpeciesForm pk, EntityContext context)
     {
-        if (pk.Species == (int)Species.Urshifu && pk.Form == 1) // same sprite for both forms, but different cries
+        if (pk is { Species: (int)Species.Urshifu, Form: 1 }) // same sprite for both forms, but different cries
             return "892-1";
 
         // don't grab sprite of pk, no gender specific cries

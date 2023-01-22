@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 public static class EntityGender
@@ -7,7 +9,7 @@ public static class EntityGender
     /// </summary>
     /// <param name="s">Gender string</param>
     /// <returns>Gender integer</returns>
-    public static int GetFromString(string s)
+    public static int GetFromString(ReadOnlySpan<char> s)
     {
         if (s.Length != 1)
             return 2;
@@ -33,11 +35,11 @@ public static class EntityGender
     /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
     public static int GetFromPID(ushort species, uint pid)
     {
-        int gt = PKX.Personal[species].Gender;
+        var gt = PKX.Personal[species].Gender;
         return GetFromPIDAndRatio(pid, gt);
     }
 
-    public static int GetFromPIDAndRatio(uint pid, int gr) => gr switch
+    public static int GetFromPIDAndRatio(uint pid, byte gr) => gr switch
     {
         PersonalInfo.RatioMagicGenderless => 2,
         PersonalInfo.RatioMagicFemale => 1,

@@ -34,7 +34,7 @@ public sealed class PL6
     /// <summary>
     /// Name of data source
     /// </summary>
-    public string Origin { get => StringConverter6.GetString(Data.AsSpan(0x01, 110)); set => StringConverter6.SetString(Data.AsSpan(0x01, 110), value.AsSpan(), 54, StringConverterOption.ClearZero); }
+    public string Origin { get => StringConverter6.GetString(Data.AsSpan(0x01, 110)); set => StringConverter6.SetString(Data.AsSpan(0x01, 110), value, 54, StringConverterOption.ClearZero); }
 
     // Pokemon transfer flags?
     public uint Flags_1 { get => ReadUInt32LittleEndian(Data.AsSpan(0x099)); set => WriteUInt32LittleEndian(Data.AsSpan(0x099), value); }
@@ -86,8 +86,8 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public PL6_PKM() : this(new byte[Size]) { }
     public PL6_PKM(byte[] data) => Data = data;
 
-    public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
-    public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value); }
+    public int TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
+    public int SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), (ushort)value); }
     public int OriginGame { get => Data[0x04]; set => Data[0x04] = (byte)value; }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(0x08), value); }
     public int Ball { get => Data[0xE]; set => Data[0xE] = (byte)value; }
@@ -103,7 +103,7 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public string Nickname
     {
         get => StringConverter6.GetString(Data.AsSpan(0x1E, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x1E, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(0x1E, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
     public int Nature { get => Data[0x38]; set => Data[0x38] = (byte)value; }
@@ -133,7 +133,7 @@ public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo
     public string OT
     {
         get => StringConverter6.GetString(Data.AsSpan(0x4E, 0x1A));
-        set => StringConverter6.SetString(Data.AsSpan(0x4E, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(0x4E, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
     public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }

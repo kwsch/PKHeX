@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -26,7 +26,7 @@ public sealed class Daycare5 : SaveBlock<SAV5>
         return ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x1CC));
     }
 
-    public void SetSeed(string value)
+    public void SetSeed(ReadOnlySpan<char> value)
     {
         if (SAV is not SAV5B2W2)
             return;

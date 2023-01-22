@@ -17,7 +17,7 @@ Les données sont affichées dans une vue qui peut être modifiée et enregistr�
 
 Les ensembles Pokémon Showdown et les QR codes peuvent être importés/exportés pour faciliter le partage.
 
-PKHeX attend des fichiers de sauvegarde qui ne sont pas chiffrés avec des clés spécifiques à la console. Utilisez un gestionnaire de données enregistrées pour importer et exporter des données enregistrées à partir de la console ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM) ou SaveDataFiler).
+PKHeX attend des fichiers de sauvegarde qui ne sont pas chiffrés avec des clés spécifiques à la console. Utilisez un gestionnaire de données enregistrées pour importer et exporter des données enregistrées à partir de la console ([Checkpoint](https://github.com/FlagBrew/Checkpoint) ou [JKSM](https://github.com/J-D-K/JKSM)).
 
 **Nous ne soutenons ni ne tolérons la tricherie aux dépens des autres. N'utilisez pas de Pokémon piratés de manière significative au combat ou dans des échanges avec ceux qui ne savent pas que des Pokémon piratés sont en cours d'utilisation.**
 
@@ -27,9 +27,9 @@ PKHeX attend des fichiers de sauvegarde qui ne sont pas chiffrés avec des clés
 
 ## Construction
 
-PKHeX est une application Windows Forms qui nécessite [.NET Framework v4.6](https://www.microsoft.com/fr-fr/download/details.aspx?id=48137), avec une prise en charge expérimentale de [.NET 6.0.](https://dotnet.microsoft.com/download/dotnet/6.0)
+PKHeX est une application Windows Forms qui nécessite [.NET 7.0.](https://dotnet.microsoft.com/download/dotnet/7.0)
 
-L'exécutable peut être construit avec n'importe quel compilateur prenant en charge C# 10.
+L'exécutable peut être construit avec n'importe quel compilateur prenant en charge C# 11.
 
 ### Construire les configurations
 
@@ -46,7 +46,3 @@ PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National P
 ## IDE
 
 PKHeX peut être ouvert avec des IDE tels que [Visual Studio](https://visualstudio.microsoft.com/fr/downloads/) en ouvrant le fichier .sln ou .csproj.
-
-## GNU/Linux
-
-GNU/Linux n'est pas le système d'exploitation principal des développeurs de ce programme, il peut donc y avoir des bugues; certains peuvent provenir de code non spécifique à GNU/Linux de Mono/Wine, donc d'autres utilisateurs peuvent ne pas être en mesure de reproduire l'erreur que vous rencontrez.

@@ -16,9 +16,17 @@ public static class StringUtil
     /// <param name="arr">Array of strings to search in</param>
     /// <param name="value">Value to search for</param>
     /// <returns>Index within <see cref="arr"/></returns>
-    public static int FindIndexIgnoreCase(string[] arr, string value) => Array.FindIndex(arr, z => IsMatchIgnoreCase(z, value));
+    public static int FindIndexIgnoreCase(string[] arr, ReadOnlySpan<char> value)
+    {
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (IsMatchIgnoreCase(arr[i], value))
+                return i;
+        }
+        return -1;
+    }
 
-    public static bool IsMatchIgnoreCase(string string1, string string2)
+    public static bool IsMatchIgnoreCase(ReadOnlySpan<char> string1, ReadOnlySpan<char> string2)
     {
         if (string1.Length != string2.Length)
             return false;
@@ -36,8 +44,8 @@ public static class StringUtil
             start = line.IndexOfNth(separator, nth - 1, start + 1);
         var end = line.IndexOfNth(separator, 1, start + 1);
         if (end == -1)
-            return new string(line[(start + 1)..].ToArray());
-        return new string(line[(start + 1)..end].ToArray());
+            return new string(line[(start + 1)..]);
+        return new string(line[(start + 1)..end]);
     }
 
     private static int IndexOfNth(this ReadOnlySpan<char> s, char t, int n, int start)
@@ -69,22 +77,19 @@ public static class StringUtil
         return result;
     }
 
-    private static bool IsNum(char c) => (uint)(c - '0') <= 9;
-    private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
-
     private static byte DecodeTuple(char _0, char _1)
     {
         byte result;
-        if (IsNum(_0))
+        if (char.IsAsciiDigit(_0))
             result = (byte)((_0 - '0') << 4);
-        else if (IsHexUpper(_0))
+        else if (char.IsAsciiHexDigitUpper(_0))
             result = (byte)((_0 - 'A' + 10) << 4);
         else
             throw new ArgumentOutOfRangeException(nameof(_0));
 
-        if (IsNum(_1))
+        if (char.IsAsciiDigit(_1))
             result |= (byte)(_1 - '0');
-        else if (IsHexUpper(_1))
+        else if (char.IsAsciiHexDigitUpper(_1))
             result |= (byte)(_1 - 'A' + 10);
         else
             throw new ArgumentOutOfRangeException(nameof(_1));

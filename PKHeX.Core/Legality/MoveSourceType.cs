@@ -26,6 +26,5 @@ public enum MoveSourceType
 
 public static class MoveSourceTypeExtensions
 {
-    public static bool HasFlagFast(this MoveSourceType value, MoveSourceType flag) => (value & flag) != 0;
     public static MoveSourceType ClearNonEggSources(this MoveSourceType value) => value & MoveSourceType.Encounter;
 }

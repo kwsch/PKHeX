@@ -54,7 +54,7 @@ public enum CheckIdentifier : byte
     Nickname,
 
     /// <summary>
-    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.OT_Name"/>, <see cref="PKM.TID"/>, or <see cref="PKM.SID"/>.
+    /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.OT_Name"/>, <see cref="PKM.TID16"/>, or <see cref="PKM.SID16"/>.
     /// </summary>
     Trainer,
 

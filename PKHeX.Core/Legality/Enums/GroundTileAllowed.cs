@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -53,15 +53,5 @@ public static class GroundTileAllowedExtensions
     /// </summary>
     /// <param name="g">Tile bit-permission value</param>
     /// <returns>Bit index</returns>
-    public static GroundTileType GetIndex(this GroundTileAllowed g)
-    {
-        int val = (int) g;
-        for (byte i = 0; i < 8 * sizeof(GroundTileAllowed); i++)
-        {
-            val >>= 1;
-            if (val == 0)
-                return (GroundTileType)i;
-        }
-        return 0;
-    }
+    public static GroundTileType GetIndex(this GroundTileAllowed g) => (GroundTileType)System.Numerics.BitOperations.Log2((uint)g);
 }

@@ -3,7 +3,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class SecretBase6PKM : ISanityChecksum
+public sealed class SecretBase6PKM : ISanityChecksum, IFatefulEncounter
 {
     public const int SIZE = 0x34;
     public readonly byte[] Data;

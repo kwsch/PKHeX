@@ -27,7 +27,7 @@ public static class ImageUtil
     public static Bitmap ChangeOpacity(Image img, double trans)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
 
         Marshal.Copy(ptr, data, 0, data.Length);
         SetAllTransparencyTo(data, trans);
@@ -40,7 +40,7 @@ public static class ImageUtil
     public static Bitmap ChangeAllColorTo(Image img, Color c)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
 
         Marshal.Copy(ptr, data, 0, data.Length);
         ChangeAllColorTo(data, c);
@@ -53,7 +53,7 @@ public static class ImageUtil
     public static Bitmap ChangeTransparentTo(Image img, Color c, byte trans, int start = 0, int end = -1)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
 
         Marshal.Copy(ptr, data, 0, data.Length);
         if (end == -1)
@@ -68,7 +68,7 @@ public static class ImageUtil
     public static Bitmap BlendTransparentTo(Image img, Color c, byte trans, int start = 0, int end = -1)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
 
         Marshal.Copy(ptr, data, 0, data.Length);
         if (end == -1)
@@ -83,7 +83,7 @@ public static class ImageUtil
     public static Bitmap WritePixels(Image img, Color c, int start, int end)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
 
         Marshal.Copy(ptr, data, 0, data.Length);
         ChangeAllTo(data, c, start, end);
@@ -96,7 +96,7 @@ public static class ImageUtil
     public static Bitmap ToGrayscale(Image img)
     {
         var bmp = (Bitmap)img.Clone();
-        GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
+        GetBitmapData(bmp, out BitmapData bmpData, out var ptr, out byte[] data);
 
         Marshal.Copy(ptr, data, 0, data.Length);
         SetAllColorToGrayScale(data);
@@ -106,7 +106,7 @@ public static class ImageUtil
         return bmp;
     }
 
-    private static void GetBitmapData(Bitmap bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data)
+    private static void GetBitmapData(Bitmap bmp, out BitmapData bmpData, out nint ptr, out byte[] data)
     {
         bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
         ptr = bmpData.Scan0;

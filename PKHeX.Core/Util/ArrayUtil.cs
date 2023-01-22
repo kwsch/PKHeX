@@ -8,16 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class ArrayUtil
 {
-    public static bool IsRangeEmpty(this ReadOnlySpan<byte> data, byte value = 0)
-    {
-        for (int i = data.Length - 1; i >= 0; i--)
-        {
-            if (data[i] != value)
-                return false;
-        }
-        return true;
-    }
-
     public static int Count<T>(this Span<T> data, T value) where T : IEquatable<T>
     {
         return ((ReadOnlySpan<T>)data).Count(value);
@@ -47,33 +37,15 @@ public static class ArrayUtil
     public static byte[] Slice(this byte[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
     public static T[] Slice<T>(this T[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
 
+    /// <summary>
+    /// Checks the range (exclusive max) if the <see cref="value"/> is inside.
+    /// </summary>
     public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
 
     public static IEnumerable<T[]> EnumerateSplit<T>(T[] bin, int size, int start = 0)
     {
         for (int i = start; i < bin.Length; i += size)
             yield return bin.Slice(i, size);
-    }
-
-    public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data, int count)
-    {
-        bool[] result = new bool[count];
-        for (int i = 0; i < result.Length; i++)
-            result[i] = ((data[i >> 3] >> (i & 7)) & 0x1) == 1;
-        return result;
-    }
-
-    public static void SetBitFlagArray(Span<byte> data, ReadOnlySpan<bool> value)
-    {
-        for (int i = 0; i < value.Length; i++)
-        {
-            var ofs = i >> 3;
-            var mask = (1 << (i & 7));
-            if (value[i])
-                data[ofs] |= (byte)mask;
-            else
-                data[ofs] &= (byte)~mask;
-        }
     }
 
     /// <summary>

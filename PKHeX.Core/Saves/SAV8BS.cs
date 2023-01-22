@@ -102,7 +102,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     protected override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8PARTY;
-    public override PKM BlankPKM => new PB8();
+    public override PB8 BlankPKM => new();
     public override Type PKMType => typeof(PB8);
 
     public override int BoxCount => BoxLayout8b.BoxCount;
@@ -110,7 +110,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8b;
-    public override IPersonalTable Personal => PersonalTable.BDSP;
+    public override PersonalTable8BDSP Personal => PersonalTable.BDSP;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
     public override ushort MaxMoveID => Legal.MaxMoveID_8b;
@@ -132,7 +132,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
 
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BS;
-    protected override SaveFile CloneInternal() => new SAV8BS((byte[])(Data.Clone()));
+    protected override SAV8BS CloneInternal() => new((byte[])(Data.Clone()));
 
     protected override byte[] GetFinalData()
     {
@@ -163,35 +163,33 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     #region Checksums
 
-    private const int HashOffset = SaveUtil.SIZE_G8BDSP - 0x10;
-    private Span<byte> CurrentHash => Data.AsSpan(SaveUtil.SIZE_G8BDSP - 0x10, 0x10);
-
-    private byte[] ComputeHash()
+    private const int HashLength = 0x10;
+    private const int HashOffset = SaveUtil.SIZE_G8BDSP - HashLength;
+    private Span<byte> CurrentHash => Data.AsSpan(HashOffset, HashLength);
+    private static void ComputeHash(ReadOnlySpan<byte> data, Span<byte> dest)
     {
-        CurrentHash.Clear();
-        using var md5 = new MD5CryptoServiceProvider();
-        return md5.ComputeHash(Data);
+        using var h = IncrementalHash.CreateHash(HashAlgorithmName.MD5);
+        h.AppendData(data[..HashOffset]);
+        Span<byte> zeroes = stackalloc byte[HashLength]; // Hash is zeroed prior to computing over the payload. Treat it as zero.
+        h.AppendData(zeroes);
+        h.AppendData(data[(HashOffset + HashLength)..]);
+        h.TryGetCurrentHash(dest, out _);
     }
 
-    protected override void SetChecksums() => ComputeHash().CopyTo(Data, HashOffset);
+    protected override void SetChecksums() => ComputeHash(Data, CurrentHash);
+    public override bool ChecksumsValid => GetIsHashValid(Data, CurrentHash);
     public override string ChecksumInfo => !ChecksumsValid ? "MD5 Hash Invalid" : string.Empty;
 
-    public override bool ChecksumsValid
+    public static bool GetIsHashValid(ReadOnlySpan<byte> data, ReadOnlySpan<byte> currentHash)
     {
-        get
-        {
-            // Cache hash and restore it after computation
-            var original = CurrentHash.ToArray();
-            var newHash = ComputeHash();
-            var result = newHash.AsSpan().SequenceEqual(original);
-            original.AsSpan().CopyTo(CurrentHash);
-            return result;
-        }
+        Span<byte> computed = stackalloc byte[HashLength];
+        ComputeHash(data, computed);
+        return computed.SequenceEqual(currentHash);
     }
 
     #endregion
 
-    protected override PKM GetPKM(byte[] data) => new PB8(data);
+    protected override PB8 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8(data);
 
     #region Blocks
@@ -255,8 +253,9 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public void SetEventFlag(int flagNumber, bool value) => FlagWork.SetFlag(flagNumber, value);
 
     // Player Information
-    public override int TID { get => MyStatus.TID; set => MyStatus.TID = value; }
-    public override int SID { get => MyStatus.SID; set => MyStatus.SID = value; }
+    public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
+    public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
+    public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
     public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
     public override int Gender { get => MyStatus.Male ? 0 : 1; set => MyStatus.Male = value == 0; }
     public override int Language { get => Config.Language; set => Config.Language = value; }
@@ -277,7 +276,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
     public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
     public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = (byte)value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = (byte)value; }
@@ -285,7 +284,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public string Rival
     {
         get => GetString(0x55F4, 0x1A);
-        set => SetString(Data.AsSpan(0x55F4, 0x1A), value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Data.AsSpan(0x55F4, 0x1A), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public short ZoneID // map
@@ -333,8 +332,8 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         protected set => PartyInfo.PartyCount = value;
     }
 
-    public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(Data, offset, SIZE_PARTY)); // party format in boxes!
+    public override PB8 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+    public override PB8 GetBoxSlot(int offset) => GetDecryptedPKM(GetData(Data, offset, SIZE_PARTY)); // party format in boxes!
 
     public enum TopMenuItemType
     {

@@ -18,7 +18,7 @@ L'interfaccia può essere tradotta con risorse/file di testo esterni, così che 
 
 Set di Pokémon Showdown e QR Code possono essere importati/esportati per agevolare la condivisione di file.
 
-PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della console. È possibile usare un gestore di salvataggi per importare ed esportare dati di salvataggio dalla console ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), o SaveDataFiler).
+PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della console. È possibile usare un gestore di salvataggi per importare ed esportare dati di salvataggio dalla console ([Checkpoint](https://github.com/FlagBrew/Checkpoint) o [JKSM](https://github.com/J-D-K/JKSM)).
 
 **Non supportiamo e non perdoniamo l'utilizzo di cheat a scapito di altri giocatori. Non utilizzare Pokémon modificati significativamente in lotte o scambi con giocatori che non ne sono a conoscenza.**
 
@@ -28,9 +28,9 @@ PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della
 
 ## Building
 
-PKHeX è un applicazione Windows Form e necessita [.NET Framework v4.6](https://www.microsoft.com/it-it/download/details.aspx?id=48137), con supporto sperimentale per [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0).
+PKHeX è un applicazione Windows Form e necessita [.NET Framework 7.0](https://dotnet.microsoft.com/download/dotnet/7.0).
 
-L'eseguibile può essere compilato con qualsiasi compiler che supporti C# 10.
+L'eseguibile può essere compilato con qualsiasi compiler che supporti C# 11.
 
 ### Configurazioni di Build
 
@@ -47,7 +47,3 @@ La collezione di sprite per Leggende Pokémon: Arceus è presa dal [National Pok
 ### IDE
 
 PKHeX può essere aperto con IDE come [Visual Studio](https://visualstudio.microsoft.com/it/downloads/) aprendo il file .sln o il file .csproj.
-
-### GNU/Linux
-
-GNU/Linux non è il Sistema Operativo principale dei developer di questo programma, quindi potrebbero esserci bug; alcuni potrebbero provenire da codice GNU/Linux non specifico da Mono/Wine, per cui alcuni utenti potrebbero non essere in grado di riprodurre l'errore riscontrato.

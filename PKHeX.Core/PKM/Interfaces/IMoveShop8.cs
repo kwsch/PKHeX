@@ -7,15 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public interface IMoveShop8
 {
-    /// <summary>
-    /// Individual accessed indexes indicate if they can be learned.
-    /// </summary>
-    ReadOnlySpan<bool> MoveShopPermitFlags { get; }
-
-    /// <summary>
-    /// Individual accessed move IDs that are provided by the Move Shop.
-    /// </summary>
-    ReadOnlySpan<ushort> MoveShopPermitIndexes { get; }
+    IPermitRecord Permit { get; }
 
     /// <summary>
     /// Indicates if the move shop offering at the requested index has been purchased.
@@ -71,11 +63,11 @@ public static class MoveShop8MasteryExtensions
 {
     public static bool IsValidPurchasedEncounter(this IMoveShop8 shop, Learnset learn, int level, ushort alpha, bool allowPurchasedAlpha)
     {
-        var permit = shop.MoveShopPermitIndexes;
-        var current = shop.MoveShopPermitFlags;
-        for (int i = 0; i < current.Length; i++)
+        var permit = shop.Permit.RecordPermitIndexes;
+        var current = shop.Permit;
+        for (int i = 0; i < current.RecordCountUsed; i++)
         {
-            if (!current[i])
+            if (!current.IsRecordPermitted(i))
                 continue;
 
             if (!shop.GetPurchasedRecordFlag(i))
@@ -96,28 +88,29 @@ public static class MoveShop8MasteryExtensions
         return true;
     }
 
-    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<ushort> moves, Learnset learn, Learnset mastery, int level, ushort alpha, bool allowPurchasedAlpha)
+    public static bool IsValidMasteredEncounter(this IMoveShop8Mastery shop, Span<ushort> moves, Learnset learn, Learnset mastery, int metLevel, ushort alphaMove, bool allowPurchasedAlpha)
     {
         foreach (var move in moves)
         {
             if (move == 0)
                 continue;
-            var index = shop.MoveShopPermitIndexes.IndexOf(move);
+            var index = shop.Permit.RecordPermitIndexes.IndexOf(move);
             if (index == -1)
                 continue; // manually mastered for encounter, not a tutor
 
-            bool p = shop.GetPurchasedRecordFlag(index);
-            bool m = shop.GetMasteredRecordFlag(index);
+            bool purchased = shop.GetPurchasedRecordFlag(index);
+            bool mastered = shop.GetMasteredRecordFlag(index);
 
             var masteryLevel = mastery.GetMoveLevel(move);
-            if (masteryLevel > level && move != alpha) // no master flag set
+            if (masteryLevel > metLevel && move != alphaMove) // no master flag set
             {
-                if (!p && m)
-                {
-                    // Check for seed of mastery usage
-                    if (learn.GetMoveLevel(move) > level)
-                        return false;
-                }
+                if (!mastered)
+                    continue;
+                if (purchased)
+                    continue;
+                // Check for seed of mastery usage
+                if (learn.GetMoveLevel(move) > metLevel)
+                    return false;
             }
             else
             {
@@ -125,9 +118,9 @@ public static class MoveShop8MasteryExtensions
                 // After the patch, the Alpha Move is considered purchased (even without the flag).
                 // Players won't be able to waste money after the patch :)
                 // For legality, allow the Alpha Move to be flagged as Purchased if it was a pre-patch capture.
-                if (p && (move != alpha || !allowPurchasedAlpha))
+                if (!mastered)
                     return false;
-                if (!m)
+                if (purchased && (move != alphaMove || !allowPurchasedAlpha))
                     return false;
             }
         }

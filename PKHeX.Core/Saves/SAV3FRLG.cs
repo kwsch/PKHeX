@@ -10,10 +10,10 @@ namespace PKHeX.Core;
 public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
 {
     // Configuration
-    protected override SaveFile CloneInternal() => new SAV3FRLG(Write());
+    protected override SAV3FRLG CloneInternal() => new(Write());
     public override GameVersion Version { get; protected set; } = GameVersion.FR; // allow mutation
     private PersonalTable3 _personal = PersonalTable.FR;
-    public override IPersonalTable Personal => _personal;
+    public override PersonalTable3 Personal => _personal;
 
     public override int EventFlagCount => 8 * 288;
     public override int EventWorkCount => 0x100;
@@ -175,7 +175,7 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     public string RivalName
     {
         get => GetString(Large.AsSpan(0x3A4C, 8));
-        set => SetString(Large.AsSpan(0x3A4C, 8), value.AsSpan(), 7, StringConverterOption.ClearZero);
+        set => SetString(Large.AsSpan(0x3A4C, 8), value, 7, StringConverterOption.ClearZero);
     }
 
     #endregion

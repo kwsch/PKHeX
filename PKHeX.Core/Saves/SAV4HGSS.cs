@@ -25,7 +25,7 @@ public sealed class SAV4HGSS : SAV4
     public override Zukan4 Dex { get; }
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS((byte[])Data.Clone()) : new SAV4HGSS();
 
-    public override IPersonalTable Personal => PersonalTable.HGSS;
+    public override PersonalTable4 Personal => PersonalTable.HGSS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     private const int GeneralSize = 0xF628;
@@ -109,11 +109,11 @@ public sealed class SAV4HGSS : SAV4
 
     public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         const int maxlen = 8;
         var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
-        SetString(span, value.AsSpan(), maxlen, StringConverterOption.ClearZero);
+        SetString(span, value, maxlen, StringConverterOption.ClearZero);
     }
 
     private static int AdjustWallpaper(int value, int shift)
@@ -244,8 +244,8 @@ public sealed class SAV4HGSS : SAV4
     public uint PokewalkerSteps { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER), value); }
     public uint PokewalkerWatts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x4)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 4), value); }
 
-    public bool[] GetPokewalkerCoursesUnlocked() => ArrayUtil.GitBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), 32);
-    public void SetPokewalkerCoursesUnlocked(ReadOnlySpan<bool> value) => ArrayUtil.SetBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), value);
+    public bool[] GetPokewalkerCoursesUnlocked() => FlagUtil.GitBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), 32);
+    public void SetPokewalkerCoursesUnlocked(ReadOnlySpan<bool> value) => FlagUtil.SetBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), value);
 
     public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x8), value);
 

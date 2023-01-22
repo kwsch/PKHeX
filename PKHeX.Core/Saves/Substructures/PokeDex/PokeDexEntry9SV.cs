@@ -62,10 +62,8 @@ public readonly ref struct PokeDexEntry9SV
     public void SetCaught(bool value) => SetState(value ? 3u : 2u);
     public void SetSeen(bool value)
     {
-        if (!value)
-            SetState(1);
-        else
-            SetState(GetState() | 2);
+        var newValue = !value ? 1 : Math.Min(GetState(), 2);
+        SetState(newValue);
     }
 
     public bool GetIsGenderSeen(int gender) => (FlagsGenderSeen & (1u << gender)) != 0;

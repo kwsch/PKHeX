@@ -59,8 +59,8 @@ public static class ContestStatInfo
         3 => pk.Format < 6    ? CorrelateSheen : Mixed,
         4 => pk.Format < 6    ? CorrelateSheen : Mixed,
 
-        5 => pk.Format < 6           ? None : !h.HasVisitedBDSP ? NoSheen : Mixed, // ORAS Contests
-        6 => !pk.AO && pk.IsUntraded ? None : !h.HasVisitedBDSP ? NoSheen : Mixed,
+        5 => pk.Format < 6                         ? None : !h.HasVisitedBDSP ? NoSheen : Mixed, // ORAS Contests
+        6 => pk is { AO: false, IsUntraded: true } ? None : !h.HasVisitedBDSP ? NoSheen : Mixed,
 
         _ => h.HasVisitedBDSP ? CorrelateSheen : None, // BDSP Contests
     };
@@ -109,7 +109,7 @@ public static class ContestStatInfo
         avg = Math.Min(rawAvg, avg); // be generous
         avg = (BestSheenStat8b * avg) / MaxContestStat;
 
-        return Math.Min(BestSheenStat8b, Math.Max(LowestFeelPoffin8b, avg));
+        return Math.Clamp(avg, LowestFeelPoffin8b, BestSheenStat8b);
     }
 
     public static int CalculateMinimumSheen3(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
@@ -125,7 +125,7 @@ public static class ContestStatInfo
         avg = Math.Min(rawAvg, avg); // be generous
 
         avg = (BestSheenStat3 * avg) / MaxContestStat;
-        return Math.Min(BestSheenStat3, Math.Max(LowestFeelBlock3, avg));
+        return Math.Clamp(avg, LowestFeelBlock3, BestSheenStat3);
     }
 
     public static int CalculateMinimumSheen4(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
@@ -140,7 +140,7 @@ public static class ContestStatInfo
         var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
 
-        return Math.Min(MaxContestStat, Math.Max(LowestFeelPoffin4, avg));
+        return Math.Clamp(avg, LowestFeelPoffin4, MaxContestStat);
     }
 
     private static int CalculateMaximumSheen3(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
@@ -162,7 +162,7 @@ public static class ContestStatInfo
 
         // Prefer the bad-black-block correlation if more than 3 stats have gains >= 2.
         var permit = has3 ? (sum * 83 / 6) : (sum * 19 / 9);
-        return Math.Min(MaxContestStat, Math.Max(LowestFeelBlock3, permit));
+        return Math.Clamp(permit, LowestFeelBlock3, MaxContestStat);
     }
 
     private static int GetAverageFeel(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
@@ -173,7 +173,7 @@ public static class ContestStatInfo
 
     private static int GetGainedSum(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
     {
-        ReadOnlySpan<sbyte> span = NatureAmpTable.AsSpan(5 * nature, 5);
+        var span = NatureAmpTable.Slice(5 * nature, 5);
         int sum = 0;
         sum += GetAmpedStat(span, 0, s.CNT_Cool - initial.CNT_Cool);
         sum += GetAmpedStat(span, 1, s.CNT_Beauty - initial.CNT_Beauty);
@@ -223,7 +223,7 @@ public static class ContestStatInfo
         public byte CNT_Sheen => 0;
     }
 
-    private static readonly sbyte[] NatureAmpTable =
+    private static ReadOnlySpan<sbyte> NatureAmpTable => new sbyte[]
     {
         // Spicy, Dry, Sweet, Bitter, Sour
         0, 0, 0, 0, 0, // Hardy

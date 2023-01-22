@@ -28,6 +28,6 @@ public sealed class RanchTrainerMii
     public string TrainerName
     {
         get => StringConverter4.GetString(Trainer_Trash);
-        set => StringConverter4.SetString(Trainer_Trash, value.AsSpan(), 7);
+        set => StringConverter4.SetString(Trainer_Trash, value, 7);
     }
 }

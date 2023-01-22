@@ -13,7 +13,7 @@ public partial class SAV_Capture7GG : Form
 
     private readonly Zukan7b Dex;
     private readonly CaptureRecords Captured;
-    private ushort Index = ushort.MaxValue;
+    private ushort Index;
     private bool Loading;
 
     public SAV_Capture7GG(SaveFile sav)
@@ -58,7 +58,8 @@ public partial class SAV_Capture7GG : Form
             return;
         SetEntry();
 
-        Index = CaptureRecords.GetSpeciesIndex((ushort)CB_Species.SelectedValue);
+        var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
+        Index = CaptureRecords.GetSpeciesIndex(species);
         Loading = true;
         LB_Species.SelectedIndex = Index;
         LB_Species.TopIndex = LB_Species.SelectedIndex;

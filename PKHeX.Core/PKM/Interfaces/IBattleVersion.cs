@@ -15,10 +15,13 @@ public interface IBattleVersion
 
 public static class BattleVersionExtensions
 {
+    /// <summary>
+    /// Checks if the applied Battle Version value is valid based on visitation.
+    /// </summary>
     public static bool IsBattleVersionValid<T>(this T pk, EvolutionHistory h) where T : PKM, IBattleVersion => pk.BattleVersion switch
     {
         0 => true,
-        (int)GameVersion.SW or (int)GameVersion.SH => !(pk.SWSH || pk.BDSP || pk.LA) && h.HasVisitedSWSH,
+        (int)GameVersion.SW or (int)GameVersion.SH => h.HasVisitedSWSH && !(pk.SWSH || pk.BDSP || pk.LA),
         _ => false,
     };
 
@@ -38,9 +41,12 @@ public static class BattleVersionExtensions
         MoveLevelUp.GetEncounterMoves(moves, pk, pk.CurrentLevel, version);
         pk.SetMoves(moves);
         pk.FixMoves();
-        v.BattleVersion = (byte) version;
+        v.BattleVersion = (byte)version;
     }
 
+    /// <summary>
+    /// Gets the minimum Generation ID that it was last reset in.
+    /// </summary>
     public static int GetMinGeneration(this IBattleVersion v)
     {
         var ver = v.BattleVersion;

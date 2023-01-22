@@ -1121,3 +1121,6 @@ Begrenzter
 Fahr
 Wasser
 Gleit
+Gefecht
+Flammen
+Fluten

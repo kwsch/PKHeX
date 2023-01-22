@@ -13,13 +13,13 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
     public MysteryBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
     public MysteryBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
-    public bool[] GetReceivedFlags() => ArrayUtil.GitBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
+    public bool[] GetReceivedFlags() => FlagUtil.GitBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
 
     public void SetReceivedFlags(ReadOnlySpan<bool> value)
     {
         if (value.Length != MaxReceivedFlag)
             return;
-        ArrayUtil.SetBitFlagArray(Data.AsSpan(Offset + FlagStart), value);
+        FlagUtil.SetBitFlagArray(Data.AsSpan(Offset + FlagStart), value);
         SAV.State.Edited = true;
     }
 
@@ -59,7 +59,7 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
         if (wc6.Data.Length != WC6.Size)
             throw new InvalidCastException(nameof(wc6));
 
-        if (wc6.CardID == 2048 && wc6.ItemID == 726) // Eon Ticket (OR/AS)
+        if (wc6 is { CardID: 2048, ItemID: 726 }) // Eon Ticket (OR/AS)
         {
             if (SAV is not SAV6AO ao)
                 return;

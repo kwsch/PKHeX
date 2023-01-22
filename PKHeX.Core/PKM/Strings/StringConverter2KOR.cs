@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using static PKHeX.Core.StringConverter12;
 
@@ -16,10 +15,18 @@ public static class StringConverter2KOR
     /// </summary>
     public static bool GetIsG2Korean(ReadOnlySpan<char> str)
     {
-        var dict = U2GSC_KOR;
+        var all = U2GSC_KOR;
         foreach (var c in str)
         {
-            if (!dict.Any(d => d.ContainsKey(c)))
+            bool any = false;
+            foreach (var dict in all)
+            {
+                if (!dict.ContainsKey(c))
+                    continue;
+                any = true;
+                break;
+            }
+            if (!any)
                 return false;
         }
         return true;
@@ -34,10 +41,14 @@ public static class StringConverter2KOR
     {
         Span<char> result = stackalloc char[data.Length];
         int length = LoadString(data, result);
-        return new string(result[..length].ToArray());
+        return new string(result[..length]);
     }
 
-    private static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
+    /// <inheritdoc cref="GetString(ReadOnlySpan{byte})"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
     {
         if (data[0] == G1TradeOTCode)
         {
@@ -129,7 +140,7 @@ public static class StringConverter2KOR
     /// <returns>Localized Name for Generation 2</returns>
     public static string LocalizeKOR2(string nick)
     {
-        if (KorG2Localized.TryGetValue(nick, out string localized))
+        if (KorG2Localized.TryGetValue(nick, out var localized))
             return localized;
         return nick;
     }

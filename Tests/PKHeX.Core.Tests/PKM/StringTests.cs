@@ -1,9 +1,8 @@
 using System;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests.PKM;
+namespace PKHeX.Core.Tests.PKM;
 
 public class StringTests
 {

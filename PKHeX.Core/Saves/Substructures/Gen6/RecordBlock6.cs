@@ -1,48 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class RecordBlock6 : RecordBlock<SaveFile> // 6 or 7
+public abstract class RecordBlock6 : RecordBlock<SaveFile> // 6 or 7
 {
     public const int RecordCount = 200;
-    protected override IReadOnlyList<byte> RecordMax { get; }
+
+    protected RecordBlock6(SaveFile sav, int offset) : base(sav) => Offset = offset;
 
     // Structure:
     //   uint[100];
     // ushort[100];
-
-    public RecordBlock6(SAV6XY sav, int offset) : base(sav)
-    {
-        Offset = offset;
-        RecordMax = Records.MaxType_XY;
-    }
-
-    public RecordBlock6(SAV6AO sav, int offset) : base(sav)
-    {
-        Offset = offset;
-        RecordMax = Records.MaxType_AO;
-    }
-
-    public RecordBlock6(SAV6AODemo sav, int offset) : base(sav)
-    {
-        Offset = offset;
-        RecordMax = Records.MaxType_AO;
-    }
-
-    public RecordBlock6(SAV7SM sav, int offset) : base(sav)
-    {
-        Offset = offset;
-        RecordMax = Records.MaxType_SM;
-    }
-
-    public RecordBlock6(SAV7USUM sav, int offset) : base(sav)
-    {
-        Offset = offset;
-        RecordMax = Records.MaxType_USUM;
-    }
 
     public override int GetRecord(int recordID)
     {
@@ -80,4 +50,129 @@ public sealed class RecordBlock6 : RecordBlock<SaveFile> // 6 or 7
                 break;
         }
     }
+}
+
+public sealed class RecordBlock6XY : RecordBlock6
+{
+    public RecordBlock6XY(SAV6XY sav, int offset) : base(sav, offset) { }
+    protected override ReadOnlySpan<byte> RecordMax => MaxType_XY;
+
+    private static ReadOnlySpan<byte> MaxType_XY => new byte[]
+    {
+        0, 0, 0, 0, 0, 0, 0, 2, 2, 2,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 2, 2, 2, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+        3, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 7, 5, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 6, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+    };
+}
+
+public sealed class RecordBlock6AO : RecordBlock6
+{
+    public RecordBlock6AO(SAV6AO sav, int offset) : base(sav, offset) { }
+    public RecordBlock6AO(SAV6AODemo sav, int offset) : base(sav, offset) { }
+    protected override ReadOnlySpan<byte> RecordMax => MaxType_AO;
+
+    private static ReadOnlySpan<byte> MaxType_AO => new byte[]
+    {
+        0, 0, 0, 0, 0, 0, 0, 2, 2, 2,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 2, 2, 2, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+        3, 0, 0, 1, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 7, 5, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 6, 4, 4,
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+        7, 7, 7, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+    };
+}
+
+public sealed class RecordBlock7SM : RecordBlock6
+{
+    public RecordBlock7SM(SAV7SM sav, int offset) : base(sav, offset) { }
+    protected override ReadOnlySpan<byte> RecordMax => MaxType_SM;
+
+    private static ReadOnlySpan<byte> MaxType_SM => new byte[]
+    {
+        0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
+        0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+    };
+}
+
+public sealed class RecordBlock7USUM : RecordBlock6
+{
+    public RecordBlock7USUM(SAV7USUM sav, int offset) : base(sav, offset) { }
+    protected override ReadOnlySpan<byte> RecordMax => MaxType_USUM;
+
+    private static ReadOnlySpan<byte> MaxType_USUM => new byte[]
+    {
+        0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
+        0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
+        0, 0, 0, 0, 0, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+        5, 5, 4, 4, 4, 5, 5, 4, 5, 5,
+    };
 }

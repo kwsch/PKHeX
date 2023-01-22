@@ -28,7 +28,7 @@ public static class RibbonRules
     public static bool IsRibbonValidEffort(PKM pk, EvolutionHistory evos, int gen) => gen switch
     {
         5 when pk.Format == 5 => false, // Not available in BW/B2W2
-        8 when !evos.HasVisitedSWSH && !evos.HasVisitedBDSP => false, // not available in PLA
+        8 when evos is { HasVisitedSWSH: false, HasVisitedBDSP: false } => false, // not available in PLA
         _ => true,
     };
 
@@ -38,7 +38,7 @@ public static class RibbonRules
     public static bool IsRibbonValidBestFriends(PKM pk, EvolutionHistory evos, int gen) => gen switch
     {
         < 7 when pk is { IsUntraded: true } and IAffection { OT_Affection: < 255 } => false, // Gen6/7 uses affection. Can't lower it on OT!
-        8 when !evos.HasVisitedSWSH && !evos.HasVisitedBDSP => false, // Gen8+ replaced with Max Friendship.
+        8 when evos is { HasVisitedSWSH: false, HasVisitedBDSP: false } => false, // Gen8+ replaced with Max Friendship.
         _ => true,
     };
 
@@ -101,7 +101,7 @@ public static class RibbonRules
         {
             // Ranked is still ongoing, but the use of Mythicals was restricted to Series 13 only.
             var met = pk.MetDate;
-            if (Legal.Mythicals.Contains(pk.Species) && met > new DateTime(2022, 11, 1))
+            if (Legal.Mythicals.Contains(pk.Species) && met > new DateOnly(2022, 11, 1))
                 return false;
         }
 
@@ -113,11 +113,13 @@ public static class RibbonRules
     private static bool IsRibbonValidMasterRankSV(ISpeciesForm pk)
     {
         var species = pk.Species;
+        if (Legal.Mythicals.Contains(species))
+            return false;
         if (Legal.Legends.Contains(species))
             return false;
         if (Legal.SubLegends.Contains(species))
             return false;
-        if (species is >= (int)Species.GreatTusk and <= (int)Species.IronValiant)
+        if (Legal.IsParadox(species))
             return false;
 
         var pt = PersonalTable.SV;
@@ -210,7 +212,7 @@ public static class RibbonRules
             var species = evo.Species;
             if (species >= arr.Length)
                 continue;
-            if (!arr[species])
+            if (arr[species])
                 return true;
         }
         return false;
@@ -218,7 +220,7 @@ public static class RibbonRules
 
     // Derived from ROM data: true for all Footprint types besides 5 (5 = no feet).
     // If true, requires gaining 30 levels to obtain ribbon. If false, can obtain ribbon at any level.
-    private static readonly bool[] HasFootprintBDSP =
+    private static ReadOnlySpan<bool> HasFootprintBDSP => new[]
     {
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true, false,  true,  true, false,  true,  true,  true,  true,  true,
@@ -232,9 +234,9 @@ public static class RibbonRules
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        false, false,  true,  true,  true,  true,  true,  true,  true,  true,
+       false, false,  true,  true,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true, false,  true,  true,
-        false,  true,  true,  true,  true,  true,  true,  true,  true,  true,
+       false,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true, false,  true,
@@ -249,7 +251,7 @@ public static class RibbonRules
         true,  true,  true,  true,  true,  true, false,  true, false,  true,
         true,  true,  true, false,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
-        false,  true,  true,  true,  true,  true,  true,  true,  true, false,
+       false,  true,  true,  true,  true,  true,  true,  true,  true, false,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
@@ -372,15 +374,15 @@ public static class RibbonRules
         if (!evos.HasVisitedGen4)
             return false;
         var head = evos.Gen4[0];
-        return IsAllowedBattleFrontier(head.Species, head.Form, 4);
+        return IsAllowedBattleFrontier(head.Species, head.Form, EntityContext.Gen4);
     }
 
     /// <summary>
     /// Checks if the input species-form could have participated in a specific Battle Frontier trial.
     /// </summary>
-    public static bool IsAllowedBattleFrontier(ushort species, byte form, int generation)
+    public static bool IsAllowedBattleFrontier(ushort species, byte form, EntityContext context)
     {
-        if (generation == 4 && species == (int)Species.Pichu && form == 1) // spiky
+        if (context == EntityContext.Gen4 && species == (int)Species.Pichu && form == 1) // spiky
             return false;
         return IsAllowedBattleFrontier(species);
     }

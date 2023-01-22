@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="BW"/>.
 /// </summary>
-public sealed class LearnSource5BW : ILearnSource, IEggSource
+public sealed class LearnSource5BW : ILearnSource<PersonalInfo5BW>, IEggSource
 {
     public static readonly LearnSource5BW Instance = new();
     private static readonly PersonalTable5BW Personal = PersonalTable.BW;
@@ -20,7 +20,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo5BW? pi)
     {
         pi = null;
         if (!Personal.IsPresentInGame(species, form))
@@ -44,9 +44,9 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo5BW pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -54,13 +54,13 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
             return new(Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
             return new(Tutor, Game);
 
         return default;
@@ -82,20 +82,20 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsTypeTutor(PersonalInfo5BW pi, ushort move)
     {
         var index = Array.IndexOf(TypeTutor567, move);
         if (index == -1)
             return false;
-        return pi.TypeTutors[index];
+        return pi.GetIsLearnTutorType(index);
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo5BW info, ushort move)
     {
         var index = Array.IndexOf(TMHM_BW, move);
         if (index == -1)
             return false;
-        return info.TMHM[index] && index != 94; // TM95 not available in this game
+        return info.GetIsLearnTM(index) && index != 94; // TM95 not available in this game
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -103,7 +103,7 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
@@ -115,36 +115,22 @@ public sealed class LearnSource5BW : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
-            var flags = pi.TMHM;
-            var moves = TMHM_BW;
-            for (int i = 95; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
             // TM95 is unavailable (Snarl - Lock Capsule)
-            for (int i = 0; i < 94; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
+            // Cache the current value to clear it if so.
+            var tm95 = result[(int)Move.Snarl];
+            pi.SetAllLearnTM(result, TMHM_BW);
+            if (!tm95)
+                result[(int)Move.Snarl] = tm95;
         }
 
-        if (types.HasFlagFast(MoveSourceType.TypeTutor))
+        if (types.HasFlag(MoveSourceType.TypeTutor))
         {
-            // Beams
-            var flags = pi.TypeTutors;
-            var moves = TypeTutor567;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
+            pi.SetAllLearnTutorType(result, TypeTutor567);
         }
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
             var species = evo.Species;
             if (species is (int)Species.Rotom && evo.Form is not 0)

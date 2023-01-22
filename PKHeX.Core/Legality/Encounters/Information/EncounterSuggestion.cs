@@ -1,5 +1,4 @@
 using System;
-
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
@@ -20,8 +19,11 @@ public static class EncounterSuggestion
             return GetSuggestedEncounterEgg(pk, loc);
 
         var chain = EvolutionChain.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
-        var w = EncounterSlotGenerator.GetCaptureLocation(pk, chain);
-        var s = EncounterStaticGenerator.GetStaticLocation(pk, chain);
+        var ver = (GameVersion)pk.Version;
+        var generator = EncounterGenerator.GetGenerator(ver);
+        var w = EncounterUtil.GetMinByLevel(chain, generator.GetPossible(pk, chain, ver, EncounterTypeGroup.Slot));
+        var s = EncounterUtil.GetMinByLevel(chain, generator.GetPossible(pk, chain, ver, EncounterTypeGroup.Static));
+
         if (w is null)
             return s is null ? null : GetSuggestedEncounter(pk, s, loc);
         if (s is null)
@@ -42,7 +44,7 @@ public static class EncounterSuggestion
 
     public static int GetSuggestedEncounterEggMetLevel(PKM pk)
     {
-        if (!pk.IsNative && pk.Generation < 5)
+        if (pk is { IsNative: false, Generation: < 5 })
             return pk.CurrentLevel; // be generous with transfer conditions
         if (pk.Format < 5) // and native
             return pk.Format == 2 && pk.Met_Location != 0 ? 1 : 0;

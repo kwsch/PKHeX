@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -30,7 +29,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     protected void ReloadBattleTeams()
     {
-        var demo = this is SAV7SM && new ReadOnlySpan<byte>(Data, BoxLayout.Offset, 0x4C4).IsRangeEmpty(); // up to Battle Box values
+        var demo = this is SAV7SM && Data.AsSpan(BoxLayout.Offset, 0x4C4).IndexOfAnyExcept<byte>(0) == -1; // up to Battle Box values
         if (demo || !State.Exportable)
         {
             BoxLayout.ClearBattleTeams();
@@ -67,7 +66,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     // Configuration
     protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
-    public override PKM BlankPKM => new PK7();
+    public override PK7 BlankPKM => new();
     public override Type PKMType => typeof(PK7);
 
     public override int BoxCount => 32;
@@ -85,7 +84,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     public override int MaxBallID => Legal.MaxBallID_7; // 26
     public override int MaxGameID => Legal.MaxGameID_7;
-    protected override PKM GetPKM(byte[] data) => new PK7(data);
+    protected override PK7 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
 
     // Feature Overrides
@@ -95,15 +94,19 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     protected void ClearMemeCrypto()
     {
-        new byte[0x80].CopyTo(Data, AllBlocks[MemeCryptoBlock].Offset + 0x100);
+        // The MemeCrypto block is always zero -- they could have hidden a secret inside it, but they didn't.
+        Data.AsSpan(AllBlocks[MemeCryptoBlock].Offset + 0x100, MemeCrypto.SaveFileSignatureLength).Clear();
     }
 
     protected override byte[] GetFinalData()
     {
         BoxLayout.SaveBattleTeams();
         SetChecksums();
-        var result = MemeCrypto.Resign7(Data);
-        Debug.Assert(result != Data);
+
+        // Applying the MemeCrypto signature will invalidate the checksum for that block.
+        // This logic is not set up to revert that block after returning, so just return a copy of our data.
+        var result = (byte[])Data.Clone();
+        MemeCrypto.SignInPlace(result);
         return result;
     }
 
@@ -124,8 +127,9 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     }
 
     // Player Information
-    public override int TID { get => MyStatus.TID; set => MyStatus.TID = value; }
-    public override int SID { get => MyStatus.SID; set => MyStatus.SID = value; }
+    public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
+    public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
+    public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
     public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
     public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public int GameSyncIDSize => MyStatus7.GameSyncIDSize; // 64 bits
@@ -161,7 +165,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
     public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
     public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
     public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
     public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }

@@ -9,8 +9,8 @@ namespace PKHeX.Core;
 /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
 public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 {
-    private readonly uint MinRank;
-    private readonly uint MaxRank;
+    private readonly byte MinRank;
+    private readonly byte MaxRank;
     private readonly byte NestID;
 
     private byte[] NestLocations => Encounters8Nest.NestLocations[NestID];
@@ -19,7 +19,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     public override byte LevelMin => LevelCaps[MinRank * 2];
     public override byte LevelMax => LevelCaps[(MaxRank * 2) + 1];
 
-    public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val, GameVersion game) : base(game)
+    public EncounterStatic8N(byte nestID, byte minRank, byte maxRank, byte val, GameVersion game) : base(game)
     {
         NestID = nestID;
         MinRank = minRank;
@@ -37,7 +37,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         CanGigantamax = data[5] != 0,
     };
 
-    private static readonly byte[] LevelCaps =
+    private static ReadOnlySpan<byte> LevelCaps => new byte[]
     {
         15, 20, // 0
         25, 30, // 1

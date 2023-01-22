@@ -32,7 +32,7 @@ public static class FrameFinder
     // gather possible nature determination seeds until a same-nature PID breaks the unrolling
     private static IEnumerable<SeedInfo> GetSeeds(PIDIV pidiv, FrameGenerator info, PKM pk)
     {
-        if (pk.Species == (int)Species.Unown && pk.FRLG) // Gen3 FRLG Unown: reversed await case
+        if (pk is { Species: (int)Species.Unown, FRLG: true }) // Gen3 FRLG Unown: reversed await case
             return SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.Form);
         if (pidiv.Type == PIDType.CuteCharm && info.FrameType != FrameType.MethodH) // Gen4: ambiguous seed due to gender-buffered PID
             return SeedInfo.GetSeedsUntilNature4Cute(pk);

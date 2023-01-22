@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using PKHeX.Core;
 
@@ -10,6 +11,7 @@ namespace PKHeX.WinForms;
 /// Drawing Configuration for painting and updating controls
 /// </summary>
 [Serializable]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public sealed class DrawConfig : IDisposable
 {
     private const string PKM = "Pokémon Editor";

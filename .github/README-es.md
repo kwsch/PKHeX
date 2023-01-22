@@ -18,7 +18,7 @@ La interfaz gráfica puede ser traducida con archivos de texto externos para dar
 
 Pokémon Showdown asigna un código QR que puede ser importado/exportado para ayudar al compartir.
 
-PKHeX espera archivos de guardado que no estén cifrados con las claves específicas de la consola. Use un gestor de archivos de guardado para importar y exportar información de la consola ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), o SaveDataFiler).
+PKHeX espera archivos de guardado que no estén cifrados con las claves específicas de la consola. Use un gestor de archivos de guardado para importar y exportar información de la consola ([Checkpoint](https://github.com/FlagBrew/Checkpoint) o [JKSM](https://github.com/J-D-K/JKSM)).
 
 **No apoyamos ni toleramos las trampas a expensas de otros. No uses un Pokémon modificado significativamente en batalla o en intercambios con quienes no estén al tanto de que estás usando un Pokémon modificado.**
 
@@ -28,9 +28,9 @@ PKHeX espera archivos de guardado que no estén cifrados con las claves específ
 
 ## Building
 
-PKHeX es una aplicación de Windows Forms que requiere [.NET Framework v4.6](https://www.microsoft.com/es-es/download/details.aspx?id=48137), con soporte experimental para [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0).
+PKHeX es una aplicación de Windows Forms que requiere [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0).
 
-El archivo ejecutable puede ser construido con cualquier compilador que soporte C# 10.
+El archivo ejecutable puede ser construido con cualquier compilador que soporte C# 11.
 
 ### Configuraciones del Build
 
@@ -47,7 +47,3 @@ PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National P
 ### IDE
 
 PKHeX se puede abrir con un IDE como [Visual Studio](https://visualstudio.microsoft.com/es/downloads/), abriendo los archivos .sln o .csproj.
-
-### GNU/Linux
-
-GNU/Linux no es el sistema operativo principal de los desarrolladores de este proyecto, así que probablemente haya errores o bugs; de los cuales algunos pueden provenir de código no específico de GNU/Linux desde Mono o de Wine, con lo cual puede haber otros usuarios que no puedan reproducir ese error.

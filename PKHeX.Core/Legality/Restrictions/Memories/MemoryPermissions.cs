@@ -152,7 +152,7 @@ public static class MemoryPermissions
     private static bool GetCanKnowMove(PKM pk, ushort move, EntityContext context, EvolutionHistory history, IEncounterTemplate enc)
     {
         if (pk.Species == (int)Smeargle)
-            return MoveInfo.IsValidSketch(move, context);
+            return MoveInfo.IsSketchValid(move, context);
 
         ILearnGroup game;
         if (context == EntityContext.Gen6)

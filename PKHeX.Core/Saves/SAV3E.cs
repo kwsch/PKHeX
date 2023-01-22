@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -11,9 +11,9 @@ namespace PKHeX.Core;
 public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 {
     // Configuration
-    protected override SaveFile CloneInternal() => new SAV3E(Write());
+    protected override SAV3E CloneInternal() => new(Write());
     public override GameVersion Version { get => GameVersion.E; protected set { } }
-    public override IPersonalTable Personal => PersonalTable.E;
+    public override PersonalTable3 Personal => PersonalTable.E;
 
     public override int EventFlagCount => 8 * 300;
     public override int EventWorkCount => 0x100;

@@ -44,6 +44,20 @@ public static class AwakeningUtil
     public static void AwakeningSetAllTo(this IAwakened pk, byte value) => pk.AV_HP = pk.AV_ATK = pk.AV_DEF = pk.AV_SPE = pk.AV_SPA = pk.AV_SPD = value;
 
     /// <summary>
+    /// Sets all values to the bare minimum legal value.
+    /// </summary>
+    /// <param name="pk">Data to set values for</param>
+    public static void AwakeningMinimum(this IAwakened pk)
+    {
+        if (pk is not PB7 pb7)
+            return;
+
+        Span<byte> result = stackalloc byte[6];
+        SetExpectedMinimumAVs(result, pb7);
+        AwakeningSetVisual(pb7, result);
+    }
+
+    /// <summary>
     /// Sets all values to the specified value.
     /// </summary>
     /// <param name="pk">Data to set values for</param>
@@ -55,23 +69,23 @@ public static class AwakeningUtil
             return;
 
         Span<byte> result = stackalloc byte[6];
-        GetExpectedMinimumAVs(result, pb7);
+        SetExpectedMinimumAVs(result, pb7);
 
         var rnd = Util.Rand;
-        for (int i = 0; i < 6; i++)
+        foreach (ref var av in result)
         {
-            var realMin = Math.Max(min, result[i]);
-            var realMax = Math.Min(result[i], max);
-            result[i] = (byte)rnd.Next(realMin, realMax + 1);
+            var realMin = Math.Max(min, av);
+            var realMax = Math.Max(av, max);
+            av = (byte)rnd.Next(realMin, realMax + 1);
         }
         AwakeningSetVisual(pb7, result);
     }
 
     /// <summary>
-    /// Sets the awakening values according to their displayed order.
+    /// Gets the awakening values according to their displayed order.
     /// </summary>
     /// <param name="pk">Data to set values for</param>
-    /// <param name="value"></param>
+    /// <param name="value">Value storage result</param>
     public static void AwakeningGetVisual(IAwakened pk, Span<byte> value)
     {
         value[0] = pk.AV_HP;
@@ -86,7 +100,7 @@ public static class AwakeningUtil
     /// Sets the awakening values according to their displayed order.
     /// </summary>
     /// <param name="pk">Data to set values for</param>
-    /// <param name="value"></param>
+    /// <param name="value">Value storage to set from</param>
     public static void AwakeningSetVisual(IAwakened pk, ReadOnlySpan<byte> value)
     {
         pk.AV_HP = value[0];
@@ -174,7 +188,7 @@ public static class AwakeningUtil
     public static void SetSuggestedAwakenedValues(this IAwakened a, PKM pk)
     {
         Span<byte> result = stackalloc byte[6];
-        GetExpectedMinimumAVs(result, (PB7)a);
+        SetExpectedMinimumAVs(result, (PB7)a);
         a.AV_HP  = Legal.AwakeningMax;
         a.AV_ATK = pk.IV_ATK == 0 ? result[1] : Legal.AwakeningMax;
         a.AV_DEF = Legal.AwakeningMax;
@@ -210,14 +224,14 @@ public static class AwakeningUtil
     /// </summary>
     /// <param name="result">Stat results</param>
     /// <param name="pk">Entity to check</param>
-    public static void GetExpectedMinimumAVs(Span<byte> result, PB7 pk)
+    public static void SetExpectedMinimumAVs(Span<byte> result, PB7 pk)
     {
         // GO Park transfers start with 2 AVs for all stats.
         // Every other encounter is either all 0, or can legally start at 0 (trades).
         if (pk.Version == (int)GameVersion.GO)
-            result.Fill(2);
+            result.Fill(GP1.InitialAV);
 
-        // Leveling up in-game applies 1 AV to a "random" index.
+        // Leveling up in-game adds 1 AV to a "random" index.
         var start = pk.Met_Level;
         var end = pk.CurrentLevel;
         if (start == end)

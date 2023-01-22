@@ -16,7 +16,7 @@ public sealed class GenderVerifier : Verifier
         if (pi.Genderless != (pk.Gender == 2))
         {
             // DP/HGSS shedinja glitch -- only generation 4 spawns
-            bool ignore = pk.Format == 4 && pk.Species == (int)Species.Shedinja && pk.Met_Level != pk.CurrentLevel;
+            bool ignore = pk is { Format: 4, Species: (int)Species.Shedinja } && pk.Met_Level != pk.CurrentLevel;
             if (!ignore)
                 data.AddLine(GetInvalid(LGenderInvalidNone));
             return;

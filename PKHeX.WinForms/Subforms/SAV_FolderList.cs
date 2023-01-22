@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -71,9 +71,6 @@ public partial class SAV_FolderList : Form
         foreach (var loc in Paths)
             AddButton(loc.DisplayText, loc.Path);
 
-        dgDataRecent.DoubleBuffered(true);
-        dgDataBackup.DoubleBuffered(true);
-
         CenterToParent();
     }
 
@@ -86,7 +83,7 @@ public partial class SAV_FolderList : Form
         locs.AddRange(GetUserPaths());
         locs.AddRange(GetConsolePaths(drives));
         locs.AddRange(GetSwitchPaths(drives));
-        return locs.GroupBy(z => z.Path).Select(z => z.First())
+        return locs.DistinctBy(z => z.Path)
             .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
     }
 
@@ -288,12 +285,12 @@ public partial class SAV_FolderList : Form
                 var sav = new SavePreview(next, Paths);
                 void Load() => LoadEntry(dgData, list, sav);
 
-                dgData.Invoke((Action)Load);
+                dgData.Invoke(Load);
                 ctr++;
                 if (ctr < 15 && ctr % 7 == 0)
-                    dgData.Invoke((Action)RefreshResize);
+                    dgData.Invoke(RefreshResize);
             }
-            dgData.Invoke((Action)RefreshResize);
+            dgData.Invoke(RefreshResize);
             enumerator.Dispose();
         });
 
@@ -347,14 +344,14 @@ public partial class SAV_FolderList : Form
     {
         if (dg.RowCount == 0)
             return;
-        var cm = (CurrencyManager)BindingContext[dg.DataSource];
-        cm.SuspendBinding();
+        var cm = (CurrencyManager?)BindingContext?[dg.DataSource];
+        cm?.SuspendBinding();
         int column = CB_FilterColumn.SelectedIndex - 1;
         var text = TB_FilterTextContains.Text;
 
         for (int i = 0; i < dg.RowCount; i++)
             ToggleRowVisibility(dg, column, text, i);
-        cm.ResumeBinding();
+        cm?.ResumeBinding();
     }
 
     private static void ToggleRowVisibility(DataGridView dg, int column, string text, int rowIndex)

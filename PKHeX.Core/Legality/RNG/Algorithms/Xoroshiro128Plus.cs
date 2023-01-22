@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+using System;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -11,15 +13,12 @@ public ref struct Xoroshiro128Plus
     public const ulong XOROSHIRO_CONST0= 0x0F4B17A579F18960;
     public const ulong XOROSHIRO_CONST = 0x82A2B175229D6A5B;
 
-    private ulong s0, s1;
+    private ulong s0;
+    private ulong s1;
 
     public Xoroshiro128Plus(ulong s0 = XOROSHIRO_CONST0, ulong s1 = XOROSHIRO_CONST) => (this.s0, this.s1) = (s0, s1);
-
     public (ulong s0, ulong s1) GetState() => (s0, s1);
-    public string FullState => $"{s1:X16}{s0:X16}";
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static ulong RotateLeft(ulong x, int k) => (x << k) | (x >> -k);
+    public UInt128 FullState() => new(s1, s0);
 
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.
@@ -33,8 +32,8 @@ public ref struct Xoroshiro128Plus
 
         _s1 ^= _s0;
         // Final calculations and store back to fields
-        s0 = RotateLeft(_s0, 24) ^ _s1 ^ (_s1 << 16);
-        s1 = RotateLeft(_s1, 37);
+        s0 = BitOperations.RotateLeft(_s0, 24) ^ _s1 ^ (_s1 << 16);
+        s1 = BitOperations.RotateLeft(_s1, 37);
 
         return result;
     }
@@ -47,9 +46,9 @@ public ref struct Xoroshiro128Plus
     {
         var _s0 = s0;
         var _s1 = s1;
-        _s1 = RotateLeft(_s1, 27);
+        _s1 = BitOperations.RotateLeft(_s1, 27);
         _s0 = _s0 ^ _s1 ^ (_s1 << 16);
-        _s0 = RotateLeft(_s0, 40);
+        _s0 = BitOperations.RotateLeft(_s0, 40);
         _s1 ^= _s0;
         ulong result = _s0 + _s1;
 
@@ -59,35 +58,27 @@ public ref struct Xoroshiro128Plus
     }
 
     /// <summary>
-    /// Gets a random value that is less than <see cref="MOD"/>
+    /// Gets a random value that is less than <see cref="max"/>
     /// </summary>
-    /// <param name="MOD">Maximum value (exclusive). Generates a bitmask for the loop.</param>
+    /// <param name="max">Maximum value (exclusive). Generates a bitmask for the loop.</param>
     /// <returns>Random value</returns>
-    public ulong NextInt(ulong MOD = 0xFFFFFFFF)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public ulong NextInt(ulong max = uint.MaxValue)
     {
-        ulong mask = GetBitmask(MOD);
-        ulong res;
-        do
+        ulong mask = GetBitmask(max);
+        while (true)
         {
-            res = Next() & mask;
-        } while (res >= MOD);
-        return res;
+            var result = Next() & mask;
+            if (result < max)
+                return result;
+        }
     }
 
     /// <summary>
-    /// Next Power of Two
+    /// Gets the inclusive range bitmask for the specified <see cref="exclusiveMax"/> value.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static ulong GetBitmask(ulong x)
-    {
-        x--; // comment out to always take the next biggest power of two, even if x is already a power of two
-        x |= x >> 1;
-        x |= x >> 2;
-        x |= x >> 4;
-        x |= x >> 8;
-        x |= x >> 16;
-        return x;
-    }
+    private static ulong GetBitmask(ulong exclusiveMax) => (1UL << (64 - BitOperations.LeadingZeroCount(--exclusiveMax))) - 1;
 
     /// <summary>
     /// Gets a random float value.

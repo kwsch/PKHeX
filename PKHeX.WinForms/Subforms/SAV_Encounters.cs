@@ -89,7 +89,7 @@ public partial class SAV_Encounters : Form
 
     private void GetTypeFilters()
     {
-        var types = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
+        var types = (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
         var checks = types.Select(z => new CheckBox
         {
             Name = z.ToString(),
@@ -106,10 +106,10 @@ public partial class SAV_Encounters : Form
         }
     }
 
-    private EncounterOrder[] GetTypes()
+    private EncounterTypeGroup[] GetTypes()
     {
         return TypeFilters.Controls.OfType<CheckBox>().Where(z => z.Checked).Select(z => z.Name)
-            .Select(z => (EncounterOrder)Enum.Parse(typeof(EncounterOrder), z)).ToArray();
+            .Select(z => (EncounterTypeGroup)Enum.Parse(typeof(EncounterTypeGroup), z)).ToArray();
     }
 
     private readonly PictureBox[] PKXBOXES;
@@ -230,7 +230,7 @@ public partial class SAV_Encounters : Form
         var settings = GetSearchSettings();
 
         // If nothing is specified, instead of just returning all possible encounters, just return nothing.
-        if (settings.Species == 0 && settings.Moves.Count == 0 && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
+        if (settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
             return Array.Empty<IEncounterInfo>();
         var pk = SAV.BlankPKM;
 
@@ -266,9 +266,10 @@ public partial class SAV_Encounters : Form
         if (token.IsCancellationRequested)
             return results;
 
-        if (RTB_Instructions.Lines.Any(line => line.Length > 0))
+        ReadOnlySpan<char> batchText = RTB_Instructions.Text;
+        if (batchText.Length > 0 && !StringInstructionSet.HasEmptyLine(batchText))
         {
-            var filters = StringInstruction.GetFilters(RTB_Instructions.Lines).ToArray();
+            var filters = StringInstruction.GetFilters(batchText);
             BatchEditing.ScreenStrings(filters);
             results = results.Where(enc => BatchEditing.IsFilterMatch(filters, enc)); // Compare across all filters
         }
@@ -343,7 +344,7 @@ public partial class SAV_Encounters : Form
 
             Species = GetU16(CB_Species),
 
-            BatchInstructions = RTB_Instructions.Lines,
+            BatchInstructions = RTB_Instructions.Text,
             Version = WinFormsUtil.GetIndex(CB_GameOrigin),
         };
 
@@ -479,9 +480,11 @@ public partial class SAV_Encounters : Form
         if (s.Length == 0)
         { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
-        if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
-            s = Environment.NewLine + s;
-
+        // If we already have text, add a new line (except if the last line is blank).
+        var tb = RTB_Instructions;
+        var batchText = tb.Text;
+        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+            tb.AppendText(Environment.NewLine);
         RTB_Instructions.AppendText(s);
     }
 }

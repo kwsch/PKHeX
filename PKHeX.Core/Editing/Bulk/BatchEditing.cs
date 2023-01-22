@@ -57,10 +57,7 @@ public static class BatchEditing
         var dict = new Dictionary<string, PropertyInfo>(expectedMax);
         var props = selector(type);
         foreach (var p in props)
-        {
-            if (!dict.ContainsKey(p.Name))
-                dict.Add(p.Name, p);
-        }
+            dict.TryAdd(p.Name, p);
         return dict;
     }
 
@@ -190,8 +187,12 @@ public static class BatchEditing
         foreach (var i in il.Where(i => !i.PropertyValue.All(char.IsDigit)))
         {
             string pv = i.PropertyValue;
-            if (pv.StartsWith(CONST_SPECIAL) && !pv.StartsWith(CONST_BYTES, StringComparison.Ordinal) && pv.Contains(','))
-                i.SetRandRange(pv);
+            if (pv.StartsWith(CONST_SPECIAL) && !pv.StartsWith(CONST_BYTES, StringComparison.Ordinal))
+            {
+                var str = pv.AsSpan(1);
+                if (StringInstruction.IsRandomRange(str))
+                    i.SetRandomRange(str);
+            }
 
             SetInstructionScreenedValue(i);
         }
@@ -261,7 +262,7 @@ public static class BatchEditing
         {
             if (cmd.PropertyName is PROP_TYPENAME)
             {
-                if ((obj.GetType().Name == cmd.PropertyValue) != cmd.Evaluator)
+                if (!cmd.Comparer.IsCompareEquivalence(cmd.PropertyValue == obj.GetType().Name))
                     return false;
                 continue;
             }
@@ -270,7 +271,7 @@ public static class BatchEditing
                 return false;
             try
             {
-                if (pi.IsValueEqual(obj, cmd.PropertyValue) == cmd.Evaluator)
+                if (cmd.Comparer.IsCompareOperator(pi.CompareTo(obj, cmd.PropertyValue)))
                     continue;
             }
             // User provided inputs can mismatch the type's required value format, and fail to be compared.
@@ -359,7 +360,7 @@ public static class BatchEditing
 
         if (cmd.PropertyValue.StartsWith(CONST_SUGGEST, StringComparison.OrdinalIgnoreCase))
             return SetSuggestedPKMProperty(cmd.PropertyName, info, cmd.PropertyValue);
-        if (cmd.PropertyValue == CONST_RAND && cmd.PropertyName == nameof(PKM.Moves))
+        if (cmd is { PropertyValue: CONST_RAND, PropertyName: nameof(PKM.Moves) })
             return SetMoves(pk, info.Legality.GetMoveSet(true));
 
         if (SetComplexProperty(pk, cmd))
@@ -375,7 +376,7 @@ public static class BatchEditing
         if (cmd.Random)
             val = cmd.RandomValue;
         else if (cmd.PropertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(cmd.PropertyValue[1..], out var opi))
-            val = opi.GetValue(pk);
+            val = opi.GetValue(pk) ?? throw new NullReferenceException();
         else
             val = cmd.PropertyValue;
 
@@ -426,7 +427,7 @@ public static class BatchEditing
             return false;
         if (!pi.CanRead)
             return false;
-        return pi.IsValueEqual(pk, cmd.PropertyValue) == cmd.Evaluator;
+        return cmd.Comparer.IsCompareOperator(pi.CompareTo(pk, cmd.PropertyValue));
     }
 
     /// <summary>

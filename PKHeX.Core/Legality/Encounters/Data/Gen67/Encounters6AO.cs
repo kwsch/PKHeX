@@ -91,7 +91,7 @@ internal static class Encounters6AO
         new(  AS) { Species = 382, Level = 45, Location = 296, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Kyogre
         new(OR  ) { Species = 383, Level = 45, Location = 296, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Groudon
         new(ORAS) { Species = 384, Level = 70, Location = 316, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Rayquaza
-        new(ORAS) { Species = 386, Level = 80, Location = 316, Shiny = Shiny.Never, FlawlessIVCount = 3, Fateful = true }, // Deoxys
+        new(ORAS) { Species = 386, Level = 80, Location = 316, Shiny = Shiny.Never, FlawlessIVCount = 3, FatefulEncounter = true }, // Deoxys
 
         // Hoopa Rings
         new(  AS) { Species = 249, Level = 50, Location = 304, FlawlessIVCount = 3 }, // Lugia
@@ -118,8 +118,8 @@ internal static class Encounters6AO
         new(ORAS) { Species = 646, Level = 50, Location = 342, FlawlessIVCount = 3 }, // Kyurem
 
         // Devon Scope Kecleon
-        //new EncounterStatic { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119 -- dexnav encounter slot collision; prefer EncounterSlot
-        //new EncounterStatic { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120 -- dexnav encounter slot collision; prefer EncounterSlot
+        //new(ORAS) { Species = 352, Level = 30, Location = 240 }, // Kecleon @ Route 119 -- dexnav encounter slot collision; prefer EncounterSlot
+        //new(ORAS) { Species = 352, Level = 30, Location = 242 }, // Kecleon @ Route 120 -- dexnav encounter slot collision; prefer EncounterSlot
         new(ORAS) { Species = 352, Level = 40, Location = 176, Gender = 1 }, // Kecleon @ Lavaridge
         new(ORAS) { Species = 352, Level = 45, Location = 196, Ability = OnlyHidden }, // Kecleon @ Mossdeep City
 
@@ -156,9 +156,9 @@ internal static class Encounters6AO
     #region Trade Tables
     internal static readonly EncounterTrade6[] TradeGift_AO =
     {
-        new(ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = OnlySecond, TID = 30724, IVs = new(-1,31,-1,-1,-1,-1), Gender = 0, Nature = Nature.Brave }, // Makuhita
-        new(ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = OnlyFirst,  TID = 03239, IVs = new(-1,-1,-1,31,-1,-1), Gender = 1, Nature = Nature.Naughty }, // Skitty
-        new(ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = OnlyHidden, TID = 00325, IVs = new(31,-1,-1,-1,-1,31), Gender = 1, Nature = Nature.Calm }, // Corsola
+        new(ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = OnlySecond, TID16 = 30724, IVs = new(-1,31,-1,-1,-1,-1), Gender = 0, Nature = Nature.Brave }, // Makuhita
+        new(ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = OnlyFirst,  TID16 = 03239, IVs = new(-1,-1,-1,31,-1,-1), Gender = 1, Nature = Nature.Naughty }, // Skitty
+        new(ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = OnlyHidden, TID16 = 00325, IVs = new(31,-1,-1,-1,-1,31), Gender = 1, Nature = Nature.Calm }, // Corsola
     };
     #endregion
 

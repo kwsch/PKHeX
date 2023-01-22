@@ -34,7 +34,7 @@ public sealed class PersonalInfo3 : PersonalInfo, IPersonalAbility12
     public override int EV_SPD { get => (EVYield >> 10) & 0x3; set => EVYield = (EVYield & ~(0x3 << 10)) | ((value & 0x3) << 10); }
     public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0xC)); set => WriteInt16LittleEndian(Data.AsSpan(0xC), (short)value); }
     public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0xE)); set => WriteInt16LittleEndian(Data.AsSpan(0xE), (short)value); }
-    public override int Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+    public override byte Gender { get => Data[0x10]; set => Data[0x10] = value; }
     public override int HatchCycles { get => Data[0x11]; set => Data[0x11] = (byte)value; }
     public override int BaseFriendship { get => Data[0x12]; set => Data[0x12] = (byte)value; }
     public override byte EXPGrowth { get => Data[0x13]; set => Data[0x13] = value; }
@@ -57,4 +57,24 @@ public sealed class PersonalInfo3 : PersonalInfo, IPersonalAbility12
     public int GetAbility(bool second) => second && HasSecondAbility ? Ability2 : Ability1;
 
     public bool HasSecondAbility => Ability1 != Ability2;
+
+    public void AddTMHM(ReadOnlySpan<byte> data) => TMHM = FlagUtil.GitBitFlagArray(data);
+
+    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = FlagUtil.GitBitFlagArray(data);
+
+    /// <summary>
+    /// TM/HM learn compatibility flags for individual moves.
+    /// </summary>
+    public bool[] TMHM { get; private set; } = Array.Empty<bool>();
+
+    /// <summary>
+    /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
+    /// </summary>
+    public bool[] TypeTutors { get; private set; } = Array.Empty<bool>();
+
+    public void CopyFrom(PersonalInfo3 other)
+    {
+        TMHM = other.TMHM;
+        TypeTutors = other.TypeTutors;
+    }
 }

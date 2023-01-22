@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -17,7 +18,7 @@ public sealed class PK4 : G4PKM
     public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
     public override EntityContext Context => EntityContext.Gen4;
-    public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormEntry(Species, Form);
+    public override PersonalInfo4 PersonalInfo => PersonalTable.HGSS.GetFormEntry(Species, Form);
 
     public PK4() : base(PokeCrypto.SIZE_4PARTY) { }
     public PK4(byte[] data) : base(DecryptParty(data)) { }
@@ -29,7 +30,7 @@ public sealed class PK4 : G4PKM
         return data;
     }
 
-    public override PKM Clone() => new PK4((byte[])Data.Clone());
+    public override PK4 Clone() => new((byte[])Data.Clone());
 
     // Structure
     public override uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
@@ -39,8 +40,9 @@ public sealed class PK4 : G4PKM
     #region Block A
     public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x08)); set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value); }
     public override int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
-    public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value); }
-    public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value); }
+    public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value); }
+    public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value); }
+    public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value); }
     public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
     public override int OT_Friendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override int Ability { get => Data[0x15]; set => Data[0x15] = (byte)value; }
@@ -95,6 +97,10 @@ public sealed class PK4 : G4PKM
     public override bool RIB3_5 { get => (RIB3 & (1 << 5)) == 1 << 5; set => RIB3 = (byte)((RIB3 & ~(1 << 5)) | (value ? 1 << 5 : 0)); } // Unused
     public override bool RIB3_6 { get => (RIB3 & (1 << 6)) == 1 << 6; set => RIB3 = (byte)((RIB3 & ~(1 << 6)) | (value ? 1 << 6 : 0)); } // Unused
     public override bool RIB3_7 { get => (RIB3 & (1 << 7)) == 1 << 7; set => RIB3 = (byte)((RIB3 & ~(1 << 7)) | (value ? 1 << 7 : 0)); } // Unused
+
+    public override int RibbonCount => BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x30)) & 0b00001111_11111111__11111111_11111111)
+                                     + BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x3C)))
+                                     + BitOperations.PopCount(ReadUInt32LittleEndian(Data.AsSpan(0x60)) & 0b00000000_00001111__11111111_11111111);
     #endregion
 
     #region Block B
@@ -180,7 +186,7 @@ public sealed class PK4 : G4PKM
     public override string Nickname
     {
         get => StringConverter4.GetString(Nickname_Trash);
-        set => StringConverter4.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None);
+        set => StringConverter4.SetString(Nickname_Trash, value, 10, StringConverterOption.None);
     }
 
     // 0x5E unused
@@ -228,7 +234,7 @@ public sealed class PK4 : G4PKM
     public override string OT_Name
     {
         get => StringConverter4.GetString(OT_Trash);
-        set => StringConverter4.SetString(OT_Trash, value.AsSpan(), 7, StringConverterOption.None);
+        set => StringConverter4.SetString(OT_Trash, value, 7, StringConverterOption.None);
     }
 
     public override int Egg_Year { get => Data[0x78]; set => Data[0x78] = (byte)value; }
@@ -311,7 +317,7 @@ public sealed class PK4 : G4PKM
         if (Data[0x5F] < 0x10 && ReadUInt16LittleEndian(Data.AsSpan(0x80)) > 0x4000)
             return new PK5(Data);
 
-        DateTime moment = DateTime.Now;
+        var moment = DateOnly.FromDateTime(DateTime.Now);
 
         PK5 pk5 = new(Data.AsSpan(0, PokeCrypto.SIZE_5PARTY).ToArray()) // Convert away!
         {

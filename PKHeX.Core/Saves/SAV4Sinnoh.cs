@@ -45,11 +45,11 @@ public abstract class SAV4Sinnoh : SAV4
 
     public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         const int maxlen = 8;
         var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
-        SetString(span, value.AsSpan(), maxlen, StringConverterOption.ClearZero);
+        SetString(span, value, maxlen, StringConverterOption.ClearZero);
     }
     #endregion
 
@@ -127,9 +127,9 @@ public abstract class SAV4Sinnoh : SAV4
             SetData(General, tree.Data, OFS_HONEY + (HONEY_SIZE * index));
     }
 
-    public MunchlaxTreeSet4 GetMunchlaxTrees() => CalculateMunchlaxTrees(TID, SID);
+    public MunchlaxTreeSet4 GetMunchlaxTrees() => CalculateMunchlaxTrees(TID16, SID16);
 
-    public static MunchlaxTreeSet4 CalculateMunchlaxTrees(int tid, int sid)
+    public static MunchlaxTreeSet4 CalculateMunchlaxTrees(ushort tid, ushort sid)
     {
         int A = (tid >> 8) % 21;
         int B = (tid & 0x00FF) % 21;

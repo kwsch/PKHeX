@@ -1,5 +1,3 @@
-using System;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -26,7 +24,7 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract int EggGroup2 { get; set; }
     public abstract int CatchRate { get; set; }
     public virtual int EvoStage { get; set; }
-    public abstract int Gender { get; set; }
+    public abstract byte Gender { get; set; }
     public abstract int HatchCycles { get; set; }
     public abstract int BaseFriendship { get; set; }
     public abstract byte EXPGrowth { get; set; }
@@ -40,38 +38,6 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract int Color { get; set; }
     public virtual int Height { get; set; }
     public virtual int Weight { get; set; }
-
-    /// <summary>
-    /// TM/HM learn compatibility flags for individual moves.
-    /// </summary>
-    public bool[] TMHM = Array.Empty<bool>();
-
-    /// <summary>
-    /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
-    /// </summary>
-    public bool[] TypeTutors = Array.Empty<bool>();
-
-    /// <summary>
-    /// Special tutor learn compatibility flags for individual moves.
-    /// </summary>
-    public bool[][] SpecialTutors = Array.Empty<bool[]>();
-
-    protected static bool[] GetBits(ReadOnlySpan<byte> data)
-    {
-        bool[] result = new bool[data.Length << 3];
-        for (int i = result.Length - 1; i >= 0; i--)
-            result[i] = ((data[i >> 3] >> (i & 7)) & 0x1) == 1;
-        return result;
-    }
-
-    protected static void SetBits(ReadOnlySpan<bool> bits, Span<byte> data)
-    {
-        for (int i = bits.Length - 1; i >= 0; i--)
-            data[i>>3] |= (byte)(bits[i] ? 1 << (i&0x7) : 0);
-    }
-
-    public void AddTMHM(ReadOnlySpan<byte> data) => TMHM = GetBits(data);
-    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = GetBits(data);
 
     public int FormIndex(ushort species, byte form)
     {
@@ -91,13 +57,13 @@ public abstract class PersonalInfo : IPersonalInfo
         return true;
     }
 
-    public const int RatioMagicGenderless = 255;
-    public const int RatioMagicFemale = 254;
-    public const int RatioMagicMale = 0;
+    public const byte RatioMagicGenderless = 255;
+    public const byte RatioMagicFemale = 254;
+    public const byte RatioMagicMale = 0;
 
-    public static bool IsSingleGender(int gt) => (uint)(gt - 1) >= 253;
+    public static bool IsSingleGender(byte gt) => gt - 1u >= 253;
 
-    public bool IsDualGender => (uint)(Gender - 1) < 253;
+    public bool IsDualGender => Gender - 1u < 253;
     public bool Genderless => Gender == RatioMagicGenderless;
     public bool OnlyFemale => Gender == RatioMagicFemale;
     public bool OnlyMale => Gender == RatioMagicMale;
@@ -114,4 +80,22 @@ public abstract class PersonalInfo : IPersonalInfo
             return true;
         return form < FormCount;
     }
+}
+
+public interface IPersonalInfoTM
+{
+    bool GetIsLearnTM(int index);
+    void SetIsLearnTM(int index, bool value);
+}
+
+public interface IPersonalInfoTutorType
+{
+    bool GetIsLearnTutorType(int index);
+    void SetIsLearnTutorType(int index, bool value);
+}
+
+public interface IPersonalInfoTR
+{
+    bool GetIsLearnTR(int index);
+    void SetIsLearnTR(int index, bool value);
 }

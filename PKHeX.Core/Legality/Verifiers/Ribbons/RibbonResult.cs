@@ -35,7 +35,7 @@ public readonly record struct RibbonResult
         Mainline => ((RibbonIndex)Value).GetPropertyName(),
         Index3 => ((RibbonIndex3)Value).GetPropertyName(),
         Index4 => ((RibbonIndex4)Value).GetPropertyName(),
-        _ => throw new ArgumentOutOfRangeException(),
+        _ => throw new ArgumentException($"Invalid type: {Type}"),
     };
 
     /// <summary>
@@ -48,7 +48,7 @@ public readonly record struct RibbonResult
             case Mainline: ((RibbonIndex)Value).Fix(args, IsMissing); break;
             case Index3: ((RibbonIndex3)Value).Fix(args, IsMissing); break;
             case Index4: ((RibbonIndex4)Value).Fix(args, IsMissing); break;
-            default: throw new ArgumentOutOfRangeException();
+            default: throw new ArgumentException($"Invalid type: {Type}");
         }
     }
 }

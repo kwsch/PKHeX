@@ -6,34 +6,19 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.BDSP"/> games.
 /// </summary>
-public sealed class PersonalInfo8BDSP : PersonalInfo, IPersonalAbility12H
+public sealed class PersonalInfo8BDSP : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType, IPermitRecord
 {
     public const int SIZE = 0x44;
-    private const int CountTM = 100;
     private readonly byte[] Data;
 
-    public PersonalInfo8BDSP(byte[] data)
-    {
-        Data = data;
-        TMHM = new bool[CountTM];
-        for (var i = 0; i < CountTM; i++)
-            TMHM[i] = FlagUtil.GetFlag(data, 0x28 + (i >> 3), i);
+    public PersonalInfo8BDSP(byte[] data) => Data = data;
 
-        // 0x38-0x3B type tutors, but only 8 bits are valid flags.
-        var typeTutors = new bool[8];
-        for (int i = 0; i < typeTutors.Length; i++)
-            typeTutors[i] = FlagUtil.GetFlag(data, 0x38, i);
-        TypeTutors = typeTutors;
-    }
+    public override byte[] Write() => Data;
 
-    public override byte[] Write()
-    {
-        for (var i = 0; i < CountTM; i++)
-            FlagUtil.SetFlag(Data, 0x28 + (i >> 3), i, TMHM[i]);
-        for (int i = 0; i < TypeTutors.Length; i++)
-            FlagUtil.SetFlag(Data, 0x38, i, TypeTutors[i]);
-        return Data;
-    }
+    public bool IsRecordPermitted(int index) => false;
+    public ReadOnlySpan<ushort> RecordPermitIndexes => PersonalInfo8SWSH.RecordedMoves;
+    public int RecordCountTotal => 112;
+    public int RecordCountUsed => PersonalInfo8SWSH.RecordedMoves.Length;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -55,7 +40,7 @@ public sealed class PersonalInfo8BDSP : PersonalInfo, IPersonalAbility12H
     public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteInt16LittleEndian(Data.AsSpan(0x0C), (short)value); }
     public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteInt16LittleEndian(Data.AsSpan(0x0E), (short)value); }
     public int Item3 { get => ReadInt16LittleEndian(Data.AsSpan(0x10)); set => WriteInt16LittleEndian(Data.AsSpan(0x10), (short)value); }
-    public override int Gender { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+    public override byte Gender { get => Data[0x12]; set => Data[0x12] = value; }
     public override int HatchCycles { get => Data[0x13]; set => Data[0x13] = (byte)value; }
     public override int BaseFriendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override byte EXPGrowth { get => Data[0x15]; set => Data[0x15] = value; }
@@ -98,4 +83,64 @@ public sealed class PersonalInfo8BDSP : PersonalInfo, IPersonalAbility12H
     /// Checks if the entry shows up in any of the built-in Pokédex.
     /// </summary>
     public bool IsInDex => PokeDexIndex != 0;
+
+    private const int TMHM = 0x28;
+    private const int CountTM = 100;
+    private const int ByteCountTM = 112 / 8;
+    private const int TypeTutors = 0x38;
+    private const int TypeTutorsCount = 4;
+
+    public bool GetIsLearnTM(int index)
+    {
+        if ((uint)index >= CountTM)
+            return false;
+        return (Data[0x28 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTM(int index, bool value)
+    {
+        if ((uint)index >= CountTM)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public bool GetIsLearnTutorType(int index)
+    {
+        if ((uint)index >= TypeTutorsCount)
+            return false;
+        return (Data[TypeTutors + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTutorType(int index, bool value)
+    {
+        if ((uint)index >= TypeTutorsCount)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[TypeTutors + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TypeTutors + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var span = Data.AsSpan(TMHM, ByteCountTM);
+        for (int index = CountTM - 1; index >= 0; index--)
+        {
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
+
+    public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var tutor = Data[TypeTutors];
+        for (int index = TypeTutorsCount - 1; index >= 0; index--)
+        {
+            if ((tutor & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
 }

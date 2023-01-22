@@ -27,7 +27,8 @@ public sealed class PB8 : G8PKM
     };
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
-    public override PersonalInfo PersonalInfo => PersonalTable.BDSP.GetFormEntry(Species, Form);
+    public override PersonalInfo8BDSP PersonalInfo => PersonalTable.BDSP.GetFormEntry(Species, Form);
+    public override IPermitRecord Permit => PersonalInfo;
     public override bool IsNative => BDSP;
     public override EntityContext Context => EntityContext.Gen8b;
 
@@ -38,7 +39,7 @@ public sealed class PB8 : G8PKM
     }
 
     public PB8(byte[] data) : base(data) { }
-    public override PKM Clone() => new PB8((byte[])Data.Clone());
+    public override PB8 Clone() => new((byte[])Data.Clone());
 
     public bool IsDprIllegal
     {
@@ -51,7 +52,7 @@ public sealed class PB8 : G8PKM
         if (IsEgg)
         {
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
-            if ((tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
+            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
 
             // Unfortunately, BDSP doesn't return if it's an egg, and can update the HT details & handler.
@@ -99,7 +100,7 @@ public sealed class PB8 : G8PKM
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
             return false;
 
         CurrentHandler = 0;

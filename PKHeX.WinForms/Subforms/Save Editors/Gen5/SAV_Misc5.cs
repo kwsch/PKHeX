@@ -142,7 +142,7 @@ public partial class SAV_Misc5 : Form
             }
 
             // LibertyPass
-            valLibPass = keyLibPass ^ (uint)((SAV.SID << 16) | SAV.TID);
+            valLibPass = keyLibPass ^ SAV.ID32;
             bLibPass = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass)) == valLibPass;
             CHK_LibertyPass.Checked = bLibPass;
         }
@@ -189,9 +189,9 @@ public partial class SAV_Misc5 : Form
             if (FlyDestC[i] < 32)
             {
                 if (CLB_FlyDest.GetItemChecked(i))
-                    valFly |= (uint) 1 << FlyDestC[i];
+                    valFly |= 1u << FlyDestC[i];
                 else
-                    valFly &= ~((uint) 1 << FlyDestC[i]);
+                    valFly &= ~(1u << FlyDestC[i]);
             }
             else
             {
@@ -519,7 +519,7 @@ public partial class SAV_Misc5 : Form
     public static string GetSpeciesName(ushort species)
     {
         var arr = GameInfo.Strings.Species;
-        if ((uint)species >= arr.Count)
+        if (species >= arr.Count)
             return $"Invalid: {species}";
         return arr[species];
     }

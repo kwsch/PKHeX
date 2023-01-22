@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -18,11 +18,16 @@ public static class StringConverter12Transporter
     public static string GetString(ReadOnlySpan<byte> data, bool jp)
     {
         Span<char> result = stackalloc char[data.Length];
-        int length = LoadString1(data, result, jp);
-        return new string(result[..length].ToArray());
+        int length = LoadString(data, result, jp);
+        return new string(result[..length]);
     }
 
-    private static int LoadString1(ReadOnlySpan<byte> data, Span<char> result, bool jp)
+    /// <inheritdoc cref="GetString(ReadOnlySpan{byte},bool)"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <param name="jp">Data source is Japanese.</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
     {
         var table = jp ? jp_table : us_table;
         int i = 0;
@@ -51,10 +56,9 @@ public static class StringConverter12Transporter
         if (!IsHiragana(chars))
             return;
 
-        var span = Katakana.AsSpan();
         for (int i = 0; i < chars.Length; i++)
         {
-            int index = span.IndexOf(chars[i]);
+            int index = Katakana.IndexOf(chars[i]);
             if (index == -1)
                 continue;
             chars[i] = Hiragana[index];
@@ -63,13 +67,7 @@ public static class StringConverter12Transporter
 
     private static bool IsKata(ReadOnlySpan<char> chars)
     {
-        var span = Katakana.AsSpan();
-        foreach (var c in chars)
-        {
-            if (span.IndexOf(c) != -1)
-                return true;
-        }
-        return false;
+        return chars.IndexOfAny(Katakana) != -1;
     }
 
     private static bool IsHiragana(ReadOnlySpan<char> chars)
@@ -84,8 +82,8 @@ public static class StringConverter12Transporter
         return true;
     }
 
-    private static readonly char[] Katakana = { 'ベ', 'ペ', 'ヘ', 'リ' };
-    private static readonly char[] Hiragana = { 'べ', 'ぺ', 'へ', 'り' };
+    private const string Katakana = "ベペヘリ";
+    private const string Hiragana = "べぺへり";
 
     /// <summary>
     /// International 1->7 character translation table

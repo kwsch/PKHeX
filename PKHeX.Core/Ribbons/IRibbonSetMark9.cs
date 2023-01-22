@@ -12,40 +12,11 @@ public interface IRibbonSetMark9
     bool RibbonMarkMightiest { get; set; }
     bool RibbonMarkTitan { get; set; }
 
-    bool HasMark();
+    bool HasMarkEncounter9 { get; }
 }
 
 internal static partial class RibbonExtensions
 {
-    private static readonly string[] RibbonSetNamesMark9 =
-    {
-        nameof(IRibbonSetMark9.RibbonMarkJumbo),
-        nameof(IRibbonSetMark9.RibbonMarkMini),
-        nameof(IRibbonSetMark9.RibbonMarkItemfinder),
-        nameof(IRibbonSetMark9.RibbonMarkPartner),
-        nameof(IRibbonSetMark9.RibbonMarkGourmand),
-        nameof(IRibbonSetMark9.RibbonMarkAlpha),
-        nameof(IRibbonSetMark9.RibbonMarkMightiest),
-        nameof(IRibbonSetMark9.RibbonMarkTitan),
-    };
-
-    internal static bool[] RibbonBits(this IRibbonSetMark9 set)
-    {
-        return new[]
-        {
-            set.RibbonMarkJumbo,
-            set.RibbonMarkMini,
-            set.RibbonMarkItemfinder,
-            set.RibbonMarkPartner,
-            set.RibbonMarkGourmand,
-            set.RibbonMarkAlpha,
-            set.RibbonMarkMightiest,
-            set.RibbonMarkTitan,
-        };
-    }
-
-    internal static string[] RibbonNames(this IRibbonSetMark9 _) => RibbonSetNamesMark9;
-
     internal static void CopyRibbonSetMark9(this IRibbonSetMark9 set, IRibbonSetMark9 dest)
     {
         dest.RibbonMarkJumbo = set.RibbonMarkJumbo;

@@ -23,7 +23,7 @@ internal static partial class RibbonExtensions
     /// <summary>
     /// Checks if the <see cref="set"/> has all five contest stat ribbons true.
     /// </summary>
-    public static bool HasAllContestRibbons(this IRibbonSetCommon6 set) => set.RibbonMasterCoolness && set.RibbonMasterBeauty && set.RibbonMasterCuteness && set.RibbonMasterCleverness && set.RibbonMasterToughness;
+    public static bool HasAllContestRibbons(this IRibbonSetCommon6 set) => set is { RibbonMasterCoolness: true, RibbonMasterBeauty: true, RibbonMasterCuteness: true, RibbonMasterCleverness: true, RibbonMasterToughness: true };
 
     internal static void CopyRibbonSetCommon6(this IRibbonSetCommon6 set, IRibbonSetCommon6 dest)
     {

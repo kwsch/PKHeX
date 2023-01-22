@@ -1,8 +1,7 @@
-﻿using FluentAssertions;
-using PKHeX.Core;
+using FluentAssertions;
 using Xunit;
 
-namespace PKHeX.Tests.Saves;
+namespace PKHeX.Core.Tests.Saves;
 
 public class SwishCryptoTests
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -49,7 +49,7 @@ public sealed class BattleTowerWork8b : SaveBlock<SAV8BS>
     private static void SetRecords(IReadOnlyList<BattleTowerClassData8b> value)
     {
         if (value.Count != COUNT_CLASSDATA)
-            throw new ArgumentOutOfRangeException(nameof(value.Count));
+            throw new ArgumentException($"Expected {COUNT_CLASSDATA} items, received {value.Count}.", nameof(value));
         // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
     }
 }

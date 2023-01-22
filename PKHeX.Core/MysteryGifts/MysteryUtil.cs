@@ -102,7 +102,7 @@ public static class MysteryUtil
 
     private static void AddLinesPKM(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
     {
-        var id = gift.Generation < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{gift.TrainerSID7:D4}]{gift.TrainerID7:D6}";
+        var id = gift.Generation < 7 ? $"{gift.TID16:D5}/{gift.SID16:D5}" : $"[{gift.TrainerSID7:D4}]{gift.TrainerTID7:D6}";
 
         var first =
             $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem >= 0 ? gift.HeldItem : 0]}  --- "
@@ -139,7 +139,7 @@ public static class MysteryUtil
             return false;
         }
 
-        if (g is WC6 && g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
+        if (g is WC6 { CardID: 2048, ItemID: 726 }) // Eon Ticket (OR/AS)
         {
             if (sav is not SAV6AO)
             {

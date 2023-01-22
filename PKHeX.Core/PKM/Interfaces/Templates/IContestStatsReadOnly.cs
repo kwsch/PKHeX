@@ -101,8 +101,8 @@ public static partial class Extensions
     /// <param name="s">Entity to check</param>
     /// <returns>True if any equals <see cref="CONTEST_MAX"/></returns>
     public static bool IsAnyContestStatMax(this IContestStatsReadOnly s) => CONTEST_MAX == s.CNT_Cool
-                                                                    || CONTEST_MAX == s.CNT_Beauty
-                                                                    || CONTEST_MAX == s.CNT_Cute
-                                                                    || CONTEST_MAX == s.CNT_Smart
-                                                                    || CONTEST_MAX == s.CNT_Tough;
+                                                                         || CONTEST_MAX == s.CNT_Beauty
+                                                                         || CONTEST_MAX == s.CNT_Cute
+                                                                         || CONTEST_MAX == s.CNT_Smart
+                                                                         || CONTEST_MAX == s.CNT_Tough;
 }

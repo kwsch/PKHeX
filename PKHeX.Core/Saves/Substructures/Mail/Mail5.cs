@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -40,7 +40,7 @@ public sealed class Mail5 : MailDetail
     public override byte AuthorLanguage { get => Data[5]; set => Data[5] = value; }
     public override byte AuthorVersion { get => Data[6]; set => Data[6] = value; }
     public override int MailType { get => Data[7]; set => Data[7] = (byte)value; }
-    public override string AuthorName { get => StringConverter5.GetString(Data.AsSpan(8, 0x10)); set => StringConverter5.SetString(Data.AsSpan(8, 0x10), value.AsSpan(), 7, StringConverterOption.ClearZero); }
+    public override string AuthorName { get => StringConverter5.GetString(Data.AsSpan(8, 0x10)); set => StringConverter5.SetString(Data.AsSpan(8, 0x10), value, 7, StringConverterOption.ClearZero); }
     public int GetMisc(int index) => ReadUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)));
     public void SetMisc(int index, int value) => WriteUInt16LittleEndian(Data.AsSpan(0x1C - (index * 2)), (ushort)value);
     public ushort MessageEnding { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }

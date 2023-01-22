@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -32,7 +32,7 @@ public partial class SAV_Trainer8b : Form
         GetComboBoxes();
         GetTextBoxes();
 
-        TrainerStats.LoadRecords(SAV, Records.RecordList_8b);
+        TrainerStats.LoadRecords(SAV, Record8b.RecordList_8b);
 
         Loading = false;
     }
@@ -46,14 +46,14 @@ public partial class SAV_Trainer8b : Form
     private void GetTextBoxes()
     {
         // Get Data
-        CB_Game.SelectedIndex = Math.Max(0, Math.Min(1, SAV.Game - (int)GameVersion.BD));
+        CB_Game.SelectedIndex = Math.Clamp(SAV.Game - (int)GameVersion.BD, 0, 1);
         CB_Gender.SelectedIndex = SAV.Gender;
 
         NUD_BP.Value = SAV.BattleTower.BP;
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV);
+        trainerID1.LoadIDValues(SAV, SAV.Generation);
         MT_Money.Text = SAV.Money.ToString();
         CB_Language.SelectedValue = SAV.Language;
         TB_Rival.Text = SAV.Rival;
@@ -93,11 +93,11 @@ public partial class SAV_Trainer8b : Form
     private void Save()
     {
         SaveTrainerInfo();
-        if (SAV.TID == 0 && SAV.SID == 0)
-            SAV.SID = 1; // Cannot have an all-zero ID.
+        if (SAV is { TID16: 0, SID16: 0 })
+            SAV.SID16 = 1; // Cannot have an all-zero ID.
 
         // Trickle down the changes to the extra record block.
-        if (SAV.HasFirstSaveFileExpansion && (SAV.OT != Origin.OT || SAV.TID != Origin.TID || SAV.SID != Origin.SID))
+        if (SAV.HasFirstSaveFileExpansion && (SAV.OT != Origin.OT || SAV.TID16 != Origin.TID16 || SAV.SID16 != Origin.SID16))
             SAV.RecordAdd.ReplaceOT(Origin, SAV);
     }
 

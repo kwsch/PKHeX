@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -114,7 +114,7 @@ public sealed class Roamer6
     public override string ToString() => ((Species)Species).ToString();
 
     private ushort SpecForm { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); }
-    public int Species { get => SpecForm & 0x3FF; set => SpecForm = (ushort)((SpecForm & ~0x3FF) | (value & 0x3FF)); }
+    public ushort Species { get => (ushort)(SpecForm & 0x3FF); set => SpecForm = (ushort)((SpecForm & ~0x3FF) | (value & 0x3FF)); }
     public bool Flag1 { get => SpecForm >> 14 != 0; set => SpecForm = (ushort)((SpecForm & 0xBFFF) | (value ? (1 << 14) : 0)); }
     public bool Flag2 { get => SpecForm >> 15 != 0; set => SpecForm = (ushort)((SpecForm & 0x7FFF) | (value ? (1 << 15) : 0)); }
 

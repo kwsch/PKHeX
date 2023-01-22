@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -17,7 +18,7 @@ public static class Records
     /// <param name="recordID">Record ID to retrieve the maximum for</param>
     /// <param name="maxes">Maximum enum values for each record</param>
     /// <returns>Maximum the record can be</returns>
-    public static int GetMax(int recordID, IReadOnlyList<byte> maxes)
+    public static int GetMax(int recordID, ReadOnlySpan<byte> maxes)
     {
         if ((byte)recordID >= Count)
             return 0;
@@ -33,13 +34,13 @@ public static class Records
 
     private static readonly int[] MaxByType = {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
 
-    public static byte[] DailyPairs_6 = {29, 30, 110, 111, 112, 113, 114, 115, 116, 117};
-    public static byte[] DailyPairs_7 = {22, 23, 110, 111, 112, 113, 114, 115, 116, 117};
+    public static ReadOnlySpan<byte> DailyPairs_6 => new byte[] {29, 30, 110, 111, 112, 113, 114, 115, 116, 117};
+    public static ReadOnlySpan<byte> DailyPairs_7 => new byte[] {22, 23, 110, 111, 112, 113, 114, 115, 116, 117};
 
     /// <summary>
     /// Festa pairs; if updating the lower index record, update the Festa Mission record if currently active?
     /// </summary>
-    public static byte[] FestaPairs_7 =
+    public static ReadOnlySpan<byte> FestaPairs_7 => new byte[]
     {
         175, 6,
         176, 33,
@@ -51,116 +52,10 @@ public static class Records
         184, 159,
         185, 9,
     };
+}
 
-    public static readonly IReadOnlyList<byte> MaxType_XY = new byte[]
-    {
-        0, 0, 0, 0, 0, 0, 0, 2, 2, 2,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 2, 2, 2, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-        3, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 7, 5, 4, 4, 4, 4, 4, 4, 4,
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-        4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 6, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-    };
-
-    public static readonly IReadOnlyList<byte> MaxType_AO = new byte[]
-    {
-        0, 0, 0, 0, 0, 0, 0, 2, 2, 2,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 2, 2, 2, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
-        3, 0, 0, 1, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 7, 5, 4, 4, 4, 4, 4, 4, 4,
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-        4, 4, 4, 4, 4, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 6, 4, 4,
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-        7, 7, 7, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-    };
-
-    public static readonly IReadOnlyList<byte> MaxType_SM = new byte[]
-    {
-        0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
-        0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-    };
-
-    public static readonly IReadOnlyList<byte> MaxType_USUM = new byte[]
-    {
-        0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
-        0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
-        0, 0, 0, 0, 0, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-        2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-        5, 5, 4, 4, 4, 5, 5, 4, 5, 5,
-    };
-
-    public static readonly IReadOnlyList<byte> MaxType_SWSH = new byte[]
-    {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    };
-
+public static class RecordLists
+{
     public static readonly Dictionary<int, string> RecordList_6 = new()
     {
         {000, "Steps Taken"},
@@ -591,72 +486,4 @@ public static class Records
 
     public const int G8BattleTowerSingleWin = 47;
     public const int G8BattleTowerDoubleWin = 48;
-
-    public static readonly IReadOnlyList<int> MaxValue_BDSP = new[]
-    {
-        int.MaxValue, // CLEAR_TIME
-        9_999, // DENDOU_CNT
-        999_999, // CAPTURE_POKE
-        999_999, // FISHING_SUCCESS
-        999_999, // TAMAGO_HATCHING
-        999_999, // BEAT_DOWN_POKE
-        9_999, // RENSHOU_SINGLE
-        9_999, // RENSHOU_SINGLE_NOW
-        9_999, // RENSHOU_DOUBLE
-        9_999, // RENSHOU_DOUBLE_NOW
-        9_999, // RENSHOU_MASTER_SINGLE
-        9_999, // RENSHOU_MASTER_SINGLE_NOW
-        9_999, // RENSHOU_MASTER_DOUBLE
-        9_999, // RENSHOU_MASTER_DOUBLE_NOW
-        7, // BTL_TOWER_AVERAGE
-        5, // CONTEST_STYLE_RANK
-        5, // CONTEST_BEATIFUL_RANK
-        5, // CONTEST_CUTE_RANK
-        5, // CONTEST_CLEVER_RANK
-        5, // CONTEST_STRONG_RANK
-        9_999, // CONTEST_PLAY_SINGLE
-        9_999, // CONTEST_PLAY_LOCAL
-        9_999, // CONTEST_PLAY_NETWORK
-        9_999, // CONTEST_WIN_SINGLE
-        9_999, // CONTEST_WIN_LOCAL
-        9_999, // CONTEST_WIN_NETWORK
-        100,  // CONTEST_RATE_SINGLE
-        100,  // CONTEST_RATE_LOCAL
-        100,  // CONTEST_RATE_NETWORK
-        65_536,// CONTEST_GET_RIBBON
-    };
-
-    public static readonly Dictionary<int, string> RecordList_8b = new()
-    {
-        { 00, "CLEAR_TIME" },
-        { 01, "DENDOU_CNT" },
-        { 02, "CAPTURE_POKE" },
-        { 03, "FISHING_SUCCESS" },
-        { 04, "TAMAGO_HATCHING" },
-        { 05, "BEAT_DOWN_POKE" },
-        { 06, "RENSHOU_SINGLE" },
-        { 07, "RENSHOU_SINGLE_NOW" },
-        { 08, "RENSHOU_DOUBLE" },
-        { 09, "RENSHOU_DOUBLE_NOW" },
-        { 10, "RENSHOU_MASTER_SINGLE" },
-        { 11, "RENSHOU_MASTER_SINGLE_NOW" },
-        { 12, "RENSHOU_MASTER_DOUBLE" },
-        { 13, "RENSHOU_MASTER_DOUBLE_NOW" },
-        { 14, "BTL_TOWER_AVERAGE" },
-        { 15, "CONTEST_STYLE_RANK" },
-        { 16, "CONTEST_BEATIFUL_RANK" },
-        { 17, "CONTEST_CUTE_RANK" },
-        { 18, "CONTEST_CLEVER_RANK" },
-        { 19, "CONTEST_STRONG_RANK" },
-        { 20, "CONTEST_PLAY_SINGLE" },
-        { 21, "CONTEST_PLAY_LOCAL" },
-        { 22, "CONTEST_PLAY_NETWORK" },
-        { 23, "CONTEST_WIN_SINGLE" },
-        { 24, "CONTEST_WIN_LOCAL" },
-        { 25, "CONTEST_WIN_NETWORK" },
-        { 26, "CONTEST_RATE_SINGLE" },
-        { 27, "CONTEST_RATE_LOCAL" },
-        { 28, "CONTEST_RATE_NETWORK" },
-        { 29, "CONTEST_GET_RIBBON" },
-    };
 }

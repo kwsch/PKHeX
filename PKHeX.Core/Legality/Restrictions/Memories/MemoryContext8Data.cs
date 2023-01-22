@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
 public partial class MemoryContext8
 {
-    private static readonly byte[] Memory_NotSWSH =
+    private static ReadOnlySpan<byte> Memory_NotSWSH => new byte[]
     {
         10, // {0} got treats from {1}. {4} that {3}.
         17, // {0} battled at {1}’s side and beat {2}. {4} that {3}.
@@ -69,7 +70,7 @@ public partial class MemoryContext8
         1260, 1261, 1262, 1263,
     };
 
-    private static readonly ushort[] LotoPrizeSWSH =
+    private static ReadOnlySpan<byte> LotoPrizeSWSH => new byte[]
     {
         0001, 0033, 0050, 0051, 0053,
     };
@@ -253,7 +254,7 @@ public partial class MemoryContext8
         71, 72, 73, 74, 75, 76, 77, 78, 79,
     };
 
-    private static readonly byte[] MemoryMinIntensity =
+    private static ReadOnlySpan<byte> MemoryMinIntensity => new byte[]
     {
         0, 1, 1, 1, 1, 2, 2, 2, 2, 2,
         2, 2, 2, 2, 3, 3, 3, 3, 4, 4,
@@ -267,23 +268,23 @@ public partial class MemoryContext8
     };
 
 #if FALSE
-        // [0,99]+1 >= CHANCE -> abort
-        // this silly +1 causes:
-        // 100% memories to fail 1% of the time
-        // 1% memories to fail 100% of the time (!!!)
-        // swsh v1.3 sub_71013B0C40
-        private static readonly byte[] MemoryRandChance =
-        {
-            000, 100, 100, 100, 100, 005, 005, 005, 005, 005,
-            005, 005, 005, 005, 010, 020, 010, 001, 050, 030,
-            005, 005, 020, 005, 005, 005, 001, 050, 100, 050,
-            050, 002, 002, 005, 005, 005, 005, 005, 005, 002,
-            020, 020, 005, 010, 001, 001, 050, 030, 020, 020,
-            010, 010, 001, 010, 001, 050, 030, 030, 030, 002,
-            050, 020, 020, 020, 020, 010, 010, 050, 020, 005, // same as Gen6
-            005, 010, 010, 020, 020, 010, 100, 010, 005, 010,
-            010, 010, 010, 010, 010, 010, 010, 001, 001, 001,
-        };
+    // [0,99]+1 >= CHANCE -> abort
+    // this silly +1 causes:
+    // 100% memories to fail 1% of the time
+    // 1% memories to fail 100% of the time (!!!)
+    // SW/SH v1.3 sub_71013B0C40
+    private static ReadOnlySpan<byte> MemoryRandChance => new byte[]
+    {
+        000, 100, 100, 100, 100, 005, 005, 005, 005, 005,
+        005, 005, 005, 005, 010, 020, 010, 001, 050, 030,
+        005, 005, 020, 005, 005, 005, 001, 050, 100, 050,
+        050, 002, 002, 005, 005, 005, 005, 005, 005, 002,
+        020, 020, 005, 010, 001, 001, 050, 030, 020, 020,
+        010, 010, 001, 010, 001, 050, 030, 030, 030, 002,
+        050, 020, 020, 020, 020, 010, 010, 050, 020, 005, // same as Gen6
+        005, 010, 010, 020, 020, 010, 100, 010, 005, 010,
+        010, 010, 010, 010, 010, 010, 010, 001, 001, 001,
+    };
 #endif
 
     /// <summary>

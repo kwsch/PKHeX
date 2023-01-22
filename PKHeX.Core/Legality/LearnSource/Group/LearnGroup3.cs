@@ -20,10 +20,10 @@ public sealed class LearnGroup3 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, types);
 
-        if (types.HasFlagFast(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp) && enc.Species is (int)Species.Nincada && evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
+        if (types.HasFlag(MoveSourceType.LevelUp) && enc.Species is (int)Species.Nincada && evos is [{ Species: (int)Species.Shedinja }, _])
             CheckNincadaMoves(result, current, evos[^1]);
 
         return MoveResult.AllParsed(result);
@@ -161,14 +161,14 @@ public sealed class LearnGroup3 : ILearnGroup
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Generation == Generation)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc.Generation == Generation)
             FlagEncounterMoves(enc, result);
 
         var evos = history.Gen3;
         foreach (var evo in evos)
             GetAllMoves(result, pk, evo, types);
 
-        if (evos.Length == 2 && evos[0].Species == (int)Species.Shedinja)
+        if (evos is [{ Species: (int)Species.Shedinja }, _])
         {
             var shedinja = LearnSource3E.Instance;
             var moves = shedinja.GetLearnset((int)Species.Ninjask, 0);

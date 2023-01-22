@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -30,16 +30,16 @@ public static class SCBlockUtil
 
     private static void ExportBlock(SCBlock block, BinaryWriter bw, int blockIndex, SCBlockExportOption option)
     {
-        if (option.HasFlagFast(SCBlockExportOption.DataOnly) && block.Data.Length == 0)
+        if (option.HasFlag(SCBlockExportOption.DataOnly) && block.Data.Length == 0)
             return;
 
-        if (option.HasFlagFast(SCBlockExportOption.FakeHeader))
+        if (option.HasFlag(SCBlockExportOption.FakeHeader))
             bw.Write($"BLOCK{blockIndex:0000} {block.Key:X8}");
 
-        if (option.HasFlagFast(SCBlockExportOption.Key))
+        if (option.HasFlag(SCBlockExportOption.Key))
             bw.Write(block.Key);
 
-        if (option.HasFlagFast(SCBlockExportOption.TypeInfo))
+        if (option.HasFlag(SCBlockExportOption.TypeInfo))
         {
             bw.Write((byte) block.Type);
             bw.Write((byte) block.SubType);
@@ -141,12 +141,4 @@ public enum SCBlockExportOption
     /// Standard export options.
     /// </summary>
     All = DataOnly | Key | TypeInfo | FakeHeader,
-}
-
-internal static class ScBlockExportOptionExtensions
-{
-    public static bool HasFlagFast(this SCBlockExportOption value, SCBlockExportOption flag)
-    {
-        return (value & flag) != 0;
-    }
 }

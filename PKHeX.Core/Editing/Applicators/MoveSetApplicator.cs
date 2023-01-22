@@ -46,7 +46,7 @@ public static class MoveSetApplicator
 
         const int count = 4;
         if (m.Length > count)
-            return m.AsSpan(m.Length - count).ToArray();
+            return m[^count..];
         Array.Resize(ref m, count);
         return m;
     }

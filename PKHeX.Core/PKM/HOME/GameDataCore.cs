@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -6,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Core game data storage, format 1.
 /// </summary>
-public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature, IContestStats, IScaledSize, ITrainerMemories, IHandlerLanguage, IBattleVersion, IHyperTrain, IFormArgument, IFavorite,
+public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature, IFatefulEncounter, IContestStats, IScaledSize, ITrainerMemories, IHandlerLanguage, IBattleVersion, IHyperTrain, IFormArgument, IFavorite,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7,
     IRibbonSetCommon8, IRibbonSetMark8,
     IRibbonSetCommon9, IRibbonSetMark9
@@ -28,8 +29,9 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x08), value); }
     public bool IsBadEgg { get => Data[Offset + 0x0C] != 0; set => Data[Offset + 0x0C] = (byte)(value ? 1 : 0); }
     public ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0D)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0D), value); }
-    public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0F)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0F), (ushort)value); }
-    public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x11)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x11), (ushort)value); }
+    public uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x0F)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x0F), value); }
+    public ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0F)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0F), value); }
+    public ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x11)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x11), value); }
     public uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x13)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x13), value); }
     public int Ability { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x17)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x17), (ushort)value); }
     public int AbilityNumber { get => Data[Offset + 0x19] & 7; set => Data[Offset + 0x19] = (byte)((Data[Offset + 0x19] & ~7) | (value & 7)); }
@@ -135,6 +137,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public byte RibbonCountMemoryContest { get => Data[0x3C]; set => HasContestMemoryRibbon = (Data[0x3C] = value) != 0; }
     public byte RibbonCountMemoryBattle  { get => Data[0x3D]; set => HasBattleMemoryRibbon  = (Data[0x3D] = value) != 0; }
+    // !!! no padding, unlike PKM formats!
 
     // 0x3E Ribbon 3
     public bool RibbonMarkMisty        { get => GetFlag(0x3E, 0); set => SetFlag(0x3E, 0, value); }
@@ -209,15 +212,16 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public bool RIB47_6                { get => GetFlag(0x45, 6); set => SetFlag(0x45, 6, value); }
     public bool RIB47_7                { get => GetFlag(0x45, 7); set => SetFlag(0x45, 7, value); }
 
-    public bool HasMark()
-    {
-        var d = Data.AsSpan();
-        if ((ReadUInt16LittleEndian(d[0x3A..]) & 0xFFE0) != 0)
-            return true;
-        if (ReadUInt32LittleEndian(d[0x3E..]) != 0)
-            return true;
-        return (d[0x42] & 3) != 0;
-    }
+    public int RibbonCount     => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b00000000_00011111__11111111_11111111__11111111_11111111__11111111_11111111)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00000100_00011100__00000000_00000000__00000000_00000000);
+    public int MarkCount       => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b11111111_11100000__00000000_00000000__00000000_00000000__00000000_00000000)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00111011_11100011__11111111_11111111__11111111_11111111);
+    public int RibbonMarkCount => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b11111111_11111111__11111111_11111111__11111111_11111111__11111111_11111111)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00111111_11111111__11111111_11111111__11111111_11111111);
+
+    public bool HasMarkEncounter8 => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x34)) & 0b11111111_11100000__00000000_00000000__00000000_00000000__00000000_00000000)
+                                   + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x3E)) & 0b00000000_00000000__00000000_00000011__11111111_11111111__11111111_11111111) != 0;
+    public bool HasMarkEncounter9 => (Data[Offset + 0x43] & 0b00111000) != 0;
 
     public byte HeightScalar { get => Data[Offset + 0x46]; set => Data[Offset + 0x46] = value; }
     public byte WeightScalar { get => Data[Offset + 0x47]; set => Data[Offset + 0x47] = value; }
@@ -227,7 +231,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public string Nickname
     {
         get => StringConverter8.GetString(Nickname_Trash);
-        set => StringConverter8.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
     }
 
     public int Stat_HPCurrent { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x62)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x62), (ushort)value); }
@@ -244,7 +248,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public string HT_Name
     {
         get => StringConverter8.GetString(HT_Trash);
-        set => StringConverter8.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
     public int HT_Gender      { get => Data[Offset + 0x8A]; set => Data[Offset + 0x8A] = (byte)value; }
     public byte HT_Language   { get => Data[Offset + 0x8B]; set => Data[Offset + 0x8B] = value; }
@@ -267,7 +271,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public string OT_Name
     {
         get => StringConverter8.GetString(OT_Trash);
-        set => StringConverter8.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
     public int OT_Friendship    { get => Data[Offset + 0xB7]; set => Data[Offset + 0xB7] = (byte)value; }
     public byte OT_Intensity    { get => Data[Offset + 0xB8]; set => Data[Offset + 0xB8] = value; }
@@ -294,6 +298,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public int MarkingCount => 6;
 
+    public TrainerIDFormat TrainerIDDisplayFormat => ((GameVersion)Version).GetGeneration() >= 7 ? TrainerIDFormat.SixDigit : TrainerIDFormat.SixteenBit;
+
     public int GetMarking(int index)
     {
         if ((uint)index >= MarkingCount)
@@ -316,8 +322,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         pk.Species = Species;
         pk.Form = Form;
         pk.Gender = Gender;
-        pk.TID = TID;
-        pk.SID = SID;
+        pk.TID16 = TID16;
+        pk.SID16 = SID16;
         pk.EXP = EXP;
         pk.Ability = Ability;
         pk.AbilityNumber = AbilityNumber;

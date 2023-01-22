@@ -28,9 +28,9 @@ PKHeX erwartet entschlüsselte Spielstände. Da diese konsolenspezifisch verschl
 
 ## Erstellen
 
-PKHeX ist eine Windows Forms Anwendung, die das [.NET Framework v4.6](https://www.microsoft.com/de-de/download/details.aspx?id=48137) benötigt, mit experimenteller Unterstützung für [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0).
+PKHeX ist eine Windows Forms Anwendung, die das [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0).
 
-Die Anwendung kann mit jedem Kompiler erstellt werden, der C# 10 unterstützt.
+Die Anwendung kann mit jedem Kompiler erstellt werden, der C# 11 unterstützt.
 
 ### Erstell Konfiguration
 
@@ -47,7 +47,3 @@ PKHeXs Pokémon Legends: Arceus Sprites kommen vom [National Pokédex - Icon Dex
 ### IDE
 
 PKHeX kann mit IDEs wie [Visual Studio](https://visualstudio.microsoft.com/de/downloads/) durch das Öffnen der .sln oder .csproj Dateien geöffnet werden.
-
-### GNU/Linux
-
-Da GNU/Linux nicht das Hauptbetriebssystem der PKHeX Entwickler ist können Bugs auftreten. Manche kommen möglicherweise von GNU/Linux spezifischem Code in Mono/Wine und können deshalb nicht von jedem reproduziert werden kann.

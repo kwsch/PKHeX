@@ -27,7 +27,7 @@ public sealed class PokeBlock3
         Color = PokeBlock3Color.Gold;
     }
 
-    public void SetBlock(byte[] data, int offset) => Data.CopyTo(data, offset);
+    public void SetBlock(Span<byte> data) => Data.CopyTo(data);
 
     public static PokeBlock3 GetBlock(ReadOnlySpan<byte> data, int offset)
     {

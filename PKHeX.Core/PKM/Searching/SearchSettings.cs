@@ -12,7 +12,7 @@ public sealed class SearchSettings
 {
     public int Format { get; init; }
     public int Generation { get; init; }
-    public ushort Species { get; init; }
+    public required ushort Species { get; init; }
     public int Ability { get; init; } = -1;
     public int Nature { get; init; } = -1;
     public int Item { get; init; } = -1;
@@ -32,8 +32,8 @@ public sealed class SearchSettings
     public int EVType { get; init; }
 
     public CloneDetectionMethod SearchClones { get; set; }
-    public IList<string> BatchInstructions { get; init; } = Array.Empty<string>();
-    private StringInstruction[] BatchFilters { get; set; } = Array.Empty<StringInstruction>();
+    public string BatchInstructions { get; init; } = string.Empty;
+    private IReadOnlyList<StringInstruction> BatchFilters { get; set; } = Array.Empty<StringInstruction>();
 
     public readonly List<ushort> Moves = new();
 
@@ -61,7 +61,7 @@ public sealed class SearchSettings
     /// <returns>Search results that match all criteria</returns>
     public IEnumerable<PKM> Search(IEnumerable<PKM> list)
     {
-        BatchFilters = StringInstruction.GetFilters(BatchInstructions).ToArray();
+        BatchFilters = StringInstruction.GetFilters(BatchInstructions);
         var result = SearchInner(list);
 
         if (SearchClones != CloneDetectionMethod.None)
@@ -80,7 +80,7 @@ public sealed class SearchSettings
     /// <returns>Search results that match all criteria</returns>
     public IEnumerable<SlotCache> Search(IEnumerable<SlotCache> list)
     {
-        BatchFilters = StringInstruction.GetFilters(BatchInstructions).ToArray();
+        BatchFilters = StringInstruction.GetFilters(BatchInstructions);
         var result = SearchInner(list);
 
         if (SearchClones != CloneDetectionMethod.None)
@@ -175,7 +175,7 @@ public sealed class SearchSettings
             return false;
         if (SearchLegal != null && new LegalityAnalysis(pk).Valid != SearchLegal)
             return false;
-        if (BatchFilters.Length != 0 && !SearchUtil.SatisfiesFilterBatchInstruction(pk, BatchFilters))
+        if (BatchFilters.Count != 0 && !SearchUtil.SatisfiesFilterBatchInstruction(pk, BatchFilters))
             return false;
 
         return true;

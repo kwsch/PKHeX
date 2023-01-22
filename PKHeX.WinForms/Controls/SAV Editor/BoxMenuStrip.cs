@@ -72,6 +72,8 @@ public sealed class BoxMenuStrip : ContextMenuStrip
         [BoxManipType.SortBST] = Resources.vallohi,
         [BoxManipType.SortCP] = Resources.vallohi,
         [BoxManipType.SortScale] = Resources.vallohi,
+        [BoxManipType.SortRibbons] = Resources.valhilo,
+        [BoxManipType.SortMarks] = Resources.valhilo,
         [BoxManipType.SortLegal] = Resources.export,
         [BoxManipType.SortEncounterType] = Resources.about,
 

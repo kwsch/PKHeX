@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
@@ -157,7 +158,7 @@ public static partial class Util
         return LoadStringList(fileName, txt);
     }
 
-    public static bool IsStringListCached(string fileName, out string[] result)
+    public static bool IsStringListCached(string fileName, [NotNullWhen(true)] out string[]? result)
     {
         lock (getStringListLoadLock) // Make sure only one thread can read the cache
             return stringListCache.TryGetValue(fileName, out result);
@@ -171,14 +172,11 @@ public static partial class Util
     {
         if (txt == null)
             return Array.Empty<string>();
-        string[] raw = FastSplit(txt.AsSpan());
+        string[] raw = FastSplit(txt);
 
-        lock (getStringListLoadLock) // Make sure only one thread can write to the cache
-        {
-            if (!stringListCache.ContainsKey(file)) // Check cache again in case of race condition
-                stringListCache.Add(file, raw);
-        }
-
+        // Make sure only one thread can write to the cache
+        lock (getStringListLoadLock)
+            stringListCache.TryAdd(file, raw);
         return raw;
     }
 
@@ -196,7 +194,7 @@ public static partial class Util
             return Array.Empty<byte>();
 
         var buffer = new byte[resource.Length];
-        _ = resource.Read(buffer, 0, (int)resource.Length);
+        resource.ReadExactly(buffer);
         return buffer;
     }
 

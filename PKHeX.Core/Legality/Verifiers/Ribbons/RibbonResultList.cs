@@ -14,11 +14,7 @@ public ref struct RibbonResultList
     /// </summary>
     public int Count { get; private set; }
 
-    public RibbonResultList(Span<RibbonResult> span)
-    {
-        Span = span;
-        Count = 0;
-    }
+    public RibbonResultList(Span<RibbonResult> span) => Span = span;
 
     private void Add(RibbonResult item) => Span[Count++] = item;
 

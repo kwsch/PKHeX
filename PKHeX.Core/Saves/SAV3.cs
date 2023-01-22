@@ -155,7 +155,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
 
     protected sealed override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
     protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
-    public sealed override PKM BlankPKM => new PK3();
+    public sealed override PK3 BlankPKM => new();
     public sealed override Type PKMType => typeof(PK3);
 
     public sealed override ushort MaxMoveID => Legal.MaxMoveID_3;
@@ -197,7 +197,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public sealed override bool HasParty => true;
 
     public sealed override bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresentGBA(data);
-    protected sealed override PKM GetPKM(byte[] data) => new PK3(data);
+    protected sealed override PK3 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray3(data);
 
     protected sealed override byte[] BoxBuffer => Storage;
@@ -306,7 +306,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         set
         {
             int len = Japanese ? 5 : MaxStringLengthOT;
-            SetString(Small.AsSpan(0, len), value.AsSpan(), len, StringConverterOption.ClearFF);
+            SetString(Small.AsSpan(0, len), value, len, StringConverterOption.ClearFF);
         }
     }
 
@@ -316,16 +316,22 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         set => Small[8] = (byte)value;
     }
 
-    public sealed override int TID
+    public sealed override uint ID32
     {
-        get => ReadUInt16LittleEndian(Small.AsSpan(0xA));
-        set => WriteUInt16LittleEndian(Small.AsSpan(0xA), (ushort)value);
+        get => ReadUInt32LittleEndian(Small.AsSpan(0x0A));
+        set => WriteUInt32LittleEndian(Small.AsSpan(0x0A), value);
     }
 
-    public sealed override int SID
+    public sealed override ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Small.AsSpan(0xA));
+        set => WriteUInt16LittleEndian(Small.AsSpan(0xA), value);
+    }
+
+    public sealed override ushort SID16
     {
         get => ReadUInt16LittleEndian(Small.AsSpan(0xC));
-        set => WriteUInt16LittleEndian(Small.AsSpan(0xC), (ushort)value);
+        set => WriteUInt16LittleEndian(Small.AsSpan(0xC), value);
     }
 
     public sealed override int PlayedHours
@@ -470,11 +476,11 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         return StringConverter3.GetString(Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME), Japanese);
     }
 
-    public sealed override void SetBoxName(int box, string value)
+    public sealed override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         int offset = GetBoxOffset(COUNT_BOX);
         var dest = Storage.AsSpan(offset + (box * COUNT_BOXNAME), COUNT_BOXNAME);
-        SetString(dest, value.AsSpan(), COUNT_BOXNAME - 1, StringConverterOption.ClearZero);
+        SetString(dest, value, COUNT_BOXNAME - 1, StringConverterOption.ClearZero);
     }
     #endregion
 

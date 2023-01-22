@@ -12,7 +12,7 @@ public sealed record EncounterArea6XY : EncounterArea
 {
     public readonly EncounterSlot6XY[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot6XY> Raw => Slots;
 
     public static EncounterArea6XY[] GetAreas(BinLinkerAccessor input, GameVersion game, EncounterArea6XY safari)
     {
@@ -104,7 +104,7 @@ public sealed record EncounterArea6XY : EncounterArea
         return slots;
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot6XY> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {
@@ -116,7 +116,7 @@ public sealed record EncounterArea6XY : EncounterArea
                 if (!slot.IsLevelWithinRange(pk.Met_Level))
                     break;
 
-                if (slot.Form != evo.Form && !slot.IsRandomUnspecificForm && slot.Species is not ((int)Species.Burmy or (int)Species.Furfrou))
+                if (slot.Form != evo.Form && slot is { IsRandomUnspecificForm: false, Species: not ((int)Species.Burmy or (int)Species.Furfrou) })
                 {
                     // Only slot that can be form-mismatched via Pressure is Flabébé
                     if (slot.Species != (int)Species.Flabébé)

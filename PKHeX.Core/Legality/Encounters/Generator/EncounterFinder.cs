@@ -66,7 +66,7 @@ public static class EncounterFinder
             break;
         }
 
-        if (!info.FrameMatches && info.EncounterMatch is EncounterSlot {Version: not GameVersion.CXD}) // if false, all valid RNG frame matches have already been consumed
+        if (info is { FrameMatches: false, EncounterMatch: EncounterSlot }) // if false, all valid RNG frame matches have already been consumed
             info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, LEncConditionBadRNGFrame, CheckIdentifier.PID)); // todo for further confirmation
         if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
             info.Parse.Add(new CheckResult(Severity.Invalid, LPIDTypeMismatch, CheckIdentifier.PID));
@@ -183,7 +183,7 @@ public static class EncounterFinder
     {
         // Event Egg, indistinguishable from normal eggs after hatch
         // can't tell after transfer
-        3 => pk.Format == 3 && pk.IsEgg && Locations.IsEventLocation3(pk.Met_Location),
+        3 => pk is { Context: EntityContext.Gen3, IsEgg: true } && Locations.IsEventLocation3(pk.Met_Location),
 
         // Manaphy was the only generation 4 released event egg
         _ => pk.FatefulEncounter && pk.Egg_Day != 0,

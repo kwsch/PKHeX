@@ -30,7 +30,7 @@ public partial class SAV_Trainer7 : Form
         GetComboBoxes();
         GetTextBoxes();
 
-        TrainerStats.LoadRecords(SAV, Records.RecordList_7);
+        TrainerStats.LoadRecords(SAV, RecordLists.RecordList_7);
         TrainerStats.GetToolTipText = UpdateTip;
         CB_Fashion.SelectedIndex = 1;
 
@@ -103,7 +103,7 @@ public partial class SAV_Trainer7 : Form
 
         // Display Data
         TB_OTName.Text = SAV.OT;
-        trainerID1.LoadIDValues(SAV);
+        trainerID1.LoadIDValues(SAV, SAV.Generation);
         MT_Money.Text = SAV.Money.ToString();
 
         CB_Country.SelectedValue = (int)SAV.Country;
@@ -468,7 +468,7 @@ public partial class SAV_Trainer7 : Form
         for (int i = 0; i < listbox.Items.Count; i++)
         {
             if (listbox.GetSelected(i))
-                bits |= (uint)(1 << i);
+                bits |= 1u << i;
         }
         return bits;
     }

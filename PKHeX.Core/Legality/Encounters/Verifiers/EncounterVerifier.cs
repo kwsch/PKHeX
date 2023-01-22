@@ -64,9 +64,9 @@ public static class EncounterVerifier
         return new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter);
     }
 
-    private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID tr, EncounterSlot2 s2)
+    private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID32 tr, EncounterSlot2 s2)
     {
-        return s2.IsTreeAvailable(tr.TID)
+        return s2.IsTreeAvailable(tr.TID16)
             ? new CheckResult(Severity.Valid, LG2TreeID, CheckIdentifier.Encounter)
             : new CheckResult(Severity.Invalid, LG2InvalidTileTreeNotFound, CheckIdentifier.Encounter);
     }
@@ -168,6 +168,17 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounterEgg5(PKM pk)
     {
+        // Two game-specific locations we need to double check for.
+        // White / White2 cannot access Black Gate (112)
+        // Black / Black2 cannot access White Gate (113)
+        var met = pk.Met_Location;
+        var delta = (uint)(met - 112);
+        if (delta <= 1)
+        {
+            var ver = pk.Version & 1; // W*=0, B*=1
+            if (ver == delta)
+                return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        }
         return VerifyEncounterEggLevelLoc(pk, 1, pk.B2W2 ? Legal.ValidMet_B2W2 : Legal.ValidMet_BW);
     }
 
@@ -224,7 +235,7 @@ public static class EncounterVerifier
         return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
     }
 
-    private static CheckResult VerifyEncounterEggLevelLoc(PKM pk, int eggLevel, ICollection<ushort> MetLocations)
+    private static CheckResult VerifyEncounterEggLevelLoc(PKM pk, int eggLevel, IReadOnlySet<ushort> MetLocations)
     {
         return VerifyEncounterEggLevelLoc(pk, eggLevel, (location, _) => MetLocations.Contains(location));
     }

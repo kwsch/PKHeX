@@ -13,7 +13,7 @@ public static class EvolutionSet3
     {
         var method = data[0];
         var arg =  ReadUInt16LittleEndian(data[2..]);
-        var species = SpeciesConverter.GetG4Species(ReadUInt16LittleEndian(data[4..]));
+        var species = SpeciesConverter.GetNational3(ReadUInt16LittleEndian(data[4..]));
         //2 bytes padding
 
         switch (method)
@@ -51,7 +51,7 @@ public static class EvolutionSet3
         evos[0] = Array.Empty<EvolutionMethod>();
         for (ushort i = 1; i <= Legal.MaxSpeciesIndex_3; i++)
         {
-            int g4species = SpeciesConverter.GetG4Species(i);
+            int g4species = SpeciesConverter.GetNational3(i);
             if (g4species == 0)
                 continue;
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static PKHeX.Core.OPower6Type;
 
 namespace PKHeX.Core;
@@ -35,7 +35,7 @@ public sealed class OPower6 : SaveBlock<SAV6>
     public OPower6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
     public OPower6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
-    private static OPowerFlagSet Get(OPower6Type type) => Array.Find(Mapping, t => t.Identifier == type);
+    private static OPowerFlagSet Get(OPower6Type type) => Array.Find(Mapping, t => t.Identifier == type) ?? throw new ArgumentOutOfRangeException(nameof(type));
     public static int GetOPowerCount(OPower6Type type) => Get(type).BaseCount;
     public int GetOPowerLevel(OPower6Type type) => Get(type).GetOPowerLevel(Data.AsSpan(Offset));
 

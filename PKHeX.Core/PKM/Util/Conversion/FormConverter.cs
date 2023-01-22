@@ -797,9 +797,9 @@ public static class FormConverter
     {
         Tauros => new[] {
             types[0], // Normal
-            forms[Paldean],
-            forms[Paldean] + $" ({types[(int)MoveType.Fire]})",
-            forms[Paldean] + $" ({types[(int)MoveType.Water]})",
+            $"{forms[Paldean]} {forms[PaldeanCombat]}",
+            $"{forms[Paldean]} {forms[PaldeanBlaze]}",
+            $"{forms[Paldean]} {forms[PaldeanAqua]}",
         },
         _ => new[]
         {
@@ -878,6 +878,9 @@ public static class FormConverter
     private const int Drive = 1120;
     private const int Aquatic = 1121;
     private const int Glide = 1122;
+    private const int PaldeanCombat = 1123;
+    private const int PaldeanBlaze = 1124;
+    private const int PaldeanAqua = 1125;
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 
@@ -896,8 +899,8 @@ public static class FormConverter
         result[8 * 7] = forms[RainbowSwirl];
 
         const int deco = 7;
-        const int fc = 9;
-        for (int f = 0; f < fc; f++)
+        const byte fc = 9;
+        for (byte f = 0; f < fc; f++)
         {
             int start = f * deco;
             // iterate downwards using form0 as pattern ref, replacing on final loop

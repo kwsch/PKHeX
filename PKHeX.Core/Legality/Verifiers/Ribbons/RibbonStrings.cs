@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -37,7 +37,7 @@ public static class RibbonStrings
     {
         // Throw an exception with the requested property name as the message, rather than an ambiguous "key not present" message.
         // We should ALWAYS have the key present as the input arguments are not user-defined, rather, they are from PKM property names.
-        if (!RibbonNames.TryGetValue(propertyName, out string value))
+        if (!RibbonNames.TryGetValue(propertyName, out var value))
             throw new KeyNotFoundException(propertyName);
         return value;
     }

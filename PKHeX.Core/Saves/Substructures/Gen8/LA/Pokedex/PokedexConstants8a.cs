@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core;
+using System;
+
+namespace PKHeX.Core;
 
 /// <summary>
 /// Thresholds and research tasks used for <see cref="GameVersion.PLA"/> Pokédex entries.
@@ -48,7 +50,7 @@ public static class PokedexConstants8a
          39113, 41161, 43209, 45257, 47305, 49353, 51401, 53449, 55497,
     };
 
-    public static readonly byte[] PokemonInfoGenders =
+    public static ReadOnlySpan<byte> PokemonInfoGenders => new byte[]
     {
         0x04, 0x03, 0x03, 0x08, 0x08, 0x08, 0x08, 0x03, 0x03, 0x08,
         0x08, 0x08, 0x08, 0x08, 0x03, 0x03, 0x08, 0x08, 0x08, 0x08,

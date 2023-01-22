@@ -196,7 +196,7 @@ public static class HiddenPower
     /// These are just precomputed for fast modification.
     /// Individual Values (H/A/B/S/C/D)
     /// </remarks>
-    public static readonly byte[] DefaultLowBits =
+    public static ReadOnlySpan<byte> DefaultLowBits => new byte[]
     {
         0b000011, // Fighting
         0b001000, // Flying

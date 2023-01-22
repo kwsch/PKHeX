@@ -35,6 +35,8 @@ public partial class StatEditor : UserControl
     public IMainEditor MainEditor { private get; set; } = null!;
     public bool HaX { get => CHK_HackedStats.Enabled; set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }
 
+    private readonly ToolTip EVTip = new();
+
     public bool Valid
     {
         get
@@ -421,7 +423,7 @@ public partial class StatEditor : UserControl
         if (ModifierKeys == Keys.Control)
             ivs.Fill(Entity.MaxIV);
         else if (ModifierKeys == Keys.Alt)
-            ivs.Fill(0);
+            ivs.Clear();
         else
             Entity.SetRandomIVs(ivs);
 
@@ -448,7 +450,7 @@ public partial class StatEditor : UserControl
                 a.SetSuggestedAwakenedValues(Entity);
                 break;
             case Keys.Alt:
-                a.AwakeningClear();
+                a.AwakeningMinimum(); // will still set AVs by level gain
                 break;
             default:
                 a.AwakeningSetRandom();

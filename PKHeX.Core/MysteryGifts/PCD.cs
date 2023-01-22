@@ -17,6 +17,8 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public const int Size = 0x358; // 856
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
+    public override bool FatefulEncounter => Gift.PK.FatefulEncounter;
+    public override GameVersion Version { get=> Gift.Version; set => Gift.Version = value; }
 
     public override byte Level
     {
@@ -73,7 +75,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override string CardTitle
     {
         get => StringConverter4.GetString(CardTitleSpan);
-        set => StringConverter4.SetString(CardTitleSpan, value.AsSpan(), TitleLength / 2, StringConverterOption.ClearFF);
+        set => StringConverter4.SetString(CardTitleSpan, value, TitleLength / 2, StringConverterOption.ClearFF);
     }
 
     public ushort CardCompatibility => ReadUInt16LittleEndian(Data.AsSpan(0x14C)); // rest of bytes we don't really care about
@@ -86,8 +88,9 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }
     public override int Gender { get => Gift.Gender; set => Gift.Gender = value; }
     public override byte Form { get => Gift.Form; set => Gift.Form = value; }
-    public override int TID { get => Gift.TID; set => Gift.TID = value; }
-    public override int SID { get => Gift.SID; set => Gift.SID = value; }
+    public override uint ID32 { get => Gift.ID32; set => Gift.ID32 = value; }
+    public override ushort TID16 { get => Gift.TID16; set => Gift.TID16 = value; }
+    public override ushort SID16 { get => Gift.SID16; set => Gift.SID16 = value; }
     public override string OT_Name { get => Gift.OT_Name; set => Gift.OT_Name = value; }
     public override AbilityPermission Ability => Gift.Ability;
     public override bool HasFixedIVs => Gift.HasFixedIVs;
@@ -119,7 +122,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         return true;
     }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         return Gift.ConvertToPKM(tr, criteria);
     }
@@ -131,8 +134,8 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         var wc = Gift.PK;
         if (!wc.IsEgg)
         {
-            if (wc.TID != pk.TID) return false;
-            if (wc.SID != pk.SID) return false;
+            if (wc.TID16 != pk.TID16) return false;
+            if (wc.SID16 != pk.SID16) return false;
             if (wc.OT_Name != pk.OT_Name) return false;
             if (wc.OT_Gender != pk.OT_Gender) return false;
             if (wc.Language != 0 && wc.Language != pk.Language) return false;
@@ -156,7 +159,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
                 return false;
             if (wc.CurrentLevel != pk.Met_Level)
                 return false;
-            if (pk.IsEgg && !pk.IsNative)
+            if (pk is { IsEgg: true, IsNative: false })
                 return false;
         }
 

@@ -35,6 +35,8 @@ public enum BoxManipType
     SortBST,
     SortCP,
     SortScale,
+    SortRibbons,
+    SortMarks,
     SortLegal,
     SortEncounterType,
 

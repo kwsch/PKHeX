@@ -20,7 +20,7 @@ public sealed class SaveHandlerGCI : ISaveHandler
     {
         foreach (var header in headers)
         {
-            if (IsGameMatchHeader(data, header.AsSpan()))
+            if (IsGameMatchHeader(data, header))
                 return true;
         }
         return false;

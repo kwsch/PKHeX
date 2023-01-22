@@ -28,7 +28,7 @@ public partial class SAV_Trainer : Form
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
-        TrainerStats.LoadRecords(SAV, Records.RecordList_6);
+        TrainerStats.LoadRecords(SAV, RecordLists.RecordList_6);
         TrainerStats.GetToolTipText = UpdateTip;
 
         MaisonRecords = new[]
@@ -111,8 +111,8 @@ public partial class SAV_Trainer : Form
         // Display Data
         TB_OTName.Text = OT_NAME;
 
-        MT_TID.Text = SAV.TID.ToString("00000");
-        MT_SID.Text = SAV.SID.ToString("00000");
+        MT_TID.Text = SAV.TID16.ToString("00000");
+        MT_SID.Text = SAV.SID16.ToString("00000");
         MT_Money.Text = SAV.Money.ToString();
 
         var status = SAV.Status;
@@ -201,8 +201,8 @@ public partial class SAV_Trainer : Form
         SAV.Game = (byte)(CB_Game.SelectedIndex + 0x18);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
-        SAV.TID = (ushort)Util.ToUInt32(MT_TID.Text);
-        SAV.SID = (ushort)Util.ToUInt32(MT_SID.Text);
+        SAV.TID16 = (ushort)Util.ToUInt32(MT_TID.Text);
+        SAV.SID16 = (ushort)Util.ToUInt32(MT_SID.Text);
         SAV.Money = Util.ToUInt32(MT_Money.Text);
         SAV.Region = (byte)WinFormsUtil.GetIndex(CB_Region);
         SAV.Country = (byte)WinFormsUtil.GetIndex(CB_Country);
@@ -292,9 +292,9 @@ public partial class SAV_Trainer : Form
 
     private void ShowTSV(object sender, EventArgs e)
     {
-        uint TID = Util.ToUInt32(MT_TID.Text);
-        uint SID = Util.ToUInt32(MT_SID.Text);
-        uint tsv = (TID ^ SID) >> 4;
+        uint TID16 = Util.ToUInt32(MT_TID.Text);
+        uint SID16 = Util.ToUInt32(MT_SID.Text);
+        uint tsv = (TID16 ^ SID16) >> 4;
         Tip1.SetToolTip(MT_TID, $"TSV: {tsv:0000}");
         Tip2.SetToolTip(MT_SID, $"TSV: {tsv:0000}");
     }

@@ -274,7 +274,7 @@ public abstract class InventoryPouch
 
 public static class InventoryPouchExtensions
 {
-    public static IReadOnlyList<InventoryPouch> LoadAll(this IReadOnlyList<InventoryPouch> value, ReadOnlySpan<byte> data)
+    public static IReadOnlyList<T> LoadAll<T>(this IReadOnlyList<T> value, ReadOnlySpan<byte> data) where T : InventoryPouch
     {
         foreach (var p in value)
             p.GetPouch(data);

@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests.PKM;
+namespace PKHeX.Core.Tests.PKM;
 
 public class MetDateTests
 {
@@ -30,7 +29,7 @@ public class MetDateTests
             Met_Year = 16,
         };
 
-        pk.MetDate.GetValueOrDefault().Should().Be(new DateTime(2016, 8, 10).Date);
+        pk.MetDate.GetValueOrDefault().Should().Be(new DateOnly(2016, 8, 10));
     }
 
     [Fact]
@@ -43,7 +42,7 @@ public class MetDateTests
             Met_Year = 0,
         };
 
-        pk.MetDate.GetValueOrDefault().Date.Year.Should().Be(2000);
+        pk.MetDate.GetValueOrDefault().Year.Should().Be(2000);
     }
 
     [Fact]
@@ -81,7 +80,7 @@ public class MetDateTests
         pk.Met_Month.Should().Be(12);
         pk.Met_Year.Should().Be(12);
 
-        pk.MetDate = new DateTime(2005, 5, 5);
+        pk.MetDate = new DateOnly(2005, 5, 5);
 
         pk.Met_Day.Should().Be(5);
         pk.Met_Month.Should().Be(5);
@@ -114,7 +113,7 @@ public class EggMetDateTests
             Egg_Year = 16,
         };
 
-        pk.EggMetDate.GetValueOrDefault().Should().Be(new DateTime(2016, 8, 10).Date);
+        pk.EggMetDate.GetValueOrDefault().Should().Be(new DateOnly(2016, 8, 10));
     }
 
     [Fact]
@@ -127,7 +126,7 @@ public class EggMetDateTests
             Egg_Year = 0,
         };
 
-        pk.EggMetDate.GetValueOrDefault().Date.Year.Should().Be(2000);
+        pk.EggMetDate.GetValueOrDefault().Year.Should().Be(2000);
     }
 
     [Fact]
@@ -165,7 +164,7 @@ public class EggMetDateTests
         pk.Egg_Month.Should().Be(12);
         pk.Egg_Year.Should().Be(12);
 
-        pk.EggMetDate = new DateTime(2005, 5, 5);
+        pk.EggMetDate = new DateOnly(2005, 5, 5);
 
         pk.Egg_Day.Should().Be(5);
         pk.Egg_Month.Should().Be(5);

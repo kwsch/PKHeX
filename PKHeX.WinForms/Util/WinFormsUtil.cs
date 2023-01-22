@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -64,11 +63,11 @@ public static class WinFormsUtil
             {
                 case T p:
                     return p;
-                case ToolStripItem t:
-                    sender = t.Owner;
+                case ToolStripItem { Owner: { } o}:
+                    sender = o;
                     continue;
-                case ContextMenuStrip c:
-                    sender = c.SourceControl;
+                case ContextMenuStrip { SourceControl: { } s }:
+                    sender = s;
                     continue;
                 default:
                     return default;
@@ -175,15 +174,6 @@ public static class WinFormsUtil
                 throw new IndexOutOfRangeException(nameof(e.ScrollOrientation));
         }
         static int Clamp(int value, ScrollProperties prop) => Math.Max(prop.Minimum, Math.Min(prop.Maximum, value));
-    }
-
-    public static void DoubleBuffered(this DataGridView dgv, bool setting)
-    {
-        Type dgvType = dgv.GetType();
-        var pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (pi == null)
-            throw new Exception(nameof(dgv));
-        pi.SetValue(dgv, setting, null);
     }
 
     /// <summary>

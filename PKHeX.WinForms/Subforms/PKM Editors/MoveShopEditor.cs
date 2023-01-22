@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -102,7 +102,7 @@ public partial class MoveShopEditor : Form
     private void PopulateRecords()
     {
         var names = GameInfo.Strings.Move;
-        var indexes = Shop.MoveShopPermitIndexes;
+        var indexes = Shop.Permit.RecordPermitIndexes;
         dgv.Rows.Add(indexes.Length);
         for (int i = 0; i < indexes.Length; i++)
         {

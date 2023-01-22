@@ -19,11 +19,17 @@ public partial class TrashEditor : Form
         SAV = sav;
 
         FinalString = TB_NN.Text;
-        Raw = FinalBytes = raw.ToArray();
 
         editing = true;
         if (raw.Length != 0)
+        {
+            Raw = FinalBytes = raw.ToArray();
             AddTrashEditing(raw.Length);
+        }
+        else
+        {
+            Raw = FinalBytes = Array.Empty<byte>();
+        }
 
         var f = FontUtil.GetPKXFont();
         AddCharEditing(f);
@@ -175,24 +181,24 @@ public partial class TrashEditor : Form
             Bytes[i].Value = 0;
     }
 
-    private byte[] SetString(string text)
+    private byte[] SetString(ReadOnlySpan<char> text)
     {
         Span<byte> temp = stackalloc byte[Raw.Length];
-        var written = SAV.SetString(temp, text.AsSpan(), text.Length, StringConverterOption.None);
+        var written = SAV.SetString(temp, text, text.Length, StringConverterOption.None);
         return temp[..written].ToArray();
     }
 
-    private string GetString() => SAV.GetString(Raw.AsSpan());
+    private string GetString() => SAV.GetString(Raw);
 
     // Helpers
-    private static Label GetLabel(string str) => new() {Text = str, AutoSize = true};
+    private static Label GetLabel(string str) => new() { Text = str, AutoSize = false, Size = new Size(40, 24), TextAlign = ContentAlignment.MiddleRight };
 
-    private static NumericUpDown GetNUD(int min, int max, bool hex) => new()
+    private static NumericUpDown GetNUD(byte min, byte max, bool hex) => new()
     {
         Maximum = max,
         Minimum = min,
         Hexadecimal = hex,
-        Width = 36,
+        Width = 40,
         Padding = new Padding(0),
         Margin = new Padding(0),
     };

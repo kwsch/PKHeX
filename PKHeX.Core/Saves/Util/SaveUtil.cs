@@ -142,7 +142,7 @@ public static class SaveUtil
     /// <summary>Determines the type of the provided save data.</summary>
     /// <param name="data">Save data of which to determine the origins of</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetSAVType(byte[] data)
+    private static GameVersion GetSAVType(ReadOnlySpan<byte> data)
     {
         GameVersion ver;
         if ((ver = GetIsG1SAV(data)) != Invalid)
@@ -524,7 +524,7 @@ public static class SaveUtil
     /// <summary>Checks to see if the data belongs to a Gen8 save</summary>
     /// <param name="data">Save data of which to determine the type</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG8SAV(byte[] data)
+    private static GameVersion GetIsG8SAV(ReadOnlySpan<byte> data)
     {
         if (!SizesSWSH.Contains(data.Length))
             return Invalid;
@@ -544,7 +544,7 @@ public static class SaveUtil
         return BDSP;
     }
 
-    private static GameVersion GetIsG8SAV_LA(byte[] data)
+    private static GameVersion GetIsG8SAV_LA(ReadOnlySpan<byte> data)
     {
         if (data.Length is not (SIZE_G8LA or SIZE_G8LA_1))
             return Invalid;
@@ -555,7 +555,7 @@ public static class SaveUtil
     /// <summary>Checks to see if the data belongs to a Gen8 save</summary>
     /// <param name="data">Save data of which to determine the type</param>
     /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-    private static GameVersion GetIsG9SAV(byte[] data)
+    private static GameVersion GetIsG9SAV(ReadOnlySpan<byte> data)
     {
         if (!SizesSV.Contains(data.Length))
             return Invalid;
@@ -695,13 +695,12 @@ public static class SaveUtil
     public static SaveFile? GetVariantSAV(SAV3GCMemoryCard memCard)
     {
         // Pre-check for header/footer signatures
-        byte[] data = memCard.ReadSaveGameData();
-        if (data.Length == 0)
+        var memory = memCard.ReadSaveGameData();
+        if (memory.Length == 0)
             return null;
 
-        var split = DolphinHandler.TrySplit(data);
-        if (split != null)
-            data = split.Data;
+        var split = DolphinHandler.TrySplit(memory.Span);
+        var data = split != null ? split.Data : memory.ToArray();
 
         SaveFile sav;
         switch (memCard.SelectedGameVersion)
@@ -755,16 +754,8 @@ public static class SaveUtil
             sav.Language = (int)language;
 
         // Secondary Properties may not be used but can be filled in as template.
-        if (sav.Generation >= 7)
-        {
-            sav.TrainerID7 = 123456;
-            sav.TrainerSID7 = 1234;
-        }
-        else
-        {
-            sav.TID = 12345;
-            sav.SID = 54321;
-        }
+        (uint tid, uint sid) = sav.Generation >= 7 ? (123456u, 1234u) : (12345u, 54321u);
+        sav.SetDisplayID(tid, sid);
         sav.Language = (int)language;
 
         // Only set geolocation data for 3DS titles

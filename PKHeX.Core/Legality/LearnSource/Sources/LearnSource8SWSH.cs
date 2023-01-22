@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="SWSH"/>.
 /// </summary>
-public sealed class LearnSource8SWSH : ILearnSource, IEggSource
+public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSource
 {
     public static readonly LearnSource8SWSH Instance = new();
     private static readonly PersonalTable8SWSH Personal = PersonalTable.SWSH;
@@ -19,7 +19,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo8SWSH? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -40,12 +40,12 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
     {
         if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
-        return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
+        return MoveEgg.GetFormEggMoves(species, form, EggMoves);
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8SWSH pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -53,33 +53,25 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.SharedEggMove) && GetIsSharedEggMove(pi, move))
+        if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsSharedEggMove(pi, move))
             return new(Shared, Game);
 
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.TechnicalRecord) && GetIsTR(pi, pk, evo, move, option))
+        if (types.HasFlag(MoveSourceType.TechnicalRecord) && GetIsTR(pi, pk, evo, move, option))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(move))
             return new(Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && pi.GetIsLearnTutorSpecial(move))
             return new(Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
             return new(Tutor, Game);
 
         return default;
-    }
-
-    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
-    {
-        var tutor = Array.IndexOf(Tutors_SWSH, move);
-        if (tutor == -1)
-            return false;
-        return pi.SpecialTutors[0][tutor];
     }
 
     private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species switch
@@ -102,39 +94,22 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         _ => false,
     };
 
-    private bool GetIsSharedEggMove(PersonalInfo pi, ushort move)
+    private bool GetIsSharedEggMove(PersonalInfo8SWSH pi, ushort move)
     {
-        var entry = (PersonalInfo8SWSH)pi;
-        var baseSpecies = entry.HatchSpecies;
-        var baseForm = entry.HatchFormIndexEverstone;
+        var baseSpecies = pi.HatchSpecies;
+        var baseForm = pi.HatchFormIndexEverstone;
         return GetEggMoves(baseSpecies, baseForm).IndexOf(move) != -1;
     }
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
-    {
-        var index = Array.IndexOf(TypeTutor8, move);
-        if (index == -1)
-            return false;
-        return pi.TypeTutors[index];
-    }
-
-    private static bool GetIsTM(PersonalInfo info, ushort move)
-    {
-        var index = TM_SWSH.AsSpan().IndexOf(move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
-    }
-
-    private static bool GetIsTR(PersonalInfo info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)
+    private static bool GetIsTR(PersonalInfo8SWSH info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)
     {
         if (pk is not ITechRecord tr)
             return false;
 
-        var index = TR_SWSH.AsSpan().IndexOf(move);
+        var index = info.RecordPermitIndexes.IndexOf(move);
         if (index == -1)
             return false;
-        if (!info.TMHM[PersonalInfo8SWSH.CountTM + index])
+        if (!info.GetIsLearnTR(index))
             return false;
 
         if (tr.GetMoveRecordFlag(index))
@@ -142,7 +117,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
 
         if (option != LearnOption.Current && !pk.SWSH && pk.IsOriginalMovesetDeleted())
             return true;
-        if (index == 12 && evo.Species == (int)Species.Calyrex && evo.Form == 0) // TR12
+        if (index == 12 && evo is { Species: (int)Species.Calyrex, Form: 0 }) // TR12
             return true; // Agility Calyrex without TR glitch.
 
         return false;
@@ -153,7 +128,7 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
@@ -165,66 +140,30 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.SharedEggMove))
+        if (types.HasFlag(MoveSourceType.SharedEggMove))
         {
-            var entry = (PersonalInfo8SWSH)pi;
-            var baseSpecies = entry.HatchSpecies;
-            var baseForm = entry.HatchFormIndexEverstone;
+            var baseSpecies = pi.HatchSpecies;
+            var baseForm = pi.HatchFormIndexEverstone;
             var egg = GetEggMoves(baseSpecies, baseForm);
             foreach (var move in egg)
                 result[move] = true;
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
-            var flags = pi.TMHM;
-            var moves = TM_SWSH;
-            for (int i = 0; i < PersonalInfo8SWSH.CountTM; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-
-            if (pk is ITechRecord)
-            {
-                var trFlags = flags.AsSpan(PersonalInfo8SWSH.CountTM);
-                var trMoves = TR_SWSH.AsSpan();
-                for (int index = 0; index < trFlags.Length; index++)
-                {
-                    var move = trMoves[index];
-                    if (trFlags[index])
-                        result[move] = true;
-                    else if (index == 12 && evo.Species == (int)Species.Calyrex && evo.Form == 0) // TR12
-                        result[move] = true; // Agility Calyrex without TR glitch.
-                }
-            }
+            pi.SetAllLearnTM(result);
+            pi.SetAllLearnTR(result);
+            if (evo is { Species: (int)Species.Calyrex, Form: 0 })
+                result[(int)Move.Agility] = true; // Agility Calyrex without TR glitch.
         }
 
-        if (types.HasFlagFast(MoveSourceType.TypeTutor))
-        {
-            // Beams
-            var flags = pi.TypeTutors;
-            var moves = TypeTutor8;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.TypeTutor))
+            pi.SetAllLearnTutorType(result);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
-        {
-            // SW/SH Tutors
-            var flags = pi.SpecialTutors[0];
-            var moves = Tutors_SWSH;
-            for (int i = 0; i < flags.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
+            pi.SetAllLearnTutorSpecial(result);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
             var species = evo.Species;
             if (species is (int)Species.Rotom && pk.Form is not 0)
@@ -235,53 +174,4 @@ public sealed class LearnSource8SWSH : ILearnSource, IEggSource
                 result[(int)Move.MoongeistBeam] = true;
         }
     }
-
-    public static readonly ushort[] TM_SWSH =
-    {
-        005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
-        345, 076, 669, 083, 086, 091, 103, 113, 115, 219,
-        120, 156, 157, 168, 173, 182, 184, 196, 202, 204,
-        211, 213, 201, 240, 241, 258, 250, 251, 261, 263,
-        129, 270, 279, 280, 286, 291, 311, 313, 317, 328,
-        331, 333, 340, 341, 350, 362, 369, 371, 372, 374,
-        384, 385, 683, 409, 419, 421, 422, 423, 424, 427,
-        433, 472, 478, 440, 474, 490, 496, 506, 512, 514,
-        521, 523, 527, 534, 541, 555, 566, 577, 580, 581,
-        604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
-    };
-
-    internal static readonly ushort[] TR_SWSH =
-    {
-        014, 034, 053, 056, 057, 058, 059, 067, 085, 087,
-        089, 094, 097, 116, 118, 126, 127, 133, 141, 161,
-        164, 179, 188, 191, 200, 473, 203, 214, 224, 226,
-        227, 231, 242, 247, 248, 253, 257, 269, 271, 276,
-        285, 299, 304, 315, 322, 330, 334, 337, 339, 347,
-        348, 349, 360, 370, 390, 394, 396, 398, 399, 402,
-        404, 405, 406, 408, 411, 412, 413, 414, 417, 428,
-        430, 437, 438, 441, 442, 444, 446, 447, 482, 484,
-        486, 492, 500, 502, 503, 526, 528, 529, 535, 542,
-        583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
-    };
-
-    internal static readonly ushort[] TypeTutor8 =
-    {
-        (int)Move.GrassPledge,
-        (int)Move.FirePledge,
-        (int)Move.WaterPledge,
-        (int)Move.FrenzyPlant,
-        (int)Move.BlastBurn,
-        (int)Move.HydroCannon,
-        (int)Move.DracoMeteor,
-        (int)Move.SteelBeam,
-    };
-
-    internal static readonly ushort[] Tutors_SWSH =
-    {
-        805, 807, 812, 804,
-        803, 813, 811, 810,
-        815, 814, 797, 806,
-        800, 809, 799, 808,
-        798, 802,
-    };
 }

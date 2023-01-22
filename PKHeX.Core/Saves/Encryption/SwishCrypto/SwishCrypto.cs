@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
 namespace PKHeX.Core;
@@ -9,7 +11,7 @@ namespace PKHeX.Core;
 /// MemeCrypto V2 - The Next Generation
 /// </summary>
 /// <remarks>
-/// A variant of <see cref="SaveFile"/> encryption and obfuscation used in <see cref="GameVersion.SWSH"/> and <see cref="GameVersion.PLA"/>.
+/// A variant of <see cref="SaveFile"/> encryption and obfuscation used in <see cref="GameVersion.SWSH"/> and future in-house titles.
 /// <br> Individual save blocks are stored in a hash map, with some object-type details prefixing the block's raw data. </br>
 /// <br> Once the raw save file data is dumped, the binary is hashed with SHA256 using a static Intro salt and static Outro salt. </br>
 /// <br> With the hash computed, the data is encrypted with a repeating irregular-sized static xor cipher. </br>
@@ -18,7 +20,7 @@ public static class SwishCrypto
 {
     private const int SIZE_HASH = 0x20;
 
-    private static readonly byte[] IntroHashBytes =
+    private static ReadOnlySpan<byte> IntroHashBytes => new byte[]
     {
         0x9E, 0xC9, 0x9C, 0xD7, 0x0E, 0xD3, 0x3C, 0x44, 0xFB, 0x93, 0x03, 0xDC, 0xEB, 0x39, 0xB4, 0x2A,
         0x19, 0x47, 0xE9, 0x63, 0x4B, 0xA2, 0x33, 0x44, 0x16, 0xBF, 0x82, 0xA2, 0xBA, 0x63, 0x55, 0xB6,
@@ -26,7 +28,7 @@ public static class SwishCrypto
         0x3A, 0x05, 0x90, 0x00, 0xE8, 0xA8, 0x10, 0x3D, 0xE2, 0xEC, 0xF0, 0x0C, 0xB2, 0xED, 0x4F, 0x6D,
     };
 
-    private static readonly byte[] OutroHashBytes =
+    private static ReadOnlySpan<byte> OutroHashBytes => new byte[]
     {
         0xD6, 0xC0, 0x1C, 0x59, 0x8B, 0xC8, 0xB8, 0xCB, 0x46, 0xE1, 0x53, 0xFC, 0x82, 0x8C, 0x75, 0x75,
         0x13, 0xE0, 0x45, 0xDF, 0x32, 0x69, 0x3C, 0x75, 0xF0, 0x59, 0xF8, 0xD9, 0xA2, 0x5F, 0xB2, 0x17,
@@ -34,7 +36,7 @@ public static class SwishCrypto
         0xF1, 0x26, 0xE0, 0x03, 0x0A, 0xE6, 0x6F, 0xF6, 0x41, 0xBF, 0x7E, 0x59, 0xC2, 0xAE, 0x55, 0xFD,
     };
 
-    private static readonly byte[] StaticXorpad =
+    private static ReadOnlySpan<byte> StaticXorpad => new byte[]
     {
         0xA0, 0x92, 0xD1, 0x06, 0x07, 0xDB, 0x32, 0xA1, 0xAE, 0x01, 0xF5, 0xC5, 0x1E, 0x84, 0x4F, 0xE3,
         0x53, 0xCA, 0x37, 0xF4, 0xA7, 0xB0, 0x4D, 0xA0, 0x18, 0xB7, 0xC2, 0x97, 0xDA, 0x5F, 0x53, 0x2B,
@@ -43,36 +45,39 @@ public static class SwishCrypto
         0xD2, 0xD1, 0x50, 0x3D, 0xDE, 0x5B, 0x2E, 0x0E, 0x52, 0xFD, 0xDF, 0x2F, 0x7B, 0xCA, 0x63, 0x50,
         0xA4, 0x67, 0x5D, 0x23, 0x17, 0xC0, 0x52, 0xE1, 0xA6, 0x30, 0x7C, 0x2B, 0xB6, 0x70, 0x36, 0x5B,
         0x2A, 0x27, 0x69, 0x33, 0xF5, 0x63, 0x7B, 0x36, 0x3F, 0x26, 0x9B, 0xA3, 0xED, 0x7A, 0x53, 0x00,
-        0xA4, 0x48, 0xB3, 0x50, 0x9E, 0x14, 0xA0, 0x52, 0xDE, 0x7E, 0x10, 0x2B, 0x1B, 0x77, 0x6E,
+        0xA4, 0x48, 0xB3, 0x50, 0x9E, 0x14, 0xA0, 0x52, 0xDE, 0x7E, 0x10, 0x2B, 0x1B, 0x77, 0x6E, 0, // aligned to 0x80
     };
 
     public static void CryptStaticXorpadBytes(Span<byte> data)
     {
+        // Apply the xorpad over each chunk of xorpad-sized spans.
+        // This is 30x as fast as a single loop with a modulus operation (benchmarked; modulo is slower).
+        // Marshal as a vectorized operation to speed up the process.
+        // Due to the xorpad being extended 0x7F->0x80, if len%7F==0, we miss the last vectored xor.
+        // Subtract 1 from the data size in the event that the length is an even multiple, to get one less iteration.
         var xp = StaticXorpad;
-        var region = data[..^SIZE_HASH];
-        for (var i = 0; i < region.Length; i++)
-            region[i] ^= xp[i % xp.Length];
+        var xp64 = MemoryMarshal.Cast<byte, Vector<ulong>>(xp);
+        var size = xp.Length - 1;
+        int iterations = (data.Length - 1) / size;
+        do
+        {
+            var slice = MemoryMarshal.Cast<byte, Vector<ulong>>(data[..xp.Length]);
+            for (int i = slice.Length - 1; i >= 0; i--)
+                slice[i] ^= xp64[i];
+            data = data[size..];
+        } while (--iterations != 0);
+        // Xor the remainder.
+        for (int i = data.Length - 1; i >= 0; i--)
+            data[i] ^= xp[i];
     }
 
-    private static byte[] ComputeHash(byte[] data)
+    private static void ComputeHash(ReadOnlySpan<byte> data, Span<byte> hash)
     {
-#if !NET46
         using var h = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         h.AppendData(IntroHashBytes);
-        h.AppendData(data, 0, data.Length - SIZE_HASH);
+        h.AppendData(data);
         h.AppendData(OutroHashBytes);
-        return h.GetHashAndReset();
-#else
-        var intro = IntroHashBytes;
-        var outro = OutroHashBytes;
-        using var stream = new MemoryStream(intro.Length + data.Length - SIZE_HASH + outro.Length);
-        stream.Write(intro, 0, intro.Length);
-        stream.Write(data, 0, data.Length - SIZE_HASH); // hash is at the end
-        stream.Write(outro, 0, outro.Length);
-        stream.Seek(0, SeekOrigin.Begin);
-        using var sha = SHA256.Create();
-        return sha.ComputeHash(stream);
-#endif
+        h.TryGetCurrentHash(hash, out _);
     }
 
     /// <summary>
@@ -80,11 +85,12 @@ public static class SwishCrypto
     /// </summary>
     /// <param name="data">Encrypted save data</param>
     /// <returns>True if hash matches</returns>
-    public static bool GetIsHashValid(byte[] data)
+    public static bool GetIsHashValid(ReadOnlySpan<byte> data)
     {
-        var hash = ComputeHash(data);
-        var span = data.AsSpan()[^hash.Length..];
-        return span.SequenceEqual(hash);
+        Span<byte> computed = stackalloc byte[SIZE_HASH];
+        ComputeHash(data[..^SIZE_HASH], computed);
+        var stored = data[^computed.Length..];
+        return computed.SequenceEqual(stored);
     }
 
     /// <summary>
@@ -97,8 +103,10 @@ public static class SwishCrypto
     /// </remarks>
     public static IReadOnlyList<SCBlock> Decrypt(Span<byte> data)
     {
-        CryptStaticXorpadBytes(data);
-        return ReadBlocks(data);
+        // ignore hash
+        var payload = data[..^SIZE_HASH];
+        CryptStaticXorpadBytes(payload);
+        return ReadBlocks(payload);
     }
 
     private const int BlockDataRatioEstimate1 = 777; // bytes per block, on average (generous)
@@ -108,7 +116,7 @@ public static class SwishCrypto
     {
         var result = new List<SCBlock>(data.Length / BlockDataRatioEstimate2);
         int offset = 0;
-        while (offset < data.Length - SIZE_HASH)
+        while (offset < data.Length)
         {
             var block = SCBlock.ReadFromOffset(data, ref offset);
             result.Add(block);
@@ -125,11 +133,10 @@ public static class SwishCrypto
     public static byte[] Encrypt(IReadOnlyList<SCBlock> blocks)
     {
         var result = GetDecryptedRawData(blocks);
-        CryptStaticXorpadBytes(result);
-
-        var hash = ComputeHash(result);
-        hash.CopyTo(result, result.Length - SIZE_HASH);
-
+        var span = result.AsSpan();
+        var payload = span[..^SIZE_HASH];
+        CryptStaticXorpadBytes(payload);
+        ComputeHash(payload, span[^SIZE_HASH..]);
         return result;
     }
 
@@ -144,10 +151,10 @@ public static class SwishCrypto
         foreach (var block in blocks)
             block.WriteBlock(bw);
 
-        // Allocate hash bytes at the end
-        for (int i = 0; i < SIZE_HASH; i++)
-            bw.Write((byte)0);
-
-        return ms.ToArray();
+        var result = new byte[ms.Position + SIZE_HASH];
+        var payload = result.AsSpan()[..^SIZE_HASH];
+        ms.Position = 0;
+        ms.ReadExactly(payload);
+        return result;
     }
 }

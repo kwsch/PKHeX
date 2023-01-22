@@ -70,8 +70,9 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public byte[] GetData(int offset, int length) => GetData(Data, offset, length);
     protected static byte[] GetData(byte[] data, int offset, int length) => data.Slice(offset, length);
     public void SetData(byte[] input, int offset) => SetData(Data, input, offset);
+    public void SetData(ReadOnlySpan<byte> input, int offset) => SetData(Data, input, offset);
 
-    public void SetData(Span<byte> dest, Span<byte> input, int offset)
+    public void SetData(Span<byte> dest, ReadOnlySpan<byte> input, int offset)
     {
         input.CopyTo(dest[offset..]);
         State.Edited = true;
@@ -141,8 +142,9 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual int Gender { get; set; }
     public virtual int Language { get => -1; set { } }
     public virtual int Game { get => (int)GameVersion.Any; set { } }
-    public virtual int TID { get; set; }
-    public virtual int SID { get; set; }
+    public virtual uint ID32 { get; set; }
+    public virtual ushort TID16 { get; set; }
+    public virtual ushort SID16 { get; set; }
     public virtual string OT { get; set; } = "PKHeX";
     public virtual int PlayedHours { get; set; }
     public virtual int PlayedMinutes { get; set; }
@@ -152,30 +154,16 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual uint Money { get; set; }
     public abstract int BoxCount { get; }
     public virtual int SlotCount => BoxCount * BoxSlotCount;
-    public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
-    public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
     public virtual int MaxMoney => 9999999;
     public virtual int MaxCoins => 9999;
 
-    public int DisplayTID
-    {
-        get => Generation >= 7 ? TrainerID7 : TID;
-        set { if (Generation >= 7) TrainerID7 = value; else TID = value; }
-    }
+    public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
+    public uint TrainerTID7 { get => this.GetTrainerTID7(); set => this.SetTrainerTID7(value); }
+    public uint TrainerSID7 { get => this.GetTrainerSID7(); set => this.SetTrainerSID7(value); }
+    public uint DisplayTID { get => this.GetDisplayTID(); set => this.SetDisplayTID(value); }
+    public uint DisplaySID { get => this.GetDisplaySID(); set => this.SetDisplaySID(value); }
 
-    public int DisplaySID
-    {
-        get => Generation >= 7 ? TrainerSID7 : SID;
-        set { if (Generation >= 7) TrainerSID7 = value; else SID = value; }
-    }
     #endregion
-
-    private void SetID7(int sid7, int tid7)
-    {
-        var oid = (sid7 * 1_000_000) + (tid7 % 1_000_000);
-        TID = (ushort)oid;
-        SID = oid >> 16;
-    }
 
     #region Party
     public virtual int PartyCount { get; protected set; }
@@ -524,8 +512,8 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     protected virtual IList<int>[] SlotPointers => new[] { TeamSlots };
     public virtual StorageSlotSource GetSlotFlags(int index) => StorageSlotSource.None;
     public StorageSlotSource GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
-    public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlagFast(StorageSlotSource.Locked);
-    public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlagFast(StorageSlotSource.Locked);
+    public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlag(StorageSlotSource.Locked);
+    public bool IsSlotLocked(int index) => GetSlotFlags(index).HasFlag(StorageSlotSource.Locked);
     public bool IsSlotOverwriteProtected(int box, int slot) => GetSlotFlags(box, slot).IsOverwriteProtected();
     public bool IsSlotOverwriteProtected(int index) => GetSlotFlags(index).IsOverwriteProtected();
 
@@ -569,7 +557,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         {
             foreach (int slotIndex in arrays)
             {
-                if (!GetSlotFlags(slotIndex).HasFlagFast(StorageSlotSource.Locked))
+                if (!GetSlotFlags(slotIndex).HasFlag(StorageSlotSource.Locked))
                     continue;
                 if (ArrayUtil.WithinRange(slotIndex, BoxStart * BoxSlotCount, (BoxEnd + 1) * BoxSlotCount))
                     return true;
@@ -834,7 +822,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual bool HasNamableBoxes => HasBoxWallpapers;
 
     public abstract string GetBoxName(int box);
-    public abstract void SetBoxName(int box, string value);
+    public abstract void SetBoxName(int box, ReadOnlySpan<char> value);
     protected virtual int GetBoxWallpaperOffset(int box) => -1;
 
     public virtual int GetBoxWallpaper(int box)
@@ -941,5 +929,16 @@ public static class StorageUtil
         }
 
         return true;
+    }
+
+    public static int FindSlotIndex(this SaveFile sav, Func<PKM, bool> method, int maxCount)
+    {
+        for (int i = 0; i < maxCount; i++)
+        {
+            var pk = sav.GetBoxSlotAtIndex(i);
+            if (method(pk))
+                return i;
+        }
+        return -1;
     }
 }

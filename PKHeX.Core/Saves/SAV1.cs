@@ -18,8 +18,8 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public bool Japanese { get; }
     public bool Korean => false;
 
-    private readonly PersonalTable1 Table;
-    public override IPersonalTable Personal => Table;
+    public override PersonalTable1 Personal { get; }
+
     public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
 
     public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
@@ -33,7 +33,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         Version = version;
         Japanese = japanese;
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-        Table = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
+        Personal = version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         Initialize(version);
         ClearBoxes();
     }
@@ -44,7 +44,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
         Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
-        Table = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
+        Personal = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
         if (Version == GameVersion.Invalid)
             return;
 
@@ -129,7 +129,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         {
             var slotOfs = boxDest + (i * SIZE_STORED);
             var slotData = Data.AsSpan(slotOfs, SIZE_STORED);
-            PK1 pk = (PK1)GetPKM(slotData.ToArray());
+            PK1 pk = GetPKM(slotData.ToArray());
             if (pk.Species > 0)
                 boxPL[slot++] = pk;
         }
@@ -176,7 +176,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         int pSlot = 0;
         for (int i = 0; i < 6; i++)
         {
-            PK1 partyPK = (PK1)GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
+            PK1 partyPK = GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
             if (partyPK.Species > 0)
                 partyPL[pSlot++] = partyPK;
         }
@@ -192,7 +192,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         dc.CopyTo(Data.AsSpan(Offsets.Daycare));
 
         SetChecksums();
-        return Data.AsSpan()[..^SIZE_RESERVED].ToArray();
+        return Data[..^SIZE_RESERVED];
     }
 
     private int GetBoxRawDataOffset(int box)
@@ -203,7 +203,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     }
 
     // Configuration
-    protected override SaveFile CloneInternal() => new SAV1(Write(), Version);
+    protected override SAV1 CloneInternal() => new(Write(), Version);
 
     protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
     protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
@@ -211,7 +211,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     private int SIZE_STOREDBOX => PokeList1.GetDataLength(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
     private int SIZE_STOREDPARTY => PokeList1.GetDataLength(PokeListType.Party, Japanese);
 
-    public override PKM BlankPKM => new PK1(Japanese);
+    public override PK1 BlankPKM => new(Japanese);
     public override Type PKMType => typeof(PK1);
 
     public override ushort MaxMoveID => Legal.MaxMoveID_1;
@@ -258,7 +258,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public override string OT
     {
         get => GetString(Offsets.OT, MaxStringLengthOT);
-        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value.AsSpan(), MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public Span<byte> OT_Trash { get => Data.AsSpan(Offsets.OT, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.OT)); } }
@@ -269,18 +269,24 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         set { }
     }
 
-    public override int TID
+    public override uint ID32
     {
-        get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TID));
-        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TID), (ushort)value);
+        get => TID16;
+        set => TID16 = (ushort)value;
     }
 
-    public override int SID { get => 0; set { } }
+    public override ushort TID16
+    {
+        get => ReadUInt16BigEndian(Data.AsSpan(Offsets.TID16));
+        set => WriteUInt16BigEndian(Data.AsSpan(Offsets.TID16), value);
+    }
+
+    public override ushort SID16 { get => 0; set { } }
 
     public string Rival
     {
         get => GetString(Offsets.Rival, MaxStringLengthOT);
-        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT), value.AsSpan(), MaxStringLengthOT, StringConverterOption.Clear50);
+        set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT), value, MaxStringLengthOT, StringConverterOption.Clear50);
     }
 
     public Span<byte> Rival_Trash { get => Data.AsSpan(Offsets.Rival, StringLength); set { if (value.Length == StringLength) value.CopyTo(Data.AsSpan(Offsets.Rival)); } }
@@ -475,19 +481,21 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     public override string GetBoxName(int box)
     {
+        if (Japanese)
+            return $"ボックス{box + 1}";
         return $"BOX {box + 1}";
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         // Don't allow for custom box names
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override PK1 GetPKM(byte[] data)
     {
         if (data.Length == SIZE_STORED)
             return new PokeList1(data, PokeListType.Single, Japanese)[0];
-        return new PK1(data);
+        return new(data);
     }
 
     protected override byte[] DecryptPKM(byte[] data)

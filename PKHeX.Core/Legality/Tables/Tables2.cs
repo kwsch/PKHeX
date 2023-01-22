@@ -1,5 +1,3 @@
-using static PKHeX.Core.Species;
-
 namespace PKHeX.Core;
 
 public static partial class Legal
@@ -30,13 +28,4 @@ public static partial class Legal
     internal static readonly ushort[] HeldItems_GSC = ArrayUtil.ConcatAll(Pouch_Items_GSC, Pouch_Ball_GSC, Pouch_TMHM_GSC);
 
     internal static readonly bool[] ReleasedHeldItems_2 = GetPermitList(MaxItemID_2, HeldItems_GSC);
-
-    internal static bool TransferSpeciesDefaultAbilityGen2(ushort species)
-    {
-        System.Diagnostics.Debug.Assert((uint)species <= MaxSpeciesID_2);
-        return species is (int)Gastly or (int)Haunter or (int)Gengar
-            or (int)Koffing or (int)Weezing
-            or (int)Misdreavus or (int)Unown
-            or (int)Mew or (int)Celebi;
-    }
 }

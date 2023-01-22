@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -13,7 +13,7 @@ public sealed class BoxLayout8 : SaveBlock<SAV8SWSH>, IBoxDetailName
     private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
     private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);
     public string GetBoxName(int box) => SAV.GetString(GetBoxNameSpan(box));
-    public void SetBoxName(int box, string value) => SAV.SetString(GetBoxNameSpan(box), value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
+    public void SetBoxName(int box, ReadOnlySpan<char> value) => SAV.SetString(GetBoxNameSpan(box), value, StringMaxLength, StringConverterOption.ClearZero);
 
     public string this[int i]
     {

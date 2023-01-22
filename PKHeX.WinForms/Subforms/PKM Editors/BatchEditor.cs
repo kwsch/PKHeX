@@ -64,9 +64,10 @@ public partial class BatchEditor : Form
         { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
         // If we already have text, add a new line (except if the last line is blank).
-        if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
-            s = Environment.NewLine + s;
-
+        var tb = RTB_Instructions;
+        var batchText = tb.Text;
+        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+            tb.AppendText(Environment.NewLine);
         RTB_Instructions.AppendText(s);
     }
 
@@ -93,11 +94,11 @@ public partial class BatchEditor : Form
 
     private void RunBackgroundWorker()
     {
-        var lines = RTB_Instructions.Lines;
-        if (Array.Exists(lines, line => line.Length == 0))
+        ReadOnlySpan<char> text = RTB_Instructions.Text;
+        if (StringInstructionSet.HasEmptyLine(text))
         { WinFormsUtil.Error(MsgBEInstructionInvalid); return; }
 
-        var sets = StringInstructionSet.GetBatchSets(lines).ToArray();
+        var sets = StringInstructionSet.GetBatchSets(text);
         if (Array.Exists(sets, s => s.Filters.Any(z => string.IsNullOrWhiteSpace(z.PropertyValue))))
         { WinFormsUtil.Error(MsgBEFilterEmpty); return; }
 

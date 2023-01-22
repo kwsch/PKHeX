@@ -378,7 +378,7 @@
             this.Label_SID.Name = "Label_SID";
             this.Label_SID.Size = new System.Drawing.Size(36, 13);
             this.Label_SID.TabIndex = 4;
-            this.Label_SID.Text = "SID:";
+            this.Label_SID.Text = "SID16:";
             this.Label_SID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Label_TID
@@ -387,7 +387,7 @@
             this.Label_TID.Name = "Label_TID";
             this.Label_TID.Size = new System.Drawing.Size(28, 13);
             this.Label_TID.TabIndex = 3;
-            this.Label_TID.Text = "TID:";
+            this.Label_TID.Text = "TID16:";
             this.Label_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Victory

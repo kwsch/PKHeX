@@ -1,9 +1,8 @@
-﻿using FluentAssertions;
-using PKHeX.Core;
+using FluentAssertions;
 using System.IO;
 using Xunit;
 
-namespace PKHeX.Tests.Saves;
+namespace PKHeX.Core.Tests.Saves;
 
 public static class SMTests
 {

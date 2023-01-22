@@ -1,8 +1,7 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing;
-using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms.Controls;
 
@@ -10,13 +9,13 @@ public partial class PKMEditor
 {
     private void LoadNickname(PKM pk)
     {
-        CHK_Nicknamed.Checked = pk.IsNicknamed;
+        CHK_NicknamedFlag.Checked = pk.IsNicknamed;
         TB_Nickname.Text = pk.Nickname;
     }
 
     private void SaveNickname(PKM pk)
     {
-        pk.IsNicknamed = CHK_Nicknamed.Checked;
+        pk.IsNicknamed = CHK_NicknamedFlag.Checked;
         pk.Nickname = TB_Nickname.Text;
     }
 
@@ -98,34 +97,34 @@ public partial class PKMEditor
 
     private void LoadMoves(PKM pk)
     {
-        CB_Move1.SelectedValue = (int)pk.Move1;
-        CB_Move2.SelectedValue = (int)pk.Move2;
-        CB_Move3.SelectedValue = (int)pk.Move3;
-        CB_Move4.SelectedValue = (int)pk.Move4;
-        LoadClamp(CB_PPu1, pk.Move1_PPUps);
-        LoadClamp(CB_PPu2, pk.Move2_PPUps);
-        LoadClamp(CB_PPu3, pk.Move3_PPUps);
-        LoadClamp(CB_PPu4, pk.Move4_PPUps);
-        TB_PP1.Text = pk.Move1_PP.ToString();
-        TB_PP2.Text = pk.Move2_PP.ToString();
-        TB_PP3.Text = pk.Move3_PP.ToString();
-        TB_PP4.Text = pk.Move4_PP.ToString();
+        MC_Move1.SelectedMove = pk.Move1;
+        MC_Move2.SelectedMove = pk.Move2;
+        MC_Move3.SelectedMove = pk.Move3;
+        MC_Move4.SelectedMove = pk.Move4;
+        MC_Move1.PPUps = pk.Move1_PPUps;
+        MC_Move2.PPUps = pk.Move2_PPUps;
+        MC_Move3.PPUps = pk.Move3_PPUps;
+        MC_Move4.PPUps = pk.Move4_PPUps;
+        MC_Move1.PP = pk.Move1_PP;
+        MC_Move2.PP = pk.Move2_PP;
+        MC_Move3.PP = pk.Move3_PP;
+        MC_Move4.PP = pk.Move4_PP;
     }
 
     private void SaveMoves(PKM pk)
     {
-        pk.Move1 = (ushort)WinFormsUtil.GetIndex(CB_Move1);
-        pk.Move2 = (ushort)WinFormsUtil.GetIndex(CB_Move2);
-        pk.Move3 = (ushort)WinFormsUtil.GetIndex(CB_Move3);
-        pk.Move4 = (ushort)WinFormsUtil.GetIndex(CB_Move4);
-        pk.Move1_PP = WinFormsUtil.GetIndex(CB_Move1) > 0 ? Util.ToInt32(TB_PP1.Text) : 0;
-        pk.Move2_PP = WinFormsUtil.GetIndex(CB_Move2) > 0 ? Util.ToInt32(TB_PP2.Text) : 0;
-        pk.Move3_PP = WinFormsUtil.GetIndex(CB_Move3) > 0 ? Util.ToInt32(TB_PP3.Text) : 0;
-        pk.Move4_PP = WinFormsUtil.GetIndex(CB_Move4) > 0 ? Util.ToInt32(TB_PP4.Text) : 0;
-        pk.Move1_PPUps = WinFormsUtil.GetIndex(CB_Move1) > 0 ? CB_PPu1.SelectedIndex : 0;
-        pk.Move2_PPUps = WinFormsUtil.GetIndex(CB_Move2) > 0 ? CB_PPu2.SelectedIndex : 0;
-        pk.Move3_PPUps = WinFormsUtil.GetIndex(CB_Move3) > 0 ? CB_PPu3.SelectedIndex : 0;
-        pk.Move4_PPUps = WinFormsUtil.GetIndex(CB_Move4) > 0 ? CB_PPu4.SelectedIndex : 0;
+        pk.Move1 = MC_Move1.SelectedMove;
+        pk.Move2 = MC_Move2.SelectedMove;
+        pk.Move3 = MC_Move3.SelectedMove;
+        pk.Move4 = MC_Move4.SelectedMove;
+        pk.Move1_PP = MC_Move1.PP;
+        pk.Move2_PP = MC_Move2.PP;
+        pk.Move3_PP = MC_Move3.PP;
+        pk.Move4_PP = MC_Move4.PP;
+        pk.Move1_PPUps = MC_Move1.PPUps;
+        pk.Move2_PPUps = MC_Move2.PPUps;
+        pk.Move3_PPUps = MC_Move3.PPUps;
+        pk.Move4_PPUps = MC_Move4.PPUps;
     }
 
     private void LoadShadow3(IShadowCapture pk)
@@ -249,7 +248,7 @@ public partial class PKMEditor
         if (pk is IContestStatsReadOnly s)
             s.CopyContestStatsTo(Contest);
 
-        TID_Trainer.LoadIDValues(pk);
+        TID_Trainer.LoadIDValues(pk, pk.Format);
 
         // Load Extrabyte Value
         var offset = Convert.ToInt32(CB_ExtraBytes.Text, 16);
@@ -276,8 +275,8 @@ public partial class PKMEditor
 
     private void LoadMisc4(PKM pk)
     {
-        CAL_MetDate.Value = pk.MetDate ?? new DateTime(2000, 1, 1);
-        if (!Legal.IsMetAsEgg(pk))
+        CAL_MetDate.Value = pk.MetDate?.ToDateTime(new TimeOnly()) ?? new(2000, 1, 1);
+        if (!EncounterStateUtil.IsMetAsEgg(pk))
         {
             CHK_AsEgg.Checked = GB_EggConditions.Enabled = false;
             CAL_EggDate.Value = new DateTime(2000, 01, 01);
@@ -286,7 +285,7 @@ public partial class PKMEditor
         {
             // Was obtained initially as an egg.
             CHK_AsEgg.Checked = GB_EggConditions.Enabled = true;
-            CAL_EggDate.Value = pk.EggMetDate ?? new DateTime(2000, 1, 1);
+            CAL_EggDate.Value = pk.EggMetDate?.ToDateTime(new TimeOnly()) ?? new(2000, 1, 1);
         }
         CB_EggLocation.SelectedValue = pk.Egg_Location;
     }
@@ -295,7 +294,7 @@ public partial class PKMEditor
     {
         if (CHK_AsEgg.Checked) // If encountered as an egg, load the Egg Met data from fields.
         {
-            pk.EggMetDate = CAL_EggDate.Value;
+            pk.EggMetDate = DateOnly.FromDateTime(CAL_EggDate.Value);
             pk.Egg_Location = WinFormsUtil.GetIndex(CB_EggLocation);
         }
         else // Default Dates
@@ -308,7 +307,7 @@ public partial class PKMEditor
         if (pk.IsEgg && pk.Met_Location == LocationEdits.GetNoneLocation(pk)) // If still an egg, it has no hatch location/date. Zero it!
             pk.MetDate = null; // clear
         else
-            pk.MetDate = CAL_MetDate.Value;
+            pk.MetDate = DateOnly.FromDateTime(CAL_MetDate.Value);
 
         pk.Ability = WinFormsUtil.GetIndex(HaX ? DEV_Ability : CB_Ability);
     }
@@ -367,8 +366,8 @@ public partial class PKMEditor
 
         TB_HT.Text = handler;
         UC_HTGender.Gender = gender;
-        if (handler.Length == 0)
-            UC_HTGender.Visible = false;
+        bool hasValue = handler.Length != 0;
+        L_CurrentHandler.Visible = CB_Handler.Visible = UC_HTGender.Visible = hasValue;
 
         // Indicate who is currently in possession of the PKM
         UpadteHandlingTrainerBackground(pk.CurrentHandler);
@@ -376,16 +375,17 @@ public partial class PKMEditor
 
     private void UpadteHandlingTrainerBackground(int handler)
     {
-        var activeColor = ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Set, 0.5);
         if (handler == 0) // OT
         {
-            GB_OT.BackgroundImage = activeColor;
-            GB_nOT.BackgroundImage = null;
+            GB_OT.ForeColor = Color.Red;
+            GB_nOT.ResetForeColor();
+            CB_Handler.SelectedIndex = 0;
         }
         else // Handling Trainer
         {
-            GB_nOT.BackgroundImage = activeColor;
-            GB_OT.BackgroundImage = null;
+            GB_nOT.ForeColor = Color.Red;
+            GB_OT.ResetForeColor();
+            CB_Handler.SelectedIndex = 1;
         }
     }
 

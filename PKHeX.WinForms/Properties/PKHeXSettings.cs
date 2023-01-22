@@ -2,14 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using System.IO;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms;
 
 [Serializable]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public sealed class PKHeXSettings
 {
     public StartupSettings Startup { get; set; } = new();
@@ -36,6 +40,19 @@ public sealed class PKHeXSettings
     public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
     public BulkAnalysisSettings Bulk { get; set; } = new();
 
+    private static JsonSerializerOptions GetOptions() => new()
+    {
+        WriteIndented = true,
+        Converters = { new ColorJsonConverter() },
+    };
+
+    public sealed class ColorJsonConverter : JsonConverter<Color>
+    {
+        public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) => ColorTranslator.FromHtml(reader.GetString() ?? string.Empty);
+
+        public override void Write(Utf8JsonWriter writer, Color value, JsonSerializerOptions options) => writer.WriteStringValue($"#{value.R:x2}{value.G:x2}{value.B:x2}");
+    }
+
     public static PKHeXSettings GetSettings(string configPath)
     {
         if (!File.Exists(configPath))
@@ -44,7 +61,7 @@ public sealed class PKHeXSettings
         try
         {
             var lines = File.ReadAllText(configPath);
-            return JsonConvert.DeserializeObject<PKHeXSettings>(lines) ?? new PKHeXSettings();
+            return JsonSerializer.Deserialize<PKHeXSettings>(lines, GetOptions()) ?? new PKHeXSettings();
         }
         catch (Exception x)
         {
@@ -57,13 +74,7 @@ public sealed class PKHeXSettings
     {
         try
         {
-            var settings = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                DefaultValueHandling = DefaultValueHandling.Populate,
-                NullValueHandling = NullValueHandling.Ignore,
-            };
-            var text = JsonConvert.SerializeObject(cfg, settings);
+            var text = JsonSerializer.Serialize(cfg, GetOptions());
             File.WriteAllText(configPath, text);
         }
         catch (Exception x)
@@ -76,7 +87,7 @@ public sealed class PKHeXSettings
     {
         try
         {
-            File.WriteAllLines("config error.txt", new[] { x.ToString() });
+            File.WriteAllText("config error.txt", x.ToString());
         }
         catch (Exception)
         {
@@ -95,10 +106,10 @@ public sealed class BackupSettings
     public bool BAKPrompt { get; set; }
 
     [LocalizedDescription("List of extra locations to look for Save Files.")]
-    public string[] OtherBackupPaths { get; set; } = Array.Empty<string>();
+    public List<string> OtherBackupPaths { get; set; } = new();
 
     [LocalizedDescription("Save File file-extensions (no period) that the program should also recognize.")]
-    public string[] OtherSaveFileExtensions { get; set; } = Array.Empty<string>();
+    public List<string> OtherSaveFileExtensions { get; set; } = new();
 }
 
 [Serializable]
@@ -240,7 +251,7 @@ public sealed class AdvancedSettings
 }
 
 [Serializable]
-public class EntityDatabaseSettings
+public sealed class EntityDatabaseSettings
 {
     [LocalizedDescription("When loading content for the PKM Database, search within backup save files.")]
     public bool SearchBackups { get; set; } = true;

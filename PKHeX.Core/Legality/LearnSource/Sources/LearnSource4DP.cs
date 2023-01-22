@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="DP"/>.
 /// </summary>
-public sealed class LearnSource4DP : ILearnSource, IEggSource
+public sealed class LearnSource4DP : ILearnSource<PersonalInfo4>, IEggSource
 {
     public static readonly LearnSource4DP Instance = new();
     private static readonly PersonalTable4 Personal = PersonalTable.DP;
@@ -22,7 +22,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo4? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -46,9 +46,9 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo4 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -56,7 +56,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             if (GetIsTM(pi, move))
                 return new(TMHM, Game);
@@ -64,10 +64,10 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
                 return new(TMHM, Game);
         }
 
-        if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(evo.Species, move))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && GetIsTypeTutor(evo.Species, move))
             return new(Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
             return new(Tutor, Game);
 
         return default;
@@ -82,7 +82,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return list.IndexOf(species) != -1;
     }
 
-    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
+    private static bool GetIsSpecialTutor(PersonalInfo4 pi, ushort move)
     {
         var index = Array.IndexOf(Tutors_4, move);
         if (index == -1)
@@ -90,20 +90,16 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         return pi.TypeTutors[index];
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo4 info, ushort move)
     {
         var index = Array.IndexOf(TM_4, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
-    private static bool GetIsHM(PersonalInfo info, ushort move)
+    private static bool GetIsHM(PersonalInfo4 info, ushort move)
     {
         var index = Array.IndexOf(HM_DPPt, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[CountTM + index];
+        return info.GetIsLearnTM(CountTM + index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -111,7 +107,7 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
@@ -123,42 +119,17 @@ public sealed class LearnSource4DP : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
-            var flags = pi.TMHM;
-            var moves = TM_4;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
+            pi.SetAllLearnTM(result, TM_4);
 
             if (pk.Format == Generation)
-            {
-                moves = HM_DPPt;
-                for (int i = 0; i < moves.Length; i++)
-                {
-                    if (flags[CountTM + i])
-                        result[moves[i]] = true;
-                }
-            }
-            else
-            {
-                // Permit Defog to leak through if transferred to Gen5+ (via HG/SS)
-                if (flags[CountTM + 4])
-                    result[(int)Move.Defog] = true;
-            }
+                pi.SetAllLearnHM(result, HM_DPPt);
+            else if (pi.GetIsLearnHM(4)) // Permit Defog to leak through if transferred to Gen5+ (via HG/SS)
+                result[(int)Move.Defog] = true;
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
-        {
-            var flags = pi.TypeTutors;
-            var moves = Tutors_4;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
+            pi.SetAllLearnTutorType(result, Tutors_4);
     }
 }

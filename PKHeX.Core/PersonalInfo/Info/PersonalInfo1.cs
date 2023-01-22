@@ -5,24 +5,15 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 1 games.
 /// </summary>
-public sealed class PersonalInfo1 : PersonalInfo
+public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
 {
     public const int SIZE = 0x1C;
     private readonly byte[] Data;
 
-    public PersonalInfo1(byte[] data)
-    {
-        Data = data;
-        TMHM = GetBits(Data.AsSpan(0x14, 0x8));
-    }
+    public PersonalInfo1(byte[] data) => Data = data;
+    public override byte[] Write() => Data;
 
-    public override byte[] Write()
-    {
-        SetBits(TMHM, Data.AsSpan(0x14));
-        return Data;
-    }
-
-    public override int Gender { get => Data[0x00]; set => Data[0x00] = (byte)value; }
+    public override byte Gender { get => Data[0x00]; set => Data[0x00] = value; }
     public override int HP { get => Data[0x01]; set => Data[0x01] = (byte)value; }
     public override int ATK { get => Data[0x02]; set => Data[0x02] = (byte)value; }
     public override int DEF { get => Data[0x03]; set => Data[0x03] = (byte)value; }
@@ -66,5 +57,36 @@ public sealed class PersonalInfo1 : PersonalInfo
         value[2] = Move3;
         value[1] = Move2;
         value[0] = Move1;
+    }
+
+    private const int TMHM = 0x14;
+    private const int CountTMHM = 50 + 5; // 50 TMs, 5 HMs
+    private const int ByteCountTM = (CountTMHM + 7) / 8;
+
+    public bool GetIsLearnTM(int index)
+    {
+        if ((uint)index >= CountTMHM)
+            return false;
+        return (Data[TMHM + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTM(int index, bool value)
+    {
+        if ((uint)index >= CountTMHM)
+            return;
+        if (value)
+            Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<byte> moves)
+    {
+        var span = Data.AsSpan(TMHM, ByteCountTM);
+        for (int index = CountTMHM - 1; index >= 0; index--)
+        {
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
     }
 }

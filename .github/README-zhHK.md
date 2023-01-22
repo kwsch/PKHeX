@@ -18,7 +18,7 @@ PKHeX
 
 可匯入/匯出 配置資訊及 QR 碼以便進行共有分享。
 
-PKHeX 所讀取檔案須未經主機唯一密鑰加密，因而請使用儲存資料管理軟體(如 [Checkpoint](https://github.com/FlagBrew/Checkpoint)， save_manager， [JKSM](https://github.com/J-D-K/JKSM)， 抑或是 SaveDataFiler)以從主機中匯入匯出儲存資料 .
+PKHeX 所讀取檔案須未經主機唯一密鑰加密，因而請使用儲存資料管理軟體(如 [Checkpoint](https://github.com/FlagBrew/Checkpoint)， [JKSM](https://github.com/J-D-K/JKSM))以從主機中匯入匯出儲存資料 .
 
 **我們反對亦不會縱容透過作弊手段損害他人利益之行為。切勿將魔法寶可夢用於對戰，或連線交換至不知情之訓練家手中。**
 
@@ -28,9 +28,9 @@ PKHeX 所讀取檔案須未經主機唯一密鑰加密，因而請使用儲存�
 
 ## 構建
 
-PKHeX 係 Windows 窗體應用程式，其須依賴於 [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137) 而運行，同時本程式亦實驗式地支援 [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)。
+PKHeX 係 Windows 窗體應用程式，其須依賴於 [.NET Framework 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)。
 
-程式可透過任意支援 C# 10 之編譯器構建。
+程式可透過任意支援 C# 11 之編譯器構建。
 
 ### 構建配置
 
@@ -46,7 +46,3 @@ PKHeX 之「寶可夢傳説：阿爾宙斯」精靈圖示集合庫來源於 [Nat
 ### IDE
 
 PKHeX 可透過如 [Visual Studio](https://visualstudio.microsoft.com/downloads/) 等各類 IDE ，開啓 .sln 或 .csproj 檔案以打開。
-
-### GNU/Linux
-
-GNU/Linux 非本程式開發者主要作業系統，因而於 GNU/Linux 平臺上運行本程式時可能存在 Bug； 部分 Bug 亦可能由 Mono/Wine 等非 GNU/Linux 特定源代碼所引入，因而其他使用者可能無法復現你所遇到之 Bug。

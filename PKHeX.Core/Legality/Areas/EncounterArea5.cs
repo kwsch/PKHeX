@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -12,7 +12,7 @@ public sealed record EncounterArea5 : EncounterArea
 {
     public readonly EncounterSlot5[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot5> Raw => Slots;
 
     public static EncounterArea5[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -55,7 +55,7 @@ public sealed record EncounterArea5 : EncounterArea
         return new EncounterSlot5(this, species, form, min, max);
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot5> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {

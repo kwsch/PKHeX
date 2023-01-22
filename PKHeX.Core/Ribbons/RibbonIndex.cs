@@ -129,7 +129,9 @@ public static class RibbonIndexExtensions
 {
     public static bool GetRibbonIndex(this IRibbonIndex x, RibbonIndex r) => x.GetRibbon((int)r);
     public static void SetRibbonIndex(this IRibbonIndex x, RibbonIndex r, bool value = true) => x.SetRibbon((int)r, value);
-    public static bool IsEncounterMark(this RibbonIndex r) => r is >= MarkLunchtime and <= MarkSlump;
+    public static bool IsEncounterMark8(this RibbonIndex r) => r is >= MarkLunchtime and <= MarkSlump;
+    public static bool IsEncounterMark9(this RibbonIndex r) => r is >= MarkAlpha and <= MarkTitan;
+    public static bool IsRibbon(this RibbonIndex r) => r < MAX_COUNT && !r.IsEncounterMark8() && r.IsEncounterMark9();
 
     /// <summary>
     /// Checks if the ribbon index is one of the specific wild encounter-only marks. These marks are granted when the encounter spawns in the wild.
@@ -174,7 +176,7 @@ public static class RibbonIndexExtensions
 
     private static RibbonIndexGroup GetGroup(this RibbonIndex r)
     {
-        if (r.IsEncounterMark())
+        if (r.IsEncounterMark8())
             return RibbonIndexGroup.EncounterMark;
         return r switch
         {
@@ -374,7 +376,7 @@ public static class RibbonIndexExtensions
                 }
                 return;
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(r), r, null);
         }
     }
 

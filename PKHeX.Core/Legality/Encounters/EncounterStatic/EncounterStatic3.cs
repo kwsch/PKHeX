@@ -31,7 +31,7 @@ public sealed record EncounterStatic3 : EncounterStatic
             return Level <= evo.LevelMax;
 
         if (EggEncounter)
-            return pk.Met_Level == 0 && pk.CurrentLevel >= 5; // met level 0, origin level 5
+            return pk is { Met_Level: 0, CurrentLevel: >= 5 }; // met level 0, origin level 5
 
         return pk.Met_Level == Level;
     }

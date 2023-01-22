@@ -14,7 +14,7 @@ public sealed record EncounterArea8 : EncounterArea
 {
     public readonly EncounterSlot8[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot8> Raw => Slots;
     /// <summary>
     /// Slots from this area can cross over to another area, resulting in a different met location.
     /// </summary>
@@ -39,7 +39,7 @@ public sealed record EncounterArea8 : EncounterArea
         return Array.IndexOf(others, (byte)location) != -1;
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot8> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         var metLocation = pk.Met_Location;
         // wild area gets boosted up to level 60 post-game
@@ -109,6 +109,9 @@ public sealed record EncounterArea8 : EncounterArea
         return true;
     }
 
+    /// <summary>
+    /// Post-game boosts all levels to a minimum of 60.
+    /// </summary>
     public const int BoostLevel = 60;
 
     public static bool IsWildArea(int location) => IsWildArea8(location) || IsWildArea8Armor(location) || IsWildArea8Crown(location);

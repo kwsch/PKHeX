@@ -12,7 +12,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
 {
     protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
     public override string Extension => this.GCExtension();
-    public override IPersonalTable Personal => PersonalTable.RS;
+    public override PersonalTable3 Personal => PersonalTable.RS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
     public SAV3GCMemoryCard? MemoryCard { get; init; }
     private readonly bool Japanese;
@@ -95,16 +95,11 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     }
 
     // Configuration
-    protected override SaveFile CloneInternal()
-    {
-        var data = GetInnerData();
-        var sav = MemoryCard is not null ? new SAV3RSBox(data, MemoryCard) : new SAV3RSBox(data);
-        return sav;
-    }
+    protected override SAV3RSBox CloneInternal() => new(GetInnerData()) { MemoryCard = MemoryCard };
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
-    public override PKM BlankPKM => new PK3();
+    public override PK3 BlankPKM => new();
     public override Type PKMType => typeof(PK3);
 
     public override ushort MaxMoveID => Legal.MaxMoveID_3;
@@ -168,7 +163,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
         return boxName;
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         int offset = Box + 0x1EC38 + (9 * box);
         var span = Data.AsSpan(offset, 9);
@@ -177,14 +172,14 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
             span.Clear();
             return;
         }
-        SetString(span, value.AsSpan(), 8, StringConverterOption.ClearZero);
+        SetString(span, value, 8, StringConverterOption.ClearZero);
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override PK3 GetPKM(byte[] data)
     {
         if (data.Length != PokeCrypto.SIZE_3STORED)
             Array.Resize(ref data, PokeCrypto.SIZE_3STORED);
-        return new PK3(data);
+        return new(data);
     }
 
     protected override byte[] DecryptPKM(byte[] data)
@@ -199,8 +194,8 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     public override void WriteBoxSlot(PKM pk, Span<byte> data, int offset)
     {
         base.WriteBoxSlot(pk, data, offset);
-        WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED)..], (ushort)pk.TID);
-        WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED + 2)..], (ushort)pk.SID);
+        WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED)..], pk.TID16);
+        WriteUInt16LittleEndian(data[(PokeCrypto.SIZE_3STORED + 2)..], pk.SID16);
     }
 
     public override string GetString(ReadOnlySpan<byte> data) => StringConverter3.GetString(data, Japanese);

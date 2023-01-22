@@ -6,25 +6,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the Black &amp; White games.
 /// </summary>
-public sealed class PersonalInfo5BW : PersonalInfo, IPersonalAbility12H
+public sealed class PersonalInfo5BW : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x3C;
     private readonly byte[] Data;
 
-    public PersonalInfo5BW(byte[] data)
-    {
-        Data = data;
-        // Unpack TMHM & Tutors
-        TMHM = GetBits(data.AsSpan(0x28, 0x10));
-        TypeTutors = GetBits(data.AsSpan(0x38, 0x4));
-    }
-
-    public override byte[] Write()
-    {
-        SetBits(TMHM, Data.AsSpan(0x28));
-        SetBits(TypeTutors, Data.AsSpan(0x38));
-        return Data;
-    }
+    public PersonalInfo5BW(byte[] data) => Data = data;
+    public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -47,7 +35,7 @@ public sealed class PersonalInfo5BW : PersonalInfo, IPersonalAbility12H
     public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteInt16LittleEndian(Data.AsSpan(0x0C), (short)value); }
     public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteInt16LittleEndian(Data.AsSpan(0x0E), (short)value); }
     public int Item3 { get => ReadInt16LittleEndian(Data.AsSpan(0x10)); set => WriteInt16LittleEndian(Data.AsSpan(0x10), (short)value); }
-    public override int Gender { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+    public override byte Gender { get => Data[0x12]; set => Data[0x12] = value; }
     public override int HatchCycles { get => Data[0x13]; set => Data[0x13] = (byte)value; }
     public override int BaseFriendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override byte EXPGrowth { get => Data[0x15]; set => Data[0x15] = value; }
@@ -78,4 +66,64 @@ public sealed class PersonalInfo5BW : PersonalInfo, IPersonalAbility12H
         2 => AbilityH,
         _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
     };
+
+    private const int TMHM = 0x28;
+    private const int CountTMHM = 101;
+    private const int ByteCountTM = (CountTMHM + 7) / 8;
+    private const int TypeTutors = 0x38;
+    private const int TypeTutorsCount = 8;
+
+    public bool GetIsLearnTM(int index)
+    {
+        if ((uint)index >= CountTMHM)
+            return false;
+        return (Data[0x28 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTM(int index, bool value)
+    {
+        if ((uint)index >= CountTMHM)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public bool GetIsLearnTutorType(int index)
+    {
+        if ((uint)index >= TypeTutorsCount)
+            return false;
+        return (Data[TypeTutors + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTutorType(int index, bool value)
+    {
+        if ((uint)index >= TypeTutorsCount)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[TypeTutors + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TypeTutors + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var span = Data.AsSpan(TMHM, ByteCountTM);
+        for (int index = CountTMHM - 1; index >= 0; index--)
+        {
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
+
+    public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var tutor = Data[TypeTutors];
+        for (int index = TypeTutorsCount - 1; index >= 0; index--)
+        {
+            if ((tutor & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
 }

@@ -40,7 +40,7 @@ public sealed class Hall4
 
     private static int GetRecordOffset(int battleType, ushort species)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
         if ((uint)battleType > 2)
             throw new ArgumentOutOfRangeException(nameof(battleType));

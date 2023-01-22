@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="PLA"/>.
 /// </summary>
-public sealed class LearnSource8LA : ILearnSource
+public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
 {
     public static readonly LearnSource8LA Instance = new();
     private static readonly PersonalTable8LA Personal = PersonalTable.LA;
@@ -18,18 +18,18 @@ public sealed class LearnSource8LA : ILearnSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo8LA? pi)
     {
         pi = null;
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         pi = Personal[species, form];
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo8LA pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -37,10 +37,10 @@ public sealed class LearnSource8LA : ILearnSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsMoveShop(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnMoveShop(move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
             return new(Tutor, Game);
 
         return default;
@@ -56,20 +56,12 @@ public sealed class LearnSource8LA : ILearnSource
         _ => false,
     };
 
-    private static bool GetIsMoveShop(PersonalInfo pi, ushort move)
-    {
-        var index = Legal.MoveShop8_LA.AsSpan().IndexOf(move);
-        if (index == -1)
-            return false;
-        return pi.SpecialTutors[0][index];
-    }
-
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
@@ -81,18 +73,10 @@ public sealed class LearnSource8LA : ILearnSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
-        {
-            var flags = pi.SpecialTutors[0];
-            var moves = Legal.MoveShop8_LA;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.Machine))
+            pi.SetAllLearnMoveShop(result);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
             var species = evo.Species;
             if (species is (int)Species.Rotom && evo.Form is not 0)

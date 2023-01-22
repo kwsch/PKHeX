@@ -11,16 +11,22 @@ public sealed class MyStatus7b : SaveBlock<SAV7b>
 
     // idb uint8 offset: 0x58
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
     public int Game
@@ -39,7 +45,7 @@ public sealed class MyStatus7b : SaveBlock<SAV7b>
 
     public string GameSyncID
     {
-        get => Util.GetHexStringFromBytes(Data, Offset + 0x10, GameSyncIDSize / 2);
+        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x10, GameSyncIDSize / 2));
         set
         {
             if (value.Length > 16)
@@ -61,7 +67,7 @@ public sealed class MyStatus7b : SaveBlock<SAV7b>
     public string OT
     {
         get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     // The value here corresponds to a Trainer Class string (ranging from 000 to 383, use pkNX to get a full list).

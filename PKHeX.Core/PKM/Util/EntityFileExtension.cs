@@ -50,12 +50,12 @@ public static class EntityFileExtension
     /// <param name="ext">File extension.</param>
     /// <param name="prefer">Preference if not a valid extension, usually the highest acceptable format.</param>
     /// <returns>Format hint that the file is.</returns>
-    public static EntityContext GetContextFromExtension(string ext, EntityContext prefer = EntityContext.None)
+    public static EntityContext GetContextFromExtension(ReadOnlySpan<char> ext, EntityContext prefer = EntityContext.None)
     {
         if (ext.Length == 0)
             return prefer;
 
-        static bool Is(string ext, string str) => ext.EndsWith(str, StringComparison.InvariantCultureIgnoreCase);
+        static bool Is(ReadOnlySpan<char> ext, ReadOnlySpan<char> str) => ext.EndsWith(str, StringComparison.InvariantCultureIgnoreCase);
         if (Is(ext, "b8")) return EntityContext.Gen8b;
         if (Is(ext, "k8")) return EntityContext.Gen8;
         if (Is(ext, "b7")) return EntityContext.Gen7b;

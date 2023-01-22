@@ -48,8 +48,9 @@
             this.flowLayoutPanel1.Controls.Add(this.CHK_C);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(140, 56);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(200, 64);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // CHK_1
@@ -58,7 +59,7 @@
             this.CHK_1.Location = new System.Drawing.Point(0, 0);
             this.CHK_1.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_1.Name = "CHK_1";
-            this.CHK_1.Size = new System.Drawing.Size(40, 30);
+            this.CHK_1.Size = new System.Drawing.Size(40, 32);
             this.CHK_1.TabIndex = 0;
             this.CHK_1.UseVisualStyleBackColor = true;
             this.CHK_1.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
@@ -69,7 +70,7 @@
             this.CHK_2.Location = new System.Drawing.Point(40, 0);
             this.CHK_2.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_2.Name = "CHK_2";
-            this.CHK_2.Size = new System.Drawing.Size(40, 30);
+            this.CHK_2.Size = new System.Drawing.Size(40, 32);
             this.CHK_2.TabIndex = 1;
             this.CHK_2.UseVisualStyleBackColor = true;
             this.CHK_2.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
@@ -80,7 +81,7 @@
             this.CHK_3.Location = new System.Drawing.Point(80, 0);
             this.CHK_3.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_3.Name = "CHK_3";
-            this.CHK_3.Size = new System.Drawing.Size(40, 30);
+            this.CHK_3.Size = new System.Drawing.Size(40, 32);
             this.CHK_3.TabIndex = 2;
             this.CHK_3.UseVisualStyleBackColor = true;
             this.CHK_3.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
@@ -88,10 +89,10 @@
             // CHK_4
             // 
             this.CHK_4.Image = global::PKHeX.WinForms.Properties.Resources.leaf;
-            this.CHK_4.Location = new System.Drawing.Point(0, 30);
+            this.CHK_4.Location = new System.Drawing.Point(120, 0);
             this.CHK_4.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_4.Name = "CHK_4";
-            this.CHK_4.Size = new System.Drawing.Size(40, 30);
+            this.CHK_4.Size = new System.Drawing.Size(40, 32);
             this.CHK_4.TabIndex = 3;
             this.CHK_4.UseVisualStyleBackColor = true;
             this.CHK_4.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
@@ -99,10 +100,10 @@
             // CHK_5
             // 
             this.CHK_5.Image = global::PKHeX.WinForms.Properties.Resources.leaf;
-            this.CHK_5.Location = new System.Drawing.Point(40, 30);
+            this.CHK_5.Location = new System.Drawing.Point(160, 0);
             this.CHK_5.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_5.Name = "CHK_5";
-            this.CHK_5.Size = new System.Drawing.Size(40, 30);
+            this.CHK_5.Size = new System.Drawing.Size(40, 32);
             this.CHK_5.TabIndex = 4;
             this.CHK_5.UseVisualStyleBackColor = true;
             this.CHK_5.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
@@ -110,21 +111,22 @@
             // CHK_C
             // 
             this.CHK_C.Image = global::PKHeX.WinForms.Properties.Resources.crown;
-            this.CHK_C.Location = new System.Drawing.Point(80, 30);
+            this.CHK_C.Location = new System.Drawing.Point(0, 32);
             this.CHK_C.Margin = new System.Windows.Forms.Padding(0);
             this.CHK_C.Name = "CHK_C";
-            this.CHK_C.Size = new System.Drawing.Size(60, 28);
+            this.CHK_C.Size = new System.Drawing.Size(64, 32);
             this.CHK_C.TabIndex = 5;
             this.CHK_C.UseVisualStyleBackColor = true;
             this.CHK_C.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
             // 
             // ShinyLeaf
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "ShinyLeaf";
-            this.Size = new System.Drawing.Size(140, 56);
+            this.Size = new System.Drawing.Size(200, 64);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

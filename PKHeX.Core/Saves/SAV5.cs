@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
 {
-    protected override PKM GetPKM(byte[] data) => new PK5(data);
+    protected override PK5 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
     protected internal override string ShortSummary => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
@@ -18,7 +18,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BW;
     protected override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
-    public override PKM BlankPKM => new PK5();
+    public override PK5 BlankPKM => new();
     public override Type PKMType => typeof(PK5);
 
     public override int BoxCount => 24;
@@ -99,7 +99,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
     public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
     public override string GetBoxName(int box) => BoxLayout[box];
-    public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
     public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
 
     protected int BattleBoxOffset;
@@ -115,14 +115,15 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
         var pk5 = (PK5)pk;
         // Apply to this Save File
         DateTime Date = DateTime.Now;
-        if (pk5.Trade(OT, TID, SID, Gender, Date.Day, Date.Month, Date.Year))
+        if (pk5.Trade(OT, ID32, Gender, Date.Day, Date.Month, Date.Year))
             pk.RefreshChecksum();
     }
 
     // Player Data
     public override string OT { get => PlayerData.OT; set => PlayerData.OT = value; }
-    public override int TID { get => PlayerData.TID; set => PlayerData.TID = value; }
-    public override int SID { get => PlayerData.SID; set => PlayerData.SID = value; }
+    public override uint ID32 { get => PlayerData.ID32; set => PlayerData.ID32 = value; }
+    public override ushort TID16 { get => PlayerData.TID16; set => PlayerData.TID16 = value; }
+    public override ushort SID16 { get => PlayerData.SID16; set => PlayerData.SID16 = value; }
     public override int Language { get => PlayerData.Language; set => PlayerData.Language = value; }
     public override int Game { get => PlayerData.Game; set => PlayerData.Game = value; }
     public override int Gender { get => PlayerData.Gender; set => PlayerData.Gender = value; }

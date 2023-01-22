@@ -158,11 +158,10 @@ public sealed class GameStrings : IBasicStrings
     private string[] GetG3CXD(string[] arr, string fileName)
     {
         // Concatenate the Gen3 Item list with the CXD item array; CXD items starting at index 500.
-        // Empty slots between the two lists are marked as unused.
         var item500 = Get(fileName);
         var result = new string[500 + item500.Length];
         for (int i = arr.Length; i < result.Length; i++)
-            result[i] = $"UNUSED {i}";
+            result[i] = string.Empty;
         arr.CopyTo(result, 0);
         item500.CopyTo(result, 500);
         return result;
@@ -170,7 +169,7 @@ public sealed class GameStrings : IBasicStrings
 
     private static void SanitizeMetStringsCXD(string[] cxd)
     {
-        // Less than 10% of  location values are unique.
+        // Less than 10% of location values are unique.
         // Just mark them with the ID if they aren't empty.
         for (int i = 0; i < 227; i++)
         {
@@ -479,7 +478,7 @@ public sealed class GameStrings : IBasicStrings
             set.Met4[i] += " (-)";
     }
 
-    private void SanitizeMetGen7b(LocationSet6 set)
+    private static void SanitizeMetGen7b(LocationSet6 set)
     {
         for (int i = 48; i < 55; i++) // distinguish Event year duplicates
             set.Met4[i] += " (-)";

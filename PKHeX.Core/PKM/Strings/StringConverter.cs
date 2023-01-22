@@ -32,6 +32,31 @@ public static class StringConverter
     };
 
     /// <summary>
+    /// Converts bytes to a string according to the input parameters.
+    /// </summary>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <param name="generation">Generation string format</param>
+    /// <param name="jp">Encoding is Japanese</param>
+    /// <param name="isBigEndian">Encoding is Big Endian</param>
+    /// <returns>Decoded string.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, int generation, bool jp, bool isBigEndian = false) => generation switch
+    {
+        3 when isBigEndian => StringConverter3GC.LoadString(data, result),
+        4 when isBigEndian => StringConverter4GC.LoadString(data, result),
+
+        1 or 2 => StringConverter12.LoadString(data, result, jp),
+        3 => StringConverter3.LoadString(data, result, jp),
+        4 => StringConverter4.LoadString(data, result),
+        5 => StringConverter5.LoadString(data, result),
+        6 => StringConverter6.LoadString(data, result),
+        7 => StringConverter7.LoadString(data, result),
+        8 => StringConverter8.LoadString(data, result),
+        9 => StringConverter8.LoadString(data, result),
+        _ => throw new ArgumentOutOfRangeException(nameof(generation)),
+    };
+
+    /// <summary>
     /// Gets the bytes for a Generation specific string according to the input parameters.
     /// </summary>
     /// <param name="destBuffer">Span of bytes to write encoded string data</param>

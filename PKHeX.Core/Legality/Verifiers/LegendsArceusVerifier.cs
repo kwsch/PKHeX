@@ -131,7 +131,7 @@ public sealed class LegendsArceusVerifier : Verifier
     private static void LoadPurchasedMoves(IMoveShop8 pa, Span<ushort> result)
     {
         int ctr = 0;
-        var purchased = pa.MoveShopPermitIndexes;
+        var purchased = pa.Permit.RecordPermitIndexes;
         for (int i = 0; i < purchased.Length; i++)
         {
             if (pa.GetPurchasedRecordFlag(i))
@@ -141,7 +141,8 @@ public sealed class LegendsArceusVerifier : Verifier
 
     private static int AddMasteredMissing(PA8 pa, Span<ushort> current, int ctr, Learnset baseLearn, Learnset currentLearn, int level)
     {
-        for (int i = 0; i < pa.MoveShopPermitIndexes.Length; i++)
+        var purchased = pa.Permit.RecordPermitIndexes;
+        for (int i = 0; i < purchased.Length; i++)
         {
             // Buying the move tutor grants access, but does not learn the move.
             // Mastering requires the move to be present in the movepool.
@@ -153,7 +154,7 @@ public sealed class LegendsArceusVerifier : Verifier
                 continue;
 
             // Check if we can swap it into the moveset after it evolves.
-            var move = pa.MoveShopPermitIndexes[i];
+            var move = purchased[i];
             var baseLevel = baseLearn.GetMoveLevel(move);
             var mustKnow = baseLevel is not -1 && baseLevel <= pa.Met_Level;
             if (!mustKnow && currentLearn.GetMoveLevel(move) != level)
@@ -180,28 +181,27 @@ public sealed class LegendsArceusVerifier : Verifier
 
     private void CheckMastery(LegalityAnalysis data, PA8 pa)
     {
-        var bits = pa.MoveShopPermitFlags;
-        var moves = pa.MoveShopPermitIndexes;
+        var permit = pa.Permit;
         var alphaMove = pa.AlphaMove;
         if (alphaMove is not 0)
-            VerifyAlphaMove(data, pa, alphaMove, moves, bits);
+            VerifyAlphaMove(data, pa, alphaMove, permit);
         else
             VerifyAlphaMoveZero(data);
 
-        for (int i = 0; i < bits.Length; i++)
-            VerifyTutorMoveIndex(data, pa, i, bits, moves);
+        for (int i = 0; i < permit.RecordCountUsed; i++)
+            VerifyTutorMoveIndex(data, pa, i, permit);
     }
 
-    private void VerifyTutorMoveIndex(LegalityAnalysis data, PA8 pa, int i, ReadOnlySpan<bool> bits, ReadOnlySpan<ushort> moves)
+    private void VerifyTutorMoveIndex(LegalityAnalysis data, PA8 pa, int i, IPermitRecord permit)
     {
         bool isPurchased = pa.GetPurchasedRecordFlag(i);
         if (isPurchased)
         {
             // Check if the move can be purchased.
-            if (bits[i])
+            if (permit.IsRecordPermitted(i))
                 return; // If it has been legally purchased, then any mastery state is legal.
 
-            data.AddLine(GetInvalid(string.Format(LMoveShopPurchaseInvalid_0, ParseSettings.MoveStrings[moves[i]])));
+            data.AddLine(GetInvalid(string.Format(LMoveShopPurchaseInvalid_0, ParseSettings.MoveStrings[permit.RecordPermitIndexes[i]])));
             return;
         }
 
@@ -210,14 +210,16 @@ public sealed class LegendsArceusVerifier : Verifier
             return; // All good.
 
         // Check if the move can be purchased; using a Mastery Seed checks the permission.
-        if (pa.AlphaMove == moves[i])
+        var moves = permit.RecordPermitIndexes;
+        var move = moves[i];
+        if (pa.AlphaMove == move)
             return; // Previously checked.
-        if (data.EncounterMatch is (IMoveset m and IMasteryInitialMoveShop8) && m.Moves.Contains(moves[i]))
+        if (data.EncounterMatch is (IMoveset m and IMasteryInitialMoveShop8) && m.Moves.Contains(move))
             return; // Previously checked.
-        if (!bits[i])
-            data.AddLine(GetInvalid(string.Format(LMoveShopMasterInvalid_0, ParseSettings.MoveStrings[moves[i]])));
+        if (!permit.IsRecordPermitted(i))
+            data.AddLine(GetInvalid(string.Format(LMoveShopMasterInvalid_0, ParseSettings.MoveStrings[move])));
         else if (!CanLearnMoveByLevelUp(data, pa, i, moves))
-            data.AddLine(GetInvalid(string.Format(LMoveShopMasterNotLearned_0, ParseSettings.MoveStrings[moves[i]])));
+            data.AddLine(GetInvalid(string.Format(LMoveShopMasterNotLearned_0, ParseSettings.MoveStrings[move])));
     }
 
     private static bool CanLearnMoveByLevelUp(LegalityAnalysis data, PA8 pa, int i, ReadOnlySpan<ushort> moves)
@@ -239,21 +241,21 @@ public sealed class LegendsArceusVerifier : Verifier
         return pa.CurrentLevel >= level;
     }
 
-    private void VerifyAlphaMove(LegalityAnalysis data, PA8 pa, ushort alphaMove, ReadOnlySpan<ushort> moves, ReadOnlySpan<bool> bits)
+    private void VerifyAlphaMove(LegalityAnalysis data, PA8 pa, ushort alphaMove, IPermitRecord permit)
     {
         if (!pa.IsAlpha || data.EncounterMatch is EncounterSlot8a { Type: SlotType.Landmark })
         {
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeZero));
             return;
         }
-        if (!CanMasterMoveFromMoveShop(alphaMove, moves, bits))
+        if (!CanMasterMoveFromMoveShop(alphaMove, permit))
         {
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeOther));
             return;
         }
 
         // An Alpha Move must be marked as mastered.
-        var masteredIndex = moves.IndexOf(alphaMove);
+        var masteredIndex = permit.RecordPermitIndexes.IndexOf(alphaMove);
         // Index is already >= 0, implicitly via the above call not returning false.
         if (!pa.GetMasteredRecordFlag(masteredIndex))
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeMastered));
@@ -269,18 +271,17 @@ public sealed class LegendsArceusVerifier : Verifier
             return; // okay
 
         var pi = PersonalTable.LA.GetFormEntry(enc.Species, enc.Form);
-        var tutors = pi.SpecialTutors[0];
-        bool hasAnyTutor = Array.IndexOf(tutors, true) >= 0;
-        if (hasAnyTutor) // must have had a tutor flag
+        if (!pi.HasMoveShop) // must have had a tutor flag
             data.AddLine(GetInvalid(LMoveShopAlphaMoveShouldBeOther));
     }
 
-    private static bool CanMasterMoveFromMoveShop(ushort move, ReadOnlySpan<ushort> moves, ReadOnlySpan<bool> bits)
+    private static bool CanMasterMoveFromMoveShop(ushort move, IPermitRecord permit)
     {
+        var moves = permit.RecordPermitIndexes;
         var index = moves.IndexOf(move);
         if (index == -1)
             return false; // not in the list
-        if (!bits[index])
+        if (!permit.IsRecordPermitted(index))
             return false; // not a possible move
         return true;
     }

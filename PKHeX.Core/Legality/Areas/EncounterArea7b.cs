@@ -12,7 +12,7 @@ public sealed record EncounterArea7b : EncounterArea
 {
     public readonly EncounterSlot7b[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot7b> Raw => Slots;
 
     public static EncounterArea7b[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -54,7 +54,7 @@ public sealed record EncounterArea7b : EncounterArea
 
     private const int CatchComboBonus = 1;
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot7b> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {

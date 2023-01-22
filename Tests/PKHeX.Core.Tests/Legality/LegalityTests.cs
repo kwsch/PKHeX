@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using PKHeX.Core;
 using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace PKHeX.Tests.Legality;
+namespace PKHeX.Core.Tests.Legality;
 
 public class LegalityTest
 {
@@ -34,9 +33,10 @@ public class LegalityTest
     [InlineData("censor")]
     [InlineData("buttnugget")]
     [InlineData("18넘")]
-    public void CensorsBadWords(string badword)
+    [InlineData("inoffensive", false)]
+    public void CensorsBadWords(string badword, bool value = true)
     {
-        WordFilter.IsFiltered(badword, out _).Should().BeTrue("the word should have been identified as a bad word");
+        WordFilter.TryMatch(badword, out _).Should().Be(value, "the word should have been identified as a bad word");
     }
 
     [Theory]

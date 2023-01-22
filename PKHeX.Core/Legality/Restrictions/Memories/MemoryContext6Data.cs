@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -5,7 +6,7 @@ namespace PKHeX.Core;
 // data tables stored separately!
 public partial class MemoryContext6
 {
-    private static readonly byte[] Memory_NotXY =
+    private static ReadOnlySpan<byte> Memory_NotXY => new byte[]
     {
         65, // {0} was with {1} when (he/she) built a Secret Base. {4} that {3}.
         66, // {0} participated in a contest with {1} and impressed many people. {4} that {3}.
@@ -14,7 +15,7 @@ public partial class MemoryContext6
         69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
     };
 
-    private static readonly byte[] Memory_NotAO =
+    private static ReadOnlySpan<byte> Memory_NotAO => new byte[]
     {
         11, // {0} went clothes shopping with {1}. {4} that {3}.
         43, // {0} was impressed by the speed of the train it took with {1}. {4} that {3}.
@@ -24,7 +25,7 @@ public partial class MemoryContext6
         62, // {0} saw itself in a mirror in a mirror cave that it went to with {1}. {4} that {3}.
     };
 
-    internal static readonly byte[] MoveSpecificMemoryHM = // Ordered by HM index for bitflag checks.
+    internal static ReadOnlySpan<byte> MoveSpecificMemoryHM => new byte[] // Ordered by HM index for bitflag checks.
     {
         36, // {0} proudly used Cut at {1}’s instruction in... {2}. {4} that {3}.
         24, // {0} flew, carrying {1} on its back, to {2}. {4} that {3}.
@@ -38,7 +39,7 @@ public partial class MemoryContext6
     /// <summary>
     /// Kalos locations with a Pokémon Center
     /// </summary>
-    private static readonly byte[] LocationsWithPokeCenter_XY =
+    private static ReadOnlySpan<byte> LocationsWithPokeCenter_XY => new byte[]
     {
         // Kalos locations with a PKMN CENTER
         018, // Santalune City
@@ -46,7 +47,7 @@ public partial class MemoryContext6
         030, // Camphrier Town
         040, // Cyllage City
         044, // Ambrette Town
-        052, // Geosenge Towny
+        052, // Geosenge Town
         058, // Shalour City
         064, // Coumarine City
         070, // Laverre City
@@ -60,7 +61,7 @@ public partial class MemoryContext6
     /// <summary>
     /// Hoenn locations with a Pokémon Center
     /// </summary>
-    private static readonly byte[] LocationsWithPokeCenter_AO =
+    private static ReadOnlySpan<byte> LocationsWithPokeCenter_AO => new byte[]
     {
         // Hoenn locations with a PKMN CENTER
         172, // Oldale Town
@@ -81,7 +82,7 @@ public partial class MemoryContext6
         202, // Pokémon League (OR/AS)
     };
 
-    private static readonly byte[] MemoryMinIntensity =
+    private static ReadOnlySpan<byte> MemoryMinIntensity => new byte[]
     {
         0, 1, 1, 1, 1, 2, 2, 2, 2, 2,
         2, 2, 2, 2, 3, 3, 3, 3, 4, 4,
@@ -92,7 +93,7 @@ public partial class MemoryContext6
         3, 3, 3, 3, 3, 2, 3, 4, 4, 2,
     };
 
-    private static readonly byte[] MemoryRandChance =
+    private static ReadOnlySpan<byte> MemoryRandChance => new byte[]
     {
         000, 100, 100, 100, 100, 005, 005, 005, 005, 005,
         005, 005, 005, 005, 010, 020, 010, 001, 050, 030,

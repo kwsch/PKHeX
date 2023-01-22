@@ -7,19 +7,18 @@ using Timer = System.Timers.Timer;
 
 namespace PKHeX.WinForms.Controls;
 
-public sealed class BitmapAnimator : Timer
+public sealed class BitmapAnimator : IDisposable
 {
-    public BitmapAnimator()
-    {
-        Elapsed += TimerElapsed;
-    }
+    public BitmapAnimator() => Timer.Elapsed += TimerElapsed;
+
+    private readonly Timer Timer = new();
 
     private int imgWidth;
     private int imgHeight;
     private byte[]? GlowData;
     private Image? ExtraLayer;
     private Image?[]? GlowCache;
-    public Image? OriginalBackground;
+    private Image? OriginalBackground;
     private readonly object Lock = new();
 
     private PictureBox? pb;
@@ -29,10 +28,9 @@ public sealed class BitmapAnimator : Timer
     public int GlowFps { get; set; } = 60;
     public Color GlowToColor { get; set; } = Color.LightSkyBlue;
     public Color GlowFromColor { get; set; } = Color.White;
+    public bool Enabled { get => Timer.Enabled; set => Timer.Enabled = value; }
 
-    public new static void Start() => throw new ArgumentException();
-
-    public new void Stop()
+    public void Stop()
     {
         if (pb == null || !Enabled)
             return;
@@ -51,7 +49,7 @@ public sealed class BitmapAnimator : Timer
             GlowCache[i] = null;
     }
 
-    public void Start(PictureBox pbox, Image baseImage, byte[] glowData, Image original, Image extra)
+    public void Start(PictureBox pbox, Image baseImage, byte[] glowData, Image? original, Image extra)
     {
         Enabled = false;
         imgWidth = baseImage.Width;
@@ -60,7 +58,7 @@ public sealed class BitmapAnimator : Timer
         GlowCounter = 0;
         GlowCache = new Image[GlowFps];
         GlowInterval = 1000 / GlowFps;
-        Interval = GlowInterval;
+        Timer.Interval = GlowInterval;
         lock (Lock)
         {
             pb = pbox;
@@ -115,4 +113,12 @@ public sealed class BitmapAnimator : Timer
     }
 
     private Color GetFrameColor(double elapsedFraction) => ColorUtil.Blend(GlowToColor, GlowFromColor, elapsedFraction);
+
+    public void Dispose()
+    {
+        GlowCache = null;
+        Timer.Enabled = false;
+        Timer.Elapsed -= TimerElapsed;
+        Timer.Dispose();
+    }
 }

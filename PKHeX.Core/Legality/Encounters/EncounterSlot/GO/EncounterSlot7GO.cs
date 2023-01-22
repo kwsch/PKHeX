@@ -17,7 +17,7 @@ public sealed record EncounterSlot7GO : EncounterSlotGO
     {
     }
 
-    protected override PKM GetBlank() => new PB7();
+    protected override PB7 GetBlank() => new();
 
     protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
     {

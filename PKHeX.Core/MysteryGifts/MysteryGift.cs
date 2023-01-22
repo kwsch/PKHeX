@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Mystery Gift Template File
 /// </summary>
-public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
+public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainerID32, IFatefulEncounterReadOnly
 {
     /// <summary>
     /// Determines whether or not the given length of bytes is valid for a mystery gift.
@@ -25,7 +25,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     /// <param name="ext">Extension of the file from which the <paramref name="data"/> was retrieved.</param>
     /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> or <paramref name="ext"/> is invalid.</returns>
     /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
-    public static DataMysteryGift? GetMysteryGift(byte[] data, string ext) => data.Length switch
+    public static DataMysteryGift? GetMysteryGift(byte[] data, ReadOnlySpan<char> ext) => data.Length switch
     {
         PGT.Size when ext == ".pgt" => new PGT(data),
         PCD.Size when ext is ".pcd" or ".wc4" => new PCD(data),
@@ -73,6 +73,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     public string FileName => $"{CardHeader}.{Extension}";
     public abstract int Generation { get; }
     public abstract EntityContext Context { get; }
+    public abstract bool FatefulEncounter { get; }
 
     public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
     public abstract PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria);
@@ -151,8 +152,9 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
     public virtual int AbilityType { get => -1; set { } }
     public abstract int Gender { get; set; }
     public abstract byte Form { get; set; }
-    public abstract int TID { get; set; }
-    public abstract int SID { get; set; }
+    public abstract uint ID32 { get; set; }
+    public abstract ushort TID16 { get; set; }
+    public abstract ushort SID16 { get; set; }
     public abstract string OT_Name { get; set; }
     public abstract int Location { get; set; }
 
@@ -171,8 +173,11 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn
 
     public Ball FixedBall => (Ball)Ball;
 
-    public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
-    public int TrainerSID7 => (int)((uint)(TID | (SID << 16)) / 1000000);
+    public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
+    public uint TrainerTID7 { get => this.GetTrainerTID7(); set => this.SetTrainerTID7(value); }
+    public uint TrainerSID7 { get => this.GetTrainerSID7(); set => this.SetTrainerSID7(value); }
+    public uint DisplayTID { get => this.GetDisplayTID(); set => this.SetDisplayTID(value); }
+    public uint DisplaySID { get => this.GetDisplaySID(); set => this.SetDisplaySID(value); }
 
     /// <summary>
     /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its current move list.

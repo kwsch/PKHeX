@@ -8,24 +8,12 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Overworld8aRNG
 {
-    private static uint GetShinyPID(int tid, int sid, uint pid, int type)
-    {
-        return (uint)(((tid ^ sid ^ (pid & 0xFFFF) ^ type) << 16) | (pid & 0xFFFF));
-    }
+    private static uint GetShinyPID(ushort tid, ushort sid, uint pid, uint type) => (((pid & 0xFFFF) ^ tid ^ sid ^ type) << 16) | (pid & 0xFFFF);
+    private static bool GetIsShiny(uint id32, uint pid) => GetShinyXor(id32, pid) < 16;
 
-    private static bool GetIsShiny(int tid, int sid, uint pid)
+    private static uint GetShinyXor(uint pid, uint id32)
     {
-        return GetShinyXor(tid, sid, pid) < 16;
-    }
-
-    private static uint GetShinyXor(int tid, int sid, uint pid)
-    {
-        return GetShinyXor(pid, (uint)((sid << 16) | tid));
-    }
-
-    private static uint GetShinyXor(uint pid, uint oid)
-    {
-        var xor = pid ^ oid;
+        var xor = pid ^ id32;
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
 
@@ -94,9 +82,7 @@ public static class Overworld8aRNG
 
         var index = GetRandomAlphaMoveIndex(seed, count);
         var alphaIndex = pi.GetMoveShopIndex(index);
-        var alphaMove = Legal.MoveShop8_LA[alphaIndex];
-
-        pa8.AlphaMove = alphaMove;
+        pa8.AlphaMove = PersonalInfo8LA.GetMoveShopMove(alphaIndex);
     }
 
     private static int GetRandomAlphaMoveIndex(ulong alphaSeed, int count)
@@ -134,7 +120,7 @@ public static class Overworld8aRNG
 
         ForceShinyState(pk, isShiny, ref pid);
 
-        var xor = GetShinyXor(pk.TID, pk.SID, pid);
+        var xor = GetShinyXor(pk.ID32, pid);
         var type = GetRareType(xor);
         if (para.Shiny == Shiny.Never)
         {
@@ -325,12 +311,12 @@ public static class Overworld8aRNG
     {
         if (isShiny)
         {
-            if (!GetIsShiny(pk.TID, pk.SID, pid))
-                pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+            if (!GetIsShiny(pk.ID32, pid))
+                pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
         }
         else
         {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
+            if (GetIsShiny(pk.ID32, pid))
                 pid ^= 0x1000_0000;
         }
     }

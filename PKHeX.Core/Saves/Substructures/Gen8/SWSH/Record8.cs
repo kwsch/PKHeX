@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -9,10 +8,9 @@ public sealed class Record8 : RecordBlock<SAV8SWSH>
 {
     public const int RecordCount = 50;
     public const int WattTotal = 22;
-    protected override IReadOnlyList<byte> RecordMax { get; }
+    protected override ReadOnlySpan<byte> RecordMax => MaxType_SWSH;
 
-    public Record8(SAV8SWSH sav, SCBlock block, IReadOnlyList<byte> maxes) : base(sav, block.Data) =>
-        RecordMax = maxes;
+    public Record8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
     public override int GetRecord(int recordID)
     {
@@ -36,4 +34,13 @@ public sealed class Record8 : RecordBlock<SAV8SWSH>
         else
             Trace.Fail(nameof(recordID));
     }
+
+    private static ReadOnlySpan<byte> MaxType_SWSH => new byte[]
+    {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    };
 }

@@ -16,7 +16,7 @@ public sealed class InventoryPouch9 : InventoryPouch
         PouchIndex = pouch;
     }
 
-    public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem9 { Index = itemID, Count = count, IsNew = true };
+    public override InventoryItem9 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = true };
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {
@@ -36,7 +36,7 @@ public sealed class InventoryPouch9 : InventoryPouch
         Items = items;
     }
 
-    public InventoryItem9 GetItem(ReadOnlySpan<byte> data, ushort itemID)
+    public static InventoryItem9 GetItem(ReadOnlySpan<byte> data, ushort itemID)
     {
         var ofs = GetItemOffset(itemID);
         return InventoryItem9.Read(itemID, data[ofs..]);
@@ -85,17 +85,17 @@ public sealed class InventoryPouch9 : InventoryPouch
         }
     }
 
-    public static int GetItemOffset(ushort index) => (InventoryItem9.SIZE * index);
+    public static int GetItemOffset(ushort index) => InventoryItem9.SIZE * index;
 
-    public void ClearItem(Span<byte> data, ushort index) => InventoryItem9.Clear(data, GetItemOffset(index));
+    public static void ClearItem(Span<byte> data, ushort index) => InventoryItem9.Clear(data, GetItemOffset(index));
 
     public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
     {
-        bool pick = item is >= 2334 and <= 2342 || item is >= 2385 and <= 2394;
+        bool pick = item is (>= 2334 and <= 2342) or (>= 2385 and <= 2394);
         return t switch
         {
             // Picnic table accessories are clamped to 1, let actual ingredients and sandwich picks be whatever
-            InventoryType.Ingredients => !pick && item is >= 2311 and <= 2400 ? 1 : requestVal,
+            InventoryType.Ingredients => !pick && item is (>= 2311 and <= 2400) ? 1 : requestVal,
             _ => requestVal,
         };
     }

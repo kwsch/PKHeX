@@ -14,9 +14,6 @@ public sealed class CXDVerifier : Verifier
         var pk = data.Entity;
         if (data.EncounterMatch is EncounterStatic3 s3)
             VerifyCXDStarterCorrelation(data, s3);
-        else if (pk.Egg_Location != 0 && pk is not PB8 {Egg_Location: Locations.Default8bNone}) // can't obtain eggs in CXD
-            data.AddLine(GetInvalid(LEncInvalid, CheckIdentifier.Encounter)); // invalid encounter
-
         if (pk.OT_Gender == 1)
             data.AddLine(GetInvalid(LG3OTGender, CheckIdentifier.Trainer));
     }
@@ -43,8 +40,8 @@ public sealed class CXDVerifier : Verifier
             }
             else
             {
-                valid = LockFinder.IsXDStarterValid(seed, pk.TID, pk.SID);
-                if (valid) // unroll seed to origin that generated TID/SID->pkm
+                valid = LockFinder.IsXDStarterValid(seed, pk.TID16, pk.SID16);
+                if (valid) // unroll seed to origin that generated TID16/SID16->pkm
                     data.Info.PIDIV = new PIDIV(PIDType.CXD, XDRNG.Prev4(seed));
             }
         }

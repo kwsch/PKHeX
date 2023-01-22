@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -37,7 +37,7 @@ public sealed class JoinFesta7 : SaveBlock<SAV7>
     public string FestivalPlazaName
     {
         get => StringConverter7.GetString(FestivalPlazaNameSpan);
-        set => StringConverter7.SetString(FestivalPlazaNameSpan, value.AsSpan(), 20, 0, StringConverterOption.ClearZero);
+        set => StringConverter7.SetString(FestivalPlazaNameSpan, value, 20, 0, StringConverterOption.ClearZero);
     }
 
     public ushort FestaRank { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x53A)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x53A), value); }

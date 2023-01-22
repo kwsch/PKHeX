@@ -17,7 +17,7 @@ public static class EntityTemplates
         pk.Move1 = (int)Move.Pound;
         pk.HealPP();
         pk.Ball = 4;
-        pk.MetDate = DateTime.Today;
+        pk.MetDate = DateOnly.FromDateTime(DateTime.Today);
 
         if (tr.Game >= 0)
             pk.Version = tr.Game;
@@ -30,8 +30,7 @@ public static class EntityTemplates
 
         pk.OT_Name = tr.OT;
         pk.OT_Gender = tr.Gender;
-        pk.TID = tr.TID;
-        pk.SID = tr.SID;
+        pk.ID32 = tr.ID32;
         if (tr is IRegionOrigin o && pk is IRegionOrigin gt)
         {
             gt.ConsoleRegion = o.ConsoleRegion;

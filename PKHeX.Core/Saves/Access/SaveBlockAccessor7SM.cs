@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -72,7 +72,7 @@ public sealed class SaveBlockAccessor7SM : ISaveBlockAccessor<BlockInfo7>, ISave
         Festa = new JoinFesta7(sav, bi[21].Offset);
         PokeFinder = new PokeFinder7(sav, bi[26].Offset);
         MysteryGift = new MysteryBlock7(sav, bi[27].Offset);
-        Records = new RecordBlock6(sav, bi[28].Offset);
+        Records = new RecordBlock7SM(sav, bi[28].Offset);
         BattleTree = new BattleTree7(sav, bi[32].Offset);
         Daycare = new Daycare7(sav, bi[33].Offset);
     }

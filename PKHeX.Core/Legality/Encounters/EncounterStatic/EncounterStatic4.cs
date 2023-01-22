@@ -116,10 +116,10 @@ public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Ver
         pk4.GroundTile = Roaming ? GroundTileType.Grass : GroundTile.GetIndex();
         pk.Met_Location = Location;
         pk.Met_Level = level;
-        pk.MetDate = today;
+        pk.MetDate = DateOnly.FromDateTime(today);
     }
 
-    public static bool IsMatchRoamerLocation(uint permit, int location, int first)
+    public static bool IsMatchRoamerLocation(ulong permit, int location, int first)
     {
         var value = location - first;
         if ((uint)value >= 64)
@@ -127,10 +127,18 @@ public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Ver
         return (permit & (1u << value)) != 0;
     }
 
+    public static bool IsMatchRoamerLocation(uint permit, int location, int first)
+    {
+        var value = location - first;
+        if ((uint)value >= 32)
+            return false;
+        return (permit & (1u << value)) != 0;
+    }
+
     // Merged all locations into a bitmask for quick computation.
     private const int FirstS = 16;
-    private const uint PermitGrassS = 0x8033FFFF; // 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,         36, 37, 47, 49,
-    private const uint PermitWaterS = 0x803E3B9E; //         18, 19, 20,         23, 24, 25,     27, 28, 29,             33, 34, 35, 36, 37, 47, 49,
+    private const ulong PermitGrassS = 0x2_8033FFFF; // 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,         36, 37, 47, 49,
+    private const ulong PermitWaterS = 0x2_803E3B9E; //         18, 19, 20,         23, 24, 25,     27, 28, 29,             33, 34, 35, 36, 37, 47, 49,
 
     private const int FirstJ = 177;
     private const uint PermitGrassJ = 0x0003E7FF; // 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187,                     190, 191, 192, 193, 194,

@@ -160,7 +160,7 @@ public enum GameVersion : byte
     BU = 37,
 
     /// <summary>
-    /// Pokémon Yellow [JP] (3DS Virtual Console)
+    /// Pokémon Yellow (3DS Virtual Console)
     /// </summary>
     YW = 38,
     #endregion

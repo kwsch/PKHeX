@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -148,7 +147,8 @@ public sealed class PokeListHeader : SaveBlock<SAV7b>
         {
             // uh oh, we lost the starter! might have been moved out of its proper slot incorrectly.
             var species = SAV.Version == GameVersion.GP ? 25 : 133;
-            int index = Array.FindIndex(SAV.BoxData.ToArray(), z => z.Species == species && z.Form != 0);
+            bool IsStarter(PKM pk) => pk.Species == species && pk.Form != 0;
+            var index = SAV.FindSlotIndex(IsStarter, count);
             if (index >= 0)
                 arr[6] = index;
         }

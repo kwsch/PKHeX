@@ -4,10 +4,11 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.XD"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
-public sealed record EncounterSlot3PokeSpot : EncounterSlot, INumberedSlot
+public sealed record EncounterSlot3PokeSpot : EncounterSlot, INumberedSlot, IFatefulEncounterReadOnly
 {
     public override int Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
+    public bool FatefulEncounter => true;
 
     public byte SlotNumber { get; }
 

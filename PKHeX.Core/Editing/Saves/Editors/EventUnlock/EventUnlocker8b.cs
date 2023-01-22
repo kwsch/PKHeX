@@ -1,6 +1,6 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
-public class EventUnlocker8b : EventUnlocker<SAV8BS>
+public sealed class EventUnlocker8b : EventUnlocker<SAV8BS>
 {
     public EventUnlocker8b(SAV8BS sav) : base(sav) { }
 

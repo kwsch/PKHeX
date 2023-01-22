@@ -20,9 +20,9 @@ public sealed class SAV6AODemo : SAV6
         Initialize();
     }
 
-    public override IPersonalTable Personal => PersonalTable.AO;
+    public override PersonalTable6AO Personal => PersonalTable.AO;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_AO;
-    protected override SaveFile CloneInternal() => new SAV6AODemo((byte[])Data.Clone());
+    protected override SAV6AODemo CloneInternal() => new((byte[])Data.Clone());
     public override ushort MaxMoveID => Legal.MaxMoveID_6_AO;
     public override int MaxItemID => Legal.MaxItemID_6_AO;
     public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;

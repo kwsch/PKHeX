@@ -28,7 +28,7 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
     public PersonalInfo3 GetFormEntry(ushort species, byte form) => Table[GetFormIndex(species, form)];
 
     public int GetFormIndex(ushort species, byte form) => IsSpeciesInGame(species) ? species : 0;
-    public bool IsSpeciesInGame(ushort species) => (uint)species <= MaxSpecies;
+    public bool IsSpeciesInGame(ushort species) => species <= MaxSpecies;
     public bool IsPresentInGame(ushort species, byte form)
     {
         if (!IsSpeciesInGame(species))
@@ -63,11 +63,6 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
         var other = pt.Table;
         var table = Table;
         for (int i = Legal.MaxSpeciesID_3; i >= 1; i--)
-        {
-            var entry = table[i];
-            var source = other[i];
-            entry.TMHM = source.TMHM;
-            entry.TypeTutors = source.TypeTutors;
-        }
+            table[i].CopyFrom(other[i]);
     }
 }

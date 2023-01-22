@@ -13,18 +13,14 @@ public ref struct SCXorShift32
     private int Counter;
     private uint Seed;
 
-    public SCXorShift32(uint seed)
+    public SCXorShift32(uint seed) => Seed = GetInitialSeed(seed);
+
+    private static uint GetInitialSeed(uint seed)
     {
-#if NET6_0_OR_GREATER
         var pop_count = System.Numerics.BitOperations.PopCount(seed);
-#else
-        var pop_count = PopCount(seed);
-#endif
         for (var i = 0; i < pop_count; i++)
             seed = XorshiftAdvance(seed);
-
-        Counter = 0;
-        Seed = seed;
+        return seed;
     }
 
     /// <summary>
@@ -62,19 +58,4 @@ public ref struct SCXorShift32
         key ^= key << 13;
         return key;
     }
-
-#if !NET6_0_OR_GREATER
-    /// <summary>
-    /// Count of bits set in value
-    /// </summary>
-    private static uint PopCount(uint x)
-    {
-        x -= ((x >> 1) & 0x55555555u);
-        x = (x & 0x33333333u) + ((x >> 2) & 0x33333333u);
-        x = (x + (x >> 4)) & 0x0F0F0F0Fu;
-        x += (x >> 8);
-        x += (x >> 16);
-        return x & 0x0000003Fu;
-    }
-#endif
 }

@@ -1098,7 +1098,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         if (!sav.State.Exportable || sav is BulkStorage)
         {
-            GB_SAVtools.Visible = false;
+            FLP_SAVtools.Visible = false;
             B_JPEG.Visible = false;
             SL_Extra.HideAllSlots();
             return;
@@ -1136,7 +1136,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_RaidsSevenStar.Visible = sav is SAV9SV;
         B_RaidArmor.Visible = sav is SAV8SWSH {SaveRevision: >= 1};
         B_RaidCrown.Visible = sav is SAV8SWSH {SaveRevision: >= 2};
-        GB_SAVtools.Visible = B_Blocks.Visible = true;
+        FLP_SAVtools.Visible = B_Blocks.Visible = true;
 
         var list = FLP_SAVtools.Controls.OfType<Control>().OrderBy(z => z.Text).ToArray();
         FLP_SAVtools.Controls.Clear();

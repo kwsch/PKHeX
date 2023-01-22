@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 1 <see cref="PKM"/> format. </summary>
 public sealed class PK1 : GBPKML, IPersonalType
 {
-    public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
+    public override PersonalInfo1 PersonalInfo => PersonalTable.Y[Species];
 
     public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 
@@ -27,9 +27,9 @@ public sealed class PK1 : GBPKML, IPersonalType
         return data;
     }
 
-    public override PKM Clone()
+    public override PK1 Clone()
     {
-        var clone = new PK1((byte[])Data.Clone(), Japanese);
+        PK1 clone = new((byte[])Data.Clone(), Japanese);
         OT_Trash.CopyTo(clone.OT_Trash);
         Nickname_Trash.CopyTo(clone.Nickname_Trash);
         return clone;
@@ -38,8 +38,8 @@ public sealed class PK1 : GBPKML, IPersonalType
     protected override byte[] Encrypt() => new PokeList1(this).Write();
 
     #region Stored Attributes
-    public byte SpeciesID1 { get => Data[0]; set => Data[0] = value; } // raw access
-    public override ushort Species { get => SpeciesConverter.GetG1Species(SpeciesID1); set => SetSpeciesValues(value); }
+    public byte SpeciesInternal { get => Data[0]; set => Data[0] = value; } // raw access
+    public override ushort Species { get => SpeciesConverter.GetNational1(SpeciesInternal); set => SetSpeciesValues(value); }
     public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x1)); set => WriteUInt16BigEndian(Data.AsSpan(0x1), (ushort)value); }
     public int Stat_LevelBox { get => Data[3]; set => Data[3] = (byte)value; }
     public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
@@ -50,7 +50,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override ushort Move2 { get => Data[9]; set => Data[9] = (byte)value; }
     public override ushort Move3 { get => Data[10]; set => Data[10] = (byte)value; }
     public override ushort Move4 { get => Data[11]; set => Data[11] = (byte)value; }
-    public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0xC)); set => WriteUInt16BigEndian(Data.AsSpan(0xC), (ushort)value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xC)); set => WriteUInt16BigEndian(Data.AsSpan(0xC), value); }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0xE)) >> 8; set => WriteUInt32BigEndian(Data.AsSpan(0xE), (value << 8) | Data[0x11]); }
     public override int EV_HP { get => ReadUInt16BigEndian(Data.AsSpan(0x11)); set => WriteUInt16BigEndian(Data.AsSpan(0x11), (ushort)value); }
     public override int EV_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x13)); set => WriteUInt16BigEndian(Data.AsSpan(0x13), (ushort)value); }
@@ -94,11 +94,11 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     private void SetSpeciesValues(ushort value)
     {
-        var updated = SpeciesConverter.SetG1Species(value);
-        if (SpeciesID1 == updated)
+        var updated = SpeciesConverter.GetInternal1(value);
+        if (SpeciesInternal == updated)
             return;
 
-        SpeciesID1 = updated;
+        SpeciesInternal = updated;
 
         var pi = PersonalTable.RB[value];
         Type1 = pi.Type1;
@@ -166,14 +166,14 @@ public sealed class PK1 : GBPKML, IPersonalType
         {
             EncryptionConstant = rnd.Rand32(),
             Species = Species,
-            TID = TID,
+            TID16 = TID16,
             CurrentLevel = CurrentLevel,
             EXP = EXP,
             Met_Level = CurrentLevel,
             Nature = Experience.GetNatureVC(EXP),
             PID = rnd.Rand32(),
             Ball = 4,
-            MetDate = DateTime.Now,
+            MetDate = DateOnly.FromDateTime(DateTime.Now),
             Version = (int)GameVersion.RD, // Default to red
             Move1 = Move1,
             Move2 = Move2,
@@ -215,14 +215,15 @@ public sealed class PK1 : GBPKML, IPersonalType
         switch (IsShiny ? Shiny.Always : Shiny.Never)
         {
             case Shiny.Always when !pk7.IsShiny: // Force Square
-                pk7.PID = (uint)(((pk7.TID ^ 0 ^ (pk7.PID & 0xFFFF) ^ 0) << 16) | (pk7.PID & 0xFFFF));
+                var low = pk7.PID & 0xFFFF;
+                pk7.PID = (low ^ pk7.TID16 ^ 0u) << 16 | low;
                 break;
             case Shiny.Never when pk7.IsShiny: // Force Not Shiny
                 pk7.PID ^= 0x1000_0000;
                 break;
         }
 
-        int abil = Legal.TransferSpeciesDefaultAbilityGen1(Species) ? 0 : 2; // Hidden
+        int abil = TransporterLogic.IsHiddenDisallowedVC1(Species) ? 0 : 2; // Hidden
         pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 
         if (Species == (int)Core.Species.Mew) // Mew gets special treatment.

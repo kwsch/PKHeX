@@ -12,7 +12,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => this.GCExtension();
-    public override IPersonalTable Personal => PersonalTable.RS;
+    public override PersonalTable3 Personal => PersonalTable.RS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_COLO;
     public SAV3GCMemoryCard? MemoryCard { get; init; }
 
@@ -27,6 +27,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     private const int SLOT_SIZE = 0x1E000;
     private const int SLOT_START = 0x6000;
     private const int SLOT_COUNT = 3;
+
+    private const int sha1HashSize = 20;
 
     private int SaveCount = -1;
     private int SaveIndex = -1;
@@ -67,7 +69,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
                 PartyCount++;
         }
 
-        var memo = new StrategyMemo(Data, Memo, xd: false);
+        var memo = new StrategyMemo(Data.AsSpan(Memo), xd: false);
         return memo;
     }
 
@@ -89,8 +91,8 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         {
             int slotOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
             ReadOnlySpan<byte> slot = Data.AsSpan(slotOffset, SLOT_SIZE);
-            Span<byte> digest = stackalloc byte[20];
-            slot[^20..].CopyTo(digest);
+            Span<byte> digest = stackalloc byte[sha1HashSize];
+            slot[^sha1HashSize..].CopyTo(digest);
 
             // Decrypt Slot
             Data = DecryptColosseum(slot, digest);
@@ -116,26 +118,22 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
 
         // Get updated save slot data
         ReadOnlySpan<byte> slot = Data;
-        Span<byte> digest = stackalloc byte[20];
-        slot[^20..].CopyTo(digest);
+        Span<byte> digest = stackalloc byte[sha1HashSize];
+        slot[^sha1HashSize..].CopyTo(digest);
         byte[] newSAV = EncryptColosseum(slot, digest);
 
         // Put save slot back in original save data
-        byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[])BAK.Clone();
+        byte[] newFile = MemoryCard != null ? MemoryCard.ReadSaveGameData().ToArray() : (byte[])BAK.Clone();
         Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
         return newFile;
     }
 
     // Configuration
-    protected override SaveFile CloneInternal()
-    {
-        var data = GetInnerData();
-        return new SAV3Colosseum(data) { MemoryCard = MemoryCard };
-    }
+    protected override SAV3Colosseum CloneInternal() => new(GetInnerData()) { MemoryCard = MemoryCard };
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED; // unused
-    public override PKM BlankPKM => new CK3();
+    public override CK3 BlankPKM => new();
     public override Type PKMType => typeof(CK3);
 
     public override ushort MaxMoveID => Legal.MaxMoveID_3;
@@ -159,21 +157,21 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     private static byte[] EncryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
     {
         if (input.Length != SLOT_SIZE)
-            throw new ArgumentException(nameof(input));
+            throw new ArgumentException("Incorrect slot size", nameof(input));
 
         byte[] output = input.ToArray();
 
         // NOT key
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < digest.Length; i++)
             digest[i] = (byte)~digest[i];
 
-        using var sha1 = SHA1.Create();
-        for (int i = 0x18; i < 0x1DFD8; i += 20)
+        var crypt = output.AsSpan(0x18, SLOT_SIZE - (2 * sha1HashSize));
+        for (int i = 0; i < crypt.Length; i += sha1HashSize)
         {
-            for (int j = 0; j < 20; j++)
-                output[i + j] ^= digest[j];
-            byte[] key = sha1.ComputeHash(output, i, 20); // update digest
-            key.AsSpan(0, 20).CopyTo(digest); // for use in next loop
+            var slice = crypt.Slice(i, digest.Length);
+            for (int j = 0; j < digest.Length; j++)
+                slice[j] ^= digest[j];
+            SHA1.HashData(slice, digest); // update digest
         }
         return output;
     }
@@ -181,47 +179,55 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     private static byte[] DecryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
     {
         if (input.Length != SLOT_SIZE)
-            throw new ArgumentException(nameof(input));
+            throw new ArgumentException("Incorrect slot size", nameof(input));
 
         byte[] output = input.ToArray();
 
         // NOT key
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < digest.Length; i++)
             digest[i] = (byte)~digest[i];
 
-        using var sha1 = SHA1.Create();
-        for (int i = 0x18; i < 0x1DFD8; i += 20)
+        Span<byte> hash = stackalloc byte[sha1HashSize];
+        var crypt = output.AsSpan(0x18, SLOT_SIZE - (2 * sha1HashSize));
+        for (int i = 0; i < crypt.Length; i += sha1HashSize)
         {
-            byte[] key = sha1.ComputeHash(output, i, 20); // update digest
-            for (int j = 0; j < 20; j++)
-                output[i + j] ^= digest[j];
-            key.AsSpan(0, 20).CopyTo(digest); // for use in next loop
+            var slice = crypt.Slice(i, sha1HashSize);
+            SHA1.HashData(slice, hash); // update digest
+            for (int j = 0; j < digest.Length; j++)
+                slice[j] ^= digest[j];
+            hash.CopyTo(digest); // for use in next loop
         }
         return output;
     }
 
     protected override void SetChecksums()
     {
+        var data = Data.AsSpan();
+        var header = data[..0x20];
+        var payload = data[..(SLOT_SIZE - (2 * sha1HashSize))];
+        var hash = data[^sha1HashSize..];
+        var headerCHK = data[0x0C..];
+
         // Clear Header Checksum
-        var headerCHK = Data.AsSpan(12);
         WriteInt32BigEndian(headerCHK, 0);
         // Compute checksum of data
-        using var sha1 = SHA1.Create();
-        byte[] checksum = sha1.ComputeHash(Data, 0, 0x1DFD8);
-        // Set Checksum to end
-        var checkSpan = checksum.AsSpan();
-        checkSpan.CopyTo(Data.AsSpan(Data.Length - checkSpan.Length));
+        SHA1.HashData(payload, hash);
 
         // Compute new header checksum
-        var header = Data.AsSpan(0, 0x20);
-        int newHC = 0;
-        for (int i = 0; i < 0x18; i += 4)
-            newHC -= ReadInt32BigEndian(header[i..]);
-        newHC -= ReadInt32BigEndian(header[0x18..]) ^ ~ReadInt32BigEndian(checkSpan);
-        newHC -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(checkSpan[4..]);
+        int newHC = ComputeHeaderChecksum(header, hash);
 
         // Set Header Checksum
         WriteInt32BigEndian(headerCHK, newHC);
+    }
+
+    private static int ComputeHeaderChecksum(Span<byte> header, Span<byte> hash)
+    {
+        int result = 0;
+        for (int i = 0; i < 0x18; i += 4)
+            result -= ReadInt32BigEndian(header[i..]);
+        result -= ReadInt32BigEndian(header[0x18..]) ^ ~ReadInt32BigEndian(hash);
+        result -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(hash[4..]);
+        return result;
     }
 
     public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
@@ -230,28 +236,25 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     {
         get
         {
-            byte[] data = (byte[])Data.Clone();
-            var hc = data.AsSpan(12);
+            var data = Data.AsSpan();
+            var header = data[..0x20];
+            var payload = data[..(SLOT_SIZE - (2 * sha1HashSize))];
+            var storedHash = data[^sha1HashSize..];
+            var hc = header[0x0C..];
+
             int oldHC = ReadInt32BigEndian(hc);
             // Clear Header Checksum
-            WriteUInt32BigEndian(hc, 0);
-            using var sha1 = SHA1.Create();
-            byte[] checksum = sha1.ComputeHash(data, 0, 0x1DFD8);
-            var checkSpan = checksum.AsSpan();
+            WriteInt32BigEndian(hc, 0);
+            Span<byte> currentHash = stackalloc byte[sha1HashSize];
+            SHA1.HashData(payload, currentHash);
 
             // Compute new header checksum
-            var header = data.AsSpan(0, 0x20);
-            int newHC = 0;
-            for (int i = 0; i < 0x18; i += 4)
-                newHC -= ReadInt32BigEndian(header[i..]);
+            int newHC = ComputeHeaderChecksum(header, currentHash);
 
-            newHC -= ReadInt32BigEndian(header[0x18..]) ^ ~ReadInt32BigEndian(checkSpan);
-            newHC -= ReadInt32BigEndian(header[0x1C..]) ^ ~ReadInt32BigEndian(checkSpan[4..]);
-
-            var chk = data.AsSpan(data.Length - 20, 20);
-
+            // Restore old header checksum
+            WriteInt32BigEndian(hc, oldHC);
             bool isHeaderValid = newHC == oldHC;
-            bool isBodyValid = chk.SequenceEqual(checkSpan);
+            bool isBodyValid = storedHash.SequenceEqual(currentHash);
             static string valid(bool s) => s ? "Valid" : "Invalid";
             return $"Header Checksum {valid(isHeaderValid)}, Body Checksum {valid(isBodyValid)}.";
         }
@@ -276,16 +279,16 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         return GetString(Box + (0x24A4 * box), 16);
     }
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
-        SetString(Data.AsSpan(Box + (0x24A4 * box), 16), value.AsSpan(), 8, StringConverterOption.ClearZero);
+        SetString(Data.AsSpan(Box + (0x24A4 * box), 16), value, 8, StringConverterOption.ClearZero);
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override CK3 GetPKM(byte[] data)
     {
         if (data.Length != SIZE_STORED)
             Array.Resize(ref data, SIZE_STORED);
-        return new CK3(data);
+        return new(data);
     }
 
     protected override byte[] DecryptPKM(byte[] data) => data;
@@ -312,10 +315,9 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         {
             entry.Species = pk.Species;
             entry.PID = pk.PID;
-            entry.TID = pk.TID;
-            entry.SID = pk.SID;
+            entry.ID32 = pk.ID32;
         }
-        if (entry.Matches(pk.Species, pk.PID, pk.TID, pk.SID))
+        if (entry.Matches(pk.Species, pk.PID, pk.ID32))
         {
             entry.Seen = true;
             entry.Owned = true;
@@ -357,15 +359,17 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     }
 
     // Trainer Info (offset 0x78, length 0xB18, end @ 0xB90)
-    public override string OT { get => GetString(0x78, 20); set { SetString(Data.AsSpan(0x78, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); OT2 = value; } }
-    public string OT2 { get => GetString(0x8C, 20); set => SetString(Data.AsSpan(0x8C, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
-    public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(0xA4)); set => WriteUInt16BigEndian(Data.AsSpan(0xA4), (ushort)value); }
-    public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0xA6)); set => WriteUInt16BigEndian(Data.AsSpan(0xA6), (ushort)value); }
+    public override string OT { get => GetString(0x78, 20); set { SetString(Data.AsSpan(0x78, 20), value, 10, StringConverterOption.ClearZero); OT2 = value; } }
+    public string OT2 { get => GetString(0x8C, 20); set => SetString(Data.AsSpan(0x8C, 20), value, 10, StringConverterOption.ClearZero); }
+
+    public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(0xA4)); set => WriteUInt32BigEndian(Data.AsSpan(0xA4), value); }
+    public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xA4)); set => WriteUInt16BigEndian(Data.AsSpan(0xA4), value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0xA6)); set => WriteUInt16BigEndian(Data.AsSpan(0xA6), value); }
 
     public override int Gender { get => Data[0xAF8]; set => Data[0xAF8] = (byte)value; }
     public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(0xAFC)); set => WriteUInt32BigEndian(Data.AsSpan(0xAFC), value); }
     public uint Coupons { get => ReadUInt32BigEndian(Data.AsSpan(0xB00)); set => WriteUInt32BigEndian(Data.AsSpan(0xB00), value); }
-    public string RUI_Name { get => GetString(0xB3A, 20); set => SetString(Data.AsSpan(0xB3A, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
+    public string RUI_Name { get => GetString(0xB3A, 20); set => SetString(Data.AsSpan(0xB3A, 20), value, 10, StringConverterOption.ClearZero); }
 
     public override IReadOnlyList<InventoryPouch> Inventory
     {

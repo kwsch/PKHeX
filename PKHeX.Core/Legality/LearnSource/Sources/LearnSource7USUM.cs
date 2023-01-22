@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="USUM"/>.
 /// </summary>
-public sealed class LearnSource7USUM : ILearnSource, IEggSource
+public sealed class LearnSource7USUM : ILearnSource<PersonalInfo7>, IEggSource
 {
     public static readonly LearnSource7USUM Instance = new();
     private static readonly PersonalTable7 Personal = PersonalTable.USUM;
@@ -21,7 +21,7 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo7? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -42,12 +42,12 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
     {
         if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
-        return MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
+        return MoveEgg.GetFormEggMoves(species, form, EggMoves);
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo7 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -55,16 +55,16 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
                 return new(LevelUp, Game, 1);
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(Array.IndexOf(TMHM_SM, move)))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.TypeTutor) && GetIsTypeTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(Array.IndexOf(LearnSource5.TypeTutor567, move)))
             return new(Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsSpecialTutor(pi, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && pi.GetIsLearnTutorSpecial(move))
             return new(Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, option))
             return new(Tutor, Game);
 
         return default;
@@ -94,38 +94,12 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTypeTutor(PersonalInfo pi, ushort move)
-    {
-        var index = Array.IndexOf(LearnSource5.TypeTutor567, move);
-        if (index == -1)
-            return false;
-        return pi.TypeTutors[index];
-    }
-
-    private static bool GetIsSpecialTutor(PersonalInfo pi, ushort move)
-    {
-        // US/UM Tutors
-        var tutors = Tutors_USUM;
-        var tutor = Array.IndexOf(tutors, move);
-        if (tutor == -1)
-            return false;
-        return pi.SpecialTutors[0][tutor];
-    }
-
-    private static bool GetIsTM(PersonalInfo info, ushort move)
-    {
-        var index = Array.IndexOf(TMHM_SM, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
-    }
-
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(ReminderBonus);
@@ -137,42 +111,16 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_SM;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.Machine))
+            pi.SetAllLearnTM(result, TMHM_SM);
 
-        if (types.HasFlagFast(MoveSourceType.TypeTutor))
-        {
-            // Beams
-            var flags = pi.TypeTutors;
-            var moves = LearnSource5.TypeTutor567;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.TypeTutor))
+            pi.SetAllLearnTutorType(result, LearnSource5.TypeTutor567);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
-        {
-            // US/UM Tutors
-            var flags = pi.SpecialTutors[0];
-            var moves = Tutors_USUM;
-            for (int i = 0; i < flags.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
+            pi.SetAllLearnTutorSpecial(result);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor))
         {
             var species = evo.Species;
             if (species is (int)Species.Zygarde)
@@ -199,14 +147,4 @@ public sealed class LearnSource7USUM : ILearnSource, IEggSource
                 result[(int)Move.MoongeistBeam] = true;
         }
     }
-
-    private static readonly ushort[] Tutors_USUM =
-    {
-        450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
-        277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
-        020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
-        380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
-
-        477, 502, 432, 710, 707, 675, 673,
-    };
 }

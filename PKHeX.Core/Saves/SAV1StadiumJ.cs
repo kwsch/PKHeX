@@ -13,12 +13,12 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     public override int SaveRevision => 0;
     public override string SaveRevisionString => "0"; // so we're different from Japanese SAV1Stadium naming...
 
-    public override IPersonalTable Personal => PersonalTable.Y;
+    public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => ushort.MaxValue;
     public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
     public override GameVersion Version { get; protected set; } = GameVersion.StadiumJ;
 
-    protected override SaveFile CloneInternal() => new SAV1StadiumJ((byte[])Data.Clone());
+    protected override SAV1StadiumJ CloneInternal() => new((byte[])Data.Clone());
 
     public override int Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
@@ -37,7 +37,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
     protected override int SIZE_PARTY => SIZE_PK1J;
 
     public override Type PKMType => typeof(PK1);
-    public override PKM BlankPKM => new PK1(true);
+    public override PK1 BlankPKM => new(true);
 
     private const int ListHeaderSize = 0x14;
     private const int ListFooterSize = 6; // POKE + 2byte checksum
@@ -81,7 +81,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         // Not implemented
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override PK1 GetPKM(byte[] data)
     {
         const int len = StringLength;
         var nick = data.AsSpan(0x21, len);

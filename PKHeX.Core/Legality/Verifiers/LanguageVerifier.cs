@@ -41,7 +41,7 @@ public sealed class LanguageVerifier : Verifier
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)currentLanguage}", (LanguageID)currentLanguage)));
 
             // Japanese VC is language locked; cannot obtain Japanese-Blue version as other languages.
-            if (pk.Version == (int)GameVersion.BU && !pk.Japanese)
+            if (pk is { Version: (int)GameVersion.BU, Japanese: false })
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, nameof(LanguageID.Japanese), (LanguageID)currentLanguage)));
         }
     }

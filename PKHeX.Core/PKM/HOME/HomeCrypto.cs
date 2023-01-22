@@ -100,6 +100,9 @@ public static class HomeCrypto
         }
     }
 
+    /// <summary>
+    /// Converts the input <see cref="pk"/> data into their encrypted state.
+    /// </summary>
     public static byte[] Encrypt(ReadOnlySpan<byte> pk)
     {
         var result = Crypt1(pk, false);
@@ -113,8 +116,15 @@ public static class HomeCrypto
         WriteUInt32LittleEndian(dest[0xA..0xE], chk);
     }
 
+    /// <summary>
+    /// Calculates the checksum of format 1 data.
+    /// </summary>
     public static uint GetChecksum1(ReadOnlySpan<byte> encrypted) => GetCHK(encrypted[SIZE_1HEADER..]);
 
+    /// <summary>
+    /// Checks if the format 1 data is encrypted.
+    /// </summary>
+    /// <returns>True if encrypted.</returns>
     public static bool GetIsEncrypted1(ReadOnlySpan<byte> data)
     {
         if (ReadUInt16LittleEndian(data[SIZE_1HEADER..]) != SIZE_1CORE)

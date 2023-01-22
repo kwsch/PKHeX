@@ -186,7 +186,10 @@ public partial class RibbonEditor : Form
 
         nud.ValueChanged += (sender, e) =>
         {
-            var pb = FLP_Ribbons.Controls[PrefixPB + rib.Name];
+            var controlName = PrefixPB + rib.Name;
+            var pb = FLP_Ribbons.Controls[controlName];
+            if (pb is null)
+                throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
             pb.Visible = (rib.RibbonCount = (byte)nud.Value) != 0;
             pb.BackgroundImage = RibbonSpriteUtil.GetRibbonSprite(rib.Name, (int)nud.Maximum, (int)nud.Value);
         };
@@ -211,7 +214,11 @@ public partial class RibbonEditor : Form
         chk.CheckedChanged += (sender, e) =>
         {
             rib.HasRibbon = chk.Checked;
-            FLP_Ribbons.Controls[PrefixPB + rib.Name].Visible = rib.HasRibbon;
+            var controlName = PrefixPB + rib.Name;
+            var control = FLP_Ribbons.Controls[controlName];
+            if (control is null)
+                throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
+            control.Visible = rib.HasRibbon;
         };
 
         // Setting value will trigger above event

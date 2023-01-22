@@ -15,7 +15,7 @@ public static class LearnsetReader
     /// </summary>
     /// <param name="input">Raw ROM data containing the contiguous moves</param>
     /// <param name="maxSpecies">Highest species ID for the input game.</param>
-    public static Learnset[] GetArray(ReadOnlySpan<byte> input, int maxSpecies)
+    public static Learnset[] GetArray(ReadOnlySpan<byte> input, ushort maxSpecies)
     {
         int offset = 0;
         var result = new Learnset[maxSpecies + 1];

@@ -55,10 +55,10 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     protected override int SIZE_STORED => PokeCrypto.SIZE_8ASTORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_8APARTY;
     public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8ASTORED;
-    protected override PKM GetPKM(byte[] data) => new PA8(data);
+    protected override PA8 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8A(data);
 
-    public override PKM BlankPKM => new PA8();
+    public override PA8 BlankPKM => new();
     public override Type PKMType => typeof(PA8);
     public override int MaxEV => 252;
     public override int Generation => 8;
@@ -69,8 +69,9 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     public override bool ChecksumsValid => true;
     public override string ChecksumInfo => string.Empty;
     public override int BoxCount => BoxLayout8a.BoxCount; // 32
-    public override int TID { get => MyStatus.TID; set => MyStatus.TID = value; }
-    public override int SID { get => MyStatus.SID; set => MyStatus.SID = value; }
+    public override uint ID32 { get => MyStatus.ID32; set => MyStatus.ID32 = value; }
+    public override ushort TID16 { get => MyStatus.TID16; set => MyStatus.TID16 = value; }
+    public override ushort SID16 { get => MyStatus.SID16; set => MyStatus.SID16 = value; }
     public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
     public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
     public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
@@ -85,15 +86,15 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     protected override void SetChecksums() { } // None!
     protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
-    public override IPersonalTable Personal => PersonalTable.LA;
+    public override PersonalTable8LA Personal => PersonalTable.LA;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_LA;
 
-    protected override SaveFile CloneInternal()
+    protected override SAV8LA CloneInternal()
     {
         var blockCopy = new SCBlock[AllBlocks.Count];
         for (int i = 0; i < AllBlocks.Count; i++)
             blockCopy[i] = AllBlocks[i].Clone();
-        return new SAV8LA(blockCopy);
+        return new(blockCopy);
     }
 
     public override ushort MaxMoveID => Legal.MaxMoveID_8a;
@@ -212,7 +213,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
 
     public override int GetBoxOffset(int box) => Box + (SIZE_BOXSLOT * box * 30);
     public override string GetBoxName(int box) => BoxLayout.GetBoxName(box);
-    public override void SetBoxName(int box, string value) => BoxLayout.SetBoxName(box, value);
+    public override void SetBoxName(int box, ReadOnlySpan<char> value) => BoxLayout.SetBoxName(box, value);
 
     public override int GetBoxWallpaper(int box)
     {

@@ -12,7 +12,7 @@ public sealed record EncounterArea8b : EncounterArea
 {
     public readonly EncounterSlot8b[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot8b> Raw => Slots;
 
     public static EncounterArea8b[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -81,7 +81,7 @@ public sealed record EncounterArea8b : EncounterArea
         return false;
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot8b> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {
@@ -107,14 +107,14 @@ public sealed record EncounterArea8b : EncounterArea
     private static bool IsInaccessibleHoneySlotLocation(EncounterSlot8b slot, PKM pk)
     {
         // A/B/C tables, only Munchlax is a 'C' encounter, and A/B are accessible from any tree.
-        // C table encounters are only available from 4 trees, which are determined by TID/SID of the save file.
+        // C table encounters are only available from 4 trees, which are determined by TID16/SID16 of the save file.
         if (slot.Species is not (int)Species.Munchlax)
             return false;
 
         // We didn't encode the honey tree index to the encounter slot resource.
         // Check if any of the slot's location doesn't match any of the groupC trees' area location ID.
         var location = pk.Met_Location;
-        var trees = SAV4Sinnoh.CalculateMunchlaxTrees(pk.TID, pk.SID);
+        var trees = SAV4Sinnoh.CalculateMunchlaxTrees(pk.TID16, pk.SID16);
         return LocationID_HoneyTree[trees.Tree1] != location
                && LocationID_HoneyTree[trees.Tree2] != location
                && LocationID_HoneyTree[trees.Tree3] != location

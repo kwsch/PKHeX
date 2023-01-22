@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -120,17 +120,22 @@ public sealed class MyStatus8 : SaveBlock<SAV8SWSH>
     }
 
     // 8C - 9F
-
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0xA0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0xA0), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(0xA0));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0xA0), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(0xA0));
+        set => WriteUInt16LittleEndian(Data.AsSpan(0xA0), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0xA2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0xA2), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0xA2), value);
     }
 
     public int Game
@@ -167,7 +172,7 @@ public sealed class MyStatus8 : SaveBlock<SAV8SWSH>
     public string OT
     {
         get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     // D0
