@@ -39,6 +39,27 @@ public sealed class RaidSpawnList9 : SaveBlock<SAV9SV>
         get => ReadUInt64LittleEndian(Data.AsSpan(0x08));
         set => WriteUInt64LittleEndian(Data.AsSpan(0x08), value);
     }
+
+    /// <summary>
+    /// Copies content from the <see cref="sourceIndex"/> raid to all other raid details with valid position data.
+    /// </summary>
+    /// <param name="sourceIndex">Source raid detail</param>
+    /// <param name="seedToo">Copy the RNG seed</param>
+    public void Propagate(int sourceIndex, bool seedToo)
+    {
+        var current = GetRaid(sourceIndex);
+        for (int i = 0; i < CountUsed; i++)
+        {
+            var raid = GetRaid(i);
+            if (raid.AreaID == 0)
+                continue;
+            raid.IsEnabled = current.IsEnabled;
+            raid.Content = current.Content;
+            raid.IsClaimedLeaguePoints = current.IsClaimedLeaguePoints;
+            if (seedToo)
+                raid.Seed = current.Seed;
+        }
+    }
 }
 
 public sealed class TeraRaidDetail
@@ -99,7 +120,7 @@ public sealed class TeraRaidDetail
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x14), value);
     }
 
-    [Category(General), Description("Indicates if the raid crystal is overriden to be a 6-Star Black Raid.")]
+    [Category(General), Description("Indicates the source of the Raid encounter data and rewards.")]
     public TeraRaidContentType Content
     {
         get => (TeraRaidContentType)ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x18));
