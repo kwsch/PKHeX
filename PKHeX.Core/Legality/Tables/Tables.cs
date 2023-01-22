@@ -41,17 +41,17 @@ public static partial class Legal
     /// <summary>
     /// Species classified as "Legend" by the game code.
     /// </summary>
+    /// <remarks>Previous games may have included Mythicals in this species list, but that list should be considered separately.</remarks>
     public static readonly HashSet<ushort> Legends = new()
     {
-        (int)Mewtwo, (int)Mew,
-        (int)Lugia, (int)HoOh, (int)Celebi,
-        (int)Kyogre, (int)Groudon, (int)Rayquaza, (int)Jirachi, (int)Deoxys,
-        (int)Dialga, (int)Palkia, (int)Giratina, (int)Phione, (int)Manaphy, (int)Darkrai, (int)Shaymin, (int)Arceus,
-        (int)Victini, (int)Reshiram, (int)Zekrom, (int)Kyurem, (int)Keldeo, (int)Meloetta, (int)Genesect,
-        (int)Xerneas, (int)Yveltal, (int)Zygarde, (int)Diancie, (int)Hoopa, (int)Volcanion,
-        (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
-        (int)Meltan, (int)Melmetal,
-        (int)Zacian, (int)Zamazenta, (int)Eternatus, (int)Zarude, (int)Calyrex,
+        (int)Mewtwo,
+        (int)Lugia, (int)HoOh,
+        (int)Kyogre, (int)Groudon, (int)Rayquaza,
+        (int)Dialga, (int)Palkia, (int)Giratina,
+        (int)Reshiram, (int)Zekrom, (int)Kyurem,
+        (int)Xerneas, (int)Yveltal, (int)Zygarde,
+        (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma,
+        (int)Zacian, (int)Zamazenta, (int)Eternatus, (int)Calyrex,
         (int)Koraidon, (int)Miraidon,
     };
 
@@ -66,11 +66,21 @@ public static partial class Legal
         (int)Uxie, (int)Mesprit, (int)Azelf, (int)Heatran, (int)Regigigas, (int)Cresselia,
         (int)Cobalion, (int)Terrakion, (int)Virizion, (int)Tornadus, (int)Thundurus, (int)Landorus,
         (int)TypeNull, (int)Silvally, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini,
-        (int)Nihilego, (int)Buzzwole, (int)Pheromosa, (int)Xurkitree, (int)Celesteela, (int)Kartana, (int)Guzzlord,
-        (int)Poipole, (int)Naganadel, (int)Stakataka, (int)Blacephalon,
         (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier, (int)Enamorus,
         (int)TingLu, (int)ChienPao, (int)WoChien, (int)ChiYu,
     };
+
+    /// <summary>
+    /// Checks if the <see cref="species"/> is an Ultra Beast Pokémon.
+    /// </summary>
+    public static bool IsUltraBeast(ushort species) => species is
+        (int)Nihilego or (int)Buzzwole or (int)Pheromosa or (int)Xurkitree or (int)Celesteela or (int)Kartana or (int)Guzzlord or
+        (int)Poipole or (int)Naganadel or (int)Stakataka or (int)Blacephalon;
+
+    /// <summary>
+    /// Checks if the <see cref="species"/> is a Paradox Pokémon.
+    /// </summary>
+    public static bool IsParadox(ushort species) => species is (>= (int)GreatTusk and <= (int)IronThorns) or (int)RoaringMoon or (int)IronValiant;
 
     /// <summary>
     /// Species that evolve from a Bi-Gendered species into a Single-Gender.

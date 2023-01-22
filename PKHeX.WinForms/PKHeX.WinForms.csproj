@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net7.0-windows</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <UseWindowsForms>true</UseWindowsForms>
     <PackageId>PKHeX</PackageId>
     <Description>Pokémon Save Editor</Description>
@@ -17,9 +18,9 @@
     <SelfContained>false</SelfContained>
     <PublishTrimmed>false</PublishTrimmed>
     <EmbedAllSources>true</EmbedAllSources>
+    <PublishReadyToRun>true</PublishReadyToRun>
     <PublishSingleFile>true</PublishSingleFile>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-    <PublishDir>bin\Release\net7.0-windows\publish\</PublishDir>
   </PropertyGroup>
 
   <ItemGroup>

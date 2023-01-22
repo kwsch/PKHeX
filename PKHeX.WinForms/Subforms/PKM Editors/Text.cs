@@ -191,14 +191,14 @@ public partial class TrashEditor : Form
     private string GetString() => SAV.GetString(Raw);
 
     // Helpers
-    private static Label GetLabel(string str) => new() {Text = str, AutoSize = true};
+    private static Label GetLabel(string str) => new() { Text = str, AutoSize = false, Size = new Size(40, 24), TextAlign = ContentAlignment.MiddleRight };
 
     private static NumericUpDown GetNUD(byte min, byte max, bool hex) => new()
     {
         Maximum = max,
         Minimum = min,
         Hexadecimal = hex,
-        Width = 36,
+        Width = 40,
         Padding = new Padding(0),
         Margin = new Padding(0),
     };

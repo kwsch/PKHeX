@@ -95,7 +95,7 @@ public partial class Main : Form
 
     #region Path Variables
 
-    public static readonly string WorkingDirectory = Application.StartupPath;
+    public static readonly string WorkingDirectory = Path.GetDirectoryName(Environment.ProcessPath)!;
     public static readonly string DatabasePath = Path.Combine(WorkingDirectory, "pkmdb");
     public static readonly string MGDatabasePath = Path.Combine(WorkingDirectory, "mgdb");
     public static readonly string ConfigPath = Path.Combine(WorkingDirectory, "cfg.json");

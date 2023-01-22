@@ -948,10 +948,17 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// <returns>Count of IVs that should be max.</returns>
     public int GetFlawlessIVCount()
     {
-        if (Generation >= 6)
+        int gen = Generation;
+        if (gen >= 6)
         {
             var species = Species;
-            if (Legal.Legends.Contains(species) || Legal.SubLegends.Contains(species))
+            if (Legal.Mythicals.Contains(species))
+                return 3;
+            if (Legal.Legends.Contains(species))
+                return 3;
+            if (Legal.SubLegends.Contains(species))
+                return 3;
+            if (gen <= 7 && Legal.IsUltraBeast(species))
                 return 3;
         }
         if (XY)

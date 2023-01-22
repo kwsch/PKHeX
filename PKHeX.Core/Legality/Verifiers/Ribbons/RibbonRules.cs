@@ -113,11 +113,13 @@ public static class RibbonRules
     private static bool IsRibbonValidMasterRankSV(ISpeciesForm pk)
     {
         var species = pk.Species;
+        if (Legal.Mythicals.Contains(species))
+            return false;
         if (Legal.Legends.Contains(species))
             return false;
         if (Legal.SubLegends.Contains(species))
             return false;
-        if (species is >= (int)Species.GreatTusk and <= (int)Species.IronValiant)
+        if (Legal.IsParadox(species))
             return false;
 
         var pt = PersonalTable.SV;
