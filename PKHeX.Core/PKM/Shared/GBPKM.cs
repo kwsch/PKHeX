@@ -203,7 +203,7 @@ public abstract class GBPKM : PKM
 
     public override void LoadStats(IBaseStat p, Span<ushort> stats)
     {
-        var lv = Stat_Level;
+        var lv = CurrentLevel; // recalculate instead of checking Stat_Level
         stats[0] = (ushort)(GetStat(p.HP, IV_HP, EV_HP, lv) + (5 + lv)); // HP
         stats[1] = GetStat(p.ATK, IV_ATK, EV_ATK, lv);
         stats[2] = GetStat(p.DEF, IV_DEF, EV_DEF, lv);
