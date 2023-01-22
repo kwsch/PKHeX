@@ -15,6 +15,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8a;
+    public override bool FatefulEncounter => true;
 
     public enum GiftType : byte
     {
@@ -95,27 +96,32 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         _ => throw new ArgumentOutOfRangeException(),
     };
 
-    private int GetShinyXor()
+    private uint GetShinyXor()
     {
         // Player owned anti-shiny fixed PID
-        if (TID == 0 && SID == 0)
-            return int.MaxValue;
+        if (ID32 == 0)
+            return uint.MaxValue;
 
-        var pid = PID;
-        var psv = (int)((pid >> 16) ^ (pid & 0xFFFF));
-        var tsv = TID ^ SID;
-        return psv ^ tsv;
+        var xor = PID ^ ID32;
+        return (xor >> 16) ^ (xor & 0xFFFF);
     }
 
-    public override int TID
+    public override uint ID32
+    {
+        get => ReadUInt32LittleEndian(Data.AsSpan(0x18));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0x18), value);
+    }
+
+    public override ushort TID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x18));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x18), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x18), value);
     }
 
-    public override int SID {
+    public override ushort SID16
+    {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x1A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x1A), value);
     }
 
     public int OriginGame
@@ -190,17 +196,21 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     private const int RibbonBytesCount = 0x20;
     private const int RibbonByteNone = 0xFF; // signed -1
 
-    public bool HasMark()
+    private ReadOnlySpan<byte> RibbonSpan => Data.AsSpan(RibbonBytesOffset, RibbonBytesCount);
+
+    public bool HasMarkEncounter8
     {
-        for (int i = 0; i < RibbonBytesCount; i++)
+        get
         {
-            var value = Data[RibbonBytesOffset + i];
-            if (value == RibbonByteNone)
-                return false;
-            if ((RibbonIndex)value is >= MarkLunchtime and <= MarkSlump)
-                return true;
+            foreach (var value in RibbonSpan)
+            {
+                if (value == RibbonByteNone)
+                    return false; // end
+                if (((RibbonIndex)value).IsEncounterMark8())
+                    return true;
+            }
+            return false;
         }
-        return false;
     }
 
     public byte GetRibbonAtIndex(int byteIndex)
@@ -368,11 +378,13 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public bool IsNicknamed => false;
     public int Language => 2;
 
-    public string GetNickname(int language) => StringConverter8.GetString(Data.AsSpan(GetNicknameOffset(language), 0x1A));
-    public void SetNickname(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetNicknameOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+    private Span<byte> GetNicknameSpan(int language) => Data.AsSpan(GetNicknameOffset(language), 0x1A);
+    public string GetNickname(int language) => StringConverter8.GetString(GetNicknameSpan(language));
+    public void SetNickname(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetNicknameSpan(language), value, 12, StringConverterOption.ClearZero);
 
-    public string GetOT(int language) => StringConverter8.GetString(Data.AsSpan(GetOTOffset(language), 0x1A));
-    public void SetOT(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetOTOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+    private Span<byte> GetOTSpan(int language) => Data.AsSpan(GetOTOffset(language), 0x1A);
+    public string GetOT(int language) => StringConverter8.GetString(GetOTSpan(language));
+    public void SetOT(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetOTSpan(language), value, 12, StringConverterOption.ClearZero);
 
     private static int GetNicknameOffset(int language)
     {
@@ -398,7 +410,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
     public bool IsAlpha { get => false; set { } }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PA8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
@@ -412,8 +424,8 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         var pk = new PA8
         {
             EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             Species = Species,
             Form = Form,
             CurrentLevel = currentLevel,
@@ -475,11 +487,11 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
         if (OTGender >= 2)
         {
-            pk.TID = tr.TID;
-            pk.SID = tr.SID;
+            pk.TID16 = tr.TID16;
+            pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = IsDateRestricted && EncounterServerDate.WA8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateTime.Now;
+        pk.MetDate = IsDateRestricted && EncounterServerDate.WA8Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateOnly.FromDateTime(DateTime.Now);
 
         // HOME Gifts for Sinnoh/Hisui starters were forced JPN until May 20, 2022 (UTC).
         if (CardID is 9018 or 9019 or 9020)
@@ -517,7 +529,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     private void SetEggMetData(PKM pk)
     {
         pk.IsEgg = true;
-        pk.EggMetDate = DateTime.Now;
+        pk.EggMetDate = DateOnly.FromDateTime(DateTime.Now);
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = true;
     }
@@ -550,20 +562,20 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         _ => AbilityPermission.Any12H,
     };
 
-    private uint GetPID(ITrainerID tr, ShinyType8 type) => type switch
+    private uint GetPID(ITrainerID32 tr, ShinyType8 type) => type switch
     {
         ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
         ShinyType8.Random       => Util.Rand32(), // Random, Any
-        ShinyType8.AlwaysStar   => (uint)(((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
-        ShinyType8.AlwaysSquare => (uint)(((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
+        ShinyType8.AlwaysStar   => (1u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Star
+        ShinyType8.AlwaysSquare => (0u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Square
         ShinyType8.FixedValue   => GetFixedPID(tr),
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-    private uint GetFixedPID(ITrainerID tr)
+    private uint GetFixedPID(ITrainerID32 tr)
     {
         var pid = PID;
-        if (pid != 0 && !(TID == 0 && SID == 0))
+        if (pid != 0 && ID32 != 0)
             return pid;
 
         if (!tr.IsShiny(pid, 8))
@@ -573,13 +585,9 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         return pid;
     }
 
-    private static uint GetAntishinyFixedHOME(ITrainerID tr)
-    {
-        var fid = (uint)(tr.SID << 16) | (uint)tr.TID;
-        return fid ^ 0x10u;
-    }
+    private static uint GetAntishinyFixedHOME(ITrainerID32 tr) => tr.ID32 ^ 0x10u;
 
-    private static uint GetAntishiny(ITrainerID tr)
+    private static uint GetAntishiny(ITrainerID32 tr)
     {
         var pid = Util.Rand32();
         if (tr.IsShiny(pid, 8))
@@ -626,8 +634,8 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         {
             if (OTGender < 2)
             {
-                if (SID != pk.SID) return false;
-                if (TID != pk.TID) return false;
+                if (SID16 != pk.SID16) return false;
+                if (TID16 != pk.TID16) return false;
                 if (OTGender != pk.OT_Gender) return false;
             }
 
@@ -659,7 +667,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             {
                 if (pk.Egg_Location != Locations.LinkTrade6)
                     return false;
-                if (PIDType == ShinyType8.Random && pk.IsShiny && pk.ShinyXor > 1)
+                if (PIDType == ShinyType8.Random && pk is { IsShiny: true, ShinyXor: > 1 })
                     return false; // shiny traded egg will always have xor0/1.
             }
             if (!Shiny.IsValid(pk))
@@ -667,7 +675,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk.IsEgg && !pk.IsNative)
+            if (pk is { IsEgg: true, IsNative: false })
                 return false;
         }
         else
@@ -696,7 +704,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (expectedBall < poke) // Not even Cherish balls are safe! They get set to the proto-Poké ball.
             expectedBall = poke;
         if (pk is PK8)
-            expectedBall = (int)Core.Ball.Poke; // Transferred to SWSH -> Regular Poké ball
+            expectedBall = (int)Core.Ball.Poke; // Transferred to SW/SH -> Regular Poké ball
         if (expectedBall != pk.Ball)
             return false;
 

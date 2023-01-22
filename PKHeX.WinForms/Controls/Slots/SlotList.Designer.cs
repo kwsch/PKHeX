@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class SlotList
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FLP_Slots = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_Slots = new System.Windows.Forms.TableLayoutPanel();
             this.SuspendLayout();
             // 
             // FLP_Slots
@@ -52,6 +52,6 @@
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel FLP_Slots;
+        private System.Windows.Forms.TableLayoutPanel FLP_Slots;
     }
 }

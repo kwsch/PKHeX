@@ -48,18 +48,18 @@ public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
 
     private static string GetDateString(int time) => time == 0 ? "X" : $"{GetDate(time):yyyy.MM.dd}";
 
-    private static DateTime GetDate(int time)
+    private static DateOnly GetDate(int time)
     {
         var d = time & 0xFF;
         var m = (time >> 8) & 0xFF;
         var y = time >> 16;
-        return new DateTime(y, m, d);
+        return new DateOnly(y, m, d);
     }
 
     public bool IsWithinStartEnd(int stamp)
     {
         if (EndDate == 0)
-            return StartDate <= stamp && GetDate(stamp) <= GetMaxDateTime();
+            return StartDate <= stamp && GetDate(stamp) <= GetMaxDate();
         if (StartDate == 0)
             return stamp <= EndDate;
         return StartDate <= stamp && stamp <= EndDate;
@@ -70,15 +70,15 @@ public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
     /// </summary>
     public static int GetTimeStamp(int year, int month, int day) => (year << 16) | (month << 8) | day;
 
-    private static DateTime GetMaxDateTime() => DateTime.UtcNow.AddHours(12); // UTC+12 for Kiribati, no daylight savings
+    private static DateOnly GetMaxDate() => DateOnly.FromDateTime(DateTime.UtcNow.AddHours(12)); // UTC+12 for Kiribati, no daylight savings
 
     /// <summary>
     /// Gets a random date within the availability range.
     /// </summary>
-    public DateTime GetRandomValidDate()
+    public DateOnly GetRandomValidDate()
     {
         if (StartDate == 0)
-            return EndDate == 0 ? GetMaxDateTime() : GetDate(EndDate);
+            return EndDate == 0 ? GetMaxDate() : GetDate(EndDate);
 
         var start = GetDate(StartDate);
         if (EndDate == 0)
@@ -138,7 +138,8 @@ public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
         {
             case Shiny.Random when !pk.IsShiny && criteria.Shiny.IsShiny():
             case Shiny.Always when !pk.IsShiny: // Force Square
-                pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
+                var low = pk.PID & 0xFFFF;
+                pk.PID = ((low ^ pk.TID16 ^ pk.SID16 ^ 0) << 16) | low;
                 break;
 
             case Shiny.Random when pk.IsShiny && !criteria.Shiny.IsShiny():

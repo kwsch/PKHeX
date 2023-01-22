@@ -41,11 +41,12 @@ public sealed class SlotHoverHandler : IDisposable
         {
             HoverWorker.Stop();
             var hover = Hover;
-            SpriteUtil.GetSpriteGlow(pk, Draw.GlowInitial.B, Draw.GlowInitial.G, Draw.GlowInitial.R, out var glowdata, out var GlowBase);
-            bg = ImageUtil.LayerImage(GlowBase, hover, 0, 0);
+            var glow = Draw.GlowInitial;
+            SpriteUtil.GetSpriteGlow(pk, glow.B, glow.G, glow.R, out var glowdata, out var imgGlowBase);
+            bg = ImageUtil.LayerImage(imgGlowBase, hover, 0, 0);
             HoverWorker.GlowToColor = Draw.GlowFinal;
             HoverWorker.GlowFromColor = Draw.GlowInitial;
-            HoverWorker.Start(pb, GlowBase, glowdata, orig, hover);
+            HoverWorker.Start(pb, imgGlowBase, glowdata, orig, hover);
         }
         else
         {

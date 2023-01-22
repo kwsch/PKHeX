@@ -19,7 +19,7 @@ public static partial class Util
         var arr = new List<ComboItem>(inputCSV.Count);
         foreach (var line in inputCSV)
         {
-            var text = StringUtil.GetNthEntry(line.AsSpan(), index, 4);
+            var text = StringUtil.GetNthEntry(line, index, 4);
             var value = line.AsSpan(0, 3);
             var item = new ComboItem(text, ToInt32(value));
             arr.Add(item);
@@ -72,7 +72,7 @@ public static partial class Util
         list.Add(item);
     }
 
-    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, byte[] allowed)
+    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, ReadOnlySpan<byte> allowed)
     {
         int beginCount = cbList.Count;
         cbList.Capacity += allowed.Length;
@@ -136,6 +136,11 @@ public static partial class Util
     {
         private readonly Comparison<T> Comparison;
         public FunctorComparer(Comparison<T> comparison) => Comparison = comparison;
-        public int Compare(T x, T y) => Comparison(x, y);
+        public int Compare(T? x, T? y)
+        {
+            if (x == null)
+                return y == null ? 0 : -1;
+            return y == null ? 1 : Comparison(x, y);
+        }
     }
 }

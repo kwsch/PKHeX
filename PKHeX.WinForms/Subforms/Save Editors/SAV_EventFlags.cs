@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -180,8 +180,9 @@ public sealed partial class SAV_EventFlags : Form
                 Width = 150,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 BindingContext = BindingContext,
-                DropDownWidth = Width + 100,
             };
+            var font = cb.Font;
+            cb.DropDownWidth = entry.PredefinedValues.Max(z => TextRenderer.MeasureText(z.Name, font).Width);
             cb.InitializeBinding();
             cb.DataSource = map;
 

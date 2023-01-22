@@ -18,7 +18,7 @@ public sealed class PokeBlock3Case
     {
         byte[] result = new byte[Count*PokeBlock3.SIZE];
         for (int i = 0; i < Blocks.Length; i++)
-            Blocks[i].SetBlock(result, i * PokeBlock3.SIZE);
+            Blocks[i].SetBlock(result.AsSpan(i * PokeBlock3.SIZE));
         return result;
     }
 

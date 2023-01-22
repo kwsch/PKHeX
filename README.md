@@ -32,9 +32,9 @@ PKHeX expects save files that are not encrypted with console-specific keys. Use 
 
 ## Building
 
-PKHeX is a Windows Forms application which requires [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137), with experimental support for [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0).
+PKHeX is a Windows Forms application which requires [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0).
 
-The executable can be built with any compiler that supports C# 10.
+The executable can be built with any compiler that supports C# 11.
 
 ### Build Configurations
 
@@ -51,7 +51,3 @@ PKHeX's Pokémon Legends: Arceus sprite collection is taken from the [National P
 ### IDE
 
 PKHeX can be opened with IDEs such as [Visual Studio](https://visualstudio.microsoft.com/downloads/) by opening the .sln or .csproj file.
-
-### GNU/Linux
-
-GNU/Linux is not the main Operating System of developers of this program so there may be bugs; some may come from non GNU/Linux specific code of Mono/Wine, so other users may not be able to reproduce the error you are experiencing.

@@ -38,7 +38,7 @@ public sealed class SecretBase3
     public string OT_Name
     {
         get => StringConverter3.GetString(Data.AsSpan(Offset + 2, 7), Japanese);
-        set => StringConverter3.SetString(Data.AsSpan(Offset + 2, 7), value.AsSpan(), 7, Japanese, StringConverterOption.ClearFF);
+        set => StringConverter3.SetString(Data.AsSpan(Offset + 2, 7), value, 7, Japanese, StringConverterOption.ClearFF);
     }
 
     public uint OT_ID
@@ -59,11 +59,11 @@ public sealed class SecretBase3
     public byte TimesEntered { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = value; }
     public int Unused11  { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = (byte)value; } // alignment padding
 
-    public byte[] GetDecorations() => Data.Slice(Offset + 0x12, 0x10);
-    public void SetDecorations(byte[] value) => value.CopyTo(Data, Offset + 0x12);
+    public Span<byte> GetDecorations() => Data.AsSpan(Offset + 0x12, 0x10);
+    public void SetDecorations(Span<byte> value) => value.CopyTo(Data.AsSpan(Offset + 0x12, 0x10));
 
-    public byte[] GetDecorationCoordinates() => Data.Slice(Offset + 0x22, 0x10);
-    public void SetDecorationCoordinates(byte[] value) => value.CopyTo(Data, Offset + 0x22);
+    public Span<byte> GetDecorationCoordinates() => Data.Slice(Offset + 0x22, 0x10);
+    public void SetDecorationCoordinates(Span<byte> value) => value.CopyTo(Data.AsSpan(Offset + 0x22, 0x10));
 
     public SecretBase3Team Team
     {
@@ -71,15 +71,15 @@ public sealed class SecretBase3
         set => value.Write().CopyTo(Data, Offset + 50);
     }
 
-    public int TID
+    public int TID16
     {
         get => (ushort)OT_ID;
-        set => OT_ID = (ushort)(SID | (ushort)value);
+        set => OT_ID = (ushort)(SID16 | (ushort)value);
     }
 
-    public int SID
+    public int SID16
     {
         get => (ushort)OT_ID >> 8;
-        set => OT_ID = (ushort)(((ushort)value << 16) | TID);
+        set => OT_ID = (ushort)(((ushort)value << 16) | TID16);
     }
 }

@@ -15,6 +15,7 @@ public sealed class WR7 : DataMysteryGift
     public const int Size = 0x140;
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
+    public override bool FatefulEncounter => true;
 
     public override GameVersion Version { get => GameVersion.GG; set { } }
 
@@ -23,13 +24,13 @@ public sealed class WR7 : DataMysteryGift
 
     public override AbilityPermission Ability => AbilityPermission.Any12H; // undefined
 
-    public uint Epoch
+    public long Epoch
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(0x00));
-        set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value);
+        get => ReadInt64LittleEndian(Data.AsSpan(0x00));
+        set => WriteInt64LittleEndian(Data.AsSpan(0x00), value);
     }
 
-    public DateTime Date => new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Epoch);
+    public DateOnly Date => new DateOnly(1970, 1, 1).AddDays((int)(Epoch / 86400));
 
     public override int CardID
     {
@@ -86,13 +87,14 @@ public sealed class WR7 : DataMysteryGift
 
     public override int Gender { get; set; }
     public override byte Form { get; set; }
-    public override int TID { get; set; }
-    public override int SID { get; set; }
+    public override uint ID32 { get; set; }
+    public override ushort TID16 { get; set; }
+    public override ushort SID16 { get; set; }
 
     public override string OT_Name
     {
         get => StringConverter8.GetString(Data.AsSpan(0x120, 0x1A));
-        set => StringConverter8.SetString(Data.AsSpan(0x120, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(0x120, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
 
     public LanguageID LanguageReceived
@@ -133,7 +135,7 @@ public sealed class WR7 : DataMysteryGift
         }
     }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         // this method shouldn't really be called, use the WB7 data not the WR7 data.
         if (!IsEntity)

@@ -43,7 +43,7 @@ public static class Roaming8bRNG
         var fakeTID = xoro.NextUInt(); // fakeTID
         var pid = xoro.NextUInt();
         pid = GetRevisedPID(fakeTID, pid, pk);
-        var xor = GetShinyXor(pk.TID, pk.SID, pid);
+        var xor = GetShinyXor(pk.ID32, pid);
         var type = GetRareType(xor);
         if (shiny == Shiny.Never)
         {
@@ -234,10 +234,10 @@ public static class Roaming8bRNG
         return s.HeightScalar == height && s.WeightScalar == weight;
     }
 
-    private static uint GetRevisedPID(uint fakeTID, uint pid, ITrainerID tr)
+    private static uint GetRevisedPID(uint fakeTID, uint pid, ITrainerID32 tr)
     {
         var xor = GetShinyXor(pid, fakeTID);
-        var newXor = GetShinyXor(pid, (uint)(tr.TID | (tr.SID << 16)));
+        var newXor = GetShinyXor(pid, tr.ID32);
 
         var fakeRare = GetRareType(xor);
         var newRare = GetRareType(newXor);
@@ -246,9 +246,10 @@ public static class Roaming8bRNG
             return pid;
 
         var isShiny = xor < 16;
-        if (isShiny)
-            return (((uint)(tr.TID ^ tr.SID) ^ (pid & 0xFFFF) ^ (xor == 0 ? 0u : 1u)) << 16) | (pid & 0xFFFF); // force same shiny star type
-        return pid ^ 0x1000_0000;
+        if (!isShiny)
+            return pid ^ 0x1000_0000;
+        var low = pid & 0xFFFF;
+        return (((xor == 0 ? 0u : 1u) ^ tr.TID16 ^ tr.SID16 ^ low) << 16) | low; // force same shiny star type
     }
 
     private static Shiny GetRareType(uint xor) => xor switch
@@ -258,14 +259,9 @@ public static class Roaming8bRNG
         _ => Shiny.Never,
     };
 
-    private static uint GetShinyXor(int tid, int sid, uint pid)
+    private static uint GetShinyXor(uint pid, uint id32)
     {
-        return GetShinyXor(pid, (uint)((sid << 16) | tid));
-    }
-
-    private static uint GetShinyXor(uint pid, uint oid)
-    {
-        var xor = pid ^ oid;
+        var xor = pid ^ id32;
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
 }

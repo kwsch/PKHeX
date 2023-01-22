@@ -134,7 +134,7 @@ public partial class SAV_PokedexORAS : Form
         CLB_FormsSeen.Items.Clear();
         CLB_FormDisplayed.Items.Clear();
 
-        int fc = pi.FormCount;
+        var fc = pi.FormCount;
         int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
         if (f < 0)
             return;
@@ -170,7 +170,7 @@ public partial class SAV_PokedexORAS : Form
         ushort count = (ushort) Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text));
         Zukan.SetEncounterCount(species - 1, count);
 
-        int fc = SAV.Personal[species].FormCount;
+        var fc = SAV.Personal[species].FormCount;
         int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
         if (f < 0)
             return;
@@ -218,7 +218,7 @@ public partial class SAV_PokedexORAS : Form
             CHK_P1.Checked = ModifierKeys != Keys.Control;
         }
         int index = LB_Species.SelectedIndex+1;
-        int gt = SAV.Personal[index].Gender;
+        byte gt = SAV.Personal[index].Gender;
 
         bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
         bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
@@ -280,7 +280,7 @@ public partial class SAV_PokedexORAS : Form
                 if (mnuSeenNone != sender)
                 {
                     // if seen ensure at least one Displayed
-                    int gt = SAV.Personal[i + 1].Gender;
+                    byte gt = SAV.Personal[i + 1].Gender;
                     if (!(CHK_P6.Checked || CHK_P7.Checked || CHK_P8.Checked || CHK_P9.Checked))
                         (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = true;
                 }
@@ -302,7 +302,7 @@ public partial class SAV_PokedexORAS : Form
         {
             for (int i = 0; i < LB_Species.Items.Count; i++)
             {
-                int gt = SAV.Personal[i + 1].Gender;
+                byte gt = SAV.Personal[i + 1].Gender;
                 LB_Species.SelectedIndex = i;
                 foreach (CheckBox t in new[] { CHK_P1 })
                     t.Checked = mnuCaughtNone != sender;

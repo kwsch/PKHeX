@@ -1,12 +1,13 @@
 using System;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetAffixed, ITechRecord, ISociability,
-    IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
+    ITechRecord, ISociability, IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories,
+    IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMarks, IRibbonSetMark8
 {
     protected G8PKM() : base(PokeCrypto.SIZE_8PARTY) { }
     protected G8PKM(byte[] data) : base(DecryptParty(data)) { }
@@ -29,10 +30,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     }
 
     // Simple Generated Attributes
-    public ReadOnlySpan<bool> TechRecordPermitFlags => PersonalInfo.TMHM.AsSpan(PersonalInfo8SWSH.CountTM);
-    public ReadOnlySpan<ushort> TechRecordPermitIndexes => LearnSource8SWSH.TR_SWSH.AsSpan();
-    public int RecordCountTotal => 112;
-    public int RecordCountUsed => PersonalInfo8SWSH.CountTR;
+    public abstract IPermitRecord Permit { get; } // PersonalInfo derived metadata
 
     public override int CurrentFriendship
     {
@@ -58,8 +56,8 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
 
-    public override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 4);
-    public override int TSV => (TID ^ SID) >> 4;
+    public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 4;
+    public override uint TSV => (uint)(TID16 ^ SID16) >> 4;
     public override bool IsUntraded => Data[0xA8] == 0 && Data[0xA8 + 1] == 0 && Format == Generation; // immediately terminated HT_Name data (\0)
 
     // Complex Generated Attributes
@@ -120,12 +118,13 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     #region Block A
     public override ushort Species { get => ReadUInt16LittleEndian(Data.AsSpan(0x08)); set => WriteUInt16LittleEndian(Data.AsSpan(0x08), value); }
     public override int HeldItem { get => ReadUInt16LittleEndian(Data.AsSpan(0x0A)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value); }
-    public override int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value); }
-    public override int SID { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value); }
+    public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value); }
+    public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value); }
+    public override ushort SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value); }
     public override uint EXP { get => ReadUInt32LittleEndian(Data.AsSpan(0x10)); set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value); }
     public override int Ability { get => ReadUInt16LittleEndian(Data.AsSpan(0x14)); set => WriteUInt16LittleEndian(Data.AsSpan(0x14), (ushort)value); }
     public override int AbilityNumber { get => Data[0x16] & 7; set => Data[0x16] = (byte)((Data[0x16] & ~7) | (value & 7)); }
-    public bool IsFavorite { get => (Data[0x16] & 8) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~8) | ((value ? 1 : 0) << 3)); } // unused, was in LGPE but not in SWSH
+    public bool IsFavorite { get => (Data[0x16] & 8) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~8) | ((value ? 1 : 0) << 3)); } // unused, was in LGP/E but not in SW/SH
     public bool CanGigantamax { get => (Data[0x16] & 16) != 0; set => Data[0x16] = (byte)((Data[0x16] & ~16) | (value ? 16 : 0)); }
     // 0x17 alignment unused
     public override int MarkValue { get => ReadUInt16LittleEndian(Data.AsSpan(0x18)); set => WriteUInt16LittleEndian(Data.AsSpan(0x18), (ushort)value); }
@@ -309,15 +308,14 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public bool RIB47_6 { get => FlagUtil.GetFlag(Data, 0x47, 6); set => FlagUtil.SetFlag(Data, 0x47, 6, value); }
     public bool RIB47_7 { get => FlagUtil.GetFlag(Data, 0x47, 7); set => FlagUtil.SetFlag(Data, 0x47, 7, value); }
 
-    public bool HasMark()
-    {
-        var d = Data.AsSpan();
-        if ((ReadUInt16LittleEndian(d[0x3A..]) & 0xFFE0) != 0)
-            return true;
-        if (ReadUInt32LittleEndian(d[0x40..]) != 0)
-            return true;
-        return (d[0x44] & 3) != 0;
-    }
+    public int RibbonCount     => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x34)) & 0b00000000_00011111__11111111_11111111__11111111_11111111__11111111_11111111)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000000_00001100__00000000_00000000__00000000_00000000);
+    public int MarkCount       => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x34)) & 0b11111111_11100000__00000000_00000000__00000000_00000000__00000000_00000000)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000000_00000011__11111111_11111111__11111111_11111111);
+    public int RibbonMarkCount => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x34)) & 0b11111111_11111111__11111111_11111111__11111111_11111111__11111111_11111111)
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000000_00001111__11111111_11111111__11111111_11111111);
+
+    public bool HasMarkEncounter8 => MarkCount != 0;
 
     public uint Sociability { get => ReadUInt32LittleEndian(Data.AsSpan(0x48)); set => WriteUInt32LittleEndian(Data.AsSpan(0x48), value); }
 
@@ -333,7 +331,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public override string Nickname
     {
         get => StringConverter8.GetString(Nickname_Trash);
-        set => StringConverter8.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
     }
 
     // 2 bytes for \0, automatically handled above
@@ -383,7 +381,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public override string HT_Name
     {
         get => StringConverter8.GetString(HT_Trash);
-        set => StringConverter8.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
 
     public override int HT_Gender { get => Data[0xC2]; set => Data[0xC2] = (byte)value; }
@@ -421,8 +419,8 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
     public override int Version { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
     public byte BattleVersion { get => Data[0xDF]; set => Data[0xDF] = value; }
-    // public override int Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-    // public override int ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
+    // public override byte Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
+    // public override byte ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
     public override int Language { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
     // 0xE3 alignment
     public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(0xE4)); set => WriteUInt32LittleEndian(Data.AsSpan(0xE4), value); }
@@ -437,7 +435,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public override string OT_Name
     {
         get => StringConverter8.GetString(OT_Trash);
-        set => StringConverter8.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
 
     public override int OT_Friendship { get => Data[0x112]; set => Data[0x112] = (byte)value; }
@@ -570,8 +568,8 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
             Nature = Nature,
             StatNature = StatNature,
 
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             EXP = EXP,
             Ability = Ability,
             AbilityNumber = AbilityNumber,

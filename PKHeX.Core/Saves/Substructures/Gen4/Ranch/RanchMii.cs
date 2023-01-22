@@ -17,6 +17,6 @@ public sealed class RanchMii
     public string MiiName
     {
         get => StringConverter4GC.GetStringUnicode(Name_Trash);
-        set => StringConverter4GC.SetStringUnicode(value.AsSpan(), Name_Trash, value.Length, StringConverterOption.None);
+        set => StringConverter4GC.SetStringUnicode(value, Name_Trash, value.Length, StringConverterOption.None);
     }
 }

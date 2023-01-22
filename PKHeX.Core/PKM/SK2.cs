@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 2 <see cref="PKM"/> format for <see cref="GameVersion.Stadium2"/>. </summary>
 public sealed class SK2 : GBPKM, ICaughtData2
 {
-    public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
+    public override PersonalInfo2 PersonalInfo => PersonalTable.C[Species];
 
     public override bool Valid => Species <= 252;
 
@@ -25,7 +25,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public SK2(byte[] data) : this(data, IsJapanese(data)) { }
     public SK2(byte[] data, bool jp) : base(data) => IsEncodingJapanese = jp;
 
-    public override PKM Clone() => new SK2((byte[])Data.Clone(), Japanese)
+    public override SK2 Clone() => new((byte[])Data.Clone(), Japanese)
     {
         IsEgg = IsEgg,
     };
@@ -40,7 +40,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override ushort Move2 { get => Data[3]; set => Data[3] = (byte)value; }
     public override ushort Move3 { get => Data[4]; set => Data[4] = (byte)value; }
     public override ushort Move4 { get => Data[5]; set => Data[5] = (byte)value; }
-    public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), (ushort)value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(6)); set => WriteUInt16BigEndian(Data.AsSpan(6), value); }
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(8)); set => WriteUInt32BigEndian(Data.AsSpan(8), value); } // not 3 bytes like in PK2
     public override int EV_HP { get => ReadUInt16BigEndian(Data.AsSpan(0x0C)); set => WriteUInt16BigEndian(Data.AsSpan(0x0C), (ushort)value); }
     public override int EV_ATK { get => ReadUInt16BigEndian(Data.AsSpan(0x0E)); set => WriteUInt16BigEndian(Data.AsSpan(0x0E), (ushort)value); }
@@ -94,7 +94,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override string Nickname
     {
         get => StringConverter12.GetString(Nickname_Trash, Japanese);
-        set => StringConverter12.SetString(Nickname_Trash, value.AsSpan(), 12, Japanese, StringConverterOption.None);
+        set => StringConverter12.SetString(Nickname_Trash, value, 12, Japanese, StringConverterOption.None);
     }
 
     public override string OT_Name
@@ -107,7 +107,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
                 OT_Trash.Clear();
                 return;
             }
-            StringConverter12.SetString(OT_Trash, value.AsSpan(), StringLength, Japanese, StringConverterOption.None);
+            StringConverter12.SetString(OT_Trash, value, StringLength, Japanese, StringConverterOption.None);
         }
     }
 
@@ -135,7 +135,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
     {
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
         byte[] data = new byte[name.Length];
-        StringConverter12.SetString(data, name.AsSpan(), data.Length, Japanese, StringConverterOption.Clear50);
+        StringConverter12.SetString(data, name, data.Length, Japanese, StringConverterOption.Clear50);
         return data;
     }
 
@@ -160,7 +160,7 @@ public sealed class SK2 : GBPKM, ICaughtData2
         Move2 = Move2,
         Move3 = Move3,
         Move4 = Move4,
-        TID = TID,
+        TID16 = TID16,
         EXP = EXP,
         EV_HP = EV_HP,
         EV_ATK = EV_ATK,

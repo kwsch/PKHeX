@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -16,10 +16,10 @@ public static class BVRequestUtil
         return $"https://ctr-bnda-live.s3.amazonaws.com/10.CTR_BNDA_datastore/ds/1/data/{video_id:D11}-00001"; // Sun datastore
     }
 
-    public static ulong StrToU64(string input, out bool valid)
+    public static ulong StrToU64(ReadOnlySpan<char> input, out bool valid)
     {
-        var chk = Pull(0, 4) >> 4; // first four chars are checksum bits
-        var result = Pull(4, input.Length); // next 12 chars are the 70 value bits
+        var chk = Pull(input[..4]) >> 4; // first four chars are checksum bits
+        var result = Pull(input[4..]); // next 12 chars are the 70 value bits
 
         Span<byte> temp = stackalloc byte[8];
         WriteUInt64LittleEndian(temp, result);
@@ -27,12 +27,11 @@ public static class BVRequestUtil
         valid = chk == actual;
         return result;
 
-        ulong Pull(int start, int count)
+        static ulong Pull(ReadOnlySpan<char> input)
         {
             ulong val = 0;
-            for (int i = start; i < count; i++)
+            foreach (char c in input)
             {
-                var c = input[i];
                 if (c == '-')
                     continue;
 
@@ -48,32 +47,32 @@ public static class BVRequestUtil
         Span<byte> temp = stackalloc byte[8];
         WriteUInt64LittleEndian(temp, input);
         uint chk = Checksums.CRC16_CCITT(temp);
-        var buff = new char[16];
+        Span<char> buff = stackalloc char[16];
         int ctr = 15;
-        Push(input, 12); // store value bits
-        Push(chk << 4, 4); // store checksum bits
-        return !insertDash ? string.Concat(buff) : GetStringWithDashesEvery(buff, 4);
+        Push(buff, ref ctr, 12, input); // store value bits
+        Push(buff, ref ctr, 04, chk << 4); // store checksum bits
+        return !insertDash ? new string(buff) : GetStringWithDashesEvery(buff, 4);
 
-        void Push(ulong v, int count)
+        static void Push(Span<char> buff, ref int ctr, int bit5Chunks, ulong value)
         {
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < bit5Chunks; i++)
             {
-                buff[ctr--] = Set5BitToChar((char)(v & 0b11111));
-                v >>= 5;
+                buff[ctr--] = Set5BitToChar((char)(value & 0x1F));
+                value >>= 5;
             }
         }
     }
 
-    private static string GetStringWithDashesEvery(char[] buff, int spacer)
+    private static string GetStringWithDashesEvery(ReadOnlySpan<char> buff, int spacer)
     {
-        var buff2 = new char[buff.Length + ((buff.Length / spacer) - 1)];
+        Span<char> buff2 = stackalloc char[buff.Length + ((buff.Length / spacer) - 1)];
         for (int i = 0, ctr = 0; i < buff.Length; i++)
         {
             buff2[ctr++] = buff[i];
             if (i % spacer == 3 && ctr < buff2.Length)
                 buff2[ctr++] = '-'; // add dash between every chunk of size {spacer}
         }
-        return string.Concat(buff2);
+        return new string(buff2);
     }
 
     private static char Set5BitToChar(char c)

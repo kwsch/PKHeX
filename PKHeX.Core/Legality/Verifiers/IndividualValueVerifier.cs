@@ -89,8 +89,7 @@ public sealed class IndividualValueVerifier : Verifier
         var pk = data.Entity;
         if (pk.GO)
             VerifyIVsGoTransfer(data);
-
-        if (data.EncounterMatch is EncounterSlot8a s)
+        else if (data.EncounterMatch is EncounterSlot8a s)
             VerifyIVsFlawless(data, s.FlawlessIVCount);
     }
 

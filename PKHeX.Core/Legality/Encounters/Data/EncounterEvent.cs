@@ -120,7 +120,7 @@ public static class EncounterEvent
 
             // rather than use Linq to build an array, just do it the quick way directly.
             var result = new T[arr.Count];
-            ((HashSet<T>)arr).CopyTo(result, 0);
+            ((IReadOnlySet<T>)arr).CopyTo(result);
             return result;
         }
 
@@ -166,7 +166,7 @@ public static class EncounterEvent
             MGDB_G8B,
             MGDB_G9,
         }.SelectMany(z => z);
-        regular = regular.Where(mg => !mg.IsItem && mg.IsEntity && mg.Species > 0);
+        regular = regular.Where(mg => mg is { IsItem: false, IsEntity: true, Species: > 0 });
         var result = MGDB_G3.Concat(regular);
         if (sorted)
             result = result.OrderBy(mg => mg.Species);

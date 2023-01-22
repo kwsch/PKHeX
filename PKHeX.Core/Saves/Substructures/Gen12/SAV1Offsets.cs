@@ -14,7 +14,7 @@ internal sealed class SAV1Offsets
         Rival = 0x25F6,
         Options = 0x2601,
         Badges = 0x2602,
-        TID = 0x2605,
+        TID16 = 0x2605,
         PikaFriendship = 0x271C,
         PikaBeachScore = 0x2741,
         PrinterBrightness = 0x2744,
@@ -40,7 +40,7 @@ internal sealed class SAV1Offsets
         Rival = 0x25F1,
         Options = 0x25F7,
         Badges = 0x25F8,
-        TID = 0x25FB,
+        TID16 = 0x25FB,
         PikaFriendship = 0x2712,
         PikaBeachScore = 0x2737,
         PrinterBrightness = 0x273A,
@@ -65,7 +65,7 @@ internal sealed class SAV1Offsets
     public int Rival { get; private init; }
     public int Options { get; private init; }
     public int Badges { get; private init; }
-    public int TID { get; private init; }
+    public int TID16 { get; private init; }
     public int PikaFriendship { get; private init; }
     public int PikaBeachScore { get; private init; }
     public int PrinterBrightness { get; private init; }

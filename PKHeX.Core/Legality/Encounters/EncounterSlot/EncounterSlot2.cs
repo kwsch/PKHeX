@@ -15,6 +15,7 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
     public override EntityContext Context => EntityContext.Gen2;
     public byte SlotNumber { get; }
     public override Ball FixedBall => Ball.Poke;
+    public bool IsHeadbutt => SlotType == SlotType.Headbutt;
 
     public EncounterSlot2(EncounterArea2 area, byte species, byte min, byte max, byte slot) : base(area, species, species == 201 ? FormRandom : (byte)0, min, max)
     {
@@ -27,10 +28,16 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
 
         var pk2 = (PK2)pk;
 
-        if (SlotType == SlotType.Headbutt)
+        if (IsHeadbutt)
         {
-            while (!IsTreeAvailable(pk2.TID))
-                pk2.TID = Util.Rand.Next(ushort.MaxValue + 1);
+            var id = pk2.TID16;
+            if (!IsTreeAvailable(id))
+            {
+                // Get a random TID that satisfies this slot.
+                do { id = (ushort)Util.Rand.Next(); }
+                while (!IsTreeAvailable(id));
+                pk2.TID16 = id;
+            }
         }
 
         if (Version == GameVersion.C)
@@ -60,7 +67,7 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
         { 92, 0x2BB_3FF }, // Route 27
     };
 
-    internal bool IsTreeAvailable(int trainerID)
+    public bool IsTreeAvailable(ushort trainerID)
     {
         if (!Trees.TryGetValue(Location, out var permissions))
             return false;

@@ -1,4 +1,5 @@
-// ReSharper disable StringLiteralTypo
+using static PKHeX.Core.NPCLockDetail;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -28,7 +29,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSphealCipherLab = new(
         363, // Spheal
-        "Cipher Lab",
+        CipherLab,
         new[] {
             new NPCLock(116, 24, 0, 063), // Horsea (M) (Quirky)
             new NPCLock(118, 12, 1, 127), // Goldeen (F) (Serious)
@@ -36,7 +37,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSphealPhenacCityandPost = new(
         363, // Spheal
-        "Phenac City and Post",
+        PhenacCityAndPost,
         new[] {
             new NPCLock(116, 24, 0, 063), // Horsea (M) (Quirky)
             new NPCLock(118, 12, 1, 127), // Goldeen (F) (Serious)
@@ -52,7 +53,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSeedotCipherLab = new(
         273, // Seedot
-        "Cipher Lab",
+        CipherLab,
         new[] {
             new NPCLock(043, 06, 0, 127), // Oddish (M) (Docile)
             new NPCLock(331, 24, 1, 127), // Cacnea (F) (Quirky)
@@ -63,7 +64,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSeedotPhenacCity = new(
         273, // Seedot
-        "Phenac City",
+        PhenacCity,
         new[] {
             new NPCLock(043, 06, 0, 127), // Oddish (M) (Docile)
             new NPCLock(331, 24, 1, 127), // Cacnea (F) (Quirky)
@@ -74,7 +75,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSeedotPost = new(
         273, // Seedot
-        "Post",
+        Post,
         new[] {
             new NPCLock(045, 06, 0, 127), // Vileplume (M) (Docile)
             new NPCLock(332, 24, 1, 127), // Cacturne (F) (Quirky)
@@ -246,7 +247,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XGrowlitheParasSeen = new(
         058, // Growlithe
-        "Paras Seen",
+        SeenParas,
         new[] {
             new NPCLock(336, 24, 0, 127), // Seviper (M) (Quirky)
             new NPCLock(198, 06, 1, 127), // Murkrow (F) (Docile)
@@ -263,7 +264,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XPidgeottoBeedrillSeen = new(
         017, // Pidgeotto
-        "Beedrill Seen",
+        SeenBeedrill,
         new[] {
             new NPCLock(015, true), // Shadow Beedrill (Seen)
             new NPCLock(162, 12, 0, 127), // Furret (M) (Serious)
@@ -289,7 +290,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XButterfreeTangelaSeen = new(
         012, // Butterfree
-        "Tangela Seen",
+        SeenTangela,
         new[] {
             new NPCLock(038, 12, 1, 191), // Ninetales (F) (Serious)
             new NPCLock(189, 06, 0, 127), // Jumpluff (M) (Docile)
@@ -324,7 +325,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XWeepinbellVenomothSeen = new(
         070, // Weepinbell
-        "Venomoth Seen",
+        SeenVenomoth,
         new[] {
             new NPCLock(055, 18, 1, 127), // Golduck (F) (Bashful)
             new NPCLock(237, 24, 0, 000), // Hitmontop (M) (Quirky)
@@ -362,7 +363,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XHypnoPrimeapeSeen = new(
         097, // Hypno
-        "Primeape Seen",
+        SeenPrimeape,
         new[] {
             new NPCLock(305, 18, 1, 127), // Lairon (F) (Bashful)
             new NPCLock(364, 12, 1, 127), // Sealeo (F) (Serious)
@@ -390,7 +391,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSableyeGolduckSeen = new(
         302, // Sableye
-        "Golduck Seen",
+        SeenGolduck,
         new[] {
             new NPCLock(342, 24, 0, 127), // Crawdaunt (M) (Quirky)
             new NPCLock(279, 06, 1, 127), // Pelipper (F) (Docile)
@@ -414,7 +415,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XRaticateDodrioSeen = new(
         020, // Raticate
-        "Dodrio Seen",
+        SeenDodrio,
         new[] {
             new NPCLock(178, 18, 1, 127), // Xatu (F) (Bashful)
             new NPCLock(085, true), // Shadow Dodrio (Seen)
@@ -440,7 +441,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XAltariaFarfetchdSeen = new(
         334, // Altaria
-        "Farfetch'd Seen",
+        SeenFarfetchd,
         new[] {
             new NPCLock(282, 12, 0, 127), // Gardevoir (M) (Serious)
             new NPCLock(368, 00, 1, 127), // Gorebyss (F) (Hardy)
@@ -467,7 +468,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XBanetteKangaskhanSeen = new(
         354, // Banette
-        "Kangaskhan Seen",
+        SeenKangaskhan,
         new[] {
             new NPCLock(101, 00, 2, 255), // Electrode (-) (Hardy)
             new NPCLock(200, 18, 1, 127), // Misdreavus (F) (Bashful)
@@ -494,7 +495,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XPinsirMagmarSeen = new(
         127, // Pinsir
-        "Magmar Seen",
+        SeenMagmar,
         new[] {
             new NPCLock(229, 18, 0, 127), // Houndoom (M) (Bashful)
             new NPCLock(038, 18, 0, 191), // Ninetales (M) (Bashful)
@@ -521,7 +522,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XMagcargoRapidashSeen = new(
         219, // Magcargo
-        "Rapidash Seen",
+        SeenRapidash,
         new[] {
             new NPCLock(323, 24, 0, 127), // Camerupt (M) (Quirky)
             new NPCLock(110, 06, 0, 127), // Weezing (M) (Docile)
@@ -571,7 +572,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XChanseyScytherSeen = new(
         113, // Chansey
-        "Scyther Seen",
+        SeenScyther,
         new[] {
             new NPCLock(234, 06, 1, 127), // Stantler (F) (Docile)
             new NPCLock(295, 24, 0, 127), // Exploud (M) (Quirky)
@@ -598,7 +599,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XStarmieSolrockSeen = new(
         121, // Starmie
-        "Solrock Seen",
+        SeenSolrock,
         new[] {
             new NPCLock(375, 24, 2, 255), // Metang (-) (Quirky)
             new NPCLock(195, 06, 0, 127), // Quagsire (M) (Docile)
@@ -618,7 +619,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XElectabuzzSwellowSeen = new(
         125, // Electabuzz
-        "Swellow Seen",
+        SeenSwellow,
         new[] {
             new NPCLock(277, true), // Shadow Swellow (Seen)
             new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
@@ -638,7 +639,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSnorlaxSwellowSeen = new(
         143, // Snorlax
-        "Swellow Seen",
+        SeenSwellow,
         new[] {
             new NPCLock(277, true), // Shadow Swellow (Seen)
             new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
@@ -649,7 +650,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSnorlaxSwellowElectabuzzSeen = new(
         143, // Snorlax
-        "Swellow & Electabuzz Seen",
+        SeenSwellowElectabuzz,
         new[] {
             new NPCLock(277, true), // Shadow Swellow (Seen)
             new NPCLock(065, 24, 0, 063), // Alakazam (M) (Quirky)
@@ -679,7 +680,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XMrMimePoliwrathSeen = new(
         122, // Mr. Mime
-        "Poliwrath Seen",
+        SeenPoliwrath,
         new[] {
             new NPCLock(199, 18, 0, 127), // Slowking (M) (Bashful)
             new NPCLock(217, 18, 0, 127), // Ursaring (M) (Bashful)
@@ -731,7 +732,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XSalamenceManectricSeen = new(
         373, // Salamence
-        "Manectric Seen",
+        SeenManectric,
         new[] {
             new NPCLock(291, 06, 1, 127), // Ninjask (F) (Docile)
             new NPCLock(310, true), // Shadow Manectric (Seen)
@@ -739,7 +740,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XMarowakManectricSeen = new(
         105, // Marowak
-        "Manectric Seen",
+        SeenManectric,
         new[] {
             new NPCLock(291, 06, 1, 127), // Ninjask (F) (Docile)
             new NPCLock(310, true), // Shadow Manectric (Seen)
@@ -749,7 +750,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XMarowakManectricSalamenceSeen = new(
         105, // Marowak
-        "Manectric & Salamence Seen",
+        SeenManectricSalamence,
         new[] {
             new NPCLock(291, 06, 1, 127), // Ninjask (F) (Docile)
             new NPCLock(310, true), // Shadow Manectric (Seen)
@@ -759,7 +760,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XLaprasManectricSeen = new(
         131, // Lapras
-        "Manectric Seen",
+        SeenManectric,
         new[] {
             new NPCLock(291, 06, 1, 127), // Ninjask (F) (Docile)
             new NPCLock(310, true), // Shadow Manectric (Seen)
@@ -770,7 +771,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XLaprasManectricSalamenceSeen = new(
         131, // Lapras
-        "Manectric & Salamence Seen",
+        SeenManectricSalamence,
         new[] {
             new NPCLock(291, 06, 1, 127), // Ninjask (F) (Docile)
             new NPCLock(310, true), // Shadow Manectric (Seen)
@@ -781,7 +782,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XLaprasManectricMarowakSeen = new(
         131, // Lapras
-        "Manectric & Marowak Seen",
+        SeenManectricMarowak,
         new[] {
             new NPCLock(291, 06, 1, 127), // Ninjask (F) (Docile)
             new NPCLock(310, true), // Shadow Manectric (Seen)
@@ -792,7 +793,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XLaprasManectricSalamenceMarowakSeen = new(
         131, // Lapras
-        "Manectric & Salamence & Marowak Seen",
+        SeenManectricMarowakSalamence,
         new[] {
             new NPCLock(291, 06, 1, 127), // Ninjask (F) (Docile)
             new NPCLock(310, true), // Shadow Manectric (Seen)
@@ -843,7 +844,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XExeggutorRhydonMoltresSeen = new(
         103, // Exeggutor
-        "Rhydon & Moltres Seen",
+        SeenRhydonMoltres,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -851,7 +852,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XTaurosRhydonMoltresSeen = new(
         128, // Tauros
-        "Rhydon & Moltres Seen",
+        SeenRhydonMoltres,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -860,7 +861,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XTaurosRhydonMoltresExeggutorSeen = new(
         128, // Tauros
-        "Rhydon & Moltres & Exeggutor Seen",
+        SeenRhydonMoltresExeggutor,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -869,7 +870,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XArticunoRhydonMoltresSeen = new(
         144, // Articuno
-        "Rhydon & Moltres Seen",
+        SeenRhydonMoltres,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -879,7 +880,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XArticunoRhydonMoltresTaurosSeen = new(
         144, // Articuno
-        "Rhydon & Moltres & Tauros Seen",
+        SeenRhydonMoltresTauros,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -889,7 +890,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XArticunoRhydonMoltresExeggutorSeen = new(
         144, // Articuno
-        "Rhydon & Moltres & Exeggutor Seen",
+        SeenRhydonMoltresExeggutor,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -899,7 +900,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XArticunoRhydonMoltresExeggutorTaurosSeen = new(
         144, // Articuno
-        "Rhydon & Moltres & Exeggutor & Tauros Seen",
+        SeenRhydonMoltresExeggutorTauros,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -909,7 +910,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XZapdosRhydonMoltresSeen = new(
         145, // Zapdos
-        "Rhydon & Moltres Seen",
+        SeenRhydonMoltres,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -920,7 +921,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XZapdosRhydonMoltresTaurosSeen = new(
         145, // Zapdos
-        "Rhydon & Moltres & Tauros Seen",
+        SeenRhydonMoltresTauros,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -931,7 +932,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XZapdosRhydonMoltresArticunoSeen = new(
         145, // Zapdos
-        "Rhydon & Moltres & Articuno Seen",
+        SeenRhydonMoltresArticuno,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -942,7 +943,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XZapdosRhydonMoltresExeggutorSeen = new(
         145, // Zapdos
-        "Rhydon & Moltres & Exeggutor Seen",
+        SeenRhydonMoltresExeggutor,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -953,7 +954,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XZapdosRhydonMoltresTaurosArticunoSeen = new(
         145, // Zapdos
-        "Rhydon & Moltres & Tauros & Articuno Seen",
+        SeenRhydonMoltresTaurosArticuno,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -964,7 +965,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XZapdosRhydonMoltresExeggutorTaurosSeen = new(
         145, // Zapdos
-        "Rhydon & Moltres & Exeggutor & Tauros Seen",
+        SeenRhydonMoltresExeggutorTauros,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -975,7 +976,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XZapdosRhydonMoltresExeggutorArticunoSeen = new(
         145, // Zapdos
-        "Rhydon & Moltres & Exeggutor & Articuno Seen",
+        SeenRhydonMoltresExeggutorArticuno,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)
@@ -986,7 +987,7 @@ public static class Encounters3XDShadow
 
     public static readonly TeamLock XZapdosRhydonMoltresExeggutorTaurosArticunoSeen = new(
         145, // Zapdos
-        "Rhydon & Moltres & Exeggutor & Tauros & Articuno Seen",
+        SeenRhydonMoltresExeggutorTaurosArticuno,
         new[] {
             new NPCLock(112, true), // Shadow Rhydon (Seen)
             new NPCLock(146, true), // Shadow Moltres (Seen)

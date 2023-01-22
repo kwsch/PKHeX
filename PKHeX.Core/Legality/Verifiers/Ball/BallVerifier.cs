@@ -59,14 +59,14 @@ public sealed class BallVerifier : Verifier
             // Only a Gen3 origin Shedinja can copy the wild ball.
             // Evolution chains will indicate if it could have existed as Shedinja in Gen3.
             // The special move verifier has a similar check!
-            if (pk.HGSS && pk.Ball == (int)Sport) // Can evolve in DP to retain the HG/SS ball (separate byte) -- not able to be captured in any other ball
+            if (pk is { HGSS: true, Ball: (int)Sport }) // Can evolve in DP to retain the HG/SS ball (separate byte) -- not able to be captured in any other ball
                 return VerifyBallEquals(data, (int)Sport);
             if (Info.Generation != 3 || Info.EvoChainsAllGens.Gen3.Length != 2) // not evolved in Gen3 Nincada->Shedinja
                 return VerifyBallEquals(data, (int)Poke); // Poké ball Only
         }
 
         // Capturing with Heavy Ball is impossible in Sun/Moon for specific species.
-        if (pk.Ball == (int)Heavy && pk.SM && enc is not EncounterEgg && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains(enc.Species))
+        if (pk is { Ball: (int)Heavy, SM: true } && enc is not EncounterEgg && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains(enc.Species))
             return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (US/UM fixed catch rate calc)
 
         return enc switch
@@ -79,16 +79,16 @@ public sealed class BallVerifier : Verifier
         };
     }
 
-    private CheckResult VerifyBallMysteryGift(LegalityAnalysis data, MysteryGift g)
+    private CheckResult VerifyBallMysteryGift(LegalityAnalysis data, MysteryGift gift)
     {
-        if (g.Generation == 4 && g.Species == (int)Species.Manaphy && g.Ball == 0) // there is no ball data in Manaphy PGT Mystery Gift from Gen4
+        if (gift is { Generation: 4, Species: (int)Species.Manaphy, Ball: 0 }) // there is no ball data in Manaphy PGT Mystery Gift from Gen4
             return VerifyBallEquals(data, (int)Poke); // Pokeball
-        return VerifyBallEquals(data, g.Ball);
+        return VerifyBallEquals(data, gift.Ball);
     }
 
     private CheckResult VerifyBallStatic(LegalityAnalysis data, EncounterStatic s)
     {
-        if (s.Location == 75 && s.Generation == 5) // Entree Forest (Dream World)
+        if (s is EncounterStatic5 { EntreeForestDreamWorld: true })
             return VerifyBallEquals(data, BallUseLegality.DreamWorldBalls);
         return VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, s.Version));
     }

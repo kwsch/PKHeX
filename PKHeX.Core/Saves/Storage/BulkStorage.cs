@@ -51,7 +51,7 @@ public abstract class BulkStorage : SaveFile
 
     public override int GetBoxOffset(int box) => Box + (box * (SlotsPerBox * SIZE_STORED));
     public override string GetBoxName(int box) => $"Box {box + 1:d2}";
-    public sealed override void SetBoxName(int box, string value) { }
+    public sealed override void SetBoxName(int box, ReadOnlySpan<char> value) { }
     public sealed override int GetPartyOffset(int slot) => int.MinValue;
 
     public override string GetString(ReadOnlySpan<byte> data)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -42,10 +42,10 @@ public sealed class BoxLayout6 : SaveBlock<SAV6>, IBoxDetailName, IBoxDetailWall
 
     public string GetBoxName(int box) => SAV.GetString(Data.AsSpan(GetBoxNameOffset(box), StringMaxByteCount));
 
-    public void SetBoxName(int box, string value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = Data.AsSpan(GetBoxNameOffset(box) + (StringMaxByteCount * box), StringMaxByteCount);
-        SAV.SetString(span, value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
+        SAV.SetString(span, value, StringMaxLength, StringConverterOption.ClearZero);
     }
 
     public byte[] BoxFlags

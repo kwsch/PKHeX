@@ -6,36 +6,13 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the Black 2 &amp; White 2 games.
 /// </summary>
-public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H
+public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x4C;
     private readonly byte[] Data;
 
-    public PersonalInfo5B2W2(byte[] data)
-    {
-        Data = data;
-        // Unpack TMHM & Tutors
-        TMHM = GetBits(data.AsSpan(0x28, 0x10));
-        TypeTutors = GetBits(data.AsSpan(0x38, 0x4));
-        SpecialTutors = new[]
-        {
-            GetBits(data.AsSpan(0x3C, 0x04)),
-            GetBits(data.AsSpan(0x40, 0x04)),
-            GetBits(data.AsSpan(0x44, 0x04)),
-            GetBits(data.AsSpan(0x48, 0x04)),
-        };
-    }
-
-    public override byte[] Write()
-    {
-        SetBits(TMHM, Data.AsSpan(0x28));
-        SetBits(TypeTutors, Data.AsSpan(0x38));
-        SetBits(SpecialTutors[0], Data.AsSpan(0x3C));
-        SetBits(SpecialTutors[1], Data.AsSpan(0x40));
-        SetBits(SpecialTutors[2], Data.AsSpan(0x44));
-        SetBits(SpecialTutors[3], Data.AsSpan(0x48));
-        return Data;
-    }
+    public PersonalInfo5B2W2(byte[] data) => Data = data;
+    public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public override int ATK { get => Data[0x01]; set => Data[0x01] = (byte)value; }
@@ -58,7 +35,7 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H
     public int Item1 { get => ReadInt16LittleEndian(Data.AsSpan(0x0C)); set => WriteInt16LittleEndian(Data.AsSpan(0x0C), (short)value); }
     public int Item2 { get => ReadInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteInt16LittleEndian(Data.AsSpan(0x0E), (short)value); }
     public int Item3 { get => ReadInt16LittleEndian(Data.AsSpan(0x10)); set => WriteInt16LittleEndian(Data.AsSpan(0x10), (short)value); }
-    public override int Gender { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+    public override byte Gender { get => Data[0x12]; set => Data[0x12] = value; }
     public override int HatchCycles { get => Data[0x13]; set => Data[0x13] = (byte)value; }
     public override int BaseFriendship { get => Data[0x14]; set => Data[0x14] = (byte)value; }
     public override byte EXPGrowth { get => Data[0x15]; set => Data[0x15] = value; }
@@ -90,5 +67,237 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H
         _ => throw new ArgumentOutOfRangeException(nameof(abilityIndex), abilityIndex, null),
     };
 
+    private const int TMHM = 0x28;
+    private const int CountTMHM = 101;
+    private const int ByteCountTMHM = (CountTMHM + 7) / 8;
+    private const int TypeTutors = 0x38;
+    private const int TypeTutorsCount = 8;
+
     public bool HasHiddenAbility => AbilityH != Ability1;
+
+    public bool GetIsLearnTM(int index)
+    {
+        if ((uint)index >= CountTMHM)
+            return false;
+        return (Data[0x28 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTM(int index, bool value)
+    {
+        if ((uint)index >= CountTMHM)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TMHM + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public bool GetIsLearnTutorType(int index)
+    {
+        if ((uint)index >= TypeTutorsCount)
+            return false;
+        return (Data[TypeTutors + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTutorType(int index, bool value)
+    {
+        if ((uint)index >= TypeTutorsCount)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[TypeTutors + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[TypeTutors + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var span = Data.AsSpan(TMHM, ByteCountTMHM);
+        for (int index = CountTMHM - 1; index >= 0; index--)
+        {
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
+
+    public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<ushort> moves)
+    {
+        var tutor = Data[TypeTutors];
+        for (int index = TypeTutorsCount - 1; index >= 0; index--)
+        {
+            if ((tutor & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
+
+    private const int Tutor1 = 0x3C; // Driftveil
+    private const int Tutor2 = 0x40; // Lentimas
+    private const int Tutor3 = 0x44; // Humilau
+    private const int Tutor4 = 0x48; // Nacrene
+
+    private const int CountTutor1 = 15;
+    private const int CountTutor2 = 17;
+    private const int CountTutor3 = 13;
+    private const int CountTutor4 = 15;
+
+    public bool GetIsLearnTutor1(int index)
+    {
+        if ((uint)index >= CountTutor1)
+            return false;
+        return (Data[Tutor1 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public bool GetIsLearnTutor1(ushort move)
+    {
+        var index = Array.IndexOf(TutorMoves1, move);
+        return index >= 0 && (Data[Tutor1 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTutor1(int index, bool value)
+    {
+        if ((uint)index >= CountTutor1)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[Tutor1 + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[Tutor1 + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public bool GetIsLearnTutor2(int index)
+    {
+        if ((uint)index >= CountTutor2)
+            return false;
+        return (Data[Tutor2 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public bool GetIsLearnTutor2(ushort move)
+    {
+        var index = Array.IndexOf(TutorMoves2, move);
+        return index >= 0 && (Data[Tutor2 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTutor2(int index, bool value)
+    {
+        if ((uint)index >= CountTutor2)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[Tutor2 + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[Tutor2 + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public bool GetIsLearnTutor3(int index)
+    {
+        if ((uint)index >= CountTutor3)
+            return false;
+        return (Data[Tutor3 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public bool GetIsLearnTutor3(ushort move)
+    {
+        var index = Array.IndexOf(TutorMoves3, move);
+        return index >= 0 && (Data[Tutor3 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTutor3(int index, bool value)
+    {
+        if ((uint)index >= CountTutor3)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[Tutor3 + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[Tutor3 + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public bool GetIsLearnTutor4(int index)
+    {
+        if ((uint)index >= CountTutor4)
+            return false;
+        return (Data[Tutor4 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public bool GetIsLearnTutor4(ushort move)
+    {
+        var index = Array.IndexOf(TutorMoves4, move);
+        return index >= 0 && (Data[Tutor4 + (index >> 3)] & (1 << (index & 7))) != 0;
+    }
+
+    public void SetIsLearnTutor4(int index, bool value)
+    {
+        if ((uint)index >= CountTutor4)
+            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        if (value)
+            Data[Tutor4 + (index >> 3)] |= (byte)(1 << (index & 7));
+        else
+            Data[Tutor4 + (index >> 3)] &= (byte)~(1 << (index & 7));
+    }
+
+    public void SetAllLearnTutor1(Span<bool> result)
+    {
+        var moves = TutorMoves1;
+        var span = Data.AsSpan(Tutor1, 4);
+        for (int index = CountTutor1 - 1; index >= 0; index--)
+        {
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
+
+    public void SetAllLearnTutor2(Span<bool> result)
+    {
+        var moves = TutorMoves2;
+        var span = Data.AsSpan(Tutor2, 4);
+        for (int index = CountTutor2 - 1; index >= 0; index--)
+        {
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
+
+    public void SetAllLearnTutor3(Span<bool> result)
+    {
+        var moves = TutorMoves3;
+        var span = Data.AsSpan(Tutor3, 4);
+        for (int index = CountTutor3 - 1; index >= 0; index--)
+        {
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
+
+    public void SetAllLearnTutor4(Span<bool> result)
+    {
+        var moves = TutorMoves4;
+        var span = Data.AsSpan(Tutor4, 4);
+        for (int index = CountTutor4 - 1; index >= 0; index--)
+        {
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
+        }
+    }
+
+    private static readonly ushort[] TutorMoves1 = { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 }; // Driftveil
+    private static readonly ushort[] TutorMoves2 = { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 }; // Lentimas
+    private static readonly ushort[] TutorMoves3 = { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355 }; // Humilau
+    private static readonly ushort[] TutorMoves4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 }; // Nacrene
+
+    public bool GetIsTutorSpecial(ushort move)
+    {
+        if (GetIsLearnTutor1(move))
+            return true;
+        if (GetIsLearnTutor2(move))
+            return true;
+        if (GetIsLearnTutor3(move))
+            return true;
+        if (GetIsLearnTutor4(move))
+            return true;
+        return false;
+    }
+
+    public void SetAllLearnTutorSpecial(Span<bool> result)
+    {
+        SetAllLearnTutor1(result);
+        SetAllLearnTutor2(result);
+        SetAllLearnTutor3(result);
+        SetAllLearnTutor4(result);
+    }
 }

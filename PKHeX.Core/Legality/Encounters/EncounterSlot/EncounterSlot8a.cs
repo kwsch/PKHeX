@@ -146,21 +146,22 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
             return !hasAlphaMove ? EncounterMatchRating.Match : EncounterMatchRating.DeferredErrors;
 
         var pi = PersonalTable.LA.GetFormEntry(Species, Form);
-        var tutors = pi.SpecialTutors[0];
 
+        // Alpha encounters grant one Alpha move from the MoveShop list, if any exists.
         if (alphaMove is 0)
         {
-            bool hasAnyTutor = Array.IndexOf(tutors, true) >= 0;
-            if (hasAnyTutor)
+            // None set, but if any are available, it's a mismatch.
+            if (pi.HasMoveShop)
                 return EncounterMatchRating.Deferred;
         }
         else
         {
-            var idx = pa.MoveShopPermitIndexes;
-            var index = idx.IndexOf(idx);
+            var permit = pa.Permit;
+            var idx = permit.RecordPermitIndexes;
+            var index = idx.IndexOf(alphaMove);
             if (index == -1)
                 return EncounterMatchRating.Deferred;
-            if (!tutors[index])
+            if (!permit.IsRecordPermitted(index))
                 return EncounterMatchRating.Deferred;
         }
         return EncounterMatchRating.Match;
@@ -218,7 +219,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
     {
         var pt = PersonalTable.LA;
         var entry = pt.GetFormEntry(Species, Form);
-        return (byte)entry.Gender;
+        return entry.Gender;
     }
 
     // hardcoded 7 to assume max dex progress + shiny charm.

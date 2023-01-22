@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 using static PKHeX.Core.Encounters3XDTeams;
 using static PKHeX.Core.Encounters3ColoTeams;
 
-namespace PKHeX.Tests.Legality.Shadow;
+namespace PKHeX.Core.Tests.Legality.Shadow;
 
 public static class ValidityTests
 {
@@ -179,7 +178,7 @@ public static class PIDTests
         }
     }
 
-    public static readonly uint[] MawileTeamPIDs =
+    private static readonly uint[] MawileTeamPIDs =
     {
         0x4C3005E8, // Loudred
         0xD28DE40E, // Girafarig (re - rolled 64 times to next viable match)
@@ -192,13 +191,13 @@ public static class PIDTests
         VerifyResultsAntiShiny(MawileTeamPIDs, Mawile, 12345, 51882, stackalloc[] {31, 30, 29, 31, 23, 27});
     }
 
-    private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, int tid, int sid, ReadOnlySpan<int> ivs)
+    private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, ushort tid, ushort sid, ReadOnlySpan<int> ivs)
     {
         var pk3 = new PK3
         {
             PID = resultPIDs[^1],
-            TID = tid,
-            SID = sid,
+            TID16 = tid,
+            SID16 = sid,
         };
         pk3.SetIVs(ivs);
 

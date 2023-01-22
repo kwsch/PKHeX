@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 4 <see cref="PKM"/> format. </summary>
 public abstract class G4PKM : PKM,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats, IGroundTile
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons, IContestStats, IGroundTile
 {
     protected G4PKM(byte[] data) : base(data) { }
     protected G4PKM(int size) : base(size) { }
@@ -21,8 +21,8 @@ public abstract class G4PKM : PKM,
     public sealed override int MaxStringLengthOT => 7;
     public sealed override int MaxStringLengthNickname => 10;
 
-    public sealed override int PSV => (int)(((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
-    public sealed override int TSV => (TID ^ SID) >> 3;
+    public sealed override uint PSV => (((PID >> 16) ^ (PID & 0xFFFF)) >> 3);
+    public sealed override uint TSV => (uint)(TID16 ^ SID16) >> 3;
 
     protected bool PtHGSS => Pt || HGSS;
 
@@ -48,7 +48,7 @@ public abstract class G4PKM : PKM,
     public sealed override void RefreshChecksum() => Checksum = CalculateChecksum();
     public sealed override bool ChecksumValid => CalculateChecksum() == Checksum;
     public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
-    protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, PokeCrypto.SIZE_4STORED);
+    protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data.AsSpan()[8..PokeCrypto.SIZE_4STORED]);
 
     // Trash Bytes
     public sealed override Span<byte> Nickname_Trash => Data.AsSpan(0x48, 22);
@@ -144,6 +144,7 @@ public abstract class G4PKM : PKM,
     public abstract bool RibbonFootprint { get; set; }
     public abstract bool RibbonRecord { get; set; }
     public abstract bool RibbonLegend { get; set; }
+    public abstract int RibbonCount { get; }
 
     // Unused
     public abstract bool RIB3_4 { get; set; }
@@ -282,10 +283,10 @@ public abstract class G4PKM : PKM,
     }
 
     // Synthetic Trading Logic
-    public bool Trade(string SAV_Trainer, int SAV_TID, int SAV_SID, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2009)
+    public bool Trade(string SAV_Trainer, uint savID32, int SAV_GENDER, int Day = 1, int Month = 1, int Year = 2009)
     {
         // Eggs do not have any modifications done if they are traded
-        if (IsEgg && !(SAV_Trainer == OT_Name && SAV_TID == TID && SAV_SID == SID && SAV_GENDER == OT_Gender))
+        if (IsEgg && !(SAV_Trainer == OT_Name && savID32 == ID32 && SAV_GENDER == OT_Gender))
         {
             SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade4);
             return true;
@@ -309,8 +310,8 @@ public abstract class G4PKM : PKM,
             PID = PID,
             Species = Species,
             HeldItem = HeldItem,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             EXP = EXP,
             OT_Friendship = OT_Friendship,
             Ability = Ability,

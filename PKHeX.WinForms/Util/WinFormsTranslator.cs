@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -76,7 +77,7 @@ public static class WinFormsTranslator
         }
     }
 
-    private static IEnumerable<string> GetTranslationFile(string lang)
+    private static ReadOnlySpan<string> GetTranslationFile(string lang)
     {
         var file = GetTranslationFileNameInternal(lang);
         // Check to see if a the translation file exists in the same folder as the executable
@@ -173,17 +174,16 @@ public static class WinFormsTranslator
 
     public static void DumpAll(params string[] banlist)
     {
-        foreach (var c in Context)
+        foreach (var (lang, value) in Context)
         {
-            var lang = c.Key;
             var fn = GetTranslationFileNameExternal(lang);
-            var lines = c.Value.Write();
+            var lines = value.Write();
             var result = lines.Where(z => !banlist.Any(z.Contains));
             File.WriteAllLines(fn, result);
         }
     }
 
-    public static void LoadAllForms(IEnumerable<System.Type> types, params string[] banlist)
+    public static void LoadAllForms(IEnumerable<Type> types, params string[] banlist)
     {
         types = types.Where(t => t.BaseType == typeof(Form) && !banlist.Contains(t.Name));
         foreach (var t in types)
@@ -194,7 +194,7 @@ public static class WinFormsTranslator
             var argCount = constructors[0].GetParameters().Length;
             try
             {
-                var _ = (Form?)System.Activator.CreateInstance(t, new object[argCount]);
+                var _ = (Form?)Activator.CreateInstance(t, new object[argCount]);
             }
             // This is a debug utility method, will always be logging. Shouldn't ever fail.
             catch
@@ -266,11 +266,20 @@ public sealed class TranslationContext
     private readonly Dictionary<string, string> Translation = new();
     public IReadOnlyDictionary<string, string> Lookup => Translation;
 
-    public TranslationContext(IEnumerable<string> content, char separator = Separator)
+    public TranslationContext(ReadOnlySpan<string> content, char separator = Separator)
     {
-        var entries = content.Select(z => z.Split(separator)).Where(z => z.Length == 2);
-        foreach (var kvp in entries.Where(z => !Translation.ContainsKey(z[0])))
-            Translation.Add(kvp[0], kvp[1]);
+        foreach (var line in content)
+            LoadLine(line, separator);
+    }
+
+    private void LoadLine(ReadOnlySpan<char> line, char separator = Separator)
+    {
+        var split = line.IndexOf(separator);
+        if (split < 0)
+            return; // ignore
+        var key = line[..split].ToString();
+        var value = line[(split + 1)..].ToString();
+        Translation.TryAdd(key, value);
     }
 
     public string? GetTranslatedText(string val, string? fallback)

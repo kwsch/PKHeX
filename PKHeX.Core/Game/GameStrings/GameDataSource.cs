@@ -77,6 +77,32 @@ public sealed class GameDataSource
     public readonly IReadOnlyList<ComboItem> HaXMoveDataSource;
     public readonly IReadOnlyList<ComboItem> GroundTileDataSource;
 
+    private static ReadOnlySpan<byte> OrderedVersionArray => new byte[]
+    {
+        50, 51, // 9 sv
+        47,     // 8 legends arceus
+        48, 49, // 8 bdsp
+        44, 45, // 8 swsh
+        42, 43, // 7 gg
+        30, 31, // 7 sm
+        32, 33, // 7 usum
+        24, 25, // 6 xy
+        27, 26, // 6 oras
+        21, 20, // 5 bw
+        23, 22, // 5 b2w2
+        10, 11, 12, // 4 dppt
+        07, 08, // 4 hgss
+        02, 01, 03, // 3 rse
+        04, 05, // 3 frlg
+        15,     // 3 cxd
+
+        39, 40, 41, // 7vc2
+        35, 36, 37, 38, // 7vc1
+        34, // 7go
+
+        00,
+    };
+
     private static IReadOnlyList<ComboItem> GetBalls(string[] itemList)
     {
         // ignores Poke/Great/Ultra
@@ -88,33 +114,7 @@ public sealed class GameDataSource
     private static ComboItem[] GetVersionList(GameStrings s)
     {
         var list = s.gamelist;
-        ReadOnlySpan<byte> games = stackalloc byte[]
-        {
-            50, 51, // 9 sv
-            47,     // 8 legends arceus
-            48, 49, // 8 bdsp
-            44, 45, // 8 swsh
-            42, 43, // 7 gg
-            30, 31, // 7 sm
-            32, 33, // 7 usum
-            24, 25, // 6 xy
-            27, 26, // 6 oras
-            21, 20, // 5 bw
-            23, 22, // 5 b2w2
-            10, 11, 12, // 4 dppt
-            07, 08, // 4 hgss
-            02, 01, 03, // 3 rse
-            04, 05, // 3 frlg
-            15,     // 3 cxd
-
-            39, 40, 41, // 7vc2
-            35, 36, 37, 38, // 7vc1
-            34, // 7go
-
-            00,
-        };
-
-        return Util.GetUnsortedCBList(list, games);
+        return Util.GetUnsortedCBList(list, OrderedVersionArray);
     }
 
     public List<ComboItem> GetItemDataSource(GameVersion game, EntityContext context, IReadOnlyList<ushort> allowed, bool HaX = false)

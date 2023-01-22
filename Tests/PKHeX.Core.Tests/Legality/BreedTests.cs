@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 using static PKHeX.Core.Move;
 using static PKHeX.Core.Species;
 using static PKHeX.Core.GameVersion;
 
-namespace PKHeX.Tests.Legality;
+namespace PKHeX.Core.Tests.Legality;
 
 public class BreedTests
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -11,9 +11,9 @@ public sealed class Bank7 : BulkStorage
 {
     public Bank7(byte[] data, Type t, int start, int slotsPerBox = 30) : base(data, t, start, slotsPerBox) => Version = GameVersion.USUM;
 
-    public override IPersonalTable Personal => PersonalTable.USUM;
+    public override PersonalTable7 Personal => PersonalTable.USUM;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SM;
-    protected override SaveFile CloneInternal() => new Bank7((byte[])Data.Clone(), PKMType, BoxStart, SlotsPerBox);
+    protected override Bank7 CloneInternal() => new((byte[])Data.Clone(), PKMType, BoxStart, SlotsPerBox);
     public override string PlayTimeString => $"{Year:00}{Month:00}{Day:00}_{Hours:00}ː{Minutes:00}";
     protected internal override string ShortSummary => PlayTimeString;
     private const int GroupNameSize = 0x20;

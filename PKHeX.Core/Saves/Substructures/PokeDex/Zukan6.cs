@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for Generation 6 games.
 /// </summary>
-public abstract class Zukan6 : Zukan
+public abstract class Zukan6 : Zukan<SAV6>
 {
     protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
     protected override int OFS_CAUGHT => 0x8;
@@ -21,7 +21,7 @@ public abstract class Zukan6 : Zukan
         DexFormIndexFetcher = DexFormUtil.GetDexFormIndexXY;
     }
 
-    private Func<ushort, int, int> DexFormIndexFetcher { get; }
+    private Func<ushort, byte, int> DexFormIndexFetcher { get; }
 
     protected Zukan6(SAV6AO sav, int dex, int langflag) : base(sav, dex, langflag)
     {
@@ -100,7 +100,7 @@ public abstract class Zukan6 : Zukan
 
     private void SetFormFlags(ushort species, byte form, int shiny, bool value = true)
     {
-        int fc = SAV.Personal[species].FormCount;
+        var fc = SAV.Personal[species].FormCount;
         int f = DexFormIndexFetcher(species, fc);
         if (f < 0)
             return;
@@ -115,11 +115,11 @@ public abstract class Zukan6 : Zukan
             SetFormFlag(bit, 2 + shiny, value);
     }
 
-    private bool GetIsFormDisplayed(int f, int fc)
+    private bool GetIsFormDisplayed(int form, byte formCount)
     {
-        for (int i = 0; i < fc; i++)
+        for (byte i = 0; i < formCount; i++)
         {
-            var index = f + i;
+            var index = form + i;
             if (GetFormFlag(index, 2)) // Nonshiny
                 return true; // already set
             if (GetFormFlag(index, 3)) // Shiny
@@ -146,7 +146,7 @@ public abstract class Zukan6 : Zukan
         return result;
     }
 
-    public void SetLanguageBitflags(ushort species, bool[] value)
+    public void SetLanguageBitflags(ushort species, ReadOnlySpan<bool> value)
     {
         int bit = species - 1;
         for (int i = 0; i < DexLangIDCount; i++)

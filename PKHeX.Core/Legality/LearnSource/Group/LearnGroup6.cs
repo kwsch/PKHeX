@@ -21,7 +21,7 @@ public sealed class LearnGroup6 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, types, option, mode);
 
-        if (option is not LearnOption.Current && types.HasFlagFast(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
+        if (option is not LearnOption.Current && types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
         return MoveResult.AllParsed(result);
@@ -101,9 +101,9 @@ public sealed class LearnGroup6 : ILearnGroup
         if (mode == CheckMode.Both)
             CheckBoth(result, current, pk, evo, stage, types, option);
         else if (mode == CheckMode.AO)
-            CheckSingle(result, current, pk, evo, stage, LearnSource6AO.Instance, types, option);
+            CheckSingle<ILearnSource<PersonalInfo6AO>, PersonalInfo6AO>(result, current, pk, evo, stage, LearnSource6AO.Instance, types, option);
         else
-            CheckSingle(result, current, pk, evo, stage, LearnSource6XY.Instance, types, option);
+            CheckSingle<ILearnSource<PersonalInfo6XY>, PersonalInfo6XY>(result, current, pk, evo, stage, LearnSource6XY.Instance, types, option);
     }
 
     private static void CheckBoth(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, MoveSourceType types, LearnOption option)
@@ -114,12 +114,17 @@ public sealed class LearnGroup6 : ILearnGroup
             return; // should never happen.
 
         var xy = LearnSource6XY.Instance;
+        xy.TryGetPersonal(species, evo.Form, out var xy_pi);
+
         for (int i = result.Length - 1; i >= 0; i--)
         {
             if (result[i].Valid)
                 continue;
 
             // Level Up moves are different for each game, but others (TM/Tutor) are same.
+            if (xy_pi is null)
+                continue;
+
             var move = current[i];
             var chk = ao.GetCanLearn(pk, ao_pi, evo, move, types, option);
             if (chk != default)
@@ -127,13 +132,16 @@ public sealed class LearnGroup6 : ILearnGroup
                 result[i] = new(chk, (byte)stage, Generation);
                 continue;
             }
-            chk = xy.GetCanLearn(pk, ao_pi, evo, move, types & MoveSourceType.LevelUp, option);
+
+            chk = xy.GetCanLearn(pk, xy_pi, evo, move, types & MoveSourceType.LevelUp, option);
             if (chk != default)
                 result[i] = new(chk, (byte)stage, Generation);
         }
     }
 
-    private static void CheckSingle<T>(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, T game, MoveSourceType types, LearnOption option) where T : ILearnSource
+    private static void CheckSingle<TSource, TPersonal>(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, TSource game, MoveSourceType types, LearnOption option)
+        where TSource : ILearnSource<TPersonal>
+        where TPersonal : PersonalInfo
     {
         var species = evo.Species;
         if (!game.TryGetPersonal(species, evo.Form, out var pi))
@@ -153,7 +161,7 @@ public sealed class LearnGroup6 : ILearnGroup
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Generation == Generation)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc.Generation == Generation)
             FlagEncounterMoves(enc, result);
 
         var mode = GetCheckMode(enc, pk);

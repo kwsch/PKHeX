@@ -49,7 +49,7 @@ public sealed class Record3
         for (int i = 0; i < result.Length; i++)
         {
             var replaced = names[i].Replace('_', ' ');
-            var titled = Util.ToTitleCase(replaced.AsSpan());
+            var titled = Util.ToTitleCase(replaced);
             result[i] = new ComboItem(titled, values[i]);
         }
         return result;

@@ -217,8 +217,8 @@ public static class EntitySorting
     {
         return list.ThenBy(p => p.OT_Name)
             .ThenBy(p => p.OT_Gender)
-            .ThenBy(p => p.TID)
-            .ThenBy(p => p.SID);
+            .ThenBy(p => p.TID16)
+            .ThenBy(p => p.SID16);
     }
 
     /// <summary>
@@ -234,7 +234,7 @@ public static class EntitySorting
             return pk.CurrentHandler != 1;
         if (checkGame && trainer.Game != pk.Version)
             return false;
-        if (trainer.TID != pk.TID || trainer.SID != pk.SID)
+        if (trainer.TID16 != pk.TID16 || trainer.SID16 != pk.SID16)
             return false;
         if (trainer.Gender != pk.OT_Gender)
             return false;

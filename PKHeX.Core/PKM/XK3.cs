@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -20,10 +21,10 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
     public override EntityContext Context => EntityContext.Gen3;
-    public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
+    public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
     public XK3(byte[] data) : base(data) { }
     public XK3() : base(PokeCrypto.SIZE_3XSTORED) { }
-    public override PKM Clone() => new XK3((byte[])Data.Clone()){Purification = Purification};
+    public override XK3 Clone() => new((byte[])Data.Clone()) { Purification = Purification };
     public override void RefreshChecksum() => Valid = true;
 
     // Trash Bytes
@@ -31,8 +32,8 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override Span<byte> Nickname_Trash => Data.AsSpan(0x4E, 22);
     public Span<byte> NicknameCopy_Trash => Data.AsSpan(0x64, 22);
 
-    public override ushort SpeciesID3 { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt16BigEndian(Data.AsSpan(0x00), value); } // raw access
-    public override ushort Species { get => SpeciesConverter.GetG4Species(SpeciesID3); set => SpeciesID3 = SpeciesConverter.GetG3Species(value); }
+    public override ushort SpeciesInternal { get => ReadUInt16BigEndian(Data.AsSpan(0x00)); set => WriteUInt16BigEndian(Data.AsSpan(0x00), value); } // raw access
+    public override ushort Species { get => SpeciesConverter.GetNational3(SpeciesInternal); set => SpeciesInternal = SpeciesConverter.GetInternal3(value); }
     public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
     public override int HeldItem { get => ReadUInt16BigEndian(Data.AsSpan(0x02)); set => WriteUInt16BigEndian(Data.AsSpan(0x02), (ushort)value); }
     public override int Stat_HPCurrent { get => ReadUInt16BigEndian(Data.AsSpan(0x04)); set => WriteUInt16BigEndian(Data.AsSpan(0x04), (ushort)value); }
@@ -60,8 +61,9 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override bool IsEgg      { get => (XDPKMFLAGS & (1 << 7)) == 1 << 7; set => XDPKMFLAGS = (XDPKMFLAGS & ~(1 << 7)) | (value ? 1 << 7 : 0); }
     // 0x1E-0x1F Unknown
     public override uint EXP { get => ReadUInt32BigEndian(Data.AsSpan(0x20)); set => WriteUInt32BigEndian(Data.AsSpan(0x20), value); }
-    public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), (ushort)value); }
-    public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), (ushort)value); }
+    public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(0x24)); set => WriteUInt32BigEndian(Data.AsSpan(0x24), value); }
+    public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x24)); set => WriteUInt16BigEndian(Data.AsSpan(0x24), value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(0x26)); set => WriteUInt16BigEndian(Data.AsSpan(0x26), value); }
     public override uint PID { get => ReadUInt32BigEndian(Data.AsSpan(0x28)); set => WriteUInt32BigEndian(Data.AsSpan(0x28), value); }
     // 0x2A-0x2B Unknown
     // 0x2C-0x2F Battle Related
@@ -88,9 +90,9 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public int CurrentRegion { get => Data[0x35]; set => Data[0x35] = (byte)value; }
     public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = Core.Language.GetGCLangIDfromMain((byte)value); }
-    public override string OT_Name { get => StringConverter3GC.GetString(OT_Trash); set => StringConverter3GC.SetString(OT_Trash, value.AsSpan(), 10, StringConverterOption.None); }
-    public override string Nickname { get => StringConverter3GC.GetString(Nickname_Trash); set { StringConverter3GC.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None); NicknameCopy = value; } }
-    public string NicknameCopy { get => StringConverter3GC.GetString(NicknameCopy_Trash); set => StringConverter3GC.SetString(NicknameCopy_Trash, value.AsSpan(), 10, StringConverterOption.None); }
+    public override string OT_Name { get => StringConverter3GC.GetString(OT_Trash); set => StringConverter3GC.SetString(OT_Trash, value, 10, StringConverterOption.None); }
+    public override string Nickname { get => StringConverter3GC.GetString(Nickname_Trash); set { StringConverter3GC.SetString(Nickname_Trash, value, 10, StringConverterOption.None); NicknameCopy = value; } }
+    public string NicknameCopy { get => StringConverter3GC.GetString(NicknameCopy_Trash); set => StringConverter3GC.SetString(NicknameCopy_Trash, value, 10, StringConverterOption.None); }
     // 0x7A-0x7B Unknown
     private ushort RIB0 { get => ReadUInt16BigEndian(Data.AsSpan(0x7C)); set => WriteUInt16BigEndian(Data.AsSpan(0x7C), value); }
     public override bool RibbonChampionG3        { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)((RIB0 & ~(1 << 15)) | (value ? 1 << 15 : 0)); }
@@ -109,6 +111,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
     public override bool Unused2                 { get => (RIB0 & (1 << 02)) == 1 << 02; set => RIB0 = (ushort)((RIB0 & ~(1 << 02)) | (value ? 1 << 02 : 0)); }
     public override bool Unused3                 { get => (RIB0 & (1 << 01)) == 1 << 01; set => RIB0 = (ushort)((RIB0 & ~(1 << 01)) | (value ? 1 << 01 : 0)); }
     public override bool Unused4                 { get => (RIB0 & (1 << 00)) == 1 << 00; set => RIB0 = (ushort)((RIB0 & ~(1 << 00)) | (value ? 1 << 00 : 0)); }
+    public override int RibbonCount => BitOperations.PopCount((uint)(RIB0 & 0b1111_1111_1111_0000)) + RibbonCountG3Cool + RibbonCountG3Beauty + RibbonCountG3Cute + RibbonCountG3Smart + RibbonCountG3Tough;
     // 0x7E-0x7F Unknown
 
     // Moves
@@ -221,7 +224,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
                 pk.FatefulEncounter = true;
             }
         }
-        pk.FlagHasSpecies = pk.SpeciesID3 != 0; // Update Flag
+        pk.FlagHasSpecies = pk.SpeciesInternal != 0; // Update Flag
         pk.RefreshChecksum();
         return pk;
     }

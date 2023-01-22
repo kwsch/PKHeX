@@ -1,8 +1,10 @@
+using System;
+
 namespace PKHeX.Core;
 
 internal static class Locations7
 {
-    internal static readonly byte[] Met0 =
+    internal static ReadOnlySpan<byte> Met0 => new byte[]
     {
              002, 004, 006, 008,
         010, 012, 014, 016, 018,

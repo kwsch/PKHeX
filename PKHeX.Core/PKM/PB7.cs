@@ -27,7 +27,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override int SIZE_STORED => SIZE;
     private const int SIZE = 260;
     public override EntityContext Context => EntityContext.Gen7b;
-    public override PersonalInfo PersonalInfo => PersonalTable.GG.GetFormEntry(Species, Form);
+    public override PersonalInfo7GG PersonalInfo => PersonalTable.GG.GetFormEntry(Species, Form);
 
     public PB7() : base(SIZE) { }
     public PB7(byte[] data) : base(DecryptParty(data)) { }
@@ -40,7 +40,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         return data;
     }
 
-    public override PKM Clone() => new PB7((byte[])Data.Clone());
+    public override PB7 Clone() => new((byte[])Data.Clone());
 
     // Structure
     #region Block A
@@ -74,16 +74,22 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value);
     }
 
-    public override int TID
+    public override uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x0C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(0x0C));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value);
     }
 
-    public override int SID
+    public override ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(0x0C));
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value);
+    }
+
+    public override ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x0E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value);
     }
 
     public override uint EXP
@@ -138,7 +144,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override string Nickname
     {
         get => StringConverter8.GetString(Nickname_Trash);
-        set => StringConverter8.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
     }
 
     public override ushort Move1
@@ -214,7 +220,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override string HT_Name
     {
         get => StringConverter8.GetString(HT_Trash);
-        set => StringConverter8.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
 
     public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
@@ -251,7 +257,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public override string OT_Name
     {
         get => StringConverter8.GetString(OT_Trash);
-        set => StringConverter8.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter8.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
 
     public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
@@ -326,7 +332,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     protected override bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
             return false;
 
         CurrentHandler = 0;
@@ -410,29 +416,29 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         return NatureAmpTable[(5 * nature) + index];
     }
 
-    private static readonly sbyte[] NatureAmpTable =
+    private static ReadOnlySpan<sbyte> NatureAmpTable => new sbyte[]
     {
         0, 0, 0, 0, 0, // Hardy
         1,-1, 0, 0, 0, // Lonely
         1, 0, 0, 0,-1, // Brave
         1, 0,-1, 0, 0, // Adamant
         1, 0, 0,-1, 0, // Naughty
-        -1, 1, 0, 0, 0, // Bold
+       -1, 1, 0, 0, 0, // Bold
         0, 0, 0, 0, 0, // Docile
         0, 1, 0, 0,-1, // Relaxed
         0, 1,-1, 0, 0, // Impish
         0, 1, 0,-1, 0, // Lax
-        -1, 0, 0, 0, 1, // Timid
+       -1, 0, 0, 0, 1, // Timid
         0,-1, 0, 0, 1, // Hasty
         0, 0, 0, 0, 0, // Serious
         0, 0,-1, 0, 1, // Jolly
         0, 0, 0,-1, 1, // Naive
-        -1, 0, 1, 0, 0, // Modest
+       -1, 0, 1, 0, 0, // Modest
         0,-1, 1, 0, 0, // Mild
         0, 0, 1, 0,-1, // Quiet
         0, 0, 0, 0, 0, // Bashful
         0, 0, 1,-1, 0, // Rash
-        -1, 0, 0, 1, 0, // Calm
+       -1, 0, 0, 1, 0, // Calm
         0,-1, 0, 1, 0, // Gentle
         0, 0, 0, 1,-1, // Sassy
         0, 0,-1, 1, 0, // Careful
@@ -515,7 +521,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     public void ResetWeight() => WeightAbsolute = CalcWeightAbsolute;
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    private static float GetHeightRatio(int heightScalar)
+    private static float GetHeightRatio(byte heightScalar)
     {
         // + 40%, -20
         float result = heightScalar / 255f; // 0x437F0000
@@ -525,7 +531,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    private static float GetWeightRatio(int weightScalar)
+    private static float GetWeightRatio(byte weightScalar)
     {
         // +/- 20%
         float result = weightScalar / 255f; // 0x437F0000
@@ -535,14 +541,14 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetHeightAbsolute(IPersonalMisc p, int heightScalar)
+    public static float GetHeightAbsolute(IPersonalMisc p, byte heightScalar)
     {
         float HeightRatio = GetHeightRatio(heightScalar);
         return HeightRatio * p.Height;
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
-    public static float GetWeightAbsolute(IPersonalMisc p, int heightScalar, int weightScalar)
+    public static float GetWeightAbsolute(IPersonalMisc p, byte heightScalar, byte weightScalar)
     {
         float HeightRatio = GetHeightRatio(heightScalar);
         float WeightRatio = GetWeightRatio(weightScalar);
@@ -588,7 +594,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
             return GetRandomIndex(characterIndex);
         if (bits is 0)
             return 0;
-        Span<sbyte> amps = NatureAmpTable.AsSpan(5 * nature, 5);
+        var amps = NatureAmpTable.Slice(5 * nature, 5);
         if (amps[bits - 1] != -1) // not a negative stat
             return bits;
 
@@ -613,8 +619,8 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         {
             EncryptionConstant = EncryptionConstant,
             Species = Species,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             EXP = EXP,
             PID = PID,
             Ability = Ability,

@@ -29,14 +29,14 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
 
     public int GetFormIndex(ushort species, byte form)
     {
-        if ((uint)species <= MaxSpecies)
+        if (species <= MaxSpecies)
             return Table[species].FormIndex(species, form);
         return 0;
     }
 
     public bool IsSpeciesInGame(ushort species)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
 
         var form0 = Table[species];
@@ -55,7 +55,7 @@ public sealed class PersonalTable8LA : IPersonalTable, IPersonalTable<PersonalIn
 
     public bool IsPresentInGame(ushort species, byte form)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
 
         var form0 = Table[species];

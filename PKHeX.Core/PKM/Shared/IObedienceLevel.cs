@@ -22,4 +22,3 @@ public static class ObedienceExtensions
         return (byte)originalMet;
     }
 }
-

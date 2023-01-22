@@ -132,14 +132,14 @@ public static class SpriteUtil
             int team = flags.IsBattleTeam();
             if (team >= 0)
                 sprite = ImageUtil.LayerImage(sprite, Resources.team, SlotTeamShiftX, 0);
-            if (flags.HasFlagFast(StorageSlotSource.Locked))
+            if (flags.HasFlag(StorageSlotSource.Locked))
                 sprite = ImageUtil.LayerImage(sprite, Resources.locked, SlotLockShiftX, 0);
 
             // Some games store Party directly in the list of pokemon data (LGP/E). Indicate accordingly.
             int party = flags.IsParty();
             if (party >= 0)
                 sprite = ImageUtil.LayerImage(sprite, PartyMarks[party], PartyMarkShiftX, 0);
-            if (flags.HasFlagFast(StorageSlotSource.Starter))
+            if (flags.HasFlag(StorageSlotSource.Starter))
                 sprite = ImageUtil.LayerImage(sprite, Resources.starter, 0, 0);
         }
 
@@ -285,7 +285,7 @@ public static class SpriteUtil
 
     public static Image GetMysteryGiftPreviewPoke(MysteryGift gift)
     {
-        if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
+        if (gift is { IsEgg: true, Species: (int)Species.Manaphy }) // Manaphy Egg
             return GetSprite((int)Species.Manaphy, 0, 2, 0, 0, true, Shiny.Never, gift.Context);
 
         var gender = Math.Max(0, gift.Gender);

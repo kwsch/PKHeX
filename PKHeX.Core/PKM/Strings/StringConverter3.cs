@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -19,6 +19,17 @@ public static class StringConverter3
     public static string GetString(ReadOnlySpan<byte> data, bool jp)
     {
         Span<char> result = stackalloc char[data.Length];
+        int i = LoadString(data, result, jp);
+        return new string(result[..i]);
+    }
+
+    /// <inheritdoc cref="GetString(ReadOnlySpan{byte},bool)"/>
+    /// <param name="data">Encoded data</param>
+    /// <param name="result">Decoded character result buffer</param>
+    /// <param name="jp">Data source is Japanese.</param>
+    /// <returns>Character count loaded.</returns>
+    public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
+    {
         int i = 0;
         for (; i < data.Length; i++)
         {
@@ -28,7 +39,7 @@ public static class StringConverter3
                 break;
             result[i] = c;
         }
-        return new string(result[..i].ToArray());
+        return i;
     }
 
     /// <summary>
@@ -47,7 +58,7 @@ public static class StringConverter3
             value = value[..maxLength]; // Hard cap
 
         if (option is StringConverterOption.ClearFF)
-            buffer.Fill(0xFF);
+            buffer.Fill(TerminatorByte);
         else if (option is StringConverterOption.ClearZero)
             buffer.Clear();
 

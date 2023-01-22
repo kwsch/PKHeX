@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static PKHeX.Core.GameVersion;
+using static System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Object representing a <see cref="PKM"/>'s data and derived properties.
 /// </summary>
-public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILangNick, IGameValueLimit, INature
+[DynamicallyAccessedMembers(PublicProperties | NonPublicProperties | PublicParameterlessConstructor)]
+public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILangNick, IGameValueLimit, INature, IFatefulEncounter
 {
     /// <summary>
     /// Valid file extensions that represent <see cref="PKM"/> data, without the leading '.'
@@ -44,6 +47,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
     public int Format => Context.Generation();
+    public TrainerIDFormat TrainerIDDisplayFormat => this.GetTrainerIDFormat();
 
     private byte[] Write()
     {
@@ -64,11 +68,18 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public abstract bool IsEgg { get; set; }
     public abstract bool IsNicknamed { get; set; }
     public abstract uint EXP { get; set; }
-    public abstract int TID { get; set; }
+    public abstract ushort TID16 { get; set; }
+    public abstract ushort SID16 { get; set; }
     public abstract string OT_Name { get; set; }
     public abstract int OT_Gender { get; set; }
     public abstract int Ball { get; set; }
     public abstract int Met_Level { get; set; }
+
+    // Aliases of ID32
+    public uint TrainerTID7 { get => this.GetTrainerTID7(); set => this.SetTrainerTID7(value); }
+    public uint TrainerSID7 { get => this.GetTrainerSID7(); set => this.SetTrainerSID7(value); }
+    public uint DisplayTID { get => this.GetDisplayTID(); set => this.SetDisplayTID(value); }
+    public uint DisplaySID { get => this.GetDisplaySID(); set => this.SetDisplaySID(value); }
 
     // Battle
     public abstract ushort Move1 { get; set; }
@@ -107,7 +118,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
 
     // Hidden Properties
     public abstract int Version { get; set; }
-    public abstract int SID { get; set; }
+    public abstract uint ID32 { get; set; }
     public abstract int PKRS_Strain { get; set; }
     public abstract int PKRS_Days { get; set; }
 
@@ -117,8 +128,8 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     // Misc Properties
     public abstract int Language { get; set; }
     public abstract bool FatefulEncounter { get; set; }
-    public abstract int TSV { get; }
-    public abstract int PSV { get; }
+    public abstract uint TSV { get; }
+    public abstract uint PSV { get; }
     public abstract int Characteristic { get; }
     public abstract int MarkValue { get; set; }
     public abstract int Met_Location { get; set; }
@@ -148,14 +159,14 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// Not all <see cref="PKM"/> types support the <see cref="MetDate"/> property.  In these cases, this property will return null.
     /// If null is assigned to this property, it will be cleared.
     /// </remarks>
-    public DateTime? MetDate
+    public DateOnly? MetDate
     {
         get
         {
             // Check to see if date is valid
             if (!DateUtil.IsDateValid(2000 + Met_Year, Met_Month, Met_Day))
                 return null;
-            return new DateTime(2000 + Met_Year, Met_Month, Met_Day);
+            return new DateOnly(2000 + Met_Year, Met_Month, Met_Day);
         }
         set
         {
@@ -191,14 +202,14 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// Not all <see cref="PKM"/> types support the <see cref="EggMetDate"/> property.  In these cases, this property will return null.
     /// If null is assigned to this property, it will be cleared.
     /// </remarks>
-    public DateTime? EggMetDate
+    public DateOnly? EggMetDate
     {
         get
         {
             // Check to see if date is valid
             if (!DateUtil.IsDateValid(2000 + Egg_Year, Egg_Month, Egg_Day))
                 return null;
-            return new DateTime(2000 + Egg_Year, Egg_Month, Egg_Day);
+            return new DateOnly(2000 + Egg_Year, Egg_Month, Egg_Day);
         }
         set
         {
@@ -244,43 +255,14 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     // Derived
     public virtual int SpriteItem => HeldItem;
     public virtual bool IsShiny => TSV == PSV;
-    public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
-    public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
 
-    public uint ShinyXor
+    public ushort ShinyXor
     {
         get
         {
-            var pid = PID;
-            var upper = (pid >> 16) ^ (uint)SID;
-            return (pid & 0xFFFF) ^ (uint)TID ^ upper;
+            var tmp = ID32 ^ PID;
+            return (ushort)(tmp ^ (tmp >> 16));
         }
-    }
-
-    private bool IsDisplay7 => Generation switch
-    {
-        >= 7 => true,
-        -1 when IsEgg && this is PK9 => true,
-        _ => false,
-    };
-
-    public int DisplayTID
-    {
-        get => IsDisplay7 ? TrainerID7 : TID;
-        set { if (IsDisplay7) TrainerID7 = value; else TID = value; }
-    }
-
-    public int DisplaySID
-    {
-        get => IsDisplay7 ? TrainerSID7 : SID;
-        set { if (IsDisplay7) TrainerSID7 = value; else SID = value; }
-    }
-
-    private void SetID7(int sid7, int tid7)
-    {
-        var oid = (sid7 * 1_000_000) + (tid7 % 1_000_000);
-        TID = (ushort)oid;
-        SID = oid >> 16;
     }
 
     public bool E => Version == (int)GameVersion.E;
@@ -566,7 +548,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     public virtual bool IsGenderValid()
     {
         int gender = Gender;
-        int gv = PersonalInfo.Gender;
+        var gv = PersonalInfo.Gender;
         if (gv == PersonalInfo.RatioMagicGenderless)
             return gender == 2;
         if (gv == PersonalInfo.RatioMagicFemale)
@@ -830,22 +812,23 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     }
 
     /// <summary>
-    /// Applies a shiny <see cref="SID"/> to the <see cref="PKM"/>.
+    /// Applies a shiny <see cref="ITrainerID32.SID16"/> to the <see cref="PKM"/>.
     /// </summary>
     public void SetShinySID(Shiny shiny = Shiny.Random)
     {
         if (IsShiny && shiny.IsValid(this))
             return;
 
-        var xor = TID ^ (PID >> 16) ^ (PID & 0xFFFF);
-        var bits = shiny switch
+        ushort bits = shiny switch
         {
             Shiny.AlwaysSquare => 0,
             Shiny.AlwaysStar => 1,
-            _ => Util.Rand.Next(8),
+            _ => (ushort)Util.Rand.Next(8),
         };
 
-        SID = (int)xor ^ bits;
+        var current = ShinyXor;
+        current ^= bits;
+        SID16 ^= current;
     }
 
     /// <summary>
@@ -965,10 +948,17 @@ public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, IShiny, ILang
     /// <returns>Count of IVs that should be max.</returns>
     public int GetFlawlessIVCount()
     {
-        if (Generation >= 6)
+        int gen = Generation;
+        if (gen >= 6)
         {
             var species = Species;
-            if (Legal.Legends.Contains(species) || Legal.SubLegends.Contains(species))
+            if (Legal.Mythicals.Contains(species))
+                return 3;
+            if (Legal.Legends.Contains(species))
+                return 3;
+            if (Legal.SubLegends.Contains(species))
+                return 3;
+            if (gen <= 7 && Legal.IsUltraBeast(species))
                 return 3;
         }
         if (XY)

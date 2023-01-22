@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -92,12 +92,12 @@ public class SecretBase6
     public string TrainerName
     {
         get => StringConverter6.GetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes));
-        set => StringConverter6.SetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes), value.AsSpan(), NameLength, StringConverterOption.ClearZero);
+        set => StringConverter6.SetString(Data.AsSpan(Offset + 0x21A, NameLengthBytes), value, NameLength, StringConverterOption.ClearZero);
     }
 
     private Span<byte> GetMessageSpan(int index) => Data.AsSpan(Offset + 0x234 + (MessageLengthBytes * index), MessageLengthBytes);
     private string GetMessage(int index) => StringConverter6.GetString(GetMessageSpan(index));
-    private void SetMessage(int index, string value) => StringConverter6.SetString(GetMessageSpan(index), value.AsSpan(), MessageLength, StringConverterOption.ClearZero);
+    private void SetMessage(int index, ReadOnlySpan<char> value) => StringConverter6.SetString(GetMessageSpan(index), value, MessageLength, StringConverterOption.ClearZero);
 
     public string TeamName { get => GetMessage(0); set => SetMessage(0, value); }
     public string TeamSlogan { get => GetMessage(1); set => SetMessage(1, value); }

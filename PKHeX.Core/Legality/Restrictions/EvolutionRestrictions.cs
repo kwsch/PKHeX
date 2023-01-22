@@ -76,26 +76,28 @@ internal static class EvolutionRestrictions
     /// Minimum current level for a given species to have learned the evolve-move and be successfully evolved.
     /// </summary>
     /// <remarks>Having a value of 0 means the move can't be learned.</remarks>
-    private static readonly byte[][] MinLevelEvolutionWithMove =
+    private static ReadOnlySpan<byte> MinLevelEvolutionWithMove => new byte[]
     {
-        new byte[] { 00, 00, 00, 00, 00, 29, 09, 02, 02, 02 }, // Sylveon (Eevee with Fairy Move)
-        new byte[] { 00, 00, 00, 00, 18, 15, 15, 02, 32, 00 }, // Mr. Mime (Mime Jr with Mimic)
-        new byte[] { 00, 00, 00, 00, 17, 17, 15, 02, 16, 16 }, // Sudowoodo (Bonsly with Mimic)
-        new byte[] { 00, 00, 00, 00, 32, 32, 32, 02, 32, 00 }, // Ambipom (Aipom with Double Hit)
-        new byte[] { 00, 00, 02, 00, 02, 33, 33, 02, 06, 00 }, // Lickilicky (Lickitung with Rollout)
-        new byte[] { 00, 00, 00, 00, 02, 36, 38, 02, 24, 00 }, // Tangrowth (Tangela with Ancient Power)
-        new byte[] { 00, 00, 00, 00, 02, 33, 33, 02, 33, 00 }, // Yanmega (Yanma with Ancient Power)
-        new byte[] { 00, 00, 00, 00, 02, 02, 02, 02, 02, 00 }, // Mamoswine (Piloswine with Ancient Power)
-        new byte[] { 00, 00, 00, 00, 00, 00, 00, 02, 28, 28 }, // Tsareena (Steenee with Stomp)
-        new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 35, 00 }, // Grapploct (Clobbopus with Taunt)
-        new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 }, // Wyrdeer (Stantler with AGILE Psyshield Bash)
-        new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 }, // Overqwil (Qwilfish-1 with STRONG Barb Barrage)
-        new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00, 35 }, // Annihilape (Primeape with Rage Fist)
-        new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00, 32 }, // Farigiraf (Girafarig with Twin Beam)
-        new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 00, 32 }, // Dudunsparce (Dunsparce with Hyper Drill)
+        00, 00, 00, 00, 00, 29, 09, 02, 02, 02, // Sylveon (Eevee with Fairy Move)
+        00, 00, 00, 00, 18, 15, 15, 02, 32, 00, // Mr. Mime (Mime Jr with Mimic)
+        00, 00, 00, 00, 17, 17, 15, 02, 16, 16, // Sudowoodo (Bonsly with Mimic)
+        00, 00, 00, 00, 32, 32, 32, 02, 32, 00, // Ambipom (Aipom with Double Hit)
+        00, 00, 02, 00, 02, 33, 33, 02, 06, 00, // Lickilicky (Lickitung with Rollout)
+        00, 00, 00, 00, 02, 36, 38, 02, 24, 00, // Tangrowth (Tangela with Ancient Power)
+        00, 00, 00, 00, 02, 33, 33, 02, 33, 00, // Yanmega (Yanma with Ancient Power)
+        00, 00, 00, 00, 02, 02, 02, 02, 02, 00, // Mamoswine (Piloswine with Ancient Power)
+        00, 00, 00, 00, 00, 00, 00, 02, 28, 28, // Tsareena (Steenee with Stomp)
+        00, 00, 00, 00, 00, 00, 00, 00, 35, 00, // Grapploct (Clobbopus with Taunt)
+        00, 00, 00, 00, 00, 00, 00, 00, 00, 00, // Wyrdeer (Stantler with AGILE Psyshield Bash)
+        00, 00, 00, 00, 00, 00, 00, 00, 00, 00, // Overqwil (Qwilfish-1 with STRONG Barb Barrage)
+        00, 00, 00, 00, 00, 00, 00, 00, 00, 35, // Annihilape (Primeape with Rage Fist)
+        00, 00, 00, 00, 00, 00, 00, 00, 00, 32, // Farigiraf (Girafarig with Twin Beam)
+        00, 00, 00, 00, 00, 00, 00, 00, 00, 32, // Dudunsparce (Dunsparce with Hyper Drill)
     };
 
-    private static readonly byte[] MinLevelEvolutionWithMove_8LA =
+    private const int MinLevelEvoWidth = 10;
+
+    private static ReadOnlySpan<byte> MinLevelEvolutionWithMove_8LA => new byte[]
     {
         00, // Sylveon (Eevee with Fairy Move)
         25, // Mr. Mime (Mime Jr with Mimic)
@@ -111,23 +113,23 @@ internal static class EvolutionRestrictions
         25, // Overqwil (Qwilfish-1 with STRONG Barb Barrage)
     };
 
-    private static readonly bool[][] CanEggHatchWithEvolveMove =
+    private static ReadOnlySpan<byte> CanEggHatchWithEvolveMove => new byte[]
     {
-        new [] { false, false,  true,  true,  true,  true,  true,  true,  true,  true }, // Sylveon (Eevee with Fairy Move)
-        new [] { false, false, false, false,  true,  true,  true,  true,  true, false }, // Mr. Mime (Mime Jr with Mimic)
-        new [] { false, false, false, false,  true,  true,  true,  true,  true,  true }, // Sudowoodo (Bonsly with Mimic)
-        new [] { false, false, false, false,  true,  true,  true,  true,  true, false }, // Ambipom (Aipom with Double Hit)
-        new [] { false, false,  true, false,  true,  true,  true,  true,  true, false }, // Lickilicky (Lickitung with Rollout)
-        new [] { false, false, false, false,  true,  true,  true,  true,  true, false }, // Tangrowth (Tangela with Ancient Power)
-        new [] { false, false, false, false,  true,  true,  true,  true,  true, false }, // Yanmega (Yanma with Ancient Power)
-        new [] { false, false,  true,  true,  true,  true,  true,  true,  true, false }, // Mamoswine (Piloswine with Ancient Power)
-        new [] { false, false, false, false, false, false, false, false, false, false }, // Tsareena (Steenee with Stomp)
-        new [] { false, false, false, false, false, false, false, false,  true, false }, // Grapploct (Clobbopus with Taunt)
-        new [] { false, false, false, false, false, false, false, false, false, false }, // Wyrdeer (Stantler with AGILE Psyshield Bash)
-        new [] { false, false, false, false, false, false, false, false, false, false }, // Overqwil (Qwilfish-1 with STRONG Barb Barrage)
-        new [] { false, false, false, false, false, false, false, false, false, false }, // Annihilape (Primeape with Rage Fist)
-        new [] { false, false, false, false, false, false, false, false, false,  true }, // Farigiraf (Girafarig with Twin Beam)
-        new [] { false, false, false, false, false, false, false, false, false,  true }, // Dudunsparce (Dunsparce with Hyper Drill)
+        0, 0, 1, 1, 1, 1, 1, 1, 1, 1, // Sylveon (Eevee with Fairy Move)
+        0, 0, 0, 0, 1, 1, 1, 1, 1, 0, // Mr. Mime (Mime Jr with Mimic)
+        0, 0, 0, 0, 1, 1, 1, 1, 1, 1, // Sudowoodo (Bonsly with Mimic)
+        0, 0, 0, 0, 1, 1, 1, 1, 1, 0, // Ambipom (Aipom with Double Hit)
+        0, 0, 1, 0, 1, 1, 1, 1, 1, 0, // Lickilicky (Lickitung with Rollout)
+        0, 0, 0, 0, 1, 1, 1, 1, 1, 0, // Tangrowth (Tangela with Ancient Power)
+        0, 0, 0, 0, 1, 1, 1, 1, 1, 0, // Yanmega (Yanma with Ancient Power)
+        0, 0, 1, 1, 1, 1, 1, 1, 1, 0, // Mamoswine (Piloswine with Ancient Power)
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // Tsareena (Steenee with Stomp)
+        0, 0, 0, 0, 0, 0, 0, 0, 1, 0, // Grapploct (Clobbopus with Taunt)
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // Wyrdeer (Stantler with AGILE Psyshield Bash)
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // Overqwil (Qwilfish-1 with STRONG Barb Barrage)
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // Annihilape (Primeape with Rage Fist)
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, // Farigiraf (Girafarig with Twin Beam)
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 1, // Dudunsparce (Dunsparce with Hyper Drill)
     };
 
     /// <summary>
@@ -163,7 +165,8 @@ internal static class EvolutionRestrictions
         var index = entry.ReferenceIndex;
         if (enc is EncounterEgg)
         {
-            if (CanEggHatchWithEvolveMove[index][gen])
+            var slice = CanEggHatchWithEvolveMove.Slice(index * MinLevelEvoWidth, MinLevelEvoWidth);
+            if (slice[gen] != 0) // true
             {
                 var result = move == 0 ? IsMoveInherited(pk, info, FairyMoves) : IsMoveInherited(pk, info, move);
                 if (result)
@@ -207,7 +210,7 @@ internal static class EvolutionRestrictions
     private static int GetLevelLearnMove(PKM pk, int gen, int index)
     {
         // Get the minimum level in any generation when the pokemon could learn the evolve move
-        var levels = MinLevelEvolutionWithMove[index];
+        var levels = MinLevelEvolutionWithMove.Slice(index * MinLevelEvoWidth, MinLevelEvoWidth);
         var lvl = 101;
         var end = pk.Format;
         for (int g = gen; g <= end; g++)

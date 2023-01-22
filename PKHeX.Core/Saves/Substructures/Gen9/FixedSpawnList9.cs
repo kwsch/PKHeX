@@ -63,7 +63,7 @@ public sealed class FixedSpawnDetail
 
     private const string General = nameof(General);
     private const string Misc = nameof(Misc);
-    
+
     [Category(Misc), Description("Unknown Hash.")]
     public ulong Hash
     {

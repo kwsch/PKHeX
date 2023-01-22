@@ -101,7 +101,7 @@ public partial class MemoryAmie : Form
         GB_M_OT.Enabled = GB_M_CT.Enabled = GB_Residence.Enabled =
             BTN_Save.Enabled = M_Fullness.Enabled = M_Enjoyment.Enabled =
                 L_Sociability.Enabled = MT_Sociability.Enabled =
-                    L_Fullness.Enabled = L_Enjoyment.Enabled = !(Entity.IsEgg && Entity.IsUntraded && Entity.HT_Friendship == 0);
+                    L_Fullness.Enabled = L_Enjoyment.Enabled = Entity is not { IsEgg: true, IsUntraded: true, HT_Friendship: 0 };
 
         if (!Entity.IsEgg)
         {

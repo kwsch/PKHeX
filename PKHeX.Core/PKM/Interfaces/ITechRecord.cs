@@ -8,24 +8,9 @@ namespace PKHeX.Core;
 public interface ITechRecord
 {
     /// <summary>
-    /// Individual accessed indexes indicate if they can be learned.
+    /// Rules for permitting the given record.
     /// </summary>
-    ReadOnlySpan<bool> TechRecordPermitFlags { get; }
-
-    /// <summary>
-    /// Individual accessed move IDs that a given TR teaches.
-    /// </summary>
-    ReadOnlySpan<ushort> TechRecordPermitIndexes { get; }
-
-    /// <summary>
-    /// Maximum count of record flags that are available.
-    /// </summary>
-    int RecordCountTotal { get; }
-
-    /// <summary>
-    /// Maximum count of record flags that are used.
-    /// </summary>
-    int RecordCountUsed { get; }
+    public IPermitRecord Permit { get; }
 
     /// <summary>
     /// Indicates if the TR has been previously used on this entity to learn the move.
@@ -45,4 +30,27 @@ public interface ITechRecord
     /// Indicates if any move has been learned via TR.
     /// </summary>
     bool GetMoveRecordFlagAny();
+}
+
+public interface IPermitRecord
+{
+    /// <summary>
+    /// Individual accessed indexes indicate if they can be learned.
+    /// </summary>
+    bool IsRecordPermitted(int index);
+
+    /// <summary>
+    /// Individual accessed move IDs that a given record remembers.
+    /// </summary>
+    ReadOnlySpan<ushort> RecordPermitIndexes { get; }
+
+    /// <summary>
+    /// Maximum count of record flags that are available.
+    /// </summary>
+    int RecordCountTotal { get; }
+
+    /// <summary>
+    /// Maximum count of record flags that are used.
+    /// </summary>
+    int RecordCountUsed { get; }
 }

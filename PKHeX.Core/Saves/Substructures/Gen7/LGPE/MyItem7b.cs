@@ -18,15 +18,15 @@ public sealed class MyItem7b : MyItem
     {
         get
         {
-            var pouch = new[]
+            InventoryPouch7b[] pouch =
             {
-                new InventoryPouch7b(InventoryType.Medicine, Legal.Pouch_Medicine_GG, 999, Medicine, PouchSize7b.Medicine),
-                new InventoryPouch7b(InventoryType.TMHMs, Legal.Pouch_TM_GG, 1, TM, PouchSize7b.TM),
-                new InventoryPouch7b(InventoryType.Balls, Legal.Pouch_Catching_GG, 999, Catching, PouchSize7b.Catching),
-                new InventoryPouch7b(InventoryType.Items, Legal.Pouch_Regular_GG, 999, Key, PouchSize7b.Items),
-                new InventoryPouch7b(InventoryType.BattleItems, Legal.Pouch_Battle_GG, 999, Battle, PouchSize7b.Battle),
-                new InventoryPouch7b(InventoryType.ZCrystals, Legal.Pouch_PowerUp_GG, 999, PowerUp, PouchSize7b.PowerUp),
-                new InventoryPouch7b(InventoryType.Candy, Legal.Pouch_Candy_GG, 999, Candy, PouchSize7b.Candy),
+                new(InventoryType.Medicine, Legal.Pouch_Medicine_GG, 999, Medicine, PouchSize7b.Medicine),
+                new(InventoryType.TMHMs, Legal.Pouch_TM_GG, 1, TM, PouchSize7b.TM),
+                new(InventoryType.Balls, Legal.Pouch_Catching_GG, 999, Catching, PouchSize7b.Catching),
+                new(InventoryType.Items, Legal.Pouch_Regular_GG, 999, Key, PouchSize7b.Items),
+                new(InventoryType.BattleItems, Legal.Pouch_Battle_GG, 999, Battle, PouchSize7b.Battle),
+                new(InventoryType.ZCrystals, Legal.Pouch_PowerUp_GG, 999, PowerUp, PouchSize7b.PowerUp),
+                new(InventoryType.Candy, Legal.Pouch_Candy_GG, 999, Candy, PouchSize7b.Candy),
             };
             return pouch.LoadAll(Data);
         }

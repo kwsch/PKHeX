@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -57,7 +57,7 @@ public static class DateUtil
         var sb = new System.Text.StringBuilder();
         if (value >= SecondsPerDay)
             sb.Append(value / SecondsPerDay).Append("d ");
-        sb.Append(new DateTime(0).AddSeconds(value).ToString("HH:mm:ss"));
+        sb.Append(new TimeOnly(ticks: value * TimeSpan.TicksPerSecond).ToString("HH:mm:ss"));
         if (secondsBias >= 0)
             sb.Append(Environment.NewLine).Append("Date: ").Append(Epoch2000.AddSeconds(value + secondsBias));
         return sb.ToString();
@@ -70,13 +70,13 @@ public static class DateUtil
     /// <param name="end">Last valid date</param>
     /// <param name="r">Random to use</param>
     /// <returns>Date within the specified range, inclusive.</returns>
-    public static DateTime GetRandomDateWithin(DateTime start, DateTime end, Random r)
+    public static DateOnly GetRandomDateWithin(DateOnly start, DateOnly end, Random r)
     {
-        var delta = end - start;
-        var bias = r.Next(delta.Days + 1);
+        var delta = end.DayNumber - start.DayNumber;
+        var bias = r.Next(delta + 1);
         return start.AddDays(bias);
     }
 
-    /// <inheritdoc cref="GetRandomDateWithin(DateTime,DateTime,Random)"/>
-    public static DateTime GetRandomDateWithin(DateTime start, DateTime end) => GetRandomDateWithin(start, end, Util.Rand);
+    /// <inheritdoc cref="GetRandomDateWithin(DateOnly,DateOnly,Random)"/>
+    public static DateOnly GetRandomDateWithin(DateOnly start, DateOnly end) => GetRandomDateWithin(start, end, Util.Rand);
 }

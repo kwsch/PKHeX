@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core;
@@ -52,7 +51,7 @@ public sealed class BatchEditor
     /// </summary>
     /// <param name="sets">Collection of modifications.</param>
     /// <returns>Friendly (multi-line) string indicating the result of the batch edits.</returns>
-    public string GetEditorResults(ICollection<StringInstructionSet> sets)
+    public string GetEditorResults(IReadOnlyCollection<StringInstructionSet> sets)
     {
         if (sets.Count == 0)
             return MsgBEInstructionNone;
@@ -65,10 +64,16 @@ public sealed class BatchEditor
         return result;
     }
 
-    public static BatchEditor Execute(IList<string> lines, IEnumerable<PKM> data)
+    /// <summary>
+    /// Executes the batch instruction <see cref="lines"/> on the input <see cref="data"/>
+    /// </summary>
+    /// <param name="lines">Batch instruction line(s)</param>
+    /// <param name="data">Entities to modify</param>
+    /// <returns>Editor object if follow up modifications are desired.</returns>
+    public static BatchEditor Execute(ReadOnlySpan<string> lines, IEnumerable<PKM> data)
     {
         var editor = new BatchEditor();
-        var sets = StringInstructionSet.GetBatchSets(lines).ToArray();
+        var sets = StringInstructionSet.GetBatchSets(lines);
         foreach (var pk in data)
         {
             foreach (var set in sets)

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
-using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms;
 

@@ -201,7 +201,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         Bitmap rare;
         if (shiny is Shiny.AlwaysSquare)
             rare = Resources.rare_icon_2;
-        else if (tweak.HasFlagFast(SpriteBuilderTweak.BoxBackgroundRed))
+        else if (tweak.HasFlag(SpriteBuilderTweak.BoxBackgroundRed))
             rare = Resources.rare_icon_alt;
         else
             rare = Resources.rare_icon;

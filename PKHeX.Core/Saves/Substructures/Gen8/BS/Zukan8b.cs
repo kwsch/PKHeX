@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Pokédex structure used for Brilliant Diamond &amp; Shining Pearl.
 /// </summary>
 /// <remarks>size 0x30B8, struct_name ZUKAN_WORK</remarks>
-public sealed class Zukan8b : ZukanBase
+public sealed class Zukan8b : ZukanBase<SAV8BS>
 {
     /* Structure Notes:
         u32 [493] state: None/HeardOf/Seen/Captured
@@ -137,7 +137,7 @@ public sealed class Zukan8b : ZukanBase
 
     public ZukanState8b GetState(ushort species)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
 
         var index = species - 1;
@@ -147,7 +147,7 @@ public sealed class Zukan8b : ZukanBase
 
     public void SetState(ushort species, ZukanState8b state)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
 
         var index = species - 1;
@@ -191,7 +191,7 @@ public sealed class Zukan8b : ZukanBase
 
     public bool GetLanguageFlag(ushort species, int language)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
         var languageBit = GetLanguageBit(language);
         if (languageBit == -1)
@@ -205,7 +205,7 @@ public sealed class Zukan8b : ZukanBase
 
     public void SetLanguageFlag(ushort species, int language, bool value)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
         var languageBit = GetLanguageBit(language);
         if (languageBit == -1)
@@ -221,7 +221,7 @@ public sealed class Zukan8b : ZukanBase
 
     public void SetLanguageFlags(ushort species, int value)
     {
-        if ((uint)species > Legal.MaxSpeciesID_4)
+        if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
 
         var index = species - 1;
@@ -347,7 +347,7 @@ public sealed class Zukan8b : ZukanBase
         SetLanguageFlag(species, pk.Language, true);
         SetHasFormFlag(species, pk.Form, shiny, true);
         if (species is (int)Species.Spinda)
-            ((SAV8BS)SAV).ZukanExtra.SetDex(originalState, pk.EncryptionConstant, pk.Gender, shiny);
+            SAV.ZukanExtra.SetDex(originalState, pk.EncryptionConstant, pk.Gender, shiny);
     }
 
     private void SetGenderFlag(ushort species, int gender, bool shiny)
@@ -464,7 +464,7 @@ public sealed class Zukan8b : ZukanBase
     {
         SetState(species, ZukanState8b.None);
         SetGenderFlags(species, false, false, false, false);
-        
+
         var formCount = GetFormCount(species);
         if (formCount is not 0)
         {

@@ -36,7 +36,7 @@ namespace PKHeX.WinForms
             new Task(() => splash.ShowDialog()).Start();
             new Task(() => EncounterEvent.RefreshMGDB(WinForms.Main.MGDatabasePath)).Start();
             var main = new Main();
-            splash.Invoke(() => splash.ForceClose());
+            splash.Invoke(splash.ForceClose);
             Application.Run(main);
         }
 

@@ -329,7 +329,7 @@
             this.L_TID.Name = "L_TID";
             this.L_TID.Size = new System.Drawing.Size(38, 13);
             this.L_TID.TabIndex = 61;
-            this.L_TID.Text = "TID:";
+            this.L_TID.Text = "TID16:";
             this.L_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MT_Money
@@ -347,7 +347,7 @@
             this.L_SID.Name = "L_SID";
             this.L_SID.Size = new System.Drawing.Size(38, 13);
             this.L_SID.TabIndex = 62;
-            this.L_SID.Text = "SID:";
+            this.L_SID.Text = "SID16:";
             this.L_SID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Money

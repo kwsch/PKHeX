@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -27,7 +27,7 @@ public partial class SAV_Trainer8 : Form
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
-        TrainerStats.LoadRecords(SAV, Records.RecordList_8);
+        TrainerStats.LoadRecords(SAV, RecordLists.RecordList_8);
 
         NUD_BP.Value = Math.Min(SAV.Misc.BP, 9999);
         GetComboBoxes();
@@ -66,7 +66,7 @@ public partial class SAV_Trainer8 : Form
         TB_TrainerCardNumber.Text = SAV.Blocks.TrainerCard.Number;
         MT_TrainerCardID.Text = SAV.Blocks.TrainerCard.TrainerID.ToString("000000");
         MT_RotoRally.Text = SAV.Blocks.TrainerCard.RotoRallyScore.ToString();
-        trainerID1.LoadIDValues(SAV);
+        trainerID1.LoadIDValues(SAV, SAV.Generation);
         MT_Money.Text = SAV.Money.ToString();
         MT_Watt.Text = SAV.MyStatus.Watt.ToString();
         CB_Language.SelectedValue = SAV.Language;
@@ -125,8 +125,8 @@ public partial class SAV_Trainer8 : Form
         SAV.SetValue(SaveBlockAccessor8SWSH.KBattleTowerSinglesStreak, (ushort)Math.Min(300, Util.ToUInt32(MT_BattleTowerSinglesStreak.Text)));
         SAV.SetValue(SaveBlockAccessor8SWSH.KBattleTowerDoublesStreak, (ushort)Math.Min(300, Util.ToUInt32(MT_BattleTowerDoublesStreak.Text)));
 
-        SAV.SetRecord(Records.G8BattleTowerSingleWin, (int)singles);
-        SAV.SetRecord(Records.G8BattleTowerDoubleWin, (int)doubles);
+        SAV.SetRecord(RecordLists.G8BattleTowerSingleWin, (int)singles);
+        SAV.SetRecord(RecordLists.G8BattleTowerDoubleWin, (int)doubles);
     }
 
     private void Save()

@@ -85,11 +85,9 @@ public static class ShowdownParsing
             (int)Necrozma when form is "Dusk"           => $"{form}-Mane",
             (int)Necrozma when form is "Dawn"           => $"{form}-Wings",
             (int)Polteageist or (int)Sinistea           => form == "Antique" ? form : string.Empty,
-            (int)Tauros when form is "Paldea (Fire)"    => "Paldea-Fire",
-            (int)Tauros when form is "Paldea (Water)"   => "Paldea-Water",
             (int)Maushold when form is "Family of Four" => "Four",
 
-            (int)Furfrou or (int)Greninja or (int)Rockruff or (int)Tatsugiri or (int)Koraidon or (int)Miraidon => string.Empty,
+            (int)Furfrou or (int)Greninja or (int)Rockruff or (int)Koraidon or (int)Miraidon => string.Empty,
 
             _ => Legal.Totem_USUM.Contains(species) && form == "Large"
                 ? Legal.Totem_Alolan.Contains(species) && species != (int)Mimikyu ? "Alola-Totem" : "Totem"
@@ -121,8 +119,6 @@ public static class ShowdownParsing
             (int)Zygarde    when ability == 211         => $"{(string.IsNullOrWhiteSpace(form) ? "50%" : "10%")}-C",
             (int)Greninja   when ability == 210         => "Ash", // Battle Bond
             (int)Rockruff   when ability == 020         => "Dusk", // Rockruff-1
-            (int)Tauros     when form == "Paldea-Fire"  => "Paldea (Fire)",
-            (int)Tauros     when form == "Paldea-Water" => "Paldea (Water)",
             (int)Maushold   when form == "Four"         => "Family of Four",
             (int)Urshifu or (int)Pikachu or (int)Alcremie => form.Replace('-', ' '), // Strike and Cosplay
 
@@ -154,6 +150,63 @@ public static class ShowdownParsing
         }
         if (setLines.Count != 0)
             yield return new ShowdownSet(setLines);
+    }
+
+    /// <inheritdoc cref="GetShowdownSets(IEnumerable{string})"/>
+    public static IEnumerable<ShowdownSet> GetShowdownSets(ReadOnlyMemory<char> text)
+    {
+        int start = 0;
+        do
+        {
+            var span = text.Span;
+            var slice = span[start..];
+            var set = GetShowdownSet(slice, out int length);
+            if (set.Species == 0)
+                break;
+            yield return set;
+            start += length;
+        }
+        while (start < text.Length);
+    }
+
+    /// <inheritdoc cref="GetShowdownSets(ReadOnlyMemory{char})"/>
+    public static IEnumerable<ShowdownSet> GetShowdownSets(string text) => GetShowdownSets(text.AsMemory());
+
+    private static int GetLength(ReadOnlySpan<char> text)
+    {
+        // Find the end of the Showdown Set lines.
+        // The end is implied when:
+        // - we see a completely whitespace or empty line, or
+        // - we witness four 'move' definition lines.
+        int length = 0;
+        int moveCount = 4;
+
+        while (true)
+        {
+            var newline = text.IndexOf('\n');
+            if (newline == -1)
+                return length + text.Length;
+
+            var slice = text[..newline];
+            var used = newline + 1;
+            length += used;
+
+            if (slice.IsEmpty || slice.IsWhiteSpace())
+                return length;
+            if (slice.TrimStart()[0] is '-' or '–' && --moveCount == 0)
+                return length;
+            text = text[used..];
+        }
+    }
+
+    public static ShowdownSet GetShowdownSet(ReadOnlySpan<char> text, out int length)
+    {
+        length = GetLength(text);
+        var slice = text[..length];
+        var set = new ShowdownSet(slice);
+        while (length < text.Length && text[length] is '\r' or '\n' or ' ')
+            length++;
+        return set;
     }
 
     /// <summary>

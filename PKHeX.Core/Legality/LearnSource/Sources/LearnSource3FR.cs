@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="FR"/>.
 /// </summary>
-public sealed class LearnSource3FR : ILearnSource, IEggSource
+public sealed class LearnSource3FR : ILearnSource<PersonalInfo3>, IEggSource
 {
     public static readonly LearnSource3FR Instance = new();
     private static readonly PersonalTable3 Personal = PersonalTable.FR;
@@ -21,9 +21,9 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
     private const int CountTM = 50;
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
-    internal PersonalInfo this[ushort species] => Personal[species];
+    internal PersonalInfo3 this[ushort species] => Personal[species];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo3? pi)
     {
         pi = null;
         if (species > MaxSpecies)
@@ -47,9 +47,9 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo3 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -57,7 +57,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             if (GetIsTM(pi, move))
                 return new(TMHM, Game);
@@ -65,7 +65,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
                 return new(TMHM, Game);
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
             return new(Tutor, Game);
 
         return default;
@@ -79,7 +79,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         _ => false,
     };
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo3 info, ushort move)
     {
         var index = Array.IndexOf(TM_3, move);
         if (index == -1)
@@ -87,7 +87,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         return info.TMHM[index];
     }
 
-    private static bool GetIsHM(PersonalInfo info, ushort move)
+    private static bool GetIsHM(PersonalInfo3 info, ushort move)
     {
         var index = Array.IndexOf(HM_3, move);
         if (index == -1)
@@ -100,7 +100,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax);
@@ -112,7 +112,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
+        if (types.HasFlag(MoveSourceType.Machine))
         {
             var flags = pi.TMHM;
             var moves = TM_3;
@@ -133,7 +133,7 @@ public sealed class LearnSource3FR : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
         {
             if (evo.Species == (int)Species.Charizard)
                 result[(int)Move.BlastBurn] = true;

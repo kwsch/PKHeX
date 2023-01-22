@@ -19,6 +19,7 @@ public static class BatchMods
         new TypeSuggestion<IHyperTrain>(nameof(Extensions.HyperTrainClear), p => p.HyperTrainClear()),
         new TypeSuggestion<IGeoTrack>(nameof(Extensions.ClearGeoLocationData), p => p.ClearGeoLocationData()),
         new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningClear), p => p.AwakeningClear()),
+        new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningMinimum), p => p.AwakeningMinimum()),
         new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningMax), p => p.AwakeningMax()),
         new TypeSuggestion<IGanbaru>(nameof(GanbaruExtensions.ClearGanbaruValues), p => p.ClearGanbaruValues()),
         new TypeSuggestion<IGanbaru>(nameof(GanbaruExtensions.SetSuggestedGanbaruValues), p => p.SetSuggestedGanbaruValues((PKM)p)),
@@ -50,7 +51,7 @@ public static class BatchMods
         new ComplexSuggestion(PROP_MOVEMASTERY, (_, value, info) => BatchModifications.SetSuggestedMasteryData(info, value)),
     };
 
-    private static DateTime ParseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+    private static DateOnly ParseDate(ReadOnlySpan<char> val) => DateOnly.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture);
 
     public static readonly List<IComplexSet> ComplexMods = new()
     {
@@ -71,6 +72,7 @@ public static class BatchMods
         new ComplexSet(nameof(PKM.PID), value => value == CONST_RAND, (pk, _) => pk.PID = Util.Rand32()),
         new ComplexSet(nameof(PKM.Gender), value => value == CONST_RAND, (pk, _) => pk.SetPIDGender(pk.Gender)),
         new ComplexSet(PROP_EVS, value => value == CONST_RAND, (pk, _) => SetRandomEVs(pk)),
+        new ComplexSet(nameof(ITeraType.TeraTypeOverride), value => value == CONST_RAND, (pk, _) => SetRandomTeraType(pk)),
 
         // Shiny
         new ComplexSet(nameof(PKM.PID),
@@ -84,6 +86,12 @@ public static class BatchMods
         new ComplexSet(nameof(PKM.EncryptionConstant), value => value.StartsWith(CONST_RAND), (pk, cmd) => pk.EncryptionConstant = CommonEdits.GetComplicatedEC(pk, option: cmd.PropertyValue[^1])),
     };
 
+    private static void SetRandomTeraType(PKM pk)
+    {
+        if (pk is ITeraType t)
+            t.TeraTypeOverride = (MoveType)Util.Rand.Next(0, TeraTypeUtil.MaxType + 1);
+    }
+
     private static void SetRandomEVs(PKM pk)
     {
         Span<int> evs = stackalloc int[6];
@@ -91,7 +99,7 @@ public static class BatchMods
         pk.SetEVs(evs);
     }
 
-    private static Shiny GetRequestedShinyState(string text) => text.Length == 0 ? Shiny.Random : GetRequestedShinyState(text[^1]);
+    private static Shiny GetRequestedShinyState(ReadOnlySpan<char> text) => text.Length == 0 ? Shiny.Random : GetRequestedShinyState(text[^1]);
 
     private static Shiny GetRequestedShinyState(char last) => last switch
     {

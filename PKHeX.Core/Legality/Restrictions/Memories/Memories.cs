@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -7,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Memories
 {
-    private static readonly byte[] ArgTypes =
+    private static ReadOnlySpan<byte> ArgTypes => new byte[]
     {
         0, 1, 1, 1, 1, 5, 2, 3, 0, 3,
         0, 0, 4, 3, 3, 5, 4, 3, 3, 1,

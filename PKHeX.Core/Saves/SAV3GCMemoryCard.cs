@@ -325,7 +325,7 @@ public sealed class SAV3GCMemoryCard
         return $"{Makercode}-{GameCode}-{Util.TrimFromZero(FileName)}.gci";
     }
 
-    public byte[] ReadSaveGameData()
+    public ReadOnlyMemory<byte> ReadSaveGameData()
     {
         var entry = EntrySelected;
         if (entry < 0)
@@ -333,14 +333,14 @@ public sealed class SAV3GCMemoryCard
         return ReadSaveGameData(entry);
     }
 
-    private byte[] ReadSaveGameData(int entry)
+    private ReadOnlyMemory<byte> ReadSaveGameData(int entry)
     {
         int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (entry * DENTRY_SIZE);
         var span = Data.AsSpan(offset);
         int blockFirst = ReadUInt16BigEndian(span[0x36..]);
         int blockCount = ReadUInt16BigEndian(span[0x38..]);
 
-        return Data.AsSpan(blockFirst * BLOCK_SIZE, blockCount * BLOCK_SIZE).ToArray();
+        return Data.AsMemory(blockFirst * BLOCK_SIZE, blockCount * BLOCK_SIZE);
     }
 
     public void WriteSaveGameData(ReadOnlySpan<byte> data)

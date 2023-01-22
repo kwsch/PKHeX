@@ -15,12 +15,9 @@ public static class Encounters5BW
 
     static Encounters5BW() => MarkEncounterTradeStrings(TradeGift_BW, TradeBW);
 
-    #region Dream Radar Tables
-
-    #endregion
     #region DreamWorld Encounter
 
-    public static readonly EncounterStatic5[] DreamWorld_BW = DreamWorldEntry.GetArray(BW, new DreamWorldEntry[]
+    public static readonly EncounterStatic5[] DreamWorld_BW = DreamWorldEntry.GetArray(BW, stackalloc DreamWorldEntry[]
     {
         // Pleasant Forest
         new(029, 10, 010, 389, 162), // Nidoran♀
@@ -181,13 +178,13 @@ public static class Encounters5BW
     #region Trade Tables
     internal static readonly EncounterTrade5PID[] TradeGift_BW =
     {
-        new(B , 0x64000000) { Species = 548, Level = 15, Ability = OnlyFirst,  TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Petilil
-        new( W, 0x6400007E) { Species = 546, Level = 15, Ability = OnlyFirst,  TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
-        new(B , 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
-        new( W, 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
-        new(BW, 0xD400007F) { Species = 587, Level = 30, Ability = OnlyFirst,  TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new(20,20,31,20,20,20), Nature = Nature.Lax }, // Emolga
-        new(BW, 0x2A000000) { Species = 479, Level = 60, Ability = OnlyFirst,  TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new(20,20,20,20,20,31), Nature = Nature.Gentle }, // Rotom
-        new(BW, 0x6200001F) { Species = 446, Level = 60, Ability = OnlySecond, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new(31,20,20,20,20,20), Nature = Nature.Serious }, // Munchlax
+        new(B , 0x64000000) { Species = 548, Level = 15, Ability = OnlyFirst,  TID16 = 39922, SID16 = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Petilil
+        new( W, 0x6400007E) { Species = 546, Level = 15, Ability = OnlyFirst,  TID16 = 39922, SID16 = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
+        new(B , 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID16 = 27646, SID16 = 00000, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
+        new( W, 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  TID16 = 27646, SID16 = 00000, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
+        new(BW, 0xD400007F) { Species = 587, Level = 30, Ability = OnlyFirst,  TID16 = 11195, SID16 = 00000, OTGender = 0, Gender = 0, IVs = new(20,20,31,20,20,20), Nature = Nature.Lax }, // Emolga
+        new(BW, 0x2A000000) { Species = 479, Level = 60, Ability = OnlyFirst,  TID16 = 54673, SID16 = 00000, OTGender = 1, Gender = 2, IVs = new(20,20,20,20,20,31), Nature = Nature.Gentle }, // Rotom
+        new(BW, 0x6200001F) { Species = 446, Level = 60, Ability = OnlySecond, TID16 = 40217, SID16 = 00000, OTGender = 0, Gender = 0, IVs = new(31,20,20,20,20,20), Nature = Nature.Serious }, // Munchlax
     };
 
     private const string tradeBW = "tradebw";

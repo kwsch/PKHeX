@@ -1,5 +1,3 @@
-using static PKHeX.Core.Species;
-
 namespace PKHeX.Core;
 
 public static partial class Legal
@@ -25,12 +23,4 @@ public static partial class Legal
         224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,
         240,241,242,243,244,245,246,247,248,249,250,
     };
-
-    internal static bool TransferSpeciesDefaultAbilityGen1(ushort species)
-    {
-        System.Diagnostics.Debug.Assert((uint)species <= MaxSpeciesID_1);
-        return species is (int)Gastly or (int)Haunter or (int)Gengar
-            or (int)Koffing or (int)Weezing
-            or (int)Mew;
-    }
 }

@@ -184,7 +184,7 @@ public sealed class MetDataSource
 
     private static List<ComboItem> CreateGen8b(GameStrings s)
     {
-        // Manually add invalid (-1) location from SWSH as ID 65535
+        // Manually add invalid (-1) location from SW/SH as ID 65535
         var locations = new List<ComboItem> { new(s.Gen8.Met0[0], Locations.Default8bNone) };
         Util.AddCBWithOffset(locations, s.Gen8b.Met6, 60000, Locations.Daycare5);
         Util.AddCBWithOffset(locations, s.Gen8b.Met3, 30000, Locations.LinkTrade6);

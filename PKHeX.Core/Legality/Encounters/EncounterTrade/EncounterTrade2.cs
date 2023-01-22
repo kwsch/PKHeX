@@ -14,14 +14,14 @@ public sealed record EncounterTrade2 : EncounterTradeGB
 
     public EncounterTrade2(ushort species, byte level, ushort tid) : base(species, level, GameVersion.GSC)
     {
-        TID = tid;
+        TID16 = tid;
     }
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
         if (Level > pk.CurrentLevel) // minimum required level
             return false;
-        if (TID != pk.TID)
+        if (TID16 != pk.TID16)
             return false;
 
         if (pk.Format <= 2)
@@ -30,7 +30,7 @@ public sealed record EncounterTrade2 : EncounterTradeGB
                 return false;
             if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pk))
                 return false;
-            if (pk.Format == 2 && pk.Met_Location is not (0 or 126))
+            if (pk is { Format: 2, Met_Location: not (0 or 126) })
                 return false;
         }
 

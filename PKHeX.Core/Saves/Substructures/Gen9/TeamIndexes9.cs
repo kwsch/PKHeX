@@ -21,7 +21,7 @@ public sealed class TeamIndexes9 : SaveBlock<SAV9SV>, ITeamIndexSet
 
         for (int i = 0; i < TeamCount * 6; i++)
         {
-            short val = ReadInt16LittleEndian(Data.AsSpan(Offset + (i * 2)));
+            short val = ReadInt16LittleEndian(Data.AsSpan(i * 2));
             if (val < 0)
             {
                 TeamSlots[i] = NONE_SELECTED;
@@ -49,7 +49,7 @@ public sealed class TeamIndexes9 : SaveBlock<SAV9SV>, ITeamIndexSet
 
     public void SaveBattleTeams()
     {
-        var span = Data.AsSpan(Offset);
+        var span = Data.AsSpan();
         for (int i = 0; i < TeamCount * 6; i++)
         {
             int index = TeamSlots[i];

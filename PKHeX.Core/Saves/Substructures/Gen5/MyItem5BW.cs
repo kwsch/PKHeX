@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -23,13 +23,13 @@ public sealed class MyItem5BW : MyItem
     {
         get
         {
-            InventoryPouch[] pouch =
+            InventoryPouch4[] pouch =
             {
-                new InventoryPouch4(InventoryType.Items, LegalItems, 999, Offset + HeldItem),
-                new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, Offset + KeyItem),
-                new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 1, Offset + TMHM),
-                new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, Offset + Medicine),
-                new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, Offset + Berry),
+                new(InventoryType.Items, LegalItems, 999, Offset + HeldItem),
+                new(InventoryType.KeyItems, LegalKeyItems, 1, Offset + KeyItem),
+                new(InventoryType.TMHMs, LegalTMHMs, 1, Offset + TMHM),
+                new(InventoryType.Medicine, LegalMedicine, 999, Offset + Medicine),
+                new(InventoryType.Berries, LegalBerries, 999, Offset + Berry),
             };
             return pouch.LoadAll(Data);
         }

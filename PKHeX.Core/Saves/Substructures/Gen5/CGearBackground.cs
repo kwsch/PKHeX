@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 public sealed class CGearBackground
 {
     public const string Extension = "cgb";
-    public const string Filter = "C-Gear Background|*.cgb";
+    public const string Filter = $"C-Gear Background|*.{Extension}";
     public const int Width = 256; // px
     public const int Height = 192; // px
     public const int SIZE_CGB = 0x2600;
@@ -47,7 +47,7 @@ public sealed class CGearBackground
     public CGearBackground(byte[] data)
     {
         if (data.Length != SIZE_CGB)
-            throw new ArgumentException(nameof(data));
+            throw new ArgumentOutOfRangeException(nameof(data));
 
         // decode for easy handling
         if (!IsCGB(data))
@@ -155,22 +155,29 @@ public sealed class CGearBackground
     private static byte[] PSKtoCGB(ReadOnlySpan<byte> psk)
     {
         byte[] cgb = psk.ToArray();
-        for (int i = 0x2000; i < 0x2600; i += 2)
+        var tileRegion = cgb.AsSpan(0x2000, 0x600);
+        ConvertTilesPSKtoCGB(tileRegion);
+        return cgb;
+    }
+    
+    private static void ConvertTilesPSKtoCGB(Span<byte> tileRegion)
+    {
+        for (int i = 0; i < tileRegion.Length; i += 2)
         {
-            int val = ReadUInt16LittleEndian(psk[i..]);
-            int index = ValToIndex(val);
+            var exist = tileRegion.Slice(i, 2);
+            var value = ReadUInt16LittleEndian(exist);
+            var index = ValToIndex(value);
 
             byte tile = (byte)index;
             byte rot = (byte)(index >> 8);
             if (tile == 0xFF)
                 tile = 0;
-            cgb[i] = tile;
-            cgb[i + 1] = rot;
+            exist[i] = tile;
+            exist[i + 1] = rot;
         }
-        return cgb;
     }
 
-    private static int ValToIndex(int val)
+    private static int ValToIndex(ushort val)
     {
         var trunc = (val & 0x3FF);
         if (trunc is < 0xA0 or > 0x280)
@@ -219,7 +226,7 @@ public sealed class CGearBackground
         return (ushort)val;
     }
 
-    private static readonly byte[] Convert5To8 = // 0x20 entries
+    private static ReadOnlySpan<byte> Convert5To8 => new byte[] // 0x20 entries
     {
         0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
         0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,

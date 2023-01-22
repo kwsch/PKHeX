@@ -17,8 +17,8 @@ public readonly ref struct HallFame6Entity
     public ushort Move4 { get => ReadUInt16LittleEndian(Data[0x0A..]); set => WriteUInt16LittleEndian(Data[0x0A..], value); }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data[0x0C..]); set => WriteUInt32LittleEndian(Data[0x0C..], value); }
 
-    public ushort TID { get => ReadUInt16LittleEndian(Data[0x10..]); set => WriteUInt16LittleEndian(Data[0x10..], value); }
-    public ushort SID { get => ReadUInt16LittleEndian(Data[0x12..]); set => WriteUInt16LittleEndian(Data[0x12..], value); }
+    public ushort TID16 { get => ReadUInt16LittleEndian(Data[0x10..]); set => WriteUInt16LittleEndian(Data[0x10..], value); }
+    public ushort SID16 { get => ReadUInt16LittleEndian(Data[0x12..]); set => WriteUInt16LittleEndian(Data[0x12..], value); }
     private uint Pack { get => ReadUInt32LittleEndian(Data[0x14..]); set => WriteUInt32LittleEndian(Data[0x14..], value); }
 
     public byte Form { get => (byte)(Pack & 0x1Fu); set => Pack = (Pack & ~0x1Fu) | (value & 0x1Fu); }
@@ -47,12 +47,12 @@ public readonly ref struct HallFame6Entity
     public string Nickname
     {
         get => StringConverter6.GetString(Nick_Trash);
-        set => StringConverter6.SetString(Nick_Trash, value.AsSpan(), 12, Option);
+        set => StringConverter6.SetString(Nick_Trash, value, 12, Option);
     }
 
     public string OT_Name
     {
         get => StringConverter6.GetString(OT_Trash);
-        set => StringConverter6.SetString(OT_Trash, value.AsSpan(), 12, Option);
+        set => StringConverter6.SetString(OT_Trash, value, 12, Option);
     }
 }

@@ -102,6 +102,12 @@ public static class FormArgumentUtil
             f.FormArgumentMaximum = Math.Max(f.FormArgumentMaximum, elapsed);
     }
 
+    /// <summary>
+    /// Gets the maximum value the <see cref="IFormArgument.FormArgument"/> can be.
+    /// </summary>
+    /// <param name="species">Entity Species</param>
+    /// <param name="form">Entity Form</param>
+    /// <param name="generation">Generation to check with.</param>
     public static uint GetFormArgumentMax(ushort species, byte form, int generation)
     {
         if (generation <= 5)
@@ -127,6 +133,11 @@ public static class FormArgumentUtil
         };
     }
 
+    /// <summary>
+    /// Gets the minimum value the <see cref="IFormArgument.FormArgument"/> value can be to satisfy an evolution requirement.
+    /// </summary>
+    /// <param name="currentSpecies">Current state species</param>
+    /// <param name="originalSpecies">Initial species</param>
     public static uint GetFormArgumentMinEvolution(ushort currentSpecies, ushort originalSpecies) => originalSpecies switch
     {
         (int)Yamask when currentSpecies == (int)Runerigus => 49u,
@@ -139,6 +150,9 @@ public static class FormArgumentUtil
         _ => 0u,
     };
 
+    /// <summary>
+    /// Checks if the <see cref="IFormArgument.FormArgument"/> value is stored as a days-elapsed / days-remaining pair.
+    /// </summary>
     public static bool IsFormArgumentTypeDatePair(ushort species, byte form) => species switch
     {
         (int)Furfrou when form != 0 => true,

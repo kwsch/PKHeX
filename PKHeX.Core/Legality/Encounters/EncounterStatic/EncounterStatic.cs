@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
 /// </remarks>
-public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IMoveset, IEncounterMatch
+public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IMoveset, IEncounterMatch, IFatefulEncounterReadOnly
 {
     public ushort Species { get; init; }
     public byte Form { get; init; }
@@ -26,7 +26,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
 
     public ushort HeldItem { get; init; }
     public bool Gift { get; init; }
-    public bool Fateful { get; init; }
+    public bool FatefulEncounter { get; init; }
 
     public byte EggCycles { get; init; }
     public byte FlawlessIVCount { get; init; }
@@ -45,11 +45,6 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     public string Name => _name;
     public string LongName => $"{_name} ({Version})";
     public bool IsShiny => Shiny.IsShiny();
-
-    public bool IsRandomUnspecificForm => Form >= FormDynamic;
-    private const int FormDynamic = FormVivillon;
-    internal const int FormVivillon = 30;
-    //protected const int FormRandom = 31;
 
     protected virtual PKM GetBlank(ITrainerInfo tr) => EntityBlank.GetBlank(Generation, Version);
 
@@ -91,7 +86,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         SetPINGA(pk, criteria);
         SetEncounterMoves(pk, version, level);
 
-        if (Fateful)
+        if (FatefulEncounter)
             pk.FatefulEncounter = true;
 
         if (pk.Format < 6)
@@ -139,10 +134,10 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         {
             bool traded = (int)Version == tr.Game;
             pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(Generation, Version, traded);
-            pk.EggMetDate = today;
+            pk.EggMetDate = DateOnly.FromDateTime(today);
         }
         pk.Egg_Location = EggLocation;
-        pk.EggMetDate = today;
+        pk.EggMetDate = DateOnly.FromDateTime(today);
     }
 
     protected virtual void SetMetData(PKM pk, int level, DateTime today)
@@ -153,7 +148,7 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         pk.Met_Location = Location;
         pk.Met_Level = level;
         if (pk.Format >= 4)
-            pk.MetDate = today;
+            pk.MetDate = DateOnly.FromDateTime(today);
     }
 
     protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)
@@ -276,8 +271,6 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
 
     protected virtual bool IsMatchForm(PKM pk, EvoCriteria evo)
     {
-        if (IsRandomUnspecificForm)
-            return true;
         return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context);
     }
 
@@ -332,8 +325,8 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
     /// </summary>
     protected virtual bool IsMatchPartial(PKM pk)
     {
-        if (pk.Format >= 5 && pk.AbilityNumber == 4 && this.IsPartialMatchHidden(pk.Species, Species))
+        if (pk is { Format: >= 5, AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))
             return true;
-        return pk.FatefulEncounter != Fateful;
+        return pk.FatefulEncounter != FatefulEncounter;
     }
 }

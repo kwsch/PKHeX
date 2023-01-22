@@ -40,7 +40,7 @@ public sealed class MemoryVerifier : Verifier
         var memory = MemoryVariableSet.Read((ITrainerMemories)pk, handler);
 
         // Actionable HM moves
-        int hmIndex = Array.IndexOf(MemoryContext6.MoveSpecificMemoryHM, memory.MemoryID);
+        int hmIndex = MemoryContext6.MoveSpecificMemoryHM.IndexOf(memory.MemoryID);
         if (hmIndex != -1)
         {
             if (context != Gen6) // Gen8 has no HMs, so this memory can never exist.
@@ -51,7 +51,7 @@ public sealed class MemoryVerifier : Verifier
                 // All AO hidden machine permissions are super-sets of Gen 3-5 games.
                 // Don't need to check the move history -- a learned HM in a prior game can still be learned in Gen6.
                 var evos = info.EvoChainsAllGens.Gen6;
-                var exists = Array.Exists(evos, z => PersonalTable.AO.GetFormEntry(z.Species, 0).TMHM[100 + hmIndex]);
+                var exists = Array.Exists(evos, z => PersonalTable.AO.GetFormEntry(z.Species, 0).GetIsLearnHM(hmIndex));
                 if (!exists)
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
@@ -70,7 +70,7 @@ public sealed class MemoryVerifier : Verifier
                 return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
             // {0} saw {2} carrying {1} on its back. {4} that {3}.
-            case 21 when context != Gen6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).TMHM[101]: // Fly
+            case 21 when context != Gen6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).GetIsLearnHM(2): // Fly
                 return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
             // {0} used {2} at {1}’s instruction, but it had no effect. {4} that {3}.
@@ -230,7 +230,7 @@ public sealed class MemoryVerifier : Verifier
         switch (memory)
         {
             // No Memory
-            case 0: // SWSH trades don't set HT memories immediately, which is hilarious.
+            case 0: // SW/SH trades don't set HT memories immediately, which is hilarious.
                 data.AddLine(Get(LMemoryMissingOT, context == Gen8 ? Severity.Fishy : Severity.Invalid));
                 VerifyOTMemoryIs(data, 0, 0, 0, 0);
                 return;
@@ -320,7 +320,7 @@ public sealed class MemoryVerifier : Verifier
         switch (memory)
         {
             // No Memory
-            case 0: // SWSH memory application has an off-by-one error: [0,99] + 1 <= chance --> don't apply
+            case 0: // SW/SH memory application has an off-by-one error: [0,99] + 1 <= chance --> don't apply
                 var severity = memoryGen switch
                 {
                     Gen8 when pk is not PK8 && !pk.SWSH => Severity.Valid,

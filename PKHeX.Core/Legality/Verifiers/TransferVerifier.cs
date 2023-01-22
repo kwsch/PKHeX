@@ -220,7 +220,9 @@ public sealed class TransferVerifier : Verifier
 
         if (pk.Gender == 1) // female
         {
-            if (pk.PersonalInfo.Gender == 31 && pk.IsShiny) // impossible gender-shiny
+            var enc = data.EncounterOriginal;
+            var pi = PersonalTable.USUM[enc.Species];
+            if (pi.Gender == 31 && pk.IsShiny) // impossible gender-shiny
                 data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
         }
         else if (pk.Species == (int)Species.Unown)

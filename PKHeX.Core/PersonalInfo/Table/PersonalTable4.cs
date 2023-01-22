@@ -30,12 +30,12 @@ public sealed class PersonalTable4 : IPersonalTable, IPersonalTable<PersonalInfo
 
     public int GetFormIndex(ushort species, byte form)
     {
-        if ((uint)species <= MaxSpecies)
+        if (species <= MaxSpecies)
             return Table[species].FormIndex(species, form);
         return 0;
     }
 
-    public bool IsSpeciesInGame(ushort species) => (uint)species <= MaxSpecies;
+    public bool IsSpeciesInGame(ushort species) => species <= MaxSpecies;
     public bool IsPresentInGame(ushort species, byte form)
     {
         if (!IsSpeciesInGame(species))
@@ -74,7 +74,7 @@ public sealed class PersonalTable4 : IPersonalTable, IPersonalTable<PersonalInfo
             for (byte f = 1; f < fc; f++)
             {
                 var pi = table[form0.FormIndex(i, f)];
-                pi.TypeTutors = form0.TypeTutors;
+                pi.CopyTypeTutors(form0);
             }
         }
     }

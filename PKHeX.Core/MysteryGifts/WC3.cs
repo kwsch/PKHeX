@@ -13,15 +13,20 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 {
     public override MysteryGift Clone() => (WC3)MemberwiseClone();
 
+    public WC3(bool fateful = false) => FatefulEncounter = fateful;
+
     /// <summary>
     /// Matched <see cref="PIDIV"/> Type
     /// </summary>
-    public PIDType Method;
+    public PIDType Method { get; init; }
+
+    private const ushort UnspecifiedID = ushort.MaxValue;
 
     public override string OT_Name { get; set; } = string.Empty;
     public int OT_Gender { get; init; } = 3;
-    public override int TID { get; set; }
-    public override int SID { get; set; }
+    public override uint ID32 { get => (uint)(SID16 << 16 | TID16); set => (SID16, TID16) = ((ushort)(value >> 16), (ushort)value); }
+    public override ushort TID16 { get; set; } = UnspecifiedID;
+    public override ushort SID16 { get; set; } = UnspecifiedID;
     public override int Location { get; set; } = 255;
     public override int EggLocation { get => 0; set {} }
     public override GameVersion Version { get; set; }
@@ -31,7 +36,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     public override Moveset Moves { get; set; }
     public bool NotDistributed { get; init; }
     public override Shiny Shiny { get; init; }
-    public bool Fateful { get; init; } // Obedience Flag
+    public override bool FatefulEncounter { get; } // Obedience Flag
 
     // Mystery Gift Properties
     public override int Generation => 3;
@@ -47,7 +52,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     public bool RibbonChampionRegional { get; set; }
     public bool RibbonChampionNational { get; set; }
 
-    public string? Nickname { get; set; }
+    public string? Nickname { get; init; }
 
     // Description
     public override string CardTitle { get; set; } = "Generation 3 Event";
@@ -74,7 +79,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 
     public override AbilityPermission Ability => AbilityPermission.Any12;
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         PK3 pk = new()
         {
@@ -91,7 +96,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
             RibbonChampionRegional = RibbonChampionRegional,
             RibbonChampionNational = RibbonChampionNational,
 
-            FatefulEncounter = Fateful,
+            FatefulEncounter = FatefulEncounter,
             Version = GetVersion(tr),
         };
         pk.EXP = Experience.GetEXP(Level, pk.PersonalInfo.EXPGrowth);
@@ -105,8 +110,8 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         else
         {
             pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : tr.Gender;
-            pk.TID = TID;
-            pk.SID = SID;
+            pk.TID16 = TID16;
+            pk.SID16 = SID16;
 
             pk.Language = (int)GetSafeLanguage((LanguageID)tr.Language);
             pk.OT_Name = !string.IsNullOrWhiteSpace(OT_Name) ? OT_Name : tr.OT;
@@ -141,8 +146,8 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         }
 
         pk.OT_Gender = sav.Gender;
-        pk.TID = sav.TID;
-        pk.SID = sav.SID;
+        pk.TID16 = sav.TID16;
+        pk.SID16 = sav.SID16;
         pk.Met_Location = pk.FRLG ? 146 /* Four Island */ : 32; // Route 117
         pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
         pk.Met_Level = 0; // hatched
@@ -172,7 +177,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     private void SetPINGA(PK3 pk, EncounterCriteria _)
     {
         var seed = Util.Rand32();
-        seed = TID == 06930 ? MystryMew.GetSeed(seed, Method) : GetSaneSeed(seed);
+        seed = TID16 == 06930 ? MystryMew.GetSeed(seed, Method) : GetSaneSeed(seed);
         PIDGenerator.SetValuesFromSeed(pk, Method, seed);
     }
 
@@ -222,8 +227,8 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         bool hatchedEgg = IsEgg && !pk.IsEgg;
         if (!hatchedEgg)
         {
-            if (SID != -1 && SID != pk.SID) return false;
-            if (TID != -1 && TID != pk.TID) return false;
+            if (SID16 != UnspecifiedID && SID16 != pk.SID16) return false;
+            if (TID16 != UnspecifiedID && TID16 != pk.TID16) return false;
             if (OT_Gender < 3 && OT_Gender != pk.OT_Gender) return false;
             var wcOT = OT_Name;
             if (!string.IsNullOrEmpty(wcOT))
@@ -245,7 +250,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
 
         if (Language != -1 && Language != pk.Language) return false;
         if (Ball != pk.Ball) return false;
-        if (Fateful != pk.FatefulEncounter)
+        if (FatefulEncounter != pk.FatefulEncounter)
         {
             // XD Gifts only at level 20 get flagged after transfer
             if (Version == GameVersion.XD != (pk is XK3))
@@ -271,7 +276,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         return true;
     }
 
-    private static bool GetIsValidOTMattleHoOh(string wc, string ot, bool ck3)
+    private static bool GetIsValidOTMattleHoOh(ReadOnlySpan<char> wc, ReadOnlySpan<char> ot, bool ck3)
     {
         if (ck3) // match original if still ck3, otherwise must be truncated 7char
             return wc == ot;

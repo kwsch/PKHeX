@@ -9,7 +9,6 @@ public static class RibbonVerifierCommon9
 {
     public static void Parse(this IRibbonSetCommon9 r, RibbonVerifierArguments args, ref RibbonResultList list)
     {
-        var evos = args.History;
         if (r.RibbonChampionPaldea && !args.History.HasVisitedGen9)
             list.Add(ChampionPaldea);
         if (r.RibbonOnceInALifetime) // Flag it.

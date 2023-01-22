@@ -16,8 +16,8 @@ public static class RibbonVerifierCommon6
 
         bool gen6 = evos.HasVisitedGen6;
         bool bdsp = evos.HasVisitedBDSP;
-        bool kalos6 = gen6 && !(pk.IsUntraded && pk.AO) && args.Encounter is not EncounterStatic6 { Species: (int)Species.Pikachu, Form: not 0 };
-        bool oras6 = gen6 && !(pk.IsUntraded && pk.XY);
+        bool kalos6 = gen6 && pk is not { IsUntraded: true, AO: true } && args.Encounter is not EncounterStatic6 { Species: (int)Species.Pikachu, Form: not 0 };
+        bool oras6 = gen6 && pk is not { IsUntraded: true, XY: true };
         bool contest = oras6 || bdsp;
 
         bool k = r.RibbonChampionKalos;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -56,7 +57,7 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     private static bool CanObtainMemorySWSH(byte memory) => memory <= MAX_MEMORY_ID_SWSH && !Memory_NotSWSH.Contains(memory);
 
-    public override bool CanWinLotoID(int item) => LotoPrizeSWSH.Contains((ushort)item);
+    public override bool CanWinLotoID(int item) => item < byte.MaxValue && LotoPrizeSWSH.Contains((byte)item);
 
     public override bool CanBuyItem(int item, GameVersion version) => item switch
     {
@@ -94,7 +95,7 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     private static bool IsWildEncounterMeet(PKM pk, IEncounterTemplate enc)
     {
-        if (enc is EncounterTrade or EncounterStatic { Gift: true } or WC8 { IsHOMEGift: false })
+        if (enc is EncounterTrade8 or EncounterStatic8 { Gift: true } or WC8 { IsHOMEGift: false })
             return true;
         if (IsCurryEncounter(pk, enc))
             return true;
@@ -103,7 +104,7 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     private static bool IsWildEncounter(PKM pk, IEncounterTemplate enc)
     {
-        if (enc is not (EncounterSlot or EncounterStatic { Gift: false }))
+        if (enc is not (EncounterSlot8 or EncounterStatic { Gift: false } or EncounterStatic8N or EncounterStatic8ND or EncounterStatic8NC or EncounterStatic8U))
             return false;
         if (pk is IRibbonSetMark8 { RibbonMarkCurry: true })
             return false;

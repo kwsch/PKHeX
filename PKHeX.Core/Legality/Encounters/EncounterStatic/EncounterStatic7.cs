@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 7 Static Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterStatic"/>
-public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Version), IRelearn
+public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Version), IRelearn, IEncounterFormRandom
 {
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
@@ -13,6 +13,11 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
     public bool IsTotem => FormInfo.IsTotemForm(Species, Form);
     public bool IsTotemNoTransfer => Legal.Totem_NoTransfer.Contains(Species);
     public int GetTotemBaseForm() => FormInfo.GetTotemBaseForm(Species, Form);
+
+    public bool IsRandomUnspecificForm => Form >= FormDynamic;
+    private const int FormDynamic = FormVivillon;
+    internal const int FormVivillon = 30;
+    //protected const int FormRandom = 31;
 
     protected override bool IsMatchLocation(PKM pk)
     {
@@ -40,6 +45,9 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
 
     protected override bool IsMatchForm(PKM pk, EvoCriteria evo)
     {
+        if (IsRandomUnspecificForm)
+            return true;
+
         if (IsTotem)
         {
             var expectForm = pk.Format == 7 ? Form : FormInfo.GetTotemBaseForm(Species, Form);
@@ -65,9 +73,9 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
         {
             Species = species,
             Gift = true, // Forces Poké Ball
-            Ability = Legal.TransferSpeciesDefaultAbilityGen1(species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden, // Hidden by default, else first
+            Ability = TransporterLogic.IsHiddenDisallowedVC1(species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden, // Hidden by default, else first
             Shiny = mew ? Shiny.Never : Shiny.Random,
-            Fateful = mew,
+            FatefulEncounter = mew,
             Location = Locations.Transfer1,
             Level = metLevel,
             FlawlessIVCount = mew ? (byte)5 : (byte)3,
@@ -82,9 +90,9 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
         {
             Species = species,
             Gift = true, // Forces Poké Ball
-            Ability = Legal.TransferSpeciesDefaultAbilityGen2(species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden, // Hidden by default, else first
+            Ability = TransporterLogic.IsHiddenDisallowedVC2(species) ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden, // Hidden by default, else first
             Shiny = mew ? Shiny.Never : Shiny.Random,
-            Fateful = fateful,
+            FatefulEncounter = fateful,
             Location = Locations.Transfer2,
             Level = metLevel,
             FlawlessIVCount = fateful ? (byte)5 : (byte)3,

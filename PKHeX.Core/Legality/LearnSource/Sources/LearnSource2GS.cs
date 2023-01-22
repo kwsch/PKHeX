@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="GS"/>.
 /// </summary>
-public sealed class LearnSource2GS : ILearnSource, IEggSource
+public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
 {
     public static readonly LearnSource2GS Instance = new();
     private static readonly PersonalTable2 Personal = PersonalTable.GS;
@@ -20,11 +20,13 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo2? pi)
     {
-        pi = null;
-        if (species > MaxSpecies)
+        if (form is not 0 || species > MaxSpecies)
+        {
+            pi = null;
             return false;
+        }
         pi = Personal[species];
         return true;
     }
@@ -39,19 +41,22 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
         return EggMoves[species].Moves;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo2 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (move > Legal.MaxMoveID_2) // byte
+            return default;
+
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, (byte)move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
+            var learn = Learnsets[evo.Species];
             var level = learn.GetLevelLearnMove(move);
             if (level != -1 && evo.LevelMin <= level && level <= evo.LevelMax)
                 return new(LevelUp, Game, (byte)level);
@@ -60,12 +65,12 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
         return default;
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo2 info, byte move)
     {
-        var index = Array.IndexOf(TMHM_GSC, move);
+        var index = TMHM_GSC.IndexOf(move);
         if (index == -1)
             return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -74,9 +79,9 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
             return;
 
         bool removeVC = pk.Format == 1 || pk.VC1;
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
+            var learn = Learnsets[evo.Species];
             var min = ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, min);
             if (hasMoves)
@@ -91,20 +96,8 @@ public sealed class LearnSource2GS : ILearnSource, IEggSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_GSC;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                {
-                    var move = moves[i];
-                    if (!removeVC || move <= Legal.MaxMoveID_1)
-                        result[move] = true;
-                }
-            }
-        }
+        if (types.HasFlag(MoveSourceType.Machine))
+            pi.SetAllLearnTM(result, TMHM_GSC);
     }
 
     public static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> init)

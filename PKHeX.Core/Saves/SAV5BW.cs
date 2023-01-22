@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -20,9 +20,9 @@ public sealed class SAV5BW : SAV5
         Initialize();
     }
 
-    public override IPersonalTable Personal => PersonalTable.BW;
+    public override PersonalTable5BW Personal => PersonalTable.BW;
     public SaveBlockAccessor5BW Blocks { get; }
-    protected override SaveFile CloneInternal() => new SAV5BW((byte[])Data.Clone());
+    protected override SAV5BW CloneInternal() => new((byte[])Data.Clone());
     public override int EventWorkCount => 0x13E;
     public override int EventFlagCount => 0xB60;
     protected override int EventWorkOffset => 0x20100;

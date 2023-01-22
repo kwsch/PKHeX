@@ -139,14 +139,14 @@ internal static class Encounters2
     internal static readonly EncounterStatic2E[] StaticEventsGB =
     {
         // Stadium 2 Baton Pass Farfetch'd
-        new(083, 05, C) {Moves = new(226, 14, 97, 163), Location = 127, TID = 2000, OT_Name = "スタジアム"},
-        new(083, 05, C) {Moves = new(226, 14, 97, 163), Location = 127, TID = 2000, OT_Name = "Stadium", Language = International},
-        new(083, 05, C) {Moves = new(226, 14, 97, 163), Location = 127, TID = 2001, OT_Names = new[]{"Stade", "Stadion", "Stadio", "Estadio"}, Language = International},
+        new(083, 05, C) {Moves = new(226, 14, 97, 163), Location = 127, TID16 = 2000, OT_Name = "スタジアム"},
+        new(083, 05, C) {Moves = new(226, 14, 97, 163), Location = 127, TID16 = 2000, OT_Name = "Stadium", Language = International},
+        new(083, 05, C) {Moves = new(226, 14, 97, 163), Location = 127, TID16 = 2001, OT_Names = new[]{"Stade", "Stadion", "Stadio", "Estadio"}, Language = International},
 
         // Stadium 2 Earthquake Gligar
-        new(207, 05, C) {Moves = new(89, 68, 17), Location = 127, TID = 2000, OT_Name = "スタジアム"},
-        new(207, 05, C) {Moves = new(89, 68, 17), Location = 127, TID = 2000, OT_Name = "Stadium", Language = International},
-        new(207, 05, C) {Moves = new(89, 68, 17), Location = 127, TID = 2001, OT_Names = new[]{"Stade", "Stadion", "Stadio", "Estadio"}, Language = International},
+        new(207, 05, C) {Moves = new(89, 68, 17), Location = 127, TID16 = 2000, OT_Name = "スタジアム"},
+        new(207, 05, C) {Moves = new(89, 68, 17), Location = 127, TID16 = 2000, OT_Name = "Stadium", Language = International},
+        new(207, 05, C) {Moves = new(89, 68, 17), Location = 127, TID16 = 2001, OT_Names = new[]{"Stade", "Stadion", "Stadio", "Estadio"}, Language = International},
 
         //New York Pokémon Center Events
 

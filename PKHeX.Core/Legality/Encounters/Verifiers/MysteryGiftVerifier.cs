@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -45,13 +45,13 @@ public static class MysteryGiftVerifier
             return new CheckResult(Severity.Invalid, LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin);
 
         var lang = value & MysteryGiftRestriction.LangRestrict;
-        if (lang != 0 && !lang.HasFlagFast((MysteryGiftRestriction) (1 << pk.Language)))
+        if (lang != 0 && !lang.HasFlag((MysteryGiftRestriction) (1 << pk.Language)))
             return new CheckResult(Severity.Invalid, string.Format(LOTLanguage, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
 
         if (pk is IRegionOrigin tr)
         {
             var region = value & MysteryGiftRestriction.RegionRestrict;
-            if (region != 0 && !region.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << tr.ConsoleRegion)))
+            if (region != 0 && !region.HasFlag((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << tr.ConsoleRegion)))
                 return new CheckResult(Severity.Invalid, LGeoHardwareRange, CheckIdentifier.GameOrigin);
         }
 
@@ -72,7 +72,7 @@ public static class MysteryGiftVerifier
         bool restricted = TryGetRestriction(g, out var val);
         if (!restricted)
             return false; // no data
-        if (!val.HasFlagFast(MysteryGiftRestriction.OTReplacedOnTrade))
+        if (!val.HasFlag(MysteryGiftRestriction.OTReplacedOnTrade))
             return false;
         return CurrentOTMatchesReplaced(g.Generation, pk.OT_Name);
     }
@@ -85,7 +85,7 @@ public static class MysteryGiftVerifier
         };
     }
 
-    private static bool CurrentOTMatchesReplaced(int format, string pkOtName)
+    private static bool CurrentOTMatchesReplaced(int format, ReadOnlySpan<char> pkOtName)
     {
         if (format <= 4 && IsMatchName(pkOtName, 4))
             return true;
@@ -98,7 +98,7 @@ public static class MysteryGiftVerifier
         return false;
     }
 
-    private static bool IsMatchName(string pkOtName, int generation)
+    private static bool IsMatchName(ReadOnlySpan<char> pkOtName, int generation)
     {
         return generation switch
         {

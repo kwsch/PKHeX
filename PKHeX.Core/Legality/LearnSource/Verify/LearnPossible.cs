@@ -17,7 +17,7 @@ public static class LearnPossible
     /// <param name="types">Move types to give</param>
     public static void Get(PKM pk, IEncounterTemplate enc, EvolutionHistory history, Span<bool> result, MoveSourceType types = MoveSourceType.All)
     {
-        if (types.HasFlagFast(MoveSourceType.Encounter))
+        if (types.HasFlag(MoveSourceType.Encounter))
             FlagEncounterMoves(pk, enc, result);
         IterateAndFlag(result, pk, enc, history, types);
     }

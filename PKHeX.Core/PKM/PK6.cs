@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
-public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6,
+public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetRibbons,
     IContestStats, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IGroundTile
 {
     private static readonly ushort[] Unused =
@@ -16,7 +17,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override EntityContext Context => EntityContext.Gen6;
-    public override PersonalInfo PersonalInfo => PersonalTable.AO.GetFormEntry(Species, Form);
+    public override PersonalInfo6AO PersonalInfo => PersonalTable.AO.GetFormEntry(Species, Form);
 
     public PK6() : base(PokeCrypto.SIZE_6PARTY) { }
     public PK6(byte[] data) : base(DecryptParty(data)) { }
@@ -28,7 +29,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         return data;
     }
 
-    public override PKM Clone() => new PK6((byte[])Data.Clone());
+    public override PK6 Clone() => new((byte[])Data.Clone());
 
     // Structure
     #region Block A
@@ -62,16 +63,22 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         set => WriteUInt16LittleEndian(Data.AsSpan(0x0A), (ushort)value);
     }
 
-    public override int TID
+    public override uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x0C));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(0x0C));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0x0C), value);
     }
 
-    public override int SID
+    public override ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(0x0C));
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x0C), value);
+    }
+
+    public override ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x0E));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value);
     }
 
     public override uint EXP
@@ -215,12 +222,14 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public bool Dist8 { get => (DistByte & (1 << 7)) == 1 << 7; set => DistByte = (byte)((DistByte & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
     public uint FormArgument { get => ReadUInt32LittleEndian(Data.AsSpan(0x3C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x3C), value); }
     public byte FormArgumentMaximum { get => (byte)FormArgument; set => FormArgument = value & 0xFFu; }
+
+    public int RibbonCount => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x30)) & 0b00000000_00000000__00111111_11111111__11111111_11111111__11111111_11111111);
     #endregion
     #region Block B
     public override string Nickname
     {
         get => StringConverter6.GetString(Nickname_Trash);
-        set => StringConverter6.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter6.SetString(Nickname_Trash, value, 12, StringConverterOption.None);
     }
 
     public override ushort Move1
@@ -297,7 +306,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string HT_Name
     {
         get => StringConverter6.GetString(HT_Trash);
-        set => StringConverter6.SetString(HT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter6.SetString(HT_Trash, value, 12, StringConverterOption.None);
     }
     public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
     public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
@@ -333,7 +342,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override string OT_Name
     {
         get => StringConverter6.GetString(OT_Trash);
-        set => StringConverter6.SetString(OT_Trash, value.AsSpan(), 12, StringConverterOption.None);
+        set => StringConverter6.SetString(OT_Trash, value, 12, StringConverterOption.None);
     }
     public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
     public byte OT_Affection { get => Data[0xCB]; set => Data[0xCB] = value; }
@@ -374,23 +383,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int Stat_SPD { get => ReadUInt16LittleEndian(Data.AsSpan(0xFC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xFC), (ushort)value); }
     #endregion
 
-    public int SuperTrainingMedalCount(int maxCount = 30)
-    {
-        uint value = SuperTrainBitFlags >> 2;
-#if NET6_0_OR_GREATER
-        return System.Numerics.BitOperations.PopCount(value);
-#else
-        int TrainCount = 0;
-        for (int i = 0; i < maxCount; i++)
-        {
-            if ((value & 1) != 0)
-                TrainCount++;
-            value >>= 1;
-        }
-
-        return TrainCount;
-#endif
-    }
+    public int SuperTrainingMedalCount(int maxCount = 30) => BitOperations.PopCount(SuperTrainBitFlags >> 2);
 
     public bool IsUntradedEvent6 => Geo1_Country == 0 && Geo1_Region == 0 && Met_Location / 10000 == 4 && Gen6;
 
@@ -421,7 +414,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     protected override bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
             return false;
 
         CurrentHandler = 0;

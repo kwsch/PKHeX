@@ -11,6 +11,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     public const int Size = 0x108;
     public const int SizeFull = 0x310;
     private const int CardStart = SizeFull - Size;
+    public override bool FatefulEncounter => true;
 
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7b;
@@ -44,7 +45,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     {
         // Max len 36 char, followed by null terminator
         get => StringConverter8.GetString(Data.AsSpan(CardStart + 2, 0x4A));
-        set => StringConverter8.SetString(Data.AsSpan(CardStart + 2, 0x4A), value.AsSpan(), 36, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(CardStart + 2, 0x4A), value, 36, StringConverterOption.ClearZero);
     }
 
     private uint RawDate
@@ -76,7 +77,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     /// <summary>
     /// Gets or sets the date of the card.
     /// </summary>
-    public DateTime? Date
+    public DateOnly? Date
     {
         get
         {
@@ -84,7 +85,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
             if (!DateUtil.IsDateValid(Year, Month, Day))
                 return null;
 
-            return new DateTime((int)Year, (int)Month, (int)Day);
+            return new DateOnly((int)Year, (int)Month, (int)Day);
         }
         set
         {
@@ -144,15 +145,21 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         _ => throw new ArgumentOutOfRangeException(),
     };
 
-    public override int TID
+    public override uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x68));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x68), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x68));
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x68), value);
     }
 
-    public override int SID {
+    public override ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x68));
+        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x68), value);
+    }
+
+    public override ushort SID16 {
         get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x6A), value);
     }
 
     public int OriginGame
@@ -321,11 +328,13 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
 
     public bool GetHasOT(int language) => ReadUInt16LittleEndian(Data.AsSpan(GetOTOffset(language))) != 0;
 
-    public string GetNickname(int language) => StringConverter8.GetString(Data.AsSpan(GetNicknameOffset(language), 0x1A));
-    public void SetNickname(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetNicknameOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+    private Span<byte> GetNicknameSpan(int language) => Data.AsSpan(GetNicknameOffset(language), 0x1A);
+    public string GetNickname(int language) => StringConverter8.GetString(GetNicknameSpan(language));
+    public void SetNickname(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetNicknameSpan(language), value, 12, StringConverterOption.ClearZero);
 
-    public string GetOT(int language) => StringConverter8.GetString(Data.AsSpan(GetOTOffset(language), 0x1A));
-    public void SetOT(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetOTOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+    private Span<byte> GetOTSpan(int language) => Data.AsSpan(GetOTOffset(language), 0x1A);
+    public string GetOT(int language) => StringConverter8.GetString(GetOTSpan(language));
+    public void SetOT(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetOTSpan(language), value, 12, StringConverterOption.ClearZero);
 
     private static int GetNicknameOffset(int language)
     {
@@ -339,14 +348,14 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         return 0xEE + (index * 0x1A);
     }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
 
         var rnd = Util.Rand;
 
-        int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
+        int currentLevel = Level > 0 ? Level : (1 + rnd.Next(100));
         int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.GG.GetFormEntry(Species, Form);
 
@@ -358,8 +367,8 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         {
             Species = Species,
             HeldItem = HeldItem,
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             Met_Level = metLevel,
             Form = Form,
             EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
@@ -410,11 +419,11 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
 
         if (OTGender == 3)
         {
-            pk.TID = tr.TID;
-            pk.SID = tr.SID;
+            pk.TID16 = tr.TID16;
+            pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = Date ?? DateTime.Now;
+        pk.MetDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
         pk.IsNicknamed = GetIsNicknamed(redeemLanguage);
         pk.Nickname = pk.IsNicknamed ? GetNickname(redeemLanguage) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 
@@ -478,8 +487,8 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
                 pk.PID = Util.Rand32();
                 break;
             case ShinyType6.Always: // Random Shiny
-                pk.PID = Util.Rand32();
-                pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
+                var low = Util.Rand32() & 0xFFFF;
+                pk.PID = ((low ^ pk.TID16 ^ pk.SID16) << 16) | low;
                 break;
             case ShinyType6.Never: // Random Nonshiny
                 pk.PID = Util.Rand32();
@@ -545,8 +554,8 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         {
             if (OTGender != 3)
             {
-                if (SID != pk.SID) return false;
-                if (TID != pk.TID) return false;
+                if (SID16 != pk.SID16) return false;
+                if (TID16 != pk.TID16) return false;
                 if (OTGender != pk.OT_Gender) return false;
             }
             var OT = GetOT(pk.Language);
@@ -574,7 +583,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk.IsEgg && !pk.IsNative)
+            if (pk is { IsEgg: true, IsNative: false })
                 return false;
         }
         else

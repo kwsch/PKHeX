@@ -12,12 +12,12 @@ public sealed class SAV1Stadium : SAV_STADIUM
     public override int SaveRevision => Japanese ? 0 : 1;
     public override string SaveRevisionString => Japanese ? "J" : "U";
 
-    public override IPersonalTable Personal => PersonalTable.Y;
+    public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => ushort.MaxValue;
     public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
     public override GameVersion Version { get; protected set; } = GameVersion.Stadium;
 
-    protected override SaveFile CloneInternal() => new SAV1Stadium((byte[])Data.Clone(), Japanese);
+    protected override SAV1Stadium CloneInternal() => new((byte[])Data.Clone(), Japanese);
 
     public override int Generation => 1;
     public override EntityContext Context => EntityContext.Gen1;
@@ -35,7 +35,7 @@ public sealed class SAV1Stadium : SAV_STADIUM
     public override int MaxItemID => Legal.MaxItemID_1;
 
     public override Type PKMType => typeof(PK1);
-    public override PKM BlankPKM => new PK1(Japanese);
+    public override PK1 BlankPKM => new(Japanese);
     private const int SIZE_PK1J = PokeCrypto.SIZE_1STORED + (2 * StringLengthJ); // 0x2D
     private const int SIZE_PK1U = PokeCrypto.SIZE_1STORED + (2 * StringLengthU); // 0x37
     protected override int SIZE_STORED => Japanese ? SIZE_PK1J : SIZE_PK1U;
@@ -108,7 +108,7 @@ public sealed class SAV1Stadium : SAV_STADIUM
         Data[bdata - 1] = (byte)count;
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override PK1 GetPKM(byte[] data)
     {
         int len = StringLength;
         var nick = data.AsSpan(PokeCrypto.SIZE_1STORED, len);

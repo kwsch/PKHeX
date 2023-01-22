@@ -34,7 +34,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version) : EncounterS
         if (VerifyCorrelation != null && !VerifyCorrelation(pk, (T)this))
             return false;
 
-        if (pk is IRibbonSetMark8 m8 && m8.HasMark())
+        if (pk is IRibbonSetMark8 { HasMarkEncounter8: true })
             return false;
         if (pk.Species == (int)Core.Species.Shedinja && pk is IRibbonSetAffixed { AffixedRibbon: >= (int)RibbonIndex.MarkLunchtime })
             return false;

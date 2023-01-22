@@ -502,7 +502,7 @@ public partial class SAV_Database : Form
             Nature = WinFormsUtil.GetIndex(CB_Nature),
             Item = WinFormsUtil.GetIndex(CB_HeldItem),
 
-            BatchInstructions = RTB_Instructions.Lines,
+            BatchInstructions = RTB_Instructions.Text,
 
             Level = int.TryParse(TB_Level.Text, out var lvl) ? lvl : null,
             SearchLevel = (SearchComparison)CB_Level.SelectedIndex,
@@ -736,9 +736,11 @@ public partial class SAV_Database : Form
         if (s.Length == 0)
         { WinFormsUtil.Alert(MsgBEPropertyInvalid); return; }
 
-        if (RTB_Instructions.Lines.Length != 0 && RTB_Instructions.Lines[^1].Length > 0)
-            s = Environment.NewLine + s;
-
-        RTB_Instructions.AppendText(s);
+        // If we already have text, add a new line (except if the last line is blank).
+        var tb = RTB_Instructions;
+        var batchText = tb.Text;
+        if (batchText.Length > 0 && !batchText.EndsWith('\n'))
+            tb.AppendText(Environment.NewLine);
+        tb.AppendText(s);
     }
 }

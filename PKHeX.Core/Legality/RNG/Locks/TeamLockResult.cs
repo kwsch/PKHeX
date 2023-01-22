@@ -43,22 +43,22 @@ public sealed class TeamLockResult
     /// If this value is >= 0, the CPU Trainer Shiny Value must be equal to this value as a <see cref="SeedFrame"/> skipped over a matching interrupt frame.
     /// If this value is <see cref="NOT_FORCED"/>, the CPU Trainer Shiny Value can be anything (except matching any of the <see cref="SeedFrame"/> result members.
     /// </remarks>
-    private int RCSV = NOT_FORCED;
+    private uint RCSV = NOT_FORCED;
 
     /// <summary>
     /// Player Trainer Shiny Value
     /// </summary>
     /// <remarks>Only used by <see cref="GameVersion.XD"/> encounters, which disallow shiny shadow members for both player &amp; CPU TSVs.</remarks>
-    private readonly int TSV;
+    private readonly uint TSV;
 
     private readonly Stack<NPCLock> Locks;
     private readonly FrameCache Cache;
     // only save a list of valid nodes we've visited to save memory while we recursively search for a full team.
     private readonly Stack<SeedFrame> Team;
 
-    private const int NOT_FORCED = -1;
+    private const uint NOT_FORCED = uint.MaxValue;
 
-    internal TeamLockResult(TeamLock teamSpec, uint originSeed, int tsv)
+    internal TeamLockResult(TeamLock teamSpec, uint originSeed, uint tsv)
     {
         Locks = new Stack<NPCLock>((Specifications = teamSpec).Locks);
         Team = new Stack<SeedFrame>(Locks.Count);
@@ -145,7 +145,7 @@ public sealed class TeamLockResult
                 if (sv == RCSV)
                 {
                     // No CPU shiny value forced yet. Lets try to skip this lock by requiring the eventual OT to get this shiny.
-                    RCSV = (int) sv;
+                    RCSV = sv;
                     forcedOT = true;
                     continue; // don't break
                 }
@@ -208,7 +208,7 @@ public sealed class TeamLockResult
                     }
                     else // No CPU shiny value forced yet. Lets try to skip this lock by requiring the eventual OT to get this shiny.
                     {
-                        RCSV = (int)sv;
+                        RCSV = sv;
                         forcedOT = true;
                         // don't break
                     }
@@ -229,9 +229,9 @@ public sealed class TeamLockResult
     /// <returns>True if the <see cref="Specifications"/> are valid.</returns>
     private bool VerifyNPC(int ctr)
     {
-        var TID = Cache[ctr + 1];
-        var SID = Cache[ctr];
-        var CPUSV = (TID ^ SID) >> 3;
+        var TID16 = Cache[ctr + 1];
+        var SID16 = Cache[ctr];
+        var CPUSV = (TID16 ^ SID16) >> 3;
         if (RCSV != NOT_FORCED && RCSV != CPUSV)
             return false; // required CPU Trainer's shiny value did not match the required value.
 

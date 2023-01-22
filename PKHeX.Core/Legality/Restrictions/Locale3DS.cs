@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LanguageID;
+using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core;
 
@@ -14,7 +14,7 @@ public static class Locale3DS
     /// <param name="consoleRegion">Console region.</param>
     /// <param name="country">Country of nationality</param>
     /// <returns>Country is within Console Region</returns>
-    public static bool IsConsoleRegionCountryValid(int consoleRegion, int country) => consoleRegion switch
+    public static bool IsConsoleRegionCountryValid(byte consoleRegion, byte country) => consoleRegion switch
     {
         0 => country is 1, // Japan
         1 => country is (>= 8 and <= 52) or 153 or 156 or 168 or 174 or 186, // Americas
@@ -34,7 +34,7 @@ public static class Locale3DS
     /// <param name="consoleRegion">Console region.</param>
     /// <param name="language">Language of region</param>
     /// <returns>Language is available within Console Region</returns>
-    public static bool IsRegionLockedLanguageValidVC(int consoleRegion, int language) => consoleRegion switch
+    public static bool IsRegionLockedLanguageValidVC(byte consoleRegion, int language) => consoleRegion switch
     {
         0 or 6 => language == 1, // Japan & Taiwan
         1 => language is (int)English or (int)Spanish or (int)French, // Americas
@@ -52,7 +52,7 @@ public static class Locale3DS
     /// <param name="consoleRegion">Console region.</param>
     /// <param name="language">Language of region</param>
     /// <returns>Language is available within Console Region</returns>
-    public static bool IsRegionLockedLanguageValid(int consoleRegion, int language) => consoleRegion switch
+    public static bool IsRegionLockedLanguageValid(byte consoleRegion, int language) => consoleRegion switch
     {
         0 => language is (int)Japanese, // Japan & Taiwan
         1 => language is (int)English or (int)Spanish or (int)French, // Americas

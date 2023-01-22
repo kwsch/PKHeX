@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -22,7 +22,7 @@ public sealed class MyStatus6XY : MyStatus6
     public string OT_Nick
     {
         get => SAV.GetString(Nickname_Trash);
-        set => SAV.SetString(Nickname_Trash, value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => SAV.SetString(Nickname_Trash, value, 12, StringConverterOption.ClearZero);
     }
 
     public short EyeColor

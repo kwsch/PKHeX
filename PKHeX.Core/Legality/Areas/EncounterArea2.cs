@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -9,16 +9,16 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterArea2 : EncounterArea
 {
-    private static readonly byte[] BCC_SlotRates = { 20, 20, 10, 10, 05, 05, 10, 10, 05, 05 };
-    private static readonly byte[] RatesGrass = { 30, 30, 20, 10, 5, 4, 1 };
-    private static readonly byte[] RatesSurf = { 60, 30, 10 };
+    private static ReadOnlySpan<byte> BCC_SlotRates => new byte[] { 20, 20, 10, 10, 05, 05, 10, 10, 05, 05 };
+    private static ReadOnlySpan<byte> RatesGrass => new byte[] { 30, 30, 20, 10, 5, 4, 1 };
+    private static ReadOnlySpan<byte> RatesSurf => new byte[] { 60, 30, 10 };
 
     internal readonly EncounterTime Time;
     public readonly byte Rate;
-    public readonly IReadOnlyList<byte> Rates;
+    public readonly byte[]? Rates;
     public readonly EncounterSlot2[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot2> Raw => Slots;
 
     public static EncounterArea2[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -47,12 +47,7 @@ public sealed record EncounterArea2 : EncounterArea
         {
             const int size = 4;
             int count = next.Length / size;
-            Rates = type switch
-            {
-                SlotType.BugContest => BCC_SlotRates,
-                SlotType.Grass => RatesGrass,
-                _ => RatesSurf,
-            };
+            Rates = null; // fetch as needed.
             Slots = ReadSlots(next, count);
         }
     }
@@ -73,13 +68,13 @@ public sealed record EncounterArea2 : EncounterArea
         return slots;
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot2> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         if (pk is not ICaughtData2 {CaughtData: not 0} pk2)
             return GetSlotsFuzzy(chain);
 
         if (pk2.Met_Location != Location)
-            return Array.Empty<EncounterSlot>();
+            return Array.Empty<EncounterSlot2>();
         return GetSlotsSpecificLevelTime(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
     }
 

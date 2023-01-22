@@ -19,7 +19,7 @@ public sealed class AwakenedValueVerifier : Verifier
             data.AddLine(GetInvalid(LegalityCheckStrings.LAwakenedCap));
 
         Span<byte> required = stackalloc byte[6];
-        AwakeningUtil.GetExpectedMinimumAVs(required, pb7);
+        AwakeningUtil.SetExpectedMinimumAVs(required, pb7);
         Span<byte> current = stackalloc byte[6];
         AwakeningUtil.AwakeningGetVisual(pb7, current);
 

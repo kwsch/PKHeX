@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.SWSH"/>.
 /// </summary>>
-public sealed class Zukan8 : ZukanBase
+public sealed class Zukan8 : ZukanBase<SAV8SWSH>
 {
     private readonly SCBlock Galar;
     private readonly SCBlock Rigel1;
@@ -26,7 +26,7 @@ public sealed class Zukan8 : ZukanBase
         Rigel1 = rigel1;
         Rigel2 = rigel2;
         var revision = GetRevision();
-        DexLookup = GetDexLookup(PersonalTable.SWSH, revision, Zukan8Index.TotalCount);
+        DexLookup = GetDexLookup(sav.Personal, revision, Zukan8Index.TotalCount);
     }
 
     /// <summary>
@@ -134,10 +134,8 @@ public sealed class Zukan8 : ZukanBase
     public IList<string> GetEntryNames(IReadOnlyList<string> speciesNames)
     {
         var dex = new List<string>();
-        foreach (var d in DexLookup)
+        foreach (var (species, entry) in DexLookup)
         {
-            var species = d.Key;
-            var entry = d.Value;
             var name = entry.GetEntryName(speciesNames, species);
             dex.Add(name);
         }
@@ -217,7 +215,7 @@ public sealed class Zukan8 : ZukanBase
     {
         if ((uint)region >= SeenRegionCount)
             throw new ArgumentOutOfRangeException(nameof(region));
-        if ((uint)form > 63)
+        if (form > 63)
             return false;
 
         var dex = entry.DexType;
@@ -539,10 +537,10 @@ public sealed class Zukan8 : ZukanBase
         SetAllSeen(true, shinyToo);
     }
 
-    private void SeenAll(ushort species, byte fc, bool shinyToo, bool value = true)
+    private void SeenAll(ushort species, byte formCount, bool shinyToo, bool value = true)
     {
-        var pt = PersonalTable.SWSH;
-        for (byte form = 0; form < fc; form++)
+        var pt = SAV.Personal;
+        for (byte form = 0; form < formCount; form++)
         {
             var pi = pt.GetFormEntry(species, form);
             SeenAll(species, form, value, pi, shinyToo);
@@ -608,7 +606,7 @@ public sealed class Zukan8 : ZukanBase
 
         if (value)
         {
-            var pi = PersonalTable.SWSH[species];
+            var pi = SAV.Personal[species];
             if (shinyToo)
                 SetDisplayShiny(species);
 
@@ -633,7 +631,7 @@ public sealed class Zukan8 : ZukanBase
 
     private void SetAllSeen(ushort species, bool value = true, bool shinyToo = false)
     {
-        var pi = PersonalTable.SWSH[species];
+        var pi = SAV.Personal[species];
         var fc = pi.FormCount;
         if (species == (int) Species.Eternatus)
             fc = 1; // ignore gigantamax

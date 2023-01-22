@@ -168,12 +168,12 @@ public static class RaidRNG
     {
         if (isShiny)
         {
-            if (!GetIsShiny(pk.TID, pk.SID, pid))
-                pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+            if (!GetIsShiny(pk.ID32, pid))
+                pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
         }
         else
         {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
+            if (GetIsShiny(pk.ID32, pid))
                 pid ^= 0x1000_0000;
         }
     }
@@ -200,12 +200,12 @@ public static class RaidRNG
 
         if (isShiny)
         {
-            if (!GetIsShiny(pk.TID, pk.SID, pid))
-                pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+            if (!GetIsShiny(pk.ID32, pid))
+                pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
         }
         else
         {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
+            if (GetIsShiny(pk.ID32, pid))
                 pid ^= 0x1000_0000;
         }
 
@@ -268,19 +268,16 @@ public static class RaidRNG
         return true;
     }
 
-    private static uint GetShinyPID(int tid, int sid, uint pid, int type)
+    private static uint GetShinyPID(ushort tid, ushort sid, uint pid, uint type)
     {
-        return (uint) (((tid ^ sid ^ (pid & 0xFFFF) ^ type) << 16) | (pid & 0xFFFF));
+        return (type ^ tid ^ sid ^ (pid & 0xFFFF)) << 16 | (pid & 0xFFFF);
     }
 
-    private static bool GetIsShiny(int tid, int sid, uint pid)
-    {
-        return GetShinyXor(pid, (uint) ((sid << 16) | tid)) < 16;
-    }
+    private static bool GetIsShiny(uint id32, uint pid) => GetShinyXor(pid, id32) < 16;
 
-    private static uint GetShinyXor(uint pid, uint oid)
+    private static uint GetShinyXor(uint pid, uint id32)
     {
-        var xor = pid ^ oid;
+        var xor = pid ^ id32;
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
 }

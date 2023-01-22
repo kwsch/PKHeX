@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 // ReSharper disable UnusedMember.Local
-#pragma warning disable IDE0051 // Remove unused private members
+#pragma warning disable IDE0051, RCS1213 // Remove unused private members
 
 namespace PKHeX.Core;
 
@@ -44,7 +44,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
         Played = new PlayTime8(sav, GetBlock(KPlayTime));
         Fused = new Fused8(sav, GetBlock(KFused));
         Daycare = new Daycare8(sav, GetBlock(KDaycare));
-        Records = new Record8(sav, GetBlock(KRecord), Core.Records.MaxType_SWSH);
+        Records = new Record8(sav, GetBlock(KRecord));
         Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
         Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
         RaidArmor = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR1), RaidSpawnList8.RaidCountLegal_R1);

@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Tests.Util;
+namespace PKHeX.Core.Tests.Util;
 
 public class FlagUtilTests
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -56,7 +56,7 @@ public sealed class HallFame3Entry
     }
 }
 
-public sealed class HallFame3PKM
+public sealed class HallFame3PKM : ISpeciesForm
 {
     public const int SIZE = 20;
 
@@ -71,14 +71,15 @@ public sealed class HallFame3PKM
     private readonly int Offset;
     private readonly bool Japanese;
 
-    public int TID { get => ReadUInt16LittleEndian(Data.AsSpan(0 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(0 + Offset), (ushort)value); }
-    public int SID { get => ReadUInt16LittleEndian(Data.AsSpan(2 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(2 + Offset), (ushort)value); }
+    public int TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(0 + Offset), (ushort)value); }
+    public int SID16 { get => ReadUInt16LittleEndian(Data.AsSpan(2 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(2 + Offset), (ushort)value); }
     public uint PID { get => ReadUInt32LittleEndian(Data.AsSpan(4 + Offset)); set => WriteUInt32LittleEndian(Data.AsSpan(4 + Offset), value); }
     private int SpecLevel { get => ReadUInt16LittleEndian(Data.AsSpan(8 + Offset)); set => WriteUInt16LittleEndian(Data.AsSpan(8 + Offset), (ushort)value); }
 
     private Span<byte> Nickname_Trash => Data.AsSpan(10 + Offset, 10);
-    public string Nickname { get => StringConverter3.GetString(Nickname_Trash, Japanese); set => StringConverter3.SetString(Nickname_Trash, value.AsSpan(), 10, Japanese, StringConverterOption.ClearZero); }
+    public string Nickname { get => StringConverter3.GetString(Nickname_Trash, Japanese); set => StringConverter3.SetString(Nickname_Trash, value, 10, Japanese, StringConverterOption.ClearZero); }
 
-    public int Species { get => SpecLevel & 0x1FF; set => SpecLevel = (SpecLevel & 0xFE00) | value; }
+    public ushort Species { get => (ushort)(SpecLevel & 0x1FF); set => SpecLevel = (SpecLevel & 0xFE00) | value; }
+    public byte Form => 0; // no forms; derive Unown's from PID else use the Version for Deoxys.
     public int Level { get => SpecLevel >> 9; set => SpecLevel = (SpecLevel & 0x1FF) | (value << 9); }
 }

@@ -20,7 +20,12 @@ public sealed class EggMoves2 : EggMoves
 {
     private EggMoves2(ushort[] moves) : base(moves) { }
 
-    public static EggMoves2[] GetArray(ReadOnlySpan<byte> data, int count)
+    /// <summary>
+    /// Gets the Egg Moves from the Generation 2 encoded format.
+    /// </summary>
+    /// <param name="data">Encoded data</param>
+    /// <param name="count">Max Species ID</param>
+    public static EggMoves2[] GetArray(ReadOnlySpan<byte> data, ushort count)
     {
         var entries = new EggMoves2[count + 1];
         var empty = entries[0] = new EggMoves2(Array.Empty<ushort>());
@@ -30,7 +35,7 @@ public sealed class EggMoves2 : EggMoves
         {
             int start = ReadInt16LittleEndian(data[((i - 1) * 2)..]) - baseOffset;
             var slice = data[start..];
-            int moveCount = slice.IndexOf((byte)0xFF);
+            int moveCount = slice.IndexOf<byte>(0xFF);
             if (moveCount == 0)
             {
                 entries[i] = empty;
@@ -87,9 +92,9 @@ public sealed class EggMoves7 : EggMoves
     /// <summary>
     /// Points to the index where form data is, within the parent Egg Move object array.
     /// </summary>
-    public readonly int FormTableIndex;
+    public readonly ushort FormTableIndex;
 
-    private EggMoves7(ushort[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;
+    private EggMoves7(ushort[] moves, ushort formIndex = 0) : base(moves) => FormTableIndex = formIndex;
 
     public static EggMoves7[] GetArray(BinLinkerAccessor entries)
     {
@@ -99,7 +104,7 @@ public sealed class EggMoves7 : EggMoves
         {
             var data = entries[i];
             int count = ReadInt16LittleEndian(data[2..]);
-            int formIndex = ReadInt16LittleEndian(data);
+            var formIndex = ReadUInt16LittleEndian(data);
             if (count == 0)
             {
                 // Might need to keep track of the Form Index for unavailable forms pointing to valid forms.

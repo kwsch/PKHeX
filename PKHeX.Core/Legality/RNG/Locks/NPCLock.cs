@@ -5,11 +5,11 @@ namespace PKHeX.Core;
 /// </summary>
 public readonly record struct NPCLock
 {
-    private readonly int Species;
     private readonly byte Nature;
     private readonly byte Gender;
     private readonly byte Ratio;
     private readonly byte State;
+    private readonly ushort Species;
 
     public int FramesConsumed => Seen ? 5 : 7;
     public bool Seen => State > 1;
@@ -17,22 +17,18 @@ public readonly record struct NPCLock
     public (byte Nature, byte Gender) GetLock => (Nature, Gender);
 
     // Not-Shadow
-    public NPCLock(short s, byte n, byte g, byte r)
+    public NPCLock(ushort s, byte n, byte g, byte r)
     {
         Species = s;
         Nature = n;
         Gender = g;
         Ratio = r;
-        State = 0;
     }
 
     // Shadow
-    public NPCLock(short s, bool seen = false)
+    public NPCLock(ushort s, bool seen = false)
     {
         Species = s;
-        Nature = 0;
-        Gender = 0;
-        Ratio = 0;
         State = seen ? (byte)2 : (byte)1;
     }
 

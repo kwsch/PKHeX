@@ -18,7 +18,7 @@ public static class EntityBlank
     {
         var constructors = type.GetTypeInfo().DeclaredConstructors.Where(z => !z.IsStatic);
         var argCount = constructors.Min(z => z.GetParameters().Length);
-        return (PKM)Activator.CreateInstance(type, new object[argCount]);
+        return (PKM)(Activator.CreateInstance(type, new object[argCount]) ?? throw new ArgumentException(null, nameof(type)));
     }
 
     public static PKM GetBlank(int gen, GameVersion ver) => gen switch

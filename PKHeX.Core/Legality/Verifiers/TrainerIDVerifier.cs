@@ -17,54 +17,47 @@ public sealed class TrainerIDVerifier : Verifier
 
         if (pk.BDSP)
         {
-            if (pk.TID == 0 && pk.SID == 0) // Game loops to ensure a nonzero full-ID
-            {
-                data.AddLine(GetInvalid(LOT_IDInvalid));
-                return;
-            }
-            if (pk.TID == 0xFFFF && pk.SID == 0x7FFF) // int.MaxValue cannot be yielded by Unity's Random.Range[min, max)
+            // Game loops to ensure a nonzero full-ID
+            // int.MaxValue cannot be yielded by Unity's Random.Range[min, max)
+            var id32 = pk.ID32;
+            if (id32 is 0 or int.MaxValue)
             {
                 data.AddLine(GetInvalid(LOT_IDInvalid));
                 return;
             }
         }
-        else if (pk.VC && pk.SID != 0)
+        else if (pk.VC && pk.SID16 != 0)
         {
             data.AddLine(GetInvalid(LOT_SID0Invalid));
             return;
         }
 
-        if (pk.TID == 0 && pk.SID == 0)
+        if (pk is { ID32: 0 })
         {
             data.AddLine(Get(LOT_IDs0, Severity.Fishy));
         }
-        else if (pk.TID == pk.SID)
+        else if (pk.TID16 == pk.SID16)
         {
             data.AddLine(Get(LOT_IDEqual, Severity.Fishy));
         }
-        else if (pk.TID == 0)
+        else if (pk.TID16 == 0)
         {
             data.AddLine(Get(LOT_TID0, Severity.Fishy));
         }
-        else if (pk.SID == 0)
+        else if (pk.SID16 == 0)
         {
             data.AddLine(Get(LOT_SID0, Severity.Fishy));
         }
-        else if (IsOTIDSuspicious(pk.TID, pk.SID))
+        else if (IsOTIDSuspicious(pk.TID16, pk.SID16))
         {
             data.AddLine(Get(LOTSuspicious, Severity.Fishy));
         }
     }
 
-    public static bool IsOTIDSuspicious(int tid16, int sid16)
+    public static bool IsOTIDSuspicious(ushort tid16, ushort sid16) => (tid16, sid16) switch
     {
-        if (tid16 == 12345 && sid16 == 54321)
-            return true;
-
-        // 1234_123456 (SID7_TID7)
-        if (tid16 == 15040 && sid16 == 18831)
-            return true;
-
-        return false;
-    }
+        (12345, 54321) => true,
+        (15040, 18831) => true, // 1234_123456 (SID7_TID7)
+        _ => false,
+    };
 }

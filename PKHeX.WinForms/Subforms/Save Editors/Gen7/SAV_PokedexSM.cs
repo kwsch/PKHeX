@@ -88,7 +88,7 @@ public partial class SAV_PokedexSM : Form
         int form = LB_Forms.SelectedIndex;
         if (form > 0)
         {
-            int fc = SAV.Personal[bspecies].FormCount;
+            var fc = SAV.Personal[bspecies].FormCount;
             if (fc > 1) // actually has forms
             {
                 int f = Dex.GetDexFormIndex(bspecies, fc, form);
@@ -144,7 +144,7 @@ public partial class SAV_PokedexSM : Form
         }
         else
         {
-            int fc = SAV.Personal[bspecies].FormCount;
+            var fc = SAV.Personal[bspecies].FormCount;
             if (fc <= 1)
                 return true;
 
@@ -203,7 +203,7 @@ public partial class SAV_PokedexSM : Form
         CHK_P1.Enabled = currentSpecies <= SAV.MaxSpeciesID;
         CHK_P1.Checked = CHK_P1.Enabled && Dex.GetCaught(currentSpecies);
 
-        int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
+        byte gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
         bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
         bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
@@ -276,7 +276,7 @@ public partial class SAV_PokedexSM : Form
         {
             CHK_P1.Checked = ModifierKeys != Keys.Control;
         }
-        int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
+        byte gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
         bool canBeMale = gt != PersonalInfo.RatioMagicFemale;
         bool canBeFemale = gt is not (PersonalInfo.RatioMagicMale or PersonalInfo.RatioMagicGenderless);
@@ -362,7 +362,7 @@ public partial class SAV_PokedexSM : Form
         }
     }
 
-    private void SetCaught(object sender, int gt, int lang, bool isForm)
+    private void SetCaught(object sender, byte gt, int lang, bool isForm)
     {
         CHK_P1.Checked = mnuCaughtNone != sender;
         for (int j = 0; j < CL.Length; j++)
@@ -401,7 +401,7 @@ public partial class SAV_PokedexSM : Form
             (gt != PersonalInfo.RatioMagicFemale ? CHK_P6 : CHK_P7).Checked = CHK_P1.Enabled;
     }
 
-    private void SetSeen(object sender, int gt, bool isForm)
+    private void SetSeen(object sender, byte gt, bool isForm)
     {
         foreach (CheckBox t in new[] {CHK_P2, CHK_P3, CHK_P4, CHK_P5})
             t.Checked = mnuSeenNone != sender && t.Enabled;

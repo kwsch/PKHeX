@@ -43,7 +43,7 @@ public static class Encounters5DR
     #endregion
     #region DreamWorld Encounter
 
-    public static readonly EncounterStatic5[] DreamWorld_Common = DreamWorldEntry.GetArray(Gen5, new DreamWorldEntry[]
+    public static readonly EncounterStatic5[] DreamWorld_Common = DreamWorldEntry.GetArray(Gen5, stackalloc DreamWorldEntry[]
     {
         // Pleasant Forest
         new(019, 10, 098, 382, 231), // Rattata

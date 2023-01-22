@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -18,7 +18,7 @@ public sealed class SangoInfoBlock : SaveBlock<SAV6AO>
     public string SecretBaseQRText // 0x319BC -- 17*u16
     {
         get => SAV.GetString(Data.AsSpan(Offset + 0x63BC, 36));
-        set => SAV.SetString(Data.AsSpan(Offset + 0x63BC, 36), value.AsSpan(), 0x10, StringConverterOption.ClearZero);
+        set => SAV.SetString(Data.AsSpan(Offset + 0x63BC, 36), value, 0x10, StringConverterOption.ClearZero);
     }
 
     public uint EonTicketSendMagic // 0x319DE

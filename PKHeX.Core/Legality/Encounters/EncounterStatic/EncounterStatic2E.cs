@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,10 +17,12 @@ public sealed record EncounterStatic2E : EncounterStatic2, IFixedGBLanguage
 
     public IReadOnlyList<string> OT_Names { get; init; } = Array.Empty<string>();
 
-    /// <summary> Trainer ID for the event. </summary>
-    public int TID { get; init; } = -1;
+    private const ushort UnspecifiedID = 0;
 
-    public bool IsGift => TID != -1;
+    /// <summary> Trainer ID for the event. </summary>
+    public ushort TID16 { get; init; } = UnspecifiedID;
+
+    public bool IsGift => TID16 != UnspecifiedID;
 
     public int CurrentLevel { get; init; } = -1;
 
@@ -47,7 +49,7 @@ public sealed record EncounterStatic2E : EncounterStatic2, IFixedGBLanguage
             return true;
 
         // Check OT Details
-        if (TID != -1 && pk.TID != TID)
+        if (TID16 != UnspecifiedID && pk.TID16 != TID16)
             return false;
 
         if (OT_Name.Length != 0)
@@ -73,11 +75,11 @@ public sealed record EncounterStatic2E : EncounterStatic2, IFixedGBLanguage
 
     protected override int GetMinimalLevel() => CurrentLevel == -1 ? base.GetMinimalLevel() : CurrentLevel;
 
-    protected override PKM GetBlank(ITrainerInfo tr) => Language switch
+    protected override PK2 GetBlank(ITrainerInfo tr) => Language switch
     {
-        EncounterGBLanguage.Japanese => new PK2(true),
-        EncounterGBLanguage.International => new PK2(),
-        _ => new PK2(tr.Language == 1),
+        EncounterGBLanguage.Japanese => new(true),
+        EncounterGBLanguage.International => new(),
+        _ => new(tr.Language == 1),
     };
 
     protected override void ApplyDetails(ITrainerInfo tr, EncounterCriteria criteria, PKM pk)
@@ -86,8 +88,8 @@ public sealed record EncounterStatic2E : EncounterStatic2, IFixedGBLanguage
         if (CurrentLevel != -1) // Restore met level
             pk.Met_Level = LevelMin;
 
-        if (TID != -1)
-            pk.TID = TID;
+        if (TID16 != UnspecifiedID)
+            pk.TID16 = TID16;
         if (IsGift)
             pk.OT_Gender = 0;
 

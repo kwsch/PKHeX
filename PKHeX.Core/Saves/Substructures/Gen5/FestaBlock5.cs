@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -218,14 +218,10 @@ public enum Funfest5Mission
     TheBerryHuntingAdventure = 44,
 }
 
-public record struct Funfest5Score
+public record struct Funfest5Score(uint RawValue)
 {
-    public uint RawValue { get; set; }
-    public Funfest5Score(uint raw) => RawValue = raw;
-
-    public Funfest5Score(int total, int score, int level, bool isNew)
+    public Funfest5Score(int total, int score, int level, bool isNew) : this(0)
     {
-        RawValue = 0;
         Total = total;
         Score = score;
         Level = level;

@@ -34,11 +34,6 @@ public enum MysteryGiftRestriction
 
 public static class MysteryGiftRestrictionExtensions
 {
-    public static bool HasFlagFast(this MysteryGiftRestriction value, MysteryGiftRestriction flag)
-    {
-        return (value & flag) != 0;
-    }
-
     /// <summary>
     /// Checks the flags to pick out a language that can receive the gift.
     /// </summary>
@@ -48,7 +43,7 @@ public static class MysteryGiftRestrictionExtensions
     {
         for (int i = (int)LanguageID.Japanese; i <= (int)LanguageID.Korean; i++)
         {
-            if (value.HasFlagFast((MysteryGiftRestriction)(1 << i)))
+            if (value.HasFlag((MysteryGiftRestriction)(1 << i)))
                 return i;
         }
         return -1;
@@ -58,7 +53,7 @@ public static class MysteryGiftRestrictionExtensions
     {
         for (int i = (int)Region3DSIndex.Japan; i <= (int)Region3DSIndex.Taiwan; i++)
         {
-            if (value.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << i)))
+            if (value.HasFlag((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << i)))
                 return i;
         }
         return -1;

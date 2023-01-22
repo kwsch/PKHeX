@@ -23,7 +23,7 @@ public static class TechnicalRecordApplicator
     /// Clears the Technical Record flags for the <see cref="pk"/>.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    public static void ClearRecordFlags(this ITechRecord pk) => pk.SetRecordFlags(false, pk.RecordCountTotal);
+    public static void ClearRecordFlags(this ITechRecord pk) => pk.SetRecordFlags(false, pk.Permit.RecordCountTotal);
 
     /// <summary>
     /// Sets the Technical Record flags for the <see cref="pk"/> based on the current moves.
@@ -32,17 +32,15 @@ public static class TechnicalRecordApplicator
     /// <param name="moves">Moves to set flags for. If a move is not a Technical Record, it is skipped.</param>
     public static void SetRecordFlags(this ITechRecord pk, ReadOnlySpan<ushort> moves)
     {
-        var permit = pk.TechRecordPermitFlags;
-        var moveIDs = pk.TechRecordPermitIndexes;
-        if (permit.Length != moveIDs.Length)
-            return;
+        var permit = pk.Permit;
+        var moveIDs = permit.RecordPermitIndexes;
 
         foreach (var m in moves)
         {
             var index = moveIDs.IndexOf(m);
             if (index == -1)
                 continue;
-            if (permit[index])
+            if (permit.IsRecordPermitted(index))
                 pk.SetMoveRecordFlag(index);
         }
     }
@@ -53,10 +51,10 @@ public static class TechnicalRecordApplicator
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetRecordFlags(this ITechRecord pk)
     {
-        var permit = pk.TechRecordPermitFlags;
-        for (int i = 0; i < permit.Length; i++)
+        var permit = pk.Permit;
+        for (int i = 0; i < permit.RecordCountUsed; i++)
         {
-            if (permit[i])
+            if (permit.IsRecordPermitted(i))
                 pk.SetMoveRecordFlag(i);
         }
     }

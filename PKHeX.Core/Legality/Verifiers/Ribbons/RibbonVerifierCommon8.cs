@@ -26,7 +26,6 @@ public static class RibbonVerifierCommon8
         {
             list.Add(MasterRank);
         }
-
         else
         {
             // If it can exist in SW/SH, it can have the ribbon.

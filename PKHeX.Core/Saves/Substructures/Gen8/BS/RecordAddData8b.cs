@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -38,12 +38,11 @@ public sealed class RecordAddData8b : SaveBlock<SAV8BS>
             if (string.IsNullOrWhiteSpace(r.OT))
                 continue;
 
-            if (oldTrainer.OT != r.OT || oldTrainer.TID != r.TID || oldTrainer.SID != r.SID)
+            if (oldTrainer.OT != r.OT || oldTrainer.ID32 != r.ID32)
                 continue;
 
             r.OT = newTrainer.OT;
-            r.SID = newTrainer.SID;
-            r.TID = newTrainer.TID;
+            r.ID32 = newTrainer.ID32;
         }
     }
 }
@@ -63,7 +62,7 @@ public sealed class RecordAdd8b
     public string OT
     {
         get => StringConverter8.GetString(Data.AsSpan(Offset + 0, 0x1A));
-        set => StringConverter8.SetString(Data.AsSpan(Offset + 0, 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+        set => StringConverter8.SetString(Data.AsSpan(Offset + 0, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
     // 1A reserved byte
     // 1B reserved byte
@@ -85,16 +84,22 @@ public sealed class RecordAdd8b
         set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x24), value);
     }
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x28));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x28), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x28));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x28), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x28));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x28), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x2A));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x2A), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x2A), value);
     }
 
     // 0x2C int32 reserved

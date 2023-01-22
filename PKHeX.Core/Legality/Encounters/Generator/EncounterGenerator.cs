@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -20,15 +19,46 @@ public static class EncounterGenerator
     /// </remarks>
     public static IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info) => info.Generation switch
     {
-        1 => EncounterGenerator12.GetEncounters12(pk, info),
-        2 => EncounterGenerator12.GetEncounters12(pk, info),
-        3 => EncounterGenerator3.GetEncounters(pk, info),
-        4 => EncounterGenerator4.GetEncounters(pk, info),
-        5 => EncounterGenerator5.GetEncounters(pk),
-        6 => EncounterGenerator6.GetEncounters(pk),
-        7 => EncounterGenerator7.GetEncounters(pk),
-        8 => EncounterGenerator8.GetEncounters(pk),
-        9 => EncounterGenerator9.GetEncounters(pk),
-        _ => Array.Empty<IEncounterable>(),
+        1 => EncounterGenerator12.Instance.GetEncounters(pk, info),
+        2 => EncounterGenerator12.Instance.GetEncounters(pk, info),
+        3 => pk.Version == (int)GameVersion.CXD
+            ? EncounterGenerator3GC.Instance.GetEncounters(pk, info)
+            : EncounterGenerator3.Instance.GetEncounters(pk, info),
+        4 => EncounterGenerator4.Instance.GetEncounters(pk, info),
+        5 => EncounterGenerator5.Instance.GetEncounters(pk, info),
+        6 => EncounterGenerator6.Instance.GetEncounters(pk, info),
+        7 => EncounterGenerator7X.Instance.GetEncounters(pk, info),
+        8 => EncounterGenerator8X.Instance.GetEncounters(pk, info),
+        9 => EncounterGenerator9.Instance.GetEncounters(pk, info),
+        _ => EncounterGeneratorDummy.Instance.GetEncounters(pk, info),
+    };
+
+    public static IEncounterGenerator GetGenerator(GameVersion version) => GetGeneration(version, version.GetGeneration());
+
+    public static IEncounterGenerator GetGeneration(GameVersion version, int generation) => generation switch
+    {
+        1 => EncounterGenerator1.Instance,
+        2 => EncounterGenerator2.Instance,
+        3 => version == GameVersion.CXD
+            ? EncounterGenerator3GC.Instance
+            : EncounterGenerator3.Instance,
+        4 => EncounterGenerator4.Instance,
+        5 => EncounterGenerator5.Instance,
+        6 => EncounterGenerator6.Instance,
+        7 => version switch
+        {
+            GameVersion.GP or GameVersion.GE => EncounterGenerator7GG.Instance,
+            GameVersion.GO => EncounterGeneratorGO.Instance,
+            _ => EncounterGenerator7.Instance,
+        },
+        8 => version switch
+        {
+            GameVersion.GO => EncounterGeneratorGO.Instance,
+            GameVersion.PLA => EncounterGenerator8a.Instance,
+            GameVersion.BD or GameVersion.SP => EncounterGenerator8b.Instance,
+            _ => EncounterGenerator8.Instance,
+        },
+        9 => EncounterGenerator9.Instance,
+        _ => EncounterGeneratorDummy.Instance,
     };
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -12,16 +12,22 @@ public sealed class MyStatus8a : SaveBlock<SAV8LA>
 {
     public MyStatus8a(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(0x10));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x10), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(0x10));
+        set => WriteUInt32LittleEndian(Data.AsSpan(0x10), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(0x10));
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x10), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(0x12));
-        set => WriteUInt16LittleEndian(Data.AsSpan(0x12), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(0x12), value);
     }
 
     public int Game
@@ -58,7 +64,7 @@ public sealed class MyStatus8a : SaveBlock<SAV8LA>
     public string OT
     {
         get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public byte Unk_0x50

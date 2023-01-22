@@ -124,9 +124,9 @@ public enum PIDType
     CXDAnti,
 
     /// <summary>
-    /// Generation 3 <see cref="GameVersion.CXD"/> PID+IV which is created immediately after the TID and SID RNG calls.
+    /// Generation 3 <see cref="GameVersion.CXD"/> PID+IV which is created immediately after the TID16 and SID16 RNG calls.
     /// </summary>
-    /// <remarks><see cref="XDRNG"/>. The second starter is created after the first starter, with the same TID and SID.</remarks>
+    /// <remarks><see cref="XDRNG"/>. The second starter is created after the first starter, with the same TID16 and SID16.</remarks>
     CXD_ColoStarter,
 
     /// <summary>
@@ -158,14 +158,14 @@ public enum PIDType
     /// <summary>
     /// Generation 5 Mystery Gift Shiny
     /// </summary>
-    /// <remarks>Formulaic based on TID, SID, and Gender bytes.</remarks>
+    /// <remarks>Formulaic based on TID16, SID16, and Gender bytes.</remarks>
     /// <remarks>Unrelated to IVs</remarks>
     G5MGShiny,
 
     /// <summary>
     /// Generation 4 Pokewalker PID, never Shiny.
     /// </summary>
-    /// <remarks>Formulaic based on TID, SID, and Gender bytes.</remarks>
+    /// <remarks>Formulaic based on TID16, SID16, and Gender bytes.</remarks>
     /// <remarks>Unrelated to IVs</remarks>
     Pokewalker,
 
@@ -186,6 +186,12 @@ public enum PIDType
     /// </summary>
     /// <remarks>Formulaic based on EC value = 32bit-seed.</remarks>
     Roaming8b,
+
+    /// <summary>
+    /// Generation 9 Tera Raid PID
+    /// </summary>
+    /// <remarks>Formulaic based on PID &amp; EC values from a 32bit-seed.</remarks>
+    Tera9,
 
     #endregion
 }

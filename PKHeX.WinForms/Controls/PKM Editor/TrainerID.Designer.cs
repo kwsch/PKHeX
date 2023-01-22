@@ -50,17 +50,17 @@
             this.FLP.Controls.Add(this.TB_SID7);
             this.FLP.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP.Location = new System.Drawing.Point(0, 0);
+            this.FLP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.FLP.Name = "FLP";
-            this.FLP.Size = new System.Drawing.Size(125, 54);
+            this.FLP.Size = new System.Drawing.Size(128, 48);
             this.FLP.TabIndex = 0;
             // 
             // Label_TID
             // 
-            this.Label_TID.AutoSize = true;
-            this.Label_TID.Location = new System.Drawing.Point(3, 6);
-            this.Label_TID.Margin = new System.Windows.Forms.Padding(3, 6, 2, 0);
+            this.Label_TID.Location = new System.Drawing.Point(0, 0);
+            this.Label_TID.Margin = new System.Windows.Forms.Padding(0);
             this.Label_TID.Name = "Label_TID";
-            this.Label_TID.Size = new System.Drawing.Size(28, 13);
+            this.Label_TID.Size = new System.Drawing.Size(40, 24);
             this.Label_TID.TabIndex = 7;
             this.Label_TID.Text = "TID:";
             this.Label_TID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -68,12 +68,12 @@
             // TB_TID
             // 
             this.TB_TID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_TID.Location = new System.Drawing.Point(33, 3);
-            this.TB_TID.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+            this.TB_TID.Location = new System.Drawing.Point(40, 0);
+            this.TB_TID.Margin = new System.Windows.Forms.Padding(0);
             this.TB_TID.Mask = "00000";
             this.TB_TID.Name = "TB_TID";
-            this.TB_TID.Size = new System.Drawing.Size(40, 20);
-            this.TB_TID.TabIndex = 5;
+            this.TB_TID.Size = new System.Drawing.Size(40, 23);
+            this.TB_TID.TabIndex = 1;
             this.TB_TID.Text = "12345";
             this.TB_TID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_TID.TextChanged += new System.EventHandler(this.Update_ID);
@@ -82,12 +82,12 @@
             // TB_TID7
             // 
             this.TB_TID7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_TID7.Location = new System.Drawing.Point(76, 3);
-            this.TB_TID7.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+            this.TB_TID7.Location = new System.Drawing.Point(80, 0);
+            this.TB_TID7.Margin = new System.Windows.Forms.Padding(0);
             this.TB_TID7.Mask = "000000";
             this.TB_TID7.Name = "TB_TID7";
-            this.TB_TID7.Size = new System.Drawing.Size(42, 20);
-            this.TB_TID7.TabIndex = 9;
+            this.TB_TID7.Size = new System.Drawing.Size(48, 23);
+            this.TB_TID7.TabIndex = 2;
             this.TB_TID7.Text = "123456";
             this.TB_TID7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_TID7.TextChanged += new System.EventHandler(this.Update_ID);
@@ -95,11 +95,10 @@
             // 
             // Label_SID
             // 
-            this.Label_SID.AutoSize = true;
-            this.Label_SID.Location = new System.Drawing.Point(3, 29);
-            this.Label_SID.Margin = new System.Windows.Forms.Padding(3, 6, 2, 0);
+            this.Label_SID.Location = new System.Drawing.Point(0, 24);
+            this.Label_SID.Margin = new System.Windows.Forms.Padding(0);
             this.Label_SID.Name = "Label_SID";
-            this.Label_SID.Size = new System.Drawing.Size(28, 13);
+            this.Label_SID.Size = new System.Drawing.Size(40, 24);
             this.Label_SID.TabIndex = 8;
             this.Label_SID.Text = "SID:";
             this.Label_SID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -107,12 +106,12 @@
             // TB_SID
             // 
             this.TB_SID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SID.Location = new System.Drawing.Point(33, 26);
-            this.TB_SID.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+            this.TB_SID.Location = new System.Drawing.Point(40, 24);
+            this.TB_SID.Margin = new System.Windows.Forms.Padding(0);
             this.TB_SID.Mask = "00000";
             this.TB_SID.Name = "TB_SID";
-            this.TB_SID.Size = new System.Drawing.Size(40, 20);
-            this.TB_SID.TabIndex = 6;
+            this.TB_SID.Size = new System.Drawing.Size(40, 23);
+            this.TB_SID.TabIndex = 3;
             this.TB_SID.Text = "12345";
             this.TB_SID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_SID.TextChanged += new System.EventHandler(this.Update_ID);
@@ -121,12 +120,12 @@
             // TB_SID7
             // 
             this.TB_SID7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_SID7.Location = new System.Drawing.Point(76, 26);
-            this.TB_SID7.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+            this.TB_SID7.Location = new System.Drawing.Point(80, 24);
+            this.TB_SID7.Margin = new System.Windows.Forms.Padding(0);
             this.TB_SID7.Mask = "0000";
             this.TB_SID7.Name = "TB_SID7";
-            this.TB_SID7.Size = new System.Drawing.Size(30, 20);
-            this.TB_SID7.TabIndex = 10;
+            this.TB_SID7.Size = new System.Drawing.Size(32, 23);
+            this.TB_SID7.TabIndex = 4;
             this.TB_SID7.Text = "1234";
             this.TB_SID7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_SID7.TextChanged += new System.EventHandler(this.Update_ID);
@@ -134,11 +133,11 @@
             // 
             // TrainerID
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.FLP);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "TrainerID";
-            this.Size = new System.Drawing.Size(125, 54);
+            this.Size = new System.Drawing.Size(128, 48);
             this.FLP.ResumeLayout(false);
             this.FLP.PerformLayout();
             this.ResumeLayout(false);

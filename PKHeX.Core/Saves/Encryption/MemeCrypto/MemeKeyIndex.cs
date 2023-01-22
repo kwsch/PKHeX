@@ -21,3 +21,8 @@ public enum MemeKeyIndex
     Unknown12 = 12,
     Unknown13 = 13,
 }
+
+public static class MemeKeyIndexExtensions
+{
+    public static bool CanSign(this MemeKeyIndex key) => key is MemeKeyIndex.PokedexAndSaveFile;
+}

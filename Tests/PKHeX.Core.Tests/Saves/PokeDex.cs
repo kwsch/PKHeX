@@ -1,9 +1,8 @@
 using System;
 using Xunit;
 using FluentAssertions;
-using PKHeX.Core;
 
-namespace PKHeX.Tests.Saves;
+namespace PKHeX.Core.Tests.Saves;
 
 public static class PokeDex
 {
@@ -28,7 +27,7 @@ public static class PokeDex
 
     private static void SetDexSpecies(SaveFile sav, ushort species, int regionSize)
     {
-        var pk5 = new PK5 {Species = species, TID = 1337}; // non-shiny
+        var pk5 = new PK5 {Species = species, TID16 = 1337}; // non-shiny
         pk5.Gender = pk5.GetSaneGender();
 
         sav.SetBoxSlotAtIndex(pk5, 0);
@@ -57,7 +56,7 @@ public static class PokeDex
         var dex = sav.PokeDex;
         var data = sav.Data;
 
-        int fc = sav.Personal[species].FormCount;
+        var fc = sav.Personal[species].FormCount;
         var bit = ((SAV5)sav).Zukan.DexFormIndexFetcher(species, fc);
         if (bit < 0)
             return;

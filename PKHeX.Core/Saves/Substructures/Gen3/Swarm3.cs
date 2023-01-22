@@ -32,7 +32,7 @@ public sealed class Swarm3
 
     public Swarm3(Species species, byte level, byte map, Move m1, Move m2 = 0, Move m3 = 0, Move m4 = 0) : this(new byte[SIZE])
     {
-        Gen3Species = SpeciesConverter.GetG3Species((ushort)species);
+        Gen3Species = SpeciesConverter.GetInternal3((ushort)species);
         Level = level;
         MapNum = map;
         Move1 = (ushort)m1;

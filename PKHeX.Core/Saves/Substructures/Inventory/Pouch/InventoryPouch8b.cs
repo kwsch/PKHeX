@@ -12,7 +12,7 @@ public sealed class InventoryPouch8b : InventoryPouch
         Func<ushort, bool>? isLegal)
         : base(type, legal, maxCount, offset, isLegal: isLegal) { }
 
-    public override InventoryItem GetEmpty(int itemID = 0, int count = 0) => new InventoryItem8b { Index = itemID, Count = count, IsNew = true };
+    public override InventoryItem8b GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = true };
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {

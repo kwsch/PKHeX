@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PokeList1 : PokeListGB<PK1>
 {
-    protected override byte GetSpeciesBoxIdentifier(PK1 pk) => SpeciesConverter.SetG1Species(pk.Species);
+    protected override byte GetSpeciesBoxIdentifier(PK1 pk) => SpeciesConverter.GetInternal1(pk.Species);
     protected override PK1 GetEntry(byte[] dat, ReadOnlySpan<byte> otname, ReadOnlySpan<byte> nick, bool egg)
     {
         var result = new PK1(dat, Japanese); // no eggs

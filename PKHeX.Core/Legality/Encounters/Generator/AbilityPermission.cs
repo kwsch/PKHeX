@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core;
 
@@ -15,9 +16,9 @@ public static class AbilityPermissionExtensions
 {
     public static int GetSingleValue(this AbilityPermission value) => value switch
     {
-        AbilityPermission.OnlyFirst => 0,
-        AbilityPermission.OnlySecond => 1,
-        AbilityPermission.OnlyHidden => 2,
+        OnlyFirst => 0,
+        OnlySecond => 1,
+        OnlyHidden => 2,
         _ => throw new ArgumentOutOfRangeException(nameof(value)),
     };
 
@@ -25,17 +26,17 @@ public static class AbilityPermissionExtensions
     {
         switch (value)
         {
-            case AbilityPermission.OnlyFirst:  index = 0; return true;
-            case AbilityPermission.OnlySecond: index = 1; return true;
-            case AbilityPermission.OnlyHidden: index = 2; return true;
+            case OnlyFirst:  index = 0; return true;
+            case OnlySecond: index = 1; return true;
+            case OnlyHidden: index = 2; return true;
             default: index = 0; return false;
         }
     }
 
     public static bool CanBeHidden(this AbilityPermission value) => value switch
     {
-        AbilityPermission.Any12H => true,
-        AbilityPermission.OnlyHidden => true,
+        Any12H => true,
+        OnlyHidden => true,
         _ => false,
     };
 }

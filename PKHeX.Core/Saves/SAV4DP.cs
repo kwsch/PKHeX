@@ -24,7 +24,7 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override Zukan4 Dex { get; }
 
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP((byte[])Data.Clone()) : new SAV4DP();
-    public override IPersonalTable Personal => PersonalTable.DP;
+    public override PersonalTable4 Personal => PersonalTable.DP;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
     public override int MaxItemID => Legal.MaxItemID_4_DP;
 

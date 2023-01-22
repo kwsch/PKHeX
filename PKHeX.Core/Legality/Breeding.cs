@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.Species;
@@ -54,7 +53,7 @@ public static class Breeding
         if (Legal.FixedGenderFromBiGender.Contains(species)) // Nincada -> Shedinja loses gender causing 'false', edge case
             return true;
         var pi = PKX.Personal[species];
-        if (!pi.Genderless && !pi.OnlyMale)
+        if (pi is { Genderless: false, OnlyMale: false })
             return true;
         if (MixedGenderBreeding.Contains(species))
             return true;
@@ -64,7 +63,7 @@ public static class Breeding
     private static readonly HashSet<ushort> SplitBreed_3 = new()
     {
         // Incense
-        (int)Marill, (int)Azumarill,
+        (int)Marill,
         (int)Wobbuffet,
     };
 
@@ -74,21 +73,21 @@ public static class Breeding
     private static readonly HashSet<ushort> SplitBreed = new(SplitBreed_3)
     {
         // Incense
-        (int)Chansey, (int)Blissey,
-        (int)MrMime, (int)MrRime,
+        (int)Chansey,
+        (int)MrMime,
         (int)Snorlax,
         (int)Sudowoodo,
         (int)Mantine,
-        (int)Roselia, (int)Roserade,
+        (int)Roselia,
         (int)Chimecho,
     };
 
-    internal static ICollection<ushort> GetSplitBreedGeneration(int generation) => generation switch
+    internal static IReadOnlySet<ushort>? GetSplitBreedGeneration(int generation) => generation switch
     {
         3 => SplitBreed_3,
         4 or 5 or 6 or 7 or 8 => SplitBreed,
         // Gen9 does not have split-breed egg generation.
-        _ => Array.Empty<ushort>(),
+        _ => null,
     };
 
     /// <summary>
@@ -99,7 +98,7 @@ public static class Breeding
     public static bool CanHatchAsEgg(ushort species) => !NoHatchFromEgg.Contains(species);
 
     /// <summary>
-    /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="generation"/>.
+    /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="context"/>.
     /// </summary>
     /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
     /// <param name="species">Current species</param>
@@ -120,7 +119,7 @@ public static class Breeding
     }
 
     /// <summary>
-    /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,byte,int)"/>
+    /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,byte,EntityContext)"/>
     /// </summary>
     /// <returns>True if can be bred.</returns>
     private static bool IsBreedableForm(ushort species, byte form) => species switch
@@ -131,25 +130,6 @@ public static class Breeding
         (int)Sinistea or (int)Polteageist => false, // can't get Antique eggs
         _ => true,
     };
-
-    /// <summary>
-    /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="game"/>.
-    /// </summary>
-    /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
-    /// <param name="species">Current species</param>
-    /// <param name="form">Current form</param>
-    /// <param name="game">Game of origin</param>
-    public static bool CanHatchAsEgg(ushort species, byte form, GameVersion game)
-    {
-        // If form cannot change, then it must be able to originate in the game.
-        var pt = GameData.GetPersonal(game);
-        if (pt.IsPresentInGame(species, form))
-            return true;
-
-        // Only way it can not exist is if it can change form.
-        // The only species that can do this is D/P Rotom, being changed in a future game.
-        return species is (int)Rotom && form <= 5 && game is D or P;
-    }
 
     /// <summary>
     /// Species that cannot hatch from an egg.

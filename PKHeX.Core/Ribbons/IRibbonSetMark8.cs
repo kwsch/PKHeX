@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary> Marks introduced in Generation 8 </summary>
 public interface IRibbonSetMark8
@@ -49,7 +49,18 @@ public interface IRibbonSetMark8
     bool RibbonMarkVigor { get; set; }
     bool RibbonMarkSlump { get; set; }
 
-    bool HasMark();
+    bool HasMarkEncounter8 { get; }
+}
+
+public interface IRibbonSetRibbons
+{
+    int RibbonCount { get; }
+}
+
+public interface IRibbonSetMarks
+{
+    int MarkCount { get; }
+    int RibbonMarkCount { get; }
 }
 
 internal static partial class RibbonExtensions
@@ -57,111 +68,8 @@ internal static partial class RibbonExtensions
     public static bool HasWeatherMark(this IRibbonSetMark8 m)
     {
         return m.RibbonMarkCloudy   || m.RibbonMarkRainy || m.RibbonMarkStormy    || m.RibbonMarkSnowy
-               || m.RibbonMarkBlizzard || m.RibbonMarkDry   || m.RibbonMarkSandstorm || m.RibbonMarkMisty;
+            || m.RibbonMarkBlizzard || m.RibbonMarkDry   || m.RibbonMarkSandstorm || m.RibbonMarkMisty;
     }
-
-    private static readonly string[] RibbonSetNamesMark8 =
-    {
-        nameof(IRibbonSetMark8.RibbonMarkLunchtime),
-        nameof(IRibbonSetMark8.RibbonMarkSleepyTime),
-        nameof(IRibbonSetMark8.RibbonMarkDusk),
-        nameof(IRibbonSetMark8.RibbonMarkDawn),
-        nameof(IRibbonSetMark8.RibbonMarkCloudy),
-        nameof(IRibbonSetMark8.RibbonMarkRainy),
-        nameof(IRibbonSetMark8.RibbonMarkStormy),
-        nameof(IRibbonSetMark8.RibbonMarkSnowy),
-        nameof(IRibbonSetMark8.RibbonMarkBlizzard),
-        nameof(IRibbonSetMark8.RibbonMarkDry),
-        nameof(IRibbonSetMark8.RibbonMarkSandstorm),
-        nameof(IRibbonSetMark8.RibbonMarkMisty),
-        nameof(IRibbonSetMark8.RibbonMarkDestiny),
-        nameof(IRibbonSetMark8.RibbonMarkFishing),
-        nameof(IRibbonSetMark8.RibbonMarkCurry),
-        nameof(IRibbonSetMark8.RibbonMarkUncommon),
-        nameof(IRibbonSetMark8.RibbonMarkRare),
-        nameof(IRibbonSetMark8.RibbonMarkRowdy),
-        nameof(IRibbonSetMark8.RibbonMarkAbsentMinded),
-        nameof(IRibbonSetMark8.RibbonMarkJittery),
-        nameof(IRibbonSetMark8.RibbonMarkExcited),
-        nameof(IRibbonSetMark8.RibbonMarkCharismatic),
-        nameof(IRibbonSetMark8.RibbonMarkCalmness),
-        nameof(IRibbonSetMark8.RibbonMarkIntense),
-        nameof(IRibbonSetMark8.RibbonMarkZonedOut),
-        nameof(IRibbonSetMark8.RibbonMarkJoyful),
-        nameof(IRibbonSetMark8.RibbonMarkAngry),
-        nameof(IRibbonSetMark8.RibbonMarkSmiley),
-        nameof(IRibbonSetMark8.RibbonMarkTeary),
-        nameof(IRibbonSetMark8.RibbonMarkUpbeat),
-        nameof(IRibbonSetMark8.RibbonMarkPeeved),
-        nameof(IRibbonSetMark8.RibbonMarkIntellectual),
-        nameof(IRibbonSetMark8.RibbonMarkFerocious),
-        nameof(IRibbonSetMark8.RibbonMarkCrafty),
-        nameof(IRibbonSetMark8.RibbonMarkScowling),
-        nameof(IRibbonSetMark8.RibbonMarkKindly),
-        nameof(IRibbonSetMark8.RibbonMarkFlustered),
-        nameof(IRibbonSetMark8.RibbonMarkPumpedUp),
-        nameof(IRibbonSetMark8.RibbonMarkZeroEnergy),
-        nameof(IRibbonSetMark8.RibbonMarkPrideful),
-        nameof(IRibbonSetMark8.RibbonMarkUnsure),
-        nameof(IRibbonSetMark8.RibbonMarkHumble),
-        nameof(IRibbonSetMark8.RibbonMarkThorny),
-        nameof(IRibbonSetMark8.RibbonMarkVigor),
-        nameof(IRibbonSetMark8.RibbonMarkSlump),
-    };
-
-    internal static bool[] RibbonBits(this IRibbonSetMark8 set)
-    {
-        return new[]
-        {
-            set.RibbonMarkLunchtime,
-            set.RibbonMarkSleepyTime,
-            set.RibbonMarkDusk,
-            set.RibbonMarkDawn,
-            set.RibbonMarkCloudy,
-            set.RibbonMarkRainy,
-            set.RibbonMarkStormy,
-            set.RibbonMarkSnowy,
-            set.RibbonMarkBlizzard,
-            set.RibbonMarkDry,
-            set.RibbonMarkSandstorm,
-            set.RibbonMarkMisty,
-            set.RibbonMarkDestiny,
-            set.RibbonMarkFishing,
-            set.RibbonMarkCurry,
-            set.RibbonMarkUncommon,
-            set.RibbonMarkRare,
-            set.RibbonMarkRowdy,
-            set.RibbonMarkAbsentMinded,
-            set.RibbonMarkJittery,
-            set.RibbonMarkExcited,
-            set.RibbonMarkCharismatic,
-            set.RibbonMarkCalmness,
-            set.RibbonMarkIntense,
-            set.RibbonMarkZonedOut,
-            set.RibbonMarkJoyful,
-            set.RibbonMarkAngry,
-            set.RibbonMarkSmiley,
-            set.RibbonMarkTeary,
-            set.RibbonMarkUpbeat,
-            set.RibbonMarkPeeved,
-            set.RibbonMarkIntellectual,
-            set.RibbonMarkFerocious,
-            set.RibbonMarkCrafty,
-            set.RibbonMarkScowling,
-            set.RibbonMarkKindly,
-            set.RibbonMarkFlustered,
-            set.RibbonMarkPumpedUp,
-            set.RibbonMarkZeroEnergy,
-            set.RibbonMarkPrideful,
-            set.RibbonMarkUnsure,
-            set.RibbonMarkHumble,
-            set.RibbonMarkThorny,
-            set.RibbonMarkVigor,
-            set.RibbonMarkSlump,
-        };
-    }
-
-    internal static string[] RibbonNames(this IRibbonSetMark8 _) => RibbonSetNamesMark8;
 
     internal static void CopyRibbonSetMark8(this IRibbonSetMark8 set, IRibbonSetMark8 dest)
     {

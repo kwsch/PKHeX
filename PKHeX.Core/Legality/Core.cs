@@ -63,15 +63,6 @@ public static partial class Legal
     internal static readonly ushort[][] ReminderSV = EggMoves9.GetArray(Get(Util.GetBinaryResource("reminder_sv.pkl"), "sv"));
     internal static readonly Learnset[] LevelUpSV = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_sv.pkl"), "sv"));
 
-    internal static int GetMaxSpeciesOrigin(PKM pk)
-    {
-        if (pk.Format == 1)
-            return MaxSpeciesID_1;
-        if (pk.Format == 2 || pk.VC)
-            return MaxSpeciesID_2;
-        return GetMaxSpeciesOrigin(pk.Generation);
-    }
-
     internal static int GetMaxSpeciesOrigin(int generation) => generation switch
     {
         1 => MaxSpeciesID_1,
@@ -110,7 +101,7 @@ public static partial class Legal
         PA8 pa8 => !pa8.LA,
         PB8 pb8 => !pb8.BDSP,
         PK8 pk8 => pk8.IsSideTransfer || pk8.BattleVersion != 0,
-        PK9 pk9 => !(pk9.SV || (pk9.IsEgg && pk9.Version == 0)),
+        PK9 pk9 => !(pk9.SV || pk9 is { IsEgg: true, Version: 0 }),
         _ => false,
     };
 
@@ -149,7 +140,7 @@ public static partial class Legal
         _ => generation >= 6 ? 12 : 10,
     };
 
-    public static bool GetIsFixedIVSequenceValidSkipRand(ReadOnlySpan<int> IVs, PKM pk, int max = 31)
+    public static bool GetIsFixedIVSequenceValidSkipRand(ReadOnlySpan<int> IVs, PKM pk, uint max = 31)
     {
         for (int i = 0; i < 6; i++)
         {
@@ -183,11 +174,4 @@ public static partial class Legal
         if (IVs.SPD != pk.IV_SPD) return false;
         return true;
     }
-
-    public static bool IsMetAsEgg(PKM pk) => pk switch
-    {
-        PA8 or PK8 => pk.Egg_Location is not 0 || (pk.BDSP && pk.Egg_Day is not 0),
-        PB8 pb8 => pb8.Egg_Location is not Locations.Default8bNone,
-        _ => pk.Egg_Location is not 0,
-    };
 }

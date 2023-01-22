@@ -1,8 +1,7 @@
-﻿using FluentAssertions;
-using PKHeX.Core;
+using FluentAssertions;
 using Xunit;
 
-namespace PKHeX.Tests;
+namespace PKHeX.Core.Tests;
 
 public static class XorShiftTests
 {

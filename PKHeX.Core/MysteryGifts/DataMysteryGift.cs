@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -36,5 +36,5 @@ public abstract class DataMysteryGift : MysteryGift
         return result;
     }
 
-    public override bool Empty => new ReadOnlySpan<byte>(Data).IsRangeEmpty();
+    public override bool Empty => Data.AsSpan().IndexOfAnyExcept<byte>(0) == -1;
 }

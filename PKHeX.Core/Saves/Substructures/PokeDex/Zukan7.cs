@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for Generation 7 games.
 /// </summary>>
-public class Zukan7 : Zukan
+public class Zukan7 : Zukan<SaveFile>
 {
     private const int MAGIC = 0x2F120F17;
     private const int SIZE_MAGIC = 4;
@@ -29,14 +29,14 @@ public class Zukan7 : Zukan
     public Zukan7(SAV7USUM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexUSUM) { }
     protected Zukan7(SAV7b sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexGG) { }
 
-    private Zukan7(SaveFile sav, int dex, int langflag, Func<ushort, int, int, int> form) : base(sav, dex, langflag)
+    private Zukan7(SaveFile sav, int dex, int langflag, Func<ushort, byte, int, int> form) : base(sav, dex, langflag)
     {
         DexFormIndexFetcher = form;
         FormBaseSpecies = GetFormIndexBaseSpeciesList();
         Debug.Assert(!SAV.State.Exportable || ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex)) == MAGIC);
     }
 
-    public Func<ushort, int, int, int> DexFormIndexFetcher { get; }
+    public Func<ushort, byte, int, int> DexFormIndexFetcher { get; }
 
     protected sealed override void SetAllDexSeenFlags(int baseBit, byte form, int gender, bool isShiny, bool value = true)
     {
@@ -60,7 +60,7 @@ public class Zukan7 : Zukan
             int formBit = baseBit;
             if (f > 0) // Override the bit to overwrite
             {
-                int fc = SAV.Personal[species].FormCount;
+                var fc = SAV.Personal[species].FormCount;
                 if (fc > 1) // actually has forms
                 {
                     int index = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
@@ -190,9 +190,9 @@ public class Zukan7 : Zukan
         }
     }
 
-    public int GetDexFormIndex(ushort species, int fc, int f)
+    public int GetDexFormIndex(ushort species, byte formCount, int form)
     {
-        var index = DexFormIndexFetcher(species, fc, f);
+        var index = DexFormIndexFetcher(species, formCount, form);
         if (index < 0)
             return index;
         return index + SAV.MaxSpeciesID - 1;
@@ -209,7 +209,7 @@ public class Zukan7 : Zukan
         int ctr = max + 1;
         for (ushort species = 1; species <= max; species++)
         {
-            int c = SAV.Personal[species].FormCount;
+            var c = SAV.Personal[species].FormCount;
             for (int f = 1; f < c; f++)
             {
                 int x = GetDexFormIndex(species, c, f);
@@ -228,7 +228,7 @@ public class Zukan7 : Zukan
         var baseSpecies = new List<ushort>();
         for (ushort species = 1; species <= SAV.MaxSpeciesID; species++)
         {
-            int c = SAV.Personal[species].FormCount;
+            var c = SAV.Personal[species].FormCount;
             for (int f = 1; f < c; f++)
             {
                 int x = GetDexFormIndex(species, c, f);
@@ -239,7 +239,7 @@ public class Zukan7 : Zukan
         return baseSpecies;
     }
 
-    public int GetBaseSpeciesGenderValue(int index)
+    public byte GetBaseSpeciesGenderValue(int index)
     {
         // meowstic special handling
         const int meow = 678;
@@ -285,7 +285,7 @@ public class Zukan7 : Zukan
         return result;
     }
 
-    public void SetLanguageBitflags(ushort species, bool[] value)
+    public void SetLanguageBitflags(ushort species, ReadOnlySpan<bool> value)
     {
         int bit = species - 1;
         for (int i = 0; i < DexLangIDCount; i++)

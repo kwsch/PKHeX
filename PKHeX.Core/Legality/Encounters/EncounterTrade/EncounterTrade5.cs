@@ -56,6 +56,6 @@ public sealed record EncounterTrade5PID(GameVersion Version, uint PID) : Encount
 
     public static bool IsValidMissingLanguage(PKM pk)
     {
-        return pk.Format == 5 && pk.BW;
+        return pk is { Context: EntityContext.Gen5, BW: true };
     }
 }

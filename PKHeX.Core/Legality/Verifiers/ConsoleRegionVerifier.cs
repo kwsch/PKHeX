@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -19,14 +19,14 @@ public sealed class ConsoleRegionVerifier : Verifier
 
     private CheckResult VerifyConsoleRegion(IRegionOrigin pk)
     {
-        int consoleRegion = pk.ConsoleRegion;
+        var consoleRegion = pk.ConsoleRegion;
         if (consoleRegion >= 7)
             return GetInvalid(LGeoHardwareRange);
 
         return Verify3DSDataPresent(pk, consoleRegion);
     }
 
-    private CheckResult Verify3DSDataPresent(IRegionOrigin pk, int consoleRegion)
+    private CheckResult Verify3DSDataPresent(IRegionOrigin pk, byte consoleRegion)
     {
         if (!Locale3DS.IsConsoleRegionCountryValid(consoleRegion, pk.Country))
             return GetInvalid(LGeoHardwareInvalid);

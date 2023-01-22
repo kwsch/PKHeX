@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -25,7 +25,7 @@ public static class GeoLocation
         return UnpackList(input);
     }
 
-    private static string[]?[] GetRegionList(int country)
+    private static string[]?[] GetRegionList(byte country)
     {
         var input = Util.GetStringList($"sr_{country:000}");
         return UnpackList(input);
@@ -51,7 +51,7 @@ public static class GeoLocation
         return entries;
     }
 
-    private static string GetCountryName(int country, int l)
+    private static string GetCountryName(byte country, int l)
     {
         if (l < 0)
             return INVALID;
@@ -63,7 +63,7 @@ public static class GeoLocation
         return INVALID;
     }
 
-    private static string GetRegionName(int country, int region, int l)
+    private static string GetRegionName(byte country, byte region, int l)
     {
         if (l < 0)
             return INVALID;
@@ -93,7 +93,7 @@ public static class GeoLocation
     /// <param name="language">Language ID</param>
     /// <param name="country">Country ID</param>
     /// <returns>Country ID string</returns>
-    public static string GetCountryName(string language, int country) => GetCountryName(country, GetLanguageIndex(language));
+    public static string GetCountryName(string language, byte country) => GetCountryName(country, GetLanguageIndex(language));
 
     /// <summary>
     /// Gets the Region string for a specified country ID.
@@ -102,7 +102,7 @@ public static class GeoLocation
     /// <param name="country">Country ID</param>
     /// <param name="region">Region ID</param>
     /// <returns>Region ID string</returns>
-    public static string GetRegionName(string language, int country, int region) => GetRegionName(country, region, GetLanguageIndex(language));
+    public static string GetRegionName(string language, byte country, byte region) => GetRegionName(country, region, GetLanguageIndex(language));
 
     /// <summary>
     /// Gets the Country string for a given Country ID
@@ -110,7 +110,7 @@ public static class GeoLocation
     /// <param name="language">Language ID</param>
     /// <param name="country">Country ID</param>
     /// <returns>Country ID string</returns>
-    public static string GetCountryName(LanguageID language, int country) => GetCountryName(country, GetLanguageIndex(language));
+    public static string GetCountryName(LanguageID language, byte country) => GetCountryName(country, GetLanguageIndex(language));
 
     /// <summary>
     /// Gets the Region string for a specified country ID.
@@ -119,7 +119,7 @@ public static class GeoLocation
     /// <param name="country">Country ID</param>
     /// <param name="region">Region ID</param>
     /// <returns>Region ID string</returns>
-    public static string GetRegionName(LanguageID language, int country, int region) => GetRegionName(country, region, GetLanguageIndex(language));
+    public static string GetRegionName(LanguageID language, byte country, byte region) => GetRegionName(country, region, GetLanguageIndex(language));
 
     /// <summary>
     /// Gets Country and Region strings for corresponding IDs and language.
@@ -128,7 +128,7 @@ public static class GeoLocation
     /// <param name="region">Region ID</param>
     /// <param name="language">Language ID</param>
     /// <returns>Tuple containing country and region</returns>
-    public static (string Country, string Region) GetCountryRegionText(int country, int region, string language)
+    public static (string Country, string Region) GetCountryRegionText(byte country, byte region, string language)
     {
         // Get Language we're fetching for
         int lang = Array.IndexOf(lang_geo, language);

@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+using System;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -10,7 +12,12 @@ namespace PKHeX.Core;
 /// <remarks>Used by the Brilliant Diamond &amp; Shining Pearl games; differs in how values are yielded by Next calls.</remarks>
 public ref struct Xoroshiro128Plus8b
 {
-    private ulong s0, s1;
+    private ulong s0;
+    private ulong s1;
+
+    public Xoroshiro128Plus8b(ulong s0, ulong s1) => (this.s0, this.s1) = (s0, s1);
+    public (ulong s0, ulong s1) GetState() => (s0, s1);
+    public UInt128 FullState() => new(s1, s0);
 
     public Xoroshiro128Plus8b(ulong seed)
     {
@@ -25,21 +32,6 @@ public ref struct Xoroshiro128Plus8b
         return seed ^ (seed >> 31);
     }
 
-    public Xoroshiro128Plus8b(ulong s0, ulong s1)
-    {
-        this.s0 = s0;
-        this.s1 = s1;
-    }
-
-    public (ulong s0, ulong s1) GetState() => (s0, s1);
-    public string FullState => $"{s1:X16}{s0:X16}";
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static ulong RotateLeft(ulong x, int k)
-    {
-        return (x << k) | (x >> (64 - k));
-    }
-
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.
     /// </summary>
@@ -52,8 +44,8 @@ public ref struct Xoroshiro128Plus8b
 
         _s1 ^= _s0;
         // Final calculations and store back to fields
-        s0 = RotateLeft(_s0, 24) ^ _s1 ^ (_s1 << 16);
-        s1 = RotateLeft(_s1, 37);
+        s0 = BitOperations.RotateLeft(_s0, 24) ^ _s1 ^ (_s1 << 16);
+        s1 = BitOperations.RotateLeft(_s1, 37);
 
         return result;
     }
@@ -66,9 +58,9 @@ public ref struct Xoroshiro128Plus8b
     {
         var _s0 = s0;
         var _s1 = s1;
-        _s1 = RotateLeft(_s1, 27);
+        _s1 = BitOperations.RotateLeft(_s1, 27);
         _s0 = _s0 ^ _s1 ^ (_s1 << 16);
-        _s0 = RotateLeft(_s0, 40);
+        _s0 = BitOperations.RotateLeft(_s0, 40);
         _s1 ^= _s0;
         ulong result = _s0 + _s1;
 

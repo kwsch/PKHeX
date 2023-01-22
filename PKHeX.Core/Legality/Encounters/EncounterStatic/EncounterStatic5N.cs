@@ -47,8 +47,8 @@ internal sealed record EncounterStatic5N : EncounterStatic5
         pk5.IV_HP = pk5.IV_ATK = pk5.IV_DEF = pk5.IV_SPA = pk5.IV_SPD = pk5.IV_SPE = 30;
         pk5.NSparkle = NSparkle;
         pk5.OT_Name = GetOT(lang);
-        pk5.TID = 00002;
-        pk5.SID = 00000;
+        pk5.TID16 = 00002;
+        pk5.SID16 = 00000;
     }
 
     public static string GetOT(int lang) => lang == (int)LanguageID.Japanese ? "Ｎ" : "N";

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -14,18 +14,18 @@ public sealed class BV7 : BattleVideo
     public override int Generation => 7;
     private readonly byte[] Data;
 
-    public override IReadOnlyList<PKM> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
+    public override IReadOnlyList<PK7> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
     internal new static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE;
 
     public BV7(byte[] data) => Data = (byte[])data.Clone();
 
     private static readonly int[] offsets = { 0xE41, 0x145E, 0x1A7B, 0x2098 };
 
-    public IReadOnlyList<PKM[]> PlayerTeams
+    public IReadOnlyList<PK7[]> PlayerTeams
     {
         get
         {
-            var Teams = new PKM[PlayerCount][];
+            var Teams = new PK7[PlayerCount][];
             for (int t = 0; t < PlayerCount; t++)
                 Teams[t] = GetTeam(t);
             return Teams;
@@ -37,9 +37,9 @@ public sealed class BV7 : BattleVideo
         }
     }
 
-    public PKM[] GetTeam(int teamIndex)
+    public PK7[] GetTeam(int teamIndex)
     {
-        var team = new PKM[6];
+        var team = new PK7[6];
         var ofs = offsets[teamIndex];
         for (int p = 0; p < 6; p++)
         {
@@ -50,7 +50,7 @@ public sealed class BV7 : BattleVideo
         return team;
     }
 
-    public void SetTeam(IReadOnlyList<PKM> team, int teamIndex)
+    public void SetTeam(IReadOnlyList<PK7> team, int teamIndex)
     {
         var ofs = offsets[teamIndex];
         for (int p = 0; p < 6; p++)
@@ -81,7 +81,7 @@ public sealed class BV7 : BattleVideo
         {
             string tr = value[i] == NPC ? string.Empty : value[i];
             var span = Data.AsSpan(0x12C + +(0x1A * i), 0x1A);
-            StringConverter7.SetString(span, tr.AsSpan(), 12, 0, StringConverterOption.ClearZero);
+            StringConverter7.SetString(span, tr, 12, 0, StringConverterOption.ClearZero);
         }
     }
 

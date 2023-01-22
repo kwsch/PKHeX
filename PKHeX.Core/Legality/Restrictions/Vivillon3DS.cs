@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Vivillon3DS
 {
-    public const int MaxWildFormID = 17; // 0-17 valid form indexes
+    public const byte MaxWildFormID = 17; // 0-17 valid form indexes
 
     private sealed class CountryTable
     {
@@ -61,7 +61,7 @@ public static class Vivillon3DS
         /*17 Jungle      */ Region3DSFlags.Americas | Region3DSFlags.Europe,
     };
 
-    private static Region3DSFlags GetConsoleRegionFlag(int consoleRegion) => (Region3DSFlags)(1 << consoleRegion);
+    private static Region3DSFlags GetConsoleRegionFlag(byte consoleRegion) => (Region3DSFlags)(1 << consoleRegion);
 
     /// <summary>
     /// List of valid countries for each Vivillon form.
@@ -209,9 +209,9 @@ public static class Vivillon3DS
     /// <summary>
     /// Compares the Vivillon pattern against its console region to determine if the pattern is legal.
     /// </summary>
-    public static bool IsPatternValid(byte form, int consoleRegion)
+    public static bool IsPatternValid(byte form, byte consoleRegion)
     {
-        if ((uint)form > MaxWildFormID)
+        if (form > MaxWildFormID)
             return false;
         var permit = GetConsoleRegionFlag(consoleRegion);
         return VivillonRegionTable[form].HasFlag(permit);
@@ -226,7 +226,7 @@ public static class Vivillon3DS
     /// <returns>True if valid</returns>
     public static bool IsPatternNative(byte form, byte country, byte region)
     {
-        if ((uint)form > MaxWildFormID)
+        if (form > MaxWildFormID)
             return false;
         if (!VivillonCountryTable[form].Contains(country))
             return false; // Country mismatch
@@ -273,7 +273,7 @@ public static class Vivillon3DS
     /// </summary>
     /// <remarks>Not to be confused with <see cref="Region3DSIndex"/>.</remarks>
     [Flags]
-    private enum Region3DSFlags : ushort
+    private enum Region3DSFlags : byte
     {
         None,
         Japan = 1,

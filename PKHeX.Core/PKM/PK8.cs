@@ -28,13 +28,14 @@ public sealed class PK8 : G8PKM
     };
 
     public override IReadOnlyList<ushort> ExtraBytes => Unused;
-    public override PersonalInfo PersonalInfo => PersonalTable.SWSH.GetFormEntry(Species, Form);
+    public override PersonalInfo8SWSH PersonalInfo => PersonalTable.SWSH.GetFormEntry(Species, Form);
+    public override IPermitRecord Permit => PersonalInfo;
     public override bool IsNative => SWSH;
     public override EntityContext Context => EntityContext.Gen8;
 
     public PK8() => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
     public PK8(byte[] data) : base(data) { }
-    public override PKM Clone() => new PK8((byte[])Data.Clone());
+    public override PK8 Clone() => new((byte[])Data.Clone());
 
     public void Trade(ITrainerInfo tr, int Day = 1, int Month = 1, int Year = 2015)
     {
@@ -42,7 +43,7 @@ public sealed class PK8 : G8PKM
         {
             // Eggs do not have any modifications done if they are traded
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
-            if ((tr.TID != TID) || (tr.SID != SID) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
+            if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6);
             return;
         }
@@ -79,7 +80,7 @@ public sealed class PK8 : G8PKM
     private bool TradeOT(ITrainerInfo tr)
     {
         // Check to see if the OT matches the SAV's OT info.
-        if (!(tr.TID == TID && tr.SID == SID && tr.Gender == OT_Gender && tr.OT == OT_Name))
+        if (!(tr.ID32 == ID32 && tr.Gender == OT_Gender && tr.OT == OT_Name))
             return false;
 
         CurrentHandler = 0;

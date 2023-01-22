@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 using static System.Buffers.Binary.BinaryPrimitives;
 
-namespace PKHeX.Tests.Saves;
+namespace PKHeX.Core.Tests.Saves;
 
 public static class HomeTests
 {

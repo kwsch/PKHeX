@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -48,7 +48,7 @@ public sealed class SaveBlockAccessor6AODemo : ISaveBlockAccessor<BlockInfo6>, I
         Situation = new Situation6(sav, 0x01000);
         Played = new PlayTime6(sav, 0x01400);
         Status = new MyStatus6(sav, 0x03C00);
-        Records = new RecordBlock6(sav, 0x05400);
+        Records = new RecordBlock6AO(sav, 0x05400);
         Misc = new Misc6AO(sav, 0x03A00);
     }
 }

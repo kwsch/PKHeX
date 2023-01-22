@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 public static partial class Legal
 {
-    internal const int MaxSpeciesID_9 = (int)Species.Annihilape;
+    internal const int MaxSpeciesID_9 = (int)Species.Miraidon;
     internal const int MaxMoveID_9 = (int)Move.MagicalTorque;
     internal const int MaxItemID_9 = 2400; // Yellow Dish
     internal const int MaxAbilityID_9 = (int)Ability.MyceliumMight;

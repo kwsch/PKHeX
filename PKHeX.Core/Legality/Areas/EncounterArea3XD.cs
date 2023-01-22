@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -11,7 +11,7 @@ public sealed record EncounterArea3XD : EncounterArea
 {
     public readonly EncounterSlot3PokeSpot[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot> Raw => Slots;
+    protected override IReadOnlyList<EncounterSlot3PokeSpot> Raw => Slots;
 
     public EncounterArea3XD(int loc, ushort s0, byte l0, ushort s1, byte l1, ushort s2, byte l2) : base(GameVersion.XD)
     {
@@ -25,7 +25,7 @@ public sealed record EncounterArea3XD : EncounterArea
         };
     }
 
-    public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public override IEnumerable<EncounterSlot3PokeSpot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         if (pk.Format != 3) // Met Location and Met Level are changed on PK3->PK4
             return GetSlotsFuzzy(chain);

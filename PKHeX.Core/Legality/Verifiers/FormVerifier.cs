@@ -71,10 +71,10 @@ public sealed class FormVerifier : Verifier
             case Dialga or Palkia or Giratina or Arceus when form > 0 && pk is PA8: // can change forms with key items
                 break;
 
-            case Dialga   when pk.Format >= 9 && form == 1 ^ pk.HeldItem == 1777: // Origin Forme Dialga with Adamant Crystal
-            case Palkia   when pk.Format >= 9 && form == 1 ^ pk.HeldItem == 1778: // Origin Forme Palkia with Lustrous Globe
-            case Giratina when pk.Format >= 9 && form == 1 ^ pk.HeldItem == 1779: // Origin Forme Giratina with Griseous Core
-            case Giratina when pk.Format <= 8 && form == 1 ^ pk.HeldItem == 0112: // Origin Forme Giratina with Griseous Orb
+            case Dialga   when pk.Format >= 9 && ((form == 1) != (pk.HeldItem == 1777)): // Origin Forme Dialga with Adamant Crystal
+            case Palkia   when pk.Format >= 9 && ((form == 1) != (pk.HeldItem == 1778)): // Origin Forme Palkia with Lustrous Globe
+            case Giratina when pk.Format >= 9 && ((form == 1) != (pk.HeldItem == 1779)): // Origin Forme Giratina with Griseous Core
+            case Giratina when pk.Format <= 8 && ((form == 1) != (pk.HeldItem == 0112)): // Origin Forme Giratina with Griseous Orb
                 return GetInvalid(LFormItemInvalid);
 
             case Arceus:
@@ -261,7 +261,7 @@ public sealed class FormVerifier : Verifier
         return (Species)pk.Species switch
         {
             // Transfer Edge Cases -- Bank wipes the form but keeps old FormArgument value.
-            Furfrou when pk.Format == 7 && pk.Form == 0 &&
+            Furfrou when pk is { Context: EntityContext.Gen7, Form: 0 } &&
                          ((enc.Generation == 6 && f.FormArgument <= byte.MaxValue) || IsFormArgumentDayCounterValid(f, 5, true))
                 => GetValid(LFormArgumentValid),
 
@@ -337,7 +337,7 @@ public sealed class FormVerifier : Verifier
             _ => VerifyFormArgumentNone(pk, f),
         };
     }
-    
+
     private static bool HasVisitedPLA(LegalityAnalysis data, Species species)
     {
         var evos = data.Info.EvoChainsAllGens;
@@ -376,7 +376,7 @@ public sealed class FormVerifier : Verifier
         {
             if (f.FormArgument != 0)
             {
-                if (pk.Species == (int)Furfrou && pk.Form == 0 && (f.FormArgument & ~0xFF_00_00u) == 0)
+                if (pk is { Species: (int)Furfrou, Form: 0 } && (f.FormArgument & ~0xFF_00_00u) == 0)
                     return GetValid(LFormArgumentValid);
                 return GetInvalid(LFormArgumentNotAllowed);
             }
@@ -385,7 +385,7 @@ public sealed class FormVerifier : Verifier
 
         if (f.FormArgument != 0)
         {
-            if (pk.Species == (int)Furfrou && pk.Form == 0 && (f.FormArgument & ~0xFFu) == 0)
+            if (pk is { Species: (int)Furfrou, Form: 0 } && (f.FormArgument & ~0xFFu) == 0)
                 return GetValid(LFormArgumentValid);
             return GetInvalid(LFormArgumentNotAllowed);
         }

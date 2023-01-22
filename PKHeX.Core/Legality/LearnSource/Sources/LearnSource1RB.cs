@@ -9,35 +9,41 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="RB"/>.
 /// </summary>
-public sealed class LearnSource1RB : ILearnSource
+public sealed class LearnSource1RB : ILearnSource<PersonalInfo1>
 {
     public static readonly LearnSource1RB Instance = new();
     private static readonly PersonalTable1 Personal = PersonalTable.RB;
     private static readonly Learnset[] Learnsets = Legal.LevelUpRB;
     private const LearnEnvironment Game = RB;
+    private const int MaxSpecies = Legal.MaxSpeciesID_1;
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[species];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo1? pi)
     {
-        pi = null;
-        if (form is not 0 || species > Legal.MaxSpeciesID_1)
+        if (form is not 0 || species > MaxSpecies)
+        {
+            pi = null;
             return false;
+        }
         pi = Personal[species];
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo1 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (move > Legal.MaxMoveID_1) // byte
+            return default;
+
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, (byte)move))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, move))
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsTutor(evo.Species, (byte)move))
             return new (Tutor, Game);
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
+            var learn = Learnsets[evo.Species];
             var level = learn.GetLevelLearnMove(move);
             if (level != -1 && evo.LevelMin <= level && level <= evo.LevelMax)
                 return new(LevelUp, Game, (byte)level);
@@ -46,7 +52,7 @@ public sealed class LearnSource1RB : ILearnSource
         return default;
     }
 
-    private static bool GetIsTutor(ushort species, ushort move)
+    private static bool GetIsTutor(ushort species, byte move)
     {
         // No special tutors besides Stadium, which is GB-era only.
         if (!ParseSettings.AllowGBCartEra)
@@ -58,12 +64,12 @@ public sealed class LearnSource1RB : ILearnSource
         return species is (int)Species.Pikachu or (int)Species.Raichu;
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
+    private static bool GetIsTM(PersonalInfo1 info, byte move)
     {
-        var index = Array.IndexOf(TMHM_RBY, move);
+        var index = TMHM_RBY.IndexOf(move);
         if (index == -1)
             return false;
-        return info.TMHM[index];
+        return info.GetIsLearnTM(index);
     }
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
@@ -71,9 +77,9 @@ public sealed class LearnSource1RB : ILearnSource
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
-            var learn = GetLearnset(evo.Species, evo.Form);
+            var learn = Learnsets[evo.Species];
             var min = ParseSettings.AllowGen1Tradeback && ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
             (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, min);
             if (hasMoves)
@@ -84,18 +90,10 @@ public sealed class LearnSource1RB : ILearnSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_RBY;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.Machine))
+            pi.SetAllLearnTM(result, TMHM_RBY);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
         {
             if (GetIsTutor(evo.Species, (int)Move.Surf))
                 result[(int)Move.Surf] = true;
@@ -108,10 +106,9 @@ public sealed class LearnSource1RB : ILearnSource
         if (!TryGetPersonal(species, 0, out var personal))
             return;
 
-        var pi = (PersonalInfo1)personal;
         var learn = Learnsets[species];
-        pi.GetMoves(init);
-        var start = (4 - init.Count((ushort)0)) & 3;
+        personal.GetMoves(init);
+        var start = (4 - init.Count<ushort>(0)) & 3;
         learn.SetEncounterMoves(enc.LevelMin, init, start);
     }
 }

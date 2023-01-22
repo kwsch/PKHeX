@@ -59,7 +59,7 @@ public static class PokeCrypto
     /// <summary>
     /// Positions for shuffling.
     /// </summary>
-    private static readonly byte[] BlockPosition =
+    private static ReadOnlySpan<byte> BlockPosition => new byte[]
     {
         0, 1, 2, 3,
         0, 1, 3, 2,
@@ -100,7 +100,7 @@ public static class PokeCrypto
     /// <summary>
     /// Positions for unshuffling.
     /// </summary>
-    internal static readonly byte[] blockPositionInvert =
+    private static ReadOnlySpan<byte> blockPositionInvert => new byte[]
     {
         0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23,
         0, 1, 2, 4, 3, 5, 6, 7, // duplicates of 0-7 to eliminate modulus
@@ -117,7 +117,7 @@ public static class PokeCrypto
     public static byte[] ShuffleArray(ReadOnlySpan<byte> data, uint sv, int blockSize)
     {
         byte[] sdata = data.ToArray();
-        uint index = sv * 4;
+        int index = (int)sv * 4;
         const int start = 8;
         for (int block = 0; block < 4; block++)
         {
@@ -183,7 +183,7 @@ public static class PokeCrypto
         uint pv = ReadUInt32LittleEndian(pk);
         uint sv = (pv >> 13) & 31;
 
-        byte[] ekm = ShuffleArray(pk, blockPositionInvert[sv], SIZE_8BLOCK);
+        byte[] ekm = ShuffleArray(pk, blockPositionInvert[(int)sv], SIZE_8BLOCK);
         CryptPKM(ekm, pv, SIZE_8BLOCK);
         return ekm;
     }
@@ -197,7 +197,7 @@ public static class PokeCrypto
         uint pv = ReadUInt32LittleEndian(pk);
         uint sv = (pv >> 13) & 31;
 
-        byte[] ekm = ShuffleArray(pk, blockPositionInvert[sv], SIZE_8ABLOCK);
+        byte[] ekm = ShuffleArray(pk, blockPositionInvert[(int)sv], SIZE_8ABLOCK);
         CryptPKM(ekm, pv, SIZE_8ABLOCK);
         return ekm;
     }
@@ -211,7 +211,7 @@ public static class PokeCrypto
         uint pv = ReadUInt32LittleEndian(pk);
         uint sv = (pv >> 13) & 31;
 
-        byte[] ekm = ShuffleArray(pk, blockPositionInvert[sv], SIZE_9BLOCK);
+        byte[] ekm = ShuffleArray(pk, blockPositionInvert[(int)sv], SIZE_9BLOCK);
         CryptPKM(ekm, pv, SIZE_9BLOCK);
         return ekm;
     }
@@ -240,7 +240,7 @@ public static class PokeCrypto
         uint pv = ReadUInt32LittleEndian(pk);
         uint sv = (pv >> 13) & 31;
 
-        byte[] ekm = ShuffleArray(pk, blockPositionInvert[sv], SIZE_6BLOCK);
+        byte[] ekm = ShuffleArray(pk, blockPositionInvert[(int)sv], SIZE_6BLOCK);
         CryptPKM(ekm, pv, SIZE_6BLOCK);
         return ekm;
     }
@@ -271,7 +271,7 @@ public static class PokeCrypto
         uint chk = ReadUInt16LittleEndian(pk[6..]);
         uint sv = (pv >> 13) & 31;
 
-        byte[] ekm = ShuffleArray(pk, blockPositionInvert[sv], SIZE_4BLOCK);
+        byte[] ekm = ShuffleArray(pk, blockPositionInvert[(int)sv], SIZE_4BLOCK);
         CryptPKM45(ekm, pv, chk, SIZE_4BLOCK);
         return ekm;
     }
@@ -297,7 +297,7 @@ public static class PokeCrypto
     {
         uint pv = ReadUInt32BigEndian(pk);
         uint sv = (pv >> 13) & 31;
-        return ShuffleArray(pk, blockPositionInvert[sv], SIZE_4BLOCK);
+        return ShuffleArray(pk, blockPositionInvert[(int)sv], SIZE_4BLOCK);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -367,7 +367,7 @@ public static class PokeCrypto
     private static byte[] ShuffleArray3(ReadOnlySpan<byte> data, uint sv)
     {
         byte[] sdata = data.ToArray();
-        uint index = sv * 4;
+        int index = (int)sv * 4;
         for (int block = 0; block < 4; block++)
         {
             int ofs = BlockPosition[index + block];
@@ -392,7 +392,7 @@ public static class PokeCrypto
         uint OID = ReadUInt32LittleEndian(pk[4..]);
         uint seed = PID ^ OID;
 
-        byte[] ekm = ShuffleArray3(pk, blockPositionInvert[PID % 24]);
+        byte[] ekm = ShuffleArray3(pk, blockPositionInvert[(int)(PID % 24)]);
 
         var toEncrypt = ekm.AsSpan()[SIZE_3HEADER..SIZE_3STORED];
         for (int i = 0; i < toEncrypt.Length; i += 4)
@@ -406,16 +406,14 @@ public static class PokeCrypto
     }
 
     /// <summary>
-    /// Gets the checksum of a 232 byte array.
+    /// Gets the 16-bit checksum of a byte array.
     /// </summary>
     /// <param name="data">Decrypted Pokémon data.</param>
-    /// <param name="partyStart">Offset at which the Stored data ends and the Party data starts.</param>
-    public static ushort GetCHK(ReadOnlySpan<byte> data, int partyStart)
+    public static ushort GetCHK(ReadOnlySpan<byte> data)
     {
         ushort chk = 0;
-        var span = data[0x08..partyStart];
-        for (int i = 0; i < span.Length; i += 2)
-            chk += ReadUInt16LittleEndian(span[i..]);
+        for (int i = 0; i < data.Length; i += 2)
+            chk += ReadUInt16LittleEndian(data[i..]);
         return chk;
     }
 
@@ -424,14 +422,7 @@ public static class PokeCrypto
     /// </summary>
     /// <param name="data">Decrypted Pokémon data.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ushort GetCHK3(ReadOnlySpan<byte> data)
-    {
-        ushort chk = 0;
-        var span = data[0x20..SIZE_3STORED];
-        for (int i = 0; i < span.Length; i += 2)
-            chk += ReadUInt16LittleEndian(span[i..]);
-        return chk;
-    }
+    public static ushort GetCHK3(ReadOnlySpan<byte> data) => GetCHK(data[0x20..SIZE_3STORED]);
 
     /// <summary>
     /// Decrypts the input <see cref="pk"/> data into a new array if it is encrypted, and updates the reference.

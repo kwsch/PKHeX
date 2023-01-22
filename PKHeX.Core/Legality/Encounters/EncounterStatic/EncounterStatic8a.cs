@@ -205,7 +205,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     {
         var pt = PersonalTable.LA;
         var entry = pt.GetFormEntry(Species, Form);
-        return (byte)entry.Gender;
+        return entry.Gender;
     }
 }
 

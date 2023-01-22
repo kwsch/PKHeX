@@ -246,18 +246,16 @@ public static class Encounter9RNG
         {
             var tid = (ushort)fakeTID;
             var sid = (ushort)(fakeTID >> 16);
-            if (!GetIsShiny(tid, sid, pid)) // battled
+            if (!GetIsShiny(fakeTID, pid)) // battled
                 pid = GetShinyPID(tid, sid, pid, 0);
-            if (!GetIsShiny(pk.TID, pk.SID, pid)) // captured
-                pid = GetShinyPID(pk.TID, pk.SID, pid, GetShinyXor(pid, fakeTID) == 0 ? 0 : 1);
+            if (!GetIsShiny(pk.ID32, pid)) // captured
+                pid = GetShinyPID(pk.TID16, pk.SID16, pid, GetShinyXor(pid, fakeTID) == 0 ? 0u : 1u);
         }
         else // Never
         {
-            var tid = (ushort)fakeTID;
-            var sid = (ushort)(fakeTID >> 16);
-            if (GetIsShiny(tid, sid, pid)) // battled
+            if (GetIsShiny(fakeTID, pid)) // battled
                 pid ^= 0x1000_0000;
-            if (GetIsShiny(pk.TID, pk.SID, pid)) // captured
+            if (GetIsShiny(pk.ID32, pid)) // captured
                 pid ^= 0x1000_0000;
         }
         return pid;
@@ -279,43 +277,30 @@ public static class Encounter9RNG
     {
         if (isShiny)
         {
-            if (!GetIsShiny(pk.TID, pk.SID, pid))
-                pid = GetShinyPID(pk.TID, pk.SID, pid, (int)xor);
+            if (!GetIsShiny(pk.ID32, pid))
+                pid = GetShinyPID(pk.TID16, pk.SID16, pid, xor);
         }
         else
         {
-            if (GetIsShiny(pk.TID, pk.SID, pid))
+            if (GetIsShiny(pk.ID32, pid))
                 pid ^= 0x1000_0000;
         }
     }
 
-    private static uint GetShinyPID(in int tid, in int sid, in uint pid, in int type)
+    private static uint GetShinyPID(in ushort tid, in ushort sid, in uint pid, in uint type)
     {
-        return (uint)(((tid ^ sid ^ (pid & 0xFFFF) ^ type) << 16) | (pid & 0xFFFF));
+        var low = pid & 0xFFFF;
+        return ((type ^ tid ^ sid ^ low) << 16) | low;
     }
 
-    private static bool GetIsShiny(in int tid, in int sid, in uint pid)
+    private static bool GetIsShiny(in uint id32, in uint pid)
     {
-        return GetShinyXor(tid, sid, pid) < 16;
+        return GetShinyXor(id32, pid) < 16;
     }
 
-    private static uint GetShinyXor(in int tid, in int sid, in uint pid)
+    private static uint GetShinyXor(in uint pid, in uint id32)
     {
-        return GetShinyXor(pid, (uint)((sid << 16) | tid));
-    }
-
-    private static uint GetShinyXor(in uint pid, in uint oid)
-    {
-        var xor = pid ^ oid;
+        var xor = pid ^ id32;
         return (xor ^ (xor >> 16)) & 0xFFFF;
     }
-}
-
-public interface ITeraRaid9 : IGemType
-{
-    bool IsDistribution { get; }
-    byte Index { get; }
-    byte Stars { get; }
-    byte RandRate { get; }
-    bool CanBeEncountered(uint seed);
 }

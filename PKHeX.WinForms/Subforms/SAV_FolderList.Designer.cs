@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_FolderList
     {
@@ -33,9 +33,9 @@
             this.FLP_Buttons = new System.Windows.Forms.FlowLayoutPanel();
             this.TC_Tabs = new System.Windows.Forms.TabControl();
             this.Tab_Recent = new System.Windows.Forms.TabPage();
-            this.dgDataRecent = new System.Windows.Forms.DataGridView();
+            this.dgDataRecent = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
             this.Tab_Backup = new System.Windows.Forms.TabPage();
-            this.dgDataBackup = new System.Windows.Forms.DataGridView();
+            this.dgDataBackup = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
             this.Tab_Folders = new System.Windows.Forms.TabPage();
             this.CB_FilterColumn = new System.Windows.Forms.ComboBox();
             this.TB_FilterTextContains = new System.Windows.Forms.TextBox();
@@ -187,8 +187,8 @@
         private System.Windows.Forms.TabPage Tab_Folders;
         private System.Windows.Forms.TabPage Tab_Recent;
         private System.Windows.Forms.TabPage Tab_Backup;
-        private System.Windows.Forms.DataGridView dgDataBackup;
-        private System.Windows.Forms.DataGridView dgDataRecent;
+        private PKHeX.WinForms.Controls.DoubleBufferedDataGridView dgDataBackup;
+        private PKHeX.WinForms.Controls.DoubleBufferedDataGridView dgDataRecent;
         private System.Windows.Forms.ComboBox CB_FilterColumn;
         private System.Windows.Forms.TextBox TB_FilterTextContains;
     }

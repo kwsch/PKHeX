@@ -12,7 +12,7 @@ public partial class SAV_PokedexSV : Form
     private readonly SAV9SV SAV;
     private readonly Zukan9 Dex;
 
-    private int lastIndex = -1;
+    private int lastIndex;
     private readonly bool CanSave;
     private readonly bool Loading;
 
@@ -69,14 +69,14 @@ public partial class SAV_PokedexSV : Form
             DexIndex = GetDexIndex(Species);
         }
 
-        private static int GetDexIndex(int species)
+        private static int GetDexIndex(ushort species)
         {
-            var entry = PersonalTable.SV.GetFormEntry((ushort)species, 0);
+            var entry = PersonalTable.SV.GetFormEntry(species, 0);
             if (entry.DexIndex != 0)
                 return entry.DexIndex;
             for (byte i = 1; i < entry.FormCount; i++)
             {
-                entry = PersonalTable.SV.GetFormEntry((ushort)species, i);
+                entry = PersonalTable.SV.GetFormEntry(species, i);
                 if (entry.DexIndex != 0)
                     return entry.DexIndex;
             }
@@ -87,7 +87,7 @@ public partial class SAV_PokedexSV : Form
     private DexMap[] ListBoxToSpecies { get; }
 
     private ushort GetSpecies(int listBoxIndex) => Array.Find(ListBoxToSpecies, z => z.ListIndex == listBoxIndex)?.Species ?? 0;
-    private int GetIndex(int species) => Array.Find(ListBoxToSpecies, z => z.Species == species)?.ListIndex ?? 0;
+    private int GetIndex(ushort species) => Array.Find(ListBoxToSpecies, z => z.Species == species)?.ListIndex ?? 0;
 
     private void ChangeCBSpecies(object sender, EventArgs e)
     {

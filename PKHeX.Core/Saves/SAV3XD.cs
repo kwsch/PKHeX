@@ -54,7 +54,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         Initialize();
     }
 
-    public override IPersonalTable Personal => PersonalTable.RS;
+    public override PersonalTable3 Personal => PersonalTable.RS;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_XD;
 
     private readonly bool Japanese;
@@ -95,7 +95,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         // Purifier = subOffsets[14] + 0xA8;
 
         bool jp = subLength[7] == 0x1E00;
-        memo = new StrategyMemo(Data, Memo, xd: true);
+        memo = new StrategyMemo(Data.AsSpan(Memo, subLength[5]), xd: true);
         info = new ShadowInfoTableXD(Data.AsSpan(Shadow, subLength[7]), jp);
         return jp;
     }
@@ -157,7 +157,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
         // Put save slot back in original save data
         var destOffset = SLOT_START + (SaveIndex * SLOT_SIZE);
-        byte[] dest = MemoryCard != null ? MemoryCard.ReadSaveGameData() : (byte[])BAK.Clone();
+        byte[] dest = MemoryCard != null ? MemoryCard.ReadSaveGameData().ToArray() : (byte[])BAK.Clone();
         var destSpan = dest.AsSpan(destOffset, Data.Length);
 
         // Get updated save slot data
@@ -172,15 +172,11 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     }
 
     // Configuration
-    protected override SaveFile CloneInternal()
-    {
-        var data = GetInnerData();
-        return new SAV3XD(data) { MemoryCard = MemoryCard };
-    }
+    protected override SAV3XD CloneInternal() => new(GetInnerData()) { MemoryCard = MemoryCard };
 
     protected override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED; // unused
-    public override PKM BlankPKM => new XK3();
+    public override XK3 BlankPKM => new();
     public override Type PKMType => typeof(XK3);
 
     public override ushort MaxMoveID => Legal.MaxMoveID_3;
@@ -324,9 +320,10 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
     // Trainer Info
     public override GameVersion Version { get => GameVersion.XD; protected set { } }
-    public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value.AsSpan(), 10, StringConverterOption.ClearZero); }
-    public override int SID { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C), (ushort)value); }
-    public override int TID { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E), (ushort)value); }
+    public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value, 10, StringConverterOption.ClearZero); }
+    public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x2C), value); }
+    public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C), value); }
+    public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E), value); }
 
     public override int Gender { get => Data[Trainer1 + 0x8E0]; set => Data[Trainer1 + 0x8E0] = (byte)value; }
     public override uint Money { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E4)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x8E4), value); }
@@ -338,22 +335,22 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public override int GetBoxOffset(int box) => GetBoxInfoOffset(box) + 20;
     public override string GetBoxName(int box) => GetString(GetBoxInfoOffset(box), 16);
 
-    public override void SetBoxName(int box, string value)
+    public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
-        SetString(Data.AsSpan(GetBoxInfoOffset(box), 20), value.AsSpan(), 8, StringConverterOption.ClearZero);
+        SetString(Data.AsSpan(GetBoxInfoOffset(box), 20), value, 8, StringConverterOption.ClearZero);
     }
 
-    protected override PKM GetPKM(byte[] data)
+    protected override XK3 GetPKM(byte[] data)
     {
         if (data.Length != SIZE_STORED)
             Array.Resize(ref data, SIZE_STORED);
-        return new XK3(data);
+        return new(data);
     }
 
     protected override byte[] DecryptPKM(byte[] data) => data;
-    public override PKM GetPartySlot(byte[] data, int offset) => GetStoredSlot(data, offset);
+    public override XK3 GetPartySlot(byte[] data, int offset) => GetStoredSlot(data, offset);
 
-    public override PKM GetStoredSlot(byte[] data, int offset)
+    public override XK3 GetStoredSlot(byte[] data, int offset)
     {
         // Get Shadow Data
         var pk = (XK3)base.GetStoredSlot(data, offset);
@@ -400,10 +397,10 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         {
             entry.Species = pk.Species;
             entry.PID = pk.PID;
-            entry.TID = pk.TID;
-            entry.SID = pk.SID;
+            entry.TID16 = pk.TID16;
+            entry.SID16 = pk.SID16;
         }
-        if (entry.Matches(pk.Species, pk.PID, pk.TID, pk.SID))
+        if (entry.Matches(pk.Species, pk.PID, pk.TID16, pk.SID16))
         {
             entry.Seen = true;
             entry.Owned = true;

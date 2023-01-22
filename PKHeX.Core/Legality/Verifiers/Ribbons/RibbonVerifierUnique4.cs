@@ -37,12 +37,12 @@ public static class RibbonVerifierUnique4
             if (Hyper)
                 top = true;
             else if (top)
-                list.Add((RibbonIndex3)((byte)index + 2));
+                list.Add(index + 2);
 
             if (Super)
                 top = true;
             else if (top)
-                list.Add((RibbonIndex3)((byte)index + 1));
+                list.Add(index + 1);
 
             if (top && !Initial)
                 list.Add(index);
@@ -62,12 +62,12 @@ public static class RibbonVerifierUnique4
             if (Ultra)
                 top = true;
             else if (top)
-                list.Add((RibbonIndex4)((byte)index + 2));
+                list.Add(index + 2);
 
             if (Great)
                 top = true;
             else if (top)
-                list.Add((RibbonIndex4)((byte)index + 1));
+                list.Add(index + 1);
 
             if (top && !Initial)
                 list.Add(index);
@@ -100,11 +100,11 @@ public static class RibbonVerifierUnique4
         static void CheckSet(bool Master, bool Hyper, bool Super, bool Initial, ref RibbonResultList list, RibbonIndex3 index)
         {
             if (Master)
-                list.Add((RibbonIndex3)((byte)index + 3));
+                list.Add(index + 3);
             if (Hyper)
-                list.Add((RibbonIndex3)((byte)index + 2));
+                list.Add(index + 2);
             if (Super)
-                list.Add((RibbonIndex3)((byte)index + 1));
+                list.Add(index + 1);
             if (Initial)
                 list.Add(index);
         }
@@ -120,11 +120,11 @@ public static class RibbonVerifierUnique4
         static void CheckSet(bool Master, bool Ultra, bool Great, bool Initial, ref RibbonResultList list, RibbonIndex4 index)
         {
             if (Master)
-                list.Add((RibbonIndex4)((byte)index + 3));
+                list.Add(index + 3);
             if (Ultra)
-                list.Add((RibbonIndex4)((byte)index + 2));
+                list.Add(index + 2);
             if (Great)
-                list.Add((RibbonIndex4)((byte)index + 1));
+                list.Add(index + 1);
             if (Initial)
                 list.Add(index);
         }

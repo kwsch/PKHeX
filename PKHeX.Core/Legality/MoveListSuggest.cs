@@ -11,7 +11,7 @@ public static class MoveListSuggest
 {
     private static ushort[] GetSuggestedMoves(PKM pk, EvolutionHistory evoChains, MoveSourceType types, IEncounterTemplate enc)
     {
-        if (pk.IsEgg && pk.Format <= 5) // pre relearn
+        if (pk is { IsEgg: true, Format: <= 5 }) // pre relearn
         {
             var moves = new ushort[4];
             MoveList.GetCurrentMoves(pk, pk.Species, 0, (GameVersion)pk.Version, pk.CurrentLevel, moves);
@@ -26,12 +26,16 @@ public static class MoveListSuggest
         {
             var lvl = pk.Format >= 7 ? pk.Met_Level : pk.CurrentLevel;
             var ver = enc.Version;
-            return MoveLevelUp.GetEncounterMoves(enc.Species, 0, lvl, ver);
+            var result = new ushort[4];
+            MoveLevelUp.GetEncounterMoves(result, enc.Species, 0, lvl, ver);
+            return result;
         }
 
         if (pk.Species == enc.Species)
         {
-            return MoveLevelUp.GetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, (GameVersion)pk.Version);
+            var result = new ushort[4];
+            MoveLevelUp.GetEncounterMoves(result, pk.Species, pk.Form, pk.CurrentLevel, (GameVersion)pk.Version);
+            return result;
         }
 
         return GetValidMoves(pk, enc, evoChains, types);
@@ -68,7 +72,7 @@ public static class MoveListSuggest
         if (!analysis.Parsed)
             return new ushort[4];
         var pk = analysis.Entity;
-        if (pk.IsEgg && pk.Format >= 6)
+        if (pk is { IsEgg: true, Format: >= 6 })
             return pk.RelearnMoves;
 
         if (pk.IsEgg)
@@ -136,7 +140,7 @@ public static class MoveListSuggest
         // Split-breed species like Budew & Roselia may be legal for one, and not the other.
         // If we're not a split-breed or are already legal, return.
         var split = Breeding.GetSplitBreedGeneration(generation);
-        if (!split.Contains(enc.Species))
+        if (split?.Contains(enc.Species) != true)
             return result;
 
         var tmp = pk.Clone();
@@ -147,7 +151,10 @@ public static class MoveListSuggest
             return result;
 
         // Try again with the other split-breed species if possible.
-        var other = EncounterEggGenerator.GenerateEggs(tmp, generation);
+        var generator = EncounterGenerator.GetGenerator(enc.Version);
+        var tree = EvolutionTree.GetEvolutionTree(enc.Context);
+        var chain = tree.GetValidPreEvolutions(pk, 100, skipChecks: true);
+        var other = generator.GetPossible(pk, chain, enc.Version, EncounterTypeGroup.Egg);
         foreach (var incense in other)
         {
             if (incense.Species != enc.Species)

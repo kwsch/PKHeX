@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -28,10 +28,10 @@ public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
         return SAV.GetString(span);
     }
 
-    public void SetBoxName(int box, string value)
+    public void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         var span = Data.AsSpan(Offset + GetBoxNameOffset(box), SAV6.LongStringLength);
-        SAV.SetString(span, value.AsSpan(), StringMaxLength, StringConverterOption.ClearZero);
+        SAV.SetString(span, value, StringMaxLength, StringConverterOption.ClearZero);
     }
 
     public string GetTeamName(int team)
@@ -43,11 +43,11 @@ public sealed class BoxLayout8b : SaveBlock<SAV8BS>, IBoxDetailName
         return SAV.GetString(span);
     }
 
-    public void SetTeamName(int team, string value)
+    public void SetTeamName(int team, ReadOnlySpan<char> value)
     {
         var offset = Offset + GetTeamNameOffset(team);
         var span = Data.AsSpan(offset, TeamNameLength);
-        SAV.SetString(span, value.AsSpan(), TeamNameLength/2, StringConverterOption.ClearZero);
+        SAV.SetString(span, value, TeamNameLength/2, StringConverterOption.ClearZero);
     }
 
     public string this[int i]

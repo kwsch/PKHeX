@@ -23,7 +23,7 @@ public sealed class LearnGroup1 : ILearnGroup
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (enc.Generation == Generation && types.HasFlagFast(MoveSourceType.Encounter))
+        if (enc.Generation == Generation && types.HasFlag(MoveSourceType.Encounter))
             CheckEncounterMoves(result, current, enc, pk);
 
         var evos = history.Gen1;
@@ -176,7 +176,7 @@ public sealed class LearnGroup1 : ILearnGroup
         for (int i = result.Length - 1; i >= 0; i--)
         {
             ref var entry = ref result[i];
-            if (entry.Valid && entry.Generation > 2)
+            if (entry is { Valid: true, Generation: > 2 })
                 continue;
 
             var move = current[i];
@@ -217,7 +217,7 @@ public sealed class LearnGroup1 : ILearnGroup
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.Encounter) && enc.Generation == Generation)
+        if (types.HasFlag(MoveSourceType.Encounter) && enc.Generation == Generation)
             FlagEncounterMoves(enc, result);
 
         foreach (var evo in history.Gen1)

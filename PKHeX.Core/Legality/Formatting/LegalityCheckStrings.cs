@@ -1,10 +1,13 @@
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace PKHeX.Core;
 
 /// <summary>
 /// Legality Check Message Strings to indicate why certain <see cref="PKM"/> <see cref="LegalInfo"/> values are flagged.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public static class LegalityCheckStrings
 {
     // Message String Name format: L/F[Category][Summary]
@@ -249,7 +252,7 @@ public static class LegalityCheckStrings
     public static string LG3EReader { get; set; } = "Non Japanese Shadow E-reader Pokémon. Unreleased encounter.";
     public static string LG3OTGender { get; set; } = "OT from Colosseum/XD cannot be female.";
     public static string LG4InvalidTileR45Surf { get; set; } = "Johto Route 45 surfing encounter. Unreachable Water tiles.";
-    public static string LG5ID_N { get; set; } = "The Name/TID/SID of N is incorrect.";
+    public static string LG5ID_N { get; set; } = "The Name/TID16/SID16 of N is incorrect.";
     public static string LG5IVAll30 { get; set; } = "All IVs of N's Pokémon should be 30.";
     public static string LG5OTGenderN { get; set; } = "N's Pokémon must have a male OT gender.";
     public static string LG5PIDShinyGrotto { get; set; } = "Hidden Grotto captures cannot be shiny.";
@@ -416,12 +419,12 @@ public static class LegalityCheckStrings
     public static string LOTShort { get; set; } = "OT Name too short.";
     public static string LOTSuspicious { get; set; } = "Suspicious Original Trainer details.";
 
-    public static string LOT_IDEqual { get; set; } = "TID and SID are equal.";
-    public static string LOT_IDs0 { get; set; } = "TID and SID are 0.";
-    public static string LOT_SID0 { get; set; } = "SID is zero.";
-    public static string LOT_SID0Invalid { get; set; } = "SID should be 0.";
-    public static string LOT_TID0 { get; set; } = "TID is zero.";
-    public static string LOT_IDInvalid { get; set; } = "TID and SID combination is not possible.";
+    public static string LOT_IDEqual { get; set; } = "TID16 and SID16 are equal.";
+    public static string LOT_IDs0 { get; set; } = "TID16 and SID16 are 0.";
+    public static string LOT_SID0 { get; set; } = "SID16 is zero.";
+    public static string LOT_SID0Invalid { get; set; } = "SID16 should be 0.";
+    public static string LOT_TID0 { get; set; } = "TID16 is zero.";
+    public static string LOT_IDInvalid { get; set; } = "TID16 and SID16 combination is not possible.";
 
     public static string LPIDEncryptWurmple { get; set; } = "Wurmple evolution Encryption Constant mismatch.";
     public static string LPIDEncryptZero { get; set; } = "Encryption Constant is not set.";

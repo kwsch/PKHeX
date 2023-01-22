@@ -156,20 +156,22 @@ public sealed class EvolutionTree
     private void FixEvoTreeSM()
     {
         // Sun/Moon lack Ultra's Kantonian evolution methods.
-        BanEvo((int)Species.Raichu, 0, pk => pk.IsUntraded && pk.SM);
-        BanEvo((int)Species.Marowak, 0, pk => pk.IsUntraded && pk.SM);
-        BanEvo((int)Species.Exeggutor, 0, pk => pk.IsUntraded && pk.SM);
+        static bool BanOnlySM(PKM pk) => pk is { IsUntraded: true, SM: true };
+        BanEvo((int)Species.Raichu, 0, BanOnlySM);
+        BanEvo((int)Species.Marowak, 0, BanOnlySM);
+        BanEvo((int)Species.Exeggutor, 0, BanOnlySM);
     }
 
     private void FixEvoTreeSS()
     {
         // Gigantamax Pikachu, Meowth-0, and Eevee are prevented from evolving.
         // Raichu cannot be evolved to the Alolan variant at this time.
-        BanEvo((int)Species.Raichu, 0, pk => pk is IGigantamax {CanGigantamax: true});
+        static bool BanGmax(PKM pk) => pk is IGigantamax { CanGigantamax: true };
+        BanEvo((int)Species.Raichu, 0, BanGmax);
         BanEvo((int)Species.Raichu, 1, pk => (pk is IGigantamax {CanGigantamax: true}) || pk.Version is (int)GO or >= (int)GP);
-        BanEvo((int)Species.Persian, 0, pk => pk is IGigantamax {CanGigantamax: true});
-        BanEvo((int)Species.Persian, 1, pk => pk is IGigantamax {CanGigantamax: true});
-        BanEvo((int)Species.Perrserker, 0, pk => pk is IGigantamax {CanGigantamax: true});
+        BanEvo((int)Species.Persian, 0, BanGmax);
+        BanEvo((int)Species.Persian, 1, BanGmax);
+        BanEvo((int)Species.Perrserker, 0, BanGmax);
 
         BanEvo((int)Species.Exeggutor, 1, pk => pk.Version is (int)GO or >= (int)GP);
         BanEvo((int)Species.Marowak, 1, pk => pk.Version is (int)GO or >= (int)GP);
@@ -177,7 +179,7 @@ public sealed class EvolutionTree
         BanEvo((int)Species.MrMime, 0, pk => pk.Version >= (int)SW);
 
         foreach (var s in GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
-            BanEvo(s.Species, s.Form, pk => pk is IGigantamax {CanGigantamax: true});
+            BanEvo(s.Species, s.Form, BanGmax);
     }
 
     private void FixEvoTreeBS()
@@ -213,6 +215,15 @@ public sealed class EvolutionTree
         byte form = pk.Form;
 
         return GetExplicitLineage(species, form, pk, levelMin, levelMax, maxSpeciesOrigin, skipChecks, stopSpecies);
+    }
+
+    private static int GetMaxSpeciesOrigin(PKM pk)
+    {
+        if (pk.Format == 1)
+            return MaxSpeciesID_1;
+        if (pk.Format == 2 || pk.VC)
+            return MaxSpeciesID_2;
+        return Legal.GetMaxSpeciesOrigin(pk.Generation);
     }
 
     public bool IsSpeciesDerivedFrom(ushort species, byte form, int otherSpecies, int otherForm, bool ignoreForm = true)

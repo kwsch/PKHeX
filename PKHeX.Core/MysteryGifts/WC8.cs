@@ -15,6 +15,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8;
+    public override bool FatefulEncounter => true;
 
     public enum GiftType : byte
     {
@@ -90,7 +91,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
     public override Shiny Shiny => PIDType switch
     {
-        ShinyType8.FixedValue => FixedShinyType(DateTime.UtcNow),
+        ShinyType8.FixedValue => FixedShinyType(DateOnly.FromDateTime(DateTime.UtcNow)),
         ShinyType8.Random => Shiny.Random,
         ShinyType8.Never => Shiny.Never,
         ShinyType8.AlwaysStar => Shiny.AlwaysStar,
@@ -98,34 +99,39 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         _ => throw new ArgumentOutOfRangeException(),
     };
 
-    private Shiny FixedShinyType(DateTime date) => IsHOMEGift && IsHOMEShinyPossible(date) ? Shiny.Random : GetShinyXor() switch
+    private Shiny FixedShinyType(DateOnly date) => IsHOMEGift && IsHOMEShinyPossible(date) ? Shiny.Random : GetShinyXor() switch
     {
         0 => Shiny.AlwaysSquare,
         <= 15 => Shiny.AlwaysStar,
         _ => Shiny.Never,
     };
 
-    private int GetShinyXor()
+    private uint GetShinyXor()
     {
         // Player owned anti-shiny fixed PID
-        if (TID == 0 && SID == 0)
-            return int.MaxValue;
+        if (ID32 == 0)
+            return uint.MaxValue;
 
-        var pid = PID;
-        var psv = (int)((pid >> 16) ^ (pid & 0xFFFF));
-        var tsv = (TID ^ SID);
-        return psv ^ tsv;
+        var xor = PID ^ ID32;
+        return (xor >> 16) ^ (xor & 0xFFFF);
     }
 
-    public override int TID
+    public override uint ID32
+    {
+        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x20));
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x20), value);
+    }
+
+    public override ushort TID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x20));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x20), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x20), value);
     }
 
-    public override int SID {
+    public override ushort SID16
+    {
         get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x22));
-        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x22), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x22), value);
     }
 
     public int OriginGame
@@ -190,17 +196,21 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     private const int RibbonBytesCount = 0x20;
     private const int RibbonByteNone = 0xFF; // signed -1
 
-    public bool HasMark()
+    public bool HasMarkEncounter8
     {
-        for (int i = 0; i < RibbonBytesCount; i++)
+        get
         {
-            var value = Data[RibbonBytesOffset + i];
-            if (value == RibbonByteNone)
-                return false;
-            if ((RibbonIndex)value is >= MarkLunchtime and <= MarkSlump)
-                return true;
+            for (int i = 0; i < RibbonBytesCount; i++)
+            {
+                var value = Data[RibbonBytesOffset + i];
+                if (value == RibbonByteNone)
+                    return false;
+                if ((RibbonIndex)value is >= MarkLunchtime and <= MarkSlump)
+                    return true;
+            }
+
+            return false;
         }
-        return false;
     }
 
     public byte GetRibbonAtIndex(int byteIndex)
@@ -358,11 +368,13 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public bool IsNicknamed => false;
     public int Language => 2;
 
-    public string GetNickname(int language) => StringConverter8.GetString(Data.AsSpan(GetNicknameOffset(language), 0x1A));
-    public void SetNickname(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetNicknameOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+    private Span<byte> GetNicknameSpan(int language) => Data.AsSpan(GetNicknameOffset(language), 0x1A);
+    public string GetNickname(int language) => StringConverter8.GetString(GetNicknameSpan(language));
+    public void SetNickname(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetNicknameSpan(language), value, 12, StringConverterOption.ClearZero);
 
-    public string GetOT(int language) => StringConverter8.GetString(Data.AsSpan(GetOTOffset(language), 0x1A));
-    public void SetOT(int language, string value) => StringConverter8.SetString(Data.AsSpan(GetOTOffset(language), 0x1A), value.AsSpan(), 12, StringConverterOption.ClearZero);
+    private Span<byte> GetOTSpan(int language) => Data.AsSpan(GetOTOffset(language), 0x1A);
+    public string GetOT(int language) => StringConverter8.GetString(GetOTSpan(language));
+    public void SetOT(int language, ReadOnlySpan<char> value) => StringConverter8.SetString(GetOTSpan(language), value, 12, StringConverterOption.ClearZero);
 
     private static int GetNicknameOffset(int language)
     {
@@ -386,7 +398,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         set { }
     }
 
-    public override PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    public override PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
@@ -401,8 +413,8 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         var pk = new PK8
         {
             EncryptionConstant = EncryptionConstant != 0 || IsHOMEGift ? EncryptionConstant : Util.Rand32(),
-            TID = TID,
-            SID = SID,
+            TID16 = TID16,
+            SID16 = SID16,
             Species = Species,
             Form = Form,
             CurrentLevel = currentLevel,
@@ -462,16 +474,14 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
         if (OTGender >= 2)
         {
-            pk.TID = tr.TID;
-            pk.SID = tr.SID;
+            pk.TID16 = tr.TID16;
+            pk.SID16 = tr.SID16;
 
             if (IsHOMEGift)
             {
-                pk.TrainerSID7 = 0;
+                pk.ID32 %= 1_000_000;
                 while (pk.TSV == 0)
-                {
-                    pk.TrainerID7 = Util.Rand.Next(16, 999_999 + 1);
-                }
+                    pk.ID32 = (uint)Util.Rand.Next(16, 999_999 + 1);
             }
         }
 
@@ -479,7 +489,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (pk.Species == (int)Core.Species.Meowstic)
             pk.Form = (byte)(pk.Gender & 1);
 
-        pk.MetDate = IsDateRestricted && EncounterServerDate.WC8Gifts.TryGetValue(CardID, out var dt) ? dt : DateTime.Now;
+        pk.MetDate = IsDateRestricted && EncounterServerDate.WC8Gifts.TryGetValue(CardID, out var dt) ? dt : DateOnly.FromDateTime(DateTime.Now);
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -513,7 +523,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     private void SetEggMetData(PKM pk)
     {
         pk.IsEgg = true;
-        pk.EggMetDate = DateTime.Now;
+        pk.EggMetDate = DateOnly.FromDateTime(DateTime.Now);
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = true;
     }
@@ -526,7 +536,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         pk.Gender = criteria.GetGender(Gender, pi);
         var av = GetAbilityIndex(criteria);
         pk.RefreshAbility(av);
-        SetPID(pk, pk.MetDate ?? DateTime.UtcNow);
+        SetPID(pk, pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow));
         SetIVs(pk);
     }
 
@@ -546,20 +556,20 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         _ => AbilityPermission.Any12H,
     };
 
-    private uint GetPID(ITrainerID tr, ShinyType8 type, DateTime date) => type switch
+    private uint GetPID(ITrainerID32 tr, ShinyType8 type, DateOnly date) => type switch
     {
         ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
         ShinyType8.Random       => Util.Rand32(), // Random, Any
-        ShinyType8.AlwaysStar   => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
-        ShinyType8.AlwaysSquare => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
+        ShinyType8.AlwaysStar   => (1u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Star
+        ShinyType8.AlwaysSquare => (0u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Square
         ShinyType8.FixedValue   => GetFixedPID(tr, date),
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-    private uint GetFixedPID(ITrainerID tr, DateTime date)
+    private uint GetFixedPID(ITrainerID32 tr, DateOnly date)
     {
         var pid = PID;
-        if (pid != 0 && !(TID == 0 && SID == 0))
+        if (pid != 0 && ID32 != 0)
             return pid;
 
         if (!tr.IsShiny(pid, 8))
@@ -569,13 +579,9 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         return pid;
     }
 
-    private static uint GetAntishinyFixedHOME(ITrainerID tr)
-    {
-        var fid = (uint)(tr.SID << 16) | (uint)tr.TID;
-        return fid ^ 0x10u;
-    }
+    private static uint GetAntishinyFixedHOME(ITrainerID32 tr) => tr.ID32 ^ 0x10u;
 
-    private static uint GetAntishiny(ITrainerID tr)
+    private static uint GetAntishiny(ITrainerID32 tr)
     {
         var pid = Util.Rand32();
         if (tr.IsShiny(pid, 8))
@@ -583,7 +589,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         return pid;
     }
 
-    private void SetPID(PKM pk, DateTime date)
+    private void SetPID(PKM pk, DateOnly date)
     {
         pk.PID = GetPID(pk, PIDType, date);
     }
@@ -622,8 +628,8 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         {
             if (OTGender < 2)
             {
-                if (SID != pk.SID) return false;
-                if (TID != pk.TID) return false;
+                if (SID16 != pk.SID16) return false;
+                if (TID16 != pk.TID16) return false;
                 if (OTGender != pk.OT_Gender) return false;
             }
 
@@ -654,7 +660,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
                 }
                 else // Never or Random (HOME ID specific)
                 {
-                    if (pk.IsShiny && !IsHOMEShinyPossible(pk.MetDate ?? DateTime.UtcNow))
+                    if (pk.IsShiny && !IsHOMEShinyPossible(pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow)))
                         return false;
                 }
             }
@@ -665,14 +671,14 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
         var shinyType = Shiny;
         if (PIDType == ShinyType8.FixedValue)
-            shinyType = FixedShinyType(pk.MetDate ?? DateTime.UtcNow);
+            shinyType = FixedShinyType(pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow));
         if (IsEgg)
         {
             if (EggLocation != pk.Egg_Location) // traded
             {
                 if (pk.Egg_Location != Locations.LinkTrade6)
                     return false;
-                if (PIDType == ShinyType8.Random && pk.IsShiny && pk.ShinyXor > 1)
+                if (PIDType == ShinyType8.Random && pk is { IsShiny: true, ShinyXor: > 1 })
                     return false; // shiny traded egg will always have xor0/1.
             }
             if (!shinyType.IsValid(pk))
@@ -680,7 +686,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
                 return false; // can't be traded away for unshiny
             }
 
-            if (pk.IsEgg && !pk.IsNative)
+            if (pk is { IsEgg: true, IsNative: false })
                 return false;
         }
         else
@@ -720,13 +726,13 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         var type = PIDType;
         if (type is ShinyType8.Never or ShinyType8.Random)
             return true;
-        return pk.PID == GetPID(pk, type, pk.MetDate ?? DateTime.UtcNow);
+        return pk.PID == GetPID(pk, type, pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow));
     }
 
-    private bool IsHOMEShinyPossible(DateTime date)
+    private bool IsHOMEShinyPossible(DateOnly date)
     {
-        // no defined TID/SID and having a fixed PID can cause the player's TID/SID to match the PID's shiny calc.
-        return TID == 0 && SID == 0 && PID != 0 && (CardID < 9015 && date < new DateTime(2022, 5, 18));
+        // no defined TID16/SID16 and having a fixed PID can cause the player's TID16/SID16 to match the PID's shiny calc.
+        return ID32 == 0 && PID != 0 && (CardID < 9015 && date < new DateOnly(2022, 5, 18));
     }
 
     public bool IsDateRestricted => IsHOMEGift;

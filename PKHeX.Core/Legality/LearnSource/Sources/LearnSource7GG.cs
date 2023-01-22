@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="USUM"/>.
 /// </summary>
-public sealed class LearnSource7GG : ILearnSource
+public sealed class LearnSource7GG : ILearnSource<PersonalInfo7GG>
 {
     public static readonly LearnSource7GG Instance = new();
     private static readonly PersonalTable7GG Personal = PersonalTable.GG;
@@ -19,18 +19,18 @@ public sealed class LearnSource7GG : ILearnSource
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
 
-    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo? pi)
+    public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo7GG? pi)
     {
         pi = null;
-        if ((uint)species > MaxSpecies)
+        if (species > MaxSpecies)
             return false;
         pi = Personal[species, form];
         return true;
     }
 
-    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+    public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo7GG pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
@@ -38,10 +38,10 @@ public sealed class LearnSource7GG : ILearnSource
                 return new(LevelUp, Game, (byte)level);
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine) && GetIsTM(pi, move))
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(Array.IndexOf(TMHM_GG, move)))
             return new(TMHM, Game);
 
-        if (types.HasFlagFast(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo.Species, evo.Form, move))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo.Species, evo.Form, move))
             return new(Tutor, Game);
 
         return default;
@@ -56,20 +56,12 @@ public sealed class LearnSource7GG : ILearnSource
         return false;
     }
 
-    private static bool GetIsTM(PersonalInfo info, ushort move)
-    {
-        var index = Array.IndexOf(TMHM_GG, move);
-        if (index == -1)
-            return false;
-        return info.TMHM[index];
-    }
-
     public void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types = MoveSourceType.All)
     {
         if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        if (types.HasFlagFast(MoveSourceType.LevelUp))
+        if (types.HasFlag(MoveSourceType.LevelUp))
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             (bool hasMoves, int start, int end) = learn.GetMoveRange(ReminderBonus);
@@ -81,25 +73,17 @@ public sealed class LearnSource7GG : ILearnSource
             }
         }
 
-        if (types.HasFlagFast(MoveSourceType.Machine))
-        {
-            var flags = pi.TMHM;
-            var moves = TMHM_GG;
-            for (int i = 0; i < moves.Length; i++)
-            {
-                if (flags[i])
-                    result[moves[i]] = true;
-            }
-        }
+        if (types.HasFlag(MoveSourceType.Machine))
+            pi.SetAllLearnTM(result, TMHM_GG);
 
-        if (types.HasFlagFast(MoveSourceType.SpecialTutor))
+        if (types.HasFlag(MoveSourceType.SpecialTutor))
         {
-            if (evo.Species == (int)Species.Pikachu && evo.Form == 8) // Partner
+            if (evo is { Species: (int)Species.Pikachu, Form: 8 }) // Partner
             {
                 foreach (var move in Tutor_StarterPikachu)
                     result[move] = true;
             }
-            else if (evo.Species == (int)Species.Eevee && evo.Form == 1) // Partner
+            else if (evo is { Species: (int)Species.Eevee, Form: 1 }) // Partner
             {
                 foreach (var move in Tutor_StarterEevee)
                     result[move] = true;

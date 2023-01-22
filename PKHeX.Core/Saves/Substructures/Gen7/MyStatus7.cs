@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -10,16 +10,22 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
 
     public MyStatus7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
-    public int TID
+    public uint ID32
     {
-        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), (ushort)value);
+        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0));
+        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0), value);
     }
 
-    public int SID
+    public ushort TID16
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0));
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value);
+    }
+
+    public ushort SID16
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 2));
-        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), (ushort)value);
+        set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 2), value);
     }
 
     public int Game
@@ -36,7 +42,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
 
     public string GameSyncID
     {
-        get => Util.GetHexStringFromBytes(Data, Offset + 0x10, GameSyncIDSize / 2);
+        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x10, GameSyncIDSize / 2));
         set
         {
             if (value.Length != GameSyncIDSize)
@@ -49,7 +55,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
 
     public string NexUniqueID
     {
-        get => Util.GetHexStringFromBytes(Data, Offset + 0x18, NexUniqueIDSize / 2);
+        get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x18, NexUniqueIDSize / 2));
         set
         {
             if (value.Length != NexUniqueIDSize)
@@ -95,7 +101,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
     public string OT
     {
         get => SAV.GetString(OT_Trash);
-        set => SAV.SetString(OT_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(OT_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
     public int DressUpSkinColor

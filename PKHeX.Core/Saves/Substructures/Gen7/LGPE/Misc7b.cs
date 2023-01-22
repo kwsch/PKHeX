@@ -18,6 +18,6 @@ public sealed class Misc7b : SaveBlock<SAV7b>
     public string Rival
     {
         get => SAV.GetString(Rival_Trash);
-        set => SAV.SetString(Rival_Trash, value.AsSpan(), SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
+        set => SAV.SetString(Rival_Trash, value, SAV.MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 }

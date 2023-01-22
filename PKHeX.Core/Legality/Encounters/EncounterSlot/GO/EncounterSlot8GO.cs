@@ -69,11 +69,10 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
 
     public override EntityContext Context => OriginFormat switch
     {
-        PogoImportFormat.PK7 =>
+        PogoImportFormat.PK7 or PogoImportFormat.PB7 =>
               PersonalTable.BDSP.IsPresentInGame(Species, Form) ? EntityContext.Gen8b
             : PersonalTable.LA.IsPresentInGame(Species, Form) ? EntityContext.Gen8a
             : EntityContext.Gen8, // don't throw an exception, just give them a context.
-        PogoImportFormat.PB7 => EntityContext.Gen7b,
         PogoImportFormat.PK8 => EntityContext.Gen8,
         PogoImportFormat.PA8 => EntityContext.Gen8a,
         PogoImportFormat.PK9 => EntityContext.Gen9,

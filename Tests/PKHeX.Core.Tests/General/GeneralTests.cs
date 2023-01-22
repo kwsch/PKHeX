@@ -1,8 +1,7 @@
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests.General;
+namespace PKHeX.Core.Tests.General;
 
 public class GeneralTests
 {

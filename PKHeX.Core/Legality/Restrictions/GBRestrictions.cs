@@ -29,7 +29,7 @@ internal static class GBRestrictions
     /// Checks if the type matches any of the type IDs extracted from the Personal Table used for R/G/B/Y games.
     /// </summary>
     /// <remarks>Valid values: 0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26</remarks>
-    internal static bool TypeIDExists(int type) => (uint)type < 32 && (0b111111100000000000110111111 & (1 << type)) != 0;
+    internal static bool TypeIDExists(byte type) => type < 32 && (0b111111100000000000110111111 & (1 << type)) != 0;
 
     /// <summary>
     /// Species that have a catch rate value that is different from their pre-evolutions, and cannot be obtained directly.
@@ -55,13 +55,7 @@ internal static class GBRestrictions
         (int)Dragonite,
     };
 
-    internal static readonly HashSet<byte> Trade_Evolution1 = new()
-    {
-        (int)Kadabra,
-        (int)Machoke,
-        (int)Graveler,
-        (int)Haunter,
-    };
+    internal static bool IsTradeEvolution1(ushort species) => species is (int)Kadabra or (int)Machoke or (int)Graveler or (int)Haunter;
 
     public static bool RateMatchesEncounter(ushort species, GameVersion version, byte rate)
     {
@@ -230,16 +224,41 @@ public enum PotentialGBOrigin
     Gen2Only,
 }
 
+/// <summary>
+/// Indicates if the entity has been transferred between Generation 1-2 games via the Time Capsule.
+/// </summary>
 public enum TimeCapsuleEvaluation
 {
+    /// <summary>
+    /// Transferring via Time Capsule cannot be inferred.
+    /// </summary>
     Indeterminate,
+
+    /// <summary>
+    /// Indicates that the entity was transferred from Generation 2 to Generation 1.
+    /// </summary>
     Transferred21,
+
+    /// <summary>
+    /// Indicates that the entity was transferred from Generation 1 to Generation 2, but the catch rate is not a valid tradeback item.
+    /// </summary>
     Transferred12,
+
+    /// <summary>
+    /// Was not transferred via the Time Capsule.
+    /// </summary>
     NotTransferred,
+
+    /// <summary>
+    /// Has a catch rate that does not match a held item or the original catch rate value for any progenitor species.
+    /// </summary>
     BadCatchRate,
 }
 
 public static class TimeCapsuleEvlautationExtensions
 {
+    /// <summary>
+    /// Indicates if the <see cref="eval"/> definitely transferred via Time Capsule.
+    /// </summary>
     public static bool WasTimeCapsuleTransferred(this TimeCapsuleEvaluation eval) => eval is not (TimeCapsuleEvaluation.Indeterminate or TimeCapsuleEvaluation.NotTransferred or TimeCapsuleEvaluation.BadCatchRate);
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -103,12 +103,12 @@ public readonly ref struct Dendou4Entity
     public string Nickname
     {
         get => StringConverter4.GetString(Nickname_Trash);
-        set => StringConverter4.SetString(Nickname_Trash, value.AsSpan(), 10, StringConverterOption.None);
+        set => StringConverter4.SetString(Nickname_Trash, value, 10, StringConverterOption.None);
     }
     public string OT_Name
     {
         get => StringConverter4.GetString(OT_Trash);
-        set => StringConverter4.SetString(OT_Trash, value.AsSpan(), 7, StringConverterOption.None);
+        set => StringConverter4.SetString(OT_Trash, value, 7, StringConverterOption.None);
     }
 
     public ushort Move1 { get => ReadUInt16LittleEndian(Data[0x32..]); set => WriteUInt16LittleEndian(Data[0x32..], value); }

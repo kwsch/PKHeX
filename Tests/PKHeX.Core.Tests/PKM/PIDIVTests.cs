@@ -1,10 +1,9 @@
 using System;
 using System.Linq;
 using FluentAssertions;
-using PKHeX.Core;
 using Xunit;
 
-namespace PKHeX.Tests.PKM;
+namespace PKHeX.Core.Tests.PKM;
 
 public class PIDIVTest
 {
@@ -71,7 +70,7 @@ public class PIDIVTest
     public void PIDIVMatchingTest3MiscChannel()
     {
         // Channel Jirachi
-        var pkC = new PK3 {PID = 0x264750D9, IVs = new[] {06, 31, 14, 27, 05, 27}, SID = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
+        var pkC = new PK3 {PID = 0x264750D9, IVs = new[] {06, 31, 14, 27, 05, 27}, SID16 = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
         var (type, seed) = MethodFinder.Analyze(pkC);
         Assert.Equal(PIDType.Channel,type);
 
@@ -84,35 +83,35 @@ public class PIDIVTest
     [Fact]
     public void PIDIVMatchingTest3Event()
     {
-        // Restricted: TID/SID are zero.
+        // Restricted: TID16/SID16 are zero.
         var pkR = new PK3 {PID = 0x0000E97E, IVs = new[] {17, 19, 20, 16, 13, 12}};
         Assert.Equal(PIDType.BACD_R, MethodFinder.Analyze(pkR).Type);
 
         // Restricted Antishiny: PID is incremented 2 times to lose shininess.
-        var pkRA = new PK3 {PID = 0x0000E980, IVs = new[] {17, 19, 20, 16, 13, 12}, TID = 01337, SID = 60486};
+        var pkRA = new PK3 {PID = 0x0000E980, IVs = new[] {17, 19, 20, 16, 13, 12}, TID16 = 01337, SID16 = 60486};
         Assert.Equal(PIDType.BACD_R_A, MethodFinder.Analyze(pkRA).Type);
 
-        // Unrestricted: TID/SID are zero.
+        // Unrestricted: TID16/SID16 are zero.
         var pkU = new PK3 {PID = 0x67DBFC33, IVs = new[] {12, 25, 27, 30, 02, 31}};
         Assert.Equal(PIDType.BACD_U, MethodFinder.Analyze(pkU).Type);
 
         // Unrestricted Antishiny: PID is incremented 5 times to lose shininess.
-        var pkUA = new PK3 {PID = 0x67DBFC38, IVs = new[] {12, 25, 27, 30, 02, 31}, TID = 01337, SID = 40657};
+        var pkUA = new PK3 {PID = 0x67DBFC38, IVs = new[] {12, 25, 27, 30, 02, 31}, TID16 = 01337, SID16 = 40657};
         Assert.Equal(PIDType.BACD_U_A, MethodFinder.Analyze(pkUA).Type);
 
         // berry fix zigzagoon: seed 0x0020
-        var pkRS = new PK3 {PID = 0x38CA4EA0, IVs = new[] {00, 20, 28, 11, 19, 00}, TID = 30317, SID = 00000};
+        var pkRS = new PK3 {PID = 0x38CA4EA0, IVs = new[] {00, 20, 28, 11, 19, 00}, TID16 = 30317, SID16 = 00000};
         var a_pkRS = MethodFinder.Analyze(pkRS);
         Assert.Equal(PIDType.BACD_R_S, a_pkRS.Type);
         Assert.True(a_pkRS.OriginSeed == 0x0020, "Unable to match PID to BACD-R shiny spread origin seed");
 
-        var gkRS = new PK3 { TID = 30317, SID = 00000 };
+        var gkRS = new PK3 { TID16 = 30317, SID16 = 00000 };
         PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_R_S, a_pkRS.OriginSeed);
         Assert.Equal(pkRS.PID, gkRS.PID);
         Assert.True(pkRS.IVs.SequenceEqual(gkRS.IVs), "Unable to match generated IVs to BACD-R shiny spread");
 
         // Unrestricted Antishiny nyx
-        var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = new[] {00, 15, 05, 04, 21, 05}, TID = 80, SID = 0};
+        var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = new[] {00, 15, 05, 04, 21, 05}, TID16 = 80, SID16 = 0};
         var nyx_pkUA = MethodFinder.Analyze(nyxUA);
         Assert.Equal(PIDType.BACD_U_AX, nyx_pkUA.Type);
     }
@@ -124,11 +123,11 @@ public class PIDIVTest
         var pkCC = new PK4 {PID = 0x00000037, IVs = new[] {16, 13, 12, 02, 18, 03}, Species = 1, Gender = 0};
         Assert.Equal(PIDType.CuteCharm, MethodFinder.Analyze(pkCC).Type);
 
-        // Antishiny Mystery Gift: TID/SID are zero. Original PID of 0x5271E97E is rerolled.
+        // Antishiny Mystery Gift: TID16/SID16 are zero. Original PID of 0x5271E97E is rerolled.
         var pkASR = new PK4 {PID = 0x07578CB7, IVs = new[] {16, 13, 12, 02, 18, 03}};
         Assert.Equal(PIDType.G4MGAntiShiny, MethodFinder.Analyze(pkASR).Type);
 
-        // Chain Shiny: TID/SID are zero.
+        // Chain Shiny: TID16/SID16 are zero.
         var pkCS = new PK4 {PID = 0xA9C1A9C6, IVs = new[] {22, 14, 23, 24, 11, 04}};
         Assert.Equal(PIDType.ChainShiny, MethodFinder.Analyze(pkCS).Type);
     }
@@ -137,7 +136,7 @@ public class PIDIVTest
     public void PIDIVMatchingTest5()
     {
         // Shiny Mystery Gift PGF; IVs are unrelated.
-        var pkS5 = new PK5 {PID = 0xBEEF0037, TID = 01337, SID = 48097};
+        var pkS5 = new PK5 {PID = 0xBEEF0037, TID16 = 01337, SID16 = 48097};
         Assert.Equal(PIDType.G5MGShiny, MethodFinder.Analyze(pkS5).Type);
     }
 
@@ -158,16 +157,16 @@ public class PIDIVTest
     {
         var pkPW = new[]
         {
-            new PK4 { Species = 025, PID = 0x34000089, TID = 20790, SID = 39664, Gender = 0}, // Pikachu
-            new PK4 { Species = 025, PID = 0x7DFFFF60, TID = 30859, SID = 63760, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0x7DFFFF65, TID = 30859, SID = 63760, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0x7E000003, TID = 30859, SID = 63760, Gender = 1}, // Pikachu
+            new PK4 { Species = 025, PID = 0x34000089, TID16 = 20790, SID16 = 39664, Gender = 0}, // Pikachu
+            new PK4 { Species = 025, PID = 0x7DFFFF60, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
+            new PK4 { Species = 025, PID = 0x7DFFFF65, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
+            new PK4 { Species = 025, PID = 0x7E000003, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
 
-            new PK4 { Species = 025, PID = 0x2100008F, TID = 31526, SID = 42406, Gender = 0}, // Pikachu
-            new PK4 { Species = 025, PID = 0x71FFFF5A, TID = 49017, SID = 12807, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0xC0000001, TID = 17398, SID = 31936, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0x2FFFFF5E, TID = 27008, SID = 42726, Gender = 1}, // Pikachu
-            new PK4 { Species = 025, PID = 0x59FFFFFE, TID = 51223, SID = 28044, Gender = 0}, // Pikachu
+            new PK4 { Species = 025, PID = 0x2100008F, TID16 = 31526, SID16 = 42406, Gender = 0}, // Pikachu
+            new PK4 { Species = 025, PID = 0x71FFFF5A, TID16 = 49017, SID16 = 12807, Gender = 1}, // Pikachu
+            new PK4 { Species = 025, PID = 0xC0000001, TID16 = 17398, SID16 = 31936, Gender = 1}, // Pikachu
+            new PK4 { Species = 025, PID = 0x2FFFFF5E, TID16 = 27008, SID16 = 42726, Gender = 1}, // Pikachu
+            new PK4 { Species = 025, PID = 0x59FFFFFE, TID16 = 51223, SID16 = 28044, Gender = 0}, // Pikachu
         };
         foreach (var pk in pkPW)
             Assert.Equal(PIDType.Pokewalker, MethodFinder.Analyze(pk).Type);

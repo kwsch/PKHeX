@@ -62,22 +62,22 @@
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.dragout = new System.Windows.Forms.PictureBox();
+            this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
             this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.dragout = new System.Windows.Forms.PictureBox();
-            this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -89,7 +89,8 @@
             this.Menu_Options});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(761, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(856, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -377,9 +378,10 @@
             // L_UpdateAvailable
             // 
             this.L_UpdateAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_UpdateAvailable.Location = new System.Drawing.Point(454, 8);
+            this.L_UpdateAvailable.Location = new System.Drawing.Point(564, 0);
+            this.L_UpdateAvailable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_UpdateAvailable.Name = "L_UpdateAvailable";
-            this.L_UpdateAvailable.Size = new System.Drawing.Size(300, 13);
+            this.L_UpdateAvailable.Size = new System.Drawing.Size(288, 24);
             this.L_UpdateAvailable.TabIndex = 102;
             this.L_UpdateAvailable.TabStop = true;
             this.L_UpdateAvailable.Text = "New Update Available!";
@@ -389,21 +391,55 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(8);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.dragout);
+            this.splitContainer1.Panel1.Controls.Add(this.PB_Legal);
             this.splitContainer1.Panel1.Controls.Add(this.PKME_Tabs);
+            this.splitContainer1.Panel1MinSize = 400;
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.C_SAV);
-            this.splitContainer1.Size = new System.Drawing.Size(761, 378);
-            this.splitContainer1.SplitterDistance = 310;
-            this.splitContainer1.SplitterWidth = 2;
+            this.splitContainer1.Panel2.Padding = new System.Windows.Forms.Padding(0, 0, 1, 3);
+            this.splitContainer1.Size = new System.Drawing.Size(856, 359);
+            this.splitContainer1.SplitterDistance = 400;
+            this.splitContainer1.SplitterWidth = 1;
             this.splitContainer1.TabIndex = 105;
+            // 
+            // dragout
+            // 
+            this.dragout.BackColor = System.Drawing.Color.Transparent;
+            this.dragout.Location = new System.Drawing.Point(24, 0);
+            this.dragout.Margin = new System.Windows.Forms.Padding(0);
+            this.dragout.Name = "dragout";
+            this.dragout.Size = new System.Drawing.Size(72, 56);
+            this.dragout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.dragout.TabIndex = 107;
+            this.dragout.TabStop = false;
+            this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragoutDrop);
+            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.Dragout_DragOver);
+            this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Dragout_MouseDown);
+            this.dragout.MouseEnter += new System.EventHandler(this.DragoutEnter);
+            this.dragout.MouseLeave += new System.EventHandler(this.DragoutLeave);
+            // 
+            // PB_Legal
+            // 
+            this.PB_Legal.Image = global::PKHeX.WinForms.Properties.Resources.valid;
+            this.PB_Legal.Location = new System.Drawing.Point(0, 0);
+            this.PB_Legal.Margin = new System.Windows.Forms.Padding(0);
+            this.PB_Legal.Name = "PB_Legal";
+            this.PB_Legal.Size = new System.Drawing.Size(24, 24);
+            this.PB_Legal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Legal.TabIndex = 108;
+            this.PB_Legal.TabStop = false;
+            this.PB_Legal.Click += new System.EventHandler(this.ClickLegality);
             // 
             // PKME_Tabs
             // 
@@ -412,9 +448,9 @@
             this.PKME_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PKME_Tabs.HaX = false;
             this.PKME_Tabs.Location = new System.Drawing.Point(0, 0);
-            this.PKME_Tabs.Margin = new System.Windows.Forms.Padding(5);
+            this.PKME_Tabs.Margin = new System.Windows.Forms.Padding(0);
             this.PKME_Tabs.Name = "PKME_Tabs";
-            this.PKME_Tabs.Size = new System.Drawing.Size(310, 378);
+            this.PKME_Tabs.Size = new System.Drawing.Size(400, 359);
             this.PKME_Tabs.TabIndex = 103;
             this.PKME_Tabs.Unicode = true;
             this.PKME_Tabs.LegalityChanged += new System.EventHandler(this.PKME_Tabs_LegalityChanged);
@@ -428,11 +464,11 @@
             this.C_SAV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.C_SAV.FlagIllegal = false;
             this.C_SAV.Location = new System.Drawing.Point(0, 0);
-            this.C_SAV.Margin = new System.Windows.Forms.Padding(5);
+            this.C_SAV.Margin = new System.Windows.Forms.Padding(0, 0, 1, 3);
             this.C_SAV.Menu_Redo = null;
             this.C_SAV.Menu_Undo = null;
             this.C_SAV.Name = "C_SAV";
-            this.C_SAV.Size = new System.Drawing.Size(449, 378);
+            this.C_SAV.Size = new System.Drawing.Size(454, 356);
             this.C_SAV.TabIndex = 104;
             this.C_SAV.ViewIndex = -1;
             this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
@@ -443,6 +479,7 @@
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.IsSplitterFixed = true;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -450,52 +487,27 @@
             // 
             this.splitContainer2.Panel1.Controls.Add(this.L_UpdateAvailable);
             this.splitContainer2.Panel1.Controls.Add(this.menuStrip1);
+            this.splitContainer2.Panel1MinSize = 24;
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
-            this.splitContainer2.Size = new System.Drawing.Size(761, 405);
-            this.splitContainer2.SplitterDistance = 26;
+            this.splitContainer2.Size = new System.Drawing.Size(856, 385);
+            this.splitContainer2.SplitterDistance = 25;
             this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 106;
-            // 
-            // dragout
-            // 
-            this.dragout.BackColor = System.Drawing.Color.Transparent;
-            this.dragout.Location = new System.Drawing.Point(244, 1);
-            this.dragout.Name = "dragout";
-            this.dragout.Size = new System.Drawing.Size(68, 56);
-            this.dragout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.dragout.TabIndex = 107;
-            this.dragout.TabStop = false;
-            this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragoutDrop);
-            this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.Dragout_DragOver);
-            this.dragout.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Dragout_MouseDown);
-            this.dragout.MouseEnter += new System.EventHandler(this.DragoutEnter);
-            this.dragout.MouseLeave += new System.EventHandler(this.DragoutLeave);
-            // 
-            // PB_Legal
-            // 
-            this.PB_Legal.Image = global::PKHeX.WinForms.Properties.Resources.valid;
-            this.PB_Legal.Location = new System.Drawing.Point(222, 2);
-            this.PB_Legal.Name = "PB_Legal";
-            this.PB_Legal.Size = new System.Drawing.Size(16, 16);
-            this.PB_Legal.TabIndex = 108;
-            this.PB_Legal.TabStop = false;
-            this.PB_Legal.Click += new System.EventHandler(this.ClickLegality);
             // 
             // Main
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(761, 405);
-            this.Controls.Add(this.dragout);
-            this.Controls.Add(this.PB_Legal);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(856, 385);
             this.Controls.Add(this.splitContainer2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -508,13 +520,13 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
             this.ResumeLayout(false);
 
         }

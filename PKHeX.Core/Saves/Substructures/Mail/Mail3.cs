@@ -36,7 +36,7 @@ public sealed class Mail3 : MailDetail
         set
         {
             var span = Data.AsSpan(0x12, 8);
-            StringConverter3.SetString(span, value.AsSpan(), 7, JP, StringConverterOption.ClearFF);
+            StringConverter3.SetString(span, value, 7, JP, StringConverterOption.ClearFF);
         }
     }
 

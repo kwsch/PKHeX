@@ -142,7 +142,7 @@ public static class CommonEdits
     /// <param name="nature">Desired <see cref="PKM.Nature"/> value to set.</param>
     public static void SetNature(this PKM pk, int nature)
     {
-        var value = Math.Min((int)Nature.Quirky, Math.Max((int)Nature.Hardy, nature));
+        var value = Math.Clamp(nature, (int)Nature.Hardy, (int)Nature.Quirky);
         var format = pk.Format;
         if (format >= 8)
             pk.StatNature = value;
@@ -192,7 +192,7 @@ public static class CommonEdits
 
         // IVs have no side effects such as hidden power type in gen 8
         // therefore all specified IVs are deliberate and should not be Hyper Trained for pokemon met in gen 8
-        if (!pk.Gen8)
+        if (pk.Generation < 8)
             pk.SetSuggestedHyperTrainingData(Set.IVs);
 
         if (ShowdownSetIVMarkings)
@@ -313,7 +313,7 @@ public static class CommonEdits
 
         var sum = pk.EVTotal - pk.GetEV(index);
         int remaining = 510 - sum;
-        return Math.Min(Math.Max(remaining, 0), 252);
+        return Math.Clamp(remaining, 0, 252);
     }
 
     /// <summary>
@@ -350,7 +350,7 @@ public static class CommonEdits
         var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
         if (loc >= 0)
             pk.Met_Location = loc;
-        pk.MetDate = DateTime.Today;
+        pk.MetDate = DateOnly.FromDateTime(DateTime.Today);
         if (pk.Gen6)
             pk.SetHatchMemory6();
     }
@@ -364,7 +364,7 @@ public static class CommonEdits
     public static void SetEggMetData(this PKM pk, GameVersion origin, GameVersion dest)
     {
         bool traded = origin != dest;
-        var today = pk.MetDate = DateTime.Today;
+        var today = pk.MetDate = DateOnly.FromDateTime(DateTime.Today);
         pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, origin, traded);
         pk.EggMetDate = today;
     }
@@ -403,7 +403,7 @@ public static class CommonEdits
     /// <param name="la">Precomputed optional</param>
     public static void SetDefaultNickname(this PKM pk, LegalityAnalysis la)
     {
-        if (la.Parsed && la.EncounterOriginal is EncounterTrade {HasNickname: true} t)
+        if (la is { Parsed: true, EncounterOriginal: EncounterTrade {HasNickname: true} t })
             pk.SetNickname(t.GetNickname(pk.Language));
         else
             pk.ClearNickname();
@@ -468,7 +468,7 @@ public static class CommonEdits
                 '0' or '3' => 0u,
                 _ when pk.Species is (int)Species.Dudunsparce && pk.Form == 1 => 0, // 3 Segment
                 _ when pk.Species is (int)Species.Maushold && pk.Form == 0 => 0, // Family of 3
-                _ => (uint)rng.Next(1, 100)
+                _ => (uint)rng.Next(1, 100),
             };
         }
         else if (option is >= '0' and <= '5')

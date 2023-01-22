@@ -58,7 +58,7 @@ public static class EntityFormat
                 return true;
         }
 
-        if (ReadUInt16LittleEndian(data[0x06..]) == GetCHK(data, SIZE_6STORED))
+        if (ReadUInt16LittleEndian(data[0x06..]) == GetCHK(data[8..SIZE_6STORED]))
             return true; // decrypted
         return false;
     }

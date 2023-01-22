@@ -51,7 +51,7 @@ internal static class Encounters7SM
         new(SM) // Magearna (Bottle Cap) 00 FF
         {
             Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, HeldItem = 795, Ability = OnlySecond,
-            Fateful = true, Relearn = new(705, 430, 381, 270), Ball = 0x10, // Cherish
+            FatefulEncounter = true, Relearn = new(705, 430, 381, 270), Ball = 0x10, // Cherish
         },
 
         // Static Encounters - 1.bin
@@ -120,13 +120,13 @@ internal static class Encounters7SM
     internal static readonly EncounterTrade7[] TradeGift_SM = // @ a\1\5\5
     {
         // Trades - 4.bin
-        new(SM) { Species = 066, Form = 0, Level = 09, Ability = OnlySecond, TID = 00410, SID = 00000, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
-        new(SM) { Species = 761, Form = 0, Level = 16, Ability = OnlyFirst,  TID = 20683, SID = 00009, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
-        new(SM) { Species = 061, Form = 0, Level = 22, Ability = OnlySecond, TID = 01092, SID = 00009, IVs = new(31,-1,-1,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Naughty }, // Poliwhirl
-        new(SM) { Species = 440, Form = 0, Level = 27, Ability = OnlySecond, TID = 10913, SID = 00000, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 1, Gender = 1, Nature = Nature.Calm }, // Happiny
-        new(SM) { Species = 075, Form = 1, Level = 32, Ability = OnlyFirst,  TID = 20778, SID = 00009, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
-        new(SM) { Species = 762, Form = 0, Level = 43, Ability = OnlyFirst,  TID = 20679, SID = 00009, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
-        new(SM) { Species = 663, Form = 0, Level = 59, Ability = OnlyHidden, TID = 56734, SID = 00008, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
+        new(SM) { Species = 066, Form = 0, Level = 09, Ability = OnlySecond, TID16 = 00410, SID16 = 00000, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
+        new(SM) { Species = 761, Form = 0, Level = 16, Ability = OnlyFirst,  TID16 = 20683, SID16 = 00009, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
+        new(SM) { Species = 061, Form = 0, Level = 22, Ability = OnlySecond, TID16 = 01092, SID16 = 00009, IVs = new(31,-1,-1,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Naughty }, // Poliwhirl
+        new(SM) { Species = 440, Form = 0, Level = 27, Ability = OnlySecond, TID16 = 10913, SID16 = 00000, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 1, Gender = 1, Nature = Nature.Calm }, // Happiny
+        new(SM) { Species = 075, Form = 1, Level = 32, Ability = OnlyFirst,  TID16 = 20778, SID16 = 00009, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
+        new(SM) { Species = 762, Form = 0, Level = 43, Ability = OnlyFirst,  TID16 = 20679, SID16 = 00009, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
+        new(SM) { Species = 663, Form = 0, Level = 59, Ability = OnlyHidden, TID16 = 56734, SID16 = 00008, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
     };
 
     private const string tradeSM = "tradesm";

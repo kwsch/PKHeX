@@ -165,7 +165,7 @@ public sealed class HistoryVerifier : Verifier
         {
             if (origin == 6)
             {
-                if (pk.IsUntraded && pk.XY)
+                if (pk is { IsUntraded: true, XY: true })
                 {
                     if (a.OT_Affection != 0)
                         data.AddLine(GetInvalid(LMemoryStatAffectionOT0));
@@ -246,8 +246,8 @@ public sealed class HistoryVerifier : Verifier
         {
             EncounterTrade => false,
             EncounterSlot8GO => false,
-            WC6 wc6 when wc6.OT_Name.Length > 0 => false,
-            WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
+            WC6 { OT_Name.Length: > 0 } => false,
+            WC7 { OT_Name.Length: > 0, TID16: not 18075 } => false, // Ash Pikachu QR Gift doesn't set Current Handler
             WC8 wc8 when wc8.GetHasOT(pk.Language) => false,
             WB8 wb8 when wb8.GetHasOT(pk.Language) => false,
             WA8 wa8 when wa8.GetHasOT(pk.Language) => false,

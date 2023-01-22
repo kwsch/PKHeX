@@ -7,23 +7,33 @@ namespace PKHeX.Core;
 /// </summary>
 public static class MoveShopRecordApplicator
 {
+    /// <summary>
+    /// Clears all the "purchased" and "mastered" move shop flags.
+    /// </summary>
     public static void ClearMoveShopFlags(this IMoveShop8 shop)
     {
-        var bits = shop.MoveShopPermitFlags;
-        for (int i = 0; i < bits.Length; i++)
+        var bits = shop.Permit;
+        for (int i = 0; i < bits.RecordCountUsed; i++)
             shop.SetPurchasedRecordFlag(i, false);
 
         if (shop is IMoveShop8Mastery m)
             m.ClearMoveShopFlagsMastered();
     }
 
+    /// <summary>
+    /// Clears all the "mastered" move shop flags.
+    /// </summary>
+    /// <param name="shop"></param>
     public static void ClearMoveShopFlagsMastered(this IMoveShop8Mastery shop)
     {
-        var bits = shop.MoveShopPermitFlags;
-        for (int i = 0; i < bits.Length; i++)
+        var bits = shop.Permit;
+        for (int i = 0; i < bits.RecordCountUsed; i++)
             shop.SetMasteredRecordFlag(i, false);
     }
 
+    /// <summary>
+    /// Sets the required move shop flags for the requested entity.
+    /// </summary>
     public static void SetMoveShopFlags(this IMoveShop8Mastery shop, PKM pk)
     {
         Span<ushort> moves = stackalloc ushort[4];
@@ -31,6 +41,9 @@ public static class MoveShopRecordApplicator
         shop.SetMoveShopFlags(moves, pk);
     }
 
+    /// <summary>
+    /// Sets the required move shop flags for the requested entity.
+    /// </summary>
     public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, PKM pk)
     {
         var index = PersonalTable.LA.GetFormIndex(pk.Species, pk.Form);
@@ -41,6 +54,9 @@ public static class MoveShopRecordApplicator
         shop.SetMoveShopFlags(moves, learn, mastery, level);
     }
 
+    /// <summary>
+    /// Sets all possible move shop flags for the requested entity.
+    /// </summary>
     public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, PKM pk)
     {
         var index = PersonalTable.LA.GetFormIndex(pk.Species, pk.Form);
@@ -51,36 +67,45 @@ public static class MoveShopRecordApplicator
         shop.SetMoveShopFlagsAll(learn, mastery, level);
     }
 
+    /// <summary>
+    /// Sets all possible move shop flags for the requested entity.
+    /// </summary>
     public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level)
     {
-        var possible = shop.MoveShopPermitIndexes;
-        var permit = shop.MoveShopPermitFlags;
-        for (int index = 0; index < possible.Length; index++)
+        var permit = shop.Permit;
+        var possible = permit.RecordPermitIndexes;
+        for (int index = 0; index < permit.RecordCountUsed; index++)
         {
-            var move = possible[index];
-            var allowed = permit[index];
+            var allowed = permit.IsRecordPermitted(index);
             if (!allowed)
                 continue;
 
+            var move = possible[index];
             SetMasteredFlag(shop, learn, mastery, level, index, move);
         }
     }
 
+    /// <summary>
+    /// Sets all move shop flags for the currently known moves.
+    /// </summary>
     public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset learn, Learnset mastery, int level)
     {
-        var possible = shop.MoveShopPermitIndexes;
-        var permit = shop.MoveShopPermitFlags;
+        var permit = shop.Permit;
+        var possible = permit.RecordPermitIndexes;
         foreach (var move in moves)
         {
             var index = possible.IndexOf(move);
             if (index == -1)
                 continue;
-            if (!permit[index])
+            if (!permit.IsRecordPermitted(index))
                 continue;
             SetMasteredFlag(shop, learn, mastery, level, index, move);
         }
     }
 
+    /// <summary>
+    /// Sets the "mastered" move shop flag for the requested move.
+    /// </summary>
     public static void SetMasteredFlag(this IMoveShop8Mastery shop, Learnset learn, Learnset mastery, int level, int index, ushort move)
     {
         if (shop.GetMasteredRecordFlag(index))
@@ -97,16 +122,19 @@ public static class MoveShopRecordApplicator
             shop.SetMasteredRecordFlag(index, true);
     }
 
+    /// <summary>
+    /// Sets the "mastered" move shop flag for the encounter.
+    /// </summary>
     public static void SetEncounterMasteryFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, Learnset mastery, int level)
     {
-        var possible = shop.MoveShopPermitIndexes;
-        var permit = shop.MoveShopPermitFlags;
+        var permit = shop.Permit;
+        var possible = permit.RecordPermitIndexes;
         foreach (var move in moves)
         {
             var index = possible.IndexOf(move);
             if (index == -1)
                 continue;
-            if (!permit[index])
+            if (!permit.IsRecordPermitted(index))
                 continue;
 
             // If the Pokémon is caught with any move shop move in its learnset
