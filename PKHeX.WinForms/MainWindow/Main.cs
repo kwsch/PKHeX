@@ -21,8 +21,6 @@ namespace PKHeX.WinForms;
 
 public partial class Main : Form
 {
-    private static readonly Version CurrentProgramVersion = Version.Parse(Application.ProductVersion);
-
     public Main()
     {
         string[] args = Environment.GetCommandLineArgs();
@@ -201,7 +199,7 @@ public partial class Main : Form
                 Debug.WriteLine($"Exception while checking for latest version: {ex}");
                 return;
             }
-            if (latestVersion is null || latestVersion <= CurrentProgramVersion)
+            if (latestVersion is null || latestVersion <= Program.CurrentVersion)
                 return;
 
             while (!IsHandleCreated) // Wait for form to be ready
@@ -227,9 +225,9 @@ public partial class Main : Form
         if (Settings.Startup.Version.Length > 0 && Settings.Startup.ShowChangelogOnUpdate) // already run on system
         {
             bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
-            showChangelog = parsed && lastrev < CurrentProgramVersion;
+            showChangelog = parsed && lastrev < Program.CurrentVersion;
         }
-        Settings.Startup.Version = CurrentProgramVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
+        Settings.Startup.Version = Program.CurrentVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
 
         // BAK Prompt
         if (!Settings.Backup.BAKPrompt)
@@ -271,7 +269,7 @@ public partial class Main : Form
             return;
         }
         foreach (var p in Plugins.OrderBy(z => z.Priority))
-            p.Initialize(C_SAV, PKME_Tabs, menuStrip1, CurrentProgramVersion);
+            p.Initialize(C_SAV, PKME_Tabs, menuStrip1, Program.CurrentVersion);
     }
 
     // Main Menu Strip UI Functions
@@ -807,7 +805,7 @@ public partial class Main : Form
         var date = File.GetLastWriteTime(Environment.ProcessPath!);
         string version = $"d-{date:yyyyMMdd}";
 #else
-        var ver = CurrentProgramVersion;
+        var ver = Program.CurrentVersion;
         string version = $"{2000+ver.Major:00}{ver.Minor:00}{ver.Build:00}";
 #endif
         return $"PKH{(HaX ? "a" : "e")}X ({version})";
