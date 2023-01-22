@@ -389,7 +389,9 @@ public partial class StatEditor : UserControl
         {
             var pt = MainEditor.RequestSaveFile.Personal;
             var pi = pt.GetFormEntry(Entity.Species, Entity.Form);
-            Entity.SetStats(Entity.GetStats(pi));
+            Span<ushort> stats = stackalloc ushort[6];
+            Entity.LoadStats(pi, stats);
+            Entity.SetStats(stats);
             LoadBST(pi);
             LoadPartyStats(Entity);
         }

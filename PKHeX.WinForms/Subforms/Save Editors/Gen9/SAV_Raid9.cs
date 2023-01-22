@@ -73,17 +73,9 @@ public partial class SAV_Raid9 : Form
             Raids.TomorrowSeed = value;
     }
 
-    private void B_Star6_Click(object sender, EventArgs e)
+    private void B_CopyToOthers_Click(object sender, EventArgs e)
     {
-        foreach (var raid in Raids.GetAllRaids())
-        {
-            if (raid.AreaID == 0)
-                continue;
-            raid.IsEnabled = true;
-            raid.Content = TeraRaidContentType.Black6;
-            raid.IsClaimedLeaguePoints = false;
-        }
-        CB_Raid_SelectedIndexChanged(sender, e);
+        Raids.Propagate(CB_Raid.SelectedIndex, seedToo: ModifierKeys == Keys.Shift);
         System.Media.SystemSounds.Asterisk.Play();
     }
 }

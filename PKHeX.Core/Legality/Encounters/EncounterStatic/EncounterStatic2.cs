@@ -71,8 +71,13 @@ public record EncounterStatic2 : EncounterStatic
             return true;
         if (Location == 0)
             return true;
-        if (pk is ICaughtData2 {CaughtData: not 0})
-            return Location == pk.Met_Location;
+        if (pk is ICaughtData2 c2)
+        {
+            if (c2.CaughtData is not 0)
+                return Location == pk.Met_Location;
+            if (pk.Species == (int)Core.Species.Celebi)
+                return false; // Cannot reset the Met data
+        }
         return true;
     }
 
