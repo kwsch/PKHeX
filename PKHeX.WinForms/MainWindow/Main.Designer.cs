@@ -464,7 +464,7 @@
             this.C_SAV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.C_SAV.FlagIllegal = false;
             this.C_SAV.Location = new System.Drawing.Point(0, 0);
-            this.C_SAV.Margin = new System.Windows.Forms.Padding(8);
+            this.C_SAV.Margin = new System.Windows.Forms.Padding(0, 0, 1, 3);
             this.C_SAV.Menu_Redo = null;
             this.C_SAV.Menu_Undo = null;
             this.C_SAV.Name = "C_SAV";

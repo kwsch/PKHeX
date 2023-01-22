@@ -51,7 +51,7 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterable
+    private static IEnumerable<IEncounterable> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : class, IEncounterable
     {
         foreach (var enc in table)
         {

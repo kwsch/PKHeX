@@ -1,5 +1,3 @@
-using static PKHeX.Core.NPCLockDetail;
-
 namespace PKHeX.Core;
 
 /// <summary>

@@ -1159,7 +1159,7 @@ public partial class Main : Form
         var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
         try
         {
-            File.WriteAllBytes(newfile, data);
+            await File.WriteAllBytesAsync(newfile, data).ConfigureAwait(false);
 
             var pb = (PictureBox)sender;
             if (pb.Image is Bitmap img)
