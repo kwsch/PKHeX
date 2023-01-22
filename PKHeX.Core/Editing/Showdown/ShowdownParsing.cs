@@ -87,7 +87,7 @@ public static class ShowdownParsing
             (int)Polteageist or (int)Sinistea           => form == "Antique" ? form : string.Empty,
             (int)Maushold when form is "Family of Four" => "Four",
 
-            (int)Furfrou or (int)Greninja or (int)Rockruff or (int)Tatsugiri or (int)Koraidon or (int)Miraidon => string.Empty,
+            (int)Furfrou or (int)Greninja or (int)Rockruff or (int)Koraidon or (int)Miraidon => string.Empty,
 
             _ => Legal.Totem_USUM.Contains(species) && form == "Large"
                 ? Legal.Totem_Alolan.Contains(species) && species != (int)Mimikyu ? "Alola-Totem" : "Totem"
