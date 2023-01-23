@@ -4,7 +4,7 @@ PKHeX
 
 Editor di Salvataggi Pokémon per la serie principale, programmato in [C#](https://it.wikipedia.org/wiki/C_sharp).
 
-Supporta i seguenti file:
+Supporta i seguenti tipi  di file:
 * File di salvataggio ("main", \*.sav, \*.dsv, \*.dat, \*.gci, \*.bin)
 * File di Memory Card GameCube (\*.raw, \*.bin) contenenti File di Salvataggio Pokémon.
 * File di Entità Pokémon individuali (.pk\*, \*.ck3, \*.xk3, \*.pb7, \*.sk2, \*.bk4, \*.rk4)
@@ -14,13 +14,13 @@ Supporta i seguenti file:
 * Trasferimento da una generazione all'altra, convertendo i formati propriamente.
 
 I dati sono mostrati in una finestra che può essere modificata e salvata.
-L'interfaccia può essere tradotta con risorse/file di testo esterni, così che sia possibile supportare diversi linguaggi.
+L'interfaccia può essere tradotta tramite risorse/file di testo esterni, così che sia possibile supportare diverse lingue.
 
 Set di Pokémon Showdown e QR Code possono essere importati/esportati per agevolare la condivisione di file.
 
-PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della console. È possibile usare un gestore di salvataggi per importare ed esportare dati di salvataggio dalla console ([Checkpoint](https://github.com/FlagBrew/Checkpoint) o [JKSM](https://github.com/J-D-K/JKSM)).
+PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della console. È possibile utilizzare un gestore di salvataggi per importare ed esportare dati di salvataggio dalla console (come [Checkpoint](https://github.com/FlagBrew/Checkpoint) o [JKSM](https://github.com/J-D-K/JKSM)).
 
-**Non supportiamo e non perdoniamo l'utilizzo di cheat a scapito di altri giocatori. Non utilizzare Pokémon modificati significativamente in lotte o scambi con giocatori che non ne sono a conoscenza.**
+**Non supportiamo e non perdoniamo l'utilizzo di cheat a scapito di altri giocatori. Non utilizzare Pokémon alterati in lotte o scambi con giocatori che non ne sono a conoscenza.**
 
 ## Screenshots
 
@@ -28,13 +28,13 @@ PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della
 
 ## Building
 
-PKHeX è un applicazione Windows Form e necessita [.NET Framework 7.0](https://dotnet.microsoft.com/download/dotnet/7.0).
+PKHeX è un applicazione Windows Form che necessita del [.NET Desktop Runtime 7.0](https://dotnet.microsoft.com/download/dotnet/7.0).
 
 L'eseguibile può essere compilato con qualsiasi compiler che supporti C# 11.
 
 ### Configurazioni di Build
 
-Puoi utilizzare la configurazione Debug o la configurazione Release per compilare. Non c'è alcun codice specifico per piattaforma di cui doversi preoccupare!
+È possibile utilizzare la configurazione Debug o la configurazione Release per compilare la soluzione. Non c'è alcun codice specifico per piattaforma di cui doversi preoccupare!
 
 ## Dipendenze
 
@@ -42,7 +42,7 @@ Il codice per la generazione di QR Code è preso da [QRCoder](https://github.com
 
 La collezione di sprite shiny è presa da [pokesprite](https://github.com/msikma/pokesprite), concessa in licenza sotto [the MIT license](https://github.com/msikma/pokesprite/blob/master/LICENSE).
 
-La collezione di sprite per Leggende Pokémon: Arceus è presa dal [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934) project grazie all'abbondanza dei collaboratori e dei contribuenti.
+La collezione di sprite per Leggende Pokémon: Arceus è presa dal progetto [National Pokédex - Icon Dex](https://www.deviantart.com/pikafan2000/art/National-Pokedex-Version-Delta-Icon-Dex-824897934), grazie a tutti i collaboratori e contribuenti.
 
 ### IDE
 
