@@ -193,10 +193,10 @@ public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H, IPermit
     {
         var moves = MoveShopMoves;
         var bits = MoveShopBits;
-        for (int i = 0 ; i < MoveShopCount; i++)
+        for (int index = 0 ; index < MoveShopCount; index++)
         {
             if ((bits & 1) == 1)
-                result[moves[i]] = true;
+                result[moves[index]] = true;
             bits >>= 1;
         }
     }

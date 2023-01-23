@@ -116,10 +116,10 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
     {
         var moves = TM_SWSH;
         var span = Data.AsSpan(TM, ByteCountTM);
-        for (int i = moves.Length - 1; i >= 0; i--)
+        for (int index = moves.Length - 1; index >= 0; index--)
         {
-            if ((span[i >> 3] & (1 << (i & 7))) != 0)
-                result[moves[i]] = true;
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
         }
     }
 
@@ -161,10 +161,10 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
     {
         var moves = TypeTutor8;
         var tutor = Data[TutorType];
-        for (int i = moves.Length - 1; i >= 0; i--)
+        for (int index = moves.Length - 1; index >= 0; index--)
         {
-            if ((tutor & (1 << (i & 7))) != 0)
-                result[moves[i]] = true;
+            if ((tutor & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
         }
     }
 
@@ -189,10 +189,10 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
     {
         var moves = Tutors_SWSH;
         var span = Data.AsSpan(TutorArmor, 3);
-        for (int i = moves.Length - 1; i >= 0; i--)
+        for (int index = moves.Length - 1; index >= 0; index--)
         {
-            if ((span[i >> 3] & (1 << (i & 7))) != 0)
-                result[moves[i]] = true;
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
         }
     }
 
@@ -200,10 +200,10 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
     {
         var moves = TR_SWSH;
         var span = Data.AsSpan(TR, ByteCountTM);
-        for (int i = moves.Length - 1; i >= 0; i--)
+        for (int index = moves.Length - 1; index >= 0; index--)
         {
-            if ((span[i >> 3] & (1 << (i & 7))) != 0)
-                result[moves[i]] = true;
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
         }
     }
 
