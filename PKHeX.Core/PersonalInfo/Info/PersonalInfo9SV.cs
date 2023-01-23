@@ -102,10 +102,10 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
     {
         var moves = TM_SV;
         var span = Data.AsSpan(TM, ByteCountTM);
-        for (int i = CountTM - 1; i >= 0; i--)
+        for (int index = CountTM - 1; index >= 0; index--)
         {
-            if ((span[i >> 3] & (1 << (i & 7))) != 0)
-                result[moves[i]] = true;
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
         }
     }
 

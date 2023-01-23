@@ -100,10 +100,10 @@ public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonal
     public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<ushort> moves)
     {
         var span = Data.AsSpan(TMHM, ByteCountTM);
-        for (int i = CountTMHM - 1; i >= 0; i--)
+        for (int index = CountTMHM - 1; index >= 0; index--)
         {
-            if ((span[i >> 3] & (1 << (i & 7))) != 0)
-                result[moves[i]] = true;
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
         }
     }
 
@@ -127,10 +127,10 @@ public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonal
     public void SetAllLearnTutorType(Span<bool> result, ReadOnlySpan<ushort> moves)
     {
         var tutor = Data[TypeTutor];
-        for (int i = TypeTutorCount - 1; i >= 0; i--)
+        for (int index = TypeTutorCount - 1; index >= 0; index--)
         {
-            if ((tutor & (1 << (i & 7))) != 0)
-                result[moves[i]] = true;
+            if ((tutor & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
         }
     }
 
@@ -157,10 +157,10 @@ public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonal
     {
         var moves = Tutors_USUM;
         var span = Data.AsSpan(Tutor1, ByteCountTutor1);
-        for (int i = 0; i < moves.Length; i++)
+        for (int index = 0; index < moves.Length; index++)
         {
-            if ((span[i >> 3] & (1 << (i & 7))) != 0)
-                result[moves[i]] = true;
+            if ((span[index >> 3] & (1 << (index & 7))) != 0)
+                result[moves[index]] = true;
         }
     }
 

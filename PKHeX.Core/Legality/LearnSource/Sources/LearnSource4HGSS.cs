@@ -154,7 +154,7 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
                     result[moves[i]] = true;
             }
         }
-        
+
         if (types.HasFlag(MoveSourceType.SpecialTutor))
             pi.SetAllLearnTutorType(result, Tutors_4);
 

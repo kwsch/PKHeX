@@ -316,7 +316,8 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         pk4.IsNicknamed = !IsEgg && IsNicknamed;
 
         // Trash from the current string (Nickname) is in our string buffer. Slap the OT name over-top.
-        nickTrash.CopyTo(pk4.OT_Trash);
+        var destOT = pk4.OT_Trash;
+        nickTrash[..destOT.Length].CopyTo(destOT);
         pk4.OT_Name = OT_Name;
 
         if (HeldItem > 0)

@@ -341,6 +341,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
             return;
         }
+        MC_Move1.HideLegality = MC_Move2.HideLegality = MC_Move3.HideLegality = MC_Move4.HideLegality = false;
 
         // Refresh Move Legality
         var info = Legality.Info;
