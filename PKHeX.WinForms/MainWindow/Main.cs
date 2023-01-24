@@ -1210,7 +1210,7 @@ public partial class Main : Form
         Cursor = DefaultCursor;
     }
 
-    private void Main_FormClosing(object sender, FormClosingEventArgs e)
+    private async void Main_FormClosing(object sender, FormClosingEventArgs e)
     {
         if (C_SAV.SAV.State.Edited || PKME_Tabs.PKMIsUnsaved)
         {
@@ -1222,7 +1222,7 @@ public partial class Main : Form
             }
         }
 
-        PKHeXSettings.SaveSettings(ConfigPath, Settings);
+        await PKHeXSettings.SaveSettings(ConfigPath, Settings).ConfigureAwait(false);
     }
 
     #endregion

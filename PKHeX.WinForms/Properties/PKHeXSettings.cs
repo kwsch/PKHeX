@@ -7,10 +7,14 @@ using System.Drawing;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
 
 namespace PKHeX.WinForms;
+
+[JsonSerializable(typeof(PKHeXSettings))]
+public sealed partial class PKHeXSettingsContext : JsonSerializerContext { }
 
 [Serializable]
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
@@ -40,11 +44,11 @@ public sealed class PKHeXSettings
     public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
     public BulkAnalysisSettings Bulk { get; set; } = new();
 
-    private static JsonSerializerOptions GetOptions() => new()
+    private static PKHeXSettingsContext GetContext() => new(new()
     {
         WriteIndented = true,
         Converters = { new ColorJsonConverter() },
-    };
+    });
 
     public sealed class ColorJsonConverter : JsonConverter<Color>
     {
@@ -61,7 +65,7 @@ public sealed class PKHeXSettings
         try
         {
             var lines = File.ReadAllText(configPath);
-            return JsonSerializer.Deserialize<PKHeXSettings>(lines, GetOptions()) ?? new PKHeXSettings();
+            return JsonSerializer.Deserialize(lines, GetContext().PKHeXSettings) ?? new PKHeXSettings();
         }
         catch (Exception x)
         {
@@ -70,12 +74,13 @@ public sealed class PKHeXSettings
         }
     }
 
-    public static void SaveSettings(string configPath, PKHeXSettings cfg)
+    public static async Task SaveSettings(string configPath, PKHeXSettings cfg)
     {
         try
         {
-            var text = JsonSerializer.Serialize(cfg, GetOptions());
-            File.WriteAllText(configPath, text);
+            // Serialize the object asynchronously and write it to the path.
+            await using var fs = File.Create(configPath);
+            await JsonSerializer.SerializeAsync(fs, cfg, GetContext().PKHeXSettings).ConfigureAwait(false);
         }
         catch (Exception x)
         {
@@ -83,11 +88,11 @@ public sealed class PKHeXSettings
         }
     }
 
-    private static void DumpConfigError(Exception x)
+    private static async void DumpConfigError(Exception x)
     {
         try
         {
-            File.WriteAllText("config error.txt", x.ToString());
+            await File.WriteAllTextAsync("config error.txt", x.ToString());
         }
         catch (Exception)
         {
