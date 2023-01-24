@@ -45,10 +45,17 @@ internal static class Program
 
     private static ReadOnlySpan<char> GetSaneVersionTag(ReadOnlySpan<char> productVersion)
     {
-        var firstDash = productVersion.IndexOf('-');
-        if (firstDash == -1)
-            return productVersion;
-        return productVersion[..firstDash];
+        // Take only 0-9 and '.', stop on first char not in that set.
+        for (int i = 0; i < productVersion.Length; i++)
+        {
+            char c = productVersion[i];
+            if (c == '.')
+                continue;
+            if (char.IsNumber(c))
+                continue;
+            return productVersion[..i];
+        }
+        return productVersion;
     }
 
 #if !DEBUG
