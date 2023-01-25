@@ -1370,7 +1370,7 @@ namespace PKHeX.WinForms.Controls
             this.CHK_AsEgg.Location = new System.Drawing.Point(104, 216);
             this.CHK_AsEgg.Name = "CHK_AsEgg";
             this.CHK_AsEgg.Size = new System.Drawing.Size(62, 19);
-            this.CHK_AsEgg.TabIndex = 2;
+            this.CHK_AsEgg.TabIndex = 10;
             this.CHK_AsEgg.Text = "As Egg";
             this.CHK_AsEgg.UseVisualStyleBackColor = true;
             this.CHK_AsEgg.Click += new System.EventHandler(this.UpdateMetAsEgg);
@@ -1490,7 +1490,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_BattleVersion.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_BattleVersion.Name = "FLP_BattleVersion";
             this.FLP_BattleVersion.Size = new System.Drawing.Size(280, 24);
-            this.FLP_BattleVersion.TabIndex = 8;
+            this.FLP_BattleVersion.TabIndex = 2;
             // 
             // L_BattleVersion
             // 
@@ -1522,7 +1522,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_MetLocation.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetLocation.Name = "FLP_MetLocation";
             this.FLP_MetLocation.Size = new System.Drawing.Size(280, 24);
-            this.FLP_MetLocation.TabIndex = 2;
+            this.FLP_MetLocation.TabIndex = 3;
             // 
             // Label_MetLocation
             // 
@@ -1558,7 +1558,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Ball.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Ball.Name = "FLP_Ball";
             this.FLP_Ball.Size = new System.Drawing.Size(280, 24);
-            this.FLP_Ball.TabIndex = 3;
+            this.FLP_Ball.TabIndex = 4;
             // 
             // FLP_BallLeft
             // 
@@ -1656,7 +1656,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_MetLevel.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetLevel.Name = "FLP_MetLevel";
             this.FLP_MetLevel.Size = new System.Drawing.Size(280, 24);
-            this.FLP_MetLevel.TabIndex = 4;
+            this.FLP_MetLevel.TabIndex = 6;
             // 
             // Label_MetLevel
             // 
@@ -1699,7 +1699,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_ObedienceLevel.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_ObedienceLevel.Name = "FLP_ObedienceLevel";
             this.FLP_ObedienceLevel.Size = new System.Drawing.Size(280, 24);
-            this.FLP_ObedienceLevel.TabIndex = 4;
+            this.FLP_ObedienceLevel.TabIndex = 7;
             // 
             // L_ObedienceLevel
             // 
@@ -1731,7 +1731,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_GroundTile.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_GroundTile.Name = "FLP_GroundTile";
             this.FLP_GroundTile.Size = new System.Drawing.Size(280, 24);
-            this.FLP_GroundTile.TabIndex = 6;
+            this.FLP_GroundTile.TabIndex = 8;
             // 
             // Label_GroundTile
             // 
@@ -1763,7 +1763,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_TimeOfDay.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_TimeOfDay.Name = "FLP_TimeOfDay";
             this.FLP_TimeOfDay.Size = new System.Drawing.Size(280, 24);
-            this.FLP_TimeOfDay.TabIndex = 7;
+            this.FLP_TimeOfDay.TabIndex = 9;
             // 
             // L_MetTimeOfDay
             // 
@@ -2430,7 +2430,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_OTMisc.Location = new System.Drawing.Point(0, 0);
             this.FLP_OTMisc.Name = "FLP_OTMisc";
             this.FLP_OTMisc.Size = new System.Drawing.Size(296, 391);
-            this.FLP_OTMisc.TabIndex = 46;
+            this.FLP_OTMisc.TabIndex = 1;
             // 
             // GB_OT
             // 
@@ -2605,7 +2605,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Handler.Margin = new System.Windows.Forms.Padding(0, 16, 0, 8);
             this.FLP_Handler.Name = "FLP_Handler";
             this.FLP_Handler.Size = new System.Drawing.Size(272, 24);
-            this.FLP_Handler.TabIndex = 49;
+            this.FLP_Handler.TabIndex = 6;
             // 
             // L_CurrentHandler
             // 
@@ -2628,7 +2628,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_Handler.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Handler.Name = "CB_Handler";
             this.CB_Handler.Size = new System.Drawing.Size(48, 23);
-            this.CB_Handler.TabIndex = 4;
+            this.CB_Handler.TabIndex = 1;
             this.CB_Handler.SelectedIndexChanged += new System.EventHandler(this.ChangeHandlerIndex);
             // 
             // GB_nOT
