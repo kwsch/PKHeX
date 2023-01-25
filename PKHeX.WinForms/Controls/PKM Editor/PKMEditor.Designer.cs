@@ -349,6 +349,7 @@ namespace PKHeX.WinForms.Controls
             this.Hidden_TC.Size = new System.Drawing.Size(304, 400);
             this.Hidden_TC.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.Hidden_TC.TabIndex = 1;
+            this.Hidden_TC.TabStop = false;
             // 
             // Hidden_Main
             // 
@@ -2384,12 +2385,12 @@ namespace PKHeX.WinForms.Controls
             this.SizeCP.Location = new System.Drawing.Point(48, 152);
             this.SizeCP.Margin = new System.Windows.Forms.Padding(48, 8, 0, 0);
             this.SizeCP.Name = "SizeCP";
-            this.SizeCP.Size = new System.Drawing.Size(224, 72);
+            this.SizeCP.Size = new System.Drawing.Size(224, 80);
             this.SizeCP.TabIndex = 3;
             // 
             // ShinyLeaf
             // 
-            this.ShinyLeaf.Location = new System.Drawing.Point(56, 232);
+            this.ShinyLeaf.Location = new System.Drawing.Point(56, 240);
             this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(56, 8, 0, 0);
             this.ShinyLeaf.Name = "ShinyLeaf";
             this.ShinyLeaf.Size = new System.Drawing.Size(200, 64);
@@ -2840,7 +2841,7 @@ namespace PKHeX.WinForms.Controls
             this.TC_Editor.SelectedIndex = 0;
             this.TC_Editor.Size = new System.Drawing.Size(96, 320);
             this.TC_Editor.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.TC_Editor.TabIndex = 2;
+            this.TC_Editor.TabIndex = 0;
             this.TC_Editor.SelectedIndexChanged += new System.EventHandler(this.ChangeSelectedTabIndex);
             // 
             // Tab_Main

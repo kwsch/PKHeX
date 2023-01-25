@@ -164,15 +164,16 @@ namespace PKHeX.WinForms.Controls
             this.tableLayoutPanel1.Controls.Add(this.FLP_CP, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.L_CP, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.FLP_Scale3, 1, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 96);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(224, 96);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // L_Scale
@@ -194,7 +195,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Weight.Location = new System.Drawing.Point(80, 24);
             this.FLP_Weight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Weight.Name = "FLP_Weight";
-            this.FLP_Weight.Size = new System.Drawing.Size(120, 24);
+            this.FLP_Weight.Size = new System.Drawing.Size(144, 24);
             this.FLP_Weight.TabIndex = 4;
             // 
             // NUD_WeightScalar
@@ -230,7 +231,7 @@ namespace PKHeX.WinForms.Controls
             // L_SizeW
             // 
             this.L_SizeW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SizeW.Location = new System.Drawing.Point(8, 23);
+            this.L_SizeW.Location = new System.Drawing.Point(112, 0);
             this.L_SizeW.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.L_SizeW.Name = "L_SizeW";
             this.L_SizeW.Size = new System.Drawing.Size(32, 20);
@@ -246,13 +247,13 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Height.Location = new System.Drawing.Point(80, 0);
             this.FLP_Height.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Height.Name = "FLP_Height";
-            this.FLP_Height.Size = new System.Drawing.Size(120, 24);
+            this.FLP_Height.Size = new System.Drawing.Size(144, 24);
             this.FLP_Height.TabIndex = 3;
             // 
             // L_SizeH
             // 
             this.L_SizeH.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SizeH.Location = new System.Drawing.Point(8, 23);
+            this.L_SizeH.Location = new System.Drawing.Point(112, 0);
             this.L_SizeH.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.L_SizeH.Name = "L_SizeH";
             this.L_SizeH.Size = new System.Drawing.Size(32, 20);
@@ -306,7 +307,7 @@ namespace PKHeX.WinForms.Controls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "SizeCP";
-            this.Size = new System.Drawing.Size(200, 96);
+            this.Size = new System.Drawing.Size(224, 96);
             this.FLP_CP.ResumeLayout(false);
             this.FLP_CP.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HeightScalar)).EndInit();

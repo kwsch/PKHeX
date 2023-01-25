@@ -2098,7 +2098,14 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             SetIfDifferentCount(source.Moves, CB_AlphaMastered, force);
     }
 
-    private void ChangeSelectedTabIndex(object? sender, EventArgs e) => Hidden_TC.SelectedIndex = TC_Editor.SelectedIndex;
+    private void ChangeSelectedTabIndex(object? sender, EventArgs e)
+    {
+        // flip to the tabless control's tab
+        Hidden_TC.SelectedIndex = TC_Editor.SelectedIndex;
+        // reset focus back to the vertical tab selection rather than the inaccessible tab
+        TC_Editor.Focus();
+    }
+
     private void CHK_Nicknamed_Click(object? sender, EventArgs e) => CHK_NicknamedFlag.Checked ^= true;
 
     private void PB_MarkShiny_Click(object sender, EventArgs e)
