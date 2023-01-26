@@ -53,6 +53,7 @@ namespace PKHeX.WinForms
             WinFormsTranslator.SetRemovalMode(false);
             WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage);
             WinFormsTranslator.LoadAllForms(types, LoadBanlist); // populate with every possible control
+            WinFormsTranslator.TranslateControls(GetExtraControls());
             WinFormsTranslator.UpdateAll(DefaultLanguage, Languages); // propagate to others
             WinFormsTranslator.DumpAll(Banlist); // dump current to file
 
@@ -60,6 +61,7 @@ namespace PKHeX.WinForms
             WinFormsTranslator.SetRemovalMode(); // remove used keys, don't add any
             WinFormsTranslator.LoadSettings<PKHeXSettings>(DefaultLanguage, false);
             WinFormsTranslator.LoadAllForms(types, LoadBanlist);
+            WinFormsTranslator.TranslateControls(GetExtraControls());
             WinFormsTranslator.RemoveAll(DefaultLanguage, PurgeBanlist); // remove all lines from above generated files that still remain
 
             // Move translated files from the debug exe loc to their project location
@@ -82,6 +84,13 @@ namespace PKHeX.WinForms
             Application.Exit();
         }
 
+        private static IEnumerable<Control> GetExtraControls()
+        {
+            var slotGroupLabels = Enum.GetNames(typeof(StorageSlotType));
+            foreach (var name in slotGroupLabels)
+                yield return new Label { Name = $"{nameof(Main)}.L_{name}", Text = name };
+        }
+
         private static readonly string[] LoadBanlist =
         {
             nameof(SplashScreen),
@@ -92,6 +101,8 @@ namespace PKHeX.WinForms
             nameof(SplashScreen),
             "Gender=", // editor gender labels
             "BTN_Shinytize", // ☆
+            "Hidden_", // Hidden controls
+            "CAL_", // calendar controls now expose Text, don't care.
             $"{nameof(Main)}.L_SizeH", // height rating
             $"{nameof(Main)}.L_SizeW", // weight rating
             $"{nameof(Main)}.L_SizeS", // scale rating

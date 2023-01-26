@@ -18,6 +18,7 @@ L_XKorean = Coreano
 L_XKoreanNon = No es coreano.
 L_XMatches0_1 = Coinciden: {0} {1}
 L_XOT = EO
+L_XRareFormEvo_0_1 = Evolves into form: {0} (rare: {1})
 L_XWurmpleEvo_0 = Evolución de Wurmple: {0}
 LAbilityCapsuleUsed = Habilidad disponible con una Cápsula Habilidad.
 LAbilityFlag = La habilidad coincide con el número de habilidad.

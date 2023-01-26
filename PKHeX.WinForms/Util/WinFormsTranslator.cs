@@ -45,6 +45,15 @@ public static class WinFormsTranslator
         form.ResumeLayout();
     }
 
+    internal static void TranslateControls(IEnumerable<Control> controls)
+    {
+        foreach (var c in controls)
+        {
+            foreach (var context in Context.Values)
+                context.GetTranslatedText(c.Name, c.Text);
+        }
+    }
+
     private static string GetSaneFormName(string formName)
     {
         // Strip out generic form names
