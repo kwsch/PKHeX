@@ -191,8 +191,8 @@ public partial class SizeCP : UserControl
         bool isScale3 = entity is IScaledSize3;
         MT_CP.Visible = L_CP.Visible = isCP;
         TB_HeightAbs.Visible = TB_WeightAbs.Visible = isAbsolute;
-        FLP_CP.Visible = isCP || isAbsolute; // Auto checkbox
         L_Scale.Visible = FLP_Scale3.Visible = isScale3;
+        FLP_CP.Visible = isCP || isAbsolute; // Auto checkbox
     }
 
     private void ClickScalarEntry(object sender, EventArgs e)

@@ -303,7 +303,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_HP.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HP.Name = "FLP_HP";
             this.FLP_HP.Size = new System.Drawing.Size(312, 24);
-            this.FLP_HP.TabIndex = 123;
+            this.FLP_HP.TabIndex = 1;
             // 
             // Label_HP
             // 
@@ -422,7 +422,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Atk.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Atk.Name = "FLP_Atk";
             this.FLP_Atk.Size = new System.Drawing.Size(312, 24);
-            this.FLP_Atk.TabIndex = 124;
+            this.FLP_Atk.TabIndex = 2;
             // 
             // Label_ATK
             // 
@@ -541,7 +541,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Def.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Def.Name = "FLP_Def";
             this.FLP_Def.Size = new System.Drawing.Size(312, 24);
-            this.FLP_Def.TabIndex = 125;
+            this.FLP_Def.TabIndex = 3;
             // 
             // Label_DEF
             // 
@@ -660,7 +660,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_SpA.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpA.Name = "FLP_SpA";
             this.FLP_SpA.Size = new System.Drawing.Size(312, 24);
-            this.FLP_SpA.TabIndex = 126;
+            this.FLP_SpA.TabIndex = 4;
             // 
             // FLP_SpALeft
             // 
@@ -672,7 +672,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_SpALeft.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpALeft.Name = "FLP_SpALeft";
             this.FLP_SpALeft.Size = new System.Drawing.Size(80, 24);
-            this.FLP_SpALeft.TabIndex = 124;
+            this.FLP_SpALeft.TabIndex = 4;
             // 
             // Label_SPA
             // 
@@ -802,7 +802,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_SpD.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SpD.Name = "FLP_SpD";
             this.FLP_SpD.Size = new System.Drawing.Size(312, 24);
-            this.FLP_SpD.TabIndex = 127;
+            this.FLP_SpD.TabIndex = 5;
             // 
             // Label_SPD
             // 
@@ -921,7 +921,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Spe.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Spe.Name = "FLP_Spe";
             this.FLP_Spe.Size = new System.Drawing.Size(312, 24);
-            this.FLP_Spe.TabIndex = 128;
+            this.FLP_Spe.TabIndex = 6;
             // 
             // Label_SPE
             // 
@@ -1041,7 +1041,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_StatsTotal.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this.FLP_StatsTotal.Name = "FLP_StatsTotal";
             this.FLP_StatsTotal.Size = new System.Drawing.Size(288, 24);
-            this.FLP_StatsTotal.TabIndex = 129;
+            this.FLP_StatsTotal.TabIndex = 7;
             // 
             // Label_Total
             // 
