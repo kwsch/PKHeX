@@ -18,6 +18,7 @@ L_XKorean = Coréen
 L_XKoreanNon = Non-Coréen
 L_XMatches0_1 = Correspondances : {0} {1}
 L_XOT = DO
+L_XRareFormEvo_0_1 = Evolves into form: {0} (rare: {1})
 L_XWurmpleEvo_0 = Évolution de Chenipotte : {0}
 LAbilityCapsuleUsed = Talent disponible avec la pilule Talent.
 LAbilityFlag = Le Talent correspond à son index.

@@ -18,6 +18,7 @@ L_XKorean = 한국어 버전 포켓몬
 L_XKoreanNon = 한국어 버전이 아닌 포켓몬
 L_XMatches0_1 = 일치: {0} {1}
 L_XOT = 어버이 (OT)
+L_XRareFormEvo_0_1 = Evolves into form: {0} (rare: {1})
 L_XWurmpleEvo_0 = 개무소 진화: {0}
 LAbilityCapsuleUsed = 특성캡슐로 바뀐 특성입니다.
 LAbilityFlag = 특성이 특성 번호와 일치합니다.

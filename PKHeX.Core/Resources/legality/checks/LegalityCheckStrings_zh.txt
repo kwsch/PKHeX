@@ -18,6 +18,7 @@ L_XKorean = 韩版
 L_XKoreanNon = 非韩版
 L_XMatches0_1 = 匹配: {0} {1}
 L_XOT = 初训家
+L_XRareFormEvo_0_1 = Evolves into form: {0} (rare: {1})
 L_XWurmpleEvo_0 = 刺尾虫进化形态: {0}
 LAbilityCapsuleUsed = 特性被特性胶囊改变。
 LAbilityFlag = 特性与特性序号一致。
