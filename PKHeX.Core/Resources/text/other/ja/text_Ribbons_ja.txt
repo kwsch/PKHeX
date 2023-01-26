@@ -149,7 +149,7 @@ RibbonMarkHumble	ぼくとつのあかし
 RibbonMarkThorny	ふじゅんのあかし
 RibbonMarkVigor	げんきのあかし
 RibbonMarkSlump	ふちょうのあかし
-RibbonHisui	Hisui
+RibbonHisui	ヒスイリボン
 RibbonTwinklingStar	トゥインクルスターリボン
 RibbonChampionPaldea	パルデア　チャンプリボン
 RibbonMarkJumbo	でっかいあかし
