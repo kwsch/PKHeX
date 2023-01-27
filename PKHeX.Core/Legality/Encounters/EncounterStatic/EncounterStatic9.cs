@@ -71,7 +71,7 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
 
         const byte rollCount = 1;
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9(pi.Gender, FlawlessIVCount, rollCount, height, weight, scale, Ability, Shiny);
+        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount, height, weight, scale, Ability, Shiny);
 
         ulong init = Util.Rand.Rand64();
         var success = this.TryApply64(pk9, init, param, criteria, IVs.IsSpecified);

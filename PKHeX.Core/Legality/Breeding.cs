@@ -127,6 +127,7 @@ public static class Breeding
         (int)Pikachu or (int)Eevee => false, // can't get these forms as egg
         (int)Pichu => false, // can't get Spiky Ear Pichu eggs
         (int)Floette when form == 5 => false, // can't get Eternal Flower from egg
+        (int)Greninja when form == 1 => false, // can't get Battle Bond Greninja from egg
         (int)Sinistea or (int)Polteageist => false, // can't get Antique eggs
         _ => true,
     };

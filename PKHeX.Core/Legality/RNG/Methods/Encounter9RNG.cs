@@ -110,7 +110,7 @@ public static class Encounter9RNG
             return false;
         pk.Gender = gender;
 
-        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : pk.Species == (int)Species.Toxtricity
+        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (byte)rand.NextInt(25);
         if (criteria.Nature != Nature.Random && nature != (int)criteria.Nature)
@@ -189,7 +189,7 @@ public static class Encounter9RNG
         if (pk.Gender != gender)
             return false;
 
-        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : pk.Species == (int)Species.Toxtricity
+        byte nature = enc.Nature != Nature.Random ? (byte)enc.Nature : enc.Species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rand, pk.Form)
                 : (byte)rand.NextInt(25);
         if (pk.Nature != nature)

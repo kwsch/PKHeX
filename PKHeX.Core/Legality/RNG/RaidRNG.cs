@@ -16,7 +16,7 @@ public static class RaidRNG
 
         Span<int> IVs = stackalloc int[6];
         LoadIVs(raid, IVs);
-        return Verify(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
+        return Verify(pk8, seed, IVs, raid.Species, raid.FlawlessIVCount, abil, ratio);
     }
 
     public static void ApplyDetailsTo<T>(this T raid, PK8 pk8, ulong seed) where T : EncounterStatic8Nest<T>
@@ -30,7 +30,7 @@ public static class RaidRNG
 
         Span<int> IVs = stackalloc int[6];
         LoadIVs(raid, IVs);
-        ApplyDetailsTo(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
+        ApplyDetailsTo(pk8, seed, IVs, raid.Species, raid.FlawlessIVCount, abil, ratio);
     }
 
     private static void LoadIVs<T>(T raid, Span<int> span) where T : EncounterStatic8Nest<T>
@@ -43,14 +43,14 @@ public static class RaidRNG
             span.Fill(-1);
     }
 
-    private static int RemapAbilityToParam(AbilityPermission a) => a switch
+    private static byte RemapAbilityToParam(AbilityPermission a) => a switch
     {
         AbilityPermission.Any12H => 254,
         AbilityPermission.Any12  => 255,
         _ => a.GetSingleValue(),
     };
 
-    private static bool Verify(PKM pk, ulong seed, Span<int> ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    private static bool Verify(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
     {
         var rng = new Xoroshiro128Plus(seed);
         var ec = (uint)rng.NextInt();
@@ -144,7 +144,7 @@ public static class RaidRNG
         }
 
         int nature = nature_param != -1 ? nature_param
-            : pk.Species == (int)Species.Toxtricity
+            : species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rng, pk.Form)
                 : (byte)rng.NextInt(25);
         if (pk.Nature != nature)
@@ -178,7 +178,7 @@ public static class RaidRNG
         }
     }
 
-    private static bool ApplyDetailsTo(PKM pk, ulong seed, Span<int> ivs, int iv_count, int ability_param, int gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    private static bool ApplyDetailsTo(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
     {
         var rng = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rng.NextInt();
@@ -251,7 +251,7 @@ public static class RaidRNG
         };
 
         int nature = nature_param != -1 ? nature_param
-            : pk.Species == (int)Species.Toxtricity
+            : species == (int)Species.Toxtricity
                 ? ToxtricityUtil.GetRandomNature(ref rng, pk.Form)
                 : (byte)rng.NextInt(25);
 

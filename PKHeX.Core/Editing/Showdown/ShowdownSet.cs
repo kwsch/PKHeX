@@ -139,6 +139,15 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private const int MaxMoveCount = 4;
 
+    // Skip lines that are too short or too long.
+    // Longest line is ~74 (Gen2 EVs)
+    // Length permitted: 3-80
+    // The shortest Pokémon name in Japanese is "ニ" (Ni) which is the name for the Pokémon, Nidoran♂ (male Nidoran). It has only one letter.
+    // We will handle this 1-2 letter edge case only if the line is the first line of the set, in the rare chance we are importing for a non-English language?
+    private const int MinLength = 3;
+    private const int MaxLength = 80;
+    private static bool IsLengthOutOfRange(ReadOnlySpan<char> trim) => (uint)(trim.Length - MinLength) > MaxLength + MinLength;
+    
     private void ParseLines(SpanLineEnumerator lines)
     {
         int movectr = 0;
@@ -146,8 +155,15 @@ public sealed class ShowdownSet : IBattleTemplate
         foreach (var line in lines)
         {
             ReadOnlySpan<char> trim = line.Trim();
-            if (trim.Length is <= 2 or >= 40)
+            if (IsLengthOutOfRange(trim))
             {
+                // Try for other languages just in case.
+                if (first && trim.Length != 0)
+                {
+                    ParseFirstLine(trim);
+                    first = false;
+                    continue;
+                }
                 InvalidLines.Add(line.ToString());
                 continue;
             }
@@ -170,8 +186,15 @@ public sealed class ShowdownSet : IBattleTemplate
         foreach (var line in lines)
         {
             ReadOnlySpan<char> trim = line.Trim();
-            if (trim.Length is <= 2 or >= 40)
+            if (IsLengthOutOfRange(trim))
             {
+                // Try for other languages just in case.
+                if (first && trim.Length != 0)
+                {
+                    ParseFirstLine(trim);
+                    first = false;
+                    continue;
+                }
                 InvalidLines.Add(line);
                 continue;
             }
@@ -680,7 +703,8 @@ public sealed class ShowdownSet : IBattleTemplate
         Span<char> type = stackalloc char[moveString.Length - hiddenPowerName.Length];
         moveString[hiddenPowerName.Length..].CopyTo(type);
         RemoveAll(ref type, ParenJunk); // Trim out excess data
-        int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types, type) - 1; // Get HP Type
+        type = type.Trim();
+        int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types.AsSpan(1), type); // Get HP Type
 
         HiddenPowerType = hpVal;
         if (!Array.TrueForAll(IVs, z => z == 31))

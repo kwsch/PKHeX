@@ -14,7 +14,7 @@ public enum AbilityPermission : sbyte
 
 public static class AbilityPermissionExtensions
 {
-    public static int GetSingleValue(this AbilityPermission value) => value switch
+    public static byte GetSingleValue(this AbilityPermission value) => value switch
     {
         OnlyFirst => 0,
         OnlySecond => 1,

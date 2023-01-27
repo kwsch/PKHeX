@@ -248,7 +248,7 @@ public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
             return true;
 
         byte gender = GetGender();
-        var param = new GenerateParam9(gender, FlawlessIVCount, 1, 0, 0, Scale, Ability, Shiny, Nature, IVs);
+        var param = new GenerateParam9(Species, gender, FlawlessIVCount, 1, 0, 0, Scale, Ability, Shiny, Nature, IVs);
         if (!Encounter9RNG.IsMatch(pk, param, seed))
             return true;
         return base.IsMatchPartial(pk);
@@ -269,7 +269,7 @@ public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
         const byte rollCount = 1;
         const byte undefinedSize = 0;
         byte gender = GetGender();
-        var param = new GenerateParam9(gender, FlawlessIVCount, rollCount,
+        var param = new GenerateParam9(Species, gender, FlawlessIVCount, rollCount,
             undefinedSize, undefinedSize, Scale,
             Ability, Shiny, Nature, IVs);
 

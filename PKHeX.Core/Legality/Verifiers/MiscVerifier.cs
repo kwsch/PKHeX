@@ -208,7 +208,7 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Sliggoo | (1 << 11), // Sliggoo-1
         (int)Species.Avalugg | (1 << 11), // Avalugg-1
         (int)Species.Decidueye | (1 << 11), // Decidueye-1
-        
+
         (int)Species.Wyrdeer,
         (int)Species.Kleavor,
         (int)Species.Ursaluna,

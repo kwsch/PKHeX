@@ -42,7 +42,7 @@ public class LegalityRejuvenator : IEntityRejuvenator
         // No egg encounters. Always not-egg.
         {
             result.Met_Location = enc.Location;
-            result.Egg_Location = Locations.Default8bNone;
+            result.Egg_Location = 0;
         }
 
         // Try again with rectified locations.
