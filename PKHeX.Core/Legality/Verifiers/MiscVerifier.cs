@@ -194,7 +194,6 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Zorua | (1 << 11), // Zorua-1
         (int)Species.Chespin, // Chespin
         (int)Species.Fennekin, // Fennekin
-        (int)Species.Froakie, // Froakie
         (int)Species.Carbink, // Carbink
         (int)Species.Rowlet, // Rowlet
         (int)Species.Grookey, // Grookey
