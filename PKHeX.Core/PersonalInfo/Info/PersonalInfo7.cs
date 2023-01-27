@@ -78,7 +78,7 @@ public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonal
     private const int CountTMHM = CountTM + CountHM;
     private const int ByteCountTM = (CountTMHM + 7) / 8;
     private const int TypeTutor = 0x38;
-    private const int TypeTutorCount = 7;
+    private const int TypeTutorCount = 8;
 
     public bool GetIsLearnTM(int index)
     {

@@ -163,31 +163,27 @@ public sealed class PK8 : G8PKM
 
     public void SanitizeImport()
     {
+        // BDSP->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
+        // PLA->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
         var ver = Version;
         if (ver is (int)GameVersion.SP)
         {
-            Met_Location = Locations.HOME_SHSP;
             Version = (int)GameVersion.SH;
-            if (Egg_Location != 0)
-                Egg_Location = Locations.HOME_SHSP;
+            Met_Location = Locations.HOME_SHSP;
+            Egg_Location = Egg_Location == Locations.Default8bNone ? 0 : Locations.HOME_SWSHBDSPEgg;
         }
         else if (ver is (int)GameVersion.BD)
         {
-            Met_Location = Locations.HOME_SWBD;
             Version = (int)GameVersion.SW;
-            if (Egg_Location != 0)
-                Egg_Location = Locations.HOME_SWBD;
+            Met_Location = Locations.HOME_SWBD;
+            Egg_Location = Egg_Location == Locations.Default8bNone ? 0 : Locations.HOME_SWSHBDSPEgg;
         }
         else if (ver is (int)GameVersion.PLA)
         {
-            Met_Location = Locations.HOME_SWLA;
+            const ushort met = Locations.HOME_SWLA;
             Version = (int)GameVersion.SW;
-            if (Egg_Location != 0)
-                Egg_Location = Locations.HOME_SWLA;
-        }
-        else if (ver > (int)GameVersion.PLA)
-        {
-            Met_Location = Met_Location <= Locations.HOME_SWLA ? Locations.HOME_SWLA : Locations.HOME_SWSHBDSPEgg;
+            Met_Location = met;
+            Egg_Location = 0; // Everything originating from this game has an Egg Location of 0.
         }
 
         if (Ball > (int)Core.Ball.Beast)

@@ -16,7 +16,7 @@ public static class StringUtil
     /// <param name="arr">Array of strings to search in</param>
     /// <param name="value">Value to search for</param>
     /// <returns>Index within <see cref="arr"/></returns>
-    public static int FindIndexIgnoreCase(string[] arr, ReadOnlySpan<char> value)
+    public static int FindIndexIgnoreCase(ReadOnlySpan<string> arr, ReadOnlySpan<char> value)
     {
         for (int i = 0; i < arr.Length; i++)
         {

@@ -31,10 +31,21 @@ public static class HiddenPower
         int hp = 0;
         for (int i = 0; i < 6; i++)
             hp |= (IVs[i] & 1) << i;
-        hp *= 0xF;
-        hp /= 0x3F;
-        return hp;
+        return SixBitType[hp];
     }
+
+    private static ReadOnlySpan<byte> SixBitType => new byte[]
+    {
+        // (low-bit mash) * 15 / 63
+        00, 00, 00, 00, 00, 01, 01, 01,
+        01, 02, 02, 02, 02, 03, 03, 03,
+        03, 04, 04, 04, 04, 05, 05, 05,
+        05, 05, 06, 06, 06, 06, 07, 07,
+        07, 07, 08, 08, 08, 08, 09, 09,
+        09, 09, 10, 10, 10, 10, 10, 11,
+        11, 11, 11, 12, 12, 12, 12, 13,
+        13, 13, 13, 14, 14, 14, 14, 15,
+    };
 
     /// <summary>
     /// Gets the current Hidden Power Type of the input <see cref="IVs"/> for Generations 1 &amp; 2
@@ -83,6 +94,10 @@ public static class HiddenPower
     /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
     public static bool SetIVsForType(int hpVal, Span<int> IVs)
     {
+        int current = GetType(IVs);
+        if (current == hpVal)
+            return true; // no mods necessary
+
         int flawlessCount = IVs.Count(31);
         if (flawlessCount == 0)
             return false;
@@ -92,10 +107,6 @@ public static class HiddenPower
             SetIVs(hpVal, IVs); // Get IVs
             return true;
         }
-
-        int current = GetType(IVs);
-        if (current == hpVal)
-            return true; // no mods necessary
 
         // Required HP type doesn't match IVs. Make currently-flawless IVs flawed.
         Span<int> scratch = stackalloc int[IVs.Length];
