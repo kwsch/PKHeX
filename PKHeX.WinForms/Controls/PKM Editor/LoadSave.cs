@@ -366,11 +366,15 @@ public partial class PKMEditor
 
         TB_HT.Text = handler;
         UC_HTGender.Gender = gender;
-        bool hasValue = handler.Length != 0;
-        L_CurrentHandler.Visible = CB_Handler.Visible = UC_HTGender.Visible = hasValue;
+        ToggleHandlerVisibility(handler.Length != 0);
 
         // Indicate who is currently in possession of the PKM
         UpadteHandlingTrainerBackground(pk.CurrentHandler);
+    }
+
+    private void ToggleHandlerVisibility(bool hasValue)
+    {
+        L_CurrentHandler.Visible = CB_Handler.Visible = UC_HTGender.Visible = hasValue;
     }
 
     private void UpadteHandlingTrainerBackground(int handler)
