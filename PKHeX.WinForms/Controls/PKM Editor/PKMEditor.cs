@@ -1350,16 +1350,18 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void UpdateNotOT(object sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(TB_HT.Text))
+        var text = TB_HT.Text;
+        if (string.IsNullOrWhiteSpace(text))
         {
             ClickGT(GB_OT, EventArgs.Empty); // Switch CT over to OT.
             UC_HTGender.Visible = false;
             UC_HTGender.Gender = 0;
             ReloadToFriendshipTextBox(Entity);
+            ToggleHandlerVisibility(false);
         }
         else if (!UC_HTGender.Visible)
         {
-            UC_HTGender.Visible = true;
+            ToggleHandlerVisibility(true);
         }
     }
 

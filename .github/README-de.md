@@ -24,7 +24,7 @@ PKHeX erwartet entschlüsselte Spielstände. Da diese konsolenspezifisch verschl
 
 ## Screenshots
 
-![Main Window](https://i.imgur.com/uXdJfRj.png)
+![Main Window](https://i.imgur.com/f2oF00t.png)
 
 ## Erstellen
 

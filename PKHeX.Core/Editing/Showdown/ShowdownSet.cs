@@ -147,7 +147,7 @@ public sealed class ShowdownSet : IBattleTemplate
     private const int MinLength = 3;
     private const int MaxLength = 80;
     private static bool IsLengthOutOfRange(ReadOnlySpan<char> trim) => (uint)(trim.Length - MinLength) > MaxLength + MinLength;
-    
+
     private void ParseLines(SpanLineEnumerator lines)
     {
         int movectr = 0;
@@ -610,7 +610,7 @@ public sealed class ShowdownSet : IBattleTemplate
         }
 
         // Form string present.
-        int end = speciesLine.LastIndexOf('-');
+        int end = speciesLine.IndexOf('-');
         if (end < 0)
             return false;
 

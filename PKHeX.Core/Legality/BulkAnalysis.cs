@@ -335,7 +335,7 @@ public sealed class BulkAnalysis
         // Trainer-ID-SID16 should only occur for one version
         if (IsSharedVersion(pp, pa, cp, ca))
         {
-            AddLine(ps, cs, "TID16 sharing across versions detected.", ident);
+            AddLine(ps, cs, "TID sharing across versions detected.", ident);
             return true;
         }
 
@@ -343,7 +343,7 @@ public sealed class BulkAnalysis
         if (pp.OT_Name != cp.OT_Name)
         {
             var severity = ca.Info.Generation == 4 ? Severity.Fishy : Severity.Invalid;
-            AddLine(ps, cs, "TID16 sharing across different trainer names detected.", ident, severity);
+            AddLine(ps, cs, "TID sharing across different trainer names detected.", ident, severity);
         }
 
         return false;

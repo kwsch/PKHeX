@@ -24,7 +24,7 @@ PKHeX espera archivos de guardado que no estén cifrados con las claves específ
 
 ## Capturas de Pantalla
 
-![Pantalla principal](https://i.imgur.com/hN1pwQa.png)
+![Pantalla principal](https://i.imgur.com/vQrE25t.png)
 
 ## Building
 

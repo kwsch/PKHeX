@@ -72,6 +72,19 @@ public sealed class PersonalInfo2 : PersonalInfo, IPersonalInfoTM, IPersonalInfo
     public void SetAllLearnTM(Span<bool> result, ReadOnlySpan<byte> moves)
     {
         var span = Data.AsSpan(TMHM, ByteCountTM);
+        if (result.Length <= Legal.MaxMoveID_1 + 1)
+        {
+            for (int index = CountTMHM - 1; index >= 0; index--)
+            {
+                if ((span[index >> 3] & (1 << (index & 7))) == 0)
+                    continue;
+                // If we're in a Gen1 context, we can't have Gen2 moves.
+                var move = moves[index];
+                if (move < result.Length)
+                    result[move] = true;
+            }
+            return;
+        }
         for (int index = CountTMHM - 1; index >= 0; index--)
         {
             if ((span[index >> 3] & (1 << (index & 7))) != 0)
