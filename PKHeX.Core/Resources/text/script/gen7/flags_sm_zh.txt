@@ -6,48 +6,49 @@
 1216	g	已领取 礼物科斯莫古
 0499	g	已领取 礼物属性:空
 0160	*	月轮 [0] / 日轮究极之洞 [1]
-3155	*	Unlocked IV Judge
-3113	s	Received Ride Pager
-3114	s	已解锁 肯泰羅衝撞
+3155	*	解锁个体检查
+3113	s	接收了骑乘寻呼机
+3114	s	已解锁 肯泰罗冲撞
 3115	s	已解锁 長毛狗搜尋
 3116	s	已解锁 怪力猛推
-3117	s	已解锁 重泥挽馬飛奔
+3117	s	已解锁 重泥挽马飛奔
 3118	s	已解锁 拉普拉斯游泳
-3119	s	已解锁 巨牙鯊噴射
-3120	s	已解锁 噴火龍飛行
-0168	g	Traded for Machop on Route 2
-0169	g	Traded for Bounsweet on Route 5
-0170	g	Traded for Poliwhirl in Konikoni City
-0171	g	Traded for Happiny in Malie City
-0172	g	Traded for Graveler in Tapu Village
-0173	g	Traded for Steene in Seafolk Village
-0174	g	Traded for Talonflame on Poni Gauntlet
-0789	s	Lillie Disappeared from Altar
-0791	s	Solgaleo/Lunala Disappeared from Altar
-0185	s	Had First Title Defense Battle
-0186	t	Encountered Hapu (Title Defense)
-2435	t	Defeated Hapu (Title Defense)
-0187	t	Encountered Gladion (Title Defense)
-2493	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
-2494	t	Defeated Gladion (Title Defense;Litten is Player Starter)
-2495	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
-0188	t	Encountered Ryuki (Title Defense)
-2485	t	Defeated Ryuki (Title Defense)
-0189	t	Encountered Faba (Title Defense)
-2436	t	Defeated Faba (Title Defense)
-0190	t	Encountered Hau (Title Defense)
-2432	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
-2433	t	Defeated Hau (Title Defense;Litten is Player Starter)
-2434	t	Defeated Hau (Title Defense;Popplio is Player Starter)
-0191	t	Encountered Sophocles (Title Defense)
-2481	t	Defeated Sophocles (Title Defense)
-0192	t	Encountered Molayne (Title Defense)
-2557	t	Defeated Molayne (Title Defense)
-0193	t	Encountered Kukui (Title Defense)
-2553	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
-2554	t	Defeated Kukui (Title Defense;Litten is Player Starter)
-2555	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
-0194	t	Encountered Plumeria (Title Defense)
-2477	t	Defeated Plumeria (Title Defense)
-0195	t	Encountered Youngster Tristan (Title Defense)
-2556	t	Defeated Youngster Tristan (Title Defense)
+3119	s	已解锁 巨牙鯊喷射
+3120	s	已解锁 喷火龙飛行
+0168	g	在2号道路交换了腕力
+0169	g	在5号道路交换了甜甜竹
+0170	g	在可霓可市交换了蚊香君
+0171	g	在马利埃静市交换了小福蛋
+0172	g	在卡璞村交换了隆隆石
+0173	g	在海洋居民之村交换了甜舞妮
+0174	g	在波尼险路交换了烈箭鹰
+0789	s	莉莉艾从祭坛上消失了
+0791	s	索尔迦雷欧/露娜雅拉从祭坛上消失了
+0185	s	进行了第一场冠军保卫战
+0186	t	遇到了哈普乌 (冠军保卫战)
+2435	t	击败了哈普乌 (冠军保卫战)
+0187	t	遇到了格拉吉欧 (冠军保卫战)
+2493	t	击败了格拉吉欧 (冠军保卫战;初始伙伴木木枭是队伍首发)
+2494	t	击败了格拉吉欧 (冠军保卫战;初始伙伴火斑喵是队伍首发)
+2495	t	击败了格拉吉欧 (冠军保卫战;初始伙伴球球海狮是队伍首发)
+0188	t	遇到了龙葵 (冠军保卫战)
+2485	t	击败了龙葵 (冠军保卫战)
+0189	t	遇到了扎奥博 (冠军保卫战)
+2436	t	击败了扎奥博 (冠军保卫战)
+0190	t	遇到了哈乌 (冠军保卫战)
+2432	t	击败了哈乌 (冠军保卫战;初始伙伴木木枭是队伍首发)
+2433	t	击败了哈乌 (冠军保卫战;初始伙伴火斑喵是队伍首发)
+2434	t	击败了哈乌 (冠军保卫战;初始伙伴球球海狮是队伍首发)
+0191	t	击败了哈乌 (冠军保卫战;初始伙伴球球海狮是队伍首发)
+0191	t	遇到了马玛内 (冠军保卫战)
+2481	t	击败了马玛内 (冠军保卫战)
+0192	t	遇到了马睿因 (冠军保卫战)
+2557	t	击败了马睿因 (冠军保卫战)
+0193	t	遇到了库库伊 (冠军保卫战)
+2553	t	击败了库库伊 (冠军保卫战;初始伙伴木木枭是队伍首发)
+2554	t	击败了库库伊 (冠军保卫战;初始伙伴火斑喵是队伍首发)
+2555	t	击败了库库伊 (冠军保卫战;初始伙伴球球海狮是队伍首发)
+0194	t	遇到了布尔美丽 (冠军保卫战)
+2477	t	击败了布尔美丽 (冠军保卫战)
+0195	t	遇到了短裤小子 (冠军保卫战)
+2556	t	击败了短裤小子 (冠军保卫战)

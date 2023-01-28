@@ -52,7 +52,7 @@
 1552	r	已捕获 奈克洛兹玛
 4370	r	(UM) 垒磊石在波尼树林
 4371	r	(US) 砰头小丑在波尼树林
-4115	*	Unlocked IV Judge
+4115	*	解锁个体检测
 4545	s	已解锁 电灯鱼360
 4546	s	已解锁 西狮海壬侧空翻
 4547	s	已解锁 宝石海星龙卷
@@ -66,54 +66,54 @@
 4445	+	已习得对战风格: 热情风格
 4446	+	已习得对战风格: 偶像风格
 4453	+	已习得对战风格: 虚无风格
-4073	s	Received Ride Pager
-4074	s	已解锁 肯泰羅衝撞
-4075	s	已解锁 長毛狗搜尋
+4073	s	接收骑乘寻呼机
+4074	s	已解锁 肯泰罗冲撞
+4075	s	已解锁 長毛狗搜寻
 4076	s	已解锁 怪力猛推
-4077	s	已解锁 重泥挽馬飛奔
+4077	s	已解锁 重泥挽马飛奔
 4078	s	已解锁 拉普拉斯游泳
-4079	s	已解锁 巨牙鯊噴射
-4080	s	已解锁 噴火龍飛行
-0168	g	Traded for Hawlucha on Route 2
-0169	g	Traded for Noibat on Route 5
-0170	g	Traded for Barboach on Royal Avenue
-0171	g	Traded for Arbok on Route 8
-0172	g	Traded for Phantump in Tapu Village
-0173	g	Traded for Shellos in Seafolk Village
-0174	g	Traded for Tauros on Poni Gauntlet
-1592	r	(UM) Defeated Route 15 Sandygast
-0607	r	Defeated Route 14 Frillish
-0547	r	Defeated Bewear in Hau'oli City
-4564	s	Trainers' School is Haunted (Seven Mysteries Event)
-0211	s	Lusamine's Mansion is NOT Team Rocket's Castle
-1730	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)
-1731	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 11)
-1732	r	Electrode Disappeared (Team Rocket's Castle Southeast Wing, side room)
-0185	t	Had First Title Defense Battle
-0186	t	Encountered Hapu (Title Defense)
-3395	t	Defeated Hapu (Title Defense)
-0187	t	Encountered Gladion (Title Defense)
-3453	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
-3454	t	Defeated Gladion (Title Defense;Litten is Player Starter)
-3455	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
-0188	t	Encountered Ryuki (Title Defense)
-3445	t	Defeated Ryuki (Title Defense)
-0189	t	Encountered Lusamine (Title Defense)
-3680	t	Defeated Lusamine (Title Defense)
-0190	t	Encountered Hau (Title Defense)
-3392	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
-3393	t	Defeated Hau (Title Defense;Litten is Player Starter)
-3394	t	Defeated Hau (Title Defense;Popplio is Player Starter)
-0191	t	Encountered Sophocles (Title Defense)
-3441	t	Defeated Sophocles (Title Defense)
-0192	t	Encountered Guzma (Title Defense)
-3683	t	Defeated Guzma (Title Defense)
-0193	t	Encountered Kukui (Title Defense)
-3513	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
-3514	t	Defeated Kukui (Title Defense;Litten is Player Starter)
-3515	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
-0194	t	Encountered Plumeria (Title Defense)
-3437	t	Defeated Plumeria (Title Defense)
-0195	t	Encountered Tristan (Title Defense)
-3516	t	Defeated Tristan (Title Defense)
-1698	s	Aether Paradise Mohn Event Inactive
+4079	s	已解锁 巨牙鯊喷射
+4080	s	已解锁 喷火龙飛行
+0168	g	在2号道路交换了摔角鹰人
+0169	g	在5号道路交换了嗡蝠
+0170	g	在皇家大道交换了泥泥鳅
+0171	g	在8号道路交换了阿柏怪
+0172	g	在卡噗村交换了小木灵
+0173	g	在海洋居民之村交换了无壳海兔
+0174	g	在波尼险路交换了肯泰罗
+1592	r	(UM) 击败15号道路的沙丘娃
+0607	r	击败14号道路的轻飘飘
+0547	r	击败好奥乐市的穿着熊
+4564	s	训练师学校闹鬼 (七大谜团事件)
+0211	s	露莎米奈的宅邸不是彩虹火箭队的城堡
+1730	r	电极消失 (彩虹火箭队城堡西南翼 侧室2)
+1731	r	电极消失 (彩虹火箭队的城堡西南翼 侧室11)
+1732	r	电极消失 (彩虹火箭队的城堡东南翼 侧室)
+0185	t	进行了第一场冠军保卫战
+0186	t	遇到了哈普乌 (冠军保卫战)
+3395	t	击败了哈普乌 (冠军保卫战)
+0187	t	遇到了格拉吉欧 (冠军保卫战)
+3453	t	击败了格拉吉欧 (冠军保卫战;初始伙伴木木枭是队伍首发)
+3454	t	击败了格拉吉欧 (冠军保卫战;初始伙伴火斑喵是队伍首发)
+3455	t	击败了格拉吉欧 (冠军保卫战;初始伙伴球球海狮是队伍首发)
+0188	t	遇到了龙葵 (冠军保卫战)
+3445	t	击败了龙葵 (冠军保卫战)
+0189	t	遇到了露莎米奈 (冠军保卫战)
+3680	t	击败了露莎米奈 (冠军保卫战)
+0190	t	遇到了哈乌 (冠军保卫战)
+3392	t	击败了哈乌 (冠军保卫战;初始伙伴木木枭是队伍首发)
+3393	t	击败了哈乌 (冠军保卫战;初始伙伴火斑喵是队伍首发)
+3394	t	击败了哈乌 (冠军保卫战;初始伙伴球球海狮是队伍首发)
+0191	t	遇到了马玛内 (冠军保卫战)
+3441	t	击败了马玛内 (冠军保卫战)
+0192	t	遇到了古兹马 (冠军保卫战)
+3683	t	击败了古兹马 (冠军保卫战)
+0193	t	遇到了库库伊 (冠军保卫战)
+3513	t	击败了库库伊 (冠军保卫战;初始伙伴木木枭是队伍首发)
+3514	t	击败了库库伊 (冠军保卫战;初始伙伴火斑喵是队伍首发)
+3515	t	击败了库库伊 (冠军保卫战;初始伙伴球球海狮是队伍首发)
+0194	t	遇到了布尔美丽 (冠军保卫战)
+3437	t	击败了布尔美丽 (冠军保卫战)
+0195	t	遇到了小明 (冠军保卫战)
+3516	t	击败了小明 (冠军保卫战)
+1698	s	以太乐园事件未激活
