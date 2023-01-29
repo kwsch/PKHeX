@@ -39,6 +39,12 @@ public class VerticalTabControl : TabControl
         graphics.DrawString(tab.Text, Font, text, bounds, flags);
         base.OnDrawItem(e);
     }
+
+    protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
+    {
+        base.ScaleControl(factor, specified);
+        ItemSize = new((int)(ItemSize.Height * factor.Height), (int)(ItemSize.Width * factor.Width));
+    }
 }
 
 public sealed class VerticalTabControlEntityEditor : VerticalTabControl

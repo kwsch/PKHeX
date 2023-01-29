@@ -153,7 +153,7 @@ public static class MoveListSuggest
         // Try again with the other split-breed species if possible.
         var generator = EncounterGenerator.GetGenerator(enc.Version);
         var tree = EvolutionTree.GetEvolutionTree(enc.Context);
-        var chain = tree.GetValidPreEvolutions(pk, 100, skipChecks: true);
+        var chain = tree.GetValidPreEvolutions(pk, 100, skipChecks: true, stopSpecies: enc.Species);
         var other = generator.GetPossible(pk, chain, enc.Version, EncounterTypeGroup.Egg);
         foreach (var incense in other)
         {
