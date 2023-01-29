@@ -8,7 +8,7 @@
 277	*	HAIHUEVENT_ID_D05 (阿尔宙斯)
 330	*	HAIHUEVENT_ID_C04 (玫瑰公园)
 
-157	*	WK_SCENE_GAME_START	00:略过开始动画,01:播放开始动画
+157	*	WK_SCENE_GAME_START	00:略过开场动画,01:播放开场动画
 
 363	g	WK_SCENE_T03_SP_MADAM (梦幻)	00:未接收,03:经已接收
 364	g	WK_SCENE_T03_SP_GENTLEMAN (基拉祈)	00:未接收,03:经已接收
