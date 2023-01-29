@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Logic to create an <see cref="EvolutionHistory"/>.
 /// </summary>
-internal static class EvolutionChain
+public static class EvolutionChain
 {
     public static EvolutionHistory GetEvolutionChainsAllGens(PKM pk, IEncounterTemplate enc)
     {
