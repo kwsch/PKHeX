@@ -24,7 +24,9 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
     {
         if (species > SAV.MaxSpeciesID)
             throw new ArgumentOutOfRangeException(nameof(species), species, null);
-        var span = Paldea.Data.AsSpan(species * EntrySize);
+
+        var internalSpecies = SpeciesConverter.GetInternal9(species);
+        var span = Paldea.Data.AsSpan(internalSpecies * EntrySize);
         return new PokeDexEntry9SV(span);
     }
 
@@ -165,36 +167,44 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
 
     private void SeenAll(ushort species, byte formCount, bool value = true, bool shinyToo = false)
     {
+        // Wipe existing gender flags.
+        var entry = Get(species);
+        entry.SetIsGenderSeen(0, false);
+        entry.SetIsGenderSeen(1, false);
+        if (value && !entry.IsSeen)
+            entry.SetSeen(value);
+        if (!value || shinyToo)
+            entry.SetSeenIsShiny(value);
+
         var pt = SAV.Personal;
         for (byte form = 0; form < formCount; form++)
         {
             var pi = pt.GetFormEntry(species, form);
-            var seenSpecies = value;
-            bool seenForm = seenSpecies && pi.IsPresentInGame;
-            SeenAll(species, form, pi, shinyToo, seenSpecies, seenForm);
+            bool seenForm = value && pi.IsPresentInGame;
+            SetIsFormSeen(entry, pi, form, seenForm);
         }
     }
+    
 
-    private void SeenAll(ushort species, byte form, IGenderDetail pi, bool shinyToo, bool seenSpecies, bool seenForm)
+    private static void SetIsFormSeen(PokeDexEntry9SV entry, IGenderDetail pi, byte form, bool seenForm)
     {
-        var entry = Get(species);
-        if (seenSpecies && !entry.IsSeen)
-            entry.SetSeen(seenSpecies);
+        entry.SetIsFormSeen(form, seenForm);
+        if (seenForm)
+            SetIsFormSeenGender(entry, pi);
+    }
 
-        if (!seenSpecies || (seenForm && pi.IsDualGender))
+    private static void SetIsFormSeenGender(PokeDexEntry9SV entry, IGenderDetail pi)
+    {
+        if (pi.IsDualGender)
         {
-            entry.SetIsGenderSeen(0, seenForm);
-            entry.SetIsGenderSeen(1, seenForm);
+            entry.SetIsGenderSeen(0, true);
+            entry.SetIsGenderSeen(1, true);
         }
         else
         {
             var gender = pi.FixedGender();
-            entry.SetIsGenderSeen(gender, seenForm);
+            entry.SetIsGenderSeen(gender, true);
         }
-        entry.SetIsFormSeen(form, seenForm);
-
-        if (!seenSpecies || shinyToo)
-            entry.SetSeenIsShiny(seenSpecies);
     }
 
     public override void CompleteDex(bool shinyToo = false)
