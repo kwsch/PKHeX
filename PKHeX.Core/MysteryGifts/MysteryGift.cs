@@ -27,23 +27,26 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
     /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
     public static DataMysteryGift? GetMysteryGift(byte[] data, ReadOnlySpan<char> ext) => data.Length switch
     {
-        PGT.Size when ext == ".pgt" => new PGT(data),
-        PCD.Size when ext is ".pcd" or ".wc4" => new PCD(data),
-        PGF.Size when ext == ".pgf" => new PGF(data),
-        WC6.Size when ext == ".wc6" => new WC6(data),
-        WC7.Size when ext == ".wc7" => new WC7(data),
-        WB7.Size when ext == ".wb7" => new WB7(data),
-        WR7.Size when ext == ".wr7" => new WR7(data),
-        WC8.Size when ext is ".wc8" or ".wc8full" => new WC8(data),
-        WB8.Size when ext is ".wb8" => new WB8(data),
-        WA8.Size when ext is ".wa8" => new WA8(data),
-        WC9.Size when ext is ".wc9" => new WC9(data),
+        PGT.Size when Equals(ext, ".pgt") => new PGT(data),
+        PCD.Size when Equals(ext, ".pcd", ".wc4") => new PCD(data),
+        PGF.Size when Equals(ext, ".pgf") => new PGF(data),
+        WC6.Size when Equals(ext, ".wc6") => new WC6(data),
+        WC7.Size when Equals(ext, ".wc7") => new WC7(data),
+        WB7.Size when Equals(ext, ".wb7") => new WB7(data),
+        WR7.Size when Equals(ext, ".wr7") => new WR7(data),
+        WC8.Size when Equals(ext, ".wc8", ".wc8full") => new WC8(data),
+        WB8.Size when Equals(ext, ".wb8") => new WB8(data),
+        WA8.Size when Equals(ext, ".wa8") => new WA8(data),
+        WC9.Size when Equals(ext, ".wc9") => new WC9(data),
 
-        WB7.SizeFull when ext == ".wb7full" => new WB7(data),
-        WC6Full.Size when ext == ".wc6full" => new WC6Full(data).Gift,
-        WC7Full.Size when ext == ".wc7full" => new WC7Full(data).Gift,
+        WB7.SizeFull when Equals(ext, ".wb7full") => new WB7(data),
+        WC6Full.Size when Equals(ext, ".wc6full") => new WC6Full(data).Gift,
+        WC7Full.Size when Equals(ext, ".wc7full") => new WC7Full(data).Gift,
         _ => null,
     };
+
+    private static bool Equals(ReadOnlySpan<char> c, ReadOnlySpan<char> cmp) => c.Equals(cmp, StringComparison.OrdinalIgnoreCase);
+    private static bool Equals(ReadOnlySpan<char> c, ReadOnlySpan<char> cmp1, ReadOnlySpan<char> cmp2) => Equals(c, cmp1) || Equals(c, cmp2);
 
     /// <summary>
     /// Converts the given data to a <see cref="MysteryGift"/>.
