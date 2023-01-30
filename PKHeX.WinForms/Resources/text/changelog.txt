@@ -1,7 +1,12 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/01/26 - New Update:
+23/01/30 - New Update:
+ - Fixed: Mystery Gift files now recognize via extension correctly.
+ - Fixed: Gen9 Pokédex bitflag get/set fixed (remapped species ID).
+ - Changed: GUI translations updated. Thanks @ppllouf, @riruo, @mi-ya1987 !
+
+23/01/26 - New Update: (33425) [6216411]
  - Changed: PKHeX now uses .NET 7 for its runtime (updated from .NET Framework 4.6)!
  - - Requires Windows 64bit operating system, with the .NET Desktop Runtime 7.0.x
  - - https://dotnet.microsoft.com/en-us/download/dotnet/7.0
