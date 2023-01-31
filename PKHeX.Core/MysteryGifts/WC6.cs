@@ -586,6 +586,21 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         return Species != pk.Species;
     }
 
+    public override GameVersion Version
+    {
+        get => RestrictVersion switch
+        {
+            1 => GameVersion.X,
+            2 => GameVersion.Y,
+            3 => GameVersion.XY,
+            4 => GameVersion.AS,
+            8 => GameVersion.OR,
+            12 => GameVersion.ORAS,
+            _ => GameVersion.Gen6,
+        };
+        set { }
+    }
+
     protected override bool IsMatchPartial(PKM pk)
     {
         if (RestrictLanguage != 0 && RestrictLanguage != pk.Language)

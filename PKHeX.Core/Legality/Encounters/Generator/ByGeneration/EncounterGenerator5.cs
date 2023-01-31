@@ -22,7 +22,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G5;
-            foreach (var enc in GetPossibleGifts(chain, table))
+            foreach (var enc in GetPossibleGifts(chain, table, game))
                 yield return enc;
         }
         if (groups.HasFlag(Egg))
@@ -51,10 +51,12 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<PGF> table)
+    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<PGF> table, GameVersion game)
     {
         foreach (var enc in table)
         {
+            if (!enc.CanBeReceivedByVersion((int)game))
+                continue;
             foreach (var evo in chain)
             {
                 if (evo.Species != enc.Species)

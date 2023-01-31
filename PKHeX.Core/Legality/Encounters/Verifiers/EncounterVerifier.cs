@@ -330,7 +330,7 @@ public static class EncounterVerifier
         switch (gift)
         {
             case PCD pcd:
-                if (!pcd.CanBeReceivedBy(pk.Version) && pcd.Gift.PK.Version == 0)
+                if (!pcd.CanBeReceivedByVersion(pk.Version) && pcd.Gift.PK.Version == 0)
                     return new CheckResult(Severity.Invalid, string.Format(L_XMatches0_1, gift.CardHeader, $"-- {LEncGiftVersionNotDistributed}"), CheckIdentifier.Encounter);
                 break;
         }

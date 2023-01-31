@@ -127,7 +127,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         return Gift.ConvertToPKM(tr, criteria);
     }
 
-    public bool CanBeReceivedBy(int pkmVersion) => ((CardCompatibility >> pkmVersion) & 1) == 1;
+    public bool CanBeReceivedByVersion(int pkmVersion) => ((CardCompatibility >> pkmVersion) & 1) == 1;
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
@@ -193,7 +193,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         return true;
     }
 
-    protected override bool IsMatchPartial(PKM pk) => CanBeReceivedBy(pk.Version);
+    protected override bool IsMatchPartial(PKM pk) => !CanBeReceivedByVersion(pk.Version);
     protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
 
     public bool RibbonEarth { get => Gift.RibbonEarth; set => Gift.RibbonEarth = value; }

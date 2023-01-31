@@ -23,6 +23,8 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     {
         if (v is < (int)GameVersion.SN or > (int)GameVersion.UM)
             return false;
+        if (CardID is 2046)
+            return v is (int)GameVersion.SN or (int)GameVersion.MN;
         if (RestrictVersion == 0)
             return true; // no data
         var bitIndex = v - (int)GameVersion.SN;
@@ -620,7 +622,21 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public override GameVersion Version
     {
-        get => CardID == 2046 ? GameVersion.SM : GameVersion.Gen7;
+        get
+        {
+            if (CardID == 2046)
+                return GameVersion.SM;
+            return RestrictVersion switch
+            {
+                1 => GameVersion.SN,
+                2 => GameVersion.MN,
+                3 => GameVersion.SM,
+                4 => GameVersion.US,
+                8 => GameVersion.UM,
+                12 => GameVersion.USUM,
+                _ => GameVersion.Gen7,
+            };
+        }
         set { }
     }
 
