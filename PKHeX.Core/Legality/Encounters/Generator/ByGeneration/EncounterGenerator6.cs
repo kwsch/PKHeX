@@ -16,7 +16,7 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G6;
-            foreach (var enc in GetPossibleGifts(chain, table))
+            foreach (var enc in GetPossibleGifts(chain, table, game))
                 yield return enc;
         }
         if (groups.HasFlag(Egg))
@@ -54,10 +54,12 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WC6> table)
+    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WC6> table, GameVersion game)
     {
         foreach (var enc in table)
         {
+            if (!enc.CanBeReceivedByVersion((int)game))
+                continue;
             foreach (var evo in chain)
             {
                 if (evo.Species != enc.Species)
@@ -146,28 +148,21 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         bool yielded = false;
         if (pk.FatefulEncounter || pk.Met_Location == Locations.LinkGift6)
         {
-            foreach (var mg in EncounterEvent.MGDB_G6)
+            foreach (var z in EncounterEvent.MGDB_G6)
             {
                 foreach (var evo in chain)
                 {
-                    if (mg.Species != evo.Species)
+                    if (z.Species != evo.Species)
                         continue;
-                    if (!mg.IsMatchExact(pk, evo))
+                    if (!z.IsMatchExact(pk, evo))
                         break;
 
-                    var match = mg.GetMatchRating(pk);
-                    if (match == Match)
+                    var match = z.GetMatchRating(pk);
+                    switch (match)
                     {
-                        yield return mg;
-                        yielded = true;
-                    }
-                    else if (match == Deferred)
-                    {
-                        deferred ??= mg;
-                    }
-                    else if (match == PartialMatch)
-                    {
-                        partial ??= mg;
+                        case Match: yield return z; yielded = true; break;
+                        case Deferred: deferred ??= z; break;
+                        case PartialMatch: partial ??= z; break;
                     }
                     break;
                 }

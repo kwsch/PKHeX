@@ -29,7 +29,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
                 yield return RangerManaphy;
 
             var table = EncounterEvent.MGDB_G4;
-            foreach (var enc in GetPossibleGifts(chain, table))
+            foreach (var enc in GetPossibleGifts(chain, table, game))
                 yield return enc;
         }
         if (groups.HasFlag(Egg))
@@ -58,10 +58,12 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<PCD> table)
+    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<PCD> table, GameVersion game)
     {
         foreach (var enc in table)
         {
+            if (!enc.CanBeReceivedByVersion((int)game))
+                continue;
             foreach (var evo in chain)
             {
                 if (evo.Species != enc.Species)

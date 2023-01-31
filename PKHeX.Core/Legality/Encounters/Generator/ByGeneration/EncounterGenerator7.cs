@@ -16,7 +16,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G7;
-            foreach (var enc in GetPossibleGifts(chain, table))
+            foreach (var enc in GetPossibleGifts(chain, table, game))
                 yield return enc;
         }
         if (groups.HasFlag(Egg))
@@ -45,10 +45,12 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WC7> table)
+    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WC7> table, GameVersion game)
     {
         foreach (var enc in table)
         {
+            if (!enc.CanBeReceivedByVersion((int)game))
+                continue;
             foreach (var evo in chain)
             {
                 if (evo.Species != enc.Species)
@@ -109,21 +111,42 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         var game = (GameVersion)pk.Version;
 
         bool yielded = false;
+        IEncounterable? deferred = null;
+        IEncounterable? partial = null;
+
         if (pk.FatefulEncounter)
         {
-            foreach (var mg in EncounterEvent.MGDB_G7)
+            foreach (var z in EncounterEvent.MGDB_G7)
             {
                 foreach (var evo in chain)
                 {
-                    if (mg.Species != evo.Species)
+                    if (z.Species != evo.Species)
                         continue;
 
-                    if (mg.IsMatchExact(pk, evo))
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    switch (match)
                     {
-                        yield return mg;
-                        yielded = true;
+                        case Match: yield return z; yielded = true; break;
+                        case Deferred: deferred ??= z; break;
+                        case PartialMatch: partial ??= z; break;
                     }
                     break;
+                }
+            }
+            if (!yielded)
+            {
+                if (deferred != null)
+                {
+                    yield return deferred;
+                    yielded = true;
+                }
+                if (partial != null)
+                {
+                    yield return partial;
+                    yielded = true;
                 }
             }
             if (yielded)
@@ -138,9 +161,6 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
             if (chain[^1].Species != (int)Species.Eevee) // Static encounter clash (gift egg)
                 yield break;
         }
-
-        IEncounterable? deferred = null;
-        IEncounterable? partial = null;
 
         var table = GetStatic(game);
         foreach (var z in table)
