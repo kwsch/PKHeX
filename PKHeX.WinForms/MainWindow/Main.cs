@@ -212,7 +212,7 @@ public partial class Main : Form
     {
         var date = $"{2000 + ver.Major:00}{ver.Minor:00}{ver.Build:00}";
         L_UpdateAvailable.Text = $"{MsgProgramUpdateAvailable} {date}";
-        L_UpdateAvailable.Click += (_, _) => Process.Start(ThreadPath);
+        L_UpdateAvailable.Click += (_, _) => Process.Start(new ProcessStartInfo(ThreadPath) { UseShellExecute = true });
         L_UpdateAvailable.Visible = true;
     }
 
