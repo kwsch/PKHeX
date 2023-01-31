@@ -1,6 +1,6 @@
 148	*	御三家	00:木木枭,01:火斑喵,02:球球海狮
-432	r	卡璞鸣鸣	03:可对战,04:已击倒,05:已捕获
-433	r	卡璞蝶蝶	01:可对战,02:已击倒,03:已捕获
-434	r	卡璞哞哞	01:可对战,02:已击倒,03:已捕获
-404	r	卡璞鳍鳍	03:可对战,04:已击倒,05:已捕获
+432	r	卡璞·鸣鸣	03:可对战,04:已击倒,05:已捕获
+433	r	卡璞·蝶蝶	01:可对战,02:已击倒,03:已捕获
+434	r	卡璞·哞哞	01:可对战,02:已击倒,03:已捕获
+404	r	卡璞·鳍鳍	03:可对战,04:已击倒,05:已捕获
 418	r	Solgaleo/Lunala Interaction	0:Travels to Ultra Space (Before Encounter),2:Travels to Ultra Space (Entered Ultra Space),3:Travels to Ultra Space (Found Guzma),4:Initiates Battle (Defeated Lusamine)
