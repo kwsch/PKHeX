@@ -277,7 +277,9 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
     private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)
     {
-        if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Rotom or (int)Species.Castform)
+        if (species == (int)Species.Scatterbug)
+            form = Vivillon3DS.FancyFormID; // Fancy
+        else if (FormInfo.IsBattleOnlyForm(species, form, Generation) || species is (int)Species.Rotom or (int)Species.Castform)
             form = FormInfo.GetOutOfBattleForm(species, form, Generation);
         return new EncounterEgg(species, form, EggLevel, Generation, version, Context);
     }
