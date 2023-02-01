@@ -38,7 +38,7 @@ public static class EncounterMovesetGenerator
         if (!IsSane(pk, moves))
             yield break;
 
-        pk.TID16 = info.TID16; // Necessary for Gen2 Headbutt encounters.
+        OptimizeCriteria(pk, info);
         var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
         foreach (var ver in vers)
         {
@@ -70,7 +70,7 @@ public static class EncounterMovesetGenerator
         if (!IsSane(pk, moves))
             yield break;
 
-        pk.TID16 = info.TID16; // Necessary for Gen2 Headbutt encounters.
+        OptimizeCriteria(pk, info);
         var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
         foreach (var ver in vers)
         {
@@ -78,6 +78,19 @@ public static class EncounterMovesetGenerator
             foreach (var enc in encounters)
                 yield return enc;
         }
+    }
+
+    /// <summary>
+    /// Adapts the input <see cref="pk"/> so that it may match as many encounters as possible (indications of trades to other game pairs, etc).
+    /// </summary>
+    /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
+    /// <param name="info">Trainer information of the receiver.</param>
+    public static void OptimizeCriteria(PKM pk, ITrainerID16 info)
+    {
+        pk.TID16 = info.TID16; // Necessary for Gen2 Headbutt encounters.
+        var htTrash = pk.HT_Trash;
+        if (htTrash.Length != 0)
+            htTrash[0] = 1; // Fake Trash to indicate trading.
     }
 
     /// <summary>
