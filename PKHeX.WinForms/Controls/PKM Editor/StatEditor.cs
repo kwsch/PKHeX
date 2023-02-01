@@ -481,8 +481,8 @@ public partial class StatEditor : UserControl
         if (NatureAmp.IsNeutralOrInvalid(nature, up, dn))
             return "-/-";
 
-        var incr = L_Stats[up];
-        var decr = L_Stats[dn];
+        var incr = L_Stats[up + 1];
+        var decr = L_Stats[dn + 1];
         incr.ForeColor = StatIncreased;
         decr.ForeColor = StatDecreased;
         return $"+{incr.Text} / -{decr.Text}".Replace(":", "");
