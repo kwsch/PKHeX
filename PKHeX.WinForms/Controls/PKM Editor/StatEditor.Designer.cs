@@ -121,9 +121,10 @@ namespace PKHeX.WinForms.Controls
             this.CB_TeraTypeOverride = new System.Windows.Forms.ComboBox();
             this.PB_TeraType = new System.Windows.Forms.PictureBox();
             this.PAN_BTN = new System.Windows.Forms.Panel();
-            this.BTN_RandomAVs = new System.Windows.Forms.Button();
+            this.FLP_PKMEditors = new System.Windows.Forms.FlowLayoutPanel();
             this.BTN_RandomIVs = new System.Windows.Forms.Button();
             this.BTN_RandomEVs = new System.Windows.Forms.Button();
+            this.BTN_RandomAVs = new System.Windows.Forms.Button();
             this.FLP_DynamaxLevel = new System.Windows.Forms.FlowLayoutPanel();
             this.L_DynamaxLevel = new System.Windows.Forms.Label();
             this.CB_DynamaxLevel = new System.Windows.Forms.ComboBox();
@@ -159,6 +160,7 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType)).BeginInit();
             this.PAN_BTN.SuspendLayout();
+            this.FLP_PKMEditors.SuspendLayout();
             this.FLP_DynamaxLevel.SuspendLayout();
             this.FLP_AlphaNoble.SuspendLayout();
             this.SuspendLayout();
@@ -1142,7 +1144,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_HPType.Location = new System.Drawing.Point(0, 198);
             this.FLP_HPType.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HPType.Name = "FLP_HPType";
-            this.FLP_HPType.Size = new System.Drawing.Size(256, 24);
+            this.FLP_HPType.Size = new System.Drawing.Size(272, 24);
             this.FLP_HPType.TabIndex = 10;
             // 
             // Label_HiddenPowerPrefix
@@ -1163,7 +1165,7 @@ namespace PKHeX.WinForms.Controls
             this.CB_HPType.Location = new System.Drawing.Point(152, 0);
             this.CB_HPType.Margin = new System.Windows.Forms.Padding(0);
             this.CB_HPType.Name = "CB_HPType";
-            this.CB_HPType.Size = new System.Drawing.Size(72, 23);
+            this.CB_HPType.Size = new System.Drawing.Size(88, 23);
             this.CB_HPType.TabIndex = 44;
             this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.UpdateHPType);
             // 
@@ -1171,7 +1173,7 @@ namespace PKHeX.WinForms.Controls
             // 
             this.Label_HiddenPowerPower.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Label_HiddenPowerPower.Location = new System.Drawing.Point(224, 0);
+            this.Label_HiddenPowerPower.Location = new System.Drawing.Point(240, 0);
             this.Label_HiddenPowerPower.Margin = new System.Windows.Forms.Padding(0);
             this.Label_HiddenPowerPower.Name = "Label_HiddenPowerPower";
             this.Label_HiddenPowerPower.Size = new System.Drawing.Size(32, 24);
@@ -1329,31 +1331,37 @@ namespace PKHeX.WinForms.Controls
             // PAN_BTN
             // 
             this.PAN_BTN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.PAN_BTN.Controls.Add(this.BTN_RandomAVs);
-            this.PAN_BTN.Controls.Add(this.BTN_RandomIVs);
-            this.PAN_BTN.Controls.Add(this.BTN_RandomEVs);
+            this.PAN_BTN.Controls.Add(this.FLP_PKMEditors);
             this.PAN_BTN.Location = new System.Drawing.Point(0, 326);
             this.PAN_BTN.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
             this.PAN_BTN.Name = "PAN_BTN";
             this.PAN_BTN.Size = new System.Drawing.Size(288, 24);
             this.PAN_BTN.TabIndex = 20;
             // 
-            // BTN_RandomAVs
+            // FLP_PKMEditors
             // 
-            this.BTN_RandomAVs.Location = new System.Drawing.Point(136, 0);
-            this.BTN_RandomAVs.Name = "BTN_RandomAVs";
-            this.BTN_RandomAVs.Size = new System.Drawing.Size(104, 24);
-            this.BTN_RandomAVs.TabIndex = 3;
-            this.BTN_RandomAVs.Text = "Randomize AVs";
-            this.BTN_RandomAVs.UseVisualStyleBackColor = true;
-            this.BTN_RandomAVs.Click += new System.EventHandler(this.UpdateRandomAVs);
+            this.FLP_PKMEditors.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_PKMEditors.AutoSize = true;
+            this.FLP_PKMEditors.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.FLP_PKMEditors.Controls.Add(this.BTN_RandomIVs);
+            this.FLP_PKMEditors.Controls.Add(this.BTN_RandomEVs);
+            this.FLP_PKMEditors.Controls.Add(this.BTN_RandomAVs);
+            this.FLP_PKMEditors.Location = new System.Drawing.Point(32, 0);
+            this.FLP_PKMEditors.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_PKMEditors.Name = "FLP_PKMEditors";
+            this.FLP_PKMEditors.Size = new System.Drawing.Size(301, 25);
+            this.FLP_PKMEditors.TabIndex = 123;
+            this.FLP_PKMEditors.WrapContents = false;
             // 
             // BTN_RandomIVs
             // 
-            this.BTN_RandomIVs.Location = new System.Drawing.Point(32, 0);
-            this.BTN_RandomIVs.Margin = new System.Windows.Forms.Padding(0);
+            this.BTN_RandomIVs.AutoSize = true;
+            this.BTN_RandomIVs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_RandomIVs.Location = new System.Drawing.Point(0, 0);
+            this.BTN_RandomIVs.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.BTN_RandomIVs.Name = "BTN_RandomIVs";
-            this.BTN_RandomIVs.Size = new System.Drawing.Size(104, 24);
+            this.BTN_RandomIVs.Size = new System.Drawing.Size(94, 25);
             this.BTN_RandomIVs.TabIndex = 0;
             this.BTN_RandomIVs.Text = "Randomize IVs";
             this.BTN_RandomIVs.UseVisualStyleBackColor = true;
@@ -1361,13 +1369,29 @@ namespace PKHeX.WinForms.Controls
             // 
             // BTN_RandomEVs
             // 
-            this.BTN_RandomEVs.Location = new System.Drawing.Point(136, 0);
+            this.BTN_RandomEVs.AutoSize = true;
+            this.BTN_RandomEVs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_RandomEVs.Location = new System.Drawing.Point(98, 0);
+            this.BTN_RandomEVs.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.BTN_RandomEVs.Name = "BTN_RandomEVs";
-            this.BTN_RandomEVs.Size = new System.Drawing.Size(104, 24);
+            this.BTN_RandomEVs.Size = new System.Drawing.Size(97, 25);
             this.BTN_RandomEVs.TabIndex = 2;
             this.BTN_RandomEVs.Text = "Randomize EVs";
             this.BTN_RandomEVs.UseVisualStyleBackColor = true;
             this.BTN_RandomEVs.Click += new System.EventHandler(this.UpdateRandomEVs);
+            // 
+            // BTN_RandomAVs
+            // 
+            this.BTN_RandomAVs.AutoSize = true;
+            this.BTN_RandomAVs.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BTN_RandomAVs.Location = new System.Drawing.Point(199, 0);
+            this.BTN_RandomAVs.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.BTN_RandomAVs.Name = "BTN_RandomAVs";
+            this.BTN_RandomAVs.Size = new System.Drawing.Size(98, 25);
+            this.BTN_RandomAVs.TabIndex = 3;
+            this.BTN_RandomAVs.Text = "Randomize AVs";
+            this.BTN_RandomAVs.UseVisualStyleBackColor = true;
+            this.BTN_RandomAVs.Click += new System.EventHandler(this.UpdateRandomAVs);
             // 
             // FLP_DynamaxLevel
             // 
@@ -1506,6 +1530,9 @@ namespace PKHeX.WinForms.Controls
             ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_TeraType)).EndInit();
             this.PAN_BTN.ResumeLayout(false);
+            this.PAN_BTN.PerformLayout();
+            this.FLP_PKMEditors.ResumeLayout(false);
+            this.FLP_PKMEditors.PerformLayout();
             this.FLP_DynamaxLevel.ResumeLayout(false);
             this.FLP_DynamaxLevel.PerformLayout();
             this.FLP_AlphaNoble.ResumeLayout(false);
@@ -1618,5 +1645,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.FlowLayoutPanel FLP_TeraTypeDefaultPane;
         private PKHeX.WinForms.Controls.TypePictureBox PB_TeraType2;
         private PKHeX.WinForms.Controls.TypePictureBox PB_TeraType1;
+        private System.Windows.Forms.FlowLayoutPanel FLP_PKMEditors;
     }
 }

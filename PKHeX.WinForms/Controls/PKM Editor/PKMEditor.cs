@@ -1956,6 +1956,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var firstTabArea = Hidden_Main; // first is always initialized
         FLP_PKMEditors.HorizontallyCenter(firstTabArea);
         FLP_MoveFlags.HorizontallyCenter(firstTabArea);
+        Stats.CenterSubEditors();
     }
 
     public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)

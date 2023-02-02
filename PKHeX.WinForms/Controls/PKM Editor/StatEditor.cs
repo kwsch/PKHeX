@@ -728,6 +728,11 @@ public partial class StatEditor : UserControl
         if (!ChangingFields)
             ((PKMEditor)MainEditor).UpdateSprite();
     }
+
+    public void CenterSubEditors()
+    {
+        FLP_PKMEditors.HorizontallyCenter(this);
+    }
 }
 
 public sealed class TypePictureBox : PictureBox
