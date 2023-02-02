@@ -124,7 +124,7 @@ public sealed record EncounterStatic4(GameVersion Version) : EncounterStatic(Ver
         var value = location - first;
         if ((uint)value >= 64)
             return false;
-        return (permit & (1u << value)) != 0;
+        return (permit & (1ul << value)) != 0;
     }
 
     public static bool IsMatchRoamerLocation(uint permit, int location, int first)
