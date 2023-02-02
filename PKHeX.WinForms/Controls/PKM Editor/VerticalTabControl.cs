@@ -43,7 +43,7 @@ public class VerticalTabControl : TabControl
     protected override void ScaleControl(SizeF factor, BoundsSpecified specified)
     {
         base.ScaleControl(factor, specified);
-        ItemSize = new(height: (int)(ItemSize.Height * factor.Height), width: (int)(ItemSize.Width * factor.Width)); ;
+        ItemSize = new((int)(ItemSize.Width * factor.Width), (int)(ItemSize.Height * factor.Height));
     }
 }
 

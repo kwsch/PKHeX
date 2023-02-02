@@ -441,7 +441,7 @@ public partial class SAV_Wondercard : Form
         string newfile = Path.Combine(Path.GetTempPath(), Util.CleanFileName(gift.FileName));
         try
         {
-            File.WriteAllBytes(newfile, gift.Write());
+            await File.WriteAllBytesAsync(newfile, gift.Write()).ConfigureAwait(true);
             DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Copy | DragDropEffects.Move);
         }
         // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.

@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 public static class Vivillon3DS
 {
     public const byte MaxWildFormID = 17; // 0-17 valid form indexes
+    public const byte FancyFormID = 18;
 
     private sealed class CountryTable
     {
