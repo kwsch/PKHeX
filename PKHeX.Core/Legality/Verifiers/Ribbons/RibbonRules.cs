@@ -119,8 +119,6 @@ public static class RibbonRules
             return false;
         if (Legal.SubLegends.Contains(species))
             return false;
-        if (Legal.IsParadox(species))
-            return false;
 
         var pt = PersonalTable.SV;
         var pi = pt.GetFormEntry(species, pk.Form);

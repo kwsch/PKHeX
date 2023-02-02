@@ -20,6 +20,9 @@ public partial class RibbonEditor : Form
 
     private const int AffixedNone = -1;
 
+    private bool EnableBackgroundChange;
+    private Control? LastToggledOn;
+
     public RibbonEditor(PKM pk)
     {
         Entity = pk;
@@ -37,6 +40,7 @@ public partial class RibbonEditor : Form
         TLP_Ribbons.ResumeLayout();
 
         InitializeAffixed(pk);
+        EnableBackgroundChange = true;
     }
 
     private void InitializeAffixed(PKM pk)
@@ -192,6 +196,8 @@ public partial class RibbonEditor : Form
                 throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
             pb.Visible = (rib.RibbonCount = (byte)nud.Value) != 0;
             pb.BackgroundImage = RibbonSpriteUtil.GetRibbonSprite(rib.Name, (int)nud.Maximum, (int)nud.Value);
+
+            ToggleNewRibbon(rib, pb);
         };
 
         // Setting value will trigger above event
@@ -219,6 +225,8 @@ public partial class RibbonEditor : Form
             if (control is null)
                 throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
             control.Visible = rib.HasRibbon;
+
+            ToggleNewRibbon(rib, control);
         };
 
         // Setting value will trigger above event
@@ -226,6 +234,16 @@ public partial class RibbonEditor : Form
         TLP_Ribbons.Controls.Add(chk, 0, row);
 
         label.Click += (s, e) => chk.Checked ^= true;
+    }
+
+    private void ToggleNewRibbon(RibbonInfo rib, Control pb)
+    {
+        if (!EnableBackgroundChange)
+            return;
+        if (LastToggledOn is not null)
+            LastToggledOn.BackColor = Color.Transparent;
+        pb.BackColor = rib.HasRibbon ? Color.LightBlue : Color.Transparent;
+        LastToggledOn = pb;
     }
 
     private void Save()
@@ -247,10 +265,12 @@ public partial class RibbonEditor : Form
             return;
         }
 
+        EnableBackgroundChange = false;
         foreach (var c in TLP_Ribbons.Controls.OfType<CheckBox>())
             c.Checked = true;
         foreach (var n in TLP_Ribbons.Controls.OfType<NumericUpDown>())
             n.Value = n.Maximum;
+        EnableBackgroundChange = true;
     }
 
     private void B_None_Click(object sender, EventArgs e)
