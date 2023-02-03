@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -21,6 +22,9 @@ public partial class SAV_Misc5 : Form
     private int[] FlyDestC = null!;
     private const int ofsRoamer = 0x21B00;
     private const int ofsLibPass = 0x212BC;
+    private const int ofsRoamStatus = 0x20270 + 0x10;
+    private const int ofsForestCity = 0x1FA00;
+    private const int ofsForestCitySize = 0x1E8;
     private const uint keyLibPass = 2010_04_06; // 0x132B536
     private uint valLibPass;
     private bool bLibPass;
@@ -141,6 +145,22 @@ public partial class SAV_Misc5 : Form
                 cbr[i].SelectedValue = c;
             }
 
+            // Roamer status
+            // If you wish to re-catch thundurus/tornadus,
+            // set the status to "Go to route 7" and head
+            // to the cabin in where old grandpa and grandma live
+            // located at route 7.
+            {
+                int c = SAV.Data[ofsRoamStatus];
+                var states = GetRoamStatusStates();
+                if (states.All(z => z.Value != c))
+                    states.Add(new ComboItem($"Unknown (0x{c:X2})", c));
+                CB_RoamStatus.Items.Clear();
+                CB_RoamStatus.InitializeBinding();
+                CB_RoamStatus.DataSource = new BindingSource(states, null);
+                CB_RoamStatus.SelectedValue = c;
+            }
+
             // LibertyPass
             valLibPass = keyLibPass ^ SAV.ID32;
             bLibPass = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsLibPass)) == valLibPass;
@@ -148,6 +168,7 @@ public partial class SAV_Misc5 : Form
         }
         else if (SAV is SAV5B2W2)
         {
+            TC_Misc.TabPages.Remove(TAB_BWCityForest);
             GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
             // KeySystem
             string[] KeySystemA =
@@ -169,6 +190,7 @@ public partial class SAV_Misc5 : Form
         }
         else
         {
+            TC_Misc.TabPages.Remove(TAB_BWCityForest);
             GB_KeySystem.Visible = GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
         }
     }
@@ -179,6 +201,13 @@ public partial class SAV_Misc5 : Form
         new ComboItem("Roaming", 1),
         new ComboItem("Defeated", 2),
         new ComboItem("Captured", 3),
+    };
+
+    private static List<ComboItem> GetRoamStatusStates() => new()
+    {
+        new ComboItem("Not happened", 0),
+        new ComboItem("Go to route 7", 1),
+        new ComboItem("Event finished", 3),
     };
 
     private void SaveMain()
@@ -216,6 +245,16 @@ public partial class SAV_Misc5 : Form
                     continue;
                 SAV.Data.AsSpan(ofsRoamer + 4 + (i * 0x14), 14).Clear();
                 SAV.Data[ofsRoamer + 0x2C + i] = 0;
+            }
+
+            // RoamStatus
+            {
+                int c = SAV.Data[ofsRoamStatus];
+                var d = (ushort)WinFormsUtil.GetIndex(CB_RoamStatus);
+                if (c != d)
+                {
+                    SAV.Data[ofsRoamStatus] = (byte)d;
+                }
             }
 
             // LibertyPass
@@ -725,5 +764,25 @@ public partial class SAV_Misc5 : Form
         SAV.Musical.UnlockAllMusicalProps();
         B_UnlockAllMusicalProps.Enabled = false;
         System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void B_DumpFC_Click(object sender, EventArgs e)
+    {
+        using var sfd = new SaveFileDialog { Filter = "Forest/City Data|*.bin", FileName = "fc.bin" };
+        if (sfd.ShowDialog() != DialogResult.OK)
+            return;
+        File.WriteAllBytes(sfd.FileName, SAV.Data.AsSpan(ofsForestCity, ofsForestCitySize).ToArray());
+    }
+    
+    private void B_ImportFC_Click(object sender, EventArgs e)
+    {
+        using var ofd = new OpenFileDialog { Filter = "Forest/City Data|*.bin", FileName = "fc.bin", };
+        if (ofd.ShowDialog() != DialogResult.OK)
+            return;
+        if (new FileInfo(ofd.FileName).Length != ofsForestCitySize)
+        { WinFormsUtil.Alert("Invalid file length"); return; }
+
+        byte[] data = File.ReadAllBytes(ofd.FileName);
+        data.AsSpan().CopyTo(SAV.Data.AsSpan(ofsForestCity, ofsForestCitySize));
     }
 }
