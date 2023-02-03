@@ -20,9 +20,9 @@ public partial class SAV_Misc5 : Form
     private ComboBox[] cbr = null!;
     private int ofsFly;
     private int[] FlyDestC = null!;
+    private const int WorkRoamer = 192;
     private const int ofsRoamer = 0x21B00;
     private const int ofsLibPass = 0x212BC;
-    private const int ofsRoamStatus = 0x20270 + 0x10;
     private const int ofsForestCity = 0x1FA00;
     private const int ofsForestCitySize = 0x1E8;
     private const uint keyLibPass = 2010_04_06; // 0x132B536
@@ -151,14 +151,14 @@ public partial class SAV_Misc5 : Form
             // to the cabin in where old grandpa and grandma live
             // located at route 7.
             {
-                int c = SAV.Data[ofsRoamStatus];
+                var current = SAV.GetWork(WorkRoamer);
                 var states = GetRoamStatusStates();
-                if (states.All(z => z.Value != c))
-                    states.Add(new ComboItem($"Unknown (0x{c:X2})", c));
+                if (states.All(z => z.Value != current))
+                    states.Add(new ComboItem($"Unknown (0x{current:X2})", current));
                 CB_RoamStatus.Items.Clear();
                 CB_RoamStatus.InitializeBinding();
                 CB_RoamStatus.DataSource = new BindingSource(states, null);
-                CB_RoamStatus.SelectedValue = c;
+                CB_RoamStatus.SelectedValue = (int)current;
             }
 
             // LibertyPass
@@ -249,12 +249,10 @@ public partial class SAV_Misc5 : Form
 
             // RoamStatus
             {
-                int c = SAV.Data[ofsRoamStatus];
-                var d = (ushort)WinFormsUtil.GetIndex(CB_RoamStatus);
-                if (c != d)
-                {
-                    SAV.Data[ofsRoamStatus] = (byte)d;
-                }
+                int current = SAV.GetWork(192);
+                var desired = (ushort)WinFormsUtil.GetIndex(CB_RoamStatus);
+                if (current != desired)
+                    SAV.SetWork(WorkRoamer, desired);
             }
 
             // LibertyPass
@@ -766,23 +764,33 @@ public partial class SAV_Misc5 : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
+    private const string ForestCityBinFilter = "Forest City Bin|*.fc5";
+    private const string ForestCityBinPath = "{0}.fc5";
+
     private void B_DumpFC_Click(object sender, EventArgs e)
     {
-        using var sfd = new SaveFileDialog { Filter = "Forest/City Data|*.bin", FileName = "fc.bin" };
+        using var sfd = new SaveFileDialog { Filter = ForestCityBinFilter, FileName = string.Format(ForestCityBinPath, SAV.Version) };
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
-        File.WriteAllBytes(sfd.FileName, SAV.Data.AsSpan(ofsForestCity, ofsForestCitySize).ToArray());
+
+        var data = SAV.GetData(ofsForestCity, ofsForestCitySize);
+        File.WriteAllBytes(sfd.FileName, data);
     }
-    
+
     private void B_ImportFC_Click(object sender, EventArgs e)
     {
-        using var ofd = new OpenFileDialog { Filter = "Forest/City Data|*.bin", FileName = "fc.bin", };
+        using var ofd = new OpenFileDialog { Filter = ForestCityBinFilter, FileName = string.Format(ForestCityBinPath, SAV.Version) };
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
-        if (new FileInfo(ofd.FileName).Length != ofsForestCitySize)
-        { WinFormsUtil.Alert("Invalid file length"); return; }
 
-        byte[] data = File.ReadAllBytes(ofd.FileName);
-        data.AsSpan().CopyTo(SAV.Data.AsSpan(ofsForestCity, ofsForestCitySize));
+        var fi = new FileInfo(ofd.FileName);
+        if (fi.Length != ofsForestCitySize)
+        {
+            WinFormsUtil.Alert(string.Format(MessageStrings.MsgFileSizeIncorrect, fi.Length, ofsForestCitySize));
+            return;
+        }
+
+        var data = File.ReadAllBytes(ofd.FileName);
+        SAV.SetData(data, ofsForestCity);
     }
 }

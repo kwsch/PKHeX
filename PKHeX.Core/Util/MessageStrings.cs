@@ -68,6 +68,7 @@ public static class MessageStrings
     public static string MsgFileGameCubeNoGames { get; set; } = "GC Memory Card without any Pokémon save file. Aborting.";
 
     public static string MsgFileSize { get; set; } = "File Size: {0} bytes";
+    public static string MsgFileSizeIncorrect { get; set; } = "Input file size ({0} bytes) does not match expected size ({1} bytes).";
     public static string MsgFileSizeLarge { get; set; } = "Input file is too large.";
     public static string MsgFileSizeSmall { get; set; } = "Input file is too small.";
     public static string MsgFileWriteFail { get; set; } = "Unable to save file.";
