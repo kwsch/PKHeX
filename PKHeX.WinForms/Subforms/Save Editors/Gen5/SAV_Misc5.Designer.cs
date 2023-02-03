@@ -39,6 +39,8 @@ namespace PKHeX.WinForms
             this.CLB_KeySystem = new System.Windows.Forms.CheckedListBox();
             this.CHK_LibertyPass = new System.Windows.Forms.CheckBox();
             this.GB_Roamer = new System.Windows.Forms.GroupBox();
+            this.CB_RoamStatus = new System.Windows.Forms.ComboBox();
+            this.L_RoamStatus = new System.Windows.Forms.Label();
             this.L_Roamer642 = new System.Windows.Forms.Label();
             this.L_Roamer641 = new System.Windows.Forms.Label();
             this.CB_Roamer642 = new System.Windows.Forms.ComboBox();
@@ -153,6 +155,10 @@ namespace PKHeX.WinForms
             this.CHK_Subway0 = new System.Windows.Forms.CheckBox();
             this.CHK_Subway3 = new System.Windows.Forms.CheckBox();
             this.CHK_Subway7 = new System.Windows.Forms.CheckBox();
+            this.TAB_BWCityForest = new System.Windows.Forms.TabPage();
+            this.B_DumpFC = new System.Windows.Forms.Button();
+            this.B_ImportFC = new System.Windows.Forms.Button();
+            this.L_FC = new System.Windows.Forms.Label();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.GB_KeySystem.SuspendLayout();
@@ -202,6 +208,7 @@ namespace PKHeX.WinForms
             this.GB_Singles.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SingleRecord)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SinglePast)).BeginInit();
+            this.TAB_BWCityForest.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -235,6 +242,7 @@ namespace PKHeX.WinForms
             this.TC_Misc.Controls.Add(this.TAB_Entralink);
             this.TC_Misc.Controls.Add(this.TAB_Forest);
             this.TC_Misc.Controls.Add(this.TAB_Subway);
+            this.TC_Misc.Controls.Add(this.TAB_BWCityForest);
             this.TC_Misc.Location = new System.Drawing.Point(12, 13);
             this.TC_Misc.Name = "TC_Misc";
             this.TC_Misc.SelectedIndex = 0;
@@ -304,7 +312,7 @@ namespace PKHeX.WinForms
             // 
             this.CHK_LibertyPass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CHK_LibertyPass.AutoSize = true;
-            this.CHK_LibertyPass.Location = new System.Drawing.Point(152, 89);
+            this.CHK_LibertyPass.Location = new System.Drawing.Point(152, 129);
             this.CHK_LibertyPass.Name = "CHK_LibertyPass";
             this.CHK_LibertyPass.Size = new System.Drawing.Size(122, 17);
             this.CHK_LibertyPass.TabIndex = 4;
@@ -314,16 +322,38 @@ namespace PKHeX.WinForms
             // GB_Roamer
             // 
             this.GB_Roamer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_Roamer.Controls.Add(this.CB_RoamStatus);
+            this.GB_Roamer.Controls.Add(this.L_RoamStatus);
             this.GB_Roamer.Controls.Add(this.L_Roamer642);
             this.GB_Roamer.Controls.Add(this.L_Roamer641);
             this.GB_Roamer.Controls.Add(this.CB_Roamer642);
             this.GB_Roamer.Controls.Add(this.CB_Roamer641);
             this.GB_Roamer.Location = new System.Drawing.Point(152, 7);
             this.GB_Roamer.Name = "GB_Roamer";
-            this.GB_Roamer.Size = new System.Drawing.Size(173, 76);
+            this.GB_Roamer.Size = new System.Drawing.Size(173, 113);
             this.GB_Roamer.TabIndex = 2;
             this.GB_Roamer.TabStop = false;
             this.GB_Roamer.Text = "Roamer";
+            // 
+            // CB_RoamStatus
+            // 
+            this.CB_RoamStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_RoamStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_RoamStatus.FormattingEnabled = true;
+            this.CB_RoamStatus.Location = new System.Drawing.Point(80, 76);
+            this.CB_RoamStatus.Name = "CB_RoamStatus";
+            this.CB_RoamStatus.Size = new System.Drawing.Size(87, 21);
+            this.CB_RoamStatus.TabIndex = 5;
+            // 
+            // L_RoamStatus
+            // 
+            this.L_RoamStatus.Location = new System.Drawing.Point(6, 75);
+            this.L_RoamStatus.Name = "L_RoamStatus";
+            this.L_RoamStatus.Size = new System.Drawing.Size(70, 25);
+            this.L_RoamStatus.TabIndex = 4;
+            this.L_RoamStatus.Text = "Roam status";
+            this.L_RoamStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Roamer642
             // 
@@ -1762,6 +1792,51 @@ namespace PKHeX.WinForms
             this.CHK_Subway7.Text = "Flag7";
             this.CHK_Subway7.UseVisualStyleBackColor = true;
             // 
+            // 
+            // TAB_BWCityForest
+            // 
+            this.TAB_BWCityForest.Controls.Add(this.L_FC);
+            this.TAB_BWCityForest.Controls.Add(this.B_ImportFC);
+            this.TAB_BWCityForest.Controls.Add(this.B_DumpFC);
+            this.TAB_BWCityForest.Location = new System.Drawing.Point(4, 26);
+            this.TAB_BWCityForest.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.TAB_BWCityForest.Name = "TAB_BWCityForest";
+            this.TAB_BWCityForest.Padding = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.TAB_BWCityForest.Size = new System.Drawing.Size(390, 385);
+            this.TAB_BWCityForest.TabIndex = 4;
+            this.TAB_BWCityForest.Text = "WhiteForest/BlackCity";
+            this.TAB_BWCityForest.UseVisualStyleBackColor = true;
+            // 
+            // B_DumpFC
+            // 
+            this.B_DumpFC.Location = new System.Drawing.Point(15, 6);
+            this.B_DumpFC.Name = "B_DumpFC";
+            this.B_DumpFC.Size = new System.Drawing.Size(99, 23);
+            this.B_DumpFC.TabIndex = 0;
+            this.B_DumpFC.Text = "Dump data";
+            this.B_DumpFC.UseVisualStyleBackColor = true;
+            this.B_DumpFC.Click += new System.EventHandler(this.B_DumpFC_Click);
+            // 
+            // B_ImportFC
+            // 
+            this.B_ImportFC.Location = new System.Drawing.Point(15, 35);
+            this.B_ImportFC.Name = "B_ImportFC";
+            this.B_ImportFC.Size = new System.Drawing.Size(99, 23);
+            this.B_ImportFC.TabIndex = 1;
+            this.B_ImportFC.Text = "Import data";
+            this.B_ImportFC.UseVisualStyleBackColor = true;
+            this.B_ImportFC.Click += new System.EventHandler(this.B_ImportFC_Click);
+            // 
+            // L_FC
+            // 
+            this.L_FC.AutoSize = true;
+            this.L_FC.Location = new System.Drawing.Point(15, 61);
+            this.L_FC.Name = "L_FC";
+            this.L_FC.Size = new System.Drawing.Size(281, 51);
+            this.L_FC.TabIndex = 2;
+            this.L_FC.Text = "Dump data from a white save file and import it\r\ninto a black one and vice versa, " +
+    "there you can\r\nhave either city or forest in one save!";
+            // 
             // SAV_Misc5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1827,6 +1902,8 @@ namespace PKHeX.WinForms
             this.GB_Singles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SingleRecord)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_SinglePast)).EndInit();
+            this.TAB_BWCityForest.ResumeLayout(false);
+            this.TAB_BWCityForest.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1957,5 +2034,11 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_Subway2;
         private System.Windows.Forms.CheckBox CHK_Subway1;
         private System.Windows.Forms.CheckBox CHK_Subway0;
+        private System.Windows.Forms.ComboBox CB_RoamStatus;
+        private System.Windows.Forms.Label L_RoamStatus;
+        private System.Windows.Forms.TabPage TAB_BWCityForest;
+        private System.Windows.Forms.Label L_FC;
+        private System.Windows.Forms.Button B_ImportFC;
+        private System.Windows.Forms.Button B_DumpFC;
     }
 }
