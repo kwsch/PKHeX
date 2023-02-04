@@ -74,7 +74,7 @@ public partial class PokeGrid : UserControl
 
     public void SetBackground(Image img) => BackgroundImage = img;
 
-    public static PictureBox GetControl(int width, int height) => new()
+    public static SelectablePictureBox GetControl(int width, int height) => new()
     {
         AutoSize = false,
         SizeMode = PictureBoxSizeMode.CenterImage,

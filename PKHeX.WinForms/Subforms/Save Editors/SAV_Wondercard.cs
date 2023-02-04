@@ -678,7 +678,7 @@ public partial class SAV_Wondercard : Form
         Margin = new Padding(0),
     };
 
-    private static PictureBox GetPictureBox(int width, int height) => new()
+    private static SelectablePictureBox GetPictureBox(int width, int height) => new()
     {
         Size = new Size(width + 2, height + 2), // +1 to each side for the FixedSingle border
         SizeMode = PictureBoxSizeMode.CenterImage,
