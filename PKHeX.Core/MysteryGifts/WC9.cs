@@ -268,6 +268,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     public byte OT_Feeling { get => Data[CardStart + 0x277]; set => Data[CardStart + 0x277] = value; }
     public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x278)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x278), value); }
 
+    public ushort Checksum => ReadUInt16LittleEndian(Data.AsSpan(0x2C4));
+
     // Meta Accessible Properties
     public override int[] IVs
     {
@@ -505,7 +507,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
             }
         }
 
-        pk.MetDate = IsDateRestricted && EncounterServerDate.WC9Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateOnly.FromDateTime(DateTime.Now);
+        pk.MetDate = IsDateRestricted && EncounterServerDate.WC9GiftsChk.TryGetValue(CardID, out var dt) ? dt.Start : DateOnly.FromDateTime(DateTime.Now);
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -525,12 +527,10 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
+        pk.HeightScalar = (byte)HeightValue;
+        pk.WeightScalar = (byte)WeightValue;
         if (!IsHOMEGift)
-        {
-            pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-            pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
             pk.Scale = PokeSizeUtil.GetRandomScalar();
-        }
 
         pk.Obedience_Level = Level;
         pk.ResetPartyStats();
@@ -723,12 +723,13 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         if (Nature != -1 && pk.Nature != Nature) return false;
         if (Gender != 3 && Gender != pk.Gender) return false;
 
-        if (IsHOMEGift && pk is IScaledSize s)
+        if (pk is IScaledSize s)
         {
-            if (s.HeightScalar != 0)
+            if (s.HeightScalar != HeightValue)
                 return false;
-            if (s.WeightScalar != 0)
+            if (s.WeightScalar != WeightValue)
                 return false;
+            // Random scalar
         }
 
         // PID Types 0 and 1 do not use the fixed PID value.
@@ -740,7 +741,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         return pk.PID == GetPID(pk, type);
     }
 
-    public bool IsDateRestricted => IsHOMEGift;
+    public bool IsDateRestricted => true;
 
     protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
     protected override bool IsMatchPartial(PKM pk)

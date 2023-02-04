@@ -28,14 +28,16 @@ public static class EncounterServerDate
         WC8 wc8 => Result(IsValidDateWC8(wc8.CardID, obtained)),
         WA8 wa8 => Result(IsValidDateWA8(wa8.CardID, obtained)),
         WB8 wb8 => Result(IsValidDateWB8(wb8.CardID, obtained)),
-      //WC9 wc9 => Result(IsValidDateWC9(wc9.CardID, obtained)),
+        WC9 wc9 => Result(IsValidDateWC9(wc9, obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
 
     public static bool IsValidDateWC8(int cardID, DateOnly obtained) => WC8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
     public static bool IsValidDateWA8(int cardID, DateOnly obtained) => WA8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
     public static bool IsValidDateWB8(int cardID, DateOnly obtained) => WB8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
-    public static bool IsValidDateWC9(int cardID, DateOnly obtained) => WC9Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
+
+    public static bool IsValidDateWC9(WC9 card  , DateOnly obtained) => (WC9Gifts.TryGetValue(card.CardID, out var time)
+                                                                      || WC9GiftsChk.TryGetValue(card.Checksum, out time)) && IsValidDate(obtained, time);
 
     /// <summary>
     /// Minimum date the gift can be received.
@@ -89,9 +91,20 @@ public static class EncounterServerDate
         {9017, (new(2022, 05, 18), Never)}, // Hidden Ability Piplup
     };
 
-    // ReSharper disable once CollectionNeverUpdated.Global
     /// <summary>
     /// Minimum date the gift can be received.
     /// </summary>
-    public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC9Gifts = new(0);
+    public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC9GiftsChk = new()
+    {
+        {0xE5EB, (new(2022, 11, 17), new(2023, 02, 03))}, // Fly Pikachu - rev 1 (male 128)
+        {0x908B, (new(2023, 02, 02), Never)}, // Fly Pikachu - rev 2 (both 0)
+    };
+
+    /// <summary>
+    /// Minimum date the gift can be received.
+    /// </summary>
+    public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC9Gifts = new()
+    {
+        {1501,  (new(2022, 11, 17), Never)}, // Flabébé Pokécenter
+    };
 }
