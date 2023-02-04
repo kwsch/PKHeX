@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
 
@@ -420,8 +421,17 @@ public sealed class MiscVerifier : Verifier
 
         if (pk.Format >= 6 && enc is EncounterEgg && !MovesMatchRelearn(pk))
         {
-            var moves = string.Join(", ", ParseSettings.GetMoveNames(pk.Moves));
-            var msg = string.Format(LMoveFExpect_0, moves);
+            const int moveCount = 4;
+            var sb = new StringBuilder(64);
+            for (int i = 0; i < moveCount; i++)
+            {
+                var move = pk.GetRelearnMove(i);
+                var name = ParseSettings.GetMoveName(move);
+                sb.Append(name);
+                if (i != moveCount - 1)
+                    sb.Append(", ");
+            }
+            var msg = string.Format(LMoveFExpect_0, sb);
             data.AddLine(GetInvalid(msg, Egg));
         }
 

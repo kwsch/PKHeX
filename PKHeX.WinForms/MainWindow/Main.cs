@@ -368,7 +368,11 @@ public partial class Main : Form
     {
         var forms = Application.OpenForms.OfType<Form>().Where(IsPopupFormType).ToArray();
         foreach (var f in forms)
+        {
+            if (f.InvokeRequired)
+                continue; // from another thread, not our scope.
             f.Close();
+        }
     }
 
     private static bool IsPopupFormType(Form z) => z is not (Main or SplashScreen or SAV_FolderList);
