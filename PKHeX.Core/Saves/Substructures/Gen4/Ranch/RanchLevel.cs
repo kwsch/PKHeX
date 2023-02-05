@@ -7,7 +7,7 @@ public static class RanchLevel
 {
     public static int GetLevel(byte levelIndex) => levelIndex + 1;
 
-    public static int GetMaxMiis(byte levelIndex) => levelIndex switch
+    public static int GetMaxMiiCount(byte levelIndex) => levelIndex switch
     {
         >= 11 => 20,
         >= 08 => 15,
@@ -15,7 +15,7 @@ public static class RanchLevel
         _ => 5,
     };
 
-    public static int GetMaxToys(byte levelIndex) => levelIndex switch
+    public static int GetMaxToyCount(byte levelIndex) => levelIndex switch
     {
         >= 25 => 6,
         >= 20 => 5,

@@ -30,5 +30,21 @@ public enum RanchToyType : byte
     Sprint_Stand = 22,
     Attractor = 23,
     Challenger = 24,
-    Toy_Box = 25,
+    Toy_Box = 25, // Supports metadata - Metadata value is the index of the contained toy.
+    Poke_Ball = 26, // Normally unused
+
+    // Pt Update:
+    Birthday_Cake = 27,
+    Apple_Box_S = 28, // Small Apple Box
+    Apple_Box_L = 29, // Large Apple Box
+    Dice = 30,
+    Picture_Frame_S = 31, // Small Picture Frame
+    Picture_Frame_L = 32, // Large Picture Frame
+    Flower = 33,
+    Lamp = 34,
+    Magnet = 35,
+    Twirler = 36,
+    Bound_Mat = 37,
+    Tree = 38,
+    Water = 39 // Normally unused; creates a massive plane of water in the sky
 }
