@@ -642,7 +642,7 @@
 1166	h	Pearl (hidden, recurring) on Bond Bridge found
 1167	h	Stardust (hidden, recurring) on Bond Bridge found
 1168	h	Pearl (hidden, recurring) on Four Island found
-1169	h	Ulra Ball (hidden, recurring) on Four Island found
+1169	h	Ultra Ball (hidden, recurring) on Four Island found
 1170	h	Big Pearl (hidden, recurring) on Memorial Pillar found
 1171	h	Razz Berry (hidden) on Memorial Pillar found
 1172	h	Sitrus Berry (hidden) on Memorial Pillar found
