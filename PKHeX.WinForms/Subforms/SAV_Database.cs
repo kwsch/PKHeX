@@ -78,6 +78,20 @@ public partial class SAV_Database : Form
             slot.ContextMenuStrip = mnu;
             if (Main.Settings.Hover.HoverSlotShowText)
                 slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
+            slot.Enter += (sender, e) =>
+            {
+                if (sender is not PictureBox pb)
+                    return;
+                var index = Array.IndexOf(PKXBOXES, sender);
+                if (index < 0)
+                    return;
+                index += (SCR_Box.Value * RES_MIN);
+                if (index >= Results.Count)
+                    return;
+
+                var pk = Results[index];
+                pb.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(pk.Entity, Main.CurrentLanguage);
+            };
         }
 
         Counter = L_Count.Text;

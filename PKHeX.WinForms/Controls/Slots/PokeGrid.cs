@@ -57,8 +57,9 @@ public partial class PokeGrid : UserControl
             var y = padEdge + (row * (rowHeight + border));
             for (int column = 0; column < width; column++)
             {
+                var name = $"Pokémon Grid Row {row:00} Column {column:00}";
                 var x = padEdge + (column * (colWidth + border));
-                var pb = GetControl(sizeW, sizeH);
+                var pb = GetControl(sizeW, sizeH, name);
                 pb.Location = new Point(x, y);
                 Entries.Add(pb);
             }
@@ -74,7 +75,7 @@ public partial class PokeGrid : UserControl
 
     public void SetBackground(Image img) => BackgroundImage = img;
 
-    public static PictureBox GetControl(int width, int height) => new()
+    public static SelectablePictureBox GetControl(int width, int height, string name) => new()
     {
         AutoSize = false,
         SizeMode = PictureBoxSizeMode.CenterImage,
@@ -84,5 +85,8 @@ public partial class PokeGrid : UserControl
         Padding = Padding.Empty,
         Margin = Padding.Empty,
         BorderStyle = BorderStyle.FixedSingle,
+        AccessibleRole = AccessibleRole.Alert,
+        Name = name,
+        AccessibleName = name,
     };
 }

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 using PKHeX.Core;
 using PKHeX.Drawing.PokeSprite;
+using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms;
 
@@ -64,16 +65,25 @@ public partial class BallBrowser : Form
     private PictureBox GetBallView(int ballID, string name, bool valid)
     {
         var img = SpriteUtil.GetBallSprite(ballID);
-        var pb = new PictureBox
+        var pb = new SelectablePictureBox
         {
             Size = img.Size,
             Image = img,
             BackgroundImage = valid ? SpriteUtil.Spriter.Set : SpriteUtil.Spriter.Delete,
             BackgroundImageLayout = ImageLayout.Tile,
+            Name = name,
+            AccessibleDescription = name,
+            AccessibleName = name,
+            AccessibleRole = AccessibleRole.Graphic,
         };
 
         pb.MouseEnter += (_, _) => Text = name;
         pb.Click += (_, _) => SelectBall(ballID);
+        pb.KeyDown += (_, e) =>
+        {
+            if (e.KeyCode == Keys.Enter)
+                SelectBall(ballID);
+        };
         return pb;
     }
 

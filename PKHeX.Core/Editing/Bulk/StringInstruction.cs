@@ -34,7 +34,8 @@ public sealed class StringInstruction
     public void SetScreenedValue(ReadOnlySpan<string> arr)
     {
         int index = arr.IndexOf(PropertyValue);
-        PropertyValue = (uint)index >= arr.Length ? index.ToString() : PropertyValue;
+        if ((uint)index < arr.Length)
+            PropertyValue = index.ToString();
     }
 
     public static readonly IReadOnlyList<char> Prefixes = new[] { Apply, FilterEqual, FilterNotEqual, FilterGreaterThan, FilterGreaterThanOrEqual, FilterLessThan, FilterLessThanOrEqual };

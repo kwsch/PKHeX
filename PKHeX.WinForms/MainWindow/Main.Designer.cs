@@ -62,7 +62,7 @@ namespace PKHeX.WinForms
             this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dragout = new System.Windows.Forms.PictureBox();
+            this.dragout = new PKHeX.WinForms.Controls.SelectablePictureBox();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
             this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
             this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
@@ -566,7 +566,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.PictureBox dragout;
+        private PKHeX.WinForms.Controls.SelectablePictureBox dragout;
         private System.Windows.Forms.PictureBox PB_Legal;
     }
 }

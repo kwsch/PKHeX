@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing.Misc;
+using PKHeX.WinForms.Controls;
 
 namespace PKHeX.WinForms;
 
@@ -141,7 +142,17 @@ public partial class RibbonEditor : Form
     private void AddRibbonSprite(RibbonInfo rib)
     {
         var name = rib.Name;
-        var pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + name };
+        var pb = new SelectablePictureBox
+        {
+            AutoSize = false,
+            Size = new Size(40,40),
+            BackgroundImageLayout = ImageLayout.Center,
+            Visible = false,
+            Name = PrefixPB + name,
+            AccessibleName = name,
+            AccessibleDescription = name,
+            AccessibleRole = AccessibleRole.Graphic,
+        };
         var img = RibbonSpriteUtil.GetRibbonSprite(name);
         pb.BackgroundImage = img;
 

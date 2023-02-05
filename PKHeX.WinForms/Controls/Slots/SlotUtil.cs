@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -66,5 +66,6 @@ public static class SlotUtil
 
         pb.BackColor = Color.Transparent;
         pb.Image = img;
+        pb.AccessibleDescription = ShowdownParsing.GetLocalizedPreviewText(p, Main.CurrentLanguage);
     }
 }
