@@ -442,6 +442,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         var species = Entity.Species;
         var pi = RequestSaveFile.Personal[species];
+        UC_Gender.AllowClick = pi.IsDualGender;
+
         bool hasForms = FormInfo.HasFormSelection(pi, species, Entity.Format);
         CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 

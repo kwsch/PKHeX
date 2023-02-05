@@ -11,6 +11,7 @@ public partial class GenderToggle : UserControl, IGenderToggle
     public bool AllowClick { get; set; } = true;
 
     private int Value = -1; // Initial load will trigger gender to appear (-1 => 0)
+    private string? InitialAccessible;
 
     public int Gender
     {
@@ -31,8 +32,11 @@ public partial class GenderToggle : UserControl, IGenderToggle
     {
         if ((uint)value > 2)
             value = 2;
-        if (Value != value)
-            BackgroundImage = GenderImages[value];
+        if (Value == value)
+            return value;
+        BackgroundImage = GenderImages[value];
+        AccessibleName = (InitialAccessible ??= AccessibleName) + $" ({value})";
+        AccessibleDescription = (InitialAccessible ??= AccessibleName) + $" ({value})";
         return value;
     }
 
@@ -53,16 +57,14 @@ public partial class GenderToggle : UserControl, IGenderToggle
 
     private void TryToggle()
     {
-        var result = ToggleGender();
-        if (!result.CanToggle)
+        if (AllowClick && ToggleGender().CanToggle)
         {
             AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
-                AutomationNotificationProcessing.All, $"Cannot change gender. Current value is {Gender}.");
+                AutomationNotificationProcessing.All, $"Gender changed to {Gender}.");
             return;
         }
-
         AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
-            AutomationNotificationProcessing.All, $"Gender changed to {Gender}.");
+            AutomationNotificationProcessing.All, $"Cannot change gender. Current value is {Gender}.");
     }
 
     public (bool CanToggle, int Value) ToggleGender()
