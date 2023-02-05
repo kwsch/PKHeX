@@ -17,25 +17,25 @@
 0897	r	克雷色利亚 已消失
 0106	*	开启交换功能 (宝可梦中心)
 2403	*	得到跑步鞋
-2400	s	Entered Hall of Fame
-0250	g	Purchased Magikarp
-0256	g	Traded for Gigalith on Route 7
-0259	g	Traded for Rotom on Route 15
-0289	g	Received N's Zorua
-0394	g	Received Eevee Gift
-0405	g	Traded for Tangrowth in Humilau City
-0412	g	Traded for Petilil/Cottonee on Route 4
-0426	g	Received Deerling Gift
-0431	g	Traded for Ambipom in Accumula Town
-0432	g	Traded for Alakazam in Accumula Town
-0433	g	Battled Lass Diana 1st Time (Can Trade for Alakazam)
-0434	s	Battled Lass Diana 2nd Time
-0437	g	Received Happiny Egg Gift
-0445	g	Chose Cover/Plume Fossil from Lenora
-0946	r	Shiny Haxorus in Nature Preserve disappeared
-0996	g	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
-2744	s	Rode Royal Unova (Today)
-2747	s	Received a Fossil from Twist Mountain Worker (Today)
-2774	r	Weekly Mandibuzz/Braviary on Route 4 disappeared
-2775	r	Weekly Jellicent in Undella Bay disappeared
-2442	r	N's Pokémon in the Wild
+2400	s	进入名人堂
+0250	g	购买鲤鱼王
+0256	g	在7号道路交换了庞岩怪
+0259	g	在15号道路交换了洛托姆
+0289	g	获得N的索罗亚
+0394	g	已领取 伊布
+0405	g	在青海波市交换了巨蔓藤
+0412	g	在4号道路交换了百合根娃娃/木棉球
+0426	g	已领取 四季鹿
+0431	g	在唐草镇交换了双尾怪手
+0432	g	在唐草镇交换了胡地
+0433	g	与迷你裙 初音第一次对战(交换了胡地)
+0434	s	与迷你裙 初音第二次对战
+0437	g	已领取 小福蛋
+0445	g	从芦荟处选择了羽毛化石
+0946	r	自然保护区闪亮的双斧战龙消失了
+0996	g	蕃石郎和闪亮的圆陆鲨/迷你龙（礼物）从阿戴克的房子消失了
+2744	s	乘坐皇家合众号 (当天)
+2747	s	从反转山工人那里得到化石 (当天)
+2774	r	每周事件 4号道路的秃鹰娜/勇士雄鹰消失了
+2775	r	每周事件 涟漪湾的胖嘟嘟消失了
+2442	r	N的宝可梦在野外
