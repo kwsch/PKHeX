@@ -13,6 +13,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 {
     protected override int SIZE_STORED => PokeCrypto.SIZE_4RSTORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_4RSTORED;
+    public int MaxToyID => (int) ((SaveRevision == 0) ? RanchToyType.Poke_Ball : RanchToyType.Water);
 
     public int SaveRevision => Version == GameVersion.DP ? 0 : 1;
     public string SaveRevisionString => Version == GameVersion.DP ? "-DP" : "-Pt";
@@ -30,8 +31,10 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     public override int BoxCount => (int)Math.Ceiling((decimal)SlotCount / SlotsPerBox);
     public int MiiCount { get; }
     public int TrainerMiiCount { get; }
-    public int MaxToys => RanchLevel.GetMaxToys(CurrentRanchLevelIndex);
-    public int MaxMiiCount => RanchLevel.GetMaxMiis(CurrentRanchLevelIndex);
+    public int MaxToyCount => RanchLevel.GetMaxToyCount(CurrentRanchLevelIndex);
+    public int MaxMiiCount => RanchLevel.GetMaxMiiCount(CurrentRanchLevelIndex);
+
+    private readonly RanchToy BlankToy = new(new byte[] { (byte)RanchToyType.None, 0 });
 
     public override PersonalTable4 Personal => PersonalTable.Pt;
     public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
@@ -90,7 +93,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public RanchToy GetRanchToy(int index)
     {
-        if ((uint)index >= MaxToys)
+        if ((uint)index >= MaxToyCount)
             throw new ArgumentOutOfRangeException(nameof(index));
 
         int toyOffset = ToyBaseOffset + (RanchToy.SIZE * index);
@@ -100,8 +103,10 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public void SetRanchToy(RanchToy toy, int index)
     {
-        if ((uint)index >= MaxToys)
+        if ((uint)index >= MaxToyCount)
             throw new ArgumentOutOfRangeException(nameof(index));
+        if (((int)toy.ToyType) > MaxToyID) // Ranch will throw "Corrupt Save" error if ToyId is > expected.
+            toy = BlankToy;
 
         int toyOffset = ToyBaseOffset + (RanchToy.SIZE * index);
         SetData(Data, toy.Data, toyOffset);
