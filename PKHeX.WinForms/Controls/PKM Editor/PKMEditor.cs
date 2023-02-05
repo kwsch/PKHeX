@@ -866,17 +866,18 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (sender == TB_EXP)
         {
             // Change the Level
-            var input = Util.ToUInt32(TB_EXP.Text);
-            var exp = input;
+            var expInput = Util.ToUInt32(TB_EXP.Text);
+            var expCalc = expInput;
             var gr = Entity.PersonalInfo.EXPGrowth;
-            int level = Experience.GetLevel(exp, gr);
-            if (level == 100)
-                exp = Experience.GetEXP(100, gr);
+            int lvlExp = Experience.GetLevel(expInput, gr);
+            if (lvlExp == 100)
+                expCalc = Experience.GetEXP(100, gr);
 
-            if (level != Util.ToInt32(TB_Level.Text))
-                TB_Level.Text = level.ToString();
-            if (input != exp && !HaX)
-                TB_EXP.Text = exp.ToString();
+            var lvlInput = Math.Max(1, Util.ToInt32(TB_Level.Text));
+            if (lvlInput != lvlExp)
+                TB_Level.Text = lvlExp.ToString();
+            if (expInput != expCalc && !HaX)
+                TB_EXP.Text = expCalc.ToString();
         }
         else
         {
@@ -884,7 +885,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             int input = Util.ToInt32(TB_Level.Text);
             int level = Math.Max(1, Math.Min(input, 100));
 
-            if (input != level)
+            if (input != level && !string.IsNullOrWhiteSpace(TB_Level.Text))
                 TB_Level.Text = level.ToString();
             TB_EXP.Text = Experience.GetEXP(level, Entity.PersonalInfo.EXPGrowth).ToString();
         }

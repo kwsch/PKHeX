@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+using System;
+using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.Automation;
 using static PKHeX.WinForms.Properties.Resources;
 
 namespace PKHeX.WinForms.Controls;
@@ -34,11 +36,33 @@ public partial class GenderToggle : UserControl, IGenderToggle
         return value;
     }
 
-    private void GenderToggle_Click(object sender, System.EventArgs e)
+    private void GenderToggle_Click(object sender, EventArgs e)
     {
         if (!AllowClick)
             return;
-        ToggleGender();
+        TryToggle();
+    }
+
+    private void GenderToggle_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode is not (Keys.Enter or Keys.Space))
+            return;
+
+        TryToggle();
+    }
+
+    private void TryToggle()
+    {
+        var result = ToggleGender();
+        if (!result.CanToggle)
+        {
+            AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
+                AutomationNotificationProcessing.All, $"Cannot change gender. Current value is {Gender}.");
+            return;
+        }
+
+        AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
+            AutomationNotificationProcessing.All, $"Gender changed to {Gender}.");
     }
 
     public (bool CanToggle, int Value) ToggleGender()

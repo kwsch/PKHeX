@@ -33,10 +33,11 @@
             // GenderToggle
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.Name = "GenderToggle";
             this.Size = new System.Drawing.Size(18, 18);
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.Click += new System.EventHandler(this.GenderToggle_Click);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GenderToggle_KeyDown);
             this.ResumeLayout(false);
 
         }
