@@ -278,7 +278,7 @@
 490	i	Max Ether in Berry Forest found
 491	i	Full Heal in Berry Forest found
 492	i	Max Elixir in Berry Forest found
-493	i	Utlra Ball on Mt. Ember found
+493	i	Ultra Ball on Mt. Ember found
 494	i	Fire Stone on Mt. Ember found
 495	i	Dire Hit on Mt. Ember found
 496	i	Ultra Ball in Icefall Cave found
@@ -635,7 +635,7 @@
 1159	h	Soothe Bell (hidden) in Pokémon Tower found
 1160	h   Sacred Ash (hidden) on Navel Rock found
 1161	h	PP Max (hidden) on Cape Brink found
-1162	h	Utlra Ball (hidden) on Mt. Ember found
+1162	h	Ultra Ball (hidden) on Mt. Ember found
 1163	h	Nugget (hidden) in Three Isle Path found
 1164	h	PP Up (hidden) on Three Island found
 1165	h	Max Repel (hidden) on Bond Bridge found
