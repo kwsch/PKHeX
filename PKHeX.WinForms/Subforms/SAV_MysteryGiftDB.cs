@@ -71,6 +71,20 @@ public partial class SAV_MysteryGiftDB : Form
 
             slot.ContextMenuStrip = mnu;
             slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
+            slot.Enter += (sender, e) =>
+            {
+                if (sender is not PictureBox pb)
+                    return;
+                var index = Array.IndexOf(PKXBOXES, sender);
+                if (index < 0)
+                    return;
+                index += (SCR_Box.Value * RES_MIN);
+                if (index >= Results.Count)
+                    return;
+
+                var enc = Results[index];
+                pb.AccessibleDescription = string.Join(Environment.NewLine, SummaryPreviewer.GetTextLines(enc));
+            };
         }
 
         Counter = L_Count.Text;

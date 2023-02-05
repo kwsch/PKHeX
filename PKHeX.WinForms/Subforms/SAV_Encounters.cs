@@ -68,6 +68,20 @@ public partial class SAV_Encounters : Form
                 if (ModifierKeys == Keys.Control)
                     ClickView(sender, e);
             };
+            slot.Enter += (sender, e) =>
+            {
+                if (sender is not PictureBox pb)
+                    return;
+                var index = Array.IndexOf(PKXBOXES, sender);
+                if (index < 0)
+                    return;
+                index += (SCR_Box.Value * RES_MIN);
+                if (index >= Results.Count)
+                    return;
+
+                var enc = Results[index];
+                pb.AccessibleDescription = string.Join(Environment.NewLine, SummaryPreviewer.GetTextLines(enc));
+            };
             slot.ContextMenuStrip = mnu;
             if (Main.Settings.Hover.HoverSlotShowText)
                 slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
@@ -434,8 +448,9 @@ public partial class SAV_Encounters : Form
         int end = Math.Min(RES_MAX, Results.Count - begin);
         for (int i = 0; i < end; i++)
         {
+            var pb = boxes[i];
             var enc = Results[i + begin];
-            boxes[i].Image = enc.Sprite();
+            pb.Image = enc.Sprite();
         }
 
         // Clear empty slots

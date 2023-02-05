@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using System.Windows.Forms.Automation;
 
 namespace PKHeX.WinForms.Controls;
 
@@ -16,6 +17,8 @@ public class SelectablePictureBox : PictureBox
     {
         Invalidate();
         base.OnEnter(e);
+        AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
+            AutomationNotificationProcessing.All, AccessibleDescription ?? AccessibleName ?? "");
     }
     protected override void OnLeave(EventArgs e)
     {

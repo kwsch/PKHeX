@@ -41,6 +41,15 @@ public partial class SAV_Wondercard : Form
             pb.MouseDown += BoxSlot_MouseDown;
             pb.ContextMenuStrip = mnuVSD;
             pb.MouseHover += (_, _) => Summary.Show(pb, mga.Gifts[pba.IndexOf(pb)]);
+            pb.Enter += (sender, e) =>
+            {
+                var index = pba.IndexOf(pb);
+                if (index < 0)
+                    return;
+
+                var enc = mga.Gifts[index];
+                pb.AccessibleDescription = string.Join(Environment.NewLine, SummaryPreviewer.GetTextLines(enc));
+            };
         }
 
         SetGiftBoxes();
@@ -590,7 +599,7 @@ public partial class SAV_Wondercard : Form
         f1.Controls.Add(GetLabel($"{nameof(PGT)} 1-6"));
         for (int i = 0; i < 6; i++)
         {
-            var p = GetPictureBox(spriter.Width, spriter.Height);
+            var p = GetPictureBox(spriter.Width, spriter.Height, $"PGT {i + 1}");
             f1.Controls.Add(p);
             pb.Add(p);
         }
@@ -599,7 +608,7 @@ public partial class SAV_Wondercard : Form
         f2.Controls.Add(GetLabel($"{nameof(PGT)} 7-8"));
         for (int i = 6; i < 8; i++)
         {
-            var p = GetPictureBox(spriter.Width, spriter.Height);
+            var p = GetPictureBox(spriter.Width, spriter.Height, $"PGT {i + 1}");
             f2.Controls.Add(p);
             pb.Add(p);
         }
@@ -609,7 +618,7 @@ public partial class SAV_Wondercard : Form
         f3.Controls.Add(GetLabel($"{nameof(PCD)} 1-3"));
         for (int i = 8; i < 11; i++)
         {
-            var p = GetPictureBox(spriter.Width, spriter.Height);
+            var p = GetPictureBox(spriter.Width, spriter.Height, $"PCD {i - 7}");
             f3.Controls.Add(p);
             pb.Add(p);
         }
@@ -624,7 +633,7 @@ public partial class SAV_Wondercard : Form
             var f4 = GetFlowLayoutPanel();
             f4.Controls.Add(GetLabel(GameInfo.Strings.Item[533])); // Lock Capsule
             {
-                var p = GetPictureBox(spriter.Width, spriter.Height);
+                var p = GetPictureBox(spriter.Width, spriter.Height, "PCD Lock Capsule");
                 f4.Controls.Add(p);
                 pb.Add(p);
             }
@@ -651,7 +660,7 @@ public partial class SAV_Wondercard : Form
             row.Controls.Add(GetLabel($"{start}-{start + count - 1}"));
             for (int j = 0; j < count; j++)
             {
-                var p = GetPictureBox(spriter.Width, spriter.Height);
+                var p = GetPictureBox(spriter.Width, spriter.Height, $"Row {i} Slot {start + j}");
                 row.Controls.Add(p);
                 pb.Add(p);
             }
@@ -678,7 +687,7 @@ public partial class SAV_Wondercard : Form
         Margin = new Padding(0),
     };
 
-    private static SelectablePictureBox GetPictureBox(int width, int height) => new()
+    private static SelectablePictureBox GetPictureBox(int width, int height, string name) => new()
     {
         Size = new Size(width + 2, height + 2), // +1 to each side for the FixedSingle border
         SizeMode = PictureBoxSizeMode.CenterImage,
@@ -686,6 +695,9 @@ public partial class SAV_Wondercard : Form
         BackColor = SlotUtil.GoodDataColor,
         Padding = new Padding(0),
         Margin = new Padding(1),
+        Name = name,
+        AccessibleName = name,
+        AccessibleRole = AccessibleRole.Graphic,
     };
 
     private void B_ModifyAll_Click(object sender, EventArgs e)

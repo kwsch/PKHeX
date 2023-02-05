@@ -126,7 +126,8 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
             return;
         for (int i = 0; i < diff; i++)
         {
-            var slot = GetPictureBox(i, SpriteUtil.Spriter);
+            var name = $"bpkm{before + i}";
+            var slot = GetPictureBox(SpriteUtil.Spriter, name);
             enableDragDropContext(slot);
             slots.Add(slot);
         }
@@ -134,7 +135,7 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
 
     private const int PadPixels = 2;
 
-    private static PictureBox GetPictureBox(int index, SpriteBuilder s) => new()
+    private static SelectablePictureBox GetPictureBox(SpriteBuilder s, string name) => new()
     {
         BorderStyle = BorderStyle.FixedSingle,
         Width = s.Width + 2,
@@ -143,7 +144,9 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
         Margin = new Padding(PadPixels),
         Padding = Padding.Empty,
         SizeMode = PictureBoxSizeMode.CenterImage,
-        Name = $"bpkm{index}",
+        Name = name,
+        AccessibleName = name,
+        AccessibleRole = AccessibleRole.Graphic,
     };
 
     private void AddLabels()
