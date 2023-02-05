@@ -661,7 +661,7 @@
 1185	h	Big Pearl (hidden, recurring) outside of Trainer Tower found
 1186	h	Pearl (hidden, recurring) outside of Trainer Tower found
 1187	h	Nanab Berry (hidden) outside of Trainer Tower found
-1188	h	Raws Berry (hidden) in Canyon Entrance found
+1188	h	Rawst Berry (hidden) in Canyon Entrance found
 1189	h   Macho Brace (hidden) in Viridian Gym found
 1190	h	Lava Cookie (hidden) at S.S. Anne Port found
 
