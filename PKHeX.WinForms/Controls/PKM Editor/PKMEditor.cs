@@ -1825,7 +1825,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         int gen = t.Format;
         FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowCapture;
         bool sizeCP = gen >= 8 || pb7;
-        SizeCP.Visible = sizeCP;
+        SizeCP.Visible = SizeCP.TabStop = sizeCP;
         if (sizeCP)
             SizeCP.ToggleVisibility(t);
         PB_Favorite.Visible = t is IFavorite;
@@ -1865,20 +1865,20 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = gen >= 4;
         ShinyLeaf.Visible = gen == 4;
 
-        DEV_Ability.Enabled = DEV_Ability.Visible = gen > 3 && HaX;
-        CB_Ability.Visible = !DEV_Ability.Enabled && gen >= 3;
+        DEV_Ability.Enabled = DEV_Ability.Visible = DEV_Ability.TabStop = gen > 3 && HaX;
+        CB_Ability.Visible = CB_Ability.TabStop = !DEV_Ability.Enabled && gen >= 3;
         FLP_Nature.Visible = gen >= 3;
         FLP_Ability.Visible = gen >= 3;
         FLP_ExtraBytes.Visible = gen >= 3;
-        GB_Markings.Visible = gen >= 3;
+        GB_Markings.Visible = GB_Markings.TabStop = gen >= 3;
         CB_Form.Enabled = gen >= 3;
-        FA_Form.Visible = gen >= 6;
+        FA_Form.Visible = FA_Form.TabStop = gen >= 6;
 
         FLP_Friendship.Visible = FLP_Form.Visible = gen >= 2;
         FLP_HeldItem.Visible = gen >= 2;
-        CHK_IsEgg.Visible = gen >= 2;
+        CHK_IsEgg.Visible = CHK_IsEgg.TabStop = gen >= 2;
         FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;
-        UC_Gender.Visible = UC_OTGender.Visible = gen >= 2;
+        UC_Gender.Visible = UC_OTGender.Visible = UC_OTGender.TabStop = gen >= 2;
         FLP_CatchRate.Visible = gen == 1;
 
         // HaX override, needs to be after DEV_Ability enabled assignment.

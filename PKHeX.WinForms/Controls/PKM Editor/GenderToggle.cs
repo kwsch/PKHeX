@@ -20,6 +20,36 @@ public partial class GenderToggle : UserControl, IGenderToggle
     }
 
     public GenderToggle() => InitializeComponent();
+    
+    protected override void OnMouseDown(MouseEventArgs e)
+    {
+        Focus();
+        base.OnMouseDown(e);
+    }
+
+    protected override void OnEnter(EventArgs e)
+    {
+        Invalidate();
+        base.OnEnter(e);
+        AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
+            AutomationNotificationProcessing.All, AccessibleDescription ?? AccessibleName ?? "");
+    }
+
+    protected override void OnLeave(EventArgs e)
+    {
+        Invalidate();
+        base.OnLeave(e);
+    }
+
+    protected override void OnPaint(PaintEventArgs pe)
+    {
+        base.OnPaint(pe);
+        if (!Focused)
+            return;
+        var rc = ClientRectangle;
+        rc.Inflate(-2, -2);
+        ControlPaint.DrawFocusRectangle(pe.Graphics, rc);
+    }
 
     private static readonly Image[] GenderImages =
     {
