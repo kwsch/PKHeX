@@ -458,7 +458,7 @@
 748	*	カブト from こうらのカセキ resurrected
 749	*	オムナイト from かいのカセキ resurrected
 750	*	プテラ from ひみつのコハク resurrected
-751	m	Received ひでんマシン06 Rock Smash
+751	m	Received ひでんマシン06 いわくだき
 752	m	Shown しんぴのチケット
 753	m	Shown オーロラチケット
 754	r	Captured ルギア
