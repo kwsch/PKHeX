@@ -470,7 +470,7 @@
 760	m   Change text of old woman in Celadon Mansion (after HoF)
 761	s	Spoke to Prof. Oak's Aide in Vermilion City
 762	*	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
-763	s	Gave Meteroite and received Moon Stone from Lostelle's daddy
+763	s	Gave Meteorite and received Moon Stone from Lostelle's daddy
 764	*	Full Restore from man for driving off bikers on Three Island received
 765	*	Received Amulet Coin (Oak's Aide, Route 16)
 
@@ -642,7 +642,7 @@
 1166	h	Pearl (hidden, recurring) on Bond Bridge found
 1167	h	Stardust (hidden, recurring) on Bond Bridge found
 1168	h	Pearl (hidden, recurring) on Four Island found
-1169	h	Ulra Ball (hidden, recurring) on Four Island found
+1169	h	Ultra Ball (hidden, recurring) on Four Island found
 1170	h	Big Pearl (hidden, recurring) on Memorial Pillar found
 1171	h	Razz Berry (hidden) on Memorial Pillar found
 1172	h	Sitrus Berry (hidden) on Memorial Pillar found
@@ -661,7 +661,7 @@
 1185	h	Big Pearl (hidden, recurring) outside of Trainer Tower found
 1186	h	Pearl (hidden, recurring) outside of Trainer Tower found
 1187	h	Nanab Berry (hidden) outside of Trainer Tower found
-1188	h	Raws Berry (hidden) in Canyon Entrance found
+1188	h	Rawst Berry (hidden) in Canyon Entrance found
 1189	h   Macho Brace (hidden) in Viridian Gym found
 1190	h	Lava Cookie (hidden) at S.S. Anne Port found
 

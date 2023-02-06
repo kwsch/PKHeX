@@ -36,8 +36,8 @@ namespace PKHeX.WinForms.Controls
             this.FLP_PIDLeft = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_PID = new System.Windows.Forms.Label();
             this.BTN_Shinytize = new System.Windows.Forms.Button();
-            this.PB_ShinyStar = new System.Windows.Forms.PictureBox();
-            this.PB_ShinySquare = new System.Windows.Forms.PictureBox();
+            this.PB_ShinyStar = new PKHeX.WinForms.Controls.SelectablePictureBox();
+            this.PB_ShinySquare = new PKHeX.WinForms.Controls.SelectablePictureBox();
             this.FLP_PIDRight = new System.Windows.Forms.FlowLayoutPanel();
             this.TB_PID = new System.Windows.Forms.TextBox();
             this.UC_Gender = new PKHeX.WinForms.Controls.GenderToggle();
@@ -428,6 +428,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // BTN_Shinytize
             // 
+            this.BTN_Shinytize.AccessibleDescription = "When pressed, makes the entity shiny.";
+            this.BTN_Shinytize.AccessibleName = "Shiny Button";
             this.BTN_Shinytize.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.BTN_Shinytize.Location = new System.Drawing.Point(48, 0);
             this.BTN_Shinytize.Margin = new System.Windows.Forms.Padding(0);
@@ -440,6 +442,9 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_ShinyStar
             // 
+            this.PB_ShinyStar.AccessibleDescription = "Currently Shiny";
+            this.PB_ShinyStar.AccessibleName = "Currently Shiny";
+            this.PB_ShinyStar.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_ShinyStar.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.PB_ShinyStar.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon;
             this.PB_ShinyStar.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon;
@@ -454,6 +459,9 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_ShinySquare
             // 
+            this.PB_ShinySquare.AccessibleDescription = "Currently Xor0 Square Shiny";
+            this.PB_ShinySquare.AccessibleName = "Currently Xor0 Square Shiny";
+            this.PB_ShinySquare.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_ShinySquare.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.PB_ShinySquare.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
             this.PB_ShinySquare.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
@@ -495,6 +503,9 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
+            this.UC_Gender.AccessibleDescription = "Entity Gender Pane (0) (0)";
+            this.UC_Gender.AccessibleName = "Entity Gender Pane (0) (0)";
+            this.UC_Gender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.UC_Gender.AllowClick = false;
             this.UC_Gender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UC_Gender.BackgroundImage")));
             this.UC_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -827,6 +838,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // FA_Form
             // 
+            this.FA_Form.AccessibleDescription = "Form Argument Info";
+            this.FA_Form.AccessibleName = "Form Argument Info";
             this.FA_Form.Location = new System.Drawing.Point(128, 0);
             this.FA_Form.Margin = new System.Windows.Forms.Padding(0);
             this.FA_Form.Name = "FA_Form";
@@ -997,6 +1010,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // TB_Friendship
             // 
+            this.TB_Friendship.AccessibleDescription = "Friendship and Hatch Counter";
+            this.TB_Friendship.AccessibleName = "Friendship and Hatch Counter";
             this.TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_Friendship.Location = new System.Drawing.Point(0, 0);
             this.TB_Friendship.Margin = new System.Windows.Forms.Padding(0);
@@ -2224,6 +2239,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Mark6
             // 
+            this.PB_Mark6.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_Mark6.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_06;
             this.PB_Mark6.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_06;
             this.PB_Mark6.Location = new System.Drawing.Point(128, 40);
@@ -2237,6 +2253,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Mark3
             // 
+            this.PB_Mark3.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_Mark3.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_03;
             this.PB_Mark3.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_03;
             this.PB_Mark3.Location = new System.Drawing.Point(56, 40);
@@ -2250,6 +2267,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Mark5
             // 
+            this.PB_Mark5.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_Mark5.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_05;
             this.PB_Mark5.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_05;
             this.PB_Mark5.Location = new System.Drawing.Point(104, 40);
@@ -2263,6 +2281,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_MarkCured
             // 
+            this.PB_MarkCured.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_MarkCured.Image = global::PKHeX.WinForms.Properties.Resources.anti_pokerus_icon;
             this.PB_MarkCured.InitialImage = global::PKHeX.WinForms.Properties.Resources.anti_pokerus_icon;
             this.PB_MarkCured.Location = new System.Drawing.Point(80, 16);
@@ -2276,6 +2295,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Mark2
             // 
+            this.PB_Mark2.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_Mark2.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_02;
             this.PB_Mark2.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_02;
             this.PB_Mark2.Location = new System.Drawing.Point(32, 40);
@@ -2289,6 +2309,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_MarkShiny
             // 
+            this.PB_MarkShiny.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_MarkShiny.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon;
             this.PB_MarkShiny.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon;
             this.PB_MarkShiny.Location = new System.Drawing.Point(56, 16);
@@ -2302,6 +2323,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Mark1
             // 
+            this.PB_Mark1.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_Mark1.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_01;
             this.PB_Mark1.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_01;
             this.PB_Mark1.Location = new System.Drawing.Point(8, 40);
@@ -2315,6 +2337,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Mark4
             // 
+            this.PB_Mark4.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_Mark4.Image = global::PKHeX.WinForms.Properties.Resources.box_mark_04;
             this.PB_Mark4.InitialImage = global::PKHeX.WinForms.Properties.Resources.box_mark_04;
             this.PB_Mark4.Location = new System.Drawing.Point(80, 40);
@@ -2341,6 +2364,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Favorite
             // 
+            this.PB_Favorite.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_Favorite.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PB_Favorite.Image = global::PKHeX.WinForms.Properties.Resources.icon_favo;
             this.PB_Favorite.InitialImage = global::PKHeX.WinForms.Properties.Resources.icon_favo;
@@ -2355,6 +2379,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_Origin
             // 
+            this.PB_Origin.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_Origin.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PB_Origin.Location = new System.Drawing.Point(48, 0);
             this.PB_Origin.Margin = new System.Windows.Forms.Padding(0);
@@ -2367,6 +2392,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // PB_BattleVersion
             // 
+            this.PB_BattleVersion.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.PB_BattleVersion.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.PB_BattleVersion.Image = global::PKHeX.WinForms.Properties.Resources.icon_btlrom;
             this.PB_BattleVersion.InitialImage = global::PKHeX.WinForms.Properties.Resources.icon_btlrom;
@@ -2390,7 +2416,9 @@ namespace PKHeX.WinForms.Controls
             // 
             // ShinyLeaf
             // 
-            this.ShinyLeaf.Location = new System.Drawing.Point(56, 240);
+            this.ShinyLeaf.AccessibleDescription = "Gen 4 shiny leaf crown control";
+            this.ShinyLeaf.AccessibleName = "Gen 4 shiny leaf crown control";
+            this.ShinyLeaf.Location = new System.Drawing.Point(56, 256);
             this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(56, 8, 0, 0);
             this.ShinyLeaf.Name = "ShinyLeaf";
             this.ShinyLeaf.Size = new System.Drawing.Size(200, 64);
@@ -2486,6 +2514,9 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
+            this.UC_OTGender.AccessibleDescription = "Trainer Gender Pane (0) (0)";
+            this.UC_OTGender.AccessibleName = "Trainer Gender Pane (0) (0)";
+            this.UC_OTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.UC_OTGender.AllowClick = true;
             this.UC_OTGender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UC_OTGender.BackgroundImage")));
             this.UC_OTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -2679,6 +2710,9 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
+            this.UC_HTGender.AccessibleDescription = "Handling Trainer Gender Pane (0) (0)";
+            this.UC_HTGender.AccessibleName = "Handling Trainer Gender Pane (0) (0)";
+            this.UC_HTGender.AccessibleRole = System.Windows.Forms.AccessibleRole.Graphic;
             this.UC_HTGender.AllowClick = true;
             this.UC_HTGender.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("UC_HTGender.BackgroundImage")));
             this.UC_HTGender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
@@ -3032,8 +3066,8 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.FlowLayoutPanel FLP_PIDLeft;
         private System.Windows.Forms.Label Label_PID;
         private System.Windows.Forms.Button BTN_Shinytize;
-        private System.Windows.Forms.PictureBox PB_ShinyStar;
-        private System.Windows.Forms.PictureBox PB_ShinySquare;
+        private PKHeX.WinForms.Controls.SelectablePictureBox PB_ShinyStar;
+        private PKHeX.WinForms.Controls.SelectablePictureBox PB_ShinySquare;
         private System.Windows.Forms.FlowLayoutPanel FLP_PIDRight;
         private System.Windows.Forms.TextBox TB_PID;
         private System.Windows.Forms.Button BTN_RerollPID;

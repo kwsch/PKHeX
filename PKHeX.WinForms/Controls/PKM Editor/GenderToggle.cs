@@ -1,5 +1,7 @@
-﻿using System.Drawing;
+using System;
+using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.Automation;
 using static PKHeX.WinForms.Properties.Resources;
 
 namespace PKHeX.WinForms.Controls;
@@ -9,6 +11,7 @@ public partial class GenderToggle : UserControl, IGenderToggle
     public bool AllowClick { get; set; } = true;
 
     private int Value = -1; // Initial load will trigger gender to appear (-1 => 0)
+    private string? InitialAccessible;
 
     public int Gender
     {
@@ -17,6 +20,36 @@ public partial class GenderToggle : UserControl, IGenderToggle
     }
 
     public GenderToggle() => InitializeComponent();
+    
+    protected override void OnMouseDown(MouseEventArgs e)
+    {
+        Focus();
+        base.OnMouseDown(e);
+    }
+
+    protected override void OnEnter(EventArgs e)
+    {
+        Invalidate();
+        base.OnEnter(e);
+        AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
+            AutomationNotificationProcessing.All, AccessibleDescription ?? AccessibleName ?? "");
+    }
+
+    protected override void OnLeave(EventArgs e)
+    {
+        Invalidate();
+        base.OnLeave(e);
+    }
+
+    protected override void OnPaint(PaintEventArgs pe)
+    {
+        base.OnPaint(pe);
+        if (!Focused)
+            return;
+        var rc = ClientRectangle;
+        rc.Inflate(-2, -2);
+        ControlPaint.DrawFocusRectangle(pe.Graphics, rc);
+    }
 
     private static readonly Image[] GenderImages =
     {
@@ -29,16 +62,39 @@ public partial class GenderToggle : UserControl, IGenderToggle
     {
         if ((uint)value > 2)
             value = 2;
-        if (Value != value)
-            BackgroundImage = GenderImages[value];
+        if (Value == value)
+            return value;
+        BackgroundImage = GenderImages[value];
+        AccessibleName = (InitialAccessible ??= AccessibleName) + $" ({value})";
+        AccessibleDescription = (InitialAccessible ??= AccessibleName) + $" ({value})";
         return value;
     }
 
-    private void GenderToggle_Click(object sender, System.EventArgs e)
+    private void GenderToggle_Click(object sender, EventArgs e)
     {
         if (!AllowClick)
             return;
-        ToggleGender();
+        TryToggle();
+    }
+
+    private void GenderToggle_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.KeyCode is not (Keys.Enter or Keys.Space))
+            return;
+
+        TryToggle();
+    }
+
+    private void TryToggle()
+    {
+        if (AllowClick && ToggleGender().CanToggle)
+        {
+            AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
+                AutomationNotificationProcessing.All, $"Gender changed to {Gender}.");
+            return;
+        }
+        AccessibilityObject.RaiseAutomationNotification(AutomationNotificationKind.Other,
+            AutomationNotificationProcessing.All, $"Cannot change gender. Current value is {Gender}.");
     }
 
     public (bool CanToggle, int Value) ToggleGender()

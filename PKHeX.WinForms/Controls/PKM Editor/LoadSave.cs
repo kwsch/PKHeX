@@ -38,7 +38,7 @@ public partial class PKMEditor
     {
         pk.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         pk.EXP = Util.ToUInt32(TB_EXP.Text);
-        pk.Stat_Level = Util.ToInt32(TB_Level.Text);
+        pk.Stat_Level = Math.Max(1, Util.ToInt32(TB_Level.Text));
     }
 
     private void LoadOT(PKM pk)

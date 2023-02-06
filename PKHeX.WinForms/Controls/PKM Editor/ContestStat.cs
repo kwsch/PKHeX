@@ -59,11 +59,11 @@ public partial class ContestStat : UserControl, IContestStats
     {
         if (o is not IContestStatsReadOnly)
         {
-            Visible = false;
+            Visible = TabStop = false;
             return;
         }
 
-        Visible = true;
+        Visible = TabStop = true;
         bool smart = context.Generation() < 6;
         Label_Smart.Visible = smart; // show smart gen3-5
         Label_Clever.Visible = !smart; // show clever gen6+

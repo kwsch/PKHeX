@@ -82,6 +82,8 @@ namespace PKHeX.WinForms
             // 
             // menuStrip1
             // 
+            this.menuStrip1.AccessibleDescription = "Main Window Menustrip";
+            this.menuStrip1.AccessibleName = "Main Window Menustrip";
             this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_File,
@@ -111,7 +113,7 @@ namespace PKHeX.WinForms
             this.Menu_Open.Name = "Menu_Open";
             this.Menu_Open.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.Menu_Open.ShowShortcutKeys = false;
-            this.Menu_Open.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Open.Size = new System.Drawing.Size(180, 22);
             this.Menu_Open.Text = "&Open...";
             this.Menu_Open.Click += new System.EventHandler(this.MainMenuOpen);
             // 
@@ -121,7 +123,7 @@ namespace PKHeX.WinForms
             this.Menu_Save.Name = "Menu_Save";
             this.Menu_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.Menu_Save.ShowShortcutKeys = false;
-            this.Menu_Save.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Save.Size = new System.Drawing.Size(180, 22);
             this.Menu_Save.Text = "&Save PKM...";
             this.Menu_Save.Click += new System.EventHandler(this.MainMenuSave);
             // 
@@ -131,7 +133,7 @@ namespace PKHeX.WinForms
             this.Menu_ExportSAV.Name = "Menu_ExportSAV";
             this.Menu_ExportSAV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
             this.Menu_ExportSAV.ShowShortcutKeys = false;
-            this.Menu_ExportSAV.Size = new System.Drawing.Size(133, 22);
+            this.Menu_ExportSAV.Size = new System.Drawing.Size(180, 22);
             this.Menu_ExportSAV.Text = "&Export SAV...";
             this.Menu_ExportSAV.Click += new System.EventHandler(this.ClickExportSAV);
             // 
@@ -141,7 +143,7 @@ namespace PKHeX.WinForms
             this.Menu_Exit.Name = "Menu_Exit";
             this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Exit.Size = new System.Drawing.Size(180, 22);
             this.Menu_Exit.Text = "&Quit";
             this.Menu_Exit.Click += new System.EventHandler(this.MainMenuExit);
             // 
@@ -164,7 +166,7 @@ namespace PKHeX.WinForms
             this.Menu_ShowdownExportCurrentBox});
             this.Menu_Showdown.Image = global::PKHeX.WinForms.Properties.Resources.showdown;
             this.Menu_Showdown.Name = "Menu_Showdown";
-            this.Menu_Showdown.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Showdown.Size = new System.Drawing.Size(180, 22);
             this.Menu_Showdown.Text = "Showdown";
             // 
             // Menu_ShowdownImportPKM
@@ -217,7 +219,7 @@ namespace PKHeX.WinForms
             this.Menu_BatchEditor});
             this.Menu_Data.Image = global::PKHeX.WinForms.Properties.Resources.data;
             this.Menu_Data.Name = "Menu_Data";
-            this.Menu_Data.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Data.Size = new System.Drawing.Size(180, 22);
             this.Menu_Data.Text = "Data";
             // 
             // Menu_LoadBoxes
@@ -300,7 +302,7 @@ namespace PKHeX.WinForms
             this.Menu_Folder.Name = "Menu_Folder";
             this.Menu_Folder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
             this.Menu_Folder.ShowShortcutKeys = false;
-            this.Menu_Folder.Size = new System.Drawing.Size(133, 22);
+            this.Menu_Folder.Size = new System.Drawing.Size(180, 22);
             this.Menu_Folder.Text = "Open Folder";
             this.Menu_Folder.Click += new System.EventHandler(this.MainMenuFolder);
             // 
@@ -322,7 +324,7 @@ namespace PKHeX.WinForms
             this.CB_MainLanguage});
             this.Menu_Language.Image = global::PKHeX.WinForms.Properties.Resources.language;
             this.Menu_Language.Name = "Menu_Language";
-            this.Menu_Language.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Language.Size = new System.Drawing.Size(180, 22);
             this.Menu_Language.Text = "Language";
             // 
             // CB_MainLanguage
@@ -339,7 +341,7 @@ namespace PKHeX.WinForms
             this.Menu_Undo.Name = "Menu_Undo";
             this.Menu_Undo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
             this.Menu_Undo.ShowShortcutKeys = false;
-            this.Menu_Undo.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Undo.Size = new System.Drawing.Size(180, 22);
             this.Menu_Undo.Text = "Undo Last Change";
             this.Menu_Undo.Click += new System.EventHandler(this.ClickUndo);
             // 
@@ -350,7 +352,7 @@ namespace PKHeX.WinForms
             this.Menu_Redo.Name = "Menu_Redo";
             this.Menu_Redo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.Menu_Redo.ShowShortcutKeys = false;
-            this.Menu_Redo.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Redo.Size = new System.Drawing.Size(180, 22);
             this.Menu_Redo.Text = "Redo Last Change";
             this.Menu_Redo.Click += new System.EventHandler(this.ClickRedo);
             // 
@@ -361,7 +363,7 @@ namespace PKHeX.WinForms
             this.Menu_Settings.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
             this.Menu_Settings.ShowShortcutKeys = false;
-            this.Menu_Settings.Size = new System.Drawing.Size(164, 22);
+            this.Menu_Settings.Size = new System.Drawing.Size(180, 22);
             this.Menu_Settings.Text = "Settings";
             this.Menu_Settings.Click += new System.EventHandler(this.MainMenuSettings);
             // 
@@ -371,20 +373,22 @@ namespace PKHeX.WinForms
             this.Menu_About.Name = "Menu_About";
             this.Menu_About.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.Menu_About.ShowShortcutKeys = false;
-            this.Menu_About.Size = new System.Drawing.Size(164, 22);
+            this.Menu_About.Size = new System.Drawing.Size(180, 22);
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.MainMenuAbout);
             // 
             // L_UpdateAvailable
             // 
+            this.L_UpdateAvailable.AccessibleDescription = "If an update is available, link label can be clicked to open new download link.";
             this.L_UpdateAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_UpdateAvailable.Enabled = false;
             this.L_UpdateAvailable.Location = new System.Drawing.Point(564, 0);
             this.L_UpdateAvailable.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.L_UpdateAvailable.Name = "L_UpdateAvailable";
             this.L_UpdateAvailable.Size = new System.Drawing.Size(288, 24);
             this.L_UpdateAvailable.TabIndex = 102;
             this.L_UpdateAvailable.TabStop = true;
-            this.L_UpdateAvailable.Text = "New Update Available!";
+            this.L_UpdateAvailable.Text = "You are using the latest version!";
             this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_UpdateAvailable.Visible = false;
             // 
@@ -397,6 +401,8 @@ namespace PKHeX.WinForms
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.AccessibleDescription = "Main Window Split Pane";
+            this.splitContainer1.Panel1.AccessibleName = "Main Window Split Pane";
             this.splitContainer1.Panel1.Controls.Add(this.dragout);
             this.splitContainer1.Panel1.Controls.Add(this.PB_Legal);
             this.splitContainer1.Panel1.Controls.Add(this.PKME_Tabs);
@@ -441,6 +447,8 @@ namespace PKHeX.WinForms
             // 
             // PKME_Tabs
             // 
+            this.PKME_Tabs.AccessibleDescription = "Pokémon Editor Pane";
+            this.PKME_Tabs.AccessibleName = "Pokémon Editor Pane";
             this.PKME_Tabs.ChangingFields = false;
             this.PKME_Tabs.Data = null;
             this.PKME_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -459,6 +467,8 @@ namespace PKHeX.WinForms
             // 
             // C_SAV
             // 
+            this.C_SAV.AccessibleDescription = "Save File Editor Pane";
+            this.C_SAV.AccessibleName = "Save File Editor Pane";
             this.C_SAV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.C_SAV.FlagIllegal = false;
             this.C_SAV.Location = new System.Drawing.Point(0, 0);
