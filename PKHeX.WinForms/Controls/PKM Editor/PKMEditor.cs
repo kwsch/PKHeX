@@ -576,7 +576,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return; // can't toggle
         }
 
-        var (canToggle, gender) = UC_Gender.ToggleGender();
+        var canToggle = UC_Gender.CanToggle();
+        var gender = UC_Gender.Gender;
         if (!canToggle)
             gender = UC_Gender.Gender = 0; // fix bad genders
         if (Entity.Format <= 2)

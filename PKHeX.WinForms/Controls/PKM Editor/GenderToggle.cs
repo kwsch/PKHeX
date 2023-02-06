@@ -20,7 +20,7 @@ public partial class GenderToggle : UserControl, IGenderToggle
     }
 
     public GenderToggle() => InitializeComponent();
-    
+
     protected override void OnMouseDown(MouseEventArgs e)
     {
         Focus();
@@ -99,10 +99,12 @@ public partial class GenderToggle : UserControl, IGenderToggle
 
     public (bool CanToggle, int Value) ToggleGender()
     {
-        if ((uint)Gender < 2)
+        if (CanToggle())
             return (true, Gender ^= 1);
         return (false, Gender);
     }
+
+    public bool CanToggle() => (uint)Gender < 2;
 }
 
 public interface IGenderToggle
