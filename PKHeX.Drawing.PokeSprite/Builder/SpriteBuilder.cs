@@ -105,7 +105,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     /// <param name="shiny">Is it shiny</param>
     /// <param name="context">Context the sprite is for</param>
     /// <param name="tweak"></param>
-    public Image GetSprite(ushort species, byte form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, EntityContext context = EntityContext.None, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
+    public Image GetSprite(ushort species, byte form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, EntityContext context = EntityContext.None)
     {
         if (species == 0)
             return None;
@@ -116,10 +116,10 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
             form = GetArceusForm4(form);
 
         var baseImage = GetBaseImage(species, form, gender, formarg, shiny.IsShiny(), context);
-        return GetSprite(baseImage, species, heldItem, isEgg, shiny, context, tweak);
+        return GetSprite(baseImage, species, heldItem, isEgg, shiny, context);
     }
 
-    public Image GetSprite(Image baseSprite, ushort species, int heldItem, bool isEgg, Shiny shiny, EntityContext context = EntityContext.None, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
+    public Image GetSprite(Image baseSprite, ushort species, int heldItem, bool isEgg, Shiny shiny, EntityContext context = EntityContext.None)
     {
         if (isEgg)
             baseSprite = LayerOverImageEgg(baseSprite, species, heldItem != 0);
@@ -129,7 +129,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         {
             if (shiny == Shiny.AlwaysSquare && context.Generation() != 8)
                 shiny = Shiny.Always;
-            baseSprite = LayerOverImageShiny(baseSprite, tweak, shiny);
+            baseSprite = LayerOverImageShiny(baseSprite, shiny);
         }
         return baseSprite;
     }
@@ -195,16 +195,14 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         return ImageUtil.LayerImage(baseImage, itemimg, x, y);
     }
 
-    private static Image LayerOverImageShiny(Image baseImage, SpriteBuilderTweak tweak, Shiny shiny)
+    private static Image LayerOverImageShiny(Image baseImage, Shiny shiny)
     {
         // Add shiny star to top left of image.
         Bitmap rare;
         if (shiny is Shiny.AlwaysSquare)
-            rare = Resources.rare_icon_2;
-        else if (tweak.HasFlag(SpriteBuilderTweak.BoxBackgroundRed))
-            rare = Resources.rare_icon_alt;
+            rare = Resources.rare_icon_alt_2;
         else
-            rare = Resources.rare_icon;
+            rare = Resources.rare_icon_alt;
         return ImageUtil.LayerImage(baseImage, rare, 0, 0, ShinyTransparency);
     }
 

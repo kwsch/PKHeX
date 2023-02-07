@@ -12,6 +12,7 @@ public partial class GenderToggle : UserControl, IGenderToggle
 
     private int Value = -1; // Initial load will trigger gender to appear (-1 => 0)
     private string? InitialAccessible;
+    public static int FocusBorderDeflate { get; set; }
 
     public int Gender
     {
@@ -20,7 +21,7 @@ public partial class GenderToggle : UserControl, IGenderToggle
     }
 
     public GenderToggle() => InitializeComponent();
-    
+
     protected override void OnMouseDown(MouseEventArgs e)
     {
         Focus();
@@ -47,7 +48,7 @@ public partial class GenderToggle : UserControl, IGenderToggle
         if (!Focused)
             return;
         var rc = ClientRectangle;
-        rc.Inflate(-2, -2);
+        rc.Inflate(-FocusBorderDeflate, -FocusBorderDeflate);
         ControlPaint.DrawFocusRectangle(pe.Graphics, rc);
     }
 
@@ -99,10 +100,12 @@ public partial class GenderToggle : UserControl, IGenderToggle
 
     public (bool CanToggle, int Value) ToggleGender()
     {
-        if ((uint)Gender < 2)
+        if (CanToggle())
             return (true, Gender ^= 1);
         return (false, Gender);
     }
+
+    public bool CanToggle() => (uint)Gender < 2;
 }
 
 public interface IGenderToggle

@@ -14033,6 +14033,16 @@ namespace PKHeX.Drawing.PokeSprite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap alpha_alt {
+            get {
+                object obj = ResourceManager.GetObject("alpha_alt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_0 {
             get {
                 object obj = ResourceManager.GetObject("b_0", resourceCulture);
@@ -53186,6 +53196,16 @@ namespace PKHeX.Drawing.PokeSprite.Properties {
         public static System.Drawing.Bitmap rare_icon_alt {
             get {
                 object obj = ResourceManager.GetObject("rare_icon_alt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap rare_icon_alt_2 {
+            get {
+                object obj = ResourceManager.GetObject("rare_icon_alt_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
