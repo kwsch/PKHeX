@@ -87,7 +87,7 @@ public static class SpriteUtil
         }
         if (pk is IAlpha {IsAlpha: true})
         {
-            var alpha = Resources.alpha;
+            var alpha = Resources.alpha_alt;
             return ImageUtil.LayerImage(img, alpha, SlotTeamShiftX, 0);
         }
         return img;
@@ -261,7 +261,7 @@ public static class SpriteUtil
         }
         if (enc is IAlphaReadOnly { IsAlpha: true })
         {
-            var alpha = Resources.alpha;
+            var alpha = Resources.alpha_alt;
             img = ImageUtil.LayerImage(img, alpha, SlotTeamShiftX, 0);
         }
         if (SpriteBuilder.ShowEncounterColor != SpriteBackgroundType.None)
