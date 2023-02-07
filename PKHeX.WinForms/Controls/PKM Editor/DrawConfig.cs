@@ -18,55 +18,55 @@ public sealed class DrawConfig : IDisposable
     private const string Moves = "Moves";
     private const string Hovering = "Hovering";
 
-    [Category(Hovering), Description("Hovering over a PKM color 1.")]
+    [Category(Hovering), LocalizedDescription("Hovering over a PKM color 1.")]
     public Color GlowInitial { get; set; } = Color.White;
 
-    [Category(Hovering), Description("Hovering over a PKM color 2.")]
+    [Category(Hovering), LocalizedDescription("Hovering over a PKM color 2.")]
     public Color GlowFinal { get; set; } = Color.LightSkyBlue;
 
     #region PKM
 
-    [Category(PKM), Description("Background color of a ComboBox when the selected item is not valid.")]
+    [Category(PKM), LocalizedDescription("Background color of a ComboBox when the selected item is not valid.")]
     public Color InvalidSelection { get; set; } = Color.DarkSalmon;
 
-    [Category(PKM), Description("Default colored marking.")]
+    [Category(PKM), LocalizedDescription("Default colored marking.")]
     public Color MarkDefault { get; set; } = Color.Black;
 
-    [Category(PKM), Description("Blue colored marking.")]
+    [Category(PKM), LocalizedDescription("Blue colored marking.")]
     public Color MarkBlue { get; set; } = Color.FromArgb(000, 191, 255);
 
-    [Category(PKM), Description("Pink colored marking.")]
+    [Category(PKM), LocalizedDescription("Pink colored marking.")]
     public Color MarkPink { get; set; } = Color.FromArgb(255, 117, 179);
 
-    [Category(PKM), Description("Male gender color.")]
+    [Category(PKM), LocalizedDescription("Male gender color.")]
     public Color Male { get; set; } = Color.Blue;
 
-    [Category(PKM), Description("Female gender color.")]
+    [Category(PKM), LocalizedDescription("Female gender color.")]
     public Color Female { get; set; } = Color.Red;
 
-    [Category(PKM), Description("Shiny star when using unicode characters.")]
+    [Category(PKM), LocalizedDescription("Shiny star when using unicode characters.")]
     public string ShinyUnicode { get; set; } = "☆";
 
-    [Category(PKM), Description("Shiny star when not using unicode characters.")]
+    [Category(PKM), LocalizedDescription("Shiny star when not using unicode characters.")]
     public string ShinyDefault { get; set; } = "*";
 
     #endregion
 
     #region Moves
 
-    [Category(Moves), Description("Legal move choice background color.")]
+    [Category(Moves), LocalizedDescription("Legal move choice background color.")]
     public Color BackLegal { get; set; } = Color.FromArgb(200, 255, 200);
 
-    [Category(Moves), Description("Legal move choice text color.")]
+    [Category(Moves), LocalizedDescription("Legal move choice text color.")]
     public Color TextColor { get; set; } = SystemColors.WindowText;
 
-    [Category(Moves), Description("Illegal Legal move choice background color.")]
+    [Category(Moves), LocalizedDescription("Illegal Legal move choice background color.")]
     public Color BackColor { get; set; } = SystemColors.Window;
 
-    [Category(Moves), Description("Highlighted move choice background color.")]
+    [Category(Moves), LocalizedDescription("Highlighted move choice background color.")]
     public Color BackHighlighted { get; set; } = SystemColors.Highlight;
 
-    [Category(Moves), Description("Highlighted move choice text color.")]
+    [Category(Moves), LocalizedDescription("Highlighted move choice text color.")]
     public Color TextHighlighted { get; set; } = SystemColors.HighlightText;
 
     #endregion

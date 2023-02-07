@@ -8,6 +8,8 @@ public class SelectablePictureBox : PictureBox
 {
     public SelectablePictureBox() => SetStyle(ControlStyles.Selectable, TabStop = true);
 
+    public static int FocusBorderDeflate { get; set; }
+
     protected override void OnMouseDown(MouseEventArgs e)
     {
         Focus();
@@ -31,7 +33,7 @@ public class SelectablePictureBox : PictureBox
         if (!Focused)
             return;
         var rc = ClientRectangle;
-        rc.Inflate(-2, -2);
+        rc.Inflate(-FocusBorderDeflate, -FocusBorderDeflate);
         ControlPaint.DrawFocusRectangle(pe.Graphics, rc);
     }
 }

@@ -369,6 +369,9 @@ public sealed class DisplaySettings
 
     [LocalizedDescription("Flag Illegal Slots in Save File")]
     public bool FlagIllegal { get; set; } = true;
+
+    [LocalizedDescription("Focus border indentation for custom drawn image controls.")]
+    public int FocusBorderDeflate { get; set; } = 1;
 }
 
 [Serializable]

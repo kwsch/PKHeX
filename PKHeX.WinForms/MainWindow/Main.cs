@@ -419,6 +419,7 @@ public partial class Main : Form
         EntityConverter.AllowIncompatibleConversion = settings.Advanced.AllowIncompatibleConversion;
         EntityConverter.RejuvenateHOME = settings.Advanced.AllowGuessRejuvenateHOME;
         WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
+        SelectablePictureBox.FocusBorderDeflate = GenderToggle.FocusBorderDeflate = settings.Display.FocusBorderDeflate;
 
         SpriteBuilder.LoadSettings(settings.Sprite);
     }
