@@ -200,11 +200,19 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         // Add shiny star to top left of image.
         Bitmap rare;
         if (shiny is Shiny.AlwaysSquare)
-            rare = Resources.rare_icon_2;
-        else if (tweak.HasFlag(SpriteBuilderTweak.BoxBackgroundRed))
-            rare = Resources.rare_icon_alt;
+        {
+            if (tweak.HasFlag(SpriteBuilderTweak.BoxBackgroundRed))
+                rare = Resources.rare_icon_alt_2;
+            else
+                rare = Resources.rare_icon_2;
+        }
         else
-            rare = Resources.rare_icon;
+        {
+            if (tweak.HasFlag(SpriteBuilderTweak.BoxBackgroundRed))
+                rare = Resources.rare_icon_alt;
+            else
+                rare = Resources.rare_icon;
+        }
         return ImageUtil.LayerImage(baseImage, rare, 0, 0, ShinyTransparency);
     }
 
