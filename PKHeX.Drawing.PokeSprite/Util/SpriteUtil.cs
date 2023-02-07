@@ -59,22 +59,22 @@ public static class SpriteUtil
 
     public static Image? GetItemSprite(int item) => Resources.ResourceManager.GetObject($"item_{item}") as Image;
 
-    public static Image GetSprite(ushort species, byte form, int gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
+    public static Image GetSprite(ushort species, byte form, int gender, uint formarg, int item, bool isegg, Shiny shiny, EntityContext context = EntityContext.None)
     {
-        return Spriter.GetSprite(species, form, gender, formarg, item, isegg, shiny, context, tweak);
+        return Spriter.GetSprite(species, form, gender, formarg, item, isegg, shiny, context);
     }
 
-    private static Image GetSprite(PKM pk, SpriteBuilderTweak tweak = SpriteBuilderTweak.None)
+    private static Image GetSprite(PKM pk)
     {
         var formarg = pk is IFormArgument f ? f.FormArgument : 0;
         var shiny = !pk.IsShiny ? Shiny.Never : (ShinyExtensions.IsSquareShinyExist(pk) ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
 
-        var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, shiny, pk.Context, tweak);
+        var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, shiny, pk.Context);
         if (pk is IShadowCapture {IsShadow: true})
         {
             const int Lugia = (int)Species.Lugia;
             if (pk.Species == Lugia) // show XD shadow sprite
-                img = Spriter.GetSprite(Spriter.ShadowLugia, Lugia, pk.SpriteItem, pk.IsEgg, shiny, pk.Context, tweak);
+                img = Spriter.GetSprite(Spriter.ShadowLugia, Lugia, pk.SpriteItem, pk.IsEgg, shiny, pk.Context);
 
             GetSpriteGlow(pk, 75, 0, 130, out var pixels, out var baseSprite, true);
             var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
@@ -97,10 +97,7 @@ public static class SpriteUtil
     {
         bool inBox = (uint)slot < MaxSlotCount;
         bool empty = pk.Species == 0;
-        var tweak = inBox && sav.IsWallpaperRed(box)
-            ? SpriteBuilderTweak.BoxBackgroundRed
-            : SpriteBuilderTweak.None;
-        var sprite = empty ? Spriter.None : pk.Sprite(tweak: tweak);
+        var sprite = empty ? Spriter.None : pk.Sprite();
 
         if (!empty)
         {
@@ -244,7 +241,7 @@ public static class SpriteUtil
     public static Image GetLegalIndicator(bool valid) => valid ? Resources.valid : Resources.warn;
 
     // Extension Methods
-    public static Image Sprite(this PKM pk, SpriteBuilderTweak tweak = SpriteBuilderTweak.None) => GetSprite(pk, tweak);
+    public static Image Sprite(this PKM pk) => GetSprite(pk);
 
     public static Image Sprite(this IEncounterTemplate enc)
     {
