@@ -142,6 +142,12 @@ public sealed class TransferVerifier : Verifier
             }
         }
 
+        if (pk.Format >= 9)
+        {
+            VerifyTransferLegalityG9(data);
+            return;
+        }
+
         // Starting in Generation 8, games have a selective amount of species/forms from prior games.
         IPersonalTable pt = pk switch
         {
