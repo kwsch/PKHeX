@@ -104,7 +104,6 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     /// <param name="isEgg">Is currently in an egg</param>
     /// <param name="shiny">Is it shiny</param>
     /// <param name="context">Context the sprite is for</param>
-    /// <param name="tweak"></param>
     public Image GetSprite(ushort species, byte form, int gender, uint formarg, int heldItem, bool isEgg, Shiny shiny = Shiny.Never, EntityContext context = EntityContext.None)
     {
         if (species == 0)

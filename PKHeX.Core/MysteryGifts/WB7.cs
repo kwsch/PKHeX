@@ -4,7 +4,7 @@ using static System.Buffers.Binary. BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 7 Mystery Gift Template File
+/// Generation 7 Mystery Gift Template File (LGP/E)
 /// </summary>
 public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangNicknamedTemplate
 {

@@ -73,13 +73,13 @@ namespace PKHeX.WinForms.Controls
             this.MT_CP.Margin = new System.Windows.Forms.Padding(0);
             this.MT_CP.Mask = "00000";
             this.MT_CP.Name = "MT_CP";
-            this.MT_CP.Size = new System.Drawing.Size(32, 23);
+            this.MT_CP.Size = new System.Drawing.Size(40, 23);
             this.MT_CP.TabIndex = 5;
             this.MT_CP.TextChanged += new System.EventHandler(this.MT_CP_TextChanged);
             // 
             // CHK_Auto
             // 
-            this.CHK_Auto.Location = new System.Drawing.Point(40, 0);
+            this.CHK_Auto.Location = new System.Drawing.Point(48, 0);
             this.CHK_Auto.Margin = new System.Windows.Forms.Padding(8, 0, 0, 0);
             this.CHK_Auto.Name = "CHK_Auto";
             this.CHK_Auto.Size = new System.Drawing.Size(64, 24);

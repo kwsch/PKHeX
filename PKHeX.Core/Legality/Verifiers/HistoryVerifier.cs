@@ -248,6 +248,7 @@ public sealed class HistoryVerifier : Verifier
             EncounterSlot8GO => false,
             WC6 { OT_Name.Length: > 0 } => false,
             WC7 { OT_Name.Length: > 0, TID16: not 18075 } => false, // Ash Pikachu QR Gift doesn't set Current Handler
+            WB7 wb7 when wb7.GetHasOT(pk.Language) => false,
             WC8 wc8 when wc8.GetHasOT(pk.Language) => false,
             WB8 wb8 when wb8.GetHasOT(pk.Language) => false,
             WA8 wa8 when wa8.GetHasOT(pk.Language) => false,
