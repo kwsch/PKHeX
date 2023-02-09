@@ -16,7 +16,7 @@ public interface IEntityRejuvenator
 /// <summary>
 /// Uses <see cref="LegalityAnalysis"/> to auto-fill missing data after conversion.
 /// </summary>
-public class LegalityRejuvenator : IEntityRejuvenator
+public sealed class LegalityRejuvenator : IEntityRejuvenator
 {
     public void Rejuvenate(PKM result, PKM original)
     {
