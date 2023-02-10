@@ -37,6 +37,6 @@ public static class AreaWeather9Extensions
         MarkSnowy => (weather & Snowing) != 0,
         MarkBlizzard => (weather & Snowstorm) != 0,
         MarkSandstorm => (weather & Sandstorm) != 0,
-        _ => true,
+        _ => false,
     };
 }

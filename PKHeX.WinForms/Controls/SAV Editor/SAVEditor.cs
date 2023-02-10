@@ -745,7 +745,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private void ClickVerifyStoredEntities(object sender, EventArgs e)
     {
-        var bulk = new BulkAnalysis(SAV, Main.Settings.Bulk);
+        var bulk = new Core.Bulk.BulkAnalysis(SAV, Main.Settings.Bulk);
         if (bulk.Valid)
         {
             WinFormsUtil.Alert("Clean!");
