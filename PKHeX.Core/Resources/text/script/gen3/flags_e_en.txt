@@ -206,9 +206,9 @@
 589	r	Heart Scale (hidden) on Route 105 found
 590	r	Heart Scale (hidden; under umbrella) on Route 109 found
 591	r	Heart Scale (hidden; near couple) on Route 109 found
-592	r	Hear Scale (hidden; near Cooltrainer) on Route 128 found
-593	r	Hear Scale (hidden; near rock wall) on Route 128 found
-594	r	Hear Scale (hidden; southwest) on Route 128 found
+592	r	Heart Scale (hidden; near Cooltrainer) on Route 128 found
+593	r	Heart Scale (hidden; near rock wall) on Route 128 found
+594	r	Heart Scale (hidden; southwest) on Route 128 found
 595	r	Rare Candy (hidden) in Petalburg City found
 596	r	Black Glasses (hidden) on Route 116 found
 597	r	Heart Scale (hidden) on Route 115 found
