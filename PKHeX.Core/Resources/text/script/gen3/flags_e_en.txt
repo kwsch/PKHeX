@@ -227,7 +227,7 @@
 610	r	Rare Candy (hidden) on Route 123 found
 611	r	Big Pearl (hidden) on Route 105 found
 
-700	r	Don't spawn Prof. Brich's bag on Route 101
+700	r	Don't spawn Prof. Birch's bag on Route 101
 701	r	Don't spawn apprentice in Battle Tower
 702	r	Don't spawn Mystery Gift guy in Pokémon Center 2F
 
