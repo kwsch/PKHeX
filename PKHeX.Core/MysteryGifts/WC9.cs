@@ -507,7 +507,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
             }
         }
 
-        pk.MetDate = IsDateRestricted && EncounterServerDate.WC9GiftsChk.TryGetValue(CardID, out var dt) ? dt.Start : DateOnly.FromDateTime(DateTime.Now);
+        pk.MetDate = EncounterServerDate.WC9GiftsChk.TryGetValue(Checksum, out var dct) ? dct.Start :
+            EncounterServerDate.WC9Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateOnly.FromDateTime(DateTime.Now);
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
