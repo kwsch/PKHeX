@@ -1,13 +1,13 @@
 0x4031	*	Starter	00:フシギダネ,1:ゼニガメ,2:ヒトカゲ
-0x4055	s	オーキドけんきゅうじょ Status	00:First Visit,01:Escorted to Lab,02:Starter Available,03:Rival Battle Ready,04:Pick Up おとどけもの,05:Deliver おとどけもの,06:Received ポケモンずかん,08:Received ぜんこくずかん,9:Completed all events
+0x4055	s	オーキドけんきゅうじょ Status	00:First Visit,01:Escorted to Lab,02:Starter Available,03:ライバル Battle Ready,04:Pick Up おとどけもの,05:Deliver おとどけもの,06:Received ポケモンずかん,08:Received ぜんこくずかん,9:Completed all events
 0x4057	s	おとどけもの	00:Not Received,01:Received,02:Delivered
 0x4051	s	Old Man Blocking 2ばんどうろ	01:Yes,02:No
-0x4054	s	Rival Status (22ばんどうろ)	00:Hidden,1:Battleable,02:Defeated,03:Battleable (8 Gym Badges),04:Defeated (8 Gym Badges)
-0x4052	s	Defeated Rival (ハナダシティ)	0:No,1:Yes
-0x405B	s	Defeated Rival (サント・アンヌごう)	0:No,1:Yes
-0x405C	s	Defeated Rival (シルフカンパニー)	0:No,1:Yes
-0x405D	s	Defeated Rival (ポケモンタワー)	0:No,1:Yes
-0x4089	s	Rival Met (6のしま Pokemon Center)	0:No,1:Yes
+0x4054	s	ライバル Status (22ばんどうろ)	00:Hidden,1:Battleable,02:Defeated,03:Battleable (8 Gym Badges),04:Defeated (8 Gym Badges)
+0x4052	s	Defeated ライバル (ハナダシティ)	0:No,1:Yes
+0x405B	s	Defeated ライバル (サント・アンヌごう)	0:No,1:Yes
+0x405C	s	Defeated ライバル (シルフカンパニー)	0:No,1:Yes
+0x405D	s	Defeated ライバル (ポケモンタワー)	0:No,1:Yes
+0x4089	s	ライバル Met (6のしま Pokemon Center)	0:No,1:Yes
 
 0x4024	r	Wild Pokemon in へんげのどうくつ	00:ズバット,01:メリープ,02:クヌギダマ,03:デルビル,04:ヒメグマ,05:エイパム,06:ツボツボ,07:オドシシ,08:ドーブル
 
