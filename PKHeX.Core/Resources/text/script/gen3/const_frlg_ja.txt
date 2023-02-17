@@ -1,13 +1,13 @@
 0x4031	*	Starter	00:フシギダネ,1:ゼニガメ,2:ヒトカゲ
-0x4055	s	オーキドけんきゅうじょ Status	00:First Visit,01:Escorted to Lab,02:Starter Available,03:Rival Battle Ready,04:Pick Up おとどけもの,05:Deliver おとどけもの,06:Received ポケモンずかん,08:Received ぜんこくずかん,9:Completed all events
+0x4055	s	オーキドけんきゅうじょ Status	00:First Visit,01:Escorted to Lab,02:Starter Available,03:ライバル Battle Ready,04:Pick Up おとどけもの,05:Deliver おとどけもの,06:Received ポケモンずかん,08:Received ぜんこくずかん,9:Completed all events
 0x4057	s	おとどけもの	00:Not Received,01:Received,02:Delivered
-0x4051	s	Old Man Blocking 2ばんどうろ	01:Yes,02:No
-0x4054	s	Rival Status (22ばんどうろ)	00:Hidden,1:Battleable,02:Defeated,03:Battleable (8 Gym Badges),04:Defeated (8 Gym Badges)
-0x4052	s	Defeated Rival (ハナダシティ)	0:No,1:Yes
-0x405B	s	Defeated Rival (サント・アンヌごう)	0:No,1:Yes
-0x405C	s	Defeated Rival (シルフカンパニー)	0:No,1:Yes
-0x405D	s	Defeated Rival (ポケモンタワー)	0:No,1:Yes
-0x4089	s	Rival Met (6のしま Pokemon Center)	0:No,1:Yes
+0x4051	s	Old Man Blocking 2ばんどうろ	01:はい,02:いいえ
+0x4054	s	ライバル Status (22ばんどうろ)	00:Hidden,1:Battleable,02:Defeated,03:Battleable (8 Gym Badges),04:Defeated (8 Gym Badges)
+0x4052	s	Defeated ライバル (ハナダシティ)	0:いいえ,1:はい
+0x405B	s	Defeated ライバル (サント・アンヌごう)	0:いいえ,1:はい
+0x405C	s	Defeated ライバル (シルフカンパニー)	0:いいえ,1:はい
+0x405D	s	Defeated ライバル (ポケモンタワー)	0:いいえ,1:はい
+0x4089	s	ライバル Met (6のしま ポケモンセンター)	0:いいえ,1:はい
 
 0x4024	r	Wild Pokemon in へんげのどうくつ	00:ズバット,01:メリープ,02:クヌギダマ,03:デルビル,04:ヒメグマ,05:エイパム,06:ツボツボ,07:オドシシ,08:ドーブル
 
@@ -15,11 +15,11 @@
 0x404A	a	Hatched Eggs Trainer Card Sticker	0:None,1:Level 1,2:Level 2,3:Level 3
 0x404B	a	Link Battles Trainer Card Sticker	0:None,1:Level 1,2:Level 2,3:Level 3
 
-0x408B	s	Fossils Super Nerd Defeated (おつきみやま)	0:No,1:Yes
-0x407E	s	サント・アンヌごう Status	00:In Vermilion City,01:Ready to depart,03:Gone
-0x4059	s	Defeated Ghost of ガラガラ	0:No,1:Yes
-0x4062	s	Given おちゃ to Guards	0:No,1:Yes
-0x4060	s	Defeated サカキ (シルフカンパニー)	0:No,1:Yes
+0x408B	s	Fossils Super Nerd Defeated (おつきみやま)	0:いいえ,1:はい
+0x407E	s	サント・アンヌごう Status	00:In クチバシティ,01:Ready to depart,03:Gone
+0x4059	s	Defeated Ghost of ガラガラ	0:いいえ,1:はい
+0x4062	s	Given おちゃ to Guards	0:いいえ,1:はい
+0x4060	s	Defeated サカキ (シルフカンパニー)	0:いいえ,1:はい
 0x4058	*	タウンマップ Upgrades	01:Normal,02:Received トライパス
 0x4076	*	ポケモンネットワークセンター	0:First Visit,02:いんせき Delivered,03:Linked Established with Kanto,04:Asked to Find ルビー (アイテム),05:Received レインボーパス,06:サファイア (アイテム) Delivered,07:Link Established with Hoenn
 0x407F	s	ともしびやま Status	00:First Visit,01:Team Rocket Blocking Summit Path,02:Summit Path Open
