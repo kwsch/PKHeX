@@ -159,7 +159,7 @@ public sealed class CGearBackground
         ConvertTilesPSKtoCGB(tileRegion);
         return cgb;
     }
-    
+
     private static void ConvertTilesPSKtoCGB(Span<byte> tileRegion)
     {
         for (int i = 0; i < tileRegion.Length; i += 2)
@@ -172,8 +172,8 @@ public sealed class CGearBackground
             byte rot = (byte)(index >> 8);
             if (tile == 0xFF)
                 tile = 0;
-            exist[i] = tile;
-            exist[i + 1] = rot;
+            exist[0] = tile;
+            exist[1] = rot;
         }
     }
 
