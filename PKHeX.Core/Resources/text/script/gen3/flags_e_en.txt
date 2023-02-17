@@ -619,7 +619,7 @@
 1107	r	Hyper Potion on Route 120 found
 1108	r	Nest Ball on Route 120 found
 1109	r	Elixir on Route 123 found
-1110	r	Thunder stone on New Mauville found
+1110	r	Thunder Stone on New Mauville found
 1111	r	Fire Stone in Fiery Path found
 1112	r	TM07 in Shoal Cave found
 1113	r	Never-Melt Ice in Shoal Cave found
