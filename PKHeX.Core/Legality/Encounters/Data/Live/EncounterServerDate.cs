@@ -105,6 +105,7 @@ public static class EncounterServerDate
     /// </summary>
     public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC9Gifts = new()
     {
-        {1501,  (new(2022, 11, 17), Never)}, // Flabébé Pokécenter
+        {0001, (new(2022, 11, 17), Never)}, // PokéCenter Flabébé
+        {0006, (new(2022, 12, 16), new(2023, 02, 01))}, // Jump Festa Gyarados
     };
 }
