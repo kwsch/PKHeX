@@ -507,8 +507,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
             }
         }
 
-        pk.MetDate = EncounterServerDate.WC9GiftsChk.TryGetValue(Checksum, out var dct) ? dct.Start :
-            EncounterServerDate.WC9Gifts.TryGetValue(CardID, out var dt) ? dt.Start : DateOnly.FromDateTime(DateTime.Now);
+        pk.MetDate = GetSuggestedDate();
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -537,6 +536,17 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         pk.ResetPartyStats();
         pk.RefreshChecksum();
         return pk;
+    }
+
+    private DateOnly GetSuggestedDate()
+    {
+        if (!IsDateRestricted)
+            return DateOnly.FromDateTime(DateTime.Now);
+        if (EncounterServerDate.WC9GiftsChk.TryGetValue(Checksum, out var range))
+            return range.Start;
+        if (EncounterServerDate.WC9Gifts.TryGetValue(CardID, out range))
+            return range.Start;
+        return DateOnly.FromDateTime(DateTime.Now);
     }
 
     private void SetEggMetData(PKM pk)
