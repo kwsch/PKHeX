@@ -320,7 +320,7 @@
 580	m	いいつりざお received
 581	m	わざマシン29 in ヤマブキシティ received
 582	m	Received ラプラス
-583 m   モンスターボールs from オーキド博士 received (after 22ばんどうろ Rival battle, no モンスターボールs in Bag, no Pokémon catched)
+583 m   モンスターボールs from オーキド博士 received (after 22ばんどうろ ライバル battle, no モンスターボールs in Bag, no Pokémon catched)
 584	m	Traded on 2ばんどうろ
 585	m	Purchased コイキング
 586	m	Traded in ハナダシティ
@@ -703,10 +703,10 @@
 1302	t	(Unused) Psychic (Male) 敗北済み
 1303	t	(Unused) Psychic (Female) 敗北済み
 1304	t	(Unused) Gentleman 敗北済み
-1305	t	(Unused) してんのう Sidney 敗北済み
-1306	t	(Unused) してんのう Phoebe 敗北済み
-1307	t	(Unused) Leader Roxanne 敗北済み
-1308	t	(Unused) Leader Brawly 敗北済み
+1305	t	(Unused) してんのう カゲツ 敗北済み
+1306	t	(Unused) してんのう フヨウ 敗北済み
+1307	t	(Unused) Leader ツツジ 敗北済み
+1308	t	(Unused) Leader トウキ 敗北済み
 1309	t	(Unused) Leader Tate&Liza 敗北済み
 1310	t	(Unused) School Kid (Male) 敗北済み
 1311	t	(Unused) School Kid (Female) 敗北済み
@@ -736,13 +736,13 @@
 1335	t	(Unused) Boarder 敗北済み
 1336	t	(Unused) Boarder 敗北済み
 1337	t	(Unused) Collector 敗北済み
-1338	t	(Unused) Pokémon Trainer (Wally) 敗北済み
-1339	t	(Unused) Pokémon Trainer (Brendan) 敗北済み
-1340	t	(Unused) Pokémon Trainer (Brendan) 敗北済み
-1341	t	(Unused) Pokémon Trainer (Brendan) 敗北済み
-1342	t	(Unused) Pokémon Trainer (May) 敗北済み
-1343	t	(Unused) Pokémon Trainer (May) 敗北済み
-1344	t	(Unused) Pokémon Trainer (May) 敗北済み
+1338	t	(Unused) Pokémon Trainer (ミツル) 敗北済み
+1339	t	(Unused) Pokémon Trainer (ユウキ) 敗北済み
+1340	t	(Unused) Pokémon Trainer (ユウキ) 敗北済み
+1341	t	(Unused) Pokémon Trainer (ユウキ) 敗北済み
+1342	t	(Unused) Pokémon Trainer (ハルカ) 敗北済み
+1343	t	(Unused) Pokémon Trainer (ハルカ) 敗北済み
+1344	t	(Unused) Pokémon Trainer (ハルカ) 敗北済み
 1345	t	(Unused) Pokémon Breeder (Male) 敗北済み
 1346	t	(Unused) Pokémon Breeder (Female) 敗北済み
 1347	t	(Unused) Pokémon Ranger (Male) 敗北済み
@@ -760,13 +760,13 @@
 1359	t	(Unused) Aqua Admin Shelly 敗北済み
 1360	t	(Unused) Magma Admin Tabitha 敗北済み
 1361	t	(Unused) Magma Admin Courtney 敗北済み
-1362	t	(Unused) Leader Wattson 敗北済み
-1363	t	(Unused) Leader Flannery 敗北済み
-1364	t	(Unused) Leader Norman 敗北済み
-1365	t	(Unused) Leader Winona 敗北済み
-1366	t	(Unused) Leader Wallace 敗北済み
-1367	t	(Unused) してんのう Glacia 敗北済み
-1368	t	(Unused) してんのう Drake 敗北済み
+1362	t	(Unused) Leader テッセン 敗北済み
+1363	t	(Unused) Leader アスナ 敗北済み
+1364	t	(Unused) Leader センリ 敗北済み
+1365	t	(Unused) Leader ナギ 敗北済み
+1366	t	(Unused) Leader ミクリ 敗北済み
+1367	t	(Unused) してんのう プリム 敗北済み
+1368	t	(Unused) してんのう ゲンジ 敗北済み
 1369	t	Youngster Ben on 3ばんどうろ 敗北済み
 1370	t	Youngster Calvin on 3ばんどうろ 敗北済み
 1371	t	Youngster Josh in おつきみやま 敗北済み
@@ -1190,8 +1190,8 @@
 1789	t	Youngster Chad (Rematch 3) on 25ばんどうろ 敗北済み
 1790	t	Hiker Franklin (Rematch 1) on 25ばんどうろ 敗北済み
 1791	t	(Unused) Pokémon Prof. オーキド博士 敗北済み
-1792	t	(Unused) Player Brendan 敗北済み
-1793	t	(Unused) Player May 敗北済み
+1792	t	(Unused) Player ユウキ 敗北済み
+1793	t	(Unused) Player ハルカ 敗北済み
 1794	t	(Unused) Player Red 敗北済み
 1795	t	(Unused) Player Leaf 敗北済み
 1796	t	Team Rocket Grunt (1) in ロケットだんそうこ 敗北済み
@@ -1438,7 +1438,7 @@
 2086	s	Received クリムゾンバッジ
 2087	s	Received グリーンバッジ
 2088	*	Pokémon Menu Item Unlocked
-2089	*	Pokédex Menu Item Unlocked
+2089	*	ポケモンずかん Menu Item Unlocked
 
 2092	s	殿堂入り entered/Is Champion
 2093	m	Change Text of Girl in ニビシティ ポケモンセンター
