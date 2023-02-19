@@ -1,77 +1,77 @@
-4	s	Power Plant	0:Normal,1:Guard will get a phone call (Story event)
-5	s	Cerulean Gym	0:Normal,1:Rocket Grunt appeared (Story event)
-6	s	Route 25	0:Normal,1:Misty on a date (Story event)
-8	s	League Reception Gate	0:Not shown 8 Johto Badges,1:Shown 8 Johto Badges
-13	s	Will's Room	0:Reset,1:Recently accessed
-14	s	Koga's Room	0:Reset,1:Recently accessed
-15	s	Bruno's Room	0:Reset,1:Recently accessed
-16	s	Karen's Room	0:Reset,1:Recently accessed
-17	s	Lance's Room	0:Reset,1:Recently accessed,2:Defeated Lance,3:DJ Mary and Oak Appeared
-18	s	Hall of Fame Room	0:Lance will register your team,1:Recently accessed
-19	s	Route 27 Man	0:Will say you entered Kanto,1:Said you entered Kanto
-20	s	New Bark Town Lady	0:Before Starter (Blocks Route 29 access),1:After Starter (Allows Route 29 access)
-21	s	Elm Lab Event	0:Start of game,1:Asked to choose Starter (Can't leave Lab),2:Normal,3:Officer Appeared (Asks for Rival's name),5:Aide will give Potion,6:Aide will give 5 Poké Balls
-22	s	Mom	0:Start of game,1:Gave and explained PokéGear
-23	s	Dude (Route 29)	0:Normal,1:Will ask to show Capture Tutorial
-24	s	Rival (Cherrygrove City)	0:Disappeared,1:Will battle you
-25	s	Mr. Pokémon's House	0:Not Entered,1:Entered (Met Mr. Pokémon and Oak)
-26	s	Route 32 Story Event	0:Dude blocks further access,1:Allowed further access (Accepted Egg from Aide),2:Encountered SlowpokeTail seller
-28	s	Suicune (Route 36)	0:Disappeared,1:Active
-30	s	Azalea Town Event	0:Normal,1:Rival will battle you,2:Kurt will give GS Ball outside of house (GS Ball event)
-31	s	Lass Bridget	0:Normal,1:Will inform you made Whitney cry
-34	s	Rival (Olivine City)	0:Not Encountered,1:Encountered
-37	s	Tin Tower Gate Sage	0:Disallows Passage,1:Allows Passage
-38	s	Wise Trio (Tin Tower Gate)	0:Disallows Tin Tower Passage,1:Allows Tin Tower Passage
-39	s	Ecruteak PokéCenter	0:Not Entered,1:Entered (Met Bill)
-40	s	Ecruteak Gym	0:Old Man pushes you out,1:Accessible
-41	s	RageCandyBar Man	0:Blocks Route 44 access,1:Disappeared (Can access Route 44)
-42	s	Suicune (Route 42)	0:Disappeared,1:Active
-43	s	Suicune (Cianwood City)	0:Disappeared,1:Active
-44	s	Battle Tower 1F	0:Not Accessed,1:Accessed
-45	s	Battle Tower Battle Room	0:Not Accessed,1:Accessed
-46	s	Battle Tower Elevator	0:Not Accessed,1:Accessed
-47	s	Battle Tower Hallway	0:Not Accessed,1:Accessed
-49	s	Route 43 Gate	0:Rocket Grunts appeared (Payment required),1:Paid Rocket Grunts/Grunts disappeared
-50	s	Rival (Mt. Moon)	0:Will battle you,1:Disappeared
-51	s	Rival (Sprout Tower)	0:Not Encountered,1:Encountered
+4	s	关都发电厂	0:正常,1:警卫会接到电话（剧情事件）
+5	s	华蓝道馆	0:正常,1:火箭队喽啰出现(剧情事件)
+6	s	25号道路	0:正常,1:约会的小霞（剧情事件）
+8	s	宝可梦联盟大门	0:未获得8个道馆徽章,1:获得8个道馆徽章
+13	s	一树的房间	0:重置,1:最近访问过
+14	s	阿桔的房间	0:重置,1:最近访问过
+15	s	希巴的房间	0:重置,1:最近访问过
+16	s	梨花的房间	0:重置,1:最近访问过
+17	s	阿渡的房间	0:重置,1:最近访问过,2:击败阿渡,3:DJ胡桃和大木博士出现了
+18	s	名人堂	0:阿渡将为您的队伍登记,1:最近访问过
+19	s	27号道路男人	0:会说你进入了关都,1:已说过你进入了关都
+20	s	若叶镇女士	0:获得御三家前 (阻止通过29号道路),1:获得御三家后 (允许通过29号道路)
+21	s	空木博士研究所事件	0:游戏初始,1:要求选择御三家（不能离开研究所）,2:正常,3:警官出现（询问劲敌姓名）,5:助手会给5个伤药,6:助手会给5个精灵球
+22	s	妈妈	0:游戏初始,1:给出并解释了宝可装置
+23	s	小哥 (29号道路)	0:正常,1:会向主角演示收服宝可梦的方法
+24	s	劲敌 (吉花市)	0:消失了,1:将与你对战
+25	s	宝可梦爷爷的房子	0:未访问,1:访问 (遇见宝可梦爷爷和大木博士)
+26	s	32号道路剧情事件	0:小哥阻止访问,1:允许访问(接收助手的蛋),2:遇到呆呆兽尾巴的卖家
+28	s	水君 (36号道路)	0:消失了,1:可见的
+30	s	桧皮镇事件	0:正常,1:劲敌将与你对战,2:钢铁将在屋外赠与GS球 (GS球事件)
+31	s	迷你裙 飞鸟	0:正常,1:会告知你让小茜哭了
+34	s	劲敌 (浅葱市)	0:未遇到,1:遇到
+37	s	铃铛塔和尚	0:不允许通过,1:允许通过
+38	s	三智者 (铃铛塔门口)	0:禁止访问铃铛塔,1:允许访问铃铛塔
+39	s	缘朱市宝可梦中心	0:未进入,1:进入 (正辉)
+40	s	缘朱道馆	0:老人会移动你,1:无障碍
+41	s	卖愤怒馒头的人	0:封锁44号道路入口,1:消失了 (可以进入44号道路)
+42	s	水君 (42号道路)	0:消失了,1:可见的
+43	s	水君 (湛蓝市)	0:消失了,1:可见的
+44	s	对战塔1楼	0:未访问,1:访问
+45	s	对战塔 对战房	0:未访问,1:访问
+46	s	对战塔 电梯	0:未访问,1:访问
+47	s	对战塔 走廊	0:未访问,1:访问
+49	s	43号道路闸口	0:火箭队喽啰出现(需要付费),1:付费火箭队喽啰消失了
+50	s	劲敌 (月见山)	0:将与你对战,1:消失了
+51	s	劲敌 (喇叭芽之塔)	0:未遇到,1:遇到
 52	r	水君 (铃铛塔)	0:可对战,1:捕获/打败了
-53	s	Burned Tower Story Event	0:Not Entered,1:Met Eusine,2:Defeated Rival
+53	s	烧焦塔剧情事件	0:未进入,1:水京,2:击败劲敌
 54	r	三圣兽 (烧焦塔)	0:未觉醒,1:已觉醒/逃跑
-55	s	Radio Tower 5F Story Event	0:Will battle imposter Director,1:Defeated disguised Rocket Executive,2:Defeated main Rocket Executive in studio room
-58	*	Upper-left Ruin (Ruins of Alph)	0:Not solved wall puzzle,1:Solved wall puzzle
-59	*	Upper-right Ruin (Ruins of Alph)	0:Not solved wall puzzle,1:Solved wall puzzle
-60	*	Lower-left Ruin (Ruins of Alph)	0:Not solved wall puzzle,1:Solved wall puzzle
-61	*	Lower-right Ruin (Ruins of Alph)	0:Not solved wall puzzle,1:Solved wall puzzle
-63	s	Mahogany Souvenir Shop	0:Normal,1:Lance appeared (Story event)
-65	s	Hideout B2F Story Event	0:Not Accessed,1:Lance healed your party/Will battle Rocket Executive,2:Lance wants you to battle Electrode (Can't leave transmitter room),3:Transmitter deactivated
-66	s	Hideout B3F Story Event	0:Not Accessed,1:Lance explained passwords,2:Encountered Rival,3:Defeated Rocket Executive
-67	s	Rival (Underground)	0:Will battle you,1:Disappeared
-69	s	Rival (Victory Road)	0:Will battle you,1:Disappeared
-70	s	Clair (Dragon's Den)	0:Disappeared,1:Will give you TM24 right outside Shrine
-71	s	Dragon's Den Shrine	0:Not Entered,1:Entered and took quiz
-74	s	S.S. Aqua Event	0:Normal,2:Gentleman will bump into you (Story event)
-75	s	S.S. Aqua B1F Sailor	0:Blocks further access,1:Allows further access
-128	t	Schoolboy Jack	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-130	t	Sailor Huey	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch (Final)
-131	t	Cooltrainer Gaven	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
-132	t	Cooltrainer Beth	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
-133	t	Bird Keeper Jose	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
-134	t	Cooltrainer Reena	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
-135	t	Youngster Joey	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-136	t	Bug Catcher Wade	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-137	t	Fisher Ralph	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-138	t	Picnicker Liz	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-139	t	Hiker Anthony	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-140	t	Camper Todd	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-141	t	Picnicker Gina	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-143	t	Bug Catcher Arnie	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-144	t	Schoolboy Alan	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-145	t	Lass Dana	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-146	t	Schoolboy Chad	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch,4:Had 4th Rematch (Final)
-148	t	Fisher Tully	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch (Final)
-149	t	PokéManiac Brent	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch (Final)
-150	t	Picnicker Tiffany	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch,3:Had 3rd Rematch (Final)
-151	t	Bird Keeper Vance	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
-152	t	Fisher Wilton	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
-154	t	Hiker Parry	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
-155	t	Picnicker Erin	0:Not Rematched,1:Had 1st Rematch,2:Had 2nd Rematch (Final)
+55	s	满金电台5楼剧情事件	0:将与伪装的火箭队干部对战,1:击败伪装的火箭队干部,2:在工作室击败了火箭队干部
+58	*	解密石室-左上 (阿露福遗迹)	0:未解决的墙壁难题,1:已解决墙壁难题
+59	*	解密石室-右上 (阿露福遗迹)	0:未解决的墙壁难题,1:已解决墙壁难题
+60	*	解密石室-左下 (阿露福遗迹)	0:未解决的墙壁难题,1:已解决墙壁难题
+61	*	解密石室-右下 (阿露福遗迹)	0:未解决的墙壁难题,1:已解决墙壁难题
+63	s	卡吉镇商店	0:常态,1:阿渡出现了 (剧情事件)
+65	s	火箭队基地负2楼 剧情事件	0:未访问,1:阿渡治疗了你的队伍/将与火箭队干部对战,2:阿渡要你和顽皮雷弹对战（不能离开发电机房）,3:发电机已停用
+66	s	火箭队基地负3楼 剧情事件	0:未访问,1:阿渡告知密码,2:遇到劲敌,3:击败火箭队干部
+67	s	劲敌 (满金地道)	0:将与你对战,1:消失了
+69	s	劲敌 (冠军之路)	0:将与你对战,1:消失了
+70	s	小椿 (龙穴)	0:消失了,1:会在神社外给你TM24
+71	s	龙穴祠堂	0:未访问,1:进入并参加考验
+74	s	水流号事件	0:常态,2:绅士会撞到你（剧情事件）
+75	s	水流号负1楼水手	0:阻止进一步访问,1:允许进一步访问
+128	t	补习班学生 秀一	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第23次再战,4:进行了第4次再战 (最终)
+130	t	水手 干劲	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第23次再战 (最终)
+131	t	精英训练家 小周	0:未再战,1:进行了第1次再战,2:进行了第2次再战 (最终)
+132	t	精英训练家 仁美	0:未再战,1:进行了第1次再战,2:进行了第2次再战 (最终)
+133	t	养鸟人 英治	0:未再战,1:进行了第1次再战,2:进行了第2次再战 (最终)
+134	t	精英训练家 夏帆	0:未再战,1:进行了第1次再战,2:进行了第2次再战 (最终)
+135	t	短裤小子 五郎	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+136	t	捕虫少年 光一	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+137	t	垂钓者 康明	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+138	t	野餐女孩 佳织	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+139	t	登山男 阿勤	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+140	t	露营少年 洋一	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+141	t	野餐女孩 小瑞	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+143	t	捕虫少年 洋太	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+144	t	补习班学生 阿勉	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战4:进行了第4次再战 (最终)
+145	t	迷你裙 阿香	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+146	t	补习班学生 克里欧	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战,4:进行了第4次再战 (最终)
+148	t	垂钓者 小实	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战 (最终)
+149	t	怪兽狂 小诚	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战 (最终)
+150	t	野餐女孩 千慧	0:未再战,1:进行了第1次再战,2:进行了第2次再战,3:进行了第3次再战 (最终)
+151	t	养鸟人 本弘	0:未再战,1:进行了第1次再战,2:进行了第2次再战 (最终)
+152	t	垂钓者 秀则	0:未再战,1:进行了第1次再战,2:进行了第2次再战 (最终)
+154	t	登山男 太郎	0:未再战,1:进行了第1次再战,2:进行了第2次再战 (最终)
+155	t	野餐女孩 恵美	0:未再战,1:进行了第1次再战,2:进行了第2次再战 (最终)
