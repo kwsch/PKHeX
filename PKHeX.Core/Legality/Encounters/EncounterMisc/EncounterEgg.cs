@@ -155,9 +155,6 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
     {
         var learnset = GameData.GetLearnset(version, Species, Form);
         var baseMoves = learnset.GetBaseEggMoves(Level);
-        if (baseMoves.Length == 0) return; pk.Move1 = baseMoves[0];
-        if (baseMoves.Length == 1) return; pk.Move2 = baseMoves[1];
-        if (baseMoves.Length == 2) return; pk.Move3 = baseMoves[2];
-        if (baseMoves.Length == 3) return; pk.Move4 = baseMoves[3];
+        pk.SetMoves(baseMoves);
     }
 }
