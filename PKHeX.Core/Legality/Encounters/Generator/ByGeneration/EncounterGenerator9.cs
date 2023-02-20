@@ -253,6 +253,8 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
     private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain, GameVersion version)
     {
         var devolved = chain[^1];
+        if (!devolved.InsideLevelRange(EggLevel))
+            yield break;
         if (version == 0 && pk.IsEgg)
             version = GameVersion.SL;
 
