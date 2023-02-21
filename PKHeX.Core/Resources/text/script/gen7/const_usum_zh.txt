@@ -6,11 +6,11 @@
 755	r	基格尔德	01:可对战,02:已击倒,05:已捕获
 867	r	霸主礼物	00:未领取,01:领取了1只,02:领取了2只,03:领取了3只,04:领取了4只,05:领取了5只,06:已全部领取
 084	s	在皮卡丘山谷见到皮卡丘
-078	+	Total Title Defenses
-083	+	Total Important NPC Battles
-750	s	League Fangirls	Event	0:0 Title Defenses,1:After 1 Title Defense (Sweet Heart x2 Pending),2:After 2 Title Defenses (Received Sweet Heart x2)
-756	s	Hypno Event (Hau'oli Police Station)	0:Not Activated,1:Activated,2:Completed
-769	s	Ditto Five Event	0:Disguised Officer Appeared,1:Defeated Disguised Officer (Reward Pending),2:Disguised Herb Seller Appeared,3:Defeated Disguised Herb Seller (Reward Pending),4:Disguised Chef Appeared,5:Defeated Disguised Chef (Reward Pending),6:Disguised Iomi Iomi Therapist Appeared,7:Defeated Disguised Iomi Iomi Therapist (Reward Pending),8:Disguised Olivia Appeared,9:Defeated Disguised Olivia (Reward Pending),10:Completed
-783	s	Hano Beach Youngster	0:Will Activate Seven Mysteries Event,1:Activated Seven Mysteries Event,2:Has Hyper Potion (Seven Mysteries Complete),3:Gave Hyper Potion
-784	r	Haunted Trainers' School Diary	0:Normal,5:Cursed (Drifloon Appeared)
-790	r	Haunted Trainers' School Gastly	6:Battleable,7:Battled
+078	+	联盟卫冕战总次数
+083	+	联盟卫冕战 重要NPC总次数
+750	s	联盟卫冕战 女粉丝事件	0:0次卫冕,1:1次卫冕之后 (心之鳞片 x2 待定),2:2次卫冕之后 (收到心之鳞片 x2)
+756	s	引梦貘人 事件 (好奥乐派出所)	0:未激活,1:激活,2:完成
+769	s	寻找变为人类的百变怪 事件	0:伪装的警察出现了,1:击败伪装的警察（奖励待定）,2:伪装的中药商人出现了,3:击败伪装的中药商人 (奖励待定),4:伪装的厨师出现了,5:击败伪装的厨师 (奖励待定),6:伪装的罗米罗米按摩员出现了,7:击败伪装的罗米罗米按摩员 (奖励待定),8:伪装的丽姿出现了,9:击败伪装的丽姿 (奖励待定),10:完成
+783	s	豪诺豪诺海滩男孩	0:将激活七大谜团事件,1:已激活七大谜团事件,2:将赠与厉害伤药（七大谜团事件完成）,3:已获得厉害伤药
+784	r	闹鬼训练家学校 日记	0:常态,5:被诅咒的 (飘飘球出现)
+790	r	闹鬼训练家学校 鬼斯	6:可对战,7:已对战
