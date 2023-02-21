@@ -1,21 +1,21 @@
 0048	*	御三家	0:藤藤蛇,1:暖暖猪,2:水水獭
 0077	s	连入	6:完成教程
 0268	r	拉帝亚斯/拉帝欧斯	5:可对战,6:消失
-0291	s	N's Zoroark (Victory Road)	0:Blocks further access (Pre-Champion),1:Wants you to follow (Post-Champion),2:On the outside cliff,3:In front of N's Castle,4:Went into N's Castle
-0294	e	Yancy/Curtis Call (Nimbasa City)	0:Inactive,1:Active,2:Activated
-0295	e	Yancy/Curtis Call (Driftveil City)	0:Inactive,1:Active,2:Activated
-0296	e	Yancy/Curtis Call (Mistralton City)	0:Inactive,1:Active,2:Activated
-0297	e	Yancy/Curtis Call (Lacunosa Town)	0:Inactive,1:Active,2:Activated
-0298	e	Yancy/Curtis Call (Undella Town)	0:Inactive,1:Active,2:Activated
-0299	e	Yancy/Curtis Call (Lentimas Town)	0:Inactive,1:Active,2:Activated
-0300	e	Yancy/Curtis Call (Route 5)	0:Inactive,1:Active,2:Activated
-0301	e	Yancy/Curtis Call (Route 6)	0:Inactive,1:Active,2:Activated
-0302	e	Yancy/Curtis Call (Route 7)	0:Inactive,1:Active,2:Activated
-0303	e	Yancy/Curtis Call (Route 9)	0:Inactive,1:Active,2:Activated
-0304	e	Yancy/Curtis Call (Route 11)	0:Inactive,1:Active,2:Activated
-0305	e	Yancy/Curtis Call (Route 12)	0:Inactive,1:Active,2:Activated
-0306	e	Yancy/Curtis Call (Route 13)	0:Inactive,1:Active,2:Activated
-0307	e	Yancy/Curtis Call (Route 14)	0:Inactive,1:Active,2:Activated
-0308	e	Yancy/Curtis Call (Route 16)	0:Inactive,1:Active,2:Activated
-0392	e	Yancy/Curtis	0:Not met,1:Called via Dropped Item,2:Met in-person after 10 calls
-0396	t	Shadow Traid (Icirrus City)	0:Battleable (Current Season),1:Battled for Spring,2:Battled for Summer,3:Battled for Autumn,4:Battled for Winter
+0291	s	N的索罗亚克 (冠军之路)	0:阻止进一步访问（未成为冠军）,1:希望你跟随（成为冠军后）,2:在外面的悬崖上,3:在N的城堡前,4:走进N的城堡
+0294	e	琉璃/阿铁 呼叫 (雷文市)	0:无效,1:可激活,2:已激活
+0295	e	琉璃/阿铁 呼叫 (帆巴市)	0:无效,1:可激活,2:已激活
+0296	e	琉璃/阿铁 呼叫 (吹寄市)	0:无效,1:可激活,2:已激活
+0297	e	琉璃/阿铁 呼叫 (笼目镇)	0:无效,1:可激活,2:已激活
+0298	e	琉璃/阿铁 呼叫 (涟漪镇)	0:无效,1:可激活,2:已激活
+0299	e	琉璃/阿铁 呼叫 (山路镇)	0:无效,1:可激活,2:已激活
+0300	e	琉璃/阿铁 呼叫 (5道路)	0:无效,1:可激活,2:已激活
+0301	e	琉璃/阿铁 呼叫 (6道路)	0:无效,1:可激活,2:已激活
+0302	e	琉璃/阿铁 呼叫 (7道路)	0:无效,1:可激活,2:已激活
+0303	e	琉璃/阿铁 呼叫 (9道路)	0:无效,1:可激活,2:已激活
+0304	e	琉璃/阿铁 呼叫 (11道路)	0:无效,1:可激活,2:已激活
+0305	e	琉璃/阿铁 呼叫 (12道路)	0:无效,1:可激活,2:已激活
+0306	e	琉璃/阿铁 呼叫 (13道路)	0:无效,1:可激活,2:已激活
+0307	e	琉璃/阿铁 呼叫 (14道路)	0:无效,1:可激活,2:已激活
+0308	e	琉璃/阿铁 呼叫 (16道路)	0:无效,1:可激活,2:已激活
+0392	e	琉璃/阿铁	0:未满足要求,1:通过遗忘物取得联系,2:10次电话后亲自见面
+0396	t	黑暗铁三角 (雪花市)	0:可对战 (当前季节),1:春季已对战,2:夏季已对战,3:秋季已对战,4:冬季已对战
