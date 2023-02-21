@@ -235,6 +235,9 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
     private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain)
     {
         var devolved = chain[^1];
+        if (!devolved.InsideLevelRange(EggLevel))
+            yield break;
+
         // Ensure most devolved species is the same as the egg species.
         var (species, form) = GetBaby(devolved);
         if (species != devolved.Species)

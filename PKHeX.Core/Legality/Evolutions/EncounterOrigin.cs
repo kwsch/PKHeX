@@ -84,7 +84,7 @@ public static class EncounterOrigin
 
     private static int GetLevelOriginMin(PKM pk, bool hasMet)
     {
-        if (pk.Format == 3)
+        if (pk.Format <= 3)
         {
             if (pk.IsEgg)
                 return 5;

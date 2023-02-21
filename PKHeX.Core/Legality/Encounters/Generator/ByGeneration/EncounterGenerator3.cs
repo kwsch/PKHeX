@@ -338,6 +338,8 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
     private static IEnumerable<EncounterEgg> GetEggs(EvoCriteria[] chain, GameVersion version)
     {
         var devolved = chain[^1];
+        if (!devolved.InsideLevelRange(EggLevel))
+            yield break;
 
         // Ensure most devolved species is the same as the egg species.
         var (species, form) = GetBaby(devolved);
