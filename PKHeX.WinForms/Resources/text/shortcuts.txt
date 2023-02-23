@@ -1,4 +1,4 @@
-﻿If you are having issues viewing certain symbols/text: Options -> Unicode
+If you are having issues viewing certain symbols/text: Options -> Unicode
 
 // Main Window
 
@@ -95,15 +95,18 @@ Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team
 // Misc Editors
 
 RIBBONS:
-- Shift-Click the Give All Button to set all legal Ribbons.
-- Shift-Click the Remove All Button to remove all illegal Ribbons.
+- Shift-Click the Give All button to set all legal Ribbons.
+- Shift-Click the Remove All button to remove all illegal Ribbons.
 
 POKEPUFF:
-- Control Click the All Button to give the best Pokepuffs.
-- Control Click the Sort Button to sort in reverse.
+- Control Click the All button to give the best Pokepuffs.
+- Control Click the Sort button to sort in reverse.
 
 MYSTERY GIFT:
 - Alt-Click QR to import from QR image.
 
-TRAINER INFO (GO PIKACHU/EEVEE)
+TRAINER INFO (GO PIKACHU/EEVEE):
 - Drop Go Park entity file (gp1) to import to selected slot.
+
+TERA RAIDS (SCARLET/VIOLET):
+- Shift-Click the Copy to Other Raids button to copy the Seed as well as the Content.

@@ -106,7 +106,7 @@ public sealed class TeraRaidDetail
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x0C), value);
     }
 
-    [Category(General), Description("RNG Seed (32bit) for fetching the Raid data table and generating the raid."), TypeConverter(typeof(TypeConverterU32))]
+    [Category(General), Description("RNG Seed (32bit) for fetching the raid data table and generating the raid."), TypeConverter(typeof(TypeConverterU32))]
     public uint Seed
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10));
@@ -120,14 +120,14 @@ public sealed class TeraRaidDetail
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x14), value);
     }
 
-    [Category(General), Description("Indicates the source of the Raid encounter data and rewards.")]
+    [Category(General), Description("Indicates the source of the raid encounter data and rewards.")]
     public TeraRaidContentType Content
     {
         get => (TeraRaidContentType)ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x18));
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x18), (uint)value);
     }
 
-    [Category(Misc), Description("Has player already collected the League Points for this Raid?")]
+    [Category(Misc), Description("Has player already collected the League Points for this raid?")]
     public bool IsClaimedLeaguePoints
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1C)) != 0;
