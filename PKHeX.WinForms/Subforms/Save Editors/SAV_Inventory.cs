@@ -362,9 +362,6 @@ public partial class SAV_Inventory : Form
 
     private void ModifyPouch(int pouch, Action<InventoryPouch> func)
     {
-        if (func == null)
-            throw new ArgumentNullException(nameof(func));
-
         var dgv = GetGrid(pouch);
         var p = Pouches[pouch];
         SetBag(dgv, p); // save current

@@ -42,8 +42,7 @@ public sealed class BitmapAnimator : IDisposable
         }
 
         // reset logic
-        if (GlowCache == null)
-            throw new ArgumentNullException(nameof(GlowCache));
+        ArgumentNullException.ThrowIfNull(GlowCache);
         GlowCounter = 0;
         for (int i = 0; i < GlowCache.Length; i++)
             GlowCache[i] = null;
@@ -90,8 +89,7 @@ public sealed class BitmapAnimator : IDisposable
     private Image GetFrame(int frameIndex)
     {
         var cache = GlowCache;
-        if (cache == null)
-            throw new NullReferenceException(nameof(GlowCache));
+        ArgumentNullException.ThrowIfNull(cache);
         var frame = cache[frameIndex];
         if (frame != null)
             return frame;
@@ -99,8 +97,7 @@ public sealed class BitmapAnimator : IDisposable
         var elapsedFraction = (double)frameIndex / GlowInterval;
         var frameColor = GetFrameColor(elapsedFraction);
 
-        if (GlowData == null)
-            throw new NullReferenceException(nameof(GlowData));
+        ArgumentNullException.ThrowIfNull(GlowData);
         var frameData = (byte[])GlowData.Clone();
         ImageUtil.ChangeAllColorTo(frameData, frameColor);
 

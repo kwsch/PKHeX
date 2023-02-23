@@ -334,11 +334,7 @@ public partial class SAV_Encounters : Form
             return RuntimeHelpers.GetHashCode(x).Equals(RuntimeHelpers.GetHashCode(y));
         }
 
-        public int GetHashCode(T obj)
-        {
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
-            return RuntimeHelpers.GetHashCode(obj);
-        }
+        public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
     }
 
     private IEnumerable<IEncounterInfo> GetEncounters(ushort species, byte form, ushort[] moves, PKM pk, IReadOnlyList<GameVersion> vers)

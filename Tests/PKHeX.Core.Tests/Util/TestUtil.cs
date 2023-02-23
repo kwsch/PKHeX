@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace PKHeX.Core.Tests;
@@ -11,8 +11,7 @@ internal static class TestUtil
         while (!folder.EndsWith(nameof(Tests)))
         {
             var dir = Directory.GetParent(folder);
-            if (dir == null)
-                throw new ArgumentNullException(nameof(dir));
+            ArgumentNullException.ThrowIfNull(dir);
             folder = dir.FullName;
         }
         return folder;

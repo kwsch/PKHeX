@@ -363,9 +363,7 @@ public static class WinFormsUtil
             sav.CurrentBox = currentBox;
 
         var path = sfd.FileName;
-        if (path == null)
-            throw new NullReferenceException(nameof(sfd.FileName));
-
+        ArgumentNullException.ThrowIfNull(path);
         ExportSAV(sav, path);
         return true;
     }

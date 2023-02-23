@@ -31,8 +31,7 @@ public abstract class DataMysteryGift : MysteryGift
     {
         byte[] data = (byte[])Data.Clone();
         var result = GetMysteryGift(data);
-        if (result == null)
-            throw new ArgumentException(nameof(MysteryGift));
+        ArgumentNullException.ThrowIfNull(result);
         return result;
     }
 
