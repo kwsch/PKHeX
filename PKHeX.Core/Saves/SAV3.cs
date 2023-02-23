@@ -123,10 +123,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         if (!v1)
             return 0;
 
-        var count0 = ReadUInt32LittleEndian(data[(sectorZero0 + 0x0FFC)..]);
-        var count1 = ReadUInt32LittleEndian(data[(sectorZero1 + 0x0FFC)..]);
-        // don't care about 32bit overflow. a 10 second save would take 1,000 years to overflow!
-        return count1 > count0 ? 1 : 0;
+        return SAV3BlockDetection.CompareFooters(data, sectorZero0, sectorZero1);
     }
 
     protected sealed override byte[] GetFinalData()

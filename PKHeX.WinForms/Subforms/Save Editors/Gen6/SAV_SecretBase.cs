@@ -396,12 +396,11 @@ public partial class SAV_SecretBase : Form
 
         var data = File.ReadAllBytes(path);
         var obj = SecretBase6.Read(data);
-        if (obj is null) // shouldn't happen, we already size-check above.
-            throw new NullReferenceException();
+        // shouldn't happen, we already size-check above.
+        ArgumentNullException.ThrowIfNull(obj);
 
         var sb = CurrentBase;
-        if (sb is null)
-            throw new NullReferenceException();
+        ArgumentNullException.ThrowIfNull(sb);
 
         ResetLoadNew();
         sb.Load(obj);
@@ -413,8 +412,7 @@ public partial class SAV_SecretBase : Form
     private void B_Export_Click(object sender, EventArgs e)
     {
         var sb = CurrentBase;
-        if (sb is null)
-            throw new NullReferenceException();
+        ArgumentNullException.ThrowIfNull(sb);
 
         SaveCurrent(sb);
         var tr = sb.TrainerName;
@@ -441,8 +439,7 @@ public partial class SAV_SecretBase : Form
 
         int index = LB_Bases.SelectedIndex - 1;
         var bdata = CurrentBase;
-        if (bdata is null)
-            throw new NullReferenceException();
+        ArgumentNullException.ThrowIfNull(bdata);
 
         string BaseTrainer = bdata.TrainerName;
         if (string.IsNullOrEmpty(BaseTrainer))
