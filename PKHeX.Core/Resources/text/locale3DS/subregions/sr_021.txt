@@ -24,3 +24,11 @@
 024,プトゥマイオ県,Putumayo,Putumayo,Putumayo,Putumayo,Putumayo,普图马约省,푸투마요 주,普圖馬約省
 025,キンディオ県,Quindío,Quindío,Quindío,Quindío,Quindío,金迪奥省,킨디오 주,金迪奧省
 026,リサラルダ県,Risaralda,Risaralda,Risaralda,Risaralda,Risaralda,利萨拉尔达省,리사랄다 주,利薩拉爾達省
+027,サン・アンドレス・イ・プロビデンシア県,Archipiélago de San Andrés\x2C Providencia y Santa Catalina,Îles de San Andrés\x2C Providencia et Santa Cataline,San Andrés und Providencia,San Andrés e Providencia,Archipiélago de San Andrés\x2C Providencia y Santa Catalina,圣安德烈斯-普罗维登西亚省,산안드레스 이 프로비덴시아 주,聖安德列斯-普羅維登西亞省
+028,サンタンデル県,Santander,Santander,Santander,Santander,Santander,桑坦德省,산탄데르 주,桑坦德省
+029,スクレ県,Sucre,Sucre,Sucre,Sucre,Sucre,苏克雷省,수크레 주,蘇克雷省
+030,トリマ県,Tolima,Tolima,Tolima,Tolima,Tolima,托利马省,톨리마 주,托利馬省
+031,バジェ・デル・カウカ県,Valle del Cauca,Valle del Cauca,Valle del Cauca,Valle del Cauca,Valle del Cauca,考卡山谷省,바예델카우카 주,考卡山谷省
+032,バウペス県,Vaupés,Vaupés,Vaupés,Vaupés,Vaupés,沃佩斯省,바우페스 주,沃佩斯省
+033,ビチャダ県,Vichada,Vichada,Vichada,Vichada,Vichada,维查达省,비차다 주,維查達省
+034,カサナレ県,Casanare,Casanare,Casanare,Casanare,Casanare,卡萨纳雷省,카사나레 주,卡薩納雷省

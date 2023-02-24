@@ -21,3 +21,5 @@
 021,サンタ・クルス州,Santa Cruz,Santa Cruz,Santa Cruz,Santa Cruz,Santa Cruz,圣克鲁斯省,산타크루스 주,聖克魯斯省
 022,サンタ・フェ州,Santa Fe,Santa Fe,Santa Fe,Santa Fe,Santa Fe,圣菲省,산타페 주,聖菲省
 023,サンティアゴ・デル・エステロ州,Santiago del Estero,Santiago del Estero,Santiago del Estero,Santiago del Estero,Santiago del Estero,圣地亚哥-德尔埃斯特罗省,산티아고델에스테로 주,聖地亞哥-德爾埃斯特羅省
+024,ティエラ・デル・フエゴ州,Tierra del Fuego\x2C Antártida e Islas del Atlántico Sur,Terre de Feu\x2C Antarctique et Îles de l’Atlantique Sud,Feuerland,Terra del Fuoco,Tierra del Fuego,火地岛省,티에라델푸에고 주,火地島省
+025,トゥクマン州,Tucumán,Tucumán,Tucumán,Tucumán,Tucumán,图库曼省,투쿠만 주,圖庫曼省
