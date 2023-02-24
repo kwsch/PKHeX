@@ -124,6 +124,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override uint ID32 { get => PlayerData.ID32; set => PlayerData.ID32 = value; }
     public override ushort TID16 { get => PlayerData.TID16; set => PlayerData.TID16 = value; }
     public override ushort SID16 { get => PlayerData.SID16; set => PlayerData.SID16 = value; }
+    public int Country { get => PlayerData.Country; set => PlayerData.Country = value; }
+    public int Region { get => PlayerData.Region; set => PlayerData.Region = value; }
     public override int Language { get => PlayerData.Language; set => PlayerData.Language = value; }
     public override int Game { get => PlayerData.Game; set => PlayerData.Game = value; }
     public override int Gender { get => PlayerData.Gender; set => PlayerData.Gender = value; }

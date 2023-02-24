@@ -37,6 +37,18 @@ public sealed class PlayerData5 : SaveBlock<SAV5>
         set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x14 + 2), value);
     }
 
+    public int Country
+    {
+        get => Data[Offset + 0x1C];
+        set => Data[Offset + 0x1C] = (byte)value;
+    }
+
+    public int Region
+    {
+        get => Data[Offset + 0x1D];
+        set => Data[Offset + 0x1D] = (byte)value;
+    }
+
     public int Language
     {
         get => Data[Offset + 0x1E];
