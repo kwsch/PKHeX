@@ -1,0 +1,51 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,ほっかいどう（さっぽろ）,Hokkaido (Sapporo),Hokkaido (Sapporo),Hokkaido (Sapporo),Hokkaido (Sapporo),Hokkaido (Sapporo),Hokkaido (Sapporo),홋카이도 (삿포로),Hokkaido (Sapporo)
+002,ほっかいどう（はこだて）,Hokkaido (Hakodate),Hokkaido (Hakodate),Hokkaido (Hakodate),Hokkaido (Hakodate),Hokkaido (Hakodate),Hokkaido (Hakodate),홋카이도 (하코다테),Hokkaido (Hakodate)
+003,ほっかいどう（わっかない）,Hokkaido (Wakkanai),Hokkaido (Wakkanai),Hokkaido (Wakkanai),Hokkaido (Wakkanai),Hokkaido (Wakkanai),Hokkaido (Wakkanai),홋카이도 (왓카나이),Hokkaido (Wakkanai)
+004,ほっかいどう（くしろ）,Hokkaido (Kushiro),Hokkaido (Kushiro),Hokkaido (Kushiro),Hokkaido (Kushiro),Hokkaido (Kushiro),Hokkaido (Kushiro),홋카이도 (구시로),Hokkaido (Kushiro)
+005,あおもり,Aomori,Aomori,Aomori,Aomori,Aomori,Aomori,아오모리,Aomori
+006,いわて,Iwate,Iwate,Iwate,Iwate,Iwate,Iwate,이와테,Iwate
+007,みやぎ,Miyagi,Miyagi,Miyagi,Miyagi,Miyagi,Miyagi,미야기,Miyagi
+008,あきた,Akita,Akita,Akita,Akita,Akita,Akita,아키타,Akita
+009,やまがた,Yamagata,Yamagata,Yamagata,Yamagata,Yamagata,Yamagata,야마가타,Yamagata
+010,ふくしま,Fukushima,Fukushima,Fukushima,Fukushima,Fukushima,Fukushima,후쿠시마,Fukushima
+011,いばらき,Ibaraki,Ibaraki,Ibaraki,Ibaraki,Ibaraki,Ibaraki,이바라키,Ibaraki
+012,とちぎ,Tochigi,Tochigi,Tochigi,Tochigi,Tochigi,Tochigi,도치기,Tochigi
+013,ぐんま,Gunma,Gunma,Gunma,Gunma,Gunma,Gunma,군마,Gunma
+014,さいたま,Saitama,Saitama,Saitama,Saitama,Saitama,Saitama,사이타마,Saitama
+015,ちば,Chiba,Chiba,Chiba,Chiba,Chiba,Chiba,지바,Chiba
+016,とうきょう,Tokyo,Tokyo,Tokio,Tokyo,Tokio,Tokyo,도쿄,Tokyo
+017,かながわ,Kanagawa,Kanagawa,Kanagawa,Kanagawa,Kanagawa,Kanagawa,가나가와,Kanagawa
+018,にいがた,Niigata,Niigata,Niigata,Niigata,Niigata,Niigata,니가타,Niigata
+019,とやま,Toyama,Toyama,Toyama,Toyama,Toyama,Toyama,도야마,Toyama
+020,いしかわ,Ishikawa,Ishikawa,Ishikawa,Ishikawa,Ishikawa,Ishikawa,이시카와,Ishikawa
+021,ふくい,Fukui,Fukui,Fukui,Fukui,Fukui,Fukui,후쿠이,Fukui
+022,やまなし,Yamanashi,Yamanashi,Yamanashi,Yamanashi,Yamanashi,Yamanashi,야마나시,Yamanashi
+023,ながの,Nagano,Nagano,Nagano,Nagano,Nagano,Nagano,나가노,Nagano
+024,ぎふ,Gifu,Gifu,Gifu,Gifu,Gifu,Gifu,기후,Gifu
+025,しずおか,Shizuoka,Shizuoka,Shizuoka,Shizuoka,Shizuoka,Shizuoka,시즈오카,Shizuoka
+026,あいち,Aichi,Aichi,Aichi,Aichi,Aichi,Aichi,아이치,Aichi
+027,みえ,Mie,Mie,Mie,Mie,Mie,Mie,미에,Mie
+028,しが,Shiga,Shiga,Shiga,Shiga,Shiga,Shiga,시가,Shiga
+029,きょうと,Kyoto,Kyoto,Kyoto,Kyoto,Kioto,Kyoto,교토,Kyoto
+030,おおさか,Osaka,Osaka,Osaka,Osaka,Osaka,Osaka,오사카,Osaka
+031,ひょうご,Hyogo,Hyogo,Hyogo,Hyogo,Hyogo,Hyogo,효고,Hyogo
+032,なら,Nara,Nara,Nara,Nara,Nara,Nara,나라,Nara
+033,わかやま,Wakayama,Wakayama,Wakayama,Wakayama,Wakayama,Wakayama,와카야마,Wakayama
+034,とっとり,Tottori,Tottori,Tottori,Tottori,Tottori,Tottori,돗토리,Tottori
+035,しまね,Shimane,Shimane,Shimane,Shimane,Shimane,Shimane,시마네,Shimane
+036,おかやま,Okayama,Okayama,Okayama,Okayama,Okayama,Okayama,오카야마,Okayama
+037,ひろしま,Hiroshima,Hiroshima,Hiroshima,Hiroshima,Hiroshima,Hiroshima,히로시마,Hiroshima
+038,やまぐち,Yamaguchi,Yamaguchi,Yamaguchi,Yamaguchi,Yamaguchi,Yamaguchi,야마구치,Yamaguchi
+039,とくしま,Tokushima,Tokushima,Tokushima,Tokushima,Tokushima,Tokushima,도쿠시마,Tokushima
+040,かがわ,Kagawa,Kagawa,Kagawa,Kagawa,Kagawa,Kagawa,가가와,Kagawa
+041,えひめ,Ehime,Ehime,Ehime,Ehime,Ehime,Ehime,에히메,Ehime
+042,こうち,Kochi,Kochi,Kochi,Kochi,Kochi,Kochi,고치,Kochi
+043,ふくおか,Fukuoka,Fukuoka,Fukuoka,Fukuoka,Fukuoka,Fukuoka,후쿠오카,Fukuoka
+044,さが,Saga,Saga,Saga,Saga,Saga,Saga,사가,Saga
+045,ながさき,Nagasaki,Nagasaki,Nagasaki,Nagasaki,Nagasaki,Nagasaki,나가사키,Nagasaki
+046,くまもと,Kumamoto,Kumamoto,Kumamoto,Kumamoto,Kumamoto,Kumamoto,구마모토,Kumamoto
+047,おおいた,Oita,Oita,Oita,Oita,Oita,Oita,오이타,Oita
+048,みやざき,Miyazaki,Miyazaki,Miyazaki,Miyazaki,Miyazaki,Miyazaki,미야자키,Miyazaki
+049,かごしま,Kagoshima,Kagoshima,Kagoshima,Kagoshima,Kagoshima,Kagoshima,가고시마,Kagoshima
+050,おきなわ,Okinawa,Okinawa,Okinawa,Okinawa,Okinawa,Okinawa,오키나와,Okinawa

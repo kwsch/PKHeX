@@ -1,0 +1,21 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,アブルッツォ,Abruzzo,Abruzzes,Abruzzen,Abruzzo,Abruzos,Abruzzo,아브루초,Abruzzo
+002,バジリカータ,Basilicata,Basilicate,Basilikata,Basilicata,Basilicata,Basilicata,바실리카타,Basilicata
+003,カラブリア,Calabria,Calabre,Kalabrien,Calabria,Calabria,Calabria,칼라브리아,Calabria
+004,カンパニア,Campania,Campanie,Kampanien,Campania,Campania,Campania,캄파니아,Campania
+005,エミリア・ロマーニャ,Emilia-Romagna,Émilie-Romagne,Emilia-Romagna,Emilia-Romagna,Emilia-Romaña,Emilia-Romagna,에밀리아로마냐,Emilia-Romagna
+006,フリウリ・ベネツィア・ジュリア,Friuli-Venezia Giulia,Frioul-Vénétie Julienne,Friaul-Julisch Venetien,Friuli-Venezia Giulia,Friuli-Venecia Julia,Friuli-Venezia Giulia,프리울리베네치아줄리아,Friuli-Venezia Giulia
+007,ラツィオ,Lazio,Latium,Latium,Lazio,Lacio,Lazio,라치오,Lazio
+008,リグーリア,Liguria,Ligurie,Ligurien,Liguria,Liguria,Liguria,리구리아,Liguria
+009,ロンバルディア,Lombardy,Lombardie,Lombardei,Lombardia,Lombardía,Lombardy,롬바르디아,Lombardy
+010,マルケ,Marche,Marches,Marken,Marche,Marcas,Marche,마르케,Marche
+011,モリーゼ,Molise,Molise,Molise,Molise,Molise,Molise,몰리세,Molise
+012,ピエモンテ,Piedmont,Piémont,Piemont,Piemonte,Piamonte,Piedmont,피에몬테,Piedmont
+013,プーリア,Apulia,Pouilles,Apulien,Puglia,Apulia,Apulia,풀리아,Apulia
+014,サルデーニャ,Sardinia,Sardaigne,Sardinien,Sardegna,Cerdeña,Sardinia,사르데냐,Sardinia
+015,シチリア,Sicily,Sicile,Sizilien,Sicilia,Sicilia,Sicily,시칠리아,Sicily
+016,トスカーナ,Tuscany,Toscane,Toskana,Toscana,Toscana,Tuscany,토스카나,Tuscany
+017,トレンティーノ・アルト・アディジェ,Trentino-Alto Adige,Trentin-Haut-Adige,Trentino-Südtirol,Trentino-Alto Adige,Trentino-Alto Adigio,Trentino-Alto Adige,트렌티노알토아디제,Trentino-Alto Adige
+018,ウンブリア,Umbria,Ombrie,Umbrien,Umbria,Umbría,Umbria,움브리아,Umbria
+019,バッレ・ダオスタ,Valle d'Aosta,Vallée d'Aoste,Aostatal,Valle d'Aosta,Valle de Aosta,Valle d'Aosta,발레다오스타,Valle d'Aosta
+020,ベネト,Veneto,Vénétie,Venetien,Veneto,Véneto,Veneto,베네토,Veneto

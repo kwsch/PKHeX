@@ -1,0 +1,52 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,アラバマ,Alabama,Alabama,Alabama,Alabama,Alabama,Alabama,앨라배마,Alabama
+002,アラスカ,Alaska,Alaska,Alaska,Alaska,Alaska,Alaska,알래스카,Alaska
+003,アリゾナ,Arizona,Arizona,Arizona,Arizona,Arizona,Arizona,애리조나,Arizona
+004,アーカンソー,Arkansas,Arkansas,Arkansas,Arkansas,Arkansas,Arkansas,아칸소,Arkansas
+005,カリフォルニア,California,Californie,Kalifornien,California,California,California,캘리포니아,California
+006,コロラド,Colorado,Colorado,Colorado,Colorado,Colorado,Colorado,콜로라도,Colorado
+007,コネチカット,Connecticut,Connecticut,Connecticut,Connecticut,Connecticut,Connecticut,코네티컷,Connecticut
+008,デラウェア,Delaware,Delaware,Delaware,Delaware,Delaware,Delaware,델라웨어,Delaware
+009,フロリダ,Florida,Floride,Florida,Florida,Florida,Florida,플로리다,Florida
+010,ジョージア,Georgia,Géorgie,Georgia,Georgia,Georgia,Georgia,조지아,Georgia
+011,ハワイ,Hawaii,Hawaii,Hawaii,Hawaii,Hawái,Hawaii,하와이,Hawaii
+012,アイダホ,Idaho,Idaho,Idaho,Idaho,Idaho,Idaho,아이다호,Idaho
+013,イリノイ,Illinois,Illinois,Illinois,Illinois,Illinois,Illinois,일리노이,Illinois
+014,インディアナ,Indiana,Indiana,Indiana,Indiana,Indiana,Indiana,인디애나,Indiana
+015,アイオワ,Iowa,Iowa,Iowa,Iowa,Iowa,Iowa,아이오와,Iowa
+016,カンザス,Kansas,Kansas,Kansas,Kansas,Kansas,Kansas,캔자스,Kansas
+017,ケンタッキー,Kentucky,Kentucky,Kentucky,Kentucky,Kentucky,Kentucky,켄터키,Kentucky
+018,ルイジアナ,Louisiana,Louisiane,Louisiana,Louisiana,Luisiana,Louisiana,루이지애나,Louisiana
+019,メイン,Maine,Maine,Maine,Maine,Maine,Maine,메인,Maine
+020,メリーランド,Maryland,Maryland,Maryland,Maryland,Maryland,Maryland,메릴랜드,Maryland
+021,マサチューセッツ,Massachusetts,Massachusetts,Massachusetts,Massachusetts,Massachusetts,Massachusetts,매사추세츠,Massachusetts
+022,ミシガン,Michigan,Michigan,Michigan,Michigan,Michigan,Michigan,미시간,Michigan
+023,ミネソタ,Minnesota,Minnesota,Minnesota,Minnesota,Minnesota,Minnesota,미네소타,Minnesota
+024,ミシシッピ,Mississippi,Mississippi,Mississippi,Mississippi,Misisipi,Mississippi,미시시피,Mississippi
+025,ミズーリ,Missouri,Missouri,Missouri,Missouri,Misuri,Missouri,미주리,Missouri
+026,モンタナ,Montana,Montana,Montana,Montana,Montana,Montana,몬태나,Montana
+027,ネブラスカ,Nebraska,Nebraska,Nebraska,Nebraska,Nebraska,Nebraska,네브래스카,Nebraska
+028,ネバダ,Nevada,Nevada,Nevada,Nevada,Nevada,Nevada,네바다,Nevada
+029,ニューハンプシャー,New Hampshire,New Hampshire,New Hampshire,New Hampshire,Nuevo Hampshire,New Hampshire,뉴햄프셔,New Hampshire
+030,ニュージャージー,New Jersey,New Jersey,New Jersey,New Jersey,Nueva Jersey,New Jersey,뉴저지,New Jersey
+031,ニューメキシコ,New Mexico,Nouveau-Mexique,New Mexico,New Mexico,Nuevo México,New Mexico,뉴멕시코,New Mexico
+032,ニューヨーク,New York,New York,New York,New York,Nueva York,New York,뉴욕,New York
+033,ノースカロライナ,North Carolina,Caroline du Nord,North Carolina,North Carolina,Carolina del Norte,North Carolina,노스캐롤라이나,North Carolina
+034,ノースダコタ,North Dakota,Dakota du Nord,Norddakota,North Dakota,Dakota del Norte,North Dakota,노스다코타,North Dakota
+035,オハイオ,Ohio,Ohio,Ohio,Ohio,Ohio,Ohio,오하이오,Ohio
+036,オクラホマ,Oklahoma,Oklahoma,Oklahoma,Oklahoma,Oklahoma,Oklahoma,오클라호마,Oklahoma
+037,オレゴン,Oregon,Oregon,Oregon,Oregon,Oregón,Oregon,오리건,Oregon
+038,ペンシルバニア,Pennsylvania,Pennsylvanie,Pennsylvania,Pennsylvania,Pensilvania,Pennsylvania,펜실베이니아,Pennsylvania
+039,ロードアイランド,Rhode Island,Rhode Island,Rhode Island,Rhode Island,Rhode Island,Rhode Island,로드아일랜드,Rhode Island
+040,サウスカロライナ,South Carolina,Caroline du Sud,South Carolina,South Carolina,Carolina del Sur,South Carolina,사우스캐롤라이나,South Carolina
+041,サウスダコタ,South Dakota,Dakota du Sud,Süddakota,South Dakota,Dakota del Sur,South Dakota,사우스다코타,South Dakota
+042,テネシー,Tennessee,Tennessee,Tennessee,Tennessee,Tennessee,Tennessee,테네시,Tennessee
+043,テキサス,Texas,Texas,Texas,Texas,Texas,Texas,텍사스,Texas
+044,ユタ,Utah,Utah,Utah,Utah,Utah,Utah,유타,Utah
+045,バーモント,Vermont,Vermont,Vermont,Vermont,Vermont,Vermont,버몬트,Vermont
+046,バージニア,Virginia,Virginie,Virginia,Virginia,Virginia,Virginia,버지니아,Virginia
+047,ワシントン,Washington,Washington,Washington,Washington,Washington,Washington,워싱턴,Washington
+048,ワシントンＤ．Ｃ．,Washington\x2C DC,Washington D. C.,Washington\x2C DC,Washington\x2C DC,Washington DC,Washington\x2C DC,워싱턴 DC,Washington\x2C DC
+049,ウェストバージニア,West Virginia,Virginie-Occidentale,West Virginia,West Virginia,Virginia Occidental,West Virginia,웨스트버지니아,West Virginia
+050,ウィスコンシン,Wisconsin,Wisconsin,Wisconsin,Wisconsin,Wisconsin,Wisconsin,위스콘신,Wisconsin
+051,ワイオミング,Wyoming,Wyoming,Wyoming,Wyoming,Wyoming,Wyoming,와이오밍,Wyoming

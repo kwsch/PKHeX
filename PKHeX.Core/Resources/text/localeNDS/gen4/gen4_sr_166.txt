@@ -1,0 +1,17 @@
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
+001,ドルニィシロンスク,Dolnoslaskie,Basse-Silésie,Niederschlesien,Bassa Slesia,Baja Silesia,Dolnoslaskie,돌노슬롱스키에,Dolnoslaskie
+002,クヤビ・ポモージェ,Kujawsko-Pomorskie,Cujavie-Poméranie,Kujawien-Pommern ,Cuiavia-Pomerania,Cuyavia y Pomerania,Kujawsko-Pomorskie,쿠야비아-포메라니아,Kujawsko-Pomorskie
+003,ルブリン,Lubelskie,Lublin,Lublin ,Lublino,Lublin,Lubelskie,루블린,Lubelskie
+004,ルブシュ,Lubuskie,Lubusz,Lebus,Lubus,Lebus,Lubuskie,루부슈,Lubuskie
+005,ウーチ,Lodzkie,Lódz,Lodz,Lodz,Lodz,Lodzkie,워지,Lodzkie
+006,マウォポルスカ,Malopolskie,Petite-Pologne,Kleinpolen ,Piccola Polonia,Pequeña Polonia,Malopolskie,말로폴스키에,Malopolskie
+007,マゾフシェ,Mazowieckie,Mazovie,Masowien ,Masovia,Mazovia,Mazowieckie,마소비아,Mazowieckie
+008,オポーレ,Opolskie,Opole,Oppeln ,Opole,Opole,Opolskie,오폴레,Opolskie
+009,ポトカルパチェ,Podkarpackie,Basses-Carpates,Karpatenvorland ,Precarpazi,Podkarpackie,Podkarpackie,포드칼파키에,Podkarpackie
+010,ポドラシェ,Podlaskie,Podlachie,Podlachien ,Podlachia,Podlaquia,Podlaskie,포들라시에,Podlaskie
+011,ポモージェ,Pomorskie,Poméranie,Pommern ,Pomerania,Pomerania,Pomorskie,포메라니아,Pomorskie
+012,シロンスク,Slaskie,Silésie,Schlesien ,Slesia,Silesia,Slaskie,실롱스키에,Slaskie
+013,シフェンティクシシ,Swietokrzyskie,Sainte-Croix,Heiligkreuz ,Santacroce,Santa Cruz,Swietokrzyskie,시비엥토크시스키에,Swietokrzyskie
+014,バルミア・マズーリ,Warminsko-Mazurskie,Varmie-Mazurie,Ermland-Masuren ,Varmia-Masuria,Varmia y Masuria,Warminsko-Mazurskie,바르민스코 마즐스키에,Warminsko-Mazurskie
+015,ビエルコポルスカ,Wielkopolskie,Grande-Pologne,Großpolen ,Grande Polonia,Gran Polonia,Wielkopolskie,비엘코폴스키에,Wielkopolskie
+016,にしポモージェ,Zachodniopomorskie,Poméranie Occidentale,Westpommern ,Pomerania Occidentale,Pomerania Occidental,Zachodniopomorskie,서포메라니아,Zachodniopomorskie

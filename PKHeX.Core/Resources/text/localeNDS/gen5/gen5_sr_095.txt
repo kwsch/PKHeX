@@ -1,0 +1,36 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,アンダマン・ニコバルしょとう,Andaman and Nicobar Islands,Îles Andaman et Nicobar,Andamanen und Nikobaren,Isole Andamane e Nicobare,Islas Andamán y Nicobar,Andaman and Nicobar Islands,안다만 제도,Andaman and Nicobar Islands
+002,アーンドラ・プラデーシュ,Andhra Pradesh,Andhra Pradesh,Andhra Pradesh,Andhra Pradesh,Andhra Pradesh,Andhra Pradesh,안드라프라데시,Andhra Pradesh
+003,アルナーチャル・プラデーシュ,Arunachal Pradesh,Arunachal Pradesh,Arunachal Pradesh,Arunachal Pradesh,Arunachal Pradesh,Arunachal Pradesh,아루나찰프라데시,Arunachal Pradesh
+004,アッサム,Assam,Assam,Assam,Assam,Assam,Assam,아삼,Assam
+005,ビハール,Bihar,Bihar,Bihar,Bihar,Bihar,Bihar,비하르,Bihar
+006,チャンディガル,Chandigarh,Chandigarh,Chandigarh,Chandigarh,Chandigarh,Chandigarh,찬디가르,Chandigarh
+007,チャッティースガル,Chhattisgarh,Chhattisgarh,Chhattisgarh,Chhattisgarh,Chhattisgarh,Chhattisgarh,차티스가르,Chhattisgarh
+008,ダドラおよびナガル・アベリ,Dadra and Nagar Haveli,Dadra et Nagar Haveli,Dadra und Nagar Haveli,Dadra e Nagar Haveli,Dadra y Nagar Haveli,Dadra and Nagar Haveli,다드라나가르하벨리,Dadra and Nagar Haveli
+009,ダマン・ディウ,Daman and Diu,Daman et Diu,Daman und Diu,Daman e Diu,Damán y Diu,Daman and Diu,다만디우,Daman and Diu
+010,デリー,Delhi,Delhi,Delhi,Delhi,Delhi,Delhi,델리,Delhi
+011,ゴア,Goa,Goa,Goa,Goa,Goa,Goa,고아,Goa
+012,グジャラート,Gujarat,Gujarat,Gujarat,Gujarat,Gujarat,Gujarat,구자라트,Gujarat
+013,ハリヤーナー,Haryana,Haryana,Haryana,Haryana,Haryana,Haryana,하리아나,Haryana
+014,ヒマーチャル・プラデーシュ,Himachal Pradesh,Himachal Pradesh,Himachal Pradesh,Himachal Pradesh,Himachal Pradesh,Himachal Pradesh,히마찰프라데시,Himachal Pradesh
+015,ジャンム・カシミール,Jammu and Kashmir,Jammu-et-Cachemire,Jammu und Kashmir,Jammu e Kashmir,Jammu y Cachemira,Jammu and Kashmir,잠무카슈미르,Jammu and Kashmir
+016,ジャールカンド,Jharkhand,Jharkhand,Jharkhand,Jharkhand,Jharkhand,Jharkhand,자르칸드,Jharkhand
+017,カルナータカ,Karnataka,Karnataka,Karnataka,Karnataka,Karnataka,Karnataka,카르나타카,Karnataka
+018,ケーララ,Kerala,Kerala,Kerala,Kerala,Kerala,Kerala,케랄라,Kerala
+019,ラクシャディープ,Lakshadweep,Lakshadweep,Lakshadweep,Lakshadweep,Laquedivas,Lakshadweep,락샤드위프 제도,Lakshadweep
+020,マディヤ・プラデーシュ,Madhya Pradesh,Madhya Pradesh,Madhya Pradesh,Madhya Pradesh,Madhya Pradesh,Madhya Pradesh,마디아프라데시,Madhya Pradesh
+021,マハラシュトラ,Maharashtra,Maharashtra,Maharashtra,Maharashtra,Maharashtra,Maharashtra,마하라슈트라,Maharashtra
+022,メガラヤ,Meghalaya,Meghalaya,Meghalaya,Meghalaya,Meghalaya,Meghalaya,메갈라야,Meghalaya
+023,ミゾラム,Mizoram,Mizoram,Mizoram,Mizoram,Mizoram,Mizoram,미조람,Mizoram
+024,マニプル,Manipur,Manipur,Manipur,Manipur,Manipur,Manipur,마니푸르,Manipur
+025,ナガランド,Nagaland,Nagaland,Nagaland,Nagaland,Nagaland,Nagaland,나갈랜드,Nagaland
+026,オリッサ,Orissa,Orissa,Orissa,Orissa,Orissa,Orissa,오리사,Orissa
+027,ポンディシェリ,Puducherry,Pondichéry,Puducherry,Puducherry,Puducherry,Puducherry,퐁디셰리,Puducherry
+028,パンジャーブ,Punjab,Penjab,Punjab,Punjab,Punjab,Punjab,펀자브,Punjab
+029,ラジャスターン,Rajasthan,Rajasthan,Rajasthan,Rajasthan,Rajasthán,Rajasthan,라자스탄,Rajasthan
+030,シッキム,Sikkim,Sikkim,Sikkim,Sikkim,Sikkim,Sikkim,시킴,Sikkim
+031,タミル・ナードゥ,Tamil Nadu,Tamil Nadu,Tamil Nadu,Tamil Nadu,Tamil Nadu,Tamil Nadu,타밀나두,Tamil Nadu
+032,トリプラ,Tripura,Tripura,Tripura,Tripura,Tripura,Tripura,트리푸라,Tripura
+033,ウッタル・プラデーシュ,Uttar Pradesh,Uttar Pradesh,Uttar Pradesh,Uttar Pradesh,Uttar Pradesh,Uttar Pradesh,우타르프라데시,Uttar Pradesh
+034,ウッタランチャル,Uttarakhand,Uttarakhand,Uttarakhand,Uttarakhand,Uttarakhand,Uttarakhand,우타란찰,Uttarakhand
+035,にしベンガル,West Bengal,Bengale-Occidental,Westbengalen,Bengala Occidentale,Bengala Occidental,West Bengal,서벵골,West Bengal

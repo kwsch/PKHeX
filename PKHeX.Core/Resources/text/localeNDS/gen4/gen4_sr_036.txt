@@ -1,0 +1,14 @@
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
+001,アルバータ,Alberta,Alberta,Alberta,Alberta,Alberta,Alberta,앨버타,Alberta
+002,ブリティッシュ・コロンビア,British Columbia,Colombie-Britannique,Britisch-Kolumbien,Columbia Britannica,Columbia Británica,British Columbia,브리시티컬럼비아,British Columbia
+003,マニトバ,Manitoba,Manitoba,Manitoba,Manitoba,Manitoba,Manitoba,매니토바,Manitoba
+004,ニューブランズウィック,New Brunswick,Nouveau-Brunswick,Neubraunschweig,Nuovo Brunswick,Nuevo Brunswick,New Brunswick,뉴브런즈윅,New Brunswick
+005,ニューファンドランド・ラブラドール,Newfoundland and Labrador,Terre-Neuve et Labrador,Neufundland und Labrador,Terranova e Labrador,Terranova y Labrador,Newfoundland and Labrador,뉴펀들랜드 래브라도,Newfoundland and Labrador
+006,ノースウエスト,Northwest Territories,Territoires du Nord-Ouest,Nordwest-Territorien,Territori del Nord-Ovest,Territorios del Noroeste,Northwest Territories,노스웨스트,Northwest Territories
+007,ノバスコシア,Nova Scotia,Nouvelle-Ecosse,Neuschottland,Nuova Scozia,Nueva Escocia,Nova Scotia,노바스코샤,Nova Scotia
+008,ヌナブト,Nunavut,Nunavut,Nunavut,Nunavut,Nunavut,Nunavut,누나부트,Nunavut
+009,オンタリオ,Ontario,Ontario,Ontario,Ontario,Ontario,Ontario,온타리오,Ontario
+010,プリンス・エドワード・アイランド,Prince Edward Island,Ile du Prince-Edouard,Prinz-Edward-Insel,Isola Principe Edoardo,Isla del Príncipe Eduardo,Prince Edward Island,프린스에드워드아일랜드,Prince Edward Island
+011,ケベック,Quebec,Québec,Quebec,Québec,Quebec,Quebec,퀘벡,Quebec
+012,サスカチュワン,Saskatchewan,Saskatchewan,Saskatchewan,Saskatchewan,Saskatchewan,Saskatchewan,서스캐처원,Saskatchewan
+013,ユーコン,Yukon Territory,Territoire du Yukon,Yukon-Territorium,Yukon,Territorio del Yukón,Yukon Territory,유콘,Yukon Territory

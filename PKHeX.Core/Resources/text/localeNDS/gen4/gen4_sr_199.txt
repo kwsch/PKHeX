@@ -1,0 +1,25 @@
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
+001,オンゲルマンランド,Angermanland,Ångermanland,Ångermanland,Ångermanland,Ångermanland,Angermanland,옹게르만란드,Angermanland
+002,ブレーキンゲ,Blekinge,Blekinge,Blekinge,Blekinge,Blekinge,Blekinge,블레킹에,Blekinge
+003,ボーフュースレン,Bohuslan,Bohuslän ,Bohuslän,Bohuslän ,Bohuslän,Bohuslan,보후슬란,Bohuslan
+004,ダーラナ,Dalarna,Dalécarlie,Dalarna,Dalarna,Dalecarlia,Dalarna,달라르나,Dalarna
+005,ダールスランド,Dalsland,Dalie,Dalsland,Dalsland,Dalsland,Dalsland,달스란드,Dalsland
+006,イェストリクランド,Gastrikland,Gästrikland,Gästrikland,Gästrikland,Gästrikland,Gastrikland,예스트리크란드,Gastrikland
+007,ゴットランド,Gotland,Gotland,Gotland,Gotland,Gotland,Gotland,고틀란드,Gotland
+008,ハランド,Halland,Halland,Halland,Halland,Halland,Halland,할란드,Halland
+009,ヘルシングランド,Halsingland,Hälsingland,Hälsingland,Hälsingland,Hälsingland,Halsingland,헬싱란드,Halsingland
+010,イェムトランド,Jamtland,Jämtland ,Jämtland,Jämtland,Jämtland,Jamtland,옘틀란드,Jamtland
+011,きたラップランド,North Lapland,Laponie (Nord),Lappland (Nord),Lapponia (Nord),Laponia (norte),North Lapland,북 라플란드,North Lapland
+012,みなみラップランド,South Lapland,Laponie (Sud),Lappland (Süd),Lapponia (Sud),Laponia (sur),South Lapland,남 라플란드,South Lapland
+013,メデルパッド,Medelpad,Medelpad,Medelpad,Medelpad,Medelpad,Medelpad,메델파드,Medelpad
+014,ネルケ,Narke,Néricie,Närke,Närke,Närke,Narke,네르케,Narke
+015,ノルボッテン,Norrbotten,Botnie Septentrionale,Norrbotten,Norrbotten,Norrbotten,Norrbotten,노르보텐,Norrbotten
+016,エーランド,Oland,Öland,Öland,Öland,Öland,Oland,욀란드,Oland
+017,エステルヨットランド,Ostergotland / Vastergotland,Västergötland / Östergötland,Västergötland / Östergötland,Östergötland/Västergötland,Östergötland / Västergötland,Ostergotland / Vastergotland,외스테르예틀란드,Ostergotland / Vastergotland
+018,スコーネ,Skane,Scanie,Skåne,Scania,Escania,Skane,스코네,Skane
+019,スモーランド,Smaland,Småland,Småland,Småland,Småland,Smaland,스몰란드,Smaland
+020,セーデルマンランド,Sodermanland,Södermanland,Södermanland,Södermanland,Södermanland,Sodermanland,쇠데르만란드,Sodermanland
+021,ウップランド,Uppland,Uppland,Uppland,Uppland,Uppland,Uppland,우플란드,Uppland
+022,ベームランド,Varmland,Värmland,Värmland,Värmland,Värmland,Varmland,베름란드,Varmland
+023,ベステルポッテン,Vasterbotten,Botnie Occidentale,Västerbotten,Västerbotten,Västerbotten,Vasterbotten,베스테르보텐,Vasterbotten
+024,ベストマンランド,Vastmanland,Västmanland,Västmanland,Västmanland,Västmanland,Vastmanland,베스트만란드,Vastmanland

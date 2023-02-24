@@ -1,0 +1,18 @@
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
+001,アンダルシア,Andalucia,Andalousie,Andalusien,Andalusia,Andalucía,Andalucia,안달루시아,Andalucia
+002,アラゴン,Aragon,Aragon,Aragonien,Aragona,Aragón,Aragon,아라곤,Aragon
+003,アストゥリアス,Asturias ,Asturies,Asturien,Asturie,Asturias,Asturias ,아스투리아스,Asturias 
+004,バレアレスしょとう,Islas Baleares,Iles Baléares,Balearen,Baleari,Islas Baleares,Islas Baleares,발레아레스 제도,Islas Baleares
+005,バスク,Pais Vasco,Pays basque,Baskenland,Paesi Baschi,País Vasco,Pais Vasco,바스크,Pais Vasco
+006,カナリアしょとう,Islas Canarias,Iles Canaries,Kanarische Inseln,Canarie,Islas Canarias,Islas Canarias,카나리아 제도,Islas Canarias
+007,カンタブリア,Cantabria,Cantabrie,Kantabrien,Cantabria,Cantabria,Cantabria,칸타브리아,Cantabria
+008,カスティーヤ・ラ・マンチャ,Castilla-La Mancha,Castille-La Manche,Kastilien-La Mancha,Castiglia-La Mancia,Castilla-La Mancha,Castilla-La Mancha,카스티야라만차,Castilla-La Mancha
+009,カスティーヤ・イ・レオン,Castilla Leon,Castille et León,Kastilien-León,Castiglia e León,Castilla y León,Castilla Leon,카스티야이레온,Castilla Leon
+010,カタルーニャ,Cataluna,Catalogne,Katalonien,Catalogna,Cataluña,Cataluna,카탈루냐,Cataluna
+011,エストレマドゥラ,Extremadura,Estrémadure,Extremadura,Estremadura,Extremadura,Extremadura,에스트레마두라,Extremadura
+012,ガリシア,Galicia,Galice,Galicien,Galizia,Galicia,Galicia,갈리시아,Galicia
+013,マドリッド,Madrid,Madrid,Madrid,Madrid,Madrid,Madrid,마드리드,Madrid
+014,ムルシア,Murcia,Murcie,Murcia,Murcia,Murcia,Murcia,무르시아,Murcia
+015,ナバラ,Navarra,Navarre,Navarra,Navarra,Navarra,Navarra,나바라,Navarra
+016,リオハ,La Rioja,La Rioja,La Rioja,La Rioja,La Rioja,La Rioja,라리오하,La Rioja
+017,バレンシア,Comunidad Valenciana ,Communauté de Valence,Valencia,Comunità Valenciana,Comunidad Valenciana,Comunidad Valenciana ,발렌시아,Comunidad Valenciana 

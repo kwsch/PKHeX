@@ -1,0 +1,34 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,あんき,Anhui,Anhui,Anhui,Anhui,Anhui,Anhui,안후이,Anhui
+002,ペキン,Beijing,Pékin,Peking,Pechino,Pekín,Beijing,베이징,Beijing
+003,じゅうけい,Chongqing,Chongqing,Chongqing,Chongqing,Chongqing,Chongqing,충칭,Chongqing
+004,ふっけん,Fujian,Fujian,Fujian,Fujian,Fujian,Fujian,푸젠,Fujian
+005,かんしゅく,Gansu,Gansu,Gansu,Gansu,Gansu,Gansu,간쑤,Gansu
+006,かんとん,Guangdong,Guangdong,Guangdong,Guangdong,Guangdong,Guangdong,광둥,Guangdong
+007,こうせいチワンぞくじちく,Guangxi,Guangxi,Guangxi,Guangxi,Guangxi,Guangxi,광시좡족자치구,Guangxi
+008,きしゅう,Guizhou,Guizhou,Guizhou,Guizhou,Guizhou,Guizhou,구이저우,Guizhou
+009,かいなん,Hainan,Hainan,Hainan,Hainan,Hainan,Hainan,하이난,Hainan
+010,かほく,Hebei,Hebei,Hebei,Hebei,Hebei,Hebei,허베이,Hebei
+011,こくりゅうこう,Heilongjiang,Heilongjiang,Heilongjiang,Heilongjiang,Heilongjiang,Heilongjiang,헤이룽장,Heilongjiang
+012,かなん,Henan,Henan,Henan,Henan,Henan,Henan,허난,Henan
+013,こほく,Hubei,Hubei,Hubei,Hubei,Hubei,Hubei,후베이,Hubei
+014,こなん,Hunan,Hunan,Hunan,Hunan,Hunan,Hunan,후난,Hunan
+015,こうそ,Jiangsu,Jiangsu,Jiangsu,Jiangsu,Jiangsu,Jiangsu,장쑤,Jiangsu
+016,こうせい,Jiangxi,Jiangxi,Jiangxi,Jiangxi,Jiangxi,Jiangxi,장시,Jiangxi
+017,きつりん,Jilin,Jilin,Jilin,Jilin,Jilin,Jilin,지린,Jilin
+018,りょうねい,Liaoning,Liaoning,Liaoning,Liaoning,Liaoning,Liaoning,랴오닝,Liaoning
+019,うちモンゴルじちく,Inner Mongolia,Mongolie-Intérieure,Innere Mongolei,Neimenggu,Neimenggu,Inner Mongolia,네이멍구자치구,Inner Mongolia
+020,ねいかかいぞくじちく,Ningxia,Ningxia,Ningxia,Ningxia,Ningxia,Ningxia,닝샤후이족자치구,Ningxia
+021,せいかい,Qinghai,Qinghai,Qinghai,Qinghai,Qinghai,Qinghai,칭하이,Qinghai
+022,せんせい,Shaanxi,Shaanxi,Shaanxi,Shaanxi,Shaanxi,Shaanxi,산시 (섬서),Shaanxi
+023,さんとう,Shandong,Shandong,Shandong,Shandong,Shandong,Shandong,산둥,Shandong
+024,シャンハイ,Shanghai,Shanghai,Shanghai,Shanghai,Shanghai,Shanghai,상하이,Shanghai
+025,さんせい,Shanxi,Shanxi,Shanxi,Shanxi,Shanxi,Shanxi,산시 (산서),Shanxi
+026,しせん,Sichuan,Sichuan,Sichuan,Sichuan,Sichuan,Sichuan,쓰촨,Sichuan
+027,てんしん,Tianjin,Tianjin,Tianjin,Tianjin,Tianjin,Tianjin,톈진,Tianjin
+028,しんきょうウイグルじちく,Xinjiang,Xinjiang,Xinjiang,Xinjiang Uygur,Xinjiang,Xinjiang,신장,Xinjiang
+029,チベットじちく,Tibet,Tibet,Tibet,Tibet (Xizang),Xizang,Tibet,시짱,Tibet
+030,うんなん,Yunnan,Yunnan,Yunnan,Yunnan,Yunnan,Yunnan,윈난,Yunnan
+031,せっこう,Zhejiang,Zhejiang,Zhejiang,Zhejiang,Zhejiang,Zhejiang,저장,Zhejiang
+032,ホンコン,Hong Kong,Hong-Kong,Hongkong,Hong Kong,Hong Kong,Hong Kong,홍콩,Hong Kong
+033,マカオ,Macau,Macao,Macao,Macao,Macao,Macau,마카오,Macau

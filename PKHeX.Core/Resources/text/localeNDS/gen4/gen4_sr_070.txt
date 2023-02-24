@@ -1,0 +1,7 @@
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
+001,オーランド,Aland Islands,Iles Åland,Åland,Isole Åland,Islas de Åland,Aland Islands,올란드,Aland Islands
+002,ラップランド,Lapland,Laponie,Lappland,Lapponia,Laponia,Lapland,라플란드,Lapland
+003,ひがしフィンランド,East Finland,Finlande orientale,Ostfinnland,Finlandia Orientale,Finlandia Oriental,East Finland,동핀란드,East Finland
+004,みなみフィンランド,South Finland,Finlande méridionale,Südfinnland,Finlandia Meridionale,Finlandia Meridional,South Finland,남핀란드,South Finland
+005,オウル,Oulun,Oulu,Oulu,Oulu,Oulu,Oulun,오울루,Oulun
+006,にしフィンランド,West Finland,Finlande occidentale,Westfinnland,Finlandia Occidentale,Finlandia Occidental,West Finland,서핀란드,West Finland

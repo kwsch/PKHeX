@@ -1,0 +1,23 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,アーケシュフース,Akershus,Akershus,Akershus,Akershus,Akershus,Akershus,아케르스후스,Akershus
+002,アウスト・ベグダル,Aust-Agder,Aust-Agder,Aust-Agder,Aust-Agder,Aust-Agder,Aust-Agder,에우스트아그데르,Aust-Agder
+003,ブスケルー,Buskerud,Buskerud,Buskerud,Buskerud,Buskerud,Buskerud,부스케루,Buskerud
+004,フィンマルク,Finnmark,Finnmark,Finnmark,Finnmark,Finnmark,Finnmark,핀마르크,Finnmark
+005,ヘーマルク,Hedmark,Hedmark,Hedmark,Hedmark,Hedmark,Hedmark,헤드마르크,Hedmark
+006,ホーダラン,Hordaland,Hordaland,Hordaland,Hordaland,Hordaland,Hordaland,호르달란,Hordaland
+007,スバールバル・ヤンマンエンとう,Jan Mayen Island,Île Jan Mayen,Jan Mayen,Isola Jan Mayen,Isla de Jan Mayen,Jan Mayen Island,얀마웬섬,Jan Mayen Island
+008,ロフォーテンしょとう,Lofoten,Lofoten,Lofoten,Isole Lofoten,Lofoten,Lofoten,로포텐,Lofoten
+009,ムーレ・オ・ロムスダール,Møre og Romsdal,Møre og Romsdal,Møre und Romsdal,Møre og Romsdal,Møre og Romsdal,Møre og Romsdal,뫼레오그롬스달,Møre og Romsdal
+010,ノールラン,Nordland,Nordland,Nordland,Nordland,Nordland,Nordland,노를란,Nordland
+011,ノール・トランデラーグ,Nord-Trøndelag,Nord-Trøndelag,Nord-Trøndelag,Nord-Trøndelag,Nord-Trøndelag,Nord-Trøndelag,노르트뢴델라그,Nord-Trøndelag
+012,オップラン,Oppland,Oppland,Oppland,Oppland,Oppland,Oppland,오플란,Oppland
+013,オスロ,Oslo,Oslo,Oslo,Oslo,Oslo,Oslo,오슬로,Oslo
+014,ローガラン,Rogaland,Rogaland,Rogaland,Rogaland,Rogaland,Rogaland,로갈란,Rogaland
+015,ソグン・オ・フィヨルダーネ,Sogn og Fjordane,Sogn og Fjordane,Sogn und Fjordane,Sogn og Fjordane,Sogn og Fjordane,Sogn og Fjordane,송노표르다네,Sogn og Fjordane
+016,ソール・トランデラーグ,Sør-Trøndelag,Sør-Trøndelag,Sør-Trøndelag,Sør-Trøndelag,Sør-Trøndelag,Sør-Trøndelag,쇠르트뢴델라그,Sør-Trøndelag
+017,スバールバルしょとう,Svalbard,Svalbard,Svalbard,Isole Svalbard,Svalbard,Svalbard,스발바르 제도,Svalbard
+018,テレマルク,Telemark,Telemark,Telemark,Telemark,Telemark,Telemark,텔레마르크,Telemark
+019,トロムス,Troms,Troms,Troms,Troms,Troms,Troms,트롬스,Troms
+020,べスト・アグダル,Vest-Agder,Vest-Agder,Vest-Agder,Vest-Agder,Vest-Agder,Vest-Agder,베스트아그데르,Vest-Agder
+021,ヴェストフォル,Vestfold,Vestfold,Vestfold,Vestfold,Vestfold,Vestfold,베스트폴,Vestfold
+022,オストフォル,Østfold,Østfold,Østfold,Østfold,Østfold,Østfold,어스트폴,Østfold

@@ -1,0 +1,23 @@
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
+001,アキテーヌ,Aquitaine,Aquitaine,Aquitanien,Aquitania,Aquitania,Aquitaine,아키텐,Aquitaine
+002,アルザス,Alsace,Alsace,Elsass,Alsazia,Alsacia,Alsace,알자스,Alsace
+003,イル・ド・フランス,Ile de France,Ile de France,Île-de-France,Île-de-France,Isla de Francia,Ile de France,일드프랑스,Ile de France
+004,オーベルニュ,Auvergne,Auvergne,Auvergne,Alvernia,Auvernia,Auvergne,오베르뉴,Auvergne
+005,コート・ダジュール,Cote d’Azur,Côte d’Azur,Côte d’Azur,Costa Azzurra,Costa Azul,Cote d’Azur,코트다쥐르,Cote d’Azur
+006,コルシカ,Corse,Corse,Korsika ,Corsica,Córcega,Corse,코르스,Corse
+007,シャンパーニュ・アルデンヌ,Champagne-Ardenne,Champagne-Ardenne,Champagne-Ardenne,Champagne-Ardenne,Champaña-Ardenas,Champagne-Ardenne,샹파뉴아르덴,Champagne-Ardenne
+008,ノール・パ・ド・カレ,Nord-Pas-de-Calais,Nord-Pas-de-Calais,Nord-Pas-de-Calais,Nord-Passo di Calais,Norte-Paso de Calais,Nord-Pas-de-Calais,노르파드칼레,Nord-Pas-de-Calais
+009,ノルマンディ,Normandie,Normandie,Normandie,Normandia,Normandía,Normandie,노르망디,Normandie
+010,ピカルディ,Picardie,Picardie,Picardie,Picardia,Picardía,Picardie,피카르디,Picardie
+011,フランシュ・コンテ,Franche-Comte,Franche-Comté,Franche-Comté,Franca Contea,Franco-Condado,Franche-Comte,프랑슈콩테,Franche-Comte
+012,ブルゴーニュ,Bourgogne,Bourgogne,Burgund ,Borgogna,Borgoña,Bourgogne,부르고뉴,Bourgogne
+013,ブルターニュ,Bretagne,Bretagne,Bretagne,Bretagna,Bretaña,Bretagne,브르타뉴,Bretagne
+014,プロバンス,Provence,Provence,Provence,Provenza,Provenza,Provence,프로방스,Provence
+015,ペイ・ド・ラ・ロワール,Pays-de-la-Loire,Pays de la Loire,Länder der Loire,Pays-de-la-Loire,Países del Loira,Pays-de-la-Loire,페이드라루아르,Pays-de-la-Loire
+016,ポワトゥ・シャラント,Poitou-Charentes,Poitou-Charentes,Poitou-Charentes,Poitou-Charentes,Poitou-Charentes,Poitou-Charentes,푸아투샤랑트,Poitou-Charentes
+017,ミディ・ピレネー,Midi-Pyrenees,Midi-Pyrénées,Midi-Pyrénées,Midi-Pirenei,Pirineos Centrales,Midi-Pyrenees,미디피레네,Midi-Pyrenees
+018,ラングドック・ルシヨン,Languedoc-Roussillon,Languedoc-Roussillon,Languedoc-Roussillon,Linguadoca-Rossiglione,Languedoc-Rosellón,Languedoc-Roussillon,랑그도크루시용,Languedoc-Roussillon
+019,リムーザン,Limousin,Limousin,Limousin,Limosino,Lemosín,Limousin,리무쟁,Limousin
+020,ローヌ・アルプ,Rhone-Alpes,Rhône-Alpes,Rhône-Alpes,Rodano-Alpi,Ródano-Alpes,Rhone-Alpes,론알프스,Rhone-Alpes
+021,ロレーヌ,Lorraine,Lorraine,Lothringen ,Lorena,Lorena,Lorraine,로렌,Lorraine
+022,ロワール,Loire,Centre,Centre,Centro,Centro,Loire,루아르,Loire

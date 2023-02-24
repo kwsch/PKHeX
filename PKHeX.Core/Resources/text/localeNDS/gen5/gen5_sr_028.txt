@@ -1,0 +1,28 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,アクレ,Acre,Acre,Acre,Acre,Acre,Acre,아크리,Acre
+002,ロンドーニア,Rondônia,Rondônia,Rondônia,Rondônia,Rondônia,Rondônia,혼도니아,Rondônia
+003,アラゴーアス,Alagoas,Alagoas,Alagoas,Alagoas,Alagoas,Alagoas,알라고아스,Alagoas
+004,アマパ,Amapá,Amapá,Amapá,Amapa,Amapá,Amapá,아마파,Amapá
+005,アマゾナス,Amazonas,Amazonas,Amazonas,Amazonas,Amazonas,Amazonas,아마조나스,Amazonas
+006,バイーア,Bahia,Bahia,Bahia,Bahia,Bahía,Bahia,바이아,Bahia
+007,セアラー,Ceará,Ceará,Ceará,Ceará,Ceará,Ceará,세아라,Ceará
+008,れんぽうく,Federal District,District fédéral,Bundesdistrikt,Distretto Federale,Distrito Federal,Federal District,연방구,Federal District
+009,エスピリト・サント,Espírito Santo,Espírito Santo,Espírito Santo,Espírito Santo,Espírito Santo,Espírito Santo,에스피리투산투,Espírito Santo
+010,ゴイアース,Goias,Goiás,Goiás,Goiás,Goiás,Goias,고이아스,Goias
+011,マランニョン,Maranhão,Maranhão,Maranhão,Maranhão,Maranhão,Maranhão,마라냥,Maranhão
+012,マット・グロッソ,Mato Grosso,Mato Grosso,Mato Grosso,Mato Grosso,Mato Grosso,Mato Grosso,마투그로수,Mato Grosso
+013,マット・グロッソ・ド・スール,Mato Grosso do Sul,Mato Grosso do Sul,Mato Grosso do Sul,Mato Grosso del Sud,Mato Grosso do Sul,Mato Grosso do Sul,마투그로수두술,Mato Grosso do Sul
+014,ミナス・ジェライス,Minas Gerais,Minas Gerais,Minas Gerais,Minas Gerais,Minas Gerais,Minas Gerais,미나스제라이스,Minas Gerais
+015,パラー,Pará,Pará,Pará,Pará,Pará,Pará,파라,Pará
+016,パライーバ,Paraíba,Paraíba,Paraíba,Paraíba,Paraíba,Paraíba,파라이바,Paraíba
+017,パラナー,Paraná,Paraná,Paraná,Paraná,Paraná,Paraná,파라나,Paraná
+018,ペルナンブッコ,Pernambuco,Pernambouc,Pernambuco,Pernambuco,Pernambuco,Pernambuco,페르남부쿠,Pernambuco
+019,ピアウィー,Piauí,Piauí,Piauí,Piauí,Piauí,Piauí,피아우이,Piauí
+020,リオ・デ・ジャネイロ,Rio de Janeiro,Rio de Janeiro,Rio de Janeiro,Rio de Janeiro,Río de Janeiro,Rio de Janeiro,리우데자네이루,Rio de Janeiro
+021,リオ・グランデ・ド・スール,Rio Grande do Sul,Rio Grande do Sul,Rio Grande do Sul,Rio Grande del Sud,Río Grande del Sur,Rio Grande do Sul,히우그란지두술,Rio Grande do Sul
+022,リオ・グランデ・ド・ノルテ,Rio Grande do Norte,Rio Grande do Norte,Rio Grande do Norte,Rio Grande del Nord,Río Grande del Norte,Rio Grande do Norte,히우그란지두노르치,Rio Grande do Norte
+023,ロライマ,Roraima,Roraima,Roraima,Roraima,Roraima,Roraima,호라이마,Roraima
+024,サンタ・カタリーナ,Santa Catarina,Santa Catarina,Santa Catarina,Santa Catarina,Santa Catarina,Santa Catarina,산타카타리나,Santa Catarina
+025,サン・パウロ,São Paulo,São Paulo,São Paulo,San Paolo,São Paulo,São Paulo,상파울루,São Paulo
+026,セルジッペ,Sergipe,Sergipe,Sergipe,Sergipe,Sergipe,Sergipe,세르지피,Sergipe
+027,トカンチンス,Tocantins,Tocantins,Tocantins,Tocantins,Tocantins,Tocantins,토칸칭스,Tocantins

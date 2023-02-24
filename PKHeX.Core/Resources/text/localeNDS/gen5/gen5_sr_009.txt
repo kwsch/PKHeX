@@ -1,0 +1,25 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,ブエノスアイレス,Buenos Aires,Buenos Aires,Buenos Aires,Buenos Aires,Buenos Aires,Buenos Aires,부에노스아이레스,Buenos Aires
+002,ブエノスアイレスとくべつく,Ciudad Autónoma de Buenos Aires,Ville autonome de Buenos Aires,Autonome Stadt Buenos Aires,Città Autonoma di Buenos Aires,Ciudad Autónoma de Buenos Aires,Ciudad Autónoma de Buenos Aires,부에노스아이레스 특별구,Ciudad Autónoma de Buenos Aires
+003,カタマルカ,Catamarca,Catamarca,Catamarca,Catamarca,Catamarca,Catamarca,카타마르카,Catamarca
+004,チャコ,Chaco,Chaco,Chaco,Chaco,Chaco,Chaco,차코,Chaco
+005,チュブ,Chubut,Chubut,Chubut,Chubut,Chubut,Chubut,추부트,Chubut
+006,コルドバ,Córdoba,Córdoba,Córdoba,Córdoba,Córdoba,Córdoba,코르도바,Córdoba
+007,コリエンテス,Corrientes,Corrientes,Corrientes,Corrientes,Corrientes,Corrientes,코리엔테스,Corrientes
+008,エントレリオ,Entre Ríos,Entre Ríos,Entre Ríos,Entre Ríos,Entre Ríos,Entre Ríos,엔트레리오스,Entre Ríos
+009,フォルモサ,Formosa,Formosa,Formosa,Formosa,Formosa,Formosa,포르모사,Formosa
+010,フフイ,Jujuy,Jujuy,Jujuy,Jujuy,Jujuy,Jujuy,후후이,Jujuy
+011,ラ・パンパ,La Pampa,La Pampa,La Pampa,La Pampa,La Pampa,La Pampa,라팜파,La Pampa
+012,ラ・リオハ,La Rioja,La Rioja,La Rioja,La Rioja,La Rioja,La Rioja,라리오하,La Rioja
+013,メンドサ,Mendoza,Mendoza,Mendoza,Mendoza,Mendoza,Mendoza,멘도사,Mendoza
+014,ミシオネス,Misiones,Misiones,Misiones,Misiones,Misiones,Misiones,미시오네스,Misiones
+015,ネウケン,Neuquén,Neuquén,Neuquén,Neuquén,Neuquén,Neuquén,네우켄,Neuquén
+016,リオネグロ,Río Negro,Río Negro,Río Negro,Río Negro,Río Negro,Río Negro,리오네그로,Río Negro
+017,サルタ,Salta,Salta,Salta,Salta,Salta,Salta,살타,Salta
+018,サンファン,San Juan,San Juan,San Juan,San Juan,San Juan,San Juan,산후안,San Juan
+019,サンルイス,San Luis,San Luis,San Luis,San Luis,San Luis,San Luis,산루이스,San Luis
+020,サンタクルス,Santa Cruz,Santa Cruz,Santa Cruz,Santa Cruz,Santa Cruz,Santa Cruz,산타크루즈,Santa Cruz
+021,サンタフェ,Santa Fe,Santa Fe,Santa Fe,Santa Fe,Santa Fe,Santa Fe,산타페,Santa Fe
+022,サンティアゴ・デル・エステロ,Santiago del Estero,Santiago del Estero,Santiago del Estero,Santiago del Estero,Santiago del Estero,Santiago del Estero,산티아고델에스테로,Santiago del Estero
+023,ティエラ・デル・フエゴ,Tierra del Fuego,Terre de Feu,Feuerland,Terra del Fuoco,Tierra del Fuego,Tierra del Fuego,티에라델푸에고,Tierra del Fuego
+024,トゥクマン,Tucumán,Tucumán,Tucumán,Tucumán,Tucumán,Tucumán,투쿠만,Tucumán

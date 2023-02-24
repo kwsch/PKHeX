@@ -1,0 +1,234 @@
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
+001,アフガニスタン,Afghanistan,Afghanistan,Afghanistan,Afghanistan,Afganistán,Afghanistan,아프가니스탄,Afghanistan
+002,アルバニア,Albania,Albanie,Albanien,Albania,Albania,Albania,알바니아,Albania
+003,アルジェリア,Algeria,Algérie,Algerien,Algeria,Argelia,Algeria,알제리,Algeria
+004,アメリカりょうサモア,American Samoa,Samoa américaines,Amerikanisch-Samoa,Samoa Americane,Samoa Americana,American Samoa,아메리칸사모아,American Samoa
+005,アンドラ,Andorra,Andorre,Andorra,Andorra,Andorra,Andorra,안도라,Andorra
+006,アンゴラ,Angola,Angola,Angola,Angola,Angola,Angola,앙골라,Angola
+007,アンギラ,Anguilla,Anguilla,Anguilla,Anguilla,Anguila,Anguilla,앵귈라,Anguilla
+008,アンティグア・バーブーダ,Antigua and Barbuda,Antigua-et-Barbuda,Antigua und Barbuda,Antigua e Barbuda,Antigua y Barbuda,Antigua and Barbuda,앤티가바부다,Antigua and Barbuda
+009,アルゼンチン,Argentina,Argentine,Argentinien,Argentina,Argentina,Argentina,아르헨티나,Argentina
+010,アルメニア,Armenia,Arménie,Armenien,Armenia,Armenia,Armenia,아르메니아,Armenia
+011,アルバ,Aruba,Aruba,Aruba,Aruba,Aruba,Aruba,아루바,Aruba
+012,オーストラリア,Australia,Australie,Australien,Australia,Australia,Australia,오스트레일리아,Australia
+013,オーストリア,Austria,Autriche,Österreich,Austria,Austria,Austria,오스트리아,Austria
+014,アゼルバイジャン,Azerbaijan,Azerbaïdjan,Aserbaidschan,Azerbaijan,Azerbaiyán,Azerbaijan,아제르바이잔,Azerbaijan
+015,バハマ,Bahamas,Bahamas,Bahamas,Bahamas,Bahamas,Bahamas,바하마,Bahamas
+016,バーレーン,Bahrain,Bahreïn,Bahrain,Bahrain,Bahréin,Bahrain,바레인,Bahrain
+017,バングラデシュ,Bangladesh,Bangladesh,Bangladesch,Bangladesh,Bangladesh,Bangladesh,방글라데시,Bangladesh
+018,バルバドス,Barbados,La Barbade,Barbados,Barbados,Barbados,Barbados,바베이도스,Barbados
+019,ベラルーシ,Belarus,Biélorussie,Weißrussland,Bielorussia,Bielorrusia,Belarus,벨로루시,Belarus
+020,ベルギー,Belgium,Belgique,Belgien,Belgio,Bélgica,Belgium,벨기에,Belgium
+021,ベリーズ,Belize,Belize,Belize,Belize,Belice,Belize,벨리즈,Belize
+022,ベナン,Benin,Bénin,Benin,Benin,Benín,Benin,베냉,Benin
+023,バミューダ,Bermuda,Les Bermudes,Bermuda,Bermuda,Bermuda,Bermuda,버뮤다,Bermuda
+024,ブータン,Bhutan,Bhoutan,Bhutan,Bhutan,Bután,Bhutan,부탄,Bhutan
+025,ボリビア,Bolivia,Bolivie,Bolivien,Bolivia,Bolivia,Bolivia,볼리비아,Bolivia
+026,ボスニア・ヘルツェゴビナ,Bosnia and Herzegovina,Bosnie-Herzégovine,Bosnien-Herzegowina,Bosnia-Erzegovina,Bosnia-Herzegovina,Bosnia and Herzegovina,보스니아-헤르체고비나,Bosnia and Herzegovina
+027,ボツワナ,Botswana,Botswana,Botswana,Botswana,Botsuana,Botswana,보츠와나,Botswana
+028,ブラジル,Brazil,Brésil,Brasilien,Brasile,Brasil,Brazil,브라질,Brazil
+029,イギリスりょうバージンしょとう,British Virgin Islands,Iles Vierges britanniques,Jungferninseln (Brit.),Isole Vergini Britanniche,Islas Vírgenes Británicas,British Virgin Islands,영국령 버진제도,British Virgin Islands
+030,ブルネイ,Brunei Darussalam,Sultanat du Brunei,Brunei ,Brunei Darussalam,Brunéi,Brunei Darussalam,브루나이,Brunei Darussalam
+031,ブルガリア,Bulgaria,Bulgarie,Bulgarien,Bulgaria,Bulgaria,Bulgaria,불가리아,Bulgaria
+032,ブルキナファソ,Burkina Faso,Burkina Faso,Burkina Faso,Burkina Faso,Burkina Faso,Burkina Faso,부르키나파소,Burkina Faso
+033,ブルンジ,Burundi,Burundi,Burundi,Burundi,Burundi,Burundi,부룬디,Burundi
+034,カンボジア,Cambodia,Cambodge,Kambodscha,Cambogia,Camboya,Cambodia,캄보디아,Cambodia
+035,カメルーン,Cameroon,Cameroun,Kamerun,Camerun,Camerún,Cameroon,카메룬,Cameroon
+036,カナダ,Canada,Canada,Kanada,Canada,Canadá,Canada,캐나다,Canada
+037,カーボベルデ,Cape Verde,Cap-Vert,Kapverdische Inseln,Capo Verde,Cabo Verde,Cape Verde,카보베르데,Cape Verde
+038,ケイマンしょとう,Cayman Islands,Iles Caïmans,Kaimaninseln ,Isole Cayman,Islas Caimán,Cayman Islands,케이맨 제도,Cayman Islands
+039,ちゅうおうアフリカ,Central African Republic,République centrafricaine,Zentralafrikanische Republik,Repubblica Centrafricana,República Centroafricana,Central African Republic,중앙아프리카공화국,Central African Republic
+040,チャド,Chad,Tchad,Tschad,Ciad,Chad,Chad,차드,Chad
+041,チャネルしょとう,Channel Islands,Iles du Détroit,Kanalinseln,Isole Normanne,Islas del Canal,Channel Islands,채널 제도,Channel Islands
+042,チリ,Chile,Chili,Chile,Cile,Chile,Chile,칠레,Chile
+043,ちゅうごく,China,Chine,China,Cina,China,China,중국,China
+044,クリスマスとう,Christmas Island,Iles Christmas,Weihnachtsinsel,Isola Christmas,Isla de Navidad,Christmas Island,크리스마스 섬,Christmas Island
+045,コロンビア,Colombia,Colombie,Kolumbien,Colombia,Colombia,Colombia,콜롬비아,Colombia
+046,コモロ,Comoros,Les Comores,Komoren ,Comore,Comoras,Comoros,코모로,Comoros
+047,コンゴみんしゅきょうわこく,Democratic Republic of the Congo,République démocratique du Congo,Demokratische Republik Kongo,Repubblica Democratica del Congo,República Democrática del Congo,Democratic Republic of the Congo,콩고민주공화국,Democratic Republic of the Congo
+048,コンゴきょうわこく,Congo,Congo,Republik Kongo,Repubblica del Congo,Congo,Congo,콩고,Congo
+049,クックしょとう,Cook Islands,Iles Cook,Cookinseln,Isole Cook,Islas Cook,Cook Islands,쿡 제도,Cook Islands
+050,コスタリカ,Costa Rica,Costa Rica,Costa Rica,Costa Rica,Costa Rica,Costa Rica,코스타리카,Costa Rica
+051,コートジボワール,Cote d’Ivoire,Côte d’Ivoire,Elfenbeinküste,Costa d’Avorio,Costa de Marfil,Cote d’Ivoire,코트디부아르,Cote d’Ivoire
+052,クロアチア,Croatia,Croatie,Kroatien,Croazia,Croacia,Croatia,크로아티아,Croatia
+053,キューバ,Cuba,Cuba,Kuba,Cuba,Cuba,Cuba,쿠바,Cuba
+054,キプロス,Cyprus,Chypre,Zypern,Cipro,Chipre,Cyprus,키프로스,Cyprus
+055,チェコ,Czech Republic,République tchèque,Tschechische Republik,Repubblica Ceca,República Checa,Czech Republic,체코,Czech Republic
+056,デンマーク,Denmark,Danemark,Dänemark,Danimarca,Dinamarca,Denmark,덴마크,Denmark
+057,ジブチ,Djibouti,Djibouti,Dschibuti,Gibuti,Yibuti,Djibouti,지부티,Djibouti
+058,ドミニカ,Dominica,Dominique,Dominica,Dominica,Dominica,Dominica,도미니카,Dominica
+059,ドミニカきょうわこく,Dominican Republic,République dominicaine,Dominikanische Republik,Repubblica Dominicana,República Dominicana,Dominican Republic,도미니카 공화국,Dominican Republic
+060,エクアドル,Ecuador,Equateur,Ecuador,Ecuador,Ecuador,Ecuador,에콰도르,Ecuador
+061,エジプト,Egypt,Egypte,Ägypten,Egitto,Egipto,Egypt,이집트,Egypt
+062,エルサルバドル,El Salvador,Salvador,El Salvador,El Salvador,El Salvador,El Salvador,엘살바도르,El Salvador
+063,せきどうギニア,Equatorial Guinea,Guinée équatoriale,Äquatorialguinea,Guinea Equatoriale,Guinea Ecuatorial,Equatorial Guinea,적도기니,Equatorial Guinea
+064,エリトリア,Eritrea,Erythrée,Eritrea,Eritrea,Eritrea,Eritrea,에리트레아,Eritrea
+065,エストニア,Estonia,Estonie,Estland,Estonia,Estonia,Estonia,에스토니아,Estonia
+066,エチオピア,Ethiopia,Ethiopie,Äthiopien,Etiopia,Etiopía,Ethiopia,에티오피아,Ethiopia
+067,フェローしょとう,Faroe Islands,Iles Féroé,Färöer-Inseln,Isole Föroyar,Islas Feroe,Faroe Islands,페로스 제도,Faroe Islands
+068,フォークランド（マルビナス)しょとう,Falkland Islands,Iles Malouines,Falklandinseln,Isole Falkland,Islas Malvinas,Falkland Islands,포클랜드 제도,Falkland Islands
+069,フィジーしょとう,Fiji,Fidji,Fidschi,Fiji,Fiyi,Fiji,피지,Fiji
+070,フィンランド,Finland,Finlande,Finnland,Finlandia,Finlandia,Finland,핀란드,Finland
+071,フランス,France,France,Frankreich,Francia,Francia,France,프랑스,France
+072,フランスりょうギアナ,French Guiana,Guyane française,Französisch-Guayana,Guayana Francese,Guayana Francesa,French Guiana,프랑스령 기아나,French Guiana
+073,フランスりょうポリネシア,French Polynesia,Polynésie française,Französisch-Polynesien ,Polinesia Francese,Polinesia Francesa,French Polynesia,프랑스령 폴리네시아,French Polynesia
+074,ガボン,Gabon,Gabon,Gabun,Gabon,Gabón,Gabon,가봉,Gabon
+075,ガンビア,Gambia,Gambie,Gambia,Gambia,Gambia,Gambia,감비아,Gambia
+076,グルジア,Georgia,Géorgie,Georgien,Georgia,Georgia,Georgia,그루지야,Georgia
+077,ドイツ,Germany,Allemagne,Deutschland,Germania,Alemania,Germany,독일,Germany
+078,ガーナ,Ghana,Ghana,Ghana,Ghana,Ghana,Ghana,가나,Ghana
+079,ジブラルタル,Gibraltar,Gibraltar,Gibraltar,Gibilterra,Gibraltar,Gibraltar,지브롤터,Gibraltar
+080,ギリシャ,Greece,Grèce,Griechenland,Grecia,Grecia,Greece,그리스,Greece
+081,グリーンランド,Greenland,Groenland,Grönland,Groenlandia,Groenlandia,Greenland,그린란드,Greenland
+082,グレナダ,Grenada,Grenade,Grenada,Grenada,Granada,Grenada,그레나다,Grenada
+083,グアドループとう,Guadeloupe,Guadeloupe,Guadeloupe,Guadalupe,Guadalupe,Guadeloupe,과들루프,Guadeloupe
+084,グアム,Guam,Guam,Guam,Guam,Guam,Guam,괌,Guam
+085,グアテマラ,Guatemala,Guatemala,Guatemala,Guatemala,Guatemala,Guatemala,과테말라,Guatemala
+086,ギニア,Guinea,Guinée,Guinea,Guinea,Guinea,Guinea,기니,Guinea
+087,ギニアビサウ,Guinea-Bissau,Guinée-Bissau,Guinea-Bissau,Guinea-Bissau,Guinea-Bissáu,Guinea-Bissau,기니비사우,Guinea-Bissau
+088,ガイアナ,Guyana,Guyana,Guyana,Guyana,Guyana,Guyana,가이아나,Guyana
+089,ハイチ,Haiti,Haïti,Haiti,Haiti,Haití,Haiti,아이티,Haiti
+090,ホンジュラス,Honduras,Honduras,Honduras,Honduras,Honduras,Honduras,온두라스,Honduras
+091,ホンコン,Hong Kong,Hong Kong,Hongkong,Hong Kong,Hong Kong,Hong Kong,홍콩,Hong Kong
+092,ハンガリー,Hungary,Hongrie,Ungarn,Ungheria,Hungría,Hungary,헝가리,Hungary
+093,アイスランド,Iceland,Islande,Island,Islanda,Islandia,Iceland,아이슬란드,Iceland
+094,インド,India,Inde,Indien,India,India,India,인도,India
+095,インドネシア,Indonesia,Indonésie,Indonesien,Indonesia,Indonesia,Indonesia,인도네시아,Indonesia
+096,イラン,Iran,Iran,Iran,Iran,Irán,Iran,이란,Iran
+097,イラク,Iraq,Irak,Irak,Iraq,Iraq,Iraq,이라크,Iraq
+098,アイルランド,Ireland,Irlande,Irland,Irlanda,Irlanda,Ireland,아일랜드,Ireland
+099,マンとう,Isle of Man ,Ile de Man,Isle of Man ,Isola di Man,Isla de Man,Isle of Man ,맨도,Isle of Man 
+100,イスラエル,Israel,Israël,Israel,Israele,Israel,Israel,이스라엘,Israel
+101,イタリア,Italy,Italie,Italien,Italia,Italia,Italy,이탈리아,Italy
+102,ジャマイカ,Jamaica,Jamaïque,Jamaika,Giamaica,Jamaica,Jamaica,자메이카,Jamaica
+103,にほん,Japan,Japon,Japan,Giappone,Japón,Japan,일본,Japan
+104,ヨルダン,Jordan,Jordanie,Jordanien,Giordania,Jordania,Jordan,요르단,Jordan
+105,カシミール,Kashmir,Cachemire,Kashmir,Kashmir,Cachemira,Kashmir,카슈미르,Kashmir
+106,カザフスタン,Kazakhstan,Kazakhstan,Kasachstan,Kazakistan,Kazajistán,Kazakhstan,카자흐스탄,Kazakhstan
+107,ケニア,Kenya,Kenya,Kenia,Kenya,Kenia,Kenya,케냐,Kenya
+108,キリバス,Kiribati,Kiribati,Kiribati,Kiribati,Kiribati,Kiribati,키리바시,Kiribati
+109,きたちょうせん,D.P. Republic of Korea,Corée du Nord,Demokratische Volksrepublik Korea ,Corea del Nord,Corea del Norte,D.P. Republic of Korea,북한,D.P. Republic of Korea
+110,かんこく,Republic of Korea,Corée du Sud,Republik Korea ,Corea del Sud,Corea del Sur,Republic of Korea,대한민국,Republic of Korea
+111,クウェート,Kuwait,Koweït,Kuwait,Kuwait,Kuwait,Kuwait,쿠웨이트,Kuwait
+112,キルギス,Kyrgyzstan,Kirghizistan,Kirgisistan,Kirghizistan,Kirguistán,Kyrgyzstan,키르기스스탄,Kyrgyzstan
+113,ラオス,Lao People’s Democratic Republic,Laos,Laos,Laos,Laos,Lao People’s Democratic Republic,라오스,Lao People’s Democratic Republic
+114,ラトビア,Latvia,Lettonie,Lettland,Lettonia,Letonia,Latvia,라트비아,Latvia
+115,レバノン,Lebanon,Liban,Libanon,Libano,Líbano,Lebanon,레바논,Lebanon
+116,レソト,Lesotho,Lesotho,Lesotho,Lesotho,Lesoto,Lesotho,레소토,Lesotho
+117,リベリア,Liberia,Libéria,Liberia,Liberia,Liberia,Liberia,라이베리아,Liberia
+118,リビア,Libyan Arab Jamahiriya,Lybie,Libyen,Libia,Libia,Libyan Arab Jamahiriya,리비아,Libyan Arab Jamahiriya
+119,リヒテンシュタイン,Liechtenstein,Liechtenstein,Liechtenstein,Liechtenstein,Liechtenstein,Liechtenstein,리히텐슈타인,Liechtenstein
+120,リトアニア,Lithuania,Lituanie,Litauen,Lituania,Lituania,Lithuania,리투아니아,Lithuania
+121,ルクセンブルク,Luxembourg,Luxembourg,Luxemburg,Lussemburgo,Luxemburgo,Luxembourg,룩셈부르크,Luxembourg
+122,マカオ,Macau,Macao,Macao,Macao,Macao,Macau,마카오,Macau
+123,マケドニアきゅうユーゴスラビア,Macedonia (FYROM),Macédoine (ARYM),Mazedonien,Macedonia (ERYM),Antigua Rep. Yugoslava de Macedonia,Macedonia (FYROM),마케도니아 구 유고슬라비아,Macedonia (FYROM)
+124,マダガスカル,Madagascar,Madagascar,Madagaskar,Madagascar,Madagascar,Madagascar,마다가스카르,Madagascar
+125,マラウイ,Malawi,Malawi,Malawi,Malawi,Malaui,Malawi,말라위,Malawi
+126,マレーシア,Malaysia,Malaisie,Malaysia,Malaysia,Malasia,Malaysia,말레이시아,Malaysia
+127,モルディブ,Maldives,Maldives,Malediven,Maldive,Maldivas,Maldives,몰디브,Maldives
+128,マリ,Mali,Mali,Mali,Mali,Malí,Mali,말리,Mali
+129,マルタ,Malta,Malte,Malta,Malta,Malta,Malta,몰타,Malta
+130,マーシャルしょとう,Marshall Islands,Iles Marshall,Marshallinseln,Isole Marshall,Islas Marshall,Marshall Islands,마샬군도,Marshall Islands
+131,マルチニーク,Martinique,Martinique,Martinique,Martinica,Martinica,Martinique,마르티니크,Martinique
+132,モーリタニア,Mauritania,Mauritanie,Mauretanien,Mauritania,Mauritania,Mauritania,모리타니,Mauritania
+133,モーリシャス,Mauritius,Maurice,Mauritius,Mauritius,Mauricio,Mauritius,모리셔스,Mauritius
+134,マヨット,Mayotte,Mayotte,Mayotte,Mayotte,Mayotte,Mayotte,마요트,Mayotte
+135,メキシコ,Mexico,Mexique,Mexiko,Messico,México,Mexico,멕시코,Mexico
+136,ミクロネシア,Micronesia,Micronésie,Mikronesien,Micronesia,Micronesia,Micronesia,미크로네시아,Micronesia
+137,モルドバ,Republic of Moldova,Moldavie,Moldawien,Moldavia,Moldavia,Republic of Moldova,몰도바,Republic of Moldova
+138,モナコ,Monaco,Monaco,Monaco,Principato di Monaco,Mónaco,Monaco,모나코,Monaco
+139,モンゴル,Mongolia,Mongolie,Mongolei,Mongolia,Mongolia,Mongolia,몽골,Mongolia
+140,モロッコ,Morocco,Maroc,Marokko,Marocco,Marruecos,Morocco,모로코,Morocco
+141,モザンビーク,Mozambique,Mozambique,Mosambik,Mozambico,Mozambique,Mozambique,모잠비크,Mozambique
+142,ミャンマー,Myanmar,Myanmar,Myanmar,Myanmar,Myanmar,Myanmar,미얀마,Myanmar
+143,ナミビア,Namibia,Namibie,Namibia,Namibia,Namibia,Namibia,나미비아,Namibia
+144,ナウル,Nauru,Nauru,Nauru,Nauru,Nauru,Nauru,나우루,Nauru
+145,ネパール,Nepal,Népal,Nepal,Nepal,Nepal,Nepal,네팔,Nepal
+146,オランダ,Netherlands,Pays-Bas,Niederlande,Paesi Bassi,Países Bajos,Netherlands,네덜란드,Netherlands
+147,オランダりょうアンティル,Netherlands Antilles,Antilles néerlandaises,Niederländische Antillen,Antille Olandesi,Antillas Holandesas,Netherlands Antilles,네덜란드령 앤틸리스제도,Netherlands Antilles
+148,ニューカレドニア,New Caledonia,Nouvelle-Calédonie,Neukaledonien,Nuova Caledonia,Nueva Caledonia,New Caledonia,뉴칼레도니아,New Caledonia
+149,ニュージーランド,New Zealand,Nouvelle-Zélande,Neuseeland,Nuova Zelanda,Nueva Zelanda,New Zealand,뉴질랜드,New Zealand
+150,ニカラグア,Nicaragua,Nicaragua,Nicaragua,Nicaragua,Nicaragua,Nicaragua,니카라과,Nicaragua
+151,ニジェール,Niger,Niger,Niger,Niger,Níger,Niger,니제르,Niger
+152,ナイジェリア,Nigeria,Nigéria,Nigeria,Nigeria,Nigeria,Nigeria,나이지리아,Nigeria
+153,ニウエ,Niue,Niue,Niue,Niue,Niue,Niue,니우에,Niue
+154,ノーフォークとう,Norfolk Island,Ile Norfolk,Norfolkinsel,Isola Norfolk,Isla Norfolk,Norfolk Island,노퍽 섬,Norfolk Island
+155,きたマリアナしょとう,Northern Mariana Islands,Iles Mariannes du Nord,Nördliche Marianen,Isole Marianne del Nord,Islas Marianas del Norte,Northern Mariana Islands,북마리아나제도,Northern Mariana Islands
+156,ノルウェー,Norway,Norvège,Norwegen,Norvegia,Noruega,Norway,노르웨이,Norway
+157,オマーン,Oman,Oman,Oman,Oman,Omán,Oman,오만,Oman
+158,パキスタン,Pakistan,Pakistan,Pakistan,Pakistan,Pakistán,Pakistan,파키스탄,Pakistan
+159,パラオ,Palau,Palaos,Palau,Palau,Palau,Palau,팔라우,Palau
+160,パナマ,Panama,Panamá,Panama,Panama,Panamá,Panama,파나마,Panama
+161,パプアニューギニア,Papua New Guinea,Papouasie-Nouvelle-Guinée,Papua-Neuguinea,Papua Nuova Guinea,Papúa Nueva Guinea,Papua New Guinea,파푸아뉴기니,Papua New Guinea
+162,パラグアイ,Paraguay,Paraguay,Paraguay,Paraguay,Paraguay,Paraguay,파라과이,Paraguay
+163,ペルー,Peru,Pérou,Peru,Perù,Perú,Peru,페루,Peru
+164,フィリピン,Philippines,Philippines,Philippinen,Filippine,Filipinas,Philippines,필리핀,Philippines
+165,ピトケアン,Pitcairn Islands,Iles Pitcairn,Pitcairninseln,Isola Pitcairn,Islas Pitcairn,Pitcairn Islands,핏케언섬,Pitcairn Islands
+166,ポーランド,Poland,Pologne,Polen,Polonia,Polonia,Poland,폴란드,Poland
+167,ポルトガル,Portugal,Portugal,Portugal,Portogallo,Portugal,Portugal,포르투갈,Portugal
+168,プエルトリコ,Puerto Rico,Porto Rico,Puerto Rico,Puerto Rico,Puerto Rico,Puerto Rico,푸에르토리코,Puerto Rico
+169,カタール,Qatar,Qatar,Katar,Qatar,Qatar,Qatar,카타르,Qatar
+170,レユニオン,Reunion,Ile de la Réunion,Réunion,Riunione,Reunión,Reunion,레위니옹,Reunion
+171,ルーマニア,Romania,Roumanie,Rumänien,Romania,Rumanía,Romania,루마니아,Romania
+172,ロシア,Russian Federation,Russie,Russland,Federazione Russa,Federación Rusa,Russian Federation,러시아,Russian Federation
+173,ルワンダ,Rwanda,Rwanda,Ruanda,Ruanda,Ruanda,Rwanda,르완다,Rwanda
+174,セントヘレナとう,Saint Helena,Sainte-Hélène,St. Helena,Sant’Elena,Santa Helena,Saint Helena,세인트 헬레나,Saint Helena
+175,セントクリストファー・ネービス,Saint Kitts and Nevis,Saint-Christophe-et-Niévès,St. Kitts und Nevis,Saint Christopher e Nevis,San Cristóbal y Nieves,Saint Kitts and Nevis,세인트 키츠 네비스,Saint Kitts and Nevis
+176,セントルシア,Saint Lucia,Sainte-Lucie,St. Lucia,Saint Lucia,Santa Lucía,Saint Lucia,세인트루시아,Saint Lucia
+177,サンピエール・ミクロン,Saint-Pierre and Miquelon,Saint-Pierre et Miquelon,St.-Pierre und Miquelon,Saint-Pierre e Miquelon,San Pedro y Miguelón,Saint-Pierre and Miquelon,생피에르앤드미클롱,Saint-Pierre and Miquelon
+178,セントビンセント・グレナディーン,Saint Vincent and the Grenadines,Saint-Vincent et les Grenadines,St. Vincent und die Grenadinen,Saint Vincent e Grenadine,San Vicente y las Granadinas,Saint Vincent and the Grenadines,세인트 빈센트 그레나딘,Saint Vincent and the Grenadines
+179,サモア,Samoa,Samoa,Samoa,Samoa,Samoa,Samoa,사모아,Samoa
+180,サンマリノ,San Marino,Saint-Marin,San Marino,San Marino,San Marino,San Marino,산마리노,San Marino
+181,サントメ・プリンシペ,Sao Tome and Principe,Sao Tomé-et-Principe,São Tomé und Príncipe,São Tomé e Principe,Santo Tomé y Príncipe,Sao Tome and Principe,상투메 프린시페,Sao Tome and Principe
+182,サウジアラビア,Saudi Arabia,Arabie saoudite,Saudi-Arabien,Arabia Saudita,Arabia Saudita,Saudi Arabia,사우디아라비아,Saudi Arabia
+183,セネガル,Senegal,Sénégal,Senegal,Senegal,Senegal,Senegal,세네갈,Senegal
+184,セルビア・モンテネグロ,Serbia and Montenegro,Serbie-et-Monténegro,Serbien-Montenegro,Serbia e Montenegro,Serbia y Montenegro,Serbia and Montenegro,세르비아-몬테네그로,Serbia and Montenegro
+185,セーシェル,Seychelles,Seychelles,Seychellen,Seychelles,Seychelles,Seychelles,세이셸,Seychelles
+186,シエラレオネ,Sierra Leone,Sierra Leone,Sierra Leone,Sierra Leone,Sierra Leona,Sierra Leone,시에라리온,Sierra Leone
+187,シンガポール,Singapore,Singapour,Singapur,Singapore,Singapur,Singapore,싱가포르,Singapore
+188,スロバキア,Slovakia,Slovaquie,Slowakei,Slovacchia,Eslovaquia,Slovakia,슬로바키아,Slovakia
+189,スロベニア,Slovenia,Slovénie,Slowenien,Slovenia,Eslovenia,Slovenia,슬로베니아,Slovenia
+190,ソロモンしょとう,Solomon Islands,Iles Salomon,Salomonen,Isole Salomone,Islas Salomón,Solomon Islands,솔로몬 제도,Solomon Islands
+191,ソマリア,Somalia,Somalie,Somalia,Somalia,Somalia,Somalia,소말리아,Somalia
+192,みなみアフリカ,South Africa,Afrique du Sud,Südafrika,Sud Africa,Sudáfrica,South Africa,남아프리카공화국,South Africa
+193,スペイン,Spain,Espagne,Spanien,Spagna,España,Spain,스페인,Spain
+194,スリランカ,Sri Lanka,Sri Lanka,Sri Lanka,Sri Lanka,Sri Lanka,Sri Lanka,스리랑카,Sri Lanka
+195,スーダン,Sudan,Soudan,Sudan,Sudan,Sudán,Sudan,수단,Sudan
+196,スリナム,Suriname,Suriname,Suriname,Suriname,Surinam,Suriname,수리남,Suriname
+197,スバールバル・ヤンマンエンとう,Jan Mayen Island,Ile Jan Mayen,Jan Mayen,Isola Jan Mayen,Isla de Jan Mayen,Jan Mayen Island,얀마웬섬,Jan Mayen Island
+198,スワジランド,Swaziland,Swaziland,Swasiland,Swaziland,Suazilandia,Swaziland,스와질란드,Swaziland
+199,スウェーデン,Sweden,Suède,Schweden,Svezia,Suecia,Sweden,스웨덴,Sweden
+200,スイス,Swiss Confederation,Suisse,Schweiz,Confederazione Svizzera,Confederación Helvética,Swiss Confederation,스위스,Swiss Confederation
+201,シリア,Syrian Arab Republic,Syrie,Syrien,Siria,República Árabe Siria,Syrian Arab Republic,시리아,Syrian Arab Republic
+202,たいわん,Taiwan,Taïwan,Taiwan,Taiwan,Taiwán,Taiwan,대만,Taiwan
+203,タジキスタン,Tajikistan,Tadjikistan,Tadschikistan,Tagikistan,Tayikistán,Tajikistan,타지키스탄,Tajikistan
+204,タンザニア,United Republic of Tanzania,Tanzanie,Tansania,Tanzania,República Unida de Tanzania,United Republic of Tanzania,탄자니아,United Republic of Tanzania
+205,タイ,Thailand,Thaïlande,Thailand,Thailandia,Tailandia,Thailand,태국,Thailand
+206,ひがしティモール,Democratic Republic of Timor-Leste,Timor oriental,Osttimor,Timor Est,Rep. Democrática de Timor Oriental,Democratic Republic of Timor-Leste,동티모르,Democratic Republic of Timor-Leste
+207,トーゴ,Togo,Togo,Togo,Togo,Togo,Togo,토고,Togo
+208,トケラウ,Tokelau,Tokelau,Tokelau,Tokelau,Tokelau,Tokelau,토켈라우,Tokelau
+209,トンガ,Tonga,Tonga,Tonga,Tonga,Tonga,Tonga,통가,Tonga
+210,トリニダード・トバゴ,Trinidad and Tobago,Trinité-et-Tobago,Trinidad und Tobago,Trinidad e Tobago,Trinidad y Tobago,Trinidad and Tobago,트리니다드 토바고,Trinidad and Tobago
+211,チュニジア,Tunisia,Tunisie,Tunesien,Tunisia,Túnez,Tunisia,튀니지,Tunisia
+212,トルコ,Turkey,Turquie,Türkei,Turchia,Turquía,Turkey,터키,Turkey
+213,トルクメニスタン,Turkmenistan,Turkménistan,Turkmenistan,Turkmenistan,Turkmenistán,Turkmenistan,투르크메니스탄,Turkmenistan
+214,タークス・カイコスしょとう,Turks and Caicos Islands,Iles Turques et Caïques,Turks- und Caicosinseln,Isole Turks e Caicos,Islas Turcas y Caicos,Turks and Caicos Islands,터크스케이커스제도,Turks and Caicos Islands
+215,ツバル,Tuvalu,Tuvalu,Tuvalu,Tuvalu,Tuvalu,Tuvalu,투발루,Tuvalu
+216,ウガンダ,Uganda,Ouganda,Uganda,Uganda,Uganda,Uganda,우간다,Uganda
+217,ウクライナ,Ukraine,Ukraine,Ukraine,Ucraina,Ucrania,Ukraine,우크라이나,Ukraine
+218,アラブしゅちょうこく,United Arab Emirates,Emirats arabes unis,Vereinigte Arabische Emirate,Emirati Arabi Uniti,Emiratos Árabes Unidos,United Arab Emirates,아랍에미리트,United Arab Emirates
+219,イギリス,United Kingdom,Royaume-Uni,Vereinigtes Königreich,Regno Unito,Reino Unido,United Kingdom,영국,United Kingdom
+220,アメリカ,United States of America,Etats-Unis,Vereinigte Staaten,Stati Uniti d’America,Estados Unidos de América,United States of America,미국,United States of America
+221,アメリカりょうバージンしょとう,United States Virgin Islands,Iles Vierges américaines,Jungferninseln (Amer.),Isole Vergini Statunitensi,Islas Vírgenes Americanas,United States Virgin Islands,미국령 버진제도,United States Virgin Islands
+222,ウルグアイ,Uruguay,Uruguay,Uruguay,Uruguay,Uruguay,Uruguay,우루과이,Uruguay
+223,ウズベキスタン,Uzbekistan,Ouzbékistan,Usbekistan,Uzbekistan,Uzbekistán,Uzbekistan,우즈베키스탄,Uzbekistan
+224,バヌアツ,Vanuatu,Vanuatu,Vanuatu,Vanuatu,Vanuatu,Vanuatu,바누아투,Vanuatu
+225,バチカン,Vatican City,Vatican,Vatikanstadt,Città del Vaticano,Ciudad del Vaticano,Vatican City,바티칸,Vatican City
+226,ベネズエラ,Venezuela,Venezuela,Venezuela,Venezuela,Venezuela,Venezuela,베네수엘라,Venezuela
+227,ベトナム,Vietnam,Viêt Nam,Vietnam,Vietnam,Vietnam,Vietnam,베트남,Vietnam
+228,ワリス・フテュナしょとう,Wallis and Futuna,Wallis et Futuna,Wallis und Futuna,Wallis e Futuna,Wallis y Futuna,Wallis and Futuna,월리스푸투나 제도,Wallis and Futuna
+229,パレスチナじちく,Palestine,Palestine,Palästina,Palestina,Palestina,Palestine,팔레스타인,Palestine
+230,にしサハラ,Western Sahara,Sahara occidental,Westsahara,Sahara Occidentale,Sáhara Occidental,Western Sahara,서사하라,Western Sahara
+231,イエメン,Yemen,République du Yémen,Jemen,Yemen,Yemen,Yemen,예멘,Yemen
+232,ザンビア,Zambia,Zambie,Sambia,Zambia,Zambia,Zambia,잠비아,Zambia
+233,ジンバブエ,Zimbabwe,Zimbabwe,Simbabwe,Zimbabwe,Zimbabue,Zimbabwe,짐바브웨,Zimbabwe

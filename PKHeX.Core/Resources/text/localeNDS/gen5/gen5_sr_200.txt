@@ -1,0 +1,23 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,ブレーキンゲ,Blekinge,Blekinge,Blekinge,Blekinge,Blekinge,Blekinge,블레킹에,Blekinge
+002,ダーラナ,Dalarna,Dalécarlie,Dalarna,Dalarna,Dalecarlia,Dalarna,달라르나,Dalarna
+003,イェヴレボリ,Gävleborg,Gävleborg,Gävleborg,Gävleborg,Gävleborg,Gävleborg,예블레보리,Gävleborg
+004,ゴットランド,Gotland,Gotland,Gotland,Gotland,Gotland,Gotland,고틀란드,Gotland
+005,ハランド,Halland,Halland,Halland,Halland,Halland,Halland,할란드,Halland
+006,イェムトランド,Jamtland,Jämtland,Jämtland,Jämtland,Jämtland,Jamtland,옘틀란드,Jamtland
+007,ヨンショーピング,Jönköping,Jönköping,Jönköping,Jönköping,Jönköping,Jönköping,옌셰핑,Jönköping
+008,カルマル,Kalmar,Kalmar,Kalmar,Kalmar,Kalmar,Kalmar,칼마르,Kalmar
+009,クロノベリ,Kronoberg,Kronoberg,Kronoberg,Kronoberg,Kronoberg,Kronoberg,크로노베리,Kronoberg
+010,ノルボッテン,Norrbotten,Norbotten,Norrbotten,Norrbotten,Norrbotten,Norrbotten,노르보텐,Norrbotten
+011,エーランド,Oland,Öland,Öland,Öland,Öland,Oland,욀란드,Oland
+012,エーレブルー,Örebro,Örebro,Örebro,Örebro,Örebro,Örebro,외레브로,Örebro
+013,エステルイェートランド,Östergötland,Östergötland,Östergötland,Östergötland,Östergötland,Östergötland,외스테르예틀란드,Östergötland
+014,スコーネ,Skane,Scanie,Schonen,Scania,Escania,Skane,스코네,Skane
+015,セーデルマンランド,Sodermanland,Södermanland,Södermanland,Södermanland,Södermanland,Sodermanland,쇠데르만란드,Sodermanland
+016,ストックホルム,Stockholm,Stockholm,Stockholm,Stoccolma,Estocolmo,Stockholm,스톡홀름,Stockholm
+017,ウプサラ,Uppsala,Uppsala,Uppsala,Uppsala,Uppsala,Uppsala,웁살라,Uppsala
+018,ベームランド,Varmland,Värmland,Värmland,Värmland,Värmland,Varmland,베름란드,Varmland
+019,ベステルポッテン,Vasterbotten,Västerbotten,Västerbotten,Västerbotten,Västerbotten,Vasterbotten,베스테르보텐,Vasterbotten
+020,ヴェステルノールランド,Västernorrland,Västernorrland,Västernorrland,Västernorrland,Västernorrland,Västernorrland,베스테르노를란드,Västernorrland
+021,ベストマンランド,Vastmanland,Västmanland,Västmanland,Västmanland,Västmanland,Vastmanland,베스트만란드,Vastmanland
+022,ヴェストラ・イェータランド,Västra Götaland,Västra Götaland,Västra Götaland,Västra Götaland,Västra Götaland,Västra Götaland,베스트라예탈란드,Västra Götaland

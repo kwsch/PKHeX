@@ -1,0 +1,21 @@
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
+001,アーケシュフース,Akershus,Akershus,Akershus,Akershus,Akershus,Akershus,아케르스후스,Akershus
+002,アウスト・ベグダル,Aust-Agder,Aust-Agder,Aust-Agder,Aust-Agder,Aust-Agder,Aust-Agder,에우스트아그데르,Aust-Agder
+003,ブスケルー,Buskerud,Buskerud,Buskerud,Buskerud,Buskerud,Buskerud,부스케루,Buskerud
+004,フィンマルク,Finnmark,Finnmark,Finnmark,Finnmark,Finnmark,Finnmark,핀마르크,Finnmark
+005,ヘーマルク,Hedmark,Hedmark,Hedmark,Hedmark,Hedmark,Hedmark,헤드마르크,Hedmark
+006,ホーダラン,Hordaland,Hordaland,Hordaland,Hordaland,Hordaland,Hordaland,호르달란,Hordaland
+007,ロフォーテンしょとう,Lofoten,Lofoten,Lofoten,Lofoten,Lofoten,Lofoten,로포텐,Lofoten
+008,ムーレ・オ・ロムスダール,More og Romsdal,Møre og Romsdal,Møre und Romsdal,Møre og Romsdal,Møre og Romsdal,More og Romsdal,뫼레오그롬스달,More og Romsdal
+009,ノールラン,Nordland,Nordland,Nordland,Nordland,Nordland,Nordland,노를란,Nordland
+010,ノール・トランデラーグ,Nord-Trondelag,Nord-Trøndelag,Nord-Trøndelag,Nord-Trøndelag,Nord-Trøndelag,Nord-Trondelag,노르트뢴델라그,Nord-Trondelag
+011,オップラン,Oppland,Oppland,Oppland,Oppland,Oppland,Oppland,오플란,Oppland
+012,オスロ,Oslo,Oslo,Oslo,Oslo,Oslo,Oslo,오슬로,Oslo
+013,ローガラン,Rogaland,Rogaland,Rogaland,Rogaland,Rogaland,Rogaland,로갈란,Rogaland
+014,ソグン・オ・フィヨルダーネ,Sogn og Fjordane,Sogn og Fjordane,Sogn und Fjordane,Sogn og Fjordane,Sogn og Fjordane,Sogn og Fjordane,송노표르다네,Sogn og Fjordane
+015,ソール・トランデラーグ,Sor-Trondelag,Sør-Trøndelag,Sør-Trøndelag,Sør-Trøndelag,Sør-Trøndelag,Sor-Trondelag,쇠르트뢴델라그,Sor-Trondelag
+016,スバルバールしょとう,Svalbard,Svalbard,Svalbard,Svalbard,Svalbard,Svalbard,스발바르 제도,Svalbard
+017,テレマルク,Telemark,Telemark,Telemark,Telemark,Telemark,Telemark,텔레마르크,Telemark
+018,トロムス,Troms,Troms,Troms,Troms,Troms,Troms,트롬스,Troms
+019,べスト・アグダル,Vest-Agder,Vest-Agder,Vest-Agder,Vest-Agder,Vest-Agder,Vest-Agder,베스트아그데르,Vest-Agder
+020,オストフォル,Ostfold,Østfold,Østfold,Østfold,Østfold,Ostfold,어스트폴,Ostfold

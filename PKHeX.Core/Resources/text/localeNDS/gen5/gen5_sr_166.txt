@@ -1,0 +1,17 @@
+000,なし,None,-,-,-,-,None,없음,None
+001,ドルニィシロンスク,Lower Silesia,Basse-Silésie,Niederschlesien,Bassa Slesia,Baja Silesia,Lower Silesia,돌노슬롱스키에,Lower Silesia
+002,クヤビ・ポモージェ,Kuyavia-Pomerania,Cujavie-Poméranie,Kujawien-Pommern,Cuiavia-Pomerania,Cuyavia y Pomerania,Kuyavia-Pomerania,쿠야비아-포메라니아,Kuyavia-Pomerania
+003,ルブリン,Lublin,Lublin,Lublin,Lublino,Lublin,Lublin,루블린,Lublin
+004,ルブシュ,Lubusz,Lubusz,Lebus,Lebus,Lebus,Lubusz,루부슈,Lubusz
+005,ウーチ,Lodz,Lódz,Lodz,Lodz,Lodz,Lodz,워지,Lodz
+006,マウォポルスカ,Lesser Poland,Petite-Pologne,Kleinpolen,Piccola Polonia,Pequeña Polonia,Lesser Poland,말로폴스키에,Lesser Poland
+007,マゾフシェ,Masovia,Mazovie,Masowien,Masovia,Mazovia,Masovia,마소비아,Masovia
+008,オポーレ,Opole,Opole,Oppeln,Opole,Opole,Opole,오폴레,Opole
+009,ポトカルパチェ,Subcarpathia,Basses-Carpates,Karpatenvorland,Precarpazi,Podkarpackie,Subcarpathia,포드칼파키에,Subcarpathia
+010,ポドラシェ,Podlachia,Podlachie,Podlachien,Podlachia,Podlaquia,Podlachia,포들라시에,Podlachia
+011,ポモージェ,Pomerania,Poméranie,Pommern,Pomerania,Pomerania,Pomerania,포메라니아,Pomerania
+012,シロンスク,Silesia,Silésie,Schlesien,Slesia,Silesia,Silesia,실롱스키에,Silesia
+013,シフェンティクシシ,Holy Cross,Sainte-Croix,Heiligkreuz,Santacroce,Santa Cruz,Holy Cross,시비엥토크시스키에,Holy Cross
+014,バルミア・マズーリ,Warmia-Masuria,Varmie-Mazurie,Ermland-Masuren,Varmia-Masuria,Varmia y Masuria,Warmia-Masuria,바르민스코 마즐스키에,Warmia-Masuria
+015,ビエルコポルスカ,Greater Poland,Grande-Pologne,Großpolen,Grande Polonia,Gran Polonia,Greater Poland,비엘코폴스키에,Greater Poland
+016,にしポモージェ,West Pomerania,Poméranie Occidentale,Westpommern,Pomerania Occidentale,Pomerania Occidental,West Pomerania,서포메라니아,West Pomerania
