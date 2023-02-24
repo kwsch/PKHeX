@@ -36,7 +36,7 @@ namespace PKHeX.WinForms
             this.TB_SeedToday = new System.Windows.Forms.TextBox();
             this.L_SeedCurrent = new System.Windows.Forms.Label();
             this.L_SeedTomorrow = new System.Windows.Forms.Label();
-            this.B_Star6 = new System.Windows.Forms.Button();
+            this.B_CopyToOthers = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -133,24 +133,24 @@ namespace PKHeX.WinForms
             this.L_SeedTomorrow.Text = "Tomorrow:";
             this.L_SeedTomorrow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // B_Star6
+            // B_CopyToOthers
             // 
-            this.B_Star6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Star6.Location = new System.Drawing.Point(152, 8);
-            this.B_Star6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.B_Star6.Name = "B_Star6";
-            this.B_Star6.Size = new System.Drawing.Size(224, 24);
-            this.B_Star6.TabIndex = 20;
-            this.B_Star6.Text = "Copy to Other Raids";
-            this.B_Star6.UseVisualStyleBackColor = true;
-            this.B_Star6.Click += new System.EventHandler(this.B_CopyToOthers_Click);
+            this.B_CopyToOthers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_CopyToOthers.Location = new System.Drawing.Point(152, 8);
+            this.B_CopyToOthers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.B_CopyToOthers.Name = "B_CopyToOthers";
+            this.B_CopyToOthers.Size = new System.Drawing.Size(224, 24);
+            this.B_CopyToOthers.TabIndex = 20;
+            this.B_CopyToOthers.Text = "Copy to Other Raids";
+            this.B_CopyToOthers.UseVisualStyleBackColor = true;
+            this.B_CopyToOthers.Click += new System.EventHandler(this.B_CopyToOthers_Click);
             // 
             // SAV_Raid9
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 370);
-            this.Controls.Add(this.B_Star6);
+            this.Controls.Add(this.B_CopyToOthers);
             this.Controls.Add(this.L_SeedTomorrow);
             this.Controls.Add(this.L_SeedCurrent);
             this.Controls.Add(this.TB_SeedTomorrow);
@@ -183,6 +183,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.TextBox TB_SeedToday;
         private System.Windows.Forms.Label L_SeedCurrent;
         private System.Windows.Forms.Label L_SeedTomorrow;
-        private System.Windows.Forms.Button B_Star6;
+        private System.Windows.Forms.Button B_CopyToOthers;
     }
 }
