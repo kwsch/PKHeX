@@ -10,7 +10,10 @@ public static partial class Util
         string[] inputCSV = GetStringList(textFile);
         int index = GeoLocation.GetLanguageIndex(lang);
         var list = GetCBListFromCSV(inputCSV, index + 1);
-        list.Sort(Comparer);
+        if (list.Count > 1 && list[0].Value == 0)
+            list.Sort(1, list.Count - 1, Comparer); // keep null value as first
+        else
+            list.Sort(Comparer);
         return list;
     }
 
