@@ -1,13 +1,13 @@
-000,なし,None,Aucun,Keiner,Nessuno,Ninguno,None,없음,None
-001,ひがしイングランド,East of England,Angleterre de l’Est,Ostengland,Est dell’Inghilterra,Este de Inglaterra,East of England,동 잉글랜드,East of England
-002,イースト・ミッドランド,East Midlands,Midlands de l’Est,East Midlands,Midlands Orientali,Midlands Oriental,East Midlands,이스트미들랜즈,East Midlands
-003,グレーター・ロンドン,Greater London,Grand Londres,Greater London,Grande Londra,Gran Londres,Greater London,그레이터런던,Greater London
-004,ほくとうイングランド,North East England,Angleterre du Nord-Est,North East England,Nord Est,Noreste de Inglaterra,North East England,북동 잉글랜드,North East England
-005,ほくせいイングランド,North West England,Angleterre du Nord-Ouest,North West England,Nord Ovest,Noroeste de Inglaterra,North West England,북서 잉글랜드,North West England
-006,きたアイルランド,Northern Ireland,Irlande du Nord,Nordirland,Irlanda del Nord,Irlanda del Norte,Northern Ireland,북아일랜드,Northern Ireland
-007,スコットランド,Scotland,Ecosse,Schottland,Scozia,Escocia,Scotland,스코틀랜드,Scotland
-008,なんとうイングランド,South East England,Angleterre du Sud-Est,Südostengland,Sud Est,Sudeste de Inglaterra,South East England,남동 잉글랜드,South East England
-009,なんせいイングランド,South West England,Angleterre du Sud-Ouest,Südwestengland,Sud Ovest,Sudoeste de Inglaterra,South West England,남서 잉글랜드,South West England
-010,ウェールズ,Wales,Pays de Galles,Wales,Galles,Gales,Wales,웨일스,Wales
-011,ウェスト・ミッドランド,West Midlands,Midlands de l’Ouest,West Midlands,Midlands Occidentali,Midlands Occidental,West Midlands,웨스트미들랜즈,West Midlands
-012,ヨークシャー・ハンバーサイド,Yorkshire and the Humber,Yorkshire et Humber,Yorkshire & Humber,Yorkshire e Humber,Yorkshire y el Humber,Yorkshire and the Humber,요크셔\x2C 험버사이드,Yorkshire and the Humber
+000,なし,None,Aucun,Keiner,Nessuno,Ninguno,无,없음,無
+001,ひがしイングランド,East of England,Angleterre de l’Est,Ostengland,Est dell’Inghilterra,Este de Inglaterra,东英格兰,동 잉글랜드,東英格蘭
+002,イースト・ミッドランド,East Midlands,Midlands de l’Est,East Midlands,Midlands Orientali,Midlands Oriental,东米德兰兹,이스트미들랜즈,東米德蘭茲
+003,グレーター・ロンドン,Greater London,Grand Londres,Greater London,Grande Londra,Gran Londres,大伦敦,그레이터런던,大倫敦
+004,ほくとうイングランド,North East England,Angleterre du Nord-Est,North East England,Nord Est,Noreste de Inglaterra,东北英格兰,북동 잉글랜드,東北英格蘭
+005,ほくせいイングランド,North West England,Angleterre du Nord-Ouest,North West England,Nord Ovest,Noroeste de Inglaterra,西北英格兰,북서 잉글랜드,西北英格蘭
+006,きたアイルランド,Northern Ireland,Irlande du Nord,Nordirland,Irlanda del Nord,Irlanda del Norte,北爱尔兰,북아일랜드,北愛爾蘭
+007,スコットランド,Scotland,Ecosse,Schottland,Scozia,Escocia,苏格兰,스코틀랜드,蘇格蘭
+008,なんとうイングランド,South East England,Angleterre du Sud-Est,Südostengland,Sud Est,Sudeste de Inglaterra,东南英格兰,남동 잉글랜드,東南英格蘭
+009,なんせいイングランド,South West England,Angleterre du Sud-Ouest,Südwestengland,Sud Ovest,Sudoeste de Inglaterra,西南英格兰,남서 잉글랜드,西南英格蘭
+010,ウェールズ,Wales,Pays de Galles,Wales,Galles,Gales,威尔士,웨일스,威爾斯
+011,ウェスト・ミッドランド,West Midlands,Midlands de l’Ouest,West Midlands,Midlands Occidentali,Midlands Occidental,西米德兰兹,웨스트미들랜즈,西米德蘭茲
+012,ヨークシャー・ハンバーサイド,Yorkshire and the Humber,Yorkshire et Humber,Yorkshire & Humber,Yorkshire e Humber,Yorkshire y el Humber,约克郡-亨伯,요크셔\x2C 험버사이드,約克郡-亨伯
