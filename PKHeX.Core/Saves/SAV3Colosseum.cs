@@ -165,8 +165,10 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         for (int i = 0; i < digest.Length; i++)
             digest[i] = (byte)~digest[i];
 
-        var crypt = output.AsSpan(0x18, SLOT_SIZE - (2 * sha1HashSize));
-        for (int i = 0; i < crypt.Length; i += sha1HashSize)
+        const int start = 0x18;
+        const int end = (SLOT_SIZE - (2 * sha1HashSize));
+        var crypt = output.AsSpan();
+        for (int i = start; i < end; i += sha1HashSize)
         {
             var slice = crypt.Slice(i, digest.Length);
             for (int j = 0; j < digest.Length; j++)
@@ -188,12 +190,14 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
             digest[i] = (byte)~digest[i];
 
         Span<byte> hash = stackalloc byte[sha1HashSize];
-        var crypt = output.AsSpan(0x18, SLOT_SIZE - (2 * sha1HashSize));
-        for (int i = 0; i < crypt.Length; i += sha1HashSize)
+        const int start = 0x18;
+        const int end = (SLOT_SIZE - (2 * sha1HashSize));
+        var crypt = output.AsSpan();
+        for (int i = start; i < end; i += sha1HashSize)
         {
-            var slice = crypt.Slice(i, sha1HashSize);
+            var slice = crypt.Slice(i, Math.Min(crypt.Length - i, sha1HashSize));
             SHA1.HashData(slice, hash); // update digest
-            for (int j = 0; j < digest.Length; j++)
+            for (int j = 0; j < slice.Length; j++)
                 slice[j] ^= digest[j];
             hash.CopyTo(digest); // for use in next loop
         }
