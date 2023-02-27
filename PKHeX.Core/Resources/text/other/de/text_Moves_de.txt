@@ -873,8 +873,8 @@ Loderlied
 Wogentanz
 Rasender Stier
 Goldrausch
-WAZA_SAIKOBUREIDO
-WAZA_HAIDOROSUTIIMU
+Psychoschneide
+Hydrodampf
 Verderben
 Kollisionskurs
 Blitztour

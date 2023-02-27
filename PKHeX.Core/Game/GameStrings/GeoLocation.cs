@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public static class GeoLocation
 {
     private static readonly string[]?[] CountryList = GetCountryList();
-    internal static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko", "zh2" };
+    private static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko", "zh2" };
     private static readonly string[]?[]?[] RegionList = new string[CountryList.Length][][];
 
     /// <summary>
@@ -58,7 +58,7 @@ public static class GeoLocation
         if ((uint)country >= CountryList.Length)
             return INVALID;
         var countryNames = CountryList[country];
-        if (countryNames is not null && l < countryNames.Length)
+        if (countryNames is not null && (uint)l < countryNames.Length)
             return countryNames[l + 1];
         return INVALID;
     }
@@ -73,7 +73,7 @@ public static class GeoLocation
         if ((uint)region >= regionNames.Length)
             return INVALID;
         var localized = regionNames[region];
-        if (localized is not null && l < localized.Length)
+        if (localized is not null && (uint)l < localized.Length)
             return localized[l + 1];
         return INVALID;
     }

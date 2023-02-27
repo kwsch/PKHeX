@@ -873,8 +873,8 @@ Chant Flamboyant
 Danse Aquatique
 Taurogne
 Ruée d’Or
-WAZA_SAIKOBUREIDO
-WAZA_HAIDOROSUTIIMU
+Lame Psychique
+Hydrovapeur
 Cataclysme
 Nitro Crash
 Turbo Volt

@@ -873,8 +873,8 @@ G의힘
 아쿠아스텝
 레이징불
 골드러시
-WAZA_SAIKOBUREIDO
-WAZA_HAIDOROSUTIIMU
+사이코블레이드
+하이드로스팀
 카타스트로피
 액셀브레이크
 라이트닝드라이브

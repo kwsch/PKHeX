@@ -873,8 +873,8 @@ Torch Song
 Aqua Step
 Raging Bull
 Make It Rain
-WAZA_SAIKOBUREIDO
-WAZA_HAIDOROSUTIIMU
+Psyblade
+Hydro Steam
 Ruination
 Collision Course
 Electro Drift

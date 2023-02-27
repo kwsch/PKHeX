@@ -873,8 +873,8 @@ Canzone Ardente
 Idroballetto
 Scatenatoro
 Corsa all’Oro
-WAZA_SAIKOBUREIDO
-WAZA_HAIDOROSUTIIMU
+Psicolama
+Idrovapore
 Catastrofe
 Turboschianto
 Fulmiscatto

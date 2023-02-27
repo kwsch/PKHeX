@@ -873,8 +873,8 @@
 流水旋舞
 怒牛
 淘金潮
-WAZA_SAIKOBUREIDO
-WAZA_HAIDOROSUTIIMU
+精神劍
+水蒸氣
 大災難
 全開猛撞
 閃電猛衝
