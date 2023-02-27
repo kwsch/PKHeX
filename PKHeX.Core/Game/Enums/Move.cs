@@ -880,7 +880,7 @@ public enum Move
     AquaStep,
     RagingBull,
     MakeItRain,
-    PsychoBlade,
+    Psyblade,
     HydroSteam,
     Ruination,
     CollisionCourse,
