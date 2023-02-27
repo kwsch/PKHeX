@@ -20,7 +20,7 @@ public static partial class Util
         var arr = new List<ComboItem>(inputCSV.Count);
         foreach (var line in inputCSV)
         {
-            var text = StringUtil.GetNthEntry(line, index, 4);
+            var text = StringUtil.GetNthEntry(line, index, 3);
             var value = line.AsSpan(0, 3);
             var item = new ComboItem(text, ToInt32(value));
             arr.Add(item);
