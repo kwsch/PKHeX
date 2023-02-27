@@ -107,6 +107,6 @@ public static class EncounterServerDate
     {
         {0001, (new(2022, 11, 17), Never)}, // PokéCenter Flabébé
         {0006, (new(2022, 12, 16), new(2023, 02, 01))}, // Jump Festa Gyarados
-        {0501, (new(2022, 02, 17), new(2023, 02, 21))}, // Jiseok's Garganacl
+        {0501, (new(2023, 02, 16), new(2023, 02, 21))}, // Jiseok's Garganacl
     };
 }
