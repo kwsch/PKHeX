@@ -13,7 +13,11 @@ public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
     public byte Index { get; private init; }
     public byte Stars { get; private init; }
     public byte RandRate { get; private init; } // weight chance of this encounter
-    public byte Scale { get; init; }
+
+    /// <summary> Indicates how the <see cref="Scale"/> value is used, if at all. </summary>
+    public SizeType9 ScaleType { get; private init; }
+    /// <summary>  Used only for <see cref="ScaleType"/> == <see cref="SizeType9.VALUE"/> </summary>
+    public byte Scale { get; private init; }
 
     public ushort RandRate0MinScarlet { get; private init; }
     public ushort RandRate0MinViolet { get; private init; }
@@ -193,7 +197,8 @@ public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
 
         Nature = (Nature)data[0x34],
         IVs = new IndividualValueSet((sbyte)data[0x35], (sbyte)data[0x36], (sbyte)data[0x37], (sbyte)data[0x38], (sbyte)data[0x39], (sbyte)data[0x3A], data[0x3B]),
-        Scale = data[0x3C],
+        ScaleType = (SizeType9)data[0x3C],
+        Scale = data[0x3D],
     };
 
     private static AbilityPermission GetAbility(byte b) => b switch
@@ -236,8 +241,6 @@ public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
                 return true;
         }
 
-        if (pk is IScaledSize3 s3 && s3.Scale != Scale)
-            return true;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
             return true;
 
@@ -248,7 +251,7 @@ public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
             return true;
 
         byte gender = GetGender();
-        var param = new GenerateParam9(Species, gender, FlawlessIVCount, 1, 0, 0, Scale, Ability, Shiny, Nature, IVs);
+        var param = new GenerateParam9(Species, gender, FlawlessIVCount, 1, 0, 0, ScaleType, Scale, Ability, Shiny, Nature, IVs);
         if (!Encounter9RNG.IsMatch(pk, param, seed))
             return true;
         return base.IsMatchPartial(pk);
@@ -270,7 +273,7 @@ public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
         const byte undefinedSize = 0;
         byte gender = GetGender();
         var param = new GenerateParam9(Species, gender, FlawlessIVCount, rollCount,
-            undefinedSize, undefinedSize, Scale,
+            undefinedSize, undefinedSize, ScaleType, Scale,
             Ability, Shiny, Nature, IVs);
 
         var init = Util.Rand.Rand64();

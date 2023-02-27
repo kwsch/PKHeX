@@ -17,6 +17,8 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
     public bool StarterBoxLegend => Gift && Species is (int)Core.Species.Koraidon or (int)Core.Species.Miraidon;
     public bool ScriptedYungoos => Species == (int)Core.Species.Yungoos && Level == 2;
 
+    public SizeType9 ScaleType => NoScalarsDefined ? SizeType9.RANDOM : SizeType9.VALUE;
+
     protected override bool IsMatchPartial(PKM pk)
     {
         if (pk is IScaledSize v && !NoScalarsDefined)
@@ -71,7 +73,7 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
 
         const byte rollCount = 1;
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount, height, weight, scale, Ability, Shiny);
+        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount, height, weight, ScaleType, scale, Ability, Shiny);
 
         ulong init = Util.Rand.Rand64();
         var success = this.TryApply64(pk9, init, param, criteria, IVs.IsSpecified);
