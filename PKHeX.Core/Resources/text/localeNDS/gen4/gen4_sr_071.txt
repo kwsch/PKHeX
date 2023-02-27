@@ -1,0 +1,23 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	アキテーヌ	Aquitaine	Aquitaine	Aquitanien	Aquitania	Aquitania	阿基坦	아키텐	阿基坦
+002	アルザス	Alsace	Alsace	Elsass	Alsazia	Alsacia	阿尔萨斯	알자스	阿爾薩斯
+003	イル・ド・フランス	Ile de France	Ile de France	Île-de-France	Île-de-France	Isla de Francia	法兰西岛	일드프랑스	法蘭西島
+004	オーベルニュ	Auvergne	Auvergne	Auvergne	Alvernia	Auvernia	奥弗涅	오베르뉴	奧弗涅
+005	コート・ダジュール	Cote d’Azur	Côte d’Azur	Côte d’Azur	Costa Azzurra	Costa Azul	蓝色海岸	코트다쥐르	藍色海岸
+006	コルシカ	Corse	Corse	Korsika 	Corsica	Córcega	科西嘉	코르스	科西嘉
+007	シャンパーニュ・アルデンヌ	Champagne-Ardenne	Champagne-Ardenne	Champagne-Ardenne	Champagne-Ardenne	Champaña-Ardenas	香槟-阿登	샹파뉴아르덴	香檳-阿登
+008	ノール・パ・ド・カレ	Nord-Pas-de-Calais	Nord-Pas-de-Calais	Nord-Pas-de-Calais	Nord-Passo di Calais	Norte-Paso de Calais	北部-加来海峡	노르파드칼레	北部-加來海峽
+009	ノルマンディ	Normandie	Normandie	Normandie	Normandia	Normandía	诺曼底	노르망디	諾曼第
+010	ピカルディ	Picardie	Picardie	Picardie	Picardia	Picardía	皮卡第	피카르디	皮卡第
+011	フランシュ・コンテ	Franche-Comte	Franche-Comté	Franche-Comté	Franca Contea	Franco-Condado	弗朗什孔泰	프랑슈콩테	弗朗什孔泰
+012	ブルゴーニュ	Bourgogne	Bourgogne	Burgund 	Borgogna	Borgoña	勃艮第	부르고뉴	勃艮第
+013	ブルターニュ	Bretagne	Bretagne	Bretagne	Bretagna	Bretaña	布列塔尼	브르타뉴	布列塔尼
+014	プロバンス	Provence	Provence	Provence	Provenza	Provenza	普罗旺斯	프로방스	普羅旺斯
+015	ペイ・ド・ラ・ロワール	Pays-de-la-Loire	Pays de la Loire	Länder der Loire	Pays-de-la-Loire	Países del Loira	卢瓦尔河地区	페이드라루아르	盧瓦爾河地區
+016	ポワトゥ・シャラント	Poitou-Charentes	Poitou-Charentes	Poitou-Charentes	Poitou-Charentes	Poitou-Charentes	普瓦图-夏朗德	푸아투샤랑트	普瓦圖-夏朗德
+017	ミディ・ピレネー	Midi-Pyrenees	Midi-Pyrénées	Midi-Pyrénées	Midi-Pirenei	Pirineos Centrales	南部-比利牛斯	미디피레네	南部-比利牛斯
+018	ラングドック・ルシヨン	Languedoc-Roussillon	Languedoc-Roussillon	Languedoc-Roussillon	Linguadoca-Rossiglione	Languedoc-Rosellón	朗格多克-鲁西永	랑그도크루시용	朗格多克-魯西永
+019	リムーザン	Limousin	Limousin	Limousin	Limosino	Lemosín	利穆赞	리무쟁	利穆贊
+020	ローヌ・アルプ	Rhone-Alpes	Rhône-Alpes	Rhône-Alpes	Rodano-Alpi	Ródano-Alpes	罗讷-阿尔卑斯	론알프스	羅訥-阿爾卑斯
+021	ロレーヌ	Lorraine	Lorraine	Lothringen 	Lorena	Lorena	洛林	로렌	洛林
+022	ロワール	Loire	Centre	Centre	Centro	Centro	卢瓦尔	루아르	羅亞爾

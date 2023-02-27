@@ -38,7 +38,7 @@ public static class StringUtil
     /// <summary>
     /// Gets the <see cref="nth"/> string entry within the input <see cref="line"/>, based on the <see cref="separator"/> and <see cref="start"/> position.
     /// </summary>
-    public static string GetNthEntry(ReadOnlySpan<char> line, int nth, int start, char separator = ',')
+    public static string GetNthEntry(ReadOnlySpan<char> line, int nth, int start, char separator = '\t')
     {
         if (nth != 1)
             start = line.IndexOfNth(separator, nth - 1, start + 1);

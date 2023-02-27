@@ -13,7 +13,6 @@ public sealed class ShowdownSet : IBattleTemplate
     private static readonly string[] StatNames = { "HP", "Atk", "Def", "Spe", "SpA", "SpD" };
     private const string LineSplit = ": ";
     private const string ItemSplit = " @ ";
-    private const string ParenJunk = "()[]";
     private const int MAX_SPECIES = (int)MAX_COUNT - 1;
     internal const string DefaultLanguage = GameLanguage.DefaultLanguage;
     private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(DefaultLanguage);
@@ -355,7 +354,8 @@ public sealed class ShowdownSet : IBattleTemplate
         result.Add(GetStringFirstLine(form));
 
         // IVs
-        var ivs = GetStringStats(IVs, Context.Generation() < 3 ? 15 : 31);
+        var maxIV = Context.Generation() < 3 ? 15 : 31;
+        var ivs = GetStringStats(IVs, maxIV);
         if (ivs.Length != 0)
             result.Add($"IVs: {string.Join(" / ", ivs)}");
 
@@ -367,15 +367,15 @@ public sealed class ShowdownSet : IBattleTemplate
         // Secondary Stats
         if ((uint)Ability < Strings.Ability.Count)
             result.Add($"Ability: {Strings.Ability[Ability]}");
-        if (TeraType != MoveType.Any)
+        if (Context == EntityContext.Gen9 && TeraType != MoveType.Any && (uint)TeraType < Strings.Types.Count)
             result.Add($"Tera Type: {Strings.Types[(int)TeraType]}");
         if (Level != 100)
             result.Add($"Level: {Level}");
         if (Shiny)
             result.Add("Shiny: Yes");
-        if (DynamaxLevel != 10 && Context == EntityContext.Gen8)
+        if (Context == EntityContext.Gen8 && DynamaxLevel != 10)
             result.Add($"Dynamax Level: {DynamaxLevel}");
-        if (CanGigantamax)
+        if (Context == EntityContext.Gen8 && CanGigantamax)
             result.Add("Gigantamax: Yes");
 
         if ((uint)Nature < Strings.Natures.Count)
@@ -451,7 +451,7 @@ public sealed class ShowdownSet : IBattleTemplate
             if (move == 0 || move >= moves.Count)
                 continue;
 
-            if (move != (int)Move.HiddenPower)
+            if (move != (int)Move.HiddenPower || HiddenPowerType == -1)
             {
                 yield return $"- {moves[move]}";
                 continue;
@@ -571,12 +571,12 @@ public sealed class ShowdownSet : IBattleTemplate
         // Gender Detection
         if (line.EndsWith("(M)", StringComparison.Ordinal))
         {
-            line = line[..^3];
+            line = line[..^3].TrimEnd();
             Gender = 0;
         }
         else if (line.EndsWith("(F)", StringComparison.Ordinal))
         {
-            line = line[..^3];
+            line = line[..^3].TrimEnd();
             Gender = 1;
         }
 
@@ -650,34 +650,34 @@ public sealed class ShowdownSet : IBattleTemplate
 
     private void ParseSpeciesNickname(ReadOnlySpan<char> line)
     {
+        // Entering into this method requires both ( and ) to be present within the input line.
         int index = line.LastIndexOf('(');
-        Span<char> species = stackalloc char[line.Length];
-        Span<char> nickname = stackalloc char[line.Length];
+        ReadOnlySpan<char> species;
+        ReadOnlySpan<char> nickname;
         if (index > 1) // parenthesis value after: Nickname (Species), correct.
         {
-            line[..index].Trim().CopyTo(nickname);
-            line[index..].Trim().CopyTo(species);
-            RemoveAll(ref species, ParenJunk); // Trim out excess data
+            nickname = line[..index].TrimEnd();
+            species = line[(index + 1)..];
+            if (species.Length > 0 && species[^1] == ')')
+                species = species[..^1];
         }
         else // parenthesis value before: (Species) Nickname, incorrect
         {
             int start = index + 1;
-            int end = line.IndexOf(')');
+            int end = line.LastIndexOf(')');
             var tmp = line[start..end];
             if (end < line.Length - 2)
             {
-                line[(end + 2)..].CopyTo(nickname);
-                tmp.CopyTo(species);
+                nickname = line[(end + 2)..];
+                species = tmp;
             }
             else // (Species), or garbage
             {
-                tmp.CopyTo(species);
-                nickname = Span<char>.Empty;
+                species = tmp;
+                nickname = ReadOnlySpan<char>.Empty;
             }
         }
 
-        species = species.TrimEnd('\0');
-        nickname = nickname.TrimEnd('\0');
         if (ParseSpeciesForm(species))
             Nickname = nickname.ToString();
         else if (ParseSpeciesForm(nickname))
@@ -700,11 +700,10 @@ public sealed class ShowdownSet : IBattleTemplate
             return hiddenPowerName;
 
         // Defined Hidden Power
-        Span<char> type = stackalloc char[moveString.Length - hiddenPowerName.Length];
-        moveString[hiddenPowerName.Length..].CopyTo(type);
-        RemoveAll(ref type, ParenJunk); // Trim out excess data
-        type = type.Trim();
-        int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types.AsSpan(1), type); // Get HP Type
+        var type = GetHiddenPowerType(moveString[(hiddenPowerName.Length + 1)..]);
+        int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types.AsSpan(1, 16), type); // Get HP Type
+        if (hpVal == -1)
+            return hiddenPowerName;
 
         HiddenPowerType = hpVal;
         if (!Array.TrueForAll(IVs, z => z == 31))
@@ -721,6 +720,20 @@ public sealed class ShowdownSet : IBattleTemplate
             InvalidLines.Add($"Invalid Hidden Power Type: {type}");
         }
         return hiddenPowerName;
+    }
+
+    private static ReadOnlySpan<char> GetHiddenPowerType(ReadOnlySpan<char> line)
+    {
+        var type = line.Trim();
+        if (type.Length == 0)
+            return type;
+
+        if (type[0] == '(' && type[^1] == ')')
+             return type[1..^1].Trim();
+        if (type[0] == '[' && type[^1] == ']')
+            return type[1..^1].Trim();
+
+        return type;
     }
 
     private bool ParseLineEVs(ReadOnlySpan<char> line)
@@ -789,18 +802,5 @@ public sealed class ShowdownSet : IBattleTemplate
             IVs[statIndex] = statValue;
             return true;
         }
-    }
-
-    private static void RemoveAll(ref Span<char> buffer, ReadOnlySpan<char> remove)
-    {
-        int ctr = 0;
-        for (var i = 0; i < buffer.Length; i++)
-        {
-            char c = buffer[i];
-            if (!remove.Contains(c))
-                buffer[ctr++] = c;
-        }
-        if (ctr != buffer.Length)
-            buffer = buffer[..ctr];
     }
 }

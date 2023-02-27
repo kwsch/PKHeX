@@ -119,7 +119,7 @@ public static class Encounter9RNG
 
         pk.HeightScalar = enc.Height != 0 ? enc.Height : (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
         pk.WeightScalar = enc.Weight != 0 ? enc.Weight : (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
-        pk.Scale        = enc.Scale  != 0 ? enc.Scale  : (byte)(rand.NextInt(0x81) + rand.NextInt(0x80));
+        pk.Scale        = enc.ScaleType.GetSizeValue(enc.Scale, ref rand);
         return true;
     }
 
@@ -207,9 +207,9 @@ public static class Encounter9RNG
             if (pk is IScaledSize s && s.WeightScalar != value)
                 return false;
         }
-        if (enc.Scale == 0)
+        // Scale
         {
-            var value = (int)rand.NextInt(0x81) + (int)rand.NextInt(0x80);
+            var value = enc.ScaleType.GetSizeValue(enc.Scale, ref rand);
             if (pk is IScaledSize3 s && s.Scale != value)
                 return false;
         }

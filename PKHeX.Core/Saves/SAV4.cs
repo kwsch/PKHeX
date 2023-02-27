@@ -147,6 +147,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     protected int WondercardFlags = int.MinValue;
     protected int AdventureInfo = int.MinValue;
     protected int Seal = int.MinValue;
+    protected int Geonet = int.MinValue;
     protected int Trainer1;
     public int GTS { get; protected set; } = int.MinValue;
 
@@ -256,6 +257,18 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
     public override uint SecondsToStart { get => ReadUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x34)); set => WriteUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x34), value); }
     public override uint SecondsToFame { get => ReadUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x3C)); set => WriteUInt32LittleEndian(General.AsSpan(AdventureInfo + 0x3C), value); }
+
+    public int Country
+    {
+        get => General[Geonet];
+        set { if (value < 0) return; General[Geonet] = (byte)value; }
+    }
+
+    public int Region
+    {
+        get => General[Geonet + 1];
+        set { if (value < 0) return; General[Geonet + 1] = (byte)value; }
+    }
 
     protected sealed override PK4 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);

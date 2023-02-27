@@ -1,0 +1,52 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	アラバマ	Alabama	Alabama	Alabama	Alabama	Alabama	亚拉巴马州	앨라배마	亞拉巴馬州
+002	アラスカ	Alaska	Alaska	Alaska	Alaska	Alaska	阿拉斯加州	알래스카	阿拉斯加州
+003	アリゾナ	Arizona	Arizona	Arizona	Arizona	Arizona	亚利桑那州	애리조나	亞利桑那州
+004	アーカンソー	Arkansas	Arkansas	Arkansas	Arkansas	Arkansas	阿肯色州	아칸소	阿肯色州
+005	カリフォルニア	California	Californie	Kalifornien	California	California	加利福尼亚州	캘리포니아	加利福尼亞州
+006	コロラド	Colorado	Colorado	Colorado	Colorado	Colorado	科罗拉多州	콜로라도	科羅拉多州
+007	コネチカット	Connecticut	Connecticut	Connecticut	Connecticut	Connecticut	康涅狄格州	코네티컷	康涅狄格州
+008	デラウェア	Delaware	Delaware	Delaware	Delaware	Delaware	特拉华州	델라웨어	特拉華州
+009	フロリダ	Florida	Floride	Florida	Florida	Florida	佛罗里达州	플로리다	佛羅裏達州
+010	ジョージア	Georgia	Géorgie	Georgia	Georgia	Georgia	佐治亚州	조지아	佐治亞州
+011	ハワイ	Hawaii	Hawaii	Hawaii	Hawaii	Hawái	夏威夷州	하와이	夏威夷州
+012	アイダホ	Idaho	Idaho	Idaho	Idaho	Idaho	爱达荷州	아이다호	愛達荷州
+013	イリノイ	Illinois	Illinois	Illinois	Illinois	Illinois	伊利诺伊州	일리노이	伊利諾伊州
+014	インディアナ	Indiana	Indiana	Indiana	Indiana	Indiana	印第安纳州	인디애나	印第安納州
+015	アイオワ	Iowa	Iowa	Iowa	Iowa	Iowa	艾奥瓦州	아이오와	艾奧瓦州
+016	カンザス	Kansas	Kansas	Kansas	Kansas	Kansas	堪萨斯州	캔자스	堪薩斯州
+017	ケンタッキー	Kentucky	Kentucky	Kentucky	Kentucky	Kentucky	肯塔基州	켄터키	肯塔基州
+018	ルイジアナ	Louisiana	Louisiane	Louisiana	Louisiana	Luisiana	路易斯安那州	루이지애나	路易斯安那州
+019	メイン	Maine	Maine	Maine	Maine	Maine	缅因州	메인	緬因州
+020	メリーランド	Maryland	Maryland	Maryland	Maryland	Maryland	马里兰州	메릴랜드	馬裏蘭州
+021	マサチューセッツ	Massachusetts	Massachusetts	Massachusetts	Massachusetts	Massachusetts	马萨诸塞州	매사추세츠	馬薩諸塞州
+022	ミシガン	Michigan	Michigan	Michigan	Michigan	Michigan	密歇根州	미시간	密歇根州
+023	ミネソタ	Minnesota	Minnesota	Minnesota	Minnesota	Minnesota	明尼苏达州	미네소타	明尼蘇達州
+024	ミシシッピ	Mississippi	Mississippi	Mississippi	Mississippi	Misisipi	密西西比州	미시시피	密西西比州
+025	ミズーリ	Missouri	Missouri	Missouri	Missouri	Misuri	密苏里州	미주리	密蘇裏州
+026	モンタナ	Montana	Montana	Montana	Montana	Montana	蒙大拿州	몬태나	蒙大拿州
+027	ネブラスカ	Nebraska	Nebraska	Nebraska	Nebraska	Nebraska	内布拉斯加州	네브래스카	內布拉斯加州
+028	ネバダ	Nevada	Nevada	Nevada	Nevada	Nevada	内华达州	네바다	內華達州
+029	ニューハンプシャー	New Hampshire	New Hampshire	New Hampshire	New Hampshire	Nuevo Hampshire	新罕布什尔州	뉴햄프셔	新罕布殊爾州
+030	ニュージャージー	New Jersey	New Jersey	New Jersey	New Jersey	Nueva Jersey	新泽西州	뉴저지	新澤西州
+031	ニューメキシコ	New Mexico	Nouveau-Mexique	New Mexico	New Mexico	Nuevo México	新墨西哥州	뉴멕시코	新墨西哥州
+032	ニューヨーク	New York	New York	New York	New York	Nueva York	纽约州	뉴욕	紐約州
+033	ノースカロライナ	North Carolina	Caroline du Nord	North Carolina	North Carolina	Carolina del Norte	北卡罗来纳州	노스캐롤라이나	北卡羅來納州
+034	ノースダコタ	North Dakota	Dakota du Nord	Norddakota	North Dakota	Dakota del Norte	北达科他州	노스다코타	北達科他州
+035	オハイオ	Ohio	Ohio	Ohio	Ohio	Ohio	俄亥俄州	오하이오	俄亥俄州
+036	オクラホマ	Oklahoma	Oklahoma	Oklahoma	Oklahoma	Oklahoma	俄克拉何马州	오클라호마	俄克拉何馬州
+037	オレゴン	Oregon	Oregon	Oregon	Oregon	Oregón	俄勒冈州	오리건	俄勒岡州
+038	ペンシルバニア	Pennsylvania	Pennsylvanie	Pennsylvania	Pennsylvania	Pensilvania	宾夕法尼亚州	펜실베이니아	賓夕法尼亞州
+039	ロードアイランド	Rhode Island	Rhode Island	Rhode Island	Rhode Island	Rhode Island	罗得岛州	로드아일랜드	羅得島州
+040	サウスカロライナ	South Carolina	Caroline du Sud	South Carolina	South Carolina	Carolina del Sur	南卡罗来纳州	사우스캐롤라이나	南卡羅來納州
+041	サウスダコタ	South Dakota	Dakota du Sud	Süddakota	South Dakota	Dakota del Sur	南达科他州	사우스다코타	南達科他州
+042	テネシー	Tennessee	Tennessee	Tennessee	Tennessee	Tennessee	田纳西州	테네시	田納西州
+043	テキサス	Texas	Texas	Texas	Texas	Texas	得克萨斯州	텍사스	德克薩斯州
+044	ユタ	Utah	Utah	Utah	Utah	Utah	犹他州	유타	猶他州
+045	バーモント	Vermont	Vermont	Vermont	Vermont	Vermont	佛蒙特州	버몬트	佛蒙特州
+046	バージニア	Virginia	Virginie	Virginia	Virginia	Virginia	弗吉尼亚州	버지니아	弗吉尼亞州
+047	ワシントン	Washington	Washington	Washington	Washington	Washington	华盛顿州	워싱턴	華盛頓州
+048	ワシントンＤ．Ｃ．	Washington, DC	Washington D. C.	Washington, DC	Washington, DC	Washington DC	华盛顿特区	워싱턴 DC	華盛頓特區
+049	ウェストバージニア	West Virginia	Virginie-Occidentale	West Virginia	West Virginia	Virginia Occidental	西弗吉尼亚州	웨스트버지니아	西弗吉尼亞州
+050	ウィスコンシン	Wisconsin	Wisconsin	Wisconsin	Wisconsin	Wisconsin	威斯康星州	위스콘신	威斯康星州
+051	ワイオミング	Wyoming	Wyoming	Wyoming	Wyoming	Wyoming	怀俄明州	와이오밍	懷俄明州

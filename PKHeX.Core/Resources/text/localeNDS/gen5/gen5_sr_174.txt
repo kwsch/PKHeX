@@ -1,0 +1,9 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	ちゅうおう	Central Federal District	District fédéral central	Zentralrussland	Distretto Federale Centrale	Distrito Federal Central	中央联邦管区	중앙 연방관구	中央聯邦管區
+002	きょくとう	Far Eastern Federal District	District fédéral extrême-oriental	Ferner Osten	Distretto Fed. dell'Estremo Oriente	Distrito Federal del Lejano Oriente	远东联邦管区	극동 연방관구	遠東聯邦管區
+003	ほくせい	Northwestern Federal District	District fédéral du Nord-Ouest	Nordwestrussland	Distretto Federale Nordoccidentale	Distrito Federal Noroeste	西北部联邦管区	서북 연방관구	西北部聯邦管區
+004	エンボルガ	Volga Federal District	District fédéral de la Volga	Wolga	Distretto Federale del Volga	Distrito Federal del Volga	伏尔加联邦管区	볼가 연방관구	伏爾加聯邦管區
+005	シベリア	Siberian Federal District	District fédéral sibérien	Sibirien	Distretto Federale Siberiano	Distrito Federal de Siberia	西伯利亚联邦管区	시베리아 연방관구	西伯利亞聯邦管區
+006	みなみ	Southern Federal District	District fédéral du Sud	Südrussland	Distretto Federale Meridionale	Distrito Federal Sur	南部联邦管区	남부 연방관구	南部聯邦管區
+007	ウラル	Urals Federal District	District fédéral de l'Oural	Ural	Distretto Federale degli Urali	Distrito Federal de los Urales	乌拉尔联邦管区	우랄 연방관구	烏拉爾聯邦管區
+008	きたカフカース	North Caucasian Federal District	District fédéral du Nord-Caucase	Nordkaukasus	Distretto Fed. del Caucaso del Nord	Distrito Federal del Cáucaso Norte	北高加索联邦管区	북캅카스	北高加索聯邦管區

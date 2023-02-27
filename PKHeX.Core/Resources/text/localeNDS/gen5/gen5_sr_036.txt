@@ -1,0 +1,14 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	アルバータ	Alberta	Alberta	Alberta	Alberta	Alberta	艾伯塔省	앨버타	艾伯塔省
+002	ブリティッシュ・コロンビア	British Columbia	Colombie-Britannique	Britisch-Kolumbien	Columbia Britannica	Columbia Británica	不列颠哥伦比亚省	브리티시컬럼비아	卑詩省
+003	マニトバ	Manitoba	Manitoba	Manitoba	Manitoba	Manitoba	马尼托巴省	매니토바	馬尼託巴省
+004	ニューブランズウィック	New Brunswick	Nouveau-Brunswick	Neubraunschweig	Nuovo Brunswick	Nuevo Brunswick	新不伦瑞克省	뉴브런즈윅	新不倫瑞克省
+005	ニューファンドランド・ラブラドール	Newfoundland and Labrador	Terre-Neuve-et-Labrador	Neufundland und Labrador	Terranova e Labrador	Terranova y Labrador	纽芬兰与拉布拉多省	뉴펀들랜드 래브라도	紐芬蘭與拉布拉多省
+006	ノースウエスト	Northwest Territories	Territoires du Nord-Ouest	Nordwest-Territorien	Territori del Nord-Ovest	Territorios del Noroeste	西北地区	노스웨스트	西北地區
+007	ノバスコシア	Nova Scotia	Nouvelle-Écosse	Neuschottland	Nuova Scozia	Nueva Escocia	新斯科舍省	노바스코샤	新斯科舍省
+008	ヌナブト	Nunavut	Nunavut	Nunavut	Nunavut	Nunavut	努纳维特地区	누나부트	努納維特地區
+009	オンタリオ	Ontario	Ontario	Ontario	Ontario	Ontario	安大略省	온타리오	安大略省
+010	プリンス・エドワード・アイランド	Prince Edward Island	Île-du-Prince-Édouard	Prinz-Edward-Insel	Isola Principe Edoardo	Isla del Príncipe Eduardo	爱德华王子岛省	프린스에드워드아일랜드	愛德華王子島省
+011	ケベック	Quebec	Québec	Quebec	Québec	Quebec	魁北克省	퀘벡	魁北克省
+012	サスカチュワン	Saskatchewan	Saskatchewan	Saskatchewan	Saskatchewan	Saskatchewan	萨斯喀彻温省	서스캐처원	薩斯喀徹温省
+013	ユーコン	Yukon	Territoire du Yukon	Yukon	Yukon	Yukón	育空地区	유콘	育空地區
