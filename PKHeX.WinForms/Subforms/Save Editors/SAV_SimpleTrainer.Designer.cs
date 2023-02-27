@@ -590,6 +590,51 @@
             this.GB_Trainer.TabStop = false;
             this.GB_Trainer.Text = "Trainer";
             // 
+            // L_Country
+            // 
+            this.L_Country.Location = new System.Drawing.Point(8, 91);
+            this.L_Country.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.L_Country.Name = "L_Country";
+            this.L_Country.Size = new System.Drawing.Size(102, 23);
+            this.L_Country.TabIndex = 78;
+            this.L_Country.Text = "Country:";
+            this.L_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Country
+            // 
+            this.CB_Country.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Country.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Country.DropDownWidth = 180;
+            this.CB_Country.FormattingEnabled = true;
+            this.CB_Country.Location = new System.Drawing.Point(115, 91);
+            this.CB_Country.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.CB_Country.Name = "CB_Country";
+            this.CB_Country.Size = new System.Drawing.Size(108, 23);
+            this.CB_Country.TabIndex = 76;
+            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
+            // 
+            // L_Region
+            // 
+            this.L_Region.Location = new System.Drawing.Point(8, 117);
+            this.L_Region.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.L_Region.Name = "L_Region";
+            this.L_Region.Size = new System.Drawing.Size(102, 23);
+            this.L_Region.TabIndex = 79;
+            this.L_Region.Text = "Sub Region:";
+            this.L_Region.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_Region
+            // 
+            this.CB_Region.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_Region.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Region.DropDownWidth = 180;
+            this.CB_Region.FormattingEnabled = true;
+            this.CB_Region.Location = new System.Drawing.Point(115, 117);
+            this.CB_Region.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.CB_Region.Name = "CB_Region";
+            this.CB_Region.Size = new System.Drawing.Size(108, 23);
+            this.CB_Region.TabIndex = 77;
+            // 
             // B_MaxCoins
             // 
             this.B_MaxCoins.Location = new System.Drawing.Point(111, 65);
@@ -622,47 +667,6 @@
             this.MT_Coins.TabIndex = 69;
             this.MT_Coins.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_Coins.Visible = false;
-            // 
-            // L_Country
-            // 
-            this.L_Country.Location = new System.Drawing.Point(8, 91);
-            this.L_Country.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Country.Name = "L_Country";
-            this.L_Country.Size = new System.Drawing.Size(102, 23);
-            this.L_Country.TabIndex = 78;
-            this.L_Country.Text = "Country:";
-            this.L_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Country
-            // 
-            this.CB_Country.DropDownWidth = 180;
-            this.CB_Country.FormattingEnabled = true;
-            this.CB_Country.Location = new System.Drawing.Point(115, 91);
-            this.CB_Country.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.CB_Country.Name = "CB_Country";
-            this.CB_Country.Size = new System.Drawing.Size(108, 23);
-            this.CB_Country.TabIndex = 76;
-            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
-            // 
-            // L_Region
-            // 
-            this.L_Region.Location = new System.Drawing.Point(8, 117);
-            this.L_Region.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_Region.Name = "L_Region";
-            this.L_Region.Size = new System.Drawing.Size(102, 23);
-            this.L_Region.TabIndex = 79;
-            this.L_Region.Text = "Sub Region:";
-            this.L_Region.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Region
-            // 
-            this.CB_Region.DropDownWidth = 180;
-            this.CB_Region.FormattingEnabled = true;
-            this.CB_Region.Location = new System.Drawing.Point(115, 117);
-            this.CB_Region.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.CB_Region.Name = "CB_Region";
-            this.CB_Region.Size = new System.Drawing.Size(108, 23);
-            this.CB_Region.TabIndex = 77;
             // 
             // GB_Badges
             // 

@@ -31,12 +31,12 @@ public static class GeoLocation
         return UnpackList(input);
     }
 
-    private static string[]?[] UnpackList(string[] input)
+    private static string[]?[] UnpackList(ReadOnlySpan<string> input)
     {
         var last = GetEntry(input[^1], out var lastIndex);
         string[]?[] list = new string[lastIndex+1][];
         list[lastIndex] = last;
-        foreach (var line in input)
+        foreach (var line in input[..^1])
         {
             var entry = GetEntry(line, out var index);
             list[index] = entry;
@@ -46,7 +46,7 @@ public static class GeoLocation
 
     private static string[] GetEntry(string line, out int index)
     {
-        var entries = line.Split(',');
+        var entries = line.Split('\t');
         index = int.Parse(entries[0]);
         return entries;
     }

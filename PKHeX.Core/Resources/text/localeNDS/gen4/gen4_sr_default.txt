@@ -1,1 +1,1 @@
-000,なし,None,Aucun,Keiner,Nessuno,Ninguno,无,없음,無
+﻿000	—	—	—	—	—	—	—	—	—
