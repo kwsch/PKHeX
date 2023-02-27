@@ -10,7 +10,10 @@ public static partial class Util
         string[] inputCSV = GetStringList(textFile);
         int index = GeoLocation.GetLanguageIndex(lang);
         var list = GetCBListFromCSV(inputCSV, index + 1);
-        list.Sort(Comparer);
+        if (list.Count > 1 && list[0].Value == 0)
+            list.Sort(1, list.Count - 1, Comparer); // keep null value as first
+        else
+            list.Sort(Comparer);
         return list;
     }
 
@@ -19,7 +22,7 @@ public static partial class Util
         var arr = new List<ComboItem>(inputCSV.Count);
         foreach (var line in inputCSV)
         {
-            var text = StringUtil.GetNthEntry(line, index, 4);
+            var text = StringUtil.GetNthEntry(line, index, 3).Replace("\\x2C", ",");
             var value = line.AsSpan(0, 3);
             var item = new ComboItem(text, ToInt32(value));
             arr.Add(item);

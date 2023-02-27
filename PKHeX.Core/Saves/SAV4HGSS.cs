@@ -49,6 +49,7 @@ public sealed class SAV4HGSS : SAV4
         Trainer1 = 0x64;
         Party = 0x98;
         PokeDex = 0x12B8;
+        Geonet = 0x8D45;
         WondercardFlags = 0x9D3C;
         WondercardData = 0x9E3C;
 
