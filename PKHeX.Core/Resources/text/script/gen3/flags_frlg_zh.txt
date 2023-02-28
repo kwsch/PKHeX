@@ -107,7 +107,7 @@
 0x2DC	s	获得蓝宝石
 0x2FA	s	获得不变之石(大木博士助手, 岩石隧道宝可梦中心)
 0x252	s	获得探宝器  (大木博士助手, 11号道路)
-0x256	s	获得学习装置(大木博士助手, 15号道路)
+0x256	s	获得学习装置 (大木博士助手, 15号道路)
 0x2FD	s	获得护符金币 大木博士助手, 16号道路)
 0x25E	s	获得秘密琥珀
 0x236	s	把果汁牛奶交给口渴的女孩
@@ -116,157 +116,157 @@
 0041	s	大木博士的杰尼龟精灵球消失了
 0042	s	大木博士的小火龙精灵球消失了
 2121	s	阿斯卡纳的锁谜题解开/野生未知图腾在阿斯卡纳石室出现
-0424	s	Found Secret Key
-1190	s	Found Lava Cookie in S.S. Anne port
-0626	s	Chose Dome Fossil (Omanyte in Pokémon Zoo)
-0627	s	Chose Helix Fossil (Kabuto in Pokémon Zoo)
-2192	f	Can Fly to Pallet Town
-2193	f	Can Fly to Viridian City
-2194	f	Can Fly to Pewter City
-2195	f	Can Fly to Cerulean City
-2196	f	Can Fly to Lavender Town
-2197	f	Can Fly to Vermilion City
-2198	f	Can Fly to Celadon City
-2199	f	Can Fly to Fuchsia City
-2200	f	Can Fly to Cinnabar Island
-2201	f	Can Fly to Indigo Plateau
-2202	f	Can Fly to Saffron City
-2203	f	Can Fly to One Island
-2204	f	Can Fly to Two Island
-2205	f	Can Fly to Three Island
-2206	f	Can Fly to Four Island
-2207	f	Can Fly to Five Island
-2209	f	Can Fly to Six Island
-2208	f	Can Fly to Seven Island
-2210	f	Can Fly to Route 4 (Pokémon Center)
-2211	f	Can Fly to Route 10 (Pokémon Center)
-1381	t	Had Youngster Ben 1st Rematch
-1778	t	Had Youngster Ben 2nd Rematch
-1779	t	Had Youngster Ben 3rd Rematch
-1780	t	Had Youngster Chad 1st Rematch
-1786	t	Had Youngster Chad 2nd Rematch
-1789	t	Had Youngster Chad 3rd Rematch
-1781	t	Had Lass Reli 1st Rematch
-1782	t	Had Lass Reli 2nd Rematch
-1383	t	Had Youngster Timmy 1st Rematch
-1784	t	Had Youngster Timmy 2nd Rematch
-1785	t	Had Youngster Timmy 3rd Rematch
-1787	t	Had Lass Janice 1st Rematch
-1788	t	Had Lass Janice 2nd Rematch
-1790	t	Had Hiker Franklin Rematch
-1813	t	Had Twins Eli and Anne Rematch
-1874	t	Had PokéManiac Mark 1st Rematch
-1924	t	Had PokéManiac Mark 2nd Rematch
-1901	t	Had Picnicker Kelsey 1st Rematch
-1902	t	Had Picnicker Kelsey 2nd Rematch
-1903	t	Had Picnicker Kelsey 3rd Rematch
-1904	t	Had Camper Ricky 1st Rematch
-1905	t	Had Camper Ricky 2nd Rematch
-1906	t	Had Camper Ricky 3rd Rematch
-1907	t	Had Camper Jeff 1st Rematch
-1908	t	Had Camper Jeff 2nd Rematch
-1909	t	Had Camper Jeff 3rd Rematch
-1910	t	Had Picnicker Isabelle 1st Rematch
-1911	t	Had Picnicker Isabelle 2nd Rematch
-1912	t	Had Picnicker Isabelle 3rd Rematch
-1913	t	Had Youngster Yasu 1st Rematch
-1914	t	Had Youngster Yasu 2nd Rematch
-1915	t	Had Engineer Bernie Rematch
-1916	t	Had Gamer Darian Rematch
-1917	t	Had Camper Chris 1st Rematch
-1918	t	Had Camper Chris 2nd Rematch
-1919	t	Had Camper Chris 3rd Rematch
-1920	t	Had Picnicker Alicia 1st Rematch
-1921	t	Had Picnicker Alicia 2nd Rematch
-1922	t	Had Picnicker Alicia 3rd Rematch
-1923	t	Had Hiker Jeremy Rematch
-1925	t	Had PokéManiac Herman 1st Rematch
-1926	t	Had PokéManiac Herman 2nd Rematch
-1927	t	Had Hiker Trent Rematch
-1928	t	Had Lass Megan 1st Rematch
-1929	t	Had Lass Megan 2nd Rematch
-1930	t	Had Super Nerd Glenn Rematch
-1931	t	Had Gamer Rich Rematch
-1932	t	Had Biker Jaren Rematch
-1933	t	Had Fisherman Elliot Rematch
-1934	t	Had Rocker Luca Rematch
-1935	t	Had Beauty Sheila Rematch
-1936	t	Had Bird Keeper Robert 1st Rematch
-1937	t	Had Bird Keeper Robert 2nd Rematch
-1938	t	Had Picnicker Susie 1st Rematch
-1939	t	Had Picnicker Susie 2nd Rematch
-1940	t	Had Picnicker Susie 3rd Rematch
-1941	t	Had Biker Lukas Rematch
-1942	t	Had Bird Keeper Benny 1st Rematch
-1943	t	Had Bird Keeper Benny 2nd Rematch
-1944	t	Had Bird Keeper Marlon 1st Rematch
-1945	t	Had Bird Keeper Marlon 2nd Rematch
-1946	t	Had Beauty Grace Rematch
-1947	t	Had Bird Keeper Chester 1st Rematch
-1948	t	Had Bird Keeper Chester 2nd Rematch
-1949	t	Had Picnicker Becky 1st Rematch
-1950	t	Had Picnicker Becky 2nd Rematch
-1951	t	Had Picnicker Becky 3rd Rematch
-1952	t	Had Crush Kin Ron and Mya 1st Rematch
-1953	t	Had Crush Kin Ron and Mya 2nd Rematch
-1954	t	Had Crush Kin Ron and Mya 3rd Rematch
-1955	t	Had Biker Ruben Rematch
-1956	t	Had Cue Ball Camron Rematch
-1957	t	Had Biker Jaxon Rematch
-1958	t	Had Cue Ball Isaiah Rematch
-1959	t	Had Cue Ball Corey Rematch
-1960	t	Had Bird Keeper Jacob 1st Rematch
-1961	t	Had Bird Keeper Jacob 2nd Rematch
-1962	t	Had Swimmer Alice Rematch
-1963	t	Had Swimmer Darrin Rematch
-1964	t	Had Picnicker Missy 1st Rematch
-1965	t	Had Picnicker Missy 2nd Rematch
-1966	t	Had Fisherman Wade Rematch
-1967	t	Had Swimmer Jack Rematch
-1968	t	Had Sis and Bro Lil and Ian 1st Rematch
-1969	t	Had Sis and Bro Lil and Ian 2nd Rematch
-1970	t	Had Swimmer Finn Rematch
-1971	t	Had Crush Girl Sharon 1st Rematch
-1972	t	Had Crush Girl Sharon 2nd Rematch
-1973	t	Had Crush Girl Tanya 1st Rematch
-1974	t	Had Crush Girl Tanya 2nd Rematch
-1975	t	Had Black Belt Shea 1st Rematch
-1976	t	Had Black Belt Shea 2nd Rematch
-1977	t	Had Black Belt Hugh 1st Rematch
-1978	t	Had Black Belt Hugh 2nd Rematch
-1979	t	Had Crush Kin Mik and Kia 1st Rematch
-1980	t	Had Crush Kin Mik and Kia 2nd Rematch
-1981	t	Had Tuber Amira Rematch
-1982	t	Had Twins Joy and Meg Rematch
-1983	t	Had Painter Rayna Rematch
-1984	t	Had Youngster Destin Rematch
-1985	t	Had Pokémon Breeder Alize Rematch
-1986	t	Had Young Couple Gia and Jes 1st Rematch
-1987	t	Had Young Couple Gia and Jes 2nd Rematch
-1988	t	Had Bird Keeper Milo Rematch
-1989	t	Had Bird Keeper Chaz Rematch
-1990	t	Had Bird Keeper Harold Rematch
-1991	t	Had Swimmer Nicole Rematch
-1992	t	Had Psychic Jaclyn Rematch
-1993	t	Had Swimmer Samir Rematch
-1994	t	Had Hiker Earl Rematch
-1995	t	Had Ruin Maniac Larry Rematch
-1996	t	Had PokéManiac Hector Rematch
-1997	t	Had Psychic Dario Rematch
-1998	t	Had Psychic Rodette Rematch
-1999	t	Had Juggler Mason Rematch
-2000	t	Had Pokémon Ranger Nicolas Rematch
-2001	t	Had Pokémon Ranger Madeline Rematch
-2002	t	Had Crush Girl Cyndy Rematch
-2003	t	Had Tamer Evan Rematch
-2004	t	Had Pokémon Ranger Jackson Rematch
-2005	t	Had Pokémon Ranger Katelyn Rematch
-2006	t	Had Cooltrainer Leroy Rematch
-2007	t	Had Cooltrainer Michelle Rematch
-2008	t	Had Cool Couple Lex and Nya Rematch
-2009	t	Had Bug Catcher Colton 1st Rematch
-2010	t	Had Bug Catcher Colton 2nd Rematch
-2011	t	Had Bug Catcher Colton 3rd Rematch
-2012	t	Had Swimmer Matthew Rematch
-2013	t	Had Swimmer Tony Rematch
-2014	t	Had Swimmer Melissa Rematch
+0424	s	获得秘密钥匙（关都）
+1190	s	在圣特安努号发现了釜炎仙贝
+0626	s	选择甲壳化石 (浅红市出现菊石兽)
+0627	s	选择贝壳化石 (浅红市出现化石盔)
+2192	f	飞翔目的地已开始：真新镇
+2193	f	飞翔目的地已开始：常青市
+2194	f	飞翔目的地已开始：深灰市
+2195	f	飞翔目的地已开始：华蓝市
+2196	f	飞翔目的地已开始：紫苑镇
+2197	f	飞翔目的地已开始：枯叶市
+2198	f	飞翔目的地已开始：玉虹市
+2199	f	飞翔目的地已开始：浅红市
+2200	f	飞翔目的地已开始：红莲镇
+2201	f	飞翔目的地已开始：石英高原
+2202	f	飞翔目的地已开始：金黄市
+2203	f	飞翔目的地已开始：第1岛
+2204	f	飞翔目的地已开始：第2岛
+2205	f	飞翔目的地已开始：第3岛
+2206	f	飞翔目的地已开始：第4岛
+2207	f	飞翔目的地已开始：第5岛
+2209	f	飞翔目的地已开始：第6岛
+2208	f	飞翔目的地已开始：第7岛
+2210	f	飞翔目的地已开始：4号道路 (宝可梦中心)
+2211	f	飞翔目的地已开始：10号道路 (宝可梦中心)
+1381	t	与短裤小子 弘人第一次再战
+1778	t	与短裤小子 弘人第二次再战
+1779	t	与短裤小子 弘人第三次再战
+1780	t	与短裤小子 胜幸第一次再战
+1786	t	与短裤小子 胜幸第二次再战
+1789	t	与短裤小子 胜幸第三次再战
+1781	t	与迷你裙 亚美第一次再战
+1782	t	与迷你裙 亚美第二次再战
+1383	t	与短裤小子 真悟第一次再战
+1784	t	与短裤小子 真悟第二次再战
+1785	t	与短裤小子 真悟第三次再战
+1787	t	与迷你裙 爱理第一次再战
+1788	t	与迷你裙 爱理第二次再战
+1790	t	与登山男 茂雄再战
+1813	t	与双胞胎 玲琳和玲琅再战
+1874	t	与怪兽狂 基文第一次再战
+1924	t	与怪兽狂 基文第二次再战
+1901	t	与野餐女孩 美莎第一次再战
+1902	t	与野餐女孩 美莎第二次再战
+1903	t	与野餐女孩 美莎第三次再战
+1904	t	与露营少年 裕太第一次再战
+1905	t	与露营少年 裕太第二次再战
+1906	t	与露营少年 裕太第三次再战
+1907	t	与露营少年 幸太第一次再战
+1908	t	与露营少年 幸太第二次再战
+1909	t	与露营少年 幸太第三次再战
+1910	t	与野餐女孩 语庭第一次再战
+1911	t	与野餐女孩 语庭第二次再战
+1912	t	与野餐女孩 语庭第三次再战
+1913	t	与短裤小子 博信第一次再战
+1914	t	与短裤小子 博信第二次再战
+1915	t	与电工大叔 霆钧再战
+1916	t	与赌徒 坚劼再战
+1917	t	与露营少年 正志第一次再战
+1918	t	与露营少年 正志第二次再战
+1919	t	与露营少年 正志第三次再战
+1920	t	与野餐女孩 悦欣第一次再战
+1921	t	与野餐女孩 悦欣第二次再战
+1922	t	与野餐女孩 悦欣第三次再战
+1923	t	与登山男 鸣人再战
+1925	t	与怪兽狂 大辅第一次再战
+1926	t	与怪兽狂 大辅第二次再战
+1927	t	与登山男 健作再战
+1928	t	与迷你裙 麻美第一次再战
+1929	t	与迷你裙 麻美第二次再战
+1930	t	与理科男 杉生再战
+1931	t	与赌徒 苍辉再战
+1932	t	与暴走族 凌宇再战
+1933	t	与垂钓者 明彦再战
+1934	t	与电气摇滚团 绫奇再战
+1935	t	与大姐姐 国美再战
+1936	t	与养鸟人 阿翼第一次再战
+1937	t	与养鸟人 阿翼第二次再战
+1938	t	与野餐女孩 美沙希第一次再战
+1939	t	与野餐女孩 美沙希第二次再战
+1940	t	与野餐女孩 美沙希第三次再战
+1941	t	与暴走族 京介再战
+1942	t	与养鸟人 明正第一次再战
+1943	t	与养鸟人 明正第二次再战
+1944	t	与养鸟人 朝翔第一次再战
+1945	t	与养鸟人 朝翔第二次再战
+1946	t	与大姐姐 晓莹再战
+1947	t	与养鸟人 廷翊第一次再战
+1948	t	与养鸟人 廷翊第二次再战
+1949	t	与野餐女孩 爱美第一次再战
+1950	t	与野餐女孩 爱美第二次再战
+1951	t	与野餐女孩 爱美第三次再战
+1952	t	与格斗姐弟 铁瀚和柔晴第一次再战
+1953	t	与格斗姐弟 铁瀚和柔晴第二次再战
+1954	t	与格斗姐弟 铁瀚和柔晴第三次再战
+1955	t	与暴走族 大㝄再战
+1956	t	与光头男 国驹再战
+1957	t	与暴走族 至明再战
+1958	t	与光头男 荣宗再战
+1959	t	与光头男 锡豪再战
+1960	t	与养鸟人 阿进第一次再战
+1961	t	与养鸟人 阿进第二次再战
+1962	t	与比基尼姐姐 悦子再战
+1963	t	与泳裤小伙子 照幸再战
+1964	t	与野餐女孩 久美子第一次再战
+1965	t	与野餐女孩 久美子第二次再战
+1966	t	与垂钓者 勇雄再战
+1967	t	与泳裤小伙子 秀典再战
+1968	t	与海上姐弟 海晏和河清第一次再战
+1969	t	与海上姐弟 海晏和河清第二次再战
+1970	t	与泳裤小伙子 聡太再战
+1971	t	与格斗女孩 彩华第一次再战
+1972	t	与格斗女孩 彩华第二次再战
+1973	t	与格斗女孩 佳子第一次再战
+1974	t	与格斗女孩 佳子第二次再战
+1975	t	与空手道王 胜海第一次再战
+1976	t	与空手道王 胜海第二次再战
+1977	t	与空手道王 匠第一次再战
+1978	t	与空手道王 匠第二次再战
+1979	t	与格斗姐弟 和与幸第一次再战
+1980	t	与格斗姐弟 和与幸第二次再战
+1981	t	与泳圈女孩 百惠再战
+1982	t	与双胞胎 结衣和里子再战
+1983	t	与画家 藤子再战
+1984	t	与短裤小子 武史再战
+1985	t	与宝可梦培育家 敏江再战
+1986	t	与热恋情侣 雅钰和志华第一次再战
+1987	t	与热恋情侣 雅钰和志华第二次再战
+1988	t	与养鸟人 翔平再战
+1989	t	与养鸟人 春树再战
+1990	t	与养鸟人 纯人再战
+1991	t	与比基尼姐姐 水穂再战
+1992	t	与超能力者 真理子再战
+1993	t	与泳裤小伙子 辉昭再战
+1994	t	与登山男 虎男再战
+1995	t	与遗迹迷 清史再战
+1996	t	与怪兽狂 俊信再战
+1997	t	与超能力者 瑞颐再战
+1998	t	与超能力者 玛雅再战
+1999	t	与杂耍艺人 托马再战
+2000	t	与宝可梦巡护员 武再战
+2001	t	与宝可梦巡护员 圆香再战
+2002	t	与格斗女孩 由梨香再战
+2003	t	与驯兽师 信昭再战
+2004	t	与宝可梦巡护员 守再战
+2005	t	与宝可梦巡护员 夏美再战
+2006	t	与精英训练家 诚再战
+2007	t	与精英训练家 和美再战
+2008	t	与精英情侣 理贵和由纪再战
+2009	t	与捕虫少年 永祥第一次再战
+2010	t	与捕虫少年 永祥第二次再战
+2011	t	与捕虫少年 永祥第三次再战
+2012	t	与泳裤小伙子 国濠再战
+2013	t	与泳裤小伙子 泳诚再战
+2014	t	与比基尼姐姐 惠美再战
