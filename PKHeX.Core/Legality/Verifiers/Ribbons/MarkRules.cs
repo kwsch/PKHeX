@@ -34,6 +34,7 @@ public static class MarkRules
     {
         EncounterSlot8 or EncounterStatic8 { Gift: false, ScriptedNoMarks: false } => IsMarkAllowedSpecific8(mark, pk, enc),
         EncounterSlot9 s => IsMarkAllowedSpecific9(mark, s),
+        WC9 wc9 => wc9.GetRibbonIndex(mark),
         _ => false,
     };
 

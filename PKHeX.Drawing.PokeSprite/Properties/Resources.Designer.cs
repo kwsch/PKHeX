@@ -643,6 +643,16 @@ namespace PKHeX.Drawing.PokeSprite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap a_1009 {
+            get {
+                object obj = ResourceManager.GetObject("a_1009", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap a_101 {
             get {
                 object obj = ResourceManager.GetObject("a_101", resourceCulture);
@@ -656,6 +666,16 @@ namespace PKHeX.Drawing.PokeSprite.Properties {
         public static System.Drawing.Bitmap a_101_1 {
             get {
                 object obj = ResourceManager.GetObject("a_101_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap a_1010 {
+            get {
+                object obj = ResourceManager.GetObject("a_1010", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

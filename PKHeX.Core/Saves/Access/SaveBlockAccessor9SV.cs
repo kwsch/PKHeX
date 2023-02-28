@@ -566,6 +566,10 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FSYS_RAID_DIFFICTLTY6_SURVEY = 0xAD1DC231;
     private const uint FSYS_NETCONTENTS_OFF = 0x9AB093F2;
 
+    private const uint FSYS_VIVILLON = 0x22F70BCF; // real name todo
+    private const uint FSYS_GO_LINK_ENABLED = 0x3ABC21E3; // real name todo
+    private const uint KGoTransfer = 0x7EE0A576;
+
     #endregion
 
     #region FEVT

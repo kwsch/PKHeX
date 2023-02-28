@@ -60,7 +60,7 @@ public sealed record EncounterArea9 : EncounterArea
             {
                 if (slot.Species != evo.Species)
                     continue;
-                if (slot.Form != evo.Form && slot.Species is not ((int)Species.Rotom or (int)Species.Deerling or (int)Species.Sawsbuck or (int)Species.Oricorio))
+                if (slot.Form != evo.Form && !IsFormOkayWild(slot.Species, evo.Form))
                     break;
                 if (slot.Gender != -1 && pk.Gender != slot.Gender)
                     break;
@@ -80,4 +80,13 @@ public sealed record EncounterArea9 : EncounterArea
             }
         }
     }
+
+    private static bool IsFormOkayWild(ushort species, byte form) => species switch
+    {
+        (int)Species.Rotom => true,
+        (int)Species.Deerling or (int)Species.Sawsbuck => true,
+        (int)Species.Scatterbug or (int)Species.Spewpa or (int)Species.Vivillon => form < Vivillon3DS.FancyFormID, // GO Postcard
+        (int)Species.Oricorio => true,
+        _ => false,
+    };
 }

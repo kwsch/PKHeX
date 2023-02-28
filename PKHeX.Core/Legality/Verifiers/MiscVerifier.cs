@@ -192,7 +192,6 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Sneasel | (1 << 11), // Sneasel-1
         (int)Species.Oshawott, // Oshawott
         (int)Species.Basculin | (2 << 11), // Basculin-2
-        (int)Species.Zorua | (1 << 11), // Zorua-1
         (int)Species.Chespin, // Chespin
         (int)Species.Fennekin, // Fennekin
         (int)Species.Carbink, // Carbink

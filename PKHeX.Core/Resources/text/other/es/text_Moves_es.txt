@@ -873,8 +873,8 @@ Canto Ardiente
 Danza Acuática
 Furia Taurina
 Fiebre Dorada
-WAZA_SAIKOBUREIDO
-WAZA_HAIDOROSUTIIMU
+Psicohojas
+Hidrovapor
 Calamidad
 Nitrochoque
 Electroderrape

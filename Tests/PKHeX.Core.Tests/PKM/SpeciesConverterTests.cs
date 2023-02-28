@@ -37,14 +37,14 @@ public class SpeciesConverterTests
     [Theory]
     [InlineData(0)]
     [InlineData(934, Palafin)]
-    [InlineData(980, _980)]
-    [InlineData(987, _987)]
+    [InlineData(980, WalkingWake)]
+    [InlineData(987, IronLeaves)]
     public void GetNational9(ushort raw, Species national = 0) => ((Species)SpeciesConverter.GetNational9(raw)).Should().Be(national);
 
     [Theory]
     [InlineData(0)]
     [InlineData(934, Palafin)]
-    [InlineData(980, _980)]
-    [InlineData(987, _987)]
+    [InlineData(980, WalkingWake)]
+    [InlineData(987, IronLeaves)]
     public void GetInternal9(ushort raw, Species national = 0) => SpeciesConverter.GetInternal9((ushort)national).Should().Be(raw);
 }

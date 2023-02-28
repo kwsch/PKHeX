@@ -1014,7 +1014,7 @@ public enum Species : ushort
     IronValiant,
     Koraidon,
     Miraidon,
-    _980,
-    _987,
+    WalkingWake,
+    IronLeaves,
     MAX_COUNT,
 }
