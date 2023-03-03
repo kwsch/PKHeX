@@ -1057,7 +1057,7 @@
             this.MinimumSize = new System.Drawing.Size(200, 150);
             this.Name = "SAV_Misc3";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Trainer Data Editor";
+            this.Text = "Misc Editor";
             this.tabControl1.ResumeLayout(false);
             this.TAB_Main.ResumeLayout(false);
             this.TAB_Main.PerformLayout();
