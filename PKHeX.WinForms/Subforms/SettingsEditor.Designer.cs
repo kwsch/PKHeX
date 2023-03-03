@@ -43,7 +43,7 @@
             this.FLP_Blank.Dock = System.Windows.Forms.DockStyle.Top;
             this.FLP_Blank.Location = new System.Drawing.Point(0, 0);
             this.FLP_Blank.Name = "FLP_Blank";
-            this.FLP_Blank.Size = new System.Drawing.Size(334, 27);
+            this.FLP_Blank.Size = new System.Drawing.Size(494, 27);
             this.FLP_Blank.TabIndex = 1;
             // 
             // L_Blank
@@ -62,7 +62,7 @@
             this.CB_Blank.FormattingEnabled = true;
             this.CB_Blank.Location = new System.Drawing.Point(112, 3);
             this.CB_Blank.Name = "CB_Blank";
-            this.CB_Blank.Size = new System.Drawing.Size(137, 21);
+            this.CB_Blank.Size = new System.Drawing.Size(180, 23);
             this.CB_Blank.TabIndex = 1;
             // 
             // tabControl1
@@ -72,13 +72,14 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(334, 284);
+            this.tabControl1.Size = new System.Drawing.Size(494, 309);
+            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl1.TabIndex = 3;
             // 
             // B_Reset
             // 
             this.B_Reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Reset.Location = new System.Drawing.Point(256, 2);
+            this.B_Reset.Location = new System.Drawing.Point(416, 2);
             this.B_Reset.Name = "B_Reset";
             this.B_Reset.Size = new System.Drawing.Size(75, 23);
             this.B_Reset.TabIndex = 4;
@@ -88,7 +89,7 @@
             // SettingsEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(334, 311);
+            this.ClientSize = new System.Drawing.Size(494, 336);
             this.Controls.Add(this.B_Reset);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.FLP_Blank);
@@ -97,7 +98,7 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(350, 350);
+            this.MinimumSize = new System.Drawing.Size(510, 375);
             this.Name = "SettingsEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Settings";
