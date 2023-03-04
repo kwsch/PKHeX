@@ -104,6 +104,8 @@ public sealed class FormVerifier : Verifier
                 break;
 
             case Scatterbug or Spewpa or Vivillon when GameVersion.SV.Contains(enc.Version):
+                if (form > 18 && enc.Form != form) // Pokéball
+                    return GetInvalid(LFormVivillonEventPre);
                 if (form != 18 && enc is EncounterEgg) // Fancy
                     return GetInvalid(LFormVivillonNonNative);
                 break;
