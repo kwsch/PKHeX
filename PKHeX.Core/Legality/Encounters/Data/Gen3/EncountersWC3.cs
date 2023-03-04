@@ -14,7 +14,7 @@ internal static class EncountersWC3
 {
     internal static readonly WC3[] Encounter_Event3_Special =
     {
-        new() { Species = 385, Level = 05, TID16 = 20043, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.BACD_R, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Language = (int)LanguageID.English },
+        new() { Species = 385, Level = 05, ID32 = 20043, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.BACD_R, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Language = (int)LanguageID.English },
     };
 
     private static IEnumerable<WC3> GetIngameCXDData()
