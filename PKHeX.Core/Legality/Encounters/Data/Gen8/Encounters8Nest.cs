@@ -211,7 +211,7 @@ internal static class Encounters8Nest
     /// <summary>
     /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.
     /// </summary>
-    internal static readonly HashSet<byte> InaccessibleRank12DistributionLocations = new() {154,178,186,188,190,192,194,226,228,230,234}; // Areas that are entirely restricted to water
+    internal static ReadOnlySpan<byte> InaccessibleRank12DistributionLocations => new byte[] {154,178,186,188,190,192,194,226,228,230,234}; // Areas that are entirely restricted to water
 
     /// <summary>
     /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.

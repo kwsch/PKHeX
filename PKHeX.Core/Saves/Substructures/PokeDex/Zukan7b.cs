@@ -131,65 +131,76 @@ public sealed class Zukan7b : Zukan7
         span[3] = 0;
     }
 
+    private const int EntryMeltan = 151; // Melmetal 152
+    private const int EntryForms = 153;
+
     public static bool TryGetSizeEntryIndex(ushort species, byte form, out int index)
     {
         index = -1;
-        if (form == 0 && species <= 151)
+        if (form == 0)
         {
-            index = species - 1;
-            return true;
+            if (species <= 151) // Mew
+            {
+                index = species - 1;
+                return true;
+            }
+            if (species is 808 or 809) // Meltan & Melmetal
+            {
+                index = EntryMeltan + (species - 808);
+                return true;
+            }
+            return false;
         }
-        for (int i = 0; i < SizeDexInfoTable.Length; i += 3)
+
+        // Forms
+        for (int i = 0; i < SizeDexInfoTable.Length; i += 2)
         {
             if (SizeDexInfoTable[i] != species)
                 continue;
             if (SizeDexInfoTable[i + 1] != form)
                 continue;
-            index = SizeDexInfoTable[i + 2];
+            index = EntryForms + (i >> 1);
             return true;
         }
         return false;
     }
 
-    private static readonly ushort[] SizeDexInfoTable =
+    private static ReadOnlySpan<byte> SizeDexInfoTable => new byte[]
     {
-        // species, form, index
-        808, 0, 151,
-        809, 0, 152,
-
-        003, 1, 153,
-        006, 1, 154,
-        006, 2, 155,
-        009, 1, 156,
-        015, 1, 157,
-        018, 1, 158,
-        019, 1, 159,
-        020, 1, 160,
-        026, 1, 161,
-        027, 1, 162,
-        028, 1, 163,
-        037, 1, 164,
-        038, 1, 165,
-        050, 1, 166,
-        051, 1, 167,
-        052, 1, 168,
-        053, 1, 169,
-        065, 1, 170,
-        074, 1, 171,
-        075, 1, 172,
-        076, 1, 173,
-        080, 1, 174,
-        088, 1, 175,
-        089, 1, 176,
-        094, 1, 177,
-        103, 1, 178,
-        105, 1, 179,
-        115, 1, 180,
-        127, 1, 181,
-        130, 1, 182,
-        142, 1, 183,
-        150, 1, 184,
-        150, 2, 185,
+        // species, form
+        003, 1,
+        006, 1,
+        006, 2,
+        009, 1,
+        015, 1,
+        018, 1,
+        019, 1,
+        020, 1,
+        026, 1,
+        027, 1,
+        028, 1,
+        037, 1,
+        038, 1,
+        050, 1,
+        051, 1,
+        052, 1,
+        053, 1,
+        065, 1,
+        074, 1,
+        075, 1,
+        076, 1,
+        080, 1,
+        088, 1,
+        089, 1,
+        094, 1,
+        103, 1,
+        105, 1,
+        115, 1,
+        127, 1,
+        130, 1,
+        142, 1,
+        150, 1,
+        150, 2,
     };
 
     protected override bool GetSaneFormsToIterate(ushort species, out int formStart, out int formEnd, int formIn)

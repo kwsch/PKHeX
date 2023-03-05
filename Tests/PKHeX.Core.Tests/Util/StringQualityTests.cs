@@ -16,6 +16,7 @@ public class StringQualityTests
     [InlineData("es")]
     [InlineData("ko")]
     [InlineData("zh")]
+    [InlineData("zh2")]
     public void HasNoDuplicates(string language)
     {
         CheckMetLocations(language);
@@ -74,7 +75,7 @@ public class StringQualityTests
 
             foreach (var (bank, arr) in group.GetAll())
             {
-                var hs = new HashSet<string>();
+                var hs = new HashSet<string>(arr.Length);
                 bool sm0 = bank == 0 && name == nameof(GameStrings.Gen7);
                 for (int index = 0; index < arr.Length; index++)
                 {
@@ -85,7 +86,7 @@ public class StringQualityTests
                         continue;
 
                     if (hs.Contains(line))
-                        duplicates.Add($"{name}\t{line}");
+                        duplicates.Add($"{name}\t{index}\t{line}");
                     hs.Add(line);
                 }
             }
