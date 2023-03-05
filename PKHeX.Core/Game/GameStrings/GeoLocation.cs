@@ -122,6 +122,20 @@ public static class GeoLocation
     public static string GetRegionName(LanguageID language, byte country, byte region) => GetRegionName(country, region, GetLanguageIndex(language));
 
     /// <summary>
+    /// Checks if the Country and Region exist for selection.
+    /// </summary>
+    /// <param name="country">Country ID</param>
+    /// <param name="region">Region ID</param>
+    /// <returns>True if exists</returns>
+    public static bool GetIsCountryRegionExist(byte country, byte region)
+    {
+        if ((uint)country >= RegionList.Length)
+            return false;
+        var regionNames = RegionList[country] ??= GetRegionList(country);
+        return (uint)region < regionNames.Length && regionNames[region] is not null;
+    }
+
+    /// <summary>
     /// Gets Country and Region strings for corresponding IDs and language.
     /// </summary>
     /// <param name="country">Country ID</param>
