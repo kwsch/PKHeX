@@ -16,9 +16,9 @@ internal static class EvolutionRestrictions
     /// <summary>
     /// List of species that evolve from a previous species having a move while leveling up
     /// </summary>
-    private static readonly Dictionary<int, MoveEvolution> SpeciesEvolutionWithMove = new()
+    private static readonly Dictionary<ushort, MoveEvolution> SpeciesEvolutionWithMove = new()
     {
-        {(int)Eevee,      new(00, 0)}, // FairyMoves
+        {(int)Eevee,      new()}, // FairyMoves
         {(int)MimeJr,     new(01, (int)Mimic)},
         {(int)Bonsly,     new(02, (int)Mimic)},
         {(int)Aipom,      new(03, (int)Mimic)},
@@ -35,7 +35,7 @@ internal static class EvolutionRestrictions
         {(int)Dunsparce,  new(14, (int)HyperDrill)},
     };
 
-    private readonly record struct MoveEvolution(int ReferenceIndex, ushort Move);
+    private readonly record struct MoveEvolution(byte ReferenceIndex, ushort Move);
 
     private static readonly ushort[] FairyMoves =
     {
