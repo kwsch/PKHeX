@@ -108,9 +108,9 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
                 pk.Form = (byte)Util.Rand.Next(7, 14);
                 break;
             case (int)Core.Species.Scatterbug or (int)Core.Species.Spewpa or (int)Core.Species.Vivillon:
-                if (sav is IRegionOrigin o)
+                if (sav.Generation is 6 or 7 && sav is IRegionOrigin o)
                     pk.Form = Vivillon3DS.GetPattern(o.Country, o.Region);
-                // else 0
+                // else keep original value
                 break;
         }
     }

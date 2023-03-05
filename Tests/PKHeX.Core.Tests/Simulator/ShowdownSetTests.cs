@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using FluentAssertions;
 using Xunit;
@@ -51,6 +52,18 @@ public class ShowdownSetTests
             var la2 = new LegalityAnalysis(convert);
             la2.Valid.Should().BeTrue($"Encounter {i} should have generated legally: {t}");
         }
+    }
+
+    [Fact]
+    public void SimGetVivillonPostcardSV()
+    {
+        var pk9 = new PK9 { Species = (int)Species.Vivillon, Form = 1 };
+        var encounters = EncounterMovesetGenerator.GenerateEncounters(pk9, Array.Empty<ushort>(), GameVersion.SL);
+        encounters.OfType<EncounterSlot9>().Should().NotBeEmpty();
+
+        pk9 = new PK9 { Species = (int)Species.Vivillon, Form = Vivillon3DS.FancyFormID };
+        encounters = EncounterMovesetGenerator.GenerateEncounters(pk9, Array.Empty<ushort>(), GameVersion.SL);
+        encounters.OfType<EncounterSlot9>().Should().NotBeEmpty();
     }
 
     [Fact]
