@@ -29,7 +29,7 @@ public sealed class MyItem8 : MyItem
                 new(InventoryType.Berries, Legal.Pouch_Berries_SWSH, 999, Berries, PouchSize8.Berries, IsItemLegal),
                 new(InventoryType.Items, Legal.Pouch_Regular_SWSH, 999, Items, PouchSize8.Items, IsItemLegal),
                 new(InventoryType.TMHMs, Legal.Pouch_TMHM_SWSH, 999, TMs, PouchSize8.TMs, IsItemLegal),
-                new(InventoryType.MailItems, Legal.Pouch_Treasure_SWSH, 999, Treasures, PouchSize8.Treasures, IsItemLegal),
+                new(InventoryType.Treasure, Legal.Pouch_Treasure_SWSH, 999, Treasures, PouchSize8.Treasures, IsItemLegal),
                 new(InventoryType.Candy, Legal.Pouch_Ingredients_SWSH, 999, Ingredients, PouchSize8.Ingredients, IsItemLegal),
                 new(InventoryType.KeyItems, Legal.Pouch_Key_SWSH, 1, Key, PouchSize8.Key),
             };
