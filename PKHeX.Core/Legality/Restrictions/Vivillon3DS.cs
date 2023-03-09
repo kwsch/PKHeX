@@ -43,7 +43,7 @@ public static class Vivillon3DS
     /// </summary>
     public static bool IsPatternValid(in byte form, in byte consoleRegion)
     {
-        if (form > VivillonRegionTable.Length)
+        if (form >= VivillonRegionTable.Length)
             return false;
         var permit = GetConsoleRegionFlag(consoleRegion);
         return VivillonRegionTable[form].HasFlag(permit);
