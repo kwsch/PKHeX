@@ -12303,16 +12303,6 @@ namespace PKHeX.Drawing.PokeSprite.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap a_869_0_7 {
-            get {
-                object obj = ResourceManager.GetObject("a_869_0_7", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap a_869_1_0 {
             get {
                 object obj = ResourceManager.GetObject("a_869_1_0", resourceCulture);
