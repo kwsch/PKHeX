@@ -583,26 +583,37 @@ public partial class SAV_MailBox : Form
     private void B_BoxUp_Click(object sender, EventArgs e) => SwapSlots(LB_PCBOX, false);
     private void B_BoxDown_Click(object sender, EventArgs e) => SwapSlots(LB_PCBOX, true);
 
-    private void SwapSlots(ListControl lb, bool down)
+    private void SwapSlots(ListBox lb, bool down)
     {
         int index = lb.SelectedIndex;
-        if (index <= 0)
+        var otherIndex = index + (down ? 1 : -1);
+        if ((uint)otherIndex >= lb.Items.Count)
         {
             System.Media.SystemSounds.Asterisk.Play();
             return;
         }
 
+        // Shift to actual indexes
         bool isBox = lb == LB_PCBOX;
         if (isBox)
+        {
             index += PartyBoxCount;
+            otherIndex += PartyBoxCount;
+        }
 
         editing = true;
-        var otherIndex = index + (down ? 1 : -1);
-        (m[otherIndex], m[index]) = (m[index], m[otherIndex]); // swap mail objects
+        
+        // swap mail objects
+        (m[otherIndex], m[index]) = (m[index], m[otherIndex]);
         if ((entry >= PartyBoxCount) == isBox)
             entry = otherIndex;
         LoadList(); // reset labels
-        lb.SelectedIndex = otherIndex; // move selection to new spot
+
+        // move selection to new spot
+        if (isBox)
+            otherIndex -= PartyBoxCount;
+        lb.SelectedIndex = otherIndex;
+
         editing = false;
     }
 }
