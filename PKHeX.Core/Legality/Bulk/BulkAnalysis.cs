@@ -65,18 +65,18 @@ public sealed class BulkAnalysis
             analyzer.Analyze(this);
     }
 
-    private static string GetSummary(SlotCache entry) => $"[{entry.Identify()}] {entry.Entity.FileName}";
+    private static string GetSummary(SlotCache entry) => $"[{entry.Identify()}]";
 
     public void AddLine(SlotCache first, SlotCache second, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
-        var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}";
+        var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}{Environment.NewLine}";
         var chk = new CheckResult(s, c, i);
         Parse.Add(chk);
     }
 
     public void AddLine(SlotCache first, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
-        var c = $"{msg}{Environment.NewLine}{GetSummary(first)}";
+        var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}";
         var chk = new CheckResult(s, c, i);
         Parse.Add(chk);
     }
