@@ -568,9 +568,9 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     
     private const uint FSYS_GO_LINK_ENABLED = 0x3ABC21E3; // real name todo
     private const uint KGOTransfer = 0x7EE0A576;
-    private const uint KGOVIVILLONFORM = 0x22F70BCF; // FSYS_VIVILLON
-    private const uint KGOVIVILLONFORM_ENABLED = 0x0C125D5C;
-    private const uint KGOVIVILLON_EXPIRATION = 0x867F0240; // Unix time stamp for when Vivillon resets to default form
+    private const uint KGOVivillonForm = 0x22F70BCF; // FSYS_VIVILLON
+    private const uint KGOVivillonFormEnabled = 0x0C125D5C;
+    private const uint KGOVivillonExpiration = 0x867F0240; // Unix time stamp for when Vivillon resets to default form
 
     #endregion
 
