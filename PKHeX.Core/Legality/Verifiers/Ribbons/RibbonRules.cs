@@ -210,7 +210,7 @@ public static class RibbonRules
             var species = evo.Species;
             if (species >= arr.Length)
                 continue;
-            if (arr[species])
+            if (!arr[species])
                 return true;
         }
         return false;
