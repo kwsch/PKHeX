@@ -31,7 +31,6 @@ public partial class SAV_BlockDump8 : Form
         Metadata = new SCBlockMetadata(SAV.Accessor, extra, Main.Settings.Advanced.GetExclusionList8());
 
         CB_Key.InitializeBinding();
-        Filter = string.Empty;
         SortedBlockKeys = Metadata.GetSortedBlockKeyList().ToArray();
         CB_Key.DataSource = SortedBlockKeys;
 
@@ -42,6 +41,7 @@ public partial class SAV_BlockDump8 : Form
             new ComboItem(nameof(SCTypeCode.Bool2), (int)SCTypeCode.Bool2),
         };
         CB_TypeToggle.SelectedIndexChanged += CB_TypeToggle_SelectedIndexChanged;
+        CB_Key.KeyDown += WinFormsUtil.RemoveDropCB;
 
         CB_Key.SelectedIndex = 0;
     }
@@ -290,12 +290,10 @@ public partial class SAV_BlockDump8 : Form
         }
 
         if (CB_Key.SelectedItem != null && text.Equals(CB_Key.SelectedText))
-            // User press enter on selected item
-            return;
+            return; // User press enter on selected item
 
         if (Filter.Equals(text, StringComparison.InvariantCultureIgnoreCase))
-            // Filter hasn't changed
-            return;
+            return; // Filter hasn't changed
 
         Filter = text;
         if (string.IsNullOrEmpty(text))
@@ -307,11 +305,11 @@ public partial class SAV_BlockDump8 : Form
         }
 
         // Filter combo items that contains input text
-        var FilterData = SortedBlockKeys.Where(x => x.Text.Contains(text, StringComparison.InvariantCultureIgnoreCase));
-        if (!FilterData.Any())
-            // no results
-            return;
-        CB_Key.DataSource = FilterData.ToArray();
+        var filtered = Array.FindAll(SortedBlockKeys, x => x.Text.Contains(text, StringComparison.InvariantCultureIgnoreCase));
+        if (filtered.Length == 0)
+            return; // no results
+        
+        CB_Key.DataSource = filtered;
         CB_Key.SelectedIndex = 0;
     }
 }
