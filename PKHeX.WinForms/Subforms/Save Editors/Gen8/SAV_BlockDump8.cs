@@ -275,7 +275,7 @@ public partial class SAV_BlockDump8 : Form
         if (text.Length == 8)
         {
             var hex = (int)Util.GetHexValue(text);
-            if (hex > 0)
+            if (hex != 0)
             {
                 // Input is hexadecimal number, select the item
                 CB_Key.SelectedValue = hex;
@@ -301,7 +301,7 @@ public partial class SAV_BlockDump8 : Form
         }
 
         // Filter combo items that contains input text
-        var FilterData = SortedBlockKeys.Where(x => text.Contains(x.Text, StringComparison.InvariantCultureIgnoreCase));
+        var FilterData = SortedBlockKeys.Where(x => x.Text.Contains(text, StringComparison.InvariantCultureIgnoreCase));
         if (!FilterData.Any())
             // no results
             return;
