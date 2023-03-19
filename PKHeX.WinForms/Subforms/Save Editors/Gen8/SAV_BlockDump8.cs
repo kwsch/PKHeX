@@ -13,8 +13,10 @@ public partial class SAV_BlockDump8 : Form
 {
     private readonly ISCBlockArray SAV;
     private readonly SCBlockMetadata Metadata;
+    private readonly ComboItem[] SortedBlockKeys;
 
     private SCBlock CurrentBlock = null!;
+    private string Filter = string.Empty;
 
     public SAV_BlockDump8(ISCBlockArray sav)
     {
@@ -29,7 +31,9 @@ public partial class SAV_BlockDump8 : Form
         Metadata = new SCBlockMetadata(SAV.Accessor, extra, Main.Settings.Advanced.GetExclusionList8());
 
         CB_Key.InitializeBinding();
-        CB_Key.DataSource = Metadata.GetSortedBlockKeyList().ToArray();
+        Filter = string.Empty;
+        SortedBlockKeys = Metadata.GetSortedBlockKeyList().ToArray();
+        CB_Key.DataSource = SortedBlockKeys;
 
         CB_TypeToggle.InitializeBinding();
         CB_TypeToggle.DataSource = new[]
@@ -267,10 +271,41 @@ public partial class SAV_BlockDump8 : Form
         if (e.KeyCode != Keys.Enter)
             return;
 
-        var text = CB_Key.Text;
-        if (text.Length != 8)
+        var text = CB_Key.Text.Trim();
+        if (text.Length == 8)
+        {
+            var hex = (int)Util.GetHexValue(text);
+            if (hex > 0)
+            {
+                // Input is hexadecimal number, select the item
+                CB_Key.SelectedValue = hex;
+                return;
+            }
+        }
+
+        if (CB_Key.SelectedItem != null && text.Equals(CB_Key.SelectedText))
+            // User press enter on selected item
             return;
 
-        CB_Key.SelectedValue = (int)Util.GetHexValue(text);
+        if (Filter.Equals(text, StringComparison.InvariantCultureIgnoreCase))
+            // Filter hasn't changed
+            return;
+
+        Filter = text;
+        if (string.IsNullOrEmpty(text))
+        {
+            // User has cleared the filter. Restore original metadata
+            CB_Key.DataSource = SortedBlockKeys;
+            CB_Key.SelectedIndex = 0;
+            return;
+        }
+
+        // Filter combo items that contains input text
+        var FilterData = SortedBlockKeys.Where(x => text.Contains(x.Text, StringComparison.InvariantCultureIgnoreCase));
+        if (!FilterData.Any())
+            // no results
+            return;
+        CB_Key.DataSource = FilterData.ToArray();
+        CB_Key.SelectedIndex = 0;
     }
 }
