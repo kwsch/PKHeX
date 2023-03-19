@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using Xunit;
 
@@ -35,6 +36,44 @@ public class StatTest
         pk.Move1_PP.Should().Be(47, "pp calc oddity");
         pk.Move2_PP.Should().Be(54, "pp calc oddity");
         pk.Move3_PP.Should().Be(61, "pp calc oddity");
+    }
+
+    [Fact]
+    public void CalcStatsGBPidgeot()
+    {
+        var pk = new PK2
+        {
+            Species = (ushort)Species.Pidgeot,
+            CurrentLevel = 100,
+            IV_HP = 15,
+            IV_ATK = 15,
+            IV_DEF = 15,
+            IV_SPC = 15,
+            IV_SPE = 15,
+            EV_HP = 63504,
+            EV_ATK = 63504,
+            EV_DEF = 63504,
+            EV_SPC = 63504,
+            EV_SPE = 63001,
+        };
+
+        ushort effort = 63001;
+        effort = (ushort)(Math.Min((ushort)255, (ushort)Math.Ceiling(Math.Sqrt(effort))) >> 2);
+        var iv = 15;
+        var level = 100;
+        var baseStat = 91;
+        var expect = (ushort)((((2 * (baseStat + iv)) + effort) * level / 100) + 5);
+        expect.Should().Be(279);
+        
+        pk.ResetPartyStats();
+        pk.Stat_Level.Should().Be(pk.CurrentLevel, "stat level");
+        pk.Stat_HPCurrent.Should().Be(369, "stat re-calculation");
+
+        pk.Stat_HPMax.Should().Be(369, "stat re-calculation");
+        pk.Stat_ATK.Should().Be(258, "stat re-calculation");
+        pk.Stat_DEF.Should().Be(248, "stat re-calculation");
+        pk.Stat_SPA.Should().Be(238, "stat re-calculation");
+        pk.Stat_SPE.Should().Be(279, "stat re-calculation");
     }
 }
 

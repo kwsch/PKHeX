@@ -199,11 +199,6 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
                 pk.OT_Name = "GF";
                 return (int)LanguageID.English;
 
-            // Some Pokewalker courses are only available in Japanese(/Korean) games.
-            case EncounterStatic4Pokewalker p when !p.IsCourseAvailable(lang):
-                pk.OT_Name = "ゲーフリ";
-                return (int)LanguageID.Japanese;
-
             default:
                 return lang;
         }

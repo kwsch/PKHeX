@@ -158,6 +158,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             v.FlagIllegal = Box.FlagIllegal;
             v.ResetSlots();
+            v.ResetBoxNames();
         }
     }
 
