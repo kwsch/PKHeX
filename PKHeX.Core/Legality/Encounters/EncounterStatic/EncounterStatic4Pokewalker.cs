@@ -49,18 +49,8 @@ public sealed record EncounterStatic4Pokewalker : EncounterStatic
     {
         if (pk.Ball != 4)
             return true;
-        if (!IsCourseAvailable(pk.Language))
-            return true;
         return base.IsMatchPartial(pk);
     }
-
-    public bool IsCourseAvailable(int language) => Course switch
-    {
-        PokewalkerCourse4.Rally       => language is (int)LanguageID.Japanese,
-        PokewalkerCourse4.Sightseeing => language is (int)LanguageID.Japanese or (int)LanguageID.Korean,
-        PokewalkerCourse4.AmityMeadow => language is (int)LanguageID.Japanese,
-        _ => true,
-    };
 
     protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
