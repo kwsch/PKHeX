@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -6,15 +6,22 @@ namespace PKHeX.Core;
 public sealed class WonderCard3 : Gen3MysteryData
 {
     /// <summary>
-    /// 0x150: Total Size of this object
+    /// 0x150: Total Size of this object on international saves
     /// </summary>
     public const int SIZE = sizeof(uint) + 332;
 
+    /// <summary>
+    /// 0xA8: Total Size of this object on Japanese saves
+    /// </summary>
+    public const int SIZE_JAP = sizeof(uint) + 164;
+
     public WonderCard3(byte[] data) : base(data)
     {
-        if (data.Length != SIZE)
+        if (data.Length is not SIZE and not SIZE_JAP)
             throw new ArgumentException("Invalid size.", nameof(data));
     }
+
+    public bool Japanese => Data.Length is SIZE_JAP;
 
     public ushort CardID { get => ReadUInt16LittleEndian(Data.AsSpan(4)); set => WriteUInt16LittleEndian(Data.AsSpan(4), value); }
     public ushort Icon { get => ReadUInt16LittleEndian(Data.AsSpan(6)); set => WriteUInt16LittleEndian(Data.AsSpan(6), value); }
@@ -25,4 +32,14 @@ public sealed class WonderCard3 : Gen3MysteryData
     public byte ShareState { get => (byte)(Data[0xC] & 0b11000000); set => Data[0xC] = (byte)((Data[0xC] & ~0b11000000) | (value & 0b11000000)); }
 
     public byte Count2 { get => Data[0xD]; set => Data[0xD] = value; }
+
+    public string Title
+    {
+        get => StringConverter3.GetString(Data.AsSpan(0xE, Japanese ? 20 : 40), Japanese);
+        set
+        {
+            var dest = Data.AsSpan(0xE, Japanese ? 20 : 40);
+            StringConverter3.SetString(dest, value, Japanese ? 20 : 40, Japanese, StringConverterOption.ClearFF);
+        }
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -6,17 +6,34 @@ namespace PKHeX.Core;
 public sealed class WonderNews3 : Gen3MysteryData
 {
     /// <summary>
-    /// 0x1C0: Total Size of this object
+    /// 0x1C0: Total Size of this object on international saves
     /// </summary>
     public const int SIZE = sizeof(uint) + 444;
 
+    /// <summary>
+    /// 0xE4: Total Size of this object on Japanese saves
+    /// </summary>
+    public const int SIZE_JAP = sizeof(uint) + 224;
+
     public WonderNews3(byte[] data) : base(data)
     {
-        if (data.Length != SIZE)
+        if (data.Length is not SIZE and not SIZE_JAP)
             throw new ArgumentException("Invalid size.", nameof(data));
     }
+
+    public bool Japanese => Data.Length is SIZE_JAP;
 
     public ushort NewsID   { get => ReadUInt16LittleEndian(Data.AsSpan(4)); set => WriteUInt16LittleEndian(Data.AsSpan(4), value); }
     public byte Flag { get => Data[6]; set => Data[6] = value; }
     public byte Color { get => Data[7]; set => Data[7] = value; }
+
+    public string Title
+    {
+        get => StringConverter3.GetString(Data.AsSpan(8, Japanese ? 20 : 40), Japanese);
+        set
+        {
+            var dest = Data.AsSpan(8, Japanese ? 20 : 40);
+            StringConverter3.SetString(dest, value, Japanese ? 20 : 40, Japanese, StringConverterOption.ClearFF);
+        }
+    }
 }

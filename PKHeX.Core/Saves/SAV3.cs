@@ -594,9 +594,19 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         return new Mail3(data, ofs, Japanese);
     }
 
+    #region eBerry
+    public abstract byte[] GetEReaderBerry();
+    public abstract void SetEReaderBerry(ReadOnlySpan<byte> data);
     public abstract string EBerryName { get; }
     public abstract bool IsEBerryEngima { get; }
-    public abstract MysteryEvent3 MysteryEvent { get; set; }
+    #endregion
+
+    #region eTrainer
+    public abstract byte[] GetEReaderTrainer();
+    public abstract void SetEReaderTrainer(ReadOnlySpan<byte> data);
+    #endregion
+
+    public abstract Gen3MysteryData MysteryData { get; set; }
 
     public byte[] GetHallOfFameData()
     {
