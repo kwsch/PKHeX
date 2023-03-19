@@ -277,6 +277,12 @@ public partial class SAV_BlockDump8 : Form
             var hex = (int)Util.GetHexValue(text);
             if (hex != 0)
             {
+                if (!string.IsNullOrEmpty(Filter))
+                {
+                    // Clear the filter
+                    CB_Key.DataSource = SortedBlockKeys;
+                    Filter = string.Empty;
+                }
                 // Input is hexadecimal number, select the item
                 CB_Key.SelectedValue = hex;
                 return;
