@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
-public sealed class MysteryEvent3 : Gen3MysteryData
+public class MysteryEvent3 : Gen3MysteryData
 {
     public const int SIZE = sizeof(uint) + 1000; // total 0x3EC
 

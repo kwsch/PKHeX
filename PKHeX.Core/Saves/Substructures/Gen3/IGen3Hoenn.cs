@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -15,4 +15,6 @@ public interface IGen3Hoenn
 
     IReadOnlyList<Swarm3> DefaultSwarms { get; }
     int SwarmIndex { get; set; }
+
+    RecordMixing3Gift RecordMixingGift { get; set; }
 }

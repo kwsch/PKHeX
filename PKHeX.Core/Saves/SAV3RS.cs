@@ -151,18 +151,25 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
     private const int OFFSET_EBERRY = 0x3160;
     private const int SIZE_EBERRY = 0x530;
 
-    public byte[] GetEReaderBerry() => Large.Slice(OFFSET_EBERRY, SIZE_EBERRY);
-    public void SetEReaderBerry(ReadOnlySpan<byte> data) => data.CopyTo(Large.AsSpan(OFFSET_EBERRY));
+    public override byte[] GetEReaderBerry() => Large.Slice(OFFSET_EBERRY, SIZE_EBERRY);
+    public override void SetEReaderBerry(ReadOnlySpan<byte> data) => data.CopyTo(Large.AsSpan(OFFSET_EBERRY));
 
     public override string EBerryName => GetString(Large.AsSpan(OFFSET_EBERRY, 7));
     public override bool IsEBerryEngima => Large[OFFSET_EBERRY] is 0 or 0xFF;
     #endregion
 
-    public override MysteryEvent3 MysteryEvent
+    #region eTrainer
+    public override byte[] GetEReaderTrainer() => Small.Slice(0x498, 0xBC);
+    public override void SetEReaderTrainer(ReadOnlySpan<byte> data) => data.CopyTo(Small.AsSpan(0x498));
+    #endregion
+
+    public override Gen3MysteryData MysteryData
     {
-        get => new(Large.Slice(0x3690, MysteryEvent3.SIZE));
+        get => new MysteryEvent3RS(Large.Slice(0x3690, MysteryEvent3.SIZE));
         set => SetData(Large, value.Data, 0x3690);
     }
+
+    public RecordMixing3Gift RecordMixingGift { get => new(Large.Slice(0x3A7C, RecordMixing3Gift.SIZE)); set => SetData(Large, value.Data, 0x3A7C); }
 
     protected override int SeenOffset3 => 0x3A8C;
     #endregion
