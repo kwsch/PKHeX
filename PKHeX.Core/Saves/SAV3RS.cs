@@ -159,8 +159,8 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
     #endregion
 
     #region eTrainer
-    public override byte[] GetEReaderTrainer() => Large.Slice(0x498, 0xBC);
-    public override void SetEReaderTrainer(ReadOnlySpan<byte> data) => data.CopyTo(Large.AsSpan(0x498));
+    public override byte[] GetEReaderTrainer() => Small.Slice(0x498, 0xBC);
+    public override void SetEReaderTrainer(ReadOnlySpan<byte> data) => data.CopyTo(Small.AsSpan(0x498));
     #endregion
 
     public override Gen3MysteryData MysteryData

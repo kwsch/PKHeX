@@ -153,8 +153,8 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     #endregion
 
     #region eTrainer
-    public override byte[] GetEReaderTrainer() => Large.Slice(0x4A0, 0xBC);
-    public override void SetEReaderTrainer(ReadOnlySpan<byte> data) => data.CopyTo(Large.AsSpan(0x4A0));
+    public override byte[] GetEReaderTrainer() => Small.Slice(0x4A0, 0xBC);
+    public override void SetEReaderTrainer(ReadOnlySpan<byte> data) => data.CopyTo(Small.AsSpan(0x4A0));
     #endregion
 
     public int WonderOffset => WonderNewsOffset;
