@@ -15,15 +15,15 @@ public abstract class Gen3MysteryData
         set => WriteUInt16LittleEndian(Data.AsSpan(0), value);
     }
 
-    public virtual bool IsChecksumValid() => Checksum == GetChecksum(Data);
-    public virtual void FixChecksum() => Checksum = GetChecksum(Data);
+    public virtual bool IsChecksumValid() => Checksum == GetChecksum(Data.AsSpan(4));
+    public virtual void FixChecksum() => Checksum = GetChecksum(Data.AsSpan(4));
 
     private static ushort GetChecksum(ReadOnlySpan<byte> data)
     {
         ushort chk = 0x1121;
         foreach (var b in data)
             chk = (ushort)(CRCTable[(b ^ chk) & 0xFF] ^ chk >> 8);
-        return chk;
+        return (ushort)(~chk & 0xFFFF);
     }
 
     private static readonly ushort[] CRCTable =
