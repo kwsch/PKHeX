@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -101,7 +101,7 @@ public static class SCTypeCodeExtensions
             case SCTypeCode.UInt32: WriteUInt32LittleEndian(data, (uint)value); break;
             case SCTypeCode.UInt64: WriteUInt64LittleEndian(data, (ulong)value); break;
 
-            case SCTypeCode.SByte: data[0] = (byte)value; break;
+            case SCTypeCode.SByte: data[0] = (byte)(sbyte)value; break;
             case SCTypeCode.Int16: WriteInt16LittleEndian(data, (short)value); break;
             case SCTypeCode.Int32: WriteInt32LittleEndian(data, (int)value); break;
             case SCTypeCode.Int64: WriteInt64LittleEndian(data, (long)value); break;
