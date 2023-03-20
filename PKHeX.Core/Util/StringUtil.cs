@@ -36,22 +36,25 @@ public static class StringUtil
     }
 
     /// <summary>
-    /// Gets the <see cref="nth"/> string entry within the input <see cref="line"/>, based on the <see cref="separator"/> and <see cref="start"/> position.
+    /// Gets the <see cref="nth"/> string entry within the input <see cref="line"/>, based on the <see cref="separator"/>.
     /// </summary>
-    public static string GetNthEntry(ReadOnlySpan<char> line, int nth, int start, char separator = '\t')
+    public static ReadOnlySpan<char> GetNthEntry(ReadOnlySpan<char> line, int nth, char separator = '\t')
     {
-        if (nth != 1)
-            start = line.IndexOfNth(separator, nth - 1, start + 1);
-        var end = line.IndexOfNth(separator, 1, start + 1);
+        int start = 0;
+        if (nth != 0)
+            start = line.IndexOfNth(separator, nth) + 1; // 1 char after separator
+
+        var tail = line[start..];
+        var end = tail.IndexOf(separator);
         if (end == -1)
-            return new string(line[(start + 1)..]);
-        return new string(line[(start + 1)..end]);
+            return tail;
+        return tail[..end];
     }
 
-    private static int IndexOfNth(this ReadOnlySpan<char> s, char t, int n, int start)
+    private static int IndexOfNth(this ReadOnlySpan<char> s, char t, int n)
     {
         int count = 0;
-        for (int i = start; i < s.Length; i++)
+        for (int i = 0; i < s.Length; i++)
         {
             if (s[i] != t)
                 continue;
