@@ -23,7 +23,7 @@ public abstract class Gen3MysteryData
         ushort chk = 0x1121;
         foreach (var b in data)
             chk = (ushort)(CRCTable[(b ^ chk) & 0xFF] ^ chk >> 8);
-        return (ushort)(~chk & 0xFFFF);
+        return (ushort)~chk;
     }
 
     private static readonly ushort[] CRCTable =
