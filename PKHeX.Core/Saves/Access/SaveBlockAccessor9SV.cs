@@ -982,6 +982,8 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     #endregion
 
     #region EncountOutbreakSave
+    private const uint KMassOutbreakNumActive     = 0x6C375C8A;
+
     private const uint KMassOutbreak01CenterPos   = 0x2ED42F4D; // EncountOutbreakSave_centerPos[0]
     private const uint KMassOutbreak01DummyPos    = 0x4A13BE7C; // EncountOutbreakSave_dummyPos[0]
     private const uint KMassOutbreak01Species     = 0x76A2F996; // EncountOutbreakSave_monsno[0]
