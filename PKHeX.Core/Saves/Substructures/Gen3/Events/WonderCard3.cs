@@ -35,11 +35,20 @@ public sealed class WonderCard3 : Gen3MysteryData
 
     public string Title
     {
-        get => StringConverter3.GetString(Data.AsSpan(0xE, Japanese ? 20 : 40), Japanese);
+        get => StringConverter3.GetString(Data.AsSpan(0xE, Japanese ? 18 : 40), Japanese);
         set
         {
-            var dest = Data.AsSpan(0xE, Japanese ? 20 : 40);
-            StringConverter3.SetString(dest, value, Japanese ? 20 : 40, Japanese, StringConverterOption.ClearFF);
+            var dest = Data.AsSpan(0xE, Japanese ? 18 : 40);
+            StringConverter3.SetString(dest, value, Japanese ? 18 : 40, Japanese, StringConverterOption.ClearFF);
+        }
+    }
+    public string Subtitle
+    {
+        get => StringConverter3.GetString(Data.AsSpan(0x20, Japanese ? 13 : 40), Japanese);
+        set
+        {
+            var dest = Data.AsSpan(0x20, Japanese ? 13 : 40);
+            StringConverter3.SetString(dest, value, Japanese ? 13 : 40, Japanese, StringConverterOption.ClearFF);
         }
     }
 }
