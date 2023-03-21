@@ -10,7 +10,7 @@ namespace PKHeX.Core
                 throw new ArgumentException("Invalid size.", nameof(data));
         }
 
-        public override bool IsChecksumValid() => Checksum == Checksums.CheckSum16(Data);
-        public override void FixChecksum() => Checksum = Checksums.CheckSum16(Data);
+        public override bool IsChecksumValid() => Checksum == Checksums.CheckSum16(Data.AsSpan(4));
+        public override void FixChecksum() => Checksum = Checksums.CheckSum16(Data.AsSpan(4));
     }
 }
