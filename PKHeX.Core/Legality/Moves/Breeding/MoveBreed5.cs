@@ -29,7 +29,6 @@ public static class MoveBreed5
             GameVersion.B or GameVersion.W => PersonalTable.BW[species],
             _ => PersonalTable.B2W2[species],
         };
-        var egg = Legal.EggMovesBW[species].Moves;
 
         var actual = MemoryMarshal.Cast<byte, EggSource5>(origins);
         Span<byte> possible = stackalloc byte[count];
@@ -45,6 +44,7 @@ public static class MoveBreed5
         else
         {
             bool inherit = Breeding.GetCanInheritMoves(species);
+            var egg = Legal.EggMovesBW[species].Moves;
             MarkMovesForOrigin(value, egg, count, inherit, pi);
             valid = RecurseMovesForOrigin(value, count - 1);
         }

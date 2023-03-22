@@ -37,7 +37,6 @@ public static class MoveBreed3
 
         var learnset = learn[species];
         var pi = table[species];
-        var egg = Legal.EggMovesRS[species].Moves;
 
         var actual = MemoryMarshal.Cast<byte, EggSource34>(origins);
         Span<byte> possible = stackalloc byte[count];
@@ -52,6 +51,7 @@ public static class MoveBreed3
         }
         else
         {
+            var egg = Legal.EggMovesRS[species].Moves;
             bool inherit = Breeding.GetCanInheritMoves(species);
             MarkMovesForOrigin(value, egg, count, inherit, pi);
             valid = RecurseMovesForOrigin(value, count - 1);

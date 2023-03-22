@@ -107,9 +107,10 @@ public static class SpeciesName
         var nick = GetSpeciesName(species, language);
         switch (language)
         {
-            case (int)LanguageID.Korean when generation == 2:
-                return StringConverter2KOR.LocalizeKOR2(nick);
             case (int)LanguageID.Korean:
+                if (generation == 2)
+                    StringConverter2KOR.LocalizeKOR2(species, ref nick);
+                return nick; // No further processing
             case (int)LanguageID.Japanese:
                 return nick; // No further processing
         }
@@ -118,8 +119,8 @@ public static class SpeciesName
         nick.CopyTo(result);
 
         // All names are uppercase.
-        for (int i = 0; i < result.Length; i++)
-            result[i] = char.ToUpperInvariant(result[i]);
+        foreach (ref var c in result)
+            c = char.ToUpperInvariant(c);
         if (language == (int)LanguageID.French)
             StringConverter4Util.StripDiacriticsFR4(result); // strips accents on E and I
 

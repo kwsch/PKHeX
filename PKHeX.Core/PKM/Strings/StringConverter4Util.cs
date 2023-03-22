@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,20 +39,20 @@ public static class StringConverter4Util
     /// <remarks>Only 4 characters are accented in gen1-4</remarks>
     public static void StripDiacriticsFR4(Span<char> input)
     {
-        for (int i = 0; i < input.Length; i++)
+        foreach (ref var c in input)
         {
-            if (FrDiacritic.TryGetValue(input[i], out var value))
-                input[i] = value;
+            // È É Ê Ï
+            // C8 C9 CA map to 'E'
+            // CF map to 'I'
+            var delta = (uint)(c - 'È');
+            if (delta > 7)
+                continue;
+            if (delta < 3)
+                c = 'E';
+            else if (delta == 7)
+                c = 'I';
         }
     }
-
-    private static readonly Dictionary<char, char> FrDiacritic = new(4)
-    {
-        { 'È', 'E' },
-        { 'É', 'E' },
-        { 'Ê', 'E' },
-        { 'Ï', 'I' },
-    };
 
     #region Conversion Data
 

@@ -136,14 +136,16 @@ public static class StringConverter2KOR
     /// <summary>
     /// Localizes a Gen4+ Korean species name to the localization used in Generation 2 Gold/Silver
     /// </summary>
+    /// <param name="species">Species ID</param>
     /// <param name="nick">Generation 4 Species Name</param>
     /// <returns>Localized Name for Generation 2</returns>
-    public static string LocalizeKOR2(string nick) => nick switch
+    public static void LocalizeKOR2(ushort species, ref string nick)
     {
-        "덩쿠리"   => "덩구리",  // Tangela
-        "슈륙챙이" => "수륙챙이", // Poliwhirl
-        _ => nick,
-    };
+        if (species == 61) // Poliwhirl
+            nick = "수륙챙이"; // "슈륙챙이" in future games
+        else if (species == 114) // Tangela
+            nick = "덩구리"; // "덩쿠리" in future games
+    }
 
     #region Gen 2 Korean Character Tables
     private static readonly Dictionary<char, byte> U2GSC_KOR_0 = new(256)

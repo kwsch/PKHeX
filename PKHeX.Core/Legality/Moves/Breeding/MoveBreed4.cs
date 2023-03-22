@@ -33,7 +33,6 @@ public static class MoveBreed4
             _ => PersonalTable.Pt,
         };
         var pi = table[species];
-        var egg = (version is HG or SS ? Legal.EggMovesHGSS : Legal.EggMovesDPPt)[species].Moves;
 
         var actual = MemoryMarshal.Cast<byte, EggSource34>(origins);
         Span<byte> possible = stackalloc byte[count];
@@ -49,6 +48,7 @@ public static class MoveBreed4
         else
         {
             bool inherit = Breeding.GetCanInheritMoves(species);
+            var egg = (version is HG or SS ? Legal.EggMovesHGSS : Legal.EggMovesDPPt)[species].Moves;
             MarkMovesForOrigin(value, egg, count, inherit, pi, version);
             valid = RecurseMovesForOrigin(value, count - 1);
         }

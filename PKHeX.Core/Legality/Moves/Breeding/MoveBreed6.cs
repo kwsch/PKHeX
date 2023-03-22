@@ -26,7 +26,6 @@ public static class MoveBreed6
         var table = GameData.GetPersonal(version);
         var index = table.GetFormIndex(species, form);
         var learnset = learn[index];
-        var egg = MoveEgg.GetEggMoves(generation, species, form, version);
 
         var actual = MemoryMarshal.Cast<byte, EggSource6>(origins);
         Span<byte> possible = stackalloc byte[count];
@@ -41,6 +40,7 @@ public static class MoveBreed6
         }
         else
         {
+            var egg = MoveEgg.GetEggMoves(generation, species, form, version);
             bool inherit = Breeding.GetCanInheritMoves(species);
             MarkMovesForOrigin(value, egg, count, inherit);
             valid = RecurseMovesForOrigin(value, count - 1);
