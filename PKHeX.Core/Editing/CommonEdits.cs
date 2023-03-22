@@ -249,7 +249,7 @@ public static class CommonEdits
 
         var legal = new LegalityAnalysis(pk);
         if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
-            pk.SetRelearnMoves(legal.GetSuggestedRelearnMoves());
+            pk.SetRelearnMoves(legal);
         pk.ResetPartyStats();
         pk.RefreshChecksum();
     }

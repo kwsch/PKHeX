@@ -479,12 +479,12 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         RelearnMove4 = value.Move4;
     }
 
-    public void SetRelearnMoves(IReadOnlyList<ushort> value)
+    public void SetRelearnMoves(ReadOnlySpan<ushort> value)
     {
-        RelearnMove1 = value.Count > 0 ? value[0] : default;
-        RelearnMove2 = value.Count > 1 ? value[1] : default;
-        RelearnMove3 = value.Count > 2 ? value[2] : default;
-        RelearnMove4 = value.Count > 3 ? value[3] : default;
+        RelearnMove1 = value.Length > 0 ? value[0] : default;
+        RelearnMove2 = value.Length > 1 ? value[1] : default;
+        RelearnMove3 = value.Length > 2 ? value[2] : default;
+        RelearnMove4 = value.Length > 3 ? value[3] : default;
     }
 
     public int PIDAbility

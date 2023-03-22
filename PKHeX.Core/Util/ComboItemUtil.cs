@@ -15,9 +15,9 @@ public static partial class Util
         return list;
     }
 
-    private static List<ComboItem> GetCBListFromCSV(IReadOnlyList<string> inputCSV, int index)
+    private static List<ComboItem> GetCBListFromCSV(ReadOnlySpan<string> inputCSV, int index)
     {
-        var arr = new List<ComboItem>(inputCSV.Count);
+        var arr = new List<ComboItem>(inputCSV.Length);
         foreach (var line in inputCSV)
         {
             var span = line.AsSpan();

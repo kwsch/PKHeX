@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core.Searching;
@@ -152,7 +153,7 @@ public sealed class SearchSettings
     {
         if (Generation > 0 && !SearchUtil.SatisfiesFilterGeneration(pk, Generation))
             return false;
-        if (Moves.Count > 0 && !SearchUtil.SatisfiesFilterMoves(pk, Moves))
+        if (Moves.Count > 0 && !SearchUtil.SatisfiesFilterMoves(pk, CollectionsMarshal.AsSpan(Moves)))
             return false;
         if (HiddenPowerType > -1 && pk.HPType != HiddenPowerType)
             return false;

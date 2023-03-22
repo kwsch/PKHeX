@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using PKHeX.Core;
 using PKHeX.Drawing;
 using PKHeX.Drawing.PokeSprite;
@@ -735,33 +736,44 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private bool SetSuggestedMoves(bool random = false, bool silent = false)
     {
-        var m = Entity.GetMoveSet(random);
-        if (m.Length == 0 || m.All(z => z == 0))
+        Span<ushort> moves = stackalloc ushort[4];
+        Entity.GetMoveSet(moves, random);
+        if (moves[0] == 0)
         {
             if (!silent)
                 WinFormsUtil.Alert(MsgPKMSuggestionFormat);
             return false;
         }
 
-        Span<ushort> moves = stackalloc ushort[4];
-        Entity.GetMoves(moves);
-        if (moves.SequenceEqual(m))
+        Span<ushort> current = stackalloc ushort[4];
+        Entity.GetMoves(current);
+        var same = Entity.IsEgg ? current.SequenceEqual(moves) : IsAllElementsShared(current, moves);
+        if (same)
             return false;
 
         if (!silent)
         {
-            var mv = GameInfo.Strings.Move;
-            var movestrings = m.Select(v => v >= mv.Count ? MsgProgramError : mv[v]);
-            var msg = string.Join(Environment.NewLine, movestrings);
+            var msg = GetMoveListPrint(moves, GameInfo.Strings.movelist);
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionMoves, msg))
                 return false;
         }
 
-        Entity.SetMoves(m);
+        Entity.SetMoves(moves);
+        Entity.HealPP();
         FieldsLoaded = false;
         LoadMoves(Entity);
         ClickPP(this, EventArgs.Empty);
         FieldsLoaded = true;
+        return true;
+    }
+
+    private static bool IsAllElementsShared(Span<ushort> seq1, Span<ushort> seq2)
+    {
+        foreach (var entry in seq2)
+        {
+            if (!seq1.Contains(entry))
+                return false;
+        }
         return true;
     }
 
@@ -770,15 +782,14 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity.Format < 6)
             return false;
 
-        var m = Legality.GetSuggestedRelearnMoves();
-        if (m.Count != 4 || Entity.RelearnMoves.SequenceEqual(m))
+        Span<ushort> m = stackalloc ushort[4];
+        Legality.GetSuggestedRelearnMoves(m);
+        if (Entity.RelearnMove1 == m[0] && Entity.RelearnMove2 == m[1] && Entity.RelearnMove3 == m[2] && Entity.RelearnMove4 == m[3])
             return false;
 
         if (!silent)
         {
-            var mv = GameInfo.Strings.Move;
-            var movestrings = m.Select(v => v >= mv.Count ? MsgProgramError : mv[v]);
-            var msg = string.Join(Environment.NewLine, movestrings);
+            var msg = GetMoveListPrint(m, GameInfo.Strings.movelist);
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgPKMSuggestionRelearn, msg))
                 return false;
         }
@@ -788,6 +799,17 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         CB_RelearnMove2.SelectedValue = (int)m[1];
         CB_RelearnMove1.SelectedValue = (int)m[0];
         return true;
+    }
+
+    private static string GetMoveListPrint(Span<ushort> moves, ReadOnlySpan<string> names)
+    {
+        var sb = new StringBuilder();
+        foreach (var move in moves)
+        {
+            if (move != 0)
+                sb.AppendLine(names[move]);
+        }
+        return sb.ToString();
     }
 
     private bool SetSuggestedMetLocation(bool silent = false)

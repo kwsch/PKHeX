@@ -361,7 +361,7 @@ public static class BatchEditing
         if (cmd.PropertyValue.StartsWith(CONST_SUGGEST, StringComparison.OrdinalIgnoreCase))
             return SetSuggestedPKMProperty(cmd.PropertyName, info, cmd.PropertyValue);
         if (cmd is { PropertyValue: CONST_RAND, PropertyName: nameof(PKM.Moves) })
-            return SetMoves(pk, info.Legality.GetMoveSet(true));
+            return SetSuggestedMoveset(info, true);
 
         if (SetComplexProperty(pk, cmd))
             return ModifyResult.Modified;

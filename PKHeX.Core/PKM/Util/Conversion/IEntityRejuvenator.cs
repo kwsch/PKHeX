@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -50,8 +52,9 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
         enc = la.EncounterOriginal;
         if (result is PA8 pa8)
         {
-            var relearn = la.GetSuggestedRelearnMoves(enc);
-            if (relearn.Count != 0)
+            Span<ushort> relearn = stackalloc ushort[4];
+            la.GetSuggestedRelearnMoves(relearn, enc);
+            if (relearn[0] != 0)
                 pa8.SetRelearnMoves(relearn);
 
             pa8.ClearMoveShopFlags();
@@ -88,9 +91,9 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
 
         // Try again with rectified locations.
         la = new LegalityAnalysis(result);
-        enc = la.EncounterOriginal;
-        var relearn = la.GetSuggestedRelearnMoves(enc);
-        if (relearn.Count != 0)
+        Span<ushort> relearn = stackalloc ushort[4];
+        la.GetSuggestedRelearnMoves(relearn);
+        if (relearn[0] != 0)
             result.SetRelearnMoves(relearn);
     }
 }

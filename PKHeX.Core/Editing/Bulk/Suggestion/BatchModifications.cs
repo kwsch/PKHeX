@@ -10,6 +10,13 @@ internal static class BatchModifications
     private static bool IsAll(ReadOnlySpan<char> p) => p.EndsWith("All", StringComparison.OrdinalIgnoreCase);
     private static bool IsNone(ReadOnlySpan<char> p) => p.EndsWith("None", StringComparison.OrdinalIgnoreCase);
 
+    public static ModifyResult SetSuggestedMoveset(BatchInfo info, bool random = false)
+    {
+        Span<ushort> moves = stackalloc ushort[4];
+        info.Legality.GetMoveSet(moves, random);
+        return SetMoves(info.Entity, moves);
+    }
+
     public static ModifyResult SetSuggestedRelearnData(BatchInfo info, ReadOnlySpan<char> propValue)
     {
         var pk = info.Entity;
@@ -28,7 +35,7 @@ internal static class BatchModifications
             }
         }
 
-        pk.SetRelearnMoves(info.SuggestedRelearn);
+        pk.SetRelearnMoves(info.Legality);
         return ModifyResult.Modified;
     }
 

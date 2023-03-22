@@ -66,8 +66,7 @@ public sealed class Learnset
                 break;
 
             var move = Moves[i];
-            bool alreadyHasMove = moves.IndexOf(move) >= 0;
-            if (alreadyHasMove)
+            if (moves.Contains(move))
                 continue;
 
             moves[ctr++] = move;
@@ -92,9 +91,10 @@ public sealed class Learnset
             for (int i = start; i <= index; i++)
             {
                 var move = Moves[i];
-                if (moves.IndexOf(move) == -1)
-                    moves[ctr++] = move;
+                if (moves.Contains(move))
+                    continue;
 
+                moves[ctr++] = move;
                 if (ctr == 4)
                     return;
             }
