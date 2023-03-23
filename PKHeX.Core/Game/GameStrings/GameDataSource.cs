@@ -117,7 +117,7 @@ public sealed class GameDataSource
         return Util.GetUnsortedCBList(list, OrderedVersionArray);
     }
 
-    public List<ComboItem> GetItemDataSource(GameVersion game, EntityContext context, IReadOnlyList<ushort> allowed, bool HaX = false)
+    public List<ComboItem> GetItemDataSource(GameVersion game, EntityContext context, ReadOnlySpan<ushort> allowed, bool HaX = false)
     {
         var items = Strings.GetItemStrings(context, game);
         return HaX ? Util.GetCBList(items) : Util.GetCBList(items, allowed);

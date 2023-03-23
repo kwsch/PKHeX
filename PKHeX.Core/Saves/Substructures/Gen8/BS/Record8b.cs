@@ -48,7 +48,7 @@ public sealed class Record8b : SaveBlock<SAV8BS>, IRecordStatStorage
 
     public void AddRecord(int recordID, int count = 1) => SetRecord(recordID, GetRecord(recordID) + count);
 
-    public static readonly IReadOnlyList<int> MaxValue_BDSP = new[]
+    public static ReadOnlySpan<int> MaxValue_BDSP => new[]
     {
         int.MaxValue, // CLEAR_TIME
         9_999, // DENDOU_CNT

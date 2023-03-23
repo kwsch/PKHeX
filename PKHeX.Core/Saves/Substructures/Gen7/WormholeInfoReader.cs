@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 public sealed class WormholeInfoReader
@@ -37,7 +39,7 @@ public sealed class WormholeInfoReader
         }
     }
 
-    public static readonly ushort[] StandardWormholes =
+    public static ReadOnlySpan<ushort> StandardWormholes => new ushort[]
     {
         256, // Red
         257, // Green
@@ -45,7 +47,7 @@ public sealed class WormholeInfoReader
         259, // Blue
     };
 
-    public static readonly ushort[] WormholeSlotsRed =
+    public static ReadOnlySpan<ushort> WormholeSlotsRed => new ushort[]
     {
         0, // filler used for indexing with slot number
         144, // Articuno
@@ -65,7 +67,7 @@ public sealed class WormholeInfoReader
         277, // Swellow
     };
 
-    public static readonly ushort[] WormholeSlotsGreen =
+    public static ReadOnlySpan<ushort> WormholeSlotsGreen => new ushort[]
     {
         0, // filler used for indexing with slot number
         150, // Mewtwo
@@ -85,7 +87,7 @@ public sealed class WormholeInfoReader
         326, // Grumpig
     };
 
-    public static readonly ushort[] WormholeSlotsYellow =
+    public static ReadOnlySpan<ushort> WormholeSlotsYellow => new ushort[]
     {
         0, // filler used for indexing with slot number
         377, // Regirock
@@ -105,7 +107,7 @@ public sealed class WormholeInfoReader
         219, // Magcargo
     };
 
-    public static readonly ushort[] WormholeSlotsBlue =
+    public static ReadOnlySpan<ushort> WormholeSlotsBlue => new ushort[]
     {
         0, // filler used for indexing with slot number
         245, // Suicune

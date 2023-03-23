@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 
 namespace PKHeX.Core;
 
@@ -14,7 +14,7 @@ public static class DexFormUtil
     public static int GetDexFormCountUSUM(ushort species) => GetDexFormCount(species, formtable_USUM);
     public static int GetDexFormCountGG(ushort species) => GetDexFormCount(species, formtable_GG);
 
-    private static readonly ushort[] formtable_SM = // u16 species, u16 formcount
+    private static ReadOnlySpan<ushort> formtable_SM => new ushort[] // u16 species, u16 formcount
     {
         0x0003, 0x0002, 0x0006, 0x0003, 0x0009, 0x0002, 0x000F, 0x0002,
         0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x0019, 0x0007,
@@ -47,7 +47,7 @@ public static class DexFormUtil
         0x030A, 0x0004, 0x0310, 0x0002, 0x0321, 0x0002,
     };
 
-    private static readonly ushort[] formtable_USUM = // u16 species, u16 formcount
+    private static ReadOnlySpan<ushort> formtable_USUM => new ushort[] // u16 species, u16 formcount
     {
         0x0003, 0x0002, 0x0006, 0x0003, 0x0009, 0x0002, 0x000F, 0x0002,
         0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x0019, 0x0008,
@@ -82,7 +82,7 @@ public static class DexFormUtil
         0x0310, 0x0002, 0x0320, 0x0004, 0x0321, 0x0002,
     };
 
-    private static readonly ushort[] formtable_GG = // u16 species, u16 formcount
+    private static ReadOnlySpan<ushort> formtable_GG => new ushort[] // u16 species, u16 formcount
     {
         0x0003, 0x0002, 0x0006, 0x0003, 0x0009, 0x0002, 0x000F, 0x0002,
         0x0012, 0x0002, 0x0013, 0x0002, 0x0014, 0x0003, 0x0019, 0x0009,
@@ -94,10 +94,10 @@ public static class DexFormUtil
         0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
     };
 
-    private static int GetDexFormBitIndex(ushort species, byte formCount, int start, IReadOnlyList<ushort> formTable)
+    private static int GetDexFormBitIndex(ushort species, byte formCount, int start, ReadOnlySpan<ushort> formTable)
     {
         int formIndex = start;
-        for (int i = 0; i < formTable.Count; i += 2)
+        for (int i = 0; i < formTable.Length; i += 2)
         {
             int s = formTable[i];
             int f = formTable[i + 1];
@@ -109,9 +109,9 @@ public static class DexFormUtil
         return -1;
     }
 
-    private static int GetDexFormCount(ushort species, IReadOnlyList<ushort> formTable)
+    private static int GetDexFormCount(ushort species, ReadOnlySpan<ushort> formTable)
     {
-        for (int i = 0; i < formTable.Count; i += 2)
+        for (int i = 0; i < formTable.Length; i += 2)
         {
             if (formTable[i] == species)
                 return formTable[i + 1];

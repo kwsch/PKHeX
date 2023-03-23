@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -20,7 +20,7 @@ public static class UgItemUtil
     };
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
-    private record UgItemDef(int UgItemID, int ItemID, int SphereID, int PedestalID, int StatueID)
+    private readonly record struct UgItemDef(ushort UgItemID, short ItemID, sbyte SphereID, sbyte PedestalID, short StatueID)
     {
         private bool IsSphere => SphereID > 0;
         private bool IsItem => ItemID > 0;

@@ -211,8 +211,8 @@ public sealed class FormVerifier : Verifier
         return VALID;
     }
 
-    private static readonly ushort[] Arceus_PlateIDs = { 303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644 };
-    private static readonly ushort[] Arceus_ZCrystal = { 782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793 };
+    private static ReadOnlySpan<ushort> Arceus_PlateIDs => new ushort[] { 303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644 };
+    private static ReadOnlySpan<ushort> Arceus_ZCrystal => new ushort[] { 782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793 };
 
     public static byte GetArceusFormFromHeldItem(int item, int format) => item switch
     {
@@ -223,12 +223,12 @@ public sealed class FormVerifier : Verifier
 
     private static byte GetArceusFormFromZCrystal(int item)
     {
-        return (byte)(Array.IndexOf(Arceus_ZCrystal, (ushort)item) + 1);
+        return (byte)(Arceus_ZCrystal.IndexOf((ushort)item) + 1);
     }
 
     private static byte GetArceusFormFromPlate(int item, int format)
     {
-        byte form = (byte)(Array.IndexOf(Arceus_PlateIDs, (ushort)item) + 1);
+        byte form = (byte)(Arceus_PlateIDs.IndexOf((ushort)item) + 1);
         if (format != 4) // No need to consider Curse type
             return form;
         if (form < 9)

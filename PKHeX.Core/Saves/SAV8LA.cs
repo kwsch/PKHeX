@@ -87,7 +87,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
     protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
     public override PersonalTable8LA Personal => PersonalTable.LA;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_LA;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_LA;
 
     protected override SAV8LA CloneInternal()
     {

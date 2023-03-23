@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -59,7 +58,7 @@ public static class StringConverter4Util
     /// <summary>
     /// Values (stored value)
     /// </summary>
-    private static readonly ushort[] G4Values =
+    private static ReadOnlySpan<ushort> G4Values => new ushort[]
     {
         00001, 00002, 00003, 00004, 00005, 00006, 00007, 00008, 00009, 00010, 00011, 00012, 00013, 00014, 00015, 00016,
         00017, 00018, 00019, 00020, 00021, 00022, 00023, 00024, 00025, 00026, 00027, 00028, 00029, 00030, 00031, 00032,
@@ -246,7 +245,7 @@ public static class StringConverter4Util
     /// <summary>
     /// Characters (Unicode representation)
     /// </summary>
-    private static readonly ushort[] G4Chars =
+    private static ReadOnlySpan<ushort> G4Chars => new ushort[]
     {
         12288, 12353, 12354, 12355, 12356, 12357, 12358, 12359, 12360, 12361, 12362, 12363, 12364, 12365, 12366, 12367,
         12368, 12369, 12370, 12371, 12372, 12373, 12374, 12375, 12376, 12377, 12378, 12379, 12380, 12381, 12382, 12383,
@@ -430,13 +429,16 @@ public static class StringConverter4Util
         04467, 04469, 47252, 49968, 50108, 50388, 52012, 65535,
     };
 
-    private static readonly Dictionary<ushort, int> G4ValueId = G4Values
-        .Select((value, index) => new KeyValuePair<ushort, int>(value, index))
-        .ToDictionary(pair => pair.Key, pair => pair.Value);
+    private static readonly Dictionary<ushort, int> G4ValueId = GetDictionary(G4Values);
+    private static readonly Dictionary<ushort, int> G4CharId = GetDictionary(G4Chars);
 
-    private static readonly Dictionary<ushort, int> G4CharId = G4Chars
-        .Select((value, index) => new KeyValuePair<ushort, int>(value, index))
-        .ToDictionary(pair => pair.Key, pair => pair.Value);
+    private static Dictionary<ushort, int> GetDictionary(ReadOnlySpan<ushort> arr)
+    {
+        var result = new Dictionary<ushort, int>(arr.Length);
+        for (int i = 0; i < arr.Length; i++)
+            result[arr[i]] = i;
+        return result;
+    }
 
     #endregion
 }

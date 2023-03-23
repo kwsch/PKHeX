@@ -14,7 +14,7 @@ public static class Vivillon3DS
     /// <summary>
     /// List of valid regions as bitflags indexed by Vivillon form.
     /// </summary>
-    private static readonly Region3DSFlags[] VivillonRegionTable =
+    private static ReadOnlySpan<Region3DSFlags> VivillonRegionTable => new[]
     {
         /* 0 Icy Snow    */          Americas | Europe,
         /* 1 Polar       */          Americas | Europe | China,
@@ -68,7 +68,7 @@ public static class Vivillon3DS
             return form == same;
 
         var tuple = (ushort)(country << 8 | region);
-        var index = Array.BinarySearch(DiffCountryRegion, tuple);
+        var index = DiffCountryRegion.BinarySearch(tuple);
         if (index >= 0)
             return form == DiffForm[index];
 
@@ -89,7 +89,7 @@ public static class Vivillon3DS
             return same;
 
         var tuple = (ushort)(country << 8 | region);
-        var index = Array.BinarySearch(DiffCountryRegion, tuple);
+        var index = DiffCountryRegion.BinarySearch(tuple);
         if (index >= 0)
             return DiffForm[index];
 
@@ -128,7 +128,7 @@ public static class Vivillon3DS
     // (country:X2_region:X2)
     // do it this way instead of region_country so that the byte[] form is better ordered for better file compression :)
     // 777 entries, so we can use a binary search to find the form. Worst case is log2(777) = 10 comparisons.
-    private static readonly ushort[] DiffCountryRegion =
+    private static ReadOnlySpan<ushort> DiffCountryRegion => new ushort[]
     {
         0x0100, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 0x0108, 0x0109, 0x010A, 0x010B, 0x010C, 0x010D, 0x010E, 0x010F, 0x0110,
         0x0111, 0x0112, 0x0113, 0x0114, 0x0115, 0x0116, 0x0117, 0x0118, 0x0119, 0x011A, 0x011B, 0x011C, 0x011D, 0x011E, 0x011F, 0x0120,

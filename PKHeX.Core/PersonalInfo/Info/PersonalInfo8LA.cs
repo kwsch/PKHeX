@@ -107,7 +107,7 @@ public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H, IPermit
 
     public bool GetIsLearnMoveShop(ushort move)
     {
-        var moves = MoveShopMoves.AsSpan();
+        var moves = MoveShopMoves;
         var index = moves.IndexOf(move);
         return index != -1 && IsRecordPermitted(index);
     }
@@ -117,7 +117,7 @@ public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H, IPermit
     public int RecordCountUsed => MoveShopCount;
     public bool HasMoveShop => MoveShopBits != 0;
 
-    private static readonly ushort[] MoveShopMoves =
+    private static ReadOnlySpan<ushort> MoveShopMoves => new ushort[]
     {
         (int)Move.FalseSwipe,
         (int)Move.FireFang,

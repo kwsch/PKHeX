@@ -20,7 +20,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     public override PersonalTable1 Personal { get; }
 
-    public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
+    public override ReadOnlySpan<ushort> HeldItems => Array.Empty<ushort>();
 
     public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
     {
@@ -406,13 +406,11 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         }
     }
 
-    private readonly ushort[] LegalItems = Legal.Pouch_Items_RBY;
-
     public override IReadOnlyList<InventoryPouch> Inventory
     {
         get
         {
-            ushort[] legalItems = LegalItems;
+            ushort[] legalItems = Legal.Pouch_Items_RBY;
             InventoryPouch[] pouch =
             {
                 new InventoryPouchGB(InventoryType.Items, legalItems, 99, Offsets.Items, 20),

@@ -14,13 +14,13 @@ internal static class Locations7b
         050, 051, 052, 053,
     };
 
-    internal static readonly ushort[] Met3 =
+    internal static ReadOnlySpan<ushort> Met3 => new ushort[]
     {
                30001,        30003, 30004, 30005, 30006, 30007, 30008, 30009,
         30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017,
     };
 
-    internal static readonly ushort[] Met4 =
+    internal static ReadOnlySpan<ushort> Met4 => new ushort[]
     {
                40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009,
         40010, 40011, 40012, 40013, 40014, 40015, 40016, 40017, 40018, 40019,
@@ -32,5 +32,5 @@ internal static class Locations7b
         40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077,
     };
 
-    internal static readonly ushort[] Met6 = {/* XY */ 60001, 60003, /* ORAS */ 60004 };
+    internal static ReadOnlySpan<ushort> Met6 => new ushort[] {/* XY */ 60001, 60003, /* ORAS */ 60004 };
 }

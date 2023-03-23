@@ -42,7 +42,7 @@ public sealed class GameStrings : IBasicStrings
     /// <summary>
     /// Item IDs that correspond to the <see cref="Ball"/> value.
     /// </summary>
-    private static readonly ushort[] Items_Ball =
+    private static ReadOnlySpan<ushort> Items_Ball => new ushort[]
     {
         0000, 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009,
         0010, 0011, 0012, 0013, 0014, 0015, 0016, 0492, 0493, 0494,
@@ -91,9 +91,10 @@ public sealed class GameStrings : IBasicStrings
         groundtiletypes = Get("groundtile");
         gamelist = Get("games");
 
-        balllist = new string[Items_Ball.Length];
+        var balls = Items_Ball;
+        balllist = new string[balls.Length];
         for (int i = 0; i < balllist.Length; i++)
-            balllist[i] = itemlist[Items_Ball[i]];
+            balllist[i] = itemlist[balls[i]];
 
         pokeblocks = Get("pokeblock");
         forms = Get("forms");

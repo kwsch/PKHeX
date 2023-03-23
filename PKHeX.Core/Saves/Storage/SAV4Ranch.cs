@@ -37,7 +37,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     private readonly RanchToy BlankToy = new(new byte[] { (byte)RanchToyType.None, 0 });
 
     public override PersonalTable4 Personal => PersonalTable.Pt;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_Pt;
     protected override SAV4Ranch CloneInternal() => new((byte[])Data.Clone());
     protected internal override string ShortSummary => $"{OT} {PlayTimeString}";
     public override string Extension => ".bin";

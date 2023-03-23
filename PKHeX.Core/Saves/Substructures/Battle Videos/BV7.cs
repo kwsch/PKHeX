@@ -19,7 +19,7 @@ public sealed class BV7 : BattleVideo
 
     public BV7(byte[] data) => Data = (byte[])data.Clone();
 
-    private static readonly int[] offsets = { 0xE41, 0x145E, 0x1A7B, 0x2098 };
+    private static ReadOnlySpan<ushort> offsets => new ushort[] { 0xE41, 0x145E, 0x1A7B, 0x2098 };
 
     public IReadOnlyList<PK7[]> PlayerTeams
     {

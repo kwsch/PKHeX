@@ -339,7 +339,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public virtual int SIZE_BOXSLOT => SIZE_STORED;
     public abstract int MaxEV { get; }
     public virtual int MaxIV => 31;
-    public abstract IReadOnlyList<ushort> HeldItems { get; }
+    public abstract ReadOnlySpan<ushort> HeldItems { get; }
     protected virtual byte[] BoxBuffer => Data;
     protected virtual byte[] PartyBuffer => Data;
     public virtual bool IsPKMPresent(ReadOnlySpan<byte> data) => EntityDetection.IsPresent(data);

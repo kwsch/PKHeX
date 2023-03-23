@@ -56,7 +56,7 @@ public partial class SAV_Misc5 : Form
         Close();
     }
 
-    private readonly uint[] keyKS = {
+    private static ReadOnlySpan<uint> keyKS => new uint[] {
         // 0x34525, 0x11963,           // Selected City
         // 0x31239, 0x15657, 0x49589,  // Selected Difficulty
         // 0x94525, 0x81963, 0x38569,  // Selected Mystery Door

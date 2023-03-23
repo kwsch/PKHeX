@@ -147,7 +147,7 @@ public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonal
 
     public bool GetIsLearnTutorSpecial(ushort move)
     {
-        var index = Array.IndexOf(Tutors_USUM, move);
+        var index = Tutors_USUM.IndexOf(move);
         if (index < 0)
             return false;
         return (Data[Tutor1 + (index >> 3)] & (1 << (index & 7))) != 0;
@@ -164,7 +164,7 @@ public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonal
         }
     }
 
-    private static readonly ushort[] Tutors_USUM =
+    private static ReadOnlySpan<ushort> Tutors_USUM => new ushort[]
     {
         450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
         277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,

@@ -73,21 +73,21 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
     private static bool GetIsTutor(ushort species, ushort move)
     {
         // XD (Mew)
-        if (species == (int)Species.Mew && Tutor_3Mew.AsSpan().IndexOf(move) != -1)
+        if (species == (int)Species.Mew && Tutor_3Mew.Contains(move))
             return true;
 
         return move switch
         {
-            (int)Move.SelfDestruct => Array.BinarySearch(SpecialTutors_XD_SelfDestruct, species) >= 0,
-            (int)Move.SkyAttack => Array.BinarySearch(SpecialTutors_XD_SkyAttack, species) >= 0,
-            (int)Move.Nightmare => Array.BinarySearch(SpecialTutors_XD_Nightmare, species) >= 0,
+            (int)Move.SelfDestruct => SpecialTutors_XD_SelfDestruct.BinarySearch(species) >= 0,
+            (int)Move.SkyAttack => SpecialTutors_XD_SkyAttack.BinarySearch(species) >= 0,
+            (int)Move.Nightmare => SpecialTutors_XD_Nightmare.BinarySearch(species) >= 0,
             _ => false,
         };
     }
 
     private static bool GetIsTM(PersonalInfo3 info, ushort move)
     {
-        var index = Array.IndexOf(TM_3, move);
+        var index = TM_3.IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -95,7 +95,7 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
 
     private static bool GetIsHM(PersonalInfo3 info, ushort move)
     {
-        var index = Array.IndexOf(HM_3, move);
+        var index = HM_3.IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[CountTM + index];
@@ -147,16 +147,16 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
                     result[move] = true;
             }
 
-            if (Array.BinarySearch(SpecialTutors_XD_SelfDestruct, evo.Species) >= 0)
+            if (SpecialTutors_XD_SelfDestruct.BinarySearch(evo.Species) >= 0)
                 result[(int)Move.SelfDestruct] = true;
-            if (Array.BinarySearch(SpecialTutors_XD_SkyAttack, evo.Species) >= 0)
+            if (SpecialTutors_XD_SkyAttack.BinarySearch(evo.Species) >= 0)
                 result[(int)Move.SkyAttack] = true;
-            if (Array.BinarySearch(SpecialTutors_XD_Nightmare, evo.Species) >= 0)
+            if (SpecialTutors_XD_Nightmare.BinarySearch(evo.Species) >= 0)
                 result[(int)Move.Nightmare] = true;
         }
     }
 
-    private static readonly ushort[] Tutor_3Mew =
+    private static ReadOnlySpan<ushort> Tutor_3Mew => new ushort[]
     {
         (int)Move.FeintAttack,
         (int)Move.FakeOut,
@@ -166,7 +166,7 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
         (int)Move.ZapCannon,
     };
 
-    private static readonly ushort[] SpecialTutors_XD_SelfDestruct =
+    private static ReadOnlySpan<ushort> SpecialTutors_XD_SelfDestruct => new ushort[]
     {
         074, 075, 076, 088, 089, 090, 091, 092, 093, 094, 095,
         100, 101, 102, 103, 109, 110, 143, 150, 151, 185, 204,
@@ -175,14 +175,14 @@ public sealed class LearnSource3RS : ILearnSource<PersonalInfo3>, IEggSource
         376, 377, 378, 379,
     };
 
-    private static readonly ushort[] SpecialTutors_XD_SkyAttack =
+    private static ReadOnlySpan<ushort> SpecialTutors_XD_SkyAttack => new ushort[]
     {
         016, 017, 018, 021, 022, 084, 085, 142, 144, 145, 146,
         151, 163, 164, 176, 177, 178, 198, 225, 227, 250, 276,
         277, 278, 279, 333, 334,
     };
 
-    private static readonly ushort[] SpecialTutors_XD_Nightmare =
+    private static ReadOnlySpan<ushort> SpecialTutors_XD_Nightmare => new ushort[]
     {
         012, 035, 036, 039, 040, 052, 053, 063, 064, 065, 079,
         080, 092, 093, 094, 096, 097, 102, 103, 108, 121, 122,

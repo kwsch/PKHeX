@@ -56,7 +56,7 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
         if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, move))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(Array.IndexOf(LearnSource5.TypeTutor567, move)))
+        if (types.HasFlag(MoveSourceType.TypeTutor) && pi.GetIsLearnTutorType(LearnSource5.TypeTutor567.IndexOf(move)))
             return new(Tutor, Game);
 
         if (types.HasFlag(MoveSourceType.SpecialTutor) && pi.GetIsTutorSpecial(move))
@@ -86,7 +86,7 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
 
     private static bool GetIsTM(PersonalInfo6AO info, ushort move)
     {
-        var index = Array.IndexOf(TMHM_AO, move);
+        var index = TMHM_AO.IndexOf(move);
         return info.GetIsLearnTM(index);
     }
 
@@ -126,7 +126,7 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
         }
     }
 
-    internal static readonly ushort[] TMHM_AO =
+    internal static ReadOnlySpan<ushort> TMHM_AO => new ushort[]
     {
         468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
         241, 269, 058, 059, 063, 113, 182, 240, 355, 219,

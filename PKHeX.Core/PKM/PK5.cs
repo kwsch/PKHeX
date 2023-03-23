@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -10,7 +9,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons,
     IContestStats, IGroundTile
 {
-    private static readonly ushort[] Unused =
+    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
         0x43, 0x44, 0x45, 0x46, 0x47,
         0x5E, // unused
@@ -19,8 +18,6 @@ public sealed class PK5 : PKM, ISanityChecksum,
         0x86, // unused
         0x87, // PokeStar Fame
     };
-
-    public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;

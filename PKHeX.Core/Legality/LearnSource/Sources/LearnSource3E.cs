@@ -74,7 +74,7 @@ public sealed class LearnSource3E : ILearnSource<PersonalInfo3>, IEggSource
     private static bool GetIsSpecialTutor(ushort species, ushort move)
     {
         var info = Personal[species];
-        var index = Array.IndexOf(Tutor_E, move);
+        var index = Tutor_E.IndexOf(move);
         if (index == -1)
             return false;
         return info.TypeTutors[index];
@@ -82,7 +82,7 @@ public sealed class LearnSource3E : ILearnSource<PersonalInfo3>, IEggSource
 
     private static bool GetIsTM(PersonalInfo3 info, ushort move)
     {
-        var index = Array.IndexOf(TM_3, move);
+        var index = TM_3.IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -90,7 +90,7 @@ public sealed class LearnSource3E : ILearnSource<PersonalInfo3>, IEggSource
 
     private static bool GetIsHM(PersonalInfo3 info, ushort move)
     {
-        var index = Array.IndexOf(HM_3, move);
+        var index = HM_3.IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[CountTM + index];
@@ -146,7 +146,7 @@ public sealed class LearnSource3E : ILearnSource<PersonalInfo3>, IEggSource
         }
     }
 
-    private static readonly ushort[] Tutor_E =
+    private static ReadOnlySpan<ushort> Tutor_E => new ushort[]
     {
         005, 014, 025, 034, 038, 068, 069, 102, 118, 135,
         138, 086, 153, 157, 164, 223, 205, 244, 173, 196,

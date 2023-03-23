@@ -24,7 +24,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public override Zukan4 Dex { get; }
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4Pt((byte[])Data.Clone()) : new SAV4Pt();
     public override PersonalTable4 Personal => PersonalTable.Pt;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_Pt;
     public override int MaxItemID => Legal.MaxItemID_4_Pt;
 
     private const int GeneralSize = 0xCF2C;
@@ -128,6 +128,14 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public override uint SafariSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x5660)); set => WriteUInt32LittleEndian(General.AsSpan(0x5660), value); }
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x5664)); set => WriteUInt32LittleEndian(General.AsSpan(0x5664), value); }
     public override uint SwarmMaxCountModulo => 22;
+
+    protected override ReadOnlySpan<ushort> TreeSpecies => new ushort[]
+    {
+        000, 000, 000, 000, 000, 000,
+        415, 265, 412, 420, 190, 190,
+        412, 420, 415, 190, 190, 214,
+        446, 446, 446, 446, 446, 446,
+    };
 
     public Roamer4 RoamerMesprit   => new(General, 0x7FF4);
     public Roamer4 RoamerCresselia => new(General, 0x8008);

@@ -148,7 +148,7 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H, IPers
 
     public bool GetIsLearnTutor1(ushort move)
     {
-        var index = Array.IndexOf(TutorMoves1, move);
+        var index = TutorMoves1.IndexOf(move);
         return index >= 0 && (Data[Tutor1 + (index >> 3)] & (1 << (index & 7))) != 0;
     }
 
@@ -171,7 +171,7 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H, IPers
 
     public bool GetIsLearnTutor2(ushort move)
     {
-        var index = Array.IndexOf(TutorMoves2, move);
+        var index = TutorMoves2.IndexOf(move);
         return index >= 0 && (Data[Tutor2 + (index >> 3)] & (1 << (index & 7))) != 0;
     }
 
@@ -194,7 +194,7 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H, IPers
 
     public bool GetIsLearnTutor3(ushort move)
     {
-        var index = Array.IndexOf(TutorMoves3, move);
+        var index = TutorMoves3.IndexOf(move);
         return index >= 0 && (Data[Tutor3 + (index >> 3)] & (1 << (index & 7))) != 0;
     }
 
@@ -217,7 +217,7 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H, IPers
 
     public bool GetIsLearnTutor4(ushort move)
     {
-        var index = Array.IndexOf(TutorMoves4, move);
+        var index = TutorMoves4.IndexOf(move);
         return index >= 0 && (Data[Tutor4 + (index >> 3)] & (1 << (index & 7))) != 0;
     }
 
@@ -275,10 +275,10 @@ public sealed class PersonalInfo5B2W2 : PersonalInfo, IPersonalAbility12H, IPers
         }
     }
 
-    private static readonly ushort[] TutorMoves1 = { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 }; // Driftveil
-    private static readonly ushort[] TutorMoves2 = { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 }; // Lentimas
-    private static readonly ushort[] TutorMoves3 = { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355 }; // Humilau
-    private static readonly ushort[] TutorMoves4 = { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 }; // Nacrene
+    private static ReadOnlySpan<ushort> TutorMoves1 => new ushort[] { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 }; // Driftveil
+    private static ReadOnlySpan<ushort> TutorMoves2 => new ushort[] { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 }; // Lentimas
+    private static ReadOnlySpan<ushort> TutorMoves3 => new ushort[] { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355 }; // Humilau
+    private static ReadOnlySpan<ushort> TutorMoves4 => new ushort[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 }; // Nacrene
 
     public bool GetIsTutorSpecial(ushort move)
     {

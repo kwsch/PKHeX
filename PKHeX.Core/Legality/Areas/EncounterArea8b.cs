@@ -121,7 +121,7 @@ public sealed record EncounterArea8b : EncounterArea
                && LocationID_HoneyTree[trees.Tree4] != location;
     }
 
-    private static readonly ushort[] LocationID_HoneyTree =
+    private static ReadOnlySpan<ushort> LocationID_HoneyTree => new ushort[]
     {
         359, // 00 Route 205 Floaroma
         361, // 01 Route 205 Eterna

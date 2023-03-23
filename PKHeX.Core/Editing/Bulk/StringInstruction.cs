@@ -38,7 +38,7 @@ public sealed class StringInstruction
             PropertyValue = index.ToString();
     }
 
-    public static readonly IReadOnlyList<char> Prefixes = new[] { Apply, FilterEqual, FilterNotEqual, FilterGreaterThan, FilterGreaterThanOrEqual, FilterLessThan, FilterLessThanOrEqual };
+    public static ReadOnlySpan<char> Prefixes => new[] { Apply, FilterEqual, FilterNotEqual, FilterGreaterThan, FilterGreaterThanOrEqual, FilterLessThan, FilterLessThanOrEqual };
     private const char Apply = '.';
     private const char SplitRange = ',';
 

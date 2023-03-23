@@ -9,12 +9,12 @@ public static class PokedexConstants8a
 {
     public const int MaxPokedexResearchPoints = 60000;
 
-    public static readonly ushort[] ResearchPointsForRank =
+    public static ReadOnlySpan<ushort> ResearchPointsForRank => new ushort[]
     {
         0, 500, 1800, 3500, 6000, 8500, 11000, 15000, 20000, 30000, 60000,
     };
 
-    public static readonly ushort[] PokemonInfoIds =
+    public static ReadOnlySpan<ushort> PokemonInfoIds => new ushort[]
     {
              0,    25,    26,    35,    36,    37,    38,    41,    42,    46,
             47,    54,    55,    63,    64,    65,    66,    67,    68,    72,
@@ -86,7 +86,7 @@ public static class PokedexConstants8a
         0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
     };
 
-    public static readonly ushort[] FormStorageIndexIds =
+    public static ReadOnlySpan<ushort> FormStorageIndexIds => new ushort[]
     {
             0,    25,    26,    35,    36,    37,    38,    41,    42,    46,    47,    54,    55,    63,    64,    65,
            66,    67,    68,    72,    73,    74,    75,    76,    77,    78,    81,    82,    92,    93,    94,    95,
@@ -110,7 +110,7 @@ public static class PokedexConstants8a
         32969, 33261, 35017, 35309, 37065, 39113, 41161, 43209, 45257, 47305, 49353, 51401, 53449, 55497,
     };
 
-    public static readonly ushort[] FormStorageIndexValues =
+    public static ReadOnlySpan<ushort> FormStorageIndexValues => new ushort[]
     {
           0,   1,   2,   3,   4,   5,   7,   9,  10,  11,  12,  13,  14,  18,  19,  20,
          21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,

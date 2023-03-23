@@ -15,7 +15,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     protected internal override string ShortSummary => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
     public override string Extension => ".sav";
 
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BW;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_BW;
     protected override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
     protected override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
     public override PK5 BlankPKM => new();

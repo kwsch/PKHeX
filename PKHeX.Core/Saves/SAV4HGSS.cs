@@ -26,7 +26,7 @@ public sealed class SAV4HGSS : SAV4
     protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS((byte[])Data.Clone()) : new SAV4HGSS();
 
     public override PersonalTable4 Personal => PersonalTable.HGSS;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_HGSS;
     public override int MaxItemID => Legal.MaxItemID_4_HGSS;
     private const int GeneralSize = 0xF628;
     private const int StorageSize = 0x12310; // Start 0xF700, +0 starts box data

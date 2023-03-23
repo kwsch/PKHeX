@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -8,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 3 <see cref="PKM"/> format. </summary>
 public sealed class PK3 : G3PKM, ISanityChecksum
 {
-    private static readonly ushort[] Unused =
+    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
         0x2A, 0x2B,
     };
@@ -17,8 +16,6 @@ public sealed class PK3 : G3PKM, ISanityChecksum
     public override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
     public override EntityContext Context => EntityContext.Gen3;
     public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
-
-    public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
     public PK3() : base(PokeCrypto.SIZE_3PARTY) { }
     public PK3(byte[] data) : base(DecryptParty(data)) { }

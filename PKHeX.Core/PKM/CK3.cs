@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon Colosseum. </summary>
 public sealed class CK3 : G3PKM, IShadowCapture
 {
-    private static readonly ushort[] Unused =
+    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
         0x11, 0x12, 0x13,
         0x61, 0x62, 0x63, 0x64,
@@ -17,8 +16,6 @@ public sealed class CK3 : G3PKM, IShadowCapture
         0xD7, // index within party
         // 0xFC onwards unused? no, it's some pointers and values used by the game?
     };
-
-    public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;

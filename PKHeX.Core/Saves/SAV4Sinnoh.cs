@@ -184,6 +184,12 @@ public abstract class SAV4Sinnoh : SAV4
     public abstract uint SafariSeed { get; set; }
     public uint GetSafariIndex(int slot) => (SafariSeed >> (slot * 5)) & 0x1F;
     public void SetSafariIndex(int slot, uint value) => SafariSeed = (SafariSeed & ~(0x1Fu << (slot * 5))) | (value << (slot * 5));
+
+    protected abstract ReadOnlySpan<ushort> TreeSpecies { get; }
+    private const int GroupEntryCount = 6;
+
+    public ushort GetHoneyTreeSpecies(int group, int index) =>
+        TreeSpecies.Slice(group * GroupEntryCount, GroupEntryCount)[index];
 }
 
 public enum PoketchColor

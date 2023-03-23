@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -18,7 +17,7 @@ public abstract class GBPKM : PKM
     public sealed override int MaxIV => 15;
     public sealed override int MaxEV => ushort.MaxValue;
 
-    public sealed override IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
+    public sealed override ReadOnlySpan<ushort> ExtraBytes => ReadOnlySpan<ushort>.Empty;
 
     protected GBPKM(int size) : base(size) { }
     protected GBPKM(byte[] data) : base(data) { }

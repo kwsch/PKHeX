@@ -178,7 +178,7 @@ public static class PIDTests
         }
     }
 
-    private static readonly uint[] MawileTeamPIDs =
+    private static ReadOnlySpan<uint> MawileTeamPIDs => new uint[]
     {
         0x4C3005E8, // Loudred
         0xD28DE40E, // Girafarig (re - rolled 64 times to next viable match)

@@ -16,7 +16,7 @@ public sealed class FakeSaveFile : SaveFile
     public override int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, StringConverterOption option) => 0;
     public override PersonalTable3 Personal => PersonalTable.RS;
     public override int MaxEV => 0;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
     public override int GetBoxOffset(int box) => -1;
     public override string GetBoxName(int box) => $"Box {box:00}";
     public override void SetBoxName(int box, ReadOnlySpan<char> value) { }

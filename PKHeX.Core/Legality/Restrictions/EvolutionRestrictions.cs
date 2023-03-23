@@ -37,7 +37,7 @@ internal static class EvolutionRestrictions
 
     private readonly record struct MoveEvolution(byte ReferenceIndex, ushort Move);
 
-    private static readonly ushort[] FairyMoves =
+    private static ReadOnlySpan<ushort> FairyMoves => new ushort[]
     {
         (int)SweetKiss,
         (int)Charm,
