@@ -31,7 +31,6 @@ public sealed class SAV4HGSS : SAV4
     private const int GeneralSize = 0xF628;
     private const int StorageSize = 0x12310; // Start 0xF700, +0 starts box data
     private const int GeneralGap = 0xD8;
-    protected override int StorageStart => 0xF700; // unused section right after GeneralSize, alignment?
     protected override int FooterSize => 0x10;
 
     private void Initialize()
@@ -59,7 +58,7 @@ public sealed class SAV4HGSS : SAV4
         Box = 0;
     }
 
-    private Span<byte> LockCapsuleSpan => General.AsSpan(0xB064, PCD.Size);
+    private Span<byte> LockCapsuleSpan => General.Slice(0xB064, PCD.Size);
 
     public PCD LockCapsuleSlot
     {
@@ -104,16 +103,17 @@ public sealed class SAV4HGSS : SAV4
 
     public int Counter
     {
-        get => ReadInt32LittleEndian(Storage.AsSpan(BOX_END + 4));
-        set => WriteInt32LittleEndian(Storage.AsSpan(BOX_END + 4), value);
+        get => ReadInt32LittleEndian(Storage[(BOX_END + 4)..]);
+        set => WriteInt32LittleEndian(Storage[(BOX_END + 4)..], value);
     }
 
-    public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
+    private Span<byte> GetBoxNameSpan(int box) => Storage.Slice(GetBoxNameOffset(box), BOX_NAME_LEN);
+    public override string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
 
     public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         const int maxlen = 8;
-        var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
+        var span = GetBoxNameSpan(box);
         SetString(span, value, maxlen, StringConverterOption.ClearZero);
     }
 
@@ -160,19 +160,21 @@ public sealed class SAV4HGSS : SAV4
         set => value.SaveAll(General);
     }
 
-    public override int M { get => ReadUInt16LittleEndian(General.AsSpan(0x1234)); set => WriteUInt16LittleEndian(General.AsSpan(0x1234), (ushort)value); }
-    public override int X { get => ReadUInt16LittleEndian(General.AsSpan(0x123C)); set => WriteUInt16LittleEndian(General.AsSpan(0x123C), (ushort)(X2 = value)); }
-    public override int Y { get => ReadUInt16LittleEndian(General.AsSpan(0x1240)); set => WriteUInt16LittleEndian(General.AsSpan(0x1240), (ushort)(Y2 = value)); }
+    public override int M { get => ReadUInt16LittleEndian(General[0x1234..]); set => WriteUInt16LittleEndian(General[0x1234..], (ushort)value); }
+    public override int X { get => ReadUInt16LittleEndian(General[0x123C..]); set => WriteUInt16LittleEndian(General[0x123C..], (ushort)(X2 = value)); }
+    public override int Y { get => ReadUInt16LittleEndian(General[0x1240..]); set => WriteUInt16LittleEndian(General[0x1240..], (ushort)(Y2 = value)); }
 
     public override Span<byte> Rival_Trash
     {
-        get => General.AsSpan(0x22D4, MaxStringLengthOT * 2);
-        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(General.AsSpan(0x22D4)); }
+        get => RivalSpan;
+        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(RivalSpan); }
     }
 
-    public override int X2 { get => ReadUInt16LittleEndian(General.AsSpan(0x236E)); set => WriteUInt16LittleEndian(General.AsSpan(0x236E), (ushort)value); }
-    public override int Y2 { get => ReadUInt16LittleEndian(General.AsSpan(0x2372)); set => WriteUInt16LittleEndian(General.AsSpan(0x2372), (ushort)value); }
-    public override int Z  { get => ReadUInt16LittleEndian(General.AsSpan(0x2376)); set => WriteUInt16LittleEndian(General.AsSpan(0x2376), (ushort)value); }
+    private Span<byte> RivalSpan => General.Slice(0x22D4, MaxStringLengthOT * 2);
+
+    public override int X2 { get => ReadUInt16LittleEndian(General[0x236E..]); set => WriteUInt16LittleEndian(General[0x236E..], (ushort)value); }
+    public override int Y2 { get => ReadUInt16LittleEndian(General[0x2372..]); set => WriteUInt16LittleEndian(General[0x2372..], (ushort)value); }
+    public override int Z  { get => ReadUInt16LittleEndian(General[0x2376..]); set => WriteUInt16LittleEndian(General[0x2376..], (ushort)value); }
 
     public int Badges16
     {
@@ -188,7 +190,7 @@ public sealed class SAV4HGSS : SAV4
 
     public PokegearNumber[] GetPokeGearRoloDex()
     {
-        var arr = General.AsSpan(OFS_GearRolodex, GearMaxCallers);
+        var arr = General.Slice(OFS_GearRolodex, GearMaxCallers);
         return MemoryMarshal.Cast<byte, PokegearNumber>(arr).ToArray();
     }
 
@@ -196,7 +198,7 @@ public sealed class SAV4HGSS : SAV4
     {
         if (value.Length > GearMaxCallers)
             throw new ArgumentOutOfRangeException(nameof(value));
-        MemoryMarshal.Cast<PokegearNumber, byte>(value).CopyTo(General.AsSpan(OFS_GearRolodex, GearMaxCallers));
+        MemoryMarshal.Cast<PokegearNumber, byte>(value).CopyTo(General.Slice(OFS_GearRolodex, GearMaxCallers));
     }
 
     public void PokeGearUnlockAllCallers()
@@ -242,19 +244,27 @@ public sealed class SAV4HGSS : SAV4
     public const int WalkerPair = 0xE5E0;
     private const int OFS_WALKER = 0xE704;
 
-    public uint PokewalkerSteps { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER), value); }
-    public uint PokewalkerWatts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x4)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 4), value); }
+    public uint PokewalkerSteps { get => ReadUInt32LittleEndian(General[OFS_WALKER..]); set => WriteUInt32LittleEndian(General[OFS_WALKER..], value); }
+    public uint PokewalkerWatts { get => ReadUInt32LittleEndian(General[(OFS_WALKER + 0x4)..]); set => WriteUInt32LittleEndian(General[(OFS_WALKER + 4)..], value); }
 
-    public bool[] GetPokewalkerCoursesUnlocked() => FlagUtil.GitBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), 32);
-    public void SetPokewalkerCoursesUnlocked(ReadOnlySpan<bool> value) => FlagUtil.SetBitFlagArray(General.AsSpan(OFS_WALKER + 0x8), value);
+    public bool[] GetPokewalkerCoursesUnlocked() => FlagUtil.GitBitFlagArray(General[(OFS_WALKER + 0x8)..], 32);
+    public void SetPokewalkerCoursesUnlocked(ReadOnlySpan<bool> value) => FlagUtil.SetBitFlagArray(General[(OFS_WALKER + 0x8)..], value);
 
-    public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => WriteUInt32LittleEndian(General.AsSpan(OFS_WALKER + 0x8), value);
+    public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => WriteUInt32LittleEndian(General[(OFS_WALKER + 0x8)..], value);
 
-    public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x68A8)); set => WriteUInt32LittleEndian(General.AsSpan(0x68A8), value); }
+    public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x68A8..]); set => WriteUInt32LittleEndian(General[0x68A8..], value); }
     public override uint SwarmMaxCountModulo => 20;
 
-    public Roamer4 RoamerRaikou => new(General, 0x68B4);
-    public Roamer4 RoamerEntei  => new(General, 0x68C8);
-    public Roamer4 RoamerLatias => new(General, 0x68DC);
-    public Roamer4 RoamerLatios => new(General, 0x68F0);
+    public Roamer4 RoamerRaikou => GetRoamer(0);
+    public Roamer4 RoamerEntei  => GetRoamer(1);
+    public Roamer4 RoamerLatias => GetRoamer(2);
+    public Roamer4 RoamerLatios => GetRoamer(3);
+
+    private Roamer4 GetRoamer(int index)
+    {
+        const int size = Roamer4.SIZE;
+        var ofs = 0x68B4 + (index * size);
+        var mem = GeneralBuffer.Slice(ofs, size);
+        return new Roamer4(mem);
+    }
 }

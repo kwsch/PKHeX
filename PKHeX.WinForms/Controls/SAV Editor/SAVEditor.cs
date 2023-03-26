@@ -140,10 +140,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     }
 
     // Generic Subfunctions //
-    public int GetSlotOffset(int slot)
-    {
-        return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot);
-    }
 
     public int SwapBoxesViewer(int viewBox)
     {
@@ -174,6 +170,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     public int GetViewIndex(ISlotInfo slot)
     {
+        if (!SAV.HasDaycare)
+            return -1;
+
         for (int i = 0; i < SlotPictureBoxes.Count; i++)
         {
             var data = GetSlotData(i);
@@ -202,9 +201,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         return GetSlotData(index);
     }
 
-    public ISlotInfo GetSlotData(int index)
+    private ISlotInfo GetSlotData(int index)
     {
-        var ofs = GetSlotOffset(index);
+        var ofs = SAV.GetDaycareSlotOffset(SAV.DaycareIndex, index);
         return new SlotInfoMisc(SAV, index, ofs);
     }
 

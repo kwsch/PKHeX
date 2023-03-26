@@ -174,7 +174,7 @@ public partial class SAV_FestivalPlaza : Form
     }
 
     private bool editing;
-    private readonly byte[] RewardState = { 0, 2, 1 }; // CheckState.Indeterminate <-> CheckState.Checked
+    private static ReadOnlySpan<byte> RewardState => new byte[] { 0, 2, 1 }; // CheckState.Indeterminate <-> CheckState.Checked
     private readonly int typeMAX;
     private readonly FestaFacility[] f = new FestaFacility[7];
     private readonly string[] RES_Color = Enum.GetNames(typeof(FestivalPlazaFacilityColor));

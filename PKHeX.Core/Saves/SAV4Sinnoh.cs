@@ -43,12 +43,13 @@ public abstract class SAV4Sinnoh : SAV4
         set => Storage[BOX_FLAGS] = value[0];
     }
 
-    public override string GetBoxName(int box) => GetString(Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN));
+    private Span<byte> GetBoxNameSpan(int box) => Storage.Slice(GetBoxNameOffset(box), BOX_NAME_LEN);
+    public override string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
 
     public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
         const int maxlen = 8;
-        var span = Storage.AsSpan(GetBoxNameOffset(box), BOX_NAME_LEN);
+        var span = GetBoxNameSpan(box);
         SetString(span, value, maxlen, StringConverterOption.ClearZero);
     }
     #endregion
@@ -91,19 +92,19 @@ public abstract class SAV4Sinnoh : SAV4
 
     public uint PoketchStepCounter
     {
-        get => ReadUInt32LittleEndian(General.AsSpan(PoketchStart + 0x24));
-        set => WriteUInt32LittleEndian(General.AsSpan(PoketchStart + 0x24), value);
+        get => ReadUInt32LittleEndian(General[(PoketchStart + 0x24)..]);
+        set => WriteUInt32LittleEndian(General[(PoketchStart + 0x24)..], value);
     }
 
     // 2 bytes for alarm clock time setting
 
-    public byte[] GetPoketchDotArtistData() => General.Slice(PoketchStart + 0x2A, 120);
+    public byte[] GetPoketchDotArtistData() => General.Slice(PoketchStart + 0x2A, 120).ToArray();
 
     public void SetPoketchDotArtistData(ReadOnlySpan<byte> value)
     {
         if (value.Length != 120)
             throw new ArgumentOutOfRangeException($"Expected {120} bytes.", nameof(value.Length));
-        value.CopyTo(General.AsSpan(PoketchStart + 0x2A));
+        value.CopyTo(General[(PoketchStart + 0x2A)..]);
     }
 
     // map marking stuff is at the end, unimportant
@@ -112,20 +113,17 @@ public abstract class SAV4Sinnoh : SAV4
 
     #region Honey Trees
     protected int OFS_HONEY;
-    protected const int HONEY_SIZE = 8;
+    protected const int HONEY_SIZE = HoneyTreeValue.Size; // 8
 
-    public HoneyTreeValue GetHoneyTree(int index)
+    private Span<byte> GetHoneyTreeSpan(int index)
     {
         if ((uint)index > 21)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return new HoneyTreeValue(General.Slice(OFS_HONEY + (HONEY_SIZE * index), HONEY_SIZE));
+        return General.Slice(OFS_HONEY + (HONEY_SIZE * index), HONEY_SIZE);
     }
 
-    public void SetHoneyTree(HoneyTreeValue tree, int index)
-    {
-        if (index <= 21)
-            SetData(General.AsSpan(OFS_HONEY + (HONEY_SIZE * index)), tree.Data);
-    }
+    public HoneyTreeValue GetHoneyTree(int index) => new(GetHoneyTreeSpan(index).ToArray());
+    public void SetHoneyTree(HoneyTreeValue tree, int index) => SetData(GetHoneyTreeSpan(index), tree.Data);
 
     public MunchlaxTreeSet4 GetMunchlaxTrees() => CalculateMunchlaxTrees(TID16, SID16);
 
@@ -153,31 +151,28 @@ public abstract class SAV4Sinnoh : SAV4
     #region Underground
     //Underground Scores
     protected int OFS_UG_Stats;
-    public uint UG_PlayersMet { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats), value); }
-    public uint UG_Gifts { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x4)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x4), value); }
-    public uint UG_Spheres { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0xC)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0xC), value); }
-    public uint UG_Fossils { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x10)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x10), value); }
-    public uint UG_TrapsAvoided { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x18)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x18), value); }
-    public uint UG_TrapsTriggered { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x1C)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x1C), value); }
-    public uint UG_Flags { get => ReadUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x34)); set => WriteUInt32LittleEndian(General.AsSpan(OFS_UG_Stats + 0x34), value); }
+    public uint UG_PlayersMet     { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x00)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x00)..], value); }
+    public uint UG_Gifts          { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x04)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x04)..], value); }
+    public uint UG_Spheres        { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x0C)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x0C)..], value); }
+    public uint UG_Fossils        { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x10)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x10)..], value); }
+    public uint UG_TrapsAvoided   { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x18)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x18)..], value); }
+    public uint UG_TrapsTriggered { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x1C)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x1C)..], value); }
+    public uint UG_Flags          { get => ReadUInt32LittleEndian(General[(OFS_UG_Stats + 0x34)..]); set => WriteUInt32LittleEndian(General[(OFS_UG_Stats + 0x34)..], value); }
 
     //Underground Items
     protected int OFS_UG_Items;
 
     public const int UG_POUCH_SIZE = 0x28; // 40 for each of the inventory pouches
 
-    public byte[] GetUGI_Traps() => General.Slice(OFS_UG_Items, UG_POUCH_SIZE);
-    public void SetUGI_Traps(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items));
+    public Span<byte> GetUGI_Traps() => General.Slice(OFS_UG_Items, UG_POUCH_SIZE);
+    public Span<byte> GetUGI_Goods() => General.Slice(OFS_UG_Items + 0x28, UG_POUCH_SIZE);
+    public Span<byte> GetUGI_Treasures() => General.Slice(OFS_UG_Items + 0x50, UG_POUCH_SIZE);
 
-    public byte[] GetUGI_Goods() => General.Slice(OFS_UG_Items + 0x28, UG_POUCH_SIZE);
-    public void SetUGI_Goods(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x28));
-
-    public byte[] GetUGI_Treasures() => General.Slice(OFS_UG_Items + 0x50, UG_POUCH_SIZE);
-    public void SetUGI_Treasures(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x50));
-
-    // first 40 are the sphere type, last 40 are the sphere sizes
-    public byte[] GetUGI_Spheres() => General.Slice(OFS_UG_Items + 0x78, UG_POUCH_SIZE * 2);
-    public void SetUGI_Spheres(ReadOnlySpan<byte> value) => value.CopyTo(General.AsSpan(OFS_UG_Items + 0x78));
+    /// <summary>
+    /// First 40 are the sphere type, last 40 are the sphere sizes
+    /// </summary>
+    /// <returns></returns>
+    public Span<byte> GetUGI_Spheres() => General.Slice(OFS_UG_Items + 0x78, UG_POUCH_SIZE * 2);
 
     #endregion
 

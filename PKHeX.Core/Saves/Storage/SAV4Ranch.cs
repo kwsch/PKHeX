@@ -33,7 +33,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     public int MaxToyCount => RanchLevel.GetMaxToyCount(CurrentRanchLevelIndex);
     public int MaxMiiCount => RanchLevel.GetMaxMiiCount(CurrentRanchLevelIndex);
 
-    private readonly RanchToy BlankToy = new(new byte[] { (byte)RanchToyType.None, 0 });
+    private readonly RanchToy BlankToy = new(new byte[RanchToy.SIZE]);
 
     public override PersonalTable4 Personal => PersonalTable.Pt;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_Pt;

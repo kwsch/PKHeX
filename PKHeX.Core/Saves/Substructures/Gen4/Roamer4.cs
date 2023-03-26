@@ -12,11 +12,10 @@ namespace PKHeX.Core;
 public sealed class Roamer4
 {
     public const int SIZE = 0x14;
-    public readonly byte[] Raw;
-    private readonly int Offset;
+    public readonly Memory<byte> Raw;
 
-    public Roamer4(byte[] raw, int offset) => (Raw, Offset) = (raw, offset);
-    private Span<byte> Data => Raw.AsSpan(Offset, SIZE);
+    public Roamer4(Memory<byte> raw) => Raw = raw;
+    private Span<byte> Data => Raw.Span;
 
     public int Location          { get => ReadInt32LittleEndian(Data); set => WriteInt32LittleEndian(Data, value); }
     public uint IV32             { get => ReadUInt32LittleEndian(Data[0x4..]); set => WriteUInt32LittleEndian(Data[0x4..], value); }

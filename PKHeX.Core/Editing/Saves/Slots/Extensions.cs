@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -28,22 +29,9 @@ public static partial class Extensions
         return arr;
     }
 
-    public static List<SlotInfoMisc> GetExtraSlots(this SaveFile sav, bool all = false)
-    {
-        var slots = GetExtraSlotsUnsafe(sav, all);
-        for (int i = 0; i < slots.Count;)
-        {
-            if (slots[i].Offset < 0)
-                slots.RemoveAt(i);
-            else
-                ++i;
-        }
-        return slots;
-    }
-
     private static readonly List<SlotInfoMisc> None = new();
 
-    private static List<SlotInfoMisc> GetExtraSlotsUnsafe(SaveFile sav, bool all) => sav switch
+    public static List<SlotInfoMisc> GetExtraSlots(this SaveFile sav, bool all = false) => sav switch
     {
         SAV2 sav2 => GetExtraSlots2(sav2),
         SAV3 sav3 => GetExtraSlots3(sav3),
@@ -64,7 +52,7 @@ public static partial class Extensions
     {
         return new List<SlotInfoMisc>
         {
-            new(sav.Data, 0, sav.GetDaycareSlotOffset(0, 2)) {Type = StorageSlotType.Daycare }, // egg
+            new(sav.Data.AsMemory(sav.GetDaycareSlotOffset(0, 2)), 0) {Type = StorageSlotType.Daycare }, // egg
         };
     }
 
@@ -74,27 +62,25 @@ public static partial class Extensions
             return None;
         return new List<SlotInfoMisc>
         {
-            new(sav.Large, 0, 0x3C98) {Type = StorageSlotType.Daycare},
+            new(sav.Large.AsMemory(0x3C98), 0) {Type = StorageSlotType.Daycare},
         };
     }
 
     private static List<SlotInfoMisc> GetExtraSlots4(SAV4 sav)
     {
-        var list = new List<SlotInfoMisc>
-        {
-            new(sav.General, 0, sav.GTS) {Type = StorageSlotType.GTS},
-        };
+        var list = new List<SlotInfoMisc>();
+        if (sav.GTS > 0)
+            list.Add(new SlotInfoMisc(sav.GeneralBuffer[sav.GTS..], 0) { Type = StorageSlotType.GTS });
         if (sav is SAV4HGSS)
-            list.Add(new SlotInfoMisc(sav.General, 1, SAV4HGSS.WalkerPair) {Type = StorageSlotType.Misc});
+            list.Add(new SlotInfoMisc(sav.GeneralBuffer[SAV4HGSS.WalkerPair..], 1) {Type = StorageSlotType.Misc});
         return list;
     }
 
     private static List<SlotInfoMisc> GetExtraSlots5(SAV5 sav)
     {
-        return new List<SlotInfoMisc>
+        var list = new List<SlotInfoMisc>
         {
             new(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
-            new(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
             new(sav.Data, 0, sav.PGL) { Type = StorageSlotType.Misc },
 
             new(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
@@ -104,6 +90,11 @@ public static partial class Extensions
             new(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
             new(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
         };
+
+        if (sav is SAV5B2W2 b2w2)
+            list.Insert(1, new(b2w2.Data, 0, b2w2.Fused) { Type = StorageSlotType.Fused });
+
+        return list;
     }
 
     private static List<SlotInfoMisc> GetExtraSlots6XY(SAV6XY sav)
@@ -228,12 +219,13 @@ public static partial class Extensions
 
     private static List<SlotInfoMisc> GetExtraSlots9(SAV9SV sav)
     {
+        var afterBox = sav.GetBoxOffset(BoxLayout9.BoxCount);
         var list = new List<SlotInfoMisc>
         {
-            new(sav.BoxInfo.Data, 0, sav.GetBoxOffset(BoxLayout9.BoxCount), true, Mutable: true) { Type = StorageSlotType.Party },
+            new(sav.BoxInfo.Data.AsMemory(afterBox), 0, true, Mutable: true) { Type = StorageSlotType.Party },
         };
 
-        var block = sav.Blocks.GetBlockSafe(SaveBlockAccessor9SV.KFusedCalyrex);
+        var block = sav.Blocks.GetBlock(SaveBlockAccessor9SV.KFusedCalyrex);
         var c = new SlotInfoMisc(block.Data, 3, 0, true) { Type = StorageSlotType.Fused };
         list.Add(c);
         return list;

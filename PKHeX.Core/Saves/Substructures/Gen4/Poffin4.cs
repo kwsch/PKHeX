@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 
 namespace PKHeX.Core;
@@ -9,9 +9,6 @@ public sealed class Poffin4
     public readonly byte[] Data;
 
     public Poffin4(byte[] data) => Data = data;
-    public Poffin4(byte[] data, int offset) : this(data.AsSpan(offset, SIZE).ToArray())
-    {
-    }
 
     private const string Stats = nameof(Stats);
 

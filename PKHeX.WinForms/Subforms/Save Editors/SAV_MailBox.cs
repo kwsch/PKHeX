@@ -332,7 +332,7 @@ public partial class SAV_MailBox : Form
         // E: mail is not empty, but no pk refer to the mail. it should be empty, or someone refer to the mail.
         if (Gen == 3)
         {
-            int[] heldMailIDs = new int[p.Count];
+            Span<int> heldMailIDs = stackalloc int[p.Count];
             for (int i = 0; i < p.Count; i++)
             {
                 int h = ((PK3)p[i]).HeldMailID;
@@ -351,10 +351,10 @@ public partial class SAV_MailBox : Form
             }
             for (int i = 0; i < 6; i++)
             {
-                var index = i;
-                if (heldMailIDs.Count(v => v == index) > 1) //D
+                var count = heldMailIDs.Count(i);
+                if (count > 1) //D
                     ret.Add($"MailID{i} duplicated");
-                if (m[i].IsEmpty == false && heldMailIDs.All(v => v != index)) //E
+                if (m[i].IsEmpty == false && count == 0) //E
                     ret.Add($"MailID{i} not referred");
             }
         }

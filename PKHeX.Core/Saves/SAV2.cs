@@ -558,16 +558,17 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => Data[Offsets.CurrentBoxIndex] = (byte)((Data[Offsets.CurrentBoxIndex] & 0x7F) | (byte)(value ? 0x80 : 0));
     }
 
-    public override string GetBoxName(int box)
+    public override string GetBoxName(int box) => GetString(GetBoxNameSpan(box));
+
+    private Span<byte> GetBoxNameSpan(int box)
     {
         int len = Korean ? 17 : 9;
-        return GetString(Data.AsSpan(Offsets.BoxNames + (box * len), len));
+        return Data.AsSpan(Offsets.BoxNames + (box * len), len);
     }
 
     public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
-        int len = Korean ? 17 : 9;
-        var span = Data.AsSpan(Offsets.BoxNames + (box * len), len);
+        var span = GetBoxNameSpan(box);
         SetString(span, value, 8, StringConverterOption.Clear50);
     }
 

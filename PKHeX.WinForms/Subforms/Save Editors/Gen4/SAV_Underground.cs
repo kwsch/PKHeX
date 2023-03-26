@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -70,10 +70,10 @@ public partial class SAV_Underground : Form
 
     private void ReadUGData()
     {
-        byte[] goodsList = SAV.GetUGI_Goods();
-        byte[] spheresList = SAV.GetUGI_Spheres();
-        byte[] trapsList = SAV.GetUGI_Traps();
-        byte[] treasuresList = SAV.GetUGI_Treasures();
+        var goodsList = SAV.GetUGI_Goods();
+        var spheresList = SAV.GetUGI_Spheres();
+        var trapsList = SAV.GetUGI_Traps();
+        var treasuresList = SAV.GetUGI_Treasures();
 
         // Goods
         for (int i = 0; i < goodsList.Length; i++)
@@ -104,10 +104,15 @@ public partial class SAV_Underground : Form
 
     private void SaveUGData()
     {
-        Span<byte> goodsList = stackalloc byte[SAV.GetUGI_Goods().Length];
-        Span<byte> spheresList = stackalloc byte[SAV.GetUGI_Spheres().Length];
-        Span<byte> trapsList = stackalloc byte[SAV.GetUGI_Traps().Length];
-        Span<byte> treasuresList = stackalloc byte[SAV.GetUGI_Treasures().Length];
+        var goodsList = SAV.GetUGI_Goods();
+        var spheresList = SAV.GetUGI_Spheres();
+        var trapsList = SAV.GetUGI_Traps();
+        var treasuresList = SAV.GetUGI_Treasures();
+
+        goodsList.Clear();
+        spheresList.Clear();
+        trapsList.Clear();
+        treasuresList.Clear();
 
         // Goods
         int ctr = 0;
@@ -167,11 +172,6 @@ public partial class SAV_Underground : Form
             treasuresList[ctr] = (byte)itemindex;
             ctr++;
         }
-
-        SAV.SetUGI_Goods(goodsList);
-        SAV.SetUGI_Spheres(spheresList);
-        SAV.SetUGI_Traps(trapsList);
-        SAV.SetUGI_Treasures(treasuresList);
     }
 
     private void GetUGScores()

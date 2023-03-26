@@ -29,7 +29,6 @@ public sealed class SAV4Pt : SAV4Sinnoh
 
     private const int GeneralSize = 0xCF2C;
     private const int StorageSize = 0x121E4; // Start 0xCF2C, +4 starts box data
-    protected override int StorageStart => GeneralSize;
 
     private void Initialize()
     {
@@ -111,22 +110,24 @@ public sealed class SAV4Pt : SAV4Sinnoh
         set => value.SaveAll(General);
     }
 
-    public override int M { get => ReadUInt16LittleEndian(General.AsSpan(0x1280)); set => WriteUInt16LittleEndian(General.AsSpan(0x1280), (ushort)value); }
-    public override int X { get => ReadUInt16LittleEndian(General.AsSpan(0x1288)); set => WriteUInt16LittleEndian(General.AsSpan(0x1288), (ushort)(X2 = value)); }
-    public override int Y { get => ReadUInt16LittleEndian(General.AsSpan(0x128C)); set => WriteUInt16LittleEndian(General.AsSpan(0x128C), (ushort)(Y2 = value)); }
+    public override int M { get => ReadUInt16LittleEndian(General[0x1280..]); set => WriteUInt16LittleEndian(General[0x1280..], (ushort)value); }
+    public override int X { get => ReadUInt16LittleEndian(General[0x1288..]); set => WriteUInt16LittleEndian(General[0x1288..], (ushort)(X2 = value)); }
+    public override int Y { get => ReadUInt16LittleEndian(General[0x128C..]); set => WriteUInt16LittleEndian(General[0x128C..], (ushort)(Y2 = value)); }
 
     public override Span<byte> Rival_Trash
     {
-        get => General.AsSpan(0x27E8, MaxStringLengthOT * 2);
-        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(General.AsSpan(0x27E8)); }
+        get => RivalSpan;
+        set { if (value.Length == MaxStringLengthOT * 2) value.CopyTo(RivalSpan); }
     }
 
-    public override int X2 { get => ReadUInt16LittleEndian(General.AsSpan(0x287E)); set => WriteUInt16LittleEndian(General.AsSpan(0x287E), (ushort)value); }
-    public override int Y2 { get => ReadUInt16LittleEndian(General.AsSpan(0x2882)); set => WriteUInt16LittleEndian(General.AsSpan(0x2882), (ushort)value); }
-    public override int Z { get => ReadUInt16LittleEndian(General.AsSpan(0x2886)); set => WriteUInt16LittleEndian(General.AsSpan(0x2886), (ushort)value); }
+    private Span<byte> RivalSpan => General.Slice(0x27E8, MaxStringLengthOT * 2);
 
-    public override uint SafariSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x5660)); set => WriteUInt32LittleEndian(General.AsSpan(0x5660), value); }
-    public override uint SwarmSeed { get => ReadUInt32LittleEndian(General.AsSpan(0x5664)); set => WriteUInt32LittleEndian(General.AsSpan(0x5664), value); }
+    public override int X2 { get => ReadUInt16LittleEndian(General[0x287E..]); set => WriteUInt16LittleEndian(General[0x287E..], (ushort)value); }
+    public override int Y2 { get => ReadUInt16LittleEndian(General[0x2882..]); set => WriteUInt16LittleEndian(General[0x2882..], (ushort)value); }
+    public override int Z  { get => ReadUInt16LittleEndian(General[0x2886..]); set => WriteUInt16LittleEndian(General[0x2886..], (ushort)value); }
+
+    public override uint SafariSeed { get => ReadUInt32LittleEndian(General[0x5660..]); set => WriteUInt32LittleEndian(General[0x5660..], value); }
+    public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x5664..]); set => WriteUInt32LittleEndian(General[0x5664..], value); }
     public override uint SwarmMaxCountModulo => 22;
 
     protected override ReadOnlySpan<ushort> TreeSpecies => new ushort[]
@@ -137,10 +138,18 @@ public sealed class SAV4Pt : SAV4Sinnoh
         446, 446, 446, 446, 446, 446,
     };
 
-    public Roamer4 RoamerMesprit   => new(General, 0x7FF4);
-    public Roamer4 RoamerCresselia => new(General, 0x8008);
-    public Roamer4 RoamerUnused    => new(General, 0x801C); // Darkrai
-    public Roamer4 RoamerArticuno  => new(General, 0x8030);
-    public Roamer4 RoamerZapdos    => new(General, 0x8044);
-    public Roamer4 RoamerMoltres   => new(General, 0x8058);
+    public Roamer4 RoamerMesprit   => GetRoamer(0);
+    public Roamer4 RoamerCresselia => GetRoamer(1);
+    public Roamer4 RoamerUnused    => GetRoamer(2); // Darkrai
+    public Roamer4 RoamerArticuno  => GetRoamer(3);
+    public Roamer4 RoamerZapdos    => GetRoamer(4);
+    public Roamer4 RoamerMoltres   => GetRoamer(5);
+
+    private Roamer4 GetRoamer(int index)
+    {
+        const int size = Roamer4.SIZE;
+        var ofs = 0x7FF4 + (index * size);
+        var mem = GeneralBuffer.Slice(ofs, size);
+        return new Roamer4(mem);
+    }
 }

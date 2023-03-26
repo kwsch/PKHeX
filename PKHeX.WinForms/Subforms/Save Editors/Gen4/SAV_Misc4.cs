@@ -127,7 +127,7 @@ public partial class SAV_Misc4 : Form
                 break;
             default: return;
         }
-        uint valFly = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsFly));
+        uint valFly = ReadUInt32LittleEndian(SAV.General[ofsFly..]);
         CLB_FlyDest.Items.Clear();
         for (int i = 0; i < FlyDestD.Length; i++)
         {
@@ -138,7 +138,7 @@ public partial class SAV_Misc4 : Form
                 : (SAV.General[ofsFly + (FlyDestC[i] >> 3)] & (1 << (FlyDestC[i] & 7))) != 0;
             CLB_FlyDest.Items.Add(name, state);
         }
-        uint valBP = ReadUInt16LittleEndian(SAV.General.AsSpan(ofsBP));
+        uint valBP = ReadUInt16LittleEndian(SAV.General[ofsBP..]);
         NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 
         if (SAV is SAV4Sinnoh sinnoh)
@@ -148,7 +148,7 @@ public partial class SAV_Misc4 : Form
 
         if (ofsUGFlagCount > 0)
         {
-            uint flagCount = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & 0xFFFFF;
+            uint flagCount = ReadUInt32LittleEndian(SAV.General[ofsUGFlagCount..]) & 0xFFFFF;
             NUD_UGFlags.Value = Math.Clamp(flagCount, 0, 999_999);
         }
         if (ofsMap > 0)
@@ -164,7 +164,7 @@ public partial class SAV_Misc4 : Form
     private void SaveMain()
     {
         SAV.Coin = (uint)NUD_Coin.Value;
-        uint valFly = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsFly));
+        uint valFly = ReadUInt32LittleEndian(SAV.General[ofsFly..]);
         for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
         {
             if (FlyDestC[i] < 32)
@@ -180,8 +180,8 @@ public partial class SAV_Misc4 : Form
                 SAV.General[o] = (byte)((SAV.General[o] & ~(1 << (FlyDestC[i] & 7))) | (CLB_FlyDest.GetItemChecked(i) ? 1 << (FlyDestC[i] & 7) : 0));
             }
         }
-        WriteUInt32LittleEndian(SAV.General.AsSpan(ofsFly), valFly);
-        WriteUInt16LittleEndian(SAV.General.AsSpan(ofsBP), (ushort)NUD_BP.Value);
+        WriteUInt32LittleEndian(SAV.General[ofsFly..], valFly);
+        WriteUInt16LittleEndian(SAV.General[ofsBP..], (ushort)NUD_BP.Value);
 
         if (SAV is SAV4Sinnoh sinnoh)
             SavePoketch(sinnoh);
@@ -190,9 +190,9 @@ public partial class SAV_Misc4 : Form
 
         if (ofsUGFlagCount > 0)
         {
-            var current = ReadUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount)) & ~0xFFFFFu;
+            var current = ReadUInt32LittleEndian(SAV.General[ofsUGFlagCount..]) & ~0xFFFFFu;
             var update = current | (uint)NUD_UGFlags.Value;
-            WriteUInt32LittleEndian(SAV.General.AsSpan(ofsUGFlagCount), update);
+            WriteUInt32LittleEndian(SAV.General[ofsUGFlagCount..], update);
         }
         if (ofsMap > 0)
         {
@@ -471,7 +471,7 @@ public partial class SAV_Misc4 : Form
             PrintButtonA = new[] { BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade };
             Prints = new int[PrintButtonA.Length];
             for (int i = 0; i < Prints.Length; i++)
-                Prints[i] = 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General.AsSpan(ofsPrints + (i << 1))) >> 1) - 1);
+                Prints[i] = 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General[(ofsPrints + (i << 1))..]) >> 1) - 1);
             SetPrints();
 
             HallNUDA = new[] {
@@ -510,7 +510,7 @@ public partial class SAV_Misc4 : Form
     {
         for (int i = 0; i < 2; i++, magicKeyOffset += 0x14)
         {
-            var h = ReadInt32LittleEndian(sav.General.AsSpan(magicKeyOffset));
+            var h = ReadInt32LittleEndian(sav.General[magicKeyOffset..]);
             if (h == -1)
                 continue;
 
@@ -537,10 +537,10 @@ public partial class SAV_Misc4 : Form
         {
             for (int i = 0; i < Prints.Length; i++)
             {
-                if (Prints[i] == 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General.AsSpan(ofsPrints + (i << 1))) >> 1) - 1))
+                if (Prints[i] == 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General[(ofsPrints + (i << 1))..]) >> 1) - 1))
                     continue;
                 var value = Prints[i] << 1;
-                WriteInt32LittleEndian(SAV.General.AsSpan(ofsPrints + (i << 1)), value);
+                WriteInt32LittleEndian(SAV.General[(ofsPrints + (i << 1))..], value);
             }
         }
 
@@ -640,13 +640,13 @@ public partial class SAV_Misc4 : Form
             for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
             {
                 if (BFV[BFF[Facility][0]][i] < 0) continue;
-                int vali = ReadUInt16LittleEndian(SAV.General.AsSpan(addrVal + (i << 1)));
+                int vali = ReadUInt16LittleEndian(SAV.General[(addrVal + (i << 1))..]);
                 StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali > 9999 ? 9999 : vali;
             }
             CHK_Continue.Checked = (SAV.General[addrFlag] & maskFlag) != 0;
 
             if (Facility == 0) // tower continue count
-                StatNUDA[1].Value = ReadUInt16LittleEndian(SAV.General.AsSpan(addrFlag + TowerContinueCountOfs + (BattleType << 1)));
+                StatNUDA[1].Value = ReadUInt16LittleEndian(SAV.General[(addrFlag + TowerContinueCountOfs + (BattleType << 1))..]);
 
             editing = false;
             return;
@@ -658,14 +658,14 @@ public partial class SAV_Misc4 : Form
             if (Facility == 0 && SetValToSav == 1) // tower continue count
             {
                 var offset = addrFlag + TowerContinueCountOfs + (BattleType << 1);
-                WriteUInt16LittleEndian(SAV.General.AsSpan(offset), val);
+                WriteUInt16LittleEndian(SAV.General[offset..], val);
             }
 
             SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
             if (SetValToSav < 0)
                 return;
             var clamp = Math.Min((ushort)9999, val);
-            WriteUInt16LittleEndian(SAV.General.AsSpan(addrVal + (SetValToSav << 1)), clamp);
+            WriteUInt16LittleEndian(SAV.General[(addrVal + (SetValToSav << 1))..], clamp);
             return;
         }
         if (SetValToSav == -1)
@@ -732,7 +732,7 @@ public partial class SAV_Misc4 : Form
         NumericUpDown[] na = { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
         for (int i = 0; i < na.Length; i++)
         {
-            int val = ReadInt16LittleEndian(SAV.General.AsSpan(ofs + (i << 1)));
+            int val = ReadInt16LittleEndian(SAV.General[(ofs + (i << 1))..]);
             na[i].Value = val > na[i].Maximum ? na[i].Maximum : val < na[i].Minimum ? na[i].Minimum : val;
         }
     }
@@ -746,13 +746,13 @@ public partial class SAV_Misc4 : Form
         if (i < 0)
             return;
         var offset = BFF[3][2] + (BFF[3][3] * CB_Stats2.SelectedIndex) + 0x0A + (i << 1);
-        WriteInt32LittleEndian(SAV.General.AsSpan(offset), (int)na[i].Value);
+        WriteInt32LittleEndian(SAV.General[offset..], (int)na[i].Value);
     }
 
     private void GetHallStat()
     {
         int ofscur = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex);
-        var curspe = ReadUInt16LittleEndian(SAV.General.AsSpan(ofscur + 4));
+        var curspe = ReadUInt16LittleEndian(SAV.General[(ofscur + 4)..]);
         bool c = curspe == species;
         CHK_HallCurrent.Checked = c;
         CHK_HallCurrent.Text = curspe > 0 && curspe <= SAV.MaxSpeciesID
@@ -782,7 +782,7 @@ public partial class SAV_Misc4 : Form
             return;
         var offset = BFF[2][2] + (BFF[2][3] * CB_Stats2.SelectedIndex) + 4;
         ushort value = (ushort)(CHK_HallCurrent.Checked ? species : 0);
-        WriteUInt16LittleEndian(SAV.General.AsSpan(offset), value);
+        WriteUInt16LittleEndian(SAV.General[offset..], value);
         editing = true;
         GetHallStat();
         editing = false;

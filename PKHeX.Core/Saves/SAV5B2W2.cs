@@ -55,7 +55,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public override Encount5 Encount => Blocks.Encount;
     public FestaBlock5 Festa => Blocks.Festa;
     public PWTBlock5 PWT => Blocks.PWT;
-    public override int Fused => 0x1FA00 + sizeof(uint);
+    public int Fused => 0x1FA00 + sizeof(uint);
     public override int GTS => 0x20400;
 
     public string Rival

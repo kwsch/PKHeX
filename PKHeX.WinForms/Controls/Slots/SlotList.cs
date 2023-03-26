@@ -81,7 +81,6 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
         return slots.IndexOf(view);
     }
 
-    public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
     public int ViewIndex { get; set; } = -1;
 
     private void LoadSlots(int count, Action<Control> enableDragDropContext)
