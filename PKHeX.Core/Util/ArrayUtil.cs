@@ -26,9 +26,9 @@ public static class ArrayUtil
     public static int Count<T>(this ReadOnlySpan<T> data, T value) where T : IEquatable<T>
     {
         int count = 0;
-        for (int i = data.Length - 1; i >= 0; i--)
+        foreach (var t in data)
         {
-            if (data[i].Equals(value))
+            if (t.Equals(value))
                 count++;
         }
         return count;
@@ -84,26 +84,6 @@ public static class ArrayUtil
                 return ctr;
             ctr++;
         }
-    }
-
-    /// <summary>
-    /// Copies an <see cref="IEnumerable{T}"/> list to the destination list, with an option to copy to a starting point.
-    /// </summary>
-    /// <typeparam name="T">Typed object to copy</typeparam>
-    /// <param name="list">Source list to copy from</param>
-    /// <param name="dest">Destination list/array</param>
-    /// <param name="start">Starting point to copy to</param>
-    /// <returns>Count of <see cref="T"/> copied.</returns>
-    public static int CopyTo<T>(this IEnumerable<T> list, IList<T> dest, int start = 0)
-    {
-        int ctr = start;
-        foreach (var z in list)
-        {
-            if ((uint)ctr >= dest.Count)
-                break;
-            dest[ctr++] = z;
-        }
-        return ctr - start;
     }
 
     internal static T[] ConcatAll<T>(params T[][] arr)

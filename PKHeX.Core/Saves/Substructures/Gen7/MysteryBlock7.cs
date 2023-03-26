@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -50,7 +50,7 @@ public sealed class MysteryBlock7 : SaveBlock<SAV7>
             throw new ArgumentOutOfRangeException(nameof(index));
 
         var offset = GetGiftOffset(index);
-        var data = SAV.GetData(offset, WC7.Size);
+        var data = SAV.Data.AsSpan(offset, WC7.Size).ToArray();
         return new WC7(data);
     }
 

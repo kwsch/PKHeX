@@ -831,7 +831,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         return true;
     }
 
-    public bool OpenPCBoxBin(byte[] input, out string c)
+    public bool OpenPCBoxBin(ReadOnlySpan<byte> input, out string c)
     {
         if (SAV.GetPCBinary().Length == input.Length)
         {

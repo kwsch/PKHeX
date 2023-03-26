@@ -57,14 +57,14 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
 
     public RTC3 ClockInitial
     {
-        get => new(GetData(Small, 0x98, RTC3.Size));
-        set => SetData(Small, value.Data, 0x98);
+        get => new(Small.AsSpan(0x98, RTC3.Size).ToArray());
+        set => SetData(Small.AsSpan(0x98), value.Data);
     }
 
     public RTC3 ClockElapsed
     {
-        get => new(GetData(Small, 0xA0, RTC3.Size));
-        set => SetData(Small, value.Data, 0xA0);
+        get => new(Small.AsSpan(0xA0, RTC3.Size).ToArray());
+        set => SetData(Small.AsSpan(0xA0), value.Data);
     }
     #endregion
 
@@ -109,7 +109,7 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
     public PokeBlock3Case PokeBlocks
     {
         get => new(Large, 0x7F8);
-        set => SetData(Large, value.Write(), 0x7F8);
+        set => SetData(Large.AsSpan(0x7F8), value.Write());
     }
 
     protected override int SeenOffset2 => 0x938;
@@ -119,7 +119,7 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
     public Swarm3 Swarm
     {
         get => new(Large.Slice(0x2AFC, Swarm3.SIZE));
-        set => SetData(Large, value.Data, 0x2AFC);
+        set => SetData(Large.AsSpan(0x2AFC), value.Data);
     }
 
     private void ClearSwarm() => Large.AsSpan(0x2AFC, Swarm3.SIZE).Clear();
@@ -166,10 +166,10 @@ public sealed class SAV3RS : SAV3, IGen3Hoenn
     public override Gen3MysteryData MysteryData
     {
         get => new MysteryEvent3RS(Large.Slice(0x3690, MysteryEvent3.SIZE));
-        set => SetData(Large, value.Data, 0x3690);
+        set => SetData(Large.AsSpan(0x3690), value.Data);
     }
 
-    public RecordMixing3Gift RecordMixingGift { get => new(Large.Slice(0x3A7C, RecordMixing3Gift.SIZE)); set => SetData(Large, value.Data, 0x3A7C); }
+    public RecordMixing3Gift RecordMixingGift { get => new(Large.Slice(0x3A7C, RecordMixing3Gift.SIZE)); set => SetData(Large.AsSpan(0x3A7C), value.Data); }
 
     protected override int SeenOffset3 => 0x3A8C;
     #endregion

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -118,7 +117,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         var name = $"Team {team + 1}";
 
         var ofs = GetTeamOffset(team);
-        var str = GetString(ofs + 2, 5);
+        var str = GetString(Data.AsSpan(ofs + 2, 5));
         if (string.IsNullOrWhiteSpace(str))
             return name;
         var id = ReadUInt16BigEndian(Data.AsSpan(ofs + 8));
@@ -136,25 +135,25 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         for (int i = 0; i < 6; i++)
         {
             var rel = ofs + ListHeaderSize + (i * SIZE_STORED);
-            members[i] = (PK1)GetStoredSlot(Data, rel);
+            members[i] = (PK1)GetStoredSlot(Data.AsSpan(rel));
         }
         return new SlotGroup(name, members);
     }
 
-    public override void WriteSlotFormatStored(PKM pk, Span<byte> data, int offset)
+    public override void WriteSlotFormatStored(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
         ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteSlotFormatStored(pk, Data, offset);
+        base.WriteSlotFormatStored(pk, data);
     }
 
-    public override void WriteBoxSlot(PKM pk, Span<byte> data, int offset)
+    public override void WriteBoxSlot(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
         ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteBoxSlot(pk, Data, offset);
+        base.WriteBoxSlot(pk, data);
     }
 
     public static bool IsStadium(ReadOnlySpan<byte> data)

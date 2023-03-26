@@ -197,8 +197,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     protected sealed override PK3 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray3(data);
 
-    protected sealed override byte[] BoxBuffer => Storage;
-    protected sealed override byte[] PartyBuffer => Large;
+    protected sealed override Span<byte> BoxBuffer => Storage;
+    protected sealed override Span<byte> PartyBuffer => Large;
 
     private const int COUNT_BOX = 14;
     private const int COUNT_SLOTSPERBOX = 30;
@@ -633,9 +633,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     {
         SetData(sav.Data, 0);
         var s3 = (SAV3)sav;
-        SetData(Small, s3.Small, 0);
-        SetData(Large, s3.Large, 0);
-        SetData(Storage, s3.Storage, 0);
+        SetData(Small, s3.Small);
+        SetData(Large, s3.Large);
+        SetData(Storage, s3.Storage);
     }
 
     #region External Connections

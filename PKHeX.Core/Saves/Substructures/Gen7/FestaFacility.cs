@@ -13,7 +13,7 @@ public sealed class FestaFacility
     public FestaFacility(SAV7 sav, int index)
     {
         ofs = (index * SIZE) + sav.Festa.Offset + 0x310;
-        Data = sav.GetData(ofs, SIZE);
+        Data = sav.Data.AsSpan(ofs, SIZE).ToArray();
         Language = sav.Language;
     }
 

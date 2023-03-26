@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace PKHeX.Core;
@@ -36,7 +37,11 @@ public sealed class PoffinCase4
     {
         Debug.Assert(poffins.Count == Count);
         for (int i = 0; i < poffins.Count; i++)
-            sav.SetData(sav.General, poffins[i].Data, offset + (i * Poffin4.SIZE));
+        {
+            var o = offset + (i * Poffin4.SIZE);
+            var span = sav.General.AsSpan(o);
+            sav.SetData(span, poffins[i].Data);
+        }
     }
 
     public void FillCase()

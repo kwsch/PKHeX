@@ -43,7 +43,7 @@ public abstract class GBPKML : GBPKM
         RawNickname.AsSpan().Fill(StringConverter12.G1TerminatorCode);
     }
 
-    public override void SetNotNicknamed(int language) => GetNonNickname(language).CopyTo(RawNickname);
+    public override void SetNotNicknamed(int language) => GetNonNickname(language).AsSpan().CopyTo(RawNickname);
 
     protected override byte[] GetNonNickname(int language)
     {

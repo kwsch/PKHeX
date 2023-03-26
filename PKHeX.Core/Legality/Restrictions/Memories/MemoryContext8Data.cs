@@ -291,7 +291,7 @@ public partial class MemoryContext8
     /// 24bits of flags allowing certain feelings for a given memory index.
     /// </summary>
     /// <remarks>Beware, there was an off-by-one error in the game that made Feeling 0 unobtainable, and thus the Happy feeling bit (rightmost) is omitted.</remarks>
-    private static ReadOnlySpan<uint> MemoryFeelings => new uint[]
+    private static ReadOnlySpan<int> MemoryFeelings => new[]
     {
         0x000000, 0x04CBFD, 0x004BFD, 0x04CBFD, 0x04CBFD, 0xFFFBFB, 0x84FFF9, 0x47FFFF, 0xBF7FFA, 0x7660B0,
         0x80BDF9, 0x88FB7A, 0x083F79, 0x0001FE, 0xCFEFFF, 0x84EBAF, 0xB368B0, 0x091F7E, 0x0320A0, 0x080DDD,

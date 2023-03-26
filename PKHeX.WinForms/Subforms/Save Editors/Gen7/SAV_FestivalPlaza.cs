@@ -300,9 +300,9 @@ public partial class SAV_FestivalPlaza : Form
 
     private void LoadBattleAgency()
     {
-        p[0] = SAV.GetStoredSlot(SAV.Data, 0x6C200);
-        p[1] = SAV.GetPartySlot(SAV.Data, 0x6C2E8);
-        p[2] = SAV.GetPartySlot(SAV.Data, 0x6C420);
+        p[0] = SAV.GetStoredSlot(SAV.Data.AsSpan(0x6C200));
+        p[1] = SAV.GetPartySlot(SAV.Data.AsSpan(0x6C2E8));
+        p[2] = SAV.GetPartySlot(SAV.Data.AsSpan(0x6C420));
         LoadPictureBox();
         B_ImportParty.Visible = SAV.HasParty;
         CHK_Choosed.Checked = SAV.GetFlag(0x6C55E, 1);

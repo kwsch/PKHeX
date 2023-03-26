@@ -18,7 +18,7 @@ public sealed class Mail4 : MailDetail
         ResetData();
     }
 
-    public override void CopyTo(SaveFile sav) => sav.SetData(((SAV4)sav).General, Data, DataOffset);
+    public override void CopyTo(SaveFile sav) => sav.SetData(((SAV4)sav).General.AsSpan(DataOffset), Data);
 
     private void ResetData()
     {

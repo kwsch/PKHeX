@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -28,7 +27,7 @@ public sealed class Bank7 : BulkStorage
         if ((uint)group > 10)
             throw new ArgumentOutOfRangeException(nameof(group), $"{nameof(group)} must be 0-10.");
         int offset = 0x8 + (GroupNameSpacing * group) + 2; // skip over " "
-        return GetString(offset, GroupNameSize / 2);
+        return GetString(Data.AsSpan(offset, GroupNameSize / 2));
     }
 
     public override int BoxCount => BankCount;
@@ -47,7 +46,7 @@ public sealed class Bank7 : BulkStorage
 
     private int BoxDataSize => (SlotsPerBox * SIZE_STORED) + BankNameSpacing;
     public override int GetBoxOffset(int box) => Box + (BoxDataSize * box);
-    public override string GetBoxName(int box) => GetString(GetBoxNameOffset(box), BankNameSize / 2);
+    public override string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxNameOffset(box), BankNameSize / 2));
     public int GetBoxNameOffset(int box) => GetBoxOffset(box) + (SlotsPerBox * SIZE_STORED);
     public int GetBoxIndex(int box) => ReadUInt16LittleEndian(Data.AsSpan(GetBoxNameOffset(box) + BankNameSize));
 

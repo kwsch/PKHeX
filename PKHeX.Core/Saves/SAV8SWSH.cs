@@ -246,10 +246,10 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
         protected set => PartyInfo.PartyCount = value;
     }
 
-    protected override byte[] BoxBuffer => BoxInfo.Data;
-    protected override byte[] PartyBuffer => PartyInfo.Data;
+    protected override Span<byte> BoxBuffer => BoxInfo.Data;
+    protected override Span<byte> PartyBuffer => PartyInfo.Data;
     public override PK8 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PK8 GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
+    public override PK8 GetBoxSlot(int offset) => GetDecryptedPKM(BoxInfo.Data.AsSpan(offset, SIZE_PARTY).ToArray()); // party format in boxes!
 
     public int GetRecord(int recordID) => Records.GetRecord(recordID);
     public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);

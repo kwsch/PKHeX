@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -22,6 +21,6 @@ public sealed class Bank3 : BulkStorage
 
     private int BoxDataSize => SlotsPerBox * SIZE_STORED;
     public override int GetBoxOffset(int box) => Box + (BoxDataSize * box);
-    public override string GetBoxName(int box) => GetString(GetBoxNameOffset(box), BoxNameSize);
+    public override string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxNameOffset(box), BoxNameSize));
     private static int GetBoxNameOffset(int box) => 0x25800 + (9 * box);
 }

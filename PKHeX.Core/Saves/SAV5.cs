@@ -212,7 +212,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
 
     public EntreeForest EntreeData
     {
-        get => new(GetData(EntreeForestOffset, EntreeForest.SIZE));
+        get => new(Data.AsSpan(EntreeForestOffset, EntreeForest.SIZE).ToArray());
         set => SetData(value.Write(), EntreeForestOffset);
     }
 
@@ -230,7 +230,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public abstract Encount5 Encount { get; }
 
     public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
-    public byte[] GetMailData(int offset) => GetData(offset, Mail5.SIZE);
+    public byte[] GetMailData(int offset) => Data.AsSpan(offset, Mail5.SIZE).ToArray();
     public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
     public MailDetail GetMail(int mailIndex)

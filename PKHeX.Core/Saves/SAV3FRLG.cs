@@ -162,9 +162,9 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     private int WonderCardOffset => WonderNewsOffset + (Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE);
     private int WonderCardExtraOffset => WonderCardOffset + (Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE);
 
-    public WonderNews3 WonderNews { get => new(Large.Slice(WonderNewsOffset, Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE)); set => SetData(Large, value.Data, WonderOffset); }
-    public WonderCard3 WonderCard { get => new(Large.Slice(WonderCardOffset, Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE)); set => SetData(Large, value.Data, WonderCardOffset); }
-    public WonderCard3Extra WonderCardExtra { get => new(Large.Slice(WonderCardExtraOffset, WonderCard3Extra.SIZE)); set => SetData(Large, value.Data, WonderCardExtraOffset); }
+    public WonderNews3 WonderNews { get => new(Large.Slice(WonderNewsOffset, Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE)); set => SetData(Large.AsSpan(WonderOffset), value.Data); }
+    public WonderCard3 WonderCard { get => new(Large.Slice(WonderCardOffset, Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE)); set => SetData(Large.AsSpan(WonderCardOffset), value.Data); }
+    public WonderCard3Extra WonderCardExtra { get => new(Large.Slice(WonderCardExtraOffset, WonderCard3Extra.SIZE)); set => SetData(Large.AsSpan(WonderCardExtraOffset), value.Data); }
     // 0x338: 4 easy chat words
     // 0x340: news MENewsJisanStruct
     // 0x344: uint[5], uint[5] tracking?
@@ -172,7 +172,7 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     public override Gen3MysteryData MysteryData
     {
         get => new MysteryEvent3(Large.Slice(0x361C, MysteryEvent3.SIZE));
-        set => SetData(Large, value.Data, 0x361C);
+        set => SetData(Large.AsSpan(0x361C), value.Data);
     }
 
     protected override int SeenOffset3 => 0x3A18;

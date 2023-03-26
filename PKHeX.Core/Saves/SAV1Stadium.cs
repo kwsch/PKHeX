@@ -204,7 +204,7 @@ public sealed class SAV1Stadium : SAV_STADIUM
 
         var ofs = GetTeamOffset(team);
         var otOfs = ofs + (Japanese ? 2 : 1);
-        var str = GetString(otOfs, Japanese ? 5 : 7);
+        var str = GetString(Data.AsSpan(otOfs, Japanese ? 5 : 7));
         if (string.IsNullOrWhiteSpace(str))
             return name;
         var idOfs = ofs + (Japanese ? 0x8 : 0xC);
@@ -249,25 +249,25 @@ public sealed class SAV1Stadium : SAV_STADIUM
         for (int i = 0; i < 6; i++)
         {
             var rel = ofs + ListHeaderSize + (i * SIZE_STORED);
-            members[i] = (PK1)GetStoredSlot(Data, rel);
+            members[i] = (PK1)GetStoredSlot(Data.AsSpan(rel));
         }
         return new SlotGroup(name, members);
     }
 
-    public override void WriteSlotFormatStored(PKM pk, Span<byte> data, int offset)
+    public override void WriteSlotFormatStored(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
         ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteSlotFormatStored(pk, Data, offset);
+        base.WriteSlotFormatStored(pk, data);
     }
 
-    public override void WriteBoxSlot(PKM pk, Span<byte> data, int offset)
+    public override void WriteBoxSlot(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
         ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteBoxSlot(pk, Data, offset);
+        base.WriteBoxSlot(pk, data);
     }
 
     public static bool IsStadium(ReadOnlySpan<byte> data)

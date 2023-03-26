@@ -283,7 +283,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     public string Rival
     {
-        get => GetString(0x55F4, 0x1A);
+        get => GetString(Data.AsSpan(0x55F4, 0x1A));
         set => SetString(Data.AsSpan(0x55F4, 0x1A), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
@@ -333,7 +333,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     }
 
     public override PB8 GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
-    public override PB8 GetBoxSlot(int offset) => GetDecryptedPKM(GetData(Data, offset, SIZE_PARTY)); // party format in boxes!
+    public override PB8 GetBoxSlot(int offset) => GetDecryptedPKM(Data.AsSpan(offset, SIZE_PARTY).ToArray()); // party format in boxes!
 
     public enum TopMenuItemType
     {

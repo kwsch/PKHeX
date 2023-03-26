@@ -25,7 +25,7 @@ public sealed class Mail2 : MailDetail
 
     private const int AUTHOR_LENGTH = 7;
 
-    public Mail2(SAV2 sav, int index) : base(sav.GetData(GetMailOffset(index), 0x2F), GetMailOffset(index))
+    public Mail2(SAV2 sav, int index) : base(sav.Data.AsSpan(GetMailOffset(index), 0x2F).ToArray(), GetMailOffset(index))
     {
         US = sav is { Japanese: false, Korean: false };
     }

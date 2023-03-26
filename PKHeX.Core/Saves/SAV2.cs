@@ -74,7 +74,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         for (int i = 0; i < BoxCount; i++)
         {
             int ofs = GetBoxRawDataOffset(i, splitAtIndex);
-            var box = GetData(ofs, stored);
+            var box = Data.AsSpan(ofs, stored).ToArray();
             var boxDest = baseDest + (i * SIZE_BOX);
             var boxPL = new PokeList2(box, capacity, Japanese);
             for (int j = 0; j < boxPL.Pokemon.Length; j++)
@@ -87,7 +87,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             }
         }
 
-        var current = GetData(Offsets.CurrentBox, stored);
+        var current = Data.AsSpan(Offsets.CurrentBox, stored).ToArray();
         var curBoxPL = new PokeList2(current, capacity, Japanese);
         var curDest = baseDest + (CurrentBox * SIZE_BOX);
         for (int i = 0; i < curBoxPL.Pokemon.Length; i++)
@@ -99,7 +99,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             pkDat.CopyTo(Data, dest);
         }
 
-        var party = GetData(Offsets.Party, SIZE_STOREDPARTY);
+        var party = Data.AsSpan(Offsets.Party, SIZE_STOREDPARTY).ToArray();
         var partyPL = new PokeList2(party, PokeListType.Party, Japanese);
         for (int i = 0; i < partyPL.Pokemon.Length; i++)
         {
@@ -180,7 +180,9 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             int slot = 0;
             for (int j = 0; j < boxPL.Pokemon.Length; j++)
             {
-                PK2 boxPK = GetPKM(GetData(GetBoxOffset(i) + (j * SIZE_STORED), SIZE_STORED));
+                var ofs = GetBoxOffset(i) + (j * SIZE_STORED);
+                var data = Data.AsSpan(ofs, SIZE_STORED).ToArray();
+                PK2 boxPK = GetPKM(data);
                 if (boxPK.Species > 0)
                     boxPL[slot++] = boxPK;
             }
@@ -195,7 +197,9 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         int pSlot = 0;
         for (int i = 0; i < 6; i++)
         {
-            PK2 partyPK = GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
+            var ofs = GetPartyOffset(i);
+            var data = Data.AsSpan(ofs, SIZE_STORED).ToArray();
+            PK2 partyPK = GetPKM(data);
             if (partyPK.Species > 0)
                 partyPL[pSlot++] = partyPK;
         }
@@ -321,7 +325,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public override string OT
     {
-        get => GetString(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthOT);
+        get => GetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthOT));
         set => SetString(Data.AsSpan(Offsets.Trainer1 + 2, (Korean ? 2 : 1) * MaxStringLengthOT), value, 8, StringConverterOption.Clear50);
     }
 
@@ -333,7 +337,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     public string Rival
     {
-        get => GetString(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthOT);
+        get => GetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthOT));
         set => SetString(Data.AsSpan(Offsets.Rival, (Korean ? 2 : 1) * MaxStringLengthOT), value, 8, StringConverterOption.Clear50);
     }
 
@@ -557,7 +561,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public override string GetBoxName(int box)
     {
         int len = Korean ? 17 : 9;
-        return GetString(Offsets.BoxNames + (box * len), len);
+        return GetString(Data.AsSpan(Offsets.BoxNames + (box * len), len));
     }
 
     public override void SetBoxName(int box, ReadOnlySpan<char> value)

@@ -131,7 +131,9 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         // Count up how many party slots are active.
         for (int i = 0; i < 6; i++)
         {
-            if (GetPartySlot(Data, GetPartyOffset(i)).Species != 0)
+            var ofs = GetPartyOffset(i);
+            var span = Data.AsSpan(ofs);
+            if (ReadUInt16BigEndian(span) != 0) // species is at offset 0x00
                 PartyCount++;
         }
     }
@@ -320,7 +322,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
     // Trainer Info
     public override GameVersion Version { get => GameVersion.XD; protected set { } }
-    public override string OT { get => GetString(Trainer1 + 0x00, 20); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value, 10, StringConverterOption.ClearZero); }
+    public override string OT { get => GetString(Data.AsSpan(Trainer1 + 0x00, 20)); set => SetString(Data.AsSpan(Trainer1 + 0x00, 20), value, 10, StringConverterOption.ClearZero); }
     public override uint ID32 { get => ReadUInt32BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt32BigEndian(Data.AsSpan(Trainer1 + 0x2C), value); }
     public override ushort SID16 { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2C), value); }
     public override ushort TID16 { get => ReadUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E)); set => WriteUInt16BigEndian(Data.AsSpan(Trainer1 + 0x2E), value); }
@@ -333,7 +335,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     public override int GetPartyOffset(int slot) => Party + (SIZE_STORED * slot);
     private int GetBoxInfoOffset(int box) => Box + (((30 * SIZE_STORED) + 0x14) * box);
     public override int GetBoxOffset(int box) => GetBoxInfoOffset(box) + 20;
-    public override string GetBoxName(int box) => GetString(GetBoxInfoOffset(box), 16);
+    public override string GetBoxName(int box) => GetString(Data.AsSpan(GetBoxInfoOffset(box), 16));
 
     public override void SetBoxName(int box, ReadOnlySpan<char> value)
     {
@@ -348,12 +350,12 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     }
 
     protected override byte[] DecryptPKM(byte[] data) => data;
-    public override XK3 GetPartySlot(byte[] data, int offset) => GetStoredSlot(data, offset);
+    public override XK3 GetPartySlot(ReadOnlySpan<byte> data) => GetStoredSlot(data);
 
-    public override XK3 GetStoredSlot(byte[] data, int offset)
+    public override XK3 GetStoredSlot(ReadOnlySpan<byte> data)
     {
         // Get Shadow Data
-        var pk = (XK3)base.GetStoredSlot(data, offset);
+        var pk = (XK3)base.GetStoredSlot(data);
         if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
             pk.Purification = ShadowInfo[pk.ShadowID].Purification;
         return pk;

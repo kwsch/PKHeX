@@ -61,14 +61,14 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 
     public RTC3 ClockInitial
     {
-        get => new(GetData(Small, 0x98, RTC3.Size));
-        set => SetData(Small, value.Data, 0x98);
+        get => new(Small.AsSpan(0x98, RTC3.Size).ToArray());
+        set => SetData(Small.AsSpan(0x98), value.Data);
     }
 
     public RTC3 ClockElapsed
     {
-        get => new(GetData(Small, 0xA0, RTC3.Size));
-        set => SetData(Small, value.Data, 0xA0);
+        get => new(Small.AsSpan(0xA0, RTC3.Size).ToArray());
+        set => SetData(Small.AsSpan(0xA0), value.Data);
     }
 
     public ushort JoyfulJumpInRow           { get => ReadUInt16LittleEndian(Small.AsSpan(0x1FC)); set => WriteUInt16LittleEndian(Small.AsSpan(0x1FC), Math.Min((ushort)9999, value)); }
@@ -146,7 +146,7 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     public PokeBlock3Case PokeBlocks
     {
         get => new(Large, 0x848);
-        set => SetData(Large, value.Write(), 0x848);
+        set => SetData(Large.AsSpan(0x848), value.Write());
     }
 
     protected override int SeenOffset2 => 0x988;
@@ -155,8 +155,8 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 
     public Swarm3 Swarm
     {
-        get => new(Large.Slice(0x2B90, Swarm3.SIZE));
-        set => SetData(Large, value.Data, 0x2B90);
+        get => new(Large.AsSpan(0x2B90, Swarm3.SIZE).ToArray());
+        set => SetData(Large.AsSpan(0x2B90), value.Data);
     }
 
     private void ClearSwarm() => Large.AsSpan(0x2B90, Swarm3.SIZE).Clear();
@@ -205,9 +205,9 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     private int WonderCardOffset => WonderNewsOffset + (Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE);
     private int WonderCardExtraOffset => WonderCardOffset + (Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE);
 
-    public WonderNews3 WonderNews { get => new(Large.Slice(WonderNewsOffset, Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE)); set => SetData(Large, value.Data, WonderOffset); }
-    public WonderCard3 WonderCard { get => new(Large.Slice(WonderCardOffset, Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE)); set => SetData(Large, value.Data, WonderCardOffset); }
-    public WonderCard3Extra WonderCardExtra { get => new(Large.Slice(WonderCardExtraOffset, WonderCard3Extra.SIZE)); set => SetData(Large, value.Data, WonderCardExtraOffset); }
+    public WonderNews3 WonderNews { get => new(Large.Slice(WonderNewsOffset, Japanese ? WonderNews3.SIZE_JAP : WonderNews3.SIZE)); set => SetData(Large.AsSpan(WonderOffset), value.Data); }
+    public WonderCard3 WonderCard { get => new(Large.Slice(WonderCardOffset, Japanese ? WonderCard3.SIZE_JAP : WonderCard3.SIZE)); set => SetData(Large.AsSpan(WonderCardOffset), value.Data); }
+    public WonderCard3Extra WonderCardExtra { get => new(Large.Slice(WonderCardExtraOffset, WonderCard3Extra.SIZE)); set => SetData(Large.AsSpan(WonderCardExtraOffset), value.Data); }
     // 0x338: 4 easy chat words
     // 0x340: news MENewsJisanStruct
     // 0x344: uint[5], uint[5] tracking?
@@ -215,10 +215,10 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     public override Gen3MysteryData MysteryData
     {
         get => new MysteryEvent3(Large.Slice(0x3728, MysteryEvent3.SIZE));
-        set => SetData(Large, value.Data, 0x3728);
+        set => SetData(Large.AsSpan(0x3728), value.Data);
     }
 
-    public RecordMixing3Gift RecordMixingGift { get => new(Large.Slice(0x3B14, RecordMixing3Gift.SIZE)); set => SetData(Large, value.Data, 0x3B14); }
+    public RecordMixing3Gift RecordMixingGift { get => new(Large.Slice(0x3B14, RecordMixing3Gift.SIZE)); set => SetData(Large.AsSpan(0x3B14), value.Data); }
 
     protected override int SeenOffset3 => 0x3B24;
 
@@ -237,6 +237,6 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     public BV3 BattleVideo
     {
         get => !HasBattleVideo ? new BV3() : new BV3(Data.Slice(OFS_BV + 4, BV3.SIZE));
-        set => SetData(Data, value.Data, OFS_BV + 4);
+        set => SetData(Data.AsSpan(OFS_BV + 4, BV3.SIZE), value.Data);
     }
 }

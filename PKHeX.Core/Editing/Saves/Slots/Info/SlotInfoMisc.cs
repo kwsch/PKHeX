@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -21,15 +23,17 @@ public sealed record SlotInfoMisc(byte[] Data, int Slot, int Offset, bool PartyF
 
     public bool WriteTo(SaveFile sav, PKM pk, PKMImportSetting setting = PKMImportSetting.UseDefault)
     {
+        var span = Data.AsSpan(Offset);
         if (PartyFormat)
-            sav.SetSlotFormatParty(pk, Data, Offset, setting, setting);
+            sav.SetSlotFormatParty(pk, span, setting, setting);
         else
-            sav.SetSlotFormatStored(pk, Data, Offset, setting, setting);
+            sav.SetSlotFormatStored(pk, span, setting, setting);
         return true;
     }
 
     public PKM Read(SaveFile sav)
     {
-        return PartyFormat ? sav.GetPartySlot(Data, Offset) : sav.GetStoredSlot(Data, Offset);
+        var span = Data.AsSpan(Offset);
+        return PartyFormat ? sav.GetPartySlot(span) : sav.GetStoredSlot(span);
     }
 }

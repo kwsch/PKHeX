@@ -46,7 +46,7 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
             throw new ArgumentOutOfRangeException(nameof(index));
 
         var offset = GetGiftOffset(index);
-        var data = SAV.GetData(offset, WC6.Size);
+        var data = SAV.Data.AsSpan(offset, WC6.Size).ToArray();
         return new WC6(data);
     }
 

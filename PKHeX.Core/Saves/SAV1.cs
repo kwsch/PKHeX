@@ -77,7 +77,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
             UnpackBox(Offsets.CurrentBox, baseDest, stored, CurrentBox, capacity);
         }
 
-        var party = GetData(Offsets.Party, SIZE_STOREDPARTY);
+        var party = Data.AsSpan(Offsets.Party, SIZE_STOREDPARTY).ToArray();
         var partyPL = new PokeList1(party, PokeListType.Party, Japanese);
         for (int i = 0; i < partyPL.Pokemon.Length; i++)
         {
@@ -107,7 +107,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     private void UnpackBox(int srcOfs, int destOfs, int boxSize, int boxIndex, PokeListType boxCapacity)
     {
-        var boxData = GetData(srcOfs, boxSize);
+        var boxData = Data.AsSpan(srcOfs, boxSize).ToArray();
         var boxDest = destOfs + (boxIndex * SIZE_BOX);
         var boxPL = new PokeList1(boxData, boxCapacity, Japanese);
         for (int i = 0; i < boxPL.Pokemon.Length; i++)
@@ -137,11 +137,11 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         // copy to box location
         var boxData = boxPL.Write();
         int boxSrc = GetBoxRawDataOffset(boxIndex);
-        SetData(Data, boxData, boxSrc);
+        SetData(Data.AsSpan(boxSrc), boxData);
 
         // copy to active loc if current box
         if (boxIndex == CurrentBox)
-            SetData(Data, boxData, Offsets.CurrentBox);
+            SetData(Data.AsSpan(Offsets.CurrentBox), boxData);
     }
 
     private const int SIZE_RESERVED = 0x8000; // unpacked box data
@@ -176,7 +176,9 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         int pSlot = 0;
         for (int i = 0; i < 6; i++)
         {
-            PK1 partyPK = GetPKM(GetData(GetPartyOffset(i), SIZE_STORED));
+            var ofs = GetPartyOffset(i);
+            var data = Data.AsSpan(ofs, SIZE_STORED).ToArray();
+            PK1 partyPK = GetPKM(data);
             if (partyPK.Species > 0)
                 partyPL[pSlot++] = partyPK;
         }
@@ -257,7 +259,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     public override string OT
     {
-        get => GetString(Offsets.OT, MaxStringLengthOT);
+        get => GetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT));
         set => SetString(Data.AsSpan(Offsets.OT, MaxStringLengthOT + 1), value, MaxStringLengthOT, StringConverterOption.ClearZero);
     }
 
@@ -285,7 +287,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
 
     public string Rival
     {
-        get => GetString(Offsets.Rival, MaxStringLengthOT);
+        get => GetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT));
         set => SetString(Data.AsSpan(Offsets.Rival, MaxStringLengthOT), value, MaxStringLengthOT, StringConverterOption.Clear50);
     }
 
@@ -542,20 +544,20 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
         SetFlag(region + ofs, bit & 7, value);
     }
 
-    public override void WriteSlotFormatStored(PKM pk, Span<byte> data, int offset)
+    public override void WriteSlotFormatStored(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
         ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteSlotFormatStored(pk, Data, offset);
+        base.WriteSlotFormatStored(pk, data);
     }
 
-    public override void WriteBoxSlot(PKM pk, Span<byte> data, int offset)
+    public override void WriteBoxSlot(PKM pk, Span<byte> data)
     {
         // pk that have never been boxed have yet to save the 'current level' for box indication
         // set this value at this time
         ((PK1)pk).Stat_LevelBox = pk.CurrentLevel;
-        base.WriteBoxSlot(pk, Data, offset);
+        base.WriteBoxSlot(pk, data);
     }
 
     private const int SpawnFlagCount = 0xF0;

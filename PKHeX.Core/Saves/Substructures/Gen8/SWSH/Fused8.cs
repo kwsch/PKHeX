@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core;
+using System;
+
+namespace PKHeX.Core;
 
 /// <summary>
 /// Storage for the species that was fused into <see cref="Species.Kyurem"/> and <see cref="Species.Necrozma"/>.
@@ -14,21 +16,11 @@ public sealed class Fused8 : SaveBlock<SAV8SWSH>
         return PokeCrypto.SIZE_8PARTY * slot;
     }
 
-    public PK8 Kyurem
-    {
-        get => (PK8) SAV.GetStoredSlot(Data, GetFusedSlotOffset(0));
-        set => value.EncryptedBoxData.CopyTo(Data, GetFusedSlotOffset(0));
-    }
+    private Span<byte> GetSlotSpan(int index) => Data.AsSpan(GetFusedSlotOffset(index), PokeCrypto.SIZE_8STORED);
+    private PK8 GetStoredSlot(int index) => (PK8)SAV.GetStoredSlot(GetSlotSpan(index));
+    private void SetStoredSlot(PK8 pk, int index) => pk.EncryptedBoxData.CopyTo(GetSlotSpan(index));
 
-    public PK8 NecrozmaSolgaleo
-    {
-        get => (PK8)SAV.GetStoredSlot(Data, GetFusedSlotOffset(1));
-        set => value.EncryptedBoxData.CopyTo(Data, GetFusedSlotOffset(1));
-    }
-
-    public PK8 NecrozmaLunala
-    {
-        get => (PK8)SAV.GetStoredSlot(Data, GetFusedSlotOffset(2));
-        set => value.EncryptedBoxData.CopyTo(Data, GetFusedSlotOffset(2));
-    }
+    public PK8 Kyurem           { get => GetStoredSlot(0); set => SetStoredSlot(value, 0); }
+    public PK8 NecrozmaSolgaleo { get => GetStoredSlot(1); set => SetStoredSlot(value, 1); }
+    public PK8 NecrozmaLunala   { get => GetStoredSlot(2); set => SetStoredSlot(value, 2); }
 }

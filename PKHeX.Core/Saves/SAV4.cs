@@ -23,8 +23,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     // SaveData is chunked into two pieces.
     protected readonly byte[] Storage;
     public readonly byte[] General;
-    protected sealed override byte[] BoxBuffer => Storage;
-    protected sealed override byte[] PartyBuffer => General;
+    protected sealed override Span<byte> BoxBuffer => Storage;
+    protected sealed override Span<byte> PartyBuffer => General;
 
     protected abstract int StorageStart { get; }
     public abstract Zukan4 Dex { get; }
@@ -48,16 +48,16 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
         var gbo = (GeneralBlockPosition == 0 ? 0 : PartitionSize);
         var sbo = (StorageBlockPosition == 0 ? 0 : PartitionSize) + sStart;
-        General = GetData(gbo, gSize);
-        Storage = GetData(sbo, sSize);
+        General = Data.AsSpan(gbo, gSize).ToArray();
+        Storage = Data.AsSpan(sbo, sSize).ToArray();
     }
 
     // Configuration
     protected sealed override SAV4 CloneInternal()
     {
         var sav = CloneInternal4();
-        SetData(sav.General, General, 0);
-        SetData(sav.Storage, Storage, 0);
+        SetData(sav.General, General);
+        SetData(sav.Storage, Storage);
         return sav;
     }
 
@@ -67,8 +67,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     {
         SetData(sav.Data, 0);
         var s4 = (SAV4)sav;
-        SetData(General, s4.General, 0);
-        SetData(Storage, s4.Storage, 0);
+        SetData(General, s4.General);
+        SetData(Storage, s4.Storage);
     }
 
     protected sealed override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
@@ -432,12 +432,12 @@ public abstract class SAV4 : SaveFile, IEventFlag37
             for (int i = 0; i < 8; i++) // 8 PGT
             {
                 if (value[i] is PGT)
-                    SetData(General, value[i].Data, WondercardData + (i *PGT.Size));
+                    SetData(General.AsSpan(WondercardData + (i * PGT.Size)), value[i].Data);
             }
             for (int i = 8; i < 11; i++) // 3 PCD
             {
                 if (value[i] is PCD)
-                    SetData(General, value[i].Data, WondercardData + (8 *PGT.Size) + ((i - 8)*PCD.Size));
+                    SetData(General.AsSpan(WondercardData + (8 * PGT.Size) + ((i - 8) * PCD.Size)), value[i].Data);
             }
             if (this is SAV4HGSS hgss && value.Length >= 11 && value[^1] is PCD capsule)
                 hgss.LockCapsuleSlot = capsule;
@@ -531,7 +531,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     private const byte SealMaxCount = 99;
 
     public byte[] GetSealCase() => General.Slice(Seal, (int)Seal4.MAX);
-    public void SetSealCase(byte[] value) => SetData(General, value, Seal);
+    public void SetSealCase(ReadOnlySpan<byte> value) => SetData(General.AsSpan(Seal), value);
 
     public byte GetSealCount(Seal4 id) => General[Seal + (int)id];
     public byte SetSealCount(Seal4 id, byte count) => General[Seal + (int)id] = Math.Min(SealMaxCount, count);

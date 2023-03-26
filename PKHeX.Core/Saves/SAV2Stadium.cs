@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -137,7 +136,7 @@ public sealed class SAV2Stadium : SAV_STADIUM
         var name = $"{((Stadium2TeamType) (team / TeamCountType)).ToString().Replace('_', ' ')} {(team % 10) + 1}";
 
         var ofs = GetTeamOffset(team);
-        var str = GetString(ofs + 4, 7);
+        var str = GetString(Data.AsSpan(ofs + 4, 7));
         if (string.IsNullOrWhiteSpace(str))
             return name;
         var id = ReadUInt16BigEndian(Data.AsSpan(ofs + 2));
@@ -147,7 +146,8 @@ public sealed class SAV2Stadium : SAV_STADIUM
     public override string GetBoxName(int box)
     {
         var ofs = GetBoxOffset(box) - 0x10;
-        var str = GetString(ofs, 0x10);
+        var boxNameSpan = Data.AsSpan(ofs, 0x10);
+        var str = GetString(boxNameSpan);
         if (string.IsNullOrWhiteSpace(str))
             return $"Box {box + 1}";
         return str;
@@ -164,7 +164,7 @@ public sealed class SAV2Stadium : SAV_STADIUM
         for (int i = 0; i < 6; i++)
         {
             var rel = ofs + ListHeaderSizeTeam + (i * SIZE_STORED);
-            members[i] = (SK2)GetStoredSlot(Data, rel);
+            members[i] = (SK2)GetStoredSlot(Data.AsSpan(rel));
         }
         return new SlotGroup(name, members);
     }

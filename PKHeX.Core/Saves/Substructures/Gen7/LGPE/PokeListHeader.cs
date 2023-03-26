@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -109,10 +108,10 @@ public sealed class PokeListHeader : SaveBlock<SAV7b>
         return list;
     }
 
-    private void SetPointerData(IList<int> vals)
+    private void SetPointerData(ReadOnlySpan<int> vals)
     {
         var span = Data.AsSpan(Offset);
-        for (int i = 0; i < vals.Count; i++)
+        for (int i = 0; i < vals.Length; i++)
             WriteUInt16LittleEndian(span[(i*2)..], (ushort)vals[i]);
         vals.CopyTo(PokeListInfo);
     }

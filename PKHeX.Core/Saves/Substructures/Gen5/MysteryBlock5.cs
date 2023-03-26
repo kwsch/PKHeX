@@ -23,7 +23,7 @@ public sealed class MysteryBlock5 : SaveBlock<SAV5>
         get
         {
             uint seed = ReadUInt32LittleEndian(Data.AsSpan(SeedOffset));
-            byte[] wcData = SAV.GetData(Offset + FlagStart, 0xA90); // Encrypted, Decrypt
+            byte[] wcData = SAV.Data.AsSpan(Offset + FlagStart, 0xA90).ToArray(); // Encrypted, Decrypt
             return GetAlbum(seed, wcData);
         }
         set

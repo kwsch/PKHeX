@@ -102,7 +102,7 @@ public abstract class SAV4Sinnoh : SAV4
     public void SetPoketchDotArtistData(ReadOnlySpan<byte> value)
     {
         if (value.Length != 120)
-            throw new ArgumentException($"Expected {120} bytes.", nameof(value.Length));
+            throw new ArgumentOutOfRangeException($"Expected {120} bytes.", nameof(value.Length));
         value.CopyTo(General.AsSpan(PoketchStart + 0x2A));
     }
 
@@ -124,7 +124,7 @@ public abstract class SAV4Sinnoh : SAV4
     public void SetHoneyTree(HoneyTreeValue tree, int index)
     {
         if (index <= 21)
-            SetData(General, tree.Data, OFS_HONEY + (HONEY_SIZE * index));
+            SetData(General.AsSpan(OFS_HONEY + (HONEY_SIZE * index)), tree.Data);
     }
 
     public MunchlaxTreeSet4 GetMunchlaxTrees() => CalculateMunchlaxTrees(TID16, SID16);

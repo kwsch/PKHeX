@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -13,13 +13,14 @@ public sealed class ResortSave7 : SaveBlock<SAV7>
     {
         get
         {
-            PK7[] data = new PK7[ResortCount];
-            for (int i = 0; i < data.Length; i++)
+            PK7[] result = new PK7[ResortCount];
+            for (int i = 0; i < result.Length; i++)
             {
-                var bytes = SAV.GetData(GetResortSlotOffset(i), PokeCrypto.SIZE_6STORED);
-                data[i] = new PK7(bytes);
+                var ofs = GetResortSlotOffset(i);
+                var data = SAV.Data.AsSpan(ofs, PokeCrypto.SIZE_6STORED).ToArray();
+                result[i] = new PK7(data);
             }
-            return data;
+            return result;
         }
         set
         {
@@ -27,7 +28,11 @@ public sealed class ResortSave7 : SaveBlock<SAV7>
                 throw new ArgumentException(nameof(ResortCount));
 
             for (int i = 0; i < value.Length; i++)
-                SAV.SetSlotFormatStored(value[i], Data, GetResortSlotOffset(i));
+            {
+                var ofs = GetResortSlotOffset(i);
+                var dest = Data.AsSpan(ofs, PokeCrypto.SIZE_6STORED);
+                SAV.SetSlotFormatStored(value[i], dest);
+            }
         }
     }
 

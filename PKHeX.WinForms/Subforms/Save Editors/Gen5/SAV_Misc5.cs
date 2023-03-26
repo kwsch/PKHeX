@@ -773,7 +773,7 @@ public partial class SAV_Misc5 : Form
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        var data = SAV.GetData(ofsForestCity, ofsForestCitySize);
+        var data = SAV.Data.AsSpan(ofsForestCity, ofsForestCitySize).ToArray();
         File.WriteAllBytes(sfd.FileName, data);
     }
 
