@@ -2,7 +2,7 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls;
 
-public sealed class SlotChangeInfo<TCursor, TImageSource> where TCursor : class
+public sealed class SlotChangeInfo<TCursor, TImageSource> where TCursor : class where TImageSource : class
 {
     public bool LeftMouseIsDown { get; set; }
     public bool DragDropInProgress { get; set; }

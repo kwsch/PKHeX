@@ -58,7 +58,7 @@ public abstract class InventoryPouch
     public void SortByEmpty() => Array.Sort(Items, (x, y) => (x.Count == 0).CompareTo(y.Count == 0));
     public void SortBy<TItem, TCompare>(Func<TItem, TCompare> selector) where TItem : InventoryItem where TCompare : IComparable => Array.Sort(Items, (x, y) => selector((TItem)x).CompareTo(selector((TItem)y)));
 
-    private static int Compare<TCompare>(int i1, int i2, IReadOnlyList<TCompare> n, bool rev) where TCompare : IComparable
+    private static int Compare<TCompare>(int i1, int i2, IReadOnlyList<TCompare> n, bool rev) where TCompare : class, IComparable
     {
         if (i1 == 0 || i1 >= n.Count)
             return 1;

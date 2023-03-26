@@ -194,6 +194,7 @@ public static class MoveListSuggest
 
     private static void GetEggRelearnMoves(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
     {
+        pk.GetRelearnMoves(moves);
         // Extract a list of the moves that should end up in the relearn move list.
         LoadRelearnFlagged(moves, parse, pk);
 

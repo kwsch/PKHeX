@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Tuple containing data for a <see cref="Slot"/> and the originating <see cref="View"/>
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public sealed class SlotViewInfo<T> : IEquatable<T>
+public sealed class SlotViewInfo<T> : IEquatable<T> where T : class
 {
     public readonly ISlotInfo Slot;
     public readonly ISlotViewer<T> View;

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
-public sealed class EventWorkspace<TSave, TWork> where TSave : IEventFlagArray, IEventWorkArray<TWork> where TWork : unmanaged
+public sealed class EventWorkspace<TSave, TWork> where TSave : class, IEventFlagArray, IEventWorkArray<TWork> where TWork : unmanaged
 {
     private readonly TSave SAV;
     public readonly bool[] Flags;

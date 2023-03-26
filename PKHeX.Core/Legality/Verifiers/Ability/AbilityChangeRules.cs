@@ -105,7 +105,7 @@ public static class AbilityChangeRules
 
     private static bool IsCapsulePossible<TTable, TInfo>(EvoCriteria[] evos, TTable table)
         where TTable : IPersonalTable<TInfo>
-        where TInfo : IPersonalInfo, IPersonalAbility12
+        where TInfo : class, IPersonalInfo, IPersonalAbility12
     {
         for (int i = evos.Length - 1; i >= 0; i--)
         {
@@ -119,7 +119,7 @@ public static class AbilityChangeRules
 
     private static bool IsPatchPossible<TTable, TInfo>(EvoCriteria[] evos, TTable table)
         where TTable : IPersonalTable<TInfo>
-        where TInfo : IPersonalInfo, IPersonalAbility12H
+        where TInfo : class, IPersonalInfo, IPersonalAbility12H
     {
         for (int i = evos.Length - 1; i >= 0; i--)
         {
@@ -144,7 +144,7 @@ public static class AbilityChangeRules
 
     private static bool IsRevertPossible<TTable, TInfo>(EvoCriteria[] evos, TTable table, int abilityIndex)
         where TTable : IPersonalTable<TInfo>
-        where TInfo : IPersonalInfo, IPersonalAbility12H
+        where TInfo : class, IPersonalInfo, IPersonalAbility12H
     {
         bool revert = false;
         for (var i = evos.Length - 1; i >= 0; i--)
