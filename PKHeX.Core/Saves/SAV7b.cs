@@ -20,7 +20,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     public override byte[] GetDataForBox(PKM pk) => pk.EncryptedPartyData;
 
     public override PersonalTable7GG Personal => PersonalTable.GG;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GG;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_GG;
 
     protected override SAV7b CloneInternal() => new((byte[])Data.Clone());
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -11,9 +12,9 @@ public static class Meta9
     /// </summary>
     /// <param name="arr">Block specification tuples (key, size)</param>
     /// <returns>List of blocks</returns>
-    private static SCBlock[] GetBlankBlockArray(IReadOnlyList<uint> arr)
+    private static SCBlock[] GetBlankBlockArray(ReadOnlySpan<uint> arr)
     {
-        var blocks = new SCBlock[arr.Count / 2];
+        var blocks = new SCBlock[arr.Length / 2];
         for (int i = 0; i < blocks.Length; i++)
         {
             int index = i * 2;
@@ -35,7 +36,7 @@ public static class Meta9
                 continue;
             if (ctr == 4)
             {
-                yield return System.Environment.NewLine;
+                yield return Environment.NewLine;
                 ctr = 0;
             }
             yield return $"0x{block.Key:X8}, 0x{block.Data.Length:X5}, ";
@@ -44,7 +45,7 @@ public static class Meta9
     }
 #endif
 
-    private static readonly uint[] DefaultChunkSizesSV =
+    private static ReadOnlySpan<uint> DefaultChunkSizesSV => new uint[]
     {
         0x0018E0B9, 0x00008, 0x001FD42F, 0x00008, 0x0022B5C9, 0x00008, 0x003096FA, 0x00008,
         0x0031E2C7, 0x00008, 0x003D333A, 0x00020, 0x0044E726, 0x00008, 0x00475C1C, 0x00008,

@@ -69,7 +69,7 @@ public partial class TrashEditor : Form
 
     private void AddCharEditing(Font f)
     {
-        ushort[] chars = GetChars(SAV.Generation);
+        var chars = GetChars(SAV.Generation);
         if (chars.Length == 0)
             return;
 
@@ -203,14 +203,14 @@ public partial class TrashEditor : Form
         Margin = new Padding(0),
     };
 
-    private static ushort[] GetChars(int generation) => generation switch
+    private static ReadOnlySpan<ushort> GetChars(int generation) => generation switch
     {
-        6 => chars67,
-        7 => chars67,
+        6 => SpecialCharsGen67,
+        7 => SpecialCharsGen67,
         _ => Array.Empty<ushort>(), // Undocumented
     };
 
-    private static readonly ushort[] chars67 =
+    private static ReadOnlySpan<ushort> SpecialCharsGen67 => new ushort[]
     {
         0xE081, 0xE082, 0xE083, 0xE084, 0xE085, 0xE086, 0xE087, 0xE08D,
         0xE08E, 0xE08F, 0xE090, 0xE091, 0xE092, 0xE093, 0xE094, 0xE095,

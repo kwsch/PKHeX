@@ -156,8 +156,8 @@ public static class MoveBreed3
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
         var tm = info.TMHM;
-        var tmlist = TM_3.AsSpan(0, 50);
-        var hmlist = HM_3.AsSpan();
+        var tmlist = TM_3;
+        var hmlist = HM_3;
         var moves = value.Moves;
         for (int i = 0; i < count; i++)
         {

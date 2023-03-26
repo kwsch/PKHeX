@@ -13,7 +13,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => this.GCExtension();
     public override PersonalTable3 Personal => PersonalTable.RS;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_COLO;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_COLO;
     public SAV3GCMemoryCard? MemoryCard { get; init; }
 
     // 3 Save files are stored

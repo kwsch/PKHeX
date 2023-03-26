@@ -41,7 +41,7 @@ internal static class ItemConverter
     {
         if (item == NaN)
             return 0;
-        int index = Array.IndexOf(arr3, item);
+        int index = arr3.IndexOf(item);
         return (ushort)Math.Max(0, index);
     }
 
@@ -54,13 +54,13 @@ internal static class ItemConverter
     {
         if (item == NaN)
             return 0;
-        int index = Array.IndexOf(arr2, item);
+        int index = arr2.IndexOf(item);
         return (byte)Math.Max(0, index);
     }
 
     #region Item Mapping Tables
     /// <summary> Gen2 items (index) and their corresponding Gen4 item ID (value) </summary>
-    private static readonly ushort[] arr2 =
+    private static ReadOnlySpan<ushort> arr2 => new ushort[]
     {
         000, 001, 002, 213, 003, 004, NaN, 450, 081, 018, // 0
         019, 020, 021, 022, 023, 024, 025, 026, 017, 078, // 1
@@ -91,7 +91,7 @@ internal static class ItemConverter
     };
 
     /// <summary> Gen3 items (index) and their corresponding Gen4 item ID (value) </summary>
-    private static readonly ushort[] arr3 =
+    private static ReadOnlySpan<ushort> arr3 => new ushort[]
     {
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 017, 018, 019, 020, 021, 022, 023,

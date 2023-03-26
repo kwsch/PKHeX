@@ -33,13 +33,13 @@ internal static class Locations4
     };
 
     // Ignore the --- met location at index 7.
-    internal static readonly ushort[] Met2 =
+    internal static ReadOnlySpan<ushort> Met2 => new ushort[]
     {
         2000, 2001, 2002, 2003, 2004, 2005, 2006,       2008, 2009,
         2010, 2011, 2012, 2013, 2014,
     };
 
-    internal static readonly ushort[] Met3 =
+    internal static ReadOnlySpan<ushort> Met3 => new ushort[]
     {
         3000, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009,
         3010, 3011, 3012, 3013, 3014, 3015, 3016, 3017, 3018, 3019,

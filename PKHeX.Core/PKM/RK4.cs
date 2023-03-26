@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -11,12 +10,10 @@ namespace PKHeX.Core;
 /// </remarks>
 public sealed class RK4 : G4PKM
 {
-    private static readonly ushort[] Unused =
-{
+    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
+    {
         0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
     };
-
-    public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_4RSTORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_4RSTORED;

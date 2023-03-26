@@ -25,7 +25,7 @@ public static class Checksums
         return (ushort)((top << 8) | bot);
     }
 
-    private static readonly ushort[] crc16 =
+    private static ReadOnlySpan<ushort> crc16 => new ushort[]
     {
         0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
         0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
@@ -61,7 +61,7 @@ public static class Checksums
         0x8201, 0x42C0, 0x4380, 0x8341, 0x4100, 0x81C1, 0x8081, 0x4040,
     };
 
-    private static readonly uint[] crc32 =
+    private static ReadOnlySpan<uint> crc32 => new uint[]
     {
         0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
         0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,
@@ -137,7 +137,7 @@ public static class Checksums
     {
         uint chk = initial;
         foreach (var b in data)
-            chk = crc32[(b ^ chk) & 0xFF] ^ (chk >> 8);
+            chk = crc32[(byte)(b ^ chk)] ^ (chk >> 8);
         return chk;
     }
 

@@ -14,23 +14,12 @@ internal static class LearnSource4
     /// <param name="hasDefog">True if the current moveset has <see cref="Move.Defog"/>.</param>
     public static ReadOnlySpan<ushort> GetPreferredTransferHMs(bool hasDefog) => hasDefog ? HM_HGSS : HM_DPPt;
 
-    internal static readonly ushort[] SpecialTutors_4 =
-    {
-        (int)Move.BlastBurn,
-        (int)Move.HydroCannon,
-        (int)Move.FrenzyPlant,
-        (int)Move.DracoMeteor,
-    };
+    internal static ReadOnlySpan<ushort> SpecialTutors_Compatibility_4_BlastBurn   => new ushort[] { 006, 157, 257, 392 };
+    internal static ReadOnlySpan<ushort> SpecialTutors_Compatibility_4_HydroCannon => new ushort[] { 009, 160, 260, 395 };
+    internal static ReadOnlySpan<ushort> SpecialTutors_Compatibility_4_FrenzyPlant => new ushort[] { 003, 154, 254, 389 };
+    internal static ReadOnlySpan<ushort> SpecialTutors_Compatibility_4_DracoMeteor => new ushort[] { 147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487 };
 
-    internal static readonly ushort[][] SpecialTutors_Compatibility_4 =
-    {
-        new ushort[] { 006, 157, 257, 392 },
-        new ushort[] { 009, 160, 260, 395 },
-        new ushort[] { 003, 154, 254, 389 },
-        new ushort[] { 147, 148, 149, 230, 329, 330, 334, 371, 372, 373, 380, 381, 384, 443, 444, 445, 483, 484, 487 },
-    };
-
-    internal static readonly ushort[] Tutors_4 =
+    internal static ReadOnlySpan<ushort> Tutors_4 => new ushort[]
     {
         291, 189, 210, 196, 205, 009, 007, 276, 008, 442, 401, 466, 380, 173, 180, 314,
         270, 283, 200, 246, 235, 324, 428, 410, 414, 441, 239, 402, 334, 393, 387, 340,
@@ -38,7 +27,7 @@ internal static class LearnSource4
         143, 335, 450, 029,
     };
 
-    internal static readonly ushort[] TM_4 =
+    internal static ReadOnlySpan<ushort> TM_4 => new ushort[]
     {
         264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
         241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
@@ -52,7 +41,7 @@ internal static class LearnSource4
         430, 433,
     };
 
-    internal static readonly ushort[] HM_DPPt =
+    internal static ReadOnlySpan<ushort> HM_DPPt => new ushort[]
     {
         (int)Move.Cut,
         (int)Move.Fly,
@@ -64,7 +53,7 @@ internal static class LearnSource4
         (int)Move.RockClimb,
     };
 
-    internal static readonly ushort[] HM_HGSS =
+    internal static ReadOnlySpan<ushort> HM_HGSS => new ushort[]
     {
         (int)Move.Cut,
         (int)Move.Fly,

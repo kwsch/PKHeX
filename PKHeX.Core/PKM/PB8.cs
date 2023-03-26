@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public sealed class PB8 : G8PKM
 {
-    private static readonly ushort[] Unused =
+    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
         // Alignment bytes
         0x17, 0x1A, 0x1B, 0x23, 0x33, 0x3E, 0x3F,
@@ -26,7 +25,6 @@ public sealed class PB8 : G8PKM
         0x140, 0x141, 0x142, 0x143, 0x144, 0x145, 0x146, 0x147,
     };
 
-    public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override PersonalInfo8BDSP PersonalInfo => PersonalTable.BDSP.GetFormEntry(Species, Form);
     public override IPermitRecord Permit => PersonalInfo;
     public override bool IsNative => BDSP;

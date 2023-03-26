@@ -151,8 +151,8 @@ public static class MoveBreed4
         var possible = value.Possible;
         var learn = value.Learnset;
         var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
-        var tmlist = TM_4.AsSpan(0, 92);
-        var hmlist = (gameVersion is HG or SS ? HM_HGSS : HM_DPPt).AsSpan();
+        var tmlist = TM_4;
+        var hmlist = gameVersion is HG or SS ? HM_HGSS : HM_DPPt;
 
         var moves = value.Moves;
         for (int i = 0; i < count; i++)

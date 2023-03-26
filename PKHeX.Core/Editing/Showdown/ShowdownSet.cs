@@ -17,7 +17,7 @@ public sealed class ShowdownSet : IBattleTemplate
     internal const string DefaultLanguage = GameLanguage.DefaultLanguage;
     private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(DefaultLanguage);
 
-    private static readonly ushort[] DashedSpecies =
+    private static ReadOnlySpan<ushort> DashedSpecies => new ushort[]
     {
         (int)NidoranF, (int)NidoranM,
         (int)HoOh,

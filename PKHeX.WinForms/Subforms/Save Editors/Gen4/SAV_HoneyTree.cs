@@ -15,13 +15,6 @@ public partial class SAV_HoneyTree : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV4Sinnoh)(Origin = sav).Clone();
 
-        Table = SAV switch
-        {
-            SAV4DP => HoneyTreeValue.TableDP,
-            SAV4Pt => HoneyTreeValue.TablePt,
-            _ => throw new Exception(),
-        };
-
         // Get Munchlax tree for this savegame in screen
         MunchlaxTrees = SAV.GetMunchlaxTrees();
 
@@ -37,12 +30,11 @@ public partial class SAV_HoneyTree : Form
     }
 
     private readonly MunchlaxTreeSet4 MunchlaxTrees;
-    private readonly ushort[][] Table;
     private int entry;
     private bool loading;
     private HoneyTreeValue? Tree;
 
-    private ushort TreeSpecies => Table[(int)NUD_Group.Value][(int)NUD_Slot.Value];
+    private ushort TreeSpecies => SAV.GetHoneyTreeSpecies((int)NUD_Group.Value, (int)NUD_Slot.Value);
     private void B_Catchable_Click(object sender, EventArgs e) => NUD_Time.Value = 1080;
 
     private void ChangeGroupSlot(object sender, EventArgs e)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -31,7 +32,7 @@ public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     }
 
     public override PersonalTable7 Personal => PersonalTable.USUM;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_USUM;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_USUM;
     protected override SAV7USUM CloneInternal() => new((byte[])Data.Clone());
     public override int EventFlagCount => 4960;
     public override ushort MaxMoveID => Legal.MaxMoveID_7_USUM;

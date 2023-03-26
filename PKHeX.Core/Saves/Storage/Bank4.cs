@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -10,7 +11,7 @@ public sealed class Bank4 : BulkStorage
     public Bank4(byte[] data) : base(data, typeof(PK4), 0) => Version = GameVersion.HGSS;
 
     public override PersonalTable4 Personal => PersonalTable.HGSS;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_HGSS;
     protected override Bank4 CloneInternal() => new((byte[])Data.Clone());
     public override string PlayTimeString => Checksums.CRC16Invert(Data).ToString("X4");
     protected internal override string ShortSummary => PlayTimeString;

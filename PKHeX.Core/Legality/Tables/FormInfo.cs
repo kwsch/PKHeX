@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
@@ -119,9 +120,9 @@ public static class FormInfo
         return false;
     }
 
-    public static bool IsFormChangeEgg(ushort species) => System.Array.IndexOf(FormChangeEgg, species) != -1;
+    public static bool IsFormChangeEgg(ushort species) => FormChangeEgg.IndexOf(species) != -1;
 
-    private static readonly ushort[] FormChangeEgg =
+    private static ReadOnlySpan<ushort> FormChangeEgg => new ushort[]
     {
         (int)Burmy,
         (int)Furfrou,
@@ -132,8 +133,12 @@ public static class FormInfo
     /// Species that can change between their forms, regardless of origin.
     /// </summary>
     /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-    private static readonly HashSet<ushort> FormChange = new(FormChangeEgg)
+    private static readonly HashSet<ushort> FormChange = new()
     {
+        (int)Burmy,
+        (int)Furfrou,
+        (int)Oricorio,
+
         // Sometimes considered for wild encounters
         (int)Rotom,
 

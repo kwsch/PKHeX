@@ -13,7 +13,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
     public override string Extension => this.GCExtension();
     public override PersonalTable3 Personal => PersonalTable.RS;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
     public SAV3GCMemoryCard? MemoryCard { get; init; }
     private readonly bool Japanese;
 

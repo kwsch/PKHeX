@@ -278,7 +278,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void SetPKMFormatExtraBytes(PKM pk)
     {
         var extraBytes = pk.ExtraBytes;
-        FLP_ExtraBytes.Visible = FLP_ExtraBytes.Enabled = extraBytes.Count != 0;
+        FLP_ExtraBytes.Visible = FLP_ExtraBytes.Enabled = extraBytes.Length != 0;
         CB_ExtraBytes.Items.Clear();
         foreach (var b in extraBytes)
             CB_ExtraBytes.Items.Add($"0x{b:X2}");

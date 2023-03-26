@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -12,9 +13,9 @@ public static class Meta8
     /// </summary>
     /// <param name="arr">Block specification tuples (key, size)</param>
     /// <returns>List of blocks</returns>
-    private static SCBlock[] GetBlankBlockArray(IReadOnlyList<uint> arr)
+    private static SCBlock[] GetBlankBlockArray(ReadOnlySpan<uint> arr)
     {
-        var blocks = new SCBlock[arr.Count / 2];
+        var blocks = new SCBlock[arr.Length / 2];
         for (int i = 0; i < blocks.Length; i++)
         {
             int index = i * 2;
@@ -36,7 +37,7 @@ public static class Meta8
                 continue;
             if (ctr == 4)
             {
-                yield return System.Environment.NewLine;
+                yield return Environment.NewLine;
                 ctr = 0;
             }
             yield return $"0x{block.Key:X8}, 0x{block.Data.Length:X5}, ";
@@ -45,7 +46,7 @@ public static class Meta8
     }
 #endif
 
-    private static readonly uint[] DefaultChunkSizesSWSH =
+    private static ReadOnlySpan<uint> DefaultChunkSizesSWSH => new uint[]
     {
         0x00A1F55B, 0x00004, 0x0123EA7A, 0x00004, 0x017C3CBB, 0x00001, 0x0192A204, 0x00009,
         0x01A1F6EE, 0x00004, 0x01BFCAD0, 0x00002, 0x02B647B4, 0x00004, 0x02BFCC63, 0x00002,
@@ -269,7 +270,7 @@ public static class Meta8
         0xFFA1F3C8, 0x00004,
     };
 
-    private static readonly uint[] DefaultChunkSizesLA =
+    private static ReadOnlySpan<uint> DefaultChunkSizesLA => new uint[]
     {
         0x00EF4BAE, 0x00140, 0x017C3CBB, 0x00001, 0x02168706, 0x1E460, 0x022A2253, 0x00001,
         0x024C8CF3, 0x00004, 0x033D60DA, 0x00004, 0x0493AF74, 0x00004, 0x04AE4181, 0x00001,

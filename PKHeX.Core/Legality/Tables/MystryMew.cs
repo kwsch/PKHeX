@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class MystryMew
 {
-    private static readonly ushort[] Seeds =
+    private static ReadOnlySpan<ushort> Seeds => new ushort[]
     {
         0x0652, 0x0932, 0x0C13, 0x0D43, 0x0EEE,
         0x1263, 0x13C9, 0x1614, 0x1C09, 0x1EA5,
@@ -41,8 +41,9 @@ public static class MystryMew
     /// </summary>
     public static uint GetSeed(uint random, PIDType type = PIDType.BACD_U)
     {
-        uint restricted = random % (uint)Seeds.Length;
-        var seed = (uint)Seeds[restricted];
+        var seeds = Seeds;
+        uint restricted = random % (uint)seeds.Length;
+        var seed = (uint)seeds[(int)restricted];
         if (type == PIDType.BACD_R)
             return seed;
 
@@ -59,10 +60,11 @@ public static class MystryMew
     /// <param name="seed">Origin seed (for the PID/IV)</param>
     public static int GetSeedIndex(uint seed)
     {
+        var seeds = Seeds;
         for (int i = 0; i < 5; i++)
         {
             if (seed <= ushort.MaxValue)
-                return Array.BinarySearch(Seeds, (ushort)seed);
+                return seeds.BinarySearch((ushort)seed);
             seed = LCRNG.Prev5(seed);
         }
 

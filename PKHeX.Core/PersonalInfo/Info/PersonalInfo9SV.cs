@@ -115,7 +115,7 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
     public int RecordCountTotal => 200;
     public int RecordCountUsed => CountTM;
 
-    private static readonly ushort[] TM_SV =
+    private static ReadOnlySpan<ushort> TM_SV => new ushort[]
     {
         005, 036, 204, 313, 097, 189, 184, 182, 424, 422,
         423, 352, 067, 491, 512, 522, 060, 109, 168, 574,

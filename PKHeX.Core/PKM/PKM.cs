@@ -21,7 +21,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int SIZE_STORED { get; }
     public string Extension => GetType().Name.ToLowerInvariant();
     public abstract PersonalInfo PersonalInfo { get; }
-    public virtual IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
+    public virtual ReadOnlySpan<ushort> ExtraBytes => Array.Empty<ushort>();
 
     // Internal Attributes set on creation
     public readonly byte[] Data; // Raw Storage
@@ -757,7 +757,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// </summary>
     /// <param name="valid">Items that the <see cref="PKM"/> can hold.</param>
     /// <returns>True/False if the <see cref="PKM"/> can hold its <see cref="HeldItem"/>.</returns>
-    public virtual bool CanHoldItem(IReadOnlyList<ushort> valid) => valid.Contains((ushort)HeldItem);
+    public virtual bool CanHoldItem(ReadOnlySpan<ushort> valid) => valid.Contains((ushort)HeldItem);
 
     /// <summary>
     /// Deep clones the <see cref="PKM"/> object. The clone will not have any shared resources with the source.

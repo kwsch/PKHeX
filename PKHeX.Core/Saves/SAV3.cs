@@ -180,7 +180,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         _ => throw new ArgumentOutOfRangeException(nameof(version)),
     };
 
-    public sealed override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
+    public sealed override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
 
     public sealed override int BoxCount => 14;
     public sealed override int MaxEV => 255;

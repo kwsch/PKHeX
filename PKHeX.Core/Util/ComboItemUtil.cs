@@ -39,9 +39,9 @@ public static partial class Util
         return list;
     }
 
-    public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, IReadOnlyList<ushort> allowed)
+    public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, ReadOnlySpan<ushort> allowed)
     {
-        var list = new List<ComboItem>(allowed.Count + 1) { new(inStrings[0], 0) };
+        var list = new List<ComboItem>(allowed.Length + 1) { new(inStrings[0], 0) };
         foreach (var index in allowed)
             list.Add(new ComboItem(inStrings[index], index));
         list.Sort(Comparer);
@@ -87,7 +87,7 @@ public static partial class Util
         cbList.Sort(beginCount, allowed.Length, Comparer);
     }
 
-    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, ushort[] allowed)
+    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, ReadOnlySpan<ushort> allowed)
     {
         int beginCount = cbList.Count;
         cbList.Capacity += allowed.Length;

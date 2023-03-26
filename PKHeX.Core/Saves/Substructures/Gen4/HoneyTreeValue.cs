@@ -18,24 +18,5 @@ public sealed class HoneyTreeValue
     public int Group { get => Data[6]; set { Data[6] = (byte)value; SubTable = Math.Max(0, Group - 1); } }
     public int Shake { get => Data[7]; set => Data[7] = (byte)value; }
 
-    public HoneyTreeValue(byte[] data)
-    {
-        Data = data;
-    }
-
-    public static readonly ushort[][] TableDP =
-    {
-        new ushort[] {000, 000, 000, 000, 000, 000},
-        new ushort[] {265, 266, 415, 412, 420, 190},
-        new ushort[] {415, 412, 420, 190, 214, 265},
-        new ushort[] {446, 446, 446, 446, 446, 446},
-    };
-
-    public static readonly ushort[][] TablePt =
-    {
-        TableDP[0],
-        new ushort[] {415, 265, 412, 420, 190, 190},
-        new ushort[] {412, 420, 415, 190, 190, 214},
-        TableDP[3],
-    };
+    public HoneyTreeValue(byte[] data) => Data = data;
 }

@@ -30,11 +30,12 @@ public static class StringConverter3
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
     {
+        var table = jp ? G3_JP : G3_EN;
         int i = 0;
         for (; i < data.Length; i++)
         {
             var value = data[i];
-            var c = GetG3Char(value, jp); // Convert to Unicode
+            var c = table[value]; // Convert to Unicode
             if (c == Terminator) // Stop if Terminator/Invalid
                 break;
             result[i] = c;
@@ -62,11 +63,14 @@ public static class StringConverter3
         else if (option is StringConverterOption.ClearZero)
             buffer.Clear();
 
+        var table = jp ? G3_JP : G3_EN;
         int i = 0;
         for (; i < value.Length; i++)
         {
             var chr = value[i];
-            var b = SetG3Char(chr, jp);
+            if (chr == '\'') // ’
+                return 0xB4;
+            var b = (byte)table.IndexOf(chr);
             if (b == TerminatorByte)
                 break;
             buffer[i] = b;
@@ -84,7 +88,7 @@ public static class StringConverter3
     /// <param name="chr">Generation 4 decoded character.</param>
     /// <param name="jp">Character destination is Japanese font.</param>
     /// <returns>Generation 3 encoded value.</returns>
-    private static char GetG3Char(byte chr, bool jp)
+    public static char GetG3Char(byte chr, bool jp)
     {
         var table = jp ? G3_JP : G3_EN;
         return table[chr];
@@ -96,18 +100,16 @@ public static class StringConverter3
     /// <param name="chr">Generation 4 decoded character.</param>
     /// <param name="jp">Character destination is Japanese font.</param>
     /// <returns>Generation 3 encoded value.</returns>
-    private static byte SetG3Char(char chr, bool jp)
+    public static byte SetG3Char(char chr, bool jp)
     {
         if (chr == '\'') // ’
             return 0xB4;
         var table = jp ? G3_JP : G3_EN;
-        var index = Array.IndexOf(table, chr);
-        if (index == -1)
-            return TerminatorByte;
+        var index = table.IndexOf(chr);
         return (byte)index;
     }
 
-    private static readonly char[] G3_EN =
+    private static ReadOnlySpan<char> G3_EN => new[]
     {
         ' ',  'À',  'Á',  'Â', 'Ç',  'È',  'É',  'Ê',  'Ë',  'Ì', 'こ', 'Î',  'Ï',  'Ò',  'Ó',  'Ô',  // 0
         'Œ',  'Ù',  'Ú',  'Û', 'Ñ',  'ß',  'à',  'á',  'ね', 'Ç',  'È', 'é',  'ê',  'ë',  'ì',  'í',  // 1
@@ -130,7 +132,7 @@ public static class StringConverter3
         Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator,
     };
 
-    private static readonly char[] G3_JP =
+    private static ReadOnlySpan<char> G3_JP => new[]
     {
         '　', 'あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', // 0
         'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', // 1

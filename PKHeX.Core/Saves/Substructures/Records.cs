@@ -32,7 +32,7 @@ public static class Records
         _ => -1,
     };
 
-    private static readonly int[] MaxByType = {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
+    private static ReadOnlySpan<int> MaxByType => new[] {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
 
     public static ReadOnlySpan<byte> DailyPairs_6 => new byte[] {29, 30, 110, 111, 112, 113, 114, 115, 116, 117};
     public static ReadOnlySpan<byte> DailyPairs_7 => new byte[] {22, 23, 110, 111, 112, 113, 114, 115, 116, 117};

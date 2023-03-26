@@ -14,7 +14,7 @@ public sealed class SAV2Stadium : SAV_STADIUM
 
     public override PersonalTable2 Personal => PersonalTable.C;
     public override int MaxEV => ushort.MaxValue;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GSC;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_GSC;
     public override GameVersion Version { get; protected set; } = GameVersion.Stadium2;
 
     protected override SAV2Stadium CloneInternal() => new((byte[])Data.Clone(), Japanese);

@@ -47,7 +47,8 @@ public sealed class PokedexSaveData
 
     public bool TryGetStatisticsEntry(ushort species, byte form, [NotNullWhen(true)] out PokedexSaveStatisticsEntry? entry)
     {
-        var fstIdIndex = Array.BinarySearch(PokedexConstants8a.FormStorageIndexIds, (ushort)(species | (form << 11)));
+        var mash = (ushort)(species | (form << 11));
+        var fstIdIndex = PokedexConstants8a.FormStorageIndexIds.BinarySearch(mash);
         if (fstIdIndex >= 0)
         {
             entry = StatisticsEntries[PokedexConstants8a.FormStorageIndexValues[fstIdIndex]];

@@ -131,7 +131,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
 
     public string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
 
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BS;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_BS;
     protected override SAV8BS CloneInternal() => new((byte[])(Data.Clone()));
 
     protected override byte[] GetFinalData()

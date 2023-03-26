@@ -81,7 +81,7 @@ public sealed class LearnSource3LG : ILearnSource<PersonalInfo3>, IEggSource
 
     private static bool GetIsTM(PersonalInfo3 info, ushort move)
     {
-        var index = Array.IndexOf(TM_3, move);
+        var index = TM_3.IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[index];
@@ -89,7 +89,7 @@ public sealed class LearnSource3LG : ILearnSource<PersonalInfo3>, IEggSource
 
     private static bool GetIsHM(PersonalInfo3 info, ushort move)
     {
-        var index = Array.IndexOf(HM_3, move);
+        var index = HM_3.IndexOf(move);
         if (index == -1)
             return false;
         return info.TMHM[CountTM + index];

@@ -355,8 +355,8 @@ public sealed class Zukan4 : ZukanBase<SAV4>
 
     public bool GetLanguageBitIndex(ushort species, int lang)
     {
-        int dpl = 1 + Array.IndexOf(DPLangSpecies, species);
-        if (DP && dpl < 0)
+        int dpl = 1 + DPLangSpecies.IndexOf(species);
+        if (DP && dpl <= 0)
             return false;
         int FormOffset1 = Offset + OFS_FORM1;
         int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
@@ -367,7 +367,7 @@ public sealed class Zukan4 : ZukanBase<SAV4>
 
     public void SetLanguageBitIndex(ushort species, int lang, bool value)
     {
-        int dpl = 1 + Array.IndexOf(DPLangSpecies, species);
+        int dpl = 1 + DPLangSpecies.IndexOf(species);
         if (DP && dpl <= 0)
             return;
         int FormOffset1 = Offset + OFS_FORM1;
@@ -382,11 +382,11 @@ public sealed class Zukan4 : ZukanBase<SAV4>
     private int GetSpeciesLanguageByteIndex(ushort species)
     {
         if (DP)
-            return Array.IndexOf(DPLangSpecies, species);
+            return DPLangSpecies.IndexOf(species);
         return species;
     }
 
-    private static readonly int[] DPLangSpecies = { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
+    private static ReadOnlySpan<ushort> DPLangSpecies => new ushort[] { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
 
     public static int GetGen4LanguageBitIndex(int lang) => --lang switch
     {

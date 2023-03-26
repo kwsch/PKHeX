@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -127,7 +126,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override int Version { get => (int)GameVersion.RBY; set { } }
     public override int PKRS_Strain { get => 0; set { } }
     public override int PKRS_Days { get => 0; set { } }
-    public override bool CanHoldItem(IReadOnlyList<ushort> valid) => false;
+    public override bool CanHoldItem(ReadOnlySpan<ushort> valid) => false;
     public override int Met_Location { get => 0; set { } }
     public override int OT_Gender { get => 0; set { } }
     public override int Met_Level { get => 0; set { } }

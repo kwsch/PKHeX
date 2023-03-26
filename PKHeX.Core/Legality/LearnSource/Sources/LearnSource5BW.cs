@@ -84,7 +84,7 @@ public sealed class LearnSource5BW : ILearnSource<PersonalInfo5BW>, IEggSource
 
     private static bool GetIsTypeTutor(PersonalInfo5BW pi, ushort move)
     {
-        var index = Array.IndexOf(TypeTutor567, move);
+        var index = TypeTutor567.IndexOf(move);
         if (index == -1)
             return false;
         return pi.GetIsLearnTutorType(index);
@@ -92,7 +92,7 @@ public sealed class LearnSource5BW : ILearnSource<PersonalInfo5BW>, IEggSource
 
     private static bool GetIsTM(PersonalInfo5BW info, ushort move)
     {
-        var index = Array.IndexOf(TMHM_BW, move);
+        var index = TMHM_BW.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index) && index != 94; // TM95 not available in this game

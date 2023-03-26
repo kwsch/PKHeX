@@ -207,7 +207,7 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         }
     }
 
-    private static readonly ushort[] TM_SWSH =
+    private static ReadOnlySpan<ushort> TM_SWSH => new ushort[]
     {
         005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
         345, 076, 669, 083, 086, 091, 103, 113, 115, 219,
@@ -221,7 +221,7 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
     };
 
-    private static readonly ushort[] TR_SWSH =
+    private static ReadOnlySpan<ushort> TR_SWSH => new ushort[]
     {
         014, 034, 053, 056, 057, 058, 059, 067, 085, 087,
         089, 094, 097, 116, 118, 126, 127, 133, 141, 161,
@@ -235,7 +235,7 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
     };
 
-    private static readonly ushort[] TypeTutor8 =
+    private static ReadOnlySpan<ushort> TypeTutor8 => new ushort[]
     {
         (int)Move.GrassPledge,
         (int)Move.FirePledge,
@@ -247,7 +247,7 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         (int)Move.SteelBeam,
     };
 
-    private static readonly ushort[] Tutors_SWSH =
+    private static ReadOnlySpan<ushort> Tutors_SWSH => new ushort[]
     {
         805, 807, 812, 804, 803, 813, 811, 810,
         815, 814, 797, 806, 800, 809, 799, 808,
@@ -258,19 +258,19 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
 
     public bool GetIsLearnTM(ushort move)
     {
-        var index = TM_SWSH.AsSpan().IndexOf(move);
+        var index = TM_SWSH.IndexOf(move);
         return GetIsLearnTM(index);
     }
 
     public bool GetIsLearnTutorType(ushort move)
     {
-        var index = TypeTutor8.AsSpan().IndexOf(move);
+        var index = TypeTutor8.IndexOf(move);
         return GetIsLearnTutorType(index);
     }
 
     public bool GetIsLearnTutorSpecial(ushort move)
     {
-        var index = Tutors_SWSH.AsSpan().IndexOf(move);
+        var index = Tutors_SWSH.IndexOf(move);
         return GetIsLearnTutorSpecial(index);
     }
 

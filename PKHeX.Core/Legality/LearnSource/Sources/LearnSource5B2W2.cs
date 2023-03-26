@@ -87,7 +87,7 @@ public sealed class LearnSource5B2W2 : ILearnSource<PersonalInfo5B2W2>, IEggSour
 
     private static bool GetIsTypeTutor(PersonalInfo5B2W2 pi, ushort move)
     {
-        var index = Array.IndexOf(TypeTutor567, move);
+        var index = TypeTutor567.IndexOf(move);
         if (index == -1)
             return false;
         return pi.GetIsLearnTutorType(index);
@@ -95,7 +95,7 @@ public sealed class LearnSource5B2W2 : ILearnSource<PersonalInfo5B2W2>, IEggSour
 
     private static bool GetIsTM(PersonalInfo5B2W2 info, ushort move)
     {
-        var index = Array.IndexOf(TMHM_BW, move);
+        var index = TMHM_BW.IndexOf(move);
         if (index == -1)
             return false;
         return info.GetIsLearnTM(index);

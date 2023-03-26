@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
 public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, ICombatPower, IFavorite, IFormArgument
 {
-    public static readonly ushort[] Unused =
+    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
         0x2A, // Old Marking Value (PelagoEventStatus)
         0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, // Unused Ribbons
@@ -20,8 +20,6 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         0xAC, 0xAD, // Fatigue, no GUI editing
         0xC8, 0xC9, // OT Terminator
     };
-
-    public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
     public override int SIZE_PARTY => SIZE;
     public override int SIZE_STORED => SIZE;

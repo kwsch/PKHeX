@@ -54,7 +54,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     protected override byte[] GetFinalData() => SwishCrypto.Encrypt(AllBlocks);
 
     public override PersonalTable8SWSH Personal => PersonalTable.SWSH;
-    public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SWSH;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_SWSH;
 
     #region Blocks
     public SCBlockAccessor Accessor => Blocks;

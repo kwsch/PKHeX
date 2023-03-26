@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -11,7 +10,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     IGanbaru, IAlpha, INoble, ITechRecord, ISociability, IMoveShop8Mastery, IContestStats, IHyperTrain, IScaledSizeValue, IScaledSize3, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories,
     IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMarks, IRibbonSetMark8
 {
-    private static readonly ushort[] Unused =
+    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
         0x17, 0x1A, 0x1B, 0x23, 0x33,
         0x4C, 0x4D, 0x4E, 0x4F,
@@ -29,7 +28,6 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         0x12D, 0x13C,
     };
 
-    public override IReadOnlyList<ushort> ExtraBytes => Unused;
     public override PersonalInfo8LA PersonalInfo => PersonalTable.LA.GetFormEntry(Species, Form);
     public IPermitRecord Permit => PersonalInfo;
 

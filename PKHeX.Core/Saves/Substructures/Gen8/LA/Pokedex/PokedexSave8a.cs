@@ -511,7 +511,8 @@ public sealed class PokedexSave8a
         var formCount = Personal[species].FormCount;
         for (byte form = 0; form < formCount; form++)
         {
-            var index = Array.BinarySearch(PokedexConstants8a.PokemonInfoIds, (ushort)(species | (form << 11)));
+            var mash = (ushort)(species | (form << 11));
+            var index = PokedexConstants8a.PokemonInfoIds.BinarySearch(mash);
             if (index < 0)
                 continue;
 
@@ -541,7 +542,8 @@ public sealed class PokedexSave8a
         var formCount = Personal[species].FormCount;
         for (var form = 0; form < formCount; form++)
         {
-            var index = Array.BinarySearch(PokedexConstants8a.PokemonInfoIds, (ushort)(species | (form << 11)));
+            var mash = (ushort)(species | (form << 11));
+            var index = PokedexConstants8a.PokemonInfoIds.BinarySearch(mash);
             if (index < 0)
                 continue;
 
@@ -1190,7 +1192,8 @@ public sealed class PokedexSave8a
 
         var speciesEntry = SaveData.GetResearchEntry(species);
 
-        var pokeInfoIndex = Array.BinarySearch(PokedexConstants8a.PokemonInfoIds, (ushort)(species | (form << 11)));
+        var mash = (ushort)(species | (form << 11));
+        var pokeInfoIndex = PokedexConstants8a.PokemonInfoIds.BinarySearch(mash);
         if (pokeInfoIndex >= 0 && (PokedexConstants8a.PokemonInfoGenders[pokeInfoIndex] & (1 << 3)) != 0)
         {
             var g0 = false;
