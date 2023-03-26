@@ -16,20 +16,10 @@ public sealed class LevelVerifier : Verifier
         var enc = data.EncounterOriginal;
         if (enc is MysteryGift gift)
         {
-            if (gift.Level != pk.Met_Level && pk.HasOriginalMetLocation)
+            if (!IsMetLevelMatchEncounter(gift, pk))
             {
-                switch (gift)
-                {
-                    case WC3 wc3 when wc3.Met_Level == pk.Met_Level || wc3.IsEgg:
-                        break;
-                    case WC7 wc7 when wc7.MetLevel == pk.Met_Level:
-                        break;
-                    case PGT {IsManaphyEgg: true} when pk.Met_Level == 0:
-                        break;
-                    default:
-                        data.AddLine(GetInvalid(LLevelMetGift));
-                        return;
-                }
+                data.AddLine(GetInvalid(LLevelMetGift));
+                return;
             }
             if (gift.Level > pk.CurrentLevel)
             {
@@ -69,6 +59,22 @@ public sealed class LevelVerifier : Verifier
             data.AddLine(Get(LLevelEXPThreshold, Severity.Fishy));
         else
             data.AddLine(GetValid(LLevelMetSane));
+    }
+
+    private static bool IsMetLevelMatchEncounter(MysteryGift gift, PKM pk)
+    {
+        if (gift.Level == pk.Met_Level)
+            return true;
+        if (!pk.HasOriginalMetLocation)
+            return true;
+
+        return gift switch
+        {
+            WC3 wc3 when wc3.Met_Level == pk.Met_Level || wc3.IsEgg => true,
+            WC7 wc7 when wc7.MetLevel == pk.Met_Level => true,
+            PGT { IsManaphyEgg: true } when pk.Met_Level == 0 => true,
+            _ => false,
+        };
     }
 
     public void VerifyG1(LegalityAnalysis data)

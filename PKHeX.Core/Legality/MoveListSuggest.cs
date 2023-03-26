@@ -153,7 +153,7 @@ public static class MoveListSuggest
             return;
 
         if (enc is EncounterEgg or EncounterInvalid {EggEncounter: true})
-            enc.GetSuggestedRelearnEgg(info.Moves, pk, moves);
+            enc.GetSuggestedRelearnEgg(info.Relearn, pk, moves);
         else
             enc.GetSuggestedRelearnInternal(pk, moves);
     }
@@ -192,14 +192,14 @@ public static class MoveListSuggest
         }
     }
 
-    private static ushort[] GetEggRelearnMoves(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
+    private static void GetEggRelearnMoves(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
     {
         // Extract a list of the moves that should end up in the relearn move list.
         LoadRelearnFlagged(moves, parse, pk);
 
         Span<ushort> expected = stackalloc ushort[moves.Length];
         _ = MoveBreed.GetExpectedMoves(moves, enc, expected);
-        return expected.ToArray();
+        expected.CopyTo(moves);
     }
 
     private static void LoadRelearnFlagged(Span<ushort> moves, ReadOnlySpan<MoveResult> parse, PKM pk)
