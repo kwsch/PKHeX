@@ -322,7 +322,7 @@ public partial class SAV_Inventory : Form
         {
             items = (ushort[])items.Clone();
             if (shuffle)
-                Util.Shuffle(items.AsSpan());
+                Util.Rand.Shuffle(items.AsSpan());
             Array.Resize(ref items, pouch.Items.Length);
         }
 

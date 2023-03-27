@@ -453,16 +453,11 @@ public static class BatchEditing
     {
         switch (cmd.PropertyName)
         {
-            case nameof(PKM.Nickname_Trash): ConvertToBytes(cmd.PropertyValue).CopyTo(pk.Nickname_Trash); return ModifyResult.Modified;
-            case nameof(PKM.OT_Trash):       ConvertToBytes(cmd.PropertyValue).CopyTo(pk.OT_Trash);       return ModifyResult.Modified;
-            case nameof(PKM.HT_Trash):       ConvertToBytes(cmd.PropertyValue).CopyTo(pk.HT_Trash);       return ModifyResult.Modified;
+            case nameof(PKM.Nickname_Trash): StringUtil.LoadHexBytesTo(cmd.PropertyValue.AsSpan(CONST_BYTES.Length), pk.Nickname_Trash, 3); return ModifyResult.Modified;
+            case nameof(PKM.OT_Trash):       StringUtil.LoadHexBytesTo(cmd.PropertyValue.AsSpan(CONST_BYTES.Length), pk.OT_Trash, 3);       return ModifyResult.Modified;
+            case nameof(PKM.HT_Trash):       StringUtil.LoadHexBytesTo(cmd.PropertyValue.AsSpan(CONST_BYTES.Length), pk.HT_Trash, 3);       return ModifyResult.Modified;
             default:
                 return ModifyResult.Error;
-        }
-        static byte[] ConvertToBytes(string str)
-        {
-            var arr = str[CONST_BYTES.Length..].Split(',');
-            return Array.ConvertAll(arr, z => Convert.ToByte(z.Trim(), 16));
         }
     }
 

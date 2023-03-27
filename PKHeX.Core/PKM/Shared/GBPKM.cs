@@ -30,13 +30,24 @@ public abstract class GBPKM : PKM
     public override bool Valid { get => true; set { } }
     public sealed override void RefreshChecksum() { }
 
-    protected abstract byte[] GetNonNickname(int language);
-
     private bool? _isnicknamed;
+    protected abstract void GetNonNickname(int language, Span<byte> data);
 
     public sealed override bool IsNicknamed
     {
-        get => _isnicknamed ??= !Nickname_Trash.SequenceEqual(GetNonNickname(GuessedLanguage()));
+        get
+        {
+            if (_isnicknamed is {} actual)
+                return actual;
+
+            var current = Nickname_Trash;
+            Span<byte> expect = stackalloc byte[current.Length];
+            var language = GuessedLanguage();
+            GetNonNickname(language, expect);
+            var result = !current.SequenceEqual(expect);
+            _isnicknamed = result;
+            return result;
+        }
         set
         {
             _isnicknamed = value;

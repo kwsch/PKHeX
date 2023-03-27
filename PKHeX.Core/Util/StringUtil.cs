@@ -65,19 +65,37 @@ public static class StringUtil
     }
 
     /// <summary>
-    /// Converts an all-caps hex string to a byte array.
+    /// Converts an all-caps hex string to a byte array. Expects no separation between byte tuples.
     /// </summary>
     public static byte[] ToByteArray(this string toTransform)
     {
         var result = new byte[toTransform.Length / 2];
-        for (int i = 0; i < result.Length; i++)
-        {
-            var ofs = i << 1;
-            var _0 = toTransform[ofs + 0];
-            var _1 = toTransform[ofs + 1];
-            result[i] = DecodeTuple(_0, _1);
-        }
+        LoadHexBytesTo(toTransform, result, 2);
         return result;
+    }
+
+    /// <summary>
+    /// Converts an all-caps encoded ASCII-Text hex string to a byte array.
+    /// </summary>
+    public static void LoadHexBytesTo(Span<byte> dest, ReadOnlySpan<byte> str, int tupleSize)
+    {
+        // The input string is 2-char hex values optionally separated.
+        // The destination array should always be larger or equal than the bytes written. Let the runtime bounds check us.
+        // Iterate through the string without allocating.
+        for (int i = 0, j = 0; i < str.Length; i += tupleSize)
+            dest[j++] = DecodeTuple((char)str[i + 0], (char)str[i + 1]);
+    }
+
+    /// <summary>
+    /// Converts an all-caps hex string to a byte array.
+    /// </summary>
+    public static void LoadHexBytesTo(ReadOnlySpan<char> str, Span<byte> dest, int tupleSize)
+    {
+        // The input string is 2-char hex values optionally separated.
+        // The destination array should always be larger or equal than the bytes written. Let the runtime bounds check us.
+        // Iterate through the string without allocating.
+        for (int i = 0, j = 0; i < str.Length; i += tupleSize)
+            dest[j++] = DecodeTuple(str[i + 0], str[i + 1]);
     }
 
     private static byte DecodeTuple(char _0, char _1)

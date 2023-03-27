@@ -46,7 +46,7 @@ public static class EffortValues
             break; // done!
         }
 
-        Util.Shuffle(evs, 0, evs.Length, rnd);
+        rnd.Shuffle(evs);
     }
 
     private static void SetRandom12(Span<int> evs, Random rnd)

@@ -131,20 +131,13 @@ public sealed class SK2 : GBPKM, ICaughtData2
     public override bool HasOriginalMetLocation => CaughtData != 0;
     public override int Version { get => (int)GameVersion.GSC; set { } }
 
-    protected override byte[] GetNonNickname(int language)
+    protected override void GetNonNickname(int language, Span<byte> data)
     {
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
-        byte[] data = new byte[name.Length];
         StringConverter12.SetString(data, name, data.Length, Japanese, StringConverterOption.Clear50);
-        return data;
     }
 
-    public override void SetNotNicknamed(int language)
-    {
-        var name = SpeciesName.GetSpeciesNameGeneration(Species, language, 2);
-        Nickname_Trash.Clear();
-        Nickname = name;
-    }
+    public override void SetNotNicknamed(int language) => GetNonNickname(language, Nickname_Trash);
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_2;

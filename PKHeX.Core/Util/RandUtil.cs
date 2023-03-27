@@ -14,23 +14,16 @@ public static partial class Util
     /// Shuffles the order of items within a collection of items.
     /// </summary>
     /// <typeparam name="T">Item type</typeparam>
-    /// <param name="items">Item collection</param>
-    public static void Shuffle<T>(Span<T> items) => Shuffle(items, 0, items.Length, Rand);
-
-    /// <summary>
-    /// Shuffles the order of items within a collection of items.
-    /// </summary>
-    /// <typeparam name="T">Item type</typeparam>
-    /// <param name="items">Item collection</param>
-    /// <param name="start">Starting position</param>
-    /// <param name="end">Ending position</param>
     /// <param name="rnd">RNG object to use</param>
-    public static void Shuffle<T>(Span<T> items, int start, int end, Random rnd)
+    /// <param name="items">Item collection</param>
+    public static void Shuffle<T>(this Random rnd, Span<T> items)
     {
-        for (int i = start; i < end; i++)
+        int n = items.Length;
+        for (int i = 0; i < n - 1; i++)
         {
-            int index = i + rnd.Next(end - i);
-            (items[index], items[i]) = (items[i], items[index]);
+            int j = rnd.Next(i, n);
+            if (j != i)
+                (items[i], items[j]) = (items[j], items[i]);
         }
     }
 }

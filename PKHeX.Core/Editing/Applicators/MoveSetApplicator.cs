@@ -59,7 +59,7 @@ public static class MoveSetApplicator
     {
         la.GetSuggestedCurrentMoves(moves, random ? MoveSourceType.All : MoveSourceType.Encounter);
         if (random && !la.Entity.IsEgg)
-            Util.Shuffle(moves);
+            Util.Rand.Shuffle(moves);
     }
 
     /// <summary>

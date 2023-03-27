@@ -176,7 +176,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
             finalIVs[i] = rnd.Next(32);
         for (var i = 0; i < flawless; i++)
             finalIVs[i] = 31;
-        Util.Shuffle(finalIVs);
+        rnd.Shuffle(finalIVs);
         pk7.SetIVs(finalIVs);
 
         switch (IsShiny ? Shiny.Always : Shiny.Never)

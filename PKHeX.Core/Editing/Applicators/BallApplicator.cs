@@ -43,7 +43,7 @@ public static class BallApplicator
         Span<Ball> balls = stackalloc Ball[MaxBallSpanAlloc];
         var count = GetBallListFromColor(pk, balls);
         balls = balls[..count];
-        Util.Shuffle(balls);
+        Util.Rand.Shuffle(balls);
         return ApplyFirstLegalBall(pk, balls);
     }
 

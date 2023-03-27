@@ -43,7 +43,7 @@ public sealed class Puff6 : SaveBlock<SAV6>
         {
             for (int i = 0; i < PuffSlots; i++)
                 Data[Offset + i] = (byte)((i % MaxPuffID) + 1);
-            Util.Shuffle(Data.AsSpan(), Offset, Offset + PuffSlots, rnd);
+            rnd.Shuffle(Data.AsSpan(Offset, PuffSlots));
         }
         PuffCount = PuffSlots;
     }

@@ -904,7 +904,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         {
             for (int i = 0; i < count; i++)
                 ivs[i] = MaxIV;
-            Util.Shuffle(ivs, 0, ivs.Length, rnd); // Randomize IV order
+            rnd.Shuffle(ivs); // Randomize IV order
         }
         SetIVs(ivs);
     }

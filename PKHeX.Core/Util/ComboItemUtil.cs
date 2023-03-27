@@ -112,23 +112,14 @@ public static partial class Util
         cbList.Sort(beginCount, inStrings.Length, Comparer);
     }
 
-    public static ComboItem[] GetVariedCBListBall(string[] inStrings, ReadOnlySpan<ushort> stringNum, ReadOnlySpan<byte> stringVal)
+    public static ComboItem[] GetVariedCBListBall(ReadOnlySpan<string> itemNames, ReadOnlySpan<byte> ballIndex, ReadOnlySpan<ushort> ballItemID)
     {
-        const int forcedTop = 3; // 3 Balls are preferentially first
-        var list = new ComboItem[forcedTop + stringNum.Length];
-        list[0] = new ComboItem(inStrings[4], (int)Ball.Poke);
-        list[1] = new ComboItem(inStrings[3], (int)Ball.Great);
-        list[2] = new ComboItem(inStrings[2], (int)Ball.Ultra);
+        var list = new ComboItem[ballItemID.Length];
+        for (int i = 0; i < ballItemID.Length; i++)
+            list[i] = new ComboItem(itemNames[ballItemID[i]], ballIndex[i]);
 
-        for (int i = 0; i < stringNum.Length; i++)
-        {
-            int index = stringNum[i];
-            var value = stringVal[i];
-            var text = inStrings[index];
-            list[i + 3] = new ComboItem(text, value);
-        }
-
-        Array.Sort(list, 3, list.Length - 3, Comparer);
+        // 3 Balls are preferentially first, sort Master Ball with the rest Alphabetically.
+        list.AsSpan(3).Sort(Comparer);
         return list;
     }
 

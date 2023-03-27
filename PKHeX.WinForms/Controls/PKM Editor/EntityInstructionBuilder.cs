@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static PKHeX.Core.MessageStrings;
@@ -47,14 +48,40 @@ public partial class EntityInstructionBuilder : UserControl
         L_PropType.Text = BatchEditing.GetPropertyType(CB_Property.Text, CB_Format.SelectedIndex);
         if (BatchEditing.TryGetHasProperty(Entity, CB_Property.Text, out var pi))
         {
-            L_PropValue.Text = pi.GetValue(Entity)?.ToString();
-            L_PropType.ForeColor = L_PropValue.ForeColor; // reset color
+            L_PropType.ResetForeColor();
+
+            bool hasValue = GetPropertyDisplayText(pi, Entity, out var display);
+            L_PropValue.Text = display;
+            if (hasValue)
+                L_PropValue.ResetForeColor();
+            else
+                L_PropValue.ForeColor = Color.Red;
         }
         else // no property, flag
         {
             L_PropValue.Text = string.Empty;
             L_PropType.ForeColor = Color.Red;
         }
+    }
+
+    private static bool GetPropertyDisplayText(PropertyInfo pi, PKM pk, out string display)
+    {
+        var type = pi.PropertyType;
+        if (type.IsGenericType && typeof(Span<>) == type.GetGenericTypeDefinition())
+        {
+            display = pi.PropertyType.ToString();
+            return false;
+        }
+
+        var value = pi.GetValue(pk);
+        if (value?.ToString() is not {} x)
+        {
+            display = "null";
+            return false;
+        }
+
+        display = x;
+        return true;
     }
 
     public string Create()

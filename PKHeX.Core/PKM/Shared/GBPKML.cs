@@ -43,24 +43,28 @@ public abstract class GBPKML : GBPKM
         RawNickname.AsSpan().Fill(StringConverter12.G1TerminatorCode);
     }
 
-    public override void SetNotNicknamed(int language) => GetNonNickname(language).AsSpan().CopyTo(RawNickname);
+    public override void SetNotNicknamed(int language) => GetNonNickname(language, RawNickname);
 
-    protected override byte[] GetNonNickname(int language)
+    protected override void GetNonNickname(int language, Span<byte> data)
     {
         var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
-        var len = Nickname_Trash.Length;
-        byte[] data = new byte[len];
-        SetString(name, data, len, StringConverterOption.Clear50);
-        if (!Korean)
+        SetString(name, data, data.Length, StringConverterOption.Clear50);
+        if (Korean)
+            return;
+
+        // Decimal point<->period fix
+        foreach (ref var c in data)
         {
-            // Decimal point<->period fix
-            for (int i = 0; i < data.Length; i++)
-            {
-                if (data[i] == 0xF2)
-                    data[i] = 0xE8;
-            }
+            if (c == 0xF2)
+                c = 0xE8;
         }
-        return data;
+    }
+
+    private string GetString(ReadOnlySpan<byte> span)
+    {
+        if (Korean)
+            return StringConverter2KOR.GetString(span);
+        return StringConverter12.GetString(span, Japanese);
     }
 
     private int SetString(ReadOnlySpan<char> value, Span<byte> destBuffer, int maxLength, StringConverterOption option = StringConverterOption.None)
@@ -72,12 +76,7 @@ public abstract class GBPKML : GBPKM
 
     public sealed override string Nickname
     {
-        get
-        {
-            if (Korean)
-                return StringConverter2KOR.GetString(RawNickname);
-            return StringConverter12.GetString(RawNickname, Japanese);
-        }
+        get => GetString(RawNickname);
         set
         {
             if (!IsNicknamed && Nickname == value)
@@ -89,12 +88,7 @@ public abstract class GBPKML : GBPKM
 
     public sealed override string OT_Name
     {
-        get
-        {
-            if (Korean)
-                return StringConverter2KOR.GetString(RawOT);
-            return StringConverter12.GetString(RawOT, Japanese);
-        }
+        get => GetString(RawOT);
         set
         {
             if (value == OT_Name)
