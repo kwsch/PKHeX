@@ -66,7 +66,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KTeraRaids = 0xCAAC8800;
     public const uint KBoxesUnlocked = 0x71825204;
     public const uint KFusedCalyrex = 0x916BCA9E; // Calyrex
-    public const uint KCoordinates = 0x708D1511;
     private const uint KZukan = 0x0DEAAEBD;
     private const uint KMysteryGift = 0x99E1625E;
     private const uint KLastSaved = 0x7495969E; // u64 time_t
@@ -76,63 +75,65 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KCurrentClothing = 0x64235B3D;
     private const uint KCurrentAppearance = 0x812FC3E3;
     private const uint KCurrentRotomPhoneCase = 0x1433CED7;
-    private const uint KFashionUnlockedBag = 0x5D6F8110;
-    private const uint KFashionUnlockedEyewear = 0xCBA20ED5;
-    private const uint KFashionUnlockedFootwear = 0x0221A618;
-    private const uint KFashionUnlockedGloves = 0x581667B1;
-    private const uint KFashionUnlockedHeadwear = 0x860CD8FB;
-    private const uint KFashionUnlockedLegwear = 0xD186222E;
-    private const uint KFashionUnlockedPhoneCase = 0xED0AC675;
+    private const uint KFashionUnlockedEyewear = 0xCBA20ED5; // 1000-1999
+    private const uint KFashionUnlockedGloves = 0x581667B1; // 2000-2999
+    private const uint KFashionUnlockedBag = 0x5D6F8110; // 3000-3999
+    private const uint KFashionUnlockedFootwear = 0x0221A618; // 4000-4999
+    private const uint KFashionUnlockedHeadwear = 0x860CD8FB; // 5000-5999
+    private const uint KFashionUnlockedLegwear = 0xD186222E; // 6000-6999
+    private const uint KFashionUnlockedUniform = 0x78FF2CB2; // 7000-7999
+    private const uint KFashionUnlockedPhoneCase = 0xED0AC675; // 8000-8999
     private const uint KPlayerPhoto1 = 0x14C5A101;
     private const uint KPlayerPhoto2 = 0xF8B14C88;
     private const uint KPlayerTrainerIcon = 0xD41F4FC4;
     private const uint KRentalTeams = 0x19CB0339;
     private const uint KSevenStarRaids = 0x8B14392F;
 
+    // BCAT
     private const uint KBCATFixedRewardItemArray = 0x7D6C2B82; // fixed_reward_item_array
     private const uint KBCATLotteryRewardItemArray = 0xA52B4811; // lottery_reward_item_array
     private const uint KBCATRaidEnemyArray = 0x0520A1B0; // raid_enemy_array
     private const uint KBCATRaidPriorityArray = 0x095451E4; // raid_priority_array
-    private const uint KBCATEventRaidIdentifier = 0x37B99B4D;
+    private const uint KBCATEventRaidIdentifier = 0x37B99B4D; // VersionNo
+
+    // PlayerSave
+    public const uint KCoordinates = 0x708D1511; // PlayerSave_StartPosition
+    private const uint KIsInField = 0x32645CB7; // PlayerSave_IsInField
+    private const uint KLastSubField = 0x37AF0454; // PlayerSave_LastSubField
+    private const uint KLastRoomMapName = 0x9F1ABF26; // PlayerSave_LastRoomMapName
+    private const uint KLastGreenPosition = 0x5C6F8291; // PlayerSave_LastGreenPos
 
     #region YMAP - Display & Fly Flags -- internal name Fnv1aHash32
-    private const uint FSYS_YMAP_SCENARIO_DAN_AKU = 0x1EE90D7F;
-    private const uint FSYS_YMAP_SCENARIO_DAN_DOKU = 0x6D2CE931;
-    private const uint FSYS_YMAP_SCENARIO_DAN_FAIRY = 0xFDC82445;
-    private const uint FSYS_YMAP_SCENARIO_DAN_FINAL = 0xAC189200;
-    private const uint FSYS_YMAP_SCENARIO_DAN_FINAL_02 = 0xE52F230F;
-    private const uint FSYS_YMAP_SCENARIO_DAN_FINAL_03 = 0xE52F215C;
-    private const uint FSYS_YMAP_SCENARIO_DAN_HONOO = 0x6C3A6D77;
-    private const uint FSYS_YMAP_SCENARIO_DAN_KAKUTOU = 0x1D6BC8F8;
     public const uint FSYS_YMAP_FLY_01 = 0xEB597C90;
-    public const uint FSYS_YMAP_FLY_03 = 0xEB597FF6;
-    public const uint FSYS_YMAP_FLY_12 = 0xEB5697B4;
     public const uint FSYS_YMAP_FLY_02 = 0xEB5981A9;
-    public const uint FSYS_YMAP_FLY_22 = 0xEB537E2B;
+    public const uint FSYS_YMAP_FLY_03 = 0xEB597FF6;
     public const uint FSYS_YMAP_FLY_04 = 0xEB59850F;
     public const uint FSYS_YMAP_FLY_05 = 0xEB59835C;
-    public const uint FSYS_YMAP_FLY_23 = 0xEB537C78;
-    public const uint FSYS_YMAP_FLY_24 = 0xEB53885D;
-    public const uint FSYS_YMAP_FLY_14 = 0xEB56944E;
-    public const uint FSYS_YMAP_FLY_15 = 0xEB569601;
+    public const uint FSYS_YMAP_FLY_06 = 0xEB598875;
     public const uint FSYS_YMAP_FLY_07 = 0xEB5986C2;
     public const uint FSYS_YMAP_FLY_08 = 0xEB598BDB;
     public const uint FSYS_YMAP_FLY_09 = 0xEB598A28;
-    public const uint FSYS_YMAP_FLY_25 = 0xEB5386AA;
     public const uint FSYS_YMAP_FLY_10 = 0xEB569B1A;
     public const uint FSYS_YMAP_FLY_11 = 0xEB569CCD;
-    public const uint FSYS_YMAP_FLY_26 = 0xEB5384F7;
-    public const uint FSYS_YMAP_FLY_18 = 0xEB568D82;
+    public const uint FSYS_YMAP_FLY_12 = 0xEB5697B4;
+    public const uint FSYS_YMAP_FLY_13 = 0xEB569967;
+    public const uint FSYS_YMAP_FLY_14 = 0xEB56944E;
+    public const uint FSYS_YMAP_FLY_15 = 0xEB569601;
     public const uint FSYS_YMAP_FLY_16 = 0xEB5690E8;
     public const uint FSYS_YMAP_FLY_17 = 0xEB56929B;
+    public const uint FSYS_YMAP_FLY_18 = 0xEB568D82;
     public const uint FSYS_YMAP_FLY_19 = 0xEB568F35;
-    public const uint FSYS_YMAP_FLY_27 = 0xEB538344;
-    public const uint FSYS_YMAP_FLY_28 = 0xEB5373F9;
-    public const uint FSYS_YMAP_FLY_13 = 0xEB569967;
-    public const uint FSYS_YMAP_FLY_29 = 0xEB537246;
-    public const uint FSYS_YMAP_FLY_30 = 0xEB506808;
     public const uint FSYS_YMAP_FLY_20 = 0xEB538191;
     public const uint FSYS_YMAP_FLY_21 = 0xEB537FDE;
+    public const uint FSYS_YMAP_FLY_22 = 0xEB537E2B;
+    public const uint FSYS_YMAP_FLY_23 = 0xEB537C78;
+    public const uint FSYS_YMAP_FLY_24 = 0xEB53885D;
+    public const uint FSYS_YMAP_FLY_25 = 0xEB5386AA;
+    public const uint FSYS_YMAP_FLY_26 = 0xEB5384F7;
+    public const uint FSYS_YMAP_FLY_27 = 0xEB538344;
+    public const uint FSYS_YMAP_FLY_28 = 0xEB5373F9;
+    public const uint FSYS_YMAP_FLY_29 = 0xEB537246;
+    public const uint FSYS_YMAP_FLY_30 = 0xEB506808;
     public const uint FSYS_YMAP_FLY_31 = 0xEB5069BB;
     public const uint FSYS_YMAP_FLY_32 = 0xEB506B6E;
     public const uint FSYS_YMAP_FLY_33 = 0xEB506D21;
@@ -142,6 +143,49 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint FSYS_YMAP_FLY_MOKKAN = 0x4103198E;
     public const uint FSYS_YMAP_FLY_TSURUGI = 0x9DDEC36C;
     public const uint FSYS_YMAP_FLY_UTSUWA = 0x1EB92B72;
+    public const uint FSYS_YMAP_POKECEN_02 = 0xB6119AE9;
+    public const uint FSYS_YMAP_POKECEN_03 = 0xB6119936;
+    public const uint FSYS_YMAP_POKECEN_04 = 0xB6119E4F;
+    public const uint FSYS_YMAP_POKECEN_05 = 0xB6119C9C;
+    public const uint FSYS_YMAP_POKECEN_06 = 0xB611A1B5;
+    public const uint FSYS_YMAP_POKECEN_07 = 0xB611A002;
+    public const uint FSYS_YMAP_POKECEN_08 = 0xB611A51B;
+    public const uint FSYS_YMAP_POKECEN_09 = 0xB611A368;
+    public const uint FSYS_YMAP_POKECEN_10 = 0xB60EB45A;
+    public const uint FSYS_YMAP_POKECEN_11 = 0xB60EB60D;
+    public const uint FSYS_YMAP_POKECEN_12 = 0xB60EB0F4;
+    public const uint FSYS_YMAP_POKECEN_13 = 0xB60EB2A7;
+    public const uint FSYS_YMAP_POKECEN_14 = 0xB60EAD8E;
+    public const uint FSYS_YMAP_POKECEN_15 = 0xB60EAF41;
+    public const uint FSYS_YMAP_POKECEN_16 = 0xB60EAA28;
+    public const uint FSYS_YMAP_POKECEN_17 = 0xB60EABDB;
+    public const uint FSYS_YMAP_POKECEN_18 = 0xB60EA6C2;
+    public const uint FSYS_YMAP_POKECEN_19 = 0xB60EA875;
+    public const uint FSYS_YMAP_POKECEN_20 = 0xB60B9AD1;
+    public const uint FSYS_YMAP_POKECEN_21 = 0xB60B991E;
+    public const uint FSYS_YMAP_POKECEN_22 = 0xB60B976B;
+    public const uint FSYS_YMAP_POKECEN_23 = 0xB60B95B8;
+    public const uint FSYS_YMAP_POKECEN_24 = 0xB60BA19D;
+    public const uint FSYS_YMAP_POKECEN_25 = 0xB60B9FEA;
+    public const uint FSYS_YMAP_POKECEN_26 = 0xB60B9E37;
+    public const uint FSYS_YMAP_POKECEN_27 = 0xB60B9C84;
+    public const uint FSYS_YMAP_POKECEN_28 = 0xB60B8D39;
+    public const uint FSYS_YMAP_POKECEN_29 = 0xB60B8B86;
+    public const uint FSYS_YMAP_POKECEN_30 = 0xB6088148;
+    public const uint FSYS_YMAP_POKECEN_31 = 0xB60882FB;
+    public const uint FSYS_YMAP_POKECEN_32 = 0xB60884AE;
+    public const uint FSYS_YMAP_POKECEN_33 = 0xB6088661;
+    public const uint FSYS_YMAP_POKECEN_34 = 0xB6088814;
+    public const uint FSYS_YMAP_POKECEN_35 = 0xB60889C7;
+
+    private const uint FSYS_YMAP_SCENARIO_DAN_AKU = 0x1EE90D7F;
+    private const uint FSYS_YMAP_SCENARIO_DAN_DOKU = 0x6D2CE931;
+    private const uint FSYS_YMAP_SCENARIO_DAN_FAIRY = 0xFDC82445;
+    private const uint FSYS_YMAP_SCENARIO_DAN_FINAL = 0xAC189200;
+    private const uint FSYS_YMAP_SCENARIO_DAN_FINAL_02 = 0xE52F230F;
+    private const uint FSYS_YMAP_SCENARIO_DAN_FINAL_03 = 0xE52F215C;
+    private const uint FSYS_YMAP_SCENARIO_DAN_HONOO = 0x6C3A6D77;
+    private const uint FSYS_YMAP_SCENARIO_DAN_KAKUTOU = 0x1D6BC8F8;
     private const uint FSYS_YMAP_SCENARIO_GYM_DENKI = 0x82305257;
     private const uint FSYS_YMAP_SCENARIO_GYM_DENKI_02 = 0x0D109FBE;
     private const uint FSYS_YMAP_SCENARIO_GYM_DENKI_03 = 0x0D10A171;
@@ -191,40 +235,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FSYS_YMAP_SCENARIO_NUSI_IWA_02 = 0xDDEBE5F0;
     private const uint FSYS_YMAP_SCENARIO_NUSI_JIMEN = 0xD08966DD;
     private const uint FSYS_YMAP_SCENARIO_NUSI_JIMEN_02 = 0x269C23B0;
-    public const uint FSYS_YMAP_POKECEN_02 = 0xB6119AE9;
-    public const uint FSYS_YMAP_POKECEN_03 = 0xB6119936;
-    public const uint FSYS_YMAP_POKECEN_04 = 0xB6119E4F;
-    public const uint FSYS_YMAP_POKECEN_05 = 0xB6119C9C;
-    public const uint FSYS_YMAP_POKECEN_06 = 0xB611A1B5;
-    public const uint FSYS_YMAP_POKECEN_07 = 0xB611A002;
-    public const uint FSYS_YMAP_POKECEN_08 = 0xB611A51B;
-    public const uint FSYS_YMAP_POKECEN_09 = 0xB611A368;
-    public const uint FSYS_YMAP_POKECEN_10 = 0xB60EB45A;
-    public const uint FSYS_YMAP_POKECEN_11 = 0xB60EB60D;
-    public const uint FSYS_YMAP_POKECEN_12 = 0xB60EB0F4;
-    public const uint FSYS_YMAP_POKECEN_13 = 0xB60EB2A7;
-    public const uint FSYS_YMAP_POKECEN_14 = 0xB60EAD8E;
-    public const uint FSYS_YMAP_POKECEN_15 = 0xB60EAF41;
-    public const uint FSYS_YMAP_POKECEN_16 = 0xB60EAA28;
-    public const uint FSYS_YMAP_POKECEN_17 = 0xB60EABDB;
-    public const uint FSYS_YMAP_POKECEN_18 = 0xB60EA6C2;
-    public const uint FSYS_YMAP_POKECEN_19 = 0xB60EA875;
-    public const uint FSYS_YMAP_POKECEN_20 = 0xB60B9AD1;
-    public const uint FSYS_YMAP_POKECEN_21 = 0xB60B991E;
-    public const uint FSYS_YMAP_POKECEN_22 = 0xB60B976B;
-    public const uint FSYS_YMAP_POKECEN_23 = 0xB60B95B8;
-    public const uint FSYS_YMAP_POKECEN_24 = 0xB60BA19D;
-    public const uint FSYS_YMAP_POKECEN_25 = 0xB60B9FEA;
-    public const uint FSYS_YMAP_POKECEN_26 = 0xB60B9E37;
-    public const uint FSYS_YMAP_POKECEN_27 = 0xB60B9C84;
-    public const uint FSYS_YMAP_POKECEN_28 = 0xB60B8D39;
-    public const uint FSYS_YMAP_POKECEN_29 = 0xB60B8B86;
-    public const uint FSYS_YMAP_POKECEN_30 = 0xB6088148;
-    public const uint FSYS_YMAP_POKECEN_31 = 0xB60882FB;
-    public const uint FSYS_YMAP_POKECEN_32 = 0xB60884AE;
-    public const uint FSYS_YMAP_POKECEN_33 = 0xB6088661;
-    public const uint FSYS_YMAP_POKECEN_34 = 0xB6088814;
-    public const uint FSYS_YMAP_POKECEN_35 = 0xB60889C7;
     private const uint FSYS_YMAP_SCENARIO_00 = 0x4019CED4;
     private const uint FSYS_YMAP_SCENARIO_01 = 0x4019D087;
     private const uint FSYS_YMAP_SCENARIO_02 = 0x4019D23A;
@@ -279,6 +289,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KUnlockedMultiplayerBGM23 = 0x727C0056; // FSYS_BGM_VS_SELECT_23
     private const uint KUnlockedMultiplayerBGM24 = 0x727C056F; // FSYS_BGM_VS_SELECT_24
     private const uint KUnlockedMultiplayerBGM25 = 0x727C03BC; // FSYS_BGM_VS_SELECT_25
+    private const uint KUnlockedMultiplayerBGM26 = 0x727C03BC; // FSYS_BGM_VS_SELECT_26
     #endregion
 
     #region Tips
@@ -333,6 +344,8 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FSYS_TIPS_NEW_POKETRADE_01 = 0x0B85E5F8;
     private const uint FSYS_TIPS_NEW_JUDGE_01 = 0x6E0C61B2;
     private const uint FSYS_TIPS_NEW_RAIDBATTLE_02 = 0xD864AA16;
+    private const uint FSYS_TIPS_DISP_GO_01 = 0xCFC538C9;
+    private const uint FSYS_TIPS_NEWS_GO_01 = 0xE2096F66;
     #endregion
 
     #region TM
@@ -539,8 +552,29 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KReceivedMasterRankRibbon = 0x44CA754B; // FSYS_GET_RIBBON_MASTERRANK
     private const uint KIsFlyDisabled = 0xC1555927; // FSYS_FLY_DISABLE
 
+    // League Representatives
+    private const uint KLeagueRepsAvailable = 0x2EF38578; // FSYS_MISTER_TRAINER_START
+    private const uint KClearedLeagueRep01 = 0x7739D2B1; // FSYS_MISTER_TRAINER_AREA_01
+    private const uint KClearedLeagueRep04 = 0x7739D7CA; // FSYS_MISTER_TRAINER_AREA_04
+    private const uint KClearedLeagueRep05 = 0x7739D97D; // FSYS_MISTER_TRAINER_AREA_05
+    private const uint KClearedLeagueRep06 = 0x7739D464; // FSYS_MISTER_TRAINER_AREA_06
+    private const uint KClearedLeagueRep07 = 0x7739D617; // FSYS_MISTER_TRAINER_AREA_07
+    private const uint KClearedLeagueRep08 = 0x7739C366; // FSYS_MISTER_TRAINER_AREA_08
+    private const uint KClearedLeagueRep09 = 0x7739C519; // FSYS_MISTER_TRAINER_AREA_09
+    private const uint KClearedLeagueRep10 = 0x773CEA87; // FSYS_MISTER_TRAINER_AREA_10
+    private const uint KClearedLeagueRep11 = 0x773CE8D4; // FSYS_MISTER_TRAINER_AREA_11
+    private const uint KClearedLeagueRep12 = 0x773CEDED; // FSYS_MISTER_TRAINER_AREA_12
+    private const uint KClearedLeagueRep14 = 0x773CE3BB; // FSYS_MISTER_TRAINER_AREA_14
+    private const uint KClearedLeagueRep15 = 0x773CE208; // FSYS_MISTER_TRAINER_AREA_15
+    private const uint KClearedLeagueRep16 = 0x773CE721; // FSYS_MISTER_TRAINER_AREA_16
+    private const uint KClearedLeagueRep17 = 0x773CE56E; // FSYS_MISTER_TRAINER_AREA_17
+    private const uint KClearedLeagueRep18 = 0x773CDCEF; // FSYS_MISTER_TRAINER_AREA_18
+    private const uint KClearedLeagueRep19 = 0x773CDB3C; // FSYS_MISTER_TRAINER_AREA_19
+    private const uint KClearedLeagueRep20 = 0x7734776C; // FSYS_MISTER_TRAINER_AREA_20
+    private const uint KClearedLeagueRep21 = 0x7734791F; // FSYS_MISTER_TRAINER_AREA_21
+    private const uint KClearedLeagueRep22 = 0x77347AD2; // FSYS_MISTER_TRAINER_AREA_22
+
     private const uint FSYS_REPORT_DISABLE = 0xFD2B3BCA;
-    private const uint FSYS_MISTER_TRAINER_START = 0x2EF38578;
     private const uint FSYS_XMENU_POKELIST_RIDE = 0x091382AD;
     private const uint FSYS_XMENU_FULLOPEN = 0xFE482E4A;
     private const uint FSYS_CLIFF_RETURN_DISABLE = 0x77A4B321;
@@ -565,13 +599,13 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FSYS_RAID_DIFFICTLTY5_SURVEY = 0x48A247BA;
     private const uint FSYS_RAID_DIFFICTLTY6_SURVEY = 0xAD1DC231;
     private const uint FSYS_NETCONTENTS_OFF = 0x9AB093F2;
-    
-    private const uint FSYS_GO_LINK_ENABLED = 0x3ABC21E3; // real name todo
-    private const uint KGOTransfer = 0x7EE0A576;
-    private const uint KGOVivillonForm = 0x22F70BCF; // FSYS_VIVILLON
-    private const uint KGOVivillonFormEnabled = 0x0C125D5C;
-    private const uint KGOVivillonExpiration = 0x867F0240; // Unix time stamp for when Vivillon resets to default form
 
+    // Pokémon GO Connectivity (Saturday)
+    private const uint KGOAccountPaired = 0x3ABC21E3;
+    private const uint KGOConnectionHistory = 0x7EE0A576; // Form ID, number of items/coins, extra item ID, Unix timestamp, GO username
+    private const uint KGOVivillonForm = 0x22F70BCF; // BibiyonFormNoSave_formNo
+    private const uint KGOVivillonFormEnabled = 0x0C125D5C; // BibiyonFormNoSave_isValid
+    private const uint KGOVivillonPostcardSent = 0x867F0240; // BibiyonFormNoSave_accessedRealTime (Unix timestamp for when a postcard was sent from GO)
     #endregion
 
     #region FEVT
@@ -613,38 +647,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FEVT_NUSHI_JIMEN_EVENT_END = 0x6377C805;
     private const uint FEVT_NUSHI_JIMEN_FOOD_GET = 0xAD1BA90E;
     private const uint FEVT_SEAMLESS_TALK_BATTLE_LOSE = 0x924E346A;
-    private const uint FEVT_SERI_LEGEND_0112 = 0x8048F243;
-    private const uint KPurchasedGriseousOrb = 0xF917055C; // should be FEVT_SERI_LEGEND_0112 but that block key is not used...
-    private const uint KPurchasedAdamantOrb = 0x804E5454; // FEVT_SERI_LEGEND_0135
-    private const uint KPurchasedLustrousOrb = 0x804E596D; // FEVT_SERI_LEGEND_0136
-    private const uint KPurchasedFlamePlate = 0x8E874DC8; // FEVT_SERI_LEGEND_0298
-    private const uint KPurchasedSplashPlate = 0x8E874F7B; // FEVT_SERI_LEGEND_0299
-    private const uint KPurchasedZapPlate = 0x895CD8D6; // FEVT_SERI_LEGEND_0300
-    private const uint KPurchasedMeadowPlate = 0x895CDA89; // FEVT_SERI_LEGEND_0301
-    private const uint KPurchasedIciclePlate = 0x895CD570; // FEVT_SERI_LEGEND_0302
-    private const uint KPurchasedFistPlate = 0x895CD723; // FEVT_SERI_LEGEND_0303
-    private const uint KPurchasedToxicPlate = 0x895CDFA2; // FEVT_SERI_LEGEND_0304
-    private const uint KPurchasedEarthPlate = 0x895CE155; // FEVT_SERI_LEGEND_0305
-    private const uint KPurchasedSkyPlate = 0x895CDC3C; // FEVT_SERI_LEGEND_0306
-    private const uint KPurchasedMindPlate = 0x895CDDEF; // FEVT_SERI_LEGEND_0307
-    private const uint KPurchasedInsectPlate = 0x895CE66E; // FEVT_SERI_LEGEND_0308
-    private const uint KPurchasedStonePlate = 0x895CE821; // FEVT_SERI_LEGEND_0309
-    private const uint KPurchasedSpookyPlate = 0x895FF25F; // FEVT_SERI_LEGEND_0310
-    private const uint KPurchasedDracoPlate = 0x895FF0AC; // FEVT_SERI_LEGEND_0311
-    private const uint KPurchasedDreadPlate = 0x895FF5C5; // FEVT_SERI_LEGEND_0312
-    private const uint KPurchasedIronPlate = 0x895FF412; // FEVT_SERI_LEGEND_0313
-    private const uint KPurchasedRevealGlass = 0xA1E7C2EE; // FEVT_SERI_LEGEND_0638
-    private const uint KPurchasedPixiePlate = 0xA1D94C55; // FEVT_SERI_LEGEND_0644
-    private const uint KPurchasedPrisonBottle = 0x9CA69C5B; // FEVT_SERI_LEGEND_0765
-    private const uint KPurchasedRustedSword = 0x32CAE86C; // FEVT_SERI_LEGEND_1103
-    private const uint KPurchasedRustedShield = 0x32CAE6B9; // FEVT_SERI_LEGEND_1104
-    private const uint KPurchasedRotomCatalog = 0x246C9C43; // FEVT_SERI_LEGEND_1278
-    private const uint KPurchasedReinsOfUnity = 0x1F3F28F8; // FEVT_SERI_LEGEND_1590
-    private const uint KPurchasedAdamantCrystal = 0x16729999; // FEVT_SERI_LEGEND_1777
-    private const uint KPurchasedLustrousGlobe = 0x1672A8E4; // FEVT_SERI_LEGEND_1778
-    private const uint KPurchasedGriseousCore = 0xFE092048; // should be FEVT_SERI_LEGEND_1779 but no such block key exists...
-    private const uint KPurchasedScrollOfDarkness = 0x06B12DD6; // FEVT_SERI_LEGEND_1857
-    private const uint KPurchasedScrollOfWaters = 0x06B14087; // FEVT_SERI_LEGEND_1858
     private const uint FEVT_SUB_014_CHALLENGED_TODAY = 0x7E1AB823;
     private const uint KRemovedStakeTingLu1 = 0x12AC859B; // FEVT_SUB_014_KUI_01_RELEASE
     private const uint KRemovedStakeTingLu2 = 0x8DEDB4EE; // FEVT_SUB_014_KUI_02_RELEASE
@@ -717,6 +719,63 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FEVT_TAKARA_CHANGE_TUTORIAL_CLEAR = 0x96124E87;
     #endregion
 
+    #region Porto Marinada Auctions
+    private const uint KAuctionRaffle = 0xDC31EB08; // WEVT_GYM_MIZU_SERI_RAFFLE
+    private const uint KAuctionVenue1PurchasedItem = 0x50531CE6; // WEVT_GYM_MIZU_SERI_VENUE1_PROGRESS
+    private const uint KAuctionVenue1Item = 0x3D837AB6; // WEVT_GYM_MIZU_SERI_VENUE1_ITEM_ID
+    private const uint KAuctionVenue1Quantity = 0x93DB9439; // WEVT_GYM_MIZU_SERI_VENUE1_ITEM_NUM
+    private const uint KAuctionVenue1NPC1 = 0x9A78757B; // WEVT_GYM_MIZU_SERI_VENUE1_NPC_ID1
+    private const uint KAuctionVenue1NPC2 = 0x9A78772E; // WEVT_GYM_MIZU_SERI_VENUE1_NPC_ID2
+    private const uint KAuctionVenue2PurchasedItem = 0x549187F5; // WEVT_GYM_MIZU_SERI_VENUE2_PROGRESS
+    private const uint KAuctionVenue2Item = 0xC65EB057; // WEVT_GYM_MIZU_SERI_VENUE2_ITEM_ID
+    private const uint KAuctionVenue2Quantity = 0x178AC492; // WEVT_GYM_MIZU_SERI_VENUE2_ITEM_NUM
+    private const uint KAuctionVenue2NPC1 = 0x13AF53B6; // WEVT_GYM_MIZU_SERI_VENUE2_NPC_ID1
+    private const uint KAuctionVenue2NPC2 = 0x13AF5203; // WEVT_GYM_MIZU_SERI_VENUE2_NPC_ID2
+    private const uint KAuctionVenue3PurchasedItem = 0x702C68EC; // WEVT_GYM_MIZU_SERI_VENUE3_PROGRESS
+    private const uint KAuctionVenue3Item = 0x26F510C4; // WEVT_GYM_MIZU_SERI_VENUE3_ITEM_ID
+    private const uint KAuctionVenue3Quantity = 0x54D737FF; // WEVT_GYM_MIZU_SERI_VENUE3_ITEM_NUM
+    private const uint KAuctionVenue3NPC1 = 0x96FD9641; // WEVT_GYM_MIZU_SERI_VENUE3_NPC_ID1
+    private const uint KAuctionVenue3NPC2 = 0x96FD9128; // WEVT_GYM_MIZU_SERI_VENUE3_NPC_ID2
+    private const uint KAuctionVenue4PurchasedItem = 0x6D418A8B; // WEVT_GYM_MIZU_SERI_VENUE4_PROGRESS
+    private const uint KAuctionVenue4Item = 0x8EF22D95; // WEVT_GYM_MIZU_SERI_VENUE4_ITEM_ID
+    private const uint KAuctionVenue4Quantity = 0xFDDFB678; // WEVT_GYM_MIZU_SERI_VENUE4_ITEM_NUM
+    private const uint KAuctionVenue4NPC1 = 0x3275F474; // WEVT_GYM_MIZU_SERI_VENUE4_NPC_ID1
+    private const uint KAuctionVenue4NPC2 = 0x3275F98D; // WEVT_GYM_MIZU_SERI_VENUE4_NPC_ID2
+
+    private const uint FEVT_SERI_LEGEND_0112 = 0x8048F243; // unused Griseous Orb
+    private const uint KPurchasedGriseousOrb = 0xF917055C; // FEVT_SERI_LEGEND_0112_v2
+    private const uint KPurchasedAdamantOrb = 0x804E5454; // FEVT_SERI_LEGEND_0135
+    private const uint KPurchasedLustrousOrb = 0x804E596D; // FEVT_SERI_LEGEND_0136
+    private const uint KPurchasedFlamePlate = 0x8E874DC8; // FEVT_SERI_LEGEND_0298
+    private const uint KPurchasedSplashPlate = 0x8E874F7B; // FEVT_SERI_LEGEND_0299
+    private const uint KPurchasedZapPlate = 0x895CD8D6; // FEVT_SERI_LEGEND_0300
+    private const uint KPurchasedMeadowPlate = 0x895CDA89; // FEVT_SERI_LEGEND_0301
+    private const uint KPurchasedIciclePlate = 0x895CD570; // FEVT_SERI_LEGEND_0302
+    private const uint KPurchasedFistPlate = 0x895CD723; // FEVT_SERI_LEGEND_0303
+    private const uint KPurchasedToxicPlate = 0x895CDFA2; // FEVT_SERI_LEGEND_0304
+    private const uint KPurchasedEarthPlate = 0x895CE155; // FEVT_SERI_LEGEND_0305
+    private const uint KPurchasedSkyPlate = 0x895CDC3C; // FEVT_SERI_LEGEND_0306
+    private const uint KPurchasedMindPlate = 0x895CDDEF; // FEVT_SERI_LEGEND_0307
+    private const uint KPurchasedInsectPlate = 0x895CE66E; // FEVT_SERI_LEGEND_0308
+    private const uint KPurchasedStonePlate = 0x895CE821; // FEVT_SERI_LEGEND_0309
+    private const uint KPurchasedSpookyPlate = 0x895FF25F; // FEVT_SERI_LEGEND_0310
+    private const uint KPurchasedDracoPlate = 0x895FF0AC; // FEVT_SERI_LEGEND_0311
+    private const uint KPurchasedDreadPlate = 0x895FF5C5; // FEVT_SERI_LEGEND_0312
+    private const uint KPurchasedIronPlate = 0x895FF412; // FEVT_SERI_LEGEND_0313
+    private const uint KPurchasedRevealGlass = 0xA1E7C2EE; // FEVT_SERI_LEGEND_0638
+    private const uint KPurchasedPixiePlate = 0xA1D94C55; // FEVT_SERI_LEGEND_0644
+    private const uint KPurchasedPrisonBottle = 0x9CA69C5B; // FEVT_SERI_LEGEND_0765
+    private const uint KPurchasedRustedSword = 0x32CAE86C; // FEVT_SERI_LEGEND_1103
+    private const uint KPurchasedRustedShield = 0x32CAE6B9; // FEVT_SERI_LEGEND_1104
+    private const uint KPurchasedRotomCatalog = 0x246C9C43; // FEVT_SERI_LEGEND_1278
+    private const uint KPurchasedReinsOfUnity = 0x1F3F28F8; // FEVT_SERI_LEGEND_1590
+    private const uint KPurchasedAdamantCrystal = 0x16729999; // FEVT_SERI_LEGEND_1777
+    private const uint KPurchasedLustrousGlobe = 0x1672A8E4; // FEVT_SERI_LEGEND_1778
+    private const uint KPurchasedGriseousCore = 0xFE092048; // FEVT_SERI_LEGEND_1779_v2
+    private const uint KPurchasedScrollOfDarkness = 0x06B12DD6; // FEVT_SERI_LEGEND_1857
+    private const uint KPurchasedScrollOfWaters = 0x06B14087; // FEVT_SERI_LEGEND_1858
+    #endregion
+
     #region Former Titans
     private const uint KBattledExTitanTatsugiri = 0xA3AD7A61; // NUSHI_DRAGON_AFTER
     private const uint KBattledExTitanOrthworm = 0xA9B66964; // NUSHI_HAGANE_AFTER
@@ -751,6 +810,34 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     #endregion
 
     #region WEVT
+    // Badge Received Indexes (0-17)
+    private const uint KIndexReceivedBadgeDark = 0x6C29ACC5; // WEVT_DAN_AKU_CLEAR
+    private const uint KIndexReceivedBadgePoison = 0x71DB2CEB; // WEVT_DAN_DOKU_CLEAR
+    private const uint KIndexReceivedBadgeFairy = 0xE1271327; // WEVT_DAN_FAIRY_CLEAR
+    private const uint KIndexReceivedBadgeFire = 0x9C6FF7DD; // WEVT_DAN_HONOO_CLEAR
+    private const uint KIndexReceivedBadgeFighting = 0x2A3AC89A; // WEVT_DAN_KAKUTOU_CLEAR
+    private const uint KIndexReceivedBadgeElectric = 0x8205ECAD; // WEVT_GYM_DENKI_CLEAR
+    private const uint KIndexReceivedBadgePsychic = 0x3B819021; // WEVT_GYM_ESPER_CLEAR
+    private const uint KIndexReceivedBadgeGhost = 0xCDA61DED; // WEVT_GYM_GHOST_CLEAR
+    private const uint KIndexReceivedBadgeIce = 0x46B6CB30; // WEVT_GYM_KOORI_CLEAR
+    private const uint KIndexReceivedBadgeGrass = 0xB4C3AFE6; // WEVT_GYM_KUSA_CLEAR
+    private const uint KIndexReceivedBadgeWater = 0xA803FAAD; // WEVT_GYM_MIZU_CLEAR
+    private const uint KIndexReceivedBadgeBug = 0x89306FE6; // WEVT_GYM_MUSHI_CLEAR
+    private const uint KIndexReceivedBadgeNormal = 0xF90EFD79; // WEVT_GYM_NORMAL_CLEAR
+    private const uint KIndexReceivedBadgeDragon = 0xEC7361B7; // WEVT_NUSHI_DRAGON_CLEAR
+    private const uint KIndexReceivedBadgeSteel = 0x0D0602DE; // WEVT_NUSHI_HAGANE_CLEAR
+    private const uint KIndexReceivedBadgeFlying = 0x9C16DA94; // WEVT_NUSHI_HIKOU_CLEAR
+    private const uint KIndexReceivedBadgeRock = 0xA6CDE603; // WEVT_NUSHI_IWA_CLEAR
+    private const uint KIndexReceivedBadgeGround = 0xBDAC74B3; // WEVT_NUSHI_JIMEN_CLEAR
+
+    // Gym Challenges
+    private const uint KBestTimeOliveRoll = 0x120A3884; // WEVT_SUB_GYM_MUSHI_BEST_RECORD_TIME
+    private const uint KESPExerciseKnockoutHighScore = 0x287ED11F; // WEVT_SUB_GYM_ESPER_ENDLESS_HIGH_SCORE
+    private const uint KESPExerciseModesUnlocked = 0x4874E130; // WEVT_SUB_GYM_ESPER_EXERCISE_LEVEL
+    private const uint KSnowSlopeRunBestTime1 = 0x594C72A5; // WEVT_GYM_KOORI_BEST_RECORD_TIME_01
+    private const uint KSnowSlopeRunBestTime2 = 0x594C6D8C; // WEVT_GYM_KOORI_BEST_RECORD_TIME_02
+    private const uint KSnowSlopeRunBestTime3 = 0x594C6F3F; // WEVT_GYM_KOORI_BEST_RECORD_TIME_03
+
     private const uint WEVT_6TH_GYM_BATTLE_FIRST_POKEMON = 0xBF269C72;
     private const uint WEVT_AJITO_AKU_AFTER_EVENT_LP_COUNT = 0x2639E91E;
     private const uint WEVT_AJITO_DOKU_AFTER_EVENT_LP_COUNT = 0xC20DC520;
@@ -763,31 +850,16 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint WEVT_COMMON_2050_2ND_REPLY = 0x9A721F29;
     private const uint WEVT_COMMON_2050_3RD_REPLY = 0x0C089D22;
     private const uint WEVT_COMMON_2050_4TH_REPLY = 0x2E790F65;
-    private const uint KIndexReceivedBadgeDark = 0x6C29ACC5; // WEVT_DAN_AKU_CLEAR
-    private const uint KIndexReceivedBadgePoison = 0x71DB2CEB; // WEVT_DAN_DOKU_CLEAR
-    private const uint KIndexReceivedBadgeFairy = 0xE1271327; // WEVT_DAN_FAIRY_CLEAR
     private const uint WEVT_DAN_HONOO_BATTLE_FIRST_POKEMON = 0x9F8DB33D;
-    private const uint KIndexReceivedBadgeFire = 0x9C6FF7DD; // WEVT_DAN_HONOO_CLEAR
-    private const uint KIndexReceivedBadgeFighting = 0x2A3AC89A; // WEVT_DAN_KAKUTOU_CLEAR
     private const uint WEVT_GYM_DENKI_ACTION_END = 0xA8BAB54C;
-    private const uint KIndexReceivedBadgeElectric = 0x8205ECAD; // WEVT_GYM_DENKI_CLEAR
     private const uint WEVT_GYM_DENKI_EVOLUTION_SELECT_ITEM_ID = 0xCE509B58;
     private const uint WEVT_GYM_DENKI_LOST_PROPERTY_PROGRESS = 0xF4AFE9C8;
     private const uint WEVT_GYM_DENKI_TEST_NPC_01 = 0x044F4DCE;
     private const uint WEVT_GYM_DENKI_TEST_NPC_02 = 0x044F4C1B;
-    private const uint KIndexReceivedBadgePsychic = 0x3B819021; // WEVT_GYM_ESPER_CLEAR
-    private const uint KESPExerciseKnockoutHighScore = 0x287ED11F; // WEVT_SUB_GYM_ESPER_ENDLESS_HIGH_SCORE
-    private const uint KESPExerciseModesUnlocked = 0x4874E130; // WEVT_SUB_GYM_ESPER_EXERCISE_LEVEL
-    private const uint KIndexReceivedBadgeGhost = 0xCDA61DED; // WEVT_GYM_GHOST_CLEAR
     private const uint WEVT_GYM_GHOST_TALKED_TRAINER = 0x706D7FB5;
-    private const uint KSnowSlopeRunBestTime1 = 0x594C72A5; // WEVT_GYM_KOORI_BEST_RECORD_TIME_01
-    private const uint KSnowSlopeRunBestTime2 = 0x594C6D8C; // WEVT_GYM_KOORI_BEST_RECORD_TIME_02
-    private const uint KSnowSlopeRunBestTime3 = 0x594C6F3F; // WEVT_GYM_KOORI_BEST_RECORD_TIME_03
-    private const uint KIndexReceivedBadgeIce = 0x46B6CB30; // WEVT_GYM_KOORI_CLEAR
     private const uint WEVT_GYM_KOORI_TALKED = 0x664A20D4;
     private const uint WEVT_SUB_GYM_KOORI_COURSE_LEVEL = 0xDF3E258C;
     private const uint WEVT_SUB_GYM_KOORI_TALKED = 0xB04D088F;
-    private const uint KIndexReceivedBadgeGrass = 0xB4C3AFE6; // WEVT_GYM_KUSA_CLEAR
 
     #region Artazon Gym Challenge Sunflora (Four blocks each: State, X coordinate, Y coordinate, Z coordinate)
     private const uint WEVT_GYM_KUSA_FIND_POKE_001 = 0xFF1D78E2;
@@ -914,37 +986,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
 
     private const uint WEVT_GYM_KUSA_SUB_EVENT_REWARD_COUNT = 0x71FB8B10;
     private const uint WEVT_GYM_KUSA_TALKED = 0x8E3B5E0A;
-    private const uint KIndexReceivedBadgeWater = 0xA803FAAD; // WEVT_GYM_MIZU_CLEAR
-    private const uint WEVT_GYM_MIZU_SERI_RAFFLE = 0xDC31EB08;
-    private const uint KPortoMarinadaAuctioneer1Item = 0x3D837AB6; // WEVT_GYM_MIZU_SERI_VENUE1_ITEM_ID
-    private const uint KPortoMarinadaAuctioneer1Quantity = 0x93DB9439; // WEVT_GYM_MIZU_SERI_VENUE1_ITEM_NUM
-    private const uint WEVT_GYM_MIZU_SERI_VENUE1_NPC_ID1 = 0x9A78757B;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE1_NPC_ID2 = 0x9A78772E;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE1_PROGRESS = 0x50531CE6;
-    private const uint KPortoMarinadaAuctioneer2Item = 0xC65EB057; // WEVT_GYM_MIZU_SERI_VENUE2_ITEM_ID
-    private const uint KPortoMarinadaAuctioneer2Quantity = 0x178AC492; // WEVT_GYM_MIZU_SERI_VENUE2_ITEM_NUM
-    private const uint WEVT_GYM_MIZU_SERI_VENUE2_NPC_ID1 = 0x13AF53B6;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE2_NPC_ID2 = 0x13AF5203;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE2_PROGRESS = 0x549187F5;
-    private const uint KPortoMarinadaAuctioneer3Item = 0x26F510C4; // WEVT_GYM_MIZU_SERI_VENUE3_ITEM_ID
-    private const uint KPortoMarinadaAuctioneer3Quantity = 0x54D737FF; // WEVT_GYM_MIZU_SERI_VENUE3_ITEM_NUM
-    private const uint WEVT_GYM_MIZU_SERI_VENUE3_NPC_ID1 = 0x96FD9641;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE3_NPC_ID2 = 0x96FD9128;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE3_PROGRESS = 0x702C68EC;
-    private const uint KPortoMarinadaAuctioneer4Item = 0x8EF22D95; // WEVT_GYM_MIZU_SERI_VENUE4_ITEM_ID
-    private const uint KPortoMarinadaAuctioneer4Quantity = 0xFDDFB678;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE4_NPC_ID1 = 0x3275F474;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE4_NPC_ID2 = 0x3275F98D;
-    private const uint WEVT_GYM_MIZU_SERI_VENUE4_PROGRESS = 0x6D418A8B;
-    private const uint KIndexReceivedBadgeBug = 0x89306FE6; // WEVT_GYM_MUSHI_CLEAR
     private const uint WEVT_GYM_MUSHI_COURSE_TYPE = 0x3D5FE4C1;
-    private const uint KBestTimeOliveRoll = 0x120A3884; // WEVT_SUB_GYM_MUSHI_BEST_RECORD_TIME
-    private const uint KIndexReceivedBadgeNormal = 0xF90EFD79; // WEVT_GYM_NORMAL_CLEAR
-    private const uint KIndexReceivedBadgeDragon = 0xEC7361B7; // WEVT_NUSHI_DRAGON_CLEAR
-    private const uint KIndexReceivedBadgeSteel = 0x0D0602DE; // WEVT_NUSHI_HAGANE_CLEAR
-    private const uint KIndexReceivedBadgeFlying = 0x9C16DA94; // WEVT_NUSHI_HIKOU_CLEAR
-    private const uint KIndexReceivedBadgeRock = 0xA6CDE603; // WEVT_NUSHI_IWA_CLEAR
-    private const uint KIndexReceivedBadgeGround = 0xBDAC74B3; // WEVT_NUSHI_JIMEN_CLEAR
     private const uint WEVT_RIDE_HAPPINESS = 0xD9DF9254;
     private const uint WEVT_SUB_047_RACIPE_BADGE_RELEASE = 0x8A3575A5;
 
@@ -954,26 +996,28 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KShrineStateWoChien = 0x8FC1AFF5; // WEVT_SUB_016_EVENT_STATE_MOKKAN
     private const uint KShrineStateChiYu = 0x0FD2F9E2; // WEVT_SUB_017_EVENT_STATE_MAGATAMA
     #endregion
+
     #region WSYS
-    private const uint WSYS_AIBOUNOAKASI_WALK_COUNT = 0x9C677EC6;
+    public const uint KGameLanguage = 0x25839373; // WSYS_LANGUAGE_SELECT
     private const uint KBagSortingOption = 0xEEAEB167; // WSYS_BAG_SORT
-    private const uint WSYS_BIRTHDAY_EVENT_TIME = 0x77B3D1BE;
     private const uint KGimmighoulCoinOverflow = 0x0265ECEB; // WSYS_COIN_OVERFLOW_NUM
+    private const uint KSkinTone = 0xEDBB0C80; // WSYS_PLAYER_SKIN_SELECT
+    private const uint KLastPokedexVolumeRewardThreshold = 0x359436C5; // WSYS_POKEDX_REWARD_CHIHOUA_VALUE
+    private const uint KRaidsWonDifficulty4 = 0x6A0F66E2; // WSYS_RAID_DIFFICTLTY4_WIN_COUNT
+    private const uint KRaidsWonDifficulty6 = 0xF97AC8A4; // WSYS_RAID_DIFFICTLTY6_WIN_COUNT
+
+    private const uint WSYS_AIBOUNOAKASI_WALK_COUNT = 0x9C677EC6;
+    private const uint WSYS_BIRTHDAY_EVENT_TIME = 0x77B3D1BE;
     private const uint WSYS_EGG_WALK_COUNT = 0xC1946E9B;
     private const uint WSYS_FRIEND_SHIP_WALK_COUNT = 0xC7CC9EBD;
     private const uint WSYS_GEM_CHANGE_POINT = 0xE1B947F5;
     private const uint WSYS_GEM_CHANGE_POINT_MAX = 0x6C1169C0;
     private const uint WSYS_GOZONJI_HINT_COUNT = 0x42579CF4;
-    public const uint KGameLanguage = 0x25839373; // WSYS_LANGUAGE_SELECT
     private const uint WSYS_LEAGUE_CARD_SELECT_CARD = 0xB5284E7C;
     private const uint WSYS_LEAGUE_CARD_SELECT_ICON = 0x45AEB78B;
     private const uint WSYS_NET_BATTLE_BGM_ID = 0x603562B5;
     private const uint WSYS_PARTNER_WALK_COUNT = 0x0CB2BF62;
     private const uint WSYS_PARTNER_WALK_COUNT_TEMP = 0x2523D6E1;
-    private const uint KSkinTone = 0xEDBB0C80; // WSYS_PLAYER_SKIN_SELECT
-    private const uint KLastPokedexVolumeRewardThreshold = 0x359436C5; // WSYS_POKEDX_REWARD_CHIHOUA_VALUE
-    private const uint KRaidsWonDifficulty4 = 0x6A0F66E2; // WSYS_RAID_DIFFICTLTY4_WIN_COUNT
-    private const uint KRaidsWonDifficulty6 = 0xF97AC8A4; // WSYS_RAID_DIFFICTLTY6_WIN_COUNT
     private const uint WSYS_RAID_PENALTY_COUNT = 0xD9D557BE;
     private const uint WSYS_SCHOOL_MAP_DESTINATION_FLAG_VALUE = 0x612E2777;
     private const uint WSYS_SCHOOL_MAP_NEW_FLAG_VALUE = 0xEF63CAB5;
@@ -982,7 +1026,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     #endregion
 
     #region EncountOutbreakSave
-    private const uint KMassOutbreakNumActive     = 0x6C375C8A;
+    private const uint KMassOutbreakNumActive     = 0x6C375C8A; // EncountOutbreakSave_enablecount
 
     private const uint KMassOutbreak01CenterPos   = 0x2ED42F4D; // EncountOutbreakSave_centerPos[0]
     private const uint KMassOutbreak01DummyPos    = 0x4A13BE7C; // EncountOutbreakSave_dummyPos[0]
@@ -991,6 +1035,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak01Found       = 0x7E203623; // EncountOutbreakSave_isFind[0]
     private const uint KMassOutbreak01NumKOed     = 0x4B16FBC2; // EncountOutbreakSave_subjugationCount[0]
     private const uint KMassOutbreak01TotalSpawns = 0xB7DC495A; // EncountOutbreakSave_subjugationLimit[0]
+    private const uint KMassOutbreak01Materials   = 0x598C9F67; // EncountOutbreakSave_dropMaterialCount[0]
 
     private const uint KMassOutbreak02CenterPos   = 0x2ED5F198; // EncountOutbreakSave_centerPos[1]
     private const uint KMassOutbreak02DummyPos    = 0x4A118F71; // EncountOutbreakSave_dummyPos[1]
@@ -999,6 +1044,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak02Found       = 0x7E22DF86; // EncountOutbreakSave_isFind[1]
     private const uint KMassOutbreak02NumKOed     = 0x4B14BF1F; // EncountOutbreakSave_subjugationCount[1]
     private const uint KMassOutbreak02TotalSpawns = 0xB7DA0CB7; // EncountOutbreakSave_subjugationLimit[1]
+    private const uint KMassOutbreak02Materials   = 0x598E6F4A; // EncountOutbreakSave_dropMaterialCount[1]
 
     private const uint KMassOutbreak03CenterPos   = 0x2ECE09D3; // EncountOutbreakSave_centerPos[2]
     private const uint KMassOutbreak03DummyPos    = 0x4A0E135A; // EncountOutbreakSave_dummyPos[2]
@@ -1007,6 +1053,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak03Found       = 0x7E25155D; // EncountOutbreakSave_isFind[2]
     private const uint KMassOutbreak03NumKOed     = 0x4B1CA6E4; // EncountOutbreakSave_subjugationCount[2]
     private const uint KMassOutbreak03TotalSpawns = 0xB7E1F47C; // EncountOutbreakSave_subjugationLimit[2]
+    private const uint KMassOutbreak03Materials   = 0x59925821; // EncountOutbreakSave_dropMaterialCount[2]
 
     private const uint KMassOutbreak04CenterPos   = 0x2ED04676; // EncountOutbreakSave_centerPos[3]
     private const uint KMassOutbreak04DummyPos    = 0x4A0BD6B7; // EncountOutbreakSave_dummyPos[3]
@@ -1015,6 +1062,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak04Found       = 0x7E28F768; // EncountOutbreakSave_isFind[3]
     private const uint KMassOutbreak04NumKOed     = 0x4B1A77D9; // EncountOutbreakSave_subjugationCount[3]
     private const uint KMassOutbreak04TotalSpawns = 0xB7DFC571; // EncountOutbreakSave_subjugationLimit[3]
+    private const uint KMassOutbreak04Materials   = 0x5994F3EC; // EncountOutbreakSave_dropMaterialCount[3]
 
     private const uint KMassOutbreak05CenterPos   = 0x2EC78531; // EncountOutbreakSave_centerPos[4]
     private const uint KMassOutbreak05DummyPos    = 0x4A1FFBD8; // EncountOutbreakSave_dummyPos[4]
@@ -1023,6 +1071,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak05Found       = 0x7E13F8C7; // EncountOutbreakSave_isFind[4]
     private const uint KMassOutbreak05NumKOed     = 0x4B23391E; // EncountOutbreakSave_subjugationCount[4]
     private const uint KMassOutbreak05TotalSpawns = 0xB7E886B6; // EncountOutbreakSave_subjugationLimit[4]
+    private const uint KMassOutbreak05Materials   = 0x599729C3; // EncountOutbreakSave_dropMaterialCount[4]
 
     private const uint KMassOutbreak06CenterPos   = 0x2ECB673C; // EncountOutbreakSave_centerPos[5]
     private const uint KMassOutbreak06DummyPos    = 0x4A1C868D; // EncountOutbreakSave_dummyPos[5]
@@ -1031,6 +1080,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak06Found       = 0x7E16A22A; // EncountOutbreakSave_isFind[5]
     private const uint KMassOutbreak06NumKOed     = 0x4B208FBB; // EncountOutbreakSave_subjugationCount[5]
     private const uint KMassOutbreak06TotalSpawns = 0xB7E49713; // EncountOutbreakSave_subjugationLimit[5]
+    private const uint KMassOutbreak06Materials   = 0x599AACA6; // EncountOutbreakSave_dropMaterialCount[5]
 
     private const uint KMassOutbreak07CenterPos   = 0x2EC1CC77; // EncountOutbreakSave_centerPos[6]
     private const uint KMassOutbreak07DummyPos    = 0x4A1A50B6; // EncountOutbreakSave_dummyPos[6]
@@ -1039,6 +1089,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak07Found       = 0x7E1A8B01; // EncountOutbreakSave_isFind[6]
     private const uint KMassOutbreak07NumKOed     = 0x4B28E440; // EncountOutbreakSave_subjugationCount[6]
     private const uint KMassOutbreak07TotalSpawns = 0xB7EE31D8; // EncountOutbreakSave_subjugationLimit[6]
+    private const uint KMassOutbreak07Materials   = 0x599CE27D; // EncountOutbreakSave_dropMaterialCount[6]
 
     private const uint KMassOutbreak08CenterPos   = 0x2EC5BC1A; // EncountOutbreakSave_centerPos[7]
     private const uint KMassOutbreak08DummyPos    = 0x4A166113; // EncountOutbreakSave_dummyPos[7]
@@ -1047,6 +1098,22 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KMassOutbreak08Found       = 0x7E1C4D4C; // EncountOutbreakSave_isFind[7]
     private const uint KMassOutbreak08NumKOed     = 0x4B256EF5; // EncountOutbreakSave_subjugationCount[7]
     private const uint KMassOutbreak08TotalSpawns = 0xB7EABC8D; // EncountOutbreakSave_subjugationLimit[7]
+    private const uint KMassOutbreak08Materials   = 0x59A0C488; // EncountOutbreakSave_dropMaterialCount[7]
+    #endregion
+
+    #region GameEnvSave
+    private const uint KAreaNameALO00 = 0xE2FBC051; // GameEnvSave_ALO_AreaName[0]
+    private const uint KAreaNameALO01 = 0xE2FDEF5C; // GameEnvSave_ALO_AreaName[1]
+    private const uint KAreaNameALO02 = 0xE2F52E17; // GameEnvSave_ALO_AreaName[2]
+    private const uint KAreaNameALO03 = 0xE2F91DBA; // GameEnvSave_ALO_AreaName[3]
+    private const uint KAreaNameALO04 = 0xE30790ED; // GameEnvSave_ALO_AreaName[4]
+    private const uint KAreaNameALO05 = 0xE30A2CB8; // GameEnvSave_ALO_AreaName[5]
+    private const uint KAreaNameALO06 = 0xE3016B73; // GameEnvSave_ALO_AreaName[6]
+    private const uint KAreaNameALO07 = 0xE303A816; // GameEnvSave_ALO_AreaName[7]
+    private const uint KAreaNameALO08 = 0xE3121B49; // GameEnvSave_ALO_AreaName[8]
+    private const uint KAreaNameALO09 = 0xE315FD54; // GameEnvSave_ALO_AreaName[9]
+    private const uint KFixedGameTime = 0x26E69AA9; // GameEnvSave_FixedGameTime
+    private const uint KFixedWeather = 0x329C9262; // GameEnvSave_FixedWeather
     #endregion
 
     #region Fixed Symbol Encounter Storage
