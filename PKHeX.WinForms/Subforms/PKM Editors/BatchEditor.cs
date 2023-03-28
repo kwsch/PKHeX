@@ -174,18 +174,21 @@ public partial class BatchEditor : Form
 
     private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets, bool boxes = false, bool party = false)
     {
-        var data = new List<SlotCache>();
         if (party)
         {
+            var data = new List<SlotCache>(SAV.PartyCount);
             SlotInfoLoader.AddPartyData(SAV, data);
             process(data);
-            SAV.PartyData = data.ConvertAll(z => z.Entity);
+            foreach (var slot in data)
+                slot.Source.WriteTo(SAV, slot.Entity, PKMImportSetting.Skip);
         }
         if (boxes)
         {
+            var data = new List<SlotCache>(SAV.SlotCount);
             SlotInfoLoader.AddBoxData(SAV, data);
             process(data);
-            SAV.BoxData = data.ConvertAll(z => z.Entity);
+            foreach (var slot in data)
+                slot.Source.WriteTo(SAV, slot.Entity, PKMImportSetting.Skip);
         }
         void process(IList<SlotCache> d)
         {

@@ -41,16 +41,15 @@ public static class SlotInfoLoader
 
     private static void AddBoxData(SaveFile sav, ConcurrentBag<SlotCache> db)
     {
-        var bd = sav.BoxData;
         var bc = sav.BoxCount;
         var sc = sav.BoxSlotCount;
-        int ctr = 0;
         for (int box = 0; box < bc; box++)
         {
-            for (int slot = 0; slot < sc; slot++, ctr++)
+            for (int slot = 0; slot < sc; slot++)
             {
                 var ident = new SlotInfoBox(box, slot);
-                var result = new SlotCache(ident, bd[ctr], sav);
+                var pk = sav.GetBoxSlotAtIndex(box, slot);
+                var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }
         }
@@ -58,10 +57,10 @@ public static class SlotInfoLoader
 
     private static void AddPartyData(SaveFile sav, ConcurrentBag<SlotCache> db)
     {
-        var pd = sav.PartyData;
-        for (var index = 0; index < pd.Count; index++)
+        var count = sav.PartyCount;
+        for (var index = 0; index < count; index++)
         {
-            var pk = pd[index];
+            var pk = sav.GetPartySlotAtIndex(index);
             if (pk.Species == 0)
                 continue;
 
@@ -116,16 +115,15 @@ public static class SlotInfoLoader
 
     public static void AddBoxData(SaveFile sav, ICollection<SlotCache> db)
     {
-        var bd = sav.BoxData;
         var bc = sav.BoxCount;
         var sc = sav.BoxSlotCount;
-        int ctr = 0;
         for (int box = 0; box < bc; box++)
         {
-            for (int slot = 0; slot < sc; slot++, ctr++)
+            for (int slot = 0; slot < sc; slot++)
             {
                 var ident = new SlotInfoBox(box, slot);
-                var result = new SlotCache(ident, bd[ctr], sav);
+                var pk = sav.GetBoxSlotAtIndex(box, slot);
+                var result = new SlotCache(ident, pk, sav);
                 db.Add(result);
             }
         }
@@ -133,10 +131,10 @@ public static class SlotInfoLoader
 
     public static void AddPartyData(SaveFile sav, ICollection<SlotCache> db)
     {
-        var pd = sav.PartyData;
-        for (var index = 0; index < pd.Count; index++)
+        var count = sav.PartyCount;
+        for (var index = 0; index < count; index++)
         {
-            var pk = pd[index];
+            var pk = sav.GetPartySlotAtIndex(index);
             if (pk.Species == 0)
                 continue;
 
