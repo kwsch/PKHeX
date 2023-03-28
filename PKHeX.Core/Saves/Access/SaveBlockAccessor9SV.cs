@@ -68,6 +68,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint KFusedCalyrex = 0x916BCA9E; // Calyrex
     private const uint KZukan = 0x0DEAAEBD;
     private const uint KMysteryGift = 0x99E1625E;
+    private const uint KDLCGifts = 0xA4B7A814; // Unix timestamp, 1 byte type of gift (0 = Pokémon, 1 = Item, 2 = Apparel)
     private const uint KLastSaved = 0x7495969E; // u64 time_t
     private const uint KEnrollmentDate = 0xC7409C89;
     private const uint KPlayRecords = 0x549B6033; // 0x18 per entry, first 8 bytes always 01, u64 fnv hash of entry, last 8 bytes value
@@ -289,7 +290,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KUnlockedMultiplayerBGM23 = 0x727C0056; // FSYS_BGM_VS_SELECT_23
     private const uint KUnlockedMultiplayerBGM24 = 0x727C056F; // FSYS_BGM_VS_SELECT_24
     private const uint KUnlockedMultiplayerBGM25 = 0x727C03BC; // FSYS_BGM_VS_SELECT_25
-    private const uint KUnlockedMultiplayerBGM26 = 0x727C03BC; // FSYS_BGM_VS_SELECT_26
+    private const uint KUnlockedMultiplayerBGM26 = 0x727C08D5; // FSYS_BGM_VS_SELECT_26
     #endregion
 
     #region Tips
@@ -609,12 +610,84 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     #endregion
 
     #region FEVT
+    // Daily events
+    private const uint KChallengedTodayGiacomo = 0x2DAF633E; // FEVT_AJITO_AKU_BOSS_CHALLENGED_TODAY
+    private const uint KChallengedTodayAtticus = 0xCE233DCE; // FEVT_AJITO_DOKU_BOSS_CHALLENGED_TODAY
+    private const uint KChallengedTodayOrtega = 0x08EB6E34; // FEVT_AJITO_FAIRY_BOSS_CHALLENGED_TODAY
+    private const uint KChallengedTodayMela = 0x57A4FAC2; // FEVT_AJITO_HONOO_BOSS_CHALLENGED_TODAY
+    private const uint KChallengedTodayEri = 0xC0D96AD5; // FEVT_AJITO_KAKUTOU_BOSS_CHALLENGED_TODAY
+
+    #region Treasures of Ruin
+    private const uint KChallengedTodayTingLu = 0x7E1AB823; // FEVT_SUB_014_CHALLENGED_TODAY
+    private const uint KChallengedTodayChienPao = 0xDC5B835A; // FEVT_SUB_015_CHALLENGED_TODAY
+    private const uint KChallengedTodayWoChien = 0x9C620E19; // FEVT_SUB_016_CHALLENGED_TODAY
+    private const uint KChallengedTodayChiYu = 0x33D68D98; // FEVT_SUB_017_CHALLENGED_TODAY
+
+    // Groundblight Shrine
+    private const uint KRemovedStakeTingLu1 = 0x12AC859B; // FEVT_SUB_014_KUI_01_RELEASE
+    private const uint KRemovedStakeTingLu2 = 0x8DEDB4EE; // FEVT_SUB_014_KUI_02_RELEASE
+    private const uint KRemovedStakeTingLu3 = 0x8AD96AE1; // FEVT_SUB_014_KUI_03_RELEASE
+    private const uint KRemovedStakeTingLu4 = 0xDE563974; // FEVT_SUB_014_KUI_04_RELEASE
+    private const uint KRemovedStakeTingLu5 = 0xCD9991DF; // FEVT_SUB_014_KUI_05_RELEASE
+    private const uint KRemovedStakeTingLu6 = 0xAE72B792; // FEVT_SUB_014_KUI_06_RELEASE
+    private const uint KRemovedStakeTingLu7 = 0xAB74A785; // FEVT_SUB_014_KUI_07_RELEASE
+    private const uint KRemovedStakeTingLu8 = 0x32E24C38; // FEVT_SUB_014_KUI_08_RELEASE
+    public const uint KStakesRemovedTingLu = 0xB836D2B5;
+
+    // Icerend Shrine
+    private const uint KRemovedStakeChienPao1 = 0xF1CFFA8E; // FEVT_SUB_015_KUI_01_RELEASE
+    private const uint KRemovedStakeChienPao2 = 0x4C7DC4BB; // FEVT_SUB_015_KUI_02_RELEASE
+    private const uint KRemovedStakeChienPao3 = 0xAE0F19B0; // FEVT_SUB_015_KUI_03_RELEASE
+    private const uint KRemovedStakeChienPao4 = 0x95414EA5; // FEVT_SUB_015_KUI_04_RELEASE
+    private const uint KRemovedStakeChienPao5 = 0x52F60D32; // FEVT_SUB_015_KUI_05_RELEASE
+    private const uint KRemovedStakeChienPao6 = 0x5C55EE7F; // FEVT_SUB_015_KUI_06_RELEASE
+    private const uint KRemovedStakeChienPao7 = 0xFFEB3B14; // FEVT_SUB_015_KUI_07_RELEASE
+    private const uint KRemovedStakeChienPao8 = 0xDAD07F09; // FEVT_SUB_015_KUI_08_RELEASE
+    public const uint KStakesRemovedChienPao = 0x25A71ADC;
+
+    // Grasswither Shrine
+    private const uint KRemovedStakeWoChien1 = 0xA3B68F79; // FEVT_SUB_016_KUI_01_RELEASE
+    private const uint KRemovedStakeWoChien2 = 0x4CB308C8; // FEVT_SUB_016_KUI_02_RELEASE
+    private const uint KRemovedStakeWoChien3 = 0xF6FC8073; // FEVT_SUB_016_KUI_03_RELEASE
+    private const uint KRemovedStakeWoChien4 = 0x7E28078A; // FEVT_SUB_016_KUI_04_RELEASE
+    private const uint KRemovedStakeWoChien5 = 0xCD304EDD; // FEVT_SUB_016_KUI_05_RELEASE
+    private const uint KRemovedStakeWoChien6 = 0x27CB724C; // FEVT_SUB_016_KUI_06_RELEASE
+    private const uint KRemovedStakeWoChien7 = 0x0470BDF7; // FEVT_SUB_016_KUI_07_RELEASE
+    private const uint KRemovedStakeWoChien8 = 0x59A600BE; // FEVT_SUB_016_KUI_08_RELEASE
+    public const uint KStakesRemovedWoChien = 0x9C7D6B7B;
+
+    // Firescourge Shrine
+    private const uint KRemovedStakeChiYu1 = 0x6F341C9C; // FEVT_SUB_017_KUI_01_RELEASE
+    private const uint KRemovedStakeChiYu2 = 0x7077C7AD; // FEVT_SUB_017_KUI_02_RELEASE
+    private const uint KRemovedStakeChiYu3 = 0xD9072D1A; // FEVT_SUB_017_KUI_03_RELEASE
+    private const uint KRemovedStakeChiYu4 = 0x97E33903; // FEVT_SUB_017_KUI_04_RELEASE
+    private const uint KRemovedStakeChiYu5 = 0xFC221F98; // FEVT_SUB_017_KUI_05_RELEASE
+    private const uint KRemovedStakeChiYu6 = 0x6714A749; // FEVT_SUB_017_KUI_06_RELEASE
+    private const uint KRemovedStakeChiYu7 = 0xC83DEFF6; // FEVT_SUB_017_KUI_07_RELEASE
+    private const uint KRemovedStakeChiYu8 = 0xCA415ABF; // FEVT_SUB_017_KUI_08_RELEASE
+    public const uint KStakesRemovedChiYu = 0xAE752C6A;
+    #endregion
+
+    private const uint KCapturedBoxLegendary = 0x987B8A24; // FEVT_SUB_018_CAPTURED
+    private const uint KHasSaveDataLGPE = 0x2F9CC37D; // FEVT_SUB_028_HAVE_BELUGA_SAVE_DATA
+    private const uint KHasSaveDataBDSP = 0xC4B1323E; // FEVT_SUB_028_HAVE_DELPHIS_SAVE_DATA
+    private const uint KHasSaveDataLA = 0x592092B7; // FEVT_SUB_028_HAVE_HAYABUSA_SAVE_DATA
+    private const uint KHasSaveDataSWSH = 0xE454155A; // FEVT_SUB_028_HAVE_ORION_SAVE_DATA
+    private const uint KCompletedTradeSnom = 0xCEF6C179; // FEVT_SUB_044_TRADE_A
+    private const uint KCompletedTradeWooper = 0xCEF6BC60; // FEVT_SUB_044_TRADE_B
+    private const uint KCompletedTradeHaunter = 0xCEF6BE13; // FEVT_SUB_044_TRADE_C
+    private const uint KClearedCourseBlizzard = 0xFD126E2B; // FEVT_SUB_GYM_KOORI_HARD_CLER
+    private const uint KClearedCoursePowderSnow = 0x8BEB3731; // FEVT_SUB_GYM_KOORI_NORMAL_CLER
+    private const uint KClearedCourseSheerCold = 0xC11CEE3A; // FEVT_SUB_GYM_KOORI_VERY_HARD_CLER
+    private const uint KUnlockedRecipesMotherNormal = 0x0629031F; // FEVT_MOTHER_NORMAL_RECIPE_ADD_END
+    private const uint KUnlockedRecipesMotherMaster = 0xA796AC7C; // FEVT_MOTHER_MASTER_RECIPE_ADD_END
+    private const uint KUnlockedRecipesHerbaMystica1 = 0x6680756C; // FEVT_SUB_047_RACIPE_AMA_RELEASE
+    private const uint KUnlockedRecipesHerbaMystica2 = 0x1DE39DD2; // FEVT_SUB_047_RACIPE_KARA_RELEASE
+    private const uint KUnlockedRecipesHerbaMystica3 = 0xD4424476; // FEVT_SUB_047_RACIPE_NIGA_RELEASE
+    private const uint KUnlockedRecipesHerbaMystica4 = 0x48598E18; // FEVT_SUB_047_RACIPE_SIO_RELEASE
+    private const uint KUnlockedRecipesHerbaMystica5 = 0x483DB133; // FEVT_SUB_047_RACIPE_SPA_RELEASE
+
     private const uint FEVT_1ST_BATTLE_TOURNAMENT_LOST = 0x820A884D;
-    private const uint FEVT_AJITO_AKU_BOSS_CHALLENGED_TODAY = 0x2DAF633E;
-    private const uint FEVT_AJITO_DOKU_BOSS_CHALLENGED_TODAY = 0xCE233DCE;
-    private const uint FEVT_AJITO_FAIRY_BOSS_CHALLENGED_TODAY = 0x08EB6E34;
-    private const uint FEVT_AJITO_HONOO_BOSS_CHALLENGED_TODAY = 0x57A4FAC2;
-    private const uint FEVT_AJITO_KAKUTOU_BOSS_CHALLENGED_TODAY = 0xC0D96AD5;
     private const uint FEVT_ATLANTIS_BASE_A1_EVENT_END = 0xED39BBAD;
     private const uint FEVT_ATLANTIS_BASE_A2_EVENT_END = 0x3C0C05F0;
     private const uint FEVT_ATLANTIS_BASE_A3_EVENT_END = 0x7F9FD74F;
@@ -634,8 +707,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FEVT_GYM_MUSHI_TEST_BATTLE01_WIN = 0x6C9FBBBB;
     private const uint FEVT_GYM_MUSHI_TEST_BATTLE02_WIN = 0x4FB3E2AA;
     private const uint FEVT_GYM_MUSHI_TEST_TALKED = 0xDF33CFF8;
-    private const uint FEVT_MOTHER_MASTER_RECIPE_ADD_END = 0xA796AC7C;
-    private const uint FEVT_MOTHER_NORMAL_RECIPE_ADD_END = 0x0629031F;
     private const uint FEVT_NUSHI_DRAGON_EVENT_END = 0x3B815FEB;
     private const uint FEVT_NUSHI_DRAGON_FOOD_GET = 0x813881DC;
     private const uint FEVT_NUSHI_HAGANE_EVENT_END = 0x2F9F93C2;
@@ -647,49 +718,8 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FEVT_NUSHI_JIMEN_EVENT_END = 0x6377C805;
     private const uint FEVT_NUSHI_JIMEN_FOOD_GET = 0xAD1BA90E;
     private const uint FEVT_SEAMLESS_TALK_BATTLE_LOSE = 0x924E346A;
-    private const uint FEVT_SUB_014_CHALLENGED_TODAY = 0x7E1AB823;
-    private const uint KRemovedStakeTingLu1 = 0x12AC859B; // FEVT_SUB_014_KUI_01_RELEASE
-    private const uint KRemovedStakeTingLu2 = 0x8DEDB4EE; // FEVT_SUB_014_KUI_02_RELEASE
-    private const uint KRemovedStakeTingLu3 = 0x8AD96AE1; // FEVT_SUB_014_KUI_03_RELEASE
-    private const uint KRemovedStakeTingLu4 = 0xDE563974; // FEVT_SUB_014_KUI_04_RELEASE
-    private const uint KRemovedStakeTingLu5 = 0xCD9991DF; // FEVT_SUB_014_KUI_05_RELEASE
-    private const uint KRemovedStakeTingLu6 = 0xAE72B792; // FEVT_SUB_014_KUI_06_RELEASE
-    private const uint KRemovedStakeTingLu7 = 0xAB74A785; // FEVT_SUB_014_KUI_07_RELEASE
-    private const uint KRemovedStakeTingLu8 = 0x32E24C38; // FEVT_SUB_014_KUI_08_RELEASE
-    private const uint FEVT_SUB_015_CHALLENGED_TODAY = 0xDC5B835A;
-    private const uint KRemovedStakeChienPao1 = 0xF1CFFA8E; // FEVT_SUB_015_KUI_01_RELEASE
-    private const uint KRemovedStakeChienPao2 = 0x4C7DC4BB; // FEVT_SUB_015_KUI_02_RELEASE
-    private const uint KRemovedStakeChienPao3 = 0xAE0F19B0; // FEVT_SUB_015_KUI_03_RELEASE
-    private const uint KRemovedStakeChienPao4 = 0x95414EA5; // FEVT_SUB_015_KUI_04_RELEASE
-    private const uint KRemovedStakeChienPao5 = 0x52F60D32; // FEVT_SUB_015_KUI_05_RELEASE
-    private const uint KRemovedStakeChienPao6 = 0x5C55EE7F; // FEVT_SUB_015_KUI_06_RELEASE
-    private const uint KRemovedStakeChienPao7 = 0xFFEB3B14; // FEVT_SUB_015_KUI_07_RELEASE
-    private const uint KRemovedStakeChienPao8 = 0xDAD07F09; // FEVT_SUB_015_KUI_08_RELEASE
-    private const uint FEVT_SUB_016_CHALLENGED_TODAY = 0x9C620E19;
-    private const uint KRemovedStakeWoChien1 = 0xA3B68F79; // FEVT_SUB_016_KUI_01_RELEASE
-    private const uint KRemovedStakeWoChien2 = 0x4CB308C8; // FEVT_SUB_016_KUI_02_RELEASE
-    private const uint KRemovedStakeWoChien3 = 0xF6FC8073; // FEVT_SUB_016_KUI_03_RELEASE
-    private const uint KRemovedStakeWoChien4 = 0x7E28078A; // FEVT_SUB_016_KUI_04_RELEASE
-    private const uint KRemovedStakeWoChien5 = 0xCD304EDD; // FEVT_SUB_016_KUI_05_RELEASE
-    private const uint KRemovedStakeWoChien6 = 0x27CB724C; // FEVT_SUB_016_KUI_06_RELEASE
-    private const uint KRemovedStakeWoChien7 = 0x0470BDF7; // FEVT_SUB_016_KUI_07_RELEASE
-    private const uint KRemovedStakeWoChien8 = 0x59A600BE; // FEVT_SUB_016_KUI_08_RELEASE
-    private const uint FEVT_SUB_017_CHALLENGED_TODAY = 0x33D68D98;
-    private const uint KRemovedStakeChiYu1 = 0x6F341C9C; // FEVT_SUB_017_KUI_01_RELEASE
-    private const uint KRemovedStakeChiYu2 = 0x7077C7AD; // FEVT_SUB_017_KUI_02_RELEASE
-    private const uint KRemovedStakeChiYu3 = 0xD9072D1A; // FEVT_SUB_017_KUI_03_RELEASE
-    private const uint KRemovedStakeChiYu4 = 0x97E33903; // FEVT_SUB_017_KUI_04_RELEASE
-    private const uint KRemovedStakeChiYu5 = 0xFC221F98; // FEVT_SUB_017_KUI_05_RELEASE
-    private const uint KRemovedStakeChiYu6 = 0x6714A749; // FEVT_SUB_017_KUI_06_RELEASE
-    private const uint KRemovedStakeChiYu7 = 0xC83DEFF6; // FEVT_SUB_017_KUI_07_RELEASE
-    private const uint KRemovedStakeChiYu8 = 0xCA415ABF; // FEVT_SUB_017_KUI_08_RELEASE
-    private const uint KCapturedBoxLegendary = 0x987B8A24; // FEVT_SUB_018_CAPTURED
     private const uint FEVT_SUB_020_END = 0x711B3174;
     private const uint FEVT_SUB_026_TALKED = 0x367A9A06;
-    private const uint KHasSaveDataLGPE = 0x2F9CC37D; // FEVT_SUB_028_HAVE_BELUGA_SAVE_DATA
-    private const uint KHasSaveDataBDSP = 0xC4B1323E; // FEVT_SUB_028_HAVE_DELPHIS_SAVE_DATA
-    private const uint KHasSaveDataLA = 0x592092B7; // FEVT_SUB_028_HAVE_HAYABUSA_SAVE_DATA
-    private const uint KHasSaveDataSWSH = 0xE454155A; // FEVT_SUB_028_HAVE_ORION_SAVE_DATA
     private const uint FEVT_SUB_043_TALKED_01 = 0xF5A9841D;
     private const uint FEVT_SUB_043_TALKED_02 = 0xF5A97F04;
     private const uint FEVT_SUB_043_TALKED_03 = 0xF5A980B7;
@@ -697,21 +727,10 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FEVT_SUB_043_TALKED_05 = 0xF5A97D51;
     private const uint FEVT_SUB_043_TALKED_06 = 0xF5A97838;
     private const uint FEVT_SUB_043_TALKED_07 = 0xF5A979EB;
-    private const uint KCompletedTradeSnom = 0xCEF6C179; // FEVT_SUB_044_TRADE_A
-    private const uint KCompletedTradeWooper = 0xCEF6BC60; // FEVT_SUB_044_TRADE_B
-    private const uint KCompletedTradeHaunter = 0xCEF6BE13; // FEVT_SUB_044_TRADE_C
     private const uint FEVT_SUB_047_GAMECLEAR_TALKED = 0xF3711FD9;
-    private const uint FEVT_SUB_047_RACIPE_AMA_RELEASE = 0x6680756C;
-    private const uint FEVT_SUB_047_RACIPE_KARA_RELEASE = 0x1DE39DD2;
-    private const uint FEVT_SUB_047_RACIPE_NIGA_RELEASE = 0xD4424476;
-    private const uint FEVT_SUB_047_RACIPE_SIO_RELEASE = 0x48598E18;
-    private const uint FEVT_SUB_047_RACIPE_SPA_RELEASE = 0x483DB133;
     private const uint FEVT_SUB_047_TALKED = 0x8E7E08F5;
     private const uint FEVT_SUB_GYM_ESPER_ENDLESS_TRIED = 0xC00B5C3F;
     private const uint FEVT_SUB_GYM_ESPER_TALKED = 0x517DC48F;
-    private const uint KClearedCourseBlizzard = 0xFD126E2B; // FEVT_SUB_GYM_KOORI_HARD_CLER
-    private const uint KClearedCoursePowderSnow = 0x8BEB3731; // FEVT_SUB_GYM_KOORI_NORMAL_CLER
-    private const uint KClearedCourseSheerCold = 0xC11CEE3A; // FEVT_SUB_GYM_KOORI_VERY_HARD_CLER
     private const uint FEVT_SUB_GYM_MUSHI_REWARD_01 = 0x5EAAA944;
     private const uint FEVT_SUB_GYM_MUSHI_REWARD_02 = 0x5EAAAE5D;
     private const uint FEVT_SUB_GYM_MUSHI_REWARD_03 = 0x5EAAACAA;

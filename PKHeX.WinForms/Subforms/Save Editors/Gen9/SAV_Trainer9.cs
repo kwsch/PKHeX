@@ -227,6 +227,12 @@ public partial class SAV_Trainer9 : Form
             FSYS_YMAP_POKECEN_33,
             FSYS_YMAP_POKECEN_34,
             FSYS_YMAP_POKECEN_35,
+
+            // Treasures of Ruin shrine toggles
+            FSYS_YMAP_MAGATAMA,
+            FSYS_YMAP_MOKKAN,
+            FSYS_YMAP_TSURUGI,
+            FSYS_YMAP_UTSUWA,
             #endregion
         };
         var accessor = SAV.Accessor;

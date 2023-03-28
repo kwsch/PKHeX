@@ -306,6 +306,12 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
         foreach (var block in blocks)
             Accessor.GetBlock(block).SetValue(1); // lift seals from each shrine
+
+        // remove chains from each shrine
+        Accessor.GetBlock(SaveBlockAccessor9SV.KStakesRemovedTingLu).SetValue((ulong)10);
+        Accessor.GetBlock(SaveBlockAccessor9SV.KStakesRemovedChienPao).SetValue((ulong)10);
+        Accessor.GetBlock(SaveBlockAccessor9SV.KStakesRemovedWoChien).SetValue((ulong)10);
+        Accessor.GetBlock(SaveBlockAccessor9SV.KStakesRemovedChiYu).SetValue((ulong)10);
     }
 
     public void UnlockAllTMRecipes()
