@@ -190,10 +190,12 @@ public static class Breeding
         (int)Enamorus,
 
         // Gen9
+        (int)GreatTusk, (int)ScreamTail, (int)BruteBonnet, (int)FlutterMane, (int)SlitherWing, (int)SandyShocks,
+        (int)IronTreads, (int)IronBundle, (int)IronHands, (int)IronJugulis, (int)IronMoth, (int)IronThorns,
         (int)Gimmighoul, (int)Gholdengo,
-        (int)GreatTusk, (int)BruteBonnet, (int)WalkingWake, (int)SandyShocks, (int)ScreamTail, (int)FlutterMane, (int)SlitherWing, (int)RoaringMoon,
-        (int)IronTreads, (int)IronLeaves, (int)IronMoth, (int)IronHands, (int)IronJugulis, (int)IronThorns, (int)IronBundle, (int)IronValiant,
-        (int)TingLu, (int)ChienPao, (int)WoChien, (int)ChiYu,
+        (int)WoChien, (int)ChienPao, (int)TingLu, (int)ChiYu,
+        (int)RoaringMoon, (int)IronValiant,
         (int)Koraidon, (int)Miraidon,
+        (int)WalkingWake, (int)IronLeaves,
     };
 }

@@ -67,7 +67,7 @@ public static partial class Legal
         (int)Cobalion, (int)Terrakion, (int)Virizion, (int)Tornadus, (int)Thundurus, (int)Landorus,
         (int)TypeNull, (int)Silvally, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini,
         (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier, (int)Enamorus,
-        (int)TingLu, (int)ChienPao, (int)WoChien, (int)ChiYu,
+        (int)WoChien, (int)ChienPao, (int)TingLu, (int)ChiYu,
     };
 
     /// <summary>

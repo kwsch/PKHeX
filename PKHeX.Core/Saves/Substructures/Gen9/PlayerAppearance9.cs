@@ -17,10 +17,10 @@ public sealed class PlayerAppearance9 : SaveBlock<SAV9SV>
     public ulong EyeShape      { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x18)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x18), value); }
     public ulong EyebrowColor  { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x20)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x20), value); }
     public ulong EyebrowShape  { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x28)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x28), value); }
-    public ulong _30           { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x30)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x30), value); }
+    public ulong EyebrowVolume { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x30)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x30), value); }
     public ulong EyelashColor  { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x38)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x38), value); }
-    public ulong EyelashShape1 { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x40)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x40), value); }
-    public ulong EyelashShape2 { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x48)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x48), value); }
+    public ulong EyelashShape  { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x40)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x40), value); }
+    public ulong EyelashVolume { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x48)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x48), value); }
     public ulong Mouth         { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x50)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x50), value); }
     public ulong BeautySpot    { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x58)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x58), value); }
     public ulong Freckles      { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x60)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x60), value); }
