@@ -863,7 +863,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         if (data.Length != expectLength)
             return false;
 
-        var BD = BoxData;
         var entryLength = SIZE_BOXSLOT;
         for (int i = 0, ctr = start; i < data.Length; i += entryLength)
         {
@@ -874,7 +873,6 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
             var pk = GetPKM(arr);
             SetBoxSlotAtIndex(pk, ctr++);
         }
-        BoxData = BD;
         return true;
     }
     #endregion

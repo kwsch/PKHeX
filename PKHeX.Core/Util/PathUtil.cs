@@ -1,4 +1,5 @@
-﻿using System.IO;
+using System;
+using System.IO;
 
 namespace PKHeX.Core;
 
@@ -10,6 +11,20 @@ public static partial class Util
     /// <returns>New string without any invalid characters.</returns>
     public static string CleanFileName(string fileName)
     {
-        return string.Concat(fileName.Split(Path.GetInvalidFileNameChars()));
+        Span<char> result = stackalloc char[fileName.Length];
+        int ctr = GetCleanFileName(fileName, result);
+        return new string(result[..ctr]);
+    }
+
+    private static int GetCleanFileName(ReadOnlySpan<char> input, Span<char> output)
+    {
+        ReadOnlySpan<char> invalid = Path.GetInvalidFileNameChars();
+        int ctr = 0;
+        foreach (var c in input)
+        {
+            if (!invalid.Contains(c))
+                output[ctr++] = c;
+        }
+        return ctr;
     }
 }

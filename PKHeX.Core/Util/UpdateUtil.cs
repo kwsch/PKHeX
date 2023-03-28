@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -28,7 +28,7 @@ public static class UpdateUtil
         if (second == -1)
             return null;
 
-        var tagString = responseJson[first..second];
+        var tagString = responseJson.AsSpan()[first..second];
         return !Version.TryParse(tagString, out var latestVersion) ? null : latestVersion;
     }
 }
