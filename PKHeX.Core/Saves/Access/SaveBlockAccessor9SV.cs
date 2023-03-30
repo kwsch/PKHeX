@@ -25,6 +25,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public PlayerAppearance9 PlayerAppearance { get; }
     public RaidSpawnList9 Raid { get; }
     public RaidSevenStar9 RaidSevenStar { get; }
+    public Epoch1900Value EnrollmentDate { get; }
 
     public SaveBlockAccessor9SV(SAV9SV sav)
     {
@@ -43,6 +44,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
         Raid = new RaidSpawnList9(sav, GetBlock(KTeraRaids));
         RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaids));
+        EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
     }
 
     // Arrays (Blocks)
