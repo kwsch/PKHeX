@@ -76,6 +76,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public PlayerAppearance9 PlayerAppearance => Blocks.PlayerAppearance;
     public RaidSpawnList9 Raid => Blocks.Raid;
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
+    public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
     #endregion
 
     protected override SAV9SV CloneInternal()
