@@ -48,9 +48,14 @@ public enum LanguageGC : byte
     UNUSED_6 = 7,
 }
 
-// Extension to remap LanguageGC to LanguageID
+/// <summary>
+/// Extension to convert between <see cref="LanguageGC"/> and <see cref="LanguageID"/>.
+/// </summary>
 public static class LanguageGCRemap
 {
+    /// <summary>
+    /// Converts <see cref="LanguageGC"/> to <see cref="LanguageID"/>.
+    /// </summary>
     public static LanguageID ToLanguageID(this LanguageGC lang) => lang switch
     {
         LanguageGC.Hacked => LanguageID.Hacked,
@@ -63,6 +68,9 @@ public static class LanguageGCRemap
         _ => LanguageID.English,
     };
 
+    /// <summary>
+    /// Converts <see cref="LanguageID"/> to <see cref="LanguageGC"/>.
+    /// </summary>
     public static LanguageGC ToLanguageGC(this LanguageID lang) => lang switch
     {
         LanguageID.Hacked => LanguageGC.Hacked,

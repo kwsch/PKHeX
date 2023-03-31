@@ -26,6 +26,9 @@ public enum MoveType : sbyte
     Fairy = 17,
 }
 
+/// <summary>
+/// Extension methods for <see cref="MoveType"/>.
+/// </summary>
 public static class MoveTypeExtensions
 {
     public static MoveType GetMoveTypeGeneration(this MoveType type, int generation)

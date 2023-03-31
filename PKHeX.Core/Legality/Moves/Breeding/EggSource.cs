@@ -109,7 +109,7 @@ public static class EggSourceUtil
         };
     }
 
-    public static string GetSourceString(this EggSource2 source) => source switch
+    private static string GetSourceString(this EggSource2 source) => source switch
     {
         EggSource2.Base => LMoveRelearnEgg,
         EggSource2.FatherEgg => LMoveEggInherited,
@@ -120,7 +120,7 @@ public static class EggSourceUtil
         _ => LMoveEggInvalid,
     };
 
-    public static string GetSourceString(this EggSource34 source) => source switch
+    private static string GetSourceString(this EggSource34 source) => source switch
     {
         EggSource34.Base => LMoveRelearnEgg,
         EggSource34.FatherEgg => LMoveEggInherited,
@@ -131,7 +131,7 @@ public static class EggSourceUtil
         _ => LMoveEggInvalid,
     };
 
-    public static string GetSourceString(this EggSource5 source) => source switch
+    private static string GetSourceString(this EggSource5 source) => source switch
     {
         EggSource5.Base => LMoveRelearnEgg,
         EggSource5.FatherEgg => LMoveEggInherited,
@@ -142,7 +142,7 @@ public static class EggSourceUtil
         _ => LMoveEggInvalid,
     };
 
-    public static string GetSourceString(this EggSource6 source) => source switch
+    private static string GetSourceString(this EggSource6 source) => source switch
     {
         EggSource6.Base => LMoveRelearnEgg,
         EggSource6.ParentLevelUp => LMoveEggLevelUp,
@@ -164,7 +164,7 @@ public static class EggSourceUtil
         _ => None,
     };
 
-    public static LearnMethod GetSource(this EggSource2 source) => source switch
+    private static LearnMethod GetSource(this EggSource2 source) => source switch
     {
         EggSource2.Base => Initial,
         EggSource2.FatherEgg => EggMove,
@@ -174,7 +174,7 @@ public static class EggSourceUtil
         _ => None,
     };
 
-    public static LearnMethod GetSource(this EggSource34 source) => source switch
+    private static LearnMethod GetSource(this EggSource34 source) => source switch
     {
         EggSource34.Base => Initial,
         EggSource34.FatherEgg => EggMove,
@@ -184,7 +184,7 @@ public static class EggSourceUtil
         _ => None,
     };
 
-    public static LearnMethod GetSource(this EggSource5 source) => source switch
+    private static LearnMethod GetSource(this EggSource5 source) => source switch
     {
         EggSource5.Base => Initial,
         EggSource5.FatherEgg => EggMove,
@@ -194,7 +194,7 @@ public static class EggSourceUtil
         _ => None,
     };
 
-    public static LearnMethod GetSource(this EggSource6 source) => source switch
+    private static LearnMethod GetSource(this EggSource6 source) => source switch
     {
         EggSource6.Base => Initial,
         EggSource6.ParentLevelUp => InheritLevelUp,

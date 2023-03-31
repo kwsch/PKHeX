@@ -437,6 +437,9 @@ public enum AreaWeather8 : ushort
     NotWeather = Shaking_Trees | Fishing,
 }
 
+/// <summary>
+/// Extension methods for <see cref="AreaWeather8"/>.
+/// </summary>
 public static class AreaWeather8Extensions
 {
     public static bool IsMarkCompatible(this AreaWeather8 weather, IRibbonSetMark8 m)
@@ -477,6 +480,9 @@ public enum AreaSlotType8 : byte
     Inaccessible, // Shouldn't show up since these tables are not dumped.
 }
 
+/// <summary>
+/// Extension methods for <see cref="AreaSlotType8"/>.
+/// </summary>
 public static class AreaSlotType8Extensions
 {
     public static bool CanCrossover(this AreaSlotType8 type) => type is not (HiddenMain or HiddenMain2 or OnlyFishing);

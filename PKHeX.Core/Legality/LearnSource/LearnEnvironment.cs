@@ -21,6 +21,9 @@ public enum LearnEnvironment : byte
     /* Gen9 */ SV,
 }
 
+/// <summary>
+/// Extension methods for <see cref="LearnEnvironment"/>.
+/// </summary>
 public static class LearnEnvironmentExtensions
 {
     public static bool IsSpecified(this LearnEnvironment value) => value is not None;

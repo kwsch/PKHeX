@@ -43,6 +43,9 @@ public enum PogoType : byte
     Shadow = 40,
 }
 
+/// <summary>
+/// Extension methods for <see cref="PogoType"/>.
+/// </summary>
 public static class PogoTypeExtensions
 {
     /// <summary>

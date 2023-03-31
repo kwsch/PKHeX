@@ -6,6 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Describes how an evolution can be triggered.
 /// </summary>
+/// <remarks>This ordering matches the mainline enumeration.</remarks>
 public enum EvolutionType : byte
 {
     None = 0,
@@ -79,10 +80,24 @@ public enum EvolutionType : byte
     UseMoveStrongStyle = 92, // Overqwil
 }
 
+/// <summary>
+/// Extension methods for <see cref="EvolutionType"/>.
+/// </summary>
 public static class EvolutionTypeExtensions
 {
+    /// <summary>
+    /// Checks if the <see cref="EvolutionType"/> is a <see cref="Trade"/> evolution.
+    /// </summary>
+    /// <param name="t">Evolution Type</param>
+    /// <returns>True if the evolution is a trade evolution.</returns>
     public static bool IsTrade(this EvolutionType t) => t is Trade or TradeHeldItem or TradeShelmetKarrablast;
 
+    /// <summary>
+    /// Checks if the <see cref="EvolutionType"/> is a <see cref="LevelUp"/> evolution.
+    /// </summary>
+    /// <param name="type">Evolution Type</param>
+    /// <returns>True if the evolution is a level up evolution.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static bool IsLevelUpRequired(this EvolutionType type) => type switch
     {
         None => false,

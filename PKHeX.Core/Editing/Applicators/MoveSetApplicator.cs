@@ -7,6 +7,11 @@ namespace PKHeX.Core;
 /// </summary>
 public static class MoveSetApplicator
 {
+    /// <summary>
+    /// Applies a new legal moveset to the <see cref="pk"/>, with option to apply random moves instead.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="random">True to apply a random moveset, false to apply a level-up moveset.</param>
     public static void SetMoveset(this PKM pk, bool random = false)
     {
         Span<ushort> moves = stackalloc ushort[4];
@@ -14,6 +19,11 @@ public static class MoveSetApplicator
         pk.SetMoves(moves);
     }
 
+    /// <summary>
+    /// Applies the suggested Relearn Moves to the <see cref="pk"/>.
+    /// </summary>
+    /// <param name="pk">Pokémon to modify.</param>
+    /// <param name="la">Legality Analysis to use.</param>
     public static void SetRelearnMoves(this PKM pk, LegalityAnalysis la)
     {
         Span<ushort> moves = stackalloc ushort[4];

@@ -53,6 +53,9 @@ public enum Ball : byte
     LAOrigin = 37,
 }
 
+/// <summary>
+/// Extension methods for <see cref="Ball"/>.
+/// </summary>
 public static class BallExtensions
 {
     /// <summary>

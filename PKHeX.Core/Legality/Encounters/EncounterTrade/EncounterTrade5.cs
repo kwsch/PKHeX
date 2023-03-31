@@ -56,6 +56,9 @@ public sealed record EncounterTrade5PID(GameVersion Version, uint PID) : Encount
 
     public static bool IsValidMissingLanguage(PKM pk)
     {
+        // Generation 5 trades from B/W forgot to set the Language ID, so it remains as 0.
+        // This value is fixed when it is transferred from PK5->PK6
+        // B2/W2 is unaffected by this game data bug.
         return pk is { Context: EntityContext.Gen5, BW: true };
     }
 }

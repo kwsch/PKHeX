@@ -72,6 +72,12 @@ public static class QRMessageUtil
         return GetMessageBase64(data, server);
     }
 
+    /// <summary>
+    /// Gets a QR Message from the input <see cref="byte"/> data.
+    /// </summary>
+    /// <param name="data">Data to include in the payload</param>
+    /// <param name="server">Website URL that sources the payload</param>
+    /// <returns>QR Message</returns>
     public static string GetMessageBase64(ReadOnlySpan<byte> data, string server)
     {
         string payload = Convert.ToBase64String(data);

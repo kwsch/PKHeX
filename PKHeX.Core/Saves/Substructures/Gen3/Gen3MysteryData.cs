@@ -3,6 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Mystery Data for Generation 3 <see cref="SAV3"/> games.
+/// </summary>
 public abstract class Gen3MysteryData
 {
     public readonly byte[] Data;
@@ -15,8 +18,9 @@ public abstract class Gen3MysteryData
         set => WriteUInt16LittleEndian(Data.AsSpan(0), value);
     }
 
-    public virtual bool IsChecksumValid() => Checksum == GetChecksum(Data.AsSpan(4));
-    public virtual void FixChecksum() => Checksum = GetChecksum(Data.AsSpan(4));
+    public bool IsChecksumValid() => Checksum == ComputeChecksum();
+    public void FixChecksum() => Checksum = ComputeChecksum();
+    protected virtual ushort ComputeChecksum() => GetChecksum(Data.AsSpan(4));
 
     private static ushort GetChecksum(ReadOnlySpan<byte> data)
     {

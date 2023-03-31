@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// RNG Correlation Logic for <see cref="ITeraRaid9"/> encounters.
+/// </summary>
 public static class Tera9RNG
 {
     private const uint TeraTypeCount = 18;
@@ -154,7 +157,7 @@ public static class Tera9RNG
     /// </summary>
     /// <param name="pk">Entity to check for</param>
     /// <returns>Seed</returns>
-    /// <see cref="Overworld8RNG.GetOriginalSeed"/>
+    /// <remarks>Refer to <see cref="Overworld8RNG.GetOriginalSeed"/> for similar implementation.</remarks>
     public static uint GetOriginalSeed(PKM pk)
     {
         // Same RNG goof as SW/SH, the seed->PKM algorithm generates the EC first. Difference: has FakeTID roll between.

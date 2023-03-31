@@ -3,6 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Record Mixing Data for Generation 3 <see cref="SAV3"/> games.
+/// </summary>
 public class RecordMixing3Gift
 {
     /// <summary>
@@ -20,8 +23,10 @@ public class RecordMixing3Gift
         Data = data;
     }
 
-    public bool IsChecksumValid() => Checksum == Checksums.CheckSum16(Data);
-    public void FixChecksum() => Checksum = Checksums.CheckSum16(Data);
+    public bool IsChecksumValid() => Checksum == ComputeChecksum();
+    public void FixChecksum() => Checksum = ComputeChecksum();
+
+    private ushort ComputeChecksum() => Checksums.CheckSum16(Data.AsSpan(4));
 
     public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0)); set => WriteUInt16LittleEndian(Data.AsSpan(0), value); }
     public byte Max { get => Data[4]; set => Data[4] = value; }

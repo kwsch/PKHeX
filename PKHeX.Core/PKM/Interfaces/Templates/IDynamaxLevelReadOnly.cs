@@ -10,6 +10,9 @@ public interface IDynamaxLevelReadOnly
     byte DynamaxLevel { get; }
 }
 
+/// <summary>
+/// Extension methods for <see cref="IDynamaxLevelReadOnly"/>.
+/// </summary>
 public static class DynamaxLevelExtensions
 {
     /// <summary>
@@ -25,7 +28,7 @@ public static class DynamaxLevelExtensions
     public static byte GetSuggestedDynamaxLevel(this IDynamaxLevelReadOnly _, PKM pk, byte requested = 10) => _.CanHaveDynamaxLevel(pk) ? requested : (byte)0;
 
     /// <summary>
-    /// Checks if the species is prevented from gaining any <see cref="IDynamaxLevel.DynamaxLevel"/> via candy in <see cref="GameVersion.SWSH"/>.
+    /// Checks if the species is prevented from gaining any <see cref="IDynamaxLevelReadOnly.DynamaxLevel"/> via candy in <see cref="GameVersion.SWSH"/>.
     /// </summary>
     private static bool CanHaveDynamaxLevel(ushort species)
     {

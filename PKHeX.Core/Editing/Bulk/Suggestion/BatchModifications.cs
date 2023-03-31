@@ -10,6 +10,9 @@ internal static class BatchModifications
     private static bool IsAll(ReadOnlySpan<char> p) => p.EndsWith("All", StringComparison.OrdinalIgnoreCase);
     private static bool IsNone(ReadOnlySpan<char> p) => p.EndsWith("None", StringComparison.OrdinalIgnoreCase);
 
+    /// <summary>
+    /// Sets a suggested legal moveset for the Entity.
+    /// </summary>
     public static ModifyResult SetSuggestedMoveset(BatchInfo info, bool random = false)
     {
         Span<ushort> moves = stackalloc ushort[4];
@@ -17,6 +20,9 @@ internal static class BatchModifications
         return SetMoves(info.Entity, moves);
     }
 
+    /// <summary>
+    /// Sets a suggested legal relearn moveset for the Entity.
+    /// </summary>
     public static ModifyResult SetSuggestedRelearnData(BatchInfo info, ReadOnlySpan<char> propValue)
     {
         var pk = info.Entity;
@@ -39,6 +45,10 @@ internal static class BatchModifications
         return ModifyResult.Modified;
     }
 
+    /// <summary>
+    /// Sets all legal Move Mastery flag data for the Entity.
+    /// </summary>
+    /// <remarks>Only applicable for <see cref="IMoveShop8Mastery"/>.</remarks>
     public static ModifyResult SetSuggestedMasteryData(BatchInfo info, ReadOnlySpan<char> propValue)
     {
         var pk = info.Entity;
@@ -59,6 +69,10 @@ internal static class BatchModifications
         return ModifyResult.Modified;
     }
 
+    /// <summary>
+    /// Sets suggested ribbon data for the Entity.
+    /// </summary>
+    /// <remarks>If None, removes all ribbons possible.</remarks>
     public static ModifyResult SetSuggestedRibbons(BatchInfo info, ReadOnlySpan<char> value)
     {
         if (IsNone(value))
@@ -68,6 +82,9 @@ internal static class BatchModifications
         return ModifyResult.Modified;
     }
 
+    /// <summary>
+    /// Sets suggested met data for the Entity.
+    /// </summary>
     public static ModifyResult SetSuggestedMetData(BatchInfo info)
     {
         var pk = info.Entity;
@@ -86,6 +103,9 @@ internal static class BatchModifications
         return ModifyResult.Modified;
     }
 
+    /// <summary>
+    /// Sets the lowest current level for the Entity.
+    /// </summary>
     public static ModifyResult SetMinimumCurrentLevel(BatchInfo info)
     {
         var result = EncounterSuggestion.IterateMinimumCurrentLevel(info.Entity, info.Legal);

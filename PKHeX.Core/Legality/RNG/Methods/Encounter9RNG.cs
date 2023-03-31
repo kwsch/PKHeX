@@ -3,8 +3,15 @@ using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for Generation 9 Encounter RNG.
+/// </summary>
 public static class Encounter9RNG
 {
+    /// <summary>
+    /// Sets the <see cref="pk"/> with random data based on the <see cref="enc"/> and <see cref="criteria"/>.
+    /// </summary>
+    /// <returns>True if the generated data matches the <see cref="criteria"/>.</returns>
     public static bool TryApply32<TEnc>(this TEnc enc, PK9 pk, in ulong init, in GenerateParam9 param, EncounterCriteria criteria)
         where  TEnc : IEncounterTemplate, ITeraRaid9
     {
@@ -171,6 +178,9 @@ public static class Encounter9RNG
         if (pk.IV_SPE != ivs[5])
             return false;
 
+        // Ability can be changed by Capsule/Patch.
+        // Defer this check to later.
+        // ReSharper disable once UnusedVariable
         int abil = enc.Ability switch
         {
             AbilityPermission.Any12H => (int)rand.NextInt(3) << 1,

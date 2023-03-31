@@ -8,12 +8,27 @@ namespace PKHeX.Core;
 /// </summary>
 public static class AbilityChangeRules
 {
+    /// <summary>
+    /// Checks if the <see cref="abilityFlag"/> value is possible to obtain based on the original <see cref="enc"/> and game visiting.
+    /// </summary>
+    /// <param name="enc">Original Encounter</param>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <param name="abilityFlag">Current ability index value</param>
+    /// <returns>True if possible to obtain <see cref="abilityFlag"/></returns>
     public static bool IsAbilityStateValid(this IEncounterTemplate enc, EvolutionHistory evosAll, int abilityFlag) => (enc switch
     {
         IFixedAbilityNumber f => f.Ability,
         _ => Any12,
     }).IsAbilityStateValid(evosAll, abilityFlag);
 
+    /// <summary>
+    /// Checks if the current <see cref="abilityFlag"/> value is possible to obtain based on the original <see cref="ability"/> and game visiting.
+    /// </summary>
+    /// <param name="ability">Original Ability Permitted</param>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <param name="abilityFlag">Current ability index value</param>
+    /// <returns>True if possible to obtain <see cref="abilityFlag"/></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static bool IsAbilityStateValid(this AbilityPermission ability, EvolutionHistory evosAll, int abilityFlag) => ability switch
     {
         Any12H     => true,
@@ -24,12 +39,25 @@ public static class AbilityChangeRules
         _ => throw new ArgumentOutOfRangeException(nameof(ability), ability, null),
     };
 
+    /// <summary>
+    /// Checks if the original <see cref="enc"/> ability value can be changed based on the games visited.
+    /// </summary>
+    /// <param name="enc">Original Encounter</param>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <returns>True if the ability can be changed</returns>
     public static bool IsAbilityChangeAvailable(this IEncounterTemplate enc, EvolutionHistory evosAll) => (enc switch
     {
         IFixedAbilityNumber f => f.Ability,
         _ => Any12,
     }).IsAbilityChangeAvailable(evosAll);
 
+    /// <summary>
+    /// Checks if the original <see cref="ability"/> value can be changed based on the games visited.
+    /// </summary>
+    /// <param name="ability">Original Ability Permitted</param>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <returns>True if the ability can be changed</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static bool IsAbilityChangeAvailable(this AbilityPermission ability, EvolutionHistory evosAll) => ability switch
     {
         Any12H => true,
@@ -39,6 +67,11 @@ public static class AbilityChangeRules
         _ => throw new ArgumentOutOfRangeException(nameof(ability), ability, null),
     };
 
+    /// <summary>
+    /// Checks if the Ability Capsule (1 &lt;-&gt; 2) item is available in any game visited.
+    /// </summary>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <returns>True if possible</returns>
     public static bool IsAbilityCapsuleAvailable(EvolutionHistory evosAll)
     {
         if (evosAll.HasVisitedGen9)
@@ -54,6 +87,11 @@ public static class AbilityChangeRules
         return false;
     }
 
+    /// <summary>
+    /// Checks if any of the games visited allow applying an Ability Capsule (1 &lt;-&gt; 2) item.
+    /// </summary>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <returns>True if possible</returns>
     public static bool IsAbilityCapsulePossible(EvolutionHistory evosAll)
     {
         if (evosAll.HasVisitedGen9 && IsCapsulePossible<PersonalTable9SV, PersonalInfo9SV>(evosAll.Gen9, PersonalTable.SV))
@@ -69,6 +107,11 @@ public static class AbilityChangeRules
         return false;
     }
 
+    /// <summary>
+    /// Checks if the Ability Patch (1/2-&gt; H) item is available in any game visited.
+    /// </summary>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <returns>True if possible</returns>
     public static bool IsAbilityPatchAvailable(EvolutionHistory evosAll)
     {
         if (evosAll.HasVisitedGen9)
@@ -78,6 +121,11 @@ public static class AbilityChangeRules
         return false;
     }
 
+    /// <summary>
+    /// Checks if any of the games visited allow applying an Ability Patch (1/2-&gt; H) item.
+    /// </summary>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <returns>True if possible</returns>
     public static bool IsAbilityPatchPossible(EvolutionHistory evosAll)
     {
         if (evosAll.HasVisitedGen9 && IsPatchPossible<PersonalTable9SV, PersonalInfo9SV>(evosAll.Gen9, PersonalTable.SV))
@@ -89,6 +137,11 @@ public static class AbilityChangeRules
         return false;
     }
 
+    /// <summary>
+    /// Checks if any of the games visited allow reverting an Ability Patch (1/2-&gt; H) item.
+    /// </summary>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <returns>True if possible</returns>
     public static bool IsAbilityPatchRevertAvailable(EvolutionHistory evosAll)
     {
         if (evosAll.HasVisitedGen9)
@@ -96,6 +149,12 @@ public static class AbilityChangeRules
         return false;
     }
 
+    /// <summary>
+    /// Checks if any of the games visited allow reverting an Ability Patch (1/2-&gt; H) item.
+    /// </summary>
+    /// <param name="evosAll">Evolution and game visitation</param>
+    /// <param name="abilityIndex">Current ability index value</param>
+    /// <returns>True if possible</returns>
     public static bool IsAbilityPatchRevertPossible(EvolutionHistory evosAll, int abilityIndex)
     {
         if (evosAll.HasVisitedGen9 && IsRevertPossible<PersonalTable9SV, PersonalInfo9SV>(evosAll.Gen9, PersonalTable.SV, abilityIndex))

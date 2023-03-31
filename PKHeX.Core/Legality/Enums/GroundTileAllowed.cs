@@ -44,14 +44,23 @@ public enum GroundTileAllowed
     Max_Pt             = 1 << 24, // Unspecific, catch-all for Pt undefined tiles.
 }
 
+/// <summary>
+/// Extension methods for <see cref="GroundTileAllowed"/>.
+/// </summary>
 public static class GroundTileAllowedExtensions
 {
-    public static bool Contains(this GroundTileAllowed g1, GroundTileType g2) => (g1 & (GroundTileAllowed)(1 << (int)g2)) != 0;
+    /// <summary>
+    /// Checks if the <see cref="GroundTileAllowed"/> value is a valid tile type.
+    /// </summary>
+    /// <param name="permit">Tile bit-permission value</param>
+    /// <param name="value">Tile type to check.</param>
+    /// <returns></returns>
+    public static bool Contains(this GroundTileAllowed permit, GroundTileType value) => (permit & (GroundTileAllowed)(1 << (int)value)) != 0;
 
     /// <summary>
     /// Grabs the highest set bit from the tile value.
     /// </summary>
-    /// <param name="g">Tile bit-permission value</param>
+    /// <param name="permit">Tile bit-permission value</param>
     /// <returns>Bit index</returns>
-    public static GroundTileType GetIndex(this GroundTileAllowed g) => (GroundTileType)System.Numerics.BitOperations.Log2((uint)g);
+    public static GroundTileType GetIndex(this GroundTileAllowed permit) => (GroundTileType)System.Numerics.BitOperations.Log2((uint)permit);
 }

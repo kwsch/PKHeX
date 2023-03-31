@@ -23,6 +23,9 @@ public enum NamedEventType
     Rebattle = 100,
 }
 
+/// <summary>
+/// Utility logic methods for <see cref="NamedEventType"/>
+/// </summary>
 public static class NamedEventTypeUtil
 {
     public static NamedEventType GetEventType(ReadOnlySpan<char> s) => s.Length == 0 ? None : GetEventType(s[0]);

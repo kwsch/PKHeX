@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes properties about a Pokémon being capable of Gigantamax as opposed to regular Dynamax.
+/// </summary>
 public interface IGigantamaxReadOnly
 {
     /// <summary>
@@ -10,6 +13,9 @@ public interface IGigantamaxReadOnly
     bool CanGigantamax { get; }
 }
 
+/// <summary>
+/// Extension methods for <see cref="IGigantamaxReadOnly"/>.
+/// </summary>
 public static class GigantamaxExtensions
 {
     /// <summary>

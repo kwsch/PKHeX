@@ -4,6 +4,9 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Verifies encounter data to check if the encounter really matches the <see cref="PKM"/>.
+/// </summary>
 public static class EncounterVerifier
 {
     /// <summary>

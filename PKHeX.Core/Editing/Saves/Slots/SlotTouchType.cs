@@ -21,6 +21,9 @@ public enum SlotTouchType
     External,
 }
 
+/// <summary>
+/// Extension methods for <see cref="SlotTouchType"/>.
+/// </summary>
 public static class SlotTouchTypeUtil
 {
     /// <summary>

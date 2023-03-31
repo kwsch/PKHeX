@@ -308,7 +308,7 @@ public partial class SAV_BlockDump8 : Form
         var filtered = Array.FindAll(SortedBlockKeys, x => x.Text.Contains(text, StringComparison.InvariantCultureIgnoreCase));
         if (filtered.Length == 0)
             return; // no results
-        
+
         CB_Key.DataSource = filtered;
         CB_Key.SelectedIndex = 0;
     }

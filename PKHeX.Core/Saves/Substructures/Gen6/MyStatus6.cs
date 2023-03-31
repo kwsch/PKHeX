@@ -3,6 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Generation 6 savedata object that stores the player's trainer data.
+/// </summary>
 public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
 {
     public MyStatus6(SAV6 sav, int offset) : base(sav) => Offset = offset;
@@ -57,7 +60,7 @@ public class MyStatus6 : SaveBlock<SAV6>, IRegionOrigin
         set
         {
             if (value.Length != GameSyncIDSize)
-                throw new ArgumentException(nameof(value));
+                throw new ArgumentOutOfRangeException(nameof(value));
 
             var data = Util.GetBytesFromHexString(value);
             SAV.SetData(data, Offset + 0x08);

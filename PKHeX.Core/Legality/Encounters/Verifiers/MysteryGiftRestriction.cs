@@ -32,6 +32,9 @@ public enum MysteryGiftRestriction
     OTReplacedOnTrade = RegTW << 1,
 }
 
+/// <summary>
+/// Extension methods for <see cref="MysteryGiftRestriction"/>.
+/// </summary>
 public static class MysteryGiftRestrictionExtensions
 {
     /// <summary>
@@ -49,6 +52,11 @@ public static class MysteryGiftRestrictionExtensions
         return -1;
     }
 
+    /// <summary>
+    /// Finds the lowest index of a region that can receive the gift.
+    /// </summary>
+    /// <param name="value">Flag value</param>
+    /// <returns>Region ID; -1 if none</returns>
     public static int GetSuggestedRegion(this MysteryGiftRestriction value)
     {
         for (int i = (int)Region3DSIndex.Japan; i <= (int)Region3DSIndex.Taiwan; i++)

@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for <see cref="Species.Toxtricity"></see> forms.
+/// </summary>
 public static class ToxtricityUtil
 {
     private static ReadOnlySpan<byte> Nature0 => new byte[] { 3, 4, 2, 8, 9, 19, 22, 11, 13, 14, 0, 6, 24 };

@@ -196,7 +196,7 @@ public sealed record EncounterMight9 : EncounterStatic, ITeraRaid9
         RandRate3TotalViolet  = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 15))..]),
 
         Nature = (Nature)data[0x34],
-        IVs = new IndividualValueSet((sbyte)data[0x35], (sbyte)data[0x36], (sbyte)data[0x37], (sbyte)data[0x38], (sbyte)data[0x39], (sbyte)data[0x3A], data[0x3B]),
+        IVs = new IndividualValueSet((sbyte)data[0x35], (sbyte)data[0x36], (sbyte)data[0x37], (sbyte)data[0x38], (sbyte)data[0x39], (sbyte)data[0x3A], (IndividualValueSetType)data[0x3B]),
         ScaleType = (SizeType9)data[0x3C],
         Scale = data[0x3D],
     };

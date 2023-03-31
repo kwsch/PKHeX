@@ -19,6 +19,12 @@ public static class BoxManipUtil
         BoxManipDefaults.ModifyCommon,
     };
 
+    /// <summary>
+    /// Manipulation Group Names to be used for uniquely naming groups of GUI controls.
+    /// </summary>
+    /// <remarks>
+    /// Order should match that of <see cref="ManipCategories"/>.
+    /// </remarks>
     public static readonly string[] ManipCategoryNames =
     {
         "Delete",

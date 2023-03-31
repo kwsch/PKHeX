@@ -4,6 +4,10 @@ using System.Windows.Forms.Automation;
 
 namespace PKHeX.WinForms.Controls;
 
+/// <summary>
+/// PictureBox control that can be focused and selected.
+/// </summary>
+/// <remarks>Draws a focus rectangle, and can be tabbed between, raising events for screen readers.</remarks>
 public class SelectablePictureBox : PictureBox
 {
     public SelectablePictureBox() => SetStyle(ControlStyles.Selectable, TabStop = true);

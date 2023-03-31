@@ -109,6 +109,9 @@ public static class Locations
     public const ushort HOME_SWSHBDSPEgg = 65534; // -2 = 8bNone-1..
     public const ushort Default8bNone = 65535;
 
+    /// <summary>
+    /// Gets the SW/SH-context <see cref="GameVersion"/> when an external entity from the input <see cref="ver"/> resides in SW/SH.
+    /// </summary>
     public static int GetVersionSWSH(int ver) => (GameVersion)ver switch
     {
         GameVersion.PLA => (int)GameVersion.SW,
@@ -117,6 +120,9 @@ public static class Locations
         _ => ver,
     };
 
+    /// <summary>
+    /// Gets the SW/SH-context Met Location when an external entity from the input <see cref="ver"/> resides in SW/SH.
+    /// </summary>
     public static ushort GetMetSWSH(ushort loc, int ver) => (GameVersion)ver switch
     {
         GameVersion.PLA => HOME_SWLA,
@@ -125,6 +131,10 @@ public static class Locations
         _ => loc,
     };
 
+    /// <summary>
+    /// Checks if the met location is a valid location for the input <see cref="ver"/>.
+    /// </summary>
+    /// <remarks>Relevant when a BD/SP entity is transferred to SW/SH.</remarks>
     public static bool IsValidMetBDSP(ushort loc, int ver) => loc switch
     {
         HOME_SHSP when ver == (int)GameVersion.SH => true,
@@ -132,16 +142,13 @@ public static class Locations
         _ => false,
     };
 
-    public static int TradedEggLocationNPC(int generation) => generation switch
-    {
-        1 => LinkTrade2NPC,
-        2 => LinkTrade2NPC,
-        3 => LinkTrade3NPC,
-        4 => LinkTrade4NPC,
-        5 => LinkTrade5NPC,
-        _ => LinkTrade6NPC,
-    };
-
+    /// <summary>
+    /// Gets the egg location value for a traded unhatched egg.
+    /// </summary>
+    /// <param name="generation">Generation of the egg</param>
+    /// <param name="ver">Game version of the egg</param>
+    /// <returns>Egg Location value</returns>
+    /// <remarks>Location will be set to the Met Location until it hatches, then moves to Egg Location.</remarks>
     public static int TradedEggLocation(int generation, GameVersion ver) => generation switch
     {
         4 => LinkTrade4,

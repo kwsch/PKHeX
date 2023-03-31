@@ -9,9 +9,13 @@ namespace PKHeX.Core;
 /// </summary>
 public static class BulkGenerator
 {
+    /// <summary>
+    /// Gets a list of <see cref="PKM"/> data that are valid for the provided <see cref="sav"/>.
+    /// </summary>
     public static List<PKM> GetLivingDex(this SaveFile sav)
     {
         var speciesToGenerate = GetAll(1, sav.MaxSpeciesID);
+        speciesToGenerate = speciesToGenerate.Where(sav.Personal.IsSpeciesInGame);
         return GetLivingDex(sav, speciesToGenerate);
     }
 

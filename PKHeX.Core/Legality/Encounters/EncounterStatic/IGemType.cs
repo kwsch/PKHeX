@@ -37,8 +37,15 @@ public enum GemType : sbyte
     Fairy = 19,
 }
 
+/// <summary>
+/// Extension methods for <see cref="GemType"/>.
+/// </summary>
 public static class GemTypeExtensions
 {
+    /// <summary>
+    /// Gets the <see cref="expect"/> type that corresponds to the input <see cref="type"/>.
+    /// </summary>
+    /// <returns>False if no specific value is expected.</returns>
     public static bool IsSpecified(this GemType type, out byte expect)
     {
         if (type is GemType.Default or GemType.Random)

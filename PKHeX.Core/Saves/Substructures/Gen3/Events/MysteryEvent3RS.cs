@@ -1,7 +1,10 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 3 Mystery Event data structure specific to <see cref="GameVersion.RS"/>
+    /// </summary>
     public sealed class MysteryEvent3RS : MysteryEvent3
     {
         public MysteryEvent3RS(byte[] data) : base(data)
@@ -10,7 +13,6 @@ namespace PKHeX.Core
                 throw new ArgumentException("Invalid size.", nameof(data));
         }
 
-        public override bool IsChecksumValid() => Checksum == Checksums.CheckSum16(Data.AsSpan(4));
-        public override void FixChecksum() => Checksum = Checksums.CheckSum16(Data.AsSpan(4));
+        protected override ushort ComputeChecksum() => Checksums.CheckSum16(Data.AsSpan(4));
     }
 }

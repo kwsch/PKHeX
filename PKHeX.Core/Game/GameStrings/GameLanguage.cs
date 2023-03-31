@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -35,15 +35,24 @@ public static class GameLanguage
     /// </summary>
     private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送" };
 
-    public static string GetTransporterName(int index)
+    /// <summary>
+    /// Gets the Met Location display name for the Pokétransporter.
+    /// </summary>
+    /// <param name="language">Language Index from <see cref="LanguageCodes"/></param>
+    public static string GetTransporterName(int language)
     {
-        if ((uint)index >= ptransp.Length)
-            index = 2;
-        return ptransp[index];
+        if ((uint)language >= ptransp.Length)
+            language = 2;
+        return ptransp[language];
     }
 
+    /// <inheritdoc cref="GetTransporterName(int)"/>
+    /// <param name="lang">Language name from <see cref="LanguageCodes"/></param>
     public static string GetTransporterName(string lang) => GetTransporterName(GetLanguageIndex(lang));
 
+    /// <summary>
+    /// Gets a list of strings for the specified language and file type.
+    /// </summary>
     public static string[] GetStrings(string ident, string lang, string type = "text")
     {
         string[] data = Util.GetStringList(ident, lang, type);
@@ -54,6 +63,9 @@ public static class GameLanguage
     }
 }
 
+/// <summary>
+/// Program Languages supported; mirrors <see cref="GameLanguage.LanguageCodes"/>.
+/// </summary>
 public enum ProgramLanguage
 {
     /// <summary>

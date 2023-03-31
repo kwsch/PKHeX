@@ -27,6 +27,9 @@ public enum AreaWeather9 : ushort
     Inside = Normal | Overcast,
 }
 
+/// <summary>
+/// Extension methods for <see cref="AreaWeather9"/>
+/// </summary>
 public static class AreaWeather9Extensions
 {
     public static bool IsMarkCompatible(this AreaWeather9 weather, RibbonIndex m) => m switch

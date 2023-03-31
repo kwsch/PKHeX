@@ -9,10 +9,16 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class StringInstructionSet
 {
+    /// <summary>
+    /// Filters to check if the object should be modified.
+    /// </summary>
     public readonly IReadOnlyList<StringInstruction> Filters;
+
+    /// <summary>
+    /// Instructions to modify the object.
+    /// </summary>
     public readonly IReadOnlyList<StringInstruction> Instructions;
 
-    private const string SetSeparator = ";";
     private const char SetSeparatorChar = ';';
 
     public StringInstructionSet(IReadOnlyList<StringInstruction> filters, IReadOnlyList<StringInstruction> instructions)
@@ -58,6 +64,9 @@ public sealed class StringInstructionSet
         return false;
     }
 
+    /// <summary>
+    /// Gets a list of <see cref="StringInstructionSet"/>s from the input <see cref="lines"/>.
+    /// </summary>
     public static StringInstructionSet[] GetBatchSets(ReadOnlySpan<string> lines)
     {
         int ctr = 0;
@@ -84,6 +93,9 @@ public sealed class StringInstructionSet
         return result;
     }
 
+    /// <summary>
+    /// Gets a list of <see cref="StringInstructionSet"/>s from the input <see cref="text"/>.
+    /// </summary>
     public static StringInstructionSet[] GetBatchSets(ReadOnlySpan<char> text)
     {
         int ctr = 0;

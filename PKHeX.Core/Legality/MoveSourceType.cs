@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Indicates the source of a <see cref="Move"/> for a <see cref="PKM"/>.
+/// </summary>
 [Flags]
 public enum MoveSourceType
 {
@@ -24,7 +27,15 @@ public enum MoveSourceType
     All = ExternalSources | SharedEggMove | RelearnMoves,
 }
 
+/// <summary>
+/// Extensions for <see cref="MoveSourceType"/>.
+/// </summary>
 public static class MoveSourceTypeExtensions
 {
+    /// <summary>
+    /// Masks out the flags to only leave those that are possible for eggs.
+    /// </summary>
+    /// <param name="value">Flags to mask.</param>
+    /// <returns>Masked flags.</returns>
     public static MoveSourceType ClearNonEggSources(this MoveSourceType value) => value & MoveSourceType.Encounter;
 }

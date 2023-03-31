@@ -19,6 +19,9 @@ public enum EventWorkDiffCompatibility
     FileMissing2,
 }
 
+/// <summary>
+/// Extension methods and utility logic for <see cref="EventWorkDiffCompatibility"></see>.
+/// </summary>
 public static class EventWorkDiffCompatibilityExtensions
 {
     public static string GetMessage(this EventWorkDiffCompatibility value) => value switch

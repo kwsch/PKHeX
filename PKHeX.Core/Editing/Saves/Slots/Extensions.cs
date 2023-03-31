@@ -21,7 +21,7 @@ public static partial class Extensions
 
     public static PKM[] GetExtraPKM(this SaveFile sav) => sav.GetExtraPKM(sav.GetExtraSlots());
 
-    public static PKM[] GetExtraPKM(this SaveFile sav, IList<SlotInfoMisc> slots)
+    public static PKM[] GetExtraPKM(this SaveFile sav, IReadOnlyList<SlotInfoMisc> slots)
     {
         var arr = new PKM[slots.Count];
         for (int i = 0; i < slots.Count; i++)

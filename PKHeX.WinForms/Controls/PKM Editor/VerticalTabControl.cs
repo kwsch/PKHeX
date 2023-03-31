@@ -4,6 +4,9 @@ using System.Windows.Forms;
 
 namespace PKHeX.WinForms.Controls;
 
+/// <summary>
+/// Aligns tabs to the left side of the control with text displayed horizontally.
+/// </summary>
 public class VerticalTabControl : TabControl
 {
     public VerticalTabControl()
@@ -47,8 +50,14 @@ public class VerticalTabControl : TabControl
     }
 }
 
+/// <summary>
+/// Specialized <see cref="VerticalTabControl"/> for displaying a <see cref="PKHeX.Core.PKM"/> editor tabs.
+/// </summary>
 public sealed class VerticalTabControlEntityEditor : VerticalTabControl
 {
+    /// <summary>
+    /// Tab stripe colors based on Contest Stats.
+    /// </summary>
     private static readonly Color[] SelectedTags =
     {
         Color.FromArgb(248, 152, 096),

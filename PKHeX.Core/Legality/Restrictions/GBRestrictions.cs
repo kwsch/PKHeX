@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using static PKHeX.Core.Legal;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.Species;
+using static PKHeX.Core.PotentialGBOrigin;
+using static PKHeX.Core.TimeCapsuleEvaluation;
 
 namespace PKHeX.Core;
 
@@ -129,12 +131,12 @@ internal static class GBRestrictions
             return GetTradebackStatusRBY(pk1);
 
         if (pk.Format == 2 || pk.VC2) // Check for impossible tradeback scenarios
-            return !pk.CanInhabitGen1() ? PotentialGBOrigin.Gen2Only : PotentialGBOrigin.Either;
+            return !pk.CanInhabitGen1() ? Gen2Only : Either;
 
         // VC2 is released, we can assume it will be TradebackType.Any.
         // Is impossible to differentiate a VC1 pokemon traded to Gen7 after VC2 is available.
         // Met Date cannot be used definitively as the player can change their system clock.
-        return PotentialGBOrigin.Either;
+        return Either;
     }
 
     /// <summary>
@@ -144,21 +146,21 @@ internal static class GBRestrictions
     private static PotentialGBOrigin GetTradebackStatusRBY(PK1 pk)
     {
         if (!ParseSettings.AllowGen1Tradeback)
-            return PotentialGBOrigin.Gen1Only;
+            return Gen1Only;
 
         // Detect tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the pk's evolution chain.
         var catch_rate = pk.Catch_Rate;
         if (catch_rate == 0)
-            return PotentialGBOrigin.Either;
+            return Either;
 
         bool matchAny = GetCatchRateMatchesPreEvolution(pk, catch_rate);
         if (!matchAny)
-            return PotentialGBOrigin.Either;
+            return Either;
 
         if (IsTradebackCatchRate(catch_rate))
-            return PotentialGBOrigin.Either;
+            return Either;
 
-        return PotentialGBOrigin.Gen1Only;
+        return Gen1Only;
     }
 
     public static TimeCapsuleEvaluation IsTimeCapsuleTransferred(PKM pk, ReadOnlySpan<MoveResult> moves, IEncounterTemplate enc)
@@ -168,43 +170,43 @@ internal static class GBRestrictions
             if (z.Generation == enc.Generation || z.Generation > 2)
                 continue;
             if (pk is PK1 {Catch_Rate: not 0} g1 && !IsTradebackCatchRate(g1.Catch_Rate))
-                return TimeCapsuleEvaluation.BadCatchRate;
-            return enc.Generation == 2 ? TimeCapsuleEvaluation.Transferred21 : TimeCapsuleEvaluation.Transferred12;
+                return BadCatchRate;
+            return enc.Generation == 2 ? Transferred21 : Transferred12;
         }
 
         if (pk is not GBPKM gb)
         {
             return enc.Generation switch
             {
-                2 when pk.VC2 => TimeCapsuleEvaluation.Transferred21,
-                1 when pk.VC1 => TimeCapsuleEvaluation.Transferred12,
-                _ => TimeCapsuleEvaluation.NotTransferred,
+                2 when pk.VC2 => Transferred21,
+                1 when pk.VC1 => Transferred12,
+                _ => NotTransferred,
             };
         }
 
         if (gb is ICaughtData2 pk2)
         {
             if (enc.Generation == 1)
-                return TimeCapsuleEvaluation.Transferred12;
+                return Transferred12;
             if (pk2.CaughtData != 0)
-                return TimeCapsuleEvaluation.NotTransferred;
+                return NotTransferred;
             if (enc.Version == C)
-                return TimeCapsuleEvaluation.Transferred21;
-            return TimeCapsuleEvaluation.Indeterminate;
+                return Transferred21;
+            return Indeterminate;
         }
 
         if (gb is PK1 pk1)
         {
             var rate = pk1.Catch_Rate;
             if (rate == 0)
-                return TimeCapsuleEvaluation.Transferred12;
+                return Transferred12;
 
             bool isTradebackItem = IsTradebackCatchRate(rate);
             if (IsCatchRateMatchEncounter(enc, pk1))
-                return isTradebackItem ? TimeCapsuleEvaluation.Indeterminate : TimeCapsuleEvaluation.NotTransferred;
-            return isTradebackItem ? TimeCapsuleEvaluation.Transferred12 : TimeCapsuleEvaluation.BadCatchRate;
+                return isTradebackItem ? Indeterminate : NotTransferred;
+            return isTradebackItem ? Transferred12 : BadCatchRate;
         }
-        return TimeCapsuleEvaluation.Indeterminate;
+        return Indeterminate;
     }
 
     private static bool IsCatchRateMatchEncounter(IEncounterTemplate enc, PK1 pk1) => enc switch
@@ -217,10 +219,24 @@ internal static class GBRestrictions
     public static bool IsTradebackCatchRate(byte rate) => Array.IndexOf(HeldItems_GSC, rate) != -1;
 }
 
+/// <summary>
+/// Guess of the origin of a GB Pokémon.
+/// </summary>
 public enum PotentialGBOrigin
 {
+    /// <summary>
+    /// Pokémon is possible from either generation.
+    /// </summary>
     Either,
+
+    /// <summary>
+    /// Pokémon is only possible in Generation 1.
+    /// </summary>
     Gen1Only,
+
+    /// <summary>
+    /// Pokémon is only possible in Generation 2.
+    /// </summary>
     Gen2Only,
 }
 
@@ -255,10 +271,13 @@ public enum TimeCapsuleEvaluation
     BadCatchRate,
 }
 
+/// <summary>
+/// Extension methods for <see cref="TimeCapsuleEvaluation"/>.
+/// </summary>
 public static class TimeCapsuleEvlautationExtensions
 {
     /// <summary>
     /// Indicates if the <see cref="eval"/> definitely transferred via Time Capsule.
     /// </summary>
-    public static bool WasTimeCapsuleTransferred(this TimeCapsuleEvaluation eval) => eval is not (TimeCapsuleEvaluation.Indeterminate or TimeCapsuleEvaluation.NotTransferred or TimeCapsuleEvaluation.BadCatchRate);
+    public static bool WasTimeCapsuleTransferred(this TimeCapsuleEvaluation eval) => eval is not (Indeterminate or NotTransferred or BadCatchRate);
 }

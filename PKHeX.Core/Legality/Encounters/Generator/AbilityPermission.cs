@@ -3,6 +3,9 @@ using static PKHeX.Core.AbilityPermission;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// <see cref="PKM.Ability"/> legality permissions.
+/// </summary>
 public enum AbilityPermission : sbyte
 {
     Any12H = -1,
@@ -12,6 +15,9 @@ public enum AbilityPermission : sbyte
     OnlyHidden = 4,
 }
 
+/// <summary>
+/// Extension methods for <see cref="AbilityPermission"/>.
+/// </summary>
 public static class AbilityPermissionExtensions
 {
     public static byte GetSingleValue(this AbilityPermission value) => value switch

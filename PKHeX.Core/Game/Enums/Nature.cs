@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Nature ID values for the corresponding English nature name.
@@ -34,15 +34,29 @@ public enum Nature : byte
     Random = 25,
 }
 
+/// <summary>
+/// Extension methods for <see cref="Nature"/>.
+/// </summary>
 public static class NatureUtil
 {
+    /// <summary>
+    /// Gets the <see cref="Nature"/> value that corresponds to the provided <see cref="value"/>.
+    /// </summary>
+    /// <remarks>Actual nature values will be unchanged; only out-of-bounds values re-map to <see cref="Nature.Random"/>.</remarks>
     public static Nature GetNature(int value) => value switch
     {
         < 0 or >= (int)Nature.Random => Nature.Random,
         _ => (Nature)value,
     };
 
+    /// <summary>
+    /// Checks if the provided <see cref="value"/> is a valid stored <see cref="Nature"/> value.
+    /// </summary>
+    /// <returns>True if value is an actual nature.</returns>
     public static bool IsFixed(this Nature value) => value is >= 0 and < Nature.Random;
 
+    /// <summary>
+    /// Checks if the provided <see cref="value"/> is a neutral nature which has no stat amps applied.
+    /// </summary>
     public static bool IsNeutral(this Nature value) => value.IsFixed() && (byte)value % 6 == 0;
 }

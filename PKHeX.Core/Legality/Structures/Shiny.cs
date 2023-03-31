@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Specification for <see cref="PKM.IsShiny"/>, used for creating and validating.
@@ -24,6 +24,9 @@ public enum Shiny : byte
     FixedValue,
 }
 
+/// <summary>
+/// Extension methods for <see cref="Shiny"/>.
+/// </summary>
 public static class ShinyExtensions
 {
     public static bool IsValid(this Shiny s, PKM pk) => s switch

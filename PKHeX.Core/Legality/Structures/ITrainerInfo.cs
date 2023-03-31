@@ -14,8 +14,16 @@ public interface ITrainerInfo : ITrainerID32
     EntityContext Context { get; }
 }
 
+/// <summary>
+/// Extension methods for <see cref="ITrainerInfo"/>.
+/// </summary>
 public static class TrainerInfoExtensions
 {
+    /// <summary>
+    /// Copies the <see cref="ITrainerInfo"/> data to the <see cref="PKM"/> object.
+    /// </summary>
+    /// <param name="info">Trainer Information</param>
+    /// <param name="pk">Pokémon to copy to</param>
     public static void ApplyTo(this ITrainerInfo info, PKM pk)
     {
         pk.OT_Name = info.OT;
@@ -35,6 +43,12 @@ public static class TrainerInfoExtensions
         tr.ConsoleRegion = o.ConsoleRegion;
     }
 
+    /// <summary>
+    /// Copies the <see cref="ITrainerInfo"/> data to the <see cref="PKM"/> object's Handling Trainer data.
+    /// </summary>
+    /// <param name="sav">Trainer Information</param>
+    /// <param name="pk">Pokémon to copy to</param>
+    /// <param name="force">If true, will overwrite the Handling Trainer Data even if it has not been traded.</param>
     public static void ApplyHandlingTrainerInfo(this ITrainerInfo sav, PKM pk, bool force = false)
     {
         if (pk.Format == sav.Generation && !force)
@@ -57,6 +71,12 @@ public static class TrainerInfoExtensions
         }
     }
 
+    /// <summary>
+    /// Checks if the <see cref="ITrainerInfo"/> data matches the <see cref="PKM"/> object's Original Trainer data.
+    /// </summary>
+    /// <param name="tr">Trainer Information</param>
+    /// <param name="pk">Pokémon to compare to</param>
+    /// <returns>True if the data matches.</returns>
     public static bool IsFromTrainer(this ITrainerInfo tr, PKM pk)
     {
         if (pk.IsEgg)
@@ -71,6 +91,12 @@ public static class TrainerInfoExtensions
         return IsMatchVersion(tr, pk);
     }
 
+    /// <summary>
+    /// Checks if the <see cref="ITrainerInfo"/> data matches the <see cref="PKM"/> object's Original Trainer data, ignoring the version.
+    /// </summary>
+    /// <param name="tr">Trainer Information</param>
+    /// <param name="pk">Pokémon to compare to</param>
+    /// <returns>True if the data matches.</returns>
     public static bool IsFromTrainerNoVersion(ITrainerInfo tr, PKM pk)
     {
         if (tr.ID32 != pk.ID32)

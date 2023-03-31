@@ -5,9 +5,15 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Shared logic for interacting with <see cref="EggMoves"/> data sources.
+/// </summary>
 public static class MoveEgg
 {
-    public static ushort[] GetEggMoves(ushort species, byte form, GameVersion version, int generation)
+    /// <summary>
+    /// Gets the <see cref="EggMoves"/> data for the <see cref="version"/> and <see cref="species"/>.
+    /// </summary>
+    public static ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form, GameVersion version, int generation)
     {
         if (!Breeding.CanGameGenerateEggs(version))
             return Array.Empty<ushort>();
@@ -15,7 +21,11 @@ public static class MoveEgg
         return GetEggMoves(generation, species, form, version);
     }
 
-    public static ushort[] GetEggMoves(int generation, ushort species, byte form, GameVersion version) => generation switch
+    /// <summary>
+    /// Gets the <see cref="EggMoves"/> data for the <see cref="version"/> and <see cref="species"/>.
+    /// </summary>
+    /// <remarks>Only use this if you're sure the game can generate eggs.</remarks>
+    public static ReadOnlySpan<ushort> GetEggMoves(int generation, ushort species, byte form, GameVersion version) => generation switch
     {
         1 or 2 => GetMovesSafe(version == C ? EggMovesC : EggMovesGS, species),
         3 => GetMovesSafe(EggMovesRS, species),

@@ -126,6 +126,11 @@ public static partial class Legal
         _ => true,
     };
 
+    /// <summary>
+    /// Gets the maximum length of a Trainer Name for the input <see cref="generation"/> and <see cref="language"/>.
+    /// </summary>
+    /// <param name="generation">Generation of the Trainer</param>
+    /// <param name="language">Language of the Trainer</param>
     public static int GetMaxLengthOT(int generation, LanguageID language) => language switch
     {
         LanguageID.ChineseS or LanguageID.ChineseT => 6,
@@ -133,6 +138,11 @@ public static partial class Legal
         _ => generation >= 6 ? 12 : 7,
     };
 
+    /// <summary>
+    /// Gets the maximum length of a Nickname for the input <see cref="generation"/> and <see cref="language"/>.
+    /// </summary>
+    /// <param name="generation">Generation of the Trainer</param>
+    /// <param name="language">Language of the Trainer</param>
     public static int GetMaxLengthNickname(int generation, LanguageID language) => language switch
     {
         LanguageID.ChineseS or LanguageID.ChineseT => 6,
@@ -140,6 +150,9 @@ public static partial class Legal
         _ => generation >= 6 ? 12 : 10,
     };
 
+    /// <summary>
+    /// Checks if the input <see cref="pk"/> has IVs that match the template <see cref="IVs"/>.
+    /// </summary>
     public static bool GetIsFixedIVSequenceValidSkipRand(ReadOnlySpan<int> IVs, PKM pk, uint max = 31)
     {
         for (int i = 0; i < 6; i++)
@@ -152,6 +165,9 @@ public static partial class Legal
         return true;
     }
 
+    /// <summary>
+    /// Checks if the input <see cref="pk"/> has IVs that match the template <see cref="IVs"/>.
+    /// </summary>
     public static bool GetIsFixedIVSequenceValidSkipRand(IndividualValueSet IVs, PKM pk, int max = 31)
     {
         // Template IVs not in the [0,max] range are random. Only check for IVs within the "specified" range.
@@ -164,6 +180,9 @@ public static partial class Legal
         return true;
     }
 
+    /// <summary>
+    /// Checks if the input <see cref="pk"/> has IVs that match the template <see cref="IVs"/>.
+    /// </summary>
     public static bool GetIsFixedIVSequenceValidNoRand(IndividualValueSet IVs, PKM pk)
     {
         if (IVs.HP  != pk.IV_HP ) return false;

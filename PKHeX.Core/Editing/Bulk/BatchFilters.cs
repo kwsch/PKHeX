@@ -8,6 +8,9 @@ namespace PKHeX.Core;
 /// </summary>
 public static class BatchFilters
 {
+    /// <summary>
+    /// Filters to use for <see cref="BatchEditing"/> that are derived from the <see cref="PKM"/> data.
+    /// </summary>
     public static readonly List<IComplexFilter> FilterMods = new()
     {
         new ComplexFilter(PROP_LEGAL,
@@ -19,6 +22,9 @@ public static class BatchFilters
             (info, cmd) => cmd.Comparer.IsCompareEquivalence(info.Entity.GetType().Name == cmd.PropertyValue)),
     };
 
+    /// <summary>
+    /// Filters to use for <see cref="BatchEditing"/> that are derived from the <see cref="PKM"/> source.
+    /// </summary>
     public static readonly List<IComplexFilterMeta> FilterMeta = new()
     {
         new MetaFilter(IdentifierContains,

@@ -25,6 +25,9 @@ public enum GCRegion : byte
     PAL = 3,
 }
 
+/// <summary>
+/// Extension methods for <see cref="GCVersion"/> and <see cref="GCRegion"/>.
+/// </summary>
 public static class GCVersionExtensions
 {
     /// <summary>

@@ -3,10 +3,19 @@ using static PKHeX.Core.EntityContext;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Utility logic for getting an <see cref="IEvolutionGroup"/> based on the input.
+/// </summary>
 public static class EvolutionGroupUtil
 {
+    /// <summary>
+    /// Gets the <see cref="IEvolutionGroup"/> for the <see cref="pk"/>.
+    /// </summary>
     public static IEvolutionGroup GetCurrentGroup(PKM pk) => GetCurrentGroup(pk.Context);
 
+    /// <summary>
+    /// Gets the <see cref="IEvolutionGroup"/> for the <see cref="EntityContext"/>.
+    /// </summary>
     public static IEvolutionGroup GetCurrentGroup(EntityContext context) => context switch
     {
         Gen1 => EvolutionGroup1.Instance,
