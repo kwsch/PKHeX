@@ -80,7 +80,7 @@ public static class RibbonRules
         if (evos.HasVisitedSWSH && IsRibbonValidMasterRankSWSH(pk, enc))
             return true;
 
-        // Only Paldea natives can compete in Ranked. No Legends/Sub-Legends/Paradoxes as of Series 1.
+        // Only Paldea natives can compete in Ranked. No Legendaries yet.
         if (evos.HasVisitedGen9 && IsRibbonValidMasterRankSV(pk))
             return true;
 
@@ -116,8 +116,6 @@ public static class RibbonRules
         if (Legal.Mythicals.Contains(species))
             return false;
         if (Legal.Legends.Contains(species))
-            return false;
-        if (Legal.SubLegends.Contains(species))
             return false;
 
         var pt = PersonalTable.SV;
