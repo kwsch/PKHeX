@@ -96,8 +96,8 @@ public static class EncounterServerDate
     /// </summary>
     public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC9GiftsChk = new()
     {
-        {0xE5EB, (new(2022, 11, 17), new(2023, 02, 03))}, // Fly Pikachu - rev 1 (male 128)
-        {0x908B, (new(2023, 02, 02), Never)}, // Fly Pikachu - rev 2 (both 0)
+        {0xE5EB, (new(2022, 11, 17), new(2023, 02, 03))}, // Fly Pikachu - rev 1 (male 128 height/weight)
+        {0x908B, (new(2023, 02, 02), new(2023, 03, 01))}, // Fly Pikachu - rev 2 (both 0 height/weight)
     };
 
     /// <summary>
@@ -109,5 +109,6 @@ public static class EncounterServerDate
         {0006, (new(2022, 12, 16), new(2023, 02, 01))}, // Jump Festa Gyarados
         {0501, (new(2023, 02, 16), new(2023, 02, 21))}, // Jiseok's Garganacl
         {1513, (new(2023, 02, 27), new(2024, 03, 01))}, // Hisuian Zoroark DLC Purchase Gift
+        {0502, (new(2023, 03, 31), new(2023, 07, 01))}, // TCG Flying Lechonk
     };
 }
