@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using PKHeX.Core;
 using PKHeX.Drawing;
+using PKHeX.Drawing.Misc;
 using PKHeX.Drawing.PokeSprite;
 using PKHeX.Drawing.PokeSprite.Properties;
 using static PKHeX.Core.MessageStrings;
@@ -19,7 +20,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     public bool IsInitialized { get; private set; }
     private readonly ToolTip SpeciesIDTip = new();
     private readonly ToolTip NatureTip = new();
-    private readonly ToolTip Tip3 = new();
+    private readonly ToolTip TipPIDInfo = new();
+    private readonly ToolTip AffixedTip = new();
 
     public PKMEditor()
     {
@@ -323,6 +325,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         FieldsLoaded = true;
 
+        UpdateAffixed(pk);
         SetMarkings();
         UpdateLegality();
         UpdateSprite();
@@ -509,7 +512,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PB_MarkShiny.Image = GetMarkSprite(PB_MarkShiny, !BTN_Shinytize.Enabled);
         PB_MarkCured.Image = GetMarkSprite(PB_MarkCured, CHK_Cured.Checked);
 
-        PB_Favorite.Image = GetMarkSprite(PB_Favorite, Entity is IFavorite {IsFavorite: true});
+        PB_Favorite.Image = GetMarkSprite(PB_Favorite, Entity is IFavorite { IsFavorite: true });
         PB_Origin.Image = GetOriginSprite(Entity);
 
         // Colored Markings
@@ -528,14 +531,14 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private static Bitmap? GetOriginSprite(PKM pk) => OriginMarkUtil.GetOriginMark(pk) switch
     {
         OriginMark.Gen6Pentagon => Properties.Resources.gen_6,
-        OriginMark.Gen7Clover   => Properties.Resources.gen_7,
-        OriginMark.Gen8Galar    => Properties.Resources.gen_8,
-        OriginMark.Gen8Trio     => Properties.Resources.gen_bs,
-        OriginMark.Gen8Arc      => Properties.Resources.gen_la,
-        OriginMark.Gen9Paldea   => Properties.Resources.gen_sv,
-        OriginMark.GameBoy      => Properties.Resources.gen_vc,
-        OriginMark.GO           => Properties.Resources.gen_go,
-        OriginMark.LetsGo       => Properties.Resources.gen_gg,
+        OriginMark.Gen7Clover => Properties.Resources.gen_7,
+        OriginMark.Gen8Galar => Properties.Resources.gen_8,
+        OriginMark.Gen8Trio => Properties.Resources.gen_bs,
+        OriginMark.Gen8Arc => Properties.Resources.gen_la,
+        OriginMark.Gen9Paldea => Properties.Resources.gen_sv,
+        OriginMark.GameBoy => Properties.Resources.gen_vc,
+        OriginMark.GO => Properties.Resources.gen_go,
+        OriginMark.LetsGo => Properties.Resources.gen_gg,
         _ => null,
     };
 
@@ -1552,7 +1555,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         var tip = $"PSV: {Entity.PSV:d4}";
         if (Entity.IsShiny)
             tip += $" | Xor = {Entity.ShinyXor}";
-        Tip3.SetToolTip(TB_PID, tip);
+        TipPIDInfo.SetToolTip(TB_PID, tip);
     }
 
     private void Update_ID(object? sender, EventArgs e)
@@ -1771,6 +1774,26 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     {
         using var form = new RibbonEditor(Entity);
         form.ShowDialog();
+
+        UpdateAffixed(Entity);
+    }
+
+    private void UpdateAffixed(PKM pk)
+    {
+        if (pk is IRibbonSetAffixed a)
+        {
+            var affixed = a.AffixedRibbon;
+            if (affixed != -1)
+            {
+                PB_Affixed.Visible = true;
+                PB_Affixed.Image = RibbonSpriteUtil.GetRibbonSprite((RibbonIndex)affixed);
+                // Update the tooltip with the ribbon name.
+                var name = RibbonStrings.GetName($"Ribbon{(RibbonIndex)affixed}");
+                AffixedTip.SetToolTip(PB_Affixed, name);
+                return;
+            }
+        }
+        PB_Affixed.Visible = false;
     }
 
     private void OpenMedals(object sender, EventArgs e)
@@ -2089,7 +2112,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (sav.Generation >= 2)
         {
-            var game = (GameVersion) sav.Game;
+            var game = (GameVersion)sav.Game;
             if (game <= 0)
                 game = Entity.Context.GetSingleGameVersion();
             CheckMetLocationChange(game, sav.Context);
@@ -2108,7 +2131,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (sav.Generation >= 8)
         {
             var lang = source.Languages;
-            var langWith0 = new List<ComboItem>(1 + lang.Count) {GameInfo.Sources.Empty};
+            var langWith0 = new List<ComboItem>(1 + lang.Count) { GameInfo.Sources.Empty };
             langWith0.AddRange(lang);
             SetIfDifferentCount(langWith0, CB_HTLanguage, force);
 

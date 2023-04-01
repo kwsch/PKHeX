@@ -7,8 +7,18 @@ using System.Reflection;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Utility class for reflection.
+/// </summary>
 public static class ReflectUtil
 {
+    /// <summary>
+    /// Fetches the requested property from <see cref="obj"/>, and compares it to <see cref="value"/>.
+    /// </summary>
+    /// <param name="pi">Property to fetch</param>
+    /// <param name="obj">Object to fetch property from</param>
+    /// <param name="value">Value to compare to</param>
+    /// <returns>Comparison result</returns>
     public static int CompareTo(this PropertyInfo pi, object obj, object value)
     {
         var v = pi.GetValue(obj, null);
