@@ -1785,13 +1785,21 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             var affixed = a.AffixedRibbon;
             if (affixed != -1)
             {
-                PB_Affixed.Visible = true;
                 PB_Affixed.Image = RibbonSpriteUtil.GetRibbonSprite((RibbonIndex)affixed);
                 // Update the tooltip with the ribbon name.
                 var name = RibbonStrings.GetName($"Ribbon{(RibbonIndex)affixed}");
                 AffixedTip.SetToolTip(PB_Affixed, name);
-                return;
+                PB_Affixed.BorderStyle = BorderStyle.None;
             }
+            else
+            {
+                PB_Affixed.Image = null;
+                AffixedTip.SetToolTip(PB_Affixed, "Ribbons / Marks available to affix.");
+                bool hasAny = pk is IRibbonSetMarks { RibbonMarkCount: not 0 };
+                PB_Affixed.BorderStyle = hasAny ? BorderStyle.FixedSingle : BorderStyle.None;
+            }
+            PB_Affixed.Visible = true;
+            return;
         }
         PB_Affixed.Visible = false;
     }

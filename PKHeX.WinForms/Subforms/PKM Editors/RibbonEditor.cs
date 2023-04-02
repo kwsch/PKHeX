@@ -158,6 +158,8 @@ public partial class RibbonEditor : Form
 
         var display = RibbonStrings.GetName(name);
         pb.MouseEnter += (s, e) => tipName.SetToolTip(pb, display);
+        if (Entity is IRibbonSetAffixed)
+            pb.Click += (_, _) => CB_Affixed.Text = RibbonStrings.GetName(name);
         FLP_Ribbons.Controls.Add(pb);
     }
 

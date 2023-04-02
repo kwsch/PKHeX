@@ -191,6 +191,7 @@ namespace PKHeX.WinForms.Controls
             this.PB_MarkShiny = (new global::System.Windows.Forms.PictureBox());
             this.PB_Mark1 = (new global::System.Windows.Forms.PictureBox());
             this.PB_Mark4 = (new global::System.Windows.Forms.PictureBox());
+            this.PB_Affixed = (new global::System.Windows.Forms.PictureBox());
             this.FLP_BigMarkings = (new global::System.Windows.Forms.FlowLayoutPanel());
             this.PB_Favorite = (new global::System.Windows.Forms.PictureBox());
             this.PB_Origin = (new global::System.Windows.Forms.PictureBox());
@@ -241,7 +242,6 @@ namespace PKHeX.WinForms.Controls
             this.Tab_Moves = (new global::System.Windows.Forms.TabPage());
             this.Tab_Cosmetic = (new global::System.Windows.Forms.TabPage());
             this.Tab_OTMisc = (new global::System.Windows.Forms.TabPage());
-            this.PB_Affixed = (new global::System.Windows.Forms.PictureBox());
             this.Hidden_TC.SuspendLayout();
             this.Hidden_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -314,6 +314,7 @@ namespace PKHeX.WinForms.Controls
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_MarkShiny)).BeginInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_Mark1)).BeginInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).BeginInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.PB_Affixed)).BeginInit();
             this.FLP_BigMarkings.SuspendLayout();
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_Favorite)).BeginInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_Origin)).BeginInit();
@@ -329,7 +330,6 @@ namespace PKHeX.WinForms.Controls
             this.FLP_HTLanguage.SuspendLayout();
             this.FLP_ExtraBytes.SuspendLayout();
             this.TC_Editor.SuspendLayout();
-            ((global::System.ComponentModel.ISupportInitialize)(this.PB_Affixed)).BeginInit();
             this.SuspendLayout();
             // 
             // Hidden_TC
@@ -504,8 +504,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
-            this.UC_Gender.AccessibleDescription = ("Entity Gender Pane (0) (0) (0)");
-            this.UC_Gender.AccessibleName = ("Entity Gender Pane (0) (0) (0)");
+            this.UC_Gender.AccessibleDescription = "Entity Gender Pane";
+            this.UC_Gender.AccessibleName = "Entity Gender Pane";
             this.UC_Gender.AccessibleRole = (global::System.Windows.Forms.AccessibleRole.Graphic);
             this.UC_Gender.AllowClick = (false);
             this.UC_Gender.BackgroundImage = ((global::System.Drawing.Image)(resources.GetObject("UC_Gender.BackgroundImage")));
@@ -2308,6 +2308,19 @@ namespace PKHeX.WinForms.Controls
             this.PB_Mark4.TabStop = (false);
             this.PB_Mark4.Click += (this.ClickMarking);
             // 
+            // PB_Affixed
+            // 
+            this.PB_Affixed.AccessibleRole = (global::System.Windows.Forms.AccessibleRole.Graphic);
+            this.PB_Affixed.Anchor = (global::System.Windows.Forms.AnchorStyles.None);
+            this.PB_Affixed.Location = (new global::System.Drawing.Point(240, 34));
+            this.PB_Affixed.Margin = (new global::System.Windows.Forms.Padding(8, 4, 0, 0));
+            this.PB_Affixed.Name = ("PB_Affixed");
+            this.PB_Affixed.Size = (new global::System.Drawing.Size(40, 40));
+            this.PB_Affixed.SizeMode = (global::System.Windows.Forms.PictureBoxSizeMode.CenterImage);
+            this.PB_Affixed.TabIndex = (13);
+            this.PB_Affixed.TabStop = (false);
+            this.PB_Affixed.Click += (this.OpenRibbons);
+            // 
             // FLP_BigMarkings
             // 
             this.FLP_BigMarkings.Anchor = (global::System.Windows.Forms.AnchorStyles.None);
@@ -2473,8 +2486,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
-            this.UC_OTGender.AccessibleDescription = ("Trainer Gender Pane (0) (0) (0)");
-            this.UC_OTGender.AccessibleName = ("Trainer Gender Pane (0) (0) (0)");
+            this.UC_OTGender.AccessibleDescription = ("Trainer Gender Pane");
+            this.UC_OTGender.AccessibleName = ("Trainer Gender Pane");
             this.UC_OTGender.AccessibleRole = (global::System.Windows.Forms.AccessibleRole.Graphic);
             this.UC_OTGender.AllowClick = (true);
             this.UC_OTGender.BackgroundImage = ((global::System.Drawing.Image)(resources.GetObject("UC_OTGender.BackgroundImage")));
@@ -2667,8 +2680,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
-            this.UC_HTGender.AccessibleDescription = ("Handling Trainer Gender Pane (0) (0) (0)");
-            this.UC_HTGender.AccessibleName = ("Handling Trainer Gender Pane (0) (0) (0)");
+            this.UC_HTGender.AccessibleDescription = ("Handling Trainer Gender Pane");
+            this.UC_HTGender.AccessibleName = ("Handling Trainer Gender Pane");
             this.UC_HTGender.AccessibleRole = (global::System.Windows.Forms.AccessibleRole.Graphic);
             this.UC_HTGender.AllowClick = (true);
             this.UC_HTGender.BackgroundImage = ((global::System.Drawing.Image)(resources.GetObject("UC_HTGender.BackgroundImage")));
@@ -2894,18 +2907,6 @@ namespace PKHeX.WinForms.Controls
             this.Tab_OTMisc.Text = ("OT/Misc");
             this.Tab_OTMisc.UseVisualStyleBackColor = (true);
             // 
-            // PB_Affixed
-            // 
-            this.PB_Affixed.AccessibleRole = (global::System.Windows.Forms.AccessibleRole.Graphic);
-            this.PB_Affixed.Anchor = (global::System.Windows.Forms.AnchorStyles.None);
-            this.PB_Affixed.Location = (new global::System.Drawing.Point(240, 34));
-            this.PB_Affixed.Margin = (new global::System.Windows.Forms.Padding(8, 4, 0, 0));
-            this.PB_Affixed.Name = ("PB_Affixed");
-            this.PB_Affixed.Size = (new global::System.Drawing.Size(40, 40));
-            this.PB_Affixed.SizeMode = (global::System.Windows.Forms.PictureBoxSizeMode.CenterImage);
-            this.PB_Affixed.TabIndex = (13);
-            this.PB_Affixed.TabStop = (false);
-            // 
             // PKMEditor
             // 
             this.AutoScaleMode = (global::System.Windows.Forms.AutoScaleMode.Inherit);
@@ -3003,6 +3004,7 @@ namespace PKHeX.WinForms.Controls
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_MarkShiny)).EndInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_Mark1)).EndInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).EndInit();
+            ((global::System.ComponentModel.ISupportInitialize)(this.PB_Affixed)).EndInit();
             this.FLP_BigMarkings.ResumeLayout(false);
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_Favorite)).EndInit();
             ((global::System.ComponentModel.ISupportInitialize)(this.PB_Origin)).EndInit();
@@ -3022,7 +3024,6 @@ namespace PKHeX.WinForms.Controls
             this.FLP_ExtraBytes.ResumeLayout(false);
             this.FLP_ExtraBytes.PerformLayout();
             this.TC_Editor.ResumeLayout(false);
-            ((global::System.ComponentModel.ISupportInitialize)(this.PB_Affixed)).EndInit();
             this.ResumeLayout(false);
         }
 
