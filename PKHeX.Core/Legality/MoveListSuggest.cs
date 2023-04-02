@@ -153,7 +153,7 @@ public static class MoveListSuggest
             return;
 
         if (enc is EncounterEgg or EncounterInvalid {EggEncounter: true})
-            enc.GetSuggestedRelearnEgg(info.Relearn, pk, moves);
+            enc.GetSuggestedRelearnEgg(info.Moves, pk, moves);
         else
             enc.GetSuggestedRelearnInternal(pk, moves);
     }
@@ -194,7 +194,6 @@ public static class MoveListSuggest
 
     private static void GetEggRelearnMoves(this IEncounterTemplate enc, ReadOnlySpan<MoveResult> parse, PKM pk, Span<ushort> moves)
     {
-        pk.GetRelearnMoves(moves);
         // Extract a list of the moves that should end up in the relearn move list.
         LoadRelearnFlagged(moves, parse, pk);
 
@@ -213,5 +212,6 @@ public static class MoveListSuggest
             if (move.ShouldBeInRelearnMoves())
                 moves[count++] = pk.GetMove(index);
         }
+        moves[count..].Clear();
     }
 }
