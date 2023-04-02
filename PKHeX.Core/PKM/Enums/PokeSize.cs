@@ -1,3 +1,4 @@
+using System;
 using static PKHeX.Core.PokeSize;
 
 namespace PKHeX.Core;
@@ -30,22 +31,22 @@ public static class PokeSizeUtil
         _ => XL, // 1/16 = XL
     };
 
-    public static byte GetRandomScalar(this PokeSize size) => size switch
+    public static byte GetRandomScalar(this PokeSize size) => GetRandomScalar(size, Util.Rand);
+
+    public static byte GetRandomScalar(this PokeSize size, Random rnd) => size switch
     {
-        XS => (byte)(Util.Rand.Next(0x10)),
-        S  => (byte)(Util.Rand.Next(0x20) + 0x10),
-        AV => (byte)(Util.Rand.Next(0xA0) + 0x30),
-        L  => (byte)(Util.Rand.Next(0x20) + 0xD0),
-        XL => (byte)(Util.Rand.Next(0x10) + 0xF0),
+        XS => (byte)(rnd.Next(0x10)),
+        S  => (byte)(rnd.Next(0x20) + 0x10),
+        AV => (byte)(rnd.Next(0xA0) + 0x30),
+        L  => (byte)(rnd.Next(0x20) + 0xD0),
+        XL => (byte)(rnd.Next(0x10) + 0xF0),
         _ => GetRandomScalar(),
     };
 
     /// <summary>
     /// Gets a random size scalar with a triangular distribution (copying official implementation).
     /// </summary>
-    public static byte GetRandomScalar()
-    {
-        var rnd = Util.Rand;
-        return (byte)(rnd.Next(0x81) + rnd.Next(0x80));
-    }
+    public static byte GetRandomScalar() => GetRandomScalar(Util.Rand);
+
+    public static byte GetRandomScalar(Random rnd) => (byte)(rnd.Next(0x81) + rnd.Next(0x80));
 }

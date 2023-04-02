@@ -47,6 +47,13 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x8), (ushort)value);
     }
 
+    // Added in 1.2.0; now can enforce a fixed scale if not 256.
+    public ushort Scale
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x0C));
+        set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x0C), value);
+    }
+
     public byte CardFlags { get => Data[CardStart + 0x10]; set => Data[CardStart + 0x10] = value; }
     public GiftType CardType { get => (GiftType)Data[CardStart + 0x11]; set => Data[CardStart + 0x11] = (byte)value; }
     public bool GiftRepeatable { get => (CardFlags & 1) == 0; set => CardFlags = (byte)((CardFlags & ~1) | (value ? 0 : 1)); }
@@ -410,8 +417,6 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         return 0x124 + (index * 0x1C);
     }
 
-    public bool IsHOMEGift => CardID >= 9000;
-
     public bool CanHandleOT(int language) => !GetHasOT(language);
 
     public override GameVersion Version
@@ -425,7 +430,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         if (!IsEntity)
             throw new ArgumentException(nameof(IsEntity));
 
-        int currentLevel = Level > 0 ? Level : 1 + Util.Rand.Next(100);
+        var rnd = Util.Rand;
+        int currentLevel = Level > 0 ? Level : 1 + rnd.Next(100);
         int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
         var language = tr.Language;
@@ -434,7 +440,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
         var pk = new PK9
         {
-            EncryptionConstant = EncryptionConstant != 0 || IsHOMEGift ? EncryptionConstant : Util.Rand32(),
+            EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : rnd.Rand32(),
             TID16 = TID16,
             SID16 = SID16,
             Species = Species,
@@ -489,7 +495,6 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {
             // give random valid game
-            var rnd = Util.Rand;
             do { pk.Version = (int)GameVersion.SL + rnd.Next(2); }
             while (!CanBeReceivedByVersion(pk.Version));
         }
@@ -498,16 +503,10 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         {
             pk.TID16 = tr.TID16;
             pk.SID16 = tr.SID16;
-
-            if (IsHOMEGift)
-            {
-                pk.ID32 %= 1_000_000;
-                while (pk.TSV == 0)
-                    pk.ID32 = (uint)Util.Rand.Next(16, 999_999 + 1);
-            }
         }
 
-        pk.MetDate = GetSuggestedDate();
+        var date = GetSuggestedDate();
+        pk.MetDate = date;
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -529,14 +528,23 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
         pk.HeightScalar = (byte)HeightValue;
         pk.WeightScalar = (byte)WeightValue;
-        if (!IsHOMEGift)
-            pk.Scale = PokeSizeUtil.GetRandomScalar();
+        if (IsBeforePatch120(CardID) && IsBeforePatch120(date))
+            pk.Scale = PokeSizeUtil.GetRandomScalar(rnd);
+        else if (Scale == 256)
+            pk.Scale = (byte)rnd.Next(256);
+        else
+            pk.Scale = (byte)Scale;
 
         pk.Obedience_Level = Level;
         pk.ResetPartyStats();
         pk.RefreshChecksum();
         return pk;
     }
+
+    private static bool IsBeforePatch120(int cardID) => cardID is 0001 or 0006 or 0501 or 1501; // Flabébé, Gyarados, Pikachu, Garganacl
+
+    private const int DayNumber20230301 = 738579; // S/V Patch 1.2.0
+    private static bool IsBeforePatch120(DateOnly date) => date.DayNumber < DayNumber20230301;
 
     private DateOnly GetSuggestedDate()
     {
@@ -565,15 +573,17 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         pk.Gender = criteria.GetGender(Gender, pi);
         var av = GetAbilityIndex(criteria);
         pk.RefreshAbility(av);
-        SetPID(pk, pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow));
+        SetPID(pk);
         SetIVs(pk);
     }
 
-    private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
+    private int GetAbilityIndex(EncounterCriteria criteria) => GetAbilityIndex(criteria, AbilityType);
+
+    private int GetAbilityIndex(EncounterCriteria criteria, int type) => type switch
     {
-        00 or 01 or 02 => AbilityType, // Fixed 0/1/2
+        00 or 01 or 02 => type, // Fixed 0/1/2
         03 or 04 => criteria.GetAbilityFromNumber(Ability), // 0/1 or 0/1/H
-        _ => throw new ArgumentOutOfRangeException(nameof(AbilityType)),
+        _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
     public override AbilityPermission Ability => AbilityType switch
@@ -603,12 +613,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
         if (!tr.IsShiny(pid, 9))
             return pid;
-        if (IsHOMEGift)
-            return GetAntishinyFixedHOME(tr);
         return pid;
     }
-
-    private static uint GetAntishinyFixedHOME(ITrainerID32 tr) => tr.ID32 ^ 0x10u;
 
     private static uint GetAntishiny(ITrainerID32 tr)
     {
@@ -618,7 +624,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         return pid;
     }
 
-    private void SetPID(PKM pk, DateOnly date)
+    private void SetPID(PKM pk)
     {
         pk.PID = GetPID(pk, PIDType);
     }
@@ -673,26 +679,6 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
                 if (EncryptionConstant != pk.EncryptionConstant)
                     return false;
             }
-            else if (IsHOMEGift)// 0
-            {
-                // HOME gifts -- PID and EC are zeroes...
-                if (EncryptionConstant != pk.EncryptionConstant)
-                    return false;
-
-                if (pk.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
-                    return false;
-
-                if (IsShiny)
-                {
-                    if (!pk.IsShiny)
-                        return false;
-                }
-                else // Never or Random (HOME ID specific)
-                {
-                    if (pk.IsShiny)
-                        return false;
-                }
-            }
         }
 
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
@@ -740,7 +726,15 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
                 return false;
             if (s.WeightScalar != WeightValue)
                 return false;
-            // Random scalar
+            if (pk is IScaledSize3 scale)
+            {
+                if (!IsBeforePatch120(CardID) || (pk.MetDate is { } valid && !IsBeforePatch120(valid)))
+                {
+                    // S/V 1.2.0 added scale specification.
+                    if (Scale != 256 && Scale != scale.Scale)
+                        return false;
+                }
+            }
         }
 
         // PID Types 0 and 1 do not use the fixed PID value.
