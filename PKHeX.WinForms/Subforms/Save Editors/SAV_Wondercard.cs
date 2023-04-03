@@ -226,7 +226,7 @@ public partial class SAV_Wondercard : Form
             WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {other.Type}");
             return;
         }
-        else if (gift is PCD { IsLockCapsule: true } != (index == 11))
+        else if (gift is PCD g && (g is { IsLockCapsule: true } != (index == 11)))
         {
             WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{GameInfo.Strings.Item[533]} slot not valid.");
             return;
