@@ -39,6 +39,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
         WA8.Size when Equals(ext, ".wa8") => new WA8(data),
         WC9.Size when Equals(ext, ".wc9") => new WC9(data),
 
+        PGF.SizeFull when Equals(ext, ".wc5full") => new PGF(data),
         WB7.SizeFull when Equals(ext, ".wb7full") => new WB7(data),
         WC6Full.Size when Equals(ext, ".wc6full") => new WC6Full(data).Gift,
         WC7Full.Size when Equals(ext, ".wc7full") => new WC7Full(data).Gift,
@@ -59,8 +60,10 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
         PCD.Size => new PCD(data),
         PGF.Size => new PGF(data),
         WR7.Size => new WR7(data),
-        WC8.Size => new WC8(data),
         WB8.Size => new WB8(data),
+
+        //WC8/WC5Full: WC8 0x2CF always 0, WC5Full 0x2CF contains card checksum
+        WC8.Size => data[0x2CF] == 0 ? new WC8(data) : new PGF(data),
 
         // WA8/WC9: WA8 CardType >0 for wa8, 0 for wc9.
         WA8.Size => data[0xF] > 0 ? new WA8(data) : new WC9(data),
