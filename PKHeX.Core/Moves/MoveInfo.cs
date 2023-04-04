@@ -167,4 +167,16 @@ public static class MoveInfo
         Gen9 => Legal.MaxMoveID_9,
         _ => -1,
     };
+
+    public static byte GetType(ushort move, EntityContext context) => context switch
+    {
+        _ => GetType(move, MoveInfo9.MoveType_SV),
+    };
+
+    private static byte GetType(ushort move, ReadOnlySpan<byte> types)
+    {
+        if (move >= types.Length)
+            return 0;
+        return types[move];
+    }
 }

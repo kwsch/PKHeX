@@ -1,10 +1,14 @@
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.Misc;
 
 namespace PKHeX.WinForms.Controls;
 
 public partial class MoveChoice : UserControl
 {
+    private EntityContext Context;
+
     public MoveChoice()
     {
         InitializeComponent();
@@ -15,6 +19,19 @@ public partial class MoveChoice : UserControl
     public int PP { get => SelectedMove == 0 ? 0 : Util.ToInt32(TB_PP.Text); set => TB_PP.Text = value.ToString(); }
     public int PPUps { get => SelectedMove == 0 ? 0 : CB_PPUps.SelectedIndex; set => LoadClamp(CB_PPUps, value); }
     public bool HideLegality { private get; set; }
+    public void SetContext(EntityContext context) => Context = context;
+
+    private void UpdateTypeSprite(int value)
+    {
+        if (value <= 0)
+        {
+            PB_Type.Image = null;
+            return;
+        }
+
+        var type = MoveInfo.GetType((ushort)value, Context);
+        PB_Type.Image = TypeSpriteUtil.GetTypeSpriteIcon(type);
+    }
 
     private static void LoadClamp(ComboBox cb, int value)
     {
@@ -41,5 +58,11 @@ public partial class MoveChoice : UserControl
     {
         var move = SelectedMove;
         PP = move <= 0 ? (PPUps = 0) : pk.GetMovePP(move, PPUps);
+    }
+
+    private void CB_Move_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var value = WinFormsUtil.GetIndex(CB_Move);
+        UpdateTypeSprite(value);
     }
 }

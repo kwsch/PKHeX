@@ -255,6 +255,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // Load Extra Byte List
         SetPKMFormatExtraBytes(pk);
         (GetFieldsfromPKM, GetPKMfromFields) = GetLoadSet(pk);
+        foreach (var move in Moves)
+            move.SetContext(pk.Context);
     }
 
     private (Action Load, Func<PKM> Set) GetLoadSet(PKM pk) => GetLoadSet(pk.Context);

@@ -16,7 +16,9 @@ public static class TypeColor
     /// <param name="type">Type to get the color of.</param>
     /// <returns>Color of the type.</returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public static Color GetTypeSpriteColor(byte type) => (MoveType)type switch
+    public static Color GetTypeSpriteColor(byte type) => ((MoveType)type).GetTypeSpriteColor();
+
+    public static Color GetTypeSpriteColor(this MoveType type) => type switch
     {
         Normal   => Color.FromArgb(159, 161, 159),
         Fighting => Color.FromArgb(255, 128, 000),

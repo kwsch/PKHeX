@@ -504,8 +504,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_Gender
             // 
-            this.UC_Gender.AccessibleDescription = "Entity Gender Pane";
-            this.UC_Gender.AccessibleName = "Entity Gender Pane";
+            this.UC_Gender.AccessibleDescription = ("Entity Gender Pane (0) (0) (0)");
+            this.UC_Gender.AccessibleName = ("Entity Gender Pane (0) (0) (0)");
             this.UC_Gender.AccessibleRole = (global::System.Windows.Forms.AccessibleRole.Graphic);
             this.UC_Gender.AllowClick = (false);
             this.UC_Gender.BackgroundImage = ((global::System.Drawing.Image)(resources.GetObject("UC_Gender.BackgroundImage")));
@@ -1999,7 +1999,7 @@ namespace PKHeX.WinForms.Controls
             this.GB_CurrentMoves.Controls.Add(this.Label_PPups);
             this.GB_CurrentMoves.Location = (new global::System.Drawing.Point(16, 16));
             this.GB_CurrentMoves.Name = ("GB_CurrentMoves");
-            this.GB_CurrentMoves.Size = (new global::System.Drawing.Size(248, 136));
+            this.GB_CurrentMoves.Size = (new global::System.Drawing.Size(260, 136));
             this.GB_CurrentMoves.TabIndex = (0);
             this.GB_CurrentMoves.TabStop = (false);
             this.GB_CurrentMoves.Text = ("Current Moves");
@@ -2013,7 +2013,7 @@ namespace PKHeX.WinForms.Controls
             this.FLP_Moves.Location = (new global::System.Drawing.Point(8, 32));
             this.FLP_Moves.Margin = (new global::System.Windows.Forms.Padding(0));
             this.FLP_Moves.Name = ("FLP_Moves");
-            this.FLP_Moves.Size = (new global::System.Drawing.Size(240, 96));
+            this.FLP_Moves.Size = (new global::System.Drawing.Size(250, 96));
             this.FLP_Moves.TabIndex = (14);
             // 
             // MC_Move1
@@ -2024,7 +2024,7 @@ namespace PKHeX.WinForms.Controls
             this.MC_Move1.PP = (0);
             this.MC_Move1.PPUps = (0);
             this.MC_Move1.SelectedMove = ((global::System.UInt16)(0));
-            this.MC_Move1.Size = (new global::System.Drawing.Size(240, 24));
+            this.MC_Move1.Size = (new global::System.Drawing.Size(248, 24));
             this.MC_Move1.TabIndex = (1);
             // 
             // MC_Move2
@@ -2035,7 +2035,7 @@ namespace PKHeX.WinForms.Controls
             this.MC_Move2.PP = (0);
             this.MC_Move2.PPUps = (0);
             this.MC_Move2.SelectedMove = ((global::System.UInt16)(0));
-            this.MC_Move2.Size = (new global::System.Drawing.Size(240, 24));
+            this.MC_Move2.Size = (new global::System.Drawing.Size(248, 24));
             this.MC_Move2.TabIndex = (2);
             // 
             // MC_Move3
@@ -2046,7 +2046,7 @@ namespace PKHeX.WinForms.Controls
             this.MC_Move3.PP = (0);
             this.MC_Move3.PPUps = (0);
             this.MC_Move3.SelectedMove = ((global::System.UInt16)(0));
-            this.MC_Move3.Size = (new global::System.Drawing.Size(240, 24));
+            this.MC_Move3.Size = (new global::System.Drawing.Size(248, 24));
             this.MC_Move3.TabIndex = (3);
             // 
             // MC_Move4
@@ -2057,14 +2057,14 @@ namespace PKHeX.WinForms.Controls
             this.MC_Move4.PP = (0);
             this.MC_Move4.PPUps = (0);
             this.MC_Move4.SelectedMove = ((global::System.UInt16)(0));
-            this.MC_Move4.Size = (new global::System.Drawing.Size(240, 24));
+            this.MC_Move4.Size = (new global::System.Drawing.Size(248, 24));
             this.MC_Move4.TabIndex = (4);
             // 
             // Label_CurPP
             // 
-            this.Label_CurPP.Location = (new global::System.Drawing.Point(160, 16));
+            this.Label_CurPP.Location = (new global::System.Drawing.Point(193, 16));
             this.Label_CurPP.Name = ("Label_CurPP");
-            this.Label_CurPP.Size = (new global::System.Drawing.Size(32, 16));
+            this.Label_CurPP.Size = (new global::System.Drawing.Size(24, 16));
             this.Label_CurPP.TabIndex = (2);
             this.Label_CurPP.Text = ("PP");
             this.Label_CurPP.TextAlign = (global::System.Drawing.ContentAlignment.BottomCenter);
@@ -2072,11 +2072,11 @@ namespace PKHeX.WinForms.Controls
             // 
             // Label_PPups
             // 
-            this.Label_PPups.Location = (new global::System.Drawing.Point(192, 16));
+            this.Label_PPups.Location = (new global::System.Drawing.Point(217, 16));
             this.Label_PPups.Name = ("Label_PPups");
-            this.Label_PPups.Size = (new global::System.Drawing.Size(48, 16));
+            this.Label_PPups.Size = (new global::System.Drawing.Size(32, 16));
             this.Label_PPups.TabIndex = (12);
-            this.Label_PPups.Text = ("PP Ups");
+            this.Label_PPups.Text = ("Ups");
             this.Label_PPups.TextAlign = (global::System.Drawing.ContentAlignment.BottomCenter);
             this.Label_PPups.Click += (this.ClickPPUps);
             // 
@@ -2486,8 +2486,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_OTGender
             // 
-            this.UC_OTGender.AccessibleDescription = ("Trainer Gender Pane");
-            this.UC_OTGender.AccessibleName = ("Trainer Gender Pane");
+            this.UC_OTGender.AccessibleDescription = ("Trainer Gender Pane (0) (0) (0)");
+            this.UC_OTGender.AccessibleName = ("Trainer Gender Pane (0) (0) (0)");
             this.UC_OTGender.AccessibleRole = (global::System.Windows.Forms.AccessibleRole.Graphic);
             this.UC_OTGender.AllowClick = (true);
             this.UC_OTGender.BackgroundImage = ((global::System.Drawing.Image)(resources.GetObject("UC_OTGender.BackgroundImage")));
@@ -2680,8 +2680,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // UC_HTGender
             // 
-            this.UC_HTGender.AccessibleDescription = ("Handling Trainer Gender Pane");
-            this.UC_HTGender.AccessibleName = ("Handling Trainer Gender Pane");
+            this.UC_HTGender.AccessibleDescription = ("Handling Trainer Gender Pane (0) (0) (0)");
+            this.UC_HTGender.AccessibleName = ("Handling Trainer Gender Pane (0) (0) (0)");
             this.UC_HTGender.AccessibleRole = (global::System.Windows.Forms.AccessibleRole.Graphic);
             this.UC_HTGender.AllowClick = (true);
             this.UC_HTGender.BackgroundImage = ((global::System.Drawing.Image)(resources.GetObject("UC_HTGender.BackgroundImage")));
