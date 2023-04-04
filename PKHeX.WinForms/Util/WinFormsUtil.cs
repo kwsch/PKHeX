@@ -424,7 +424,7 @@ public static class WinFormsUtil
     public static string GetMysterGiftFilter(EntityContext context) => context switch
     {
         EntityContext.Gen4 => "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all,
-        EntityContext.Gen5 => "Gen5 Mystery Gift|*.pgf" + all,
+        EntityContext.Gen5 => "Gen5 Mystery Gift|*.pgf;*.wc5full" + all,
         EntityContext.Gen6 => "Gen6 Mystery Gift|*.wc6;*.wc6full" + all,
         EntityContext.Gen7 => "Gen7 Mystery Gift|*.wc7;*.wc7full" + all,
         EntityContext.Gen8 => "Gen8 Mystery Gift|*.wc8" + all,
