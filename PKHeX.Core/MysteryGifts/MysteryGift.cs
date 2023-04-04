@@ -62,7 +62,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
         WR7.Size => new WR7(data),
         WB8.Size => new WB8(data),
 
-        //WC8/WC5Full: WC8 0x2CF always 0, WC5Full 0x2CF contains card checksum
+        // WC8/WC5Full: WC8 0x2CF always 0, WC5Full 0x2CF contains card checksum
         WC8.Size => data[0x2CF] == 0 ? new WC8(data) : new PGF(data),
 
         // WA8/WC9: WA8 CardType >0 for wa8, 0 for wc9.
