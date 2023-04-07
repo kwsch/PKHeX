@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 namespace PKHeX.WinForms;
@@ -107,5 +107,11 @@ public partial class SAV_Misc8b : Form
         System.Media.SystemSounds.Asterisk.Play();
         B_RebattleEyecatch.Enabled = false;
         B_DefeatEyecatch.Enabled = true;
+    }
+
+    private void B_Fashion_Click(object sender, EventArgs e)
+    {
+        Unlocker.UnlockFashion();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 }

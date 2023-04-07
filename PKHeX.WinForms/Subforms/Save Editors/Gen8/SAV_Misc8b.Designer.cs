@@ -41,6 +41,7 @@ namespace PKHeX.WinForms
             this.B_Darkrai = new System.Windows.Forms.Button();
             this.B_Shaymin = new System.Windows.Forms.Button();
             this.B_Spiritomb = new System.Windows.Forms.Button();
+            this.B_Fashion = new System.Windows.Forms.Button();
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.SuspendLayout();
@@ -81,7 +82,8 @@ namespace PKHeX.WinForms
             this.TC_Misc.TabIndex = 0;
             // 
             // TAB_Main
-            // 
+            //
+            this.TAB_Main.Controls.Add(this.B_Fashion);
             this.TAB_Main.Controls.Add(this.B_Arceus);
             this.TAB_Main.Controls.Add(this.B_Zones);
             this.TAB_Main.Controls.Add(this.B_RebattleEyecatch);
@@ -189,6 +191,16 @@ namespace PKHeX.WinForms
             this.B_Spiritomb.UseVisualStyleBackColor = true;
             this.B_Spiritomb.Click += new System.EventHandler(this.B_Spiritomb_Click);
             // 
+            // B_Fashion
+            // 
+            this.B_Fashion.Location = new System.Drawing.Point(136, 262);
+            this.B_Fashion.Name = "B_Fashion";
+            this.B_Fashion.Size = new System.Drawing.Size(124, 58);
+            this.B_Fashion.TabIndex = 9;
+            this.B_Fashion.Text = "Unlock All Fashion";
+            this.B_Fashion.UseVisualStyleBackColor = true;
+            this.B_Fashion.Click += new System.EventHandler(this.B_Fashion_Click);
+            // 
             // SAV_Misc8b
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -223,5 +235,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_RebattleEyecatch;
         private System.Windows.Forms.Button B_Zones;
         private System.Windows.Forms.Button B_Arceus;
+        private System.Windows.Forms.Button B_Fashion;
     }
 }
