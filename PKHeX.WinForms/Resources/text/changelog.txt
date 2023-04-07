@@ -1,7 +1,25 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/02/27 - New Update:
+23/04/06 - New Update:
+ - Legality:
+ - - Changed: Vivillon 3DS Region handling reworked to handle all regions. Thanks @abcboy101!
+ - - Fixed: BDSP footprint ribbon now checks correctly.
+ - - Fixed: Gen4 Pokéwalker course captures are now allowed for all versions.
+ - Added: PKM Editor now shows the elemental type for Moves.
+ - Added: PKM Editor now shows affixed ribbon (or if one can be affixed) on the cosmetic tab.
+ - Added: Click the affixed ribbon indicator to open the ribbon editor (same as button).
+ - Added: Click a ribbon sprite in the ribbon editor to quickly affix it.
+ - Added: SV enrollment date can now be changed via Block Editor. Thanks @foohyfooh!
+ - Added: More Gen3 Mystery Gift API functionality added. Thanks @Bl4ckSh4rk!
+ - Fixed: Importing Mystery Gifts to the SaveFile's Mystery Gift list GUI's 11th slot now works as intended.
+ - Fixed: Gen4 Manaphy Egg now generates correctly from the Encounter Database.
+ - Fixed: Gen4/5 Country/Region no longer throws an error for certain countries.
+ - Fixed: Gen1/2 stats now calc correctly (perfect square-root EVs)
+ - Changed: Updated handling to correctly generate and verify size of WC9 entities.
+ - Changed: More performance improvements reducing allocations.
+
+23/02/27 - New Update: (186209) [6556318]
  - Added: Support for S/V 1.2.0
  - Added: SV style menu sprites for all species/forms. Thanks @sora10pls & @SciresM!
  - Added: Gen5 Black/White City data can now be imported/exported, and Roamer status can be reset. Thanks @frefire!
