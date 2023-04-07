@@ -154,7 +154,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
 
     private EncounterDist9() : base(GameVersion.SV) { }
 
-    private const int SerializedSize = WeightStart + (sizeof(ushort) * 2 * 2 * 4) + 2;
+    private const int SerializedSize = WeightStart + (sizeof(ushort) * 2 * 2 * 4) + 10;
     private const int WeightStart = 0x14;
     private static EncounterDist9 ReadEncounter(ReadOnlySpan<byte> data) => new()
     {
@@ -195,8 +195,10 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
         RandRate3TotalScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 14))..]),
         RandRate3TotalViolet  = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 15))..]),
 
-        ScaleType = (SizeType9)data[0x34],
-        Scale = data[0x35],
+        // 0x34 reserved
+        IVs = new IndividualValueSet((sbyte)data[0x35], (sbyte)data[0x36], (sbyte)data[0x37], (sbyte)data[0x38], (sbyte)data[0x39], (sbyte)data[0x3A], (IndividualValueSetType)data[0x3B]),
+        ScaleType = (SizeType9)data[0x3C],
+        Scale = data[0x3D],
     };
 
     private static AbilityPermission GetAbility(byte b) => b switch
@@ -239,6 +241,9 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
                 return true;
         }
 
+        if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
+            return true;
+
         var seed = Tera9RNG.GetOriginalSeed(pk);
         if (pk is ITeraType t && !Tera9RNG.IsMatchTeraType(seed, TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return true;
@@ -246,7 +251,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
             return true;
 
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, 1, 0, 0, ScaleType, Scale, Ability, Shiny);
+        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, 1, 0, 0, ScaleType, Scale, Ability, Shiny, Nature, IVs);
         if (!Encounter9RNG.IsMatch(pk, param, seed))
             return true;
         return base.IsMatchPartial(pk);
@@ -268,7 +273,7 @@ public sealed record EncounterDist9 : EncounterStatic, ITeraRaid9
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
         var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
             undefinedSize, undefinedSize, ScaleType, Scale,
-            Ability, Shiny);
+            Ability, Shiny, Nature, IVs);
 
         var init = Util.Rand.Rand64();
         var success = this.TryApply32(pk9, init, param, criteria);

@@ -140,6 +140,43 @@ public sealed class SCBlock
     }
 
     /// <summary>
+    /// Gets the total length of an encoded data block. The input <see cref="data"/> must be at least 10 bytes long to ensure all block types are correctly parsed.
+    /// </summary>
+    /// <param name="data">Data the header exists in.</param>
+    /// <remarks>This method is useful if you do not know the exact size of a block yet; e.g. fetching the data is an expensive operation.</remarks>
+    public static int GetTotalLength(ReadOnlySpan<byte> data)
+    {
+        int offset = 0;
+        var key = ReadUInt32LittleEndian(data[offset..]);
+        offset += 4;
+        var xk = new SCXorShift32(key);
+        var type = (SCTypeCode)(data[offset++] ^ xk.Next());
+
+        switch (type)
+        {
+            case SCTypeCode.Bool1:
+            case SCTypeCode.Bool2:
+            case SCTypeCode.Bool3:
+                Debug.Assert(type != SCTypeCode.Bool3); // invalid type, haven't seen it used yet
+                return offset;
+
+            case SCTypeCode.Object: // Cast raw bytes to Object
+                var length = ReadInt32LittleEndian(data[offset..]) ^ (int)xk.Next32();
+                offset += 4;
+                return offset + length;
+
+            case SCTypeCode.Array: // Cast raw bytes to SubType[]
+                var count = ReadInt32LittleEndian(data[offset..]) ^ (int)xk.Next32();
+                offset += 4;
+                type = (SCTypeCode)(data[offset++] ^ xk.Next());
+                return offset + (type.GetTypeSize() * count);
+
+            default: // Single Value Storage
+                return offset + type.GetTypeSize();
+        }
+    }
+
+    /// <summary>
     /// Reads a new <see cref="SCBlock"/> object from the <see cref="data"/>, determining the <see cref="Type"/> and <see cref="SubType"/> during read.
     /// </summary>
     /// <param name="data">Decrypted data</param>
