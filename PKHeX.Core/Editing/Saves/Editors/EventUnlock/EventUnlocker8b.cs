@@ -97,4 +97,13 @@ public sealed class EventUnlocker8b : EventUnlocker<SAV8BS>
         SAV.FlagWork.SetFlag(532, false); // clear vanish
         SAV.Encounter.Roamer2Encount = 0; // not actively roaming
     }
+
+    public void UnlockFashion()
+    {
+        const int FASHION_START = 1246;
+        const int FASHION_END = 1257;
+        for (int i = FASHION_START; i <= FASHION_END; i++)
+            SAV.FlagWork.SetFlag(i, true);
+    }
+
 }
