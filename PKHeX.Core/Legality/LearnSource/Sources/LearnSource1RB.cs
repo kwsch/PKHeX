@@ -100,7 +100,7 @@ public sealed class LearnSource1RB : ILearnSource<PersonalInfo1>
         }
     }
 
-    public void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> init)
+    public void GetEncounterMoves(ISpeciesForm enc, int level, Span<ushort> init)
     {
         var species = enc.Species;
         if (!TryGetPersonal(species, 0, out var personal))
@@ -108,7 +108,7 @@ public sealed class LearnSource1RB : ILearnSource<PersonalInfo1>
 
         var learn = Learnsets[species];
         personal.GetMoves(init);
-        var start = (4 - init.Count<ushort>(0)) & 3;
-        learn.SetEncounterMoves(enc.LevelMin, init, start);
+        var start = (init.LastIndexOfAnyExcept<ushort>(0) + 1) & 3;
+        learn.SetEncounterMoves(level, init, start);
     }
 }

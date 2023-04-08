@@ -48,7 +48,7 @@ public static class MystryMew
             return seed;
 
         uint position = (random % (MewPerRestrictedSeed - 1)) + 1;
-        for (int i = 0; i < position; i++)
+        for (uint i = 0; i < position; i++)
             seed = LCRNG.Next5(seed);
 
         return seed;
@@ -61,11 +61,13 @@ public static class MystryMew
     public static int GetSeedIndex(uint seed)
     {
         var seeds = Seeds;
+        if (seed <= ushort.MaxValue)
+            return seeds.BinarySearch((ushort)seed);
         for (int i = 0; i < 5; i++)
         {
+            seed = LCRNG.Prev5(seed);
             if (seed <= ushort.MaxValue)
                 return seeds.BinarySearch((ushort)seed);
-            seed = LCRNG.Prev5(seed);
         }
 
         return -1;

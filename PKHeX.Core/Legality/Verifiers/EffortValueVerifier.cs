@@ -57,7 +57,7 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(Get(LEffortEXPIncreased, Severity.Fishy));
         else if (sum == 508)
             data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
-        else if (evs[0] != 0 && evs.Count(evs[0]) == evs.Length)
+        else if (evs[0] != 0 && evs.IndexOfAnyExcept(evs[0]) == -1)
             data.AddLine(Get(LEffortAllEqual, Severity.Fishy));
     }
 }

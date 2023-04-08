@@ -111,14 +111,14 @@ public static class MoveShopRecordApplicator
         if (shop.GetMasteredRecordFlag(index))
             return;
 
-        if (level < (uint)learn.GetMoveLevel(move)) // Can't learn it yet; must purchase.
+        if (level < (uint)learn.GetLevelLearnMove(move)) // Can't learn it yet; must purchase.
         {
             shop.SetPurchasedRecordFlag(index, true);
             shop.SetMasteredRecordFlag(index, true);
             return;
         }
 
-        if (level < (uint)mastery.GetMoveLevel(move)) // Can't master it yet; must Seed of Mastery
+        if (level < (uint)mastery.GetLevelLearnMove(move)) // Can't master it yet; must Seed of Mastery
             shop.SetMasteredRecordFlag(index, true);
     }
 
@@ -141,7 +141,7 @@ public static class MoveShopRecordApplicator
             // and it is high enough level to master it, the game will automatically
             // give it the "Mastered" flag but not the "Purchased" flag
             // For moves that are not in the learnset, it returns -1 which is true, thus set as mastered.
-            if (level >= mastery.GetMoveLevel(move))
+            if (level >= mastery.GetLevelLearnMove(move))
                 shop.SetMasteredRecordFlag(index, true);
         }
     }

@@ -87,8 +87,7 @@ public sealed class LearnGroup1 : ILearnGroup
 
     private static void FlagFishyMoveSlots(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc)
     {
-        var occupied = current.Length - current.Count((ushort)0);
-        if (occupied == 4)
+        if (!current.Contains<ushort>(0))
             return;
 
         Span<ushort> moves = stackalloc ushort[4];
@@ -155,9 +154,9 @@ public sealed class LearnGroup1 : ILearnGroup
     private static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> moves)
     {
         if (enc.Version is GameVersion.YW or GameVersion.RBY)
-            LearnSource1YW.Instance.GetEncounterMoves(enc, moves);
+            LearnSource1YW.Instance.GetEncounterMoves(enc, enc.LevelMin, moves);
         else
-            LearnSource1RB.Instance.GetEncounterMoves(enc, moves);
+            LearnSource1RB.Instance.GetEncounterMoves(enc, enc.LevelMin, moves);
     }
 
     private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, LearnOption option = LearnOption.Current, MoveSourceType types = MoveSourceType.All)
