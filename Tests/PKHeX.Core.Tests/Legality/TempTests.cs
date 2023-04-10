@@ -18,7 +18,7 @@ public static class TempTests
     [InlineData(Spiritomb, FoulPlay)]
     public static void CanLearnEggMoveBDSP(Species species, Move move)
     {
-        MoveEgg.GetEggMoves(8, (ushort)species, 0, GameVersion.BD).Contains((ushort)move).Should().BeFalse();
+        LearnSource8BDSP.Instance.GetEggMoves((ushort)species, 0).Contains((ushort)move).Should().BeFalse();
 
         var pb8 = new PB8 { Species = (ushort)species };
         var encs = EncounterMovesetGenerator.GenerateEncounters(pb8, new[] { (ushort)move }, GameVersion.BD);

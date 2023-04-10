@@ -19,7 +19,7 @@ public abstract class BulkStorage : SaveFile
 
     protected readonly int SlotsPerBox;
 
-    protected internal override string ShortSummary => $"{Checksums.CRC16Invert(new ReadOnlySpan<byte>(Data, Box, Data.Length - Box)):X4}";
+    protected internal override string ShortSummary => $"{Checksums.CRC16Invert(Data.AsSpan(Box)):X4}";
     public override string Extension => ".bin";
     public sealed override bool ChecksumsValid => true;
     public sealed override string ChecksumInfo => "No Info.";

@@ -54,7 +54,7 @@ public sealed record EncounterSlot6AO : EncounterSlot
     {
         var et = EvolutionTree.Evolves6;
         var baby = et.GetBaseSpeciesForm(Species, Form);
-        return MoveEgg.GetEggMoves(6, baby.Species, baby.Form, Version);
+        return LearnSource6AO.Instance.GetEggMoves(baby.Species, baby.Form);
     }
 
     public bool CanBeDexNavMove(ushort move)
