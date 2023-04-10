@@ -218,6 +218,12 @@ public sealed class Learnset
         RectifyOrderShift(moves, ctr);
     }
 
+    /// <summary>
+    /// Checks if the specified move is learned by level up.
+    /// </summary>
+    /// <param name="move">Move ID</param>
+    public bool GetIsLearn(ushort move) => Moves.AsSpan().Contains(move);
+
     /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>
     /// <param name="move">Move ID</param>
     /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
