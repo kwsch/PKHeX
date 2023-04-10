@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 internal static class Locations5
 {
-    internal static ReadOnlySpan<byte> Met0 => new byte[]
+    public static ReadOnlySpan<byte> Met0 => new byte[]
     {
              001, 002,      004, 005, 006, 007, 008, 009,
         010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
@@ -24,13 +24,13 @@ internal static class Locations5
         150, 151, 152, 153,
     };
 
-    internal static ReadOnlySpan<ushort> Met3 => new ushort[]
+    public static ReadOnlySpan<ushort> Met3 => new ushort[]
     {
                30001, 30002,        30004, 30005, 30006, 30007, 30008,
         30010, 30011, 30012, 30013, 30014, 30015,
     };
 
-    internal static ReadOnlySpan<ushort> Met4 => new ushort[]
+    public static ReadOnlySpan<ushort> Met4 => new ushort[]
     {
                40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009,
         40010, 40011, 40012, 40013, 40014, 40015, 40016, 40017, 40018, 40019,
@@ -45,5 +45,5 @@ internal static class Locations5
         40100, 40101, 40102, 40103, 40104, 40105, 40106, 40107, 40108, 40109,
     };
 
-    internal static ReadOnlySpan<ushort> Met6 => new ushort[] { 60001, 60003 };
+    public static ReadOnlySpan<ushort> Met6 => new ushort[] { 60001, 60003 };
 }
