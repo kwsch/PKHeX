@@ -289,7 +289,7 @@ public partial class SAV_PokedexXY : Form
                 }
             }
         }
-        
+
         if (sender == mnuCaughtNone || sender == mnuCaughtAll || sender == mnuComplete)
         {
             for (int i = 0; i < CB_Species.Items.Count; i++)

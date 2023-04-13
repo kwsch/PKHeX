@@ -59,12 +59,12 @@ public class StatTest
 
         ushort effort = 63001;
         effort = (ushort)(Math.Min((ushort)255, (ushort)Math.Ceiling(Math.Sqrt(effort))) >> 2);
-        var iv = 15;
-        var level = 100;
-        var baseStat = 91;
+        const int iv = 15;
+        const int level = 100;
+        const int baseStat = 91;
         var expect = (ushort)((((2 * (baseStat + iv)) + effort) * level / 100) + 5);
         expect.Should().Be(279);
-        
+
         pk.ResetPartyStats();
         pk.Stat_Level.Should().Be(pk.CurrentLevel, "stat level");
         pk.Stat_HPCurrent.Should().Be(369, "stat re-calculation");

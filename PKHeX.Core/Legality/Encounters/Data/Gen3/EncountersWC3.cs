@@ -40,7 +40,7 @@ internal static class EncountersWC3
             };
         }
     }
-    
+
     private static IEnumerable<WC3> GetIngameCXDDataMainline()
     {
         var langs = new[] { LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish };

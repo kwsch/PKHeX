@@ -184,7 +184,7 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
             SetIsFormSeen(entry, pi, form, seenForm);
         }
     }
-    
+
 
     private static void SetIsFormSeen(PokeDexEntry9SV entry, IGenderDetail pi, byte form, bool seenForm)
     {

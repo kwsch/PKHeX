@@ -235,8 +235,7 @@ public partial class RibbonEditor : Form
             rib.HasRibbon = chk.Checked;
             var controlName = PrefixPB + rib.Name;
             var control = FLP_Ribbons.Controls[controlName];
-            if (control is null)
-                throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
+            ArgumentNullException.ThrowIfNull(control);
             control.Visible = rib.HasRibbon;
 
             ToggleNewRibbon(rib, control);

@@ -47,23 +47,30 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
     public string GetMovesetLine(IReadOnlyList<string> names, string split = " / ")
     {
         var sb = new StringBuilder(128);
-        sb.Append(names[Move1]);
-        if (Move2 != 0)
-        {
-            sb.Append(split).Append(names[Move2]);
-            if (Move3 != 0)
-            {
-                sb.Append(split).Append(names[Move3]);
-                if (Move4 != 0)
-                    sb.Append(split).Append(names[Move4]);
-            }
-        }
+        AddMovesetLine(sb, names, split);
         return sb.ToString();
     }
 
+    public void AddMovesetLine(StringBuilder sb, IReadOnlyList<string> names, string split = " / ")
+    {
+        // Always has at least 1 move if calling this.
+        sb.Append(names[Move1]);
+        if (Move2 == 0)
+            return;
+        sb.Append(split).Append(names[Move2]);
+        if (Move3 == 0)
+            return;
+        sb.Append(split).Append(names[Move3]);
+        if (Move4 != 0)
+            sb.Append(split).Append(names[Move4]);
+    }
+
+    /// <summary>
+    /// Flag each present index; having all moves will have all bitflags.
+    /// </summary>
+    /// <param name="span">Moves to check and index flags for</param>
     public int BitOverlap(ReadOnlySpan<ushort> span)
     {
-        // Flag each present index; having all moves will have all bitflags.
         int flags = 0;
         for (var i = 0; i < span.Length; i++)
         {
@@ -74,9 +81,13 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
         return flags;
     }
 
+    /// <summary>
+    /// Flag each present index; having all moves will have all bitflags.
+    /// </summary>
+    /// <param name="moves">Base Move source</param>
+    /// <param name="span">Moves to check and index flags for</param>
     public static int BitOverlap(ReadOnlySpan<ushort> moves, ReadOnlySpan<ushort> span)
     {
-        // Flag each present index; having all moves will have all bitflags.
         int flags = 0;
         for (var i = 0; i < span.Length; i++)
         {

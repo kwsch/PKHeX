@@ -602,7 +602,7 @@ public partial class SAV_MailBox : Form
         }
 
         editing = true;
-        
+
         // swap mail objects
         (m[otherIndex], m[index]) = (m[index], m[otherIndex]);
         if ((entry >= PartyBoxCount) == isBox)

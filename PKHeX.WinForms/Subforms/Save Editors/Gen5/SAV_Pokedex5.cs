@@ -166,7 +166,7 @@ public partial class SAV_Pokedex5 : Form
         Dex.SetCaught(species, CP[0].Checked);
         for (int i = 0; i < 4; i++)
             Dex.SetSeen(species, i, CP[i + 1].Checked);
-        
+
         for (int i = 0; i < 4; i++)
             Dex.SetDisplayed(species - 1, i, CP[i + 5].Checked);
 

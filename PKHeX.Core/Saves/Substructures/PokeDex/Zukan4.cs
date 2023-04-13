@@ -357,9 +357,8 @@ public sealed class Zukan4 : ZukanBase<SAV4>
         int dpl = 1 + DPLangSpecies.IndexOf(species);
         if (DP && dpl <= 0)
             return false;
-        const int FormOffset1 = OFS_FORM1;
-        int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
 
+        int PokeDexLanguageFlags = OFS_FORM1 + (HGSS ? 0x3C : 0x20);
         var ofs = PokeDexLanguageFlags + (DP ? dpl : species);
         return FlagUtil.GetFlag(Data, ofs, lang & 7);
     }
@@ -369,9 +368,8 @@ public sealed class Zukan4 : ZukanBase<SAV4>
         int dpl = 1 + DPLangSpecies.IndexOf(species);
         if (DP && dpl <= 0)
             return;
-        const int FormOffset1 = OFS_FORM1;
-        int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
 
+        int PokeDexLanguageFlags = OFS_FORM1 + (HGSS ? 0x3C : 0x20);
         var ofs = PokeDexLanguageFlags + (DP ? dpl : species);
         FlagUtil.SetFlag(Data, ofs, lang & 7, value);
     }

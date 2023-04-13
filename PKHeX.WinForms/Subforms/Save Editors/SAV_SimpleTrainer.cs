@@ -296,17 +296,17 @@ public partial class SAV_SimpleTrainer : Form
         if (sender is ComboBox c)
         {
             int index = WinFormsUtil.GetIndex(c);
-            if (SAV is SAV4 sav4)
+            if (SAV is SAV4)
             {
                 Main.SetCountrySubRegion(CB_Region, $"gen4_sr_{index:000}");
                 if (CB_Region.Items.Count == 0)
-                    Main.SetCountrySubRegion(CB_Region, $"gen4_sr_default");
+                    Main.SetCountrySubRegion(CB_Region, "gen4_sr_default");
             }
-            else if (SAV is SAV5 s)
+            else if (SAV is SAV5)
             {
                 Main.SetCountrySubRegion(CB_Region, $"gen5_sr_{index:000}");
                 if (CB_Region.Items.Count == 0)
-                    Main.SetCountrySubRegion(CB_Region, $"gen5_sr_default");
+                    Main.SetCountrySubRegion(CB_Region, "gen5_sr_default");
             }
         }
     }

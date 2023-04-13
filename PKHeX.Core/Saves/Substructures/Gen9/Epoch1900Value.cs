@@ -7,8 +7,8 @@ namespace PKHeX.Core;
 /// Stores the <see cref="Timestamp"/> to indicate the seconds since 1900 (rounded to days) that an event occurred.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class Epoch1900Value {
-
+public sealed class Epoch1900Value
+{
     // Data should be 4 bytes where we only care about the first 3 bytes i.e. 24 bits
     // First 6 bits are day, next 6 bits are 0 indexed month, last 12 bits are year from 1900
     private readonly Memory<byte> Data;
@@ -19,14 +19,13 @@ public sealed class Epoch1900Value {
 
     private static DateTime Epoch => new(1900, 1, 1);
 
-    public DateTime Timestamp {
-        get {
-            return Epoch
+    public DateTime Timestamp
+    {
+        get => Epoch
                 .AddDays(Span[2] >> 2)
                 .AddDays(-1)
                 .AddMonths(((Span[2] & 0b0000_0011) << 2) | ((Span[1] & 0b1111_0000) >> 4))
                 .AddYears(((Span[1] & 0b0000_1111) << 4) | Span[0]);
-        }
         set {
             int day = value.Day;
             int month = value.Month - Epoch.Month;
@@ -42,7 +41,8 @@ public sealed class Epoch1900Value {
     /// <summary>
     /// time_t (seconds since 1900 Epoch rounded to days)
     /// </summary>
-    public ulong Seconds {
+    public ulong Seconds
+    {
         get => (ulong)(Timestamp - Epoch).TotalSeconds;
         set => Timestamp = Epoch.AddSeconds(value);
     }

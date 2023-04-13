@@ -70,8 +70,7 @@ public static class EntityBlank
     public static PKM GetBlank(int gen)
     {
         var type = Type.GetType($"PKHeX.Core.PK{gen}");
-        if (type is null)
-            throw new InvalidCastException($"Unable to get the type for PK{gen}.");
+        ArgumentNullException.ThrowIfNull(type);
 
         return GetBlank(type);
     }

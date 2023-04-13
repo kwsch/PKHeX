@@ -39,7 +39,7 @@ public static partial class Util
         return list;
     }
 
-    public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, ReadOnlySpan<ushort> allowed)
+    public static List<ComboItem> GetCBList(ReadOnlySpan<string> inStrings, ReadOnlySpan<ushort> allowed)
     {
         var list = new List<ComboItem>(allowed.Length + 1) { new(inStrings[0], 0) };
         foreach (var index in allowed)
@@ -48,14 +48,14 @@ public static partial class Util
         return list;
     }
 
-    public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, int index, int offset = 0)
+    public static List<ComboItem> GetCBList(ReadOnlySpan<string> inStrings, int index, int offset = 0)
     {
         var list = new List<ComboItem>();
         AddCBWithOffset(list, inStrings, offset, index);
         return list;
     }
 
-    public static ComboItem[] GetUnsortedCBList(IReadOnlyList<string> inStrings, ReadOnlySpan<byte> allowed)
+    public static ComboItem[] GetUnsortedCBList(ReadOnlySpan<string> inStrings, ReadOnlySpan<byte> allowed)
     {
         var count = allowed.Length;
         var list = new ComboItem[count];
@@ -69,13 +69,13 @@ public static partial class Util
         return list;
     }
 
-    public static void AddCBWithOffset(List<ComboItem> list, IReadOnlyList<string> inStrings, int offset, int index)
+    public static void AddCBWithOffset(List<ComboItem> list, ReadOnlySpan<string> inStrings, int offset, int index)
     {
         var item = new ComboItem(inStrings[index - offset], index);
         list.Add(item);
     }
 
-    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, ReadOnlySpan<byte> allowed)
+    public static void AddCBWithOffset(List<ComboItem> cbList, ReadOnlySpan<string> inStrings, int offset, ReadOnlySpan<byte> allowed)
     {
         int beginCount = cbList.Count;
         cbList.Capacity += allowed.Length;
@@ -87,7 +87,7 @@ public static partial class Util
         cbList.Sort(beginCount, allowed.Length, Comparer);
     }
 
-    public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, ReadOnlySpan<ushort> allowed)
+    public static void AddCBWithOffset(List<ComboItem> cbList, ReadOnlySpan<string> inStrings, int offset, ReadOnlySpan<ushort> allowed)
     {
         int beginCount = cbList.Count;
         cbList.Capacity += allowed.Length;
