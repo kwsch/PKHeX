@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -38,8 +38,7 @@ public partial class SAV_CGearSkin : Form
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 
-        Bitmap img = (Bitmap)Image.FromFile(ofd.FileName);
-
+        using var img = (Bitmap)Image.FromFile(ofd.FileName);
         try
         {
             bg = CGearImage.GetCGearBackground(img);

@@ -288,9 +288,7 @@ public partial class SAV_Misc4 : Form
         if (FileUtil.GetFileSize(inpFileName) > 2058)
             return; // 24*20*4(ARGB)=1920
 
-        Bitmap bmp; try { bmp = (Bitmap)Image.FromFile(inpFileName); }
-        catch { return; }
-
+        using var bmp = (Bitmap)Image.FromFile(inpFileName);
         if (bmp.Width != 24 || bmp.Height != 20)
             return;
 
