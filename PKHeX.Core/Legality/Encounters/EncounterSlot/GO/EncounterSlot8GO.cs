@@ -196,9 +196,9 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         (int)Wyrdeer     => pk is IFormArgument { FormArgument: not 0 },
         (int)Overqwil    => pk is IFormArgument { FormArgument: not 0 },
         (int)Basculegion => pk is IFormArgument { FormArgument: not 0 },
-        (int)Gholdengo   => pk is IFormArgument { FormArgument: not 0 },
-        (int)Kingambit   => pk is IFormArgument { FormArgument: not 0 },
         (int)Annihilape  => pk is IFormArgument { FormArgument: not 0 },
+        (int)Kingambit   => pk is IFormArgument { FormArgument: not 0 },
+        (int)Gholdengo   => pk is IFormArgument { FormArgument: not 0 },
 
         // No Form Argument relevant to check
         _ => false,

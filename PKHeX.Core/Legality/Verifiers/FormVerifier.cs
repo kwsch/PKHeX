@@ -288,12 +288,6 @@ public sealed class FormVerifier : Verifier
                 > 9_999 => GetInvalid(LFormArgumentHigh),
                 _ => GetValid(LFormArgumentValid),
             },
-            Gimmighoul => arg switch
-            {
-                not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
-                > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => GetValid(LFormArgumentValid),
-            },
             Stantler => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
@@ -316,9 +310,9 @@ public sealed class FormVerifier : Verifier
             Wyrdeer     => VerifyFormArgumentRange(enc.Species, Wyrdeer,     arg,  20, 9999),
             Basculegion => VerifyFormArgumentRange(enc.Species, Basculegion, arg, 294, 9999),
             Overqwil    => VerifyFormArgumentRange(enc.Species, Overqwil,    arg,  20, 9999),
-            Gholdengo   => VerifyFormArgumentRange(enc.Species, Gholdengo,   arg, 999,  999),
-            Kingambit   => VerifyFormArgumentRange(enc.Species, Kingambit,   arg,   3, 9999),
             Annihilape  => VerifyFormArgumentRange(enc.Species, Annihilape,  arg,  20, 9999),
+            Kingambit   => VerifyFormArgumentRange(enc.Species, Kingambit,   arg,   3, 9999),
+            Gholdengo   => VerifyFormArgumentRange(enc.Species, Gholdengo,   arg, 999,  999),
             Koraidon or Miraidon => enc switch
             {
                 // Starter Legend has '1' when present in party, to differentiate.
