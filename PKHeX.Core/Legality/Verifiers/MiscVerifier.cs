@@ -187,7 +187,6 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Grimer | (1 << 11), // Grimer-1
         (int)Species.Voltorb | (1 << 11), // Voltorb-1
         (int)Species.Tauros, // Tauros-0
-        (int)Species.Cyndaquil, // Cyndaquil
         (int)Species.Qwilfish | (1 << 11), // Qwilfish-1
         (int)Species.Sneasel | (1 << 11), // Sneasel-1
         (int)Species.Basculin | (2 << 11), // Basculin-2
@@ -206,13 +205,14 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Sliggoo | (1 << 11), // Sliggoo-1
         (int)Species.Avalugg | (1 << 11), // Avalugg-1
         (int)Species.Decidueye | (1 << 11), // Decidueye-1
-        (int)Species.Basculegion, // Basculegion
-        (int)Species.Basculegion | (1 << 11), // Basculegion-1
 
-        (int)Species.Wyrdeer,
-        (int)Species.Kleavor,
-        (int)Species.Ursaluna,
-        (int)Species.Overqwil,
+        (int)Species.Wyrdeer, // Wyrdeer
+        (int)Species.Kleavor, // Kleavor
+        (int)Species.Ursaluna, // Ursaluna
+        (int)Species.Basculegion, // Basculegion-0
+        (int)Species.Basculegion | (1 << 11), // Basculegion-1
+        (int)Species.Sneasler, // Sneasler
+        (int)Species.Overqwil, // Overqwil
     };
 
     private void VerifyMiscPokerus(LegalityAnalysis data)
