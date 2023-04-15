@@ -78,17 +78,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KCurrentClothing = 0x64235B3D;
     private const uint KCurrentAppearance = 0x812FC3E3;
     private const uint KCurrentRotomPhoneCase = 0x1433CED7;
-    private const uint KFashionUnlockedEyewear = 0xCBA20ED5; // 1000-1999
-    private const uint KFashionUnlockedGloves = 0x581667B1; // 2000-2999
-    private const uint KFashionUnlockedBag = 0x5D6F8110; // 3000-3999
-    private const uint KFashionUnlockedFootwear = 0x0221A618; // 4000-4999
-    private const uint KFashionUnlockedHeadwear = 0x860CD8FB; // 5000-5999
-    private const uint KFashionUnlockedLegwear = 0xD186222E; // 6000-6999
-    private const uint KFashionUnlockedUniform = 0x78FF2CB2; // 7000-7999
-    private const uint KFashionUnlockedPhoneCase = 0xED0AC675; // 8000-8999
-    private const uint KPlayerPhoto1 = 0x14C5A101;
-    private const uint KPlayerPhoto2 = 0xF8B14C88;
-    private const uint KPlayerTrainerIcon = 0xD41F4FC4;
     private const uint KRentalTeams = 0x19CB0339;
     private const uint KSevenStarRaids = 0x8B14392F;
 
@@ -105,6 +94,38 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KLastSubField = 0x37AF0454; // PlayerSave_LastSubField
     private const uint KLastRoomMapName = 0x9F1ABF26; // PlayerSave_LastRoomMapName
     private const uint KLastGreenPosition = 0x5C6F8291; // PlayerSave_LastGreenPos
+
+    // Fashion
+    private const uint KFashionUnlockedEyewear = 0xCBA20ED5; // 1000-1999
+    private const uint KFashionUnlockedGloves = 0x581667B1; // 2000-2999
+    private const uint KFashionUnlockedBag = 0x5D6F8110; // 3000-3999
+    private const uint KFashionUnlockedFootwear = 0x0221A618; // 4000-4999
+    private const uint KFashionUnlockedHeadwear = 0x860CD8FB; // 5000-5999
+    private const uint KFashionUnlockedLegwear = 0xD186222E; // 6000-6999
+    private const uint KFashionUnlockedUniform = 0x78FF2CB2; // 7000-7999
+    private const uint KFashionUnlockedPhoneCase = 0xED0AC675; // 8000-8999
+
+    // Profile Picture
+    private const uint KPictureProfileCurrentWidth = 0xFEAA87DA;
+    private const uint KPictureProfileCurrentHeight = 0x5361CEB5;
+    private const uint KPictureProfileCurrentSize = 0x1E505002;
+    private const uint KPictureProfileCurrent = 0x14C5A101;
+
+    private const uint KPictureProfileInitialWidth = 0xC0408301;
+    private const uint KPictureProfileInitialHeight = 0xCAABBA50;
+    private const uint KPictureProfileInitialSize = 0x902B64DB;
+    private const uint KPictureProfileInitial = 0xF8B14C88;
+
+    // Trainer Icon
+    private const uint KPictureIconCurrentWidth = 0x8FAB2C4D;
+    private const uint KPictureIconCurrentHeight = 0x0B384C24;
+    private const uint KPictureIconCurrentSize = 0xEA677637;
+    private const uint KPictureIconCurrent = 0xD41F4FC4;
+
+    private const uint KPictureIconInitialWidth = 0x6850A672;
+    private const uint KPictureIconInitialHeight = 0x74077ECD;
+    private const uint KPictureIconInitialSize = 0x83FC126A;
+    private const uint KPictureIconInitial = 0xBCB6F239;
 
     #region YMAP - Display & Fly Flags -- internal name Fnv1aHash32
     public const uint FSYS_YMAP_FLY_01 = 0xEB597C90;
