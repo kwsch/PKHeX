@@ -292,9 +292,9 @@ public sealed class CGearBackground
             for (uint iy = 0; iy < 8; iy++)
             {
                 int index = ((int) (y + iy) * Width) + (int) (x + ix);
-                int c = colors[index];
+                var c = colors[index];
 
-                t.ColorChoices[(ix % 8) + (iy * 8)] = palette.IndexOf(c);
+                t.ColorChoices[(ix % 8) + (iy * 8)] = (byte)palette.IndexOf(c);
             }
         }
 
@@ -315,10 +315,10 @@ public sealed class CGearBackground
     private static void FindPossibleRotatedTile(Tile t, IList<Tile> tilelist, TileMap tm, int tileIndex)
     {
         // Test all tiles currently in the list
-        for (int j = 0; j < tilelist.Count; j++)
+        for (byte j = 0; j < tilelist.Count; j++)
         {
-            int rotVal = t.GetRotationValue(tilelist[j].ColorChoices);
-            if (rotVal <= -1)
+            var rotVal = t.GetRotationValue(tilelist[j].ColorChoices);
+            if (rotVal == Tile.ROTATION_BAD)
                 continue;
             tm.TileChoices[tileIndex] = j;
             tm.Rotations[tileIndex] = rotVal;
@@ -327,7 +327,7 @@ public sealed class CGearBackground
 
         // No tile found, add to list
         tilelist.Add(t);
-        tm.TileChoices[tileIndex] = tilelist.Count - 1;
+        tm.TileChoices[tileIndex] = (byte)(tilelist.Count - 1);
         tm.Rotations[tileIndex] = 0;
     }
 
@@ -364,26 +364,26 @@ public sealed class Tile
     internal const int SIZE_TILE = 0x20;
     private const int TileWidth = 8;
     private const int TileHeight = 8;
-    internal readonly int[] ColorChoices;
-    private byte[] PixelData;
+    internal readonly byte[] ColorChoices = new byte[TileWidth * TileHeight];
+    private byte[] PixelData = Array.Empty<byte>();
     private byte[]? PixelDataX;
     private byte[]? PixelDataY;
 
-    internal Tile() : this(new byte[SIZE_TILE]) { }
+    internal Tile() { }
 
-    internal Tile(byte[] data)
+    internal Tile(ReadOnlySpan<byte> data) : this()
     {
         if (data.Length != SIZE_TILE)
-            throw new ArgumentException(nameof(data));
+            throw new ArgumentException(null, nameof(data));
 
-        ColorChoices = new int[TileWidth * TileHeight];
+        // Unpack the nibbles into the color choice array.
         for (int i = 0; i < data.Length; i++)
         {
+            var value = data[i];
             var ofs = i * 2;
-            ColorChoices[ofs + 0] = data[i] & 0xF;
-            ColorChoices[ofs + 1] = data[i] >> 4;
+            ColorChoices[ofs + 0] = (byte)(value & 0xF);
+            ColorChoices[ofs + 1] = (byte)(value >> 4);
         }
-        PixelData = Array.Empty<byte>();
     }
 
     internal void SetTile(ReadOnlySpan<int> palette) => PixelData = GetTileData(palette);
@@ -436,7 +436,7 @@ public sealed class Tile
             x = width - x - 1; // flip x
             int dest = ((y * width) + x) * bpp;
 
-            var o = 4 * i;
+            var o = i * bpp;
             result[dest + 0] = data[o + 0];
             result[dest + 1] = data[o + 1];
             result[dest + 2] = data[o + 2];
@@ -458,7 +458,7 @@ public sealed class Tile
             y = height - y - 1; // flip x
             int dest = ((y * width) + x) * bpp;
 
-            var o = 4 * i;
+            var o = i * bpp;
             result[dest + 0] = data[o + 0];
             result[dest + 1] = data[o + 1];
             result[dest + 2] = data[o + 2];
@@ -467,7 +467,9 @@ public sealed class Tile
         return result;
     }
 
-    internal int GetRotationValue(ReadOnlySpan<int> tileColors)
+    internal const byte ROTATION_BAD = byte.MaxValue;
+
+    internal byte GetRotationValue(ReadOnlySpan<byte> tileColors)
     {
         // Check all rotation types
         if (tileColors.SequenceEqual(ColorChoices))
@@ -480,36 +482,41 @@ public sealed class Tile
         if (IsMirrorXY(tileColors))
             return 12;
 
-        return -1;
+        return ROTATION_BAD;
     }
 
-    private bool IsMirrorX(ReadOnlySpan<int> tileColors)
+    private bool IsMirrorX(ReadOnlySpan<byte> tileColors)
     {
-        for (int i = 0; i < 64; i++)
+        const int pixels = TileWidth * TileHeight;
+        for (int i = 0; i < pixels; i++)
         {
-            if (ColorChoices[(7 - (i & 7)) + (8 * (i / 8))] != tileColors[i])
+            var index = (7 - (i & 7)) + (8 * (i / 8));
+            if (ColorChoices[index] != tileColors[i])
                 return false;
         }
 
         return true;
     }
 
-    private bool IsMirrorY(ReadOnlySpan<int> tileColors)
+    private bool IsMirrorY(ReadOnlySpan<byte> tileColors)
     {
-        for (int i = 0; i < 64; i++)
+        const int pixels = TileWidth * TileHeight;
+        for (int i = 0; i < pixels; i++)
         {
-            if (ColorChoices[64 - (8 * (1 + (i / 8))) + (i & 7)] != tileColors[i])
+            var index = (8 * (1 + (i / 8))) + (i & 7);
+            if (ColorChoices[^index] != tileColors[i])
                 return false;
         }
 
         return true;
     }
 
-    private bool IsMirrorXY(ReadOnlySpan<int> tileColors)
+    private bool IsMirrorXY(ReadOnlySpan<byte> tileColors)
     {
-        for (int i = 0; i < 64; i++)
+        const int pixels = TileWidth * TileHeight;
+        for (int i = 0; i < pixels; i++)
         {
-            if (ColorChoices[63 - i] != tileColors[i])
+            if (ColorChoices[^i] != tileColors[i])
                 return false;
         }
 
@@ -519,13 +526,13 @@ public sealed class Tile
 
 public sealed class TileMap
 {
-    public readonly int[] TileChoices;
-    public readonly int[] Rotations;
+    public readonly byte[] TileChoices;
+    public readonly byte[] Rotations;
 
-    internal TileMap(byte[] data)
+    internal TileMap(ReadOnlySpan<byte> data)
     {
-        TileChoices = new int[data.Length / 2];
-        Rotations = new int[data.Length / 2];
+        TileChoices = new byte[data.Length / 2];
+        Rotations = new byte[data.Length / 2];
         for (int i = 0; i < data.Length; i += 2)
         {
             TileChoices[i / 2] = data[i];
@@ -538,8 +545,8 @@ public sealed class TileMap
         byte[] data = new byte[TileChoices.Length * 2];
         for (int i = 0; i < data.Length; i += 2)
         {
-            data[i] = (byte)TileChoices[i / 2];
-            data[i + 1] = (byte)Rotations[i / 2];
+            data[i] = TileChoices[i / 2];
+            data[i + 1] = Rotations[i / 2];
         }
         return data;
     }
