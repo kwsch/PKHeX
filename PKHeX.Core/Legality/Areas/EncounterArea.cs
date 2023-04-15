@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -10,7 +9,6 @@ public abstract record EncounterArea(GameVersion Version) : IVersion
 {
     public int Location { get; protected init; }
     public SlotType Type { get; protected init; }
-    protected abstract IReadOnlyList<EncounterSlot> Raw { get; }
 
     /// <summary>
     /// Gets the slots contained in the area that match the provided data.
@@ -26,6 +24,9 @@ public abstract record EncounterArea(GameVersion Version) : IVersion
     /// <param name="location">Met Location ID</param>
     /// <returns>True if possibly originated from this area, false otherwise.</returns>
     public virtual bool IsMatchLocation(int location) => Location == location;
+}
 
-    public bool HasSpecies(ushort species) => Raw.Any(z => z.Species == species);
+internal interface IMemorySpeciesArea
+{
+    bool HasSpecies(ushort species);
 }

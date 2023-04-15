@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core.Bulk;
 
@@ -41,7 +40,7 @@ public sealed class BulkAnalysis
         CloneFlags = new bool[AllData.Count];
 
         ScanAll();
-        Valid = Parse.Count == 0 || Parse.All(z => z.Valid);
+        Valid = Parse.Count == 0 || Parse.TrueForAll(static z => z.Valid);
     }
 
     // Remove things that aren't actual stored data, or already flagged by legality checks.

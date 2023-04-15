@@ -42,20 +42,7 @@ public sealed class MemoryVerifier : Verifier
         // Actionable HM moves
         int hmIndex = MemoryContext6.MoveSpecificMemoryHM.IndexOf(memory.MemoryID);
         if (hmIndex != -1)
-        {
-            if (context != Gen6) // Gen8 has no HMs, so this memory can never exist.
-                return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
-
-            if (pk.Species != (int)Species.Smeargle)
-            {
-                // All AO hidden machine permissions are super-sets of Gen 3-5 games.
-                // Don't need to check the move history -- a learned HM in a prior game can still be learned in Gen6.
-                var evos = info.EvoChainsAllGens.Gen6;
-                var exists = Array.Exists(evos, z => PersonalTable.AO.GetFormEntry(z.Species, 0).GetIsLearnHM(hmIndex));
-                if (!exists)
-                    return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
-            }
-        }
+            return VerifyMemoryHM6(context, info, mem, memory, hmIndex);
 
         if (mem.IsInvalidGeneralLocationMemoryValue(memory.MemoryID, memory.Variable, info.EncounterMatch, pk))
             return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
@@ -71,15 +58,15 @@ public sealed class MemoryVerifier : Verifier
 
             // {0} saw {2} carrying {1} on its back. {4} that {3}.
             case 21 when context != Gen6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).GetIsLearnHM(2): // Fly
-                return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
+                return BadSpeciesMove(memory.Handler);
 
             // {0} used {2} at {1}’s instruction, but it had no effect. {4} that {3}.
             // The Move Deleter that {0} met through {1} made it forget {2}. {4} that {3}.
             case 16 or 48 when !CanKnowMove(pk, memory, context, info, memory.MemoryID == 16):
-                return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
+                return BadSpeciesMove(memory.Handler);
 
             case 49 when memory.Variable == 0 || !GetCanRelearnMove(pk, memory.Variable, context, info.EvoChainsAllGens, info.EncounterOriginal):
-                return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
+                return BadSpeciesMove(memory.Handler);
 
             // Dynamaxing
             // {0} battled at {1}’s side against {2} that Dynamaxed. {4} that {3}.
@@ -92,7 +79,7 @@ public sealed class MemoryVerifier : Verifier
             // {0} studied about how to use {2} in a Box, thinking about {1}. {4} that {3}.
             // {0} practiced its cool pose for the move {2} in a Box, wishing to be praised by {1}. {4} that {3}.
             case 80 or 81 when !CanKnowMove(pk, memory, context, info):
-                return Get(string.Format(LMemoryArgBadMove, memory.Handler), Severity.Invalid);
+                return BadSpeciesMove(memory.Handler);
 
             // Species
             // With {1}, {0} went fishing, and they caught {2}. {4} that {3}.
@@ -136,6 +123,31 @@ public sealed class MemoryVerifier : Verifier
 
         return VerifyCommonMemoryEtc(memory, mem);
     }
+
+    private CheckResult VerifyMemoryHM6(EntityContext context, LegalInfo info, MemoryContext mem, MemoryVariableSet memory, int hmIndex)
+    {
+        if (context != Gen6) // Gen8 has no HMs, so this memory can never exist.
+            return BadSpeciesMove(memory.Handler);
+
+        if (info.EncounterMatch.Species == (int)Species.Smeargle)
+            return VerifyCommonMemoryEtc(memory, mem);
+
+        // All AO hidden machine permissions are super-sets of Gen 3-5 games.
+        // Don't need to check the move history -- a learned HM in a prior game can still be learned in Gen6.
+        var pt = PersonalTable.AO;
+        foreach (ref var evo in info.EvoChainsAllGens.Gen6.AsSpan())
+        {
+            var entry = pt[evo.Species];
+            var canLearn = entry.GetIsLearnHM(hmIndex);
+            if (canLearn)
+                return VerifyCommonMemoryEtc(memory, mem);
+            break;
+        }
+
+        return BadSpeciesMove(memory.Handler);
+    }
+
+    private CheckResult BadSpeciesMove(string handler) => GetInvalid(string.Format(LMemoryArgBadMove, handler));
 
     private CheckResult VerifyCommonMemoryEtc(MemoryVariableSet memory, MemoryContext context)
     {

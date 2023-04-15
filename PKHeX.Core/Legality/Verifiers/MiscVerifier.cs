@@ -312,7 +312,7 @@ public sealed class MiscVerifier : Verifier
 
         CheckResult GetWasNotTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
         {
-            if (Array.Exists(data.Info.Moves, z => z.Generation == 2))
+            if (MoveInfo.IsAnyFromGeneration(2, data.Info.Moves))
                 return GetInvalid(LG1CatchRateItem);
             var e = data.EncounterMatch;
             if (e is EncounterStatic1E {Version: GameVersion.Stadium} or EncounterTrade1)

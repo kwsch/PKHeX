@@ -179,4 +179,14 @@ public static class MoveInfo
             return 0;
         return types[move];
     }
+
+    public static bool IsAnyFromGeneration(int generation, ReadOnlySpan<MoveResult> moves)
+    {
+        foreach (var move in moves)
+        {
+            if (move.Generation == generation)
+                return true;
+        }
+        return false;
+    }
 }

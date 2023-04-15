@@ -10,11 +10,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.SWSH"/> encounter area
 /// </summary>
-public sealed record EncounterArea8 : EncounterArea
+public sealed record EncounterArea8 : EncounterArea, IMemorySpeciesArea
 {
     public readonly EncounterSlot8[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot8> Raw => Slots;
     /// <summary>
     /// Slots from this area can cross over to another area, resulting in a different met location.
     /// </summary>
@@ -402,6 +401,16 @@ public sealed record EncounterArea8 : EncounterArea
         } while (ctr != slots.Length);
 
         return slots;
+    }
+
+    public bool HasSpecies(ushort species)
+    {
+        foreach (var slot in Slots)
+        {
+            if (slot.Species == species)
+                return true;
+        }
+        return false;
     }
 }
 

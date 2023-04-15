@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -42,13 +42,15 @@ public partial class SAV_PokeBlockORAS : Form
         Close();
     }
 
-    private void B_RandomizeBerries_Click(object sender, EventArgs e)
+    private static ReadOnlySpan<byte> DefaultBerryTree => new byte[] { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00 };
+
+private void B_RandomizeBerries_Click(object sender, EventArgs e)
     {
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Repopulate all berry plots with random berries?"))
             return;
 
         // Randomize the trees.
-        Span<byte> tree = stackalloc byte[] { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00 };
+        ReadOnlySpan<byte> tree = DefaultBerryTree;
         var plantable = Legal.Pouch_Berry_XY; // 0 index is None, skip with rand
         var rnd = Util.Rand;
 

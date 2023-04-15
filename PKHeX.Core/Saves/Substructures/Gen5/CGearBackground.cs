@@ -245,27 +245,31 @@ public sealed class CGearBackground
         if (Width * Height * bpp != data.Length)
             throw new ArgumentException("Invalid image data size.");
 
-        var pixels = MemoryMarshal.Cast<byte, int>(data);
-        var colors = GetColorData(pixels);
+        var colors = GetColorData(data);
+        var palette = colors.Distinct().ToArray();
+        if (palette.Length > ColorCount)
+            throw new ArgumentException($"Too many unique colors. Expected <= 16, got {palette.Length}");
 
-        var Palette = colors.Distinct().ToArray();
-        if (Palette.Length > ColorCount)
-            throw new ArgumentException($"Too many unique colors. Expected <= 16, got {Palette.Length}");
-
-        var tiles = GetTiles(colors, Palette);
+        var tiles = GetTiles(colors, palette);
         GetTileList(tiles, out List<Tile> tilelist, out TileMap tm);
         if (tilelist.Count >= 0xFF)
             throw new ArgumentException($"Too many unique tiles. Expected < 256, received {tilelist.Count}.");
 
         // Finished!
-        return new CGearBackground(Palette, tilelist.ToArray(), tm);
+        return new CGearBackground(palette, tilelist.ToArray(), tm);
     }
 
-    private static int[] GetColorData(ReadOnlySpan<int> pixels)
+    private static int[] GetColorData(ReadOnlySpan<byte> data)
     {
+        var pixels = MemoryMarshal.Cast<byte, int>(data);
         int[] colors = new int[pixels.Length];
         for (int i = 0; i < pixels.Length; i++)
-            colors[i] = GetRGB555_32(pixels[i]);
+        {
+            var pixel = pixels[i];
+            if (!BitConverter.IsLittleEndian)
+                pixel = ReverseEndianness(pixel);
+            colors[i] = GetRGB555_32(pixel);
+        }
         return colors;
     }
 
@@ -327,10 +331,10 @@ public sealed class CGearBackground
         tm.Rotations[tileIndex] = 0;
     }
 
-    private CGearBackground(int[] Palette, Tile[] tilelist, TileMap tm)
+    private CGearBackground(int[] palette, Tile[] tilelist, TileMap tm)
     {
         Map = tm;
-        ColorPalette = Palette;
+        ColorPalette = palette;
         Tiles = tilelist;
     }
 

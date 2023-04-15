@@ -17,8 +17,6 @@ public sealed record EncounterArea8g : EncounterArea, ISpeciesForm
     public byte Form { get; }
     public readonly EncounterSlot8GO[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot8GO> Raw => Slots;
-
     private EncounterArea8g(ushort species, byte form, EncounterSlot8GO[] slots) : base(GameVersion.GO)
     {
         Species = species;

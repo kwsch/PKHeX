@@ -1,7 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -45,10 +44,16 @@ public sealed class GoParkStorage : SaveBlock<SAV7b>, IEnumerable<GP1>
             this[i] = value[i];
     }
 
-    public IEnumerable<string> DumpAll(IReadOnlyList<string> speciesNames) => GetAllEntities()
-        .Select((z, i) => (Entry: z, Index: i))
-        .Where(z => z.Entry.Species > 0)
-        .Select(z => z.Entry.Dump(speciesNames, z.Index));
+    public IEnumerable<string> DumpAll(IReadOnlyList<string> speciesNames)
+    {
+        var arr = GetAllEntities();
+        for (int i = 0; i < arr.Length; i++)
+        {
+            var entry = arr[i];
+            if (entry.Species > 0)
+                yield return entry.Dump(speciesNames, i);
+        }
+    }
 
     public IEnumerator<GP1> GetEnumerator() => (IEnumerator<GP1>)GetAllEntities().GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetAllEntities().GetEnumerator();

@@ -42,21 +42,39 @@ public sealed class HyperTrainingVerifier : Verifier
         // already checked for 6IV, therefore we're flawed on at least one IV
         if (t.IsHyperTrainedAll())
         {
-            // SV gold bottle cap applies to all IVs regardless
-            // LGPE gold bottle cap applies to all IVs regardless
-            var evos = data.Info.EvoChainsAllGens;
-            if (evos.HasVisitedGen9 && Array.Exists(evos.Gen9, x => x.LevelMax >= 50))
+            if (HasVisitedGoldBottleFlawless(data.Info.EvoChainsAllGens))
                 return;
-            if (evos.HasVisitedLGPE && Array.Exists(evos.Gen7b, x => x.LevelMax >= 100))
-                return;
+            // Otherwise, could not have hyper trained a flawless IV. Flag a flawless IV with the usual logic.
         }
 
+        if (IsFlawlessHyperTrained(pk, t, max))
+            data.AddLine(GetInvalid(LHyperPerfectOne));
+    }
+
+    private static bool HasVisitedGoldBottleFlawless(EvolutionHistory evos)
+    {
+        // S/V gold bottle cap applies to all IVs regardless
+        // LGP/E gold bottle cap applies to all IVs regardless
+        foreach (ref var x in evos.Gen9.AsSpan())
+        {
+            if (x.LevelMax >= 50)
+                return true;
+        }
+        foreach (ref var x in evos.Gen7b.AsSpan())
+        {
+            if (x.LevelMax >= 100)
+                return true;
+        }
+        return false;
+    }
+
+    public static bool IsFlawlessHyperTrained(PKM pk, IHyperTrain t, int max)
+    {
         for (int i = 0; i < 6; i++) // Check individual IVs
         {
-            if (pk.GetIV(i) != max || !t.IsHyperTrained(i))
-                continue;
-            data.AddLine(GetInvalid(LHyperPerfectOne));
-            break;
+            if (pk.GetIV(i) == max && t.IsHyperTrained(i))
+                return true;
         }
+        return false;
     }
 }

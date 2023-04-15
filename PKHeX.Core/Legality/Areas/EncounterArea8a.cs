@@ -13,8 +13,6 @@ public sealed record EncounterArea8a : EncounterArea
     public readonly EncounterSlot8a[] Slots;
     private readonly byte[] Locations;
 
-    protected override IReadOnlyList<EncounterSlot8a> Raw => Slots;
-
     public override bool IsMatchLocation(int location)
     {
         return Array.IndexOf(Locations, (byte)location) != -1;

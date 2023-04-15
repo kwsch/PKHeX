@@ -130,7 +130,7 @@ public static class EncounterFinder
         }
         else if (pk is PK1 pk1)
         {
-            var hasGen2 = Array.Exists(info.Moves, z => z.Generation is 2);
+            var hasGen2 = MoveInfo.IsAnyFromGeneration(2, info.Moves);
             if (hasGen2)
             {
                 if (!ParseSettings.AllowGen1Tradeback)

@@ -29,10 +29,22 @@ public static class EncounterSuggestion
         if (s is null)
             return GetSuggestedEncounter(pk, w, loc);
 
-        bool isDefinitelySlot = Array.Exists(chain, z => z.Species == w.Species && z.Form == w.Form);
-        bool isDefinitelyStatic = Array.Exists(chain, z => z.Species == s.Species && z.Form == s.Form);
-        IEncounterable obj = (isDefinitelySlot || !isDefinitelyStatic) ? w : s;
-        return GetSuggestedEncounter(pk, obj, loc);
+        // Prefer the wild slot; fall back to wild slot if none are exact match.
+        if (IsSpeciesFormMatch(chain, w))
+            return GetSuggestedEncounter(pk, w, loc);
+        if (IsSpeciesFormMatch(chain, s))
+            return GetSuggestedEncounter(pk, s, loc);
+        return GetSuggestedEncounter(pk, w, loc);
+    }
+
+    private static bool IsSpeciesFormMatch(ReadOnlySpan<EvoCriteria> evos, ISpeciesForm encounter)
+    {
+        foreach (var evo in evos)
+        {
+            if (evo.Species == encounter.Species && evo.Form == encounter.Form)
+                return true;
+        }
+        return false;
     }
 
     private static EncounterSuggestionData GetSuggestedEncounterEgg(PKM pk, int loc = -1)

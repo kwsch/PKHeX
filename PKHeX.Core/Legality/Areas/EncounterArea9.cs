@@ -14,8 +14,6 @@ public sealed record EncounterArea9 : EncounterArea
 
     public ushort CrossFrom { get; }
 
-    protected override IReadOnlyList<EncounterSlot9> Raw => Slots;
-
     public static EncounterArea9[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
         var result = new EncounterArea9[input.Length];

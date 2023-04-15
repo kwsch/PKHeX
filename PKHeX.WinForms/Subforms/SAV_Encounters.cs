@@ -80,7 +80,7 @@ public partial class SAV_Encounters : Form
                     return;
 
                 var enc = Results[index];
-                pb.AccessibleDescription = string.Join(Environment.NewLine, SummaryPreviewer.GetTextLines(enc));
+                pb.AccessibleDescription = string.Join(Environment.NewLine, enc.GetTextLines());
             };
             slot.ContextMenuStrip = mnu;
             if (Main.Settings.Hover.HoverSlotShowText)

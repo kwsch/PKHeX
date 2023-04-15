@@ -83,7 +83,7 @@ public partial class SAV_MysteryGiftDB : Form
                     return;
 
                 var enc = Results[index];
-                pb.AccessibleDescription = string.Join(Environment.NewLine, SummaryPreviewer.GetTextLines(enc));
+                pb.AccessibleDescription = string.Join(Environment.NewLine, enc.GetTextLines());
             };
         }
 

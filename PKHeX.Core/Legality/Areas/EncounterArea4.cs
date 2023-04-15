@@ -14,8 +14,6 @@ public sealed record EncounterArea4 : EncounterArea
     public readonly GroundTileAllowed GroundTile;
     public readonly EncounterSlot4[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot4> Raw => Slots;
-
     public static EncounterArea4[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
         var result = new EncounterArea4[input.Length];

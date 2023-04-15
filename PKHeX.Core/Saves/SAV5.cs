@@ -174,6 +174,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
         set => Data[CGearSkinInfoOffset + 2] = Data[PlayerData.Offset + (this is SAV5B2W2 ? 0x6C : 0x54)] = value ? (byte)1 : (byte)0;
     }
 
+    private static ReadOnlySpan<byte> DLCFooter => new byte[] { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
+
     public byte[] CGearSkinData
     {
         get
@@ -193,8 +195,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
             WriteUInt16LittleEndian(footer[2..], chk); // checksum
             WriteUInt16LittleEndian(footer[0x100..], chk);  // second checksum
 
-            Span<byte> dlcfooter = stackalloc byte[] { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
-            dlcfooter.CopyTo(footer[0x102..]);
+            DLCFooter.CopyTo(footer[0x102..]);
 
             ushort skinchkval = Checksums.CRC16_CCITT(footer[0x100..0x104]);
             WriteUInt16LittleEndian(footer[0x112..], skinchkval);

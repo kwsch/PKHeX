@@ -8,11 +8,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.ORAS"/> encounter area
 /// </summary>
-public sealed record EncounterArea6AO : EncounterArea
+public sealed record EncounterArea6AO : EncounterArea, IMemorySpeciesArea
 {
     public readonly EncounterSlot6AO[] Slots;
-
-    protected override IReadOnlyList<EncounterSlot6AO> Raw => Slots;
 
     public static EncounterArea6AO[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -87,5 +85,15 @@ public sealed record EncounterArea6AO : EncounterArea
                 break;
             }
         }
+    }
+
+    public bool HasSpecies(ushort species)
+    {
+        foreach (var slot in Slots)
+        {
+            if (slot.Species == species)
+                return true;
+        }
+        return false;
     }
 }

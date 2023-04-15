@@ -11,8 +11,6 @@ public sealed record EncounterArea3XD : EncounterArea
 {
     public readonly EncounterSlot3PokeSpot[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot3PokeSpot> Raw => Slots;
-
     public EncounterArea3XD(int loc, ushort s0, byte l0, ushort s1, byte l1, ushort s2, byte l2) : base(GameVersion.XD)
     {
         Location = loc;

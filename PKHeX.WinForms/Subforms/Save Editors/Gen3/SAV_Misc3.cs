@@ -112,6 +112,9 @@ public partial class SAV_Misc3 : Form
     }
     #endregion
 
+    private const ushort ItemIDOldSeaMap = 0x178;
+    private static ReadOnlySpan<ushort> TicketItemIDs => new ushort[] { 0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap }; // item IDs
+
     #region Ferry
     private void B_GetTickets_Click(object sender, EventArgs e)
     {
@@ -123,9 +126,8 @@ public partial class SAV_Misc3 : Form
                 itemlist[i] = $"(Item #{i:000})";
         }
 
-        const ushort oldsea = 0x178;
-        Span<ushort> tickets = stackalloc ushort[] {0x109, 0x113, 0x172, 0x173, oldsea }; // item IDs
-        if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[oldsea]} (unreleased)?"))
+        var tickets = TicketItemIDs;
+        if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[ItemIDOldSeaMap]} (unreleased)?"))
             tickets = tickets[..^1]; // remove old sea map
 
         var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);

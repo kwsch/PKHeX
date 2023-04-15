@@ -12,8 +12,6 @@ public sealed record EncounterArea7 : EncounterArea
 {
     public readonly EncounterSlot7[] Slots;
 
-    protected override IReadOnlyList<EncounterSlot7> Raw => Slots;
-
     public static EncounterArea7[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
         var result = new EncounterArea7[input.Length];

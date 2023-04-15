@@ -185,10 +185,12 @@ public static class PIDTests
         0x049F2F05, // Mawile
     };
 
+    private static ReadOnlySpan<int> MawileIVs => new[] {31, 30, 29, 31, 23, 27};
+
     [Fact]
     public static void VerifyMawileAntishiny()
     {
-        VerifyResultsAntiShiny(MawileTeamPIDs, Mawile, 12345, 51882, stackalloc[] {31, 30, 29, 31, 23, 27});
+        VerifyResultsAntiShiny(MawileTeamPIDs, Mawile, 12345, 51882, MawileIVs);
     }
 
     private static void VerifyResultsAntiShiny(ReadOnlySpan<uint> resultPIDs, TeamLock[] team, ushort tid, ushort sid, ReadOnlySpan<int> ivs)

@@ -120,8 +120,8 @@ public static class BallApplicator
 
     static BallApplicator()
     {
-        Span<Ball> exclude = stackalloc Ball[] {None, Poke};
-        Span<Ball> end = stackalloc Ball[] {Poke};
+        ReadOnlySpan<Ball> exclude = stackalloc Ball[] {None, Poke};
+        ReadOnlySpan<Ball> end = stackalloc Ball[] {Poke};
         Span<Ball> all = stackalloc Ball[BallList.Length - exclude.Length];
         all = all[..FillExcept(all, exclude, BallList)];
 
