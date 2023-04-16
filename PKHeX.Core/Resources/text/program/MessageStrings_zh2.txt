@@ -42,6 +42,7 @@ MsgFileGameCubeBad = 無效或損壞之 NGC 記憶體卡。退出中。
 MsgFileGameCubeDuplicate = NGC 記憶體卡包含重複之遊戲儲存資料。退出中。
 MsgFileGameCubeNoGames = NGC 記憶體卡內未包含寶可夢之遊戲儲存資料。退出中。
 MsgFileSize = 文件大小: {0} 位元組
+MsgFileSizeIncorrect = Input file size ({0} bytes) does not match expected size ({1} bytes).
 MsgFileSizeLarge = 匯入文件過大。
 MsgFileSizeSmall = 匯入文件過小。
 MsgFileWriteFail = 無法寫入儲存資料。

@@ -42,6 +42,7 @@ MsgFileGameCubeBad = 사용할 수 없거나 오류가 있는 GC 메모리 카�
 MsgFileGameCubeDuplicate = 중복된 세이브 파일이 있는 GC 메모리 카드입니다. 작업을 중단합니다.
 MsgFileGameCubeNoGames = 포켓몬 세이브 파일이 없는 GC 메모리 카드입니다. 작업을 중단합니다.
 MsgFileSize = 파일 크기: {0} 바이트
+MsgFileSizeIncorrect = Input file size ({0} bytes) does not match expected size ({1} bytes).
 MsgFileSizeLarge = 파일이 너무 큽니다.
 MsgFileSizeSmall = 파일이 너무 작습니다.
 MsgFileWriteFail = 파일을 저장할 수 없습니다.

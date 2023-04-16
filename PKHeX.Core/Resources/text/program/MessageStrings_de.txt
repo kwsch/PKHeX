@@ -42,6 +42,7 @@ MsgFileGameCubeBad = Die GC Memory Card ist ungültig oder beschädigt. Laden ab
 MsgFileGameCubeDuplicate = Es sind mehrere Spielständen auf der GC Memory Card. Laden abgebrochen.
 MsgFileGameCubeNoGames = Es sind keine Pokémon Spielstände auf der GC Memory Card. Laden abgebrochen.
 MsgFileSize = Dateigröße: {0} bytes
+MsgFileSizeIncorrect = Input file size ({0} bytes) does not match expected size ({1} bytes).
 MsgFileSizeLarge = Die Datei ist zu groß.
 MsgFileSizeSmall = Die Datei ist zu klein.
 MsgFileWriteFail = Spielstand kann nicht geladen werden.

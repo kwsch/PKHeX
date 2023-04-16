@@ -42,6 +42,7 @@ MsgFileGameCubeBad = Tarjeta de Memoria de GameCube no válida o corrupta. Abort
 MsgFileGameCubeDuplicate = Tarjeta de Memoria de GameCube con archivos de guardado duplicados. Abortando.
 MsgFileGameCubeNoGames = Tarjeta de Memoria de GameCube sin ningún archivo de guardado de Pokémon. Abortando.
 MsgFileSize = Tamaño del archivo: {0} bytes
+MsgFileSizeIncorrect = Input file size ({0} bytes) does not match expected size ({1} bytes).
 MsgFileSizeLarge = El archivo de entrada es muy grande.
 MsgFileSizeSmall = El archivo de entrada es muy pequeño.
 MsgFileWriteFail = No se ha podido guardar el archivo.

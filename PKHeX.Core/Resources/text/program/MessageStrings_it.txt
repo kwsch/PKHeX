@@ -42,6 +42,7 @@ MsgFileGameCubeBad = Memory Card GC invalida o corrotta.
 MsgFileGameCubeDuplicate = Memory Card GC con salvataggi di gioco multipli.
 MsgFileGameCubeNoGames = Memory Card GC senza alcun salvataggio di gioco Pokémon.
 MsgFileSize = Dimensioni File: {0} byte
+MsgFileSizeIncorrect = Input file size ({0} bytes) does not match expected size ({1} bytes).
 MsgFileSizeLarge = Il file in input è troppo grande.
 MsgFileSizeSmall = Il file in input è troppo piccolo.
 MsgFileWriteFail = Impossibile salvare il file.

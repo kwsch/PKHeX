@@ -1813,7 +1813,7 @@ namespace PKHeX.WinForms
             this.B_DumpFC.Name = "B_DumpFC";
             this.B_DumpFC.Size = new System.Drawing.Size(99, 23);
             this.B_DumpFC.TabIndex = 0;
-            this.B_DumpFC.Text = "Dump data";
+            this.B_DumpFC.Text = "Dump Data";
             this.B_DumpFC.UseVisualStyleBackColor = true;
             this.B_DumpFC.Click += new System.EventHandler(this.B_DumpFC_Click);
             // 
@@ -1823,7 +1823,7 @@ namespace PKHeX.WinForms
             this.B_ImportFC.Name = "B_ImportFC";
             this.B_ImportFC.Size = new System.Drawing.Size(99, 23);
             this.B_ImportFC.TabIndex = 1;
-            this.B_ImportFC.Text = "Import data";
+            this.B_ImportFC.Text = "Import Data";
             this.B_ImportFC.UseVisualStyleBackColor = true;
             this.B_ImportFC.Click += new System.EventHandler(this.B_ImportFC_Click);
             // 
