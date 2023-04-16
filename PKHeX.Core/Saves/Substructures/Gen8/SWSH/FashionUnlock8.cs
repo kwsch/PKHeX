@@ -8,6 +8,16 @@ public sealed class FashionUnlock8 : SaveBlock<SAV8SWSH>
     private const int SIZE_ENTRY = 0x80;
     private const int REGIONS = 15;
 
+    public const int REGION_EYEWEAR   =  6;
+    public const int REGION_HEADWEAR  =  7;
+    public const int REGION_OUTERWEAR =  8;
+    public const int REGION_TOPS      =  9;
+    public const int REGION_BAGS      = 10;
+    public const int REGION_GLOVES    = 11;
+    public const int REGION_BOTTOMS   = 12;
+    public const int REGION_LEGWEAR   = 13;
+    public const int REGION_FOOTWEAR  = 14;
+
     public FashionUnlock8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
     public bool[] GetArrayOwnedFlag(int region) => FlagUtil.GitBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), SIZE_ENTRY * 8);
