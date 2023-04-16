@@ -31,6 +31,7 @@ public static class BatchEditing
     public static readonly List<string> CustomProperties = new()
     {
         PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS, PROP_CONTESTSTATS, PROP_MOVEMASTERY,
+        PROP_TYPE1, PROP_TYPE2, PROP_TYPEEITHER,
         IdentifierContains, nameof(ISlotInfo.Slot), nameof(SlotInfoBox.Box),
     };
 
@@ -70,6 +71,9 @@ public static class BatchEditing
 
     internal const string PROP_LEGAL = "Legal";
     internal const string PROP_TYPENAME = "ObjectType";
+    internal const string PROP_TYPEEITHER = "HasType";
+    internal const string PROP_TYPE1 = "PersonalType1";
+    internal const string PROP_TYPE2 = "PersonalType2";
     internal const string PROP_RIBBONS = "Ribbons";
     internal const string PROP_EVS = "EVs";
     internal const string PROP_CONTESTSTATS = "ContestStats";
