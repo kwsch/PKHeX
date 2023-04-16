@@ -79,6 +79,8 @@ public partial class SAV_Trainer9 : Form
         MT_Hours.Text = SAV.PlayedHours.ToString();
         MT_Minutes.Text = SAV.PlayedMinutes.ToString();
         MT_Seconds.Text = SAV.PlayedSeconds.ToString();
+
+        CAL_AdventureStartDate.Value = SAV.EnrollmentDate.Timestamp;
     }
 
     private void Save()
@@ -106,9 +108,11 @@ public partial class SAV_Trainer9 : Form
 
         // Save PlayTime
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
-        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
-        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
-     }
+        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
+        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
+
+        SAV.EnrollmentDate.Timestamp = CAL_AdventureStartDate.Value;
+    }
 
     private void ClickOT(object sender, MouseEventArgs e)
     {
