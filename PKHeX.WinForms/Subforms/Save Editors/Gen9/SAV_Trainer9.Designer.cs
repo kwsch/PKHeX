@@ -107,6 +107,8 @@ namespace PKHeX.WinForms
             this.L_Y = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
+            this.L_Started = new System.Windows.Forms.Label();
+            this.CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.Tab_MiscValues.SuspendLayout();
@@ -626,6 +628,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.L_Started);
+            this.Tab_Overview.Controls.Add(this.CAL_AdventureStartDate);
             this.Tab_Overview.Controls.Add(this.MT_Seconds);
             this.Tab_Overview.Controls.Add(this.MT_LP);
             this.Tab_Overview.Controls.Add(this.MT_Hours);
@@ -865,6 +869,28 @@ namespace PKHeX.WinForms
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // L_Started
+            // 
+            this.L_Started.Location = new System.Drawing.Point(19, 199);
+            this.L_Started.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.L_Started.Name = "L_Started";
+            this.L_Started.Size = new System.Drawing.Size(93, 23);
+            this.L_Started.TabIndex = 73;
+            this.L_Started.Text = "Game Started:";
+            this.L_Started.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CAL_AdventureStartDate
+            // 
+            this.CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.CAL_AdventureStartDate.Location = new System.Drawing.Point(112, 197);
+            this.CAL_AdventureStartDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
+            this.CAL_AdventureStartDate.MinDate = new System.DateTime(1932, 1, 1, 0, 0, 0, 0);
+            this.CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
+            this.CAL_AdventureStartDate.Size = new System.Drawing.Size(115, 23);
+            this.CAL_AdventureStartDate.TabIndex = 72;
+            this.CAL_AdventureStartDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
             // SAV_Trainer9
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -974,5 +1000,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_CollectAllStakes;
         private System.Windows.Forms.Button B_UnlockTMRecipes;
         private System.Windows.Forms.Button B_UnlockBikeUpgrades;
+        private System.Windows.Forms.Label L_Started;
+        private System.Windows.Forms.DateTimePicker CAL_AdventureStartDate;
     }
 }
