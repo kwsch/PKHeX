@@ -144,16 +144,17 @@ public sealed class SAV4HGSS : SAV4
     {
         get
         {
+            var info = ItemStorage4HGSS.Instance;
             InventoryPouch[] pouch =
             {
-                new InventoryPouch4(InventoryType.Items, Legal.Pouch_Items_HGSS, 999, 0x644), // 0x644-0x8D7 (0x8CB)
-                new InventoryPouch4(InventoryType.KeyItems, Legal.Pouch_Key_HGSS, 1, 0x8D8), // 0x8D8-0x99F (0x979)
-                new InventoryPouch4(InventoryType.TMHMs, Legal.Pouch_TMHM_HGSS, 99, 0x9A0), // 0x9A0-0xB33 (0xB2F)
-                new InventoryPouch4(InventoryType.MailItems, Legal.Pouch_Mail_HGSS, 999, 0xB34), // 0xB34-0xB63 (0xB63)
-                new InventoryPouch4(InventoryType.Medicine, Legal.Pouch_Medicine_HGSS, 999, 0xB64), // 0xB64-0xC03 (0xBFB)
-                new InventoryPouch4(InventoryType.Berries, Legal.Pouch_Berries_HGSS, 999, 0xC04), // 0xC04-0xD03
-                new InventoryPouch4(InventoryType.Balls, Legal.Pouch_Ball_HGSS, 999, 0xD04), // 0xD04-0xD63
-                new InventoryPouch4(InventoryType.BattleItems, Legal.Pouch_Battle_HGSS, 999, 0xD64), // 0xD64-0xD97
+                new InventoryPouch4(InventoryType.Items, info, 999, 0x644), // 0x644-0x8D7 (0x8CB)
+                new InventoryPouch4(InventoryType.KeyItems, info, 1, 0x8D8), // 0x8D8-0x99F (0x979)
+                new InventoryPouch4(InventoryType.TMHMs, info, 99, 0x9A0), // 0x9A0-0xB33 (0xB2F)
+                new InventoryPouch4(InventoryType.MailItems, info, 999, 0xB34), // 0xB34-0xB63 (0xB63)
+                new InventoryPouch4(InventoryType.Medicine, info, 999, 0xB64), // 0xB64-0xC03 (0xBFB)
+                new InventoryPouch4(InventoryType.Berries, info, 999, 0xC04), // 0xC04-0xD03
+                new InventoryPouch4(InventoryType.Balls, info, 999, 0xD04), // 0xD04-0xD63
+                new InventoryPouch4(InventoryType.BattleItems, info, 999, 0xD64), // 0xD64-0xD97
             };
             return pouch.LoadAll(General);
         }

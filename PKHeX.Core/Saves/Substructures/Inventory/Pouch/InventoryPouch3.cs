@@ -7,8 +7,8 @@ public sealed class InventoryPouch3 : InventoryPouch
 {
     public uint SecurityKey { private get; set; } // = 0 // Gen3 Only
 
-    public InventoryPouch3(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
-        : base(type, legal, maxCount, offset, size)
+    public InventoryPouch3(InventoryType type, IItemStorage info, int maxCount, int offset, int size)
+        : base(type, info, maxCount, offset, size)
     {
     }
 

@@ -12,9 +12,8 @@ public sealed class InventoryPouch8a : InventoryPouch
 {
     private readonly int MaxSize;
 
-    public InventoryPouch8a(InventoryType type, ushort[] legal, int maxCount, int size, int offset = 0,
-        Func<ushort, bool>? isLegal = null)
-        : base(type, legal, maxCount, offset, isLegal: isLegal) => MaxSize = size;
+    public InventoryPouch8a(InventoryType type, IItemStorage info, int maxCount, int size, int offset = 0)
+        : base(type, info, maxCount, offset) => MaxSize = size;
 
     public override InventoryItem8a GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 

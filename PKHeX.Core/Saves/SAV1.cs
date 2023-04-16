@@ -412,11 +412,10 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     {
         get
         {
-            ushort[] legalItems = Legal.Pouch_Items_RBY;
             InventoryPouch[] pouch =
             {
-                new InventoryPouchGB(InventoryType.Items, legalItems, 99, Offsets.Items, 20),
-                new InventoryPouchGB(InventoryType.PCItems, legalItems, 99, Offsets.PCItems, 50),
+                new InventoryPouchGB(InventoryType.Items, ItemStorage1.Instance, 99, Offsets.Items, 20),
+                new InventoryPouchGB(InventoryType.PCItems, ItemStorage1.Instance, 99, Offsets.PCItems, 50),
             };
             return pouch.LoadAll(Data);
         }

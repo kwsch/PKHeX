@@ -51,7 +51,7 @@ private void B_RandomizeBerries_Click(object sender, EventArgs e)
 
         // Randomize the trees.
         ReadOnlySpan<byte> tree = DefaultBerryTree;
-        var plantable = Legal.Pouch_Berry_XY; // 0 index is None, skip with rand
+        var plantable = ItemStorage6XY.Pouch_Berry_XY; // 0 index is None, skip with rand
         var rnd = Util.Rand;
 
         var plots = SAV.Data.AsSpan(SAV.BerryField);

@@ -236,8 +236,8 @@ public sealed class GameStrings : IBasicStrings
         itemlist[878] += " (GP/GE)"; // Lift Key (Elevator Key=700)
         itemlist[479] += " (HG/SS)"; // Lost Item (Dropped Item=636)
 
-        // Append Z-Crystal flagging
-        foreach (var i in Legal.Pouch_ZCrystal_USUM)
+        // Append Z-Crystal Key Item differentiator
+        foreach (var i in ItemStorage7USUM.Pouch_ZCrystal_USUM)
             itemlist[i] += " [Z]";
 
         itemlist[0121] += " (1)"; // Pokémon Box Link

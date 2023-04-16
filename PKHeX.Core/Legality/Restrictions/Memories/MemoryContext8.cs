@@ -14,7 +14,7 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct()
         .Concat(GetKeyItemParams())
-        .Concat(Legal.Pouch_TMHM_AO.Take(100))
+        .Concat(ItemStorage6AO.Pouch_TMHM_AO[..100].ToArray())
         .Where(z => z <= Legal.MaxItemID_8_R2);
 
     public override bool CanUseItemGeneric(int item) => true; // todo
@@ -63,7 +63,7 @@ public sealed partial class MemoryContext8 : MemoryContext
     {
         1085 => version is GameVersion.SW or GameVersion.Any, // Bob's Food Tin
         1086 => version is GameVersion.SH or GameVersion.Any, // Bach's Food Tin
-        _ => PurchaseableItemSWSH.Contains((ushort)item),
+        _ => ItemStorage8SWSH.IsTechRecord((ushort)item) || PurchaseItemsNoTR.BinarySearch((ushort)item) >= 0,
     };
 
     private static bool IsInvalidGenLoc8(byte memory, int loc, int egg, ushort variable, PKM pk, IEncounterTemplate enc)

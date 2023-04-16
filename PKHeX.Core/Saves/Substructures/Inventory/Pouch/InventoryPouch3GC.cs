@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 
 public sealed class InventoryPouch3GC : InventoryPouch
 {
-    public InventoryPouch3GC(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
-        : base(type, legal, maxCount, offset, size)
+    public InventoryPouch3GC(InventoryType type, IItemStorage info, int maxCount, int offset, int size)
+        : base(type, info, maxCount, offset, size)
     {
     }
 

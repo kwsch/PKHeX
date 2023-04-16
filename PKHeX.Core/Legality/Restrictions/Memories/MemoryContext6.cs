@@ -42,13 +42,13 @@ public sealed partial class MemoryContext6 : MemoryContext
 
     public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItem_AO.Distinct()
         .Concat(GetKeyItemParams())
-        .Concat(Legal.Pouch_TMHM_AO.Take(100))
+        .Concat(ItemStorage6AO.Pouch_TMHM_AO[..100].ToArray())
         .Where(z => z <= Legal.MaxItemID_6_AO);
 
     public override bool IsUsedKeyItemUnspecific(int item) => KeyItemUsableObserve6.Contains((ushort)item);
     public override bool IsUsedKeyItemSpecific(int item, ushort species) => KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort)item);
 
-    public override bool CanPlantBerry(int item) => Legal.Pouch_Berry_XY.Contains((ushort)item);
+    public override bool CanPlantBerry(int item) => ItemStorage6XY.Pouch_Berry_XY.Contains((ushort)item);
     public override bool CanHoldItem(int item) => Legal.HeldItem_AO.Contains((ushort)item);
 
     public override bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory) => pkmVersion switch

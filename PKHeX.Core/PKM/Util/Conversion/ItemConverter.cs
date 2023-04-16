@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -161,7 +160,7 @@ internal static class ItemConverter
         return value;
     }
 
-    private static bool IsItemTransferable12(ushort item) => ((IList<ushort>) Legal.HeldItems_GSC).Contains(item);
+    private static bool IsItemTransferable12(ushort item) => Legal.HeldItems_GSC.AsSpan().Contains(item);
 
     /// <summary>
     /// Gets a format specific <see cref="PKM.HeldItem"/> value depending on the desired format and the provided item index &amp; origin format.

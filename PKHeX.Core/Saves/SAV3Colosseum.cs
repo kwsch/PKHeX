@@ -13,7 +13,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => this.GCExtension();
     public override PersonalTable3 Personal => PersonalTable.RS;
-    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_COLO;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
     public SAV3GCMemoryCard? MemoryCard { get; init; }
 
     // 3 Save files are stored
@@ -383,14 +383,15 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     {
         get
         {
+            var info = ItemStorage3Colo.Instance;
             InventoryPouch[] pouch =
             {
-                new InventoryPouch3GC(InventoryType.Items, Legal.Pouch_Items_COLO, 99, 0x007F8, 20), // 20 COLO, 30 XD
-                new InventoryPouch3GC(InventoryType.KeyItems, Legal.Pouch_Key_COLO, 1, 0x00848, 43),
-                new InventoryPouch3GC(InventoryType.Balls, Legal.Pouch_Ball_RS, 99, 0x008F4, 16),
-                new InventoryPouch3GC(InventoryType.TMHMs, Legal.Pouch_TM_RS, 99, 0x00934, 64), // no HMs
-                new InventoryPouch3GC(InventoryType.Berries, Legal.Pouch_Berries_RS, 999, 0x00A34, 46),
-                new InventoryPouch3GC(InventoryType.Medicine, Legal.Pouch_Cologne_COLO, 99, 0x00AEC, 3), // Cologne
+                new InventoryPouch3GC(InventoryType.Items, info, 99, 0x007F8, 20), // 20 COLO, 30 XD
+                new InventoryPouch3GC(InventoryType.KeyItems, info, 1, 0x00848, 43),
+                new InventoryPouch3GC(InventoryType.Balls, info, 99, 0x008F4, 16),
+                new InventoryPouch3GC(InventoryType.TMHMs, info, 99, 0x00934, 64), // no HMs
+                new InventoryPouch3GC(InventoryType.Berries, info, 999, 0x00A34, 46),
+                new InventoryPouch3GC(InventoryType.Medicine, info, 99, 0x00AEC, 3), // Cologne
             };
             return pouch.LoadAll(Data);
         }
