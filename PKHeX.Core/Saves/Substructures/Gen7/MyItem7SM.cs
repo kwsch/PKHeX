@@ -17,14 +17,15 @@ public sealed class MyItem7SM : MyItem
     {
         get
         {
+            var info = ItemStorage7SM.Instance;
             InventoryPouch7[] pouch =
             {
-                new(InventoryType.Medicine, Legal.Pouch_Medicine_SM, 999, Offset + Medicine),
-                new(InventoryType.Items, Legal.Pouch_Items_SM, 999, Offset + HeldItem),
-                new(InventoryType.TMHMs, Legal.Pouch_TMHM_SM, 1, Offset + TMHM),
-                new(InventoryType.Berries, Legal.Pouch_Berries_SM, 999, Offset + Berry),
-                new(InventoryType.KeyItems, Legal.Pouch_Key_SM, 1, Offset + KeyItem),
-                new(InventoryType.ZCrystals, Legal.Pouch_ZCrystal_SM, 1, Offset + ZCrystals),
+                new(InventoryType.Medicine, info, 999, Offset + Medicine),
+                new(InventoryType.Items, info, 999, Offset + HeldItem),
+                new(InventoryType.TMHMs, info, 1, Offset + TMHM),
+                new(InventoryType.Berries, info, 999, Offset + Berry),
+                new(InventoryType.KeyItems, info, 1, Offset + KeyItem),
+                new(InventoryType.ZCrystals, info, 1, Offset + ZCrystals),
             };
             return pouch.LoadAll(Data);
         }

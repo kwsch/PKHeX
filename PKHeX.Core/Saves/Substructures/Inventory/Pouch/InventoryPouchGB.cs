@@ -4,8 +4,8 @@ namespace PKHeX.Core;
 
 public sealed class InventoryPouchGB : InventoryPouch
 {
-    public InventoryPouchGB(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
-        : base(type, legal, maxCount, offset, size)
+    public InventoryPouchGB(InventoryType type, IItemStorage info, int maxCount, int offset, int size)
+        : base(type, info, maxCount, offset, size)
     {
     }
 
@@ -13,6 +13,7 @@ public sealed class InventoryPouchGB : InventoryPouch
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {
+        var LegalItems = Info.GetItems(Type);
         var items = new InventoryItem[PouchDataSize];
         if (Type == InventoryType.TMHMs)
         {
@@ -74,9 +75,10 @@ public sealed class InventoryPouchGB : InventoryPouch
         switch (Type)
         {
             case InventoryType.TMHMs:
+                var LegalItems = Info.GetItems(Type);
                 foreach (InventoryItem t in Items)
                 {
-                    int index = Array.FindIndex(LegalItems, it => t.Index == it);
+                    int index = LegalItems.IndexOf((ushort)t.Index);
                     if (index < 0) // enforce correct pouch
                         continue;
                     data[Offset + index] = (byte)t.Count;

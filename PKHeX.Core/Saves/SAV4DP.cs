@@ -84,16 +84,17 @@ public sealed class SAV4DP : SAV4Sinnoh
     {
         get
         {
+            var info = ItemStorage4DP.Instance;
             InventoryPouch[] pouch =
             {
-                new InventoryPouch4(InventoryType.Items, Legal.Pouch_Items_DP, 999, 0x624),
-                new InventoryPouch4(InventoryType.KeyItems, Legal.Pouch_Key_DP, 1, 0x8B8),
-                new InventoryPouch4(InventoryType.TMHMs, Legal.Pouch_TMHM_DP, 99, 0x980),
-                new InventoryPouch4(InventoryType.MailItems, Legal.Pouch_Mail_DP, 999, 0xB10),
-                new InventoryPouch4(InventoryType.Medicine, Legal.Pouch_Medicine_DP, 999, 0xB40),
-                new InventoryPouch4(InventoryType.Berries, Legal.Pouch_Berries_DP, 999, 0xBE0),
-                new InventoryPouch4(InventoryType.Balls, Legal.Pouch_Ball_DP, 999, 0xCE0),
-                new InventoryPouch4(InventoryType.BattleItems, Legal.Pouch_Battle_DP, 999, 0xD1C),
+                new InventoryPouch4(InventoryType.Items, info, 999, 0x624),
+                new InventoryPouch4(InventoryType.KeyItems, info, 1, 0x8B8),
+                new InventoryPouch4(InventoryType.TMHMs, info, 99, 0x980),
+                new InventoryPouch4(InventoryType.MailItems, info, 999, 0xB10),
+                new InventoryPouch4(InventoryType.Medicine, info, 999, 0xB40),
+                new InventoryPouch4(InventoryType.Berries, info, 999, 0xBE0),
+                new InventoryPouch4(InventoryType.Balls, info, 999, 0xCE0),
+                new InventoryPouch4(InventoryType.BattleItems, info, 999, 0xD1C),
             };
             return pouch.LoadAll(General);
         }

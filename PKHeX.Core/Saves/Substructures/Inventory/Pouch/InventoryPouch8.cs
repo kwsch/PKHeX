@@ -11,8 +11,7 @@ public sealed class InventoryPouch8 : InventoryPouch
     public bool SetNew { get; set; }
     private int[] OriginalItems = Array.Empty<int>();
 
-    public InventoryPouch8(InventoryType type, ushort[] legal, int maxCount, int offset, int size, Func<ushort, bool>? isLegal = null)
-        : base(type, legal, maxCount, offset, size, isLegal) { }
+    public InventoryPouch8(InventoryType type, IItemStorage info, int maxCount, int offset, int size) : base(type, info, maxCount, offset, size) { }
 
     public override InventoryItem8 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 

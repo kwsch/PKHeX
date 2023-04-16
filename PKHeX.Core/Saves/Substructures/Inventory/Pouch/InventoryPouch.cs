@@ -13,9 +13,7 @@ public abstract class InventoryPouch
     public readonly InventoryType Type;
 
     /// <summary> Valid item IDs that may be stored in the pouch. </summary>
-    public readonly ushort[] LegalItems;
-
-    public readonly Func<ushort, bool>? IsItemLegal;
+    public readonly IItemStorage Info;
 
     /// <summary> Max quantity for a given item that can be stored in the pouch. </summary>
     public readonly int MaxCount;
@@ -24,7 +22,7 @@ public abstract class InventoryPouch
     public int Count => Items.Count(it => it.Count > 0);
 
     /// <summary> Checks if the player may run out of bag space when there are too many unique items to fit into the pouch. </summary>
-    public bool IsCramped => LegalItems.Length > Items.Length;
+    public bool IsCramped => Info.GetItems(Type).Length > Items.Length;
 
     public InventoryItem[] Items;
 
@@ -33,15 +31,14 @@ public abstract class InventoryPouch
     /// <summary> Size of the backing byte array that represents the pouch. </summary>
     protected readonly int PouchDataSize;
 
-    protected InventoryPouch(InventoryType type, ushort[] legal, int maxCount, int offset, int size = -1, Func<ushort, bool>? isLegal = null)
+    protected InventoryPouch(InventoryType type, IItemStorage storage, int maxCount, int offset, int size = -1)
     {
         Items = Array.Empty<InventoryItem>();
         Type = type;
-        LegalItems = legal;
+        Info = storage;
         MaxCount = maxCount;
         Offset = offset;
-        PouchDataSize = size > -1 ? size : legal.Length;
-        IsItemLegal = isLegal;
+        PouchDataSize = size > -1 ? size : storage.GetItems(Type).Length;
     }
 
     /// <summary> Reads the pouch from the backing <see cref="data"/>. </summary>
@@ -88,13 +85,21 @@ public abstract class InventoryPouch
     public void Sanitize(int maxItemID, bool HaX = false)
     {
         int ctr = 0;
-        for (int i = 0; i < Items.Length; i++)
+        var arr = Items;
+        for (int i = 0; i < arr.Length; i++)
         {
-            if (Items[i].IsValid(LegalItems, maxItemID, HaX))
-                Items[ctr++] = Items[i];
+            var item = arr[i];
+            if (item.Index != 0)
+            {
+                if ((uint)item.Index > maxItemID)
+                    continue;
+                if (!HaX && !Info.IsLegal(Type, item.Index, item.Count))
+                    continue;
+            }
+            arr[ctr++] = arr[i]; // absorb down
         }
-        while (ctr < Items.Length)
-            Items[ctr++].Clear();
+        while (ctr < arr.Length)
+            arr[ctr++].Clear();
     }
 
     /// <summary>
@@ -175,55 +180,78 @@ public abstract class InventoryPouch
             item.Count = GetSuggestedItemCount(sav, item.Index, count);
     }
 
-    public void ModifyAllCount(Func<InventoryItem, int> modification)
+    public void GiveAllItems(SaveFile sav, ReadOnlySpan<ushort> newItems, int count = -1)
     {
-        foreach (var item in Items.Where(z => z.Index != 0))
-            item.Count = modification(item);
+        foreach (var item in Items)
+            item.Clear();
+
+        foreach (var item in newItems)
+        {
+            if (Info.IsLegal(Type, item, count))
+                GiveItem(sav, item, count);
+        }
     }
 
-    public void GiveAllItems(ReadOnlySpan<ushort> newItems, Func<InventoryItem, int> getSuggestedItemCount, int count = -1)
+    public void GiveAllItems(SaveFile sav, int count = -1)
     {
-        GiveAllItems(newItems, count);
-        ModifyAllCount(getSuggestedItemCount);
+        var items = Info.GetItems(Type);
+        foreach (var item in items)
+            GiveItem(sav, item, count);
+
+        foreach (var item in Items)
+        {
+            if (item.Count != 0)
+                GetSuggestedItemCount(sav, item.Index, count);
+        }
     }
 
-    public void GiveAllItems(SaveFile sav, ReadOnlySpan<ushort> items, int count = -1)
+    public int GiveItem(SaveFile sav, ushort itemID, int count = -1)
     {
-        GiveAllItems(items, count);
-        ModifyAllCount(item => GetSuggestedItemCount(sav, item.Index, count));
-    }
-
-    public void GiveAllItems(SaveFile sav, int count = -1) => GiveAllItems(sav, LegalItems, count);
-
-    private void GiveAllItems(ReadOnlySpan<ushort> newItems, int count = -1)
-    {
-        if (count < 0)
+        if (count <= 0)
             count = MaxCount;
 
-        var current = (InventoryItem[]) Items.Clone();
-        var itemEnd = Math.Min(Items.Length, newItems.Length);
-        var iterate = newItems[..itemEnd];
+        var existIndex = FindFirstMatchingSlot(itemID);
+        if (existIndex >= 0)
+            return AddCountTo(Items[existIndex], count, sav);
 
-        int ctr = 0;
-        foreach (var newItemID in iterate)
+        var emptyIndex = FindFirstEmptySlot();
+        if (emptyIndex < 0)
+            return -1;
+
+        var newItem = Items[emptyIndex];
+        newItem.Index = itemID;
+        newItem.SetNewDetails(0);
+        return AddCountTo(newItem, count, sav);
+    }
+
+    private int AddCountTo(InventoryItem exist, int count, SaveFile sav)
+    {
+        var existCount = exist.Count;
+        var newCount = existCount + count;
+
+        // Sanitize the value
+        newCount = GetSuggestedItemCount(sav, exist.Index, newCount);
+        return exist.Count = newCount;
+    }
+
+    private int FindFirstEmptySlot()
+    {
+        for (int i = 0; i < Items.Length; i++)
         {
-            if (IsItemLegal?.Invoke(newItemID) == false)
-                continue;
-
-            var item = Items[ctr++] = GetEmpty(newItemID);
-            var match = Array.Find(current, z => z.Index == newItemID);
-            if (match == null)
-            {
-                item.SetNewDetails(count);
-                continue;
-            }
-
-            // load old values
-            item.MergeOverwrite(match);
+            if (Items[i].Index == 0)
+                return i;
         }
+        return -1;
+    }
 
-        for (int i = ctr; i < Items.Length; i++)
-            Items[i] = GetEmpty();
+    private int FindFirstMatchingSlot(ushort itemID)
+    {
+        for (int i = 0; i < Items.Length; i++)
+        {
+            if (Items[i].Index == itemID)
+                return i;
+        }
+        return -1;
     }
 
     public bool IsValidItemAndCount(ITrainerInfo sav, int item, bool HasNew, bool HaX, ref int count)
@@ -270,6 +298,16 @@ public abstract class InventoryPouch
     }
 
     public abstract InventoryItem GetEmpty(int itemID = 0, int count = 0);
+
+    public ReadOnlySpan<ushort> GetAllItems()
+    {
+        return Info.GetItems(Type);
+    }
+
+    public bool CanContain(ushort itemIndex)
+    {
+        return Info.GetItems(Type).Contains(itemIndex);
+    }
 }
 
 public static class InventoryPouchExtensions

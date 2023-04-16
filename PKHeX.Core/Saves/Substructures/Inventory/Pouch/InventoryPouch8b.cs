@@ -8,14 +8,14 @@ public sealed class InventoryPouch8b : InventoryPouch
 {
     public bool SetNew { get; set; }
 
-    public InventoryPouch8b(InventoryType type, ushort[] legal, int maxCount, int offset,
-        Func<ushort, bool>? isLegal)
-        : base(type, legal, maxCount, offset, isLegal: isLegal) { }
+    public InventoryPouch8b(InventoryType type, IItemStorage info, int maxCount, int offset)
+        : base(type, info, maxCount, offset) { }
 
     public override InventoryItem8b GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = true };
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {
+        var LegalItems = Info.GetItems(Type);
         var items = new InventoryItem8b[LegalItems.Length];
 
         int ctr = 0;
@@ -48,13 +48,13 @@ public sealed class InventoryPouch8b : InventoryPouch
         for (int i = 0; i < items.Length; i++)
             items[i].SortOrder = (ushort)(i + 1);
 
+        var LegalItems = Info.GetItems(Type);
         foreach (var item in items)
         {
             var index = (ushort)item.Index;
             if (index == 0)
                 continue;
-            var isInLegal = Array.IndexOf(LegalItems, index);
-            if (isInLegal == -1)
+            if (!LegalItems.Contains(index))
             {
                 Debug.WriteLine($"Invalid Item ID returned within this pouch: {index}");
                 continue;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 
 namespace PKHeX.Core;
 
@@ -9,21 +8,6 @@ public record InventoryItem
     public int Index { get; set; }
     /// <summary> Quantity </summary>
     public int Count { get; set; }
-
-    /// <summary>
-    /// Checks if the item is compatible with a pouch.
-    /// </summary>
-    /// <param name="legal">Legal Item IDs for the pouch</param>
-    /// <param name="maxItemID">Max item ID that exists in the game</param>
-    /// <param name="HaX">Bend the rules for cheaters?</param>
-    public bool IsValid(IList<ushort> legal, int maxItemID, bool HaX = false)
-    {
-        if (Index == 0)
-            return true;
-        if ((uint) Index > maxItemID)
-            return false;
-        return HaX || legal.Contains((ushort)Index);
-    }
 
     /// <summary>
     /// Resets all data in the object back to zero.

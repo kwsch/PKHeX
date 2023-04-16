@@ -55,7 +55,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     }
 
     public override PersonalTable3 Personal => PersonalTable.RS;
-    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_XD;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
 
     private readonly bool Japanese;
 
@@ -415,15 +415,16 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     {
         get
         {
+            var info = ItemStorage3XD.Instance;
             InventoryPouch[] pouch =
             {
-                new InventoryPouch3GC(InventoryType.Items, Legal.Pouch_Items_XD, 999, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
-                new InventoryPouch3GC(InventoryType.KeyItems, Legal.Pouch_Key_XD, 1, OFS_PouchKeyItem, 43),
-                new InventoryPouch3GC(InventoryType.Balls, Legal.Pouch_Ball_RS, 999, OFS_PouchBalls, 16),
-                new InventoryPouch3GC(InventoryType.TMHMs, Legal.Pouch_TM_RS, 999, OFS_PouchTMHM, 64),
-                new InventoryPouch3GC(InventoryType.Berries, Legal.Pouch_Berries_RS, 999, OFS_PouchBerry, 46),
-                new InventoryPouch3GC(InventoryType.Medicine, Legal.Pouch_Cologne_XD, 999, OFS_PouchCologne, 3), // Cologne
-                new InventoryPouch3GC(InventoryType.BattleItems, Legal.Pouch_Disc_XD, 1, OFS_PouchDisc, 60),
+                new InventoryPouch3GC(InventoryType.Items, info, 999, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
+                new InventoryPouch3GC(InventoryType.KeyItems, info, 1, OFS_PouchKeyItem, 43),
+                new InventoryPouch3GC(InventoryType.Balls, info, 999, OFS_PouchBalls, 16),
+                new InventoryPouch3GC(InventoryType.TMHMs, info, 999, OFS_PouchTMHM, 64),
+                new InventoryPouch3GC(InventoryType.Berries, info, 999, OFS_PouchBerry, 46),
+                new InventoryPouch3GC(InventoryType.Medicine, info, 999, OFS_PouchCologne, 3), // Cologne
+                new InventoryPouch3GC(InventoryType.BattleItems, info, 1, OFS_PouchDisc, 60),
             };
             return pouch.LoadAll(Data);
         }

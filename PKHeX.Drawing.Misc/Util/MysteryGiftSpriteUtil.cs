@@ -32,7 +32,7 @@ public static class MysteryGiftSpriteUtil
         if (gift.IsItem)
         {
             var item = (ushort)gift.ItemID;
-            if (Legal.ZCrystalDictionary.TryGetValue(item, out var value))
+            if (ItemStorage7USUM.GetCrystalHeld(item, out var value))
                 item = value;
             return SpriteUtil.GetItemSprite(item) ?? Resources.Bag_Key;
         }

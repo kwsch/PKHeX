@@ -102,7 +102,7 @@ internal static class Encounters2
     };
 
     private static readonly EncounterStatic2[] Encounter_GS = ArrayUtil.ConcatAll(Encounter_GSC_Common, Encounter_GS_Exclusive, Encounter_GSC_Roam);
-    private static readonly EncounterStatic2[] Encounter_C = ArrayUtil.ConcatAll(Encounter_GSC_Common, Encounter_C_Exclusive, Encounter_GSC_Roam.AsSpan(0, 2));
+    private static readonly EncounterStatic2[] Encounter_C = ArrayUtil.ConcatAll<EncounterStatic2>(Encounter_GSC_Common, Encounter_C_Exclusive, Encounter_GSC_Roam.AsSpan(0, 2));
     private static readonly EncounterStatic2[] Encounter_GSC = ArrayUtil.ConcatAll(Encounter_GSC_Common, Encounter_GS_Exclusive, Encounter_C_Exclusive, Encounter_GSC_Roam);
 
     internal static readonly EncounterTrade2[] TradeGift_GSC =
