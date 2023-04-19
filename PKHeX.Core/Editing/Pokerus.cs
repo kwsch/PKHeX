@@ -49,16 +49,25 @@ public static class Pokerus
     {
         if (!IsObtainable(pk))
             return IsSusceptible(strain, days);
+        if (pk.Format <= 2)
+            return IsStrainValid2(strain, days);
         return IsStrainValid(strain, days);
     }
 
     /// <inheritdoc cref="IsStrainValid(PKM,int,int)"/>
-    public static bool IsStrainValid(int strain, int days) => strain switch
+    public static bool IsStrainValid2(int strain, int days) => strain switch
     {
         0 when days is not 0 => false,
-        8 => false,
+        // 8 is possible for Gen2
         _ => true,
     };
+
+    /// <inheritdoc cref="IsStrainValid(PKM,int,int)"/>
+    /// <remarks>
+    /// Gen3 R/S have a 30/255 chance of giving strain 0, and a 1/255 chance of giving strain 8.
+    /// Transfers will retain strain 0/8 and they're still able to infect others.
+    /// </remarks>
+    public static bool IsStrainValid(int strain, int days) => true;
 
     /// <summary>
     /// Checks if the Pokérus value for Duration is possible to have on the input entity.
@@ -88,7 +97,7 @@ public static class Pokerus
     /// <param name="strain">Strain number</param>
     /// <param name="days">Duration remaining</param>
     /// <returns>True if currently infected, and infectious to others.</returns>
-    public static bool IsInfectuous(int strain, int days) => strain != 0 && days != 0;
+    public static bool IsInfectious(int strain, int days) => days != 0;
 
     /// <summary>
     /// Checks if the Pokémon can be infected with the Pokérus.
