@@ -1043,21 +1043,32 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void UpdatePKRSstrain(object sender, EventArgs e)
     {
-        // Change the PKRS Days to the legal bounds.
-        int currentDuration = CB_PKRSDays.SelectedIndex;
-        CB_PKRSDays.Items.Clear();
+        if (!FieldsLoaded)
+            return;
 
-        var strain = CB_PKRSStrain.SelectedIndex;
-        int max = Pokerus.GetMaxDuration(strain);
+        // Change the PKRS Days to the legal bounds.
+        ChangePKRSstrainDropDownLists(-1, CB_PKRSStrain.SelectedIndex, CB_PKRSDays.SelectedIndex);
+    }
+
+    private void ChangePKRSstrainDropDownLists(int oldStrain, int newStrain, int currentDuration)
+    {
+        if (oldStrain == newStrain)
+            return;
+
+        CB_PKRSDays.Items.Clear();
+        int max = Pokerus.GetMaxDuration(newStrain);
         for (int day = 0; day <= max; day++)
             CB_PKRSDays.Items.Add(day.ToString());
 
         // Set the days back if they're legal
-        CB_PKRSDays.SelectedIndex = strain == 0 ? 0 : Math.Min(max, currentDuration);
+        CB_PKRSDays.SelectedIndex = Math.Min(max, currentDuration);
     }
 
     private void UpdatePKRSdays(object sender, EventArgs e)
     {
+        if (!FieldsLoaded)
+            return;
+
         var days = CB_PKRSDays.SelectedIndex;
         if (days != 0)
             return;
@@ -1072,19 +1083,22 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void UpdatePKRSCured(object sender, EventArgs e)
     {
+        if (!FieldsLoaded)
+            return;
+
         // Cured PokeRus is toggled
         if (CHK_Cured.Checked)
         {
+            // If we're cured we have to have a strain infection.
+            if (CB_PKRSStrain.SelectedIndex == 0)
+                CB_PKRSStrain.SelectedIndex = 1;
+
             // Has Had PokeRus
             Label_PKRSdays.Visible = CB_PKRSDays.Visible = false;
             CB_PKRSDays.SelectedIndex = 0;
 
             Label_PKRS.Visible = CB_PKRSStrain.Visible = true;
             CHK_Infected.Checked = true;
-
-            // If we're cured we have to have a strain infection.
-            if (CB_PKRSStrain.SelectedIndex == 0)
-                CB_PKRSStrain.SelectedIndex = 1;
         }
         else if (!CHK_Infected.Checked)
         {
@@ -1107,6 +1121,9 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void UpdatePKRSInfected(object sender, EventArgs e)
     {
+        if (!FieldsLoaded)
+            return;
+
         if (CHK_Cured.Checked)
         {
             if (!CHK_Infected.Checked)
