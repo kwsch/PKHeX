@@ -13,7 +13,7 @@ public sealed class PK2 : GBPKML, ICaughtData2
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
-    public override bool Korean => !Japanese && RawOT[0] <= 0xB;
+    public override bool Korean => !Japanese && OT_Trash[0] <= 0xB;
 
     public override EntityContext Context => EntityContext.Gen2;
 
@@ -200,12 +200,16 @@ public sealed class PK2 : GBPKML, ICaughtData2
         else if (IsNicknamedBank)
         {
             pk7.IsNicknamed = true;
-            pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(RawNickname, Japanese);
+            pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(Nickname_Trash, Japanese);
         }
-        if (RawOT[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+
+        if (OT_Trash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
             pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
+        else if (Korean)
+            pk7.OT_Name = OT_Name;
         else
-            pk7.OT_Name = Korean ? OT_Name : StringConverter12Transporter.GetString(RawOT, Japanese);
+            pk7.OT_Name = StringConverter12Transporter.GetString(OT_Trash, Japanese);
+
         pk7.OT_Gender = OT_Gender; // Crystal
         pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 

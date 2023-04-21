@@ -87,8 +87,8 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         var ot = data.AsSpan(0x21 + len, len);
         data = data.Slice(0, 0x21);
         var pk1 = new PK1(data, true);
-        nick.CopyTo(pk1.RawNickname);
-        ot.CopyTo(pk1.RawOT);
+        nick.CopyTo(pk1.Nickname_Trash);
+        ot.CopyTo(pk1.OT_Trash);
         return pk1;
     }
 
@@ -100,8 +100,8 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         var data = pk.Data;
         const int len = StringLength;
         data.CopyTo(result, 0);
-        gb.RawNickname.CopyTo(result, PokeCrypto.SIZE_1STORED);
-        gb.RawOT.CopyTo(result, PokeCrypto.SIZE_1STORED + len);
+        gb.Nickname_Trash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED));
+        gb.OT_Trash.CopyTo(result.AsSpan(PokeCrypto.SIZE_1STORED + len));
         return result;
     }
 
