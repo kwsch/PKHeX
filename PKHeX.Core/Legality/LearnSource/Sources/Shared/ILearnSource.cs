@@ -23,6 +23,15 @@ public interface ILearnSource
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
     public Learnset GetLearnset(ushort species, byte form);
+
+    public void SetEncounterMoves(ushort species, byte form, int level, Span<ushort> init)
+    {
+        var start = (init.LastIndexOfAnyExcept<ushort>(0) + 1) & 3;
+        var learn = GetLearnset(species, form);
+        learn.SetEncounterMoves(level, init, start);
+    }
+
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form) => ReadOnlySpan<ushort>.Empty;
 }
 
 /// <summary>

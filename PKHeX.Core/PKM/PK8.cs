@@ -143,11 +143,7 @@ public sealed class PK8 : G8PKM
 
     public override void ResetMoves()
     {
-        var learnsets = Legal.LevelUpSWSH;
-        var table = PersonalTable.SWSH;
-
-        var index = table.GetFormIndex(Species, Form);
-        var learn = learnsets[index];
+        var learn = LearnSource8SWSH.Instance.GetLearnset(Species, Form);
         Span<ushort> moves = stackalloc ushort[4];
         learn.SetEncounterMoves(CurrentLevel, moves);
         SetMoves(moves);

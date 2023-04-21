@@ -555,4 +555,22 @@ public sealed class PK5 : PKM, ISanityChecksum,
             pid >>= 16;
         return (int)(pid & 1);
     }
+
+    internal static int GetTransferMetLocation4(PKM pk)
+    {
+        // Everything except for crown beasts and Celebi get the default transfer location.
+        // Crown beasts and Celebi are 100% identifiable by the species ID and fateful encounter, originating from Gen4.
+        if (!pk.Gen4 || !pk.FatefulEncounter)
+            return Locations.Transfer4; // Pokétransfer
+
+        return pk.Species switch
+        {
+            // Crown Beast
+            (int)Core.Species.Raikou or (int)Core.Species.Entei or (int)Core.Species.Suicune => Locations.Transfer4_CrownUnused,
+            // Celebi
+            (int)Core.Species.Celebi => Locations.Transfer4_CelebiUnused,
+            // Default
+            _ => Locations.Transfer4,
+        };
+    }
 }

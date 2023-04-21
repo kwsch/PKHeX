@@ -50,8 +50,6 @@ public static class Breeding
     /// <returns>True if can inherit moves, false if cannot.</returns>
     internal static bool GetCanInheritMoves(ushort species)
     {
-        if (Legal.FixedGenderFromBiGender.Contains(species)) // Nincada -> Shedinja loses gender causing 'false', edge case
-            return true;
         var pi = PKX.Personal[species];
         if (pi is { Genderless: false, OnlyMale: false })
             return true;

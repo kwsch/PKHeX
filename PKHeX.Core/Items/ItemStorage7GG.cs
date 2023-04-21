@@ -6,16 +6,14 @@ public sealed class ItemStorage7GG : IItemStorage
 {
     public static readonly ItemStorage7GG Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Candy_GG_Regular => new ushort[]
+    private static ReadOnlySpan<ushort> Pouch_Candy_GG => new ushort[]
     {
         050, // Rare Candy
         960, 961, 962, 963, 964, 965, // S
         966, 967, 968, 969, 970, 971, // L
         972, 973, 974, 975, 976, 977, // XL
-    };
 
-    private static ReadOnlySpan<ushort> Pouch_Candy_GG_Species => new ushort[]
-    {
+        // Species
         978, 979,
         980, 981, 982, 983, 984, 985, 986, 987, 988, 989,
         990, 991, 992, 993, 994, 995, 996, 997, 998, 999,
@@ -27,8 +25,6 @@ public sealed class ItemStorage7GG : IItemStorage
         1050, 1051, 1052, 1053, 1054, 1055, 1056,
         1057,
     };
-
-    private static readonly ushort[] Pouch_Candy_GG = ArrayUtil.ConcatAll(Pouch_Candy_GG_Regular, Pouch_Candy_GG_Species);
 
     private static ReadOnlySpan<ushort> Pouch_Medicine_GG => new ushort[]
     {
@@ -117,7 +113,6 @@ public sealed class ItemStorage7GG : IItemStorage
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-
         InventoryType.Medicine => Pouch_Medicine_GG,
         InventoryType.TMHMs => Pouch_TM_GG,
         InventoryType.Balls => Pouch_Catching_GG,

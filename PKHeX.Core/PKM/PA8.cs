@@ -1055,11 +1055,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
 
     public void ResetMoves()
     {
-        var learnsets = Legal.LevelUpLA;
-        var table = PersonalTable.LA;
-
-        var index = table.GetFormIndex(Species, Form);
-        var learn = learnsets[index];
+        var learn = LearnSource8LA.Instance.GetLearnset(Species, Form);
         Span<ushort> moves = stackalloc ushort[4];
         learn.SetEncounterMoves(CurrentLevel, moves);
         SetMoves(moves);

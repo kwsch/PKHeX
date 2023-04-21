@@ -135,13 +135,11 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
         const bool allowAlphaPurchaseBug = true; // Everything else Alpha is pre-1.1
         var level = pk.Met_Level;
-        var index = PersonalTable.LA.GetFormIndex(Species, Form);
-        var learn = Legal.LevelUpLA[index];
+        var (learn, mastery) = GetLevelUpInfo();
         if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
             return false;
 
         Span<ushort> moves = stackalloc ushort[4];
-        var mastery = Legal.MasteryLA[index];
         if (Moves.HasMoves)
             Moves.CopyTo(moves);
         else
@@ -165,10 +163,7 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     public (Learnset Learn, Learnset Mastery) GetLevelUpInfo()
     {
-        var index = PersonalTable.LA.GetFormIndex(Species, Form);
-        var learn = Legal.LevelUpLA[index];
-        var mastery = Legal.MasteryLA[index];
-        return (learn, mastery);
+        return LearnSource8LA.GetLearnsetAndMastery(Species, Form);
     }
 
     public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level)

@@ -2,8 +2,10 @@ using System;
 
 namespace PKHeX.Core;
 
-internal static class LearnSource4
+public abstract class LearnSource4
 {
+    private protected static readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_dppt.pkl"), "dp"));
+
     /// <summary>
     /// Gets the preferred list of HM moves to disallow on transfer from <see cref="PK4"/> to <see cref="PK5"/>.
     /// </summary>

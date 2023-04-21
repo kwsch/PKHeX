@@ -106,8 +106,8 @@ public static class ShowdownParsing
 
             (int)Greninja or (int)Rockruff or (int)Koraidon or (int)Miraidon => string.Empty,
 
-            _ => Legal.Totem_USUM.Contains(species) && form == "Large"
-                ? Legal.Totem_Alolan.Contains(species) && species != (int)Mimikyu ? "Alola-Totem" : "Totem"
+            _ => FormInfo.HasTotemForm(species) && form == "Large"
+                ? species is (int)Raticate or (int)Marowak ? "Alola-Totem" : "Totem"
                 : form.Replace(' ', '-'),
         };
     }
@@ -139,7 +139,7 @@ public static class ShowdownParsing
             (int)Maushold   when form == "Four"         => "Family of Four",
             (int)Urshifu or (int)Pikachu or (int)Alcremie => form.Replace('-', ' '), // Strike and Cosplay
 
-            _ => Legal.Totem_USUM.Contains(species) && form.EndsWith("Totem", StringComparison.OrdinalIgnoreCase) ? "Large" : form,
+            _ => FormInfo.HasTotemForm(species) && form.EndsWith("Totem", StringComparison.OrdinalIgnoreCase) ? "Large" : form,
         };
     }
 

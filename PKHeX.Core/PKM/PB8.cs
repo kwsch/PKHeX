@@ -147,11 +147,7 @@ public sealed class PB8 : G8PKM
 
     public override void ResetMoves()
     {
-        var learnsets = Legal.LevelUpBDSP;
-        var table = PersonalTable.BDSP;
-
-        var index = table.GetFormIndex(Species, Form);
-        var learn = learnsets[index];
+        var learn = LearnSource8BDSP.Instance.GetLearnset(Species, Form);
         Span<ushort> moves = stackalloc ushort[4];
         learn.SetEncounterMoves(CurrentLevel, moves);
         SetMoves(moves);

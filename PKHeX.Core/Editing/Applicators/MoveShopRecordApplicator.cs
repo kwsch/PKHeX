@@ -46,12 +46,8 @@ public static class MoveShopRecordApplicator
     /// </summary>
     public static void SetMoveShopFlags(this IMoveShop8Mastery shop, ReadOnlySpan<ushort> moves, PKM pk)
     {
-        var index = PersonalTable.LA.GetFormIndex(pk.Species, pk.Form);
-        var learn = Legal.LevelUpLA[index];
-        var mastery = Legal.MasteryLA[index];
-        var level = pk.CurrentLevel;
-
-        shop.SetMoveShopFlags(moves, learn, mastery, level);
+        var (learn, mastery) = LearnSource8LA.GetLearnsetAndMastery(pk.Species, pk.Form);
+        shop.SetMoveShopFlags(moves, learn, mastery, pk.CurrentLevel);
     }
 
     /// <summary>
@@ -59,12 +55,8 @@ public static class MoveShopRecordApplicator
     /// </summary>
     public static void SetMoveShopFlagsAll(this IMoveShop8Mastery shop, PKM pk)
     {
-        var index = PersonalTable.LA.GetFormIndex(pk.Species, pk.Form);
-        var learn = Legal.LevelUpLA[index];
-        var mastery = Legal.MasteryLA[index];
-        var level = pk.CurrentLevel;
-
-        shop.SetMoveShopFlagsAll(learn, mastery, level);
+        var (learn, mastery) = LearnSource8LA.GetLearnsetAndMastery(pk.Species, pk.Form);
+        shop.SetMoveShopFlagsAll(learn, mastery, pk.CurrentLevel);
     }
 
     /// <summary>

@@ -23,22 +23,21 @@ public static class MoveBreed2
         if (count == -1)
             count = moves.Length;
 
-        (Learnset[] learn, PersonalTable2 table) = version == GameVersion.C
-            ? (Legal.LevelUpC, PersonalTable.C)
-            : (Legal.LevelUpGS, PersonalTable.GS);
-        if (!table.IsSpeciesInGame(species))
+        ILearnSource<PersonalInfo2> ls = version == GameVersion.C ? LearnSource2C.Instance : LearnSource2GS.Instance;
+        if (!ls.TryGetPersonal(species, 0, out var pi))
             return false;
 
-        var learnset = learn[species];
-        var pi = table[species];
-        var egg = (version == GameVersion.C ? Legal.EggMovesC : Legal.EggMovesGS)[species].Moves;
+        var learnset = ls.GetLearnset(species, 0);
+        var eggMoves = version == GameVersion.C
+            ? LearnSource2C.Instance.GetEggMoves(species, 0)
+            : LearnSource2GS.Instance.GetEggMoves(species, 0);
 
         var actual = MemoryMarshal.Cast<byte, EggSource2>(origins);
         Span<byte> possible = stackalloc byte[count];
         var value = new BreedInfo<EggSource2>(actual, possible, learnset, moves, level);
 
         bool inherit = Breeding.GetCanInheritMoves(species);
-        MarkMovesForOrigin(value, egg, count, inherit, pi, version);
+        MarkMovesForOrigin(value, eggMoves, count, inherit, pi, version);
         var valid = RecurseMovesForOrigin(value, count - 1);
         if (!valid)
             CleanResult(actual, possible);

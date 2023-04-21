@@ -1,5 +1,4 @@
 using System;
-using static PKHeX.Core.BinLinkerAccessor;
 
 namespace PKHeX.Core;
 
@@ -8,60 +7,135 @@ namespace PKHeX.Core;
 /// </summary>
 public static partial class Legal
 {
-    // Gen 1
-    internal static readonly Learnset[] LevelUpRB = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
-    internal static readonly Learnset[] LevelUpY = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
+    internal const int MaxSpeciesID_1 = 151;
+    internal const int MaxMoveID_1 = 165;
+    internal const int MaxItemID_1 = 255;
+    internal const int MaxAbilityID_1 = 0;
 
-    // Gen 2
-    internal static readonly EggMoves2[] EggMovesGS = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_gs.pkl"), MaxSpeciesID_2);
-    internal static readonly Learnset[] LevelUpGS = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_gs.pkl"), MaxSpeciesID_2);
-    internal static readonly EggMoves2[] EggMovesC = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), MaxSpeciesID_2);
-    internal static readonly Learnset[] LevelUpC = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
+    internal const int MaxSpeciesID_2 = 251;
+    internal const int MaxMoveID_2 = 251;
+    internal const int MaxItemID_2 = 255;
+    internal const int MaxAbilityID_2 = 0;
 
-    // Gen 3
-    internal static readonly Learnset[] LevelUpE = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
-    internal static readonly Learnset[] LevelUpRS = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"));
-    internal static readonly Learnset[] LevelUpFR = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_fr.pkl"), "fr"));
-    internal static readonly Learnset[] LevelUpLG = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_lg.pkl"), "lg"));
-    internal static readonly EggMoves6[] EggMovesRS = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_rs.pkl"), "rs"));
+    internal const int MaxSpeciesIndex_3 = 412;
+    internal const int MaxSpeciesID_3 = 386;
+    internal const int MaxMoveID_3 = 354;
+    internal const int MaxItemID_3 = 374;
+    internal const int MaxItemID_3_COLO = 547;
+    internal const int MaxItemID_3_XD = 593;
+    internal const int MaxAbilityID_3 = 77;
+    internal const int MaxBallID_3 = 0xC;
+    internal const int MaxGameID_3 = 15; // CXD
 
-    // Gen 4
-    internal static readonly Learnset[] LevelUpDP = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_dp.pkl"), "dp"));
-    internal static readonly Learnset[] LevelUpPt = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_pt.pkl"), "pt"));
-    internal static readonly Learnset[] LevelUpHGSS = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"));
-    internal static readonly EggMoves6[] EggMovesDPPt = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_dppt.pkl"), "dp"));
-    internal static readonly EggMoves6[] EggMovesHGSS = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"));
+    internal const int MaxSpeciesID_4 = 493;
+    internal const int MaxMoveID_4 = 467;
+    internal const int MaxItemID_4_DP = 464;
+    internal const int MaxItemID_4_Pt = 467;
+    internal const int MaxItemID_4_HGSS = 536;
+    internal const int MaxAbilityID_4 = 123;
+    internal const int MaxBallID_4 = 0x18;
+    internal const int MaxGameID_4 = 15; // CXD
 
-    // Gen 5
-    internal static readonly Learnset[] LevelUpBW = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"));
-    internal static readonly Learnset[] LevelUpB2W2 = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"));
-    internal static readonly EggMoves6[] EggMovesBW = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"));
+    internal const int MaxSpeciesID_5 = 649;
+    internal const int MaxMoveID_5 = 559;
+    internal const int MaxItemID_5_BW = 632;
+    internal const int MaxItemID_5_B2W2 = 638;
+    internal const int MaxAbilityID_5 = 164;
+    internal const int MaxBallID_5 = 0x19;
+    internal const int MaxGameID_5 = 23; // B2
 
-    // Gen 6
-    internal static readonly EggMoves6[] EggMovesXY = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"));
-    internal static readonly Learnset[] LevelUpXY = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"));
-    internal static readonly EggMoves6[] EggMovesAO = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_ao.pkl"), "ao"));
-    internal static readonly Learnset[] LevelUpAO = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
+    internal const int MaxSpeciesID_6 = 721;
+    internal const int MaxMoveID_6_XY = 617;
+    internal const int MaxMoveID_6_AO = 621;
+    internal const int MaxItemID_6_XY = 717;
+    internal const int MaxItemID_6_AO = 775;
+    internal const int MaxAbilityID_6_XY = 188;
+    internal const int MaxAbilityID_6_AO = 191;
+    internal const int MaxBallID_6 = 0x19;
+    internal const int MaxGameID_6 = 27; // OR
 
-    // Gen 7
-    internal static readonly EggMoves7[] EggMovesSM = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
-    internal static readonly Learnset[] LevelUpSM = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
-    internal static readonly EggMoves7[] EggMovesUSUM = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_uu.pkl"), "uu"));
-    internal static readonly Learnset[] LevelUpUSUM = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
-    internal static readonly Learnset[] LevelUpGG = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"));
+    internal const int MaxSpeciesID_7 = 802;
+    internal const int MaxMoveID_7 = 719;
+    internal const int MaxItemID_7 = 920;
+    internal const int MaxAbilityID_7 = 232;
+    internal const int MaxBallID_7 = 0x1A; // 26
+    internal const int MaxGameID_7 = 41; // Crystal (VC?)
 
-    // Gen 8
-    internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(Get(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
-    internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
-    internal static readonly EggMoves6[] EggMovesBDSP = EggMoves6.GetArray(Get(Util.GetBinaryResource("eggmove_bdsp.pkl"), "bs"));
-    internal static readonly Learnset[] LevelUpBDSP = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_bdsp.pkl"), "bs"));
-    internal static readonly Learnset[] LevelUpLA = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_la.pkl"), "la"));
-    internal static readonly Learnset[] MasteryLA = LearnsetReader.GetArray(Get(Util.GetBinaryResource("mastery_la.pkl"), "la"));
+    internal const int MaxSpeciesID_7_USUM = 807;
+    internal const int MaxMoveID_7_USUM = 728;
+    internal const int MaxItemID_7_USUM = 959;
+    internal const int MaxAbilityID_7_USUM = 233;
 
-    // Gen 9
-    internal static readonly ushort[][] EggMovesSV = EggMoves9.GetArray(Get(Util.GetBinaryResource("eggmove_sv.pkl"), "sv"));
-    internal static readonly ushort[][] ReminderSV = EggMoves9.GetArray(Get(Util.GetBinaryResource("reminder_sv.pkl"), "sv"));
-    internal static readonly Learnset[] LevelUpSV = LearnsetReader.GetArray(Get(Util.GetBinaryResource("lvlmove_sv.pkl"), "sv"));
+    internal const int MaxSpeciesID_7b = 809; // Melmetal
+    internal const int MaxMoveID_7b = 742; // Double Iron Bash
+    internal const int MaxItemID_7b = 1057; // Magmar Candy
+    internal const int MaxBallID_7b = (int)Ball.Beast;
+    internal const int MaxGameID_7b = (int)GameVersion.GE;
+    internal const int MaxAbilityID_7b = MaxAbilityID_7_USUM;
+
+    // Current Binaries
+    internal const int MaxSpeciesID_8 = MaxSpeciesID_8_R2;
+    internal const int MaxMoveID_8 = MaxMoveID_8_R2;
+    internal const int MaxItemID_8 = MaxItemID_8_R2;
+    internal const int MaxAbilityID_8 = MaxAbilityID_8_R2;
+
+    // Orion (No DLC)
+    internal const int MaxSpeciesID_8_O0 = 890; // Eternatus
+    internal const int MaxMoveID_8_O0 = 796; // Steel Beam
+    internal const int MaxItemID_8_O0 = 1278; // Rotom Catalog, ignore all catalog parts
+    internal const int MaxAbilityID_8_O0 = 258; // Hunger Switch
+
+    // Rigel 1 (DLC 1: Isle of Armor)
+    internal const int MaxSpeciesID_8_R1 = 893; // Zarude
+    internal const int MaxMoveID_8_R1 = 818; // Surging Strikes
+    internal const int MaxItemID_8_R1 = 1589; // Mark Charm
+    internal const int MaxAbilityID_8_R1 = 260; // Unseen Fist
+
+    // Rigel 2 (DLC 2: Crown Tundra)
+    internal const int MaxSpeciesID_8_R2 = 898; // Calyrex
+    internal const int MaxMoveID_8_R2 = 826; // Eerie Spell
+    internal const int MaxItemID_8_R2 = 1607; // Reins of Unity
+    internal const int MaxAbilityID_8_R2 = 267; // As One (Glastrier)
+
+    internal const int MaxBallID_8 = 0x1A; // 26 Beast
+    internal const int MaxGameID_8 = 45; // Shield
+
+    internal const int MaxSpeciesID_8a = (int)Species.Enamorus;
+    internal const int MaxMoveID_8a = (int)Move.TakeHeart;
+    internal const int MaxItemID_8a = 1828; // Legend Plate
+    internal const int MaxBallID_8a = (int)Ball.LAOrigin;
+    internal const int MaxGameID_8a = (int)GameVersion.SP;
+    internal const int MaxAbilityID_8a = MaxAbilityID_8_R2;
+
+    internal const int MaxSpeciesID_8b = MaxSpeciesID_4; // Arceus-493
+    internal const int MaxMoveID_8b = MaxMoveID_8_R2;
+    internal const int MaxItemID_8b = 1822; // DS Sounds
+    internal const int MaxBallID_8b = (int)Ball.LAOrigin;
+    internal const int MaxGameID_8b = (int)GameVersion.SP;
+    internal const int MaxAbilityID_8b = MaxAbilityID_8_R2;
+
+    internal const int MaxSpeciesID_9 = (int)Species.IronLeaves;
+    internal const int MaxMoveID_9 = (int)Move.MagicalTorque;
+    internal const int MaxItemID_9 = 2400; // Yellow Dish
+    internal const int MaxAbilityID_9 = (int)Ability.MyceliumMight;
+
+    internal const int MaxBallID_9 = (int)Ball.LAOrigin;
+    internal const int MaxGameID_9 = (int)GameVersion.VL;
+
+    internal static readonly ushort[] HeldItems_GSC = ItemStorage2.GetAllHeld();
+    internal static readonly ushort[] HeldItems_RS = ItemStorage3RS.GetAllHeld();
+    internal static readonly ushort[] HeldItems_DP = ItemStorage4DP.GetAllHeld();
+    internal static readonly ushort[] HeldItems_Pt = ItemStorage4Pt.GetAllHeld(); // Griseous Orb Added
+    internal static readonly ushort[] HeldItems_HGSS = HeldItems_Pt;
+    internal static readonly ushort[] HeldItems_BW = ItemStorage5.GetAllHeld();
+    internal static readonly ushort[] HeldItem_AO = ItemStorage6XY.GetAllHeld();
+    internal static readonly ushort[] HeldItems_SM = ItemStorage7SM.GetAllHeld();
+    internal static readonly ushort[] HeldItems_USUM = ItemStorage7USUM.GetAllHeld();
+    internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();
+    internal static readonly ushort[] HeldItems_SWSH = ItemStorage8SWSH.GetAllHeld();
+    internal static readonly ushort[] HeldItems_BS = ItemStorage8BDSP.GetAll();
+    internal static readonly ushort[] HeldItems_LA = Array.Empty<ushort>();
+    internal static readonly ushort[] HeldItems_SV = ItemStorage9SV.GetAllHeld();
 
     internal static int GetMaxSpeciesOrigin(int generation) => generation switch
     {

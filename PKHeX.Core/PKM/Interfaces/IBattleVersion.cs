@@ -38,7 +38,8 @@ public static class BattleVersionExtensions
         pk.SetRelearnMoves(empty);
 
         Span<ushort> moves = stackalloc ushort[4];
-        MoveLevelUp.GetEncounterMoves(moves, pk, pk.CurrentLevel, version);
+        var source = GameData.GetLearnSource(version);
+        source.SetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, moves);
         pk.SetMoves(moves);
         pk.FixMoves();
         v.BattleVersion = (byte)version;

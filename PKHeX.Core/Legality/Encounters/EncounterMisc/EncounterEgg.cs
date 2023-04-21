@@ -153,8 +153,9 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
 
     private void SetEncounterMoves(PKM pk, GameVersion version)
     {
-        var learnset = GameData.GetLearnset(version, Species, Form);
-        var baseMoves = learnset.GetBaseEggMoves(Level);
-        pk.SetMoves(baseMoves);
+        var ls = GameData.GetLearnSource(version);
+        var learn = ls.GetLearnset(Species, Form);
+        var initial = learn.GetBaseEggMoves(LevelMin);
+        pk.SetMoves(initial);
     }
 }

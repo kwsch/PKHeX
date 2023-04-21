@@ -155,7 +155,7 @@ public abstract class PokeListGB<T> where T : GBPKML
 
         var pk = Pokemon[index];
         Array.Copy(pk.Data, 0, Data, pkOfs, Entry_Size);
-        pk.RawOT.CopyTo(Data, otOfs);
-        pk.RawNickname.CopyTo(Data, nkOfs);
+        pk.OT_Trash.CopyTo(Data.AsSpan(otOfs));
+        pk.Nickname_Trash.CopyTo(Data.AsSpan(nkOfs));
     }
 }

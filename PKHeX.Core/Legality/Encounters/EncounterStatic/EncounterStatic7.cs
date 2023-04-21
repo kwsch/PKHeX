@@ -11,7 +11,7 @@ public sealed record EncounterStatic7(GameVersion Version) : EncounterStatic(Ver
     public Moveset Relearn { get; init; }
 
     public bool IsTotem => FormInfo.IsTotemForm(Species, Form);
-    public bool IsTotemNoTransfer => Legal.Totem_NoTransfer.Contains(Species);
+    public bool IsTotemNoTransfer => Species is (int)Core.Species.Marowak or (int)Core.Species.Araquanid or (int)Core.Species.Togedemaru or (int)Core.Species.Ribombee;
     public int GetTotemBaseForm() => FormInfo.GetTotemBaseForm(Species, Form);
 
     public bool IsRandomUnspecificForm => Form >= FormDynamic;

@@ -155,8 +155,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
         var nick = span[..stringLength];
         var ot = span.Slice(stringLength, stringLength);
-        nick.CopyTo(pk.RawNickname);
-        ot.CopyTo(pk.RawOT);
+        nick.CopyTo(pk.Nickname_Trash);
+        ot.CopyTo(pk.OT_Trash);
 
         return pk;
     }

@@ -16,8 +16,13 @@ public interface IAwakened
     byte AV_SPD { get; set; }
 }
 
+/// <summary>
+/// Logic for interacting with LGP/E Awakening values.
+/// </summary>
 public static class AwakeningUtil
 {
+    public const byte AwakeningMax = 200;
+
     /// <summary>
     /// Sums all values.
     /// </summary>
@@ -34,7 +39,7 @@ public static class AwakeningUtil
     /// Sets all values to the maximum value.
     /// </summary>
     /// <param name="pk">Data to set values for</param>
-    public static void AwakeningMax(this IAwakened pk) => pk.AwakeningSetAllTo(Legal.AwakeningMax);
+    public static void AwakeningMaximize(this IAwakened pk) => pk.AwakeningSetAllTo(AwakeningMax);
 
     /// <summary>
     /// Sets all values to the specified value.
@@ -63,7 +68,7 @@ public static class AwakeningUtil
     /// <param name="pk">Data to set values for</param>
     /// <param name="min">Minimum value to set</param>
     /// <param name="max">Maximum value to set</param>
-    public static void AwakeningSetRandom(this IAwakened pk, byte min = 0, int max = Legal.AwakeningMax)
+    public static void AwakeningSetRandom(this IAwakened pk, byte min = 0, int max = AwakeningMax)
     {
         if (pk is not PB7 pb7)
             return;
@@ -117,17 +122,17 @@ public static class AwakeningUtil
     /// <param name="pk">Data to check</param>
     public static bool AwakeningAllValid(this IAwakened pk)
     {
-        if (pk.AV_HP > Legal.AwakeningMax)
+        if (pk.AV_HP > AwakeningMax)
             return false;
-        if (pk.AV_ATK > Legal.AwakeningMax)
+        if (pk.AV_ATK > AwakeningMax)
             return false;
-        if (pk.AV_DEF > Legal.AwakeningMax)
+        if (pk.AV_DEF > AwakeningMax)
             return false;
-        if (pk.AV_SPE > Legal.AwakeningMax)
+        if (pk.AV_SPE > AwakeningMax)
             return false;
-        if (pk.AV_SPA > Legal.AwakeningMax)
+        if (pk.AV_SPA > AwakeningMax)
             return false;
-        if (pk.AV_SPD > Legal.AwakeningMax)
+        if (pk.AV_SPD > AwakeningMax)
             return false;
         return true;
     }
@@ -189,12 +194,12 @@ public static class AwakeningUtil
     {
         Span<byte> result = stackalloc byte[6];
         SetExpectedMinimumAVs(result, (PB7)a);
-        a.AV_HP  = Legal.AwakeningMax;
-        a.AV_ATK = pk.IV_ATK == 0 ? result[1] : Legal.AwakeningMax;
-        a.AV_DEF = Legal.AwakeningMax;
-        a.AV_SPA = Legal.AwakeningMax;
-        a.AV_SPD = Legal.AwakeningMax;
-        a.AV_SPE = pk.IV_SPE == 0 ? result[5] : Legal.AwakeningMax;
+        a.AV_HP  = AwakeningMax;
+        a.AV_ATK = pk.IV_ATK == 0 ? result[1] : AwakeningMax;
+        a.AV_DEF = AwakeningMax;
+        a.AV_SPA = AwakeningMax;
+        a.AV_SPD = AwakeningMax;
+        a.AV_SPE = pk.IV_SPE == 0 ? result[5] : AwakeningMax;
     }
 
     public static bool IsAwakeningBelow(this IAwakened current, IAwakened initial) => !current.IsAwakeningAboveOrEqual(initial);

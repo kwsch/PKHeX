@@ -179,35 +179,6 @@ public sealed class FormVerifier : Verifier
         if (FormInfo.IsBattleOnlyForm(species, form, format))
             return GetInvalid(LFormBattle);
 
-        if (form == 0)
-            return VALID;
-
-        // everything below here is not Form 0, so it has a form.
-        if (format >= 7 && Info.Generation < 7)
-        {
-            if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(enc.Species))
-                return GetInvalid(LFormInvalidGame);
-        }
-        if (format >= 8 && Info.Generation < 8)
-        {
-            var orig = enc.Species;
-            if (Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(orig))
-            {
-                if (species == (int)Meowth && enc.Form != 2)
-                {
-                    // We're okay here. There's also Alolan Meowth...
-                }
-                else if (((Species)orig is MrMime or MimeJr) && pk.CurrentLevel > enc.LevelMin && Info.Generation >= 4)
-                {
-                    // We're okay with a Mime Jr. that has evolved via level up.
-                }
-                else if (enc.Version != GameVersion.GO)
-                {
-                    return GetInvalid(LFormInvalidGame);
-                }
-            }
-        }
-
         return VALID;
     }
 

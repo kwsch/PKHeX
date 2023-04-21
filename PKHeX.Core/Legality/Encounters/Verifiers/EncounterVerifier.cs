@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -27,21 +26,21 @@ public static class EncounterVerifier
         EncounterSlot w => VerifyEncounterWild(w),
         EncounterStatic s => VerifyEncounterStatic(pk, s),
         MysteryGift g => VerifyEncounterEvent(pk, g),
-        _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter),
+        _ => GetInvalid(LEncInvalid),
     };
 
     private static CheckResult VerifyEncounterG12(PKM pk, IEncounterTemplate enc)
     {
         if (enc.EggEncounter)
-            return VerifyEncounterEgg(pk, enc.Generation);
+            return VerifyEncounterEgg(pk, 2);
 
         return enc switch
         {
-            EncounterSlot1 => new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter),
+            EncounterSlot1 => GetValid(LEncCondition),
             EncounterSlot2 s2 => VerifyWildEncounterGen2(pk, s2),
             EncounterStatic s => VerifyEncounterStatic(pk, s),
             EncounterTrade t => VerifyEncounterTrade(pk, t),
-            _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter),
+            _ => GetInvalid(LEncInvalid),
         };
     }
 
@@ -57,21 +56,21 @@ public static class EncounterVerifier
                 switch (encounter.Location)
                 {
                     case 19: // National Park
-                        return new CheckResult(Severity.Invalid, LG2InvalidTilePark, CheckIdentifier.Encounter);
+                        return GetInvalid(LG2InvalidTilePark);
                     case 76: // Route 14
-                        return new CheckResult(Severity.Invalid, LG2InvalidTileR14, CheckIdentifier.Encounter);
+                        return GetInvalid(LG2InvalidTileR14);
                 }
                 break;
         }
 
-        return new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter);
+        return GetValid(LEncCondition);
     }
 
     private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID32 tr, EncounterSlot2 s2)
     {
         return s2.IsTreeAvailable(tr.TID16)
-            ? new CheckResult(Severity.Valid, LG2TreeID, CheckIdentifier.Encounter)
-            : new CheckResult(Severity.Invalid, LG2InvalidTileTreeNotFound, CheckIdentifier.Encounter);
+            ? GetValid(LG2TreeID)
+            : GetInvalid(LG2InvalidTileTreeNotFound);
     }
 
     // Eggs
@@ -86,20 +85,20 @@ public static class EncounterVerifier
         8 when GameVersion.BDSP.Contains((GameVersion)pk.Version) => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6NPC, Locations.Default8bNone) : VerifyEncounterEgg8BDSP(pk),
         8 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg8(pk),
         9 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg9(pk),
-        _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter),
+        _ => GetInvalid(LEggLocationInvalid),
     };
 
     private static CheckResult VerifyUnhatchedEgg3(PKM pk)
     {
         if (pk.Met_Level != 0)
-            return new CheckResult(Severity.Invalid, string.Format(LEggFMetLevel_0, 0), CheckIdentifier.Encounter);
+            return GetInvalid(string.Format(LEggFMetLevel_0, 0));
 
         // Only EncounterEgg should reach here.
         var loc = pk.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE;
         if (pk.Met_Location != loc)
-            return new CheckResult(Severity.Invalid, LEggMetLocationFail, CheckIdentifier.Encounter);
+            return GetInvalid(LEggMetLocationFail);
 
-        return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
+        return GetValid(LEggLocation);
     }
 
     private static CheckResult VerifyEncounterEgg3(PKM pk)
@@ -108,172 +107,192 @@ public static class EncounterVerifier
             return VerifyEncounterEgg3Transfer(pk);
 
         if (pk.Met_Level != 0)
-            return new CheckResult(Severity.Invalid, string.Format(LEggFMetLevel_0, 0), CheckIdentifier.Encounter);
+            return GetInvalid(string.Format(LEggFMetLevel_0, 0));
 
         // Check the origin game list.
         var met = (byte)pk.Met_Location;
-        var locs = pk.FRLG ? Legal.ValidMet_FRLG : pk.E ? Legal.ValidMet_E : Legal.ValidMet_RS;
-        if (locs.Contains(met))
-            return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
+        bool valid = EggHatchLocation3.IsValidMet3(met, (GameVersion)pk.Version);
+        if (valid)
+            return GetValid(LEggLocation);
 
         // Version isn't updated when hatching on a different game. Check any game.
-        if (Legal.ValidMet_FRLG.Contains(met) || Legal.ValidMet_E.Contains(met) || Legal.ValidMet_RS.Contains(met))
-            return new CheckResult(Severity.Valid, LEggLocationTrade, CheckIdentifier.Encounter);
-        return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        if (EggHatchLocation3.IsValidMet3Any(met))
+            return GetValid(LEggLocationTrade);
+        return GetInvalid(LEggLocationInvalid);
     }
+
+    private static CheckResult GetInvalid(string message, CheckIdentifier ident = CheckIdentifier.Encounter) => new(Severity.Invalid, message, ident);
+    private static CheckResult GetValid(string message) => new(Severity.Valid, message, CheckIdentifier.Encounter);
 
     private static CheckResult VerifyEncounterEgg3Transfer(PKM pk)
     {
         if (pk.IsEgg)
-            return new CheckResult(Severity.Invalid, LTransferEgg, CheckIdentifier.Encounter);
+            return GetInvalid(LTransferEgg);
         if (pk.Met_Level < 5)
-            return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
+            return GetInvalid(LTransferEggMetLevel);
 
         var expectEgg = pk is PB8 ? Locations.Default8bNone : 0;
         if (pk.Egg_Location != expectEgg)
-            return new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
+            return GetInvalid(LEggLocationNone);
 
         if (pk.Format != 4)
         {
             if (pk.Met_Location != Locations.Transfer4)
-                return new CheckResult(Severity.Invalid, LTransferEggLocationTransporter, CheckIdentifier.Encounter);
+                return GetInvalid(LTransferEggLocationTransporter);
         }
         else
         {
             if (pk.Met_Location != Locations.Transfer3)
-                return new CheckResult(Severity.Invalid, LEggLocationPalPark, CheckIdentifier.Encounter);
+                return GetInvalid(LEggLocationPalPark);
         }
 
-        return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
+        return GetValid(LEggLocation);
     }
 
     private static CheckResult VerifyEncounterEgg4(PKM pk)
     {
-        if (pk.Format == 4)
+        if (pk.Format != 4) // transferred
         {
-            // Traded eggs don't update Version, like in future games.
-            var locations = pk.WasTradedEgg ? Legal.ValidMet_4 :
-                pk.HGSS ? Legal.ValidMet_HGSS :
-                pk.Pt ? Legal.ValidMet_Pt :
-                Legal.ValidMet_DP;
-            return VerifyEncounterEggLevelLoc(pk, 0, locations);
+            if (pk.IsEgg)
+                return GetInvalid(LTransferEgg);
+            if (pk.Met_Level < 1)
+                return GetInvalid(LTransferEggMetLevel);
+            if (pk.Met_Location != Locations.Transfer4)
+                return GetInvalid(LTransferEggLocationTransporter);
+            return GetValid(LEggLocation);
         }
-        if (pk.IsEgg)
-            return new CheckResult(Severity.Invalid, LTransferEgg, CheckIdentifier.Encounter);
 
-        // transferred
-        if (pk.Met_Level < 1)
-            return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
-        if (pk.Met_Location != Locations.Transfer4)
-            return new CheckResult(Severity.Invalid, LTransferEggLocationTransporter, CheckIdentifier.Encounter);
-        return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
+        // Native
+        const byte level = 0;
+        if (pk.Met_Level != level)
+            return GetInvalid(string.Format(LEggFMetLevel_0, level));
+
+        var met = (ushort)pk.Met_Location;
+        bool valid = EggHatchLocation4.IsValidMet4(met, (GameVersion)pk.Version);
+        if (valid)
+            return GetValid(LEggLocation);
+
+        // Version isn't updated when hatching on a different game. Check any game.
+        if (EggHatchLocation4.IsValidMet4Any(met))
+            return GetValid(LEggLocationTrade);
+        return GetInvalid(LEggLocationInvalid);
     }
 
     private static CheckResult VerifyEncounterEgg5(PKM pk)
     {
-        // Two game-specific locations we need to double check for.
-        // White / White2 cannot access Black Gate (112)
-        // Black / Black2 cannot access White Gate (113)
-        var met = pk.Met_Location;
-        var delta = (uint)(met - 112);
-        if (delta <= 1)
-        {
-            var ver = pk.Version & 1; // W*=0, B*=1
-            if (ver == delta)
-                return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
-        }
-        return VerifyEncounterEggLevelLoc(pk, 1, pk.B2W2 ? Legal.ValidMet_B2W2 : Legal.ValidMet_BW);
+        const byte level = 1;
+        if (pk.Met_Level != level)
+            return GetInvalid(string.Format(LEggFMetLevel_0, level));
+
+        var met = (ushort)pk.Met_Location;
+        bool valid = EggHatchLocation5.IsValidMet5(met, (GameVersion)pk.Version);
+
+        if (valid)
+            return GetValid(LEggLocation);
+        return GetInvalid(LEggLocationInvalid);
     }
 
     private static CheckResult VerifyEncounterEgg6(PKM pk)
     {
-        if (pk.AO)
-            return VerifyEncounterEggLevelLoc(pk, 1, Legal.ValidMet_AO);
+        const byte level = 1;
+        if (pk.Met_Level != level)
+            return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
-        if (pk.Egg_Location == Locations.HatchLocation6AO) // Battle Resort Daycare is only OR/AS.
-            return new CheckResult(Severity.Invalid, LEggMetLocationFail, CheckIdentifier.Encounter);
+        var met = (ushort)pk.Met_Location;
+        bool valid = pk.XY
+            ? EggHatchLocation6.IsValidMet6XY(met)
+            : EggHatchLocation6.IsValidMet6AO(met);
 
-        return VerifyEncounterEggLevelLoc(pk, 1, Legal.ValidMet_XY);
+        if (valid)
+            return GetValid(LEggLocation);
+        return GetInvalid(LEggLocationInvalid);
     }
 
     private static CheckResult VerifyEncounterEgg7(PKM pk)
     {
-        if (pk.SM)
-            return VerifyEncounterEggLevelLoc(pk, 1, Legal.ValidMet_SM);
-        if (pk.USUM)
-            return VerifyEncounterEggLevelLoc(pk, 1, Legal.ValidMet_USUM);
+        const byte level = 1;
+        if (pk.Met_Level != level)
+            return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
-        // no other games
-        return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        var met = (ushort)pk.Met_Location;
+        bool valid = pk.SM
+            ? EggHatchLocation7.IsValidMet7SM(met)
+            : EggHatchLocation7.IsValidMet7USUM(met);
+
+        if (valid)
+            return GetValid(LEggLocation);
+        return GetInvalid(LEggLocationInvalid);
     }
 
     private static CheckResult VerifyEncounterEgg8(PKM pk)
     {
-        if (pk.SWSH)
-        {
-            if (pk.BDSP)
-                return VerifyEncounterEggLevelLoc(pk, 1, (location, game) => location == (game == GameVersion.SW ? Locations.HOME_SWBD : Locations.HOME_SHSP));
-            return VerifyEncounterEggLevelLoc(pk, 1, Legal.ValidMet_SWSH);
-        }
+        const byte level = 1;
+        if (pk.Met_Level != level)
+            return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
-        // no other games
-        return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
-    }
+        var met = (ushort)pk.Met_Location;
+        bool valid = pk.BDSP // Transferred from BD/SP, now acting like a SW/SH egg.
+            ? Locations.IsValidMetBDSP(met, pk.Version)
+            : EggHatchLocation8.IsValidMet8SWSH(met);
 
-    private static CheckResult VerifyEncounterEgg9(PKM pk)
-    {
-        if (pk.SV)
-            return VerifyEncounterEggLevelLoc(pk, 1, Legal.IsValidEggHatchLocation9);
-
-        // no other games
-        return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        if (valid)
+            return GetValid(LEggLocation);
+        return GetInvalid(LEggLocationInvalid);
     }
 
     private static CheckResult VerifyEncounterEgg8BDSP(PKM pk)
     {
-        if (pk.BDSP)
-            return VerifyEncounterEggLevelLoc(pk, 1, Legal.IsValidEggHatchLocation8b);
+        const byte level = 1;
+        if (pk.Met_Level != level)
+            return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
-        // no other games
-        return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        var met = (ushort)pk.Met_Location;
+        bool valid = pk.Version == (int)GameVersion.BD
+            ? EggHatchLocation8b.IsValidMet8BD(met)
+            : EggHatchLocation8b.IsValidMet8SP(met);
+
+        if (valid)
+            return GetValid(LEggLocation);
+        return GetInvalid(LEggLocationInvalid);
     }
 
-    private static CheckResult VerifyEncounterEggLevelLoc(PKM pk, int eggLevel, IReadOnlySet<ushort> MetLocations)
+    private static CheckResult VerifyEncounterEgg9(PKM pk)
     {
-        return VerifyEncounterEggLevelLoc(pk, eggLevel, (location, _) => MetLocations.Contains(location));
-    }
+        const byte level = 1;
+        if (pk.Met_Level != level)
+            return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
-    // (hatch location, hatch version, bool result)
-    private static CheckResult VerifyEncounterEggLevelLoc(PKM pk, int eggLevel, Func<ushort, GameVersion, bool> isValid)
-    {
-        if (pk.Met_Level != eggLevel)
-            return new CheckResult(Severity.Invalid, string.Format(LEggFMetLevel_0, eggLevel), CheckIdentifier.Encounter);
-        return isValid((ushort)pk.Met_Location, (GameVersion)pk.Version)
-            ? new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter)
-            : new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
+        var met = (ushort)pk.Met_Location;
+        bool valid = pk.Version == (int)GameVersion.SL
+            ? EggHatchLocation9.IsValidMet9SL(met)
+            : EggHatchLocation9.IsValidMet9VL(met);
+
+        if (valid)
+            return GetValid(LEggLocation);
+        return GetInvalid(LEggLocationInvalid);
     }
 
     private static CheckResult VerifyUnhatchedEgg(PKM pk, int tradeLoc, int noneLoc = 0)
     {
         var eggLevel = pk.Format < 5 ? 0 : 1;
         if (pk.Met_Level != eggLevel)
-            return new CheckResult(Severity.Invalid, string.Format(LEggFMetLevel_0, eggLevel), CheckIdentifier.Encounter);
+            return GetInvalid(string.Format(LEggFMetLevel_0, eggLevel));
         if (pk.Egg_Location == tradeLoc)
-            return new CheckResult(Severity.Invalid, LEggLocationTradeFail, CheckIdentifier.Encounter);
+            return GetInvalid(LEggLocationTradeFail);
 
         var met = pk.Met_Location;
         if (met == tradeLoc)
-            return new CheckResult(Severity.Valid, LEggLocationTrade, CheckIdentifier.Encounter);
+            return GetValid(LEggLocationTrade);
         return met == noneLoc
-            ? new CheckResult(Severity.Valid, LEggUnhatched, CheckIdentifier.Encounter)
-            : new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
+            ? GetValid(LEggUnhatched)
+            : GetInvalid(LEggLocationNone);
     }
 
     // Other
     private static CheckResult VerifyEncounterWild(EncounterSlot slot)
     {
         var summary = slot.GetConditionString(out bool valid);
-        return new CheckResult(valid ? Severity.Valid : Severity.Invalid, summary, CheckIdentifier.Encounter);
+        return valid ? GetValid(summary) : GetInvalid(summary);
     }
 
     private static CheckResult VerifyEncounterStatic(PKM pk, EncounterStatic s)
@@ -283,24 +302,24 @@ public static class EncounterVerifier
         {
             case 3:
                 if (s is EncounterStaticShadow {EReader: true} && pk.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
-                    return new CheckResult(Severity.Invalid, LG3EReader, CheckIdentifier.Encounter);
+                    return GetInvalid(LG3EReader);
 
                 switch (s.Species)
                 {
                     case (int)Species.Mew when s.Location == 201 && pk.Language != (int)LanguageID.Japanese: // Non-JP Mew (Old Sea Map)
-                        return new CheckResult(Severity.Invalid, LEncUnreleasedEMewJP, CheckIdentifier.Encounter);
+                        return GetInvalid(LEncUnreleasedEMewJP);
                     case (int)Species.Deoxys when s.Location == 200 && pk.Language == (int)LanguageID.Japanese: // JP Deoxys (Birth Island)
-                        return new CheckResult(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
+                        return GetInvalid(LEncUnreleased);
                 }
 
                 break;
             case 4:
                 if (s is EncounterStatic4 {Roaming: true} && pk.Met_Location == 193 && pk is IGroundTile {GroundTile:GroundTileType.Water}) // Roaming pokemon surfing in Johto Route 45
-                    return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
+                    return GetInvalid(LG4InvalidTileR45Surf);
                 break;
             case 7:
                 if (s.EggLocation == Locations.Daycare5 && pk.RelearnMove1 != 0) // Eevee gift egg
-                    return new CheckResult(Severity.Invalid, LEncStaticRelearn, CheckIdentifier.RelearnMove); // not gift egg
+                    return GetInvalid(LEncStaticRelearn, CheckIdentifier.RelearnMove); // not gift egg
                 break;
         }
         if (s.EggEncounter && !pk.IsEgg) // hatched
@@ -310,7 +329,7 @@ public static class EncounterVerifier
                 return hatchCheck;
         }
 
-        return new CheckResult(Severity.Valid, LEncStaticMatch, CheckIdentifier.Encounter);
+        return GetValid(LEncStaticMatch);
     }
 
     private static CheckResult VerifyEncounterTrade(ISpeciesForm pk, EncounterTrade trade)
@@ -323,9 +342,9 @@ public static class EncounterVerifier
             var names = ParseSettings.SpeciesStrings;
             var evolved = names[species + 1];
             var unevolved = names[species];
-            return new CheckResult(Severity.Invalid, string.Format(LEvoTradeReq, unevolved, evolved), CheckIdentifier.Encounter);
+            return GetInvalid(string.Format(LEvoTradeReq, unevolved, evolved));
         }
-        return new CheckResult(Severity.Valid, LEncTradeMatch, CheckIdentifier.Encounter);
+        return GetValid(LEncTradeMatch);
     }
 
     private static CheckResult VerifyEncounterEvent(PKM pk, MysteryGift gift)
@@ -334,7 +353,7 @@ public static class EncounterVerifier
         {
             case PCD pcd:
                 if (!pcd.CanBeReceivedByVersion(pk.Version) && pcd.Gift.PK.Version == 0)
-                    return new CheckResult(Severity.Invalid, string.Format(L_XMatches0_1, gift.CardHeader, $"-- {LEncGiftVersionNotDistributed}"), CheckIdentifier.Encounter);
+                    return GetInvalid(string.Format(L_XMatches0_1, gift.CardHeader, $"-- {LEncGiftVersionNotDistributed}"));
                 break;
         }
         if (!pk.IsEgg && gift.IsEgg) // hatched
@@ -345,6 +364,6 @@ public static class EncounterVerifier
         }
 
         // Strict matching already performed by EncounterGenerator. May be worth moving some checks here to better flag invalid gifts.
-        return new CheckResult(Severity.Valid, string.Format(L_XMatches0_1, gift.CardHeader, string.Empty), CheckIdentifier.Encounter);
+        return GetValid(string.Format(L_XMatches0_1, gift.CardHeader, string.Empty));
     }
 }

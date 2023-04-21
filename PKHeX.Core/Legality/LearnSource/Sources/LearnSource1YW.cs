@@ -13,7 +13,7 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
 {
     public static readonly LearnSource1YW Instance = new();
     private static readonly PersonalTable1 Personal = PersonalTable.Y;
-    private static readonly Learnset[] Learnsets = Legal.LevelUpY;
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), Legal.MaxSpeciesID_1);
     private const LearnEnvironment Game = YW;
     private const int MaxSpecies = Legal.MaxSpeciesID_1;
 
@@ -100,9 +100,8 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
         }
     }
 
-    public void GetEncounterMoves(ISpeciesForm enc, int level, Span<ushort> init)
+    public void SetEncounterMoves(ushort species, byte form, int level, Span<ushort> init)
     {
-        var species = enc.Species;
         if (!TryGetPersonal(species, 0, out var personal))
             return;
 

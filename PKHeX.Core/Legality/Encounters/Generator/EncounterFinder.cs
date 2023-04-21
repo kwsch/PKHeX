@@ -174,7 +174,7 @@ public static class EncounterFinder
     private static bool WasGiftEgg(PKM pk, int gen, ushort loc) => !pk.FatefulEncounter && gen switch
     {
         3 => pk.IsEgg && (byte)pk.Met_Location == 253, // Gift Egg, indistinguishable from normal eggs after hatch
-        4 => Legal.GiftEggLocation4.Contains(loc) || (pk.Format != 4 && (loc == Locations.Faraway4 && pk.HGSS)),
+        4 => (uint)(loc - 2009) <= (2014 - 2009) || (pk.Format != 4 && (loc == Locations.Faraway4 && pk.HGSS)),
         5 => loc is Locations.Breeder5,
         _ => loc is Locations.Breeder6,
     };

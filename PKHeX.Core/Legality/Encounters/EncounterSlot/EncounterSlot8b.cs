@@ -41,10 +41,10 @@ public sealed record EncounterSlot8b : EncounterSlot
         var et = PersonalTable.BDSP;
         var sf = et.GetFormEntry(Species, Form);
         var species = sf.HatchSpecies;
-        var baseEgg = Legal.EggMovesBDSP[species].Moves;
+        var baseEgg = LearnSource8BDSP.Instance.GetEggMoves(species, 0);
         if (baseEgg.Length == 0)
             return move == 0;
-        return Array.IndexOf(baseEgg, move) >= 0;
+        return baseEgg.Contains(move);
     }
 
     public bool GetBaseEggMove(out ushort move)
@@ -52,7 +52,7 @@ public sealed record EncounterSlot8b : EncounterSlot
         var et = PersonalTable.BDSP;
         var sf = et.GetFormEntry(Species, Form);
         var species = sf.HatchSpecies;
-        var baseEgg = Legal.EggMovesBDSP[species].Moves;
+        var baseEgg = LearnSource8BDSP.Instance.GetEggMoves(species, 0);
         if (baseEgg.Length == 0)
         {
             move = 0;
