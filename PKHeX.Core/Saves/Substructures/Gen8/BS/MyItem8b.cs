@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -101,6 +100,4 @@ public sealed class MyItem8b : MyItem
         var max = info.GetMax(type);
         return new InventoryPouch8b(type, info, max, Offset);
     }
-
-    public static bool IsHeldItemLegal(ushort item) => !Legal.HeldItems_BS.Contains(item) || Legal.ReleasedHeldItems_8b[item];
 }
