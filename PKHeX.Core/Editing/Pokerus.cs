@@ -50,8 +50,8 @@ public static class Pokerus
         if (!IsObtainable(pk))
             return IsSusceptible(strain, days);
         if (pk.Format <= 2)
-            return IsStrainValid2(strain, days);
-        return IsStrainValid(strain, days);
+            return IsStrainValid2(strain);
+        return IsStrainValid(strain);
     }
 
     /// <inheritdoc cref="IsStrainValid(PKM,int,int)"/>
