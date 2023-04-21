@@ -82,7 +82,7 @@ public sealed class FilteredGameDataSource
         var legal = source.LegalMoveDataSource;
         return sav switch
         {
-            SAV7b => legal.Where(s => Legal.IsAllowedMoveGG((ushort)s.Value)), // LGPE: Not all moves are available
+            SAV7b => legal.Where(s => MoveInfo7b.IsAllowedMoveGG((ushort)s.Value)), // LGPE: Not all moves are available
             _ => legal.Where(m => m.Value <= sav.MaxMoveID),
         };
     }
