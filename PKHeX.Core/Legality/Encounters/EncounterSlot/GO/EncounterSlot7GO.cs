@@ -50,7 +50,8 @@ public sealed record EncounterSlot7GO : EncounterSlotGO
     protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
     {
         Span<ushort> moves = stackalloc ushort[4];
-        MoveLevelUp.GetEncounterMoves(moves, pk, level, GameVersion.GG);
+        var source = GameData.GetLearnSource(GameVersion.GG);
+        source.SetEncounterMoves(Species, Form, level, moves);
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
     }

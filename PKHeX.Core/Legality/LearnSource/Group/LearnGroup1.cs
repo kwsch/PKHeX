@@ -153,10 +153,10 @@ public sealed class LearnGroup1 : ILearnGroup
 
     private static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> moves)
     {
-        if (enc.Version is GameVersion.YW or GameVersion.RBY)
-            LearnSource1YW.Instance.GetEncounterMoves(enc, enc.LevelMin, moves);
-        else
-            LearnSource1RB.Instance.GetEncounterMoves(enc, enc.LevelMin, moves);
+        ILearnSource ls = enc.Version is GameVersion.YW or GameVersion.RBY
+            ? LearnSource1YW.Instance
+            : LearnSource1RB.Instance;
+        ls.SetEncounterMoves(enc.Species, 0, enc.LevelMin, moves);
     }
 
     private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage, LearnOption option = LearnOption.Current, MoveSourceType types = MoveSourceType.All)

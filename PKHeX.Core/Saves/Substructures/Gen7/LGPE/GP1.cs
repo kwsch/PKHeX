@@ -194,7 +194,8 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
         }
 
         Span<ushort> moves = stackalloc ushort[4];
-        MoveLevelUp.GetEncounterMoves(moves, pk, pk.CurrentLevel, GameVersion.GO);
+        ILearnSource source = LearnSource7GG.Instance;
+        source.SetEncounterMoves(Species, Form, Level, moves);
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
         pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;

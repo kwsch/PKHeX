@@ -13,8 +13,8 @@ public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource
 {
     public static readonly LearnSource7SM Instance = new();
     private static readonly PersonalTable7 Personal = PersonalTable.SM;
-    private static readonly Learnset[] Learnsets = Legal.LevelUpSM;
-    private static readonly EggMoves7[] EggMoves = Legal.EggMovesSM;
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
+    private static readonly EggMoves7[] EggMoves = EggMoves7.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
     private const int MaxSpecies = Legal.MaxSpeciesID_7;
     private const LearnEnvironment Game = SM;
     private const int ReminderBonus = 100; // Move reminder allows re-learning ALL level up moves regardless of level.
@@ -34,15 +34,15 @@ public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource
     {
         if (species > MaxSpecies)
             return false;
-        var moves = MoveEgg.GetFormEggMoves(species, form, EggMoves).AsSpan();
-        return moves.IndexOf(move) != -1;
+        var moves = EggMoves.GetFormEggMoves(species, form);
+        return moves.Contains(move);
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if (species > MaxSpecies)
             return ReadOnlySpan<ushort>.Empty;
-        return MoveEgg.GetFormEggMoves(species, form, EggMoves);
+        return EggMoves.GetFormEggMoves(species, form);
     }
 
     public MoveLearnInfo GetCanLearn(PKM pk, PersonalInfo7 pi, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)

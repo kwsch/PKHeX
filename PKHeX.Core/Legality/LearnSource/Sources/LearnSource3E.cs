@@ -2,19 +2,17 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LearnMethod;
 using static PKHeX.Core.LearnEnvironment;
-using static PKHeX.Core.LearnSource3;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="E"/>.
 /// </summary>
-public sealed class LearnSource3E : ILearnSource<PersonalInfo3>, IEggSource
+public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, IEggSource
 {
     public static readonly LearnSource3E Instance = new();
     private static readonly PersonalTable3 Personal = PersonalTable.E;
-    private static readonly Learnset[] Learnsets = Legal.LevelUpE;
-    private static readonly EggMoves6[] EggMoves = Legal.EggMovesRS; // same for all Gen3 games
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
     private const int MaxSpecies = Legal.MaxSpeciesID_3;
     private const LearnEnvironment Game = E;
     private const int Generation = 3;

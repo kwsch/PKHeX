@@ -125,6 +125,30 @@ public sealed class EggMoves7 : EggMoves
     }
 }
 
+internal static class EggMovesExtensions
+{
+    public static ReadOnlySpan<ushort> GetFormEggMoves(this EggMoves7[] table, ushort species, byte form)
+    {
+        if (species >= table.Length)
+            return ReadOnlySpan<ushort>.Empty;
+
+        var entry = table[species];
+        if (form == 0 || species >= entry.FormTableIndex)
+            return entry.Moves;
+
+        // Sanity check form in the event it is out of range.
+        var baseIndex = entry.FormTableIndex;
+        var index = baseIndex + form - 1;
+        if ((uint)index >= table.Length)
+            return ReadOnlySpan<ushort>.Empty;
+        entry = table[index];
+        if (entry.FormTableIndex != baseIndex)
+            return ReadOnlySpan<ushort>.Empty;
+
+        return entry.Moves;
+    }
+}
+
 /// <summary>
 /// Raw Egg Move storage
 /// </summary>

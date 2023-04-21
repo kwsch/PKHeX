@@ -12,11 +12,18 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
 {
     public static readonly LearnSource8LA Instance = new();
     private static readonly PersonalTable8LA Personal = PersonalTable.LA;
-    private static readonly Learnset[] Learnsets = Legal.LevelUpLA;
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_la.pkl"), "la"));
+    private static readonly Learnset[] Mastery = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("mastery_la.pkl"), "la"));
     private const int MaxSpecies = Legal.MaxSpeciesID_8a;
     private const LearnEnvironment Game = PLA;
 
     public Learnset GetLearnset(ushort species, byte form) => Learnsets[Personal.GetFormIndex(species, form)];
+
+    public static (Learnset Learn, Learnset Mastery) GetLearnsetAndMastery(ushort species, byte form)
+    {
+        var index = Personal.GetFormIndex(species, form);
+        return (Learnsets[index], Mastery[index]);
+    }
 
     public bool TryGetPersonal(ushort species, byte form, [NotNullWhen(true)] out PersonalInfo8LA? pi)
     {

@@ -247,7 +247,8 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         if (Move1 == 0) // No moves defined
         {
             Span<ushort> moves = stackalloc ushort[4];
-            MoveLevelUp.GetEncounterMoves(moves, Species, Form, Level, (GameVersion)pk.Version);
+            var source = GameData.GetLearnSource((GameVersion)pk.Version);
+            source.SetEncounterMoves(Species, Form, Level, moves);
             pk.SetMoves(moves);
         }
 

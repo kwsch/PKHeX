@@ -91,7 +91,8 @@ public static class MemoryPermissions
         // Relearns can be wiped via Battle Version. Check for eggs too.
         if (IsSpecialEncounterMoveEggDeleted(pk, enc))
         {
-            var em = MoveEgg.GetEggMoves(enc.Generation, enc.Species, enc.Form, enc.Version);
+            var learn = GameData.GetLearnSource(enc.Version);
+            var em = learn.GetEggMoves(enc.Species, enc.Form);
             if (em.Contains(move))
                 return true;
         }

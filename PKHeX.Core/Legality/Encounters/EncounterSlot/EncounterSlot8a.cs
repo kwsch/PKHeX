@@ -84,13 +84,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
         }
     }
 
-    public (Learnset Learn, Learnset Mastery) GetLevelUpInfo()
-    {
-        var index = PersonalTable.LA.GetFormIndex(Species, Form);
-        var learn = Legal.LevelUpLA[index];
-        var mastery = Legal.MasteryLA[index];
-        return (learn, mastery);
-    }
+    public (Learnset Learn, Learnset Mastery) GetLevelUpInfo() => LearnSource8LA.GetLearnsetAndMastery(Species, Form);
 
     protected override void SetFormatSpecificData(PKM pk)
     {
@@ -174,14 +168,12 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
 
         bool allowAlphaPurchaseBug = Area.Type is not SlotType.OverworldMMO; // Everything else Alpha is pre-1.1
         var level = pk.Met_Level;
-        var index = PersonalTable.LA.GetFormIndex(Species, Form);
-        var learn = Legal.LevelUpLA[index];
+        var (learn, mastery) = GetLevelUpInfo();
         ushort alpha = pk is PA8 pa ? pa.AlphaMove : (ushort)0;
         if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
             return false;
 
         Span<ushort> moves = stackalloc ushort[4];
-        var mastery = Legal.MasteryLA[index];
         if (pk is PA8 { AlphaMove: not 0 } pa8)
         {
             moves[0] = pa8.AlphaMove;

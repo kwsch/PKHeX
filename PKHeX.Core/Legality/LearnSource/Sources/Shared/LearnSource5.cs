@@ -2,8 +2,10 @@ using System;
 
 namespace PKHeX.Core;
 
-internal static class LearnSource5
+public abstract class LearnSource5
 {
+    private protected readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"));
+
     internal static ReadOnlySpan<ushort> TMHM_BW => new ushort[]
     {
         468, 337, 473, 347, 046, 092, 258, 339, 474, 237,

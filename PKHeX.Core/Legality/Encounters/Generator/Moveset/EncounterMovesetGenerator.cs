@@ -302,7 +302,8 @@ public static class EncounterMovesetGenerator
                 continue;
             }
 
-            var eggMoves = MoveEgg.GetEggMoves(egg.Species, egg.Form, egg.Version, egg.Generation);
+            var source = GameData.GetLearnSource(egg.Version);
+            var eggMoves = source.GetEggMoves(egg.Species, egg.Form);
             int flags = Moveset.BitOverlap(eggMoves, needs);
             var vt = Array.IndexOf(needs, (ushort)Move.VoltTackle);
             if (vt != -1 && egg is EncounterEgg { CanHaveVoltTackle: true })
@@ -463,7 +464,8 @@ public static class EncounterMovesetGenerator
     private static int GetMoveMaskGen2(ReadOnlySpan<ushort> needs, IEncounterTemplate enc)
     {
         Span<ushort> moves = stackalloc ushort[4];
-        MoveLevelUp.GetEncounterMoves(moves, enc.Species, 0, enc.LevelMin, enc.Version);
+        var source = GameData.GetLearnSource(enc.Version);
+        source.SetEncounterMoves(enc.Species, 0, enc.LevelMin, moves);
         return Moveset.BitOverlap(moves, needs);
     }
 

@@ -165,8 +165,18 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     {
         if (!Moves.HasMoves) // not completely defined
         {
+            var ver = (GameVersion)pk.Version;
+            ILearnSource ls = ver switch
+            {
+                GameVersion.R or GameVersion.S => LearnSource3RS.Instance,
+                GameVersion.FR => LearnSource3FR.Instance,
+                GameVersion.LG => LearnSource3LG.Instance,
+                _ => LearnSource3E.Instance,
+            };
+
+            var learn = ls.GetLearnset(Species, Form);
             Span<ushort> moves = stackalloc ushort[4];
-            MoveList.GetCurrentMoves(pk, Species, Form, (GameVersion)pk.Version, Level, moves);
+            learn.SetEncounterMoves(Level, moves);
             Moves = new(moves[0], moves[1], moves[2], moves[3]);
         }
 

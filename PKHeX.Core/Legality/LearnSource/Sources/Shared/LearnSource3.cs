@@ -2,8 +2,10 @@ using System;
 
 namespace PKHeX.Core;
 
-internal static class LearnSource3
+public abstract class LearnSource3
 {
+    private protected readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_rs.pkl"), "rs")); // same for all Gen3 games
+
     internal static ReadOnlySpan<ushort> TM_3 => new ushort[]
     {
         264, 337, 352, 347, 046, 092, 258, 339, 331, 237,

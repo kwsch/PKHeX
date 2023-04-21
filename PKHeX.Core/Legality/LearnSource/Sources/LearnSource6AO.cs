@@ -12,8 +12,8 @@ public sealed class LearnSource6AO : ILearnSource<PersonalInfo6AO>, IEggSource
 {
     public static readonly LearnSource6AO Instance = new();
     private static readonly PersonalTable6AO Personal = PersonalTable.AO;
-    private static readonly Learnset[] Learnsets = Legal.LevelUpAO;
-    private static readonly EggMoves6[] EggMoves = Legal.EggMovesAO;
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
+    private static readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_ao.pkl"), "ao"));
     private const int MaxSpecies = Legal.MaxSpeciesID_6;
     private const LearnEnvironment Game = ORAS;
 

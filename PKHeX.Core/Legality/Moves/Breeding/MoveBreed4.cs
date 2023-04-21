@@ -24,8 +24,8 @@ public static class MoveBreed4
         if (count == -1)
             count = moves.Length;
 
-        var learn = GameData.GetLearnsets(version);
-        var learnset = learn[species];
+        var learn = GameData.GetLearnSource(version);
+        var learnset = learn.GetLearnset(species, 0);
         var table = version switch
         {
             HG or SS => PersonalTable.HGSS,
@@ -48,8 +48,10 @@ public static class MoveBreed4
         else
         {
             bool inherit = Breeding.GetCanInheritMoves(species);
-            var egg = (version is HG or SS ? Legal.EggMovesHGSS : Legal.EggMovesDPPt)[species].Moves;
-            MarkMovesForOrigin(value, egg, count, inherit, pi, version);
+            var eggMoves = version is HG or SS
+                ? LearnSource4HGSS.Instance.GetEggMoves(species, 0)
+                : LearnSource4DP.Instance.GetEggMoves(species, 0);
+            MarkMovesForOrigin(value, eggMoves, count, inherit, pi, version);
             valid = RecurseMovesForOrigin(value, count - 1);
         }
 

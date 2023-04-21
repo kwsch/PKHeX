@@ -24,20 +24,19 @@ public static class MoveBreed3
         if (count == -1)
             count = moves.Length;
 
-        (Learnset[] learn, PersonalTable3 table) = version switch
+        ILearnSource<PersonalInfo3> ls = version switch
         {
-            R or S => (Legal.LevelUpRS, PersonalTable.RS),
-            E      => (Legal.LevelUpE,  PersonalTable.E ),
-            FR     => (Legal.LevelUpFR, PersonalTable.FR),
-            LG     => (Legal.LevelUpLG, PersonalTable.LG),
-            _ => throw new ArgumentException($"Invalid version: {version}"),
+            R => LearnSource3RS.Instance,
+            S => LearnSource3RS.Instance,
+            E => LearnSource3E.Instance,
+            FR => LearnSource3FR.Instance,
+            LG => LearnSource3LG.Instance,
+            _ => throw new ArgumentOutOfRangeException(nameof(version), version, $"Invalid version: {version}"),
         };
-        if (!table.IsSpeciesInGame(species))
+        if (!ls.TryGetPersonal(species, 0, out var pi))
             return false;
 
-        var learnset = learn[species];
-        var pi = table[species];
-
+        var learnset = ls.GetLearnset(species, 0);
         var actual = MemoryMarshal.Cast<byte, EggSource34>(origins);
         Span<byte> possible = stackalloc byte[count];
         var value = new BreedInfo<EggSource34>(actual, possible, learnset, moves, level);
@@ -51,7 +50,7 @@ public static class MoveBreed3
         }
         else
         {
-            var egg = Legal.EggMovesRS[species].Moves;
+            var egg = ls.GetEggMoves(species, 0);
             bool inherit = Breeding.GetCanInheritMoves(species);
             MarkMovesForOrigin(value, egg, count, inherit, pi);
             valid = RecurseMovesForOrigin(value, count - 1);

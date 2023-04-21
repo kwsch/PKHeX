@@ -12,7 +12,8 @@ public static class MoveListSuggest
     {
         if (pk is { IsEgg: true, Format: <= 5 }) // pre relearn
         {
-            MoveList.GetCurrentMoves(pk, pk.Species, 0, (GameVersion)pk.Version, pk.CurrentLevel, moves);
+            var source = GameData.GetLearnSource(enc.Version);
+            source.SetEncounterMoves(enc.Species, 0, enc.LevelMin, moves);
             return;
         }
 
@@ -26,14 +27,16 @@ public static class MoveListSuggest
         if (enc.Generation <= 2)
         {
             var lvl = pk.Format >= 7 ? pk.Met_Level : pk.CurrentLevel;
-            var ver = enc.Version;
-            MoveLevelUp.GetEncounterMoves(moves, enc.Species, 0, lvl, ver);
+            var source = GameData.GetLearnSource(enc.Version);
+            source.SetEncounterMoves(enc.Species, 0, lvl, moves);
             return;
         }
 
         if (pk.Species == enc.Species)
         {
-            MoveLevelUp.GetEncounterMoves(moves, pk.Species, pk.Form, pk.CurrentLevel, (GameVersion)pk.Version);
+            var game = (GameVersion)pk.Version; // account for SW/SH foreign mutated versions
+            var source = GameData.GetLearnSource(game);
+            source.SetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, moves);
             return;
         }
 

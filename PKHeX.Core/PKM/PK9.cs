@@ -611,11 +611,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
 
     public void ResetMoves()
     {
-        var learnsets = Legal.LevelUpSV;
-        var table = PersonalTable.SV;
-
-        var index = table.GetFormIndex(Species, Form);
-        var learn = learnsets[index];
+        var learn = LearnSource9SV.Instance.GetLearnset(Species, Form);
         Span<ushort> moves = stackalloc ushort[4];
         learn.SetEncounterMoves(CurrentLevel, moves);
         SetMoves(moves);

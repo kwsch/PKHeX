@@ -73,10 +73,8 @@ public static class MoveBreed
 
         // Well, that didn't work; probably because one or more moves aren't valid.
         // Let's remove all present base moves, and get a fresh set of base moves.
-        var learn = GameData.GetLearnsets(version);
-        var table = GameData.GetPersonal(version);
-        var index = table.GetFormIndex(species, form);
-        var learnset = learn[index];
+        var learn = GameData.GetLearnSource(version);
+        var learnset = learn.GetLearnset(species, form);
         var eggLevel = EggStateLegality.GetEggLevel(generation);
         var baseMoves = learnset.GetBaseEggMoves(eggLevel);
 

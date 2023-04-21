@@ -13,8 +13,8 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
 {
     public static readonly LearnSource2C Instance = new();
     private static readonly PersonalTable2 Personal = PersonalTable.C;
-    private static readonly EggMoves2[] EggMoves = Legal.EggMovesC;
-    private static readonly Learnset[] Learnsets = Legal.LevelUpC;
+    private static readonly EggMoves2[] EggMoves = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), Legal.MaxSpeciesID_2);
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), Legal.MaxSpeciesID_2);
     private const int MaxSpecies = Legal.MaxSpeciesID_2;
     private const LearnEnvironment Game = C;
 

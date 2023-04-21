@@ -82,10 +82,8 @@ public sealed class LegendsArceusVerifier : Verifier
     private static int LoadBareMinimumMoveset(ISpeciesForm enc, EvolutionHistory h, PA8 pa, Span<ushort> moves)
     {
         // Get any encounter moves
-        var pt = PersonalTable.LA;
-        var index = pt.GetFormIndex(enc.Species, enc.Form);
-        var learn = Legal.LevelUpLA;
-        var moveset = learn[index];
+        var ls = LearnSource8LA.Instance;
+        var moveset = ls.GetLearnset(enc.Species, enc.Form);
         if (enc is IMasteryInitialMoveShop8 ms)
             ms.LoadInitialMoveset(pa, moves, moveset, pa.Met_Level);
         else
@@ -114,8 +112,7 @@ public sealed class LegendsArceusVerifier : Verifier
         for (int i = 0; i < evos.Length - 1; i++)
         {
             var evo = evos[i];
-            var x = pt.GetFormIndex(evo.Species, evo.Form);
-            var m = learn[x];
+            var m = ls.GetLearnset(evo.Species, evo.Form);
             m.SetEvolutionMoves(moves, purchased, count);
             count = moves.IndexOf((ushort)0);
             if ((uint)count >= 4)
@@ -123,8 +120,7 @@ public sealed class LegendsArceusVerifier : Verifier
         }
 
         // Any tutored moves we don't know about??
-        var currentIndex = pt.GetFormIndex(evos[0].Species, evos[0].Form);
-        var currentLearn = learn[currentIndex];
+        var currentLearn = ls.GetLearnset(evos[0].Species, evos[0].Form);
         return AddMasteredMissing(pa, moves, count, moveset, currentLearn, level);
     }
 
@@ -230,9 +226,7 @@ public sealed class LegendsArceusVerifier : Verifier
         int level = 101;
         foreach (var evo in data.Info.EvoChainsAllGens.Gen8a)
         {
-            var pt = PersonalTable.LA;
-            var index = pt.GetFormIndex(evo.Species, evo.Form);
-            var moveset = Legal.LevelUpLA[index];
+            var moveset = LearnSource8LA.Instance.GetLearnset(evo.Species, evo.Form);
             var lvl = moveset.GetLevelLearnMove(moves[i]);
             if (lvl == -1)
                 continue; // cannot learn via level up

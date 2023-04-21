@@ -161,7 +161,8 @@ public abstract record EncounterStatic(GameVersion Version) : IEncounterable, IM
         else
         {
             Span<ushort> moves = stackalloc ushort[4];
-            MoveLevelUp.GetEncounterMoves(moves, pk, level, version);
+            var source = GameData.GetLearnSource(version);
+            source.SetEncounterMoves(Species, Form, level, moves);
             pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
         }

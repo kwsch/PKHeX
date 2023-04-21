@@ -5,62 +5,53 @@ namespace PKHeX.Core;
 
 public static class GameData
 {
-    public static Learnset[] GetLearnsets(GameVersion game) => Learnsets(game);
     public static IPersonalTable GetPersonal(GameVersion game) => Personal(game);
 
-    public static Learnset GetLearnset(GameVersion game, ushort species, byte form)
+    public static ILearnSource GetLearnSource(GameVersion game) => game switch
     {
-        var pt = Personal(game);
-        var index = pt.GetFormIndex(species, form);
-        var sets = Learnsets(game);
-        return sets[index];
-    }
+        RD or GN or BU or RB => LearnSource1RB.Instance,
+        YW or RBY => LearnSource1YW.Instance,
+        GD or SI or GS => LearnSource2GS.Instance,
+        C or GSC => LearnSource2C.Instance,
 
-    private static Learnset[] Learnsets(GameVersion game) => game switch
-    {
-        RD or GN or BU or RB => Legal.LevelUpRB,
-        YW or RBY => Legal.LevelUpY,
-        GD or SI or GS => Legal.LevelUpGS,
-        C or GSC => Legal.LevelUpC,
+        R or S or RS or RSE => LearnSource3RS.Instance,
+        E or COLO or XD or FRLG or CXD => LearnSource3E.Instance,
+        FR => LearnSource3FR.Instance,
+        LG => LearnSource3LG.Instance,
 
-        R or S or RS or RSE => Legal.LevelUpRS,
-        E or COLO or XD or FRLG or CXD => Legal.LevelUpE,
-        FR => Legal.LevelUpFR,
-        LG => Legal.LevelUpLG,
+        D or P or DP => LearnSource4DP.Instance,
+        Pt or DPPt => LearnSource4Pt.Instance,
+        HG or SS or HGSS => LearnSource4HGSS.Instance,
 
-        D or P or DP => Legal.LevelUpDP,
-        Pt or DPPt => Legal.LevelUpPt,
-        HG or SS or HGSS => Legal.LevelUpHGSS,
+        B or W or BW => LearnSource5BW.Instance,
+        B2 or W2 or B2W2 => LearnSource5B2W2.Instance,
 
-        B or W or BW => Legal.LevelUpBW,
-        B2 or W2 or B2W2 => Legal.LevelUpB2W2,
+        X or Y or XY => LearnSource6XY.Instance,
+        AS or OR or ORAS => LearnSource6AO.Instance,
 
-        X or Y or XY => Legal.LevelUpXY,
-        AS or OR or ORAS => Legal.LevelUpAO,
+        SN or MN or SM => LearnSource7SM.Instance,
+        US or UM or USUM => LearnSource7USUM.Instance,
+        GO or GP or GE or GG => LearnSource7GG.Instance,
 
-        SN or MN or SM => Legal.LevelUpSM,
-        US or UM or USUM => Legal.LevelUpUSUM,
-        GO or GP or GE or GG => Legal.LevelUpGG,
+        SW or SH or SWSH => LearnSource8SWSH.Instance,
+        BD or SP or BDSP => LearnSource8BDSP.Instance,
+        PLA => LearnSource8LA.Instance,
 
-        SW or SH or SWSH => Legal.LevelUpSWSH,
-        BD or SP or BDSP => Legal.LevelUpBDSP,
-        PLA => Legal.LevelUpLA,
+        SL or VL or SV => LearnSource9SV.Instance,
 
-        SL or VL or SV => Legal.LevelUpSV,
+        Gen1 => LearnSource1YW.Instance,
+        Gen2 => LearnSource2C.Instance,
+        Gen3 => LearnSource3E.Instance,
+        Gen4 => LearnSource4HGSS.Instance,
+        Gen5 => LearnSource5B2W2.Instance,
+        Gen6 => LearnSource6AO.Instance,
+        Gen7 => LearnSource7USUM.Instance,
+        Gen7b => LearnSource7GG.Instance,
+        Gen8 => LearnSource8BDSP.Instance,
+        Gen9 => LearnSource9SV.Instance,
 
-        Gen1 => Legal.LevelUpY,
-        Gen2 => Legal.LevelUpC,
-        Gen3 => Legal.LevelUpE,
-        Gen4 => Legal.LevelUpHGSS,
-        Gen5 => Legal.LevelUpB2W2,
-        Gen6 => Legal.LevelUpAO,
-        Gen7 => Legal.LevelUpSM,
-        Gen7b => Legal.LevelUpGG,
-        Gen8 => Legal.LevelUpSWSH,
-        Gen9 => Legal.LevelUpSV,
-
-        Stadium => Legal.LevelUpY,
-        Stadium2 => Legal.LevelUpGS,
+        Stadium => LearnSource1YW.Instance,
+        Stadium2 => LearnSource2GS.Instance,
 
         _ => throw new ArgumentOutOfRangeException(nameof(game), $"{game} is not a valid entry in the expression."),
     };

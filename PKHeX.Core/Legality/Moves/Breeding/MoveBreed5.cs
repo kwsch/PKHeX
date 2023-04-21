@@ -22,8 +22,8 @@ public static class MoveBreed5
         if (count == -1)
             count = moves.Length;
 
-        var learn = GameData.GetLearnsets(version);
-        var learnset = learn[species];
+        var learn = GameData.GetLearnSource(version);
+        var learnset = learn.GetLearnset(species, 0);
         IPersonalInfoTM pi = version switch
         {
             GameVersion.B or GameVersion.W => PersonalTable.BW[species],
@@ -44,7 +44,7 @@ public static class MoveBreed5
         else
         {
             bool inherit = Breeding.GetCanInheritMoves(species);
-            var egg = Legal.EggMovesBW[species].Moves;
+            var egg = LearnSource5BW.Instance.GetEggMoves(species, 0);
             MarkMovesForOrigin(value, egg, count, inherit, pi);
             valid = RecurseMovesForOrigin(value, count - 1);
         }

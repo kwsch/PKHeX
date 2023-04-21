@@ -16,7 +16,7 @@ public interface IMasteryInitialMoveShop8
         {
             Span<ushort> moves = stackalloc ushort[4];
             var level = pa8.Met_Level;
-            var (learn, mastery) = GetLevelUpInfo();
+            var (learn, mastery) = LearnSource8LA.GetLearnsetAndMastery(pk.Species, pk.Form);
             LoadInitialMoveset(pa8, moves, learn, level);
             pa8.SetEncounterMasteryFlags(moves, mastery, level);
         }
