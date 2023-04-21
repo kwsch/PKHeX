@@ -20,7 +20,7 @@ public static class BatchMods
         new TypeSuggestion<IGeoTrack>(nameof(Extensions.ClearGeoLocationData), p => p.ClearGeoLocationData()),
         new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningClear), p => p.AwakeningClear()),
         new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningMinimum), p => p.AwakeningMinimum()),
-        new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningMax), p => p.AwakeningMax()),
+        new TypeSuggestion<IAwakened>(nameof(AwakeningUtil.AwakeningMaximize), p => p.AwakeningMaximize()),
         new TypeSuggestion<IGanbaru>(nameof(GanbaruExtensions.ClearGanbaruValues), p => p.ClearGanbaruValues()),
         new TypeSuggestion<IGanbaru>(nameof(GanbaruExtensions.SetSuggestedGanbaruValues), p => p.SetSuggestedGanbaruValues((PKM)p)),
 

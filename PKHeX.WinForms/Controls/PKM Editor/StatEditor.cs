@@ -114,7 +114,7 @@ public partial class StatEditor : UserControl
 
         if ((ModifierKeys & Keys.Control) != 0) // Max
         {
-            var max = Legal.AwakeningMax.ToString();
+            var max = AwakeningUtil.AwakeningMax.ToString();
             t.Text = t.Text == max ? 0.ToString() : max;
         }
         else if ((ModifierKeys & Keys.Alt) != 0) // Min
@@ -218,9 +218,9 @@ public partial class StatEditor : UserControl
         if (sender is MaskedTextBox m)
         {
             var value = (byte)Math.Min(byte.MaxValue, Util.ToInt32(m.Text));
-            if (value > Legal.AwakeningMax)
+            if (value > AwakeningUtil.AwakeningMax)
             {
-                m.Text = Legal.AwakeningMax.ToString();
+                m.Text = AwakeningUtil.AwakeningMax.ToString();
                 return; // recursive on text set
             }
 
