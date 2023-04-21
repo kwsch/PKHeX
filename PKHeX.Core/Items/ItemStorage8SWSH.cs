@@ -468,10 +468,16 @@ public sealed class ItemStorage8SWSH : IItemStorage
         1578, // ★Aql7235
     };
 
+    private const int DMAX_START = 1279;
+    private const int DMAX_END = 1578;
+    private const int DMAX_LEGAL_END = 1290; // ★Sgr7194 (Eevee)
+    public static bool IsDynamaxCrystal(ushort item) => item is >= DMAX_START and <= DMAX_END;
+    public static bool IsDynamaxCrystalAvailable(ushort item) => item is >= DMAX_START and <= DMAX_LEGAL_END;
+
     public static bool IsItemLegal(ushort item)
     {
-        if (Legal.IsDynamaxCrystal(item))
-            return Legal.IsDynamaxCrystalAvailable(item);
+        if (IsDynamaxCrystal(item))
+            return IsDynamaxCrystalAvailable(item);
         return Unreleased.BinarySearch(item) < 0;
     }
 

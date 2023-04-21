@@ -47,4 +47,41 @@ public static class ItemRestrictions
         EntityContext.Gen8b => ReleasedHeldItems_8b,
         _ => Array.Empty<bool>(), // lgp/e, pla, etc
     };
+
+    private static readonly bool[] ReleasedHeldItems_2 = GetPermitList(MaxItemID_2, HeldItems_GSC);
+    private static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3, HeldItems_RS, ItemStorage3RS.Unreleased); // Safari Ball
+    private static readonly bool[] ReleasedHeldItems_4 = GetPermitList(MaxItemID_4_HGSS, HeldItems_HGSS, ItemStorage4.Unreleased);
+    private static readonly bool[] ReleasedHeldItems_5 = GetPermitList(MaxItemID_5_B2W2, HeldItems_BW, ItemStorage5.Unreleased);
+    private static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItem_AO, ItemStorage6XY.Unreleased);
+    private static readonly bool[] ReleasedHeldItems_7 = GetPermitList(MaxItemID_7_USUM, HeldItems_USUM, ItemStorage7SM.Unreleased);
+    private static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, ItemStorage8SWSH.Unreleased);
+    private static readonly bool[] ReleasedHeldItems_8b = GetPermitList(MaxItemID_8b, HeldItems_BS, ItemStorage8BDSP.Unreleased);
+    private static readonly bool[] ReleasedHeldItems_9 = GetPermitList(MaxItemID_9, HeldItems_SV, ItemStorage9SV.Unreleased);
+
+    /// <summary>
+    /// Gets a permit list with the permitted indexes, then un-flags the indexes that are not permitted.
+    /// </summary>
+    /// <param name="max">Maximum index expected to allow</param>
+    /// <param name="allowed">Allowed indexes</param>
+    private static bool[] GetPermitList(int max, ReadOnlySpan<ushort> allowed)
+    {
+        var result = new bool[max + 1];
+        foreach (var index in allowed)
+            result[index] = true;
+        return result;
+    }
+
+    /// <summary>
+    /// Gets a permit list with the permitted indexes, then un-flags the indexes that are not permitted.
+    /// </summary>
+    /// <param name="max">Maximum index expected to allow</param>
+    /// <param name="allowed">Allowed indexes (may have some disallowed)</param>
+    /// <param name="disallow">Disallowed indexes</param>
+    private static bool[] GetPermitList(int max, ReadOnlySpan<ushort> allowed, ReadOnlySpan<ushort> disallow)
+    {
+        var result = GetPermitList(max, allowed);
+        foreach (var index in disallow)
+            result[index] = false;
+        return result;
+    }
 }

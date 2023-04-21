@@ -107,7 +107,7 @@ public static class EncounterSuggestion
         if (pk.Format == 4) // Pal Park
             return Locations.Transfer3;
         if (pk.Format >= 5) // Transporter
-            return Legal.GetTransfer45MetLocation(pk);
+            return PK5.GetTransferMetLocation4(pk);
         return -1;
     }
 

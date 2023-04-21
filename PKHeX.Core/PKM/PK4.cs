@@ -346,7 +346,7 @@ public sealed class PK4 : G4PKM
         WriteUInt32LittleEndian(pk5.Data.AsSpan(0x44), 0);
 
         // Met / Crown Data Detection
-        pk5.Met_Location = Legal.GetTransfer45MetLocation(pk5);
+        pk5.Met_Location = PK5.GetTransferMetLocation4(pk5);
 
         // Egg Location is not modified; when clearing Pt/HGSS egg data, the location will revert to Faraway Place
         // pk5.Egg_Location = Egg_Location;
