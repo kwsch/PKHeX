@@ -25,7 +25,7 @@ public static class FormConverter
         if (context.IsMegaGeneration() && IsFormListSingleMega(species))
             return GetMegaSingle(types, forms);
 
-        if (context is Gen7 && Legal.Totem_USUM.Contains(species))
+        if (context is Gen7 && FormInfo.HasTotemForm(species))
             return GetFormsTotem(species, types, forms);
 
         return species switch
@@ -670,35 +670,27 @@ public static class FormConverter
         };
     }
 
-    private static string[] GetFormsTotem(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    private static string[] GetFormsTotem(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms) => species switch
     {
-        if ((Species)species == Mimikyu) // Mimikyu
+        (int)Mimikyu => new[]
         {
-            return new[]
-            {
-                forms[(int)Mimikyu], // Disguised
-                forms[1058], // Busted
-                forms[1007], // Large
-                "*" + forms[1058], // Busted
-            };
-        }
-
-        if (Legal.Totem_Alolan.Contains(species))
+            forms[(int)Mimikyu], // Disguised
+            forms[1058], // Busted
+            forms[1007], // Large
+            "*" + forms[1058], // Busted
+        },
+        (int)Raticate or (int)Marowak => new[]
         {
-            return new[]
-            {
-                types[0], // Normal
-                forms[810], // Alolan
-                forms[1007], // Large
-            };
-        }
-
-        return new[]
+            types[0], // Normal
+            forms[810], // Alolan
+            forms[1007], // Large
+        },
+        _ => new[]
         {
             types[0], // Normal
             forms[1007], // Large
-        };
-    }
+        },
+    };
 
     private static string[] GetFormsUnown(int generation) => generation switch
     {

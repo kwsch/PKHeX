@@ -57,9 +57,8 @@ public sealed class GenderVerifier : Verifier
             return IsValidGenderMismatch(pk);
 
         // check for mixed->fixed gender incompatibility by checking the gender of the original species
-        var original = data.EncounterMatch.Species;
-        if (Legal.FixedGenderFromBiGender.Contains(original))
-            return IsValidFixedGenderFromBiGender(pk, original);
+        if (SpeciesCategory.IsFixedGenderFromDual(pk.Species))
+            return IsValidFixedGenderFromBiGender(pk, data.EncounterMatch.Species);
 
         return true;
     }

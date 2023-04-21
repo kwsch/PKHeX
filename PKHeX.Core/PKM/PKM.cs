@@ -952,13 +952,13 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         if (gen >= 6)
         {
             var species = Species;
-            if (Legal.Mythicals.Contains(species))
+            if (SpeciesCategory.IsMythical(species))
                 return 3;
-            if (Legal.Legends.Contains(species))
+            if (SpeciesCategory.IsLegendary(species))
                 return 3;
-            if (Legal.SubLegends.Contains(species))
+            if (SpeciesCategory.IsSubLegendary(species))
                 return 3;
-            if (gen <= 7 && Legal.IsUltraBeast(species))
+            if (gen <= 7 && SpeciesCategory.IsUltraBeast(species))
                 return 3;
         }
         if (XY)

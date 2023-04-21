@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
@@ -101,7 +103,7 @@ public static class RibbonRules
         {
             // Ranked is still ongoing, but the use of Mythicals was restricted to Series 13 only.
             var met = pk.MetDate;
-            if (Legal.Mythicals.Contains(pk.Species) && met > new DateOnly(2022, 11, 1))
+            if (SpeciesCategory.IsMythical(pk.Species) && met > new DateOnly(2022, 11, 1))
                 return false;
         }
 
@@ -113,9 +115,9 @@ public static class RibbonRules
     private static bool IsRibbonValidMasterRankSV(ISpeciesForm pk)
     {
         var species = pk.Species;
-        if (Legal.Mythicals.Contains(species))
+        if (SpeciesCategory.IsMythical(species))
             return false;
-        if (Legal.Legends.Contains(species))
+        if (SpeciesCategory.IsLegendary(species))
             return false;
 
         var pt = PersonalTable.SV;
@@ -146,7 +148,7 @@ public static class RibbonRules
         if (!evos.HasVisitedBDSP)
             return false;
         // Mythicals cannot be used in BD/SP's Battle Tower
-        return !Legal.Mythicals.Contains(evos.Gen8b[0].Species);
+        return !SpeciesCategory.IsMythical(evos.Gen8b[0].Species);
     }
 
     /// <summary>
@@ -360,7 +362,7 @@ public static class RibbonRules
     /// <summary>
     /// Checks if the input species could have participated in any Battle Frontier trial.
     /// </summary>
-    public static bool IsAllowedBattleFrontier(ushort species) => !Legal.BattleFrontierBanlist.Contains(species);
+    public static bool IsAllowedBattleFrontier(ushort species) => !BattleFrontierBanlist.Contains(species);
 
     /// <summary>
     /// Checks if the input species could have participated in Generation 4's Battle Frontier.
@@ -382,4 +384,20 @@ public static class RibbonRules
             return false;
         return IsAllowedBattleFrontier(species);
     }
+
+    /// <summary>
+    /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
+    /// </summary>
+    public static readonly HashSet<ushort> BattleFrontierBanlist = new()
+    {
+        (int)Mewtwo, (int)Mew,
+        (int)Lugia, (int)HoOh, (int)Celebi,
+        (int)Kyogre, (int)Groudon, (int)Rayquaza, (int)Jirachi, (int)Deoxys,
+        (int)Dialga, (int)Palkia, (int)Giratina, (int)Phione, (int)Manaphy, (int)Darkrai, (int)Shaymin, (int)Arceus,
+        (int)Victini, (int)Reshiram, (int)Zekrom, (int)Kyurem, (int)Keldeo, (int)Meloetta, (int)Genesect,
+        (int)Xerneas, (int)Yveltal, (int)Zygarde, (int)Diancie, (int)Hoopa, (int)Volcanion,
+        (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
+        (int)Meltan, (int)Melmetal,
+        (int)Koraidon, (int)Miraidon,
+    };
 }

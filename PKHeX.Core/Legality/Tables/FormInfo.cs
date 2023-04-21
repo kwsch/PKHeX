@@ -120,7 +120,7 @@ public static class FormInfo
         return false;
     }
 
-    public static bool IsFormChangeEgg(ushort species) => FormChangeEgg.IndexOf(species) != -1;
+    public static bool IsFormChangeEgg(ushort species) => FormChangeEgg.Contains(species);
 
     private static ReadOnlySpan<ushort> FormChangeEgg => new ushort[]
     {
@@ -238,6 +238,28 @@ public static class FormInfo
     }
 
     /// <summary>
+    /// Species has a Totem form in Gen7 (S/M &amp; US/UM) that can be captured and owned.
+    /// </summary>
+    /// <param name="species"></param>
+    /// <returns>True if the species exists as a Totem.</returns>
+    /// <remarks>Excludes <see cref="Wishiwashi"/> because it cannot be captured.</remarks>
+    public static bool HasTotemForm(ushort species) => species switch
+    {
+        (ushort)Raticate => true,
+        (ushort)Marowak => true,
+        (ushort)Gumshoos => true,
+        (ushort)Vikavolt => true,
+        (ushort)Ribombee => true,
+        (ushort)Araquanid => true,
+        (ushort)Lurantis => true,
+        (ushort)Salazzle => true,
+        (ushort)Mimikyu => true,
+        (ushort)Kommoo => true,
+        (ushort)Togedemaru => true,
+        _ => false,
+    };
+
+    /// <summary>
     /// Checks if the <see cref="form"/> for the <see cref="species"/> is a Totem form.
     /// </summary>
     /// <param name="species">Entity species</param>
@@ -255,11 +277,11 @@ public static class FormInfo
     {
         if (form == 0)
             return false;
-        if (!Legal.Totem_USUM.Contains(species))
+        if (!HasTotemForm(species))
             return false;
         if (species == (int)Mimikyu)
             return form is 2 or 3;
-        if (Legal.Totem_Alolan.Contains(species))
+        if (species is (int)Raticate or (int)Marowak)
             return form == 2;
         return form == 1;
     }
@@ -323,7 +345,7 @@ public static class FormInfo
         if (format <= 3 && species != (int)Unown)
             return false;
 
-        if (HasFormValuesNotIndicatedByPersonal.Contains(species))
+        if (HasFormValuesNotIndicatedByPersonal(species))
             return true;
 
         int count = pi.FormCount;
@@ -333,10 +355,11 @@ public static class FormInfo
     /// <summary>
     /// <seealso cref="IsValidOutOfBoundsForm"/>
     /// </summary>
-    private static readonly HashSet<ushort> HasFormValuesNotIndicatedByPersonal = new()
+    private static bool HasFormValuesNotIndicatedByPersonal(ushort species) => species switch
     {
-        (int)Unown,
-        (int)Mothim, // (Burmy form is not cleared on evolution)
-        (int)Scatterbug, (int)Spewpa, // Vivillon pre-evos
+        (int)Unown => true,
+        (int)Mothim => true, // (Burmy form is not cleared on evolution)
+        (int)Scatterbug or (int)Spewpa => true, // Vivillon pre-evos
+        _ => false,
     };
 }
