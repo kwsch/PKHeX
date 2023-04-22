@@ -137,7 +137,7 @@ public partial class SAV_Trainer : Form
         var sit = SAV.Situation;
         NUD_M.Value = sit.M;
         // Sanity Check Map Coordinates
-        if (!GB_Map.Enabled || sit.X%0.5 != 0 || sit.Z%0.5 != 0 || sit.Y%0.5 != 0)
+        if (!GB_Map.Enabled || sit.X % 0.5 != 0 || sit.Z % 0.5 != 0 || sit.Y % 0.5 != 0)
         {
             GB_Map.Enabled = false;
         }
@@ -250,8 +250,8 @@ public partial class SAV_Trainer : Form
 
         // Save PlayTime
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
-        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
-        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
+        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
+        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
 
         // Sprite
         if (SAV is IMultiplayerSprite ms)

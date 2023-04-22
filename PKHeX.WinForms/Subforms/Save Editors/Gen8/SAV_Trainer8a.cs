@@ -83,8 +83,8 @@ public partial class SAV_Trainer8a : Form
 
         // Save PlayTime
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
-        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
-        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
+        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
+        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
 
         var advDay = CAL_AdventureStartDate.Value.Date;
         SAV.AdventureStart.Timestamp = advDay.AddSeconds(CAL_AdventureStartTime.Value.TimeOfDay.TotalSeconds);

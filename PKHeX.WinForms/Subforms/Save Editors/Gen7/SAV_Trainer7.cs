@@ -349,8 +349,8 @@ public partial class SAV_Trainer7 : Form
 
         // Save PlayTime
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
-        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
-        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
+        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
+        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
 
         SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
         SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
@@ -375,19 +375,19 @@ public partial class SAV_Trainer7 : Form
     private void SaveBattleTree()
     {
         var bt = SAV.BattleTree;
-        bt.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
-        bt.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
-        bt.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
-        bt.SetTreeStreak((int)NUD_RMStreak0.Value, 0, super:false, max:true);
-        bt.SetTreeStreak((int)NUD_RMStreak1.Value, 1, super:false, max:true);
-        bt.SetTreeStreak((int)NUD_RMStreak2.Value, 2, super:false, max:true);
+        bt.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super: false, max: false);
+        bt.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super: false, max: false);
+        bt.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super: false, max: false);
+        bt.SetTreeStreak((int)NUD_RMStreak0.Value, 0, super: false, max: true);
+        bt.SetTreeStreak((int)NUD_RMStreak1.Value, 1, super: false, max: true);
+        bt.SetTreeStreak((int)NUD_RMStreak2.Value, 2, super: false, max: true);
 
-        bt.SetTreeStreak((int)NUD_SCStreak0.Value, 0, super:true, max:false);
-        bt.SetTreeStreak((int)NUD_SCStreak1.Value, 1, super:true, max:false);
-        bt.SetTreeStreak((int)NUD_SCStreak2.Value, 2, super:true, max:false);
-        bt.SetTreeStreak((int)NUD_SMStreak0.Value, 0, super:true, max:true);
-        bt.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super:true, max:true);
-        bt.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super:true, max:true);
+        bt.SetTreeStreak((int)NUD_SCStreak0.Value, 0, super: true, max: false);
+        bt.SetTreeStreak((int)NUD_SCStreak1.Value, 1, super: true, max: false);
+        bt.SetTreeStreak((int)NUD_SCStreak2.Value, 2, super: true, max: false);
+        bt.SetTreeStreak((int)NUD_SMStreak0.Value, 0, super: true, max: true);
+        bt.SetTreeStreak((int)NUD_SMStreak1.Value, 1, super: true, max: true);
+        bt.SetTreeStreak((int)NUD_SMStreak2.Value, 2, super: true, max: true);
     }
 
     private void SaveTrainerAppearance()
@@ -531,10 +531,10 @@ public partial class SAV_Trainer7 : Form
         switch (CB_Fashion.SelectedIndex)
         {
             case 0: // Base Fashion
-            {
-                SAV.Fashion.Reset();
-                break;
-            }
+                {
+                    SAV.Fashion.Reset();
+                    break;
+                }
             case 1: // Full Legal
                 byte[] data1 = SAV is SAV7USUM
                     ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu

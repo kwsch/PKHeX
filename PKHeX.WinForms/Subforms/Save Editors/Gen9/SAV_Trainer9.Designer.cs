@@ -667,8 +667,8 @@ namespace PKHeX.WinForms
             CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             CAL_AdventureStartDate.Location = new System.Drawing.Point(132, 194);
             CAL_AdventureStartDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            CAL_AdventureStartDate.MinDate = new System.DateTime(1932, 1, 1, 0, 0, 0, 0);
+            CAL_AdventureStartDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
             CAL_AdventureStartDate.Size = new System.Drawing.Size(120, 23);
             CAL_AdventureStartDate.TabIndex = 72;
@@ -799,8 +799,8 @@ namespace PKHeX.WinForms
             NUD_Z.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_Z.Name = "NUD_Z";
             NUD_Z.Size = new System.Drawing.Size(112, 23);
-            NUD_Z.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_Z.TabIndex = 53;
+            NUD_Z.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_Z.ValueChanged += ChangeMapValue;
             // 
             // NUD_Y
@@ -813,8 +813,8 @@ namespace PKHeX.WinForms
             NUD_Y.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_Y.Name = "NUD_Y";
             NUD_Y.Size = new System.Drawing.Size(112, 23);
-            NUD_Y.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_Y.TabIndex = 51;
+            NUD_Y.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_Y.ValueChanged += ChangeMapValue;
             // 
             // NUD_X
@@ -827,8 +827,8 @@ namespace PKHeX.WinForms
             NUD_X.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_X.Name = "NUD_X";
             NUD_X.Size = new System.Drawing.Size(112, 23);
-            NUD_X.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_X.TabIndex = 50;
+            NUD_X.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_X.ValueChanged += ChangeMapValue;
             // 
             // L_Y

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Trainer8a
     {
@@ -28,832 +28,835 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.TB_OTName = new System.Windows.Forms.TextBox();
-            this.L_TrainerName = new System.Windows.Forms.Label();
-            this.MT_Money = new System.Windows.Forms.MaskedTextBox();
-            this.L_Money = new System.Windows.Forms.Label();
-            this.L_Saying5 = new System.Windows.Forms.Label();
-            this.L_Saying4 = new System.Windows.Forms.Label();
-            this.L_Saying3 = new System.Windows.Forms.Label();
-            this.L_Saying2 = new System.Windows.Forms.Label();
-            this.L_Saying1 = new System.Windows.Forms.Label();
-            this.TB_Saying5 = new System.Windows.Forms.TextBox();
-            this.TB_Saying4 = new System.Windows.Forms.TextBox();
-            this.TB_Saying3 = new System.Windows.Forms.TextBox();
-            this.TB_Saying2 = new System.Windows.Forms.TextBox();
-            this.TB_Saying1 = new System.Windows.Forms.TextBox();
-            this.L_LastSaved = new System.Windows.Forms.Label();
-            this.CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
-            this.L_Seconds = new System.Windows.Forms.Label();
-            this.L_Minutes = new System.Windows.Forms.Label();
-            this.MT_Seconds = new System.Windows.Forms.MaskedTextBox();
-            this.MT_Minutes = new System.Windows.Forms.MaskedTextBox();
-            this.L_Hours = new System.Windows.Forms.Label();
-            this.MT_Hours = new System.Windows.Forms.MaskedTextBox();
-            this.L_Language = new System.Windows.Forms.Label();
-            this.B_MaxCash = new System.Windows.Forms.Button();
-            this.CB_Language = new System.Windows.Forms.ComboBox();
-            this.CB_Gender = new System.Windows.Forms.ComboBox();
-            this.TB_MBMS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBMN = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBRS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBRN = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBTS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBTN = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBDS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBDN = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBSS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MBSN = new System.Windows.Forms.MaskedTextBox();
-            this.L_SuperB = new System.Windows.Forms.Label();
-            this.L_NormalB = new System.Windows.Forms.Label();
-            this.L_MultiB = new System.Windows.Forms.Label();
-            this.L_RotationB = new System.Windows.Forms.Label();
-            this.L_TriplesB = new System.Windows.Forms.Label();
-            this.L_DoublesB = new System.Windows.Forms.Label();
-            this.L_SinglesB = new System.Windows.Forms.Label();
-            this.TB_MCMS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCMN = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCRS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCRN = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCTS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCTN = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCDS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCDN = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCSS = new System.Windows.Forms.MaskedTextBox();
-            this.TB_MCSN = new System.Windows.Forms.MaskedTextBox();
-            this.L_SuperC = new System.Windows.Forms.Label();
-            this.L_NormalC = new System.Windows.Forms.Label();
-            this.L_MultiC = new System.Windows.Forms.Label();
-            this.L_RotationC = new System.Windows.Forms.Label();
-            this.L_TriplesC = new System.Windows.Forms.Label();
-            this.L_DoublesC = new System.Windows.Forms.Label();
-            this.L_SinglesC = new System.Windows.Forms.Label();
-            this.TC_Editor = new System.Windows.Forms.TabControl();
-            this.Tab_Overview = new System.Windows.Forms.TabPage();
-            this.GB_Stats = new System.Windows.Forms.GroupBox();
-            this.NUD_MeritEarned = new System.Windows.Forms.NumericUpDown();
-            this.L_MeritEarned = new System.Windows.Forms.Label();
-            this.NUD_MeritCurrent = new System.Windows.Forms.NumericUpDown();
-            this.L_MeritCurrent = new System.Windows.Forms.Label();
-            this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
-            this.GB_Adventure = new System.Windows.Forms.GroupBox();
-            this.L_Started = new System.Windows.Forms.Label();
-            this.CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
-            this.CAL_AdventureStartTime = new System.Windows.Forms.DateTimePicker();
-            this.CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
-            this.NUD_Rank = new System.Windows.Forms.NumericUpDown();
-            this.L_GalaxyRank = new System.Windows.Forms.Label();
-            this.NUD_Satchel = new System.Windows.Forms.NumericUpDown();
-            this.L_SatchelUpgrades = new System.Windows.Forms.Label();
-            this.TC_Editor.SuspendLayout();
-            this.Tab_Overview.SuspendLayout();
-            this.GB_Stats.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_MeritEarned)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_MeritCurrent)).BeginInit();
-            this.GB_Adventure.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Rank)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Satchel)).BeginInit();
-            this.SuspendLayout();
+            B_Cancel = new System.Windows.Forms.Button();
+            B_Save = new System.Windows.Forms.Button();
+            TB_OTName = new System.Windows.Forms.TextBox();
+            L_TrainerName = new System.Windows.Forms.Label();
+            MT_Money = new System.Windows.Forms.MaskedTextBox();
+            L_Money = new System.Windows.Forms.Label();
+            L_Saying5 = new System.Windows.Forms.Label();
+            L_Saying4 = new System.Windows.Forms.Label();
+            L_Saying3 = new System.Windows.Forms.Label();
+            L_Saying2 = new System.Windows.Forms.Label();
+            L_Saying1 = new System.Windows.Forms.Label();
+            TB_Saying5 = new System.Windows.Forms.TextBox();
+            TB_Saying4 = new System.Windows.Forms.TextBox();
+            TB_Saying3 = new System.Windows.Forms.TextBox();
+            TB_Saying2 = new System.Windows.Forms.TextBox();
+            TB_Saying1 = new System.Windows.Forms.TextBox();
+            L_LastSaved = new System.Windows.Forms.Label();
+            CAL_LastSavedDate = new System.Windows.Forms.DateTimePicker();
+            L_Seconds = new System.Windows.Forms.Label();
+            L_Minutes = new System.Windows.Forms.Label();
+            MT_Seconds = new System.Windows.Forms.MaskedTextBox();
+            MT_Minutes = new System.Windows.Forms.MaskedTextBox();
+            L_Hours = new System.Windows.Forms.Label();
+            MT_Hours = new System.Windows.Forms.MaskedTextBox();
+            L_Language = new System.Windows.Forms.Label();
+            B_MaxCash = new System.Windows.Forms.Button();
+            CB_Language = new System.Windows.Forms.ComboBox();
+            CB_Gender = new System.Windows.Forms.ComboBox();
+            TB_MBMS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBMN = new System.Windows.Forms.MaskedTextBox();
+            TB_MBRS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBRN = new System.Windows.Forms.MaskedTextBox();
+            TB_MBTS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBTN = new System.Windows.Forms.MaskedTextBox();
+            TB_MBDS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBDN = new System.Windows.Forms.MaskedTextBox();
+            TB_MBSS = new System.Windows.Forms.MaskedTextBox();
+            TB_MBSN = new System.Windows.Forms.MaskedTextBox();
+            L_SuperB = new System.Windows.Forms.Label();
+            L_NormalB = new System.Windows.Forms.Label();
+            L_MultiB = new System.Windows.Forms.Label();
+            L_RotationB = new System.Windows.Forms.Label();
+            L_TriplesB = new System.Windows.Forms.Label();
+            L_DoublesB = new System.Windows.Forms.Label();
+            L_SinglesB = new System.Windows.Forms.Label();
+            TB_MCMS = new System.Windows.Forms.MaskedTextBox();
+            TB_MCMN = new System.Windows.Forms.MaskedTextBox();
+            TB_MCRS = new System.Windows.Forms.MaskedTextBox();
+            TB_MCRN = new System.Windows.Forms.MaskedTextBox();
+            TB_MCTS = new System.Windows.Forms.MaskedTextBox();
+            TB_MCTN = new System.Windows.Forms.MaskedTextBox();
+            TB_MCDS = new System.Windows.Forms.MaskedTextBox();
+            TB_MCDN = new System.Windows.Forms.MaskedTextBox();
+            TB_MCSS = new System.Windows.Forms.MaskedTextBox();
+            TB_MCSN = new System.Windows.Forms.MaskedTextBox();
+            L_SuperC = new System.Windows.Forms.Label();
+            L_NormalC = new System.Windows.Forms.Label();
+            L_MultiC = new System.Windows.Forms.Label();
+            L_RotationC = new System.Windows.Forms.Label();
+            L_TriplesC = new System.Windows.Forms.Label();
+            L_DoublesC = new System.Windows.Forms.Label();
+            L_SinglesC = new System.Windows.Forms.Label();
+            TC_Editor = new System.Windows.Forms.TabControl();
+            Tab_Overview = new System.Windows.Forms.TabPage();
+            GB_Stats = new System.Windows.Forms.GroupBox();
+            NUD_Satchel = new System.Windows.Forms.NumericUpDown();
+            L_SatchelUpgrades = new System.Windows.Forms.Label();
+            NUD_Rank = new System.Windows.Forms.NumericUpDown();
+            L_GalaxyRank = new System.Windows.Forms.Label();
+            NUD_MeritEarned = new System.Windows.Forms.NumericUpDown();
+            L_MeritEarned = new System.Windows.Forms.Label();
+            NUD_MeritCurrent = new System.Windows.Forms.NumericUpDown();
+            L_MeritCurrent = new System.Windows.Forms.Label();
+            trainerID1 = new Controls.TrainerID();
+            GB_Adventure = new System.Windows.Forms.GroupBox();
+            L_Started = new System.Windows.Forms.Label();
+            CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
+            CAL_AdventureStartTime = new System.Windows.Forms.DateTimePicker();
+            CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
+            TC_Editor.SuspendLayout();
+            Tab_Overview.SuspendLayout();
+            GB_Stats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Satchel).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Rank).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MeritEarned).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MeritCurrent).BeginInit();
+            GB_Adventure.SuspendLayout();
+            SuspendLayout();
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(294, 331);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.B_Cancel.TabIndex = 0;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(343, 382);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(88, 27);
+            B_Cancel.TabIndex = 0;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(375, 331);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 23);
-            this.B_Save.TabIndex = 1;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(438, 382);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(88, 27);
+            B_Save.TabIndex = 1;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // TB_OTName
             // 
-            this.TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_OTName.Location = new System.Drawing.Point(99, 7);
-            this.TB_OTName.MaxLength = 12;
-            this.TB_OTName.Name = "TB_OTName";
-            this.TB_OTName.Size = new System.Drawing.Size(93, 20);
-            this.TB_OTName.TabIndex = 2;
-            this.TB_OTName.Text = "WWWWWWWWWWWW";
-            this.TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_OTName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickOT);
+            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_OTName.Location = new System.Drawing.Point(115, 8);
+            TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_OTName.MaxLength = 12;
+            TB_OTName.Name = "TB_OTName";
+            TB_OTName.Size = new System.Drawing.Size(108, 20);
+            TB_OTName.TabIndex = 2;
+            TB_OTName.Text = "WWWWWWWWWWWW";
+            TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TB_OTName.MouseDown += ClickOT;
             // 
             // L_TrainerName
             // 
-            this.L_TrainerName.Location = new System.Drawing.Point(7, 9);
-            this.L_TrainerName.Name = "L_TrainerName";
-            this.L_TrainerName.Size = new System.Drawing.Size(87, 16);
-            this.L_TrainerName.TabIndex = 3;
-            this.L_TrainerName.Text = "Trainer Name:";
-            this.L_TrainerName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_TrainerName.Location = new System.Drawing.Point(8, 10);
+            L_TrainerName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_TrainerName.Name = "L_TrainerName";
+            L_TrainerName.Size = new System.Drawing.Size(102, 18);
+            L_TrainerName.TabIndex = 3;
+            L_TrainerName.Text = "Trainer Name:";
+            L_TrainerName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MT_Money
             // 
-            this.MT_Money.Location = new System.Drawing.Point(119, 29);
-            this.MT_Money.Mask = "0000000";
-            this.MT_Money.Name = "MT_Money";
-            this.MT_Money.Size = new System.Drawing.Size(52, 20);
-            this.MT_Money.TabIndex = 4;
-            this.MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Money.Location = new System.Drawing.Point(139, 33);
+            MT_Money.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Money.Mask = "0000000";
+            MT_Money.Name = "MT_Money";
+            MT_Money.Size = new System.Drawing.Size(60, 23);
+            MT_Money.TabIndex = 4;
+            MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_Money
             // 
-            this.L_Money.AutoSize = true;
-            this.L_Money.Location = new System.Drawing.Point(102, 32);
-            this.L_Money.Name = "L_Money";
-            this.L_Money.Size = new System.Drawing.Size(16, 13);
-            this.L_Money.TabIndex = 5;
-            this.L_Money.Text = "$:";
+            L_Money.AutoSize = true;
+            L_Money.Location = new System.Drawing.Point(119, 37);
+            L_Money.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Money.Name = "L_Money";
+            L_Money.Size = new System.Drawing.Size(16, 15);
+            L_Money.TabIndex = 5;
+            L_Money.Text = "$:";
             // 
             // L_Saying5
             // 
-            this.L_Saying5.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying5.Name = "L_Saying5";
-            this.L_Saying5.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying5.TabIndex = 0;
+            L_Saying5.Location = new System.Drawing.Point(0, 0);
+            L_Saying5.Name = "L_Saying5";
+            L_Saying5.Size = new System.Drawing.Size(100, 23);
+            L_Saying5.TabIndex = 0;
             // 
             // L_Saying4
             // 
-            this.L_Saying4.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying4.Name = "L_Saying4";
-            this.L_Saying4.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying4.TabIndex = 0;
+            L_Saying4.Location = new System.Drawing.Point(0, 0);
+            L_Saying4.Name = "L_Saying4";
+            L_Saying4.Size = new System.Drawing.Size(100, 23);
+            L_Saying4.TabIndex = 0;
             // 
             // L_Saying3
             // 
-            this.L_Saying3.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying3.Name = "L_Saying3";
-            this.L_Saying3.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying3.TabIndex = 0;
+            L_Saying3.Location = new System.Drawing.Point(0, 0);
+            L_Saying3.Name = "L_Saying3";
+            L_Saying3.Size = new System.Drawing.Size(100, 23);
+            L_Saying3.TabIndex = 0;
             // 
             // L_Saying2
             // 
-            this.L_Saying2.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying2.Name = "L_Saying2";
-            this.L_Saying2.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying2.TabIndex = 0;
+            L_Saying2.Location = new System.Drawing.Point(0, 0);
+            L_Saying2.Name = "L_Saying2";
+            L_Saying2.Size = new System.Drawing.Size(100, 23);
+            L_Saying2.TabIndex = 0;
             // 
             // L_Saying1
             // 
-            this.L_Saying1.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying1.Name = "L_Saying1";
-            this.L_Saying1.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying1.TabIndex = 0;
+            L_Saying1.Location = new System.Drawing.Point(0, 0);
+            L_Saying1.Name = "L_Saying1";
+            L_Saying1.Size = new System.Drawing.Size(100, 23);
+            L_Saying1.TabIndex = 0;
             // 
             // TB_Saying5
             // 
-            this.TB_Saying5.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying5.Name = "TB_Saying5";
-            this.TB_Saying5.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying5.TabIndex = 0;
+            TB_Saying5.Location = new System.Drawing.Point(0, 0);
+            TB_Saying5.Name = "TB_Saying5";
+            TB_Saying5.Size = new System.Drawing.Size(100, 23);
+            TB_Saying5.TabIndex = 0;
             // 
             // TB_Saying4
             // 
-            this.TB_Saying4.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying4.Name = "TB_Saying4";
-            this.TB_Saying4.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying4.TabIndex = 0;
+            TB_Saying4.Location = new System.Drawing.Point(0, 0);
+            TB_Saying4.Name = "TB_Saying4";
+            TB_Saying4.Size = new System.Drawing.Size(100, 23);
+            TB_Saying4.TabIndex = 0;
             // 
             // TB_Saying3
             // 
-            this.TB_Saying3.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying3.Name = "TB_Saying3";
-            this.TB_Saying3.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying3.TabIndex = 0;
+            TB_Saying3.Location = new System.Drawing.Point(0, 0);
+            TB_Saying3.Name = "TB_Saying3";
+            TB_Saying3.Size = new System.Drawing.Size(100, 23);
+            TB_Saying3.TabIndex = 0;
             // 
             // TB_Saying2
             // 
-            this.TB_Saying2.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying2.Name = "TB_Saying2";
-            this.TB_Saying2.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying2.TabIndex = 0;
+            TB_Saying2.Location = new System.Drawing.Point(0, 0);
+            TB_Saying2.Name = "TB_Saying2";
+            TB_Saying2.Size = new System.Drawing.Size(100, 23);
+            TB_Saying2.TabIndex = 0;
             // 
             // TB_Saying1
             // 
-            this.TB_Saying1.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying1.Name = "TB_Saying1";
-            this.TB_Saying1.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying1.TabIndex = 0;
+            TB_Saying1.Location = new System.Drawing.Point(0, 0);
+            TB_Saying1.Name = "TB_Saying1";
+            TB_Saying1.Size = new System.Drawing.Size(100, 23);
+            TB_Saying1.TabIndex = 0;
             // 
             // L_LastSaved
             // 
-            this.L_LastSaved.Location = new System.Drawing.Point(3, 110);
-            this.L_LastSaved.Name = "L_LastSaved";
-            this.L_LastSaved.Size = new System.Drawing.Size(80, 20);
-            this.L_LastSaved.TabIndex = 32;
-            this.L_LastSaved.Text = "Last Saved:";
-            this.L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_LastSaved.Location = new System.Drawing.Point(4, 127);
+            L_LastSaved.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_LastSaved.Name = "L_LastSaved";
+            L_LastSaved.Size = new System.Drawing.Size(93, 23);
+            L_LastSaved.TabIndex = 32;
+            L_LastSaved.Text = "Last Saved:";
+            L_LastSaved.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CAL_LastSavedDate
             // 
-            this.CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.CAL_LastSavedDate.Location = new System.Drawing.Point(89, 110);
-            this.CAL_LastSavedDate.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
-            this.CAL_LastSavedDate.Name = "CAL_LastSavedDate";
-            this.CAL_LastSavedDate.Size = new System.Drawing.Size(99, 20);
-            this.CAL_LastSavedDate.TabIndex = 31;
-            this.CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            CAL_LastSavedDate.Location = new System.Drawing.Point(104, 127);
+            CAL_LastSavedDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedDate.Name = "CAL_LastSavedDate";
+            CAL_LastSavedDate.Size = new System.Drawing.Size(115, 23);
+            CAL_LastSavedDate.TabIndex = 31;
+            CAL_LastSavedDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
             // L_Seconds
             // 
-            this.L_Seconds.AutoSize = true;
-            this.L_Seconds.Location = new System.Drawing.Point(136, 17);
-            this.L_Seconds.Name = "L_Seconds";
-            this.L_Seconds.Size = new System.Drawing.Size(29, 13);
-            this.L_Seconds.TabIndex = 30;
-            this.L_Seconds.Text = "Sec:";
+            L_Seconds.AutoSize = true;
+            L_Seconds.Location = new System.Drawing.Point(159, 20);
+            L_Seconds.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Seconds.Name = "L_Seconds";
+            L_Seconds.Size = new System.Drawing.Size(28, 15);
+            L_Seconds.TabIndex = 30;
+            L_Seconds.Text = "Sec:";
             // 
             // L_Minutes
             // 
-            this.L_Minutes.AutoSize = true;
-            this.L_Minutes.Location = new System.Drawing.Point(84, 17);
-            this.L_Minutes.Name = "L_Minutes";
-            this.L_Minutes.Size = new System.Drawing.Size(27, 13);
-            this.L_Minutes.TabIndex = 29;
-            this.L_Minutes.Text = "Min:";
+            L_Minutes.AutoSize = true;
+            L_Minutes.Location = new System.Drawing.Point(98, 20);
+            L_Minutes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Minutes.Name = "L_Minutes";
+            L_Minutes.Size = new System.Drawing.Size(31, 15);
+            L_Minutes.TabIndex = 29;
+            L_Minutes.Text = "Min:";
             // 
             // MT_Seconds
             // 
-            this.MT_Seconds.Location = new System.Drawing.Point(166, 14);
-            this.MT_Seconds.Mask = "00";
-            this.MT_Seconds.Name = "MT_Seconds";
-            this.MT_Seconds.Size = new System.Drawing.Size(22, 20);
-            this.MT_Seconds.TabIndex = 28;
-            this.MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Seconds.TextChanged += new System.EventHandler(this.Change255);
+            MT_Seconds.Location = new System.Drawing.Point(194, 16);
+            MT_Seconds.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Seconds.Mask = "00";
+            MT_Seconds.Name = "MT_Seconds";
+            MT_Seconds.Size = new System.Drawing.Size(25, 23);
+            MT_Seconds.TabIndex = 28;
+            MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Seconds.TextChanged += Change255;
             // 
             // MT_Minutes
             // 
-            this.MT_Minutes.Location = new System.Drawing.Point(111, 14);
-            this.MT_Minutes.Mask = "00";
-            this.MT_Minutes.Name = "MT_Minutes";
-            this.MT_Minutes.Size = new System.Drawing.Size(22, 20);
-            this.MT_Minutes.TabIndex = 27;
-            this.MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Minutes.TextChanged += new System.EventHandler(this.Change255);
+            MT_Minutes.Location = new System.Drawing.Point(130, 16);
+            MT_Minutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Minutes.Mask = "00";
+            MT_Minutes.Name = "MT_Minutes";
+            MT_Minutes.Size = new System.Drawing.Size(25, 23);
+            MT_Minutes.TabIndex = 27;
+            MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Minutes.TextChanged += Change255;
             // 
             // L_Hours
             // 
-            this.L_Hours.AutoSize = true;
-            this.L_Hours.Location = new System.Drawing.Point(12, 17);
-            this.L_Hours.Name = "L_Hours";
-            this.L_Hours.Size = new System.Drawing.Size(26, 13);
-            this.L_Hours.TabIndex = 26;
-            this.L_Hours.Text = "Hrs:";
+            L_Hours.AutoSize = true;
+            L_Hours.Location = new System.Drawing.Point(14, 20);
+            L_Hours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Hours.Name = "L_Hours";
+            L_Hours.Size = new System.Drawing.Size(28, 15);
+            L_Hours.TabIndex = 26;
+            L_Hours.Text = "Hrs:";
             // 
             // MT_Hours
             // 
-            this.MT_Hours.Location = new System.Drawing.Point(44, 14);
-            this.MT_Hours.Mask = "00000";
-            this.MT_Hours.Name = "MT_Hours";
-            this.MT_Hours.Size = new System.Drawing.Size(38, 20);
-            this.MT_Hours.TabIndex = 25;
-            this.MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Hours.Location = new System.Drawing.Point(51, 16);
+            MT_Hours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Hours.Mask = "00000";
+            MT_Hours.Name = "MT_Hours";
+            MT_Hours.Size = new System.Drawing.Size(44, 23);
+            MT_Hours.TabIndex = 25;
+            MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // L_Language
             // 
-            this.L_Language.Location = new System.Drawing.Point(-7, 107);
-            this.L_Language.Name = "L_Language";
-            this.L_Language.Size = new System.Drawing.Size(100, 13);
-            this.L_Language.TabIndex = 21;
-            this.L_Language.Text = "Language:";
-            this.L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Language.Location = new System.Drawing.Point(-8, 123);
+            L_Language.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Language.Name = "L_Language";
+            L_Language.Size = new System.Drawing.Size(117, 15);
+            L_Language.TabIndex = 21;
+            L_Language.Text = "Language:";
+            L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_MaxCash
             // 
-            this.B_MaxCash.Location = new System.Drawing.Point(172, 29);
-            this.B_MaxCash.Name = "B_MaxCash";
-            this.B_MaxCash.Size = new System.Drawing.Size(20, 20);
-            this.B_MaxCash.TabIndex = 16;
-            this.B_MaxCash.Text = "+";
-            this.B_MaxCash.UseVisualStyleBackColor = true;
+            B_MaxCash.Location = new System.Drawing.Point(201, 33);
+            B_MaxCash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_MaxCash.Name = "B_MaxCash";
+            B_MaxCash.Size = new System.Drawing.Size(23, 23);
+            B_MaxCash.TabIndex = 16;
+            B_MaxCash.Text = "+";
+            B_MaxCash.UseVisualStyleBackColor = true;
             // 
             // CB_Language
             // 
-            this.CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Language.FormattingEnabled = true;
-            this.CB_Language.Location = new System.Drawing.Point(99, 104);
-            this.CB_Language.Name = "CB_Language";
-            this.CB_Language.Size = new System.Drawing.Size(93, 21);
-            this.CB_Language.TabIndex = 15;
+            CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Language.FormattingEnabled = true;
+            CB_Language.Location = new System.Drawing.Point(115, 120);
+            CB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Language.Name = "CB_Language";
+            CB_Language.Size = new System.Drawing.Size(108, 23);
+            CB_Language.TabIndex = 15;
             // 
             // CB_Gender
             // 
-            this.CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Gender.FormattingEnabled = true;
-            this.CB_Gender.Items.AddRange(new object[] {
-            "♂",
-            "♀"});
-            this.CB_Gender.Location = new System.Drawing.Point(99, 77);
-            this.CB_Gender.Name = "CB_Gender";
-            this.CB_Gender.Size = new System.Drawing.Size(40, 21);
-            this.CB_Gender.TabIndex = 22;
+            CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Gender.FormattingEnabled = true;
+            CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
+            CB_Gender.Location = new System.Drawing.Point(115, 89);
+            CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Gender.Name = "CB_Gender";
+            CB_Gender.Size = new System.Drawing.Size(46, 23);
+            CB_Gender.TabIndex = 22;
             // 
             // TB_MBMS
             // 
-            this.TB_MBMS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBMS.Name = "TB_MBMS";
-            this.TB_MBMS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBMS.TabIndex = 0;
+            TB_MBMS.Location = new System.Drawing.Point(0, 0);
+            TB_MBMS.Name = "TB_MBMS";
+            TB_MBMS.Size = new System.Drawing.Size(100, 23);
+            TB_MBMS.TabIndex = 0;
             // 
             // TB_MBMN
             // 
-            this.TB_MBMN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBMN.Name = "TB_MBMN";
-            this.TB_MBMN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBMN.TabIndex = 0;
+            TB_MBMN.Location = new System.Drawing.Point(0, 0);
+            TB_MBMN.Name = "TB_MBMN";
+            TB_MBMN.Size = new System.Drawing.Size(100, 23);
+            TB_MBMN.TabIndex = 0;
             // 
             // TB_MBRS
             // 
-            this.TB_MBRS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBRS.Name = "TB_MBRS";
-            this.TB_MBRS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBRS.TabIndex = 0;
+            TB_MBRS.Location = new System.Drawing.Point(0, 0);
+            TB_MBRS.Name = "TB_MBRS";
+            TB_MBRS.Size = new System.Drawing.Size(100, 23);
+            TB_MBRS.TabIndex = 0;
             // 
             // TB_MBRN
             // 
-            this.TB_MBRN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBRN.Name = "TB_MBRN";
-            this.TB_MBRN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBRN.TabIndex = 0;
+            TB_MBRN.Location = new System.Drawing.Point(0, 0);
+            TB_MBRN.Name = "TB_MBRN";
+            TB_MBRN.Size = new System.Drawing.Size(100, 23);
+            TB_MBRN.TabIndex = 0;
             // 
             // TB_MBTS
             // 
-            this.TB_MBTS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBTS.Name = "TB_MBTS";
-            this.TB_MBTS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBTS.TabIndex = 0;
+            TB_MBTS.Location = new System.Drawing.Point(0, 0);
+            TB_MBTS.Name = "TB_MBTS";
+            TB_MBTS.Size = new System.Drawing.Size(100, 23);
+            TB_MBTS.TabIndex = 0;
             // 
             // TB_MBTN
             // 
-            this.TB_MBTN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBTN.Name = "TB_MBTN";
-            this.TB_MBTN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBTN.TabIndex = 0;
+            TB_MBTN.Location = new System.Drawing.Point(0, 0);
+            TB_MBTN.Name = "TB_MBTN";
+            TB_MBTN.Size = new System.Drawing.Size(100, 23);
+            TB_MBTN.TabIndex = 0;
             // 
             // TB_MBDS
             // 
-            this.TB_MBDS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBDS.Name = "TB_MBDS";
-            this.TB_MBDS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBDS.TabIndex = 0;
+            TB_MBDS.Location = new System.Drawing.Point(0, 0);
+            TB_MBDS.Name = "TB_MBDS";
+            TB_MBDS.Size = new System.Drawing.Size(100, 23);
+            TB_MBDS.TabIndex = 0;
             // 
             // TB_MBDN
             // 
-            this.TB_MBDN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBDN.Name = "TB_MBDN";
-            this.TB_MBDN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBDN.TabIndex = 0;
+            TB_MBDN.Location = new System.Drawing.Point(0, 0);
+            TB_MBDN.Name = "TB_MBDN";
+            TB_MBDN.Size = new System.Drawing.Size(100, 23);
+            TB_MBDN.TabIndex = 0;
             // 
             // TB_MBSS
             // 
-            this.TB_MBSS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBSS.Name = "TB_MBSS";
-            this.TB_MBSS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBSS.TabIndex = 0;
+            TB_MBSS.Location = new System.Drawing.Point(0, 0);
+            TB_MBSS.Name = "TB_MBSS";
+            TB_MBSS.Size = new System.Drawing.Size(100, 23);
+            TB_MBSS.TabIndex = 0;
             // 
             // TB_MBSN
             // 
-            this.TB_MBSN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MBSN.Name = "TB_MBSN";
-            this.TB_MBSN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MBSN.TabIndex = 0;
+            TB_MBSN.Location = new System.Drawing.Point(0, 0);
+            TB_MBSN.Name = "TB_MBSN";
+            TB_MBSN.Size = new System.Drawing.Size(100, 23);
+            TB_MBSN.TabIndex = 0;
             // 
             // L_SuperB
             // 
-            this.L_SuperB.Location = new System.Drawing.Point(0, 0);
-            this.L_SuperB.Name = "L_SuperB";
-            this.L_SuperB.Size = new System.Drawing.Size(100, 23);
-            this.L_SuperB.TabIndex = 0;
+            L_SuperB.Location = new System.Drawing.Point(0, 0);
+            L_SuperB.Name = "L_SuperB";
+            L_SuperB.Size = new System.Drawing.Size(100, 23);
+            L_SuperB.TabIndex = 0;
             // 
             // L_NormalB
             // 
-            this.L_NormalB.Location = new System.Drawing.Point(0, 0);
-            this.L_NormalB.Name = "L_NormalB";
-            this.L_NormalB.Size = new System.Drawing.Size(100, 23);
-            this.L_NormalB.TabIndex = 0;
+            L_NormalB.Location = new System.Drawing.Point(0, 0);
+            L_NormalB.Name = "L_NormalB";
+            L_NormalB.Size = new System.Drawing.Size(100, 23);
+            L_NormalB.TabIndex = 0;
             // 
             // L_MultiB
             // 
-            this.L_MultiB.Location = new System.Drawing.Point(0, 0);
-            this.L_MultiB.Name = "L_MultiB";
-            this.L_MultiB.Size = new System.Drawing.Size(100, 23);
-            this.L_MultiB.TabIndex = 0;
+            L_MultiB.Location = new System.Drawing.Point(0, 0);
+            L_MultiB.Name = "L_MultiB";
+            L_MultiB.Size = new System.Drawing.Size(100, 23);
+            L_MultiB.TabIndex = 0;
             // 
             // L_RotationB
             // 
-            this.L_RotationB.Location = new System.Drawing.Point(0, 0);
-            this.L_RotationB.Name = "L_RotationB";
-            this.L_RotationB.Size = new System.Drawing.Size(100, 23);
-            this.L_RotationB.TabIndex = 0;
+            L_RotationB.Location = new System.Drawing.Point(0, 0);
+            L_RotationB.Name = "L_RotationB";
+            L_RotationB.Size = new System.Drawing.Size(100, 23);
+            L_RotationB.TabIndex = 0;
             // 
             // L_TriplesB
             // 
-            this.L_TriplesB.Location = new System.Drawing.Point(0, 0);
-            this.L_TriplesB.Name = "L_TriplesB";
-            this.L_TriplesB.Size = new System.Drawing.Size(100, 23);
-            this.L_TriplesB.TabIndex = 0;
+            L_TriplesB.Location = new System.Drawing.Point(0, 0);
+            L_TriplesB.Name = "L_TriplesB";
+            L_TriplesB.Size = new System.Drawing.Size(100, 23);
+            L_TriplesB.TabIndex = 0;
             // 
             // L_DoublesB
             // 
-            this.L_DoublesB.Location = new System.Drawing.Point(0, 0);
-            this.L_DoublesB.Name = "L_DoublesB";
-            this.L_DoublesB.Size = new System.Drawing.Size(100, 23);
-            this.L_DoublesB.TabIndex = 0;
+            L_DoublesB.Location = new System.Drawing.Point(0, 0);
+            L_DoublesB.Name = "L_DoublesB";
+            L_DoublesB.Size = new System.Drawing.Size(100, 23);
+            L_DoublesB.TabIndex = 0;
             // 
             // L_SinglesB
             // 
-            this.L_SinglesB.Location = new System.Drawing.Point(0, 0);
-            this.L_SinglesB.Name = "L_SinglesB";
-            this.L_SinglesB.Size = new System.Drawing.Size(100, 23);
-            this.L_SinglesB.TabIndex = 0;
+            L_SinglesB.Location = new System.Drawing.Point(0, 0);
+            L_SinglesB.Name = "L_SinglesB";
+            L_SinglesB.Size = new System.Drawing.Size(100, 23);
+            L_SinglesB.TabIndex = 0;
             // 
             // TB_MCMS
             // 
-            this.TB_MCMS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCMS.Name = "TB_MCMS";
-            this.TB_MCMS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCMS.TabIndex = 0;
+            TB_MCMS.Location = new System.Drawing.Point(0, 0);
+            TB_MCMS.Name = "TB_MCMS";
+            TB_MCMS.Size = new System.Drawing.Size(100, 23);
+            TB_MCMS.TabIndex = 0;
             // 
             // TB_MCMN
             // 
-            this.TB_MCMN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCMN.Name = "TB_MCMN";
-            this.TB_MCMN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCMN.TabIndex = 0;
+            TB_MCMN.Location = new System.Drawing.Point(0, 0);
+            TB_MCMN.Name = "TB_MCMN";
+            TB_MCMN.Size = new System.Drawing.Size(100, 23);
+            TB_MCMN.TabIndex = 0;
             // 
             // TB_MCRS
             // 
-            this.TB_MCRS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCRS.Name = "TB_MCRS";
-            this.TB_MCRS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCRS.TabIndex = 0;
+            TB_MCRS.Location = new System.Drawing.Point(0, 0);
+            TB_MCRS.Name = "TB_MCRS";
+            TB_MCRS.Size = new System.Drawing.Size(100, 23);
+            TB_MCRS.TabIndex = 0;
             // 
             // TB_MCRN
             // 
-            this.TB_MCRN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCRN.Name = "TB_MCRN";
-            this.TB_MCRN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCRN.TabIndex = 0;
+            TB_MCRN.Location = new System.Drawing.Point(0, 0);
+            TB_MCRN.Name = "TB_MCRN";
+            TB_MCRN.Size = new System.Drawing.Size(100, 23);
+            TB_MCRN.TabIndex = 0;
             // 
             // TB_MCTS
             // 
-            this.TB_MCTS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCTS.Name = "TB_MCTS";
-            this.TB_MCTS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCTS.TabIndex = 0;
+            TB_MCTS.Location = new System.Drawing.Point(0, 0);
+            TB_MCTS.Name = "TB_MCTS";
+            TB_MCTS.Size = new System.Drawing.Size(100, 23);
+            TB_MCTS.TabIndex = 0;
             // 
             // TB_MCTN
             // 
-            this.TB_MCTN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCTN.Name = "TB_MCTN";
-            this.TB_MCTN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCTN.TabIndex = 0;
+            TB_MCTN.Location = new System.Drawing.Point(0, 0);
+            TB_MCTN.Name = "TB_MCTN";
+            TB_MCTN.Size = new System.Drawing.Size(100, 23);
+            TB_MCTN.TabIndex = 0;
             // 
             // TB_MCDS
             // 
-            this.TB_MCDS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCDS.Name = "TB_MCDS";
-            this.TB_MCDS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCDS.TabIndex = 0;
+            TB_MCDS.Location = new System.Drawing.Point(0, 0);
+            TB_MCDS.Name = "TB_MCDS";
+            TB_MCDS.Size = new System.Drawing.Size(100, 23);
+            TB_MCDS.TabIndex = 0;
             // 
             // TB_MCDN
             // 
-            this.TB_MCDN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCDN.Name = "TB_MCDN";
-            this.TB_MCDN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCDN.TabIndex = 0;
+            TB_MCDN.Location = new System.Drawing.Point(0, 0);
+            TB_MCDN.Name = "TB_MCDN";
+            TB_MCDN.Size = new System.Drawing.Size(100, 23);
+            TB_MCDN.TabIndex = 0;
             // 
             // TB_MCSS
             // 
-            this.TB_MCSS.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCSS.Name = "TB_MCSS";
-            this.TB_MCSS.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCSS.TabIndex = 0;
+            TB_MCSS.Location = new System.Drawing.Point(0, 0);
+            TB_MCSS.Name = "TB_MCSS";
+            TB_MCSS.Size = new System.Drawing.Size(100, 23);
+            TB_MCSS.TabIndex = 0;
             // 
             // TB_MCSN
             // 
-            this.TB_MCSN.Location = new System.Drawing.Point(0, 0);
-            this.TB_MCSN.Name = "TB_MCSN";
-            this.TB_MCSN.Size = new System.Drawing.Size(100, 20);
-            this.TB_MCSN.TabIndex = 0;
+            TB_MCSN.Location = new System.Drawing.Point(0, 0);
+            TB_MCSN.Name = "TB_MCSN";
+            TB_MCSN.Size = new System.Drawing.Size(100, 23);
+            TB_MCSN.TabIndex = 0;
             // 
             // L_SuperC
             // 
-            this.L_SuperC.Location = new System.Drawing.Point(0, 0);
-            this.L_SuperC.Name = "L_SuperC";
-            this.L_SuperC.Size = new System.Drawing.Size(100, 23);
-            this.L_SuperC.TabIndex = 0;
+            L_SuperC.Location = new System.Drawing.Point(0, 0);
+            L_SuperC.Name = "L_SuperC";
+            L_SuperC.Size = new System.Drawing.Size(100, 23);
+            L_SuperC.TabIndex = 0;
             // 
             // L_NormalC
             // 
-            this.L_NormalC.Location = new System.Drawing.Point(0, 0);
-            this.L_NormalC.Name = "L_NormalC";
-            this.L_NormalC.Size = new System.Drawing.Size(100, 23);
-            this.L_NormalC.TabIndex = 0;
+            L_NormalC.Location = new System.Drawing.Point(0, 0);
+            L_NormalC.Name = "L_NormalC";
+            L_NormalC.Size = new System.Drawing.Size(100, 23);
+            L_NormalC.TabIndex = 0;
             // 
             // L_MultiC
             // 
-            this.L_MultiC.Location = new System.Drawing.Point(0, 0);
-            this.L_MultiC.Name = "L_MultiC";
-            this.L_MultiC.Size = new System.Drawing.Size(100, 23);
-            this.L_MultiC.TabIndex = 0;
+            L_MultiC.Location = new System.Drawing.Point(0, 0);
+            L_MultiC.Name = "L_MultiC";
+            L_MultiC.Size = new System.Drawing.Size(100, 23);
+            L_MultiC.TabIndex = 0;
             // 
             // L_RotationC
             // 
-            this.L_RotationC.Location = new System.Drawing.Point(0, 0);
-            this.L_RotationC.Name = "L_RotationC";
-            this.L_RotationC.Size = new System.Drawing.Size(100, 23);
-            this.L_RotationC.TabIndex = 0;
+            L_RotationC.Location = new System.Drawing.Point(0, 0);
+            L_RotationC.Name = "L_RotationC";
+            L_RotationC.Size = new System.Drawing.Size(100, 23);
+            L_RotationC.TabIndex = 0;
             // 
             // L_TriplesC
             // 
-            this.L_TriplesC.Location = new System.Drawing.Point(0, 0);
-            this.L_TriplesC.Name = "L_TriplesC";
-            this.L_TriplesC.Size = new System.Drawing.Size(100, 23);
-            this.L_TriplesC.TabIndex = 0;
+            L_TriplesC.Location = new System.Drawing.Point(0, 0);
+            L_TriplesC.Name = "L_TriplesC";
+            L_TriplesC.Size = new System.Drawing.Size(100, 23);
+            L_TriplesC.TabIndex = 0;
             // 
             // L_DoublesC
             // 
-            this.L_DoublesC.Location = new System.Drawing.Point(0, 0);
-            this.L_DoublesC.Name = "L_DoublesC";
-            this.L_DoublesC.Size = new System.Drawing.Size(100, 23);
-            this.L_DoublesC.TabIndex = 0;
+            L_DoublesC.Location = new System.Drawing.Point(0, 0);
+            L_DoublesC.Name = "L_DoublesC";
+            L_DoublesC.Size = new System.Drawing.Size(100, 23);
+            L_DoublesC.TabIndex = 0;
             // 
             // L_SinglesC
             // 
-            this.L_SinglesC.Location = new System.Drawing.Point(0, 0);
-            this.L_SinglesC.Name = "L_SinglesC";
-            this.L_SinglesC.Size = new System.Drawing.Size(100, 23);
-            this.L_SinglesC.TabIndex = 0;
+            L_SinglesC.Location = new System.Drawing.Point(0, 0);
+            L_SinglesC.Name = "L_SinglesC";
+            L_SinglesC.Size = new System.Drawing.Size(100, 23);
+            L_SinglesC.TabIndex = 0;
             // 
             // TC_Editor
             // 
-            this.TC_Editor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TC_Editor.Controls.Add(this.Tab_Overview);
-            this.TC_Editor.Location = new System.Drawing.Point(12, 12);
-            this.TC_Editor.Name = "TC_Editor";
-            this.TC_Editor.SelectedIndex = 0;
-            this.TC_Editor.Size = new System.Drawing.Size(438, 313);
-            this.TC_Editor.TabIndex = 54;
+            TC_Editor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TC_Editor.Controls.Add(Tab_Overview);
+            TC_Editor.Location = new System.Drawing.Point(14, 14);
+            TC_Editor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Editor.Name = "TC_Editor";
+            TC_Editor.SelectedIndex = 0;
+            TC_Editor.Size = new System.Drawing.Size(511, 361);
+            TC_Editor.TabIndex = 54;
             // 
             // Tab_Overview
             // 
-            this.Tab_Overview.Controls.Add(this.GB_Stats);
-            this.Tab_Overview.Controls.Add(this.trainerID1);
-            this.Tab_Overview.Controls.Add(this.GB_Adventure);
-            this.Tab_Overview.Controls.Add(this.TB_OTName);
-            this.Tab_Overview.Controls.Add(this.CB_Gender);
-            this.Tab_Overview.Controls.Add(this.L_TrainerName);
-            this.Tab_Overview.Controls.Add(this.MT_Money);
-            this.Tab_Overview.Controls.Add(this.L_Money);
-            this.Tab_Overview.Controls.Add(this.L_Language);
-            this.Tab_Overview.Controls.Add(this.CB_Language);
-            this.Tab_Overview.Controls.Add(this.B_MaxCash);
-            this.Tab_Overview.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Overview.Name = "Tab_Overview";
-            this.Tab_Overview.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Overview.Size = new System.Drawing.Size(430, 287);
-            this.Tab_Overview.TabIndex = 0;
-            this.Tab_Overview.Text = "Overview";
-            this.Tab_Overview.UseVisualStyleBackColor = true;
+            Tab_Overview.Controls.Add(GB_Stats);
+            Tab_Overview.Controls.Add(trainerID1);
+            Tab_Overview.Controls.Add(GB_Adventure);
+            Tab_Overview.Controls.Add(TB_OTName);
+            Tab_Overview.Controls.Add(CB_Gender);
+            Tab_Overview.Controls.Add(L_TrainerName);
+            Tab_Overview.Controls.Add(MT_Money);
+            Tab_Overview.Controls.Add(L_Money);
+            Tab_Overview.Controls.Add(L_Language);
+            Tab_Overview.Controls.Add(CB_Language);
+            Tab_Overview.Controls.Add(B_MaxCash);
+            Tab_Overview.Location = new System.Drawing.Point(4, 24);
+            Tab_Overview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Overview.Name = "Tab_Overview";
+            Tab_Overview.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Overview.Size = new System.Drawing.Size(503, 333);
+            Tab_Overview.TabIndex = 0;
+            Tab_Overview.Text = "Overview";
+            Tab_Overview.UseVisualStyleBackColor = true;
             // 
             // GB_Stats
             // 
-            this.GB_Stats.Controls.Add(this.NUD_Satchel);
-            this.GB_Stats.Controls.Add(this.L_SatchelUpgrades);
-            this.GB_Stats.Controls.Add(this.NUD_Rank);
-            this.GB_Stats.Controls.Add(this.L_GalaxyRank);
-            this.GB_Stats.Controls.Add(this.NUD_MeritEarned);
-            this.GB_Stats.Controls.Add(this.L_MeritEarned);
-            this.GB_Stats.Controls.Add(this.NUD_MeritCurrent);
-            this.GB_Stats.Controls.Add(this.L_MeritCurrent);
-            this.GB_Stats.Location = new System.Drawing.Point(209, 130);
-            this.GB_Stats.Name = "GB_Stats";
-            this.GB_Stats.Size = new System.Drawing.Size(215, 137);
-            this.GB_Stats.TabIndex = 67;
-            this.GB_Stats.TabStop = false;
-            this.GB_Stats.Text = "Stats";
-            // 
-            // NUD_MeritEarned
-            // 
-            this.NUD_MeritEarned.Location = new System.Drawing.Point(134, 45);
-            this.NUD_MeritEarned.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_MeritEarned.Name = "NUD_MeritEarned";
-            this.NUD_MeritEarned.Size = new System.Drawing.Size(75, 20);
-            this.NUD_MeritEarned.TabIndex = 71;
-            this.NUD_MeritEarned.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            // 
-            // L_MeritEarned
-            // 
-            this.L_MeritEarned.Location = new System.Drawing.Point(6, 43);
-            this.L_MeritEarned.Name = "L_MeritEarned";
-            this.L_MeritEarned.Size = new System.Drawing.Size(122, 20);
-            this.L_MeritEarned.TabIndex = 70;
-            this.L_MeritEarned.Text = "Earned Merit Points:";
-            this.L_MeritEarned.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // NUD_MeritCurrent
-            // 
-            this.NUD_MeritCurrent.Location = new System.Drawing.Point(134, 19);
-            this.NUD_MeritCurrent.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_MeritCurrent.Name = "NUD_MeritCurrent";
-            this.NUD_MeritCurrent.Size = new System.Drawing.Size(75, 20);
-            this.NUD_MeritCurrent.TabIndex = 69;
-            this.NUD_MeritCurrent.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            // 
-            // L_MeritCurrent
-            // 
-            this.L_MeritCurrent.Location = new System.Drawing.Point(6, 17);
-            this.L_MeritCurrent.Name = "L_MeritCurrent";
-            this.L_MeritCurrent.Size = new System.Drawing.Size(122, 20);
-            this.L_MeritCurrent.TabIndex = 68;
-            this.L_MeritCurrent.Text = "Current Merit Points:";
-            this.L_MeritCurrent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // trainerID1
-            // 
-            this.trainerID1.Location = new System.Drawing.Point(6, 26);
-            this.trainerID1.Name = "trainerID1";
-            this.trainerID1.Size = new System.Drawing.Size(90, 74);
-            this.trainerID1.TabIndex = 66;
-            // 
-            // GB_Adventure
-            // 
-            this.GB_Adventure.Controls.Add(this.L_Started);
-            this.GB_Adventure.Controls.Add(this.CAL_AdventureStartDate);
-            this.GB_Adventure.Controls.Add(this.CAL_LastSavedDate);
-            this.GB_Adventure.Controls.Add(this.L_LastSaved);
-            this.GB_Adventure.Controls.Add(this.MT_Seconds);
-            this.GB_Adventure.Controls.Add(this.MT_Hours);
-            this.GB_Adventure.Controls.Add(this.L_Seconds);
-            this.GB_Adventure.Controls.Add(this.L_Hours);
-            this.GB_Adventure.Controls.Add(this.MT_Minutes);
-            this.GB_Adventure.Controls.Add(this.L_Minutes);
-            this.GB_Adventure.Controls.Add(this.CAL_AdventureStartTime);
-            this.GB_Adventure.Controls.Add(this.CAL_LastSavedTime);
-            this.GB_Adventure.Location = new System.Drawing.Point(3, 130);
-            this.GB_Adventure.Name = "GB_Adventure";
-            this.GB_Adventure.Size = new System.Drawing.Size(200, 151);
-            this.GB_Adventure.TabIndex = 56;
-            this.GB_Adventure.TabStop = false;
-            this.GB_Adventure.Text = "Adventure Info";
-            // 
-            // L_Started
-            // 
-            this.L_Started.Location = new System.Drawing.Point(3, 35);
-            this.L_Started.Name = "L_Started";
-            this.L_Started.Size = new System.Drawing.Size(80, 20);
-            this.L_Started.TabIndex = 36;
-            this.L_Started.Text = "Game Started:";
-            this.L_Started.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CAL_AdventureStartDate
-            // 
-            this.CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.CAL_AdventureStartDate.Location = new System.Drawing.Point(89, 35);
-            this.CAL_AdventureStartDate.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
-            this.CAL_AdventureStartDate.MinDate = new System.DateTime(1932, 1, 1, 0, 0, 0, 0);
-            this.CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
-            this.CAL_AdventureStartDate.Size = new System.Drawing.Size(99, 20);
-            this.CAL_AdventureStartDate.TabIndex = 35;
-            this.CAL_AdventureStartDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
-            // 
-            // CAL_AdventureStartTime
-            // 
-            this.CAL_AdventureStartTime.CustomFormat = "HH:mm:ss";
-            this.CAL_AdventureStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.CAL_AdventureStartTime.Location = new System.Drawing.Point(115, 54);
-            this.CAL_AdventureStartTime.MaxDate = new System.DateTime(2100, 12, 31, 0, 0, 0, 0);
-            this.CAL_AdventureStartTime.MinDate = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);
-            this.CAL_AdventureStartTime.Name = "CAL_AdventureStartTime";
-            this.CAL_AdventureStartTime.ShowUpDown = true;
-            this.CAL_AdventureStartTime.Size = new System.Drawing.Size(73, 20);
-            this.CAL_AdventureStartTime.TabIndex = 34;
-            this.CAL_AdventureStartTime.Value = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
-            // 
-            // CAL_LastSavedTime
-            // 
-            this.CAL_LastSavedTime.CustomFormat = "HH:mm";
-            this.CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.CAL_LastSavedTime.Location = new System.Drawing.Point(115, 129);
-            this.CAL_LastSavedTime.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
-            this.CAL_LastSavedTime.Name = "CAL_LastSavedTime";
-            this.CAL_LastSavedTime.ShowUpDown = true;
-            this.CAL_LastSavedTime.Size = new System.Drawing.Size(73, 20);
-            this.CAL_LastSavedTime.TabIndex = 37;
-            this.CAL_LastSavedTime.Value = new System.DateTime(2001, 1, 1, 0, 0, 0, 0);
-            // 
-            // NUD_Rank
-            // 
-            this.NUD_Rank.Location = new System.Drawing.Point(134, 71);
-            this.NUD_Rank.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_Rank.Name = "NUD_Rank";
-            this.NUD_Rank.Size = new System.Drawing.Size(75, 20);
-            this.NUD_Rank.TabIndex = 73;
-            this.NUD_Rank.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            // 
-            // L_GalaxyRank
-            // 
-            this.L_GalaxyRank.Location = new System.Drawing.Point(6, 69);
-            this.L_GalaxyRank.Name = "L_GalaxyRank";
-            this.L_GalaxyRank.Size = new System.Drawing.Size(122, 20);
-            this.L_GalaxyRank.TabIndex = 72;
-            this.L_GalaxyRank.Text = "Galaxy Rank:";
-            this.L_GalaxyRank.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            GB_Stats.Controls.Add(NUD_Satchel);
+            GB_Stats.Controls.Add(L_SatchelUpgrades);
+            GB_Stats.Controls.Add(NUD_Rank);
+            GB_Stats.Controls.Add(L_GalaxyRank);
+            GB_Stats.Controls.Add(NUD_MeritEarned);
+            GB_Stats.Controls.Add(L_MeritEarned);
+            GB_Stats.Controls.Add(NUD_MeritCurrent);
+            GB_Stats.Controls.Add(L_MeritCurrent);
+            GB_Stats.Location = new System.Drawing.Point(244, 150);
+            GB_Stats.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Stats.Name = "GB_Stats";
+            GB_Stats.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Stats.Size = new System.Drawing.Size(251, 158);
+            GB_Stats.TabIndex = 67;
+            GB_Stats.TabStop = false;
+            GB_Stats.Text = "Stats";
             // 
             // NUD_Satchel
             // 
-            this.NUD_Satchel.Location = new System.Drawing.Point(134, 97);
-            this.NUD_Satchel.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.NUD_Satchel.Name = "NUD_Satchel";
-            this.NUD_Satchel.Size = new System.Drawing.Size(75, 20);
-            this.NUD_Satchel.TabIndex = 75;
-            this.NUD_Satchel.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
+            NUD_Satchel.Location = new System.Drawing.Point(156, 112);
+            NUD_Satchel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Satchel.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
+            NUD_Satchel.Name = "NUD_Satchel";
+            NUD_Satchel.Size = new System.Drawing.Size(88, 23);
+            NUD_Satchel.TabIndex = 75;
+            NUD_Satchel.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
             // 
             // L_SatchelUpgrades
             // 
-            this.L_SatchelUpgrades.Location = new System.Drawing.Point(6, 95);
-            this.L_SatchelUpgrades.Name = "L_SatchelUpgrades";
-            this.L_SatchelUpgrades.Size = new System.Drawing.Size(122, 20);
-            this.L_SatchelUpgrades.TabIndex = 74;
-            this.L_SatchelUpgrades.Text = "Satchel Upgrades:";
-            this.L_SatchelUpgrades.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_SatchelUpgrades.Location = new System.Drawing.Point(7, 110);
+            L_SatchelUpgrades.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SatchelUpgrades.Name = "L_SatchelUpgrades";
+            L_SatchelUpgrades.Size = new System.Drawing.Size(142, 23);
+            L_SatchelUpgrades.TabIndex = 74;
+            L_SatchelUpgrades.Text = "Satchel Upgrades:";
+            L_SatchelUpgrades.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_Rank
+            // 
+            NUD_Rank.Location = new System.Drawing.Point(156, 82);
+            NUD_Rank.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Rank.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
+            NUD_Rank.Name = "NUD_Rank";
+            NUD_Rank.Size = new System.Drawing.Size(88, 23);
+            NUD_Rank.TabIndex = 73;
+            NUD_Rank.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
+            // 
+            // L_GalaxyRank
+            // 
+            L_GalaxyRank.Location = new System.Drawing.Point(7, 80);
+            L_GalaxyRank.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_GalaxyRank.Name = "L_GalaxyRank";
+            L_GalaxyRank.Size = new System.Drawing.Size(142, 23);
+            L_GalaxyRank.TabIndex = 72;
+            L_GalaxyRank.Text = "Galaxy Rank:";
+            L_GalaxyRank.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_MeritEarned
+            // 
+            NUD_MeritEarned.Location = new System.Drawing.Point(156, 52);
+            NUD_MeritEarned.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_MeritEarned.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
+            NUD_MeritEarned.Name = "NUD_MeritEarned";
+            NUD_MeritEarned.Size = new System.Drawing.Size(88, 23);
+            NUD_MeritEarned.TabIndex = 71;
+            NUD_MeritEarned.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
+            // 
+            // L_MeritEarned
+            // 
+            L_MeritEarned.Location = new System.Drawing.Point(7, 50);
+            L_MeritEarned.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_MeritEarned.Name = "L_MeritEarned";
+            L_MeritEarned.Size = new System.Drawing.Size(142, 23);
+            L_MeritEarned.TabIndex = 70;
+            L_MeritEarned.Text = "Earned Merit Points:";
+            L_MeritEarned.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // NUD_MeritCurrent
+            // 
+            NUD_MeritCurrent.Location = new System.Drawing.Point(156, 22);
+            NUD_MeritCurrent.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_MeritCurrent.Maximum = new decimal(new int[] { 999999999, 0, 0, 0 });
+            NUD_MeritCurrent.Name = "NUD_MeritCurrent";
+            NUD_MeritCurrent.Size = new System.Drawing.Size(88, 23);
+            NUD_MeritCurrent.TabIndex = 69;
+            NUD_MeritCurrent.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
+            // 
+            // L_MeritCurrent
+            // 
+            L_MeritCurrent.Location = new System.Drawing.Point(7, 20);
+            L_MeritCurrent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_MeritCurrent.Name = "L_MeritCurrent";
+            L_MeritCurrent.Size = new System.Drawing.Size(142, 23);
+            L_MeritCurrent.TabIndex = 68;
+            L_MeritCurrent.Text = "Current Merit Points:";
+            L_MeritCurrent.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // trainerID1
+            // 
+            trainerID1.Location = new System.Drawing.Point(7, 30);
+            trainerID1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            trainerID1.Name = "trainerID1";
+            trainerID1.Size = new System.Drawing.Size(105, 85);
+            trainerID1.TabIndex = 66;
+            // 
+            // GB_Adventure
+            // 
+            GB_Adventure.Controls.Add(L_Started);
+            GB_Adventure.Controls.Add(CAL_AdventureStartDate);
+            GB_Adventure.Controls.Add(CAL_LastSavedDate);
+            GB_Adventure.Controls.Add(L_LastSaved);
+            GB_Adventure.Controls.Add(MT_Seconds);
+            GB_Adventure.Controls.Add(MT_Hours);
+            GB_Adventure.Controls.Add(L_Seconds);
+            GB_Adventure.Controls.Add(L_Hours);
+            GB_Adventure.Controls.Add(MT_Minutes);
+            GB_Adventure.Controls.Add(L_Minutes);
+            GB_Adventure.Controls.Add(CAL_AdventureStartTime);
+            GB_Adventure.Controls.Add(CAL_LastSavedTime);
+            GB_Adventure.Location = new System.Drawing.Point(4, 150);
+            GB_Adventure.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Adventure.Name = "GB_Adventure";
+            GB_Adventure.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Adventure.Size = new System.Drawing.Size(233, 174);
+            GB_Adventure.TabIndex = 56;
+            GB_Adventure.TabStop = false;
+            GB_Adventure.Text = "Adventure Info";
+            // 
+            // L_Started
+            // 
+            L_Started.Location = new System.Drawing.Point(4, 40);
+            L_Started.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Started.Name = "L_Started";
+            L_Started.Size = new System.Drawing.Size(93, 23);
+            L_Started.TabIndex = 36;
+            L_Started.Text = "Game Started:";
+            L_Started.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CAL_AdventureStartDate
+            // 
+            CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            CAL_AdventureStartDate.Location = new System.Drawing.Point(104, 40);
+            CAL_AdventureStartDate.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_AdventureStartDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_AdventureStartDate.Name = "CAL_AdventureStartDate";
+            CAL_AdventureStartDate.Size = new System.Drawing.Size(115, 23);
+            CAL_AdventureStartDate.TabIndex = 35;
+            CAL_AdventureStartDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
+            // CAL_AdventureStartTime
+            // 
+            CAL_AdventureStartTime.CustomFormat = "HH:mm:ss";
+            CAL_AdventureStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_AdventureStartTime.Location = new System.Drawing.Point(134, 62);
+            CAL_AdventureStartTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_AdventureStartTime.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_AdventureStartTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_AdventureStartTime.Name = "CAL_AdventureStartTime";
+            CAL_AdventureStartTime.ShowUpDown = true;
+            CAL_AdventureStartTime.Size = new System.Drawing.Size(84, 23);
+            CAL_AdventureStartTime.TabIndex = 34;
+            CAL_AdventureStartTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            // 
+            // CAL_LastSavedTime
+            // 
+            CAL_LastSavedTime.CustomFormat = "HH:mm";
+            CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            CAL_LastSavedTime.Location = new System.Drawing.Point(134, 149);
+            CAL_LastSavedTime.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CAL_LastSavedTime.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
+            CAL_LastSavedTime.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
+            CAL_LastSavedTime.Name = "CAL_LastSavedTime";
+            CAL_LastSavedTime.ShowUpDown = true;
+            CAL_LastSavedTime.Size = new System.Drawing.Size(84, 23);
+            CAL_LastSavedTime.TabIndex = 37;
+            CAL_LastSavedTime.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
             // SAV_Trainer8a
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(458, 363);
-            this.Controls.Add(this.TC_Editor);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.B_Cancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SAV_Trainer8a";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Trainer Data Editor";
-            this.TC_Editor.ResumeLayout(false);
-            this.Tab_Overview.ResumeLayout(false);
-            this.Tab_Overview.PerformLayout();
-            this.GB_Stats.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_MeritEarned)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_MeritCurrent)).EndInit();
-            this.GB_Adventure.ResumeLayout(false);
-            this.GB_Adventure.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Rank)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Satchel)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(534, 419);
+            Controls.Add(TC_Editor);
+            Controls.Add(B_Save);
+            Controls.Add(B_Cancel);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SAV_Trainer8a";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Trainer Data Editor";
+            TC_Editor.ResumeLayout(false);
+            Tab_Overview.ResumeLayout(false);
+            Tab_Overview.PerformLayout();
+            GB_Stats.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_Satchel).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Rank).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MeritEarned).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_MeritCurrent).EndInit();
+            GB_Adventure.ResumeLayout(false);
+            GB_Adventure.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion

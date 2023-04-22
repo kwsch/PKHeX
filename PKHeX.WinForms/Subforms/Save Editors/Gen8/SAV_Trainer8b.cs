@@ -110,7 +110,7 @@ public partial class SAV_Trainer8b : Form
         SAV.Language = WinFormsUtil.GetIndex(CB_Language);
         SAV.OT = TB_OTName.Text;
         SAV.Rival = TB_Rival.Text;
-        SAV.BattleTower.BP = (uint) NUD_BP.Value;
+        SAV.BattleTower.BP = (uint)NUD_BP.Value;
 
         // Copy Position
         if (GB_Map.Enabled && MapUpdated)
@@ -125,8 +125,8 @@ public partial class SAV_Trainer8b : Form
 
         // Save PlayTime
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
-        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
-        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
+        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
+        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
 
         //SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
         //SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);

@@ -17,7 +17,7 @@ public partial class SAV_SimpleTrainer : Form
         SAV = (Origin = sav).Clone();
         Loading = true;
 
-        cba = new[] {CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8};
+        cba = new[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_6, CHK_7, CHK_8 };
         TB_OTName.MaxLength = SAV.MaxStringLengthOT;
         B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
         B_MaxCoins.Click += (sender, e) => MT_Coins.Text = SAV.MaxCoins.ToString();
