@@ -111,5 +111,6 @@ public static class EncounterServerDate
         {1513, (new(2023, 02, 27), new(2024, 03, 01))}, // Hisuian Zoroark DLC Purchase Gift
         {0502, (new(2023, 03, 31), new(2023, 07, 01))}, // TCG Flying Lechonk
         {0503, (new(2023, 04, 13), new(2023, 04, 18))}, // Gavin's Palafin (-1 start date tolerance for GMT-10 regions)
+        {0025, (new(2023, 04, 21), new(2023, 07, 01))}, // Pokémon Center Pikachu (Mini & Jumbo)
     };
 }
