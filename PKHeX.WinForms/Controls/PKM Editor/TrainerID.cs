@@ -106,8 +106,8 @@ public partial class TrainerID : UserControl
 
     private IEnumerable<Control> GetControlsForFormat(TrainerIDFormat format) => format switch
     {
-        TrainerIDFormat.SixDigit => new Control[] {Label_SID, TB_SID7, Label_TID, TB_TID7},
-        TrainerIDFormat.SixteenBitSingle  => new Control[] {Label_TID, TB_TID}, // Gen1/2
+        TrainerIDFormat.SixDigit => new Control[] { Label_SID, TB_SID7, Label_TID, TB_TID7 },
+        TrainerIDFormat.SixteenBitSingle => new Control[] { Label_TID, TB_TID }, // Gen1/2
         _ => new Control[] { Label_TID, TB_TID, Label_SID, TB_SID },
     };
 

@@ -28,172 +28,167 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dgv = new System.Windows.Forms.DataGridView();
-            this.dgv_ref = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_location = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgv_val = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.NUD_Cells = new System.Windows.Forms.NumericUpDown();
-            this.L_Cells = new System.Windows.Forms.Label();
-            this.B_GiveAll = new System.Windows.Forms.Button();
-            this.L_Collected = new System.Windows.Forms.Label();
-            this.NUD_Collected = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Cells)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Collected)).BeginInit();
-            this.SuspendLayout();
+            dgv = new System.Windows.Forms.DataGridView();
+            dgv_ref = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            dgv_location = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            dgv_val = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            B_Cancel = new System.Windows.Forms.Button();
+            B_Save = new System.Windows.Forms.Button();
+            NUD_Cells = new System.Windows.Forms.NumericUpDown();
+            L_Cells = new System.Windows.Forms.Label();
+            B_GiveAll = new System.Windows.Forms.Button();
+            L_Collected = new System.Windows.Forms.Label();
+            NUD_Collected = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Cells).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Collected).BeginInit();
+            SuspendLayout();
             // 
             // dgv
             // 
-            this.dgv.AllowUserToAddRows = false;
-            this.dgv.AllowUserToDeleteRows = false;
-            this.dgv.AllowUserToResizeColumns = false;
-            this.dgv.AllowUserToResizeRows = false;
-            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgv.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgv_ref,
-            this.dgv_location,
-            this.dgv_val});
-            this.dgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dgv.Location = new System.Drawing.Point(12, 12);
-            this.dgv.MultiSelect = false;
-            this.dgv.Name = "dgv";
-            this.dgv.RowHeadersVisible = false;
-            this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgv.Size = new System.Drawing.Size(480, 263);
-            this.dgv.TabIndex = 0;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            dgv.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { dgv_ref, dgv_location, dgv_val });
+            dgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            dgv.Location = new System.Drawing.Point(14, 14);
+            dgv.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            dgv.MultiSelect = false;
+            dgv.Name = "dgv";
+            dgv.RowHeadersVisible = false;
+            dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            dgv.Size = new System.Drawing.Size(560, 303);
+            dgv.TabIndex = 0;
             // 
             // dgv_ref
             // 
-            this.dgv_ref.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_ref.HeaderText = "Ref";
-            this.dgv_ref.Name = "dgv_ref";
-            this.dgv_ref.ReadOnly = true;
-            this.dgv_ref.Width = 49;
+            dgv_ref.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dgv_ref.HeaderText = "Ref";
+            dgv_ref.Name = "dgv_ref";
+            dgv_ref.ReadOnly = true;
+            dgv_ref.Width = 49;
             // 
             // dgv_location
             // 
-            this.dgv_location.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.dgv_location.HeaderText = "Location";
-            this.dgv_location.Name = "dgv_location";
-            this.dgv_location.ReadOnly = true;
-            this.dgv_location.Width = 73;
+            dgv_location.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            dgv_location.HeaderText = "Location";
+            dgv_location.Name = "dgv_location";
+            dgv_location.ReadOnly = true;
+            dgv_location.Width = 78;
             // 
             // dgv_val
             // 
-            this.dgv_val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.dgv_val.HeaderText = "Value";
-            this.dgv_val.Name = "dgv_val";
-            this.dgv_val.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            dgv_val.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            dgv_val.HeaderText = "Value";
+            dgv_val.Name = "dgv_val";
+            dgv_val.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(417, 306);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.B_Cancel.TabIndex = 1;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(486, 353);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(88, 27);
+            B_Cancel.TabIndex = 1;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(417, 281);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 23);
-            this.B_Save.TabIndex = 2;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(486, 324);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(88, 27);
+            B_Save.TabIndex = 2;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // NUD_Cells
             // 
-            this.NUD_Cells.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_Cells.Location = new System.Drawing.Point(90, 309);
-            this.NUD_Cells.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Cells.Name = "NUD_Cells";
-            this.NUD_Cells.Size = new System.Drawing.Size(66, 20);
-            this.NUD_Cells.TabIndex = 3;
+            NUD_Cells.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            NUD_Cells.Location = new System.Drawing.Point(105, 357);
+            NUD_Cells.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Cells.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_Cells.Name = "NUD_Cells";
+            NUD_Cells.Size = new System.Drawing.Size(77, 23);
+            NUD_Cells.TabIndex = 3;
             // 
             // L_Cells
             // 
-            this.L_Cells.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Cells.Location = new System.Drawing.Point(12, 306);
-            this.L_Cells.Name = "L_Cells";
-            this.L_Cells.Size = new System.Drawing.Size(72, 23);
-            this.L_Cells.TabIndex = 4;
-            this.L_Cells.Text = "Stored:";
-            this.L_Cells.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Cells.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            L_Cells.Location = new System.Drawing.Point(14, 353);
+            L_Cells.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Cells.Name = "L_Cells";
+            L_Cells.Size = new System.Drawing.Size(84, 27);
+            L_Cells.TabIndex = 4;
+            L_Cells.Text = "Stored:";
+            L_Cells.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_GiveAll
             // 
-            this.B_GiveAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_GiveAll.Location = new System.Drawing.Point(162, 284);
-            this.B_GiveAll.Name = "B_GiveAll";
-            this.B_GiveAll.Size = new System.Drawing.Size(75, 23);
-            this.B_GiveAll.TabIndex = 5;
-            this.B_GiveAll.Text = "Collect All";
-            this.B_GiveAll.UseVisualStyleBackColor = true;
-            this.B_GiveAll.Click += new System.EventHandler(this.B_GiveAll_Click);
+            B_GiveAll.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            B_GiveAll.Location = new System.Drawing.Point(189, 328);
+            B_GiveAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_GiveAll.Name = "B_GiveAll";
+            B_GiveAll.Size = new System.Drawing.Size(88, 27);
+            B_GiveAll.TabIndex = 5;
+            B_GiveAll.Text = "Collect All";
+            B_GiveAll.UseVisualStyleBackColor = true;
+            B_GiveAll.Click += B_GiveAll_Click;
             // 
             // L_Collected
             // 
-            this.L_Collected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Collected.Location = new System.Drawing.Point(12, 281);
-            this.L_Collected.Name = "L_Collected";
-            this.L_Collected.Size = new System.Drawing.Size(72, 23);
-            this.L_Collected.TabIndex = 7;
-            this.L_Collected.Text = "Collected:";
-            this.L_Collected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Collected.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            L_Collected.Location = new System.Drawing.Point(14, 324);
+            L_Collected.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Collected.Name = "L_Collected";
+            L_Collected.Size = new System.Drawing.Size(84, 27);
+            L_Collected.TabIndex = 7;
+            L_Collected.Text = "Collected:";
+            L_Collected.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Collected
             // 
-            this.NUD_Collected.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.NUD_Collected.Location = new System.Drawing.Point(90, 284);
-            this.NUD_Collected.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Collected.Name = "NUD_Collected";
-            this.NUD_Collected.Size = new System.Drawing.Size(66, 20);
-            this.NUD_Collected.TabIndex = 6;
+            NUD_Collected.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            NUD_Collected.Location = new System.Drawing.Point(105, 328);
+            NUD_Collected.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Collected.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_Collected.Name = "NUD_Collected";
+            NUD_Collected.Size = new System.Drawing.Size(77, 23);
+            NUD_Collected.TabIndex = 6;
             // 
             // SAV_ZygardeCell
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 341);
-            this.Controls.Add(this.L_Collected);
-            this.Controls.Add(this.NUD_Collected);
-            this.Controls.Add(this.B_GiveAll);
-            this.Controls.Add(this.L_Cells);
-            this.Controls.Add(this.NUD_Cells);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.dgv);
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(520, 380);
-            this.Name = "SAV_ZygardeCell";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Cells/Sticker Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Cells)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Collected)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(588, 393);
+            Controls.Add(L_Collected);
+            Controls.Add(NUD_Collected);
+            Controls.Add(B_GiveAll);
+            Controls.Add(L_Cells);
+            Controls.Add(NUD_Cells);
+            Controls.Add(B_Save);
+            Controls.Add(B_Cancel);
+            Controls.Add(dgv);
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimumSize = new System.Drawing.Size(604, 432);
+            Name = "SAV_ZygardeCell";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Cells/Sticker Editor";
+            ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Cells).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Collected).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion

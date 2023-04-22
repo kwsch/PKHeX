@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SplashScreen
     {
@@ -28,57 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.L_Status = new System.Windows.Forms.Label();
-            this.L_Site = new System.Windows.Forms.Label();
-            this.PB_Icon = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Icon)).BeginInit();
-            this.SuspendLayout();
+            L_Status = new System.Windows.Forms.Label();
+            L_Site = new System.Windows.Forms.Label();
+            PB_Icon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(PB_Icon)).BeginInit();
+            SuspendLayout();
             // 
             // L_Status
             // 
-            this.L_Status.AutoSize = true;
-            this.L_Status.Location = new System.Drawing.Point(40, 3);
-            this.L_Status.Name = "L_Status";
-            this.L_Status.Size = new System.Drawing.Size(105, 13);
-            this.L_Status.TabIndex = 0;
-            this.L_Status.Text = "Starting up PKHeX...";
+            L_Status.AutoSize = true;
+            L_Status.Location = new System.Drawing.Point(40, 3);
+            L_Status.Name = "L_Status";
+            L_Status.Size = new System.Drawing.Size(105, 13);
+            L_Status.TabIndex = 0;
+            L_Status.Text = "Starting up PKHeX...";
             // 
             // L_Site
             // 
-            this.L_Site.AutoSize = true;
-            this.L_Site.Location = new System.Drawing.Point(40, 21);
-            this.L_Site.Name = "L_Site";
-            this.L_Site.Size = new System.Drawing.Size(103, 13);
-            this.L_Site.TabIndex = 1;
-            this.L_Site.Text = "ProjectPokemon.org";
+            L_Site.AutoSize = true;
+            L_Site.Location = new System.Drawing.Point(40, 21);
+            L_Site.Name = "L_Site";
+            L_Site.Size = new System.Drawing.Size(103, 13);
+            L_Site.TabIndex = 1;
+            L_Site.Text = "ProjectPokemon.org";
             // 
             // PB_Icon
             // 
-            this.PB_Icon.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.Icon.ToBitmap();
-            this.PB_Icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PB_Icon.Location = new System.Drawing.Point(2, 3);
-            this.PB_Icon.Name = "PB_Icon";
-            this.PB_Icon.Size = new System.Drawing.Size(32, 32);
-            this.PB_Icon.TabIndex = 2;
-            this.PB_Icon.TabStop = false;
+            PB_Icon.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.Icon.ToBitmap();
+            PB_Icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            PB_Icon.Location = new System.Drawing.Point(2, 3);
+            PB_Icon.Name = "PB_Icon";
+            PB_Icon.Size = new System.Drawing.Size(32, 32);
+            PB_Icon.TabIndex = 2;
+            PB_Icon.TabStop = false;
             // 
             // SplashScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(150, 38);
-            this.Controls.Add(this.PB_Icon);
-            this.Controls.Add(this.L_Site);
-            this.Controls.Add(this.L_Status);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.Name = "SplashScreen";
-            this.Opacity = 0.5D;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SplashScreen_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Icon)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(150, 38);
+            Controls.Add(PB_Icon);
+            Controls.Add(L_Site);
+            Controls.Add(L_Status);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
+            Name = "SplashScreen";
+            Opacity = 0.5D;
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            FormClosing += new System.Windows.Forms.FormClosingEventHandler(SplashScreen_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(PB_Icon)).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

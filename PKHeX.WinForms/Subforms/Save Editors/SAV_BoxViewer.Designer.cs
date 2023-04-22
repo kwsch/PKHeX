@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     sealed partial class SAV_BoxViewer
     {
@@ -28,55 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PB_BoxSwap = new System.Windows.Forms.PictureBox();
-            this.Box = new PKHeX.WinForms.Controls.BoxEditor();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_BoxSwap)).BeginInit();
-            this.SuspendLayout();
+            PB_BoxSwap = new System.Windows.Forms.PictureBox();
+            Box = new PKHeX.WinForms.Controls.BoxEditor();
+            ((System.ComponentModel.ISupportInitialize)(PB_BoxSwap)).BeginInit();
+            SuspendLayout();
             // 
             // PB_BoxSwap
             // 
-            this.PB_BoxSwap.Image = global::PKHeX.WinForms.Properties.Resources.swapBox;
-            this.PB_BoxSwap.Location = new System.Drawing.Point(0, 0);
-            this.PB_BoxSwap.Name = "PB_BoxSwap";
-            this.PB_BoxSwap.Size = new System.Drawing.Size(24, 24);
-            this.PB_BoxSwap.TabIndex = 67;
-            this.PB_BoxSwap.TabStop = false;
-            this.PB_BoxSwap.Click += new System.EventHandler(this.PB_BoxSwap_Click);
+            PB_BoxSwap.Image = global::PKHeX.WinForms.Properties.Resources.swapBox;
+            PB_BoxSwap.Location = new System.Drawing.Point(0, 0);
+            PB_BoxSwap.Name = "PB_BoxSwap";
+            PB_BoxSwap.Size = new System.Drawing.Size(24, 24);
+            PB_BoxSwap.TabIndex = 67;
+            PB_BoxSwap.TabStop = false;
+            PB_BoxSwap.Click += new System.EventHandler(PB_BoxSwap_Click);
             // 
             // Box
             // 
-            this.Box.AllowDrop = true;
-            this.Box.CanSetCurrentBox = false;
-            this.Box.ControlsEnabled = true;
-            this.Box.ControlsVisible = true;
-            this.Box.CurrentBox = -1;
-            this.Box.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Box.Editor = null;
-            this.Box.FlagIllegal = false;
-            this.Box.Location = new System.Drawing.Point(0, 0);
-            this.Box.M = null;
-            this.Box.Name = "Box";
-            this.Box.Size = new System.Drawing.Size(249, 183);
-            this.Box.TabIndex = 68;
+            Box.AllowDrop = true;
+            Box.CanSetCurrentBox = false;
+            Box.ControlsEnabled = true;
+            Box.ControlsVisible = true;
+            Box.CurrentBox = -1;
+            Box.Dock = System.Windows.Forms.DockStyle.Fill;
+            Box.Editor = null;
+            Box.FlagIllegal = false;
+            Box.Location = new System.Drawing.Point(0, 0);
+            Box.M = null;
+            Box.Name = "Box";
+            Box.Size = new System.Drawing.Size(249, 183);
+            Box.TabIndex = 68;
             // 
             // SAV_BoxViewer
             // 
-            this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(249, 183);
-            this.Controls.Add(this.PB_BoxSwap);
-            this.Controls.Add(this.Box);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SAV_BoxViewer";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Box Viewer";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SAV_BoxViewer_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.PB_BoxSwap)).EndInit();
-            this.ResumeLayout(false);
+            AllowDrop = true;
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(249, 183);
+            Controls.Add(PB_BoxSwap);
+            Controls.Add(Box);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SAV_BoxViewer";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Box Viewer";
+            FormClosing += new System.Windows.Forms.FormClosingEventHandler(SAV_BoxViewer_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(PB_BoxSwap)).EndInit();
+            ResumeLayout(false);
 
         }
 

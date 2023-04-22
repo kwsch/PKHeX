@@ -29,8 +29,8 @@ public partial class SAV_PokedexSWSH : Form
         var indexes = Zukan8.GetRawIndexes(PersonalTable.SWSH, Dex.GetRevision(), Zukan8Index.TotalCount);
         var speciesNames = GameInfo.Strings.Species;
         Indexes = indexes.OrderBy(z => z.GetEntryName(speciesNames)).ToArray();
-        CL = new[] {CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9};
-        CHK = new[] {CLB_1, CLB_2, CLB_3, CLB_4};
+        CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9 };
+        CHK = new[] { CLB_1, CLB_2, CLB_3, CLB_4 };
 
         Loading = true;
         // Clear Listbox and ComboBox
@@ -103,7 +103,7 @@ public partial class SAV_PokedexSWSH : Form
                 c.SetItemChecked(j, value);
             }
 
-            if (species == (int) Species.Urshifu)
+            if (species == (int)Species.Urshifu)
             {
                 c.Items[62] = $"Gmax-{forms[1]}";
                 c.Items[63] = $"Gmax-{forms[0]}";
@@ -125,7 +125,7 @@ public partial class SAV_PokedexSWSH : Form
         CHK_S.Checked = Dex.GetDisplayShiny(entry);
         CB_Gender.SelectedIndex = (int)Dex.GetGenderDisplayed(entry);
 
-        if (species == (int) Species.Urshifu)
+        if (species == (int)Species.Urshifu)
         {
             CHK_Gigantamaxed1.Visible = true;
             CHK_Gigantamaxed1.Checked = Dex.GetCaughtGigantamax1(entry);

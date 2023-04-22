@@ -73,7 +73,7 @@ public partial class SAV_PokedexORAS : Form
 
     private void ChangeDisplayed(object sender, EventArgs e)
     {
-        if (!((CheckBox) sender).Checked)
+        if (!((CheckBox)sender).Checked)
             return;
 
         CHK_P6.Checked = sender == CHK_P6;
@@ -167,7 +167,7 @@ public partial class SAV_PokedexORAS : Form
         for (int i = 0; i < CL.Length; i++)
             Zukan.SetLanguageFlag(species - 1, i, CL[i].Checked);
 
-        ushort count = (ushort) Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text));
+        ushort count = (ushort)Math.Min(0xFFFF, Util.ToUInt32(MT_Count.Text));
         Zukan.SetEncounterCount(species - 1, count);
 
         var fc = SAV.Personal[species].FormCount;
@@ -176,16 +176,16 @@ public partial class SAV_PokedexORAS : Form
             return;
 
         var seen = CLB_FormsSeen;
-        for (int i = 0; i < seen.Items.Count/2; i++) // Seen
+        for (int i = 0; i < seen.Items.Count / 2; i++) // Seen
             Zukan.SetFormFlag(f + i, 0, seen.GetItemChecked(i));
-        for (int i = 0; i < seen.Items.Count/2; i++)  // Seen Shiny
-            Zukan.SetFormFlag(f + i, 1, seen.GetItemChecked(i + (seen.Items.Count/2)));
+        for (int i = 0; i < seen.Items.Count / 2; i++)  // Seen Shiny
+            Zukan.SetFormFlag(f + i, 1, seen.GetItemChecked(i + (seen.Items.Count / 2)));
 
         var display = CLB_FormDisplayed;
-        for (int i = 0; i < display.Items.Count/2; i++) // Displayed
+        for (int i = 0; i < display.Items.Count / 2; i++) // Displayed
             Zukan.SetFormFlag(f + i, 2, display.GetItemChecked(i));
-        for (int i = 0; i < display.Items.Count/2; i++)  // Displayed Shiny
-            Zukan.SetFormFlag(f + i, 3, display.GetItemChecked(i + (display.Items.Count/2)));
+        for (int i = 0; i < display.Items.Count / 2; i++)  // Displayed Shiny
+            Zukan.SetFormFlag(f + i, 3, display.GetItemChecked(i + (display.Items.Count / 2)));
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)
@@ -217,7 +217,7 @@ public partial class SAV_PokedexORAS : Form
         {
             CHK_P1.Checked = ModifierKeys != Keys.Control;
         }
-        int index = LB_Species.SelectedIndex+1;
+        int index = LB_Species.SelectedIndex + 1;
         byte gt = SAV.Personal[index].Gender;
 
         bool canBeMale = gt != PersonalInfo.RatioMagicFemale;

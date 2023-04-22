@@ -187,11 +187,11 @@ public partial class SAV_Poffin8b : Form
             item.Level = Parse(cells[2]);
             item.Taste = Parse(cells[3]);
             item.IsNew = (bool)cells[4].Value;
-            item.FlavorSpicy  = Parse(cells[5]);
-            item.FlavorDry    = Parse(cells[6]);
-            item.FlavorSweet  = Parse(cells[7]);
+            item.FlavorSpicy = Parse(cells[5]);
+            item.FlavorDry = Parse(cells[6]);
+            item.FlavorSweet = Parse(cells[7]);
             item.FlavorBitter = Parse(cells[8]);
-            item.FlavorSour   = Parse(cells[9]);
+            item.FlavorSour = Parse(cells[9]);
 
             static byte Parse(DataGridViewCell c) => (byte)(byte.TryParse(c.Value.ToString(), out var p) ? p : 0);
         }

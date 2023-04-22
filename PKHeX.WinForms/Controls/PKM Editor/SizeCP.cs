@@ -101,7 +101,7 @@ public partial class SizeCP : UserControl
         {
             if (!Loading)
             {
-                ss.HeightScalar = (byte) NUD_HeightScalar.Value;
+                ss.HeightScalar = (byte)NUD_HeightScalar.Value;
                 if (ss is PA8) // Height copied to Scale
                     NUD_Scale.Value = ss.HeightScalar;
             }
@@ -127,7 +127,7 @@ public partial class SizeCP : UserControl
         if (ss != null)
         {
             if (!Loading)
-                ss.WeightScalar = (byte) NUD_WeightScalar.Value;
+                ss.WeightScalar = (byte)NUD_WeightScalar.Value;
             var label = L_SizeW;
             var value = ss.WeightScalar;
             label.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(value)];

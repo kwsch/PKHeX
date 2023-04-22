@@ -73,7 +73,7 @@ public partial class SAV_PokedexXY : Form
 
     private void ChangeDisplayed(object sender, EventArgs e)
     {
-        if (!((CheckBox) sender).Checked)
+        if (!((CheckBox)sender).Checked)
             return;
 
         CHK_P6.Checked = sender == CHK_P6;
@@ -230,7 +230,7 @@ public partial class SAV_PokedexXY : Form
         {
             CHK_F1.Checked = ModifierKeys != Keys.Control;
         }
-        int index = LB_Species.SelectedIndex+1;
+        int index = LB_Species.SelectedIndex + 1;
         byte gt = SAV.Personal[index].Gender;
 
         bool canBeMale = gt != PersonalInfo.RatioMagicFemale;

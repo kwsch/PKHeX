@@ -42,7 +42,7 @@ public partial class SAV_Link6 : Form
 
     private void B_Import_Click(object sender, EventArgs e)
     {
-        using var ofd = new OpenFileDialog {Filter = PL6.Filter};
+        using var ofd = new OpenFileDialog { Filter = PL6.Filter };
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 
@@ -58,7 +58,7 @@ public partial class SAV_Link6 : Form
 
     private void B_Export_Click(object sender, EventArgs e)
     {
-        using var sfd = new SaveFileDialog {Filter = PL6.Filter};
+        using var sfd = new SaveFileDialog { Filter = PL6.Filter };
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 

@@ -28,68 +28,70 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.B_DeleteAll = new System.Windows.Forms.Button();
-            this.B_GiveAll = new System.Windows.Forms.Button();
-            this.PG_Rolodex = new System.Windows.Forms.PropertyGrid();
-            this.B_GiveAllNoTrainers = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            B_DeleteAll = new System.Windows.Forms.Button();
+            B_GiveAll = new System.Windows.Forms.Button();
+            PG_Rolodex = new System.Windows.Forms.PropertyGrid();
+            B_GiveAllNoTrainers = new System.Windows.Forms.Button();
+            SuspendLayout();
             // 
             // B_DeleteAll
             // 
-            this.B_DeleteAll.Location = new System.Drawing.Point(3, 35);
-            this.B_DeleteAll.Name = "B_DeleteAll";
-            this.B_DeleteAll.Size = new System.Drawing.Size(82, 26);
-            this.B_DeleteAll.TabIndex = 11;
-            this.B_DeleteAll.Text = "Delete All";
-            this.B_DeleteAll.UseVisualStyleBackColor = true;
-            this.B_DeleteAll.Click += new System.EventHandler(this.B_DeleteAll_Click);
+            B_DeleteAll.Location = new System.Drawing.Point(4, 40);
+            B_DeleteAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_DeleteAll.Name = "B_DeleteAll";
+            B_DeleteAll.Size = new System.Drawing.Size(96, 30);
+            B_DeleteAll.TabIndex = 11;
+            B_DeleteAll.Text = "Delete All";
+            B_DeleteAll.UseVisualStyleBackColor = true;
+            B_DeleteAll.Click += B_DeleteAll_Click;
             // 
             // B_GiveAll
             // 
-            this.B_GiveAll.Location = new System.Drawing.Point(3, 3);
-            this.B_GiveAll.Name = "B_GiveAll";
-            this.B_GiveAll.Size = new System.Drawing.Size(82, 26);
-            this.B_GiveAll.TabIndex = 10;
-            this.B_GiveAll.Text = "Give All";
-            this.B_GiveAll.UseVisualStyleBackColor = true;
-            this.B_GiveAll.Click += new System.EventHandler(this.B_GiveAll_Click);
+            B_GiveAll.Location = new System.Drawing.Point(4, 3);
+            B_GiveAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_GiveAll.Name = "B_GiveAll";
+            B_GiveAll.Size = new System.Drawing.Size(96, 30);
+            B_GiveAll.TabIndex = 10;
+            B_GiveAll.Text = "Give All";
+            B_GiveAll.UseVisualStyleBackColor = true;
+            B_GiveAll.Click += B_GiveAll_Click;
             // 
             // PG_Rolodex
             // 
-            this.PG_Rolodex.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Rolodex.HelpVisible = false;
-            this.PG_Rolodex.Location = new System.Drawing.Point(91, 2);
-            this.PG_Rolodex.Name = "PG_Rolodex";
-            this.PG_Rolodex.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.PG_Rolodex.Size = new System.Drawing.Size(256, 227);
-            this.PG_Rolodex.TabIndex = 9;
-            this.PG_Rolodex.ToolbarVisible = false;
-            this.PG_Rolodex.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PG_Rolodex_PropertyValueChanged);
+            PG_Rolodex.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PG_Rolodex.HelpVisible = false;
+            PG_Rolodex.Location = new System.Drawing.Point(106, 2);
+            PG_Rolodex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PG_Rolodex.Name = "PG_Rolodex";
+            PG_Rolodex.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            PG_Rolodex.Size = new System.Drawing.Size(299, 262);
+            PG_Rolodex.TabIndex = 9;
+            PG_Rolodex.ToolbarVisible = false;
+            PG_Rolodex.PropertyValueChanged += PG_Rolodex_PropertyValueChanged;
             // 
             // B_GiveAllNoTrainers
             // 
-            this.B_GiveAllNoTrainers.Location = new System.Drawing.Point(3, 67);
-            this.B_GiveAllNoTrainers.Name = "B_GiveAllNoTrainers";
-            this.B_GiveAllNoTrainers.Size = new System.Drawing.Size(82, 53);
-            this.B_GiveAllNoTrainers.TabIndex = 12;
-            this.B_GiveAllNoTrainers.Text = "Give All Non-Trainers";
-            this.B_GiveAllNoTrainers.UseVisualStyleBackColor = true;
-            this.B_GiveAllNoTrainers.Click += new System.EventHandler(this.B_GiveAllNoTrainers_Click);
+            B_GiveAllNoTrainers.Location = new System.Drawing.Point(4, 77);
+            B_GiveAllNoTrainers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_GiveAllNoTrainers.Name = "B_GiveAllNoTrainers";
+            B_GiveAllNoTrainers.Size = new System.Drawing.Size(96, 61);
+            B_GiveAllNoTrainers.TabIndex = 12;
+            B_GiveAllNoTrainers.Text = "Give All Non-Trainers";
+            B_GiveAllNoTrainers.UseVisualStyleBackColor = true;
+            B_GiveAllNoTrainers.Click += B_GiveAllNoTrainers_Click;
             // 
             // PokeGear4Editor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.B_GiveAllNoTrainers);
-            this.Controls.Add(this.B_DeleteAll);
-            this.Controls.Add(this.B_GiveAll);
-            this.Controls.Add(this.PG_Rolodex);
-            this.Name = "PokeGear4Editor";
-            this.Size = new System.Drawing.Size(347, 232);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(B_GiveAllNoTrainers);
+            Controls.Add(B_DeleteAll);
+            Controls.Add(B_GiveAll);
+            Controls.Add(PG_Rolodex);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "PokeGear4Editor";
+            Size = new System.Drawing.Size(405, 268);
+            ResumeLayout(false);
         }
 
         #endregion

@@ -175,7 +175,7 @@ public partial class SAV_MysteryGiftDB : Form
             System.Media.SystemSounds.Exclamation.Play();
             return -1;
         }
-        index += SCR_Box.Value*RES_MIN;
+        index += SCR_Box.Value * RES_MIN;
         if (index >= Results.Count)
         {
             System.Media.SystemSounds.Exclamation.Play();
@@ -238,10 +238,10 @@ public partial class SAV_MysteryGiftDB : Form
 
         if (Main.Settings.MysteryDb.FilterUnavailableSpecies)
         {
-            static bool IsPresentInGameSV  (ISpeciesForm pk) => PersonalTable.SV.  IsPresentInGame(pk.Species, pk.Form);
+            static bool IsPresentInGameSV(ISpeciesForm pk) => PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameSWSH(ISpeciesForm pk) => PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameBDSP(ISpeciesForm pk) => PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameLA  (ISpeciesForm pk) => PersonalTable.LA.  IsPresentInGame(pk.Species, pk.Form);
+            static bool IsPresentInGameLA(ISpeciesForm pk) => PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form);
             db = SAV switch
             {
                 SAV9SV => db.Where(IsPresentInGameSV),

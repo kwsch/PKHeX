@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Accessor<T>
     {
@@ -28,111 +28,111 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CB_Key = new System.Windows.Forms.ComboBox();
-            this.L_Key = new System.Windows.Forms.Label();
-            this.TC_Tabs = new System.Windows.Forms.TabControl();
-            this.Tab_Blocks = new System.Windows.Forms.TabPage();
-            this.PG_BlockView = new System.Windows.Forms.PropertyGrid();
-            this.Raw = new System.Windows.Forms.TabPage();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.TC_Tabs.SuspendLayout();
-            this.Tab_Blocks.SuspendLayout();
-            this.Raw.SuspendLayout();
-            this.SuspendLayout();
+            CB_Key = new System.Windows.Forms.ComboBox();
+            L_Key = new System.Windows.Forms.Label();
+            TC_Tabs = new System.Windows.Forms.TabControl();
+            Tab_Blocks = new System.Windows.Forms.TabPage();
+            PG_BlockView = new System.Windows.Forms.PropertyGrid();
+            Raw = new System.Windows.Forms.TabPage();
+            propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            TC_Tabs.SuspendLayout();
+            Tab_Blocks.SuspendLayout();
+            Raw.SuspendLayout();
+            SuspendLayout();
             // 
             // CB_Key
             // 
-            this.CB_Key.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Key.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Key.DropDownWidth = 270;
-            this.CB_Key.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CB_Key.FormattingEnabled = true;
-            this.CB_Key.Location = new System.Drawing.Point(83, 9);
-            this.CB_Key.Name = "CB_Key";
-            this.CB_Key.Size = new System.Drawing.Size(183, 22);
-            this.CB_Key.TabIndex = 0;
-            this.CB_Key.SelectedIndexChanged += new System.EventHandler(this.CB_Key_SelectedIndexChanged);
+            CB_Key.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            CB_Key.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Key.DropDownWidth = 270;
+            CB_Key.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            CB_Key.FormattingEnabled = true;
+            CB_Key.Location = new System.Drawing.Point(83, 9);
+            CB_Key.Name = "CB_Key";
+            CB_Key.Size = new System.Drawing.Size(183, 22);
+            CB_Key.TabIndex = 0;
+            CB_Key.SelectedIndexChanged += new System.EventHandler(CB_Key_SelectedIndexChanged);
             // 
             // L_Key
             // 
-            this.L_Key.AutoSize = true;
-            this.L_Key.Location = new System.Drawing.Point(6, 12);
-            this.L_Key.Name = "L_Key";
-            this.L_Key.Size = new System.Drawing.Size(37, 13);
-            this.L_Key.TabIndex = 1;
-            this.L_Key.Text = "Block:";
+            L_Key.AutoSize = true;
+            L_Key.Location = new System.Drawing.Point(6, 12);
+            L_Key.Name = "L_Key";
+            L_Key.Size = new System.Drawing.Size(37, 13);
+            L_Key.TabIndex = 1;
+            L_Key.Text = "Block:";
             // 
             // TC_Tabs
             // 
-            this.TC_Tabs.Controls.Add(this.Tab_Blocks);
-            this.TC_Tabs.Controls.Add(this.Raw);
-            this.TC_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TC_Tabs.Location = new System.Drawing.Point(0, 0);
-            this.TC_Tabs.Name = "TC_Tabs";
-            this.TC_Tabs.SelectedIndex = 0;
-            this.TC_Tabs.Size = new System.Drawing.Size(334, 341);
-            this.TC_Tabs.TabIndex = 12;
+            TC_Tabs.Controls.Add(Tab_Blocks);
+            TC_Tabs.Controls.Add(Raw);
+            TC_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            TC_Tabs.Location = new System.Drawing.Point(0, 0);
+            TC_Tabs.Name = "TC_Tabs";
+            TC_Tabs.SelectedIndex = 0;
+            TC_Tabs.Size = new System.Drawing.Size(334, 341);
+            TC_Tabs.TabIndex = 12;
             // 
             // Tab_Blocks
             // 
-            this.Tab_Blocks.Controls.Add(this.PG_BlockView);
-            this.Tab_Blocks.Controls.Add(this.L_Key);
-            this.Tab_Blocks.Controls.Add(this.CB_Key);
-            this.Tab_Blocks.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Blocks.Name = "Tab_Blocks";
-            this.Tab_Blocks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Blocks.Size = new System.Drawing.Size(326, 315);
-            this.Tab_Blocks.TabIndex = 0;
-            this.Tab_Blocks.Text = "Blocks";
-            this.Tab_Blocks.UseVisualStyleBackColor = true;
+            Tab_Blocks.Controls.Add(PG_BlockView);
+            Tab_Blocks.Controls.Add(L_Key);
+            Tab_Blocks.Controls.Add(CB_Key);
+            Tab_Blocks.Location = new System.Drawing.Point(4, 22);
+            Tab_Blocks.Name = "Tab_Blocks";
+            Tab_Blocks.Padding = new System.Windows.Forms.Padding(3);
+            Tab_Blocks.Size = new System.Drawing.Size(326, 315);
+            Tab_Blocks.TabIndex = 0;
+            Tab_Blocks.Text = "Blocks";
+            Tab_Blocks.UseVisualStyleBackColor = true;
             // 
             // PG_BlockView
             // 
-            this.PG_BlockView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            PG_BlockView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_BlockView.Location = new System.Drawing.Point(3, 37);
-            this.PG_BlockView.Name = "PG_BlockView";
-            this.PG_BlockView.Size = new System.Drawing.Size(320, 275);
-            this.PG_BlockView.TabIndex = 14;
-            this.PG_BlockView.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PG_BlockView_PropertyValueChanged);
+            PG_BlockView.Location = new System.Drawing.Point(3, 37);
+            PG_BlockView.Name = "PG_BlockView";
+            PG_BlockView.Size = new System.Drawing.Size(320, 275);
+            PG_BlockView.TabIndex = 14;
+            PG_BlockView.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(PG_BlockView_PropertyValueChanged);
             // 
             // Raw
             // 
-            this.Raw.Controls.Add(this.propertyGrid1);
-            this.Raw.Location = new System.Drawing.Point(4, 22);
-            this.Raw.Name = "Raw";
-            this.Raw.Padding = new System.Windows.Forms.Padding(3);
-            this.Raw.Size = new System.Drawing.Size(326, 315);
-            this.Raw.TabIndex = 1;
-            this.Raw.Text = "Tab_Raw";
-            this.Raw.UseVisualStyleBackColor = true;
+            Raw.Controls.Add(propertyGrid1);
+            Raw.Location = new System.Drawing.Point(4, 22);
+            Raw.Name = "Raw";
+            Raw.Padding = new System.Windows.Forms.Padding(3);
+            Raw.Size = new System.Drawing.Size(326, 315);
+            Raw.TabIndex = 1;
+            Raw.Text = "Tab_Raw";
+            Raw.UseVisualStyleBackColor = true;
             // 
             // propertyGrid1
             // 
-            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(320, 309);
-            this.propertyGrid1.TabIndex = 15;
+            propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            propertyGrid1.Location = new System.Drawing.Point(3, 3);
+            propertyGrid1.Name = "propertyGrid1";
+            propertyGrid1.Size = new System.Drawing.Size(320, 309);
+            propertyGrid1.TabIndex = 15;
             // 
             // SAV_Accessor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 341);
-            this.Controls.Add(this.TC_Tabs);
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SAV_Accessor";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "SaveBlock Editor";
-            this.TC_Tabs.ResumeLayout(false);
-            this.Tab_Blocks.ResumeLayout(false);
-            this.Tab_Blocks.PerformLayout();
-            this.Raw.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(334, 341);
+            Controls.Add(TC_Tabs);
+            Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SAV_Accessor";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "SaveBlock Editor";
+            TC_Tabs.ResumeLayout(false);
+            Tab_Blocks.ResumeLayout(false);
+            Tab_Blocks.PerformLayout();
+            Raw.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 

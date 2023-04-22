@@ -37,14 +37,14 @@ public partial class SAV_PokeBlockORAS : Form
     {
         var span = SAV.Data.AsSpan(SAV6AO.Contest);
         for (int i = 0; i < nup_spec.Length; i++)
-            WriteUInt32LittleEndian(span[(i*4)..], (uint)nup_spec[i].Value);
+            WriteUInt32LittleEndian(span[(i * 4)..], (uint)nup_spec[i].Value);
         Origin.CopyChangesFrom(SAV);
         Close();
     }
 
     private static ReadOnlySpan<byte> DefaultBerryTree => new byte[] { 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 0x00 };
 
-private void B_RandomizeBerries_Click(object sender, EventArgs e)
+    private void B_RandomizeBerries_Click(object sender, EventArgs e)
     {
         if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Repopulate all berry plots with random berries?"))
             return;

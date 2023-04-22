@@ -28,460 +28,392 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.NUP_Red = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Blue = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Green = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Pink = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Rainbow = new System.Windows.Forms.NumericUpDown();
-            this.NUP_Yellow = new System.Windows.Forms.NumericUpDown();
-            this.L_Red = new System.Windows.Forms.Label();
-            this.L_Blue = new System.Windows.Forms.Label();
-            this.L_Pink = new System.Windows.Forms.Label();
-            this.L_Green = new System.Windows.Forms.Label();
-            this.L_Yellow = new System.Windows.Forms.Label();
-            this.L_Rainbow = new System.Windows.Forms.Label();
-            this.L_RainbowPlus = new System.Windows.Forms.Label();
-            this.L_YellowPlus = new System.Windows.Forms.Label();
-            this.L_GreenPlus = new System.Windows.Forms.Label();
-            this.L_PinkPlus = new System.Windows.Forms.Label();
-            this.L_BluePlus = new System.Windows.Forms.Label();
-            this.L_RedPlus = new System.Windows.Forms.Label();
-            this.NUP_RainbowPlus = new System.Windows.Forms.NumericUpDown();
-            this.NUP_YellowPlus = new System.Windows.Forms.NumericUpDown();
-            this.NUP_GreenPlus = new System.Windows.Forms.NumericUpDown();
-            this.NUP_PinkPlus = new System.Windows.Forms.NumericUpDown();
-            this.NUP_BluePlus = new System.Windows.Forms.NumericUpDown();
-            this.NUP_RedPlus = new System.Windows.Forms.NumericUpDown();
-            this.B_RandomizeBerries = new System.Windows.Forms.Button();
-            this.B_GiveAllBlocks = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Red)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Blue)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Green)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Pink)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rainbow)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Yellow)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_RainbowPlus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowPlus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_GreenPlus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_PinkPlus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_BluePlus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_RedPlus)).BeginInit();
-            this.SuspendLayout();
+            B_Cancel = new System.Windows.Forms.Button();
+            B_Save = new System.Windows.Forms.Button();
+            NUP_Red = new System.Windows.Forms.NumericUpDown();
+            NUP_Blue = new System.Windows.Forms.NumericUpDown();
+            NUP_Green = new System.Windows.Forms.NumericUpDown();
+            NUP_Pink = new System.Windows.Forms.NumericUpDown();
+            NUP_Rainbow = new System.Windows.Forms.NumericUpDown();
+            NUP_Yellow = new System.Windows.Forms.NumericUpDown();
+            L_Red = new System.Windows.Forms.Label();
+            L_Blue = new System.Windows.Forms.Label();
+            L_Pink = new System.Windows.Forms.Label();
+            L_Green = new System.Windows.Forms.Label();
+            L_Yellow = new System.Windows.Forms.Label();
+            L_Rainbow = new System.Windows.Forms.Label();
+            L_RainbowPlus = new System.Windows.Forms.Label();
+            L_YellowPlus = new System.Windows.Forms.Label();
+            L_GreenPlus = new System.Windows.Forms.Label();
+            L_PinkPlus = new System.Windows.Forms.Label();
+            L_BluePlus = new System.Windows.Forms.Label();
+            L_RedPlus = new System.Windows.Forms.Label();
+            NUP_RainbowPlus = new System.Windows.Forms.NumericUpDown();
+            NUP_YellowPlus = new System.Windows.Forms.NumericUpDown();
+            NUP_GreenPlus = new System.Windows.Forms.NumericUpDown();
+            NUP_PinkPlus = new System.Windows.Forms.NumericUpDown();
+            NUP_BluePlus = new System.Windows.Forms.NumericUpDown();
+            NUP_RedPlus = new System.Windows.Forms.NumericUpDown();
+            B_RandomizeBerries = new System.Windows.Forms.Button();
+            B_GiveAllBlocks = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)NUP_Red).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Blue).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Green).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Pink).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Rainbow).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Yellow).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_RainbowPlus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_YellowPlus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_GreenPlus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_PinkPlus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_BluePlus).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_RedPlus).BeginInit();
+            SuspendLayout();
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(231, 150);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.B_Cancel.TabIndex = 3;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(270, 173);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(88, 27);
+            B_Cancel.TabIndex = 3;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(312, 150);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 23);
-            this.B_Save.TabIndex = 4;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(364, 173);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(88, 27);
+            B_Save.TabIndex = 4;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // NUP_Red
             // 
-            this.NUP_Red.Location = new System.Drawing.Point(141, 7);
-            this.NUP_Red.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_Red.Name = "NUP_Red";
-            this.NUP_Red.Size = new System.Drawing.Size(49, 20);
-            this.NUP_Red.TabIndex = 24;
-            this.NUP_Red.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_Red.Location = new System.Drawing.Point(164, 8);
+            NUP_Red.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_Red.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_Red.Name = "NUP_Red";
+            NUP_Red.Size = new System.Drawing.Size(57, 23);
+            NUP_Red.TabIndex = 24;
+            NUP_Red.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_Blue
             // 
-            this.NUP_Blue.Location = new System.Drawing.Point(141, 30);
-            this.NUP_Blue.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_Blue.Name = "NUP_Blue";
-            this.NUP_Blue.Size = new System.Drawing.Size(49, 20);
-            this.NUP_Blue.TabIndex = 25;
-            this.NUP_Blue.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_Blue.Location = new System.Drawing.Point(164, 35);
+            NUP_Blue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_Blue.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_Blue.Name = "NUP_Blue";
+            NUP_Blue.Size = new System.Drawing.Size(57, 23);
+            NUP_Blue.TabIndex = 25;
+            NUP_Blue.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_Green
             // 
-            this.NUP_Green.Location = new System.Drawing.Point(141, 76);
-            this.NUP_Green.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_Green.Name = "NUP_Green";
-            this.NUP_Green.Size = new System.Drawing.Size(49, 20);
-            this.NUP_Green.TabIndex = 27;
-            this.NUP_Green.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_Green.Location = new System.Drawing.Point(164, 88);
+            NUP_Green.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_Green.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_Green.Name = "NUP_Green";
+            NUP_Green.Size = new System.Drawing.Size(57, 23);
+            NUP_Green.TabIndex = 27;
+            NUP_Green.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_Pink
             // 
-            this.NUP_Pink.Location = new System.Drawing.Point(141, 53);
-            this.NUP_Pink.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_Pink.Name = "NUP_Pink";
-            this.NUP_Pink.Size = new System.Drawing.Size(49, 20);
-            this.NUP_Pink.TabIndex = 26;
-            this.NUP_Pink.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_Pink.Location = new System.Drawing.Point(164, 61);
+            NUP_Pink.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_Pink.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_Pink.Name = "NUP_Pink";
+            NUP_Pink.Size = new System.Drawing.Size(57, 23);
+            NUP_Pink.TabIndex = 26;
+            NUP_Pink.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_Rainbow
             // 
-            this.NUP_Rainbow.Location = new System.Drawing.Point(141, 122);
-            this.NUP_Rainbow.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_Rainbow.Name = "NUP_Rainbow";
-            this.NUP_Rainbow.Size = new System.Drawing.Size(49, 20);
-            this.NUP_Rainbow.TabIndex = 29;
-            this.NUP_Rainbow.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_Rainbow.Location = new System.Drawing.Point(164, 141);
+            NUP_Rainbow.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_Rainbow.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_Rainbow.Name = "NUP_Rainbow";
+            NUP_Rainbow.Size = new System.Drawing.Size(57, 23);
+            NUP_Rainbow.TabIndex = 29;
+            NUP_Rainbow.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_Yellow
             // 
-            this.NUP_Yellow.Location = new System.Drawing.Point(141, 99);
-            this.NUP_Yellow.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_Yellow.Name = "NUP_Yellow";
-            this.NUP_Yellow.Size = new System.Drawing.Size(49, 20);
-            this.NUP_Yellow.TabIndex = 28;
-            this.NUP_Yellow.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_Yellow.Location = new System.Drawing.Point(164, 114);
+            NUP_Yellow.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_Yellow.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_Yellow.Name = "NUP_Yellow";
+            NUP_Yellow.Size = new System.Drawing.Size(57, 23);
+            NUP_Yellow.TabIndex = 28;
+            NUP_Yellow.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // L_Red
             // 
-            this.L_Red.Location = new System.Drawing.Point(-1, 7);
-            this.L_Red.Name = "L_Red";
-            this.L_Red.Size = new System.Drawing.Size(140, 20);
-            this.L_Red.TabIndex = 33;
-            this.L_Red.Text = "Red Pokeblocks:";
-            this.L_Red.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Red.Location = new System.Drawing.Point(-1, 8);
+            L_Red.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Red.Name = "L_Red";
+            L_Red.Size = new System.Drawing.Size(163, 23);
+            L_Red.TabIndex = 33;
+            L_Red.Text = "Red Pokeblocks:";
+            L_Red.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Blue
             // 
-            this.L_Blue.Location = new System.Drawing.Point(-1, 29);
-            this.L_Blue.Name = "L_Blue";
-            this.L_Blue.Size = new System.Drawing.Size(140, 20);
-            this.L_Blue.TabIndex = 34;
-            this.L_Blue.Text = "Blue Pokeblocks:";
-            this.L_Blue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Blue.Location = new System.Drawing.Point(-1, 33);
+            L_Blue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Blue.Name = "L_Blue";
+            L_Blue.Size = new System.Drawing.Size(163, 23);
+            L_Blue.TabIndex = 34;
+            L_Blue.Text = "Blue Pokeblocks:";
+            L_Blue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Pink
             // 
-            this.L_Pink.Location = new System.Drawing.Point(-1, 52);
-            this.L_Pink.Name = "L_Pink";
-            this.L_Pink.Size = new System.Drawing.Size(140, 20);
-            this.L_Pink.TabIndex = 35;
-            this.L_Pink.Text = "Pink Pokeblocks:";
-            this.L_Pink.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Pink.Location = new System.Drawing.Point(-1, 60);
+            L_Pink.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Pink.Name = "L_Pink";
+            L_Pink.Size = new System.Drawing.Size(163, 23);
+            L_Pink.TabIndex = 35;
+            L_Pink.Text = "Pink Pokeblocks:";
+            L_Pink.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Green
             // 
-            this.L_Green.Location = new System.Drawing.Point(-1, 75);
-            this.L_Green.Name = "L_Green";
-            this.L_Green.Size = new System.Drawing.Size(140, 20);
-            this.L_Green.TabIndex = 36;
-            this.L_Green.Text = "Green Pokeblocks:";
-            this.L_Green.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Green.Location = new System.Drawing.Point(-1, 87);
+            L_Green.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Green.Name = "L_Green";
+            L_Green.Size = new System.Drawing.Size(163, 23);
+            L_Green.TabIndex = 36;
+            L_Green.Text = "Green Pokeblocks:";
+            L_Green.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Yellow
             // 
-            this.L_Yellow.Location = new System.Drawing.Point(-1, 98);
-            this.L_Yellow.Name = "L_Yellow";
-            this.L_Yellow.Size = new System.Drawing.Size(140, 20);
-            this.L_Yellow.TabIndex = 37;
-            this.L_Yellow.Text = "Yellow Pokeblocks:";
-            this.L_Yellow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Yellow.Location = new System.Drawing.Point(-1, 113);
+            L_Yellow.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Yellow.Name = "L_Yellow";
+            L_Yellow.Size = new System.Drawing.Size(163, 23);
+            L_Yellow.TabIndex = 37;
+            L_Yellow.Text = "Yellow Pokeblocks:";
+            L_Yellow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Rainbow
             // 
-            this.L_Rainbow.Location = new System.Drawing.Point(-1, 121);
-            this.L_Rainbow.Name = "L_Rainbow";
-            this.L_Rainbow.Size = new System.Drawing.Size(140, 20);
-            this.L_Rainbow.TabIndex = 38;
-            this.L_Rainbow.Text = "Rainbow Pokeblocks:";
-            this.L_Rainbow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Rainbow.Location = new System.Drawing.Point(-1, 140);
+            L_Rainbow.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Rainbow.Name = "L_Rainbow";
+            L_Rainbow.Size = new System.Drawing.Size(163, 23);
+            L_Rainbow.TabIndex = 38;
+            L_Rainbow.Text = "Rainbow Pokeblocks:";
+            L_Rainbow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_RainbowPlus
             // 
-            this.L_RainbowPlus.Location = new System.Drawing.Point(196, 121);
-            this.L_RainbowPlus.Name = "L_RainbowPlus";
-            this.L_RainbowPlus.Size = new System.Drawing.Size(140, 20);
-            this.L_RainbowPlus.TabIndex = 50;
-            this.L_RainbowPlus.Text = "Rainbow Pokeblocks +:";
-            this.L_RainbowPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_RainbowPlus.Location = new System.Drawing.Point(229, 140);
+            L_RainbowPlus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_RainbowPlus.Name = "L_RainbowPlus";
+            L_RainbowPlus.Size = new System.Drawing.Size(163, 23);
+            L_RainbowPlus.TabIndex = 50;
+            L_RainbowPlus.Text = "Rainbow Pokeblocks +:";
+            L_RainbowPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_YellowPlus
             // 
-            this.L_YellowPlus.Location = new System.Drawing.Point(196, 98);
-            this.L_YellowPlus.Name = "L_YellowPlus";
-            this.L_YellowPlus.Size = new System.Drawing.Size(140, 20);
-            this.L_YellowPlus.TabIndex = 49;
-            this.L_YellowPlus.Text = "Yellow Pokeblocks +:";
-            this.L_YellowPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_YellowPlus.Location = new System.Drawing.Point(229, 113);
+            L_YellowPlus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_YellowPlus.Name = "L_YellowPlus";
+            L_YellowPlus.Size = new System.Drawing.Size(163, 23);
+            L_YellowPlus.TabIndex = 49;
+            L_YellowPlus.Text = "Yellow Pokeblocks +:";
+            L_YellowPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_GreenPlus
             // 
-            this.L_GreenPlus.Location = new System.Drawing.Point(196, 75);
-            this.L_GreenPlus.Name = "L_GreenPlus";
-            this.L_GreenPlus.Size = new System.Drawing.Size(140, 20);
-            this.L_GreenPlus.TabIndex = 48;
-            this.L_GreenPlus.Text = "Green Pokeblocks +:";
-            this.L_GreenPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_GreenPlus.Location = new System.Drawing.Point(229, 87);
+            L_GreenPlus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_GreenPlus.Name = "L_GreenPlus";
+            L_GreenPlus.Size = new System.Drawing.Size(163, 23);
+            L_GreenPlus.TabIndex = 48;
+            L_GreenPlus.Text = "Green Pokeblocks +:";
+            L_GreenPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_PinkPlus
             // 
-            this.L_PinkPlus.Location = new System.Drawing.Point(196, 52);
-            this.L_PinkPlus.Name = "L_PinkPlus";
-            this.L_PinkPlus.Size = new System.Drawing.Size(140, 20);
-            this.L_PinkPlus.TabIndex = 47;
-            this.L_PinkPlus.Text = "Pink Pokeblocks +:";
-            this.L_PinkPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_PinkPlus.Location = new System.Drawing.Point(229, 60);
+            L_PinkPlus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_PinkPlus.Name = "L_PinkPlus";
+            L_PinkPlus.Size = new System.Drawing.Size(163, 23);
+            L_PinkPlus.TabIndex = 47;
+            L_PinkPlus.Text = "Pink Pokeblocks +:";
+            L_PinkPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_BluePlus
             // 
-            this.L_BluePlus.Location = new System.Drawing.Point(196, 29);
-            this.L_BluePlus.Name = "L_BluePlus";
-            this.L_BluePlus.Size = new System.Drawing.Size(140, 20);
-            this.L_BluePlus.TabIndex = 46;
-            this.L_BluePlus.Text = "Blue Pokeblocks +:";
-            this.L_BluePlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_BluePlus.Location = new System.Drawing.Point(229, 33);
+            L_BluePlus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BluePlus.Name = "L_BluePlus";
+            L_BluePlus.Size = new System.Drawing.Size(163, 23);
+            L_BluePlus.TabIndex = 46;
+            L_BluePlus.Text = "Blue Pokeblocks +:";
+            L_BluePlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_RedPlus
             // 
-            this.L_RedPlus.Location = new System.Drawing.Point(196, 7);
-            this.L_RedPlus.Name = "L_RedPlus";
-            this.L_RedPlus.Size = new System.Drawing.Size(140, 20);
-            this.L_RedPlus.TabIndex = 45;
-            this.L_RedPlus.Text = "Red Pokeblocks +:";
-            this.L_RedPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_RedPlus.Location = new System.Drawing.Point(229, 8);
+            L_RedPlus.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_RedPlus.Name = "L_RedPlus";
+            L_RedPlus.Size = new System.Drawing.Size(163, 23);
+            L_RedPlus.TabIndex = 45;
+            L_RedPlus.Text = "Red Pokeblocks +:";
+            L_RedPlus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUP_RainbowPlus
             // 
-            this.NUP_RainbowPlus.Location = new System.Drawing.Point(338, 122);
-            this.NUP_RainbowPlus.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_RainbowPlus.Name = "NUP_RainbowPlus";
-            this.NUP_RainbowPlus.Size = new System.Drawing.Size(49, 20);
-            this.NUP_RainbowPlus.TabIndex = 44;
-            this.NUP_RainbowPlus.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_RainbowPlus.Location = new System.Drawing.Point(394, 141);
+            NUP_RainbowPlus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_RainbowPlus.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_RainbowPlus.Name = "NUP_RainbowPlus";
+            NUP_RainbowPlus.Size = new System.Drawing.Size(57, 23);
+            NUP_RainbowPlus.TabIndex = 44;
+            NUP_RainbowPlus.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_YellowPlus
             // 
-            this.NUP_YellowPlus.Location = new System.Drawing.Point(338, 99);
-            this.NUP_YellowPlus.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_YellowPlus.Name = "NUP_YellowPlus";
-            this.NUP_YellowPlus.Size = new System.Drawing.Size(49, 20);
-            this.NUP_YellowPlus.TabIndex = 43;
-            this.NUP_YellowPlus.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_YellowPlus.Location = new System.Drawing.Point(394, 114);
+            NUP_YellowPlus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_YellowPlus.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_YellowPlus.Name = "NUP_YellowPlus";
+            NUP_YellowPlus.Size = new System.Drawing.Size(57, 23);
+            NUP_YellowPlus.TabIndex = 43;
+            NUP_YellowPlus.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_GreenPlus
             // 
-            this.NUP_GreenPlus.Location = new System.Drawing.Point(338, 76);
-            this.NUP_GreenPlus.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_GreenPlus.Name = "NUP_GreenPlus";
-            this.NUP_GreenPlus.Size = new System.Drawing.Size(49, 20);
-            this.NUP_GreenPlus.TabIndex = 42;
-            this.NUP_GreenPlus.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_GreenPlus.Location = new System.Drawing.Point(394, 88);
+            NUP_GreenPlus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_GreenPlus.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_GreenPlus.Name = "NUP_GreenPlus";
+            NUP_GreenPlus.Size = new System.Drawing.Size(57, 23);
+            NUP_GreenPlus.TabIndex = 42;
+            NUP_GreenPlus.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_PinkPlus
             // 
-            this.NUP_PinkPlus.Location = new System.Drawing.Point(338, 53);
-            this.NUP_PinkPlus.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_PinkPlus.Name = "NUP_PinkPlus";
-            this.NUP_PinkPlus.Size = new System.Drawing.Size(49, 20);
-            this.NUP_PinkPlus.TabIndex = 41;
-            this.NUP_PinkPlus.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_PinkPlus.Location = new System.Drawing.Point(394, 61);
+            NUP_PinkPlus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_PinkPlus.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_PinkPlus.Name = "NUP_PinkPlus";
+            NUP_PinkPlus.Size = new System.Drawing.Size(57, 23);
+            NUP_PinkPlus.TabIndex = 41;
+            NUP_PinkPlus.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_BluePlus
             // 
-            this.NUP_BluePlus.Location = new System.Drawing.Point(338, 30);
-            this.NUP_BluePlus.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_BluePlus.Name = "NUP_BluePlus";
-            this.NUP_BluePlus.Size = new System.Drawing.Size(49, 20);
-            this.NUP_BluePlus.TabIndex = 40;
-            this.NUP_BluePlus.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_BluePlus.Location = new System.Drawing.Point(394, 35);
+            NUP_BluePlus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_BluePlus.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_BluePlus.Name = "NUP_BluePlus";
+            NUP_BluePlus.Size = new System.Drawing.Size(57, 23);
+            NUP_BluePlus.TabIndex = 40;
+            NUP_BluePlus.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // NUP_RedPlus
             // 
-            this.NUP_RedPlus.Location = new System.Drawing.Point(338, 7);
-            this.NUP_RedPlus.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUP_RedPlus.Name = "NUP_RedPlus";
-            this.NUP_RedPlus.Size = new System.Drawing.Size(49, 20);
-            this.NUP_RedPlus.TabIndex = 39;
-            this.NUP_RedPlus.Value = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
+            NUP_RedPlus.Location = new System.Drawing.Point(394, 8);
+            NUP_RedPlus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUP_RedPlus.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUP_RedPlus.Name = "NUP_RedPlus";
+            NUP_RedPlus.Size = new System.Drawing.Size(57, 23);
+            NUP_RedPlus.TabIndex = 39;
+            NUP_RedPlus.Value = new decimal(new int[] { 999, 0, 0, 0 });
             // 
             // B_RandomizeBerries
             // 
-            this.B_RandomizeBerries.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_RandomizeBerries.Location = new System.Drawing.Point(11, 150);
-            this.B_RandomizeBerries.Name = "B_RandomizeBerries";
-            this.B_RandomizeBerries.Size = new System.Drawing.Size(114, 23);
-            this.B_RandomizeBerries.TabIndex = 51;
-            this.B_RandomizeBerries.Text = "Randomize Berries";
-            this.B_RandomizeBerries.UseVisualStyleBackColor = true;
-            this.B_RandomizeBerries.Click += new System.EventHandler(this.B_RandomizeBerries_Click);
+            B_RandomizeBerries.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            B_RandomizeBerries.Location = new System.Drawing.Point(13, 173);
+            B_RandomizeBerries.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_RandomizeBerries.Name = "B_RandomizeBerries";
+            B_RandomizeBerries.Size = new System.Drawing.Size(133, 27);
+            B_RandomizeBerries.TabIndex = 51;
+            B_RandomizeBerries.Text = "Randomize Berries";
+            B_RandomizeBerries.UseVisualStyleBackColor = true;
+            B_RandomizeBerries.Click += B_RandomizeBerries_Click;
             // 
             // B_GiveAllBlocks
             // 
-            this.B_GiveAllBlocks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_GiveAllBlocks.Location = new System.Drawing.Point(131, 150);
-            this.B_GiveAllBlocks.Name = "B_GiveAllBlocks";
-            this.B_GiveAllBlocks.Size = new System.Drawing.Size(88, 23);
-            this.B_GiveAllBlocks.TabIndex = 52;
-            this.B_GiveAllBlocks.Text = "Give All Blocks";
-            this.B_GiveAllBlocks.UseVisualStyleBackColor = true;
-            this.B_GiveAllBlocks.Click += new System.EventHandler(this.B_GiveAllBlocks_Click);
+            B_GiveAllBlocks.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_GiveAllBlocks.Location = new System.Drawing.Point(153, 173);
+            B_GiveAllBlocks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_GiveAllBlocks.Name = "B_GiveAllBlocks";
+            B_GiveAllBlocks.Size = new System.Drawing.Size(103, 27);
+            B_GiveAllBlocks.TabIndex = 52;
+            B_GiveAllBlocks.Text = "Give All Blocks";
+            B_GiveAllBlocks.UseVisualStyleBackColor = true;
+            B_GiveAllBlocks.Click += B_GiveAllBlocks_Click;
             // 
-            // SAV_BerryFieldORAS
+            // SAV_PokeBlockORAS
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 181);
-            this.Controls.Add(this.B_GiveAllBlocks);
-            this.Controls.Add(this.B_RandomizeBerries);
-            this.Controls.Add(this.L_RainbowPlus);
-            this.Controls.Add(this.L_YellowPlus);
-            this.Controls.Add(this.L_GreenPlus);
-            this.Controls.Add(this.L_PinkPlus);
-            this.Controls.Add(this.L_BluePlus);
-            this.Controls.Add(this.L_RedPlus);
-            this.Controls.Add(this.NUP_RainbowPlus);
-            this.Controls.Add(this.NUP_YellowPlus);
-            this.Controls.Add(this.NUP_GreenPlus);
-            this.Controls.Add(this.NUP_PinkPlus);
-            this.Controls.Add(this.NUP_BluePlus);
-            this.Controls.Add(this.NUP_RedPlus);
-            this.Controls.Add(this.L_Rainbow);
-            this.Controls.Add(this.L_Yellow);
-            this.Controls.Add(this.L_Green);
-            this.Controls.Add(this.L_Pink);
-            this.Controls.Add(this.L_Blue);
-            this.Controls.Add(this.L_Red);
-            this.Controls.Add(this.NUP_Rainbow);
-            this.Controls.Add(this.NUP_Yellow);
-            this.Controls.Add(this.NUP_Green);
-            this.Controls.Add(this.NUP_Pink);
-            this.Controls.Add(this.NUP_Blue);
-            this.Controls.Add(this.NUP_Red);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.B_Cancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(420, 220);
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(420, 220);
-            this.Name = "SAV_PokeBlockORAS";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Berry Field Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Red)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Blue)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Green)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Pink)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Rainbow)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_Yellow)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_RainbowPlus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_YellowPlus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_GreenPlus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_PinkPlus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_BluePlus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUP_RedPlus)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(471, 209);
+            Controls.Add(B_GiveAllBlocks);
+            Controls.Add(B_RandomizeBerries);
+            Controls.Add(L_RainbowPlus);
+            Controls.Add(L_YellowPlus);
+            Controls.Add(L_GreenPlus);
+            Controls.Add(L_PinkPlus);
+            Controls.Add(L_BluePlus);
+            Controls.Add(L_RedPlus);
+            Controls.Add(NUP_RainbowPlus);
+            Controls.Add(NUP_YellowPlus);
+            Controls.Add(NUP_GreenPlus);
+            Controls.Add(NUP_PinkPlus);
+            Controls.Add(NUP_BluePlus);
+            Controls.Add(NUP_RedPlus);
+            Controls.Add(L_Rainbow);
+            Controls.Add(L_Yellow);
+            Controls.Add(L_Green);
+            Controls.Add(L_Pink);
+            Controls.Add(L_Blue);
+            Controls.Add(L_Red);
+            Controls.Add(NUP_Rainbow);
+            Controls.Add(NUP_Yellow);
+            Controls.Add(NUP_Green);
+            Controls.Add(NUP_Pink);
+            Controls.Add(NUP_Blue);
+            Controls.Add(NUP_Red);
+            Controls.Add(B_Save);
+            Controls.Add(B_Cancel);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MaximumSize = new System.Drawing.Size(487, 248);
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(487, 248);
+            Name = "SAV_PokeBlockORAS";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Berry Field Editor";
+            ((System.ComponentModel.ISupportInitialize)NUP_Red).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Blue).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Green).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Pink).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Rainbow).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_Yellow).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_RainbowPlus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_YellowPlus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_GreenPlus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_PinkPlus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_BluePlus).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUP_RedPlus).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion

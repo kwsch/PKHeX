@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class PokeGrid
     {
@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // PokeGrid
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Margin = new System.Windows.Forms.Padding(0);
-            this.Name = "PokeGrid";
-            this.Size = new System.Drawing.Size(80, 50);
-            this.ResumeLayout(false);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            Margin = new System.Windows.Forms.Padding(0);
+            Name = "PokeGrid";
+            Size = new System.Drawing.Size(80, 50);
+            ResumeLayout(false);
 
         }
 

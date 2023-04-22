@@ -175,7 +175,7 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
                 continue;
             }
             pb.Visible = true;
-            SlotUtil.UpdateSlot(pb, (SlotInfoBox) GetSlotData(pb), Editor[i], SAV, FlagIllegal);
+            SlotUtil.UpdateSlot(pb, (SlotInfoBox)GetSlotData(pb), Editor[i], SAV, FlagIllegal);
         }
 
         if (M?.Env.Slots.Publisher.Previous is SlotInfoBox b && b.Box == CurrentBox)

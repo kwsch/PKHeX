@@ -74,7 +74,7 @@ public partial class SAV_Pokepuff : Form
     {
         if (e.ColumnIndex != 1)
             return;
-        ((ComboBox)((DataGridView) sender).EditingControl).DroppedDown = true;
+        ((ComboBox)((DataGridView)sender).EditingControl).DroppedDown = true;
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)

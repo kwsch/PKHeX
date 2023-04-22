@@ -43,7 +43,7 @@ public partial class SAV_PokedexLA : Form
         CHK_Obtained = new[] { CHK_O0, CHK_O1, CHK_O2, CHK_O3, CHK_O4, CHK_O5, CHK_O6, CHK_O7 };
         CHK_CaughtWild = new[] { CHK_C0, CHK_C1, CHK_C2, CHK_C3, CHK_C4, CHK_C5, CHK_C6, CHK_C7 };
 
-        TaskControls = new []
+        TaskControls = new[]
         {
             PRT_1,
             PRT_2,

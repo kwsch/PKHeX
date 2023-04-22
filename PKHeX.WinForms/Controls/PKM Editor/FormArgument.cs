@@ -78,7 +78,7 @@ public partial class FormArgument : UserControl
 
     private uint CurrentValue
     {
-        get => IsRawMode ?  (uint) NUD_FormArg.Value : (uint) CB_FormArg.SelectedIndex;
+        get => IsRawMode ? (uint)NUD_FormArg.Value : (uint)CB_FormArg.SelectedIndex;
         set
         {
             if (IsRawMode)

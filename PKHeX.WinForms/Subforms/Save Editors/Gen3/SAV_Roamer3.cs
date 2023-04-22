@@ -28,7 +28,7 @@ public partial class SAV_Roamer3 : Form
         CB_Species.SelectedValue = (int)Reader.Species;
         var IVs = Reader.IVs;
 
-        var iv = new[] {TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV};
+        var iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV };
         for (int i = 0; i < iv.Length; i++)
             iv[i].Text = IVs[i].ToString();
 

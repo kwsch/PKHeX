@@ -61,7 +61,7 @@ public sealed partial class SAV_EventWork : Form
     {
         foreach (var g in editorFlag)
         {
-            var tlp = new TableLayoutPanel {Dock = DockStyle.Fill, Name = $"TLP_F{g.Type}", AutoScroll = true};
+            var tlp = new TableLayoutPanel { Dock = DockStyle.Fill, Name = $"TLP_F{g.Type}", AutoScroll = true };
             tlp.SuspendLayout();
             int i = 0;
             foreach (var f in g.Vars.OfType<EventFlag>())
@@ -102,7 +102,7 @@ public sealed partial class SAV_EventWork : Form
     {
         foreach (var g in editorWork)
         {
-            var tlp = new TableLayoutPanel {Dock = DockStyle.Fill, Name = $"TLP_W{g.Type}", AutoScroll = true};
+            var tlp = new TableLayoutPanel { Dock = DockStyle.Fill, Name = $"TLP_W{g.Type}", AutoScroll = true };
             tlp.SuspendLayout();
             int i = 0;
             foreach (var f in g.Vars.OfType<EventWork<int>>())
@@ -148,7 +148,7 @@ public sealed partial class SAV_EventWork : Form
                     nud.Enabled = match?.Custom == true;
                     if (!nud.Enabled)
                     {
-                        nud.Value = (ushort) value;
+                        nud.Value = (ushort)value;
                         f.Value = value;
                     }
                     editing = false;
@@ -210,7 +210,7 @@ public sealed partial class SAV_EventWork : Form
 
     private void ChangeCustomFlag(object sender, EventArgs e)
     {
-        c_CustomFlag.Checked = SAV.GetFlag((int) NUD_Flag.Value);
+        c_CustomFlag.Checked = SAV.GetFlag((int)NUD_Flag.Value);
     }
 
     private void ChangeConstantIndex(object sender, EventArgs e)

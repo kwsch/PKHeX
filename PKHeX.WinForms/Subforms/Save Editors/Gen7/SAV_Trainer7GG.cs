@@ -45,7 +45,7 @@ public partial class SAV_Trainer7GG : Form
 
     private void Main_DragDrop(object? sender, DragEventArgs? e)
     {
-        if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] {Length: not 0} files)
+        if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
             return;
         ImportGP1From(files[0]);
         e.Effect = DragDropEffects.Copy;
@@ -97,8 +97,8 @@ public partial class SAV_Trainer7GG : Form
 
         // Save PlayTime
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
-        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
-        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
+        SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
+        SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
     }
 
     private void ClickString(object sender, MouseEventArgs e)
@@ -250,7 +250,7 @@ public partial class SAV_Trainer7GG : Form
             Park[ctr] = new GP1(data);
             ctr++;
         }
-        UpdateGoSummary((int) NUD_GoIndex.Value);
+        UpdateGoSummary((int)NUD_GoIndex.Value);
         System.Media.SystemSounds.Asterisk.Play();
     }
 
@@ -275,7 +275,7 @@ public partial class SAV_Trainer7GG : Form
             return;
 
         Park.DeleteAll();
-        UpdateGoSummary((int) NUD_GoIndex.Value);
+        UpdateGoSummary((int)NUD_GoIndex.Value);
         System.Media.SystemSounds.Asterisk.Play();
     }
 

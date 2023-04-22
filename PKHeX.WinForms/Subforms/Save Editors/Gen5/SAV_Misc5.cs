@@ -295,7 +295,7 @@ public partial class SAV_Misc5 : Form
 
         if (SAV is SAV5B2W2 b2w2)
         {
-            var pass = (Entralink5B2W2) entree;
+            var pass = (Entralink5B2W2)entree;
             var ppv = (PassPower5[])Enum.GetValues(typeof(PassPower5));
             var ppn = Enum.GetNames(typeof(PassPower5));
             ComboItem[] PassPowerB = ppn.Zip(ppv, (f, s) => new ComboItem(f, (int)s)).OrderBy(z => z.Text).ToArray();
@@ -422,9 +422,9 @@ public partial class SAV_Misc5 : Form
 
     private void LoadFestaMissionRecord()
     {
-        FestaBlock5 block = ((SAV5B2W2) SAV).Festa;
+        FestaBlock5 block = ((SAV5B2W2)SAV).Festa;
         int mission = LB_FunfestMissions.SelectedIndex;
-        if ((uint) mission > FestaBlock5.MaxMissionIndex)
+        if ((uint)mission > FestaBlock5.MaxMissionIndex)
             return;
         bool unlocked = block.IsFunfestMissionUnlocked(mission);
         L_FMUnlocked.Visible = unlocked;
@@ -500,7 +500,7 @@ public partial class SAV_Misc5 : Form
         CHK_Area9.Checked = Forest.Unlock9thArea;
 
         var areas = AllSlots.Select(z => z.Area).Distinct()
-            .Select(z => new ComboItem(z.ToString(), (int) z)).ToList();
+            .Select(z => new ComboItem(z.ToString(), (int)z)).ToList();
 
         CB_Species.InitializeBinding();
         CB_Move.InitializeBinding();
@@ -516,7 +516,7 @@ public partial class SAV_Misc5 : Form
 
     private void SaveForest()
     {
-        Forest.Unlock38Areas = (int) NUD_Unlocked.Value - 2;
+        Forest.Unlock38Areas = (int)NUD_Unlocked.Value - 2;
         Forest.Unlock9thArea = CHK_Area9.Checked;
         SAV.EntreeData = Forest;
     }
@@ -527,7 +527,7 @@ public partial class SAV_Misc5 : Form
     private void ChangeArea(object sender, EventArgs e)
     {
         var area = WinFormsUtil.GetIndex(CB_Areas);
-        CurrentSlots = AllSlots.Where(z => (int) z.Area == area).ToArray();
+        CurrentSlots = AllSlots.Where(z => (int)z.Area == area).ToArray();
         LB_Slots.Items.Clear();
         foreach (var z in CurrentSlots.Select(z => GetSpeciesName(z.Species)))
             LB_Slots.Items.Add(z);

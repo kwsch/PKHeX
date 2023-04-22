@@ -33,7 +33,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     public readonly ContextMenuSAV menu;
     public readonly BoxMenuStrip SortMenu;
 
-    public bool  HaX;
+    public bool HaX;
     public bool ModifyPKM { private get; set; }
     private bool _hideSecret;
     public bool HideSecretDetails { private get => _hideSecret; set => ToggleSecrets(SAV, _hideSecret = value); }
@@ -73,7 +73,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         SlotPictureBoxes = new[] { dcpkx1, dcpkx2 };
 
         Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
-        M = new SlotChangeManager(this) {Env = EditEnv};
+        M = new SlotChangeManager(this) { Env = EditEnv };
         Box.Setup(M);
         SL_Party.Setup(M);
 
@@ -414,7 +414,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private void ClickClone(object sender, EventArgs e)
     {
-        var detail = Box.GetSlotData((PictureBox) sender);
+        var detail = Box.GetSlotData((PictureBox)sender);
         if (detail is SlotInfoBox)
             RequestCloneData?.Invoke(sender, e);
     }
@@ -521,7 +521,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         using var form = SAV switch
         {
-            SAV1 s => (Form) new SAV_EventReset1(s),
+            SAV1 s => (Form)new SAV_EventReset1(s),
             SAV7b s => new SAV_EventWork(s),
             SAV8BS s => new SAV_FlagWork8b(s),
             IEventFlag37 g37 => new SAV_EventFlags(g37),
@@ -620,7 +620,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             MaximizeBox = false,
             Icon = Properties.Resources.Icon,
         };
-        var pg = new PropertyGrid {SelectedObject = sav, Dock = DockStyle.Fill};
+        var pg = new PropertyGrid { SelectedObject = sav, Dock = DockStyle.Fill };
         form.Controls.Add(pg);
         return form;
     }
@@ -662,7 +662,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         using var form = SAV.Generation switch
         {
             3 => new SAV_Misc3(SAV),
-            4 => new SAV_Misc4((SAV4) SAV),
+            4 => new SAV_Misc4((SAV4)SAV),
             5 => new SAV_Misc5(SAV),
             8 when SAV is SAV8BS bs => new SAV_Misc8b(bs),
             _ => (Form?)null,
@@ -675,7 +675,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         switch (SAV.Generation)
         {
             case 2:
-                var sav2 = ((SAV2) SAV);
+                var sav2 = ((SAV2)SAV);
                 var msg = MsgSaveGen2RTCResetBitflag;
                 if (!sav2.Japanese) // show Reset Key for non-Japanese saves
                     msg = string.Format(MsgSaveGen2RTCResetPassword, sav2.ResetKey) + Environment.NewLine + Environment.NewLine + msg;
@@ -814,7 +814,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         }
 
         var suggestion = Util.CleanFileName(SAV.Metadata.BAKName);
-        using var sfd = new SaveFileDialog {FileName = suggestion};
+        using var sfd = new SaveFileDialog { FileName = suggestion };
         if (sfd.ShowDialog() != DialogResult.OK)
             return false;
 
@@ -1134,8 +1134,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
         B_Raids.Visible = sav is SAV8SWSH or SAV9SV;
         B_RaidsSevenStar.Visible = sav is SAV9SV;
-        B_RaidArmor.Visible = sav is SAV8SWSH {SaveRevision: >= 1};
-        B_RaidCrown.Visible = sav is SAV8SWSH {SaveRevision: >= 2};
+        B_RaidArmor.Visible = sav is SAV8SWSH { SaveRevision: >= 1 };
+        B_RaidCrown.Visible = sav is SAV8SWSH { SaveRevision: >= 2 };
         FLP_SAVtools.Visible = B_Blocks.Visible = true;
 
         var list = FLP_SAVtools.Controls.OfType<Control>().OrderBy(z => z.Text).ToArray();

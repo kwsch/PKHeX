@@ -232,7 +232,7 @@ public partial class SAV_BlockDump8 : Form
     private static void ExportSelectBlock(SCBlock block)
     {
         var name = GetBlockFileNameWithoutExtension(block);
-        using var sfd = new SaveFileDialog {FileName = $"{name}.bin"};
+        using var sfd = new SaveFileDialog { FileName = $"{name}.bin" };
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
         File.WriteAllBytes(sfd.FileName, block.Data);
@@ -242,7 +242,7 @@ public partial class SAV_BlockDump8 : Form
     {
         var key = blockTarget.Key;
         var data = blockTarget.Data;
-        using var ofd = new OpenFileDialog {FileName = $"{key:X8}.bin"};
+        using var ofd = new OpenFileDialog { FileName = $"{key:X8}.bin" };
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 

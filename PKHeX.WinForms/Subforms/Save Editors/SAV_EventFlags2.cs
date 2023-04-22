@@ -229,7 +229,7 @@ public sealed partial class SAV_EventFlags2 : Form
         if (editing)
             return;
         editing = true;
-        var index = (int) NUD_Flag.Value;
+        var index = (int)NUD_Flag.Value;
         Editor.Flags[index] = c_CustomFlag.Checked;
         if (FlagDict.TryGetValue(index, out var rowIndex))
             dgv.Rows[rowIndex].Cells[0].Value = c_CustomFlag.Checked;

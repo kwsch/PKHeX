@@ -81,7 +81,7 @@ public partial class BatchEditor : Form
 
     private void TabMain_DragDrop(object? sender, DragEventArgs? e)
     {
-        if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] {Length: not 0} files)
+        if (e?.Data?.GetData(DataFormats.FileDrop) is not string[] { Length: not 0 } files)
             return;
         if (!Directory.Exists(files[0]))
             return;

@@ -28,636 +28,620 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.SCR_Box = new System.Windows.Forms.VScrollBar();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.Menu_Close = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
-            this.P_Results = new System.Windows.Forms.Panel();
-            this.MysteryPokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
-            this.CB_HeldItem = new System.Windows.Forms.ComboBox();
-            this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.CB_Move4 = new System.Windows.Forms.ComboBox();
-            this.CB_Move3 = new System.Windows.Forms.ComboBox();
-            this.CB_Move2 = new System.Windows.Forms.ComboBox();
-            this.CB_Move1 = new System.Windows.Forms.ComboBox();
-            this.Label_HeldItem = new System.Windows.Forms.Label();
-            this.Label_Species = new System.Windows.Forms.Label();
-            this.B_Search = new System.Windows.Forms.Button();
-            this.L_Move1 = new System.Windows.Forms.Label();
-            this.L_Move2 = new System.Windows.Forms.Label();
-            this.L_Move3 = new System.Windows.Forms.Label();
-            this.L_Move4 = new System.Windows.Forms.Label();
-            this.B_Reset = new System.Windows.Forms.Button();
-            this.L_Count = new System.Windows.Forms.Label();
-            this.L_Viewed = new System.Windows.Forms.Label();
-            this.FLP_Egg = new System.Windows.Forms.FlowLayoutPanel();
-            this.CHK_IsEgg = new System.Windows.Forms.CheckBox();
-            this.CHK_Shiny = new System.Windows.Forms.CheckBox();
-            this.TLP_Filters = new System.Windows.Forms.TableLayoutPanel();
-            this.FLP_Format = new System.Windows.Forms.FlowLayoutPanel();
-            this.CB_FormatComparator = new System.Windows.Forms.ComboBox();
-            this.CB_Format = new System.Windows.Forms.ComboBox();
-            this.L_Format = new System.Windows.Forms.Label();
-            this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
-            this.mnu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSaveMG = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSavePK = new System.Windows.Forms.ToolStripMenuItem();
-            this.hover = new System.Windows.Forms.ToolTip(this.components);
-            this.TC_SearchSettings = new System.Windows.Forms.TabControl();
-            this.Tab_General = new System.Windows.Forms.TabPage();
-            this.Tab_Advanced = new System.Windows.Forms.TabPage();
-            this.B_Add = new System.Windows.Forms.Button();
-            this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
-            this.menuStrip1.SuspendLayout();
-            this.P_Results.SuspendLayout();
-            this.FLP_Egg.SuspendLayout();
-            this.TLP_Filters.SuspendLayout();
-            this.FLP_Format.SuspendLayout();
-            this.mnu.SuspendLayout();
-            this.TC_SearchSettings.SuspendLayout();
-            this.Tab_General.SuspendLayout();
-            this.Tab_Advanced.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            SCR_Box = new System.Windows.Forms.VScrollBar();
+            menuStrip1 = new System.Windows.Forms.MenuStrip();
+            Menu_Close = new System.Windows.Forms.ToolStripMenuItem();
+            Menu_Exit = new System.Windows.Forms.ToolStripMenuItem();
+            Menu_Tools = new System.Windows.Forms.ToolStripMenuItem();
+            Menu_OpenDB = new System.Windows.Forms.ToolStripMenuItem();
+            Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
+            Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
+            P_Results = new System.Windows.Forms.Panel();
+            MysteryPokeGrid = new Controls.PokeGrid();
+            CB_HeldItem = new System.Windows.Forms.ComboBox();
+            CB_Species = new System.Windows.Forms.ComboBox();
+            CB_Move4 = new System.Windows.Forms.ComboBox();
+            CB_Move3 = new System.Windows.Forms.ComboBox();
+            CB_Move2 = new System.Windows.Forms.ComboBox();
+            CB_Move1 = new System.Windows.Forms.ComboBox();
+            Label_HeldItem = new System.Windows.Forms.Label();
+            Label_Species = new System.Windows.Forms.Label();
+            B_Search = new System.Windows.Forms.Button();
+            L_Move1 = new System.Windows.Forms.Label();
+            L_Move2 = new System.Windows.Forms.Label();
+            L_Move3 = new System.Windows.Forms.Label();
+            L_Move4 = new System.Windows.Forms.Label();
+            B_Reset = new System.Windows.Forms.Button();
+            L_Count = new System.Windows.Forms.Label();
+            L_Viewed = new System.Windows.Forms.Label();
+            FLP_Egg = new System.Windows.Forms.FlowLayoutPanel();
+            CHK_IsEgg = new System.Windows.Forms.CheckBox();
+            CHK_Shiny = new System.Windows.Forms.CheckBox();
+            TLP_Filters = new System.Windows.Forms.TableLayoutPanel();
+            FLP_Format = new System.Windows.Forms.FlowLayoutPanel();
+            CB_FormatComparator = new System.Windows.Forms.ComboBox();
+            CB_Format = new System.Windows.Forms.ComboBox();
+            L_Format = new System.Windows.Forms.Label();
+            FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
+            mnu = new System.Windows.Forms.ContextMenuStrip(components);
+            mnuView = new System.Windows.Forms.ToolStripMenuItem();
+            mnuSaveMG = new System.Windows.Forms.ToolStripMenuItem();
+            mnuSavePK = new System.Windows.Forms.ToolStripMenuItem();
+            hover = new System.Windows.Forms.ToolTip(components);
+            TC_SearchSettings = new System.Windows.Forms.TabControl();
+            Tab_General = new System.Windows.Forms.TabPage();
+            Tab_Advanced = new System.Windows.Forms.TabPage();
+            B_Add = new System.Windows.Forms.Button();
+            RTB_Instructions = new System.Windows.Forms.RichTextBox();
+            menuStrip1.SuspendLayout();
+            P_Results.SuspendLayout();
+            FLP_Egg.SuspendLayout();
+            TLP_Filters.SuspendLayout();
+            FLP_Format.SuspendLayout();
+            mnu.SuspendLayout();
+            TC_SearchSettings.SuspendLayout();
+            Tab_General.SuspendLayout();
+            Tab_Advanced.SuspendLayout();
+            SuspendLayout();
             // 
             // SCR_Box
             // 
-            this.SCR_Box.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SCR_Box.LargeChange = 1;
-            this.SCR_Box.Location = new System.Drawing.Point(256, 3);
-            this.SCR_Box.Name = "SCR_Box";
-            this.SCR_Box.Size = new System.Drawing.Size(24, 344);
-            this.SCR_Box.TabIndex = 1;
-            this.SCR_Box.Scroll += new System.Windows.Forms.ScrollEventHandler(this.UpdateScroll);
+            SCR_Box.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            SCR_Box.LargeChange = 1;
+            SCR_Box.Location = new System.Drawing.Point(299, 3);
+            SCR_Box.Name = "SCR_Box";
+            SCR_Box.Size = new System.Drawing.Size(24, 397);
+            SCR_Box.TabIndex = 1;
+            SCR_Box.Scroll += UpdateScroll;
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_Close,
-            this.Menu_Tools});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(574, 24);
-            this.menuStrip1.TabIndex = 65;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.BackColor = System.Drawing.Color.Transparent;
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_Close, Menu_Tools });
+            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
+            menuStrip1.Size = new System.Drawing.Size(670, 24);
+            menuStrip1.TabIndex = 65;
+            menuStrip1.Text = "menuStrip1";
             // 
             // Menu_Close
             // 
-            this.Menu_Close.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_Exit});
-            this.Menu_Close.Name = "Menu_Close";
-            this.Menu_Close.Size = new System.Drawing.Size(37, 20);
-            this.Menu_Close.Text = "File";
+            Menu_Close.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_Exit });
+            Menu_Close.Name = "Menu_Close";
+            Menu_Close.Size = new System.Drawing.Size(37, 20);
+            Menu_Close.Text = "File";
             // 
             // Menu_Exit
             // 
-            this.Menu_Exit.Image = global::PKHeX.WinForms.Properties.Resources.exit;
-            this.Menu_Exit.Name = "Menu_Exit";
-            this.Menu_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.Menu_Exit.ShowShortcutKeys = false;
-            this.Menu_Exit.Size = new System.Drawing.Size(96, 22);
-            this.Menu_Exit.Text = "&Close";
-            this.Menu_Exit.Click += new System.EventHandler(this.Menu_Exit_Click);
+            Menu_Exit.Image = Properties.Resources.exit;
+            Menu_Exit.Name = "Menu_Exit";
+            Menu_Exit.ShortcutKeys = System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E;
+            Menu_Exit.ShowShortcutKeys = false;
+            Menu_Exit.Size = new System.Drawing.Size(96, 22);
+            Menu_Exit.Text = "&Close";
+            Menu_Exit.Click += Menu_Exit_Click;
             // 
             // Menu_Tools
             // 
-            this.Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu_OpenDB,
-            this.Menu_Export,
-            this.Menu_Import});
-            this.Menu_Tools.Name = "Menu_Tools";
-            this.Menu_Tools.Size = new System.Drawing.Size(46, 20);
-            this.Menu_Tools.Text = "Tools";
+            Menu_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { Menu_OpenDB, Menu_Export, Menu_Import });
+            Menu_Tools.Name = "Menu_Tools";
+            Menu_Tools.Size = new System.Drawing.Size(46, 20);
+            Menu_Tools.Text = "Tools";
             // 
             // Menu_OpenDB
             // 
-            this.Menu_OpenDB.Image = global::PKHeX.WinForms.Properties.Resources.folder;
-            this.Menu_OpenDB.Name = "Menu_OpenDB";
-            this.Menu_OpenDB.Size = new System.Drawing.Size(209, 22);
-            this.Menu_OpenDB.Text = "Open Database Folder";
-            this.Menu_OpenDB.Click += new System.EventHandler(this.OpenDB);
+            Menu_OpenDB.Image = Properties.Resources.folder;
+            Menu_OpenDB.Name = "Menu_OpenDB";
+            Menu_OpenDB.Size = new System.Drawing.Size(209, 22);
+            Menu_OpenDB.Text = "Open Database Folder";
+            Menu_OpenDB.Click += OpenDB;
             // 
             // Menu_Export
             // 
-            this.Menu_Export.Image = global::PKHeX.WinForms.Properties.Resources.export;
-            this.Menu_Export.Name = "Menu_Export";
-            this.Menu_Export.Size = new System.Drawing.Size(209, 22);
-            this.Menu_Export.Text = "Export Results to Folder";
-            this.Menu_Export.Click += new System.EventHandler(this.Menu_Export_Click);
+            Menu_Export.Image = Properties.Resources.export;
+            Menu_Export.Name = "Menu_Export";
+            Menu_Export.Size = new System.Drawing.Size(209, 22);
+            Menu_Export.Text = "Export Results to Folder";
+            Menu_Export.Click += Menu_Export_Click;
             // 
             // Menu_Import
             // 
-            this.Menu_Import.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
-            this.Menu_Import.Name = "Menu_Import";
-            this.Menu_Import.Size = new System.Drawing.Size(209, 22);
-            this.Menu_Import.Text = "Import Results to SaveFile";
-            this.Menu_Import.Click += new System.EventHandler(this.Menu_Import_Click);
+            Menu_Import.Image = Properties.Resources.savePKM;
+            Menu_Import.Name = "Menu_Import";
+            Menu_Import.Size = new System.Drawing.Size(209, 22);
+            Menu_Import.Text = "Import Results to SaveFile";
+            Menu_Import.Click += Menu_Import_Click;
             // 
             // P_Results
             // 
-            this.P_Results.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.P_Results.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.P_Results.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.P_Results.Controls.Add(this.MysteryPokeGrid);
-            this.P_Results.Controls.Add(this.SCR_Box);
-            this.P_Results.Location = new System.Drawing.Point(12, 32);
-            this.P_Results.Name = "P_Results";
-            this.P_Results.Size = new System.Drawing.Size(285, 352);
-            this.P_Results.TabIndex = 66;
+            P_Results.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            P_Results.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            P_Results.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            P_Results.Controls.Add(MysteryPokeGrid);
+            P_Results.Controls.Add(SCR_Box);
+            P_Results.Location = new System.Drawing.Point(14, 37);
+            P_Results.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            P_Results.Name = "P_Results";
+            P_Results.Size = new System.Drawing.Size(332, 406);
+            P_Results.TabIndex = 66;
             // 
             // MysteryPokeGrid
             // 
-            this.MysteryPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.MysteryPokeGrid.Location = new System.Drawing.Point(2, 2);
-            this.MysteryPokeGrid.Margin = new System.Windows.Forms.Padding(0);
-            this.MysteryPokeGrid.Name = "MysteryPokeGrid";
-            this.MysteryPokeGrid.Size = new System.Drawing.Size(251, 346);
-            this.MysteryPokeGrid.TabIndex = 2;
+            MysteryPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            MysteryPokeGrid.Location = new System.Drawing.Point(2, 2);
+            MysteryPokeGrid.Margin = new System.Windows.Forms.Padding(0);
+            MysteryPokeGrid.Name = "MysteryPokeGrid";
+            MysteryPokeGrid.Size = new System.Drawing.Size(293, 399);
+            MysteryPokeGrid.TabIndex = 2;
             // 
             // CB_HeldItem
             // 
-            this.CB_HeldItem.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_HeldItem.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_HeldItem.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_HeldItem.FormattingEnabled = true;
-            this.CB_HeldItem.Location = new System.Drawing.Point(61, 38);
-            this.CB_HeldItem.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_HeldItem.Name = "CB_HeldItem";
-            this.CB_HeldItem.Size = new System.Drawing.Size(122, 21);
-            this.CB_HeldItem.TabIndex = 69;
+            CB_HeldItem.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_HeldItem.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_HeldItem.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_HeldItem.FormattingEnabled = true;
+            CB_HeldItem.Location = new System.Drawing.Point(70, 42);
+            CB_HeldItem.Margin = new System.Windows.Forms.Padding(0);
+            CB_HeldItem.Name = "CB_HeldItem";
+            CB_HeldItem.Size = new System.Drawing.Size(142, 23);
+            CB_HeldItem.TabIndex = 69;
             // 
             // CB_Species
             // 
-            this.CB_Species.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Species.FormattingEnabled = true;
-            this.CB_Species.Location = new System.Drawing.Point(61, 17);
-            this.CB_Species.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Species.Name = "CB_Species";
-            this.CB_Species.Size = new System.Drawing.Size(122, 21);
-            this.CB_Species.TabIndex = 67;
+            CB_Species.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Species.FormattingEnabled = true;
+            CB_Species.Location = new System.Drawing.Point(70, 19);
+            CB_Species.Margin = new System.Windows.Forms.Padding(0);
+            CB_Species.Name = "CB_Species";
+            CB_Species.Size = new System.Drawing.Size(142, 23);
+            CB_Species.TabIndex = 67;
             // 
             // CB_Move4
             // 
-            this.CB_Move4.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Move4.FormattingEnabled = true;
-            this.CB_Move4.Location = new System.Drawing.Point(61, 122);
-            this.CB_Move4.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Move4.Name = "CB_Move4";
-            this.CB_Move4.Size = new System.Drawing.Size(122, 21);
-            this.CB_Move4.TabIndex = 74;
+            CB_Move4.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Move4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Move4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Move4.FormattingEnabled = true;
+            CB_Move4.Location = new System.Drawing.Point(70, 134);
+            CB_Move4.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move4.Name = "CB_Move4";
+            CB_Move4.Size = new System.Drawing.Size(142, 23);
+            CB_Move4.TabIndex = 74;
             // 
             // CB_Move3
             // 
-            this.CB_Move3.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Move3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Move3.FormattingEnabled = true;
-            this.CB_Move3.Location = new System.Drawing.Point(61, 101);
-            this.CB_Move3.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Move3.Name = "CB_Move3";
-            this.CB_Move3.Size = new System.Drawing.Size(122, 21);
-            this.CB_Move3.TabIndex = 73;
+            CB_Move3.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Move3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Move3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Move3.FormattingEnabled = true;
+            CB_Move3.Location = new System.Drawing.Point(70, 111);
+            CB_Move3.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move3.Name = "CB_Move3";
+            CB_Move3.Size = new System.Drawing.Size(142, 23);
+            CB_Move3.TabIndex = 73;
             // 
             // CB_Move2
             // 
-            this.CB_Move2.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Move2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Move2.FormattingEnabled = true;
-            this.CB_Move2.Location = new System.Drawing.Point(61, 80);
-            this.CB_Move2.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Move2.Name = "CB_Move2";
-            this.CB_Move2.Size = new System.Drawing.Size(122, 21);
-            this.CB_Move2.TabIndex = 72;
+            CB_Move2.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Move2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Move2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Move2.FormattingEnabled = true;
+            CB_Move2.Location = new System.Drawing.Point(70, 88);
+            CB_Move2.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move2.Name = "CB_Move2";
+            CB_Move2.Size = new System.Drawing.Size(142, 23);
+            CB_Move2.TabIndex = 72;
             // 
             // CB_Move1
             // 
-            this.CB_Move1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_Move1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Move1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Move1.FormattingEnabled = true;
-            this.CB_Move1.Location = new System.Drawing.Point(61, 59);
-            this.CB_Move1.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Move1.Name = "CB_Move1";
-            this.CB_Move1.Size = new System.Drawing.Size(122, 21);
-            this.CB_Move1.TabIndex = 71;
+            CB_Move1.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Move1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Move1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Move1.FormattingEnabled = true;
+            CB_Move1.Location = new System.Drawing.Point(70, 65);
+            CB_Move1.Margin = new System.Windows.Forms.Padding(0);
+            CB_Move1.Name = "CB_Move1";
+            CB_Move1.Size = new System.Drawing.Size(142, 23);
+            CB_Move1.TabIndex = 71;
             // 
             // Label_HeldItem
             // 
-            this.Label_HeldItem.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.Label_HeldItem.AutoSize = true;
-            this.Label_HeldItem.Location = new System.Drawing.Point(3, 42);
-            this.Label_HeldItem.Margin = new System.Windows.Forms.Padding(3);
-            this.Label_HeldItem.Name = "Label_HeldItem";
-            this.Label_HeldItem.Size = new System.Drawing.Size(55, 13);
-            this.Label_HeldItem.TabIndex = 93;
-            this.Label_HeldItem.Text = "Held Item:";
-            this.Label_HeldItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            Label_HeldItem.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            Label_HeldItem.AutoSize = true;
+            Label_HeldItem.Location = new System.Drawing.Point(4, 46);
+            Label_HeldItem.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Label_HeldItem.Name = "Label_HeldItem";
+            Label_HeldItem.Size = new System.Drawing.Size(62, 15);
+            Label_HeldItem.TabIndex = 93;
+            Label_HeldItem.Text = "Held Item:";
+            Label_HeldItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Label_Species
             // 
-            this.Label_Species.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.Label_Species.AutoSize = true;
-            this.Label_Species.Location = new System.Drawing.Point(10, 21);
-            this.Label_Species.Margin = new System.Windows.Forms.Padding(3);
-            this.Label_Species.Name = "Label_Species";
-            this.Label_Species.Size = new System.Drawing.Size(48, 13);
-            this.Label_Species.TabIndex = 90;
-            this.Label_Species.Text = "Species:";
-            this.Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            Label_Species.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            Label_Species.AutoSize = true;
+            Label_Species.Location = new System.Drawing.Point(17, 23);
+            Label_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Label_Species.Name = "Label_Species";
+            Label_Species.Size = new System.Drawing.Size(49, 15);
+            Label_Species.TabIndex = 90;
+            Label_Species.Text = "Species:";
+            Label_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_Search
             // 
-            this.B_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Search.Location = new System.Drawing.Point(333, 354);
-            this.B_Search.Name = "B_Search";
-            this.B_Search.Size = new System.Drawing.Size(206, 30);
-            this.B_Search.TabIndex = 102;
-            this.B_Search.Text = "Search!";
-            this.B_Search.UseVisualStyleBackColor = true;
-            this.B_Search.Click += new System.EventHandler(this.B_Search_Click);
+            B_Search.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Search.Location = new System.Drawing.Point(388, 408);
+            B_Search.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Search.Name = "B_Search";
+            B_Search.Size = new System.Drawing.Size(240, 35);
+            B_Search.TabIndex = 102;
+            B_Search.Text = "Search!";
+            B_Search.UseVisualStyleBackColor = true;
+            B_Search.Click += B_Search_Click;
             // 
             // L_Move1
             // 
-            this.L_Move1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.L_Move1.AutoSize = true;
-            this.L_Move1.Location = new System.Drawing.Point(12, 63);
-            this.L_Move1.Margin = new System.Windows.Forms.Padding(3);
-            this.L_Move1.Name = "L_Move1";
-            this.L_Move1.Size = new System.Drawing.Size(46, 13);
-            this.L_Move1.TabIndex = 105;
-            this.L_Move1.Text = "Move 1:";
-            this.L_Move1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Move1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Move1.AutoSize = true;
+            L_Move1.Location = new System.Drawing.Point(17, 69);
+            L_Move1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Move1.Name = "L_Move1";
+            L_Move1.Size = new System.Drawing.Size(49, 15);
+            L_Move1.TabIndex = 105;
+            L_Move1.Text = "Move 1:";
+            L_Move1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Move2
             // 
-            this.L_Move2.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.L_Move2.AutoSize = true;
-            this.L_Move2.Location = new System.Drawing.Point(12, 84);
-            this.L_Move2.Margin = new System.Windows.Forms.Padding(3);
-            this.L_Move2.Name = "L_Move2";
-            this.L_Move2.Size = new System.Drawing.Size(46, 13);
-            this.L_Move2.TabIndex = 106;
-            this.L_Move2.Text = "Move 2:";
-            this.L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Move2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Move2.AutoSize = true;
+            L_Move2.Location = new System.Drawing.Point(17, 92);
+            L_Move2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Move2.Name = "L_Move2";
+            L_Move2.Size = new System.Drawing.Size(49, 15);
+            L_Move2.TabIndex = 106;
+            L_Move2.Text = "Move 2:";
+            L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Move3
             // 
-            this.L_Move3.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.L_Move3.AutoSize = true;
-            this.L_Move3.Location = new System.Drawing.Point(12, 105);
-            this.L_Move3.Margin = new System.Windows.Forms.Padding(3);
-            this.L_Move3.Name = "L_Move3";
-            this.L_Move3.Size = new System.Drawing.Size(46, 13);
-            this.L_Move3.TabIndex = 107;
-            this.L_Move3.Text = "Move 3:";
-            this.L_Move3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Move3.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Move3.AutoSize = true;
+            L_Move3.Location = new System.Drawing.Point(17, 115);
+            L_Move3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Move3.Name = "L_Move3";
+            L_Move3.Size = new System.Drawing.Size(49, 15);
+            L_Move3.TabIndex = 107;
+            L_Move3.Text = "Move 3:";
+            L_Move3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Move4
             // 
-            this.L_Move4.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.L_Move4.AutoSize = true;
-            this.L_Move4.Location = new System.Drawing.Point(12, 126);
-            this.L_Move4.Margin = new System.Windows.Forms.Padding(3);
-            this.L_Move4.Name = "L_Move4";
-            this.L_Move4.Size = new System.Drawing.Size(46, 13);
-            this.L_Move4.TabIndex = 108;
-            this.L_Move4.Text = "Move 4:";
-            this.L_Move4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Move4.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Move4.AutoSize = true;
+            L_Move4.Location = new System.Drawing.Point(17, 138);
+            L_Move4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Move4.Name = "L_Move4";
+            L_Move4.Size = new System.Drawing.Size(49, 15);
+            L_Move4.TabIndex = 108;
+            L_Move4.Text = "Move 4:";
+            L_Move4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_Reset
             // 
-            this.B_Reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Reset.Location = new System.Drawing.Point(499, 0);
-            this.B_Reset.Name = "B_Reset";
-            this.B_Reset.Size = new System.Drawing.Size(75, 23);
-            this.B_Reset.TabIndex = 111;
-            this.B_Reset.Text = "Reset Filters";
-            this.B_Reset.UseVisualStyleBackColor = true;
-            this.B_Reset.Click += new System.EventHandler(this.ResetFilters);
+            B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Reset.Location = new System.Drawing.Point(582, 0);
+            B_Reset.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Reset.Name = "B_Reset";
+            B_Reset.Size = new System.Drawing.Size(88, 27);
+            B_Reset.TabIndex = 111;
+            B_Reset.Text = "Reset Filters";
+            B_Reset.UseVisualStyleBackColor = true;
+            B_Reset.Click += ResetFilters;
             // 
             // L_Count
             // 
-            this.L_Count.Location = new System.Drawing.Point(99, 18);
-            this.L_Count.Name = "L_Count";
-            this.L_Count.Size = new System.Drawing.Size(83, 13);
-            this.L_Count.TabIndex = 114;
-            this.L_Count.Text = "Count: {0}";
-            this.L_Count.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            L_Count.Location = new System.Drawing.Point(115, 21);
+            L_Count.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Count.Name = "L_Count";
+            L_Count.Size = new System.Drawing.Size(97, 15);
+            L_Count.TabIndex = 114;
+            L_Count.Text = "Count: {0}";
+            L_Count.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // L_Viewed
             // 
-            this.L_Viewed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.L_Viewed.AutoSize = true;
-            this.L_Viewed.Location = new System.Drawing.Point(9, 386);
-            this.L_Viewed.Name = "L_Viewed";
-            this.L_Viewed.Size = new System.Drawing.Size(85, 13);
-            this.L_Viewed.TabIndex = 117;
-            this.L_Viewed.Text = "Last Viewed: {0}";
-            this.L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            L_Viewed.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            L_Viewed.AutoSize = true;
+            L_Viewed.Location = new System.Drawing.Point(10, 445);
+            L_Viewed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Viewed.Name = "L_Viewed";
+            L_Viewed.Size = new System.Drawing.Size(89, 15);
+            L_Viewed.TabIndex = 117;
+            L_Viewed.Text = "Last Viewed: {0}";
+            L_Viewed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FLP_Egg
             // 
-            this.FLP_Egg.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.FLP_Egg.AutoSize = true;
-            this.FLP_Egg.Controls.Add(this.CHK_IsEgg);
-            this.FLP_Egg.Location = new System.Drawing.Point(61, 0);
-            this.FLP_Egg.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Egg.Name = "FLP_Egg";
-            this.FLP_Egg.Size = new System.Drawing.Size(45, 17);
-            this.FLP_Egg.TabIndex = 120;
+            FLP_Egg.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            FLP_Egg.AutoSize = true;
+            FLP_Egg.Controls.Add(CHK_IsEgg);
+            FLP_Egg.Location = new System.Drawing.Point(70, 0);
+            FLP_Egg.Margin = new System.Windows.Forms.Padding(0);
+            FLP_Egg.Name = "FLP_Egg";
+            FLP_Egg.Size = new System.Drawing.Size(46, 19);
+            FLP_Egg.TabIndex = 120;
             // 
             // CHK_IsEgg
             // 
-            this.CHK_IsEgg.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CHK_IsEgg.AutoSize = true;
-            this.CHK_IsEgg.Checked = true;
-            this.CHK_IsEgg.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.CHK_IsEgg.Location = new System.Drawing.Point(0, 0);
-            this.CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_IsEgg.Name = "CHK_IsEgg";
-            this.CHK_IsEgg.Size = new System.Drawing.Size(45, 17);
-            this.CHK_IsEgg.TabIndex = 98;
-            this.CHK_IsEgg.Text = "Egg";
-            this.CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_IsEgg.ThreeState = true;
-            this.CHK_IsEgg.UseVisualStyleBackColor = true;
+            CHK_IsEgg.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CHK_IsEgg.AutoSize = true;
+            CHK_IsEgg.Checked = true;
+            CHK_IsEgg.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            CHK_IsEgg.Location = new System.Drawing.Point(0, 0);
+            CHK_IsEgg.Margin = new System.Windows.Forms.Padding(0);
+            CHK_IsEgg.Name = "CHK_IsEgg";
+            CHK_IsEgg.Size = new System.Drawing.Size(46, 19);
+            CHK_IsEgg.TabIndex = 98;
+            CHK_IsEgg.Text = "Egg";
+            CHK_IsEgg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_IsEgg.ThreeState = true;
+            CHK_IsEgg.UseVisualStyleBackColor = true;
             // 
             // CHK_Shiny
             // 
-            this.CHK_Shiny.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.CHK_Shiny.AutoSize = true;
-            this.CHK_Shiny.Checked = true;
-            this.CHK_Shiny.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.CHK_Shiny.Location = new System.Drawing.Point(9, 0);
-            this.CHK_Shiny.Margin = new System.Windows.Forms.Padding(0);
-            this.CHK_Shiny.Name = "CHK_Shiny";
-            this.CHK_Shiny.Size = new System.Drawing.Size(52, 17);
-            this.CHK_Shiny.TabIndex = 99;
-            this.CHK_Shiny.Text = "Shiny";
-            this.CHK_Shiny.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Shiny.ThreeState = true;
-            this.CHK_Shiny.UseVisualStyleBackColor = true;
+            CHK_Shiny.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            CHK_Shiny.AutoSize = true;
+            CHK_Shiny.Checked = true;
+            CHK_Shiny.CheckState = System.Windows.Forms.CheckState.Indeterminate;
+            CHK_Shiny.Location = new System.Drawing.Point(15, 0);
+            CHK_Shiny.Margin = new System.Windows.Forms.Padding(0);
+            CHK_Shiny.Name = "CHK_Shiny";
+            CHK_Shiny.Size = new System.Drawing.Size(55, 19);
+            CHK_Shiny.TabIndex = 99;
+            CHK_Shiny.Text = "Shiny";
+            CHK_Shiny.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_Shiny.ThreeState = true;
+            CHK_Shiny.UseVisualStyleBackColor = true;
             // 
             // TLP_Filters
             // 
-            this.TLP_Filters.AutoScroll = true;
-            this.TLP_Filters.AutoScrollMargin = new System.Drawing.Size(3, 3);
-            this.TLP_Filters.AutoSize = true;
-            this.TLP_Filters.ColumnCount = 2;
-            this.TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.TLP_Filters.Controls.Add(this.FLP_Format, 1, 15);
-            this.TLP_Filters.Controls.Add(this.L_Format, 0, 15);
-            this.TLP_Filters.Controls.Add(this.FLP_Egg, 1, 0);
-            this.TLP_Filters.Controls.Add(this.CHK_Shiny, 0, 0);
-            this.TLP_Filters.Controls.Add(this.Label_Species, 0, 1);
-            this.TLP_Filters.Controls.Add(this.CB_Species, 1, 1);
-            this.TLP_Filters.Controls.Add(this.Label_HeldItem, 0, 3);
-            this.TLP_Filters.Controls.Add(this.CB_HeldItem, 1, 3);
-            this.TLP_Filters.Controls.Add(this.FLP_Level, 1, 5);
-            this.TLP_Filters.Controls.Add(this.L_Move1, 0, 9);
-            this.TLP_Filters.Controls.Add(this.CB_Move1, 1, 9);
-            this.TLP_Filters.Controls.Add(this.L_Move2, 0, 10);
-            this.TLP_Filters.Controls.Add(this.CB_Move2, 1, 10);
-            this.TLP_Filters.Controls.Add(this.L_Move3, 0, 11);
-            this.TLP_Filters.Controls.Add(this.CB_Move3, 1, 11);
-            this.TLP_Filters.Controls.Add(this.L_Move4, 0, 12);
-            this.TLP_Filters.Controls.Add(this.CB_Move4, 1, 12);
-            this.TLP_Filters.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TLP_Filters.Location = new System.Drawing.Point(3, 3);
-            this.TLP_Filters.Name = "TLP_Filters";
-            this.TLP_Filters.RowCount = 17;
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.TLP_Filters.Size = new System.Drawing.Size(250, 308);
-            this.TLP_Filters.TabIndex = 118;
+            TLP_Filters.AutoScroll = true;
+            TLP_Filters.AutoScrollMargin = new System.Drawing.Size(3, 3);
+            TLP_Filters.AutoSize = true;
+            TLP_Filters.ColumnCount = 2;
+            TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            TLP_Filters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            TLP_Filters.Controls.Add(FLP_Format, 1, 15);
+            TLP_Filters.Controls.Add(L_Format, 0, 15);
+            TLP_Filters.Controls.Add(FLP_Egg, 1, 0);
+            TLP_Filters.Controls.Add(CHK_Shiny, 0, 0);
+            TLP_Filters.Controls.Add(Label_Species, 0, 1);
+            TLP_Filters.Controls.Add(CB_Species, 1, 1);
+            TLP_Filters.Controls.Add(Label_HeldItem, 0, 3);
+            TLP_Filters.Controls.Add(CB_HeldItem, 1, 3);
+            TLP_Filters.Controls.Add(FLP_Level, 1, 5);
+            TLP_Filters.Controls.Add(L_Move1, 0, 9);
+            TLP_Filters.Controls.Add(CB_Move1, 1, 9);
+            TLP_Filters.Controls.Add(L_Move2, 0, 10);
+            TLP_Filters.Controls.Add(CB_Move2, 1, 10);
+            TLP_Filters.Controls.Add(L_Move3, 0, 11);
+            TLP_Filters.Controls.Add(CB_Move3, 1, 11);
+            TLP_Filters.Controls.Add(L_Move4, 0, 12);
+            TLP_Filters.Controls.Add(CB_Move4, 1, 12);
+            TLP_Filters.Dock = System.Windows.Forms.DockStyle.Fill;
+            TLP_Filters.Location = new System.Drawing.Point(4, 3);
+            TLP_Filters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TLP_Filters.Name = "TLP_Filters";
+            TLP_Filters.RowCount = 17;
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            TLP_Filters.Size = new System.Drawing.Size(292, 358);
+            TLP_Filters.TabIndex = 118;
             // 
             // FLP_Format
             // 
-            this.FLP_Format.AutoSize = true;
-            this.FLP_Format.Controls.Add(this.CB_FormatComparator);
-            this.FLP_Format.Controls.Add(this.CB_Format);
-            this.FLP_Format.Location = new System.Drawing.Point(61, 143);
-            this.FLP_Format.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Format.Name = "FLP_Format";
-            this.FLP_Format.Size = new System.Drawing.Size(122, 21);
-            this.FLP_Format.TabIndex = 124;
+            FLP_Format.AutoSize = true;
+            FLP_Format.Controls.Add(CB_FormatComparator);
+            FLP_Format.Controls.Add(CB_Format);
+            FLP_Format.Location = new System.Drawing.Point(70, 157);
+            FLP_Format.Margin = new System.Windows.Forms.Padding(0);
+            FLP_Format.Name = "FLP_Format";
+            FLP_Format.Size = new System.Drawing.Size(141, 23);
+            FLP_Format.TabIndex = 124;
             // 
             // CB_FormatComparator
             // 
-            this.CB_FormatComparator.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_FormatComparator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_FormatComparator.FormattingEnabled = true;
-            this.CB_FormatComparator.Items.AddRange(new object[] {
-            "Any",
-            ">=",
-            "==",
-            "<="});
-            this.CB_FormatComparator.Location = new System.Drawing.Point(0, 0);
-            this.CB_FormatComparator.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_FormatComparator.Name = "CB_FormatComparator";
-            this.CB_FormatComparator.Size = new System.Drawing.Size(54, 21);
-            this.CB_FormatComparator.TabIndex = 122;
-            this.CB_FormatComparator.SelectedIndexChanged += new System.EventHandler(this.ChangeFormatFilter);
+            CB_FormatComparator.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_FormatComparator.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_FormatComparator.FormattingEnabled = true;
+            CB_FormatComparator.Items.AddRange(new object[] { "Any", ">=", "==", "<=" });
+            CB_FormatComparator.Location = new System.Drawing.Point(0, 0);
+            CB_FormatComparator.Margin = new System.Windows.Forms.Padding(0);
+            CB_FormatComparator.Name = "CB_FormatComparator";
+            CB_FormatComparator.Size = new System.Drawing.Size(62, 23);
+            CB_FormatComparator.TabIndex = 122;
+            CB_FormatComparator.SelectedIndexChanged += ChangeFormatFilter;
             // 
             // CB_Format
             // 
-            this.CB_Format.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Format.DropDownWidth = 100;
-            this.CB_Format.FormattingEnabled = true;
-            this.CB_Format.Items.AddRange(new object[] {
-            "Any",
-            ".wc9",
-            ".wc8",
-            ".wc7",
-            ".wc6",
-            ".pgf",
-            ".pcd/pgt/.wc4",
-            ".wc3"});
-            this.CB_Format.Location = new System.Drawing.Point(54, 0);
-            this.CB_Format.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Format.Name = "CB_Format";
-            this.CB_Format.Size = new System.Drawing.Size(68, 21);
-            this.CB_Format.TabIndex = 121;
-            this.CB_Format.Visible = false;
+            CB_Format.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Format.DropDownWidth = 100;
+            CB_Format.FormattingEnabled = true;
+            CB_Format.Items.AddRange(new object[] { "Any", ".wc9", ".wc8", ".wc7", ".wc6", ".pgf", ".pcd/pgt/.wc4", ".wc3" });
+            CB_Format.Location = new System.Drawing.Point(62, 0);
+            CB_Format.Margin = new System.Windows.Forms.Padding(0);
+            CB_Format.Name = "CB_Format";
+            CB_Format.Size = new System.Drawing.Size(79, 23);
+            CB_Format.TabIndex = 121;
+            CB_Format.Visible = false;
             // 
             // L_Format
             // 
-            this.L_Format.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.L_Format.AutoSize = true;
-            this.L_Format.Location = new System.Drawing.Point(16, 147);
-            this.L_Format.Margin = new System.Windows.Forms.Padding(3);
-            this.L_Format.Name = "L_Format";
-            this.L_Format.Size = new System.Drawing.Size(42, 13);
-            this.L_Format.TabIndex = 122;
-            this.L_Format.Text = "Format:";
-            this.L_Format.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Format.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            L_Format.AutoSize = true;
+            L_Format.Location = new System.Drawing.Point(18, 161);
+            L_Format.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            L_Format.Name = "L_Format";
+            L_Format.Size = new System.Drawing.Size(48, 15);
+            L_Format.TabIndex = 122;
+            L_Format.Text = "Format:";
+            L_Format.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FLP_Level
             // 
-            this.FLP_Level.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.FLP_Level.AutoSize = true;
-            this.FLP_Level.Location = new System.Drawing.Point(61, 59);
-            this.FLP_Level.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_Level.Name = "FLP_Level";
-            this.FLP_Level.Size = new System.Drawing.Size(0, 0);
-            this.FLP_Level.TabIndex = 119;
+            FLP_Level.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            FLP_Level.AutoSize = true;
+            FLP_Level.Location = new System.Drawing.Point(70, 65);
+            FLP_Level.Margin = new System.Windows.Forms.Padding(0);
+            FLP_Level.Name = "FLP_Level";
+            FLP_Level.Size = new System.Drawing.Size(0, 0);
+            FLP_Level.TabIndex = 119;
             // 
             // mnu
             // 
-            this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuView,
-            this.mnuSaveMG,
-            this.mnuSavePK});
-            this.mnu.Name = "contextMenuStrip1";
-            this.mnu.Size = new System.Drawing.Size(127, 70);
+            mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
+            mnu.Name = "contextMenuStrip1";
+            mnu.Size = new System.Drawing.Size(127, 70);
             // 
             // mnuView
             // 
-            this.mnuView.Image = global::PKHeX.WinForms.Properties.Resources.other;
-            this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(126, 22);
-            this.mnuView.Text = "View";
-            this.mnuView.Click += new System.EventHandler(this.ClickView);
+            mnuView.Image = Properties.Resources.other;
+            mnuView.Name = "mnuView";
+            mnuView.Size = new System.Drawing.Size(126, 22);
+            mnuView.Text = "View";
+            mnuView.Click += ClickView;
             // 
             // mnuSaveMG
             // 
-            this.mnuSaveMG.Image = global::PKHeX.WinForms.Properties.Resources.gift;
-            this.mnuSaveMG.Name = "mnuSaveMG";
-            this.mnuSaveMG.Size = new System.Drawing.Size(126, 22);
-            this.mnuSaveMG.Text = "Save Gift";
-            this.mnuSaveMG.Click += new System.EventHandler(this.ClickSaveMG);
+            mnuSaveMG.Image = Properties.Resources.gift;
+            mnuSaveMG.Name = "mnuSaveMG";
+            mnuSaveMG.Size = new System.Drawing.Size(126, 22);
+            mnuSaveMG.Text = "Save Gift";
+            mnuSaveMG.Click += ClickSaveMG;
             // 
             // mnuSavePK
             // 
-            this.mnuSavePK.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
-            this.mnuSavePK.Name = "mnuSavePK";
-            this.mnuSavePK.Size = new System.Drawing.Size(126, 22);
-            this.mnuSavePK.Text = "Save PKM";
-            this.mnuSavePK.Click += new System.EventHandler(this.ClickSavePK);
+            mnuSavePK.Image = Properties.Resources.savePKM;
+            mnuSavePK.Name = "mnuSavePK";
+            mnuSavePK.Size = new System.Drawing.Size(126, 22);
+            mnuSavePK.Text = "Save PKM";
+            mnuSavePK.Click += ClickSavePK;
             // 
             // TC_SearchSettings
             // 
-            this.TC_SearchSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TC_SearchSettings.Controls.Add(this.Tab_General);
-            this.TC_SearchSettings.Controls.Add(this.Tab_Advanced);
-            this.TC_SearchSettings.Location = new System.Drawing.Point(304, 8);
-            this.TC_SearchSettings.Name = "TC_SearchSettings";
-            this.TC_SearchSettings.SelectedIndex = 0;
-            this.TC_SearchSettings.Size = new System.Drawing.Size(264, 340);
-            this.TC_SearchSettings.TabIndex = 120;
+            TC_SearchSettings.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            TC_SearchSettings.Controls.Add(Tab_General);
+            TC_SearchSettings.Controls.Add(Tab_Advanced);
+            TC_SearchSettings.Location = new System.Drawing.Point(355, 9);
+            TC_SearchSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_SearchSettings.Name = "TC_SearchSettings";
+            TC_SearchSettings.SelectedIndex = 0;
+            TC_SearchSettings.Size = new System.Drawing.Size(308, 392);
+            TC_SearchSettings.TabIndex = 120;
             // 
             // Tab_General
             // 
-            this.Tab_General.Controls.Add(this.TLP_Filters);
-            this.Tab_General.Location = new System.Drawing.Point(4, 22);
-            this.Tab_General.Name = "Tab_General";
-            this.Tab_General.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_General.Size = new System.Drawing.Size(256, 314);
-            this.Tab_General.TabIndex = 0;
-            this.Tab_General.Text = "General";
-            this.Tab_General.UseVisualStyleBackColor = true;
+            Tab_General.Controls.Add(TLP_Filters);
+            Tab_General.Location = new System.Drawing.Point(4, 24);
+            Tab_General.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_General.Name = "Tab_General";
+            Tab_General.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_General.Size = new System.Drawing.Size(300, 364);
+            Tab_General.TabIndex = 0;
+            Tab_General.Text = "General";
+            Tab_General.UseVisualStyleBackColor = true;
             // 
             // Tab_Advanced
             // 
-            this.Tab_Advanced.Controls.Add(this.B_Add);
-            this.Tab_Advanced.Controls.Add(this.RTB_Instructions);
-            this.Tab_Advanced.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Advanced.Name = "Tab_Advanced";
-            this.Tab_Advanced.Size = new System.Drawing.Size(256, 314);
-            this.Tab_Advanced.TabIndex = 1;
-            this.Tab_Advanced.Text = "Advanced";
-            this.Tab_Advanced.UseVisualStyleBackColor = true;
+            Tab_Advanced.Controls.Add(B_Add);
+            Tab_Advanced.Controls.Add(RTB_Instructions);
+            Tab_Advanced.Location = new System.Drawing.Point(4, 24);
+            Tab_Advanced.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Advanced.Name = "Tab_Advanced";
+            Tab_Advanced.Size = new System.Drawing.Size(300, 364);
+            Tab_Advanced.TabIndex = 1;
+            Tab_Advanced.Text = "Advanced";
+            Tab_Advanced.UseVisualStyleBackColor = true;
             // 
             // B_Add
             // 
-            this.B_Add.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Add.Location = new System.Drawing.Point(196, -1);
-            this.B_Add.Name = "B_Add";
-            this.B_Add.Size = new System.Drawing.Size(57, 23);
-            this.B_Add.TabIndex = 121;
-            this.B_Add.Text = "Add";
-            this.B_Add.UseVisualStyleBackColor = true;
-            this.B_Add.Click += new System.EventHandler(this.B_Add_Click);
+            B_Add.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Add.Location = new System.Drawing.Point(229, -1);
+            B_Add.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Add.Name = "B_Add";
+            B_Add.Size = new System.Drawing.Size(66, 27);
+            B_Add.TabIndex = 121;
+            B_Add.Text = "Add";
+            B_Add.UseVisualStyleBackColor = true;
+            B_Add.Click += B_Add_Click;
             // 
             // RTB_Instructions
             // 
-            this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB_Instructions.Location = new System.Drawing.Point(0, 42);
-            this.RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
-            this.RTB_Instructions.Name = "RTB_Instructions";
-            this.RTB_Instructions.Size = new System.Drawing.Size(256, 272);
-            this.RTB_Instructions.TabIndex = 120;
-            this.RTB_Instructions.Text = "";
+            RTB_Instructions.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            RTB_Instructions.Location = new System.Drawing.Point(0, 48);
+            RTB_Instructions.Margin = new System.Windows.Forms.Padding(0);
+            RTB_Instructions.Name = "RTB_Instructions";
+            RTB_Instructions.Size = new System.Drawing.Size(298, 313);
+            RTB_Instructions.TabIndex = 120;
+            RTB_Instructions.Text = "";
             // 
             // SAV_MysteryGiftDB
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(574, 401);
-            this.Controls.Add(this.B_Reset);
-            this.Controls.Add(this.TC_SearchSettings);
-            this.Controls.Add(this.B_Search);
-            this.Controls.Add(this.L_Viewed);
-            this.Controls.Add(this.L_Count);
-            this.Controls.Add(this.P_Results);
-            this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SAV_MysteryGiftDB";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Database";
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.P_Results.ResumeLayout(false);
-            this.FLP_Egg.ResumeLayout(false);
-            this.FLP_Egg.PerformLayout();
-            this.TLP_Filters.ResumeLayout(false);
-            this.TLP_Filters.PerformLayout();
-            this.FLP_Format.ResumeLayout(false);
-            this.mnu.ResumeLayout(false);
-            this.TC_SearchSettings.ResumeLayout(false);
-            this.Tab_General.ResumeLayout(false);
-            this.Tab_General.PerformLayout();
-            this.Tab_Advanced.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(670, 463);
+            Controls.Add(B_Reset);
+            Controls.Add(TC_SearchSettings);
+            Controls.Add(B_Search);
+            Controls.Add(L_Viewed);
+            Controls.Add(L_Count);
+            Controls.Add(P_Results);
+            Controls.Add(menuStrip1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SAV_MysteryGiftDB";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Database";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            P_Results.ResumeLayout(false);
+            FLP_Egg.ResumeLayout(false);
+            FLP_Egg.PerformLayout();
+            TLP_Filters.ResumeLayout(false);
+            TLP_Filters.PerformLayout();
+            FLP_Format.ResumeLayout(false);
+            mnu.ResumeLayout(false);
+            TC_SearchSettings.ResumeLayout(false);
+            Tab_General.ResumeLayout(false);
+            Tab_General.PerformLayout();
+            Tab_Advanced.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

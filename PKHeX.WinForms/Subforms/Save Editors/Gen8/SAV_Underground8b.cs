@@ -103,7 +103,7 @@ public partial class SAV_Underground8b : Form
             if (type == UgItemType.None)
                 continue;
             var cells = dgv.Rows[rowIndex++].Cells;
-            cells[0].Value =                     item.Index.ToString("000");
+            cells[0].Value = item.Index.ToString("000");
             cells[1].Value = item.Type.ToString();
             cells[2].Value = ItemNames[item.Index];
             cells[3].Value = item.Count.ToString();

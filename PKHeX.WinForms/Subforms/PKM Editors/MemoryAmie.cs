@@ -17,7 +17,7 @@ public partial class MemoryAmie : Form
         MemStrings = new MemoryStrings(GameInfo.Strings);
         PrevCountries = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
         PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4 };
-        string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
+        string[] arguments = L_Arguments.Text.Split(new[] { " ; " }, StringSplitOptions.None);
 
         TextArgs = new TextMarkup(arguments);
         foreach (ComboBox comboBox in PrevCountries)
@@ -50,11 +50,11 @@ public partial class MemoryAmie : Form
             CB_Country2.SelectedValue = (int)g.Geo3_Country;
             CB_Country3.SelectedValue = (int)g.Geo4_Country;
             CB_Country4.SelectedValue = (int)g.Geo5_Country;
-            CB_Region0.SelectedValue  = (int)g.Geo1_Region;
-            CB_Region1.SelectedValue  = (int)g.Geo2_Region;
-            CB_Region2.SelectedValue  = (int)g.Geo3_Region;
-            CB_Region3.SelectedValue  = (int)g.Geo4_Region;
-            CB_Region4.SelectedValue  = (int)g.Geo5_Region;
+            CB_Region0.SelectedValue = (int)g.Geo1_Region;
+            CB_Region1.SelectedValue = (int)g.Geo2_Region;
+            CB_Region2.SelectedValue = (int)g.Geo3_Region;
+            CB_Region3.SelectedValue = (int)g.Geo4_Region;
+            CB_Region4.SelectedValue = (int)g.Geo5_Region;
         }
 
         // Load the Fullness, and Enjoyment
@@ -157,11 +157,11 @@ public partial class MemoryAmie : Form
         // Save Region & Country Data
         if (Entity is IGeoTrack g)
         {
-            g.Geo1_Region  = (byte)WinFormsUtil.GetIndex(CB_Region0);
-            g.Geo2_Region  = (byte)WinFormsUtil.GetIndex(CB_Region1);
-            g.Geo3_Region  = (byte)WinFormsUtil.GetIndex(CB_Region2);
-            g.Geo4_Region  = (byte)WinFormsUtil.GetIndex(CB_Region3);
-            g.Geo5_Region  = (byte)WinFormsUtil.GetIndex(CB_Region4);
+            g.Geo1_Region = (byte)WinFormsUtil.GetIndex(CB_Region0);
+            g.Geo2_Region = (byte)WinFormsUtil.GetIndex(CB_Region1);
+            g.Geo3_Region = (byte)WinFormsUtil.GetIndex(CB_Region2);
+            g.Geo4_Region = (byte)WinFormsUtil.GetIndex(CB_Region3);
+            g.Geo5_Region = (byte)WinFormsUtil.GetIndex(CB_Region4);
             g.Geo1_Country = (byte)WinFormsUtil.GetIndex(CB_Country0);
             g.Geo2_Country = (byte)WinFormsUtil.GetIndex(CB_Country1);
             g.Geo3_Country = (byte)WinFormsUtil.GetIndex(CB_Country2);

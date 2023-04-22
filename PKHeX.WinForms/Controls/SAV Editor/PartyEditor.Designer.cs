@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class PartyEditor
     {
@@ -28,30 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PartyPokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
-            this.SuspendLayout();
+            PartyPokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
+            SuspendLayout();
             // 
             // pokeGrid1
             // 
-            this.PartyPokeGrid.AutoSize = true;
-            this.PartyPokeGrid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.PartyPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PartyPokeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PartyPokeGrid.Location = new System.Drawing.Point(0, 0);
-            this.PartyPokeGrid.Margin = new System.Windows.Forms.Padding(0);
-            this.PartyPokeGrid.Name = "PartyPokeGrid";
-            this.PartyPokeGrid.Size = new System.Drawing.Size(251, 185);
-            this.PartyPokeGrid.TabIndex = 66;
+            PartyPokeGrid.AutoSize = true;
+            PartyPokeGrid.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            PartyPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            PartyPokeGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            PartyPokeGrid.Location = new System.Drawing.Point(0, 0);
+            PartyPokeGrid.Margin = new System.Windows.Forms.Padding(0);
+            PartyPokeGrid.Name = "PartyPokeGrid";
+            PartyPokeGrid.Size = new System.Drawing.Size(251, 185);
+            PartyPokeGrid.TabIndex = 66;
             // 
             // PartyEditor
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.AutoSize = true;
-            this.Controls.Add(this.PartyPokeGrid);
-            this.Name = "PartyEditor";
-            this.Size = new System.Drawing.Size(251, 185);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            AutoSize = true;
+            Controls.Add(PartyPokeGrid);
+            Name = "PartyEditor";
+            Size = new System.Drawing.Size(251, 185);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

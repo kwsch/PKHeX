@@ -37,8 +37,8 @@ public partial class SAV_PokedexGG : Form
             LB_Species.Items.Add(n);
 
         RecordUsed = new[] { CHK_RMinHeight, CHK_RMaxHeight, CHK_RMinWeight, CHK_RMaxWeight };
-        RecordHeight = new[] { NUD_RHeightMin, NUD_RHeightMax, NUD_RWeightMinHeight, NUD_RWeightMaxHeight};
-        RecordWeight = new[] { NUD_RHeightMinWeight, NUD_RHeightMaxWeight, NUD_RWeightMin, NUD_RWeightMax};
+        RecordHeight = new[] { NUD_RHeightMin, NUD_RHeightMax, NUD_RWeightMinHeight, NUD_RWeightMaxHeight };
+        RecordWeight = new[] { NUD_RHeightMinWeight, NUD_RHeightMaxWeight, NUD_RWeightMin, NUD_RWeightMax };
 
         editing = false;
         LB_Species.SelectedIndex = 0;
@@ -181,7 +181,7 @@ public partial class SAV_PokedexGG : Form
 
     private void ChangeDisplayed(object sender, EventArgs e)
     {
-        if (!((CheckBox) sender).Checked)
+        if (!((CheckBox)sender).Checked)
             return;
 
         CHK_P6.Checked = sender == CHK_P6;
@@ -306,7 +306,7 @@ public partial class SAV_PokedexGG : Form
 
     private void CHK_RUsed_CheckedChanged(object sender, EventArgs e)
     {
-        var ck = (CheckBox) sender;
+        var ck = (CheckBox)sender;
         int index = Array.IndexOf(RecordUsed, ck);
         var h = RecordHeight[index];
         var w = RecordWeight[index];

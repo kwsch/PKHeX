@@ -78,12 +78,12 @@ public partial class SAV_PokedexBDSP : Form
         CHK_FS.Checked = fs;
 
         CHK_LangJPN.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.Japanese);
-        CHK_LangENG.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.English );
-        CHK_LangFRE.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.French  );
-        CHK_LangITA.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.Italian );
-        CHK_LangGER.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.German  );
-        CHK_LangSPA.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.Spanish );
-        CHK_LangKOR.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.Korean  );
+        CHK_LangENG.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.English);
+        CHK_LangFRE.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.French);
+        CHK_LangITA.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.Italian);
+        CHK_LangGER.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.German);
+        CHK_LangSPA.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.Spanish);
+        CHK_LangKOR.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.Korean);
         CHK_LangCHS.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.ChineseS);
         CHK_LangCHT.Checked = Zukan.GetLanguageFlag(species, (int)LanguageID.ChineseT);
 
@@ -114,12 +114,12 @@ public partial class SAV_PokedexBDSP : Form
         Zukan.SetGenderFlags(species, CHK_M.Checked, CHK_F.Checked, CHK_MS.Checked, CHK_FS.Checked);
 
         Zukan.SetLanguageFlag(species, (int)LanguageID.Japanese, CHK_LangJPN.Checked);
-        Zukan.SetLanguageFlag(species, (int)LanguageID.English,  CHK_LangENG.Checked);
-        Zukan.SetLanguageFlag(species, (int)LanguageID.French,   CHK_LangFRE.Checked);
-        Zukan.SetLanguageFlag(species, (int)LanguageID.Italian,  CHK_LangITA.Checked);
-        Zukan.SetLanguageFlag(species, (int)LanguageID.German,   CHK_LangGER.Checked);
-        Zukan.SetLanguageFlag(species, (int)LanguageID.Spanish,  CHK_LangSPA.Checked);
-        Zukan.SetLanguageFlag(species, (int)LanguageID.Korean,   CHK_LangKOR.Checked);
+        Zukan.SetLanguageFlag(species, (int)LanguageID.English, CHK_LangENG.Checked);
+        Zukan.SetLanguageFlag(species, (int)LanguageID.French, CHK_LangFRE.Checked);
+        Zukan.SetLanguageFlag(species, (int)LanguageID.Italian, CHK_LangITA.Checked);
+        Zukan.SetLanguageFlag(species, (int)LanguageID.German, CHK_LangGER.Checked);
+        Zukan.SetLanguageFlag(species, (int)LanguageID.Spanish, CHK_LangSPA.Checked);
+        Zukan.SetLanguageFlag(species, (int)LanguageID.Korean, CHK_LangKOR.Checked);
         Zukan.SetLanguageFlag(species, (int)LanguageID.ChineseS, CHK_LangCHS.Checked);
         Zukan.SetLanguageFlag(species, (int)LanguageID.ChineseT, CHK_LangCHT.Checked);
 
@@ -128,7 +128,7 @@ public partial class SAV_PokedexBDSP : Form
         for (byte i = 0; i < f1.Items.Count; i++)
         {
             Zukan.SetHasFormFlag(species, i, false, f1.GetItemChecked(i));
-            Zukan.SetHasFormFlag(species, i, true , f2.GetItemChecked(i));
+            Zukan.SetHasFormFlag(species, i, true, f2.GetItemChecked(i));
         }
     }
 

@@ -45,7 +45,7 @@ public sealed partial class SAV_GroupViewer : Form
     private void HoverSlot(object sender, EventArgs e)
     {
         var group = Groups[CurrentGroup];
-        var pb = (PictureBox) sender;
+        var pb = (PictureBox)sender;
         var index = Box.Entries.IndexOf(pb);
         var slot = group.Slots[index];
         Preview.Show(pb, slot);
@@ -150,7 +150,7 @@ public sealed partial class SAV_GroupViewer : Form
         var group = Groups[CurrentGroup];
         View.PopulateFields(group.Slots[index], false);
 
-        if (slotSelected != index && (uint) slotSelected < Box.Entries.Count)
+        if (slotSelected != index && (uint)slotSelected < Box.Entries.Count)
             Box.Entries[slotSelected].BackgroundImage = null;
 
         groupSelected = CurrentGroup;

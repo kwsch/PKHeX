@@ -20,11 +20,11 @@ public partial class SAV_SuperTrain : Form
         SAV = (SAV6)(Origin = sav).Clone();
         trba = GameInfo.Strings.trainingbags;
         trba[0] = "---";
-        STB = ((ISaveBlock6Main) SAV).SuperTrain;
+        STB = ((ISaveBlock6Main)SAV).SuperTrain;
         string[] stages = GameInfo.Strings.trainingstage;
         listBox1.Items.Clear();
         for (int i = 0; i < 32; i++)
-            listBox1.Items.Add($"{i+1:00} - {stages[i]}");
+            listBox1.Items.Add($"{i + 1:00} - {stages[i]}");
 
         Setup();
     }

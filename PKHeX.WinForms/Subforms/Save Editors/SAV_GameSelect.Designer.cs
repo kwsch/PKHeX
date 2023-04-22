@@ -28,88 +28,90 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.CB_Game = new System.Windows.Forms.ComboBox();
-            this.B_OK = new System.Windows.Forms.Button();
-            this.L_Game = new System.Windows.Forms.Label();
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.L_Prompt = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            CB_Game = new System.Windows.Forms.ComboBox();
+            B_OK = new System.Windows.Forms.Button();
+            L_Game = new System.Windows.Forms.Label();
+            B_Cancel = new System.Windows.Forms.Button();
+            L_Prompt = new System.Windows.Forms.Label();
+            SuspendLayout();
             // 
             // CB_Game
             // 
-            this.CB_Game.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Game.FormattingEnabled = true;
-            this.CB_Game.Location = new System.Drawing.Point(69, 78);
-            this.CB_Game.Name = "CB_Game";
-            this.CB_Game.Size = new System.Drawing.Size(121, 21);
-            this.CB_Game.TabIndex = 0;
+            CB_Game.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Game.FormattingEnabled = true;
+            CB_Game.Location = new System.Drawing.Point(80, 90);
+            CB_Game.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Game.Name = "CB_Game";
+            CB_Game.Size = new System.Drawing.Size(140, 23);
+            CB_Game.TabIndex = 0;
             // 
             // B_OK
             // 
-            this.B_OK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_OK.Location = new System.Drawing.Point(262, 77);
-            this.B_OK.Name = "B_OK";
-            this.B_OK.Size = new System.Drawing.Size(60, 23);
-            this.B_OK.TabIndex = 11;
-            this.B_OK.Text = "OK";
-            this.B_OK.UseVisualStyleBackColor = true;
-            this.B_OK.Click += new System.EventHandler(this.B_OK_Click);
+            B_OK.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_OK.Location = new System.Drawing.Point(306, 89);
+            B_OK.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_OK.Name = "B_OK";
+            B_OK.Size = new System.Drawing.Size(70, 27);
+            B_OK.TabIndex = 11;
+            B_OK.Text = "OK";
+            B_OK.UseVisualStyleBackColor = true;
+            B_OK.Click += B_OK_Click;
             // 
             // L_Game
             // 
-            this.L_Game.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Game.Location = new System.Drawing.Point(12, 78);
-            this.L_Game.Name = "L_Game";
-            this.L_Game.Size = new System.Drawing.Size(51, 21);
-            this.L_Game.TabIndex = 12;
-            this.L_Game.Text = "Game:";
-            this.L_Game.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Game.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_Game.Location = new System.Drawing.Point(14, 90);
+            L_Game.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Game.Name = "L_Game";
+            L_Game.Size = new System.Drawing.Size(59, 24);
+            L_Game.TabIndex = 12;
+            L_Game.Text = "Game:";
+            L_Game.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(196, 77);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(60, 23);
-            this.B_Cancel.TabIndex = 10;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(229, 89);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(70, 27);
+            B_Cancel.TabIndex = 10;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // L_Prompt
             // 
-            this.L_Prompt.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Prompt.Location = new System.Drawing.Point(15, 9);
-            this.L_Prompt.Name = "L_Prompt";
-            this.L_Prompt.Size = new System.Drawing.Size(307, 65);
-            this.L_Prompt.TabIndex = 13;
-            this.L_Prompt.Text = "Prompt Text is here...";
+            L_Prompt.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_Prompt.Location = new System.Drawing.Point(18, 10);
+            L_Prompt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Prompt.Name = "L_Prompt";
+            L_Prompt.Size = new System.Drawing.Size(358, 75);
+            L_Prompt.TabIndex = 13;
+            L_Prompt.Text = "Prompt Text is here...";
             // 
             // SAV_GameSelect
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 112);
-            this.Controls.Add(this.L_Prompt);
-            this.Controls.Add(this.L_Game);
-            this.Controls.Add(this.B_OK);
-            this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.CB_Game);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.KeyPreview = true;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SAV_GameSelect";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Game Selection";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SAV_GameSelect_KeyDown);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(390, 129);
+            Controls.Add(L_Prompt);
+            Controls.Add(L_Game);
+            Controls.Add(B_OK);
+            Controls.Add(B_Cancel);
+            Controls.Add(CB_Game);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.Icon;
+            KeyPreview = true;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SAV_GameSelect";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Game Selection";
+            KeyDown += SAV_GameSelect_KeyDown;
+            ResumeLayout(false);
         }
 
         #endregion

@@ -41,7 +41,7 @@ public partial class SAV_Pokebean : Form
             DisplayIndex = 0,
             Width = 135,
             ReadOnly = true,
-            DefaultCellStyle = {Alignment = DataGridViewContentAlignment.MiddleCenter},
+            DefaultCellStyle = { Alignment = DataGridViewContentAlignment.MiddleCenter },
         };
         var dgvCount = new DataGridViewTextBoxColumn
         {

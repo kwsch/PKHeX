@@ -74,7 +74,7 @@ public partial class SAV_Misc3 : Form
             ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
             for (int i = 0; i < cba.Length; i++)
             {
-                var species = (ushort) WinFormsUtil.GetIndex(cba[i]);
+                var species = (ushort)WinFormsUtil.GetIndex(cba[i]);
                 var g3Species = SpeciesConverter.GetInternal3(species);
                 SAV.SetWork(0x43 + i, g3Species);
             }
@@ -94,10 +94,10 @@ public partial class SAV_Misc3 : Form
     private void ReadJoyful(IGen3Joyful j)
     {
         TB_J1.Text = Math.Min((ushort)9999, j.JoyfulJumpInRow).ToString();
-        TB_J2.Text = Math.Min(        9999, j.JoyfulJumpScore).ToString();
+        TB_J2.Text = Math.Min(9999, j.JoyfulJumpScore).ToString();
         TB_J3.Text = Math.Min((ushort)9999, j.JoyfulJump5InRow).ToString();
         TB_B1.Text = Math.Min((ushort)9999, j.JoyfulBerriesInRow).ToString();
-        TB_B2.Text = Math.Min(        9999, j.JoyfulBerriesScore).ToString();
+        TB_B2.Text = Math.Min(9999, j.JoyfulBerriesScore).ToString();
         TB_B3.Text = Math.Min((ushort)9999, j.JoyfulBerries5InRow).ToString();
     }
 
@@ -106,8 +106,8 @@ public partial class SAV_Misc3 : Form
         j.JoyfulJumpInRow = (ushort)Util.ToUInt32(TB_J1.Text);
         j.JoyfulJumpScore = (ushort)Util.ToUInt32(TB_J2.Text);
         j.JoyfulJump5InRow = (ushort)Util.ToUInt32(TB_J3.Text);
-        j.JoyfulBerriesInRow  = (ushort)Util.ToUInt32(TB_B1.Text);
-        j.JoyfulBerriesScore  = (ushort)Util.ToUInt32(TB_B2.Text);
+        j.JoyfulBerriesInRow = (ushort)Util.ToUInt32(TB_B1.Text);
+        j.JoyfulBerriesScore = (ushort)Util.ToUInt32(TB_B2.Text);
         j.JoyfulBerries5InRow = (ushort)Util.ToUInt32(TB_B3.Text);
     }
     #endregion
@@ -203,16 +203,16 @@ public partial class SAV_Misc3 : Form
 
     private void ReadFerry()
     {
-        CHK_Catchable.Checked       = SAV.GetEventFlag(0x864);
-        CHK_ReachSouthern.Checked   = SAV.GetEventFlag(0x8B3);
-        CHK_ReachBirth.Checked      = SAV.GetEventFlag(0x8D5);
-        CHK_ReachFaraway.Checked    = SAV.GetEventFlag(0x8D6);
-        CHK_ReachNavel.Checked      = SAV.GetEventFlag(0x8E0);
-        CHK_ReachBF.Checked         = SAV.GetEventFlag(0x1D0);
+        CHK_Catchable.Checked = SAV.GetEventFlag(0x864);
+        CHK_ReachSouthern.Checked = SAV.GetEventFlag(0x8B3);
+        CHK_ReachBirth.Checked = SAV.GetEventFlag(0x8D5);
+        CHK_ReachFaraway.Checked = SAV.GetEventFlag(0x8D6);
+        CHK_ReachNavel.Checked = SAV.GetEventFlag(0x8E0);
+        CHK_ReachBF.Checked = SAV.GetEventFlag(0x1D0);
         CHK_InitialSouthern.Checked = SAV.GetEventFlag(0x1AE);
-        CHK_InitialBirth.Checked    = SAV.GetEventFlag(0x1AF);
-        CHK_InitialFaraway.Checked  = SAV.GetEventFlag(0x1B0);
-        CHK_InitialNavel.Checked    = SAV.GetEventFlag(0x1DB);
+        CHK_InitialBirth.Checked = SAV.GetEventFlag(0x1AF);
+        CHK_InitialFaraway.Checked = SAV.GetEventFlag(0x1B0);
+        CHK_InitialNavel.Checked = SAV.GetEventFlag(0x1DB);
     }
 
     private void SaveFerry()
@@ -472,7 +472,7 @@ public partial class SAV_Misc3 : Form
                 return;
 
             var index = WinFormsUtil.GetIndex(CB_Record);
-            var value = (uint) NUD_RecordValue.Value;
+            var value = (uint)NUD_RecordValue.Value;
             records.SetRecord(index, value);
             if (index == 1)
                 LoadFame(value);

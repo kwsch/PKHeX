@@ -70,7 +70,7 @@ public partial class SAV_Pokedex5 : Form
 
     private void ChangeDisplayed(object sender, EventArgs e)
     {
-        if (!((CheckBox) sender).Checked)
+        if (!((CheckBox)sender).Checked)
             return;
 
         CHK_P6.Checked = sender == CHK_P6;
@@ -181,16 +181,16 @@ public partial class SAV_Pokedex5 : Form
         if (f < 0)
             return;
 
-        for (int i = 0; i < CLB_FormsSeen.Items.Count/2; i++) // Seen
+        for (int i = 0; i < CLB_FormsSeen.Items.Count / 2; i++) // Seen
             Dex.SetFormFlag(f + i, 0, CLB_FormsSeen.GetItemChecked(i));
-        for (int i = 0; i < CLB_FormsSeen.Items.Count/2; i++)  // Seen Shiny
-            Dex.SetFormFlag(f + i, 1, CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count/2)));
+        for (int i = 0; i < CLB_FormsSeen.Items.Count / 2; i++)  // Seen Shiny
+            Dex.SetFormFlag(f + i, 1, CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count / 2)));
 
         editing = true;
-        for (int i = 0; i < CLB_FormDisplayed.Items.Count/2; i++) // Displayed
+        for (int i = 0; i < CLB_FormDisplayed.Items.Count / 2; i++) // Displayed
             Dex.SetFormFlag(f + i, 2, CLB_FormDisplayed.GetItemChecked(i));
-        for (int i = 0; i < CLB_FormDisplayed.Items.Count/2; i++)  // Displayed Shiny
-            Dex.SetFormFlag(f + i, 3, CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count/2)));
+        for (int i = 0; i < CLB_FormDisplayed.Items.Count / 2; i++)  // Displayed Shiny
+            Dex.SetFormFlag(f + i, 3, CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count / 2)));
         editing = false;
     }
 
@@ -222,7 +222,7 @@ public partial class SAV_Pokedex5 : Form
         {
             CHK_P1.Checked = ModifierKeys != Keys.Control;
         }
-        int index = LB_Species.SelectedIndex+1;
+        int index = LB_Species.SelectedIndex + 1;
         byte gt = SAV.Personal[index].Gender;
 
         bool canBeMale = gt != PersonalInfo.RatioMagicFemale;

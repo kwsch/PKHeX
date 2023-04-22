@@ -24,13 +24,13 @@ public partial class SAV_BerryFieldXY : Form
         // Gather Data
         int ofs = SAV.BerryField + 0xC + (listBox1.SelectedIndex * 0x18);
         int berry = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 0)));
-        int u1 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 1)));
-        int u2 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 2)));
-        int u3 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 3)));
-        int u4 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 4)));
-        int u5 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 5)));
-        int u6 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 6)));
-        int u7 =    ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 7)));
+        int u1 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 1)));
+        int u2 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 2)));
+        int u3 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 3)));
+        int u4 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 4)));
+        int u5 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 5)));
+        int u6 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 6)));
+        int u7 = ReadUInt16LittleEndian(SAV.Data.AsSpan(ofs + (2 * 7)));
 
         // Display Data
         TB_Berry.Text = berry.ToString();

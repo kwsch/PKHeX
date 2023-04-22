@@ -39,7 +39,7 @@ public partial class SAV_ZygardeCell : Form
             if (cells[i] > 2)
                 throw new IndexOutOfRangeException("Unable to find cell index.");
 
-            dgv.Rows[i].Cells[0].Value = (i+1);
+            dgv.Rows[i].Cells[0].Value = (i + 1);
             dgv.Rows[i].Cells[1].Value = locations[i];
             dgv.Rows[i].Cells[2].Value = states[cells[i]];
         }
@@ -49,7 +49,7 @@ public partial class SAV_ZygardeCell : Form
     private const int cellscollected = 169;
     private const int celloffset = 0xC6;
     private int CellCount => SAV is SAV7USUM ? 100 : 95;
-    private static readonly string[] states = {"None", "Available", "Received"};
+    private static readonly string[] states = { "None", "Available", "Received" };
 
     private void B_Save_Click(object sender, EventArgs e)
     {

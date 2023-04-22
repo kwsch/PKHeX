@@ -28,98 +28,89 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.L_PropValue = new System.Windows.Forms.Label();
-            this.L_PropType = new System.Windows.Forms.Label();
-            this.CB_Require = new System.Windows.Forms.ComboBox();
-            this.CB_Property = new System.Windows.Forms.ComboBox();
-            this.CB_Format = new System.Windows.Forms.ComboBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
-            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            L_PropValue = new System.Windows.Forms.Label();
+            L_PropType = new System.Windows.Forms.Label();
+            CB_Require = new System.Windows.Forms.ComboBox();
+            CB_Property = new System.Windows.Forms.ComboBox();
+            CB_Format = new System.Windows.Forms.ComboBox();
+            toolTip1 = new System.Windows.Forms.ToolTip(components);
+            toolTip2 = new System.Windows.Forms.ToolTip(components);
+            toolTip3 = new System.Windows.Forms.ToolTip(components);
+            SuspendLayout();
             // 
             // L_PropValue
             // 
-            this.L_PropValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_PropValue.AutoSize = true;
-            this.L_PropValue.Location = new System.Drawing.Point(200, 28);
-            this.L_PropValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_PropValue.Name = "L_PropValue";
-            this.L_PropValue.Size = new System.Drawing.Size(80, 15);
-            this.L_PropValue.TabIndex = 18;
-            this.L_PropValue.Text = "PropertyValue";
+            L_PropValue.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            L_PropValue.AutoSize = true;
+            L_PropValue.Location = new System.Drawing.Point(200, 28);
+            L_PropValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_PropValue.Name = "L_PropValue";
+            L_PropValue.Size = new System.Drawing.Size(80, 15);
+            L_PropValue.TabIndex = 18;
+            L_PropValue.Text = "PropertyValue";
             // 
             // L_PropType
             // 
-            this.L_PropType.AutoSize = true;
-            this.L_PropType.Location = new System.Drawing.Point(55, 28);
-            this.L_PropType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.L_PropType.Name = "L_PropType";
-            this.L_PropType.Size = new System.Drawing.Size(76, 15);
-            this.L_PropType.TabIndex = 17;
-            this.L_PropType.Text = "PropertyType";
+            L_PropType.AutoSize = true;
+            L_PropType.Location = new System.Drawing.Point(55, 28);
+            L_PropType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_PropType.Name = "L_PropType";
+            L_PropType.Size = new System.Drawing.Size(76, 15);
+            L_PropType.TabIndex = 17;
+            L_PropType.Text = "PropertyType";
             // 
             // CB_Require
             // 
-            this.CB_Require.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Require.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Require.FormattingEnabled = true;
-            this.CB_Require.Items.AddRange(new object[] {
-            "Set",
-            "==",
-            "!=",
-            ">",
-            ">=",
-            "<",
-            "<="});
-            this.CB_Require.Location = new System.Drawing.Point(203, 0);
-            this.CB_Require.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.CB_Require.Name = "CB_Require";
-            this.CB_Require.Size = new System.Drawing.Size(135, 23);
-            this.CB_Require.TabIndex = 16;
+            CB_Require.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CB_Require.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Require.FormattingEnabled = true;
+            CB_Require.Items.AddRange(new object[] { "Set", "==", "!=", ">", ">=", "<", "<=" });
+            CB_Require.Location = new System.Drawing.Point(203, 0);
+            CB_Require.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Require.Name = "CB_Require";
+            CB_Require.Size = new System.Drawing.Size(135, 23);
+            CB_Require.TabIndex = 16;
             // 
             // CB_Property
             // 
-            this.CB_Property.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Property.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.CB_Property.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Property.DropDownWidth = 200;
-            this.CB_Property.FormattingEnabled = true;
-            this.CB_Property.Location = new System.Drawing.Point(58, 0);
-            this.CB_Property.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.CB_Property.Name = "CB_Property";
-            this.CB_Property.Size = new System.Drawing.Size(137, 23);
-            this.CB_Property.TabIndex = 15;
-            this.CB_Property.SelectedIndexChanged += new System.EventHandler(this.CB_Property_SelectedIndexChanged);
+            CB_Property.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CB_Property.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            CB_Property.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Property.DropDownWidth = 200;
+            CB_Property.FormattingEnabled = true;
+            CB_Property.Location = new System.Drawing.Point(58, 0);
+            CB_Property.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Property.Name = "CB_Property";
+            CB_Property.Size = new System.Drawing.Size(137, 23);
+            CB_Property.TabIndex = 15;
+            CB_Property.SelectedIndexChanged += CB_Property_SelectedIndexChanged;
             // 
             // CB_Format
             // 
-            this.CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Format.FormattingEnabled = true;
-            this.CB_Format.Location = new System.Drawing.Point(0, 0);
-            this.CB_Format.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.CB_Format.Name = "CB_Format";
-            this.CB_Format.Size = new System.Drawing.Size(51, 23);
-            this.CB_Format.TabIndex = 14;
-            this.CB_Format.SelectedIndexChanged += new System.EventHandler(this.CB_Format_SelectedIndexChanged);
+            CB_Format.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Format.FormattingEnabled = true;
+            CB_Format.Location = new System.Drawing.Point(0, 0);
+            CB_Format.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Format.Name = "CB_Format";
+            CB_Format.Size = new System.Drawing.Size(51, 23);
+            CB_Format.TabIndex = 14;
+            CB_Format.SelectedIndexChanged += CB_Format_SelectedIndexChanged;
             // 
             // EntityInstructionBuilder
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.L_PropValue);
-            this.Controls.Add(this.L_PropType);
-            this.Controls.Add(this.CB_Require);
-            this.Controls.Add(this.CB_Property);
-            this.Controls.Add(this.CB_Format);
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "EntityInstructionBuilder";
-            this.Size = new System.Drawing.Size(338, 46);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            Controls.Add(L_PropValue);
+            Controls.Add(L_PropType);
+            Controls.Add(CB_Require);
+            Controls.Add(CB_Property);
+            Controls.Add(CB_Format);
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "EntityInstructionBuilder";
+            Size = new System.Drawing.Size(338, 46);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

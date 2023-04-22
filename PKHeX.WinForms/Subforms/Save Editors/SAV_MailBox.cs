@@ -70,7 +70,7 @@ public partial class SAV_MailBox : Form
                 for (int i = 0; i < m.Length; i++)
                     m[i] = sav3.GetMail(i);
 
-                MailItemID = new[] {121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132};
+                MailItemID = new[] { 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132 };
                 PartyBoxCount = 6;
                 break;
             case SAV4 sav4:
@@ -82,7 +82,7 @@ public partial class SAV_MailBox : Form
                 var l4 = (Mail4)m[^1];
                 ResetVer = l4.AuthorVersion;
                 ResetLang = l4.AuthorLanguage;
-                MailItemID = new[] {137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148};
+                MailItemID = new[] { 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148 };
                 PartyBoxCount = p.Count;
                 break;
             case SAV5 sav5:
@@ -94,7 +94,7 @@ public partial class SAV_MailBox : Form
                 var l5 = (Mail5)m[^1];
                 ResetVer = l5.AuthorVersion;
                 ResetLang = l5.AuthorLanguage;
-                MailItemID = new[] {137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148};
+                MailItemID = new[] { 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148 };
                 PartyBoxCount = p.Count;
                 break;
         }

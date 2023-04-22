@@ -28,248 +28,254 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.B_Output = new System.Windows.Forms.Button();
-            this.B_Import = new System.Windows.Forms.Button();
-            this.LB_Received = new System.Windows.Forms.ListBox();
-            this.mnuDel = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.flagDel = new System.Windows.Forms.ToolStripMenuItem();
-            this.L_Received = new System.Windows.Forms.Label();
-            this.RTB = new System.Windows.Forms.RichTextBox();
-            this.L_Details = new System.Windows.Forms.Label();
-            this.L_QR = new System.Windows.Forms.Label();
-            this.PB_Preview = new System.Windows.Forms.PictureBox();
-            this.mnuVSD = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuSet = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.FLP_Gifts = new System.Windows.Forms.FlowLayoutPanel();
-            this.B_UnusedAll = new System.Windows.Forms.Button();
-            this.B_UsedAll = new System.Windows.Forms.Button();
-            this.mnuDel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).BeginInit();
-            this.mnuVSD.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            B_Save = new System.Windows.Forms.Button();
+            B_Cancel = new System.Windows.Forms.Button();
+            B_Output = new System.Windows.Forms.Button();
+            B_Import = new System.Windows.Forms.Button();
+            LB_Received = new System.Windows.Forms.ListBox();
+            mnuDel = new System.Windows.Forms.ContextMenuStrip(components);
+            flagDel = new System.Windows.Forms.ToolStripMenuItem();
+            L_Received = new System.Windows.Forms.Label();
+            RTB = new System.Windows.Forms.RichTextBox();
+            L_Details = new System.Windows.Forms.Label();
+            L_QR = new System.Windows.Forms.Label();
+            PB_Preview = new System.Windows.Forms.PictureBox();
+            mnuVSD = new System.Windows.Forms.ContextMenuStrip(components);
+            mnuView = new System.Windows.Forms.ToolStripMenuItem();
+            mnuSet = new System.Windows.Forms.ToolStripMenuItem();
+            mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
+            FLP_Gifts = new System.Windows.Forms.FlowLayoutPanel();
+            B_UnusedAll = new System.Windows.Forms.Button();
+            B_UsedAll = new System.Windows.Forms.Button();
+            mnuDel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PB_Preview).BeginInit();
+            mnuVSD.SuspendLayout();
+            SuspendLayout();
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(533, 476);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 23);
-            this.B_Save.TabIndex = 9;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(622, 549);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(88, 27);
+            B_Save.TabIndex = 9;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(462, 476);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(71, 23);
-            this.B_Cancel.TabIndex = 8;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(539, 549);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(83, 27);
+            B_Cancel.TabIndex = 8;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // B_Output
             // 
-            this.B_Output.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Output.Location = new System.Drawing.Point(533, 12);
-            this.B_Output.Name = "B_Output";
-            this.B_Output.Size = new System.Drawing.Size(75, 23);
-            this.B_Output.TabIndex = 2;
-            this.B_Output.Text = "Export";
-            this.B_Output.UseVisualStyleBackColor = true;
-            this.B_Output.Click += new System.EventHandler(this.B_Output_Click);
+            B_Output.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Output.Location = new System.Drawing.Point(622, 14);
+            B_Output.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Output.Name = "B_Output";
+            B_Output.Size = new System.Drawing.Size(88, 27);
+            B_Output.TabIndex = 2;
+            B_Output.Text = "Export";
+            B_Output.UseVisualStyleBackColor = true;
+            B_Output.Click += B_Output_Click;
             // 
             // B_Import
             // 
-            this.B_Import.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Import.Location = new System.Drawing.Point(533, 34);
-            this.B_Import.Name = "B_Import";
-            this.B_Import.Size = new System.Drawing.Size(75, 23);
-            this.B_Import.TabIndex = 3;
-            this.B_Import.Text = "Import";
-            this.B_Import.UseVisualStyleBackColor = true;
-            this.B_Import.Click += new System.EventHandler(this.B_Import_Click);
+            B_Import.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            B_Import.Location = new System.Drawing.Point(622, 39);
+            B_Import.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Import.Name = "B_Import";
+            B_Import.Size = new System.Drawing.Size(88, 27);
+            B_Import.TabIndex = 3;
+            B_Import.Text = "Import";
+            B_Import.UseVisualStyleBackColor = true;
+            B_Import.Click += B_Import_Click;
             // 
             // LB_Received
             // 
-            this.LB_Received.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.LB_Received.ContextMenuStrip = this.mnuDel;
-            this.LB_Received.FormattingEnabled = true;
-            this.LB_Received.Location = new System.Drawing.Point(12, 31);
-            this.LB_Received.Name = "LB_Received";
-            this.LB_Received.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.LB_Received.Size = new System.Drawing.Size(78, 472);
-            this.LB_Received.Sorted = true;
-            this.LB_Received.TabIndex = 1;
-            this.LB_Received.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LB_Received_KeyDown);
+            LB_Received.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            LB_Received.ContextMenuStrip = mnuDel;
+            LB_Received.FormattingEnabled = true;
+            LB_Received.ItemHeight = 15;
+            LB_Received.Location = new System.Drawing.Point(14, 36);
+            LB_Received.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            LB_Received.Name = "LB_Received";
+            LB_Received.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            LB_Received.Size = new System.Drawing.Size(90, 544);
+            LB_Received.Sorted = true;
+            LB_Received.TabIndex = 1;
+            LB_Received.KeyDown += LB_Received_KeyDown;
             // 
             // mnuDel
             // 
-            this.mnuDel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.flagDel});
-            this.mnuDel.Name = "mnuVSD";
-            this.mnuDel.Size = new System.Drawing.Size(108, 26);
+            mnuDel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { flagDel });
+            mnuDel.Name = "mnuVSD";
+            mnuDel.Size = new System.Drawing.Size(108, 26);
             // 
             // flagDel
             // 
-            this.flagDel.Name = "flagDel";
-            this.flagDel.Size = new System.Drawing.Size(107, 22);
-            this.flagDel.Text = "Delete";
-            this.flagDel.Click += new System.EventHandler(this.ClearReceivedFlag);
+            flagDel.Name = "flagDel";
+            flagDel.Size = new System.Drawing.Size(107, 22);
+            flagDel.Text = "Delete";
+            flagDel.Click += ClearReceivedFlag;
             // 
             // L_Received
             // 
-            this.L_Received.AutoSize = true;
-            this.L_Received.Location = new System.Drawing.Point(12, 13);
-            this.L_Received.Name = "L_Received";
-            this.L_Received.Size = new System.Drawing.Size(75, 13);
-            this.L_Received.TabIndex = 0;
-            this.L_Received.Text = "Received List:";
+            L_Received.AutoSize = true;
+            L_Received.Location = new System.Drawing.Point(14, 15);
+            L_Received.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Received.Name = "L_Received";
+            L_Received.Size = new System.Drawing.Size(78, 15);
+            L_Received.TabIndex = 0;
+            L_Received.Text = "Received List:";
             // 
             // RTB
             // 
-            this.RTB.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.RTB.Location = new System.Drawing.Point(111, 59);
-            this.RTB.Name = "RTB";
-            this.RTB.ReadOnly = true;
-            this.RTB.Size = new System.Drawing.Size(497, 100);
-            this.RTB.TabIndex = 4;
-            this.RTB.Text = "";
+            RTB.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            RTB.Location = new System.Drawing.Point(130, 68);
+            RTB.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            RTB.Name = "RTB";
+            RTB.ReadOnly = true;
+            RTB.Size = new System.Drawing.Size(579, 115);
+            RTB.TabIndex = 4;
+            RTB.Text = "";
             // 
             // L_Details
             // 
-            this.L_Details.AutoSize = true;
-            this.L_Details.Location = new System.Drawing.Point(108, 43);
-            this.L_Details.Name = "L_Details";
-            this.L_Details.Size = new System.Drawing.Size(42, 13);
-            this.L_Details.TabIndex = 2;
-            this.L_Details.Text = "Details:";
+            L_Details.AutoSize = true;
+            L_Details.Location = new System.Drawing.Point(126, 50);
+            L_Details.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Details.Name = "L_Details";
+            L_Details.Size = new System.Drawing.Size(45, 15);
+            L_Details.TabIndex = 2;
+            L_Details.Text = "Details:";
             // 
             // L_QR
             // 
-            this.L_QR.AutoSize = true;
-            this.L_QR.Location = new System.Drawing.Point(259, 21);
-            this.L_QR.Name = "L_QR";
-            this.L_QR.Size = new System.Drawing.Size(26, 13);
-            this.L_QR.TabIndex = 62;
-            this.L_QR.Text = "QR!";
-            this.L_QR.Click += new System.EventHandler(this.ClickQR);
+            L_QR.AutoSize = true;
+            L_QR.Location = new System.Drawing.Point(302, 24);
+            L_QR.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_QR.Name = "L_QR";
+            L_QR.Size = new System.Drawing.Size(26, 15);
+            L_QR.TabIndex = 62;
+            L_QR.Text = "QR!";
+            L_QR.Click += ClickQR;
             // 
             // PB_Preview
             // 
-            this.PB_Preview.BackColor = System.Drawing.Color.Transparent;
-            this.PB_Preview.Location = new System.Drawing.Point(295, 2);
-            this.PB_Preview.Name = "PB_Preview";
-            this.PB_Preview.Size = new System.Drawing.Size(68, 56);
-            this.PB_Preview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_Preview.TabIndex = 63;
-            this.PB_Preview.TabStop = false;
+            PB_Preview.BackColor = System.Drawing.Color.Transparent;
+            PB_Preview.Location = new System.Drawing.Point(344, 2);
+            PB_Preview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PB_Preview.Name = "PB_Preview";
+            PB_Preview.Size = new System.Drawing.Size(79, 65);
+            PB_Preview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            PB_Preview.TabIndex = 63;
+            PB_Preview.TabStop = false;
             // 
             // mnuVSD
             // 
-            this.mnuVSD.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuView,
-            this.mnuSet,
-            this.mnuDelete});
-            this.mnuVSD.Name = "mnuVSD";
-            this.mnuVSD.Size = new System.Drawing.Size(108, 70);
+            mnuVSD.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { mnuView, mnuSet, mnuDelete });
+            mnuVSD.Name = "mnuVSD";
+            mnuVSD.Size = new System.Drawing.Size(108, 70);
             // 
             // mnuView
             // 
-            this.mnuView.Name = "mnuView";
-            this.mnuView.Size = new System.Drawing.Size(107, 22);
-            this.mnuView.Text = "View";
-            this.mnuView.Click += new System.EventHandler(this.ClickView);
+            mnuView.Name = "mnuView";
+            mnuView.Size = new System.Drawing.Size(107, 22);
+            mnuView.Text = "View";
+            mnuView.Click += ClickView;
             // 
             // mnuSet
             // 
-            this.mnuSet.Name = "mnuSet";
-            this.mnuSet.Size = new System.Drawing.Size(107, 22);
-            this.mnuSet.Text = "Set";
-            this.mnuSet.Click += new System.EventHandler(this.ClickSet);
+            mnuSet.Name = "mnuSet";
+            mnuSet.Size = new System.Drawing.Size(107, 22);
+            mnuSet.Text = "Set";
+            mnuSet.Click += ClickSet;
             // 
             // mnuDelete
             // 
-            this.mnuDelete.Name = "mnuDelete";
-            this.mnuDelete.Size = new System.Drawing.Size(107, 22);
-            this.mnuDelete.Text = "Delete";
-            this.mnuDelete.Click += new System.EventHandler(this.ClickDelete);
+            mnuDelete.Name = "mnuDelete";
+            mnuDelete.Size = new System.Drawing.Size(107, 22);
+            mnuDelete.Text = "Delete";
+            mnuDelete.Click += ClickDelete;
             // 
             // FLP_Gifts
             // 
-            this.FLP_Gifts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Gifts.AutoScroll = true;
-            this.FLP_Gifts.Location = new System.Drawing.Point(111, 164);
-            this.FLP_Gifts.Name = "FLP_Gifts";
-            this.FLP_Gifts.Size = new System.Drawing.Size(497, 306);
-            this.FLP_Gifts.TabIndex = 5;
+            FLP_Gifts.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            FLP_Gifts.AutoScroll = true;
+            FLP_Gifts.Location = new System.Drawing.Point(130, 189);
+            FLP_Gifts.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FLP_Gifts.Name = "FLP_Gifts";
+            FLP_Gifts.Size = new System.Drawing.Size(580, 353);
+            FLP_Gifts.TabIndex = 5;
             // 
             // B_UnusedAll
             // 
-            this.B_UnusedAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_UnusedAll.Location = new System.Drawing.Point(253, 476);
-            this.B_UnusedAll.Name = "B_UnusedAll";
-            this.B_UnusedAll.Size = new System.Drawing.Size(71, 23);
-            this.B_UnusedAll.TabIndex = 6;
-            this.B_UnusedAll.Text = "All Unused";
-            this.B_UnusedAll.UseVisualStyleBackColor = true;
-            this.B_UnusedAll.Click += new System.EventHandler(this.B_ModifyAll_Click);
+            B_UnusedAll.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_UnusedAll.Location = new System.Drawing.Point(295, 549);
+            B_UnusedAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_UnusedAll.Name = "B_UnusedAll";
+            B_UnusedAll.Size = new System.Drawing.Size(83, 27);
+            B_UnusedAll.TabIndex = 6;
+            B_UnusedAll.Text = "All Unused";
+            B_UnusedAll.UseVisualStyleBackColor = true;
+            B_UnusedAll.Click += B_ModifyAll_Click;
             // 
             // B_UsedAll
             // 
-            this.B_UsedAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_UsedAll.Location = new System.Drawing.Point(324, 476);
-            this.B_UsedAll.Name = "B_UsedAll";
-            this.B_UsedAll.Size = new System.Drawing.Size(75, 23);
-            this.B_UsedAll.TabIndex = 7;
-            this.B_UsedAll.Text = "All Used";
-            this.B_UsedAll.UseVisualStyleBackColor = true;
-            this.B_UsedAll.Click += new System.EventHandler(this.B_ModifyAll_Click);
+            B_UsedAll.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_UsedAll.Location = new System.Drawing.Point(378, 549);
+            B_UsedAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_UsedAll.Name = "B_UsedAll";
+            B_UsedAll.Size = new System.Drawing.Size(88, 27);
+            B_UsedAll.TabIndex = 7;
+            B_UsedAll.Text = "All Used";
+            B_UsedAll.UseVisualStyleBackColor = true;
+            B_UsedAll.Click += B_ModifyAll_Click;
             // 
             // SAV_Wondercard
             // 
-            this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 511);
-            this.Controls.Add(this.B_UnusedAll);
-            this.Controls.Add(this.B_UsedAll);
-            this.Controls.Add(this.FLP_Gifts);
-            this.Controls.Add(this.PB_Preview);
-            this.Controls.Add(this.L_QR);
-            this.Controls.Add(this.L_Details);
-            this.Controls.Add(this.RTB);
-            this.Controls.Add(this.L_Received);
-            this.Controls.Add(this.LB_Received);
-            this.Controls.Add(this.B_Import);
-            this.Controls.Add(this.B_Output);
-            this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.B_Save);
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(700, 600);
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(650, 550);
-            this.Name = "SAV_Wondercard";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Wonder Card I/O";
-            this.mnuDel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PB_Preview)).EndInit();
-            this.mnuVSD.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AllowDrop = true;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(740, 590);
+            Controls.Add(B_UnusedAll);
+            Controls.Add(B_UsedAll);
+            Controls.Add(FLP_Gifts);
+            Controls.Add(PB_Preview);
+            Controls.Add(L_QR);
+            Controls.Add(L_Details);
+            Controls.Add(RTB);
+            Controls.Add(L_Received);
+            Controls.Add(LB_Received);
+            Controls.Add(B_Import);
+            Controls.Add(B_Output);
+            Controls.Add(B_Cancel);
+            Controls.Add(B_Save);
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MaximumSize = new System.Drawing.Size(814, 686);
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(756, 629);
+            Name = "SAV_Wondercard";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Wonder Card I/O";
+            mnuDel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)PB_Preview).EndInit();
+            mnuVSD.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

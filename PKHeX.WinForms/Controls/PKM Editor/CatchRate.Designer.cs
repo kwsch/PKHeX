@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class CatchRate
     {
@@ -28,77 +28,68 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.NUD_CatchRate = new System.Windows.Forms.NumericUpDown();
-            this.B_Clear = new System.Windows.Forms.Button();
-            this.B_Reset = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CatchRate)).BeginInit();
-            this.SuspendLayout();
+            flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            NUD_CatchRate = new System.Windows.Forms.NumericUpDown();
+            B_Clear = new System.Windows.Forms.Button();
+            B_Reset = new System.Windows.Forms.Button();
+            flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_CatchRate).BeginInit();
+            SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.NUD_CatchRate);
-            this.flowLayoutPanel1.Controls.Add(this.B_Clear);
-            this.flowLayoutPanel1.Controls.Add(this.B_Reset);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(184, 25);
-            this.flowLayoutPanel1.TabIndex = 1;
+            flowLayoutPanel1.Controls.Add(NUD_CatchRate);
+            flowLayoutPanel1.Controls.Add(B_Clear);
+            flowLayoutPanel1.Controls.Add(B_Reset);
+            flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new System.Drawing.Size(184, 25);
+            flowLayoutPanel1.TabIndex = 1;
             // 
             // NUD_CatchRate
             // 
-            this.NUD_CatchRate.Location = new System.Drawing.Point(0, 0);
-            this.NUD_CatchRate.Margin = new System.Windows.Forms.Padding(0);
-            this.NUD_CatchRate.Maximum = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_CatchRate.Name = "NUD_CatchRate";
-            this.NUD_CatchRate.Size = new System.Drawing.Size(40, 23);
-            this.NUD_CatchRate.TabIndex = 0;
-            this.NUD_CatchRate.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            this.NUD_CatchRate.ValueChanged += new System.EventHandler(this.ChangeValue);
+            NUD_CatchRate.Location = new System.Drawing.Point(0, 0);
+            NUD_CatchRate.Margin = new System.Windows.Forms.Padding(0);
+            NUD_CatchRate.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
+            NUD_CatchRate.Name = "NUD_CatchRate";
+            NUD_CatchRate.Size = new System.Drawing.Size(40, 23);
+            NUD_CatchRate.TabIndex = 0;
+            NUD_CatchRate.Value = new decimal(new int[] { 255, 0, 0, 0 });
+            NUD_CatchRate.ValueChanged += ChangeValue;
             // 
             // B_Clear
             // 
-            this.B_Clear.Location = new System.Drawing.Point(40, 0);
-            this.B_Clear.Margin = new System.Windows.Forms.Padding(0);
-            this.B_Clear.Name = "B_Clear";
-            this.B_Clear.Size = new System.Drawing.Size(64, 23);
-            this.B_Clear.TabIndex = 1;
-            this.B_Clear.Text = "Clear";
-            this.B_Clear.UseVisualStyleBackColor = true;
-            this.B_Clear.Click += new System.EventHandler(this.Clear);
+            B_Clear.Location = new System.Drawing.Point(40, 0);
+            B_Clear.Margin = new System.Windows.Forms.Padding(0);
+            B_Clear.Name = "B_Clear";
+            B_Clear.Size = new System.Drawing.Size(64, 23);
+            B_Clear.TabIndex = 1;
+            B_Clear.Text = "Clear";
+            B_Clear.UseVisualStyleBackColor = true;
+            B_Clear.Click += Clear;
             // 
             // B_Reset
             // 
-            this.B_Reset.Location = new System.Drawing.Point(104, 0);
-            this.B_Reset.Margin = new System.Windows.Forms.Padding(0);
-            this.B_Reset.Name = "B_Reset";
-            this.B_Reset.Size = new System.Drawing.Size(64, 23);
-            this.B_Reset.TabIndex = 2;
-            this.B_Reset.Text = "Reset";
-            this.B_Reset.UseVisualStyleBackColor = true;
-            this.B_Reset.Click += new System.EventHandler(this.Reset);
+            B_Reset.Location = new System.Drawing.Point(104, 0);
+            B_Reset.Margin = new System.Windows.Forms.Padding(0);
+            B_Reset.Name = "B_Reset";
+            B_Reset.Size = new System.Drawing.Size(64, 23);
+            B_Reset.TabIndex = 2;
+            B_Reset.Text = "Reset";
+            B_Reset.UseVisualStyleBackColor = true;
+            B_Reset.Click += Reset;
             // 
             // CatchRate
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.Controls.Add(this.flowLayoutPanel1);
-            this.Name = "CatchRate";
-            this.Size = new System.Drawing.Size(184, 25);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CatchRate)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            Controls.Add(flowLayoutPanel1);
+            Name = "CatchRate";
+            Size = new System.Drawing.Size(184, 25);
+            flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_CatchRate).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion

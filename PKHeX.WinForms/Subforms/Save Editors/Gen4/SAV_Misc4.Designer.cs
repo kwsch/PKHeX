@@ -28,1368 +28,1201 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.TC_Misc = new System.Windows.Forms.TabControl();
-            this.TAB_Main = new System.Windows.Forms.TabPage();
-            this.NUD_Coin = new System.Windows.Forms.NumericUpDown();
-            this.L_Coin = new System.Windows.Forms.Label();
-            this.L_CurrentMap = new System.Windows.Forms.Label();
-            this.L_UGFlags = new System.Windows.Forms.Label();
-            this.NUD_UGFlags = new System.Windows.Forms.NumericUpDown();
-            this.NUD_BP = new System.Windows.Forms.NumericUpDown();
-            this.L_BP = new System.Windows.Forms.Label();
-            this.CB_UpgradeMap = new System.Windows.Forms.ComboBox();
-            this.GB_FlyDest = new System.Windows.Forms.GroupBox();
-            this.B_AllFlyDest = new System.Windows.Forms.Button();
-            this.CLB_FlyDest = new System.Windows.Forms.CheckedListBox();
-            this.GB_Poketch = new System.Windows.Forms.GroupBox();
-            this.L_CurrentApp = new System.Windows.Forms.Label();
-            this.CB_CurrentApp = new System.Windows.Forms.ComboBox();
-            this.B_AllPoketch = new System.Windows.Forms.Button();
-            this.CLB_Poketch = new System.Windows.Forms.CheckedListBox();
-            this.PB_DotArtist = new System.Windows.Forms.PictureBox();
-            this.TAB_BF = new System.Windows.Forms.TabPage();
-            this.GB_Prints = new System.Windows.Forms.GroupBox();
-            this.BTN_PrintTower = new System.Windows.Forms.Button();
-            this.BTN_PrintFactory = new System.Windows.Forms.Button();
-            this.BTN_PrintHall = new System.Windows.Forms.Button();
-            this.BTN_PrintCastle = new System.Windows.Forms.Button();
-            this.BTN_PrintArcade = new System.Windows.Forms.Button();
-            this.GB_Streaks = new System.Windows.Forms.GroupBox();
-            this.CB_Stats1 = new System.Windows.Forms.ComboBox();
-            this.CB_Stats2 = new System.Windows.Forms.ComboBox();
-            this.RB_Stats3_01 = new System.Windows.Forms.RadioButton();
-            this.RB_Stats3_02 = new System.Windows.Forms.RadioButton();
-            this.CHK_Continue = new System.Windows.Forms.CheckBox();
-            this.NUD_Stat0 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Stat1 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Stat2 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Stat3 = new System.Windows.Forms.NumericUpDown();
-            this.L_Stat0 = new System.Windows.Forms.Label();
-            this.L_Stat1 = new System.Windows.Forms.Label();
-            this.L_Stat2 = new System.Windows.Forms.Label();
-            this.L_Stat3 = new System.Windows.Forms.Label();
-            this.GB_Hall = new System.Windows.Forms.GroupBox();
-            this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.NUD_HallStreaks = new System.Windows.Forms.NumericUpDown();
-            this.CHK_HallCurrent = new System.Windows.Forms.CheckBox();
-            this.NUD_HallType01 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType02 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType03 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType04 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType05 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType06 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType07 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType08 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType09 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType10 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType11 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType12 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType13 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType14 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType15 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType16 = new System.Windows.Forms.NumericUpDown();
-            this.NUD_HallType17 = new System.Windows.Forms.NumericUpDown();
-            this.L_SumHall = new System.Windows.Forms.Label();
-            this.GB_Castle = new System.Windows.Forms.GroupBox();
-            this.NUD_CastleRankRcv = new System.Windows.Forms.NumericUpDown();
-            this.NUD_CastleRankItem = new System.Windows.Forms.NumericUpDown();
-            this.NUD_CastleRankInfo = new System.Windows.Forms.NumericUpDown();
-            this.L_CastleRank01 = new System.Windows.Forms.Label();
-            this.TAB_Walker = new System.Windows.Forms.TabPage();
-            this.GB_WalkerCourses = new System.Windows.Forms.GroupBox();
-            this.B_AllWalkerCourses = new System.Windows.Forms.Button();
-            this.CLB_WalkerCourses = new System.Windows.Forms.CheckedListBox();
-            this.NUD_Watts = new System.Windows.Forms.NumericUpDown();
-            this.L_Watts = new System.Windows.Forms.Label();
-            this.NUD_Steps = new System.Windows.Forms.NumericUpDown();
-            this.L_Steps = new System.Windows.Forms.Label();
-            this.Tab_Misc = new System.Windows.Forms.TabPage();
-            this.B_AllSealsIllegal = new System.Windows.Forms.Button();
-            this.B_AllSealsLegal = new System.Windows.Forms.Button();
-            this.Tab_Poffins = new System.Windows.Forms.TabPage();
-            this.poffinCase4Editor1 = new PKHeX.WinForms.PoffinCase4Editor();
-            this.Tab_PokeGear = new System.Windows.Forms.TabPage();
-            this.pokeGear4Editor1 = new PKHeX.WinForms.PokeGear4Editor();
-            this.tip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.tip2 = new System.Windows.Forms.ToolTip(this.components);
-            this.TC_Misc.SuspendLayout();
-            this.TAB_Main.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
-            this.GB_FlyDest.SuspendLayout();
-            this.GB_Poketch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_DotArtist)).BeginInit();
-            this.TAB_BF.SuspendLayout();
-            this.GB_Prints.SuspendLayout();
-            this.GB_Streaks.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat3)).BeginInit();
-            this.GB_Hall.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallStreaks)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType01)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType02)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType03)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType04)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType05)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType06)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType07)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType08)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType09)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType10)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType11)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType12)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType13)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType14)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType15)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType16)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType17)).BeginInit();
-            this.GB_Castle.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankRcv)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).BeginInit();
-            this.TAB_Walker.SuspendLayout();
-            this.GB_WalkerCourses.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Watts)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Steps)).BeginInit();
-            this.Tab_Misc.SuspendLayout();
-            this.Tab_Poffins.SuspendLayout();
-            this.Tab_PokeGear.SuspendLayout();
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            B_Cancel = new System.Windows.Forms.Button();
+            B_Save = new System.Windows.Forms.Button();
+            TC_Misc = new System.Windows.Forms.TabControl();
+            TAB_Main = new System.Windows.Forms.TabPage();
+            NUD_Coin = new System.Windows.Forms.NumericUpDown();
+            L_Coin = new System.Windows.Forms.Label();
+            L_CurrentMap = new System.Windows.Forms.Label();
+            L_UGFlags = new System.Windows.Forms.Label();
+            NUD_UGFlags = new System.Windows.Forms.NumericUpDown();
+            NUD_BP = new System.Windows.Forms.NumericUpDown();
+            L_BP = new System.Windows.Forms.Label();
+            CB_UpgradeMap = new System.Windows.Forms.ComboBox();
+            GB_FlyDest = new System.Windows.Forms.GroupBox();
+            B_AllFlyDest = new System.Windows.Forms.Button();
+            CLB_FlyDest = new System.Windows.Forms.CheckedListBox();
+            GB_Poketch = new System.Windows.Forms.GroupBox();
+            L_CurrentApp = new System.Windows.Forms.Label();
+            CB_CurrentApp = new System.Windows.Forms.ComboBox();
+            B_AllPoketch = new System.Windows.Forms.Button();
+            CLB_Poketch = new System.Windows.Forms.CheckedListBox();
+            PB_DotArtist = new System.Windows.Forms.PictureBox();
+            TAB_BF = new System.Windows.Forms.TabPage();
+            GB_Prints = new System.Windows.Forms.GroupBox();
+            BTN_PrintTower = new System.Windows.Forms.Button();
+            BTN_PrintFactory = new System.Windows.Forms.Button();
+            BTN_PrintHall = new System.Windows.Forms.Button();
+            BTN_PrintCastle = new System.Windows.Forms.Button();
+            BTN_PrintArcade = new System.Windows.Forms.Button();
+            GB_Streaks = new System.Windows.Forms.GroupBox();
+            CB_Stats1 = new System.Windows.Forms.ComboBox();
+            CB_Stats2 = new System.Windows.Forms.ComboBox();
+            RB_Stats3_01 = new System.Windows.Forms.RadioButton();
+            RB_Stats3_02 = new System.Windows.Forms.RadioButton();
+            CHK_Continue = new System.Windows.Forms.CheckBox();
+            NUD_Stat0 = new System.Windows.Forms.NumericUpDown();
+            NUD_Stat1 = new System.Windows.Forms.NumericUpDown();
+            NUD_Stat2 = new System.Windows.Forms.NumericUpDown();
+            NUD_Stat3 = new System.Windows.Forms.NumericUpDown();
+            L_Stat0 = new System.Windows.Forms.Label();
+            L_Stat1 = new System.Windows.Forms.Label();
+            L_Stat2 = new System.Windows.Forms.Label();
+            L_Stat3 = new System.Windows.Forms.Label();
+            GB_Hall = new System.Windows.Forms.GroupBox();
+            CB_Species = new System.Windows.Forms.ComboBox();
+            NUD_HallStreaks = new System.Windows.Forms.NumericUpDown();
+            CHK_HallCurrent = new System.Windows.Forms.CheckBox();
+            NUD_HallType01 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType02 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType03 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType04 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType05 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType06 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType07 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType08 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType09 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType10 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType11 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType12 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType13 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType14 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType15 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType16 = new System.Windows.Forms.NumericUpDown();
+            NUD_HallType17 = new System.Windows.Forms.NumericUpDown();
+            L_SumHall = new System.Windows.Forms.Label();
+            GB_Castle = new System.Windows.Forms.GroupBox();
+            NUD_CastleRankRcv = new System.Windows.Forms.NumericUpDown();
+            NUD_CastleRankItem = new System.Windows.Forms.NumericUpDown();
+            NUD_CastleRankInfo = new System.Windows.Forms.NumericUpDown();
+            L_CastleRank01 = new System.Windows.Forms.Label();
+            TAB_Walker = new System.Windows.Forms.TabPage();
+            GB_WalkerCourses = new System.Windows.Forms.GroupBox();
+            B_AllWalkerCourses = new System.Windows.Forms.Button();
+            CLB_WalkerCourses = new System.Windows.Forms.CheckedListBox();
+            NUD_Watts = new System.Windows.Forms.NumericUpDown();
+            L_Watts = new System.Windows.Forms.Label();
+            NUD_Steps = new System.Windows.Forms.NumericUpDown();
+            L_Steps = new System.Windows.Forms.Label();
+            Tab_Misc = new System.Windows.Forms.TabPage();
+            B_AllSealsIllegal = new System.Windows.Forms.Button();
+            B_AllSealsLegal = new System.Windows.Forms.Button();
+            Tab_Poffins = new System.Windows.Forms.TabPage();
+            poffinCase4Editor1 = new PoffinCase4Editor();
+            Tab_PokeGear = new System.Windows.Forms.TabPage();
+            pokeGear4Editor1 = new PokeGear4Editor();
+            tip1 = new System.Windows.Forms.ToolTip(components);
+            tip2 = new System.Windows.Forms.ToolTip(components);
+            TC_Misc.SuspendLayout();
+            TAB_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Coin).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_UGFlags).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_BP).BeginInit();
+            GB_FlyDest.SuspendLayout();
+            GB_Poketch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)PB_DotArtist).BeginInit();
+            TAB_BF.SuspendLayout();
+            GB_Prints.SuspendLayout();
+            GB_Streaks.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Stat0).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Stat1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Stat2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Stat3).BeginInit();
+            GB_Hall.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallStreaks).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType01).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType02).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType03).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType04).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType05).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType06).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType07).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType08).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType09).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType10).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType11).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType12).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType13).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType14).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType15).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType16).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType17).BeginInit();
+            GB_Castle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_CastleRankRcv).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CastleRankItem).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CastleRankInfo).BeginInit();
+            TAB_Walker.SuspendLayout();
+            GB_WalkerCourses.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Watts).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Steps).BeginInit();
+            Tab_Misc.SuspendLayout();
+            Tab_Poffins.SuspendLayout();
+            Tab_PokeGear.SuspendLayout();
+            SuspendLayout();
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(237, 285);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(75, 25);
-            this.B_Cancel.TabIndex = 0;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(276, 329);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(88, 29);
+            B_Cancel.TabIndex = 0;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(318, 285);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 25);
-            this.B_Save.TabIndex = 1;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(371, 329);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(88, 29);
+            B_Save.TabIndex = 1;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // TC_Misc
             // 
-            this.TC_Misc.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TC_Misc.Controls.Add(this.TAB_Main);
-            this.TC_Misc.Controls.Add(this.TAB_BF);
-            this.TC_Misc.Controls.Add(this.TAB_Walker);
-            this.TC_Misc.Controls.Add(this.Tab_Misc);
-            this.TC_Misc.Controls.Add(this.Tab_Poffins);
-            this.TC_Misc.Controls.Add(this.Tab_PokeGear);
-            this.TC_Misc.Location = new System.Drawing.Point(12, 13);
-            this.TC_Misc.Name = "TC_Misc";
-            this.TC_Misc.SelectedIndex = 0;
-            this.TC_Misc.Size = new System.Drawing.Size(381, 265);
-            this.TC_Misc.TabIndex = 2;
+            TC_Misc.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            TC_Misc.Controls.Add(TAB_Main);
+            TC_Misc.Controls.Add(TAB_BF);
+            TC_Misc.Controls.Add(TAB_Walker);
+            TC_Misc.Controls.Add(Tab_Misc);
+            TC_Misc.Controls.Add(Tab_Poffins);
+            TC_Misc.Controls.Add(Tab_PokeGear);
+            TC_Misc.Location = new System.Drawing.Point(14, 15);
+            TC_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Misc.Name = "TC_Misc";
+            TC_Misc.SelectedIndex = 0;
+            TC_Misc.Size = new System.Drawing.Size(444, 306);
+            TC_Misc.TabIndex = 2;
             // 
             // TAB_Main
             // 
-            this.TAB_Main.Controls.Add(this.NUD_Coin);
-            this.TAB_Main.Controls.Add(this.L_Coin);
-            this.TAB_Main.Controls.Add(this.L_CurrentMap);
-            this.TAB_Main.Controls.Add(this.L_UGFlags);
-            this.TAB_Main.Controls.Add(this.NUD_UGFlags);
-            this.TAB_Main.Controls.Add(this.NUD_BP);
-            this.TAB_Main.Controls.Add(this.L_BP);
-            this.TAB_Main.Controls.Add(this.CB_UpgradeMap);
-            this.TAB_Main.Controls.Add(this.GB_FlyDest);
-            this.TAB_Main.Controls.Add(this.GB_Poketch);
-            this.TAB_Main.Location = new System.Drawing.Point(4, 22);
-            this.TAB_Main.Name = "TAB_Main";
-            this.TAB_Main.Size = new System.Drawing.Size(373, 239);
-            this.TAB_Main.TabIndex = 0;
-            this.TAB_Main.Text = "Main";
-            this.TAB_Main.UseVisualStyleBackColor = true;
-            this.TAB_Main.DragDrop += new System.Windows.Forms.DragEventHandler(this.TAB_Poketch_DragDrop);
-            this.TAB_Main.DragEnter += new System.Windows.Forms.DragEventHandler(this.TAB_Poketch_DragEnter);
+            TAB_Main.Controls.Add(NUD_Coin);
+            TAB_Main.Controls.Add(L_Coin);
+            TAB_Main.Controls.Add(L_CurrentMap);
+            TAB_Main.Controls.Add(L_UGFlags);
+            TAB_Main.Controls.Add(NUD_UGFlags);
+            TAB_Main.Controls.Add(NUD_BP);
+            TAB_Main.Controls.Add(L_BP);
+            TAB_Main.Controls.Add(CB_UpgradeMap);
+            TAB_Main.Controls.Add(GB_FlyDest);
+            TAB_Main.Controls.Add(GB_Poketch);
+            TAB_Main.Location = new System.Drawing.Point(4, 24);
+            TAB_Main.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TAB_Main.Name = "TAB_Main";
+            TAB_Main.Size = new System.Drawing.Size(436, 278);
+            TAB_Main.TabIndex = 0;
+            TAB_Main.Text = "Main";
+            TAB_Main.UseVisualStyleBackColor = true;
+            TAB_Main.DragDrop += TAB_Poketch_DragDrop;
+            TAB_Main.DragEnter += TAB_Poketch_DragEnter;
             // 
             // NUD_Coin
             // 
-            this.NUD_Coin.Location = new System.Drawing.Point(122, 9);
-            this.NUD_Coin.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.NUD_Coin.Name = "NUD_Coin";
-            this.NUD_Coin.Size = new System.Drawing.Size(51, 20);
-            this.NUD_Coin.TabIndex = 9;
-            this.NUD_Coin.Value = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
+            NUD_Coin.Location = new System.Drawing.Point(142, 10);
+            NUD_Coin.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Coin.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
+            NUD_Coin.Name = "NUD_Coin";
+            NUD_Coin.Size = new System.Drawing.Size(59, 23);
+            NUD_Coin.TabIndex = 9;
+            NUD_Coin.Value = new decimal(new int[] { 65535, 0, 0, 0 });
             // 
             // L_Coin
             // 
-            this.L_Coin.Location = new System.Drawing.Point(80, 6);
-            this.L_Coin.Name = "L_Coin";
-            this.L_Coin.Size = new System.Drawing.Size(40, 22);
-            this.L_Coin.TabIndex = 10;
-            this.L_Coin.Text = "Coin:";
-            this.L_Coin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Coin.Location = new System.Drawing.Point(93, 7);
+            L_Coin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Coin.Name = "L_Coin";
+            L_Coin.Size = new System.Drawing.Size(47, 25);
+            L_Coin.TabIndex = 10;
+            L_Coin.Text = "Coin:";
+            L_Coin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_CurrentMap
             // 
-            this.L_CurrentMap.Location = new System.Drawing.Point(4, 51);
-            this.L_CurrentMap.Name = "L_CurrentMap";
-            this.L_CurrentMap.Size = new System.Drawing.Size(71, 25);
-            this.L_CurrentMap.TabIndex = 8;
-            this.L_CurrentMap.Text = "Current Map";
-            this.L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_CurrentMap.Location = new System.Drawing.Point(5, 59);
+            L_CurrentMap.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_CurrentMap.Name = "L_CurrentMap";
+            L_CurrentMap.Size = new System.Drawing.Size(83, 29);
+            L_CurrentMap.TabIndex = 8;
+            L_CurrentMap.Text = "Current Map";
+            L_CurrentMap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_UGFlags
             // 
-            this.L_UGFlags.Location = new System.Drawing.Point(-10, 28);
-            this.L_UGFlags.Name = "L_UGFlags";
-            this.L_UGFlags.Size = new System.Drawing.Size(100, 25);
-            this.L_UGFlags.TabIndex = 7;
-            this.L_UGFlags.Text = "Flags Obtained:";
-            this.L_UGFlags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_UGFlags.Location = new System.Drawing.Point(-12, 32);
+            L_UGFlags.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_UGFlags.Name = "L_UGFlags";
+            L_UGFlags.Size = new System.Drawing.Size(117, 29);
+            L_UGFlags.TabIndex = 7;
+            L_UGFlags.Text = "Flags Obtained:";
+            L_UGFlags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_UGFlags
             // 
-            this.NUD_UGFlags.Location = new System.Drawing.Point(91, 31);
-            this.NUD_UGFlags.Maximum = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
-            this.NUD_UGFlags.Name = "NUD_UGFlags";
-            this.NUD_UGFlags.Size = new System.Drawing.Size(61, 20);
-            this.NUD_UGFlags.TabIndex = 2;
-            this.NUD_UGFlags.Value = new decimal(new int[] {
-            999999,
-            0,
-            0,
-            0});
+            NUD_UGFlags.Location = new System.Drawing.Point(106, 36);
+            NUD_UGFlags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_UGFlags.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
+            NUD_UGFlags.Name = "NUD_UGFlags";
+            NUD_UGFlags.Size = new System.Drawing.Size(71, 23);
+            NUD_UGFlags.TabIndex = 2;
+            NUD_UGFlags.Value = new decimal(new int[] { 999999, 0, 0, 0 });
             // 
             // NUD_BP
             // 
-            this.NUD_BP.Location = new System.Drawing.Point(30, 8);
-            this.NUD_BP.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_BP.Name = "NUD_BP";
-            this.NUD_BP.Size = new System.Drawing.Size(47, 20);
-            this.NUD_BP.TabIndex = 0;
-            this.NUD_BP.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
+            NUD_BP.Location = new System.Drawing.Point(35, 9);
+            NUD_BP.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_BP.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_BP.Name = "NUD_BP";
+            NUD_BP.Size = new System.Drawing.Size(55, 23);
+            NUD_BP.TabIndex = 0;
+            NUD_BP.Value = new decimal(new int[] { 9999, 0, 0, 0 });
             // 
             // L_BP
             // 
-            this.L_BP.Location = new System.Drawing.Point(-1, 6);
-            this.L_BP.Name = "L_BP";
-            this.L_BP.Size = new System.Drawing.Size(30, 22);
-            this.L_BP.TabIndex = 1;
-            this.L_BP.Text = "BP:";
-            this.L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_BP.Location = new System.Drawing.Point(-1, 7);
+            L_BP.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BP.Name = "L_BP";
+            L_BP.Size = new System.Drawing.Size(35, 25);
+            L_BP.TabIndex = 1;
+            L_BP.Text = "BP:";
+            L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_UpgradeMap
             // 
-            this.CB_UpgradeMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_UpgradeMap.FormattingEnabled = true;
-            this.CB_UpgradeMap.Location = new System.Drawing.Point(9, 76);
-            this.CB_UpgradeMap.Name = "CB_UpgradeMap";
-            this.CB_UpgradeMap.Size = new System.Drawing.Size(131, 21);
-            this.CB_UpgradeMap.TabIndex = 3;
+            CB_UpgradeMap.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_UpgradeMap.FormattingEnabled = true;
+            CB_UpgradeMap.Location = new System.Drawing.Point(10, 88);
+            CB_UpgradeMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_UpgradeMap.Name = "CB_UpgradeMap";
+            CB_UpgradeMap.Size = new System.Drawing.Size(152, 23);
+            CB_UpgradeMap.TabIndex = 3;
             // 
             // GB_FlyDest
             // 
-            this.GB_FlyDest.Controls.Add(this.B_AllFlyDest);
-            this.GB_FlyDest.Controls.Add(this.CLB_FlyDest);
-            this.GB_FlyDest.Location = new System.Drawing.Point(3, 101);
-            this.GB_FlyDest.Name = "GB_FlyDest";
-            this.GB_FlyDest.Size = new System.Drawing.Size(140, 138);
-            this.GB_FlyDest.TabIndex = 4;
-            this.GB_FlyDest.TabStop = false;
-            this.GB_FlyDest.Text = "Fly Destination";
+            GB_FlyDest.Controls.Add(B_AllFlyDest);
+            GB_FlyDest.Controls.Add(CLB_FlyDest);
+            GB_FlyDest.Location = new System.Drawing.Point(4, 117);
+            GB_FlyDest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_FlyDest.Name = "GB_FlyDest";
+            GB_FlyDest.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_FlyDest.Size = new System.Drawing.Size(163, 159);
+            GB_FlyDest.TabIndex = 4;
+            GB_FlyDest.TabStop = false;
+            GB_FlyDest.Text = "Fly Destination";
             // 
             // B_AllFlyDest
             // 
-            this.B_AllFlyDest.Location = new System.Drawing.Point(5, 21);
-            this.B_AllFlyDest.Name = "B_AllFlyDest";
-            this.B_AllFlyDest.Size = new System.Drawing.Size(75, 25);
-            this.B_AllFlyDest.TabIndex = 0;
-            this.B_AllFlyDest.Text = "Check All";
-            this.B_AllFlyDest.UseVisualStyleBackColor = true;
-            this.B_AllFlyDest.Click += new System.EventHandler(this.B_AllFlyDest_Click);
+            B_AllFlyDest.Location = new System.Drawing.Point(6, 24);
+            B_AllFlyDest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_AllFlyDest.Name = "B_AllFlyDest";
+            B_AllFlyDest.Size = new System.Drawing.Size(88, 29);
+            B_AllFlyDest.TabIndex = 0;
+            B_AllFlyDest.Text = "Check All";
+            B_AllFlyDest.UseVisualStyleBackColor = true;
+            B_AllFlyDest.Click += B_AllFlyDest_Click;
             // 
             // CLB_FlyDest
             // 
-            this.CLB_FlyDest.CheckOnClick = true;
-            this.CLB_FlyDest.FormattingEnabled = true;
-            this.CLB_FlyDest.Location = new System.Drawing.Point(6, 54);
-            this.CLB_FlyDest.Name = "CLB_FlyDest";
-            this.CLB_FlyDest.Size = new System.Drawing.Size(128, 79);
-            this.CLB_FlyDest.TabIndex = 1;
+            CLB_FlyDest.CheckOnClick = true;
+            CLB_FlyDest.FormattingEnabled = true;
+            CLB_FlyDest.Location = new System.Drawing.Point(7, 62);
+            CLB_FlyDest.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CLB_FlyDest.Name = "CLB_FlyDest";
+            CLB_FlyDest.Size = new System.Drawing.Size(149, 76);
+            CLB_FlyDest.TabIndex = 1;
             // 
             // GB_Poketch
             // 
-            this.GB_Poketch.Controls.Add(this.L_CurrentApp);
-            this.GB_Poketch.Controls.Add(this.CB_CurrentApp);
-            this.GB_Poketch.Controls.Add(this.B_AllPoketch);
-            this.GB_Poketch.Controls.Add(this.CLB_Poketch);
-            this.GB_Poketch.Controls.Add(this.PB_DotArtist);
-            this.GB_Poketch.Location = new System.Drawing.Point(176, 3);
-            this.GB_Poketch.Name = "GB_Poketch";
-            this.GB_Poketch.Size = new System.Drawing.Size(194, 231);
-            this.GB_Poketch.TabIndex = 5;
-            this.GB_Poketch.TabStop = false;
-            this.GB_Poketch.Text = "Pokétch";
+            GB_Poketch.Controls.Add(L_CurrentApp);
+            GB_Poketch.Controls.Add(CB_CurrentApp);
+            GB_Poketch.Controls.Add(B_AllPoketch);
+            GB_Poketch.Controls.Add(CLB_Poketch);
+            GB_Poketch.Controls.Add(PB_DotArtist);
+            GB_Poketch.Location = new System.Drawing.Point(205, 3);
+            GB_Poketch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Poketch.Name = "GB_Poketch";
+            GB_Poketch.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Poketch.Size = new System.Drawing.Size(226, 267);
+            GB_Poketch.TabIndex = 5;
+            GB_Poketch.TabStop = false;
+            GB_Poketch.Text = "Pokétch";
             // 
             // L_CurrentApp
             // 
-            this.L_CurrentApp.AutoSize = true;
-            this.L_CurrentApp.Location = new System.Drawing.Point(87, 8);
-            this.L_CurrentApp.Name = "L_CurrentApp";
-            this.L_CurrentApp.Size = new System.Drawing.Size(63, 13);
-            this.L_CurrentApp.TabIndex = 4;
-            this.L_CurrentApp.Text = "Current App";
+            L_CurrentApp.AutoSize = true;
+            L_CurrentApp.Location = new System.Drawing.Point(102, 9);
+            L_CurrentApp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_CurrentApp.Name = "L_CurrentApp";
+            L_CurrentApp.Size = new System.Drawing.Size(72, 15);
+            L_CurrentApp.TabIndex = 4;
+            L_CurrentApp.Text = "Current App";
             // 
             // CB_CurrentApp
             // 
-            this.CB_CurrentApp.DropDownWidth = 150;
-            this.CB_CurrentApp.FormattingEnabled = true;
-            this.CB_CurrentApp.Location = new System.Drawing.Point(87, 24);
-            this.CB_CurrentApp.Name = "CB_CurrentApp";
-            this.CB_CurrentApp.Size = new System.Drawing.Size(101, 21);
-            this.CB_CurrentApp.TabIndex = 3;
+            CB_CurrentApp.DropDownWidth = 150;
+            CB_CurrentApp.FormattingEnabled = true;
+            CB_CurrentApp.Location = new System.Drawing.Point(102, 28);
+            CB_CurrentApp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_CurrentApp.Name = "CB_CurrentApp";
+            CB_CurrentApp.Size = new System.Drawing.Size(117, 23);
+            CB_CurrentApp.TabIndex = 3;
             // 
             // B_AllPoketch
             // 
-            this.B_AllPoketch.Location = new System.Drawing.Point(6, 20);
-            this.B_AllPoketch.Name = "B_AllPoketch";
-            this.B_AllPoketch.Size = new System.Drawing.Size(75, 25);
-            this.B_AllPoketch.TabIndex = 0;
-            this.B_AllPoketch.Text = "Give All";
-            this.B_AllPoketch.UseVisualStyleBackColor = true;
-            this.B_AllPoketch.Click += new System.EventHandler(this.B_GiveAll_Click);
+            B_AllPoketch.Location = new System.Drawing.Point(7, 23);
+            B_AllPoketch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_AllPoketch.Name = "B_AllPoketch";
+            B_AllPoketch.Size = new System.Drawing.Size(88, 29);
+            B_AllPoketch.TabIndex = 0;
+            B_AllPoketch.Text = "Give All";
+            B_AllPoketch.UseVisualStyleBackColor = true;
+            B_AllPoketch.Click += B_GiveAll_Click;
             // 
             // CLB_Poketch
             // 
-            this.CLB_Poketch.CheckOnClick = true;
-            this.CLB_Poketch.FormattingEnabled = true;
-            this.CLB_Poketch.Location = new System.Drawing.Point(6, 51);
-            this.CLB_Poketch.Name = "CLB_Poketch";
-            this.CLB_Poketch.Size = new System.Drawing.Size(182, 79);
-            this.CLB_Poketch.TabIndex = 1;
+            CLB_Poketch.CheckOnClick = true;
+            CLB_Poketch.FormattingEnabled = true;
+            CLB_Poketch.Location = new System.Drawing.Point(7, 59);
+            CLB_Poketch.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CLB_Poketch.Name = "CLB_Poketch";
+            CLB_Poketch.Size = new System.Drawing.Size(212, 76);
+            CLB_Poketch.TabIndex = 1;
             // 
             // PB_DotArtist
             // 
-            this.PB_DotArtist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PB_DotArtist.Location = new System.Drawing.Point(6, 144);
-            this.PB_DotArtist.Name = "PB_DotArtist";
-            this.PB_DotArtist.Size = new System.Drawing.Size(96, 87);
-            this.PB_DotArtist.TabIndex = 2;
-            this.PB_DotArtist.TabStop = false;
-            this.PB_DotArtist.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PB_DotArtist_MouseClick);
+            PB_DotArtist.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            PB_DotArtist.Location = new System.Drawing.Point(7, 166);
+            PB_DotArtist.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PB_DotArtist.Name = "PB_DotArtist";
+            PB_DotArtist.Size = new System.Drawing.Size(112, 100);
+            PB_DotArtist.TabIndex = 2;
+            PB_DotArtist.TabStop = false;
+            PB_DotArtist.MouseClick += PB_DotArtist_MouseClick;
             // 
             // TAB_BF
             // 
-            this.TAB_BF.Controls.Add(this.GB_Prints);
-            this.TAB_BF.Controls.Add(this.GB_Streaks);
-            this.TAB_BF.Controls.Add(this.GB_Hall);
-            this.TAB_BF.Controls.Add(this.GB_Castle);
-            this.TAB_BF.Location = new System.Drawing.Point(4, 22);
-            this.TAB_BF.Name = "TAB_BF";
-            this.TAB_BF.Size = new System.Drawing.Size(373, 239);
-            this.TAB_BF.TabIndex = 1;
-            this.TAB_BF.Text = "Battle Frontier";
-            this.TAB_BF.UseVisualStyleBackColor = true;
+            TAB_BF.Controls.Add(GB_Prints);
+            TAB_BF.Controls.Add(GB_Streaks);
+            TAB_BF.Controls.Add(GB_Hall);
+            TAB_BF.Controls.Add(GB_Castle);
+            TAB_BF.Location = new System.Drawing.Point(4, 24);
+            TAB_BF.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TAB_BF.Name = "TAB_BF";
+            TAB_BF.Size = new System.Drawing.Size(436, 278);
+            TAB_BF.TabIndex = 1;
+            TAB_BF.Text = "Battle Frontier";
+            TAB_BF.UseVisualStyleBackColor = true;
             // 
             // GB_Prints
             // 
-            this.GB_Prints.Controls.Add(this.BTN_PrintTower);
-            this.GB_Prints.Controls.Add(this.BTN_PrintFactory);
-            this.GB_Prints.Controls.Add(this.BTN_PrintHall);
-            this.GB_Prints.Controls.Add(this.BTN_PrintCastle);
-            this.GB_Prints.Controls.Add(this.BTN_PrintArcade);
-            this.GB_Prints.Location = new System.Drawing.Point(3, 7);
-            this.GB_Prints.Name = "GB_Prints";
-            this.GB_Prints.Size = new System.Drawing.Size(81, 206);
-            this.GB_Prints.TabIndex = 0;
-            this.GB_Prints.TabStop = false;
-            this.GB_Prints.Text = "Print";
+            GB_Prints.Controls.Add(BTN_PrintTower);
+            GB_Prints.Controls.Add(BTN_PrintFactory);
+            GB_Prints.Controls.Add(BTN_PrintHall);
+            GB_Prints.Controls.Add(BTN_PrintCastle);
+            GB_Prints.Controls.Add(BTN_PrintArcade);
+            GB_Prints.Location = new System.Drawing.Point(4, 8);
+            GB_Prints.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Prints.Name = "GB_Prints";
+            GB_Prints.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Prints.Size = new System.Drawing.Size(94, 238);
+            GB_Prints.TabIndex = 0;
+            GB_Prints.TabStop = false;
+            GB_Prints.Text = "Print";
             // 
             // BTN_PrintTower
             // 
-            this.BTN_PrintTower.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_PrintTower.Location = new System.Drawing.Point(6, 20);
-            this.BTN_PrintTower.Name = "BTN_PrintTower";
-            this.BTN_PrintTower.Size = new System.Drawing.Size(69, 28);
-            this.BTN_PrintTower.TabIndex = 0;
-            this.BTN_PrintTower.Text = "Tower";
-            this.BTN_PrintTower.UseVisualStyleBackColor = true;
-            this.BTN_PrintTower.Click += new System.EventHandler(this.BTN_Print_Click);
+            BTN_PrintTower.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            BTN_PrintTower.Location = new System.Drawing.Point(7, 23);
+            BTN_PrintTower.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            BTN_PrintTower.Name = "BTN_PrintTower";
+            BTN_PrintTower.Size = new System.Drawing.Size(80, 32);
+            BTN_PrintTower.TabIndex = 0;
+            BTN_PrintTower.Text = "Tower";
+            BTN_PrintTower.UseVisualStyleBackColor = true;
+            BTN_PrintTower.Click += BTN_Print_Click;
             // 
             // BTN_PrintFactory
             // 
-            this.BTN_PrintFactory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_PrintFactory.Location = new System.Drawing.Point(6, 57);
-            this.BTN_PrintFactory.Name = "BTN_PrintFactory";
-            this.BTN_PrintFactory.Size = new System.Drawing.Size(69, 28);
-            this.BTN_PrintFactory.TabIndex = 1;
-            this.BTN_PrintFactory.Text = "Factory";
-            this.BTN_PrintFactory.UseVisualStyleBackColor = true;
-            this.BTN_PrintFactory.Click += new System.EventHandler(this.BTN_Print_Click);
+            BTN_PrintFactory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            BTN_PrintFactory.Location = new System.Drawing.Point(7, 66);
+            BTN_PrintFactory.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            BTN_PrintFactory.Name = "BTN_PrintFactory";
+            BTN_PrintFactory.Size = new System.Drawing.Size(80, 32);
+            BTN_PrintFactory.TabIndex = 1;
+            BTN_PrintFactory.Text = "Factory";
+            BTN_PrintFactory.UseVisualStyleBackColor = true;
+            BTN_PrintFactory.Click += BTN_Print_Click;
             // 
             // BTN_PrintHall
             // 
-            this.BTN_PrintHall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_PrintHall.Location = new System.Drawing.Point(6, 95);
-            this.BTN_PrintHall.Name = "BTN_PrintHall";
-            this.BTN_PrintHall.Size = new System.Drawing.Size(69, 28);
-            this.BTN_PrintHall.TabIndex = 2;
-            this.BTN_PrintHall.Text = "Hall";
-            this.BTN_PrintHall.UseVisualStyleBackColor = true;
-            this.BTN_PrintHall.Click += new System.EventHandler(this.BTN_Print_Click);
+            BTN_PrintHall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            BTN_PrintHall.Location = new System.Drawing.Point(7, 110);
+            BTN_PrintHall.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            BTN_PrintHall.Name = "BTN_PrintHall";
+            BTN_PrintHall.Size = new System.Drawing.Size(80, 32);
+            BTN_PrintHall.TabIndex = 2;
+            BTN_PrintHall.Text = "Hall";
+            BTN_PrintHall.UseVisualStyleBackColor = true;
+            BTN_PrintHall.Click += BTN_Print_Click;
             // 
             // BTN_PrintCastle
             // 
-            this.BTN_PrintCastle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_PrintCastle.Location = new System.Drawing.Point(6, 133);
-            this.BTN_PrintCastle.Name = "BTN_PrintCastle";
-            this.BTN_PrintCastle.Size = new System.Drawing.Size(69, 28);
-            this.BTN_PrintCastle.TabIndex = 3;
-            this.BTN_PrintCastle.Text = "Castle";
-            this.BTN_PrintCastle.UseVisualStyleBackColor = true;
-            this.BTN_PrintCastle.Click += new System.EventHandler(this.BTN_Print_Click);
+            BTN_PrintCastle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            BTN_PrintCastle.Location = new System.Drawing.Point(7, 153);
+            BTN_PrintCastle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            BTN_PrintCastle.Name = "BTN_PrintCastle";
+            BTN_PrintCastle.Size = new System.Drawing.Size(80, 32);
+            BTN_PrintCastle.TabIndex = 3;
+            BTN_PrintCastle.Text = "Castle";
+            BTN_PrintCastle.UseVisualStyleBackColor = true;
+            BTN_PrintCastle.Click += BTN_Print_Click;
             // 
             // BTN_PrintArcade
             // 
-            this.BTN_PrintArcade.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BTN_PrintArcade.Location = new System.Drawing.Point(6, 171);
-            this.BTN_PrintArcade.Name = "BTN_PrintArcade";
-            this.BTN_PrintArcade.Size = new System.Drawing.Size(69, 28);
-            this.BTN_PrintArcade.TabIndex = 4;
-            this.BTN_PrintArcade.Text = "Arcade";
-            this.BTN_PrintArcade.UseVisualStyleBackColor = true;
-            this.BTN_PrintArcade.Click += new System.EventHandler(this.BTN_Print_Click);
+            BTN_PrintArcade.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            BTN_PrintArcade.Location = new System.Drawing.Point(7, 197);
+            BTN_PrintArcade.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            BTN_PrintArcade.Name = "BTN_PrintArcade";
+            BTN_PrintArcade.Size = new System.Drawing.Size(80, 32);
+            BTN_PrintArcade.TabIndex = 4;
+            BTN_PrintArcade.Text = "Arcade";
+            BTN_PrintArcade.UseVisualStyleBackColor = true;
+            BTN_PrintArcade.Click += BTN_Print_Click;
             // 
             // GB_Streaks
             // 
-            this.GB_Streaks.Controls.Add(this.CB_Stats1);
-            this.GB_Streaks.Controls.Add(this.CB_Stats2);
-            this.GB_Streaks.Controls.Add(this.RB_Stats3_01);
-            this.GB_Streaks.Controls.Add(this.RB_Stats3_02);
-            this.GB_Streaks.Controls.Add(this.CHK_Continue);
-            this.GB_Streaks.Controls.Add(this.NUD_Stat0);
-            this.GB_Streaks.Controls.Add(this.NUD_Stat1);
-            this.GB_Streaks.Controls.Add(this.NUD_Stat2);
-            this.GB_Streaks.Controls.Add(this.NUD_Stat3);
-            this.GB_Streaks.Controls.Add(this.L_Stat0);
-            this.GB_Streaks.Controls.Add(this.L_Stat1);
-            this.GB_Streaks.Controls.Add(this.L_Stat2);
-            this.GB_Streaks.Controls.Add(this.L_Stat3);
-            this.GB_Streaks.Location = new System.Drawing.Point(90, 7);
-            this.GB_Streaks.Name = "GB_Streaks";
-            this.GB_Streaks.Size = new System.Drawing.Size(114, 228);
-            this.GB_Streaks.TabIndex = 1;
-            this.GB_Streaks.TabStop = false;
-            this.GB_Streaks.Text = "Streaks";
+            GB_Streaks.Controls.Add(CB_Stats1);
+            GB_Streaks.Controls.Add(CB_Stats2);
+            GB_Streaks.Controls.Add(RB_Stats3_01);
+            GB_Streaks.Controls.Add(RB_Stats3_02);
+            GB_Streaks.Controls.Add(CHK_Continue);
+            GB_Streaks.Controls.Add(NUD_Stat0);
+            GB_Streaks.Controls.Add(NUD_Stat1);
+            GB_Streaks.Controls.Add(NUD_Stat2);
+            GB_Streaks.Controls.Add(NUD_Stat3);
+            GB_Streaks.Controls.Add(L_Stat0);
+            GB_Streaks.Controls.Add(L_Stat1);
+            GB_Streaks.Controls.Add(L_Stat2);
+            GB_Streaks.Controls.Add(L_Stat3);
+            GB_Streaks.Location = new System.Drawing.Point(105, 8);
+            GB_Streaks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Streaks.Name = "GB_Streaks";
+            GB_Streaks.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Streaks.Size = new System.Drawing.Size(133, 263);
+            GB_Streaks.TabIndex = 1;
+            GB_Streaks.TabStop = false;
+            GB_Streaks.Text = "Streaks";
             // 
             // CB_Stats1
             // 
-            this.CB_Stats1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Stats1.FormattingEnabled = true;
-            this.CB_Stats1.Location = new System.Drawing.Point(6, 20);
-            this.CB_Stats1.Name = "CB_Stats1";
-            this.CB_Stats1.Size = new System.Drawing.Size(69, 21);
-            this.CB_Stats1.TabIndex = 0;
-            this.CB_Stats1.SelectedIndexChanged += new System.EventHandler(this.ChangeStat1);
+            CB_Stats1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Stats1.FormattingEnabled = true;
+            CB_Stats1.Location = new System.Drawing.Point(7, 23);
+            CB_Stats1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Stats1.Name = "CB_Stats1";
+            CB_Stats1.Size = new System.Drawing.Size(80, 23);
+            CB_Stats1.TabIndex = 0;
+            CB_Stats1.SelectedIndexChanged += ChangeStat1;
             // 
             // CB_Stats2
             // 
-            this.CB_Stats2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Stats2.FormattingEnabled = true;
-            this.CB_Stats2.Location = new System.Drawing.Point(6, 48);
-            this.CB_Stats2.Name = "CB_Stats2";
-            this.CB_Stats2.Size = new System.Drawing.Size(69, 21);
-            this.CB_Stats2.TabIndex = 1;
-            this.CB_Stats2.SelectedIndexChanged += new System.EventHandler(this.ChangeStat);
+            CB_Stats2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Stats2.FormattingEnabled = true;
+            CB_Stats2.Location = new System.Drawing.Point(7, 55);
+            CB_Stats2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Stats2.Name = "CB_Stats2";
+            CB_Stats2.Size = new System.Drawing.Size(80, 23);
+            CB_Stats2.TabIndex = 1;
+            CB_Stats2.SelectedIndexChanged += ChangeStat;
             // 
             // RB_Stats3_01
             // 
-            this.RB_Stats3_01.AutoSize = true;
-            this.RB_Stats3_01.Location = new System.Drawing.Point(6, 76);
-            this.RB_Stats3_01.Name = "RB_Stats3_01";
-            this.RB_Stats3_01.Size = new System.Drawing.Size(55, 17);
-            this.RB_Stats3_01.TabIndex = 2;
-            this.RB_Stats3_01.TabStop = true;
-            this.RB_Stats3_01.Text = "Lv. 50";
-            this.RB_Stats3_01.UseVisualStyleBackColor = true;
-            this.RB_Stats3_01.CheckedChanged += new System.EventHandler(this.ChangeStat);
+            RB_Stats3_01.AutoSize = true;
+            RB_Stats3_01.Location = new System.Drawing.Point(7, 88);
+            RB_Stats3_01.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            RB_Stats3_01.Name = "RB_Stats3_01";
+            RB_Stats3_01.Size = new System.Drawing.Size(54, 19);
+            RB_Stats3_01.TabIndex = 2;
+            RB_Stats3_01.TabStop = true;
+            RB_Stats3_01.Text = "Lv. 50";
+            RB_Stats3_01.UseVisualStyleBackColor = true;
+            RB_Stats3_01.CheckedChanged += ChangeStat;
             // 
             // RB_Stats3_02
             // 
-            this.RB_Stats3_02.AutoSize = true;
-            this.RB_Stats3_02.Location = new System.Drawing.Point(64, 76);
-            this.RB_Stats3_02.Name = "RB_Stats3_02";
-            this.RB_Stats3_02.Size = new System.Drawing.Size(51, 17);
-            this.RB_Stats3_02.TabIndex = 3;
-            this.RB_Stats3_02.TabStop = true;
-            this.RB_Stats3_02.Text = "Open";
-            this.RB_Stats3_02.UseVisualStyleBackColor = true;
-            this.RB_Stats3_02.CheckedChanged += new System.EventHandler(this.ChangeStat);
+            RB_Stats3_02.AutoSize = true;
+            RB_Stats3_02.Location = new System.Drawing.Point(75, 88);
+            RB_Stats3_02.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            RB_Stats3_02.Name = "RB_Stats3_02";
+            RB_Stats3_02.Size = new System.Drawing.Size(54, 19);
+            RB_Stats3_02.TabIndex = 3;
+            RB_Stats3_02.TabStop = true;
+            RB_Stats3_02.Text = "Open";
+            RB_Stats3_02.UseVisualStyleBackColor = true;
+            RB_Stats3_02.CheckedChanged += ChangeStat;
             // 
             // CHK_Continue
             // 
-            this.CHK_Continue.AutoSize = true;
-            this.CHK_Continue.Location = new System.Drawing.Point(6, 100);
-            this.CHK_Continue.Name = "CHK_Continue";
-            this.CHK_Continue.Size = new System.Drawing.Size(68, 17);
-            this.CHK_Continue.TabIndex = 4;
-            this.CHK_Continue.Text = "Continue";
-            this.CHK_Continue.UseVisualStyleBackColor = true;
-            this.CHK_Continue.CheckedChanged += new System.EventHandler(this.CHK_Continue_CheckedChanged);
+            CHK_Continue.AutoSize = true;
+            CHK_Continue.Location = new System.Drawing.Point(7, 115);
+            CHK_Continue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Continue.Name = "CHK_Continue";
+            CHK_Continue.Size = new System.Drawing.Size(75, 19);
+            CHK_Continue.TabIndex = 4;
+            CHK_Continue.Text = "Continue";
+            CHK_Continue.UseVisualStyleBackColor = true;
+            CHK_Continue.CheckedChanged += CHK_Continue_CheckedChanged;
             // 
             // NUD_Stat0
             // 
-            this.NUD_Stat0.Location = new System.Drawing.Point(62, 124);
-            this.NUD_Stat0.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Stat0.Name = "NUD_Stat0";
-            this.NUD_Stat0.Size = new System.Drawing.Size(47, 20);
-            this.NUD_Stat0.TabIndex = 5;
-            this.NUD_Stat0.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Stat0.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            NUD_Stat0.Location = new System.Drawing.Point(72, 143);
+            NUD_Stat0.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Stat0.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_Stat0.Name = "NUD_Stat0";
+            NUD_Stat0.Size = new System.Drawing.Size(55, 23);
+            NUD_Stat0.TabIndex = 5;
+            NUD_Stat0.Value = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_Stat0.ValueChanged += ChangeStatVal;
             // 
             // NUD_Stat1
             // 
-            this.NUD_Stat1.Location = new System.Drawing.Point(62, 150);
-            this.NUD_Stat1.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Stat1.Name = "NUD_Stat1";
-            this.NUD_Stat1.Size = new System.Drawing.Size(47, 20);
-            this.NUD_Stat1.TabIndex = 6;
-            this.NUD_Stat1.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Stat1.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            NUD_Stat1.Location = new System.Drawing.Point(72, 173);
+            NUD_Stat1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Stat1.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_Stat1.Name = "NUD_Stat1";
+            NUD_Stat1.Size = new System.Drawing.Size(55, 23);
+            NUD_Stat1.TabIndex = 6;
+            NUD_Stat1.Value = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_Stat1.ValueChanged += ChangeStatVal;
             // 
             // NUD_Stat2
             // 
-            this.NUD_Stat2.Location = new System.Drawing.Point(62, 176);
-            this.NUD_Stat2.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Stat2.Name = "NUD_Stat2";
-            this.NUD_Stat2.Size = new System.Drawing.Size(47, 20);
-            this.NUD_Stat2.TabIndex = 7;
-            this.NUD_Stat2.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Stat2.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            NUD_Stat2.Location = new System.Drawing.Point(72, 203);
+            NUD_Stat2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Stat2.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_Stat2.Name = "NUD_Stat2";
+            NUD_Stat2.Size = new System.Drawing.Size(55, 23);
+            NUD_Stat2.TabIndex = 7;
+            NUD_Stat2.Value = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_Stat2.ValueChanged += ChangeStatVal;
             // 
             // NUD_Stat3
             // 
-            this.NUD_Stat3.Location = new System.Drawing.Point(62, 202);
-            this.NUD_Stat3.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Stat3.Name = "NUD_Stat3";
-            this.NUD_Stat3.Size = new System.Drawing.Size(47, 20);
-            this.NUD_Stat3.TabIndex = 8;
-            this.NUD_Stat3.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_Stat3.ValueChanged += new System.EventHandler(this.ChangeStatVal);
+            NUD_Stat3.Location = new System.Drawing.Point(72, 233);
+            NUD_Stat3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Stat3.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_Stat3.Name = "NUD_Stat3";
+            NUD_Stat3.Size = new System.Drawing.Size(55, 23);
+            NUD_Stat3.TabIndex = 8;
+            NUD_Stat3.Value = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_Stat3.ValueChanged += ChangeStatVal;
             // 
             // L_Stat0
             // 
-            this.L_Stat0.AutoSize = true;
-            this.L_Stat0.Location = new System.Drawing.Point(6, 126);
-            this.L_Stat0.Name = "L_Stat0";
-            this.L_Stat0.Size = new System.Drawing.Size(41, 13);
-            this.L_Stat0.TabIndex = 9;
-            this.L_Stat0.Text = "Current";
+            L_Stat0.AutoSize = true;
+            L_Stat0.Location = new System.Drawing.Point(7, 145);
+            L_Stat0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Stat0.Name = "L_Stat0";
+            L_Stat0.Size = new System.Drawing.Size(47, 15);
+            L_Stat0.TabIndex = 9;
+            L_Stat0.Text = "Current";
             // 
             // L_Stat1
             // 
-            this.L_Stat1.AutoSize = true;
-            this.L_Stat1.Location = new System.Drawing.Point(6, 152);
-            this.L_Stat1.Name = "L_Stat1";
-            this.L_Stat1.Size = new System.Drawing.Size(35, 13);
-            this.L_Stat1.TabIndex = 10;
-            this.L_Stat1.Text = "Trade";
+            L_Stat1.AutoSize = true;
+            L_Stat1.Location = new System.Drawing.Point(7, 175);
+            L_Stat1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Stat1.Name = "L_Stat1";
+            L_Stat1.Size = new System.Drawing.Size(35, 15);
+            L_Stat1.TabIndex = 10;
+            L_Stat1.Text = "Trade";
             // 
             // L_Stat2
             // 
-            this.L_Stat2.AutoSize = true;
-            this.L_Stat2.Location = new System.Drawing.Point(6, 178);
-            this.L_Stat2.Name = "L_Stat2";
-            this.L_Stat2.Size = new System.Drawing.Size(42, 13);
-            this.L_Stat2.TabIndex = 11;
-            this.L_Stat2.Text = "Record";
+            L_Stat2.AutoSize = true;
+            L_Stat2.Location = new System.Drawing.Point(7, 205);
+            L_Stat2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Stat2.Name = "L_Stat2";
+            L_Stat2.Size = new System.Drawing.Size(44, 15);
+            L_Stat2.TabIndex = 11;
+            L_Stat2.Text = "Record";
             // 
             // L_Stat3
             // 
-            this.L_Stat3.AutoSize = true;
-            this.L_Stat3.Location = new System.Drawing.Point(6, 204);
-            this.L_Stat3.Name = "L_Stat3";
-            this.L_Stat3.Size = new System.Drawing.Size(35, 13);
-            this.L_Stat3.TabIndex = 12;
-            this.L_Stat3.Text = "Trade";
+            L_Stat3.AutoSize = true;
+            L_Stat3.Location = new System.Drawing.Point(7, 235);
+            L_Stat3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Stat3.Name = "L_Stat3";
+            L_Stat3.Size = new System.Drawing.Size(35, 15);
+            L_Stat3.TabIndex = 12;
+            L_Stat3.Text = "Trade";
             // 
             // GB_Hall
             // 
-            this.GB_Hall.Controls.Add(this.CB_Species);
-            this.GB_Hall.Controls.Add(this.NUD_HallStreaks);
-            this.GB_Hall.Controls.Add(this.CHK_HallCurrent);
-            this.GB_Hall.Controls.Add(this.NUD_HallType01);
-            this.GB_Hall.Controls.Add(this.NUD_HallType02);
-            this.GB_Hall.Controls.Add(this.NUD_HallType03);
-            this.GB_Hall.Controls.Add(this.NUD_HallType04);
-            this.GB_Hall.Controls.Add(this.NUD_HallType05);
-            this.GB_Hall.Controls.Add(this.NUD_HallType06);
-            this.GB_Hall.Controls.Add(this.NUD_HallType07);
-            this.GB_Hall.Controls.Add(this.NUD_HallType08);
-            this.GB_Hall.Controls.Add(this.NUD_HallType09);
-            this.GB_Hall.Controls.Add(this.NUD_HallType10);
-            this.GB_Hall.Controls.Add(this.NUD_HallType11);
-            this.GB_Hall.Controls.Add(this.NUD_HallType12);
-            this.GB_Hall.Controls.Add(this.NUD_HallType13);
-            this.GB_Hall.Controls.Add(this.NUD_HallType14);
-            this.GB_Hall.Controls.Add(this.NUD_HallType15);
-            this.GB_Hall.Controls.Add(this.NUD_HallType16);
-            this.GB_Hall.Controls.Add(this.NUD_HallType17);
-            this.GB_Hall.Controls.Add(this.L_SumHall);
-            this.GB_Hall.Location = new System.Drawing.Point(210, 7);
-            this.GB_Hall.Name = "GB_Hall";
-            this.GB_Hall.Size = new System.Drawing.Size(157, 224);
-            this.GB_Hall.TabIndex = 2;
-            this.GB_Hall.TabStop = false;
-            this.GB_Hall.Text = "Battle Hall ()";
+            GB_Hall.Controls.Add(CB_Species);
+            GB_Hall.Controls.Add(NUD_HallStreaks);
+            GB_Hall.Controls.Add(CHK_HallCurrent);
+            GB_Hall.Controls.Add(NUD_HallType01);
+            GB_Hall.Controls.Add(NUD_HallType02);
+            GB_Hall.Controls.Add(NUD_HallType03);
+            GB_Hall.Controls.Add(NUD_HallType04);
+            GB_Hall.Controls.Add(NUD_HallType05);
+            GB_Hall.Controls.Add(NUD_HallType06);
+            GB_Hall.Controls.Add(NUD_HallType07);
+            GB_Hall.Controls.Add(NUD_HallType08);
+            GB_Hall.Controls.Add(NUD_HallType09);
+            GB_Hall.Controls.Add(NUD_HallType10);
+            GB_Hall.Controls.Add(NUD_HallType11);
+            GB_Hall.Controls.Add(NUD_HallType12);
+            GB_Hall.Controls.Add(NUD_HallType13);
+            GB_Hall.Controls.Add(NUD_HallType14);
+            GB_Hall.Controls.Add(NUD_HallType15);
+            GB_Hall.Controls.Add(NUD_HallType16);
+            GB_Hall.Controls.Add(NUD_HallType17);
+            GB_Hall.Controls.Add(L_SumHall);
+            GB_Hall.Location = new System.Drawing.Point(245, 8);
+            GB_Hall.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Hall.Name = "GB_Hall";
+            GB_Hall.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Hall.Size = new System.Drawing.Size(183, 258);
+            GB_Hall.TabIndex = 2;
+            GB_Hall.TabStop = false;
+            GB_Hall.Text = "Battle Hall ()";
             // 
             // CB_Species
             // 
-            this.CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Species.DropDownWidth = 95;
-            this.CB_Species.FormattingEnabled = true;
-            this.CB_Species.Items.AddRange(new object[] {
-            "0"});
-            this.CB_Species.Location = new System.Drawing.Point(6, 20);
-            this.CB_Species.Name = "CB_Species";
-            this.CB_Species.Size = new System.Drawing.Size(92, 21);
-            this.CB_Species.TabIndex = 0;
-            this.CB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeSpecies);
+            CB_Species.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            CB_Species.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            CB_Species.DropDownWidth = 95;
+            CB_Species.FormattingEnabled = true;
+            CB_Species.Items.AddRange(new object[] { "0" });
+            CB_Species.Location = new System.Drawing.Point(7, 23);
+            CB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Species.Name = "CB_Species";
+            CB_Species.Size = new System.Drawing.Size(107, 23);
+            CB_Species.TabIndex = 0;
+            CB_Species.SelectedIndexChanged += ChangeSpecies;
             // 
             // NUD_HallStreaks
             // 
-            this.NUD_HallStreaks.Location = new System.Drawing.Point(104, 21);
-            this.NUD_HallStreaks.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_HallStreaks.Name = "NUD_HallStreaks";
-            this.NUD_HallStreaks.Size = new System.Drawing.Size(47, 20);
-            this.NUD_HallStreaks.TabIndex = 1;
-            this.NUD_HallStreaks.Value = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_HallStreaks.ValueChanged += new System.EventHandler(this.NUD_HallStreaks_ValueChanged);
+            NUD_HallStreaks.Location = new System.Drawing.Point(121, 24);
+            NUD_HallStreaks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallStreaks.Maximum = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_HallStreaks.Name = "NUD_HallStreaks";
+            NUD_HallStreaks.Size = new System.Drawing.Size(55, 23);
+            NUD_HallStreaks.TabIndex = 1;
+            NUD_HallStreaks.Value = new decimal(new int[] { 9999, 0, 0, 0 });
+            NUD_HallStreaks.ValueChanged += NUD_HallStreaks_ValueChanged;
             // 
             // CHK_HallCurrent
             // 
-            this.CHK_HallCurrent.AutoSize = true;
-            this.CHK_HallCurrent.Location = new System.Drawing.Point(6, 48);
-            this.CHK_HallCurrent.Name = "CHK_HallCurrent";
-            this.CHK_HallCurrent.Size = new System.Drawing.Size(63, 17);
-            this.CHK_HallCurrent.TabIndex = 2;
-            this.CHK_HallCurrent.Text = "Current:";
-            this.CHK_HallCurrent.UseVisualStyleBackColor = true;
-            this.CHK_HallCurrent.CheckedChanged += new System.EventHandler(this.CHK_HallCurrent_CheckedChanged);
+            CHK_HallCurrent.AutoSize = true;
+            CHK_HallCurrent.Location = new System.Drawing.Point(7, 55);
+            CHK_HallCurrent.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_HallCurrent.Name = "CHK_HallCurrent";
+            CHK_HallCurrent.Size = new System.Drawing.Size(69, 19);
+            CHK_HallCurrent.TabIndex = 2;
+            CHK_HallCurrent.Text = "Current:";
+            CHK_HallCurrent.UseVisualStyleBackColor = true;
+            CHK_HallCurrent.CheckedChanged += CHK_HallCurrent_CheckedChanged;
             // 
             // NUD_HallType01
             // 
-            this.NUD_HallType01.Location = new System.Drawing.Point(22, 72);
-            this.NUD_HallType01.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType01.Name = "NUD_HallType01";
-            this.NUD_HallType01.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType01.TabIndex = 3;
-            this.NUD_HallType01.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType01.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType01.Location = new System.Drawing.Point(26, 83);
+            NUD_HallType01.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType01.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType01.Name = "NUD_HallType01";
+            NUD_HallType01.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType01.TabIndex = 3;
+            NUD_HallType01.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType01.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType02
             // 
-            this.NUD_HallType02.Location = new System.Drawing.Point(22, 95);
-            this.NUD_HallType02.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType02.Name = "NUD_HallType02";
-            this.NUD_HallType02.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType02.TabIndex = 4;
-            this.NUD_HallType02.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType02.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType02.Location = new System.Drawing.Point(26, 110);
+            NUD_HallType02.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType02.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType02.Name = "NUD_HallType02";
+            NUD_HallType02.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType02.TabIndex = 4;
+            NUD_HallType02.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType02.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType03
             // 
-            this.NUD_HallType03.Location = new System.Drawing.Point(22, 119);
-            this.NUD_HallType03.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType03.Name = "NUD_HallType03";
-            this.NUD_HallType03.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType03.TabIndex = 5;
-            this.NUD_HallType03.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType03.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType03.Location = new System.Drawing.Point(26, 137);
+            NUD_HallType03.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType03.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType03.Name = "NUD_HallType03";
+            NUD_HallType03.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType03.TabIndex = 5;
+            NUD_HallType03.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType03.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType04
             // 
-            this.NUD_HallType04.Location = new System.Drawing.Point(22, 143);
-            this.NUD_HallType04.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType04.Name = "NUD_HallType04";
-            this.NUD_HallType04.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType04.TabIndex = 6;
-            this.NUD_HallType04.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType04.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType04.Location = new System.Drawing.Point(26, 165);
+            NUD_HallType04.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType04.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType04.Name = "NUD_HallType04";
+            NUD_HallType04.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType04.TabIndex = 6;
+            NUD_HallType04.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType04.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType05
             // 
-            this.NUD_HallType05.Location = new System.Drawing.Point(22, 167);
-            this.NUD_HallType05.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType05.Name = "NUD_HallType05";
-            this.NUD_HallType05.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType05.TabIndex = 7;
-            this.NUD_HallType05.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType05.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType05.Location = new System.Drawing.Point(26, 193);
+            NUD_HallType05.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType05.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType05.Name = "NUD_HallType05";
+            NUD_HallType05.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType05.TabIndex = 7;
+            NUD_HallType05.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType05.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType06
             // 
-            this.NUD_HallType06.Location = new System.Drawing.Point(22, 191);
-            this.NUD_HallType06.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType06.Name = "NUD_HallType06";
-            this.NUD_HallType06.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType06.TabIndex = 8;
-            this.NUD_HallType06.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType06.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType06.Location = new System.Drawing.Point(26, 220);
+            NUD_HallType06.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType06.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType06.Name = "NUD_HallType06";
+            NUD_HallType06.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType06.TabIndex = 8;
+            NUD_HallType06.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType06.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType07
             // 
-            this.NUD_HallType07.Location = new System.Drawing.Point(67, 72);
-            this.NUD_HallType07.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType07.Name = "NUD_HallType07";
-            this.NUD_HallType07.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType07.TabIndex = 9;
-            this.NUD_HallType07.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType07.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType07.Location = new System.Drawing.Point(78, 83);
+            NUD_HallType07.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType07.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType07.Name = "NUD_HallType07";
+            NUD_HallType07.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType07.TabIndex = 9;
+            NUD_HallType07.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType07.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType08
             // 
-            this.NUD_HallType08.Location = new System.Drawing.Point(67, 95);
-            this.NUD_HallType08.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType08.Name = "NUD_HallType08";
-            this.NUD_HallType08.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType08.TabIndex = 10;
-            this.NUD_HallType08.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType08.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType08.Location = new System.Drawing.Point(78, 110);
+            NUD_HallType08.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType08.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType08.Name = "NUD_HallType08";
+            NUD_HallType08.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType08.TabIndex = 10;
+            NUD_HallType08.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType08.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType09
             // 
-            this.NUD_HallType09.Location = new System.Drawing.Point(67, 119);
-            this.NUD_HallType09.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType09.Name = "NUD_HallType09";
-            this.NUD_HallType09.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType09.TabIndex = 11;
-            this.NUD_HallType09.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType09.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType09.Location = new System.Drawing.Point(78, 137);
+            NUD_HallType09.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType09.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType09.Name = "NUD_HallType09";
+            NUD_HallType09.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType09.TabIndex = 11;
+            NUD_HallType09.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType09.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType10
             // 
-            this.NUD_HallType10.Location = new System.Drawing.Point(67, 143);
-            this.NUD_HallType10.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType10.Name = "NUD_HallType10";
-            this.NUD_HallType10.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType10.TabIndex = 12;
-            this.NUD_HallType10.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType10.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType10.Location = new System.Drawing.Point(78, 165);
+            NUD_HallType10.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType10.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType10.Name = "NUD_HallType10";
+            NUD_HallType10.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType10.TabIndex = 12;
+            NUD_HallType10.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType10.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType11
             // 
-            this.NUD_HallType11.Location = new System.Drawing.Point(67, 167);
-            this.NUD_HallType11.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType11.Name = "NUD_HallType11";
-            this.NUD_HallType11.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType11.TabIndex = 13;
-            this.NUD_HallType11.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType11.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType11.Location = new System.Drawing.Point(78, 193);
+            NUD_HallType11.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType11.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType11.Name = "NUD_HallType11";
+            NUD_HallType11.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType11.TabIndex = 13;
+            NUD_HallType11.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType11.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType12
             // 
-            this.NUD_HallType12.Location = new System.Drawing.Point(67, 191);
-            this.NUD_HallType12.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType12.Name = "NUD_HallType12";
-            this.NUD_HallType12.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType12.TabIndex = 14;
-            this.NUD_HallType12.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType12.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType12.Location = new System.Drawing.Point(78, 220);
+            NUD_HallType12.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType12.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType12.Name = "NUD_HallType12";
+            NUD_HallType12.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType12.TabIndex = 14;
+            NUD_HallType12.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType12.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType13
             // 
-            this.NUD_HallType13.Location = new System.Drawing.Point(112, 72);
-            this.NUD_HallType13.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType13.Name = "NUD_HallType13";
-            this.NUD_HallType13.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType13.TabIndex = 15;
-            this.NUD_HallType13.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType13.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType13.Location = new System.Drawing.Point(131, 83);
+            NUD_HallType13.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType13.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType13.Name = "NUD_HallType13";
+            NUD_HallType13.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType13.TabIndex = 15;
+            NUD_HallType13.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType13.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType14
             // 
-            this.NUD_HallType14.Location = new System.Drawing.Point(112, 95);
-            this.NUD_HallType14.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType14.Name = "NUD_HallType14";
-            this.NUD_HallType14.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType14.TabIndex = 16;
-            this.NUD_HallType14.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType14.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType14.Location = new System.Drawing.Point(131, 110);
+            NUD_HallType14.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType14.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType14.Name = "NUD_HallType14";
+            NUD_HallType14.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType14.TabIndex = 16;
+            NUD_HallType14.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType14.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType15
             // 
-            this.NUD_HallType15.Location = new System.Drawing.Point(112, 119);
-            this.NUD_HallType15.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType15.Name = "NUD_HallType15";
-            this.NUD_HallType15.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType15.TabIndex = 17;
-            this.NUD_HallType15.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType15.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType15.Location = new System.Drawing.Point(131, 137);
+            NUD_HallType15.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType15.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType15.Name = "NUD_HallType15";
+            NUD_HallType15.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType15.TabIndex = 17;
+            NUD_HallType15.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType15.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType16
             // 
-            this.NUD_HallType16.Location = new System.Drawing.Point(112, 143);
-            this.NUD_HallType16.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType16.Name = "NUD_HallType16";
-            this.NUD_HallType16.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType16.TabIndex = 18;
-            this.NUD_HallType16.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType16.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType16.Location = new System.Drawing.Point(131, 165);
+            NUD_HallType16.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType16.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType16.Name = "NUD_HallType16";
+            NUD_HallType16.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType16.TabIndex = 18;
+            NUD_HallType16.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType16.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // NUD_HallType17
             // 
-            this.NUD_HallType17.Location = new System.Drawing.Point(112, 167);
-            this.NUD_HallType17.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType17.Name = "NUD_HallType17";
-            this.NUD_HallType17.Size = new System.Drawing.Size(39, 20);
-            this.NUD_HallType17.TabIndex = 19;
-            this.NUD_HallType17.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.NUD_HallType17.ValueChanged += new System.EventHandler(this.NUD_HallType_ValueChanged);
+            NUD_HallType17.Location = new System.Drawing.Point(131, 193);
+            NUD_HallType17.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_HallType17.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType17.Name = "NUD_HallType17";
+            NUD_HallType17.Size = new System.Drawing.Size(46, 23);
+            NUD_HallType17.TabIndex = 19;
+            NUD_HallType17.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            NUD_HallType17.ValueChanged += NUD_HallType_ValueChanged;
             // 
             // L_SumHall
             // 
-            this.L_SumHall.Location = new System.Drawing.Point(115, 191);
-            this.L_SumHall.Name = "L_SumHall";
-            this.L_SumHall.Size = new System.Drawing.Size(36, 21);
-            this.L_SumHall.TabIndex = 20;
-            this.L_SumHall.Text = "170";
-            this.L_SumHall.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_SumHall.Location = new System.Drawing.Point(134, 220);
+            L_SumHall.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SumHall.Name = "L_SumHall";
+            L_SumHall.Size = new System.Drawing.Size(42, 24);
+            L_SumHall.TabIndex = 20;
+            L_SumHall.Text = "170";
+            L_SumHall.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GB_Castle
             // 
-            this.GB_Castle.Controls.Add(this.NUD_CastleRankRcv);
-            this.GB_Castle.Controls.Add(this.NUD_CastleRankItem);
-            this.GB_Castle.Controls.Add(this.NUD_CastleRankInfo);
-            this.GB_Castle.Controls.Add(this.L_CastleRank01);
-            this.GB_Castle.Location = new System.Drawing.Point(210, 7);
-            this.GB_Castle.Name = "GB_Castle";
-            this.GB_Castle.Size = new System.Drawing.Size(157, 75);
-            this.GB_Castle.TabIndex = 3;
-            this.GB_Castle.TabStop = false;
-            this.GB_Castle.Text = "Battle Castle";
+            GB_Castle.Controls.Add(NUD_CastleRankRcv);
+            GB_Castle.Controls.Add(NUD_CastleRankItem);
+            GB_Castle.Controls.Add(NUD_CastleRankInfo);
+            GB_Castle.Controls.Add(L_CastleRank01);
+            GB_Castle.Location = new System.Drawing.Point(245, 8);
+            GB_Castle.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Castle.Name = "GB_Castle";
+            GB_Castle.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Castle.Size = new System.Drawing.Size(183, 87);
+            GB_Castle.TabIndex = 3;
+            GB_Castle.TabStop = false;
+            GB_Castle.Text = "Battle Castle";
             // 
             // NUD_CastleRankRcv
             // 
-            this.NUD_CastleRankRcv.Location = new System.Drawing.Point(22, 48);
-            this.NUD_CastleRankRcv.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankRcv.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankRcv.Name = "NUD_CastleRankRcv";
-            this.NUD_CastleRankRcv.Size = new System.Drawing.Size(39, 20);
-            this.NUD_CastleRankRcv.TabIndex = 0;
-            this.NUD_CastleRankRcv.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankRcv.ValueChanged += new System.EventHandler(this.NUD_CastleRank_ValueChanged);
+            NUD_CastleRankRcv.Location = new System.Drawing.Point(26, 55);
+            NUD_CastleRankRcv.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_CastleRankRcv.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
+            NUD_CastleRankRcv.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            NUD_CastleRankRcv.Name = "NUD_CastleRankRcv";
+            NUD_CastleRankRcv.Size = new System.Drawing.Size(46, 23);
+            NUD_CastleRankRcv.TabIndex = 0;
+            NUD_CastleRankRcv.Value = new decimal(new int[] { 3, 0, 0, 0 });
+            NUD_CastleRankRcv.ValueChanged += NUD_CastleRank_ValueChanged;
             // 
             // NUD_CastleRankItem
             // 
-            this.NUD_CastleRankItem.Location = new System.Drawing.Point(67, 48);
-            this.NUD_CastleRankItem.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankItem.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankItem.Name = "NUD_CastleRankItem";
-            this.NUD_CastleRankItem.Size = new System.Drawing.Size(39, 20);
-            this.NUD_CastleRankItem.TabIndex = 1;
-            this.NUD_CastleRankItem.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankItem.ValueChanged += new System.EventHandler(this.NUD_CastleRank_ValueChanged);
+            NUD_CastleRankItem.Location = new System.Drawing.Point(78, 55);
+            NUD_CastleRankItem.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_CastleRankItem.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
+            NUD_CastleRankItem.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            NUD_CastleRankItem.Name = "NUD_CastleRankItem";
+            NUD_CastleRankItem.Size = new System.Drawing.Size(46, 23);
+            NUD_CastleRankItem.TabIndex = 1;
+            NUD_CastleRankItem.Value = new decimal(new int[] { 3, 0, 0, 0 });
+            NUD_CastleRankItem.ValueChanged += NUD_CastleRank_ValueChanged;
             // 
             // NUD_CastleRankInfo
             // 
-            this.NUD_CastleRankInfo.Location = new System.Drawing.Point(112, 48);
-            this.NUD_CastleRankInfo.Maximum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankInfo.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankInfo.Name = "NUD_CastleRankInfo";
-            this.NUD_CastleRankInfo.Size = new System.Drawing.Size(39, 20);
-            this.NUD_CastleRankInfo.TabIndex = 2;
-            this.NUD_CastleRankInfo.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUD_CastleRankInfo.ValueChanged += new System.EventHandler(this.NUD_CastleRank_ValueChanged);
+            NUD_CastleRankInfo.Location = new System.Drawing.Point(131, 55);
+            NUD_CastleRankInfo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_CastleRankInfo.Maximum = new decimal(new int[] { 2, 0, 0, 0 });
+            NUD_CastleRankInfo.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            NUD_CastleRankInfo.Name = "NUD_CastleRankInfo";
+            NUD_CastleRankInfo.Size = new System.Drawing.Size(46, 23);
+            NUD_CastleRankInfo.TabIndex = 2;
+            NUD_CastleRankInfo.Value = new decimal(new int[] { 2, 0, 0, 0 });
+            NUD_CastleRankInfo.ValueChanged += NUD_CastleRank_ValueChanged;
             // 
             // L_CastleRank01
             // 
-            this.L_CastleRank01.Location = new System.Drawing.Point(6, 16);
-            this.L_CastleRank01.Name = "L_CastleRank01";
-            this.L_CastleRank01.Size = new System.Drawing.Size(145, 25);
-            this.L_CastleRank01.TabIndex = 3;
-            this.L_CastleRank01.Text = "Recovery / Item / Info";
-            this.L_CastleRank01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            L_CastleRank01.Location = new System.Drawing.Point(7, 18);
+            L_CastleRank01.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_CastleRank01.Name = "L_CastleRank01";
+            L_CastleRank01.Size = new System.Drawing.Size(169, 29);
+            L_CastleRank01.TabIndex = 3;
+            L_CastleRank01.Text = "Recovery / Item / Info";
+            L_CastleRank01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TAB_Walker
             // 
-            this.TAB_Walker.Controls.Add(this.GB_WalkerCourses);
-            this.TAB_Walker.Controls.Add(this.NUD_Watts);
-            this.TAB_Walker.Controls.Add(this.L_Watts);
-            this.TAB_Walker.Controls.Add(this.NUD_Steps);
-            this.TAB_Walker.Controls.Add(this.L_Steps);
-            this.TAB_Walker.Location = new System.Drawing.Point(4, 22);
-            this.TAB_Walker.Name = "TAB_Walker";
-            this.TAB_Walker.Padding = new System.Windows.Forms.Padding(3);
-            this.TAB_Walker.Size = new System.Drawing.Size(373, 239);
-            this.TAB_Walker.TabIndex = 2;
-            this.TAB_Walker.Text = "Pokewalker";
-            this.TAB_Walker.UseVisualStyleBackColor = true;
+            TAB_Walker.Controls.Add(GB_WalkerCourses);
+            TAB_Walker.Controls.Add(NUD_Watts);
+            TAB_Walker.Controls.Add(L_Watts);
+            TAB_Walker.Controls.Add(NUD_Steps);
+            TAB_Walker.Controls.Add(L_Steps);
+            TAB_Walker.Location = new System.Drawing.Point(4, 24);
+            TAB_Walker.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TAB_Walker.Name = "TAB_Walker";
+            TAB_Walker.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TAB_Walker.Size = new System.Drawing.Size(436, 278);
+            TAB_Walker.TabIndex = 2;
+            TAB_Walker.Text = "Pokewalker";
+            TAB_Walker.UseVisualStyleBackColor = true;
             // 
             // GB_WalkerCourses
             // 
-            this.GB_WalkerCourses.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.GB_WalkerCourses.Controls.Add(this.B_AllWalkerCourses);
-            this.GB_WalkerCourses.Controls.Add(this.CLB_WalkerCourses);
-            this.GB_WalkerCourses.Location = new System.Drawing.Point(3, 3);
-            this.GB_WalkerCourses.Name = "GB_WalkerCourses";
-            this.GB_WalkerCourses.Size = new System.Drawing.Size(181, 230);
-            this.GB_WalkerCourses.TabIndex = 4;
-            this.GB_WalkerCourses.TabStop = false;
-            this.GB_WalkerCourses.Text = "Pokewalker Courses";
+            GB_WalkerCourses.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            GB_WalkerCourses.Controls.Add(B_AllWalkerCourses);
+            GB_WalkerCourses.Controls.Add(CLB_WalkerCourses);
+            GB_WalkerCourses.Location = new System.Drawing.Point(4, 3);
+            GB_WalkerCourses.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_WalkerCourses.Name = "GB_WalkerCourses";
+            GB_WalkerCourses.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_WalkerCourses.Size = new System.Drawing.Size(211, 265);
+            GB_WalkerCourses.TabIndex = 4;
+            GB_WalkerCourses.TabStop = false;
+            GB_WalkerCourses.Text = "Pokewalker Courses";
             // 
             // B_AllWalkerCourses
             // 
-            this.B_AllWalkerCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.B_AllWalkerCourses.Location = new System.Drawing.Point(6, 195);
-            this.B_AllWalkerCourses.Name = "B_AllWalkerCourses";
-            this.B_AllWalkerCourses.Size = new System.Drawing.Size(75, 25);
-            this.B_AllWalkerCourses.TabIndex = 0;
-            this.B_AllWalkerCourses.Text = "Check All";
-            this.B_AllWalkerCourses.UseVisualStyleBackColor = true;
-            this.B_AllWalkerCourses.Click += new System.EventHandler(this.B_AllWalkerCourses_Click);
+            B_AllWalkerCourses.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            B_AllWalkerCourses.Location = new System.Drawing.Point(7, 225);
+            B_AllWalkerCourses.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_AllWalkerCourses.Name = "B_AllWalkerCourses";
+            B_AllWalkerCourses.Size = new System.Drawing.Size(88, 29);
+            B_AllWalkerCourses.TabIndex = 0;
+            B_AllWalkerCourses.Text = "Check All";
+            B_AllWalkerCourses.UseVisualStyleBackColor = true;
+            B_AllWalkerCourses.Click += B_AllWalkerCourses_Click;
             // 
             // CLB_WalkerCourses
             // 
-            this.CLB_WalkerCourses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CLB_WalkerCourses.CheckOnClick = true;
-            this.CLB_WalkerCourses.FormattingEnabled = true;
-            this.CLB_WalkerCourses.Location = new System.Drawing.Point(6, 16);
-            this.CLB_WalkerCourses.Name = "CLB_WalkerCourses";
-            this.CLB_WalkerCourses.Size = new System.Drawing.Size(169, 169);
-            this.CLB_WalkerCourses.TabIndex = 1;
+            CLB_WalkerCourses.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CLB_WalkerCourses.CheckOnClick = true;
+            CLB_WalkerCourses.FormattingEnabled = true;
+            CLB_WalkerCourses.Location = new System.Drawing.Point(7, 18);
+            CLB_WalkerCourses.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CLB_WalkerCourses.Name = "CLB_WalkerCourses";
+            CLB_WalkerCourses.Size = new System.Drawing.Size(196, 184);
+            CLB_WalkerCourses.TabIndex = 1;
             // 
             // NUD_Watts
             // 
-            this.NUD_Watts.Location = new System.Drawing.Point(262, 6);
-            this.NUD_Watts.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.NUD_Watts.Name = "NUD_Watts";
-            this.NUD_Watts.Size = new System.Drawing.Size(64, 20);
-            this.NUD_Watts.TabIndex = 0;
-            this.NUD_Watts.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
+            NUD_Watts.Location = new System.Drawing.Point(306, 7);
+            NUD_Watts.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Watts.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
+            NUD_Watts.Name = "NUD_Watts";
+            NUD_Watts.Size = new System.Drawing.Size(75, 23);
+            NUD_Watts.TabIndex = 0;
+            NUD_Watts.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
             // 
             // L_Watts
             // 
-            this.L_Watts.Location = new System.Drawing.Point(190, 3);
-            this.L_Watts.Name = "L_Watts";
-            this.L_Watts.Size = new System.Drawing.Size(66, 22);
-            this.L_Watts.TabIndex = 10;
-            this.L_Watts.Text = "Watts:";
-            this.L_Watts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Watts.Location = new System.Drawing.Point(222, 3);
+            L_Watts.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Watts.Name = "L_Watts";
+            L_Watts.Size = new System.Drawing.Size(77, 25);
+            L_Watts.TabIndex = 10;
+            L_Watts.Text = "Watts:";
+            L_Watts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Steps
             // 
-            this.NUD_Steps.Location = new System.Drawing.Point(262, 38);
-            this.NUD_Steps.Maximum = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
-            this.NUD_Steps.Name = "NUD_Steps";
-            this.NUD_Steps.Size = new System.Drawing.Size(64, 20);
-            this.NUD_Steps.TabIndex = 0;
-            this.NUD_Steps.Value = new decimal(new int[] {
-            9999999,
-            0,
-            0,
-            0});
+            NUD_Steps.Location = new System.Drawing.Point(306, 44);
+            NUD_Steps.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Steps.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
+            NUD_Steps.Name = "NUD_Steps";
+            NUD_Steps.Size = new System.Drawing.Size(75, 23);
+            NUD_Steps.TabIndex = 0;
+            NUD_Steps.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
             // 
             // L_Steps
             // 
-            this.L_Steps.Location = new System.Drawing.Point(190, 35);
-            this.L_Steps.Name = "L_Steps";
-            this.L_Steps.Size = new System.Drawing.Size(66, 22);
-            this.L_Steps.TabIndex = 10;
-            this.L_Steps.Text = "Steps:";
-            this.L_Steps.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Steps.Location = new System.Drawing.Point(222, 40);
+            L_Steps.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Steps.Name = "L_Steps";
+            L_Steps.Size = new System.Drawing.Size(77, 25);
+            L_Steps.TabIndex = 10;
+            L_Steps.Text = "Steps:";
+            L_Steps.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Tab_Misc
             // 
-            this.Tab_Misc.Controls.Add(this.B_AllSealsIllegal);
-            this.Tab_Misc.Controls.Add(this.B_AllSealsLegal);
-            this.Tab_Misc.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Misc.Name = "Tab_Misc";
-            this.Tab_Misc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Misc.Size = new System.Drawing.Size(373, 239);
-            this.Tab_Misc.TabIndex = 3;
-            this.Tab_Misc.Text = "Misc";
-            this.Tab_Misc.UseVisualStyleBackColor = true;
+            Tab_Misc.Controls.Add(B_AllSealsIllegal);
+            Tab_Misc.Controls.Add(B_AllSealsLegal);
+            Tab_Misc.Location = new System.Drawing.Point(4, 24);
+            Tab_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Misc.Name = "Tab_Misc";
+            Tab_Misc.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Misc.Size = new System.Drawing.Size(436, 278);
+            Tab_Misc.TabIndex = 3;
+            Tab_Misc.Text = "Misc";
+            Tab_Misc.UseVisualStyleBackColor = true;
             // 
             // B_AllSealsIllegal
             // 
-            this.B_AllSealsIllegal.Location = new System.Drawing.Point(6, 49);
-            this.B_AllSealsIllegal.Name = "B_AllSealsIllegal";
-            this.B_AllSealsIllegal.Size = new System.Drawing.Size(120, 37);
-            this.B_AllSealsIllegal.TabIndex = 1;
-            this.B_AllSealsIllegal.Text = "Give All Seals (Illegal)";
-            this.B_AllSealsIllegal.UseVisualStyleBackColor = true;
-            this.B_AllSealsIllegal.Click += new System.EventHandler(this.OnBAllSealsLegalOnClick);
+            B_AllSealsIllegal.Location = new System.Drawing.Point(7, 57);
+            B_AllSealsIllegal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_AllSealsIllegal.Name = "B_AllSealsIllegal";
+            B_AllSealsIllegal.Size = new System.Drawing.Size(140, 43);
+            B_AllSealsIllegal.TabIndex = 1;
+            B_AllSealsIllegal.Text = "Give All Seals (Illegal)";
+            B_AllSealsIllegal.UseVisualStyleBackColor = true;
+            B_AllSealsIllegal.Click += OnBAllSealsLegalOnClick;
             // 
             // B_AllSealsLegal
             // 
-            this.B_AllSealsLegal.Location = new System.Drawing.Point(6, 6);
-            this.B_AllSealsLegal.Name = "B_AllSealsLegal";
-            this.B_AllSealsLegal.Size = new System.Drawing.Size(120, 37);
-            this.B_AllSealsLegal.TabIndex = 0;
-            this.B_AllSealsLegal.Text = "Give All Seals (Legal)";
-            this.B_AllSealsLegal.UseVisualStyleBackColor = true;
-            this.B_AllSealsLegal.Click += new System.EventHandler(this.OnBAllSealsLegalOnClick);
+            B_AllSealsLegal.Location = new System.Drawing.Point(7, 7);
+            B_AllSealsLegal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_AllSealsLegal.Name = "B_AllSealsLegal";
+            B_AllSealsLegal.Size = new System.Drawing.Size(140, 43);
+            B_AllSealsLegal.TabIndex = 0;
+            B_AllSealsLegal.Text = "Give All Seals (Legal)";
+            B_AllSealsLegal.UseVisualStyleBackColor = true;
+            B_AllSealsLegal.Click += OnBAllSealsLegalOnClick;
             // 
             // Tab_Poffins
             // 
-            this.Tab_Poffins.Controls.Add(this.poffinCase4Editor1);
-            this.Tab_Poffins.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Poffins.Name = "Tab_Poffins";
-            this.Tab_Poffins.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Poffins.Size = new System.Drawing.Size(373, 239);
-            this.Tab_Poffins.TabIndex = 4;
-            this.Tab_Poffins.Text = "Poffins";
-            this.Tab_Poffins.UseVisualStyleBackColor = true;
+            Tab_Poffins.Controls.Add(poffinCase4Editor1);
+            Tab_Poffins.Location = new System.Drawing.Point(4, 24);
+            Tab_Poffins.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Poffins.Name = "Tab_Poffins";
+            Tab_Poffins.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Poffins.Size = new System.Drawing.Size(436, 278);
+            Tab_Poffins.TabIndex = 4;
+            Tab_Poffins.Text = "Poffins";
+            Tab_Poffins.UseVisualStyleBackColor = true;
             // 
             // poffinCase4Editor1
             // 
-            this.poffinCase4Editor1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.poffinCase4Editor1.Location = new System.Drawing.Point(3, 3);
-            this.poffinCase4Editor1.Name = "poffinCase4Editor1";
-            this.poffinCase4Editor1.Size = new System.Drawing.Size(367, 233);
-            this.poffinCase4Editor1.TabIndex = 0;
+            poffinCase4Editor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            poffinCase4Editor1.Location = new System.Drawing.Point(4, 3);
+            poffinCase4Editor1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            poffinCase4Editor1.Name = "poffinCase4Editor1";
+            poffinCase4Editor1.Size = new System.Drawing.Size(428, 272);
+            poffinCase4Editor1.TabIndex = 0;
             // 
             // Tab_PokeGear
             // 
-            this.Tab_PokeGear.Controls.Add(this.pokeGear4Editor1);
-            this.Tab_PokeGear.Location = new System.Drawing.Point(4, 22);
-            this.Tab_PokeGear.Name = "Tab_PokeGear";
-            this.Tab_PokeGear.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_PokeGear.Size = new System.Drawing.Size(373, 239);
-            this.Tab_PokeGear.TabIndex = 5;
-            this.Tab_PokeGear.Text = "PokeGear";
-            this.Tab_PokeGear.UseVisualStyleBackColor = true;
+            Tab_PokeGear.Controls.Add(pokeGear4Editor1);
+            Tab_PokeGear.Location = new System.Drawing.Point(4, 24);
+            Tab_PokeGear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_PokeGear.Name = "Tab_PokeGear";
+            Tab_PokeGear.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_PokeGear.Size = new System.Drawing.Size(436, 278);
+            Tab_PokeGear.TabIndex = 5;
+            Tab_PokeGear.Text = "PokeGear";
+            Tab_PokeGear.UseVisualStyleBackColor = true;
             // 
             // pokeGear4Editor1
             // 
-            this.pokeGear4Editor1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pokeGear4Editor1.Location = new System.Drawing.Point(3, 3);
-            this.pokeGear4Editor1.Name = "pokeGear4Editor1";
-            this.pokeGear4Editor1.Size = new System.Drawing.Size(367, 233);
-            this.pokeGear4Editor1.TabIndex = 0;
+            pokeGear4Editor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            pokeGear4Editor1.Location = new System.Drawing.Point(4, 3);
+            pokeGear4Editor1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            pokeGear4Editor1.Name = "pokeGear4Editor1";
+            pokeGear4Editor1.Size = new System.Drawing.Size(428, 272);
+            pokeGear4Editor1.TabIndex = 0;
             // 
             // SAV_Misc4
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(405, 323);
-            this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.TC_Misc);
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.Name = "SAV_Misc4";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Misc Editor";
-            this.TC_Misc.ResumeLayout(false);
-            this.TAB_Main.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_UGFlags)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).EndInit();
-            this.GB_FlyDest.ResumeLayout(false);
-            this.GB_Poketch.ResumeLayout(false);
-            this.GB_Poketch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_DotArtist)).EndInit();
-            this.TAB_BF.ResumeLayout(false);
-            this.GB_Prints.ResumeLayout(false);
-            this.GB_Streaks.ResumeLayout(false);
-            this.GB_Streaks.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat3)).EndInit();
-            this.GB_Hall.ResumeLayout(false);
-            this.GB_Hall.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallStreaks)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType01)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType02)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType03)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType04)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType05)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType06)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType07)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType08)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType09)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType10)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType11)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType12)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType13)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType14)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType15)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType16)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_HallType17)).EndInit();
-            this.GB_Castle.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankRcv)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankItem)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_CastleRankInfo)).EndInit();
-            this.TAB_Walker.ResumeLayout(false);
-            this.GB_WalkerCourses.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Watts)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Steps)).EndInit();
-            this.Tab_Misc.ResumeLayout(false);
-            this.Tab_Poffins.ResumeLayout(false);
-            this.Tab_PokeGear.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(472, 373);
+            Controls.Add(B_Cancel);
+            Controls.Add(B_Save);
+            Controls.Add(TC_Misc);
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Name = "SAV_Misc4";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Misc Editor";
+            TC_Misc.ResumeLayout(false);
+            TAB_Main.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_Coin).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_UGFlags).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_BP).EndInit();
+            GB_FlyDest.ResumeLayout(false);
+            GB_Poketch.ResumeLayout(false);
+            GB_Poketch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)PB_DotArtist).EndInit();
+            TAB_BF.ResumeLayout(false);
+            GB_Prints.ResumeLayout(false);
+            GB_Streaks.ResumeLayout(false);
+            GB_Streaks.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Stat0).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Stat1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Stat2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Stat3).EndInit();
+            GB_Hall.ResumeLayout(false);
+            GB_Hall.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallStreaks).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType01).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType02).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType03).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType04).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType05).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType06).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType07).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType08).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType09).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType10).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType11).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType12).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType13).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType14).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType15).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType16).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_HallType17).EndInit();
+            GB_Castle.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_CastleRankRcv).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CastleRankItem).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_CastleRankInfo).EndInit();
+            TAB_Walker.ResumeLayout(false);
+            GB_WalkerCourses.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_Watts).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Steps).EndInit();
+            Tab_Misc.ResumeLayout(false);
+            Tab_Poffins.ResumeLayout(false);
+            Tab_PokeGear.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion

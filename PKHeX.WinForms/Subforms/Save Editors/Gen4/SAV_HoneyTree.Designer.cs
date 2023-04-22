@@ -28,263 +28,244 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.B_Save = new System.Windows.Forms.Button();
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.CB_TreeList = new System.Windows.Forms.ComboBox();
-            this.L_HoneyTree = new System.Windows.Forms.Label();
-            this.L_Slot = new System.Windows.Forms.Label();
-            this.L_Time = new System.Windows.Forms.Label();
-            this.L_Shake = new System.Windows.Forms.Label();
-            this.NUD_Time = new System.Windows.Forms.NumericUpDown();
-            this.NUD_Shake = new System.Windows.Forms.NumericUpDown();
-            this.L_Munchlax = new System.Windows.Forms.Label();
-            this.L_Tree0 = new System.Windows.Forms.Label();
-            this.B_Catchable = new System.Windows.Forms.Button();
-            this.NUD_Group = new System.Windows.Forms.NumericUpDown();
-            this.L_Group = new System.Windows.Forms.Label();
-            this.NUD_Slot = new System.Windows.Forms.NumericUpDown();
-            this.L_Species = new System.Windows.Forms.Label();
-            this.GB_TreeInfo = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Time)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Shake)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Group)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Slot)).BeginInit();
-            this.GB_TreeInfo.SuspendLayout();
-            this.SuspendLayout();
+            B_Save = new System.Windows.Forms.Button();
+            B_Cancel = new System.Windows.Forms.Button();
+            CB_TreeList = new System.Windows.Forms.ComboBox();
+            L_HoneyTree = new System.Windows.Forms.Label();
+            L_Slot = new System.Windows.Forms.Label();
+            L_Time = new System.Windows.Forms.Label();
+            L_Shake = new System.Windows.Forms.Label();
+            NUD_Time = new System.Windows.Forms.NumericUpDown();
+            NUD_Shake = new System.Windows.Forms.NumericUpDown();
+            L_Munchlax = new System.Windows.Forms.Label();
+            L_Tree0 = new System.Windows.Forms.Label();
+            B_Catchable = new System.Windows.Forms.Button();
+            NUD_Group = new System.Windows.Forms.NumericUpDown();
+            L_Group = new System.Windows.Forms.Label();
+            NUD_Slot = new System.Windows.Forms.NumericUpDown();
+            L_Species = new System.Windows.Forms.Label();
+            GB_TreeInfo = new System.Windows.Forms.GroupBox();
+            ((System.ComponentModel.ISupportInitialize)NUD_Time).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Shake).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Group).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Slot).BeginInit();
+            GB_TreeInfo.SuspendLayout();
+            SuspendLayout();
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(314, 181);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 23);
-            this.B_Save.TabIndex = 73;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(366, 209);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(88, 27);
+            B_Save.TabIndex = 73;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(233, 181);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.B_Cancel.TabIndex = 72;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(272, 209);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(88, 27);
+            B_Cancel.TabIndex = 72;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // CB_TreeList
             // 
-            this.CB_TreeList.FormattingEnabled = true;
-            this.CB_TreeList.Items.AddRange(new object[] {
-            "Route 205, Floaroma Town side",
-            "Route 205, Eterna City side",
-            "Route 206",
-            "Route 207",
-            "Route 208",
-            "Route 209",
-            "Route 210, Solaceon Town side",
-            "Route 210, Celestic Town side",
-            "Route 211",
-            "Route 212, Hearthome City side",
-            "Route 212, Pastoria City side",
-            "Route 213",
-            "Route 214",
-            "Route 215",
-            "Route 218",
-            "Route 221",
-            "Route 222",
-            "Valley Windworks",
-            "Eterna Forest",
-            "Fuego Ironworks",
-            "Floaroma Meadow"});
-            this.CB_TreeList.Location = new System.Drawing.Point(10, 36);
-            this.CB_TreeList.Name = "CB_TreeList";
-            this.CB_TreeList.Size = new System.Drawing.Size(183, 21);
-            this.CB_TreeList.TabIndex = 74;
-            this.CB_TreeList.SelectedIndexChanged += new System.EventHandler(this.ChangeTree);
+            CB_TreeList.FormattingEnabled = true;
+            CB_TreeList.Items.AddRange(new object[] { "Route 205, Floaroma Town side", "Route 205, Eterna City side", "Route 206", "Route 207", "Route 208", "Route 209", "Route 210, Solaceon Town side", "Route 210, Celestic Town side", "Route 211", "Route 212, Hearthome City side", "Route 212, Pastoria City side", "Route 213", "Route 214", "Route 215", "Route 218", "Route 221", "Route 222", "Valley Windworks", "Eterna Forest", "Fuego Ironworks", "Floaroma Meadow" });
+            CB_TreeList.Location = new System.Drawing.Point(12, 42);
+            CB_TreeList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_TreeList.Name = "CB_TreeList";
+            CB_TreeList.Size = new System.Drawing.Size(213, 23);
+            CB_TreeList.TabIndex = 74;
+            CB_TreeList.SelectedIndexChanged += ChangeTree;
             // 
             // L_HoneyTree
             // 
-            this.L_HoneyTree.Location = new System.Drawing.Point(7, 22);
-            this.L_HoneyTree.Name = "L_HoneyTree";
-            this.L_HoneyTree.Size = new System.Drawing.Size(186, 13);
-            this.L_HoneyTree.TabIndex = 75;
-            this.L_HoneyTree.Text = "Honey Tree";
-            this.L_HoneyTree.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            L_HoneyTree.Location = new System.Drawing.Point(8, 25);
+            L_HoneyTree.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_HoneyTree.Name = "L_HoneyTree";
+            L_HoneyTree.Size = new System.Drawing.Size(217, 15);
+            L_HoneyTree.TabIndex = 75;
+            L_HoneyTree.Text = "Honey Tree";
+            L_HoneyTree.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // L_Slot
             // 
-            this.L_Slot.AutoSize = true;
-            this.L_Slot.Location = new System.Drawing.Point(48, 16);
-            this.L_Slot.Name = "L_Slot";
-            this.L_Slot.Size = new System.Drawing.Size(25, 13);
-            this.L_Slot.TabIndex = 76;
-            this.L_Slot.Text = "Slot";
+            L_Slot.AutoSize = true;
+            L_Slot.Location = new System.Drawing.Point(56, 18);
+            L_Slot.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Slot.Name = "L_Slot";
+            L_Slot.Size = new System.Drawing.Size(27, 15);
+            L_Slot.TabIndex = 76;
+            L_Slot.Text = "Slot";
             // 
             // L_Time
             // 
-            this.L_Time.AutoSize = true;
-            this.L_Time.Location = new System.Drawing.Point(11, 67);
-            this.L_Time.Name = "L_Time";
-            this.L_Time.Size = new System.Drawing.Size(92, 13);
-            this.L_Time.TabIndex = 77;
-            this.L_Time.Text = "Time left (minutes)";
+            L_Time.AutoSize = true;
+            L_Time.Location = new System.Drawing.Point(13, 77);
+            L_Time.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Time.Name = "L_Time";
+            L_Time.Size = new System.Drawing.Size(107, 15);
+            L_Time.TabIndex = 77;
+            L_Time.Text = "Time left (minutes)";
             // 
             // L_Shake
             // 
-            this.L_Shake.AutoSize = true;
-            this.L_Shake.Location = new System.Drawing.Point(116, 67);
-            this.L_Shake.Name = "L_Shake";
-            this.L_Shake.Size = new System.Drawing.Size(38, 13);
-            this.L_Shake.TabIndex = 79;
-            this.L_Shake.Text = "Shake";
+            L_Shake.AutoSize = true;
+            L_Shake.Location = new System.Drawing.Point(135, 77);
+            L_Shake.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Shake.Name = "L_Shake";
+            L_Shake.Size = new System.Drawing.Size(38, 15);
+            L_Shake.TabIndex = 79;
+            L_Shake.Text = "Shake";
             // 
             // NUD_Time
             // 
-            this.NUD_Time.Location = new System.Drawing.Point(11, 83);
-            this.NUD_Time.Maximum = new decimal(new int[] {
-            1440,
-            0,
-            0,
-            0});
-            this.NUD_Time.Name = "NUD_Time";
-            this.NUD_Time.Size = new System.Drawing.Size(102, 20);
-            this.NUD_Time.TabIndex = 80;
+            NUD_Time.Location = new System.Drawing.Point(13, 96);
+            NUD_Time.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Time.Maximum = new decimal(new int[] { 1440, 0, 0, 0 });
+            NUD_Time.Name = "NUD_Time";
+            NUD_Time.Size = new System.Drawing.Size(119, 23);
+            NUD_Time.TabIndex = 80;
             // 
             // NUD_Shake
             // 
-            this.NUD_Shake.Location = new System.Drawing.Point(119, 83);
-            this.NUD_Shake.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_Shake.Name = "NUD_Shake";
-            this.NUD_Shake.Size = new System.Drawing.Size(36, 20);
-            this.NUD_Shake.TabIndex = 81;
+            NUD_Shake.Location = new System.Drawing.Point(139, 96);
+            NUD_Shake.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Shake.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
+            NUD_Shake.Name = "NUD_Shake";
+            NUD_Shake.Size = new System.Drawing.Size(42, 23);
+            NUD_Shake.TabIndex = 81;
             // 
             // L_Munchlax
             // 
-            this.L_Munchlax.AutoSize = true;
-            this.L_Munchlax.Location = new System.Drawing.Point(199, 22);
-            this.L_Munchlax.Name = "L_Munchlax";
-            this.L_Munchlax.Size = new System.Drawing.Size(86, 13);
-            this.L_Munchlax.TabIndex = 82;
-            this.L_Munchlax.Text = "Munchlax Trees:";
+            L_Munchlax.AutoSize = true;
+            L_Munchlax.Location = new System.Drawing.Point(232, 25);
+            L_Munchlax.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Munchlax.Name = "L_Munchlax";
+            L_Munchlax.Size = new System.Drawing.Size(92, 15);
+            L_Munchlax.TabIndex = 82;
+            L_Munchlax.Text = "Munchlax Trees:";
             // 
             // L_Tree0
             // 
-            this.L_Tree0.AutoSize = true;
-            this.L_Tree0.Location = new System.Drawing.Point(199, 39);
-            this.L_Tree0.Name = "L_Tree0";
-            this.L_Tree0.Size = new System.Drawing.Size(164, 13);
-            this.L_Tree0.TabIndex = 83;
-            this.L_Tree0.Text = "- Route 205, Floaroma Town side";
+            L_Tree0.AutoSize = true;
+            L_Tree0.Location = new System.Drawing.Point(232, 45);
+            L_Tree0.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Tree0.Name = "L_Tree0";
+            L_Tree0.Size = new System.Drawing.Size(178, 15);
+            L_Tree0.TabIndex = 83;
+            L_Tree0.Text = "- Route 205, Floaroma Town side";
             // 
             // B_Catchable
             // 
-            this.B_Catchable.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F);
-            this.B_Catchable.Location = new System.Drawing.Point(11, 109);
-            this.B_Catchable.Name = "B_Catchable";
-            this.B_Catchable.Size = new System.Drawing.Size(100, 23);
-            this.B_Catchable.TabIndex = 87;
-            this.B_Catchable.Text = "Make catchable";
-            this.B_Catchable.UseVisualStyleBackColor = true;
-            this.B_Catchable.Click += new System.EventHandler(this.B_Catchable_Click);
+            B_Catchable.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            B_Catchable.Location = new System.Drawing.Point(13, 126);
+            B_Catchable.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Catchable.Name = "B_Catchable";
+            B_Catchable.Size = new System.Drawing.Size(117, 27);
+            B_Catchable.TabIndex = 87;
+            B_Catchable.Text = "Make catchable";
+            B_Catchable.UseVisualStyleBackColor = true;
+            B_Catchable.Click += B_Catchable_Click;
             // 
             // NUD_Group
             // 
-            this.NUD_Group.Location = new System.Drawing.Point(9, 32);
-            this.NUD_Group.Maximum = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            this.NUD_Group.Name = "NUD_Group";
-            this.NUD_Group.Size = new System.Drawing.Size(36, 20);
-            this.NUD_Group.TabIndex = 88;
-            this.NUD_Group.ValueChanged += new System.EventHandler(this.ChangeGroupSlot);
+            NUD_Group.Location = new System.Drawing.Point(10, 37);
+            NUD_Group.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Group.Maximum = new decimal(new int[] { 3, 0, 0, 0 });
+            NUD_Group.Name = "NUD_Group";
+            NUD_Group.Size = new System.Drawing.Size(42, 23);
+            NUD_Group.TabIndex = 88;
+            NUD_Group.ValueChanged += ChangeGroupSlot;
             // 
             // L_Group
             // 
-            this.L_Group.AutoSize = true;
-            this.L_Group.Location = new System.Drawing.Point(6, 16);
-            this.L_Group.Name = "L_Group";
-            this.L_Group.Size = new System.Drawing.Size(36, 13);
-            this.L_Group.TabIndex = 89;
-            this.L_Group.Text = "Group";
+            L_Group.AutoSize = true;
+            L_Group.Location = new System.Drawing.Point(7, 18);
+            L_Group.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Group.Name = "L_Group";
+            L_Group.Size = new System.Drawing.Size(40, 15);
+            L_Group.TabIndex = 89;
+            L_Group.Text = "Group";
             // 
             // NUD_Slot
             // 
-            this.NUD_Slot.Location = new System.Drawing.Point(51, 32);
-            this.NUD_Slot.Maximum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.NUD_Slot.Name = "NUD_Slot";
-            this.NUD_Slot.Size = new System.Drawing.Size(36, 20);
-            this.NUD_Slot.TabIndex = 90;
-            this.NUD_Slot.ValueChanged += new System.EventHandler(this.ChangeGroupSlot);
+            NUD_Slot.Location = new System.Drawing.Point(59, 37);
+            NUD_Slot.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Slot.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
+            NUD_Slot.Name = "NUD_Slot";
+            NUD_Slot.Size = new System.Drawing.Size(42, 23);
+            NUD_Slot.TabIndex = 90;
+            NUD_Slot.ValueChanged += ChangeGroupSlot;
             // 
             // L_Species
             // 
-            this.L_Species.Location = new System.Drawing.Point(93, 16);
-            this.L_Species.Name = "L_Species";
-            this.L_Species.Size = new System.Drawing.Size(88, 51);
-            this.L_Species.TabIndex = 91;
-            this.L_Species.Text = "Species";
-            this.L_Species.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            L_Species.Location = new System.Drawing.Point(108, 18);
+            L_Species.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Species.Name = "L_Species";
+            L_Species.Size = new System.Drawing.Size(103, 59);
+            L_Species.TabIndex = 91;
+            L_Species.Text = "Species";
+            L_Species.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // GB_TreeInfo
             // 
-            this.GB_TreeInfo.Controls.Add(this.L_Group);
-            this.GB_TreeInfo.Controls.Add(this.L_Species);
-            this.GB_TreeInfo.Controls.Add(this.L_Slot);
-            this.GB_TreeInfo.Controls.Add(this.NUD_Slot);
-            this.GB_TreeInfo.Controls.Add(this.L_Time);
-            this.GB_TreeInfo.Controls.Add(this.L_Shake);
-            this.GB_TreeInfo.Controls.Add(this.NUD_Group);
-            this.GB_TreeInfo.Controls.Add(this.NUD_Time);
-            this.GB_TreeInfo.Controls.Add(this.B_Catchable);
-            this.GB_TreeInfo.Controls.Add(this.NUD_Shake);
-            this.GB_TreeInfo.Location = new System.Drawing.Point(12, 63);
-            this.GB_TreeInfo.Name = "GB_TreeInfo";
-            this.GB_TreeInfo.Size = new System.Drawing.Size(185, 141);
-            this.GB_TreeInfo.TabIndex = 92;
-            this.GB_TreeInfo.TabStop = false;
-            this.GB_TreeInfo.Text = "Tree Info";
+            GB_TreeInfo.Controls.Add(L_Group);
+            GB_TreeInfo.Controls.Add(L_Species);
+            GB_TreeInfo.Controls.Add(L_Slot);
+            GB_TreeInfo.Controls.Add(NUD_Slot);
+            GB_TreeInfo.Controls.Add(L_Time);
+            GB_TreeInfo.Controls.Add(L_Shake);
+            GB_TreeInfo.Controls.Add(NUD_Group);
+            GB_TreeInfo.Controls.Add(NUD_Time);
+            GB_TreeInfo.Controls.Add(B_Catchable);
+            GB_TreeInfo.Controls.Add(NUD_Shake);
+            GB_TreeInfo.Location = new System.Drawing.Point(14, 73);
+            GB_TreeInfo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_TreeInfo.Name = "GB_TreeInfo";
+            GB_TreeInfo.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_TreeInfo.Size = new System.Drawing.Size(216, 163);
+            GB_TreeInfo.TabIndex = 92;
+            GB_TreeInfo.TabStop = false;
+            GB_TreeInfo.Text = "Tree Info";
             // 
             // SAV_HoneyTree
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(399, 216);
-            this.Controls.Add(this.GB_TreeInfo);
-            this.Controls.Add(this.L_Tree0);
-            this.Controls.Add(this.L_Munchlax);
-            this.Controls.Add(this.L_HoneyTree);
-            this.Controls.Add(this.CB_TreeList);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.B_Cancel);
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(200, 150);
-            this.Name = "SAV_HoneyTree";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Honey Tree Editor";
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Time)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Shake)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Group)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Slot)).EndInit();
-            this.GB_TreeInfo.ResumeLayout(false);
-            this.GB_TreeInfo.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(465, 249);
+            Controls.Add(GB_TreeInfo);
+            Controls.Add(L_Tree0);
+            Controls.Add(L_Munchlax);
+            Controls.Add(L_HoneyTree);
+            Controls.Add(CB_TreeList);
+            Controls.Add(B_Save);
+            Controls.Add(B_Cancel);
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(231, 167);
+            Name = "SAV_HoneyTree";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Honey Tree Editor";
+            ((System.ComponentModel.ISupportInitialize)NUD_Time).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Shake).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Group).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_Slot).EndInit();
+            GB_TreeInfo.ResumeLayout(false);
+            GB_TreeInfo.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

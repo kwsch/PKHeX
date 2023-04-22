@@ -28,25 +28,25 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            this.FLP_Slots = new System.Windows.Forms.TableLayoutPanel();
-            this.SuspendLayout();
+            FLP_Slots = new System.Windows.Forms.TableLayoutPanel();
+            SuspendLayout();
             // 
             // FLP_Slots
             // 
-            this.FLP_Slots.AutoScroll = true;
-            this.FLP_Slots.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FLP_Slots.Location = new System.Drawing.Point(0, 0);
-            this.FLP_Slots.Name = "FLP_Slots";
-            this.FLP_Slots.Size = new System.Drawing.Size(86, 32);
-            this.FLP_Slots.TabIndex = 0;
+            FLP_Slots.AutoScroll = true;
+            FLP_Slots.Dock = System.Windows.Forms.DockStyle.Fill;
+            FLP_Slots.Location = new System.Drawing.Point(0, 0);
+            FLP_Slots.Name = "FLP_Slots";
+            FLP_Slots.Size = new System.Drawing.Size(86, 32);
+            FLP_Slots.TabIndex = 0;
             // 
             // SlotList
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.Controls.Add(this.FLP_Slots);
-            this.Name = "SlotList";
-            this.Size = new System.Drawing.Size(86, 32);
-            this.ResumeLayout(false);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            Controls.Add(FLP_Slots);
+            Name = "SlotList";
+            Size = new System.Drawing.Size(86, 32);
+            ResumeLayout(false);
 
         }
 

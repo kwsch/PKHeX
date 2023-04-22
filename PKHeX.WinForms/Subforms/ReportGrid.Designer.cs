@@ -29,38 +29,38 @@ namespace PKHeX.WinForms
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dgData = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
-            ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
-            this.SuspendLayout();
+            dgData = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
+            ((System.ComponentModel.ISupportInitialize)(dgData)).BeginInit();
+            SuspendLayout();
             // 
             // dgData
             // 
-            this.dgData.AllowUserToAddRows = false;
-            this.dgData.AllowUserToDeleteRows = false;
+            dgData.AllowUserToAddRows = false;
+            dgData.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.dgData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
-            this.dgData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgData.Location = new System.Drawing.Point(0, 0);
-            this.dgData.Name = "dgData";
-            this.dgData.RowHeadersVisible = false;
-            this.dgData.Size = new System.Drawing.Size(812, 461);
-            this.dgData.TabIndex = 0;
-            this.dgData.Sorted += new System.EventHandler(this.Data_Sorted);
+            dgData.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgData.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
+            dgData.Dock = System.Windows.Forms.DockStyle.Fill;
+            dgData.Location = new System.Drawing.Point(0, 0);
+            dgData.Name = "dgData";
+            dgData.RowHeadersVisible = false;
+            dgData.Size = new System.Drawing.Size(812, 461);
+            dgData.TabIndex = 0;
+            dgData.Sorted += new System.EventHandler(Data_Sorted);
             // 
             // ReportGrid
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(812, 461);
-            this.Controls.Add(this.dgData);
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.Name = "ReportGrid";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Box Data Report";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PromptSaveCSV);
-            ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(812, 461);
+            Controls.Add(dgData);
+            Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
+            Name = "ReportGrid";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Box Data Report";
+            FormClosing += new System.Windows.Forms.FormClosingEventHandler(PromptSaveCSV);
+            ((System.ComponentModel.ISupportInitialize)(dgData)).EndInit();
+            ResumeLayout(false);
 
         }
 

@@ -603,19 +603,19 @@ public partial class SAV_Misc4 : Form
     {
         if (editing)
             return;
-        if (sender is RadioButton {Checked: false})
+        if (sender is RadioButton { Checked: false })
             return;
         StatAddrControl(SetValToSav: -2, SetSavToVal: true);
         if (GB_Hall.Visible)
         {
-            GB_Hall.Text = $"Battle Hall ({(string) CB_Stats2.SelectedItem})";
+            GB_Hall.Text = $"Battle Hall ({(string)CB_Stats2.SelectedItem})";
             editing = true;
             GetHallStat();
             editing = false;
         }
         else if (GB_Castle.Visible)
         {
-            GB_Castle.Text = $"Battle Castle ({(string) CB_Stats2.SelectedItem})";
+            GB_Castle.Text = $"Battle Castle ({(string)CB_Stats2.SelectedItem})";
             editing = true;
             GetCastleStat();
             editing = false;

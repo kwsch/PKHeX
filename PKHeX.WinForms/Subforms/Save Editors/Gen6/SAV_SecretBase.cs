@@ -15,7 +15,7 @@ public partial class SAV_SecretBase : Form
     private int CurrentPKMIndex;
     private SecretBase6PKM? CurrentPKM;
 
-    private int CurrentPlacementIndex ;
+    private int CurrentPlacementIndex;
     private SecretBase6GoodPlacement? CurrentPlacement;
 
     private bool loading = true;
@@ -80,7 +80,7 @@ public partial class SAV_SecretBase : Form
             string name = other.TrainerName;
             if (string.IsNullOrWhiteSpace(name))
                 name = "Empty";
-            LB_Bases.Items.Add($"{i+1:00} {name}");
+            LB_Bases.Items.Add($"{i + 1:00} {name}");
         }
 
         if (index >= 0)
@@ -150,10 +150,10 @@ public partial class SAV_SecretBase : Form
         if (p is null || index < 0)
             return;
 
-        p.Good = (ushort) NUD_FObjType.Value;
-        p.X = (ushort) NUD_FX.Value;
-        p.Y = (ushort) NUD_FY.Value;
-        p.Rotation = (byte) NUD_FRot.Value;
+        p.Good = (ushort)NUD_FObjType.Value;
+        p.X = (ushort)NUD_FX.Value;
+        p.Y = (ushort)NUD_FY.Value;
+        p.Rotation = (byte)NUD_FRot.Value;
 
         bdata.SetPlacement(index, p);
     }
@@ -304,7 +304,7 @@ public partial class SAV_SecretBase : Form
         SavePKM(pk);
         o.SetParticipant(CurrentPKMIndex, pk);
 
-        var index = CurrentPKMIndex = (int) NUD_FPKM.Value;
+        var index = CurrentPKMIndex = (int)NUD_FPKM.Value;
         pk = o.GetParticipant(index);
         LoadPKM(pk);
     }
@@ -377,7 +377,7 @@ public partial class SAV_SecretBase : Form
     private void SetGenderLabel(int gender)
     {
         var symbols = Main.GenderSymbols;
-        if ((uint) gender >= symbols.Count)
+        if ((uint)gender >= symbols.Count)
             gender = 0;
         Label_Gender.Text = symbols[gender];
     }
@@ -418,7 +418,7 @@ public partial class SAV_SecretBase : Form
         var tr = sb.TrainerName;
         if (string.IsNullOrWhiteSpace(tr))
             tr = "Trainer";
-        using var sfd = new SaveFileDialog {Filter = "Secret Base Data|*.sb6", FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6"};
+        using var sfd = new SaveFileDialog { Filter = "Secret Base Data|*.sb6", FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6" };
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 

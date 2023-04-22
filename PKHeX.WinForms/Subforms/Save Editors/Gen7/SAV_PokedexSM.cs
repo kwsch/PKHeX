@@ -163,7 +163,7 @@ public partial class SAV_PokedexSM : Form
 
     private void ChangeDisplayed(object sender, EventArgs e)
     {
-        if (!((CheckBox) sender).Checked)
+        if (!((CheckBox)sender).Checked)
             return;
 
         CHK_P6.Checked = sender == CHK_P6;
@@ -384,7 +384,7 @@ public partial class SAV_PokedexSM : Form
         if (mnuComplete == sender)
         {
             // Seen All
-            foreach (var chk in new[] {CHK_P2, CHK_P3, CHK_P4, CHK_P5})
+            foreach (var chk in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
                 chk.Checked = chk.Enabled;
         }
         else
@@ -403,7 +403,7 @@ public partial class SAV_PokedexSM : Form
 
     private void SetSeen(object sender, byte gt, bool isForm)
     {
-        foreach (CheckBox t in new[] {CHK_P2, CHK_P3, CHK_P4, CHK_P5})
+        foreach (CheckBox t in new[] { CHK_P2, CHK_P3, CHK_P4, CHK_P5 })
             t.Checked = mnuSeenNone != sender && t.Enabled;
 
         if (mnuSeenNone != sender)

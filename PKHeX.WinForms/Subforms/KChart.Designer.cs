@@ -28,205 +28,205 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            this.DGV = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
-            this.d_Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Sprite = new System.Windows.Forms.DataGridViewImageColumn();
-            this.SpecName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.New = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.BST = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CatchRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Type2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.HP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ATK = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DEF = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SPA = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SPD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ability0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ability1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AbilityH = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
-            this.SuspendLayout();
+            DGV = new PKHeX.WinForms.Controls.DoubleBufferedDataGridView();
+            d_Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Sprite = new System.Windows.Forms.DataGridViewImageColumn();
+            SpecName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            New = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            BST = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            CatchRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Type1 = new System.Windows.Forms.DataGridViewImageColumn();
+            Type2 = new System.Windows.Forms.DataGridViewImageColumn();
+            HP = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ATK = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DEF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            SPA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            SPD = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            SPE = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Ability0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Ability1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            AbilityH = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(DGV)).BeginInit();
+            SuspendLayout();
             // 
             // DGV
             // 
-            this.DGV.AllowUserToAddRows = false;
-            this.DGV.AllowUserToDeleteRows = false;
-            this.DGV.AllowUserToResizeColumns = false;
-            this.DGV.AllowUserToResizeRows = false;
-            this.DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.d_Index,
-            this.Sprite,
-            this.SpecName,
-            this.New,
-            this.BST,
-            this.CatchRate,
-            this.Type1,
-            this.Type2,
-            this.HP,
-            this.ATK,
-            this.DEF,
-            this.SPA,
-            this.SPD,
-            this.SPE,
-            this.Ability0,
-            this.Ability1,
-            this.AbilityH});
-            this.DGV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.DGV.Location = new System.Drawing.Point(0, 0);
-            this.DGV.Name = "DGV";
-            this.DGV.Size = new System.Drawing.Size(1077, 615);
-            this.DGV.TabIndex = 33;
+            DGV.AllowUserToAddRows = false;
+            DGV.AllowUserToDeleteRows = false;
+            DGV.AllowUserToResizeColumns = false;
+            DGV.AllowUserToResizeRows = false;
+            DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            d_Index,
+            Sprite,
+            SpecName,
+            New,
+            BST,
+            CatchRate,
+            Type1,
+            Type2,
+            HP,
+            ATK,
+            DEF,
+            SPA,
+            SPD,
+            SPE,
+            Ability0,
+            Ability1,
+            AbilityH});
+            DGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            DGV.Location = new System.Drawing.Point(0, 0);
+            DGV.Name = "DGV";
+            DGV.Size = new System.Drawing.Size(1077, 615);
+            DGV.TabIndex = 33;
             // 
             // d_Index
             // 
-            this.d_Index.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.d_Index.HeaderText = "Dex#";
-            this.d_Index.Name = "d_Index";
-            this.d_Index.ReadOnly = true;
-            this.d_Index.Width = 58;
+            d_Index.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            d_Index.HeaderText = "Dex#";
+            d_Index.Name = "d_Index";
+            d_Index.ReadOnly = true;
+            d_Index.Width = 58;
             // 
             // Sprite
             // 
-            this.Sprite.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Sprite.HeaderText = "Sprite";
-            this.Sprite.Name = "Sprite";
-            this.Sprite.ReadOnly = true;
-            this.Sprite.Width = 40;
+            Sprite.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            Sprite.HeaderText = "Sprite";
+            Sprite.Name = "Sprite";
+            Sprite.ReadOnly = true;
+            Sprite.Width = 40;
             // 
             // SpecName
             // 
-            this.SpecName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.SpecName.HeaderText = "Name";
-            this.SpecName.Name = "SpecName";
-            this.SpecName.ReadOnly = true;
-            this.SpecName.Width = 60;
+            SpecName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            SpecName.HeaderText = "Name";
+            SpecName.Name = "SpecName";
+            SpecName.ReadOnly = true;
+            SpecName.Width = 60;
             // 
             // New
             // 
-            this.New.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.New.HeaderText = "Native";
-            this.New.Name = "New";
-            this.New.ReadOnly = true;
-            this.New.Width = 44;
+            New.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            New.HeaderText = "Native";
+            New.Name = "New";
+            New.ReadOnly = true;
+            New.Width = 44;
             // 
             // BST
             // 
-            this.BST.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.BST.HeaderText = "BST";
-            this.BST.Name = "BST";
-            this.BST.ReadOnly = true;
-            this.BST.Width = 53;
+            BST.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            BST.HeaderText = "BST";
+            BST.Name = "BST";
+            BST.ReadOnly = true;
+            BST.Width = 53;
             // 
             // CatchRate
             // 
-            this.CatchRate.HeaderText = "Catch Rate";
-            this.CatchRate.Name = "CatchRate";
-            this.CatchRate.ReadOnly = true;
-            this.CatchRate.Width = 85;
+            CatchRate.HeaderText = "Catch Rate";
+            CatchRate.Name = "CatchRate";
+            CatchRate.ReadOnly = true;
+            CatchRate.Width = 85;
             // 
             // Type1
             // 
-            this.Type1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Type1.HeaderText = "Type1";
-            this.Type1.Name = "Type1";
-            this.Type1.ReadOnly = true;
-            this.Type1.Width = 43;
+            Type1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            Type1.HeaderText = "Type1";
+            Type1.Name = "Type1";
+            Type1.ReadOnly = true;
+            Type1.Width = 43;
             // 
             // Type2
             // 
-            this.Type2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Type2.HeaderText = "Type2";
-            this.Type2.Name = "Type2";
-            this.Type2.ReadOnly = true;
-            this.Type2.Width = 43;
+            Type2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            Type2.HeaderText = "Type2";
+            Type2.Name = "Type2";
+            Type2.ReadOnly = true;
+            Type2.Width = 43;
             // 
             // HP
             // 
-            this.HP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.HP.HeaderText = "HP";
-            this.HP.Name = "HP";
-            this.HP.ReadOnly = true;
-            this.HP.Width = 47;
+            HP.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            HP.HeaderText = "HP";
+            HP.Name = "HP";
+            HP.ReadOnly = true;
+            HP.Width = 47;
             // 
             // ATK
             // 
-            this.ATK.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ATK.HeaderText = "ATK";
-            this.ATK.Name = "ATK";
-            this.ATK.ReadOnly = true;
-            this.ATK.Width = 53;
+            ATK.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            ATK.HeaderText = "ATK";
+            ATK.Name = "ATK";
+            ATK.ReadOnly = true;
+            ATK.Width = 53;
             // 
             // DEF
             // 
-            this.DEF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.DEF.HeaderText = "DEF";
-            this.DEF.Name = "DEF";
-            this.DEF.ReadOnly = true;
-            this.DEF.Width = 53;
+            DEF.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            DEF.HeaderText = "DEF";
+            DEF.Name = "DEF";
+            DEF.ReadOnly = true;
+            DEF.Width = 53;
             // 
             // SPA
             // 
-            this.SPA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.SPA.HeaderText = "SPA";
-            this.SPA.Name = "SPA";
-            this.SPA.ReadOnly = true;
-            this.SPA.Width = 53;
+            SPA.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            SPA.HeaderText = "SPA";
+            SPA.Name = "SPA";
+            SPA.ReadOnly = true;
+            SPA.Width = 53;
             // 
             // SPD
             // 
-            this.SPD.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.SPD.HeaderText = "SPD";
-            this.SPD.Name = "SPD";
-            this.SPD.ReadOnly = true;
-            this.SPD.Width = 54;
+            SPD.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            SPD.HeaderText = "SPD";
+            SPD.Name = "SPD";
+            SPD.ReadOnly = true;
+            SPD.Width = 54;
             // 
             // SPE
             // 
-            this.SPE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.SPE.HeaderText = "SPE";
-            this.SPE.Name = "SPE";
-            this.SPE.ReadOnly = true;
-            this.SPE.Width = 53;
+            SPE.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            SPE.HeaderText = "SPE";
+            SPE.Name = "SPE";
+            SPE.ReadOnly = true;
+            SPE.Width = 53;
             // 
             // Ability0
             // 
-            this.Ability0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Ability0.HeaderText = "Ability 1";
-            this.Ability0.Name = "Ability0";
-            this.Ability0.ReadOnly = true;
-            this.Ability0.Width = 68;
+            Ability0.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            Ability0.HeaderText = "Ability 1";
+            Ability0.Name = "Ability0";
+            Ability0.ReadOnly = true;
+            Ability0.Width = 68;
             // 
             // Ability1
             // 
-            this.Ability1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Ability1.HeaderText = "Ability 2";
-            this.Ability1.Name = "Ability1";
-            this.Ability1.ReadOnly = true;
-            this.Ability1.Width = 68;
+            Ability1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            Ability1.HeaderText = "Ability 2";
+            Ability1.Name = "Ability1";
+            Ability1.ReadOnly = true;
+            Ability1.Width = 68;
             // 
             // AbilityH
             // 
-            this.AbilityH.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.AbilityH.HeaderText = "Hidden Ability";
-            this.AbilityH.Name = "AbilityH";
-            this.AbilityH.ReadOnly = true;
-            this.AbilityH.Width = 96;
+            AbilityH.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            AbilityH.HeaderText = "Hidden Ability";
+            AbilityH.Name = "AbilityH";
+            AbilityH.ReadOnly = true;
+            AbilityH.Width = 96;
             // 
             // KChart
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1077, 615);
-            this.Controls.Add(this.DGV);
-            this.MinimumSize = new System.Drawing.Size(1093, 654);
-            this.Name = "KChart";
-            this.Text = "KChart";
-            ((System.ComponentModel.ISupportInitialize)(this.DGV)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.White;
+            ClientSize = new System.Drawing.Size(1077, 615);
+            Controls.Add(DGV);
+            MinimumSize = new System.Drawing.Size(1093, 654);
+            Name = "KChart";
+            Text = "KChart";
+            ((System.ComponentModel.ISupportInitialize)(DGV)).EndInit();
+            ResumeLayout(false);
 
         }
 

@@ -28,216 +28,222 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.TB_Text = new System.Windows.Forms.TextBox();
-            this.CB_Species = new System.Windows.Forms.ComboBox();
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.FLP_Characters = new System.Windows.Forms.FlowLayoutPanel();
-            this.FLP_Hex = new System.Windows.Forms.FlowLayoutPanel();
-            this.CB_Language = new System.Windows.Forms.ComboBox();
-            this.B_ApplyTrash = new System.Windows.Forms.Button();
-            this.GB_Trash = new System.Windows.Forms.GroupBox();
-            this.B_ClearTrash = new System.Windows.Forms.Button();
-            this.L_Generation = new System.Windows.Forms.Label();
-            this.NUD_Generation = new System.Windows.Forms.NumericUpDown();
-            this.L_Language = new System.Windows.Forms.Label();
-            this.L_Species = new System.Windows.Forms.Label();
-            this.L_String = new System.Windows.Forms.Label();
-            this.GB_Trash.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Generation)).BeginInit();
-            this.SuspendLayout();
+            TB_Text = new System.Windows.Forms.TextBox();
+            CB_Species = new System.Windows.Forms.ComboBox();
+            B_Cancel = new System.Windows.Forms.Button();
+            B_Save = new System.Windows.Forms.Button();
+            FLP_Characters = new System.Windows.Forms.FlowLayoutPanel();
+            FLP_Hex = new System.Windows.Forms.FlowLayoutPanel();
+            CB_Language = new System.Windows.Forms.ComboBox();
+            B_ApplyTrash = new System.Windows.Forms.Button();
+            GB_Trash = new System.Windows.Forms.GroupBox();
+            B_ClearTrash = new System.Windows.Forms.Button();
+            L_Generation = new System.Windows.Forms.Label();
+            NUD_Generation = new System.Windows.Forms.NumericUpDown();
+            L_Language = new System.Windows.Forms.Label();
+            L_Species = new System.Windows.Forms.Label();
+            L_String = new System.Windows.Forms.Label();
+            GB_Trash.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_Generation).BeginInit();
+            SuspendLayout();
             // 
             // TB_Text
             // 
-            this.TB_Text.Location = new System.Drawing.Point(92, 12);
-            this.TB_Text.Name = "TB_Text";
-            this.TB_Text.Size = new System.Drawing.Size(136, 20);
-            this.TB_Text.TabIndex = 35;
+            TB_Text.Location = new System.Drawing.Point(107, 14);
+            TB_Text.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_Text.Name = "TB_Text";
+            TB_Text.Size = new System.Drawing.Size(158, 23);
+            TB_Text.TabIndex = 35;
             // 
             // CB_Species
             // 
-            this.CB_Species.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Species.FormattingEnabled = true;
-            this.CB_Species.Location = new System.Drawing.Point(76, 16);
-            this.CB_Species.Name = "CB_Species";
-            this.CB_Species.Size = new System.Drawing.Size(86, 21);
-            this.CB_Species.TabIndex = 36;
+            CB_Species.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CB_Species.FormattingEnabled = true;
+            CB_Species.Location = new System.Drawing.Point(89, 18);
+            CB_Species.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Species.Name = "CB_Species";
+            CB_Species.Size = new System.Drawing.Size(100, 23);
+            CB_Species.TabIndex = 36;
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(333, 184);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(76, 23);
-            this.B_Cancel.TabIndex = 37;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(388, 212);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(89, 27);
+            B_Cancel.TabIndex = 37;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(415, 184);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(76, 23);
-            this.B_Save.TabIndex = 38;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(484, 212);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(89, 27);
+            B_Save.TabIndex = 38;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // FLP_Characters
             // 
-            this.FLP_Characters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Characters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FLP_Characters.Location = new System.Drawing.Point(12, 126);
-            this.FLP_Characters.Name = "FLP_Characters";
-            this.FLP_Characters.Size = new System.Drawing.Size(305, 82);
-            this.FLP_Characters.TabIndex = 39;
+            FLP_Characters.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            FLP_Characters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            FLP_Characters.Location = new System.Drawing.Point(14, 145);
+            FLP_Characters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FLP_Characters.Name = "FLP_Characters";
+            FLP_Characters.Size = new System.Drawing.Size(356, 94);
+            FLP_Characters.TabIndex = 39;
             // 
             // FLP_Hex
             // 
-            this.FLP_Hex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Hex.AutoScroll = true;
-            this.FLP_Hex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FLP_Hex.Location = new System.Drawing.Point(12, 38);
-            this.FLP_Hex.Name = "FLP_Hex";
-            this.FLP_Hex.Size = new System.Drawing.Size(305, 82);
-            this.FLP_Hex.TabIndex = 40;
-            this.FLP_Hex.Visible = false;
+            FLP_Hex.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            FLP_Hex.AutoScroll = true;
+            FLP_Hex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            FLP_Hex.Location = new System.Drawing.Point(14, 44);
+            FLP_Hex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FLP_Hex.Name = "FLP_Hex";
+            FLP_Hex.Size = new System.Drawing.Size(356, 94);
+            FLP_Hex.TabIndex = 40;
+            FLP_Hex.Visible = false;
             // 
             // CB_Language
             // 
-            this.CB_Language.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Language.FormattingEnabled = true;
-            this.CB_Language.Location = new System.Drawing.Point(76, 43);
-            this.CB_Language.Name = "CB_Language";
-            this.CB_Language.Size = new System.Drawing.Size(86, 21);
-            this.CB_Language.TabIndex = 41;
+            CB_Language.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Language.FormattingEnabled = true;
+            CB_Language.Location = new System.Drawing.Point(89, 50);
+            CB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Language.Name = "CB_Language";
+            CB_Language.Size = new System.Drawing.Size(100, 23);
+            CB_Language.TabIndex = 41;
             // 
             // B_ApplyTrash
             // 
-            this.B_ApplyTrash.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_ApplyTrash.Location = new System.Drawing.Point(6, 129);
-            this.B_ApplyTrash.Name = "B_ApplyTrash";
-            this.B_ApplyTrash.Size = new System.Drawing.Size(156, 23);
-            this.B_ApplyTrash.TabIndex = 42;
-            this.B_ApplyTrash.Text = "Apply Trash";
-            this.B_ApplyTrash.UseVisualStyleBackColor = true;
-            this.B_ApplyTrash.Click += new System.EventHandler(this.B_ApplyTrash_Click);
+            B_ApplyTrash.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            B_ApplyTrash.Location = new System.Drawing.Point(7, 149);
+            B_ApplyTrash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ApplyTrash.Name = "B_ApplyTrash";
+            B_ApplyTrash.Size = new System.Drawing.Size(182, 27);
+            B_ApplyTrash.TabIndex = 42;
+            B_ApplyTrash.Text = "Apply Trash";
+            B_ApplyTrash.UseVisualStyleBackColor = true;
+            B_ApplyTrash.Click += B_ApplyTrash_Click;
             // 
             // GB_Trash
             // 
-            this.GB_Trash.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GB_Trash.Controls.Add(this.B_ClearTrash);
-            this.GB_Trash.Controls.Add(this.L_Generation);
-            this.GB_Trash.Controls.Add(this.NUD_Generation);
-            this.GB_Trash.Controls.Add(this.L_Language);
-            this.GB_Trash.Controls.Add(this.L_Species);
-            this.GB_Trash.Controls.Add(this.CB_Species);
-            this.GB_Trash.Controls.Add(this.B_ApplyTrash);
-            this.GB_Trash.Controls.Add(this.CB_Language);
-            this.GB_Trash.Location = new System.Drawing.Point(323, 12);
-            this.GB_Trash.Name = "GB_Trash";
-            this.GB_Trash.Size = new System.Drawing.Size(168, 158);
-            this.GB_Trash.TabIndex = 43;
-            this.GB_Trash.TabStop = false;
-            this.GB_Trash.Text = "Trash Byte Layers";
-            this.GB_Trash.Visible = false;
+            GB_Trash.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            GB_Trash.Controls.Add(B_ClearTrash);
+            GB_Trash.Controls.Add(L_Generation);
+            GB_Trash.Controls.Add(NUD_Generation);
+            GB_Trash.Controls.Add(L_Language);
+            GB_Trash.Controls.Add(L_Species);
+            GB_Trash.Controls.Add(CB_Species);
+            GB_Trash.Controls.Add(B_ApplyTrash);
+            GB_Trash.Controls.Add(CB_Language);
+            GB_Trash.Location = new System.Drawing.Point(377, 14);
+            GB_Trash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Trash.Name = "GB_Trash";
+            GB_Trash.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Trash.Size = new System.Drawing.Size(196, 182);
+            GB_Trash.TabIndex = 43;
+            GB_Trash.TabStop = false;
+            GB_Trash.Text = "Trash Byte Layers";
+            GB_Trash.Visible = false;
             // 
             // B_ClearTrash
             // 
-            this.B_ClearTrash.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_ClearTrash.Location = new System.Drawing.Point(6, 100);
-            this.B_ClearTrash.Name = "B_ClearTrash";
-            this.B_ClearTrash.Size = new System.Drawing.Size(156, 23);
-            this.B_ClearTrash.TabIndex = 47;
-            this.B_ClearTrash.Text = "Clear Trash";
-            this.B_ClearTrash.UseVisualStyleBackColor = true;
-            this.B_ClearTrash.Click += new System.EventHandler(this.B_ClearTrash_Click);
+            B_ClearTrash.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            B_ClearTrash.Location = new System.Drawing.Point(7, 115);
+            B_ClearTrash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ClearTrash.Name = "B_ClearTrash";
+            B_ClearTrash.Size = new System.Drawing.Size(182, 27);
+            B_ClearTrash.TabIndex = 47;
+            B_ClearTrash.Text = "Clear Trash";
+            B_ClearTrash.UseVisualStyleBackColor = true;
+            B_ClearTrash.Click += B_ClearTrash_Click;
             // 
             // L_Generation
             // 
-            this.L_Generation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Generation.Location = new System.Drawing.Point(6, 67);
-            this.L_Generation.Name = "L_Generation";
-            this.L_Generation.Size = new System.Drawing.Size(103, 23);
-            this.L_Generation.TabIndex = 46;
-            this.L_Generation.Text = "Generation";
-            this.L_Generation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Generation.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_Generation.Location = new System.Drawing.Point(7, 77);
+            L_Generation.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Generation.Name = "L_Generation";
+            L_Generation.Size = new System.Drawing.Size(120, 27);
+            L_Generation.TabIndex = 46;
+            L_Generation.Text = "Generation";
+            L_Generation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Generation
             // 
-            this.NUD_Generation.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NUD_Generation.Location = new System.Drawing.Point(115, 70);
-            this.NUD_Generation.Name = "NUD_Generation";
-            this.NUD_Generation.Size = new System.Drawing.Size(47, 20);
-            this.NUD_Generation.TabIndex = 45;
+            NUD_Generation.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            NUD_Generation.Location = new System.Drawing.Point(134, 81);
+            NUD_Generation.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_Generation.Name = "NUD_Generation";
+            NUD_Generation.Size = new System.Drawing.Size(55, 20);
+            NUD_Generation.TabIndex = 45;
             // 
             // L_Language
             // 
-            this.L_Language.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Language.Location = new System.Drawing.Point(6, 43);
-            this.L_Language.Name = "L_Language";
-            this.L_Language.Size = new System.Drawing.Size(64, 23);
-            this.L_Language.TabIndex = 44;
-            this.L_Language.Text = "Language";
-            this.L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Language.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_Language.Location = new System.Drawing.Point(7, 50);
+            L_Language.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Language.Name = "L_Language";
+            L_Language.Size = new System.Drawing.Size(75, 27);
+            L_Language.TabIndex = 44;
+            L_Language.Text = "Language";
+            L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_Species
             // 
-            this.L_Species.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Species.Location = new System.Drawing.Point(6, 16);
-            this.L_Species.Name = "L_Species";
-            this.L_Species.Size = new System.Drawing.Size(64, 23);
-            this.L_Species.TabIndex = 43;
-            this.L_Species.Text = "Species";
-            this.L_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Species.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_Species.Location = new System.Drawing.Point(7, 18);
+            L_Species.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Species.Name = "L_Species";
+            L_Species.Size = new System.Drawing.Size(75, 27);
+            L_Species.TabIndex = 43;
+            L_Species.Text = "Species";
+            L_Species.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // L_String
             // 
-            this.L_String.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_String.Location = new System.Drawing.Point(9, 9);
-            this.L_String.Name = "L_String";
-            this.L_String.Size = new System.Drawing.Size(77, 23);
-            this.L_String.TabIndex = 44;
-            this.L_String.Text = "String";
-            this.L_String.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_String.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_String.Location = new System.Drawing.Point(10, 10);
+            L_String.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_String.Name = "L_String";
+            L_String.Size = new System.Drawing.Size(90, 27);
+            L_String.TabIndex = 44;
+            L_String.Text = "String";
+            L_String.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TrashEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 219);
-            this.Controls.Add(this.L_String);
-            this.Controls.Add(this.GB_Trash);
-            this.Controls.Add(this.FLP_Hex);
-            this.Controls.Add(this.FLP_Characters);
-            this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.TB_Text);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "TrashEditor";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Special Characters";
-            this.GB_Trash.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_Generation)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(587, 253);
+            Controls.Add(L_String);
+            Controls.Add(GB_Trash);
+            Controls.Add(FLP_Hex);
+            Controls.Add(FLP_Characters);
+            Controls.Add(B_Cancel);
+            Controls.Add(B_Save);
+            Controls.Add(TB_Text);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "TrashEditor";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Special Characters";
+            GB_Trash.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_Generation).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

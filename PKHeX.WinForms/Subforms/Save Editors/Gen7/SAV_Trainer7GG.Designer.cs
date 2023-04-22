@@ -28,530 +28,560 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.TB_OTName = new System.Windows.Forms.TextBox();
-            this.L_TrainerName = new System.Windows.Forms.Label();
-            this.MT_Money = new System.Windows.Forms.MaskedTextBox();
-            this.L_Money = new System.Windows.Forms.Label();
-            this.L_Saying5 = new System.Windows.Forms.Label();
-            this.L_Saying4 = new System.Windows.Forms.Label();
-            this.L_Saying3 = new System.Windows.Forms.Label();
-            this.L_Saying2 = new System.Windows.Forms.Label();
-            this.L_Saying1 = new System.Windows.Forms.Label();
-            this.TB_Saying5 = new System.Windows.Forms.TextBox();
-            this.TB_Saying4 = new System.Windows.Forms.TextBox();
-            this.TB_Saying3 = new System.Windows.Forms.TextBox();
-            this.TB_Saying2 = new System.Windows.Forms.TextBox();
-            this.TB_Saying1 = new System.Windows.Forms.TextBox();
-            this.L_Seconds = new System.Windows.Forms.Label();
-            this.L_Minutes = new System.Windows.Forms.Label();
-            this.MT_Seconds = new System.Windows.Forms.MaskedTextBox();
-            this.MT_Minutes = new System.Windows.Forms.MaskedTextBox();
-            this.L_Hours = new System.Windows.Forms.Label();
-            this.MT_Hours = new System.Windows.Forms.MaskedTextBox();
-            this.L_Language = new System.Windows.Forms.Label();
-            this.B_MaxCash = new System.Windows.Forms.Button();
-            this.CB_Language = new System.Windows.Forms.ComboBox();
-            this.CB_Game = new System.Windows.Forms.ComboBox();
-            this.CB_Gender = new System.Windows.Forms.ComboBox();
-            this.TC_Editor = new System.Windows.Forms.TabControl();
-            this.Tab_Overview = new System.Windows.Forms.TabPage();
-            this.B_AllTrainerTitles = new System.Windows.Forms.Button();
-            this.TB_RivalName = new System.Windows.Forms.TextBox();
-            this.L_RivalName = new System.Windows.Forms.Label();
-            this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
-            this.GB_Adventure = new System.Windows.Forms.GroupBox();
-            this.Tab_Complex = new System.Windows.Forms.TabPage();
-            this.B_DeleteAll = new System.Windows.Forms.Button();
-            this.B_DeleteGo = new System.Windows.Forms.Button();
-            this.B_ImportGoFiles = new System.Windows.Forms.Button();
-            this.B_ExportGoFiles = new System.Windows.Forms.Button();
-            this.L_GoSlotSummary = new System.Windows.Forms.Label();
-            this.B_Import = new System.Windows.Forms.Button();
-            this.B_Export = new System.Windows.Forms.Button();
-            this.L_GoSlot = new System.Windows.Forms.Label();
-            this.NUD_GoIndex = new System.Windows.Forms.NumericUpDown();
-            this.B_ExportGoSummary = new System.Windows.Forms.Button();
-            this.TC_Editor.SuspendLayout();
-            this.Tab_Overview.SuspendLayout();
-            this.GB_Adventure.SuspendLayout();
-            this.Tab_Complex.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_GoIndex)).BeginInit();
-            this.SuspendLayout();
-            //
+            B_Cancel = new System.Windows.Forms.Button();
+            B_Save = new System.Windows.Forms.Button();
+            TB_OTName = new System.Windows.Forms.TextBox();
+            L_TrainerName = new System.Windows.Forms.Label();
+            MT_Money = new System.Windows.Forms.MaskedTextBox();
+            L_Money = new System.Windows.Forms.Label();
+            L_Saying5 = new System.Windows.Forms.Label();
+            L_Saying4 = new System.Windows.Forms.Label();
+            L_Saying3 = new System.Windows.Forms.Label();
+            L_Saying2 = new System.Windows.Forms.Label();
+            L_Saying1 = new System.Windows.Forms.Label();
+            TB_Saying5 = new System.Windows.Forms.TextBox();
+            TB_Saying4 = new System.Windows.Forms.TextBox();
+            TB_Saying3 = new System.Windows.Forms.TextBox();
+            TB_Saying2 = new System.Windows.Forms.TextBox();
+            TB_Saying1 = new System.Windows.Forms.TextBox();
+            L_Seconds = new System.Windows.Forms.Label();
+            L_Minutes = new System.Windows.Forms.Label();
+            MT_Seconds = new System.Windows.Forms.MaskedTextBox();
+            MT_Minutes = new System.Windows.Forms.MaskedTextBox();
+            L_Hours = new System.Windows.Forms.Label();
+            MT_Hours = new System.Windows.Forms.MaskedTextBox();
+            L_Language = new System.Windows.Forms.Label();
+            B_MaxCash = new System.Windows.Forms.Button();
+            CB_Language = new System.Windows.Forms.ComboBox();
+            CB_Game = new System.Windows.Forms.ComboBox();
+            CB_Gender = new System.Windows.Forms.ComboBox();
+            TC_Editor = new System.Windows.Forms.TabControl();
+            Tab_Overview = new System.Windows.Forms.TabPage();
+            B_AllTrainerTitles = new System.Windows.Forms.Button();
+            TB_RivalName = new System.Windows.Forms.TextBox();
+            L_RivalName = new System.Windows.Forms.Label();
+            trainerID1 = new Controls.TrainerID();
+            GB_Adventure = new System.Windows.Forms.GroupBox();
+            Tab_Complex = new System.Windows.Forms.TabPage();
+            B_DeleteAll = new System.Windows.Forms.Button();
+            B_DeleteGo = new System.Windows.Forms.Button();
+            B_ImportGoFiles = new System.Windows.Forms.Button();
+            B_ExportGoFiles = new System.Windows.Forms.Button();
+            L_GoSlotSummary = new System.Windows.Forms.Label();
+            B_Import = new System.Windows.Forms.Button();
+            B_Export = new System.Windows.Forms.Button();
+            L_GoSlot = new System.Windows.Forms.Label();
+            NUD_GoIndex = new System.Windows.Forms.NumericUpDown();
+            B_ExportGoSummary = new System.Windows.Forms.Button();
+            TC_Editor.SuspendLayout();
+            Tab_Overview.SuspendLayout();
+            GB_Adventure.SuspendLayout();
+            Tab_Complex.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_GoIndex).BeginInit();
+            SuspendLayout();
+            // 
             // B_Cancel
-            //
-            this.B_Cancel.Location = new System.Drawing.Point(250, 334);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
-            this.B_Cancel.TabIndex = 0;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
-            //
+            // 
+            B_Cancel.Location = new System.Drawing.Point(292, 385);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(88, 27);
+            B_Cancel.TabIndex = 0;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
+            // 
             // B_Save
-            //
-            this.B_Save.Location = new System.Drawing.Point(331, 334);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(75, 23);
-            this.B_Save.TabIndex = 1;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
-            //
+            // 
+            B_Save.Location = new System.Drawing.Point(386, 385);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(88, 27);
+            B_Save.TabIndex = 1;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
+            // 
             // TB_OTName
-            //
-            this.TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_OTName.Location = new System.Drawing.Point(99, 7);
-            this.TB_OTName.MaxLength = 12;
-            this.TB_OTName.Name = "TB_OTName";
-            this.TB_OTName.Size = new System.Drawing.Size(93, 20);
-            this.TB_OTName.TabIndex = 2;
-            this.TB_OTName.Text = "WWWWWWWWWWWW";
-            this.TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_OTName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickString);
-            //
+            // 
+            TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_OTName.Location = new System.Drawing.Point(115, 8);
+            TB_OTName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_OTName.MaxLength = 12;
+            TB_OTName.Name = "TB_OTName";
+            TB_OTName.Size = new System.Drawing.Size(108, 20);
+            TB_OTName.TabIndex = 2;
+            TB_OTName.Text = "WWWWWWWWWWWW";
+            TB_OTName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TB_OTName.MouseDown += ClickString;
+            // 
             // L_TrainerName
-            //
-            this.L_TrainerName.Location = new System.Drawing.Point(7, 9);
-            this.L_TrainerName.Name = "L_TrainerName";
-            this.L_TrainerName.Size = new System.Drawing.Size(87, 16);
-            this.L_TrainerName.TabIndex = 3;
-            this.L_TrainerName.Text = "Trainer Name:";
-            this.L_TrainerName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
+            // 
+            L_TrainerName.Location = new System.Drawing.Point(8, 10);
+            L_TrainerName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_TrainerName.Name = "L_TrainerName";
+            L_TrainerName.Size = new System.Drawing.Size(102, 18);
+            L_TrainerName.TabIndex = 3;
+            L_TrainerName.Text = "Trainer Name:";
+            L_TrainerName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // MT_Money
-            //
-            this.MT_Money.Location = new System.Drawing.Point(119, 29);
-            this.MT_Money.Mask = "0000000";
-            this.MT_Money.Name = "MT_Money";
-            this.MT_Money.Size = new System.Drawing.Size(52, 20);
-            this.MT_Money.TabIndex = 4;
-            this.MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            //
+            // 
+            MT_Money.Location = new System.Drawing.Point(139, 33);
+            MT_Money.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Money.Mask = "0000000";
+            MT_Money.Name = "MT_Money";
+            MT_Money.Size = new System.Drawing.Size(60, 23);
+            MT_Money.TabIndex = 4;
+            MT_Money.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // L_Money
-            //
-            this.L_Money.AutoSize = true;
-            this.L_Money.Location = new System.Drawing.Point(102, 32);
-            this.L_Money.Name = "L_Money";
-            this.L_Money.Size = new System.Drawing.Size(16, 13);
-            this.L_Money.TabIndex = 5;
-            this.L_Money.Text = "$:";
-            //
+            // 
+            L_Money.AutoSize = true;
+            L_Money.Location = new System.Drawing.Point(119, 37);
+            L_Money.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Money.Name = "L_Money";
+            L_Money.Size = new System.Drawing.Size(16, 15);
+            L_Money.TabIndex = 5;
+            L_Money.Text = "$:";
+            // 
             // L_Saying5
-            //
-            this.L_Saying5.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying5.Name = "L_Saying5";
-            this.L_Saying5.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying5.TabIndex = 0;
-            //
+            // 
+            L_Saying5.Location = new System.Drawing.Point(0, 0);
+            L_Saying5.Name = "L_Saying5";
+            L_Saying5.Size = new System.Drawing.Size(100, 23);
+            L_Saying5.TabIndex = 0;
+            // 
             // L_Saying4
-            //
-            this.L_Saying4.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying4.Name = "L_Saying4";
-            this.L_Saying4.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying4.TabIndex = 0;
-            //
+            // 
+            L_Saying4.Location = new System.Drawing.Point(0, 0);
+            L_Saying4.Name = "L_Saying4";
+            L_Saying4.Size = new System.Drawing.Size(100, 23);
+            L_Saying4.TabIndex = 0;
+            // 
             // L_Saying3
-            //
-            this.L_Saying3.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying3.Name = "L_Saying3";
-            this.L_Saying3.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying3.TabIndex = 0;
-            //
+            // 
+            L_Saying3.Location = new System.Drawing.Point(0, 0);
+            L_Saying3.Name = "L_Saying3";
+            L_Saying3.Size = new System.Drawing.Size(100, 23);
+            L_Saying3.TabIndex = 0;
+            // 
             // L_Saying2
-            //
-            this.L_Saying2.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying2.Name = "L_Saying2";
-            this.L_Saying2.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying2.TabIndex = 0;
-            //
+            // 
+            L_Saying2.Location = new System.Drawing.Point(0, 0);
+            L_Saying2.Name = "L_Saying2";
+            L_Saying2.Size = new System.Drawing.Size(100, 23);
+            L_Saying2.TabIndex = 0;
+            // 
             // L_Saying1
-            //
-            this.L_Saying1.Location = new System.Drawing.Point(0, 0);
-            this.L_Saying1.Name = "L_Saying1";
-            this.L_Saying1.Size = new System.Drawing.Size(100, 23);
-            this.L_Saying1.TabIndex = 0;
-            //
+            // 
+            L_Saying1.Location = new System.Drawing.Point(0, 0);
+            L_Saying1.Name = "L_Saying1";
+            L_Saying1.Size = new System.Drawing.Size(100, 23);
+            L_Saying1.TabIndex = 0;
+            // 
             // TB_Saying5
-            //
-            this.TB_Saying5.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying5.Name = "TB_Saying5";
-            this.TB_Saying5.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying5.TabIndex = 0;
-            //
+            // 
+            TB_Saying5.Location = new System.Drawing.Point(0, 0);
+            TB_Saying5.Name = "TB_Saying5";
+            TB_Saying5.Size = new System.Drawing.Size(100, 23);
+            TB_Saying5.TabIndex = 0;
+            // 
             // TB_Saying4
-            //
-            this.TB_Saying4.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying4.Name = "TB_Saying4";
-            this.TB_Saying4.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying4.TabIndex = 0;
-            //
+            // 
+            TB_Saying4.Location = new System.Drawing.Point(0, 0);
+            TB_Saying4.Name = "TB_Saying4";
+            TB_Saying4.Size = new System.Drawing.Size(100, 23);
+            TB_Saying4.TabIndex = 0;
+            // 
             // TB_Saying3
-            //
-            this.TB_Saying3.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying3.Name = "TB_Saying3";
-            this.TB_Saying3.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying3.TabIndex = 0;
-            //
+            // 
+            TB_Saying3.Location = new System.Drawing.Point(0, 0);
+            TB_Saying3.Name = "TB_Saying3";
+            TB_Saying3.Size = new System.Drawing.Size(100, 23);
+            TB_Saying3.TabIndex = 0;
+            // 
             // TB_Saying2
-            //
-            this.TB_Saying2.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying2.Name = "TB_Saying2";
-            this.TB_Saying2.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying2.TabIndex = 0;
-            //
+            // 
+            TB_Saying2.Location = new System.Drawing.Point(0, 0);
+            TB_Saying2.Name = "TB_Saying2";
+            TB_Saying2.Size = new System.Drawing.Size(100, 23);
+            TB_Saying2.TabIndex = 0;
+            // 
             // TB_Saying1
-            //
-            this.TB_Saying1.Location = new System.Drawing.Point(0, 0);
-            this.TB_Saying1.Name = "TB_Saying1";
-            this.TB_Saying1.Size = new System.Drawing.Size(100, 20);
-            this.TB_Saying1.TabIndex = 0;
-            //
+            // 
+            TB_Saying1.Location = new System.Drawing.Point(0, 0);
+            TB_Saying1.Name = "TB_Saying1";
+            TB_Saying1.Size = new System.Drawing.Size(100, 23);
+            TB_Saying1.TabIndex = 0;
+            // 
             // L_Seconds
-            //
-            this.L_Seconds.AutoSize = true;
-            this.L_Seconds.Location = new System.Drawing.Point(136, 17);
-            this.L_Seconds.Name = "L_Seconds";
-            this.L_Seconds.Size = new System.Drawing.Size(29, 13);
-            this.L_Seconds.TabIndex = 30;
-            this.L_Seconds.Text = "Sec:";
-            //
+            // 
+            L_Seconds.AutoSize = true;
+            L_Seconds.Location = new System.Drawing.Point(159, 20);
+            L_Seconds.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Seconds.Name = "L_Seconds";
+            L_Seconds.Size = new System.Drawing.Size(28, 15);
+            L_Seconds.TabIndex = 30;
+            L_Seconds.Text = "Sec:";
+            // 
             // L_Minutes
-            //
-            this.L_Minutes.AutoSize = true;
-            this.L_Minutes.Location = new System.Drawing.Point(84, 17);
-            this.L_Minutes.Name = "L_Minutes";
-            this.L_Minutes.Size = new System.Drawing.Size(27, 13);
-            this.L_Minutes.TabIndex = 29;
-            this.L_Minutes.Text = "Min:";
-            //
+            // 
+            L_Minutes.AutoSize = true;
+            L_Minutes.Location = new System.Drawing.Point(98, 20);
+            L_Minutes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Minutes.Name = "L_Minutes";
+            L_Minutes.Size = new System.Drawing.Size(31, 15);
+            L_Minutes.TabIndex = 29;
+            L_Minutes.Text = "Min:";
+            // 
             // MT_Seconds
-            //
-            this.MT_Seconds.Location = new System.Drawing.Point(166, 14);
-            this.MT_Seconds.Mask = "00";
-            this.MT_Seconds.Name = "MT_Seconds";
-            this.MT_Seconds.Size = new System.Drawing.Size(22, 20);
-            this.MT_Seconds.TabIndex = 28;
-            this.MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Seconds.TextChanged += new System.EventHandler(this.Change255);
-            //
+            // 
+            MT_Seconds.Location = new System.Drawing.Point(194, 16);
+            MT_Seconds.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Seconds.Mask = "00";
+            MT_Seconds.Name = "MT_Seconds";
+            MT_Seconds.Size = new System.Drawing.Size(25, 23);
+            MT_Seconds.TabIndex = 28;
+            MT_Seconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Seconds.TextChanged += Change255;
+            // 
             // MT_Minutes
-            //
-            this.MT_Minutes.Location = new System.Drawing.Point(111, 14);
-            this.MT_Minutes.Mask = "00";
-            this.MT_Minutes.Name = "MT_Minutes";
-            this.MT_Minutes.Size = new System.Drawing.Size(22, 20);
-            this.MT_Minutes.TabIndex = 27;
-            this.MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Minutes.TextChanged += new System.EventHandler(this.Change255);
-            //
+            // 
+            MT_Minutes.Location = new System.Drawing.Point(130, 16);
+            MT_Minutes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Minutes.Mask = "00";
+            MT_Minutes.Name = "MT_Minutes";
+            MT_Minutes.Size = new System.Drawing.Size(25, 23);
+            MT_Minutes.TabIndex = 27;
+            MT_Minutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            MT_Minutes.TextChanged += Change255;
+            // 
             // L_Hours
-            //
-            this.L_Hours.AutoSize = true;
-            this.L_Hours.Location = new System.Drawing.Point(12, 17);
-            this.L_Hours.Name = "L_Hours";
-            this.L_Hours.Size = new System.Drawing.Size(26, 13);
-            this.L_Hours.TabIndex = 26;
-            this.L_Hours.Text = "Hrs:";
-            //
+            // 
+            L_Hours.AutoSize = true;
+            L_Hours.Location = new System.Drawing.Point(14, 20);
+            L_Hours.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Hours.Name = "L_Hours";
+            L_Hours.Size = new System.Drawing.Size(28, 15);
+            L_Hours.TabIndex = 26;
+            L_Hours.Text = "Hrs:";
+            // 
             // MT_Hours
-            //
-            this.MT_Hours.Location = new System.Drawing.Point(44, 14);
-            this.MT_Hours.Mask = "00000";
-            this.MT_Hours.Name = "MT_Hours";
-            this.MT_Hours.Size = new System.Drawing.Size(38, 20);
-            this.MT_Hours.TabIndex = 25;
-            this.MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            //
+            // 
+            MT_Hours.Location = new System.Drawing.Point(51, 16);
+            MT_Hours.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MT_Hours.Mask = "00000";
+            MT_Hours.Name = "MT_Hours";
+            MT_Hours.Size = new System.Drawing.Size(44, 23);
+            MT_Hours.TabIndex = 25;
+            MT_Hours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // L_Language
-            //
-            this.L_Language.Location = new System.Drawing.Point(3, 82);
-            this.L_Language.Name = "L_Language";
-            this.L_Language.Size = new System.Drawing.Size(80, 13);
-            this.L_Language.TabIndex = 21;
-            this.L_Language.Text = "Language:";
-            this.L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
+            // 
+            L_Language.Location = new System.Drawing.Point(4, 95);
+            L_Language.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Language.Name = "L_Language";
+            L_Language.Size = new System.Drawing.Size(93, 15);
+            L_Language.TabIndex = 21;
+            L_Language.Text = "Language:";
+            L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // B_MaxCash
-            //
-            this.B_MaxCash.Location = new System.Drawing.Point(172, 29);
-            this.B_MaxCash.Name = "B_MaxCash";
-            this.B_MaxCash.Size = new System.Drawing.Size(20, 20);
-            this.B_MaxCash.TabIndex = 16;
-            this.B_MaxCash.Text = "+";
-            this.B_MaxCash.UseVisualStyleBackColor = true;
-            //
+            // 
+            B_MaxCash.Location = new System.Drawing.Point(201, 33);
+            B_MaxCash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_MaxCash.Name = "B_MaxCash";
+            B_MaxCash.Size = new System.Drawing.Size(23, 23);
+            B_MaxCash.TabIndex = 16;
+            B_MaxCash.Text = "+";
+            B_MaxCash.UseVisualStyleBackColor = true;
+            // 
             // CB_Language
-            //
-            this.CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Language.FormattingEnabled = true;
-            this.CB_Language.Location = new System.Drawing.Point(99, 78);
-            this.CB_Language.Name = "CB_Language";
-            this.CB_Language.Size = new System.Drawing.Size(93, 21);
-            this.CB_Language.TabIndex = 15;
-            //
+            // 
+            CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Language.FormattingEnabled = true;
+            CB_Language.Location = new System.Drawing.Point(115, 90);
+            CB_Language.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Language.Name = "CB_Language";
+            CB_Language.Size = new System.Drawing.Size(108, 23);
+            CB_Language.TabIndex = 15;
+            // 
             // CB_Game
-            //
-            this.CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Game.FormattingEnabled = true;
-            this.CB_Game.Location = new System.Drawing.Point(99, 51);
-            this.CB_Game.Name = "CB_Game";
-            this.CB_Game.Size = new System.Drawing.Size(135, 21);
-            this.CB_Game.TabIndex = 24;
-            //
+            // 
+            CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Game.FormattingEnabled = true;
+            CB_Game.Location = new System.Drawing.Point(115, 59);
+            CB_Game.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Game.Name = "CB_Game";
+            CB_Game.Size = new System.Drawing.Size(157, 23);
+            CB_Game.TabIndex = 24;
+            // 
             // CB_Gender
-            //
-            this.CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Gender.Enabled = false;
-            this.CB_Gender.FormattingEnabled = true;
-            this.CB_Gender.Items.AddRange(new object[] {
-            "♂",
-            "♀"});
-            this.CB_Gender.Location = new System.Drawing.Point(194, 78);
-            this.CB_Gender.Name = "CB_Gender";
-            this.CB_Gender.Size = new System.Drawing.Size(40, 21);
-            this.CB_Gender.TabIndex = 22;
-            //
+            // 
+            CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Gender.Enabled = false;
+            CB_Gender.FormattingEnabled = true;
+            CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
+            CB_Gender.Location = new System.Drawing.Point(226, 90);
+            CB_Gender.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Gender.Name = "CB_Gender";
+            CB_Gender.Size = new System.Drawing.Size(46, 23);
+            CB_Gender.TabIndex = 22;
+            // 
             // TC_Editor
-            //
-            this.TC_Editor.Controls.Add(this.Tab_Overview);
-            this.TC_Editor.Controls.Add(this.Tab_Complex);
-            this.TC_Editor.Location = new System.Drawing.Point(12, 12);
-            this.TC_Editor.Name = "TC_Editor";
-            this.TC_Editor.SelectedIndex = 0;
-            this.TC_Editor.Size = new System.Drawing.Size(394, 316);
-            this.TC_Editor.TabIndex = 54;
-            //
+            // 
+            TC_Editor.Controls.Add(Tab_Overview);
+            TC_Editor.Controls.Add(Tab_Complex);
+            TC_Editor.Location = new System.Drawing.Point(14, 14);
+            TC_Editor.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TC_Editor.Name = "TC_Editor";
+            TC_Editor.SelectedIndex = 0;
+            TC_Editor.Size = new System.Drawing.Size(460, 365);
+            TC_Editor.TabIndex = 54;
+            // 
             // Tab_Overview
-            //
-            this.Tab_Overview.Controls.Add(this.B_AllTrainerTitles);
-            this.Tab_Overview.Controls.Add(this.TB_RivalName);
-            this.Tab_Overview.Controls.Add(this.L_RivalName);
-            this.Tab_Overview.Controls.Add(this.trainerID1);
-            this.Tab_Overview.Controls.Add(this.GB_Adventure);
-            this.Tab_Overview.Controls.Add(this.TB_OTName);
-            this.Tab_Overview.Controls.Add(this.CB_Gender);
-            this.Tab_Overview.Controls.Add(this.CB_Game);
-            this.Tab_Overview.Controls.Add(this.L_TrainerName);
-            this.Tab_Overview.Controls.Add(this.MT_Money);
-            this.Tab_Overview.Controls.Add(this.L_Money);
-            this.Tab_Overview.Controls.Add(this.L_Language);
-            this.Tab_Overview.Controls.Add(this.CB_Language);
-            this.Tab_Overview.Controls.Add(this.B_MaxCash);
-            this.Tab_Overview.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Overview.Name = "Tab_Overview";
-            this.Tab_Overview.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Overview.Size = new System.Drawing.Size(386, 290);
-            this.Tab_Overview.TabIndex = 0;
-            this.Tab_Overview.Text = "Overview";
-            this.Tab_Overview.UseVisualStyleBackColor = true;
-            //
+            // 
+            Tab_Overview.Controls.Add(B_AllTrainerTitles);
+            Tab_Overview.Controls.Add(TB_RivalName);
+            Tab_Overview.Controls.Add(L_RivalName);
+            Tab_Overview.Controls.Add(trainerID1);
+            Tab_Overview.Controls.Add(GB_Adventure);
+            Tab_Overview.Controls.Add(TB_OTName);
+            Tab_Overview.Controls.Add(CB_Gender);
+            Tab_Overview.Controls.Add(CB_Game);
+            Tab_Overview.Controls.Add(L_TrainerName);
+            Tab_Overview.Controls.Add(MT_Money);
+            Tab_Overview.Controls.Add(L_Money);
+            Tab_Overview.Controls.Add(L_Language);
+            Tab_Overview.Controls.Add(CB_Language);
+            Tab_Overview.Controls.Add(B_MaxCash);
+            Tab_Overview.Location = new System.Drawing.Point(4, 24);
+            Tab_Overview.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Overview.Name = "Tab_Overview";
+            Tab_Overview.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Overview.Size = new System.Drawing.Size(452, 337);
+            Tab_Overview.TabIndex = 0;
+            Tab_Overview.Text = "Overview";
+            Tab_Overview.UseVisualStyleBackColor = true;
+            // 
             // B_AllTrainerTitles
-            //
-            this.B_AllTrainerTitles.Location = new System.Drawing.Point(249, 218);
-            this.B_AllTrainerTitles.Name = "B_AllTrainerTitles";
-            this.B_AllTrainerTitles.Size = new System.Drawing.Size(131, 63);
-            this.B_AllTrainerTitles.TabIndex = 69;
-            this.B_AllTrainerTitles.Text = "Unlock all Trainer Titles";
-            this.B_AllTrainerTitles.UseVisualStyleBackColor = true;
-            this.B_AllTrainerTitles.Click += new System.EventHandler(this.B_AllTrainerTitles_Click);
-            //
+            // 
+            B_AllTrainerTitles.Location = new System.Drawing.Point(290, 252);
+            B_AllTrainerTitles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_AllTrainerTitles.Name = "B_AllTrainerTitles";
+            B_AllTrainerTitles.Size = new System.Drawing.Size(153, 73);
+            B_AllTrainerTitles.TabIndex = 69;
+            B_AllTrainerTitles.Text = "Unlock all Trainer Titles";
+            B_AllTrainerTitles.UseVisualStyleBackColor = true;
+            B_AllTrainerTitles.Click += B_AllTrainerTitles_Click;
+            // 
             // TB_RivalName
-            //
-            this.TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_RivalName.Location = new System.Drawing.Point(290, 6);
-            this.TB_RivalName.MaxLength = 12;
-            this.TB_RivalName.Name = "TB_RivalName";
-            this.TB_RivalName.Size = new System.Drawing.Size(93, 20);
-            this.TB_RivalName.TabIndex = 67;
-            this.TB_RivalName.Text = "WWWWWWWWWWWW";
-            this.TB_RivalName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_RivalName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickString);
-            //
+            // 
+            TB_RivalName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            TB_RivalName.Location = new System.Drawing.Point(338, 7);
+            TB_RivalName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_RivalName.MaxLength = 12;
+            TB_RivalName.Name = "TB_RivalName";
+            TB_RivalName.Size = new System.Drawing.Size(108, 20);
+            TB_RivalName.TabIndex = 67;
+            TB_RivalName.Text = "WWWWWWWWWWWW";
+            TB_RivalName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            TB_RivalName.MouseDown += ClickString;
+            // 
             // L_RivalName
-            //
-            this.L_RivalName.Location = new System.Drawing.Point(198, 8);
-            this.L_RivalName.Name = "L_RivalName";
-            this.L_RivalName.Size = new System.Drawing.Size(87, 16);
-            this.L_RivalName.TabIndex = 68;
-            this.L_RivalName.Text = "Rival Name:";
-            this.L_RivalName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
+            // 
+            L_RivalName.Location = new System.Drawing.Point(231, 9);
+            L_RivalName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_RivalName.Name = "L_RivalName";
+            L_RivalName.Size = new System.Drawing.Size(102, 18);
+            L_RivalName.TabIndex = 68;
+            L_RivalName.Text = "Rival Name:";
+            L_RivalName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // trainerID1
-            //
-            this.trainerID1.Location = new System.Drawing.Point(6, 26);
-            this.trainerID1.Name = "trainerID1";
-            this.trainerID1.Size = new System.Drawing.Size(90, 53);
-            this.trainerID1.TabIndex = 66;
-            //
+            // 
+            trainerID1.Location = new System.Drawing.Point(7, 30);
+            trainerID1.Margin = new System.Windows.Forms.Padding(5, 3, 5, 3);
+            trainerID1.Name = "trainerID1";
+            trainerID1.Size = new System.Drawing.Size(105, 61);
+            trainerID1.TabIndex = 66;
+            // 
             // GB_Adventure
-            //
-            this.GB_Adventure.Controls.Add(this.MT_Seconds);
-            this.GB_Adventure.Controls.Add(this.MT_Hours);
-            this.GB_Adventure.Controls.Add(this.L_Seconds);
-            this.GB_Adventure.Controls.Add(this.L_Hours);
-            this.GB_Adventure.Controls.Add(this.MT_Minutes);
-            this.GB_Adventure.Controls.Add(this.L_Minutes);
-            this.GB_Adventure.Location = new System.Drawing.Point(3, 130);
-            this.GB_Adventure.Name = "GB_Adventure";
-            this.GB_Adventure.Size = new System.Drawing.Size(200, 151);
-            this.GB_Adventure.TabIndex = 56;
-            this.GB_Adventure.TabStop = false;
-            this.GB_Adventure.Text = "Adventure Info";
-            //
+            // 
+            GB_Adventure.Controls.Add(MT_Seconds);
+            GB_Adventure.Controls.Add(MT_Hours);
+            GB_Adventure.Controls.Add(L_Seconds);
+            GB_Adventure.Controls.Add(L_Hours);
+            GB_Adventure.Controls.Add(MT_Minutes);
+            GB_Adventure.Controls.Add(L_Minutes);
+            GB_Adventure.Location = new System.Drawing.Point(4, 150);
+            GB_Adventure.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Adventure.Name = "GB_Adventure";
+            GB_Adventure.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            GB_Adventure.Size = new System.Drawing.Size(233, 174);
+            GB_Adventure.TabIndex = 56;
+            GB_Adventure.TabStop = false;
+            GB_Adventure.Text = "Adventure Info";
+            // 
             // Tab_Complex
-            //
-            this.Tab_Complex.AllowDrop = true;
-            this.Tab_Complex.Controls.Add(this.B_DeleteAll);
-            this.Tab_Complex.Controls.Add(this.B_DeleteGo);
-            this.Tab_Complex.Controls.Add(this.B_ImportGoFiles);
-            this.Tab_Complex.Controls.Add(this.B_ExportGoFiles);
-            this.Tab_Complex.Controls.Add(this.L_GoSlotSummary);
-            this.Tab_Complex.Controls.Add(this.B_Import);
-            this.Tab_Complex.Controls.Add(this.B_Export);
-            this.Tab_Complex.Controls.Add(this.L_GoSlot);
-            this.Tab_Complex.Controls.Add(this.NUD_GoIndex);
-            this.Tab_Complex.Controls.Add(this.B_ExportGoSummary);
-            this.Tab_Complex.Location = new System.Drawing.Point(4, 22);
-            this.Tab_Complex.Name = "Tab_Complex";
-            this.Tab_Complex.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Complex.Size = new System.Drawing.Size(386, 290);
-            this.Tab_Complex.TabIndex = 4;
-            this.Tab_Complex.Text = "Go Complex";
-            this.Tab_Complex.UseVisualStyleBackColor = true;
-            this.Tab_Complex.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
-            this.Tab_Complex.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
-            //
+            // 
+            Tab_Complex.AllowDrop = true;
+            Tab_Complex.Controls.Add(B_DeleteAll);
+            Tab_Complex.Controls.Add(B_DeleteGo);
+            Tab_Complex.Controls.Add(B_ImportGoFiles);
+            Tab_Complex.Controls.Add(B_ExportGoFiles);
+            Tab_Complex.Controls.Add(L_GoSlotSummary);
+            Tab_Complex.Controls.Add(B_Import);
+            Tab_Complex.Controls.Add(B_Export);
+            Tab_Complex.Controls.Add(L_GoSlot);
+            Tab_Complex.Controls.Add(NUD_GoIndex);
+            Tab_Complex.Controls.Add(B_ExportGoSummary);
+            Tab_Complex.Location = new System.Drawing.Point(4, 24);
+            Tab_Complex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Complex.Name = "Tab_Complex";
+            Tab_Complex.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            Tab_Complex.Size = new System.Drawing.Size(452, 337);
+            Tab_Complex.TabIndex = 4;
+            Tab_Complex.Text = "Go Complex";
+            Tab_Complex.UseVisualStyleBackColor = true;
+            Tab_Complex.DragDrop += Main_DragDrop;
+            Tab_Complex.DragEnter += Main_DragEnter;
+            // 
             // B_DeleteAll
-            //
-            this.B_DeleteAll.Location = new System.Drawing.Point(303, 139);
-            this.B_DeleteAll.Name = "B_DeleteAll";
-            this.B_DeleteAll.Size = new System.Drawing.Size(75, 23);
-            this.B_DeleteAll.TabIndex = 9;
-            this.B_DeleteAll.Text = "Delete All";
-            this.B_DeleteAll.UseVisualStyleBackColor = true;
-            this.B_DeleteAll.Click += new System.EventHandler(this.B_DeleteAll_Click);
-            //
+            // 
+            B_DeleteAll.Location = new System.Drawing.Point(354, 160);
+            B_DeleteAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_DeleteAll.Name = "B_DeleteAll";
+            B_DeleteAll.Size = new System.Drawing.Size(88, 27);
+            B_DeleteAll.TabIndex = 9;
+            B_DeleteAll.Text = "Delete All";
+            B_DeleteAll.UseVisualStyleBackColor = true;
+            B_DeleteAll.Click += B_DeleteAll_Click;
+            // 
             // B_DeleteGo
-            //
-            this.B_DeleteGo.Location = new System.Drawing.Point(222, 139);
-            this.B_DeleteGo.Name = "B_DeleteGo";
-            this.B_DeleteGo.Size = new System.Drawing.Size(75, 23);
-            this.B_DeleteGo.TabIndex = 8;
-            this.B_DeleteGo.Text = "Delete";
-            this.B_DeleteGo.UseVisualStyleBackColor = true;
-            this.B_DeleteGo.Click += new System.EventHandler(this.B_DeleteGo_Click);
-            //
+            // 
+            B_DeleteGo.Location = new System.Drawing.Point(259, 160);
+            B_DeleteGo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_DeleteGo.Name = "B_DeleteGo";
+            B_DeleteGo.Size = new System.Drawing.Size(88, 27);
+            B_DeleteGo.TabIndex = 8;
+            B_DeleteGo.Text = "Delete";
+            B_DeleteGo.UseVisualStyleBackColor = true;
+            B_DeleteGo.Click += B_DeleteGo_Click;
+            // 
             // B_ImportGoFiles
-            //
-            this.B_ImportGoFiles.Location = new System.Drawing.Point(122, 221);
-            this.B_ImportGoFiles.Name = "B_ImportGoFiles";
-            this.B_ImportGoFiles.Size = new System.Drawing.Size(110, 63);
-            this.B_ImportGoFiles.TabIndex = 7;
-            this.B_ImportGoFiles.Text = "Import from Folder (start at current slot)";
-            this.B_ImportGoFiles.UseVisualStyleBackColor = true;
-            this.B_ImportGoFiles.Click += new System.EventHandler(this.B_ImportGoFiles_Click);
-            //
+            // 
+            B_ImportGoFiles.Location = new System.Drawing.Point(142, 255);
+            B_ImportGoFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ImportGoFiles.Name = "B_ImportGoFiles";
+            B_ImportGoFiles.Size = new System.Drawing.Size(128, 73);
+            B_ImportGoFiles.TabIndex = 7;
+            B_ImportGoFiles.Text = "Import from Folder (start at current slot)";
+            B_ImportGoFiles.UseVisualStyleBackColor = true;
+            B_ImportGoFiles.Click += B_ImportGoFiles_Click;
+            // 
             // B_ExportGoFiles
-            //
-            this.B_ExportGoFiles.Location = new System.Drawing.Point(6, 221);
-            this.B_ExportGoFiles.Name = "B_ExportGoFiles";
-            this.B_ExportGoFiles.Size = new System.Drawing.Size(110, 63);
-            this.B_ExportGoFiles.TabIndex = 6;
-            this.B_ExportGoFiles.Text = "Export all to Folder";
-            this.B_ExportGoFiles.UseVisualStyleBackColor = true;
-            this.B_ExportGoFiles.Click += new System.EventHandler(this.B_ExportGoFiles_Click);
-            //
+            // 
+            B_ExportGoFiles.Location = new System.Drawing.Point(7, 255);
+            B_ExportGoFiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ExportGoFiles.Name = "B_ExportGoFiles";
+            B_ExportGoFiles.Size = new System.Drawing.Size(128, 73);
+            B_ExportGoFiles.TabIndex = 6;
+            B_ExportGoFiles.Text = "Export all to Folder";
+            B_ExportGoFiles.UseVisualStyleBackColor = true;
+            B_ExportGoFiles.Click += B_ExportGoFiles_Click;
+            // 
             // L_GoSlotSummary
-            //
-            this.L_GoSlotSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.L_GoSlotSummary.Location = new System.Drawing.Point(27, 58);
-            this.L_GoSlotSummary.Name = "L_GoSlotSummary";
-            this.L_GoSlotSummary.Size = new System.Drawing.Size(189, 104);
-            this.L_GoSlotSummary.TabIndex = 5;
-            this.L_GoSlotSummary.Text = "Summary";
-            //
+            // 
+            L_GoSlotSummary.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            L_GoSlotSummary.Location = new System.Drawing.Point(31, 67);
+            L_GoSlotSummary.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_GoSlotSummary.Name = "L_GoSlotSummary";
+            L_GoSlotSummary.Size = new System.Drawing.Size(220, 120);
+            L_GoSlotSummary.TabIndex = 5;
+            L_GoSlotSummary.Text = "Summary";
+            // 
             // B_Import
-            //
-            this.B_Import.Location = new System.Drawing.Point(222, 87);
-            this.B_Import.Name = "B_Import";
-            this.B_Import.Size = new System.Drawing.Size(75, 23);
-            this.B_Import.TabIndex = 4;
-            this.B_Import.Text = "Import";
-            this.B_Import.UseVisualStyleBackColor = true;
-            this.B_Import.Click += new System.EventHandler(this.B_Import_Click);
-            //
+            // 
+            B_Import.Location = new System.Drawing.Point(259, 100);
+            B_Import.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Import.Name = "B_Import";
+            B_Import.Size = new System.Drawing.Size(88, 27);
+            B_Import.TabIndex = 4;
+            B_Import.Text = "Import";
+            B_Import.UseVisualStyleBackColor = true;
+            B_Import.Click += B_Import_Click;
+            // 
             // B_Export
-            //
-            this.B_Export.Location = new System.Drawing.Point(222, 58);
-            this.B_Export.Name = "B_Export";
-            this.B_Export.Size = new System.Drawing.Size(75, 23);
-            this.B_Export.TabIndex = 3;
-            this.B_Export.Text = "Export";
-            this.B_Export.UseVisualStyleBackColor = true;
-            this.B_Export.Click += new System.EventHandler(this.B_Export_Click);
-            //
+            // 
+            B_Export.Location = new System.Drawing.Point(259, 67);
+            B_Export.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Export.Name = "B_Export";
+            B_Export.Size = new System.Drawing.Size(88, 27);
+            B_Export.TabIndex = 3;
+            B_Export.Text = "Export";
+            B_Export.UseVisualStyleBackColor = true;
+            B_Export.Click += B_Export_Click;
+            // 
             // L_GoSlot
-            //
-            this.L_GoSlot.Location = new System.Drawing.Point(5, 35);
-            this.L_GoSlot.Name = "L_GoSlot";
-            this.L_GoSlot.Size = new System.Drawing.Size(85, 20);
-            this.L_GoSlot.TabIndex = 2;
-            this.L_GoSlot.Text = "Slot:";
-            this.L_GoSlot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
+            // 
+            L_GoSlot.Location = new System.Drawing.Point(6, 40);
+            L_GoSlot.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_GoSlot.Name = "L_GoSlot";
+            L_GoSlot.Size = new System.Drawing.Size(99, 23);
+            L_GoSlot.TabIndex = 2;
+            L_GoSlot.Text = "Slot:";
+            L_GoSlot.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // NUD_GoIndex
-            //
-            this.NUD_GoIndex.Location = new System.Drawing.Point(96, 35);
-            this.NUD_GoIndex.Maximum = new decimal(new int[] {
-            999,
-            0,
-            0,
-            0});
-            this.NUD_GoIndex.Name = "NUD_GoIndex";
-            this.NUD_GoIndex.Size = new System.Drawing.Size(120, 20);
-            this.NUD_GoIndex.TabIndex = 1;
-            this.NUD_GoIndex.ValueChanged += new System.EventHandler(this.NUD_GoIndex_ValueChanged);
-            //
+            // 
+            NUD_GoIndex.Location = new System.Drawing.Point(112, 40);
+            NUD_GoIndex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_GoIndex.Maximum = new decimal(new int[] { 999, 0, 0, 0 });
+            NUD_GoIndex.Name = "NUD_GoIndex";
+            NUD_GoIndex.Size = new System.Drawing.Size(140, 23);
+            NUD_GoIndex.TabIndex = 1;
+            NUD_GoIndex.ValueChanged += NUD_GoIndex_ValueChanged;
+            // 
             // B_ExportGoSummary
-            //
-            this.B_ExportGoSummary.Location = new System.Drawing.Point(238, 221);
-            this.B_ExportGoSummary.Name = "B_ExportGoSummary";
-            this.B_ExportGoSummary.Size = new System.Drawing.Size(131, 63);
-            this.B_ExportGoSummary.TabIndex = 0;
-            this.B_ExportGoSummary.Text = "Dump Text Summary of Go Park Entities";
-            this.B_ExportGoSummary.UseVisualStyleBackColor = true;
-            this.B_ExportGoSummary.Click += new System.EventHandler(this.B_ExportGoSummary_Click);
-            //
+            // 
+            B_ExportGoSummary.Location = new System.Drawing.Point(278, 255);
+            B_ExportGoSummary.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ExportGoSummary.Name = "B_ExportGoSummary";
+            B_ExportGoSummary.Size = new System.Drawing.Size(153, 73);
+            B_ExportGoSummary.TabIndex = 0;
+            B_ExportGoSummary.Text = "Dump Text Summary of Go Park Entities";
+            B_ExportGoSummary.UseVisualStyleBackColor = true;
+            B_ExportGoSummary.Click += B_ExportGoSummary_Click;
+            // 
             // SAV_Trainer7GG
-            //
-            this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(414, 366);
-            this.Controls.Add(this.TC_Editor);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.B_Cancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SAV_Trainer7GG";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Trainer Data Editor";
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Main_DragEnter);
-            this.TC_Editor.ResumeLayout(false);
-            this.Tab_Overview.ResumeLayout(false);
-            this.Tab_Overview.PerformLayout();
-            this.GB_Adventure.ResumeLayout(false);
-            this.GB_Adventure.PerformLayout();
-            this.Tab_Complex.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_GoIndex)).EndInit();
-            this.ResumeLayout(false);
-
+            // 
+            AllowDrop = true;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(483, 422);
+            Controls.Add(TC_Editor);
+            Controls.Add(B_Save);
+            Controls.Add(B_Cancel);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SAV_Trainer7GG";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Trainer Data Editor";
+            DragDrop += Main_DragDrop;
+            DragEnter += Main_DragEnter;
+            TC_Editor.ResumeLayout(false);
+            Tab_Overview.ResumeLayout(false);
+            Tab_Overview.PerformLayout();
+            GB_Adventure.ResumeLayout(false);
+            GB_Adventure.PerformLayout();
+            Tab_Complex.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_GoIndex).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion

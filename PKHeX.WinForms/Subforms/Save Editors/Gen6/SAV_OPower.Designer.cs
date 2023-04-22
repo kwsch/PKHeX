@@ -28,155 +28,165 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.L_Type = new System.Windows.Forms.Label();
-            this.CB_Type = new System.Windows.Forms.ComboBox();
-            this.CB_Value = new System.Windows.Forms.ComboBox();
-            this.B_ClearAll = new System.Windows.Forms.Button();
-            this.B_GiveAll = new System.Windows.Forms.Button();
-            this.B_GiveAllMAX = new System.Windows.Forms.Button();
-            this.CHK_Master = new System.Windows.Forms.CheckBox();
-            this.CHK_S = new System.Windows.Forms.CheckBox();
-            this.CHK_MAX = new System.Windows.Forms.CheckBox();
-            this.SuspendLayout();
+            B_Cancel = new System.Windows.Forms.Button();
+            B_Save = new System.Windows.Forms.Button();
+            L_Type = new System.Windows.Forms.Label();
+            CB_Type = new System.Windows.Forms.ComboBox();
+            CB_Value = new System.Windows.Forms.ComboBox();
+            B_ClearAll = new System.Windows.Forms.Button();
+            B_GiveAll = new System.Windows.Forms.Button();
+            B_GiveAllMAX = new System.Windows.Forms.Button();
+            CHK_Master = new System.Windows.Forms.CheckBox();
+            CHK_S = new System.Windows.Forms.CheckBox();
+            CHK_MAX = new System.Windows.Forms.CheckBox();
+            SuspendLayout();
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(214, 71);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(64, 23);
-            this.B_Cancel.TabIndex = 34;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(250, 82);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(75, 27);
+            B_Cancel.TabIndex = 34;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(284, 71);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(64, 23);
-            this.B_Save.TabIndex = 35;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(331, 82);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(75, 27);
+            B_Save.TabIndex = 35;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // L_Type
             // 
-            this.L_Type.Location = new System.Drawing.Point(9, 13);
-            this.L_Type.Name = "L_Type";
-            this.L_Type.Size = new System.Drawing.Size(50, 20);
-            this.L_Type.TabIndex = 36;
-            this.L_Type.Text = "Type:";
-            this.L_Type.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Type.Location = new System.Drawing.Point(10, 15);
+            L_Type.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Type.Name = "L_Type";
+            L_Type.Size = new System.Drawing.Size(58, 23);
+            L_Type.TabIndex = 36;
+            L_Type.Text = "Type:";
+            L_Type.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Type
             // 
-            this.CB_Type.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Type.FormattingEnabled = true;
-            this.CB_Type.Location = new System.Drawing.Point(65, 14);
-            this.CB_Type.Name = "CB_Type";
-            this.CB_Type.Size = new System.Drawing.Size(103, 21);
-            this.CB_Type.TabIndex = 37;
+            CB_Type.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CB_Type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Type.FormattingEnabled = true;
+            CB_Type.Location = new System.Drawing.Point(76, 16);
+            CB_Type.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Type.Name = "CB_Type";
+            CB_Type.Size = new System.Drawing.Size(119, 23);
+            CB_Type.TabIndex = 37;
             // 
             // CB_Value
             // 
-            this.CB_Value.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_Value.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Value.FormattingEnabled = true;
-            this.CB_Value.Location = new System.Drawing.Point(174, 14);
-            this.CB_Value.Name = "CB_Value";
-            this.CB_Value.Size = new System.Drawing.Size(64, 21);
-            this.CB_Value.TabIndex = 38;
+            CB_Value.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            CB_Value.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Value.FormattingEnabled = true;
+            CB_Value.Location = new System.Drawing.Point(203, 16);
+            CB_Value.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_Value.Name = "CB_Value";
+            CB_Value.Size = new System.Drawing.Size(74, 23);
+            CB_Value.TabIndex = 38;
             // 
             // B_ClearAll
             // 
-            this.B_ClearAll.Location = new System.Drawing.Point(12, 71);
-            this.B_ClearAll.Name = "B_ClearAll";
-            this.B_ClearAll.Size = new System.Drawing.Size(75, 23);
-            this.B_ClearAll.TabIndex = 39;
-            this.B_ClearAll.Text = "Clear All";
-            this.B_ClearAll.UseVisualStyleBackColor = true;
+            B_ClearAll.Location = new System.Drawing.Point(14, 82);
+            B_ClearAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_ClearAll.Name = "B_ClearAll";
+            B_ClearAll.Size = new System.Drawing.Size(88, 27);
+            B_ClearAll.TabIndex = 39;
+            B_ClearAll.Text = "Clear All";
+            B_ClearAll.UseVisualStyleBackColor = true;
             // 
             // B_GiveAll
             // 
-            this.B_GiveAll.Location = new System.Drawing.Point(12, 41);
-            this.B_GiveAll.Name = "B_GiveAll";
-            this.B_GiveAll.Size = new System.Drawing.Size(75, 23);
-            this.B_GiveAll.TabIndex = 40;
-            this.B_GiveAll.Text = "Give All";
-            this.B_GiveAll.UseVisualStyleBackColor = true;
+            B_GiveAll.Location = new System.Drawing.Point(14, 47);
+            B_GiveAll.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_GiveAll.Name = "B_GiveAll";
+            B_GiveAll.Size = new System.Drawing.Size(88, 27);
+            B_GiveAll.TabIndex = 40;
+            B_GiveAll.Text = "Give All";
+            B_GiveAll.UseVisualStyleBackColor = true;
             // 
             // B_GiveAllMAX
             // 
-            this.B_GiveAllMAX.Location = new System.Drawing.Point(93, 41);
-            this.B_GiveAllMAX.Name = "B_GiveAllMAX";
-            this.B_GiveAllMAX.Size = new System.Drawing.Size(75, 23);
-            this.B_GiveAllMAX.TabIndex = 41;
-            this.B_GiveAllMAX.Text = "MAX All";
-            this.B_GiveAllMAX.UseVisualStyleBackColor = true;
+            B_GiveAllMAX.Location = new System.Drawing.Point(108, 47);
+            B_GiveAllMAX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_GiveAllMAX.Name = "B_GiveAllMAX";
+            B_GiveAllMAX.Size = new System.Drawing.Size(88, 27);
+            B_GiveAllMAX.TabIndex = 41;
+            B_GiveAllMAX.Text = "MAX All";
+            B_GiveAllMAX.UseVisualStyleBackColor = true;
             // 
             // CHK_Master
             // 
-            this.CHK_Master.AutoSize = true;
-            this.CHK_Master.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CHK_Master.Location = new System.Drawing.Point(101, 75);
-            this.CHK_Master.Name = "CHK_Master";
-            this.CHK_Master.Size = new System.Drawing.Size(67, 17);
-            this.CHK_Master.TabIndex = 42;
-            this.CHK_Master.Text = "??? Flag";
-            this.CHK_Master.UseVisualStyleBackColor = true;
+            CHK_Master.AutoSize = true;
+            CHK_Master.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            CHK_Master.Location = new System.Drawing.Point(118, 87);
+            CHK_Master.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_Master.Name = "CHK_Master";
+            CHK_Master.Size = new System.Drawing.Size(66, 19);
+            CHK_Master.TabIndex = 42;
+            CHK_Master.Text = "??? Flag";
+            CHK_Master.UseVisualStyleBackColor = true;
             // 
             // CHK_S
             // 
-            this.CHK_S.AutoSize = true;
-            this.CHK_S.Location = new System.Drawing.Point(244, 16);
-            this.CHK_S.Name = "CHK_S";
-            this.CHK_S.Size = new System.Drawing.Size(33, 17);
-            this.CHK_S.TabIndex = 43;
-            this.CHK_S.Text = "S";
-            this.CHK_S.UseVisualStyleBackColor = true;
+            CHK_S.AutoSize = true;
+            CHK_S.Location = new System.Drawing.Point(285, 18);
+            CHK_S.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_S.Name = "CHK_S";
+            CHK_S.Size = new System.Drawing.Size(32, 19);
+            CHK_S.TabIndex = 43;
+            CHK_S.Text = "S";
+            CHK_S.UseVisualStyleBackColor = true;
             // 
             // CHK_MAX
             // 
-            this.CHK_MAX.AutoSize = true;
-            this.CHK_MAX.Location = new System.Drawing.Point(283, 16);
-            this.CHK_MAX.Name = "CHK_MAX";
-            this.CHK_MAX.Size = new System.Drawing.Size(49, 17);
-            this.CHK_MAX.TabIndex = 44;
-            this.CHK_MAX.Text = "MAX";
-            this.CHK_MAX.UseVisualStyleBackColor = true;
+            CHK_MAX.AutoSize = true;
+            CHK_MAX.Location = new System.Drawing.Point(330, 18);
+            CHK_MAX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_MAX.Name = "CHK_MAX";
+            CHK_MAX.Size = new System.Drawing.Size(52, 19);
+            CHK_MAX.TabIndex = 44;
+            CHK_MAX.Text = "MAX";
+            CHK_MAX.UseVisualStyleBackColor = true;
             // 
             // SAV_OPower
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(355, 106);
-            this.Controls.Add(this.CHK_MAX);
-            this.Controls.Add(this.CHK_S);
-            this.Controls.Add(this.CHK_Master);
-            this.Controls.Add(this.B_GiveAllMAX);
-            this.Controls.Add(this.B_GiveAll);
-            this.Controls.Add(this.B_ClearAll);
-            this.Controls.Add(this.CB_Value);
-            this.Controls.Add(this.CB_Type);
-            this.Controls.Add(this.L_Type);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.B_Cancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SAV_OPower";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "O-Power Editor";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(414, 122);
+            Controls.Add(CHK_MAX);
+            Controls.Add(CHK_S);
+            Controls.Add(CHK_Master);
+            Controls.Add(B_GiveAllMAX);
+            Controls.Add(B_GiveAll);
+            Controls.Add(B_ClearAll);
+            Controls.Add(CB_Value);
+            Controls.Add(CB_Type);
+            Controls.Add(L_Type);
+            Controls.Add(B_Save);
+            Controls.Add(B_Cancel);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SAV_OPower";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "O-Power Editor";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

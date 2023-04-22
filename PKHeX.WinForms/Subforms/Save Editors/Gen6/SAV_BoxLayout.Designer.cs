@@ -28,206 +28,216 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.LB_BoxSelect = new System.Windows.Forms.ListBox();
-            this.TB_BoxName = new System.Windows.Forms.TextBox();
-            this.L_BoxName = new System.Windows.Forms.Label();
-            this.B_Save = new System.Windows.Forms.Button();
-            this.B_Cancel = new System.Windows.Forms.Button();
-            this.CB_BG = new System.Windows.Forms.ComboBox();
-            this.PAN_BG = new System.Windows.Forms.Panel();
-            this.FLP_Misc = new System.Windows.Forms.FlowLayoutPanel();
-            this.FLP_Unlocked = new System.Windows.Forms.FlowLayoutPanel();
-            this.L_Unlocked = new System.Windows.Forms.Label();
-            this.CB_Unlocked = new System.Windows.Forms.ComboBox();
-            this.FLP_Flags = new System.Windows.Forms.FlowLayoutPanel();
-            this.L_Flag = new System.Windows.Forms.Label();
-            this.B_Up = new System.Windows.Forms.Button();
-            this.B_Down = new System.Windows.Forms.Button();
-            this.FLP_Misc.SuspendLayout();
-            this.FLP_Unlocked.SuspendLayout();
-            this.FLP_Flags.SuspendLayout();
-            this.SuspendLayout();
+            LB_BoxSelect = new System.Windows.Forms.ListBox();
+            TB_BoxName = new System.Windows.Forms.TextBox();
+            L_BoxName = new System.Windows.Forms.Label();
+            B_Save = new System.Windows.Forms.Button();
+            B_Cancel = new System.Windows.Forms.Button();
+            CB_BG = new System.Windows.Forms.ComboBox();
+            PAN_BG = new System.Windows.Forms.Panel();
+            FLP_Misc = new System.Windows.Forms.FlowLayoutPanel();
+            FLP_Unlocked = new System.Windows.Forms.FlowLayoutPanel();
+            L_Unlocked = new System.Windows.Forms.Label();
+            CB_Unlocked = new System.Windows.Forms.ComboBox();
+            FLP_Flags = new System.Windows.Forms.FlowLayoutPanel();
+            L_Flag = new System.Windows.Forms.Label();
+            B_Up = new System.Windows.Forms.Button();
+            B_Down = new System.Windows.Forms.Button();
+            FLP_Misc.SuspendLayout();
+            FLP_Unlocked.SuspendLayout();
+            FLP_Flags.SuspendLayout();
+            SuspendLayout();
             // 
             // LB_BoxSelect
             // 
-            this.LB_BoxSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.LB_BoxSelect.FormattingEnabled = true;
-            this.LB_BoxSelect.Items.AddRange(new object[] {
-            "Boxes"});
-            this.LB_BoxSelect.Location = new System.Drawing.Point(12, 14);
-            this.LB_BoxSelect.Name = "LB_BoxSelect";
-            this.LB_BoxSelect.Size = new System.Drawing.Size(111, 290);
-            this.LB_BoxSelect.TabIndex = 0;
-            this.LB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.ChangeBox);
+            LB_BoxSelect.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            LB_BoxSelect.FormattingEnabled = true;
+            LB_BoxSelect.ItemHeight = 15;
+            LB_BoxSelect.Items.AddRange(new object[] { "Boxes" });
+            LB_BoxSelect.Location = new System.Drawing.Point(14, 16);
+            LB_BoxSelect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            LB_BoxSelect.Name = "LB_BoxSelect";
+            LB_BoxSelect.Size = new System.Drawing.Size(129, 334);
+            LB_BoxSelect.TabIndex = 0;
+            LB_BoxSelect.SelectedIndexChanged += ChangeBox;
             // 
             // TB_BoxName
             // 
-            this.TB_BoxName.Location = new System.Drawing.Point(158, 35);
-            this.TB_BoxName.MaxLength = 15;
-            this.TB_BoxName.Name = "TB_BoxName";
-            this.TB_BoxName.Size = new System.Drawing.Size(136, 20);
-            this.TB_BoxName.TabIndex = 1;
-            this.TB_BoxName.WordWrap = false;
-            this.TB_BoxName.TextChanged += new System.EventHandler(this.ChangeBoxDetails);
+            TB_BoxName.Location = new System.Drawing.Point(184, 40);
+            TB_BoxName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            TB_BoxName.MaxLength = 15;
+            TB_BoxName.Name = "TB_BoxName";
+            TB_BoxName.Size = new System.Drawing.Size(158, 23);
+            TB_BoxName.TabIndex = 1;
+            TB_BoxName.WordWrap = false;
+            TB_BoxName.TextChanged += ChangeBoxDetails;
             // 
             // L_BoxName
             // 
-            this.L_BoxName.AutoSize = true;
-            this.L_BoxName.Location = new System.Drawing.Point(156, 19);
-            this.L_BoxName.Name = "L_BoxName";
-            this.L_BoxName.Size = new System.Drawing.Size(59, 13);
-            this.L_BoxName.TabIndex = 2;
-            this.L_BoxName.Text = "Box Name:";
+            L_BoxName.AutoSize = true;
+            L_BoxName.Location = new System.Drawing.Point(182, 22);
+            L_BoxName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_BoxName.Name = "L_BoxName";
+            L_BoxName.Size = new System.Drawing.Size(65, 15);
+            L_BoxName.TabIndex = 2;
+            L_BoxName.Text = "Box Name:";
             // 
             // B_Save
             // 
-            this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(367, 255);
-            this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(67, 23);
-            this.B_Save.TabIndex = 9;
-            this.B_Save.Text = "Save";
-            this.B_Save.UseVisualStyleBackColor = true;
-            this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
+            B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Save.Location = new System.Drawing.Point(428, 294);
+            B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Save.Name = "B_Save";
+            B_Save.Size = new System.Drawing.Size(78, 27);
+            B_Save.TabIndex = 9;
+            B_Save.Text = "Save";
+            B_Save.UseVisualStyleBackColor = true;
+            B_Save.Click += B_Save_Click;
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(367, 284);
-            this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(67, 23);
-            this.B_Cancel.TabIndex = 10;
-            this.B_Cancel.Text = "Cancel";
-            this.B_Cancel.UseVisualStyleBackColor = true;
-            this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
+            B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
+            B_Cancel.Location = new System.Drawing.Point(428, 328);
+            B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Cancel.Name = "B_Cancel";
+            B_Cancel.Size = new System.Drawing.Size(78, 27);
+            B_Cancel.TabIndex = 10;
+            B_Cancel.Text = "Cancel";
+            B_Cancel.UseVisualStyleBackColor = true;
+            B_Cancel.Click += B_Cancel_Click;
             // 
             // CB_BG
             // 
-            this.CB_BG.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.CB_BG.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_BG.FormattingEnabled = true;
-            this.CB_BG.Location = new System.Drawing.Point(300, 34);
-            this.CB_BG.Name = "CB_BG";
-            this.CB_BG.Size = new System.Drawing.Size(137, 21);
-            this.CB_BG.TabIndex = 13;
-            this.CB_BG.SelectedIndexChanged += new System.EventHandler(this.ChangeBoxBackground);
+            CB_BG.Anchor = System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            CB_BG.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_BG.FormattingEnabled = true;
+            CB_BG.Location = new System.Drawing.Point(350, 39);
+            CB_BG.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CB_BG.Name = "CB_BG";
+            CB_BG.Size = new System.Drawing.Size(159, 23);
+            CB_BG.TabIndex = 13;
+            CB_BG.SelectedIndexChanged += ChangeBoxBackground;
             // 
             // PAN_BG
             // 
-            this.PAN_BG.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PAN_BG.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PAN_BG.Location = new System.Drawing.Point(126, 61);
-            this.PAN_BG.Name = "PAN_BG";
-            this.PAN_BG.Size = new System.Drawing.Size(311, 160);
-            this.PAN_BG.TabIndex = 14;
+            PAN_BG.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PAN_BG.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            PAN_BG.Location = new System.Drawing.Point(147, 70);
+            PAN_BG.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PAN_BG.Name = "PAN_BG";
+            PAN_BG.Size = new System.Drawing.Size(363, 185);
+            PAN_BG.TabIndex = 14;
             // 
             // FLP_Misc
             // 
-            this.FLP_Misc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_Misc.Controls.Add(this.FLP_Unlocked);
-            this.FLP_Misc.Controls.Add(this.FLP_Flags);
-            this.FLP_Misc.Location = new System.Drawing.Point(129, 234);
-            this.FLP_Misc.Name = "FLP_Misc";
-            this.FLP_Misc.Size = new System.Drawing.Size(232, 73);
-            this.FLP_Misc.TabIndex = 15;
+            FLP_Misc.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            FLP_Misc.Controls.Add(FLP_Unlocked);
+            FLP_Misc.Controls.Add(FLP_Flags);
+            FLP_Misc.Location = new System.Drawing.Point(150, 270);
+            FLP_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FLP_Misc.Name = "FLP_Misc";
+            FLP_Misc.Size = new System.Drawing.Size(271, 84);
+            FLP_Misc.TabIndex = 15;
             // 
             // FLP_Unlocked
             // 
-            this.FLP_Unlocked.Controls.Add(this.L_Unlocked);
-            this.FLP_Unlocked.Controls.Add(this.CB_Unlocked);
-            this.FLP_Unlocked.Location = new System.Drawing.Point(3, 3);
-            this.FLP_Unlocked.Name = "FLP_Unlocked";
-            this.FLP_Unlocked.Size = new System.Drawing.Size(215, 25);
-            this.FLP_Unlocked.TabIndex = 16;
+            FLP_Unlocked.Controls.Add(L_Unlocked);
+            FLP_Unlocked.Controls.Add(CB_Unlocked);
+            FLP_Unlocked.Location = new System.Drawing.Point(4, 3);
+            FLP_Unlocked.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FLP_Unlocked.Name = "FLP_Unlocked";
+            FLP_Unlocked.Size = new System.Drawing.Size(251, 29);
+            FLP_Unlocked.TabIndex = 16;
             // 
             // L_Unlocked
             // 
-            this.L_Unlocked.Location = new System.Drawing.Point(3, 0);
-            this.L_Unlocked.Name = "L_Unlocked";
-            this.L_Unlocked.Size = new System.Drawing.Size(70, 21);
-            this.L_Unlocked.TabIndex = 1;
-            this.L_Unlocked.Text = "Unlocked:";
-            this.L_Unlocked.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Unlocked.Location = new System.Drawing.Point(4, 0);
+            L_Unlocked.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Unlocked.Name = "L_Unlocked";
+            L_Unlocked.Size = new System.Drawing.Size(82, 24);
+            L_Unlocked.TabIndex = 1;
+            L_Unlocked.Text = "Unlocked:";
+            L_Unlocked.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Unlocked
             // 
-            this.CB_Unlocked.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Unlocked.FormattingEnabled = true;
-            this.CB_Unlocked.Location = new System.Drawing.Point(76, 0);
-            this.CB_Unlocked.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Unlocked.Name = "CB_Unlocked";
-            this.CB_Unlocked.Size = new System.Drawing.Size(40, 21);
-            this.CB_Unlocked.TabIndex = 0;
+            CB_Unlocked.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Unlocked.FormattingEnabled = true;
+            CB_Unlocked.Location = new System.Drawing.Point(90, 0);
+            CB_Unlocked.Margin = new System.Windows.Forms.Padding(0);
+            CB_Unlocked.Name = "CB_Unlocked";
+            CB_Unlocked.Size = new System.Drawing.Size(46, 23);
+            CB_Unlocked.TabIndex = 0;
             // 
             // FLP_Flags
             // 
-            this.FLP_Flags.Controls.Add(this.L_Flag);
-            this.FLP_Flags.Location = new System.Drawing.Point(3, 34);
-            this.FLP_Flags.Name = "FLP_Flags";
-            this.FLP_Flags.Size = new System.Drawing.Size(215, 25);
-            this.FLP_Flags.TabIndex = 17;
+            FLP_Flags.Controls.Add(L_Flag);
+            FLP_Flags.Location = new System.Drawing.Point(4, 38);
+            FLP_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            FLP_Flags.Name = "FLP_Flags";
+            FLP_Flags.Size = new System.Drawing.Size(251, 29);
+            FLP_Flags.TabIndex = 17;
             // 
             // L_Flag
             // 
-            this.L_Flag.Location = new System.Drawing.Point(3, 0);
-            this.L_Flag.Name = "L_Flag";
-            this.L_Flag.Size = new System.Drawing.Size(70, 21);
-            this.L_Flag.TabIndex = 1;
-            this.L_Flag.Text = "Flags:";
-            this.L_Flag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            L_Flag.Location = new System.Drawing.Point(4, 0);
+            L_Flag.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_Flag.Name = "L_Flag";
+            L_Flag.Size = new System.Drawing.Size(82, 24);
+            L_Flag.TabIndex = 1;
+            L_Flag.Text = "Flags:";
+            L_Flag.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // B_Up
             // 
-            this.B_Up.Location = new System.Drawing.Point(124, 13);
-            this.B_Up.Name = "B_Up";
-            this.B_Up.Size = new System.Drawing.Size(23, 23);
-            this.B_Up.TabIndex = 16;
-            this.B_Up.Text = "^";
-            this.B_Up.UseVisualStyleBackColor = true;
-            this.B_Up.Click += new System.EventHandler(this.MoveBox);
+            B_Up.Location = new System.Drawing.Point(145, 15);
+            B_Up.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Up.Name = "B_Up";
+            B_Up.Size = new System.Drawing.Size(27, 27);
+            B_Up.TabIndex = 16;
+            B_Up.Text = "^";
+            B_Up.UseVisualStyleBackColor = true;
+            B_Up.Click += MoveBox;
             // 
             // B_Down
             // 
-            this.B_Down.Location = new System.Drawing.Point(124, 35);
-            this.B_Down.Name = "B_Down";
-            this.B_Down.Size = new System.Drawing.Size(23, 23);
-            this.B_Down.TabIndex = 17;
-            this.B_Down.Text = "v";
-            this.B_Down.UseVisualStyleBackColor = true;
-            this.B_Down.Click += new System.EventHandler(this.MoveBox);
+            B_Down.Location = new System.Drawing.Point(145, 40);
+            B_Down.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_Down.Name = "B_Down";
+            B_Down.Size = new System.Drawing.Size(27, 27);
+            B_Down.TabIndex = 17;
+            B_Down.Text = "v";
+            B_Down.UseVisualStyleBackColor = true;
+            B_Down.Click += MoveBox;
             // 
             // SAV_BoxLayout
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 321);
-            this.Controls.Add(this.B_Down);
-            this.Controls.Add(this.B_Up);
-            this.Controls.Add(this.FLP_Misc);
-            this.Controls.Add(this.PAN_BG);
-            this.Controls.Add(this.CB_BG);
-            this.Controls.Add(this.B_Cancel);
-            this.Controls.Add(this.B_Save);
-            this.Controls.Add(this.L_BoxName);
-            this.Controls.Add(this.TB_BoxName);
-            this.Controls.Add(this.LB_BoxSelect);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "SAV_BoxLayout";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Box Layout Editor";
-            this.FLP_Misc.ResumeLayout(false);
-            this.FLP_Unlocked.ResumeLayout(false);
-            this.FLP_Flags.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(523, 370);
+            Controls.Add(B_Down);
+            Controls.Add(B_Up);
+            Controls.Add(FLP_Misc);
+            Controls.Add(PAN_BG);
+            Controls.Add(CB_BG);
+            Controls.Add(B_Cancel);
+            Controls.Add(B_Save);
+            Controls.Add(L_BoxName);
+            Controls.Add(TB_BoxName);
+            Controls.Add(LB_BoxSelect);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = Properties.Resources.Icon;
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "SAV_BoxLayout";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "Box Layout Editor";
+            FLP_Misc.ResumeLayout(false);
+            FLP_Unlocked.ResumeLayout(false);
+            FLP_Flags.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

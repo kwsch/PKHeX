@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class BallBrowser
     {
@@ -28,32 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flp = new System.Windows.Forms.FlowLayoutPanel();
-            this.SuspendLayout();
+            flp = new System.Windows.Forms.FlowLayoutPanel();
+            SuspendLayout();
             // 
             // flp
             // 
-            this.flp.AutoSize = true;
-            this.flp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flp.Location = new System.Drawing.Point(0, 0);
-            this.flp.Name = "flp";
-            this.flp.Size = new System.Drawing.Size(127, 88);
-            this.flp.TabIndex = 0;
+            flp.AutoSize = true;
+            flp.Dock = System.Windows.Forms.DockStyle.Fill;
+            flp.Location = new System.Drawing.Point(0, 0);
+            flp.Name = "flp";
+            flp.Size = new System.Drawing.Size(127, 88);
+            flp.TabIndex = 0;
             // 
             // BallBrowser
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(127, 88);
-            this.Controls.Add(this.flp);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "BallBrowser";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "BallBrowser";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoSize = true;
+            AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            ClientSize = new System.Drawing.Size(127, 88);
+            Controls.Add(flp);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            Name = "BallBrowser";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            Text = "BallBrowser";
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

@@ -74,7 +74,7 @@ public partial class EntityInstructionBuilder : UserControl
         }
 
         var value = pi.GetValue(pk);
-        if (value?.ToString() is not {} x)
+        if (value?.ToString() is not { } x)
         {
             display = "null";
             return false;

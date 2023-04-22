@@ -188,7 +188,7 @@ public partial class SAV_Encounters : Form
         var set = new ShowdownSet(editor);
         var criteria = EncounterCriteria.GetCriteria(set, editor.PersonalInfo);
         if (!isInChain)
-            criteria = criteria with {Gender = -1}; // Genderless tabs and a gendered enc -> let's play safe.
+            criteria = criteria with { Gender = -1 }; // Genderless tabs and a gendered enc -> let's play safe.
         return criteria;
     }
 
@@ -263,10 +263,10 @@ public partial class SAV_Encounters : Form
 
         if (Main.Settings.EncounterDb.FilterUnavailableSpecies)
         {
-            static bool IsPresentInGameSV  (ISpeciesForm pk) => PersonalTable.SV  .IsPresentInGame(pk.Species, pk.Form);
+            static bool IsPresentInGameSV(ISpeciesForm pk) => PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameSWSH(ISpeciesForm pk) => PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
             static bool IsPresentInGameBDSP(ISpeciesForm pk) => PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameLA  (ISpeciesForm pk) => PersonalTable.LA  .IsPresentInGame(pk.Species, pk.Form);
+            static bool IsPresentInGameLA(ISpeciesForm pk) => PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form);
             results = SAV switch
             {
                 SAV9SV => results.Where(IsPresentInGameSV),
@@ -440,7 +440,7 @@ public partial class SAV_Encounters : Form
         }
 
         // Load new sprites
-        int begin = start*RES_MIN;
+        int begin = start * RES_MIN;
         int end = Math.Min(RES_MAX, Results.Count - begin);
         for (int i = 0; i < end; i++)
         {

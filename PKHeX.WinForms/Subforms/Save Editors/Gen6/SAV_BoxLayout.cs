@@ -30,7 +30,7 @@ public partial class SAV_BoxLayout : Form
         TB_BoxName.MaxLength = SAV.Generation switch
         {
             6 or 7 => 14,
-            >=8 => 16,
+            >= 8 => 16,
             _ => 8,
         };
         editing = false;
@@ -158,7 +158,7 @@ public partial class SAV_BoxLayout : Form
     private void B_Save_Click(object sender, EventArgs e)
     {
         if (flagArr.Length > 0)
-            SAV.BoxFlags = Array.ConvertAll(flagArr, i => (byte) i.Value);
+            SAV.BoxFlags = Array.ConvertAll(flagArr, i => (byte)i.Value);
         if (CB_Unlocked.Visible)
             SAV.BoxesUnlocked = CB_Unlocked.SelectedIndex;
 

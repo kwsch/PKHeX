@@ -145,7 +145,7 @@ public partial class RibbonEditor : Form
         var pb = new SelectablePictureBox
         {
             AutoSize = false,
-            Size = new Size(40,40),
+            Size = new Size(40, 40),
             BackgroundImageLayout = ImageLayout.Center,
             Visible = false,
             Name = PrefixPB + name,

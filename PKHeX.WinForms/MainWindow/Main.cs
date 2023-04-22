@@ -670,9 +670,9 @@ public partial class Main : Form
     private static List<ComboItem> GetMemoryCardGameSelectionList(SAV3GCMemoryCard memCard)
     {
         var games = new List<ComboItem>();
-        if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int) GameVersion.COLO));
-        if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int) GameVersion.XD));
-        if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int) GameVersion.RSBOX));
+        if (memCard.HasCOLO) games.Add(new ComboItem(MsgGameColosseum, (int)GameVersion.COLO));
+        if (memCard.HasXD) games.Add(new ComboItem(MsgGameXD, (int)GameVersion.XD));
+        if (memCard.HasRSBOX) games.Add(new ComboItem(MsgGameRSBOX, (int)GameVersion.RSBOX));
         return games;
     }
 
@@ -698,8 +698,8 @@ public partial class Main : Form
                 memCard.SelectSaveGame(game);
                 break;
 
-            case GCMemoryCardState.SaveGameCOLO:  memCard.SelectSaveGame(GameVersion.COLO);  break;
-            case GCMemoryCardState.SaveGameXD:    memCard.SelectSaveGame(GameVersion.XD);    break;
+            case GCMemoryCardState.SaveGameCOLO: memCard.SelectSaveGame(GameVersion.COLO); break;
+            case GCMemoryCardState.SaveGameXD: memCard.SelectSaveGame(GameVersion.XD); break;
             case GCMemoryCardState.SaveGameRSBOX: memCard.SelectSaveGame(GameVersion.RSBOX); break;
 
             default:
@@ -1274,7 +1274,7 @@ public partial class Main : Form
             WinFormsUtil.Alert(MsgBackupSuccess, string.Format(MsgBackupDelete, BackupPath));
         }
         catch (Exception ex)
-            // Maybe they put their exe in a folder that we can't create files/folders to.
+        // Maybe they put their exe in a folder that we can't create files/folders to.
         { WinFormsUtil.Error($"{MsgBackupUnable} @ {BackupPath}", ex); }
     }
 
