@@ -20,7 +20,7 @@ public partial class SAV_Misc2 : Form
             case GameVersion.C:
                 uint valFly = SAV.FlightLocations;
                 string[] flyNames = GetDestNames();
-                uint[] flyValues = GetFlyValues();
+                uint[] flyValues = SAV2.GetCrystalFlyFlags();
 
                 for (int i = 0; i < flyNames.Length; i++)
                 {
@@ -44,15 +44,9 @@ public partial class SAV_Misc2 : Form
 
     private string[] GetDestNames()
     {
-        return new string[] { "Lake of Rage", "Blackthorn City", "Silver Cave", "Violet City", "Unknown", "Azalea Town",
+        return new string[] { "Lake of Rage", "Blackthorn City", "Silver Cave", "Violet City", "Azalea Town",
                     "Cianwood City", "Goldenrod City", "Olivine City", "Ecruteak City", "Mahogony Town", "Lavender Town", "Saffron City", "Celadon City", "Fuchsia City", "Cinnabar Island", "Indigo Plateau",
-                    "New Bark Town", "Cherrygrove City", "Vermillion City", "Rock Tunnel", "Cerulean City", "Pewter City", "Viridian City", "Pallet Town"};
-    }
-
-    private uint[] GetFlyValues()
-    {
-        return new uint[] { 1, 2, 4, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152,
-                    4194304, 8388608, 16777216, 33554432, 67108864, 134217728, 268435456, 53670912 };
+                    "New Bark Town", "Cherrygrove City", "Pallet Town", "Viridian City", "Pewter City", "Cerulean City", "Rock Tunnel", "Vermillion City"};
     }
 
     private void SaveMain()
@@ -60,7 +54,7 @@ public partial class SAV_Misc2 : Form
         if (SAV.Version == GameVersion.C)
         {
             string[] flyNames = GetDestNames();
-            uint[] flyValues = GetFlyValues();
+            uint[] flyValues = SAV2.GetCrystalFlyFlags();
             uint newFlyValue = 0;
 
             for (int i = 0; i < flyNames.Length; i++)
