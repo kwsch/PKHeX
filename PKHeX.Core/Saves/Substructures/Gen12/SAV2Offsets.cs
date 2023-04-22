@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -43,6 +43,7 @@ internal sealed class SAV2Offsets
     public int EventFlag { get; private set; } = -1;
     public int EventWork { get; }
     public int Daycare { get; }
+    public int FlightLocations { get; private set; } = -1;
 
     public int BlueCardPoints { get; private set; } = -1;
 
@@ -101,6 +102,7 @@ internal sealed class SAV2Offsets
                 AccumulatedChecksumEnd = 0x2B82;
                 OverallChecksumPosition = 0x2D0D;
                 OverallChecksumPosition2 = 0x7F0D;
+                FlightLocations = 0x2833;
 
                 PouchTMHM = 0x23E7;
                 PouchItem = 0x2420;

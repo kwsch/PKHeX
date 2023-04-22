@@ -661,6 +661,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         using var form = SAV.Generation switch
         {
+            2 => new SAV_Misc2(SAV),
             3 => new SAV_Misc3(SAV),
             4 => new SAV_Misc4((SAV4)SAV),
             5 => new SAV_Misc5(SAV),
@@ -1122,7 +1123,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
         B_OtherSlots.Visible = sav is SAV1StadiumJ or SAV1Stadium or SAV2Stadium;
         B_OpenTrainerInfo.Visible = B_OpenItemPouch.Visible = (sav.HasParty && SAV is not SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
-        B_OpenMiscEditor.Visible = sav is SAV3 or SAV4 or SAV5 or SAV8BS;
+        B_OpenMiscEditor.Visible = sav is SAV2 or SAV3 or SAV4 or SAV5 or SAV8BS;
         B_Roamer.Visible = sav is SAV3;
 
         B_OpenHoneyTreeEditor.Visible = sav is SAV4Sinnoh;

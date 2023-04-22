@@ -403,6 +403,12 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         set => Data[Offsets.Options] = value;
     }
 
+    public uint FlightLocations
+    {
+        get => ReadUInt32BigEndian(Data.AsSpan(Offsets.FlightLocations));
+        set => WriteUInt32BigEndian(Data.AsSpan(Offsets.FlightLocations), value);
+    }
+
     public bool BattleEffects
     {
         get => (Options & 0x80) == 0;
