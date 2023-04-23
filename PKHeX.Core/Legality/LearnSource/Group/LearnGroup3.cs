@@ -66,39 +66,15 @@ public sealed class LearnGroup3 : ILearnGroup
 
     private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
     {
-        ReadOnlySpan<ushort> eggMoves, levelMoves;
-        if (egg.Version is GameVersion.E)
+        ILearnSource inst = egg.Version switch
         {
-            var inst = LearnSource3E.Instance;
-            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
-            levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<ushort>.Empty;
-        }
-        else if (egg.Version is GameVersion.FR)
-        {
-            var inst = LearnSource3FR.Instance;
-            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
-            levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<ushort>.Empty;
-        }
-        else if (egg.Version is GameVersion.LG)
-        {
-            var inst = LearnSource3LG.Instance;
-            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
-            levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<ushort>.Empty;
-        }
-        else
-        {
-            var inst = LearnSource3RS.Instance;
-            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
-            levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<ushort>.Empty;
-        }
+            GameVersion.E => LearnSource3E.Instance,
+            GameVersion.FR => LearnSource3FR.Instance,
+            GameVersion.LG => LearnSource3LG.Instance,
+            _ => LearnSource3RS.Instance,
+        };
+        var eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
+        var levelMoves = inst.GetInheritMoves(egg.Species, egg.Form);
 
         for (var i = result.Length - 1; i >= 0; i--)
         {
@@ -172,13 +148,9 @@ public sealed class LearnGroup3 : ILearnGroup
         {
             var shedinja = LearnSource3E.Instance;
             var moves = shedinja.GetLearnset((int)Species.Ninjask, 0);
-            (bool HasMoves, int start, int end) = moves.GetMoveRange(evos[0].LevelMax, 20);
-            if (HasMoves)
-            {
-                var all = moves.Moves;
-                for (int i = start; i < end; i++)
-                    result[all[i]] = true;
-            }
+            var span = moves.GetMoveRange(evos[0].LevelMax, 20);
+            foreach (var move in span)
+                result[move] = true;
         }
     }
 

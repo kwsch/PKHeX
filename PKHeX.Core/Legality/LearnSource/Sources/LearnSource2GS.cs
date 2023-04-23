@@ -83,16 +83,11 @@ public sealed class LearnSource2GS : ILearnSource<PersonalInfo2>, IEggSource
         {
             var learn = Learnsets[evo.Species];
             var min = ParseSettings.AllowGen2MoveReminder(pk) ? 1 : evo.LevelMin;
-            (bool hasMoves, int start, int end) = learn.GetMoveRange(evo.LevelMax, min);
-            if (hasMoves)
+            var span = learn.GetMoveRange(evo.LevelMax, min);
+            foreach (var move in span)
             {
-                var moves = learn.Moves;
-                for (int i = end; i >= start; i--)
-                {
-                    var move = moves[i];
-                    if (!removeVC || move <= Legal.MaxMoveID_1)
-                        result[move] = true;
-                }
+                if (!removeVC || move <= Legal.MaxMoveID_1)
+                    result[move] = true;
             }
         }
 

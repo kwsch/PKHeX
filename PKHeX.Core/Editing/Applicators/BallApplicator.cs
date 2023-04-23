@@ -106,13 +106,15 @@ public static class BallApplicator
         var currentIndex = Array.IndexOf(items, current);
         if (currentIndex < 0)
             currentIndex = items.Length - 2;
+        return GetCircularOnce(items, currentIndex, result);
+    }
 
-        int ctr = 0;
-        for (int i = currentIndex + 1; i < items.Length; i++)
-            result[ctr++] = items[i];
-        for (int i = 0; i <= currentIndex; i++)
-            result[ctr++] = items[i];
-        return ctr;
+    private static int GetCircularOnce<T>(ReadOnlySpan<T> items, int startIndex, Span<T> result)
+    {
+        var tail = items[(startIndex + 1)..];
+        tail.CopyTo(result);
+        items[..startIndex].CopyTo(result[tail.Length..]);
+        return items.Length;
     }
 
     private static readonly Ball[] BallList = (Ball[])Enum.GetValues(typeof(Ball));

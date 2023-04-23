@@ -353,11 +353,9 @@ public static class SaveUtil
             case 0: return RS; // save has no battle tower record data
             default:
                 // RS data structure only extends 0x890 bytes; check if any data is present afterwards.
-                for (int i = 0x890; i < 0xF2C; i += 4)
-                {
-                    if (ReadUInt64LittleEndian(data[i..]) != 0)
-                        return E;
-                }
+                var remainder = data[0x890..0xF2C];
+                if (remainder.IndexOfAnyExcept<byte>(0) != -1)
+                    return E;
                 return RS;
         }
     }

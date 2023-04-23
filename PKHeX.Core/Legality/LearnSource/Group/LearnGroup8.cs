@@ -71,11 +71,9 @@ public sealed class LearnGroup8 : ILearnGroup
 
     private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
     {
-        var game = LearnSource8SWSH.Instance;
-        ReadOnlySpan<ushort> eggMoves = game.GetEggMoves(egg.Species, egg.Form);
-        ReadOnlySpan<ushort> levelMoves = egg.CanInheritMoves
-            ? game.GetLearnset(egg.Species, egg.Form).Moves
-            : ReadOnlySpan<ushort>.Empty;
+        ILearnSource game = LearnSource8SWSH.Instance;
+        var eggMoves = game.GetEggMoves(egg.Species, egg.Form);
+        var levelMoves = game.GetInheritMoves(egg.Species, egg.Form);
 
         for (var i = result.Length - 1; i >= 0; i--)
         {
