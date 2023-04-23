@@ -52,7 +52,7 @@ public static class ItemRestrictions
     private static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3, HeldItems_RS, ItemStorage3RS.Unreleased); // Safari Ball
     private static readonly bool[] ReleasedHeldItems_4 = GetPermitList(MaxItemID_4_HGSS, HeldItems_HGSS, ItemStorage4.Unreleased);
     private static readonly bool[] ReleasedHeldItems_5 = GetPermitList(MaxItemID_5_B2W2, HeldItems_BW, ItemStorage5.Unreleased);
-    private static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItem_AO, ItemStorage6XY.Unreleased);
+    private static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItems_AO, ItemStorage6XY.Unreleased);
     private static readonly bool[] ReleasedHeldItems_7 = GetPermitList(MaxItemID_7_USUM, HeldItems_USUM, ItemStorage7SM.Unreleased);
     private static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, ItemStorage8SWSH.Unreleased);
     private static readonly bool[] ReleasedHeldItems_8b = GetPermitList(MaxItemID_8b, HeldItems_BS, ItemStorage8BDSP.Unreleased);

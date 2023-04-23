@@ -24,7 +24,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     }
 
     public override PersonalTable6AO Personal => PersonalTable.AO;
-    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItem_AO;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_AO;
     public SaveBlockAccessor6AO Blocks { get; }
     protected override SAV6AO CloneInternal() => new((byte[])Data.Clone());
     public override ushort MaxMoveID => Legal.MaxMoveID_6_AO;

@@ -12,7 +12,7 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     public override IEnumerable<ushort> GetKeyItemParams() => (KeyItemMemoryArgsGen8.Values).SelectMany(z => z).Distinct();
 
-    public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct()
+    public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItems_AO.Concat(Legal.HeldItems_SWSH).Distinct()
         .Concat(GetKeyItemParams())
         .Concat(ItemStorage6AO.Pouch_TMHM_AO[..100].ToArray())
         .Where(z => z <= Legal.MaxItemID_8_R2);
