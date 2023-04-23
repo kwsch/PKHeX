@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -36,9 +36,12 @@ public static class GameInfo
 
     public static string GetVersionName(GameVersion version)
     {
-        var list = (ComboItem[]) VersionDataSource;
-        var first = System.Array.Find(list, z => z.Value == (int) version);
-        return first == null ? version.ToString() : first.Text;
+        foreach (var kvp in VersionDataSource)
+        {
+            if (kvp.Value == (int)version)
+                return kvp.Text;
+        }
+        return version.ToString();
     }
 
     // DataSource providing

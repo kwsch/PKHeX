@@ -99,8 +99,11 @@ public static class NatureAmp
         var (up, dn) = GetNatureModification(nature);
         if (IsNeutralOrInvalid(nature, up, dn))
             return;
-        stats[up + 1] *= 11; stats[up + 1] /= 10;
-        stats[dn + 1] *= 9;  stats[dn + 1] /= 10;
+
+        ref var upStat = ref stats[up + 1];
+        ref var dnStat = ref stats[dn + 1];
+        upStat = (ushort)((upStat * 11) / 10);
+        dnStat = (ushort)((dnStat * 9) / 10);
     }
 }
 

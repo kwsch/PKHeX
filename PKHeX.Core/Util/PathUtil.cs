@@ -13,6 +13,8 @@ public static partial class Util
     {
         Span<char> result = stackalloc char[fileName.Length];
         int ctr = GetCleanFileName(fileName, result);
+        if (ctr == fileName.Length)
+            return fileName;
         return new string(result[..ctr]);
     }
 

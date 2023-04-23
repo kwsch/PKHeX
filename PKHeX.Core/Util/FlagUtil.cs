@@ -37,9 +37,14 @@ public static class FlagUtil
     public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data, int count)
     {
         var result = new bool[count];
-        for (int i = 0; i < count; i++)
-            result[i] = (data[i >> 3] & (1 << (i & 7))) != 0;
+        GetBitFlagArray(data, result);
         return result;
+    }
+
+    public static void GetBitFlagArray(ReadOnlySpan<byte> data, Span<bool> result)
+    {
+        for (int i = 0; i < result.Length; i++)
+            result[i] = (data[i >> 3] & (1 << (i & 7))) != 0;
     }
 
     public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data) => GitBitFlagArray(data, data.Length << 3);

@@ -60,6 +60,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         int end = start + SIZE_MAIN;
         for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
         {
+            // Get the sector ID for the serialized savedata block, and copy the chunk into the corresponding object.
             var id = ReadInt16LittleEndian(data[(ofs + 0xFF4)..]);
             switch (id)
             {
@@ -76,6 +77,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         int end = start + SIZE_MAIN;
         for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
         {
+            // Get the sector ID for the serialized savedata block, and copy the corresponding chunk of object data into it.
             var id = ReadInt16LittleEndian(data[(ofs + 0xFF4)..]);
             switch (id)
             {
@@ -97,7 +99,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         System.Diagnostics.Debug.Assert(slot is 0 or 1);
         int start = SIZE_MAIN * slot;
         int end = start + SIZE_MAIN;
-        int bitTrack = 0;
+        int bitTrack = 0; // bit flags for each sector, 1 if present
         sector0 = 0;
         for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
         {
@@ -113,8 +115,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
 
     private static int GetActiveSlot(ReadOnlySpan<byte> data)
     {
-        if (data.Length == SaveUtil.SIZE_G3RAWHALF)
-            return 0;
+        if (data.Length == SaveUtil.SIZE_G3RAWHALF) // misconfigured emulator FLASH size
+            return 0; // not enough data for a secondary save
 
         var v0 = IsAllMainSectorsPresent(data, 0, out var sectorZero0);
         var v1 = IsAllMainSectorsPresent(data, 1, out var sectorZero1);

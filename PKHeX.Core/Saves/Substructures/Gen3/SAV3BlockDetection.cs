@@ -1,5 +1,5 @@
-﻿using System;
-using System.Buffers.Binary;
+using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -18,8 +18,9 @@ public static class SAV3BlockDetection
     /// <returns>0=Primary, 1=Secondary.</returns>
     public static int CompareFooters(ReadOnlySpan<byte> data, int offset1, int offset2)
     {
-        var counter1 = BinaryPrimitives.ReadUInt32LittleEndian(data[(offset1 + 0x0FFC)..]);
-        var counter2 = BinaryPrimitives.ReadUInt32LittleEndian(data[(offset2 + 0x0FFC)..]);
+        const int ofsCounter = 0x0FFC; // last 4 bytes of a 0x1000 chunk
+        var counter1 = ReadUInt32LittleEndian(data[(offset1 + ofsCounter)..]);
+        var counter2 = ReadUInt32LittleEndian(data[(offset2 + ofsCounter)..]);
         var result = CompareCounters(counter1, counter2);
         return result == Second ? Second : First; // Same -> First, shouldn't happen for valid saves.
     }

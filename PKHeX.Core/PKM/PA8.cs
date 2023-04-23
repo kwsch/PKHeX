@@ -494,7 +494,8 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
         FlagUtil.SetFlag(Data, 0x13F + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x13F, 14, static z => z != 0) >= 0;
+    public bool GetMoveRecordFlagAny() => Data.AsSpan(0x13F, 14).IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearMoveRecordFlags() => Data.AsSpan(0x13F, 14).Clear();
 
     // Why did you mis-align this field, GameFreak?
     public ulong Tracker

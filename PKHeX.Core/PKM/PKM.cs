@@ -630,7 +630,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// <summary>
     /// Gets the IV Judge Rating value.
     /// </summary>
-    /// <remarks>IV Judge scales his response 0 (worst) to 3 (best).</remarks>
+    /// <remarks>
+    /// IV Judge scales his response 0 (worst) to 3 (best).<br/>
+    /// Assumes IVs are in the 0-31 range, so this isn't really useful for Gen1/2 formats that are 0-15 per IV.
+    /// </remarks>
     public int PotentialRating => IVTotal switch
     {
         <=  90 => 0,
@@ -659,7 +662,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         else
             LoadStats(stats, p, level);
 
-        // Account for nature
+        // Amplify stats based on the stat nature.
         NatureAmp.ModifyStatsForNature(stats, StatNature);
     }
 

@@ -485,9 +485,8 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
         FlagUtil.SetFlag(Data, RecordStart + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, RecordStart, RecordLength, static z => z != 0) >= 0;
-
-    public void ClearMoveRecordFlags() => Data.AsSpan(RecordStart, RecordLength).Clear();
+    public bool GetMoveRecordFlagAny() => RecordFlags.IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearMoveRecordFlags() => RecordFlags.Clear();
 
     #endregion
     #region Battle Stats

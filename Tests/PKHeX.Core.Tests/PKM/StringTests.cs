@@ -79,4 +79,14 @@ public class StringTests
         StringConverter4Util.ConvertChar2ValueG4(g5).Should().Be(g4);
         StringConverter4Util.ConvertValue2CharG4(g4).Should().Be(g5);
     }
+
+    [Theory]
+    [InlineData("ぐリお", "ぐりお")]
+    public static void ConvertStringVC(string g12, string g7)
+    {
+        Span<byte> b12 = stackalloc byte[g12.Length];
+        var len = StringConverter12.SetString(b12, g12, g12.Length, true);
+        var result = StringConverter12Transporter.GetString(b12[..len], true);
+        result.Should().Be(g7);
+    }
 }
