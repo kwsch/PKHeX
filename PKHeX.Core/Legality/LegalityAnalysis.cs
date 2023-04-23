@@ -264,7 +264,7 @@ public sealed class LegalityAnalysis
     /// <param name="s">Check severity</param>
     /// <param name="c">Check comment</param>
     /// <param name="i">Check type</param>
-    internal void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, c, i));
+    internal void AddLine(Severity s, string c, CheckIdentifier i) => AddLine(new CheckResult(s, i, c));
 
     /// <summary>
     /// Adds a new Check parse value.

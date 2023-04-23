@@ -34,16 +34,16 @@ public sealed class ItemVerifier : Verifier
     {
         var status = EReaderBerrySettings.GetStatus();
         var chk = GetEReaderCheckResult(status);
-        if (chk != null)
+        if (chk != default)
             data.AddLine(chk);
     }
 
-    private CheckResult? GetEReaderCheckResult(EReaderBerryMatch status) => status switch
+    private CheckResult GetEReaderCheckResult(EReaderBerryMatch status) => status switch
     {
         EReaderBerryMatch.NoMatch => GetInvalid(LEReaderInvalid),
         EReaderBerryMatch.NoData => GetInvalid(LItemUnreleased),
         EReaderBerryMatch.InvalidUSA => GetInvalid(LEReaderAmerica),
         EReaderBerryMatch.InvalidJPN => GetInvalid(LEReaderJapan),
-        _ => null,
+        _ => default,
     };
 }

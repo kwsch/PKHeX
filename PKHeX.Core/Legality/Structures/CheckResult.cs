@@ -5,12 +5,12 @@ namespace PKHeX.Core;
 /// </summary>
 [System.Diagnostics.DebuggerDisplay($"{{{nameof(Identifier)}}}: {{{nameof(Comment)}}}")]
 // ReSharper disable once NotAccessedPositionalProperty.Global
-public sealed record CheckResult(Severity Judgement, string Comment, CheckIdentifier Identifier)
+public readonly record struct CheckResult(Severity Judgement, CheckIdentifier Identifier, string Comment)
 {
     public bool Valid => Judgement != Severity.Invalid;
     public string Rating => Judgement.Description();
 
-    internal CheckResult(CheckIdentifier i) : this(Severity.Valid, LegalityCheckStrings.L_AValid, i) { }
+    internal CheckResult(CheckIdentifier i) : this(Severity.Valid, i, LegalityCheckStrings.L_AValid) { }
 
     public string Format(string format) => string.Format(format, Rating, Comment);
 }

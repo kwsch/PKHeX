@@ -121,8 +121,8 @@ public static class EncounterVerifier
         return GetInvalid(LEggLocationInvalid);
     }
 
-    private static CheckResult GetInvalid(string message, CheckIdentifier ident = CheckIdentifier.Encounter) => new(Severity.Invalid, message, ident);
-    private static CheckResult GetValid(string message) => new(Severity.Valid, message, CheckIdentifier.Encounter);
+    private static CheckResult GetInvalid(string message, CheckIdentifier ident = CheckIdentifier.Encounter) => new(Severity.Invalid, ident, message);
+    private static CheckResult GetValid(string message) => new(Severity.Valid, CheckIdentifier.Encounter, message);
 
     private static CheckResult VerifyEncounterEgg3Transfer(PKM pk)
     {

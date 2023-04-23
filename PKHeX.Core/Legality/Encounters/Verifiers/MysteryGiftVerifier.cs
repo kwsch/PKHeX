@@ -42,17 +42,17 @@ public static class MysteryGiftVerifier
 
         var ver = (int)value >> 16;
         if (ver != 0 && !CanVersionReceiveGift(g.Generation, ver, pk.Version))
-            return new CheckResult(Severity.Invalid, LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin);
+            return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, LEncGiftVersionNotDistributed);
 
         var lang = value & MysteryGiftRestriction.LangRestrict;
         if (lang != 0 && !lang.HasFlag((MysteryGiftRestriction) (1 << pk.Language)))
-            return new CheckResult(Severity.Invalid, string.Format(LOTLanguage, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
+            return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, string.Format(LOTLanguage, lang.GetSuggestedLanguage(), pk.Language));
 
         if (pk is IRegionOrigin tr)
         {
             var region = value & MysteryGiftRestriction.RegionRestrict;
             if (region != 0 && !region.HasFlag((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << tr.ConsoleRegion)))
-                return new CheckResult(Severity.Invalid, LGeoHardwareRange, CheckIdentifier.GameOrigin);
+                return new CheckResult(Severity.Invalid, CheckIdentifier.GameOrigin, LGeoHardwareRange);
         }
 
         return new CheckResult(CheckIdentifier.GameOrigin);
