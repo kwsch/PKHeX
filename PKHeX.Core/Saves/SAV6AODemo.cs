@@ -22,7 +22,7 @@ public sealed class SAV6AODemo : SAV6
     }
 
     public override PersonalTable6AO Personal => PersonalTable.AO;
-    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItem_AO;
+    public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_AO;
     protected override SAV6AODemo CloneInternal() => new((byte[])Data.Clone());
     public override ushort MaxMoveID => Legal.MaxMoveID_6_AO;
     public override int MaxItemID => Legal.MaxItemID_6_AO;

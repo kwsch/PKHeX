@@ -82,6 +82,11 @@ public sealed class ItemStorage6AO : IItemStorage
         065, 066, 067,
     };
 
+    public static ushort[] GetAllHeld()
+    {
+        return ArrayUtil.ConcatAll(Pouch_Items_AO, Pouch_Medicine_AO, ItemStorage6XY.Pouch_Berry_XY);
+    }
+
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
     {
         if (type is InventoryType.KeyItems)

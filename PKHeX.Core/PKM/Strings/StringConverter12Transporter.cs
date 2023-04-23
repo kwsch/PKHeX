@@ -10,7 +10,7 @@ public static class StringConverter12Transporter
     private const ushort Terminator = 0;
 
     /// <summary>
-    /// Converts Generation 1 encoded data the same way Bank converts.
+    /// Converts Generation 1/2 encoded data the same way Bank converts.
     /// </summary>
     /// <param name="data">Generation 1 encoded data.</param>
     /// <param name="jp">Data source is Japanese.</param>
@@ -29,7 +29,7 @@ public static class StringConverter12Transporter
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
     {
-        var table = jp ? jp_table : us_table;
+        var table = jp ? CharTableJPN : CharTableINT;
         int i = 0;
         for (; i < data.Length; i++)
         {
@@ -49,44 +49,47 @@ public static class StringConverter12Transporter
 
     private static void CheckKata(Span<char> chars)
     {
-        bool isAnyKata = IsKata(chars);
+        bool isAnyKata = IsAnyKataRemap(chars);
         if (!isAnyKata)
             return;
 
-        if (!IsHiragana(chars))
+        if (IsAnyKataOnly(chars))
             return;
 
-        for (int i = 0; i < chars.Length; i++)
+        foreach (ref var c in chars)
         {
-            int index = Katakana.IndexOf(chars[i]);
-            if (index == -1)
-                continue;
-            chars[i] = Hiragana[index];
+            if (Katakana.Contains(c))
+                c -= (char)0x60; // shift to Hiragana
         }
     }
 
-    private static bool IsKata(ReadOnlySpan<char> chars)
+    /// <summary>
+    /// Checks if any char is from the clashing Katakana range.
+    /// </summary>
+    private static bool IsAnyKataRemap(ReadOnlySpan<char> chars)
     {
         return chars.IndexOfAny(Katakana) != -1;
     }
 
-    private static bool IsHiragana(ReadOnlySpan<char> chars)
+    private static bool IsAnyKataOnly(ReadOnlySpan<char> chars)
     {
         foreach (var c in chars)
         {
-            if ((uint)(c - 0x3041) < 0x53)
+            if (c - 0x3041u < 0x53)
+                return false; // Hiragana
+            if (c - 0x30A1u < 0x56)
                 return true;
-            if ((uint)(c - 0x30A1) < 0x56)
-                return false;
         }
-        return true;
+        return false;
     }
 
+    // ベ (U+30D9), ペ (U+30DA), ヘ (U+30D8), and リ (U+30EA)
     private const string Katakana = "ベペヘリ";
-    private const string Hiragana = "べぺへり";
+    // べ (U+3079), ぺ (U+307A), へ (U+3078), and り (U+308A)
+  //private const string Hiragana = "べぺへり";
 
     /// <summary>
-    /// International 1->7 character translation table
+    /// International 1/2->7 character translation table
     /// </summary>
     /// <remarks>
     /// Exported from Gen1's VC string transferring, with manual modifications for the two permitted accent marks:
@@ -94,7 +97,7 @@ public static class StringConverter12Transporter
     /// <br>0xCD at arr[0xC9] = Í (Spanish In-game Trade Shuckle, MANÍA)</br>
     /// <br>All other new language sensitive re-mapping (or lack thereof) are inaccessible via the character entry screen.</br>
     /// </remarks>
-    private static ReadOnlySpan<ushort> us_table => new ushort[]
+    private static ReadOnlySpan<ushort> CharTableINT => new ushort[]
     {
         0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 0
         0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, // 1
@@ -115,9 +118,9 @@ public static class StringConverter12Transporter
     };
 
     /// <summary>
-    /// Japanese 1->7 character translation table
+    /// Japanese 1/2->7 character translation table
     /// </summary>
-    private static ReadOnlySpan<ushort> jp_table => new ushort[]
+    private static ReadOnlySpan<ushort> CharTableJPN => new ushort[]
     {
         0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30AC, 0x30AE, 0x30B0, 0x30B2, 0x30B4, 0x30B6, 0x30B8, 0x30BA, 0x30BC, 0x30BE, 0x30C0, // 0
         0x30C2, 0x30C5, 0x30C7, 0x30C9, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30D0, 0x30D3, 0x30D6, 0x30DC, 0x3000, 0x3000, 0x3000, // 1

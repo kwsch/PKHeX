@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Side game data for <see cref="PK8"/> data transferred into HOME.
+/// Side game data for <see cref="PK9"/> data transferred into HOME.
 /// </summary>
 public sealed class GameDataPK9 : HomeOptional1, IGameDataSide
 {
@@ -13,7 +13,7 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide
 
     public GameDataPK9() : base(Format, SIZE) { }
     public GameDataPK9(byte[] data, int offset = 0) : base(Format, SIZE, data, offset) { }
-    public GameDataPK8 Clone() => new(ToArray(SIZE));
+    public GameDataPK9 Clone() => new(ToArray(SIZE));
     public int CopyTo(Span<byte> result) => CopyTo(result, SIZE);
 
     #region Structure
@@ -65,9 +65,8 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide
         FlagUtil.SetFlag(Data, RecordStart + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, RecordStart, RecordLength, static z => z != 0) >= 0;
-
-    public void ClearMoveRecordFlags() => Data.AsSpan(RecordStart, RecordLength).Clear();
+    public bool GetMoveRecordFlagAny() => RecordFlags.IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearMoveRecordFlags() => RecordFlags.Clear();
 
     #endregion
 

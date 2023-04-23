@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Loosely aggregated legality logic.
 /// </summary>
-public static partial class Legal
+public static class Legal
 {
     internal const int MaxSpeciesID_1 = 151;
     internal const int MaxMoveID_1 = 165;
@@ -128,7 +128,8 @@ public static partial class Legal
     internal static readonly ushort[] HeldItems_Pt = ItemStorage4Pt.GetAllHeld(); // Griseous Orb Added
     internal static readonly ushort[] HeldItems_HGSS = HeldItems_Pt;
     internal static readonly ushort[] HeldItems_BW = ItemStorage5.GetAllHeld();
-    internal static readonly ushort[] HeldItem_AO = ItemStorage6XY.GetAllHeld();
+    internal static readonly ushort[] HeldItems_XY = ItemStorage6XY.GetAllHeld();
+    internal static readonly ushort[] HeldItems_AO = ItemStorage6AO.GetAllHeld();
     internal static readonly ushort[] HeldItems_SM = ItemStorage7SM.GetAllHeld();
     internal static readonly ushort[] HeldItems_USUM = ItemStorage7USUM.GetAllHeld();
     internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();

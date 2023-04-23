@@ -87,8 +87,8 @@ public static class MethodFinder
     {
         var count = LCRNGReversal.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
-        var iv1 = GetIVChunk(IVs, 0);
-        var iv2 = GetIVChunk(IVs, 3);
+        var iv1 = GetIVChunk(IVs[..3]);
+        var iv2 = GetIVChunk(IVs[3..]);
         foreach (var seed in reg)
         {
             // A and B are already used by PID
@@ -158,8 +158,8 @@ public static class MethodFinder
         // this is an exact copy of LCRNG 1,2,4 matching, except the PID has its halves switched (BACD, BADE, BACE)
         var count = LCRNGReversal.GetSeeds(seeds, top, bot); // reversed!
         var reg = seeds[..count];
-        var iv1 = GetIVChunk(IVs, 0);
-        var iv2 = GetIVChunk(IVs, 3);
+        var iv1 = GetIVChunk(IVs[..3]);
+        var iv2 = GetIVChunk(IVs[3..]);
         foreach (var seed in reg)
         {
             // A and B are already used by PID
@@ -226,10 +226,10 @@ public static class MethodFinder
 
     private static bool GetLCRNGRoamerMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        if (IVs[2] != 0 || IVs[3] != 0 || IVs[4] != 0 || IVs[5] != 0 || IVs[1] > 7)
+        if (IVs is not [_, < 7, 0, 0, 0, 0])
             return GetNonMatch(out pidiv);
 
-        var iv1 = GetIVChunk(IVs, 0);
+        var iv1 = GetIVChunk(IVs[..3]);
         var count = LCRNGReversal.GetSeeds(seeds, bot, top);
         var reg = seeds[..count];
         foreach (var seed in reg)
@@ -414,8 +414,8 @@ public static class MethodFinder
         // PIDH & 7
         // PIDL & 7
         // IVs
-        var bot = GetIVChunk(IVs, 0) << 16;
-        var top = GetIVChunk(IVs, 3) << 16;
+        var bot = GetIVChunk(IVs[..3]) << 16;
+        var top = GetIVChunk(IVs[3..]) << 16;
 
         var count = LCRNGReversal.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
@@ -455,8 +455,8 @@ public static class MethodFinder
 
     private static bool GetBACDMatch(Span<uint> seeds, PKM pk, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        var bot = GetIVChunk(IVs, 0) << 16;
-        var top = GetIVChunk(IVs, 3) << 16;
+        var bot = GetIVChunk(IVs[..3]) << 16;
+        var top = GetIVChunk(IVs[3..]) << 16;
 
         var count = LCRNGReversal.GetSeedsIVs(seeds, bot, top);
         var reg = seeds[..count];
@@ -514,16 +514,21 @@ public static class MethodFinder
     private static bool GetPokewalkerMatch(PKM pk, uint oldpid, out PIDIV pidiv)
     {
         // check surface compatibility
-        var mid = oldpid & 0x00FFFF00;
-        if (mid != 0 && mid != 0x00FFFF00) // not expected bits
-            return GetNonMatch(out pidiv);
-        var nature = oldpid % 25;
-        if (nature == 24) // impossible nature
+        // Bits 8-24 must all be zero or all be one.
+        const uint midMask = 0x00FFFF00;
+        var mid = oldpid & midMask;
+        if (mid is not (0 or midMask))
             return GetNonMatch(out pidiv);
 
+        // Quirky Nature is not possible with the algorithm.
+        var nature = oldpid % 25;
+        if (nature == 24)
+            return GetNonMatch(out pidiv);
+
+        // No Pokewalker Pokémon evolves into a different gender-ratio species.
+        // Besides Azurill.
         var gender = pk.Gender;
         uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID16, pk.SID16, nature, gender, pk.PersonalInfo.Gender);
-
         if (pid != oldpid)
         {
             if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, oldpid)))
@@ -561,8 +566,8 @@ public static class MethodFinder
         if (!starter)
             return GetNonMatch(out pidiv);
 
-        var iv1 = GetIVChunk(IVs, 0);
-        var iv2 = GetIVChunk(IVs, 3);
+        var iv1 = GetIVChunk(IVs[..3]);
+        var iv2 = GetIVChunk(IVs[3..]);
 
         var count = XDRNG.GetSeeds(seeds, top, bot);
         var xdc = seeds[..count];
@@ -698,12 +703,12 @@ public static class MethodFinder
         result[0] = (int)r1 & 31;
     }
 
-    private static uint GetIVChunk(ReadOnlySpan<uint> IVs, int start)
+    private static uint GetIVChunk(ReadOnlySpan<uint> arr)
     {
-        uint val = 0;
-        for (int i = 0; i < 3; i++)
-            val |= IVs[i+start] << (5*i);
-        return val;
+        uint result = 0;
+        for (int i = 0; i < arr.Length; i++)
+            result |= arr[i] << (5*i);
+        return result;
     }
 
     public static bool IsPokeSpotActivation(int slot, uint seed, out uint s)

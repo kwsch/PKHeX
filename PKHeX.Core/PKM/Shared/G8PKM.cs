@@ -480,8 +480,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
         FlagUtil.SetFlag(Data, 0x127 + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, 0x127, 14, static z => z != 0) >= 0;
-
+    public bool GetMoveRecordFlagAny() => Data.AsSpan(0x127, 14).IndexOfAnyExcept<byte>(0) >= 0;
     public void ClearMoveRecordFlags() => Data.AsSpan(0x127, 14).Clear();
 
     // Why did you mis-align this field, GameFreak?
@@ -546,7 +545,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
         pk.DynamaxLevel = 0;
         pk.Sociability = 0;
         pk.Fullness = 0;
-        pk.Data[0x52] = 0;
+        pk.Data[0x52] = 0; // BD/SP IsDprIllegal
 
         pk.ResetMoves();
         pk.ResetPartyStats();

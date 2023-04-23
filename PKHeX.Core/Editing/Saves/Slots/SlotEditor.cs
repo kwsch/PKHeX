@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Facilitates interaction with a <see cref="SaveFile"/> or other data location's slot data.
@@ -44,8 +44,6 @@ public sealed class SlotEditor<T>
             return SlotTouchResult.FailWrite;
 
         WriteSlot(slot, pk, type);
-        NotifySlotChanged(slot, type, pk);
-
         return SlotTouchResult.Success;
     }
 
@@ -59,8 +57,8 @@ public sealed class SlotEditor<T>
         if (!slot.CanWriteTo(SAV))
             return SlotTouchResult.FailDelete;
 
-        var pk = DeleteSlot(slot);
-        NotifySlotChanged(slot, SlotTouchType.Delete, pk);
+        if (!DeleteSlot(slot))
+            return SlotTouchResult.FailDelete;
 
         return SlotTouchResult.Success;
     }
@@ -78,26 +76,28 @@ public sealed class SlotEditor<T>
         if (!dest.CanWriteTo(SAV))
             return SlotTouchResult.FailDestination;
 
-        NotifySlotChanged(source, SlotTouchType.None, source.Read(SAV));
-        NotifySlotChanged(dest, SlotTouchType.Swap, dest.Read(SAV));
+        const PKMImportSetting skip = PKMImportSetting.Skip;
+        var s = source.Read(SAV);
+        var d = dest.Read(SAV);
+        WriteSlot(source, s, SlotTouchType.None, skip);
+        WriteSlot(dest, d, SlotTouchType.Swap, skip);
 
         return SlotTouchResult.Success;
     }
 
-    private void WriteSlot(ISlotInfo slot, PKM pk, SlotTouchType type = SlotTouchType.Set)
+    private bool WriteSlot(ISlotInfo slot, PKM pk, SlotTouchType type = SlotTouchType.Set, PKMImportSetting setDetail = PKMImportSetting.UseDefault)
     {
         Changelog.AddNewChange(slot);
-        var setDetail = type is SlotTouchType.Swap ? PKMImportSetting.Skip : PKMImportSetting.UseDefault;
         var result = slot.WriteTo(SAV, pk, setDetail);
         if (result)
             NotifySlotChanged(slot, type, pk);
+        return result;
     }
 
-    private PKM DeleteSlot(ISlotInfo slot)
+    private bool DeleteSlot(ISlotInfo slot)
     {
         var pk = SAV.BlankPKM;
-        WriteSlot(slot, pk, SlotTouchType.Delete);
-        return pk;
+        return WriteSlot(slot, pk, SlotTouchType.Delete, PKMImportSetting.Skip);
     }
 
     public void Undo()

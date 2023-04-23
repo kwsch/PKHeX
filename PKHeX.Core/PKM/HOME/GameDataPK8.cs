@@ -76,7 +76,8 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         FlagUtil.SetFlag(Data, Offset + 0x2D + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => Array.FindIndex(Data, Offset + 0x2D, 14, static z => z != 0) >= 0;
+    public bool GetMoveRecordFlagAny() => Data.AsSpan(Offset + 0x2D, 14).IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearMoveRecordFlags() => Data.AsSpan(Offset + 0x2D, 14).Clear();
 
     public int Palma { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x3B)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x3B), value); }
     public int Ball { get => Data[Offset + 0x3F]; set => Data[Offset + 0x3F] = (byte)value; }
