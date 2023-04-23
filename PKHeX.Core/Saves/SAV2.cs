@@ -715,36 +715,6 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         SetFlag(EventFlag + (flagNumber >> 3), flagNumber & 7, value);
     }
 
-    public static uint[] GetCrystalFlyFlags()
-    {
-        return new uint[] {
-            0x1,        //Lake of Rage
-            0x2,        //Blackthorn City
-            0x4,        //Silver Cave
-            0x100,      //Violet City
-            0x400,      //Azalea Town
-            0x800,      //Cianwood City
-            0x1000,      //Goldenrod City
-            0x2000,     //Olivine City
-            0x4000,     //Ecruteak City
-            0x8000,     //Mahogony Town
-            0x10000,    //Lavender Town
-            0x20000,    //Saffron City
-            0x40000,    //Celadon City
-            0x80000,    //Fuchsia City
-            0x100000,   //Cinnabar Island
-            0x200000,   //Indigo Plateau
-            0x400000,   //New Bark Town
-            0x800000,   //Cherrygrove City
-            0x4000000,  //Pallet Town
-            0x8000000,  //Viridian City
-            0x10000000,  //Pewter City
-            0x20000000,  //Cerulean City
-            0x40000000, //Rock Tunnel
-            0x80000000  //Vermillion City
-        };
-    }
-
     // Misc
     public ushort ResetKey => GetResetKey();
 
