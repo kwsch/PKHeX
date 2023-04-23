@@ -431,7 +431,14 @@ public static class BatchEditing
             return false;
         if (!pi.CanRead)
             return false;
-        return cmd.Comparer.IsCompareOperator(pi.CompareTo(pk, cmd.PropertyValue));
+
+        string val = cmd.PropertyValue;
+        if (cmd.PropertyValue.StartsWith(CONST_POINTER) && props.TryGetValue(val[1..], out var opi))
+        {
+            var result = opi.GetValue(pk) ?? throw new NullReferenceException();
+            return cmd.Comparer.IsCompareOperator(pi.CompareTo(pk, result));
+        }
+        return cmd.Comparer.IsCompareOperator(pi.CompareTo(pk, val));
     }
 
     /// <summary>
