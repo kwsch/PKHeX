@@ -41,6 +41,18 @@ public enum PogoType : byte
     /// <summary> Pokémon captured after defeating members of Team GO Rocket. Must become Purified before transferring to Pokémon HOME. </summary>
     /// <remarks> Pokémon with this <see cref="PogoType"/> can not be moved to <see cref="GameVersion.GG"/>. </remarks>
     Shadow = 40,
+
+    /// <summary>
+    /// Pokémon captured from Special Research or Timed Research with a Premier Ball.
+    /// </summary>
+    /// <remarks>
+    /// Niantic pushed release 0.269 on April 22, 2023, which contained an issue with the Remember Last-Used Poké Ball setting.
+    /// This allowed for Premier Balls obtained from Raid Battles to be remembered on all future encounters.
+    /// The moment the Premier Ball touched the floor or a wild Pokémon, the encounter would end, except if it was from a Special Research and Timed Research encounter.
+    /// This made it possible for over 300 species of Pokémon to be obtainable in a Poké Ball they were never meant to be captured in.
+    /// </remarks>
+    Research269 = 200,
+    Research269M,
 }
 
 /// <summary>
@@ -66,6 +78,8 @@ public static class PogoTypeExtensions
         PogoType.GBLM => 20,
         PogoType.GBLD => 20,
         PogoType.Shadow => 8,
+        PogoType.Research269 => 15,
+        PogoType.Research269M => 15,
         _ => 1,
     };
 
@@ -82,6 +96,7 @@ public static class PogoTypeExtensions
         PogoType.ResearchP => 10,
         PogoType.GBLM => 10,
         PogoType.GBLD => 0,
+        PogoType.Research269M => 10,
         _ => 1,
     };
 
@@ -114,6 +129,8 @@ public static class PogoTypeExtensions
         PogoType.ResearchP => Ball.Poke,
         PogoType.ResearchUB => Ball.Beast,
         PogoType.Shadow => Ball.Premier,
+        PogoType.Research269 => Ball.Premier,
+        PogoType.Research269M => Ball.Premier,
         _ => Ball.None, // Poke, Great, Ultra
     };
 }
