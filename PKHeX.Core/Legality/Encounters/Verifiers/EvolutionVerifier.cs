@@ -17,11 +17,11 @@ public static class EvolutionVerifier
     {
         // Check if basic evolution methods are satisfiable with this encounter.
         if (!IsValidEvolution(pk, info))
-            return new CheckResult(Severity.Invalid, LEvoInvalid, CheckIdentifier.Evolution);
+            return new CheckResult(Severity.Invalid, CheckIdentifier.Evolution, LEvoInvalid);
 
         // Check if complex evolution methods are satisfiable with this encounter.
         if (!IsValidEvolutionWithMove(pk, info))
-            return new CheckResult(Severity.Invalid, string.Format(LMoveEvoFCombination_0, ParseSettings.SpeciesStrings[pk.Species]), CheckIdentifier.Evolution);
+            return new CheckResult(Severity.Invalid, CheckIdentifier.Evolution, string.Format(LMoveEvoFCombination_0, ParseSettings.SpeciesStrings[pk.Species]));
 
         return VALID;
     }

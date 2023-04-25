@@ -62,14 +62,14 @@ public static class EncounterFinder
                 continue;
 
             // We ran out of possible encounters without finding a suitable match; add a message indicating that the encounter is not a complete match.
-            info.Parse.Add(new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter));
+            info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.Encounter, LEncInvalid));
             break;
         }
 
         if (info is { FrameMatches: false, EncounterMatch: EncounterSlot }) // if false, all valid RNG frame matches have already been consumed
-            info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, LEncConditionBadRNGFrame, CheckIdentifier.PID)); // todo for further confirmation
+            info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, CheckIdentifier.PID, LEncConditionBadRNGFrame)); // todo for further confirmation
         if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
-            info.Parse.Add(new CheckResult(Severity.Invalid, LPIDTypeMismatch, CheckIdentifier.PID));
+            info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.PID, LPIDTypeMismatch));
     }
 
     /// <summary>
@@ -155,7 +155,7 @@ public static class EncounterFinder
         info.EncounterMatch = new EncounterInvalid(pk);
         string hint = GetHintWhyNotFound(pk, info.EncounterMatch.Generation);
 
-        info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
+        info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.Encounter, hint));
         LearnVerifierRelearn.Verify(info.Relearn, info.EncounterOriginal, pk);
         LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
     }

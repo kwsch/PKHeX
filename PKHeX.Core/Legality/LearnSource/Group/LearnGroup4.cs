@@ -58,31 +58,15 @@ public sealed class LearnGroup4 : ILearnGroup
 
     private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
     {
-        ReadOnlySpan<ushort> eggMoves, levelMoves;
-        if (egg.Version <= GameVersion.SS) // HG/SS
+        ILearnSource inst = egg.Version switch
         {
-            var inst = LearnSource4HGSS.Instance;
-            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
-            levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<ushort>.Empty;
-        }
-        else if (egg.Version is GameVersion.Pt)
-        {
-            var inst = LearnSource4Pt.Instance;
-            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
-            levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<ushort>.Empty;
-        }
-        else
-        {
-            var inst = LearnSource4DP.Instance;
-            eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
-            levelMoves = egg.CanInheritMoves
-                ? inst.GetLearnset(egg.Species, egg.Form).Moves
-                : ReadOnlySpan<ushort>.Empty;
-        }
+            // HG/SS
+            <= GameVersion.SS => LearnSource4HGSS.Instance,
+            GameVersion.Pt => LearnSource4Pt.Instance,
+            _ => LearnSource4DP.Instance,
+        };
+        var eggMoves = inst.GetEggMoves(egg.Species, egg.Form);
+        var levelMoves = inst.GetInheritMoves(egg.Species, egg.Form);
 
         for (var i = result.Length - 1; i >= 0; i--)
         {
@@ -170,13 +154,9 @@ public sealed class LearnGroup4 : ILearnGroup
         {
             var shedinja = LearnSource4Pt.Instance;
             var moves = shedinja.GetLearnset((int)Species.Ninjask, 0);
-            (bool HasMoves, int start, int end) = moves.GetMoveRange(evos[0].LevelMax, 20);
-            if (HasMoves)
-            {
-                var all = moves.Moves;
-                for (int i = start; i < end; i++)
-                    result[all[i]] = true;
-            }
+            var span = moves.GetMoveRange(evos[0].LevelMax, 20);
+            foreach (var move in span)
+                result[move] = true;
         }
     }
 

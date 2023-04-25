@@ -10,7 +10,7 @@ public sealed class Learnset
     /// <summary>
     /// Moves that can be learned.
     /// </summary>
-    internal readonly ushort[] Moves;
+    private readonly ushort[] Moves;
 
     /// <summary>
     /// Levels at which a move at a given index can be learned.
@@ -25,10 +25,12 @@ public sealed class Learnset
         Levels = levels;
     }
 
-    public (bool HasMoves, int Start, int End) GetMoveRange(int maxLevel, int minLevel = 0)
+    public ReadOnlySpan<ushort> GetAllMoves() => Moves;
+
+    public ReadOnlySpan<ushort> GetMoveRange(int maxLevel, int minLevel = 0)
     {
         if (minLevel <= 1 && maxLevel >= 100)
-            return (true, 0, Moves.Length - 1);
+            return Moves;
         if (minLevel > maxLevel)
             return default;
         int start = FindGrq(minLevel);
@@ -38,7 +40,8 @@ public sealed class Learnset
         if (end < 0)
             return default;
 
-        return (true, start, end);
+        var length = end - start + 1;
+        return Moves.AsSpan(start, length);
     }
 
     private int FindGrq(int level, int start = 0)

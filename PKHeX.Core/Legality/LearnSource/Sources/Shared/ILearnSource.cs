@@ -32,6 +32,13 @@ public interface ILearnSource
     }
 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form) => ReadOnlySpan<ushort>.Empty;
+
+    public ReadOnlySpan<ushort> GetInheritMoves(ushort species, byte form)
+    {
+        if (!Breeding.GetCanInheritMoves(species))
+            return default;
+        return GetLearnset(species, form).GetAllMoves();
+    }
 }
 
 /// <summary>

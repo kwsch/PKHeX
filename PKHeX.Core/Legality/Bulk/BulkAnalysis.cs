@@ -81,7 +81,7 @@ public sealed class BulkAnalysis
     public void AddLine(SlotCache first, SlotCache second, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
         var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}{Environment.NewLine}";
-        var chk = new CheckResult(s, c, i);
+        var chk = new CheckResult(s, i, c);
         Parse.Add(chk);
     }
 
@@ -91,7 +91,7 @@ public sealed class BulkAnalysis
     public void AddLine(SlotCache first, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
     {
         var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}";
-        var chk = new CheckResult(s, c, i);
+        var chk = new CheckResult(s, i, c);
         Parse.Add(chk);
     }
 
