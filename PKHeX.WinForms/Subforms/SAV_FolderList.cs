@@ -262,10 +262,10 @@ public partial class SAV_FolderList : Form
         var list = new SaveList<SavePreview>();
 
         var enumerator = saves.GetEnumerator();
-        while (enumerator.Current == null)
+        if (!enumerator.MoveNext())
         {
-            if (!enumerator.MoveNext())
-                return list;
+            enumerator.Dispose();
+            return list;
         }
 
         var first = enumerator.Current;
