@@ -194,7 +194,6 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Fennekin, // Fennekin
         (int)Species.Carbink, // Carbink
         (int)Species.Grookey, // Grookey
-        (int)Species.Sobble, // Sobble
 
         // Silly workaround for evolution chain reversal not being iteratively implemented -- block cross-gen evolution cases
         (int)Species.Raichu | (1 << 11), // Raichu-1
