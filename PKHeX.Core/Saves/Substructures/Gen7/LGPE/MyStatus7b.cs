@@ -101,4 +101,22 @@ public sealed class MyStatus7b : SaveBlock<SAV7b>
         Pikachu = 1,
         Eevee = 2,
     }
+
+    // Fashion and Appearance
+    public ulong StarterHairstyle      { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x0C0)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x0C0), value); }
+    public ulong StarterHat            { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x0C8)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x0C8), value); }
+    public ulong StarterGlasses        { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x0D0)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x0D0), value); }
+    public ulong StarterAccessoryEar   { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x0D8)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x0D8), value); }
+    public ulong StarterAccessoryChest { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x0E0)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x0E0), value); }
+    public ulong StarterAccessoryBack  { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x0E8)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x0E8), value); }
+    public ulong StarterAccessoryTail  { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x0F0)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x0F0), value); }
+    public ulong StarterClothes        { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x0F8)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x0F8), value); }
+    public ulong PlayerSkinColor       { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x110)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x110), value); }
+    public ulong PlayerEyeColor        { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x118)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x118), value); }
+    public ulong PlayerHairColor       { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x120)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x120), value); }
+    public ulong PlayerOuterwear       { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x128)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x128), value); }
+    public ulong PlayerPants           { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x130)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x130), value); }
+    public ulong PlayerShoes           { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x138)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x138), value); }
+    public ulong PlayerHat             { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x140)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x140), value); }
+    public ulong PlayerBag             { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x148)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x148), value); }
 }
