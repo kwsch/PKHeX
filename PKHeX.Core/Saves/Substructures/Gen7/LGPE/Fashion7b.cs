@@ -6,9 +6,13 @@ public sealed class Fashion7b : SaveBlock<SAV7b>
 {
     public Fashion7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
-    public void UnlockAllAccessories()
+    public void UnlockAllAccessoriesPlayer()
     {
         SAV.SetData(AllAccessoriesPlayer, Offset);
+    }
+
+    public void UnlockAllAccessoriesStarter()
+    {
         SAV.SetData(AllAccessoriesStarter, Offset);
     }
 

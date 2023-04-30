@@ -297,8 +297,8 @@ public partial class SAV_Trainer7GG : Form
 
     private void B_AllFashionItems_Click(object sender, EventArgs e)
     {
-        SAV.Blocks.FashionPlayer.UnlockAllAccessories();
-        SAV.Blocks.FashionStarter.UnlockAllAccessories();
+        SAV.Blocks.FashionPlayer.UnlockAllAccessoriesPlayer();
+        SAV.Blocks.FashionStarter.UnlockAllAccessoriesStarter();
         System.Media.SystemSounds.Asterisk.Play();
     }
 }
