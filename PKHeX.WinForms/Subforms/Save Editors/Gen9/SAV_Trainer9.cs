@@ -2,9 +2,13 @@ using System;
 using System.Buffers.Binary;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using PKHeX.Core;
+using static System.Net.Mime.MediaTypeNames;
 using static PKHeX.Core.SaveBlockAccessor9SV;
 
 namespace PKHeX.WinForms;
@@ -37,11 +41,12 @@ public partial class SAV_Trainer9 : Form
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
-        P_CurrPhoto.Image = GetImage(SAV, 0x14C5A101, 0x5361CEB5, 0xFEAA87DA);
-        if (P_CurrPhoto.Image.Width < 360)
-            this.Size = new Size(745, this.Height);
-        P_CurrIcon.Image = GetImage(SAV, 0xD41F4FC4, 0x0B384C24, 0x8FAB2C4D);
-        P_InitialIcon.Image = GetImage(SAV, 0xBCB6F239, 0x74077ECD, 0x6850A672);
+        P_CurrPhoto.Image = GetImage(SAV, SaveBlockAccessor9SV.KPictureProfileCurrent, SaveBlockAccessor9SV.KPictureProfileCurrentHeight, SaveBlockAccessor9SV.KPictureProfileCurrentWidth);
+        if (P_CurrPhoto.Image.Width >= 360)
+            this.Size = new Size(this.Width + 30, this.Height);
+        P_CurrIcon.Image = GetImage(SAV, SaveBlockAccessor9SV.KPictureIconCurrent, SaveBlockAccessor9SV.KPictureIconCurrentHeight, SaveBlockAccessor9SV.KPictureIconCurrentWidth);
+        P_InitialIcon.Image = GetImage(SAV, SaveBlockAccessor9SV.KPictureIconInitial, SaveBlockAccessor9SV.KPictureIconInitialHeight, SaveBlockAccessor9SV.KPictureIconInitialWidth);
+        P_CurrIcon.Location = new Point(P_CurrPhoto.Location.X + P_CurrPhoto.Image.Width + 8, P_CurrPhoto.Location.Y);
         P_InitialIcon.Location = new Point(P_CurrIcon.Location.X, P_CurrIcon.Location.Y + P_CurrIcon.Image.Height + 8);
 
         GetComboBoxes();
@@ -339,5 +344,38 @@ public partial class SAV_Trainer9 : Form
         foreach (var block in blocks)
             accessor.GetBlock(block).ChangeBooleanType(SCTypeCode.Bool2);
         System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private static void IMG_Save(System.Drawing.Image image, string name)
+    {
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.FileName = name;
+        saveFileDialog.Filter = "Images|*.png;*.bmp;*.jpg";
+        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            ImageFormat format = Path.GetExtension(saveFileDialog.FileName) switch
+            {
+                ".jpg" or ".jpeg" => ImageFormat.Jpeg,
+                ".bmp" => ImageFormat.Bmp,
+                ".png" or _ => ImageFormat.Png,
+            };
+            image.Save(saveFileDialog.FileName, format);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
+    }
+
+    private void P_CurrPhoto_Click(object sender, EventArgs e)
+    {
+        IMG_Save(P_CurrPhoto.Image, "current_photo");
+    }
+
+    private void P_CurrIcon_Click(object sender, EventArgs e)
+    {
+        IMG_Save(P_CurrIcon.Image, "current_icon");
+    }
+
+    private void P_InitialIcon_Click(object sender, EventArgs e)
+    {
+        IMG_Save(P_InitialIcon.Image, "initial_icon");
     }
 }

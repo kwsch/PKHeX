@@ -92,9 +92,6 @@ namespace PKHeX.WinForms
             TC_Editor = new System.Windows.Forms.TabControl();
             Tab_Overview = new System.Windows.Forms.TabPage();
             trainerID1 = new Controls.TrainerID();
-            P_InitialIcon = new System.Windows.Forms.PictureBox();
-            P_CurrIcon = new System.Windows.Forms.PictureBox();
-            P_CurrPhoto = new System.Windows.Forms.PictureBox();
             L_Started = new System.Windows.Forms.Label();
             CAL_AdventureStartDate = new System.Windows.Forms.DateTimePicker();
             MT_LP = new System.Windows.Forms.MaskedTextBox();
@@ -112,22 +109,27 @@ namespace PKHeX.WinForms
             L_Y = new System.Windows.Forms.Label();
             L_Z = new System.Windows.Forms.Label();
             L_X = new System.Windows.Forms.Label();
+            Tab_Images = new System.Windows.Forms.TabPage();
+            P_InitialIcon = new System.Windows.Forms.PictureBox();
+            P_CurrIcon = new System.Windows.Forms.PictureBox();
+            P_CurrPhoto = new System.Windows.Forms.PictureBox();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)P_InitialIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)P_CurrIcon).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).BeginInit();
             Tab_MiscValues.SuspendLayout();
             GB_Map.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Z).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Y).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).BeginInit();
+            Tab_Images.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)P_InitialIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)P_CurrIcon).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).BeginInit();
             SuspendLayout();
             // 
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(754, 397);
+            B_Cancel.Location = new System.Drawing.Point(317, 416);
             B_Cancel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(101, 36);
@@ -139,7 +141,7 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(862, 397);
+            B_Save.Location = new System.Drawing.Point(425, 416);
             B_Save.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(101, 36);
@@ -151,7 +153,7 @@ namespace PKHeX.WinForms
             // TB_OTName
             // 
             TB_OTName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            TB_OTName.Location = new System.Drawing.Point(151, 13);
+            TB_OTName.Location = new System.Drawing.Point(197, 13);
             TB_OTName.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             TB_OTName.MaxLength = 12;
             TB_OTName.Name = "TB_OTName";
@@ -163,7 +165,7 @@ namespace PKHeX.WinForms
             // 
             // L_TrainerName
             // 
-            L_TrainerName.Location = new System.Drawing.Point(32, 12);
+            L_TrainerName.Location = new System.Drawing.Point(78, 12);
             L_TrainerName.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             L_TrainerName.Name = "L_TrainerName";
             L_TrainerName.Size = new System.Drawing.Size(119, 32);
@@ -173,7 +175,7 @@ namespace PKHeX.WinForms
             // 
             // MT_Money
             // 
-            MT_Money.Location = new System.Drawing.Point(151, 103);
+            MT_Money.Location = new System.Drawing.Point(197, 103);
             MT_Money.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             MT_Money.Mask = "0000000";
             MT_Money.Name = "MT_Money";
@@ -184,7 +186,7 @@ namespace PKHeX.WinForms
             // 
             // L_Money
             // 
-            L_Money.Location = new System.Drawing.Point(107, 101);
+            L_Money.Location = new System.Drawing.Point(153, 101);
             L_Money.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             L_Money.Name = "L_Money";
             L_Money.Size = new System.Drawing.Size(42, 31);
@@ -264,7 +266,7 @@ namespace PKHeX.WinForms
             // 
             // L_Seconds
             // 
-            L_Seconds.Location = new System.Drawing.Point(282, 244);
+            L_Seconds.Location = new System.Drawing.Point(328, 244);
             L_Seconds.Margin = new System.Windows.Forms.Padding(0);
             L_Seconds.Name = "L_Seconds";
             L_Seconds.Size = new System.Drawing.Size(47, 32);
@@ -274,7 +276,7 @@ namespace PKHeX.WinForms
             // 
             // L_Minutes
             // 
-            L_Minutes.Location = new System.Drawing.Point(181, 244);
+            L_Minutes.Location = new System.Drawing.Point(227, 244);
             L_Minutes.Margin = new System.Windows.Forms.Padding(0);
             L_Minutes.Name = "L_Minutes";
             L_Minutes.Size = new System.Drawing.Size(77, 32);
@@ -284,7 +286,7 @@ namespace PKHeX.WinForms
             // 
             // MT_Seconds
             // 
-            MT_Seconds.Location = new System.Drawing.Point(334, 247);
+            MT_Seconds.Location = new System.Drawing.Point(380, 247);
             MT_Seconds.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             MT_Seconds.Mask = "00";
             MT_Seconds.Name = "MT_Seconds";
@@ -295,7 +297,7 @@ namespace PKHeX.WinForms
             // 
             // MT_Minutes
             // 
-            MT_Minutes.Location = new System.Drawing.Point(260, 247);
+            MT_Minutes.Location = new System.Drawing.Point(306, 247);
             MT_Minutes.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             MT_Minutes.Mask = "00";
             MT_Minutes.Name = "MT_Minutes";
@@ -306,7 +308,7 @@ namespace PKHeX.WinForms
             // 
             // L_Hours
             // 
-            L_Hours.Location = new System.Drawing.Point(71, 244);
+            L_Hours.Location = new System.Drawing.Point(117, 244);
             L_Hours.Margin = new System.Windows.Forms.Padding(0);
             L_Hours.Name = "L_Hours";
             L_Hours.Size = new System.Drawing.Size(80, 32);
@@ -316,7 +318,7 @@ namespace PKHeX.WinForms
             // 
             // MT_Hours
             // 
-            MT_Hours.Location = new System.Drawing.Point(151, 245);
+            MT_Hours.Location = new System.Drawing.Point(197, 245);
             MT_Hours.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             MT_Hours.Mask = "00000";
             MT_Hours.Name = "MT_Hours";
@@ -326,7 +328,7 @@ namespace PKHeX.WinForms
             // 
             // L_Language
             // 
-            L_Language.Location = new System.Drawing.Point(32, 206);
+            L_Language.Location = new System.Drawing.Point(78, 206);
             L_Language.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             L_Language.Name = "L_Language";
             L_Language.Size = new System.Drawing.Size(119, 32);
@@ -336,7 +338,7 @@ namespace PKHeX.WinForms
             // 
             // B_MaxCash
             // 
-            B_MaxCash.Location = new System.Drawing.Point(232, 101);
+            B_MaxCash.Location = new System.Drawing.Point(278, 101);
             B_MaxCash.Margin = new System.Windows.Forms.Padding(0);
             B_MaxCash.Name = "B_MaxCash";
             B_MaxCash.Size = new System.Drawing.Size(26, 31);
@@ -348,7 +350,7 @@ namespace PKHeX.WinForms
             // 
             CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Language.FormattingEnabled = true;
-            CB_Language.Location = new System.Drawing.Point(151, 209);
+            CB_Language.Location = new System.Drawing.Point(197, 209);
             CB_Language.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             CB_Language.Name = "CB_Language";
             CB_Language.Size = new System.Drawing.Size(137, 28);
@@ -359,7 +361,7 @@ namespace PKHeX.WinForms
             CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Game.FormattingEnabled = true;
             CB_Game.Items.AddRange(new object[] { "Scarlet", "Violet" });
-            CB_Game.Location = new System.Drawing.Point(151, 173);
+            CB_Game.Location = new System.Drawing.Point(197, 173);
             CB_Game.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             CB_Game.Name = "CB_Game";
             CB_Game.Size = new System.Drawing.Size(137, 28);
@@ -370,7 +372,7 @@ namespace PKHeX.WinForms
             CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             CB_Gender.FormattingEnabled = true;
             CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
-            CB_Gender.Location = new System.Drawing.Point(292, 173);
+            CB_Gender.Location = new System.Drawing.Point(338, 173);
             CB_Gender.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             CB_Gender.Name = "CB_Gender";
             CB_Gender.Size = new System.Drawing.Size(45, 28);
@@ -619,19 +621,17 @@ namespace PKHeX.WinForms
             TC_Editor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TC_Editor.Controls.Add(Tab_Overview);
             TC_Editor.Controls.Add(Tab_MiscValues);
+            TC_Editor.Controls.Add(Tab_Images);
             TC_Editor.Location = new System.Drawing.Point(16, 19);
             TC_Editor.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             TC_Editor.Name = "TC_Editor";
             TC_Editor.SelectedIndex = 0;
-            TC_Editor.Size = new System.Drawing.Size(946, 369);
+            TC_Editor.Size = new System.Drawing.Size(509, 388);
             TC_Editor.TabIndex = 54;
             // 
             // Tab_Overview
             // 
             Tab_Overview.Controls.Add(trainerID1);
-            Tab_Overview.Controls.Add(P_InitialIcon);
-            Tab_Overview.Controls.Add(P_CurrIcon);
-            Tab_Overview.Controls.Add(P_CurrPhoto);
             Tab_Overview.Controls.Add(L_Started);
             Tab_Overview.Controls.Add(CAL_AdventureStartDate);
             Tab_Overview.Controls.Add(MT_LP);
@@ -656,54 +656,22 @@ namespace PKHeX.WinForms
             Tab_Overview.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Tab_Overview.Name = "Tab_Overview";
             Tab_Overview.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            Tab_Overview.Size = new System.Drawing.Size(938, 336);
+            Tab_Overview.Size = new System.Drawing.Size(501, 355);
             Tab_Overview.TabIndex = 0;
             Tab_Overview.Text = "Overview";
             Tab_Overview.UseVisualStyleBackColor = true;
             // 
             // trainerID1
             // 
-            trainerID1.Location = new System.Drawing.Point(114, 57);
+            trainerID1.Location = new System.Drawing.Point(160, 57);
             trainerID1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             trainerID1.Name = "trainerID1";
             trainerID1.Size = new System.Drawing.Size(248, 41);
             trainerID1.TabIndex = 77;
             // 
-            // P_InitialIcon
-            // 
-            P_InitialIcon.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            P_InitialIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            P_InitialIcon.Location = new System.Drawing.Point(814, 141);
-            P_InitialIcon.Name = "P_InitialIcon";
-            P_InitialIcon.Size = new System.Drawing.Size(88, 88);
-            P_InitialIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            P_InitialIcon.TabIndex = 76;
-            P_InitialIcon.TabStop = false;
-            // 
-            // P_CurrIcon
-            // 
-            P_CurrIcon.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            P_CurrIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            P_CurrIcon.Location = new System.Drawing.Point(814, 13);
-            P_CurrIcon.Name = "P_CurrIcon";
-            P_CurrIcon.Size = new System.Drawing.Size(88, 88);
-            P_CurrIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            P_CurrIcon.TabIndex = 75;
-            P_CurrIcon.TabStop = false;
-            // 
-            // P_CurrPhoto
-            // 
-            P_CurrPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            P_CurrPhoto.Location = new System.Drawing.Point(391, 13);
-            P_CurrPhoto.Name = "P_CurrPhoto";
-            P_CurrPhoto.Size = new System.Drawing.Size(320, 220);
-            P_CurrPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            P_CurrPhoto.TabIndex = 74;
-            P_CurrPhoto.TabStop = false;
-            // 
             // L_Started
             // 
-            L_Started.Location = new System.Drawing.Point(9, 282);
+            L_Started.Location = new System.Drawing.Point(55, 282);
             L_Started.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             L_Started.Name = "L_Started";
             L_Started.Size = new System.Drawing.Size(142, 31);
@@ -714,7 +682,7 @@ namespace PKHeX.WinForms
             // CAL_AdventureStartDate
             // 
             CAL_AdventureStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            CAL_AdventureStartDate.Location = new System.Drawing.Point(151, 282);
+            CAL_AdventureStartDate.Location = new System.Drawing.Point(197, 282);
             CAL_AdventureStartDate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             CAL_AdventureStartDate.MaxDate = new System.DateTime(2099, 12, 31, 0, 0, 0, 0);
             CAL_AdventureStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
@@ -725,7 +693,7 @@ namespace PKHeX.WinForms
             // 
             // MT_LP
             // 
-            MT_LP.Location = new System.Drawing.Point(151, 138);
+            MT_LP.Location = new System.Drawing.Point(197, 138);
             MT_LP.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             MT_LP.Mask = "0000000";
             MT_LP.Name = "MT_LP";
@@ -735,7 +703,7 @@ namespace PKHeX.WinForms
             // 
             // B_MaxLP
             // 
-            B_MaxLP.Location = new System.Drawing.Point(232, 136);
+            B_MaxLP.Location = new System.Drawing.Point(278, 136);
             B_MaxLP.Margin = new System.Windows.Forms.Padding(0);
             B_MaxLP.Name = "B_MaxLP";
             B_MaxLP.Size = new System.Drawing.Size(26, 31);
@@ -745,7 +713,7 @@ namespace PKHeX.WinForms
             // 
             // L_LP
             // 
-            L_LP.Location = new System.Drawing.Point(107, 136);
+            L_LP.Location = new System.Drawing.Point(153, 136);
             L_LP.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             L_LP.Name = "L_LP";
             L_LP.Size = new System.Drawing.Size(42, 31);
@@ -764,7 +732,7 @@ namespace PKHeX.WinForms
             Tab_MiscValues.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Tab_MiscValues.Name = "Tab_MiscValues";
             Tab_MiscValues.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            Tab_MiscValues.Size = new System.Drawing.Size(938, 336);
+            Tab_MiscValues.Size = new System.Drawing.Size(501, 355);
             Tab_MiscValues.TabIndex = 4;
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
@@ -902,11 +870,59 @@ namespace PKHeX.WinForms
             L_X.Text = "X Coordinate:";
             L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // Tab_Images
+            // 
+            Tab_Images.Controls.Add(P_InitialIcon);
+            Tab_Images.Controls.Add(P_CurrIcon);
+            Tab_Images.Controls.Add(P_CurrPhoto);
+            Tab_Images.Location = new System.Drawing.Point(4, 29);
+            Tab_Images.Name = "Tab_Images";
+            Tab_Images.Size = new System.Drawing.Size(501, 355);
+            Tab_Images.TabIndex = 5;
+            Tab_Images.Text = "Images";
+            Tab_Images.UseVisualStyleBackColor = true;
+            // 
+            // P_InitialIcon
+            // 
+            P_InitialIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            P_InitialIcon.Cursor = System.Windows.Forms.Cursors.Hand;
+            P_InitialIcon.Location = new System.Drawing.Point(410, 169);
+            P_InitialIcon.Name = "P_InitialIcon";
+            P_InitialIcon.Size = new System.Drawing.Size(88, 88);
+            P_InitialIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            P_InitialIcon.TabIndex = 79;
+            P_InitialIcon.TabStop = false;
+            P_InitialIcon.Click += P_InitialIcon_Click;
+            // 
+            // P_CurrIcon
+            // 
+            P_CurrIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            P_CurrIcon.Cursor = System.Windows.Forms.Cursors.Hand;
+            P_CurrIcon.Location = new System.Drawing.Point(410, 37);
+            P_CurrIcon.Name = "P_CurrIcon";
+            P_CurrIcon.Size = new System.Drawing.Size(88, 88);
+            P_CurrIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            P_CurrIcon.TabIndex = 78;
+            P_CurrIcon.TabStop = false;
+            P_CurrIcon.Click += P_CurrIcon_Click;
+            // 
+            // P_CurrPhoto
+            // 
+            P_CurrPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            P_CurrPhoto.Cursor = System.Windows.Forms.Cursors.Hand;
+            P_CurrPhoto.Location = new System.Drawing.Point(3, 37);
+            P_CurrPhoto.Name = "P_CurrPhoto";
+            P_CurrPhoto.Size = new System.Drawing.Size(320, 220);
+            P_CurrPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            P_CurrPhoto.TabIndex = 77;
+            P_CurrPhoto.TabStop = false;
+            P_CurrPhoto.Click += P_CurrPhoto_Click;
+            // 
             // SAV_Trainer9
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(972, 446);
+            ClientSize = new System.Drawing.Size(535, 465);
             Controls.Add(TC_Editor);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);
@@ -921,14 +937,16 @@ namespace PKHeX.WinForms
             TC_Editor.ResumeLayout(false);
             Tab_Overview.ResumeLayout(false);
             Tab_Overview.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)P_InitialIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)P_CurrIcon).EndInit();
-            ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).EndInit();
             Tab_MiscValues.ResumeLayout(false);
             GB_Map.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)NUD_Z).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Y).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).EndInit();
+            Tab_Images.ResumeLayout(false);
+            Tab_Images.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)P_InitialIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)P_CurrIcon).EndInit();
+            ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).EndInit();
             ResumeLayout(false);
         }
 
@@ -1014,9 +1032,10 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_UnlockBikeUpgrades;
         private System.Windows.Forms.Label L_Started;
         private System.Windows.Forms.DateTimePicker CAL_AdventureStartDate;
-        private System.Windows.Forms.PictureBox P_CurrPhoto;
+        private Controls.TrainerID trainerID1;
+        private System.Windows.Forms.TabPage Tab_Images;
         private System.Windows.Forms.PictureBox P_InitialIcon;
         private System.Windows.Forms.PictureBox P_CurrIcon;
-        private Controls.TrainerID trainerID1;
+        private System.Windows.Forms.PictureBox P_CurrPhoto;
     }
 }
