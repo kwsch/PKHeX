@@ -1,4 +1,7 @@
 using System;
+using System.Buffers.Binary;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -34,6 +37,13 @@ public partial class SAV_Trainer9 : Form
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
+        P_CurrPhoto.Image = GetImage(SAV, 0x14C5A101, 0x5361CEB5, 0xFEAA87DA);
+        if (P_CurrPhoto.Image.Width < 360)
+            this.Size = new Size(745, this.Height);
+        P_CurrIcon.Image = GetImage(SAV, 0xD41F4FC4, 0x0B384C24, 0x8FAB2C4D);
+        P_InitialIcon.Image = GetImage(SAV, 0xBCB6F239, 0x74077ECD, 0x6850A672);
+        P_InitialIcon.Location = new Point(P_CurrIcon.Location.X, P_CurrIcon.Location.Y + P_CurrIcon.Image.Height + 8);
+
         GetComboBoxes();
         GetTextBoxes();
         LoadMap();
@@ -43,6 +53,63 @@ public partial class SAV_Trainer9 : Form
 
     private readonly bool Loading;
     private bool MapUpdated;
+
+    private Bitmap GetImage(SAV9SV sav, uint imageBlock, uint heightBlock, uint widthBlock)
+    {
+        SCBlock image = sav.Blocks.GetBlock(imageBlock);
+        int height = (int)sav.Blocks.GetBlockValue<uint>(heightBlock);
+        int width = (int)sav.Blocks.GetBlockValue<uint>(widthBlock);
+
+        //get sequences of 2 bytes each and convert to RGB565
+        Bitmap GetSection(int offset)
+        {
+            Bitmap bitmap = new Bitmap(width / 4, height / 4);
+            for (int y = 0, byteIndex = 0; y < bitmap.Height; y++)
+            {
+                for (int x = 0; x < bitmap.Width; x++, byteIndex += 8)
+                {
+                    byte[] colourBytes = image.Data[(offset + byteIndex)..(offset + byteIndex + 2)];
+                    int colour = BinaryPrimitives.ReadUInt16LittleEndian(colourBytes);
+                    int b = (colour & 0x001F) << 3;
+                    int g = ((colour & 0x07E0) >> 5) << 2;
+                    int r = ((colour & 0xF800) >> 11) << 3;
+                    Color c = Color.FromArgb(255, r, g, b);
+                    bitmap.SetPixel(x, y, c);
+                }
+            }
+            return bitmap;
+        }
+
+        //overlap masks and apply alpha blending pixel by pixel using pixels
+        //from composite mask as 'alpha' and blending the images fro first 2 sections
+        Bitmap lmask = GetSection(4);
+        Bitmap dmask = GetSection(6);
+        Bitmap light = GetSection(0);
+        Bitmap dark = GetSection(2);
+        Bitmap result = new Bitmap(dark.Width, dark.Height);
+        for (int y = 0; y < dark.Height; y++)
+        {
+            for (int x = 0; x < dark.Width; x++)
+            {
+                Color lmpx = lmask.GetPixel(x, y);
+                Color dmpx = dmask.GetPixel(x, y);
+                //luminance conversion on masks for grayscale
+                int lgray = (int)(0.299 * lmpx.R + 0.587 * lmpx.G + 0.114 * lmpx.B);
+                int dgray = (int)(0.299 * dmpx.R + 0.587 * dmpx.G + 0.114 * dmpx.B);
+                int al = (lgray | dgray);
+                //save as double in order to not lose precision
+                double alpha = al / 255.0;
+                Color lpx = light.GetPixel(x, y);
+                Color dpx = dark.GetPixel(x, y);
+                //alpha blending
+                int newR = (int)(lpx.R * (1 - alpha) + dpx.R * alpha);
+                int newG = (int)(lpx.G * (1 - alpha) + dpx.G * alpha);
+                int newB = (int)(lpx.B * (1 - alpha) + dpx.B * alpha);
+                result.SetPixel(x, y, Color.FromArgb(newR, newG, newB));
+            }
+        }
+        return result;
+    }
 
     private void LoadMap()
     {
