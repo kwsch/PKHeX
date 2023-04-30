@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Trainer7GG
     {
@@ -57,6 +57,7 @@
             CB_Gender = new System.Windows.Forms.ComboBox();
             TC_Editor = new System.Windows.Forms.TabControl();
             Tab_Overview = new System.Windows.Forms.TabPage();
+            B_AllFashionItems = new System.Windows.Forms.Button();
             B_AllTrainerTitles = new System.Windows.Forms.Button();
             TB_RivalName = new System.Windows.Forms.TextBox();
             L_RivalName = new System.Windows.Forms.Label();
@@ -342,6 +343,7 @@
             // 
             // Tab_Overview
             // 
+            Tab_Overview.Controls.Add(B_AllFashionItems);
             Tab_Overview.Controls.Add(B_AllTrainerTitles);
             Tab_Overview.Controls.Add(TB_RivalName);
             Tab_Overview.Controls.Add(L_RivalName);
@@ -364,6 +366,17 @@
             Tab_Overview.TabIndex = 0;
             Tab_Overview.Text = "Overview";
             Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // B_AllFashionItems
+            // 
+            B_AllFashionItems.Location = new System.Drawing.Point(290, 173);
+            B_AllFashionItems.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_AllFashionItems.Name = "B_AllFashionItems";
+            B_AllFashionItems.Size = new System.Drawing.Size(153, 73);
+            B_AllFashionItems.TabIndex = 70;
+            B_AllFashionItems.Text = "Unlock all Fashion Items";
+            B_AllFashionItems.UseVisualStyleBackColor = true;
+            B_AllFashionItems.Click += B_AllFashionItems_Click;
             // 
             // B_AllTrainerTitles
             // 
@@ -443,7 +456,7 @@
             Tab_Complex.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
             Tab_Complex.Size = new System.Drawing.Size(452, 337);
             Tab_Complex.TabIndex = 4;
-            Tab_Complex.Text = "Go Complex";
+            Tab_Complex.Text = "GO Complex";
             Tab_Complex.UseVisualStyleBackColor = true;
             Tab_Complex.DragDrop += Main_DragDrop;
             Tab_Complex.DragEnter += Main_DragEnter;
@@ -631,5 +644,6 @@
         private System.Windows.Forms.Button B_DeleteAll;
         private System.Windows.Forms.Button B_DeleteGo;
         private System.Windows.Forms.Button B_AllTrainerTitles;
+        private System.Windows.Forms.Button B_AllFashionItems;
     }
 }
