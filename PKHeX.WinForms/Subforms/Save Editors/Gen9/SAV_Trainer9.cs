@@ -172,39 +172,6 @@ public partial class SAV_Trainer9 : Form
     {
         SAV.Game = (byte)(CB_Game.SelectedIndex + (int)GameVersion.SL);
         SAV.Gender = (byte)CB_Gender.SelectedIndex;
-
-        SCBlock uniform_block = SAV.Accessor.GetBlock(SaveBlockAccessor9SV.KFashionUnlockedUniform);
-        byte[] uniforms = uniform_block.Data;
-        if (SAV.Gender == 0)
-        {
-            uniforms[0] = 92;
-            uniforms[8] = 93;
-            uniforms[16] = 94;
-            uniforms[24] = 95;
-            if ((uint)uniforms[32] != 255)
-            {
-                uniforms[32] = 100;
-                uniforms[40] = 101;
-                uniforms[48] = 102;
-                uniforms[56] = 103;
-            }
-        }
-        else if (SAV.Gender == 1)
-        {
-            uniforms[0] = 88;
-            uniforms[8] = 89;
-            uniforms[16] = 90;
-            uniforms[24] = 91;
-            if ((uint)uniforms[32] != 255)
-            {
-                uniforms[32] = 96;
-                uniforms[40] = 97;
-                uniforms[48] = 98;
-                uniforms[56] = 99;
-            }
-        }
-        SAV.Accessor.GetBlock(SaveBlockAccessor9SV.KFashionUnlockedUniform).ChangeData(uniforms);
-
         SAV.Money = Util.ToUInt32(MT_Money.Text);
         SAV.LeaguePoints = Util.ToUInt32(MT_LP.Text);
         SAV.Language = WinFormsUtil.GetIndex(CB_Language);
