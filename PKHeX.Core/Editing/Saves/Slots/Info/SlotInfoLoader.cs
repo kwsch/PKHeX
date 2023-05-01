@@ -58,6 +58,8 @@ public static class SlotInfoLoader
     private static void AddPartyData(SaveFile sav, ConcurrentBag<SlotCache> db)
     {
         var count = sav.PartyCount;
+        if ((uint)count > 6)
+            count = 6;
         for (var index = 0; index < count; index++)
         {
             var pk = sav.GetPartySlotAtIndex(index);

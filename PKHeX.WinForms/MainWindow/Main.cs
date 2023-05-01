@@ -593,6 +593,7 @@ public partial class Main : Form
                 var mcsav = SaveUtil.GetVariantSAV(gc);
                 if (mcsav is null)
                     return false;
+                mcsav.Metadata.SetExtraInfo(path);
                 return OpenSAV(mcsav, path);
         }
         return false;

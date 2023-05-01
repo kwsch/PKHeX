@@ -26,7 +26,7 @@ public sealed class SaveHandlerDeSmuME : ISaveHandler
         return true;
     }
 
-    public bool IsRecognized(int size) => size is ExpectedSize;
+    public bool IsRecognized(long size) => size is ExpectedSize;
 
     public SaveHandlerSplitResult? TrySplit(ReadOnlySpan<byte> input)
     {
