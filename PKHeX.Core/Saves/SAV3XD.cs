@@ -356,8 +356,15 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
     {
         // Get Shadow Data
         var pk = (XK3)base.GetStoredSlot(data);
-        if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
-            pk.Purification = ShadowInfo[pk.ShadowID].Purification;
+
+        // Get Shadow Data from save
+        var id = pk.ShadowID;
+        if (id == 0 || id >= ShadowInfo.Count)
+            return pk;
+
+        var entry = ShadowInfo[pk.ShadowID];
+        pk.Purification = entry.Purification;
+        pk.IsShadow = !entry.IsPurified;
         return pk;
     }
 
@@ -370,12 +377,14 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         xk3.OriginalRegion = (byte)OriginalRegion;
 
         // Set Shadow Data back to save
-        if (xk3.ShadowID <= 0 || xk3.ShadowID >= ShadowInfo.Count)
+        var id = xk3.ShadowID;
+        if (id == 0 || id >= ShadowInfo.Count)
             return;
 
-        var entry = ShadowInfo[xk3.ShadowID];
+        var entry = ShadowInfo[id];
         entry.Purification = xk3.Purification;
-        entry.Species = xk3.Species;
+      //entry.IsPurified = !xk3.IsShadow;
+      //entry.Species = xk3.Species;
         entry.PID = xk3.PID;
         entry.IV_HP  = xk3.IV_HP ;
         entry.IV_ATK = xk3.IV_ATK;
