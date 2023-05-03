@@ -98,6 +98,8 @@ namespace PKHeX.WinForms
             B_MaxLP = new System.Windows.Forms.Button();
             L_LP = new System.Windows.Forms.Label();
             Tab_MiscValues = new System.Windows.Forms.TabPage();
+            CBox_ClothingOpts = new System.Windows.Forms.CheckedListBox();
+            B_UnlockClothing = new System.Windows.Forms.Button();
             B_UnlockBikeUpgrades = new System.Windows.Forms.Button();
             B_UnlockTMRecipes = new System.Windows.Forms.Button();
             B_CollectAllStakes = new System.Windows.Forms.Button();
@@ -370,6 +372,7 @@ namespace PKHeX.WinForms
             // CB_Gender
             // 
             CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            CB_Gender.Enabled = false;
             CB_Gender.FormattingEnabled = true;
             CB_Gender.Items.AddRange(new object[] { "♂", "♀" });
             CB_Gender.Location = new System.Drawing.Point(338, 173);
@@ -723,6 +726,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_MiscValues
             // 
+            Tab_MiscValues.Controls.Add(CBox_ClothingOpts);
+            Tab_MiscValues.Controls.Add(B_UnlockClothing);
             Tab_MiscValues.Controls.Add(B_UnlockBikeUpgrades);
             Tab_MiscValues.Controls.Add(B_UnlockTMRecipes);
             Tab_MiscValues.Controls.Add(B_CollectAllStakes);
@@ -736,6 +741,26 @@ namespace PKHeX.WinForms
             Tab_MiscValues.TabIndex = 4;
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
+            // 
+            // CBox_ClothingOpts
+            // 
+            CBox_ClothingOpts.FormattingEnabled = true;
+            CBox_ClothingOpts.Items.AddRange(new object[] { "Extra hats and savefile phone cases", "DLCs preorder clothing options", "PokéPortal Gifts" });
+            CBox_ClothingOpts.Location = new System.Drawing.Point(16, 226);
+            CBox_ClothingOpts.Name = "CBox_ClothingOpts";
+            CBox_ClothingOpts.Size = new System.Drawing.Size(265, 114);
+            CBox_ClothingOpts.TabIndex = 65;
+            // 
+            // B_UnlockClothing
+            // 
+            B_UnlockClothing.Location = new System.Drawing.Point(16, 152);
+            B_UnlockClothing.Margin = new System.Windows.Forms.Padding(0);
+            B_UnlockClothing.Name = "B_UnlockClothing";
+            B_UnlockClothing.Size = new System.Drawing.Size(265, 64);
+            B_UnlockClothing.TabIndex = 64;
+            B_UnlockClothing.Text = "Unlock All TM Clothing Options\r\n";
+            B_UnlockClothing.UseVisualStyleBackColor = true;
+            B_UnlockClothing.Click += B_UnlockClothing_Click;
             // 
             // B_UnlockBikeUpgrades
             // 
@@ -1037,5 +1062,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.PictureBox P_InitialIcon;
         private System.Windows.Forms.PictureBox P_CurrIcon;
         private System.Windows.Forms.PictureBox P_CurrPhoto;
+        private System.Windows.Forms.Button B_UnlockClothing;
+        private System.Windows.Forms.CheckedListBox CBox_ClothingOpts;
     }
 }

@@ -17,12 +17,14 @@ public partial class SAV_Trainer9 : Form
 {
     private readonly SaveFile Origin;
     private readonly SAV9SV SAV;
+    private PlayerFashion9 fashion;
 
     public SAV_Trainer9(SaveFile sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV9SV)(Origin = sav).Clone();
+        fashion = new PlayerFashion9(SAV);
 
         Loading = true;
         if (Main.Unicode)
@@ -376,5 +378,17 @@ public partial class SAV_Trainer9 : Form
     private void P_InitialIcon_Click(object sender, EventArgs e)
     {
         IMG_Save(P_InitialIcon.Image, "initial_icon");
+    }
+
+    private void B_UnlockClothing_Click(object sender, EventArgs e)
+    {
+        fashion.UnlockBase();
+        if (CBox_ClothingOpts.CheckedIndices.Contains(0))
+            fashion.UnlockExtras();
+        if (CBox_ClothingOpts.CheckedIndices.Contains(1))
+            fashion.UnlockPreorder();
+        if (CBox_ClothingOpts.CheckedIndices.Contains(2))
+            fashion.UnlockPortal();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 }
