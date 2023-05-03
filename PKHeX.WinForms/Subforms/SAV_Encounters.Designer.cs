@@ -511,7 +511,7 @@
             // SAV_Encounters
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(670, 463);
             Controls.Add(B_Reset);
             Controls.Add(TC_SearchOptions);

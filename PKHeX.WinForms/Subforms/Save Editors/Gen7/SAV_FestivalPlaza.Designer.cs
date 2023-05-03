@@ -1138,7 +1138,7 @@ namespace PKHeX.WinForms
             // SAV_FestivalPlaza
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(554, 336);
             Controls.Add(TC_Editor);
             Controls.Add(B_Save);

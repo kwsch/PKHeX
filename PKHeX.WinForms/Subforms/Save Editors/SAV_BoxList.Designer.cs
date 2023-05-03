@@ -44,7 +44,7 @@ namespace PKHeX.WinForms
             // 
             AllowDrop = true;
             AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(250, 185);
             Controls.Add(FLP_Boxes);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;

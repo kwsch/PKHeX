@@ -855,7 +855,7 @@
             // MemoryAmie
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             BackColor = System.Drawing.SystemColors.Control;
             ClientSize = new System.Drawing.Size(436, 315);
             Controls.Add(L_Arguments);

@@ -173,7 +173,7 @@
             // RibbonEditor
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(611, 324);
             Controls.Add(CB_Affixed);
             Controls.Add(PAN_Container);

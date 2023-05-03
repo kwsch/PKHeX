@@ -213,7 +213,7 @@
             // SAV_BoxLayout
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(523, 370);
             Controls.Add(B_Down);
             Controls.Add(B_Up);
