@@ -63,7 +63,7 @@ namespace PKHeX.WinForms
             // 
             AllowDrop = true;
             AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(249, 183);
             Controls.Add(PB_BoxSwap);
             Controls.Add(Box);

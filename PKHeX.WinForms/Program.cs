@@ -32,6 +32,7 @@ internal static class Program
         // Run the application
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
+        Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
         var splash = new SplashScreen();
         new Task(() => splash.ShowDialog()).Start();
         new Task(() => EncounterEvent.RefreshMGDB(WinForms.Main.MGDatabasePath)).Start();

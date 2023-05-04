@@ -168,7 +168,7 @@ namespace PKHeX.WinForms
             // QR
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.Inherit;
             AutoSize = true;
             ClientSize = new System.Drawing.Size(331, 243);
             Controls.Add(splitContainer1);

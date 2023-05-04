@@ -223,7 +223,7 @@
             // TrashEditor
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(587, 253);
             Controls.Add(L_String);
             Controls.Add(GB_Trash);

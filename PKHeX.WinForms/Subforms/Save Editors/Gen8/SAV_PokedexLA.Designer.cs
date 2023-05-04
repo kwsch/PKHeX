@@ -979,7 +979,7 @@
             // SAV_PokedexLA
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(944, 543);
             Controls.Add(CHK_Solitude);
             Controls.Add(GB_Statistics);

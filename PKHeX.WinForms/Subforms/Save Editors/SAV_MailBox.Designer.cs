@@ -867,7 +867,7 @@
             // SAV_MailBox
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(760, 511);
             Controls.Add(B_BoxDown);
             Controls.Add(B_BoxUp);
