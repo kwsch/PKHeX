@@ -889,7 +889,7 @@ namespace PKHeX.WinForms
             P_InitialIcon.Location = new System.Drawing.Point(410, 169);
             P_InitialIcon.Name = "P_InitialIcon";
             P_InitialIcon.Size = new System.Drawing.Size(88, 88);
-            P_InitialIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            P_InitialIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             P_InitialIcon.TabIndex = 79;
             P_InitialIcon.TabStop = false;
             P_InitialIcon.Click += P_InitialIcon_Click;
@@ -901,7 +901,7 @@ namespace PKHeX.WinForms
             P_CurrIcon.Location = new System.Drawing.Point(410, 37);
             P_CurrIcon.Name = "P_CurrIcon";
             P_CurrIcon.Size = new System.Drawing.Size(88, 88);
-            P_CurrIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            P_CurrIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             P_CurrIcon.TabIndex = 78;
             P_CurrIcon.TabStop = false;
             P_CurrIcon.Click += P_CurrIcon_Click;
@@ -913,14 +913,13 @@ namespace PKHeX.WinForms
             P_CurrPhoto.Location = new System.Drawing.Point(3, 37);
             P_CurrPhoto.Name = "P_CurrPhoto";
             P_CurrPhoto.Size = new System.Drawing.Size(320, 220);
-            P_CurrPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            P_CurrPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             P_CurrPhoto.TabIndex = 77;
             P_CurrPhoto.TabStop = false;
             P_CurrPhoto.Click += P_CurrPhoto_Click;
             // 
             // SAV_Trainer9
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(468, 337);
             Controls.Add(TC_Editor);
@@ -943,7 +942,6 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_Y).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_X).EndInit();
             Tab_Images.ResumeLayout(false);
-            Tab_Images.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)P_InitialIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)P_CurrIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).EndInit();

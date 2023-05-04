@@ -18,6 +18,94 @@ public partial class SAV_Trainer9 : Form
     private readonly SaveFile Origin;
     private readonly SAV9SV SAV;
 
+    public static class DXT1Decompressor
+    {
+        public static Bitmap DecompressDXT1(byte[] dxt1Data, int width, int height)
+        {
+            Bitmap result = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            Rectangle rect = new Rectangle(0, 0, width, height);
+            BitmapData bmpData = result.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            IntPtr ptr = bmpData.Scan0;
+
+            int bytes = Math.Abs(bmpData.Stride) * height;
+            byte[] rgbValues = new byte[bytes];
+
+            int blockCountX = width / 4;
+            int blockCountY = height / 4;
+
+            for (int y = 0; y < blockCountY; y++)
+            {
+                for (int x = 0; x < blockCountX; x++)
+                {
+                    int blockOffset = (y * blockCountX + x) * 8;
+                    ushort color0 = BitConverter.ToUInt16(dxt1Data, blockOffset);
+                    ushort color1 = BitConverter.ToUInt16(dxt1Data, blockOffset + 2);
+                    uint indices = BitConverter.ToUInt32(dxt1Data, blockOffset + 4);
+
+                    Color[] blockColors = new Color[4];
+                    blockColors[0] = RGB565ToColor(color0);
+                    blockColors[1] = RGB565ToColor(color1);
+
+                    if (color0 > color1)
+                    {
+                        blockColors[2] = ColorExtensions.Lerp(blockColors[0], blockColors[1], 1f / 3f);
+                        blockColors[3] = ColorExtensions.Lerp(blockColors[0], blockColors[1], 2f / 3f);
+                    }
+                    else
+                    {
+                        blockColors[2] = ColorExtensions.Lerp(blockColors[0], blockColors[1], 0.5f);
+                        blockColors[3] = Color.FromArgb(0, 0, 0, 0);
+                    }
+
+                    for (int pixelY = 0; pixelY < 4; pixelY++)
+                    {
+                        for (int pixelX = 0; pixelX < 4; pixelX++)
+                        {
+                            int pixelIndex = (y * 4 + pixelY) * width + x * 4 + pixelX;
+                            int index = (int)((indices >> (2 * (4 * pixelY + pixelX))) & 0x3);
+
+                            int byteArrayIndex = pixelIndex * 4;
+                            rgbValues[byteArrayIndex] = blockColors[index].B;
+                            rgbValues[byteArrayIndex + 1] = blockColors[index].G;
+                            rgbValues[byteArrayIndex + 2] = blockColors[index].R;
+                            rgbValues[byteArrayIndex + 3] = blockColors[index].A;
+                        }
+                    }
+                }
+            }
+
+            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
+            result.UnlockBits(bmpData);
+
+            return result;
+        }
+
+        private static Color RGB565ToColor(ushort rgb565)
+        {
+            byte r = (byte)((rgb565 >> 11) & 0x1F);
+            byte g = (byte)((rgb565 >> 5) & 0x3F);
+            byte b = (byte)(rgb565 & 0x1F);
+
+            return Color.FromArgb(
+                255, (byte)(r << 3 | r >> 2),
+            (byte)(g << 2 | g >> 4),
+            (byte)(b << 3 | b >> 2));
+        }
+    }
+
+    public static class ColorExtensions
+    {
+        public static Color Lerp(Color c1, Color c2, float t)
+        {
+            int r = (int)(c1.R + (c2.R - c1.R) * t);
+            int g = (int)(c1.G + (c2.G - c1.G) * t);
+            int b = (int)(c1.B + (c2.B - c1.B) * t);
+            int aVal = (int)(c1.A + (c2.A - c1.A) * t);
+
+            return Color.FromArgb(aVal, r, g, b);
+        }
+    }
+
     public SAV_Trainer9(SaveFile sav)
     {
         InitializeComponent();
@@ -41,13 +129,23 @@ public partial class SAV_Trainer9 : Form
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
-        P_CurrPhoto.Image = GetImage(SAV, SaveBlockAccessor9SV.KPictureProfileCurrent, SaveBlockAccessor9SV.KPictureProfileCurrentHeight, SaveBlockAccessor9SV.KPictureProfileCurrentWidth);
-        if (P_CurrPhoto.Image.Width >= 360)
-            this.Size = new Size(this.Width + 30, this.Height);
-        P_CurrIcon.Image = GetImage(SAV, SaveBlockAccessor9SV.KPictureIconCurrent, SaveBlockAccessor9SV.KPictureIconCurrentHeight, SaveBlockAccessor9SV.KPictureIconCurrentWidth);
-        P_InitialIcon.Image = GetImage(SAV, SaveBlockAccessor9SV.KPictureIconInitial, SaveBlockAccessor9SV.KPictureIconInitialHeight, SaveBlockAccessor9SV.KPictureIconInitialWidth);
-        P_CurrIcon.Location = new Point(P_CurrPhoto.Location.X + P_CurrPhoto.Image.Width + 8, P_CurrPhoto.Location.Y);
-        P_InitialIcon.Location = new Point(P_CurrIcon.Location.X, P_CurrIcon.Location.Y + P_CurrIcon.Image.Height + 8);
+        P_CurrPhoto.Image = DXT1Decompressor.DecompressDXT1(SAV.Accessor.GetBlock(SaveBlockAccessor9SV.KPictureProfileCurrent).Data,
+            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureProfileCurrentWidth),
+            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureProfileCurrentHeight));
+        P_CurrIcon.Image = DXT1Decompressor.DecompressDXT1(SAV.Accessor.GetBlock(SaveBlockAccessor9SV.KPictureIconCurrent).Data,
+            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureIconCurrentWidth),
+            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureIconCurrentHeight));
+        P_InitialIcon.Image = DXT1Decompressor.DecompressDXT1(SAV.Accessor.GetBlock(SaveBlockAccessor9SV.KPictureIconInitial).Data,
+            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureIconInitialWidth),
+            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureIconInitialHeight));
+        P_CurrPhoto.Height = P_CurrPhoto.Image.Height / 4;
+        P_CurrPhoto.Width = P_CurrPhoto.Image.Width / 4;
+        P_CurrIcon.Height = P_CurrIcon.Image.Height / 4;
+        P_CurrIcon.Width = P_CurrIcon.Image.Width / 4;
+        P_InitialIcon.Height = P_InitialIcon.Image.Height / 4;
+        P_InitialIcon.Width = P_InitialIcon.Image.Width / 4;
+        P_CurrIcon.Location = new Point(P_CurrPhoto.Location.X + P_CurrPhoto.Width + 8, P_CurrPhoto.Location.Y);
+        P_InitialIcon.Location = new Point(P_CurrIcon.Location.X, P_CurrIcon.Location.Y + P_CurrIcon.Height + 8);
 
         GetComboBoxes();
         GetTextBoxes();
@@ -58,63 +156,6 @@ public partial class SAV_Trainer9 : Form
 
     private readonly bool Loading;
     private bool MapUpdated;
-
-    private Bitmap GetImage(SAV9SV sav, uint imageBlock, uint heightBlock, uint widthBlock)
-    {
-        SCBlock image = sav.Blocks.GetBlock(imageBlock);
-        int height = (int)sav.Blocks.GetBlockValue<uint>(heightBlock);
-        int width = (int)sav.Blocks.GetBlockValue<uint>(widthBlock);
-
-        //get sequences of 2 bytes each and convert to RGB565
-        Bitmap GetSection(int offset)
-        {
-            Bitmap bitmap = new Bitmap(width / 4, height / 4);
-            for (int y = 0, byteIndex = 0; y < bitmap.Height; y++)
-            {
-                for (int x = 0; x < bitmap.Width; x++, byteIndex += 8)
-                {
-                    byte[] colourBytes = image.Data[(offset + byteIndex)..(offset + byteIndex + 2)];
-                    int colour = BinaryPrimitives.ReadUInt16LittleEndian(colourBytes);
-                    int b = (colour & 0x001F) << 3;
-                    int g = ((colour & 0x07E0) >> 5) << 2;
-                    int r = ((colour & 0xF800) >> 11) << 3;
-                    Color c = Color.FromArgb(255, r, g, b);
-                    bitmap.SetPixel(x, y, c);
-                }
-            }
-            return bitmap;
-        }
-
-        //overlap masks and apply alpha blending pixel by pixel using pixels
-        //from composite mask as 'alpha' and blending the images fro first 2 sections
-        Bitmap lmask = GetSection(4);
-        Bitmap dmask = GetSection(6);
-        Bitmap light = GetSection(0);
-        Bitmap dark = GetSection(2);
-        Bitmap result = new Bitmap(dark.Width, dark.Height);
-        for (int y = 0; y < dark.Height; y++)
-        {
-            for (int x = 0; x < dark.Width; x++)
-            {
-                Color lmpx = lmask.GetPixel(x, y);
-                Color dmpx = dmask.GetPixel(x, y);
-                //luminance conversion on masks for grayscale
-                int lgray = (int)(0.299 * lmpx.R + 0.587 * lmpx.G + 0.114 * lmpx.B);
-                int dgray = (int)(0.299 * dmpx.R + 0.587 * dmpx.G + 0.114 * dmpx.B);
-                int al = (lgray | dgray);
-                //save as double in order to not lose precision
-                double alpha = al / 255.0;
-                Color lpx = light.GetPixel(x, y);
-                Color dpx = dark.GetPixel(x, y);
-                //alpha blending
-                int newR = (int)(lpx.R * (1 - alpha) + dpx.R * alpha);
-                int newG = (int)(lpx.G * (1 - alpha) + dpx.G * alpha);
-                int newB = (int)(lpx.B * (1 - alpha) + dpx.B * alpha);
-                result.SetPixel(x, y, Color.FromArgb(newR, newG, newB));
-            }
-        }
-        return result;
-    }
 
     private void LoadMap()
     {
