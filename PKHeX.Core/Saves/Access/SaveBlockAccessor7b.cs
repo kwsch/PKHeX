@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -48,6 +48,8 @@ public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISave
         EventWork = new EventWork7b(sav, GetBlockOffset(BelugaBlockIndex.EventWork));
         GiftRecords = new WB7Records(sav, GetBlockOffset(BelugaBlockIndex.WB7Record));
         Captured = new CaptureRecords(sav, GetBlockOffset(BelugaBlockIndex.CaptureRecord));
+        FashionPlayer = new Fashion7b(sav, GetBlockOffset(BelugaBlockIndex.FashionPlayer));
+        FashionStarter = new Fashion7b(sav, GetBlockOffset(BelugaBlockIndex.FashionStarter));
     }
 
     public MyItem Items { get; }
@@ -60,6 +62,8 @@ public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISave
     public PokeListHeader Storage { get; }
     public WB7Records GiftRecords { get; }
     public CaptureRecords Captured { get; }
+    public Fashion7b FashionPlayer { get; }
+    public Fashion7b FashionStarter { get; }
     public BlockInfo GetBlock(BelugaBlockIndex index) => BlockInfo[(int)index];
     public int GetBlockOffset(BelugaBlockIndex index) => GetBlock(index).Offset;
 }

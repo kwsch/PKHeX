@@ -47,7 +47,7 @@ public sealed class SAV3GCMemoryCard
         0x4000000, // 128MB
     };
 
-    public static bool IsMemoryCardSize(long Size) => ValidMemoryCardSizes.Contains((int)Size);
+    public static bool IsMemoryCardSize(long size) => ValidMemoryCardSizes.Contains((int)size);
 
     public static bool IsMemoryCardSize(ReadOnlySpan<byte> Data)
     {

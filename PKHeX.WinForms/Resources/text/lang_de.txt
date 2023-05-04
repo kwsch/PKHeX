@@ -1571,6 +1571,7 @@ SAV_Trainer7.Tab_BattleTree=Kampfbaum
 SAV_Trainer7.Tab_Misc=Sonstiges
 SAV_Trainer7.Tab_Overview=Übersicht
 SAV_Trainer7.Tab_Ultra=Ultra
+SAV_Trainer7GG.B_AllFashionItems=Unlock all Fashion Items
 SAV_Trainer7GG.B_AllTrainerTitles=Alle Trainer Titel
 SAV_Trainer7GG.B_Cancel=Abbrechen
 SAV_Trainer7GG.B_DeleteAll=Alle löschen

@@ -19,7 +19,7 @@ public sealed class SaveHandlerBizHawk : ISaveHandler
         return _0x0b == _0x14;
     }
 
-    public bool IsRecognized(int size) => SaveUtil.IsSizeValidNoHandler(size - sizeFooter);
+    public bool IsRecognized(long size) => SaveUtil.IsSizeValidNoHandler(size - sizeFooter);
 
     public SaveHandlerSplitResult? TrySplit(ReadOnlySpan<byte> input)
     {

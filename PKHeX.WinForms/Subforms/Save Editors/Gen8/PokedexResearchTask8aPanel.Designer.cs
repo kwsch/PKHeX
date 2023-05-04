@@ -190,7 +190,7 @@ namespace PKHeX.WinForms.Controls
             // PokedexResearchTask8aPanel
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             Controls.Add(FLP_T1);
             Controls.Add(LB_Species);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

@@ -241,7 +241,7 @@
             // SAV_HoneyTree
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(465, 249);
             Controls.Add(GB_TreeInfo);
             Controls.Add(L_Tree0);

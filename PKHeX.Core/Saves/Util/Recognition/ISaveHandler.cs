@@ -12,7 +12,7 @@ public interface ISaveHandler
     /// </summary>
     /// <param name="size">File size</param>
     /// <returns>True if recognized, false if not recognized.</returns>
-    bool IsRecognized(int size);
+    bool IsRecognized(long size);
 
     /// <summary>
     /// Tries splitting up the <see cref="input"/> into header/footer/data components. Returns null if not a valid save file for this handler.

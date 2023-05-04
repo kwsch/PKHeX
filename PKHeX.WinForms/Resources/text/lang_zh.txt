@@ -1570,6 +1570,7 @@ SAV_Trainer7.Tab_BattleTree=对战树
 SAV_Trainer7.Tab_Misc=杂项
 SAV_Trainer7.Tab_Overview=概览
 SAV_Trainer7.Tab_Ultra=究极
+SAV_Trainer7GG.B_AllFashionItems=Unlock all Fashion Items
 SAV_Trainer7GG.B_AllTrainerTitles=解锁所有训练家头衔
 SAV_Trainer7GG.B_Cancel=取消
 SAV_Trainer7GG.B_DeleteAll=删除全部

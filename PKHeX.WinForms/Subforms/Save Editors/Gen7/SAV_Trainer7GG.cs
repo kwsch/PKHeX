@@ -294,4 +294,11 @@ public partial class SAV_Trainer7GG : Form
         SAV.Blocks.EventWork.UnlockAllTitleFlags();
         System.Media.SystemSounds.Asterisk.Play();
     }
+
+    private void B_AllFashionItems_Click(object sender, EventArgs e)
+    {
+        SAV.Blocks.FashionPlayer.UnlockAllAccessoriesPlayer();
+        SAV.Blocks.FashionStarter.UnlockAllAccessoriesStarter();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
 }

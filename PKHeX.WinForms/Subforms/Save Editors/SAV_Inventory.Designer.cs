@@ -255,7 +255,7 @@ namespace PKHeX.WinForms
             // SAV_Inventory
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(314, 411);
             Controls.Add(NUD_Count);
             Controls.Add(L_Count);

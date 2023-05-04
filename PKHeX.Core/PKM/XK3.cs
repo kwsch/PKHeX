@@ -198,7 +198,7 @@ public sealed class XK3 : G3PKM, IShadowCapture
     // stored in the data, offset undocumented
     public override int Status_Condition { get; set; }
 
-    public bool IsShadow => Purification != 0;
+    public bool IsShadow { get; internal set; } // determined by savedata, not written back to sav
 
     protected override byte[] Encrypt()
     {

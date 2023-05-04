@@ -39,6 +39,17 @@ public sealed class BoxLayout5 : SaveBlock<SAV5>
         SAV.SetString(GetBoxNameSpan(box), value, 13, StringConverterOption.ClearZero);
     }
 
+    public byte BoxesUnlocked
+    {
+        get => Data[Offset + 0x3DD];
+        set
+        {
+            if (value > SAV.BoxCount)
+                value = (byte)SAV.BoxCount;
+            Data[Offset + 0x3DD] = value;
+        }
+    }
+
     public string this[int i]
     {
         get => GetBoxName(i);

@@ -73,16 +73,41 @@ public static class FileUtil
         catch { return true; }
     }
 
-    public static int GetFileSize(string path)
+    public static long GetFileSize(string path)
     {
         try
         {
-            var size = new FileInfo(path).Length;
+            var fi = new FileInfo(path);
+            var size = fi.Length;
             if (size > int.MaxValue)
                 return -1;
-            return (int)size;
+            return size;
         }
         catch { return -1; } // Bad File / Locked
+    }
+
+    public static IEnumerable<T> IterateSafe<T>(this IEnumerable<T> source, int failOut = 10, Action<Exception>? log = null)
+    {
+        using var enumerator = source.GetEnumerator();
+        int ctr = 0;
+        while (true)
+        {
+            try
+            {
+                var next = enumerator.MoveNext();
+                if (!next)
+                    yield break;
+            }
+            catch (Exception ex)
+            {
+                log?.Invoke(ex);
+                if (++ctr >= failOut)
+                    yield break;
+                continue;
+            }
+            ctr = 0;
+            yield return enumerator.Current;
+        }
     }
 
     private static bool TryGetGP1(byte[] data, [NotNullWhen(true)] out GP1? gp1)
@@ -165,6 +190,16 @@ public static class FileUtil
         }
         memcard = new SAV3GCMemoryCard(data);
         return true;
+    }
+
+    /// <inheritdoc cref="TryGetMemoryCard(byte[], out SAV3GCMemoryCard?)"/>
+    public static bool TryGetMemoryCard(string file, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
+    {
+        memcard = null;
+        if (!File.Exists(file))
+            return false;
+        var data = File.ReadAllBytes(file);
+        return TryGetMemoryCard(data, out memcard);
     }
 
     /// <summary>

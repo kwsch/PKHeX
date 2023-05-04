@@ -119,7 +119,7 @@ namespace PKHeX.WinForms
             // SAV_Accessor
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(334, 341);
             Controls.Add(TC_Tabs);
             Icon = global::PKHeX.WinForms.Properties.Resources.Icon;

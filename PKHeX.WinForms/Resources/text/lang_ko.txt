@@ -1571,6 +1571,7 @@ SAV_Trainer7.Tab_BattleTree=배틀트리
 SAV_Trainer7.Tab_Misc=기타
 SAV_Trainer7.Tab_Overview=개요
 SAV_Trainer7.Tab_Ultra=울트라
+SAV_Trainer7GG.B_AllFashionItems=Unlock all Fashion Items
 SAV_Trainer7GG.B_AllTrainerTitles=Unlock all Trainer Titles
 SAV_Trainer7GG.B_Cancel=취소
 SAV_Trainer7GG.B_DeleteAll=모두 삭제

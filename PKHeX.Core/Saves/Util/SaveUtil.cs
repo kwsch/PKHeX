@@ -115,7 +115,7 @@ public static class SaveUtil
     };
 #endif
 
-    private static readonly HashSet<int> SizesSV = new()
+    private static readonly HashSet<long> SizesSV = new()
     {
         SIZE_G9_0, SIZE_G9_0a,
         SIZE_G9_1, SIZE_G9_1a,
@@ -129,17 +129,17 @@ public static class SaveUtil
         SIZE_G9_3P0, SIZE_G9_3P1,
     };
 
-    private static readonly HashSet<int> SizesSWSH = new()
+    private static readonly HashSet<long> SizesSWSH = new()
     {
         SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B, SIZE_G8SWSH_3, SIZE_G8SWSH_3A, SIZE_G8SWSH_3B, SIZE_G8SWSH_3C,
     };
 
-    private static readonly HashSet<int> SizesGen2 = new()
+    private static readonly HashSet<long> SizesGen2 = new()
     {
         SIZE_G2RAW_U, SIZE_G2VC_U, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J, SIZE_G2VC_J,
     };
 
-    private static readonly HashSet<int> Sizes = new(SizesGen2.Concat(SizesSWSH).Concat(SizesSV))
+    private static readonly HashSet<long> Sizes = new(SizesGen2.Concat(SizesSWSH).Concat(SizesSV))
     {
         SIZE_G8LA, SIZE_G8LA_1, SIZE_G8BDSP, SIZE_G8BDSP_1, SIZE_G8BDSP_2, SIZE_G8BDSP_3,
         // SizesSWSH covers gen8 sizes since there's so many
@@ -858,10 +858,9 @@ public static class SaveUtil
         try
         {
             var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-            // force evaluation so that an invalid path will throw before we return true/false.
-            // EnumerateFiles throws an exception while iterating, which won't be caught by the try-catch here.
-            var files = Directory.GetFiles(folderPath, "*", searchOption);
-            result = files.Where(f => !(ignoreBackups && IsBackup(f)) && IsSizeValid(FileUtil.GetFileSize(f)));
+            var files = Directory.EnumerateFiles(folderPath, "*", searchOption)
+                .IterateSafe(log: z => System.Diagnostics.Debug.WriteLine(z));
+            result = FilterSaveFiles(ignoreBackups, files);
             return true;
         }
         catch (Exception ex)
@@ -876,24 +875,47 @@ public static class SaveUtil
         }
     }
 
-    public static bool IsBackup(string path) => Path.GetFileNameWithoutExtension(path).Equals("backup", StringComparison.OrdinalIgnoreCase) || Path.GetExtension(path) is ".bak";
+    private static IEnumerable<string> FilterSaveFiles(bool ignoreBackups, IEnumerable<string> files)
+    {
+        foreach (string file in files)
+        {
+            if (ignoreBackups && IsBackup(file))
+                continue;
+
+            var size = FileUtil.GetFileSize(file);
+            if (!IsSizeValid(size))
+                continue;
+
+            yield return file;
+        }
+    }
+
+    public static bool IsBackup(string path)
+    {
+        var fn = Path.GetFileNameWithoutExtension(path);
+        if (fn == "backup")
+            return true;
+
+        var ext = Path.GetExtension(path);
+        return ext == ".bak";
+    }
 
     /// <summary>
     /// Determines whether the save data size is valid for automatically detecting saves.
     /// </summary>
     /// <param name="size">Size in bytes of the save data</param>
     /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
-    public static bool IsSizeValid(int size) => IsSizeValidNoHandler(size) || IsSizeValidHandler(size);
+    public static bool IsSizeValid(long size) => IsSizeValidNoHandler(size) || IsSizeValidHandler(size) || SAV3GCMemoryCard.IsMemoryCardSize(size);
 
     /// <summary>
     /// Determines whether the save data size is valid for automatically detecting saves.
     /// </summary>
     /// <remarks>Only checks the <see cref="Handlers"/> list.</remarks>
-    public static bool IsSizeValidHandler(int size) => Handlers.Any(z => z.IsRecognized(size));
+    public static bool IsSizeValidHandler(long size) => Handlers.Any(z => z.IsRecognized(size));
 
     /// <summary>
     /// Determines whether the save data size is valid for automatically detecting saves.
     /// </summary>
     /// <remarks>Does not check the <see cref="Handlers"/> list.</remarks>
-    public static bool IsSizeValidNoHandler(int size) => Sizes.Contains(size);
+    public static bool IsSizeValidNoHandler(long size) => Sizes.Contains(size);
 }

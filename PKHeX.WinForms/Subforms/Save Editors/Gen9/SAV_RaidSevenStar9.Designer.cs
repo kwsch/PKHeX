@@ -83,7 +83,7 @@ namespace PKHeX.WinForms
             // SAV_RaidSevenStar9
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(366, 290);
             Controls.Add(CB_Raid);
             Controls.Add(PG_Raid);

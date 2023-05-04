@@ -111,7 +111,7 @@
             // MoveShopEditor
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(469, 387);
             Controls.Add(dgv);
             Controls.Add(B_None);

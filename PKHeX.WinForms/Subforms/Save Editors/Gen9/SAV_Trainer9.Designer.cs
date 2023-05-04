@@ -920,9 +920,9 @@ namespace PKHeX.WinForms
             // 
             // SAV_Trainer9
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(535, 465);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            ClientSize = new System.Drawing.Size(468, 337);
             Controls.Add(TC_Editor);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);

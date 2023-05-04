@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -164,7 +164,7 @@ public static class SaveFinder
     /// <inheritdoc cref="GetSaveFiles"/>
     public static IEnumerable<SaveFile> DetectSaveFiles() => GetSaveFiles(Environment.GetLogicalDrives(), true, CustomBackupPaths, true);
 
-    /// <inheritdoc cref="TryDetectSaveFile(out PKHeX.Core.SaveFile?)"/>
+    /// <inheritdoc cref="TryDetectSaveFile(out SaveFile?)"/>
     public static bool TryDetectSaveFile([NotNullWhen(true)] out SaveFile? sav) => TryDetectSaveFile(Environment.GetLogicalDrives(), out sav);
 
     public static bool TryDetectSaveFile(IReadOnlyList<string> drives, [NotNullWhen(true)] out SaveFile? sav)

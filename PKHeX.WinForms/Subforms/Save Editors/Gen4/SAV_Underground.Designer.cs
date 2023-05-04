@@ -484,7 +484,7 @@
             // SAV_Underground
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(506, 267);
             Controls.Add(TC_UGItems);
             Controls.Add(GB_UScores);

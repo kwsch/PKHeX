@@ -106,7 +106,7 @@
             // SAV_Poffin8b
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(691, 555);
             Controls.Add(B_None);
             Controls.Add(B_All);

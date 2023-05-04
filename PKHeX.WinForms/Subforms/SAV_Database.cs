@@ -433,11 +433,38 @@ public partial class SAV_Database : Form
         var sav = SaveUtil.GetVariantSAV(file);
         if (sav == null)
         {
-            Debug.WriteLine("Unable to load SaveFile: " + file);
+            if (FileUtil.TryGetMemoryCard(file, out var mc))
+                TryAddPKMsFromMemoryCard(dbTemp, mc, file);
+            else
+                Debug.WriteLine($"Unable to load SaveFile: {file}");
             return;
         }
 
         SlotInfoLoader.AddFromSaveFile(sav, dbTemp);
+    }
+
+    private static void TryAddPKMsFromMemoryCard(ConcurrentBag<SlotCache> dbTemp, SAV3GCMemoryCard mc, string file)
+    {
+        var state = mc.GetMemoryCardState();
+        if (state == GCMemoryCardState.Invalid)
+            return;
+
+        if (mc.HasCOLO)
+            TryAdd(dbTemp, mc, file, GameVersion.COLO);
+        if (mc.HasXD)
+            TryAdd(dbTemp, mc, file, GameVersion.XD);
+        if (mc.HasRSBOX)
+            TryAdd(dbTemp, mc, file, GameVersion.RSBOX);
+
+        static void TryAdd(ConcurrentBag<SlotCache> dbTemp, SAV3GCMemoryCard mc, string path, GameVersion game)
+        {
+            mc.SelectSaveGame(game);
+            var sav = SaveUtil.GetVariantSAV(mc);
+            if (sav is null)
+                return;
+            sav.Metadata.SetExtraInfo(path);
+            SlotInfoLoader.AddFromSaveFile(sav, dbTemp);
+        }
     }
 
     // IO Usage

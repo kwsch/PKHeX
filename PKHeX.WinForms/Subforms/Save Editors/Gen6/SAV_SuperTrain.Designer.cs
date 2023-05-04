@@ -226,7 +226,7 @@
             // SAV_SuperTrain
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(462, 360);
             Controls.Add(MTB_Gender2);
             Controls.Add(MTB_Form2);
