@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -149,13 +150,41 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         if (!SAV.HasBox)
             return;
 
-        CB_BoxSelect.Items.Clear();
-        CB_BoxSelect.Items.AddRange(BoxUtil.GetBoxNames(SAV));
+        var currentIndex = CurrentBox;
+        var update = BoxUtil.GetBoxNames(SAV);
+        var current = CB_BoxSelect.Items;
+        if (!GetIsSame(update, current))
+        {
+            // try to keep list elements if same length
+            if (update.Length == current.Count)
+            {
+                for (int i = 0; i < update.Length; i++)
+                    current[i] = update[i];
+            }
+            else // rebuild completely
+            {
+                current.Clear();
+                current.AddRange(update);
+            }
+        }
 
-        if (box < 0 && (uint)SAV.CurrentBox < CB_BoxSelect.Items.Count)
-            CurrentBox = SAV.CurrentBox; // restore selected box
-        else
+        if (box < 0)
+            box = currentIndex;
+        box = Math.Clamp(box, 0, current.Count - 1);
+        if (box != CurrentBox)
             CurrentBox = box;
+    }
+
+    private static bool GetIsSame(IReadOnlyList<string> a, IList b)
+    {
+        if (a.Count != b.Count)
+            return false;
+        for (int i = 0; i < a.Count; i++)
+        {
+            if (b[i] is not string s || s != a[i])
+                return false;
+        }
+        return true;
     }
 
     public void ResetSlots()
