@@ -54,30 +54,29 @@ public partial class TechRecordEditor : Form
 
     private void B_All_Click(object sender, EventArgs e)
     {
-        Save();
         if (ModifierKeys == Keys.Shift)
         {
+            Record.ClearRecordFlags();
             Record.SetRecordFlags(true, Record.Permit.RecordCountUsed);
         }
         else if (ModifierKeys == Keys.Control)
         {
+            Save();
             Span<ushort> moves = stackalloc ushort[4];
             Entity.GetMoves(moves);
             Record.SetRecordFlags(moves);
         }
         else
         {
+            Record.ClearRecordFlags();
             Record.SetRecordFlags();
         }
-        LoadRecords();
         Close();
     }
 
     private void B_None_Click(object sender, EventArgs e)
     {
-        Save();
         Record.ClearRecordFlags();
-        LoadRecords();
         Close();
     }
 }
