@@ -420,7 +420,6 @@ namespace PKHeX.WinForms
             PKME_Tabs.AccessibleDescription = "Pokémon Editor Pane";
             PKME_Tabs.AccessibleName = "Pokémon Editor Pane";
             PKME_Tabs.ChangingFields = false;
-            PKME_Tabs.Data = null;
             PKME_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             PKME_Tabs.HaX = false;
             PKME_Tabs.Location = new System.Drawing.Point(0, 0);

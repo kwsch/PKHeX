@@ -151,7 +151,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
     private byte[] LastData = Array.Empty<byte>();
 
-    public PKM Data { get => Entity; set => Entity = value; }
+    public PKM Data => Entity;
     public PKM Entity { get; private set; } = null!;
     public bool FieldsLoaded { get; private set; }
     public bool ChangingFields { get; set; }

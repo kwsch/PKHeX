@@ -145,12 +145,19 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         FlagIllegal = M.SE.FlagIllegal;
     }
 
+    /// <summary>
+    /// Updates the list of Box Names to select from, and selects the box index specified. If no box is specified, the previous index is used.
+    /// </summary>
+    /// <param name="box">Box to display after reload.</param>
     public void ResetBoxNames(int box = -1)
     {
         if (!SAV.HasBox)
             return;
 
         var currentIndex = CurrentBox;
+        if (box < 0)
+            box = currentIndex;
+
         var update = BoxUtil.GetBoxNames(SAV);
         var current = CB_BoxSelect.Items;
         if (!GetIsSame(update, current))
@@ -168,8 +175,6 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
             }
         }
 
-        if (box < 0)
-            box = currentIndex;
         box = Math.Clamp(box, 0, current.Count - 1);
         if (box != CurrentBox)
             CurrentBox = box;
@@ -281,8 +286,10 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         int box = sav.CurrentBox;
         if ((uint)box >= sav.BoxCount)
             box = 0;
+
+        // Display the Box Names
+        ResetBoxNames(box);
         Editor.LoadBox(box);
-        ResetBoxNames();   // Display the Box Names
         return result;
     }
 }
