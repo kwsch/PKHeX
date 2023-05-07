@@ -84,9 +84,9 @@ public static class SearchUtil
 
     public static string HashByDetails(PKM pk) => pk.Format switch
     {
-        1 => $"{pk.Species:000}{((PK1) pk).DV16:X4}",
-        2 => $"{pk.Species:000}{((PK2) pk).DV16:X4}",
-        _ => $"{pk.Species:000}{pk.PID:X8}{GetIVString(pk)}{pk.Form:00}",
+        1 => $"{pk.Species:0000}{((PK1) pk).DV16:X4}",
+        2 => $"{pk.Species:0000}{((PK2) pk).DV16:X4}",
+        _ => $"{pk.Species:0000}{pk.PID:X8}{GetIVString(pk)}{pk.Form:00}",
     };
 
     // use a space so we don't merge single digit IVs and potentially get incorrect collisions

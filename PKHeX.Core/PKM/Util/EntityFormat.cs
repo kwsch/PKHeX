@@ -51,12 +51,8 @@ public static class EntityFormat
             return false; // PGT with non-zero ItemID
 
         // PGT files have the last 0x10 bytes 00; PK6/etc will have data here.
-        var tail = data[..^0x10];
-        foreach (var b in tail)
-        {
-            if (b != 0)
-                return true;
-        }
+        if (data[..^0x10].IndexOfAnyExcept<byte>(0) != -1)
+            return true;
 
         if (ReadUInt16LittleEndian(data[0x06..]) == GetCHK(data[8..SIZE_6STORED]))
             return true; // decrypted
