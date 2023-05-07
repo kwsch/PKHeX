@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -9,14 +7,6 @@ public abstract record EncounterArea(GameVersion Version) : IVersion
 {
     public int Location { get; protected init; }
     public SlotType Type { get; protected init; }
-
-    /// <summary>
-    /// Gets the slots contained in the area that match the provided data.
-    /// </summary>
-    /// <param name="pk">Pokémon Data</param>
-    /// <param name="chain">Evolution lineage</param>
-    /// <returns>Enumerable list of encounters</returns>
-    public abstract IEnumerable<EncounterSlot> GetMatchingSlots(PKM pk, EvoCriteria[] chain);
 
     /// <summary>
     /// Checks if the provided met location ID matches the parameters for the area.

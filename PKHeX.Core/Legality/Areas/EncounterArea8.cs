@@ -38,7 +38,7 @@ public sealed record EncounterArea8 : EncounterArea, IMemorySpeciesArea
         return Array.IndexOf(others, (byte)location) != -1;
     }
 
-    public override IEnumerable<EncounterSlot8> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot8> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         var metLocation = pk.Met_Location;
         // wild area gets boosted up to level 60 post-game

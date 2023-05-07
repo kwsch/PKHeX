@@ -53,7 +53,7 @@ public sealed record EncounterArea5 : EncounterArea
         return new EncounterSlot5(this, species, form, min, max);
     }
 
-    public override IEnumerable<EncounterSlot5> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot5> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {

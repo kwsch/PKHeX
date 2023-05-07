@@ -49,7 +49,7 @@ public sealed record EncounterArea9 : EncounterArea
         return result;
     }
 
-    public override IEnumerable<EncounterSlot9> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot9> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         var lvl = pk.Met_Level;
         foreach (var slot in Slots)

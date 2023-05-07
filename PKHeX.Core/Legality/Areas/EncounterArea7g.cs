@@ -66,11 +66,8 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
         return new EncounterSlot7GO(area, species, form, start, end, shiny, gender, type);
     }
 
-    public override IEnumerable<EncounterSlot7GO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot7GO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
-        // Find the first chain that has slots defined.
-        // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
-        // PoGoEncTool has already extrapolated the evolutions to separate encounters!
         var sf = Array.Find(chain, z => z.Species == Species && z.Form == Form);
         if (sf == default)
             return Array.Empty<EncounterSlot7GO>();
@@ -80,6 +77,9 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
 
     public IEnumerable<EncounterSlot7GO> GetMatchingSlots(PKM pk, EvoCriteria evo)
     {
+        // Find the first chain that has slots defined.
+        // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
+        // PoGoEncTool has already extrapolated the evolutions to separate encounters!
         var stamp = EncounterSlotGO.GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
         var met = Math.Max(evo.LevelMin, pk.Met_Level);
         EncounterSlot7GO? deferredIV = null;

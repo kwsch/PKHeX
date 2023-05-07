@@ -52,7 +52,7 @@ public sealed record EncounterArea7b : EncounterArea
 
     private const int CatchComboBonus = 1;
 
-    public override IEnumerable<EncounterSlot7b> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot7b> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {
