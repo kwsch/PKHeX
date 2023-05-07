@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -43,12 +42,21 @@ public partial class MemoryContext8
         89, // When {0} was in a Box, it had a weird dream in which {1} was using the move {2}. {4} that {3}.
     };
 
-    private static readonly Dictionary<ushort, ushort[]> KeyItemMemoryArgsGen8 = new()
+    private static ReadOnlySpan<ushort> KeyItemMemoryArgsAnySpecies => new ushort[]
     {
-        {(int) Species.Rotom, new ushort[] {1278}}, // Rotom Catalog
-        {(int) Species.Kyurem, new ushort[] {628, 629}}, // DNA Splicers
-        {(int) Species.Necrozma, new ushort[] {943, 944, 945, 946}}, // N-Lunarizer / N-Solarizer
-        {(int) Species.Calyrex, new ushort[] {1590, 1591}}, // Reigns of Unity
+        628, 629, // DNA Splicers
+        943, 944, 945, 946, // N-Lunarizer / N-Solarizer
+        1278, // Rotom Catalog
+        1590, 1591, // Reigns of Unity
+    };
+
+    private static bool IsKeyItemMemoryArgValid(ushort species, ushort arg) => species switch
+    {
+        (int)Species.Rotom => arg == 1278, // Rotom Catalog
+        (int)Species.Kyurem => arg is 628 or 629, // DNA Splicers
+        (int)Species.Necrozma => arg is 943 or 944 or 945 or 946, // N-Lunarizer / N-Solarizer
+        (int)Species.Calyrex => arg is 1590 or 1591, // Reigns of Unity
+        _ => false,
     };
 
     /// <summary>
@@ -79,173 +87,177 @@ public partial class MemoryContext8
     };
 
     // {met, values allowed}
-    private static readonly Dictionary<byte, byte[]> MultiGenLocAreas = new()
+    private static ReadOnlySpan<byte> MultiLoc006 => new byte[] { 1, 2, 3 }; // town of Postwick: first town, at home, friend's house
+    private static ReadOnlySpan<byte> MultiLoc014 => new byte[] { 4, 6, 8, 9 }; // town of Wedgehurst: someone's house, boutique, simple town, Pokémon Center
+    private static ReadOnlySpan<byte> MultiLoc018 => new byte[] { 16, 44, 71 }; // Route 2: lab, tranquil road, lakeside road
+    private static ReadOnlySpan<byte> MultiLoc020 => new byte[] { 6, 9, 11, 20, 24, 30, 35 }; // city of Motostoke: boutique, Pokémon Center, hotel, Pokémon Gym, stylish café, hair salon, town with a mysterious air
+    private static ReadOnlySpan<byte> MultiLoc024 => new byte[] { 20, 73 };// Motostoke Stadium: Pokémon Gym, stadium
+    private static ReadOnlySpan<byte> MultiLoc034 => new byte[] { 9, 12 }; // town of Turffield: Pokémon Center, town with a mysterious air
+    private static ReadOnlySpan<byte> MultiLoc040 => new byte[] { 44, 74 }; // Route 5: tranquil road, Pokémon Nursery
+    private static ReadOnlySpan<byte> MultiLoc044 => new byte[] { 4, 9, 31, 33 }; // town of Hulbury: someone’s house, Pokémon Center, restaurant, seaside town
+    private static ReadOnlySpan<byte> MultiLoc056 => new byte[] { 4, 6, 9, 20, 24, 30, 35 }; // city of Hammerlocke: someone’s house, boutique, Pokémon Center, Pokémon Gym, stylish café, hair salon, town with a mysterious air
+    private static ReadOnlySpan<byte> MultiLoc070 => new byte[] { 4, 9, 76 }; // town of Stow-on-Side: someone’s house, Pokémon Center, town in the mountains
+    private static ReadOnlySpan<byte> MultiLoc078 => new byte[] { 4, 9, 12 }; // town of Ballonlea: someone’s house, Pokémon Center, town with a mysterious air
+    private static ReadOnlySpan<byte> MultiLoc096 => new byte[] { 4, 6, 9, 11, 30, 31, 37 }; // town of Circhester: someone’s house, boutique, Pokémon Center, hotel, hair salon, restaurant, snowcapped town
+    private static ReadOnlySpan<byte> MultiLoc102 => new byte[] { 9, 77 }; // town of Spikemuth: Pokémon Center, run-down town
+    private static ReadOnlySpan<byte> MultiLoc110 => new byte[] { 4, 6, 9, 11, 22, 24, 30 }; // city of Wyndon: someone’s house, boutique, Pokémon Center, hotel, large town, stylish café, hair salon
+    private static ReadOnlySpan<byte> MultiLoc206 => new byte[] { 04, 37 }; // town of Freezington: someone’s house, snowcapped town
+    private static ReadOnlySpan<byte> MultiLoc220 => new byte[] { 53, 65 };// at the Crown Shrine: on a snow-swept road, in a mystical place
+
+    private static bool IsMultiGenLocArea(int location, out ReadOnlySpan<byte> expect)
     {
-        // town of Postwick
-        // first town, at home, friend's house
-        {6, new byte[] {1, 2, 3}},
+        expect = GetMultiGenLocAreaList(location);
+        return expect.Length != 0;
+    }
 
-        // town of Wedgehurst
-        // someone's house, boutique, simple town, Pokémon Center
-        {14, new byte[] {4, 6, 8, 9}},
-
-        // Route 2
-        // lab, tranquil road, lakeside road
-        {18, new byte[] {16, 44, 71}},
-
-        // city of Motostoke
-        // boutique, Pokémon Center, hotel, Pokémon Gym, stylish café, hair salon, town with a mysterious air
-        {20, new byte[] {6, 9, 11, 20, 24, 30, 35}},
-
-        // Motostoke Stadium
-        // Pokémon Gym, stadium
-        {24, new byte[] {20, 73}},
-
-        // town of Turffield
-        // Pokémon Center, town with a mysterious air
-        {34, new byte[] {9, 12}},
-
-        // Route 5
-        // tranquil road, Pokémon Nursery
-        {40, new byte[] {44, 74}},
-
-        // town of Hulbury
-        // someone’s house, Pokémon Center, restaurant, seaside town
-        {44, new byte[] {4, 9, 31, 33}},
-
-        // city of Hammerlocke
-        // someone’s house, boutique, Pokémon Center, Pokémon Gym, stylish café, hair salon, town with a mysterious air
-        {56, new byte[] {4, 6, 9, 20, 24, 30, 35}},
-
-        // town of Stow-on-Side
-        // someone’s house, Pokémon Center, town in the mountains
-        {70, new byte[] {4, 9, 76}},
-
-        // town of Ballonlea
-        // someone’s house, Pokémon Center, town with a mysterious air
-        {78, new byte[] {4, 9, 12}},
-
-        // town of Circhester
-        // someone’s house, boutique, Pokémon Center, hotel, hair salon, restaurant, snowcapped town
-        {96, new byte[] {4, 6, 9, 11, 30, 31, 37}},
-
-        // town of Spikemuth
-        // Pokémon Center, run-down town
-        {102, new byte[] {9, 77}},
-
-        // city of Wyndon
-        // someone’s house, boutique, Pokémon Center, hotel, large town, stylish café, hair salon
-        {110, new byte[] {4, 6, 9, 11, 22, 24, 30}},
-
-        // town of Freezington
-        // someone’s house, snowcapped town
-        {206, new byte[] {04, 37}},
-
-        // at the Crown Shrine
-        // on a snow-swept road, in a mystical place
-        {220, new byte[] {53, 65}},
+    private static ReadOnlySpan<byte> GetMultiGenLocAreaList(int location) => location switch
+    {
+        006 => MultiLoc006,
+        014 => MultiLoc014,
+        018 => MultiLoc018,
+        020 => MultiLoc020,
+        024 => MultiLoc024,
+        034 => MultiLoc034,
+        040 => MultiLoc040,
+        044 => MultiLoc044,
+        056 => MultiLoc056,
+        070 => MultiLoc070,
+        078 => MultiLoc078,
+        096 => MultiLoc096,
+        102 => MultiLoc102,
+        110 => MultiLoc110,
+        206 => MultiLoc206,
+        220 => MultiLoc220,
+        _ => ReadOnlySpan<byte>.Empty,
     };
+
+    private static bool IsSingleGenLocArea(int location, out byte expect)
+    {
+        var arr = SingleGenLocAreas;
+        if ((location & 1) != 0 || (uint)(location >>= 1) >= arr.Length)
+        {
+            expect = 0;
+            return false;
+        }
+        expect = arr[location];
+        return expect != 0;
+    }
 
     // {met, value allowed}
-    private static readonly Dictionary<byte, byte> SingleGenLocAreas = new()
+    private static ReadOnlySpan<byte> SingleGenLocAreas => new byte[]
     {
-        {008, 41}, // Slumbering Weald, forest
-        {012, 44}, // Route 1, tranquil road
-        {016, 28}, // Wedgehurst Station, train station
-        {022, 28}, // Motostoke Station, train station
-        {028, 44}, // Route 3, tranquil road
-        {030, 75}, // Galar Mine, mine
-        {032, 44}, // Route 4, tranquil road
-        {036, 73}, // Turffield Stadium, stadium
-        {046, 28}, // Hulbury Station, train station
-        {048, 73}, // Hulbury Stadium, stadium
-        {052, 35}, // Motostoke Outskirts, town with a mysterious air
-        {054, 75}, // Galar Mine No. 2, mine
-        {058, 28}, // Hammerlocke Station, train station
-        {060, 73}, // Hammerlocke Stadium, stadium
-        {064, 79}, // Energy Plant, dangerous place
-        {066, 79}, // the tower summit, dangerous place
-        {068, 47}, // Route 6, rugged mountain pass
-        {072, 73}, // Stow-on-Side Stadium, stadium
-        {076, 41}, // Glimwood Tangle, forest
-        {080, 73}, // Ballonlea Stadium, stadium
-        {084, 44}, // Route 7, tranquil road
-        {086, 47}, // Route 8, rugged mountain pass
-        {088, 53}, // Route 8 (on Steamdrift Way), snow-swept road
-        {090, 53}, // Route 9, snow-swept road
-        {092, 53}, // Route 9 (in Circhester Bay), snow-swept road
-        {094, 53}, // Route 9 (in Outer Spikemuth), snow-swept road
-        {098, 73}, // Circhester Stadium, stadium
-        {104, 78}, // Route 9 Tunnel, tunnel
-        {106, 53}, // Route 10, snow-swept road
-        {108, 28}, // White Hill Station, train station
-        {112, 28}, // Wyndon Station, train station
-        {114, 38}, // Wyndon Stadium (at the Pokémon League HQ), Pokémon League
-        {116, 38}, // Wyndon Stadium (in a locker room), Pokémon League
-        {120, 44}, // Meetup Spot, tranquil road
-        {122, 72}, // Rolling Fields, vast field
-        {124, 72}, // Dappled Grove, vast field
-        {126, 72}, // Watchtower Ruins, vast field
-        {128, 72}, // East Lake Axewell, vast field
-        {130, 72}, // West Lake Axewell, vast field
-        {132, 72}, // Axew’s Eye, vast field
-        {134, 72}, // South Lake Miloch, vast field
-        {136, 72}, // near the Giant’s Seat, vast field
-        {138, 72}, // North Lake Miloch, vast field
-        {140, 72}, // Motostoke Riverbank, vast field
-        {142, 72}, // Bridge Field, vast field
-        {144, 72}, // Stony Wilderness, vast field
-        {146, 72}, // Dusty Bowl, vast field
-        {148, 72}, // around the Giant’s Mirror, vast field
-        {150, 72}, // the Hammerlocke Hills, vast field
-        {152, 72}, // near the Giant’s Cap, vast field
-        {154, 72}, // Lake of Outrage, vast field
-        {156, 28}, // Wild Area Station, train station
-        {158, 34}, // Battle Tower, tall building
-        {160, 34}, // Rose Tower, tall building
-        {164, 72}, // Fields of Honor, vast field
-        {166, 50}, // Soothing Wetlands, muddy road
-        {168, 41}, // Forest of Focus, forest
-        {170, 49}, // Challenge Beach, seaside road
-        {172, 40}, // Brawlers’ Cave, cave
-        {174, 76}, // Challenge Road, town in the mountains
-        {176, 40}, // Courageous Cavern, cave
-        {178, 49}, // Loop Lagoon, seaside road
-        {180, 72}, // Training Lowlands, vast field
-        {182, 40}, // Warm-Up Tunnel, cave
-        {184, 51}, // Potbottom Desert, sand-swept road
-        {186, 49}, // Workout Sea, seaside road
-        {188, 49}, // Stepping-Stone Sea, seaside road
-        {190, 49}, // Insular Sea, seaside road
-        {192, 49}, // Honeycalm Sea, seaside road
-        {194, 49}, // Honeycalm Island, seaside road
-        {196, 29}, // Master Dojo, battling spot
-        {198, 34}, // Tower of Darkness, tall building
-        {200, 34}, // Tower of Waters, tall building
-        {202, 28}, // Armor Station, train station
-        {204, 53}, // Slippery Slope, snow-swept road
-        {208, 53}, // Frostpoint Field, snow-swept road
-        {210, 72}, // Giant’s Bed, vast field
-        {212, 48}, // Old Cemetery, stone-lined area
-        {214, 53}, // Snowslide Slope, snow-swept road
-        {216, 40}, // Tunnel to the Top, cave
-        {218, 53}, // the Path to the Peak, snow-swept road
-        {222, 44}, // Giant’s Foot, tranquil road
-        {224, 40}, // Roaring-Sea Caves, cave
-        {226, 49}, // Frigid Sea, seaside road
-        {228, 72}, // Three-Point Pass, vast field
-        {230, 72}, // Ballimere Lake, vast field
-        {232, 40}, // Lakeside Cave, cave
-        {234, 72}, // Dyna Tree Hill, vast field
-        {236, 65}, // Rock Peak Ruins, mystical place
-        {238, 65}, // Iceberg Ruins, mystical place
-        {240, 65}, // Iron Ruins, mystical place
-        {242, 65}, // Split-Decision Ruins, mystical place
-        {244, 40}, // Max Lair, cave
-        {246, 28}, // Crown Tundra Station, train station
+        // {008, 41}, // Slumbering Weald, forest
+        // {012, 44}, // Route 1, tranquil road
+        // {016, 28}, // Wedgehurst Station, train station
+        // {022, 28}, // Motostoke Station, train station
+        // {028, 44}, // Route 3, tranquil road
+        // {030, 75}, // Galar Mine, mine
+        // {032, 44}, // Route 4, tranquil road
+        // {036, 73}, // Turffield Stadium, stadium
+        // {046, 28}, // Hulbury Station, train station
+        // {048, 73}, // Hulbury Stadium, stadium
+        // {052, 35}, // Motostoke Outskirts, town with a mysterious air
+        // {054, 75}, // Galar Mine No. 2, mine
+        // {058, 28}, // Hammerlocke Station, train station
+        // {060, 73}, // Hammerlocke Stadium, stadium
+        // {064, 79}, // Energy Plant, dangerous place
+        // {066, 79}, // the tower summit, dangerous place
+        // {068, 47}, // Route 6, rugged mountain pass
+        // {072, 73}, // Stow-on-Side Stadium, stadium
+        // {076, 41}, // Glimwood Tangle, forest
+        // {080, 73}, // Ballonlea Stadium, stadium
+        // {084, 44}, // Route 7, tranquil road
+        // {086, 47}, // Route 8, rugged mountain pass
+        // {088, 53}, // Route 8 (on Steamdrift Way), snow-swept road
+        // {090, 53}, // Route 9, snow-swept road
+        // {092, 53}, // Route 9 (in Circhester Bay), snow-swept road
+        // {094, 53}, // Route 9 (in Outer Spikemuth), snow-swept road
+        // {098, 73}, // Circhester Stadium, stadium
+        // {104, 78}, // Route 9 Tunnel, tunnel
+        // {106, 53}, // Route 10, snow-swept road
+        // {108, 28}, // White Hill Station, train station
+        // {112, 28}, // Wyndon Station, train station
+        // {114, 38}, // Wyndon Stadium (at the Pokémon League HQ), Pokémon League
+        // {116, 38}, // Wyndon Stadium (in a locker room), Pokémon League
+        // {120, 44}, // Meetup Spot, tranquil road
+        // {122, 72}, // Rolling Fields, vast field
+        // {124, 72}, // Dappled Grove, vast field
+        // {126, 72}, // Watchtower Ruins, vast field
+        // {128, 72}, // East Lake Axewell, vast field
+        // {130, 72}, // West Lake Axewell, vast field
+        // {132, 72}, // Axew’s Eye, vast field
+        // {134, 72}, // South Lake Miloch, vast field
+        // {136, 72}, // near the Giant’s Seat, vast field
+        // {138, 72}, // North Lake Miloch, vast field
+        // {140, 72}, // Motostoke Riverbank, vast field
+        // {142, 72}, // Bridge Field, vast field
+        // {144, 72}, // Stony Wilderness, vast field
+        // {146, 72}, // Dusty Bowl, vast field
+        // {148, 72}, // around the Giant’s Mirror, vast field
+        // {150, 72}, // the Hammerlocke Hills, vast field
+        // {152, 72}, // near the Giant’s Cap, vast field
+        // {154, 72}, // Lake of Outrage, vast field
+        // {156, 28}, // Wild Area Station, train station
+        // {158, 34}, // Battle Tower, tall building
+        // {160, 34}, // Rose Tower, tall building
+        // {164, 72}, // Fields of Honor, vast field
+        // {166, 50}, // Soothing Wetlands, muddy road
+        // {168, 41}, // Forest of Focus, forest
+        // {170, 49}, // Challenge Beach, seaside road
+        // {172, 40}, // Brawlers’ Cave, cave
+        // {174, 76}, // Challenge Road, town in the mountains
+        // {176, 40}, // Courageous Cavern, cave
+        // {178, 49}, // Loop Lagoon, seaside road
+        // {180, 72}, // Training Lowlands, vast field
+        // {182, 40}, // Warm-Up Tunnel, cave
+        // {184, 51}, // Potbottom Desert, sand-swept road
+        // {186, 49}, // Workout Sea, seaside road
+        // {188, 49}, // Stepping-Stone Sea, seaside road
+        // {190, 49}, // Insular Sea, seaside road
+        // {192, 49}, // Honeycalm Sea, seaside road
+        // {194, 49}, // Honeycalm Island, seaside road
+        // {196, 29}, // Master Dojo, battling spot
+        // {198, 34}, // Tower of Darkness, tall building
+        // {200, 34}, // Tower of Waters, tall building
+        // {202, 28}, // Armor Station, train station
+        // {204, 53}, // Slippery Slope, snow-swept road
+        // {208, 53}, // Frostpoint Field, snow-swept road
+        // {210, 72}, // Giant’s Bed, vast field
+        // {212, 48}, // Old Cemetery, stone-lined area
+        // {214, 53}, // Snowslide Slope, snow-swept road
+        // {216, 40}, // Tunnel to the Top, cave
+        // {218, 53}, // the Path to the Peak, snow-swept road
+        // {222, 44}, // Giant’s Foot, tranquil road
+        // {224, 40}, // Roaring-Sea Caves, cave
+        // {226, 49}, // Frigid Sea, seaside road
+        // {228, 72}, // Three-Point Pass, vast field
+        // {230, 72}, // Ballimere Lake, vast field
+        // {232, 40}, // Lakeside Cave, cave
+        // {234, 72}, // Dyna Tree Hill, vast field
+        // {236, 65}, // Rock Peak Ruins, mystical place
+        // {238, 65}, // Iceberg Ruins, mystical place
+        // {240, 65}, // Iron Ruins, mystical place
+        // {242, 65}, // Split-Decision Ruins, mystical place
+        // {244, 40}, // Max Lair, cave
+        // {246, 28}, // Crown Tundra Station, train station
+        00, 00, 00, 00, 41, 00, 44, 00, 28, 00,
+        00, 28, 00, 00, 44, 75, 44, 00, 73, 00,
+        00, 00, 00, 28, 73, 00, 35, 75, 00, 28,
+        73, 00, 79, 79, 47, 00, 73, 00, 41, 00,
+        73, 00, 44, 47, 53, 53, 53, 53, 00, 73,
+        00, 00, 78, 53, 28, 00, 28, 38, 38, 00,
+        44, 72, 72, 72, 72, 72, 72, 72, 72, 72,
+        72, 72, 72, 72, 72, 72, 72, 72, 28, 34,
+        34, 00, 72, 50, 41, 49, 40, 76, 40, 49,
+        72, 40, 51, 49, 49, 49, 49, 49, 29, 34,
+        34, 28, 53, 00, 53, 72, 48, 53, 40, 53,
+        00, 44, 40, 49, 72, 72, 40, 72, 65, 65,
+        65, 65, 40, 28,
     };
 
-    private static readonly HashSet<byte> PossibleGeneralLocations8 = new()
+    public static bool IsGeneralLocation8(byte location) => PossibleGeneralLocations8.BinarySearch(location) >= 0;
+
+    private static ReadOnlySpan<byte> PossibleGeneralLocations8 => new byte[]
     {
         01, 02, 03, 04, 06, 08, 09,
         11, 12, 16,

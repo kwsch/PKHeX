@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -110,13 +110,12 @@ public sealed class SlotChangeManager : IDisposable
 
     public void MouseMove(object? sender, MouseEventArgs e)
     {
-        if (sender == null)
-            return;
         if (!Drag.CanStartDrag)
+            return;
+        if (sender is not PictureBox pb)
             return;
 
         // Abort if there is no Pokemon in the given slot.
-        PictureBox pb = (PictureBox)sender;
         if (pb.Image == null)
             return;
         bool encrypt = Control.ModifierKeys == Keys.Control;
@@ -125,9 +124,8 @@ public sealed class SlotChangeManager : IDisposable
 
     public void DragDrop(object? sender, DragEventArgs e)
     {
-        if (sender == null)
+        if (sender is not PictureBox pb)
             return;
-        PictureBox pb = (PictureBox)sender;
         var info = GetSlotInfo(pb);
         if (!info.CanWriteTo() || Drag.Info.Source?.CanWriteTo() == false)
         {
@@ -336,7 +334,7 @@ public sealed class SlotChangeManager : IDisposable
             return false;
 
         if (Drag.Info.Source != null)
-            TrySetPKMSource(pb, mod);
+            TrySetPKMSource(mod);
 
         // Copy from temp to destination slot.
         var type = info.DragIsSwap ? SlotTouchType.Swap : SlotTouchType.Set;
@@ -345,20 +343,21 @@ public sealed class SlotChangeManager : IDisposable
         return true;
     }
 
-    private bool TrySetPKMSource(PictureBox sender, DropModifier mod)
+    private bool TrySetPKMSource(DropModifier mod)
     {
         var info = Drag.Info;
-        if (info.Destination == null || mod == DropModifier.Clone)
+        var dest = info.Destination;
+        if (dest == null || mod == DropModifier.Clone)
             return false;
 
-        if (sender.Image == null || mod == DropModifier.Overwrite)
+        if (dest.IsEmpty() || mod == DropModifier.Overwrite)
         {
             Env.Slots.Delete(info.Source!.Slot);
             return true;
         }
 
         var type = info.DragIsSwap ? SlotTouchType.Swap : SlotTouchType.Set;
-        var pk = info.Destination.ReadCurrent();
+        var pk = dest.ReadCurrent();
         Env.Slots.Set(Drag.Info.Source!.Slot, pk, type);
         return true;
     }

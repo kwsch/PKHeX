@@ -44,4 +44,9 @@ public interface ISlotInfo
     /// </summary>
     /// <param name="sav">Save file to read from.</param>
     PKM Read(SaveFile sav);
+
+    /// <summary>
+    /// Indicates if the slot is empty.
+    /// </summary>
+    bool IsEmpty(SaveFile sav) => Read(sav).Species == 0;
 }

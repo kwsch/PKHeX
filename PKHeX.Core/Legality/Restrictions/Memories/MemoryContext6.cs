@@ -27,26 +27,29 @@ public sealed partial class MemoryContext6 : MemoryContext
 
     public static int GetMemoryRarity(byte memory) => memory >= MemoryRandChance.Length ? -1 : MemoryRandChance[memory];
 
-    public override IEnumerable<ushort> GetKeyItemParams() => KeyItemUsableObserve6.Concat(KeyItemMemoryArgsGen6.Values.SelectMany(z => z)).Distinct();
-
     public override bool CanUseItemGeneric(int item)
     {
         // Key Item usage while in party on another species.
-        if (KeyItemUsableObserve6.Contains((ushort)item))
+        if (KeyItemUsableObserveEonFlute == item)
             return true;
-        if (KeyItemMemoryArgsGen6.Values.Any(z => z.Contains((ushort)item)))
+        if (KeyItemMemoryArgsAnySpecies.Contains((ushort)item))
             return true;
 
         return true; // todo
     }
 
-    public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItems_AO.Distinct()
-        .Concat(GetKeyItemParams())
-        .Concat(ItemStorage6AO.Pouch_TMHM_AO[..100].ToArray())
-        .Where(z => z <= Legal.MaxItemID_6_AO);
+    public override IEnumerable<ushort> GetMemoryItemParams()
+    {
+        var hashSet = new HashSet<ushort>(Legal.HeldItems_AO) { KeyItemUsableObserveEonFlute };
+        foreach (var item in KeyItemMemoryArgsAnySpecies)
+            hashSet.Add(item);
+        foreach (var tm in ItemStorage6AO.Pouch_TMHM_AO[..100])
+            hashSet.Add(tm);
+        return hashSet;
+    }
 
-    public override bool IsUsedKeyItemUnspecific(int item) => KeyItemUsableObserve6.Contains((ushort)item);
-    public override bool IsUsedKeyItemSpecific(int item, ushort species) => KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort)item);
+    public override bool IsUsedKeyItemUnspecific(int item) => KeyItemUsableObserveEonFlute == item;
+    public override bool IsUsedKeyItemSpecific(int item, ushort species) => IsKeyItemMemoryArgValid(species, (ushort)item);
 
     public override bool CanPlantBerry(int item) => ItemStorage6XY.Pouch_Berry_XY.Contains((ushort)item);
     public override bool CanHoldItem(int item) => Legal.HeldItems_AO.Contains((ushort)item);

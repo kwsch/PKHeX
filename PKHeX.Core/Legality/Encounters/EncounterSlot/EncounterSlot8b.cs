@@ -14,7 +14,7 @@ public sealed record EncounterSlot8b : EncounterSlot
     public bool IsMarsh => Area.Location is (>= 219 and <= 224);
     public override Ball FixedBall => IsMarsh ? Ball.Safari : Ball.None;
 
-    public EncounterSlot8b(EncounterArea area, ushort species, byte form, byte min, byte max) : base(area, species, form, min, max)
+    public EncounterSlot8b(EncounterArea8b area, ushort species, byte form, byte min, byte max) : base(area, species, form, min, max)
     {
     }
 

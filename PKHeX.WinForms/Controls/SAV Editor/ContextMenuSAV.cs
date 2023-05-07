@@ -33,8 +33,8 @@ public partial class ContextMenuSAV : UserControl
 
     private void ClickView(object sender, EventArgs e)
     {
-        var info = GetSenderInfo(ref sender);
-        if ((sender as PictureBox)?.Image == null)
+        var info = GetSenderInfo(sender);
+        if (info.IsEmpty())
         { System.Media.SystemSounds.Asterisk.Play(); return; }
 
         Manager.Hover.Stop();
@@ -49,15 +49,20 @@ public partial class ContextMenuSAV : UserControl
             return;
         PKM pk = editor.PreparePKM();
 
-        var info = GetSenderInfo(ref sender);
+        var info = GetSenderInfo(sender);
         var sav = info.View.SAV;
 
         if (!CheckDest(info, sav, pk))
             return;
 
         var errata = sav.EvaluateCompatibility(pk);
-        if (errata.Count > 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, string.Join(Environment.NewLine, errata), MsgContinue))
-            return;
+        if (errata.Count != 0)
+        {
+            var msg = string.Join(Environment.NewLine, errata);
+            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, msg, MsgContinue);
+            if (prompt != DialogResult.Yes)
+                return;
+        }
 
         Manager.Hover.Stop();
         Editor.Slots.Set(info.Slot, pk);
@@ -66,8 +71,8 @@ public partial class ContextMenuSAV : UserControl
 
     private void ClickDelete(object sender, EventArgs e)
     {
-        var info = GetSenderInfo(ref sender);
-        if ((sender as PictureBox)?.Image == null)
+        var info = GetSenderInfo(sender);
+        if (info.IsEmpty())
         { System.Media.SystemSounds.Asterisk.Play(); return; }
 
         var sav = info.View.SAV;
@@ -104,7 +109,7 @@ public partial class ContextMenuSAV : UserControl
 
     private void ClickShowLegality(object sender, EventArgs e)
     {
-        var info = GetSenderInfo(ref sender);
+        var info = GetSenderInfo(sender);
         var sav = info.View.SAV;
         var pk = info.Slot.Read(sav);
         var type = info.Slot is SlotInfoBox ? SlotOrigin.Box : SlotOrigin.Party;
@@ -119,9 +124,9 @@ public partial class ContextMenuSAV : UserControl
         object? ctrl = ((ContextMenuStrip)sender).SourceControl;
         if (ctrl is null)
             return;
-        var info = GetSenderInfo(ref ctrl);
-        bool SlotFull = (ctrl as PictureBox)?.Image != null;
-        bool Editable = info.Slot.CanWriteTo(info.View.SAV);
+        var info = GetSenderInfo(ctrl);
+        bool SlotFull = info.IsEmpty();
+        bool Editable = info.CanWriteTo();
         bool legality = ModifierKeys == Keys.Control;
         ToggleItem(items, mnuSet, Editable);
         ToggleItem(items, mnuDelete, Editable && SlotFull);
@@ -132,7 +137,7 @@ public partial class ContextMenuSAV : UserControl
             e.Cancel = true;
     }
 
-    private static SlotViewInfo<PictureBox> GetSenderInfo(ref object sender)
+    private static SlotViewInfo<PictureBox> GetSenderInfo(object sender)
     {
         var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
         if (pb == null)
@@ -141,7 +146,6 @@ public partial class ContextMenuSAV : UserControl
         if (view == null)
             throw new InvalidCastException("Unable to find View Parent");
         var loc = view.GetSlotData(pb);
-        sender = pb;
         return new SlotViewInfo<PictureBox>(loc, view);
     }
 
