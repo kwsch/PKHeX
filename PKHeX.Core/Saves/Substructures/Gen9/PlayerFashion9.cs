@@ -99,7 +99,7 @@ public sealed class PlayerFashion9 : SaveBlock<SAV9SV>
     private readonly UInt16[] preorder_uniformsMale = { 7012, 7013, 7014, 7015 };
 
     //PokéPortal special clothing options
-    private readonly UInt16[] gift_bags = { 3075, 3047, 3048 }; //floral_print, canvas_pokeball, canvas_megaball
+    private readonly UInt16[] gift_bags = { 3075, 3047, 3048, 3049 }; //floral_print, canvas_pokeball, canvas_megaball, canvas_ultraball
 
     public PlayerFashion9(SAV9SV sav, SCBlock block) : base(sav, block.Data) { this.sav = sav; }
     public PlayerFashion9(SAV9SV sav) : base(sav) { this.sav = sav; }
