@@ -195,9 +195,11 @@ public static class FileUtil
     /// <inheritdoc cref="TryGetMemoryCard(byte[], out SAV3GCMemoryCard?)"/>
     public static bool TryGetMemoryCard(string file, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
     {
-        memcard = null;
         if (!File.Exists(file))
+        {
+            memcard = null;
             return false;
+        }
         var data = File.ReadAllBytes(file);
         return TryGetMemoryCard(data, out memcard);
     }

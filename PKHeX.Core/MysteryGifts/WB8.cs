@@ -578,7 +578,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
         return pid;
     }
 
-    private static uint GetAntishinyFixedHOME(ITrainerID32 tr) => tr.ID32 ^ 0x10u;
+    private static uint GetAntishinyFixedHOME(ITrainerID32 tr) => tr.ID32 + 0x10u;
 
     private static uint GetAntishiny(ITrainerID32 tr)
     {

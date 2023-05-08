@@ -477,12 +477,12 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             pk.TID16 = tr.TID16;
             pk.SID16 = tr.SID16;
 
+            // Initial updates of HOME did not assign a TSV of 0.
+            // After enough server updates, HOME can now assign a TSV of 0.
+            // They will XOR the PID to ensure the shiny state of gifts is matched.
+            // Don't set a Secret ID.
             if (IsHOMEGift)
-            {
                 pk.ID32 %= 1_000_000;
-                while (pk.TSV == 0)
-                    pk.ID32 = (uint)Util.Rand.Next(16, 999_999 + 1);
-            }
         }
 
         // Official code explicitly corrects for Meowstic
@@ -650,8 +650,11 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
                 if (EncryptionConstant != pk.EncryptionConstant)
                     return false;
 
-                if (pk.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
-                    return false;
+                // Initial updates of HOME did not assign a TSV of 0.
+                // After enough server updates, HOME can now assign a TSV of 0.
+                // They will XOR the PID to ensure the shiny state of gifts is matched.
+                // if (pk.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
+                //     return false;
 
                 if (IsShiny)
                 {
