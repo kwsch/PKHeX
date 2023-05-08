@@ -125,7 +125,7 @@ public partial class ContextMenuSAV : UserControl
         if (ctrl is null)
             return;
         var info = GetSenderInfo(ctrl);
-        bool SlotFull = info.IsEmpty();
+        bool SlotFull = !info.IsEmpty();
         bool Editable = info.CanWriteTo();
         bool legality = ModifierKeys == Keys.Control;
         ToggleItem(items, mnuSet, Editable);
