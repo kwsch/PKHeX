@@ -214,7 +214,6 @@ namespace PKHeX.WinForms
             // 
             // SAV_Misc8b
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(422, 475);
             Controls.Add(TC_Misc);

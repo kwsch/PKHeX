@@ -751,7 +751,6 @@
             // 
             // SAV_PokedexGG
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(486, 488);
             Controls.Add(B_Counts);

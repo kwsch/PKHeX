@@ -599,7 +599,6 @@ namespace PKHeX.WinForms
             // 
             // SAV_HallOfFame
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(724, 376);
             Controls.Add(B_Delete);

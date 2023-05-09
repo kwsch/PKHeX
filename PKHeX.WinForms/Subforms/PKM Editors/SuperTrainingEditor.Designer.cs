@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SuperTrainingEditor
     {
@@ -244,7 +244,6 @@
             // 
             // SuperTrainingEditor
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(495, 324);
             Controls.Add(PAN_Training);

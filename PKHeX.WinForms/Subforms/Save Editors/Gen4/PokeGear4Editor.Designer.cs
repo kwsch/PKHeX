@@ -82,7 +82,6 @@
             // 
             // PokeGear4Editor
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             Controls.Add(B_GiveAllNoTrainers);
             Controls.Add(B_DeleteAll);

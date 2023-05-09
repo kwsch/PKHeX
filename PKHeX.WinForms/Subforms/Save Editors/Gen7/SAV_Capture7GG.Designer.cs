@@ -272,7 +272,6 @@
             // 
             // SAV_Capture7GG
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(471, 376);
             Controls.Add(GB_Total);

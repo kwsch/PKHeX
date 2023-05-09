@@ -62,7 +62,6 @@ namespace PKHeX.WinForms
             // SAV_BoxViewer
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(249, 183);
             Controls.Add(PB_BoxSwap);

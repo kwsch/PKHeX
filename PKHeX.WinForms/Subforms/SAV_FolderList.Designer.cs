@@ -157,7 +157,6 @@ namespace PKHeX.WinForms
             //
             // SAV_FolderList
             //
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(609, 361);
             Controls.Add(TB_FilterTextContains);

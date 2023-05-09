@@ -961,7 +961,6 @@ namespace PKHeX.WinForms
             // 
             // SAV_Database
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(670, 512);
             Controls.Add(B_Reset);

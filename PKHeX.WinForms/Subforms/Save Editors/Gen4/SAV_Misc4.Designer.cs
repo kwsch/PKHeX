@@ -1163,7 +1163,6 @@
             // 
             // SAV_Misc4
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(472, 373);
             Controls.Add(B_Cancel);

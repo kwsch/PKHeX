@@ -99,7 +99,6 @@ namespace PKHeX.WinForms.Controls
             // 
             // EntityInstructionBuilder
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             Controls.Add(L_PropValue);
             Controls.Add(L_PropType);

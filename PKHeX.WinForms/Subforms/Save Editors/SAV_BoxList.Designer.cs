@@ -43,7 +43,6 @@ namespace PKHeX.WinForms
             // SAV_BoxList
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(250, 185);
             Controls.Add(FLP_Boxes);

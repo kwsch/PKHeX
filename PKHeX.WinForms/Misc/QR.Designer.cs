@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace PKHeX.WinForms
@@ -167,7 +167,6 @@ namespace PKHeX.WinForms
             // 
             // QR
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Inherit;
             AutoSize = true;
             ClientSize = new System.Drawing.Size(331, 243);

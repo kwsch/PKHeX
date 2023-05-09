@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     sealed partial class SAV_GroupViewer
     {
@@ -100,7 +100,6 @@
             // SAV_GroupViewer
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(292, 211);
             Controls.Add(B_BoxRight);
