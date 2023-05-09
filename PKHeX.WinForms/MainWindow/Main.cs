@@ -27,6 +27,8 @@ public partial class Main : Form
         FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
 
         InitializeComponent();
+        if (Settings.Display.DisableScalingDpi)
+            AutoScaleMode = AutoScaleMode.Font;
         C_SAV.SetEditEnvironment(new SaveDataEditor<PictureBox>(new FakeSaveFile(), PKME_Tabs));
         FormLoadAddEvents();
 #if DEBUG // translation updater -- all controls are added at this point -- call translate now
