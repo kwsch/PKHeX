@@ -395,7 +395,7 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public byte HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = value; }
     public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCC), value); }
 
-    private Span<byte> PokeJob => Data.Slice(0xCE, 14);
+    public Span<byte> PokeJob => Data.Slice(0xCE, 14);
     public bool GetPokeJobFlag(int index) => FlagUtil.GetFlag(PokeJob, index >> 3, index & 7);
     public void SetPokeJobFlag(int index, bool value) => FlagUtil.SetFlag(PokeJob, index >> 3, index & 7, value);
     public bool GetPokeJobFlagAny() => PokeJob.IndexOfAnyExcept<byte>(0) >= 0;
@@ -450,11 +450,11 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4)); }
     public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
 
-    private Span<byte> RecordFlag => Data.Slice(0x127, 14);
-    public bool GetMoveRecordFlag(int index) => FlagUtil.GetFlag(RecordFlag, index >> 3, index & 7);
-    public void SetMoveRecordFlag(int index, bool value) => FlagUtil.SetFlag(RecordFlag, index >> 3, index & 7, value);
-    public bool GetMoveRecordFlagAny() => RecordFlag.IndexOfAnyExcept<byte>(0) >= 0;
-    public void ClearMoveRecordFlags() => RecordFlag.Clear();
+    public Span<byte> RecordFlags => Data.Slice(0x127, 14);
+    public bool GetMoveRecordFlag(int index) => FlagUtil.GetFlag(RecordFlags, index >> 3, index & 7);
+    public void SetMoveRecordFlag(int index, bool value) => FlagUtil.SetFlag(RecordFlags, index >> 3, index & 7, value);
+    public bool GetMoveRecordFlagAny() => RecordFlags.IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearMoveRecordFlags() => RecordFlags.Clear();
 
     // Why did you mis-align this field, GameFreak?
     public ulong Tracker

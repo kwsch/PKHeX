@@ -50,11 +50,11 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
 
     public byte Fullness { get => Data[0x2C]; set => Data[0x2C] = value; }
 
-    private Span<byte> RecordFlag => Data.Slice(0x2D, 14);
-    public bool GetMoveRecordFlag(int index) => FlagUtil.GetFlag(RecordFlag, index >> 3, index & 7);
-    public void SetMoveRecordFlag(int index, bool value) => FlagUtil.SetFlag(RecordFlag, index >> 3, index & 7, value);
-    public bool GetMoveRecordFlagAny() => RecordFlag.IndexOfAnyExcept<byte>(0) >= 0;
-    public void ClearMoveRecordFlags() => RecordFlag.Clear();
+    private Span<byte> RecordFlags => Data.Slice(0x2D, 14);
+    public bool GetMoveRecordFlag(int index) => FlagUtil.GetFlag(RecordFlags, index >> 3, index & 7);
+    public void SetMoveRecordFlag(int index, bool value) => FlagUtil.SetFlag(RecordFlags, index >> 3, index & 7, value);
+    public bool GetMoveRecordFlagAny() => RecordFlags.IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearMoveRecordFlags() => RecordFlags.Clear();
 
     public int Palma { get => ReadInt32LittleEndian(Data[0x3B..]); set => WriteInt32LittleEndian(Data[0x3B..], value); }
     public int Ball { get => Data[0x3F]; set => Data[0x3F] = (byte)value; }
@@ -75,8 +75,8 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         pk.DynamaxLevel = DynamaxLevel;
         pk.Fullness = Fullness;
         pk.Palma = Palma;
-        PokeJob.CopyTo(pk.Data.AsSpan(0xCE)); // PokeJob
-        RecordFlag.CopyTo(pk.Data.AsSpan(0x127)); // Move Record
+        PokeJob.CopyTo(pk.PokeJob);
+        RecordFlags.CopyTo(pk.RecordFlags);
     }
 
     public PKM ConvertToPKM(PKH pkh) => ConvertToPK8(pkh);
@@ -100,10 +100,14 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         var side = pkh.DataPB8 as IGameDataSide
                 ?? pkh.DataPA8 as IGameDataSide
                 ?? pkh.DataPK9;
-        if (side is null)
-            return null;
+        if (side is not null)
+            return Create(side, pkh.Version);
 
-        var ver = pkh.Version;
+        return null;
+    }
+
+    private static GameDataPK8 Create(IGameDataSide side, int ver)
+    {
         var met = side.Met_Location;
         var ball = GetBall(side.Ball);
         var egg = GetEggLocation(side.Egg_Location);

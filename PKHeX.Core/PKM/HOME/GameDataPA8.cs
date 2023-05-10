@@ -87,7 +87,8 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
         pk.GV_SPE = GV_SPE;
         pk.GV_SPA = GV_SPA;
         pk.GV_SPD = GV_SPD;
-        Data.Slice(0x28, 8 + 8).CopyTo(pk.Data.AsSpan(0x155)); // Copy both bitflag regions
+        PurchasedRecord.CopyTo(pk.PurchasedRecord);
+        MasteredRecord.CopyTo(pk.MasteredRecord);
     }
 
     public PKM ConvertToPKM(PKH pkh) => ConvertToPA8(pkh);

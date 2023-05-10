@@ -467,7 +467,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
     private const int RecordStart = 0x12F;
     internal const int COUNT_RECORD = 200; // Up to 200 TM flags, but not all are used.
     private const int RecordLength = COUNT_RECORD / 8;
-    internal Span<byte> RecordFlags => Data.AsSpan(RecordStart, RecordLength);
+    public Span<byte> RecordFlags => Data.AsSpan(RecordStart, RecordLength);
 
     public bool GetMoveRecordFlag(int index)
     {
