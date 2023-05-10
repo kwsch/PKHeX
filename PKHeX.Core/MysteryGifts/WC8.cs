@@ -91,7 +91,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
     public override Shiny Shiny => PIDType switch
     {
-        ShinyType8.FixedValue => FixedShinyType(DateOnly.FromDateTime(DateTime.UtcNow)),
+        ShinyType8.FixedValue => FixedShinyType(),
         ShinyType8.Random => Shiny.Random,
         ShinyType8.Never => Shiny.Never,
         ShinyType8.AlwaysStar => Shiny.AlwaysStar,
@@ -99,7 +99,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         _ => throw new ArgumentOutOfRangeException(),
     };
 
-    private Shiny FixedShinyType(DateOnly date) => IsHOMEGift && IsHOMEShinyPossible(date) ? Shiny.Random : GetShinyXor() switch
+    private Shiny FixedShinyType() => IsHOMEGift && IsHOMEShinyPossible() ? Shiny.Random : GetShinyXor() switch
     {
         0 => Shiny.AlwaysSquare,
         <= 15 => Shiny.AlwaysStar,
@@ -536,7 +536,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         pk.Gender = criteria.GetGender(Gender, pi);
         var av = GetAbilityIndex(criteria);
         pk.RefreshAbility(av);
-        SetPID(pk, pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow));
+        SetPID(pk);
         SetIVs(pk);
     }
 
@@ -556,17 +556,17 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         _ => AbilityPermission.Any12H,
     };
 
-    private uint GetPID(ITrainerID32 tr, ShinyType8 type, DateOnly date) => type switch
+    private uint GetPID(ITrainerID32 tr, ShinyType8 type) => type switch
     {
         ShinyType8.Never        => GetAntishiny(tr), // Random, Never Shiny
         ShinyType8.Random       => Util.Rand32(), // Random, Any
         ShinyType8.AlwaysStar   => (1u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Star
         ShinyType8.AlwaysSquare => (0u ^ (PID & 0xFFFF) ^ tr.TID16 ^ tr.SID16) << 16 | (PID & 0xFFFF), // Fixed, Force Square
-        ShinyType8.FixedValue   => GetFixedPID(tr, date),
+        ShinyType8.FixedValue   => GetFixedPID(tr),
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-    private uint GetFixedPID(ITrainerID32 tr, DateOnly date)
+    private uint GetFixedPID(ITrainerID32 tr)
     {
         var pid = PID;
         if (pid != 0 && ID32 != 0)
@@ -574,24 +574,24 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
         if (!tr.IsShiny(pid, 8))
             return pid;
-        if (IsHOMEGift && !IsHOMEShinyPossible(date))
-            return GetAntishinyFixedHOME(tr);
+        if (IsHOMEGift && IsHOMEShinyPossible())
+            return ForceAntiShiny(pid);
         return pid;
     }
 
-    private static uint GetAntishinyFixedHOME(ITrainerID32 tr) => tr.ID32 ^ 0x10u;
+    private static uint ForceAntiShiny(uint pid) => pid ^ 0x1000_0000;
 
     private static uint GetAntishiny(ITrainerID32 tr)
     {
         var pid = Util.Rand32();
         if (tr.IsShiny(pid, 8))
-            return pid ^ 0x1000_0000;
+            return ForceAntiShiny(pid);
         return pid;
     }
 
-    private void SetPID(PKM pk, DateOnly date)
+    private void SetPID(PKM pk)
     {
-        pk.PID = GetPID(pk, PIDType, date);
+        pk.PID = GetPID(pk, PIDType);
     }
 
     private void SetIVs(PKM pk)
@@ -663,7 +663,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
                 }
                 else // Never or Random (HOME ID specific)
                 {
-                    if (pk.IsShiny && !IsHOMEShinyPossible(pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow)))
+                    if (pk.IsShiny && !IsHOMEShinyPossible())
                         return false;
                 }
             }
@@ -674,7 +674,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
         var shinyType = Shiny;
         if (PIDType == ShinyType8.FixedValue)
-            shinyType = FixedShinyType(pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow));
+            shinyType = FixedShinyType();
         if (IsEgg)
         {
             if (EggLocation != pk.Egg_Location) // traded
@@ -729,13 +729,14 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         var type = PIDType;
         if (type is ShinyType8.Never or ShinyType8.Random)
             return true;
-        return pk.PID == GetPID(pk, type, pk.MetDate ?? DateOnly.FromDateTime(DateTime.UtcNow));
+        return pk.PID == GetPID(pk, type);
     }
 
-    private bool IsHOMEShinyPossible(DateOnly date)
+    private bool IsHOMEShinyPossible()
     {
         // no defined TID16/SID16 and having a fixed PID can cause the player's TID16/SID16 to match the PID's shiny calc.
-        return ID32 == 0 && PID != 0 && (CardID < 9015 && date < new DateOnly(2022, 5, 18));
+        // All PIDs are fixed for HOME gifts.
+        return ID32 == 0;
     }
 
     public bool IsDateRestricted => IsHOMEGift;
