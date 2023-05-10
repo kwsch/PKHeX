@@ -395,25 +395,11 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public byte HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = value; }
     public ushort HT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(0xCC)); set => WriteUInt16LittleEndian(Data.AsSpan(0xCC), value); }
 
-    public bool GetPokeJobFlag(int index)
-    {
-        if ((uint)index > 112) // 14 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, 0xCE + ofs, index & 7);
-    }
-
-    public void SetPokeJobFlag(int index, bool value)
-    {
-        if ((uint)index > 112) // 14 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, 0xCE + ofs, index & 7, value);
-    }
-
-    public bool GetPokeJobFlagAny() => Array.FindIndex(Data, 0xCE, 14, static z => z != 0) >= 0;
-
-    public void ClearPokeJobFlags() => Data.AsSpan(0xCE, 14).Clear();
+    private Span<byte> PokeJob => Data.Slice(0xCE, 14);
+    public bool GetPokeJobFlag(int index) => FlagUtil.GetFlag(PokeJob, index >> 3, index & 7);
+    public void SetPokeJobFlag(int index, bool value) => FlagUtil.SetFlag(PokeJob, index >> 3, index & 7, value);
+    public bool GetPokeJobFlagAny() => PokeJob.IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearPokeJobFlags() => PokeJob.Clear();
 
     public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
     public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
@@ -464,24 +450,11 @@ public abstract class G8PKM : PKM, ISanityChecksum, IMoveReset,
     public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4)); }
     public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (byte)((HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5)); }
 
-    public bool GetMoveRecordFlag(int index)
-    {
-        if ((uint)index > 112) // 14 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, 0x127 + ofs, index & 7);
-    }
-
-    public void SetMoveRecordFlag(int index, bool value = true)
-    {
-        if ((uint)index > 112) // 14 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, 0x127 + ofs, index & 7, value);
-    }
-
-    public bool GetMoveRecordFlagAny() => Data.AsSpan(0x127, 14).IndexOfAnyExcept<byte>(0) >= 0;
-    public void ClearMoveRecordFlags() => Data.AsSpan(0x127, 14).Clear();
+    private Span<byte> RecordFlag => Data.Slice(0x127, 14);
+    public bool GetMoveRecordFlag(int index) => FlagUtil.GetFlag(RecordFlag, index >> 3, index & 7);
+    public void SetMoveRecordFlag(int index, bool value) => FlagUtil.SetFlag(RecordFlag, index >> 3, index & 7, value);
+    public bool GetMoveRecordFlagAny() => RecordFlag.IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearMoveRecordFlags() => RecordFlag.Clear();
 
     // Why did you mis-align this field, GameFreak?
     public ulong Tracker

@@ -48,12 +48,12 @@ public static class HomeTests
             var write = ph1.Rebuild();
             write.Length.Should().Be(decrypted.Length);
             for (int i = 0; i < decrypted.Length; i++)
-                decrypted[i].Should().Be(write[i]);
+                write[i].Should().Be(decrypted[i], $"Offset {i:X2}");
 
             var encrypt = HomeCrypto.Encrypt(write);
             encrypt.Length.Should().Be(data.Length);
             for (int i = 0; i < data.Length; i++)
-                encrypt[i].Should().Be(data[i]);
+                encrypt[i].Should().Be(data[i], $"Offset {i:X2}");
         }
     }
 }
