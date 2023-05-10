@@ -276,7 +276,7 @@ public sealed class FormVerifier : Verifier
                 > 9_999 => GetInvalid(LFormArgumentHigh),
                 _ => arg == 0 || HasVisitedSV(data, Bisharp) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
             },
-            Gimmighoul  => arg switch
+            Gimmighoul => arg switch
             {
                 // Leveling up sets the save file's current coin count to the arg. If 999+, triggers level up.
                 // Without leveling up, cannot have a form arg value.

@@ -17,6 +17,7 @@ namespace PKHeX.Core;
 /// <see cref="Basculin"/> How much damage the Pokémon has taken through recoil as Basculin-2 [0,9999].
 /// <see cref="Primeape"/> How many times the Pokémon has used Rage Fist [0,9999].
 /// <see cref="Bisharp"/> How many Bisharp that head up a group of Pawniard have been KOed [0,9999].
+/// <see cref="Gimmighoul"/> How many Gimmighoul Coins were in the player's Bag after last leveling up [0,998].
 /// <see cref="Gholdengo"/> How many Gimmighoul Coins were used on Gimmighoul to evolve into this Pokémon.
 /// <see cref="Koraidon"/> Flags whether or not this Pokémon was originally in its Ride Form (0/1).
 /// <see cref="Miraidon"/> Flags whether or not this Pokémon was originally in its Ride Form (0/1).
@@ -127,6 +128,7 @@ public static class FormArgumentUtil
             (int)Basculegion => 9999, // 294
             (int)Primeape or (int)Annihilape when generation >= 9 => 9999,
             (int)Bisharp or (int)Kingambit when generation >= 9 => 9999,
+            (int)Gimmighoul => 998,
             (int)Gholdengo => 999,
             (int)Koraidon or (int)Miraidon => 1,
             _ => 0,
