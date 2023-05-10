@@ -81,6 +81,8 @@ public sealed class GameDataPB8 : HomeOptional1, IGameDataSide
             return Create(b);
         if (pkh.DataPA8 is { } a)
             return Create(a);
+        if (pkh.DataPK9 is { } g9)
+            return Create(g9);
         return null;
     }
 

@@ -128,6 +128,11 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
             met = z.Met_Location;
             ball = z.Ball;
         }
+        else if (pkh.DataPK9 is { } g9)
+        {
+            met = g9.Met_Location;
+            ball = g9.Ball;
+        }
         if (met == 0)
             return null;
 

@@ -97,15 +97,31 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide
     /// <summary> Reconstructive logic to best apply suggested values. </summary>
     public static GameDataPK9? TryCreate(PKH pkh)
     {
-        var orig = pkh.LatestGameData;
-        if (orig is GameDataPK9 pk9)
-            return pk9;
-
         if (!PersonalTable.SV.IsPresentInGame(pkh.Species, pkh.Form))
             return null;
 
-        var result = new GameDataPK9();
-        orig.CopyTo(result);
-        return result;
+        if (pkh.DataPB7 is { } x)
+            return Create(x);
+        if (pkh.DataPK8 is { } b)
+            return Create(b);
+        if (pkh.DataPA8 is { } a)
+            return Create(a);
+        if (pkh.DataPB8 is { } bd)
+            return Create(bd);
+        return null;
     }
+
+    public static T Create<T>(GameDataPK9 data) where T : IGameDataSide, new() => new()
+    {
+        Ball = data.Ball,
+        Met_Location = data.Met_Location == Locations.Default8bNone ? 0 : data.Met_Location,
+        Egg_Location = data.Egg_Location == Locations.Default8bNone ? 0 : data.Egg_Location,
+    };
+
+    public static GameDataPK9 Create(IGameDataSide data) => new()
+    {
+        Ball = data.Ball,
+        Met_Location = data.Met_Location == 0 ? Locations.Default8bNone : data.Met_Location,
+        Egg_Location = data.Egg_Location == 0 ? Locations.Default8bNone : data.Egg_Location,
+    };
 }

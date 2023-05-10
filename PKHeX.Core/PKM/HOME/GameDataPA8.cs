@@ -109,6 +109,8 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
             return GameDataPB7.Create<GameDataPA8>(x);
         if (pkh.DataPB8 is { } b)
             return GameDataPB8.Create<GameDataPA8>(b);
+        if (pkh.DataPK9 is { } g9)
+            return GameDataPK9.Create<GameDataPA8>(g9);
         if (pkh.DataPK8 is { } c)
             return new GameDataPA8 { Ball = c.Met_Location == Locations.HOME_SWLA ? (int)Core.Ball.LAPoke : c.Ball, Met_Location = c.Met_Location, Egg_Location = c.Egg_Location };
         return null;

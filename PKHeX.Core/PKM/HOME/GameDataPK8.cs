@@ -97,27 +97,33 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         if (pkh.DataPB7 is { } x)
             return GameDataPB7.Create<GameDataPK8>(x);
 
-        if (pkh.DataPB8 is { } b)
-        {
-            if (pkh.Version is (int)GameVersion.SW or (int)GameVersion.SH && b.Met_Location is not (Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP))
-                return new GameDataPK8 { Ball = b.Ball, Met_Location = b.Met_Location, Egg_Location = b.Egg_Location is Locations.Default8bNone ? 0 : b.Egg_Location };
+        var side = pkh.DataPB8 as IGameDataSide
+                ?? pkh.DataPA8 as IGameDataSide
+                ?? pkh.DataPK9;
+        if (side is null)
+            return null;
 
-            var ball = b.Ball > (int)Core.Ball.Beast ? 4 : b.Ball;
-            var ver = pkh.Version;
-            var loc = Locations.GetMetSWSH((ushort)b.Met_Location, ver);
-            return new GameDataPK8 { Ball = ball, Met_Location = loc, Egg_Location = loc != b.Met_Location ? Locations.HOME_SWSHBDSPEgg : b.Egg_Location };
-        }
-        if (pkh.DataPA8 is { } a)
-        {
-            if (pkh.Version is (int)GameVersion.SW or (int)GameVersion.SH && a.Met_Location is not (Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP))
-                return new GameDataPK8 { Ball = a.Ball > (int)Core.Ball.Beast ? 4 : a.Ball, Met_Location = a.Met_Location, Egg_Location = a.Egg_Location is Locations.Default8bNone ? 0 : a.Egg_Location };
-
-            var ball = a.Ball > (int)Core.Ball.Beast ? 4 : a.Ball;
-            var ver = pkh.Version;
-            var loc = Locations.GetMetSWSH((ushort)a.Met_Location, ver);
-            return new GameDataPK8 { Ball = ball, Met_Location = loc, Egg_Location = loc != a.Met_Location ? Locations.HOME_SWSHBDSPEgg : a.Egg_Location };
-        }
-
-        return null;
+        var ver = pkh.Version;
+        var met = side.Met_Location;
+        var ball = GetBall(side.Ball);
+        var egg = GetEggLocation(side.Egg_Location);
+        if (!IsOriginallySWSH(ver, met))
+            RemapMetEgg(ver, ref met, ref egg);
+        return new GameDataPK8 { Ball = ball, Met_Location = met, Egg_Location = egg };
     }
+
+    private static void RemapMetEgg(int ver, ref int met, ref int egg)
+    {
+        var remap = Locations.GetMetSWSH((ushort)met, ver);
+        if (remap == met)
+            return;
+
+        met = remap;
+        egg = Locations.HOME_SWSHBDSPEgg;
+    }
+
+    private static bool IsOriginallySWSH(int ver, int loc) => ver is (int)GameVersion.SW or (int)GameVersion.SH && !IsFakeMetLocation(loc);
+    private static bool IsFakeMetLocation(int met) => met is Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP;
+    private static int GetBall(int ball) => ball > (int)Core.Ball.Beast ? 4 : ball;
+    private static int GetEggLocation(int egg) => egg == Locations.Default8bNone ? 0 : egg;
 }
