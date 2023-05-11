@@ -1,7 +1,11 @@
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 using static PKHeX.Core.SaveBlockAccessor9SV;
 
 namespace PKHeX.WinForms;
@@ -34,11 +38,37 @@ public partial class SAV_Trainer9 : Form
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
+        GetImages();
         GetComboBoxes();
         GetTextBoxes();
         LoadMap();
 
         Loading = false;
+    }
+
+    private void GetImages()
+    {
+        static Image GetImage(SCBlockAccessor blocks, uint kd, uint kw, uint kh)
+        {
+            var data = blocks.GetBlock(kd).Data;
+            var width = blocks.GetBlockValue<uint>(kw);
+            var height = blocks.GetBlockValue<uint>(kh);
+            var result = DXT1.Decompress(data, (int)width, (int)height);
+            return ImageUtil.GetBitmap(result, (int)width, (int)height, PixelFormat.Format32bppArgb);
+        }
+
+        var blocks = SAV.Blocks;
+        P_CurrPhoto.Image = GetImage(blocks, KPictureProfileCurrent, KPictureProfileCurrentWidth, KPictureProfileCurrentHeight);
+        P_CurrIcon.Image = GetImage(blocks, KPictureIconCurrent, KPictureIconCurrentWidth, KPictureIconCurrentHeight);
+        P_InitialIcon.Image = GetImage(blocks, KPictureIconInitial, KPictureIconInitialWidth, KPictureIconInitialHeight);
+        P_CurrPhoto.Height = P_CurrPhoto.Image.Height / 4;
+        P_CurrPhoto.Width = P_CurrPhoto.Image.Width / 4;
+        P_CurrIcon.Height = P_CurrIcon.Image.Height / 4;
+        P_CurrIcon.Width = P_CurrIcon.Image.Width / 4;
+        P_InitialIcon.Height = P_InitialIcon.Image.Height / 4;
+        P_InitialIcon.Width = P_InitialIcon.Image.Width / 4;
+        P_CurrIcon.Location = P_CurrPhoto.Location with { X = P_CurrPhoto.Location.X + P_CurrPhoto.Width + 8 };
+        P_InitialIcon.Location = P_CurrIcon.Location with { Y = P_CurrIcon.Location.Y + P_CurrIcon.Height + 8 };
     }
 
     private readonly bool Loading;
@@ -273,4 +303,29 @@ public partial class SAV_Trainer9 : Form
             accessor.GetBlock(block).ChangeBooleanType(SCTypeCode.Bool2);
         System.Media.SystemSounds.Asterisk.Play();
     }
+
+    private static void IMG_Save(Image image, string name)
+    {
+        var sfd = new SaveFileDialog
+        {
+            FileName = name,
+            Filter = "Images|*.png;*.bmp;*.jpg",
+        };
+        if (sfd.ShowDialog() != DialogResult.OK)
+            return;
+
+        var path = sfd.FileName;
+        var format = Path.GetExtension(path) switch
+        {
+            ".jpg" or ".jpeg" => ImageFormat.Jpeg,
+            ".bmp" => ImageFormat.Bmp,
+            _ => ImageFormat.Png,
+        };
+        image.Save(path, format);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void P_CurrPhoto_Click(object sender, EventArgs e) => IMG_Save(P_CurrPhoto.Image, "current_photo");
+    private void P_CurrIcon_Click(object sender, EventArgs e) => IMG_Save(P_CurrIcon.Image, "current_icon");
+    private void P_InitialIcon_Click(object sender, EventArgs e) => IMG_Save(P_InitialIcon.Image, "initial_icon");
 }
