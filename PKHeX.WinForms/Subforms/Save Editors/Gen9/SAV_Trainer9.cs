@@ -1,14 +1,11 @@
 using System;
-using System.Buffers.Binary;
-using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using PKHeX.Core;
-using static System.Net.Mime.MediaTypeNames;
+using PKHeX.Drawing;
 using static PKHeX.Core.SaveBlockAccessor9SV;
 
 namespace PKHeX.WinForms;
@@ -17,94 +14,6 @@ public partial class SAV_Trainer9 : Form
 {
     private readonly SaveFile Origin;
     private readonly SAV9SV SAV;
-
-    public static class DXT1Decompressor
-    {
-        public static Bitmap DecompressDXT1(byte[] dxt1Data, int width, int height)
-        {
-            Bitmap result = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            Rectangle rect = new Rectangle(0, 0, width, height);
-            BitmapData bmpData = result.LockBits(rect, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-            IntPtr ptr = bmpData.Scan0;
-
-            int bytes = Math.Abs(bmpData.Stride) * height;
-            byte[] rgbValues = new byte[bytes];
-
-            int blockCountX = width / 4;
-            int blockCountY = height / 4;
-
-            for (int y = 0; y < blockCountY; y++)
-            {
-                for (int x = 0; x < blockCountX; x++)
-                {
-                    int blockOffset = (y * blockCountX + x) * 8;
-                    ushort color0 = BitConverter.ToUInt16(dxt1Data, blockOffset);
-                    ushort color1 = BitConverter.ToUInt16(dxt1Data, blockOffset + 2);
-                    uint indices = BitConverter.ToUInt32(dxt1Data, blockOffset + 4);
-
-                    Color[] blockColors = new Color[4];
-                    blockColors[0] = RGB565ToColor(color0);
-                    blockColors[1] = RGB565ToColor(color1);
-
-                    if (color0 > color1)
-                    {
-                        blockColors[2] = ColorExtensions.Lerp(blockColors[0], blockColors[1], 1f / 3f);
-                        blockColors[3] = ColorExtensions.Lerp(blockColors[0], blockColors[1], 2f / 3f);
-                    }
-                    else
-                    {
-                        blockColors[2] = ColorExtensions.Lerp(blockColors[0], blockColors[1], 0.5f);
-                        blockColors[3] = Color.FromArgb(0, 0, 0, 0);
-                    }
-
-                    for (int pixelY = 0; pixelY < 4; pixelY++)
-                    {
-                        for (int pixelX = 0; pixelX < 4; pixelX++)
-                        {
-                            int pixelIndex = (y * 4 + pixelY) * width + x * 4 + pixelX;
-                            int index = (int)((indices >> (2 * (4 * pixelY + pixelX))) & 0x3);
-
-                            int byteArrayIndex = pixelIndex * 4;
-                            rgbValues[byteArrayIndex] = blockColors[index].B;
-                            rgbValues[byteArrayIndex + 1] = blockColors[index].G;
-                            rgbValues[byteArrayIndex + 2] = blockColors[index].R;
-                            rgbValues[byteArrayIndex + 3] = blockColors[index].A;
-                        }
-                    }
-                }
-            }
-
-            System.Runtime.InteropServices.Marshal.Copy(rgbValues, 0, ptr, bytes);
-            result.UnlockBits(bmpData);
-
-            return result;
-        }
-
-        private static Color RGB565ToColor(ushort rgb565)
-        {
-            byte r = (byte)((rgb565 >> 11) & 0x1F);
-            byte g = (byte)((rgb565 >> 5) & 0x3F);
-            byte b = (byte)(rgb565 & 0x1F);
-
-            return Color.FromArgb(
-                255, (byte)(r << 3 | r >> 2),
-            (byte)(g << 2 | g >> 4),
-            (byte)(b << 3 | b >> 2));
-        }
-    }
-
-    public static class ColorExtensions
-    {
-        public static Color Lerp(Color c1, Color c2, float t)
-        {
-            int r = (int)(c1.R + (c2.R - c1.R) * t);
-            int g = (int)(c1.G + (c2.G - c1.G) * t);
-            int b = (int)(c1.B + (c2.B - c1.B) * t);
-            int aVal = (int)(c1.A + (c2.A - c1.A) * t);
-
-            return Color.FromArgb(aVal, r, g, b);
-        }
-    }
 
     public SAV_Trainer9(SaveFile sav)
     {
@@ -129,29 +38,37 @@ public partial class SAV_Trainer9 : Form
         CB_Gender.Items.Clear();
         CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
-        P_CurrPhoto.Image = DXT1Decompressor.DecompressDXT1(SAV.Accessor.GetBlock(SaveBlockAccessor9SV.KPictureProfileCurrent).Data,
-            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureProfileCurrentWidth),
-            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureProfileCurrentHeight));
-        P_CurrIcon.Image = DXT1Decompressor.DecompressDXT1(SAV.Accessor.GetBlock(SaveBlockAccessor9SV.KPictureIconCurrent).Data,
-            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureIconCurrentWidth),
-            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureIconCurrentHeight));
-        P_InitialIcon.Image = DXT1Decompressor.DecompressDXT1(SAV.Accessor.GetBlock(SaveBlockAccessor9SV.KPictureIconInitial).Data,
-            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureIconInitialWidth),
-            (int)SAV.Blocks.GetBlockValue<uint>(SaveBlockAccessor9SV.KPictureIconInitialHeight));
+        GetImages();
+        GetComboBoxes();
+        GetTextBoxes();
+        LoadMap();
+
+        Loading = false;
+    }
+
+    private void GetImages()
+    {
+        static Image GetImage(SCBlockAccessor blocks, uint kd, uint kw, uint kh)
+        {
+            var data = blocks.GetBlock(kd).Data;
+            var width = blocks.GetBlockValue<uint>(kw);
+            var height = blocks.GetBlockValue<uint>(kh);
+            var result = DXT1.Decompress(data, (int)width, (int)height);
+            return ImageUtil.GetBitmap(result, (int)width, (int)height, PixelFormat.Format32bppArgb);
+        }
+
+        var blocks = SAV.Blocks;
+        P_CurrPhoto.Image = GetImage(blocks, KPictureProfileCurrent, KPictureProfileCurrentWidth, KPictureProfileCurrentHeight);
+        P_CurrIcon.Image = GetImage(blocks, KPictureIconCurrent, KPictureIconCurrentWidth, KPictureIconCurrentHeight);
+        P_InitialIcon.Image = GetImage(blocks, KPictureIconInitial, KPictureIconInitialWidth, KPictureIconInitialHeight);
         P_CurrPhoto.Height = P_CurrPhoto.Image.Height / 4;
         P_CurrPhoto.Width = P_CurrPhoto.Image.Width / 4;
         P_CurrIcon.Height = P_CurrIcon.Image.Height / 4;
         P_CurrIcon.Width = P_CurrIcon.Image.Width / 4;
         P_InitialIcon.Height = P_InitialIcon.Image.Height / 4;
         P_InitialIcon.Width = P_InitialIcon.Image.Width / 4;
-        P_CurrIcon.Location = new Point(P_CurrPhoto.Location.X + P_CurrPhoto.Width + 8, P_CurrPhoto.Location.Y);
-        P_InitialIcon.Location = new Point(P_CurrIcon.Location.X, P_CurrIcon.Location.Y + P_CurrIcon.Height + 8);
-
-        GetComboBoxes();
-        GetTextBoxes();
-        LoadMap();
-
-        Loading = false;
+        P_CurrIcon.Location = P_CurrPhoto.Location with { X = P_CurrPhoto.Location.X + P_CurrPhoto.Width + 8 };
+        P_InitialIcon.Location = P_CurrIcon.Location with { Y = P_CurrIcon.Location.Y + P_CurrIcon.Height + 8 };
     }
 
     private readonly bool Loading;
@@ -387,36 +304,28 @@ public partial class SAV_Trainer9 : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private static void IMG_Save(System.Drawing.Image image, string name)
+    private static void IMG_Save(Image image, string name)
     {
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
-        saveFileDialog.FileName = name;
-        saveFileDialog.Filter = "Images|*.png;*.bmp;*.jpg";
-        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        var sfd = new SaveFileDialog
         {
-            ImageFormat format = Path.GetExtension(saveFileDialog.FileName) switch
-            {
-                ".jpg" or ".jpeg" => ImageFormat.Jpeg,
-                ".bmp" => ImageFormat.Bmp,
-                ".png" or _ => ImageFormat.Png,
-            };
-            image.Save(saveFileDialog.FileName, format);
-            System.Media.SystemSounds.Asterisk.Play();
-        }
+            FileName = name,
+            Filter = "Images|*.png;*.bmp;*.jpg",
+        };
+        if (sfd.ShowDialog() != DialogResult.OK)
+            return;
+
+        var path = sfd.FileName;
+        var format = Path.GetExtension(path) switch
+        {
+            ".jpg" or ".jpeg" => ImageFormat.Jpeg,
+            ".bmp" => ImageFormat.Bmp,
+            _ => ImageFormat.Png,
+        };
+        image.Save(path, format);
+        System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private void P_CurrPhoto_Click(object sender, EventArgs e)
-    {
-        IMG_Save(P_CurrPhoto.Image, "current_photo");
-    }
-
-    private void P_CurrIcon_Click(object sender, EventArgs e)
-    {
-        IMG_Save(P_CurrIcon.Image, "current_icon");
-    }
-
-    private void P_InitialIcon_Click(object sender, EventArgs e)
-    {
-        IMG_Save(P_InitialIcon.Image, "initial_icon");
-    }
+    private void P_CurrPhoto_Click(object sender, EventArgs e) => IMG_Save(P_CurrPhoto.Image, "current_photo");
+    private void P_CurrIcon_Click(object sender, EventArgs e) => IMG_Save(P_CurrIcon.Image, "current_icon");
+    private void P_InitialIcon_Click(object sender, EventArgs e) => IMG_Save(P_InitialIcon.Image, "initial_icon");
 }
