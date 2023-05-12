@@ -50,23 +50,20 @@ public partial class SAV_Trainer9 : Form
     {
         static Image GetImage(SCBlockAccessor blocks, uint kd, uint kw, uint kh)
         {
-            var data = blocks.GetBlock(kd).Data;
-            var width = blocks.GetBlockValue<uint>(kw);
-            var height = blocks.GetBlockValue<uint>(kh);
-            var result = DXT1.Decompress(data, (int)width, (int)height);
+            byte[] data = blocks.GetBlock(kd).Data;
+            uint width = blocks.GetBlockValue<uint>(kw);
+            uint height = blocks.GetBlockValue<uint>(kh);
+            byte[] result = DXT1.Decompress(data, (int)width, (int)height);
             return ImageUtil.GetBitmap(result, (int)width, (int)height, PixelFormat.Format32bppArgb);
         }
 
-        var blocks = SAV.Blocks;
+        SaveBlockAccessor9SV blocks = SAV.Blocks;
         P_CurrPhoto.Image = GetImage(blocks, KPictureProfileCurrent, KPictureProfileCurrentWidth, KPictureProfileCurrentHeight);
         P_CurrIcon.Image = GetImage(blocks, KPictureIconCurrent, KPictureIconCurrentWidth, KPictureIconCurrentHeight);
         P_InitialIcon.Image = GetImage(blocks, KPictureIconInitial, KPictureIconInitialWidth, KPictureIconInitialHeight);
-        P_CurrPhoto.Height = P_CurrPhoto.Image.Height / 4;
-        P_CurrPhoto.Width = P_CurrPhoto.Image.Width / 4;
-        P_CurrIcon.Height = P_CurrIcon.Image.Height / 4;
-        P_CurrIcon.Width = P_CurrIcon.Image.Width / 4;
-        P_InitialIcon.Height = P_InitialIcon.Image.Height / 4;
-        P_InitialIcon.Width = P_InitialIcon.Image.Width / 4;
+        P_CurrPhoto.Size = P_CurrPhoto.Image.Size / 4;
+        P_CurrIcon.Size = P_CurrIcon.Image.Size / 4;
+        P_InitialIcon.Size = P_InitialIcon.Image.Size / 4;
         P_CurrIcon.Location = P_CurrPhoto.Location with { X = P_CurrPhoto.Location.X + P_CurrPhoto.Width + 8 };
         P_InitialIcon.Location = P_CurrIcon.Location with { Y = P_CurrIcon.Location.Y + P_CurrIcon.Height + 8 };
     }

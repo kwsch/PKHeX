@@ -10,7 +10,7 @@ public static class DXT1
 
     public static byte[] Decompress(ReadOnlySpan<byte> data, int width, int height)
     {
-        var result = new byte[GetDecompressedSize(width, height)];
+        byte[] result = new byte[GetDecompressedSize(width, height)];
         Decompress(data, width, height, result);
         return result;
     }
@@ -25,23 +25,23 @@ public static class DXT1
             for (int x = 0; x < blockCountX; x++)
             {
                 int blockOffset = ((y * blockCountX) + x) * 8;
-                var span = data.Slice(blockOffset, 8);
+                ReadOnlySpan<byte> span = data.Slice(blockOffset, 8);
 
-                var color0 = ReadUInt16LittleEndian(span);
-                var color1 = ReadUInt16LittleEndian(span[2..]);
-                var indices = ReadUInt32LittleEndian(span[4..]);
+                ushort color0 = ReadUInt16LittleEndian(span);
+                ushort color1 = ReadUInt16LittleEndian(span[2..]);
+                uint indices = ReadUInt32LittleEndian(span[4..]);
                 GetColors(colors, color0, color1);
 
                 for (int pixelY = 0; pixelY < 4; pixelY++)
                 {
-                    var baseIndex = (((4 * y) + pixelY) * width) + (x * 4);
-                    var baseShift = (4 * pixelY);
+                    int baseIndex = (((4 * y) + pixelY) * width) + (x * 4);
+                    int baseShift = (4 * pixelY);
                     for (int pixelX = 0; pixelX < 4; pixelX++)
                     {
                         int pixelIndex = baseIndex + pixelX;
-                        var shift = (baseShift + pixelX) << 1;
-                        var index = (indices >> shift) & 0x3;
-                        var color = colors[(int)index];
+                        int shift = (baseShift + pixelX) << 1;
+                        int index = (int)(indices >> shift) & 0x3;
+                        Color color = colors[index];
 
                         var dest = result[(pixelIndex * 4)..];
                         dest[0] = color.B;
@@ -82,14 +82,15 @@ public static class DXT1
         b = (byte)(b << 3 | b >> 2);
         return new(0xFF, r, g, b);
     }
+
     private static Color Lerp(Color c1, Color c2, float t)
     {
-        int r = (int)(c1.R + ((c2.R - c1.R) * t));
-        int g = (int)(c1.G + ((c2.G - c1.G) * t));
-        int b = (int)(c1.B + ((c2.B - c1.B) * t));
-        int aVal = (int)(c1.A + ((c2.A - c1.A) * t));
+        byte r = (byte)(c1.R + ((c2.R - c1.R) * t));
+        byte g = (byte)(c1.G + ((c2.G - c1.G) * t));
+        byte b = (byte)(c1.B + ((c2.B - c1.B) * t));
+        byte a = (byte)(c1.A + ((c2.A - c1.A) * t));
 
-        return new((byte)aVal, (byte)r, (byte)g, (byte)b);
+        return new(a, r, g, b);
     }
 
     private readonly record struct Color(byte A, byte R, byte G, byte B);
