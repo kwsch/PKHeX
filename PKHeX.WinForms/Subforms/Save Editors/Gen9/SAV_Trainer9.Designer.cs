@@ -129,10 +129,10 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(345, 440);
+            B_Cancel.Location = new System.Drawing.Point(281, 360);
             B_Cancel.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             B_Cancel.Name = "B_Cancel";
-            B_Cancel.Size = new System.Drawing.Size(101, 36);
+            B_Cancel.Size = new System.Drawing.Size(100, 32);
             B_Cancel.TabIndex = 0;
             B_Cancel.Text = "Cancel";
             B_Cancel.UseVisualStyleBackColor = true;
@@ -141,10 +141,10 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(453, 440);
+            B_Save.Location = new System.Drawing.Point(391, 360);
             B_Save.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             B_Save.Name = "B_Save";
-            B_Save.Size = new System.Drawing.Size(101, 36);
+            B_Save.Size = new System.Drawing.Size(100, 32);
             B_Save.TabIndex = 1;
             B_Save.Text = "Save";
             B_Save.UseVisualStyleBackColor = true;
@@ -618,15 +618,15 @@ namespace PKHeX.WinForms
             // 
             // TC_Editor
             // 
+            TC_Editor.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             TC_Editor.Controls.Add(Tab_Overview);
             TC_Editor.Controls.Add(Tab_MiscValues);
             TC_Editor.Controls.Add(Tab_Images);
-            TC_Editor.Dock = System.Windows.Forms.DockStyle.Fill;
             TC_Editor.Location = new System.Drawing.Point(0, 0);
             TC_Editor.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             TC_Editor.Name = "TC_Editor";
             TC_Editor.SelectedIndex = 0;
-            TC_Editor.Size = new System.Drawing.Size(496, 361);
+            TC_Editor.Size = new System.Drawing.Size(496, 352);
             TC_Editor.TabIndex = 54;
             // 
             // Tab_Overview
@@ -656,7 +656,7 @@ namespace PKHeX.WinForms
             Tab_Overview.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Tab_Overview.Name = "Tab_Overview";
             Tab_Overview.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            Tab_Overview.Size = new System.Drawing.Size(488, 333);
+            Tab_Overview.Size = new System.Drawing.Size(488, 324);
             Tab_Overview.TabIndex = 0;
             Tab_Overview.Text = "Overview";
             Tab_Overview.UseVisualStyleBackColor = true;
@@ -732,7 +732,7 @@ namespace PKHeX.WinForms
             Tab_MiscValues.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             Tab_MiscValues.Name = "Tab_MiscValues";
             Tab_MiscValues.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            Tab_MiscValues.Size = new System.Drawing.Size(501, 360);
+            Tab_MiscValues.Size = new System.Drawing.Size(488, 324);
             Tab_MiscValues.TabIndex = 4;
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
@@ -862,7 +862,7 @@ namespace PKHeX.WinForms
             // 
             // L_X
             // 
-            L_X.Location = new System.Drawing.Point(9, 21);
+            L_X.Location = new System.Drawing.Point(9, 16);
             L_X.Margin = new System.Windows.Forms.Padding(0);
             L_X.Name = "L_X";
             L_X.Size = new System.Drawing.Size(110, 31);
@@ -877,7 +877,7 @@ namespace PKHeX.WinForms
             Tab_Images.Controls.Add(P_CurrPhoto);
             Tab_Images.Location = new System.Drawing.Point(4, 24);
             Tab_Images.Name = "Tab_Images";
-            Tab_Images.Size = new System.Drawing.Size(501, 360);
+            Tab_Images.Size = new System.Drawing.Size(488, 324);
             Tab_Images.TabIndex = 5;
             Tab_Images.Text = "Images";
             Tab_Images.UseVisualStyleBackColor = true;
@@ -886,7 +886,7 @@ namespace PKHeX.WinForms
             // 
             P_InitialIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             P_InitialIcon.Cursor = System.Windows.Forms.Cursors.Hand;
-            P_InitialIcon.Location = new System.Drawing.Point(410, 169);
+            P_InitialIcon.Location = new System.Drawing.Point(387, 146);
             P_InitialIcon.Name = "P_InitialIcon";
             P_InitialIcon.Size = new System.Drawing.Size(88, 88);
             P_InitialIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -898,7 +898,7 @@ namespace PKHeX.WinForms
             // 
             P_CurrIcon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             P_CurrIcon.Cursor = System.Windows.Forms.Cursors.Hand;
-            P_CurrIcon.Location = new System.Drawing.Point(410, 37);
+            P_CurrIcon.Location = new System.Drawing.Point(387, 16);
             P_CurrIcon.Name = "P_CurrIcon";
             P_CurrIcon.Size = new System.Drawing.Size(88, 88);
             P_CurrIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -910,9 +910,9 @@ namespace PKHeX.WinForms
             // 
             P_CurrPhoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             P_CurrPhoto.Cursor = System.Windows.Forms.Cursors.Hand;
-            P_CurrPhoto.Location = new System.Drawing.Point(3, 37);
+            P_CurrPhoto.Location = new System.Drawing.Point(16, 16);
             P_CurrPhoto.Name = "P_CurrPhoto";
-            P_CurrPhoto.Size = new System.Drawing.Size(320, 220);
+            P_CurrPhoto.Size = new System.Drawing.Size(362, 218);
             P_CurrPhoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             P_CurrPhoto.TabIndex = 77;
             P_CurrPhoto.TabStop = false;
@@ -921,7 +921,7 @@ namespace PKHeX.WinForms
             // SAV_Trainer9
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(496, 361);
+            ClientSize = new System.Drawing.Size(496, 401);
             Controls.Add(TC_Editor);
             Controls.Add(B_Save);
             Controls.Add(B_Cancel);

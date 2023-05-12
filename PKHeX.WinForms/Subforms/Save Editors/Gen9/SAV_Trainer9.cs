@@ -61,14 +61,6 @@ public partial class SAV_Trainer9 : Form
         P_CurrPhoto.Image = GetImage(blocks, KPictureProfileCurrent, KPictureProfileCurrentWidth, KPictureProfileCurrentHeight);
         P_CurrIcon.Image = GetImage(blocks, KPictureIconCurrent, KPictureIconCurrentWidth, KPictureIconCurrentHeight);
         P_InitialIcon.Image = GetImage(blocks, KPictureIconInitial, KPictureIconInitialWidth, KPictureIconInitialHeight);
-        P_CurrPhoto.Height = P_CurrPhoto.Image.Height / 4;
-        P_CurrPhoto.Width = P_CurrPhoto.Image.Width / 4;
-        P_CurrIcon.Height = P_CurrIcon.Image.Height / 4;
-        P_CurrIcon.Width = P_CurrIcon.Image.Width / 4;
-        P_InitialIcon.Height = P_InitialIcon.Image.Height / 4;
-        P_InitialIcon.Width = P_InitialIcon.Image.Width / 4;
-        P_CurrIcon.Location = P_CurrPhoto.Location with { X = P_CurrPhoto.Location.X + P_CurrPhoto.Width + 8 };
-        P_InitialIcon.Location = P_CurrIcon.Location with { Y = P_CurrIcon.Location.Y + P_CurrIcon.Height + 8 };
     }
 
     private readonly bool Loading;
