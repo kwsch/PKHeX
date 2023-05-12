@@ -1,6 +1,25 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
+23/05/11 - New Update:
+ - Legality:
+ - - Changed: Creating a new PKM from template will set current moves same as the games.
+ - - Changed: Pokérus strains 0 & 8 now permitted due to official implementation errors in Gen2 & Gen3.
+ - - Fixed: Encounters crossing over into Mesagoza (location 8) are no longer permitted (vertical distance).
+ - - Fixed: TSV=0 HOME accounts are now permitted to exist, and antishiny XOR for the fixed PID gifts now behaves correctly.
+ - Added: Batch Editor filter commands can now reference other property values (aka "property copy") like modify commands.
+ - - To copy a property, specify like so: `.Stat_ATK=*Stat_DEF`
+ - - To filter based on the value of another property, same way.
+ - Added: Moves that have changed elemental type over generations will now indicate their type per the save file context.
+ - Added: Gen9 Player Image visualizer now shows the profile photos in the Trainer Editor. Thanks @pasqualenardiello !
+ - Added: Gen7 LGPE can now unlock all fashion via the Trainer Editor.
+ - Added: Gen5 Block editor now shows both roamer objects (Thundurus and Tornadus).
+ - Fixed: Gen9 scale indicators now reflect the >=1.1.0 patch scale thresholds. Thanks iD3M0N1C!
+ - Fixed: Gen5 C-Gear Skin no longer retains a file lock on imported skin image files.
+ - Fixed: Gen3 Memory Cards can now be detected as the latest save file, as well as a backup-file source for the pkmdb.
+ - Fixed: Gen3 XD un-purified shadow Pokémon no longer flag w/o Ribbon if they have a Shadow Gauge of 0 (ready to purify).
+ - Changed: Sub-form scaling mode changed to "Inherit" -- added a Display setting to revert back to Form scaling (from Dpi).
+
 23/04/06 - New Update:
  - Legality:
  - - Changed: Vivillon 3DS Region handling reworked to handle all regions. Thanks @abcboy101!
