@@ -7,7 +7,7 @@ public static class EggHatchLocation6
         const int min = 6;
         const int max = 168;
         var delta = location - min;
-        if ((uint)delta >= max - min)
+        if ((uint)delta > max - min)
             return false;
 
         if (location % 2 != 0)
@@ -20,7 +20,7 @@ public static class EggHatchLocation6
         const int min = 170;
         const int max = 354;
         var delta = location - min;
-        if ((uint)delta >= max - min)
+        if ((uint)delta > max - min)
             return false;
 
         if (location % 2 != 0)
