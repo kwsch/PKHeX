@@ -261,26 +261,27 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         if (remainder != 0) // pad to nearest 0x10, fill remainder bytes with value.
             remainder = 0x10 - remainder;
         var result = new byte[length + remainder];
-        result.AsSpan()[^remainder..].Fill((byte)remainder);
+        var span = result.AsSpan(0, length);
+        result.AsSpan(length).Fill((byte)remainder);
 
         // Header and Core are already in the current byte array.
         // Write each part, starting with header and core.
         int ctr = HomeCrypto.SIZE_1HEADER + 2;
-        ctr += _coreData.WriteTo(result.AsSpan(ctr));
-        var gameDataLengthSpan = result.AsSpan(ctr, 2); ctr += 2;
-        int gameDataStart = ctr;
-        if (DataPK8 is { } pk8) ctr += pk8.WriteTo(result.AsSpan(ctr));
-        if (DataPB7 is { } pb7) ctr += pb7.WriteTo(result.AsSpan(ctr));
-        if (DataPA8 is { } pa8) ctr += pa8.WriteTo(result.AsSpan(ctr));
-        if (DataPB8 is { } pb8) ctr += pb8.WriteTo(result.AsSpan(ctr));
-        if (DataPK9 is { } pk9) ctr += pk9.WriteTo(result.AsSpan(ctr));
+        ctr += _coreData.WriteTo(span[ctr..]);
+        var gameDataLengthSpan = span[ctr..];
+        int gameDataStart = (ctr += 2);
+        if (DataPK8 is { } pk8) ctr += pk8.WriteTo(span[ctr..]);
+        if (DataPB7 is { } pb7) ctr += pb7.WriteTo(span[ctr..]);
+        if (DataPA8 is { } pa8) ctr += pa8.WriteTo(span[ctr..]);
+        if (DataPB8 is { } pb8) ctr += pb8.WriteTo(span[ctr..]);
+        if (DataPK9 is { } pk9) ctr += pk9.WriteTo(span[ctr..]);
         WriteUInt16LittleEndian(gameDataLengthSpan, GameDataSize = (ushort)(ctr - gameDataStart));
 
         // Update metadata to ensure we're a valid object.
         DataVersion = HomeCrypto.Version1;
         EncodedDataSize = (ushort)(result.Length - HomeCrypto.SIZE_1HEADER);
         CoreDataSize = HomeCrypto.SIZE_1CORE;
-        Data.AsSpan()[..(HomeCrypto.SIZE_1HEADER + 2)].CopyTo(result); // Copy updated header & CoreData length.
+        Data.AsSpan(0, HomeCrypto.SIZE_1HEADER + 2).CopyTo(span); // Copy updated header & CoreData length.
 
         return result;
     }
