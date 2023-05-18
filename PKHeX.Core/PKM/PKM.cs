@@ -592,26 +592,39 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// </summary>
     private void ReorderMoves()
     {
-        if (Move1 == 0 && Move2 != 0)
+        // Loop to catch multiple empty slots. X2X4 needs 3 shifts, XX34 needs 4.
+        while (true)
         {
-            Move1 = Move2;
-            Move1_PP = Move2_PP;
-            Move1_PPUps = Move2_PPUps;
-            Move2 = 0;
-        }
-        if (Move2 == 0 && Move3 != 0)
-        {
-            Move2 = Move3;
-            Move2_PP = Move3_PP;
-            Move2_PPUps = Move3_PPUps;
-            Move3 = 0;
-        }
-        if (Move3 == 0 && Move4 != 0)
-        {
-            Move3 = Move4;
-            Move3_PP = Move4_PP;
-            Move3_PPUps = Move4_PPUps;
-            Move4 = 0;
+            if (Move1 == 0 && Move2 != 0)
+            {
+                // This branch can only be true once, as Move1 is the top move.
+                Move1 = Move2;
+                Move1_PP = Move2_PP;
+                Move1_PPUps = Move2_PPUps;
+                Move2 = 0;
+            }
+            else if (Move2 == 0 && Move3 != 0)
+            {
+                // This branch can be true more than once, if shifting 3 & 4 down into 1 & 2.
+                Move2 = Move3;
+                Move2_PP = Move3_PP;
+                Move2_PPUps = Move3_PPUps;
+                Move3 = 0;
+            }
+            else if (Move3 == 0 && Move4 != 0)
+            {
+                // This branch can be true only once, as Move4 is the lowest move and nothing can refill it.
+                Move3 = Move4;
+                Move3_PP = Move4_PP;
+                Move3_PPUps = Move4_PPUps;
+                Move4 = 0;
+                // Still need to loop as Move 3 may still have empty slots before it.
+            }
+            else
+            {
+                // No more reordering, current moveset has no empty slots exist before nonzero slots.
+                return;
+            }
         }
     }
 
