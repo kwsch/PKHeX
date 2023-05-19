@@ -36,7 +36,7 @@ public sealed class ItemStorage8BDSP : IItemStorage
         055, 056, 057, 058, 059, 060, 061, 062, 063,
     };
 
-    public static ReadOnlySpan<ushort> Unreleased => new ushort[]
+    internal static ReadOnlySpan<ushort> Unreleased => new ushort[]
     {
         005, // Safari Ball
         016, // Cherish Ball
@@ -53,7 +53,10 @@ public sealed class ItemStorage8BDSP : IItemStorage
         576, // Dream Ball
         849, // Ice Stone
         851, // Beast Ball
+    };
 
+    internal static ReadOnlySpan<ushort> DisallowHeldTreasure => new ushort[]
+    {
         // new BDSP items, but they can't be held
         1808, // Mysterious Shard S
         1809, // Mysterious Shard L
