@@ -21,6 +21,9 @@ public enum PogoType : byte
     RaidM,
     /// <summary> Ultra Beasts captured after completing Raid Battles. Only Beast Balls can be used. </summary>
     RaidUB,
+    /// <summary> Shadow Pokémon captured after completing Shadow Raid Battles. Must be Purified before transferring to Pokémon HOME. </summary>
+    /// <remarks> Pokémon with this <see cref="PogoType"/> can not be moved to <see cref="GameVersion.GG"/>. </remarks>
+    RaidS,
 
     /// <summary> Pokémon captured after completing Field Research. </summary>
     Research = 20,
@@ -38,7 +41,7 @@ public enum PogoType : byte
     /// <summary> Pokémon captured from the GO Battle League during GO Battle Day, excluding Legendary and Mythical Pokémon. </summary>
     GBLD,
 
-    /// <summary> Pokémon captured after defeating members of Team GO Rocket. Must become Purified before transferring to Pokémon HOME. </summary>
+    /// <summary> Pokémon captured after defeating members of Team GO Rocket. Must be Purified before transferring to Pokémon HOME. </summary>
     /// <remarks> Pokémon with this <see cref="PogoType"/> can not be moved to <see cref="GameVersion.GG"/>. </remarks>
     Shadow = 40,
 
