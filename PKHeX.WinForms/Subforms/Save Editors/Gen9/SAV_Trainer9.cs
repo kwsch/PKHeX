@@ -43,6 +43,8 @@ public partial class SAV_Trainer9 : Form
         GetTextBoxes();
         LoadMap();
 
+        CB_Fashion.SelectedIndex = 0;
+
         Loading = false;
     }
 
@@ -320,4 +322,26 @@ public partial class SAV_Trainer9 : Form
     private void P_CurrPhoto_Click(object sender, EventArgs e) => IMG_Save(P_CurrPhoto.Image, "current_photo");
     private void P_CurrIcon_Click(object sender, EventArgs e) => IMG_Save(P_CurrIcon.Image, "current_icon");
     private void P_InitialIcon_Click(object sender, EventArgs e) => IMG_Save(P_InitialIcon.Image, "initial_icon");
+
+    private void B_UnlockClothing_Click(object sender, EventArgs e)
+    {
+        int added = 0;
+        switch(CB_Fashion.SelectedIndex)
+        {
+            case 0:
+                added += PlayerFashionUnlock9.UnlockBase(SAV.Accessor, SAV.Gender);
+                break;
+            case 1:
+                added += PlayerFashionUnlock9.UnlockExtras(SAV.Accessor);
+                break;
+            case 2:
+                added += PlayerFashionUnlock9.UnlockPreorder(SAV.Accessor, SAV.Gender);
+                break;
+            case 3:
+                added += PlayerFashionUnlock9.UnlockPortal(SAV.Accessor);
+                break;
+        }
+        DialogResult res = MessageBox.Show(string.Format("Added {0} clothing options.", added), "Unlock Clothing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        System.Media.SystemSounds.Asterisk.Play();
+    }
 }
