@@ -43,7 +43,7 @@ public sealed record EncounterArea1 : EncounterArea
         Slots = slots;
     }
 
-    public override IEnumerable<EncounterSlot1> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot1> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         (bool useCatchRate, byte rate) = pk is PK1 pk1 ? (true, pk1.Catch_Rate) : (false, (byte)0);
         foreach (var slot in Slots)

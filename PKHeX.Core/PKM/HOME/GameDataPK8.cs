@@ -8,81 +8,58 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDynamaxLevel, ISociability
 {
+    private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PK8;
     private const int SIZE = HomeCrypto.SIZE_1GAME_PK8;
-    private const HomeGameDataFormat Format = HomeGameDataFormat.PK8;
+    protected override HomeGameDataFormat Format => ExpectFormat;
 
-    public GameDataPK8() : base(Format, SIZE) { }
-    public GameDataPK8(byte[] data, int offset = 0) : base(Format, SIZE, data, offset) { }
-    public GameDataPK8 Clone() => new(ToArray(SIZE));
-    public int CopyTo(Span<byte> result) => CopyTo(result, SIZE);
+    public GameDataPK8() : base(SIZE) { }
+    public GameDataPK8(Memory<byte> buffer) : base(buffer) => EnsureSize(SIZE);
+    public GameDataPK8 Clone() => new(ToArray());
+    public int WriteTo(Span<byte> result) => WriteWithHeader(result);
 
     #region Structure
 
-    public bool CanGigantamax { get => Data[Offset + 0x00] != 0; set => Data[Offset + 0x00] = (byte)(value ? 1 : 0); }
-    public uint Sociability { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x01)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x01), value); }
+    public bool CanGigantamax { get => Data[0x00] != 0; set => Data[0x00] = (byte)(value ? 1 : 0); }
+    public uint Sociability { get => ReadUInt32LittleEndian(Data[0x01..]); set => WriteUInt32LittleEndian(Data[0x01..], value); }
 
-    public ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x05)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x05), value); }
-    public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x07)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x07), value); }
-    public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x09)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x09), value); }
-    public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0B)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0B), value); }
+    public ushort Move1 { get => ReadUInt16LittleEndian(Data[0x05..]); set => WriteUInt16LittleEndian(Data[0x05..], value); }
+    public ushort Move2 { get => ReadUInt16LittleEndian(Data[0x07..]); set => WriteUInt16LittleEndian(Data[0x07..], value); }
+    public ushort Move3 { get => ReadUInt16LittleEndian(Data[0x09..]); set => WriteUInt16LittleEndian(Data[0x09..], value); }
+    public ushort Move4 { get => ReadUInt16LittleEndian(Data[0x0B..]); set => WriteUInt16LittleEndian(Data[0x0B..], value); }
 
-    public int Move1_PP { get => Data[Offset + 0x0D]; set => Data[Offset + 0x0D] = (byte)value; }
-    public int Move2_PP { get => Data[Offset + 0x0E]; set => Data[Offset + 0x0E] = (byte)value; }
-    public int Move3_PP { get => Data[Offset + 0x0F]; set => Data[Offset + 0x0F] = (byte)value; }
-    public int Move4_PP { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = (byte)value; }
-    public int Move1_PPUps { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = (byte)value; }
-    public int Move2_PPUps { get => Data[Offset + 0x12]; set => Data[Offset + 0x12] = (byte)value; }
-    public int Move3_PPUps { get => Data[Offset + 0x13]; set => Data[Offset + 0x13] = (byte)value; }
-    public int Move4_PPUps { get => Data[Offset + 0x14]; set => Data[Offset + 0x14] = (byte)value; }
+    public int Move1_PP { get => Data[0x0D]; set => Data[0x0D] = (byte)value; }
+    public int Move2_PP { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
+    public int Move3_PP { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
+    public int Move4_PP { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+    public int Move1_PPUps { get => Data[0x11]; set => Data[0x11] = (byte)value; }
+    public int Move2_PPUps { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+    public int Move3_PPUps { get => Data[0x13]; set => Data[0x13] = (byte)value; }
+    public int Move4_PPUps { get => Data[0x14]; set => Data[0x14] = (byte)value; }
 
-    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x15)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x15), value); }
-    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x17)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x17), value); }
-    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x19)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x19), value); }
-    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1B)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1B), value); }
-    public byte DynamaxLevel { get => Data[Offset + 0x1D]; set => Data[Offset + 0x1D] = value; }
+    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data[0x15..]); set => WriteUInt16LittleEndian(Data[0x15..], value); }
+    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data[0x17..]); set => WriteUInt16LittleEndian(Data[0x17..], value); }
+    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data[0x19..]); set => WriteUInt16LittleEndian(Data[0x19..], value); }
+    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data[0x1B..]); set => WriteUInt16LittleEndian(Data[0x1B..], value); }
+    public byte DynamaxLevel { get => Data[0x1D]; set => Data[0x1D] = value; }
 
-    public bool GetPokeJobFlag(int index)
-    {
-        if ((uint)index > 112) // 14 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, Offset + 0x1E + ofs, index & 7);
-    }
+    private Span<byte> PokeJob => Data.Slice(0x1E, 14);
+    public bool GetPokeJobFlag(int index) => FlagUtil.GetFlag(PokeJob, index >> 3, index & 7);
+    public void SetPokeJobFlag(int index, bool value) => FlagUtil.SetFlag(PokeJob, index >> 3, index & 7, value);
+    public bool GetPokeJobFlagAny() => PokeJob.IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearPokeJobFlags() => PokeJob.Clear();
 
-    public void SetPokeJobFlag(int index, bool value)
-    {
-        if ((uint)index > 112) // 14 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, Offset + 0x1E + ofs, index & 7, value);
-    }
+    public byte Fullness { get => Data[0x2C]; set => Data[0x2C] = value; }
 
-    public bool GetPokeJobFlagAny() => Array.FindIndex(Data, Offset + 0x1E, 14, static z => z != 0) >= 0;
-    public byte Fullness { get => Data[Offset + 0x2C]; set => Data[Offset + 0x2C] = value; }
+    private Span<byte> RecordFlags => Data.Slice(0x2D, 14);
+    public bool GetMoveRecordFlag(int index) => FlagUtil.GetFlag(RecordFlags, index >> 3, index & 7);
+    public void SetMoveRecordFlag(int index, bool value) => FlagUtil.SetFlag(RecordFlags, index >> 3, index & 7, value);
+    public bool GetMoveRecordFlagAny() => RecordFlags.IndexOfAnyExcept<byte>(0) >= 0;
+    public void ClearMoveRecordFlags() => RecordFlags.Clear();
 
-    public bool GetMoveRecordFlag(int index)
-    {
-        if ((uint)index > 112) // 14 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, Offset + 0x2D + ofs, index & 7);
-    }
-
-    public void SetMoveRecordFlag(int index, bool value)
-    {
-        if ((uint)index > 112) // 14 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, Offset + 0x2D + ofs, index & 7, value);
-    }
-
-    public bool GetMoveRecordFlagAny() => Data.AsSpan(Offset + 0x2D, 14).IndexOfAnyExcept<byte>(0) >= 0;
-    public void ClearMoveRecordFlags() => Data.AsSpan(Offset + 0x2D, 14).Clear();
-
-    public int Palma { get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x3B)); set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x3B), value); }
-    public int Ball { get => Data[Offset + 0x3F]; set => Data[Offset + 0x3F] = (byte)value; }
-    public int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x40)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x40), (ushort)value); }
-    public int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x42)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x42), (ushort)value); }
+    public int Palma { get => ReadInt32LittleEndian(Data[0x3B..]); set => WriteInt32LittleEndian(Data[0x3B..], value); }
+    public int Ball { get => Data[0x3F]; set => Data[0x3F] = (byte)value; }
+    public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x40..]); set => WriteUInt16LittleEndian(Data[0x40..], (ushort)value); }
+    public int Met_Location { get => ReadUInt16LittleEndian(Data[0x42..]); set => WriteUInt16LittleEndian(Data[0x42..], (ushort)value); }
 
     #endregion
 
@@ -98,8 +75,8 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         pk.DynamaxLevel = DynamaxLevel;
         pk.Fullness = Fullness;
         pk.Palma = Palma;
-        Data.AsSpan(Offset + 0xE, 14).CopyTo(pk.Data.AsSpan(0xCE)); // PokeJob
-        Data.AsSpan(Offset + 0x2D, 14).CopyTo(pk.Data.AsSpan(0x127)); // Move Record
+        PokeJob.CopyTo(pk.PokeJob);
+        RecordFlags.CopyTo(pk.RecordFlags);
     }
 
     public PKM ConvertToPKM(PKH pkh) => ConvertToPK8(pkh);
@@ -120,27 +97,37 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         if (pkh.DataPB7 is { } x)
             return GameDataPB7.Create<GameDataPK8>(x);
 
-        if (pkh.DataPB8 is { } b)
-        {
-            if (pkh.Version is (int)GameVersion.SW or (int)GameVersion.SH && b.Met_Location is not (Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP))
-                return new GameDataPK8 { Ball = b.Ball, Met_Location = b.Met_Location, Egg_Location = b.Egg_Location is Locations.Default8bNone ? 0 : b.Egg_Location };
-
-            var ball = b.Ball > (int)Core.Ball.Beast ? 4 : b.Ball;
-            var ver = pkh.Version;
-            var loc = Locations.GetMetSWSH((ushort)b.Met_Location, ver);
-            return new GameDataPK8 { Ball = ball, Met_Location = loc, Egg_Location = loc != b.Met_Location ? Locations.HOME_SWSHBDSPEgg : b.Egg_Location };
-        }
-        if (pkh.DataPA8 is { } a)
-        {
-            if (pkh.Version is (int)GameVersion.SW or (int)GameVersion.SH && a.Met_Location is not (Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP))
-                return new GameDataPK8 { Ball = a.Ball > (int)Core.Ball.Beast ? 4 : a.Ball, Met_Location = a.Met_Location, Egg_Location = a.Egg_Location is Locations.Default8bNone ? 0 : a.Egg_Location };
-
-            var ball = a.Ball > (int)Core.Ball.Beast ? 4 : a.Ball;
-            var ver = pkh.Version;
-            var loc = Locations.GetMetSWSH((ushort)a.Met_Location, ver);
-            return new GameDataPK8 { Ball = ball, Met_Location = loc, Egg_Location = loc != a.Met_Location ? Locations.HOME_SWSHBDSPEgg : a.Egg_Location };
-        }
+        var side = pkh.DataPB8 as IGameDataSide
+                ?? pkh.DataPA8 as IGameDataSide
+                ?? pkh.DataPK9;
+        if (side is not null)
+            return Create(side, pkh.Version);
 
         return null;
     }
+
+    private static GameDataPK8 Create(IGameDataSide side, int ver)
+    {
+        var met = side.Met_Location;
+        var ball = GetBall(side.Ball);
+        var egg = GetEggLocation(side.Egg_Location);
+        if (!IsOriginallySWSH(ver, met))
+            RemapMetEgg(ver, ref met, ref egg);
+        return new GameDataPK8 { Ball = ball, Met_Location = met, Egg_Location = egg };
+    }
+
+    private static void RemapMetEgg(int ver, ref int met, ref int egg)
+    {
+        var remap = Locations.GetMetSWSH((ushort)met, ver);
+        if (remap == met)
+            return;
+
+        met = remap;
+        egg = Locations.HOME_SWSHBDSPEgg;
+    }
+
+    private static bool IsOriginallySWSH(int ver, int loc) => ver is (int)GameVersion.SW or (int)GameVersion.SH && !IsFakeMetLocation(loc);
+    private static bool IsFakeMetLocation(int met) => met is Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP;
+    private static int GetBall(int ball) => ball > (int)Core.Ball.Beast ? 4 : ball;
+    private static int GetEggLocation(int egg) => egg == Locations.Default8bNone ? 0 : egg;
 }

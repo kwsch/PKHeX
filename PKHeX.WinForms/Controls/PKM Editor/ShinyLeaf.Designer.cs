@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms.Controls
+namespace PKHeX.WinForms.Controls
 {
     partial class ShinyLeaf
     {
@@ -121,7 +121,6 @@
             // 
             // ShinyLeaf
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             Controls.Add(flowLayoutPanel1);
             Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);

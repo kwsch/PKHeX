@@ -571,7 +571,6 @@ namespace PKHeX.WinForms
             // SAV_Trainer7GG
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(483, 422);
             Controls.Add(TC_Editor);

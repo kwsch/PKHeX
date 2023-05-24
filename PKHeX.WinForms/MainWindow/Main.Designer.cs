@@ -420,7 +420,6 @@ namespace PKHeX.WinForms
             PKME_Tabs.AccessibleDescription = "Pokémon Editor Pane";
             PKME_Tabs.AccessibleName = "Pokémon Editor Pane";
             PKME_Tabs.ChangingFields = false;
-            PKME_Tabs.Data = null;
             PKME_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             PKME_Tabs.HaX = false;
             PKME_Tabs.Location = new System.Drawing.Point(0, 0);
@@ -478,8 +477,8 @@ namespace PKHeX.WinForms
             // Main
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             ClientSize = new System.Drawing.Size(856, 385);
             Controls.Add(splitContainer2);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

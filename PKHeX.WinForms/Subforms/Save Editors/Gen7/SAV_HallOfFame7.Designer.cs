@@ -380,7 +380,6 @@
             // 
             // SAV_HallOfFame7
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(460, 232);
             Controls.Add(TB_EC);

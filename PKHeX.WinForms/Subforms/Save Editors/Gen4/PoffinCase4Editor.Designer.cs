@@ -82,7 +82,6 @@
             // 
             // PoffinCase4Editor
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             Controls.Add(LB_Poffins);
             Controls.Add(B_PoffinDel);

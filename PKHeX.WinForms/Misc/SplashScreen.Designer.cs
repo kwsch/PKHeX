@@ -84,6 +84,6 @@ namespace PKHeX.WinForms
 
         private System.Windows.Forms.Label L_Site;
         private System.Windows.Forms.PictureBox PB_Icon;
-        public System.Windows.Forms.Label L_Status;
+        private System.Windows.Forms.Label L_Status;
     }
 }

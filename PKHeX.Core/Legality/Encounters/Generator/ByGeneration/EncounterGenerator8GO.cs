@@ -38,8 +38,6 @@ public sealed class EncounterGenerator8GO : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
-        if (pk.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
-            yield break;
         if (!CanBeWildEncounter(pk))
             yield break;
 

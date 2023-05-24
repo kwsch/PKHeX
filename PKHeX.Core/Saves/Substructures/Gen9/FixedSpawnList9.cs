@@ -98,6 +98,6 @@ public sealed class FixedSpawnDetail
         var pk = Entity;
         var timestamp = new Epoch1970Value(Data.AsMemory(Offset + 0x168)).DisplayValue;
         var state = IsEnabled ? "X" : " ";
-        return $"{timestamp} {state} {Hash:X16} {pk.Species:000} - {pk.Nickname} ({pk.CurrentLevel})";
+        return $"{timestamp} {state} {Hash:X16} {pk.Species:0000} - {pk.Nickname} ({pk.CurrentLevel})";
     }
 }

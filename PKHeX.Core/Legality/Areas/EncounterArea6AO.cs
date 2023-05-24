@@ -57,7 +57,7 @@ public sealed record EncounterArea6AO : EncounterArea, IMemorySpeciesArea
     private const int FluteBoostMax = 4; // Black Flute increases levels.
     private const int DexNavBoost = 30; // Maximum DexNav chain
 
-    public override IEnumerable<EncounterSlot6AO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot6AO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {

@@ -42,7 +42,6 @@ namespace PKHeX.WinForms
             // 
             // SAV_EventReset1
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(284, 261);
             Controls.Add(FLP_List);

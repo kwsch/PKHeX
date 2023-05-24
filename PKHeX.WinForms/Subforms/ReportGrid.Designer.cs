@@ -50,7 +50,6 @@ namespace PKHeX.WinForms
             // 
             // ReportGrid
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(812, 461);
             Controls.Add(dgData);

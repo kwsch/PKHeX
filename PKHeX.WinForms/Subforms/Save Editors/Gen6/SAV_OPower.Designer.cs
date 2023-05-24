@@ -163,7 +163,6 @@
             // 
             // SAV_OPower
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(414, 122);
             Controls.Add(CHK_MAX);

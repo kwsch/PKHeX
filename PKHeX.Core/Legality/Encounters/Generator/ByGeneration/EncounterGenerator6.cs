@@ -222,21 +222,45 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         if (CanBeWildEncounter(pk))
         {
             var location = pk.Met_Location;
-            var areas = GetAreas(game);
-            foreach (var area in areas)
+            if (game is GameVersion.X or GameVersion.Y)
             {
-                if (!area.IsMatchLocation(location))
-                    continue;
-
-                var slots = area.GetMatchingSlots(pk, chain);
-                foreach (var slot in slots)
+                var areas = game == GameVersion.X ? Encounters6XY.SlotsX : Encounters6XY.SlotsY;
+                foreach (var area in areas)
                 {
-                    var match = slot.GetMatchRating(pk);
-                    switch (match)
+                    if (!area.IsMatchLocation(location))
+                        continue;
+
+                    var slots = area.GetMatchingSlots(pk, chain);
+                    foreach (var slot in slots)
                     {
-                        case Match: yield return slot; yielded = true; break;
-                        case Deferred: deferred ??= slot; break;
-                        case PartialMatch: partial ??= slot; break;
+                        var match = slot.GetMatchRating(pk);
+                        switch (match)
+                        {
+                            case Match: yield return slot; yielded = true; break;
+                            case Deferred: deferred ??= slot; break;
+                            case PartialMatch: partial ??= slot; break;
+                        }
+                    }
+                }
+            }
+            else if (game is GameVersion.AS or GameVersion.OR)
+            {
+                var areas = game == GameVersion.AS ? Encounters6AO.SlotsA : Encounters6AO.SlotsO;
+                foreach (var area in areas)
+                {
+                    if (!area.IsMatchLocation(location))
+                        continue;
+
+                    var slots = area.GetMatchingSlots(pk, chain);
+                    foreach (var slot in slots)
+                    {
+                        var match = slot.GetMatchRating(pk);
+                        switch (match)
+                        {
+                            case Match: yield return slot; yielded = true; break;
+                            case Deferred: deferred ??= slot; break;
+                            case PartialMatch: partial ??= slot; break;
+                        }
                     }
                 }
             }
@@ -279,15 +303,6 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         GameVersion.Y => Encounters6XY.StaticY,
         GameVersion.AS => Encounters6AO.StaticA,
         GameVersion.OR => Encounters6AO.StaticO,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
-
-    private static EncounterArea[] GetAreas(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.X => Encounters6XY.SlotsX,
-        GameVersion.Y => Encounters6XY.SlotsY,
-        GameVersion.AS => Encounters6AO.SlotsA,
-        GameVersion.OR => Encounters6AO.SlotsO,
         _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
     };
 

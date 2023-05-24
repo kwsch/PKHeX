@@ -145,9 +145,12 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     {
         var baseform = FormInfo.GetTotemBaseForm(species, form);
         var baseImage = GetBaseImageDefault(species, baseform, gender, formarg, shiny, context);
-        if (baseImage == null)
+        if (baseImage is not Bitmap b)
             return null;
-        return ImageUtil.ToGrayscale(baseImage);
+
+        SpriteUtil.GetSpriteGlow(baseImage, 0, 165, 255, out var pixels, true);
+        var layer = ImageUtil.GetBitmap(pixels, b.Width, b.Height, b.PixelFormat);
+        return ImageUtil.LayerImage(baseImage, layer, 0, 0);
     }
 
     private Image? GetBaseImageDefault(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_MysteryGiftDB
     {
@@ -609,7 +609,6 @@
             // 
             // SAV_MysteryGiftDB
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(670, 463);
             Controls.Add(B_Reset);

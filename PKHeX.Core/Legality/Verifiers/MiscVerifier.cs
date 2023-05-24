@@ -190,7 +190,6 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Qwilfish | (1 << 11), // Qwilfish-1
         (int)Species.Sneasel | (1 << 11), // Sneasel-1
         (int)Species.Basculin | (2 << 11), // Basculin-2
-        (int)Species.Chespin, // Chespin
         (int)Species.Fennekin, // Fennekin
         (int)Species.Carbink, // Carbink
         (int)Species.Grookey, // Grookey

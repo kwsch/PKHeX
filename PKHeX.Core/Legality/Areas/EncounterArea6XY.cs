@@ -105,7 +105,7 @@ public sealed record EncounterArea6XY : EncounterArea, IMemorySpeciesArea
         return slots;
     }
 
-    public override IEnumerable<EncounterSlot6XY> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot6XY> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {

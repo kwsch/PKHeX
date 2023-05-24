@@ -82,7 +82,6 @@ namespace PKHeX.WinForms
             // 
             // SAV_Raid8
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(366, 370);
             Controls.Add(CB_Den);

@@ -415,8 +415,21 @@ public static class CommonEdits
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetDefaultNickname(this PKM pk) => pk.SetDefaultNickname(new LegalityAnalysis(pk));
 
-    private static readonly string[] PotentialUnicode = { "★☆☆☆", "★★☆☆", "★★★☆", "★★★★" };
-    private static readonly string[] PotentialNoUnicode = { "+", "++", "+++", "++++" };
+    private static string GetPotentialUnicode(int rating) => rating switch
+    {
+        0 => "★☆☆☆",
+        1 => "★★☆☆",
+        2 => "★★★☆",
+        _ => "★★★★",
+    };
+
+    private static string GetPotentialASCII(int rating) => rating switch
+    {
+        0 => "+",
+        1 => "++",
+        2 => "+++",
+        _ => "++++",
+    };
 
     /// <summary>
     /// Gets the Potential evaluation of the input <see cref="pk"/>.
@@ -426,8 +439,10 @@ public static class CommonEdits
     /// <returns>Potential string</returns>
     public static string GetPotentialString(this PKM pk, bool unicode = true)
     {
-        var arr = unicode ? PotentialUnicode : PotentialNoUnicode;
-        return arr[pk.PotentialRating];
+        var rating = pk.PotentialRating;
+        if (unicode)
+            return GetPotentialUnicode(rating);
+        return GetPotentialASCII(rating);
     }
 
     // Extensions

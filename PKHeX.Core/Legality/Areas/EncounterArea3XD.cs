@@ -23,7 +23,7 @@ public sealed record EncounterArea3XD : EncounterArea
         };
     }
 
-    public override IEnumerable<EncounterSlot3PokeSpot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot3PokeSpot> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         if (pk.Format != 3) // Met Location and Met Level are changed on PK3->PK4
             return GetSlotsFuzzy(chain);

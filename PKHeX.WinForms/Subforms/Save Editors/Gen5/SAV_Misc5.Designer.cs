@@ -1705,13 +1705,12 @@ namespace PKHeX.WinForms
             // 
             // L_FC
             // 
-            L_FC.AutoSize = true;
             L_FC.Location = new System.Drawing.Point(18, 70);
             L_FC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_FC.Name = "L_FC";
-            L_FC.Size = new System.Drawing.Size(253, 45);
+            L_FC.Size = new System.Drawing.Size(264, 128);
             L_FC.TabIndex = 2;
-            L_FC.Text = "Dump data from a white save file and import it\r\ninto a black one and vice versa, there you can\r\nhave either city or forest in one save!";
+            L_FC.Text = "Dump data from a white save file and import it into a black one and vice versa, there you can have either city or forest in one save!";
             // 
             // B_ImportFC
             // 
@@ -1737,7 +1736,6 @@ namespace PKHeX.WinForms
             // 
             // SAV_Misc5
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(432, 438);
             Controls.Add(TC_Misc);
@@ -1802,7 +1800,6 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_SingleRecord).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_SinglePast).EndInit();
             TAB_BWCityForest.ResumeLayout(false);
-            TAB_BWCityForest.PerformLayout();
             ResumeLayout(false);
         }
 

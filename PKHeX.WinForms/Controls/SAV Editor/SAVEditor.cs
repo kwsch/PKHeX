@@ -409,7 +409,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             z.BringToFront();
             return;
         }
-        new SAV_BoxViewer(this, M).Show();
+        new SAV_BoxViewer(this, M, Box.CurrentBox).Show();
     }
 
     private void ClickClone(object sender, EventArgs e)

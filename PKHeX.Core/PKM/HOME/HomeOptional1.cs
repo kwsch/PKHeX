@@ -9,40 +9,32 @@ namespace PKHeX.Core;
 public abstract class HomeOptional1
 {
     // Internal Attributes set on creation
-    protected readonly byte[] Data; // Raw Storage
-    protected readonly int Offset;
+    private readonly Memory<byte> Buffer; // Raw Storage
+    protected Span<byte> Data => Buffer.Span;
 
-    private const int HeaderBias = 3;
+    public const int HeaderSize = 3; // u8 format, u16 length(data[u8])
+    protected abstract HomeGameDataFormat Format { get; }
 
-    protected HomeOptional1(HomeGameDataFormat format, ushort size)
+    protected HomeOptional1(ushort size) => Buffer = new byte[size];
+    protected HomeOptional1(Memory<byte> buffer) => Buffer = buffer;
+
+    protected void EnsureSize(int size)
     {
-        Data = new byte[size + HeaderBias];
-        Offset = HeaderBias;
-
-        Data[0] = (byte)format;
-        WriteUInt16LittleEndian(Data.AsSpan(1, 2), size);
+        if (Buffer.Length != size)
+            throw new ArgumentOutOfRangeException(nameof(size), size, $"Expected size {Buffer.Length} but received {size}.");
     }
 
-    protected HomeOptional1(HomeGameDataFormat format, ushort size, byte[] data, int offset = 0)
+    protected byte[] ToArray() => Data.ToArray();
+    protected int WriteWithHeader(Span<byte> result)
     {
-        // Sanity check input format value with backing data value.
-        if ((HomeGameDataFormat)data[offset] != format)
-            throw new ArgumentOutOfRangeException(nameof(format), format, $"Invalid {nameof(HomeGameDataFormat)} for {format}");
-
-        // Sanity check input structure size with backing data value.
-        var length = ReadUInt16LittleEndian(data.AsSpan(offset + 1));
-        if (length != size)
-            throw new ArgumentOutOfRangeException(nameof(size), length, $"Invalid structure size for {format}");
-
-        Data = data;
-        Offset = HeaderBias + offset;
+        result[0] = (byte)Format;
+        WriteUInt16LittleEndian(result[1..], (ushort)Data.Length);
+        return HeaderSize + WriteWithoutHeader(result[HeaderSize..]);
     }
 
-    protected Span<byte> ToSpan(int size) => Data.AsSpan(Offset - HeaderBias, HeaderBias + size);
-    protected byte[] ToArray(int size) => ToSpan(size).ToArray();
-    protected int CopyTo(Span<byte> result, int size)
+    private int WriteWithoutHeader(Span<byte> result)
     {
-        var span = ToSpan(size);
+        var span = Data;
         span.CopyTo(result);
         return span.Length;
     }

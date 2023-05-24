@@ -380,7 +380,6 @@ namespace PKHeX.WinForms
             // 
             // SAV_EventFlags
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(530, 417);
             Controls.Add(tabControl1);

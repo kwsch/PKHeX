@@ -923,7 +923,6 @@
             // 
             // SAV_SecretBase
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(686, 466);
             Controls.Add(NUD_CapturedRecord);

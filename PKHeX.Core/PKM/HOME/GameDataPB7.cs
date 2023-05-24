@@ -8,59 +8,60 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsolute, IMemoryOT
 {
+    private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PB7;
     private const int SIZE = HomeCrypto.SIZE_1GAME_PB7;
-    private const HomeGameDataFormat Format = HomeGameDataFormat.PB7;
+    protected override HomeGameDataFormat Format => ExpectFormat;
 
-    public GameDataPB7() : base(Format, SIZE) { }
-    public GameDataPB7(byte[] data, int offset = 0) : base(Format, SIZE, data, offset) { }
-    public GameDataPB7 Clone() => new(ToArray(SIZE));
-    public int CopyTo(Span<byte> result) => CopyTo(result, SIZE);
+    public GameDataPB7() : base(SIZE) { }
+    public GameDataPB7(Memory<byte> data) : base(data) => EnsureSize(SIZE);
+    public GameDataPB7 Clone() => new(ToArray());
+    public int WriteTo(Span<byte> result) => WriteWithHeader(result);
 
     #region Structure
 
-    public byte AV_HP  { get => Data[Offset + 0x00]; set => Data[Offset + 0x00] = value; }
-    public byte AV_ATK { get => Data[Offset + 0x01]; set => Data[Offset + 0x01] = value; }
-    public byte AV_DEF { get => Data[Offset + 0x02]; set => Data[Offset + 0x02] = value; }
-    public byte AV_SPE { get => Data[Offset + 0x03]; set => Data[Offset + 0x03] = value; }
-    public byte AV_SPA { get => Data[Offset + 0x04]; set => Data[Offset + 0x04] = value; }
-    public byte AV_SPD { get => Data[Offset + 0x05]; set => Data[Offset + 0x05] = value; }
-    public byte ResortEventState { get => Data[Offset + 0x06]; set => Data[Offset + 0x06] = value; }
+    public byte AV_HP  { get => Data[0x00]; set => Data[0x00] = value; }
+    public byte AV_ATK { get => Data[0x01]; set => Data[0x01] = value; }
+    public byte AV_DEF { get => Data[0x02]; set => Data[0x02] = value; }
+    public byte AV_SPE { get => Data[0x03]; set => Data[0x03] = value; }
+    public byte AV_SPA { get => Data[0x04]; set => Data[0x04] = value; }
+    public byte AV_SPD { get => Data[0x05]; set => Data[0x05] = value; }
+    public byte ResortEventState { get => Data[0x06]; set => Data[0x06] = value; }
 
-    public ushort Move1 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x07)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x07), value); }
-    public ushort Move2 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x09)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x09), value); }
-    public ushort Move3 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0B)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0B), value); }
-    public ushort Move4 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x0D)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x0D), value); }
+    public ushort Move1 { get => ReadUInt16LittleEndian(Data[0x07..]); set => WriteUInt16LittleEndian(Data[0x07..], value); }
+    public ushort Move2 { get => ReadUInt16LittleEndian(Data[0x09..]); set => WriteUInt16LittleEndian(Data[0x09..], value); }
+    public ushort Move3 { get => ReadUInt16LittleEndian(Data[0x0B..]); set => WriteUInt16LittleEndian(Data[0x0B..], value); }
+    public ushort Move4 { get => ReadUInt16LittleEndian(Data[0x0D..]); set => WriteUInt16LittleEndian(Data[0x0D..], value); }
 
-    public int Move1_PP { get => Data[Offset + 0x0F]; set => Data[Offset + 0x0F] = (byte)value; }
-    public int Move2_PP { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = (byte)value; }
-    public int Move3_PP { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = (byte)value; }
-    public int Move4_PP { get => Data[Offset + 0x12]; set => Data[Offset + 0x12] = (byte)value; }
-    public int Move1_PPUps { get => Data[Offset + 0x13]; set => Data[Offset + 0x13] = (byte)value; }
-    public int Move2_PPUps { get => Data[Offset + 0x14]; set => Data[Offset + 0x14] = (byte)value; }
-    public int Move3_PPUps { get => Data[Offset + 0x15]; set => Data[Offset + 0x15] = (byte)value; }
-    public int Move4_PPUps { get => Data[Offset + 0x16]; set => Data[Offset + 0x16] = (byte)value; }
+    public int Move1_PP { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
+    public int Move2_PP { get => Data[0x10]; set => Data[0x10] = (byte)value; }
+    public int Move3_PP { get => Data[0x11]; set => Data[0x11] = (byte)value; }
+    public int Move4_PP { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+    public int Move1_PPUps { get => Data[0x13]; set => Data[0x13] = (byte)value; }
+    public int Move2_PPUps { get => Data[0x14]; set => Data[0x14] = (byte)value; }
+    public int Move3_PPUps { get => Data[0x15]; set => Data[0x15] = (byte)value; }
+    public int Move4_PPUps { get => Data[0x16]; set => Data[0x16] = (byte)value; }
 
-    public ushort RelearnMove1 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x17)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x17), value); }
-    public ushort RelearnMove2 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x19)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x19), value); }
-    public ushort RelearnMove3 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1B)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1B), value); }
-    public ushort RelearnMove4 { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x1D)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x1D), value); }
-    public float HeightAbsolute { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x1F)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x1F), value); }
-    public float WeightAbsolute { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x23)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x23), value); }
+    public ushort RelearnMove1  { get => ReadUInt16LittleEndian(Data[0x17..]); set => WriteUInt16LittleEndian(Data[0x17..], value); }
+    public ushort RelearnMove2  { get => ReadUInt16LittleEndian(Data[0x19..]); set => WriteUInt16LittleEndian(Data[0x19..], value); }
+    public ushort RelearnMove3  { get => ReadUInt16LittleEndian(Data[0x1B..]); set => WriteUInt16LittleEndian(Data[0x1B..], value); }
+    public ushort RelearnMove4  { get => ReadUInt16LittleEndian(Data[0x1D..]); set => WriteUInt16LittleEndian(Data[0x1D..], value); }
+    public float HeightAbsolute { get => ReadSingleLittleEndian(Data[0x1F..]); set => WriteSingleLittleEndian(Data[0x1F..], value); }
+    public float WeightAbsolute { get => ReadSingleLittleEndian(Data[0x23..]); set => WriteSingleLittleEndian(Data[0x23..], value); }
 
-    public byte FieldEventFatigue1 { get => Data[Offset + 0x27]; set => Data[Offset + 0x27] = value; }
-    public byte FieldEventFatigue2 { get => Data[Offset + 0x28]; set => Data[Offset + 0x28] = value; }
-    public byte Fullness { get => Data[Offset + 0x29]; set => Data[Offset + 0x29] = value; }
-    public byte Rank { get => Data[Offset + 0x2A]; set => Data[Offset + 0x2A] = value; }
-    public int OT_Affection { get => Data[Offset + 0x2B]; set => Data[Offset + 0x2B] = (byte)value; }
-    public byte OT_Intensity { get => Data[Offset + 0x2C]; set => Data[Offset + 0x2C] = value; }
-    public byte OT_Memory { get => Data[Offset + 0x2D]; set => Data[Offset + 0x2D] = value; }
-    public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x2E)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x2E), value); }
-    public byte OT_Feeling { get => Data[Offset + 0x30]; set => Data[Offset + 0x30] = value; }
-    public byte Enjoyment { get => Data[Offset + 0x31]; set => Data[Offset + 0x31] = value; }
-    public uint GeoPadding { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x32)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x32), value); }
-    public int Ball { get => Data[Offset + 0x36]; set => Data[Offset + 0x36] = (byte)value; }
-    public int Egg_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x37)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x37), (ushort)value); }
-    public int Met_Location { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x39)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x39), (ushort)value); }
+    public byte FieldEventFatigue1 { get => Data[0x27]; set => Data[0x27] = value; }
+    public byte FieldEventFatigue2 { get => Data[0x28]; set => Data[0x28] = value; }
+    public byte Fullness { get => Data[0x29]; set => Data[0x29] = value; }
+    public byte Rank { get => Data[0x2A]; set => Data[0x2A] = value; }
+    public int OT_Affection { get => Data[0x2B]; set => Data[0x2B] = (byte)value; }
+    public byte OT_Intensity { get => Data[0x2C]; set => Data[0x2C] = value; }
+    public byte OT_Memory { get => Data[0x2D]; set => Data[0x2D] = value; }
+    public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data[0x2E..]); set => WriteUInt16LittleEndian(Data[0x2E..], value); }
+    public byte OT_Feeling { get => Data[0x30]; set => Data[0x30] = value; }
+    public byte Enjoyment { get => Data[0x31]; set => Data[0x31] = value; }
+    public uint GeoPadding { get => ReadUInt32LittleEndian(Data[0x32..]); set => WriteUInt32LittleEndian(Data[0x32..], value); }
+    public int Ball { get => Data[0x36]; set => Data[0x36] = (byte)value; }
+    public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x37..]); set => WriteUInt16LittleEndian(Data[0x37..], (ushort)value); }
+    public int Met_Location { get => ReadUInt16LittleEndian(Data[0x39..]); set => WriteUInt16LittleEndian(Data[0x39..], (ushort)value); }
 
     #endregion
 
@@ -126,6 +127,11 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
         {
             met = z.Met_Location;
             ball = z.Ball;
+        }
+        else if (pkh.DataPK9 is { } g9)
+        {
+            met = g9.Met_Location;
+            ball = g9.Ball;
         }
         if (met == 0)
             return null;

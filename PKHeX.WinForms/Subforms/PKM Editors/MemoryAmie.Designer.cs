@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class MemoryAmie
     {
@@ -854,7 +854,6 @@
             // 
             // MemoryAmie
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             BackColor = System.Drawing.SystemColors.Control;
             ClientSize = new System.Drawing.Size(436, 315);

@@ -10,17 +10,21 @@ public sealed partial class MemoryContext8 : MemoryContext
     public static readonly MemoryContext8 Instance = new();
     private MemoryContext8() { }
 
-    public override IEnumerable<ushort> GetKeyItemParams() => (KeyItemMemoryArgsGen8.Values).SelectMany(z => z).Distinct();
-
-    public override IEnumerable<ushort> GetMemoryItemParams() => Legal.HeldItems_AO.Concat(Legal.HeldItems_SWSH).Distinct()
-        .Concat(GetKeyItemParams())
-        .Concat(ItemStorage6AO.Pouch_TMHM_AO[..100].ToArray())
-        .Where(z => z <= Legal.MaxItemID_8_R2);
+    public override IEnumerable<ushort> GetMemoryItemParams()
+    {
+        var hashSet = new HashSet<ushort>(Legal.HeldItems_SWSH);
+        hashSet.UnionWith(Legal.HeldItems_AO);
+        foreach (var item in KeyItemMemoryArgsAnySpecies)
+            hashSet.Add(item);
+        foreach (var item in ItemStorage6AO.Pouch_TMHM_AO[..100])
+            hashSet.Add(item);
+        return hashSet;
+    }
 
     public override bool CanUseItemGeneric(int item) => true; // todo
 
     public override bool IsUsedKeyItemUnspecific(int item) => false;
-    public override bool IsUsedKeyItemSpecific(int item, ushort species) => KeyItemMemoryArgsGen8.TryGetValue(species, out var value) && value.Contains((ushort)item);
+    public override bool IsUsedKeyItemSpecific(int item, ushort species) => IsKeyItemMemoryArgValid(species, (ushort)item);
     public override bool CanHoldItem(int item) => Legal.HeldItems_SWSH.Contains((ushort)item);
 
     public override bool CanObtainMemoryOT(GameVersion pkmVersion, byte memory) => pkmVersion switch
@@ -81,14 +85,14 @@ public sealed partial class MemoryContext8 : MemoryContext
 
         var arg = (byte)variable;
         if (loc > 255) // gift
-            return memory != 3 || !PossibleGeneralLocations8.Contains(arg);
+            return memory != 3 || !IsGeneralLocation8(arg);
         if (memory == 2 && egg == 0)
             return true;
         if (loc is Encounters8Nest.SharedNest)
-            return !PossibleGeneralLocations8.Contains(arg) || arg is 79; // dangerous place - all locations are Y-Comm locked
-        if (SingleGenLocAreas.TryGetValue((byte)loc, out var value))
+            return !IsGeneralLocation8(arg) || arg is 79; // dangerous place - all locations are Y-Comm locked
+        if (IsSingleGenLocArea(loc, out var value))
             return arg != value;
-        if (MultiGenLocAreas.TryGetValue((byte)loc, out var arr))
+        if (IsMultiGenLocArea(loc, out var arr))
             return !arr.Contains(arg);
         return false;
     }
@@ -128,7 +132,7 @@ public sealed partial class MemoryContext8 : MemoryContext
         return memory switch
         {
             // {0} became {1}’s friend when it came through Link Trade {2}. {4} that {3}.
-            4 when !PossibleGeneralLocations8.Contains(arg) || arg is 79 => true, // dangerous place - all locations are Y-Comm locked
+            4 when !IsGeneralLocation8(arg) || arg is 79 => true, // dangerous place - all locations are Y-Comm locked
 
             // {0} rode a bike with {1} {2}. {4} that {3}.
             32 when arg is not (1 or 8 or 12 or 22 or 33 or 35 or 37 or 40 or 41 or 44 or 47 or 48 or 49 or 50 or 51 or 53 or 65 or 71 or 72 or 75 or 76 or 77 or 78) => true,
@@ -142,7 +146,7 @@ public sealed partial class MemoryContext8 : MemoryContext
             // {0} sat with {1} on a bench {2}. {4} that {3}.
             70 when arg is not (12 or 22 or 28 or 33 or 35 or 37 or 38 or 44 or 53 or 77) => true,
 
-            _ => !PossibleGeneralLocations8.Contains(arg),
+            _ => !IsGeneralLocation8(arg),
         };
     }
 

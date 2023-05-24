@@ -19,28 +19,35 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     public PKH(byte[] data) : base(DecryptHome(data))
     {
-        _coreData = new GameDataCore(Data, 0x10);
-        ReadGameData(Data, CoreDataSize, GameDataSize);
+        var mem = Data.AsMemory(HomeCrypto.SIZE_1HEADER + 2);
+        var core = mem[..CoreDataSize];
+        var side = mem.Slice(core.Length + 2, GameDataSize);
+
+        _coreData = new GameDataCore(core);
+        ReadGameData1(side);
     }
 
-    private void ReadGameData(byte[] data, int coreSize, int gameSize)
+    private void ReadGameData1(Memory<byte> data)
     {
-        var baseOfs = 0x14 + coreSize;
-        var offset = 0;
-        while (offset < gameSize)
+        // Can potentially have no side-game data (GO imports)
+        while (data.Length != 0)
         {
-            var fmt = (HomeGameDataFormat)data[baseOfs + offset];
-            switch (fmt)
-            {
-                case HomeGameDataFormat.PB7: DataPB7 = new GameDataPB7(data, baseOfs + offset); break;
-                case HomeGameDataFormat.PK8: DataPK8 = new GameDataPK8(data, baseOfs + offset); break;
-                case HomeGameDataFormat.PA8: DataPA8 = new GameDataPA8(data, baseOfs + offset); break;
-                case HomeGameDataFormat.PB8: DataPB8 = new GameDataPB8(data, baseOfs + offset); break;
-                default: throw new ArgumentException($"Unknown GameData {fmt}");
-            }
+            var span = data.Span;
+            var format = (HomeGameDataFormat)span[0];
+            var length = ReadUInt16LittleEndian(span[1..]);
+            data = data[HomeOptional1.HeaderSize..];
+            var chunk = data[..length];
+            data = data[chunk.Length..];
 
-            var len = ReadUInt16LittleEndian(data.AsSpan(baseOfs + offset + 1));
-            offset += 3 + len;
+            switch (format)
+            {
+                case HomeGameDataFormat.PB7: DataPB7 = new GameDataPB7(chunk); break;
+                case HomeGameDataFormat.PK8: DataPK8 = new GameDataPK8(chunk); break;
+                case HomeGameDataFormat.PA8: DataPA8 = new GameDataPA8(chunk); break;
+                case HomeGameDataFormat.PB8: DataPB8 = new GameDataPB8(chunk); break;
+                case HomeGameDataFormat.PK9: DataPK9 = new GameDataPK9(chunk); break;
+                default: throw new ArgumentException($"Unknown {nameof(HomeGameDataFormat)} {format}");
+            }
         }
     }
 
@@ -254,22 +261,27 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         if (remainder != 0) // pad to nearest 0x10, fill remainder bytes with value.
             remainder = 0x10 - remainder;
         var result = new byte[length + remainder];
-        result.AsSpan()[^remainder..].Fill((byte)remainder);
+        var span = result.AsSpan(0, length);
+        result.AsSpan(length).Fill((byte)remainder);
 
         // Header and Core are already in the current byte array.
         // Write each part, starting with header and core.
-        int ctr = GameDataStart;
-        Data.AsSpan(0, ctr).CopyTo(result);
-        if (DataPK8 is { } pk8) ctr += pk8.CopyTo(result.AsSpan(ctr));
-        if (DataPB7 is { } pb7) ctr += pb7.CopyTo(result.AsSpan(ctr));
-        if (DataPA8 is { } pa8) ctr += pa8.CopyTo(result.AsSpan(ctr));
-        if (DataPB8 is { } pb8) ctr += pb8.CopyTo(result.AsSpan(ctr));
+        int ctr = HomeCrypto.SIZE_1HEADER + 2;
+        ctr += _coreData.WriteTo(span[ctr..]);
+        var gameDataLengthSpan = span[ctr..];
+        int gameDataStart = (ctr += 2);
+        if (DataPK8 is { } pk8) ctr += pk8.WriteTo(span[ctr..]);
+        if (DataPB7 is { } pb7) ctr += pb7.WriteTo(span[ctr..]);
+        if (DataPA8 is { } pa8) ctr += pa8.WriteTo(span[ctr..]);
+        if (DataPB8 is { } pb8) ctr += pb8.WriteTo(span[ctr..]);
+        if (DataPK9 is { } pk9) ctr += pk9.WriteTo(span[ctr..]);
+        WriteUInt16LittleEndian(gameDataLengthSpan, GameDataSize = (ushort)(ctr - gameDataStart));
 
         // Update metadata to ensure we're a valid object.
         DataVersion = HomeCrypto.Version1;
         EncodedDataSize = (ushort)(result.Length - HomeCrypto.SIZE_1HEADER);
         CoreDataSize = HomeCrypto.SIZE_1CORE;
-        GameDataSize = (ushort)(ctr - GameDataStart);
+        Data.AsSpan(0, HomeCrypto.SIZE_1HEADER + 2).CopyTo(span); // Copy updated header & CoreData length.
 
         return result;
     }
@@ -279,16 +291,18 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         get
         {
             var length = GameDataStart;
-            if (DataPK8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PK8;
-            if (DataPB7 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PB7;
-            if (DataPA8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PA8;
-            if (DataPB8 is not null) length += 3 + HomeCrypto.SIZE_1GAME_PB8;
+            if (DataPK8 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PK8;
+            if (DataPB7 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PB7;
+            if (DataPA8 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PA8;
+            if (DataPB8 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PB8;
+            if (DataPK9 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PK9;
             return length;
         }
     }
 
     public override PKH Clone() => new((byte[])Data.Clone())
     {
+        DataPK9 = DataPK9?.Clone(),
         DataPK8 = DataPK8?.Clone(),
         DataPA8 = DataPA8?.Clone(),
         DataPB8 = DataPB8?.Clone(),

@@ -4,7 +4,8 @@ public abstract class Encount5 : SaveBlock<SAV5>
 {
     protected Encount5(SAV5 SAV, int offset) : base(SAV) => Offset = offset;
 
-    public Roamer5 Roamer => new(Data, Offset);
+    public Roamer5 Roamer1 => new(Data, Offset);
+    public Roamer5 Roamer2 => new(Data, Offset + Roamer5.SIZE);
 
     public abstract byte SwarmSeed { get; set; }
     public abstract uint SwarmMaxCountModulo { get; }

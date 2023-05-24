@@ -372,6 +372,9 @@ public sealed class DisplaySettings
 
     [LocalizedDescription("Focus border indentation for custom drawn image controls.")]
     public int FocusBorderDeflate { get; set; } = 1;
+
+    [LocalizedDescription("Disables the GUI scaling based on Dpi on program startup, falling back to font scaling.")]
+    public bool DisableScalingDpi { get; set; }
 }
 
 [Serializable]

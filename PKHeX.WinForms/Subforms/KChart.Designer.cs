@@ -217,7 +217,6 @@ namespace PKHeX.WinForms
             // 
             // KChart
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             BackColor = System.Drawing.Color.White;
             ClientSize = new System.Drawing.Size(1077, 615);

@@ -13,6 +13,7 @@ public sealed class SlotViewInfo<T> : IEquatable<T> where T : class
 
     public PKM ReadCurrent() => Slot.Read(View.SAV);
     public bool CanWriteTo() => Slot.CanWriteTo(View.SAV);
+    public bool IsEmpty() => Slot.IsEmpty(View.SAV);
     public WriteBlockedMessage CanWriteTo(PKM pk) => Slot.CanWriteTo(View.SAV, pk);
 
     public SlotViewInfo(ISlotInfo slot, ISlotViewer<T> view)

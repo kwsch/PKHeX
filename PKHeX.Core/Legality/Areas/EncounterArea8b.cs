@@ -79,7 +79,7 @@ public sealed record EncounterArea8b : EncounterArea
         return false;
     }
 
-    public override IEnumerable<EncounterSlot8b> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot8b> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         foreach (var slot in Slots)
         {

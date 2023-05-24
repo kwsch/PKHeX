@@ -42,7 +42,6 @@ namespace PKHeX.WinForms
             // 
             // BallBrowser
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             AutoSize = true;
             AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;

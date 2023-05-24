@@ -62,7 +62,7 @@ public sealed record EncounterArea4 : EncounterArea
         return new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
     }
 
-    public override IEnumerable<EncounterSlot4> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public IEnumerable<EncounterSlot4> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
     {
         if (pk.Format != 4) // Met Location and Met Level are changed on PK4->PK5
             return GetSlotsFuzzy(chain);

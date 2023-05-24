@@ -98,7 +98,6 @@ namespace PKHeX.WinForms
             // 
             // TechRecordEditor
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(245, 438);
             Controls.Add(CLB_Flags);
