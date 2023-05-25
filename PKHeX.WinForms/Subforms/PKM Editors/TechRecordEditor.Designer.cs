@@ -35,12 +35,14 @@ namespace PKHeX.WinForms
             B_All = new System.Windows.Forms.Button();
             tipName = new System.Windows.Forms.ToolTip(components);
             CLB_Flags = new System.Windows.Forms.CheckedListBox();
+            B_SortID = new System.Windows.Forms.Button();
+            B_SortName = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_Save.Location = new System.Drawing.Point(126, 398);
+            B_Save.Location = new System.Drawing.Point(126, 417);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
             B_Save.Size = new System.Drawing.Size(105, 27);
@@ -52,7 +54,7 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_Cancel.Location = new System.Drawing.Point(14, 398);
+            B_Cancel.Location = new System.Drawing.Point(14, 417);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
             B_Cancel.Size = new System.Drawing.Size(105, 27);
@@ -64,7 +66,7 @@ namespace PKHeX.WinForms
             // B_None
             // 
             B_None.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_None.Location = new System.Drawing.Point(126, 365);
+            B_None.Location = new System.Drawing.Point(126, 384);
             B_None.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_None.Name = "B_None";
             B_None.Size = new System.Drawing.Size(105, 27);
@@ -76,7 +78,7 @@ namespace PKHeX.WinForms
             // B_All
             // 
             B_All.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            B_All.Location = new System.Drawing.Point(14, 365);
+            B_All.Location = new System.Drawing.Point(14, 384);
             B_All.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_All.Name = "B_All";
             B_All.Size = new System.Drawing.Size(105, 27);
@@ -93,13 +95,39 @@ namespace PKHeX.WinForms
             CLB_Flags.Location = new System.Drawing.Point(14, 14);
             CLB_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CLB_Flags.Name = "CLB_Flags";
-            CLB_Flags.Size = new System.Drawing.Size(216, 328);
+            CLB_Flags.Size = new System.Drawing.Size(216, 312);
             CLB_Flags.TabIndex = 6;
+            // 
+            // B_SortID
+            // 
+            B_SortID.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            B_SortID.Location = new System.Drawing.Point(14, 351);
+            B_SortID.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_SortID.Name = "B_SortID";
+            B_SortID.Size = new System.Drawing.Size(105, 27);
+            B_SortID.TabIndex = 7;
+            B_SortID.Text = "Numerical";
+            B_SortID.UseVisualStyleBackColor = true;
+            B_SortID.Click += B_SortID_Click;
+            // 
+            // B_SortName
+            // 
+            B_SortName.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            B_SortName.Location = new System.Drawing.Point(127, 351);
+            B_SortName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            B_SortName.Name = "B_SortName";
+            B_SortName.Size = new System.Drawing.Size(105, 27);
+            B_SortName.TabIndex = 8;
+            B_SortName.Text = "Alphabetical";
+            B_SortName.UseVisualStyleBackColor = true;
+            B_SortName.Click += B_SortName_Click;
             // 
             // TechRecordEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(245, 438);
+            ClientSize = new System.Drawing.Size(245, 457);
+            Controls.Add(B_SortName);
+            Controls.Add(B_SortID);
             Controls.Add(CLB_Flags);
             Controls.Add(B_None);
             Controls.Add(B_All);
@@ -122,5 +150,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_All;
         private System.Windows.Forms.ToolTip tipName;
         private System.Windows.Forms.CheckedListBox CLB_Flags;
+        private System.Windows.Forms.Button B_SortID;
+        private System.Windows.Forms.Button B_SortName;
     }
 }
