@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -19,28 +18,24 @@ public static class EvolutionSet1
             : new EvolutionMethod((EvolutionType)method, species, Argument: arg);
     }
 
-    public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data, int maxSpecies)
+    public static EvolutionMethod[][] GetArray(ReadOnlySpan<byte> data, int maxSpecies)
     {
-        var evos = new EvolutionMethod[maxSpecies + 1][];
-        int ofs = 0;
+        var result = new EvolutionMethod[maxSpecies + 1][];
+        for (int i = 0, offset = 0; i < result.Length; i++)
+            result[i] = GetEntry(data, ref offset);
+        return result;
+    }
+
+    private static EvolutionMethod[] GetEntry(ReadOnlySpan<byte> data, ref int offset)
+    {
+        var count = data[offset++];
+        if (count == 0)
+            return Array.Empty<EvolutionMethod>();
+
         const int bpe = 3;
-        for (int i = 0; i < evos.Length; i++)
-        {
-            int count = data[ofs];
-            ofs++;
-            if (count == 0)
-            {
-                evos[i] = Array.Empty<EvolutionMethod>();
-                continue;
-            }
-            var m = new EvolutionMethod[count];
-            for (int j = 0; j < m.Length; j++)
-            {
-                m[j] = GetMethod(data.Slice(ofs, bpe));
-                ofs += bpe;
-            }
-            evos[i] = m;
-        }
-        return evos;
+        var result = new EvolutionMethod[count];
+        for (int i = 0; i < result.Length; i++, offset += bpe)
+            result[i] = GetMethod(data.Slice(offset, bpe));
+        return result;
     }
 }

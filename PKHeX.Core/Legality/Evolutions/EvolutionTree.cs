@@ -54,7 +54,7 @@ public sealed class EvolutionTree
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
-    private readonly IReadOnlyList<EvolutionMethod[]> Entries;
+    private readonly EvolutionMethod[][] Entries;
     private readonly IPersonalTable Personal;
     private readonly int MaxSpeciesTree;
     private readonly EvolutionReverseLookup Lineage;
@@ -135,7 +135,7 @@ public sealed class EvolutionTree
         }
     }
 
-    private static IReadOnlyList<EvolutionMethod[]> GetEntries(ReadOnlySpan<byte> data, GameVersion game) => game switch
+    private static EvolutionMethod[][] GetEntries(ReadOnlySpan<byte> data, GameVersion game) => game switch
     {
         Gen1 => EvolutionSet1.GetArray(data, 151),
         Gen2 => EvolutionSet1.GetArray(data, 251),
@@ -145,7 +145,7 @@ public sealed class EvolutionTree
         _ => throw new ArgumentOutOfRangeException(nameof(game)),
     };
 
-    private static IReadOnlyList<EvolutionMethod[]> GetEntries(BinLinkerAccessor data, GameVersion game) => game switch
+    private static EvolutionMethod[][] GetEntries(BinLinkerAccessor data, GameVersion game) => game switch
     {
         Gen6 => EvolutionSet6.GetArray(data),
         Gen7 or Gen8 or BDSP or Gen9 => EvolutionSet7.GetArray(data, false),

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -13,15 +12,20 @@ public static class EvolutionSet6
     internal static bool IsMethodWithArg(byte method) => (0b100000011111110000000101000000 & (1 << method)) != 0;
     private const int SIZE = 6;
 
-    private static EvolutionMethod[] GetMethods(ReadOnlySpan<byte> data)
+    public static EvolutionMethod[][] GetArray(BinLinkerAccessor data)
     {
-        var evos = new EvolutionMethod[data.Length / SIZE];
-        for (int i = 0; i < data.Length; i += SIZE)
-        {
-            var entry = data.Slice(i, SIZE);
-            evos[i/SIZE] = GetMethod(entry);
-        }
-        return evos;
+        var result = new EvolutionMethod[data.Length][];
+        for (int i = 0; i < result.Length; i++)
+            result[i] = GetEntry(data[i]);
+        return result;
+    }
+
+    private static EvolutionMethod[] GetEntry(ReadOnlySpan<byte> data)
+    {
+        var result = new EvolutionMethod[data.Length / SIZE];
+        for (int i = 0, offset = 0; i < result.Length; i++, offset += SIZE)
+            result[i] = GetMethod(data.Slice(offset, SIZE));
+        return result;
     }
 
     private static EvolutionMethod GetMethod(ReadOnlySpan<byte> entry)
@@ -35,13 +39,5 @@ public static class EvolutionSet6
         var type = (EvolutionType)method;
         var lvlup = type.IsLevelUpRequired() ? (byte)1 : (byte)0;
         return new EvolutionMethod(type, species, Argument: arg, Level: (byte)lvl, LevelUp: lvlup);
-    }
-
-    public static IReadOnlyList<EvolutionMethod[]> GetArray(BinLinkerAccessor data)
-    {
-        var evos = new EvolutionMethod[data.Length][];
-        for (int i = 0; i < evos.Length; i++)
-            evos[i] = GetMethods(data[i]);
-        return evos;
     }
 }

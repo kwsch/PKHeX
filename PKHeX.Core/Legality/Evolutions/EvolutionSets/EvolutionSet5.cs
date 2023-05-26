@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -28,26 +27,24 @@ public static class EvolutionSet5
     private const int entries = 7; // amount of entries per species
     private const int size = entries * bpe; // bytes per species entry
 
-    public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data)
+    public static EvolutionMethod[][] GetArray(ReadOnlySpan<byte> data)
     {
-        var evos = new EvolutionMethod[data.Length / size][];
-        for (int i = 0; i < evos.Length; i++)
-        {
-            int offset = i * size;
-            var rawEntries = data.Slice(offset, size);
-            var count = ScanCountEvolutions(rawEntries);
-            if (count == 0)
-            {
-                evos[i] = Array.Empty<EvolutionMethod>();
-                continue;
-            }
+        var result = new EvolutionMethod[data.Length / size][];
+        for (int i = 0, offset = 0; i < result.Length; i++, offset += size)
+            result[i] = GetEntry(data.Slice(offset, size));
+        return result;
+    }
 
-            var set = new EvolutionMethod[count];
-            for (int j = 0; j < set.Length; j++)
-                set[j] = GetMethod(rawEntries.Slice(j * bpe, bpe));
-            evos[i] = set;
-        }
-        return evos;
+    private static EvolutionMethod[] GetEntry(ReadOnlySpan<byte> data)
+    {
+        var count = ScanCountEvolutions(data);
+        if (count == 0)
+            return Array.Empty<EvolutionMethod>();
+
+        var result = new EvolutionMethod[count];
+        for (int i = 0, offset = 0; i < result.Length; i++, offset += bpe)
+            result[i] = GetMethod(data.Slice(offset, bpe));
+        return result;
     }
 
     private static int ScanCountEvolutions(ReadOnlySpan<byte> data)

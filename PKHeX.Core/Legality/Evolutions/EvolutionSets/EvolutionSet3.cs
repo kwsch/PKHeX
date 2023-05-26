@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -45,37 +44,43 @@ public static class EvolutionSet3
         }
     }
 
-    public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data)
+    public static EvolutionMethod[][] GetArray(ReadOnlySpan<byte> data)
     {
-        var evos = new EvolutionMethod[Legal.MaxSpeciesID_3 + 1][];
-        evos[0] = Array.Empty<EvolutionMethod>();
+        var result = new EvolutionMethod[Legal.MaxSpeciesID_3 + 1][];
+        result[0] = Array.Empty<EvolutionMethod>();
         for (ushort i = 1; i <= Legal.MaxSpeciesIndex_3; i++)
         {
             int g4species = SpeciesConverter.GetNational3(i);
-            if (g4species == 0)
-                continue;
-
-            const int maxCount = 5;
-            const int size = 8;
-
-            int offset = i * (maxCount * size);
-            int count = 0;
-            for (; count < maxCount; count++)
-            {
-                if (data[offset + (count * size)] == 0)
-                    break;
-            }
-            if (count == 0)
-            {
-                evos[g4species] = Array.Empty<EvolutionMethod>();
-                continue;
-            }
-
-            var set = new EvolutionMethod[count];
-            for (int j = 0; j < set.Length; j++)
-                set[j] = GetMethod(data.Slice(offset + (j * size), size));
-            evos[g4species] = set;
+            if (g4species != 0)
+                result[g4species] = GetEntry(data, i);
         }
-        return evos;
+        return result;
+    }
+
+    private const int maxCount = 5;
+    private const int size = 8;
+
+    private static EvolutionMethod[] GetEntry(ReadOnlySpan<byte> data, ushort index)
+    {
+        var span = data.Slice(index * (maxCount * size), maxCount * size);
+        int count = ScanCountEvolutions(span);
+
+        if (count == 0)
+            return Array.Empty<EvolutionMethod>();
+
+        var result = new EvolutionMethod[count];
+        for (int i = 0, offset = 0; i < result.Length; i++, offset += size)
+            result[i] = GetMethod(span.Slice(offset, size));
+        return result;
+    }
+
+    private static int ScanCountEvolutions(ReadOnlySpan<byte> span)
+    {
+        for (int count = 0; count < maxCount; count++)
+        {
+            if (span[count * size] == 0)
+                return count;
+        }
+        return maxCount;
     }
 }
