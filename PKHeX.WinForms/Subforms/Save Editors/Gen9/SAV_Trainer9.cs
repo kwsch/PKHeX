@@ -325,23 +325,16 @@ public partial class SAV_Trainer9 : Form
 
     private void B_UnlockClothing_Click(object sender, EventArgs e)
     {
-        int added = 0;
-        switch(CB_Fashion.SelectedIndex)
+        var accessor = SAV.Accessor;
+        var added = CB_Fashion.SelectedIndex switch
         {
-            case 0:
-                added += PlayerFashionUnlock9.UnlockBase(SAV.Accessor, SAV.Gender);
-                break;
-            case 1:
-                added += PlayerFashionUnlock9.UnlockExtras(SAV.Accessor);
-                break;
-            case 2:
-                added += PlayerFashionUnlock9.UnlockPreorder(SAV.Accessor, SAV.Gender);
-                break;
-            case 3:
-                added += PlayerFashionUnlock9.UnlockPortal(SAV.Accessor);
-                break;
-        }
-        DialogResult res = MessageBox.Show(string.Format("Added {0} clothing options.", added), "Unlock Clothing", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            0 => PlayerFashionUnlock9.UnlockBase(accessor, SAV.Gender),
+            1 => PlayerFashionUnlock9.UnlockExtras(accessor),
+            2 => PlayerFashionUnlock9.UnlockPreorder(accessor, SAV.Gender),
+            3 => PlayerFashionUnlock9.UnlockPortal(accessor),
+            _ => throw new Exception("Invalid fashion type."),
+        };
+        WinFormsUtil.Alert(string.Format(MessageStrings.MsgClothingAdded, added));
         System.Media.SystemSounds.Asterisk.Play();
     }
 }
