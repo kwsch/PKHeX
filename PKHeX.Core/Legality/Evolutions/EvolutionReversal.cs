@@ -11,6 +11,7 @@ public static class EvolutionReversal
     /// Reverses from current state to see what evolutions the <see cref="pk"/> may have existed as.
     /// </summary>
     /// <param name="lineage">Evolution Method lineage reversal object</param>
+    /// <param name="evos">Result storage</param>
     /// <param name="species">Species to devolve from</param>
     /// <param name="form">Form to devolve from</param>
     /// <param name="pk">Entity reference to sanity check evolutions with</param>
@@ -20,7 +21,7 @@ public static class EvolutionReversal
     /// <param name="skipChecks">Option to bypass some evolution criteria</param>
     /// <param name="stopSpecies">Species ID that should be the last node, if at all.</param>
     /// <returns>Reversed evolution lineage, with the lowest index being the current species-form.</returns>
-    public static EvoCriteria[] Reverse(this IEvolutionLookup lineage, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
+    public static int Reverse(this IEvolutionLookup lineage, Span<EvoCriteria> evos, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
     {
         // Sometimes we have to sanitize the inputs.
         switch (species)
@@ -31,8 +32,6 @@ public static class EvolutionReversal
         }
 
         // Store our results -- trim at the end when we place it on the heap.
-        const int maxEvolutions = 3;
-        Span<EvoCriteria> evos = stackalloc EvoCriteria[maxEvolutions];
 
         var lvl = levelMax; // highest level, any level-up method will decrease.
         evos[0] = new EvoCriteria { Species = species, Form = form, LevelMax = lvl }; // current species-form
@@ -98,7 +97,7 @@ public static class EvolutionReversal
         // Rectify minimum levels
         RectifyMinimumLevels(result);
 
-        return result.ToArray();
+        return ctr;
     }
 
     private static void RectifyMinimumLevels(Span<EvoCriteria> result)

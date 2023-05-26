@@ -181,7 +181,10 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
     {
         if (species is (int)Species.Dialga or (int)Species.Palkia or (int)Species.Arceus)
             form = 0; // PLA forms; play nice for yielding SW/SH context
-        return tree.GetExplicitLineage(species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks, enc.Species);
+
+        Span<EvoCriteria> result = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        var count = tree.GetExplicitLineage(result, species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks, enc.Species);
+        return result[..count].ToArray();
     }
 
     private static EvolutionTree GetTree(PreferredGroup group) => group switch

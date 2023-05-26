@@ -13,6 +13,7 @@ namespace PKHeX.Core;
 /// </remarks>
 public sealed class EvolutionTree
 {
+    public const int MaxEvolutions = 3;
     public static readonly EvolutionTree Evolves1 = new(GetResource("rby"), Gen1, PersonalTable.Y, MaxSpeciesID_1);
     public static readonly EvolutionTree Evolves2 = new(GetResource("gsc"), Gen2, PersonalTable.C, MaxSpeciesID_2);
     public static readonly EvolutionTree Evolves3 = new(GetResource("g3"), Gen3, PersonalTable.RS, MaxSpeciesID_3);
@@ -214,7 +215,9 @@ public sealed class EvolutionTree
         ushort species = pk.Species;
         byte form = pk.Form;
 
-        return GetExplicitLineage(species, form, pk, levelMin, levelMax, maxSpeciesOrigin, skipChecks, stopSpecies);
+        Span<EvoCriteria> result = stackalloc EvoCriteria[MaxEvolutions];
+        var count = GetExplicitLineage(result, species, form, pk, levelMin, levelMax, maxSpeciesOrigin, skipChecks, stopSpecies);
+        return result[..count].ToArray();
     }
 
     private static int GetMaxSpeciesOrigin(PKM pk)
@@ -316,6 +319,7 @@ public sealed class EvolutionTree
     /// <summary>
     /// Generates the reverse evolution path for the input <see cref="pk"/>.
     /// </summary>
+    /// <param name="result">Result storage</param>
     /// <param name="species">Entity Species to begin the chain</param>
     /// <param name="form">Entity Form to begin the chain</param>
     /// <param name="pk">Entity data</param>
@@ -324,26 +328,23 @@ public sealed class EvolutionTree
     /// <param name="maxSpeciesID">Clamp for maximum species ID</param>
     /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
     /// <param name="stopSpecies">Final species to stop at, if known</param>
-    public EvoCriteria[] GetExplicitLineage(ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
+    /// <returns>Count of entries filled.</returns>
+    public int GetExplicitLineage(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
     {
         if (pk.IsEgg && !skipChecks)
         {
-            return new[]
-            {
-                new EvoCriteria{ Species = species, Form = form, LevelMax = levelMax, LevelMin = levelMax },
-            };
+            result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = levelMax, LevelMin = levelMax };
+            return 1;
         }
 
         // Shedinja's evolution case can be a little tricky; hard-code handling.
         if (species == (int)Species.Shedinja && levelMax >= 20 && (!pk.HasOriginalMetLocation || levelMin < levelMax))
         {
             var min = Math.Max(levelMin, (byte)20);
-            return new[]
-            {
-                new EvoCriteria { Species = (ushort)Species.Shedinja, LevelMax = levelMax, LevelMin = min, Method = EvolutionType.LevelUp },
-                new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = levelMax, LevelMin = levelMin },
-            };
+            result[0] = new EvoCriteria { Species = (ushort)Species.Shedinja, LevelMax = levelMax, LevelMin = min, Method = EvolutionType.LevelUp };
+            result[1] = new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = levelMax, LevelMin = levelMin };
+            return 2;
         }
-        return Lineage.Reverse(species, form, pk, levelMin, levelMax, maxSpeciesID, skipChecks, stopSpecies);
+        return Lineage.Reverse(result, species, form, pk, levelMin, levelMax, maxSpeciesID, skipChecks, stopSpecies);
     }
 }
