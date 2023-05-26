@@ -28,13 +28,17 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             B_Save = new System.Windows.Forms.Button();
             B_Cancel = new System.Windows.Forms.Button();
             B_None = new System.Windows.Forms.Button();
             B_All = new System.Windows.Forms.Button();
-            tipName = new System.Windows.Forms.ToolTip(components);
-            CLB_Flags = new System.Windows.Forms.CheckedListBox();
+            dgv = new System.Windows.Forms.DataGridView();
+            HasFlag = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            Type = new System.Windows.Forms.DataGridViewImageColumn();
+            TypeInt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            MoveName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
             // B_Save
@@ -85,22 +89,79 @@ namespace PKHeX.WinForms
             B_All.UseVisualStyleBackColor = true;
             B_All.Click += B_All_Click;
             // 
-            // CLB_Flags
+            // dgv
             // 
-            CLB_Flags.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            CLB_Flags.CheckOnClick = true;
-            CLB_Flags.FormattingEnabled = true;
-            CLB_Flags.Location = new System.Drawing.Point(14, 14);
-            CLB_Flags.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            CLB_Flags.Name = "CLB_Flags";
-            CLB_Flags.Size = new System.Drawing.Size(216, 328);
-            CLB_Flags.TabIndex = 6;
+            dgv.AllowUserToAddRows = false;
+            dgv.AllowUserToDeleteRows = false;
+            dgv.AllowUserToResizeColumns = false;
+            dgv.AllowUserToResizeRows = false;
+            dgv.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            dgv.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { HasFlag, Index, Type, TypeInt, MoveName });
+            dgv.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            dgv.Location = new System.Drawing.Point(3, 1);
+            dgv.MultiSelect = false;
+            dgv.Name = "dgv";
+            dgv.RowHeadersVisible = false;
+            dgv.RowTemplate.Height = 25;
+            dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            dgv.ShowEditingIcon = false;
+            dgv.Size = new System.Drawing.Size(240, 359);
+            dgv.TabIndex = 6;
+            dgv.CellClick += ClickCell;
+            dgv.ColumnHeaderMouseClick += SortColumn;
+            dgv.KeyDown += PressKeyCell;
+            // 
+            // HasFlag
+            // 
+            HasFlag.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            HasFlag.Frozen = true;
+            HasFlag.HeaderText = "";
+            HasFlag.Name = "HasFlag";
+            HasFlag.ReadOnly = true;
+            HasFlag.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            HasFlag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            HasFlag.Width = 19;
+            // 
+            // Index
+            // 
+            Index.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            Index.HeaderText = "";
+            Index.Name = "Index";
+            Index.ReadOnly = true;
+            Index.Width = 19;
+            // 
+            // Type
+            // 
+            Type.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            Type.HeaderText = "";
+            Type.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom;
+            Type.Name = "Type";
+            Type.ReadOnly = true;
+            Type.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            Type.Width = 5;
+            // 
+            // TypeInt
+            // 
+            TypeInt.HeaderText = "";
+            TypeInt.Name = "TypeInt";
+            TypeInt.ReadOnly = true;
+            TypeInt.Visible = false;
+            // 
+            // MoveName
+            // 
+            MoveName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            MoveName.HeaderText = "";
+            MoveName.Name = "MoveName";
+            MoveName.ReadOnly = true;
             // 
             // TechRecordEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             ClientSize = new System.Drawing.Size(245, 438);
-            Controls.Add(CLB_Flags);
+            Controls.Add(dgv);
             Controls.Add(B_None);
             Controls.Add(B_All);
             Controls.Add(B_Cancel);
@@ -112,6 +173,7 @@ namespace PKHeX.WinForms
             Name = "TechRecordEditor";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             Text = "TR Relearn Editor";
+            ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);
         }
 
@@ -120,7 +182,11 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.Button B_None;
         private System.Windows.Forms.Button B_All;
-        private System.Windows.Forms.ToolTip tipName;
-        private System.Windows.Forms.CheckedListBox CLB_Flags;
+        private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn HasFlag;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Index;
+        private System.Windows.Forms.DataGridViewImageColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TypeInt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MoveName;
     }
 }
