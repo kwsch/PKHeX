@@ -96,14 +96,14 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KLastGreenPosition = 0x5C6F8291; // PlayerSave_LastGreenPos
 
     // Fashion
-    private const uint KFashionUnlockedEyewear = 0xCBA20ED5; // 1000-1999
-    private const uint KFashionUnlockedGloves = 0x581667B1; // 2000-2999
-    private const uint KFashionUnlockedBag = 0x5D6F8110; // 3000-3999
-    private const uint KFashionUnlockedFootwear = 0x0221A618; // 4000-4999
-    private const uint KFashionUnlockedHeadwear = 0x860CD8FB; // 5000-5999
-    private const uint KFashionUnlockedLegwear = 0xD186222E; // 6000-6999
-    private const uint KFashionUnlockedUniform = 0x78FF2CB2; // 7000-7999
-    private const uint KFashionUnlockedPhoneCase = 0xED0AC675; // 8000-8999
+    public const uint KFashionUnlockedEyewear = 0xCBA20ED5; // 1000-1999
+    public const uint KFashionUnlockedGloves = 0x581667B1; // 2000-2999
+    public const uint KFashionUnlockedBag = 0x5D6F8110; // 3000-3999
+    public const uint KFashionUnlockedFootwear = 0x0221A618; // 4000-4999
+    public const uint KFashionUnlockedHeadwear = 0x860CD8FB; // 5000-5999
+    public const uint KFashionUnlockedLegwear = 0xD186222E; // 6000-6999
+    public const uint KFashionUnlockedUniform = 0x78FF2CB2; // 7000-7999
+    public const uint KFashionUnlockedPhoneCase = 0xED0AC675; // 8000-8999
 
     // Profile Picture
     public const uint KPictureProfileCurrentWidth = 0xFEAA87DA;

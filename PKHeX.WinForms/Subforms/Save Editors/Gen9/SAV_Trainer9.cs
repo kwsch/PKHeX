@@ -43,6 +43,8 @@ public partial class SAV_Trainer9 : Form
         GetTextBoxes();
         LoadMap();
 
+        CB_Fashion.SelectedIndex = 0;
+
         Loading = false;
     }
 
@@ -320,4 +322,19 @@ public partial class SAV_Trainer9 : Form
     private void P_CurrPhoto_Click(object sender, EventArgs e) => IMG_Save(P_CurrPhoto.Image, "current_photo");
     private void P_CurrIcon_Click(object sender, EventArgs e) => IMG_Save(P_CurrIcon.Image, "current_icon");
     private void P_InitialIcon_Click(object sender, EventArgs e) => IMG_Save(P_InitialIcon.Image, "initial_icon");
+
+    private void B_UnlockClothing_Click(object sender, EventArgs e)
+    {
+        var accessor = SAV.Accessor;
+        var added = CB_Fashion.SelectedIndex switch
+        {
+            0 => PlayerFashionUnlock9.UnlockBase(accessor, SAV.Gender),
+            1 => PlayerFashionUnlock9.UnlockExtras(accessor),
+            2 => PlayerFashionUnlock9.UnlockPreorder(accessor, SAV.Gender),
+            3 => PlayerFashionUnlock9.UnlockPortal(accessor),
+            _ => throw new Exception("Invalid fashion type."),
+        };
+        WinFormsUtil.Alert(string.Format(MessageStrings.MsgClothingAdded, added));
+        System.Media.SystemSounds.Asterisk.Play();
+    }
 }
