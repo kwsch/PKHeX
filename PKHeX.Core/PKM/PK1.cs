@@ -81,9 +81,9 @@ public sealed class PK1 : GBPKML, IPersonalType
 
     public static bool IsCatchRateHeldItem(byte rate) => rate == 0 || Array.IndexOf(Legal.HeldItems_GSC, rate) >= 0;
 
-    private static bool IsCatchRatePreEvolutionRate(ushort baseSpecies, int finalSpecies, byte rate)
+    private static bool IsCatchRatePreEvolutionRate(int baseSpecies, int finalSpecies, byte rate)
     {
-        for (ushort species = baseSpecies; species <= finalSpecies; species++)
+        for (int species = baseSpecies; species <= finalSpecies; species++)
         {
             if (rate == PersonalTable.RB[species].CatchRate || rate == PersonalTable.Y[species].CatchRate)
                 return true;
@@ -118,9 +118,12 @@ public sealed class PK1 : GBPKML, IPersonalType
         if (species == (int)Core.Species.Pikachu && rate == 0xA3) // Light Ball (starter)
             return true;
 
-        var table = EvolutionTree.Evolves1;
-        var baby = table.GetBaseSpeciesForm(species, 0);
-        return IsCatchRatePreEvolutionRate(baby.Species, species, rate);
+        // Get de-evolution steps we should check for.
+        var stage = PersonalInfo1.GetEvolutionStage(species);
+        // For Eevee-lutions, Eevee evolves to (134,135,136), which are (1,1,1). All 3 have the same catch rate as Eevee.
+        // In the event the current species is 135 or 136, we'd never check Eevee with this logic, but they're all 45.
+        var baby = species - stage;
+        return IsCatchRatePreEvolutionRate(baby, species, rate);
     }
 
     public override int Version { get => (int)GameVersion.RBY; set { } }

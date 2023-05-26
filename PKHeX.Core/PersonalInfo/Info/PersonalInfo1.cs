@@ -89,4 +89,36 @@ public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
                 result[moves[index]] = true;
         }
     }
+
+    // 0-2 to indicate how many steps down to get the base species ID.
+    private static ReadOnlySpan<byte> EvoStages => new byte[]
+    {
+        0, 0, 1, 2, 0, 1, 2, 0, 1, 2,
+        0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+        1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+        1, 2, 0, 1, 2, 0, 1, 0, 1, 0,
+        1, 0, 1, 0, 1, 2, 0, 1, 0, 1,
+        0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+        0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+        1, 2, 0, 1, 0, 1, 2, 0, 1, 0,
+        1, 0, 1, 0, 0, 1, 0, 1, 0, 1,
+        0, 1, 0, 1, 2, 0, 0, 1, 0, 1,
+        0, 1, 0, 1, 0, 1, 0, 0, 0, 0,
+        1, 0, 1, 0, 0, 0, 0, 1, 0, 1,
+        0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 0, 0, 0, 1, 1, 1, 0, 0, 1,
+        0, 1, 0, 0, 0, 0, 0, 0, 1, 2,
+    };
+
+    /// <summary>
+    /// Gets the amount of times a species has evolved from the base species.
+    /// </summary>
+    /// <param name="species">Current species</param>
+    /// <returns>Baby species</returns>
+    public static int GetEvolutionStage(int species)
+    {
+        if ((uint)species >= EvoStages.Length)
+            return 0;
+        return EvoStages[species];
+    }
 }
