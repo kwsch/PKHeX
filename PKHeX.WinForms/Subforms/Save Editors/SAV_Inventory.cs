@@ -197,9 +197,13 @@ public partial class SAV_Inventory : Form
 
     private void GetBag(DataGridView dgv, InventoryPouch pouch)
     {
+        var valid = pouch.GetAllItems();
         for (int i = 0; i < dgv.Rows.Count; i++)
         {
             var item = pouch.Items[i];
+            if (item.Index != 0 && !valid.Contains((ushort)item.Index) && !Main.HaX)
+                item = pouch.Items[i] = pouch.GetEmpty();
+
             var cells = dgv.Rows[i].Cells;
             cells[ColumnItem].Value = itemlist[item.Index];
             cells[ColumnCount].Value = item.Count;
