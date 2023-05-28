@@ -96,10 +96,10 @@ public static class EncounterOrigin
 
     private static int GetLevelOriginMax(PKM pk, bool hasMet)
     {
-        var met = pk.Met_Level;
         if (hasMet)
             return pk.CurrentLevel;
 
+        var met = pk.Met_Level;
         int generation = pk.Generation;
         if (generation >= 4)
             return met;

@@ -6,7 +6,6 @@ public sealed class EvolutionGroup9 : IEvolutionGroup
 {
     public static readonly EvolutionGroup9 Instance = new();
     private static readonly EvolutionTree Tree9  = EvolutionTree.Evolves9;
-    private const int MaxSpecies = Legal.MaxSpeciesID_9;
     private const int Generation = 9;
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => null;

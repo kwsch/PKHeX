@@ -6,7 +6,6 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
 {
     public static readonly EvolutionGroup7 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves7;
-    private const int MaxSpecies = Legal.MaxSpeciesID_7_USUM;
     private const int Generation = 7;
     private static PersonalTable7 Personal => PersonalTable.USUM;
 

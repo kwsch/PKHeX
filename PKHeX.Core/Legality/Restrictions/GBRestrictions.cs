@@ -118,7 +118,7 @@ internal static class GBRestrictions
         ushort species = pk.Species;
         if (species <= MaxSpeciesID_1)
             return true;
-        return EvolutionLegality.FutureEvolutionsGen1.Contains(species);
+        return EvolutionLegality.IsEvolvedFromGen1Species(species);
     }
 
     /// <summary>

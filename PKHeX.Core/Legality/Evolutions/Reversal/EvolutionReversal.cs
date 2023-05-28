@@ -20,7 +20,7 @@ public static class EvolutionReversal
     /// <param name="stopSpecies">Species ID that should be the last node, if at all.</param>
     /// <param name="skipChecks">Option to bypass some evolution criteria</param>
     /// <returns>Reversed evolution lineage, with the lowest index being the current species-form.</returns>
-    public static int Reverse(this IEvolutionLookup lineage, Span<EvoCriteria> result, ushort species, byte form,
+    public static int Devolve(this IEvolutionLookup lineage, Span<EvoCriteria> result, ushort species, byte form,
         PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks)
     {
         // Sometimes we have to sanitize the inputs.
@@ -94,7 +94,8 @@ public static class EvolutionReversal
 
     private static void CleanDevolve(Span<EvoCriteria> result, byte levelMin)
     {
-        // Rectify minimum levels -- trickle our two temp variables up the chain (essentially evolving from min).
+        // Rectify minimum levels.
+        // trickle our two temp variables up the chain (essentially evolving from min).
         byte req = 0;
         for (int i = result.Length - 1; i >= 0; i--)
         {

@@ -20,8 +20,6 @@ public abstract class EvolutionNetwork : IEvolutionNetwork
         Reverse = reverse;
     }
 
-    public EvolutionReverseLookup Lineage => Reverse.Lineage;
-
     public IEnumerable<(ushort Species, byte Form)> GetEvolutions(ushort species, byte form) => Forward.GetEvolutions(species, form);
     public IEnumerable<(ushort Species, byte Form)> GetPreEvolutions(ushort species, byte form) => Reverse.GetPreEvolutions(species, form);
     public ReadOnlyMemory<EvolutionMethod> GetForward(ushort species, byte form) => Forward.GetForward(species, form);
@@ -65,4 +63,10 @@ public abstract class EvolutionNetwork : IEvolutionNetwork
     }
 
     public void BanEvo(ushort species, byte form, Func<PKM, bool> func) => Reverse.BanEvo(species, form, func);
+
+    public int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies,
+        bool skipChecks)
+    {
+        return Reverse.Devolve(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
+    }
 }

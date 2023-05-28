@@ -71,8 +71,6 @@ public sealed class EvolutionTree : EvolutionNetwork
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
-    internal static int GetLookupKey(ushort species, byte form) => species | (form << 11);
-
     private void FixEvoTreeSM()
     {
         // Sun/Moon lack Ultra's Kantonian evolution methods.
@@ -135,8 +133,8 @@ public sealed class EvolutionTree : EvolutionNetwork
     /// <param name="pk">Entity data</param>
     /// <param name="levelMin">Minimum level</param>
     /// <param name="levelMax">Maximum level</param>
-    /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
     /// <param name="stopSpecies">Final species to stop at, if known</param>
+    /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
     /// <returns>Count of entries filled.</returns>
     public int GetExplicitLineage(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks)
     {
@@ -154,6 +152,6 @@ public sealed class EvolutionTree : EvolutionNetwork
             result[1] = new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = levelMax, LevelMin = levelMin };
             return 2;
         }
-        return Reverse.Lineage.Reverse(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
+        return Reverse.Devolve(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
     }
 }

@@ -39,11 +39,8 @@ public static class EvolutionChain
         return history;
     }
 
-    public static EvoCriteria[] GetValidPreEvolutions(PKM pk, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
+    public static EvoCriteria[] GetValidPreEvolutions(PKM pk, int maxLevel, int minLevel = 1, bool skipChecks = false)
     {
-        if (maxLevel < 0)
-            maxLevel = pk.CurrentLevel;
-
         var context = pk.Context;
         if (context < EntityContext.Gen2)
             context = EntityContext.Gen2;

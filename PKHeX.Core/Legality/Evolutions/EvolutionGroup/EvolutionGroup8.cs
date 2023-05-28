@@ -9,7 +9,6 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
     private static readonly EvolutionTree Tree8  = EvolutionTree.Evolves8;
     private static readonly EvolutionTree Tree8a = EvolutionTree.Evolves8a;
     private static readonly EvolutionTree Tree8b = EvolutionTree.Evolves8b;
-    private const int MaxSpecies = Legal.MaxSpeciesID_8a;
     private const int Generation = 8;
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => null;
