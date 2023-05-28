@@ -20,7 +20,7 @@ public sealed class ItemStorage4Pt : ItemStorage4, IItemStorage
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
     {
-        InventoryType.Items => Pouch_Items_DP,
+        InventoryType.Items => Pouch_Items_Pt,
         InventoryType.KeyItems => Pouch_Key_Pt,
         InventoryType.TMHMs => Pouch_TMHM_DP,
         InventoryType.MailItems => Pouch_Mail_DP,
