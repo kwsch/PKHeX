@@ -20,7 +20,7 @@ public static class EncounterOrigin
         bool hasOriginMet = pk.HasOriginalMetLocation;
         var maxLevel = GetLevelOriginMax(pk, hasOriginMet);
         var minLevel = GetLevelOriginMin(pk, hasOriginMet);
-        return GetOriginChain(pk, -1, (byte)maxLevel, (byte)minLevel, hasOriginMet);
+        return GetOriginChain(pk, (byte)maxLevel, (byte)minLevel, hasOriginMet);
     }
 
     /// <summary>
@@ -32,7 +32,6 @@ public static class EncounterOrigin
     public static EvoCriteria[] GetOriginChain12(PKM pk, GameVersion gameSource)
     {
         bool rby = gameSource == GameVersion.RBY;
-        var maxSpecies = rby ? Legal.MaxSpeciesID_1 : Legal.MaxSpeciesID_2;
 
         bool hasOriginMet;
         int maxLevel, minLevel;
@@ -61,20 +60,20 @@ public static class EncounterOrigin
             minLevel = 2;
         }
 
-        return GetOriginChain(pk, maxSpecies, (byte)maxLevel, (byte)minLevel, hasOriginMet);
+        return GetOriginChain(pk, (byte)maxLevel, (byte)minLevel, hasOriginMet);
     }
 
-    private static EvoCriteria[] GetOriginChain(PKM pk, int maxSpecies, byte maxLevel, byte minLevel, bool hasOriginMet)
+    private static EvoCriteria[] GetOriginChain(PKM pk, byte maxLevel, byte minLevel, bool hasOriginMet)
     {
         if (maxLevel < minLevel)
             return Array.Empty<EvoCriteria>();
 
         if (hasOriginMet)
-            return EvolutionChain.GetValidPreEvolutions(pk, maxSpecies, maxLevel, minLevel);
+            return EvolutionChain.GetValidPreEvolutions(pk, maxLevel, minLevel);
 
         // Permit the maximum to be all the way up to Current Level; we'll trim these impossible evolutions out later.
         var tempMax = pk.CurrentLevel;
-        var chain = EvolutionChain.GetValidPreEvolutions(pk, maxSpecies, tempMax, minLevel);
+        var chain = EvolutionChain.GetValidPreEvolutions(pk, tempMax, minLevel);
 
         for (var i = 0; i < chain.Length; i++)
             chain[i] = chain[i] with { LevelMax = maxLevel, LevelMin = minLevel };

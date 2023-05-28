@@ -9,36 +9,38 @@ namespace PKHeX.Core;
 public sealed class EvolutionReverseLookup : IEvolutionLookup
 {
     private readonly EvolutionNode[] Nodes;
-    private readonly int MaxSpecies;
     private readonly Dictionary<int, int> KeyLookup;
 
-    public EvolutionReverseLookup(IEnumerable<(int Key, EvolutionLink Value)> links, int maxSpecies)
+    public EvolutionReverseLookup(IEnumerable<((ushort Species, byte Form), EvolutionLink Value)> links, ushort maxSpecies)
     {
-        MaxSpecies = maxSpecies;
         KeyLookup = new Dictionary<int, int>(maxSpecies);
         var nodes = new EvolutionNode[maxSpecies * 2];
         int ctr = maxSpecies + 1;
-        foreach (var (key, value) in links)
+        foreach (((ushort Species, byte Form), EvolutionLink Value) value in links)
         {
-            var index = key <= MaxSpecies ? key : KeyLookup.TryGetValue(key, out var x) ? x : KeyLookup[key] = ctr++;
+            int key = value.Item1.Species;
+            if (value.Item1.Form != 0)
+                key |= value.Item1.Form << 11;
+            var index = key <= maxSpecies ? key : KeyLookup.TryGetValue(key, out var x) ? x : KeyLookup[key] = ctr++;
             ref var node = ref nodes[index];
-            node.Add(value);
+            node.Add(value.Value);
         }
         Nodes = nodes;
         Debug.Assert(KeyLookup.Count < maxSpecies);
     }
 
-    private int GetIndex(int key)
+    private int GetIndex(ushort species, byte form)
     {
-        if (key <= MaxSpecies)
-            return key;
+        if (form == 0)
+            return species;
+        var key = species | (form << 11);
         return KeyLookup.TryGetValue(key, out var index) ? index : 0;
     }
 
-    public ref EvolutionNode this[int key] => ref Nodes[GetIndex(key)];
+    public ref EvolutionNode this[ushort species, byte form] => ref Nodes[GetIndex(species, form)];
 }
 
 public interface IEvolutionLookup
 {
-    ref EvolutionNode this[int key] { get; }
+    ref EvolutionNode this[ushort species, byte form] { get; }
 }

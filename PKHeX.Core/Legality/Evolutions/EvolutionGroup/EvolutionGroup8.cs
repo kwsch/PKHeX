@@ -183,7 +183,7 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
             form = 0; // PLA forms; play nice for yielding SW/SH context
 
         Span<EvoCriteria> result = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var count = tree.GetExplicitLineage(result, species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks, enc.Species);
+        var count = tree.GetExplicitLineage(result, species, form, pk, enc.LevelMin, enc.LevelMax, enc.Species, enc.SkipChecks);
         return result[..count].ToArray();
     }
 

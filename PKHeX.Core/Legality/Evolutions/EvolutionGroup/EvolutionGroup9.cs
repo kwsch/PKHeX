@@ -62,7 +62,7 @@ public sealed class EvolutionGroup9 : IEvolutionGroup
     private static EvoCriteria[] GetInitialChain(PKM pk, EvolutionOrigin enc, ushort species, byte form, EvolutionTree tree)
     {
         var result = new EvoCriteria[EvolutionTree.MaxEvolutions];
-        var count = tree.GetExplicitLineage(result, species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks, enc.Species);
+        var count = tree.GetExplicitLineage(result, species, form, pk, enc.LevelMin, enc.LevelMax, enc.Species, enc.SkipChecks);
         return result[..count];
     }
 

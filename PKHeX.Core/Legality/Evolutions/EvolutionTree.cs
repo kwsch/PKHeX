@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.GameVersion;
-using static PKHeX.Core.Legal;
 
 namespace PKHeX.Core;
 
@@ -11,21 +9,39 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Used to determine if a <see cref="PKM.Species"/> can evolve from prior steps in its evolution branch.
 /// </remarks>
-public sealed class EvolutionTree
+public sealed class EvolutionTree : EvolutionNetwork
 {
     public const int MaxEvolutions = 3;
-    public static readonly EvolutionTree Evolves1 = new(GetResource("rby"), Gen1, PersonalTable.Y, MaxSpeciesID_1);
-    public static readonly EvolutionTree Evolves2 = new(GetResource("gsc"), Gen2, PersonalTable.C, MaxSpeciesID_2);
-    public static readonly EvolutionTree Evolves3 = new(GetResource("g3"), Gen3, PersonalTable.RS, MaxSpeciesID_3);
-    public static readonly EvolutionTree Evolves4 = new(GetResource("g4"), Gen4, PersonalTable.DP, MaxSpeciesID_4);
-    public static readonly EvolutionTree Evolves5 = new(GetResource("g5"), Gen5, PersonalTable.BW, MaxSpeciesID_5);
-    public static readonly EvolutionTree Evolves6 = new(GetReader("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
-    public static readonly EvolutionTree Evolves7 = new(GetReader("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
-    public static readonly EvolutionTree Evolves7b = new(GetReader("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
-    public static readonly EvolutionTree Evolves8 = new(GetReader("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
-    public static readonly EvolutionTree Evolves8a = new(GetReader("la"), PLA, PersonalTable.LA, MaxSpeciesID_8a);
-    public static readonly EvolutionTree Evolves8b = new(GetReader("bs"), BDSP, PersonalTable.BDSP, MaxSpeciesID_8b);
-    public static readonly EvolutionTree Evolves9 = new(GetReader("sv"), Gen9, PersonalTable.SV, MaxSpeciesID_9);
+    public static readonly EvolutionTree Evolves1  = GetViaSpecies (PersonalTable.Y,    EvolutionSet1.GetArray(GetResource("rby"), 151));
+    public static readonly EvolutionTree Evolves2  = GetViaSpecies (PersonalTable.C,    EvolutionSet1.GetArray(GetResource("gsc"), 251));
+    public static readonly EvolutionTree Evolves3  = GetViaSpecies (PersonalTable.RS,   EvolutionSet3.GetArray(GetResource("g3")));
+    public static readonly EvolutionTree Evolves4  = GetViaSpecies (PersonalTable.DP,   EvolutionSet4.GetArray(GetResource("g4")));
+    public static readonly EvolutionTree Evolves5  = GetViaSpecies (PersonalTable.BW,   EvolutionSet5.GetArray(GetResource("g5")));
+    public static readonly EvolutionTree Evolves6  = GetViaSpecies (PersonalTable.AO,   EvolutionSet6.GetArray(GetReader("ao")));
+    public static readonly EvolutionTree Evolves7  = GetViaPersonal(PersonalTable.USUM, EvolutionSet7.GetArray(GetReader("uu"), true));
+    public static readonly EvolutionTree Evolves7b = GetViaPersonal(PersonalTable.GG,   EvolutionSet7.GetArray(GetReader("gg"), false));
+    public static readonly EvolutionTree Evolves8  = GetViaPersonal(PersonalTable.SWSH, EvolutionSet7.GetArray(GetReader("ss"), false));
+    public static readonly EvolutionTree Evolves8a = GetViaPersonal(PersonalTable.LA,   EvolutionSet7.GetArray(GetReader("la"), true));
+    public static readonly EvolutionTree Evolves8b = GetViaPersonal(PersonalTable.BDSP, EvolutionSet7.GetArray(GetReader("bs"), false));
+    public static readonly EvolutionTree Evolves9  = GetViaPersonal(PersonalTable.SV,   EvolutionSet7.GetArray(GetReader("sv"), false));
+
+    private static EvolutionTree GetViaSpecies(IPersonalTable t, EvolutionMethod[][] entries)
+    {
+        var forward = new EvolutionForwardSpecies(entries);
+        var reverse = new EvolutionReverseSpecies(t, entries, t.MaxSpeciesID);
+        return new EvolutionTree(forward, reverse);
+    }
+
+    private static EvolutionTree GetViaPersonal(IPersonalTable t, EvolutionMethod[][] entries)
+    {
+        var forward = new EvolutionForwardPersonal(entries, t);
+        var reverse = new EvolutionReversePersonal(t, entries, t.MaxSpeciesID);
+        return new EvolutionTree(forward, reverse);
+    }
+
+    private EvolutionTree(IEvolutionForward forward, IEvolutionReverse reverse) : base(forward, reverse)
+    {
+    }
 
     private static ReadOnlySpan<byte> GetResource(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
     private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetResource(resource), resource);
@@ -55,104 +71,7 @@ public sealed class EvolutionTree
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
-    private readonly EvolutionMethod[][] Entries;
-    private readonly IPersonalTable Personal;
-    private readonly int MaxSpeciesTree;
-    private readonly EvolutionReverseLookup Lineage;
-    private bool FormSeparateEvoData => MaxSpeciesTree > MaxSpeciesID_6;
-
     internal static int GetLookupKey(ushort species, byte form) => species | (form << 11);
-
-    #region Constructor
-
-    private EvolutionTree(ReadOnlySpan<byte> data, GameVersion game, IPersonalTable personal, int maxSpeciesTree)
-    {
-        Personal = personal;
-        MaxSpeciesTree = maxSpeciesTree;
-        Entries = GetEntries(data, game);
-        var connections = CreateTreeOld();
-        Lineage = new(connections, maxSpeciesTree);
-    }
-
-    private EvolutionTree(BinLinkerAccessor data, GameVersion game, IPersonalTable personal, int maxSpeciesTree)
-    {
-        Personal = personal;
-        MaxSpeciesTree = maxSpeciesTree;
-        Entries = GetEntries(data, game);
-
-        // Starting in Generation 7, forms have separate evolution data.
-        var oldStyle = !FormSeparateEvoData;
-        var connections = oldStyle ? CreateTreeOld() : CreateTree();
-        Lineage = new(connections, maxSpeciesTree);
-    }
-
-    private IEnumerable<(int Key, EvolutionLink Value)> CreateTreeOld()
-    {
-        for (ushort sSpecies = 1; sSpecies <= MaxSpeciesTree; sSpecies++)
-        {
-            var fc = Personal[sSpecies].FormCount;
-            for (byte sForm = 0; sForm < fc; sForm++)
-            {
-                var index = sSpecies;
-                var evos = Entries[index];
-                foreach (var evo in evos)
-                {
-                    var dSpecies = evo.Species;
-                    if (dSpecies == 0)
-                        continue;
-
-                    var dForm = sSpecies == (int)Species.Espurr && evo.Method == EvolutionType.LevelUpFormFemale1 ? (byte)1 : sForm;
-                    var key = GetLookupKey(dSpecies, dForm);
-
-                    var link = new EvolutionLink(sSpecies, sForm, evo);
-                    yield return (key, link);
-                }
-            }
-        }
-    }
-
-    private IEnumerable<(int Key, EvolutionLink Value)> CreateTree()
-    {
-        for (ushort sSpecies = 1; sSpecies <= MaxSpeciesTree; sSpecies++)
-        {
-            var fc = Personal[sSpecies].FormCount;
-            for (byte sForm = 0; sForm < fc; sForm++)
-            {
-                var index = Personal.GetFormIndex(sSpecies, sForm);
-                var evos = Entries[index];
-                foreach (var evo in evos)
-                {
-                    var dSpecies = evo.Species;
-                    if (dSpecies == 0)
-                        break;
-
-                    var dForm = evo.GetDestinationForm(sForm);
-                    var key = GetLookupKey(dSpecies, dForm);
-
-                    var link = new EvolutionLink(sSpecies, sForm, evo);
-                    yield return (key, link);
-                }
-            }
-        }
-    }
-
-    private static EvolutionMethod[][] GetEntries(ReadOnlySpan<byte> data, GameVersion game) => game switch
-    {
-        Gen1 => EvolutionSet1.GetArray(data, 151),
-        Gen2 => EvolutionSet1.GetArray(data, 251),
-        Gen3 => EvolutionSet3.GetArray(data),
-        Gen4 => EvolutionSet4.GetArray(data),
-        Gen5 => EvolutionSet5.GetArray(data),
-        _ => throw new ArgumentOutOfRangeException(nameof(game)),
-    };
-
-    private static EvolutionMethod[][] GetEntries(BinLinkerAccessor data, GameVersion game) => game switch
-    {
-        Gen6 => EvolutionSet6.GetArray(data),
-        Gen7 or Gen8 or BDSP or Gen9 => EvolutionSet7.GetArray(data, false),
-        PLA => EvolutionSet7.GetArray(data, true),
-        _ => throw new ArgumentOutOfRangeException(nameof(game)),
-    };
 
     private void FixEvoTreeSM()
     {
@@ -189,131 +108,22 @@ public sealed class EvolutionTree
         BanEvo((int)Species.Milotic, 0, pk => pk is IContestStatsReadOnly { CNT_Beauty: < 170 } || pk.CurrentLevel == pk.Met_Level); // Prism Scale is unreleased, requires 170 Beauty Level Up instead
     }
 
-    private void BanEvo(ushort species, byte form, Func<PKM, bool> func)
-    {
-        var key = GetLookupKey(species, form);
-        ref var node = ref Lineage[key];
-        node.Ban(func);
-    }
-
-    #endregion
-
     /// <summary>
     /// Gets a list of evolutions for the input <see cref="PKM"/> by checking each evolution in the chain.
     /// </summary>
     /// <param name="pk">Pokémon data to check with.</param>
     /// <param name="levelMax">Maximum level to permit before the chain breaks.</param>
-    /// <param name="maxSpeciesOrigin">Maximum species ID to permit within the chain.</param>
     /// <param name="skipChecks">Ignores an evolution's criteria, causing the returned list to have all possible evolutions.</param>
     /// <param name="levelMin">Minimum level to permit before the chain breaks.</param>
     /// <param name="stopSpecies">Final species to stop at, if known</param>
-    public EvoCriteria[] GetValidPreEvolutions(PKM pk, byte levelMax, int maxSpeciesOrigin = -1, bool skipChecks = false, byte levelMin = 1, int stopSpecies = 0)
+    public EvoCriteria[] GetValidPreEvolutions(PKM pk, byte levelMax, bool skipChecks = false, byte levelMin = 1, ushort stopSpecies = 0)
     {
-        if (maxSpeciesOrigin <= 0)
-            maxSpeciesOrigin = GetMaxSpeciesOrigin(pk);
-
         ushort species = pk.Species;
         byte form = pk.Form;
 
         Span<EvoCriteria> result = stackalloc EvoCriteria[MaxEvolutions];
-        var count = GetExplicitLineage(result, species, form, pk, levelMin, levelMax, maxSpeciesOrigin, skipChecks, stopSpecies);
+        var count = GetExplicitLineage(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
         return result[..count].ToArray();
-    }
-
-    private static int GetMaxSpeciesOrigin(PKM pk)
-    {
-        if (pk.Format == 1)
-            return MaxSpeciesID_1;
-        if (pk.Format == 2 || pk.VC)
-            return MaxSpeciesID_2;
-        return Legal.GetMaxSpeciesOrigin(pk.Generation);
-    }
-
-    public bool IsSpeciesDerivedFrom(ushort species, byte form, int otherSpecies, int otherForm, bool ignoreForm = true)
-    {
-        var evos = GetEvolutionsAndPreEvolutions(species, form);
-        foreach (var (s, f) in evos)
-        {
-            if (s != otherSpecies)
-                continue;
-            if (ignoreForm)
-                return true;
-            return f == otherForm;
-        }
-        return false;
-    }
-
-    /// <summary>
-    /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to &amp; from, yielded in order of increasing evolution stage.
-    /// </summary>
-    /// <param name="species">Species ID</param>
-    /// <param name="form">Form ID</param>
-    /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
-    public IEnumerable<(ushort Species, byte Form)> GetEvolutionsAndPreEvolutions(ushort species, byte form)
-    {
-        foreach (var s in GetPreEvolutions(species, form))
-            yield return s;
-        yield return (species, form);
-        foreach (var s in GetEvolutions(species, form))
-            yield return s;
-    }
-
-    public (ushort Species, byte Form) GetBaseSpeciesForm(ushort species, byte form, int skip = 0)
-    {
-        var chain = GetEvolutionsAndPreEvolutions(species, form);
-        foreach (var c in chain)
-        {
-            if (skip == 0)
-                return c;
-            skip--;
-        }
-        return (species, form);
-    }
-
-    /// <summary>
-    /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve from, yielded in order of increasing evolution stage.
-    /// </summary>
-    /// <param name="species">Species ID</param>
-    /// <param name="form">Form ID</param>
-    /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
-    public IEnumerable<(ushort Species, byte Form)> GetPreEvolutions(ushort species, byte form)
-    {
-        int index = GetLookupKey(species, form);
-        var node = Lineage[index];
-        {
-            // No convergent evolutions; first method is enough.
-            var s = node.First.Tuple;
-            if (s.Species == 0)
-                yield break;
-
-            var preEvolutions = GetPreEvolutions(s.Species, s.Form);
-            foreach (var preEvo in preEvolutions)
-                yield return preEvo;
-            yield return s;
-        }
-    }
-
-    /// <summary>
-    /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to, yielded in order of increasing evolution stage.
-    /// </summary>
-    /// <param name="species">Species ID</param>
-    /// <param name="form">Form ID</param>
-    /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
-    public IEnumerable<(ushort Species, byte Form)> GetEvolutions(ushort species, byte form)
-    {
-        int index = !FormSeparateEvoData ? species : Personal.GetFormIndex(species, form);
-        var evos = Entries[index];
-        foreach (var method in evos)
-        {
-            var s = method.Species;
-            if (s == 0)
-                continue;
-            var f = method.GetDestinationForm(form);
-            yield return (s, f);
-            var nextEvolutions = GetEvolutions(s, f);
-            foreach (var nextEvo in nextEvolutions)
-                yield return nextEvo;
-        }
     }
 
     /// <summary>
@@ -325,11 +135,10 @@ public sealed class EvolutionTree
     /// <param name="pk">Entity data</param>
     /// <param name="levelMin">Minimum level</param>
     /// <param name="levelMax">Maximum level</param>
-    /// <param name="maxSpeciesID">Clamp for maximum species ID</param>
     /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
     /// <param name="stopSpecies">Final species to stop at, if known</param>
     /// <returns>Count of entries filled.</returns>
-    public int GetExplicitLineage(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, int maxSpeciesID, bool skipChecks, int stopSpecies)
+    public int GetExplicitLineage(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks)
     {
         if (pk.IsEgg && !skipChecks)
         {
@@ -345,6 +154,6 @@ public sealed class EvolutionTree
             result[1] = new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = levelMax, LevelMin = levelMin };
             return 2;
         }
-        return Lineage.Reverse(result, species, form, pk, levelMin, levelMax, maxSpeciesID, skipChecks, stopSpecies);
+        return Reverse.Lineage.Reverse(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
     }
 }

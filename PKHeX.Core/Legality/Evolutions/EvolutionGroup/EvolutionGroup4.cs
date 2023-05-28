@@ -40,7 +40,7 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
     public EvoCriteria[] GetInitialChain(PKM pk, EvolutionOrigin enc, ushort species, byte form)
     {
         Span<EvoCriteria> result = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var count = Tree.GetExplicitLineage(result, species, form, pk, enc.LevelMin, enc.LevelMax, MaxSpecies, enc.SkipChecks, enc.Species);
+        var count = Tree.GetExplicitLineage(result, species, form, pk, enc.LevelMin, enc.LevelMax, enc.Species, enc.SkipChecks);
         return result[..count].ToArray();
     }
 

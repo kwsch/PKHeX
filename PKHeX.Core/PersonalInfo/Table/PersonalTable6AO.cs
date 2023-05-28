@@ -11,7 +11,7 @@ public sealed class PersonalTable6AO : IPersonalTable, IPersonalTable<PersonalIn
     private readonly PersonalInfo6AO[] Table;
     private const int SIZE = PersonalInfo6AO.SIZE;
     private const int MaxSpecies = Legal.MaxSpeciesID_6;
-    public int MaxSpeciesID => MaxSpecies;
+    public ushort MaxSpeciesID => MaxSpecies;
 
     public PersonalTable6AO(ReadOnlySpan<byte> data)
     {

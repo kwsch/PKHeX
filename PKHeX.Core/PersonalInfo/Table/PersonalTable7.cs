@@ -10,9 +10,9 @@ public sealed class PersonalTable7 : IPersonalTable, IPersonalTable<PersonalInfo
 {
     private readonly PersonalInfo7[] Table;
     private const int SIZE = PersonalInfo7.SIZE;
-    public int MaxSpeciesID { get; }
+    public ushort MaxSpeciesID { get; }
 
-    public PersonalTable7(ReadOnlySpan<byte> data, int maxSpecies)
+    public PersonalTable7(ReadOnlySpan<byte> data, ushort maxSpecies)
     {
         MaxSpeciesID = maxSpecies;
         Table = new PersonalInfo7[data.Length / SIZE];

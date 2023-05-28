@@ -1,7 +1,5 @@
 using System;
 
-using static PKHeX.Core.Legal;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -41,18 +39,15 @@ public static class EvolutionChain
         return history;
     }
 
-    public static EvoCriteria[] GetValidPreEvolutions(PKM pk, int maxspeciesorigin = -1, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
+    public static EvoCriteria[] GetValidPreEvolutions(PKM pk, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
     {
         if (maxLevel < 0)
             maxLevel = pk.CurrentLevel;
-
-        if (maxspeciesorigin == -1 && ParseSettings.AllowGen1Tradeback && pk is { Format: <= 2, Generation: 1 })
-            maxspeciesorigin = MaxSpeciesID_2;
 
         var context = pk.Context;
         if (context < EntityContext.Gen2)
             context = EntityContext.Gen2;
         var et = EvolutionTree.GetEvolutionTree(context);
-        return et.GetValidPreEvolutions(pk, levelMax: (byte)maxLevel, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks, levelMin: (byte)minLevel);
+        return et.GetValidPreEvolutions(pk, levelMax: (byte)maxLevel, skipChecks: skipChecks, levelMin: (byte)minLevel);
     }
 }
