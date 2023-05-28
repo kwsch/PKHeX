@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace PKHeX.Core;
 
@@ -11,32 +10,46 @@ public sealed class EvolutionReverseLookup : IEvolutionLookup
     private readonly EvolutionNode[] Nodes;
     private readonly Dictionary<int, int> KeyLookup;
 
-    public EvolutionReverseLookup(IEnumerable<((ushort Species, byte Form), EvolutionLink Value)> links, ushort maxSpecies)
+    public EvolutionReverseLookup(ushort maxSpecies)
     {
+        Nodes = new EvolutionNode[maxSpecies * 2];
         KeyLookup = new Dictionary<int, int>(maxSpecies);
-        var nodes = new EvolutionNode[maxSpecies * 2];
-        int ctr = maxSpecies + 1;
-        foreach (((ushort Species, byte Form), EvolutionLink Value) value in links)
+    }
+
+    private void Register(EvolutionLink link, ushort species)
+    {
+        ref var node = ref Nodes[species];
+        node.Add(link);
+    }
+
+    public void Register(EvolutionLink link, ushort species, byte form)
+    {
+        if (form == 0)
         {
-            int key = value.Item1.Species;
-            if (value.Item1.Form != 0)
-                key |= value.Item1.Form << 11;
-            var index = key <= maxSpecies ? key : KeyLookup.TryGetValue(key, out var x) ? x : KeyLookup[key] = ctr++;
-            ref var node = ref nodes[index];
-            node.Add(value.Value);
+            Register(link, species);
+            return;
         }
-        Nodes = nodes;
-        Debug.Assert(KeyLookup.Count < maxSpecies);
+
+        int key = GetKey(species, form);
+        if (!KeyLookup.TryGetValue(key, out var index))
+        {
+            index = Nodes.Length - KeyLookup.Count - 1;
+            KeyLookup.Add(key, index);
+        }
+
+        ref var node = ref Nodes[index];
+        node.Add(link);
     }
 
     private int GetIndex(ushort species, byte form)
     {
         if (form == 0)
             return species;
-        var key = species | (form << 11);
+        int key = GetKey(species, form);
         return KeyLookup.TryGetValue(key, out var index) ? index : 0;
     }
 
+    private static int GetKey(ushort species, byte form) => species | form << 11;
     public ref EvolutionNode this[ushort species, byte form] => ref Nodes[GetIndex(species, form)];
 }
 

@@ -19,9 +19,9 @@ public struct EvolutionLink
         Method = method;
     }
 
-    public bool IsEmpty => Species == 0;
+    public readonly bool IsEmpty => Species == 0;
 
-    public (ushort Species, byte Form) Tuple => (Species, Form);
+    public readonly (ushort Species, byte Form) Tuple => (Species, Form);
 
     public void Ban(Func<PKM, bool> check) => IsBanned = check;
 
@@ -30,5 +30,5 @@ public struct EvolutionLink
     /// </summary>
     /// <param name="pk">Entity to check</param>
     /// <returns>True if banned, false if allowed.</returns>
-    public bool IsEvolutionBanned(PKM pk) => IsBanned != null && IsBanned(pk);
+    public readonly bool IsEvolutionBanned(PKM pk) => IsBanned != null && IsBanned(pk);
 }

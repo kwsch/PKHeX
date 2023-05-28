@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace PKHeX.Core;
 
@@ -9,32 +10,33 @@ public sealed class EvolutionReverseSpecies : IEvolutionReverse
 
     public EvolutionReverseSpecies(IPersonalTable t, EvolutionMethod[][] entries, ushort maxSpecies)
     {
-        var links = BuildLinks(t, entries, maxSpecies);
-        Lineage = new EvolutionReverseLookup(links, maxSpecies);
+        Lineage = GetLineage(t, entries, maxSpecies);
     }
 
-    private static IEnumerable<((ushort Species, byte Form), EvolutionLink Value)> BuildLinks(IPersonalTable t, IReadOnlyList<EvolutionMethod[]> entries, int maxSpecies)
+    private static EvolutionReverseLookup GetLineage(IPersonalTable t, EvolutionMethod[][] entries, ushort maxSpecies)
     {
+        var lineage = new EvolutionReverseLookup(maxSpecies);
         for (ushort sSpecies = 1; sSpecies <= maxSpecies; sSpecies++)
         {
             var fc = t[sSpecies].FormCount;
             for (byte sForm = 0; sForm < fc; sForm++)
             {
-                var index = sSpecies;
-                var evos = entries[index];
-                foreach (var evo in evos)
+                foreach (var evo in entries[sSpecies])
                 {
                     var dSpecies = evo.Species;
                     if (dSpecies == 0)
-                        continue;
+                        break;
 
-                    var dForm = sSpecies == (int)Species.Espurr && evo.Method == EvolutionType.LevelUpFormFemale1 ? (byte)1 : sForm;
-
+                    var dForm = sSpecies == (int)Species.Espurr && evo.Method == EvolutionType.LevelUpFormFemale1
+                        ? (byte)1
+                        : sForm;
                     var link = new EvolutionLink(sSpecies, sForm, evo);
-                    yield return ((dSpecies, dForm), link);
+                    lineage.Register(link, dSpecies, dForm);
                 }
             }
         }
+
+        return lineage;
     }
 
     public EvolutionNode GetReverse(ushort species, byte form) => Lineage[species, form];
@@ -56,8 +58,7 @@ public sealed class EvolutionReverseSpecies : IEvolutionReverse
 
     public void BanEvo(ushort species, byte form, Func<PKM, bool> func)
     {
-        ref var node = ref Lineage[species, form];
-        node.Ban(func);
+        throw new UnreachableException(); // You should never be here
     }
 
     public int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies,
