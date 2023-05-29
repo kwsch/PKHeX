@@ -4,12 +4,12 @@ namespace PKHeX.Core;
 
 public interface IEvolutionContext
 {
-    int ExploreDevolve(Span<EvoCriteria> evos, PKM pk, IEvolutionContext last);
-    int ExploreEvolve(Span<EvoCriteria> evos, PKM pk, IEvolutionContext last);
-
-    int Forward(Span<EvoCriteria> evos, PKM pk);
-    int Reverse(Span<EvoCriteria> evos, PKM pk);
+    int Forward(Span<EvoCriteria> evos, PKM pk, bool skipChecks = false);
+    int Reverse(Span<EvoCriteria> evos, Span<EvoCriteria> result, PKM pk, ref EvolutionOrigin origin);
 
     bool Meld(Span<EvoCriteria> reference, Span<EvoCriteria> local);
     bool Drop(Span<EvoCriteria> reference);
+
+    IEvolutionContext? GetPrevious(EvolutionOrigin origin);
+    IEvolutionContext? GetNext(EvolutionOrigin origin);
 }
