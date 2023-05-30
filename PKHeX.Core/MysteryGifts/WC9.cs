@@ -31,12 +31,13 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
     public byte RestrictVersion { get => Data[0xE]; set => Data[0xE] = value; }
 
-    public bool CanBeReceivedByVersion(int v) => RestrictVersion switch
+    public bool CanBeReceivedByVersion(PKM pk) => RestrictVersion switch
     {
         0 when !IsEntity => true, // Whatever, essentially unrestricted for SL/VL receipt. No Entity gifts are 0.
-        1 => v is (int)GameVersion.SL,
-        2 => v is (int)GameVersion.VL,
-        3 => v is (int)GameVersion.SL or (int)GameVersion.VL,
+        1 => pk.Version is (int)GameVersion.SL || pk is PK8 { Met_Location: LocationsHOME.SWSL, Version: (int)GameVersion.SW },
+        2 => pk.Version is (int)GameVersion.VL || pk is PK8 { Met_Location: LocationsHOME.SHVL, Version: (int)GameVersion.SH },
+        3 => pk.Version is (int)GameVersion.SL || pk is PK8 { Met_Location: LocationsHOME.SWSL, Version: (int)GameVersion.SW }
+          || pk.Version is (int)GameVersion.VL || pk is PK8 { Met_Location: LocationsHOME.SHVL, Version: (int)GameVersion.SH },
         _ => throw new ArgumentOutOfRangeException(nameof(RestrictVersion), RestrictVersion, null),
     };
 
@@ -492,11 +493,11 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         // The game doesn't have random tera types.
         pk.SetMaximumPPCurrent();
 
-        if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+        if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk))
         {
             // give random valid game
             do { pk.Version = (int)GameVersion.SL + rnd.Next(2); }
-            while (!CanBeReceivedByVersion(pk.Version));
+            while (!CanBeReceivedByVersion(pk));
         }
 
         if (OTGender >= 2)
@@ -711,7 +712,16 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         {
             if (!shinyType.IsValid(pk)) return false;
             if (!IsMatchEggLocation(pk)) return false;
-            if (MetLocation != pk.Met_Location) return false;
+            if (pk is PK8)
+            {
+                if (!LocationsHOME.IsValidMetSV((ushort)pk.Met_Location, pk.Version))
+                    return false;
+            }
+            else
+            {
+                if (MetLocation != pk.Met_Location)
+                    return false;
+            }
         }
 
         if (MetLevel != 0 && MetLevel != pk.Met_Level) return false;

@@ -1,7 +1,6 @@
 using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 using static PKHeX.Core.GameVersion;
-using static PKHeX.Core.Locations;
 
 namespace PKHeX.Core;
 
@@ -23,11 +22,18 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         var core = mem[..CoreDataSize];
         var side = mem.Slice(core.Length + 2, GameDataSize);
 
-        _coreData = new GameDataCore(core);
-        ReadGameData1(side);
+        var version = DataVersion;
+        _coreData = ReadCoreData(core, version);
+        ReadGameData1(side, version);
     }
 
-    private void ReadGameData1(Memory<byte> data)
+    private static GameDataCore ReadCoreData(Memory<byte> core, ushort version) => version switch
+    {
+        HomeCrypto.Version1 => new GameDataCore(core),
+        _ => throw new ArgumentException($"Unknown {nameof(HomeCrypto)} version: {version}"),
+    };
+
+    private void ReadGameData1(Memory<byte> data, ushort version)
     {
         // Can potentially have no side-game data (GO imports)
         while (data.Length != 0)
@@ -39,13 +45,21 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
             var chunk = data[..length];
             data = data[chunk.Length..];
 
-            switch (format)
+            ReadGameData1(chunk, format, version);
+        }
+    }
+
+    private void ReadGameData1(Memory<byte> chunk, HomeGameDataFormat format, ushort version)
+    {
+        switch (version)
+        {
+            case HomeCrypto.Version1: switch (format)
             {
-                case HomeGameDataFormat.PB7: DataPB7 = new GameDataPB7(chunk); break;
-                case HomeGameDataFormat.PK8: DataPK8 = new GameDataPK8(chunk); break;
-                case HomeGameDataFormat.PA8: DataPA8 = new GameDataPA8(chunk); break;
-                case HomeGameDataFormat.PB8: DataPB8 = new GameDataPB8(chunk); break;
-                case HomeGameDataFormat.PK9: DataPK9 = new GameDataPK9(chunk); break;
+                case HomeGameDataFormat.PB7: DataPB7 = new GameDataPB7(chunk); return;
+                case HomeGameDataFormat.PK8: DataPK8 = new GameDataPK8(chunk); return;
+                case HomeGameDataFormat.PA8: DataPA8 = new GameDataPA8(chunk); return;
+                case HomeGameDataFormat.PB8: DataPB8 = new GameDataPB8(chunk); return;
+                case HomeGameDataFormat.PK9: DataPK9 = new GameDataPK9(chunk); return;
                 default: throw new ArgumentException($"Unknown {nameof(HomeGameDataFormat)} {format}");
             }
         }
@@ -64,6 +78,8 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public ushort EncodedDataSize { get => ReadUInt16LittleEndian(Data.AsSpan(0x0E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x0E), value); }
     public ushort CoreDataSize    { get => ReadUInt16LittleEndian(Data.AsSpan(0x10)); set => WriteUInt16LittleEndian(Data.AsSpan(0x10), value); }
     public ushort GameDataSize    { get => ReadUInt16LittleEndian(Data.AsSpan(0x12 + CoreDataSize)); set => WriteUInt16LittleEndian(Data.AsSpan(0x12 + CoreDataSize), value); }
+
+    private const int GameDataStart = HomeCrypto.SIZE_1HEADER + 2 + HomeCrypto.SIZE_1CORE + 2;
 
     public override Span<byte> Nickname_Trash => _coreData.Nickname_Trash;
     public override Span<byte> OT_Trash => _coreData.OT_Trash;
@@ -250,8 +266,6 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         return HomeCrypto.Encrypt(result);
     }
 
-    private const int GameDataStart = HomeCrypto.SIZE_1HEADER + 2 + HomeCrypto.SIZE_1CORE + 2;
-
     public byte[] Rebuild()
     {
         var length = WriteLength;
@@ -278,9 +292,9 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         WriteUInt16LittleEndian(gameDataLengthSpan, GameDataSize = (ushort)(ctr - gameDataStart));
 
         // Update metadata to ensure we're a valid object.
-        DataVersion = HomeCrypto.Version1;
+        DataVersion = _coreData.DataVersion;
         EncodedDataSize = (ushort)(result.Length - HomeCrypto.SIZE_1HEADER);
-        CoreDataSize = HomeCrypto.SIZE_1CORE;
+        CoreDataSize = (ushort)_coreData.SerializedSize;
         Data.AsSpan(0, HomeCrypto.SIZE_1HEADER + 2).CopyTo(span); // Copy updated header & CoreData length.
 
         return result;
@@ -291,11 +305,11 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         get
         {
             var length = GameDataStart;
-            if (DataPK8 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PK8;
-            if (DataPB7 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PB7;
-            if (DataPA8 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PA8;
-            if (DataPB8 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PB8;
-            if (DataPK9 is not null) length += HomeOptional1.HeaderSize + HomeCrypto.SIZE_1GAME_PK9;
+            if (DataPK8 is {} k8) length += k8.SerializedSize;
+            if (DataPB7 is {} b7) length += b7.SerializedSize;
+            if (DataPA8 is {} a8) length += a8.SerializedSize;
+            if (DataPB8 is {} b8) length += b8.SerializedSize;
+            if (DataPK9 is {} k9) length += k9.SerializedSize;
             return length;
         }
     }
@@ -327,8 +341,8 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         (int)PLA           => DataPA8,
         (int)SL or (int)VL => DataPK9,
 
-        (int)SW or (int)SH when DataPK8 is { Met_Location: HOME_SWLA }              => DataPA8,
-        (int)SW or (int)SH when DataPK8 is { Met_Location: HOME_SWBD or HOME_SHSP } => DataPB8,
+        (int)SW or (int)SH when DataPK8 is { Met_Location: LocationsHOME.SWLA }              => DataPA8,
+        (int)SW or (int)SH when DataPK8 is { Met_Location: LocationsHOME.SWBD or LocationsHOME.SHSP } => DataPB8,
         (int)SW or (int)SH                                                          => DataPK8,
 
         _ => DataPK8,

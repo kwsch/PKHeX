@@ -87,8 +87,8 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     protected override bool IsMatchLocation(PKM pk)
     {
         if (pk is PK8)
-            return pk.Met_Location == Locations.HOME_SWLA;
-        if (pk is PB8 { Version: (int)GameVersion.PLA, Met_Location: Locations.HOME_SWLA })
+            return pk.Met_Location == LocationsHOME.SWLA;
+        if (pk is PB8 { Version: (int)GameVersion.PLA, Met_Location: LocationsHOME.SWLA })
             return true;
 
         return base.IsMatchLocation(pk);

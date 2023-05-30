@@ -14,6 +14,8 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 {
     // Internal Attributes set on creation
     private readonly Memory<byte> Buffer; // Raw Storage
+    public int SerializedSize => Buffer.Length;
+    public ushort DataVersion => 1;
     private Span<byte> Data => Buffer.Span;
 
     public GameDataCore(Memory<byte> buffer)

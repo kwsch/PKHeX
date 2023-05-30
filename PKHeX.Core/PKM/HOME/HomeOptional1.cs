@@ -11,6 +11,7 @@ public abstract class HomeOptional1
     // Internal Attributes set on creation
     private readonly Memory<byte> Buffer; // Raw Storage
     protected Span<byte> Data => Buffer.Span;
+    public int SerializedSize => HeaderSize + Buffer.Length;
 
     public const int HeaderSize = 3; // u8 format, u16 length(data[u8])
     protected abstract HomeGameDataFormat Format { get; }

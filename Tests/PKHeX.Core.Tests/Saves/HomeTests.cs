@@ -28,7 +28,8 @@ public static class HomeTests
             var chk = HomeCrypto.GetChecksum1(data);
             oldCHK.Should().Be(chk);
 
-            bool encrypted = HomeCrypto.GetIsEncrypted1(data);
+            var version = ReadUInt16LittleEndian(data);
+            bool encrypted = HomeCrypto.GetIsEncrypted1(data, version);
             encrypted.Should().BeTrue();
 
             var ph1 = new PKH(data);
@@ -40,7 +41,7 @@ public static class HomeTests
             for (int i = 0; i < decrypted.Length; i++)
                 decrypted[i].Should().Be(ph1.Data[i]);
 
-            bool check = HomeCrypto.GetIsEncrypted1(decrypted);
+            bool check = HomeCrypto.GetIsEncrypted1(decrypted, version);
             check.Should().BeFalse();
 
             ph1.Clone().Should().NotBeNull();

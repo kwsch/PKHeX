@@ -112,6 +112,139 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         }
     }
 
+    public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
+    {
+        if (pk.FatefulEncounter)
+        {
+            bool yielded = false;
+            foreach (var mg in EncounterEvent.MGDB_G9)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != mg.Species)
+                        continue;
+
+                    if (mg.IsMatchExact(pk, evo))
+                    {
+                        yield return mg;
+                        yielded = true;
+                    }
+                    break;
+                }
+            }
+            if (yielded)
+                yield break;
+        }
+
+
+        bool wasEgg = pk.Egg_Location switch
+        {
+            LocationsHOME.SWSHEgg => true, // Regular hatch location (not link trade)
+            LocationsHOME.SWSL => pk.Met_Location == LocationsHOME.SWSL, // Link Trade transferred over must match Met Location
+            LocationsHOME.SHVL => pk.Met_Location == LocationsHOME.SHVL, // Link Trade transferred over must match Met Location
+            _ => false,
+        };
+        if (wasEgg && pk.Met_Level == 1)
+        {
+            bool yielded = false;
+            var eggs = GetEggs(pk, chain, game);
+            foreach (var egg in eggs)
+            {
+                yield return egg;
+                yielded = true;
+            }
+            if (yielded)
+                yield break;
+        }
+
+        IEncounterable? cache = null;
+        EncounterMatchRating rating = MaxNotMatch;
+
+        // Trades
+        {
+            foreach (var z in Encounters9.TradeGift_SV)
+            {
+                foreach (var evo in chain)
+                {
+                    if (z.Version != GameVersion.SV && z.Version != game)
+                        continue;
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            if (cache != null)
+                yield return cache;
+        }
+
+        if (pk is not IRibbonIndex r || !r.HasEncounterMark())
+        {
+            var encStatic = game == GameVersion.SL ? Encounters9.StaticSL : Encounters9.StaticVL;
+            foreach (var z in encStatic)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+        }
+
+        // Wild encounters are more permissive than static encounters.
+        // Can have encounter marks, can have varied scales/shiny states.
+        if (CanBeWildEncounter(pk))
+        {
+            var areas = Encounters9.Slots;
+            foreach (var area in areas)
+            {
+                var slots = area.GetMatchingSlots(pk, chain);
+                foreach (var slot in slots)
+                {
+                    var match = slot.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return slot;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = slot;
+                        rating = match;
+                    }
+                }
+            }
+        }
+
+        if (cache != null)
+            yield return cache;
+    }
+
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
         if (pk.FatefulEncounter)

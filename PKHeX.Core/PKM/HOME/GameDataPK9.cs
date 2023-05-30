@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed class GameDataPK9 : HomeOptional1, IGameDataSide
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PK9;
-    private const int SIZE = HomeCrypto.SIZE_1GAME_PK9;
+    private const int SIZE = HomeCrypto.SIZE_2GAME_PK9;
     protected override HomeGameDataFormat Format => ExpectFormat;
 
     public GameDataPK9() : base(SIZE) { }

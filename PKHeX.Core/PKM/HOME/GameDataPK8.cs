@@ -118,16 +118,16 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
 
     private static void RemapMetEgg(int ver, ref int met, ref int egg)
     {
-        var remap = Locations.GetMetSWSH((ushort)met, ver);
+        var remap = LocationsHOME.GetMetSWSH((ushort)met, ver);
         if (remap == met)
             return;
 
         met = remap;
-        egg = Locations.HOME_SWSHBDSPEgg;
+        egg = LocationsHOME.SWSHEgg;
     }
 
     private static bool IsOriginallySWSH(int ver, int loc) => ver is (int)GameVersion.SW or (int)GameVersion.SH && !IsFakeMetLocation(loc);
-    private static bool IsFakeMetLocation(int met) => met is Locations.HOME_SWLA or Locations.HOME_SWBD or Locations.HOME_SHSP;
+    private static bool IsFakeMetLocation(int met) => LocationsHOME.IsLocationSWSH(met);
     private static int GetBall(int ball) => ball > (int)Core.Ball.Beast ? 4 : ball;
     private static int GetEggLocation(int egg) => egg == Locations.Default8bNone ? 0 : egg;
 }

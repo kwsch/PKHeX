@@ -124,21 +124,15 @@ public sealed class PK8 : G8PKM
 
     private static void UnmapLocation(PKM pk)
     {
-        switch (pk.Met_Location)
-        {
-            case Locations.HOME_SWLA:
-                pk.Version = (int)GameVersion.PLA;
-                // Keep location due to bad transfer logic (official) -- server legal.
-                break;
-            case Locations.HOME_SWBD:
-                pk.Version = (int)GameVersion.BD;
-                pk.Met_Location = 0; // Load whatever value from the server. We don't know.
-                break;
-            case Locations.HOME_SHSP:
-                pk.Version = (int)GameVersion.SP;
-                pk.Met_Location = 0; // Load whatever value from the server. We don't know.
-                break;
-        }
+        var met = pk.Met_Location;
+        if (!LocationsHOME.IsLocationSWSH(met))
+            return;
+
+        // Unmap the location to the correct game.
+        var index = LocationsHOME.SWLA - met;
+        pk.Version = (int)GameVersion.PLA + index;
+        if (index != 0) // Keep PLA location due to bad transfer logic (official) -- server legal.
+            pk.Met_Location = 0;
     }
 
     public override void ResetMoves()
@@ -150,33 +144,46 @@ public sealed class PK8 : G8PKM
         this.SetMaximumPPCurrent(moves);
     }
 
-    public bool IsSideTransfer => Met_Location is Locations.HOME_SHSP or Locations.HOME_SWBD or Locations.HOME_SWLA;
-    public override bool BDSP => Met_Location is Locations.HOME_SWBD or Locations.HOME_SHSP;
-    public override bool LA => Met_Location is Locations.HOME_SWLA;
+    public bool IsSideTransfer => LocationsHOME.IsLocationSWSH(Met_Location);
+    public override bool SV => Met_Location is LocationsHOME.SWSL or LocationsHOME.SHVL;
+    public override bool BDSP => Met_Location is LocationsHOME.SWBD or LocationsHOME.SHSP;
+    public override bool LA => Met_Location is LocationsHOME.SWLA;
     public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
 
     public void SanitizeImport()
     {
-        // BDSP->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
+        // BDSP->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg
+        // (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
         // PLA->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
         var ver = Version;
         if (ver is (int)GameVersion.SP)
         {
             Version = (int)GameVersion.SH;
-            Met_Location = Locations.HOME_SHSP;
-            Egg_Location = Egg_Location == Locations.Default8bNone ? 0 : Locations.HOME_SWSHBDSPEgg;
+            Met_Location = LocationsHOME.SHSP;
+            Egg_Location = Egg_Location == Locations.Default8bNone ? 0 : LocationsHOME.SWSHEgg;
         }
         else if (ver is (int)GameVersion.BD)
         {
             Version = (int)GameVersion.SW;
-            Met_Location = Locations.HOME_SWBD;
-            Egg_Location = Egg_Location == Locations.Default8bNone ? 0 : Locations.HOME_SWSHBDSPEgg;
+            Met_Location = LocationsHOME.SWBD;
+            Egg_Location = Egg_Location == Locations.Default8bNone ? 0 : LocationsHOME.SWSHEgg;
+        }
+        if (ver is (int)GameVersion.VL)
+        {
+            Version = (int)GameVersion.SH;
+            Met_Location = LocationsHOME.SHVL;
+            Egg_Location = Egg_Location is (0 or Locations.Default8bNone) ? 0 : LocationsHOME.SWSHEgg;
+        }
+        else if (ver is (int)GameVersion.BD)
+        {
+            Version = (int)GameVersion.SW;
+            Met_Location = LocationsHOME.SWSL;
+            Egg_Location = Egg_Location is (0 or Locations.Default8bNone) ? 0 : LocationsHOME.SWSHEgg;
         }
         else if (ver is (int)GameVersion.PLA)
         {
-            const ushort met = Locations.HOME_SWLA;
             Version = (int)GameVersion.SW;
-            Met_Location = met;
+            Met_Location = LocationsHOME.SWLA;
             Egg_Location = 0; // Everything originating from this game has an Egg Location of 0.
         }
 
