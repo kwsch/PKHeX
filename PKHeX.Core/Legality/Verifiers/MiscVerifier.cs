@@ -180,20 +180,6 @@ public sealed class MiscVerifier : Verifier
 
     private static readonly HashSet<int> UnreleasedSV = new()
     {
-        (int)Species.Diglett | (1 << 11), // Diglett-1
-        (int)Species.Meowth | (1 << 11), // Meowth-1
-        (int)Species.Growlithe | (1 << 11), // Growlithe-1
-        (int)Species.Slowpoke | (1 << 11), // Slowpoke-1
-        (int)Species.Grimer | (1 << 11), // Grimer-1
-        (int)Species.Voltorb | (1 << 11), // Voltorb-1
-        (int)Species.Tauros, // Tauros-0
-        (int)Species.Qwilfish | (1 << 11), // Qwilfish-1
-        (int)Species.Sneasel | (1 << 11), // Sneasel-1
-        (int)Species.Basculin | (2 << 11), // Basculin-2
-        (int)Species.Fennekin, // Fennekin
-        (int)Species.Carbink, // Carbink
-        (int)Species.Grookey, // Grookey
-
         // Silly workaround for evolution chain reversal not being iteratively implemented -- block cross-gen evolution cases
         (int)Species.Raichu | (1 << 11), // Raichu-1
         (int)Species.Typhlosion | (1 << 11), // Typhlosion-1

@@ -418,6 +418,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         return 0x124 + (index * 0x1C);
     }
 
+    public bool IsHOMEGift => CardID >= 9000;
+
     public bool CanHandleOT(int language) => !GetHasOT(language);
 
     public override GameVersion Version

@@ -178,6 +178,7 @@ public sealed class TransferVerifier : Verifier
         WC8 { IsHOMEGift: true } => true,
         WB8 { IsHOMEGift: true } => true,
         WA8 { IsHOMEGift: true } => true,
+        WC9 { IsHOMEGift: true } => true,
         _ => enc.Generation < 8,
     };
 

@@ -112,5 +112,9 @@ public static class EncounterServerDate
         {0502, (new(2023, 03, 31), new(2023, 07, 01))}, // TCG Flying Lechonk
         {0503, (new(2023, 04, 13), new(2023, 04, 18))}, // Gavin's Palafin (-1 start date tolerance for GMT-10 regions)
         {0025, (new(2023, 04, 21), new(2023, 07, 01))}, // Pokémon Center Pikachu (Mini & Jumbo)
+
+        {9021, (new(2023, 05, 30), Never)}, // Hidden Ability Sprigatito
+        {9022, (new(2023, 05, 30), Never)}, // Hidden Ability Fuecoco
+        {9023, (new(2023, 05, 30), Never)}, // Hidden Ability Quaxly
     };
 }
