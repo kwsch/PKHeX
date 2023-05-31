@@ -37,7 +37,7 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
         // Block BD/SP transfers that are impossible
         BlockBDSP(history, enc);
 
-        if (!pk.IsUntraded && !(ParseSettings.IgnoreTransferIfNoTracker && pk is IHomeTrack { Tracker: 0 }))
+        if (!pk.IsUntraded && !(ParseSettings.IgnoreTransferIfNoTracker && pk is IHomeTrack { HasTracker: true }))
         {
             CrossPropagate(history);
         }

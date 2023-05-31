@@ -39,7 +39,7 @@ public sealed class MiscVerifier : Verifier
                     break;
             }
 
-            if (pk is IHomeTrack {Tracker: not 0})
+            if (pk is IHomeTrack { HasTracker: true })
                 data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
         }
         else
@@ -138,35 +138,38 @@ public sealed class MiscVerifier : Verifier
     private void VerifySVStats(LegalityAnalysis data, PK9 pk9)
     {
         VerifyStatNature(data, pk9);
+        VerifyTechRecordSV(data, pk9);
 
         if (!pk9.IsBattleVersionValid(data.Info.EvoChainsAllGens))
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-
-        var enc = data.EncounterOriginal;
-        if (CheckHeightWeightOdds(enc) && pk9 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
-            data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
-
-        if (enc is EncounterEgg g && UnreleasedSV.Contains(g.Species | g.Form << 11))
-            data.AddLine(GetInvalid(LTransferBad));
-
+        if (pk9.Tracker != 0 && pk9.HeightScalar != pk9.Scale)
+            data.AddLine(GetInvalid(LStatInvalidHeightWeight));
         if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.Met_Level))
             data.AddLine(GetInvalid(LTransferObedienceLevel));
-
-        if (pk9.Tracker != 0)
-            data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
-
-        if (enc is EncounterEgg && !Tera9RNG.IsMatchTeraTypePersonalEgg(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
-            data.AddLine(GetInvalid(LTeraTypeMismatch));
         if (pk9.IsEgg && pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
             data.AddLine(GetInvalid(LTeraTypeIncorrect));
 
-        if (enc is ITeraRaid9)
+        var enc = data.EncounterOriginal;
+        if (pk9 is { HeightScalar: 0, WeightScalar: 0 })
+        {
+            if (data.EncounterMatch.Context.Generation() < 9) // <=Gen8 rerolls height/weight, never zero.
+                data.AddLine(Get(LStatInvalidHeightWeight, Severity.Invalid, Encounter));
+            else if (CheckHeightWeightOdds(enc) && ParseSettings.ZeroHeightWeight != Severity.Valid)
+                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
+        }
+
+        if (enc is EncounterEgg { Context: EntityContext.Gen9 } g)
+        {
+            if (UnreleasedSV.Contains(g.Species | g.Form << 11))
+                data.AddLine(GetInvalid(LTransferBad));
+            if (!Tera9RNG.IsMatchTeraTypePersonalEgg(g.Species, g.Form, (byte)pk9.TeraTypeOriginal))
+                data.AddLine(GetInvalid(LTeraTypeMismatch));
+        }
+        else if (enc is ITeraRaid9)
         {
             var seed = Tera9RNG.GetOriginalSeed(pk9);
             data.Info.PIDIV = new PIDIV(PIDType.Tera9, seed);
         }
-
-        VerifyTechRecordSV(data, pk9);
     }
 
     private static bool IsObedienceLevelValid(PKM pk, byte current, int expectObey)
