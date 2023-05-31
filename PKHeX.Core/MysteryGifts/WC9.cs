@@ -734,7 +734,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
         if (pk is IScaledSize s)
         {
-            if (s.HeightScalar != HeightValue)
+            if (!Encounter9RNG.IsHeightMatchSV(pk, HeightValue))
                 return false;
             if (s.WeightScalar != WeightValue)
                 return false;

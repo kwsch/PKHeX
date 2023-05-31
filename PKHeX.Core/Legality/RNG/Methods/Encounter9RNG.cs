@@ -226,7 +226,7 @@ public static class Encounter9RNG
         return true;
     }
 
-    private static bool IsHeightMatchSV(PKM pk, int value)
+    public static bool IsHeightMatchSV(PKM pk, int value)
     {
         // HOME copies Scale to Height. Untouched by HOME must match the value.
         // Viewing the save file in HOME will alter it too. Tracker definitely indicates it was viewed.

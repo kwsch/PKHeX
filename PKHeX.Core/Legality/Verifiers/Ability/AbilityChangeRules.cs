@@ -189,7 +189,7 @@ public static class AbilityChangeRules
             if (current == original)
                 return true;
         }
-        return true;
+        return false;
     }
 
     /// <summary>
