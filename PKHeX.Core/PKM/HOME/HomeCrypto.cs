@@ -11,39 +11,41 @@ namespace PKHeX.Core;
 /// </summary>
 public static class HomeCrypto
 {
-    internal const int VersionLatest = Version2;
-    internal const int Version1 = 1;
-    internal const int Version2 = 2;
+    public const int Version1 = 1;
+    public const int Version2 = 2;
 
-    internal const int SIZE_1HEADER = 0x10; // 16
+    public const int SIZE_1HEADER = 0x10; // 16
 
-    internal const int SIZE_1CORE = 0xC8; // 200
-    internal const int SIZE_1GAME_PB7 = 0x3B; // 59
-    internal const int SIZE_1GAME_PK8 = 0x44; // 68
-    internal const int SIZE_1GAME_PA8 = 0x3C; // 60
-    internal const int SIZE_1GAME_PB8 = 0x2B; // 43
-    internal const int SIZE_1STORED = 0x1EE; // 494
+    public const int SIZE_1CORE = 0xC8; // 200
+    public const int SIZE_1GAME_PB7 = 0x3B; // 59
+    public const int SIZE_1GAME_PK8 = 0x44; // 68
+    public const int SIZE_1GAME_PA8 = 0x3C; // 60
+    public const int SIZE_1GAME_PB8 = 0x2B; // 43
+    public const int SIZE_1STORED = 0x1EE; // 494
 
-    internal const int SIZE_2CORE = 0xC4; // 196
-    internal const int SIZE_2GAME_PB7 = 0x3F; // 63
-    internal const int SIZE_2GAME_PK8 = 0x48; // 72
-    internal const int SIZE_2GAME_PA8 = 0x40; // 64
-    internal const int SIZE_2GAME_PB8 = 0x2F; // 47
-    internal const int SIZE_2GAME_PK9 = 0x3D; // 61
-    internal const int SIZE_2STORED = 0x23A; // 570
+    public const int SIZE_2CORE = 0xC4; // 196
+    public const int SIZE_2GAME_PB7 = 0x3F; // 63
+    public const int SIZE_2GAME_PK8 = 0x48; // 72
+    public const int SIZE_2GAME_PA8 = 0x40; // 64
+    public const int SIZE_2GAME_PB8 = 0x2F; // 47
+    public const int SIZE_2GAME_PK9 = 0x3D; // 61
+    public const int SIZE_2STORED = 0x23A; // 570
+
+    public const int SIZE_STORED = SIZE_2STORED;
+    public const int SIZE_CORE = SIZE_2CORE;
+    public const int VersionLatest = Version2;
 
     public static bool IsKnownVersion(ushort version) => version is Version1 or Version2;
-    public static bool IsKnownCore(ushort size) => size is SIZE_1CORE or SIZE_2CORE;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void SetEncryptionKey1(Span<byte> key, ulong seed)
+    public static void SetEncryptionKey(Span<byte> key, ulong seed)
     {
         WriteUInt64BigEndian(key, seed ^ 0x6B7B5966193DB88B);
         WriteUInt64BigEndian(key.Slice(8, 8), seed & 0x937EC53BF8856E87);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void SetEncryptionIv1(Span<byte> iv, ulong seed)
+    public static void SetEncryptionIv(Span<byte> iv, ulong seed)
     {
         WriteUInt64BigEndian(iv, seed ^ 0x5F4ED4E84975D976);
         WriteUInt64BigEndian(iv.Slice(8, 8), seed | 0xE3CDA917EA9E489C);
@@ -56,7 +58,7 @@ public static class HomeCrypto
     /// <param name="decrypt">Encryption or Decryption mode</param>
     /// <returns>New array with result data.</returns>
     /// <exception cref="ArgumentException"> if the format is not supported.</exception>
-    public static byte[] Crypt1(ReadOnlySpan<byte> data, bool decrypt = true)
+    public static byte[] Crypt(ReadOnlySpan<byte> data, bool decrypt = true)
     {
         var format = ReadUInt16LittleEndian(data);
         if (!IsKnownVersion(format))
@@ -65,19 +67,19 @@ public static class HomeCrypto
         ulong seed = ReadUInt64LittleEndian(data.Slice(2, 8));
 
         var key = new byte[0x10];
-        SetEncryptionKey1(key, seed);
+        SetEncryptionKey(key, seed);
         var iv  = new byte[0x10];
-        SetEncryptionIv1(iv, seed);
+        SetEncryptionIv(iv, seed);
 
         var dataSize = ReadUInt16LittleEndian(data[0xE..0x10]);
         var result = new byte[SIZE_1HEADER + dataSize];
         data[..SIZE_1HEADER].CopyTo(result); // header
-        Crypt1(data, key, iv, result, dataSize, decrypt);
+        Crypt(data, key, iv, result, dataSize, decrypt);
 
         return result;
     }
 
-    private static void Crypt1(ReadOnlySpan<byte> data, byte[] key, byte[] iv, byte[] result, ushort dataSize, bool decrypt)
+    private static void Crypt(ReadOnlySpan<byte> data, byte[] key, byte[] iv, byte[] result, ushort dataSize, bool decrypt)
     {
         using var aes = Aes.Create();
         aes.Mode = CipherMode.CBC;
@@ -102,8 +104,8 @@ public static class HomeCrypto
         var format = ReadUInt16LittleEndian(span);
         if (IsKnownVersion(format))
         {
-            if (GetIsEncrypted1(span, format))
-                data = Crypt1(span);
+            if (GetIsEncrypted(span, format))
+                data = Crypt(span);
         }
         else
         {
@@ -116,7 +118,7 @@ public static class HomeCrypto
     /// </summary>
     public static byte[] Encrypt(ReadOnlySpan<byte> pk)
     {
-        var result = Crypt1(pk, false);
+        var result = Crypt(pk, false);
         RefreshChecksum(result, result);
         return result;
     }
@@ -136,20 +138,39 @@ public static class HomeCrypto
     /// Checks if the format 1 data is encrypted.
     /// </summary>
     /// <returns>True if encrypted.</returns>
-    public static bool GetIsEncrypted1(ReadOnlySpan<byte> data, ushort format) => format switch
+    public static bool GetIsEncrypted(ReadOnlySpan<byte> data, ushort format) => format switch
     {
         Version1 => IsEncryptedCore1(data),
+        Version2 => IsEncryptedCore2(data),
         _ => throw new ArgumentException($"Unrecognized format: {format}"),
     };
 
     private static bool IsEncryptedCore1(ReadOnlySpan<byte> data)
     {
         var core = data.Slice(SIZE_1HEADER + 2, SIZE_1CORE);
-        if (ReadUInt16LittleEndian(core[0xB5..]) != 0)
+
+        // Strings should be \0000 terminated if decrypted.
+        // Any non-zero value is a sign of encryption.
+        if (ReadUInt16LittleEndian(core[0xB5..]) != 0) // OT
             return true; // OT_Name final terminator should be 0 if decrypted.
-        if (ReadUInt16LittleEndian(core[0x60..]) != 0)
+        if (ReadUInt16LittleEndian(core[0x60..]) != 0) // Nick
             return true; // Nickname final terminator should be 0 if decrypted.
-        if (ReadUInt16LittleEndian(core[0x88..]) != 0)
+        if (ReadUInt16LittleEndian(core[0x88..]) != 0) // HT
+            return true; // HT_Name final terminator should be 0 if decrypted.
+
+        //// Fall back to checksum.
+        //return ReadUInt32LittleEndian(data[0xA..0xE]) == GetChecksum1(data);
+        return false; // 64 bits checked is enough to feel safe about this check.
+    }
+
+    private static bool IsEncryptedCore2(ReadOnlySpan<byte> data)
+    {
+        var core = data.Slice(SIZE_1HEADER + 2, SIZE_2CORE);
+        if (ReadUInt16LittleEndian(core[0xB1..]) != 0)
+            return true; // OT_Name final terminator should be 0 if decrypted.
+        if (ReadUInt16LittleEndian(core[0x5C..]) != 0)
+            return true; // Nickname final terminator should be 0 if decrypted.
+        if (ReadUInt16LittleEndian(core[0x84..]) != 0)
             return true; // HT_Name final terminator should be 0 if decrypted.
 
         //// Fall back to checksum.

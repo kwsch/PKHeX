@@ -10,13 +10,10 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
     private static readonly EvolutionTree Tree8a = EvolutionTree.Evolves8a;
     private static readonly EvolutionTree Tree8b = EvolutionTree.Evolves8b;
     private const int MaxSpecies = Legal.MaxSpeciesID_8a;
-    private const int Generation = 8;
 
-    public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => null;
+    public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => EvolutionGroup9.Instance;
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc)
     {
-        if (enc.Generation >= Generation)
-            return null;
         if ((GameVersion)enc.Version is GP or GE or GG or GO)
             return EvolutionGroup7b.Instance;
         return EvolutionGroup7.Instance;
@@ -37,7 +34,7 @@ public sealed class EvolutionGroup8 : IEvolutionGroup
         // Block BD/SP transfers that are impossible
         BlockBDSP(history, enc);
 
-        if (!pk.IsUntraded && !(ParseSettings.IgnoreTransferIfNoTracker && pk is IHomeTrack { HasTracker: true }))
+        if (!pk.IsUntraded && !(ParseSettings.IgnoreTransferIfNoTracker && pk is IHomeTrack { HasTracker: false }))
         {
             CrossPropagate(history);
         }

@@ -64,4 +64,6 @@ public static class BallExtensions
     /// <param name="ball">Ball ID</param>
     /// <returns>True if Apricorn, false if not.</returns>
     public static bool IsApricornBall(this Ball ball) => ball is >= Ball.Fast and <= Ball.Moon;
+
+    public static bool IsLegendBall(this Ball ball) => ball is >= Ball.LAPoke and <= Ball.LAOrigin;
 }

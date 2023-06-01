@@ -161,10 +161,6 @@ public sealed class TransferVerifier : Verifier
 
     public void VerifyTransferLegalityG9(LegalityAnalysis data)
     {
-        var enc = data.EncounterMatch;
-        if (enc.Generation != 9)
-            data.AddLine(GetInvalid(LTransferBad));
-
         var pk = data.Entity;
         var pt = PersonalTable.SV;
         if (!pt.IsPresentInGame(pk.Species, pk.Form))
@@ -203,7 +199,7 @@ public sealed class TransferVerifier : Verifier
     {
         // Tracker value is set via Transfer across HOME.
         // Can't validate the actual values (we aren't the server), so we can only check against zero.
-        if (pk is IHomeTrack { HasTracker: true })
+        if (pk is IHomeTrack { HasTracker: false })
         {
             data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
             // To the reader: It seems like the best course of action for setting a tracker is:

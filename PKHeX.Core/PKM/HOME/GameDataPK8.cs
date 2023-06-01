@@ -6,10 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Side game data for <see cref="PK8"/> data transferred into HOME.
 /// </summary>
-public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDynamaxLevel, ISociability
+public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax, IDynamaxLevel, ISociability, IGameDataSplitAbility, IPokerusStatus
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PK8;
-    private const int SIZE = HomeCrypto.SIZE_1GAME_PK8;
+    private const int SIZE = HomeCrypto.SIZE_2GAME_PK8;
     protected override HomeGameDataFormat Format => ExpectFormat;
 
     public GameDataPK8() : base(SIZE) { }
@@ -61,15 +61,20 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
     public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x40..]); set => WriteUInt16LittleEndian(Data[0x40..], (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data[0x42..]); set => WriteUInt16LittleEndian(Data[0x42..], (ushort)value); }
 
+    // Rev2 Additions
+    public byte PKRS { get => Data[0x44]; set => Data[0x44] = value; }
+    public ushort Ability { get => ReadUInt16LittleEndian(Data[0x45..]); set => WriteUInt16LittleEndian(Data[0x45..], value); }
+    public byte AbilityNumber { get => Data[0x47]; set => Data[0x47] = value; }
+
     #endregion
 
     #region Conversion
 
     public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.SWSH.GetFormEntry(species, form);
 
-    public void CopyTo(PK8 pk)
+    public void CopyTo(PK8 pk, PKH pkh)
     {
-        ((IGameDataSide)this).CopyTo(pk);
+        this.CopyTo(pk);
         pk.CanGigantamax = CanGigantamax;
         pk.Sociability = Sociability;
         pk.DynamaxLevel = DynamaxLevel;
@@ -77,15 +82,34 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
         pk.Palma = Palma;
         PokeJob.CopyTo(pk.PokeJob);
         RecordFlags.CopyTo(pk.RecordFlags);
+        pk.PKRS = PKRS;
+        pk.AbilityNumber = AbilityNumber;
+        pk.Ability = Ability;
     }
 
-    public PKM ConvertToPKM(PKH pkh) => ConvertToPK8(pkh);
+    public void CopyFrom(PK8 pk, PKH pkh)
+    {
+        this.CopyFrom(pk);
+        CanGigantamax = pk.CanGigantamax;
+        Sociability = pk.Sociability;
+        DynamaxLevel = pk.DynamaxLevel;
+        Fullness = pk.Fullness;
+        Palma = pk.Palma;
+        pk.PokeJob.CopyTo(PokeJob);
+        pk.RecordFlags.CopyTo(RecordFlags);
+        PKRS = pk.PKRS;
+        AbilityNumber = (byte)pk.AbilityNumber;
+        Ability = (ushort)pk.Ability;
+    }
 
-    public PK8 ConvertToPK8(PKH pkh)
+    public PK8 ConvertToPKM(PKH pkh)
     {
         var pk = new PK8();
         pkh.CopyTo(pk);
-        CopyTo(pk);
+        CopyTo(pk, pkh);
+
+        pk.ResetPartyStats();
+        pk.RefreshChecksum();
         return pk;
     }
 
@@ -95,25 +119,65 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide, IGigantamax, IDy
     public static GameDataPK8? TryCreate(PKH pkh)
     {
         if (pkh.DataPB7 is { } x)
-            return GameDataPB7.Create<GameDataPK8>(x);
+            return CreateViaPB7(pkh, x);
 
-        var side = pkh.DataPB8 as IGameDataSide
-                ?? pkh.DataPA8 as IGameDataSide
-                ?? pkh.DataPK9;
+        var side = GetNearestNeighbor(pkh);
         if (side is not null)
-            return Create(side, pkh.Version);
+            return Create(side, pkh);
 
         return null;
     }
 
-    private static GameDataPK8 Create(IGameDataSide side, int ver)
+    // Ignores LGP/E, already preferred if exists.
+    private static IGameDataSide? GetNearestNeighbor(PKH pkh) => pkh.DataPK9 as IGameDataSide
+                                                              ?? pkh.DataPB8 as IGameDataSide
+                                                              ?? pkh.DataPA8;
+
+    private static GameDataPK8 CreateViaPB7(PKH pkh, GameDataPB7 x)
     {
+        var result = new GameDataPK8();
+        x.CopyTo(result); // Moves are copied by default.
+        result.AbilityNumber = x.AbilityNumber;
+
+        result.PopulateFromCore(pkh);
+        return result;
+    }
+
+    private static GameDataPK8 Create(IGameDataSide side, PKH pkh)
+    {
+        var result = new GameDataPK8();
+        result.InitializeFrom(side, pkh);
+
+        result.ResetMoves(pkh.Species, pkh.Form, pkh.CurrentLevel, LearnSource8SWSH.Instance, EntityContext.Gen8);
+        return result;
+    }
+
+    public void InitializeFrom(IGameDataSide side, PKH pkh)
+    {
+        // BDSP->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg
+        // (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
+        // PLA->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
+        var ver = pkh.Version;
         var met = side.Met_Location;
         var ball = GetBall(side.Ball);
         var egg = GetEggLocation(side.Egg_Location);
         if (!IsOriginallySWSH(ver, met))
             RemapMetEgg(ver, ref met, ref egg);
-        return new GameDataPK8 { Ball = ball, Met_Location = met, Egg_Location = egg };
+        Ball = ball;
+        Met_Location = met;
+        Egg_Location = egg;
+        if (side is IGameDataSplitAbility a)
+            AbilityNumber = a.AbilityNumber;
+        if (side is IPokerusStatus p)
+            PKRS = p.PKRS;
+
+        PopulateFromCore(pkh);
+    }
+
+    private void PopulateFromCore(PKH pkh)
+    {
+        var pi = PersonalTable.SWSH.GetFormEntry(pkh.Species, pkh.Form);
+        Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
     }
 
     private static void RemapMetEgg(int ver, ref int met, ref int egg)

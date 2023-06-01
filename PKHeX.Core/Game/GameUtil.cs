@@ -238,14 +238,16 @@ public static class GameUtil
         var max = obj.MaxGameID;
         if (max == Legal.MaxGameID_7b) // edge case
             return new[] {GO, GP, GE};
-        if (max == Legal.MaxGameID_8)
-            max = Legal.MaxGameID_8a;
         var versions = GameVersions
             .Where(version => (GameVersion)obj.MinGameID <= version && version <= (GameVersion)max);
         if (generation < 0)
             return versions;
         if (max == Legal.MaxGameID_7 && generation == 7)
             versions = versions.Where(version => version != GO);
+
+        // HOME allows up-reach to Gen9
+        if (generation >= 8)
+            generation = 9;
         return versions.Where(version => version.GetGeneration() <= generation);
     }
 }
