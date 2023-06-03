@@ -170,7 +170,7 @@ public sealed class MiscVerifier : Verifier
             var seed = Tera9RNG.GetOriginalSeed(pk9);
             data.Info.PIDIV = new PIDIV(PIDType.Tera9, seed);
         }
-        else if (enc is not { Context: EntityContext.Gen9 })
+        else if (enc is not { Context: EntityContext.Gen9 } || pk9 is { GO_HOME: true })
         {
             if (pk9.TeraTypeOverride == (MoveType)TeraTypeUtil.OverrideNone)
                 data.AddLine(GetInvalid(LTeraTypeIncorrect));
