@@ -95,6 +95,8 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         {
             s.HeightScalar = PokeSizeUtil.GetRandomScalar();
             s.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            if (pk is IScaledSize3 s3)
+                s3.Scale = s.HeightScalar = PokeSizeUtil.GetRandomScalar();
         }
 
         if (OriginFormat is PogoImportFormat.PA8)
@@ -102,7 +104,6 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
             var pa8 = (PA8)pk;
             pa8.ResetHeight();
             pa8.ResetWeight();
-            pa8.Scale = pa8.HeightScalar;
         }
 
         if (OriginFormat is PogoImportFormat.PK9)
@@ -111,7 +112,6 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
             var pi = pk9.PersonalInfo;
             pk9.TeraTypeOriginal = pk9.TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
             pk9.Obedience_Level = (byte)pk9.Met_Level;
-            pk9.HeightScalar = pk9.Scale; // HOME copy
         }
 
         pk.OT_Friendship = OT_Friendship;
