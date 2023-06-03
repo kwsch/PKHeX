@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using static PKHeX.Core.EncounterStateUtil;
 using static PKHeX.Core.EncounterTypeGroup;
 using static PKHeX.Core.EncounterMatchRating;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -13,7 +14,12 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
         var chain = EncounterOrigin.GetOriginChain(pk);
-        return GetEncounters(pk, chain, info);
+        return (GameVersion)pk.Version switch
+        {
+            SW when pk.Met_Location == LocationsHOME.SWSL => Instance.GetEncountersSWSH(pk, chain, SL),
+            SH when pk.Met_Location == LocationsHOME.SHVL => Instance.GetEncountersSWSH(pk, chain, VL),
+            _ => GetEncounters(pk, chain, info),
+        };
     }
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
@@ -32,7 +38,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
-            var table = game == GameVersion.SL ? Encounters9.StaticSL : Encounters9.StaticVL;
+            var table = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
             foreach (var enc in GetPossibleStatic(chain, table))
                 yield return enc;
         }
@@ -99,7 +105,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
     {
         foreach (var enc in table)
         {
-            if (enc.Version != GameVersion.SV && enc.Version != game)
+            if (enc.Version != SV && enc.Version != game)
                 continue;
 
             foreach (var evo in chain)
@@ -112,7 +118,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         }
     }
 
-    public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
+    public IEnumerable<IEncounterable>  GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
     {
         if (pk.FatefulEncounter)
         {
@@ -135,7 +141,6 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
             if (yielded)
                 yield break;
         }
-
 
         bool wasEgg = pk.Egg_Location switch
         {
@@ -166,7 +171,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
             {
                 foreach (var evo in chain)
                 {
-                    if (z.Version != GameVersion.SV && z.Version != game)
+                    if (z.Version != SV && z.Version != game)
                         continue;
                     if (evo.Species != z.Species)
                         continue;
@@ -192,7 +197,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
         if (pk is not IRibbonIndex r || !r.HasEncounterMark())
         {
-            var encStatic = game == GameVersion.SL ? Encounters9.StaticSL : Encounters9.StaticVL;
+            var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
             foreach (var z in encStatic)
             {
                 foreach (var evo in chain)
@@ -295,7 +300,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
             {
                 foreach (var evo in chain)
                 {
-                    if (z.Version != GameVersion.SV && z.Version != game)
+                    if (z.Version != SV && z.Version != game)
                         continue;
                     if (evo.Species != z.Species)
                         continue;
@@ -322,7 +327,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
         if (pk is not IRibbonIndex r || !r.HasEncounterMark())
         {
-            var encStatic = game == GameVersion.SL ? Encounters9.StaticSL : Encounters9.StaticVL;
+            var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
             foreach (var z in encStatic)
             {
                 foreach (var evo in chain)
@@ -389,7 +394,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         if (!devolved.InsideLevelRange(EggLevel))
             yield break;
         if (version == 0 && pk.IsEgg)
-            version = GameVersion.SL;
+            version = SL;
 
         // Ensure most devolved species is the same as the egg species.
         // No split-breed to consider.
