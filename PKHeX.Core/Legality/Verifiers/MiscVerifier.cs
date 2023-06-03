@@ -187,6 +187,9 @@ public sealed class MiscVerifier : Verifier
 
     public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual)
     {
+        // Sanitize out Form here for Arceus/Silvally -- rewrite via evotree later.
+        if (evos.Length == 0 || evos[0].Species is (int)Species.Arceus or (int)Species.Silvally)
+            return actual == MoveType.Normal ? 0 : -1;
         for (int i = evos.Length - 1; i >= 0; i--)
         {
             var evo = evos[i];

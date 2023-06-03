@@ -131,7 +131,8 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSize
         Ability = (ushort)pk.Ability;
 
         // All other side formats have HT Language. Just fake a value.
-        pkh.HT_Language = (byte)pk.Language;
+        if (pkh is { HT_Language: 0, IsUntraded: false })
+            pkh.HT_Language = (byte)pk.Language;
     }
 
     public PB7 ConvertToPKM(PKH pkh)

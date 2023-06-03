@@ -80,6 +80,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     public override Span<byte> Nickname_Trash => Core.Nickname_Trash;
     public override Span<byte> OT_Trash => Core.OT_Trash;
     public override Span<byte> HT_Trash => Core.HT_Trash;
+    public override bool IsUntraded => ReadUInt16LittleEndian(HT_Trash) == 0; // immediately terminated HT_Name data (\0)
 
     #region Core
 
