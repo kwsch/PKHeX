@@ -131,7 +131,11 @@ public static class MarkRules
     /// <summary>
     /// Checks if the input can have the <see cref="IRibbonSetMark9.RibbonMarkAlpha"/> mark.
     /// </summary>
-    public static bool IsMarkPresentAlpha(IEncounterTemplate enc) => enc is IAlphaReadOnly { IsAlpha: true};
+    public static bool IsMarkValidAlpha(IEncounterTemplate enc, PKM pk)
+    {
+        var expect = enc is IAlphaReadOnly { IsAlpha: true };
+        return IsMarkValidAlpha(pk, expect);
+    }
 
     /// <summary>
     /// Checks if the input can have the <see cref="IRibbonSetMark9.RibbonMarkJumbo"/> mark.

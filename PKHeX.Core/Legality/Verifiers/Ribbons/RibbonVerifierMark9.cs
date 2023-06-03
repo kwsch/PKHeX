@@ -9,7 +9,7 @@ public static class RibbonVerifierMark9
 {
     public static void Parse(this IRibbonSetMark9 r, RibbonVerifierArguments args, ref RibbonResultList list)
     {
-        if (r.RibbonMarkAlpha != MarkRules.IsMarkPresentAlpha(args.Encounter))
+        if (!MarkRules.IsMarkValidAlpha(args.Encounter, args.Entity))
             list.Add(MarkAlpha, !r.RibbonMarkAlpha);
         if (r.RibbonMarkGourmand && !MarkRules.IsMarkValidGourmand(args.History))
             list.Add(MarkGourmand);

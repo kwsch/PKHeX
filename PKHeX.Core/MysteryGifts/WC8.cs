@@ -574,7 +574,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
         if (!tr.IsShiny(pid, 8))
             return pid;
-        if (IsHOMEGift && IsHOMEShinyPossible())
+        if (IsHOMEGift && !IsHOMEShinyPossible())
             return ForceAntiShiny(pid);
         return pid;
     }
