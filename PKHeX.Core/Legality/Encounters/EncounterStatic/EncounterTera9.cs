@@ -95,6 +95,13 @@ public sealed record EncounterTera9 : EncounterStatic, ITeraRaid9
         _ => throw new ArgumentOutOfRangeException(nameof(b), b, null),
     };
 
+    protected override bool IsMatchLocation(PKM pk)
+    {
+        if (pk is PK8)
+            return LocationsHOME.IsValidMetSV((ushort)pk.Met_Location, pk.Version);
+        return base.IsMatchLocation(pk);
+    }
+
     protected override EncounterMatchRating IsMatchDeferred(PKM pk)
     {
         if (Ability != Any12H)

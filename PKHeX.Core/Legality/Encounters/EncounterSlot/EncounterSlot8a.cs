@@ -108,7 +108,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
 
     private EncounterMatchRating GetMatchRatingInternal(PKM pk)
     {
-        if (pk is IAlpha a && a.IsAlpha != IsAlpha)
+        if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha))
             return EncounterMatchRating.DeferredErrors;
         if (FlawlessIVCount is not 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return EncounterMatchRating.DeferredErrors;

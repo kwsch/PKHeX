@@ -115,6 +115,9 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
         if (!IsForcedMasteryCorrect(pk))
             return EncounterMatchRating.DeferredErrors;
 
+        if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha))
+            return EncounterMatchRating.DeferredErrors;
+
         if (IsAlpha && pk is PA8 { AlphaMove: 0 })
             return EncounterMatchRating.Deferred;
 
