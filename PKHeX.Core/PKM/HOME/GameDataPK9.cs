@@ -169,12 +169,6 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
 
         var pi = PersonalTable.SV.GetFormEntry(pkh.Species, pkh.Form);
         Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
-        TeraTypeOriginal = TeraTypeOverride = (MoveType)GetPreferredTeraType(pi);
-    }
-
-    private static byte GetPreferredTeraType(IPersonalType pi)
-    {
-        var type = pi.Type1;
-        return type != (byte)MoveType.Normal ? type : pi.Type2;
+        TeraTypeOriginal = TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
     }
 }

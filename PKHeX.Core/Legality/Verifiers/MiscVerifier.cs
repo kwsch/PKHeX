@@ -170,6 +170,32 @@ public sealed class MiscVerifier : Verifier
             var seed = Tera9RNG.GetOriginalSeed(pk9);
             data.Info.PIDIV = new PIDIV(PIDType.Tera9, seed);
         }
+        else if (enc is not { Context: EntityContext.Gen9 })
+        {
+            if (pk9.TeraTypeOverride == (MoveType)TeraTypeUtil.OverrideNone)
+                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+            else if (GetTeraImportMatch(data.Info.EvoChainsAllGens.Gen9, pk9.TeraTypeOriginal) == -1)
+                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+        }
+        else if (enc is EncounterStatic9 { StarterBoxLegend: true })
+        {
+            // Ride legends cannot be traded or transferred.
+            if (pk9.CurrentHandler != 0 || pk9.Tracker != 0)
+                data.AddLine(GetInvalid(LTransferBad));
+        }
+    }
+
+    public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual)
+    {
+        for (int i = evos.Length - 1; i >= 0; i--)
+        {
+            var evo = evos[i];
+            var pi = PersonalTable.SV.GetFormEntry(evo.Species, evo.Form);
+            var expect = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
+            if (expect == actual)
+                return i;
+        }
+        return -1;
     }
 
     private static bool IsObedienceLevelValid(PKM pk, byte current, int expectObey)

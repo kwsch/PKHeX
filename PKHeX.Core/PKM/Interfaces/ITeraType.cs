@@ -86,4 +86,13 @@ public static class TeraTypeUtil
     /// <param name="t">Entity to set the value to.</param>
     /// <param name="type">Value to update with.</param>
     public static void SetTeraType(this ITeraType t, byte type) => t.SetTeraType((MoveType)type);
+
+    /// <summary>
+    /// Gets the preferred Tera Type to set for the given <see cref="IPersonalType"/>.
+    /// </summary>
+    public static MoveType GetTeraTypeImport(byte type1, byte type2)
+    {
+        var type = (MoveType)type1;
+        return type != (byte)MoveType.Normal ? type : (MoveType)type2;
+    }
 }
