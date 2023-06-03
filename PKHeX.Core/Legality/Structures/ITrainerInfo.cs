@@ -58,6 +58,8 @@ public static class TrainerInfoExtensions
         pk.HT_Gender = sav.Gender;
         pk.HT_Friendship = pk.OT_Friendship;
         pk.CurrentHandler = 1;
+        if (pk is IHandlerLanguage h)
+            h.HT_Language = (byte)sav.Language;
 
         if (pk is PK6 pk6 && sav is IRegionOrigin o)
         {

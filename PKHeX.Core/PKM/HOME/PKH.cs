@@ -32,7 +32,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
         var mem = Data.AsMemory(HomeCrypto.SIZE_1HEADER + 2);
         var core = mem[..CoreDataSize];
-        Core = new GameDataCore(core);
+        Core = new GameDataCore(core) { AffixedRibbon = -1 };
     }
 
     private void ReadGameData1(Memory<byte> data)
