@@ -515,21 +515,6 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     private void CopyConditionalRibbonMarkTo(PKM pk)
     {
-        if (pk is IRibbonSetEvent3  e3) e3.CopyRibbonSetEvent3 (this);
-        if (pk is IRibbonSetEvent4  e4) e4.CopyRibbonSetEvent4 (this);
-        if (pk is IRibbonSetCommon3 c3) c3.CopyRibbonSetCommon3(this);
-        if (pk is IRibbonSetCommon4 c4) c4.CopyRibbonSetCommon4(this);
-        if (pk is IRibbonSetCommon6 c6) c6.CopyRibbonSetCommon6(this);
-        if (pk is IRibbonSetMemory6 m6) m6.CopyRibbonSetMemory6(this);
-        if (pk is IRibbonSetCommon7 c7) c7.CopyRibbonSetCommon7(this);
-        if (pk is IRibbonSetCommon8 c8) c8.CopyRibbonSetCommon8(this);
-        if (pk is IRibbonSetMark8   m8) m8.CopyRibbonSetMark8  (this);
-        if (pk is IRibbonSetCommon9 c9) c9.CopyRibbonSetCommon9(this);
-        if (pk is IRibbonSetMark9   m9) m9.CopyRibbonSetMark9  (this);
-    }
-
-    private void CopyConditionalRibbonMarkFrom(PKM pk)
-    {
         if (pk is IRibbonSetEvent3  e3) this.CopyRibbonSetEvent3 (e3);
         if (pk is IRibbonSetEvent4  e4) this.CopyRibbonSetEvent4 (e4);
         if (pk is IRibbonSetCommon3 c3) this.CopyRibbonSetCommon3(c3);
@@ -541,5 +526,20 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
         if (pk is IRibbonSetMark8   m8) this.CopyRibbonSetMark8  (m8);
         if (pk is IRibbonSetCommon9 c9) this.CopyRibbonSetCommon9(c9);
         if (pk is IRibbonSetMark9   m9) this.CopyRibbonSetMark9  (m9);
+    }
+
+    private void CopyConditionalRibbonMarkFrom(PKM pk)
+    {
+        if (pk is IRibbonSetEvent3  e3) e3.CopyRibbonSetEvent3 (this);
+        if (pk is IRibbonSetEvent4  e4) e4.CopyRibbonSetEvent4 (this);
+        if (pk is IRibbonSetCommon3 c3) c3.CopyRibbonSetCommon3(this);
+        if (pk is IRibbonSetCommon4 c4) c4.CopyRibbonSetCommon4(this);
+        if (pk is IRibbonSetCommon6 c6) c6.CopyRibbonSetCommon6(this);
+        if (pk is IRibbonSetMemory6 m6) m6.CopyRibbonSetMemory6(this);
+        if (pk is IRibbonSetCommon7 c7) c7.CopyRibbonSetCommon7(this);
+        if (pk is IRibbonSetCommon8 c8) c8.CopyRibbonSetCommon8(this);
+        if (pk is IRibbonSetMark8   m8) m8.CopyRibbonSetMark8  (this);
+        if (pk is IRibbonSetCommon9 c9) c9.CopyRibbonSetCommon9(this);
+        if (pk is IRibbonSetMark9   m9) m9.CopyRibbonSetMark9  (this);
     }
 }
