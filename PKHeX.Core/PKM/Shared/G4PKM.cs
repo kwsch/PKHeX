@@ -25,23 +25,8 @@ public abstract class G4PKM : PKM,
     public sealed override uint TSV => (uint)(TID16 ^ SID16) >> 3;
 
     protected bool PtHGSS => Pt || HGSS;
-
-    public sealed override int Characteristic
-    {
-        get
-        {
-            int pm6 = (int)(EncryptionConstant % 6); // PID
-            int maxIV = MaximumIV;
-            int pm6stat = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                pm6stat = (pm6 + i) % 6;
-                if (GetIV(pm6stat) == maxIV)
-                    break;
-            }
-            return (pm6stat * 5) + (maxIV % 5);
-        }
-    }
+    protected internal abstract uint IV32 { get; set; }
+    public override int Characteristic => EntityCharacteristic.GetCharacteristic(PID, IV32);
 
     public abstract ushort Sanity { get; set; }
     public abstract ushort Checksum { get; set; }

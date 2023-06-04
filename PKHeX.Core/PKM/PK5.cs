@@ -275,23 +275,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     // Generated Attributes
     public override uint PSV => ((PID >> 16) ^ (PID & 0xFFFF)) >> 3;
     public override uint TSV => (uint)(TID16 ^ SID16) >> 3;
-
-    public override int Characteristic
-    {
-        get
-        {
-            int pm6 = (int)(PID % 6); // PID
-            int maxIV = MaximumIV;
-            int pm6stat = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                pm6stat = (pm6 + i) % 6;
-                if (GetIV(pm6stat) == maxIV)
-                    break;
-            }
-            return (pm6stat * 5) + (maxIV % 5);
-        }
-    }
+    public override int Characteristic => EntityCharacteristic.GetCharacteristic(PID, IV32);
 
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_5;
