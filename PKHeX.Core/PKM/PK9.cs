@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 9 <see cref="PKM"/> format. </summary>
-public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechRecord, IObedienceLevel,
+public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedienceLevel,
     IContestStats, IHyperTrain, IScaledSize, IScaledSize3, IFavorite, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories,
     IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetCommon9, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetMark9
 {
@@ -608,20 +608,11 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, IMoveReset, ITechReco
         HT_Language = (byte)tr.Language;
     }
 
-    public void ResetMoves()
-    {
-        var learn = LearnSource9SV.Instance.GetLearnset(Species, Form);
-        Span<ushort> moves = stackalloc ushort[4];
-        learn.SetEncounterMoves(CurrentLevel, moves);
-        SetMoves(moves);
-        this.SetMaximumPPCurrent(moves);
-    }
-
     // Maximums
     public override ushort MaxMoveID => Legal.MaxMoveID_9;
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_9;
     public override int MaxAbilityID => Legal.MaxAbilityID_9;
     public override int MaxItemID => Legal.MaxItemID_9;
     public override int MaxBallID => Legal.MaxBallID_9;
-    public override int MaxGameID => Legal.MaxGameID_9;
+    public override int MaxGameID => Legal.MaxGameID_HOME;
 }

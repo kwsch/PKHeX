@@ -161,10 +161,6 @@ public sealed class TransferVerifier : Verifier
 
     public void VerifyTransferLegalityG9(LegalityAnalysis data)
     {
-        var enc = data.EncounterMatch;
-        if (enc.Generation != 9)
-            data.AddLine(GetInvalid(LTransferBad));
-
         var pk = data.Entity;
         var pt = PersonalTable.SV;
         if (!pt.IsPresentInGame(pk.Species, pk.Form))
@@ -178,6 +174,7 @@ public sealed class TransferVerifier : Verifier
         WC8 { IsHOMEGift: true } => true,
         WB8 { IsHOMEGift: true } => true,
         WA8 { IsHOMEGift: true } => true,
+        WC9 { IsHOMEGift: true } => true,
         _ => enc.Generation < 8,
     };
 
@@ -188,17 +185,21 @@ public sealed class TransferVerifier : Verifier
 
         if (pk.LGPE || pk.GO)
             return; // can have any size value
-        if (s.HeightScalar != 0)
-            data.AddLine(GetInvalid(LTransferBad));
-        if (s.WeightScalar != 0)
-            data.AddLine(GetInvalid(LTransferBad));
+
+        // HOME in 3.0.0 will actively re-roll (0,0) to non-zero values.
+        // Transfer between Gen8 can be done before HOME 3.0.0, so we can allow (0,0) or re-rolled.
+        if (pk.Context is not (EntityContext.Gen8 or EntityContext.Gen8a or EntityContext.Gen8b))
+        {
+            if (s is { HeightScalar: 0, WeightScalar: 0 } && !data.Info.EvoChainsAllGens.HasVisitedPLA)
+                data.AddLine(GetInvalid(LTransferBad));
+        }
     }
 
     private void VerifyHOMETracker(LegalityAnalysis data, PKM pk)
     {
         // Tracker value is set via Transfer across HOME.
         // Can't validate the actual values (we aren't the server), so we can only check against zero.
-        if (pk is IHomeTrack {Tracker: 0})
+        if (pk is IHomeTrack { HasTracker: false })
         {
             data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
             // To the reader: It seems like the best course of action for setting a tracker is:

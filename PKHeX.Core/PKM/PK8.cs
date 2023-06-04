@@ -105,88 +105,9 @@ public sealed class PK8 : G8PKM
     public override int MaxItemID => Legal.MaxItemID_8;
     public override int MaxBallID => Legal.MaxBallID_8;
     public override int MaxGameID => Legal.MaxGameID_8;
-
-    public PB8 ConvertToPB8()
-    {
-        var pk = ConvertTo<PB8>();
-        if (pk.Egg_Location == 0)
-            pk.Egg_Location = Locations.Default8bNone;
-        UnmapLocation(pk);
-        return pk;
-    }
-
-    public override PA8 ConvertToPA8()
-    {
-        var pk = base.ConvertToPA8();
-        UnmapLocation(pk);
-        return pk;
-    }
-
-    private static void UnmapLocation(PKM pk)
-    {
-        switch (pk.Met_Location)
-        {
-            case Locations.HOME_SWLA:
-                pk.Version = (int)GameVersion.PLA;
-                // Keep location due to bad transfer logic (official) -- server legal.
-                break;
-            case Locations.HOME_SWBD:
-                pk.Version = (int)GameVersion.BD;
-                pk.Met_Location = 0; // Load whatever value from the server. We don't know.
-                break;
-            case Locations.HOME_SHSP:
-                pk.Version = (int)GameVersion.SP;
-                pk.Met_Location = 0; // Load whatever value from the server. We don't know.
-                break;
-        }
-    }
-
-    public override void ResetMoves()
-    {
-        var learn = LearnSource8SWSH.Instance.GetLearnset(Species, Form);
-        Span<ushort> moves = stackalloc ushort[4];
-        learn.SetEncounterMoves(CurrentLevel, moves);
-        SetMoves(moves);
-        this.SetMaximumPPCurrent(moves);
-    }
-
-    public bool IsSideTransfer => Met_Location is Locations.HOME_SHSP or Locations.HOME_SWBD or Locations.HOME_SWLA;
-    public override bool BDSP => Met_Location is Locations.HOME_SWBD or Locations.HOME_SHSP;
-    public override bool LA => Met_Location is Locations.HOME_SWLA;
+    public bool IsSideTransfer => LocationsHOME.IsLocationSWSH(Met_Location);
+    public override bool SV => Met_Location is LocationsHOME.SWSL or LocationsHOME.SHVL;
+    public override bool BDSP => Met_Location is LocationsHOME.SWBD or LocationsHOME.SHSP;
+    public override bool LA => Met_Location is LocationsHOME.SWLA;
     public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(BDSP || LA);
-
-    public void SanitizeImport()
-    {
-        // BDSP->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
-        // PLA->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
-        var ver = Version;
-        if (ver is (int)GameVersion.SP)
-        {
-            Version = (int)GameVersion.SH;
-            Met_Location = Locations.HOME_SHSP;
-            Egg_Location = Egg_Location == Locations.Default8bNone ? 0 : Locations.HOME_SWSHBDSPEgg;
-        }
-        else if (ver is (int)GameVersion.BD)
-        {
-            Version = (int)GameVersion.SW;
-            Met_Location = Locations.HOME_SWBD;
-            Egg_Location = Egg_Location == Locations.Default8bNone ? 0 : Locations.HOME_SWSHBDSPEgg;
-        }
-        else if (ver is (int)GameVersion.PLA)
-        {
-            const ushort met = Locations.HOME_SWLA;
-            Version = (int)GameVersion.SW;
-            Met_Location = met;
-            Egg_Location = 0; // Everything originating from this game has an Egg Location of 0.
-        }
-
-        if (Ball > (int)Core.Ball.Beast)
-            Ball = (int)Core.Ball.Poke;
-    }
-
-    public PK9 ConvertToPK9()
-    {
-        // Todo: Transfer to PK9
-        return new PK9();
-    }
 }

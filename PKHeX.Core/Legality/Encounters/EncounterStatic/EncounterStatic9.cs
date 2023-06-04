@@ -19,6 +19,13 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
 
     public SizeType9 ScaleType => NoScalarsDefined ? SizeType9.RANDOM : SizeType9.VALUE;
 
+    protected override bool IsMatchLocation(PKM pk)
+    {
+        if (pk is PK8)
+            return LocationsHOME.IsValidMetSV((ushort)pk.Met_Location, pk.Version);
+        return base.IsMatchLocation(pk);
+    }
+
     protected override bool IsMatchPartial(PKM pk)
     {
         if (pk is IScaledSize v && !NoScalarsDefined)
@@ -30,9 +37,9 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
                 if (v.WeightScalar != Size)
                     return true;
             }
-            if (pk is PK9 pk9)
+            if (pk is IScaledSize3 s3)
             {
-                if (pk9.Scale != Size)
+                if (s3.Scale != Size)
                     return true;
             }
         }

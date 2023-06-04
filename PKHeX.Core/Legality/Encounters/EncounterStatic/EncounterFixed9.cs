@@ -53,8 +53,8 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        if (!pk.HasOriginalMetLocation)
-            return true;
+        if (pk is PK8)
+            return LocationsHOME.IsValidMetSV((ushort)pk.Met_Location, pk.Version);
         var loc = pk.Met_Location;
         return loc == Location0 || loc == Location1 || loc == Location2 || loc == Location3;
     }

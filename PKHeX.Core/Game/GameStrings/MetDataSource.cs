@@ -156,10 +156,12 @@ public sealed class MetDataSource
         Util.AddCBWithOffset(locations, s.Gen8.Met6, 60000, Locations8.Met6);
 
         // Add in the BDSP+PLA magic met locations.
-        locations.Add(new ComboItem($"{s.EggName} (BD/SP)", Locations.HOME_SWSHBDSPEgg));
-        locations.Add(new ComboItem(s.gamelist[(int)BD], Locations.HOME_SWBD));
-        locations.Add(new ComboItem(s.gamelist[(int)SP], Locations.HOME_SHSP));
-        locations.Add(new ComboItem(s.gamelist[(int)PLA], Locations.HOME_SWLA));
+        locations.Add(new ComboItem($"{s.EggName} (HOME)", LocationsHOME.SWSHEgg));
+        locations.Add(new ComboItem(s.gamelist[(int)SL], LocationsHOME.SWSL));
+        locations.Add(new ComboItem(s.gamelist[(int)VL], LocationsHOME.SHVL));
+        locations.Add(new ComboItem(s.gamelist[(int)BD], LocationsHOME.SWBD));
+        locations.Add(new ComboItem(s.gamelist[(int)SP], LocationsHOME.SHSP));
+        locations.Add(new ComboItem(s.gamelist[(int)PLA], LocationsHOME.SWLA));
 
         return locations;
     }
@@ -174,10 +176,10 @@ public sealed class MetDataSource
         Util.AddCBWithOffset(locations, s.Gen8a.Met6, 60000, Locations8a.Met6);
 
         // Add in the BDSP+PLA magic met locations.
-        locations.Add(new ComboItem($"{s.EggName} (BD/SP)", Locations.HOME_SWSHBDSPEgg));
-        locations.Add(new ComboItem(s.gamelist[(int)BD], Locations.HOME_SWBD));
-        locations.Add(new ComboItem(s.gamelist[(int)SP], Locations.HOME_SHSP));
-        locations.Add(new ComboItem(s.gamelist[(int)PLA], Locations.HOME_SWLA));
+        locations.Add(new ComboItem($"{s.EggName} (HOME)", LocationsHOME.SWSHEgg));
+        locations.Add(new ComboItem(s.gamelist[(int)BD], LocationsHOME.SWBD));
+        locations.Add(new ComboItem(s.gamelist[(int)SP], LocationsHOME.SHSP));
+        locations.Add(new ComboItem(s.gamelist[(int)PLA], LocationsHOME.SWLA));
 
         return locations;
     }

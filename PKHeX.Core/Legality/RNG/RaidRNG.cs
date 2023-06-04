@@ -153,11 +153,21 @@ public static class RaidRNG
         if (pk is IScaledSize s)
         {
             var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-            if (s.HeightScalar != height)
-                return false;
             var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-            if (s.WeightScalar != weight)
-                return false;
+            if (height == 0 && weight == 0 && pk is IHomeTrack { HasTracker: true})
+            {
+                // HOME rerolls height/weight if both are 0
+                // This behavior started in 3.0.0, so only flag if the context is 9 or above.
+                if (pk.Context is not (EntityContext.Gen8 or EntityContext.Gen8a or EntityContext.Gen8b))
+                    return false;
+            }
+            else
+            {
+                if (s.HeightScalar != height)
+                    return false;
+                if (s.WeightScalar != weight)
+                    return false;
+            }
         }
 
         return true;

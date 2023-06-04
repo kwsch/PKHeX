@@ -36,7 +36,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
 
     // TODO: public byte RestrictVersion?
 
-    public bool CanBeReceivedByVersion(int v, PKM pk) => v is (int) GameVersion.BD or (int) GameVersion.SP || (pk is PK8 && Locations.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version));
+    public bool CanBeReceivedByVersion(int v, PKM pk) => v is (int) GameVersion.BD or (int) GameVersion.SP || (pk is PK8 && LocationsHOME.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version));
 
     // General Card Properties
 
@@ -639,9 +639,9 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
             if (!string.IsNullOrEmpty(OT) && OT != pk.OT_Name) return false;
             if (OriginGame != 0 && OriginGame != pk.Version)
             {
-                if (OriginGame is (int)GameVersion.BD && !(pk.Version is (int)GameVersion.SW && pk.Met_Location == Locations.HOME_SWBD))
+                if (OriginGame is (int)GameVersion.BD && !(pk.Version is (int)GameVersion.SW && pk.Met_Location == LocationsHOME.SWBD))
                     return false;
-                if (OriginGame is (int)GameVersion.SP && !(pk.Version is (int)GameVersion.SH && pk.Met_Location == Locations.HOME_SHSP))
+                if (OriginGame is (int)GameVersion.SP && !(pk.Version is (int)GameVersion.SH && pk.Met_Location == LocationsHOME.SHSP))
                     return false;
             }
             if (EncryptionConstant != 0)
@@ -678,7 +678,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
             if (!IsMatchEggLocation(pk)) return false;
             if (pk is PK8)
             {
-                if (!Locations.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version))
+                if (!LocationsHOME.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version))
                     return false;
             }
             else

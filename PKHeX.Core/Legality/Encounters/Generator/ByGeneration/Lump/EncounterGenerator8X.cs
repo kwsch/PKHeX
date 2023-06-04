@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using static PKHeX.Core.GameVersion;
-using static PKHeX.Core.Locations;
 
 namespace PKHeX.Core;
 
@@ -27,9 +26,11 @@ public sealed class EncounterGenerator8X : IEncounterGenerator
         GO => EncounterGenerator8GO.Instance.GetEncounters(pk, chain, info),
         PLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),
         BD or SP => EncounterGenerator8b.Instance.GetEncounters(pk, chain, info),
-        SW when pk.Met_Location == HOME_SWLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),
-        SW when pk.Met_Location == HOME_SWBD => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, BD),
-        SH when pk.Met_Location == HOME_SHSP => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, SP),
+        SW when pk.Met_Location == LocationsHOME.SWLA => EncounterGenerator8a.Instance.GetEncounters(pk, chain, info),
+        SW when pk.Met_Location == LocationsHOME.SWBD => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, BD),
+        SH when pk.Met_Location == LocationsHOME.SHSP => EncounterGenerator8b.Instance.GetEncountersSWSH(pk, chain, SP),
+        SW when pk.Met_Location == LocationsHOME.SWSL => EncounterGenerator9.Instance.GetEncountersSWSH(pk, chain, SL),
+        SH when pk.Met_Location == LocationsHOME.SHVL => EncounterGenerator9.Instance.GetEncountersSWSH(pk, chain, VL),
         _ => EncounterGenerator8.Instance.GetEncounters(pk, chain, info),
     };
 }

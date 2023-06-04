@@ -73,12 +73,12 @@ public sealed class AbilityVerifier : Verifier
 
             if (pk.AbilityNumber == 4)
             {
-                if (AbilityChangeRules.IsAbilityPatchPossible(data.Info.EvoChainsAllGens))
+                if (AbilityChangeRules.IsAbilityPatchPossible(data.Info.EvoChainsAllGens, pk.Context, enc.Context))
                     return GetValid(LAbilityPatchUsed);
             }
             else if (enc.Ability == AbilityPermission.OnlyHidden)
             {
-                if (AbilityChangeRules.IsAbilityPatchRevertPossible(data.Info.EvoChainsAllGens, pk.AbilityNumber))
+                if (AbilityChangeRules.IsAbilityPatchRevertPossible(data.Info.EvoChainsAllGens, pk.AbilityNumber, pk.Context, enc.Context))
                     return GetValid(LAbilityPatchRevertUsed);
             }
         }
@@ -163,7 +163,7 @@ public sealed class AbilityVerifier : Verifier
         var enc = data.Info.EncounterMatch;
         if (enc.Generation >= 6)
         {
-            if (IsAbilityCapsuleModified(pk, encounterAbility, data.Info.EvoChainsAllGens))
+            if (IsAbilityCapsuleModified(pk, encounterAbility, data.Info.EvoChainsAllGens, enc.Context))
                 return GetValid(LAbilityCapsuleUsed);
             if (pk.AbilityNumber != 1 << encounterAbility.GetSingleValue())
                 return INVALID;
@@ -202,7 +202,7 @@ public sealed class AbilityVerifier : Verifier
         if (state == AbilityState.CanMismatch || encounterAbility == 0)
             return CheckMatch(pk, abilities, enc.Generation, AbilityState.MustMatch, enc);
 
-        if (IsAbilityCapsuleModified(pk, encounterAbility, data.Info.EvoChainsAllGens))
+        if (IsAbilityCapsuleModified(pk, encounterAbility, data.Info.EvoChainsAllGens, enc.Context))
             return GetValid(LAbilityCapsuleUsed);
 
         return INVALID;
@@ -447,9 +447,9 @@ public sealed class AbilityVerifier : Verifier
     }
 
     // Ability Capsule can change between 1/2
-    private static bool IsAbilityCapsuleModified(PKM pk, AbilityPermission encounterAbility, EvolutionHistory evos)
+    private static bool IsAbilityCapsuleModified(PKM pk, AbilityPermission encounterAbility, EvolutionHistory evos, EntityContext original)
     {
-        if (!AbilityChangeRules.IsAbilityCapsulePossible(evos))
+        if (!AbilityChangeRules.IsAbilityCapsulePossible(evos, pk.Context, original))
             return false; // Not available.
         if (pk.AbilityNumber == 4)
             return false; // Cannot alter to hidden ability.

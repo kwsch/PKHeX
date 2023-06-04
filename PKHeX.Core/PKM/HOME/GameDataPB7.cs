@@ -6,10 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Side game data for <see cref="PB7"/> data transferred into HOME.
 /// </summary>
-public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsolute, IMemoryOT
+public sealed class GameDataPB7 : HomeOptional1, IGameDataSide<PB7>, IScaledSizeAbsolute, IMemoryOT
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PB7;
-    private const int SIZE = HomeCrypto.SIZE_1GAME_PB7;
+    private const int SIZE = HomeCrypto.SIZE_2GAME_PB7;
     protected override HomeGameDataFormat Format => ExpectFormat;
 
     public GameDataPB7() : base(SIZE) { }
@@ -63,15 +63,19 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
     public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x37..]); set => WriteUInt16LittleEndian(Data[0x37..], (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data[0x39..]); set => WriteUInt16LittleEndian(Data[0x39..], (ushort)value); }
 
+    public byte PKRS { get => Data[0x3B]; set => Data[0x3B] = value; }
+    public ushort Ability { get => ReadUInt16LittleEndian(Data[0x3C..]); set => WriteUInt16LittleEndian(Data[0x3C..], value); }
+    public byte AbilityNumber { get => Data[0x3E]; set => Data[0x3E] = value; }
+
     #endregion
 
     #region Conversion
 
     public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.GG.GetFormEntry(species, form);
 
-    public void CopyTo(PB7 pk)
+    public void CopyTo(PB7 pk, PKH pkh)
     {
-        ((IGameDataSide)this).CopyTo(pk);
+        this.CopyTo(pk);
         pk.AV_HP = AV_HP;
         pk.AV_ATK = AV_ATK;
         pk.AV_DEF = AV_DEF;
@@ -94,15 +98,52 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
         // pk.OT_Feeling
         pk.Enjoyment = Enjoyment;
         // pk.GeoPadding = GeoPadding;
+        pk.AbilityNumber = AbilityNumber;
+        pk.Ability = Ability;
     }
 
-    public PKM ConvertToPKM(PKH pkh) => ConvertToPB7(pkh);
+    public void CopyFrom(PB7 pk, PKH pkh)
+    {
+        this.CopyFrom(pk);
+        AV_HP = pk.AV_HP;
+        AV_ATK = pk.AV_ATK;
+        AV_DEF = pk.AV_DEF;
+        AV_SPE = pk.AV_SPE;
+        AV_SPA = pk.AV_SPA;
+        AV_SPD = pk.AV_SPD;
+        ResortEventState = (byte)pk.ResortEventStatus;
+        HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+        WeightAbsolute = pk.CalcWeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
 
-    public PB7 ConvertToPB7(PKH pkh)
+        // Some fields are unused as PB7, don't bother copying.
+        FieldEventFatigue1 = pk.FieldEventFatigue1;
+        FieldEventFatigue2 = pk.FieldEventFatigue2;
+        Fullness = pk.Fullness;
+        // Rank = pk.Rank;
+        // OT_Affection
+        // OT_Intensity
+        // OT_Memory
+        // OT_TextVar
+        // OT_Feeling
+        Enjoyment = pk.Enjoyment;
+        // GeoPadding = pk.GeoPadding;
+        AbilityNumber = (byte)pk.AbilityNumber;
+        Ability = (ushort)pk.Ability;
+
+        // All other side formats have HT Language. Just fake a value.
+        if (pkh is { HT_Language: 0, IsUntraded: false })
+            pkh.HT_Language = (byte)pk.Language;
+    }
+
+    public PB7 ConvertToPKM(PKH pkh)
     {
         var pk = new PB7();
         pkh.CopyTo(pk);
-        CopyTo(pk);
+        CopyTo(pk, pkh);
+
+        pk.ResetCalculatedValues();
+        pk.ResetPartyStats();
+        pk.RefreshChecksum();
         return pk;
     }
 
@@ -111,38 +152,59 @@ public sealed class GameDataPB7 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
     /// <summary> Reconstructive logic to best apply suggested values. </summary>
     public static GameDataPB7? TryCreate(PKH pkh)
     {
-        int met = 0;
-        int ball = (int)Core.Ball.Poke;
-        if (pkh.DataPK8 is { } x)
-        {
-            met = x.Met_Location;
-            ball = x.Ball;
-        }
-        else if (pkh.DataPB8 is { } y)
-        {
-            met = y.Met_Location;
-            ball = y.Ball;
-        }
-        else if (pkh.DataPA8 is { } z)
-        {
-            met = z.Met_Location;
-            ball = z.Ball;
-        }
-        else if (pkh.DataPK9 is { } g9)
-        {
-            met = g9.Met_Location;
-            ball = g9.Ball;
-        }
-        if (met == 0)
+        if (!PersonalTable.GG.IsPresentInGame(pkh.Species, pkh.Form))
             return null;
 
+        // There isn't an actual preference since this format cannot naturally backwards transfer.
+        // Just pick out the first one.
+        var result = CreateInternal(pkh);
+        if (result == null)
+            return null;
+
+        result.PopulateFromCore(pkh);
+        return result;
+    }
+
+    private static GameDataPB7? CreateInternal(PKH pkh)
+    {
+        var side = GetNearestNeighbor(pkh);
+        if (side == null)
+            return null;
+
+        var ball = side.Ball;
         if (pkh.Version is (int)GameVersion.GO)
             return new GameDataPB7 { Ball = ball, Met_Location = Locations.GO7 };
         if (pkh.Version is (int)GameVersion.GP or (int)GameVersion.GE)
-            return new GameDataPB7 { Ball = ball, Met_Location = met };
+            return new GameDataPB7 { Ball = ball, Met_Location = side.Met_Location };
 
-        return null;
+        var result = new GameDataPB7();
+        result.InitializeFrom(side, pkh);
+        return result;
     }
+
+    public void InitializeFrom(IGameDataSide side, PKH pkh)
+    {
+        Met_Location = side.Met_Location == Locations.Default8bNone ? 0 : side.Met_Location;
+        Egg_Location = side.Egg_Location == Locations.Default8bNone ? 0 : side.Egg_Location;
+
+        if (side is IGameDataSplitAbility a)
+            AbilityNumber = a.AbilityNumber;
+        else
+            AbilityNumber = 1;
+    }
+
+    private void PopulateFromCore(PKH pkh)
+    {
+        var pi = PersonalTable.GG.GetFormEntry(pkh.Species, pkh.Form);
+        HeightAbsolute = PB7.GetHeightAbsolute(pi, pkh.HeightScalar);
+        WeightAbsolute = PB7.GetWeightAbsolute(pi, pkh.HeightScalar, pkh.WeightScalar);
+        Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
+    }
+
+    private static IGameDataSide? GetNearestNeighbor(PKH pkh) => pkh.DataPK9 as IGameDataSide
+                                                                 ?? pkh.DataPB8 as IGameDataSide
+                                                                 ?? pkh.DataPK8 as IGameDataSide
+                                                                 ?? pkh.DataPB7;
 
     public static T Create<T>(GameDataPB7 data) where T : IGameDataSide, new() => new()
     {

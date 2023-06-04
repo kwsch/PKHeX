@@ -81,7 +81,7 @@ public sealed class MarkVerifier : Verifier
             return;
 
         var affix = (RibbonIndex)affixValue;
-        var max = MarkRules.GetMaxAffixValue(data.Entity.Format);
+        var max = MarkRules.GetMaxAffixValue(data.Entity.Format, m is IHomeTrack { HasTracker: true });
         if (affix > max)
         {
             data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe(affix))));

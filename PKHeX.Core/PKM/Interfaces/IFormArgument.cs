@@ -126,8 +126,8 @@ public static class FormArgumentUtil
             (int)Stantler or (int)Wyrdeer when generation >= 8 => 9999,
             (int)Basculin when form == 2 => 9999, // 294
             (int)Basculegion => 9999, // 294
-            (int)Primeape or (int)Annihilape when generation >= 9 => 9999,
-            (int)Bisharp or (int)Kingambit when generation >= 9 => 9999,
+            (int)Primeape or (int)Annihilape when generation >= 8 => 9999,
+            (int)Bisharp or (int)Kingambit when generation >= 8 => 9999,
             (int)Gimmighoul => 998,
             (int)Gholdengo => 999,
             (int)Koraidon or (int)Miraidon => 1,

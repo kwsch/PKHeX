@@ -103,44 +103,8 @@ public static class Locations
     /// <summary> Generation 8 Gift from Pokémon HOME </summary>
     public const ushort HOME8 = 30018;
 
-    public const ushort HOME_SHSP = 59998; // SP traded to (SW)SH
-    public const ushort HOME_SWBD = 59999; // BD traded to SW(SH)
-    public const ushort HOME_SWLA = 60000; // PLA traded to SW(SH)
-    public const ushort HOME_SWSHBDSPEgg = 65534; // -2 = 8bNone-1..
+    /// <summary> Generation 8 BD/SP Magic location for "None" since 0 is an actual met location. </summary>
     public const ushort Default8bNone = 65535;
-
-    /// <summary>
-    /// Gets the SW/SH-context <see cref="GameVersion"/> when an external entity from the input <see cref="ver"/> resides in SW/SH.
-    /// </summary>
-    public static int GetVersionSWSH(int ver) => (GameVersion)ver switch
-    {
-        GameVersion.PLA => (int)GameVersion.SW,
-        GameVersion.BD => (int)GameVersion.SW,
-        GameVersion.SP => (int)GameVersion.SH,
-        _ => ver,
-    };
-
-    /// <summary>
-    /// Gets the SW/SH-context Met Location when an external entity from the input <see cref="ver"/> resides in SW/SH.
-    /// </summary>
-    public static ushort GetMetSWSH(ushort loc, int ver) => (GameVersion)ver switch
-    {
-        GameVersion.PLA => HOME_SWLA,
-        GameVersion.BD => HOME_SWBD,
-        GameVersion.SP => HOME_SHSP,
-        _ => loc,
-    };
-
-    /// <summary>
-    /// Checks if the met location is a valid location for the input <see cref="ver"/>.
-    /// </summary>
-    /// <remarks>Relevant when a BD/SP entity is transferred to SW/SH.</remarks>
-    public static bool IsValidMetBDSP(ushort loc, int ver) => loc switch
-    {
-        HOME_SHSP when ver == (int)GameVersion.SH => true,
-        HOME_SWBD when ver == (int)GameVersion.SW => true,
-        _ => false,
-    };
 
     /// <summary>
     /// Gets the egg location value for a traded unhatched egg.

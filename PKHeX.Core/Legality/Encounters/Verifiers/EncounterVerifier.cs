@@ -230,14 +230,19 @@ public static class EncounterVerifier
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
-        var met = (ushort)pk.Met_Location;
-        bool valid = pk.BDSP // Transferred from BD/SP, now acting like a SW/SH egg.
-            ? Locations.IsValidMetBDSP(met, pk.Version)
-            : EggHatchLocation8.IsValidMet8SWSH(met);
-
+        var valid = IsValidMetForeignEggSWSH(pk, (ushort)pk.Met_Location);
         if (valid)
             return GetValid(LEggLocation);
         return GetInvalid(LEggLocationInvalid);
+    }
+
+    private static bool IsValidMetForeignEggSWSH(PKM pk, ushort met)
+    {
+        if (pk.BDSP)
+            return LocationsHOME.IsValidMetBDSP(met, pk.Version);
+        if (pk.SV)
+            return LocationsHOME.IsValidMetSV(met, pk.Version);
+        return EggHatchLocation8.IsValidMet8SWSH(met);
     }
 
     private static CheckResult VerifyEncounterEgg8BDSP(PKM pk)

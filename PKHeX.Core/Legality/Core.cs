@@ -104,14 +104,14 @@ public static class Legal
     internal const int MaxMoveID_8a = (int)Move.TakeHeart;
     internal const int MaxItemID_8a = 1828; // Legend Plate
     internal const int MaxBallID_8a = (int)Ball.LAOrigin;
-    internal const int MaxGameID_8a = (int)GameVersion.SP;
+  //internal const int MaxGameID_8a = (int)GameVersion.SP;
     internal const int MaxAbilityID_8a = MaxAbilityID_8_R2;
 
     internal const int MaxSpeciesID_8b = MaxSpeciesID_4; // Arceus-493
     internal const int MaxMoveID_8b = MaxMoveID_8_R2;
     internal const int MaxItemID_8b = 1822; // DS Sounds
     internal const int MaxBallID_8b = (int)Ball.LAOrigin;
-    internal const int MaxGameID_8b = (int)GameVersion.SP;
+  //internal const int MaxGameID_8b = (int)GameVersion.SP;
     internal const int MaxAbilityID_8b = MaxAbilityID_8_R2;
 
     internal const int MaxSpeciesID_9 = (int)Species.IronLeaves;
@@ -121,6 +121,7 @@ public static class Legal
 
     internal const int MaxBallID_9 = (int)Ball.LAOrigin;
     internal const int MaxGameID_9 = (int)GameVersion.VL;
+    internal const int MaxGameID_HOME = MaxGameID_9;
 
     internal static readonly ushort[] HeldItems_GSC = ItemStorage2.GetAllHeld();
     internal static readonly ushort[] HeldItems_RS = ItemStorage3RS.GetAllHeld();

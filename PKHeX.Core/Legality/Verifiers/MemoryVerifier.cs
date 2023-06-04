@@ -28,10 +28,8 @@ public sealed class MemoryVerifier : Verifier
 
     private static bool ShouldHaveNoMemory(LegalityAnalysis data, PKM pk)
     {
-        if (pk.BDSP || pk.LA)
+        if (pk.BDSP || pk.LA || pk.SV || pk is PK9)
             return !data.Info.EvoChainsAllGens.HasVisitedSWSH;
-        if (pk is PK9)
-            return true; // No memories.
         return false;
     }
 

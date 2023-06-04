@@ -6,10 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Side game data for <see cref="PA8"/> data transferred into HOME.
 /// </summary>
-public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsolute
+public class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSizeAbsolute, IScaledSize3
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PA8;
-    private const int SIZE = HomeCrypto.SIZE_1GAME_PA8;
+    private const int SIZE = HomeCrypto.SIZE_2GAME_PA8;
     protected override HomeGameDataFormat Format => ExpectFormat;
 
     public GameDataPA8() : base(SIZE) { }
@@ -22,7 +22,7 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
     public bool IsAlpha { get => Data[0x00] != 0; set => Data[0x00] = (byte)(value ? 1 : 0); }
     public bool IsNoble { get => Data[0x01] != 0; set => Data[0x01] = (byte)(value ? 1 : 0); }
     public ushort AlphaMove { get => ReadUInt16LittleEndian(Data[0x02..]); set => WriteUInt16LittleEndian(Data[0x02..], value); }
-    public byte HeightScalarCopy { get => Data[0x04]; set => Data[0x04] = value; }
+    public byte Scale { get => Data[0x04]; set => Data[0x04] = value; }
 
     public ushort Move1 { get => ReadUInt16LittleEndian(Data[0x05..]); set => WriteUInt16LittleEndian(Data[0x05..], value); }
     public ushort Move2 { get => ReadUInt16LittleEndian(Data[0x07..]); set => WriteUInt16LittleEndian(Data[0x07..], value); }
@@ -61,6 +61,10 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
     public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x38..]); set => WriteUInt16LittleEndian(Data[0x38..], (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], (ushort)value); }
 
+    public byte PKRS { get => Data[0x3C]; set => Data[0x3C] = value; }
+    public ushort Ability { get => ReadUInt16LittleEndian(Data[0x3D..]); set => WriteUInt16LittleEndian(Data[0x3D..], value); }
+    public byte AbilityNumber { get => Data[0x3F]; set => Data[0x3F] = value; }
+
     // Not stored.
     public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.LA.GetFormEntry(species, form);
     public int Move1_PPUps { get => 0; set { } }
@@ -72,13 +76,13 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
 
     #region Conversion
 
-    public void CopyTo(PA8 pk)
+    public void CopyTo(PA8 pk, PKH pkh)
     {
-        ((IGameDataSide)this).CopyTo(pk);
+        this.CopyTo(pk);
         pk.IsAlpha = IsAlpha;
         pk.IsNoble = IsNoble;
         pk.AlphaMove = AlphaMove;
-        pk.Scale = HeightScalarCopy;
+        pk.Scale = Scale;
         pk.HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
         pk.WeightAbsolute = pk.CalcWeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
         pk.GV_HP = GV_HP;
@@ -89,15 +93,45 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
         pk.GV_SPD = GV_SPD;
         PurchasedRecord.CopyTo(pk.PurchasedRecord);
         MasteredRecord.CopyTo(pk.MasteredRecord);
+        pk.PKRS = PKRS;
+        pk.AbilityNumber = AbilityNumber;
+        pk.Ability = Ability;
     }
 
-    public PKM ConvertToPKM(PKH pkh) => ConvertToPA8(pkh);
+    public void CopyFrom(PA8 pk, PKH pkh)
+    {
+        this.CopyFrom(pk);
+        IsAlpha = pk.IsAlpha;
+        IsNoble = pk.IsNoble;
+        AlphaMove = pk.AlphaMove;
+        pkh.HeightScalar = Scale = pk.Scale; // Overwrite Height
+        HeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+        WeightAbsolute = pk.CalcHeightAbsolute; // Ignore the stored value, be nice and recalculate for the user.
+        GV_HP = pk.GV_HP;
+        GV_ATK = pk.GV_ATK;
+        GV_DEF = pk.GV_DEF;
+        GV_SPE = pk.GV_SPE;
+        GV_SPA = pk.GV_SPA;
+        GV_SPD = pk.GV_SPD;
+        pk.PurchasedRecord.CopyTo(PurchasedRecord);
+        pk.MasteredRecord.CopyTo(MasteredRecord);
+        PKRS = pk.PKRS;
+        AbilityNumber = (byte)pk.AbilityNumber;
+        Ability = (ushort)pk.Ability;
 
-    public PA8 ConvertToPA8(PKH pkh)
+        // Special: Add the Mark
+        if (pk.IsAlpha)
+            pkh.Core.RibbonMarkAlpha = true;
+    }
+
+    public PA8 ConvertToPKM(PKH pkh)
     {
         var pk = new PA8();
         pkh.CopyTo(pk);
-        CopyTo(pk);
+        CopyTo(pk, pkh);
+
+        pk.ResetPartyStats();
+        pk.RefreshChecksum();
         return pk;
     }
 
@@ -106,14 +140,66 @@ public sealed class GameDataPA8 : HomeOptional1, IGameDataSide, IScaledSizeAbsol
     /// <summary> Reconstructive logic to best apply suggested values. </summary>
     public static GameDataPA8? TryCreate(PKH pkh)
     {
-        if (pkh.DataPB7 is { } x)
-            return GameDataPB7.Create<GameDataPA8>(x);
-        if (pkh.DataPB8 is { } b)
-            return GameDataPB8.Create<GameDataPA8>(b);
-        if (pkh.DataPK9 is { } g9)
-            return GameDataPK9.Create<GameDataPA8>(g9);
-        if (pkh.DataPK8 is { } c)
-            return new GameDataPA8 { Ball = c.Met_Location == Locations.HOME_SWLA ? (int)Core.Ball.LAPoke : c.Ball, Met_Location = c.Met_Location, Egg_Location = c.Egg_Location };
-        return null;
+        if (!PersonalTable.LA.IsPresentInGame(pkh.Species, pkh.Form))
+            return null;
+
+        var result = CreateInternal(pkh);
+        if (result == null)
+            return null;
+
+        result.PopulateFromCore(pkh);
+        return result;
+    }
+
+    private static GameDataPA8? CreateInternal(PKH pkh)
+    {
+        var side = GetNearestNeighbor(pkh);
+        if (side == null)
+            return null;
+
+        var result = new GameDataPA8();
+        result.InitializeFrom(side, pkh);
+        return result;
+    }
+
+    private static IGameDataSide? GetNearestNeighbor(PKH pkh) => pkh.DataPK9 as IGameDataSide
+                                                              ?? pkh.DataPB8 as IGameDataSide
+                                                              ?? pkh.DataPK8 as IGameDataSide
+                                                              ?? pkh.DataPB7;
+
+    public void InitializeFrom(IGameDataSide side, PKH pkh)
+    {
+        Ball = GetLegendBall(side.Ball);
+        Met_Location = side.Met_Location == Locations.Default8bNone ? 0 : side.Met_Location;
+        Egg_Location = side.Egg_Location == Locations.Default8bNone ? 0 : side.Egg_Location;
+
+        if (side is IScaledSize3 s3)
+            Scale = s3.Scale;
+        else
+            Scale = pkh.HeightScalar;
+        if (side is IPokerusStatus p)
+            PKRS = p.PKRS;
+        if (side is IGameDataSplitAbility a)
+            AbilityNumber = a.AbilityNumber;
+        else
+            AbilityNumber = 1;
+
+        PopulateFromCore(pkh);
+        this.ResetMoves(pkh.Species, pkh.Form, pkh.CurrentLevel, LearnSource8LA.Instance, EntityContext.Gen8a);
+    }
+
+    private static int GetLegendBall(int ball)
+    {
+        if (((Ball)ball).IsLegendBall())
+            return ball;
+        return (byte)Core.Ball.LAPoke;
+    }
+
+    private void PopulateFromCore(PKH pkh)
+    {
+        var pi = PersonalTable.LA.GetFormEntry(pkh.Species, pkh.Form);
+        HeightAbsolute = PA8.GetHeightAbsolute(pi, pkh.HeightScalar);
+        WeightAbsolute = PA8.GetWeightAbsolute(pi, pkh.HeightScalar, pkh.WeightScalar);
+        Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
     }
 }

@@ -139,7 +139,7 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
         // Encounter Slots
         if (CanBeWildEncounter(pk))
         {
-            bool hasOriginalLocation = pk is not (PK8 or PB8 { Met_Location: Locations.HOME_SWLA });
+            bool hasOriginalLocation = pk is not (PK8 or PB8 { Met_Location: LocationsHOME.SWLA });
             var location = pk.Met_Location;
             foreach (var area in Encounters8a.SlotsLA)
             {

@@ -13,7 +13,7 @@ public static class HomeTests
     {
         var folder = TestUtil.GetRepoPath();
         var path = Path.Combine(folder, "TestData");
-        return Directory.EnumerateFiles(path, "*.eh1", SearchOption.TopDirectoryOnly);
+        return Directory.EnumerateFiles(path, "*.eh2", SearchOption.TopDirectoryOnly);
     }
 
     [Fact]
@@ -28,19 +28,20 @@ public static class HomeTests
             var chk = HomeCrypto.GetChecksum1(data);
             oldCHK.Should().Be(chk);
 
-            bool encrypted = HomeCrypto.GetIsEncrypted1(data);
+            var version = ReadUInt16LittleEndian(data);
+            bool encrypted = HomeCrypto.GetIsEncrypted(data, version);
             encrypted.Should().BeTrue();
 
             var ph1 = new PKH(data);
-            ph1.DataVersion.Should().Be(1);
+            HomeCrypto.IsKnownVersion(ph1.DataVersion).Should().BeTrue();
 
-            var decrypted = HomeCrypto.Crypt1(data);
+            var decrypted = HomeCrypto.Crypt(data);
             decrypted.Length.Should().Be(data.Length);
             decrypted.Length.Should().Be(ph1.Data.Length);
             for (int i = 0; i < decrypted.Length; i++)
                 decrypted[i].Should().Be(ph1.Data[i]);
 
-            bool check = HomeCrypto.GetIsEncrypted1(decrypted);
+            bool check = HomeCrypto.GetIsEncrypted(decrypted, version);
             check.Should().BeFalse();
 
             ph1.Clone().Should().NotBeNull();

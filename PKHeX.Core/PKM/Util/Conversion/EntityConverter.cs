@@ -25,6 +25,11 @@ public static class EntityConverter
     public static IEntityRejuvenator RejuvenatorHOME { get; set; } = new LegalityRejuvenator();
 
     /// <summary>
+    /// Responsible for converting a <see cref="PKM"/> to a <see cref="PKH"/> for HOME.
+    /// </summary>
+    public static IHomeStorage HOME { get; set; } = new HomeStorageFacade();
+
+    /// <summary>
     /// Checks if the input <see cref="PKM"/> file is capable of being converted to the desired format.
     /// </summary>
     /// <param name="pk"></param>
@@ -121,12 +126,6 @@ public static class EntityConverter
         PK4 pk4 when destType == typeof(BK4) => pk4.ConvertToBK4(),
         PK4 pk4 when destType == typeof(RK4) => pk4.ConvertToRK4(),
 
-        PB8 pb8 when destType == typeof(PK8) => pb8.ConvertToPK8(),
-        PK8 pk8 when destType == typeof(PB8) => pk8.ConvertToPB8(),
-        G8PKM pk8 when destType == typeof(PA8) => pk8.ConvertToPA8(),
-        PA8 pa8 when destType == typeof(PK8) => pa8.ConvertToPK8(),
-        PA8 pa8 when destType == typeof(PB8) => pa8.ConvertToPB8(),
-
         // Sequential
         PK1 pk1 => pk1.ConvertToPK2(),
         PK2 pk2 => pk2.ConvertToPK1(),
@@ -135,11 +134,6 @@ public static class EntityConverter
         PK5 pk5 => pk5.ConvertToPK6(),
         PK6 pk6 => pk6.ConvertToPK7(),
         PK7 pk7 => pk7.ConvertToPK8(),
-        PB7 pb7 => pb7.ConvertToPK8(),
-
-        PK8 pk8 => pk8.ConvertToPK9(),
-        PB8 pb8 => pb8.ConvertToPK9(),
-        PA8 pa8 => pa8.ConvertToPK9(),
 
         // Side-Formats back to Mainline
         SK2 sk2 => sk2.ConvertToPK2(),
@@ -148,12 +142,17 @@ public static class EntityConverter
         BK4 bk4 => bk4.ConvertToPK4(),
         RK4 rk4 => rk4.ConvertToPK4(),
 
-        _ => InvalidTransfer(out result, NoTransferRoute),
+        _ => GetFinalResult(pk, destType, ref result),
     };
 
-    private static PKM? InvalidTransfer(out EntityConverterResult result, EntityConverterResult value)
+    private static PKM? GetFinalResult(PKM pk, Type destType, ref EntityConverterResult result)
     {
-        result = value;
+        // Every format can eventually feed into HOME. Don't bother checking current type.
+        var type = PKH.GetType(destType);
+        if (type is not HomeGameDataFormat.None)
+            return HOME.GetEntity(pk).ConvertToPKM(type);
+
+        result = NoTransferRoute;
         return null;
     }
 

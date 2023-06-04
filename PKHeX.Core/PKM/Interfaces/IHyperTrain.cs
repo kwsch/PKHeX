@@ -144,7 +144,7 @@ public static partial class Extensions
         return currentLevel <= min;
     }
 
-    /// <inheritdoc cref="GetHyperTrainMinLevel(IHyperTrain,EvolutionHistory)"/>
+    /// <inheritdoc cref="GetHyperTrainMinLevel(IHyperTrain,EvolutionHistory, EntityContext)"/>
     public static int GetHyperTrainMinLevel(this EntityContext c) => c switch
     {
         EntityContext.Gen7 or EntityContext.Gen8 or EntityContext.Gen8b => 100,
@@ -157,9 +157,15 @@ public static partial class Extensions
     /// </summary>
     /// <param name="_">Entity to train</param>
     /// <param name="h">History of evolutions present as</param>
+    /// <param name="current">Current context</param>
     /// <returns>True if available, otherwise false.</returns>
-    public static int GetHyperTrainMinLevel(this IHyperTrain _, EvolutionHistory h)
+    public static int GetHyperTrainMinLevel(this IHyperTrain _, EvolutionHistory h, EntityContext current)
     {
+        // HOME 3.0.0+ disallows inbound transfers of Hyper Trained Pokémon below level 100.
+        // PokeDupeChecker in BD/SP will DprIllegal if < 100, even if it was legitimately trained in S/V+.
+        if (current == EntityContext.Gen8b)
+            return 100;
+
         if (h.HasVisitedGen9)
             return 50;
         return 100;
@@ -176,7 +182,7 @@ public static partial class Extensions
             return false;
 
         // Gated behind level.
-        var min = t.GetHyperTrainMinLevel(h);
+        var min = t.GetHyperTrainMinLevel(h, pk.Context);
         return pk.CurrentLevel >= min;
     }
 }

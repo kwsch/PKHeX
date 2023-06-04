@@ -87,8 +87,8 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
     protected override bool IsMatchLocation(PKM pk)
     {
         if (pk is PK8)
-            return pk.Met_Location == Locations.HOME_SWLA;
-        if (pk is PB8 { Version: (int)GameVersion.PLA, Met_Location: Locations.HOME_SWLA })
+            return pk.Met_Location == LocationsHOME.SWLA;
+        if (pk is PB8 { Version: (int)GameVersion.PLA, Met_Location: LocationsHOME.SWLA })
             return true;
 
         return base.IsMatchLocation(pk);
@@ -113,6 +113,9 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
             return orig;
 
         if (!IsForcedMasteryCorrect(pk))
+            return EncounterMatchRating.DeferredErrors;
+
+        if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha))
             return EncounterMatchRating.DeferredErrors;
 
         if (IsAlpha && pk is PA8 { AlphaMove: 0 })
