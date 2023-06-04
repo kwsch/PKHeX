@@ -226,7 +226,7 @@ public static class MethodFinder
 
     private static bool GetLCRNGRoamerMatch(Span<uint> seeds, uint top, uint bot, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        if (IVs is not [_, < 7, 0, 0, 0, 0])
+        if (IVs is not [_, <= 7, 0, 0, 0, 0])
             return GetNonMatch(out pidiv);
 
         var iv1 = GetIVChunk(IVs[..3]);

@@ -95,14 +95,20 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         {
             s.HeightScalar = PokeSizeUtil.GetRandomScalar();
             s.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            if (pk is IScaledSize3 s3)
+                s3.Scale = s.HeightScalar = PokeSizeUtil.GetRandomScalar();
         }
 
-        if (OriginFormat is PogoImportFormat.PA8)
+        if (pk is PA8 pa8)
         {
-            var pa8 = (PA8)pk;
             pa8.ResetHeight();
             pa8.ResetWeight();
-            pa8.Scale = pa8.HeightScalar;
+        }
+        else if (pk is PK9 pk9)
+        {
+            var pi = pk9.PersonalInfo;
+            pk9.TeraTypeOriginal = pk9.TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
+            pk9.Obedience_Level = (byte)pk9.Met_Level;
         }
 
         pk.OT_Friendship = OT_Friendship;

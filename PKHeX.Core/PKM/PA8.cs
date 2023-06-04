@@ -6,9 +6,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
-public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
-    IGanbaru, IAlpha, INoble, ITechRecord, ISociability, IMoveShop8Mastery, IContestStats, IHyperTrain, IScaledSizeValue, IScaledSize3, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories,
-    IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMarks, IRibbonSetMark8
+public sealed class PA8 : PKM, ISanityChecksum,
+    IGanbaru, IAlpha, INoble, ITechRecord, ISociability, IMoveShop8Mastery, IContestStats, IHyperTrain, IScaledSizeValue, IScaledSize3, IGigantamax, IFavorite, IDynamaxLevel, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories, IPokerusStatus,
+    IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9
 {
     public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
@@ -83,22 +83,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override bool IsUntraded => Data[0xB8] == 0 && Data[0xB8 + 1] == 0 && Format == Generation; // immediately terminated HT_Name data (\0)
 
     // Complex Generated Attributes
-    public override int Characteristic
-    {
-        get
-        {
-            int pm6 = (int)(EncryptionConstant % 6);
-            int maxIV = MaximumIV;
-            int pm6stat = 0;
-            for (int i = 0; i < 6; i++)
-            {
-                pm6stat = (pm6 + i) % 6;
-                if (GetIV(pm6stat) == maxIV)
-                    break;
-            }
-            return (pm6stat * 5) + (maxIV % 5);
-        }
-    }
+    public override int Characteristic => EntityCharacteristic.GetCharacteristic(EncryptionConstant, IV32);
 
     // Methods
     protected override byte[] Encrypt()
@@ -175,7 +160,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public byte CNT_Smart { get => Data[0x2F]; set => Data[0x2F] = value; }
     public byte CNT_Tough { get => Data[0x30]; set => Data[0x30] = value; }
     public byte CNT_Sheen { get => Data[0x31]; set => Data[0x31] = value; }
-    private byte PKRS { get => Data[0x32]; set => Data[0x32] = value; }
+    public byte PKRS { get => Data[0x32]; set => Data[0x32] = value; }
     public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
     public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
     // 0x33 unused padding
@@ -296,21 +281,21 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public bool RibbonMarkThorny { get => FlagUtil.GetFlag(Data, 0x43, 7); set => FlagUtil.SetFlag(Data, 0x43, 7, value); }
     // 0x44 Ribbon 2
 
-    public bool RibbonMarkVigor { get => FlagUtil.GetFlag(Data, 0x44, 0); set => FlagUtil.SetFlag(Data, 0x44, 0, value); }
-    public bool RibbonMarkSlump { get => FlagUtil.GetFlag(Data, 0x44, 1); set => FlagUtil.SetFlag(Data, 0x44, 1, value); }
-    public bool RibbonHisui { get => FlagUtil.GetFlag(Data, 0x44, 2); set => FlagUtil.SetFlag(Data, 0x44, 2, value); }
-    public bool RibbonTwinklingStar { get => FlagUtil.GetFlag(Data, 0x44, 3); set => FlagUtil.SetFlag(Data, 0x44, 3, value); }
-    public bool RIB44_4 { get => FlagUtil.GetFlag(Data, 0x44, 4); set => FlagUtil.SetFlag(Data, 0x44, 4, value); }
-    public bool RIB44_5 { get => FlagUtil.GetFlag(Data, 0x44, 5); set => FlagUtil.SetFlag(Data, 0x44, 5, value); }
-    public bool RIB44_6 { get => FlagUtil.GetFlag(Data, 0x44, 6); set => FlagUtil.SetFlag(Data, 0x44, 6, value); }
-    public bool RIB44_7 { get => FlagUtil.GetFlag(Data, 0x44, 7); set => FlagUtil.SetFlag(Data, 0x44, 7, value); }
+    public bool RibbonMarkVigor      { get => FlagUtil.GetFlag(Data, 0x44, 0); set => FlagUtil.SetFlag(Data, 0x44, 0, value); }
+    public bool RibbonMarkSlump      { get => FlagUtil.GetFlag(Data, 0x44, 1); set => FlagUtil.SetFlag(Data, 0x44, 1, value); }
+    public bool RibbonHisui          { get => FlagUtil.GetFlag(Data, 0x44, 2); set => FlagUtil.SetFlag(Data, 0x44, 2, value); }
+    public bool RibbonTwinklingStar  { get => FlagUtil.GetFlag(Data, 0x44, 3); set => FlagUtil.SetFlag(Data, 0x44, 3, value); }
+    public bool RibbonChampionPaldea { get => FlagUtil.GetFlag(Data, 0x44, 4); set => FlagUtil.SetFlag(Data, 0x44, 4, value); }
+    public bool RibbonMarkJumbo      { get => FlagUtil.GetFlag(Data, 0x44, 5); set => FlagUtil.SetFlag(Data, 0x44, 5, value); }
+    public bool RibbonMarkMini       { get => FlagUtil.GetFlag(Data, 0x44, 6); set => FlagUtil.SetFlag(Data, 0x44, 6, value); }
+    public bool RibbonMarkItemfinder { get => FlagUtil.GetFlag(Data, 0x44, 7); set => FlagUtil.SetFlag(Data, 0x44, 7, value); }
 
-    public bool RIB45_0 { get => FlagUtil.GetFlag(Data, 0x45, 0); set => FlagUtil.SetFlag(Data, 0x45, 0, value); }
-    public bool RIB45_1 { get => FlagUtil.GetFlag(Data, 0x45, 1); set => FlagUtil.SetFlag(Data, 0x45, 1, value); }
-    public bool RIB45_2 { get => FlagUtil.GetFlag(Data, 0x45, 2); set => FlagUtil.SetFlag(Data, 0x45, 2, value); }
-    public bool RIB45_3 { get => FlagUtil.GetFlag(Data, 0x45, 3); set => FlagUtil.SetFlag(Data, 0x45, 3, value); }
-    public bool RIB45_4 { get => FlagUtil.GetFlag(Data, 0x45, 4); set => FlagUtil.SetFlag(Data, 0x45, 4, value); }
-    public bool RIB45_5 { get => FlagUtil.GetFlag(Data, 0x45, 5); set => FlagUtil.SetFlag(Data, 0x45, 5, value); }
+    public bool RibbonMarkPartner     { get => FlagUtil.GetFlag(Data, 0x45, 0); set => FlagUtil.SetFlag(Data, 0x45, 0, value); }
+    public bool RibbonMarkGourmand    { get => FlagUtil.GetFlag(Data, 0x45, 1); set => FlagUtil.SetFlag(Data, 0x45, 1, value); }
+    public bool RibbonOnceInALifetime { get => FlagUtil.GetFlag(Data, 0x45, 2); set => FlagUtil.SetFlag(Data, 0x45, 2, value); }
+    public bool RibbonMarkAlpha       { get => FlagUtil.GetFlag(Data, 0x45, 3); set => FlagUtil.SetFlag(Data, 0x45, 3, value); }
+    public bool RibbonMarkMightiest   { get => FlagUtil.GetFlag(Data, 0x45, 4); set => FlagUtil.SetFlag(Data, 0x45, 4, value); }
+    public bool RibbonMarkTitan       { get => FlagUtil.GetFlag(Data, 0x45, 5); set => FlagUtil.SetFlag(Data, 0x45, 5, value); }
     public bool RIB45_6 { get => FlagUtil.GetFlag(Data, 0x45, 6); set => FlagUtil.SetFlag(Data, 0x45, 6, value); }
     public bool RIB45_7 { get => FlagUtil.GetFlag(Data, 0x45, 7); set => FlagUtil.SetFlag(Data, 0x45, 7, value); }
 
@@ -331,15 +316,17 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public bool RIB47_5 { get => FlagUtil.GetFlag(Data, 0x47, 5); set => FlagUtil.SetFlag(Data, 0x47, 5, value); }
     public bool RIB47_6 { get => FlagUtil.GetFlag(Data, 0x47, 6); set => FlagUtil.SetFlag(Data, 0x47, 6, value); }
     public bool RIB47_7 { get => FlagUtil.GetFlag(Data, 0x47, 7); set => FlagUtil.SetFlag(Data, 0x47, 7, value); }
-
+    
     public int RibbonCount     => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x34)) & 0b00000000_00011111__11111111_11111111__11111111_11111111__11111111_11111111)
-                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000000_00001100__00000000_00000000__00000000_00000000);
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000100_00011100__00000000_00000000__00000000_00000000);
     public int MarkCount       => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x34)) & 0b11111111_11100000__00000000_00000000__00000000_00000000__00000000_00000000)
-                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000000_00000011__11111111_11111111__11111111_11111111);
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00111011_11100011__11111111_11111111__11111111_11111111);
     public int RibbonMarkCount => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x34)) & 0b11111111_11111111__11111111_11111111__11111111_11111111__11111111_11111111)
-                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000000_00001111__11111111_11111111__11111111_11111111);
+                                + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00111111_11111111__11111111_11111111__11111111_11111111);
 
-    public bool HasMarkEncounter8 => MarkCount != 0;
+    public bool HasMarkEncounter8 => BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x34)) & 0b11111111_11100000__00000000_00000000__00000000_00000000__00000000_00000000)
+                                   + BitOperations.PopCount(ReadUInt64LittleEndian(Data.AsSpan(0x40)) & 0b00000000_00000000__00000000_00000011__11111111_11111111__11111111_11111111) != 0;
+    public bool HasMarkEncounter9 => (Data[0x45] & 0b00111000) != 0;
 
     public uint Sociability { get => ReadUInt32LittleEndian(Data.AsSpan(0x48)); set => WriteUInt32LittleEndian(Data.AsSpan(0x48), value); }
 
@@ -699,7 +686,7 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
     public override int MaxAbilityID => Legal.MaxAbilityID_8a;
     public override int MaxItemID => Legal.MaxItemID_8a;
     public override int MaxBallID => Legal.MaxBallID_8a;
-    public override int MaxGameID => Legal.MaxGameID_8a;
+    public override int MaxGameID => Legal.MaxGameID_HOME;
 
     public float HeightRatio => GetHeightRatio(HeightScalar);
     public float WeightRatio => GetWeightRatio(WeightScalar);
@@ -793,245 +780,5 @@ public sealed class PA8 : PKM, ISanityChecksum, IMoveReset,
             return;
         if (permit.IsRecordPermitted(flagIndex))
             SetMasteredRecordFlag(flagIndex, true);
-    }
-
-    public PK8 ConvertToPK8()
-    {
-        var pk = ConvertTo<PK8>();
-        pk.SanitizeImport();
-        return pk;
-    }
-
-    public PB8 ConvertToPB8()
-    {
-        var pk = ConvertTo<PB8>();
-        if (pk.Egg_Location == 0)
-            pk.Egg_Location = Locations.Default8bNone;
-        return pk;
-    }
-
-    private T ConvertTo<T>() where T : G8PKM, new()
-    {
-        var pk = new T
-        {
-            EncryptionConstant = EncryptionConstant,
-            PID = PID,
-            Species = Species,
-            Form = Form,
-            FormArgument = FormArgument,
-            Gender = Gender,
-            Nature = Nature,
-            StatNature = StatNature,
-
-            TID16 = TID16,
-            SID16 = SID16,
-            EXP = EXP,
-            Ability = Ability,
-            AbilityNumber = AbilityNumber,
-            Language = Language,
-            Version = Version,
-
-            IV_HP = IV_HP,
-            IV_ATK = IV_ATK,
-            IV_DEF = IV_DEF,
-            IV_SPE = IV_SPE,
-            IV_SPA = IV_SPA,
-            IV_SPD = IV_SPD,
-            IsEgg = IsEgg,
-            EV_HP = EV_HP,
-            EV_ATK = EV_ATK,
-            EV_DEF = EV_DEF,
-            EV_SPE = EV_SPE,
-            EV_SPA = EV_SPA,
-            EV_SPD = EV_SPD,
-
-            OT_Gender = OT_Gender,
-            OT_Friendship = OT_Friendship,
-            OT_Intensity = OT_Intensity,
-            OT_Memory = OT_Memory,
-            OT_TextVar = OT_TextVar,
-            OT_Feeling = OT_Feeling,
-            Egg_Year = Egg_Year,
-            Egg_Month = Egg_Month,
-            Egg_Day = Egg_Day,
-            Met_Year = Met_Year,
-            Met_Month = Met_Month,
-            Met_Day = Met_Day,
-            Ball = Ball,
-            Egg_Location = Egg_Location,
-            Met_Location = Met_Location,
-            Met_Level = Met_Level,
-            Tracker = Tracker,
-
-            IsNicknamed = IsNicknamed,
-            CurrentHandler = CurrentHandler,
-            HT_Gender = HT_Gender,
-            HT_Language = HT_Language,
-            HT_Friendship = HT_Friendship,
-            HT_Intensity = HT_Intensity,
-            HT_Memory = HT_Memory,
-            HT_Feeling = HT_Feeling,
-            HT_TextVar = HT_TextVar,
-
-            FatefulEncounter = FatefulEncounter,
-            CNT_Cool = CNT_Cool,
-            CNT_Beauty = CNT_Beauty,
-            CNT_Cute = CNT_Cute,
-            CNT_Smart = CNT_Smart,
-            CNT_Tough = CNT_Tough,
-            CNT_Sheen = CNT_Sheen,
-
-            RibbonChampionKalos = RibbonChampionKalos,
-            RibbonChampionG3 = RibbonChampionG3,
-            RibbonChampionSinnoh = RibbonChampionSinnoh,
-            RibbonBestFriends = RibbonBestFriends,
-            RibbonTraining = RibbonTraining,
-            RibbonBattlerSkillful = RibbonBattlerSkillful,
-            RibbonBattlerExpert = RibbonBattlerExpert,
-            RibbonEffort = RibbonEffort,
-            RibbonAlert = RibbonAlert,
-            RibbonShock = RibbonShock,
-            RibbonDowncast = RibbonDowncast,
-            RibbonCareless = RibbonCareless,
-            RibbonRelax = RibbonRelax,
-            RibbonSnooze = RibbonSnooze,
-            RibbonSmile = RibbonSmile,
-            RibbonGorgeous = RibbonGorgeous,
-            RibbonRoyal = RibbonRoyal,
-            RibbonGorgeousRoyal = RibbonGorgeousRoyal,
-            RibbonArtist = RibbonArtist,
-            RibbonFootprint = RibbonFootprint,
-            RibbonRecord = RibbonRecord,
-            RibbonLegend = RibbonLegend,
-            RibbonCountry = RibbonCountry,
-            RibbonNational = RibbonNational,
-            RibbonEarth = RibbonEarth,
-            RibbonWorld = RibbonWorld,
-            RibbonClassic = RibbonClassic,
-            RibbonPremier = RibbonPremier,
-            RibbonEvent = RibbonEvent,
-            RibbonBirthday = RibbonBirthday,
-            RibbonSpecial = RibbonSpecial,
-            RibbonSouvenir = RibbonSouvenir,
-            RibbonWishing = RibbonWishing,
-            RibbonChampionBattle = RibbonChampionBattle,
-            RibbonChampionRegional = RibbonChampionRegional,
-            RibbonChampionNational = RibbonChampionNational,
-            RibbonChampionWorld = RibbonChampionWorld,
-            HasContestMemoryRibbon = HasContestMemoryRibbon,
-            HasBattleMemoryRibbon = HasBattleMemoryRibbon,
-            RibbonChampionG6Hoenn = RibbonChampionG6Hoenn,
-            RibbonContestStar = RibbonContestStar,
-            RibbonMasterCoolness = RibbonMasterCoolness,
-            RibbonMasterBeauty = RibbonMasterBeauty,
-            RibbonMasterCuteness = RibbonMasterCuteness,
-            RibbonMasterCleverness = RibbonMasterCleverness,
-            RibbonMasterToughness = RibbonMasterToughness,
-            RibbonChampionAlola = RibbonChampionAlola,
-            RibbonBattleRoyale = RibbonBattleRoyale,
-            RibbonBattleTreeGreat = RibbonBattleTreeGreat,
-            RibbonBattleTreeMaster = RibbonBattleTreeMaster,
-            RibbonChampionGalar = RibbonChampionGalar,
-            RibbonTowerMaster = RibbonTowerMaster,
-            RibbonMasterRank = RibbonMasterRank,
-
-            RibbonMarkLunchtime = RibbonMarkLunchtime,
-            RibbonMarkSleepyTime = RibbonMarkSleepyTime,
-            RibbonMarkDusk = RibbonMarkDusk,
-            RibbonMarkDawn = RibbonMarkDawn,
-            RibbonMarkCloudy = RibbonMarkCloudy,
-            RibbonMarkRainy = RibbonMarkRainy,
-            RibbonMarkStormy = RibbonMarkStormy,
-            RibbonMarkSnowy = RibbonMarkSnowy,
-            RibbonMarkBlizzard = RibbonMarkBlizzard,
-            RibbonMarkDry = RibbonMarkDry,
-            RibbonMarkSandstorm = RibbonMarkSandstorm,
-            RibbonCountMemoryContest = RibbonCountMemoryContest,
-            RibbonCountMemoryBattle = RibbonCountMemoryBattle,
-            RibbonMarkMisty = RibbonMarkMisty,
-            RibbonMarkDestiny = RibbonMarkDestiny,
-            RibbonMarkFishing = RibbonMarkFishing,
-            RibbonMarkCurry = RibbonMarkCurry,
-            RibbonMarkUncommon = RibbonMarkUncommon,
-            RibbonMarkRare = RibbonMarkRare,
-            RibbonMarkRowdy = RibbonMarkRowdy,
-            RibbonMarkAbsentMinded = RibbonMarkAbsentMinded,
-            RibbonMarkJittery = RibbonMarkJittery,
-            RibbonMarkExcited = RibbonMarkExcited,
-            RibbonMarkCharismatic = RibbonMarkCharismatic,
-            RibbonMarkCalmness = RibbonMarkCalmness,
-            RibbonMarkIntense = RibbonMarkIntense,
-            RibbonMarkZonedOut = RibbonMarkZonedOut,
-            RibbonMarkJoyful = RibbonMarkJoyful,
-            RibbonMarkAngry = RibbonMarkAngry,
-            RibbonMarkSmiley = RibbonMarkSmiley,
-            RibbonMarkTeary = RibbonMarkTeary,
-            RibbonMarkUpbeat = RibbonMarkUpbeat,
-            RibbonMarkPeeved = RibbonMarkPeeved,
-            RibbonMarkIntellectual = RibbonMarkIntellectual,
-            RibbonMarkFerocious = RibbonMarkFerocious,
-            RibbonMarkCrafty = RibbonMarkCrafty,
-            RibbonMarkScowling = RibbonMarkScowling,
-            RibbonMarkKindly = RibbonMarkKindly,
-            RibbonMarkFlustered = RibbonMarkFlustered,
-            RibbonMarkPumpedUp = RibbonMarkPumpedUp,
-            RibbonMarkZeroEnergy = RibbonMarkZeroEnergy,
-            RibbonMarkPrideful = RibbonMarkPrideful,
-            RibbonMarkUnsure = RibbonMarkUnsure,
-            RibbonMarkHumble = RibbonMarkHumble,
-            RibbonMarkThorny = RibbonMarkThorny,
-            RibbonMarkVigor = RibbonMarkVigor,
-            RibbonMarkSlump = RibbonMarkSlump,
-            RibbonHisui = RibbonHisui,
-            RibbonTwinklingStar = RibbonTwinklingStar,
-
-            AffixedRibbon = AffixedRibbon,
-            HyperTrainFlags = HyperTrainFlags,
-
-            Sociability = Sociability,
-            Fullness = Fullness,
-            Enjoyment = Enjoyment,
-            BattleVersion = BattleVersion,
-            PKRS_Days = PKRS_Days,
-            PKRS_Strain = PKRS_Strain,
-            HeightScalar = HeightScalar,
-            WeightScalar = WeightScalar,
-            CanGigantamax = CanGigantamax,
-            DynamaxLevel = DynamaxLevel,
-
-            IsFavorite = IsFavorite,
-            MarkValue = MarkValue,
-        };
-
-        Nickname_Trash.CopyTo(pk.Nickname_Trash);
-        OT_Trash.CopyTo(pk.OT_Trash);
-        HT_Trash.CopyTo(pk.HT_Trash);
-        pk.ResetMoves();
-        pk.ResetPartyStats();
-        pk.RefreshChecksum();
-
-        return pk;
-    }
-
-    public void SanitizeImport()
-    {
-        Scale = HeightScalar;
-        ResetHeight();
-        ResetWeight();
-    }
-
-    public void ResetMoves()
-    {
-        var learn = LearnSource8LA.Instance.GetLearnset(Species, Form);
-        Span<ushort> moves = stackalloc ushort[4];
-        learn.SetEncounterMoves(CurrentLevel, moves);
-        SetMoves(moves);
-        this.SetMaximumPPCurrent(moves);
-    }
-
-    public PK9 ConvertToPK9()
-    {
-        // Todo: Transfer to PK9
-        return new PK9();
     }
 }

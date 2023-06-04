@@ -1,6 +1,15 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
+23/06/03 - New Update:
+ - Added: HOME 3.0.0 initial support. Legality analysis is still under research. Thanks @Lusamine & @sora10pls !
+ - - Lacks full support for cross-game transfers involving evolutions and moves. Please be patient, there's a lot of things to handle!
+ - Added: Tech Record editor GUI has been redesigned for a more visual experience. Can now sort alphabetically, owned, or move type.
+ - Added: Gen9 S/V clothing "cheats" have been added to the Trainer Editor window. Thanks @pasqualenardiello!
+ - Fixed: Small regressions in item list permissions.
+ - Changed: Gen7 Totem Form sprites now display with an Orange-colored glow, similar to Gen3 C/XD shadow purple.
+ - Changed: DPI scaling adjusted for better appearance on high resolution monitors.
+
 23/05/11 - New Update:
  - Legality:
  - - Changed: Creating a new PKM from template will set current moves same as the games.

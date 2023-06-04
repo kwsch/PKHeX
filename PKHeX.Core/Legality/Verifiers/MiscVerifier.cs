@@ -39,7 +39,7 @@ public sealed class MiscVerifier : Verifier
                     break;
             }
 
-            if (pk is IHomeTrack {Tracker: not 0})
+            if (pk is IHomeTrack { HasTracker: true })
                 data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
         }
         else
@@ -138,35 +138,67 @@ public sealed class MiscVerifier : Verifier
     private void VerifySVStats(LegalityAnalysis data, PK9 pk9)
     {
         VerifyStatNature(data, pk9);
+        VerifyTechRecordSV(data, pk9);
 
         if (!pk9.IsBattleVersionValid(data.Info.EvoChainsAllGens))
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-
-        var enc = data.EncounterOriginal;
-        if (CheckHeightWeightOdds(enc) && pk9 is { HeightScalar: 0, WeightScalar: 0 } && ParseSettings.ZeroHeightWeight != Severity.Valid)
-            data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
-
-        if (enc is EncounterEgg g && UnreleasedSV.Contains(g.Species | g.Form << 11))
-            data.AddLine(GetInvalid(LTransferBad));
-
+        if (pk9.Tracker != 0 && pk9.HeightScalar != pk9.Scale)
+            data.AddLine(GetInvalid(LStatInvalidHeightWeight));
         if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.Met_Level))
             data.AddLine(GetInvalid(LTransferObedienceLevel));
-
-        if (pk9.Tracker != 0)
-            data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
-
-        if (enc is EncounterEgg && !Tera9RNG.IsMatchTeraTypePersonalEgg(enc.Species, enc.Form, (byte)pk9.TeraTypeOriginal))
-            data.AddLine(GetInvalid(LTeraTypeMismatch));
         if (pk9.IsEgg && pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
             data.AddLine(GetInvalid(LTeraTypeIncorrect));
 
-        if (enc is ITeraRaid9)
+        var enc = data.EncounterOriginal;
+        if (pk9 is { HeightScalar: 0, WeightScalar: 0 })
+        {
+            if (data.EncounterMatch.Context.Generation() < 9 && !data.Info.EvoChainsAllGens.HasVisitedPLA) // <=Gen8 rerolls height/weight, never zero.
+                data.AddLine(Get(LStatInvalidHeightWeight, Severity.Invalid, Encounter));
+            else if (CheckHeightWeightOdds(enc) && ParseSettings.ZeroHeightWeight != Severity.Valid)
+                data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
+        }
+
+        if (enc is EncounterEgg { Context: EntityContext.Gen9 } g)
+        {
+            if (UnreleasedSV.Contains(g.Species | g.Form << 11))
+                data.AddLine(GetInvalid(LTransferBad));
+            if (!Tera9RNG.IsMatchTeraTypePersonalEgg(g.Species, g.Form, (byte)pk9.TeraTypeOriginal))
+                data.AddLine(GetInvalid(LTeraTypeMismatch));
+        }
+        else if (enc is ITeraRaid9)
         {
             var seed = Tera9RNG.GetOriginalSeed(pk9);
             data.Info.PIDIV = new PIDIV(PIDType.Tera9, seed);
         }
+        else if (enc is not { Context: EntityContext.Gen9 } || pk9 is { GO_HOME: true })
+        {
+            if (pk9.TeraTypeOverride == (MoveType)TeraTypeUtil.OverrideNone)
+                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+            else if (GetTeraImportMatch(data.Info.EvoChainsAllGens.Gen9, pk9.TeraTypeOriginal) == -1)
+                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+        }
+        else if (enc is EncounterStatic9 { StarterBoxLegend: true })
+        {
+            // Ride legends cannot be traded or transferred.
+            if (pk9.CurrentHandler != 0 || pk9.Tracker != 0)
+                data.AddLine(GetInvalid(LTransferBad));
+        }
+    }
 
-        VerifyTechRecordSV(data, pk9);
+    public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual)
+    {
+        // Sanitize out Form here for Arceus/Silvally -- rewrite via evotree later.
+        if (evos.Length == 0 || evos[0].Species is (int)Species.Arceus or (int)Species.Silvally)
+            return actual == MoveType.Normal ? 0 : -1;
+        for (int i = evos.Length - 1; i >= 0; i--)
+        {
+            var evo = evos[i];
+            var pi = PersonalTable.SV.GetFormEntry(evo.Species, evo.Form);
+            var expect = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
+            if (expect == actual)
+                return i;
+        }
+        return -1;
     }
 
     private static bool IsObedienceLevelValid(PKM pk, byte current, int expectObey)
@@ -180,20 +212,6 @@ public sealed class MiscVerifier : Verifier
 
     private static readonly HashSet<int> UnreleasedSV = new()
     {
-        (int)Species.Diglett | (1 << 11), // Diglett-1
-        (int)Species.Meowth | (1 << 11), // Meowth-1
-        (int)Species.Growlithe | (1 << 11), // Growlithe-1
-        (int)Species.Slowpoke | (1 << 11), // Slowpoke-1
-        (int)Species.Grimer | (1 << 11), // Grimer-1
-        (int)Species.Voltorb | (1 << 11), // Voltorb-1
-        (int)Species.Tauros, // Tauros-0
-        (int)Species.Qwilfish | (1 << 11), // Qwilfish-1
-        (int)Species.Sneasel | (1 << 11), // Sneasel-1
-        (int)Species.Basculin | (2 << 11), // Basculin-2
-        (int)Species.Fennekin, // Fennekin
-        (int)Species.Carbink, // Carbink
-        (int)Species.Grookey, // Grookey
-
         // Silly workaround for evolution chain reversal not being iteratively implemented -- block cross-gen evolution cases
         (int)Species.Raichu | (1 << 11), // Raichu-1
         (int)Species.Typhlosion | (1 << 11), // Typhlosion-1

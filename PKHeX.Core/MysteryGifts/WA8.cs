@@ -648,7 +648,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
             if (OriginGame != 0 && OriginGame != pk.Version)
             {
-                if (OriginGame is (int)GameVersion.PLA && !(pk.Version is (int)GameVersion.SW && pk.Met_Location == Locations.HOME_SWLA))
+                if (OriginGame is (int)GameVersion.PLA && !(pk.Version is (int)GameVersion.SW && pk.Met_Location == LocationsHOME.SWLA))
                     return false;
             }
             if (EncryptionConstant != 0)
@@ -684,7 +684,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             if (!IsMatchEggLocation(pk)) return false;
             if (pk is PK8)
             {
-                if (pk.Met_Location != Locations.HOME_SWLA)
+                if (pk.Met_Location != LocationsHOME.SWLA)
                     return false;
             }
             else

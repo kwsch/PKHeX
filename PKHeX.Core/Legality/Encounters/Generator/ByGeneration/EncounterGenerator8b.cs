@@ -273,9 +273,9 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
 
         bool wasEgg = pk.Egg_Location switch
         {
-            Locations.HOME_SWSHBDSPEgg => true, // Regular hatch location (not link trade)
-            Locations.HOME_SWBD => pk.Met_Location == Locations.HOME_SWBD, // Link Trade transferred over must match Met Location
-            Locations.HOME_SHSP => pk.Met_Location == Locations.HOME_SHSP, // Link Trade transferred over must match Met Location
+            LocationsHOME.SWSHEgg => true, // Regular hatch location (not link trade)
+            LocationsHOME.SWBD => pk.Met_Location == LocationsHOME.SWBD, // Link Trade transferred over must match Met Location
+            LocationsHOME.SHSP => pk.Met_Location == LocationsHOME.SHSP, // Link Trade transferred over must match Met Location
             _ => false,
         };
         if (wasEgg && pk.Met_Level == 1)
@@ -294,7 +294,6 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
         EncounterMatchRating rating = MaxNotMatch;
 
         // Trades
-        if (!pk.IsEgg)
         {
             foreach (var enc in Encounters8b.TradeGift_BDSP)
             {

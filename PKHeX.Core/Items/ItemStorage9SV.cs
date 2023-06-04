@@ -176,32 +176,12 @@ public sealed class ItemStorage9SV : IItemStorage
         0016, // Cherish Ball
 
         0111, // Odd Keystone
-        0112, // [AUCTION] Griseous Orb
-        0135, // [AUCTION] Adamant Orb
-        0136, // [AUCTION] Lustrous Orb
 
         0208, // Enigma Berry
         0209, // Micle Berry
         0210, // Custap Berry
         0211, // Jaboca Berry
         0212, // Rowap Berry
-
-        0298, // [AUCTION] Flame Plate
-        0299, // [AUCTION] Splash Plate
-        0300, // [AUCTION] Zap Plate
-        0301, // [AUCTION] Meadow Plate
-        0302, // [AUCTION] Icicle Plate
-        0303, // [AUCTION] Fist Plate
-        0304, // [AUCTION] Toxic Plate
-        0305, // [AUCTION] Earth Plate
-        0306, // [AUCTION] Sky Plate
-        0307, // [AUCTION] Mind Plate
-        0308, // [AUCTION] Insect Plate
-        0309, // [AUCTION] Stone Plate
-        0310, // [AUCTION] Spooky Plate
-        0311, // [AUCTION] Draco Plate
-        0312, // [AUCTION] Dread Plate
-        0313, // [AUCTION] Iron Plate
 
         0485, // Red Apricorn
         0486, // Blue Apricorn
@@ -213,21 +193,13 @@ public sealed class ItemStorage9SV : IItemStorage
 
         0499, // Sport Ball
         0500, // Park Ball
-        0644, // [AUCTION] Pixie Plate
         0708, // Lumiose Galette
         0709, // Shalour Sable
 
-        1103, // [AUCTION] Rusted Sword
-        1104, // [AUCTION] Rusted Shield
-
         1230, // TM00 - Mega Punch (Nothing learns, not obtainable even though it is assigned a move.)
 
-        1582, // [AUCTION] Galarica Cuff
-        1592, // [AUCTION] Galarica Wreath
-
-        1777, // [AUCTION] Adamant Crystal
-        1778, // [AUCTION] Lustrous Globe
-        1779, // [AUCTION] Griseous Core
+        1582, // Galarica Cuff
+        1592, // Galarica Wreath
 
         1785, // Strange Ball
     };

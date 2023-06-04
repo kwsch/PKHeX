@@ -91,7 +91,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override ushort MaxSpeciesID => Legal.MaxSpeciesID_9;
     public override int MaxItemID => Legal.MaxItemID_9;
     public override int MaxBallID => Legal.MaxBallID_9;
-    public override int MaxGameID => Legal.MaxGameID_9;
+    public override int MaxGameID => Legal.MaxGameID_HOME;
     public override int MaxAbilityID => Legal.MaxAbilityID_9;
 
     private void Initialize()

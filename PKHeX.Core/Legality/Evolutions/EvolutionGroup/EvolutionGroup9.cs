@@ -7,14 +7,10 @@ public sealed class EvolutionGroup9 : IEvolutionGroup
     public static readonly EvolutionGroup9 Instance = new();
     private static readonly EvolutionTree Tree9  = EvolutionTree.Evolves9;
     private const int Generation = 9;
+    private const int MaxSpecies = Legal.MaxSpeciesID_9;
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => null;
-    public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc)
-    {
-        if (enc.Generation >= Generation)
-            return null;
-        return null;
-    }
+    public IEvolutionGroup GetPrevious(PKM pk, EvolutionOrigin enc) => EvolutionGroup8.Instance;
 
     public bool Append(PKM pk, EvolutionHistory history, ref ReadOnlySpan<EvoCriteria> chain, EvolutionOrigin enc)
     {

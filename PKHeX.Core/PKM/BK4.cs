@@ -133,7 +133,7 @@ public sealed class BK4 : G4PKM
     public override int Move2_PPUps { get => Data[0x35]; set => Data[0x35] = (byte)value; }
     public override int Move3_PPUps { get => Data[0x36]; set => Data[0x36] = (byte)value; }
     public override int Move4_PPUps { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-    private uint IV32 { get => ReadUInt32BigEndian(Data.AsSpan(0x38)); set => WriteUInt32BigEndian(Data.AsSpan(0x38), value); }
+    protected internal override uint IV32 { get => ReadUInt32BigEndian(Data.AsSpan(0x38)); set => WriteUInt32BigEndian(Data.AsSpan(0x38), value); }
     public override int IV_SPD { get => (int)(IV32 >> 02) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 02)) | ((value > 31 ? 31u : (uint)value) << 02); }
     public override int IV_SPA { get => (int)(IV32 >> 07) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 07)) | ((value > 31 ? 31u : (uint)value) << 07); }
     public override int IV_SPE { get => (int)(IV32 >> 12) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 12)) | ((value > 31 ? 31u : (uint)value) << 12); }
@@ -283,6 +283,8 @@ public sealed class BK4 : G4PKM
     public override int Stat_SPE { get; set; }
     public override int Stat_SPA { get; set; }
     public override int Stat_SPD { get; set; }
+
+    public override int Characteristic => EntityCharacteristic.GetCharacteristicInvertFields(PID, IV32);
 
     // Methods
     protected override ushort CalculateChecksum()

@@ -232,6 +232,7 @@ MsgItemPouchSizeSmall = La bolsa es muy pequeña para todos los Objetos.
 MsgItemPouchRandom = Sí: Dar por ID de Objeto {0}No: Surtido aleatorio
 MsgItemPouchWarning = Si guarda los cambios, el Objeto (s) no estará más en la bolsa.
 MsgItemPouchRemoved = Los siguientes artículos se han eliminado de la bolsa {0}.
+MsgClothingAdded = Added {0} clothing options.
 MsgSaveDifferentTypes = Los tipos de archivos de guardado son diferentes.
 MsgSaveDifferentVersions = Las versiones de los archivos de guardado no son iguales.
 MsgSaveNumberInvalid = El archivo de guardado {0} no es válido.

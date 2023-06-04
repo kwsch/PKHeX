@@ -6,10 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Side game data for <see cref="PB8"/> data transferred into HOME.
 /// </summary>
-public sealed class GameDataPB8 : HomeOptional1, IGameDataSide
+public sealed class GameDataPB8 : HomeOptional1, IGameDataSide<PB8>, IGameDataSplitAbility, IPokerusStatus
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PB8;
-    private const int SIZE = HomeCrypto.SIZE_1GAME_PB8;
+    private const int SIZE = HomeCrypto.SIZE_2GAME_PB8;
     protected override HomeGameDataFormat Format => ExpectFormat;
 
     public GameDataPB8() : base(SIZE) { }
@@ -48,25 +48,43 @@ public sealed class GameDataPB8 : HomeOptional1, IGameDataSide
     public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x27..]); set => WriteUInt16LittleEndian(Data[0x27..], (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data[0x29..]); set => WriteUInt16LittleEndian(Data[0x29..], (ushort)value); }
 
+    // Rev2 Additions
+    public byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
+    public ushort Ability { get => ReadUInt16LittleEndian(Data[0x2C..]); set => WriteUInt16LittleEndian(Data[0x2C..], value); }
+    public byte AbilityNumber { get => Data[0x2E]; set => Data[0x2E] = value; }
+
     #endregion
 
     #region Conversion
 
     public PersonalInfo GetPersonalInfo(ushort species, byte form) => PersonalTable.BDSP.GetFormEntry(species, form);
 
-    public void CopyTo(PB8 pk)
+    public void CopyTo(PB8 pk, PKH pkh)
     {
-        ((IGameDataSide)this).CopyTo(pk);
+        this.CopyTo(pk);
         // Move Records are not settable in PB8; do not copy even if nonzero (illegal).
+        pk.PKRS = PKRS;
+        pk.AbilityNumber = AbilityNumber;
+        pk.Ability = Ability;
     }
 
-    public PKM ConvertToPKM(PKH pkh) => ConvertToPB8(pkh);
+    public void CopyFrom(PB8 pk, PKH pkh)
+    {
+        this.CopyFrom(pk);
+        // Move Records are not settable in PB8; do not copy even if nonzero (illegal).
+        PKRS = pk.PKRS;
+        AbilityNumber = (byte)pk.AbilityNumber;
+        Ability = (ushort)pk.Ability;
+    }
 
-    public PB8 ConvertToPB8(PKH pkh)
+    public PB8 ConvertToPKM(PKH pkh)
     {
         var pk = new PB8();
         pkh.CopyTo(pk);
-        CopyTo(pk);
+        CopyTo(pk, pkh);
+
+        pk.ResetPartyStats();
+        pk.RefreshChecksum();
         return pk;
     }
 
@@ -75,28 +93,40 @@ public sealed class GameDataPB8 : HomeOptional1, IGameDataSide
     /// <summary> Reconstructive logic to best apply suggested values. </summary>
     public static GameDataPB8? TryCreate(PKH pkh)
     {
-        if (pkh.DataPB7 is { } x)
-            return Create(x);
-        if (pkh.DataPK8 is { } b)
-            return Create(b);
-        if (pkh.DataPA8 is { } a)
-            return Create(a);
-        if (pkh.DataPK9 is { } g9)
-            return Create(g9);
-        return null;
+        var side = GetNearestNeighbor(pkh);
+        if (side == null)
+            return null;
+
+        var result = new GameDataPB8();
+        result.InitializeFrom(side, pkh);
+        return result;
     }
 
-    public static T Create<T>(GameDataPB8 data) where T : IGameDataSide, new() => new()
-    {
-        Ball = data.Ball,
-        Met_Location = data.Met_Location == Locations.Default8bNone ? 0 : data.Met_Location,
-        Egg_Location = data.Egg_Location == Locations.Default8bNone ? 0 : data.Egg_Location,
-    };
+    private static IGameDataSide? GetNearestNeighbor(PKH pkh) => pkh.DataPK9 as IGameDataSide
+                                                              ?? pkh.DataPK8 as IGameDataSide
+                                                              ?? pkh.DataPB7 as IGameDataSide
+                                                              ?? pkh.DataPA8;
 
-    public static GameDataPB8 Create(IGameDataSide data) => new()
+    public void InitializeFrom(IGameDataSide side, PKH pkh)
     {
-        Ball = data.Ball,
-        Met_Location = data.Met_Location == 0 ? Locations.Default8bNone : data.Met_Location,
-        Egg_Location = data.Egg_Location == 0 ? Locations.Default8bNone : data.Egg_Location,
-    };
+        Ball = side.Ball;
+        Met_Location = side.Met_Location == 0 ? Locations.Default8bNone : side.Met_Location;
+        Egg_Location = side.Egg_Location == 0 ? Locations.Default8bNone : side.Egg_Location;
+
+        if (side is IPokerusStatus p)
+            PKRS = p.PKRS;
+        if (side is IGameDataSplitAbility a)
+            AbilityNumber = a.AbilityNumber;
+        else
+            AbilityNumber = 1;
+
+        PopulateFromCore(pkh);
+        this.ResetMoves(pkh.Species, pkh.Form, pkh.CurrentLevel, LearnSource8BDSP.Instance, EntityContext.Gen8b);
+    }
+
+    private void PopulateFromCore(PKH pkh)
+    {
+        var pi = PersonalTable.BDSP.GetFormEntry(pkh.Species, pkh.Form);
+        Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
+    }
 }

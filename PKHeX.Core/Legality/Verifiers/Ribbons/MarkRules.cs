@@ -113,9 +113,29 @@ public static class MarkRules
     }
 
     /// <summary>
+    /// Checks if a <see cref="MarkAlpha"/> mark is valid.
+    /// </summary>
+    public static bool IsMarkValidAlpha(PKM pk, bool wasAlpha)
+    {
+        if (pk is IAlpha a && a.IsAlpha != wasAlpha)
+            return false;
+        if (pk is not IRibbonSetMark9 m)
+            return true;
+        if (m.RibbonMarkAlpha == wasAlpha)
+            return true;
+
+        // Before HOME 3.0.0, this mark was never set.
+        return pk is PK8 or PB8 or PA8; // Not yet touched HOME 3.0.0
+    }
+
+    /// <summary>
     /// Checks if the input can have the <see cref="IRibbonSetMark9.RibbonMarkAlpha"/> mark.
     /// </summary>
-    public static bool IsMarkPresentAlpha(IEncounterTemplate enc) => enc is IAlphaReadOnly { IsAlpha: true};
+    public static bool IsMarkValidAlpha(IEncounterTemplate enc, PKM pk)
+    {
+        var expect = enc is IAlphaReadOnly { IsAlpha: true };
+        return IsMarkValidAlpha(pk, expect);
+    }
 
     /// <summary>
     /// Checks if the input can have the <see cref="IRibbonSetMark9.RibbonMarkJumbo"/> mark.
@@ -181,9 +201,9 @@ public static class MarkRules
     /// <summary>
     /// Gets the maximum obtainable <see cref="RibbonIndex"/> value for the format.
     /// </summary>
-    public static RibbonIndex GetMaxAffixValue(int entityFormat) => entityFormat switch
+    public static RibbonIndex GetMaxAffixValue(int entityFormat, bool visitedHOME) => entityFormat switch
     {
-        <= 8 => MarkSlump, // Pioneer and Twinkling Star cannot be selected in SW/SH.
+        <= 8 when !visitedHOME => MarkSlump, // Pioneer and Twinkling Star cannot be selected in SW/SH.
         _ => MarkTitan, // Max ribbon visible in SV.
     };
 }
