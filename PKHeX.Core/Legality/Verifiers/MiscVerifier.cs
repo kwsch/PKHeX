@@ -152,7 +152,7 @@ public sealed class MiscVerifier : Verifier
         var enc = data.EncounterOriginal;
         if (pk9 is { HeightScalar: 0, WeightScalar: 0 })
         {
-            if (data.EncounterMatch.Context.Generation() < 9) // <=Gen8 rerolls height/weight, never zero.
+            if (data.EncounterMatch.Context.Generation() < 9 && !data.Info.EvoChainsAllGens.HasVisitedPLA) // <=Gen8 rerolls height/weight, never zero.
                 data.AddLine(Get(LStatInvalidHeightWeight, Severity.Invalid, Encounter));
             else if (CheckHeightWeightOdds(enc) && ParseSettings.ZeroHeightWeight != Severity.Valid)
                 data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));

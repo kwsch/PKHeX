@@ -385,6 +385,8 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         var blank = new PKH();
         blank.CopyFrom(pk);
         blank.EnsureScaleSizeExists();
+        if (blank.Species is (int)PKHeX.Core.Species.Arceus or (int)PKHeX.Core.Species.Silvally)
+            blank.Form = 0;
         return blank;
     }
 

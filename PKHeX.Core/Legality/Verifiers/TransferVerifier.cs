@@ -190,7 +190,7 @@ public sealed class TransferVerifier : Verifier
         // Transfer between Gen8 can be done before HOME 3.0.0, so we can allow (0,0) or re-rolled.
         if (pk.Context is not (EntityContext.Gen8 or EntityContext.Gen8a or EntityContext.Gen8b))
         {
-            if (s is { HeightScalar: 0, WeightScalar: 0 })
+            if (s is { HeightScalar: 0, WeightScalar: 0 } && !data.Info.EvoChainsAllGens.HasVisitedPLA)
                 data.AddLine(GetInvalid(LTransferBad));
         }
     }
