@@ -232,6 +232,7 @@ MsgItemPouchSizeSmall = 모든 아이템을 받기에는 가방이 너무 작습
 MsgItemPouchRandom = 예: ID를 사용하여 아이템 받기{0}아니오: 무작위로 받기
 MsgItemPouchWarning = 변경 사항을 저장하면 아이템을 가방에서 제거합니다.
 MsgItemPouchRemoved = 다음 아이템을 가방에서 제거했습니다.
+MsgClothingAdded = Added {0} clothing options.
 MsgSaveDifferentTypes = 세이브 파일 유형이 서로 다릅니다.
 MsgSaveDifferentVersions = 세이브 파일 버전이 일치하지 않습니다.
 MsgSaveNumberInvalid = {0} 세이브 파일이 잘못되었습니다.

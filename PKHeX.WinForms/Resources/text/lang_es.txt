@@ -1703,6 +1703,7 @@ SAV_Trainer9.B_MaxCash=+
 SAV_Trainer9.B_MaxLP=+
 SAV_Trainer9.B_Save=Guardar
 SAV_Trainer9.B_UnlockBikeUpgrades=Unlock All Bike Upgrades
+SAV_Trainer9.B_UnlockClothing=Unlock Clothing Options
 SAV_Trainer9.B_UnlockFlyLocations=Unlock All Fly Locations
 SAV_Trainer9.B_UnlockTMRecipes=Unlock All TM Recipes
 SAV_Trainer9.GB_Map=Posición en el mapa

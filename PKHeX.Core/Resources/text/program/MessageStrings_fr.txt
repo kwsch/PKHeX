@@ -232,6 +232,7 @@ MsgItemPouchSizeSmall = Votre poche est trop petite pour tous les articles.
 MsgItemPouchRandom = Oui: Donner par ID d'article {0}Non: assortiment aléatoire
 MsgItemPouchWarning = Si vous enregistrez les modifications, les articles ne seront plus dans votre poche.
 MsgItemPouchRemoved = Les éléments suivants ont été retirés de votre poche {0}.
+MsgClothingAdded = Added {0} clothing options.
 MsgSaveDifferentTypes = Les types de sauvegarde ne sont pas les mêmes.
 MsgSaveDifferentVersions = Les versions ne sont pas les mêmes.
 MsgSaveNumberInvalid = Sauvegarde {0} invalide.

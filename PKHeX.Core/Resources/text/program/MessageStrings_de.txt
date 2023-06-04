@@ -232,6 +232,7 @@ MsgItemPouchSizeSmall = Das Inventar ist zu klein für alle Items.
 MsgItemPouchRandom = Ja: Erhalte Items nach Item ID{0}Nein: Zufällige Auswahl
 MsgItemPouchWarning = Wenn du die Änderungen speicherst, werden die Items nicht länger im Inventar sein.
 MsgItemPouchRemoved = Die folgenden Items wurden aus der {0} Tasche entfernt.
+MsgClothingAdded = Added {0} clothing options.
 MsgSaveDifferentTypes = Die Spielstand Typen sind nicht identisch.
 MsgSaveDifferentVersions = Die Spielstand Versionen sind nicht identisch.
 MsgSaveNumberInvalid = Spielstand {0} ist ungültig.

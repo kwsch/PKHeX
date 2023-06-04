@@ -1704,6 +1704,7 @@ SAV_Trainer9.B_MaxCash=+
 SAV_Trainer9.B_MaxLP=+
 SAV_Trainer9.B_Save=保存
 SAV_Trainer9.B_UnlockBikeUpgrades=解锁全部骑行功能
+SAV_Trainer9.B_UnlockClothing=Unlock Clothing Options
 SAV_Trainer9.B_UnlockFlyLocations=解锁全部飞行点
 SAV_Trainer9.B_UnlockTMRecipes=解锁全部招式制作
 SAV_Trainer9.GB_Map=地图位置
