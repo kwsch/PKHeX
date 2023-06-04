@@ -711,7 +711,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (pk is PK8 pk8 && pk8.DynamaxLevel < DynamaxLevel)
             return false;
 
-        if (IsHOMEGift && pk is IScaledSize s)
+        if (IsHOMEGift && pk is IScaledSize s and not IHomeTrack { HasTracker: true })
         {
             if (s.HeightScalar != 0)
                 return false;
