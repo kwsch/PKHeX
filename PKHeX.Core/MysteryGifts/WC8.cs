@@ -412,7 +412,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
         var pk = new PK8
         {
-            EncryptionConstant = EncryptionConstant != 0 || IsHOMEGift ? EncryptionConstant : Util.Rand32(),
+            EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
             TID16 = TID16,
             SID16 = SID16,
             Species = Species,
@@ -644,18 +644,8 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
                 if (EncryptionConstant != pk.EncryptionConstant)
                     return false;
             }
-            else if (IsHOMEGift)// 0
+            else if (IsHOMEGift)
             {
-                // HOME gifts -- PID and EC are zeroes...
-                if (EncryptionConstant != pk.EncryptionConstant)
-                    return false;
-
-                // Initial updates of HOME did not assign a TSV of 0.
-                // After enough server updates, HOME can now assign a TSV of 0.
-                // They will XOR the PID to ensure the shiny state of gifts is matched.
-                // if (pk.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
-                //     return false;
-
                 if (IsShiny)
                 {
                     if (!pk.IsShiny)
@@ -736,7 +726,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     {
         // no defined TID16/SID16 and having a fixed PID can cause the player's TID16/SID16 to match the PID's shiny calc.
         // All PIDs are fixed for HOME gifts.
-        return ID32 == 0;
+        return ID32 == 0 && PID != 0;
     }
 
     public bool IsDateRestricted => IsHOMEGift;
