@@ -72,8 +72,9 @@ public sealed class InventoryPouch9 : InventoryPouch
             var ofs = GetItemOffset(index);
             item.Write(data[ofs..]);
 
-            if (!processed.Contains(index)) // we will allow duplicate item definitions, but they'll overwrite instead of sum/separate.
-                processed.Add(index);
+            // In the event of duplicates, we just overwrite what was previously written by a prior duplicate.
+            // Don't care if we've already processed this item, just write it again.
+            processed.Add(index);
         }
 
         // For all the items that were not present in the pouch, clear the data for them.

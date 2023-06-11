@@ -353,9 +353,9 @@ public static class RibbonRules
     public static bool IsAllowedContest4(ushort species, byte form) => species switch
     {
         // Disallow Unown and Ditto, and Spiky Pichu (cannot trade)
-        (int)Species.Ditto => false,
-        (int)Species.Unown => false,
-        (int)Species.Pichu when form == 1 => false,
+        (int)Ditto => false,
+        (int)Unown => false,
+        (int)Pichu when form == 1 => false,
         _ => true,
     };
 
@@ -380,7 +380,7 @@ public static class RibbonRules
     /// </summary>
     public static bool IsAllowedBattleFrontier(ushort species, byte form, EntityContext context)
     {
-        if (context == EntityContext.Gen4 && species == (int)Species.Pichu && form == 1) // spiky
+        if (context == EntityContext.Gen4 && species == (int)Pichu && form == 1) // spiky
             return false;
         return IsAllowedBattleFrontier(species);
     }

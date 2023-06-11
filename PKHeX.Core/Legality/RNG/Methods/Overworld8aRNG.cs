@@ -19,6 +19,7 @@ public static class Overworld8aRNG
 
     private const int UNSET = -1;
 
+    // ReSharper disable once UnusedTupleComponentInReturnValue
     public static (ulong GroupSeed, ulong SlotSeed) ApplyDetails(PKM pk, EncounterCriteria criteria, in OverworldParam8a para, bool giveAlphaMove)
     {
         int ctr = 0;
@@ -58,6 +59,7 @@ public static class Overworld8aRNG
         return (groupSeed, slotSeed);
     }
 
+    // ReSharper disable once UnusedTupleComponentInReturnValue
     public static (ulong EntitySeed, ulong SlotRand) ApplyDetails(PKM pk, in OverworldParam8a para, bool giveAlphaMove, ref Xoroshiro128Plus groupRand)
     {
         var slotSeed = groupRand.Next();

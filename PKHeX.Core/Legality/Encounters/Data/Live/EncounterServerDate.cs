@@ -13,6 +13,12 @@ public static class EncounterServerDate
 
     private static bool IsValidDate(DateOnly obtained, DateOnly start, DateOnly end) => obtained >= start && obtained <= end;
 
+    /// <summary>
+    /// Checks if the date obtained is within the date of availability for the given <see cref="value"/>.
+    /// </summary>
+    /// <param name="obtained">Date obtained.</param>
+    /// <param name="value">Date of availability. End date is inclusive.</param>
+    /// <returns>True if the date obtained is within the date of availability for the given <see cref="value"/>.</returns>
     private static bool IsValidDate(DateOnly obtained, (DateOnly Start, DateOnly? End) value)
     {
         var (start, end) = value;
@@ -23,6 +29,7 @@ public static class EncounterServerDate
 
     private static EncounterServerDateCheck Result(bool result) => result ? Valid : Invalid;
 
+    /// <inheritdoc cref="IsValidDateWC8(WC8, DateOnly)"/>
     public static EncounterServerDateCheck IsValidDate(this IEncounterServerDate enc, DateOnly obtained) => enc switch
     {
         WC8 wc8 => Result(IsValidDateWC8(wc8, obtained)),
@@ -32,17 +39,49 @@ public static class EncounterServerDate
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
 
+    /// <summary>
+    /// Checks if the date obtained is within the date of availability for the given <see cref="card"/>.
+    /// </summary>
+    /// <param name="card">Gift card to check.</param>
+    /// <param name="obtained">Date obtained.</param>
+    /// <returns>True if the date obtained is within the date of availability for the given <see cref="card"/>.</returns>
     public static bool IsValidDateWC8(WC8 card, DateOnly obtained) => (WC8Gifts.TryGetValue(card.CardID, out var time)
                                                                       || WC8GiftsChk.TryGetValue(card.Checksum, out time)) && IsValidDate(obtained, time);
 
+    /// <inheritdoc cref="IsValidDateWC8(WC8, DateOnly)"/>
     public static bool IsValidDateWA8(WA8 card, DateOnly obtained) => WA8Gifts.TryGetValue(card.CardID, out var time) && IsValidDate(obtained, time);
 
+    /// <inheritdoc cref="IsValidDateWC8(WC8, DateOnly)"/>
     public static bool IsValidDateWB8(WB8 card, DateOnly obtained) => WB8Gifts.TryGetValue(card.CardID, out var time) && IsValidDate(obtained, time);
 
+    /// <inheritdoc cref="IsValidDateWC8(WC8, DateOnly)"/>
     public static bool IsValidDateWC9(WC9 card, DateOnly obtained) => (WC9Gifts.TryGetValue(card.CardID, out var time)
                                                                       || WC9GiftsChk.TryGetValue(card.Checksum, out time)) && IsValidDate(obtained, time);
 
+    /// <summary>
+    /// Used to signify an unbounded end date.
+    /// </summary>
     private static readonly DateOnly? Never = null;
+
+    /// <summary>
+    /// Initial introduction of HOME support for SW/SH; gift availability (generating) was revised in 3.0.0.
+    /// </summary>
+    private static readonly (DateOnly Start, DateOnly  End) HOME1 = (new(2020, 02, 12), new(2023, 05, 29));
+
+    /// <summary>
+    /// Revision of HOME support for SW/SH; gift availability (generating) was revised in 3.0.0.
+    /// </summary>
+    private static readonly (DateOnly Start, DateOnly? End) HOME3 = (new(2023, 05, 30), Never);
+
+    /// <summary>
+    /// Introduction of BD/SP and PLA support; gift availability time window for these games.
+    /// </summary>
+    private static readonly (DateOnly Start, DateOnly? End) HOME2_AB = (new(2022, 05, 18), Never);
+
+    /// <summary>
+    /// Introduction of S/V support; gift availability time window for these games.
+    /// </summary>
+    private static readonly (DateOnly Start, DateOnly? End) HOME3_ML = (new(2023, 05, 30), Never);
 
     /// <summary>
     /// Minimum date the gift can be received.
@@ -50,24 +89,24 @@ public static class EncounterServerDate
     public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC8GiftsChk = new()
     {
         // HOME 1.0.0 to 2.0.2 - PID, EC, Height, Weight = 0 (rev 1)
-        {0xFBBE, (new(2020, 02, 12), new(2023, 05, 29))}, // Bulbasaur
-        {0x48F5, (new(2020, 02, 12), new(2023, 05, 29))}, // Charmander
-        {0x47DB, (new(2020, 02, 12), new(2023, 05, 29))}, // Squirtle
-        {0x671A, (new(2020, 02, 12), new(2023, 05, 29))}, // Pikachu
-        {0x81A2, (new(2020, 02, 15), new(2023, 05, 29))}, // Original Color Magearna
-        {0x4CC7, (new(2020, 02, 12), new(2023, 05, 29))}, // Eevee
-        {0x1A0B, (new(2020, 02, 12), new(2023, 05, 29))}, // Rotom
-        {0x1C26, (new(2020, 02, 12), new(2023, 05, 29))}, // Pichu
+        {0xFBBE, HOME1}, // Bulbasaur
+        {0x48F5, HOME1}, // Charmander
+        {0x47DB, HOME1}, // Squirtle
+        {0x671A, HOME1}, // Pikachu
+        {0x81A2, HOME1}, // Original Color Magearna
+        {0x4CC7, HOME1}, // Eevee
+        {0x1A0B, HOME1}, // Rotom
+        {0x1C26, HOME1}, // Pichu
 
         // HOME 3.0.0 onward - PID, EC, Height, Weight = random (rev 2)
-        {0x7124, (new(2023, 05, 30), Never)}, // Bulbasaur
-        {0xC26F, (new(2023, 05, 30), Never)}, // Charmander
-        {0xCD41, (new(2023, 05, 30), Never)}, // Squirtle
-        {0xED80, (new(2023, 05, 30), Never)}, // Pikachu
-        {0x0B38, (new(2023, 05, 30), Never)}, // Original Color Magearna
-        {0xC65D, (new(2023, 05, 30), Never)}, // Eevee
-        {0x9091, (new(2023, 05, 30), Never)}, // Rotom
-        {0x96BC, (new(2023, 05, 30), Never)}, // Pichu
+        {0x7124, HOME3}, // Bulbasaur
+        {0xC26F, HOME3}, // Charmander
+        {0xCD41, HOME3}, // Squirtle
+        {0xED80, HOME3}, // Pikachu
+        {0x0B38, HOME3}, // Original Color Magearna
+        {0xC65D, HOME3}, // Eevee
+        {0x9091, HOME3}, // Rotom
+        {0x96BC, HOME3}, // Pichu
     };
 
     /// <summary>
@@ -97,9 +136,9 @@ public static class EncounterServerDate
         {1203, (new(2022, 08, 18), new(2022, 11, 01))}, // Arceus Chronicles Hisuian Growlithe
         {0151, (new(2022, 09, 03), new(2022, 10, 01))}, // Otsukimi Festival 2022 Clefairy
 
-        {9018, (new(2022, 05, 18), Never)}, // Hidden Ability Rowlet
-        {9019, (new(2022, 05, 18), Never)}, // Hidden Ability Cyndaquil
-        {9020, (new(2022, 05, 18), Never)}, // Hidden Ability Oshawott
+        {9018, HOME2_AB}, // Hidden Ability Rowlet
+        {9019, HOME2_AB}, // Hidden Ability Cyndaquil
+        {9020, HOME2_AB}, // Hidden Ability Oshawott
     };
 
     /// <summary>
@@ -107,9 +146,9 @@ public static class EncounterServerDate
     /// </summary>
     public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WB8Gifts = new()
     {
-        {9015, (new(2022, 05, 18), Never)}, // Hidden Ability Turtwig
-        {9016, (new(2022, 05, 18), Never)}, // Hidden Ability Chimchar
-        {9017, (new(2022, 05, 18), Never)}, // Hidden Ability Piplup
+        {9015, HOME2_AB}, // Hidden Ability Turtwig
+        {9016, HOME2_AB}, // Hidden Ability Chimchar
+        {9017, HOME2_AB}, // Hidden Ability Piplup
     };
 
     /// <summary>
@@ -137,8 +176,8 @@ public static class EncounterServerDate
         {1002, (new(2023, 05, 31), new(2023, 08, 01))}, // Arceus and the Jewel of Life Distribution Pichu
         {0028, (new(2023, 06, 09), new(2023, 06, 12))}, // そらみつ's Bronzong
 
-        {9021, (new(2023, 05, 30), Never)}, // Hidden Ability Sprigatito
-        {9022, (new(2023, 05, 30), Never)}, // Hidden Ability Fuecoco
-        {9023, (new(2023, 05, 30), Never)}, // Hidden Ability Quaxly
+        {9021, HOME3_ML}, // Hidden Ability Sprigatito
+        {9022, HOME3_ML}, // Hidden Ability Fuecoco
+        {9023, HOME3_ML}, // Hidden Ability Quaxly
     };
 }

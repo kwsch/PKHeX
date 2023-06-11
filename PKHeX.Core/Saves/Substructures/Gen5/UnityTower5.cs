@@ -63,7 +63,7 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
 
     public void SetCountrySubregion(byte country, byte subregion, Point point)
     {
-        int index = Offset + GeonetOffset + (country - 1) * 16 + subregion / 4;
+        int index = Offset + GeonetOffset + ((country - 1) * 16) + (subregion / 4);
         int shift = 2 * (subregion % 4);
         Data[index] = (byte)((Data[index] & ~(0b11 << shift)) | ((int)point << shift));
     }

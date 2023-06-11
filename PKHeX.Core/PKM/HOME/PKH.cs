@@ -58,7 +58,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         HomeGameDataFormat.PA8 => DataPA8 = new GameDataPA8(chunk),
         HomeGameDataFormat.PB8 => DataPB8 = new GameDataPB8(chunk),
         HomeGameDataFormat.PK9 => DataPK9 = new GameDataPK9(chunk),
-        _ => throw new ArgumentException($"Unknown {nameof(HomeGameDataFormat)} {format}")
+        _ => throw new ArgumentException($"Unknown {nameof(HomeGameDataFormat)} {format}"),
     };
 
     private static byte[] DecryptHome(byte[] data)
