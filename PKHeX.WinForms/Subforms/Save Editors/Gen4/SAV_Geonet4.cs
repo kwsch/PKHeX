@@ -8,7 +8,7 @@ public partial class SAV_Geonet4 : Form
 {
     private readonly SaveFile Origin;
     private readonly SAV4 SAV;
-    private Geonet4 Geonet;
+    private readonly Geonet4 Geonet;
 
     public SAV_Geonet4(SaveFile sav)
     {

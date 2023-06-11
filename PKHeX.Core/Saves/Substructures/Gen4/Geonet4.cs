@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace PKHeX.Core;
 
@@ -11,10 +9,11 @@ public sealed class Geonet4
     /* Lets the globe be panned outside Japan and zoomed out in Japanese games. Has no effect in non-Japanese games.
      * Set once you register a location outside of Japan, even if it's just your own location in a non-Japanese game. */
     public bool GlobalFlag { get; set; }
-    private byte[] Data;
 
-    private int Offset;
+    private readonly byte[] Data;
+    private readonly int Offset;
     private const int CountryCount = 233;
+
     private static ReadOnlySpan<byte> LegalCountries => new byte[]
     {
         001, 002, 003, 006, 008, 009, 012, 013, 015, 016, 017, 018, 020, 021, 022, 023,
@@ -25,13 +24,30 @@ public sealed class Geonet4
         133, 135, 140, 142, 146, 148, 149, 150, 151, 152, 156, 157, 158, 160, 161, 163,
         164, 166, 167, 110, 171, 172, 179, 183, 186, 187, 188, 189, 192, 193, 194, 196,
         198, 199, 200, 202, 205, 207, 211, 212, 216, 218, 219, 204, 221, 220, 222, 224,
-        226, 227
+        226, 227,
     };
-    private static Dictionary<byte, int> Subregions => new Dictionary<byte, int>
+
+    public static byte GetSubregionCount(byte country) => country switch
     {
-        { 009, 24 }, { 012,  7 }, { 028, 27 }, { 036, 13 }, { 043, 31 }, { 070,  6 },
-        { 071, 22 }, { 077, 16 }, { 094, 35 }, { 101, 20 }, { 103, 50 }, { 156, 20 },
-        { 166, 16 }, { 172,  7 }, { 193, 17 }, { 199, 24 }, { 219, 12 }, { 220, 51 },
+        009 => 24,
+        012 => 7,
+        028 => 27,
+        036 => 13,
+        043 => 31,
+        070 => 6,
+        071 => 22,
+        077 => 16,
+        094 => 35,
+        101 => 20,
+        103 => 50,
+        156 => 20,
+        166 => 16,
+        172 => 7,
+        193 => 17,
+        199 => 24,
+        219 => 12,
+        220 => 51,
+        _ => 0,
     };
 
     public enum Point
@@ -58,25 +74,28 @@ public sealed class Geonet4
 
     public void SetCountrySubregion(byte country, byte subregion, Point point)
     {
-        int index = (country - 1) * 16 + subregion / 4;
+        int index = ((country - 1) * 16) + (subregion / 4);
         int shift = 2 * (subregion % 4);
         Data[index] = (byte)((Data[index] & ~(0b11 << shift)) | ((int)point << shift));
     }
-    
+
+    private void SetAllSubregions(byte country, Point type)
+    {
+        var subregionCount = GetSubregionCount(country);
+        if (subregionCount == 0)
+        {
+            SetCountrySubregion(country, 0, type);
+            return;
+        }
+
+        for (byte subregion = 1; subregion <= subregionCount; subregion++)
+            SetCountrySubregion(country, subregion, type);
+    }
+
     public void SetAll()
     {
         for (byte country = 1; country <= CountryCount; country++)
-        {
-            if (Subregions.ContainsKey(country))
-            {
-                for (byte subregion = 1; subregion <= Subregions[country]; subregion++)
-                    SetCountrySubregion(country, subregion, Point.Yellow);
-            }
-            else
-            {
-                SetCountrySubregion(country, 0, Point.Yellow);
-            }
-        }
+            SetAllSubregions(country, Point.Yellow);
 
         if (SAV.Country > 0)
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
@@ -87,17 +106,7 @@ public sealed class Geonet4
     public void SetAllLegal()
     {
         foreach (var country in LegalCountries)
-        {
-            if (Subregions.ContainsKey(country))
-            {
-                for (byte subregion = 1; subregion <= Subregions[country]; subregion++)
-                    SetCountrySubregion(country, subregion, Point.Yellow);
-            }
-            else
-            {
-                SetCountrySubregion(country, 0, Point.Yellow);
-            }
-        }
+            SetAllSubregions(country, Point.Yellow);
 
         if (SAV.Country > 0)
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
@@ -108,17 +117,7 @@ public sealed class Geonet4
     public void ClearAll()
     {
         for (byte country = 1; country <= CountryCount; country++)
-        {
-            if (Subregions.ContainsKey(country))
-            {
-                for (byte subregion = 1; subregion <= Subregions[country]; subregion++)
-                    SetCountrySubregion(country, subregion, Point.None);
-            }
-            else
-            {
-                SetCountrySubregion(country, 0, Point.None);
-            }
-        }
+            SetAllSubregions(country, Point.None);
 
         if (SAV.Country > 0)
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);

@@ -1,12 +1,11 @@
-using System.Collections.Generic;
 using System;
-using System.Diagnostics;
 
 namespace PKHeX.Core;
 
 public sealed class UnityTower5 : SaveBlock<SAV5>
 {
     private const int CountryCount = 232;
+
     private static ReadOnlySpan<byte> LegalCountries => new byte[]
     {
         001, 002, 003, 006, 008, 009, 012, 013, 015, 016, 017, 018, 020, 021, 022, 023,
@@ -19,11 +18,28 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
         199, 200, 201, 203, 205, 206, 210, 211, 215, 217, 218, 219, 220, 221, 222, 224,
         226, 227,
     };
-    private static Dictionary<byte, int> Subregions => new Dictionary<byte, int>
+
+    public static byte GetSubregionCount(byte country) => country switch
     {
-        { 009, 24 }, { 012,  8 }, { 028, 27 }, { 036, 13 }, { 043, 33 }, { 072,  6 },
-        { 073, 22 }, { 079, 16 }, { 095, 35 }, { 102, 20 }, { 105, 50 }, { 155, 22 },
-        { 166, 16 }, { 174,  8 }, { 195, 17 }, { 200, 22 }, { 218, 12 }, { 220, 51 },
+        009 => 24,
+        012 => 8,
+        028 => 27,
+        036 => 13,
+        043 => 33,
+        072 => 6,
+        073 => 22,
+        079 => 16,
+        095 => 35,
+        102 => 20,
+        105 => 50,
+        155 => 22,
+        166 => 16,
+        174 => 8,
+        195 => 17,
+        200 => 22,
+        218 => 12,
+        220 => 51,
+        _ => 0,
     };
 
     public enum Point
@@ -59,22 +75,25 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
         Data[index] = (byte)((Data[index] & ~(0b1 << shift)) | (unlocked ? 0b1 : 0b0) << shift);
     }
 
+    private void SetAllSubregions(byte country, Point type, bool floor)
+    {
+        SetUnityTowerFloor(country, floor);
+
+        var subregionCount = GetSubregionCount(country);
+        if (subregionCount == 0)
+        {
+            SetCountrySubregion(country, 0, type);
+            return;
+        }
+
+        for (byte subregion = 1; subregion <= subregionCount; subregion++)
+            SetCountrySubregion(country, subregion, type);
+    }
+
     public void SetAll()
     {
         for (byte country = 1; country <= CountryCount; country++)
-        {
-            if (Subregions.ContainsKey(country))
-            {
-                for (byte subregion = 1; subregion <= Subregions[country]; subregion++)
-                    SetCountrySubregion(country, subregion, Point.Yellow);
-            }
-            else
-            {
-                SetCountrySubregion(country, 0, Point.Yellow);
-            }
-
-            SetUnityTowerFloor(country, true);
-        }
+            SetAllSubregions(country, Point.Yellow, true);
 
         if (SAV.Country > 0)
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
@@ -86,19 +105,7 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
     public void SetAllLegal()
     {
         foreach (var country in LegalCountries)
-        {
-            if (Subregions.ContainsKey(country))
-            {
-                for (byte subregion = 1; subregion <= Subregions[country]; subregion++)
-                    SetCountrySubregion(country, subregion, Point.Yellow);
-            }
-            else
-            {
-                SetCountrySubregion(country, 0, Point.Yellow);
-            }
-
-            SetUnityTowerFloor(country, true);
-        }
+            SetAllSubregions(country, Point.Yellow, true);
 
         if (SAV.Country > 0)
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
@@ -110,19 +117,7 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
     public void ClearAll()
     {
         for (byte country = 1; country <= CountryCount; country++)
-        {
-            if (Subregions.ContainsKey(country))
-            {
-                for (byte subregion = 1; subregion <= Subregions[country]; subregion++)
-                    SetCountrySubregion(country, subregion, Point.None);
-            }
-            else
-            {
-                SetCountrySubregion(country, 0, Point.None);
-            }
-
-            SetUnityTowerFloor(country, false);
-        }
+            SetAllSubregions(country, Point.None, false);
 
         if (SAV.Country > 0)
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);

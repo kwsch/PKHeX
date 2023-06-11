@@ -8,7 +8,7 @@ public partial class SAV_UnityTower : Form
 {
     private readonly SaveFile Origin;
     private readonly SAV5 SAV;
-    private UnityTower5 UnityTower;
+    private readonly UnityTower5 UnityTower;
 
     public SAV_UnityTower(SaveFile sav)
     {
