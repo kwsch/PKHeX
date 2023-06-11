@@ -248,6 +248,8 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
     public byte OT_Feeling { get => Data[CardStart + 0x27B]; set => Data[CardStart + 0x27B] = value; }
     public ushort OT_TextVar { get => ReadUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C)); set => WriteUInt16LittleEndian(Data.AsSpan(CardStart + 0x27C), value); }
 
+    public ushort Checksum => ReadUInt16LittleEndian(Data.AsSpan(0x2CC));
+
     // Meta Accessible Properties
     public override int[] IVs
     {
@@ -489,7 +491,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (pk.Species == (int)Core.Species.Meowstic)
             pk.Form = (byte)(pk.Gender & 1);
 
-        var date = IsDateRestricted && EncounterServerDate.WC8Gifts.TryGetValue(CardID, out var dt) ? dt : DateOnly.FromDateTime(DateTime.Now);
+        var date = GetSuggestedDate();
         pk.MetDate = date;
 
         // Prior to 3.0.0, HOME would set the Encryption Constant exactly and not give a random value if it was 0.
@@ -514,7 +516,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
             SetEggMetData(pk);
         pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-        if (!IsHOMEGift)
+        if (!IsHOMEGiftOld(date))
         {
             pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
             pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
@@ -530,6 +532,17 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         // 2023/05/30 -- every date prior [*,29th] is an old gift.
         const int DayNumberHOME300 = 738669;
         return IsHOMEGift && date.DayNumber < DayNumberHOME300;
+    }
+
+    private DateOnly GetSuggestedDate()
+    {
+        if (!IsDateRestricted)
+            return DateOnly.FromDateTime(DateTime.Now);
+        if (EncounterServerDate.WC8GiftsChk.TryGetValue(Checksum, out var range))
+            return range.Start;
+        if (EncounterServerDate.WC8Gifts.TryGetValue(CardID, out range))
+            return range.Start;
+        return DateOnly.FromDateTime(DateTime.Now);
     }
 
     private void SetEggMetData(PKM pk)
@@ -583,8 +596,6 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         var pid = PID;
         if (pid != 0 && ID32 != 0)
             return pid;
-        if (pid == 0 && IsHOMEGift && tr.MetDate is { } x && !IsHOMEGiftOld(x))
-            pid = Util.Rand32(); // actually Random after 3.0.0
 
         if (!tr.IsShiny(pid, 8))
             return pid;
@@ -743,8 +754,6 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (pk.PID == GetPID(pk, type))
             return true;
 
-        if (PID == 0 && IsHOMEGift && pk.MetDate is { } hg && !IsHOMEGiftOld(hg))
-            return true; // HOME gifts after patch are actually random (but WC8 is Fixed type)
         return false;
     }
 

@@ -25,43 +25,64 @@ public static class EncounterServerDate
 
     public static EncounterServerDateCheck IsValidDate(this IEncounterServerDate enc, DateOnly obtained) => enc switch
     {
-        WC8 wc8 => Result(IsValidDateWC8(wc8.CardID, obtained)),
-        WA8 wa8 => Result(IsValidDateWA8(wa8.CardID, obtained)),
-        WB8 wb8 => Result(IsValidDateWB8(wb8.CardID, obtained)),
+        WC8 wc8 => Result(IsValidDateWC8(wc8, obtained)),
+        WA8 wa8 => Result(IsValidDateWA8(wa8, obtained)),
+        WB8 wb8 => Result(IsValidDateWB8(wb8, obtained)),
         WC9 wc9 => Result(IsValidDateWC9(wc9, obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
 
-    public static bool IsValidDateWC8(int cardID, DateOnly obtained) => WC8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
-    public static bool IsValidDateWA8(int cardID, DateOnly obtained) => WA8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
-    public static bool IsValidDateWB8(int cardID, DateOnly obtained) => WB8Gifts.TryGetValue(cardID, out var time) && IsValidDate(obtained, time);
+    public static bool IsValidDateWC8(WC8 card, DateOnly obtained) => (WC8Gifts.TryGetValue(card.CardID, out var time)
+                                                                      || WC8GiftsChk.TryGetValue(card.Checksum, out time)) && IsValidDate(obtained, time);
 
-    public static bool IsValidDateWC9(WC9 card  , DateOnly obtained) => (WC9Gifts.TryGetValue(card.CardID, out var time)
+    public static bool IsValidDateWA8(WA8 card, DateOnly obtained) => WA8Gifts.TryGetValue(card.CardID, out var time) && IsValidDate(obtained, time);
+
+    public static bool IsValidDateWB8(WB8 card, DateOnly obtained) => WB8Gifts.TryGetValue(card.CardID, out var time) && IsValidDate(obtained, time);
+
+    public static bool IsValidDateWC9(WC9 card, DateOnly obtained) => (WC9Gifts.TryGetValue(card.CardID, out var time)
                                                                       || WC9GiftsChk.TryGetValue(card.Checksum, out time)) && IsValidDate(obtained, time);
+
+    private static readonly DateOnly? Never = null;
 
     /// <summary>
     /// Minimum date the gift can be received.
     /// </summary>
-    public static readonly Dictionary<int, DateOnly> WC8Gifts = new()
+    public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC8GiftsChk = new()
     {
-        {9000, new(2020, 02, 12)}, // Bulbasaur
-        {9001, new(2020, 02, 12)}, // Charmander
-        {9002, new(2020, 02, 12)}, // Squirtle
-        {9003, new(2020, 02, 12)}, // Pikachu
-        {9004, new(2020, 02, 15)}, // Original Color Magearna
-        {9005, new(2020, 02, 12)}, // Eevee
-        {9006, new(2020, 02, 12)}, // Rotom
-        {9007, new(2020, 02, 12)}, // Pichu
-        {9008, new(2020, 06, 02)}, // Hidden Ability Grookey
-        {9009, new(2020, 06, 02)}, // Hidden Ability Scorbunny
-        {9010, new(2020, 06, 02)}, // Hidden Ability Sobble
-        {9011, new(2020, 06, 30)}, // Shiny Zeraora
-        {9012, new(2020, 11, 10)}, // Gigantamax Melmetal
-        {9013, new(2021, 06, 17)}, // Gigantamax Bulbasaur
-        {9014, new(2021, 06, 17)}, // Gigantamax Squirtle
+        {0xFBBE, (new(2020, 02, 12), new(2023, 05, 29))}, // Bulbasaur - rev 1 (0 PID/EC/HT/WT)
+        {0x7124, (new(2023, 05, 30), Never)}, // Bulbasaur - rev2 (0 PID/EC/HT/WT)
+        {0x48F5, (new(2020, 02, 12), new(2023, 05, 29))}, // Charmander - rev 1 (0 PID/EC/HT/WT)
+        {0xC26F, (new(2023, 05, 30), Never)}, // Charmander - rev 2 (0 PID/EC/HT/WT)
+        {0x47DB, (new(2020, 02, 12), new(2023, 05, 29))}, // Squirtle - rev 1 (0 PID/EC/HT/WT)
+        {0xCD41, (new(2023, 05, 30), Never)}, // Squirtle - rev 2 (0 PID/EC/HT/WT)
+
+        {0x671A, (new(2020, 02, 12), new(2023, 05, 29))}, // Pikachu - rev 1 (0 PID/EC/HT/WT)
+        {0xED80, (new(2023, 05, 30), Never)}, // Pikachu - rev 2 (Random PID/EC/HT/WT)
+
+        {0x81A2, (new(2020, 02, 15), new(2023, 05, 29))}, // Original Color Magearna - rev 1 (0 PID/EC/HT/WT)
+        {0x0B38, (new(2023, 05, 30), Never)}, // Original Color Magearna - rev 2 (Random PID/EC/HT/WT)
+
+        {0x4CC7, (new(2020, 02, 12), new(2023, 05, 29))}, // Eevee - rev 1 (0 PID/EC/HT/WT)
+        {0xC65D, (new(2023, 05, 30), Never)}, // Eevee - rev 2 (Random PID/EC/HT/WT)
+        {0x1A0B, (new(2020, 02, 12), new(2023, 05, 29))}, // Rotom - rev 1 (0 PID/EC/HT/WT)
+        {0x9091, (new(2023, 05, 30), Never)}, // Rotom - rev 2 (Random PID/EC/HT/WT
+        {0x1C26, (new(2020, 02, 12), new(2023, 05, 29))}, // Pichu - rev 1 (0 PID/EC/HT/WT)
+        {0x96BC, (new(2023, 05, 30), Never)}, // Pichu - rev 2 (Random PID/EC/HT/WT)
     };
 
-    private static readonly DateOnly? Never = null;
+    /// <summary>
+    /// Minimum date the gift can be received.
+    /// </summary>
+    public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC8Gifts = new()
+    {
+        {9008, (new(2020, 06, 02), Never)}, // Hidden Ability Grookey
+        {9009, (new(2020, 06, 02), Never)}, // Hidden Ability Scorbunny
+        {9010, (new(2020, 06, 02), Never)}, // Hidden Ability Sobble
+        {9011, (new(2020, 06, 30), Never)}, // Shiny Zeraora
+        {9012, (new(2020, 11, 10), Never)}, // Gigantamax Melmetal
+        {9013, (new(2021, 06, 17), Never)}, // Gigantamax Bulbasaur
+        {9014, (new(2021, 06, 17), Never)}, // Gigantamax Squirtle
+    };
 
     /// <summary>
     /// Minimum date the gift can be received.
