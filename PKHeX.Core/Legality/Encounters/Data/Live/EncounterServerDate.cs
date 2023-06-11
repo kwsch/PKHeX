@@ -49,25 +49,25 @@ public static class EncounterServerDate
     /// </summary>
     public static readonly Dictionary<int, (DateOnly Start, DateOnly? End)> WC8GiftsChk = new()
     {
-        {0xFBBE, (new(2020, 02, 12), new(2023, 05, 29))}, // Bulbasaur - rev 1 (0 PID/EC/HT/WT)
-        {0x7124, (new(2023, 05, 30), Never)}, // Bulbasaur - rev2 (0 PID/EC/HT/WT)
-        {0x48F5, (new(2020, 02, 12), new(2023, 05, 29))}, // Charmander - rev 1 (0 PID/EC/HT/WT)
-        {0xC26F, (new(2023, 05, 30), Never)}, // Charmander - rev 2 (0 PID/EC/HT/WT)
-        {0x47DB, (new(2020, 02, 12), new(2023, 05, 29))}, // Squirtle - rev 1 (0 PID/EC/HT/WT)
-        {0xCD41, (new(2023, 05, 30), Never)}, // Squirtle - rev 2 (0 PID/EC/HT/WT)
+        // HOME 1.0.0 to 2.0.2 - PID, EC, Height, Weight = 0 (rev 1)
+        {0xFBBE, (new(2020, 02, 12), new(2023, 05, 29))}, // Bulbasaur
+        {0x48F5, (new(2020, 02, 12), new(2023, 05, 29))}, // Charmander
+        {0x47DB, (new(2020, 02, 12), new(2023, 05, 29))}, // Squirtle
+        {0x671A, (new(2020, 02, 12), new(2023, 05, 29))}, // Pikachu
+        {0x81A2, (new(2020, 02, 15), new(2023, 05, 29))}, // Original Color Magearna
+        {0x4CC7, (new(2020, 02, 12), new(2023, 05, 29))}, // Eevee
+        {0x1A0B, (new(2020, 02, 12), new(2023, 05, 29))}, // Rotom
+        {0x1C26, (new(2020, 02, 12), new(2023, 05, 29))}, // Pichu
 
-        {0x671A, (new(2020, 02, 12), new(2023, 05, 29))}, // Pikachu - rev 1 (0 PID/EC/HT/WT)
-        {0xED80, (new(2023, 05, 30), Never)}, // Pikachu - rev 2 (Random PID/EC/HT/WT)
-
-        {0x81A2, (new(2020, 02, 15), new(2023, 05, 29))}, // Original Color Magearna - rev 1 (0 PID/EC/HT/WT)
-        {0x0B38, (new(2023, 05, 30), Never)}, // Original Color Magearna - rev 2 (Random PID/EC/HT/WT)
-
-        {0x4CC7, (new(2020, 02, 12), new(2023, 05, 29))}, // Eevee - rev 1 (0 PID/EC/HT/WT)
-        {0xC65D, (new(2023, 05, 30), Never)}, // Eevee - rev 2 (Random PID/EC/HT/WT)
-        {0x1A0B, (new(2020, 02, 12), new(2023, 05, 29))}, // Rotom - rev 1 (0 PID/EC/HT/WT)
-        {0x9091, (new(2023, 05, 30), Never)}, // Rotom - rev 2 (Random PID/EC/HT/WT
-        {0x1C26, (new(2020, 02, 12), new(2023, 05, 29))}, // Pichu - rev 1 (0 PID/EC/HT/WT)
-        {0x96BC, (new(2023, 05, 30), Never)}, // Pichu - rev 2 (Random PID/EC/HT/WT)
+        // HOME 3.0.0 onward - PID, EC, Height, Weight = random (rev 2)
+        {0x7124, (new(2023, 05, 30), Never)}, // Bulbasaur
+        {0xC26F, (new(2023, 05, 30), Never)}, // Charmander
+        {0xCD41, (new(2023, 05, 30), Never)}, // Squirtle
+        {0xED80, (new(2023, 05, 30), Never)}, // Pikachu
+        {0x0B38, (new(2023, 05, 30), Never)}, // Original Color Magearna
+        {0xC65D, (new(2023, 05, 30), Never)}, // Eevee
+        {0x9091, (new(2023, 05, 30), Never)}, // Rotom
+        {0x96BC, (new(2023, 05, 30), Never)}, // Pichu
     };
 
     /// <summary>
@@ -133,8 +133,8 @@ public static class EncounterServerDate
         {0502, (new(2023, 03, 31), new(2023, 07, 01))}, // TCG Flying Lechonk
         {0503, (new(2023, 04, 13), new(2023, 04, 18))}, // Gavin's Palafin (-1 start date tolerance for GMT-10 regions)
         {0025, (new(2023, 04, 21), new(2023, 07, 01))}, // Pokémon Center Pikachu (Mini & Jumbo)
-        {1002, (new(2023, 05, 31), new(2023, 07, 01))}, // Arceus and the Jewel of Life Distribution Pichu
-        {1003, (new(2023, 05, 29), new(2023, 07, 31))}, // Arceus and the Jewel of Life Distribution - Pokémon Store Tie-In Bronzong
+        {1003, (new(2023, 05, 29), new(2023, 08, 01))}, // Arceus and the Jewel of Life Distribution - Pokémon Store Tie-In Bronzong
+        {1002, (new(2023, 05, 31), new(2023, 08, 01))}, // Arceus and the Jewel of Life Distribution Pichu
 
         {9021, (new(2023, 05, 30), Never)}, // Hidden Ability Sprigatito
         {9022, (new(2023, 05, 30), Never)}, // Hidden Ability Fuecoco
