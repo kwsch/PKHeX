@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -86,6 +86,7 @@ public sealed class SaveBlockAccessor5BW : ISaveBlockAccessor<BlockInfoNDS>, ISa
         BoxLayout = new BoxLayout5(sav, 0x00000);
         Items = new MyItem5BW(sav, 0x18400);
         PlayerData = new PlayerData5(sav, 0x19400);
+        UnityTower = new UnityTower5(sav, 0x19600);
         Mystery = new MysteryBlock5(sav, 0x1C800);
         Musical = new Musical5(sav, 0x1F700);
         Daycare = new Daycare5(sav, 0x20E00);
@@ -108,4 +109,5 @@ public sealed class SaveBlockAccessor5BW : ISaveBlockAccessor<BlockInfoNDS>, ISa
     public Entralink5 Entralink { get; }
     public Musical5 Musical { get; }
     public Encount5 Encount { get; }
+    public UnityTower5 UnityTower { get; }
 }

@@ -73,7 +73,7 @@ public static class EncounterSuggestion
         1 or 2 or 3 => 0,
         4 => traded ? Locations.LinkTrade4 : Locations.Daycare4,
         5 => traded ? Locations.LinkTrade5 : Locations.Daycare5,
-        8 when BDSP.Contains(version)=> traded ? Locations.LinkTrade6NPC : Locations.Daycare8b,
+        8 when BDSP.Contains(version) => traded ? Locations.LinkTrade6NPC : Locations.Daycare8b,
         9 => Locations.Picnic9,
         _ => traded ? Locations.LinkTrade6 : Locations.Daycare5,
     };
@@ -141,15 +141,21 @@ public static class EncounterSuggestion
 
     public static bool IterateMinimumCurrentLevel(PKM pk, bool isLegal, int max = 100)
     {
+        // Find the lowest level possible while still remaining legal.
         var original = pk.CurrentLevel;
         var originalEXP = pk.EXP;
         if (isLegal)
         {
+            // If we can't go any lower, we're already at the lowest level possible.
             if (original == 1)
                 return false;
+
+            // Skip to original - 1, since all levels [original,max] are already legal.
             max = original - 1;
         }
+        // If it's not legal, then we'll first try the max level and abort if it will never be legal.
 
+        // Find the first level that is illegal via searching downwards, and set it to the level above it.
         for (int i = max; i != 0; i--)
         {
             pk.CurrentLevel = i;
@@ -158,8 +164,9 @@ public static class EncounterSuggestion
             if (valid)
                 continue;
 
+            // First illegal level found, revert to the previous level.
             var revert = Math.Min(100, i + 1);
-            if (revert == original)
+            if (revert == original) // same, revert actual EXP value.
             {
                 pk.EXP = originalEXP;
                 return false;
@@ -168,7 +175,9 @@ public static class EncounterSuggestion
             pk.CurrentLevel = revert;
             return true;
         }
-        return true; // 1
+
+        // Lowest level possible (1) is deemed as legal per above loop.
+        return true;
     }
 
     /// <summary>

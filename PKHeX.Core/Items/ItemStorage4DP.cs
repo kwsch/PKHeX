@@ -23,6 +23,6 @@ public sealed class ItemStorage4DP : ItemStorage4, IItemStorage
         InventoryType.Berries => Pouch_Berries_DP,
         InventoryType.Balls => Pouch_Ball_DP,
         InventoryType.BattleItems => Pouch_Battle_DP,
-        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

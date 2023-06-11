@@ -78,7 +78,7 @@ public sealed class LearnGroup1 : ILearnGroup
             var stage = detail.EvoStage;
             var chain = detail.Generation is 1 ? history.Gen1 : history.Gen2;
             var species2 = chain[stage].Species;
-            if (level2 > level && species2 <= species)
+            if (level2 > level && species2 < species)
                 return true;
         }
 

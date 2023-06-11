@@ -28,6 +28,6 @@ public sealed class ItemStorage4HGSS : ItemStorage4, IItemStorage
         InventoryType.Berries => Pouch_Berries_DP,
         InventoryType.Balls => Pouch_Ball_HGSS,
         InventoryType.BattleItems => Pouch_Battle_DP,
-        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

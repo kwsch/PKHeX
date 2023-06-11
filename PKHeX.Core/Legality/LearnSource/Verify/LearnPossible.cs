@@ -42,10 +42,15 @@ public static class LearnPossible
         }
         else if (enc.Generation >= 6)
         {
-            result[pk.RelearnMove1] = true;
-            result[pk.RelearnMove2] = true;
-            result[pk.RelearnMove3] = true;
-            result[pk.RelearnMove4] = true;
+            static void AddIfInRange(ushort move, Span<bool> result)
+            {
+                if (move < result.Length)
+                    result[move] = true;
+            }
+            AddIfInRange(pk.RelearnMove1, result);
+            AddIfInRange(pk.RelearnMove2, result);
+            AddIfInRange(pk.RelearnMove3, result);
+            AddIfInRange(pk.RelearnMove4, result);
         }
     }
 
