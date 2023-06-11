@@ -229,6 +229,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public abstract Entralink5 Entralink { get; }
     public abstract Musical5 Musical { get; }
     public abstract Encount5 Encount { get; }
+    public abstract UnityTower5 UnityTower { get; }
 
     public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
     public byte[] GetMailData(int offset) => Data.AsSpan(offset, Mail5.SIZE).ToArray();

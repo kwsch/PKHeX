@@ -45,7 +45,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
         Trainer1 = 0x68;
         Party = 0xA0;
         PokeDex = 0x1328;
-        Geonet = 0xA4C5;
+        Geonet = 0xA4C4;
         WondercardFlags = 0xB4C0;
         WondercardData = 0xB5C0;
 

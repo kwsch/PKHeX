@@ -142,7 +142,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     protected int WondercardFlags = int.MinValue;
     protected int AdventureInfo = int.MinValue;
     protected int Seal = int.MinValue;
-    protected int Geonet = int.MinValue;
+    public int Geonet = int.MinValue;
     protected int Trainer1;
     public int GTS { get; protected set; } = int.MinValue;
 
@@ -253,16 +253,18 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public override uint SecondsToStart { get => ReadUInt32LittleEndian(General[(AdventureInfo + 0x34)..]); set => WriteUInt32LittleEndian(General[(AdventureInfo + 0x34)..], value); }
     public override uint SecondsToFame { get => ReadUInt32LittleEndian(General[(AdventureInfo + 0x3C)..]); set => WriteUInt32LittleEndian(General[(AdventureInfo + 0x3C)..], value); }
 
+    public bool GeonetGlobalFlag { get => General[Geonet] != 0; set => General[Geonet] = (byte)(value ? 1 : 0); }
+
     public int Country
     {
-        get => General[Geonet];
-        set { if (value < 0) return; General[Geonet] = (byte)value; }
+        get => General[Geonet + 1];
+        set { if (value < 0) return; General[Geonet + 1] = (byte)value; }
     }
 
     public int Region
     {
-        get => General[Geonet + 1];
-        set { if (value < 0) return; General[Geonet + 1] = (byte)value; }
+        get => General[Geonet + 2];
+        set { if (value < 0) return; General[Geonet + 2] = (byte)value; }
     }
 
     protected sealed override PK4 GetPKM(byte[] data) => new(data);

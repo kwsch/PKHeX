@@ -52,5 +52,6 @@ public sealed class SAV5BW : SAV5
     public override Entralink5 Entralink => Blocks.Entralink;
     public override Musical5 Musical => Blocks.Musical;
     public override Encount5 Encount => Blocks.Encount;
+    public override UnityTower5 UnityTower => Blocks.UnityTower;
     public override int GTS => 0x20500;
 }
