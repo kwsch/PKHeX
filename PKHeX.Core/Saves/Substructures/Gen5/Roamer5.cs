@@ -11,25 +11,22 @@ namespace PKHeX.Core;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public sealed class Roamer5
 {
-    public const int SIZE = 0x18;
-    public readonly byte[] Raw;
-    private readonly int Offset;
+    public const int SIZE = 0x14;
+    private readonly Memory<byte> Raw;
 
-    public Roamer5(byte[] raw, int offset) => (Raw, Offset) = (raw, offset);
-    private Span<byte> Data => Raw.AsSpan(Offset, SIZE);
+    public Roamer5(byte[] raw, int offset) => Raw = raw.AsMemory(offset, SIZE);
+    private Span<byte> Data => Raw.Span;
 
-    public ushort LastLocation   { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
-    public ushort CaptureUnknown { get => ReadUInt16LittleEndian(Data[0x02..]); set => WriteUInt16LittleEndian(Data[0x02..], value); }
-    public ushort Location       { get => ReadUInt16LittleEndian(Data[0x04..]); set => WriteUInt16LittleEndian(Data[0x04..], value); }
-    public ushort Nature         { get => ReadUInt16LittleEndian(Data[0x06..]); set => WriteUInt16LittleEndian(Data[0x06..], value); }
-    public uint IV32             { get => ReadUInt32LittleEndian(Data[0x08..]); set => WriteUInt32LittleEndian(Data[0x08..], value); }
-    public uint PID              { get => ReadUInt32LittleEndian(Data[0x0C..]); set => WriteUInt32LittleEndian(Data[0x0C..], value); }
-    public ushort Species        { get => ReadUInt16LittleEndian(Data[0x10..]); set => WriteUInt16LittleEndian(Data[0x10..], value); }
-    public ushort Stat_HPCurrent { get => ReadUInt16LittleEndian(Data[0x12..]); set => WriteUInt16LittleEndian(Data[0x12..], value); }
-    public byte Level  { get => Data[0x14]; set => Data[0x14] = value; }
-    public byte Status { get => Data[0x15]; set => Data[0x15] = value; }
-    public bool Active { get => Data[0x16] != 0; set => Data[0x16] = (byte)(value ? 1 : 0); }
-    public byte Unk17  { get => Data[0x17]; set => Data[0x17] = value; }
+    public ushort Location       { get => ReadUInt16LittleEndian(Data);         set => WriteUInt16LittleEndian(Data        , value); }
+    public ushort Nature         { get => ReadUInt16LittleEndian(Data[0x02..]); set => WriteUInt16LittleEndian(Data[0x02..], value); }
+    public uint IV32             { get => ReadUInt32LittleEndian(Data[0x04..]); set => WriteUInt32LittleEndian(Data[0x04..], value); }
+    public uint PID              { get => ReadUInt32LittleEndian(Data[0x08..]); set => WriteUInt32LittleEndian(Data[0x08..], value); }
+    public ushort Species        { get => ReadUInt16LittleEndian(Data[0x0C..]); set => WriteUInt16LittleEndian(Data[0x0C..], value); }
+    public ushort Stat_HPCurrent { get => ReadUInt16LittleEndian(Data[0x0E..]); set => WriteUInt16LittleEndian(Data[0x0E..], value); }
+    public byte Level  { get => Data[0x10]; set => Data[0x10] = value; }
+    public byte Status { get => Data[0x11]; set => Data[0x11] = value; }
+    public bool Active { get => Data[0x12] != 0; set => Data[0x12] = (byte)(value ? 1 : 0); }
+    public byte Unk13  { get => Data[0x13]; set => Data[0x13] = value; } // likely just alignment
 
     // Derived Properties
     private int IV_HP  { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }
