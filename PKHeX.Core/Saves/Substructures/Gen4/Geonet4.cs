@@ -121,9 +121,8 @@ public sealed class Geonet4
         }
 
         if (SAV.Country > 0)
-        {
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
-            GlobalFlag = (SAV.Country != 103);
-        }
+
+        GlobalFlag = (SAV.Country > 0 && SAV.Country != 103);
     }
 }

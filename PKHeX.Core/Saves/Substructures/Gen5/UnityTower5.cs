@@ -80,6 +80,7 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
 
         GlobalFlag = true;
+        UnityTowerFlag = true;
     }
 
     public void SetAllLegal()
@@ -103,6 +104,7 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
 
         GlobalFlag = true;
+        UnityTowerFlag = true;
     }
 
     public void ClearAll()
@@ -123,9 +125,9 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
         }
 
         if (SAV.Country > 0)
-        {
             SetCountrySubregion((byte)SAV.Country, (byte)SAV.Region, Point.Red);
-            GlobalFlag = (SAV.Country != 105);
-        }
+
+        GlobalFlag = (SAV.Country > 0 && SAV.Country != 103);
+        UnityTowerFlag = false;
     }
 }

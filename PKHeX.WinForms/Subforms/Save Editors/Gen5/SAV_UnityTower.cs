@@ -39,17 +39,20 @@ public partial class SAV_UnityTower : Form
     {
         UnityTower.SetAll();
         CHK_GlobalFlag.Checked = UnityTower.GlobalFlag;
+        CHK_UnityTowerFlag.Checked = UnityTower.UnityTowerFlag;
     }
 
     private void B_SetAllLegalLocations_Click(object sender, EventArgs e)
     {
         UnityTower.SetAllLegal();
         CHK_GlobalFlag.Checked = UnityTower.GlobalFlag;
+        CHK_UnityTowerFlag.Checked = UnityTower.UnityTowerFlag;
     }
 
     private void B_ClearLocations_Click(object sender, EventArgs e)
     {
         UnityTower.ClearAll();
         CHK_GlobalFlag.Checked = UnityTower.GlobalFlag;
+        CHK_UnityTowerFlag.Checked = UnityTower.UnityTowerFlag;
     }
 }
