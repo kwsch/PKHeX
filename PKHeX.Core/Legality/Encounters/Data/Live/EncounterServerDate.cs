@@ -135,6 +135,7 @@ public static class EncounterServerDate
         {0025, (new(2023, 04, 21), new(2023, 07, 01))}, // Pokémon Center Pikachu (Mini & Jumbo)
         {1003, (new(2023, 05, 29), new(2023, 08, 01))}, // Arceus and the Jewel of Life Distribution - Pokémon Store Tie-In Bronzong
         {1002, (new(2023, 05, 31), new(2023, 08, 01))}, // Arceus and the Jewel of Life Distribution Pichu
+        {0028, (new(2023, 06, 09), new(2023, 06, 12))}, // そらみつ's Bronzong
 
         {9021, (new(2023, 05, 30), Never)}, // Hidden Ability Sprigatito
         {9022, (new(2023, 05, 30), Never)}, // Hidden Ability Fuecoco
