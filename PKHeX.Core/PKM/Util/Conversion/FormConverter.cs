@@ -44,6 +44,8 @@ public static class FormConverter
 
     private static bool IsMegaGeneration(this EntityContext context) => context is Gen6 or Gen7 or Gen7b;
 
+    private static bool IsLumi() => RecentTrainerCache.LumiTrainer;
+
     private static readonly string[] EMPTY = { string.Empty };
     private const string Starter = nameof(Starter);
 
@@ -65,6 +67,8 @@ public static class FormConverter
             Growlithe or Arcanine or Voltorb or Electrode when generation >= 8 => GetFormsHisui(species, generation, types, forms),
             Tauros when generation >= 9 => GetFormsPaldea(species, types, forms),
 
+            Venusaur or Charizard or Blastoise or Gengar or Onix or Eevee or Mewtwo when IsLumi() => GetFormsLumi(species, types, forms),
+
             _ => GetFormsAlolan(context, types, forms, species),
         };
     }
@@ -74,7 +78,7 @@ public static class FormConverter
         int generation = context.Generation();
         return (Species)species switch
         {
-            Pichu when context is Gen4 => GetFormsPichu(types, forms),
+            Pichu when context is Gen4 || IsLumi() => GetFormsPichu(types, forms),
             Slowking or Corsola when generation >= 8 => GetFormsGalar(types, forms),
             Typhlosion or Qwilfish or Sneasel when generation >= 8 => GetFormsHisui(species, generation, types, forms),
             Wooper when generation >= 9 => GetFormsPaldea(species, types, forms),
@@ -490,6 +494,51 @@ public static class FormConverter
         };
     }
 
+    private static string[] GetFormsLumi(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+    {
+        return (Species)species switch
+        {
+            Venusaur or Blastoise => new[]
+            {
+                types[000],
+                "", "",
+                "Clone"
+            },
+            Charizard => new[]
+            {
+                types[000],
+                "", "", "",
+                "Clone"
+            },
+            Gengar => new[]
+            {
+                types[000],
+                "", "",
+                "Stitched"
+            },
+            Onix => new[]
+            {
+                types[000],
+                "Crystal"
+            },
+            Eevee => new[]
+            {
+                types[000],
+                "Partner",
+                "",
+                "Bandana"
+            },
+            Mewtwo => new[]
+            {
+                types[000],
+                "", "",
+                "Armored 1",
+                "Armored 2"
+            },
+            _ => EMPTY,
+        };
+    }
+
     private static string[] GetFormsAlolan(EntityContext context, IReadOnlyList<string> types, IReadOnlyList<string> forms, ushort species)
     {
         int generation = context.Generation();
@@ -556,6 +605,11 @@ public static class FormConverter
                 forms[817], // Kalos
                 forms[818], // Alola
                 forms[1063], // Partner
+            },
+            8 when IsLumi() => new[] {
+                types[000],
+                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+                "Clone"
             },
             8 or 9 => new[] {
                 types[0], // Normal

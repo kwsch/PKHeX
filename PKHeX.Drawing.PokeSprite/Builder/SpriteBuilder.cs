@@ -54,6 +54,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     protected abstract string GetSpriteStringSpeciesOnly(ushort species);
 
     protected abstract string GetSpriteAll(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context);
+    private static string GetLumiSprite(ushort species, byte form, int gender, uint formarg, bool shiny) => 'b' + SpriteName.GetLumiResourceStringSprite(species, form, gender, formarg, shiny);
     protected abstract string GetSpriteAllSecondary(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context);
     protected abstract string GetItemResourceName(int item);
     protected abstract Bitmap Unknown { get; }
@@ -66,7 +67,7 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
     /// <param name="sav"></param>
     public void Initialize(SaveFile sav)
     {
-        if (sav.Generation != 3)
+        if (sav.Generation != 3 && sav is not SAV8BSLuminescent)
             return;
 
         // If the game is indeterminate, we might have different form sprites.
@@ -74,6 +75,8 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         Game = sav.Version;
         if (Game == GameVersion.FRLG)
             Game = ReferenceEquals(sav.Personal, PersonalTable.FR) ? GameVersion.FR : GameVersion.LG;
+        if (sav is SAV8BSLuminescent)
+            Game = GameVersion.BDSPLUMI;
     }
 
     private GameVersion Game;
@@ -92,6 +95,19 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
         9 => byte.MaxValue, // Curse, make it show as unrecognized form since we don't have a sprite.
         _ => form,
     };
+
+    private static bool IsLumiForm(ushort species, byte form)
+    {
+        return (Species)species switch
+        {
+            Species.Venusaur or Species.Blastoise or Species.Gengar or Species.Eevee when form == 3 => true,
+            Species.Charizard when form == 4 => true,
+            Species.Pikachu when form == 17 => true,
+            Species.Onix when form == 1 => true,
+            Species.Mewtwo when form == 3 || form == 4 => true,
+            _ => false
+        };
+    }
 
     /// <summary>
     /// Builds a new sprite image with the requested parameters.
@@ -155,7 +171,11 @@ public abstract class SpriteBuilder : ISpriteBuilder<Image>
 
     private Image? GetBaseImageDefault(ushort species, byte form, int gender, uint formarg, bool shiny, EntityContext context)
     {
-        var file = GetSpriteAll(species, form, gender, formarg, shiny, context);
+        var lumi = (Game is GameVersion.BDSPLUMI && IsLumiForm(species, form));
+
+        var file = lumi ? GetLumiSprite(species, form, gender, formarg, shiny)
+            : GetSpriteAll(species, form, gender, formarg, shiny, context);
+
         var resource = (Image?)Resources.ResourceManager.GetObject(file);
         if (resource is null && HasFallbackMethod)
         {

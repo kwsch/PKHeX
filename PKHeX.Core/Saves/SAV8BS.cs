@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.BDSP"/> games.
 /// </summary>
-public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventFlagArray, IEventWorkArray<int>
+public class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IEventFlagArray, IEventWorkArray<int>
 {
     // Save Data Attributes
     protected internal override string ShortSummary => $"{OT} ({Version}) - {System.LastSavedTime}";
@@ -129,7 +129,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         init => WriteInt32LittleEndian(Data.AsSpan(0), value);
     }
 
-    public string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
+    public virtual string SaveRevisionString => ((Gem8Version)SaveRevision).GetSuffixString();
 
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_BS;
     protected override SAV8BS CloneInternal() => new((byte[])(Data.Clone()));
@@ -316,7 +316,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
         AddCountAcquired(pb8);
     }
 
-    private void AddCountAcquired(PKM pk)
+    protected void AddCountAcquired(PKM pk)
     {
         // There aren't many records, and they only track Capture/Fish/Hatch/Defeat.
         Records.AddRecord(pk.WasEgg ? 004 : 002); // egg, capture

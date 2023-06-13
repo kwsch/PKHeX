@@ -36,7 +36,7 @@ public partial class Main : Form
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
 #endif
         FormInitializeSecond();
-        FormLoadCheckForUpdates();
+        //FormLoadCheckForUpdates();
 
         var startup = new StartupArguments();
         startup.ReadArguments(args);
@@ -87,6 +87,7 @@ public partial class Main : Form
 
     public static IReadOnlyList<string> GenderSymbols { get; private set; } = GameInfo.GenderSymbolUnicode;
     public static bool HaX { get; private set; }
+    private static bool TempHaX;
 
     private readonly string[] main_langlist = Enum.GetNames(typeof(ProgramLanguage));
 
@@ -724,6 +725,14 @@ public partial class Main : Form
         {
             WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
             return true;
+        }
+        else if (sav is SAV8BSLuminescent && !HaX)
+        {
+            HaX = TempHaX = true;
+        }
+        else if (TempHaX)
+        {
+            HaX = TempHaX = false;
         }
 
         sav.Metadata.SetExtraInfo(path);

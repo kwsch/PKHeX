@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
-public sealed class PB8 : G8PKM
+public class PB8 : G8PKM
 {
     public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
@@ -129,4 +129,9 @@ public sealed class PB8 : G8PKM
     public override bool WasEgg => IsEgg || Egg_Day != 0;
 
     public override bool HasOriginalMetLocation => base.HasOriginalMetLocation && !(LA && Met_Location == LocationsHOME.SWLA);
+
+    public PB8LUMI ConvertToPB8LUMI()
+    {
+        return new PB8LUMI((byte[])Data.Clone());
+    }
 }

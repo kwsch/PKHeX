@@ -125,6 +125,7 @@ public static class EntityConverter
         PK3 pk3 when destType == typeof(XK3) => pk3.ConvertToXK3(),
         PK4 pk4 when destType == typeof(BK4) => pk4.ConvertToBK4(),
         PK4 pk4 when destType == typeof(RK4) => pk4.ConvertToRK4(),
+        PB8 pb8 when destType == typeof(PB8LUMI) => pb8.ConvertToPB8LUMI(),
 
         // Sequential
         PK1 pk1 => pk1.ConvertToPK2(),

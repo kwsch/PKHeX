@@ -26,6 +26,11 @@ public static class PersonalTable
     public static readonly PersonalTable8BDSP BDSP = new(GetTable("bdsp"));
 
     /// <summary>
+    /// Personal Table used in <see cref="GameVersion.BDSPLUMI"/>.
+    /// </summary>
+    public static readonly PersonalTable8BDSP BDSPLUMI = new(GetTable("bdsplumi"));
+
+    /// <summary>
     /// Personal Table used in <see cref="GameVersion.SWSH"/>.
     /// </summary>
     public static readonly PersonalTable8SWSH SWSH = new(GetTable("swsh"));

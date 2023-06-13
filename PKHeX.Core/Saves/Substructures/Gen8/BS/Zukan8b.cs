@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Pokédex structure used for Brilliant Diamond &amp; Shining Pearl.
 /// </summary>
 /// <remarks>size 0x30B8, struct_name ZUKAN_WORK</remarks>
-public sealed class Zukan8b : ZukanBase<SAV8BS>
+public class Zukan8b : ZukanBase<SAV8BS>
 {
     /* Structure Notes:
         u32 [493] state: None/HeardOf/Seen/Captured
@@ -114,13 +114,13 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
     private const int OFS_ARCEUS     = OFS_SSHAYMIN   + SIZE_SHAYMIN;
     private const int OFS_SARCEUS    = OFS_ARCEUS     + SIZE_ARCEUS;
 
-    private const int OFS_LANGUAGE = OFS_SARCEUS + SIZE_ARCEUS;
+    protected const int OFS_LANGUAGE = OFS_SARCEUS + SIZE_ARCEUS;
     private const int OFS_FLAG_REGIONAL = OFS_LANGUAGE + SIZE_LANGUAGE; // 0x30B0
     private const int OFS_FLAG_NATIONAL = OFS_FLAG_REGIONAL + 4;        // 0x30B4
     // sizeof(this) = 0x30B8
 
-    private const int LANGUAGE_NONE = 0;
-    private const int LANGUAGE_ALL = // 0x1FF
+    protected const int LANGUAGE_NONE = 0;
+    protected const int LANGUAGE_ALL = // 0x1FF
         (1 << ((int)LanguageID.Japanese - 1)) |
         (1 << ((int)LanguageID.English  - 1)) |
         (1 << ((int)LanguageID.French   - 1)) |
@@ -135,7 +135,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
 
     public Zukan8b(SAV8BS sav, int dex) : base(sav, dex) { }
 
-    public ZukanState8b GetState(ushort species)
+    public virtual ZukanState8b GetState(ushort species)
     {
         if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -145,7 +145,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
         return (ZukanState8b)ReadInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset));
     }
 
-    public void SetState(ushort species, ZukanState8b state)
+    public virtual void SetState(ushort species, ZukanState8b state)
     {
         if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -155,7 +155,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
         WriteInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), (int)state);
     }
 
-    private bool GetBoolean(int index, int baseOffset)
+    public virtual bool GetBoolean(int index, int baseOffset)
     {
         if ((uint)index >= COUNT_SPECIES)
             throw new ArgumentOutOfRangeException(nameof(index));
@@ -164,7 +164,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
         return ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset)) == 1;
     }
 
-    private void SetBoolean(int index, int baseOffset, bool value)
+    public virtual void SetBoolean(int index, int baseOffset, bool value)
     {
         if ((uint)index >= COUNT_SPECIES)
             throw new ArgumentOutOfRangeException(nameof(index));
@@ -189,7 +189,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
         SetBoolean(species - 1, OFS_FEMALESHINY, fs);
     }
 
-    public bool GetLanguageFlag(ushort species, int language)
+    public virtual bool GetLanguageFlag(ushort species, int language)
     {
         if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -203,7 +203,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
         return (current & (1 << languageBit)) != 0;
     }
 
-    public void SetLanguageFlag(ushort species, int language, bool value)
+    public virtual void SetLanguageFlag(ushort species, int language, bool value)
     {
         if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -219,7 +219,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
         WriteInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), update);
     }
 
-    public void SetLanguageFlags(ushort species, int value)
+    public virtual void SetLanguageFlags(ushort species, int value)
     {
         if (species > Legal.MaxSpeciesID_4)
             throw new ArgumentOutOfRangeException(nameof(species));
@@ -229,7 +229,7 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
         WriteInt32LittleEndian(SAV.Data.AsSpan(PokeDex + offset), value);
     }
 
-    private static int GetLanguageBit(int language)
+    protected static int GetLanguageBit(int language)
     {
         if (language is 0 or (int)LanguageID.UNUSED_6 or > (int)LanguageID.ChineseT)
             return -1;

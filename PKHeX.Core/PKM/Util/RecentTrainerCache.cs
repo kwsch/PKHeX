@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -8,6 +10,8 @@ public static class RecentTrainerCache
 {
     private static ITrainerInfo Trainer = new SimpleTrainerInfo();
     private static IRegionOrigin Trainer67 = new SimpleTrainerInfo(GameVersion.SN);
+
+    public static bool LumiTrainer = false;
 
     private static IRegionOrigin GetTrainer3DS(ITrainerInfo tr) => tr as IRegionOrigin ?? Trainer67;
 
@@ -36,6 +40,7 @@ public static class RecentTrainerCache
     public static void SetRecentTrainer(ITrainerInfo trainer)
     {
         Trainer = trainer;
+        LumiTrainer = trainer is SAV8BSLuminescent;
         if (trainer is IRegionOrigin g67)
             Trainer67 = g67;
     }

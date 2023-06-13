@@ -44,6 +44,9 @@ public static class SaveUtil
     public const int SIZE_G8BDSP_2 = 0xEED8C;
     public const int SIZE_G8BDSP_3 = 0xEF0A4;
 
+    public const int SIZE_G8BDSPLUMI_1 = 0xEDC20;
+    public const int SIZE_G8BDSPLUMI_3 = 0xEF0A4;
+
     public const int SIZE_G8SWSH = 0x1716B3; // 1.0
     public const int SIZE_G8SWSH_1 = 0x17195E; // 1.0 -> 1.1
     public const int SIZE_G8SWSH_2 = 0x180B19; // 1.0 -> 1.1 -> 1.2
@@ -202,6 +205,8 @@ public static class SaveUtil
             return StadiumJ;
 
         if ((ver = GetIsG8SAV(data)) != Invalid)
+            return ver;
+        if ((ver = GetIsG8SAV_BDSPLUMI(data)) != Invalid)
             return ver;
         if ((ver = GetIsG8SAV_BDSP(data)) != Invalid)
             return ver;
@@ -545,6 +550,18 @@ public static class SaveUtil
         return SwishCrypto.GetIsHashValid(data) ? SWSH : Invalid;
     }
 
+    private static GameVersion GetIsG8SAV_BDSPLUMI(ReadOnlySpan<byte> data)
+    {
+        if (data.Length is not (SIZE_G8BDSPLUMI_1 or SIZE_G8BDSPLUMI_3))
+            return Invalid;
+
+        var ver = ReadUInt32LittleEndian(data);
+        if ((ver & 0xFFFF0000) != 0xFFFF0000)
+            return Invalid;
+
+        return BDSPLUMI;
+    }
+
     private static GameVersion GetIsG8SAV_BDSP(ReadOnlySpan<byte> data)
     {
         if (data.Length is not (SIZE_G8BDSP or SIZE_G8BDSP_1 or SIZE_G8BDSP_2 or SIZE_G8BDSP_3))
@@ -681,6 +698,7 @@ public static class SaveUtil
 
             SWSH => new SAV8SWSH(data),
             BDSP => new SAV8BS(data),
+            BDSPLUMI => new SAV8BSLuminescent(data),
             PLA => new SAV8LA(data),
 
             SV => new SAV9SV(data),

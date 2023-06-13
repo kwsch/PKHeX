@@ -68,6 +68,26 @@ public static class SpriteName
         return sb.ToString();
     }
 
+    public static string GetLumiResourceStringSprite(ushort species, byte form, int gender, uint formarg, bool shiny = false)
+    {
+        if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
+            form = 0;
+
+        var sb = new StringBuilder(12); // longest expected string result
+        sb.Append(Separator).Append(species);
+
+        if (form != 0)
+        {
+            sb.Append(Separator).Append("L" + form);
+        }
+        if (gender == 1 && ((Species)species == Species.Venusaur || (Species)species == Species.Pikachu))
+        {
+            sb.Append('f');
+        }
+
+        return sb.ToString();
+    }
+
     /// <summary>
     /// Species that show their default Species sprite regardless of current <see cref="PKM.Form"/>
     /// </summary>
