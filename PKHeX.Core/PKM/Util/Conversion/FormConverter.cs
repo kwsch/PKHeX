@@ -501,19 +501,23 @@ public static class FormConverter
             Venusaur or Blastoise => new[]
             {
                 types[000],
-                "", "",
+                forms[804],
+                forms[Gigantamax],
                 "Clone"
             },
             Charizard => new[]
             {
                 types[000],
-                "", "", "",
+                forms[805],
+                forms[806],
+                forms[Gigantamax],
                 "Clone"
             },
             Gengar => new[]
             {
                 types[000],
-                "", "",
+                forms[804],
+                forms[Gigantamax],
                 "Stitched"
             },
             Onix => new[]
@@ -524,16 +528,17 @@ public static class FormConverter
             Eevee => new[]
             {
                 types[000],
-                "Partner",
-                "",
+                Starter,
+                forms[Gigantamax],
                 "Bandana"
             },
             Mewtwo => new[]
             {
                 types[000],
-                "", "",
-                "Armored 1",
-                "Armored 2"
+                forms[805],
+                forms[806],
+                "Armor MK2",
+                "Armor MK1"
             },
             _ => EMPTY,
         };
@@ -608,7 +613,24 @@ public static class FormConverter
             },
             8 when IsLumi() => new[] {
                 types[000],
-                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+                forms[734], // Cosplay
+                forms[729], // Rockstar
+                forms[730], // Belle
+                forms[731], // Pop
+                forms[732], // PhD
+                forms[733], // Libre
+
+                forms[813], // Original
+                forms[814], // Hoenn
+                forms[815], // Sinnoh
+                forms[816], // Unova
+                forms[817], // Kalos
+                forms[818], // Alola
+                forms[1063], // Partner
+                forms[1085], // World
+
+                Starter,
+                forms[Gigantamax],
                 "Clone"
             },
             8 or 9 => new[] {
