@@ -23,12 +23,12 @@ public static class PersonalTable
     /// <summary>
     /// Personal Table used in <see cref="GameVersion.BDSP"/>.
     /// </summary>
-    public static readonly PersonalTable8BDSP BDSP = new(GetTable("bdsp"));
+    public static readonly PersonalTable8BDSP BDSP = new(GetTable("bdsp"), Legal.MaxSpeciesID_8b);
 
     /// <summary>
     /// Personal Table used in <see cref="GameVersion.BDSPLUMI"/>.
     /// </summary>
-    public static readonly PersonalTable8BDSP BDSPLUMI = new(GetTable("bdsplumi"));
+    public static readonly PersonalTable8BDSP BDSPLUMI = new(GetTable("bdsplumi"), Legal.MaxSpeciesID_8a);
 
     /// <summary>
     /// Personal Table used in <see cref="GameVersion.SWSH"/>.

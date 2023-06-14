@@ -3,17 +3,18 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Personal Table storing <see cref="PersonalInfo8BDSP"/> used in <see cref="GameVersion.BDSP"/>.
+/// Personal Table storing <see cref="PersonalInfo8BDSP"/> used in <see cref="GameVersion.BDSP" and <see cref="GameVersion.BDSPLUMI"/>.
 /// </summary>
 public sealed class PersonalTable8BDSP : IPersonalTable, IPersonalTable<PersonalInfo8BDSP>
 {
     private readonly PersonalInfo8BDSP[] Table;
     private const int SIZE = PersonalInfo8BDSP.SIZE;
-    private const int MaxSpecies = Legal.MaxSpeciesID_8b;
-    public int MaxSpeciesID => MaxSpecies;
+ 
+    public int MaxSpeciesID { get; }
 
-    public PersonalTable8BDSP(ReadOnlySpan<byte> data)
+    public PersonalTable8BDSP(ReadOnlySpan<byte> data, int maxSpecies)
     {
+        MaxSpeciesID = maxSpecies;
         Table = new PersonalInfo8BDSP[data.Length / SIZE];
         var count = data.Length / SIZE;
         for (int i = 0, ofs = 0; i < count; i++, ofs += SIZE)
@@ -29,12 +30,12 @@ public sealed class PersonalTable8BDSP : IPersonalTable, IPersonalTable<Personal
 
     public int GetFormIndex(ushort species, byte form)
     {
-        if (species <= MaxSpecies)
+        if (species <= MaxSpeciesID)
             return Table[species].FormIndex(species, form);
         return 0;
     }
 
-    public bool IsSpeciesInGame(ushort species) => species <= MaxSpecies;
+    public bool IsSpeciesInGame(ushort species) => species <= MaxSpeciesID;
     public bool IsPresentInGame(ushort species, byte form)
     {
         if (!IsSpeciesInGame(species))

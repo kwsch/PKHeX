@@ -34,6 +34,7 @@ public static class SpriteBuilderUtil
         _ => sav switch // Default, suggest.
         {
             SAV8LA => CircleMugshot5668,
+            SAV8BSLuminescent => SpritesArtwork5668,
             SAV9SV => SpritesArtwork5668,
             _ => SpritesClassic5668,
         },
