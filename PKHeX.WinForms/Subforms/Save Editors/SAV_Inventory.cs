@@ -18,7 +18,11 @@ public partial class SAV_Inventory : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (Origin = sav).Clone();
-        itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version).ToArray();
+
+        if (sav is SAV8BSLuminescent)
+            itemlist = GameInfo.Strings.GetLumiItemStrings().ToArray();
+        else
+            itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version).ToArray();
 
         for (int i = 0; i < itemlist.Length; i++)
         {

@@ -10,8 +10,16 @@ namespace PKHeX.Core;
 public sealed class MyItem8b : MyItem
 {
     public const int ItemSaveSize = 3000;
+    private bool lumi;
 
-    public MyItem8b(SAV8BS sav, int offset) : base(sav) => Offset = offset;
+    public MyItem8b(SAV8BS sav, int offset) : base(sav)
+    {
+        Offset = offset;
+        if (sav is SAV8BSLuminescent)
+            lumi = true;
+        else
+            lumi = false;
+    }
 
     public int GetItemQuantity(ushort itemIndex)
     {
@@ -35,11 +43,22 @@ public sealed class MyItem8b : MyItem
         item.Write(span);
     }
 
-    public static InventoryType GetType(ushort itemIndex) => ItemStorage8BDSP.GetInventoryPouch(itemIndex);
+    public InventoryType GetType(ushort itemIndex)
+    {
+        if (lumi)
+            return ItemStorage8BDSPLumi.GetInventoryPouch(itemIndex);
+        else
+            return ItemStorage8BDSP.GetInventoryPouch(itemIndex);
+    }
 
     public ushort GetNextSortIndex(InventoryType type)
     {
-        var legal = ItemStorage8BDSP.GetLegal(type);
+        ReadOnlySpan<ushort> legal = new();
+        if (lumi)
+            legal = ItemStorage8BDSPLumi.GetLegal(type);
+        else
+            legal = ItemStorage8BDSP.GetLegal(type);
+
         ushort max = 0;
         foreach (var itemID in legal)
         {
@@ -79,10 +98,10 @@ public sealed class MyItem8b : MyItem
     private void CleanIllegalSlots()
     {
         var types = ItemStorage8BDSP.ValidTypes;
-        var hashSet = new HashSet<ushort>(Legal.MaxItemID_8b);
+        var hashSet = lumi ? new HashSet<ushort>(1836) : new HashSet<ushort>(Legal.MaxItemID_8b);
         foreach (var type in types)
         {
-            var items = ItemStorage8BDSP.GetLegal(type);
+            var items = lumi ? ItemStorage8BDSPLumi.GetLegal(type) : ItemStorage8BDSP.GetLegal(type);
             foreach (var item in items)
                 hashSet.Add(item);
         }
@@ -97,7 +116,8 @@ public sealed class MyItem8b : MyItem
     private InventoryPouch8b MakePouch(InventoryType type)
     {
         var info = ItemStorage8BDSP.Instance;
+        var lumiinfo = ItemStorage8BDSPLumi.Instance;
         var max = info.GetMax(type);
-        return new InventoryPouch8b(type, info, max, Offset);
+        return lumi ? new InventoryPouch8b(type, lumiinfo, max, Offset) : new InventoryPouch8b(type, info, max, Offset);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -15,6 +16,7 @@ public sealed class GameStrings : IBasicStrings
         groundtiletypes, balllist, gamelist, pokeblocks, ribbons;
 
     private readonly string[] g4items, g3coloitems, g3xditems, g3items, g2items, g1items;
+    private readonly string[] lumiitems;
 
     // Met Locations
     public readonly LocationSet0 Gen2, Gen3, CXD;
@@ -130,6 +132,9 @@ public sealed class GameStrings : IBasicStrings
 
         g4items = (string[])itemlist.Clone();
         Get("mail4").CopyTo(g4items, 137);
+
+        // Lumi-specific
+        lumiitems = Get("ItemsLUMI");
     }
 
     private LocationSet4 Get4(string ident)
@@ -653,6 +658,8 @@ public sealed class GameStrings : IBasicStrings
         EntityContext.Gen9 => GetItemStrings9(),
         _ => itemlist,
     };
+
+    public string[] GetLumiItemStrings() => (string[])lumiitems.Clone();
 
     private string[] GetItemStrings8b()
     {

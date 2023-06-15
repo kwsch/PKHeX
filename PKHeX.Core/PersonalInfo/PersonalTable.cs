@@ -28,7 +28,7 @@ public static class PersonalTable
     /// <summary>
     /// Personal Table used in <see cref="GameVersion.BDSPLUMI"/>.
     /// </summary>
-    public static readonly PersonalTable8BDSP BDSPLUMI = new(GetTable("bdsplumi"), Legal.MaxSpeciesID_8a);
+    public static readonly PersonalTable8BDSP BDSPLUMI = new(GetTable("bdsplumi"), Legal.MaxSpeciesID_9);
 
     /// <summary>
     /// Personal Table used in <see cref="GameVersion.SWSH"/>.
