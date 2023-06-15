@@ -1,5 +1,40 @@
-PKHeX
+LumiHeX
 =====
+Fork of [PKHeX](https://github.com/kwsch/PKHeX) with added support for Luminescent Platinum!
+
+Currently, it is a Work in progress. As such, some features will not work when editing a Luminescent Platinum save.
+
+## Features Luminescent Platinum saves will be able to use
+- Pokémon Editor (Box and Party)
+  - Stat and Ability changes will display
+  - New Pokémon Luminescent forms included!
+  - Individual Pokémon can be imported (\*.pb8, \*.pb8lumi) and exported (\*.pb8lumi)
+  - Can still use Save Box Data++
+- Bag Editor
+  - Luminescent-specific items will show
+- Box Layout Editor
+- Seal Stickers Editor
+
+### Unconfirmed if Working
+- Poffin Editor
+- Trainer Info Editor
+  - Specifically Gender, Version, Language, Adventure Info, and Stats
+    - Luminescent only supports Brilliant Diamond Version, and the English Language!
+- Underground (Bag) Editor
+
+## Unimplemented Features
+- Event Flags Editor
+  - Does not contain new flags
+- Pokédex Editor
+  - Crashes upon load
+
+### Known 'Issues'
+- Shiny Pokémon display as the default pixel art sprites
+- Sprites for Luminescent forms do not change regardless of shinyness or sprite preference
+    - The shiny symbol *will* still display on the top left, though.
+
+-----
+# PKHeX
 <div>
   <span>English</span> / <a href=".github/README-es.md">Español</a> / <a href=".github/README-fr.md">Français</a> / <a href=".github/README-de.md">Deutsch</a> / <a href=".github/README-it.md">Italiano</a> / <a href=".github/README-zhHK.md">繁體中文</a> / <a href=".github/README-zh.md">简体中文</a>
 </div>
@@ -25,10 +60,6 @@ Pokémon Showdown sets and QR codes can be imported/exported to assist in sharin
 PKHeX expects save files that are not encrypted with console-specific keys. Use a savedata manager to import and export savedata from the console ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
 
 **We do not support or condone cheating at the expense of others. Do not use significantly hacked Pokémon in battle or in trades with those who are unaware hacked Pokémon are in use.**
-
-## Screenshots
-
-![Main Window](https://i.imgur.com/ROUQ021.png)
 
 ## Building
 
