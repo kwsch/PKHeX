@@ -155,7 +155,8 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     {
         var data = Data.AsSpan();
         var slotCount = GetOccupiedSlotCount();
-        UpdateMetadata(slotCount * SIZE_STORED);
+        int pkStart = PokemonCountOffset + 4;
+        UpdateMetadata(pkStart + (slotCount * SIZE_STORED));
 
         // 20 byte SHA checksum at the top of the file, which covers all data that follows.
         var hash = data[..sha1HashSize];
