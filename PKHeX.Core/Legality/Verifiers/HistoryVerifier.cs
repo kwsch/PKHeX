@@ -202,6 +202,8 @@ public sealed class HistoryVerifier : Verifier
         var enc = data.EncounterOriginal;
         if (enc is EncounterStatic9 { GiftWithLanguage: true })
         {
+            // Gift sets the HT language flag unnecessarily to the SAV language.
+            // Must be the SAV language or another-with-HT_Name.
             if (h.HT_Language == 0)
                 data.AddLine(GetInvalid(LMemoryHTLanguage));
             else if (pk.IsUntraded && h.HT_Language != pk.Language)
@@ -211,7 +213,7 @@ public sealed class HistoryVerifier : Verifier
 
         if (h.HT_Language == 0)
         {
-            if (!string.IsNullOrWhiteSpace(pk.HT_Name))
+            if (!pk.IsUntraded && pk is IHomeTrack { HasTracker: false }) // traded in-game
                 data.AddLine(GetInvalid(LMemoryHTLanguage));
             return;
         }
