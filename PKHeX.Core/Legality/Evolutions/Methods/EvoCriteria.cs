@@ -19,4 +19,20 @@ public readonly record struct EvoCriteria : ISpeciesForm
     public bool InsideLevelRange(int level) => LevelMin <= level && level <= LevelMax;
 
     public override string ToString() => $"{(Species) Species}{(Form != 0 ? $"-{Form}" : "")}}} [{LevelMin},{LevelMax}] via {Method}";
+
+    public bool IsBetterDevolution(EvoCriteria reference)
+    {
+        if (reference.Species == 0)
+            return true;
+
+        return LevelMin + LevelUpRequired < reference.LevelMin + reference.LevelUpRequired;
+    }
+
+    public bool IsBetterEvolution(EvoCriteria reference)
+    {
+        if (reference.LevelMin == 0)
+            return true;
+
+        return LevelMin + LevelUpRequired < reference.LevelMin + reference.LevelUpRequired;
+    }
 }

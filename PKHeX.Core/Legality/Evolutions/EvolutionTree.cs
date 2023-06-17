@@ -28,14 +28,15 @@ public sealed class EvolutionTree : EvolutionNetwork
     private static EvolutionTree GetViaSpecies(IPersonalTable t, EvolutionMethod[][] entries)
     {
         var forward = new EvolutionForwardSpecies(entries);
-        var reverse = new EvolutionReverseSpecies(t, entries, t.MaxSpeciesID);
+        var reverse = new EvolutionReverseSpecies(entries, t);
         return new EvolutionTree(forward, reverse);
     }
 
     private static EvolutionTree GetViaPersonal(IPersonalTable t, EvolutionMethod[][] entries)
     {
+        var max = t.MaxSpeciesID;
         var forward = new EvolutionForwardPersonal(entries, t);
-        var reverse = new EvolutionReversePersonal(t, entries, t.MaxSpeciesID);
+        var reverse = new EvolutionReversePersonal(entries, t);
         return new EvolutionTree(forward, reverse);
     }
 
@@ -96,7 +97,7 @@ public sealed class EvolutionTree : EvolutionNetwork
         BanEvo((int)Species.Weezing, 0, pk => pk.Version >= (int)SW);
         BanEvo((int)Species.MrMime, 0, pk => pk.Version >= (int)SW);
 
-        foreach (var s in GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
+        foreach (var s in Forward.GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
             BanEvo(s.Species, s.Form, BanGmax);
     }
 
@@ -104,54 +105,5 @@ public sealed class EvolutionTree : EvolutionNetwork
     {
         BanEvo((int)Species.Glaceon, 0, pk => pk.CurrentLevel == pk.Met_Level); // Ice Stone is unreleased, requires Route 217 Ice Rock Level Up instead
         BanEvo((int)Species.Milotic, 0, pk => pk is IContestStatsReadOnly { CNT_Beauty: < 170 } || pk.CurrentLevel == pk.Met_Level); // Prism Scale is unreleased, requires 170 Beauty Level Up instead
-    }
-
-    /// <summary>
-    /// Gets a list of evolutions for the input <see cref="PKM"/> by checking each evolution in the chain.
-    /// </summary>
-    /// <param name="pk">Pokémon data to check with.</param>
-    /// <param name="levelMax">Maximum level to permit before the chain breaks.</param>
-    /// <param name="skipChecks">Ignores an evolution's criteria, causing the returned list to have all possible evolutions.</param>
-    /// <param name="levelMin">Minimum level to permit before the chain breaks.</param>
-    /// <param name="stopSpecies">Final species to stop at, if known</param>
-    public EvoCriteria[] GetValidPreEvolutions(PKM pk, byte levelMax, bool skipChecks = false, byte levelMin = 1, ushort stopSpecies = 0)
-    {
-        ushort species = pk.Species;
-        byte form = pk.Form;
-
-        Span<EvoCriteria> result = stackalloc EvoCriteria[MaxEvolutions];
-        var count = GetExplicitLineage(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
-        return result[..count].ToArray();
-    }
-
-    /// <summary>
-    /// Generates the reverse evolution path for the input <see cref="pk"/>.
-    /// </summary>
-    /// <param name="result">Result storage</param>
-    /// <param name="species">Entity Species to begin the chain</param>
-    /// <param name="form">Entity Form to begin the chain</param>
-    /// <param name="pk">Entity data</param>
-    /// <param name="levelMin">Minimum level</param>
-    /// <param name="levelMax">Maximum level</param>
-    /// <param name="stopSpecies">Final species to stop at, if known</param>
-    /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
-    /// <returns>Count of entries filled.</returns>
-    public int GetExplicitLineage(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks)
-    {
-        if (pk.IsEgg && !skipChecks)
-        {
-            result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = levelMax, LevelMin = levelMax };
-            return 1;
-        }
-
-        // Shedinja's evolution case can be a little tricky; hard-code handling.
-        if (species == (int)Species.Shedinja && levelMax >= 20 && (!pk.HasOriginalMetLocation || levelMin < levelMax))
-        {
-            var min = Math.Max(levelMin, (byte)20);
-            result[0] = new EvoCriteria { Species = (ushort)Species.Shedinja, LevelMax = levelMax, LevelMin = min, Method = EvolutionType.LevelUp };
-            result[1] = new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = levelMax, LevelMin = levelMin };
-            return 2;
-        }
-        return Reverse.Devolve(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
     }
 }

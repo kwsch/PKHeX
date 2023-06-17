@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public interface IEvolutionNetwork : IEvolutionForward, IEvolutionReverse
+public interface IEvolutionNetwork
 {
     IEvolutionForward Forward { get; }
     IEvolutionReverse Reverse { get; }
@@ -19,11 +19,6 @@ public abstract class EvolutionNetwork : IEvolutionNetwork
         Forward = forward;
         Reverse = reverse;
     }
-
-    public IEnumerable<(ushort Species, byte Form)> GetEvolutions(ushort species, byte form) => Forward.GetEvolutions(species, form);
-    public IEnumerable<(ushort Species, byte Form)> GetPreEvolutions(ushort species, byte form) => Reverse.GetPreEvolutions(species, form);
-    public ReadOnlyMemory<EvolutionMethod> GetForward(ushort species, byte form) => Forward.GetForward(species, form);
-    public EvolutionNode GetReverse(ushort species, byte form) => Reverse.GetReverse(species, form);
 
     /// <summary>
     /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to &amp; from, yielded in order of increasing evolution stage.

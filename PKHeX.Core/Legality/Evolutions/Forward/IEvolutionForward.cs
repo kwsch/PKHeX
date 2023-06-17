@@ -14,4 +14,6 @@ public interface IEvolutionForward
     /// <param name="form">Form ID</param>
     /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
     IEnumerable<(ushort Species, byte Form)> GetEvolutions(ushort species, byte form);
+
+    bool TryEvolve(ISpeciesForm head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result);
 }

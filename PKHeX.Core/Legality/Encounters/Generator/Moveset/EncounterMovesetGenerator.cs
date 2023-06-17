@@ -178,8 +178,9 @@ public static class EncounterMovesetGenerator
         var context = pk.Context;
         if (context is EntityContext.Gen2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
             context = EntityContext.Gen1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
-        var et = EvolutionTree.GetEvolutionTree(context);
-        var chain = et.GetValidPreEvolutions(pk, levelMax: 100, skipChecks: true);
+
+        var origin = new EvolutionOrigin(pk.Species, (byte)version, (byte)context.Generation(), 1, 100, true);
+        var chain = EvolutionChain.GetOriginChain(pk, origin);
 
         var needs = GetNeededMoves(pk, moves, version);
         var generator = EncounterGenerator.GetGenerator(version);
@@ -243,7 +244,7 @@ public static class EncounterMovesetGenerator
         var rent = ArrayPool<bool>.Shared.Rent(length);
         var permitted = rent.AsSpan(0, length);
         var enc = new EvolutionOrigin(0, (byte)ver, (byte)origin, 1, 100, true);
-        var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc);
+        var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc, pk.Context, 0);
         var e = EncounterInvalid.Default with { Generation = origin };
         LearnPossible.Get(pk, e, history, permitted);
 

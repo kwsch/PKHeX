@@ -17,4 +17,6 @@ public interface IEvolutionReverse
     void BanEvo(ushort species, byte form, Func<PKM, bool> func);
 
     int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks);
+
+    bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, int levelMin, bool skipChecks, out EvoCriteria result);
 }

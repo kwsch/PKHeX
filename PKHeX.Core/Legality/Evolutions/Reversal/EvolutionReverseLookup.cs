@@ -9,11 +9,13 @@ public sealed class EvolutionReverseLookup : IEvolutionLookup
 {
     private readonly EvolutionNode[] Nodes;
     private readonly Dictionary<int, int> KeyLookup;
+    private readonly ushort MaxSpecies;
 
     public EvolutionReverseLookup(ushort maxSpecies)
     {
         Nodes = new EvolutionNode[maxSpecies * 2];
         KeyLookup = new Dictionary<int, int>(maxSpecies);
+        MaxSpecies = maxSpecies;
     }
 
     private void Register(EvolutionLink link, ushort species)
@@ -43,6 +45,8 @@ public sealed class EvolutionReverseLookup : IEvolutionLookup
 
     private int GetIndex(ushort species, byte form)
     {
+        if (species > MaxSpecies)
+            return 0;
         if (form == 0)
             return species;
         int key = GetKey(species, form);

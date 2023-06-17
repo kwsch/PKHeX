@@ -17,7 +17,19 @@ public interface IEvolutionGroup
     /// </summary>
     IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc);
 
-    bool Append(PKM pk, EvolutionHistory history, ref ReadOnlySpan<EvoCriteria> chain, EvolutionOrigin enc);
+    int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc);
 
-    EvoCriteria[] GetInitialChain(PKM pk, EvolutionOrigin enc, ushort species, byte form);
+    int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history);
+
+    /// <summary>
+    /// Discards all entries that do not exist in the group.
+    /// </summary>
+    void DiscardForOrigin(Span<EvoCriteria> result, PKM pk);
+}
+
+public interface IEvolutionEnvironment
+{
+    bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result);
+
+    bool TryEvolve(ISpeciesForm head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result);
 }

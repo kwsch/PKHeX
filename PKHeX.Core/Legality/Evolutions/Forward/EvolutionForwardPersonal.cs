@@ -41,4 +41,38 @@ public sealed class EvolutionForwardPersonal : IEvolutionForward
                 yield return nextEvo;
         }
     }
+
+    public bool TryEvolve(ISpeciesForm head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
+    {
+        var methods = GetForward(head.Species, head.Form);
+        foreach (var method in methods.Span)
+        {
+            if (method.Species != next.Species)
+                continue;
+            if (method.Form != next.Form)
+                continue;
+
+            var chk = method.Check(pk, currentMaxLevel, skipChecks);
+            if (chk != EvolutionCheckResult.Valid)
+                continue;
+
+            result = Create(next.Species, next.Form, method, currentMaxLevel, levelMin);
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    private static EvoCriteria Create(ushort species, byte form, EvolutionMethod method, byte currentMaxLevel, byte min) => new()
+    {
+        Species = species,
+        Form = form,
+        LevelMax = currentMaxLevel,
+        Method = method.Method,
+
+        // Temporarily store these and overwrite them when we clean the list.
+        LevelMin = Math.Max(min, method.Level),
+        LevelUpRequired = method.RequiresLevelUp ? (byte)1 : (byte)0,
+    };
 }

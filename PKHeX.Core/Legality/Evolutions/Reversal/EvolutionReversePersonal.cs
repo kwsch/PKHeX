@@ -7,13 +7,14 @@ public sealed class EvolutionReversePersonal : IEvolutionReverse
 {
     public IEvolutionLookup Lineage { get; }
 
-    public EvolutionReversePersonal(IPersonalTable t, EvolutionMethod[][] entries, ushort maxSpecies)
+    public EvolutionReversePersonal(EvolutionMethod[][] entries, IPersonalTable t)
     {
-        Lineage = GetLineage(t, entries, maxSpecies);
+        Lineage = GetLineage(t, entries);
     }
 
-    private static EvolutionReverseLookup GetLineage(IPersonalTable t, EvolutionMethod[][] entries, ushort maxSpecies)
+    private static EvolutionReverseLookup GetLineage(IPersonalTable t, EvolutionMethod[][] entries)
     {
+        var maxSpecies = t.MaxSpeciesID;
         var lineage = new EvolutionReverseLookup(maxSpecies);
         for (ushort sSpecies = 1; sSpecies <= maxSpecies; sSpecies++)
         {
@@ -63,5 +64,11 @@ public sealed class EvolutionReversePersonal : IEvolutionReverse
         bool skipChecks)
     {
         return Lineage.Devolve(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
+    }
+
+    public bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, int levelMin, bool skipChecks, out EvoCriteria result)
+    {
+        var node = Lineage[head.Species, head.Form];
+        return node.TryDevolve(pk, currentMaxLevel, levelMin, skipChecks, out result);
     }
 }

@@ -74,8 +74,11 @@ internal static class GBRestrictions
     private static bool GetCatchRateMatchesPreEvolution(PK1 pk, byte catch_rate)
     {
         // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-        var table = EvolutionTree.Evolves1;
-        var chain = table.GetValidPreEvolutions(pk, levelMax: (byte)pk.CurrentLevel, levelMin: 2);
+        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        var enc = new EvolutionOrigin(pk.Species, (byte)RBY, 1, 2, (byte)pk.CurrentLevel);
+        int count = EvolutionChain.GetOriginChain(chain, pk, enc);
+        chain = chain[..count];
+
         foreach (var entry in chain)
         {
             var s = entry.Species;

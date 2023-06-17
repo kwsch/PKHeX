@@ -20,7 +20,9 @@ public static class EncounterOrigin
         bool hasOriginMet = pk.HasOriginalMetLocation;
         var maxLevel = GetLevelOriginMax(pk, hasOriginMet);
         var minLevel = GetLevelOriginMin(pk, hasOriginMet);
-        return GetOriginChain(pk, (byte)maxLevel, (byte)minLevel, hasOriginMet);
+
+        var origin = new EvolutionOrigin(pk.Species, (byte)pk.Version, (byte)pk.Generation, (byte)minLevel, (byte)maxLevel);
+        return EvolutionChain.GetOriginChain(pk, origin);
     }
 
     /// <summary>
@@ -33,52 +35,33 @@ public static class EncounterOrigin
     {
         bool rby = gameSource == GameVersion.RBY;
 
-        bool hasOriginMet;
         int maxLevel, minLevel;
         if (pk is ICaughtData2 pk2)
         {
-            hasOriginMet = pk2.CaughtData != 0;
+            var hasOriginMet = pk2.CaughtData != 0;
             maxLevel = rby && Future_LevelUp2.Contains(pk.Species) ? pk.CurrentLevel - 1 : pk.CurrentLevel;
             minLevel = !hasOriginMet ? 2 : pk.IsEgg ? 5 : pk2.Met_Level;
         }
         else if (pk is PK1 pk1)
         {
-            hasOriginMet = false;
             maxLevel = pk1.CurrentLevel;
             minLevel = 2;
         }
         else if (rby)
         {
-            hasOriginMet = false;
             maxLevel = Future_LevelUp2.Contains(pk.Species) ? pk.CurrentLevel - 1 : GetLevelOriginMaxTransfer(pk, pk.Met_Level, 1);
             minLevel = 2;
         }
         else // GSC
         {
-            hasOriginMet = false;
             maxLevel = GetLevelOriginMaxTransfer(pk, pk.Met_Level, 2);
             minLevel = 2;
         }
 
-        return GetOriginChain(pk, (byte)maxLevel, (byte)minLevel, hasOriginMet);
-    }
-
-    private static EvoCriteria[] GetOriginChain(PKM pk, byte maxLevel, byte minLevel, bool hasOriginMet)
-    {
-        if (maxLevel < minLevel)
-            return Array.Empty<EvoCriteria>();
-
-        if (hasOriginMet)
-            return EvolutionChain.GetValidPreEvolutions(pk, maxLevel, minLevel);
-
-        // Permit the maximum to be all the way up to Current Level; we'll trim these impossible evolutions out later.
-        var tempMax = pk.CurrentLevel;
-        var chain = EvolutionChain.GetValidPreEvolutions(pk, tempMax, minLevel);
-
-        for (var i = 0; i < chain.Length; i++)
-            chain[i] = chain[i] with { LevelMax = maxLevel, LevelMin = minLevel };
-
-        return chain;
+        var ver = rby ? (byte)GameVersion.RBY : (byte)GameVersion.GSC;
+        var gen = rby ? (byte)1 : (byte)2;
+        var origin = new EvolutionOrigin(pk.Species, ver, gen, (byte)minLevel, (byte)maxLevel);
+        return EvolutionChain.GetOriginChain(pk, origin);
     }
 
     private static int GetLevelOriginMin(PKM pk, bool hasMet)
