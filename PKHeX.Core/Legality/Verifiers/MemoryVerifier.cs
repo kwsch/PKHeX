@@ -16,7 +16,7 @@ public sealed class MemoryVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (ShouldHaveNoMemory(data, pk))
+        if (!HasVisitedMemoryContext(data.Info.EvoChainsAllGens))
         {
             VerifyOTMemoryIs(data, 0, 0, 0, 0);
             VerifyHTMemoryNone(data, (ITrainerMemories)pk);
@@ -26,10 +26,12 @@ public sealed class MemoryVerifier : Verifier
         VerifyHTMemory(data);
     }
 
-    private static bool ShouldHaveNoMemory(LegalityAnalysis data, PKM pk)
+    private static bool HasVisitedMemoryContext(EvolutionHistory chains)
     {
-        if (pk.BDSP || pk.LA || pk.SV || pk is PK9)
-            return !data.Info.EvoChainsAllGens.HasVisitedSWSH;
+        if (chains.HasVisitedSWSH)
+            return true;
+        if (chains.HasVisitedGen6)
+            return true;
         return false;
     }
 

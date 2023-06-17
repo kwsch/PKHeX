@@ -21,13 +21,17 @@ public static class EvolutionChain
     {
         2 => pk is ICaughtData2 c2 ? Math.Max((byte)c2.Met_Level, enc.LevelMin) : enc.LevelMin,
         < 4 when pk.Format != enc.Generation => enc.LevelMin,
-        _ => (byte)pk.Met_Level,
+        _ => Math.Max((byte)pk.Met_Level, enc.LevelMin),
     };
 
     public static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies)
     {
         Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        return EvolutionChainsSearch(pk, enc, context, encSpecies, chain);
+    }
 
+    private static EvolutionHistory EvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies, Span<EvoCriteria> chain)
+    {
         var history = new EvolutionHistory();
         var length = GetOriginChain(chain, pk, enc, false);
         if (length == 0)

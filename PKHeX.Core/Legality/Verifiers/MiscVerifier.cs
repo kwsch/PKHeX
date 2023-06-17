@@ -172,7 +172,7 @@ public sealed class MiscVerifier : Verifier
         {
             if (pk9.TeraTypeOverride == (MoveType)TeraTypeUtil.OverrideNone)
                 data.AddLine(GetInvalid(LTeraTypeIncorrect));
-            else if (GetTeraImportMatch(data.Info.EvoChainsAllGens.Gen9, pk9.TeraTypeOriginal) == -1)
+            else if (GetTeraImportMatch(data.Info.EvoChainsAllGens.Gen9, pk9.TeraTypeOriginal, enc) == -1)
                 data.AddLine(GetInvalid(LTeraTypeIncorrect));
         }
         else if (enc is EncounterStatic9 { StarterBoxLegend: true })
@@ -183,7 +183,7 @@ public sealed class MiscVerifier : Verifier
         }
     }
 
-    public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual)
+    public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual, IEncounterTemplate enc)
     {
         // Sanitize out Form here for Arceus/Silvally -- rewrite via evotree later.
         if (evos.Length == 0 || evos[0].Species is (int)Species.Arceus or (int)Species.Silvally)
@@ -191,8 +191,16 @@ public sealed class MiscVerifier : Verifier
         for (int i = evos.Length - 1; i >= 0; i--)
         {
             var evo = evos[i];
-            if (Tera9RNG.IsMatchTeraTypePersonalAnyForm(evo.Species, (byte)actual))
-                return i;
+            if (FormInfo.IsFormChangeable(evo.Species, enc.Form, evo.Form, enc.Context, EntityContext.Gen9))
+            {
+                if (Tera9RNG.IsMatchTeraTypePersonalAnyForm(evo.Species, (byte)actual))
+                    return i;
+            }
+            else
+            {
+                if (Tera9RNG.IsMatchTeraTypePersonal(evo.Species, evo.Form, (byte)actual))
+                    return i;
+            }
         }
         return -1;
     }
