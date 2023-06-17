@@ -29,29 +29,23 @@ public sealed class MemoryVerifier : Verifier
 
     private void VerifyHTMemory(LegalityAnalysis data)
     {
-        var pk = data.Entity;
-        if (pk is not PK8) // Most formats 8+ don't wipe HT memory on import to the game.
-        {
-            VerifyHTMemoryContextVisited(data);
-            return;
-        }
-        var memoryGen = pk.Format >= 8 ? Gen8 : Gen6;
-        VerifyHTMemory(data, memoryGen);
+        VerifyHTMemoryContextVisited(data);
     }
 
     private void VerifyHTMemoryContextVisited(LegalityAnalysis data)
     {
-        // Memories aren't reset when imported into most formats, so it could be from any context.
+        // Memories aren't reset when imported into formats, so it could be from any context visited.
         var results = data.Info.Parse;
         var start = results.Count;
-        if (data.Info.EvoChainsAllGens.HasVisitedSWSH)
+        var chains = data.Info.EvoChainsAllGens;
+        if (chains.HasVisitedSWSH)
         {
             results.RemoveRange(start, results.Count - start);
             VerifyHTMemory(data, Gen8);
             if (ValidSet(results, start))
                 return;
         }
-        if (data.Info.EvoChainsAllGens.HasVisitedGen6)
+        if (chains.HasVisitedGen6 || chains.HasVisitedGen7) // vc
         {
             results.RemoveRange(start, results.Count - start);
             VerifyHTMemory(data, Gen6);
@@ -85,7 +79,7 @@ public sealed class MemoryVerifier : Verifier
     {
         if (chains.HasVisitedSWSH)
             return true;
-        if (chains.HasVisitedGen6)
+        if (chains.HasVisitedGen6 || chains.HasVisitedGen7) // vc
             return true;
         return false;
     }
