@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.MemoryPermissions;
 using static PKHeX.Core.EntityContext;
@@ -54,25 +55,20 @@ public sealed class MemoryVerifier : Verifier
         }
     }
 
-    private static bool ValidSet(IReadOnlyList<CheckResult> results, int start)
+    private static bool ValidSet(List<CheckResult> results, int start)
     {
         var count = results.Count - start;
-        if (count != 0)
+        if (count == 0)
+            return true; // None added.
+
+        var span = CollectionsMarshal.AsSpan(results)[start..];
+        foreach (var result in span)
         {
-            bool allValid = true;
-            for (int i = start; i < results.Count; i++)
-            {
-                if (results[i].Valid)
-                    continue;
-                allValid = false;
-                break;
-            }
-
-            if (allValid)
-                return true;
+            if (result.Valid)
+                continue;
+            return false;
         }
-
-        return false;
+        return true;
     }
 
     private static bool HasVisitedMemoryContext(EvolutionHistory chains)
