@@ -11,9 +11,8 @@ internal static class EvolutionUtil
         int count = 0;
 
         // Find first index that exists in the game, and take while they do.
-        for (int i = 0; i < result.Length; i++)
+        foreach (var evo in result)
         {
-            var evo = result[i];
             if (evo.Species == 0)
                 break; // uninitialized struct, end of data
             if (evo.LevelMin == 0)
@@ -25,7 +24,7 @@ internal static class EvolutionUtil
             if (pt.IsPresentInGame(evo.Species, evo.Form))
                 count++;
             else if (count == 0)
-                start = i;
+                start++;
             else
                 break;
         }
