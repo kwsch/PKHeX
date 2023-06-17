@@ -121,4 +121,7 @@ public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
             return 0;
         return EvoStages[species];
     }
+
+    public (bool Match1, bool Match2) IsMatchType(IPersonalType other) => IsMatchType(other.Type1, other.Type2);
+    private (bool Match1, bool Match2) IsMatchType(byte type1, byte type2) => (type1 == Type1, type2 == Type2);
 }

@@ -34,7 +34,6 @@ public sealed class EvolutionTree : EvolutionNetwork
 
     private static EvolutionTree GetViaPersonal(IPersonalTable t, EvolutionMethod[][] entries)
     {
-        var max = t.MaxSpeciesID;
         var forward = new EvolutionForwardPersonal(entries, t);
         var reverse = new EvolutionReversePersonal(entries, t);
         return new EvolutionTree(forward, reverse);

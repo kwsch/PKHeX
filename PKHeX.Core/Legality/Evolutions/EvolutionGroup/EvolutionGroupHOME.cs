@@ -141,7 +141,7 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
 
     private int EvolveSingle(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc, EvolutionHistory history)
     {
-        int present = 0;
+        int present = 1;
         var env = GetSingleEnv(pk);
         for (int i = result.Length - 1; i >= 1; i--)
         {

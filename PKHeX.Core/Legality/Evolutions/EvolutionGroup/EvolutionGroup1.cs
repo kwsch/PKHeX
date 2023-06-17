@@ -20,7 +20,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
-        int present = 0;
+        int present = 1;
         for (int i = 1; i < result.Length; i++)
         {
             var prev = result[i - 1];
@@ -45,7 +45,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
         if (pk.Format > 2)
             enc = enc with { LevelMax = (byte)pk.Met_Level };
 
-        int present = 0;
+        int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)
         {
             ref var dest = ref result[i - 1];
@@ -57,6 +57,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
                 dest = evo;
             present++;
         }
+        EvolutionUtil.SetHistory(result, PersonalTable.RB, out history.Gen1);
         return present;
     }
 

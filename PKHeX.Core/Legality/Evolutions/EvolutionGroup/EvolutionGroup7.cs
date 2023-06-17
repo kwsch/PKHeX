@@ -23,7 +23,7 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
-        int present = 0;
+        int present = 1;
         for (int i = 1; i < result.Length; i++)
         {
             var prev = result[i - 1];
@@ -45,7 +45,7 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
 
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
-        int present = 0;
+        int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)
         {
             ref var dest = ref result[i - 1];
@@ -57,6 +57,7 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
                 dest = evo;
             present++;
         }
+        EvolutionUtil.SetHistory(result, Personal, out history.Gen7);
         return present;
     }
 

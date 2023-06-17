@@ -40,9 +40,7 @@ public static class EvolutionChain
         var group = EvolutionGroupUtil.GetGroup(context);
         while (true)
         {
-            var count = group.Evolve(chain, pk, enc, history);
-            if (count == 0)
-                break;
+            group.Evolve(chain, pk, enc, history);
             var previous = group.GetNext(pk, enc);
             if (previous is null)
                 break;
@@ -115,9 +113,7 @@ public static class EvolutionChain
         var group = EvolutionGroupUtil.GetGroup(context);
         while (true)
         {
-            var c = group.Devolve(result, pk, enc);
-            if (c == 0)
-                return 0;
+            group.Devolve(result, pk, enc);
             var previous = group.GetPrevious(pk, enc);
             if (previous is null)
                 break;

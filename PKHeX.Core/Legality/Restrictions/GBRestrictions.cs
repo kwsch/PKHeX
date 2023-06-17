@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 using static PKHeX.Core.Legal;
 using static PKHeX.Core.GameVersion;
@@ -14,47 +13,43 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class GBRestrictions
 {
-    private static readonly HashSet<byte> Stadium_GiftSpecies = new()
+    private static bool IsStadiumGiftSpecies(byte species) => species switch
     {
-        (int)Bulbasaur,
-        (int)Charmander,
-        (int)Squirtle,
-        (int)Psyduck,
-        (int)Hitmonlee,
-        (int)Hitmonchan,
-        (int)Eevee,
-        (int)Omanyte,
-        (int)Kabuto,
+        (int)Bulbasaur => true,
+        (int)Charmander => true,
+        (int)Squirtle => true,
+        (int)Psyduck => true,
+        (int)Hitmonlee => true,
+        (int)Hitmonchan => true,
+        (int)Eevee => true,
+        (int)Omanyte => true,
+        (int)Kabuto => true,
+        _ => false,
     };
-
-    /// <summary>
-    /// Checks if the type matches any of the type IDs extracted from the Personal Table used for R/G/B/Y games.
-    /// </summary>
-    /// <remarks>Valid values: 0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26</remarks>
-    internal static bool TypeIDExists(byte type) => type < 32 && (0b111111100000000000110111111 & (1 << type)) != 0;
 
     /// <summary>
     /// Species that have a catch rate value that is different from their pre-evolutions, and cannot be obtained directly.
     /// </summary>
-    internal static readonly HashSet<byte> Species_NotAvailable_CatchRate = new()
+    internal static bool IsSpeciesNotAvailableCatchRate(byte species) => species switch
     {
-        (int)Butterfree,
-        (int)Pidgeot,
-        (int)Nidoqueen,
-        (int)Nidoking,
-        (int)Ninetales,
-        (int)Vileplume,
-        (int)Persian,
-        (int)Arcanine,
-        (int)Poliwrath,
-        (int)Alakazam,
-        (int)Machamp,
-        (int)Victreebel,
-        (int)Rapidash,
-        (int)Cloyster,
-        (int)Exeggutor,
-        (int)Starmie,
-        (int)Dragonite,
+        (int)Butterfree => true,
+        (int)Pidgeot => true,
+        (int)Nidoqueen => true,
+        (int)Nidoking => true,
+        (int)Ninetales => true,
+        (int)Vileplume => true,
+        (int)Persian => true,
+        (int)Arcanine => true,
+        (int)Poliwrath => true,
+        (int)Alakazam => true,
+        (int)Machamp => true,
+        (int)Victreebel => true,
+        (int)Rapidash => true,
+        (int)Cloyster => true,
+        (int)Exeggutor => true,
+        (int)Starmie => true,
+        (int)Dragonite => true,
+        _ => false,
     };
 
     internal static bool IsTradeEvolution1(ushort species) => species is (int)Kadabra or (int)Machoke or (int)Graveler or (int)Haunter;
@@ -74,28 +69,25 @@ internal static class GBRestrictions
     private static bool GetCatchRateMatchesPreEvolution(PK1 pk, byte catch_rate)
     {
         // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        var enc = new EvolutionOrigin(pk.Species, (byte)RBY, 1, 2, (byte)pk.CurrentLevel);
-        int count = EvolutionChain.GetOriginChain(chain, pk, enc);
-        chain = chain[..count];
-
-        foreach (var entry in chain)
+        ISpeciesForm head = pk;
+        byte max = (byte)pk.CurrentLevel;
+        while (true)
         {
-            var s = entry.Species;
-            if (Species_NotAvailable_CatchRate.Contains((byte)s))
+            var s = head.Species;
+            if (IsSpeciesNotAvailableCatchRate((byte)s))
                 continue;
             if (catch_rate == PersonalTable.RB[s].CatchRate || catch_rate == PersonalTable.Y[s].CatchRate)
                 return true;
+
+            if (!EvolutionTree.Evolves1.Reverse.TryDevolve(head, pk, max, 2, false, out var next))
+                break;
+            head = next;
+            max = next.LevelMax;
         }
 
-        // Krabby encounter trade special catch rate
-        ushort species = pk.Species;
-        if (catch_rate == 204 && (species is (int)Krabby or (int)Kingler))
+        // Account for oddities via special catch rate encounters
+        if (catch_rate is 167 or 168 && IsStadiumGiftSpecies((byte)pk.Species))
             return true;
-
-        if (catch_rate is (167 or 168) && Stadium_GiftSpecies.Contains((byte)species))
-            return true;
-
         return false;
     }
 
