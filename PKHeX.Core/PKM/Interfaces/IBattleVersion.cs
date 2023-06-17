@@ -21,7 +21,7 @@ public static class BattleVersionExtensions
     public static bool IsBattleVersionValid<T>(this T pk, EvolutionHistory h) where T : PKM, IBattleVersion => pk.BattleVersion switch
     {
         0 => true,
-        (int)GameVersion.SW or (int)GameVersion.SH => h.HasVisitedSWSH && !(pk.SWSH || pk.BDSP || pk.LA || pk.SV),
+        (int)GameVersion.SW or (int)GameVersion.SH => h.HasVisitedSWSH && LocationsHOME.GetVersionSWSH(pk.Version) is not ((int)GameVersion.SW or (int)GameVersion.SH),
         _ => false,
     };
 

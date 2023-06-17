@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.MemoryPermissions;
@@ -26,6 +27,60 @@ public sealed class MemoryVerifier : Verifier
         VerifyHTMemory(data);
     }
 
+    private void VerifyHTMemory(LegalityAnalysis data)
+    {
+        var pk = data.Entity;
+        if (pk is not PK8) // Most formats 8+ don't wipe HT memory on import to the game.
+        {
+            VerifyHTMemoryContextVisited(data);
+            return;
+        }
+        var memoryGen = pk.Format >= 8 ? Gen8 : Gen6;
+        VerifyHTMemory(data, memoryGen);
+    }
+
+    private void VerifyHTMemoryContextVisited(LegalityAnalysis data)
+    {
+        // Memories aren't reset when imported into most formats, so it could be from any context.
+        var results = data.Info.Parse;
+        var start = results.Count;
+        if (data.Info.EvoChainsAllGens.HasVisitedSWSH)
+        {
+            results.RemoveRange(start, results.Count - start);
+            VerifyHTMemory(data, Gen8);
+            if (ValidSet(results, start))
+                return;
+        }
+        if (data.Info.EvoChainsAllGens.HasVisitedGen6)
+        {
+            results.RemoveRange(start, results.Count - start);
+            VerifyHTMemory(data, Gen6);
+            //if (ValidSet(results, start))
+            //    return;
+        }
+    }
+
+    private static bool ValidSet(IReadOnlyList<CheckResult> results, int start)
+    {
+        var count = results.Count - start;
+        if (count != 0)
+        {
+            bool allValid = true;
+            for (int i = start; i < results.Count; i++)
+            {
+                if (results[i].Valid)
+                    continue;
+                allValid = false;
+                break;
+            }
+
+            if (allValid)
+                return true;
+        }
+
+        return false;
+    }
+
     private static bool HasVisitedMemoryContext(EvolutionHistory chains)
     {
         if (chains.HasVisitedSWSH)
@@ -35,14 +90,14 @@ public sealed class MemoryVerifier : Verifier
         return false;
     }
 
-    private CheckResult VerifyCommonMemory(PKM pk, int handler, EntityContext context, LegalInfo info, MemoryContext mem)
+    private CheckResult VerifyCommonMemory(PKM pk, int handler, LegalInfo info, MemoryContext mem)
     {
         var memory = MemoryVariableSet.Read((ITrainerMemories)pk, handler);
 
         // Actionable HM moves
         int hmIndex = MemoryContext6.MoveSpecificMemoryHM.IndexOf(memory.MemoryID);
         if (hmIndex != -1)
-            return VerifyMemoryHM6(context, info, mem, memory, hmIndex);
+            return VerifyMemoryHM6(info, mem, memory, hmIndex);
 
         if (mem.IsInvalidGeneralLocationMemoryValue(memory.MemoryID, memory.Variable, info.EncounterMatch, pk))
             return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
@@ -57,15 +112,15 @@ public sealed class MemoryVerifier : Verifier
                 return GetInvalid(string.Format(LMemoryArgBadLocation, memory.Handler));
 
             // {0} saw {2} carrying {1} on its back. {4} that {3}.
-            case 21 when context != Gen6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).GetIsLearnHM(2): // Fly
+            case 21 when mem.Context != Gen6 || !PersonalTable.AO.GetFormEntry(memory.Variable, 0).GetIsLearnHM(2): // Fly
                 return BadSpeciesMove(memory.Handler);
 
             // {0} used {2} at {1}’s instruction, but it had no effect. {4} that {3}.
             // The Move Deleter that {0} met through {1} made it forget {2}. {4} that {3}.
-            case 16 or 48 when !CanKnowMove(pk, memory, context, info, memory.MemoryID == 16):
+            case 16 or 48 when !CanKnowMove(pk, memory, mem.Context, info, memory.MemoryID == 16):
                 return BadSpeciesMove(memory.Handler);
 
-            case 49 when memory.Variable == 0 || !GetCanRelearnMove(pk, memory.Variable, context, info.EvoChainsAllGens, info.EncounterOriginal):
+            case 49 when memory.Variable == 0 || !GetCanRelearnMove(pk, memory.Variable, mem.Context, info.EvoChainsAllGens, info.EncounterOriginal):
                 return BadSpeciesMove(memory.Handler);
 
             // Dynamaxing
@@ -78,18 +133,18 @@ public sealed class MemoryVerifier : Verifier
             // Move
             // {0} studied about how to use {2} in a Box, thinking about {1}. {4} that {3}.
             // {0} practiced its cool pose for the move {2} in a Box, wishing to be praised by {1}. {4} that {3}.
-            case 80 or 81 when !CanKnowMove(pk, memory, context, info):
+            case 80 or 81 when !CanKnowMove(pk, memory, mem.Context, info):
                 return BadSpeciesMove(memory.Handler);
 
             // Species
             // With {1}, {0} went fishing, and they caught {2}. {4} that {3}.
-            case 7 when !GetCanFishSpecies(memory.Variable, context, handler == 0 ? (GameVersion)pk.Version : GameVersion.Any):
+            case 7 when !GetCanFishSpecies(memory.Variable, mem.Context, handler == 0 ? (GameVersion)pk.Version : GameVersion.Any):
                 return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
             // {0} saw {1} paying attention to {2}. {4} that {3}.
             // {0} fought hard until it had to use Struggle when it battled at {1}’s side against {2}. {4} that {3}.
             // {0} was taken to a Pokémon Nursery by {1} and left with {2}. {4} that {3}.
-            case 9 or 60 or 75 when context == Gen8 && !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
+            case 9 or 60 or 75 when mem.Context == Gen8 && !PersonalTable.SWSH.IsSpeciesInGame(memory.Variable):
                 return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
             // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
@@ -99,22 +154,22 @@ public sealed class MemoryVerifier : Verifier
                 return GetInvalid(string.Format(LMemoryArgBadSpecies, memory.Handler));
 
             // {0} had a very hard training session with {1}. {4} that {3}.
-            case 53 when context == Gen8 && pk is IHyperTrain t && !t.IsHyperTrained():
+            case 53 when mem.Context == Gen8 && pk is IHyperTrain t && !t.IsHyperTrained():
                 return GetInvalid(string.Format(LMemoryArgBadID, memory.Handler));
 
             // Item
             // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
-            case 5 when !CanBuyItem(context, memory.Variable, handler == 0 ? (GameVersion)pk.Version : GameVersion.Any):
+            case 5 when !CanBuyItem(mem.Context, memory.Variable, handler == 0 ? (GameVersion)pk.Version : GameVersion.Any):
             // {1} used {2} when {0} was in trouble. {4} that {3}.
-            case 15 when !CanUseItem(context, memory.Variable, pk.Species):
+            case 15 when !CanUseItem(mem.Context, memory.Variable, pk.Species):
             // {0} saw {1} using {2}. {4} that {3}.
-            case 26 when !CanUseItemGeneric(context, memory.Variable):
+            case 26 when !CanUseItemGeneric(mem.Context, memory.Variable):
             // {0} planted {2} with {1} and imagined a big harvest. {4} that {3}.
-            case 34 when !CanPlantBerry(context, memory.Variable):
+            case 34 when !CanPlantBerry(mem.Context, memory.Variable):
             // {1} had {0} hold items like {2} to help it along. {4} that {3}.
-            case 40 when !CanHoldItem(context, memory.Variable):
+            case 40 when !CanHoldItem(mem.Context, memory.Variable):
             // {0} was excited when {1} won prizes like {2} through Loto-ID. {4} that {3}.
-            case 51 when !CanWinLotoID(context, memory.Variable):
+            case 51 when !CanWinLotoID(mem.Context, memory.Variable):
             // {0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
             // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
             case 84 or 88 when !Legal.HeldItems_SWSH.Contains(memory.Variable) || pk.IsEgg:
@@ -124,9 +179,9 @@ public sealed class MemoryVerifier : Verifier
         return VerifyCommonMemoryEtc(memory, mem);
     }
 
-    private CheckResult VerifyMemoryHM6(EntityContext context, LegalInfo info, MemoryContext mem, MemoryVariableSet memory, int hmIndex)
+    private CheckResult VerifyMemoryHM6(LegalInfo info, MemoryContext mem, MemoryVariableSet memory, int hmIndex)
     {
-        if (context != Gen6) // Gen8 has no HMs, so this memory can never exist.
+        if (mem.Context != Gen6) // Gen8 has no HMs, so this memory can never exist.
             return BadSpeciesMove(memory.Handler);
 
         if (info.EncounterMatch.Species == (int)Species.Smeargle)
@@ -192,9 +247,10 @@ public sealed class MemoryVerifier : Verifier
 
     private void VerifyOTMemory(LegalityAnalysis data)
     {
+        var enc = data.Info.EncounterMatch;
+        var context = enc.Context;
         var pk = data.Entity;
         var mem = (ITrainerMemories)pk;
-        var Info = data.Info;
 
         // If the encounter has a memory from the OT that could never have it replaced, ensure it was not modified.
         switch (data.EncounterMatch)
@@ -214,7 +270,6 @@ public sealed class MemoryVerifier : Verifier
                 return;
         }
 
-        var context = Info.EncounterOriginal.Context;
         var memory = mem.OT_Memory;
 
         if (pk.IsEgg)
@@ -243,17 +298,17 @@ public sealed class MemoryVerifier : Verifier
         {
             // No Memory
             case 0: // SW/SH trades don't set HT memories immediately, which is hilarious.
-                data.AddLine(Get(LMemoryMissingOT, context == Gen8 ? Severity.Fishy : Severity.Invalid));
+                data.AddLine(Get(LMemoryMissingOT, mc.Context == Gen8 ? Severity.Fishy : Severity.Invalid));
                 VerifyOTMemoryIs(data, 0, 0, 0, 0);
                 return;
 
             // {0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
-            case 2 when !Info.EncounterMatch.EggEncounter:
+            case 2 when !enc.EggEncounter:
                 data.AddLine(GetInvalid(string.Format(LMemoryArgBadHatch, L_XOT)));
                 break;
 
             // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
-            case 4 when Info.Generation == 6: // gen8 applies this memory erroneously
+            case 4 when mc.Context == Gen6: // gen8 applies this memory erroneously
                 data.AddLine(GetInvalid(string.Format(LMemoryArgBadOTEgg, L_XOT)));
                 return;
 
@@ -264,14 +319,14 @@ public sealed class MemoryVerifier : Verifier
 
             // {0} was with {1} when {1} caught {2}. {4} that {3}.
             case 14:
-                var result = GetCanBeCaptured(mem.OT_TextVar, context, (GameVersion)pk.Version) // Any Game in the Handling Trainer's generation
+                var result = GetCanBeCaptured(mem.OT_TextVar, mc.Context, (GameVersion)pk.Version) // Any Game in the Handling Trainer's generation
                     ? GetValid(string.Format(LMemoryArgSpecies, L_XOT))
                     : GetInvalid(string.Format(LMemoryArgBadSpecies, L_XOT));
                 data.AddLine(result);
                 return;
         }
 
-        data.AddLine(VerifyCommonMemory(pk, 0, context, Info, mc));
+        data.AddLine(VerifyCommonMemory(pk, 0, data.Info, mc));
     }
 
     private static bool CanHaveMemoryForOT(PKM pk, EntityContext origin, int memory)
@@ -293,11 +348,10 @@ public sealed class MemoryVerifier : Verifier
         };
     }
 
-    private void VerifyHTMemory(LegalityAnalysis data)
+    private void VerifyHTMemory(LegalityAnalysis data, EntityContext memoryGen)
     {
         var pk = data.Entity;
         var mem = (ITrainerMemories)pk;
-        var Info = data.Info;
 
         var memory = mem.HT_Memory;
 
@@ -317,15 +371,13 @@ public sealed class MemoryVerifier : Verifier
 
         if (pk.Format == 7)
         {
-            VerifyHTMemoryTransferTo7(data, pk, Info);
+            VerifyHTMemoryTransferTo7(data, pk, data.Info);
             return;
         }
 
-        var memoryGen = pk.Format >= 8 ? Gen8 : Gen6;
-
         // Bounds checking
-        var context = Memories.GetContext(memoryGen);
-        if (!context.CanObtainMemoryHT((GameVersion)pk.Version, memory))
+        var mc = Memories.GetContext(memoryGen);
+        if (!mc.CanObtainMemoryHT((GameVersion)pk.Version, memory))
             data.AddLine(GetInvalid(string.Format(LMemoryArgBadID, L_XHT)));
 
         // Verify memory if specific to HT
@@ -333,7 +385,7 @@ public sealed class MemoryVerifier : Verifier
         {
             // No Memory
             case 0: // SW/SH memory application has an off-by-one error: [0,99] + 1 <= chance --> don't apply
-                var severity = memoryGen switch
+                var severity = mc.Context switch
                 {
                     Gen8 when pk is not PK8 && !pk.SWSH => Severity.Valid,
                     Gen8 => ParseSettings.Gen8MemoryMissingHT,
@@ -355,20 +407,20 @@ public sealed class MemoryVerifier : Verifier
                 return;
 
             // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-            case 6 when !context.HasPokeCenter(GameVersion.Any, mem.HT_TextVar):
+            case 6 when !mc.HasPokeCenter(GameVersion.Any, mem.HT_TextVar):
                 data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XHT)));
                 return;
 
             // {0} was with {1} when {1} caught {2}. {4} that {3}.
             case 14:
-                var result = GetCanBeCaptured(mem.HT_TextVar, memoryGen, GameVersion.Any) // Any Game in the Handling Trainer's generation
+                var result = GetCanBeCaptured(mem.HT_TextVar, mc.Context, GameVersion.Any) // Any Game in the Handling Trainer's generation
                     ? GetValid(string.Format(LMemoryArgSpecies, L_XHT))
                     : GetInvalid(string.Format(LMemoryArgBadSpecies, L_XHT));
                 data.AddLine(result);
                 return;
         }
 
-        var commonResult = VerifyCommonMemory(pk, 1, memoryGen, Info, context);
+        var commonResult = VerifyCommonMemory(pk, 1, data.Info, mc);
         data.AddLine(commonResult);
     }
 
