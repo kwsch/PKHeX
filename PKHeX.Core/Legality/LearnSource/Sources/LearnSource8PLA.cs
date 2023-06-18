@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="PLA"/>.
 /// </summary>
-public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
+public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource
 {
     public static readonly LearnSource8LA Instance = new();
     private static readonly PersonalTable8LA Personal = PersonalTable.LA;
@@ -85,5 +85,28 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>
             if (species is (int)Species.Rotom && evo.Form is not 0)
                 result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
         }
+    }
+
+    public LearnEnvironment Environment => Game;
+    public MoveLearnInfo GetCanLearnHOME(PKM pk, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All)
+    {
+        if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return default;
+
+        if (types.HasFlag(MoveSourceType.LevelUp))
+        {
+            var learn = GetLearnset(evo.Species, evo.Form);
+            var level = learn.GetLevelLearnMove(move);
+            if (level != -1)
+                return new(LevelUp, Game, (byte)level);
+        }
+
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnMoveShop(move))
+            return new(TMHM, Game);
+
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, LearnOption.AtAnyTime))
+            return new(Tutor, Game);
+
+        return default;
     }
 }
