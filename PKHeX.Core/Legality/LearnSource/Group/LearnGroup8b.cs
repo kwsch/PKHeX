@@ -26,7 +26,13 @@ public sealed class LearnGroup8b : ILearnGroup
 
         CheckSharedMoves(result, current, evos[0]);
 
-        return MoveResult.AllParsed(result);
+        if (MoveResult.AllParsed(result))
+            return true;
+
+        var home = LearnGroupHOME.Instance;
+        if (home.HasVisited(pk, history))
+            return home.Check(result, current, pk, history, enc, types, LearnOption.AtAnyTime);
+        return false;
     }
 
     private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EvoCriteria evo)

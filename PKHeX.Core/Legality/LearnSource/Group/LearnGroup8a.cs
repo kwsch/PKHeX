@@ -21,7 +21,13 @@ public sealed class LearnGroup8a : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
 
-        return MoveResult.AllParsed(result);
+        if (MoveResult.AllParsed(result))
+            return true;
+
+        var home = LearnGroupHOME.Instance;
+        if (home.HasVisited(pk, history))
+            return home.Check(result, current, pk, history, enc, types, LearnOption.AtAnyTime);
+        return false;
     }
 
     private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage)
