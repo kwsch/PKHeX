@@ -131,7 +131,7 @@ public sealed class LearnGroup9 : ILearnGroup
         }
 
         // Check all forms
-        var inst = LearnSource6AO.Instance;
+        var inst = LearnSource9SV.Instance;
         if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 

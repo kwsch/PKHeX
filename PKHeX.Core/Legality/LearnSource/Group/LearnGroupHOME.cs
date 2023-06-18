@@ -80,5 +80,48 @@ public class LearnGroupHOME : ILearnGroup
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
+        var evos = history.Get(pk.Context);
+        if (history.HasVisitedGen9 && pk is not PK9)
+        {
+            var instance = LearnSource9SV.Instance;
+            foreach (var evo in evos)
+                GetAllMoves<LearnSource9SV, PersonalInfo9SV>(result, pk, evo, types, instance, 9, option);
+        }
+        if (history.HasVisitedSWSH && pk is not PK8)
+        {
+            var instance = LearnSource8SWSH.Instance;
+            foreach (var evo in evos)
+                GetAllMoves<LearnSource8SWSH, PersonalInfo8SWSH>(result, pk, evo, types, instance, 8, option);
+        }
+        if (history.HasVisitedPLA && pk is not PA8)
+        {
+            var instance = LearnSource8LA.Instance;
+            foreach (var evo in evos)
+                GetAllMoves<LearnSource8LA, PersonalInfo8LA>(result, pk, evo, types, instance, 8, option);
+        }
+        if (history.HasVisitedBDSP && pk is not PB8)
+        {
+            var instance = LearnSource8BDSP.Instance;
+            foreach (var evo in evos)
+                GetAllMoves<LearnSource8BDSP, PersonalInfo8BDSP>(result, pk, evo, types, instance, 8, option);
+        }
+    }
+
+    private void GetAllMoves<TSource, TPersonal>(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types,
+        TSource inst, byte generation, LearnOption option = LearnOption.AtAnyTime) where TSource : ILearnSource<TPersonal> where TPersonal : PersonalInfo
+    {
+        if (!FormChangeUtil.ShouldIterateForms(evo.Species, evo.Form, generation, option))
+        {
+            inst.GetAllMoves(result, pk, evo, types);
+            return;
+        }
+
+        // Check all forms
+        if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return;
+
+        var fc = pi.FormCount;
+        for (int i = 0; i < fc; i++)
+            inst.GetAllMoves(result, pk, evo with { Form = (byte)i }, types);
     }
 }

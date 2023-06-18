@@ -167,7 +167,7 @@ public sealed class LearnGroup7 : ILearnGroup
         }
 
         // Check all forms
-        var inst = LearnSource6AO.Instance;
+        var inst = LearnSource7USUM.Instance;
         if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
