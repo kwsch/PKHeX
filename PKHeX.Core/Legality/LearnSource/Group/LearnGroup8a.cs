@@ -25,7 +25,7 @@ public sealed class LearnGroup8a : ILearnGroup
             return true;
 
         var home = LearnGroupHOME.Instance;
-        if (home.HasVisited(pk, history))
+        if (option != LearnOption.AtAnyTime && home.HasVisited(pk, history))
             return home.Check(result, current, pk, history, enc, types, LearnOption.AtAnyTime);
         return false;
     }
