@@ -652,12 +652,6 @@ public sealed class MiscVerifier : Verifier
     private void VerifyPLAStats(LegalityAnalysis data, PA8 pa8)
     {
         VerifyAbsoluteSizes(data, pa8);
-        if (!data.Info.EvoChainsAllGens.HasVisitedSWSH)
-        {
-            var affix = pa8.AffixedRibbon;
-            if (affix != -1) // None
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
-        }
 
         var social = pa8.Sociability;
         if (social != 0)
@@ -685,13 +679,6 @@ public sealed class MiscVerifier : Verifier
 
     private void VerifyBDSPStats(LegalityAnalysis data, PB8 pb8)
     {
-        if (!data.Info.EvoChainsAllGens.HasVisitedSWSH)
-        {
-            var affix = pb8.AffixedRibbon;
-            if (affix != -1) // None
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
-        }
-
         var social = pb8.Sociability;
         if (social != 0)
             data.AddLine(GetInvalid(LMemorySocialZero, Encounter));

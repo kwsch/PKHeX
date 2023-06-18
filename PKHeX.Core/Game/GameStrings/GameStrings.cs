@@ -763,7 +763,7 @@ public sealed class GameStrings : IBasicStrings
         6 => Gen6,
         7 => GameVersion.Gen7b.Contains(version) ? Gen7b : Gen7,
 
-        8 when version is GameVersion.PLA => Gen8,
+        8 when version is GameVersion.PLA => Gen8a,
         8 when GameVersion.BDSP.Contains(version) => Gen8b,
         8 => Gen8,
         9 => Gen9,

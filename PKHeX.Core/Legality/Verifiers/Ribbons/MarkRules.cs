@@ -201,9 +201,12 @@ public static class MarkRules
     /// <summary>
     /// Gets the maximum obtainable <see cref="RibbonIndex"/> value for the format.
     /// </summary>
-    public static RibbonIndex GetMaxAffixValue(int entityFormat, bool visitedHOME) => entityFormat switch
+    public static RibbonIndex GetMaxAffixValue(EvolutionHistory evos)
     {
-        <= 8 when !visitedHOME => MarkSlump, // Pioneer and Twinkling Star cannot be selected in SW/SH.
-        _ => MarkTitan, // Max ribbon visible in SV.
-    };
+        if (evos.HasVisitedGen9)
+            return MarkTitan;
+        if (evos.HasVisitedSWSH)
+            return MarkSlump; // Pioneer and Twinkling Star cannot be selected in SW/SH.
+        return unchecked((RibbonIndex)(-1));
+    }
 }
