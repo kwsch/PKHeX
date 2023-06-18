@@ -218,7 +218,7 @@ public sealed class HistoryVerifier : Verifier
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(pk.HT_Name))
+        if (pk.IsUntraded)
             data.AddLine(GetInvalid(LMemoryHTLanguage));
         else if (h.HT_Language > (int)LanguageID.ChineseT)
             data.AddLine(GetInvalid(LMemoryHTLanguage));

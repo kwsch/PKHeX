@@ -388,7 +388,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     private void EnsureScaleSizeExists()
     {
-        if (FirstScaleData is IScaledSize3)
+        if (GO_HOME || FirstScaleData is IScaledSize3)
             return; // data exists for scale, keep values.
         while (HeightScalar == 0 && WeightScalar == 0)
         {

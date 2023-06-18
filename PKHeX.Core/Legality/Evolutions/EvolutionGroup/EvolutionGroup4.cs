@@ -52,7 +52,7 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
                 dest = evo;
             present++;
         }
-        EvolutionUtil.SetHistory(result, Personal, out history.Gen4);
+        history.Gen4 = EvolutionUtil.SetHistory(result, Personal);
         return present;
     }
 

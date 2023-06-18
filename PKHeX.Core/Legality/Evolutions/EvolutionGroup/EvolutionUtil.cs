@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 internal static class EvolutionUtil
 {
-    public static void SetHistory<T>(Span<EvoCriteria> result, T pt, out EvoCriteria[] destination) where T : IPersonalTable
+    public static EvoCriteria[] SetHistory<T>(Span<EvoCriteria> result, T pt) where T : IPersonalTable
     {
         // Get the range of {result} that is present within pt.
         int start = 0;
@@ -30,11 +30,8 @@ internal static class EvolutionUtil
         }
 
         if (count == 0)
-        {
-            destination = Array.Empty<EvoCriteria>();
-            return;
-        }
-        destination = result.Slice(start, count).ToArray();
+            return Array.Empty<EvoCriteria>();
+        return result.Slice(start, count).ToArray();
     }
 
     public static void Discard<T>(Span<EvoCriteria> result, T pt) where T : IPersonalTable

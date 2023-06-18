@@ -112,10 +112,10 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             }
         }
 
-        SetHistory(result, PersonalTable.SWSH, out history.Gen8);
-        SetHistory(result, PersonalTable.LA,   out history.Gen8a);
-        SetHistory(result, PersonalTable.BDSP, out history.Gen8b);
-        SetHistory(result, PersonalTable.SV,   out history.Gen9);
+        history.Gen8  = SetHistory(result, PersonalTable.SWSH);
+        history.Gen8a = SetHistory(result, PersonalTable.LA);
+        history.Gen8b = SetHistory(result, PersonalTable.BDSP);
+        history.Gen9  = SetHistory(result, PersonalTable.SV);
 
         return present;
     }
@@ -155,10 +155,10 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             present++;
         }
 
-        if      (pk is PK8) SetHistory(result, PersonalTable.SWSH, out history.Gen8);
-        else if (pk is PA8) SetHistory(result, PersonalTable.LA,   out history.Gen8a);
-        else if (pk is PB8) SetHistory(result, PersonalTable.BDSP, out history.Gen8b);
-        else if (pk is PK9) SetHistory(result, PersonalTable.SV,   out history.Gen9);
+        if      (pk is PK8) history.Gen8  = SetHistory(result, PersonalTable.SWSH);
+        else if (pk is PA8) history.Gen8a = SetHistory(result, PersonalTable.LA);
+        else if (pk is PB8) history.Gen8b = SetHistory(result, PersonalTable.BDSP);
+        else if (pk is PK9) history.Gen9  = SetHistory(result, PersonalTable.SV);
 
         return present;
     }

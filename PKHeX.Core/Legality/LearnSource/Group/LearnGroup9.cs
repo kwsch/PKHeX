@@ -11,11 +11,7 @@ public sealed class LearnGroup9 : ILearnGroup
     private const int Generation = 9;
     private const EntityContext Context = EntityContext.Gen9;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option)
-    {
-        return null;
-    }
-
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen9;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
