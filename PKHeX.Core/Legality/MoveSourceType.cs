@@ -25,6 +25,8 @@ public enum MoveSourceType
     Encounter = LevelUp | RelearnMoves,
     ExternalSources = Reminder | AllMachines | AllTutors,
     All = ExternalSources | SharedEggMove | RelearnMoves,
+
+    HOME = int.MaxValue,
 }
 
 /// <summary>

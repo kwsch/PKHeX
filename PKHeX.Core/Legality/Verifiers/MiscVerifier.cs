@@ -133,6 +133,15 @@ public sealed class MiscVerifier : Verifier
 
         VerifyMiscFatefulEncounter(data);
         VerifyMiscPokerus(data);
+        if (pk is IScaledSize3 s3 and IScaledSize s2 && IsHeightScaleMatchRequired(pk) && s2.HeightScalar != s3.Scale)
+            data.AddLine(GetInvalid(LStatIncorrectHeightValue));
+    }
+
+    private static bool IsHeightScaleMatchRequired(PKM pk)
+    {
+        if (pk is IHomeTrack { HasTracker: false })
+            return false;
+        return true;
     }
 
     private void VerifySVStats(LegalityAnalysis data, PK9 pk9)
@@ -142,8 +151,6 @@ public sealed class MiscVerifier : Verifier
 
         if (!pk9.IsBattleVersionValid(data.Info.EvoChainsAllGens))
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
-        if (pk9.Tracker != 0 && pk9.HeightScalar != pk9.Scale)
-            data.AddLine(GetInvalid(LStatInvalidHeightWeight));
         if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.Met_Level))
             data.AddLine(GetInvalid(LTransferObedienceLevel));
         if (pk9.IsEgg && pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)

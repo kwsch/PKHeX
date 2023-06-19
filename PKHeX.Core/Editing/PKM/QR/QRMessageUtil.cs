@@ -112,7 +112,7 @@ public static class QRMessageUtil
         // Decode unicode string -- size might be pretty big (user input), so just rent instead of stackalloc
         var tmp = ArrayPool<byte>.Shared.Rent(url.Length);
         var result = Convert.TryFromBase64Chars(url, tmp, out int bytesWritten) ? tmp[..bytesWritten] : null;
-        ArrayPool<byte>.Shared.Return(tmp);
+        ArrayPool<byte>.Shared.Return(tmp, true);
         return result;
     }
 
