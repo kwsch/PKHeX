@@ -112,7 +112,7 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
         if (!info.GetIsLearnTR(index))
             return false;
 
-        if (tr.GetMoveRecordFlag(index))
+        if (pk is PK8 && tr.GetMoveRecordFlag(index))
             return true;
 
         if (option != LearnOption.Current && !pk.SWSH && pk.IsOriginalMovesetDeleted())

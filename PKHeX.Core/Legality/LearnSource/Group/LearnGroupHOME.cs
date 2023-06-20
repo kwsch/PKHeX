@@ -12,6 +12,8 @@ namespace PKHeX.Core;
 public class LearnGroupHOME : ILearnGroup
 {
     public static readonly LearnGroupHOME Instance = new();
+    public ushort MaxMoveID => 0;
+
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker;
 
@@ -128,61 +130,48 @@ public class LearnGroupHOME : ILearnGroup
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         option = LearnOption.AtAnyTime;
-        var evos = history.Get(pk.Context);
         var local = GetCurrent(pk.Context);
-        var rent = ArrayPool<bool>.Shared.Rent(result.Length);
-        var temp = rent.AsSpan(0, result.Length);
+        ReadOnlySpan<EvoCriteria> evos = history.Get(pk.Context);
 
+        // Check all adjacent games
         if (history.HasVisitedGen9 && pk is not PK9)
-        {
-            var instance = LearnGroup9.Instance;
-            instance.GetAllMoves(temp, pk, history, enc, types, option);
-            foreach (var evo in evos)
-                LoopMerge(result, pk, evo, types, local, temp);
-        }
+            RentLoopGetAll(LearnGroup9. Instance, result, pk, history, enc, types, option, evos, local);
         if (history.HasVisitedSWSH && pk is not PK8)
-        {
-            var instance = LearnGroup8.Instance;
-            instance.GetAllMoves(temp, pk, history, enc, types, option);
-            foreach (var evo in evos)
-                LoopMerge(result, pk, evo, types, local, temp);
-        }
+            RentLoopGetAll(LearnGroup8. Instance, result, pk, history, enc, types, option, evos, local);
         if (history.HasVisitedPLA && pk is not PA8)
-        {
-            var instance = LearnGroup8a.Instance;
-            instance.GetAllMoves(temp, pk, history, enc, types, option);
-            foreach (var evo in evos)
-                LoopMerge(result, pk, evo, types, local, temp);
-        }
+            RentLoopGetAll(LearnGroup8a.Instance, result, pk, history, enc, types, option, evos, local);
         if (history.HasVisitedBDSP && pk is not PB8)
-        {
-            var instance = LearnGroup8b.Instance;
-            instance.GetAllMoves(temp, pk, history, enc, types, option);
-            foreach (var evo in evos)
-                LoopMerge(result, pk, evo, types, local, temp);
-        }
+            RentLoopGetAll(LearnGroup8b.Instance, result, pk, history, enc, types, option, evos, local);
+
+        // Looking backwards before HOME
         if (history.HasVisitedLGPE)
         {
-            var instance = LearnGroup7b.Instance;
-            instance.GetAllMoves(temp, pk, history, enc, types, option);
-            foreach (var evo in evos)
-                LoopMerge(result, pk, evo, types, local, temp);
+            RentLoopGetAll(LearnGroup7b.Instance, result, pk, history, enc, types, option, evos, local);
         }
         else if (history.HasVisitedGen7)
         {
             ILearnGroup instance = LearnGroup7.Instance;
             while (true)
             {
-                instance.GetAllMoves(temp, pk, history, enc, types, option);
-                foreach (var evo in evos)
-                    LoopMerge(result, pk, evo, types, local, temp);
+                RentLoopGetAll(instance, result, pk, history, enc, types, option, evos, local);
                 var prev = instance.GetPrevious(pk, history, enc, option);
                 if (prev is null)
                     break;
                 instance = prev;
             }
         }
+    }
 
+    private static void RentLoopGetAll<T>(T instance, Span<bool> result, PKM pk, EvolutionHistory history,
+        IEncounterTemplate enc,
+        MoveSourceType types, LearnOption option, ReadOnlySpan<EvoCriteria> evos, IHomeSource local) where T : ILearnGroup
+    {
+        var length = instance.MaxMoveID;
+        var rent = ArrayPool<bool>.Shared.Rent(length);
+        var temp = rent.AsSpan(0, length);
+        instance.GetAllMoves(temp, pk, history, enc, types, option);
+        LoopMerge(result, pk, evos, types, local, temp);
+        temp.Clear();
         ArrayPool<bool>.Shared.Return(rent);
     }
 
@@ -191,24 +180,28 @@ public class LearnGroupHOME : ILearnGroup
     /// </summary>
     /// <param name="result">Resulting array of moves that are possible to learn in the current game.</param>
     /// <param name="pk">Entity to check.</param>
-    /// <param name="evo">Evolution criteria to check.</param>
+    /// <param name="evos">Evolutions to check.</param>
     /// <param name="types">Move source types to check.</param>
     /// <param name="dest">Destination game to check.</param>
     /// <param name="temp">Temporary array of moves that are possible to learn in the checked game.</param>
-    private static void LoopMerge(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types, IHomeSource dest, Span<bool> temp)
+    private static void LoopMerge(Span<bool> result, PKM pk, ReadOnlySpan<EvoCriteria> evos, MoveSourceType types, IHomeSource dest, Span<bool> temp)
     {
-        for (ushort move = 0; move < temp.Length; move++)
+        var length = Math.Min(result.Length, temp.Length);
+        for (ushort move = 0; move < length; move++)
         {
             if (!temp[move])
                 continue; // not possible to learn in other game
             if (result[move])
                 continue; // already possible to learn in current game
 
-            var chk = dest.GetCanLearnHOME(pk, evo, move, types);
-            if (chk.Method != LearnMethod.None)
+            foreach (var evo in evos)
+            {
+                var chk = dest.GetCanLearnHOME(pk, evo, move, types);
+                if (chk.Method == LearnMethod.None)
+                    continue;
                 result[move] = true;
+                break;
+            }
         }
-
-        temp.Clear();
     }
 }

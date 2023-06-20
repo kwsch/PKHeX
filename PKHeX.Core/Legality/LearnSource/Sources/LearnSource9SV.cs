@@ -97,7 +97,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
             return false;
         if (pk is not ITechRecord tr)
             return true;
-        if (tr.GetMoveRecordFlag(index))
+        if (pk is PK9 && tr.GetMoveRecordFlag(index))
             return true;
         if (option != LearnOption.Current && !pk.SV && pk.IsOriginalMovesetDeleted())
             return true;

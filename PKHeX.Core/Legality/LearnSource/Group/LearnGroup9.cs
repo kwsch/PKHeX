@@ -10,6 +10,7 @@ public sealed class LearnGroup9 : ILearnGroup
     public static readonly LearnGroup9 Instance = new();
     private const int Generation = 9;
     private const EntityContext Context = EntityContext.Gen9;
+    public ushort MaxMoveID => Legal.MaxMoveID_9;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen9;

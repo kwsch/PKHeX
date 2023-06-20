@@ -10,6 +10,7 @@ public sealed class LearnGroup8 : ILearnGroup
     public static readonly LearnGroup8 Instance = new();
     private const int Generation = 8;
     private const EntityContext Context = EntityContext.Gen8;
+    public ushort MaxMoveID => Legal.MaxMoveID_8;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option)
     {
