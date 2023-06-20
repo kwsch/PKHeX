@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot found in <see cref="GameVersion.SWSH"/>.
+/// Encounter Slot found in <see cref="GameVersion.PLA"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
 public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryInitialMoveShop8

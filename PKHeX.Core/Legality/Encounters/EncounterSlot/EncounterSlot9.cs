@@ -4,7 +4,7 @@ using static PKHeX.Core.AreaWeather9;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Encounter Slot found in <see cref="GameVersion.SWSH"/>.
+/// Encounter Slot found in <see cref="GameVersion.SV"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
 public sealed record EncounterSlot9 : EncounterSlot

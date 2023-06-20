@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 /// <inheritdoc cref="EncounterArea" />
 /// <summary>
-/// <see cref="GameVersion.SWSH"/> encounter area
+/// <see cref="GameVersion.PLA"/> encounter area
 /// </summary>
 public sealed record EncounterArea8a : EncounterArea
 {
