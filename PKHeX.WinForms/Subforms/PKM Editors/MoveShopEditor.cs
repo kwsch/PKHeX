@@ -1,7 +1,9 @@
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing.Misc;
 
 namespace PKHeX.WinForms;
 
@@ -10,6 +12,13 @@ public partial class MoveShopEditor : Form
     private readonly IMoveShop8 Shop;
     private readonly IMoveShop8Mastery Master;
     private readonly PKM Entity;
+
+    private const int ColumnIndex = 0;
+    private const int ColumnTypeIcon = 1;
+    private const int ColumnType = 2;
+    private const int ColumnName = 3;
+    private const int ColumnPurchased = 4;
+    private const int ColumnMastered = 5;
 
     public MoveShopEditor(IMoveShop8 s, IMoveShop8Mastery m, PKM pk)
     {
@@ -32,17 +41,37 @@ public partial class MoveShopEditor : Form
         var cIndex = new DataGridViewTextBoxColumn
         {
             HeaderText = "Index",
-            DisplayIndex = 0,
+            DisplayIndex = ColumnIndex,
             Width = 40,
             ReadOnly = true,
             SortMode = DataGridViewColumnSortMode.Automatic,
         };
 
+        var cType = new DataGridViewImageColumn
+        {
+            HeaderText = "Type",
+            DisplayIndex = ColumnTypeIcon,
+            Width = 40,
+            ReadOnly = true,
+            SortMode = DataGridViewColumnSortMode.Automatic,
+            ImageLayout = DataGridViewImageCellLayout.Zoom,
+        };
+
+        var CTypeTextHidden = new DataGridViewTextBoxColumn
+        {
+            HeaderText = "Type",
+            DisplayIndex = ColumnType,
+            Width = 60,
+            ReadOnly = true,
+            SortMode = DataGridViewColumnSortMode.Automatic,
+            Visible = false,
+        };
+
         var cMove = new DataGridViewTextBoxColumn
         {
             HeaderText = "Move",
-            DisplayIndex = 1,
-            Width = 100,
+            DisplayIndex = ColumnName,
+            Width = 120,
             ReadOnly = true,
             SortMode = DataGridViewColumnSortMode.Automatic,
         };
@@ -50,7 +79,7 @@ public partial class MoveShopEditor : Form
         var cPurchased = new DataGridViewCheckBoxColumn
         {
             HeaderText = "Purchased",
-            DisplayIndex = 2,
+            DisplayIndex = ColumnPurchased,
             Width = 70,
             SortMode = DataGridViewColumnSortMode.Automatic,
         };
@@ -58,7 +87,7 @@ public partial class MoveShopEditor : Form
         var cMastered = new DataGridViewCheckBoxColumn
         {
             HeaderText = "Mastered",
-            DisplayIndex = 3,
+            DisplayIndex = ColumnMastered,
             Width = 70,
             SortMode = DataGridViewColumnSortMode.Automatic,
         };
@@ -70,6 +99,8 @@ public partial class MoveShopEditor : Form
         cMastered.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
         dgv.Columns.Add(cIndex);
+        dgv.Columns.Add(cType);
+        dgv.Columns.Add(CTypeTextHidden);
         dgv.Columns.Add(cMove);
         dgv.Columns.Add(cPurchased);
         dgv.Columns.Add(cMastered);
@@ -78,6 +109,12 @@ public partial class MoveShopEditor : Form
     // Inverted sort order for checkboxes, so that the first sort click has all True at top.
     private void ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
     {
+        if (e.ColumnIndex == ColumnTypeIcon)
+        {
+            dgv.Sort(dgv.Columns[ColumnType], ListSortDirection.Ascending);
+            return;
+        }
+
         var column = dgv.Columns[e.ColumnIndex];
         if (column.SortMode != DataGridViewColumnSortMode.Programmatic)
             return;
@@ -106,9 +143,24 @@ public partial class MoveShopEditor : Form
         dgv.Rows.Add(indexes.Length);
         for (int i = 0; i < indexes.Length; i++)
         {
+            var isValid = Shop.Permit.IsRecordPermitted(i);
             var row = dgv.Rows[i];
-            row.Cells[0].Value = $"{i + Bias:00}";
-            row.Cells[1].Value = names[indexes[i]];
+            var move = indexes[i];
+            var type = MoveInfo.GetType(move, Entity.Context);
+            if (isValid)
+            {
+                var cell = row.Cells[ColumnPurchased];
+                cell.Style.BackColor = cell.Style.SelectionBackColor = Color.LightGreen;
+            }
+            else
+            {
+                var cell = row.Cells[ColumnPurchased];
+                cell.Style.SelectionBackColor = Color.Red;
+            }
+            row.Cells[ColumnIndex].Value = $"{i + Bias:00}";
+            row.Cells[ColumnType].Value = type.ToString("00") + (isValid ? 0 : 1) + names[move]; // type -> valid -> name sorting
+            row.Cells[ColumnTypeIcon].Value = TypeSpriteUtil.GetTypeSpriteIcon(type);
+            row.Cells[ColumnName].Value = names[indexes[i]];
         }
     }
 
@@ -125,9 +177,9 @@ public partial class MoveShopEditor : Form
         for (int i = 0; i < dgv.Rows.Count; i++)
         {
             var row = dgv.Rows[i];
-            var index = int.Parse((string)row.Cells[0].Value) - Bias;
-            var purchased = row.Cells[2];
-            var mastered = row.Cells[3];
+            var index = int.Parse((string)row.Cells[ColumnIndex].Value) - Bias;
+            var purchased = row.Cells[ColumnPurchased];
+            var mastered = row.Cells[ColumnMastered];
             purchased.Value = Shop.GetPurchasedRecordFlag(index);
             mastered.Value = Master.GetMasteredRecordFlag(index);
         }
@@ -138,9 +190,9 @@ public partial class MoveShopEditor : Form
         for (int i = 0; i < dgv.Rows.Count; i++)
         {
             var row = dgv.Rows[i];
-            var index = int.Parse((string)row.Cells[0].Value) - Bias;
-            var purchased = row.Cells[2];
-            var mastered = row.Cells[3];
+            var index = int.Parse((string)row.Cells[ColumnIndex].Value) - Bias;
+            var purchased = row.Cells[ColumnPurchased];
+            var mastered = row.Cells[ColumnMastered];
             Shop.SetPurchasedRecordFlag(index, (bool)purchased.Value);
             Master.SetMasteredRecordFlag(index, (bool)mastered.Value);
         }
