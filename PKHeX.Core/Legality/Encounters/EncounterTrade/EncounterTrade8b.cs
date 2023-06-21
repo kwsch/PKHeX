@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 7 Trade Encounter
+/// Generation 8 BD/SP Trade Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterTrade"/>
 public sealed record EncounterTrade8b : EncounterTrade, IContestStatsReadOnly, IScaledSizeReadOnly, IFixedOTFriendship

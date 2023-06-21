@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 9 <see cref="SaveFile"/> object for <see cref="GameVersion.SWSH"/> games.
+/// Generation 9 <see cref="SaveFile"/> object for <see cref="GameVersion.SV"/> games.
 /// </summary>
 public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFileRevision
 {

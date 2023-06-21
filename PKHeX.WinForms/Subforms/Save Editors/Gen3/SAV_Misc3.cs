@@ -119,20 +119,13 @@ public partial class SAV_Misc3 : Form
     private void B_GetTickets_Click(object sender, EventArgs e)
     {
         var Pouches = SAV.Inventory;
-        var itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version).ToArray();
-        for (int i = 0; i < itemlist.Length; i++)
-        {
-            if (string.IsNullOrEmpty(itemlist[i]))
-                itemlist[i] = $"(Item #{i:000})";
-        }
+        var itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version);
 
         var tickets = TicketItemIDs;
-        if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[ItemIDOldSeaMap]} (unreleased)?"))
+        var p = Pouches.First(z => z.Type == InventoryType.KeyItems);
+        bool hasOldSea = Array.Exists(p.Items, static z => z.Index == ItemIDOldSeaMap);
+        if (!hasOldSea && !SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[ItemIDOldSeaMap]} (unreleased)?"))
             tickets = tickets[..^1]; // remove old sea map
-
-        var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
-        if (p == null)
-            throw new ArgumentException(nameof(InventoryType));
 
         // check for missing tickets
         Span<ushort> have = stackalloc ushort[tickets.Length]; int h = 0;
@@ -157,7 +150,7 @@ public partial class SAV_Misc3 : Form
 
         // check for space
         int end = Array.FindIndex(p.Items, static z => z.Index == 0);
-        if (end + missing.Length >= p.Items.Length)
+        if (end == -1 || end + missing.Length >= p.Items.Length)
         {
             WinFormsUtil.Alert("Not enough space in pouch.", "Please use the InventoryEditor.");
             B_GetTickets.Enabled = false;

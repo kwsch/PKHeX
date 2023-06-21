@@ -4,7 +4,7 @@ using static PKHeX.Core.StaticCorrelation8bRequirement;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 7 Static Encounter
+/// Generation 8 Static Encounter
 /// </summary>
 /// <inheritdoc cref="EncounterStatic"/>
 public sealed record EncounterStatic8b : EncounterStatic, IStaticCorrelation8b
