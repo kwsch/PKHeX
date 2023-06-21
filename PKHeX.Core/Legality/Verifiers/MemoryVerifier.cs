@@ -18,40 +18,52 @@ public sealed class MemoryVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (!HasVisitedMemoryContext(data.Info.EvoChainsAllGens))
+        var sources = MemoryRules.GetPossibleSources(data.Info.EvoChainsAllGens);
+        if (sources == MemorySource.None)
         {
             VerifyOTMemoryIs(data, 0, 0, 0, 0);
             VerifyHTMemoryNone(data, (ITrainerMemories)pk);
             return;
         }
         VerifyOTMemory(data);
-        VerifyHTMemory(data);
+        VerifyHTMemory(data, sources);
     }
 
-    private void VerifyHTMemory(LegalityAnalysis data)
+    private void VerifyHTMemory(LegalityAnalysis data, MemorySource sources)
     {
-        VerifyHTMemoryContextVisited(data);
+        var pk = data.Entity;
+        sources = MemoryRules.ReviseSourcesHandler(pk, sources);
+        if (sources == MemorySource.None)
+        {
+            VerifyHTMemoryNone(data, (ITrainerMemories)pk);
+            return;
+        }
+        VerifyHTMemoryContextVisited(data, sources);
     }
 
-    private void VerifyHTMemoryContextVisited(LegalityAnalysis data)
+    private void VerifyHTMemoryContextVisited(LegalityAnalysis data, MemorySource sources)
     {
         // Memories aren't reset when imported into formats, so it could be from any context visited.
         var results = data.Info.Parse;
         var start = results.Count;
-        var chains = data.Info.EvoChainsAllGens;
-        if (chains.HasVisitedSWSH)
+        if (sources.HasFlag(MemorySource.Gen6))
+        {
+            results.RemoveRange(start, results.Count - start);
+            VerifyHTMemory(data, Gen6);
+            if (ValidSet(results, start))
+                return;
+        }
+        if (sources.HasFlag(MemorySource.Gen8))
         {
             results.RemoveRange(start, results.Count - start);
             VerifyHTMemory(data, Gen8);
             if (ValidSet(results, start))
                 return;
         }
-        if (chains.HasVisitedGen6 || chains.HasVisitedGen7) // vc
+        if (sources.HasFlag(MemorySource.Bank))
         {
             results.RemoveRange(start, results.Count - start);
-            VerifyHTMemory(data, Gen6);
-            //if (ValidSet(results, start))
-            //    return;
+            VerifyHTMemoryTransferTo7(data, data.Entity, data.Info);
         }
     }
 
@@ -69,15 +81,6 @@ public sealed class MemoryVerifier : Verifier
             return false;
         }
         return true;
-    }
-
-    private static bool HasVisitedMemoryContext(EvolutionHistory chains)
-    {
-        if (chains.HasVisitedSWSH)
-            return true;
-        if (chains.HasVisitedGen6 || chains.HasVisitedGen7) // vc
-            return true;
-        return false;
     }
 
     private CheckResult VerifyCommonMemory(PKM pk, int handler, LegalInfo info, MemoryContext mem)
