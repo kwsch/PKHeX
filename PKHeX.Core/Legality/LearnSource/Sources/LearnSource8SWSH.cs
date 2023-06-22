@@ -103,20 +103,23 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
 
     private static bool GetIsTR(PersonalInfo8SWSH info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)
     {
-        if (pk is not ITechRecord tr)
-            return false;
-
         var index = info.RecordPermitIndexes.IndexOf(move);
         if (index == -1)
             return false;
         if (!info.GetIsLearnTR(index))
             return false;
 
-        if (pk is PK8 && tr.GetMoveRecordFlag(index))
-            return true;
+        if (pk is PK8 pk8)
+        {
+            if (pk8.GetMoveRecordFlag(index))
+                return true;
+        }
+        else
+        {
+            if (option != LearnOption.Current)
+                return true;
+        }
 
-        if (option != LearnOption.Current && !pk.SWSH && pk.IsOriginalMovesetDeleted())
-            return true;
         if (index == 12 && evo is { Species: (int)Species.Calyrex, Form: 0 }) // TR12
             return true; // Agility Calyrex without TR glitch.
 
