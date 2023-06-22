@@ -702,7 +702,7 @@ public static class FormConverter
             "P", "Q", "R", "S", "T",
             "U", "V", "W", "X", "Y",
             "Z",
-            // "!", "?", not in Gen II
+            // "!", "?", not in Gen2
         },
         _ => new[]
         {
@@ -878,31 +878,28 @@ public static class FormConverter
 
     public static string[] GetAlcremieFormList(IReadOnlyList<string> forms)
     {
-        var result = new string[63];
-        // seed form0 with the pattern
-        result[0 * 7] = forms[(int)Alcremie]; // Vanilla Cream
-        result[1 * 7] = forms[RubyCream];
-        result[2 * 7] = forms[MatchaCream];
-        result[3 * 7] = forms[MintCream];
-        result[4 * 7] = forms[LemonCream];
-        result[5 * 7] = forms[SaltedCream];
-        result[6 * 7] = forms[RubySwirl];
-        result[7 * 7] = forms[CaramelSwirl];
-        result[8 * 7] = forms[RainbowSwirl];
-
         const int deco = 7;
         const byte fc = 9;
-        for (byte f = 0; f < fc; f++)
-        {
-            int start = f * deco;
-            // iterate downwards using form0 as pattern ref, replacing on final loop
-            for (int i = deco - 1; i >= 0; i--)
-            {
-                result[start + i] = $"{result[start]} ({(AlcremieDecoration)i})";
-            }
-        }
+        var result = new string[deco * fc]; // 63
+        SetDecorations(result, 0, forms[(int)Alcremie]); // Vanilla Cream
+        SetDecorations(result, 1, forms[RubyCream]);
+        SetDecorations(result, 2, forms[MatchaCream]);
+        SetDecorations(result, 3, forms[MintCream]);
+        SetDecorations(result, 4, forms[LemonCream]);
+        SetDecorations(result, 5, forms[SaltedCream]);
+        SetDecorations(result, 6, forms[RubySwirl]);
+        SetDecorations(result, 7, forms[CaramelSwirl]);
+        SetDecorations(result, 8, forms[RainbowSwirl]);
 
         return result;
+
+        static void SetDecorations(string[] result, int f, string baseName)
+        {
+            int start = f * deco;
+            var slice = result.AsSpan(start, deco);
+            for (int i = 0; i < slice.Length; i++)
+                slice[i] = $"{baseName} ({(AlcremieDecoration)i})";
+        }
     }
 
     public static bool GetFormArgumentIsNamedIndex(ushort species) => species == (int)Alcremie;

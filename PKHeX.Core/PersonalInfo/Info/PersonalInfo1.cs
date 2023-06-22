@@ -31,7 +31,7 @@ public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
     public byte Move4 { get => Data[0x12]; set => Data[0x12] = value; }
     public override byte EXPGrowth { get => Data[0x13]; set => Data[0x13] = value; }
 
-    // EV Yields are just aliases for base stats in Gen I
+    // EV Yields are just aliases for base stats in Gen1
     public override int EV_HP { get => HP; set { } }
     public override int EV_ATK { get => ATK; set { } }
     public override int EV_DEF { get => DEF; set { } }

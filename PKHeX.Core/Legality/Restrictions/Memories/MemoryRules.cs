@@ -20,6 +20,8 @@ public static class MemoryRules
             sources |= MemorySource.Bank; // Trade encounters from Gen7 also come with hardcoded memories.
         if (history.HasVisitedSWSH)
             sources |= MemorySource.Gen8;
+        if (history.HasVisitedGen9)
+            sources |= MemorySource.Deleted;
         return sources;
     }
 
@@ -53,4 +55,5 @@ public enum MemorySource
     Gen6 = 1 << 0,
     Bank = 1 << 1,
     Gen8 = 1 << 2,
+    Deleted = 1 << 3,
 }

@@ -50,6 +50,7 @@ public sealed class MemoryVerifier : Verifier
         {
             results.RemoveRange(start, results.Count - start);
             VerifyHTMemory(data, Gen6);
+            VerifyHTLanguage(data, MemorySource.Gen6);
             if (ValidSet(results, start))
                 return;
         }
@@ -57,6 +58,7 @@ public sealed class MemoryVerifier : Verifier
         {
             results.RemoveRange(start, results.Count - start);
             VerifyHTMemory(data, Gen8);
+            VerifyHTLanguage(data, MemorySource.Gen8);
             if (ValidSet(results, start))
                 return;
         }
@@ -64,7 +66,53 @@ public sealed class MemoryVerifier : Verifier
         {
             results.RemoveRange(start, results.Count - start);
             VerifyHTMemoryTransferTo7(data, data.Entity, data.Info);
+            VerifyHTLanguage(data, MemorySource.Bank);
+            if (ValidSet(results, start))
+                return;
         }
+        if (sources.HasFlag(MemorySource.Deleted) )
+        {
+            results.RemoveRange(start, results.Count - start);
+            VerifyHTMemoryNone(data, (ITrainerMemories)data.Entity);
+            VerifyHTLanguage(data, MemorySource.Deleted);
+        }
+    }
+
+    private void VerifyHTLanguage(LegalityAnalysis data, MemorySource source)
+    {
+        var pk = data.Entity;
+        if (pk is not IHandlerLanguage h)
+            return;
+        if (!GetIsHTLanguageValid(data.EncounterMatch, pk, h.HT_Language, source))
+            data.AddLine(GetInvalid(LMemoryHTLanguage));
+    }
+
+    private static bool GetIsHTLanguageValid(IEncounterTemplate enc, PKM pk, byte language, MemorySource source)
+    {
+        // Bounds check.
+        if (language > (int)LanguageID.ChineseT)
+            return false;
+
+        // Gen6 and Bank don't have the HT language flag.
+        if (source is MemorySource.Gen6 or MemorySource.Bank)
+            return language == 0;
+
+        // Some encounters erroneously set the HT flag.
+        if (enc is EncounterStatic9 { GiftWithLanguage: true })
+        {
+            // Must be the SAV language or another-with-HT_Name.
+            if (language == 0)
+                return false;
+            if (pk.IsUntraded)
+                return language == pk.Language;
+            return true;
+        }
+
+        if (pk.IsUntraded)
+            return language == 0;
+
+        // Can be anything within bounds.
+        return true;
     }
 
     private static bool ValidSet(List<CheckResult> results, int start)

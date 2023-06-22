@@ -74,10 +74,11 @@ internal static class GBRestrictions
         while (true)
         {
             var s = head.Species;
-            if (IsSpeciesNotAvailableCatchRate((byte)s))
-                continue;
-            if (catch_rate == PersonalTable.RB[s].CatchRate || catch_rate == PersonalTable.Y[s].CatchRate)
-                return true;
+            if (!IsSpeciesNotAvailableCatchRate((byte)s))
+            {
+                if (catch_rate == PersonalTable.RB[s].CatchRate || catch_rate == PersonalTable.Y[s].CatchRate)
+                    return true;
+            }
 
             if (!EvolutionTree.Evolves1.Reverse.TryDevolve(head, pk, max, 2, false, out var next))
                 break;
@@ -103,7 +104,7 @@ internal static class GBRestrictions
             return false;
 
         // Gen2 format with met data can't receive Gen1 moves, unless Stadium 2 is used (Oak's PC).
-        // If you put a Pokemon in the N64 box, the met info is retained, even if you switch over to a Gen I game to teach it TMs
+        // If you put a Pokemon in the N64 box, the met info is retained, even if you switch over to a Gen1 game to teach it TMs
         // You can use rare candies from within the lab, so level-up moves from RBY context can be learned this way as well
         // Stadium 2 is GB Cart Era only (not 3DS Virtual Console).
         if (pk is ICaughtData2 {CaughtData: not 0} && !ParseSettings.AllowGBCartEra)
