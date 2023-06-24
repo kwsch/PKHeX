@@ -41,6 +41,32 @@ public sealed record EncounterTrade9 : EncounterTrade, IGemType
     {
         if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return false;
-        return base.IsMatchExact(pk, evo);
+        if (!base.IsMatchExact(pk, evo))
+            return false;
+        if (!IsMatchLocation(pk))
+            return false;
+        return true;
+    }
+
+
+    private bool IsMatchLocation(PKM pk)
+    {
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return IsMatchLocationExact(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMatchLocationRemapped(pk);
+        return IsMatchLocationExact(pk) || IsMatchLocationRemapped(pk);
+    }
+
+    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+
+    private bool IsMatchLocationRemapped(PKM pk)
+    {
+        var met = (ushort)pk.Met_Location;
+        var version = pk.Version;
+        if (pk.Context == EntityContext.Gen8)
+            return LocationsHOME.IsValidMetSV(met, version);
+        return LocationsHOME.GetMetSWSH((ushort)Location, version) == met;
     }
 }

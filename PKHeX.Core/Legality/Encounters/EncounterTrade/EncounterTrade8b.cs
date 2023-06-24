@@ -36,16 +36,45 @@ public sealed record EncounterTrade8b : EncounterTrade, IContestStatsReadOnly, I
             return false;
         if (pk is IScaledSize w && w.WeightScalar != WeightScalar)
             return false;
+        if (!IsMatchLocation(pk))
+            return false;
         return base.IsMatchExact(pk, evo);
+    }
+
+    private bool IsMatchLocation(PKM pk)
+    {
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return IsMatchLocationExact(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMatchLocationRemapped(pk);
+        return IsMatchLocationExact(pk) || IsMatchLocationRemapped(pk);
+    }
+
+    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+
+    private bool IsMatchLocationRemapped(PKM pk)
+    {
+        var met = (ushort)pk.Met_Location;
+        var version = pk.Version;
+        if (pk.Context == EntityContext.Gen8)
+            return LocationsHOME.IsValidMetBDSP(met, version);
+        return LocationsHOME.GetMetSWSH((ushort)Location, version) == met;
     }
 
     protected override bool IsMatchEggLocation(PKM pk)
     {
-        var expect = EggLocation;
-        if (pk is not PB8 && expect == Locations.Default8bNone)
-            expect = 0;
-        return pk.Egg_Location == expect;
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return IsMatchEggLocationExact(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMatchEggLocationRemapped(pk);
+        // Either
+        return IsMatchEggLocationExact(pk) || IsMatchEggLocationRemapped(pk);
     }
+
+    private static bool IsMatchEggLocationRemapped(PKM pk) => pk.Egg_Location == 0;
+    private bool IsMatchEggLocationExact(PKM pk) => pk.Egg_Location == EggLocation;
 
     protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
     {

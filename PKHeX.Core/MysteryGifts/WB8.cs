@@ -676,16 +676,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
         {
             if (!Shiny.IsValid(pk)) return false;
             if (!IsMatchEggLocation(pk)) return false;
-            if (pk is PK8)
-            {
-                if (!LocationsHOME.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version))
-                    return false;
-            }
-            else
-            {
-                if (MetLocation != pk.Met_Location)
-                    return false;
-            }
+            if (!IsMatchLocation(pk)) return false;
         }
 
         if (MetLevel != 0 && MetLevel != pk.Met_Level) return false;
@@ -707,6 +698,27 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
     {
         var expect = pk is PB8 ? Locations.Default8bNone : 0;
         return pk.Egg_Location == expect;
+    }
+
+    private bool IsMatchLocation(PKM pk)
+    {
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return IsMatchLocationExact(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMatchLocationRemapped(pk);
+        return IsMatchLocationExact(pk) || IsMatchLocationRemapped(pk);
+    }
+
+    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+
+    private bool IsMatchLocationRemapped(PKM pk)
+    {
+        var met = (ushort)pk.Met_Location;
+        var version = pk.Version;
+        if (pk.Context == EntityContext.Gen8)
+            return LocationsHOME.IsValidMetBDSP(met, version);
+        return LocationsHOME.GetMetSWSH((ushort)Location, version) == met;
     }
 
     protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;

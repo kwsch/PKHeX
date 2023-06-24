@@ -160,7 +160,6 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
             AbilityNumber = 1;
 
         PopulateFromCore(pkh);
-        this.ResetMoves(pkh.Species, pkh.Form, pkh.CurrentLevel, LearnSource9SV.Instance, EntityContext.Gen9);
     }
 
     private void PopulateFromCore(PKH pkh)
@@ -170,5 +169,8 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
         var pi = PersonalTable.SV.GetFormEntry(pkh.Species, pkh.Form);
         Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
         TeraTypeOriginal = TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
+
+        var level = Experience.GetLevel(pkh.EXP, pi.EXPGrowth);
+        this.ResetMoves(pkh.Species, pkh.Form, level, LearnSource9SV.Instance, EntityContext.Gen9);
     }
 }

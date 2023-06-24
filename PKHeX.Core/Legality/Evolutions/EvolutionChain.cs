@@ -55,14 +55,12 @@ public static class EvolutionChain
 
     private static void ConditionBaseChainForward(ushort encSpecies, Span<EvoCriteria> chain)
     {
-        int i = 0;
-        while (true)
+        for (int i = 0; i < chain.Length; i++)
         {
             ref var evo = ref chain[i];
             if (evo.Species == encSpecies)
                 break;
             evo = evo with { LevelMin = 0 };
-            i++;
         }
     }
 

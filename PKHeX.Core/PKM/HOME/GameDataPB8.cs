@@ -121,12 +121,14 @@ public sealed class GameDataPB8 : HomeOptional1, IGameDataSide<PB8>, IGameDataSp
             AbilityNumber = 1;
 
         PopulateFromCore(pkh);
-        this.ResetMoves(pkh.Species, pkh.Form, pkh.CurrentLevel, LearnSource8BDSP.Instance, EntityContext.Gen8b);
     }
 
     private void PopulateFromCore(PKH pkh)
     {
         var pi = PersonalTable.BDSP.GetFormEntry(pkh.Species, pkh.Form);
         Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
+
+        var level = Experience.GetLevel(pkh.EXP, pi.EXPGrowth);
+        this.ResetMoves(pkh.Species, pkh.Form, level, LearnSource8BDSP.Instance, EntityContext.Gen8b);
     }
 }

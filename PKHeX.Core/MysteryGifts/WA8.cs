@@ -661,24 +661,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
 
-        if (IsEgg)
-        {
-            if (EggLocation != pk.Egg_Location) // traded
-            {
-                if (pk.Egg_Location != Locations.LinkTrade6)
-                    return false;
-                if (PIDType == ShinyType8.Random && pk is { IsShiny: true, ShinyXor: > 1 })
-                    return false; // shiny traded egg will always have xor0/1.
-            }
-            if (!Shiny.IsValid(pk))
-            {
-                return false; // can't be traded away for unshiny
-            }
-
-            if (pk is { IsEgg: true, IsNative: false })
-                return false;
-        }
-        else
+        // Never Egg
         {
             if (!Shiny.IsValid(pk)) return false;
             if (!IsMatchEggLocation(pk)) return false;

@@ -86,13 +86,15 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        if (pk is PK8)
-            return pk.Met_Location == LocationsHOME.SWLA;
-        if (pk is PB8 { Version: (int)GameVersion.PLA, Met_Location: LocationsHOME.SWLA })
-            return true;
-
-        return base.IsMatchLocation(pk);
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return base.IsMatchLocation(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMetRemappedSWSH(pk);
+        return base.IsMatchLocation(pk) || IsMetRemappedSWSH(pk);
     }
+
+    private static bool IsMetRemappedSWSH(PKM pk) => pk.Met_Location == LocationsHOME.SWLA;
 
     public override EncounterMatchRating GetMatchRating(PKM pk)
     {

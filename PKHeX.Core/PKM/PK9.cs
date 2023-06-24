@@ -590,6 +590,8 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
         }
         CurrentHandler = 1;
         HT_Gender = tr.Gender;
+        if (HT_Language == 0)
+            this.ClearMemoriesHT();
         HT_Language = (byte)tr.Language;
     }
 

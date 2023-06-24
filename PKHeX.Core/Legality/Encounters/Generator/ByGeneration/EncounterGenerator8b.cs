@@ -182,8 +182,11 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
 
         if (CanBeWildEncounter(pk))
         {
-            bool hasOriginalLocation = pk is not PK8;
             var location = pk.Met_Location;
+            var remap = LocationsHOME.GetRemapState(EntityContext.Gen8b, pk.Context);
+            bool hasOriginalLocation = true;
+            if (remap.HasFlag(LocationRemapState.Remapped))
+                hasOriginalLocation = location != LocationsHOME.GetMetSWSH((ushort)location, (int)game);
             var encWild = game == GameVersion.BD ? Encounters8b.SlotsBD : Encounters8b.SlotsSP;
             foreach (var area in encWild)
             {

@@ -19,8 +19,25 @@ public sealed record EncounterStatic8b : EncounterStatic, IStaticCorrelation8b
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        if (pk is PK8)
-            return LocationsHOME.IsValidMetBDSP((ushort)pk.Met_Location, pk.Version);
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return IsMatchLocationExact(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMatchLocationRemapped(pk);
+        return IsMatchLocationExact(pk) || IsMatchLocationRemapped(pk);
+    }
+
+    private bool IsMatchLocationRemapped(PKM pk)
+    {
+        var met = (ushort)pk.Met_Location;
+        var version = pk.Version;
+        if (pk.Context == EntityContext.Gen8)
+            return LocationsHOME.IsValidMetBDSP(met, version);
+        return LocationsHOME.GetMetSWSH((ushort)Location, version) == met;
+    }
+
+    private bool IsMatchLocationExact(PKM pk)
+    {
         if (!Roaming)
             return base.IsMatchLocation(pk);
         return IsRoamingLocation(pk);
@@ -48,18 +65,24 @@ public sealed record EncounterStatic8b : EncounterStatic, IStaticCorrelation8b
 
     protected override bool IsMatchEggLocation(PKM pk)
     {
-        if (pk is not PB8)
-        {
-            if (!EggEncounter)
-                return pk.Egg_Location == 0;
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return IsMatchEggLocationExact(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMatchEggLocationRemapped(pk);
+        // Either
+        return IsMatchEggLocationExact(pk) || IsMatchEggLocationRemapped(pk);
+    }
 
-            if (pk is PK8)
-                return LocationsHOME.IsLocationSWSHEgg(pk.Version, pk.Met_Location, pk.Egg_Location, (ushort)EggLocation);
+    private bool IsMatchEggLocationRemapped(PKM pk)
+    {
+        if (!EggEncounter)
+            return pk.Egg_Location == 0;
+        return LocationsHOME.IsLocationSWSHEgg(pk.Version, pk.Met_Location, pk.Egg_Location, (ushort)EggLocation);
+    }
 
-            // Hatched
-            return pk.Egg_Location == EggLocation || pk.Egg_Location == Locations.LinkTrade6NPC;
-        }
-
+    private bool IsMatchEggLocationExact(PKM pk)
+    {
         var eggloc = pk.Egg_Location;
         if (!EggEncounter)
             return eggloc == EggLocation;

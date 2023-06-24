@@ -185,7 +185,6 @@ public class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSizeAbsolut
             AbilityNumber = 1;
 
         PopulateFromCore(pkh);
-        this.ResetMoves(pkh.Species, pkh.Form, pkh.CurrentLevel, LearnSource8LA.Instance, EntityContext.Gen8a);
     }
 
     private static int GetLegendBall(int ball)
@@ -201,5 +200,8 @@ public class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSizeAbsolut
         HeightAbsolute = PA8.GetHeightAbsolute(pi, pkh.HeightScalar);
         WeightAbsolute = PA8.GetWeightAbsolute(pi, pkh.HeightScalar, pkh.WeightScalar);
         Ability = (ushort)pi.GetAbilityAtIndex(AbilityNumber >> 1);
+
+        var level = Experience.GetLevel(pkh.EXP, pi.EXPGrowth);
+        this.ResetMoves(pkh.Species, pkh.Form, level, LearnSource8LA.Instance, EntityContext.Gen8a);
     }
 }
