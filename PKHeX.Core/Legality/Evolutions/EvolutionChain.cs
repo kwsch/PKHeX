@@ -98,6 +98,8 @@ public static class EvolutionChain
         switch (species)
         {
             case (int)Species.Silvally:
+            case (int)Species.Palkia:
+            case (int)Species.Dialga:
                 form = 0;
                 break;
         }
