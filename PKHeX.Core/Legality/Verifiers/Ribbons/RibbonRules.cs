@@ -82,7 +82,7 @@ public static class RibbonRules
         if (evos.HasVisitedSWSH && IsRibbonValidMasterRankSWSH(pk, enc))
             return true;
 
-        // Only Paldea natives can compete in Ranked. No Legendaries yet.
+        // Legendaries can not compete in ranked yet.
         if (evos.HasVisitedGen9 && IsRibbonValidMasterRankSV(pk))
             return true;
 
@@ -115,14 +115,13 @@ public static class RibbonRules
     private static bool IsRibbonValidMasterRankSV(ISpeciesForm pk)
     {
         var species = pk.Species;
-        if (SpeciesCategory.IsMythical(species))
+        if (species is (int)WalkingWake or (int)IronLeaves)
             return false;
         if (SpeciesCategory.IsLegendary(species))
             return false;
-
-        var pt = PersonalTable.SV;
-        var pi = pt.GetFormEntry(species, pk.Form);
-        return pi.IsInDex; // no foreign species, such as Charmander, Wooper-0, and Meowth-2
+        if (SpeciesCategory.IsMythical(species))
+            return false;
+        return true;
     }
 
     /// <summary>
