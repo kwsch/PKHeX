@@ -56,9 +56,10 @@ public sealed class EvolutionHistory
         throw new ArgumentOutOfRangeException(nameof(context));
     }
 
-    public bool HasVisited(EntityContext context, ushort species)
+    public bool HasVisited(EntityContext context, ushort species) => HasVisited(Get(context), species);
+
+    public static bool HasVisited(ReadOnlySpan<EvoCriteria> evos, ushort species)
     {
-        var evos = Get(context);
         foreach (var evo in evos)
         {
             if (evo.Species == species)
