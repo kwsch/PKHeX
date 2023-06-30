@@ -13,7 +13,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk);
+        var chain = EncounterOrigin.GetOriginChain(pk, 9);
         return (GameVersion)pk.Version switch
         {
             SW when pk.Met_Location == LocationsHOME.SWSL => Instance.GetEncountersSWSH(pk, chain, SL),

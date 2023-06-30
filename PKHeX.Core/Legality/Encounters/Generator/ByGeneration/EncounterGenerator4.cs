@@ -17,8 +17,8 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk);
-       return GetEncounters(pk, chain, info);
+        var chain = EncounterOrigin.GetOriginChain(pk, 4);
+        return GetEncounters(pk, chain, info);
     }
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
