@@ -29,7 +29,7 @@ public static class EncounterOrigin
     /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
     public static EvoCriteria[] GetOriginChain12(PKM pk, GameVersion gameSource)
     {
-        var (maxLevel, minLevel) = GetMinMaxGB(pk);
+        var (minLevel, maxLevel) = GetMinMaxGB(pk);
         bool rby = gameSource == GameVersion.RBY;
         byte ver = rby ? (byte)GameVersion.RBY : (byte)GameVersion.GSC;
         byte gen = rby ? (byte)1 : (byte)2;
@@ -44,33 +44,28 @@ public static class EncounterOrigin
         return (minLevel, maxLevel);
     }
 
-    private static byte GetLevelOriginMin(PKM pk)
-    {
-        if (pk.Format <= 3)
-        {
-            if (pk.IsEgg)
-                return 5;
-            return Math.Max((byte)2, (byte)pk.Met_Level);
-        }
-        return pk.Version switch
-        {
-            (int)GameVersion.RS or (int)GameVersion.E or (int)GameVersion.FR or (int)GameVersion.LG when pk.Format != 3 => 2,
-            (int)GameVersion.DP or (int)GameVersion.Pt or (int)GameVersion.HG or (int)GameVersion.SS when pk.Format != 4 => 1,
-            (int)GameVersion.CXD when pk.Format != 3 => 2,
-            _ => Math.Max((byte)1, (byte)pk.Met_Level),
-        };
-    }
-
     private static (byte minLevel, byte maxLevel) GetMinMaxGB(PKM pk)
     {
         byte maxLevel = (byte)pk.CurrentLevel;
-        if (pk is not ICaughtData2 pk2)
-            return (2, maxLevel);
-
-        if (pk2.CaughtData == 0)
-            return (2, maxLevel);
-        if (pk.IsEgg)
-            return (5, maxLevel);
-        return ((byte)pk2.Met_Level, maxLevel);
+        byte minLevel = GetLevelOriginMinGB(pk);
+        return (minLevel, maxLevel);
     }
+
+    private static byte GetLevelOriginMin(PKM pk) => pk.Format switch
+    {
+        3 => pk.IsEgg ? (byte)5 : Math.Max((byte)2, (byte)pk.Met_Level),
+        _ => pk.Version switch
+        {
+            (int)GameVersion.RS or (int)GameVersion.E or (int)GameVersion.FR or (int)GameVersion.LG or (int)GameVersion.CXD => 2,
+            (int)GameVersion.DP or (int)GameVersion.Pt or (int)GameVersion.HG or (int)GameVersion.SS when pk.Format != 4 => 1,
+            _ => Math.Max((byte)1, (byte)pk.Met_Level),
+        },
+    };
+
+    private static byte GetLevelOriginMinGB(PKM pk) => pk switch
+    {
+        { IsEgg: true } => 5,
+        ICaughtData2 { CaughtData: not 0 } pk2 => (byte)pk2.Met_Level,
+        _ => 2,
+    };
 }
