@@ -176,6 +176,7 @@ public static class EncounterServerDate
         {1002, (new(2023, 05, 31), new(2023, 08, 01))}, // Arceus and the Jewel of Life Distribution Pichu
         {0028, (new(2023, 06, 09), new(2023, 06, 12))}, // そらみつ's Bronzong (-1 start date tolerance for GMT-10 regions)
         {1005, (new(2023, 06, 16), new(2023, 06, 20))}, // 정원석's Gastrodon (-1 start date tolerance for GMT-10 regions)
+        {0504, (new(2023, 06, 30), new(2023, 07, 03))}, // Paul Shiny Arcanine
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
