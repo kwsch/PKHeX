@@ -32,7 +32,7 @@ public sealed class MemoryVerifier : Verifier
     private void VerifyHTMemory(LegalityAnalysis data, MemorySource sources)
     {
         var pk = data.Entity;
-        sources = MemoryRules.ReviseSourcesHandler(pk, sources);
+        sources = MemoryRules.ReviseSourcesHandler(pk, sources, data.EncounterMatch);
         if (sources == MemorySource.None)
         {
             VerifyHTMemoryNone(data, (ITrainerMemories)pk);

@@ -30,12 +30,17 @@ public static class MemoryRules
     /// </summary>
     /// <param name="pk">Entity to check.</param>
     /// <param name="sources">Possible sources of memories.</param>
+    /// <param name="enc">Encounter matched to.</param>
     /// <returns>Revised <see cref="MemorySource"/> flag.</returns>
-    public static MemorySource ReviseSourcesHandler(PKM pk, MemorySource sources)
+    public static MemorySource ReviseSourcesHandler(PKM pk, MemorySource sources, IEncounterTemplate enc)
     {
         // No HT Name => no HT Memory
         if (pk.IsUntraded)
+        {
+            if (enc is { Context: EntityContext.Gen8, EggEncounter: true } && pk is { Context: EntityContext.Gen8, Met_Location: Locations.LinkTrade6 }) // Applies HT memory without HT details
+                return sources;
             return MemorySource.None;
+        }
 
         // Any Gen6 or Bank specific memory on Switch must have no HT language or else it would be replaced/erased.
         if (pk is IHandlerLanguage { HT_Language: not 0 }) // Gen8+ Memory Required
