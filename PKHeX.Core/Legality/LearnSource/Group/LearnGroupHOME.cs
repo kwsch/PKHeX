@@ -98,8 +98,9 @@ public class LearnGroupHOME : ILearnGroup
             if (r.Info.Environment == local.Environment)
                 continue;
 
+            // Check if any evolution in the local context can learn the move via HOME instruction. If none can, the move is invalid.
             var move = current[i];
-            bool valid = true;
+            bool valid = false;
             foreach (var evo in evos)
             {
                 var chk = local.GetCanLearnHOME(pk, evo, move, types);

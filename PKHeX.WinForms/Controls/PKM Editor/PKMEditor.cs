@@ -764,6 +764,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
 
         Entity.SetMoves(moves);
+        if (Entity is ITechRecord tr)
+        {
+            tr.ClearRecordFlags();
+            tr.SetRecordFlags(moves);
+        }
         Entity.HealPP();
         FieldsLoaded = false;
         LoadMoves(Entity);

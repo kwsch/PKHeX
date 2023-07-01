@@ -45,17 +45,14 @@ internal static class EvolutionUtil
             if (pt.IsPresentInGame(evo.Species, evo.Form))
                 continue;
 
-            // Shift down
-            for (int j = i + 1; j < result.Length; j++)
-            {
-                var next = result[j];
-                if (next.Species == 0)
-                    break;
-                result[j - 1] = next;
-            }
-
-            // Zero out last entry
-            result[^1] = default;
+            ShiftDown(result[i..]);
         }
+    }
+
+    private static void ShiftDown(Span<EvoCriteria> result)
+    {
+        for (int i = 1; i < result.Length; i++)
+            result[i - 1] = result[i];
+        result[^1] = default; // zero out the last entry
     }
 }
