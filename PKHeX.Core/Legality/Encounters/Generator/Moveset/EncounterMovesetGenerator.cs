@@ -175,11 +175,11 @@ public static class EncounterMovesetGenerator
     {
         pk.Version = (int)version;
 
-        var context = pk.Context;
-        if (context is EntityContext.Gen2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
-            context = EntityContext.Gen1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
+        var generation = (byte)version.GetGeneration();
+        if (pk.Context is EntityContext.Gen2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
+            generation = 1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
 
-        var origin = new EvolutionOrigin(pk.Species, (byte)version, (byte)context.Generation(), 1, 100, true);
+        var origin = new EvolutionOrigin(pk.Species, (byte)version, generation, 1, 100, true);
         var chain = EvolutionChain.GetOriginChain(pk, origin);
 
         var needs = GetNeededMoves(pk, moves.Span, version);

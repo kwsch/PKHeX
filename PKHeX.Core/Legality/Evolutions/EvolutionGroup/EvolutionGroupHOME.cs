@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.EvolutionUtil;
 
@@ -37,16 +38,23 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             Discard(result, PersonalTable.SWSH);
     }
 
+    /// <summary>
+    /// Checks if we should check all adjacent evolution sources in addition to the current one.
+    /// </summary>
+    /// <returns>True if we should check all adjacent evolution sources.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool CheckAllAdjacent(PKM pk, EvolutionOrigin enc) => enc.SkipChecks || pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker;
+
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
-        if (enc.SkipChecks || pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker)
+        if (CheckAllAdjacent(pk, enc))
             return DevolveMulti(result, pk, enc);
         return DevolveSingle(result, pk, enc);
     }
 
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
-        if (enc.SkipChecks || pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker)
+        if (CheckAllAdjacent(pk, enc))
             return EvolveMulti(result, pk, enc, history);
         return EvolveSingle(result, pk, enc, history);
     }
@@ -145,13 +153,13 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         var env = GetSingleEnv(pk);
         for (int i = result.Length - 1; i >= 1; i--)
         {
-            var prev = result[i - 1];
-            ref var reference = ref result[i];
-            if (!env.TryEvolve(prev, reference, pk, enc.LevelMax, prev.LevelMin, enc.SkipChecks, out var evo))
+            ref var dest = ref result[i - 1];
+            var devolved = result[i];
+            if (!env.TryEvolve(devolved, dest, pk, enc.LevelMax, devolved.LevelMin, enc.SkipChecks, out var evo))
                 continue;
 
-            if (evo.IsBetterEvolution(reference))
-                reference = evo;
+            if (evo.IsBetterEvolution(dest))
+                dest = evo;
             present++;
         }
 

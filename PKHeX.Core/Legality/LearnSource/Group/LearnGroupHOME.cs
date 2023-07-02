@@ -100,6 +100,9 @@ public class LearnGroupHOME : ILearnGroup
 
             // Check if any evolution in the local context can learn the move via HOME instruction. If none can, the move is invalid.
             var move = current[i];
+            if (move == 0)
+                continue;
+
             bool valid = false;
             foreach (var evo in evos)
             {
