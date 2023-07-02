@@ -18,12 +18,11 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
 
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc)
     {
+        if (enc.Generation >= 8)
+            return null;
         if ((GameVersion)enc.Version is GP or GE or GG or GO)
             return EvolutionGroup7b.Instance;
-        if (enc.Generation < 8)
-            return EvolutionGroup7.Instance;
-
-        return null;
+        return EvolutionGroup7.Instance;
     }
 
     public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk)
