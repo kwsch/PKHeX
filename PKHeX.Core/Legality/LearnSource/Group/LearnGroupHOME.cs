@@ -18,14 +18,12 @@ public class LearnGroupHOME : ILearnGroup
     public bool HasVisited(PKM pk, EvolutionHistory history) => pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
-        IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+        IEncounterTemplate enc, MoveSourceType types = MoveSourceType.HOME, LearnOption option = LearnOption.HOME)
     {
         var context = pk.Context;
         if (context == EntityContext.None)
             return false;
 
-        option = LearnOption.AtAnyTime;
-        types = MoveSourceType.HOME;
         var local = GetCurrent(context);
         var evos = history.Get(context);
         if (history.HasVisitedGen9 && pk is not PK9)
@@ -131,9 +129,9 @@ public class LearnGroupHOME : ILearnGroup
     };
 
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
-        MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
+        MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.HOME)
     {
-        option = LearnOption.AtAnyTime;
+        option = LearnOption.HOME;
         var local = GetCurrent(pk.Context);
         ReadOnlySpan<EvoCriteria> evos = history.Get(pk.Context);
 

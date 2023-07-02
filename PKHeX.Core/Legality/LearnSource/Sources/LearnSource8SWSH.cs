@@ -78,17 +78,17 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
     {
         (int)Species.Necrozma => move switch
         {
-            (int)Move.SunsteelStrike => (option == LearnOption.AtAnyTime || current.Form == 1), // Sun w/ Solgaleo
-            (int)Move.MoongeistBeam => (option == LearnOption.AtAnyTime || current.Form == 2), // Moon w/ Lunala
+            (int)Move.SunsteelStrike => option.IsPast() || current.Form == 1, // Sun w/ Solgaleo
+            (int)Move.MoongeistBeam =>  option.IsPast() || current.Form == 2, // Moon w/ Lunala
             _ => false,
         },
         (int)Species.Rotom => move switch
         {
-            (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
-            (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
-            (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
-            (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
-            (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+            (int)Move.Overheat  => option.IsPast() || current.Form == 1,
+            (int)Move.HydroPump => option.IsPast() || current.Form == 2,
+            (int)Move.Blizzard  => option.IsPast() || current.Form == 3,
+            (int)Move.AirSlash  => option.IsPast() || current.Form == 4,
+            (int)Move.LeafStorm => option.IsPast() || current.Form == 5,
             _ => false,
         },
         _ => false,
@@ -112,6 +112,8 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
         if (pk is PK8 pk8)
         {
             if (pk8.GetMoveRecordFlag(index))
+                return true;
+            if (!option.IsFlagCheckRequired())
                 return true;
         }
         else
@@ -194,7 +196,7 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
         if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(move))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.TechnicalRecord) && GetIsTR(pi, pk, evo, move, LearnOption.AtAnyTime))
+        if (types.HasFlag(MoveSourceType.TechnicalRecord) && GetIsTR(pi, pk, evo, move, LearnOption.HOME))
             return new(TMHM, Game);
 
         return default;

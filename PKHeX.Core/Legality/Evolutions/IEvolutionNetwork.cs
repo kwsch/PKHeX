@@ -9,6 +9,9 @@ public interface IEvolutionNetwork
     IEvolutionReverse Reverse { get; }
 }
 
+/// <summary>
+/// Base abstraction for <see cref="EvolutionTree"/>
+/// </summary>
 public abstract class EvolutionNetwork : IEvolutionNetwork
 {
     public IEvolutionForward Forward { get; }
@@ -57,7 +60,7 @@ public abstract class EvolutionNetwork : IEvolutionNetwork
         return (species, form);
     }
 
-    public void BanEvo(ushort species, byte form, Func<PKM, bool> func) => Reverse.BanEvo(species, form, func);
+    protected void BanEvo(ushort species, byte form, Func<PKM, bool> func) => Reverse.BanEvo(species, form, func);
 
     public int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies,
         bool skipChecks)

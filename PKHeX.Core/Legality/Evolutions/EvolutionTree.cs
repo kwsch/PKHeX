@@ -25,6 +25,10 @@ public sealed class EvolutionTree : EvolutionNetwork
     public static readonly EvolutionTree Evolves8b = GetViaPersonal(PersonalTable.BDSP, EvolutionSet7.GetArray(GetReader("bs"), false));
     public static readonly EvolutionTree Evolves9  = GetViaPersonal(PersonalTable.SV,   EvolutionSet7.GetArray(GetReader("sv"), false));
 
+    private static ReadOnlySpan<byte> GetResource(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
+    private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetResource(resource), resource);
+    private EvolutionTree(IEvolutionForward forward, IEvolutionReverse reverse) : base(forward, reverse) { }
+
     private static EvolutionTree GetViaSpecies(IPersonalTable t, EvolutionMethod[][] entries)
     {
         var forward = new EvolutionForwardSpecies(entries);
@@ -38,13 +42,6 @@ public sealed class EvolutionTree : EvolutionNetwork
         var reverse = new EvolutionReversePersonal(entries, t);
         return new EvolutionTree(forward, reverse);
     }
-
-    private EvolutionTree(IEvolutionForward forward, IEvolutionReverse reverse) : base(forward, reverse)
-    {
-    }
-
-    private static ReadOnlySpan<byte> GetResource(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
-    private static BinLinkerAccessor GetReader(string resource) => BinLinkerAccessor.Get(GetResource(resource), resource);
 
     static EvolutionTree()
     {

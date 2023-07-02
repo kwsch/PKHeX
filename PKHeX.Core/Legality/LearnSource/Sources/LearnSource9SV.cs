@@ -100,6 +100,8 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         {
             if (pk9.GetMoveRecordFlag(index))
                 return true;
+            if (!option.IsFlagCheckRequired())
+                return true;
         }
         else
         {
@@ -187,7 +189,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsSharedEggMove(pi, move))
             return new(Shared, Game);
 
-        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, pk, move, LearnOption.AtAnyTime))
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, pk, move, LearnOption.HOME))
             return new(TMHM, Game);
 
         if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsReminderMove(evo.Species, evo.Form, move))

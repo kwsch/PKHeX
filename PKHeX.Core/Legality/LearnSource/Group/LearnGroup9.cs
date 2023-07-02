@@ -35,7 +35,7 @@ public sealed class LearnGroup9 : ILearnGroup
 
         var home = LearnGroupHOME.Instance;
         if (types != MoveSourceType.HOME && home.HasVisited(pk, history))
-            return home.Check(result, current, pk, history, enc, types, LearnOption.AtAnyTime);
+            return home.Check(result, current, pk, history, enc, types);
         return false;
     }
 

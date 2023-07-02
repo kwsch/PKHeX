@@ -55,11 +55,11 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource
 
     private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
     {
-        (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
-        (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
-        (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
-        (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
-        (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+        (int)Move.Overheat  => option.IsPast() || current.Form == 1,
+        (int)Move.HydroPump => option.IsPast() || current.Form == 2,
+        (int)Move.Blizzard  => option.IsPast() || current.Form == 3,
+        (int)Move.AirSlash  => option.IsPast() || current.Form == 4,
+        (int)Move.LeafStorm => option.IsPast() || current.Form == 5,
         _ => false,
     };
 
@@ -104,7 +104,7 @@ public sealed class LearnSource8LA : ILearnSource<PersonalInfo8LA>, IHomeSource
         if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnMoveShop(move))
             return new(TMHM, Game);
 
-        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, LearnOption.AtAnyTime))
+        if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move, LearnOption.HOME))
             return new(Tutor, Game);
 
         return default;

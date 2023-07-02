@@ -52,6 +52,33 @@ internal static class GBRestrictions
         _ => false,
     };
 
+    private static bool IsEvolvedFromGen1Species(ushort species) => species switch
+    {
+        (int)Crobat => true,
+        (int)Bellossom => true,
+        (int)Politoed => true,
+        (int)Espeon => true,
+        (int)Umbreon => true,
+        (int)Slowking => true,
+        (int)Steelix => true,
+        (int)Scizor => true,
+        (int)Kingdra => true,
+        (int)Porygon2 => true,
+        (int)Blissey => true,
+        (int)Magnezone => true,
+        (int)Lickilicky => true,
+        (int)Rhyperior => true,
+        (int)Tangrowth => true,
+        (int)Electivire => true,
+        (int)Magmortar => true,
+        (int)Leafeon => true,
+        (int)Glaceon => true,
+        (int)PorygonZ => true,
+        (int)Sylveon => true,
+        (int)Kleavor => true,
+        _ => false,
+    };
+
     internal static bool IsTradeEvolution1(ushort species) => species is (int)Kadabra or (int)Machoke or (int)Graveler or (int)Haunter;
 
     public static bool RateMatchesEncounter(ushort species, GameVersion version, byte rate)
@@ -114,7 +141,7 @@ internal static class GBRestrictions
         ushort species = pk.Species;
         if (species <= MaxSpeciesID_1)
             return true;
-        return EvolutionLegality.IsEvolvedFromGen1Species(species);
+        return IsEvolvedFromGen1Species(species);
     }
 
     /// <summary>

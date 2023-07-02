@@ -217,11 +217,12 @@ public static class Legal
     /// </summary>
     public static bool GetIsFixedIVSequenceValidSkipRand(ReadOnlySpan<int> IVs, PKM pk, uint max = 31)
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 5; i >= 0; i--)
         {
-            if ((uint) IVs[i] > max) // random
+            var iv = IVs[i];
+            if ((uint)iv > max) // random
                 continue;
-            if (IVs[i] != pk.GetIV(i))
+            if (iv != pk.GetIV(i))
                 return false;
         }
         return true;
