@@ -18,7 +18,7 @@ public class LearnGroupHOME : ILearnGroup
     public bool HasVisited(PKM pk, EvolutionHistory history) => pk is IHomeTrack { HasTracker: true } || !ParseSettings.IgnoreTransferIfNoTracker;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
-        IEncounterTemplate enc, MoveSourceType types = MoveSourceType.HOME, LearnOption option = LearnOption.HOME)
+        IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.HOME)
     {
         var context = pk.Context;
         if (context == EntityContext.None)
