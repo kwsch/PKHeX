@@ -69,9 +69,6 @@ public static class EvolutionReversal
             if (link.Method.RequiresLevelUp && currentMaxLevel <= levelMin)
                 break;
 
-            if (link.IsEvolutionBanned(pk) && !skipChecks)
-                continue;
-
             var chk = link.Method.Check(pk, currentMaxLevel, skipChecks);
             if (chk != EvolutionCheckResult.Valid)
                 continue;

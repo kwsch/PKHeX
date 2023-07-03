@@ -85,18 +85,6 @@ public static class EvolutionChain
             return 1;
         }
 
-        // Shedinja's evolution case can be a little tricky; hard-code handling.
-        if (enc is { Species: (int)Species.Shedinja, LevelMax: >= 20 } && (!pk.HasOriginalMetLocation || enc.LevelMin < enc.LevelMax))
-        {
-            var min = Math.Max(enc.LevelMin, (byte)20);
-            var max = enc.LevelMax;
-            if (pk.HasOriginalMetLocation)
-                max = (byte)pk.Met_Level;
-            result[0] = new EvoCriteria { Species = (ushort)Species.Shedinja, LevelMax = max, LevelMin = min, Method = EvolutionType.LevelUp };
-            result[1] = new EvoCriteria { Species = (ushort)Species.Nincada, LevelMax = max, LevelMin = enc.LevelMin };
-            return 2;
-        }
-
         // Sometimes we have to sanitize the inputs.
         switch (species)
         {

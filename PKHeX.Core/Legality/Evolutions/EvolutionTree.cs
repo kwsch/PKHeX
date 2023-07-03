@@ -1,5 +1,4 @@
 using System;
-using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -19,6 +18,7 @@ public sealed class EvolutionTree : EvolutionNetwork
     public static readonly EvolutionTree Evolves5  = GetViaSpecies (PersonalTable.BW,   EvolutionSet5.GetArray(GetResource("g5")));
     public static readonly EvolutionTree Evolves6  = GetViaSpecies (PersonalTable.AO,   EvolutionSet6.GetArray(GetReader("ao")));
     public static readonly EvolutionTree Evolves7  = GetViaPersonal(PersonalTable.USUM, EvolutionSet7.GetArray(GetReader("uu"), true));
+    public static readonly EvolutionTree Evolves7SM= GetViaPersonal(PersonalTable.USUM, EvolutionSet7.GetArray(GetReader("sm"), true));
     public static readonly EvolutionTree Evolves7b = GetViaPersonal(PersonalTable.GG,   EvolutionSet7.GetArray(GetReader("gg"), false));
     public static readonly EvolutionTree Evolves8  = GetViaPersonal(PersonalTable.SWSH, EvolutionSet7.GetArray(GetReader("ss"), false));
     public static readonly EvolutionTree Evolves8a = GetViaPersonal(PersonalTable.LA,   EvolutionSet7.GetArray(GetReader("la"), true));
@@ -43,14 +43,6 @@ public sealed class EvolutionTree : EvolutionNetwork
         return new EvolutionTree(forward, reverse);
     }
 
-    static EvolutionTree()
-    {
-        // Add in banned evolution data!
-        Evolves7.FixEvoTreeSM();
-        Evolves8.FixEvoTreeSS();
-        Evolves8b.FixEvoTreeBS();
-    }
-
     public static EvolutionTree GetEvolutionTree(EntityContext context) => context switch
     {
         EntityContext.Gen1 => Evolves1,
@@ -67,39 +59,4 @@ public sealed class EvolutionTree : EvolutionNetwork
         EntityContext.Gen8b => Evolves8b,
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
-
-    private void FixEvoTreeSM()
-    {
-        // Sun/Moon lack Ultra's Kantonian evolution methods.
-        static bool BanOnlySM(PKM pk) => pk is { IsUntraded: true, SM: true };
-        BanEvo((int)Species.Raichu, 0, BanOnlySM);
-        BanEvo((int)Species.Marowak, 0, BanOnlySM);
-        BanEvo((int)Species.Exeggutor, 0, BanOnlySM);
-    }
-
-    private void FixEvoTreeSS()
-    {
-        // Gigantamax Pikachu, Meowth-0, and Eevee are prevented from evolving.
-        // Raichu cannot be evolved to the Alolan variant at this time.
-        static bool BanGmax(PKM pk) => pk is IGigantamax { CanGigantamax: true };
-        BanEvo((int)Species.Raichu, 0, BanGmax);
-        BanEvo((int)Species.Raichu, 1, pk => (pk is IGigantamax {CanGigantamax: true}) || pk.Version is (int)GO or >= (int)GP);
-        BanEvo((int)Species.Persian, 0, BanGmax);
-        BanEvo((int)Species.Persian, 1, BanGmax);
-        BanEvo((int)Species.Perrserker, 0, BanGmax);
-
-        BanEvo((int)Species.Exeggutor, 1, pk => pk.Version is (int)GO or >= (int)GP);
-        BanEvo((int)Species.Marowak, 1, pk => pk.Version is (int)GO or >= (int)GP);
-        BanEvo((int)Species.Weezing, 0, pk => pk.Version >= (int)SW);
-        BanEvo((int)Species.MrMime, 0, pk => pk.Version >= (int)SW);
-
-        foreach (var s in Forward.GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
-            BanEvo(s.Species, s.Form, BanGmax);
-    }
-
-    private void FixEvoTreeBS()
-    {
-        BanEvo((int)Species.Glaceon, 0, pk => pk.CurrentLevel == pk.Met_Level); // Ice Stone is unreleased, requires Route 217 Ice Rock Level Up instead
-        BanEvo((int)Species.Milotic, 0, pk => pk is IContestStatsReadOnly { CNT_Beauty: < 170 } || pk.CurrentLevel == pk.Met_Level); // Prism Scale is unreleased, requires 170 Beauty Level Up instead
-    }
 }

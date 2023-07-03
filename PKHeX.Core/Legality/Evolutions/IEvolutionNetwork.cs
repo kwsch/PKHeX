@@ -60,8 +60,6 @@ public abstract class EvolutionNetwork : IEvolutionNetwork
         return (species, form);
     }
 
-    protected void BanEvo(ushort species, byte form, Func<PKM, bool> func) => Reverse.BanEvo(species, form, func);
-
     public int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies,
         bool skipChecks)
     {

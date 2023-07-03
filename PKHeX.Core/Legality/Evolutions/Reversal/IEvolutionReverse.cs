@@ -14,7 +14,6 @@ public interface IEvolutionReverse
     /// <param name="form">Form ID</param>
     /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
     IEnumerable<(ushort Species, byte Form)> GetPreEvolutions(ushort species, byte form);
-    void BanEvo(ushort species, byte form, Func<PKM, bool> func);
 
     int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks);
 

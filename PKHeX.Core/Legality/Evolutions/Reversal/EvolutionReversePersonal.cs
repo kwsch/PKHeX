@@ -29,7 +29,7 @@ public sealed class EvolutionReversePersonal : IEvolutionReverse
                         break;
 
                     var dForm = evo.GetDestinationForm(sForm);
-                    var link = new EvolutionLink(sSpecies, sForm, evo);
+                    var link = new EvolutionLink(evo, sSpecies, sForm);
                     lineage.Register(link, dSpecies, dForm);
                 }
             }
@@ -44,20 +44,14 @@ public sealed class EvolutionReversePersonal : IEvolutionReverse
         var node = Lineage[species, form];
 
         // No convergent evolutions; first method is enough.
-        var s = node.First.Tuple;
+        var s = node.First;
         if (s.Species == 0)
             yield break;
 
         var preEvolutions = GetPreEvolutions(s.Species, s.Form);
         foreach (var preEvo in preEvolutions)
             yield return preEvo;
-        yield return s;
-    }
-
-    public void BanEvo(ushort species, byte form, Func<PKM, bool> func)
-    {
-        ref var node = ref Lineage[species, form];
-        node.Ban(func);
+        yield return (s.Species, s.Form);
     }
 
     public int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies,

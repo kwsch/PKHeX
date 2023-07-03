@@ -38,11 +38,6 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
         return present;
     }
 
-    public bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, int levelMin, bool skipChecks, out EvoCriteria result)
-    {
-        return Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, out result);
-    }
-
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
         int present = 1;
@@ -61,8 +56,23 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
         return present;
     }
 
+    public bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
+    {
+        return Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, out result);
+    }
+
     public bool TryEvolve(ISpeciesForm head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
     {
-        return Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, out result);
+        var b = Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, out result);
+        return b && !IsEvolutionBanned(pk, result);
     }
+
+    // Kanto Evolutions are not accessible unless it visits US/UM.
+    private static bool IsEvolutionBanned(PKM pk, in ISpeciesForm dest) => pk is PK7 { SM: true, IsUntraded: true } && dest switch
+    {
+        { Species: (ushort)Species.Raichu, Form: 0 } => true,
+        { Species: (ushort)Species.Marowak, Form: 0 } => true,
+        { Species: (ushort)Species.Exeggutor, Form: 0 } => true,
+        _ => false,
+    };
 }

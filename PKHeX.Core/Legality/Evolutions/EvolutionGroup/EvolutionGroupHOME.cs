@@ -185,10 +185,24 @@ public sealed class EvolutionEnvironment8 : IEvolutionEnvironment
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves8;
 
     public bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
-        => Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, out result);
+    {
+        return Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, out result);
+    }
 
     public bool TryEvolve(ISpeciesForm head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
-        => Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, out result);
+    {
+        var b = Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, out result);
+        return b && !IsEvolutionBanned(pk, head);
+    }
+
+    // Gigantamax Pikachu, Meowth, and Eevee are prevented from evolving.
+    private static bool IsEvolutionBanned(PKM pk, in ISpeciesForm head) => head.Species switch
+    {
+        (int)Species.Pikachu => pk is PK8 { CanGigantamax: true },
+        (int)Species.Meowth => pk is PK8 { CanGigantamax: true },
+        (int)Species.Eevee => pk is PK8 { CanGigantamax: true },
+        _ => false,
+    };
 }
 
 public sealed class EvolutionEnvironment8a : IEvolutionEnvironment
