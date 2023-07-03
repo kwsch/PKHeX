@@ -90,7 +90,7 @@ public class LearnGroupHOME : ILearnGroup
         for (int i = 0; i < result.Length; i++)
         {
             ref var r = ref result[i];
-            if (!r.Valid)
+            if (!r.Valid || r.IsRelearn)
                 continue;
 
             if (r.Info.Environment == local.Environment)
