@@ -13,6 +13,9 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
+        if (chain.Length == 0)
+            yield break;
+
         bool korean = pk.Korean;
         if (groups.HasFlag(Mystery))
         {
@@ -116,6 +119,8 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, GameVersion game)
     {
         var chain = EncounterOrigin.GetOriginChain12(pk, game);
+        if (chain.Length == 0)
+            return Array.Empty<IEncounterable>();
         return GetEncounters(pk, chain, game);
     }
 

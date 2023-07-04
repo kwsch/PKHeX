@@ -33,8 +33,9 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             Discard(result, PersonalTable.LA);
         else if (pk.BDSP)
             Discard(result, PersonalTable.BDSP);
-        else
+        else if (pk.SWSH)
             Discard(result, PersonalTable.SWSH);
+        // GO can be otherwise, don't discard any.
     }
 
     /// <summary>

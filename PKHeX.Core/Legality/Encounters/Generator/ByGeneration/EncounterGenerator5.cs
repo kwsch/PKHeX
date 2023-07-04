@@ -14,11 +14,16 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
         var chain = EncounterOrigin.GetOriginChain(pk, 5);
+        if (chain.Length == 0)
+            return Array.Empty<IEncounterable>();
         return GetEncounters(pk, chain, info);
     }
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
+        if (chain.Length == 0)
+            yield break;
+
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G5;

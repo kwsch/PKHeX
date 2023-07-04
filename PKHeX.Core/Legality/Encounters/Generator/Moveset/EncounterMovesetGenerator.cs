@@ -176,13 +176,17 @@ public static class EncounterMovesetGenerator
         pk.Version = (int)version;
 
         var generation = (byte)version.GetGeneration();
+        if (version is GameVersion.GO)
+            generation = (byte)pk.Format;
         if (pk.Context is EntityContext.Gen2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
             generation = 1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
 
         var origin = new EvolutionOrigin(pk.Species, (byte)version, generation, 1, 100, true);
         var chain = EvolutionChain.GetOriginChain(pk, origin);
+        if (chain.Length == 0)
+            yield break;
 
-        var needs = GetNeededMoves(pk, moves.Span, version);
+        ReadOnlyMemory<ushort> needs = GetNeededMoves(pk, moves.Span, version, generation);
         var generator = EncounterGenerator.GetGenerator(version);
 
         foreach (var type in PriorityList)
@@ -225,27 +229,17 @@ public static class EncounterMovesetGenerator
         return true;
     }
 
-    private static ushort[] GetNeededMoves(PKM pk, ReadOnlySpan<ushort> moves, GameVersion ver)
+    private static ushort[] GetNeededMoves(PKM pk, ReadOnlySpan<ushort> moves, GameVersion ver, int generation)
     {
         if (pk.Species == (int)Species.Smeargle)
             return Array.Empty<ushort>();
 
-        // Roughly determine the generation the PKM is originating from
-        int origin = pk.Generation;
-        if (origin < 0)
-            origin = ver.GetGeneration();
-
-        // Temporarily replace the Version for VC1 transfers, so that they can have VC2 moves if needed.
-        bool vcBump = origin == 1 && pk.Format >= 7;
-        if (vcBump)
-            pk.Version = (int)GameVersion.C;
-
         var length = pk.MaxMoveID + 1;
         var rent = ArrayPool<bool>.Shared.Rent(length);
         var permitted = rent.AsSpan(0, length);
-        var enc = new EvolutionOrigin(0, (byte)ver, (byte)origin, 1, 100, true);
+        var enc = new EvolutionOrigin(0, (byte)ver, (byte)generation, 1, 100, true);
         var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc, pk.Context, 0);
-        var e = EncounterInvalid.Default with { Generation = origin };
+        var e = EncounterInvalid.Default; // default empty
         LearnPossible.Get(pk, e, history, permitted);
 
         int ctr = 0; // count of moves that can be learned
@@ -260,9 +254,6 @@ public static class EncounterMovesetGenerator
 
         permitted.Clear();
         ArrayPool<bool>.Shared.Return(rent);
-
-        if (vcBump)
-            pk.Version = (int)ver;
 
         if (ctr == 0)
             return Array.Empty<ushort>();

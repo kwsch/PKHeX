@@ -12,6 +12,9 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
+        if (chain.Length == 0)
+            yield break;
+
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G8A;
@@ -80,6 +83,8 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
+        if (chain.Length == 0)
+            yield break;
         if (pk is PK8 { SWSH: false })
             yield break;
         if (pk.IsEgg)
