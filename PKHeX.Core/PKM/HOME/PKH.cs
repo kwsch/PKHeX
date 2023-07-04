@@ -395,6 +395,12 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     private void EnsureScaleSizeExists()
     {
+        if (Core.RibbonMarkAlpha)
+        {
+            // Fix for PLA static encounter Alphas with 127 scale.
+            Core.HeightScalar = Core.WeightScalar = 255;
+            return;
+        }
         if (GO_HOME || FirstScaleData is IScaledSize3)
             return; // data exists for scale, keep values.
         while (HeightScalar == 0 && WeightScalar == 0)
