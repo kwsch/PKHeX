@@ -40,11 +40,14 @@ public static class EvolutionChain
 
         // Update the chain to only include the current species, leave future evolutions as unknown
         EvolutionUtil.ConditionBaseChainForward(chain, encSpecies);
-        if (context == EntityContext.Gen2 && pk.Format > 2)
+        if (context == EntityContext.Gen2)
         {
             EvolutionGroup2.Instance.Evolve(chain, pk, enc, history);
             EvolutionGroup1.Instance.Evolve(chain, pk, enc, history);
-            context = EntityContext.Gen7;
+            if (pk.Format > 2)
+                context = EntityContext.Gen7;
+            else
+                return history;
         }
 
         var group = EvolutionGroupUtil.GetGroup(context);
