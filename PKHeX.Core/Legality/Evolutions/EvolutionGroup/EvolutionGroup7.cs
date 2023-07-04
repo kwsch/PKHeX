@@ -50,13 +50,20 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
 
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
+        if (enc.Generation <= 2) // VC Transfer
+            EvolutionUtil.UpdateFloor(result, pk.Met_Level);
+
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)
         {
             ref var dest = ref result[i - 1];
             var devolved = result[i];
             if (!TryEvolve(devolved, dest, pk, enc.LevelMax, devolved.LevelMin, enc.SkipChecks, out var evo))
+            {
+                if (dest.Method == EvoCriteria.SentinelNotReached)
+                    break; // Don't continue for higher evolutions.
                 continue;
+            }
 
             if (evo.IsBetterEvolution(dest))
                 dest = evo;

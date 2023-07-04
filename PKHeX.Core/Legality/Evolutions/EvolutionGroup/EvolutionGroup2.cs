@@ -15,6 +15,9 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
+        if (pk.Format > Generation)
+            EvolutionUtil.UpdateCeiling(result, pk.Met_Level);
+
         int present = 1;
         for (int i = 1; i < result.Length; i++)
         {
@@ -46,7 +49,11 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
             ref var dest = ref result[i - 1];
             var devolved = result[i];
             if (!TryEvolve(devolved, dest, pk, enc.LevelMax, devolved.LevelMin, enc.SkipChecks, out var evo))
+            {
+                if (dest.Method == EvoCriteria.SentinelNotReached)
+                    break; // Don't continue for higher evolutions.
                 continue;
+            }
 
             if (evo.IsBetterEvolution(dest))
                 dest = evo;

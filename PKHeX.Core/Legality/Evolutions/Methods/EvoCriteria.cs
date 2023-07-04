@@ -20,6 +20,8 @@ public readonly record struct EvoCriteria : ISpeciesForm
 
     public override string ToString() => $"{(Species) Species}{(Form != 0 ? $"-{Form}" : "")}}} [{LevelMin},{LevelMax}] via {Method}";
 
+    internal const EvolutionType SentinelNotReached = EvolutionType.Invalid;
+
     public bool IsBetterDevolution(EvoCriteria reference)
     {
         if (reference.Species == 0)
@@ -30,7 +32,7 @@ public readonly record struct EvoCriteria : ISpeciesForm
 
     public bool IsBetterEvolution(EvoCriteria reference)
     {
-        if (reference.Method == 0)
+        if (reference.Method == SentinelNotReached)
             return true;
 
         return LevelMin + LevelUpRequired < reference.LevelMin + reference.LevelUpRequired;

@@ -43,7 +43,11 @@ public sealed class EvolutionGroup7b : IEvolutionGroup
             ref var dest = ref result[i - 1];
             var devolved = result[i];
             if (!TryEvolve(devolved, dest, pk, enc.LevelMax, devolved.LevelMin, enc.SkipChecks, out var evo))
+            {
+                if (dest.Method == EvoCriteria.SentinelNotReached)
+                    break; // Don't continue for higher evolutions.
                 continue;
+            }
 
             if (evo.IsBetterEvolution(dest))
                 dest = evo;

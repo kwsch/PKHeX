@@ -111,6 +111,8 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
 
             if (devolvedAny)
                 present++;
+            else if (dest.Method == EvoCriteria.SentinelNotReached)
+                break; // Don't continue for higher evolutions.
 
             static bool UpdateIfBetter(ref EvoCriteria reference, in EvoCriteria evo)
             {
@@ -167,7 +169,11 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             ref var dest = ref result[i - 1];
             var devolved = result[i];
             if (!env.TryEvolve(devolved, dest, pk, enc.LevelMax, devolved.LevelMin, enc.SkipChecks, out var evo))
+            {
+                if (dest.Method == EvoCriteria.SentinelNotReached)
+                    break; // Don't continue for higher evolutions.
                 continue;
+            }
 
             if (evo.IsBetterEvolution(dest))
                 dest = evo;

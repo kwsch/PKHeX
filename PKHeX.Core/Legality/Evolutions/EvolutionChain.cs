@@ -39,7 +39,7 @@ public static class EvolutionChain
         chain = chain[..length];
 
         // Update the chain to only include the current species, leave future evolutions as unknown
-        ConditionBaseChainForward(encSpecies, chain);
+        EvolutionUtil.ConditionBaseChainForward(chain, encSpecies);
 
         var group = EvolutionGroupUtil.GetGroup(context);
         while (true)
@@ -51,16 +51,6 @@ public static class EvolutionChain
             group = previous;
         }
         return history;
-    }
-
-    private static void ConditionBaseChainForward(ushort encSpecies, Span<EvoCriteria> chain)
-    {
-        foreach (ref var evo in chain)
-        {
-            if (evo.Species == encSpecies)
-                break;
-            evo = evo with { Method = 0 };
-        }
     }
 
     public static EvoCriteria[] GetOriginChain(PKM pk, EvolutionOrigin enc, bool discard = true)

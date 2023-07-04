@@ -78,6 +78,11 @@ public enum EvolutionType : byte
     UseItemFullMoon = 90, // Ursaluna
     UseMoveAgileStyle = 91, // Wyrdeer
     UseMoveStrongStyle = 92, // Overqwil
+
+    /// <summary>
+    /// Used as a placeholder sentinel for internal logic.
+    /// </summary>
+    Invalid = unchecked((byte)-1),
 }
 
 /// <summary>
