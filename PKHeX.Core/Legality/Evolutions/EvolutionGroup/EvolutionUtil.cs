@@ -126,7 +126,7 @@ internal static class EvolutionUtil
             var nextMin = evo.LevelMin; // to evolve
             var nextReq = evo.LevelUpRequired;
             var nextMethod = evo.Method;
-            evo = evo with { LevelMin = levelMin, LevelUpRequired = req, Method = method };
+            evo = evo with { LevelMin = Math.Min(evo.LevelMax, levelMin), LevelUpRequired = req, Method = method };
             levelMin = Math.Max(nextMin, levelMin);
             req = nextReq;
             method = nextMethod;
@@ -136,16 +136,17 @@ internal static class EvolutionUtil
     private static int CleanEvolve(Span<EvoCriteria> result)
     {
         // Rectify maximum levels.
-        for (int i = 1; i < result.Length; i++)
+        int i = 1;
+        for (; i < result.Length; i++)
         {
             var next = result[i - 1];
             // Ignore LevelUp byte as it can learn moves prior to evolving.
-            var newMax = next.LevelMin;
+            var newMax = next.LevelMax;
             ref var evo = ref result[i];
             if (evo.LevelMin > newMax - next.LevelUpRequired)
-                return i; // Can't actually exist as this pre-evolution.
+                break;
             evo = evo with { LevelMax = newMax };
         }
-        return result.Length;
+        return i;
     }
 }

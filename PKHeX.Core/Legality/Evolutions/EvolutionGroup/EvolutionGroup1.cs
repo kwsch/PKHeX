@@ -23,7 +23,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
         if (pk.Format >= 7)
         {
             var max = pk.Met_Level;
-            enc = enc with { LevelMin = 1, LevelMax = (byte)max };
+            enc = enc with { LevelMin = 2, LevelMax = (byte)max };
         }
         int present = 1;
         for (int i = 1; i < result.Length; i++)

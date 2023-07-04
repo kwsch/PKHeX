@@ -19,7 +19,7 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
         {
             var max = pk.Met_Level;
             EvolutionUtil.UpdateCeiling(result, max);
-            enc = enc with { LevelMin = 1, LevelMax = (byte)max };
+            enc = enc with { LevelMin = 2, LevelMax = (byte)max };
         }
 
         int present = 1;

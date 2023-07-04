@@ -86,6 +86,8 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
                             return false;
                         if (pk is IRibbonSetMark9 { RibbonMarkAlpha: false })
                             return false;
+                        if (pk.IsUntraded)
+                            return false;
                     }
                 }
                 else

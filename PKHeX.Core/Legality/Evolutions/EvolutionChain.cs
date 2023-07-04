@@ -20,7 +20,7 @@ public static class EvolutionChain
     private static byte GetMinLevel(PKM pk, IEncounterTemplate enc) => enc.Generation switch
     {
         2 => pk is ICaughtData2 c2 ? Math.Max((byte)c2.Met_Level, enc.LevelMin) : enc.LevelMin,
-        < 4 when pk.Format != enc.Generation => enc.LevelMin,
+        <= 4 when pk.Format != enc.Generation => enc.LevelMin,
         _ => Math.Max((byte)pk.Met_Level, enc.LevelMin),
     };
 
@@ -40,6 +40,12 @@ public static class EvolutionChain
 
         // Update the chain to only include the current species, leave future evolutions as unknown
         EvolutionUtil.ConditionBaseChainForward(chain, encSpecies);
+        if (context == EntityContext.Gen2 && pk.Format > 2)
+        {
+            EvolutionGroup2.Instance.Evolve(chain, pk, enc, history);
+            EvolutionGroup1.Instance.Evolve(chain, pk, enc, history);
+            context = EntityContext.Gen7;
+        }
 
         var group = EvolutionGroupUtil.GetGroup(context);
         while (true)

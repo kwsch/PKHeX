@@ -54,6 +54,10 @@ public class LearnGroupHOME : ILearnGroup
             if (CleanPurge(result, current, pk, types, local, evos))
                 return true;
         }
+
+        if (TryAddSpecialCaseMoves(pk.Species, result, current))
+            return true;
+
         if (history.HasVisitedLGPE)
         {
             var instance = LearnGroup7b.Instance;
@@ -145,6 +149,8 @@ public class LearnGroupHOME : ILearnGroup
         if (history.HasVisitedBDSP && pk is not PB8)
             RentLoopGetAll(LearnGroup8b.Instance, result, pk, history, enc, types, option, evos, local);
 
+        AddSpecialCaseMoves(pk.Species, result);
+
         // Looking backwards before HOME
         if (history.HasVisitedLGPE)
         {
@@ -206,4 +212,28 @@ public class LearnGroupHOME : ILearnGroup
             }
         }
     }
+
+    private static bool TryAddSpecialCaseMoves(ushort species, Span<MoveResult> result, ReadOnlySpan<ushort> current)
+    {
+        if (IsPikachuLine(species))
+        {
+            var index = current.IndexOf((ushort)Move.VoltTackle);
+            if (index == -1)
+                return false;
+            ref var move = ref result[index];
+            if (move.Valid)
+                return false;
+            move = new MoveResult(LearnMethod.Shared, LearnEnvironment.HOME);
+            return MoveResult.AllValid(result);
+        }
+        return false;
+    }
+
+    private static void AddSpecialCaseMoves(ushort species, Span<bool> result)
+    {
+        if (IsPikachuLine(species))
+            result[(int)Move.VoltTackle] = true;
+    }
+
+    private static bool IsPikachuLine(ushort species) => species is (int)Species.Raichu or (int)Species.Pikachu or (int)Species.Pichu;
 }

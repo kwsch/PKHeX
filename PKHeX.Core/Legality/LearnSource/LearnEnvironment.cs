@@ -19,6 +19,7 @@ public enum LearnEnvironment : byte
     /* Gen7 */ SM, USUM, GG,
     /* Gen8 */ SWSH, BDSP, PLA,
     /* Gen9 */ SV,
+    HOME,
 }
 
 /// <summary>
