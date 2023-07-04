@@ -231,7 +231,7 @@ public sealed class MemoryVerifier : Verifier
         // All AO hidden machine permissions are super-sets of Gen 3-5 games.
         // Don't need to check the move history -- a learned HM in a prior game can still be learned in Gen6.
         var pt = PersonalTable.AO;
-        foreach (ref var evo in info.EvoChainsAllGens.Gen6.AsSpan())
+        foreach (ref readonly var evo in info.EvoChainsAllGens.Gen6.AsSpan())
         {
             var entry = pt[evo.Species];
             var canLearn = entry.GetIsLearnHM(hmIndex);

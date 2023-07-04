@@ -30,7 +30,7 @@ public readonly record struct EvoCriteria : ISpeciesForm
 
     public bool IsBetterEvolution(EvoCriteria reference)
     {
-        if (reference.LevelMin == 0)
+        if (reference.Method == 0)
             return true;
 
         return LevelMin + LevelUpRequired < reference.LevelMin + reference.LevelUpRequired;

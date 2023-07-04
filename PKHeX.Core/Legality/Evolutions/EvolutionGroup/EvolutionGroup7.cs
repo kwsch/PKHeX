@@ -26,7 +26,8 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
         int present = 1;
         for (int i = 1; i < result.Length; i++)
         {
-            var prev = result[i - 1];
+            ref var prev = ref result[i - 1];
+            RevertMutatedForms(ref prev);
             if (!TryDevolve(prev, pk, prev.LevelMax, enc.LevelMin, enc.SkipChecks, out var evo))
                 continue;
 
@@ -36,6 +37,15 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
             present++;
         }
         return present;
+    }
+
+    private static void RevertMutatedForms(ref EvoCriteria evo)
+    {
+        // Zygarde's 10% Form and 50% Form can be changed with the help of external tools: the Reassembly Unit and the Zygarde Cube.
+        if (evo is { Species: (ushort)Species.Zygarde, Form: not 0 })
+            evo = evo with { Form = 0 }; // 50% Forme
+        else if (evo is { Species: (ushort)Species.Silvally, Form: not 0 })
+            evo = evo with { Form = 0 }; // Normal
     }
 
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)

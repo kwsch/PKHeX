@@ -55,12 +55,11 @@ public static class EvolutionChain
 
     private static void ConditionBaseChainForward(ushort encSpecies, Span<EvoCriteria> chain)
     {
-        for (int i = 0; i < chain.Length; i++)
+        foreach (ref var evo in chain)
         {
-            ref var evo = ref chain[i];
             if (evo.Species == encSpecies)
                 break;
-            evo = evo with { LevelMin = 0 };
+            evo = evo with { Method = 0 };
         }
     }
 
@@ -83,16 +82,6 @@ public static class EvolutionChain
         {
             result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = enc.LevelMax, LevelMin = enc.LevelMax };
             return 1;
-        }
-
-        // Sometimes we have to sanitize the inputs.
-        switch (species)
-        {
-            case (int)Species.Silvally:
-            case (int)Species.Palkia:
-            case (int)Species.Dialga:
-                form = 0;
-                break;
         }
 
         result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = enc.LevelMax };

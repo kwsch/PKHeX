@@ -37,7 +37,7 @@ public sealed class EvolutionHistory
     public bool HasVisitedPLA => Gen8a.Length != 0;
     public bool HasVisitedBDSP => Gen8b.Length != 0;
 
-    public EvoCriteria[] Get(EntityContext context) => context switch
+    public ReadOnlySpan<EvoCriteria> Get(EntityContext context) => context switch
     {
         EntityContext.Gen1 => Gen1,
         EntityContext.Gen2 => Gen2,

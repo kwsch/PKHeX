@@ -23,14 +23,6 @@ public static class EvolutionReversal
     public static int Devolve(this IEvolutionLookup lineage, Span<EvoCriteria> result, ushort species, byte form,
         PKM pk, byte levelMin, byte levelMax, ushort stopSpecies, bool skipChecks)
     {
-        // Sometimes we have to sanitize the inputs.
-        switch (species)
-        {
-            case (int)Species.Silvally:
-                form = 0;
-                break;
-        }
-
         // Store our results -- trim at the end when we place it on the heap.
         var head = result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = levelMax };
         int ctr = Devolve(lineage, result, head, pk, levelMax, levelMin, skipChecks, stopSpecies);

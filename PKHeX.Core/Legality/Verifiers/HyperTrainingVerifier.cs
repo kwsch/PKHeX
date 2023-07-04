@@ -55,12 +55,12 @@ public sealed class HyperTrainingVerifier : Verifier
     {
         // S/V gold bottle cap applies to all IVs regardless
         // LGP/E gold bottle cap applies to all IVs regardless
-        foreach (ref var x in evos.Gen9.AsSpan())
+        foreach (ref readonly var x in evos.Gen9.AsSpan())
         {
             if (x.LevelMax >= 50)
                 return true;
         }
-        foreach (ref var x in evos.Gen7b.AsSpan())
+        foreach (ref readonly var x in evos.Gen7b.AsSpan())
         {
             if (x.LevelMax >= 100)
                 return true;

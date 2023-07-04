@@ -63,7 +63,8 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         int present = 1;
         for (int i = 1; i < result.Length; i++)
         {
-            var prev = result[i - 1];
+            ref var prev = ref result[i - 1];
+            RevertMutatedForms(ref prev);
             ref var reference = ref result[i];
 
             bool devolvedAny = false;
@@ -133,7 +134,8 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         var env = GetSingleEnv(pk);
         for (int i = 1; i < result.Length; i++)
         {
-            var prev = result[i - 1];
+            ref var prev = ref result[i - 1];
+            RevertMutatedForms(ref prev);
             if (!env.TryDevolve(prev, pk, prev.LevelMax, enc.LevelMin, enc.SkipChecks, out var evo))
                 continue;
 
@@ -144,6 +146,16 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         }
 
         return present;
+    }
+
+    private static void RevertMutatedForms(ref EvoCriteria evo)
+    {
+        if (evo is { Species: (ushort)Species.Dialga, Form: not 0 })
+            evo = evo with { Form = 0 }; // Normal
+        else if (evo is { Species: (ushort)Species.Palkia, Form: not 0 })
+            evo = evo with { Form = 0 }; // Normal
+        else if (evo is { Species: (ushort)Species.Silvally, Form: not 0 })
+            evo = evo with { Form = 0 }; // Normal
     }
 
     private int EvolveSingle(Span<EvoCriteria> result, PKM pk, in EvolutionOrigin enc, EvolutionHistory history)

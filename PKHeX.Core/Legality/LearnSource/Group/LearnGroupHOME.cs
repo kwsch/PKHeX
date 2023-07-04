@@ -133,7 +133,7 @@ public class LearnGroupHOME : ILearnGroup
     {
         option = LearnOption.HOME;
         var local = GetCurrent(pk.Context);
-        ReadOnlySpan<EvoCriteria> evos = history.Get(pk.Context);
+        var evos = history.Get(pk.Context);
 
         // Check all adjacent games
         if (history.HasVisitedGen9 && pk is not PK9)
