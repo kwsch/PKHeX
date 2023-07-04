@@ -16,7 +16,7 @@ public static class EncounterOrigin
     /// <remarks>Use <see cref="GetOriginChain12"/> if the <see cref="pk"/> originated from Generation 1 or 2.</remarks>
     public static EvoCriteria[] GetOriginChain(PKM pk, byte generation)
     {
-        var (minLevel, maxLevel) = GetMinMax(pk);
+        var (minLevel, maxLevel) = GetMinMax(pk, generation);
         var origin = new EvolutionOrigin(pk.Species, (byte)pk.Version, generation, minLevel, maxLevel);
         return EvolutionChain.GetOriginChain(pk, origin);
     }
@@ -37,10 +37,10 @@ public static class EncounterOrigin
         return EvolutionChain.GetOriginChain(pk, origin);
     }
 
-    private static (byte minLevel, byte maxLevel) GetMinMax(PKM pk)
+    private static (byte minLevel, byte maxLevel) GetMinMax(PKM pk, byte generation)
     {
         byte maxLevel = (byte)pk.CurrentLevel;
-        byte minLevel = GetLevelOriginMin(pk);
+        byte minLevel = GetLevelOriginMin(pk, generation);
         return (minLevel, maxLevel);
     }
 
@@ -51,15 +51,13 @@ public static class EncounterOrigin
         return (minLevel, maxLevel);
     }
 
-    private static byte GetLevelOriginMin(PKM pk) => pk.Format switch
+    private static byte GetLevelOriginMin(PKM pk, byte generation) => generation switch
     {
-        3 => pk.IsEgg ? (byte)5 : Math.Max((byte)2, (byte)pk.Met_Level),
-        _ => pk.Version switch
-        {
-            (int)GameVersion.RS or (int)GameVersion.E or (int)GameVersion.FR or (int)GameVersion.LG or (int)GameVersion.CXD => 2,
-            (int)GameVersion.DP or (int)GameVersion.Pt or (int)GameVersion.HG or (int)GameVersion.SS when pk.Format != 4 => 1,
-            _ => Math.Max((byte)1, (byte)pk.Met_Level),
-        },
+        3 when pk.Format != generation =>             pk.Egg_Location != 0 ? (byte)5 : (byte)2,
+        4 when pk.Format != generation =>             pk.Egg_Location != 0 ? (byte)1 : (byte)2,
+        3 when pk.Format == generation => pk.IsEgg || pk.Egg_Location != 0 ? (byte)5 : (byte)pk.Met_Level,
+        4 when pk.Format == generation => pk.IsEgg || pk.Egg_Location != 0 ? (byte)1 : (byte)pk.Met_Level,
+        _ => Math.Max((byte)1, (byte)pk.Met_Level),
     };
 
     private static byte GetLevelOriginMinGB(PKM pk) => pk switch
