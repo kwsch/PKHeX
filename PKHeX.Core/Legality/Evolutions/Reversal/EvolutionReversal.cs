@@ -26,7 +26,7 @@ public static class EvolutionReversal
         // Store our results -- trim at the end when we place it on the heap.
         var head = result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = levelMax };
         int ctr = Devolve(lineage, result, head, pk, levelMax, levelMin, skipChecks, stopSpecies);
-        CleanDevolve(result[..ctr], levelMin);
+        EvolutionUtil.CleanDevolve(result[..ctr], levelMin);
         return ctr;
     }
 
@@ -84,23 +84,4 @@ public static class EvolutionReversal
         LevelMin = link.Method.Level,
         LevelUpRequired = link.Method.RequiresLevelUp ? (byte)1 : (byte)0,
     };
-
-    public static void CleanDevolve(Span<EvoCriteria> result, byte levelMin)
-    {
-        // Rectify minimum levels.
-        // trickle our two temp variables up the chain (essentially evolving from min).
-        byte req = 0;
-        EvolutionType method = EvolutionType.None;
-        for (int i = result.Length - 1; i >= 0; i--)
-        {
-            ref var evo = ref result[i];
-            var nextMin = evo.LevelMin; // to evolve
-            var nextReq = evo.LevelUpRequired;
-            var nextMethod = evo.Method;
-            evo = evo with { LevelMin = levelMin, LevelUpRequired = req, Method = method };
-            levelMin = Math.Max(nextMin, levelMin);
-            req = nextReq;
-            method = nextMethod;
-        }
-    }
 }

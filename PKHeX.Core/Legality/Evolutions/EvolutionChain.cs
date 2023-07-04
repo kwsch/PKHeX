@@ -78,7 +78,7 @@ public static class EvolutionChain
         var count = DevolveFrom(result, pk, enc, pk.Context, discard);
 
         var chain = result[..count];
-        EvolutionReversal.CleanDevolve(chain, enc.LevelMin);
+        EvolutionUtil.CleanDevolve(chain, enc.LevelMin);
         return count;
     }
 

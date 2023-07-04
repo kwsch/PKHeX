@@ -16,7 +16,11 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
         if (pk.Format > Generation)
-            EvolutionUtil.UpdateCeiling(result, pk.Met_Level);
+        {
+            var max = pk.Met_Level;
+            EvolutionUtil.UpdateCeiling(result, max);
+            enc = enc with { LevelMin = 1, LevelMax = (byte)max };
+        }
 
         int present = 1;
         for (int i = 1; i < result.Length; i++)

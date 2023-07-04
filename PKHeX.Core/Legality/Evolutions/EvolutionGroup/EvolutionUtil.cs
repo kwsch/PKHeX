@@ -36,9 +36,19 @@ internal static class EvolutionUtil
             }
         }
 
-        if (count == 0)
+        return GetLocalEvolutionArray(result.Slice(start, count));
+    }
+
+    private static EvoCriteria[] GetLocalEvolutionArray(Span<EvoCriteria> result)
+    {
+        if (result.Length == 0)
             return Array.Empty<EvoCriteria>();
-        return result.Slice(start, count).ToArray();
+
+        var array = result.ToArray();
+        var length = CleanEvolve(array);
+        if (length != array.Length)
+            Array.Resize(ref array, length);
+        return array;
     }
 
     public static void Discard<T>(Span<EvoCriteria> result, T pt) where T : IPersonalTable
@@ -102,5 +112,40 @@ internal static class EvolutionUtil
                 break;
             evo = evo with { Method = EvoCriteria.SentinelNotReached };
         }
+    }
+
+    public static void CleanDevolve(Span<EvoCriteria> result, byte levelMin)
+    {
+        // Rectify minimum levels.
+        // trickle our two temp variables up the chain (essentially evolving from min).
+        byte req = 0;
+        EvolutionType method = EvolutionType.None;
+        for (int i = result.Length - 1; i >= 0; i--)
+        {
+            ref var evo = ref result[i];
+            var nextMin = evo.LevelMin; // to evolve
+            var nextReq = evo.LevelUpRequired;
+            var nextMethod = evo.Method;
+            evo = evo with { LevelMin = levelMin, LevelUpRequired = req, Method = method };
+            levelMin = Math.Max(nextMin, levelMin);
+            req = nextReq;
+            method = nextMethod;
+        }
+    }
+
+    private static int CleanEvolve(Span<EvoCriteria> result)
+    {
+        // Rectify maximum levels.
+        for (int i = 1; i < result.Length; i++)
+        {
+            var next = result[i - 1];
+            // Ignore LevelUp byte as it can learn moves prior to evolving.
+            var newMax = next.LevelMin;
+            ref var evo = ref result[i];
+            if (evo.LevelMin > newMax - next.LevelUpRequired)
+                return i; // Can't actually exist as this pre-evolution.
+            evo = evo with { LevelMax = newMax };
+        }
+        return result.Length;
     }
 }

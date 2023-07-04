@@ -43,7 +43,7 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
     {
         // Zygarde's 10% Form and 50% Form can be changed with the help of external tools: the Reassembly Unit and the Zygarde Cube.
         if (evo is { Species: (ushort)Species.Zygarde, Form: not 0 })
-            evo = evo with { Form = 0 }; // 50% Forme
+            evo = evo with { Form = evo.LevelMax == 63 ? (byte)1 : (byte)0 }; // 50% Forme
         else if (evo is { Species: (ushort)Species.Silvally, Form: not 0 })
             evo = evo with { Form = 0 }; // Normal
     }

@@ -20,6 +20,11 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
+        if (pk.Format >= 7)
+        {
+            var max = pk.Met_Level;
+            enc = enc with { LevelMin = 1, LevelMax = (byte)max };
+        }
         int present = 1;
         for (int i = 1; i < result.Length; i++)
         {
