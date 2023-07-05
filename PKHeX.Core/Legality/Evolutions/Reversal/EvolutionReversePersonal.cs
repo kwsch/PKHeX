@@ -60,7 +60,7 @@ public sealed class EvolutionReversePersonal : IEvolutionReverse
         return Lineage.Devolve(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
     }
 
-    public bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, int levelMin, bool skipChecks, out EvoCriteria result)
+    public bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
     {
         var node = Lineage[head.Species, head.Form];
         return node.TryDevolve(pk, currentMaxLevel, levelMin, skipChecks, out result);

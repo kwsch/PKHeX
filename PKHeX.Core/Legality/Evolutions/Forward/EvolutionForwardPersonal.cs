@@ -53,7 +53,7 @@ public sealed class EvolutionForwardPersonal : IEvolutionForward
             if (next.Form != expectForm)
                 continue;
 
-            var chk = method.Check(pk, currentMaxLevel, skipChecks);
+            var chk = method.Check(pk, currentMaxLevel, levelMin, skipChecks);
             if (chk != EvolutionCheckResult.Valid)
                 continue;
 

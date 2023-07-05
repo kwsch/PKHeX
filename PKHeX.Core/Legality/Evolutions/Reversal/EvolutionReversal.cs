@@ -48,7 +48,7 @@ public static class EvolutionReversal
         return ctr;
     }
 
-    public static bool TryDevolve(this EvolutionNode node, PKM pk, byte currentMaxLevel, int levelMin, bool skipChecks, out EvoCriteria result)
+    public static bool TryDevolve(this EvolutionNode node, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
     {
         // Multiple methods can exist to devolve to the same species-form.
         // The first method is less restrictive (no LevelUp req), if two {level/other} methods exist.
@@ -58,10 +58,7 @@ public static class EvolutionReversal
             if (link.IsEmpty)
                 break;
 
-            if (link.Method.RequiresLevelUp && currentMaxLevel <= levelMin)
-                break;
-
-            var chk = link.Method.Check(pk, currentMaxLevel, skipChecks);
+            var chk = link.Method.Check(pk, currentMaxLevel, levelMin, skipChecks);
             if (chk != EvolutionCheckResult.Valid)
                 continue;
 

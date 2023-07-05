@@ -57,9 +57,10 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
     /// </summary>
     /// <param name="pk">Entity to check</param>
     /// <param name="lvl">Current level</param>
+    /// <param name="levelMin">Minimum level to sanity check with</param>
     /// <param name="skipChecks">Option to skip some comparisons to return a 'possible' evolution.</param>
     /// <returns>True if a evolution criteria is valid.</returns>
-    public EvolutionCheckResult Check(PKM pk, byte lvl, bool skipChecks)
+    public EvolutionCheckResult Check(PKM pk, byte lvl, byte levelMin, bool skipChecks)
     {
         if (!Method.IsLevelUpRequired())
             return ValidNotLevelUp(pk, skipChecks);
@@ -69,22 +70,16 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
             return chk;
 
         // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
-        if (!RequiresLevelUp)
-            return lvl >= Level ? Valid : InsufficientLevel;
-
-        if (Level == 0 && lvl < 2)
-            return InsufficientLevel;
         if (lvl < Level)
             return InsufficientLevel;
-
-        if (skipChecks)
-            return lvl >= Level ? Valid : InsufficientLevel;
-
-        // Check Met Level for extra validity
-        if (HasMetLevelIncreased(pk, lvl))
+        if (!RequiresLevelUp)
             return Valid;
+        if (Level == 0 && lvl < 2)
+            return InsufficientLevel;
+        if (lvl < levelMin + LevelUp && !skipChecks)
+            return InsufficientLevel;
 
-        return InsufficientLevel;
+        return Valid;
     }
 
     private EvolutionCheckResult IsLevelUpMethodSecondarySatisfied(PKM pk, bool skipChecks) => Method switch
@@ -118,24 +113,6 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
         Trade or TradeHeldItem or TradeShelmetKarrablast => !pk.IsUntraded || skipChecks ? Valid : Untraded,
         _ => Valid, // no conditions
     };
-
-    private bool HasMetLevelIncreased(PKM pk, int lvl)
-    {
-        int origin = pk.Generation;
-        return origin switch
-        {
-            // No met data in RBY; No met data in GS, Crystal met data can be reset
-            1 or 2 => true,
-
-            // Pal Park / PokeTransfer updates Met Level
-            3 or 4 => pk.Format > origin || lvl > pk.Met_Level,
-
-            // 5=>6 and later transfers keep current level
-            >=5 => lvl >= Level && (!pk.IsNative || lvl > pk.Met_Level),
-
-            _ => false,
-        };
-    }
 
     public static int GetAmpLowKeyResult(int n)
     {
