@@ -35,6 +35,9 @@ public readonly record struct EvoCriteria : ISpeciesForm
         if (reference.Method == SentinelNotReached)
             return true;
 
-        return LevelMin + LevelUpRequired < reference.LevelMin + reference.LevelUpRequired;
+        if (LevelMin + LevelUpRequired > reference.LevelMin + reference.LevelUpRequired)
+            return false;
+
+        return LevelMax > reference.LevelMax;
     }
 }
