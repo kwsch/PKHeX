@@ -237,8 +237,8 @@ public static class EncounterMovesetGenerator
         var length = pk.MaxMoveID + 1;
         var rent = ArrayPool<bool>.Shared.Rent(length);
         var permitted = rent.AsSpan(0, length);
-        var enc = new EvolutionOrigin(0, (byte)ver, (byte)generation, 1, 100, true);
-        var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc, pk.Context, 0);
+        var enc = new EvolutionOrigin(pk.Species, (byte)ver, (byte)generation, 1, 100, true);
+        var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc, ver.GetContext(), 0);
         var e = EncounterInvalid.Default; // default empty
         LearnPossible.Get(pk, e, history, permitted);
 

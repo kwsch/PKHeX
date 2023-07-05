@@ -39,7 +39,8 @@ public static class EvolutionChain
         chain = chain[..length];
 
         // Update the chain to only include the current species, leave future evolutions as unknown
-        EvolutionUtil.ConditionBaseChainForward(chain, encSpecies);
+        if (encSpecies != 0)
+            EvolutionUtil.ConditionBaseChainForward(chain, encSpecies);
         if (context == EntityContext.Gen2)
         {
             EvolutionGroup2.Instance.Evolve(chain, pk, enc, history);
