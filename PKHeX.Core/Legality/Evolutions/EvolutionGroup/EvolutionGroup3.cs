@@ -15,7 +15,7 @@ public sealed class EvolutionGroup3 : IEvolutionGroup
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
-        if (pk.Format == 4) // 5+ already have been revised
+        if (pk.Format == 4 && !enc.SkipChecks) // 5+ already have been revised
         {
             var max = pk.Met_Level;
             EvolutionUtil.UpdateCeiling(result, max);

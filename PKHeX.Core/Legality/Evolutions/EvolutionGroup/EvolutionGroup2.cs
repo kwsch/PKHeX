@@ -15,7 +15,7 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
-        if (pk.Format > Generation)
+        if (pk.Format > Generation && !enc.SkipChecks)
         {
             var max = pk.Met_Level;
             EvolutionUtil.UpdateCeiling(result, max);

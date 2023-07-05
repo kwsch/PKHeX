@@ -20,7 +20,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
-        if (pk.Format >= 7)
+        if (pk.Format >= 7 && !enc.SkipChecks)
         {
             var max = pk.Met_Level;
             enc = enc with { LevelMin = 2, LevelMax = (byte)max };
