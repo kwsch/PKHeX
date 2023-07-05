@@ -8,6 +8,8 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EvolutionVerifier
 {
+    private static readonly CheckResult VALID = new(CheckIdentifier.Evolution);
+
     /// <summary>
     /// Verifies Evolution scenarios of an <see cref="IEncounterable"/> for an input <see cref="PKM"/> and relevant <see cref="LegalInfo"/>.
     /// </summary>
@@ -16,7 +18,7 @@ public static class EvolutionVerifier
     public static CheckResult VerifyEvolution(PKM pk, LegalInfo info)
     {
         // Check if basic evolution methods are satisfiable with this encounter.
-        if (!IsValidEvolution(pk, info))
+        if (!IsValidEvolution(pk, info.EvoChainsAllGens, info.EncounterOriginal))
             return new CheckResult(Severity.Invalid, CheckIdentifier.Evolution, LEvoInvalid);
 
         // Check if complex evolution methods are satisfiable with this encounter.
@@ -26,36 +28,34 @@ public static class EvolutionVerifier
         return VALID;
     }
 
-    private static readonly CheckResult VALID = new(CheckIdentifier.Evolution);
-
     /// <summary>
     /// Checks if the Evolution from the source <see cref="IEncounterable"/> is valid.
     /// </summary>
     /// <param name="pk">Source data to verify</param>
-    /// <param name="info">Source supporting information to verify with</param>
+    /// <param name="history">Source supporting information to verify with</param>
+    /// <param name="enc">Matched encounter</param>
     /// <returns>Evolution is valid or not</returns>
-    private static bool IsValidEvolution(PKM pk, LegalInfo info)
+    private static bool IsValidEvolution(PKM pk, EvolutionHistory history, IEncounterTemplate enc)
     {
-        var chains = info.EvoChainsAllGens;
-        if (chains.Get(pk.Context).Length == 0)
+        // OK if un-evolved from original encounter
+        var encSpecies = enc.Species;
+        var curSpecies = pk.Species;
+        if (curSpecies == encSpecies)
+            return true; // never evolved
+
+        var current = history.Get(pk.Context);
+        if (!EvolutionUtil.Contains(current, curSpecies))
             return false; // Can't exist as current species
 
-        // OK if un-evolved from original encounter
-        ushort species = pk.Species;
-        var enc = info.EncounterMatch;
-        if (species == enc.Species) // never evolved
-            return true;
-
-        // Bigender->Fixed (non-Genderless) destination species, accounting for PID-Gender relationship
-        if (species == (int)Species.Vespiquen && enc.Generation < 6 && (pk.EncryptionConstant & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution
+        // Double check that our encounter was able to exist as the encounter species.
+        var original = history.Get(enc.Context);
+        if (!EvolutionUtil.Contains(original, encSpecies))
             return false;
 
-        // Double check that our encounter was able to exist as the encounter species.
-        foreach (ref readonly var z in chains.Get(enc.Context))
-        {
-            if (z.Species == enc.Species)
-                return true;
-        }
-        return false;
+        // Bigender->Fixed (non-Genderless) destination species, accounting for PID-Gender relationship
+        if (curSpecies == (int)Species.Vespiquen && enc.Generation < 6 && (pk.EncryptionConstant & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution
+            return false;
+
+        return true;
     }
 }

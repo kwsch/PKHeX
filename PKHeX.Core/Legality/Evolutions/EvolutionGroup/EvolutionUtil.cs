@@ -73,6 +73,16 @@ internal static class EvolutionUtil
         result[^1] = default; // zero out the last entry
     }
 
+    public static bool Contains(ReadOnlySpan<EvoCriteria> original, ushort species)
+    {
+        foreach (ref readonly var z in original)
+        {
+            if (z.Species == species)
+                return true;
+        }
+        return false;
+    }
+
     /// <summary>
     /// Revises the <see cref="result"/> to account for a new maximum <see cref="level"/>.
     /// </summary>
