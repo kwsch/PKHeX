@@ -141,7 +141,7 @@ public sealed partial class MemoryContext8 : MemoryContext
             39 when arg is not (8 or 12 or 22 or 33 or 35 or 37 or 40 or 41 or 44 or 47 or 48 or 49 or 50 or 51 or 53 or 65 or 71 or 72 or 75 or 76 or 77) => true,
 
             // {0} checked the sign with {1} {2}. {4} that {3}.
-            42 when arg is not (1 or 12 or 22 or 33 or 35 or 37 or 44 or 47 or 53 or 71 or 72 or 76 or 77) => true,
+            42 when arg is not (1 or 8 or 12 or 22 or 33 or 35 or 37 or 44 or 47 or 53 or 71 or 72 or 76 or 77) => true,
 
             // {0} sat with {1} on a bench {2}. {4} that {3}.
             70 when arg is not (8 or 12 or 22 or 28 or 33 or 35 or 37 or 38 or 44 or 53 or 77) => true,
