@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="SV"/>.
 /// </summary>
-public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, IReminderSource
+public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, IReminderSource, IHomeSource
 {
     public static readonly LearnSource9SV Instance = new();
     private static readonly PersonalTable9SV Personal = PersonalTable.SV;
@@ -95,12 +95,19 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
             return false;
         if (!info.GetIsLearnTM(index))
             return false;
-        if (pk is not ITechRecord tr)
-            return true;
-        if (tr.GetMoveRecordFlag(index))
-            return true;
-        if (option != LearnOption.Current && !pk.SV && pk.IsOriginalMovesetDeleted())
-            return true;
+
+        if (pk is PK9 pk9)
+        {
+            if (pk9.GetMoveRecordFlag(index))
+                return true;
+            if (!option.IsFlagCheckRequired())
+                return true;
+        }
+        else
+        {
+            if (option != LearnOption.Current)
+                return true;
+        }
         return false;
     }
 
@@ -163,5 +170,31 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
             if (species is (int)Species.Rotom && pk.Form is not 0)
                 result[MoveTutor.GetRotomFormMove(evo.Form)] = true;
         }
+    }
+
+    public LearnEnvironment Environment => Game;
+
+    public MoveLearnInfo GetCanLearnHOME(PKM pk, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All)
+    {
+        var pi = Personal[evo.Species, evo.Form];
+
+        if (types.HasFlag(MoveSourceType.LevelUp))
+        {
+            var learn = GetLearnset(evo.Species, evo.Form);
+            var level = learn.GetLevelLearnMove(move);
+            if (level != -1)
+                return new(LevelUp, Game, (byte)level);
+        }
+
+        if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsSharedEggMove(pi, move))
+            return new(Shared, Game);
+
+        if (types.HasFlag(MoveSourceType.Machine) && GetIsTM(pi, pk, move, LearnOption.HOME))
+            return new(TMHM, Game);
+
+        if (types.HasFlag(MoveSourceType.SpecialTutor) && GetIsReminderMove(evo.Species, evo.Form, move))
+            return new(Tutor, Game);
+
+        return default;
     }
 }

@@ -13,6 +13,9 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
+        if (chain.Length == 0)
+            yield break;
+
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G6;
@@ -134,12 +137,14 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk);
+        var chain = EncounterOrigin.GetOriginChain(pk, 6);
         return GetEncounters(pk, chain, info);
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
+        if (chain.Length == 0)
+            yield break;
         var game = (GameVersion)pk.Version;
 
         IEncounterable? deferred = null;

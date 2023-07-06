@@ -14,7 +14,7 @@ public static class RibbonVerifierCommon8
             list.Add(TowerMaster);
 
         var pk = args.Entity;
-        bool ranked = evos.HasVisitedSWSH || pk.SV;
+        bool ranked = evos.HasVisitedSWSH || evos.HasVisitedGen9;
 
         if (!evos.HasVisitedSWSH)
         {

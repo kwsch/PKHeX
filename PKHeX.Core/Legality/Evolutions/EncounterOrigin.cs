@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
 
@@ -13,14 +11,14 @@ public static class EncounterOrigin
     /// Gets possible evolution details for the input <see cref="pk"/>
     /// </summary>
     /// <param name="pk">Current state of the Pokémon</param>
+    /// <param name="generation">Original Generation</param>
     /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
     /// <remarks>Use <see cref="GetOriginChain12"/> if the <see cref="pk"/> originated from Generation 1 or 2.</remarks>
-    public static EvoCriteria[] GetOriginChain(PKM pk)
+    public static EvoCriteria[] GetOriginChain(PKM pk, byte generation)
     {
-        bool hasOriginMet = pk.HasOriginalMetLocation;
-        var maxLevel = GetLevelOriginMax(pk, hasOriginMet);
-        var minLevel = GetLevelOriginMin(pk, hasOriginMet);
-        return GetOriginChain(pk, -1, (byte)maxLevel, (byte)minLevel, hasOriginMet);
+        var (minLevel, maxLevel) = GetMinMax(pk, generation);
+        var origin = new EvolutionOrigin(pk.Species, (byte)pk.Version, generation, minLevel, maxLevel);
+        return EvolutionChain.GetOriginChain(pk, origin);
     }
 
     /// <summary>
@@ -31,150 +29,67 @@ public static class EncounterOrigin
     /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
     public static EvoCriteria[] GetOriginChain12(PKM pk, GameVersion gameSource)
     {
+        var (minLevel, maxLevel) = GetMinMaxGB(pk);
         bool rby = gameSource == GameVersion.RBY;
-        var maxSpecies = rby ? Legal.MaxSpeciesID_1 : Legal.MaxSpeciesID_2;
-
-        bool hasOriginMet;
-        int maxLevel, minLevel;
-        if (pk is ICaughtData2 pk2)
-        {
-            hasOriginMet = pk2.CaughtData != 0;
-            maxLevel = rby && Future_LevelUp2.Contains(pk.Species) ? pk.CurrentLevel - 1 : pk.CurrentLevel;
-            minLevel = !hasOriginMet ? 2 : pk.IsEgg ? 5 : pk2.Met_Level;
-        }
-        else if (pk is PK1 pk1)
-        {
-            hasOriginMet = false;
-            maxLevel = pk1.CurrentLevel;
-            minLevel = 2;
-        }
-        else if (rby)
-        {
-            hasOriginMet = false;
-            maxLevel = Future_LevelUp2.Contains(pk.Species) ? pk.CurrentLevel - 1 : GetLevelOriginMaxTransfer(pk, pk.Met_Level, 1);
-            minLevel = 2;
-        }
-        else // GSC
-        {
-            hasOriginMet = false;
-            maxLevel = GetLevelOriginMaxTransfer(pk, pk.Met_Level, 2);
-            minLevel = 2;
-        }
-
-        return GetOriginChain(pk, maxSpecies, (byte)maxLevel, (byte)minLevel, hasOriginMet);
+        byte ver = rby ? (byte)GameVersion.RBY : (byte)GameVersion.GSC;
+        byte gen = rby ? (byte)1 : (byte)2;
+        var origin = new EvolutionOrigin(pk.Species, ver, gen, minLevel, maxLevel);
+        return EvolutionChain.GetOriginChain(pk, origin);
     }
 
-    private static EvoCriteria[] GetOriginChain(PKM pk, int maxSpecies, byte maxLevel, byte minLevel, bool hasOriginMet)
+    private static (byte minLevel, byte maxLevel) GetMinMax(PKM pk, byte generation)
     {
-        if (maxLevel < minLevel)
-            return Array.Empty<EvoCriteria>();
-
-        if (hasOriginMet)
-            return EvolutionChain.GetValidPreEvolutions(pk, maxSpecies, maxLevel, minLevel);
-
-        // Permit the maximum to be all the way up to Current Level; we'll trim these impossible evolutions out later.
-        var tempMax = pk.CurrentLevel;
-        var chain = EvolutionChain.GetValidPreEvolutions(pk, maxSpecies, tempMax, minLevel);
-
-        for (var i = 0; i < chain.Length; i++)
-            chain[i] = chain[i] with { LevelMax = maxLevel, LevelMin = minLevel };
-
-        return chain;
+        byte maxLevel = (byte)pk.CurrentLevel;
+        byte minLevel = GetLevelOriginMin(pk, generation);
+        return (minLevel, maxLevel);
     }
 
-    private static int GetLevelOriginMin(PKM pk, bool hasMet)
+    private static (byte minLevel, byte maxLevel) GetMinMaxGB(PKM pk)
     {
-        if (pk.Format <= 3)
-        {
-            if (pk.IsEgg)
-                return 5;
-            return Math.Max(2, pk.Met_Level);
-        }
-        if (!hasMet)
-            return 1;
-        return Math.Max(1, pk.Met_Level);
+        byte maxLevel = (byte)pk.CurrentLevel;
+        byte minLevel = GetLevelOriginMinGB(pk);
+        return (minLevel, maxLevel);
     }
 
-    private static int GetLevelOriginMax(PKM pk, bool hasMet)
+    private static byte GetLevelOriginMin(PKM pk, byte generation) => generation switch
     {
-        var met = pk.Met_Level;
-        if (hasMet)
-            return pk.CurrentLevel;
-
-        int generation = pk.Generation;
-        if (generation >= 4)
-            return met;
-
-        var downLevel = GetLevelOriginMaxTransfer(pk, pk.CurrentLevel, generation);
-        return Math.Min(met, downLevel);
-    }
-
-    private static int GetLevelOriginMaxTransfer(PKM pk, int met, int generation)
-    {
-        var species = pk.Species;
-
-        if (Future_LevelUp.TryGetValue((ushort)(species | (pk.Form << 11)), out var delta))
-            return met - delta;
-
-        if (generation < 4 && Future_LevelUp4.Contains(species) && (pk.Format <= 7 || !Future_LevelUp4_Not8.Contains(species)))
-            return met - 1;
-
-        return met;
-    }
-
-    /// <summary>
-    /// Species introduced in Generation 2 that require a level up to evolve into from a specimen that originated in a previous generation.
-    /// </summary>
-    private static readonly HashSet<ushort> Future_LevelUp2 = new()
-    {
-        (int)Crobat,
-        (int)Espeon,
-        (int)Umbreon,
-        (int)Blissey,
+        3 => GetLevelOriginMin3(pk),
+        4 => GetLevelOriginMin4(pk),
+        _ => Math.Max((byte)1, (byte)pk.Met_Level),
     };
 
-    /// <summary>
-    /// Species introduced in Generation 4 that require a level up to evolve into from a specimen that originated in a previous generation.
-    /// </summary>
-    private static readonly HashSet<ushort> Future_LevelUp4 = new()
+    private static bool IsEggLocationNonZero(PKM pk) => pk.Egg_Location != LocationEdits.GetNoneLocation(pk.Context);
+
+    private static byte GetLevelOriginMinGB(PKM pk)
     {
-        (int)Ambipom,
-        (int)Weavile,
-        (int)Magnezone,
-        (int)Lickilicky,
-        (int)Tangrowth,
-        (int)Yanmega,
-        (int)Leafeon,
-        (int)Glaceon,
-        (int)Mamoswine,
-        (int)Gliscor,
-        (int)Probopass,
-    };
+        const byte EggLevel = 5;
+        const byte MinWildLevel = 2;
+        if (pk.IsEgg)
+            return EggLevel;
+        if (pk is not ICaughtData2 { CaughtData: not 0 } pk2)
+            return MinWildLevel;
+        return (byte)pk2.Met_Level;
+    }
 
-    /// <summary>
-    /// Species introduced in Generation 4 that used to require a level up to evolve prior to Generation 8.
-    /// </summary>
-    private static readonly HashSet<ushort> Future_LevelUp4_Not8 = new()
+    private static byte GetLevelOriginMin3(PKM pk)
     {
-        (int)Magnezone, // Thunder Stone
-        (int)Leafeon, // Leaf Stone
-        (int)Glaceon, // Ice Stone
-    };
+        const byte EggLevel = 5;
+        const byte MinWildLevel = 2;
+        if (pk.Format != 3)
+            return MinWildLevel;
+        if (pk.IsEgg)
+            return EggLevel;
+        return (byte)pk.Met_Level;
+    }
 
-    /// <summary>
-    /// Species introduced in Generation 6+ that require a level up to evolve into from a specimen that originated in a previous generation.
-    /// </summary>
-    private static readonly Dictionary<ushort, byte> Future_LevelUp = new()
+    private static byte GetLevelOriginMin4(PKM pk)
     {
-        // Gen6
-        {(int)Sylveon, 1},
-
-        // Gen7
-        {(int)Marowak | (1 << 11), 1},
-
-        // Gen8
-        {(int)Weezing | (1 << 11), 1},
-        {(int)MrMime | (1 << 11), 1},
-        {(int)MrRime, 2},
-    };
+        const byte EggLevel = 1;
+        const byte MinWildLevel = 2;
+        if (pk.Format != 4)
+            return IsEggLocationNonZero(pk) ? EggLevel : MinWildLevel;
+        if (pk.IsEgg || IsEggLocationNonZero(pk))
+            return EggLevel;
+        return (byte)pk.Met_Level;
+    }
 }

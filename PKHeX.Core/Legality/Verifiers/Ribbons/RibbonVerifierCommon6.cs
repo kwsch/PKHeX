@@ -47,7 +47,7 @@ public static class RibbonVerifierCommon6
                 list.Add(ContestStar, allContest);
         }
 
-        if (r.RibbonBestFriends && !RibbonRules.IsRibbonValidBestFriends(args.Entity, evos, args.Encounter.Generation))
+        if (r.RibbonBestFriends && !RibbonRules.IsRibbonValidBestFriends(args.Entity, evos))
             list.Add(BestFriends);
 
         if (!gen6)

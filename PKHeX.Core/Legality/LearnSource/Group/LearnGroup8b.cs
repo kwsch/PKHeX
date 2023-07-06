@@ -10,6 +10,7 @@ public sealed class LearnGroup8b : ILearnGroup
     public static readonly LearnGroup8b Instance = new();
     private const int Generation = 8;
     private const EntityContext Context = EntityContext.Gen8b;
+    public ushort MaxMoveID => Legal.MaxMoveID_8b;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedBDSP;
@@ -26,7 +27,13 @@ public sealed class LearnGroup8b : ILearnGroup
 
         CheckSharedMoves(result, current, evos[0]);
 
-        return MoveResult.AllParsed(result);
+        if (MoveResult.AllParsed(result))
+            return true;
+
+        var home = LearnGroupHOME.Instance;
+        if (option != LearnOption.HOME && home.HasVisited(pk, history))
+            return home.Check(result, current, pk, history, enc, types);
+        return false;
     }
 
     private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EvoCriteria evo)

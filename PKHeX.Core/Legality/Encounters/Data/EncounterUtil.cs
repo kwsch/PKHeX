@@ -48,7 +48,7 @@ internal static class EncounterUtil
         return temp;
     }
 
-    internal static T? GetMinByLevel<T>(EvoCriteria[] chain, IEnumerable<T> possible) where T : class, IEncounterTemplate
+    internal static T? GetMinByLevel<T>(ReadOnlySpan<EvoCriteria> chain, IEnumerable<T> possible) where T : class, IEncounterTemplate
     {
         // MinBy grading: prefer species-form match, select lowest min level encounter.
         // Minimum allocation :)

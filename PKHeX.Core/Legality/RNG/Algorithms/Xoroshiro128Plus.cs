@@ -17,8 +17,8 @@ public ref struct Xoroshiro128Plus
     private ulong s1;
 
     public Xoroshiro128Plus(ulong s0 = XOROSHIRO_CONST0, ulong s1 = XOROSHIRO_CONST) => (this.s0, this.s1) = (s0, s1);
-    public (ulong s0, ulong s1) GetState() => (s0, s1);
-    public UInt128 FullState() => new(s1, s0);
+    public readonly (ulong s0, ulong s1) GetState() => (s0, s1);
+    public readonly UInt128 FullState() => new(s1, s0);
 
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.

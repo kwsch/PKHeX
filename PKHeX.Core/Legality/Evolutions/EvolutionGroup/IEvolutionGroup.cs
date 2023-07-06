@@ -17,18 +17,45 @@ public interface IEvolutionGroup
     /// </summary>
     IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc);
 
-    bool Append(PKM pk, EvolutionHistory history, ref ReadOnlySpan<EvoCriteria> chain, EvolutionOrigin enc);
+    /// <summary>
+    /// Walks down the evolution chain to find previous evolutions.
+    /// </summary>
+    /// <param name="result">Array to store results in.</param>
+    /// <param name="pk">PKM to check.</param>
+    /// <param name="enc">Cached metadata about the PKM.</param>
+    /// <returns>Number of results found.</returns>
+    int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc);
 
-    EvoCriteria[] GetInitialChain(PKM pk, EvolutionOrigin enc, ushort species, byte form);
+    /// <summary>
+    /// Walks up the evolution chain to find the evolution path.
+    /// </summary>
+    /// <param name="result">Array to store best results in.</param>
+    /// <param name="pk">PKM to check.</param>
+    /// <param name="enc">Cached metadata about the PKM.</param>
+    /// <param name="history">History of evolutions to cache arrays for individual contexts.</param>
+    /// <returns>Number of results found.</returns>
+    int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history);
+
+    /// <summary>
+    /// Discards all entries that do not exist in the group.
+    /// </summary>
+    void DiscardForOrigin(Span<EvoCriteria> result, PKM pk);
 }
 
 /// <summary>
-/// Details about the original encounter.
+/// Provides information about how to evolve to the next evolution stage.
 /// </summary>
-/// <param name="Species">Species the encounter originated as</param>
-/// <param name="Version">Version the encounter originated on</param>
-/// <param name="Generation">Generation the encounter originated in</param>
-/// <param name="LevelMin">Minimum level the encounter originated at</param>
-/// <param name="LevelMax">Maximum level in final state</param>
-/// <param name="SkipChecks">Skip enforcement of legality for evolution criteria</param>
-public readonly record struct EvolutionOrigin(ushort Species, byte Version, byte Generation, byte LevelMin, byte LevelMax, bool SkipChecks = false);
+public interface IEvolutionEnvironment
+{
+    /// <summary>
+    /// Attempts to devolve the provided <see cref="head"/> to the previous evolution.
+    /// </summary>
+    /// <returns>True if the de-evolution was successful and <see cref="result"/> should be used.</returns>
+    bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result);
+
+    /// <summary>
+    /// Attempts to evolve the provided <see cref="head"/> to the next evolution.
+    /// </summary>
+    /// <returns>True if the evolution was successful and <see cref="result"/> should be used.</returns>
+    bool TryEvolve(ISpeciesForm head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result);
+}

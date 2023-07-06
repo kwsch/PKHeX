@@ -10,6 +10,7 @@ namespace PKHeX.Core;
 public sealed class FormVerifier : Verifier
 {
     protected override CheckIdentifier Identifier => CheckIdentifier.Form;
+    private static readonly FormArgumentVerifier FormArg = new();
 
     public override void Verify(LegalityAnalysis data)
     {
@@ -19,8 +20,7 @@ public sealed class FormVerifier : Verifier
         var result = VerifyForm(data);
         data.AddLine(result);
 
-        if (pk is IFormArgument f)
-            data.AddLine(VerifyFormArgument(data, f));
+        FormArg.Verify(data);
     }
 
     private CheckResult VALID => GetValid(LFormValid);
@@ -79,7 +79,7 @@ public sealed class FormVerifier : Verifier
 
             case Arceus:
             {
-                int arceus = GetArceusFormFromHeldItem(pk.HeldItem, pk.Format);
+                var arceus = GetArceusFormFromHeldItem(pk.HeldItem, pk.Format);
                 return arceus != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
             }
             case Keldeo when enc.Generation != 5 || pk.Format >= 8:
@@ -93,7 +93,7 @@ public sealed class FormVerifier : Verifier
                 break;
             case Genesect:
             {
-                int genesect = GetGenesectFormFromHeldItem(pk.HeldItem);
+                var genesect = GetGenesectFormFromHeldItem(pk.HeldItem);
                 return genesect != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
             }
             case Greninja:
@@ -143,7 +143,7 @@ public sealed class FormVerifier : Verifier
 
             case Silvally:
             {
-                int silvally = GetSilvallyFormFromHeldItem(pk.HeldItem);
+                var silvally = GetSilvallyFormFromHeldItem(pk.HeldItem);
                 return silvally != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
             }
 
@@ -219,184 +219,5 @@ public sealed class FormVerifier : Verifier
         if (item is >= 116 and <= 119)
             return (byte)(item - 115);
         return 0;
-    }
-
-    private CheckResult VerifyFormArgument(LegalityAnalysis data, IFormArgument f)
-    {
-        var pk = data.Entity;
-        var enc = data.EncounterMatch;
-        var arg = f.FormArgument;
-
-        var unusedMask = pk.Format == 6 ? 0xFFFF_FF00 : 0xFF00_0000;
-        if ((arg & unusedMask) != 0)
-            return GetInvalid(LFormArgumentHigh);
-
-        return (Species)pk.Species switch
-        {
-            // Transfer Edge Cases -- Bank wipes the form but keeps old FormArgument value.
-            Furfrou when pk is { Context: EntityContext.Gen7, Form: 0 } &&
-                         ((enc.Generation == 6 && f.FormArgument <= byte.MaxValue) || IsFormArgumentDayCounterValid(f, 5, true))
-                => GetValid(LFormArgumentValid),
-
-            Furfrou when pk.Form != 0 => !IsFormArgumentDayCounterValid(f, 5, true) ? GetInvalid(LFormArgumentInvalid) : GetValid(LFormArgumentValid),
-            Hoopa when pk.Form == 1 => !IsFormArgumentDayCounterValid(f, 3) ? GetInvalid(LFormArgumentInvalid) : GetValid(LFormArgumentValid),
-            Yamask when pk.Form == 1 => arg switch
-            {
-                not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
-                > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => GetValid(LFormArgumentValid),
-            },
-            Basculin when pk.Form is 2 => arg switch
-            {
-                not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
-                > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => GetValid(LFormArgumentValid),
-            },
-            Qwilfish when pk.Form is 1 => arg switch
-            {
-                not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
-                not 0 when pk.CurrentLevel < 25 => GetInvalid(LFormArgumentHigh), // Can't get requisite move
-                > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => GetValid(LFormArgumentValid),
-            },
-            Stantler => arg switch
-            {
-                not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
-                not 0 when pk.CurrentLevel < 31 => GetInvalid(LFormArgumentHigh),
-                > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => arg == 0 || HasVisitedPLA(data, Stantler) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
-            },
-            Primeape => arg switch
-            {
-                > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => arg == 0 || HasVisitedSV(data, Primeape) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
-            },
-            Bisharp => arg switch
-            {
-                > 9_999 => GetInvalid(LFormArgumentHigh),
-                _ => arg == 0 || HasVisitedSV(data, Bisharp) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
-            },
-            Gimmighoul => arg switch
-            {
-                // Leveling up sets the save file's current coin count to the arg. If 999+, triggers level up.
-                // Without leveling up, cannot have a form arg value.
-                >= 999 => GetInvalid(LFormArgumentHigh),
-                0 => GetValid(LFormArgumentValid),
-                _ => pk.CurrentLevel != pk.Met_Level ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),
-            },
-            Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
-            Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (uint)AlcremieDecoration.Ribbon),
-            Wyrdeer     => VerifyFormArgumentRange(enc.Species, Wyrdeer,     arg,  20, 9999),
-            Basculegion => VerifyFormArgumentRange(enc.Species, Basculegion, arg, 294, 9999),
-            Overqwil    => VerifyFormArgumentRange(enc.Species, Overqwil,    arg,  20, 9999),
-            Annihilape  => VerifyFormArgumentRange(enc.Species, Annihilape,  arg,  20, 9999),
-            Kingambit   => VerifyFormArgumentRange(enc.Species, Kingambit,   arg,   3, 9999),
-            Gholdengo   => VerifyFormArgumentRange(enc.Species, Gholdengo,   arg, 999,  999),
-            Koraidon or Miraidon => enc switch
-            {
-                // Starter Legend has '1' when present in party, to differentiate.
-                // Cannot be traded to other games.
-                EncounterStatic9 { StarterBoxLegend: true } x when !(ParseSettings.ActiveTrainer is SAV9SV sv && sv.Version == x.Version) => GetInvalid(LTradeNotAvailable),
-                EncounterStatic9 { StarterBoxLegend: true } => arg switch
-                {
-                  < 1 => GetInvalid(LFormArgumentLow),
-                    1 => data.SlotOrigin != SlotOrigin.Party ? GetInvalid(LFormParty) : GetValid(LFormArgumentValid),
-                  > 1 => GetInvalid(LFormArgumentHigh),
-                },
-                _ => arg switch
-                {
-                    not 0 => GetInvalid(LFormArgumentNotAllowed),
-                    _ => GetValid(LFormArgumentValid),
-                },
-            },
-            _ => VerifyFormArgumentNone(pk, f),
-        };
-    }
-
-    private static bool HasVisitedPLA(LegalityAnalysis data, Species species)
-    {
-        var evos = data.Info.EvoChainsAllGens;
-        if (evos.HasVisited(EntityContext.Gen8a, (ushort)species))
-            return true;
-        return false;
-    }
-
-    private static bool HasVisitedSV(LegalityAnalysis data, Species species)
-    {
-        var evos = data.Info.EvoChainsAllGens;
-        if (evos.HasVisited(EntityContext.Gen9, (ushort)species))
-            return true;
-        return false;
-    }
-
-    private CheckResult VerifyFormArgumentRange(ushort encSpecies, Species check, uint value, uint min, uint max)
-    {
-        if (encSpecies == (ushort)check)
-        {
-            if (value == 0)
-                return GetValid(LFormArgumentValid);
-            return GetInvalid(LFormArgumentNotAllowed);
-        }
-
-        if (value < min)
-            return GetInvalid(LFormArgumentLow);
-        if (value > max)
-            return GetInvalid(LFormArgumentHigh);
-        return GetValid(LFormArgumentValid);
-    }
-
-    private CheckResult VerifyFormArgumentNone(PKM pk, IFormArgument f)
-    {
-        if (pk is not PK6 pk6)
-        {
-            if (f.FormArgument != 0)
-            {
-                if (pk is { Species: (int)Furfrou, Form: 0 } && (f.FormArgument & ~0xFF_00_00u) == 0)
-                    return GetValid(LFormArgumentValid);
-                return GetInvalid(LFormArgumentNotAllowed);
-            }
-            return GetValid(LFormArgumentValid);
-        }
-
-        if (f.FormArgument != 0)
-        {
-            if (pk is { Species: (int)Furfrou, Form: 0 } && (f.FormArgument & ~0xFFu) == 0)
-                return GetValid(LFormArgumentValid);
-            return GetInvalid(LFormArgumentNotAllowed);
-        }
-
-        // Stored separately from main form argument value
-        if (pk6.FormArgumentRemain != 0)
-            return GetInvalid(LFormArgumentNotAllowed);
-        if (pk6.FormArgumentElapsed != 0)
-            return GetInvalid(LFormArgumentNotAllowed);
-
-        return GetValid(LFormArgumentValid);
-    }
-
-    private static bool IsFormArgumentDayCounterValid(IFormArgument f, uint maxSeed, bool canRefresh = false)
-    {
-        var remain = f.FormArgumentRemain;
-        var elapsed = f.FormArgumentElapsed;
-        var maxElapsed = f.FormArgumentMaximum;
-        if (canRefresh)
-        {
-            if (maxElapsed < elapsed)
-                return false;
-
-            if (remain + elapsed < maxSeed)
-                return false;
-        }
-        else
-        {
-            if (maxElapsed != 0)
-                return false;
-
-            if (remain + elapsed != maxSeed)
-                return false;
-        }
-        if (remain > maxSeed)
-            return false;
-        return remain != 0;
     }
 }

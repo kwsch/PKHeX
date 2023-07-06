@@ -659,6 +659,12 @@ public partial class StatEditor : UserControl
     private void L_TeraTypeOriginal_Click(object sender, EventArgs e)
     {
         var pi = Entity.PersonalInfo;
+        if (!Entity.SV)
+        {
+            var expect = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
+            SetOriginalTeraType((byte)expect);
+            return;
+        }
         var current = WinFormsUtil.GetIndex(CB_TeraTypeOriginal);
         var update = pi.Type1 == current ? pi.Type2 : pi.Type1;
         SetOriginalTeraType(update);
@@ -704,7 +710,7 @@ public partial class StatEditor : UserControl
             ((PKMEditor)MainEditor).UpdateSprite();
     }
 
-    private void L_TeraTypeOverride_Click(object sender, EventArgs e) => CB_TeraTypeOverride.SelectedValue = (int)TeraOverrideNoneValue;
+    private void L_TeraTypeOverride_Click(object sender, EventArgs e) => CB_TeraTypeOverride.SelectedValue = Entity.SV ? (int)TeraOverrideNoneValue : CB_TeraTypeOriginal.SelectedValue;
 
     private void ChangeTeraType(object sender, EventArgs e)
     {

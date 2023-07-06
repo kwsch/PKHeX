@@ -127,11 +127,11 @@ public sealed class SCBlock
 
         if (Type == SCTypeCode.Object)
         {
-            bw.Write((uint)Data.Length ^ xk.Next32());
+            bw.Write(Data.Length ^ xk.Next32());
         }
         else if (Type == SCTypeCode.Array)
         {
-            var entries = (uint)(Data.Length / SubType.GetTypeSize());
+            var entries = Data.Length / SubType.GetTypeSize();
             bw.Write(entries ^ xk.Next32());
             bw.Write((byte)((byte)SubType ^ xk.Next()));
         }
@@ -170,12 +170,12 @@ public sealed class SCBlock
                 return offset;
 
             case SCTypeCode.Object: // Cast raw bytes to Object
-                var length = ReadInt32LittleEndian(data[offset..]) ^ (int)xk.Next32();
+                var length = ReadInt32LittleEndian(data[offset..]) ^ xk.Next32();
                 offset += 4;
                 return offset + length;
 
             case SCTypeCode.Array: // Cast raw bytes to SubType[]
-                var count = ReadInt32LittleEndian(data[offset..]) ^ (int)xk.Next32();
+                var count = ReadInt32LittleEndian(data[offset..]) ^ xk.Next32();
                 offset += 4;
                 type = (SCTypeCode)(data[offset++] ^ xk.Next());
                 return offset + (type.GetTypeSize() * count);
@@ -220,19 +220,19 @@ public sealed class SCBlock
 
             case SCTypeCode.Object: // Cast raw bytes to Object
             {
-                var num_bytes = ReadInt32LittleEndian(data[offset..]) ^ (int)xk.Next32();
+                var num_bytes = ReadInt32LittleEndian(data[offset..]) ^ xk.Next32();
                 offset += 4;
                 var arr = data.Slice(offset, num_bytes).ToArray();
                 offset += num_bytes;
                 for (int i = 0; i < arr.Length; i++)
-                    arr[i] ^= (byte)xk.Next();
+                    arr[i] ^= xk.Next();
 
                 return new SCBlock(key, type, arr);
             }
 
             case SCTypeCode.Array: // Cast raw bytes to SubType[]
             {
-                var num_entries = ReadInt32LittleEndian(data[offset..]) ^ (int)xk.Next32();
+                var num_entries = ReadInt32LittleEndian(data[offset..]) ^ xk.Next32();
                 offset += 4;
                 var sub = (SCTypeCode)(data[offset++] ^ xk.Next());
 
@@ -240,7 +240,7 @@ public sealed class SCBlock
                 var arr = data.Slice(offset, num_bytes).ToArray();
                 offset += num_bytes;
                 for (int i = 0; i < arr.Length; i++)
-                    arr[i] ^= (byte)xk.Next();
+                    arr[i] ^= xk.Next();
                 EnsureArrayIsSane(sub, arr);
                 return new SCBlock(key, arr, sub);
             }
@@ -251,7 +251,7 @@ public sealed class SCBlock
                 var arr = data.Slice(offset, num_bytes).ToArray();
                 offset += num_bytes;
                 for (int i = 0; i < arr.Length; i++)
-                    arr[i] ^= (byte)xk.Next();
+                    arr[i] ^= xk.Next();
                 return new SCBlock(key, type, arr);
             }
         }

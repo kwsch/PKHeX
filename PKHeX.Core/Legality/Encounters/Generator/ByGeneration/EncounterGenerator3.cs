@@ -14,6 +14,9 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
+        if (chain.Length == 0)
+            yield break;
+
         if (groups.HasFlag(Mystery))
         {
             var table = EncountersWC3.Encounter_WC3;
@@ -117,12 +120,15 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk);
+        var chain = EncounterOrigin.GetOriginChain(pk, 3);
         return GetEncounters(pk, chain, info);
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
+        if (chain.Length == 0)
+            yield break;
+
         info.PIDIV = MethodFinder.Analyze(pk);
         IEncounterable? partial = null;
 

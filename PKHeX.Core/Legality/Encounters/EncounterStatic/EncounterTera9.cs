@@ -97,9 +97,23 @@ public sealed record EncounterTera9 : EncounterStatic, ITeraRaid9
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        if (pk is PK8)
-            return LocationsHOME.IsValidMetSV((ushort)pk.Met_Location, pk.Version);
-        return base.IsMatchLocation(pk);
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return IsMatchLocationExact(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMatchLocationRemapped(pk);
+        return IsMatchLocationExact(pk) || IsMatchLocationRemapped(pk);
+    }
+
+    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+
+    private bool IsMatchLocationRemapped(PKM pk)
+    {
+        var met = (ushort)pk.Met_Location;
+        var version = pk.Version;
+        if (pk.Context == EntityContext.Gen8)
+            return LocationsHOME.IsValidMetSV(met, version);
+        return LocationsHOME.GetMetSWSH((ushort)Location, version) == met;
     }
 
     protected override EncounterMatchRating IsMatchDeferred(PKM pk)

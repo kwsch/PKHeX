@@ -308,7 +308,13 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     public IGameDataSide LatestGameData => OriginalGameData() ?? GetFallbackGameData();
 
-    private IGameDataSide GetFallbackGameData() => Version switch
+    private IGameDataSide GetFallbackGameData() => DataPB7
+                                                ?? DataPK9
+                                                ?? DataPB8
+                                                ?? DataPA8
+                                                ?? DataPK8 ?? CreateFallback();
+
+    private IGameDataSide CreateFallback() => Version switch
     {
         (int)GP or (int)GE => DataPB7 ??= new(),
         (int)BD or (int)SP => DataPB8 ??= new(),
@@ -319,6 +325,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     private IGameDataSide? OriginalGameData() => Version switch
     {
+        (int)GameVersion.GO when DataPB7 is not null => DataPB7,
         (int)GP or (int)GE => DataPB7,
         (int)BD or (int)SP => DataPB8,
         (int)PLA           => DataPA8,
@@ -388,7 +395,13 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     private void EnsureScaleSizeExists()
     {
-        if (FirstScaleData is IScaledSize3)
+        if (Core.RibbonMarkAlpha)
+        {
+            // Fix for PLA static encounter Alphas with 127 scale.
+            Core.HeightScalar = Core.WeightScalar = 255;
+            return;
+        }
+        if (GO_HOME || FirstScaleData is IScaledSize3)
             return; // data exists for scale, keep values.
         while (HeightScalar == 0 && WeightScalar == 0)
         {

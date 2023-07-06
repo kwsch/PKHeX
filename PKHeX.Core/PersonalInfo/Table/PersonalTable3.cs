@@ -9,8 +9,8 @@ public sealed class PersonalTable3 : IPersonalTable, IPersonalTable<PersonalInfo
 {
     private readonly PersonalInfo3[] Table;
     private const int SIZE = PersonalInfo3.SIZE;
-    private const int MaxSpecies = Legal.MaxSpeciesID_3;
-    public int MaxSpeciesID => MaxSpecies;
+    private const ushort MaxSpecies = Legal.MaxSpeciesID_3;
+    public ushort MaxSpeciesID => MaxSpecies;
 
     public PersonalTable3(ReadOnlySpan<byte> data)
     {

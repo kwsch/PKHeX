@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="SWSH"/>.
 /// </summary>
-public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSource
+public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSource, IHomeSource
 {
     public static readonly LearnSource8SWSH Instance = new();
     private static readonly PersonalTable8SWSH Personal = PersonalTable.SWSH;
@@ -78,17 +78,17 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
     {
         (int)Species.Necrozma => move switch
         {
-            (int)Move.SunsteelStrike => (option == LearnOption.AtAnyTime || current.Form == 1), // Sun w/ Solgaleo
-            (int)Move.MoongeistBeam => (option == LearnOption.AtAnyTime || current.Form == 2), // Moon w/ Lunala
+            (int)Move.SunsteelStrike => option.IsPast() || current.Form == 1, // Sun w/ Solgaleo
+            (int)Move.MoongeistBeam =>  option.IsPast() || current.Form == 2, // Moon w/ Lunala
             _ => false,
         },
         (int)Species.Rotom => move switch
         {
-            (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
-            (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
-            (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
-            (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
-            (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+            (int)Move.Overheat  => option.IsPast() || current.Form == 1,
+            (int)Move.HydroPump => option.IsPast() || current.Form == 2,
+            (int)Move.Blizzard  => option.IsPast() || current.Form == 3,
+            (int)Move.AirSlash  => option.IsPast() || current.Form == 4,
+            (int)Move.LeafStorm => option.IsPast() || current.Form == 5,
             _ => false,
         },
         _ => false,
@@ -103,20 +103,25 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
 
     private static bool GetIsTR(PersonalInfo8SWSH info, PKM pk, EvoCriteria evo, ushort move, LearnOption option)
     {
-        if (pk is not ITechRecord tr)
-            return false;
-
         var index = info.RecordPermitIndexes.IndexOf(move);
         if (index == -1)
             return false;
         if (!info.GetIsLearnTR(index))
             return false;
 
-        if (tr.GetMoveRecordFlag(index))
-            return true;
+        if (pk is PK8 pk8)
+        {
+            if (pk8.GetMoveRecordFlag(index))
+                return true;
+            if (!option.IsFlagCheckRequired())
+                return true;
+        }
+        else
+        {
+            if (option != LearnOption.Current)
+                return true;
+        }
 
-        if (option != LearnOption.Current && !pk.SWSH && pk.IsOriginalMovesetDeleted())
-            return true;
         if (index == 12 && evo is { Species: (int)Species.Calyrex, Form: 0 }) // TR12
             return true; // Agility Calyrex without TR glitch.
 
@@ -169,5 +174,31 @@ public sealed class LearnSource8SWSH : ILearnSource<PersonalInfo8SWSH>, IEggSour
             else if (species is (int)Species.Necrozma && pk.Form is 2) // Moon
                 result[(int)Move.MoongeistBeam] = true;
         }
+    }
+
+    public LearnEnvironment Environment => Game;
+    public MoveLearnInfo GetCanLearnHOME(PKM pk, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All)
+    {
+        if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return default;
+
+        if (types.HasFlag(MoveSourceType.LevelUp))
+        {
+            var learn = GetLearnset(evo.Species, evo.Form);
+            var level = learn.GetLevelLearnMove(move);
+            if (level != -1)
+                return new(LevelUp, Game, (byte)level);
+        }
+
+        if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsSharedEggMove(pi, move))
+            return new(Shared, Game);
+
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(move))
+            return new(TMHM, Game);
+
+        if (types.HasFlag(MoveSourceType.TechnicalRecord) && GetIsTR(pi, pk, evo, move, LearnOption.HOME))
+            return new(TMHM, Game);
+
+        return default;
     }
 }

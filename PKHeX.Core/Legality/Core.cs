@@ -139,20 +139,6 @@ public static class Legal
     internal static readonly ushort[] HeldItems_LA = Array.Empty<ushort>();
     internal static readonly ushort[] HeldItems_SV = ItemStorage9SV.GetAllHeld();
 
-    internal static int GetMaxSpeciesOrigin(int generation) => generation switch
-    {
-        1 => MaxSpeciesID_1,
-        2 => MaxSpeciesID_2,
-        3 => MaxSpeciesID_3,
-        4 => MaxSpeciesID_4,
-        5 => MaxSpeciesID_5,
-        6 => MaxSpeciesID_6,
-        7 => MaxSpeciesID_7b,
-        8 => MaxSpeciesID_8a,
-        9 => MaxSpeciesID_9,
-        _ => -1,
-    };
-
     internal static int GetMaxLanguageID(int generation) => generation switch
     {
         1 => (int) LanguageID.Spanish, // 1-7 except 6
@@ -231,11 +217,12 @@ public static class Legal
     /// </summary>
     public static bool GetIsFixedIVSequenceValidSkipRand(ReadOnlySpan<int> IVs, PKM pk, uint max = 31)
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 5; i >= 0; i--)
         {
-            if ((uint) IVs[i] > max) // random
+            var iv = IVs[i];
+            if ((uint)iv > max) // random
                 continue;
-            if (IVs[i] != pk.GetIV(i))
+            if (iv != pk.GetIV(i))
                 return false;
         }
         return true;

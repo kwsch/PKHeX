@@ -1,4 +1,5 @@
 using static PKHeX.Core.EvolutionType;
+using static PKHeX.Core.EvolutionCheckResult;
 
 namespace PKHeX.Core;
 
@@ -11,7 +12,7 @@ namespace PKHeX.Core;
 /// <param name="Argument">Conditional Argument (different from <see cref="Level"/>)</param>
 /// <param name="Level">Conditional Argument (different from <see cref="Argument"/>)</param>
 /// <param name="LevelUp">Indicates if a level up is required to trigger evolution.</param>
-public readonly record struct EvolutionMethod(EvolutionType Method, ushort Species, byte Form = 0, ushort Argument = 0, byte Level = 0, byte LevelUp = 0) : ISpeciesForm
+public readonly record struct EvolutionMethod(EvolutionType Method, ushort Species, byte Form = EvolutionMethod.AnyForm, ushort Argument = 0, byte Level = 0, byte LevelUp = 0) : ISpeciesForm
 {
     /// <summary>Evolve to Species</summary>
     public ushort Species { get; } = Species;
@@ -56,88 +57,61 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
     /// </summary>
     /// <param name="pk">Entity to check</param>
     /// <param name="lvl">Current level</param>
+    /// <param name="levelMin">Minimum level to sanity check with</param>
     /// <param name="skipChecks">Option to skip some comparisons to return a 'possible' evolution.</param>
     /// <returns>True if a evolution criteria is valid.</returns>
-    public bool Valid(PKM pk, byte lvl, bool skipChecks)
+    public EvolutionCheckResult Check(PKM pk, byte lvl, byte levelMin, bool skipChecks)
     {
         if (!Method.IsLevelUpRequired())
             return ValidNotLevelUp(pk, skipChecks);
 
-        if (!IsLevelUpMethodSecondarySatisfied(pk, skipChecks))
-            return false;
+        var chk = IsLevelUpMethodSecondarySatisfied(pk, skipChecks);
+        if (chk != Valid)
+            return chk;
 
         // Level Up (any); the above Level Up (with condition) cases will reach here if they were valid
-        if (!RequiresLevelUp)
-            return lvl >= Level;
-
-        if (Level == 0 && lvl < 2)
-            return false;
         if (lvl < Level)
-            return false;
+            return InsufficientLevel;
+        if (!RequiresLevelUp)
+            return Valid;
+        if (Level == 0 && lvl < 2)
+            return InsufficientLevel;
+        if (lvl < levelMin + LevelUp && !skipChecks)
+            return InsufficientLevel;
 
-        if (skipChecks)
-            return lvl >= Level;
-
-        // Check Met Level for extra validity
-        return HasMetLevelIncreased(pk, lvl);
+        return Valid;
     }
 
-    private bool IsLevelUpMethodSecondarySatisfied(PKM pk, bool skipChecks) => Method switch
+    private EvolutionCheckResult IsLevelUpMethodSecondarySatisfied(PKM pk, bool skipChecks) => Method switch
     {
         // Special Level Up Cases -- return false if invalid
-        LevelUpMale when pk.Gender != 0 => false,
-        LevelUpFemale when pk.Gender != 1 => false,
-        LevelUpFormFemale1 when pk.Gender != 1 || pk.Form != 1 => false,
+        LevelUpMale when pk.Gender != 0 => BadGender,
+        LevelUpFemale when pk.Gender != 1 => BadGender,
+        LevelUpFormFemale1 when pk.Gender != 1 => BadGender,
+        LevelUpFormFemale1 when pk.Form != 1 => BadForm,
 
         // Permit the evolution if we're exploring for mistakes.
-        LevelUpBeauty when pk is IContestStatsReadOnly s && s.CNT_Beauty < Argument => skipChecks,
-        LevelUpNatureAmped or LevelUpNatureLowKey when GetAmpLowKeyResult(pk.Nature) != pk.Form => skipChecks,
+        LevelUpBeauty when pk is IContestStatsReadOnly s && s.CNT_Beauty < Argument => skipChecks ? Valid : LowContestStat,
+        LevelUpNatureAmped or LevelUpNatureLowKey when GetAmpLowKeyResult(pk.Nature) != pk.Form => skipChecks ? Valid : BadForm,
 
         // Version checks come in pairs, check for any pair match
-        LevelUpVersion or LevelUpVersionDay or LevelUpVersionNight when ((pk.Version & 1) != (Argument & 1) && pk.IsUntraded) => skipChecks,
+        LevelUpVersion or LevelUpVersionDay or LevelUpVersionNight when ((pk.Version & 1) != (Argument & 1) && pk.IsUntraded) => skipChecks ? Valid : VisitVersion,
 
-        LevelUpKnowMoveEC100  when pk.EncryptionConstant % 100 != 0 => skipChecks,
-        LevelUpKnowMoveECElse when pk.EncryptionConstant % 100 == 0 => skipChecks,
-        LevelUpInBattleEC100  when pk.EncryptionConstant % 100 != 0 => skipChecks,
-        LevelUpInBattleECElse when pk.EncryptionConstant % 100 == 0 => skipChecks,
+        LevelUpKnowMoveEC100  when pk.EncryptionConstant % 100 != 0 => skipChecks ? Valid : WrongEC,
+        LevelUpKnowMoveECElse when pk.EncryptionConstant % 100 == 0 => skipChecks ? Valid : WrongEC,
+        LevelUpInBattleEC100  when pk.EncryptionConstant % 100 != 0 => skipChecks ? Valid : WrongEC,
+        LevelUpInBattleECElse when pk.EncryptionConstant % 100 == 0 => skipChecks ? Valid : WrongEC,
 
-        _ => true,
+        _ => Valid,
     };
 
-    private bool ValidNotLevelUp(PKM pk, bool skipChecks) => Method switch
+    private EvolutionCheckResult ValidNotLevelUp(PKM pk, bool skipChecks) => Method switch
     {
-        UseItemMale or LevelUpRecoilDamageMale => pk.Gender == 0,
-        UseItemFemale or LevelUpRecoilDamageFemale => pk.Gender == 1,
+        UseItemMale or LevelUpRecoilDamageMale => pk.Gender == 0 ? Valid : BadGender,
+        UseItemFemale or LevelUpRecoilDamageFemale => pk.Gender == 1 ? Valid : BadGender,
 
-        Trade or TradeHeldItem or TradeShelmetKarrablast => !pk.IsUntraded || skipChecks,
-        _ => true, // no conditions
-    };
-
-    private bool HasMetLevelIncreased(PKM pk, int lvl)
-    {
-        int origin = pk.Generation;
-        return origin switch
-        {
-            // No met data in RBY; No met data in GS, Crystal met data can be reset
-            1 or 2 => true,
-
-            // Pal Park / PokeTransfer updates Met Level
-            3 or 4 => pk.Format > origin || lvl > pk.Met_Level,
-
-            // 5=>6 and later transfers keep current level
-            >=5 => lvl >= Level && (!pk.IsNative || lvl > pk.Met_Level),
-
-            _ => false,
-        };
-    }
-
-    public EvoCriteria GetEvoCriteria(ushort species, byte form, byte lvl) => new()
-    {
-        Species = species,
-        Form = form,
-        LevelMax = lvl,
-        LevelMin = 0,
-        Method = Method,
+        Trade or TradeHeldItem or TradeShelmetKarrablast => !pk.IsUntraded || skipChecks ? Valid : Untraded,
+        _ => Valid, // no conditions
     };
 
     public static int GetAmpLowKeyResult(int n)

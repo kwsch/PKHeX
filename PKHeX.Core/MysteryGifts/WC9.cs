@@ -34,11 +34,10 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     public bool CanBeReceivedByVersion(PKM pk) => RestrictVersion switch
     {
         0 when !IsEntity => true, // Whatever, essentially unrestricted for SL/VL receipt. No Entity gifts are 0.
-        1 => pk.Version is (int)GameVersion.SL || pk is PK8 { Met_Location: LocationsHOME.SWSL, Version: (int)GameVersion.SW },
-        2 => pk.Version is (int)GameVersion.VL || pk is PK8 { Met_Location: LocationsHOME.SHVL, Version: (int)GameVersion.SH },
-        3 => pk.Version is (int)GameVersion.SL || pk is PK8 { Met_Location: LocationsHOME.SWSL, Version: (int)GameVersion.SW }
-          || pk.Version is (int)GameVersion.VL || pk is PK8 { Met_Location: LocationsHOME.SHVL, Version: (int)GameVersion.SH },
-        _ => throw new ArgumentOutOfRangeException(nameof(RestrictVersion), RestrictVersion, null),
+        1 => pk.Version is (int)GameVersion.SL || pk.Met_Location == LocationsHOME.SWSL,
+        2 => pk.Version is (int)GameVersion.VL || pk.Met_Location == LocationsHOME.SHVL,
+        3 => pk.Version is (int)GameVersion.SL or (int)GameVersion.VL || pk.Met_Location is LocationsHOME.SWSL or LocationsHOME.SHVL,
+          _ => throw new ArgumentOutOfRangeException(nameof(RestrictVersion), RestrictVersion, null),
     };
 
     // General Card Properties
@@ -714,16 +713,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         {
             if (!shinyType.IsValid(pk)) return false;
             if (!IsMatchEggLocation(pk)) return false;
-            if (pk is PK8)
-            {
-                if (!LocationsHOME.IsValidMetSV((ushort)pk.Met_Location, pk.Version))
-                    return false;
-            }
-            else
-            {
-                if (MetLocation != pk.Met_Location)
-                    return false;
-            }
+            if (!IsMatchLocation(pk)) return false;
         }
 
         if (MetLevel != 0 && MetLevel != pk.Met_Level) return false;
@@ -756,6 +746,27 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         if (type is ShinyType8.Never or ShinyType8.Random)
             return true;
         return pk.PID == GetPID(pk, type);
+    }
+
+    private bool IsMatchLocation(PKM pk)
+    {
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return IsMatchLocationExact(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMatchLocationRemapped(pk);
+        return IsMatchLocationExact(pk) || IsMatchLocationRemapped(pk);
+    }
+
+    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+
+    private bool IsMatchLocationRemapped(PKM pk)
+    {
+        var met = (ushort)pk.Met_Location;
+        var version = pk.Version;
+        if (pk.Context == EntityContext.Gen8)
+            return LocationsHOME.IsValidMetSV(met, version);
+        return LocationsHOME.GetMetSWSH((ushort)Location, version) == met;
     }
 
     public bool IsDateRestricted => true;

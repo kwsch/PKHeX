@@ -10,6 +10,7 @@ public sealed class LearnGroup8a : ILearnGroup
     public static readonly LearnGroup8a Instance = new();
     private const int Generation = 8;
     private const EntityContext Context = EntityContext.Gen8a;
+    public ushort MaxMoveID => Legal.MaxMoveID_8a;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedPLA;
@@ -21,7 +22,13 @@ public sealed class LearnGroup8a : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i);
 
-        return MoveResult.AllParsed(result);
+        if (MoveResult.AllParsed(result))
+            return true;
+
+        var home = LearnGroupHOME.Instance;
+        if (option != LearnOption.HOME && home.HasVisited(pk, history))
+            return home.Check(result, current, pk, history, enc, types);
+        return false;
     }
 
     private static void Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvoCriteria evo, int stage)

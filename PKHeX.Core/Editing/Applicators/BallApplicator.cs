@@ -73,7 +73,7 @@ public static class BallApplicator
         return pk.Ball = (int)next;
     }
 
-    private static int ApplyFirstLegalBall(PKM pk, Span<Ball> balls)
+    private static int ApplyFirstLegalBall(PKM pk, ReadOnlySpan<Ball> balls)
     {
         foreach (var b in balls)
         {

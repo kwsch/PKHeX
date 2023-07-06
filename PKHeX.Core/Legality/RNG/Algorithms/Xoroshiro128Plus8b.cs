@@ -16,8 +16,8 @@ public ref struct Xoroshiro128Plus8b
     private ulong s1;
 
     public Xoroshiro128Plus8b(ulong s0, ulong s1) => (this.s0, this.s1) = (s0, s1);
-    public (ulong s0, ulong s1) GetState() => (s0, s1);
-    public UInt128 FullState() => new(s1, s0);
+    public readonly (ulong s0, ulong s1) GetState() => (s0, s1);
+    public readonly UInt128 FullState() => new(s1, s0);
 
     public Xoroshiro128Plus8b(ulong seed)
     {

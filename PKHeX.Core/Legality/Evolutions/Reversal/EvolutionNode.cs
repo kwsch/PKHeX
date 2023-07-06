@@ -26,20 +26,4 @@ public struct EvolutionNode
         else
             throw new InvalidOperationException($"{nameof(EvolutionNode)} already has two links.");
     }
-
-    /// <summary>
-    /// Registers a function that disallows the reverse evolution link from being valid if the <see cref="func"/> is not satisfied.
-    /// </summary>
-    /// <param name="func">Function that checks if the link should be allowed as an evolution path.</param>
-    public void Ban(Func<PKM, bool> func)
-    {
-        ref var first = ref First;
-        if (first.IsEmpty)
-            return;
-        first.Ban(func);
-        ref var second = ref Second;
-        if (second.IsEmpty)
-            return;
-        second.Ban(func);
-    }
 }

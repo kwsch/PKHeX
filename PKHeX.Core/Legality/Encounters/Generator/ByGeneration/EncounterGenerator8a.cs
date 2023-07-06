@@ -12,6 +12,9 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
+        if (chain.Length == 0)
+            yield break;
+
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G8A;
@@ -80,6 +83,8 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
+        if (chain.Length == 0)
+            yield break;
         if (pk is PK8 { SWSH: false })
             yield break;
         if (pk.IsEgg)
@@ -139,8 +144,11 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
         // Encounter Slots
         if (CanBeWildEncounter(pk))
         {
-            bool hasOriginalLocation = pk is not (PK8 or PB8 { Met_Location: LocationsHOME.SWLA });
             var location = pk.Met_Location;
+            var remap = LocationsHOME.GetRemapState(EntityContext.Gen8a, pk.Context);
+            bool hasOriginalLocation = true;
+            if (remap.HasFlag(LocationRemapState.Remapped))
+                hasOriginalLocation = location != LocationsHOME.SWLA;
             foreach (var area in Encounters8a.SlotsLA)
             {
                 if (hasOriginalLocation && !area.IsMatchLocation(location))

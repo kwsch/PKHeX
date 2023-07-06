@@ -10,12 +10,9 @@ public sealed class LearnGroup9 : ILearnGroup
     public static readonly LearnGroup9 Instance = new();
     private const int Generation = 9;
     private const EntityContext Context = EntityContext.Gen9;
+    public ushort MaxMoveID => Legal.MaxMoveID_9;
 
-    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option)
-    {
-        return null;
-    }
-
+    public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => null;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen9;
 
     public bool Check(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, EvolutionHistory history,
@@ -33,7 +30,13 @@ public sealed class LearnGroup9 : ILearnGroup
         if (option is not LearnOption.Current && types.HasFlag(MoveSourceType.Encounter) && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
-        return MoveResult.AllParsed(result);
+        if (MoveResult.AllParsed(result))
+            return true;
+
+        var home = LearnGroupHOME.Instance;
+        if (option != LearnOption.HOME && home.HasVisited(pk, history))
+            return home.Check(result, current, pk, history, enc, types);
+        return false;
     }
 
     private static void CheckSharedMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EvoCriteria evo)
@@ -129,7 +132,7 @@ public sealed class LearnGroup9 : ILearnGroup
         }
 
         // Check all forms
-        var inst = LearnSource6AO.Instance;
+        var inst = LearnSource9SV.Instance;
         if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 

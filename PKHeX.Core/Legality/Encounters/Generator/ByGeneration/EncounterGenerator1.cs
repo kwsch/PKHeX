@@ -13,6 +13,9 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
+        if (chain.Length == 0)
+            yield break;
+
         if (groups.HasFlag(Mystery))
         {
             var table = GetGifts();
@@ -109,6 +112,8 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
         // Calculate all 3 at the same time and pick the best result (by species).
         // Favor special event move gifts as Static Encounters when applicable
         var chain = EncounterOrigin.GetOriginChain12(pk, game);
+        if (chain.Length == 0)
+            return Array.Empty<IEncounterable>();
         return GetEncounters(pk, chain, game);
     }
 

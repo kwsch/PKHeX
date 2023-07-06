@@ -15,7 +15,7 @@ public static class RibbonVerifierCommon3
             list.Add(ChampionG3);
         if (r.RibbonArtist && !evos.HasVisitedGen3)
             list.Add(Artist);
-        if (r.RibbonEffort && !RibbonRules.IsRibbonValidEffort(pk, evos, args.Encounter.Generation))
+        if (r.RibbonEffort && !RibbonRules.IsRibbonValidEffort(evos))
             list.Add(Effort);
     }
 

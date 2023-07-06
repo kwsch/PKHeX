@@ -15,7 +15,7 @@ public sealed class EncounterGenerator7X : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk);
+        var chain = EncounterOrigin.GetOriginChain(pk, 7);
         return GetEncounters(pk, chain, info);
     }
 

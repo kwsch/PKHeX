@@ -13,7 +13,10 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
     {
-        var chain = EncounterOrigin.GetOriginChain(pk);
+        var chain = EncounterOrigin.GetOriginChain(pk, 9);
+        if (chain.Length == 0)
+            return System.Array.Empty<IEncounterable>();
+
         return (GameVersion)pk.Version switch
         {
             SW when pk.Met_Location == LocationsHOME.SWSL => Instance.GetEncountersSWSH(pk, chain, SL),
@@ -24,6 +27,9 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
+        if (chain.Length == 0)
+            yield break;
+
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G9;

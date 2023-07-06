@@ -72,10 +72,38 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
         if (pk is IScaledSize s)
         {
-            if (HasFixedHeight && s.HeightScalar != HeightScalar)
-                return false;
-            if (HasFixedWeight && s.WeightScalar != WeightScalar)
-                return false;
+            // 3 of the Alpha statics were mistakenly set as 127 scale. If they enter HOME on 3.0.1, they'll get bumped to 255.
+            if (IsAlpha && this is { HeightScalar: 127, WeightScalar: 127 }) // Average Size Alphas
+            {
+                // HOME >=3.0.1 ensures 255 scales for the 127's
+                // PLA and S/V could have safe-harbored them via <=3.0.0
+                if (pk.Context is EntityContext.Gen8a or EntityContext.Gen9)
+                {
+                    if (s is not { HeightScalar: 127, WeightScalar: 127 }) // Original? 
+                    {
+                        // Must match the HOME updated values AND must have the Alpha ribbon (visited HOME).
+                        if (s is not { HeightScalar: 255, WeightScalar: 255 })
+                            return false;
+                        if (pk is IRibbonSetMark9 { RibbonMarkAlpha: false })
+                            return false;
+                        if (pk.IsUntraded)
+                            return false;
+                    }
+                }
+                else
+                {
+                    // Must match the HOME updated values
+                    if (s is not { HeightScalar: 255, WeightScalar: 255 })
+                        return false;
+                }
+            }
+            else
+            {
+                if (HasFixedHeight && s.HeightScalar != HeightScalar)
+                    return false;
+                if (HasFixedWeight && s.WeightScalar != WeightScalar)
+                    return false;
+            }
         }
 
         if (pk is IAlpha a && a.IsAlpha != IsAlpha)
@@ -86,13 +114,15 @@ public sealed record EncounterStatic8a(GameVersion Version) : EncounterStatic(Ve
 
     protected override bool IsMatchLocation(PKM pk)
     {
-        if (pk is PK8)
-            return pk.Met_Location == LocationsHOME.SWLA;
-        if (pk is PB8 { Version: (int)GameVersion.PLA, Met_Location: LocationsHOME.SWLA })
-            return true;
-
-        return base.IsMatchLocation(pk);
+        var metState = LocationsHOME.GetRemapState(Context, pk.Context);
+        if (metState == LocationRemapState.Original)
+            return base.IsMatchLocation(pk);
+        if (metState == LocationRemapState.Remapped)
+            return IsMetRemappedSWSH(pk);
+        return base.IsMatchLocation(pk) || IsMetRemappedSWSH(pk);
     }
+
+    private static bool IsMetRemappedSWSH(PKM pk) => pk.Met_Location == LocationsHOME.SWLA;
 
     public override EncounterMatchRating GetMatchRating(PKM pk)
     {

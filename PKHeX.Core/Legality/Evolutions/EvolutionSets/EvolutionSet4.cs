@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -29,35 +28,39 @@ public static class EvolutionSet4
         return new EvolutionMethod(type, species, Argument: arg, Level: (byte)lvl, LevelUp: lvlup);
     }
 
-    public static IReadOnlyList<EvolutionMethod[]> GetArray(ReadOnlySpan<byte> data)
+    private const int bpe = 6; // bytes per evolution entry
+    private const int entries = 7; // amount of entries per species
+    private const int size = (entries * bpe) + 2; // bytes per species entry, + 2 alignment bytes
+
+    public static EvolutionMethod[][] GetArray(ReadOnlySpan<byte> data)
     {
-        const int bpe = 6; // bytes per evolution entry
-        const int entries = 7; // amount of entries per species
-        const int size = (entries * bpe) + 2; // bytes per species entry, + 2 alignment bytes
+        var result = new EvolutionMethod[data.Length / size][];
+        for (int i = 0, offset = 0; i < result.Length; i++, offset += size)
+            result[i] = GetEntry(data.Slice(offset, size));
+        return result;
+    }
 
-        var evos = new EvolutionMethod[data.Length / size][];
-        for (int i = 0; i < evos.Length; i++)
+    private static EvolutionMethod[] GetEntry(ReadOnlySpan<byte> data)
+    {
+        int count = ScanCountEvolutions(data);
+        if (count == 0)
+            return Array.Empty<EvolutionMethod>();
+
+        var result = new EvolutionMethod[count];
+        for (int i = 0, offset = 0; i < result.Length; i++, offset += bpe)
+            result[i] = GetMethod(data.Slice(offset, bpe));
+        return result;
+    }
+
+    private static int ScanCountEvolutions(ReadOnlySpan<byte> data)
+    {
+        for (int count = 0; count < entries; count++)
         {
-            int offset = i * size;
-            int count = 0;
-            for (; count < entries; count++)
-            {
-                var methodOffset = offset + (count * bpe);
-                var method = data[methodOffset];
-                if (method == 0)
-                    break;
-            }
-            if (count == 0)
-            {
-                evos[i] = Array.Empty<EvolutionMethod>();
-                continue;
-            }
-
-            var set = new EvolutionMethod[count];
-            for (int j = 0; j < set.Length; j++)
-                set[j] = GetMethod(data.Slice(offset + (j * bpe), bpe));
-            evos[i] = set;
+            var methodOffset = count * bpe;
+            var method = data[methodOffset];
+            if (method == 0)
+                return count;
         }
-        return evos;
+        return entries;
     }
 }

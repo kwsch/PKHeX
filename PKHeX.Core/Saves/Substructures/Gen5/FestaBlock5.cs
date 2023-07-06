@@ -236,25 +236,25 @@ public record struct Funfest5Score(uint RawValue)
 
     public int Total
     {
-        get => (int)(RawValue & 0x3FFFu);
+        readonly get => (int)(RawValue & 0x3FFFu);
         set => RawValue = (RawValue & ~0x3FFFu) | ((uint)value & 0x3FFFu);
     }
 
     public int Score
     {
-        get => (int)((RawValue >> 14) & 0x3FFFu);
+        readonly get => (int)((RawValue >> 14) & 0x3FFFu);
         set => RawValue = (RawValue & 0xF0003FFFu) | (((uint)value & 0x3FFFu) << 14);
     }
 
     public int Level
     {
-        get => (int)((RawValue >> 28) & 0x7u);
+        readonly get => (int)((RawValue >> 28) & 0x7u);
         set => RawValue = (RawValue & 0x8FFFFFFFu) | (((uint)value & 0x7u) << 28);
     }
 
     public bool IsNew
     {
-        get => RawValue >> 31 == 1;
+        readonly get => RawValue >> 31 == 1;
         set => RawValue = (RawValue & 0x7FFFFFFFu) | ((value ? 1u : 0) << 31);
     }
 }

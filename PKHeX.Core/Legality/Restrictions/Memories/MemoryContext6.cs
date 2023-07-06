@@ -11,6 +11,8 @@ public sealed partial class MemoryContext6 : MemoryContext
     public static readonly MemoryContext6 Instance = new();
     private MemoryContext6() { }
 
+    public override EntityContext Context => EntityContext.Gen6;
+
     private static ReadOnlySpan<byte> GetPokeCenterLocations(GameVersion game)
     {
         return GameVersion.XY.Contains(game) ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;

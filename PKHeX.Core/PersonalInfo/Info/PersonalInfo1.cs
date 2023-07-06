@@ -31,7 +31,7 @@ public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
     public byte Move4 { get => Data[0x12]; set => Data[0x12] = value; }
     public override byte EXPGrowth { get => Data[0x13]; set => Data[0x13] = value; }
 
-    // EV Yields are just aliases for base stats in Gen I
+    // EV Yields are just aliases for base stats in Gen1
     public override int EV_HP { get => HP; set { } }
     public override int EV_ATK { get => ATK; set { } }
     public override int EV_DEF { get => DEF; set { } }
@@ -89,4 +89,39 @@ public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
                 result[moves[index]] = true;
         }
     }
+
+    // 0-2 to indicate how many steps down to get the base species ID.
+    private static ReadOnlySpan<byte> EvoStages => new byte[]
+    {
+        0, 0, 1, 2, 0, 1, 2, 0, 1, 2,
+        0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+        1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
+        1, 2, 0, 1, 2, 0, 1, 0, 1, 0,
+        1, 0, 1, 0, 1, 2, 0, 1, 0, 1,
+        0, 1, 0, 1, 0, 1, 0, 1, 0, 1,
+        0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
+        1, 2, 0, 1, 0, 1, 2, 0, 1, 0,
+        1, 0, 1, 0, 0, 1, 0, 1, 0, 1,
+        0, 1, 0, 1, 2, 0, 0, 1, 0, 1,
+        0, 1, 0, 1, 0, 1, 0, 0, 0, 0,
+        1, 0, 1, 0, 0, 0, 0, 1, 0, 1,
+        0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 0, 0, 0, 1, 1, 1, 0, 0, 1,
+        0, 1, 0, 0, 0, 0, 0, 0, 1, 2,
+    };
+
+    /// <summary>
+    /// Gets the amount of times a species has evolved from the base species.
+    /// </summary>
+    /// <param name="species">Current species</param>
+    /// <returns>Baby species</returns>
+    public static int GetEvolutionStage(int species)
+    {
+        if ((uint)species >= EvoStages.Length)
+            return 0;
+        return EvoStages[species];
+    }
+
+    public (bool Match1, bool Match2) IsMatchType(IPersonalType other) => IsMatchType(other.Type1, other.Type2);
+    private (bool Match1, bool Match2) IsMatchType(byte type1, byte type2) => (type1 == Type1, type2 == Type2);
 }

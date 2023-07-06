@@ -8,6 +8,11 @@ namespace PKHeX.Core;
 public interface ILearnGroup
 {
     /// <summary>
+    /// Gets the maximum move ID that this group can learn.
+    /// </summary>
+    ushort MaxMoveID { get; }
+
+    /// <summary>
     /// Gets the next group to traverse to continue checking moves.
     /// </summary>
     ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option);

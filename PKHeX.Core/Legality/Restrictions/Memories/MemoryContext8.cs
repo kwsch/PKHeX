@@ -10,6 +10,8 @@ public sealed partial class MemoryContext8 : MemoryContext
     public static readonly MemoryContext8 Instance = new();
     private MemoryContext8() { }
 
+    public override EntityContext Context => EntityContext.Gen8;
+
     public override IEnumerable<ushort> GetMemoryItemParams()
     {
         var hashSet = new HashSet<ushort>(Legal.HeldItems_SWSH);

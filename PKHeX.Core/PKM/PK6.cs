@@ -506,7 +506,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         span[0xAA..0xB0].Clear(); /* Unused/Amie Fullness & Enjoyment. */
         span[0xE4..0xE8].Clear(); /* Unused. */
         pk7.Data[0x72] &= 0xFC; /* Clear lower two bits of Super training flags. */
-        pk7.Data[0xDE] = 0; /* Gen IV encounter type. */
+        pk7.Data[0xDE] = 0; /* Gen4 encounter type. */
 
         // Copy Form Argument data for Furfrou and Hoopa, since we're nice.
         pk7.FormArgumentRemain = FormArgumentRemain;

@@ -72,19 +72,19 @@ public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource
         (int)Species.Pikachu or (int)Species.Raichu => move is (int)Move.VoltTackle,
         (int)Species.Necrozma => move switch
         {
-            (int)Move.SunsteelStrike => (option == LearnOption.AtAnyTime || current.Form == 1), // Sun w/ Solgaleo
-            (int)Move.MoongeistBeam  => (option == LearnOption.AtAnyTime || current.Form == 2), // Moon w/ Lunala
+            (int)Move.SunsteelStrike => option.IsPast() || current.Form == 1, // Sun w/ Solgaleo
+            (int)Move.MoongeistBeam  => option.IsPast() || current.Form == 2, // Moon w/ Lunala
             _ => false,
         },
         (int)Species.Keldeo   => move is (int)Move.SecretSword,
         (int)Species.Meloetta => move is (int)Move.RelicSong,
         (int)Species.Rotom => move switch
         {
-            (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
-            (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
-            (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
-            (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
-            (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+            (int)Move.Overheat  => option.IsPast() || current.Form == 1,
+            (int)Move.HydroPump => option.IsPast() || current.Form == 2,
+            (int)Move.Blizzard  => option.IsPast() || current.Form == 3,
+            (int)Move.AirSlash  => option.IsPast() || current.Form == 4,
+            (int)Move.LeafStorm => option.IsPast() || current.Form == 5,
             _ => false,
         },
         (int)Species.Zygarde => move is (int)Move.ExtremeSpeed or (int)Move.DragonDance or (int)Move.ThousandArrows or (int)Move.ThousandWaves or (int)Move.CoreEnforcer,

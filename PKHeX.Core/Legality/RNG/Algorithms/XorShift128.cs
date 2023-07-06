@@ -51,9 +51,9 @@ public ref struct XorShift128
 
     public XorShift128(UInt128 state) => State = state;
 
-    public (uint x, uint y, uint z, uint w) GetState32() => (x, y, z, w);
-    public (ulong s0, ulong s1) GetState64() => (s0, s1);
-    public string FullState => $"{State:X32}";
+    public readonly (uint x, uint y, uint z, uint w) GetState32() => (x, y, z, w);
+    public readonly (ulong s0, ulong s1) GetState64() => (s0, s1);
+    public readonly string FullState => $"{State:X32}";
 
     /// <summary>
     /// Gets the next random <see cref="ulong"/>.

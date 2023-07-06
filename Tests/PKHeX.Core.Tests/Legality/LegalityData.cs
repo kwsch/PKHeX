@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using FluentAssertions;
@@ -12,20 +10,16 @@ public class LegalityData
     [Fact]
     public void EvolutionsOrdered() // feebas, see issue #2394
     {
-        var trees = typeof(EvolutionTree).GetFields(BindingFlags.Static | BindingFlags.NonPublic);
-        var fEntries = typeof(EvolutionTree).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).First(z => z.Name == "Entries");
-        foreach (var t in trees)
-        {
-            var gen = Convert.ToInt32(t.Name[7].ToString());
-            if (gen <= 4)
-                continue;
+        int count = 0;
+        var trees = typeof(EvolutionTree)
+            .GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+            .Select(z => z.GetValue(typeof(EvolutionTree)))
+            .OfType<EvolutionTree>();
 
-            if (t.GetValue(typeof(EvolutionTree)) is not EvolutionTree fTree)
-                throw new ArgumentException(nameof(fTree));
-            if (fEntries.GetValue(fTree) is not IReadOnlyList<EvolutionMethod[]> entries)
-                throw new ArgumentException(nameof(entries));
-            var feebas = entries[(int)Species.Feebas];
-            if (feebas.Length == 0)
+        foreach (var tree in trees)
+        {
+            var feebas = tree.Forward.GetForward((int)Species.Feebas, 0).Span;
+            if (feebas.Length <= 1)
                 continue;
 
             var t1 = feebas[0].Method;
@@ -33,7 +27,11 @@ public class LegalityData
 
             t1.IsLevelUpRequired().Should().BeFalse();
             t2.IsLevelUpRequired().Should().BeTrue();
+
+            count++;
         }
+
+        count.Should().NotBe(0);
     }
 
     [Fact]
@@ -41,10 +39,7 @@ public class LegalityData
     {
         // SV Crabrawler added a second, UseItem evolution method. Need to be sure it's before the more restrictive level-up method.
         var tree = EvolutionTree.Evolves9;
-        var fEntries = typeof(EvolutionTree).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).First(z => z.Name == "Entries");
-        if (fEntries.GetValue(tree) is not IReadOnlyList<EvolutionMethod[]> entries)
-            throw new ArgumentException(nameof(entries));
-        var crab = entries[(int)Species.Crabrawler];
+        var crab = tree.Forward.GetForward((int)Species.Crabrawler, 0).Span;
 
         var t1 = crab[0].Method;
         var t2 = crab[1].Method;

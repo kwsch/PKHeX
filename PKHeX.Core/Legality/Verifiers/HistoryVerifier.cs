@@ -73,7 +73,7 @@ public sealed class HistoryVerifier : Verifier
                 if (pk.HT_Name != tr.OT)
                     data.AddLine(GetInvalid(LTransferHTMismatchName));
                 if (pk is IHandlerLanguage h && h.HT_Language != tr.Language)
-                    data.AddLine(GetInvalid(LTransferHTMismatchLanguage));
+                    data.AddLine(Get(LTransferHTMismatchLanguage, Severity.Fishy));
             }
         }
 
@@ -192,34 +192,6 @@ public sealed class HistoryVerifier : Verifier
         var htGender = pk.HT_Gender;
         if (htGender > 1 || (pk.IsUntraded && htGender != 0))
             data.AddLine(GetInvalid(string.Format(LMemoryHTGender, htGender)));
-
-        if (pk is IHandlerLanguage h)
-            VerifyHTLanguage(data, h, pk);
-    }
-
-    private void VerifyHTLanguage(LegalityAnalysis data, IHandlerLanguage h, PKM pk)
-    {
-        var enc = data.EncounterOriginal;
-        if (enc is EncounterStatic9 { GiftWithLanguage: true })
-        {
-            if (h.HT_Language == 0)
-                data.AddLine(GetInvalid(LMemoryHTLanguage));
-            else if (pk.IsUntraded && h.HT_Language != pk.Language)
-                data.AddLine(GetInvalid(LMemoryHTLanguage));
-            return;
-        }
-
-        if (h.HT_Language == 0)
-        {
-            if (!string.IsNullOrWhiteSpace(pk.HT_Name))
-                data.AddLine(GetInvalid(LMemoryHTLanguage));
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(pk.HT_Name))
-            data.AddLine(GetInvalid(LMemoryHTLanguage));
-        else if (h.HT_Language > (int)LanguageID.ChineseT)
-            data.AddLine(GetInvalid(LMemoryHTLanguage));
     }
 
     private void VerifyGeoLocationData(LegalityAnalysis data, IGeoTrack t, PKM pk)

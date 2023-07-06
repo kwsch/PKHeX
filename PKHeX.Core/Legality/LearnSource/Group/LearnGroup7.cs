@@ -9,6 +9,7 @@ public sealed class LearnGroup7 : ILearnGroup
 {
     public static readonly LearnGroup7 Instance = new();
     private const int Generation = 7;
+    public ushort MaxMoveID => Legal.MaxMoveID_7;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation switch
     {
@@ -167,7 +168,7 @@ public sealed class LearnGroup7 : ILearnGroup
         }
 
         // Check all forms
-        var inst = LearnSource6AO.Instance;
+        var inst = LearnSource7USUM.Instance;
         if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 

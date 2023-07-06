@@ -8,7 +8,7 @@ public interface IPersonalTable
     /// <summary>
     /// Max Species ID (National Dex) that is stored in the table.
     /// </summary>
-    int MaxSpeciesID { get; }
+    ushort MaxSpeciesID { get; }
 
     /// <summary>
     /// Gets an index from the inner array.

@@ -242,7 +242,7 @@ public sealed class Learnset
     {
         // Count moves <= level
         var count = 0;
-        foreach (ref var x in Levels.AsSpan())
+        foreach (ref readonly var x in Levels.AsSpan())
         {
             if (x > level)
                 break;

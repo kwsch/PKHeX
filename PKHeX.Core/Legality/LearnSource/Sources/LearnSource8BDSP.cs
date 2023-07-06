@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Exposes information about how moves are learned in <see cref="BDSP"/>.
 /// </summary>
-public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSource
+public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSource, IHomeSource
 {
     public static readonly LearnSource8BDSP Instance = new();
     private static readonly PersonalTable8BDSP Personal = PersonalTable.BDSP;
@@ -74,11 +74,11 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
 
     private static bool GetIsEnhancedTutor(EvoCriteria evo, ISpeciesForm current, ushort move, LearnOption option) => evo.Species is (int)Species.Rotom && move switch
     {
-        (int)Move.Overheat  => option == LearnOption.AtAnyTime || current.Form == 1,
-        (int)Move.HydroPump => option == LearnOption.AtAnyTime || current.Form == 2,
-        (int)Move.Blizzard  => option == LearnOption.AtAnyTime || current.Form == 3,
-        (int)Move.AirSlash  => option == LearnOption.AtAnyTime || current.Form == 4,
-        (int)Move.LeafStorm => option == LearnOption.AtAnyTime || current.Form == 5,
+        (int)Move.Overheat  => option.IsPast() || current.Form == 1,
+        (int)Move.HydroPump => option.IsPast() || current.Form == 2,
+        (int)Move.Blizzard  => option.IsPast() || current.Form == 3,
+        (int)Move.AirSlash  => option.IsPast() || current.Form == 4,
+        (int)Move.LeafStorm => option.IsPast() || current.Form == 5,
         _ => false,
     };
 
@@ -147,4 +147,27 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
         (int)Move.HydroCannon,
         (int)Move.DracoMeteor,
     };
+
+    public LearnEnvironment Environment => Game;
+    public MoveLearnInfo GetCanLearnHOME(PKM pk, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All)
+    {
+        if (!TryGetPersonal(evo.Species, evo.Form, out var pi))
+            return default;
+
+        if (types.HasFlag(MoveSourceType.LevelUp))
+        {
+            var learn = GetLearnset(evo.Species, evo.Form);
+            var level = learn.GetLevelLearnMove(move);
+            if (level != -1)
+                return new(LevelUp, Game, (byte)level);
+        }
+
+        if (types.HasFlag(MoveSourceType.SharedEggMove) && GetIsSharedEggMove(pi, move))
+            return new(Shared, Game);
+
+        if (types.HasFlag(MoveSourceType.Machine) && pi.GetIsLearnTM(TMHM_BDSP.IndexOf(move)))
+            return new(TMHM, Game);
+
+        return default;
+    }
 }

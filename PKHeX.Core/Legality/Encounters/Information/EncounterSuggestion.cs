@@ -18,11 +18,15 @@ public static class EncounterSuggestion
         if (pk.WasEgg)
             return GetSuggestedEncounterEgg(pk, loc);
 
-        var chain = EvolutionChain.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
+        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        var origin = new EvolutionOrigin(pk.Species, (byte)pk.Version, (byte)pk.Generation, (byte)pk.CurrentLevel, (byte)pk.CurrentLevel, SkipChecks: true);
+        var count = EvolutionChain.GetOriginChain(chain, pk, origin);
         var ver = (GameVersion)pk.Version;
         var generator = EncounterGenerator.GetGenerator(ver);
-        var w = EncounterUtil.GetMinByLevel(chain, generator.GetPossible(pk, chain, ver, EncounterTypeGroup.Slot));
-        var s = EncounterUtil.GetMinByLevel(chain, generator.GetPossible(pk, chain, ver, EncounterTypeGroup.Static));
+
+        var evos = chain[..count].ToArray();
+        var w = EncounterUtil.GetMinByLevel(evos, generator.GetPossible(pk, evos, ver, EncounterTypeGroup.Slot));
+        var s = EncounterUtil.GetMinByLevel(evos, generator.GetPossible(pk, evos, ver, EncounterTypeGroup.Static));
 
         if (w is null)
             return s is null ? null : GetSuggestedEncounter(pk, s, loc);
@@ -116,22 +120,22 @@ public static class EncounterSuggestion
         if (startLevel >= 100)
             startLevel = 100;
 
-        var table = EvolutionTree.GetEvolutionTree(pk.Context);
-        int count = 1;
-        byte i = 100;
+        int most = 1;
+        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        var origin = new EvolutionOrigin(pk.Species, (byte)pk.Version, (byte)pk.Generation, startLevel, 100, SkipChecks: true);
         while (true)
         {
-            var evos = table.GetValidPreEvolutions(pk, levelMax: i, skipChecks: true, levelMin: startLevel);
-            if (evos.Length < count) // lost an evolution, prior level was minimum current level
-                return GetMaxLevelMax(evos) + 1;
-            count = evos.Length;
-            if (i == startLevel)
+            var count = EvolutionChain.GetOriginChain(chain, pk, origin);
+            if (count < most) // lost an evolution, prior level was minimum current level
+                return GetMaxLevelMax(chain) + 1;
+            most = count;
+            if (origin.LevelMax == origin.LevelMin)
                 return startLevel;
-            --i;
+            origin = origin with { LevelMax = (byte)(origin.LevelMax - 1) };
         }
     }
 
-    private static int GetMaxLevelMax(EvoCriteria[] evos)
+    private static int GetMaxLevelMax(ReadOnlySpan<EvoCriteria> evos)
     {
         int max = 0;
         foreach (var evo in evos)

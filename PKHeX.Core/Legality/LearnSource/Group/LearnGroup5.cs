@@ -9,6 +9,7 @@ public sealed class LearnGroup5 : ILearnGroup
 {
     public static readonly LearnGroup5 Instance = new();
     private const int Generation = 5;
+    public ushort MaxMoveID => Legal.MaxMoveID_5;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation is Generation ? null : LearnGroup4.Instance;
     public bool HasVisited(PKM pk, EvolutionHistory history) => history.HasVisitedGen5;

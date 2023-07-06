@@ -24,7 +24,7 @@ public static class MoveListSuggest
         }
 
         // try to give current moves
-        if (enc.Generation <= 2)
+        if (enc.Generation <= 2 && pk.Format < 8)
         {
             var lvl = pk.Format >= 7 ? pk.Met_Level : pk.CurrentLevel;
             var source = GameData.GetLearnSource(enc.Version);
@@ -32,9 +32,11 @@ public static class MoveListSuggest
             return;
         }
 
-        if (pk.Species == enc.Species)
+        if (pk.Species == enc.Species || pk.Context.Generation() >= 8)
         {
             var game = (GameVersion)pk.Version; // account for SW/SH foreign mutated versions
+            if (pk.Context.Generation() >= 8)
+                game = pk.Context.GetSingleGameVersion();
             var source = GameData.GetLearnSource(game);
             source.SetEncounterMoves(pk.Species, pk.Form, pk.CurrentLevel, moves);
             return;
@@ -183,9 +185,19 @@ public static class MoveListSuggest
 
         // Try again with the other split-breed species if possible.
         var generator = EncounterGenerator.GetGenerator(enc.Version);
-        var tree = EvolutionTree.GetEvolutionTree(enc.Context);
-        var chain = tree.GetValidPreEvolutions(pk, 100, skipChecks: true, stopSpecies: enc.Species);
-        var other = generator.GetPossible(pk, chain, enc.Version, EncounterTypeGroup.Egg);
+
+        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        var origin = new EvolutionOrigin(enc.Species, (byte)enc.Version, (byte)enc.Generation, 1, 100, true);
+        int count = EvolutionChain.GetOriginChain(chain, pk, origin);
+        for (int i = 0; i < count; i++)
+        {
+            if (chain[i].Species != enc.Species)
+                continue;
+            count = i;
+            break;
+        }
+        var evos = chain[..count].ToArray();
+        var other = generator.GetPossible(pk, evos, enc.Version, EncounterTypeGroup.Egg);
         foreach (var incense in other)
         {
             if (incense.Species == enc.Species)

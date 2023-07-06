@@ -27,21 +27,31 @@ public static class RibbonRules
     /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetCommon3.RibbonEffort"/> ribbon.
     /// </summary>
-    public static bool IsRibbonValidEffort(PKM pk, EvolutionHistory evos, int gen) => gen switch
+    public static bool IsRibbonValidEffort(EvolutionHistory evos) => evos switch
     {
-        5 when pk.Format == 5 => false, // Not available in BW/B2W2
-        8 when evos is { HasVisitedSWSH: false, HasVisitedBDSP: false } => false, // not available in PLA
-        _ => true,
+        { HasVisitedGen3: true } => true,
+        { HasVisitedGen4: true } => true,
+        // Not available in Gen5
+        { HasVisitedGen6: true } => true,
+        { HasVisitedGen7: true } => true,
+        { HasVisitedSWSH: true } => true,
+        { HasVisitedBDSP: true } => true,
+        // Not available in PLA
+        { HasVisitedGen9: true } => true,
+        _ => false,
     };
 
     /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetCommon6.RibbonBestFriends"/> ribbon.
     /// </summary>
-    public static bool IsRibbonValidBestFriends(PKM pk, EvolutionHistory evos, int gen) => gen switch
+    public static bool IsRibbonValidBestFriends(PKM pk, EvolutionHistory evos) => evos switch
     {
-        < 7 when pk is { IsUntraded: true } and IAffection { OT_Affection: < 255 } => false, // Gen6/7 uses affection. Can't lower it on OT!
-        8 when evos is { HasVisitedSWSH: false, HasVisitedBDSP: false } => false, // Gen8+ replaced with Max Friendship.
-        _ => true,
+        { HasVisitedSWSH: true } => true, // Max Friendship
+        { HasVisitedBDSP: true } => true, // Max Friendship
+        { HasVisitedGen9: true } => true, // Max Friendship
+
+        { HasVisitedGen7: true } when pk is not PK7 { IsUntraded: true, OT_Affection: < 255 } => true,
+        _ => false,
     };
 
     /// <summary>
@@ -82,7 +92,7 @@ public static class RibbonRules
         if (evos.HasVisitedSWSH && IsRibbonValidMasterRankSWSH(pk, enc))
             return true;
 
-        // Only Paldea natives can compete in Ranked. No Legendaries yet.
+        // Legendaries can not compete in ranked yet.
         if (evos.HasVisitedGen9 && IsRibbonValidMasterRankSV(pk))
             return true;
 
@@ -115,14 +125,13 @@ public static class RibbonRules
     private static bool IsRibbonValidMasterRankSV(ISpeciesForm pk)
     {
         var species = pk.Species;
-        if (SpeciesCategory.IsMythical(species))
+        if (species is (int)WalkingWake or (int)IronLeaves)
             return false;
         if (SpeciesCategory.IsLegendary(species))
             return false;
-
-        var pt = PersonalTable.SV;
-        var pi = pt.GetFormEntry(species, pk.Form);
-        return pi.IsInDex; // no foreign species, such as Charmander, Wooper-0, and Meowth-2
+        if (SpeciesCategory.IsMythical(species))
+            return false;
+        return true;
     }
 
     /// <summary>

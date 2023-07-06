@@ -1,7 +1,5 @@
 using System;
 
-using static PKHeX.Core.Legal;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -11,29 +9,53 @@ public static class EvolutionChain
 {
     public static EvolutionHistory GetEvolutionChainsAllGens(PKM pk, IEncounterTemplate enc)
     {
-        var origin = new EvolutionOrigin(enc.Species, (byte)enc.Version, (byte)enc.Generation, enc.LevelMin, (byte)pk.CurrentLevel);
+        var min = GetMinLevel(pk, enc);
+        var origin = new EvolutionOrigin(pk.Species, (byte)enc.Version, (byte)enc.Generation, min, (byte)pk.CurrentLevel);
         if (!pk.IsEgg && enc is not EncounterInvalid)
-            return GetEvolutionChainsSearch(pk, origin);
+            return GetEvolutionChainsSearch(pk, origin, enc.Context, enc.Species);
 
-        var history = new EvolutionHistory();
-        var group = EvolutionGroupUtil.GetCurrentGroup(pk);
-        var chain = group.GetInitialChain(pk, origin, pk.Species, pk.Form);
-        history.Set(pk.Context, chain);
-        return history;
+        return GetEvolutionChainsSearch(pk, origin, pk.Context, enc.Species);
     }
 
-    public static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc)
+    private static byte GetMinLevel(PKM pk, IEncounterTemplate enc) => enc.Generation switch
     {
-        var group = EvolutionGroupUtil.GetCurrentGroup(pk);
-        ReadOnlySpan<EvoCriteria> chain = group.GetInitialChain(pk, enc, pk.Species, pk.Form);
+        2 => pk is ICaughtData2 c2 ? Math.Max((byte)c2.Met_Level, enc.LevelMin) : enc.LevelMin,
+        <= 4 when pk.Format != enc.Generation => enc.LevelMin,
+        _ => Math.Max((byte)pk.Met_Level, enc.LevelMin),
+    };
 
+    public static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies)
+    {
+        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        return EvolutionChainsSearch(pk, enc, context, encSpecies, chain);
+    }
+
+    private static EvolutionHistory EvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies, Span<EvoCriteria> chain)
+    {
         var history = new EvolutionHistory();
+        var length = GetOriginChain(chain, pk, enc, encSpecies, false);
+        if (length == 0)
+            return history;
+        chain = chain[..length];
+
+        // Update the chain to only include the current species, leave future evolutions as unknown
+        if (encSpecies != 0)
+            EvolutionUtil.ConditionBaseChainForward(chain, encSpecies);
+        if (context == EntityContext.Gen2)
+        {
+            EvolutionGroup2.Instance.Evolve(chain, pk, enc, history);
+            EvolutionGroup1.Instance.Evolve(chain, pk, enc, history);
+            if (pk.Format > 2)
+                context = EntityContext.Gen7;
+            else
+                return history;
+        }
+
+        var group = EvolutionGroupUtil.GetGroup(context);
         while (true)
         {
-            var any = group.Append(pk, history, ref chain, enc);
-            if (!any)
-                break;
-            var previous = group.GetPrevious(pk, enc);
+            group.Evolve(chain, pk, enc, history);
+            var previous = group.GetNext(pk, enc);
             if (previous is null)
                 break;
             group = previous;
@@ -41,18 +63,65 @@ public static class EvolutionChain
         return history;
     }
 
-    public static EvoCriteria[] GetValidPreEvolutions(PKM pk, int maxspeciesorigin = -1, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
+    public static EvoCriteria[] GetOriginChain(PKM pk, EvolutionOrigin enc, ushort encSpecies = 0, bool discard = true)
     {
-        if (maxLevel < 0)
-            maxLevel = pk.CurrentLevel;
+        Span<EvoCriteria> result = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        int count = GetOriginChain(result, pk, enc, encSpecies, discard);
+        if (count == 0)
+            return Array.Empty<EvoCriteria>();
 
-        if (maxspeciesorigin == -1 && ParseSettings.AllowGen1Tradeback && pk is { Format: <= 2, Generation: 1 })
-            maxspeciesorigin = MaxSpeciesID_2;
+        var chain = result[..count];
+        return chain.ToArray();
+    }
 
-        var context = pk.Context;
-        if (context < EntityContext.Gen2)
-            context = EntityContext.Gen2;
-        var et = EvolutionTree.GetEvolutionTree(context);
-        return et.GetValidPreEvolutions(pk, levelMax: (byte)maxLevel, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks, levelMin: (byte)minLevel);
+    public static int GetOriginChain(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, ushort encSpecies = 0, bool discard = true)
+    {
+        ushort species = enc.Species;
+        byte form = pk.Form;
+        if (pk.IsEgg && !enc.SkipChecks)
+        {
+            result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = enc.LevelMax, LevelMin = enc.LevelMax };
+            return 1;
+        }
+
+        result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = enc.LevelMax };
+        var count = DevolveFrom(result, pk, enc, pk.Context, encSpecies, discard);
+
+        var chain = result[..count];
+        EvolutionUtil.CleanDevolve(chain, enc.LevelMin);
+        return count;
+    }
+
+    private static int DevolveFrom(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies, bool discard)
+    {
+        var group = EvolutionGroupUtil.GetGroup(context);
+        while (true)
+        {
+            group.Devolve(result, pk, enc);
+            var previous = group.GetPrevious(pk, enc);
+            if (previous is null)
+                break;
+            group = previous;
+        }
+
+        if (discard)
+            group.DiscardForOrigin(result, pk);
+        if (encSpecies != 0)
+            return EvolutionUtil.IndexOf(result, encSpecies) + 1;
+        return GetCount(result);
+    }
+
+    private static int GetCount(Span<EvoCriteria> result)
+    {
+        // return the count of species != 0
+        int count = 0;
+        foreach (var evo in result)
+        {
+            if (evo.Species == 0)
+                break;
+            count++;
+        }
+
+        return count;
     }
 }

@@ -9,8 +9,8 @@ public sealed class PersonalTable1 : IPersonalTable, IPersonalTable<PersonalInfo
 {
     private readonly PersonalInfo1[] Table;
     private const int SIZE = PersonalInfo1.SIZE;
-    private const int MaxSpecies = Legal.MaxSpeciesID_1;
-    public int MaxSpeciesID => MaxSpecies;
+    private const ushort MaxSpecies = Legal.MaxSpeciesID_1;
+    public ushort MaxSpeciesID => MaxSpecies;
 
     public PersonalTable1(ReadOnlySpan<byte> data)
     {
@@ -42,14 +42,26 @@ public sealed class PersonalTable1 : IPersonalTable, IPersonalTable<PersonalInfo
     /// <param name="type1">First type</param>
     /// <param name="type2">Second type</param>
     /// <returns>Indication that the combination exists in the table.</returns>
-    public bool IsValidTypeCombination(byte type1, byte type2)
+    public int IsValidTypeCombination(byte type1, byte type2)
     {
         for (int i = 1; i <= MaxSpecies; i++)
         {
             var pi = Table[i];
             if (pi.IsValidTypeCombination(type1, type2))
-                return true;
+                return i;
         }
-        return false;
+        return -1;
     }
+
+    /// <summary>
+    /// <inheritdoc cref="IsValidTypeCombination(byte, byte)"/>
+    /// </summary>
+    /// <param name="other">Type tuple to search for.</param>
+    public int IsValidTypeCombination(IPersonalType other) => IsValidTypeCombination(other.Type1, other.Type2);
+
+    /// <summary>
+    /// Checks if the type matches any of the type IDs extracted from the Personal Table used for R/G/B/Y games.
+    /// </summary>
+    /// <remarks>Valid values: 0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26</remarks>
+    public static bool TypeIDExists(byte type) => type < 32 && (0b111111100000000000110111111 & (1 << type)) != 0;
 }
