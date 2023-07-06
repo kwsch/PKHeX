@@ -291,7 +291,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     private static bool GetIsValidOTMattleHoOh(ReadOnlySpan<char> wc, ReadOnlySpan<char> ot, bool ck3)
     {
         if (ck3) // match original if still ck3, otherwise must be truncated 7char
-            return wc == ot;
+            return wc.SequenceEqual(ot);
         return ot.Length == 7 && wc.StartsWith(ot, StringComparison.Ordinal);
     }
 

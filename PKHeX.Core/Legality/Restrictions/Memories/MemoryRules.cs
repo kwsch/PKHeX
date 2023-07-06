@@ -37,8 +37,14 @@ public static class MemoryRules
         // No HT Name => no HT Memory
         if (pk.IsUntraded)
         {
-            if (enc is { Context: EntityContext.Gen8, EggEncounter: true } && pk is { Context: EntityContext.Gen8, Met_Location: Locations.LinkTrade6 }) // Applies HT memory without HT details
-                return sources;
+            // Traded eggs in SW/SH set HT memory but not HT Name.
+            if (enc is { Context: EntityContext.Gen8, EggEncounter: true } && pk.Context is EntityContext.Gen8)
+            {
+                var loc = pk.IsEgg ? pk.Met_Location : pk.Egg_Location;
+                if (loc == Locations.LinkTrade6)
+                    return sources; // OK
+            }
+
             return MemorySource.None;
         }
 
