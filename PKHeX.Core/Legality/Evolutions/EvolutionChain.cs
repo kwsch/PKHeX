@@ -33,7 +33,7 @@ public static class EvolutionChain
     private static EvolutionHistory EvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies, Span<EvoCriteria> chain)
     {
         var history = new EvolutionHistory();
-        var length = GetOriginChain(chain, pk, enc, false);
+        var length = GetOriginChain(chain, pk, enc, encSpecies, false);
         if (length == 0)
             return history;
         chain = chain[..length];
@@ -63,10 +63,10 @@ public static class EvolutionChain
         return history;
     }
 
-    public static EvoCriteria[] GetOriginChain(PKM pk, EvolutionOrigin enc, bool discard = true)
+    public static EvoCriteria[] GetOriginChain(PKM pk, EvolutionOrigin enc, ushort encSpecies = 0, bool discard = true)
     {
         Span<EvoCriteria> result = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        int count = GetOriginChain(result, pk, enc, discard);
+        int count = GetOriginChain(result, pk, enc, encSpecies, discard);
         if (count == 0)
             return Array.Empty<EvoCriteria>();
 
@@ -74,7 +74,7 @@ public static class EvolutionChain
         return chain.ToArray();
     }
 
-    public static int GetOriginChain(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, bool discard = true)
+    public static int GetOriginChain(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, ushort encSpecies = 0, bool discard = true)
     {
         ushort species = enc.Species;
         byte form = pk.Form;
@@ -85,14 +85,14 @@ public static class EvolutionChain
         }
 
         result[0] = new EvoCriteria { Species = species, Form = form, LevelMax = enc.LevelMax };
-        var count = DevolveFrom(result, pk, enc, pk.Context, discard);
+        var count = DevolveFrom(result, pk, enc, pk.Context, encSpecies, discard);
 
         var chain = result[..count];
         EvolutionUtil.CleanDevolve(chain, enc.LevelMin);
         return count;
     }
 
-    private static int DevolveFrom(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EntityContext context, bool discard)
+    private static int DevolveFrom(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies, bool discard)
     {
         var group = EvolutionGroupUtil.GetGroup(context);
         while (true)
@@ -106,7 +106,8 @@ public static class EvolutionChain
 
         if (discard)
             group.DiscardForOrigin(result, pk);
-
+        if (encSpecies != 0)
+            return EvolutionUtil.IndexOf(result, encSpecies) + 1;
         return GetCount(result);
     }
 

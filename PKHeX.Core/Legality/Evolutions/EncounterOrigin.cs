@@ -53,17 +53,43 @@ public static class EncounterOrigin
 
     private static byte GetLevelOriginMin(PKM pk, byte generation) => generation switch
     {
-        3 when pk.Format != generation =>             pk.Egg_Location != 0 ? (byte)5 : (byte)2,
-        4 when pk.Format != generation =>             pk.Egg_Location != 0 ? (byte)1 : (byte)2,
-        3 when pk.Format == generation => pk.IsEgg || pk.Egg_Location != 0 ? (byte)5 : (byte)pk.Met_Level,
-        4 when pk.Format == generation => pk.IsEgg || pk.Egg_Location != 0 ? (byte)1 : (byte)pk.Met_Level,
+        3 => GetLevelOriginMin3(pk),
+        4 => GetLevelOriginMin4(pk),
         _ => Math.Max((byte)1, (byte)pk.Met_Level),
     };
 
-    private static byte GetLevelOriginMinGB(PKM pk) => pk switch
+    private static bool IsEggLocationNonZero(PKM pk) => pk.Egg_Location != LocationEdits.GetNoneLocation(pk.Context);
+
+    private static byte GetLevelOriginMinGB(PKM pk)
     {
-        { IsEgg: true } => 5,
-        ICaughtData2 { CaughtData: not 0 } pk2 => (byte)pk2.Met_Level,
-        _ => 2,
-    };
+        const byte EggLevel = 5;
+        const byte MinWildLevel = 2;
+        if (pk.IsEgg)
+            return EggLevel;
+        if (pk is not ICaughtData2 { CaughtData: not 0 } pk2)
+            return MinWildLevel;
+        return (byte)pk2.Met_Level;
+    }
+
+    private static byte GetLevelOriginMin3(PKM pk)
+    {
+        const byte EggLevel = 5;
+        const byte MinWildLevel = 2;
+        if (pk.Format != 3)
+            return MinWildLevel;
+        if (pk.IsEgg)
+            return EggLevel;
+        return (byte)pk.Met_Level;
+    }
+
+    private static byte GetLevelOriginMin4(PKM pk)
+    {
+        const byte EggLevel = 1;
+        const byte MinWildLevel = 2;
+        if (pk.Format != 4)
+            return IsEggLocationNonZero(pk) ? EggLevel : MinWildLevel;
+        if (pk.IsEgg || IsEggLocationNonZero(pk))
+            return EggLevel;
+        return (byte)pk.Met_Level;
+    }
 }

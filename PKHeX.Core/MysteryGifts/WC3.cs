@@ -282,7 +282,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
                 return false;
             if (Level > pk.Met_Level)
                 return false;
-            if (pk.Egg_Location != 0)
+            if (pk.Egg_Location != LocationEdits.GetNoneLocation(pk.Context))
                 return false;
         }
         return true;

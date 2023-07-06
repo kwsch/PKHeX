@@ -73,9 +73,19 @@ internal static class EvolutionUtil
         result[^1] = default; // zero out the last entry
     }
 
-    public static bool Contains(ReadOnlySpan<EvoCriteria> original, ushort species)
+    public static int IndexOf(Span<EvoCriteria> result, ushort species)
     {
-        foreach (ref readonly var z in original)
+        for (int i = 0; i < result.Length; i++)
+        {
+            if (result[i].Species == species)
+                return i;
+        }
+        return -1;
+    }
+
+    public static bool Contains(ReadOnlySpan<EvoCriteria> result, ushort species)
+    {
+        foreach (ref readonly var z in result)
         {
             if (z.Species == species)
                 return true;
