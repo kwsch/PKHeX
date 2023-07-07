@@ -97,16 +97,19 @@ public partial class SAV_CGearSkin : Form
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        byte[] data = bg.GetSkin(true);
+        var data = new byte[CGearBackground.SIZE_CGB];
+        bg.Write(data, true);
         File.WriteAllBytes(sfd.FileName, data);
     }
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        byte[] bgdata = bg.GetSkin(SAV is SAV5B2W2);
-        if (bgdata.AsSpan().IndexOfAnyExcept<byte>(0) != -1)
+        var data = new byte[CGearBackground.SIZE_CGB];
+        bool cgb = SAV is SAV5B2W2;
+        bg.Write(data, cgb);
+        if (data.AsSpan().IndexOfAnyExcept<byte>(0) != -1)
         {
-            SAV.CGearSkinData = bgdata;
+            SAV.CGearSkinData = data;
             Origin.CopyChangesFrom(SAV);
         }
         Close();
