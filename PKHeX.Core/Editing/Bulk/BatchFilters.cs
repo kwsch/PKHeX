@@ -43,9 +43,9 @@ public static class BatchFilters
             (obj, cmd) => obj is SlotCache s && cmd.Comparer.IsCompareEquivalence(s.Identify().Contains(cmd.PropertyValue))),
 
         new MetaFilter(nameof(SlotInfoBox.Box),
-            (obj, cmd) => obj is SlotCache { Source: SlotInfoBox b } && int.TryParse(cmd.PropertyValue, out var box) && b.Box + 1 == box),
+            (obj, cmd) => obj is SlotCache { Source: SlotInfoBox b } && int.TryParse(cmd.PropertyValue, out var box) && cmd.Comparer.IsCompareOperator((b.Box + 1).CompareTo(box))),
 
         new MetaFilter(nameof(ISlotInfo.Slot),
-            (obj, cmd) => obj is SlotCache s && int.TryParse(cmd.PropertyValue, out var slot) && s.Source.Slot + 1 == slot),
+            (obj, cmd) => obj is SlotCache s && int.TryParse(cmd.PropertyValue, out var slot) && cmd.Comparer.IsCompareOperator((s.Source.Slot + 1).CompareTo(slot))),
     };
 }
