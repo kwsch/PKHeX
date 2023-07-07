@@ -192,20 +192,20 @@ public sealed class MiscVerifier : Verifier
 
     public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual, IEncounterTemplate enc)
     {
-        // Sanitize out Form here for Arceus/Silvally -- rewrite via evotree later.
-        if (evos.Length == 0 || evos[0].Species is (int)Species.Arceus or (int)Species.Silvally)
+        // Sanitize out Form here for Arceus
+        if (evos.Length == 0 || evos[0].Species is (int)Species.Arceus)
             return actual == MoveType.Normal ? 0 : -1;
         for (int i = evos.Length - 1; i >= 0; i--)
         {
             var evo = evos[i];
             if (FormInfo.IsFormChangeable(evo.Species, enc.Form, evo.Form, enc.Context, EntityContext.Gen9))
             {
-                if (Tera9RNG.IsMatchTeraTypePersonalAnyForm(evo.Species, (byte)actual))
+                if (Tera9RNG.IsMatchTeraTypePersonalAnyFormImport(evo.Species, (byte)actual))
                     return i;
             }
             else
             {
-                if (Tera9RNG.IsMatchTeraTypePersonal(evo.Species, evo.Form, (byte)actual))
+                if (Tera9RNG.IsMatchTeraTypePersonalImport(evo.Species, evo.Form, (byte)actual))
                     return i;
             }
         }

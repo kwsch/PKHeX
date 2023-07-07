@@ -238,7 +238,7 @@ public sealed class Learnset
         return Levels[index];
     }
 
-    public ReadOnlySpan<ushort> GetBaseEggMoves(int level)
+    public ReadOnlySpan<ushort> GetBaseEggMoves(byte level)
     {
         // Count moves <= level
         var count = 0;

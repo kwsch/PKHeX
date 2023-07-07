@@ -44,12 +44,12 @@ public static class EvolutionVerifier
             return true; // never evolved
 
         var current = history.Get(pk.Context);
-        if (!EvolutionUtil.Contains(current, curSpecies))
+        if (!EvolutionHistory.HasVisited(current, curSpecies))
             return false; // Can't exist as current species
 
         // Double check that our encounter was able to exist as the encounter species.
         var original = history.Get(enc.Context);
-        if (!EvolutionUtil.Contains(original, encSpecies))
+        if (!EvolutionHistory.HasVisited(original, encSpecies))
             return false;
 
         // Bigender->Fixed (non-Genderless) destination species, accounting for PID-Gender relationship

@@ -254,5 +254,16 @@ public sealed class EvolutionEnvironment9 : IEvolutionEnvironment
         => Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, out result);
 
     public bool TryEvolve(ISpeciesForm head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
-        => Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, out result);
+    {
+        var b = Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, out result);
+        return b && !IsEvolutionBanned(head);
+    }
+
+    // Unreleased Item
+    private static bool IsEvolutionBanned(in ISpeciesForm head) => head.Species switch
+    {
+        (int)Species.Slowpoke => head.Form != 1,
+        (int)Species.Slowbro => head.Form != 2,
+        _ => false,
+    };
 }

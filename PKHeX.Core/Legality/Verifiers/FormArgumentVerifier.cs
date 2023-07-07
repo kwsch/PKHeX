@@ -35,7 +35,13 @@ public sealed class FormArgumentVerifier : Verifier
                 => GetValid(LFormArgumentValid),
 
             Furfrou when pk.Form != 0 => !IsFormArgumentDayCounterValid(f, 5, true) ? GetInvalid(LFormArgumentInvalid) : GetValid(LFormArgumentValid),
-            Hoopa when pk.Form == 1 => !IsFormArgumentDayCounterValid(f, 3) ? GetInvalid(LFormArgumentInvalid) : GetValid(LFormArgumentValid),
+            Hoopa when pk.Form == 1 => data.Info.EvoChainsAllGens switch
+            {
+                { HasVisitedGen9: true } when arg == 0 => GetValid(LFormArgumentValid), // Value not applied on form change, and reset when reverted.
+                { HasVisitedGen6: true } when IsFormArgumentDayCounterValid(f, 3) => GetValid(LFormArgumentValid), // 0-3 via OR/AS
+                { HasVisitedGen7: true } when IsFormArgumentDayCounterValid(f, 3) && f.FormArgumentRemain != 0 => GetValid(LFormArgumentValid), // 1-3 via Gen7
+                _ => GetInvalid(LFormArgumentInvalid),
+            },
             Yamask when pk.Form == 1 => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),

@@ -107,7 +107,7 @@ internal static class GBRestrictions
                     return true;
             }
 
-            if (!EvolutionTree.Evolves1.Reverse.TryDevolve(head, pk, max, 2, false, out var next))
+            if (!EvolutionGroup1.Instance.TryDevolve(head, pk, max, 2, false, out var next))
                 break;
             head = next;
             max = next.LevelMax;

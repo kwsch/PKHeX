@@ -150,7 +150,13 @@ public static class EntityConverter
         // Every format can eventually feed into HOME. Don't bother checking current type.
         var type = PKH.GetType(destType);
         if (type is not HomeGameDataFormat.None)
-            return HOME.GetEntity(pk).ConvertToPKM(type);
+        {
+            var pkh = HOME.GetEntity(pk);
+            var converted = pkh.ConvertToPKM(type);
+            if (converted is null)
+                result = IncompatibleSpecies;
+            return converted;
+        }
 
         result = NoTransferRoute;
         return null;

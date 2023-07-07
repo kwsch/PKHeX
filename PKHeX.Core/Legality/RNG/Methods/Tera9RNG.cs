@@ -85,6 +85,34 @@ public static class Tera9RNG
         return false;
     }
 
+    private static bool IsMatchTeraTypeImport(PersonalInfo9SV pi, in byte original)
+    {
+        var import = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
+        return (MoveType)original == import;
+    }
+
+    public static bool IsMatchTeraTypePersonalImport(in ushort species, in byte form, in byte original)
+    {
+        var pi = PersonalTable.SV[species, form];
+        return IsMatchTeraTypeImport(pi, original);
+    }
+
+    public static bool IsMatchTeraTypePersonalAnyFormImport(in ushort species, in byte original)
+    {
+        var pt = PersonalTable.SV;
+        var pi = pt.GetFormEntry(species, 0);
+        if (pi.IsPresentInGame && IsMatchTeraTypeImport(pi, original))
+            return true;
+        var fc = pi.FormCount;
+        for (byte form = 1; form < fc; form++)
+        {
+            pi = pt.GetFormEntry(species, form);
+            if (pi.IsPresentInGame && IsMatchTeraTypeImport(pi, original))
+                return true;
+        }
+        return false;
+    }
+
     public static byte GetTeraTypeFromPersonal(in ushort species, in byte form, in ulong pivot)
     {
         var pi = PersonalTable.SV[species, form];

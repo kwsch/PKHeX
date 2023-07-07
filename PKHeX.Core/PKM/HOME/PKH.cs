@@ -399,6 +399,10 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
         {
             // Fix for PLA static encounter Alphas with 127 scale.
             Core.HeightScalar = Core.WeightScalar = 255;
+            if (DataPA8 is { Scale: not 255 } pa8)
+                pa8.Scale = 255;
+            if (DataPK9 is { Scale: not 255 } pk9)
+                pk9.Scale = 255;
             return;
         }
         if (GO_HOME || FirstScaleData is IScaledSize3)

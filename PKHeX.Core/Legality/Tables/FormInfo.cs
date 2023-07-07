@@ -110,12 +110,10 @@ public static class FormInfo
         }
         if (species is (int)Deerling or (int)Sawsbuck)
         {
-            return origin switch
-            {
-                EntityContext.Gen5 => true,
-                EntityContext.Gen9 => true,
-                _ => false, // todo home sv
-            };
+            if (origin == EntityContext.Gen5)
+                return true; // B/W
+            if (current.Generation() >= 8)
+                return true; // Via S/V
         }
         return false;
     }

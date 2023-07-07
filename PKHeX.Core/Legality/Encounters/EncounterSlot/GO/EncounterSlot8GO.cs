@@ -39,7 +39,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
 
     protected override PKM GetBlank() => OriginFormat switch
     {
-        PogoImportFormat.PK7 => new PK8(),
+        PogoImportFormat.PK7 => new PK9(),
         PogoImportFormat.PB7 => new PB7(),
         PogoImportFormat.PK8 => new PK8(),
         PogoImportFormat.PA8 => new PA8(),

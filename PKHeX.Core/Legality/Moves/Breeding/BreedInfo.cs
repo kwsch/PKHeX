@@ -21,9 +21,9 @@ internal readonly ref struct BreedInfo<T> where T : unmanaged
     public readonly ReadOnlySpan<ushort> Moves;
 
     /// <summary> Level the egg originated at. </summary>
-    public readonly int Level;
+    public readonly byte Level;
 
-    public BreedInfo(Span<T> actual, Span<byte> possible, Learnset learnset, ReadOnlySpan<ushort> moves, int level)
+    public BreedInfo(Span<T> actual, Span<byte> possible, Learnset learnset, ReadOnlySpan<ushort> moves, byte level)
     {
         Actual = actual;
         Possible = possible;

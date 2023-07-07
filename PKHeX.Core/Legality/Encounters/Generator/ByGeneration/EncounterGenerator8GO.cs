@@ -57,6 +57,9 @@ public sealed class EncounterGenerator8GO : IEncounterGenerator
                 if (area.Species != evo.Species)
                     continue;
 
+                if (area.Form != evo.Form && !FormInfo.IsFormChangeable(area.Species, area.Form, evo.Form, EntityContext.Gen8, pk.Context))
+                    continue;
+
                 var slots = area.GetMatchingSlots(pk, evo);
                 foreach (var z in slots)
                 {
