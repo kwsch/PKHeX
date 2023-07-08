@@ -198,7 +198,7 @@ public partial class PKMEditor
         CHK_IsEgg.Checked = pk.IsEgg;
         CB_HeldItem.SelectedValue = pk.HeldItem;
         LoadClamp(CB_Form, pk.Form);
-        L_FormArgument.Visible = pk is IFormArgument f && FA_Form.LoadArgument(f, pk.Species, pk.Form, pk.Format);
+        L_FormArgument.Visible = pk is IFormArgument f && FA_Form.LoadArgument(f, pk.Species, pk.Form, pk.Context);
 
         ReloadToFriendshipTextBox(pk);
 

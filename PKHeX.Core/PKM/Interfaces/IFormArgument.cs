@@ -58,7 +58,7 @@ public static class FormArgumentUtil
         if (pk is not IFormArgument)
             return;
         uint value = IsFormArgumentTypeDatePair(pk.Species, pk.Form)
-            ? GetFormArgumentMax(pk.Species, pk.Form, pk.Format)
+            ? GetFormArgumentMax(pk.Species, pk.Form, pk.Context)
             : GetFormArgumentMinEvolution(pk.Species, originalSpecies);
         pk.ChangeFormArgument(value);
     }
@@ -70,7 +70,7 @@ public static class FormArgumentUtil
     {
         if (pk is not IFormArgument f)
             return;
-        f.ChangeFormArgument(pk.Species, pk.Form, pk.Format, value);
+        f.ChangeFormArgument(pk.Species, pk.Form, pk.Context, value);
     }
 
     /// <summary>
@@ -79,9 +79,9 @@ public static class FormArgumentUtil
     /// <param name="f">Form Argument object</param>
     /// <param name="species">Entity Species</param>
     /// <param name="form">Entity Species</param>
-    /// <param name="generation">Entity current format generation</param>
+    /// <param name="context">Entity current context</param>
     /// <param name="value">Value to apply</param>
-    public static void ChangeFormArgument(this IFormArgument f, ushort species, byte form, int generation, uint value)
+    public static void ChangeFormArgument(this IFormArgument f, ushort species, byte form, EntityContext context, uint value)
     {
         if (!IsFormArgumentTypeDatePair(species, form))
         {
@@ -89,7 +89,7 @@ public static class FormArgumentUtil
             return;
         }
 
-        var max = GetFormArgumentMax(species, form, generation);
+        var max = GetFormArgumentMax(species, form, context);
         f.FormArgumentRemain = (byte)value;
         if (value == max)
         {
@@ -108,26 +108,27 @@ public static class FormArgumentUtil
     /// </summary>
     /// <param name="species">Entity Species</param>
     /// <param name="form">Entity Form</param>
-    /// <param name="generation">Generation to check with.</param>
-    public static uint GetFormArgumentMax(ushort species, byte form, int generation)
+    /// <param name="context">Context to check with.</param>
+    public static uint GetFormArgumentMax(ushort species, byte form, EntityContext context)
     {
-        if (generation <= 5)
+        int gen = context.Generation();
+        if (gen <= 5)
             return 0;
 
         return species switch
         {
             (int)Furfrou when form != 0 => 5,
-            (int)Hoopa when form == 1 => 3,
+            (int)Hoopa when form == 1 && gen < 9 => 3,
             (int)Yamask when form == 1 => 9999,
             (int)Runerigus when form == 0 => 9999,
             (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
-            (int)Qwilfish when form == 1 && generation >= 8 => 9999,
+            (int)Qwilfish when form == 1 && gen >= 8 => 9999,
             (int)Overqwil => 9999, // 20
-            (int)Stantler or (int)Wyrdeer when generation >= 8 => 9999,
+            (int)Stantler or (int)Wyrdeer when gen >= 8 => 9999,
             (int)Basculin when form == 2 => 9999, // 294
             (int)Basculegion => 9999, // 294
-            (int)Primeape or (int)Annihilape when generation >= 8 => 9999,
-            (int)Bisharp or (int)Kingambit when generation >= 8 => 9999,
+            (int)Primeape or (int)Annihilape when gen >= 8 => 9999,
+            (int)Bisharp or (int)Kingambit when gen >= 8 => 9999,
             (int)Gimmighoul => 998,
             (int)Gholdengo => 999,
             (int)Koraidon or (int)Miraidon => 1,

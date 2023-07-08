@@ -133,7 +133,7 @@ public static partial class Extensions
     public static bool IsHyperTrainingAvailable(this IHyperTrain t, EvolutionHistory h) => t switch
     {
         // Check for game formats where training is unavailable:
-        PA8 => h.HasVisitedGen7 || h.HasVisitedSWSH || h.HasVisitedBDSP,
+        PA8 => h.HasVisitedGen7 || h.HasVisitedSWSH || h.HasVisitedBDSP || h.HasVisitedGen9,
         _ => true,
     };
 

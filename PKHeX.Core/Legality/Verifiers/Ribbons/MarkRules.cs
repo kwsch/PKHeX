@@ -142,10 +142,13 @@ public static class MarkRules
     /// </summary>
     public static bool IsMarkAllowedJumbo(EvolutionHistory evos, PKM pk)
     {
+        const byte expect = byte.MaxValue;
         if (!evos.HasVisitedGen9)
             return false;
         if (pk is IScaledSize3 s)
-            return s.Scale == byte.MaxValue;
+            return s.Scale == expect;
+        if (pk is IScaledSize s2)
+            return s2.HeightScalar == expect;
         return false;
     }
 
@@ -154,10 +157,13 @@ public static class MarkRules
     /// </summary>
     public static bool IsMarkAllowedMini(EvolutionHistory evos, PKM pk)
     {
+        const byte expect = byte.MinValue;
         if (!evos.HasVisitedGen9)
             return false;
         if (pk is IScaledSize3 s)
-            return s.Scale == 0;
+            return s.Scale == expect;
+        if (pk is IScaledSize s2)
+            return s2.HeightScalar == expect;
         return false;
     }
 

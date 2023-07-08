@@ -85,6 +85,9 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         pk.PKRS = PKRS;
         pk.AbilityNumber = AbilityNumber;
         pk.Ability = Ability;
+
+        if (!IsOriginallySWSH(pkh.Version, pk.Met_Location))
+            pk.Version = LocationsHOME.GetVersionSWSH(pkh.Version);
     }
 
     public void CopyFrom(PK8 pk, PKH pkh)

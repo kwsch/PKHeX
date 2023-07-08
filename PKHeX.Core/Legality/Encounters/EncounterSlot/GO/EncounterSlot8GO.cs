@@ -41,7 +41,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
 
     protected override PKM GetBlank() => OriginFormat switch
     {
-        PogoImportFormat.PK7 => new PK7(),
+        PogoImportFormat.PK7 => new PK8(),
         PogoImportFormat.PB7 => new PB7(),
         PogoImportFormat.PK8 => new PK8(),
         PogoImportFormat.PA8 => new PA8(),
@@ -94,6 +94,9 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         if (ball != Ball.None)
             pk.Ball = (int)ball;
 
+        pk.OT_Friendship = OT_Friendship;
+        pk.SetRandomEC();
+
         if (pk is IScaledSize s)
         {
             s.HeightScalar = PokeSizeUtil.GetRandomScalar();
@@ -113,10 +116,6 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
             pk9.TeraTypeOriginal = pk9.TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
             pk9.Obedience_Level = (byte)pk9.Met_Level;
         }
-
-        pk.OT_Friendship = OT_Friendship;
-
-        pk.SetRandomEC();
     }
 
     protected override void SetPINGA(PKM pk, EncounterCriteria criteria)

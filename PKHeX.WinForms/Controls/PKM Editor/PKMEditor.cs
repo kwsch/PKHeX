@@ -297,9 +297,10 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (focus)
             Hidden_Main.Focus();
 
+        var input = pk;
         if (!skipConversionCheck && !EntityConverter.TryMakePKMCompatible(pk, Entity, out var c, out pk))
         {
-            var msg = c.GetDisplayString(pk, Entity.GetType());
+            var msg = c.GetDisplayString(input, Entity.GetType());
             WinFormsUtil.Alert(msg);
             return;
         }
@@ -1043,7 +1044,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (FieldsLoaded)
             FA_Form.SaveArgument(f);
-        L_FormArgument.Visible = FA_Form.LoadArgument(f, Entity.Species, Entity.Form, Entity.Format);
+        L_FormArgument.Visible = FA_Form.LoadArgument(f, Entity.Species, Entity.Form, Entity.Context);
     }
 
     private void UpdatePKRSstrain(object sender, EventArgs e)

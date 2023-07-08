@@ -82,7 +82,7 @@ public sealed class MarkVerifier : Verifier
 
         var affix = (RibbonIndex)affixValue;
         var max = MarkRules.GetMaxAffixValue(data.Info.EvoChainsAllGens);
-        if (affix > max)
+        if ((sbyte)max == -1 || affix > max)
         {
             data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, GetRibbonNameSafe(affix))));
             return;

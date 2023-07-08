@@ -247,6 +247,9 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounterEgg8BDSP(PKM pk)
     {
+        if (pk is PK8)
+            return VerifyEncounterEgg8(pk);
+
         const byte level = 1;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
@@ -263,6 +266,9 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounterEgg9(PKM pk)
     {
+        if (pk is PK8)
+            return VerifyEncounterEgg8(pk);
+
         const byte level = 1;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));

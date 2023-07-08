@@ -67,7 +67,7 @@ public static class TrainerInfoExtensions
             pk6.Geo1_Region = o.Region;
             pk6.SetTradeMemoryHT6(true);
         }
-        else if (pk is PK8 pk8)
+        else if (pk is PK8 pk8 && PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form))
         {
             pk8.SetTradeMemoryHT8();
         }

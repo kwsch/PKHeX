@@ -9,21 +9,21 @@ public partial class FormArgument : UserControl
     private bool IsRawMode;
     private ushort CurrentSpecies;
     private byte CurrentForm;
-    private int CurrentGeneration;
+    private EntityContext CurrentContext;
     private bool FieldsLoaded;
     public bool IsControlVisible { get; private set; }
 
     public FormArgument() => InitializeComponent();
 
-    public bool LoadArgument(IFormArgument f, ushort species, byte form, int generation)
+    public bool LoadArgument(IFormArgument f, ushort species, byte form, EntityContext context)
     {
         FieldsLoaded = false;
-        var max = FormArgumentUtil.GetFormArgumentMax(species, form, generation);
+        var max = FormArgumentUtil.GetFormArgumentMax(species, form, context);
         if (max == 0)
         {
             CurrentSpecies = species;
             CurrentForm = form;
-            CurrentGeneration = generation;
+            CurrentContext = context;
             NUD_FormArg.Value = CB_FormArg.SelectedIndex = 0;
             CB_FormArg.Visible = false;
             NUD_FormArg.Visible = false;
@@ -35,7 +35,7 @@ public partial class FormArgument : UserControl
         bool named = FormConverter.GetFormArgumentIsNamedIndex(species);
         if (named)
         {
-            if (CurrentSpecies == species && CurrentForm == form && CurrentGeneration == generation)
+            if (CurrentSpecies == species && CurrentForm == form && CurrentContext == context)
             {
                 CurrentValue = f.FormArgument;
                 FieldsLoaded = true;
@@ -62,7 +62,7 @@ public partial class FormArgument : UserControl
         }
         CurrentSpecies = species;
         CurrentForm = form;
-        CurrentGeneration = generation;
+        CurrentContext = context;
 
         bool isPair = FormArgumentUtil.IsFormArgumentTypeDatePair(species, form);
         CurrentValue = isPair ? f.FormArgumentRemain : f.FormArgument;
@@ -73,7 +73,7 @@ public partial class FormArgument : UserControl
 
     public void SaveArgument(IFormArgument f)
     {
-        f.ChangeFormArgument(CurrentSpecies, CurrentForm, CurrentGeneration, CurrentValue);
+        f.ChangeFormArgument(CurrentSpecies, CurrentForm, CurrentContext, CurrentValue);
     }
 
     private uint CurrentValue

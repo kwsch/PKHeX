@@ -1009,13 +1009,12 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
                 var grid = Box.BoxPokeGrid;
                 var height = grid.Height + grid.Location.Y + Box.Location.Y; // needed height
-                var required = height + 16;
                 var allowed = Tab_Box.Height;
-                if (required > allowed)
+                if (height > allowed)
                 {
                     var form = FindForm();
                     if (form != null)
-                        form.Height += required - allowed;
+                        form.Height += height - allowed;
                 }
             }
         }

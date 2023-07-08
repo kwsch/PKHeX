@@ -37,8 +37,8 @@ public static class EntityConverter
     /// <returns>True if can be converted to the requested format value.</returns>
     public static bool IsConvertibleToFormat(PKM pk, int format)
     {
-        if (pk.Format >= 3 && pk.Format > format)
-            return false; // pk3->upward can't go backwards
+        if (pk.Format >= 3 && pk.Format > format && format < 8)
+            return false; // pk3->upward can't go backwards until Gen8+
         if (pk.Format <= 2 && format is > 2 and < 7)
             return false; // pk1/2->upward has to be 7 or greater
         return true;
