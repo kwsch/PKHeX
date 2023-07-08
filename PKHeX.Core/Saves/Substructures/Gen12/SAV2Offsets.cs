@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -100,7 +100,7 @@ internal sealed class SAV2Offsets
                 Gender = 0x3E3D;
                 AccumulatedChecksumEnd = 0x2B82;
                 OverallChecksumPosition = 0x2D0D;
-                OverallChecksumPosition2 = 0x7F0D;
+                OverallChecksumPosition2 = 0x1F0D;
 
                 PouchTMHM = 0x23E7;
                 PouchItem = 0x2420;
