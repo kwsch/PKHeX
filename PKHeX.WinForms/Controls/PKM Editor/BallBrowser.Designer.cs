@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             Name = "BallBrowser";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            Text = "BallBrowser";
+            Text = "Ball Browser";
             ResumeLayout(false);
             PerformLayout();
 

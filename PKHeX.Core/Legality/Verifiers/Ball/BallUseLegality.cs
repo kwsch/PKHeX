@@ -70,7 +70,7 @@ internal static class BallUseLegality
     internal const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
 
     private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);
-    private const ulong WildPokeballs8g = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
+    internal const ulong WildPokeballs8g = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
 
     internal const ulong WildPokeballs9 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
 }

@@ -454,9 +454,14 @@ public sealed class BallVerifier : Verifier
 
     private CheckResult VerifyBallEggGen9(LegalityAnalysis data)
     {
-        var species = data.EncounterMatch.Species;
+        var enc = data.EncounterMatch;
+        var species = enc.Species;
         if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval) // G9 Starters
             return VerifyBallEquals(data, (int)Poke);
+
+        // PLA Voltorb: Only via PLA (transfer only, not wild)
+        if (enc is { Species: (ushort)Species.Voltorb, Form: 1 })
+            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8g);
 
         var pk = data.Entity;
         if (IsPaldeaCatchAndBreed(species) && IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
