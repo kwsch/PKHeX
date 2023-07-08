@@ -89,7 +89,7 @@ public sealed record EncounterArea8g : EncounterArea, ISpeciesForm
         {
             if (!slot.IsLevelWithinRange(met))
                 continue;
-            if (!slot.IsBallValid(ball, species))
+            if (!slot.IsBallValid(ball, species, pk))
                 continue;
             if (!slot.Shiny.IsValid(pk))
                 continue;

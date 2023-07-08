@@ -29,11 +29,13 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
     /// <summary>
     /// Checks if the <seealso cref="Ball"/> is compatible with the <seealso cref="PogoType"/>.
     /// </summary>
-    public bool IsBallValid(Ball ball, ushort currentSpecies)
+    public bool IsBallValid(Ball ball, ushort currentSpecies, PKM pk)
     {
         // GO does not natively produce Shedinja when evolving Nincada, and thus must be evolved in future games.
         if (currentSpecies == (int)Shedinja && currentSpecies != Species)
             return ball == Ball.Poke;
+        if (ball == Ball.Master)
+            return Type.IsMasterBallUsable() && pk.MetDate >= new DateOnly(2023, 5, 21);
         return Type.IsBallValid(ball);
     }
 

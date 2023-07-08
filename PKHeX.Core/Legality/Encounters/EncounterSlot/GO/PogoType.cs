@@ -124,6 +124,18 @@ public static class PogoTypeExtensions
     }
 
     /// <summary>
+    /// Checks if <see cref="Ball.Master"/> can be used for the <see cref="encounterType"/>.
+    /// </summary>
+    /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
+    /// <returns>True if valid, false if invalid.</returns>
+    public static bool IsMasterBallUsable(this PogoType encounterType) => encounterType switch
+    {
+        PogoType.Egg or PogoType.EggS  => false,
+        PogoType.ResearchP or PogoType.ResearchUB or PogoType.ResearchNH  => false,
+        _ => true,
+    };
+
+    /// <summary>
     /// Gets a valid ball that the <see cref="encounterType"/> can have based on the type of capture in Pokémon GO.
     /// </summary>
     /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
