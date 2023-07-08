@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -6,11 +5,8 @@ namespace PKHeX.Core;
 public sealed class EvolutionReversePersonal : IEvolutionReverse
 {
     public IEvolutionLookup Lineage { get; }
-
-    public EvolutionReversePersonal(EvolutionMethod[][] entries, IPersonalTable t)
-    {
-        Lineage = GetLineage(t, entries);
-    }
+    public EvolutionReversePersonal(EvolutionMethod[][] entries, IPersonalTable t) => Lineage = GetLineage(t, entries);
+    public ref readonly EvolutionNode GetReverse(ushort species, byte form) => ref Lineage[species, form];
 
     private static EvolutionReverseLookup GetLineage(IPersonalTable t, EvolutionMethod[][] entries)
     {
@@ -37,8 +33,6 @@ public sealed class EvolutionReversePersonal : IEvolutionReverse
         return lineage;
     }
 
-    public EvolutionNode GetReverse(ushort species, byte form) => Lineage[species, form];
-
     public IEnumerable<(ushort Species, byte Form)> GetPreEvolutions(ushort species, byte form)
     {
         var node = Lineage[species, form];
@@ -54,15 +48,9 @@ public sealed class EvolutionReversePersonal : IEvolutionReverse
         yield return (s.Species, s.Form);
     }
 
-    public int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies,
-        bool skipChecks)
-    {
-        return Lineage.Devolve(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
-    }
-
     public bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
     {
-        var node = Lineage[head.Species, head.Form];
+        ref readonly var node = ref Lineage[head.Species, head.Form];
         return node.TryDevolve(pk, currentMaxLevel, levelMin, skipChecks, out result);
     }
 }

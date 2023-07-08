@@ -1,11 +1,20 @@
-using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Exposes abstractions for reverse and forward evolution lookups.
+/// </summary>
 public interface IEvolutionNetwork
 {
+    /// <summary>
+    /// Provides interactions to look forward in an evolution tree.
+    /// </summary>
     IEvolutionForward Forward { get; }
+
+    /// <summary>
+    /// Provides interactions to look backward in an evolution tree.
+    /// </summary>
     IEvolutionReverse Reverse { get; }
 }
 
@@ -38,7 +47,10 @@ public abstract class EvolutionNetwork : IEvolutionNetwork
             yield return s;
     }
 
-    public bool IsSpeciesDerivedFrom(ushort species, byte form, int otherSpecies, int otherForm, bool ignoreForm = true)
+    /// <summary>
+    /// Checks if the requested <see cref="species"/>-<see cref="form"/> is can provide any common evolutions with the <see cref="otherSpecies"/>-<see cref="otherForm"/>.
+    /// </summary>
+    public bool IsSpeciesDerivedFrom(ushort species, byte form, ushort otherSpecies, byte otherForm, bool ignoreForm = true)
     {
         var evos = GetEvolutionsAndPreEvolutions(species, form);
         foreach (var (s, f) in evos)
@@ -52,17 +64,14 @@ public abstract class EvolutionNetwork : IEvolutionNetwork
         return false;
     }
 
+    /// <summary>
+    /// Gets the base (baby) species and form of the given <see cref="species"/>-<see cref="form"/> pair.
+    /// </summary>
     public (ushort Species, byte Form) GetBaseSpeciesForm(ushort species, byte form)
     {
         var chain = Reverse.GetPreEvolutions(species, form);
         foreach (var evo in chain)
             return evo;
         return (species, form);
-    }
-
-    public int Devolve(Span<EvoCriteria> result, ushort species, byte form, PKM pk, byte levelMin, byte levelMax, ushort stopSpecies,
-        bool skipChecks)
-    {
-        return Reverse.Devolve(result, species, form, pk, levelMin, levelMax, stopSpecies, skipChecks);
     }
 }

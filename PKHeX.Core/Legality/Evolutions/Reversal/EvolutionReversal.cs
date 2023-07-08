@@ -38,7 +38,7 @@ public static class EvolutionReversal
         int ctr = 1; // count in the 'evos' span
         while (head.Species != stopSpecies)
         {
-            var node = lineage[head.Species, head.Form];
+            ref readonly var node = ref lineage[head.Species, head.Form];
             if (!node.TryDevolve(pk, currentMaxLevel, levelMin, skipChecks, out var x))
                 return ctr;
 
@@ -52,16 +52,30 @@ public static class EvolutionReversal
     {
         // Multiple methods can exist to devolve to the same species-form.
         // The first method is less restrictive (no LevelUp req), if two {level/other} methods exist.
-        for (int i = 0; i < 2; i++)
+        ref readonly var link = ref node.First;
+        if (link.IsEmpty)
         {
-            ref var link = ref i == 0 ? ref node.First : ref node.Second;
-            if (link.IsEmpty)
-                break;
+            result = default;
+            return false;
+        }
 
-            var chk = link.Method.Check(pk, currentMaxLevel, levelMin, skipChecks);
-            if (chk != EvolutionCheckResult.Valid)
-                continue;
+        var chk = link.Method.Check(pk, currentMaxLevel, levelMin, skipChecks);
+        if (chk == EvolutionCheckResult.Valid)
+        {
+            result = Create(link, currentMaxLevel);
+            return true;
+        }
 
+        link = ref node.Second;
+        if (link.IsEmpty)
+        {
+            result = default;
+            return false;
+        }
+
+        chk = link.Method.Check(pk, currentMaxLevel, levelMin, skipChecks);
+        if (chk == EvolutionCheckResult.Valid)
+        {
             result = Create(link, currentMaxLevel);
             return true;
         }

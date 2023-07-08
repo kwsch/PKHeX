@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Side game data for <see cref="PA8"/> data transferred into HOME.
 /// </summary>
-public class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSizeAbsolute, IScaledSize3
+public sealed class GameDataPA8 : HomeOptional1, IGameDataSide<PA8>, IScaledSizeAbsolute, IScaledSize3, IGameDataSplitAbility
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PA8;
     private const int SIZE = HomeCrypto.SIZE_2GAME_PA8;

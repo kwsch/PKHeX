@@ -7,6 +7,11 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EvolutionChain
 {
+    /// <summary>
+    /// Build an <see cref="EvolutionHistory"/> for the given <paramref name="pk"/> and <paramref name="enc"/>.
+    /// </summary>
+    /// <param name="pk">Entity to search for.</param>
+    /// <param name="enc">Evolution details.</param>
     public static EvolutionHistory GetEvolutionChainsAllGens(PKM pk, IEncounterTemplate enc)
     {
         var min = GetMinLevel(pk, enc);
@@ -17,18 +22,25 @@ public static class EvolutionChain
         return GetEvolutionChainsSearch(pk, origin, pk.Context, enc.Species);
     }
 
+    /// <summary>
+    /// Build an <see cref="EvolutionHistory"/> for the given <paramref name="pk"/> and <paramref name="enc"/>.
+    /// </summary>
+    /// <param name="pk">Entity to search for.</param>
+    /// <param name="enc">Evolution details.</param>
+    /// <param name="context">Starting (original) context of the <paramref name="pk"/>.</param>
+    /// <param name="encSpecies">Encountered as species. If not known (search for all), set to 0.</param>
+    public static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies = 0)
+    {
+        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
+        return EvolutionChainsSearch(pk, enc, context, encSpecies, chain);
+    }
+
     private static byte GetMinLevel(PKM pk, IEncounterTemplate enc) => enc.Generation switch
     {
         2 => pk is ICaughtData2 c2 ? Math.Max((byte)c2.Met_Level, enc.LevelMin) : enc.LevelMin,
         <= 4 when pk.Format != enc.Generation => enc.LevelMin,
         _ => Math.Max((byte)pk.Met_Level, enc.LevelMin),
     };
-
-    public static EvolutionHistory GetEvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies)
-    {
-        Span<EvoCriteria> chain = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
-        return EvolutionChainsSearch(pk, enc, context, encSpecies, chain);
-    }
 
     private static EvolutionHistory EvolutionChainsSearch(PKM pk, EvolutionOrigin enc, EntityContext context, ushort encSpecies, Span<EvoCriteria> chain)
     {
@@ -63,6 +75,13 @@ public static class EvolutionChain
         return history;
     }
 
+    /// <summary>
+    /// Gets a list of <see cref="EvoCriteria"/> that represent the possible original states of the <paramref name="pk"/>.
+    /// </summary>
+    /// <param name="pk">Entity to search for.</param>
+    /// <param name="enc">Evolution details.</param>
+    /// <param name="encSpecies">Encountered as species. If not known (search for all), set to 0.</param>
+    /// <param name="discard">Discard evolutions that are not possible for the original context. Pass false to keep all evolutions.</param>
     public static EvoCriteria[] GetOriginChain(PKM pk, EvolutionOrigin enc, ushort encSpecies = 0, bool discard = true)
     {
         Span<EvoCriteria> result = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
@@ -74,6 +93,15 @@ public static class EvolutionChain
         return chain.ToArray();
     }
 
+    /// <summary>
+    /// Gets a list of <see cref="EvoCriteria"/> that represent the possible original states of the <paramref name="pk"/>.
+    /// </summary>
+    /// <param name="result">Span to write results to.</param>
+    /// <param name="pk">Entity to search for.</param>
+    /// <param name="enc">Evolution details.</param>
+    /// <param name="encSpecies">Encountered as species. If not known (search for all), set to 0.</param>
+    /// <param name="discard">Discard evolutions that are not possible for the original context. Pass false to keep all evolutions.</param>
+    /// <returns>Number of valid evolutions found.</returns>
     public static int GetOriginChain(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, ushort encSpecies = 0, bool discard = true)
     {
         ushort species = enc.Species;
@@ -111,11 +139,13 @@ public static class EvolutionChain
         return GetCount(result);
     }
 
-    private static int GetCount(Span<EvoCriteria> result)
+    /// <summary>
+    /// Gets the count of entries that are not empty (species == 0).
+    /// </summary>
+    private static int GetCount(in ReadOnlySpan<EvoCriteria> result)
     {
-        // return the count of species != 0
         int count = 0;
-        foreach (var evo in result)
+        foreach (ref readonly var evo in result)
         {
             if (evo.Species == 0)
                 break;

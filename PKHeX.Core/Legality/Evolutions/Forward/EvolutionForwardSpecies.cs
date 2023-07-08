@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Provides forward evolution pathways based only on species.
+/// </summary>
 public sealed class EvolutionForwardSpecies : IEvolutionForward
 {
     private readonly EvolutionMethod[][] Entries;

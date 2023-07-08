@@ -9,6 +9,9 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class BaseLegalityFormatter : ILegalityFormatter
 {
+    /// <summary>
+    /// Gets a minimal report string for the analysis.
+    /// </summary>
     public string GetReport(LegalityAnalysis l)
     {
         if (l.Valid)
@@ -20,6 +23,9 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         return string.Join(Environment.NewLine, lines);
     }
 
+    /// <summary>
+    /// Gets a verbose report string for the analysis.
+    /// </summary>
     public string GetReportVerbose(LegalityAnalysis l)
     {
         if (!l.Parsed)

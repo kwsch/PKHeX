@@ -9,6 +9,7 @@ public struct EvolutionNode
 {
     /// <summary> First reverse evolution in the node. </summary>
     public EvolutionLink First;
+
     /// <summary> Second reverse evolution in the node. Often empty. </summary>
     public EvolutionLink Second;
 

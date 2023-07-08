@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// If the Entity knew a move at any point in its history, it can be relearned if the current format can learn it.
 /// </remarks>
-public class LearnGroupHOME : ILearnGroup
+public sealed class LearnGroupHOME : ILearnGroup
 {
     public static readonly LearnGroupHOME Instance = new();
     public ushort MaxMoveID => 0;

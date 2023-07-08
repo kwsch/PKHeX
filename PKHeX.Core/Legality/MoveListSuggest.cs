@@ -172,8 +172,7 @@ public static class MoveListSuggest
 
         // Split-breed species like Budew & Roselia may be legal for one, and not the other.
         // If we're not a split-breed or are already legal, return.
-        var split = Breeding.GetSplitBreedGeneration(generation);
-        if (split?.Contains(enc.Species) != true)
+        if (!Breeding.IsSplitBreedNotBabySpecies(enc.Species, generation))
             return;
 
         var tmp = pk.Clone();

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Provides forward evolution pathways with reliance on personal table data for form branched evolutions.
+/// </summary>
 public sealed class EvolutionForwardPersonal : IEvolutionForward
 {
     private readonly IPersonalTable Personal;

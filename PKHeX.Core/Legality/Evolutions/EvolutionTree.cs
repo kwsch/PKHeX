@@ -42,6 +42,11 @@ public sealed class EvolutionTree : EvolutionNetwork
         return new EvolutionTree(forward, reverse);
     }
 
+    /// <summary>
+    /// Get the <see cref="EvolutionTree"/> for the given <see cref="EntityContext"/>.
+    /// </summary>
+    /// <param name="context">Context to get the <see cref="EvolutionTree"/> for.</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static EvolutionTree GetEvolutionTree(EntityContext context) => context switch
     {
         EntityContext.Gen1 => Evolves1,

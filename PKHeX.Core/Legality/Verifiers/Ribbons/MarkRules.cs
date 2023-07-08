@@ -125,7 +125,7 @@ public static class MarkRules
             return true;
 
         // Before HOME 3.0.0, this mark was never set.
-        return pk is PK8 or PB8 or PA8; // Not yet touched HOME 3.0.0
+        return wasAlpha && pk is PK8 or PB8 or PA8; // Not yet touched HOME 3.0.0
     }
 
     /// <summary>

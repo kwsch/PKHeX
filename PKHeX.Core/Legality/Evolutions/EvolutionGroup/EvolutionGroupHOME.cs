@@ -35,6 +35,8 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             Discard(result, PersonalTable.BDSP);
         else if (pk.SWSH)
             Discard(result, PersonalTable.SWSH);
+        else if (pk.GO && result.Length >= 2 && result[1].Species == (ushort)Species.Gimmighoul)
+            result[1] = result[1] with { Form = 1 }; // Roaming, exclusive GO form
         // GO can be otherwise, don't discard any.
     }
 
@@ -127,6 +129,14 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         history.Gen8a = SetHistory(result, PersonalTable.LA);
         history.Gen8b = SetHistory(result, PersonalTable.BDSP);
         history.Gen9  = SetHistory(result, PersonalTable.SV);
+
+        if (history.HasVisitedGen7)
+        {
+            // 0->X Alolan forms can't evolve after Gen7 (yet).
+            if (pk is { Species: (int)Species.Raichu, Form: 1 })
+                history.Gen8b = history.Gen8a = Array.Empty<EvoCriteria>();
+            // All others can't enter otherwise (not in game).
+        }
 
         return present;
     }

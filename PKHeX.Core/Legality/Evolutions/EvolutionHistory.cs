@@ -55,9 +55,9 @@ public sealed class EvolutionHistory
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
     };
 
-    public static bool HasVisited(ReadOnlySpan<EvoCriteria> evos, ushort species)
+    public static bool HasVisited(in ReadOnlySpan<EvoCriteria> evos, ushort species)
     {
-        foreach (var evo in evos)
+        foreach (ref readonly var evo in evos)
         {
             if (evo.Species == species)
                 return true;

@@ -12,6 +12,10 @@ public class MarshalTests
     [InlineData(8, typeof(MoveResult))]
     [InlineData(8, typeof(EvolutionMethod))]
     [InlineData(8, typeof(Moveset))]
+    [InlineData(8, typeof(SCXorShift32))]
+    [InlineData(16, typeof(Xoroshiro128Plus))]
+    [InlineData(16, typeof(Xoroshiro128Plus8b))]
+    [InlineData(16, typeof(XorShift128))]
     public void MarshalSizeExact(int expect, Type t) => Marshal.SizeOf(t).Should().Be(expect);
 
     [Theory]

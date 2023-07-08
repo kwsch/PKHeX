@@ -318,7 +318,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
 
         // Ensure most devolved species is the same as the egg species.
         var (species, form) = GetBaby(devolved);
-        if (species != devolved.Species && !IsValidBabySpecies(devolved.Species))
+        if (species != devolved.Species && !Breeding.IsSplitBreedNotBabySpecies4(devolved.Species))
             yield break; // not a split-breed.
 
         // Sanity Check 1
@@ -346,10 +346,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
                 yield break; // no split-breed
             devolved = chain[^2];
         }
-        var splitSet = Breeding.GetSplitBreedGeneration(Generation);
-        if (splitSet is null)
-            yield break; // Shouldn't happen.
-        if (!splitSet.Contains(devolved.Species))
+        if (!Breeding.IsSplitBreedNotBabySpecies4(devolved.Species))
             yield break;
 
         species = devolved.Species;
@@ -358,12 +355,6 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         yield return egg;
         if (otherVersion)
             yield return egg with { Version = GetOtherGamePair(version) };
-    }
-
-    private static bool IsValidBabySpecies(ushort species)
-    {
-        var split = Breeding.GetSplitBreedGeneration(Generation);
-        return split is not null && split.Contains(species);
     }
 
     private static GameVersion GetOtherGamePair(GameVersion version)
