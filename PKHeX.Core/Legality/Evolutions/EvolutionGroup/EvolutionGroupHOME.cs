@@ -125,18 +125,21 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
             }
         }
 
-        history.Gen8  = SetHistory(result, PersonalTable.SWSH);
-        history.Gen8a = SetHistory(result, PersonalTable.LA);
-        history.Gen8b = SetHistory(result, PersonalTable.BDSP);
-        history.Gen9  = SetHistory(result, PersonalTable.SV);
-
-        if (history.HasVisitedGen7)
+        // Can't leave BD/SP. Abort early.
+        if (pk is { Species: (int)Species.Nincada or (int)Species.Spinda, BDSP: true })
         {
-            // 0->X Alolan forms can't evolve after Gen7 (yet).
-            if (pk is { Species: (int)Species.Raichu, Form: 1 })
-                history.Gen8b = history.Gen8a = Array.Empty<EvoCriteria>();
-            // All others can't enter otherwise (not in game).
+            history.Gen8b = SetHistory(result, PersonalTable.BDSP);
+            return present;
         }
+
+        history.Gen9 = SetHistory(result, PersonalTable.SV);
+        history.Gen8  = SetHistory(result, PersonalTable.SWSH);
+        if (pk is { Species: (int)Species.Raichu, Form: 1 } && history.HasVisitedGen7)
+            return present; // Alolan Raichu can't enter Gen8a/b.
+        history.Gen8a = SetHistory(result, PersonalTable.LA);
+        if (pk is { Species: (int)Species.Nincada or (int)Species.Spinda })
+            return present; // Nincada/Spinda can't enter Gen8b.
+        history.Gen8b = SetHistory(result, PersonalTable.BDSP);
 
         return present;
     }
@@ -272,8 +275,7 @@ public sealed class EvolutionEnvironment9 : IEvolutionEnvironment
     // Unreleased Item
     private static bool IsEvolutionBanned(in ISpeciesForm head) => head.Species switch
     {
-        (int)Species.Slowpoke => head.Form != 1,
-        (int)Species.Slowbro => head.Form != 2,
+        (int)Species.Slowpoke => head.Form == 1,
         _ => false,
     };
 }

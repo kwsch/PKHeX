@@ -126,6 +126,8 @@ public sealed class TransferVerifier : Verifier
         var pk = data.Entity;
         var enc = data.EncounterMatch;
         bool native = enc.Generation == 8 && pk.IsNative;
+        if (native && pk is PK8 pk8 && LocationsHOME.IsLocationSWSH(pk8.Met_Location))
+            native = false;
         if (!native || IsHOMETrackerRequired(enc))
             VerifyHOMETracker(data, pk);
 
