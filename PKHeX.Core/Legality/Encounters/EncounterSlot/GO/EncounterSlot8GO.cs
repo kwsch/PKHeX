@@ -39,7 +39,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
 
     protected override PKM GetBlank() => OriginFormat switch
     {
-        PogoImportFormat.PK7 => new PK9(),
+        PogoImportFormat.PK7 => new PK7(),
         PogoImportFormat.PB7 => new PB7(),
         PogoImportFormat.PK8 => new PK8(),
         PogoImportFormat.PA8 => new PA8(),
@@ -57,7 +57,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
     };
 
-    internal GameVersion OriginGroup => OriginFormat switch
+    private GameVersion OriginGroup => OriginFormat switch
     {
         PogoImportFormat.PK7 => GameVersion.USUM,
         PogoImportFormat.PB7 => GameVersion.GG,
@@ -72,6 +72,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship
         PogoImportFormat.PK7 or PogoImportFormat.PB7 =>
               PersonalTable.BDSP.IsPresentInGame(Species, Form) ? EntityContext.Gen8b
             : PersonalTable.LA.IsPresentInGame(Species, Form) ? EntityContext.Gen8a
+            : PersonalTable.SV.IsPresentInGame(Species, Form) ? EntityContext.Gen9
             : EntityContext.Gen8, // don't throw an exception, just give them a context.
         PogoImportFormat.PK8 => EntityContext.Gen8,
         PogoImportFormat.PA8 => EntityContext.Gen8a,

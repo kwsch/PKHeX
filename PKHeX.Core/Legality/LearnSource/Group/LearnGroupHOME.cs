@@ -55,6 +55,12 @@ public class LearnGroupHOME : ILearnGroup
                 return true;
         }
 
+        if (!history.HasVisitedSWSH && enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
+        {
+            if (TryAddOriginalMovesGO(g8, result, current, pk.Met_Level))
+                return true;
+        }
+
         if (TryAddSpecialCaseMoves(pk.Species, result, current))
             return true;
 
@@ -80,6 +86,21 @@ public class LearnGroupHOME : ILearnGroup
             }
         }
         return false;
+    }
+
+    private static bool TryAddOriginalMovesGO(EncounterSlot8GO enc, Span<MoveResult> result, ReadOnlySpan<ushort> current, int met)
+    {
+        Span<ushort> moves = stackalloc ushort[4];
+        enc.GetInitialMoves(met, moves);
+        foreach (var move in moves)
+        {
+            if (move == 0)
+                break;
+            var index = current.IndexOf(move);
+            if (index != -1)
+                result[index] = new MoveResult(LearnMethod.Shared, LearnEnvironment.HOME);
+        }
+        return MoveResult.AllParsed(result);
     }
 
     /// <summary>
@@ -148,6 +169,8 @@ public class LearnGroupHOME : ILearnGroup
             RentLoopGetAll(LearnGroup8a.Instance, result, pk, history, enc, types, option, evos, local);
         if (history.HasVisitedBDSP && pk is not PB8)
             RentLoopGetAll(LearnGroup8b.Instance, result, pk, history, enc, types, option, evos, local);
+        if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
+            AddOriginalMovesGO(g8, result, enc.LevelMin);
 
         AddSpecialCaseMoves(pk.Species, result);
 
@@ -233,6 +256,14 @@ public class LearnGroupHOME : ILearnGroup
     {
         if (IsPikachuLine(species))
             result[(int)Move.VoltTackle] = true;
+    }
+
+    private static void AddOriginalMovesGO(EncounterSlot8GO enc, Span<bool> result, int met)
+    {
+        Span<ushort> moves = stackalloc ushort[4];
+        enc.GetInitialMoves(met, moves);
+        foreach (var move in moves)
+            result[move] = true;
     }
 
     private static bool IsPikachuLine(ushort species) => species is (int)Species.Raichu or (int)Species.Pikachu or (int)Species.Pichu;
