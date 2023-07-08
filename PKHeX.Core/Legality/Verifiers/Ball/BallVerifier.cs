@@ -300,6 +300,11 @@ public sealed class BallVerifier : Verifier
             if (IsBallPermitted(BallUseLegality.WildPokeballs8, (int)ball))
                 return GetValid(LBallSpeciesPass);
         }
+        if (IsPaldeaCatchAndBreed(species))
+        {
+            if (IsBallPermitted(BallUseLegality.WildPokeballs9, (int)ball))
+                return GetValid(LBallSpeciesPass);
+        }
 
         if (ball == Safari)
         {
@@ -366,16 +371,18 @@ public sealed class BallVerifier : Verifier
             return GetValid(LBallEnc); // Poké Ball
 
         var species = data.EncounterMatch.Species;
-        if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // G8 Starters
-            return VerifyBallEquals(data, (int)Poke);
-
         if (IsGalarCatchAndBreed(species))
         {
             if (IsBallPermitted(BallUseLegality.WildPokeballs8, pk.Ball))
                 return GetValid(LBallSpeciesPass);
-            if (species >= (int)Species.Grookey)
-                return GetInvalid(LBallSpecies);
         }
+        if (IsPaldeaCatchAndBreed(species))
+        {
+            if (IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
+                return GetValid(LBallSpeciesPass);
+        }
+        if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // G8 Starters
+            return VerifyBallEquals(data, (int)Poke);
 
         Ball ball = (Ball)pk.Ball;
 
@@ -452,9 +459,13 @@ public sealed class BallVerifier : Verifier
             return VerifyBallEquals(data, (int)Poke);
 
         var pk = data.Entity;
-        if (IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
+        if (IsPaldeaCatchAndBreed(species) && IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
             return GetValid(LBallSpeciesPass);
-        return NONE;
+
+        if (species > Legal.MaxSpeciesID_8)
+            return VerifyBallEquals(data, BallUseLegality.WildPokeballs9);
+
+        return VerifyBallEggGen8(data);
     }
 
     private static bool IsHiddenAndNotPossible(PKM pk)
@@ -481,6 +492,21 @@ public sealed class BallVerifier : Verifier
             return true;
         if (species is >= (int)Species.Rowlet and <= (int)Species.Primarina) // Distribution Raids
             return true;
+
+        return false;
+    }
+
+    private static bool IsPaldeaCatchAndBreed(ushort species)
+    {
+        if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval) // starter
+            return false;
+        var pt = PersonalTable.SV;
+        var pi = pt.GetFormEntry(species, 0);
+        if (pi.IsInDex)
+            return true;
+
+        if (pi.IsPresentInGame)
+            return species != (int)Species.Grookey; // not available yet
 
         return false;
     }
