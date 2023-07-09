@@ -23,6 +23,9 @@ public sealed class EncounterGeneratorGO : IEncounterGenerator
         foreach (var enc in lgpe)
             yield return enc;
 
+        if (pk is PB7)
+            yield break;
+
         var home = EncounterGenerator8GO.Instance.GetPossible(pk, chain, game, groups);
         foreach (var enc in home)
             yield return enc;
