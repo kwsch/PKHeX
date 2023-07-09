@@ -6,8 +6,10 @@ public sealed class ResortSave7 : SaveBlock<SAV7>
 {
     public ResortSave7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 
+    private const int SIZE_7STORED_R = PokeCrypto.SIZE_6STORED + 4;
+
     public const int ResortCount = 93;
-    public int GetResortSlotOffset(int slot) => Offset + 0x16 + (slot * PokeCrypto.SIZE_6STORED);
+    public int GetResortSlotOffset(int slot) => Offset + 0x16 + (slot * SIZE_7STORED_R);
 
     public PK7[] ResortPKM
     {

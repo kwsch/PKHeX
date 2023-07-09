@@ -50,6 +50,7 @@ public static class RibbonRules
         { HasVisitedBDSP: true } => true, // Max Friendship
         { HasVisitedGen9: true } => true, // Max Friendship
 
+        { HasVisitedGen6: true } when pk is not PK6 { IsUntraded: true, OT_Affection: < 255 } => true,
         { HasVisitedGen7: true } when pk is not PK7 { IsUntraded: true, OT_Affection: < 255 } => true,
         _ => false,
     };

@@ -330,7 +330,10 @@ public partial class SAV_Trainer : Form
     private void GiveAllAccessories(object sender, EventArgs e)
     {
         if (SAV is SAV6XY xy)
+        {
             xy.Blocks.Fashion.UnlockAllAccessories();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
     }
 
     private void UpdateCountry(object sender, EventArgs e)

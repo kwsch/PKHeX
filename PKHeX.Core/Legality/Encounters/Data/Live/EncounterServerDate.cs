@@ -36,6 +36,7 @@ public static class EncounterServerDate
         WA8 wa8 => Result(IsValidDateWA8(wa8, obtained)),
         WB8 wb8 => Result(IsValidDateWB8(wb8, obtained)),
         WC9 wc9 => Result(IsValidDateWC9(wc9, obtained)),
+        EncounterSlot8GO g8 => Result(g8.IsWithinDistributionWindow(obtained)),
         _ => throw new ArgumentOutOfRangeException(nameof(enc)),
     };
 

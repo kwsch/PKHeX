@@ -250,10 +250,10 @@ public partial class SAV_HallOfFame : Form
 
     private void Validate_TextBoxes()
     {
-        TB_Level.Text = Math.Min(Util.ToInt32(TB_Level.Text), 100).ToString();
-        TB_VN.Text = Math.Min(Util.ToInt32(TB_VN.Text), byte.MaxValue).ToString();
-        TB_TID.Text = Math.Min(Util.ToInt32(TB_TID.Text), ushort.MaxValue).ToString();
-        TB_SID.Text = Math.Min(Util.ToInt32(TB_SID.Text), ushort.MaxValue).ToString();
+        TB_Level.Text = Math.Min(Util.ToInt32(TB_Level.Text), 100).ToString("000");
+        TB_VN.Text = Math.Min(Util.ToInt32(TB_VN.Text), byte.MaxValue).ToString("000");
+        TB_TID.Text = Math.Min(Util.ToInt32(TB_TID.Text), ushort.MaxValue).ToString("00000");
+        TB_SID.Text = Math.Min(Util.ToInt32(TB_SID.Text), ushort.MaxValue).ToString("00000");
     }
 
     private void UpdateNickname(object sender, EventArgs e)
