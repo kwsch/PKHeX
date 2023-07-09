@@ -638,6 +638,8 @@ public partial class StatEditor : UserControl
         foreach (var mtb in MT_EVs)
             mtb.Visible = !showAV;
 
+        FLP_PKMEditors.PerformLayout();
+
         var showGV = pk is IGanbaru;
         Label_GVs.Visible = showGV;
         foreach (var mtb in MT_GVs)

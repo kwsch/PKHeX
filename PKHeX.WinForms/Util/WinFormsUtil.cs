@@ -36,7 +36,8 @@ public static class WinFormsUtil
     internal static void HorizontallyCenter(this Control child, Control parent)
     {
         int midpoint = (parent.Width - child.Width) / 2;
-        child.SetBounds(midpoint, 0, 0, 0, BoundsSpecified.X);
+        if (child.Location.X != midpoint)
+            child.SetBounds(midpoint, 0, 0, 0, BoundsSpecified.X);
     }
 
     public static T? FirstFormOfType<T>() where T : Form => (T?)Application.OpenForms.Cast<Form>().FirstOrDefault(form => form is T);
