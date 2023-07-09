@@ -308,17 +308,22 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         WriteUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition2), accum);
     }
 
-    public override bool ChecksumsValid
+    public override bool ChecksumsValid => !ChecksumInfo.Contains("Invalid");
+
+    public override string ChecksumInfo
     {
         get
         {
             ushort accum = GetChecksum();
             ushort actual = ReadUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition));
-            return accum == actual;
+            ushort actual2 = ReadUInt16LittleEndian(Data.AsSpan(Offsets.OverallChecksumPosition2));
+
+            bool checksum1Valid = (accum == actual);
+            bool checksum2Valid = (accum == actual2);
+            static string valid(bool s) => s ? "Valid" : "Invalid";
+            return $"Checksum 1 {valid(checksum1Valid)}, Checksum 2 {valid(checksum2Valid)}.";
         }
     }
-
-    public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
 
     // Trainer Info
     public override GameVersion Version { get; protected set; }
