@@ -20,18 +20,24 @@ public partial class MemoryAmie : Form
         string[] arguments = L_Arguments.Text.Split(new[] { " ; " }, StringSplitOptions.None);
 
         TextArgs = new TextMarkup(arguments);
-        foreach (ComboBox comboBox in PrevCountries)
+
+        if (Entity is IGeoTrack)
         {
-            comboBox.InitializeBinding();
-            Main.SetCountrySubRegion(comboBox, "countries");
+            foreach (var cb in PrevRegions)
+                cb.InitializeBinding();
+            foreach (var cb in PrevCountries)
+            {
+                cb.InitializeBinding();
+                Main.SetCountrySubRegion(cb, "countries");
+            }
         }
-        foreach (var region in PrevRegions)
-            region.InitializeBinding();
+        else
+        {
+            tabControl1.TabPages.Remove(Tab_Residence);
+        }
+
         GetLangStrings();
         LoadFields();
-
-        if (pk is not IGeoTrack)
-            tabControl1.TabPages.Remove(Tab_Residence);
     }
 
     private bool init;
