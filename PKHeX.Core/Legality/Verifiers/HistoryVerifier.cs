@@ -81,8 +81,6 @@ public sealed class HistoryVerifier : Verifier
             data.AddLine(GetInvalid(LTransferCurrentHandlerInvalid));
         if ((Info.Generation != pk.Format || neverOT) && pk.CurrentHandler != 1)
             data.AddLine(GetInvalid(LTransferHTFlagRequired));
-        if (pk is IHomeTrack { HasTracker: true } && pk.IsUntraded) // HOME sets HT name on moving in and out.
-            data.AddLine(GetInvalid(LTransferHTMismatchName));
     }
 
     private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch

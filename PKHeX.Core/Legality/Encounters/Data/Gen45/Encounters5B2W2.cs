@@ -171,7 +171,7 @@ public static class Encounters5B2W2
     private static readonly EncounterStatic5[] Encounter_B2W2 = ArrayUtil.ConcatAll(Encounter_B2W2_Regular, Encounter_B2W2_N, Encounter_DreamRadar);
     #endregion
     #region Trade Tables
-    internal static readonly EncounterTrade5[] TradeGift_B2W2_Regular =
+    private static readonly EncounterTrade5[] TradeGift_B2W2_Regular =
     {
         new(B2  ) { Species = 548, Level = 20, Ability = OnlySecond, TID16 = 65217, SID16 = 00000, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Timid }, // Petilil
         new(  W2) { Species = 546, Level = 20, Ability = OnlyFirst,  TID16 = 05720, SID16 = 00001, OTGender = 0, Gender = 0, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee

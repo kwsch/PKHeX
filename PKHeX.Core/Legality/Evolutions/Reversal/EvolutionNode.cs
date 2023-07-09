@@ -18,7 +18,7 @@ public struct EvolutionNode
     /// </summary>
     /// <param name="link">Link to register</param>
     /// <exception cref="InvalidOperationException"> is thrown if the node is full.</exception>
-    public void Add(EvolutionLink link)
+    public void Add(in EvolutionLink link)
     {
         if (First.IsEmpty)
             First = link;

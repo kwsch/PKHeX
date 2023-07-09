@@ -21,7 +21,6 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
     public AbilityPermission Ability => AbilityPermission.Any12H;
 
     public bool CanHaveVoltTackle => Species is (int)Core.Species.Pichu && (Generation > 3 || Version is GameVersion.E);
-    public bool CanInheritMoves => Breeding.GetCanInheritMoves(Species);
 
     public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
 

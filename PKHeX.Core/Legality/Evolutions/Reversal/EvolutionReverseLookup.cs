@@ -18,13 +18,13 @@ public sealed class EvolutionReverseLookup : IEvolutionLookup
         MaxSpecies = maxSpecies;
     }
 
-    private void Register(EvolutionLink link, int index)
+    private void Register(in EvolutionLink link, int index)
     {
         ref var node = ref Nodes[index];
         node.Add(link);
     }
 
-    public void Register(EvolutionLink link, ushort species, byte form)
+    public void Register(in EvolutionLink link, ushort species, byte form)
     {
         if (form == 0)
         {

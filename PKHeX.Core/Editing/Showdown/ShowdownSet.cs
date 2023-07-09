@@ -298,7 +298,8 @@ public sealed class ShowdownSet : IBattleTemplate
         var val = Util.ToInt32(value);
         if ((uint)val > 10)
             return false;
-        return (DynamaxLevel = (byte)val) is (>= 0 and <= 10);
+        DynamaxLevel = (byte)val;
+        return true;
     }
 
     private bool ParseTeraType(ReadOnlySpan<char> value)

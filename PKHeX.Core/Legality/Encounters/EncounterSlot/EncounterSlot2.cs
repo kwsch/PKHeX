@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 
 namespace PKHeX.Core;
 
@@ -44,33 +44,40 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
             pk2.Met_TimeOfDay = ((EncounterArea2)Area).Time.RandomValidTime();
     }
 
-    private static readonly Dictionary<int, int> Trees = new()
+    private static ReadOnlySpan<byte> TreeIndexes => new byte[]
     {
-        { 02, 0x3FF_3FF }, // Route 29
-        { 04, 0x0FF_3FF }, // Route 30
-        { 05, 0x3FE_3FF }, // Route 31
-        { 08, 0x3EE_3FF }, // Route 32
-        { 11, 0x240_3FF }, // Route 33
-        { 12, 0x37F_3FF }, // Azalea Town
-        { 14, 0x3FF_3FF }, // Ilex Forest
-        { 15, 0x001_3FE }, // Route 34
-        { 18, 0x261_3FF }, // Route 35
-        { 20, 0x3FF_3FF }, // Route 36
-        { 21, 0x2B9_3FF }, // Route 37
-        { 25, 0x3FF_3FF }, // Route 38
-        { 26, 0x184_3FF }, // Route 39
-        { 34, 0x3FF_3FF }, // Route 42
-        { 37, 0x3FF_3FF }, // Route 43
-        { 38, 0x3FF_3FF }, // Lake of Rage
-        { 39, 0x2FF_3FF }, // Route 44
-        { 91, 0x200_1FF }, // Route 26
-        { 92, 0x2BB_3FF }, // Route 27
+        02, 04, 05, 08, 11, 12, 14, 15, 18, 20, 21, 25, 26, 34, 37, 38, 39, 91, 92,
+    };
+
+    private static ReadOnlySpan<int> Trees => new[]
+    {
+        0x3FF_3FF, // Route 29
+        0x0FF_3FF, // Route 30
+        0x3FE_3FF, // Route 31
+        0x3EE_3FF, // Route 32
+        0x240_3FF, // Route 33
+        0x37F_3FF, // Azalea Town
+        0x3FF_3FF, // Ilex Forest
+        0x001_3FE, // Route 34
+        0x261_3FF, // Route 35
+        0x3FF_3FF, // Route 36
+        0x2B9_3FF, // Route 37
+        0x3FF_3FF, // Route 38
+        0x184_3FF, // Route 39
+        0x3FF_3FF, // Route 42
+        0x3FF_3FF, // Route 43
+        0x3FF_3FF, // Lake of Rage
+        0x2FF_3FF, // Route 44
+        0x200_1FF, // Route 26
+        0x2BB_3FF, // Route 27
     };
 
     public bool IsTreeAvailable(ushort trainerID)
     {
-        if (!Trees.TryGetValue(Location, out var permissions))
+        var treeIndex = TreeIndexes.BinarySearch((byte)Location);
+        if (treeIndex < 0)
             return false;
+        var permissions = Trees[treeIndex];
 
         var pivot = trainerID % 10;
         var type = Area.Type;

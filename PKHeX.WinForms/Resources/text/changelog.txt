@@ -1,7 +1,27 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/06/03 - New Update:
+23/07/09 - New Update:
+ - Legality: Updated evolution checking algorithms to better identify game visitation. Thanks @Lusamine & @sora10pls !
+ - - Added: HOME 3.0.0 move sharing logic for learning moves via HOME instead of in-game.
+ - - Added: HOME 3.0.0 ball inheritance logic for breeding encounters for/from Scarlet/Violet.
+ - - Added: GO Master Ball legality checks now allows Master Ball when encounter date & type permits.
+ - - Added: GO encounters outside the availability window now display a detailed illegal message.
+ - Added: Gen4/5 Geonet/Unity Tower editor. Thanks @abcboy101 !
+ - Changed: Gen9 Tera Type icons now use higher quality sprites from HOME. Thanks @sora10pls !
+ - Changed: Gen8a Move Shop editor GUI has been redesigned for a more visual experience.
+ - Changed: Gen7b+ Height/Weight now show as gray whenever Scale takes precedence in sizing determinations.
+ - Fixed: Batch Editor filters now work correctly for Box/Slot when using operators other than ! or =
+ - Fixed: Gen7b Randomize IV/AV buttons now center correctly within the form.
+ - Fixed: Gen7 Report grid now shows Resort (Poké Pelago) slots correctly.
+ - Fixed: Gen6/7 Memory Editor now shows Country/Region visitation correctly.
+ - Fixed: Gen6 Hall of Fame editor now keeps leading zeroes on the TID/SID entry fields.
+ - Fixed: Gen5 unused second Roamer block editor editing now reads from the correct offsets. Thanks SaltedNeos !
+ - Fixed: Gen4 Ranch checksums are now applied correctly again. Thanks @Zazsona !
+ - Fixed: Gen3 adding Ferry Tickets no longer causes the program to error when your Key Items bag is full.
+ - Fixed: Gen2 International Crystal saves now set the backup checksum to the correct offset. Thanks @Zazsona !
+
+23/06/03 - New Update: (178908) [6981641]
  - Added: HOME 3.0.0 initial support. Legality analysis is still under research. Thanks @Lusamine & @sora10pls !
  - - Lacks full support for cross-game transfers involving evolutions and moves. Please be patient, there's a lot of things to handle!
  - Added: Tech Record editor GUI has been redesigned for a more visual experience. Can now sort alphabetically, owned, or move type.
@@ -10,7 +30,7 @@ http://projectpokemon.org/pkhex/
  - Changed: Gen7 Totem Form sprites now display with an Orange-colored glow, similar to Gen3 C/XD shadow purple.
  - Changed: DPI scaling adjusted for better appearance on high resolution monitors.
 
-23/05/11 - New Update:
+23/05/11 - New Update: (80094) [6802733]
  - Legality:
  - - Changed: Creating a new PKM from template will set current moves same as the games.
  - - Changed: Pokérus strains 0 & 8 now permitted due to official implementation errors in Gen2 & Gen3.
@@ -29,7 +49,7 @@ http://projectpokemon.org/pkhex/
  - Fixed: Gen3 XD un-purified shadow Pokémon no longer flag w/o Ribbon if they have a Shadow Gauge of 0 (ready to purify).
  - Changed: Sub-form scaling mode changed to "Inherit" -- added a Display setting to revert back to Form scaling (from Dpi).
 
-23/04/06 - New Update:
+23/04/06 - New Update: (166321) [6722639]
  - Legality:
  - - Changed: Vivillon 3DS Region handling reworked to handle all regions. Thanks @abcboy101!
  - - Fixed: BDSP footprint ribbon now checks correctly.

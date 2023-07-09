@@ -84,7 +84,7 @@ public static class EvolutionReversal
         return false;
     }
 
-    private static EvoCriteria Create(EvolutionLink link, byte currentMaxLevel) => new()
+    private static EvoCriteria Create(in EvolutionLink link, byte currentMaxLevel) => new()
     {
         Species = link.Species,
         Form = link.Form,

@@ -42,7 +42,7 @@ internal static class Encounters3FRLG
         new(129, 05, FRLG) { Gift = true, Location = 099 }, // Magikarp @ Route 4
         new(131, 25, FRLG) { Gift = true, Location = 134 }, // Lapras @ Silph Co.
         new(133, 25, FRLG) { Gift = true, Location = 094 }, // Eevee @ Celadon City
-        new(175, 05, FRLG) { Gift = true, EggLocation = 253 }, // Togepi Egg
+        new(175, 05, FRLG) { Gift = true, EggLocation = 253, Moves = new(045,204,118) }, // Togepi Egg
 
         // Celadon City Game Corner
         new(063, 09, FR) { Gift = true, Location = 94 }, // Abra

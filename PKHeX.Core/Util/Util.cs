@@ -119,15 +119,24 @@ public static partial class Util
         return result;
     }
 
-    public static byte[] GetBytesFromHexString(ReadOnlySpan<char> seed)
+    /// <summary>
+    /// Parses a variable length hex string (non-spaced, bytes in reverse order).
+    /// </summary>
+    public static byte[] GetBytesFromHexString(ReadOnlySpan<char> input)
     {
-        byte[] result = new byte[seed.Length / 2];
+        byte[] result = new byte[input.Length / 2];
+        GetBytesFromHexString(input, result);
+        return result;
+    }
+
+    /// <inheritdoc cref="GetBytesFromHexString(ReadOnlySpan{char})"/>
+    public static void GetBytesFromHexString(ReadOnlySpan<char> input, Span<byte> result)
+    {
         for (int i = 0; i < result.Length; i++)
         {
-            var slice = seed.Slice(i * 2, 2);
-            result[^(i+1)] = (byte)GetHexValue(slice);
+            var slice = input.Slice(i * 2, 2);
+            result[^(i + 1)] = (byte)GetHexValue(slice);
         }
-        return result;
     }
 
     private const string HexChars = "0123456789ABCDEF";

@@ -25,8 +25,8 @@ public static class RibbonStrings
             var index = line.IndexOf('\t');
             if (index < 0)
                 continue;
-            var name = line[..index];
             var text = line[(index + 1)..];
+            var name = line[..index];
             RibbonNames[name] = text;
         }
     }

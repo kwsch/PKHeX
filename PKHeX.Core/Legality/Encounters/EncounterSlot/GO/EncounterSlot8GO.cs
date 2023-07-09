@@ -103,7 +103,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
             s.HeightScalar = PokeSizeUtil.GetRandomScalar();
             s.WeightScalar = PokeSizeUtil.GetRandomScalar();
             if (pk is IScaledSize3 s3)
-                s3.Scale = s.HeightScalar = PokeSizeUtil.GetRandomScalar();
+                s3.Scale = s.HeightScalar;
         }
 
         if (pk is PA8 pa8)

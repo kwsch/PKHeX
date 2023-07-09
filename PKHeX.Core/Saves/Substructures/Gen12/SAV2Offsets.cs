@@ -15,7 +15,7 @@ internal sealed class SAV2Offsets
             LoadOffsetsKorean();
         else
             LoadOffsetsInternational(sav.Version);
-        Daycare = PokedexSeen + 0x1F + 28 + 1; // right after first unown seen
+        Daycare = PokedexSeen + 0x1F + 28 + 1; // right after first Unown seen
         EventWork = EventFlag - 0x100;
     }
 
@@ -40,6 +40,7 @@ internal sealed class SAV2Offsets
     public int Gender { get; private set; } = -1;
     public int AccumulatedChecksumEnd { get; private set; } = -1;
     public int OverallChecksumPosition { get; private set; } = -1;
+    public int OverallChecksumPosition2 { get; private set; }
     public int EventFlag { get; private set; } = -1;
     public int EventWork { get; }
     public int Daycare { get; }
@@ -112,7 +113,7 @@ internal sealed class SAV2Offsets
                 break;
 
             default:
-                throw new ArgumentException(nameof(version));
+                throw new ArgumentOutOfRangeException(nameof(version), version, null);
         }
     }
 
@@ -176,11 +177,9 @@ internal sealed class SAV2Offsets
                 break;
 
             default:
-                throw new ArgumentException(nameof(version));
+                throw new ArgumentOutOfRangeException(nameof(version), version, null);
         }
     }
-
-    public int OverallChecksumPosition2 { get; set; }
 
     private void LoadOffsetsKorean()
     {
