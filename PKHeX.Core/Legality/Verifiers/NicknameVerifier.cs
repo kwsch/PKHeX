@@ -413,7 +413,7 @@ public sealed class NicknameVerifier : Verifier
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"{Japanese}/{German}", $"{(LanguageID)pk.Language}"), CheckIdentifier.Language));
         }
 
-        if (t.Species == (int)Species.Chatot && pk.Language == (int)French)
+        if (t.Species == (int)Species.Chatot && pk is { Language: (int)French, IsNicknamed: false })
         {
             // NgWord disallows the French nickname (Pijouk) and resets it back to default (Pijako).
             // Let it be anything (Nicknamed or not) and just verify the OT.

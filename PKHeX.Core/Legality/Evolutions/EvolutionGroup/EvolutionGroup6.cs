@@ -18,7 +18,8 @@ public sealed class EvolutionGroup6 : IEvolutionGroup
         int present = 1;
         for (int i = 1; i < result.Length; i++)
         {
-            var prev = result[i - 1];
+            ref var prev = ref result[i - 1];
+            RevertMutatedForms(ref prev);
             if (!TryDevolve(prev, pk, prev.LevelMax, enc.LevelMin, enc.SkipChecks, out var evo))
                 continue;
 
@@ -28,6 +29,12 @@ public sealed class EvolutionGroup6 : IEvolutionGroup
             present++;
         }
         return present;
+    }
+
+    private static void RevertMutatedForms(ref EvoCriteria evo)
+    {
+        if (evo is { Species: (ushort)Species.Arceus, Form: 17 }) // Fairy, prevent it hitting Gen5 (as Fairy does not exist yet).
+            evo = evo with { Form = 0 }; // Normal
     }
 
     public bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
