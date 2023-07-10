@@ -86,26 +86,30 @@ internal static class EvolutionUtil
     /// <summary>
     /// Revises the <see cref="result"/> to account for a new maximum <see cref="level"/>.
     /// </summary>
-    public static void UpdateCeiling(Span<EvoCriteria> result, int level)
+    public static void UpdateCeiling(Span<EvoCriteria> result, byte level)
     {
         foreach (ref var evo in result)
         {
             if (evo.Species == 0)
                 break;
-            evo = evo with { LevelMax = (byte)Math.Min(evo.LevelMax, level) };
+            evo = evo with { LevelMax = Math.Min(evo.LevelMax, level) };
         }
     }
 
     /// <summary>
-    /// Revises the <see cref="result"/> to account for a new minimum <see cref="level"/>.
+    /// Revises the <see cref="result"/> to account for a new minimum <see cref="levelMin"/>.
     /// </summary>
-    public static void UpdateFloor(Span<EvoCriteria> result, int level)
+    public static void UpdateFloor(Span<EvoCriteria> result, byte levelMin, byte levelMax)
     {
+        // Reset the head to the new levelMax, then clamp every entry's minimum to the min.
+        // Evolving non-head evolutions will pick up the new ranges later.
+        ref var head = ref result[0];
+        head = head with { LevelMax = levelMax };
         foreach (ref var evo in result)
         {
             if (evo.Species == 0)
                 break;
-            evo = evo with { LevelMin = (byte)Math.Max(evo.LevelMin, level) };
+            evo = evo with { LevelMin = Math.Max(evo.LevelMin, levelMin) };
         }
     }
 

@@ -51,7 +51,7 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
     {
         if (enc.Generation <= 2) // VC Transfer
-            EvolutionUtil.UpdateFloor(result, pk.Met_Level);
+            EvolutionUtil.UpdateFloor(result, (byte)pk.Met_Level, enc.LevelMax);
 
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)

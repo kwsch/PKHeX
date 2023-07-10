@@ -17,9 +17,9 @@ public sealed class EvolutionGroup3 : IEvolutionGroup
     {
         if (pk.Format == 4 && !enc.SkipChecks) // 5+ already have been revised
         {
-            var max = pk.Met_Level;
+            byte max = (byte)pk.Met_Level;
             EvolutionUtil.UpdateCeiling(result, max);
-            enc = enc with { LevelMin = 1, LevelMax = (byte)max };
+            enc = enc with { LevelMin = 1, LevelMax = max };
         }
 
         int present = 1;

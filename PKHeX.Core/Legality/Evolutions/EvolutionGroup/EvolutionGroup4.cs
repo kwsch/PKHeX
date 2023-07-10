@@ -17,9 +17,9 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
     {
         if (pk.Format > Generation && !enc.SkipChecks)
         {
-            var max = pk.Met_Level;
+            byte max = (byte)pk.Met_Level;
             EvolutionUtil.UpdateCeiling(result, max);
-            enc = enc with { LevelMin = 1, LevelMax = (byte)max };
+            enc = enc with { LevelMin = 1, LevelMax = max };
         }
 
         int present = 1;
@@ -47,7 +47,7 @@ public sealed class EvolutionGroup4 : IEvolutionGroup
         if (pk.Format > Generation)
             enc = enc with { LevelMax = (byte)pk.Met_Level };
         else if (enc.Generation < Generation)
-            EvolutionUtil.UpdateFloor(result, pk.Met_Level);
+            EvolutionUtil.UpdateFloor(result, (byte)pk.Met_Level, enc.LevelMax);
 
         int present = 1;
         for (int i = result.Length - 1; i >= 1; i--)
