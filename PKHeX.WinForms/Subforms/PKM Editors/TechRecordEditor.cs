@@ -11,6 +11,7 @@ public partial class TechRecordEditor : Form
 {
     private readonly ITechRecord Record;
     private readonly PKM Entity;
+    private readonly LegalityAnalysis Legality;
 
     private const int ColumnHasFlag = 0;
     private const int ColumnIndex = 1;
@@ -22,6 +23,7 @@ public partial class TechRecordEditor : Form
     {
         Record = techRecord;
         Entity = pk;
+        Legality = new LegalityAnalysis(pk);
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         PopulateRecords(pk.Context);
@@ -34,22 +36,21 @@ public partial class TechRecordEditor : Form
         var indexes = Record.Permit.RecordPermitIndexes;
         // Add the records to the datagrid.
         dgv.Rows.Add(indexes.Length);
+        var evos = Legality.Info.EvoChainsAllGens.Get(context);
         for (int i = 0; i < indexes.Length; i++)
         {
             var move = indexes[i];
             var type = MoveInfo.GetType(move, context);
             var isValid = Record.Permit.IsRecordPermitted(i);
             var row = dgv.Rows[i];
+            var cell = row.Cells[ColumnHasFlag];
             if (isValid)
-            {
-                var cell = row.Cells[ColumnHasFlag];
                 cell.Style.BackColor = cell.Style.SelectionBackColor = Color.LightGreen;
-            }
+            else if (Record.IsRecordPermitted(evos, i))
+                cell.Style.BackColor = cell.Style.SelectionBackColor = Color.Yellow;
             else
-            {
-                var cell = row.Cells[ColumnHasFlag];
                 cell.Style.SelectionBackColor = Color.Red;
-            }
+
             row.Cells[ColumnIndex].Value = i.ToString("000");
             row.Cells[ColumnTypeIcon].Value = TypeSpriteUtil.GetTypeSpriteIcon(type);
             row.Cells[ColumnType].Value = type.ToString("00") + (isValid ? 0 : 1) + names[move]; // type -> valid -> name sorting
@@ -92,19 +93,22 @@ public partial class TechRecordEditor : Form
         if (ModifierKeys == Keys.Shift)
         {
             Record.ClearRecordFlags();
-            Record.SetRecordFlags(true, Record.Permit.RecordCountUsed);
+            Record.SetRecordFlagsAll(true, Record.Permit.RecordCountUsed);
         }
         else if (ModifierKeys == Keys.Control)
         {
             Save();
             Span<ushort> moves = stackalloc ushort[4];
             Entity.GetMoves(moves);
-            Record.SetRecordFlags(moves);
+            var la = new LegalityAnalysis(Entity);
+            Record.SetRecordFlags(moves, la.Info.EvoChainsAllGens.Get(Entity.Context));
         }
         else
         {
             Record.ClearRecordFlags();
-            Record.SetRecordFlags();
+            Record.SetRecordFlagsAll();
+            var la = new LegalityAnalysis(Entity);
+            Record.SetRecordFlagsAll(la.Info.EvoChainsAllGens.Get(Entity.Context));
         }
         Close();
     }

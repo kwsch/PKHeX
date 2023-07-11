@@ -768,7 +768,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         if (Entity is ITechRecord tr)
         {
             tr.ClearRecordFlags();
-            tr.SetRecordFlags(moves);
+            var la = new LegalityAnalysis(Entity);
+            tr.SetRecordFlags(moves, la.Info.EvoChainsAllGens.Get(Entity.Context));
         }
         Entity.HealPP();
         FieldsLoaded = false;
@@ -1855,7 +1856,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             Span<ushort> moves = stackalloc ushort[4];
             Entity.GetMoves(moves);
-            t.SetRecordFlags(moves);
+            var la = new LegalityAnalysis(Entity);
+            t.SetRecordFlags(moves, la.Info.EvoChainsAllGens.Get(Entity.Context));
             UpdateLegality();
             return;
         }

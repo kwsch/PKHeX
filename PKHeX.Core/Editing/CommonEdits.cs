@@ -236,11 +236,6 @@ public static class CommonEdits
             tera.SetTeraType(type);
         }
 
-        if (pk is ITechRecord t)
-        {
-            t.ClearRecordFlags();
-            t.SetRecordFlags(Set.Moves);
-        }
         if (pk is IMoveShop8Mastery s)
             s.SetMoveShopFlags(Set.Moves, pk);
 
@@ -248,6 +243,11 @@ public static class CommonEdits
             pk.Nature = pk.StatNature;
 
         var legal = new LegalityAnalysis(pk);
+        if (pk is ITechRecord t)
+        {
+            t.ClearRecordFlags();
+            t.SetRecordFlags(Set.Moves, legal.Info.EvoChainsAllGens.Get(pk.Context));
+        }
         if (legal.Parsed && !MoveResult.AllValid(legal.Info.Relearn))
             pk.SetRelearnMoves(legal);
         pk.ResetPartyStats();
