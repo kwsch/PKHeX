@@ -432,6 +432,10 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
     private static (ushort Species, byte Form) GetBaby(EvoCriteria lowest)
     {
-        return EvolutionTree.Evolves9.GetBaseSpeciesForm(lowest.Species, lowest.Form);
+        var pt = PersonalTable.SV;
+        var pi = pt.GetFormEntry(lowest.Species, lowest.Form);
+        if (pi.HatchSpecies != lowest.Species)
+            return default; // Something in the evolution chain prevented reaching the baby species-form.
+        return (lowest.Species, lowest.Form);
     }
 }
