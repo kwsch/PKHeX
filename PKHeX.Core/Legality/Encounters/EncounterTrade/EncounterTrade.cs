@@ -215,7 +215,11 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
             return false;
         // if (z.Ability == 4 ^ pk.AbilityNumber == 4) // defer to Ability
         //    continue;
-        if (!Version.Contains((GameVersion)pk.Version))
+
+        int version = pk.Version;
+        if (Generation >= 8 && Context != EntityContext.Gen8 && pk is PK8)
+            version = LocationsHOME.GetVersionSWSHOriginal((ushort)pk.Met_Location);
+        if (!Version.Contains((GameVersion)version))
             return false;
 
         return true;
@@ -235,7 +239,10 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
             return evo.LevelMax >= Level;
 
         if (Location != pk.Met_Location)
-            return false;
+        {
+            if (!LocationsHOME.IsMatchLocation(Context, pk.Context, pk.Met_Location, Location, LocationsHOME.GetVersionSWSHOriginal((ushort)pk.Met_Location)))
+                return false;
+        }
 
         if (pk.Format < 5)
             return evo.LevelMax >= Level;

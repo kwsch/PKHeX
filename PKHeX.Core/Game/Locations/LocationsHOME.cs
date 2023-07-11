@@ -87,6 +87,16 @@ public static class LocationsHOME
         _ => loc,
     };
 
+    public static int GetVersionSWSHOriginal(ushort loc) => loc switch
+    {
+        SWLA => (int)GameVersion.PLA,
+        SWBD => (int)GameVersion.BD,
+        SHSP => (int)GameVersion.SP,
+        SWSL => (int)GameVersion.SL,
+        SHVL => (int)GameVersion.VL,
+        _ => int.MinValue,
+    };
+
     /// <summary>
     /// Checks if the met location is a valid location for the input <see cref="ver"/>.
     /// </summary>
