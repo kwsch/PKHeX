@@ -190,7 +190,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
             return;
 
         met = remap;
-        egg = LocationsHOME.SWSHEgg;
+        egg = egg is 0 or Locations.Default8bNone ? 0 : LocationsHOME.SWSHEgg;
     }
 
     private static bool IsOriginallySWSH(int ver, int loc) => ver is (int)GameVersion.SW or (int)GameVersion.SH && !IsFakeMetLocation(loc);
