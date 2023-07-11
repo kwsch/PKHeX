@@ -26,11 +26,14 @@ public partial class TechRecordEditor : Form
         Legality = new LegalityAnalysis(pk);
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        PopulateRecords(pk.Context);
+
+        Span<ushort> currentMoves = stackalloc ushort[4];
+        pk.GetMoves(currentMoves);
+        PopulateRecords(pk.Context, currentMoves);
         LoadRecords();
     }
 
-    private void PopulateRecords(EntityContext context)
+    private void PopulateRecords(EntityContext context, ReadOnlySpan<ushort> currentMoves)
     {
         var names = GameInfo.Strings.Move;
         var indexes = Record.Permit.RecordPermitIndexes;
@@ -45,17 +48,22 @@ public partial class TechRecordEditor : Form
             var row = dgv.Rows[i];
             var cell = row.Cells[ColumnHasFlag];
             if (isValid)
-                cell.Style.BackColor = cell.Style.SelectionBackColor = Color.LightGreen;
+                SetStyleColor(cell, Color.LightGreen);
             else if (Record.IsRecordPermitted(evos, i))
-                cell.Style.BackColor = cell.Style.SelectionBackColor = Color.Yellow;
+                SetStyleColor(cell, Color.Yellow);
             else
                 cell.Style.SelectionBackColor = Color.Red;
+
+            if (currentMoves.Contains(move))
+                row.Cells[ColumnName].Style.SelectionBackColor = Color.LightBlue;
 
             row.Cells[ColumnIndex].Value = i.ToString("000");
             row.Cells[ColumnTypeIcon].Value = TypeSpriteUtil.GetTypeSpriteIcon(type);
             row.Cells[ColumnType].Value = type.ToString("00") + (isValid ? 0 : 1) + names[move]; // type -> valid -> name sorting
             row.Cells[ColumnName].Value = names[move];
         }
+
+        static void SetStyleColor(DataGridViewCell cell, Color color) => cell.Style.BackColor = cell.Style.SelectionBackColor = color;
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
