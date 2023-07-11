@@ -87,8 +87,19 @@ public sealed record EncounterFixed9 : EncounterStatic, IGemType
     {
         if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return false;
-        if (TeraType != 0 && pk is IScaledSize3 { Scale: < MinScaleStrongTera })
-            return false;
+        if (TeraType != 0)
+        {
+            if (pk is IScaledSize3 size3)
+            {
+                if (size3.Scale < MinScaleStrongTera)
+                    return false;
+            }
+            else if (pk is IScaledSize s2)
+            {
+                if (s2.HeightScalar < MinScaleStrongTera)
+                    return false;
+            }
+        }
 
         if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;

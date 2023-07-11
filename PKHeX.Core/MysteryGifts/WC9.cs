@@ -728,12 +728,14 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
                 return false;
             if (s.WeightScalar != WeightValue)
                 return false;
-            if (pk is IScaledSize3 scale)
+
+            if (!IsBeforePatch120(CardID) || (pk.MetDate is { } valid && !IsBeforePatch120(valid)))
             {
-                if (!IsBeforePatch120(CardID) || (pk.MetDate is { } valid && !IsBeforePatch120(valid)))
+                // S/V 1.2.0 added scale specification.
+                if (Scale != 256)
                 {
-                    // S/V 1.2.0 added scale specification.
-                    if (Scale != 256 && Scale != scale.Scale)
+                    var current = pk is IScaledSize3 s3 ? s3.Scale : s.HeightScalar;
+                    if (Scale != current)
                         return false;
                 }
             }

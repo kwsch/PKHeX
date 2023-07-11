@@ -55,7 +55,7 @@ public partial class TechRecordEditor : Form
                 cell.Style.SelectionBackColor = Color.Red;
 
             if (currentMoves.Contains(move))
-                row.Cells[ColumnName].Style.SelectionBackColor = Color.LightBlue;
+                row.Cells[ColumnName].Style.BackColor = Color.LightBlue;
 
             row.Cells[ColumnIndex].Value = i.ToString("000");
             row.Cells[ColumnTypeIcon].Value = TypeSpriteUtil.GetTypeSpriteIcon(type);

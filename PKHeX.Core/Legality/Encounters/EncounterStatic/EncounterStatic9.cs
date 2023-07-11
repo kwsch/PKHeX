@@ -51,11 +51,9 @@ public sealed record EncounterStatic9(GameVersion Version) : EncounterStatic(Ver
                 if (v.WeightScalar != Size)
                     return true;
             }
-            if (pk is IScaledSize3 s3)
-            {
-                if (s3.Scale != Size)
-                    return true;
-            }
+            var current = pk is IScaledSize3 size3 ? size3.Scale : v.HeightScalar;
+            if (current != Size)
+                return false;
         }
         return base.IsMatchPartial(pk);
     }

@@ -220,8 +220,16 @@ public static class Encounter9RNG
         // Scale
         {
             var value = enc.ScaleType.GetSizeValue(enc.Scale, ref rand);
-            if (pk is IScaledSize3 s && s.Scale != value)
-                return false;
+            if (pk is IScaledSize3 s)
+            {
+                if (s.Scale != value)
+                    return false;
+            }
+            else if (pk is IScaledSize s2)
+            {
+                if (s2.HeightScalar != value)
+                    return false;
+            }
         }
         return true;
     }
