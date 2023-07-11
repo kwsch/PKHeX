@@ -67,14 +67,14 @@ public sealed class PersonalTable4 : IPersonalTable, IPersonalTable<PersonalInfo
         var table = Table;
         for (ushort i = Legal.MaxSpeciesID_4; i != 0; i--)
         {
-            // Set to form 0 and copy the reference to all other form entries.
+            // Alt forms can be different bits, so don't copy from form 0.
             var form0 = table[i];
             form0.AddTypeTutors(tutors[i]);
             var fc = form0.FormCount;
             for (byte f = 1; f < fc; f++)
             {
-                var pi = table[form0.FormIndex(i, f)];
-                pi.CopyTypeTutors(form0);
+                var index = form0.FormIndex(i, f);
+                table[index].AddTypeTutors(tutors[index]);
             }
         }
     }
