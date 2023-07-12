@@ -217,7 +217,7 @@ public abstract record EncounterTrade(GameVersion Version) : IEncounterable, IMo
         //    continue;
 
         int version = pk.Version;
-        if (Generation >= 8 && pk is PK8)
+        if (Generation >= 8 && Context != EntityContext.Gen8 && pk is PK8)
             version = LocationsHOME.GetVersionSWSHOriginal((ushort)pk.Met_Location);
         if (!Version.Contains((GameVersion)version))
             return false;
