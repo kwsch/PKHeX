@@ -4,9 +4,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 7 Evolution Branch Entries
+/// Evolution Branch Binary Unpacker
 /// </summary>
-public static class EvolutionSet7
+public static class EvolutionSet
 {
     private const int SIZE = 8;
 
