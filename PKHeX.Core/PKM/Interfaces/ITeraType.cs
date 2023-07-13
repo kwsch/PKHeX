@@ -95,4 +95,20 @@ public static class TeraTypeUtil
         var type = (MoveType)type1;
         return type != (byte)MoveType.Normal ? type : (MoveType)type2;
     }
+
+    /// <summary>
+    /// Resets the <see cref="ITeraType.TeraTypeOriginal"/> and <see cref="ITeraType.TeraTypeOverride"/> values based on the <see cref="IEncounterTemplate"/> data.
+    /// </summary>
+    /// <param name="pk">Entity to check for</param>
+    /// <param name="enc">Original encounter</param>
+    public static void ResetTeraType(PK9 pk, IEncounterTemplate enc)
+    {
+        pk.TeraTypeOverride = enc is not ITeraType x ? (MoveType)OverrideNone : x.TeraTypeOverride; // WC9
+        pk.TeraTypeOriginal = enc switch
+        {
+            ITeraTypeReadOnly t => t.TeraType,
+            ITeraRaid9 t9 => (MoveType)Tera9RNG.GetTeraType(Tera9RNG.GetOriginalSeed(pk), t9.TeraType, enc.Species, enc.Form),
+            _ => (MoveType)Tera9RNG.GetTeraTypeFromPersonal(enc.Species, enc.Form, Util.Rand.Rand64()),
+        };
+    }
 }
