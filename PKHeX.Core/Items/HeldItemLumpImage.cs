@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public enum HeldItemLumpImage
 {
     /// <summary>
-    /// Held Item spriite is a specific held item.
+    /// Held Item sprite is a specific held item.
     /// </summary>
     NotLump = 0,
 

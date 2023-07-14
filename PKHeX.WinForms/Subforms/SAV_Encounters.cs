@@ -389,11 +389,17 @@ public partial class SAV_Encounters : Form
         var token = TokenSource.Token;
         var search = SearchDatabase(token);
         if (token.IsCancellationRequested)
+        {
+            EncounterMovesetGenerator.ResetFilters();
             return;
+        }
 
         var results = await Task.Run(() => search.ToList(), token).ConfigureAwait(true);
         if (token.IsCancellationRequested)
+        {
+            EncounterMovesetGenerator.ResetFilters();
             return;
+        }
 
         if (results.Count == 0)
             WinFormsUtil.Alert(MsgDBSearchNone);

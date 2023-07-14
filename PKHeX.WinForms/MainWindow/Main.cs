@@ -132,7 +132,7 @@ public partial class Main : Form
                 return true;
         }
 
-        var path = Environment.ProcessPath!;
+        ReadOnlySpan<char> path = Environment.ProcessPath!;
         return Path.GetFileNameWithoutExtension(path).EndsWith(nameof(HaX));
     }
 

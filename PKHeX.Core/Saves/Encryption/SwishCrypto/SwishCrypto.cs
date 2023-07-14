@@ -18,7 +18,7 @@ namespace PKHeX.Core;
 /// </remarks>
 public static class SwishCrypto
 {
-    private const int SIZE_HASH = 0x20;
+    private const int SIZE_HASH = SHA256.HashSizeInBytes; // 0x20
 
     private static ReadOnlySpan<byte> IntroHashBytes => new byte[]
     {

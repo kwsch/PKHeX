@@ -278,10 +278,13 @@ public partial class RibbonEditor : Form
         }
 
         EnableBackgroundChange = false;
-        foreach (var c in TLP_Ribbons.Controls.OfType<CheckBox>())
-            c.Checked = true;
-        foreach (var n in TLP_Ribbons.Controls.OfType<NumericUpDown>())
-            n.Value = n.Maximum;
+        foreach (var c in TLP_Ribbons.Controls)
+        {
+            if (c is CheckBox chk)
+                chk.Checked = true;
+            else if (c is NumericUpDown nud)
+                nud.Value = nud.Maximum;
+        }
         EnableBackgroundChange = true;
     }
 
@@ -297,9 +300,12 @@ public partial class RibbonEditor : Form
         }
 
         CB_Affixed.SelectedValue = AffixedNone;
-        foreach (var c in TLP_Ribbons.Controls.OfType<CheckBox>())
-            c.Checked = false;
-        foreach (var n in TLP_Ribbons.Controls.OfType<NumericUpDown>())
-            n.Value = 0;
+        foreach (var c in TLP_Ribbons.Controls)
+        {
+            if (c is CheckBox chk)
+                chk.Checked = false;
+            else if (c is NumericUpDown nud)
+                nud.Value = 0;
+        }
     }
 }
