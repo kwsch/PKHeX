@@ -172,7 +172,7 @@ public static class EncounterServerDate
         {1513, (new(2023, 02, 27), new(2024, 03, 01))}, // Hisuian Zoroark DLC Purchase Gift
         {0502, (new(2023, 03, 31), new(2023, 07, 01))}, // TCG Flying Lechonk
         {0503, (new(2023, 04, 13), new(2023, 04, 18))}, // Gavin's Palafin (-1 start date tolerance for GMT-10 regions)
-        {0025, (new(2023, 04, 21), new(2023, 07, 01))}, // Pokémon Center Pikachu (Mini & Jumbo)
+        {0025, (new(2023, 04, 21), new(2023, 08, 01))}, // Pokémon Center Pikachu (Mini & Jumbo)
         {1003, (new(2023, 05, 29), new(2023, 08, 01))}, // Arceus and the Jewel of Life Distribution - Pokémon Store Tie-In Bronzong
         {1002, (new(2023, 05, 31), new(2023, 08, 01))}, // Arceus and the Jewel of Life Distribution Pichu
         {0028, (new(2023, 06, 09), new(2023, 06, 12))}, // そらみつ's Bronzong (-1 start date tolerance for GMT-10 regions)
