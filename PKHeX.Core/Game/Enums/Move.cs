@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Move IDs for the corresponding English move name.
 /// </summary>
-public enum Move
+public enum Move : ushort
 {
     None,
     Pound,

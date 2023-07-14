@@ -27,7 +27,7 @@ public static class FileUtil
                 return null;
 
             var data = File.ReadAllBytes(path);
-            var ext = Path.GetExtension(path);
+            var ext = Path.GetExtension(path.AsSpan());
             return GetSupportedFile(data, ext, reference);
         }
         // User input data can be fuzzed; if anything blows up, just fail safely.

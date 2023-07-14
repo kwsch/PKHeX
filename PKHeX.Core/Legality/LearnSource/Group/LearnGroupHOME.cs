@@ -61,9 +61,6 @@ public sealed class LearnGroupHOME : ILearnGroup
                 return true;
         }
 
-        if (TryAddSpecialCaseMoves(pk.Species, result, current))
-            return true;
-
         if (history.HasVisitedLGPE)
         {
             var instance = LearnGroup7b.Instance;
@@ -133,7 +130,10 @@ public sealed class LearnGroupHOME : ILearnGroup
                 if (chk.Method != LearnMethod.None)
                     valid = true;
             }
-            if (!valid)
+
+            // HOME has special handling to allow Volt Tackle outside of learnset possibilities.
+            // Most games do not have a Learn Source for Volt Tackle besides it being specially inserted for Egg Encounters.
+            if (!valid && move is not (ushort)Move.VoltTackle)
                 r = default;
         }
 
@@ -171,8 +171,6 @@ public sealed class LearnGroupHOME : ILearnGroup
             RentLoopGetAll(LearnGroup8b.Instance, result, pk, history, enc, types, option, evos, local);
         if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
             AddOriginalMovesGO(g8, result, enc.LevelMin);
-
-        AddSpecialCaseMoves(pk.Species, result);
 
         // Looking backwards before HOME
         if (history.HasVisitedLGPE)
@@ -234,28 +232,6 @@ public sealed class LearnGroupHOME : ILearnGroup
                 break;
             }
         }
-    }
-
-    private static bool TryAddSpecialCaseMoves(ushort species, Span<MoveResult> result, ReadOnlySpan<ushort> current)
-    {
-        if (IsPikachuLine(species))
-        {
-            var index = current.IndexOf((ushort)Move.VoltTackle);
-            if (index == -1)
-                return false;
-            ref var move = ref result[index];
-            if (move.Valid)
-                return false;
-            move = new MoveResult(LearnMethod.Shared, LearnEnvironment.HOME);
-            return MoveResult.AllValid(result);
-        }
-        return false;
-    }
-
-    private static void AddSpecialCaseMoves(ushort species, Span<bool> result)
-    {
-        if (IsPikachuLine(species))
-            result[(int)Move.VoltTackle] = true;
     }
 
     private static void AddOriginalMovesGO(EncounterSlot8GO enc, Span<bool> result, int met)

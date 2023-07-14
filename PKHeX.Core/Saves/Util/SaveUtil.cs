@@ -890,14 +890,14 @@ public static class SaveUtil
         }
     }
 
-    public static bool IsBackup(string path)
+    public static bool IsBackup(ReadOnlySpan<char> path)
     {
         var fn = Path.GetFileNameWithoutExtension(path);
-        if (fn == "backup")
+        if (fn is "backup")
             return true;
 
         var ext = Path.GetExtension(path);
-        return ext == ".bak";
+        return ext is ".bak";
     }
 
     /// <summary>

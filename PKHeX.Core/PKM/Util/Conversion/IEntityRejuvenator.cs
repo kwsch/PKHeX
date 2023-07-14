@@ -24,22 +24,25 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
     {
         // HOME transfers from PB8/PA8 => PK8 will sanitize Ball & Met/Egg Location.
         // Transferring back without a reference PB8/PA8, we need to guess the *original* values.
-        if (original is not PK8 pk8)
-        {
-            ResetSideways(result);
-            return;
-        }
+        if (original is PK8 pk8)
+            ResetOutboundSWSH(result, pk8);
+        ResetSideways(result);
+    }
 
+    private static void ResetOutboundSWSH(PKM result, PK8 pk8)
+    {
         var ver = result.Version;
         if (ver is (int)GameVersion.BD or (int)GameVersion.SP)
             RejuvenateBDSP(result, pk8);
         else if (ver is (int)GameVersion.PLA)
             RejuvenatePLA(result, pk8);
+        else if (ver is (int)GameVersion.SL or (int)GameVersion.VL)
+            RejuvenateSV(result, pk8);
     }
 
-    private static void ResetSideways(PKM result)
+    private static void ResetSideways(PKM pk)
     {
-        if (result is PA8 pa8)
+        if (pk is PA8 pa8)
         {
             // Won't work well for Alphas
             if (pa8.RibbonMarkAlpha)
@@ -50,6 +53,33 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
             if (pa8.LA)
                 ResetBallPLA(pa8, enc);
         }
+        else if (pk is PB8 { BDSP: true })
+        {
+            ResetRelearn(pk, new LegalityAnalysis(pk));
+        }
+        else if (pk is PK9 { SV: true } pk9)
+        {
+            var la = new LegalityAnalysis(pk);
+            ResetRelearn(pk, la);
+
+            // Try to restore original Tera type / override instead of HOME's double override to current Type1.
+            TeraTypeUtil.ResetTeraType(pk9, la.EncounterMatch);
+        }
+        else if (pk is PK8 pk8 && !LocationsHOME.IsLocationSWSH(pk8.Met_Location))
+        {
+            // Gen8 and below (Gen6/7) need their original relearn moves
+            // We can always set a Battle Version for non Gen8 origins, but most users won't be making stuff battle ready after.
+            // Battle Version is always zero in this case, so be nice and give the original relearn moves.
+            ResetRelearn(pk, new LegalityAnalysis(pk));
+        }
+    }
+
+    private static void ResetRelearn(PKM pk, LegalityAnalysis la)
+    {
+        // Set suggested relearn moves.
+        Span<ushort> m = stackalloc ushort[4];
+        la.GetSuggestedRelearnMoves(m);
+        pk.SetRelearnMoves(m);
     }
 
     private static void RejuvenatePLA(PKM result, PK8 original)
@@ -86,10 +116,7 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
 
     private static void ResetDataPLA(LegalityAnalysis la, IEncounterable enc, PA8 pa8)
     {
-        Span<ushort> relearn = stackalloc ushort[4];
-        la.GetSuggestedRelearnMoves(relearn, enc);
-        if (relearn[0] != 0)
-            pa8.SetRelearnMoves(relearn);
+        ResetRelearn(pa8, la);
 
         pa8.ClearMoveShopFlags();
         if (enc is IMasteryInitialMoveShop8 e)
@@ -117,9 +144,29 @@ public sealed class LegalityRejuvenator : IEntityRejuvenator
 
         // Try again with rectified locations.
         la = new LegalityAnalysis(result);
-        Span<ushort> relearn = stackalloc ushort[4];
-        la.GetSuggestedRelearnMoves(relearn);
-        if (relearn[0] != 0)
-            result.SetRelearnMoves(relearn);
+        ResetRelearn(result, la);
+    }
+
+    private static void RejuvenateSV(PKM result, PK8 original)
+    {
+        var la = new LegalityAnalysis(original);
+        var enc = la.EncounterOriginal;
+        if (enc is EncounterInvalid)
+            return;
+
+        if (enc is { EggEncounter: true })
+        {
+            result.Met_Location = Locations.HatchLocation9;
+            result.Egg_Location = Locations.LinkTrade6NPC;
+        }
+        else
+        {
+            result.Met_Location = enc.Location;
+            result.Egg_Location = 0;
+        }
+
+        // Try again with rectified locations.
+        la = new LegalityAnalysis(result);
+        ResetRelearn(result, la);
     }
 }

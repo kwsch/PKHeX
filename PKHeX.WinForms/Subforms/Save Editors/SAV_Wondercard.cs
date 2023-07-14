@@ -148,7 +148,7 @@ public partial class SAV_Wondercard : Form
 
         var path = import.FileName;
         var data = File.ReadAllBytes(path);
-        var ext = Path.GetExtension(path);
+        var ext = Path.GetExtension(path.AsSpan());
         var gift = MysteryGift.GetMysteryGift(data, ext);
         if (gift == null)
         {
