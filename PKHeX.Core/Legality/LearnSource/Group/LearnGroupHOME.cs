@@ -60,6 +60,13 @@ public sealed class LearnGroupHOME : ILearnGroup
                 return true;
         }
 
+        // HOME is silly and allows form exclusive moves to be transferred without ever knowing the move.
+        if (TryAddExclusiveMoves(result, current, pk))
+        {
+            if (CleanPurge(result, current, pk, types, local, evos))
+                return true;
+        }
+
         // Ignore Battle Version; can be transferred back to SW/SH and wiped after the moves have been shared from HOME
 
         if (history.HasVisitedLGPE)
@@ -143,6 +150,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         if (history.HasVisitedBDSP && pk is not PB8)
             RentLoopGetAll(LearnGroup8b.Instance, result, pk, history, enc, types, option, evos, local);
         AddOriginalMoves(result, pk, enc, types, local, evos);
+        AddExclusiveMoves(result, pk);
 
         // Looking backwards before HOME
         if (history.HasVisitedLGPE)
@@ -194,6 +202,31 @@ public sealed class LearnGroupHOME : ILearnGroup
             g8.GetInitialMoves(pk.Met_Level, moves);
             AddOriginalMoves(result, pk, evos, types, local, moves);
         }
+    }
+
+
+    private static bool TryAddExclusiveMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk)
+    {
+        if (pk.Species is (int)Species.Hoopa)
+        {
+            var move = pk.Form == 0 ? (ushort)Move.HyperspaceHole : (ushort)Move.HyperspaceFury;
+            var index = current.IndexOf(move);
+            if (index < 0)
+                return false;
+            ref var exist = ref result[index];
+            if (exist.Valid)
+                return false;
+            exist = new MoveResult(new MoveLearnInfo(LearnMethod.Special, LearnEnvironment.HOME));
+            return true;
+        }
+        // Kyurem as Fused cannot move into HOME and trigger move sharing.
+        return false;
+    }
+
+    private static void AddExclusiveMoves(Span<bool> result, PKM pk)
+    {
+        if (pk.Species == (int)Species.Hoopa)
+            result[pk.Form == 0 ? (int)Move.HyperspaceHole : (int)Move.HyperspaceFury] = true;
     }
 
     /// <summary>

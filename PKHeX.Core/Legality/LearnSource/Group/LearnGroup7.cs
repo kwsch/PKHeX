@@ -29,7 +29,7 @@ public sealed class LearnGroup7 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, types, option, mode);
 
-        if (option is not LearnOption.Current && types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
+        if (option.IsPast() && types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
         return MoveResult.AllParsed(result);

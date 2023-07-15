@@ -46,7 +46,7 @@ public sealed class LearnGroup8 : ILearnGroup
 
         CheckSharedMoves(result, current, evos[0]);
 
-        if (option is not LearnOption.Current && types.HasFlag(MoveSourceType.Encounter) && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
+        if (option.IsPast() && types.HasFlag(MoveSourceType.Encounter) && pk.IsOriginalMovesetDeleted() && enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);
 
         if (MoveResult.AllParsed(result))
