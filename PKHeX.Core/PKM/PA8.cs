@@ -48,13 +48,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
         return data;
     }
 
-    private ushort CalculateChecksum()
-    {
-        ushort chk = 0;
-        for (int i = 8; i < PokeCrypto.SIZE_8ASTORED; i += 2)
-            chk += ReadUInt16LittleEndian(Data.AsSpan(i));
-        return chk;
-    }
+    private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_8ASTORED]);
 
     // Simple Generated Attributes
 

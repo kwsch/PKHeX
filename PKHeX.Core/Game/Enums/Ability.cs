@@ -3,7 +3,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Ability IDs for the corresponding English ability name.
 /// </summary>
-public enum Ability
+public enum Ability : ushort
 {
     None,
     Stench,

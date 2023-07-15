@@ -1,5 +1,4 @@
 using System;
-using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
@@ -22,13 +21,7 @@ public abstract class G6PKM : PKM, ISanityChecksum
     public sealed override bool ChecksumValid => CalculateChecksum() == Checksum;
     public sealed override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
-    private ushort CalculateChecksum()
-    {
-        ushort chk = 0;
-        for (int i = 8; i < PokeCrypto.SIZE_6STORED; i += 2) // don't use SIZE_STORED property; pb7 overrides stored size
-            chk += ReadUInt16LittleEndian(Data.AsSpan(i));
-        return chk;
-    }
+    private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_6STORED]);
 
     // Simple Generated Attributes
     public sealed override int CurrentFriendship

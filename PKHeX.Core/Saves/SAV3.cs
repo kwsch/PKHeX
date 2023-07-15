@@ -227,14 +227,14 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
 
         // Hall of Fame Checksums
         {
-            var sector2 = Data.AsSpan(0x1C000, SIZE_SECTOR);
-            ushort chk = Checksums.CheckSum32(sector2[..SIZE_SECTOR_USED]);
-            WriteUInt16LittleEndian(sector2[0xFF4..], chk);
+            var sector = Data.AsSpan(0x1C000, SIZE_SECTOR);
+            ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
+            WriteUInt16LittleEndian(sector[0xFF4..], chk);
         }
         {
-            var sector2 = Data.AsSpan(0x1D000, SIZE_SECTOR);
-            ushort chk = Checksums.CheckSum32(sector2[..SIZE_SECTOR_USED]);
-            WriteUInt16LittleEndian(sector2[0xFF4..], chk);
+            var sector = Data.AsSpan(0x1D000, SIZE_SECTOR);
+            ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
+            WriteUInt16LittleEndian(sector[0xFF4..], chk);
         }
     }
 
@@ -262,8 +262,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     private bool IsSectorValidExtra(int ofs)
     {
         var sector = Data.AsSpan(ofs, SIZE_SECTOR);
-        ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
-        return chk == ReadUInt16LittleEndian(sector[0xFF4..]);
+        var expect = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
+        var actual = ReadUInt16LittleEndian(sector[0xFF4..]);
+        return expect == actual;
     }
 
     private bool IsSectorValid(int sectorIndex)
@@ -271,8 +272,9 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         int start = ActiveSlot * SIZE_MAIN;
         int ofs = start + (sectorIndex * SIZE_SECTOR);
         var sector = Data.AsSpan(ofs, SIZE_SECTOR);
-        ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
-        return chk == ReadUInt16LittleEndian(sector[0xFF6..]);
+        var expect = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
+        var actual = ReadUInt16LittleEndian(sector[0xFF6..]);
+        return expect == actual;
     }
 
     public sealed override string ChecksumInfo

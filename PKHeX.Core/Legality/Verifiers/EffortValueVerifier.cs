@@ -31,7 +31,7 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(GetInvalid(LEffortAbove510));
         Span<int> evs = stackalloc int[6];
         pk.GetEVs(evs);
-        if (format >= 6 && evs.Find(static ev => ev > 252) != default)
+        if (format >= 6 && evs.IndexOfAny(253, 254, 255) != -1)
             data.AddLine(GetInvalid(LEffortAbove252));
 
         const int vitaMax = 100; // Vitamin Max

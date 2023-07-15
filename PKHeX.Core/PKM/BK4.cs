@@ -287,14 +287,7 @@ public sealed class BK4 : G4PKM
     public override int Characteristic => EntityCharacteristic.GetCharacteristicInvertFields(PID, IV32);
 
     // Methods
-    protected override ushort CalculateChecksum()
-    {
-        ReadOnlySpan<byte> arr = Data;
-        ushort chk = 0;
-        for (int i = 8; i < PokeCrypto.SIZE_4STORED; i += 2)
-            chk += ReadUInt16BigEndian(arr[i..]);
-        return chk;
-    }
+    protected override ushort CalculateChecksum() => Checksums.Add16BigEndian(Data.AsSpan()[8..PokeCrypto.SIZE_4STORED]);
 
     protected override byte[] Encrypt()
     {

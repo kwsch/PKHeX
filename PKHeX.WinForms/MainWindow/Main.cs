@@ -128,7 +128,8 @@ public partial class Main : Form
     {
         foreach (var x in args)
         {
-            if (string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
+            var arg = x.AsSpan().Trim('-');
+            if (arg.Equals(nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
                 return true;
         }
 

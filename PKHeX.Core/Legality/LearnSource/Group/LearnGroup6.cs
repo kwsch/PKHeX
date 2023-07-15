@@ -197,14 +197,14 @@ public sealed class LearnGroup6 : ILearnGroup
 
     private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
     {
-        if (enc is IMoveset { Moves: { Move1: not 0 } x })
+        if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
             result[x.Move4] = true;
             result[x.Move3] = true;
             result[x.Move2] = true;
             result[x.Move1] = true;
         }
-        if (enc is IRelearn { Relearn: {Move1: not 0} r})
+        if (enc is IRelearn { Relearn: { HasMoves: true } r})
         {
             result[r.Move4] = true;
             result[r.Move3] = true;

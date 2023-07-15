@@ -198,7 +198,7 @@ public class ShowdownSetTests
     {
         string input = $@"Eevee\nFriendship: {value}";
         var set = new ShowdownSet(input);
-        set.Level.Should().NotBe(value);
+        set.Friendship.Should().NotBe(value);
     }
 
     [Theory]

@@ -38,7 +38,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override void RefreshChecksum() => Checksum = CalculateChecksum();
     public override bool ChecksumValid => CalculateChecksum() == Checksum;
     public override bool Valid { get => Sanity == 0 && ChecksumValid; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
-    private ushort CalculateChecksum() => PokeCrypto.GetCHK(Data.AsSpan()[8..PokeCrypto.SIZE_4STORED]);
+    private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_4STORED]);
 
     // Trash Bytes
     public override Span<byte> Nickname_Trash => Data.AsSpan(0x48, 22);

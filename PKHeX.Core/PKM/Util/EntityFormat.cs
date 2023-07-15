@@ -54,7 +54,7 @@ public static class EntityFormat
         if (data[..^0x10].IndexOfAnyExcept<byte>(0) != -1)
             return true;
 
-        if (ReadUInt16LittleEndian(data[0x06..]) == GetCHK(data[8..SIZE_6STORED]))
+        if (ReadUInt16LittleEndian(data[0x06..]) == Checksums.Add16(data[8..SIZE_6STORED]))
             return true; // decrypted
         return false;
     }
