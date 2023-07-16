@@ -6,13 +6,23 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.SWSH"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
-public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
+public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, AreaWeather8 Weather, AreaSlotType8 SlotType)
+    : EncounterSlot, IEncounterConvertible<PK8>, ILevelRange, IOverworldCorrelation8
 {
-    public readonly AreaWeather8 Weather;
-    public readonly AreaSlotType8 SlotType;
-    public override string LongName => $"{wild} [{SlotType}] - {Weather.ToString().Replace("_", string.Empty)}";
-    public override int Generation => 8;
-    public override EntityContext Context => EntityContext.Gen8;
+    public int Generation => 8;
+    public EntityContext Context => EntityContext.Gen8;
+    public bool EggEncounter => false;
+    public Ball FixedBall => Ball.None;
+    public AbilityPermission Ability => AbilityPermission.Any12;
+    public Shiny Shiny => Shiny.Random;
+    public bool IsShiny => false;
+    public int EggLocation => 0;
+
+    public string Name => $"Wild Encounter ({Version})";
+    public string LongName => $"{Name} [{SlotType}] - {Weather.ToString().Replace("_", string.Empty)}";
+    public GameVersion Version => Parent.Version;
+    public int Location => Parent.Location;
+    public SlotType Type => Parent.Type;
 
     // Fishing are only from the hidden table (not symbol).
     public bool CanEncounterViaFishing => SlotType.CanEncounterViaFishing(Weather);
@@ -33,22 +43,57 @@ public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
         }
     }
 
-    public EncounterSlot8(EncounterArea8 area, ushort species, byte form, byte min, byte max, AreaWeather8 weather, AreaSlotType8 slotType) : base(area, species, form, min, max)
+    #region Generating
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    public PK8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+    public PK8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        Weather = weather;
-        SlotType = slotType;
-    }
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pk = new PK8
+        {
+            Species = Species,
+            Form = GetWildForm(Form),
+            CurrentLevel = LevelMin,
+            Met_Location = Location,
+            Met_Level = LevelMin,
+            Version = (byte)Version,
+            MetDate = EncounterDate.GetDateSwitch(),
+            Ball = (byte)Ball.Poke,
 
-    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
-    {
-        bool symbol = ((EncounterArea8)Area).PermitCrossover;
-        var c = symbol ? EncounterCriteria.Unrestricted : criteria;
+            Language = lang,
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
+        };
+        pk.OT_Friendship = PersonalTable.USUM[Species, pk.Form].BaseFriendship;
+        SetPINGA(pk, criteria);
+        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+
+        bool symbol = Parent.PermitCrossover;
         if (!symbol && Location is 30 or 54 && (Weather & AreaWeather8.Fishing) == 0)
-            ((PK8)pk).RibbonMarkCurry = true;
+            pk.RibbonMarkCurry = true;
 
-        base.ApplyDetails(sav, c, pk);
         if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
             pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
+        pk.ResetPartyStats();
+        return pk;
+    }
+
+    private byte GetWildForm(byte form)
+    {
+        if (form == EncounterUtil1.FormRandom) // flagged as totally random
+            return (byte)Util.Rand.Next(PersonalTable.SWSH[Species].FormCount);
+        return form;
+    }
+
+    #endregion
+
+    private void SetPINGA(PK8 pk, EncounterCriteria criteria)
+    {
+        bool symbol = Parent.PermitCrossover;
+        var c = symbol ? EncounterCriteria.Unrestricted : criteria;
 
         var req = GetRequirement(pk);
         if (req != MustHave)
@@ -62,7 +107,7 @@ public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
 
     public OverworldCorrelation8Requirement GetRequirement(PKM pk)
     {
-        if (((EncounterArea8)Area).PermitCrossover)
+        if (Parent.PermitCrossover)
             return MustHave; // symbol walking overworld
 
         bool curry = pk is IRibbonSetMark8 {RibbonMarkCurry: true} || (pk.Species == (int)Core.Species.Shedinja && pk is IRibbonSetAffixed { AffixedRibbon:(int)RibbonIndex.MarkCurry});
@@ -96,15 +141,17 @@ public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
         if (met < LevelMax)
             return none;
 
-        var area = (EncounterArea8) Area;
-        if (area.PermitCrossover)
+        if (Parent.PermitCrossover)
             return any023; // Symbol
         if ((Weather & AreaWeather8.Fishing) != 0)
             return any023; // Fishing
         return none; // Hidden
     }
 
-    public override EncounterMatchRating GetMatchRating(PKM pk)
+    #region Matching
+    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public EncounterMatchRating GetMatchRating(PKM pk)
     {
         bool isHidden = pk.AbilityNumber == 4;
         if (isHidden && this.IsPartialMatchHidden(pk.Species, Species))
@@ -134,5 +181,6 @@ public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
             MustNotHave when IsOverworldCorrelationCorrect(pk) => EncounterMatchRating.DeferredErrors,
             _ => EncounterMatchRating.Match,
         };
+        #endregion
     }
 }

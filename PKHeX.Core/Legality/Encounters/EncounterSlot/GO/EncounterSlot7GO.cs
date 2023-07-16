@@ -4,50 +4,103 @@ namespace PKHeX.Core;
 
 /// <summary>
 /// Encounter Slot found in <see cref="GameVersion.Gen7"/> (GO Park, <seealso cref="GameVersion.GG"/>).
-/// <inheritdoc cref="EncounterSlotGO" />
+/// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
-public sealed record EncounterSlot7GO : EncounterSlotGO
+public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type)
+    : EncounterSlot, IPogoSlot, IEncounterConvertible<PB7>, ILevelRange
 {
-    public override int Generation => 7;
-    public override EntityContext Context => EntityContext.Gen7b;
-    public override Ball FixedBall => Ball.None; // GO Park can override the ball; obey capture rules for LGP/E
+    public int Generation => 7;
+    public EntityContext Context => EntityContext.Gen7b;
+    public Ball FixedBall => Ball.None; // GO Park can override the ball; obey capture rules for LGP/E
+    public bool EggEncounter => false;
+    public AbilityPermission Ability => AbilityPermission.Any12;
+    public bool IsShiny => Shiny.IsShiny();
+    public int EggLocation => 0;
 
-    public EncounterSlot7GO(EncounterArea7g area, ushort species, byte form, int start, int end, Shiny shiny, Gender gender, PogoType type)
-        : base(area, species, form, start, end, shiny, gender, type)
+    public GameVersion Version => GameVersion.GO;
+    public int Location => Locations.GO7;
+    public string Name => $"Wild Encounter ({Version})";
+    public string LongName
     {
+        get
+        {
+            var init = $"{Name} ({Type})";
+            if (StartDate == 0 && EndDate == 0)
+                return init;
+            var start = PogoDateRangeExtensions.GetDateString(StartDate);
+            var end = PogoDateRangeExtensions.GetDateString(EndDate);
+            return $"{init}: {start}-{end}";
+        }
     }
 
-    protected override PB7 GetBlank() => new();
+    #region Generating
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    public PB7 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
 
-    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+    public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        base.ApplyDetails(sav, criteria, pk);
-        var pb = (PB7) pk;
-        pb.AwakeningSetAllTo(2);
-        pk.SetRandomEC();
-        pb.HeightScalar = PokeSizeUtil.GetRandomScalar();
-        pb.WeightScalar = PokeSizeUtil.GetRandomScalar();
-        pb.ResetHeight();
-        pb.ResetWeight();
-        pb.ResetCP();
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pk = new PB7
+        {
+            PID = Util.Rand32(),
+            EncryptionConstant = Util.Rand32(),
+            Species = Species,
+            CurrentLevel = LevelMin,
+            OT_Friendship = PersonalTable.GG[Species].BaseFriendship,
+            Met_Location = Location,
+            Met_Level = LevelMin,
+            Version = (byte)Version,
+            Ball = (byte)Ball.Poke,
+            MetDate = this.GetRandomValidDate(),
+
+            Language = lang,
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
+        };
+        SetPINGA(pk, criteria);
+        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        SetEncounterMoves(pk, LevelMin);
+        pk.AwakeningSetAllTo(2);
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
+        pk.ResetHeight();
+        pk.ResetWeight();
+        pk.ResetCP();
+        pk.ResetPartyStats();
+        return pk;
     }
 
-    protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
     {
-        var pi = pk.PersonalInfo;
-        int gender = criteria.GetGender(-1, pi);
+        var g = Gender == Gender.Random ? -1 : (int)Gender;
+        int gender = criteria.GetGender(g, PersonalTable.GG[Species]);
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);
 
-        pk.PID = Util.Rand32();
+        pk.SetRandomIVsGO(Type.GetMinIV());
         pk.Nature = pk.StatNature = nature;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
-        pk.SetRandomIVsGO();
-        base.SetPINGA(pk, criteria);
+
+        switch (Shiny)
+        {
+            case Shiny.Random when !pk.IsShiny && criteria.Shiny.IsShiny():
+            case Shiny.Always when !pk.IsShiny: // Force Square
+                var low = pk.PID & 0xFFFF;
+                pk.PID = ((low ^ pk.TID16 ^ pk.SID16 ^ 0) << 16) | low;
+                break;
+
+            case Shiny.Random when pk.IsShiny && !criteria.Shiny.IsShiny():
+            case Shiny.Never when pk.IsShiny: // Force Not Shiny
+                pk.PID ^= 0x1000_0000;
+                break;
+        }
     }
 
-    protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
+    private void SetEncounterMoves(PB7 pk, int level)
     {
         Span<ushort> moves = stackalloc ushort[4];
         ILearnSource source = LearnSource7GG.Instance;
@@ -55,4 +108,10 @@ public sealed record EncounterSlot7GO : EncounterSlotGO
         pk.SetMoves(moves);
         pk.SetMaximumPPCurrent(moves);
     }
+    #endregion
+
+    #region Matching
+    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+    public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
+    #endregion
 }

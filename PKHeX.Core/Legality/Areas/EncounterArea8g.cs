@@ -49,13 +49,13 @@ public sealed record EncounterArea8g : EncounterArea, ISpeciesForm
         {
             var offset = i * entrySize;
             var entry = data.Slice(offset, entrySize);
-            result[i] = ReadSlot(entry, area, species, form, import);
+            result[i] = ReadSlot(entry, species, form, import);
         }
 
         return area;
     }
 
-    private static EncounterSlot8GO ReadSlot(ReadOnlySpan<byte> entry, EncounterArea8g area, ushort species, byte form, PogoImportFormat format)
+    private static EncounterSlot8GO ReadSlot(ReadOnlySpan<byte> entry, ushort species, byte form, PogoImportFormat format)
     {
         int start = ReadInt32LittleEndian(entry);
         int end = ReadInt32LittleEndian(entry[4..]);
@@ -63,7 +63,7 @@ public sealed record EncounterArea8g : EncounterArea, ISpeciesForm
         var shiny = (Shiny)(sg & 0x3F);
         var gender = (Gender)(sg >> 6);
         var type = (PogoType)entry[9];
-        return new EncounterSlot8GO(area, species, form, start, end, shiny, gender, type, format);
+        return new EncounterSlot8GO(start, end, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL, shiny, gender, type, format);
     }
 
     public IEnumerable<EncounterSlot8GO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)

@@ -6,48 +6,64 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.PLA"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
-public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryInitialMoveShop8
+/// <param name="AlphaType">0=Never, 1=Random, 2=Guaranteed</param>
+/// <param name="FlawlessIVCount"></param>
+public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte AlphaType, byte FlawlessIVCount, Gender Gender)
+    : EncounterSlot, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, ILevelRange
 {
-    public override int Generation => 8;
-    public override EntityContext Context => EntityContext.Gen8a;
-    public SlotType Type => Area.Type;
+    public int Generation => 8;
+    public EntityContext Context => EntityContext.Gen8a;
+    public bool EggEncounter => false;
+    public AbilityPermission Ability => AbilityPermission.Any12;
+    public Ball FixedBall => Ball.None;
+    public Shiny Shiny => Shiny.Random;
+    public bool IsShiny => false;
+    public int EggLocation => 0;
 
-    public bool IsAlpha { get => AlphaType is not 0; set => throw new InvalidOperationException("Do not mutate this field."); }
-    public byte FlawlessIVCount { get; }
-    public Gender Gender { get; }
-    public byte AlphaType { get; } // 0=Never, 1=Random, 2=Guaranteed
+    public bool IsAlpha => AlphaType is not 0;
 
-    public EncounterSlot8a(EncounterArea8a area, ushort species, byte form, byte min, byte max, byte alphaType, byte flawlessIVs, Gender gender) : base(area, species, form, min, max)
-    {
-        AlphaType = alphaType;
-        FlawlessIVCount = flawlessIVs;
-        Gender = gender;
-    }
+    public string Name => $"Wild Encounter ({Version})";
+    public string LongName => $"{Name} {Parent.Type.ToString().Replace('_', ' ')}";
+    public GameVersion Version => Parent.Version;
+    public int Location => Parent.Location;
+    public SlotType Type => Parent.Type;
 
     public bool HasAlphaMove => IsAlpha && Type is not SlotType.Landmark;
 
-    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+    #region Generating
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    public PA8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+    public PA8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        base.ApplyDetails(sav, criteria, pk);
-
-        var pa = (PA8)pk;
-        if (IsAlpha)
-            pa.Scale = pa.HeightScalar = pa.WeightScalar = 255;
-        pa.ResetHeight();
-        pa.ResetWeight();
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pk = new PA8
+        {
+            Language = lang,
+            Species = Species,
+            Form = Form,
+            CurrentLevel = LevelMin,
+            OT_Friendship = PersonalTable.LA[Species, Form].BaseFriendship,
+            Met_Location = Location,
+            Met_Level = LevelMin,
+            Version = (int)Version,
+            IsAlpha = IsAlpha,
+            Ball = (int)Ball.LAPoke,
+        };
+        SetPINGA(pk, criteria);
+        SetEncounterMoves(pk, LevelMin);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        pk.ResetPartyStats();
+        return pk;
     }
 
-    protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PA8 pk, EncounterCriteria criteria)
     {
-        base.SetPINGA(pk, criteria);
-        if (Gender != Gender.Random)
-            pk.Gender = (int)Gender;
-
         var para = GetParams();
         while (true)
         {
             var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
-            if (LevelMin != LevelMax)
+            if (this.IsRandomLevel())
             {
                 var lvl = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
                 if (criteria.ForceMinLevelRange && lvl != LevelMin)
@@ -58,7 +74,31 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
         }
     }
 
-    protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
+    private OverworldParam8a GetParams() => new()
+    {
+        Shiny = Shiny,
+        IsAlpha = IsAlpha,
+        FlawlessIVs = FlawlessIVCount,
+        RollCount = GetRollCount(Type),
+        GenderRatio = Gender switch
+        {
+            Gender.Male => PersonalInfo.RatioMagicMale,
+            Gender.Female => PersonalInfo.RatioMagicFemale,
+            _ => PersonalTable.LA[Species, Form].Gender,
+        },
+    };
+
+    // hardcoded 7 to assume max dex progress + shiny charm.
+    private const int MaxRollCount = 7;
+
+    private static byte GetRollCount(SlotType type) => (byte)(MaxRollCount + type switch
+    {
+        SlotType.OverworldMMO => 12,
+        SlotType.OverworldMass => 25,
+        _ => 0,
+    });
+
+    private void SetEncounterMoves(PKM pk, int level)
     {
         var pa8 = (PA8)pk;
         Span<ushort> moves = stackalloc ushort[4];
@@ -85,29 +125,18 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
     }
 
     public (Learnset Learn, Learnset Mastery) GetLevelUpInfo() => LearnSource8LA.GetLearnsetAndMastery(Species, Form);
+    #endregion
 
-    protected override void SetFormatSpecificData(PKM pk)
-    {
-        var pa8 = (PA8)pk;
-        if (IsAlpha)
-            pa8.IsAlpha = true;
-        pa8.Scale = pa8.HeightScalar;
-    }
+    #region Matching
+    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+    private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
 
-    protected override void ApplyDetailsBall(PKM pk) => pk.Ball = (int)Ball.LAPoke;
-
-    public override EncounterMatchRating GetMatchRating(PKM pk)
+    public EncounterMatchRating GetMatchRating(PKM pk)
     {
         if (Gender is not Gender.Random && pk.Gender != (int)Gender)
             return EncounterMatchRating.PartialMatch;
-
-        var result = GetMatchRatingInternal(pk);
-        var orig = base.GetMatchRating(pk);
-        return result > orig ? result : orig;
-    }
-
-    private EncounterMatchRating GetMatchRatingInternal(PKM pk)
-    {
+        if (IsDeferredWurmple(pk))
+            return EncounterMatchRating.PartialMatch;
         if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha))
             return EncounterMatchRating.DeferredErrors;
         if (FlawlessIVCount is not 0 && pk.FlawlessIVCount < FlawlessIVCount)
@@ -166,7 +195,7 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
         if (pk is not IMoveShop8Mastery p)
             return true; // Can't check.
 
-        bool allowAlphaPurchaseBug = Area.Type is not SlotType.OverworldMMO; // Everything else Alpha is pre-1.1
+        bool allowAlphaPurchaseBug = Type is not SlotType.OverworldMMO; // Everything else Alpha is pre-1.1
         var level = pk.Met_Level;
         var (learn, mastery) = GetLevelUpInfo();
         ushort alpha = pk is PA8 pa ? pa.AlphaMove : (ushort)0;
@@ -186,41 +215,5 @@ public sealed record EncounterSlot8a : EncounterSlot, IAlphaReadOnly, IMasteryIn
 
         return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha, allowAlphaPurchaseBug);
     }
-
-    private OverworldParam8a GetParams()
-    {
-        var gender = GetGenderRatio();
-        return new OverworldParam8a
-        {
-            IsAlpha = IsAlpha,
-            FlawlessIVs = FlawlessIVCount,
-            Shiny = Shiny,
-            RollCount = GetRollCount(Type),
-            GenderRatio = gender,
-        };
-    }
-
-    private byte GetGenderRatio() => Gender switch
-    {
-        Gender.Male => PersonalInfo.RatioMagicMale,
-        Gender.Female => PersonalInfo.RatioMagicFemale,
-        _ => GetGenderRatioPersonal(),
-    };
-
-    private byte GetGenderRatioPersonal()
-    {
-        var pt = PersonalTable.LA;
-        var entry = pt.GetFormEntry(Species, Form);
-        return entry.Gender;
-    }
-
-    // hardcoded 7 to assume max dex progress + shiny charm.
-    private const int MaxRollCount = 7;
-
-    private static byte GetRollCount(SlotType type) => (byte)(MaxRollCount + type switch
-    {
-        SlotType.OverworldMMO => 12,
-        SlotType.OverworldMass => 25,
-        _ => 0,
-    });
+    #endregion
 }

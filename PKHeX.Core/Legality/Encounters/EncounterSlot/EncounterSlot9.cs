@@ -7,37 +7,24 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.SV"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
-public sealed record EncounterSlot9 : EncounterSlot
+public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, sbyte Gender, byte Time)
+    : EncounterSlot, IEncounterConvertible<PK9>, ILevelRange, IEncounterFormRandom
 {
-    public override int Generation => 9;
-    public override EntityContext Context => EntityContext.Gen9;
-    public sbyte Gender { get; }
-    public byte Time { get; } // disallow at time bit flag
+    public int Generation => 9;
+    public EntityContext Context => EntityContext.Gen9;
+    public bool EggEncounter => false;
+    public AbilityPermission Ability => AbilityPermission.Any12;
+    public Ball FixedBall => Ball.None;
+    public Shiny Shiny => Shiny.Random;
+    public bool IsShiny => false;
+    public int EggLocation => 0;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
 
-    public EncounterSlot9(EncounterArea9 area, ushort species, byte form, byte min, byte max, sbyte gender, byte time) : base(area, species, form, min, max)
-    {
-        Gender = gender;
-        Time = time;
-    }
-
-    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
-    {
-        base.ApplyDetails(sav, criteria, pk);
-
-        var pk9 = (PK9)pk;
-        pk9.Obedience_Level = (byte)pk.Met_Level;
-        var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
-        var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, rand.Next());
-        pk9.TeraTypeOriginal = (MoveType)type;
-        if (criteria.TeraType != -1 && type != criteria.TeraType)
-            pk9.SetTeraType(type); // sets the override type
-        if (Gender != -1)
-            pk.Gender = (byte)Gender;
-        pk9.Scale = PokeSizeUtil.GetRandomScalar();
-        if (Species == (int)Core.Species.Toxtricity)
-            pk.Nature = ToxtricityUtil.GetRandomNature(ref rand, Form);
-        pk9.EncryptionConstant = Util.Rand32();
-    }
+    public string Name => $"Wild Encounter ({Version})";
+    public string LongName => $"{Name} {Parent.Type.ToString().Replace('_', ' ')}";
+    public GameVersion Version => Parent.Version;
+    public int Location => Parent.Location;
+    public SlotType Type => Parent.Type;
 
     private static int GetTime(RibbonIndex mark) => mark switch
     {
@@ -52,7 +39,7 @@ public sealed record EncounterSlot9 : EncounterSlot
 
     public bool CanSpawnInWeather(RibbonIndex mark)
     {
-        if (AreaWeather.TryGetValue((byte)Area.Location, out var areaWeather))
+        if (AreaWeather.TryGetValue((byte)Location, out var areaWeather))
             return areaWeather.IsMarkCompatible(mark);
         return false;
     }
@@ -95,4 +82,84 @@ public sealed record EncounterSlot9 : EncounterSlot
         { 109, Standard },                       // Socarrat Trail
         { 124, Inside },                         // Area Zero (5)
     };
+
+    #region Generating
+
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    public PK9 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+    public PK9 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    {
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pk = new PK9
+        {
+            Species = Species,
+            Form = GetWildForm(Form),
+            CurrentLevel = LevelMin,
+            Met_Location = Location,
+            Met_Level = LevelMin,
+            Version = (byte)Version,
+            Ball = (byte)Ball.Poke,
+            MetDate = EncounterDate.GetDateSwitch(),
+
+            Language = lang,
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
+        };
+        pk.OT_Friendship = PersonalTable.SV[Species, pk.Form].BaseFriendship;
+        pk.Obedience_Level = LevelMin;
+        SetPINGA(pk, criteria);
+        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        pk.ResetPartyStats();
+        return pk;
+    }
+
+    private byte GetWildForm(byte form)
+    {
+        if (form < EncounterUtil1.FormDynamic)
+            return form;
+        if (form == EncounterUtil1.FormVivillon)
+            return 18; // Fancy Vivillon
+        // flagged as totally random
+        return (byte)Util.Rand.Next(PersonalTable.SV[Species].FormCount);
+    }
+
+    private void SetPINGA(PK9 pk, EncounterCriteria criteria)
+    {
+        pk.PID = Util.Rand32();
+        pk.EncryptionConstant = Util.Rand32();
+        pk.SetRandomIVs();
+
+        pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
+        pk.Gender = criteria.GetGender(Gender, PersonalTable.SV[pk.Species, pk.Form]);
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
+
+        var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
+        var type = Tera9RNG.GetTeraTypeFromPersonal(Species, Form, rand.Next());
+        pk.TeraTypeOriginal = (MoveType)type;
+        if (criteria.TeraType != -1 && type != criteria.TeraType)
+            pk.SetTeraType(type); // sets the override type
+        if (Species == (int)Core.Species.Toxtricity)
+            pk.Nature = ToxtricityUtil.GetRandomNature(ref rand, Form);
+
+        pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
+        pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
+        pk.Scale = PokeSizeUtil.GetRandomScalar();
+    }
+
+    #endregion
+
+    #region Matching
+    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public EncounterMatchRating GetMatchRating(PKM pk)
+    {
+        bool isHidden = pk.AbilityNumber == 4;
+        if (isHidden && this.IsPartialMatchHidden(pk.Species, Species))
+            return EncounterMatchRating.PartialMatch;
+        return EncounterMatchRating.Match;
+    }
+    #endregion
 }

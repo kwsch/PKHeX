@@ -61,7 +61,8 @@ public sealed record EncounterArea2 : EncounterArea
             byte min = entry[2];
             byte slotNum = entry[1];
             byte species = entry[0];
-            slots[i] = new EncounterSlot2(this, species, min, max, slotNum);
+            var form = species == (int)Species.Unown ? EncounterUtil1.FormRandom : (byte)0;
+            slots[i] = new EncounterSlot2(this, species, form, min, max, slotNum);
         }
         return slots;
     }
@@ -114,7 +115,7 @@ public sealed record EncounterArea2 : EncounterArea
 
                 if (slot.Form != evo.Form)
                 {
-                    if (slot.Species != (int) Species.Unown || evo.Form >= 26) // Don't yield !? forms
+                    if (slot.Species != (int)Species.Unown || evo.Form >= 26) // Don't yield !? forms
                         break;
                 }
                 if (slot.LevelMin > evo.LevelMax)

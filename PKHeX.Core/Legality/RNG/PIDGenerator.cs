@@ -327,7 +327,7 @@ public static class PIDGenerator
         SetRandomIVs(pk);
     }
 
-    private static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
+    public static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
     {
         pk.RefreshAbility(ability);
         pk.Gender = gender;
@@ -377,7 +377,7 @@ public static class PIDGenerator
         return PIDType.Method_1;
     }
 
-    private static void SetRandomWildPID5(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
+    public static void SetRandomWildPID5(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
     {
         var tidbit = (pk.TID16 ^ pk.SID16) & 1;
         pk.RefreshAbility(ability);

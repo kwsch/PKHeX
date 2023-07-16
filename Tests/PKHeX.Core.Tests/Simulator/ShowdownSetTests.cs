@@ -50,7 +50,7 @@ public class ShowdownSetTests
             var t = test[i];
             var convert = t.ConvertToPKM(info);
             var la2 = new LegalityAnalysis(convert);
-            la2.Valid.Should().BeTrue($"Encounter {i} should have generated legally: {t}");
+            la2.Valid.Should().BeTrue($"Encounter {i} should have generated legally: {t} {la2.Report()}");
         }
     }
 
@@ -188,7 +188,7 @@ public class ShowdownSetTests
         var pk3 = tr3.ConvertToPKM(new SAV3FRLG());
 
         var la = new LegalityAnalysis(pk3);
-        la.Valid.Should().BeTrue();
+        la.Valid.Should().BeTrue(la.Report());
     }
 
     [Theory]

@@ -302,8 +302,8 @@ public static class EncounterVerifier
     // Other
     private static CheckResult VerifyEncounterWild(EncounterSlot slot)
     {
-        var summary = slot.GetConditionString(out bool valid);
-        return valid ? GetValid(summary) : GetInvalid(summary);
+        var summary = slot.GetConditionString();
+        return GetValid(summary);
     }
 
     private static CheckResult VerifyEncounterStatic(PKM pk, EncounterStatic s)

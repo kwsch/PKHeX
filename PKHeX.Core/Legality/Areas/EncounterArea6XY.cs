@@ -55,7 +55,7 @@ public sealed record EncounterArea6XY : EncounterArea, IMemorySpeciesArea
         slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 3, 30, 30);
 
         // Region Random Vivillon
-        slots[i] = new EncounterSlot6XY(this, (int)Species.Vivillon, EncounterSlot.FormVivillon, 30, 30);
+        slots[i] = new EncounterSlot6XY(this, (int)Species.Vivillon, EncounterUtil1.FormVivillon, 30, 30);
         return slots;
     }
 

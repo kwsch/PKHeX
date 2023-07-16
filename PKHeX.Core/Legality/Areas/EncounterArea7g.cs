@@ -49,13 +49,13 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
         {
             var offset = i * entrySize;
             var entry = data.Slice(offset, entrySize);
-            result[i] = ReadSlot(entry, area, species, form);
+            result[i] = ReadSlot(entry, species, form);
         }
 
         return area;
     }
 
-    private static EncounterSlot7GO ReadSlot(ReadOnlySpan<byte> entry, EncounterArea7g area, ushort species, byte form)
+    private static EncounterSlot7GO ReadSlot(ReadOnlySpan<byte> entry, ushort species, byte form)
     {
         int start = ReadInt32LittleEndian(entry);
         int end = ReadInt32LittleEndian(entry[4..]);
@@ -63,7 +63,7 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
         var shiny = (Shiny)(sg & 0x3F);
         var gender = (Gender)(sg >> 6);
         var type = (PogoType)entry[9];
-        return new EncounterSlot7GO(area, species, form, start, end, shiny, gender, type);
+        return new EncounterSlot7GO(start, end, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL, shiny, gender, type);
     }
 
     public IEnumerable<EncounterSlot7GO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
@@ -80,7 +80,7 @@ public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
         // Find the first chain that has slots defined.
         // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
         // PoGoEncTool has already extrapolated the evolutions to separate encounters!
-        var stamp = EncounterSlotGO.GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
+        var stamp = PogoDateRangeExtensions.GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
         var met = Math.Max(evo.LevelMin, pk.Met_Level);
         EncounterSlot7GO? deferredIV = null;
 

@@ -74,17 +74,9 @@ public sealed record EncounterTrade3 : EncounterTrade, IContestStatsReadOnly
 
     protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
-        var pi = pk.PersonalInfo;
-        int gender = criteria.GetGender(EntityGender.GetFromPID(Species, PID), pi);
-        int nature = (int)criteria.GetNature(Nature);
-        int ability = criteria.GetAbilityFromNumber(Ability);
-
         pk.PID = PID;
-        pk.Nature = nature;
-        pk.Gender = gender;
-        pk.RefreshAbility(ability);
-
         SetIVs(pk);
+        pk.RefreshAbility((int)Ability >> 1);
     }
 
     protected override bool IsMatchNatureGenderShiny(PKM pk)

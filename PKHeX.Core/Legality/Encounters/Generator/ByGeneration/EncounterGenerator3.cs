@@ -69,8 +69,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade3[] table,
-        GameVersion game)
+    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade3[] table, GameVersion game)
     {
         foreach (var enc in table)
         {

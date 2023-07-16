@@ -5,12 +5,40 @@ namespace PKHeX.Core;
 
 /// <summary>
 /// Encounter Slot representing data transferred to <see cref="GameVersion.Gen8"/> (HOME).
-/// <inheritdoc cref="EncounterSlotGO" />
+/// <inheritdoc cref="PogoSlotExtensions" />
 /// </summary>
-public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEncounterServerDate
+public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species, byte Form, byte LevelMin, byte LevelMax, Shiny Shiny, Gender Gender, PogoType Type, PogoImportFormat OriginFormat)
+    : EncounterSlot, IEncounterConvertible<PKM>, IPogoSlot, ILevelRange, IFixedOTFriendship, IEncounterServerDate
 {
-    public override int Generation => 8;
+    public int Generation => 8;
     public bool IsDateRestricted => true;
+    public bool IsShiny => Shiny.IsShiny();
+    public Ball FixedBall => Type.GetValidBall();
+    public bool EggEncounter => false;
+    public AbilityPermission Ability => AbilityPermission.Any12;
+    public int EggLocation => 0;
+    public GameVersion Version => GameVersion.GO;
+    public int Location => Locations.GO8;
+
+    public string Name => $"Wild Encounter ({Version})";
+    public string LongName
+    {
+        get
+        {
+            var init = $"{Name} ({Type})";
+            if (StartDate == 0 && EndDate == 0)
+                return init;
+            var start = PogoDateRangeExtensions.GetDateString(StartDate);
+            var end = PogoDateRangeExtensions.GetDateString(EndDate);
+            return $"{init}: {start}-{end}";
+        }
+    }
+
+    private Ball GetRequiredBall(Ball fallback)
+    {
+        var fix = FixedBall;
+        return fix == Ball.None ? fallback : fix;
+    }
 
     /// <summary>
     /// Encounters need a Parent Game to determine the original moves when transferred to HOME.
@@ -19,13 +47,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
     /// Future game releases might change this value.
     /// With respect to date legality, new dates might be incompatible with initial <seealso cref="OriginFormat"/> values.
     /// </remarks>
-    public PogoImportFormat OriginFormat { get; }
-
-    public EncounterSlot8GO(EncounterArea8g area, ushort species, byte form, int start, int end, Shiny shiny, Gender gender, PogoType type, PogoImportFormat originFormat)
-        : base(area, species, form, start, end, shiny, gender, type)
-    {
-        OriginFormat = originFormat;
-    }
+    public PogoImportFormat OriginFormat { get; } = OriginFormat;
 
     /// <summary>
     /// Checks if the <seealso cref="Ball"/> is compatible with the <seealso cref="PogoType"/>.
@@ -40,7 +62,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
         return Type.IsBallValid(ball);
     }
 
-    protected override PKM GetBlank() => OriginFormat switch
+    private PKM GetBlank() => OriginFormat switch
     {
         PogoImportFormat.PK7 => new PK8(),
         PogoImportFormat.PB7 => new PB7(),
@@ -70,7 +92,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
         _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
     };
 
-    public override EntityContext Context => OriginFormat switch
+    public EntityContext Context => OriginFormat switch
     {
         PogoImportFormat.PK7 or PogoImportFormat.PB7 =>
               PersonalTable.BDSP.IsPresentInGame(Species, Form) ? EntityContext.Gen8b
@@ -83,29 +105,48 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
         _ => throw new ArgumentOutOfRangeException(nameof(OriginFormat)),
     };
 
-    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+    #region Generating
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+
+    public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        pk.HT_Name = "PKHeX";
-        pk.CurrentHandler = 1;
-        if (pk is IHandlerLanguage l)
-            l.HT_Language = 2;
-
-        base.ApplyDetails(sav, criteria, pk);
-        var ball = Type.GetValidBall();
-        if (ball != Ball.None)
-            pk.Ball = (int)ball;
-
-        pk.OT_Friendship = OT_Friendship;
-        pk.SetRandomEC();
-
-        if (pk is IScaledSize s)
+        var pk = GetBlank();
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         {
-            s.HeightScalar = PokeSizeUtil.GetRandomScalar();
-            s.WeightScalar = PokeSizeUtil.GetRandomScalar();
-            if (pk is IScaledSize3 s3)
-                s3.Scale = s.HeightScalar;
-        }
+            pk.Language = lang;
+            pk.PID = Util.Rand32();
+            pk.EncryptionConstant = Util.Rand32();
+            pk.Species = Species;
+            pk.CurrentLevel = LevelMin;
+            pk.OT_Friendship = OT_Friendship;
+            pk.Met_Location = Location;
+            pk.Met_Level = LevelMin;
+            pk.Version = (byte)GameVersion.GO;
+            pk.Ball = (byte)GetRequiredBall(Ball.Poke);
+            pk.MetDate = this.GetRandomValidDate();
 
+            pk.OT_Name = tr.OT;
+            pk.OT_Gender = tr.Gender;
+            pk.ID32 = tr.ID32 % 1_000_000;
+            pk.HT_Name = "PKHeX";
+            pk.CurrentHandler = 1;
+            if (pk is IHandlerLanguage l)
+                l.HT_Language = 2;
+        }
+        SetPINGA(pk, criteria);
+        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        SetEncounterMoves(pk, LevelMin);
+
+        if (pk is IScaledSize s2)
+        {
+            s2.HeightScalar = PokeSizeUtil.GetRandomScalar();
+            s2.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            if (pk is IScaledSize3 s3)
+                s3.Scale = s2.HeightScalar;
+        }
         if (pk is PA8 pa8)
         {
             pa8.ResetHeight();
@@ -117,18 +158,20 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
             pk9.TeraTypeOriginal = pk9.TeraTypeOverride = TeraTypeUtil.GetTeraTypeImport(pi.Type1, pi.Type2);
             pk9.Obedience_Level = (byte)pk9.Met_Level;
         }
+        pk.ResetPartyStats();
+        return pk;
     }
 
-    protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
         var pi = GetPersonal();
         if (OriginFormat is PogoImportFormat.PK7)
             pk.EXP = Experience.GetEXP(LevelMin, pi.EXPGrowth);
-        int gender = criteria.GetGender(-1, pi);
+        var g = Gender == Gender.Random ? -1 : (int)Gender;
+        int gender = criteria.GetGender(g, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);
 
-        pk.PID = Util.Rand32();
         pk.Nature = pk.StatNature = nature;
         pk.Gender = gender;
 
@@ -136,11 +179,23 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
         if ((uint)ability < pi.AbilityCount)
             pk.Ability = pi.GetAbilityAtIndex(ability);
 
-        pk.SetRandomIVsGO();
-        base.SetPINGA(pk, criteria);
+        pk.SetRandomIVsGO(Type.GetMinIV());
+
+        switch (Shiny)
+        {
+            case Shiny.Random when !pk.IsShiny && criteria.Shiny.IsShiny():
+            case Shiny.Always when !pk.IsShiny: // Force Square
+                var low = pk.PID & 0xFFFF;
+                pk.PID = ((low ^ pk.TID16 ^ pk.SID16 ^ 0) << 16) | low;
+                break;
+            case Shiny.Random when pk.IsShiny && !criteria.Shiny.IsShiny():
+            case Shiny.Never when pk.IsShiny: // Force Not Shiny
+                pk.PID ^= 0x1000_0000;
+                break;
+        }
     }
 
-    protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
+    private void SetEncounterMoves(PKM pk, int level)
     {
         Span<ushort> moves = stackalloc ushort[4];
         GetInitialMoves(level, moves);
@@ -153,12 +208,16 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
         var source = GameData.GetLearnSource(OriginGroup);
         source.SetEncounterMoves(Species, Form, level, moves);
     }
+    #endregion
 
-    public override EncounterMatchRating GetMatchRating(PKM pk)
+    #region Matching
+    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public EncounterMatchRating GetMatchRating(PKM pk)
     {
         if (IsMatchPartial(pk))
             return EncounterMatchRating.PartialMatch;
-        return base.GetMatchRating(pk) == EncounterMatchRating.PartialMatch ? EncounterMatchRating.PartialMatch : EncounterMatchRating.Match;
+        return EncounterMatchRating.Match;
     }
 
     public byte OT_Friendship => Species switch
@@ -181,7 +240,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
     {
         if (!IsWithinDistributionWindow(pk))
             return true;
-        if (!GetIVsAboveMinimum(pk))
+        if (!this.GetIVsAboveMinimum(pk))
             return true;
 
         // Eevee & Glaceon have different base friendships. Make sure if it is invalid that we yield the other encounter before.
@@ -199,8 +258,8 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
 
     public bool IsWithinDistributionWindow(DateOnly date)
     {
-        var stamp = GetTimeStamp(date.Year, date.Month, date.Day);
-        return IsWithinStartEnd(stamp);
+        var stamp = PogoDateRangeExtensions.GetTimeStamp(date.Year, date.Month, date.Day);
+        return this.IsWithinStartEnd(stamp);
     }
 
     private bool IsFormArgIncorrect(ISpeciesForm pk) => Species switch
@@ -227,6 +286,7 @@ public sealed record EncounterSlot8GO : EncounterSlotGO, IFixedOTFriendship, IEn
         // No Form Argument relevant to check
         _ => false,
     };
+    #endregion
 }
 
 /// <summary>

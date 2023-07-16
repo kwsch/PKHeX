@@ -38,9 +38,7 @@ public static class TrainerInfoExtensions
 
         if (info is not IRegionOrigin o)
             return;
-        tr.Country = o.Country;
-        tr.Region = o.Region;
-        tr.ConsoleRegion = o.ConsoleRegion;
+        o.CopyRegionOrigin(tr);
     }
 
     /// <summary>

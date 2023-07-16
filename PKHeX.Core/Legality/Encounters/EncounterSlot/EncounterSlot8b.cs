@@ -6,71 +6,28 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.BDSP"/>.
 /// </summary>
 /// <inheritdoc cref="EncounterSlot"/>
-public sealed record EncounterSlot8b : EncounterSlot
+public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax) : EncounterSlot, IEncounterConvertible<PB8>, ILevelRange
 {
-    public override int Generation => 8;
-    public override EntityContext Context => EntityContext.Gen8b;
-    public bool IsUnderground => Area.Location is (>= 508 and <= 617);
-    public bool IsMarsh => Area.Location is (>= 219 and <= 224);
-    public override Ball FixedBall => IsMarsh ? Ball.Safari : Ball.None;
+    public int Generation => 8;
+    public EntityContext Context => EntityContext.Gen8b;
+    public bool EggEncounter => false;
+    public Shiny Shiny => Shiny.Random;
+    public bool IsShiny => false;
+    public int EggLocation => 0;
+    public bool IsUnderground => Parent.Location is (>= 508 and <= 617);
+    public bool IsMarsh => Parent.Location is (>= 219 and <= 224);
+    public Ball FixedBall => GetRequiredBall();
+    private Ball GetRequiredBall(Ball fallback = Ball.None) => IsMarsh ? Ball.Safari : fallback;
 
-    public EncounterSlot8b(EncounterArea8b area, ushort species, byte form, byte min, byte max) : base(area, species, form, min, max)
-    {
-    }
+    public string Name => $"Wild Encounter ({Version})";
+    public string LongName => $"{Name} {Parent.Type.ToString().Replace('_', ' ')}";
+    public GameVersion Version => Parent.Version;
+    public int Location => Parent.Location;
+    public SlotType Type => Parent.Type;
 
-    public override EncounterMatchRating GetMatchRating(PKM pk)
-    {
-        bool isHidden = pk.AbilityNumber == 4;
-        if (isHidden && this.IsPartialMatchHidden(pk.Species, Species))
-            return EncounterMatchRating.PartialMatch;
-        return base.GetMatchRating(pk);
-    }
+    public bool CanUseRadar => Parent.Type is SlotType.Grass && !IsUnderground && !IsMarsh && CanUseRadarOverworld(Location);
 
-    protected override void SetFormatSpecificData(PKM pk)
-    {
-        if (IsUnderground)
-        {
-            if (GetBaseEggMove(out var move1))
-                pk.RelearnMove1 = move1;
-        }
-        pk.SetRandomEC();
-    }
-
-    public bool CanBeUndergroundMove(ushort move)
-    {
-        var et = PersonalTable.BDSP;
-        var sf = et.GetFormEntry(Species, Form);
-        var species = sf.HatchSpecies;
-        var baseEgg = LearnSource8BDSP.Instance.GetEggMoves(species, 0);
-        if (baseEgg.Length == 0)
-            return move == 0;
-        return baseEgg.Contains(move);
-    }
-
-    public bool GetBaseEggMove(out ushort move)
-    {
-        var et = PersonalTable.BDSP;
-        var sf = et.GetFormEntry(Species, Form);
-        var species = sf.HatchSpecies;
-        var baseEgg = LearnSource8BDSP.Instance.GetEggMoves(species, 0);
-        if (baseEgg.Length == 0)
-        {
-            move = 0;
-            return false;
-        }
-
-        // Official method creates a new List<ushort>() with all the egg moves, removes all ignored, then picks a random index.
-        // However, the "excluded egg moves" list was unreferenced in v1.0, so all egg moves are allowed.
-        // We can't know which patch the encounter originated from, because they never added any new content.
-        var rnd = Util.Rand;
-        {
-            var index = rnd.Next(baseEgg.Length);
-            move = baseEgg[index];
-            return true;
-        }
-    }
-
-    public bool CanUseRadar => Area.Type is SlotType.Grass && !IsUnderground && !IsMarsh && Location switch
+    private static bool CanUseRadarOverworld(int location) => location switch
     {
         195 or 196 => false, // Oreburgh Mine
         203 or 204 or 205 or 208 or 209 or 210 or 211 or 212 or 213 or 214 or 215 => false, // Mount Coronet, 206/207 exterior
@@ -90,5 +47,117 @@ public sealed record EncounterSlot8b : EncounterSlot
         _ => true,
     };
 
-    protected override HiddenAbilityPermission IsHiddenAbilitySlot() => CanUseRadar ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
+    private HiddenAbilityPermission IsHiddenAbilitySlot() => CanUseRadar
+        ? HiddenAbilityPermission.Possible
+        : HiddenAbilityPermission.Never;
+
+    public AbilityPermission Ability => IsHiddenAbilitySlot() switch
+    {
+        HiddenAbilityPermission.Never => AbilityPermission.Any12,
+        HiddenAbilityPermission.Always => AbilityPermission.OnlyHidden,
+        _ => AbilityPermission.Any12H,
+    };
+
+    #region Generating
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    public PB8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+    public PB8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    {
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pk = new PB8
+        {
+            Species = Species,
+            Form = Form,
+            CurrentLevel = LevelMin,
+            Met_Location = Location,
+            Met_Level = LevelMin,
+            Version = (byte)Version,
+            MetDate = EncounterDate.GetDateSwitch(),
+            Ball = (byte)Ball.Poke,
+
+            Language = lang,
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
+        };
+        pk.OT_Friendship = PersonalTable.USUM[Species, pk.Form].BaseFriendship;
+        SetPINGA(pk, criteria);
+        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        if (IsUnderground && GetBaseEggMove(out var move1))
+            pk.RelearnMove1 = move1;
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        pk.ResetPartyStats();
+        return pk;
+    }
+
+    private void SetPINGA(PB8 pk, EncounterCriteria criteria)
+    {
+        pk.PID = Util.Rand32();
+        pk.EncryptionConstant = Util.Rand32();
+        criteria.SetRandomIVs(pk);
+        pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
+        pk.Gender = criteria.GetGender(-1, PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form));
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
+    }
+
+    public bool GetBaseEggMove(out ushort move)
+    {
+        var pt = PersonalTable.BDSP;
+        var sf = pt.GetFormEntry(Species, Form);
+        var species = sf.HatchSpecies;
+        var baseEgg = LearnSource8BDSP.Instance.GetEggMoves(species, 0);
+        if (baseEgg.Length == 0)
+        {
+            move = 0;
+            return false;
+        }
+
+        // Official method creates a new List<ushort>() with all the egg moves, removes all ignored, then picks a random index.
+        // However, the "excluded egg moves" list was unreferenced in v1.0, so all egg moves are allowed.
+        // We can't know which patch the encounter originated from, because they never added any new content.
+        var rnd = Util.Rand;
+        var index = rnd.Next(baseEgg.Length);
+        move = baseEgg[index];
+        return true;
+    }
+
+    #endregion
+
+    #region Matching
+    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public EncounterMatchRating GetMatchRating(PKM pk)
+    {
+        bool isHidden = pk.AbilityNumber == 4;
+        if (isHidden && this.IsPartialMatchHidden(pk.Species, Species))
+            return EncounterMatchRating.PartialMatch;
+        if (IsDeferredWurmple(pk))
+            return EncounterMatchRating.PartialMatch;
+        if (IsDeferredHiddenAbility(isHidden))
+            return EncounterMatchRating.Deferred;
+        return EncounterMatchRating.Match;
+    }
+
+    private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
+
+    private bool IsDeferredHiddenAbility(bool IsHidden) => IsHiddenAbilitySlot() switch
+    {
+        HiddenAbilityPermission.Never => IsHidden,
+        HiddenAbilityPermission.Always => !IsHidden,
+        _ => false,
+    };
+
+    public bool CanBeUndergroundMove(ushort move)
+    {
+        var et = PersonalTable.BDSP;
+        var sf = et.GetFormEntry(Species, Form);
+        var species = sf.HatchSpecies;
+        var baseEgg = LearnSource8BDSP.Instance.GetEggMoves(species, 0);
+        if (baseEgg.Length == 0)
+            return move == 0;
+        return baseEgg.Contains(move);
+    }
+    #endregion
+
 }

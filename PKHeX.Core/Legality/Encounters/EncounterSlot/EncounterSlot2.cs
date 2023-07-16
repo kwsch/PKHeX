@@ -9,40 +9,25 @@ namespace PKHeX.Core;
 /// Referenced Area object contains Time data which is used for <see cref="GameVersion.C"/> origin data.
 /// </remarks>
 /// <inheritdoc cref="EncounterSlot"/>
-public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
+public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber) : EncounterSlot, IEncounterConvertible<PK2>, ILevelRange, INumberedSlot
 {
-    public override int Generation => 2;
-    public override EntityContext Context => EntityContext.Gen2;
-    public byte SlotNumber { get; }
-    public override Ball FixedBall => Ball.Poke;
+    public int Generation => 2;
+    public EntityContext Context => EntityContext.Gen2;
+    public bool EggEncounter => false;
+    public Ball FixedBall => Ball.Poke;
+    public AbilityPermission Ability => AbilityPermission.OnlyHidden;
+    public Shiny Shiny => Shiny.Random;
+    public bool IsShiny => false;
+    public int EggLocation => 0;
+
+    public string Name => $"Wild Encounter ({Version})";
+    public string LongName => $"{Name} {Parent.Type.ToString().Replace('_', ' ')}";
+    public GameVersion Version => Parent.Version;
+    public int Location => Parent.Location;
+
+    // we have "Special" bitflag. Strip it out.
+    public SlotType SlotType => Parent.Type & (SlotType)0xF;
     public bool IsHeadbutt => SlotType == SlotType.Headbutt;
-
-    public EncounterSlot2(EncounterArea2 area, byte species, byte min, byte max, byte slot) : base(area, species, species == 201 ? FormRandom : (byte)0, min, max)
-    {
-        SlotNumber = slot;
-    }
-
-    protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
-    {
-        base.ApplyDetails(sav, criteria, pk);
-
-        var pk2 = (PK2)pk;
-
-        if (IsHeadbutt)
-        {
-            var id = pk2.TID16;
-            if (!IsTreeAvailable(id))
-            {
-                // Get a random TID that satisfies this slot.
-                do { id = (ushort)Util.Rand.Next(); }
-                while (!IsTreeAvailable(id));
-                pk2.TID16 = id;
-            }
-        }
-
-        if (Version == GameVersion.C)
-            pk2.Met_TimeOfDay = ((EncounterArea2)Area).Time.RandomValidTime();
-    }
 
     private static ReadOnlySpan<byte> TreeIndexes => new byte[]
     {
@@ -80,7 +65,7 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
         var permissions = Trees[treeIndex];
 
         var pivot = trainerID % 10;
-        var type = Area.Type;
+        var type = Parent.Type;
         return type switch
         {
             SlotType.Headbutt => (permissions & (1 << pivot)) != 0,
@@ -88,6 +73,62 @@ public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
         };
     }
 
-    // we have "Special" bitflag. Strip it out.
-    public SlotType SlotType => Area.Type & (SlotType)0xF;
+    #region Generating
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+
+    public PK2 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+
+    public PK2 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    {
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var isJapanese = lang == (int)LanguageID.Japanese;
+        var pk = new PK2(isJapanese)
+        {
+            Species = Species,
+            // Form is only Unown and is derived from IVs.
+            CurrentLevel = LevelMin,
+            OT_Friendship = PersonalTable.C[Species].BaseFriendship,
+            DV16 = EncounterUtil1.GetRandomDVs(Util.Rand),
+
+            Language = lang,
+            OT_Name = tr.OT,
+            TID16 = tr.TID16,
+        };
+
+        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
+        if (IsHeadbutt)
+        {
+            var id = pk.TID16;
+            if (!IsTreeAvailable(id))
+            {
+                // Get a random TID that satisfies this slot.
+                do { id = (ushort)Util.Rand.Next(); }
+                while (!IsTreeAvailable(id));
+                pk.TID16 = id;
+            }
+        }
+
+        if (Version == GameVersion.C)
+        {
+            pk.OT_Gender = tr.Gender;
+            pk.Met_Level = LevelMin;
+            pk.Met_Location = Location;
+            pk.Met_TimeOfDay = Parent.Time.RandomValidTime();
+        }
+        else
+        {
+            pk.CaughtData = 0;
+        }
+
+        pk.ResetPartyStats();
+        return pk;
+    }
+    #endregion
+
+    #region Matching
+    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Handled by Area
+    public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
+    #endregion
 }

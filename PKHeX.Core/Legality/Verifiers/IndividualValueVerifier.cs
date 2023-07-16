@@ -118,7 +118,7 @@ public sealed class IndividualValueVerifier : Verifier
 
     private void VerifyIVsGoTransfer(LegalityAnalysis data)
     {
-        if (data.EncounterMatch is EncounterSlotGO g && !g.GetIVsValid(data.Entity))
+        if (data.EncounterMatch is IPogoSlot g && !g.GetIVsValid(data.Entity))
             data.AddLine(GetInvalid(LIVNotCorrect));
     }
 }

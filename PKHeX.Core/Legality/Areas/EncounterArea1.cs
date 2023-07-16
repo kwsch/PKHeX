@@ -55,12 +55,10 @@ public sealed record EncounterArea1 : EncounterArea
 
                 if (slot.LevelMin > evo.LevelMax)
                     break;
-                if (slot.Form != evo.Form)
-                    break;
 
                 if (useCatchRate)
                 {
-                    var expect = (slot.Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB)[slot.Species].CatchRate;
+                    var expect = EncounterUtil1.GetWildCatchRate(slot.Version, slot.Species);
                     if (expect != rate && !(ParseSettings.AllowGen1Tradeback && GBRestrictions.IsTradebackCatchRate(rate)))
                         break;
                 }
