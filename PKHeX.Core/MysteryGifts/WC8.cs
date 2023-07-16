@@ -733,12 +733,26 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (pk is PK8 pk8 && pk8.DynamaxLevel < DynamaxLevel)
             return false;
 
-        if (IsHOMEGift && pk is IScaledSize s and not IHomeTrack { HasTracker: true } && ParseSettings.IgnoreTransferIfNoTracker)
+        if (IsHOMEGift)
         {
-            if (s.HeightScalar != 0)
-                return false;
-            if (s.WeightScalar != 0)
-                return false;
+            // Prior to 3.0.0, HOME would set the Height and Weight exactly and not give a random value if it was 0.
+            // However, entering HOME will re-randomize the Height and Weight.
+            if (pk.MetDate is { } x && IsHOMEGiftOld(x))
+            {
+                // Need to defer and not mismatch date ranges.
+                if (!EncounterServerDate.IsValidDateWC8(this, x))
+                    return false;
+
+                if (pk.Context is not (EntityContext.Gen8 or EntityContext.Gen8b))
+                {
+                    // Only these 3 can transfer to PLA and get 0 scale prior to 3.0.0
+                    if (Species is not ((ushort)Core.Species.Pikachu or (ushort)Core.Species.Eevee or (ushort)Core.Species.Rotom or (ushort)Core.Species.Pichu))
+                    {
+                        if (pk is IScaledSize { HeightScalar: 0, WeightScalar: 0 })
+                            return false;
+                    }
+                }
+            }
         }
 
         // Duplicate card; one with Nickname specified and another without.

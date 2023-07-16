@@ -202,14 +202,15 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         return PokeCrypto.EncryptArray3(Data);
     }
 
+    private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[0x20..PokeCrypto.SIZE_3STORED]);
+
     public override void RefreshChecksum()
     {
         FlagIsBadEgg = false;
-        Checksum = PokeCrypto.GetCHK3(Data);
+        Checksum = CalculateChecksum();
     }
 
     public override bool ChecksumValid => CalculateChecksum() == Checksum;
-    private ushort CalculateChecksum() => PokeCrypto.GetCHK3(Data);
 
     public PK4 ConvertToPK4()
     {

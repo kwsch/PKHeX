@@ -22,8 +22,13 @@ public sealed class LearnGroup6 : ILearnGroup
         for (var i = 0; i < evos.Length; i++)
             Check(result, current, pk, evos[i], i, types, option, mode);
 
-        if (option is not LearnOption.Current && types.HasFlag(MoveSourceType.Encounter) && enc is EncounterEgg { Generation: Generation } egg)
-            CheckEncounterMoves(result, current, egg);
+        if (option.IsPast() && types.HasFlag(MoveSourceType.Encounter))
+        {
+            if (enc is EncounterEgg { Generation: Generation } egg)
+                CheckEncounterMoves(result, current, egg);
+            else if (enc is EncounterSlot6AO { CanDexNav: true } dexnav && pk.IsOriginalMovesetDeleted())
+                CheckDexNavMoves(result, current, dexnav);
+        }
 
         return MoveResult.AllParsed(result);
     }
@@ -45,6 +50,22 @@ public sealed class LearnGroup6 : ILearnGroup
                 result[i] = new(LearnMethod.InheritLevelUp);
             else if (move is (int)Move.VoltTackle && egg.CanHaveVoltTackle)
                 result[i] = new(LearnMethod.SpecialEgg);
+        }
+    }
+
+    private static void CheckDexNavMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterSlot6AO dexnav)
+    {
+        // DexNav moves are only available in OR/AS
+        // Can only have one DexNav move
+        for (var i = 0; i < result.Length; i++)
+        {
+            if (result[i].Valid)
+                continue;
+            var move = current[i];
+            if (!dexnav.CanBeDexNavMove(move))
+                continue;
+            result[i] = new(new(LearnMethod.Special, LearnEnvironment.ORAS), Generation);
+            break;
         }
     }
 
@@ -197,14 +218,14 @@ public sealed class LearnGroup6 : ILearnGroup
 
     private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
     {
-        if (enc is IMoveset { Moves: { Move1: not 0 } x })
+        if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
             result[x.Move4] = true;
             result[x.Move3] = true;
             result[x.Move2] = true;
             result[x.Move1] = true;
         }
-        if (enc is IRelearn { Relearn: {Move1: not 0} r})
+        if (enc is IRelearn { Relearn: { HasMoves: true } r})
         {
             result[r.Move4] = true;
             result[r.Move3] = true;

@@ -19,13 +19,7 @@ public abstract class G8PKM : PKM, ISanityChecksum,
         return data;
     }
 
-    private ushort CalculateChecksum()
-    {
-        ushort chk = 0;
-        for (int i = 8; i < PokeCrypto.SIZE_8STORED; i += 2)
-            chk += ReadUInt16LittleEndian(Data.AsSpan(i));
-        return chk;
-    }
+    private ushort CalculateChecksum() => Checksums.Add16(Data.AsSpan()[8..PokeCrypto.SIZE_8STORED]);
 
     // Simple Generated Attributes
     public abstract IPermitRecord Permit { get; } // PersonalInfo derived metadata

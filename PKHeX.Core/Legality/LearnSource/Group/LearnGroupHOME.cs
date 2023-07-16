@@ -54,12 +54,20 @@ public sealed class LearnGroupHOME : ILearnGroup
             if (CleanPurge(result, current, pk, types, local, evos))
                 return true;
         }
-
-        if (!history.HasVisitedSWSH && enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
+        if (TryAddOriginalMoves(result, current, pk, enc))
         {
-            if (TryAddOriginalMovesGO(g8, result, current, pk.Met_Level))
+            if (CleanPurge(result, current, pk, types, local, evos))
                 return true;
         }
+
+        // HOME is silly and allows form exclusive moves to be transferred without ever knowing the move.
+        if (TryAddExclusiveMoves(result, current, pk))
+        {
+            if (CleanPurge(result, current, pk, types, local, evos))
+                return true;
+        }
+
+        // Ignore Battle Version; can be transferred back to SW/SH and wiped after the moves have been shared from HOME
 
         if (history.HasVisitedLGPE)
         {
@@ -83,21 +91,6 @@ public sealed class LearnGroupHOME : ILearnGroup
             }
         }
         return false;
-    }
-
-    private static bool TryAddOriginalMovesGO(EncounterSlot8GO enc, Span<MoveResult> result, ReadOnlySpan<ushort> current, int met)
-    {
-        Span<ushort> moves = stackalloc ushort[4];
-        enc.GetInitialMoves(met, moves);
-        foreach (var move in moves)
-        {
-            if (move == 0)
-                break;
-            var index = current.IndexOf(move);
-            if (index != -1)
-                result[index] = new MoveResult(LearnMethod.Shared, LearnEnvironment.HOME);
-        }
-        return MoveResult.AllParsed(result);
     }
 
     /// <summary>
@@ -140,19 +133,6 @@ public sealed class LearnGroupHOME : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    /// <summary>
-    /// Get the current HOME source for the given context.
-    /// </summary>
-    /// <exception cref="ArgumentOutOfRangeException"></exception>
-    private static IHomeSource GetCurrent(EntityContext context) => context switch
-    {
-        EntityContext.Gen8 => LearnSource8SWSH.Instance,
-        EntityContext.Gen8a => LearnSource8LA.Instance,
-        EntityContext.Gen8b => LearnSource8BDSP.Instance,
-        EntityContext.Gen9 => LearnSource9SV.Instance,
-        _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
-    };
-
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc,
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.HOME)
     {
@@ -169,8 +149,8 @@ public sealed class LearnGroupHOME : ILearnGroup
             RentLoopGetAll(LearnGroup8a.Instance, result, pk, history, enc, types, option, evos, local);
         if (history.HasVisitedBDSP && pk is not PB8)
             RentLoopGetAll(LearnGroup8b.Instance, result, pk, history, enc, types, option, evos, local);
-        if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
-            AddOriginalMovesGO(g8, result, enc.LevelMin);
+        AddOriginalMoves(result, pk, enc, types, local, evos);
+        AddExclusiveMoves(result, pk);
 
         // Looking backwards before HOME
         if (history.HasVisitedLGPE)
@@ -190,6 +170,77 @@ public sealed class LearnGroupHOME : ILearnGroup
             }
         }
     }
+
+    private static bool TryAddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, IEncounterTemplate enc)
+    {
+        if (enc is IMoveset { Moves: { HasMoves: true } x })
+        {
+            Span<ushort> moves = stackalloc ushort[4];
+            x.CopyTo(moves);
+            return AddOriginalMoves(result, current, moves, enc.Generation);
+        }
+        if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
+        {
+            Span<ushort> moves = stackalloc ushort[4];
+            g8.GetInitialMoves(pk.Met_Level, moves);
+            return AddOriginalMoves(result, current, moves, g8.Generation);
+        }
+        return false;
+    }
+
+    private static void AddOriginalMoves(Span<bool> result, PKM pk, IEncounterTemplate enc, MoveSourceType types, IHomeSource local, ReadOnlySpan<EvoCriteria> evos)
+    {
+        if (enc is IMoveset { Moves: { HasMoves: true } x })
+        {
+            Span<ushort> moves = stackalloc ushort[4];
+            x.CopyTo(moves);
+            AddOriginalMoves(result, pk, evos, types, local, moves);
+        }
+        else if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g8)
+        {
+            Span<ushort> moves = stackalloc ushort[4];
+            g8.GetInitialMoves(pk.Met_Level, moves);
+            AddOriginalMoves(result, pk, evos, types, local, moves);
+        }
+    }
+
+
+    private static bool TryAddExclusiveMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk)
+    {
+        if (pk.Species is (int)Species.Hoopa)
+        {
+            var move = pk.Form == 0 ? (ushort)Move.HyperspaceHole : (ushort)Move.HyperspaceFury;
+            var index = current.IndexOf(move);
+            if (index < 0)
+                return false;
+            ref var exist = ref result[index];
+            if (exist.Valid)
+                return false;
+            exist = new MoveResult(new MoveLearnInfo(LearnMethod.Special, LearnEnvironment.HOME));
+            return true;
+        }
+        // Kyurem as Fused cannot move into HOME and trigger move sharing.
+        return false;
+    }
+
+    private static void AddExclusiveMoves(Span<bool> result, PKM pk)
+    {
+        if (pk.Species == (int)Species.Hoopa)
+            result[pk.Form == 0 ? (int)Move.HyperspaceHole : (int)Move.HyperspaceFury] = true;
+    }
+
+    /// <summary>
+    /// Get the current HOME source for the given context.
+    /// </summary>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    private static IHomeSource GetCurrent(EntityContext context) => context switch
+    {
+        EntityContext.Gen8 => LearnSource8SWSH.Instance,
+        EntityContext.Gen8a => LearnSource8LA.Instance,
+        EntityContext.Gen8b => LearnSource8BDSP.Instance,
+        EntityContext.Gen9 => LearnSource9SV.Instance,
+        _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
+    };
 
     private static void RentLoopGetAll<T>(T instance, Span<bool> result, PKM pk, EvolutionHistory history,
         IEncounterTemplate enc,
@@ -234,13 +285,44 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
     }
 
-    private static void AddOriginalMovesGO(EncounterSlot8GO enc, Span<bool> result, int met)
+    private static void AddOriginalMoves(Span<bool> result, PKM pk, ReadOnlySpan<EvoCriteria> evos, MoveSourceType types, IHomeSource dest, ReadOnlySpan<ushort> moves)
     {
-        Span<ushort> moves = stackalloc ushort[4];
-        enc.GetInitialMoves(met, moves);
         foreach (var move in moves)
-            result[move] = true;
+        {
+            if (move == 0)
+                break;
+            if (move >= result.Length)
+                continue;
+            if (result[move])
+                continue; // already possible to learn in current game
+
+            foreach (var evo in evos)
+            {
+                var chk = dest.GetCanLearnHOME(pk, evo, move, types);
+                if (chk.Method == LearnMethod.None)
+                    continue;
+                result[move] = true;
+                break;
+            }
+        }
     }
 
-    private static bool IsPikachuLine(ushort species) => species is (int)Species.Raichu or (int)Species.Pikachu or (int)Species.Pichu;
+    private static bool AddOriginalMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, Span<ushort> moves, int generation)
+    {
+        bool addedAny = false;
+        foreach (var move in moves)
+        {
+            if (move == 0)
+                break;
+            var index = current.IndexOf(move);
+            if (index == -1)
+                continue;
+            if (result[index].Valid)
+                continue;
+
+            result[index] = MoveResult.Initial with { Generation = (byte)generation };
+            addedAny = true;
+        }
+        return addedAny;
+    }
 }

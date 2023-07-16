@@ -60,6 +60,8 @@ public static class FormArgumentUtil
         uint value = IsFormArgumentTypeDatePair(pk.Species, pk.Form)
             ? GetFormArgumentMax(pk.Species, pk.Form, pk.Context)
             : GetFormArgumentMinEvolution(pk.Species, originalSpecies);
+        if (pk.Species is (int)Hoopa && pk.Format >= 8)
+            value = 0; // SV does not set the argument for Hoopa
         pk.ChangeFormArgument(value);
     }
 
@@ -91,7 +93,7 @@ public static class FormArgumentUtil
 
         var max = GetFormArgumentMax(species, form, context);
         f.FormArgumentRemain = (byte)value;
-        if (value == max)
+        if (value == max || (value == 0 && species is (int)Hoopa && form == 1 && context.Generation() >= 8))
         {
             f.FormArgumentElapsed = f.FormArgumentMaximum = 0;
             return;
@@ -118,7 +120,7 @@ public static class FormArgumentUtil
         return species switch
         {
             (int)Furfrou when form != 0 => 5,
-            (int)Hoopa when form == 1 && gen < 9 => 3,
+            (int)Hoopa when form == 1 => 3,
             (int)Yamask when form == 1 => 9999,
             (int)Runerigus when form == 0 => 9999,
             (int)Alcremie => (uint)AlcremieDecoration.Ribbon,

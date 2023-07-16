@@ -34,7 +34,7 @@ public static class LearnPossible
     {
         if (pk.IsOriginalMovesetDeleted())
             return;
-        if (enc is EncounterSlot8GO g)
+        if (enc is EncounterSlot8GO { OriginFormat: PogoImportFormat.PK7 or PogoImportFormat.PB7 } g)
         {
             Span<ushort> initial = stackalloc ushort[4];
             g.GetInitialMoves(pk.Met_Level, initial);
