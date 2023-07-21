@@ -75,6 +75,7 @@ public enum EvolutionType : byte
 
     Hisui = 61,
 
+    // These are fake IDs as PLA indexes clashed with mainline.
     UseItemFullMoon = 90, // Ursaluna
     UseMoveAgileStyle = 91, // Wyrdeer
     UseMoveStrongStyle = 92, // Overqwil
