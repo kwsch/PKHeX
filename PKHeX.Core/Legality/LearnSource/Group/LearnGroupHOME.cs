@@ -277,7 +277,9 @@ public sealed class LearnGroupHOME : ILearnGroup
             foreach (var evo in evos)
             {
                 var chk = dest.GetCanLearnHOME(pk, evo, move, types);
-                if (chk.Method == LearnMethod.None)
+                // HOME has special handling to allow Volt Tackle outside of learnset possibilities.
+                // Most games do not have a Learn Source for Volt Tackle besides it being specially inserted for Egg Encounters.
+                if (chk.Method == LearnMethod.None && move is not (int)Move.VoltTackle)
                     continue;
                 result[move] = true;
                 break;
