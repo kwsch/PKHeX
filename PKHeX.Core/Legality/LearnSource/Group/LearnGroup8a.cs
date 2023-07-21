@@ -27,7 +27,7 @@ public sealed class LearnGroup8a : ILearnGroup
 
         var home = LearnGroupHOME.Instance;
         if (option != LearnOption.HOME && home.HasVisited(pk, history))
-            return home.Check(result, current, pk, history, enc, types, option);
+            return home.Check(result, current, pk, history, enc, types);
         return false;
     }
 
@@ -56,6 +56,10 @@ public sealed class LearnGroup8a : ILearnGroup
 
         foreach (var evo in history.Gen8a)
             GetAllMoves(result, pk, evo, types, option);
+
+        var home = LearnGroupHOME.Instance;
+        if (option != LearnOption.HOME && home.HasVisited(pk, history))
+            home.GetAllMoves(result, pk, history, enc, types);
     }
 
     private static void GetAllMoves(Span<bool> result, PKM pk, EvoCriteria evo, MoveSourceType types, LearnOption option)

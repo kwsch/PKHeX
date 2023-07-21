@@ -13,7 +13,7 @@ namespace PKHeX.Core;
 public static class EncounterMovesetGenerator
 {
     /// <summary>
-    /// Order in which <see cref="IEncounterable"/> objects are yielded from the <see cref="GenerateVersionEncounters"/> generator.
+    /// Order in which <see cref="IEncounterable"/> objects are yielded from the <see cref="GenerateVersionEncounters(PKM,ReadOnlyMemory{ushort},GameVersion)"/> method.
     /// </summary>
     // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
     public static IReadOnlyCollection<EncounterTypeGroup> PriorityList { get; set; } = PriorityList = (EncounterTypeGroup[])Enum.GetValues(typeof(EncounterTypeGroup));
@@ -174,19 +174,29 @@ public static class EncounterMovesetGenerator
     private static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ReadOnlyMemory<ushort> moves, GameVersion version)
     {
         pk.Version = (int)version;
-
+        var context = version.GetContext();
         var generation = (byte)version.GetGeneration();
-        if (version is GameVersion.GO)
-            generation = (byte)pk.Format;
-        if (pk.Context is EntityContext.Gen2 && version is GameVersion.RD or GameVersion.GN or GameVersion.BU or GameVersion.YW)
-            generation = 1; // try excluding baby pokemon from our evolution chain, for move learning purposes.
+        foreach (var enc in GenerateVersionEncounters(pk, moves, version, generation, context))
+            yield return enc;
 
+        // GO Encounters can be from Gen7b or Gen8+; try again with Gen8+ if we still need to iterate.
+        if (version is not GameVersion.GO || pk.Format < 8)
+            yield break;
+
+        generation = 8;
+        context = EntityContext.Gen8;
+        foreach (var enc in GenerateVersionEncounters(pk, moves, version, generation, context))
+            yield return enc;
+    }
+
+    private static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ReadOnlyMemory<ushort> moves, GameVersion version, byte generation, EntityContext context)
+    {
         var origin = new EvolutionOrigin(pk.Species, (byte)version, generation, 1, 100, true);
         var chain = EvolutionChain.GetOriginChain(pk, origin);
         if (chain.Length == 0)
             yield break;
 
-        ReadOnlyMemory<ushort> needs = GetNeededMoves(pk, moves.Span, version, generation);
+        ReadOnlyMemory<ushort> needs = GetNeededMoves(pk, moves.Span, version, generation, context);
         var generator = EncounterGenerator.GetGenerator(version);
 
         foreach (var type in PriorityList)
@@ -229,7 +239,19 @@ public static class EncounterMovesetGenerator
         return true;
     }
 
-    private static ushort[] GetNeededMoves(PKM pk, ReadOnlySpan<ushort> moves, GameVersion ver, int generation)
+    private readonly record struct NeededEncounter(EntityContext Context, int Generation, GameVersion Version)
+        : IEncounterTemplate
+    {
+        public bool EggEncounter => false;
+        public byte LevelMin => 0;
+        public byte LevelMax => 0;
+
+        public ushort Species => 0;
+        public byte Form => 0;
+        public bool IsShiny => false;
+    }
+
+    private static ushort[] GetNeededMoves(PKM pk, ReadOnlySpan<ushort> moves, GameVersion ver, int generation, EntityContext context)
     {
         if (pk.Species == (int)Species.Smeargle)
             return Array.Empty<ushort>();
@@ -238,8 +260,8 @@ public static class EncounterMovesetGenerator
         var rent = ArrayPool<bool>.Shared.Rent(length);
         var permitted = rent.AsSpan(0, length);
         var enc = new EvolutionOrigin(pk.Species, (byte)ver, (byte)generation, 1, 100, true);
-        var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc, ver.GetContext(), 0);
-        var e = EncounterInvalid.Default; // default empty
+        var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc, context, 0);
+        var e = new NeededEncounter(context, generation, ver); // default empty
         LearnPossible.Get(pk, e, history, permitted);
 
         int ctr = 0; // count of moves that can be learned

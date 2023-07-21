@@ -105,6 +105,20 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         Ability = (ushort)pk.Ability;
     }
 
+    public void CopyFrom(PK7 pk, PKH pkh)
+    {
+        this.CopyFrom(pk);
+        PKRS = pk.PKRS;
+        AbilityNumber = (byte)pk.AbilityNumber;
+        Ability = (ushort)pk.Ability;
+
+        pkh.MarkValue &= 0b1111_1111_1111;
+        if (!pk.IsNicknamed)
+            pkh.Nickname = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, 8);
+        if (FormInfo.IsTotemForm(pk.Species, pk.Form))
+            pkh.Form = FormInfo.GetTotemBaseForm(pk.Species, pk.Form);
+    }
+
     public PK8 ConvertToPKM(PKH pkh)
     {
         var pk = new PK8();

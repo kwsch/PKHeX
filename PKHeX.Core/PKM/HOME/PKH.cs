@@ -385,6 +385,7 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
     {
         Core.CopyFrom(pk);
              if (pk is PB7 pb7) (DataPB7 ??= new GameDataPB7()).CopyFrom(pb7, this);
+        else if (pk is PK7 pk7) (DataPK8 ??= new GameDataPK8()).CopyFrom(pk7, this);
         else if (pk is PK8 pk8) (DataPK8 ??= new GameDataPK8()).CopyFrom(pk8, this);
         else if (pk is PB8 pb8) (DataPB8 ??= new GameDataPB8()).CopyFrom(pb8, this);
         else if (pk is PA8 pa8) (DataPA8 ??= new GameDataPA8()).CopyFrom(pa8, this);

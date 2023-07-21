@@ -23,9 +23,7 @@ public sealed class EvolutionReverseSpecies : IEvolutionReverse
                     if (dSpecies == 0)
                         break;
 
-                    var dForm = sSpecies == (int)Species.Espurr && evo.Method == EvolutionType.LevelUpFormFemale1
-                        ? (byte)1
-                        : sForm;
+                    var dForm = evo.GetDestinationForm(sForm);
                     var link = new EvolutionLink(evo, sSpecies, sForm);
                     lineage.Register(link, dSpecies, dForm);
                 }

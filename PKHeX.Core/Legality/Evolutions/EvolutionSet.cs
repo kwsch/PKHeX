@@ -37,6 +37,6 @@ public static class EvolutionSet
         var form = entry[6];
         var level = entry[7];
         var lvlup = type.IsLevelUpRequired() ? levelUp : (byte)0;
-        return new EvolutionMethod(type, species, form, arg, level, lvlup);
+        return new EvolutionMethod(species, arg, form, type, level, lvlup);
     }
 }
