@@ -87,10 +87,10 @@ public sealed class LearnGroup6 : ILearnGroup
             CheckInternal(result, current, pk, evo with { Form = (byte)i }, stage, types, option, mode);
     }
 
-    private static CheckMode GetCheckMode(IGeneration enc, PKM pk)
+    private static CheckMode GetCheckMode(IEncounterTemplate enc, PKM pk)
     {
         // We can check if it has visited specific sources. We won't check the games it hasn't visited.
-        if (enc.Generation != Generation || !pk.IsUntraded)
+        if (enc.Context != EntityContext.Gen6 || !pk.IsUntraded)
             return CheckMode.Both;
         if (pk.AO)
             return CheckMode.AO;

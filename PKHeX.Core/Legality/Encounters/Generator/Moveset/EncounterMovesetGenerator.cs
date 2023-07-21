@@ -173,6 +173,7 @@ public static class EncounterMovesetGenerator
     /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
     private static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ReadOnlyMemory<ushort> moves, GameVersion version)
     {
+        pk.Version = (int)version;
         var context = version.GetContext();
         var generation = (byte)version.GetGeneration();
         foreach (var enc in GenerateVersionEncounters(pk, moves, version, generation, context))
