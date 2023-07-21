@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 7 <see cref="PKM"/> format. </summary>
 public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetRibbons,
-    IContestStats, IHyperTrain, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection
+    IContestStats, IHyperTrain, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IPokerusStatus
 {
     public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
     {
@@ -113,7 +113,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public byte CNT_Tough  { get => Data[0x28]; set => Data[0x28] = value; }
     public byte CNT_Sheen  { get => Data[0x29]; set => Data[0x29] = value; }
     public ResortEventState ResortEventStatus { get => (ResortEventState)Data[0x2A]; set => Data[0x2A] = (byte)value; }
-    private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
+    public byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
     public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
     public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
     private byte ST1 { get => Data[0x2C]; set => Data[0x2C] = value; }
@@ -497,160 +497,6 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
     public override int MaxBallID => Legal.MaxBallID_7;
     public override int MaxGameID => Legal.MaxGameID_7;
-
-    public PK8 ConvertToPK8()
-    {
-        var pk8 = new PK8
-        {
-            EncryptionConstant = EncryptionConstant,
-            Species = Species,
-            TID16 = TID16,
-            SID16 = SID16,
-            EXP = EXP,
-            PID = PID,
-            Ability = Ability,
-            AbilityNumber = AbilityNumber,
-            MarkValue = MarkValue & 0b1111_1111_1111,
-            Language = Language,
-            EV_HP = EV_HP,
-            EV_ATK = EV_ATK,
-            EV_DEF = EV_DEF,
-            EV_SPA = EV_SPA,
-            EV_SPD = EV_SPD,
-            EV_SPE = EV_SPE,
-            Move1 = Move1,
-            Move2 = Move2,
-            Move3 = Move3,
-            Move4 = Move4,
-            Move1_PPUps = Move1_PPUps,
-            Move2_PPUps = Move2_PPUps,
-            Move3_PPUps = Move3_PPUps,
-            Move4_PPUps = Move4_PPUps,
-            RelearnMove1 = RelearnMove1,
-            RelearnMove2 = RelearnMove2,
-            RelearnMove3 = RelearnMove3,
-            RelearnMove4 = RelearnMove4,
-            IV_HP = IV_HP,
-            IV_ATK = IV_ATK,
-            IV_DEF = IV_DEF,
-            IV_SPA = IV_SPA,
-            IV_SPD = IV_SPD,
-            IV_SPE = IV_SPE,
-            IsEgg = IsEgg,
-            IsNicknamed = IsNicknamed,
-            FatefulEncounter = FatefulEncounter,
-            Gender = Gender,
-            Form = Form,
-            Nature = Nature,
-            Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, Language, 8),
-            Version = Version,
-            OT_Name = OT_Name,
-            MetDate = MetDate,
-            EggMetDate = EggMetDate,
-            Met_Location = Met_Location,
-            Egg_Location = Egg_Location,
-            Ball = Ball,
-            Met_Level = Met_Level,
-            OT_Gender = OT_Gender,
-            HyperTrainFlags = HyperTrainFlags,
-
-            // Locale does not transfer. All Zero
-            // Country = Country,
-            // Region = Region,
-            // ConsoleRegion = ConsoleRegion,
-
-            OT_Memory = OT_Memory,
-            OT_TextVar = OT_TextVar,
-            OT_Feeling = OT_Feeling,
-            OT_Intensity = OT_Intensity,
-
-            PKRS_Strain = PKRS_Strain,
-            PKRS_Days = PKRS_Days,
-            CNT_Cool = CNT_Cool,
-            CNT_Beauty = CNT_Beauty,
-            CNT_Cute = CNT_Cute,
-            CNT_Smart = CNT_Smart,
-            CNT_Tough = CNT_Tough,
-            CNT_Sheen = CNT_Sheen,
-
-            RibbonChampionG3 = RibbonChampionG3,
-            RibbonChampionSinnoh = RibbonChampionSinnoh,
-            RibbonEffort = RibbonEffort,
-            RibbonAlert = RibbonAlert,
-            RibbonShock = RibbonShock,
-            RibbonDowncast = RibbonDowncast,
-            RibbonCareless = RibbonCareless,
-            RibbonRelax = RibbonRelax,
-            RibbonSnooze = RibbonSnooze,
-            RibbonSmile = RibbonSmile,
-            RibbonGorgeous = RibbonGorgeous,
-            RibbonRoyal = RibbonRoyal,
-            RibbonGorgeousRoyal = RibbonGorgeousRoyal,
-            RibbonArtist = RibbonArtist,
-            RibbonFootprint = RibbonFootprint,
-            RibbonRecord = RibbonRecord,
-            RibbonLegend = RibbonLegend,
-            RibbonCountry = RibbonCountry,
-            RibbonNational = RibbonNational,
-            RibbonEarth = RibbonEarth,
-            RibbonWorld = RibbonWorld,
-            RibbonClassic = RibbonClassic,
-            RibbonPremier = RibbonPremier,
-            RibbonEvent = RibbonEvent,
-            RibbonBirthday = RibbonBirthday,
-            RibbonSpecial = RibbonSpecial,
-            RibbonSouvenir = RibbonSouvenir,
-            RibbonWishing = RibbonWishing,
-            RibbonChampionBattle = RibbonChampionBattle,
-            RibbonChampionRegional = RibbonChampionRegional,
-            RibbonChampionNational = RibbonChampionNational,
-            RibbonChampionWorld = RibbonChampionWorld,
-            RibbonChampionKalos = RibbonChampionKalos,
-            RibbonChampionG6Hoenn = RibbonChampionG6Hoenn,
-            RibbonBestFriends = RibbonBestFriends,
-            RibbonTraining = RibbonTraining,
-            RibbonBattlerSkillful = RibbonBattlerSkillful,
-            RibbonBattlerExpert = RibbonBattlerExpert,
-            RibbonContestStar = RibbonContestStar,
-            RibbonMasterCoolness = RibbonMasterCoolness,
-            RibbonMasterBeauty = RibbonMasterBeauty,
-            RibbonMasterCuteness = RibbonMasterCuteness,
-            RibbonMasterCleverness = RibbonMasterCleverness,
-            RibbonMasterToughness = RibbonMasterToughness,
-            RibbonCountMemoryContest = RibbonCountMemoryContest,
-            RibbonCountMemoryBattle = RibbonCountMemoryBattle,
-            RibbonChampionAlola = RibbonChampionAlola,
-            RibbonBattleRoyale = RibbonBattleRoyale,
-            RibbonBattleTreeGreat = RibbonBattleTreeGreat,
-            RibbonBattleTreeMaster = RibbonBattleTreeMaster,
-
-            OT_Friendship = OT_Friendship,
-
-            // No Ribbons or Markings on transfer.
-
-            StatNature = Nature,
-            // HeightScalar = 0,
-            // WeightScalar = 0,
-
-            // Copy Form Argument data for Furfrou and Hoopa, since we're nice.
-            FormArgumentRemain = FormArgumentRemain,
-            FormArgumentElapsed = FormArgumentElapsed,
-            FormArgumentMaximum = FormArgumentMaximum,
-        };
-
-        // Wipe Totem Forms
-        var species = Species;
-        if (FormInfo.IsTotemForm(species, Form))
-            pk8.Form = FormInfo.GetTotemBaseForm(species, Form);
-
-        // Fix PP and Stats
-        pk8.Heal();
-
-        // Fix Checksum
-        pk8.RefreshChecksum();
-
-        return pk8; // Done!
-    }
 }
 
 public enum ResortEventState : byte

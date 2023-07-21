@@ -133,7 +133,6 @@ public static class EntityConverter
         PK4 pk4 => pk4.ConvertToPK5(),
         PK5 pk5 => pk5.ConvertToPK6(),
         PK6 pk6 => pk6.ConvertToPK7(),
-        PK7 pk7 => pk7.ConvertToPK8(),
 
         // Side-Formats back to Mainline
         SK2 sk2 => sk2.ConvertToPK2(),
