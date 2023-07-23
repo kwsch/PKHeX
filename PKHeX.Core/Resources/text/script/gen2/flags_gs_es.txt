@@ -1,4 +1,4 @@
-0026	s	Starter Chosen
+0026	s	Inicial Elegido
 0027	*	Cyndaquil es un inicial
 0028	*	Totodile es un inicial
 0029	*	Chikorita es un inicial
@@ -62,83 +62,88 @@
 0792	r	Lugia Capturado
 1904	r	Snorlax Capturado
 1873	r	Gyarados Rojo Capturado
-0068	s	Beat Elite Four/Elm can give S.S. Ticket
-1890	*	Red disappeared on Mt. Silver
-0069	g	Received Shuckle from Mania
-0070	g	Shuckle Returned/Allowed Ownership
-0080	g	Received Spearow from Randy
-0081	s	Mail can be delivered on Route 31
-0082	s	Received HP Up from Randy
-0083	s	Randy Mail Delivered/Received TM50
-0084	s	Togepi Hatched
-0085	s	Showed Togepi to Elm
-0086	s	Received Everstone from Elm
-0046	s	Unown appeared in Ruins of Alph
-0098	s	Met Frieda
-0099	s	Received Poison Barb from Frieda
-0100	s	Met Tuscany
-0101	s	Received Pink Bow from Tuscany
-0102	s	Met Arthur
-0103	s	Received Hard Stone from Arthur
-0104	s	Met Sunny
-0105	s	Received Magnet from Sunny
-0106	s	Met Wesley
-0107	s	Received Black Belt from Wesley
-0108	s	Met Santos
-0109	s	Received Spell Tag from Santos
-0110	s	Met to Monica
-0111	s	Received Sharp Beak from Monica
-0205	s	Restored power to Kanto/Magnet Train useable
-0607	t	Asked Schoolboy Jack for Number once
-0609	t	Asked Pokéfan Beverly for Number once
-0611	t	Asked Sailor Huey for Number once
-0619	t	Asked Cooltrainer Gaven for Number once
+0068	s	Derrotado el Alto Mando/Elm puede dar el Ticket Barco
+1890	*	Red desapareció en Monte Plateado
+0069	g	Recibido Shuckle de Klaus
+0070	g	Shuckle Regresado/Permitido quedárselo
+0080	g	Recibido Spearow de Randy
+0081	s	El correo puede sern entregado en la Ruta 31
+0082	s	Recibido PS Mas de Randy
+0083	s	Entregado correo de Randy/Recibida MT50
+0084	s	Togepi Eclosionado
+0085	s	Mostrado Togepi a Elm
+0086	s	Recibida Piedra Eterna de Elm
+1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
+0097	g	Received Tyrogue
+0046	s	Unown aparecido en Ruinas Alfa
+0098	s	Conocida Frieda
+0099	s	Recibida Flecha Venenosa de Frieda
+0100	s	Conocida Tuscany
+0101	s	Recibido Lazo Rosa de Tuscany
+0102	s	Conocido Arthur
+0103	s	Recbida Piedra Dura de Arthur
+0104	s	Conocido Sunny
+0105	s	Recibido Imán de Sunny
+0106	s	Conocido Wesley
+0107	s	Recibido Cinturón Negro de Wesley
+0108	s	Conocido Santos
+0109	s	Recibido Hechizo de Santos
+0110	s	Conocida Monica
+0111	s	Recibido Pico Afilado de Monica
+0205	s	Restaurada energía a Kanto/Tren Imán usable
+0607	t	Preguntado Schoolboy Jack por su Número
+0608	t	Can Rematch Schoolboy Jack
+0609	t	Preguntado Pokéfan Beverly por su Número
+0610	t	Can Rematch Pokéfan Beverly
+0611	t	Preguntado Sailor Huey por su Número
+0612	t	Can Rematch Sailor Huey
+0619	t	Preguntado Cooltrainer Gaven por su Número
 0620	t	Can Rematch Cooltrainer Gaven
-0621	t	Asked Cooltrainer Beth for Number once
+0621	t	Preguntado Cooltrainer Beth por su Número
 0622	t	Can Rematch Cooltrainer Beth
-0623	t	Asked Bird Keeper Jose for Number once
+0623	t	Preguntado Bird Keeper Jose por su Número
 0624	t	Can Rematch Bird Keeper Jose
-0625	t	Asked Cooltrainer Reena for Number once
+0625	t	Preguntado Cooltrainer Reena por su Número
 0626	t	Can Rematch Cooltrainer Reena
-0627	t	Asked Youngster Joey for Number once
+0627	t	Preguntado Youngster Joey por su Número
 0628	t	Can Rematch Youngster Joey
-0629	t	Asked Bug Catcher Wade for Number once
+0629	t	Preguntado Bug Catcher Wade por su Número
 0630	t	Can Rematch Bug Catcher Wade
-0631	t	Asked Fisher Ralph for Number once
+0631	t	Preguntado Fisher Ralph por su Número
 0632	t	Can Rematch Fisher Ralph
-0633	t	Asked Picnicker Liz for Number once
+0633	t	Preguntado Picnicker Liz por su Número
 0634	t	Can Rematch Picnicker Liz
-0635	t	Asked Hiker Anthony for Number once
+0635	t	Preguntado Hiker Anthony por su Númer
 0636	t	Can Rematch Hiker Anthony
-0637	t	Asked Camper Todd for Number once
+0637	t	Preguntado Camper Todd por su Número
 0638	t	Can Rematch Camper Todd
-0639	t	Asked Picnicker Gina for Number once
+0639	t	Preguntado Picnicker Gina por su Número
 0640	t	Can Rematch Picnicker Gina
-0641	t	Asked Juggler Irwin for Number once
+0641	t	Preguntado Juggler Irwin por su Número
 0642	t	Can Rematch Juggler Irwin
-0643	t	Asked Bug Catcher Arnie for Number once
+0643	t	Preguntado Bug Catcher Arnie por su Número
 0644	t	Can Rematch Bug Catcher Arnie
-0645	t	Asked Schoolboy Alan for Number once
+0645	t	Preguntado Schoolboy Alan por su Número
 0646	t	Can Rematch Schoolboy Alan
-0649	t	Asked Lass Dana for Number once
+0649	t	Preguntado Lass Dana por su Número
 0650	t	Can Rematch Lass Dana
-0651	t	Asked Schoolboy Chad for Number once
+0651	t	Preguntado Schoolboy Chad por su Número
 0652	t	Can Rematch Schoolboy Chad
-0653	t	Asked Pokéfan Derek for Number once
+0653	t	Preguntado Pokéfan Derek por su Número
 0654	t	Can Rematch Pokéfan Derek
-0655	t	Asked Fisher Chris for Number once
+0655	t	Preguntado Fisher Chris por su Número
 0656	t	Can Rematch Fisher Chris
-0657	t	Asked PokéManiac Brent for Number once
+0657	t	Preguntado PokéManiac Brent por su Número
 0658	t	Can Rematch PokéManiac Brent
-0659	t	Asked Picnicker Tiffany for Number once
+0659	t	Preguntado Picnicker Tiffany por su Número
 0660	t	Can Rematch Picnicker Tiffany
-0661	t	Asked Bird Keeper Vance for Number once
+0661	t	Preguntado Bird Keeper Vance por su Número
 0662	t	Can Rematch Bird Keeper Vance
-0663	t	Asked Fisher Wilton for Number once
+0663	t	Preguntado Fisher Wilton for por su Número
 0664	t	Can Rematch Fisher Wilton
-0665	t	Asked Blackbelt Kenji for Number once
+0665	t	Preguntado Blackbelt Kenji por su Número
 0666	t	Can Rematch Blackbelt Kenji
-0667	t	Asked Hiker Parry for Number once
+0667	t	Preguntado Hiker Parry por su Número
 0668	t	Can Rematch Hiker Parry
-0669	t	Asked Picnicker Erin for Number once
+0669	t	Preguntado Picnicker Erin por su Número
 0670	t	Can Rematch Picnicker Erin
