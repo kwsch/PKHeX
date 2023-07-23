@@ -161,8 +161,8 @@ public sealed class SaveBlockAccessor8LA : SCBlockAccessor, ISaveBlock8LA
     private const uint KDefeatedLordArcanine = 0xA5981A37; // FSYS_NS_03_CLEARED
     private const uint KDefeatedLordElectrode = 0x6EF3C712; // FSYS_NS_04_CLEARED
     private const uint KDefeatedLordAvalugg = 0x424E9F0D; // FSYS_NS_05_CLEARED
-    private const uint KDefeatedStoryOriginDialga = 0x5185ADC0; // FSYS_NS_D_CLEARED (Only applicable if Pearl Clan was chosen)
-    private const uint KDefeatedStoryOriginPalkia = 0x5E5BFD94; // FSYS_NS_P_CLEARED (Only applicable if Diamond Clan was chosen)
+    private const uint KDefeatedOriginDialga = 0x5185ADC0; // FSYS_NS_D_CLEARED (Only applicable if Pearl Clan was chosen)
+    private const uint KDefeatedOriginPalkia = 0x5E5BFD94; // FSYS_NS_P_CLEARED (Only applicable if Diamond Clan was chosen)
     private const uint KDefeatedArceus = 0x2F91EFD3; // FSYS_SCENARIO_CLEARED_URA
     private const uint KCompletedPokedex = 0xD985E1C2; // FEVE_EV110100_END (Enables using Azure Flute to reach Arceus)
     private const uint KPerfectedPokedex = 0x98ED661E; //  FSYS_POKEDEX_COMPLETE_WITHOUT_EXCEPTION
