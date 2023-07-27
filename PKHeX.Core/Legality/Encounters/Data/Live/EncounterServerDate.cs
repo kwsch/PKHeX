@@ -179,6 +179,7 @@ public static class EncounterServerDate
         {1005, (new(2023, 06, 16), new(2023, 06, 20))}, // 정원석's Gastrodon (-1 start date tolerance for GMT-10 regions)
         {0504, (new(2023, 06, 30), new(2023, 07, 04))}, // Paul's Shiny Arcanine
         {1522, (new(2023, 07, 21), new(2023, 09, 01))}, // Dark Tera Charizard
+        {0024, (new(2023, 07, 26), new(2023, 08, 19))}, // Nontaro's Shiny Grimmsnarl
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
