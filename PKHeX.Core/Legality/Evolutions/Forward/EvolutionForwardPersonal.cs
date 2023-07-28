@@ -77,6 +77,6 @@ public sealed class EvolutionForwardPersonal : IEvolutionForward
 
         // Temporarily store these and overwrite them when we clean the list.
         LevelMin = Math.Max(min, method.Level),
-        LevelUpRequired = method.RequiresLevelUp ? (byte)1 : (byte)0,
+        LevelUpRequired = method.LevelUp,
     };
 }

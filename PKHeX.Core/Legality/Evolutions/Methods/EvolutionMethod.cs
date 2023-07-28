@@ -6,38 +6,20 @@ namespace PKHeX.Core;
 /// <summary>
 /// Criteria for evolving to this branch in the <see cref="EvolutionTree"/>
 /// </summary>
-/// <param name="Method">Evolution Method</param>
 /// <param name="Species">Evolve to Species</param>
-/// <param name="Form">Destination Form</param>
 /// <param name="Argument">Conditional Argument (different from <see cref="Level"/>)</param>
+/// <param name="Form">Destination Form</param>
+/// <param name="Method">Evolution Method</param>
 /// <param name="Level">Conditional Argument (different from <see cref="Argument"/>)</param>
 /// <param name="LevelUp">Indicates if a level up is required to trigger evolution.</param>
-public readonly record struct EvolutionMethod(EvolutionType Method, ushort Species, byte Form = EvolutionMethod.AnyForm, ushort Argument = 0, byte Level = 0, byte LevelUp = 0) : ISpeciesForm
+public readonly record struct EvolutionMethod(ushort Species, ushort Argument, byte Form, EvolutionType Method, byte Level, byte LevelUp) : ISpeciesForm
 {
-    /// <summary>Evolve to Species</summary>
-    public ushort Species { get; } = Species;
-
-    /// <summary>Conditional Argument (different from <see cref="Level"/>)</summary>
-    public ushort Argument { get; } = Argument;
-
-    /// <summary>Evolution Method</summary>
-    public EvolutionType Method { get; } = Method;
-
-    /// <summary>Destination Form</summary>
-    public byte Form { get; } = Form;
-
-    /// <summary>Conditional Argument (different from <see cref="Argument"/>)</summary>
-    public byte Level { get; } = Level;
-
-    /// <summary>Indicates if a level up is required to trigger evolution.</summary>
-    public byte LevelUp { get; } = LevelUp;
-
     public override string ToString() => $"{(Species)Species}-{Form} [{Argument}] @ {Level}{(RequiresLevelUp ? "X" : "")}";
 
-    /// <summary>Is <see cref="AnyForm"/> if the evolved form isn't modified. Special consideration for <see cref="LevelUpFormFemale1"/>, which forces 1.</summary>
+    /// <summary>Is <see cref="AnyForm"/> if the evolved form isn't modified.</summary>
     private const byte AnyForm = byte.MaxValue;
 
-    public bool RequiresLevelUp => LevelUp != 0;
+    private bool RequiresLevelUp => LevelUp != 0;
 
     /// <summary>
     /// Returns the form that the Pokémon will have after evolution.
@@ -45,8 +27,6 @@ public readonly record struct EvolutionMethod(EvolutionType Method, ushort Speci
     /// <param name="form">Un-evolved Form ID</param>
     public byte GetDestinationForm(byte form)
     {
-        if (Method == LevelUpFormFemale1)
-            return 1;
         if (Form == AnyForm)
             return form;
         return Form;

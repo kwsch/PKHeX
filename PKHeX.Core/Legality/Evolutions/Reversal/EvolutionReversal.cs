@@ -93,6 +93,6 @@ public static class EvolutionReversal
 
         // Temporarily store these and overwrite them when we clean the list.
         LevelMin = link.Method.Level,
-        LevelUpRequired = link.Method.RequiresLevelUp ? (byte)1 : (byte)0,
+        LevelUpRequired = link.Method.LevelUp,
     };
 }
