@@ -423,7 +423,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
             pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
+        pk.MetDate = Date ?? EncounterDate.GetDateSwitch();
         pk.IsNicknamed = GetIsNicknamed(redeemLanguage);
         pk.Nickname = pk.IsNicknamed ? GetNickname(redeemLanguage) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 

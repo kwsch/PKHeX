@@ -17,6 +17,7 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
     public string SaveRevisionString => (Japanese ? "J" : "U") + (IsVirtualConsole ? "VC" : "GB");
     public bool Japanese { get; }
     public bool Korean => false;
+    public override int Language => Japanese ? 1 : -1;
 
     public override PersonalTable1 Personal { get; }
 

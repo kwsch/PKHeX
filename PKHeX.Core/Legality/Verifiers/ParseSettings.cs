@@ -19,7 +19,7 @@ public static class ParseSettings
     /// Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.
     /// </summary>
     /// <remarks>If false, indicates to use Virtual Console rules (which are transferable to Gen7+)</remarks>
-    public static bool AllowGBCartEra { get; set; }
+    public static bool AllowGBCartEra { private get; set; }
 
     /// <summary>
     /// Setting to specify if an analysis should permit trading a Generation 1 origin file to Generation 2, then back. Useful for checking RBY Metagame rules.
@@ -68,7 +68,11 @@ public static class ParseSettings
     /// <remarks> Pokemon Stadium 2 was never released in Korea.</remarks>
     /// <param name="pk">Data being checked</param>
     /// <returns>True if Crystal data is allowed</returns>
-    public static bool AllowGen2MoveReminder(PKM pk) => !pk.Korean && AllowGBCartEra;
+    public static bool AllowGen2MoveReminder(PKM pk) => !pk.Korean && AllowGBStadium2;
+
+    public static bool AllowGBVirtualConsole3DS => !AllowGBCartEra;
+    public static bool AllowGBEraEvents => AllowGBCartEra;
+    public static bool AllowGBStadium2 => AllowGBCartEra;
 
     internal static bool IsFromActiveTrainer(PKM pk) => ActiveTrainer.IsFromTrainer(pk);
 

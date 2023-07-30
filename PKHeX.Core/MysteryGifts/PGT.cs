@@ -22,7 +22,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
 
     public override int Ball
     {
-        get => IsEntity ? PK.Ball : 0;
+        get => IsManaphyEgg ? 4 : IsEntity ? PK.Ball : 0;
         set { if (IsEntity) PK.Ball = value; }
     }
 
@@ -166,7 +166,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         {
             pk4.Met_Location = pk4.Egg_Location + 3000;
             pk4.Egg_Location = 0;
-            pk4.MetDate = DateOnly.FromDateTime(DateTime.Now);
+            pk4.MetDate = EncounterDate.GetDateNDS();
             pk4.IsEgg = false;
         }
         else
@@ -240,7 +240,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         pk4.IsEgg = false;
         // Met Location & Date is modified when transferred to pk5; don't worry about it.
-        pk4.EggMetDate = DateOnly.FromDateTime(DateTime.Now);
+        pk4.EggMetDate = EncounterDate.GetDateNDS();
     }
 
     private void SetUnhatchedEggDetails(PK4 pk4)
@@ -248,7 +248,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
         pk4.IsEgg = true;
         pk4.IsNicknamed = false;
         pk4.Nickname = SpeciesName.GetEggName(pk4.Language, Generation);
-        pk4.EggMetDate = DateOnly.FromDateTime(DateTime.Now);
+        pk4.EggMetDate = EncounterDate.GetDateNDS();
     }
 
     private static uint GeneratePID(uint seed, PK4 pk4)

@@ -40,16 +40,10 @@ public sealed class BallVerifier : Verifier
         // Fixed ball cases -- can be only one ball ever
         switch (enc)
         {
-            case MysteryGift g:
-                return VerifyBallMysteryGift(data, g);
-            case EncounterTrade t:
-                return VerifyBallEquals(data, t.Ball);
-            case EncounterStatic {Gift: true} s:
-                return VerifyBallEquals(data, s.Ball);
+            case IFixedBall {FixedBall: not None} s:
+                return VerifyBallEquals(data, (byte)s.FixedBall);
             case EncounterSlot8GO: // Already a strict match
                 return GetResult(true);
-            case EncounterSlot8b {IsMarsh: true}:
-                return VerifyBallEquals(data, (int)Safari);
         }
 
         // Capture / Inherit cases -- can be one of many balls
@@ -71,35 +65,11 @@ public sealed class BallVerifier : Verifier
 
         return enc switch
         {
-            EncounterStatic e => VerifyBallStatic(data, e),
-            EncounterSlot w => VerifyBallWild(data, w),
+            EncounterStatic5Entree => VerifyBallEquals(data, BallUseLegality.DreamWorldBalls),
             EncounterEgg => VerifyBallEgg(data),
             EncounterInvalid => VerifyBallEquals(data, pk.Ball), // ignore ball, pass whatever
-            _ => VerifyBallEquals(data, (int)Poke),
+            _ => VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, enc.Version)),
         };
-    }
-
-    private CheckResult VerifyBallMysteryGift(LegalityAnalysis data, MysteryGift gift)
-    {
-        if (gift is { Generation: 4, Species: (int)Species.Manaphy, Ball: 0 }) // there is no ball data in Manaphy PGT Mystery Gift from Gen4
-            return VerifyBallEquals(data, (int)Poke); // Pokeball
-        return VerifyBallEquals(data, gift.Ball);
-    }
-
-    private CheckResult VerifyBallStatic(LegalityAnalysis data, EncounterStatic s)
-    {
-        if (s is EncounterStatic5 { EntreeForestDreamWorld: true })
-            return VerifyBallEquals(data, BallUseLegality.DreamWorldBalls);
-        return VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, s.Version));
-    }
-
-    private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
-    {
-        var req = w.FixedBall;
-        if (req != None)
-            return VerifyBallEquals(data, (int) req);
-
-        return VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, w.Version));
     }
 
     private CheckResult VerifyBallEgg(LegalityAnalysis data)

@@ -251,8 +251,10 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             source.SetEncounterMoves(Species, Form, Level, moves);
             pk.SetMoves(moves);
         }
-
-        pk.SetMaximumPPCurrent();
+        else
+        {
+            pk.SetMaximumPPCurrent();
+        }
 
         if (IsEgg) // User's
         {

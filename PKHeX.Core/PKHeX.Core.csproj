@@ -28,6 +28,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Legality\Areas\**" />
+    <EmbeddedResource Remove="Legality\Areas\**" />
+    <None Remove="Legality\Areas\**" />
     <None Remove="Resources\**" />
     <EmbeddedResource Include="Resources\**" />
   </ItemGroup>

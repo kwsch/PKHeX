@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -139,7 +139,7 @@ public sealed class TrainerDatabase
         if (pk is IRegionOrigin r)
             r.CopyRegionOrigin(result);
         else
-            result.SetDefaultRegionOrigins();
+            result.SetDefaultRegionOrigins(result.Language);
 
         return result;
     }

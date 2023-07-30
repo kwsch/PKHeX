@@ -30,29 +30,42 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
-            var table = GetStatic(game);
-            foreach (var enc in GetPossibleStatic(chain, table))
-                yield return enc;
+            if (game is GameVersion.X or GameVersion.Y)
+            {
+                foreach (var enc in GetPossible(chain, Encounters6XY.Encounter_XY))
+                    yield return enc;
+                var table = game == GameVersion.X ? Encounters6XY.StaticX : Encounters6XY.StaticY;
+                foreach (var enc in GetPossible(chain, table))
+                    yield return enc;
+            }
+            else if (game is GameVersion.AS or GameVersion.OR)
+            {
+                foreach (var enc in GetPossible(chain, Encounters6AO.Encounter_AO))
+                    yield return enc;
+                var table = game == GameVersion.AS ? Encounters6AO.StaticA : Encounters6AO.StaticO;
+                foreach (var enc in GetPossible(chain, table))
+                    yield return enc;
+            }
         }
         if (groups.HasFlag(Slot))
         {
             if (game is GameVersion.X or GameVersion.Y)
             {
                 var areas = game == GameVersion.X ? Encounters6XY.SlotsX : Encounters6XY.SlotsY;
-                foreach (var enc in GetPossibleSlots(chain, areas))
+                foreach (var enc in GetPossibleSlots<EncounterArea6XY, EncounterSlot6XY>(chain, areas))
                     yield return enc;
             }
             else if (game is GameVersion.AS or GameVersion.OR)
             {
                 var areas = game == GameVersion.AS ? Encounters6AO.SlotsA : Encounters6AO.SlotsO;
-                foreach (var enc in GetPossibleSlots(chain, areas))
+                foreach (var enc in GetPossibleSlots<EncounterArea6AO, EncounterSlot6AO>(chain, areas))
                     yield return enc;
             }
         }
         if (groups.HasFlag(Trade))
         {
             var table = GetTrades(game);
-            foreach (var enc in GetPossibleTrades(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
     }
@@ -73,7 +86,7 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic6[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterTemplate
     {
         foreach (var enc in table)
         {
@@ -87,7 +100,7 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea6XY[] areas)
+    private static IEnumerable<TSlot> GetPossibleSlots<TArea, TSlot>(EvoCriteria[] chain, TArea[] areas) where TArea : IEncounterArea<TSlot> where TSlot : IEncounterable
     {
         foreach (var area in areas)
         {
@@ -117,20 +130,6 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
                     yield return slot;
                     break;
                 }
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade6[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
             }
         }
     }
@@ -201,24 +200,88 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
                 yield break;
         }
 
-        var encStatic = GetStatic(game);
-        foreach (var enc in encStatic)
+        if (game is GameVersion.X or GameVersion.Y)
         {
-            foreach (var evo in chain)
+            foreach (var enc in Encounters6XY.Encounter_XY)
             {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                var match = enc.GetMatchRating(pk);
-                switch (match)
+                foreach (var evo in chain)
                 {
-                    case Match: yield return enc; yielded = true; break;
-                    case Deferred: deferred ??= enc; break;
-                    case PartialMatch: partial ??= enc; break;
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (!enc.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = enc.GetMatchRating(pk);
+                    switch (match)
+                    {
+                        case Match: yield return enc; yielded = true; break;
+                        case Deferred: deferred ??= enc; break;
+                        case PartialMatch: partial ??= enc; break;
+                    }
+                    break;
                 }
-                break;
+            }
+            var single = game == GameVersion.X ? Encounters6XY.StaticX : Encounters6XY.StaticY;
+            foreach (var enc in single)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (!enc.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = enc.GetMatchRating(pk);
+                    switch (match)
+                    {
+                        case Match: yield return enc; yielded = true; break;
+                        case Deferred: deferred ??= enc; break;
+                        case PartialMatch: partial ??= enc; break;
+                    }
+                    break;
+                }
+            }
+        }
+        else
+        {
+            foreach (var enc in Encounters6AO.Encounter_AO)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (!enc.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = enc.GetMatchRating(pk);
+                    switch (match)
+                    {
+                        case Match: yield return enc; yielded = true; break;
+                        case Deferred: deferred ??= enc; break;
+                        case PartialMatch: partial ??= enc; break;
+                    }
+                    break;
+                }
+            }
+            var single = game == GameVersion.AS ? Encounters6AO.StaticA : Encounters6AO.StaticO;
+            foreach (var enc in single)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (!enc.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = enc.GetMatchRating(pk);
+                    switch (match)
+                    {
+                        case Match: yield return enc; yielded = true; break;
+                        case Deferred: deferred ??= enc; break;
+                        case PartialMatch: partial ??= enc; break;
+                    }
+                    break;
+                }
             }
         }
         if (yielded)
@@ -301,15 +364,6 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         if (partial != null)
             yield return partial;
     }
-
-    private static EncounterStatic6[] GetStatic(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.X => Encounters6XY.StaticX,
-        GameVersion.Y => Encounters6XY.StaticY,
-        GameVersion.AS => Encounters6AO.StaticA,
-        GameVersion.OR => Encounters6AO.StaticO,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
 
     private static EncounterTrade6[] GetTrades(GameVersion gameSource) => gameSource switch
     {

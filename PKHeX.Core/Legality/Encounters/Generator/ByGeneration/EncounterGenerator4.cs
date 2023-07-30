@@ -45,9 +45,34 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
-            var table = GetStatic(game);
-            foreach (var enc in GetPossibleStatic(chain, table))
-                yield return enc;
+            if (game is GameVersion.HG or GameVersion.SS)
+            {
+                foreach (var enc in GetPossible(chain, Encounters4HGSS.Encounter_HGSS))
+                    yield return enc;
+                var specific = game == GameVersion.HG ? Encounters4HGSS.StaticHG : Encounters4HGSS.StaticSS;
+                foreach (var enc in GetPossible(chain, specific))
+                    yield return enc;
+                foreach (var enc in GetPossible(chain, Encounters4HGSS.Encounter_PokeWalker))
+                    yield return enc;
+            }
+            else
+            {
+                foreach (var enc in GetPossible(chain, Encounters4DPPt.StaticDPPt))
+                    yield return enc;
+                if (game is GameVersion.Pt)
+                {
+                    foreach (var enc in GetPossible(chain, Encounters4DPPt.StaticPt))
+                        yield return enc;
+                }
+                else
+                {
+                    foreach (var enc in GetPossible(chain, Encounters4DPPt.StaticDP))
+                        yield return enc;
+                    var specific = game == GameVersion.D ? Encounters4DPPt.StaticD : Encounters4DPPt.StaticP;
+                    foreach (var enc in GetPossible(chain, specific))
+                        yield return enc;
+                }
+            }
         }
         if (groups.HasFlag(Slot))
         {
@@ -57,9 +82,21 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         }
         if (groups.HasFlag(Trade))
         {
-            var table = GetTrades(game);
-            foreach (var enc in GetPossibleTrades(chain, table))
-                yield return enc;
+            if (game is GameVersion.HG or GameVersion.SS)
+            {
+                foreach (var enc in GetPossible(chain, Encounters4HGSS.TradeGift_HGSS))
+                    yield return enc;
+            }
+            else
+            {
+                foreach (var enc in GetPossible(chain, Encounters4DPPt.TradeGift_DPPtIngame))
+                    yield return enc;
+                if (game is GameVersion.D)
+                {
+                    foreach (var enc in GetPossible(chain, Encounters4DPPt.RanchGifts))
+                        yield return enc;
+                }
+            }
         }
     }
 
@@ -79,7 +116,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterable
     {
         foreach (var enc in table)
         {
@@ -106,20 +143,6 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
                     yield return slot;
                     break;
                 }
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
             }
         }
     }
@@ -187,16 +210,50 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
                 yield return egg;
         }
 
-        var encTrade = GetTrades(game);
-        foreach (var enc in encTrade)
+        if (game is GameVersion.HG or GameVersion.SS)
         {
-            foreach (var evo in chain)
+            foreach (var enc in Encounters4HGSS.TradeGift_HGSS)
             {
-                if (evo.Species != enc.Species)
+                if (!enc.Version.Contains(game))
                     continue;
-                if (enc.IsMatchExact(pk, evo))
-                    yield return enc;
-                break;
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (enc.IsMatchExact(pk, evo))
+                        yield return enc;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            foreach (var enc in Encounters4DPPt.TradeGift_DPPtIngame)
+            {
+                if (!enc.Version.Contains(game))
+                    continue;
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (enc.IsMatchExact(pk, evo))
+                        yield return enc;
+                    break;
+                }
+            }
+            if (game is GameVersion.D)
+            {
+                foreach (var enc in Encounters4DPPt.RanchGifts)
+                {
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (enc.IsMatchExact(pk, evo))
+                            yield return enc;
+                        break;
+                    }
+                }
             }
         }
 
@@ -206,22 +263,137 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         bool safariSport = pk.Ball is (int)Ball.Sport or (int)Ball.Safari; // never static encounters
         if (!safariSport)
         {
-            var encStatic = GetStatic(game);
-            foreach (var enc in encStatic)
+            if (game is GameVersion.HG or GameVersion.SS)
             {
-                foreach (var evo in chain)
+                foreach (var enc in Encounters4HGSS.Encounter_HGSS)
                 {
-                    if (evo.Species != enc.Species)
-                        continue;
-                    if (!enc.IsMatchExact(pk, evo))
-                        break;
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (!enc.IsMatchExact(pk, evo))
+                            break;
 
-                    var match = enc.GetMatchRating(pk);
-                    if (match == PartialMatch)
-                        partial ??= enc;
-                    else
-                        yield return enc;
-                    break;
+                        var match = enc.GetMatchRating(pk);
+                        if (match == PartialMatch)
+                            partial ??= enc;
+                        else
+                            yield return enc;
+                        break;
+                    }
+                }
+                var specific = game == GameVersion.HG ? Encounters4HGSS.StaticHG : Encounters4HGSS.StaticSS;
+                foreach (var enc in specific)
+                {
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (!enc.IsMatchExact(pk, evo))
+                            break;
+
+                        var match = enc.GetMatchRating(pk);
+                        if (match == PartialMatch)
+                            partial ??= enc;
+                        else
+                            yield return enc;
+                        break;
+                    }
+                }
+                foreach (var enc in Encounters4HGSS.Encounter_PokeWalker)
+                {
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (!enc.IsMatchExact(pk, evo))
+                            break;
+
+                        var match = enc.GetMatchRating(pk);
+                        if (match == PartialMatch)
+                            partial ??= enc;
+                        else
+                            yield return enc;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var enc in Encounters4DPPt.StaticDPPt)
+                {
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (!enc.IsMatchExact(pk, evo))
+                            break;
+
+                        var match = enc.GetMatchRating(pk);
+                        if (match == PartialMatch)
+                            partial ??= enc;
+                        else
+                            yield return enc;
+                        break;
+                    }
+                }
+                if (game is GameVersion.Pt)
+                {
+                    foreach (var enc in Encounters4DPPt.StaticPt)
+                    {
+                        foreach (var evo in chain)
+                        {
+                            if (evo.Species != enc.Species)
+                                continue;
+                            if (!enc.IsMatchExact(pk, evo))
+                                break;
+
+                            var match = enc.GetMatchRating(pk);
+                            if (match == PartialMatch)
+                                partial ??= enc;
+                            else
+                                yield return enc;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    var specific = game == GameVersion.D ? Encounters4DPPt.StaticD : Encounters4DPPt.StaticP;
+                    foreach (var enc in specific)
+                    {
+                        foreach (var evo in chain)
+                        {
+                            if (evo.Species != enc.Species)
+                                continue;
+                            if (!enc.IsMatchExact(pk, evo))
+                                break;
+
+                            var match = enc.GetMatchRating(pk);
+                            if (match == PartialMatch)
+                                partial ??= enc;
+                            else
+                                yield return enc;
+                            break;
+                        }
+                    }
+                    foreach (var enc in Encounters4DPPt.StaticDP)
+                    {
+                        foreach (var evo in chain)
+                        {
+                            if (evo.Species != enc.Species)
+                                continue;
+                            if (!enc.IsMatchExact(pk, evo))
+                                break;
+
+                            var match = enc.GetMatchRating(pk);
+                            if (match == PartialMatch)
+                                partial ??= enc;
+                            else
+                                yield return enc;
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -274,23 +446,139 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         // do static encounters if they were deferred to end, spit out any possible encounters for invalid pk
         if (!safariSport)
             yield break;
-
-        var encStatic2 = GetStatic(game);
-        foreach (var enc in encStatic2)
         {
-            foreach (var evo in chain)
+            if (game is GameVersion.HG or GameVersion.SS)
             {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
+                foreach (var enc in Encounters4HGSS.Encounter_HGSS)
+                {
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (!enc.IsMatchExact(pk, evo))
+                            break;
 
-                var match = enc.GetMatchRating(pk);
-                if (match == PartialMatch)
-                    partial ??= enc;
+                        var match = enc.GetMatchRating(pk);
+                        if (match == PartialMatch)
+                            partial ??= enc;
+                        else
+                            yield return enc;
+                        break;
+                    }
+                }
+                var specific = game == GameVersion.HG ? Encounters4HGSS.StaticHG : Encounters4HGSS.StaticSS;
+                foreach (var enc in specific)
+                {
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (!enc.IsMatchExact(pk, evo))
+                            break;
+
+                        var match = enc.GetMatchRating(pk);
+                        if (match == PartialMatch)
+                            partial ??= enc;
+                        else
+                            yield return enc;
+                        break;
+                    }
+                }
+                foreach (var enc in Encounters4HGSS.Encounter_PokeWalker)
+                {
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (!enc.IsMatchExact(pk, evo))
+                            break;
+
+                        var match = enc.GetMatchRating(pk);
+                        if (match == PartialMatch)
+                            partial ??= enc;
+                        else
+                            yield return enc;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var enc in Encounters4DPPt.StaticDPPt)
+                {
+                    foreach (var evo in chain)
+                    {
+                        if (evo.Species != enc.Species)
+                            continue;
+                        if (!enc.IsMatchExact(pk, evo))
+                            break;
+
+                        var match = enc.GetMatchRating(pk);
+                        if (match == PartialMatch)
+                            partial ??= enc;
+                        else
+                            yield return enc;
+                        break;
+                    }
+                }
+                if (game is GameVersion.Pt)
+                {
+                    foreach (var enc in Encounters4DPPt.StaticPt)
+                    {
+                        foreach (var evo in chain)
+                        {
+                            if (evo.Species != enc.Species)
+                                continue;
+                            if (!enc.IsMatchExact(pk, evo))
+                                break;
+
+                            var match = enc.GetMatchRating(pk);
+                            if (match == PartialMatch)
+                                partial ??= enc;
+                            else
+                                yield return enc;
+                            break;
+                        }
+                    }
+                }
                 else
-                    yield return enc;
-                break;
+                {
+                    var specific = game == GameVersion.D ? Encounters4DPPt.StaticD : Encounters4DPPt.StaticP;
+                    foreach (var enc in specific)
+                    {
+                        foreach (var evo in chain)
+                        {
+                            if (evo.Species != enc.Species)
+                                continue;
+                            if (!enc.IsMatchExact(pk, evo))
+                                break;
+
+                            var match = enc.GetMatchRating(pk);
+                            if (match == PartialMatch)
+                                partial ??= enc;
+                            else
+                                yield return enc;
+                            break;
+                        }
+                    }
+                    foreach (var enc in Encounters4DPPt.StaticDP)
+                    {
+                        foreach (var evo in chain)
+                        {
+                            if (evo.Species != enc.Species)
+                                continue;
+                            if (!enc.IsMatchExact(pk, evo))
+                                break;
+
+                            var match = enc.GetMatchRating(pk);
+                            if (match == PartialMatch)
+                                partial ??= enc;
+                            else
+                                yield return enc;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -303,16 +591,6 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         return FrameFinder.GetFrames(info.PIDIV, pk).ToList();
     }
 
-    private static EncounterStatic[] GetStatic(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.D => Encounters4DPPt.StaticD,
-        GameVersion.P => Encounters4DPPt.StaticP,
-        GameVersion.Pt => Encounters4DPPt.StaticPt,
-        GameVersion.HG => Encounters4HGSS.StaticHG,
-        GameVersion.SS => Encounters4HGSS.StaticSS,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
-
     private static EncounterArea4[] GetAreas(GameVersion gameSource) => gameSource switch
     {
         GameVersion.D => Encounters4DPPt.SlotsD,
@@ -320,16 +598,6 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
         GameVersion.Pt => Encounters4DPPt.SlotsPt,
         GameVersion.HG => Encounters4HGSS.SlotsHG,
         GameVersion.SS => Encounters4HGSS.SlotsSS,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
-
-    private static EncounterTrade[] GetTrades(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.D => Encounters4DPPt.TradeGift_DPPt,
-        GameVersion.P => Encounters4DPPt.TradeGift_DPPt,
-        GameVersion.Pt => Encounters4DPPt.TradeGift_DPPt,
-        GameVersion.HG => Encounters4HGSS.TradeGift_HGSS,
-        GameVersion.SS => Encounters4HGSS.TradeGift_HGSS,
         _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
     };
 

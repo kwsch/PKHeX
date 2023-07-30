@@ -12,54 +12,52 @@ internal static class Encounters7SM
     internal static readonly EncounterArea7[] SlotsSN = EncounterArea7.GetAreas(Get("sn", "sm"), SN);
     internal static readonly EncounterArea7[] SlotsMN = EncounterArea7.GetAreas(Get("mn", "sm"), MN);
 
-    static Encounters7SM() => MarkEncounterTradeStrings(TradeGift_SM, TradeSM);
+    private const string tradeSM = "tradesm";
+    private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSM);
 
-    private static readonly EncounterStatic7[] Encounter_SM = // @ a\1\5\5
+    public static readonly EncounterStatic7[] StaticSM = // @ a\1\5\5
     {
         // Gifts - 0.bin
-        new(SM) { Gift = true, Species = 722, Level = 5,  Location = 024 }, // Rowlet
-        new(SM) { Gift = true, Species = 725, Level = 5,  Location = 024 }, // Litten
-        new(SM) { Gift = true, Species = 728, Level = 5,  Location = 024 }, // Popplio
-        new(SM) { Gift = true, Species = 138, Level = 15, Location = 058 }, // Omanyte
-        new(SM) { Gift = true, Species = 140, Level = 15, Location = 058 }, // Kabuto
-        // new(SM) { Gift = true, Species = 142, Level = 15, Location = 058 }, // Aerodactyl
-        new(SM) { Gift = true, Species = 345, Level = 15, Location = 058 }, // Lileep
-        new(SM) { Gift = true, Species = 347, Level = 15, Location = 058 }, // Anorith
-        new(SM) { Gift = true, Species = 408, Level = 15, Location = 058 }, // Cranidos
-        new(SM) { Gift = true, Species = 410, Level = 15, Location = 058 }, // Shieldon
-        new(SM) { Gift = true, Species = 564, Level = 15, Location = 058 }, // Tirtouga
-        new(SM) { Gift = true, Species = 566, Level = 15, Location = 058 }, // Archen
-        new(SM) { Gift = true, Species = 696, Level = 15, Location = 058 }, // Tyrunt
-        new(SM) { Gift = true, Species = 698, Level = 15, Location = 058 }, // Amaura
-        new(SM) { Gift = true, Species = 137, Level = 30, Location = 116 }, // Porygon @ Route 15
-        new(SM) { Gift = true, Species = 133, Level = 1,  EggLocation = 60002 }, // Eevee @ Nursery helpers
-        new(SM) { Gift = true, Species = 772, Level = 40, Location = 188, FlawlessIVCount = 3 }, // Type: Null
-        new(SN) { Gift = true, Species = 789, Level = 5,  Location = 142, Shiny = Shiny.Never, Ability = OnlySecond, FlawlessIVCount = 3 }, // Cosmog
-        new(MN) { Gift = true, Species = 789, Level = 5,  Location = 144, Shiny = Shiny.Never, Ability = OnlySecond, FlawlessIVCount = 3 }, // Cosmog
-        new(SM) { Gift = true, Species = 142, Level = 40, Location = 172 }, // Aerodactyl @ Seafolk Village
+        new(SM) { FixedBall = Ball.Poke, Species = 722, Level = 5,  Location = 024 }, // Rowlet
+        new(SM) { FixedBall = Ball.Poke, Species = 725, Level = 5,  Location = 024 }, // Litten
+        new(SM) { FixedBall = Ball.Poke, Species = 728, Level = 5,  Location = 024 }, // Popplio
+        new(SM) { FixedBall = Ball.Poke, Species = 138, Level = 15, Location = 058 }, // Omanyte
+        new(SM) { FixedBall = Ball.Poke, Species = 140, Level = 15, Location = 058 }, // Kabuto
+        // new(SM) { FixedBall = Ball.Poke, Species = 142, Level = 15, Location = 058 }, // Aerodactyl
+        new(SM) { FixedBall = Ball.Poke, Species = 345, Level = 15, Location = 058 }, // Lileep
+        new(SM) { FixedBall = Ball.Poke, Species = 347, Level = 15, Location = 058 }, // Anorith
+        new(SM) { FixedBall = Ball.Poke, Species = 408, Level = 15, Location = 058 }, // Cranidos
+        new(SM) { FixedBall = Ball.Poke, Species = 410, Level = 15, Location = 058 }, // Shieldon
+        new(SM) { FixedBall = Ball.Poke, Species = 564, Level = 15, Location = 058 }, // Tirtouga
+        new(SM) { FixedBall = Ball.Poke, Species = 566, Level = 15, Location = 058 }, // Archen
+        new(SM) { FixedBall = Ball.Poke, Species = 696, Level = 15, Location = 058 }, // Tyrunt
+        new(SM) { FixedBall = Ball.Poke, Species = 698, Level = 15, Location = 058 }, // Amaura
+        new(SM) { FixedBall = Ball.Poke, Species = 137, Level = 30, Location = 116 }, // Porygon @ Route 15
+        new(SM) { FixedBall = Ball.Poke, Species = 133, Level = 1,  EggLocation = 60002 }, // Eevee @ Nursery helpers
+        new(SM) { FixedBall = Ball.Poke, Species = 772, Level = 40, Location = 188, FlawlessIVCount = 3 }, // Type: Null
+        new(SN) { FixedBall = Ball.Poke, Species = 789, Level = 5,  Location = 142, Shiny = Shiny.Never, Ability = OnlySecond, FlawlessIVCount = 3 }, // Cosmog
+        new(MN) { FixedBall = Ball.Poke, Species = 789, Level = 5,  Location = 144, Shiny = Shiny.Never, Ability = OnlySecond, FlawlessIVCount = 3 }, // Cosmog
+        new(SM) { FixedBall = Ball.Poke, Species = 142, Level = 40, Location = 172 }, // Aerodactyl @ Seafolk Village
 
-        new(SM) { Gift = true, Species = 718, Form = 0, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
-        new(SM) { Gift = true, Species = 718, Form = 1, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
-        new(SM) { Gift = true, Species = 718, Form = 2, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
-        new(SM) { Gift = true, Species = 718, Form = 3, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+        new(SM) { FixedBall = Ball.Poke, Species = 718, Form = 0, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+        new(SM) { FixedBall = Ball.Poke, Species = 718, Form = 1, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+        new(SM) { FixedBall = Ball.Poke, Species = 718, Form = 2, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+        new(SM) { FixedBall = Ball.Poke, Species = 718, Form = 3, Level = 30, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
 
-        new(SM) { Gift = true, Species = 718, Form = 0, Level = 50, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
-        new(SM) { Gift = true, Species = 718, Form = 1, Level = 50, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
-        new(SM) { Gift = true, Species = 718, Form = 2, Level = 50, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
-        new(SM) { Gift = true, Species = 718, Form = 3, Level = 50, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+        new(SM) { FixedBall = Ball.Poke, Species = 718, Form = 0, Level = 50, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+        new(SM) { FixedBall = Ball.Poke, Species = 718, Form = 1, Level = 50, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+        new(SM) { FixedBall = Ball.Poke, Species = 718, Form = 2, Level = 50, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
+        new(SM) { FixedBall = Ball.Poke, Species = 718, Form = 3, Level = 50, Location = 118, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde
 
         new(SM) // Magearna (Bottle Cap) 00 FF
         {
-            Gift = true, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, HeldItem = 795, Ability = OnlySecond,
-            FatefulEncounter = true, Relearn = new(705, 430, 381, 270), Ball = 0x10, // Cherish
+            FixedBall = Ball.Cherish, Species = 801, Level = 50, Location = 40001, Shiny = Shiny.Never, FlawlessIVCount = 3, Ability = OnlySecond,
+            FatefulEncounter = true, Relearn = new(705, 430, 381, 270), // Cherish
         },
 
         // Static Encounters - 1.bin
         new(SM) { Species = 746, Level = 17, Location = 086, Shiny = Shiny.Never, Ability = OnlyFirst }, // Wishiwashi
         new(SM) { Species = 746, Level = 18, Location = 086, Shiny = Shiny.Never, Ability = OnlyFirst }, // Wishiwashi
-
-        new(SN) { Species = 791, Level = 55, Location = 176, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new(713, 322, 242, 428) }, // Solgaleo
-        new(MN) { Species = 792, Level = 55, Location = 178, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new(714, 322, 539, 247) }, // Lunala
 
         new(SM) { Species = 785, Level = 60, Location = 030, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Tapu Koko
         new(SM) { Species = 786, Level = 60, Location = 092, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Tapu Lele
@@ -68,14 +66,8 @@ internal static class Encounters7SM
 
         new(SM) { Species = 793, Level = 55, Location = 082, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Nihilego @ Wela Volcano Park
         new(SM) { Species = 793, Level = 55, Location = 100, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Nihilego @ Diglett’s Tunnel
-        new(SN) { Species = 794, Level = 65, Location = 040, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Buzzwole @ Melemele Meadow
-        new(MN) { Species = 795, Level = 60, Location = 046, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Pheromosa @ Verdant Cavern (Trial Site)
         new(SM) { Species = 796, Level = 65, Location = 090, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Xurkitree @ Lush Jungle
         new(SM) { Species = 796, Level = 65, Location = 076, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Xurkitree @ Memorial Hill
-        new(SN) { Species = 798, Level = 60, Location = 134, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Malie Garden
-        new(SN) { Species = 798, Level = 60, Location = 120, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Route 17
-        new(MN) { Species = 797, Level = 65, Location = 124, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Haina Desert
-        new(MN) { Species = 797, Level = 65, Location = 134, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Malie Garden
         new(SM) { Species = 799, Level = 70, Location = 182, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Guzzlord @ Resolution Cave
         new(SM) { Species = 800, Level = 75, Location = 036, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Necrozma @ Ten Carat Hill (Farthest Hollow)
 
@@ -117,21 +109,31 @@ internal static class Encounters7SM
         new(SM) { Species = 500, Level = 43, Location = 160, Relearn = new(276, 053, 372, 535) }, // Emboar @ Ancient Poni Path
     };
 
+    public static readonly EncounterStatic7[] StaticSN =
+    {
+        new(SN) { Species = 791, Level = 55, Location = 176, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new(713, 322, 242, 428) }, // Solgaleo
+        new(SN) { Species = 794, Level = 65, Location = 040, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Buzzwole @ Melemele Meadow
+        new(SN) { Species = 798, Level = 60, Location = 134, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Malie Garden
+        new(SN) { Species = 798, Level = 60, Location = 120, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Route 17
+    };
+
+    public static readonly EncounterStatic7[] StaticMN =
+    {
+        new(MN) { Species = 792, Level = 55, Location = 178, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new(714, 322, 539, 247) }, // Lunala
+        new(MN) { Species = 795, Level = 60, Location = 046, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Pheromosa @ Verdant Cavern (Trial Site)
+        new(MN) { Species = 797, Level = 65, Location = 124, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Haina Desert
+        new(MN) { Species = 797, Level = 65, Location = 134, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Malie Garden
+    };
+
     internal static readonly EncounterTrade7[] TradeGift_SM = // @ a\1\5\5
     {
         // Trades - 4.bin
-        new(SM) { Species = 066, Form = 0, Level = 09, Ability = OnlySecond, TID16 = 00410, SID16 = 00000, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
-        new(SM) { Species = 761, Form = 0, Level = 16, Ability = OnlyFirst,  TID16 = 20683, SID16 = 00009, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
-        new(SM) { Species = 061, Form = 0, Level = 22, Ability = OnlySecond, TID16 = 01092, SID16 = 00009, IVs = new(31,-1,-1,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Naughty }, // Poliwhirl
-        new(SM) { Species = 440, Form = 0, Level = 27, Ability = OnlySecond, TID16 = 10913, SID16 = 00000, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 1, Gender = 1, Nature = Nature.Calm }, // Happiny
-        new(SM) { Species = 075, Form = 1, Level = 32, Ability = OnlyFirst,  TID16 = 20778, SID16 = 00009, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
-        new(SM) { Species = 762, Form = 0, Level = 43, Ability = OnlyFirst,  TID16 = 20679, SID16 = 00009, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
-        new(SM) { Species = 663, Form = 0, Level = 59, Ability = OnlyHidden, TID16 = 56734, SID16 = 00008, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
+        new(TradeNames, 00, SM) { Species = 066, Form = 0, Level = 09, Ability = OnlySecond, ID32 = 000410, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
+        new(TradeNames, 01, SM) { Species = 761, Form = 0, Level = 16, Ability = OnlyFirst,  ID32 = 610507, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
+        new(TradeNames, 02, SM) { Species = 061, Form = 0, Level = 22, Ability = OnlySecond, ID32 = 590916, IVs = new(31,-1,-1,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Naughty }, // Poliwhirl
+        new(TradeNames, 03, SM) { Species = 440, Form = 0, Level = 27, Ability = OnlySecond, ID32 = 010913, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 1, Gender = 1, Nature = Nature.Calm }, // Happiny
+        new(TradeNames, 04, SM) { Species = 075, Form = 1, Level = 32, Ability = OnlyFirst,  ID32 = 610602, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
+        new(TradeNames, 05, SM) { Species = 762, Form = 0, Level = 43, Ability = OnlyFirst,  ID32 = 610503, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
+        new(TradeNames, 06, SM) { Species = 663, Form = 0, Level = 59, Ability = OnlyHidden, ID32 = 581022, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
     };
-
-    private const string tradeSM = "tradesm";
-    private static readonly string[][] TradeSM = Util.GetLanguageStrings10(tradeSM);
-
-    internal static readonly EncounterStatic7[] StaticSN = GetEncounters(Encounter_SM, SN);
-    internal static readonly EncounterStatic7[] StaticMN = GetEncounters(Encounter_SM, MN);
 }

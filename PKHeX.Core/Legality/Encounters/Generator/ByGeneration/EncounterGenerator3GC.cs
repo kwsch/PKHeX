@@ -30,9 +30,13 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
-            foreach (var enc in GetPossible(chain, Encounters3XD.Encounter_CXDShadow))
+            foreach (var enc in GetPossible(chain, Encounters3Colo.Encounter_Colo))
                 yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters3XD.Encounter_CXDGift))
+            foreach (var enc in GetPossible(chain, Encounters3XD.Encounter_XD))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters3Colo.Encounter_ColoGift))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters3XD.Encounter_XDGift))
                 yield return enc;
         }
     }
@@ -88,12 +92,12 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                 if (pidiv.Type == PIDType.PokeSpot)
                     info.PIDIV = pidiv;
             }
-            else if (z is EncounterStaticShadow s)
+            else if (z is IShadow3 s)
             {
                 bool valid = GetIsShadowLockValid(pk, info, s);
                 if (!valid)
                 {
-                    partial ??= s;
+                    partial ??= z;
                     continue;
                 }
             }
@@ -130,7 +134,7 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                 break;
             }
         }
-        foreach (var enc in Encounters3XD.Encounter_CXDShadow)
+        foreach (var enc in Encounters3Colo.Encounter_Colo)
         {
             foreach (var evo in chain)
             {
@@ -147,7 +151,41 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                 break;
             }
         }
-        foreach (var enc in Encounters3XD.Encounter_CXDGift)
+        foreach (var enc in Encounters3XD.Encounter_XD)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == PartialMatch)
+                    partial ??= enc;
+                else
+                    yield return enc;
+                break;
+            }
+        }
+        foreach (var enc in Encounters3Colo.Encounter_ColoGift)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == PartialMatch)
+                    partial ??= enc;
+                else
+                    yield return enc;
+                break;
+            }
+        }
+        foreach (var enc in Encounters3XD.Encounter_XDGift)
         {
             foreach (var evo in chain)
             {
@@ -184,11 +222,14 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
             yield return partial;
     }
 
-    private static bool GetIsShadowLockValid(PKM pk, LegalInfo info, EncounterStaticShadow s)
+    private static bool GetIsShadowLockValid(PKM pk, LegalInfo info, IShadow3 s) => s switch
     {
-        if (!s.EReader)
-            return LockFinder.IsAllShadowLockValid(s, info.PIDIV, pk);
+        EncounterShadow3Colo { EReader: true } => GetIsShadowLockValidEReader(pk, info, s),
+        _ => LockFinder.IsAllShadowLockValid(s, info.PIDIV, pk),
+    };
 
+    private static bool GetIsShadowLockValidEReader(PKM pk, LegalInfo info, IShadow3 s)
+    {
         // E-Reader have fixed IVs, and aren't recognized as CXD (no PID-IV correlation).
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
         var count = XDRNG.GetSeeds(seeds, pk.EncryptionConstant);

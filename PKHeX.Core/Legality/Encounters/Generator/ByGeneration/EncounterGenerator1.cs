@@ -19,30 +19,30 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = GetGifts();
-            foreach (var enc in GetPossibleGifts(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Trade))
         {
             var table = GetTrade(game);
-            foreach (var enc in GetPossibleTrades(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Static))
         {
-            var table = GetStatic(game);
-            foreach (var enc in GetPossibleStatic(chain, table))
+            var table = Encounters1.StaticRBY;
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Slot))
         {
             var areas = GetAreas(game, pk.Japanese);
-            foreach (var area in GetPossibleSlots(chain, areas))
+            foreach (var area in GetPossibleSlots<EncounterArea1, EncounterSlot1>(chain, areas))
                 yield return area;
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, EncounterStatic1E[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterTemplate
     {
         foreach (var enc in table)
         {
@@ -56,35 +56,7 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade1[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic1[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea1[] areas)
+    private static IEnumerable<TSlot> GetPossibleSlots<TArea,TSlot>(EvoCriteria[] chain, TArea[] areas) where TArea : IEncounterArea<TSlot> where TSlot : IEncounterTemplate
     {
         foreach (var area in areas)
         {
@@ -117,7 +89,7 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
         return GetEncounters(pk, chain, game);
     }
 
-    private IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, GameVersion game)
+    private static IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, GameVersion game)
     {
         IEncounterable? deferred = null;
 
@@ -141,7 +113,7 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
                 break;
             }
         }
-        foreach (var enc in GetStatic(game))
+        foreach (var enc in Encounters1.StaticRBY)
         {
             if (!(enc.Version.Contains(game) || game.Contains(enc.Version)))
                 continue;
@@ -183,11 +155,11 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
             yield return deferred;
     }
 
-    private static EncounterStatic1E[] GetGifts()
+    private static EncounterGift1[] GetGifts()
     {
-        if (!ParseSettings.AllowGBCartEra)
-            return Encounters1.StaticEventsVC;
-        return Encounters1.StaticEventsGB;
+        if (!ParseSettings.AllowGBVirtualConsole3DS)
+            return Encounters1GBEra.Gifts;
+        return Encounters1VC.Gifts;
     }
 
     private static EncounterArea1[] GetAreas(GameVersion game, bool japanese) => game switch
@@ -200,12 +172,7 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
         _ when japanese => Encounters1.SlotsRGBY,
         _ => Encounters1.SlotsRBY,
     };
-
-    private static EncounterStatic1[] GetStatic(GameVersion game) => game switch
-    {
-        _ => Encounters1.StaticRBY,
-    };
-
+    
     private static EncounterTrade1[] GetTrade(GameVersion game) => game switch
     {
         _ => Encounters1.TradeGift_RBY,

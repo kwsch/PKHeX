@@ -110,7 +110,7 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     private static bool IsWildEncounter(PKM pk, IEncounterTemplate enc)
     {
-        if (enc is not (EncounterSlot8 or EncounterStatic { Gift: false } or EncounterStatic8N or EncounterStatic8ND or EncounterStatic8NC or EncounterStatic8U))
+        if (enc is not (EncounterSlot8 or EncounterStatic8 { Gift: false } or EncounterStatic8N or EncounterStatic8ND or EncounterStatic8NC or EncounterStatic8U))
             return false;
         if (pk is IRibbonSetMark8 { RibbonMarkCurry: true })
             return false;

@@ -413,7 +413,7 @@ public sealed class AbilityVerifier : Verifier
             {
                 // Must not have the Ability bit flag set.
                 // Shadow encounters set a random ability index; don't bother checking if it's a re-battle for ability bit flipping.
-                if (abit && enc is not EncounterStaticShadow)
+                if (abit && enc is not IShadow3)
                     return GetInvalid(LAbilityMismatchFlag, CheckIdentifier.PID);
             }
             else

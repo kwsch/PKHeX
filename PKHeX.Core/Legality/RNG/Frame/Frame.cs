@@ -46,7 +46,7 @@ public sealed class Frame
     /// <param name="slot">Slot Data</param>
     /// <param name="pk">Ancillary pk data for determining how to check level.</param>
     /// <returns>Slot number for this frame &amp; lead value.</returns>
-    public bool IsSlotCompatibile<T>(T slot, PKM pk) where T : EncounterSlot, IMagnetStatic, INumberedSlot, ISlotRNGType, ILevelRange
+    public bool IsSlotCompatibile<T>(T slot, PKM pk) where T : IMagnetStatic, INumberedSlot, ISlotRNGType, ILevelRange
     {
         // The only level rand type slots are Honey Tree and National Park BCC
         // Gen3 always does level rand, but the level ranges are same min,max.
@@ -100,9 +100,4 @@ public sealed class Frame
     /// </summary>
     /// <param name="t"></param>
     public int GetSlot(SlotType t) => SlotRange.GetSlot(t, RandESV, FrameType);
-}
-
-public interface ISlotRNGType
-{
-    SlotType Type { get; }
 }

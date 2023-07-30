@@ -54,7 +54,7 @@ public static class EggStateLegality
     /// <returns>Maximum value the Hatch Counter can be.</returns>
     public static int GetMaximumEggHatchCycles(PKM pk, IEncounterTemplate enc)
     {
-        if (enc is EncounterStatic { EggCycles: not 0 } s)
+        if (enc is IHatchCycle { EggCycles: not 0 } s)
             return s.EggCycles;
         return pk.PersonalInfo.HatchCycles;
     }
@@ -65,6 +65,9 @@ public static class EggStateLegality
     /// <param name="generation">Generation the egg is given in</param>
     public static byte GetEggLevel(int generation) => generation >= 4 ? (byte)1 : (byte)5;
 
+    public const byte EggMetLevel34 = 0;
+    public const byte EggMetLevel = 1;
+
     /// <summary>
     /// Met Level which eggs are given to the player. May change if transferred to future games.
     /// </summary>
@@ -72,9 +75,9 @@ public static class EggStateLegality
     /// <param name="generation">Generation the egg is given in</param>
     public static int GetEggLevelMet(GameVersion version, int generation) => generation switch
     {
-        2 => version is C ? 1 : 0, // GS do not store met data
-        3 or 4 => 0,
-        _ => 1,
+        2 => version is C ? EggMetLevel : 0, // GS do not store met data
+        3 or 4 => EggMetLevel34,
+        _ => EggMetLevel,
     };
 
     /// <summary>

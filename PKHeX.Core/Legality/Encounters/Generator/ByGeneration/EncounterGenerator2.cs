@@ -20,13 +20,13 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = GetGifts(korean);
-            foreach (var enc in GetPossibleGifts(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Trade))
         {
             var table = GetTrade(game);
-            foreach (var enc in GetPossibleTrades(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Egg))
@@ -38,8 +38,14 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         if (groups.HasFlag(Static))
         {
             var table = GetStatic(game, korean);
-            foreach (var enc in GetPossibleStatic(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
+            if (ParseSettings.AllowGBVirtualConsole3DS && game is GameVersion.C or GameVersion.GSC && !korean)
+            {
+                var celebi = Encounters2.CelebiVC;
+                if (chain[0].Species == celebi.Species)
+                    yield return celebi;
+            }
         }
         if (groups.HasFlag(Slot))
         {
@@ -49,7 +55,7 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, EncounterStatic2E[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterTemplate
     {
         foreach (var enc in table)
         {
@@ -63,35 +69,7 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade2[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic2[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea2[] areas, ITrainerID16 pk)
+    private static IEnumerable<EncounterSlot2> GetPossibleSlots(EvoCriteria[] chain, EncounterArea2[] areas, ITrainerID16 pk)
     {
         foreach (var area in areas)
         {
@@ -124,7 +102,7 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         return GetEncounters(pk, chain, game);
     }
 
-    private IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, GameVersion game)
+    private static IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, GameVersion game)
     {
         // Since encounter matching is super weak due to limited stored data in the structure
         // Calculate all 3 at the same time and pick the best result (by species).
@@ -166,6 +144,12 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
                 break;
             }
         }
+        if (ParseSettings.AllowGBVirtualConsole3DS && game is GameVersion.C or GameVersion.GSC && !korean)
+        {
+            var enc = Encounters2.CelebiVC;
+            if (chain[0].Species == enc.Species && enc.IsMatchExact(pk, chain[0]))
+                yield return enc;
+        }
         if (CanBeWildEncounter(pk))
         {
             foreach (var area in GetAreas(game, korean))
@@ -199,13 +183,13 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
             yield return deferred;
     }
 
-    private static EncounterStatic2E[] GetGifts(bool korean)
+    private static EncounterGift2[] GetGifts(bool korean)
     {
         if (korean)
-            return Array.Empty<EncounterStatic2E>();
-        if (!ParseSettings.AllowGBCartEra)
-            return Encounters2.StaticEventsVC;
-        return Encounters2.StaticEventsGB;
+            return Array.Empty<EncounterGift2>();
+        if (!ParseSettings.AllowGBEraEvents)
+            return Array.Empty<EncounterGift2>();
+        return Encounters2GBEra.StaticEventsGB;
     }
 
     private static EncounterArea2[] GetAreas(GameVersion game, bool korean) => game switch
@@ -220,11 +204,14 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
 
     private static EncounterStatic2[] GetStatic(GameVersion game, bool korean) => game switch
     {
-        GameVersion.GD => Encounters2.StaticGS,
-        GameVersion.SI => Encounters2.StaticGS,
-        GameVersion.C => !korean ? Encounters2.StaticC : Array.Empty<EncounterStatic2>(),
-        GameVersion.GS => Encounters2.StaticGS,
-        GameVersion.GSC => !korean ? Encounters2.StaticGSC : Encounters2.StaticGS,
+        GameVersion.C when korean => Array.Empty<EncounterStatic2>(),
+        GameVersion.GSC when korean => Encounters2.EncounterStaticGS,
+
+        GameVersion.GD => Encounters2.EncounterStaticGS,
+        GameVersion.SI => Encounters2.EncounterStaticGS,
+        GameVersion.C => Encounters2.EncounterStaticC,
+        GameVersion.GS => Encounters2.EncounterStaticGS,
+        GameVersion.GSC => Encounters2.EncounterStaticGSC,
         _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
     };
 

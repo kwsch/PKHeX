@@ -376,12 +376,12 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         }
         else
         {
-            pk.SetDefaultRegionOrigins();
+            pk.SetDefaultRegionOrigins(pk.Language);
         }
 
         pk.SetMaximumPPCurrent();
 
-        pk.MetDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
+        pk.MetDate = Date ?? EncounterDate.GetDate3DS();
 
         if ((tr.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
         {

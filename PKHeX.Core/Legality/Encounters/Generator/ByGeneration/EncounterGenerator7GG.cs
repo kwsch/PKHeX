@@ -26,6 +26,8 @@ public sealed class EncounterGenerator7GG : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
+            foreach (var enc in GetPossibleStatic(chain, Encounters7GG.Encounter_GG))
+                yield return enc;
             var table = game == GameVersion.GP ? Encounters7GG.StaticGP : Encounters7GG.StaticGE;
             foreach (var enc in GetPossibleStatic(chain, table))
                 yield return enc;
@@ -133,6 +135,25 @@ public sealed class EncounterGenerator7GG : IEncounterGenerator
         IEncounterable? deferred = null;
         IEncounterable? partial = null;
 
+        foreach (var z in Encounters7GG.Encounter_GG)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != z.Species)
+                    continue;
+                if (!z.IsMatchExact(pk, evo))
+                    break;
+
+                var match = z.GetMatchRating(pk);
+                switch (match)
+                {
+                    case Match: yield return z; yielded = true; break;
+                    case Deferred: deferred ??= z; break;
+                    case PartialMatch: partial ??= z; break;
+                }
+                break;
+            }
+        }
         var encStatic = game == GameVersion.GP ? Encounters7GG.StaticGP : Encounters7GG.StaticGE;
         foreach (var z in encStatic)
         {
@@ -165,24 +186,15 @@ public sealed class EncounterGenerator7GG : IEncounterGenerator
                 if (!area.IsMatchLocation(location))
                     continue;
 
-                foreach (var slot in area.Slots)
+                var slots = area.GetMatchingSlots(pk, chain);
+                foreach (var slot in slots)
                 {
-                    foreach (var evo in chain)
+                    var match = slot.GetMatchRating(pk);
+                    switch (match)
                     {
-                        if (evo.Species != slot.Species)
-                            continue;
-
-                        if (!slot.IsMatchExact(pk, evo))
-                            break;
-
-                        var match = slot.GetMatchRating(pk);
-                        switch (match)
-                        {
-                            case Match: yield return slot; yielded = true; break;
-                            case Deferred: deferred ??= slot; break;
-                            case PartialMatch: partial ??= slot; break;
-                        }
-                        break;
+                        case Match: yield return slot; yielded = true; break;
+                        case Deferred: deferred ??= slot; break;
+                        case PartialMatch: partial ??= slot; break;
                     }
                 }
             }

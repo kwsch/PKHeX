@@ -440,7 +440,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         }
         else
         {
-            pk.SetDefaultRegionOrigins();
+            pk.SetDefaultRegionOrigins(language);
         }
 
         pk.SetMaximumPPCurrent();
@@ -458,7 +458,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             pk.SID16 = tr.SID16;
         }
 
-        pk.MetDate = Date ?? DateOnly.FromDateTime(DateTime.Now);
+        pk.MetDate = Date ?? EncounterDate.GetDate3DS();
 
         pk.IsNicknamed = IsNicknamed;
         pk.Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);

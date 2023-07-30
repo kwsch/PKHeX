@@ -55,7 +55,7 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
     private static bool GetIsTutor(ushort species, byte move)
     {
         // No special tutors besides Stadium, which is GB-era only.
-        if (!ParseSettings.AllowGBCartEra)
+        if (!ParseSettings.AllowGBStadium2)
             return false;
 
         // Surf Pikachu via Stadium

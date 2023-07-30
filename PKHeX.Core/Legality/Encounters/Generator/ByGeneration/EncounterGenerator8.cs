@@ -29,8 +29,22 @@ public sealed class EncounterGenerator8 : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
+            foreach (var enc in GetPossible(chain, Encounters8.StaticSWSH))
+                yield return enc;
             var table = game == GameVersion.SW ? Encounters8.StaticSW : Encounters8.StaticSH;
-            foreach (var enc in GetPossibleStatic(chain, table))
+            foreach (var enc in GetPossible(chain, table))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters8Nest.Nest_SW))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters8Nest.Nest_SH))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters8Nest.Dist_SW))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters8Nest.Dist_SH))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters8Nest.DynAdv_SWSH))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters8Nest.Crystal_SWSH))
                 yield return enc;
         }
         if (groups.HasFlag(Slot))
@@ -41,8 +55,11 @@ public sealed class EncounterGenerator8 : IEncounterGenerator
         }
         if (groups.HasFlag(Trade))
         {
-            var table = Encounters8.TradeGift_SWSH;
-            foreach (var enc in GetPossibleTrades(chain, game, table))
+            var table = Encounters8.TradeSWSH;
+            foreach (var enc in GetPossible(chain, table))
+                yield return enc;
+            var specific = game == GameVersion.SW ? Encounters8.TradeSW : Encounters8.TradeSH;
+            foreach (var enc in GetPossible(chain, specific))
                 yield return enc;
         }
     }
@@ -61,7 +78,7 @@ public sealed class EncounterGenerator8 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterTemplate
     {
         foreach (var enc in table)
         {
@@ -88,23 +105,6 @@ public sealed class EncounterGenerator8 : IEncounterGenerator
                     yield return slot;
                     break;
                 }
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, GameVersion game, EncounterTrade8[] table)
-    {
-        foreach (var enc in table)
-        {
-            if (enc.Version != GameVersion.SWSH && game != enc.Version)
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
             }
         }
     }
@@ -156,8 +156,162 @@ public sealed class EncounterGenerator8 : IEncounterGenerator
         EncounterMatchRating rating = MaxNotMatch;
 
         // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
+        foreach (var enc in Encounters8.StaticSWSH)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return enc;
+                }
+                else if (match < rating)
+                {
+                    cache = enc;
+                    rating = match;
+                }
+                break;
+            }
+        }
         var encStatic = game == GameVersion.SW ? Encounters8.StaticSW : Encounters8.StaticSH;
         foreach (var enc in encStatic)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return enc;
+                }
+                else if (match < rating)
+                {
+                    cache = enc;
+                    rating = match;
+                }
+                break;
+            }
+        }
+        foreach (var enc in Encounters8Nest.Nest_SW)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return enc;
+                }
+                else if (match < rating)
+                {
+                    cache = enc;
+                    rating = match;
+                }
+                break;
+            }
+        }
+        foreach (var enc in Encounters8Nest.Nest_SH)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return enc;
+                }
+                else if (match < rating)
+                {
+                    cache = enc;
+                    rating = match;
+                }
+                break;
+            }
+        }
+        foreach (var enc in Encounters8Nest.Dist_SW)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return enc;
+                }
+                else if (match < rating)
+                {
+                    cache = enc;
+                    rating = match;
+                }
+                break;
+            }
+        }
+        foreach (var enc in Encounters8Nest.Dist_SH)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return enc;
+                }
+                else if (match < rating)
+                {
+                    cache = enc;
+                    rating = match;
+                }
+                break;
+            }
+        }
+        foreach (var enc in Encounters8Nest.DynAdv_SWSH)
+        {
+            foreach (var evo in chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                if (!enc.IsMatchExact(pk, evo))
+                    break;
+
+                var match = enc.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return enc;
+                }
+                else if (match < rating)
+                {
+                    cache = enc;
+                    rating = match;
+                }
+                break;
+            }
+        }
+        foreach (var enc in Encounters8Nest.Crystal_SWSH)
         {
             foreach (var evo in chain)
             {
@@ -216,11 +370,31 @@ public sealed class EncounterGenerator8 : IEncounterGenerator
     {
         EncounterMatchRating rating = MaxNotMatch;
         IEncounterable? cache = null;
-        foreach (var z in Encounters8.TradeGift_SWSH)
+        foreach (var z in Encounters8.TradeSWSH)
         {
-            if (z.Version != GameVersion.SWSH && z.Version != game)
-                continue;
+            foreach (var evo in chain)
+            {
+                if (evo.Species != z.Species)
+                    continue;
+                if (!z.IsMatchExact(pk, evo))
+                    break;
 
+                var match = z.GetMatchRating(pk);
+                if (match == Match)
+                {
+                    yield return z;
+                }
+                else if (match < rating)
+                {
+                    cache = z;
+                    rating = match;
+                }
+                break;
+            }
+        }
+        var specific = game == GameVersion.SW ? Encounters8.TradeSW : Encounters8.TradeSH;
+        foreach (var z in specific)
+        {
             foreach (var evo in chain)
             {
                 if (evo.Species != z.Species)

@@ -134,7 +134,7 @@ internal static class GBRestrictions
         // If you put a Pokemon in the N64 box, the met info is retained, even if you switch over to a Gen1 game to teach it TMs
         // You can use rare candies from within the lab, so level-up moves from RBY context can be learned this way as well
         // Stadium 2 is GB Cart Era only (not 3DS Virtual Console).
-        if (pk is ICaughtData2 {CaughtData: not 0} && !ParseSettings.AllowGBCartEra)
+        if (pk is ICaughtData2 {CaughtData: not 0} && !ParseSettings.AllowGBStadium2)
             return false;
 
         // Sanity check species, if it could have existed as a pre-evolution.

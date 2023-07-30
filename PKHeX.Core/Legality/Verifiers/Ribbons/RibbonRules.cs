@@ -180,7 +180,7 @@ public static class RibbonRules
         if (enc.LevelMin <= 50)
             return true;
 
-        return enc is not (EncounterStaticShadow or WC3);
+        return enc is not (IShadow3 or WC3);
     }
 
     /// <summary>
@@ -294,7 +294,7 @@ public static class RibbonRules
         if (enc.Generation != 3)
             return false;
 
-        if (enc is not EncounterStaticShadow)
+        if (enc is not IShadow3)
             return false;
 
         // Ribbon is awarded when the Pokémon is purified in the game of origin.

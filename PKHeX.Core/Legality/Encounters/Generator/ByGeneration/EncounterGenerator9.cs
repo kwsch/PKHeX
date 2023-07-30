@@ -44,8 +44,18 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
-            var table = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
-            foreach (var enc in GetPossibleStatic(chain, table))
+            foreach (var enc in GetPossible(chain, Encounters9.Encounter_SV))
+                yield return enc;
+            var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
+            foreach (var enc in GetPossible(chain, encStatic))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters9.Fixed))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters9.Tera))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters9.Dist))
+                yield return enc;
+            foreach (var enc in GetPossible(chain, Encounters9.Might))
                 yield return enc;
         }
         if (groups.HasFlag(Slot))
@@ -57,7 +67,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         if (groups.HasFlag(Trade))
         {
             var table = Encounters9.TradeGift_SV;
-            foreach (var enc in GetPossibleTrade(chain, table, game))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
     }
@@ -76,7 +86,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterable
     {
         foreach (var enc in table)
         {
@@ -107,24 +117,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleTrade(EvoCriteria[] chain, EncounterTrade9[] table, GameVersion game)
-    {
-        foreach (var enc in table)
-        {
-            if (enc.Version != SV && enc.Version != game)
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    public IEnumerable<IEncounterable>  GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
+    public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
     {
         if (pk.FatefulEncounter)
         {
@@ -203,8 +196,118 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
         if (pk is not IRibbonIndex r || !r.HasEncounterMark())
         {
+            foreach (var z in Encounters9.Encounter_SV)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
             var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
             foreach (var z in encStatic)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            foreach (var z in Encounters9.Fixed)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            foreach (var z in Encounters9.Tera)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            foreach (var z in Encounters9.Dist)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            foreach (var z in Encounters9.Might)
             {
                 foreach (var evo in chain)
                 {
@@ -333,8 +436,118 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
         if (pk is not IRibbonIndex r || !r.HasEncounterMark())
         {
+            foreach (var z in Encounters9.Encounter_SV)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
             var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
             foreach (var z in encStatic)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            foreach (var z in Encounters9.Fixed)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            foreach (var z in Encounters9.Tera)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            foreach (var z in Encounters9.Dist)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == Match)
+                    {
+                        yield return z;
+                    }
+                    else if (match < rating)
+                    {
+                        cache = z;
+                        rating = match;
+                    }
+                    break;
+                }
+            }
+            foreach (var z in Encounters9.Might)
             {
                 foreach (var evo in chain)
                 {

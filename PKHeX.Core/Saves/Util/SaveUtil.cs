@@ -773,7 +773,7 @@ public static class SaveUtil
 
         // Only set geolocation data for 3DS titles
         if (sav is IRegionOrigin o)
-            o.SetDefaultRegionOrigins();
+            o.SetDefaultRegionOrigins((int)language);
 
         return sav;
     }

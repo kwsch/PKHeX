@@ -223,7 +223,6 @@ public sealed class LegalityAnalysis
     private void ParsePK5()
     {
         UpdateChecks();
-        NHarmonia.Verify(this);
         if (Entity.Format >= 8)
             Transfer.VerifyTransferLegalityG8(this);
     }

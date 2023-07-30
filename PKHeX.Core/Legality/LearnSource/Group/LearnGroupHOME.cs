@@ -204,7 +204,6 @@ public sealed class LearnGroupHOME : ILearnGroup
         }
     }
 
-
     private static bool TryAddExclusiveMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk)
     {
         if (pk.Species is (int)Species.Hoopa)

@@ -547,7 +547,7 @@ public static class MethodFinder
             return false;
 
         const byte AzurillGenderRatio = 0xBF;
-        var gender = EntityGender.GetFromPIDAndRatio(pk.PID, AzurillGenderRatio);
+        var gender = EntityGender.GetFromPIDAndRatio(pk.EncryptionConstant, AzurillGenderRatio);
         if (gender != 1)
             return false;
 
@@ -748,7 +748,7 @@ public static class MethodFinder
     {
         WC3 g                  => IsCompatible3Mystery(val, pk, g),
         EncounterStatic3 s     => IsCompatible3Static(val, pk, s),
-        EncounterStaticShadow  => val is (CXD or CXDAnti),
+        IShadow3               => val is (CXD or CXDAnti),
         EncounterSlot3PokeSpot => val is PokeSpot,
         EncounterSlot3 w       => w.Species != (int)Species.Unown
             ? val is (Method_1       or Method_2       or Method_3       or Method_4)

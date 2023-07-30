@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 
 namespace PKHeX.Core;
 
@@ -14,16 +14,16 @@ public static class LockFinder
     /// <param name="pv">RNG result PID and IV seed state</param>
     /// <param name="pk">Entity to check</param>
     /// <returns>True if all valid.</returns>
-    public static bool IsAllShadowLockValid(EncounterStaticShadow s, PIDIV pv, PKM pk)
+    public static bool IsAllShadowLockValid(IShadow3 s, PIDIV pv, PKM pk)
     {
         if (s.Version == GameVersion.XD && pk.IsShiny)
             return false; // no xd shiny shadow mons
-        var teams = s.Locks;
+        var teams = s.PartyPrior;
         if (teams.Length == 0)
             return true;
 
         var tsv = s.Version == GameVersion.XD ? (uint)(pk.TID16 ^ pk.SID16) >> 3 : uint.MaxValue; // no xd shiny shadow mons
-        return IsAllShadowLockValid(pv, teams, tsv);
+        return IsAllShadowLockValid(pv, teams.Span, tsv);
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public static class LockFinder
     /// <param name="pv">RNG result PID and IV seed state</param>
     /// <param name="teams">Possible team data setups the NPC trainer has that need to generate before the shadow.</param>
     /// <param name="tsv">Trainer shiny value that is disallowed in XD</param>
-    public static bool IsAllShadowLockValid(PIDIV pv, IEnumerable<TeamLock> teams, uint tsv = uint.MaxValue)
+    public static bool IsAllShadowLockValid(PIDIV pv, ReadOnlySpan<TeamLock> teams, uint tsv = uint.MaxValue)
     {
         foreach (var t in teams)
         {

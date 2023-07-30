@@ -1,0 +1,223 @@
+using System;
+
+namespace PKHeX.Core;
+
+/// <summary>
+/// Encounter Slot found in <see cref="GameVersion.PLA"/>.
+/// </summary>
+/// <param name="AlphaType">0=Never, 1=Random, 2=Guaranteed</param>
+/// <param name="FlawlessIVCount"></param>
+public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte AlphaType, byte FlawlessIVCount, Gender Gender)
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PA8>, IAlphaReadOnly, IMasteryInitialMoveShop8, IFlawlessIVCount
+{
+    public int Generation => 8;
+    public EntityContext Context => EntityContext.Gen8a;
+    public bool EggEncounter => false;
+    public AbilityPermission Ability => AbilityPermission.Any12;
+    public Ball FixedBall => Ball.None;
+    public Shiny Shiny => Shiny.Random;
+    public bool IsShiny => false;
+    public int EggLocation => 0;
+
+    public bool IsAlpha => AlphaType is not 0;
+
+    public string Name => $"Wild Encounter ({Version})";
+    public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
+    public GameVersion Version => Parent.Version;
+    public int Location => Parent.Location;
+    public SlotType Type => Parent.Type;
+
+    public bool HasAlphaMove => IsAlpha && Type is not SlotType.Landmark;
+
+    #region Generating
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    public PA8 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+    public PA8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    {
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pk = new PA8
+        {
+            Language = lang,
+            Species = Species,
+            Form = Form,
+            CurrentLevel = LevelMin,
+            OT_Friendship = PersonalTable.LA[Species, Form].BaseFriendship,
+            Met_Location = Location,
+            Met_Level = LevelMin,
+            Version = (int)Version,
+            IsAlpha = IsAlpha,
+            Ball = (int)Ball.LAPoke,
+
+            HeightScalar = IsAlpha ? (byte)255 : PokeSizeUtil.GetRandomScalar(),
+            WeightScalar = IsAlpha ? (byte)255 : PokeSizeUtil.GetRandomScalar(),
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+        };
+        SetPINGA(pk, criteria);
+        pk.Scale = pk.HeightScalar;
+        pk.ResetHeight();
+        pk.ResetWeight();
+        SetEncounterMoves(pk, LevelMin);
+        pk.ResetPartyStats();
+        return pk;
+    }
+
+    private void SetPINGA(PA8 pk, EncounterCriteria criteria)
+    {
+        var para = GetParams();
+        while (true)
+        {
+            var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
+            if (this.IsRandomLevel())
+            {
+                var lvl = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
+                if (criteria.ForceMinLevelRange && lvl != LevelMin)
+                    continue;
+                pk.CurrentLevel = pk.Met_Level = lvl;
+            }
+            break;
+        }
+    }
+
+    private OverworldParam8a GetParams() => new()
+    {
+        Shiny = Shiny,
+        IsAlpha = IsAlpha,
+        FlawlessIVs = FlawlessIVCount,
+        RollCount = GetRollCount(Type),
+        GenderRatio = Gender switch
+        {
+            Gender.Male => PersonalInfo.RatioMagicMale,
+            Gender.Female => PersonalInfo.RatioMagicFemale,
+            _ => PersonalTable.LA[Species, Form].Gender,
+        },
+    };
+
+    // hardcoded 7 to assume max dex progress + shiny charm.
+    private const int MaxRollCount = 7;
+
+    private static byte GetRollCount(SlotType type) => (byte)(MaxRollCount + type switch
+    {
+        SlotType.OverworldMMO => 12,
+        SlotType.OverworldMass => 25,
+        _ => 0,
+    });
+
+    private void SetEncounterMoves(PKM pk, int level)
+    {
+        var pa8 = (PA8)pk;
+        Span<ushort> moves = stackalloc ushort[4];
+        var (learn, mastery) = GetLevelUpInfo();
+        LoadInitialMoveset(pa8, moves, learn, level);
+        pk.SetMoves(moves);
+        pa8.SetEncounterMasteryFlags(moves, mastery, level);
+        if (pa8.AlphaMove != 0)
+            pa8.SetMasteryFlagMove(pa8.AlphaMove);
+    }
+
+    public void LoadInitialMoveset(PA8 pa8, Span<ushort> moves, Learnset learn, int level)
+    {
+        if (pa8.AlphaMove != 0)
+        {
+            moves[0] = pa8.AlphaMove;
+            learn.SetEncounterMovesBackwards(level, moves, 1);
+        }
+        else
+        {
+            learn.SetEncounterMoves(level, moves);
+        }
+    }
+
+    public (Learnset Learn, Learnset Mastery) GetLevelUpInfo() => LearnSource8LA.GetLearnsetAndMastery(Species, Form);
+    #endregion
+
+    #region Matching
+    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+    private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
+
+    public EncounterMatchRating GetMatchRating(PKM pk)
+    {
+        if (Gender is not Gender.Random && pk.Gender != (int)Gender)
+            return EncounterMatchRating.PartialMatch;
+        if (IsDeferredWurmple(pk))
+            return EncounterMatchRating.PartialMatch;
+        if (!MarkRules.IsMarkValidAlpha(pk, IsAlpha))
+            return EncounterMatchRating.DeferredErrors;
+        if (FlawlessIVCount is not 0 && pk.FlawlessIVCount < FlawlessIVCount)
+            return EncounterMatchRating.DeferredErrors;
+        if (IsFormArgMismatch(pk))
+            return EncounterMatchRating.DeferredErrors;
+        if (!IsForcedMasteryCorrect(pk))
+            return EncounterMatchRating.DeferredErrors;
+
+        return GetMoveCompatibility(pk);
+    }
+
+    private bool IsFormArgMismatch(PKM pk) => pk.Species switch
+    {
+        (int)Core.Species.Wyrdeer     when Species is not (int)Core.Species.Wyrdeer     && pk is IFormArgument { FormArgument: 0 } => true,
+        (int)Core.Species.Overqwil    when Species is not (int)Core.Species.Overqwil    && pk is IFormArgument { FormArgument: 0 } => true,
+        (int)Core.Species.Basculegion when Species is not (int)Core.Species.Basculegion && pk is IFormArgument { FormArgument: 0 } => true,
+        _ => false,
+    };
+
+    private EncounterMatchRating GetMoveCompatibility(PKM pk)
+    {
+        // Check for Alpha move compatibility.
+        if (pk is not PA8 pa)
+            return EncounterMatchRating.Match;
+
+        var alphaMove = pa.AlphaMove;
+        bool hasAlphaMove = alphaMove != 0;
+        if (!pa.IsAlpha || Type is SlotType.Landmark)
+            return !hasAlphaMove ? EncounterMatchRating.Match : EncounterMatchRating.DeferredErrors;
+
+        var pi = PersonalTable.LA.GetFormEntry(Species, Form);
+
+        // Alpha encounters grant one Alpha move from the MoveShop list, if any exists.
+        if (alphaMove is 0)
+        {
+            // None set, but if any are available, it's a mismatch.
+            if (pi.HasMoveShop)
+                return EncounterMatchRating.Deferred;
+        }
+        else
+        {
+            var permit = pa.Permit;
+            var idx = permit.RecordPermitIndexes;
+            var index = idx.IndexOf(alphaMove);
+            if (index == -1)
+                return EncounterMatchRating.Deferred;
+            if (!permit.IsRecordPermitted(index))
+                return EncounterMatchRating.Deferred;
+        }
+        return EncounterMatchRating.Match;
+    }
+
+    public bool IsForcedMasteryCorrect(PKM pk)
+    {
+        if (pk is not IMoveShop8Mastery p)
+            return true; // Can't check.
+
+        bool allowAlphaPurchaseBug = Type is not SlotType.OverworldMMO; // Everything else Alpha is pre-1.1
+        var level = pk.Met_Level;
+        var (learn, mastery) = GetLevelUpInfo();
+        ushort alpha = pk is PA8 pa ? pa.AlphaMove : (ushort)0;
+        if (!p.IsValidPurchasedEncounter(learn, level, alpha, allowAlphaPurchaseBug))
+            return false;
+
+        Span<ushort> moves = stackalloc ushort[4];
+        if (pk is PA8 { AlphaMove: not 0 } pa8)
+        {
+            moves[0] = pa8.AlphaMove;
+            learn.SetEncounterMovesBackwards(level, moves, 1);
+        }
+        else
+        {
+            learn.SetEncounterMoves(level, moves);
+        }
+
+        return p.IsValidMasteredEncounter(moves, learn, mastery, level, alpha, allowAlphaPurchaseBug);
+    }
+    #endregion
+}

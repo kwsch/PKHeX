@@ -1,5 +1,4 @@
 using static PKHeX.Core.GameVersion;
-using static PKHeX.Core.EncounterGBLanguage;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core;
@@ -16,7 +15,8 @@ internal static class Encounters1
     internal static readonly EncounterArea1[] SlotsRBY = ArrayUtil.ConcatAll(SlotsRD, SlotsGN, SlotsYW);
     internal static readonly EncounterArea1[] SlotsRGBY = ArrayUtil.ConcatAll(SlotsRBY, SlotsBU);
 
-    static Encounters1() => MarkEncounterTradeNicknames(TradeGift_RBY, TradeGift_RBY_OTs);
+    private const string tradeRBY = "traderby";
+    private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeRBY);
 
     internal static readonly EncounterStatic1[] StaticRBY =
     {
@@ -71,8 +71,8 @@ internal static class Encounters1
 
         new(150, 70, RBY), // Mewtwo
 
-        new(133, 25, RB) {Moves = new((int)Move.Tackle, (int)Move.SandAttack)}, // Eevee
-        new(133, 25, YW) {Moves = new((int)Move.TailWhip, (int)Move.SandAttack, (int)Move.Growl, (int)Move.QuickAttack)}, // Eevee (Different initial moves)
+        new(133, 25, RB), // Eevee
+        new(133, 25, YW), // Eevee (Different initial moves)
 
         new(100, 40, RBY), // Voltorb (Power Plant)
         new(101, 43, RBY), // Electrode (Power Plant)
@@ -85,78 +85,33 @@ internal static class Encounters1
 
     internal static readonly EncounterTrade1[] TradeGift_RBY =
     {
-        new(122, RB, 06, 05), // Mr. Mime - Abra
-        new(032, RB, 02    ), // Nidoran♂ - Nidoran♀
-        new(030, RB, 16    ), // Nidorina - Nidorino
-        new(108, RB, 15    ), // Lickitung - Slowbro
-        new(124, RB, 15, 10), // Jynx - Poliwhirl
-        new(083, RB, 02    ), // Farfetch’d - Spearow
-        new(101, RB, 03    ), // Electrode - Raichu
-        new(114, RB, 13, 05), // Tangela - Venonat
-        new(086, RB, 28, 05), // Seel - Ponyta
+        new(TradeNames, 00, 122, RB, 06, 05), // Mr. Mime - Abra
+        new(TradeNames, 01, 032, RB, 02    ), // Nidoran♂ - Nidoran♀
+        new(TradeNames, 02, 030, RB, 16    ), // Nidorina - Nidorino
+        new(TradeNames, 03, 108, RB, 15    ), // Lickitung - Slowbro
+        new(TradeNames, 04, 124, RB, 15, 10), // Jynx - Poliwhirl
+        new(TradeNames, 05, 083, RB, 02    ), // Farfetch’d - Spearow
+        new(TradeNames, 06, 101, RB, 03    ), // Electrode - Raichu
+        new(TradeNames, 07, 114, RB, 13, 05), // Tangela - Venonat
+        new(TradeNames, 08, 086, RB, 28, 05), // Seel - Ponyta
 
-        new(122, YW, 08, 06), // Mr. Mime - Clefairy
-        new(067, YW, 16, 05) { EvolveOnTrade = true }, // Machoke - Cubone
-        new(051, YW, 15, 05), // Dugtrio - Lickitung
-        new(047, YW, 13, 05), // Parasect - Tangel
-        new(112, YW, 15, 10), // Rhydon - Golduck
-        new(087, YW, 15, 05), // Dewgong - Growlithe
-        new(089, YW, 25, 05), // Muk - Kangaskhan
+        new(TradeNames, 09, 122, YW, 08, 06), // Mr. Mime - Clefairy
+        new(TradeNames, 10, 067, YW, 16, 05) { EvolveOnTrade = true }, // Machoke - Cubone
+        new(TradeNames, 11, 051, YW, 15, 05), // Dugtrio - Lickitung
+        new(TradeNames, 12, 047, YW, 13, 05), // Parasect - Tangel
+        new(TradeNames, 13, 112, YW, 15, 10), // Rhydon - Golduck
+        new(TradeNames, 14, 087, YW, 15, 05), // Dewgong - Growlithe
+        new(TradeNames, 15, 089, YW, 25, 05), // Muk - Kangaskhan
 
-        new(122, BU, 03    ), // Mr. Mime - Jigglypuff
-        new(029, BU, 02    ), // Nidoran♀ - Nidoran♂
-        new(060, BU, 02    ), // Poliwag - Rattata
-        new(115, BU, 15, 10), // Kangaskhan - Rhydon
-        new(128, BU, 28, 18), // Tauros - Persian
-        new(093, BU, 28, 14) { EvolveOnTrade = true }, // Haunter - Machop->Machoke
-        new(083, BU, 02    ), // Farfetch’d - Wild Pidgey
-        new(075, BU, 16, 15) { EvolveOnTrade = true }, // Graveler - Abra->Kadabra
-        new(079, BU, 22, 05), // Slowpoke - Seel
-        new(098, BU, 15, 05), // Krabby - Growlithe
-    };
-
-    private const string tradeRBY = "traderby";
-    private static readonly string[][] TradeGift_RBY_OTs = Util.GetLanguageStrings7(tradeRBY);
-
-    private static readonly IndividualValueSet Flawless15 = new(15, 15, 15, 15, 15, 15);
-    private static readonly IndividualValueSet Yoshira = new(5, 10, 1, 12, 5, 5);
-    private static readonly string[] YoshiOT = { "YOSHIRA", "YOSHIRB", "YOSHIBA", "YOSHIBB" };
-    private static readonly string[] TourOT = { "LINKE", "LINKW", "LUIGE", "LUIGW", "LUIGIC", "YOSHIC" };
-    private static readonly string[] StadiumOT_Int = { "STADIUM", "STADE", "STADIO", "ESTADIO" };
-    private const string StadiumOT_JPN = "スタジアム";
-
-    internal static readonly EncounterStatic1E[] StaticEventsVC =
-    {
-        // Event Mew
-        new(151, 5, RBY) { IVs = Flawless15, TID16 = 22796, OT_Name = "GF", Language = International },
-        new(151, 5, RBY) { IVs = Flawless15, TID16 = 22796, OT_Name = "ゲーフリ" },
-    };
-
-    internal static readonly EncounterStatic1E[] StaticEventsGB =
-    {
-        // Stadium 1 (International)
-        new(001, 05, Stadium) {Moves = new(033, 045), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Bulbasaur
-        new(004, 05, Stadium) {Moves = new(010, 043), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Charmander
-        new(007, 05, Stadium) {Moves = new(033, 045), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Squirtle
-        new(106, 20, Stadium) {Moves = new(024, 096), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Hitmonlee
-        new(107, 20, Stadium) {Moves = new(004, 097), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Hitmonchan
-        new(133, 25, Stadium) {Moves = new(033, 039), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Eevee
-        new(138, 20, Stadium) {Moves = new(055, 110), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Omanyte
-        new(140, 20, Stadium) {Moves = new(010, 106), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Kabuto
-        new(054, 15, Stadium) {Moves = new(133, 010), TID16 = 2000, OT_Names = StadiumOT_Int, Language = International}, // Psyduck (Amnesia)
-
-        // Stadium 2 (Japan)
-        new(001, 05, Stadium) {Moves = new(033, 045), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Bulbasaur
-        new(004, 05, Stadium) {Moves = new(010, 043), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Charmander
-        new(007, 05, Stadium) {Moves = new(033, 045), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Squirtle
-        new(106, 20, Stadium) {Moves = new(024, 096), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Hitmonlee
-        new(107, 20, Stadium) {Moves = new(004, 097), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Hitmonchan
-        new(133, 25, Stadium) {Moves = new(033, 039), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Eevee
-        new(138, 20, Stadium) {Moves = new(055, 110), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Omanyte
-        new(140, 20, Stadium) {Moves = new(010, 106), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Kabuto
-        new(054, 15, Stadium) {Moves = new(133, 010), TID16 = 1999, OT_Name = StadiumOT_JPN}, // Psyduck (Amnesia)
-
-        new(151, 5, RB) {IVs = Yoshira, OT_Names = YoshiOT, Language = International }, // Yoshira Mew Events
-        new(151, 5, RB) {IVs = Yoshira, OT_Names = TourOT, Language = International }, // Pokémon 2000 Stadium Tour Mew
+        new(TradeNames, 16, 122, BU, 03    ), // Mr. Mime - Jigglypuff
+        new(TradeNames, 17, 029, BU, 02    ), // Nidoran♀ - Nidoran♂
+        new(TradeNames, 18, 060, BU, 02    ), // Poliwag - Rattata
+        new(TradeNames, 19, 115, BU, 15, 10), // Kangaskhan - Rhydon
+        new(TradeNames, 20, 128, BU, 28, 18), // Tauros - Persian
+        new(TradeNames, 21, 093, BU, 28, 14) { EvolveOnTrade = true }, // Haunter - Machop->Machoke
+        new(TradeNames, 22, 083, BU, 02    ), // Farfetch’d - Wild Pidgey
+        new(TradeNames, 23, 075, BU, 16, 15) { EvolveOnTrade = true }, // Graveler - Abra->Kadabra
+        new(TradeNames, 24, 079, BU, 22, 05), // Slowpoke - Seel
+        new(TradeNames, 25, 098, BU, 15, 05), // Krabby - Growlithe
     };
 }

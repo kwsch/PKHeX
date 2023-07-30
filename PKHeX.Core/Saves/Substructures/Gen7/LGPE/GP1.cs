@@ -197,7 +197,6 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
         ILearnSource source = LearnSource7GG.Instance;
         source.SetEncounterMoves(Species, Form, Level, moves);
         pk.SetMoves(moves);
-        pk.SetMaximumPPCurrent(moves);
         pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
         pk.HeightScalar = HeightScalar;

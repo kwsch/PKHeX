@@ -33,45 +33,22 @@ public sealed class PIDVerifier : Verifier
     private void VerifyShiny(LegalityAnalysis data)
     {
         var pk = data.Entity;
+        var enc = data.EncounterMatch;
 
-        switch (data.EncounterMatch)
+        if (!enc.Shiny.IsValid(pk))
+            data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
+
+        switch (enc)
         {
-            case EncounterStatic s:
-                if (!s.Shiny.IsValid(pk))
-                    data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
-
-                // Underground Raids are originally anti-shiny on encounter.
-                // When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
-                if (s is EncounterStatic8U {Shiny: Shiny.Random})
-                {
-                    if (pk.ShinyXor is <= 15 and not 1)
-                        data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
-                    break;
-                }
-
-                if (s.Generation != 5)
-                    break;
-
-                // Generation 5 has a correlation for wild captures.
-                // Certain static encounter types are just generated straightforwardly.
-                if (s.Location == 75) // Entree Forest
-                    break;
-
-                // Not wild / forced ability
-                if (s.Gift || s.Ability == AbilityPermission.OnlyHidden)
-                    break;
-
-                // Forced PID or generated without an encounter
-                // Crustle has 0x80 for its StartWildBattle flag; dunno what it does, but sometimes it doesn't align with the expected PID xor.
-                if (s is EncounterStatic5 { IsWildCorrelationPID: true })
-                    VerifyG5PID_IDCorrelation(data);
+            // Forced PID or generated without an encounter
+            // Crustle has 0x80 for its StartWildBattle flag; dunno what it does, but sometimes it doesn't align with the expected PID xor.
+            case EncounterStatic5 { IsWildCorrelationPID: true }:
+                VerifyG5PID_IDCorrelation(data);
                 break;
-
-            case EncounterSlot5 {IsHiddenGrotto: true}:
-                if (pk.IsShiny)
-                    data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
+            case EncounterSlot5 {IsHiddenGrotto: true} when pk.IsShiny:
+                data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
                 break;
-            case EncounterSlot5:
+            case EncounterSlot5 {IsHiddenGrotto: false}:
                 VerifyG5PID_IDCorrelation(data);
                 break;
 
@@ -82,6 +59,11 @@ public sealed class PIDVerifier : Verifier
 
             case WC7 wc7 when wc7.IsAshGreninjaWC7(pk) && pk.IsShiny:
                 data.AddLine(GetInvalid(LEncGiftShinyMismatch, CheckIdentifier.Shiny));
+                break;
+            // Underground Raids are originally anti-shiny on encounter.
+            // When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
+            case EncounterStatic8U u when !u.IsShinyXorValid(pk.ShinyXor):
+                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
                 break;
         }
     }

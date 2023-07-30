@@ -771,7 +771,6 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             var la = new LegalityAnalysis(Entity);
             tr.SetRecordFlags(moves, la.Info.EvoChainsAllGens.Get(Entity.Context));
         }
-        Entity.HealPP();
         FieldsLoaded = false;
         LoadMoves(Entity);
         ClickPP(this, EventArgs.Empty);

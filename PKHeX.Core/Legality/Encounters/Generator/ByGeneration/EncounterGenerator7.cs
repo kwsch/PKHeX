@@ -30,9 +30,22 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
-            var table = GetStatic(game);
-            foreach (var enc in GetPossibleStatic(chain, table))
-                yield return enc;
+            if (game is GameVersion.US or GameVersion.UM)
+            {
+                foreach (var enc in GetPossible(chain, Encounters7USUM.StaticUSUM))
+                    yield return enc;
+                var specific = game is GameVersion.US ? Encounters7USUM.StaticUS : Encounters7USUM.StaticUM;
+                foreach (var enc in GetPossible(chain, specific))
+                    yield return enc;
+            }
+            else
+            {
+                foreach (var enc in GetPossible(chain, Encounters7SM.StaticSM))
+                    yield return enc;
+                var specific = game is GameVersion.SN ? Encounters7SM.StaticSN : Encounters7SM.StaticMN;
+                foreach (var enc in GetPossible(chain, specific))
+                    yield return enc;
+            }
         }
         if (groups.HasFlag(Slot))
         {
@@ -43,7 +56,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         if (groups.HasFlag(Trade))
         {
             var table = GetTrades(game);
-            foreach (var enc in GetPossibleTrades(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
     }
@@ -64,7 +77,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic7[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterTemplate
     {
         foreach (var enc in table)
         {
@@ -94,21 +107,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
             }
         }
     }
-
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade7[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
+    
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
         if (chain.Length == 0)
@@ -167,22 +166,83 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
                 yield break;
         }
 
-        var table = GetStatic(game);
-        foreach (var z in table)
+        if (game is GameVersion.US or GameVersion.UM)
         {
-            foreach (var evo in chain)
+            var specific = game is GameVersion.US ? Encounters7USUM.StaticUS : Encounters7USUM.StaticUM;
+            foreach (var z in specific)
             {
-                if (z.Species != evo.Species)
-                    continue;
-                if (!z.IsMatchExact(pk, evo))
-                    continue;
-
-                var match = z.GetMatchRating(pk);
-                switch (match)
+                foreach (var evo in chain)
                 {
-                    case Match: yield return z; yielded = true; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
+                    if (z.Species != evo.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        continue;
+
+                    var match = z.GetMatchRating(pk);
+                    switch (match)
+                    {
+                        case Match: yield return z; yielded = true; break;
+                        case Deferred: deferred ??= z; break;
+                        case PartialMatch: partial ??= z; break;
+                    }
+                }
+            }
+            foreach (var z in Encounters7USUM.StaticUSUM)
+            {
+                foreach (var evo in chain)
+                {
+                    if (z.Species != evo.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        continue;
+
+                    var match = z.GetMatchRating(pk);
+                    switch (match)
+                    {
+                        case Match: yield return z; yielded = true; break;
+                        case Deferred: deferred ??= z; break;
+                        case PartialMatch: partial ??= z; break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            var specific = game is GameVersion.SN ? Encounters7SM.StaticSN : Encounters7SM.StaticMN;
+            foreach (var z in specific)
+            {
+                foreach (var evo in chain)
+                {
+                    if (z.Species != evo.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        continue;
+
+                    var match = z.GetMatchRating(pk);
+                    switch (match)
+                    {
+                        case Match: yield return z; yielded = true; break;
+                        case Deferred: deferred ??= z; break;
+                        case PartialMatch: partial ??= z; break;
+                    }
+                }
+            }
+            foreach (var z in Encounters7SM.StaticSM)
+            {
+                foreach (var evo in chain)
+                {
+                    if (z.Species != evo.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        continue;
+
+                    var match = z.GetMatchRating(pk);
+                    switch (match)
+                    {
+                        case Match: yield return z; yielded = true; break;
+                        case Deferred: deferred ??= z; break;
+                        case PartialMatch: partial ??= z; break;
+                    }
                 }
             }
         }
@@ -240,15 +300,6 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
             yield return partial;
     }
 
-    private static EncounterStatic7[] GetStatic(GameVersion game) => game switch
-    {
-        GameVersion.SN => Encounters7SM.StaticSN,
-        GameVersion.MN => Encounters7SM.StaticMN,
-        GameVersion.US => Encounters7USUM.StaticUS,
-        GameVersion.UM => Encounters7USUM.StaticUM,
-        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
-    };
-
     private static EncounterArea7[] GetAreas(GameVersion game) => game switch
     {
         GameVersion.SN => Encounters7SM.SlotsSN,
@@ -267,7 +318,7 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
     };
 
-    internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pk, ushort encSpecies, ReadOnlySpan<EvoCriteria> chain)
+    internal static EncounterTransfer7 GetVCStaticTransferEncounter(PKM pk, ushort encSpecies, ReadOnlySpan<EvoCriteria> chain)
     {
         // Obtain the lowest evolution species with matching OT friendship. Not all species chains have the same base friendship.
         var met = (byte)pk.Met_Level;
@@ -278,12 +329,12 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
             var species = GetVCSpecies(chain, pk, Legal.MaxSpeciesID_1);
             var vc1Species = species > Legal.MaxSpeciesID_1 ? encSpecies : species;
             if (vc1Species <= Legal.MaxSpeciesID_1)
-                return EncounterStatic7.GetVC1(vc1Species, met);
+                return EncounterTransfer7.GetVC1(vc1Species, met);
         }
         // fall through else
         {
             var species = GetVCSpecies(chain, pk, Legal.MaxSpeciesID_2);
-            return EncounterStatic7.GetVC2(species > Legal.MaxSpeciesID_2 ? encSpecies : species, met);
+            return EncounterTransfer7.GetVC2(species > Legal.MaxSpeciesID_2 ? encSpecies : species, met);
         }
     }
 

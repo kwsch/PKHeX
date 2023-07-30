@@ -3,7 +3,7 @@ using System;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Wild Encounter data <see cref="EncounterSlot"/> Type
+/// Wild Encounter data <see cref="IEncounterTemplate"/> Type
 /// </summary>
 /// <remarks>
 /// Different from <see cref="GroundTileAllowed"/>, this corresponds to the method that the <see cref="IEncounterTemplate"/> may be encountered.</remarks>

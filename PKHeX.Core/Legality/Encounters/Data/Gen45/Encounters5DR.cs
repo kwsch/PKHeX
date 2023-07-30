@@ -10,7 +10,7 @@ public static class Encounters5DR
 {
     #region Dream Radar Tables
 
-    internal static readonly EncounterStatic5DR[] Encounter_DreamRadar =
+    internal static readonly EncounterStatic5Radar[] Encounter_DreamRadar =
     {
         new(079, 0), // Slowpoke
         new(120, 0), // Staryu
@@ -43,7 +43,7 @@ public static class Encounters5DR
     #endregion
     #region DreamWorld Encounter
 
-    public static readonly EncounterStatic5[] DreamWorld_Common = DreamWorldEntry.GetArray(Gen5, stackalloc DreamWorldEntry[]
+    public static readonly EncounterStatic5Entree[] DreamWorld_Common = DreamWorldEntry.GetArray(Gen5, stackalloc DreamWorldEntry[]
     {
         // Pleasant Forest
         new(019, 10, 098, 382, 231), // Rattata

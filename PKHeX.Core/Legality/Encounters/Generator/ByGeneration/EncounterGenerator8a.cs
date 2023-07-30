@@ -18,13 +18,13 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G8A;
-            foreach (var enc in GetPossibleGifts(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Static))
         {
             var table = Encounters8a.StaticLA;
-            foreach (var enc in GetPossibleStatic(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
 
@@ -36,21 +36,7 @@ public sealed class EncounterGenerator8a : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WA8> table)
-    {
-        foreach (var e in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != e.Species)
-                    continue;
-                yield return e;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic8a[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, IReadOnlyList<T> table) where T : IEncounterTemplate
     {
         foreach (var e in table)
         {

@@ -64,8 +64,6 @@ public static class MoveApplicator
         pk.SetMoves(moves);
         if (maxPP && Legal.IsPPUpAvailable(pk))
             pk.SetMaximumPPUps(moves);
-        else
-            pk.SetMaximumPPCurrent(moves);
         pk.FixMoves();
     }
 

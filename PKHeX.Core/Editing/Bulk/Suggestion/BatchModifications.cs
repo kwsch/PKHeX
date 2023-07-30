@@ -120,7 +120,6 @@ internal static class BatchModifications
     public static ModifyResult SetMoves(PKM pk, ReadOnlySpan<ushort> moves)
     {
         pk.SetMoves(moves);
-        pk.HealPP();
         return ModifyResult.Modified;
     }
 

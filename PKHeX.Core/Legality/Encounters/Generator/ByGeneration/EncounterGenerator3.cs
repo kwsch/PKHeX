@@ -26,9 +26,21 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
         if (groups.HasFlag(Trade))
         {
-            var table = GetTrades(game);
-            foreach (var enc in GetPossibleTrades(chain, table, game))
-                yield return enc;
+            if (game is GameVersion.FR or GameVersion.LG)
+            {
+                var table = Encounters3FRLG.TradeGift_FRLG;
+                foreach (var enc in GetPossible(chain, table))
+                    yield return enc;
+                var specific = game is GameVersion.FR ? Encounters3FRLG.TradeGift_FR : Encounters3FRLG.TradeGift_LG;
+                foreach (var enc in GetPossible(chain, specific))
+                    yield return enc;
+            }
+            else
+            {
+                var specific = game is GameVersion.E ? Encounters3RSE.TradeGift_E : Encounters3RSE.TradeGift_RS;
+                foreach (var enc in GetPossible(chain, specific))
+                    yield return enc;
+            }
         }
         if (groups.HasFlag(Egg))
         {
@@ -44,8 +56,11 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         }
         if (groups.HasFlag(Static))
         {
+            var group = game is GameVersion.FR or GameVersion.LG ? Encounters3FRLG.StaticFRLG : Encounters3RSE.StaticRSE;
+            foreach (var enc in GetPossible(chain, group))
+                yield return enc;
             var table = GetStatic(game);
-            foreach (var enc in GetPossibleStatic(chain, table))
+            foreach (var enc in GetPossible(chain, table))
                 yield return enc;
         }
     }
@@ -69,24 +84,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade3[] table, GameVersion game)
-    {
-        foreach (var enc in table)
-        {
-            if (!enc.Version.Contains(game))
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleAreas(EvoCriteria[] chain, EncounterArea3[] areas)
+    private static IEnumerable<EncounterSlot3> GetPossibleAreas(EvoCriteria[] chain, EncounterArea3[] areas)
     {
         foreach (var area in areas)
         {
@@ -103,7 +101,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         }
     }
 
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic3[] table)
+    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterTemplate
     {
         foreach (var enc in table)
         {
@@ -171,24 +169,61 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         }
 
         // Trades
-        var trades = GetTrades(game);
-        foreach (var z in trades)
+
+        if (game is GameVersion.FR or GameVersion.LG)
         {
-            if (!z.Version.Contains(game))
-                continue;
-
-            foreach (var evo in chain)
+            foreach (var enc in Encounters3FRLG.TradeGift_FRLG)
             {
-                if (evo.Species != z.Species)
-                    continue;
-                if (!z.IsMatchExact(pk, evo))
-                    break;
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (!enc.IsMatchExact(pk, evo))
+                        break;
 
-                // Don't bother deferring matches.
-                var match = z.GetMatchRating(pk);
-                if (match != PartialMatch)
-                    yield return z;
-                break;
+                    // Don't bother deferring matches.
+                    var match = enc.GetMatchRating(pk);
+                    if (match != PartialMatch)
+                        yield return enc;
+                    break;
+                }
+            }
+            var specific = game is GameVersion.FR ? Encounters3FRLG.TradeGift_FR : Encounters3FRLG.TradeGift_LG;
+            foreach (var enc in specific)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (!enc.IsMatchExact(pk, evo))
+                        break;
+
+                    // Don't bother deferring matches.
+                    var match = enc.GetMatchRating(pk);
+                    if (match != PartialMatch)
+                        yield return enc;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            var specific = game is GameVersion.E ? Encounters3RSE.TradeGift_E : Encounters3RSE.TradeGift_RS;
+            foreach (var enc in specific)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != enc.Species)
+                        continue;
+                    if (!enc.IsMatchExact(pk, evo))
+                        break;
+
+                    // Don't bother deferring matches.
+                    var match = enc.GetMatchRating(pk);
+                    if (match != PartialMatch)
+                        yield return enc;
+                    break;
+                }
             }
         }
 
@@ -200,12 +235,27 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         bool safari = pk.Ball == (byte)Ball.Safari; // never static encounters
         if (!safari)
         {
+            var group = game is GameVersion.FR or GameVersion.LG ? Encounters3FRLG.StaticFRLG : Encounters3RSE.StaticRSE;
+            foreach (var z in group)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != z.Species)
+                        continue;
+                    if (!z.IsMatchExact(pk, evo))
+                        break;
+
+                    var match = z.GetMatchRating(pk);
+                    if (match == PartialMatch)
+                        partial ??= z;
+                    else
+                        yield return z;
+                    break;
+                }
+            }
             var table = GetStatic(game);
             foreach (var z in table)
             {
-                if (!z.Version.Contains(game))
-                    continue;
-
                 foreach (var evo in chain)
                 {
                     if (evo.Species != z.Species)
@@ -323,16 +373,6 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         GameVersion.E => Encounters3RSE.SlotsE,
         GameVersion.FR => Encounters3FRLG.SlotsFR,
         GameVersion.LG => Encounters3FRLG.SlotsLG,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
-
-    private static EncounterTrade3[] GetTrades(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.R => Encounters3RSE.TradeGift_RSE,
-        GameVersion.S => Encounters3RSE.TradeGift_RSE,
-        GameVersion.E => Encounters3RSE.TradeGift_RSE,
-        GameVersion.FR => Encounters3FRLG.TradeGift_FRLG,
-        GameVersion.LG => Encounters3FRLG.TradeGift_FRLG,
         _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
     };
 

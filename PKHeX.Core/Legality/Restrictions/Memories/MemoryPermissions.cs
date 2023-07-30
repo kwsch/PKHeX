@@ -172,11 +172,12 @@ public static class MemoryPermissions
     {
         EntityContext.Gen6 => version switch
         {
-            GameVersion.Any => GetCanBeCaptured(species, SlotsX, StaticX) || GetCanBeCaptured(species, SlotsY, StaticY)
-                                                                          || GetCanBeCaptured(species, SlotsA, StaticA) || GetCanBeCaptured(species, SlotsO, StaticO),
+            GameVersion.Any => GetCanBeCaptured(species, SlotsX, Encounter_XY) || species == (int)Xerneas
+                            || GetCanBeCaptured(species, SlotsY, Encounter_XY) || species == (int)Yveltal
+                            || GetCanBeCaptured(species, SlotsA, StaticA) || GetCanBeCaptured(species, SlotsO, StaticO),
 
-            GameVersion.X => GetCanBeCaptured(species, SlotsX, StaticX),
-            GameVersion.Y => GetCanBeCaptured(species, SlotsY, StaticY),
+            GameVersion.X => GetCanBeCaptured(species, SlotsX, Encounter_XY) || species == (int)Xerneas,
+            GameVersion.Y => GetCanBeCaptured(species, SlotsY, Encounter_XY) || species == (int)Yveltal,
 
             GameVersion.AS => GetCanBeCaptured(species, SlotsA, StaticA),
             GameVersion.OR => GetCanBeCaptured(species, SlotsO, StaticO),
