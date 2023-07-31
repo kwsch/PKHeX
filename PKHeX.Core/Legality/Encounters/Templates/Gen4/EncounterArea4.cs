@@ -7,15 +7,15 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.Gen4"/> encounter area
 /// </summary>
-public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, IGroundTypeTile
+public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGType, IGroundTypeTile
 {
     public EncounterSlot4[] Slots { get; }
     public GameVersion Version { get; }
+    public SlotType Type { get; }
     public GroundTileAllowed GroundTile { get; }
 
     public readonly ushort Location;
     public readonly byte Rate;
-    public readonly SlotType Type;
 
     public static EncounterArea4[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {

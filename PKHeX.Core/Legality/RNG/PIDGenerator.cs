@@ -352,7 +352,7 @@ public static class PIDGenerator
         if (pk.Nature != nature)
             return false;
 
-        if ((pk.PID & 1) != ability)
+        if ((pk.EncryptionConstant & 1) != ability)
             return false;
 
         return true;

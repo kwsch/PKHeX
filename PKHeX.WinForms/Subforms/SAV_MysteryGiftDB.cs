@@ -232,22 +232,20 @@ public partial class SAV_MysteryGiftDB : Form
             System.Media.SystemSounds.Asterisk.Play();
     }
 
+    private static Func<MysteryGift, bool> IsPresent<TTable>(TTable pt) where TTable : IPersonalTable => z => pt.IsPresentInGame(z.Species, z.Form);
+
     private void LoadDatabase()
     {
         var db = EncounterEvent.GetAllEvents();
 
         if (Main.Settings.MysteryDb.FilterUnavailableSpecies)
         {
-            static bool IsPresentInGameSV(ISpeciesForm pk) => PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameSWSH(ISpeciesForm pk) => PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameBDSP(ISpeciesForm pk) => PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameLA(ISpeciesForm pk) => PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form);
             db = SAV switch
             {
-                SAV9SV => db.Where(IsPresentInGameSV),
-                SAV8SWSH => db.Where(IsPresentInGameSWSH),
-                SAV8BS => db.Where(IsPresentInGameBDSP),
-                SAV8LA => db.Where(IsPresentInGameLA),
+                SAV9SV s9 => db.Where(IsPresent(s9.Personal)),
+                SAV8SWSH s8 => db.Where(IsPresent(s8.Personal)),
+                SAV8BS b8 => db.Where(IsPresent(b8.Personal)),
+                SAV8LA a8 => db.Where(IsPresent(a8.Personal)),
                 SAV7b => db.Where(z => z is WB7),
                 SAV7 => db.Where(z => z.Generation < 7 || z is WC7),
                 _ => db.Where(z => z.Generation <= SAV.Generation),

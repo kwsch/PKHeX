@@ -267,4 +267,10 @@ public sealed record EncounterTrade4PID
         }
         return currentLanguageID;
     }
+
+    public bool IsIncorrectEnglish(PKM pk)
+    {
+        // Localized English forgot to change the Language ID values.
+        return pk is { Language: (int)LanguageID.English, Version: (int)GameVersion.D or (int)GameVersion.P };
+    }
 }

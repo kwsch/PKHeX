@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>
 /// When encountering a Wild Pokémon with a lead that has an ability of <see cref="Ability.Static"/> or <see cref="Ability.MagnetPull"/>,
-/// the game picks encounters from the <seealso cref="EncounterArea"/> that match the type.
+/// the game picks encounters from the <seealso cref="IEncounterArea{T}"/> that match the type.
 /// The values in this interface change the <seealso cref="INumberedSlot"/> to allow different values for slot yielding.
 /// </remarks>
 public interface IMagnetStatic

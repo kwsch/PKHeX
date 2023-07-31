@@ -5,5 +5,8 @@ namespace PKHeX.Core;
 /// </summary>
 public interface IEncounterFormRandom
 {
+    /// <summary>
+    /// Indicates if the form is random and unspecified.
+    /// </summary>
     bool IsRandomUnspecificForm { get; }
 }

@@ -1,5 +1,8 @@
 namespace PKHeX.Core;
 
+/// <summary>
+/// Contains information about the level range the object originates with.
+/// </summary>
 public interface ILevelRange
 {
     /// <summary>

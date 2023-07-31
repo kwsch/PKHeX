@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using static PKHeX.Core.Encounters6XY;
-using static PKHeX.Core.Encounters6AO;
-using static PKHeX.Core.Encounters8;
 using static PKHeX.Core.Move;
 using static PKHeX.Core.Species;
 
@@ -170,43 +167,10 @@ public static class MemoryPermissions
 
     public static bool GetCanBeCaptured(ushort species, EntityContext gen, GameVersion version) => gen switch
     {
-        EntityContext.Gen6 => version switch
-        {
-            GameVersion.Any => GetCanBeCaptured(species, SlotsX, Encounter_XY) || species == (int)Xerneas
-                            || GetCanBeCaptured(species, SlotsY, Encounter_XY) || species == (int)Yveltal
-                            || GetCanBeCaptured(species, SlotsA, StaticA) || GetCanBeCaptured(species, SlotsO, StaticO),
-
-            GameVersion.X => GetCanBeCaptured(species, SlotsX, Encounter_XY) || species == (int)Xerneas,
-            GameVersion.Y => GetCanBeCaptured(species, SlotsY, Encounter_XY) || species == (int)Yveltal,
-
-            GameVersion.AS => GetCanBeCaptured(species, SlotsA, StaticA),
-            GameVersion.OR => GetCanBeCaptured(species, SlotsO, StaticO),
-            _ => false,
-        },
-        EntityContext.Gen8 => version switch
-        {
-            GameVersion.Any => GetCanBeCaptured(species, SlotsSW, StaticSW) || GetCanBeCaptured(species, SlotsSH, StaticSH),
-            GameVersion.SW => GetCanBeCaptured(species, SlotsSW, StaticSW),
-            GameVersion.SH => GetCanBeCaptured(species, SlotsSH, StaticSH),
-            _ => false,
-        },
+        EntityContext.Gen6 => MemoryContext6.GetCanBeCaptured(species, version),
+        EntityContext.Gen8 => MemoryContext8.GetCanBeCaptured(species, version),
         _ => false,
     };
-
-    private static bool GetCanBeCaptured<TArea, TStatic>(ushort species, TArea[] areas, TStatic[] statics) where TArea : IMemorySpeciesArea where TStatic : IEncounterTemplate
-    {
-        foreach (var area in areas)
-        {
-            if (area.HasSpecies(species))
-                return true;
-        }
-        foreach (var s in statics)
-        {
-            if (s.Species == species)
-                return true;
-        }
-        return false;
-    }
 
     public static bool GetCanDynamaxTrainer(ushort species, int gen, GameVersion version)
     {

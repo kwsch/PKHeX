@@ -19,7 +19,6 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
     public bool IsShiny => false;
     public int Location => 0;
 
-
     public const ushort UnspecifiedID = 0;
 
     public Shiny Shiny { get; init; } = Shiny.Random;
@@ -42,39 +41,6 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
-
-    private PK1 GetBlank(ITrainerInfo tr) => Language switch
-    {
-        EncounterGBLanguage.Japanese => new(true),
-        EncounterGBLanguage.International => new(),
-        _ => new(tr.Language == 1),
-    };
-
-    private void ApplyDetails(ITrainerInfo tr, EncounterCriteria criteria, PKM pk)
-    {
-        var pk1 = (PK1)pk;
-
-        // Encounters can have different Catch Rates (RBG vs Y)
-        var table = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
-        pk1.Catch_Rate = (byte)table[Species].CatchRate;
-
-        if (Version == GameVersion.Stadium)
-        {
-            // Amnesia Psyduck has different catch rates depending on language
-            if (Species == (int)Core.Species.Psyduck)
-                pk1.Catch_Rate = pk1.Japanese ? (byte)167 : (byte)168;
-            else
-                pk1.Catch_Rate = Util.Rand.Next(2) == 0 ? (byte)167 : (byte)168;
-        }
-
-        if (TID16 != UnspecifiedID)
-            pk.TID16 = TID16;
-
-        if (OT_Name.Length != 0)
-            pk.OT_Name = OT_Name;
-        else if (OT_Names.Count != 0)
-            pk.OT_Name = OT_Names[Util.Rand.Next(OT_Names.Count)];
-    }
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
@@ -100,6 +66,22 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
+
+        if (TID16 != UnspecifiedID)
+            pk.TID16 = TID16;
+        if (OT_Name.Length != 0)
+            pk.OT_Name = OT_Name;
+        else if (OT_Names.Count != 0)
+            pk.OT_Name = OT_Names[Util.Rand.Next(OT_Names.Count)];
+
+        if (Version == GameVersion.Stadium)
+        {
+            // Amnesia Psyduck has different catch rates depending on language
+            if (Species == (int)Core.Species.Psyduck)
+                pk.Catch_Rate = pk.Japanese ? (byte)167 : (byte)168;
+            else
+                pk.Catch_Rate = Util.Rand.Next(2) == 0 ? (byte)167 : (byte)168;
+        }
 
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
 

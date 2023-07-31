@@ -29,6 +29,8 @@ public enum Shiny : byte
 /// </summary>
 public static class ShinyExtensions
 {
+    public static bool ShowSquareBeforeGen8 { get; set; }
+
     public static bool IsValid(this Shiny s, PKM pk) => s switch
     {
         Shiny.Always => pk.IsShiny,
@@ -46,8 +48,6 @@ public static class ShinyExtensions
         _ => false,
     };
 
-    public static bool ShowSquareBeforeGen8 { get; set; }
-
     public static Shiny GetType(PKM pk)
     {
         bool shiny = pk.IsShiny;
@@ -59,6 +59,11 @@ public static class ShinyExtensions
         return Shiny.AlwaysStar;
     }
 
+    /// <summary>
+    /// Indicates if square shiny exists and is logical to show to the user.
+    /// </summary>
+    /// <param name="pk">Entity to check</param>
+    /// <returns>True if square shiny exists and is logical to show to the user.</returns>
     public static bool IsSquareShinyExist(PKM pk)
     {
         if (pk.Format < 8 && !ShowSquareBeforeGen8)

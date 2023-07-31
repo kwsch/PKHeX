@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.SWSH"/> encounter area
 /// </summary>
-public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IMemorySpeciesArea
+public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>
 {
     public EncounterSlot8[] Slots { get; }
     public GameVersion Version { get; }
@@ -404,15 +404,5 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IMemorySpe
         } while (ctr != slots.Length);
 
         return slots;
-    }
-
-    public bool HasSpecies(ushort species)
-    {
-        foreach (var slot in Slots)
-        {
-            if (slot.Species == species)
-                return true;
-        }
-        return false;
     }
 }

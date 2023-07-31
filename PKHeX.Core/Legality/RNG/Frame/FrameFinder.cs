@@ -20,6 +20,7 @@ public static class FrameFinder
         if (pk.Version == (int)GameVersion.CXD)
             return Array.Empty<Frame>();
 
+        // Don't trust pk.Nature, just get the correct original via EncryptionConstant
         var info = new FrameGenerator(pk) {Nature = pk.EncryptionConstant % 25};
         var seeds = GetSeeds(pidiv, info, pk);
         var frames = pidiv.Type == PIDType.CuteCharm

@@ -299,7 +299,7 @@ public static class FileUtil
         if (!fi.Exists)
             return null;
         if (fi.Length == GP1.SIZE && TryGetGP1(File.ReadAllBytes(file), out var gp1))
-            return gp1.ConvertToPB7(sav);
+            return gp1.ConvertToPKM(sav);
         if (!EntityDetection.IsSizePlausible(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
             return null;
         var data = File.ReadAllBytes(file);

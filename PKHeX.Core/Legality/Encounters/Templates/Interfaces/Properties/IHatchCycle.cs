@@ -1,13 +1,4 @@
-using System;
-
 namespace PKHeX.Core;
-
-public interface IFixedTrainer
-{
-    bool IsFixedTrainer { get; }
-
-    bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language);
-}
 
 /// <summary>
 /// Contains information about initial Hatch Cycles

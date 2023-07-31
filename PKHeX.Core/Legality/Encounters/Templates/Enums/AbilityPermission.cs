@@ -20,6 +20,11 @@ public enum AbilityPermission : sbyte
 /// </summary>
 public static class AbilityPermissionExtensions
 {
+    /// <summary>
+    /// Returns the <see cref="AbilityPermission"/> value for the given index.
+    /// </summary>
+    /// <param name="value">Value to fetch the index for</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static byte GetSingleValue(this AbilityPermission value) => value switch
     {
         OnlyFirst => 0,
@@ -28,6 +33,12 @@ public static class AbilityPermissionExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(value)),
     };
 
+    /// <summary>
+    /// Returns the <see cref="AbilityPermission"/> value for the given index.
+    /// </summary>
+    /// <param name="value">Value to fetch the index for</param>
+    /// <param name="index">Index to use</param>
+    /// <returns>True if single index.</returns>
     public static bool IsSingleValue(this AbilityPermission value, out int index)
     {
         switch (value)
@@ -39,6 +50,11 @@ public static class AbilityPermissionExtensions
         }
     }
 
+    /// <summary>
+    /// Indicates if the given <see cref="AbilityPermission"/> value can be initially obtained with a hidden ability.
+    /// </summary>
+    /// <param name="value">Value to check</param>
+    /// <returns>True if can be hidden.</returns>
     public static bool CanBeHidden(this AbilityPermission value) => value switch
     {
         Any12H => true,

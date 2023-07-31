@@ -25,9 +25,9 @@ internal static class Encounters6XY
         new(XY) { FixedBall = Ball.Poke, Species = 656, Level = 5, Location = 10 }, // Froakie
 
         // Kanto Starters @ Lumiose City
-        new(XY) { FixedBall = Ball.Poke, Species = 1, Level = 10, Location = 22 }, // Bulbasaur
-        new(XY) { FixedBall = Ball.Poke, Species = 4, Level = 10, Location = 22 }, // Charmander
-        new(XY) { FixedBall = Ball.Poke, Species = 7, Level = 10, Location = 22 }, // Squirtle
+        new(XY) { FixedBall = Ball.Poke, Species = 001, Level = 10, Location = 22 }, // Bulbasaur
+        new(XY) { FixedBall = Ball.Poke, Species = 004, Level = 10, Location = 22 }, // Charmander
+        new(XY) { FixedBall = Ball.Poke, Species = 007, Level = 10, Location = 22 }, // Squirtle
 
         // Fossils @ Ambrette Town
         new(XY) { FixedBall = Ball.Poke, Species = 138, Level = 20, Location = 44 }, // Omanyte

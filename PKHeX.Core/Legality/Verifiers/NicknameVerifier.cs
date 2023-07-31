@@ -329,7 +329,7 @@ public sealed class NicknameVerifier : Verifier
     private static void VerifyTrade4(LegalityAnalysis data, EncounterTrade4PID t)
     {
         var pk = data.Entity;
-        if (pk is { Language: (int)English, Version: (int)GameVersion.D or (int)GameVersion.P })
+        if (t.IsIncorrectEnglish(pk))
             data.AddLine(GetInvalid(string.Format(LOTLanguage, Japanese, English), CheckIdentifier.Language));
         var lang = t.DetectOriginalLanguage(pk);
         VerifyTrade(data, t, lang);
@@ -341,36 +341,24 @@ public sealed class NicknameVerifier : Verifier
         int lang = pk.Language;
         if (t.Species == (int)Species.Magikarp)
         {
-            // Japanese 
-            if (pk is { Language: (int)Japanese, OT_Name: "Diamond." or "Pearl." })
+            if (t.IsMagikarpJapaneseTradedBDSP(pk))
             {
-                // Traded between players, the original OT is replaced with the above OT (version dependent) as the original OT is >6 chars in length.
                 VerifyTrainerName(data, t, (int)German);
                 return;
             }
 
-            lang = DetectTradeLanguageG8MeisterMagikarp(pk, t, lang);
-            if (lang == 0) // err
+            lang = t.DetectMeisterMagikarpLanguage(pk.Nickname, pk.OT_Name, lang);
+            if (lang == -1) // err
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"{Japanese}/{German}", $"{(LanguageID)pk.Language}"), CheckIdentifier.Language));
         }
 
-        if (t.Species == (int)Species.Chatot && pk is { Language: (int)French, IsNicknamed: false })
+        if (t.IsPijako(pk))
         {
-            // NgWord disallows the French nickname (Pijouk) and resets it back to default (Pijako).
             // Let it be anything (Nicknamed or not) and just verify the OT.
             VerifyTradeOTOnly(data, t);
             return;
         }
         VerifyTrade(data, t, lang);
-    }
-
-    private static int DetectTradeLanguageG8MeisterMagikarp(PKM pk, EncounterTrade8b t, int currentLanguageID)
-    {
-        // Receiving the trade on a German game -> Japanese LanguageID.
-        // Receiving the trade on any other language -> German LanguageID.
-        if (currentLanguageID is not ((int)Japanese or (int)German))
-            return 0;
-        return t.DetectMeisterMagikarpLanguage(pk.Nickname, pk.OT_Name, currentLanguageID);
     }
 
     private static void VerifyEncounterTrade5(LegalityAnalysis data, EncounterTrade5BW t)

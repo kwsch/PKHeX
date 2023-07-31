@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
 /// </summary>
-public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOnly
+public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOnly, IEncounterConvertible<PB7>
 {
     public const int SIZE = 0x1B0;
     public readonly byte[] Data;
@@ -20,8 +20,6 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     public int Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
     public AbilityPermission Ability => AbilityPermission.Any12;
-    public PKM ConvertToPKM(ITrainerInfo tr) => ConvertToPB7(tr);
-    public PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPB7(tr, criteria);
 
     public GP1(byte[] data) => Data = data;
     public GP1() : this(new byte[SIZE]) => InitializeBlank(Data);
@@ -136,9 +134,11 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     /// </summary>
     public const byte InitialAV = 2;
 
-    public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+    public PB7 ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
-    public PB7 ConvertToPB7(ITrainerInfo sav, EncounterCriteria criteria)
+    public PB7 ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
     {
         var rnd = Util.Rand;
         var pk = new PB7

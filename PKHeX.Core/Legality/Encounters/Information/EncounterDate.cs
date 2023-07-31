@@ -2,11 +2,31 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Logic for console specific date validity.
+/// </summary>
 public static class EncounterDate
 {
-    private static DateTime Now => DateTime.Now;
+    /// <summary>
+    /// Time provider to use for date fetching.
+    /// </summary>
+    public static ITimeProvider TimeProvider { get; set; } = DefaultTimeProvider.Instance;
+
+    private static DateTime Now => TimeProvider.Now;
+
+    /// <summary>
+    /// Fetches a valid date for the Nintendo DS.
+    /// </summary>
     public static DateOnly GetDateNDS() => DateOnly.FromDateTime(Now);
+
+    /// <summary>
+    /// Fetches a valid date for the Nintendo 3DS.
+    /// </summary>
     public static DateOnly GetDate3DS() => DateOnly.FromDateTime(Now);
+
+    /// <summary>
+    /// Fetches a valid date for the Nintendo Switch.
+    /// </summary>
     public static DateOnly GetDateSwitch() => DateOnly.FromDateTime(Now);
 
     public static bool IsValidDateNDS(DateOnly date)
@@ -29,4 +49,28 @@ public static class EncounterDate
             return false;
         return true;
     }
+}
+
+/// <summary>
+/// Default time provider that uses <see cref="DateTime.Now"/>.
+/// </summary>
+public sealed class DefaultTimeProvider : ITimeProvider
+{
+    /// <summary>
+    /// Singleton instance of the default time provider.
+    /// </summary>
+    public static readonly DefaultTimeProvider Instance = new();
+
+    public DateTime Now => DateTime.Now;
+}
+
+/// <summary>
+/// Interface for fetching the current time.
+/// </summary>
+public interface ITimeProvider
+{
+    /// <summary>
+    /// Fetches the current time.
+    /// </summary>
+    DateTime Now { get; }
 }

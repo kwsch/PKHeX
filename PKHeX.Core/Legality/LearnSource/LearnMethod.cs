@@ -47,7 +47,7 @@ public static class LearnMethodExtensions
     public static bool IsValid(this LearnMethod method) => method >= Empty;
 
     /// <summary>
-    /// CHecks if the <see cref="LearnMethod"/> is expecting another move instead.
+    /// Checks if the <see cref="LearnMethod"/> is expecting another move instead.
     /// </summary>
     /// <param name="method">Method to check</param>
     /// <returns>True if the method is valid, false otherwise.</returns>

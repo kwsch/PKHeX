@@ -12,6 +12,23 @@ public sealed partial class MemoryContext8 : MemoryContext
 
     public override EntityContext Context => EntityContext.Gen8;
 
+    public static bool GetCanBeCaptured(ushort species, GameVersion version) => version switch
+    {
+        GameVersion.Any => GetCanBeCaptured(species, CaptureFlagsSW) || GetCanBeCaptured(species, CaptureFlagsSH),
+        GameVersion.SW  => GetCanBeCaptured(species, CaptureFlagsSW),
+        GameVersion.SH  => GetCanBeCaptured(species, CaptureFlagsSH),
+        _ => false,
+    };
+
+    private static bool GetCanBeCaptured(ushort species, ReadOnlySpan<byte> flags)
+    {
+        int offset = species >> 3;
+        if (offset >= flags.Length)
+            return false;
+        int bitIndex = species & 7;
+        return (flags[offset] & (1 << bitIndex)) != 0;
+    }
+
     public override IEnumerable<ushort> GetMemoryItemParams()
     {
         var hashSet = new HashSet<ushort>(Legal.HeldItems_SWSH);

@@ -196,6 +196,11 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
 
     public int DetectMeisterMagikarpLanguage(ReadOnlySpan<char> nick, ReadOnlySpan<char> ot, int currentLanguageID)
     {
+        // Receiving the trade on a German game -> Japanese LanguageID.
+        // Receiving the trade on any other language -> German LanguageID.
+        if (currentLanguageID is not ((int)LanguageID.Japanese or (int)LanguageID.German))
+            return -1;
+
         for (int i = 1; i < (int)LanguageID.ChineseT; i++)
         {
             if (!nick.SequenceEqual(Nicknames[i]))
@@ -207,8 +212,28 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
             var shouldNotBe = currentLanguageID == (int)LanguageID.German ? LanguageID.German : LanguageID.Japanese;
             return i != (int)shouldNotBe ? i : 0;
         }
-        return 0;
+        return -1;
     }
 
     #endregion
+
+    /// <summary>
+    /// Traded between players within BD/SP, the original OT is replaced with the above OT (version dependent) as the original OT is >6 chars in length.
+    /// </summary>
+    /// <param name="pk">Entity to check.</param>
+    /// <returns>True if matches the pattern of a traded Magikarp.</returns>
+    public bool IsMagikarpJapaneseTradedBDSP(PKM pk)
+    {
+        return Species is (int)Core.Species.Magikarp && pk is { Language: (int)LanguageID.Japanese, OT_Name: "Diamond." or "Pearl." };
+    }
+
+    /// <summary>
+    /// Nintendo Switch updates NgWord disallows the French nickname (Pijouk) and resets it back to default (Pijako).
+    /// </summary>
+    /// <param name="pk">Entity to check.</param>
+    /// <returns>True if matches the pattern of a reverted Nickname Pijako.</returns>
+    public bool IsPijako(PKM pk)
+    {
+        return Species == (int)Core.Species.Chatot && pk is { Language: (int)LanguageID.French, IsNicknamed: false };
+    }
 }
