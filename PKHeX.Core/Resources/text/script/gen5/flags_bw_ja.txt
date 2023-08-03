@@ -35,7 +35,7 @@
 0685	a	Battle Subway: does not possess super multi trophy
 0767	r	Route 6	 Capture/Defeat Foongus
 0768	r	Route 6	 Capture/Defeat Foongus
-0769	r	Route 10 Capture/Defeat Amoongus
-0770	r	Route 10 Capture/Defeat Amoongus
+0769	r	Route 10 Capture/Defeat Amoonguss
+0770	r	Route 10 Capture/Defeat Amoonguss
 0771	r	Route 10 Capture/Defeat Foongus
 0772	r	Route 10 Capture/Defeat Foongus
