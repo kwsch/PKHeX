@@ -98,7 +98,10 @@ internal static class Encounters3Colo
         new(57, 07000, First)     { Species = 213, Level = 45, Moves = new(219,227,156,117), Location = 125 }, // Shuckle: Deep King Agnol @ Deep Colosseum
 
         new(67, 05000, First)     { Species = 176, Level = 20, Moves = new(118,204,186,281), Location = 001 }, // Togetic: Cipher Peon Fein @ Outskirt Stand
+    };
 
+    public static readonly EncounterShadow3Colo[] EReader =
+    {
         // Japanese E-Reader: 0 IVs
         new(00, 00000, CTogepi)   { Species = 175, Level = 20, Moves = new(118,204,186,281), Location = 128 }, // Togepi: Chaser ボデス @ Card e Room (Japanese games only)
         new(00, 00000, CMareep)   { Species = 179, Level = 37, Moves = new(087,084,086,178), Location = 128 }, // Mareep: Hunter ホル @ Card e Room (Japanese games only)

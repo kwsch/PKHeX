@@ -81,7 +81,26 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Handled by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (Form != evo.Form && Species is not (int)Core.Species.Burmy)
+            return false;
+
+        if (pk.Format == 3)
+        {
+            // Must match level exactly.
+            if (!this.IsLevelWithinRange(pk.Met_Level))
+                return false;
+        }
+        else
+        {
+            if (evo.LevelMax < LevelMin)
+                return false;
+        }
+
+        return true;
+    }
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

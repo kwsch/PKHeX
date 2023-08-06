@@ -69,6 +69,8 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
                 Index = 0; State = YieldState.Bred; goto case YieldState.Bred;
 
             case YieldState.Bred:
+                if (!Locations.IsEggLocationBred8b(Entity.Egg_Location))
+                { State = YieldState.TradeStart; goto case YieldState.TradeStart; }
                 if (!EncounterGenerator8b.TryGetEgg(Chain, Version, out var egg))
                 { State = YieldState.TradeStart; goto case YieldState.TradeStart; }
                 State = YieldState.BredSplit;

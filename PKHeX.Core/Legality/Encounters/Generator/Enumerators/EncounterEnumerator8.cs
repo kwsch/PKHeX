@@ -105,7 +105,7 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
                     return SetCurrent(trade);
                 if (Yielded)
                     break;
-                State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
 
             case YieldState.StartCaptures:
                 InitializeWildLocationInfo();
@@ -132,11 +132,11 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.SlotSWHidden:
                 if (TryGetNext<EncounterArea8, EncounterSlot8>(Encounters8.SlotsSW_Hidden, out var hidSW))
                     return SetCurrent(hidSW);
-                goto case YieldState.EndSlot;
+                Index = 0; goto case YieldState.EndSlot;
             case YieldState.SlotSHHidden:
                 if (TryGetNext<EncounterArea8, EncounterSlot8>(Encounters8.SlotsSH_Hidden, out var hidSH))
                     return SetCurrent(hidSH);
-                goto case YieldState.EndSlot;
+                Index = 0; goto case YieldState.EndSlot;
             case YieldState.EndSlot:
                 if (!mustBeWild)
                     goto case YieldState.Fallback; // already checked everything else
@@ -195,8 +195,6 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
                 if (Deferred != null)
                     return SetCurrent(new MatchedEncounter<IEncounterable>(Deferred, Rating));
                 break;
-            case YieldState.End:
-                return false;
         }
         return false;
     }

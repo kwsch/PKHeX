@@ -61,18 +61,18 @@ public record struct EncounterEnumerator7GG(PKM Entity, EvoCriteria[] Chain, Gam
                 State = YieldState.Event; goto case YieldState.Event;
 
             case YieldState.TradeStart:
-                if (Version == GameVersion.SW)
+                if (Version == GameVersion.GP)
                 { State = YieldState.TradeGP; goto case YieldState.TradeGP; }
-                if (Version == GameVersion.SH)
+                if (Version == GameVersion.GE)
                 { State = YieldState.TradeGE; goto case YieldState.TradeGE; }
                 break;
             case YieldState.TradeGP:
-                if (TryGetNext(Encounters7GG.TradeGift_GP, out var trSW))
-                    return SetCurrent(trSW);
+                if (TryGetNext(Encounters7GG.TradeGift_GP, out var trGP))
+                    return SetCurrent(trGP);
                 Index = 0; State = YieldState.TradeShared; goto case YieldState.TradeShared;
             case YieldState.TradeGE:
-                if (TryGetNext(Encounters7GG.TradeGift_GE, out var trSH))
-                    return SetCurrent(trSH);
+                if (TryGetNext(Encounters7GG.TradeGift_GE, out var trGE))
+                    return SetCurrent(trGE);
                 Index = 0; State = YieldState.TradeShared; goto case YieldState.TradeShared;
             case YieldState.TradeShared:
                 if (TryGetNext(Encounters7GG.TradeGift_GG, out var trade))
@@ -106,7 +106,6 @@ public record struct EncounterEnumerator7GG(PKM Entity, EvoCriteria[] Chain, Gam
                     return SetCurrent(s);
                 if (Yielded)
                     break;
-                InitializeWildLocationInfo();
                 Index = 0; State = YieldState.StartSlot; goto case YieldState.StartSlot;
 
             case YieldState.StartSlot:
@@ -118,11 +117,11 @@ public record struct EncounterEnumerator7GG(PKM Entity, EvoCriteria[] Chain, Gam
                 { State = YieldState.SlotGE; goto case YieldState.SlotGE; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.SlotGP:
-                if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsBD, out var slotGP))
+                if (TryGetNext<EncounterArea7b, EncounterSlot7b>(Encounters7GG.SlotsGP, out var slotGP))
                     return SetCurrent(slotGP);
                 goto case YieldState.Fallback; // already checked everything else
             case YieldState.SlotGE:
-                if (TryGetNext<EncounterArea7b, EncounterSlot7b>(Encounters7GG.SlotsGP, out var slotGE))
+                if (TryGetNext<EncounterArea7b, EncounterSlot7b>(Encounters7GG.SlotsGE, out var slotGE))
                     return SetCurrent(slotGE);
                 if (Yielded)
                     break;

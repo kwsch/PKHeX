@@ -148,6 +148,8 @@ public sealed record EncounterStatic8b(GameVersion Version)
 
     private bool IsMatchLocationExact(PKM pk)
     {
+        if (EggEncounter)
+            return !pk.IsEgg || pk.Met_Location == Location;
         if (!Roaming)
             return pk.Met_Location == Location;
         return IsRoamingLocation(pk);

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterStateUtil;
 using static PKHeX.Core.EncounterTypeGroup;
-using static PKHeX.Core.EncounterMatchRating;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -120,227 +118,26 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
     private static IEnumerable<IEncounterable> GetEncountersInner(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
         var game = (GameVersion)pk.Version;
-
-        // Mystery Gifts
-        foreach (var enc in EncountersWC3.Encounter_WC3)
+        var iterator = new EncounterEnumerator3(pk, chain, game);
+        EncounterSlot3? deferSlot = null;
+        List<Frame>? frames = null;
+        foreach (var enc in iterator)
         {
-            if (!enc.Version.Contains(game))
+            var e = enc.Encounter;
+            if (e is not EncounterSlot3 s3)
+            {
+                yield return e;
                 continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                // Don't bother deferring matches.
-                var match = enc.GetMatchRating(pk);
-                if (match < PartialMatch)
-                    yield return enc;
-                break;
-            }
-        }
-
-        // Trades
-
-        if (game is GameVersion.FR or GameVersion.LG)
-        {
-            foreach (var enc in Encounters3FRLG.TradeGift_FRLG)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != enc.Species)
-                        continue;
-                    if (!enc.IsMatchExact(pk, evo))
-                        break;
-
-                    // Don't bother deferring matches.
-                    var match = enc.GetMatchRating(pk);
-                    if (match < PartialMatch)
-                        yield return enc;
-                    break;
-                }
-            }
-            var specific = game is GameVersion.FR ? Encounters3FRLG.TradeGift_FR : Encounters3FRLG.TradeGift_LG;
-            foreach (var enc in specific)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != enc.Species)
-                        continue;
-                    if (!enc.IsMatchExact(pk, evo))
-                        break;
-
-                    // Don't bother deferring matches.
-                    var match = enc.GetMatchRating(pk);
-                    if (match < PartialMatch)
-                        yield return enc;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            var specific = game is GameVersion.E ? Encounters3RSE.TradeGift_E : Encounters3RSE.TradeGift_RS;
-            foreach (var enc in specific)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != enc.Species)
-                        continue;
-                    if (!enc.IsMatchExact(pk, evo))
-                        break;
-
-                    // Don't bother deferring matches.
-                    var match = enc.GetMatchRating(pk);
-                    if (match < PartialMatch)
-                        yield return enc;
-                    break;
-                }
-            }
-        }
-
-        IEncounterable? partial = null;
-
-        // Static Encounter
-        // Defer everything if Safari Ball
-        bool safari = pk.Ball == (byte)Ball.Safari; // never static encounters
-        if (!safari)
-        {
-            var group = game is GameVersion.FR or GameVersion.LG ? Encounters3FRLG.StaticFRLG : Encounters3RSE.StaticRSE;
-            foreach (var enc in group)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != enc.Species)
-                        continue;
-                    if (!enc.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = enc.GetMatchRating(pk);
-                    if (match < PartialMatch)
-                        yield return enc;
-                    else
-                        partial ??= enc;
-                    break;
-                }
-            }
-            var table = GetStatic(game);
-            foreach (var enc in table)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != enc.Species)
-                        continue;
-                    if (!enc.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = enc.GetMatchRating(pk);
-                    if (match < PartialMatch)
-                        yield return enc;
-                    else
-                        partial ??= enc;
-                    break;
-                }
-            }
-        }
-
-        // Encounter Slots
-        List<Frame>? wildFrames = null;
-        if (CanBeWildEncounter(pk))
-        {
-            IEncounterable? deferred = null;
-            wildFrames = AnalyzeFrames(pk, info);
-            var areas = GetAreas(game);
-            foreach (var area in areas)
-            {
-                var slots = area.GetMatchingSlots(pk, chain);
-                foreach (var enc in slots)
-                {
-                    var match = enc.GetMatchRating(pk);
-                    if (match >= PartialMatch)
-                    {
-                        partial ??= enc;
-                        continue;
-                    }
-
-                    var frame = wildFrames.Find(s => s.IsSlotCompatibile(enc, pk));
-                    if (frame == null)
-                    {
-                        deferred ??= enc;
-                        continue;
-                    }
-                    yield return enc;
-                }
             }
 
-            info.FrameMatches = false;
-            if (deferred is EncounterSlot3 x)
-                yield return x;
+            var wildFrames = frames ?? AnalyzeFrames(pk, info);
+            var frame = wildFrames.Find(s => s.IsSlotCompatibile(s3, pk));
+            if (frame != null)
+                yield return s3;
+            deferSlot ??= s3;
         }
-
-        // Due to the lack of Egg Met Location, eggs can be confused with Slots. Yield them now.
-        if (TryGetEgg(chain, game, out var egg))
-        {
-            yield return egg;
-            if (TryGetSplit(egg, chain, out var split))
-                yield return split;
-        }
-
-        if (partial is EncounterSlot3 y)
-        {
-            wildFrames ??= AnalyzeFrames(pk, info);
-            var frame = wildFrames.Find(s => s.IsSlotCompatibile(y, pk));
-            info.FrameMatches = frame != null;
-            yield return y;
-        }
-
-        // Do static encounters if they were deferred to end, spit out any possible encounters for invalid pk
-        if (!safari)
-            yield break;
-
-        partial = null;
-
-        var encStatic = game is GameVersion.FR or GameVersion.LG ? Encounters3FRLG.StaticFRLG : Encounters3RSE.StaticRSE;
-        foreach (var enc in encStatic)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                var match = enc.GetMatchRating(pk);
-                if (match < PartialMatch)
-                    yield return enc;
-                else
-                    partial ??= enc;
-                break;
-            }
-        }
-        var specificStatic = GetStatic(game);
-        foreach (var enc in specificStatic)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                var match = enc.GetMatchRating(pk);
-                if (match < PartialMatch)
-                    yield return enc;
-                else
-                    partial ??= enc;
-                break;
-            }
-        }
-
-        if (partial is not null)
-            yield return partial;
+        if (deferSlot != null)
+            yield return deferSlot;
     }
 
     private static List<Frame> AnalyzeFrames(PKM pk, LegalInfo info)

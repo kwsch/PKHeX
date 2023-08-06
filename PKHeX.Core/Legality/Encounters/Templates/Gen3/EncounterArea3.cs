@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,14 +6,16 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.Gen3"/> encounter area
 /// </summary>
-public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGType
+public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGType, IAreaLocation
 {
     public EncounterSlot3[] Slots { get; }
     public GameVersion Version { get; }
     public SlotType Type { get; }
 
     public readonly byte Rate;
-    public readonly ushort Location;
+    public readonly byte Location;
+
+    public bool IsMatchLocation(int location) => location == Location;
 
     public static EncounterArea3[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -34,7 +35,7 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
 
     private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game)
     {
-        Location = ReadUInt16LittleEndian(data);
+        Location = data[0];
         Type = (SlotType)data[2];
         Rate = data[3];
         Version = game;
@@ -44,7 +45,7 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
 
     private EncounterArea3(ReadOnlySpan<byte> data, GameVersion game, SlotType type)
     {
-        Location = ReadUInt16LittleEndian(data);
+        Location = data[0];
         Type = type;
         Rate = data[3];
         Version = game;
@@ -113,54 +114,5 @@ public sealed record EncounterArea3 : IEncounterArea<EncounterSlot3>, ISlotRNGTy
         );
 
         return new EncounterSlot3Swarm(this, species, min, max, slotNum, moves);
-    }
-
-    public IEnumerable<EncounterSlot3> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
-    {
-        if (pk.Format != 3) // Met Location and Met Level are changed on PK3->PK4
-            return GetSlotsFuzzy(chain);
-        if (pk.Met_Location != Location)
-            return Array.Empty<EncounterSlot3>();
-        return GetSlotsMatching(chain, pk.Met_Level);
-    }
-
-    private IEnumerable<EncounterSlot3> GetSlotsMatching(EvoCriteria[] chain, int lvl)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (slot.Form != evo.Form)
-                    break;
-                if (!slot.IsLevelWithinRange(lvl))
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-
-    private IEnumerable<EncounterSlot3> GetSlotsFuzzy(EvoCriteria[] chain)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (slot.Form != evo.Form)
-                    break;
-                if (slot.LevelMin > evo.LevelMax)
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
     }
 }

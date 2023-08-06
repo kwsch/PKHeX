@@ -39,6 +39,8 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                 yield return enc;
             foreach (var enc in GetPossibleAll(chain, Encounters3XD.Encounter_XDGift))
                 yield return enc;
+            foreach (var enc in GetPossibleAll(chain, Encounters3Colo.EReader))
+                yield return enc;
         }
     }
 
