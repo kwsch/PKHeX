@@ -10,7 +10,6 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
     private int Index;
     private int SubIndex;
     private EncounterMatchRating Rating = EncounterMatchRating.MaxNotMatch;
-    private bool Yielded;
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
     private int met;
@@ -76,9 +75,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.Event:
                 if (TryGetNext(EncountersWC3.Encounter_WC3, out var gift))
                     return SetCurrent(gift);
-                if (Yielded)
-                    break;
-                Index = 0; State = YieldState.TradeStart; goto case YieldState.TradeStart;
+                Index = 0; goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
                 if (Version == GameVersion.E)
@@ -95,7 +92,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.TradeE:
                 if (TryGetNext(Encounters3RSE.TradeGift_E, out var trE))
                     return SetCurrent(trE);
-                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; goto case YieldState.StartCaptures;
             case YieldState.TradeFR:
                 if (TryGetNext(Encounters3FRLG.TradeGift_FR, out var trFR))
                     return SetCurrent(trFR);
@@ -107,7 +104,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.TradeFRLG:
                 if (TryGetNext(Encounters3FRLG.TradeGift_FRLG, out var trFRLG))
                     return SetCurrent(trFRLG);
-                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; goto case YieldState.StartCaptures;
 
             case YieldState.StartCaptures:
                 InitializeWildLocationInfo();
@@ -129,26 +126,26 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
                 if (Version == GameVersion.LG)
                 { State = YieldState.SlotLG; goto case YieldState.SlotLG; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
-            case YieldState.SlotFR:
-                if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3FRLG.SlotsFR, out var slotHG))
-                    return SetCurrent(slotHG);
-                goto case YieldState.EndSlot;
-            case YieldState.SlotLG:
-                if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3FRLG.SlotsLG, out var slotSS))
-                    return SetCurrent(slotSS);
-                goto case YieldState.EndSlot;
             case YieldState.SlotR:
                 if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3RSE.SlotsR, out var slotD))
                     return SetCurrent(slotD);
-                goto case YieldState.EndSlot;
+                Index = 0; goto case YieldState.EndSlot;
             case YieldState.SlotS:
                 if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3RSE.SlotsS, out var slotP))
                     return SetCurrent(slotP);
-                goto case YieldState.EndSlot;
+                Index = 0; goto case YieldState.EndSlot;
             case YieldState.SlotE:
                 if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3RSE.SlotsE, out var slotPt))
                     return SetCurrent(slotPt);
-                goto case YieldState.EndSlot;
+                Index = 0; goto case YieldState.EndSlot;
+            case YieldState.SlotFR:
+                if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3FRLG.SlotsFR, out var slotHG))
+                    return SetCurrent(slotHG);
+                Index = 0; goto case YieldState.EndSlot;
+            case YieldState.SlotLG:
+                if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3FRLG.SlotsLG, out var slotSS))
+                    return SetCurrent(slotSS);
+                Index = 0; goto case YieldState.EndSlot;
             case YieldState.EndSlot:
                 if (mustBeSlot)
                     goto case YieldState.StaticStart; // be generous with bad balls
@@ -183,7 +180,6 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
                 if (TryGetNext(Encounters3RSE.StaticRSE, out var rse))
                     return SetCurrent(rse);
                 Index = 0; State = YieldState.StaticEnd; goto case YieldState.StaticEnd;
-
             case YieldState.StaticFR:
                 if (TryGetNext(Encounters3FRLG.StaticFR, out var fr))
                     return SetCurrent(fr);
@@ -199,7 +195,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
 
             case YieldState.StaticEnd:
                 if (mustBeSlot)
-                    goto case YieldState.Bred;
+                    goto case YieldState.Bred; // already checked slots
                 goto case YieldState.StartSlot;
 
             case YieldState.Bred:
@@ -313,7 +309,6 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
     private bool SetCurrent(in MatchedEncounter<IEncounterable> match)
     {
         Current = match;
-        Yielded = true;
         return true;
     }
 }

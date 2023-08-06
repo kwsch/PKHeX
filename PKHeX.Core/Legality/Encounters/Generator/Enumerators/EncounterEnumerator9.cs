@@ -14,7 +14,7 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
     public MatchedEncounter<IEncounterable> Current { get; private set; }
     private YieldState State;
     private int met;
-    private bool mustBeWild;
+    private bool mustBeSlot;
     readonly object IEnumerator.Current => Current;
 
     public readonly void Reset() => throw new NotSupportedException();
@@ -86,7 +86,7 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
 
             case YieldState.StartCaptures:
                 InitializeWildLocationInfo();
-                if (mustBeWild)
+                if (mustBeSlot)
                     goto case YieldState.StartSlot;
                 goto case YieldState.StaticVersion;
 
@@ -99,7 +99,7 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
                     return SetCurrent(slot);
                 goto case YieldState.EndSlot;
             case YieldState.EndSlot:
-                if (!mustBeWild)
+                if (!mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else
                 State = YieldState.StaticVersion; goto case YieldState.StaticVersion;
 
@@ -139,7 +139,7 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.StaticMight:
                 if (TryGetNext(Encounters9.Might, out var sm))
                     return SetCurrent(sm);
-                if (mustBeWild)
+                if (mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else
                 Index = 0; State = YieldState.StartSlot; goto case YieldState.StartSlot;
 
@@ -156,7 +156,7 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
 
     private void InitializeWildLocationInfo()
     {
-        mustBeWild = Entity is IRibbonIndex r && r.HasEncounterMark();
+        mustBeSlot = Entity is IRibbonIndex r && r.HasEncounterMark();
         met = Entity.Met_Location;
     }
 

@@ -16,7 +16,7 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
     private YieldState State;
     private int met;
     private bool hasOriginalLocation;
-    private bool mustBeWild;
+    private bool mustBeSlot;
     readonly object IEnumerator.Current => Current;
 
     public readonly void Reset() => throw new NotSupportedException();
@@ -93,7 +93,7 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
 
             case YieldState.StartCaptures:
                 InitializeWildLocationInfo();
-                if (mustBeWild)
+                if (mustBeSlot)
                     goto case YieldState.StartSlot;
                 goto case YieldState.StaticVersion;
 
@@ -114,7 +114,7 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
                     return SetCurrent(slotSP);
                 goto case YieldState.EndSlot;
             case YieldState.EndSlot:
-                if (!mustBeWild)
+                if (!mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else
                 State = YieldState.StaticVersion; goto case YieldState.StaticVersion;
 
@@ -137,7 +137,7 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
             case YieldState.StaticShared:
                 if (TryGetNext(Encounters8b.Encounter_BDSP, out var shared))
                     return SetCurrent(shared);
-                if (mustBeWild)
+                if (mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else
                 Index = 0; State = YieldState.StartSlot; goto case YieldState.StartSlot;
 
@@ -154,7 +154,7 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
 
     private void InitializeWildLocationInfo()
     {
-        mustBeWild = Entity.Ball == (byte)Ball.Safari;
+        mustBeSlot = Entity.Ball == (byte)Ball.Safari;
         met = Entity.Met_Location;
         var location = met;
         var remap = LocationsHOME.GetRemapState(EntityContext.Gen8b, Entity.Context);
