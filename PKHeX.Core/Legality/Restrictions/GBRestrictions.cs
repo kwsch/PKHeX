@@ -124,7 +124,7 @@ internal static class GBRestrictions
     /// </summary>
     /// <param name="pk">Data to check</param>
     /// <returns>true if can inhabit, false if not.</returns>
-    private static bool CanInhabitGen1(this PKM pk)
+    internal static bool CanInhabitGen1(this PKM pk)
     {
         // Korean Gen2 games can't trade-back because there are no Gen1 Korean games released
         if (pk.Korean || pk.IsEgg)
@@ -234,7 +234,7 @@ internal static class GBRestrictions
 
     private static bool IsCatchRateMatchEncounter(IEncounterTemplate enc, PK1 pk1) => enc switch
     {
-        EncounterStatic1 s when s.GetMatchRating(pk1) != EncounterMatchRating.PartialMatch => true,
+        EncounterStatic1 s when s.GetMatchRating(pk1) < EncounterMatchRating.PartialMatch => true,
         EncounterTrade1 => true,
         _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.Catch_Rate),
     };

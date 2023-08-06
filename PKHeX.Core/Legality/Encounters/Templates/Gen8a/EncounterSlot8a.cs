@@ -132,7 +132,16 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (!this.IsLevelWithinRange(pk.Met_Level))
+            return false;
+        if (Form != evo.Form && Species is not ((int)Core.Species.Rotom or (int)Core.Species.Burmy or (int)Core.Species.Wormadam))
+            return false;
+        return true;
+    }
+
     private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
 
     public EncounterMatchRating GetMatchRating(PKM pk)

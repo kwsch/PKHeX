@@ -25,10 +25,6 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     public bool CanDexNav => Type != SlotType.Rock_Smash;
     public bool IsHorde => Type == SlotType.Horde;
 
-    public bool DexNav { get; init; }
-    public bool WhiteFlute { get; init; }
-    public bool BlackFlute { get; init; }
-
     private HiddenAbilityPermission IsHiddenAbilitySlot() => CanDexNav || IsHorde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
     private ReadOnlySpan<ushort> GetDexNavMoves()
@@ -117,7 +113,24 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    private const int FluteBoostMin = 4; // White Flute decreases levels.
+    private const int FluteBoostMax = 4; // Black Flute increases levels.
+    private const int DexNavBoost = 30; // Maximum DexNav chain
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        var boostMax = Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax;
+        const int boostMin = FluteBoostMin;
+        if (!this.IsLevelWithinRange(pk.Met_Level, boostMin, boostMax))
+            return false;
+
+        if (evo.Form != Form && !IsRandomUnspecificForm)
+            return false;
+
+        return true;
+    }
+
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
         if (IsDeferredWurmple(pk))

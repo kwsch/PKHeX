@@ -18,7 +18,7 @@ internal static class Encounters2
     private const string tradeGSC = "tradegsc";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeGSC);
 
-    private static readonly EncounterStatic2[] StaticGSC =
+    public static readonly EncounterStatic2[] StaticGSC =
     {
         new(152, 05, GSC) { Location = 001 }, // Chikorita @ New Bark Town
         new(155, 05, GSC) { Location = 001 }, // Cyndaquil @ New Bark Town
@@ -49,7 +49,7 @@ internal static class Encounters2
         new(244, 40, GSC) { Location = 002 }, // Entei
     };
 
-    private static readonly EncounterStatic2[] StaticGS =
+    public static readonly EncounterStatic2[] StaticGS =
     {
         new(133, 15, GS) { Location = 071 }, // Eevee @ Celadon Game Corner
         new(122, 15, GS) { Location = 071 }, // Mr. Mime @ Celadon Game Corner
@@ -67,19 +67,19 @@ internal static class Encounters2
         new(245, 40, GS)  { Location = 002 }, // Suicune
     };
 
-    private static readonly EncounterStatic2[] StaticGD =
+    public static readonly EncounterStatic2[] StaticGD =
     {
         new(249, 70, GD) { Location = 031 }, // Lugia @ Whirl Islands
         new(250, 40, GD) { Location = 023 }, // Ho-Oh @ Tin Tower
     };
 
-    private static readonly EncounterStatic2[] StaticSV =
+    public static readonly EncounterStatic2[] StaticSV =
     {
         new(249, 40, SI) { Location = 031 }, // Lugia @ Whirl Islands
         new(250, 70, SI) { Location = 023 }, // Ho-Oh @ Tin Tower
     };
 
-    private static readonly EncounterStatic2[] StaticC =
+    public static readonly EncounterStatic2[] StaticC =
     {
         new(245, 40, C) { Location = 023 }, // Suicune @ Tin Tower
 
@@ -103,10 +103,6 @@ internal static class Encounters2
         new(104, 15, C) { Location = 016 }, // Cubone @ Goldenrod City (Game Corner)
         new(202, 15, C) { Location = 016 }, // Wobbuffet @ Goldenrod City (Game Corner)
     };
-
-    internal static readonly EncounterStatic2[] EncounterStaticGS = ArrayUtil.ConcatAll(StaticGSC, StaticGS, StaticGD, StaticSV);
-    internal static readonly EncounterStatic2[] EncounterStaticC = ArrayUtil.ConcatAll(StaticC, StaticGSC);
-    internal static readonly EncounterStatic2[] EncounterStaticGSC = ArrayUtil.ConcatAll(StaticC, EncounterStaticGS);
 
     internal static readonly EncounterStatic2 CelebiVC = new(251, 30, C) { Location = 014 }; // Celebi @ Ilex Forest (VC)
 

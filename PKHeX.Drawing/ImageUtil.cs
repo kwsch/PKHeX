@@ -205,7 +205,7 @@ public static class ImageUtil
 
     public static void ChangeAllTo(Span<byte> data, Color c, int start, int end)
     {
-        var arr = MemoryMarshal.Cast<byte, int>(data).Slice(start / 4, (end - start) / 4);
+        var arr = MemoryMarshal.Cast<byte, int>(data[start..end]);
         var value = c.ToArgb();
         arr.Fill(value);
     }

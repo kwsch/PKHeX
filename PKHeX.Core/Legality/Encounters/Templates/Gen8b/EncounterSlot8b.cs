@@ -125,7 +125,22 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (!this.IsLevelWithinRange(pk.Met_Level))
+            return false;
+
+        if (Form != evo.Form && Species is not (int)Core.Species.Burmy)
+            return false;
+
+        // A/B/C tables, only Munchlax is a 'C' encounter, and A/B are accessible from any tree.
+        // C table encounters are only available from 4 trees, which are determined by TID16/SID16 of the save file.
+        if (Type is SlotType.HoneyTree && Species == (int)Core.Species.Munchlax && !Parent.IsMunchlaxTree(pk))
+            return false;
+
+        return true;
+    }
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

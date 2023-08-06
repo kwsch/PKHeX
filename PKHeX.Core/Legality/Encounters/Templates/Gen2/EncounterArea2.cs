@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// <see cref="GameVersion.GSC"/> encounter area
 /// </summary>
-public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>
+public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocation
 {
     public EncounterSlot2[] Slots { get; }
     public GameVersion Version { get; }
@@ -20,6 +19,8 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>
     public readonly byte Rate;
     public readonly byte Location;
     public readonly SlotType Type;
+
+    public bool IsMatchLocation(int location) => location == Location;
 
     public static EncounterArea2[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -70,65 +71,5 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>
             slots[i] = new EncounterSlot2(this, species, form, min, max, slotNum);
         }
         return slots;
-    }
-
-    public IEnumerable<EncounterSlot2> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
-    {
-        if (pk is not ICaughtData2 {CaughtData: not 0} pk2)
-            return GetSlotsFuzzy(chain);
-
-        if (pk2.Met_Location != Location)
-            return Array.Empty<EncounterSlot2>();
-        return GetSlotsSpecificLevelTime(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
-    }
-
-    private IEnumerable<EncounterSlot2> GetSlotsSpecificLevelTime(EvoCriteria[] chain, int time, int lvl)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (slot.Form != evo.Form)
-                {
-                    if (slot.Species != (int)Species.Unown || evo.Form >= 26) // Don't yield !? forms
-                        break;
-                }
-
-                if (!slot.IsLevelWithinRange(lvl))
-                    break;
-
-                if (!Time.Contains(time))
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-
-    private IEnumerable<EncounterSlot2> GetSlotsFuzzy(EvoCriteria[] chain)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (slot.Form != evo.Form)
-                {
-                    if (slot.Species != (int)Species.Unown || evo.Form >= 26) // Don't yield !? forms
-                        break;
-                }
-                if (slot.LevelMin > evo.LevelMax)
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
     }
 }

@@ -47,7 +47,7 @@ internal static class Encounters3RSE
         new(379, 40, RSE) { Location = 083 }, // Registeel @ Ancient Tomb
         new(384, 70, RSE) { Location = 085 }, // Rayquaza @ Sky Pillar
     };
-    
+
     public static readonly EncounterStatic3[] StaticR =
     {
         new(381, 40, R) { Roaming = true, Location = 016 }, // Latios

@@ -103,7 +103,20 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (!this.IsLevelWithinRange(pk.Met_Level))
+            return false;
+
+        if (Form != evo.Form && Species is not ((int)Core.Species.Furfrou or (int)Core.Species.Oricorio))
+        {
+            if (!IsRandomUnspecificForm) // Minior, etc
+                return false;
+        }
+
+        return true;
+    }
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
         bool isHidden = pk.AbilityNumber == 4;

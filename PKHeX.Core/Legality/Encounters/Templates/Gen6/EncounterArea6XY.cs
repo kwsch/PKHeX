@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.XY"/> encounter area
 /// </summary>
-public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>
+public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaLocation
 {
     public EncounterSlot6XY[] Slots { get; }
     public GameVersion Version { get; }
@@ -110,57 +110,5 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>
         }
 
         return slots;
-    }
-
-    public IEnumerable<EncounterSlot6XY> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (!slot.IsLevelWithinRange(pk.Met_Level))
-                    break;
-
-                if (slot.Form != evo.Form && slot is { IsRandomUnspecificForm: false, Species: not ((int)Species.Burmy or (int)Species.Furfrou) })
-                {
-                    // Only slot that can be form-mismatched via Pressure is Flabébé
-                    if (slot.Species != (int)Species.Flabébé)
-                        break;
-
-                    var maxLevel = slot.LevelMax;
-                    if (!ExistsPressureSlot(evo, ref maxLevel))
-                        break;
-
-                    if (maxLevel != pk.Met_Level)
-                        break;
-
-                    yield return slot.CreatePressureFormCopy(evo.Form);
-                    break;
-                }
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-
-    private bool ExistsPressureSlot(EvoCriteria evo, ref byte level)
-    {
-        bool existsForm = false;
-        foreach (var z in Slots)
-        {
-            if (z.Species != evo.Species)
-                continue;
-            if (z.Form == evo.Form)
-                continue;
-            if (z.LevelMax < level)
-                continue;
-            level = z.LevelMax;
-            existsForm = true;
-        }
-        return existsForm;
     }
 }

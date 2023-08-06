@@ -148,7 +148,28 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
     }
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (Form != evo.Form && Species is not (int)Core.Species.Rotom)
+            return false;
+
+        var metLocation = pk.Met_Location;
+        if (Location != metLocation && !EncounterArea8.CanCrossoverTo(Location, metLocation, Type))
+            return false;
+
+        var met = pk.Met_Level;
+        if (met == EncounterArea8.BoostLevel && EncounterArea8.IsBoostedArea60(Location))
+            return true;
+
+        if (!this.IsLevelWithinRange(met))
+            return false;
+
+        if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsWildArea8(Location))
+            return false; // Heavy Fog not available until post-game, which would return true above.
+
+        return true;
+    }
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

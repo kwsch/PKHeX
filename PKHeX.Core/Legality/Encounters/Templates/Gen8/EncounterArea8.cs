@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.SWSH"/> encounter area
 /// </summary>
-public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>
+public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocation
 {
     public EncounterSlot8[] Slots { get; }
     public GameVersion Version { get; }
@@ -40,70 +40,7 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>
         return Array.IndexOf(others, (byte)location) != -1;
     }
 
-    public IEnumerable<EncounterSlot8> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
-    {
-        var metLocation = pk.Met_Location;
-        // wild area gets boosted up to level 60 post-game
-        var met = pk.Met_Level;
-        bool isBoosted = met == BoostLevel && IsBoostedArea60(Location);
-        if (isBoosted)
-            return GetBoostedMatches(chain, metLocation);
-        return GetUnboostedMatches(chain, met, metLocation);
-    }
-
-    private IEnumerable<EncounterSlot8> GetUnboostedMatches(EvoCriteria[] chain, int metLevel, int metLocation)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (!slot.IsLevelWithinRange(metLevel))
-                    break;
-
-                if (slot.Form != evo.Form && slot.Species is not (int)Species.Rotom)
-                    break;
-
-                if (slot.Weather is Heavy_Fog && IsWildArea8(Location))
-                    break;
-
-                if (Location != metLocation && !CanCrossoverTo(Location, metLocation, slot.Type))
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-
-    private IEnumerable<EncounterSlot8> GetBoostedMatches(EvoCriteria[] chain, int metLocation)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                // Ignore max met level comparison; we already know it is permissible to boost to level 60.
-                if (slot.LevelMin > BoostLevel)
-                    break; // Can't downlevel, only boost to 60.
-
-                if (slot.Form != evo.Form && slot.Species is not (int)Species.Rotom)
-                    break;
-
-                if (Location != metLocation && !CanCrossoverTo(Location, metLocation, slot.Type))
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-
-    private static bool CanCrossoverTo(int fromLocation, int toLocation, AreaSlotType8 type)
+    public static bool CanCrossoverTo(int fromLocation, int toLocation, AreaSlotType8 type)
     {
         if (!type.CanCrossover())
             return false;

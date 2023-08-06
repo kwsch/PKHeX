@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 
-using static PKHeX.Core.EncounterStateUtil;
+using static PKHeX.Core.EncounterGeneratorUtil;
 using static PKHeX.Core.EncounterTypeGroup;
-using static PKHeX.Core.EncounterMatchRating;
 
 namespace PKHeX.Core;
 
@@ -19,57 +18,84 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = GetGifts();
-            foreach (var enc in GetPossible(chain, table))
+            foreach (var enc in GetPossibleAll(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Trade))
         {
-            var table = GetTrade(game);
-            foreach (var enc in GetPossible(chain, table))
-                yield return enc;
+            if (game is GameVersion.RD or GameVersion.GN)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters1.TradeGift_RB))
+                    yield return enc;
+            }
+            else if (game is GameVersion.BU)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters1.TradeGift_BU))
+                    yield return enc;
+            }
+            else if (game is GameVersion.YW)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters1.TradeGift_YW))
+                    yield return enc;
+            }
+            else
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters1.TradeGift_RB))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters1.TradeGift_YW))
+                    yield return enc;
+                if (pk.Japanese)
+                {
+                    foreach (var enc in GetPossibleAll(chain, Encounters1.TradeGift_BU))
+                        yield return enc;
+                }
+            }
         }
         if (groups.HasFlag(Static))
         {
-            var table = Encounters1.StaticRBY;
-            foreach (var enc in GetPossible(chain, table))
+            foreach (var enc in GetPossibleAll(chain, Encounters1.StaticRBY))
                 yield return enc;
+            if (game is GameVersion.RD or GameVersion.GN)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters1.StaticRB))
+                    yield return enc;
+            }
+            else if (game is GameVersion.BU)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters1.StaticBU))
+                    yield return enc;
+            }
+            else if (game is GameVersion.YW)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters1.StaticYW))
+                    yield return enc;
+            }
+            else
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters1.StaticRB))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters1.StaticYW))
+                    yield return enc;
+                if (pk.Japanese)
+                {
+                    foreach (var enc in GetPossibleAll(chain, Encounters1.StaticBU))
+                        yield return enc;
+                }
+            }
         }
         if (groups.HasFlag(Slot))
         {
-            var areas = GetAreas(game, pk.Japanese);
-            foreach (var area in GetPossibleSlots<EncounterArea1, EncounterSlot1>(chain, areas))
-                yield return area;
-        }
-    }
-
-    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterTemplate
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
+            if (pk.Japanese)
             {
-                if (evo.Species != enc.Species)
-                    continue;
+                foreach (var enc in GetPossibleSlots<EncounterArea1, EncounterSlot1>(chain, Encounters1.SlotsBU))
+                    yield return enc;
+            }
+            foreach (var enc in GetPossibleSlots<EncounterArea1, EncounterSlot1>(chain, Encounters1.SlotsRD))
                 yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<TSlot> GetPossibleSlots<TArea,TSlot>(EvoCriteria[] chain, TArea[] areas) where TArea : IEncounterArea<TSlot> where TSlot : IEncounterTemplate
-    {
-        foreach (var area in areas)
-        {
-            foreach (var slot in area.Slots)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != slot.Species)
-                        continue;
-                    yield return slot;
-                    break;
-                }
-            }
+            foreach (var enc in GetPossibleSlots<EncounterArea1, EncounterSlot1>(chain, Encounters1.SlotsGN))
+                yield return enc;
+            foreach (var enc in GetPossibleSlots<EncounterArea1, EncounterSlot1>(chain, Encounters1.SlotsYW))
+                yield return enc;
         }
     }
 
@@ -86,73 +112,14 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
         var chain = EncounterOrigin.GetOriginChain12(pk, game);
         if (chain.Length == 0)
             return Array.Empty<IEncounterable>();
-        return GetEncounters(pk, chain, game);
+        return GetEncounters(pk, chain);
     }
 
-    private static IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, GameVersion game)
+    private static IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain)
     {
-        IEncounterable? deferred = null;
-
-        foreach (var enc in GetTrade(game))
-        {
-            if (!(enc.Version.Contains(game) || game.Contains(enc.Version)))
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                var match = enc.GetMatchRating(pk);
-                if (match != Match)
-                    deferred = enc;
-                else
-                    yield return enc;
-                break;
-            }
-        }
-        foreach (var enc in Encounters1.StaticRBY)
-        {
-            if (!(enc.Version.Contains(game) || game.Contains(enc.Version)))
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (enc.IsMatchExact(pk, evo))
-                    yield return enc;
-                break;
-            }
-        }
-        if (CanBeWildEncounter(pk))
-        {
-            foreach (var area in GetAreas(game, pk.Japanese))
-            {
-                var slots = area.GetMatchingSlots(pk, chain);
-                foreach (var slot in slots)
-                    yield return slot;
-            }
-        }
-        foreach (var enc in GetGifts())
-        {
-            if (!(enc.Version.Contains(game) || game.Contains(enc.Version)))
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (enc.IsMatchExact(pk, evo))
-                    yield return enc;
-                break;
-            }
-        }
-
-        if (deferred != null)
-            yield return deferred;
+        var iterator = new EncounterEnumerator1(pk, chain);
+        foreach (var enc in iterator)
+            yield return enc.Encounter;
     }
 
     private static EncounterGift1[] GetGifts()
@@ -161,20 +128,4 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
             return Encounters1GBEra.Gifts;
         return Encounters1VC.Gifts;
     }
-
-    private static EncounterArea1[] GetAreas(GameVersion game, bool japanese) => game switch
-    {
-        GameVersion.RD => Encounters1.SlotsRD,
-        GameVersion.GN => Encounters1.SlotsGN,
-        GameVersion.BU => japanese ? Encounters1.SlotsBU : Array.Empty<EncounterArea1>(),
-        GameVersion.YW => Encounters1.SlotsYW,
-
-        _ when japanese => Encounters1.SlotsRGBY,
-        _ => Encounters1.SlotsRBY,
-    };
-    
-    private static EncounterTrade1[] GetTrade(GameVersion game) => game switch
-    {
-        _ => Encounters1.TradeGift_RBY,
-    };
 }

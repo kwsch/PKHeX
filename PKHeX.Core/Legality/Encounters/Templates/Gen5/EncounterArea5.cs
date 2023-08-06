@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.Gen5"/> encounter area
 /// </summary>
-public sealed record EncounterArea5 : IEncounterArea<EncounterSlot5>
+public sealed record EncounterArea5 : IEncounterArea<EncounterSlot5>, IAreaLocation
 {
     public EncounterSlot5[] Slots { get; }
     public GameVersion Version { get; }
@@ -57,28 +56,5 @@ public sealed record EncounterArea5 : IEncounterArea<EncounterSlot5>
         byte min = entry[2];
         byte max = entry[3];
         return new EncounterSlot5(this, species, form, min, max);
-    }
-
-    public IEnumerable<EncounterSlot5> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (!slot.IsLevelWithinRange(pk.Met_Level))
-                    break;
-
-                // Deerling and Sawsbuck can change forms when seasons change, thus can be any of the [0,3] form values.
-                // no other wild forms can change
-                if (slot.Form != evo.Form && slot.Species is not ((int)Species.Deerling or (int)Species.Sawsbuck))
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
     }
 }

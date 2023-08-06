@@ -54,7 +54,7 @@ public static class EncounterFinder
                 break;
 
             var match = mx.GetMatchRating(pk);
-            if (match != EncounterMatchRating.PartialMatch)
+            if (match < EncounterMatchRating.PartialMatch)
                 break;
 
             // Reaching here implies the encounter wasn't valid. Try stepping to the next encounter.

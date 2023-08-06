@@ -22,7 +22,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.CrossFrom;
+    public int Location => Parent.CrossFrom == 0 ? Parent.Location : Parent.CrossFrom;
 
     private static int GetTime(RibbonIndex mark) => mark switch
     {
@@ -151,7 +151,33 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (Form != evo.Form && !IsRandomUnspecificForm && !IsFormOkayWild(Species, evo.Form))
+            return false;
+        if (Gender != -1 && pk.Gender != Gender)
+            return false;
+        if (!this.IsLevelWithinRange(pk.Met_Level))
+            return false;
+
+        if (pk is ITeraType t)
+        {
+            var orig = (byte)t.TeraTypeOriginal;
+            var pi = PersonalTable.SV[Species, Form];
+            if (pi.Type1 != orig && pi.Type2 != orig)
+                return false;
+        }
+
+        return true;
+    }
+
+    private static bool IsFormOkayWild(ushort species, byte form) => species switch
+    {
+        (int)Core.Species.Rotom => form <= 5,
+        (int)Core.Species.Deerling or (int)Core.Species.Sawsbuck => form < 4,
+        (int)Core.Species.Oricorio => form < 4,
+        _ => false,
+    };
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,10 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.PLA"/> encounter area
 /// </summary>
-public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>
+public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>, IAreaLocation
 {
     public EncounterSlot8a[] Slots { get; }
-    public GameVersion Version { get; }
+    public GameVersion Version => GameVersion.PLA;
 
     private readonly byte[] Locations;
     public readonly SlotType Type;
@@ -22,43 +21,19 @@ public sealed record EncounterArea8a : IEncounterArea<EncounterSlot8a>
         return Array.IndexOf(Locations, (byte)location) != -1;
     }
 
-    public IEnumerable<EncounterSlot8a> GetMatchingSlots(PKM pk, EvoCriteria[] chain) => GetMatches(chain, pk.Met_Level);
-
-    private IEnumerable<EncounterSlot8a> GetMatches(EvoCriteria[] chain, int metLevel)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (!slot.IsLevelWithinRange(metLevel))
-                    break;
-
-                if (slot.Form != evo.Form && slot.Species is not ((int)Species.Rotom or (int)Species.Burmy or (int)Species.Wormadam))
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-
-    public static EncounterArea8a[] GetAreas(BinLinkerAccessor input, GameVersion game)
+    public static EncounterArea8a[] GetAreas(BinLinkerAccessor input)
     {
         var result = new EncounterArea8a[input.Length];
         for (int i = 0; i < result.Length; i++)
-            result[i] = new EncounterArea8a(input[i], game);
+            result[i] = new EncounterArea8a(input[i]);
         return result;
     }
 
-    private EncounterArea8a(ReadOnlySpan<byte> areaData, GameVersion game)
+    private EncounterArea8a(ReadOnlySpan<byte> areaData)
     {
         // Area Metadata
         int locationCount = areaData[0];
         Locations = areaData.Slice(1, locationCount).ToArray();
-        Version = game;
 
         int align = (locationCount + 1);
         if ((align & 1) == 1)

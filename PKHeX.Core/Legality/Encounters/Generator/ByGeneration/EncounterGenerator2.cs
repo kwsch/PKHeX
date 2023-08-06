@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using static PKHeX.Core.EncounterStateUtil;
+using static PKHeX.Core.EncounterGeneratorUtil;
 using static PKHeX.Core.EncounterTypeGroup;
-using static PKHeX.Core.EncounterMatchRating;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -19,27 +19,69 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         bool korean = pk.Korean;
         if (groups.HasFlag(Mystery))
         {
-            var table = GetGifts(korean);
-            foreach (var enc in GetPossible(chain, table))
-                yield return enc;
+            if (!korean && ParseSettings.AllowGBEraEvents)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters2GBEra.StaticEventsGB))
+                    yield return enc;
+            }
         }
         if (groups.HasFlag(Trade))
         {
-            var table = GetTrade(game);
-            foreach (var enc in GetPossible(chain, table))
+            foreach (var enc in GetPossibleAll(chain, Encounters2.TradeGift_GSC))
                 yield return enc;
         }
         if (groups.HasFlag(Egg))
         {
-            var eggs = GetEggs(pk, chain);
-            foreach (var egg in eggs)
+            if (TryGetEgg(chain, game, out var egg))
+            {
                 yield return egg;
+                if (TryGetEggCrystal(pk, egg, out var crystal))
+                    yield return crystal;
+            }
         }
         if (groups.HasFlag(Static))
         {
-            var table = GetStatic(game, korean);
-            foreach (var enc in GetPossible(chain, table))
+            foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGSC))
                 yield return enc;
+            if (game is GameVersion.GD)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGD))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGS))
+                    yield return enc;
+            }
+            else if (game is GameVersion.SV)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticSV))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGS))
+                    yield return enc;
+            }
+            else if (game is GameVersion.C && !pk.Korean)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticC))
+                    yield return enc;
+            }
+            else if (game is GameVersion.GS || pk.Korean)
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGD))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticSV))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGS))
+                    yield return enc;
+            }
+            else
+            {
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGD))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticSV))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGS))
+                    yield return enc;
+                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticC))
+                    yield return enc;
+            }
             if (ParseSettings.AllowGBVirtualConsole3DS && game is GameVersion.C or GameVersion.GSC && !korean)
             {
                 var celebi = Encounters2.CelebiVC;
@@ -49,23 +91,15 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         }
         if (groups.HasFlag(Slot))
         {
-            var areas = GetAreas(game, korean);
-            foreach (var enc in GetPossibleSlots(chain, areas, pk))
-                yield return enc;
-        }
-    }
-
-    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterTemplate
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
+            if (!korean)
             {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
+                foreach (var enc in GetPossibleSlots(chain, Encounters2.SlotsC, pk))
+                    yield return enc;
             }
+            foreach (var enc in GetPossibleSlots(chain, Encounters2.SlotsGD, pk))
+                yield return enc;
+            foreach (var enc in GetPossibleSlots(chain, Encounters2.SlotsSV, pk))
+                yield return enc;
         }
     }
 
@@ -99,162 +133,19 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         var chain = EncounterOrigin.GetOriginChain12(pk, game);
         if (chain.Length == 0)
             return Array.Empty<IEncounterable>();
-        return GetEncounters(pk, chain, game);
+        return GetEncounters(pk, chain);
     }
 
-    private static IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, GameVersion game)
+    private static IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain)
     {
-        // Since encounter matching is super weak due to limited stored data in the structure
-        // Calculate all 3 at the same time and pick the best result (by species).
-        // Favor special event move gifts as Static Encounters when applicable
-        IEncounterable? deferred = null;
-
-        bool korean = pk.Korean;
-        foreach (var enc in GetTrade(game))
-        {
-            if (!(enc.Version.Contains(game) || game.Contains(enc.Version)))
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                var match = enc.GetMatchRating(pk);
-                if (match != Match)
-                    deferred = enc;
-                else
-                    yield return enc;
-                break;
-            }
-        }
-        foreach (var enc in GetStatic(game, korean))
-        {
-            if (!(enc.Version.Contains(game) || game.Contains(enc.Version)))
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (enc.IsMatchExact(pk, evo))
-                    yield return enc;
-                break;
-            }
-        }
-        if (ParseSettings.AllowGBVirtualConsole3DS && game is GameVersion.C or GameVersion.GSC && !korean)
-        {
-            var enc = Encounters2.CelebiVC;
-            if (chain[0].Species == enc.Species && enc.IsMatchExact(pk, chain[0]))
-                yield return enc;
-        }
-        if (CanBeWildEncounter(pk))
-        {
-            foreach (var area in GetAreas(game, korean))
-            {
-                var slots = area.GetMatchingSlots(pk, chain);
-                foreach (var slot in slots)
-                    yield return slot;
-            }
-        }
-        if (GetCanBeEgg(pk))
-        {
-            foreach (var e in GetEggs(pk, chain))
-               yield return e;
-        }
-        foreach (var enc in GetGifts(korean))
-        {
-            if (!(enc.Version.Contains(game) || game.Contains(enc.Version)))
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (enc.IsMatchExact(pk, evo))
-                    yield return enc;
-                break;
-            }
-        }
-
-        if (deferred != null)
-            yield return deferred;
+        var iterator = new EncounterEnumerator2(pk, chain);
+        foreach (var enc in iterator)
+            yield return enc.Encounter;
     }
-
-    private static EncounterGift2[] GetGifts(bool korean)
-    {
-        if (korean)
-            return Array.Empty<EncounterGift2>();
-        if (!ParseSettings.AllowGBEraEvents)
-            return Array.Empty<EncounterGift2>();
-        return Encounters2GBEra.StaticEventsGB;
-    }
-
-    private static EncounterArea2[] GetAreas(GameVersion game, bool korean) => game switch
-    {
-        GameVersion.GD => Encounters2.SlotsGD,
-        GameVersion.SI => Encounters2.SlotsSV,
-        GameVersion.C => !korean ? Encounters2.SlotsC : Array.Empty<EncounterArea2>(),
-        GameVersion.GS => Encounters2.SlotsGS,
-        GameVersion.GSC => !korean ? Encounters2.SlotsGSC : Encounters2.SlotsGS,
-        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
-    };
-
-    private static EncounterStatic2[] GetStatic(GameVersion game, bool korean) => game switch
-    {
-        GameVersion.C when korean => Array.Empty<EncounterStatic2>(),
-        GameVersion.GSC when korean => Encounters2.EncounterStaticGS,
-
-        GameVersion.GD => Encounters2.EncounterStaticGS,
-        GameVersion.SI => Encounters2.EncounterStaticGS,
-        GameVersion.C => Encounters2.EncounterStaticC,
-        GameVersion.GS => Encounters2.EncounterStaticGS,
-        GameVersion.GSC => Encounters2.EncounterStaticGSC,
-        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
-    };
-
-    private static EncounterTrade2[] GetTrade(GameVersion game) => game switch
-    {
-        _ => Encounters2.TradeGift_GSC,
-    };
 
     private const int Generation = 2;
     private const EntityContext Context = EntityContext.Gen2;
     private const byte EggLevel = 5;
-
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain)
-    {
-        var devolved = chain[^1];
-        if (!devolved.InsideLevelRange(EggLevel))
-            yield break;
-
-        // Ensure most devolved species is the same as the egg species.
-        var (species, form) = GetBaby(devolved);
-        if (species != devolved.Species)
-            yield break; // no split-breed.
-
-        // Sanity Check 1
-        if (!Breeding.CanHatchAsEgg(species))
-            yield break;
-        // Sanity Check 3
-        if (!PersonalTable.C.IsPresentInGame(species, form))
-            yield break;
-
-        // Gen2 was before split-breed species existed; try to ensure that the egg we try and match to can actually originate in the game.
-        // Species must be < 251
-        // Form must be 0 (Unown cannot breed).
-        if (form != 0)
-            yield break; // Forms don't exist in Gen2, besides Unown (which can't breed). Nothing can form-change.
-
-        // Depending on the game it was hatched (GS vs C), met data will be present.
-        // Since met data can't be used to infer which game it was created on, we yield both if possible.
-        var egg = CreateEggEncounter(species, 0, GameVersion.GS);
-        yield return egg;
-        if (ParseSettings.AllowGen2Crystal(pk))
-            yield return egg with { Version = GameVersion.C };
-    }
 
     private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)
     {
@@ -268,28 +159,41 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
         return EvolutionTree.Evolves2.GetBaseSpeciesForm(lowest.Species, lowest.Form);
     }
 
-    private static bool GetCanBeEgg(PKM pk)
+    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
     {
-        if (pk.Format == 1 && !ParseSettings.AllowGen1Tradeback)
+        result = null;
+        var devolved = chain[^1];
+        if (!devolved.InsideLevelRange(EggLevel))
             return false;
 
-        if (pk.CurrentLevel < EggLevel)
+        // Ensure most devolved species is the same as the egg species.
+        var (species, form) = GetBaby(devolved);
+        if (species != devolved.Species)
+            return false; // not a split-breed.
+
+        // Sanity Check 1
+        if (!Breeding.CanHatchAsEgg(species))
+            return false;
+        if (form != 0)
+            return false; // Forms don't exist in Gen2, besides Unown (which can't breed). Nothing can form-change.
+        // Sanity Check 3
+        if (!PersonalTable.C.IsPresentInGame(species, form))
             return false;
 
-        var format = pk.Format;
-        if (pk.IsEgg)
-            return format == 2;
+        result = CreateEggEncounter(species, form, version);
+        return true;
+    }
 
-        var metLevel = pk.Met_Level;
-        if (format > 2)
-            return metLevel >= EggLevel;
-
-        // 2->1->2 clears met info
-        return metLevel switch
+    // Depending on the game it was hatched (GS vs C), met data will be present.
+    // Since met data can't be used to infer which game it was created on, we yield both if possible.
+    public static bool TryGetEggCrystal(PKM pk, EncounterEgg egg, [NotNullWhen(true)] out EncounterEgg? crystal)
+    {
+        if (!ParseSettings.AllowGen2Crystal(pk))
         {
-            0 => pk.Met_Location == 0,
-            1 => true, // Met location of 0 is valid -- second floor of every Pokémon Center
-            _ => false,
-        };
+            crystal = null;
+            return false;
+        }
+        crystal = egg with { Version = GameVersion.C };
+        return true;
     }
 }

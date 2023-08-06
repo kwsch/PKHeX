@@ -210,12 +210,26 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (!this.IsLevelWithinRange(pk.Met_Level))
+            return false;
+        if (!IsBallValid((Ball)pk.Ball, pk.Species, pk))
+            return false;
+        if (!Shiny.IsValid(pk))
+            return false;
+        if (Gender != Gender.Random && (int)Gender != pk.Gender)
+            return false;
+        return true;
+    }
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
         if (IsMatchPartial(pk))
             return EncounterMatchRating.PartialMatch;
+        if (!this.GetIVsValid(pk))
+            return EncounterMatchRating.Deferred;
         return EncounterMatchRating.Match;
     }
 

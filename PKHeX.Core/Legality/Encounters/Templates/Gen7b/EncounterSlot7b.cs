@@ -70,6 +70,16 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
     }
     #endregion
 
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+    private const int CatchComboBonus = 1;
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (!this.IsLevelWithinRange(pk.Met_Level, 0, CatchComboBonus))
+            return false;
+        if (Form != evo.Form)
+            return false;
+        return true;
+    }
+
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
 }

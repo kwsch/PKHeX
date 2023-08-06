@@ -5,17 +5,12 @@ namespace PKHeX.Core;
 /// <summary>
 /// Represents an RNG seed and the conditions of which it occurs.
 /// </summary>
+/// <param name="Seed">Ending seed value for the frame (prior to nature call).</param>
+/// <param name="FrameType"></param>
+/// <param name="Lead"></param>
 [DebuggerDisplay($"{{{nameof(FrameType)},nq}}[{{{nameof(Lead)},nq}}]")]
-public sealed class Frame
+public record Frame(uint Seed, FrameType FrameType, LeadRequired Lead)
 {
-    /// <summary>
-    /// Ending seed value for the frame (prior to nature call).
-    /// </summary>
-    public readonly uint Seed;
-    public readonly LeadRequired Lead;
-
-    private readonly FrameType FrameType;
-
     /// <summary>
     /// Starting seed for the frame (to generate the frame).
     /// </summary>
@@ -24,21 +19,14 @@ public sealed class Frame
     /// <summary>
     /// RNG Call Value for the Level Calc
     /// </summary>
-    public uint RandLevel { get; set; }
+    public ushort RandLevel { get; set; }
 
     /// <summary>
     /// RNG Call Value for the Encounter Slot Calc
     /// </summary>
-    public uint RandESV { get; set; }
+    public ushort RandESV { get; set; }
 
     public bool LevelSlotModified => Lead.IsLevelOrSlotModified() || (Lead & LeadRequired.UsesLevelCall) != 0;
-
-    public Frame(uint seed, FrameType type, LeadRequired lead)
-    {
-        Seed = seed;
-        Lead = lead;
-        FrameType = type;
-    }
 
     /// <summary>
     /// Checks the Encounter Slot for RNG calls before the Nature loop.

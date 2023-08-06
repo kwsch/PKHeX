@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+using static PKHeX.Core.EncounterGeneratorUtil;
 using static PKHeX.Core.EncounterStateUtil;
 using static PKHeX.Core.EncounterTypeGroup;
 using static PKHeX.Core.EncounterMatchRating;
@@ -19,56 +20,25 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = EncountersWC3.Encounter_WC3CXD;
-            foreach (var enc in GetPossible(chain, table))
+            foreach (var enc in GetPossibleAll(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Slot))
         {
             var areas = Encounters3XD.SlotsXD;
-            foreach (var enc in GetPossibleSlots(chain, areas))
+            foreach (var enc in GetPossibleSlots<EncounterArea3XD, EncounterSlot3PokeSpot>(chain, areas))
                 yield return enc;
         }
         if (groups.HasFlag(Static))
         {
-            foreach (var enc in GetPossible(chain, Encounters3Colo.Encounter_Colo))
+            foreach (var enc in GetPossibleAll(chain, Encounters3Colo.Encounter_Colo))
                 yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters3XD.Encounter_XD))
+            foreach (var enc in GetPossibleAll(chain, Encounters3XD.Encounter_XD))
                 yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters3Colo.Encounter_ColoGift))
+            foreach (var enc in GetPossibleAll(chain, Encounters3Colo.Encounter_ColoGift))
                 yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters3XD.Encounter_XDGift))
+            foreach (var enc in GetPossibleAll(chain, Encounters3XD.Encounter_XDGift))
                 yield return enc;
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea3XD[] areas)
-    {
-        foreach (var area in areas)
-        {
-            foreach (var slot in area.Slots)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != slot.Species)
-                        continue;
-                    yield return slot;
-                    break;
-                }
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : class, IEncounterable
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
         }
     }
 
@@ -129,7 +99,7 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
 
                 // Don't bother deferring matches.
                 var match = enc.GetMatchRating(pk);
-                if (match != PartialMatch)
+                if (match < PartialMatch)
                     yield return enc;
                 break;
             }
@@ -144,10 +114,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                     break;
 
                 var match = enc.GetMatchRating(pk);
-                if (match == PartialMatch)
-                    partial ??= enc;
-                else
+                if (match < PartialMatch)
                     yield return enc;
+                else
+                    partial ??= enc;
                 break;
             }
         }
@@ -161,10 +131,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                     break;
 
                 var match = enc.GetMatchRating(pk);
-                if (match == PartialMatch)
-                    partial ??= enc;
-                else
+                if (match < PartialMatch)
                     yield return enc;
+                else
+                    partial ??= enc;
                 break;
             }
         }
@@ -178,10 +148,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                     break;
 
                 var match = enc.GetMatchRating(pk);
-                if (match == PartialMatch)
-                    partial ??= enc;
-                else
+                if (match < PartialMatch)
                     yield return enc;
+                else
+                    partial ??= enc;
                 break;
             }
         }
@@ -195,10 +165,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                     break;
 
                 var match = enc.GetMatchRating(pk);
-                if (match == PartialMatch)
-                    partial ??= enc;
-                else
+                if (match < PartialMatch)
                     yield return enc;
+                else
+                    partial ??= enc;
                 break;
             }
         }
@@ -210,10 +180,10 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
                 foreach (var slot in slots)
                 {
                     var match = slot.GetMatchRating(pk);
-                    if (match == PartialMatch)
-                        partial ??= slot;
-                    else
+                    if (match < PartialMatch)
                         yield return slot;
+                    else
+                        partial ??= slot;
                 }
             }
         }

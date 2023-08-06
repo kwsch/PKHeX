@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
-using static PKHeX.Core.EncounterStateUtil;
+using static PKHeX.Core.EncounterGeneratorUtil;
 using static PKHeX.Core.EncounterTypeGroup;
-using static PKHeX.Core.EncounterMatchRating;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
@@ -15,7 +16,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
     {
         var chain = EncounterOrigin.GetOriginChain(pk, 9);
         if (chain.Length == 0)
-            return System.Array.Empty<IEncounterable>();
+            return Array.Empty<IEncounterable>();
 
         return (GameVersion)pk.Version switch
         {
@@ -33,585 +34,68 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         if (groups.HasFlag(Mystery))
         {
             var table = EncounterEvent.MGDB_G9;
-            foreach (var enc in GetPossibleEvents(chain, table))
+            foreach (var enc in GetPossibleAll(chain, table))
                 yield return enc;
         }
         if (groups.HasFlag(Egg))
         {
-            var eggs = GetEggs(pk, chain, game);
-            foreach (var enc in eggs)
-                yield return enc;
+            if (TryGetEgg(pk, chain, game, out var egg))
+                yield return egg;
         }
         if (groups.HasFlag(Static))
         {
-            foreach (var enc in GetPossible(chain, Encounters9.Encounter_SV))
+            foreach (var enc in GetPossibleAll(chain, Encounters9.Encounter_SV))
                 yield return enc;
             var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
-            foreach (var enc in GetPossible(chain, encStatic))
+            foreach (var enc in GetPossibleAll(chain, encStatic))
                 yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters9.Fixed))
+            foreach (var enc in GetPossibleAll(chain, Encounters9.Fixed))
                 yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters9.Tera))
+            foreach (var enc in GetPossibleAll(chain, Encounters9.Tera))
                 yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters9.Dist))
+            foreach (var enc in GetPossibleAll(chain, Encounters9.Dist))
                 yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters9.Might))
+            foreach (var enc in GetPossibleAll(chain, Encounters9.Might))
                 yield return enc;
         }
         if (groups.HasFlag(Slot))
         {
             var areas = Encounters9.Slots;
-            foreach (var enc in GetPossibleSlots(chain, areas))
+            foreach (var enc in GetPossibleSlots<EncounterArea9, EncounterSlot9>(chain, areas))
                 yield return enc;
         }
         if (groups.HasFlag(Trade))
         {
             var table = Encounters9.TradeGift_SV;
-            foreach (var enc in GetPossible(chain, table))
+            foreach (var enc in GetPossibleAll(chain, table))
                 yield return enc;
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleEvents(EvoCriteria[] chain, IReadOnlyList<WC9> table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<T> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : IEncounterable
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea9[] areas)
-    {
-        foreach (var area in areas)
-        {
-            foreach (var slot in area.Slots)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != slot.Species)
-                        continue;
-                    yield return slot;
-                    break;
-                }
-            }
         }
     }
 
     public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
     {
-        if (pk.FatefulEncounter)
-        {
-            bool yielded = false;
-            foreach (var mg in EncounterEvent.MGDB_G9)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != mg.Species)
-                        continue;
-
-                    if (mg.IsMatchExact(pk, evo))
-                    {
-                        yield return mg;
-                        yielded = true;
-                    }
-                    break;
-                }
-            }
-            if (yielded)
-                yield break;
-        }
-
-        bool wasEgg = pk.Egg_Location switch
-        {
-            LocationsHOME.SWSHEgg => true, // Regular hatch location (not link trade)
-            LocationsHOME.SWSL => pk.Met_Location == LocationsHOME.SWSL, // Link Trade transferred over must match Met Location
-            LocationsHOME.SHVL => pk.Met_Location == LocationsHOME.SHVL, // Link Trade transferred over must match Met Location
-            _ => false,
-        };
-        if (wasEgg && pk.Met_Level == 1)
-        {
-            bool yielded = false;
-            var eggs = GetEggs(pk, chain, game);
-            foreach (var egg in eggs)
-            {
-                yield return egg;
-                yielded = true;
-            }
-            if (yielded)
-                yield break;
-        }
-
-        IEncounterable? cache = null;
-        EncounterMatchRating rating = MaxNotMatch;
-
-        // Trades
-        {
-            foreach (var z in Encounters9.TradeGift_SV)
-            {
-                foreach (var evo in chain)
-                {
-                    if (z.Version != SV && z.Version != game)
-                        continue;
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            if (cache != null)
-                yield return cache;
-        }
-
-        if (pk is not IRibbonIndex r || !r.HasEncounterMark())
-        {
-            foreach (var z in Encounters9.Encounter_SV)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
-            foreach (var z in encStatic)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            foreach (var z in Encounters9.Fixed)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            foreach (var z in Encounters9.Tera)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            foreach (var z in Encounters9.Dist)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            foreach (var z in Encounters9.Might)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-        }
-
-        // Wild encounters are more permissive than static encounters.
-        // Can have encounter marks, can have varied scales/shiny states.
-        if (CanBeWildEncounter(pk))
-        {
-            var areas = Encounters9.Slots;
-            foreach (var area in areas)
-            {
-                var slots = area.GetMatchingSlots(pk, chain);
-                foreach (var slot in slots)
-                {
-                    var match = slot.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return slot;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = slot;
-                        rating = match;
-                    }
-                }
-            }
-        }
-
-        if (cache != null)
-            yield return cache;
+        var iterator = new EncounterEnumerator9SWSH(pk, chain, game);
+        foreach (var enc in iterator)
+            yield return enc.Encounter;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
-        if (pk.FatefulEncounter)
-        {
-            bool yielded = false;
-            foreach (var mg in EncounterEvent.MGDB_G9)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != mg.Species)
-                        continue;
-
-                    if (mg.IsMatchExact(pk, evo))
-                    {
-                        yield return mg;
-                        yielded = true;
-                    }
-                    break;
-                }
-            }
-            if (yielded)
-                yield break;
-        }
-
-        var game = (GameVersion)pk.Version;
-
-        // While an unhatched picnic egg, the Version remains 0.
-        if (Locations.IsEggLocationBred9(pk.Egg_Location) && !(pk.IsEgg && game != 0))
-        {
-            bool yielded = false;
-            var eggs = GetEggs(pk, chain, game);
-            foreach (var egg in eggs)
-            {
-                yield return egg;
-                yielded = true;
-            }
-            if (yielded)
-                yield break;
-        }
-
-        IEncounterable? cache = null;
-        EncounterMatchRating rating = MaxNotMatch;
-
-        // Trades
-        if (pk.Met_Location == Locations.LinkTrade6NPC)
-        {
-            foreach (var z in Encounters9.TradeGift_SV)
-            {
-                foreach (var evo in chain)
-                {
-                    if (z.Version != SV && z.Version != game)
-                        continue;
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            if (cache != null)
-                yield return cache;
-            yield break;
-        }
-
-        if (pk is not IRibbonIndex r || !r.HasEncounterMark())
-        {
-            foreach (var z in Encounters9.Encounter_SV)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
-            foreach (var z in encStatic)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            foreach (var z in Encounters9.Fixed)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            foreach (var z in Encounters9.Tera)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            foreach (var z in Encounters9.Dist)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-            foreach (var z in Encounters9.Might)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != z.Species)
-                        continue;
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return z;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = z;
-                        rating = match;
-                    }
-                    break;
-                }
-            }
-        }
-
-        // Wild encounters are more permissive than static encounters.
-        // Can have encounter marks, can have varied scales/shiny states.
-        if (CanBeWildEncounter(pk))
-        {
-            var location = pk.Met_Location;
-            var areas = Encounters9.Slots;
-            foreach (var area in areas)
-            {
-                if (!area.IsMatchLocation(location))
-                    continue;
-
-                var slots = area.GetMatchingSlots(pk, chain);
-                foreach (var slot in slots)
-                {
-                    var match = slot.GetMatchRating(pk);
-                    if (match == Match)
-                    {
-                        yield return slot;
-                    }
-                    else if (match < rating)
-                    {
-                        cache = slot;
-                        rating = match;
-                    }
-                }
-            }
-        }
-
-        if (cache != null)
-            yield return cache;
+        var iterator = new EncounterEnumerator9(pk, chain, (GameVersion)pk.Version);
+        foreach (var enc in iterator)
+            yield return enc.Encounter;
     }
 
     private const int Generation = 9;
     private const EntityContext Context = EntityContext.Gen9;
     private const byte EggLevel = 1;
 
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain, GameVersion version)
+    public static bool TryGetEgg(PKM pk, EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
     {
+        result = null;
         var devolved = chain[^1];
         if (!devolved.InsideLevelRange(EggLevel))
-            yield break;
+            return false;
         if (version == 0 && pk.IsEgg)
             version = SL;
 
@@ -619,19 +103,20 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         // No split-breed to consider.
         var (species, form) = GetBaby(devolved);
         if (species != devolved.Species)
-            yield break; // no split-breed.
+            return false; // no split-breed.
 
         // Sanity Check 1
         if (!Breeding.CanHatchAsEgg(species))
-            yield break;
+            return false;
         // Sanity Check 2
         if (!Breeding.CanHatchAsEgg(species, form, Context))
-            yield break;
+            return false;
         // Sanity Check 3
         if (!PersonalTable.SV.IsPresentInGame(species, form))
-            yield break;
+            return false;
 
-        yield return CreateEggEncounter(species, form, version);
+        result = CreateEggEncounter(species, form, version);
+        return true;
     }
 
     private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)

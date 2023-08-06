@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.SV"/> encounter area
 /// </summary>
-public sealed record EncounterArea9 : IEncounterArea<EncounterSlot9>
+public sealed record EncounterArea9 : IEncounterArea<EncounterSlot9>, IAreaLocation
 {
     public EncounterSlot9[] Slots { get; }
     public GameVersion Version { get; }
@@ -53,42 +52,4 @@ public sealed record EncounterArea9 : IEncounterArea<EncounterSlot9>
         }
         return result;
     }
-
-    public IEnumerable<EncounterSlot9> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
-    {
-        var lvl = pk.Met_Level;
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-                if (slot.Form != evo.Form && !slot.IsRandomUnspecificForm && !IsFormOkayWild(slot.Species, evo.Form))
-                    break;
-                if (slot.Gender != -1 && pk.Gender != slot.Gender)
-                    break;
-                if (!slot.IsLevelWithinRange(lvl))
-                    break;
-
-                if (pk is ITeraType t)
-                {
-                    var orig = (byte)t.TeraTypeOriginal;
-                    var pi = PersonalTable.SV[slot.Species, slot.Form];
-                    if (pi.Type1 != orig && pi.Type2 != orig)
-                        break;
-                }
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-
-    private static bool IsFormOkayWild(ushort species, byte form) => species switch
-    {
-        (int)Species.Rotom => form <= 5,
-        (int)Species.Deerling or (int)Species.Sawsbuck => form < 4,
-        (int)Species.Oricorio => form < 4,
-        _ => false,
-    };
 }

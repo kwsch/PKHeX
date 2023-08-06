@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -12,12 +10,12 @@ public interface IEncounterArea<out T> where T : IEncounterTemplate, IVersion
     /// Slots in the area.
     /// </summary>
     T[] Slots { get; }
+}
 
-    /// <summary>
-    /// Get matching slots for the given <see cref="PKM"/> and <see cref="EvoCriteria"/> chain.
-    /// </summary>
-    /// <param name="pk">Entity to check.</param>
-    /// <param name="chain">Evolutions to check.</param>
-    /// <returns>All possible slots that match the given criteria.</returns>
-    IEnumerable<T> GetMatchingSlots(PKM pk, EvoCriteria[] chain);
+/// <summary>
+/// Area contains matching location logic.
+/// </summary>
+public interface IAreaLocation
+{
+    bool IsMatchLocation(int location);
 }

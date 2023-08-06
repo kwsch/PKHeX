@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.ORAS"/> encounter area
 /// </summary>
-public sealed record EncounterArea6AO : IEncounterArea<EncounterSlot6AO>
+public sealed record EncounterArea6AO : IEncounterArea<EncounterSlot6AO>, IAreaLocation
 {
     public EncounterSlot6AO[] Slots { get; }
     public GameVersion Version { get; }
@@ -57,39 +56,5 @@ public sealed record EncounterArea6AO : IEncounterArea<EncounterSlot6AO>
         byte min = entry[2];
         byte max = entry[3];
         return new EncounterSlot6AO(this, species, form, min, max);
-    }
-
-    private const int FluteBoostMin = 4; // White Flute decreases levels.
-    private const int FluteBoostMax = 4; // Black Flute increases levels.
-    private const int DexNavBoost = 30; // Maximum DexNav chain
-
-    public IEnumerable<EncounterSlot6AO> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                var boostMax = Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax;
-                const int boostMin = FluteBoostMin;
-                if (!slot.IsLevelWithinRange(pk.Met_Level, boostMin, boostMax))
-                    break;
-
-                if (slot.Form != evo.Form && !slot.IsRandomUnspecificForm)
-                    break;
-
-                // Track some metadata about how this slot was matched.
-                var clone = slot with
-                {
-                    WhiteFlute = evo.LevelMin < slot.LevelMin,
-                    BlackFlute = evo.LevelMin > slot.LevelMax && evo.LevelMin <= slot.LevelMax + FluteBoostMax,
-                    DexNav = slot.CanDexNav && (evo.LevelMin != slot.LevelMax || pk.RelearnMove1 != 0 || pk.AbilityNumber == 4),
-                };
-                yield return clone;
-                break;
-            }
-        }
     }
 }

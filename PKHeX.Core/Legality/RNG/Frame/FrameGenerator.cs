@@ -18,9 +18,9 @@ public sealed class FrameGenerator
     public readonly bool Safari3;
 
     public Frame GetFrame(uint seed, LeadRequired lead) => new(seed, FrameType, lead);
-    public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
+    public Frame GetFrame(uint seed, LeadRequired lead, ushort esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
 
-    public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new(seed, FrameType, lead)
+    public Frame GetFrame(uint seed, LeadRequired lead, ushort esv, ushort lvl, uint origin) => new(seed, FrameType, lead)
     {
         RandESV = esv,
         RandLevel = lvl,

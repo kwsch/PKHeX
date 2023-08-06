@@ -56,7 +56,22 @@ public sealed record EncounterSlot1(EncounterArea1 Parent, ushort Species, byte 
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Handled by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (LevelMin > evo.LevelMax)
+            return false;
+
+        if (pk is not PK1 pk1)
+            return true;
+
+        var rate = pk1.Catch_Rate;
+        var expect = EncounterUtil1.GetWildCatchRate(Version, Species);
+        if (expect != rate && !(ParseSettings.AllowGen1Tradeback && GBRestrictions.IsTradebackCatchRate(rate)))
+            return false;
+        return true;
+    }
+
     public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
     #endregion
 }

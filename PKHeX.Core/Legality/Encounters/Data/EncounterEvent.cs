@@ -12,37 +12,37 @@ namespace PKHeX.Core;
 public static class EncounterEvent
 {
     /// <summary>Event Database for Generation 3</summary>
-    public static IReadOnlyList<WC3> MGDB_G3 { get; private set; } = Array.Empty<WC3>();
+    public static WC3[] MGDB_G3 { get; private set; } = Array.Empty<WC3>();
 
     /// <summary>Event Database for Generation 4</summary>
-    public static IReadOnlyList<PCD> MGDB_G4 { get; private set; } = Array.Empty<PCD>();
+    public static PCD[] MGDB_G4 { get; private set; } = Array.Empty<PCD>();
 
     /// <summary>Event Database for Generation 5</summary>
-    public static IReadOnlyList<PGF> MGDB_G5 { get; private set; } = Array.Empty<PGF>();
+    public static PGF[] MGDB_G5 { get; private set; } = Array.Empty<PGF>();
 
     /// <summary>Event Database for Generation 6</summary>
-    public static IReadOnlyList<WC6> MGDB_G6 { get; private set; } = Array.Empty<WC6>();
+    public static WC6[] MGDB_G6 { get; private set; } = Array.Empty<WC6>();
 
     /// <summary>Event Database for Generation 7</summary>
-    public static IReadOnlyList<WC7> MGDB_G7 { get; private set; } = Array.Empty<WC7>();
+    public static WC7[] MGDB_G7 { get; private set; } = Array.Empty<WC7>();
 
     /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
-    public static IReadOnlyList<WB7> MGDB_G7GG { get; private set; } = Array.Empty<WB7>();
+    public static WB7[] MGDB_G7GG { get; private set; } = Array.Empty<WB7>();
 
     /// <summary>Event Database for Generation 8</summary>
-    public static IReadOnlyList<WC8> MGDB_G8 { get; private set; } = Array.Empty<WC8>();
+    public static WC8[] MGDB_G8 { get; private set; } = Array.Empty<WC8>();
 
     /// <summary>Event Database for Generation 8 <see cref="GameVersion.PLA"/></summary>
-    public static IReadOnlyList<WA8> MGDB_G8A { get; private set; } = Array.Empty<WA8>();
+    public static WA8[] MGDB_G8A { get; private set; } = Array.Empty<WA8>();
 
     /// <summary>Event Database for Generation 8 <see cref="GameVersion.BDSP"/></summary>
-    public static IReadOnlyList<WB8> MGDB_G8B { get; private set; } = Array.Empty<WB8>();
+    public static WB8[] MGDB_G8B { get; private set; } = Array.Empty<WB8>();
 
     /// <summary>Event Database for Generation 9 <see cref="GameVersion.SV"/></summary>
-    public static IReadOnlyList<WC9> MGDB_G9 { get; private set; } = Array.Empty<WC9>();
+    public static WC9[] MGDB_G9 { get; private set; } = Array.Empty<WC9>();
 
     /// <summary>Indicates if the databases are initialized.</summary>
-    public static bool Initialized => MGDB_G3.Count != 0;
+    public static bool Initialized => MGDB_G3.Length != 0;
 
     private static PCD[] GetPCDDB(ReadOnlySpan<byte> bin) => Get(bin, PCD.Size, static d => new PCD(d));
     private static PGF[] GetPGFDB(ReadOnlySpan<byte> bin) => Get(bin, PGF.Size, static d => new PGF(d));

@@ -124,7 +124,30 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Handled by Area
-    public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (evo.Form != Form)
+        {
+            if (Species != (int)Core.Species.Unown || evo.Form >= 26) // Don't yield !? forms
+                return false;
+        }
+
+        if (pk is not ICaughtData2 {CaughtData: not 0} c2)
+            return LevelMin <= evo.LevelMax;
+
+        if (!this.IsLevelWithinRange(c2.Met_Level))
+            return false;
+        if (!Parent.Time.Contains(c2.Met_TimeOfDay))
+            return false;
+        return true;
+    }
+
+    public EncounterMatchRating GetMatchRating(PKM pk)
+    {
+        if (IsHeadbutt && !IsTreeAvailable(pk.TID16))
+            return EncounterMatchRating.DeferredErrors;
+        return EncounterMatchRating.Match;
+    }
     #endregion
 }

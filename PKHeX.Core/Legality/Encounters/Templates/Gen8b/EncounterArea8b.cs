@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.BDSP"/> encounter area
 /// </summary>
-public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>
+public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLocation
 {
     public EncounterSlot8b[] Slots { get; }
     public GameVersion Version { get; }
@@ -83,44 +82,22 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>
         return false;
     }
 
-    public IEnumerable<EncounterSlot8b> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public bool IsMunchlaxTree(ITrainerID32 pk) => IsMunchlaxTree(pk, Location);
+
+    private static bool IsMunchlaxTree(ITrainerID32 pk, ushort location)
     {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (!slot.IsLevelWithinRange(pk.Met_Level))
-                    break;
-
-                if (slot.Form != evo.Form && slot.Species is not (int)Species.Burmy)
-                    break;
-
-                if (Type is SlotType.HoneyTree && IsInaccessibleHoneySlotLocation(slot, pk))
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-    private static bool IsInaccessibleHoneySlotLocation(EncounterSlot8b slot, PKM pk)
-    {
-        // A/B/C tables, only Munchlax is a 'C' encounter, and A/B are accessible from any tree.
-        // C table encounters are only available from 4 trees, which are determined by TID16/SID16 of the save file.
-        if (slot.Species is not (int)Species.Munchlax)
-            return false;
-
         // We didn't encode the honey tree index to the encounter slot resource.
         // Check if any of the slot's location doesn't match any of the groupC trees' area location ID.
-        var location = pk.Met_Location;
         var trees = SAV4Sinnoh.CalculateMunchlaxTrees(pk.TID16, pk.SID16);
-        return LocationID_HoneyTree[trees.Tree1] != location
-               && LocationID_HoneyTree[trees.Tree2] != location
-               && LocationID_HoneyTree[trees.Tree3] != location
-               && LocationID_HoneyTree[trees.Tree4] != location;
+        return IsMunchlaxTree(trees, location);
+    }
+
+    private static bool IsMunchlaxTree(in MunchlaxTreeSet4 trees, ushort location)
+    {
+        return LocationID_HoneyTree[trees.Tree1] == location
+            && LocationID_HoneyTree[trees.Tree2] == location
+            && LocationID_HoneyTree[trees.Tree3] == location
+            && LocationID_HoneyTree[trees.Tree4] == location;
     }
 
     private static ReadOnlySpan<ushort> LocationID_HoneyTree => new ushort[]

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.GG"/> encounter area
 /// </summary>
-public sealed record EncounterArea7b : IEncounterArea<EncounterSlot7b>
+public sealed record EncounterArea7b : IEncounterArea<EncounterSlot7b>, IAreaLocation
 {
     public EncounterSlot7b[] Slots { get; }
     public GameVersion Version { get; }
@@ -53,28 +52,5 @@ public sealed record EncounterArea7b : IEncounterArea<EncounterSlot7b>
         byte min = entry[2];
         byte max = entry[3];
         return new EncounterSlot7b(this, species, min, max);
-    }
-
-    private const int CatchComboBonus = 1;
-
-    public IEnumerable<EncounterSlot7b> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                var met = pk.Met_Level;
-                if (!slot.IsLevelWithinRange(met, 0, CatchComboBonus))
-                    break;
-                if (slot.Form != evo.Form)
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
     }
 }

@@ -12,8 +12,6 @@ internal static class Encounters1
     internal static readonly EncounterArea1[] SlotsGN = EncounterArea1.GetAreas(Get("blue", "g1"), GN);
     internal static readonly EncounterArea1[] SlotsYW = EncounterArea1.GetAreas(Get("yellow", "g1"), YW);
     internal static readonly EncounterArea1[] SlotsBU = EncounterArea1.GetAreas(Get("blue_jp", "g1"), BU);
-    internal static readonly EncounterArea1[] SlotsRBY = ArrayUtil.ConcatAll(SlotsRD, SlotsGN, SlotsYW);
-    internal static readonly EncounterArea1[] SlotsRGBY = ArrayUtil.ConcatAll(SlotsRBY, SlotsBU);
 
     private const string tradeRBY = "traderby";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeRBY);
@@ -25,24 +23,13 @@ internal static class Encounters1
         new(001, 05, RBY), // Bulbasaur
         new(004, 05, RBY), // Charmander
         new(007, 05, RBY), // Squirtle
-        new(025, 05, YW), // Pikachu
 
         // Game Corner
-        new(030, 17, RB), // Nidorina (Red Game Corner)
-        new(033, 17, RB), // Nidorino (Blue[EN] / Green[JP] Game Corner)
         new(035, 08, RBY), // Clefairy (Red Game Corner)
-        new(036, 24, BU), // Clefable (Blue[JP] Game Corner)
         new(037, 18, RBY), // Vulpix (Yellow Game Corner)
         new(040, 22, RBY), // Wigglytuff (Yellow Game Corner)
-        new(063, 06, RB), // Abra (Blue[EN] / Green[JP] Game Corner)
-        new(116, 18, BU), // Horsea (Blue[JP] Game Corner)
         new(123, 25, RBY), // Scyther (Red Game Corner)
-        new(127, 20, RB), // Pinsir (Blue[EN] / Green[JP] Game Corner)
-        new(127, 30, YW), // Pinsir (Yellow Game Corner) (Different initial moves)
-        new(137, 18, RB), // Porygon (Blue[EN] / Green[JP] Game Corner)
         new(147, 18, RBY), // Dratini (Red Game Corner)
-        new(148, 30, BU), // Dragonair (Blue[JP] Game Corner)
-        new(025, 12, BU), // Pikachu (Blue[JP] Game Corner) (Different catch rate)
 
         // Lower level less ideal matches; best match is from above.
         // new(035, 12), // Clefairy (Blue[EN] / Green[JP] Game Corner)
@@ -71,9 +58,6 @@ internal static class Encounters1
 
         new(150, 70, RBY), // Mewtwo
 
-        new(133, 25, RB), // Eevee
-        new(133, 25, YW), // Eevee (Different initial moves)
-
         new(100, 40, RBY), // Voltorb (Power Plant)
         new(101, 43, RBY), // Electrode (Power Plant)
 
@@ -83,7 +67,32 @@ internal static class Encounters1
         // new(007, 10, YW), // Squirtle (Vermillion City)
     };
 
-    internal static readonly EncounterTrade1[] TradeGift_RBY =
+    internal static readonly EncounterStatic1[] StaticRB =
+    {
+        new(030, 17, RB), // Nidorina (Red Game Corner)
+        new(033, 17, RB), // Nidorino (Blue[EN] / Green[JP] Game Corner)
+        new(063, 06, RB), // Abra (Blue[EN] / Green[JP] Game Corner)
+        new(133, 25, RB), // Eevee
+        new(127, 20, RB), // Pinsir (Blue[EN] / Green[JP] Game Corner)
+        new(137, 18, RB), // Porygon (Blue[EN] / Green[JP] Game Corner)
+    };
+
+    internal static readonly EncounterStatic1[] StaticYW =
+    {
+        new(025, 05, YW), // Pikachu
+        new(127, 30, YW), // Pinsir (Yellow Game Corner) (Different initial moves)
+        new(133, 25, YW), // Eevee (Different initial moves)
+    };
+
+    internal static readonly EncounterStatic1[] StaticBU =
+    {
+        new(116, 18, BU), // Horsea (Blue[JP] Game Corner)
+        new(036, 24, BU), // Clefable (Blue[JP] Game Corner)
+        new(148, 30, BU), // Dragonair (Blue[JP] Game Corner)
+        new(025, 12, BU), // Pikachu (Blue[JP] Game Corner) (Different catch rate)
+    };
+
+    internal static readonly EncounterTrade1[] TradeGift_RB =
     {
         new(TradeNames, 00, 122, RB, 06, 05), // Mr. Mime - Abra
         new(TradeNames, 01, 032, RB, 02    ), // Nidoran♂ - Nidoran♀
@@ -94,7 +103,10 @@ internal static class Encounters1
         new(TradeNames, 06, 101, RB, 03    ), // Electrode - Raichu
         new(TradeNames, 07, 114, RB, 13, 05), // Tangela - Venonat
         new(TradeNames, 08, 086, RB, 28, 05), // Seel - Ponyta
+    };
 
+    public static readonly EncounterTrade1[] TradeGift_YW =
+    {
         new(TradeNames, 09, 122, YW, 08, 06), // Mr. Mime - Clefairy
         new(TradeNames, 10, 067, YW, 16, 05) { EvolveOnTrade = true }, // Machoke - Cubone
         new(TradeNames, 11, 051, YW, 15, 05), // Dugtrio - Lickitung
@@ -102,7 +114,10 @@ internal static class Encounters1
         new(TradeNames, 13, 112, YW, 15, 10), // Rhydon - Golduck
         new(TradeNames, 14, 087, YW, 15, 05), // Dewgong - Growlithe
         new(TradeNames, 15, 089, YW, 25, 05), // Muk - Kangaskhan
+    };
 
+    public static readonly EncounterTrade1[] TradeGift_BU =
+    {
         new(TradeNames, 16, 122, BU, 03    ), // Mr. Mime - Jigglypuff
         new(TradeNames, 17, 029, BU, 02    ), // Nidoran♀ - Nidoran♂
         new(TradeNames, 18, 060, BU, 02    ), // Poliwag - Rattata

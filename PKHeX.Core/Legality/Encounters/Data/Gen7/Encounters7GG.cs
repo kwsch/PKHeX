@@ -61,14 +61,22 @@ internal static class Encounters7GG
     {
         // Random candy values! They can be zero so no impact on legality even though statistically rare.
         new(GG) { Species = 019, Form = 1, Level = 12, TrainerNames = T1, ID32 = 121106, OTGender = 1, IVs = new(31,31,-1,-1,-1,-1) }, // Rattata @ Cerulean City, AV rand [0-5)
-        new(GP) { Species = 027, Form = 1, Level = 27, TrainerNames = T2, ID32 = 703019, OTGender = 0, IVs = new(-1,31,31,-1,-1,-1) }, // Sandshrew @ Celadon City, AV rand [0-5)
-        new(GE) { Species = 037, Form = 1, Level = 27, TrainerNames = T2, ID32 = 703019, OTGender = 0, IVs = new(-1,-1,-1,31,31,-1) }, // Vulpix @ Celadon City, AV rand [0-5)
         new(GG) { Species = 050, Form = 1, Level = 25, TrainerNames = T3, ID32 = 520159, OTGender = 1, IVs = new(-1,31,-1,31,-1,-1) }, // Diglett @ Lavender Town, AV rand [0-5)
-        new(GE) { Species = 052, Form = 1, Level = 44, TrainerNames = T4, ID32 = 000219, OTGender = 0, IVs = new(31,-1,-1,31,-1,-1) }, // Meowth @ Cinnabar Island, AV rand [0-10)
-        new(GP) { Species = 088, Form = 1, Level = 44, TrainerNames = T4, ID32 = 000219, OTGender = 0, IVs = new(31,31,-1,-1,-1,-1) }, // Grimer @ Cinnabar Island, AV rand [0-10)
         new(GG) { Species = 026, Form = 1, Level = 30, TrainerNames = T5, ID32 = 940711, OTGender = 1, IVs = new(-1,-1,-1,31,31,-1) }, // Raichu @ Saffron City, AV rand [0-10)
         new(GG) { Species = 105, Form = 1, Level = 38, TrainerNames = T6, ID32 = 102595, OTGender = 0, IVs = new(-1,31,31,-1,-1,-1) }, // Marowak @ Fuchsia City, AV rand [0-10)
         new(GG) { Species = 103, Form = 1, Level = 46, TrainerNames = T7, ID32 = 060310, OTGender = 0, IVs = new(-1,31,-1,-1,31,-1) }, // Exeggutor @ Indigo Plateau, AV rand [0-15)
         new(GG) { Species = 074, Form = 1, Level = 16, TrainerNames = T8, ID32 = 551873, OTGender = 0, IVs = new(31,31,-1,-1,-1,-1) }, // Geodude @ Vermilion City, AV rand [0-5)
+    };
+
+    internal static readonly EncounterTrade7b[] TradeGift_GP =
+    {
+        new(GP) { Species = 027, Form = 1, Level = 27, TrainerNames = T2, ID32 = 703019, OTGender = 0, IVs = new(-1,31,31,-1,-1,-1) }, // Sandshrew @ Celadon City, AV rand [0-5)
+        new(GP) { Species = 088, Form = 1, Level = 44, TrainerNames = T4, ID32 = 000219, OTGender = 0, IVs = new(31,31,-1,-1,-1,-1) }, // Grimer @ Cinnabar Island, AV rand [0-10)
+    };
+
+    internal static readonly EncounterTrade7b[] TradeGift_GE =
+    {
+        new(GE) { Species = 037, Form = 1, Level = 27, TrainerNames = T2, ID32 = 703019, OTGender = 0, IVs = new(-1,-1,-1,31,31,-1) }, // Vulpix @ Celadon City, AV rand [0-5)
+        new(GE) { Species = 052, Form = 1, Level = 44, TrainerNames = T4, ID32 = 000219, OTGender = 0, IVs = new(31,-1,-1,31,-1,-1) }, // Meowth @ Cinnabar Island, AV rand [0-10)
     };
 }

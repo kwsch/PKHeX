@@ -110,7 +110,33 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
-    public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        // Find the first chain that has slots defined.
+        // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
+        // PoGoEncTool has already extrapolated the evolutions to separate encounters!
+
+        if (!this.IsLevelWithinRange(pk.Met_Level))
+            return false;
+        //if (!slot.IsBallValid(ball)) -- can have any of the in-game balls due to re-capture
+        //    continue;
+        if (!Shiny.IsValid(pk))
+            return false;
+        //if (slot.Gender != Gender.Random && (int) slot.Gender != pk.Gender)
+        //    continue;
+
+        return true;
+    }
+
+    public EncounterMatchRating GetMatchRating(PKM pk)
+    {
+        var stamp = PogoDateRangeExtensions.GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
+        if (!this.IsWithinStartEnd(stamp))
+            return EncounterMatchRating.DeferredErrors;
+        if (!this.GetIVsValid(pk))
+            return EncounterMatchRating.Deferred;
+        return EncounterMatchRating.Match;
+    }
     #endregion
 }

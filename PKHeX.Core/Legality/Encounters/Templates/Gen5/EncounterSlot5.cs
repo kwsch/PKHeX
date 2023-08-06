@@ -89,7 +89,20 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (!this.IsLevelWithinRange(pk.Met_Level))
+            return false;
+
+        // Deerling and Sawsbuck can change forms when seasons change, thus can be any of the [0,3] form values.
+        // no other wild forms can change
+        if (evo.Form != Form && Species is not ((int)Core.Species.Deerling or (int)Core.Species.Sawsbuck))
+            return false;
+
+        return true;
+    }
+
     public EncounterMatchRating GetMatchRating(PKM pk)
     {
         bool isHidden = pk.AbilityNumber == 4;

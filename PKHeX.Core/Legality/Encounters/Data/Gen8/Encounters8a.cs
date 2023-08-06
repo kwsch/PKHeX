@@ -1,13 +1,12 @@
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
-using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.EncounterStatic8aCorrelation;
 
 namespace PKHeX.Core;
 
 internal static class Encounters8a
 {
-    internal static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"), PLA);
+    internal static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"));
 
     private const byte M = 127; // Middle Height/Weight
     private const byte A = 255; // Max Height/Weight for Alphas

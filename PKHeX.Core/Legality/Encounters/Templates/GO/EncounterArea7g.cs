@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -62,40 +61,5 @@ public sealed record EncounterArea7g : ISpeciesForm
         var gender = (Gender)(sg >> 6);
         var type = (PogoType)entry[9];
         return new EncounterSlot7GO(start, end, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL, shiny, gender, type);
-    }
-
-    public IEnumerable<EncounterSlot7GO> GetMatchingSlots(PKM pk, EvoCriteria evo)
-    {
-        // Find the first chain that has slots defined.
-        // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
-        // PoGoEncTool has already extrapolated the evolutions to separate encounters!
-        var stamp = PogoDateRangeExtensions.GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
-        var met = Math.Max(evo.LevelMin, pk.Met_Level);
-        EncounterSlot7GO? deferredIV = null;
-
-        foreach (var slot in Slots)
-        {
-            if (!slot.IsLevelWithinRange(met))
-                continue;
-            //if (!slot.IsBallValid(ball)) -- can have any of the in-game balls due to re-capture
-            //    continue;
-            if (!slot.Shiny.IsValid(pk))
-                continue;
-            //if (slot.Gender != Gender.Random && (int) slot.Gender != pk.Gender)
-            //    continue;
-            if (!slot.IsWithinStartEnd(stamp))
-                continue;
-
-            if (!slot.GetIVsValid(pk))
-            {
-                deferredIV ??= slot;
-                continue;
-            }
-
-            yield return slot;
-        }
-
-        if (deferredIV != null)
-            yield return deferredIV;
     }
 }

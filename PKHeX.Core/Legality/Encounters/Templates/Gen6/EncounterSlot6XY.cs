@@ -113,7 +113,17 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     #endregion
 
     #region Matching
-    public bool IsMatchExact(PKM pk, EvoCriteria evo) => true; // Matched by Area
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (!this.IsLevelWithinRange(pk.Met_Level))
+            return false;
+
+        if (Form != evo.Form && !IsRandomUnspecificForm && Species is not ((int)Core.Species.Burmy or (int)Core.Species.Furfrou))
+            return false;
+
+        return true;
+    }
 
     public EncounterMatchRating GetMatchRating(PKM pk)
     {

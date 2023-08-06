@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="GameVersion.Gen4"/> encounter area
 /// </summary>
-public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGType, IGroundTypeTile
+public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGType, IGroundTypeTile, IAreaLocation
 {
     public EncounterSlot4[] Slots { get; }
     public GameVersion Version { get; }
@@ -16,6 +15,8 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGTy
 
     public readonly ushort Location;
     public readonly byte Rate;
+
+    public bool IsMatchLocation(int location) => location == Location;
 
     public static EncounterArea4[] GetAreas(BinLinkerAccessor input, GameVersion game)
     {
@@ -66,57 +67,22 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGTy
         return new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
     }
 
-    public IEnumerable<EncounterSlot4> GetMatchingSlots(PKM pk, EvoCriteria[] chain)
+    public bool IsMunchlaxTree(ITrainerID32 pk) => IsMunchlaxTree(pk, Location);
+
+    private static bool IsMunchlaxTree(ITrainerID32 pk, ushort location)
     {
-        if (pk.Format != 4) // Met Location and Met Level are changed on PK4->PK5
-            return GetSlotsFuzzy(chain);
-        if (pk.Met_Location != Location)
-            return Array.Empty<EncounterSlot4>();
-        return GetSlotsMatching(chain, pk.Met_Level, pk);
-    }
-
-    private IEnumerable<EncounterSlot4> GetSlotsMatching(EvoCriteria[] chain, int lvl, PKM pk)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (slot.Form != evo.Form && slot.Species is not (int)Species.Burmy)
-                {
-                    // Unown forms are random, not specific form IDs
-                    if (!slot.IsRandomUnspecificForm)
-                        break;
-                }
-                if (!slot.IsLevelWithinRange(lvl))
-                    break;
-
-                if (Type is SlotType.HoneyTree && IsInaccessibleHoneySlotLocation(slot, pk))
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
-    }
-
-    private static bool IsInaccessibleHoneySlotLocation(EncounterSlot4 slot, PKM pk)
-    {
-        // A/B/C tables, only Munchlax is a 'C' encounter, and A/B are accessible from any tree.
-        // C table encounters are only available from 4 trees, which are determined by TID16/SID16 of the save file.
-        if (slot.Species is not (int)Species.Munchlax)
-            return false;
-
         // We didn't encode the honey tree index to the encounter slot resource.
         // Check if any of the slot's location doesn't match any of the groupC trees' area location ID.
-        var location = pk.Met_Location;
         var trees = SAV4Sinnoh.CalculateMunchlaxTrees(pk.TID16, pk.SID16);
-        return LocationID_HoneyTree[trees.Tree1] != location
-               && LocationID_HoneyTree[trees.Tree2] != location
-               && LocationID_HoneyTree[trees.Tree3] != location
-               && LocationID_HoneyTree[trees.Tree4] != location;
+        return IsMunchlaxTree(trees, location);
+    }
+
+    private static bool IsMunchlaxTree(in MunchlaxTreeSet4 trees, ushort location)
+    {
+        return LocationID_HoneyTree[trees.Tree1] == location
+            && LocationID_HoneyTree[trees.Tree2] == location
+            && LocationID_HoneyTree[trees.Tree3] == location
+            && LocationID_HoneyTree[trees.Tree4] == location;
     }
 
     private static ReadOnlySpan<byte> LocationID_HoneyTree => new byte[]
@@ -143,29 +109,4 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGTy
         49, // 19 Fuego Ironworks
         58, // 20 Floaroma Meadow
     };
-
-    // original met level cannot be inferred
-    private IEnumerable<EncounterSlot4> GetSlotsFuzzy(EvoCriteria[] chain)
-    {
-        foreach (var slot in Slots)
-        {
-            foreach (var evo in chain)
-            {
-                if (slot.Species != evo.Species)
-                    continue;
-
-                if (slot.Form != evo.Form && slot.Species is not (int)Species.Burmy)
-                {
-                    // Unown forms are random, not specific form IDs
-                    if (!slot.IsRandomUnspecificForm)
-                        break;
-                }
-                if (slot.LevelMin > evo.LevelMax)
-                    break;
-
-                yield return slot;
-                break;
-            }
-        }
-    }
 }

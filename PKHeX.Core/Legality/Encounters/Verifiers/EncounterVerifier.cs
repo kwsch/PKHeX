@@ -65,7 +65,7 @@ public static class EncounterVerifier
     // Eggs
     private static CheckResult VerifyEncounterEgg(PKM pk, int gen) => gen switch
     {
-        2 => new CheckResult(CheckIdentifier.Encounter), // valid -- no met location info
+        2 => pk.IsEgg ? VerifyUnhatchedEgg2(pk) : VerifyEncounterEgg2(pk),
         3 => pk.IsEgg ? VerifyUnhatchedEgg3(pk) : VerifyEncounterEgg3(pk),
         4 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade4) : VerifyEncounterEgg4(pk),
         5 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade5) : VerifyEncounterEgg5(pk),
@@ -76,6 +76,32 @@ public static class EncounterVerifier
         9 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg9(pk),
         _ => GetInvalid(LEggLocationInvalid),
     };
+
+    private static CheckResult VerifyEncounterEgg2(PKM pk)
+    {
+        if (pk is not ICaughtData2 { CaughtData: not 0 } c2)
+            return GetValid(LEggLocation);
+
+        if (c2.Met_Level != 1)
+            return GetInvalid(string.Format(LEggFMetLevel_0, 1));
+
+        if (pk.Met_Location > 95)
+            return GetInvalid(LEggMetLocationFail);
+        // Any met location is fine.
+        return GetValid(LEggLocation);
+    }
+
+    private static CheckResult VerifyUnhatchedEgg2(PKM pk)
+    {
+        if (pk is not ICaughtData2 { CaughtData: not 0 } c2)
+            return new CheckResult(CheckIdentifier.Encounter);
+
+        if (c2.Met_Level != 1)
+            return GetInvalid(string.Format(LEggFMetLevel_0, 1));
+        if (c2.Met_Location != 0)
+            return GetInvalid(LEggLocationInvalid);
+        return GetValid(LEggLocation);
+    }
 
     private static CheckResult VerifyUnhatchedEgg3(PKM pk)
     {

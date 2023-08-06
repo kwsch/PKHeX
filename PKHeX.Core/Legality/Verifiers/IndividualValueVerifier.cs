@@ -59,7 +59,7 @@ public sealed class IndividualValueVerifier : Verifier
             VerifyIVsFlawless(data, IVCount);
         }
     }
-    
+
     private void VerifyIVsGen7(LegalityAnalysis data)
     {
         var pk = data.Entity;
