@@ -45,14 +45,14 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
                 State = YieldState.Slot; goto case YieldState.Slot;
             case YieldState.Slot:
                 var group = EncountersGO.SlotsGO[Index];
-                if (TryGetNext(group.Slots, out var w))
-                    return SetCurrent(w);
+                if (TryGetNext(group.Slots))
+                    return true;
                 State = YieldState.Seek; goto case YieldState.Seek;
 
             case YieldState.Fallback:
                 State = YieldState.End;
                 if (Deferred != null)
-                    return SetCurrent(new MatchedEncounter<IEncounterable>(Deferred, Rating));
+                    return SetCurrent(Deferred, Rating);
                 break;
         }
         return false;
@@ -83,7 +83,7 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
         return true;
     }
 
-    private bool TryGetNext<TSlot>(TSlot[] slots, out MatchedEncounter<IEncounterable> match)
+    private bool TryGetNext<TSlot>(TSlot[] slots)
         where TSlot : IEncounterable, IEncounterMatch
     {
         var evo = Chain[EvoIndex];
@@ -97,24 +97,21 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
 
             var rating = enc.GetMatchRating(Entity);
             if (rating == EncounterMatchRating.Match)
-            {
-                match = new MatchedEncounter<IEncounterable>(enc, rating);
-                return true;
-            }
+                return SetCurrent(enc);
 
-            if (rating >= Rating)
-                continue;
-            Deferred = enc;
-            Rating = rating;
+            if (rating < Rating)
+            {
+                Deferred = enc;
+                Rating = rating;
+            }
         }
         EvoIndex++; SubIndex = 0;
-        match = default;
         return false;
     }
 
-    private bool SetCurrent(in MatchedEncounter<IEncounterable> match)
+    private bool SetCurrent<T>(T enc, EncounterMatchRating rating = EncounterMatchRating.Match) where T : IEncounterable
     {
-        Current = match;
+        Current = new MatchedEncounter<IEncounterable>(enc, rating);
         return true;
     }
 }

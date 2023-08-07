@@ -81,8 +81,7 @@ public record struct EncounterPossible8a(EvoCriteria[] Chain, EncounterTypeGroup
         for (; Index < areas.Length; Index++, SubIndex = 0)
         {
             var area = areas[Index];
-            var slots = area.Slots;
-            if (TryGetNextSub(slots))
+            if (TryGetNextSub(area.Slots))
                 return true;
         }
         return false;

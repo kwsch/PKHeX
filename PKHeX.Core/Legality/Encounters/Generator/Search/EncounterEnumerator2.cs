@@ -89,27 +89,27 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             case YieldState.EventVC:
                 State = YieldState.Trade;
                 if (IsMatch(Encounters2.CelebiVC))
-                    return SetCurrent(new(Encounters2.CelebiVC, EncounterMatchRating.Match));
+                    return SetCurrent(Encounters2.CelebiVC);
                 goto case YieldState.Trade;
             case YieldState.EventGB:
-                if (TryGetNext(Encounters2GBEra.StaticEventsGB, out var gift))
-                    return SetCurrent(gift);
+                if (TryGetNext(Encounters2GBEra.StaticEventsGB))
+                    return true;
                 Index = 0; State = YieldState.Trade; goto case YieldState.Trade;
 
             case YieldState.Trade:
-                if (TryGetNext(Encounters2.TradeGift_GSC, out var trade))
-                    return SetCurrent(trade);
+                if (TryGetNext(Encounters2.TradeGift_GSC))
+                    return true;
                 Index = 0; goto case YieldState.Bred;
 
             case YieldState.Bred:
                 State = Entity.Korean ? YieldState.StaticStart : YieldState.BredCrystal; // next state
                 if (EncounterGenerator2.TryGetEgg(Chain, GameVersion.GS, out var egg))
-                    return SetCurrent(new(egg, EncounterMatchRating.Match));
+                    return SetCurrent(egg);
                 goto case YieldState.StaticStart;
             case YieldState.BredCrystal:
                 State = YieldState.StaticStart;
-                if (EncounterGenerator2.TryGetEggCrystal(Entity, (EncounterEgg)Current.Encounter, out var crystal))
-                    return SetCurrent(new(crystal, EncounterMatchRating.Match));
+                if (EncounterGenerator2.TryGetEggCrystal(Entity, (EncounterEgg)Current.Encounter, out egg))
+                    return SetCurrent(egg);
                 goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
@@ -117,26 +117,26 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                 { State = YieldState.StaticC; goto case YieldState.StaticC; }
                 State = YieldState.SlotGD; goto case YieldState.SlotGD;
             case YieldState.StaticC:
-                if (TryGetNext(Encounters2.StaticC, out var stC))
-                    return SetCurrent(stC);
+                if (TryGetNext(Encounters2.StaticC))
+                    return true;
                 if (hasOriginalMet || Entity.OT_Gender == 1)
                 { Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared; }
                 Index = 0; State = YieldState.StaticGD; goto case YieldState.StaticGD;
             case YieldState.StaticGD:
-                if (TryGetNext(Encounters2.StaticGD, out var stGD))
-                    return SetCurrent(stGD);
+                if (TryGetNext(Encounters2.StaticGD))
+                    return true;
                 Index = 0; State = YieldState.StaticSV; goto case YieldState.StaticSV;
             case YieldState.StaticSV:
-                if (TryGetNext(Encounters2.StaticSV, out var stSV))
-                    return SetCurrent(stSV);
+                if (TryGetNext(Encounters2.StaticSV))
+                    return true;
                 Index = 0; State = YieldState.StaticGS; goto case YieldState.StaticGS;
             case YieldState.StaticGS:
-                if (TryGetNext(Encounters2.StaticGS, out var stGS))
-                    return SetCurrent(stGS);
+                if (TryGetNext(Encounters2.StaticGS))
+                    return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
             case YieldState.StaticShared:
-                if (TryGetNext(Encounters2.StaticGSC, out var stSH))
-                    return SetCurrent(stSH);
+                if (TryGetNext(Encounters2.StaticGSC))
+                    return true;
                 Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
@@ -144,18 +144,18 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                 { State = YieldState.SlotC; goto case YieldState.SlotC; }
                 State = YieldState.SlotGD; goto case YieldState.SlotGD;
             case YieldState.SlotC:
-                if (TryGetNextLocation<EncounterArea2, EncounterSlot2>(Encounters2.SlotsC, out var slBU))
-                    return SetCurrent(slBU);
+                if (TryGetNextLocation<EncounterArea2, EncounterSlot2>(Encounters2.SlotsC))
+                    return true;
                 if (hasOriginalMet || Entity.OT_Gender == 1)
                 { Index = 0; goto case YieldState.SlotEnd; }
                 Index = 0; State = YieldState.SlotGD; goto case YieldState.SlotGD;
             case YieldState.SlotGD:
-                if (TryGetNext<EncounterArea2, EncounterSlot2>(Encounters2.SlotsGD, out var slRD))
-                    return SetCurrent(slRD);
+                if (TryGetNext<EncounterArea2, EncounterSlot2>(Encounters2.SlotsGD))
+                    return true;
                 Index = 0; State = YieldState.SlotSV; goto case YieldState.SlotSV;
             case YieldState.SlotSV:
-                if (TryGetNext<EncounterArea2, EncounterSlot2>(Encounters2.SlotsSV, out var slGN))
-                    return SetCurrent(slGN);
+                if (TryGetNext<EncounterArea2, EncounterSlot2>(Encounters2.SlotsSV))
+                    return true;
                 Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
                 goto case YieldState.Fallback;
@@ -163,13 +163,13 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             case YieldState.Fallback:
                 State = YieldState.End;
                 if (Deferred != null)
-                    return SetCurrent(new MatchedEncounter<IEncounterable>(Deferred, Rating));
+                    return SetCurrent(Deferred, Rating);
                 break;
         }
         return false;
     }
 
-    private bool TryGetNextLocation<TArea, TSlot>(TArea[] areas, out MatchedEncounter<IEncounterable> match)
+    private bool TryGetNextLocation<TArea, TSlot>(TArea[] areas)
         where TArea : IEncounterArea<TSlot>, IAreaLocation
         where TSlot : IEncounterable, IEncounterMatch
     {
@@ -178,16 +178,13 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             var area = areas[Index];
             if (hasOriginalMet && !area.IsMatchLocation(met))
                 continue;
-
-            var slots = area.Slots;
-            if (TryGetNextSub(slots, out match))
+            if (TryGetNextSub(area.Slots))
                 return true;
         }
-        match = default;
         return false;
     }
 
-    private bool TryGetNext<TArea, TSlot>(TArea[] areas, out MatchedEncounter<IEncounterable> match)
+    private bool TryGetNext<TArea, TSlot>(TArea[] areas)
         where TArea : IEncounterArea<TSlot>
         where TSlot : IEncounterable, IEncounterMatch
     {
@@ -196,17 +193,13 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             var area = areas[Index];
             //if (!area.IsMatchLocation(met))
             //    continue;
-
-            var slots = area.Slots;
-            if (TryGetNextSub(slots, out match))
+            if (TryGetNextSub(area.Slots))
                 return true;
         }
-        match = default;
         return false;
     }
 
-    private bool TryGetNextSub<T>(T[] slots, out MatchedEncounter<IEncounterable> match)
-        where T : IEncounterable, IEncounterMatch
+    private bool TryGetNextSub<T>(T[] slots) where T : IEncounterable, IEncounterMatch
     {
         while (SubIndex < slots.Length)
         {
@@ -220,11 +213,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
 
                 var rating = enc.GetMatchRating(Entity);
                 if (rating == EncounterMatchRating.Match)
-                {
-                    match = new MatchedEncounter<IEncounterable>(enc, rating);
-                    return true;
-                }
-
+                    return SetCurrent(enc);
                 if (rating < Rating)
                 {
                     Deferred = enc;
@@ -233,7 +222,6 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                 break;
             }
         }
-        match = default;
         return false;
     }
 
@@ -258,7 +246,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
         return false;
     }
 
-    private bool TryGetNext<T>(T[] db, out MatchedEncounter<IEncounterable> match) where T : class, IEncounterable, IEncounterMatch
+    private bool TryGetNext<T>(T[] db) where T : class, IEncounterable, IEncounterMatch
     {
         for (; Index < db.Length;)
         {
@@ -271,10 +259,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                     break;
                 var rating = enc.GetMatchRating(Entity);
                 if (rating == EncounterMatchRating.Match)
-                {
-                    match = new MatchedEncounter<IEncounterable>(enc, rating);
-                    return true;
-                }
+                    return SetCurrent(enc);
                 if (rating < Rating)
                 {
                     Deferred = enc;
@@ -283,13 +268,12 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                 break;
             }
         }
-        match = default;
         return false;
     }
 
-    private bool SetCurrent(in MatchedEncounter<IEncounterable> match)
+    private bool SetCurrent<T>(T enc, EncounterMatchRating rating = EncounterMatchRating.Match) where T : IEncounterable
     {
-        Current = match;
+        Current = new MatchedEncounter<IEncounterable>(enc, rating);
         return true;
     }
 }

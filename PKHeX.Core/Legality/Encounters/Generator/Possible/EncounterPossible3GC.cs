@@ -100,8 +100,7 @@ public record struct EncounterPossible3GC(EvoCriteria[] Chain, EncounterTypeGrou
         for (; Index < areas.Length; Index++, SubIndex = 0)
         {
             var area = areas[Index];
-            var slots = area.Slots;
-            if (TryGetNextSub(slots))
+            if (TryGetNextSub(area.Slots))
                 return true;
         }
         return false;

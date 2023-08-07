@@ -77,12 +77,12 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                 State = YieldState.Bred; goto case YieldState.Bred;
 
             case YieldState.Event:
-                if (TryGetNext(EncounterEvent.MGDB_G5, out var gift))
-                    return SetCurrent(gift);
+                if (TryGetNext(EncounterEvent.MGDB_G5))
+                    return true;
                 Index = 0; State = YieldState.EventLocal; goto case YieldState.EventLocal;
             case YieldState.EventLocal:
-                if (TryGetNext(EncounterEvent.EGDB_G5, out var local))
-                    return SetCurrent(local);
+                if (TryGetNext(EncounterEvent.EGDB_G5))
+                    return true;
                 if (Yielded)
                     break;
                 Index = 0; State = YieldState.Bred; goto case YieldState.Bred;
@@ -93,12 +93,12 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                 if (!EncounterGenerator5.TryGetEgg(Chain, Version, out var egg))
                 { State = YieldState.StartCaptures; goto case YieldState.StartCaptures; }
                 State = YieldState.BredSplit;
-                return SetCurrent(new(egg, EncounterMatchRating.Match));
+                return SetCurrent(egg);
             case YieldState.BredSplit:
                 State = YieldState.End;
                 if (!EncounterGenerator5.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
                     break;
-                return SetCurrent(new(egg, EncounterMatchRating.Match));
+                return SetCurrent(egg);
 
             case YieldState.TradeStart:
                 if (Version == GameVersion.W)
@@ -112,39 +112,39 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
 
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.TradeW:
-                if (TryGetNext(Encounters5BW.TradeGift_W, out var trW))
-                    return SetCurrent(trW);
+                if (TryGetNext(Encounters5BW.TradeGift_W))
+                    return true;
                 if (Yielded)
                     break;
                 Index = 0; State = YieldState.TradeBW; goto case YieldState.TradeBW;
             case YieldState.TradeB:
-                if (TryGetNext(Encounters5BW.TradeGift_B, out var trB))
-                    return SetCurrent(trB);
+                if (TryGetNext(Encounters5BW.TradeGift_B))
+                    return true;
                 if (Yielded)
                     break;
                 Index = 0; State = YieldState.TradeBW; goto case YieldState.TradeBW;
             case YieldState.TradeW2:
-                if (TryGetNext(Encounters5B2W2.TradeGift_W2, out var trW2))
-                    return SetCurrent(trW2);
+                if (TryGetNext(Encounters5B2W2.TradeGift_W2))
+                    return true;
                 if (Yielded)
                     break;
                 Index = 0; State = YieldState.TradeB2W2; goto case YieldState.TradeB2W2;
             case YieldState.TradeB2:
-                if (TryGetNext(Encounters5B2W2.TradeGift_B2, out var trB2))
-                    return SetCurrent(trB2);
+                if (TryGetNext(Encounters5B2W2.TradeGift_B2))
+                    return true;
                 if (Yielded)
                     break;
                 Index = 0; State = YieldState.TradeB2W2; goto case YieldState.TradeB2W2;
 
             case YieldState.TradeBW:
-                if (TryGetNext(Encounters5BW.TradeGift_BW, out var trBW))
-                    return SetCurrent(trBW);
+                if (TryGetNext(Encounters5BW.TradeGift_BW))
+                    return true;
                 if (Yielded)
                     break;
                 Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
             case YieldState.TradeB2W2:
-                if (TryGetNext(Encounters5B2W2.TradeGift_B2W2, out var trB2W2))
-                    return SetCurrent(trB2W2);
+                if (TryGetNext(Encounters5B2W2.TradeGift_B2W2))
+                    return true;
                 if (Yielded)
                     break;
                 Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
@@ -166,20 +166,20 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                 { State = YieldState.SlotB2; goto case YieldState.SlotB2; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.SlotW2:
-                if (TryGetNext<EncounterArea5, EncounterSlot5>(Encounters5B2W2.SlotsW2, out var slotW2))
-                    return SetCurrent(slotW2);
+                if (TryGetNext<EncounterArea5, EncounterSlot5>(Encounters5B2W2.SlotsW2))
+                    return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotB2:
-                if (TryGetNext<EncounterArea5, EncounterSlot5>(Encounters5B2W2.SlotsB2, out var slotB2))
-                    return SetCurrent(slotB2);
+                if (TryGetNext<EncounterArea5, EncounterSlot5>(Encounters5B2W2.SlotsB2))
+                    return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotW:
-                if (TryGetNext<EncounterArea5, EncounterSlot5>(Encounters5BW.SlotsW, out var slotW))
-                    return SetCurrent(slotW);
+                if (TryGetNext<EncounterArea5, EncounterSlot5>(Encounters5BW.SlotsW))
+                    return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotB:
-                if (TryGetNext<EncounterArea5, EncounterSlot5>(Encounters5BW.SlotsB, out var slotB))
-                    return SetCurrent(slotB);
+                if (TryGetNext<EncounterArea5, EncounterSlot5>(Encounters5BW.SlotsB))
+                    return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
                 goto case YieldState.Fallback; // already checked everything else
@@ -196,52 +196,52 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                 throw new ArgumentOutOfRangeException(nameof(Version));
 
             case YieldState.StaticW:
-                if (TryGetNext(Encounters5BW.StaticW, out var w))
-                    return SetCurrent(w);
+                if (TryGetNext(Encounters5BW.StaticW))
+                    return true;
                 Index = 0; State = YieldState.StaticSharedBW; goto case YieldState.StaticSharedBW;
             case YieldState.StaticB:
-                if (TryGetNext(Encounters5BW.StaticB, out var b))
-                    return SetCurrent(b);
+                if (TryGetNext(Encounters5BW.StaticB))
+                    return true;
                 Index = 0; State = YieldState.StaticSharedBW; goto case YieldState.StaticSharedBW;
             case YieldState.StaticSharedBW:
-                if (TryGetNext(Encounters5BW.Encounter_BW, out var bw))
-                    return SetCurrent(bw);
+                if (TryGetNext(Encounters5BW.Encounter_BW))
+                    return true;
                 Index = 0; State = YieldState.StaticEntreeBW; goto case YieldState.StaticEntreeBW;
             case YieldState.StaticEntreeBW:
-                if (TryGetNext(Encounters5BW.DreamWorld_BW, out var ebw))
-                    return SetCurrent(ebw);
+                if (TryGetNext(Encounters5BW.DreamWorld_BW))
+                    return true;
                 Index = 0; State = YieldState.StaticEntreeShared; goto case YieldState.StaticEntreeShared;
 
             case YieldState.StaticW2:
-                if (TryGetNext(Encounters5B2W2.StaticW2, out var w2))
-                    return SetCurrent(w2);
+                if (TryGetNext(Encounters5B2W2.StaticW2))
+                    return true;
                 Index = 0; State = YieldState.StaticSharedB2W2; goto case YieldState.StaticSharedB2W2;
             case YieldState.StaticB2:
-                if (TryGetNext(Encounters5B2W2.StaticB2, out var b2))
-                    return SetCurrent(b2);
+                if (TryGetNext(Encounters5B2W2.StaticB2))
+                    return true;
                 Index = 0; State = YieldState.StaticSharedB2W2; goto case YieldState.StaticSharedB2W2;
             case YieldState.StaticSharedB2W2:
-                if (TryGetNext(Encounters5B2W2.Encounter_B2W2_Regular, out var b2w2))
-                    return SetCurrent(b2w2);
+                if (TryGetNext(Encounters5B2W2.Encounter_B2W2_Regular))
+                    return true;
                 Index = 0; State = YieldState.StaticEntreeB2W2; goto case YieldState.StaticEntreeB2W2;
             case YieldState.StaticEntreeB2W2:
-                if (TryGetNext(Encounters5DR.Encounter_DreamRadar, out var eb2w2))
-                    return SetCurrent(eb2w2);
+                if (TryGetNext(Encounters5DR.Encounter_DreamRadar))
+                    return true;
                 Index = 0; State = YieldState.StaticRadar; goto case YieldState.StaticRadar;
             case YieldState.StaticRadar:
-                if (TryGetNext(Encounters5B2W2.Encounter_B2W2_Regular, out var radar))
-                    return SetCurrent(radar);
+                if (TryGetNext(Encounters5B2W2.Encounter_B2W2_Regular))
+                    return true;
                 Index = 0; State = YieldState.StaticEntreeShared; goto case YieldState.StaticEntreeShared;
 
             case YieldState.StaticEntreeShared:
-                if (TryGetNext(Encounters5DR.DreamWorld_Common, out var shared))
-                    return SetCurrent(shared);
+                if (TryGetNext(Encounters5DR.DreamWorld_Common))
+                    return true;
                 Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
 
             case YieldState.Fallback:
                 State = YieldState.End;
                 if (Deferred != null)
-                    return SetCurrent(new MatchedEncounter<IEncounterable>(Deferred, Rating));
+                    return SetCurrent(Deferred, Rating);
                 break;
         }
         return false;
@@ -252,7 +252,7 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
         met = Entity.Met_Location;
     }
 
-    private bool TryGetNext<TArea, TSlot>(TArea[] areas, out MatchedEncounter<IEncounterable> match)
+    private bool TryGetNext<TArea, TSlot>(TArea[] areas)
         where TArea : IEncounterArea<TSlot>, IAreaLocation
         where TSlot : IEncounterable, IEncounterMatch
     {
@@ -261,16 +261,13 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
             var area = areas[Index];
             if (!area.IsMatchLocation(met))
                 continue;
-
-            var slots = area.Slots;
-            if (TryGetNextSub(slots, out match))
+            if (TryGetNextSub(area.Slots))
                 return true;
         }
-        match = default;
         return false;
     }
 
-    private bool TryGetNextSub<T>(T[] slots, out MatchedEncounter<IEncounterable> match)
+    private bool TryGetNextSub<T>(T[] slots)
         where T : IEncounterable, IEncounterMatch
     {
         while (SubIndex < slots.Length)
@@ -285,10 +282,7 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
 
                 var rating = enc.GetMatchRating(Entity);
                 if (rating == EncounterMatchRating.Match)
-                {
-                    match = new MatchedEncounter<IEncounterable>(enc, rating);
-                    return true;
-                }
+                    return SetCurrent(enc);
 
                 if (rating < Rating)
                 {
@@ -298,11 +292,10 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                 break;
             }
         }
-        match = default;
         return false;
     }
 
-    private bool TryGetNext<T>(T[] db, out MatchedEncounter<IEncounterable> match) where T : class, IEncounterable, IEncounterMatch
+    private bool TryGetNext<T>(T[] db) where T : class, IEncounterable, IEncounterMatch
     {
         for (; Index < db.Length;)
         {
@@ -315,10 +308,8 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                     break;
                 var rating = enc.GetMatchRating(Entity);
                 if (rating == EncounterMatchRating.Match)
-                {
-                    match = new MatchedEncounter<IEncounterable>(enc, rating);
-                    return true;
-                }
+                    return SetCurrent(enc);
+
                 if (rating < Rating)
                 {
                     Deferred = enc;
@@ -327,13 +318,12 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                 break;
             }
         }
-        match = default;
         return false;
     }
 
-    private bool SetCurrent(in MatchedEncounter<IEncounterable> match)
+    private bool SetCurrent<T>(T enc, EncounterMatchRating rating = EncounterMatchRating.Match) where T : IEncounterable
     {
-        Current = match;
+        Current = new MatchedEncounter<IEncounterable>(enc, rating);
         Yielded = true;
         return true;
     }
