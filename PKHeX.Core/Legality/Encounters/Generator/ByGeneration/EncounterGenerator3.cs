@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -14,77 +11,9 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncountersWC3.Encounter_WC3;
-            foreach (var enc in GetPossibleGifts(chain, table, game))
-                yield return enc;
-        }
-
-        if (groups.HasFlag(Trade))
-        {
-            if (game is GameVersion.FR or GameVersion.LG)
-            {
-                var table = Encounters3FRLG.TradeGift_FRLG;
-                foreach (var enc in GetPossibleAll(chain, table))
-                    yield return enc;
-                var specific = game is GameVersion.FR ? Encounters3FRLG.TradeGift_FR : Encounters3FRLG.TradeGift_LG;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-            }
-            else
-            {
-                var specific = game is GameVersion.E ? Encounters3RSE.TradeGift_E : Encounters3RSE.TradeGift_RS;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-            }
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(chain, game, out var egg))
-            {
-                yield return egg;
-                if (TryGetSplit(egg, chain, out var split))
-                    yield return split;
-            }
-        }
-        if (groups.HasFlag(Slot))
-        {
-            var areas = GetAreas(game);
-            foreach (var enc in GetPossibleSlots<EncounterArea3, EncounterSlot3>(chain, areas))
-                yield return enc;
-        }
-        if (groups.HasFlag(Static))
-        {
-            var group = game is GameVersion.FR or GameVersion.LG ? Encounters3FRLG.StaticFRLG : Encounters3RSE.StaticRSE;
-            foreach (var enc in GetPossibleAll(chain, group))
-                yield return enc;
-            var table = GetStatic(game);
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, WC3[] table, GameVersion game)
-    {
-        foreach (var enc in table)
-        {
-            if (!enc.Version.Contains(game))
-                continue;
-            if (enc.NotDistributed)
-                continue;
-
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
+        var iterator = new EncounterPossible3(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
@@ -103,11 +32,18 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
 
         foreach (var z in GetEncountersInner(pk, chain, info))
         {
-            if (info.PIDIV.Type.IsCompatible3(z, pk))
+            if (IsTypeCompatible(z, pk, info.PIDIV.Type))
                 yield return z;
             else
                 partial ??= z;
         }
+        static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
+        {
+            if (enc is IRandomCorrelation r)
+                return r.IsCompatible(type, pk);
+            return type == PIDType.None;
+        }
+
         if (partial == null)
             yield break;
 
@@ -144,26 +80,6 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
     {
         return FrameFinder.GetFrames(info.PIDIV, pk).ToList();
     }
-
-    private static EncounterStatic3[] GetStatic(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.R => Encounters3RSE.StaticR,
-        GameVersion.S => Encounters3RSE.StaticS,
-        GameVersion.E => Encounters3RSE.StaticE,
-        GameVersion.FR => Encounters3FRLG.StaticFR,
-        GameVersion.LG => Encounters3FRLG.StaticLG,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
-
-    private static EncounterArea3[] GetAreas(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.R => Encounters3RSE.SlotsR,
-        GameVersion.S => Encounters3RSE.SlotsS,
-        GameVersion.E => Encounters3RSE.SlotsE,
-        GameVersion.FR => Encounters3FRLG.SlotsFR,
-        GameVersion.LG => Encounters3FRLG.SlotsLG,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
 
     private const int Generation = 3;
     private const EntityContext Context = EntityContext.Gen3;

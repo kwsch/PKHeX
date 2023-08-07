@@ -1,5 +1,3 @@
-using System;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -16,60 +14,7 @@ internal static class EncountersWC3
         new() { Species = 385, Level = 05, ID32 = 20043, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.BACD_R, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Language = (int)LanguageID.English },
     };
 
-    private static WC3[] GetIngameCXDData()
-    {
-        var langs = LanguageCXD;
-        string[] h = {string.Empty, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", string.Empty, "HORDEL"};
-        string[] d = {string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN"};
-        string[] z = {string.Empty, "コンセント", "ZAPRONG", "ZAPRONG", "ZAPRONG", "ZAPRONG", string.Empty, "ZAPRONG"};
-
-        const int count = 5;
-        var result = new WC3[count * langs.Length];
-        for (int i = 0, ofs = 0; i < langs.Length; i++)
-        {
-            var id = langs[i];
-            var l = (int)id;
-
-            // Colosseum
-            result[ofs++] = new() { Species = 311, Level = 13, Language = l, Location = 254, ID32 = 37149, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new(045, 086, 098, 270) }; // Plusle @ Ingame Trade
-            // XD
-            result[ofs++] = new(true) { Species = 239, Level = 20, Language = l, Location = 164, TID16 = 41400, OT_Gender = 0, OT_Name = h[l], Version = GameVersion.XD,   CardTitle = $"Trade Togepi ({id})",     Method = PIDType.CXD, Moves = new(008, 007, 009, 238), Nickname = z[l] }; // Elekid @ Snagem Hideout
-            result[ofs++] = new(true) { Species = 307, Level = 20, Language = l, Location = 116, TID16 = 37149, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Trapinch ({id})",   Method = PIDType.CXD, Moves = new(223, 093, 247, 197) }; // Meditite @ Pyrite Town
-            result[ofs++] = new(true) { Species = 213, Level = 20, Language = l, Location = 116, TID16 = 37149, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Moves = new(092, 164, 188, 227) }; // Shuckle @ Pyrite Town
-            result[ofs++] = new(true) { Species = 246, Level = 20, Language = l, Location = 116, TID16 = 37149, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Wooper ({id})",     Method = PIDType.CXD, Moves = new(201, 349, 044, 200) }; // Larvitar @ Pyrite Town
-        }
-        return result;
-    }
-
-    private static ReadOnlySpan<LanguageID> LanguageCXD => new[] { LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish };
-
-    private static WC3[] GetIngameCXDDataMainline()
-    {
-        var langs = LanguageCXD;
-        string[] p = { string.Empty, "コロシアム", "COLOS", "COLOSSEUM", "ARENA", "COLOSSEUM", string.Empty, "CLAUDIO" };
-        string[] c = { string.Empty, "アゲト", "AGATE", "SAMARAGD", "SOFO", "EMERITAE", string.Empty, "ÁGATA" };
-        string[] m = { string.Empty, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG", string.Empty, "ERNESTO" }; // truncated on ck3->pk3 transfer
-
-        const int count = 3;
-        var result = new WC3[count * langs.Length];
-        for (int i = 0, ofs = 0; i < langs.Length; i++)
-        {
-            var id = langs[i];
-            var l = (int)id;
-            var nd = id != LanguageID.Japanese;
-
-            // Colosseum
-            result[ofs++] = new() { Species = 025, Level = 10, Language = l, Location = 255, ID32 = 31121, OT_Gender = 0, OT_Name = p[l], Version = GameVersion.R,    CardTitle = $"Colosseum Pikachu ({id})",Method = PIDType.CXD, Shiny = Shiny.Never, NotDistributed = nd }; // Colosseum Pikachu bonus gift
-            result[ofs++] = new() { Species = 251, Level = 10, Language = l, Location = 255, ID32 = 31121, OT_Gender = 1, OT_Name = c[l], Version = GameVersion.R,    CardTitle = $"Agate Celebi ({id})",     Method = PIDType.CXD, Shiny = Shiny.Never, NotDistributed = nd }; // Ageto Celebi bonus gift
-            result[ofs++] = new() { Species = 250, Level = 70, Language = l, Location = 255, ID32 = 10048, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Shiny = Shiny.Never, Moves = new(105, 126, 241, 129) }; // Ho-oh @ Mt. Battle
-        }
-        return result;
-    }
-
-    internal static readonly WC3[] Encounter_WC3CXD = GetIngameCXDData();
-    internal static readonly WC3[] Encounter_WC3CXDMain = GetIngameCXDDataMainline();
-
-    internal static readonly WC3[] Encounter_Event3 = ArrayUtil.ConcatAll(Encounter_Event3_Special, Encounter_WC3CXD, Encounter_WC3CXDMain);
+    internal static readonly WC3[] Encounter_Event3 = Encounter_Event3_Special;
 
     internal static readonly WC3[] Encounter_Event3_FRLG =
     {

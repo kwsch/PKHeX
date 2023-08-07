@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 Mystery Gift Template File (Inner Gift Data, no card data)
 /// </summary>
-public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
+public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IRandomCorrelation
 {
     public const int Size = 0x104; // 260
     public override int Generation => 4;
@@ -301,4 +301,42 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     public bool RibbonWorld { get => PK.RibbonWorld; set => PK.RibbonWorld = value; }
     public bool RibbonChampionWorld { get => PK.RibbonChampionWorld; set => PK.RibbonChampionWorld = value; }
     public bool RibbonSouvenir { get => PK.RibbonSouvenir; set => PK.RibbonSouvenir = value; }
+
+    public bool IsCompatible(PIDType val, PKM pk)
+    {
+        if (IsManaphyEgg)
+            return IsG4ManaphyPIDValid(val, pk);
+        return val == PIDType.None;
+    }
+
+    public PIDType GetSuggestedCorrelation()
+    {
+        if (IsManaphyEgg)
+            return PIDType.Method_1;
+        return PIDType.None;
+    }
+
+    private static bool IsG4ManaphyPIDValid(PIDType val, PKM pk)
+    {
+        if (pk.IsEgg)
+        {
+            if (pk.IsShiny)
+                return false;
+            if (val == PIDType.Method_1)
+                return true;
+            return val == PIDType.G4MGAntiShiny && IsAntiShinyARNG(pk);
+        }
+
+        if (val == PIDType.Method_1)
+            return pk.WasTradedEgg || !pk.IsShiny; // can't be shiny on received game
+        return val == PIDType.G4MGAntiShiny && (pk.WasTradedEgg || IsAntiShinyARNG(pk));
+
+        static bool IsAntiShinyARNG(PKM pk)
+        {
+            var shinyPID = ARNG.Prev(pk.PID);
+            var tmp = pk.ID32 ^ shinyPID;
+            var xor = (ushort)(tmp ^ (tmp >> 16));
+            return xor < 8; // shiny proc
+        }
+    }
 }

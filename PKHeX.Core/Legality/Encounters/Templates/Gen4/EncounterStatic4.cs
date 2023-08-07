@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 4 Static Encounter
 /// </summary>
 public sealed record EncounterStatic4(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IGroundTypeTile, IFatefulEncounterReadOnly, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IGroundTypeTile, IFatefulEncounterReadOnly, IFixedGender, IRandomCorrelation
 {
     public int Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
@@ -234,4 +234,26 @@ public sealed record EncounterStatic4(GameVersion Version)
     private const uint PermitWaterH = 0x0ABC1B28; //                152,      154,           157, 158,      160, 161,                          167, 168, 169, 170, 172,      174,      176,
 
     #endregion
+
+    public bool IsCompatible(PIDType val, PKM pk)
+    {
+        if (Species == (int)Core.Species.Pichu)
+            return val == PIDType.Pokewalker;
+        if (Shiny == Shiny.Always)
+            return val == PIDType.ChainShiny;
+        if (val is PIDType.Method_1)
+            return true;
+        if (val is PIDType.CuteCharm)
+            return MethodFinder.IsCuteCharm4Valid(this, pk);
+        return false;
+    }
+
+    public PIDType GetSuggestedCorrelation()
+    {
+        if (Species == (int)Core.Species.Pichu)
+            return PIDType.Pokewalker;
+        if (Shiny == Shiny.Always)
+            return PIDType.ChainShiny;
+        return PIDType.Method_1;
+    }
 }

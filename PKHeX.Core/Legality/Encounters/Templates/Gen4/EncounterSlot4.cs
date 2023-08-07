@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.Gen4"/>.
 /// </summary>
 public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMagnetStatic, INumberedSlot, IGroundTypeTile, ISlotRNGType, IEncounterFormRandom
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMagnetStatic, INumberedSlot, IGroundTypeTile, ISlotRNGType, IEncounterFormRandom, IRandomCorrelation
 {
     public int Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
@@ -23,7 +23,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public SlotType Type => Parent.Type;
     public GroundTileAllowed GroundTile => Parent.GroundTile;
 
-    public bool CanUseRadar => !GameVersion.HGSS.Contains(Version) && GroundTile.HasFlag(GroundTileAllowed.Grass);
+    public bool CanUseRadar => !GameVersion.HGSS.Contains(Version) && GroundTile.HasFlag(GroundTileAllowed.Grass) && !Locations.IsSafariZoneLocation4(Location);
 
     private Ball GetRequiredBallValue(Ball fallback = Ball.None)
     {
@@ -149,4 +149,18 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     }
     private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
     #endregion
+
+    public bool IsCompatible(PIDType val, PKM pk)
+    {
+        if (val is PIDType.Method_1)
+            return true;
+        // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
+        if (val is PIDType.ChainShiny)
+            return Version is GameVersion.HG or GameVersion.SS && pk.IsShiny && CanUseRadar;
+        if (val is PIDType.CuteCharm)
+            return pk.Gender is 0 or 1 && MethodFinder.IsCuteCharm4Valid(this, pk);
+        return false;
+    }
+
+    public PIDType GetSuggestedCorrelation() => PIDType.Method_1;
 }

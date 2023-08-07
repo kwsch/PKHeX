@@ -1,0 +1,200 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace PKHeX.Core;
+
+public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup Flags, GameVersion Version, PKM Entity) : IEnumerator<IEncounterable>
+{
+    public IEncounterable Current { get; private set; }
+
+    private int Index;
+    private int SubIndex;
+    private YieldState State;
+    readonly object IEnumerator.Current => Current;
+    public readonly void Reset() => throw new NotSupportedException();
+    public readonly void Dispose() { }
+    public readonly IEnumerator<IEncounterable> GetEnumerator() => this;
+
+    private enum YieldState : byte
+    {
+        Start,
+
+        Bred,
+
+        TradeStart,
+        Trade,
+
+        EventStart,
+        EventVC,
+        EventGB,
+
+        StaticStart,
+        StaticC,
+        StaticGD,
+        StaticSV,
+        StaticGS,
+        StaticShared,
+
+        SlotStart,
+        SlotC,
+        SlotGD,
+        SlotSV,
+        SlotEnd,
+    }
+
+    public bool MoveNext()
+    {
+        switch (State)
+        {
+            case YieldState.Start:
+                if (Chain.Length == 0)
+                    break;
+                goto case YieldState.Bred;
+
+            case YieldState.Bred:
+                if (!Flags.HasFlag(EncounterTypeGroup.Egg))
+                    goto case YieldState.TradeStart;
+                if (!EncounterGenerator2.TryGetEgg(Chain, Version, out var egg))
+                    goto case YieldState.TradeStart;
+                State = YieldState.TradeStart;
+                return SetCurrent(egg);
+
+            case YieldState.TradeStart:
+                if (!Flags.HasFlag(EncounterTypeGroup.Trade))
+                    goto case YieldState.StaticStart;
+                State = YieldState.Trade; goto case YieldState.Trade;
+            case YieldState.Trade:
+                if (TryGetNext(Encounters2.TradeGift_GSC))
+                    return true;
+                Index = 0; goto case YieldState.StaticStart;
+
+            case YieldState.StaticStart:
+                if (!Flags.HasFlag(EncounterTypeGroup.Static))
+                    goto case YieldState.SlotStart;
+                if (Version == GameVersion.C)
+                { State = YieldState.StaticC; goto case YieldState.StaticC; }
+                if (Version == GameVersion.GD)
+                { State = YieldState.StaticGD; goto case YieldState.StaticGD; }
+                if (Version == GameVersion.SI)
+                { State = YieldState.StaticSV; goto case YieldState.StaticSV; }
+                throw new ArgumentOutOfRangeException(nameof(Version));
+            case YieldState.StaticC:
+                if (TryGetNext(Encounters2.StaticC))
+                    return true;
+                { Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared; }
+            case YieldState.StaticGD:
+                if (TryGetNext(Encounters2.StaticGD))
+                    return true;
+                Index = 0; State = YieldState.StaticSV; goto case YieldState.StaticSV;
+            case YieldState.StaticSV:
+                if (TryGetNext(Encounters2.StaticSV))
+                    return true;
+                Index = 0; State = YieldState.StaticGS; goto case YieldState.StaticGS;
+            case YieldState.StaticGS:
+                if (TryGetNext(Encounters2.StaticGS))
+                    return true;
+                Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
+            case YieldState.StaticShared:
+                if (TryGetNext(Encounters2.StaticGSC))
+                    return true;
+                Index = 0; goto case YieldState.SlotStart;
+
+            case YieldState.SlotStart:
+                if (!Flags.HasFlag(EncounterTypeGroup.Slot))
+                    goto case YieldState.EventStart;
+                if (Version == GameVersion.C)
+                { State = YieldState.SlotC; goto case YieldState.SlotC; }
+                if (Version == GameVersion.GD)
+                { State = YieldState.SlotGD; goto case YieldState.SlotGD; }
+                if (Version == GameVersion.SI)
+                { State = YieldState.SlotSV; goto case YieldState.SlotSV; }
+                throw new ArgumentOutOfRangeException(nameof(Version));
+            case YieldState.SlotC:
+                if (TryGetNextSlot(Encounters2.SlotsC))
+                    return true;
+                Index = 0; goto case YieldState.SlotEnd;
+            case YieldState.SlotGD:
+                if (TryGetNextSlot(Encounters2.SlotsGD))
+                    return true;
+                Index = 0; goto case YieldState.SlotEnd;
+            case YieldState.SlotSV:
+                if (TryGetNextSlot(Encounters2.SlotsSV))
+                    return true;
+                Index = 0; goto case YieldState.SlotEnd;
+            case YieldState.SlotEnd:
+                goto case YieldState.EventStart;
+
+            case YieldState.EventStart:
+                if (!Flags.HasFlag(EncounterTypeGroup.Mystery))
+                    break;
+                if (ParseSettings.AllowGBVirtualConsole3DS)
+                { State = YieldState.EventVC; goto case YieldState.EventVC; }
+                if (ParseSettings.AllowGBEraEvents)
+                { State = YieldState.EventGB; goto case YieldState.EventGB; }
+                throw new InvalidOperationException("No events allowed");
+            case YieldState.EventVC:
+                State = YieldState.Trade;
+                if (Chain[^1].Species == (int)Species.Celebi && Version == GameVersion.C)
+                    return SetCurrent(Encounters2.CelebiVC);
+                break;
+            case YieldState.EventGB:
+                if (TryGetNext(Encounters2GBEra.StaticEventsGB))
+                    return true;
+                break;
+        }
+        return false;
+    }
+
+    private bool TryGetNextSlot<TArea>(TArea[] areas)
+        where TArea : class, IEncounterArea<EncounterSlot2>
+    {
+        for (; Index < areas.Length; Index++, SubIndex = 0)
+        {
+            var area = areas[Index];
+            var slots = area.Slots;
+            if (TryGetNextSub(slots))
+                return true;
+        }
+        return false;
+    }
+
+    private bool TryGetNextSub(EncounterSlot2[] slots)
+    {
+        while (SubIndex < slots.Length)
+        {
+            var enc = slots[SubIndex++];
+            foreach (var evo in Chain)
+            {
+                if (enc.Species != evo.Species)
+                    continue;
+
+                if (enc.IsHeadbutt && !enc.IsTreeAvailable(Entity.TID16))
+                    break;
+                return SetCurrent(enc);
+            }
+        }
+        return false;
+    }
+
+    private bool TryGetNext<T>(T[] db) where T : class, IEncounterable, IEncounterMatch
+    {
+        for (; Index < db.Length;)
+        {
+            var enc = db[Index++];
+            foreach (var evo in Chain)
+            {
+                if (evo.Species != enc.Species)
+                    continue;
+                return SetCurrent(enc);
+            }
+        }
+        return false;
+    }
+
+    private bool SetCurrent(IEncounterable match)
+    {
+        Current = match;
+        return true;
+    }
+}

@@ -4,14 +4,22 @@ namespace PKHeX.Core;
 
 internal static class Encounters3Colo
 {
-    internal static readonly EncounterStatic3[] Encounter_ColoGift =
+    internal static readonly EncounterStatic3Colo[] Starters =
     {
         // Colosseum Starters: Gender locked to male
-        new(196, 25, GameVersion.COLO) { FixedBall = Ball.Poke, Location = 254, Shiny = Shiny.Never, Gender = 0 }, // Espeon
-        new(197, 26, GameVersion.COLO) { FixedBall = Ball.Poke, Location = 254, Shiny = Shiny.Never, Gender = 0, Moves = new(044) }, // Umbreon (Bite)
+        new(196, 25) { Moves = new(093, 216, 115, 270) }, // Espeon
+        new(197, 26) { Moves = new(044, 269, 290, 289) }, // Umbreon (Bite)
     };
 
-    internal static readonly EncounterShadow3Colo[] Encounter_Colo =
+    internal static readonly string[] TrainerNameDuking = { string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN", };
+
+    internal static readonly EncounterGift3Colo[] Gifts =
+    {
+        // In-Game without Bonus Disk
+        new(311, 13, TrainerNameDuking) { Location = 254, TID16 = 37149, OT_Gender = 0, Moves = new(045, 086, 098, 270) }, // Plusle @ Ingame Trade
+    };
+
+    internal static readonly EncounterShadow3Colo[] Shadow =
     {
         new(01, 03000, ColoMakuhita) { Species = 296, Level = 30, Moves = new(193,116,233,238), Location = 005 }, // Makuhita: Miror B.Peon Trudly @ Phenac City
 

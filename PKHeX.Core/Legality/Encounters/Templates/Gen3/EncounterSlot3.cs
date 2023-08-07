@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Encounter Slot found in <see cref="GameVersion.Gen3"/>.
 /// </summary>
 public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber, byte MagnetPullIndex, byte MagnetPullCount, byte StaticIndex, byte StaticCount)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IMagnetStatic, INumberedSlot, ISlotRNGType
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IMagnetStatic, INumberedSlot, ISlotRNGType, IRandomCorrelation
 {
     public int Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
@@ -114,4 +114,13 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
     private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
     #endregion
+
+    public bool IsCompatible(PIDType val, PKM pk)
+    {
+        if (Species != (int)Core.Species.Unown)
+            return val is (PIDType.Method_1 or PIDType.Method_2 or PIDType.Method_3 or PIDType.Method_4);
+        return val is (PIDType.Method_1_Unown or PIDType.Method_2_Unown or PIDType.Method_3_Unown or PIDType.Method_4_Unown);
+    }
+
+    public PIDType GetSuggestedCorrelation() => Species == (int)Core.Species.Unown ? PIDType.Method_1_Unown : PIDType.Method_1;
 }

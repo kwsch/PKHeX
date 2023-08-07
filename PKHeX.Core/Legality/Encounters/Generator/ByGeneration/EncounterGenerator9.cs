@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
@@ -26,50 +23,11 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
         };
     }
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncounterEvent.MGDB_G9;
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(pk, chain, game, out var egg))
-                yield return egg;
-        }
-        if (groups.HasFlag(Static))
-        {
-            foreach (var enc in GetPossibleAll(chain, Encounters9.Encounter_SV))
-                yield return enc;
-            var encStatic = game == SL ? Encounters9.StaticSL : Encounters9.StaticVL;
-            foreach (var enc in GetPossibleAll(chain, encStatic))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters9.Fixed))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters9.Tera))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters9.Dist))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters9.Might))
-                yield return enc;
-        }
-        if (groups.HasFlag(Slot))
-        {
-            var areas = Encounters9.Slots;
-            foreach (var enc in GetPossibleSlots<EncounterArea9, EncounterSlot9>(chain, areas))
-                yield return enc;
-        }
-        if (groups.HasFlag(Trade))
-        {
-            var table = Encounters9.TradeGift_SV;
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-        }
+        var iterator = new EncounterPossible9(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncountersSWSH(PKM pk, EvoCriteria[] chain, GameVersion game)
@@ -92,12 +50,17 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
 
     public static bool TryGetEgg(PKM pk, EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
     {
+        if (version == 0 && pk.IsEgg)
+            version = SL;
+        return TryGetEgg(chain, version, out result);
+    }
+
+    public static bool TryGetEgg(EvoCriteria[] chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
+    {
         result = null;
         var devolved = chain[^1];
         if (!devolved.InsideLevelRange(EggLevel))
             return false;
-        if (version == 0 && pk.IsEgg)
-            version = SL;
 
         // Ensure most devolved species is the same as the egg species.
         // No split-breed to consider.

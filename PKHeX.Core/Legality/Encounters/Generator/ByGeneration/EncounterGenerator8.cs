@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -13,70 +10,9 @@ public sealed class EncounterGenerator8 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncounterEvent.MGDB_G8;
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(chain, game, out var egg))
-            {
-                yield return egg;
-                if (TryGetSplit(egg, chain, out var split))
-                    yield return split;
-            }
-        }
-        if (groups.HasFlag(Static))
-        {
-            foreach (var enc in GetPossibleAll(chain, Encounters8.StaticSWSH))
-                yield return enc;
-            var table = game == GameVersion.SW ? Encounters8.StaticSW : Encounters8.StaticSH;
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters8Nest.Nest_SW))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters8Nest.Nest_SH))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters8Nest.Dist_SW))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters8Nest.Dist_SH))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters8Nest.DynAdv_SWSH))
-                yield return enc;
-            foreach (var enc in GetPossibleAll(chain, Encounters8Nest.Crystal_SWSH))
-                yield return enc;
-        }
-        if (groups.HasFlag(Slot))
-        {
-            if (game is GameVersion.SW)
-            {
-                foreach (var enc in GetPossibleSlots<EncounterArea8, EncounterSlot8>(chain, Encounters8.SlotsSW_Symbol))
-                    yield return enc;
-                foreach (var enc in GetPossibleSlots<EncounterArea8, EncounterSlot8>(chain, Encounters8.SlotsSW_Hidden))
-                    yield return enc;
-            }
-            else
-            {
-                foreach (var enc in GetPossibleSlots<EncounterArea8, EncounterSlot8>(chain, Encounters8.SlotsSH_Symbol))
-                    yield return enc;
-                foreach (var enc in GetPossibleSlots<EncounterArea8, EncounterSlot8>(chain, Encounters8.SlotsSH_Hidden))
-                    yield return enc;
-            }
-        }
-        if (groups.HasFlag(Trade))
-        {
-            var table = Encounters8.TradeSWSH;
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-            var specific = game == GameVersion.SW ? Encounters8.TradeSW : Encounters8.TradeSH;
-            foreach (var enc in GetPossibleAll(chain, specific))
-                yield return enc;
-        }
+        var iterator = new EncounterPossible8(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)

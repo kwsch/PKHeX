@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -11,77 +8,11 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
 {
     public static readonly EncounterGenerator7 Instance = new();
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncounterEvent.MGDB_G7;
-            foreach (var enc in GetPossibleGifts(chain, table, game))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(chain, game, out var egg))
-            {
-                yield return egg;
-                yield return MutateEggTrade(egg);
-                if (TryGetSplit(egg, chain, out var split))
-                {
-                    yield return split;
-                    yield return MutateEggTrade(split);
-                }
-            }
-        }
-        if (groups.HasFlag(Static))
-        {
-            if (game is GameVersion.US or GameVersion.UM)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters7USUM.StaticUSUM))
-                    yield return enc;
-                var specific = game is GameVersion.US ? Encounters7USUM.StaticUS : Encounters7USUM.StaticUM;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-            }
-            else
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters7SM.StaticSM))
-                    yield return enc;
-                var specific = game is GameVersion.SN ? Encounters7SM.StaticSN : Encounters7SM.StaticMN;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-            }
-        }
-        if (groups.HasFlag(Slot))
-        {
-            var areas = GetAreas(game);
-            foreach (var enc in GetPossibleSlots<EncounterArea7, EncounterSlot7>(chain, areas))
-                yield return enc;
-        }
-        if (groups.HasFlag(Trade))
-        {
-            var table = GetTrades(game);
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WC7> table, GameVersion game)
-    {
-        foreach (var enc in table)
-        {
-            if (!enc.CanBeReceivedByVersion((int)game))
-                continue;
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
+        var iterator = new EncounterPossible7(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
@@ -90,24 +21,6 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }
-
-    private static EncounterArea7[] GetAreas(GameVersion game) => game switch
-    {
-        GameVersion.SN => Encounters7SM.SlotsSN,
-        GameVersion.MN => Encounters7SM.SlotsMN,
-        GameVersion.US => Encounters7USUM.SlotsUS,
-        GameVersion.UM => Encounters7USUM.SlotsUM,
-        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
-    };
-
-    private static EncounterTrade7[] GetTrades(GameVersion game) => game switch
-    {
-        GameVersion.SN => Encounters7SM.TradeGift_SM,
-        GameVersion.MN => Encounters7SM.TradeGift_SM,
-        GameVersion.US => Encounters7USUM.TradeGift_USUM,
-        GameVersion.UM => Encounters7USUM.TradeGift_USUM,
-        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
-    };
 
     internal static EncounterTransfer7 GetVCStaticTransferEncounter(PKM pk, ushort encSpecies, ReadOnlySpan<EvoCriteria> chain)
     {

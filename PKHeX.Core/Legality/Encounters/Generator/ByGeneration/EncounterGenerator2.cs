@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -13,114 +10,9 @@ public sealed class EncounterGenerator2 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        bool korean = pk.Korean;
-        if (groups.HasFlag(Mystery))
-        {
-            if (!korean && ParseSettings.AllowGBEraEvents)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters2GBEra.StaticEventsGB))
-                    yield return enc;
-            }
-        }
-        if (groups.HasFlag(Trade))
-        {
-            foreach (var enc in GetPossibleAll(chain, Encounters2.TradeGift_GSC))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(chain, game, out var egg))
-            {
-                yield return egg;
-                if (TryGetEggCrystal(pk, egg, out var crystal))
-                    yield return crystal;
-            }
-        }
-        if (groups.HasFlag(Static))
-        {
-            foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGSC))
-                yield return enc;
-            if (game is GameVersion.GD)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGD))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGS))
-                    yield return enc;
-            }
-            else if (game is GameVersion.SV)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticSV))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGS))
-                    yield return enc;
-            }
-            else if (game is GameVersion.C && !pk.Korean)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticC))
-                    yield return enc;
-            }
-            else if (game is GameVersion.GS || pk.Korean)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGD))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticSV))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGS))
-                    yield return enc;
-            }
-            else
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGD))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticSV))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticGS))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters2.StaticC))
-                    yield return enc;
-            }
-            if (ParseSettings.AllowGBVirtualConsole3DS && game is GameVersion.C or GameVersion.GSC && !korean)
-            {
-                var celebi = Encounters2.CelebiVC;
-                if (chain[0].Species == celebi.Species)
-                    yield return celebi;
-            }
-        }
-        if (groups.HasFlag(Slot))
-        {
-            if (!korean)
-            {
-                foreach (var enc in GetPossibleSlots(chain, Encounters2.SlotsC, pk))
-                    yield return enc;
-            }
-            foreach (var enc in GetPossibleSlots(chain, Encounters2.SlotsGD, pk))
-                yield return enc;
-            foreach (var enc in GetPossibleSlots(chain, Encounters2.SlotsSV, pk))
-                yield return enc;
-        }
-    }
-
-    private static IEnumerable<EncounterSlot2> GetPossibleSlots(EvoCriteria[] chain, EncounterArea2[] areas, ITrainerID16 pk)
-    {
-        foreach (var area in areas)
-        {
-            foreach (var slot in area.Slots)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != slot.Species)
-                        continue;
-
-                    if (slot.IsHeadbutt && !slot.IsTreeAvailable(pk.TID16))
-                        break;
-                    yield return slot;
-                    break;
-                }
-            }
-        }
+        var iterator = new EncounterPossible2(chain, groups, game, pk);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)

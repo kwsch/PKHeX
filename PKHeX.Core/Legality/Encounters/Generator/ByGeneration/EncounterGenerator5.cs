@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -21,98 +18,9 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncounterEvent.MGDB_G5;
-            foreach (var enc in GetPossibleGifts(chain, table, game))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(chain, game, out var egg))
-            {
-                yield return egg;
-                if (TryGetSplit(egg, chain, out var split))
-                    yield return split;
-            }
-        }
-        if (groups.HasFlag(Static))
-        {
-            if (game is GameVersion.B or GameVersion.W)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters5DR.DreamWorld_Common))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters5BW.DreamWorld_BW))
-                    yield return enc;
-
-                foreach (var enc in GetPossibleAll(chain, Encounters5BW.Encounter_BW))
-                    yield return enc;
-                var specific = game == GameVersion.B ? Encounters5BW.StaticB : Encounters5BW.StaticW;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-            }
-            else
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters5DR.DreamWorld_Common))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters5B2W2.DreamWorld_B2W2))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters5DR.Encounter_DreamRadar))
-                    yield return enc;
-
-                foreach (var enc in GetPossibleAll(chain, Encounters5B2W2.Encounter_B2W2_Regular))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters5B2W2.Encounter_B2W2_N))
-                    yield return enc;
-                var specific = game == GameVersion.B2 ? Encounters5B2W2.StaticB2 : Encounters5B2W2.StaticW2;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-            }
-        }
-        if (groups.HasFlag(Slot))
-        {
-            var areas = GetAreas(game);
-            foreach (var enc in GetPossibleSlots<EncounterArea5, EncounterSlot5>(chain, areas))
-                yield return enc;
-        }
-        if (groups.HasFlag(Trade))
-        {
-            if (game is GameVersion.B or GameVersion.W)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters5BW.TradeGift_BW))
-                    yield return enc;
-                var specific = game == GameVersion.B ? Encounters5BW.TradeGift_B : Encounters5BW.TradeGift_W;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-            }
-            else
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters5B2W2.TradeGift_B2W2))
-                    yield return enc;
-                var specific = game == GameVersion.B2 ? Encounters5B2W2.TradeGift_B2 : Encounters5B2W2.TradeGift_W2;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<PGF> table, GameVersion game)
-    {
-        foreach (var enc in table)
-        {
-            if (!enc.CanBeReceivedByVersion((int)game))
-                continue;
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
+        var iterator = new EncounterPossible5(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
@@ -121,15 +29,6 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }
-
-    private static EncounterArea5[] GetAreas(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.B => Encounters5BW.SlotsB,
-        GameVersion.W => Encounters5BW.SlotsW,
-        GameVersion.B2 => Encounters5B2W2.SlotsB2,
-        GameVersion.W2 => Encounters5B2W2.SlotsW2,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
 
     private const int Generation = 5;
     private const EntityContext Context = EntityContext.Gen5;

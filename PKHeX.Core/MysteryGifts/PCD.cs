@@ -12,7 +12,7 @@ namespace PKHeX.Core;
 /// https://projectpokemon.org/home/forums/topic/5870-pok%C3%A9mon-mystery-gift-editor-v143-now-with-bw-support/
 /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
 /// </remarks>
-public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
+public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IRestrictVersion
 {
     public const int Size = 0x358; // 856
     public override int Generation => 4;

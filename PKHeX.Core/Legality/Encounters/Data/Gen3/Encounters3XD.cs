@@ -4,15 +4,27 @@ namespace PKHeX.Core;
 
 internal static class Encounters3XD
 {
-    internal static readonly EncounterStatic3[] Encounter_XDGift =
+    internal static readonly EncounterStatic3XD[] Gifts =
     {
-        new(133, 10, GameVersion.XD) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 000, Moves = new(044) }, // Eevee (Bite)
-        new(152, 05, GameVersion.XD) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(246,033,045,338) }, // Chikorita
-        new(155, 05, GameVersion.XD) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(179,033,043,307) }, // Cyndaquil
-        new(158, 05, GameVersion.XD) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(242,010,043,308) }, // Totodile
+        new(133, 10) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 000, Moves = new(044) }, // Eevee (Bite)
+        new(152, 05) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(246,033,045,338) }, // Chikorita
+        new(155, 05) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(179,033,043,307) }, // Cyndaquil
+        new(158, 05) { FixedBall = Ball.Poke, FatefulEncounter = true, Location = 016, Moves = new(242,010,043,308) }, // Totodile
     };
 
-    internal static readonly EncounterShadow3XD[] Encounter_XD =
+    private static readonly string[] Hordel = { string.Empty, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", string.Empty, "HORDEL" };
+    private static readonly string[] Zaprong = { string.Empty, "コンセント", "ZAPRONG", "ZAPRONG", "ZAPRONG", "ZAPRONG", string.Empty, "ZAPRONG" };
+    private static string[] Duking => Encounters3Colo.TrainerNameDuking;
+
+    internal static readonly EncounterTrade3XD[] Trades =
+    {
+        new(239, 20, Hordel, Zaprong) { Location = 164, TID16 = 41400, Moves = new(008, 007, 009, 238) }, // Elekid @ Snagem Hideout
+        new(307, 20, Duking)          { Location = 116, TID16 = 37149, Moves = new(223, 093, 247, 197) }, // Meditite @ Pyrite Town
+        new(213, 20, Duking)          { Location = 116, TID16 = 37149, Moves = new(092, 164, 188, 227) }, // Shuckle @ Pyrite Town
+        new(246, 20, Duking)          { Location = 116, TID16 = 37149, Moves = new(201, 349, 044, 200) }, // Larvitar @ Pyrite Town
+    };
+
+    internal static readonly EncounterShadow3XD[] Shadow =
     {
         new(01, 03000, First)     { Species = 216, Level = 11, Moves = new(216,287,122,232), Location = 143, FixedBall = Ball.Poke }, // Teddiursa: Cipher Peon Naps @ Pokémon HQ Lab -- treat as Gift as it can only be captured in a Poké Ball
         new(02, 02000, Vulpix)    { Species = 037, Level = 18, Moves = new(257,204,052,091), Location = 109 }, // Vulpix: Cipher Peon Mesin @ ONBS Building
@@ -106,7 +118,7 @@ internal static class Encounters3XD
         new(83, 02500, Ledyba)    { Species = 165, Level = 10, Moves = new(060,287,332,048), Location = 153 }, // Ledyba: Casual Guy Cyle @ Gateon Port
     };
 
-    internal static readonly EncounterArea3XD[] SlotsXD =
+    internal static readonly EncounterArea3XD[] Slots =
     {
         new(90, 027, 23, 207, 20, 328, 20), // Rock (Sandshrew, Gligar, Trapinch)
         new(91, 187, 20, 231, 20, 283, 20), // Oasis (Hoppip, Phanpy, Surskit)

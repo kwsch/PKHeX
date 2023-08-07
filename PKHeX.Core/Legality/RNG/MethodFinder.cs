@@ -369,7 +369,7 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
+    internal static bool GetCuteCharmMatch(PKM pk, uint pid, out PIDIV pidiv)
     {
         if (pid > 0xFF)
             return GetNonMatch(out pidiv);
@@ -744,105 +744,15 @@ public static class MethodFinder
         _ => false,
     };
 
-    public static bool IsCompatible3(this PIDType val, IEncounterTemplate encounter, PKM pk) => encounter switch
+    internal static bool IsCuteCharm4Valid(ISpeciesForm enc, PKM pk)
     {
-        WC3 g                  => IsCompatible3Mystery(val, pk, g),
-        EncounterStatic3 s     => IsCompatible3Static(val, pk, s),
-        IShadow3               => val is (CXD or CXDAnti),
-        EncounterSlot3PokeSpot => val is PokeSpot,
-        EncounterSlot3 w       => w.Species != (int)Species.Unown
-            ? val is (Method_1       or Method_2       or Method_3       or Method_4)
-            : val is (Method_1_Unown or Method_2_Unown or Method_3_Unown or Method_4_Unown),
-        _  => val is None,
-    };
-
-    private static bool IsCompatible3Static(PIDType val, PKM pk, EncounterStatic3 s) => pk.Version switch
-    {
-        (int)GameVersion.CXD                        => val is (CXD or CXD_ColoStarter or CXDAnti),
-        (int)GameVersion.E                          => val is Method_1, // no roamer glitch
-        (int)GameVersion.FR or (int) GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pk) : val is Method_1, // roamer glitch
-        _ => s.Roaming ? val.IsRoamerPIDIV(pk) : val is (Method_1 or Method_4), // RS, roamer glitch && RSBox s/w emulation => method 4 available
-    };
-
-    private static bool IsCompatible3Mystery(PIDType val, PKM pk, WC3 g) => val == g.Method || val switch
-    {
-        // forced shiny eggs, when hatched, can lose their detectable correlation.
-        None    => (g.Method is (BACD_R_S or BACD_U_S)) && g.IsEgg && !pk.IsEgg,
-        CXDAnti => g.Method is CXD && g.Shiny == Shiny.Never,
-        _       => false,
-    };
-
-    private static bool IsRoamerPIDIV(this PIDType val, PKM pk)
-    {
-        // Roamer PIDIV is always Method 1.
-        // M1 is checked before M1R. A M1R PIDIV can also be a M1 PIDIV, so check that collision.
-        if (Method_1_Roamer == val)
-            return true;
-        if (Method_1 != val)
+        if (pk.Gender is not (0 or 1))
             return false;
-
-        // only 8 bits are stored instead of 32 -- 5 bits HP, 3 bits for ATK.
-        // return pk.IV32 <= 0xFF;
-        return pk is { IV_DEF: 0, IV_SPE: 0, IV_SPA: 0, IV_SPD: 0, IV_ATK: <= 7 };
-    }
-
-    public static bool IsCompatible4(this PIDType val, IEncounterTemplate encounter, PKM pk) => encounter switch
-    {
-        // Pokewalker can sometimes be confused with CuteCharm due to the PID creation routine. Double check if it is okay.
-        EncounterStatic4Pokewalker when val is CuteCharm => GetCuteCharmMatch(pk, pk.EncryptionConstant, out _) && IsCuteCharm4Valid(encounter, pk),
-        EncounterStatic4Pokewalker => val is Pokewalker,
-
-        EncounterStatic4 {Species: (int)Species.Pichu} => val is Pokewalker,
-        EncounterStatic4 {Shiny: Shiny.Always} => val is ChainShiny,
-        EncounterStatic4 when val is CuteCharm => IsCuteCharm4Valid(encounter, pk),
-        EncounterStatic4 => val is Method_1,
-
-        EncounterSlot4 w => val switch
-        {
-            // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
-            ChainShiny => pk is { IsShiny: true, HGSS: false } && (w.GroundTile & GroundTileAllowed.Grass) != 0 && !Locations.IsSafariZoneLocation4(w.Location),
-            CuteCharm => IsCuteCharm4Valid(encounter, pk),
-            _ => val is Method_1,
-        },
-
-        PGT => IsG4ManaphyPIDValid(val, pk), // Manaphy is the only PGT in the database
-        PCD d when d.Gift.PK.PID != 1 => true, // Already matches PCD's fixed PID requirement
-        _ => val is None,
-    };
-
-    private static bool IsG4ManaphyPIDValid(PIDType val, PKM pk)
-    {
-        if (pk.IsEgg)
-        {
-            if (pk.IsShiny)
-                return false;
-            if (val == Method_1)
-                return true;
-            return val == G4MGAntiShiny && IsAntiShinyARNG();
-        }
-
-        if (val == Method_1)
-            return pk.WasTradedEgg || !pk.IsShiny; // can't be shiny on received game
-        return val == G4MGAntiShiny && (pk.WasTradedEgg || IsAntiShinyARNG());
-
-        bool IsAntiShinyARNG()
-        {
-            var shinyPID = ARNG.Prev(pk.PID);
-            var tmp = pk.ID32 ^ shinyPID;
-            var xor = (ushort)(tmp ^ (tmp >> 16));
-            return xor < 8; // shiny proc
-        }
-    }
-
-    private static bool IsCuteCharm4Valid(ISpeciesForm encounter, PKM pk)
-    {
-        if (pk.Species is (int)Species.Marill or (int)Species.Azumarill)
-        {
-            return !IsCuteCharmAzurillMale(pk.PID) // recognized as not Azurill
-                   || encounter.Species == (int)Species.Azurill; // encounter must be male Azurill
-        }
-
-        return true;
+        if (pk.Species is not ((int)Species.Marill or (int)Species.Azumarill))
+            return true;
+        if (!IsCuteCharmAzurillMale(pk.PID)) // recognized as not Azurill
+            return true;
+        return enc.Species == (int)Species.Azurill; // encounter must be male Azurill
     }
 
     private static bool IsCuteCharmAzurillMale(uint pid) => pid is >= 0xC8 and <= 0xE0;

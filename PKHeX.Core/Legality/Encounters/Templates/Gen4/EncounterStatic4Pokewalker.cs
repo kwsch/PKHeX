@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 4 Pokéwalker  Encounter
 /// </summary>
 public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IRandomCorrelation
 {
     public int Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
@@ -167,4 +167,17 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
 
     private static bool IsMatchPartial(PKM pk) => pk.Ball != (byte)Ball.Poke;
     #endregion
+
+    public bool IsCompatible(PIDType val, PKM pk)
+    {
+        if (val is PIDType.Pokewalker)
+            return true;
+
+        // Pokewalker can sometimes be confused with CuteCharm due to the PID creation routine. Double check if it is okay.
+        if (val is PIDType.CuteCharm)
+            return MethodFinder.GetCuteCharmMatch(pk, pk.EncryptionConstant, out _) && MethodFinder.IsCuteCharm4Valid(this, pk);
+        return false;
+    }
+
+    public PIDType GetSuggestedCorrelation() => PIDType.Pokewalker;
 }

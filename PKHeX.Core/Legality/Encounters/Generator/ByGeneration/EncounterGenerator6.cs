@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -11,86 +8,11 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
 {
     public static readonly EncounterGenerator6 Instance = new();
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncounterEvent.MGDB_G6;
-            foreach (var enc in GetPossibleGifts(chain, table, game))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(chain, game, out var egg))
-            {
-                yield return egg;
-                yield return MutateEggTrade(egg);
-                if (TryGetSplit(egg, chain, out var split))
-                {
-                    yield return split;
-                    yield return MutateEggTrade(split);
-                }
-            }
-        }
-        if (groups.HasFlag(Static))
-        {
-            if (game is GameVersion.X or GameVersion.Y)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters6XY.Encounter_XY))
-                    yield return enc;
-                var table = game == GameVersion.X ? Encounters6XY.StaticX : Encounters6XY.StaticY;
-                foreach (var enc in GetPossibleAll(chain, table))
-                    yield return enc;
-            }
-            else if (game is GameVersion.AS or GameVersion.OR)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters6AO.Encounter_AO))
-                    yield return enc;
-                var table = game == GameVersion.AS ? Encounters6AO.StaticA : Encounters6AO.StaticO;
-                foreach (var enc in GetPossibleAll(chain, table))
-                    yield return enc;
-            }
-        }
-        if (groups.HasFlag(Slot))
-        {
-            if (game is GameVersion.X or GameVersion.Y)
-            {
-                var areas = game == GameVersion.X ? Encounters6XY.SlotsX : Encounters6XY.SlotsY;
-                foreach (var enc in GetPossibleSlots<EncounterArea6XY, EncounterSlot6XY>(chain, areas))
-                    yield return enc;
-            }
-            else if (game is GameVersion.AS or GameVersion.OR)
-            {
-                var areas = game == GameVersion.AS ? Encounters6AO.SlotsA : Encounters6AO.SlotsO;
-                foreach (var enc in GetPossibleSlots<EncounterArea6AO, EncounterSlot6AO>(chain, areas))
-                    yield return enc;
-            }
-        }
-        if (groups.HasFlag(Trade))
-        {
-            var table = GetTrades(game);
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WC6> table, GameVersion game)
-    {
-        foreach (var enc in table)
-        {
-            if (!enc.CanBeReceivedByVersion((int)game))
-                continue;
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
+        var iterator = new EncounterPossible6(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
@@ -105,15 +27,6 @@ public sealed class EncounterGenerator6 : IEncounterGenerator
         foreach (var enc in iterator)
             yield return enc.Encounter;
     }
-
-    private static EncounterTrade6[] GetTrades(GameVersion gameSource) => gameSource switch
-    {
-        GameVersion.X => Encounters6XY.TradeGift_XY,
-        GameVersion.Y => Encounters6XY.TradeGift_XY,
-        GameVersion.AS => Encounters6AO.TradeGift_AO,
-        GameVersion.OR => Encounters6AO.TradeGift_AO,
-        _ => throw new ArgumentOutOfRangeException(nameof(gameSource), gameSource, null),
-    };
 
     private const int Generation = 6;
     private const EntityContext Context = EntityContext.Gen6;

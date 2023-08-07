@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 3 Static Encounter
 /// </summary>
 public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IFatefulEncounterReadOnly, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IFatefulEncounterReadOnly, IRandomCorrelation
 {
     public int Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
@@ -13,7 +13,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     int ILocation.Location => Location;
     public bool IsShiny => false;
     private bool Gift => FixedBall == Ball.Poke;
-    public Shiny Shiny { get; init; } = Shiny.Random;
+    public Shiny Shiny => Shiny.Random;
 
     public AbilityPermission Ability => AbilityPermission.Any12;
 
@@ -23,7 +23,6 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     public required byte Location { get; init; }
     public byte Form { get; init; }
     public bool EggEncounter { get; init; }
-    public sbyte Gender { get; init; } = -1;
     public Moveset Moves { get; init; }
 
     public string Name => "Static Encounter";
@@ -109,7 +108,6 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             PIDType type = this switch
             {
                 { Roaming: true, Version: not GameVersion.E } => PIDType.Method_1_Roamer,
-                { Version: GameVersion.COLO or GameVersion.XD } => PIDType.CXD,
                 _ => PIDType.Method_1,
             };
             do
@@ -130,8 +128,6 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         if (!IsMatchLocation(pk))
             return false;
         if (!IsMatchLevel(pk, evo))
-            return false;
-        if (Gender != -1 && pk.Gender != Gender)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
@@ -196,4 +192,31 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         return false;
     }
     #endregion
+
+    public bool IsCompatible(PIDType val, PKM pk)
+    {
+        var version = pk.Version;
+        if (version is (int)GameVersion.E)
+            return val is PIDType.Method_1;
+        if (version is (int)GameVersion.FR or(int) GameVersion.LG)
+            return Roaming ? IsRoamerPIDIV(val, pk) : val is PIDType.Method_1;
+        // RS, roamer glitch && RSBox s/w emulation => method 4 available
+        return Roaming ? IsRoamerPIDIV(val, pk) : val is (PIDType.Method_1 or PIDType.Method_4);
+    }
+
+    private static bool IsRoamerPIDIV(PIDType val, PKM pk)
+    {
+        // Roamer PIDIV is always Method 1.
+        // M1 is checked before M1R. A M1R PIDIV can also be a M1 PIDIV, so check that collision.
+        if (PIDType.Method_1_Roamer == val)
+            return true;
+        if (PIDType.Method_1 != val)
+            return false;
+
+        // only 8 bits are stored instead of 32 -- 5 bits HP, 3 bits for ATK.
+        // return pk.IV32 <= 0xFF;
+        return pk is { IV_DEF: 0, IV_SPE: 0, IV_SPA: 0, IV_SPD: 0, IV_ATK: <= 7 };
+    }
+
+    public PIDType GetSuggestedCorrelation() => PIDType.Method_1;
 }

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 Mystery Gift Template File (LGP/E)
 /// </summary>
-public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangNicknamedTemplate
+public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangNicknamedTemplate, IRestrictVersion
 {
     public const int Size = 0x108;
     public const int SizeFull = 0x310;

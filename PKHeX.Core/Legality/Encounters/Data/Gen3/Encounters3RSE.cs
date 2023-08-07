@@ -18,6 +18,23 @@ internal static class Encounters3RSE
     private static EncounterArea3[] GetRegular(string resource, string ident, GameVersion game) => EncounterArea3.GetAreas(Get(resource, ident), game);
     private static EncounterArea3[] GetSwarm(string resource, string ident, GameVersion game) => EncounterArea3.GetAreasSwarm(Get(resource, ident), game);
 
+    private static readonly string[] TrainersPikachu = { string.Empty, "コロシアム", "COLOS", "COLOSSEUM", "ARENA", "COLOSSEUM", string.Empty, "CLAUDIO" };
+    private static readonly string[] TrainersCelebi = { string.Empty, "アゲト", "AGATE", "SAMARAGD", "SOFO", "EMERITAE", string.Empty, "ÁGATA" };
+    private static readonly string[] TrainersMattle = { string.Empty, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG", string.Empty, "ERNESTO" }; // truncated on ck3->pk3 transfer
+
+    internal static readonly EncounterGift3Colo[] ColoGiftsR =
+    {
+        // In-Game Bonus Disk (Japan only)
+        new(025, 10, TrainersPikachu, R) { Location = 255, TID16 = 31121, OT_Gender = 0 }, // Colosseum Pikachu bonus gift
+        new(251, 10, TrainersCelebi, R)  { Location = 255, TID16 = 31121, OT_Gender = 1 }, // Ageto Celebi bonus gift
+    };
+
+    internal static readonly EncounterGift3Colo[] ColoGiftsS =
+    {
+        // In-Game without Bonus Disk
+        new(250, 70, TrainersMattle, S)  { Location = 255, TID16 = 10048, OT_Gender = 0, Moves = new(105, 126, 241, 129) }, // Ho-oh @ Mt. Battle
+    };
+
     private const string tradeRSE = "traderse";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeRSE);
 

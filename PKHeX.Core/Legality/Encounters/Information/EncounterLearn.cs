@@ -9,12 +9,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class EncounterLearn
 {
-    static EncounterLearn()
-    {
-        if (!EncounterEvent.Initialized)
-            EncounterEvent.RefreshMGDB();
-    }
-
     /// <summary>
     /// Default response if there are no matches.
     /// </summary>

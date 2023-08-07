@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -25,120 +22,9 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            if (chain[^1].Species == (int)Species.Manaphy)
-                yield return RangerManaphy;
-
-            var table = EncounterEvent.MGDB_G4;
-            foreach (var enc in GetPossibleGifts(chain, table, game))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(chain, game, out var egg))
-            {
-                yield return egg;
-                if (TryGetSplit(egg, chain, out var split))
-                    yield return split;
-            }
-        }
-        if (groups.HasFlag(Static))
-        {
-            if (game is GameVersion.HG or GameVersion.SS)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters4HGSS.Encounter_HGSS))
-                    yield return enc;
-                var specific = game == GameVersion.HG ? Encounters4HGSS.StaticHG : Encounters4HGSS.StaticSS;
-                foreach (var enc in GetPossibleAll(chain, specific))
-                    yield return enc;
-                foreach (var enc in GetPossibleAll(chain, Encounters4HGSS.Encounter_PokeWalker))
-                    yield return enc;
-            }
-            else
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters4DPPt.StaticDPPt))
-                    yield return enc;
-                if (game is GameVersion.Pt)
-                {
-                    foreach (var enc in GetPossibleAll(chain, Encounters4DPPt.StaticPt))
-                        yield return enc;
-                }
-                else
-                {
-                    foreach (var enc in GetPossibleAll(chain, Encounters4DPPt.StaticDP))
-                        yield return enc;
-                    var specific = game == GameVersion.D ? Encounters4DPPt.StaticD : Encounters4DPPt.StaticP;
-                    foreach (var enc in GetPossibleAll(chain, specific))
-                        yield return enc;
-                }
-            }
-        }
-        if (groups.HasFlag(Slot))
-        {
-            if (game is GameVersion.HG)
-            {
-                foreach (var enc in GetPossibleSlots<EncounterArea4, EncounterSlot4>(chain, Encounters4HGSS.SlotsHG))
-                    yield return enc;
-            }
-            else if (game is GameVersion.SS)
-            {
-                foreach (var enc in GetPossibleSlots<EncounterArea4, EncounterSlot4>(chain, Encounters4HGSS.SlotsSS))
-                    yield return enc;
-            }
-            else if (game is GameVersion.D)
-            {
-                foreach (var enc in GetPossibleSlots<EncounterArea4, EncounterSlot4>(chain, Encounters4DPPt.SlotsD))
-                    yield return enc;
-            }
-            else if (game is GameVersion.P)
-            {
-                foreach (var enc in GetPossibleSlots<EncounterArea4, EncounterSlot4>(chain, Encounters4DPPt.SlotsP))
-                    yield return enc;
-            }
-            else if (game is GameVersion.Pt)
-            {
-                foreach (var enc in GetPossibleSlots<EncounterArea4, EncounterSlot4>(chain, Encounters4DPPt.SlotsPt))
-                    yield return enc;
-            }
-        }
-        if (groups.HasFlag(Trade))
-        {
-            if (game is GameVersion.HG or GameVersion.SS)
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters4HGSS.TradeGift_HGSS))
-                    yield return enc;
-            }
-            else
-            {
-                foreach (var enc in GetPossibleAll(chain, Encounters4DPPt.TradeGift_DPPtIngame))
-                    yield return enc;
-                if (game is GameVersion.D)
-                {
-                    foreach (var enc in GetPossibleAll(chain, Encounters4DPPt.RanchGifts))
-                        yield return enc;
-                }
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<PCD> table, GameVersion game)
-    {
-        foreach (var enc in table)
-        {
-            if (!enc.CanBeReceivedByVersion((int)game))
-                continue;
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
+        var iterator = new EncounterPossible4(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
@@ -149,12 +35,28 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
 
         foreach (var z in GetEncountersInner(pk, chain, info))
         {
-            if (!info.PIDIV.Type.IsCompatible4(z, pk))
+            if (!IsTypeCompatible(z, pk, info.PIDIV.Type))
                 deferredPIDIV.Add(z);
-            else if (pk is IGroundTile e && !(z is IGroundTypeTile t ? t.GroundTile.Contains(e.GroundTile) : e.GroundTile == 0))
+            else if (!IsTileCompatible(z, pk))
                 deferredEType.Add(z);
             else
                 yield return z;
+        }
+
+        static bool IsTileCompatible(IEncounterable encounterable, PKM pk)
+        {
+            if (pk is not IGroundTile e)
+                return true; // No longer has the data to check
+            if (encounterable is not IGroundTypeTile t)
+                return e.GroundTile == 0;
+            return t.GroundTile.Contains(e.GroundTile);
+        }
+
+        static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
+        {
+            if (enc is IRandomCorrelation r)
+                return r.IsCompatible(type, pk);
+            return type == PIDType.None;
         }
 
         foreach (var z in deferredEType)

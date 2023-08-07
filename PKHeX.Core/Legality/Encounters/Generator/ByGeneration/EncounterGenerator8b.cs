@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using static PKHeX.Core.EncounterGeneratorUtil;
-using static PKHeX.Core.EncounterTypeGroup;
-
 namespace PKHeX.Core;
 
 public sealed class EncounterGenerator8b : IEncounterGenerator
@@ -13,43 +10,9 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
 
     public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncounterEvent.MGDB_G8B;
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            if (TryGetEgg(chain, game, out var egg))
-            {
-                yield return egg;
-                if (TryGetSplit(egg, chain, out var split))
-                    yield return split;
-            }
-        }
-        if (groups.HasFlag(Static))
-        {
-            foreach (var enc in GetPossibleAll(chain, Encounters8b.Encounter_BDSP))
-                yield return enc;
-            var table = game == GameVersion.BD ? Encounters8b.StaticBD : Encounters8b.StaticSP;
-            foreach (var enc in GetPossibleAll(chain, table))
-                yield return enc;
-        }
-        if (groups.HasFlag(Slot))
-        {
-            var areas = game == GameVersion.BD ? Encounters8b.SlotsBD : Encounters8b.SlotsSP;
-            foreach (var enc in GetPossibleSlots<EncounterArea8b, EncounterSlot8b>(chain, areas))
-                yield return enc;
-        }
-        if (groups.HasFlag(Trade))
-        {
-            foreach (var enc in GetPossibleAll(chain, Encounters8b.TradeGift_BDSP))
-                yield return enc;
-        }
+        var iterator = new EncounterPossible8b(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)

@@ -7,12 +7,6 @@ namespace PKHeX.Core.Tests.Simulator;
 
 public class ShowdownSetTests
 {
-    static ShowdownSetTests()
-    {
-        if (!EncounterEvent.Initialized)
-            EncounterEvent.RefreshMGDB();
-    }
-
     [Fact]
     public void SimulatorGetParse()
     {

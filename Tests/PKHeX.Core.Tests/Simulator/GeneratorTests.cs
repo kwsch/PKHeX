@@ -7,12 +7,6 @@ namespace PKHeX.Core.Tests.Simulator;
 
 public class GeneratorTests
 {
-    static GeneratorTests()
-    {
-        if (!EncounterEvent.Initialized)
-            EncounterEvent.RefreshMGDB();
-    }
-
     public static IEnumerable<object[]> PokemonGenerationTestData()
     {
         for (int i = 1; i <= 807; i++)
