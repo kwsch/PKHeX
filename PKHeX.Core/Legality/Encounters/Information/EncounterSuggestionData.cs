@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn, ILevelRange
 {
-    private readonly IEncounterable? Encounter;
+    public readonly IEncounterable? Encounter;
 
     public ushort Species { get; }
     public byte Form { get; }

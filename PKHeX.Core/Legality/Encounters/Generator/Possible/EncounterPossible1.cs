@@ -54,43 +54,54 @@ public record struct EncounterPossible1(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.TradeStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Trade))
                     goto case YieldState.StaticStart;
-                if (Version == GameVersion.BU)
+                if (Version is GameVersion.BU or GameVersion.RBY)
                 { State = YieldState.TradeBU; goto case YieldState.TradeBU; }
-                if (Version == GameVersion.YW)
+                if (Version is GameVersion.YW)
                 { State = YieldState.TradeYW; goto case YieldState.TradeYW; }
                 State = YieldState.TradeRB; goto case YieldState.TradeRB;
             case YieldState.TradeBU:
                 if (TryGetNext(Encounters1.TradeGift_BU))
                     return true;
-                Index = 0; goto case YieldState.StaticStart;
-            case YieldState.TradeRB:
-                if (TryGetNext(Encounters1.TradeGift_RB))
-                    return true;
-                Index = 0; goto case YieldState.StaticStart;
+                Index = 0;
+                if (Version == GameVersion.BU)
+                    goto case YieldState.StaticStart;
+                State = YieldState.TradeYW; goto case YieldState.TradeYW;
             case YieldState.TradeYW:
                 if (TryGetNext(Encounters1.TradeGift_YW))
+                    return true;
+                Index = 0;
+                if (Version == GameVersion.YW)
+                    goto case YieldState.StaticStart;
+                State = YieldState.TradeRB; goto case YieldState.TradeRB;
+            case YieldState.TradeRB:
+                if (TryGetNext(Encounters1.TradeGift_RB))
                     return true;
                 Index = 0; goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Static))
                     goto case YieldState.SlotStart;
-                if (Version == GameVersion.BU)
+                if (Version is GameVersion.BU or GameVersion.RBY)
                 { State = YieldState.StaticBU; goto case YieldState.StaticBU; }
-                if (Version == GameVersion.YW)
+                if (Version is GameVersion.YW)
                 { State = YieldState.StaticYW; goto case YieldState.StaticYW; }
                 State = YieldState.StaticRB; goto case YieldState.StaticRB;
 
             case YieldState.StaticBU:
                 if (TryGetNext(Encounters1.StaticBU))
                     return true;
-                Index = 0; State = YieldState.StaticRB; goto case YieldState.StaticRB;
-            case YieldState.StaticRB:
-                if (TryGetNext(Encounters1.StaticRB))
-                    return true;
-                Index = 0; State = YieldState.StaticYW; goto case YieldState.StaticYW;
+                Index = 0;
+                if (Version == GameVersion.BU)
+                { State = YieldState.StaticShared; goto case YieldState.StaticShared; }
+                State = YieldState.StaticYW; goto case YieldState.StaticYW;
             case YieldState.StaticYW:
                 if (TryGetNext(Encounters1.StaticYW))
+                    return true;
+                if (Version == GameVersion.YW)
+                { State = YieldState.StaticShared; goto case YieldState.StaticShared; }
+                State = YieldState.StaticRB; goto case YieldState.StaticRB;
+            case YieldState.StaticRB:
+                if (TryGetNext(Encounters1.StaticRB))
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
             case YieldState.StaticShared:
@@ -101,11 +112,11 @@ public record struct EncounterPossible1(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))
                     goto case YieldState.EventStart;
-                if (Version == GameVersion.BU)
+                if (Version is GameVersion.BU or GameVersion.RBY)
                 { State = YieldState.SlotBU; goto case YieldState.SlotBU; }
                 if (Version == GameVersion.YW)
                 { State = YieldState.SlotYW; goto case YieldState.SlotYW; }
-                if (Version == GameVersion.RD)
+                if (Version is GameVersion.RD or GameVersion.RB)
                 { State = YieldState.SlotRD; goto case YieldState.SlotRD; }
                 if (Version == GameVersion.GN)
                 { State = YieldState.SlotGN; goto case YieldState.SlotGN; }
@@ -113,19 +124,28 @@ public record struct EncounterPossible1(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.SlotBU:
                 if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsBU))
                     return true;
-                Index = 0; State = YieldState.SlotRD; goto case YieldState.SlotRD;
+                Index = 0;
+                if (Version == GameVersion.BU)
+                { State = YieldState.EventStart; goto case YieldState.EventStart; }
+                State = YieldState.SlotYW; goto case YieldState.SlotYW;
+            case YieldState.SlotYW:
+                if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsYW))
+                    return true;
+                Index = 0;
+                if (Version == GameVersion.YW)
+                { State = YieldState.EventStart; goto case YieldState.EventStart; }
+                State = YieldState.SlotRD; goto case YieldState.SlotRD;
             case YieldState.SlotRD:
                 if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsRD))
                     return true;
-                Index = 0; State = YieldState.SlotGN; goto case YieldState.SlotGN;
+                Index = 0;
+                if (Version == GameVersion.RD)
+                { State = YieldState.EventStart; goto case YieldState.EventStart; }
+                State = YieldState.SlotGN; goto case YieldState.SlotGN;
             case YieldState.SlotGN:
                 if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsGN))
                     return true;
                 Index = 0; State = YieldState.SlotYW; goto case YieldState.SlotYW;
-            case YieldState.SlotYW:
-                if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsYW))
-                    return true;
-                Index = 0; goto case YieldState.EventStart;
 
             case YieldState.EventStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Mystery))

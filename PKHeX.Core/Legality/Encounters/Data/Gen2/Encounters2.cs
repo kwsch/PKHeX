@@ -9,11 +9,8 @@ namespace PKHeX.Core;
 internal static class Encounters2
 {
     internal static readonly EncounterArea2[] SlotsGD = EncounterArea2.GetAreas(Get("gold", "g2"), GD);
-    internal static readonly EncounterArea2[] SlotsSV = EncounterArea2.GetAreas(Get("silver", "g2"), SI);
+    internal static readonly EncounterArea2[] SlotsSI = EncounterArea2.GetAreas(Get("silver", "g2"), SI);
     internal static readonly EncounterArea2[] SlotsC = EncounterArea2.GetAreas(Get("crystal", "g2"), C);
-
-    internal static readonly EncounterArea2[] SlotsGS = ArrayUtil.ConcatAll(SlotsGD, SlotsSV);
-    internal static readonly EncounterArea2[] SlotsGSC = ArrayUtil.ConcatAll(SlotsGS, SlotsC);
 
     private const string tradeGSC = "tradegsc";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeGSC);
@@ -73,7 +70,7 @@ internal static class Encounters2
         new(250, 40, GD) { Location = 023 }, // Ho-Oh @ Tin Tower
     };
 
-    public static readonly EncounterStatic2[] StaticSV =
+    public static readonly EncounterStatic2[] StaticSI =
     {
         new(249, 40, SI) { Location = 031 }, // Lugia @ Whirl Islands
         new(250, 70, SI) { Location = 023 }, // Ho-Oh @ Tin Tower

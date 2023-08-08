@@ -55,14 +55,14 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
         StaticStart,
         StaticC,
         StaticGD,
-        StaticSV,
+        StaticSI,
         StaticGS,
         StaticShared,
 
         SlotStart,
         SlotC,
         SlotGD,
-        SlotSV,
+        SlotSI,
         SlotEnd,
 
         Fallback,
@@ -125,9 +125,9 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             case YieldState.StaticGD:
                 if (TryGetNext(Encounters2.StaticGD))
                     return true;
-                Index = 0; State = YieldState.StaticSV; goto case YieldState.StaticSV;
-            case YieldState.StaticSV:
-                if (TryGetNext(Encounters2.StaticSV))
+                Index = 0; State = YieldState.StaticSI; goto case YieldState.StaticSI;
+            case YieldState.StaticSI:
+                if (TryGetNext(Encounters2.StaticSI))
                     return true;
                 Index = 0; State = YieldState.StaticGS; goto case YieldState.StaticGS;
             case YieldState.StaticGS:
@@ -152,9 +152,9 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             case YieldState.SlotGD:
                 if (TryGetNext<EncounterArea2, EncounterSlot2>(Encounters2.SlotsGD))
                     return true;
-                Index = 0; State = YieldState.SlotSV; goto case YieldState.SlotSV;
-            case YieldState.SlotSV:
-                if (TryGetNext<EncounterArea2, EncounterSlot2>(Encounters2.SlotsSV))
+                Index = 0; State = YieldState.SlotSI; goto case YieldState.SlotSI;
+            case YieldState.SlotSI:
+                if (TryGetNext<EncounterArea2, EncounterSlot2>(Encounters2.SlotsSI))
                     return true;
                 Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:

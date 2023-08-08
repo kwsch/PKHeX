@@ -102,7 +102,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
             pk.OT_Gender = tr.Gender;
             pk.Met_Level = LevelMin;
             pk.Met_Location = Location;
-            pk.Met_TimeOfDay = Parent.Time.RandomValidTime();
+            pk.Met_TimeOfDay = GetRandomTime();
         }
 
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
@@ -121,6 +121,9 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
         pk.ResetPartyStats();
         return pk;
     }
+
+    public int GetRandomTime() => Parent.Time.RandomValidTime();
+
     #endregion
 
     #region Matching

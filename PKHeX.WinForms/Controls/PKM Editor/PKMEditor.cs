@@ -838,6 +838,8 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         int minlvl = EncounterSuggestion.GetLowestLevel(Entity, encounter.LevelMin);
         if (minlvl == 0)
             minlvl = level;
+        if (Entity.Format < 3 && encounter.Encounter is { } x && !x.Version.Contains(GameVersion.C))
+            location = 0;
 
         if (Entity.CurrentLevel >= minlvl && Entity.Met_Level == level && Entity.Met_Location == location)
         {
@@ -849,7 +851,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         if (!silent)
         {
-            var suggestions = EntitySuggestionUtil.GetMetLocationSuggestionMessage(Entity, level, location, minlvl);
+            var suggestions = EntitySuggestionUtil.GetMetLocationSuggestionMessage(Entity, level, location, minlvl, encounter.Encounter);
             if (suggestions.Count <= 1) // no suggestion
                 return false;
 
@@ -869,6 +871,21 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
             if (Entity is { Gen6: true, WasEgg: true } && ModifyPKM)
                 Entity.SetHatchMemory6();
+        }
+        else
+        {
+            Entity.Met_Location = location;
+            TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
+            CB_MetLocation.SelectedValue = location;
+            var timeIndex = 0;
+            if (encounter.Encounter is { } enc && location is < 253 and not 0)
+            {
+                if (enc is EncounterSlot2 s2)
+                    timeIndex = s2.GetRandomTime();
+                else
+                    timeIndex = Util.Rand.Next(1, 4);
+            }
+            CB_MetTimeOfDay.SelectedIndex = timeIndex;
         }
 
         if (Entity.CurrentLevel < minlvl)

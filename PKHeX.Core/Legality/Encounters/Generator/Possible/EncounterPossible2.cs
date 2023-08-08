@@ -32,14 +32,14 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
         StaticStart,
         StaticC,
         StaticGD,
-        StaticSV,
+        StaticSI,
         StaticGS,
         StaticShared,
 
         SlotStart,
         SlotC,
         SlotGD,
-        SlotSV,
+        SlotSI,
         SlotEnd,
     }
 
@@ -72,23 +72,29 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Static))
                     goto case YieldState.SlotStart;
-                if (Version == GameVersion.C)
+                if (Version is GameVersion.C or GameVersion.GSC)
                 { State = YieldState.StaticC; goto case YieldState.StaticC; }
-                if (Version == GameVersion.GD)
+                if (Version is GameVersion.GD or GameVersion.GS)
                 { State = YieldState.StaticGD; goto case YieldState.StaticGD; }
                 if (Version == GameVersion.SI)
-                { State = YieldState.StaticSV; goto case YieldState.StaticSV; }
+                { State = YieldState.StaticSI; goto case YieldState.StaticSI; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.StaticC:
                 if (TryGetNext(Encounters2.StaticC))
                     return true;
-                { Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared; }
+                Index = 0;
+                if (Version == GameVersion.C)
+                { State = YieldState.StaticShared; goto case YieldState.StaticShared; }
+                State = YieldState.StaticGD; goto case YieldState.StaticGD;
             case YieldState.StaticGD:
                 if (TryGetNext(Encounters2.StaticGD))
                     return true;
-                Index = 0; State = YieldState.StaticSV; goto case YieldState.StaticSV;
-            case YieldState.StaticSV:
-                if (TryGetNext(Encounters2.StaticSV))
+                Index = 0;
+                if (Version == GameVersion.GD)
+                { State = YieldState.StaticGS; goto case YieldState.StaticGS; }
+                State = YieldState.StaticSI; goto case YieldState.StaticSI;
+            case YieldState.StaticSI:
+                if (TryGetNext(Encounters2.StaticSI))
                     return true;
                 Index = 0; State = YieldState.StaticGS; goto case YieldState.StaticGS;
             case YieldState.StaticGS:
@@ -103,27 +109,31 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))
                     goto case YieldState.EventStart;
-                if (Version == GameVersion.C)
+                if (Version is GameVersion.C or GameVersion.GSC)
                 { State = YieldState.SlotC; goto case YieldState.SlotC; }
-                if (Version == GameVersion.GD)
+                if (Version is GameVersion.GD or GameVersion.GS)
                 { State = YieldState.SlotGD; goto case YieldState.SlotGD; }
                 if (Version == GameVersion.SI)
-                { State = YieldState.SlotSV; goto case YieldState.SlotSV; }
+                { State = YieldState.SlotSI; goto case YieldState.SlotSI; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.SlotC:
                 if (TryGetNextSlot(Encounters2.SlotsC))
                     return true;
-                Index = 0; goto case YieldState.SlotEnd;
+                Index = 0;
+                if (Version == GameVersion.C)
+                    goto case YieldState.EventStart;
+                State = YieldState.SlotGD; goto case YieldState.SlotGD;
             case YieldState.SlotGD:
                 if (TryGetNextSlot(Encounters2.SlotsGD))
                     return true;
-                Index = 0; goto case YieldState.SlotEnd;
-            case YieldState.SlotSV:
-                if (TryGetNextSlot(Encounters2.SlotsSV))
+                Index = 0;
+                if (Version == GameVersion.GD)
+                    goto case YieldState.EventStart;
+                State = YieldState.SlotSI; goto case YieldState.SlotSI;
+            case YieldState.SlotSI:
+                if (TryGetNextSlot(Encounters2.SlotsSI))
                     return true;
-                Index = 0; goto case YieldState.SlotEnd;
-            case YieldState.SlotEnd:
-                goto case YieldState.EventStart;
+                Index = 0; goto case YieldState.EventStart;
 
             case YieldState.EventStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Mystery))
