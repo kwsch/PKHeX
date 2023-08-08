@@ -28,7 +28,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public required ushort TID16 { get; init; }
     public required byte OT_Gender { get; init; }
 
-    public EncounterGift3Colo(ushort species, byte level, string[] trainers, GameVersion game = GameVersion.COLO)
+    public EncounterGift3Colo(ushort species, byte level, string[] trainers, GameVersion game)
     {
         Species = species;
         Level = level;
@@ -59,8 +59,8 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
 
             Met_Location = Location,
             Met_Level = Level,
-            Version = (byte)GameVersion.CXD,
-            Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
+            Version = (byte)Version,
+            Ball = (byte)Ball.Poke,
 
             Language = lang,
             OT_Name = TrainerNames[lang],
@@ -72,7 +72,8 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         SetPINGA(pk, criteria);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
-        SetEncounterMoves(pk);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -86,14 +87,11 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);
-        const PIDType type = PIDType.CXD;
         do
         {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
+            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
         } while (Shiny == Shiny.Never && pk.IsShiny);
     }
-
-    private void SetEncounterMoves(PKM pk) => EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching

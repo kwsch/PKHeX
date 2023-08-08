@@ -47,7 +47,7 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
             Met_Location = Location,
             Met_Level = Level,
             Version = (byte)GameVersion.CXD,
-            Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
+            Ball = (byte)Ball.Poke,
 
             Language = lang,
             OT_Name = tr.Language == lang ? tr.OT : lang == 1 ? "ゲーフリ" : "GF",
@@ -59,7 +59,8 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
         SetPINGA(pk, criteria);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
-        SetEncounterMoves(pk);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -79,8 +80,6 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
             PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
         } while (Shiny == Shiny.Never && pk.IsShiny);
     }
-
-    private void SetEncounterMoves(PKM pk) => EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching

@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 6 Static Encounter
 /// </summary>
 public sealed record EncounterStatic6(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IContestStatsReadOnly, IHatchCycle, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IContestStatsReadOnly, IHatchCycle, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IMoveset
 {
     public int Generation => 6;
     public EntityContext Context => EntityContext.Gen6;

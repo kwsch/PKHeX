@@ -28,7 +28,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
     public required ushort Species { get; init; }
     public required byte Level { get; init; }
     public required byte Location { get; init; }
-    public Moveset Moves { get; init; }
+    public required Moveset Moves { get; init; }
 
     public string Name => "Shadow Encounter";
     public string LongName => Name;
@@ -71,13 +71,10 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
         SetPINGA(pk, criteria);
         pk.SetMoves(Moves);
-        SetEncounterMoves(pk);
 
         pk.ResetPartyStats();
         return pk;
     }
-
-    private void SetEncounterMoves(PKM pk) => EncounterUtil1.SetEncounterMoves(pk, GameVersion.CXD, LevelMin);
 
     private void SetPINGA(PKM pk, EncounterCriteria criteria)
     {

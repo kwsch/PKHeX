@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 3 Static Encounter
 /// </summary>
 public sealed record EncounterStatic3XD(ushort Species, byte Level)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, IFatefulEncounterReadOnly, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<XK3>, IFatefulEncounterReadOnly, IRandomCorrelation, IMoveset
 {
     public int Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
@@ -39,7 +39,6 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = GetTemplateLanguage(tr);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         var pk = new XK3
         {
             Species = Species,
@@ -48,7 +47,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)version,
+            Version = (byte)GameVersion.CXD,
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
@@ -62,7 +61,8 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
         SetPINGA(pk, criteria);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
-        SetEncounterMoves(pk);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -93,8 +93,6 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
             } while (Shiny == Shiny.Never && pk.IsShiny);
         }
     }
-
-    private void SetEncounterMoves(PKM pk) => EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching

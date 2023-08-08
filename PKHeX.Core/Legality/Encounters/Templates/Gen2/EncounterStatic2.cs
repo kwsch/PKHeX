@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 2 Static Encounter
 /// </summary>
 public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IHatchCycle, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IHatchCycle, IFixedGender, IMoveset
 {
     public int Generation => 2;
     public EntityContext Context => EntityContext.Gen2;

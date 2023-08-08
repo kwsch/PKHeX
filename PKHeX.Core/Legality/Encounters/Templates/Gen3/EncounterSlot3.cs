@@ -67,13 +67,13 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         {
             do
             {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender);
+                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1_Unown);
                 ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
             } while (pk.Form != Form);
         }
         else
         {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender);
+            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
         }
     }
 

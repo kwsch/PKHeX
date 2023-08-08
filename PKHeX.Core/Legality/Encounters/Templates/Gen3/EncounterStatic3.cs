@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 3 Static Encounter
 /// </summary>
 public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IFatefulEncounterReadOnly, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IFatefulEncounterReadOnly, IRandomCorrelation, IMoveset
 {
     public int Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
@@ -70,7 +70,8 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         SetPINGA(pk, criteria);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
-        SetEncounterMoves(pk);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
@@ -116,8 +117,6 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             } while (Shiny == Shiny.Never && pk.IsShiny);
         }
     }
-
-    private void SetEncounterMoves(PKM pk) => EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching

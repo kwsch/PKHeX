@@ -97,7 +97,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender);
+        PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
         pk.Gender = gender;
     }
     #endregion

@@ -327,11 +327,10 @@ public static class PIDGenerator
         SetRandomIVs(pk);
     }
 
-    public static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)
+    public static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType type)
     {
         pk.RefreshAbility(ability);
         pk.Gender = gender;
-        var type = GetPIDType(pk, specific);
         var method = GetGeneratorMethod(type);
 
         var rnd = Util.Rand;
@@ -356,25 +355,6 @@ public static class PIDGenerator
             return false;
 
         return true;
-    }
-
-    private static PIDType GetPIDType(PKM pk, PIDType specific)
-    {
-        if (specific != PIDType.None)
-            return specific;
-        if (pk.Version == 15)
-            return PIDType.CXD;
-        if (pk is { Species: (int)Species.Unown, Gen3: true })
-        {
-            return Util.Rand.Next(3) switch
-            {
-                1 => PIDType.Method_2_Unown,
-                2 => PIDType.Method_4_Unown,
-                _ => PIDType.Method_1_Unown,
-            };
-        }
-
-        return PIDType.Method_1;
     }
 
     public static void SetRandomWildPID5(PKM pk, int nature, int ability, int gender, PIDType specific = PIDType.None)

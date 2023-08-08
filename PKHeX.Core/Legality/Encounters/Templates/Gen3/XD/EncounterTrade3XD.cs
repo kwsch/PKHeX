@@ -31,6 +31,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     public bool EggEncounter => false;
     public required Moveset Moves { get; init; }
     public required ushort TID16 { get; init; }
+    // SID: Based on player ID
 
     private readonly string[] TrainerNames;
 
@@ -59,7 +60,6 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = GetTemplateLanguage(tr);
-        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         var pk = new XK3
         {
             Species = Species,
@@ -67,21 +67,23 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
             OT_Friendship = PersonalTable.E[Species].BaseFriendship,
 
             Met_Location = Location,
-            Met_Level = LevelMin,
-            Version = (byte)version,
-            Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
+            Met_Level = Level,
+            Version = (byte)GameVersion.CXD,
+            Ball = (byte)Ball.Poke,
 
             Language = lang,
             OT_Name = TrainerNames[lang],
             OT_Gender = OTGender,
-            ID32 = TID16,
+            TID16 = TID16,
+            SID16 = tr.SID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
         SetPINGA(pk, criteria);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
-        SetEncounterMoves(pk);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -112,8 +114,6 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
             } while (Shiny == Shiny.Never && pk.IsShiny);
         }
     }
-
-    private void SetEncounterMoves(PKM pk) => EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching
