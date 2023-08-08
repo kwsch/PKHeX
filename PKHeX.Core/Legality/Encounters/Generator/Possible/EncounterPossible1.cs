@@ -145,7 +145,7 @@ public record struct EncounterPossible1(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.SlotGN:
                 if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsGN))
                     return true;
-                Index = 0; State = YieldState.SlotYW; goto case YieldState.SlotYW;
+                Index = 0; goto case YieldState.EventStart;
 
             case YieldState.EventStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Mystery))

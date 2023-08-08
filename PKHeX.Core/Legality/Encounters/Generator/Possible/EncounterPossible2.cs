@@ -21,6 +21,7 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
         Start,
 
         Bred,
+        BredCrystal,
 
         TradeStart,
         Trade,
@@ -55,9 +56,16 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.Bred:
                 if (!Flags.HasFlag(EncounterTypeGroup.Egg))
                     goto case YieldState.TradeStart;
-                if (!EncounterGenerator2.TryGetEgg(Chain, Version, out var egg))
+                // try with specific version, for yielded metadata purposes.
+                var ver = Version is GameVersion.GD or GameVersion.SI ? Version : GameVersion.GS;
+                if (!EncounterGenerator2.TryGetEgg(Chain, ver, out var egg))
                     goto case YieldState.TradeStart;
+                State = ParseSettings.AllowGen2Crystal(Entity) ? YieldState.BredCrystal : YieldState.TradeStart;
+                return SetCurrent(egg);
+            case YieldState.BredCrystal:
                 State = YieldState.TradeStart;
+                if (!EncounterGenerator2.TryGetEgg(Chain, GameVersion.C, out egg))
+                    goto case YieldState.TradeStart;
                 return SetCurrent(egg);
 
             case YieldState.TradeStart:
