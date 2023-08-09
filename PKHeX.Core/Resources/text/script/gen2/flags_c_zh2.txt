@@ -78,6 +78,8 @@
 0084	s	Togepi Hatched
 0085	s	Showed Togepi to Elm
 0086	s	Received Everstone from Elm
+1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
+0097	g	Received Tyrogue
 0046	s	Unown appeared in Ruins of Alph
 0098	s	Met Frieda
 0099	s	Received Poison Barb from Frieda

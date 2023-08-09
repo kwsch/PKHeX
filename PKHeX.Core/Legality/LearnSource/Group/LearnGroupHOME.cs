@@ -245,7 +245,7 @@ public sealed class LearnGroupHOME : ILearnGroup
         IEncounterTemplate enc,
         MoveSourceType types, LearnOption option, ReadOnlySpan<EvoCriteria> evos, IHomeSource local) where T : ILearnGroup
     {
-        var length = instance.MaxMoveID;
+        var length = instance.MaxMoveID + 1;
         var rent = ArrayPool<bool>.Shared.Rent(length);
         var temp = rent.AsSpan(0, length);
         instance.GetAllMoves(temp, pk, history, enc, types, option);

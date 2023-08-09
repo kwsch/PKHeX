@@ -351,8 +351,6 @@ public sealed class BallVerifier : Verifier
             if (IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
                 return GetValid(LBallSpeciesPass);
         }
-        if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // G8 Starters
-            return VerifyBallEquals(data, (int)Poke);
 
         Ball ball = (Ball)pk.Ball;
 
@@ -481,11 +479,8 @@ public sealed class BallVerifier : Verifier
             return false;
         var pt = PersonalTable.SV;
         var pi = pt.GetFormEntry(species, 0);
-        if (pi.IsInDex)
-            return true;
-
         if (pi.IsPresentInGame)
-            return species != (int)Species.Grookey; // not available yet
+            return true;
 
         return false;
     }

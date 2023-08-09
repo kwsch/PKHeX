@@ -39,9 +39,9 @@ internal static class Encounters8b
         new(BDSP) { FixedBall = Ball.Poke, Species = 385, Level = 05, Ability = OnlySecond, Location = 438, Shiny = Never, FlawlessIVCount = 3, FatefulEncounter = true }, // Jirachi
 
         // Stationary
-        new(BDSP) { Species = 425, Level = 22, Location = 197 }, // Drifloon
-        new(BDSP) { Species = 442, Level = 25, Location = 367 }, // Spiritomb
-        new(BDSP) { Species = 479, Level = 15, Location = 311 }, // Rotom
+        new(BDSP) { Species = 425, Level = 22, Location = 197, FlawlessIVCount = 3 }, // Drifloon
+        new(BDSP) { Species = 442, Level = 25, Location = 367                      }, // Spiritomb
+        new(BDSP) { Species = 479, Level = 15, Location = 311                      }, // Rotom
 
         // Roamers
         new(BDSP) { Species = 481, Level = 50, Location = 197, FlawlessIVCount = 3, Roaming = true }, // Mesprit

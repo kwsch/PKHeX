@@ -78,6 +78,8 @@
 0084	s	波克比孵化了
 0085	s	向空木博士展示波克比
 0086	s	从空木博士处获得不变之石
+1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
+0097	g	Received Tyrogue
 0046	s	未知图腾出现在阿露福遗迹
 0098	s	遇见了星琪舞
 0099	s	从星琪舞处获得毒针
