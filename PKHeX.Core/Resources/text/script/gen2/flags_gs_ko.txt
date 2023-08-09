@@ -73,6 +73,8 @@
 0084	s	Togepi Hatched
 0085	s	Showed Togepi to Elm
 0086	s	Received Everstone from Elm
+1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
+0097	g	Received Tyrogue
 0046	s	Unown appeared in Ruins of Alph
 0098	s	Met Frieda
 0099	s	Received Poison Barb from Frieda
@@ -90,8 +92,11 @@
 0111	s	Received Sharp Beak from Monica
 0205	s	Restored power to Kanto/Magnet Train useable
 0607	t	Asked Schoolboy Jack for Number once
+0608	t	Can Rematch Schoolboy Jack
 0609	t	Asked Pokéfan Beverly for Number once
+0610	t	Can Rematch Pokéfan Beverly
 0611	t	Asked Sailor Huey for Number once
+0612	t	Can Rematch Sailor Huey
 0619	t	Asked Cooltrainer Gaven for Number once
 0620	t	Can Rematch Cooltrainer Gaven
 0621	t	Asked Cooltrainer Beth for Number once
