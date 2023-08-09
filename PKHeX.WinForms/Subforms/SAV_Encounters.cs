@@ -261,7 +261,12 @@ public partial class SAV_Encounters : Form
         var comparer = new ReferenceComparer<IEncounterInfo>();
         results = results.Distinct(comparer); // only distinct objects
 
-        static Func<IEncounterInfo, bool> IsPresent<TTable>(TTable pt) where TTable : IPersonalTable => z => pt.IsPresentInGame(z.Species, z.Form);
+        static Func<IEncounterInfo, bool> IsPresent<TTable>(TTable pt) where TTable : IPersonalTable => z =>
+        {
+            if (pt.IsPresentInGame(z.Species, z.Form))
+                return true;
+            return z is IEncounterFormRandom { IsRandomUnspecificForm: true } && pt.IsSpeciesInGame(z.Species);
+        };
         if (Main.Settings.EncounterDb.FilterUnavailableSpecies)
         {
             results = SAV switch

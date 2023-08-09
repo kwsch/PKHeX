@@ -119,9 +119,9 @@ internal static class Encounters4DPPt
         new(323977579, 114, 01) { Moves = new(437,438,079,246), TID16 = 1000, SID16 = 49497, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = OnlySecond }, // Tangela
         new(323977675, 133, 16) { Moves = new(363,270,098,247), TID16 = 1000, SID16 = 47710, OTGender = 1, MetLocation = 0068, Gender = 0, Ability = OnlySecond, CurrentLevel = 30 }, // Eevee
         new(323977588, 142, 20) { Moves = new(363,089,444,332), TID16 = 1000, SID16 = 43066, OTGender = 1, MetLocation = 0094, Gender = 0, Ability = OnlyFirst,  CurrentLevel = 50 }, // Aerodactyl
-        new(232975554, 193, 22) { Moves = new(318,095,246,138), TID16 = 1000, SID16 = 42301, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = OnlyFirst,  CurrentLevel = 45, Ball = 5 }, // Yanma
+        new(232975554, 193, 22) { Moves = new(318,095,246,138), TID16 = 1000, SID16 = 42301, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = OnlyFirst,  CurrentLevel = 45, FixedBall = Ball.Safari }, // Yanma
         new(323975570, 241, 16) { Moves = new(208,215,360,359), TID16 = 1000, SID16 = 02707, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = OnlyFirst,  CurrentLevel = 48 }, // Miltank
-        new(323975563, 285, 22) { Moves = new(402,147,206,078), TID16 = 1000, SID16 = 02788, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = OnlySecond, CurrentLevel = 45, Ball = 5 }, // Shroomish
+        new(323975563, 285, 22) { Moves = new(402,147,206,078), TID16 = 1000, SID16 = 02788, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = OnlySecond, CurrentLevel = 45, FixedBall = Ball.Safari }, // Shroomish
         new(323975559, 320, 30) { Moves = new(156,323,133,058), TID16 = 1000, SID16 = 27046, OTGender = 1, MetLocation = 0038, Gender = 0, Ability = OnlySecond, CurrentLevel = 45 }, // Wailmer
         new(323977657, 360, 01) { Moves = new(204,150,227,000), TID16 = 1000, SID16 = 01788, OTGender = 1, MetLocation = 0004, Gender = 0, Ability = OnlySecond, EggLocation = 2000 }, // Wynaut
         new(323975563, 397, 02) { Moves = new(355,017,283,018), TID16 = 1000, SID16 = 59298, OTGender = 1, MetLocation = 0016, Gender = 0, Ability = OnlySecond, CurrentLevel = 23 }, // Staravia
@@ -129,11 +129,11 @@ internal static class Encounters4DPPt
         new(323977539, 417, 09) { Moves = new(447,045,351,098), TID16 = 1000, SID16 = 18830, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = OnlySecond, CurrentLevel = 10 }, // Pachirisu
         new(323974107, 422, 20) { Moves = new(363,352,426,104), TID16 = 1000, SID16 = 39272, OTGender = 1, MetLocation = 0028, Gender = 0, Ability = OnlySecond, CurrentLevel = 25, Form = 1 }, // Shellos
         new(323977566, 427, 10) { Moves = new(204,193,409,098), TID16 = 1000, SID16 = 31045, OTGender = 1, MetLocation = 3000, Gender = 1, Ability = OnlyFirst,  CurrentLevel = 16 }, // Buneary
-        new(323975579, 453, 22) { Moves = new(310,207,426,389), TID16 = 1000, SID16 = 41342, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = OnlySecond, CurrentLevel = 31, Ball = 5 }, // Croagunk
+        new(323975579, 453, 22) { Moves = new(310,207,426,389), TID16 = 1000, SID16 = 41342, OTGender = 1, MetLocation = 0052, Gender = 0, Ability = OnlySecond, CurrentLevel = 31, FixedBall = Ball.Safari }, // Croagunk
         new(323977566, 456, 15) { Moves = new(213,352,219,392), TID16 = 1000, SID16 = 48348, OTGender = 1, MetLocation = 0020, Gender = 1, Ability = OnlyFirst,  CurrentLevel = 35 }, // Finneon
         new(323975582, 459, 32) { Moves = new(452,420,275,059), TID16 = 1000, SID16 = 23360, OTGender = 1, MetLocation = 0031, Gender = 0, Ability = OnlyFirst,  CurrentLevel = 41 }, // Snover
-        new(151, 50) { Moves = new(235,216,095,100), TID16 = 1000, SID16 = 59228, OTGender = 1, Ball = 0x10, Gender = 2, Ability = Any12 }, // Mew
-        new(489, 01) { Moves = new(447,240,156,057), TID16 = 1000, SID16 = 09248, OTGender = 1, Ball = 0x10, Gender = 2, Ability = Any12, CurrentLevel = 50, EggLocation = 3000 }, // Phione
+        new(151, 50) { Moves = new(235,216,095,100), TID16 = 1000, SID16 = 59228, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12 }, // Mew
+        new(489, 01) { Moves = new(447,240,156,057), TID16 = 1000, SID16 = 09248, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12, CurrentLevel = 50, EggLocation = 3000 }, // Phione
     };
 
     internal static readonly EncounterTrade4PID[] TradeGift_DPPtIngame =

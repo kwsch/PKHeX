@@ -16,7 +16,6 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
     private bool Gift => FixedBall == Ball.Poke;
     public Shiny Shiny => Shiny.Random;
     public AbilityPermission Ability => AbilityPermission.Any12;
-    private byte OTGender => 0;
     public bool FatefulEncounter => true;
 
     public bool IsFixedTrainer => true;
@@ -73,7 +72,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
 
             Language = lang,
             OT_Name = TrainerNames[lang],
-            OT_Gender = OTGender,
+            OT_Gender = 0,
             TID16 = TID16,
             SID16 = tr.SID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
@@ -126,8 +125,6 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
         if (!IsMatchLevel(pk, evo))
             return false;
         if (pk.TID16 != TID16) // SID is from player!
-            return false;
-        if (pk.OT_Gender != OTGender)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;

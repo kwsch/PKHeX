@@ -63,7 +63,7 @@ public sealed record EncounterStatic4(GameVersion Version)
             Version = (byte)version,
             GroundTile = GroundTile.GetIndex(),
             MetDate = EncounterDate.GetDateNDS(),
-            Ball = (byte)FixedBall,
+            Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 
             Language = lang,

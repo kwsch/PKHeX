@@ -45,7 +45,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
 
             Language = lang,
             OT_Name = tr.OT,
-            OT_Gender = tr.Gender,
+            OT_Gender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };

@@ -23,7 +23,7 @@ public sealed record EncounterTrade4RanchGift
     public bool EggEncounter => false;
     public int EggLocation { get; init; }
 
-    public Ball FixedBall => Ball == 0 ? Core.Ball.Poke : (Ball)Ball;
+    public Ball FixedBall { get; init; } = Ball.Poke;
     public bool IsShiny => false;
     public bool IsFixedTrainer => true;
     public byte LevelMin => Level;
@@ -40,7 +40,6 @@ public sealed record EncounterTrade4RanchGift
     public required byte Gender { get; init; }
     public required AbilityPermission Ability { get; init; }
     public byte CurrentLevel { get; init; }
-    public byte Ball { get; init; }
     public byte Form { get; init; }
 
     private static readonly string[] TrainerNames = { string.Empty, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", string.Empty, "Eulalia" };

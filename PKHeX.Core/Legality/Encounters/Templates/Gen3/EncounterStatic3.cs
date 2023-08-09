@@ -81,13 +81,13 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     {
         // Old Sea Map was only distributed to Japanese games.
         if (Species is (ushort)Core.Species.Mew)
-            return 1; // Japanese
+            return (int)LanguageID.Japanese;
 
         // Deoxys for Emerald was not available for Japanese games.
-        var lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
-        if (lang == 1 && Species is (ushort)Core.Species.Deoxys)
-            return 2; // English
-        return lang;
+        if (Species is (ushort)Core.Species.Deoxys && tr.Language == 1)
+            return (int)LanguageID.English;
+
+        return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
     }
 
     private void SetPINGA(PK3 pk, EncounterCriteria criteria)

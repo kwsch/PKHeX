@@ -38,7 +38,7 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = GetTemplateLanguage(tr);
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var pk = new XK3
         {
             Species = Species,
@@ -52,8 +52,8 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
             FatefulEncounter = FatefulEncounter,
 
             Language = lang,
-            OT_Name = tr.Language == lang ? tr.OT : lang == 1 ? "ゲーフリ" : "GF",
-            OT_Gender = tr.Gender,
+            OT_Name = tr.OT,
+            OT_Gender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -67,8 +67,6 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
         pk.ResetPartyStats();
         return pk;
     }
-
-    private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria)
     {

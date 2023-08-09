@@ -53,7 +53,7 @@ public sealed record EncounterStatic5N(uint PID)
             Met_Location = Location,
             Met_Level = LevelMin,
             MetDate = EncounterDate.GetDateNDS(),
-            Ball = (byte)FixedBall,
+            Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
 
             Version = (byte)version,
             Language = lang,

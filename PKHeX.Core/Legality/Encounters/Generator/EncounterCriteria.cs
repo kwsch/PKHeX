@@ -192,15 +192,25 @@ public sealed record EncounterCriteria
     {
         Span<int> ivs = stackalloc[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
         flawless -= ivs.Count(31);
-        int remain = ivs.Count(-1);
+        int remain = ivs.Count(RandomIV);
         if (flawless > remain)
-            flawless = remain;
+        {
+            // Overwrite specified IVs until we have enough remaining slots.
+            while (flawless > remain)
+            {
+                int index = Util.Rand.Next(6);
+                if (ivs[index] is RandomIV or 31)
+                    continue;
+                ivs[index] = RandomIV;
+                remain++;
+            }
+        }
 
         // Sprinkle in remaining flawless IVs
         while (flawless > 0)
         {
             int index = Util.Rand.Next(6);
-            if (ivs[index] != -1)
+            if (ivs[index] != RandomIV)
                 continue;
             ivs[index] = 31;
             flawless--;
@@ -208,7 +218,7 @@ public sealed record EncounterCriteria
         // Fill in the rest
         for (int i = 0; i < ivs.Length; i++)
         {
-            if (ivs[i] == -1)
+            if (ivs[i] == RandomIV)
                 ivs[i] = Util.Rand.Next(32);
         }
         // Done.

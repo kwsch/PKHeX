@@ -47,7 +47,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     public CK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        int lang = EReader ? 1 : (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        int lang = GetTemplateLanguage(tr);
         var pk = new CK3
         {
             Species = Species,
@@ -61,7 +61,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
             Language = lang,
             OT_Name = tr.Language == lang ? tr.OT : lang == 1 ? "ゲーフリ" : "GF",
-            OT_Gender = tr.Gender,
+            OT_Gender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
@@ -75,6 +75,8 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
         pk.ResetPartyStats();
         return pk;
     }
+
+    private int GetTemplateLanguage(ITrainerInfo tr) => EReader ? 1 : (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
     private void SetPINGA(PKM pk, EncounterCriteria criteria)
     {

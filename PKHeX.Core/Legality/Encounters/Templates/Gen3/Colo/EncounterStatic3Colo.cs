@@ -50,8 +50,8 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
             Ball = (byte)Ball.Poke,
 
             Language = lang,
-            OT_Name = tr.Language == lang ? tr.OT : lang == 1 ? "ゲーフリ" : "GF",
-            OT_Gender = tr.Gender,
+            OT_Name = tr.OT,
+            OT_Gender = 0,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
