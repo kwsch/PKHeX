@@ -97,9 +97,9 @@ internal static class Encounters6XY
         new(TradeNames, 03, XY, 17,5,08,025) { Species = 208, Level = 20, Ability = OnlyFirst,  ID32 = 19250, Gender = 1, OTGender = 0, IVs = new(-1,-1,31,-1,-1,-1), Nature = Nature.Impish }, // Steelix
         new(TradeNames, 04, XY, 18,7,20,709) { Species = 625, Level = 50, Ability = OnlyFirst,  ID32 = 03447, Gender = 0, OTGender = 1, IVs = new(-1,31,-1,-1,-1,-1), Nature = Nature.Adamant }, // Bisharp
 
-        new(TradeNames, 05, XY, 02,3,11,005) { Species = 656, Level = 05, Ability = OnlyFirst,  ID32 = 00037, Gender = 0, OTGender = 0, IVs = new(20,20,20,31,20,20), Nature = Nature.Jolly }, // Froakie
-        new(TradeNames, 06, XY, 02,3,09,005) { Species = 650, Level = 05, Ability = OnlyFirst,  ID32 = 00037, Gender = 0, OTGender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant }, // Chespin
-        new(TradeNames, 07, XY, 02,3,18,005) { Species = 653, Level = 05, Ability = OnlyFirst,  ID32 = 00037, Gender = 0, OTGender = 0, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Fennekin
+        new(TradeNames, 05, XY, 02,3,11,005) { Species = 656, Level = 05, Ability = OnlyFirst,  ID32 = 00037, Gender = 0, OTGender = 1, IVs = new(20,20,20,31,20,20), Nature = Nature.Jolly }, // Froakie
+        new(TradeNames, 06, XY, 02,3,09,005) { Species = 650, Level = 05, Ability = OnlyFirst,  ID32 = 00037, Gender = 0, OTGender = 1, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant }, // Chespin
+        new(TradeNames, 07, XY, 02,3,18,005) { Species = 653, Level = 05, Ability = OnlyFirst,  ID32 = 00037, Gender = 0, OTGender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Fennekin
         new(TradeNames, 08, XY, 51,4,04,033) { Species = 280, Level = 05, Ability = OnlyFirst,  ID32 = 37110, Gender = 1, OTGender = 1, IVs = new(20,20,20,31,31,20), Nature = Nature.Modest, IsFixedNickname = false }, // Ralts
     };
     #endregion

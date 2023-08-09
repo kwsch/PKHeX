@@ -72,7 +72,7 @@ public record struct EncounterPossible7GO(EvoCriteria[] Chain, EncounterTypeGrou
                 continue;
             return SetCurrent(enc);
         }
-        EvoIndex++; SubIndex = 0;
+        EvoIndex = 0; SubIndex = 0; Index++;
         return false;
     }
 

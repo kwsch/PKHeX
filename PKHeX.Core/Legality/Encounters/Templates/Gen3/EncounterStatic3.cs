@@ -188,6 +188,8 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             return true;
         if (Gift && pk.Ball != (byte)FixedBall)
             return true;
+        if (FatefulEncounter != pk.FatefulEncounter)
+            return true;
         return false;
     }
     #endregion

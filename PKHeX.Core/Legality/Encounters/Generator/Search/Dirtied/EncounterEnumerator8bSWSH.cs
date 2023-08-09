@@ -53,7 +53,7 @@ public record struct EncounterEnumerator8bSWSH(PKM Entity, EvoCriteria[] Chain, 
         switch (State)
         {
             case YieldState.Start:
-                Debug.Assert(Entity is not PK8);
+                Debug.Assert(Entity is PK8);
                 if (Chain.Length == 0)
                     break;
 

@@ -104,7 +104,7 @@ public record struct EncounterEnumerator7GO(PKM Entity, EvoCriteria[] Chain) : I
             Deferred = enc;
             Rating = rating;
         }
-        EvoIndex++; SubIndex = 0;
+        EvoIndex = 0; SubIndex = 0; Index++;
         return false;
     }
 

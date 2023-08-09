@@ -156,6 +156,8 @@ public sealed record EncounterStatic5(GameVersion Version)
     private bool IsMatchLocation(PKM pk)
     {
         var met = pk.Met_Location;
+        if (EggEncounter)
+            return true;
         if (!Roaming)
             return met == Location;
         return IsRoamerMet(met);

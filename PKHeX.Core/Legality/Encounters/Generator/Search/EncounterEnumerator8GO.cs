@@ -105,7 +105,7 @@ public record struct EncounterEnumerator8GO(PKM Entity, EvoCriteria[] Chain) : I
                 Rating = rating;
             }
         }
-        EvoIndex++; SubIndex = 0;
+        EvoIndex = 0; SubIndex = 0; Index++;
         return false;
     }
 

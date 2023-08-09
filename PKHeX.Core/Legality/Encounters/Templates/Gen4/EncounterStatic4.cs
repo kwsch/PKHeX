@@ -138,6 +138,8 @@ public sealed record EncounterStatic4(GameVersion Version)
             return true;
 
         var met = pk4.Met_Location;
+        if (EggEncounter)
+            return true;
         if (!Roaming)
             return met == Location;
 

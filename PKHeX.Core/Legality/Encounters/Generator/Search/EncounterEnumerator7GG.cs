@@ -107,7 +107,7 @@ public record struct EncounterEnumerator7GG(PKM Entity, EvoCriteria[] Chain, Gam
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
             case YieldState.StaticShared:
-                if (TryGetNextSub(Encounters7GG.Encounter_GG))
+                if (TryGetNext(Encounters7GG.Encounter_GG))
                     return true;
                 if (Yielded)
                     break;

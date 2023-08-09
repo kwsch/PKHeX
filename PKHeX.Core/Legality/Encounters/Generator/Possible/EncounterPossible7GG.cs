@@ -100,7 +100,7 @@ public record struct EncounterPossible7GG(EvoCriteria[] Chain, EncounterTypeGrou
                     return true;
                 Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
             case YieldState.StaticShared:
-                if (TryGetNextSub(Encounters7GG.Encounter_GG))
+                if (TryGetNext(Encounters7GG.Encounter_GG))
                     return true;
                 Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
 
