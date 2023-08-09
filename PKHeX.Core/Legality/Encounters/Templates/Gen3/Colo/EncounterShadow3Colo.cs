@@ -56,7 +56,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = (byte)GameVersion.CXD,
             Ball = (byte)Ball.Poke,
 
             Language = lang,

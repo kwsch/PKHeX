@@ -52,7 +52,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = (byte)GameVersion.CXD,
             Ball = (byte)(FixedBall != Ball.None ? FixedBall : Ball.Poke),
             FatefulEncounter = FatefulEncounter,
 

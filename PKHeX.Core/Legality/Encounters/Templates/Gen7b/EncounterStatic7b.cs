@@ -35,6 +35,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         var pk = new PB7
         {
             Species = Species,
@@ -42,7 +43,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
             OT_Friendship = PersonalTable.GG[Species, Form].BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = (byte)version,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)Ball.Poke,
 
