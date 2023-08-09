@@ -420,8 +420,8 @@ public sealed class Tile
         const int pixels = TileWidth * TileHeight;
         for (int i = 0; i < pixels; i++)
         {
-            var index = (8 * (1 + (i / 8))) + (i & 7);
-            if (ColorChoices[^index] != tileColors[i])
+            var index = pixels - (8 * (1 + (i / 8))) + (i & 7);
+            if (ColorChoices[index] != tileColors[i])
                 return false;
         }
 
@@ -433,7 +433,8 @@ public sealed class Tile
         const int pixels = TileWidth * TileHeight;
         for (int i = 0; i < pixels; i++)
         {
-            if (ColorChoices[^i] != tileColors[i])
+            var index = pixels - 1 - i;
+            if (ColorChoices[index] != tileColors[i])
                 return false;
         }
 
