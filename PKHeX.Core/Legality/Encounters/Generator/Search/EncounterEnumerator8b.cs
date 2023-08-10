@@ -81,7 +81,7 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
                 State = YieldState.BredSplit;
                 return SetCurrent(egg);
             case YieldState.BredSplit:
-                State = YieldState.End;
+                State = Entity.Egg_Location == Locations.Daycare8b ? YieldState.End : YieldState.StartCaptures;
                 if (EncounterGenerator8b.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
                     return SetCurrent(egg);
                 break;

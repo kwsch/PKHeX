@@ -53,6 +53,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
         EventGB,
 
         StaticStart,
+        StaticCOdd,
         StaticC,
         StaticGD,
         StaticSI,
@@ -113,9 +114,18 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                 goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
+                if (ParseSettings.AllowGen2OddEgg(Entity))
+                { State = YieldState.StaticCOdd; goto case YieldState.StaticCOdd; }
                 if (canOriginateCrystal)
                 { State = YieldState.StaticC; goto case YieldState.StaticC; }
                 State = YieldState.SlotGD; goto case YieldState.SlotGD;
+            case YieldState.StaticCOdd:
+                if (TryGetNext(Encounters2.StaticOddEggC))
+                    return true;
+                Index = 0;
+                if (canOriginateCrystal)
+                { State = YieldState.StaticC; goto case YieldState.StaticC; }
+                State = YieldState.StaticGD; goto case YieldState.StaticGD;
             case YieldState.StaticC:
                 if (TryGetNext(Encounters2.StaticC))
                     return true;

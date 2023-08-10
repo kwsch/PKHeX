@@ -170,11 +170,11 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
                     return true;
                 Index = 0; State = YieldState.StaticEntreeB2W2; goto case YieldState.StaticEntreeB2W2;
             case YieldState.StaticEntreeB2W2:
-                if (TryGetNext(Encounters5DR.Encounter_DreamRadar))
+                if (TryGetNext(Encounters5B2W2.DreamWorld_B2W2))
                     return true;
                 Index = 0; State = YieldState.StaticRadar; goto case YieldState.StaticRadar;
             case YieldState.StaticRadar:
-                if (TryGetNext(Encounters5B2W2.Encounter_B2W2_Regular))
+                if (TryGetNext(Encounters5DR.Encounter_DreamRadar))
                     return true;
                 Index = 0; State = YieldState.StaticEntreeShared; goto case YieldState.StaticEntreeShared;
 

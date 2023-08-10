@@ -96,13 +96,13 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
                 if (!Locations.IsEggLocationBred4(Entity.Egg_Location, Version))
                 { State = YieldState.TradeStart; goto case YieldState.TradeStart; }
                 if (!EncounterGenerator4.TryGetEgg(Chain, Version, out var egg))
-                { State = YieldState.TradeStart; goto case YieldState.TradeStart; }
+                    break;
                 State = YieldState.BredSplit;
                 return SetCurrent(egg);
             case YieldState.BredSplit:
-                State = YieldState.End;
                 if (!EncounterGenerator4.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
-                    break;
+                    goto case YieldState.TradeStart;
+                State = YieldState.TradeStart;
                 return SetCurrent(egg);
 
             case YieldState.TradeStart:
@@ -237,7 +237,7 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
     private void InitializeWildLocationInfo()
     {
         met = Entity.Met_Location;
-        mustBeSlot = Entity.Ball is (int)Ball.Sport or (int)Ball.Safari; // never static
+        mustBeSlot = Entity is { Egg_Location: 0, Ball: (int)Ball.Sport or (int)Ball.Safari }; // never static
         hasOriginalLocation = Entity.Format == 4;
     }
 
@@ -309,7 +309,7 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
         }
         return false;
     }
-    
+
     private bool SetCurrent<T>(T enc, EncounterMatchRating rating = EncounterMatchRating.Match) where T : IEncounterable
     {
         Current = new MatchedEncounter<IEncounterable>(enc, rating);

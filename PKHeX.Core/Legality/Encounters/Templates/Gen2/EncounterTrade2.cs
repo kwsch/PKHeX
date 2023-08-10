@@ -27,7 +27,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
     public string Name => _name;
     public string LongName => _name;
     public byte LevelMin => Level;
-    public byte LevelMax => Level;
+    public byte LevelMax => 100;
 
     private string[] TrainerNames { get; }
     private string[] Nicknames { get; }

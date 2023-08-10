@@ -70,6 +70,8 @@ public static class ParseSettings
     /// <returns>True if Crystal data is allowed</returns>
     public static bool AllowGen2MoveReminder(PKM pk) => !pk.Korean && AllowGBStadium2;
 
+    public static bool AllowGen2OddEgg(PKM pk) => !pk.Japanese || AllowGBCartEra;
+
     public static bool AllowGBVirtualConsole3DS => !AllowGBCartEra;
     public static bool AllowGBEraEvents => AllowGBCartEra;
     public static bool AllowGBStadium2 => AllowGBCartEra;

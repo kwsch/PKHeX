@@ -44,7 +44,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
 
     public bool IsGift => TID16 != UnspecifiedID;
 
-    public int CurrentLevel { get; init; } = -1;
+    public sbyte CurrentLevel { get; init; } = -1;
 
     public byte EggCycles { get; init; }
 
@@ -247,7 +247,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
     {
         if (pk is ICaughtData2 { CaughtData: not 0 })
             return pk.Met_Level == (EggEncounter ? 1 : Level);
-        return Level <= evo.LevelMax;
+        return evo.LevelMax >= Level;
     }
 
     #endregion

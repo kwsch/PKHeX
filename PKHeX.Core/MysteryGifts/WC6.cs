@@ -606,7 +606,12 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         if (RestrictLanguage != 0 && RestrictLanguage != pk.Language)
             return true;
         if (!CanBeReceivedByVersion(pk.Version))
-            return true;
+        {
+            if (!IsEgg || pk.IsEgg)
+                return true;
+            if (pk.Egg_Location != Locations.LinkTrade6)
+                return true;
+        }
         return false;
     }
 }

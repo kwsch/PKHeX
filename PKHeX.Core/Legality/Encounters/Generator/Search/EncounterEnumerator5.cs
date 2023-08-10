@@ -74,7 +74,7 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
 
                 if (Entity.FatefulEncounter)
                 { State = YieldState.Event; goto case YieldState.Event; }
-                State = YieldState.Bred; goto case YieldState.Bred;
+                goto case YieldState.Bred;
 
             case YieldState.Event:
                 if (TryGetNext(EncounterEvent.MGDB_G5))
@@ -89,15 +89,15 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
 
             case YieldState.Bred:
                 if (!Locations.IsEggLocationBred5(Entity.Egg_Location))
-                { State = YieldState.StartCaptures; goto case YieldState.StartCaptures; }
+                    goto case YieldState.StartCaptures;
                 if (!EncounterGenerator5.TryGetEgg(Chain, Version, out var egg))
                 { State = YieldState.StartCaptures; goto case YieldState.StartCaptures; }
                 State = YieldState.BredSplit;
                 return SetCurrent(egg);
             case YieldState.BredSplit:
-                State = YieldState.End;
+                State = Entity.Egg_Location == Locations.Daycare5 ? YieldState.End : YieldState.StartCaptures;
                 if (!EncounterGenerator5.TryGetSplit((EncounterEgg)Current.Encounter, Chain, out egg))
-                    break;
+                    return MoveNext();
                 return SetCurrent(egg);
 
             case YieldState.TradeStart:
@@ -225,11 +225,11 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                     return true;
                 Index = 0; State = YieldState.StaticEntreeB2W2; goto case YieldState.StaticEntreeB2W2;
             case YieldState.StaticEntreeB2W2:
-                if (TryGetNext(Encounters5DR.Encounter_DreamRadar))
+                if (TryGetNext(Encounters5B2W2.DreamWorld_B2W2))
                     return true;
                 Index = 0; State = YieldState.StaticRadar; goto case YieldState.StaticRadar;
             case YieldState.StaticRadar:
-                if (TryGetNext(Encounters5B2W2.Encounter_B2W2_Regular))
+                if (TryGetNext(Encounters5DR.Encounter_DreamRadar))
                     return true;
                 Index = 0; State = YieldState.StaticEntreeShared; goto case YieldState.StaticEntreeShared;
 

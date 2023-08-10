@@ -19,7 +19,7 @@ public sealed record EncounterTrade4PID
     public bool IsShiny => false;
     public bool IsFixedTrainer => true;
     public byte LevelMin => Level;
-    public byte LevelMax => Level;
+    public byte LevelMax => MetLocation == default ? Level : (byte)100;
 
     private readonly string[] TrainerNames;
     private readonly string[] Nicknames;
@@ -165,13 +165,15 @@ public sealed record EncounterTrade4PID
 
     public bool IsMatchExact(PKM pk, EvoCriteria evo)
     {
-        if (pk.Met_Level != Level)
+        if (!IsMatchLevel(pk, evo))
+            return false;
+        if (pk.ID32 != ID32)
+            return false;
+        if (!IsMatchLocation(pk))
             return false;
         if (!Legal.GetIsFixedIVSequenceValidNoRand(IVs, pk))
             return false;
         if (!IsMatchNatureGenderShiny(pk))
-            return false;
-        if (pk.ID32 != ID32)
             return false;
         if (evo.Form != Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
@@ -184,6 +186,26 @@ public sealed record EncounterTrade4PID
         if (pk is IContestStatsReadOnly s && s.IsContestBelow(this))
             return false;
         return true;
+    }
+
+    private bool IsMatchLocation(PKM pk)
+    {
+        // Met location is lost on transfer
+        if (pk is not G4PKM pk4)
+            return true;
+
+        var met = pk4.Met_Location;
+        return met == Location;
+    }
+
+    private bool IsMatchLevel(PKM pk, EvoCriteria evo)
+    {
+        if (pk.Format != 4) // Met Level lost on PK4=>PK5
+            return evo.LevelMax >= Level;
+
+        if (MetLocation != default)
+            return pk.Met_Level == Level;
+        return pk.Met_Level >= LevelMin;
     }
 
     private bool IsMatchNatureGenderShiny(PKM pk)

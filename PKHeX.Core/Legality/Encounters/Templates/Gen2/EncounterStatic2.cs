@@ -191,6 +191,8 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             return true;
         if (pk is not ICaughtData2 c2)
             return true;
+        if (c2.CaughtData is 0 && Version != GameVersion.C)
+            return true; // GS
 
         if (Roaming)
         {

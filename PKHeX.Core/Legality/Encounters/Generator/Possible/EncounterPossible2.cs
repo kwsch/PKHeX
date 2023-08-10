@@ -31,6 +31,7 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
         EventGB,
 
         StaticStart,
+        StaticCOdd,
         StaticC,
         StaticGD,
         StaticSI,
@@ -41,7 +42,6 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
         SlotC,
         SlotGD,
         SlotSI,
-        SlotEnd,
     }
 
     public bool MoveNext()
@@ -81,12 +81,20 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
                 if (!Flags.HasFlag(EncounterTypeGroup.Static))
                     goto case YieldState.SlotStart;
                 if (Version is GameVersion.C or GameVersion.GSC)
-                { State = YieldState.StaticC; goto case YieldState.StaticC; }
+                {
+                    if (ParseSettings.AllowGen2OddEgg(Entity))
+                    { State = YieldState.StaticCOdd; goto case YieldState.StaticCOdd; }
+                    State = YieldState.StaticC; goto case YieldState.StaticC;
+                }
                 if (Version is GameVersion.GD or GameVersion.GS)
                 { State = YieldState.StaticGD; goto case YieldState.StaticGD; }
                 if (Version == GameVersion.SI)
                 { State = YieldState.StaticSI; goto case YieldState.StaticSI; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
+            case YieldState.StaticCOdd:
+                if (TryGetNext(Encounters2.StaticOddEggC))
+                    return true;
+                Index = 0; State = YieldState.StaticC; goto case YieldState.StaticC;
             case YieldState.StaticC:
                 if (TryGetNext(Encounters2.StaticC))
                     return true;

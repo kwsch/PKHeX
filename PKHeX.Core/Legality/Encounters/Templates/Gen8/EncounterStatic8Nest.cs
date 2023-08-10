@@ -162,7 +162,12 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     }
 
     protected virtual bool IsMatchLocation(PKM pk) => Location == pk.Met_Location;
-    private static bool IsMatchEggLocation(PKM pk) => pk.Egg_Location == 0;
+    private static bool IsMatchEggLocation(PKM pk)
+    {
+        var expect = pk is PB8 ? Locations.Default8bNone : 0;
+        return pk.Egg_Location == expect;
+    }
+
     protected virtual bool IsMatchLevel(PKM pk) => pk.Met_Level == Level;
     private bool IsMatchGender(PKM pk) => Gender == -1 || Gender == pk.Gender;
     private bool IsMatchForm(PKM pk, EvoCriteria evo) => Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context);

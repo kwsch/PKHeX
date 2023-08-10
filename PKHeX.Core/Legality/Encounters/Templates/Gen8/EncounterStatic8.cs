@@ -144,7 +144,11 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         return true;
     }
 
-    private bool IsMatchEggLocation(PKM pk) => pk.Egg_Location == 0;
+    private static bool IsMatchEggLocation(PKM pk)
+    {
+        var expect = pk is PB8 ? Locations.Default8bNone : 0;
+        return pk.Egg_Location == expect;
+    }
 
     private bool IsMatchLocation(PKM pk)
     {
