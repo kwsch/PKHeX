@@ -149,8 +149,6 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (pk.Egg_Location != 0)
             return false;
-        if (!Version.Contains((GameVersion)pk.Version))
-            return false;
         if (pk is IContestStatsReadOnly s && s.IsContestBelow(this))
             return false;
 

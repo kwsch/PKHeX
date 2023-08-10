@@ -721,7 +721,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
         return LocationsHOME.GetMetSWSH((ushort)Location, version) == met;
     }
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => false; // no version compatibility checks yet.
 
     #region Lazy Ribbon Implementation

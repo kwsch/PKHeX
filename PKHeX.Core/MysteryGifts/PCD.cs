@@ -194,7 +194,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     }
 
     protected override bool IsMatchPartial(PKM pk) => !CanBeReceivedByVersion(pk.Version);
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
 
     public bool RibbonEarth { get => Gift.RibbonEarth; set => Gift.RibbonEarth = value; }
     public bool RibbonNational { get => Gift.RibbonNational; set => Gift.RibbonNational = value; }

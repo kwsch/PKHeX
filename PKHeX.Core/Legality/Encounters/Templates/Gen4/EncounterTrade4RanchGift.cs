@@ -140,8 +140,6 @@ public sealed record EncounterTrade4RanchGift
             return false;
         if (pk.IsEgg)
             return false;
-        if (!Version.Contains((GameVersion)pk.Version))
-            return false;
         return true;
     }
 

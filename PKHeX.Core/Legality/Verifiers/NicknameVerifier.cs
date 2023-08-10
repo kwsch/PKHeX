@@ -343,7 +343,8 @@ public sealed class NicknameVerifier : Verifier
         {
             if (t.IsMagikarpJapaneseTradedBDSP(pk))
             {
-                VerifyTrainerName(data, t, (int)German);
+                // Traded replaces the OT Name. Verify only the Nickname now.
+                VerifyNickname(data, t, (int)German);
                 return;
             }
 

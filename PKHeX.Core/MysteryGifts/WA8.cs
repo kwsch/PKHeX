@@ -706,7 +706,7 @@ public sealed class WA8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         return pk.PID == GetPID(pk, type);
     }
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => false; // no version compatibility checks yet.
 
     #region Lazy Ribbon Implementation

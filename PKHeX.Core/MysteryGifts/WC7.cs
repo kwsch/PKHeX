@@ -640,7 +640,7 @@ public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         set { }
     }
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
 
     protected override bool IsMatchPartial(PKM pk)
     {

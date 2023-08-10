@@ -416,7 +416,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         return true;
     }
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => !CanBeReceivedByVersion(pk.Version);
 
     public bool CanBeReceivedByVersion(int game) => OriginGame == 0 || OriginGame == game;

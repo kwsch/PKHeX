@@ -119,7 +119,7 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
     private bool IsCatchRateValid(byte catch_rate)
     {
         if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(catch_rate))
-            return false;
+            return true;
 
         // Light Ball (Yellow) starter
         if (IsStarterPikachu)

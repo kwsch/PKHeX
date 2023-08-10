@@ -145,8 +145,6 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
-        if (!Version.Contains((GameVersion)pk.Version))
-            return false;
         return true;
     }
 

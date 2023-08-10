@@ -77,13 +77,12 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
                 goto case YieldState.Bred;
 
             case YieldState.EventStart:
-                State = YieldState.Event;
                 if (PGT.IsRangerManaphy(Entity))
                 {
                     State = YieldState.End;
                     return SetCurrent(EncounterGenerator4.RangerManaphy);
                 }
-                goto case YieldState.Event;
+                State = YieldState.Event; goto case YieldState.Event;
             case YieldState.Event:
                 if (TryGetNext(EncounterEvent.MGDB_G4))
                     return true;

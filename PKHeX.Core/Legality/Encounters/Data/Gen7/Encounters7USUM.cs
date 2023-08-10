@@ -235,11 +235,11 @@ internal static class Encounters7USUM
     {
         // Trades - 4.bin
         new(TradeNames, 00, USUM) { Species = 701, Form = 0, Level = 08, Ability = OnlySecond, ID32 = 000410, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Hawlucha
-        new(TradeNames, 00, USUM) { Species = 714, Form = 0, Level = 19, Ability = OnlyFirst,  ID32 = 610507, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 0, Gender = 0, Nature = Nature.Modest }, // Noibat
-        new(TradeNames, 00, USUM) { Species = 339, Form = 0, Level = 21, Ability = OnlySecond, ID32 = 590916, IVs = new(31,-1,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Naughty }, // Barboach
-        new(TradeNames, 00, USUM) { Species = 024, Form = 0, Level = 22, Ability = OnlyFirst,  ID32 = 010913, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Impish }, // Arbok
-        new(TradeNames, 00, USUM) { Species = 708, Form = 0, Level = 33, Ability = OnlyFirst,  ID32 = 610602, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
-        new(TradeNames, 00, USUM) { Species = 422, Form = 0, Level = 44, Ability = OnlySecond, ID32 = 610503, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Quiet }, // Shellos
-        new(TradeNames, 00, USUM) { Species = 128, Form = 0, Level = 59, Ability = OnlyFirst,  ID32 = 581022, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Tauros
+        new(TradeNames, 01, USUM) { Species = 714, Form = 0, Level = 19, Ability = OnlyFirst,  ID32 = 610507, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 0, Gender = 0, Nature = Nature.Modest }, // Noibat
+        new(TradeNames, 02, USUM) { Species = 339, Form = 0, Level = 21, Ability = OnlySecond, ID32 = 590916, IVs = new(31,-1,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Naughty }, // Barboach
+        new(TradeNames, 03, USUM) { Species = 024, Form = 0, Level = 22, Ability = OnlyFirst,  ID32 = 010913, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Impish }, // Arbok
+        new(TradeNames, 04, USUM) { Species = 708, Form = 0, Level = 33, Ability = OnlyFirst,  ID32 = 610602, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
+        new(TradeNames, 05, USUM) { Species = 422, Form = 0, Level = 44, Ability = OnlySecond, ID32 = 610503, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Quiet }, // Shellos
+        new(TradeNames, 06, USUM) { Species = 128, Form = 0, Level = 59, Ability = OnlyFirst,  ID32 = 581022, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Tauros
     };
 }

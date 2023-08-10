@@ -41,6 +41,7 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
         StaticEntreeBW,
         StaticW2,
         StaticB2,
+        StaticN,
         StaticSharedB2W2,
         StaticEntreeB2W2,
         StaticRadar,
@@ -167,6 +168,10 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
                 Index = 0; State = YieldState.StaticSharedB2W2; goto case YieldState.StaticSharedB2W2;
             case YieldState.StaticSharedB2W2:
                 if (TryGetNext(Encounters5B2W2.Encounter_B2W2_Regular))
+                    return true;
+                Index = 0; State = YieldState.StaticN; goto case YieldState.StaticN;
+            case YieldState.StaticN:
+                if (TryGetNext(Encounters5B2W2.Encounter_B2W2_N))
                     return true;
                 Index = 0; State = YieldState.StaticEntreeB2W2; goto case YieldState.StaticEntreeB2W2;
             case YieldState.StaticEntreeB2W2:

@@ -24,14 +24,13 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
         Entity = pk;
         Chain = chain;
 
-        if (pk is not ICaughtData2 { CaughtData: not 0 } c2)
+        if (pk is ICaughtData2 { CaughtData: not 0 } c2)
         {
-            canOriginateCrystal = !pk.Korean && pk.CanInhabitGen1();
-            return;
+            canOriginateCrystal = true;
+            hasOriginalMet = true;
+            met = c2.Met_Location;
         }
-        canOriginateCrystal = true;
-        hasOriginalMet = true;
-        met = c2.Met_Location;
+        canOriginateCrystal = pk is { Format: >= 7, Korean: false } || pk.CanInhabitGen1();
     }
 
     readonly object IEnumerator.Current => Current;

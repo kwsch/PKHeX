@@ -72,11 +72,16 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
 
     private bool IsNicknameAnyMatch(ReadOnlySpan<char> current) => GetNicknameIndex(current) >= 0;
 
-    private static bool IsTrainerNameValid(PKM pk) => pk.Language switch
+    private static bool IsTrainerNameValid(PKM pk)
     {
-        1 => GetIndex(pk.OT_Name, TrainerNames) == 1,
-        _ => GetIndex(pk.OT_Name, TrainerNames) >= 2,
-    };
+        if (pk.Format <= 2)
+            return pk.OT_Name == StringConverter12.G1TradeOTStr;
+        return pk.Language switch
+        {
+            1 => GetIndex(pk.OT_Name, TrainerNames) == 1,
+            _ => GetIndex(pk.OT_Name, TrainerNames) >= 2,
+        };
+    }
 
     private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames);
 

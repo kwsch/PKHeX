@@ -780,7 +780,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
 
     public bool IsDateRestricted => IsHOMEGift;
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => false; // no version compatibility checks yet.
 
     #region Lazy Ribbon Implementation

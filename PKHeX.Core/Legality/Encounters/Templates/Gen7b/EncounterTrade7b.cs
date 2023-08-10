@@ -117,8 +117,6 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
-        if (!Version.Contains((GameVersion)pk.Version))
-            return false;
         return true;
     }
 

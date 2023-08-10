@@ -127,8 +127,6 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
-        if (!Version.Contains((GameVersion)pk.Version))
-            return false;
         return true;
     }
 

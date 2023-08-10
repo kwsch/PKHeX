@@ -605,6 +605,6 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         return true;
     }
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => false;
 }

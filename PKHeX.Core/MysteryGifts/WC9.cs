@@ -778,7 +778,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
     public bool IsDateRestricted => true;
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk)
     {
         if (pk is ITeraType t && TeraType != t.TeraTypeOriginal)

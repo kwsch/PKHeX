@@ -181,8 +181,6 @@ public sealed record EncounterTrade4PID
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
-        if (!Version.Contains((GameVersion)pk.Version))
-            return false;
         if (pk is IContestStatsReadOnly s && s.IsContestBelow(this))
             return false;
         return true;

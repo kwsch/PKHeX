@@ -139,8 +139,6 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (!IsMatchEggLocation(pk))
             return false;
-        if (!Version.Contains((GameVersion)pk.Version))
-            return false;
         if (EvolveOnTrade && pk.Species == Species)
             return false;
         return true;

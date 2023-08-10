@@ -37,15 +37,6 @@ public sealed class BallVerifier : Verifier
         if (ball != 0)
             return VerifyBallEquals(data, ball);
 
-        // Fixed ball cases -- can be only one ball ever
-        switch (enc)
-        {
-            case IFixedBall {FixedBall: not None} s:
-                return VerifyBallEquals(data, (byte)s.FixedBall);
-            case EncounterSlot8GO: // Already a strict match
-                return GetResult(true);
-        }
-
         // Capture / Inherit cases -- can be one of many balls
         var pk = data.Entity;
         if (pk.Species == (int)Species.Shedinja && enc.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
@@ -57,6 +48,15 @@ public sealed class BallVerifier : Verifier
                 return VerifyBallEquals(data, (int)Sport);
             if (Info.Generation != 3 || Info.EvoChainsAllGens.Gen3.Length != 2) // not evolved in Gen3 Nincada->Shedinja
                 return VerifyBallEquals(data, (int)Poke); // Poké ball Only
+        }
+
+        // Fixed ball cases -- can be only one ball ever
+        switch (enc)
+        {
+            case IFixedBall { FixedBall: not None } s:
+                return VerifyBallEquals(data, (byte)s.FixedBall);
+            case EncounterSlot8GO: // Already a strict match
+                return GetResult(true);
         }
 
         // Capturing with Heavy Ball is impossible in Sun/Moon for specific species.

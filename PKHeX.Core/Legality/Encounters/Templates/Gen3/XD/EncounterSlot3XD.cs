@@ -10,7 +10,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     public EntityContext Context => EntityContext.Gen3;
     public bool FatefulEncounter => true;
     public bool EggEncounter => false;
-    public Ball FixedBall => Ball.Poke;
+    public Ball FixedBall => Ball.None;
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;

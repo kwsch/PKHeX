@@ -272,11 +272,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate,
         if (Language != -1 && Language != pk.Language) return false;
         if (Ball != pk.Ball) return false;
         if (FatefulEncounter != pk.FatefulEncounter)
-        {
-            // XD Gifts only at level 20 get flagged after transfer
-            if (Version == GameVersion.XD != (pk is XK3))
-                return false;
-        }
+            return false;
 
         if (pk.IsNative)
         {
@@ -306,7 +302,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate,
         return ot.Length == 7 && wc.StartsWith(ot, StringComparison.Ordinal);
     }
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => false;
 
     public string GetNickname(int language) => Nickname ?? string.Empty;

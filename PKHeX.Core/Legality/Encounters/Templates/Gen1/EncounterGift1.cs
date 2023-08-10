@@ -197,7 +197,7 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
     private bool IsCatchRateValid(byte catch_rate)
     {
         if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(catch_rate))
-            return false;
+            return true;
 
         if (Version == GameVersion.Stadium)
         {
