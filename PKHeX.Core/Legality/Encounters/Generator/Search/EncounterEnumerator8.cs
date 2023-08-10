@@ -43,11 +43,12 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
         SlotSHHidden,
         SlotEnd,
 
+        StaticStart,
+        NestSW, NestSH, DistSW, DistSH, DynamaxAdv, Crystal,
         StaticVersion,
         StaticVersionSW,
         StaticVersionSH,
         StaticShared,
-        NestSW, NestSH, DistSW, DistSH, DynamaxAdv, Crystal,
 
         Fallback,
         End,
@@ -116,7 +117,7 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
                 InitializeWildLocationInfo();
                 if (mustBeSlot)
                     goto case YieldState.SlotStart;
-                goto case YieldState.StaticVersion;
+                goto case YieldState.StaticStart;
 
             case YieldState.SlotStart:
                 if (!EncounterStateUtil.CanBeWildEncounter(Entity))
@@ -145,28 +146,10 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.SlotEnd:
                 if (!mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else
-                goto case YieldState.StaticVersion;
+                goto case YieldState.StaticStart;
 
-            case YieldState.StaticVersion:
-                if (Version == GameVersion.SW)
-                { State = YieldState.StaticVersionSW; goto case YieldState.StaticVersionSW; }
-                if (Version == GameVersion.SH)
-                { State = YieldState.StaticVersionSH; goto case YieldState.StaticVersionSH; }
-                goto case YieldState.Fallback; // already checked everything else
-
-            case YieldState.StaticVersionSW:
-                if (TryGetNext(Encounters8.StaticSW))
-                    return true;
-                Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
-            case YieldState.StaticVersionSH:
-                if (TryGetNext(Encounters8.StaticSH))
-                    return true;
-                Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
-
-            case YieldState.StaticShared:
-                if (TryGetNext(Encounters8.StaticSWSH))
-                    return true;
-                Index = 0; State = YieldState.NestSW; goto case YieldState.NestSW;
+            case YieldState.StaticStart:
+                goto case YieldState.NestSW;
 
             case YieldState.NestSW:
                 if (TryGetNext(Encounters8Nest.Nest_SW))
@@ -190,6 +173,26 @@ public record struct EncounterEnumerator8(PKM Entity, EvoCriteria[] Chain, GameV
                 Index = 0; State = YieldState.Crystal; goto case YieldState.Crystal;
             case YieldState.Crystal:
                 if (TryGetNext(Encounters8Nest.Crystal_SWSH))
+                    return true;
+                Index = 0; State = YieldState.StaticVersion; goto case YieldState.StaticVersion;
+
+            case YieldState.StaticVersion:
+                if (Version == GameVersion.SW)
+                { State = YieldState.StaticVersionSW; goto case YieldState.StaticVersionSW; }
+                if (Version == GameVersion.SH)
+                { State = YieldState.StaticVersionSH; goto case YieldState.StaticVersionSH; }
+                goto case YieldState.Fallback; // already checked everything else
+
+            case YieldState.StaticVersionSW:
+                if (TryGetNext(Encounters8.StaticSW))
+                    return true;
+                Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
+            case YieldState.StaticVersionSH:
+                if (TryGetNext(Encounters8.StaticSH))
+                    return true;
+                Index = 0; State = YieldState.StaticShared; goto case YieldState.StaticShared;
+            case YieldState.StaticShared:
+                if (TryGetNext(Encounters8.StaticSWSH))
                     return true;
                 if (mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else

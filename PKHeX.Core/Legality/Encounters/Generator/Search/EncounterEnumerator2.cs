@@ -30,7 +30,10 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             hasOriginalMet = true;
             met = c2.Met_Location;
         }
-        canOriginateCrystal = pk is { Format: >= 7, Korean: false } || pk.CanInhabitGen1();
+        else
+        {
+            canOriginateCrystal = pk is { Format: >= 7, Korean: false } || pk.CanInhabitGen1();
+        }
     }
 
     readonly object IEnumerator.Current => Current;
