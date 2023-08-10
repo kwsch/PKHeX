@@ -56,7 +56,8 @@ public record struct EncounterPossible7GO(EvoCriteria[] Chain, EncounterTypeGrou
             do
             {
                 if (area.Species != Chain[EvoIndex].Species)
-                    return false;
+                    continue;
+                return true;
             }
             while (++EvoIndex < Chain.Length);
         }
