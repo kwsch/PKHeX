@@ -193,7 +193,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
             };
         }
 
-        if (pk is IRibbonSetMark8 m && (m.RibbonMarkCurry || m.RibbonMarkFishing || m.HasWeatherMark()))
+        if (pk is IRibbonSetMark8 m && (m.RibbonMarkCurry || m.RibbonMarkFishing || !Weather.IsMarkCompatible(m)))
             return EncounterMatchRating.DeferredErrors;
 
         return EncounterMatchRating.Match;

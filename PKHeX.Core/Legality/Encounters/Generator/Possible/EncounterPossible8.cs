@@ -80,7 +80,7 @@ public record struct EncounterPossible8(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.EventLocal:
                 if (TryGetNext(EncounterEvent.EGDB_G8))
                     return true;
-                Index = 0; State = YieldState.TradeStart; goto case YieldState.TradeStart;
+                Index = 0; goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Trade))
@@ -152,7 +152,7 @@ public record struct EncounterPossible8(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.Crystal:
                 if (TryGetNext(Encounters8Nest.Crystal_SWSH))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))

@@ -105,7 +105,7 @@ public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup
             case YieldState.StaticShared:
                 if (TryGetNext(Encounters8b.Encounter_BDSP))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))

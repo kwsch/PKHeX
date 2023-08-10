@@ -60,7 +60,7 @@ public record struct EncounterPossible8a(EvoCriteria[] Chain, EncounterTypeGroup
             case YieldState.Static:
                 if (TryGetNextSub(Encounters8a.StaticLA))
                     return true;
-                Index = 0; State = YieldState.Slot; goto case YieldState.Slot;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))

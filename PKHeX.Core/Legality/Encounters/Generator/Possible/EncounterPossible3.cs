@@ -153,7 +153,7 @@ public record struct EncounterPossible3(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticSharedRSE:
                 if (TryGetNext(Encounters3RSE.StaticRSE))
                     return true;
-                Index = 0; State = YieldState.StaticEnd; goto case YieldState.StaticEnd;
+                Index = 0; goto case YieldState.StaticEnd;
             case YieldState.StaticFR:
                 if (TryGetNext(Encounters3FRLG.StaticFR))
                     return true;
@@ -165,7 +165,7 @@ public record struct EncounterPossible3(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticSharedFRLG:
                 if (TryGetNext(Encounters3FRLG.StaticFRLG))
                     return true;
-                Index = 0; State = YieldState.StaticEnd; goto case YieldState.StaticEnd;
+                Index = 0; goto case YieldState.StaticEnd;
             case YieldState.StaticEnd:
                 goto case YieldState.SlotStart;
 

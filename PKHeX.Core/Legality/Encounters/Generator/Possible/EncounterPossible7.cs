@@ -91,7 +91,7 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.EventLocal:
                 if (TryGetNextEvent(EncounterEvent.EGDB_G7))
                     return true;
-                Index = 0; State = YieldState.TradeStart; goto case YieldState.TradeStart;
+                Index = 0; goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
                 if (Version is GameVersion.SN or GameVersion.MN)
@@ -102,11 +102,11 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.TradeSM:
                 if (TryGetNext(Encounters7SM.TradeGift_SM))
                     return true;
-                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; goto case YieldState.StartCaptures;
             case YieldState.TradeUSUM:
                 if (TryGetNext(Encounters7USUM.TradeGift_USUM))
                     return true;
-                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; goto case YieldState.StartCaptures;
 
             case YieldState.StartCaptures:
                 goto case YieldState.StaticStart;
@@ -133,7 +133,7 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticSharedUSUM:
                 if (TryGetNext(Encounters7USUM.StaticUSUM))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.StaticSN:
                 if (TryGetNext(Encounters7SM.StaticSN))
@@ -146,7 +146,7 @@ public record struct EncounterPossible7(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticSharedSM:
                 if (TryGetNext(Encounters7SM.StaticSM))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (Version == GameVersion.US)

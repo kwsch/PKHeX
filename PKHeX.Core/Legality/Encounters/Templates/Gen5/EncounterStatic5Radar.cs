@@ -94,7 +94,6 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
         return (uint)(met - 5) <= 35; // 5 <= x <= 40
     }
 
-    // override me if the encounter type has any eggs
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;

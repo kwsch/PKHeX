@@ -73,13 +73,16 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
                     break;
 
                 if (Entity.FatefulEncounter)
-                { State = YieldState.EventStart; goto case YieldState.EventStart; }
-                State = YieldState.Bred; goto case YieldState.Bred;
+                    goto case YieldState.EventStart;
+                goto case YieldState.Bred;
 
             case YieldState.EventStart:
                 State = YieldState.Event;
                 if (PGT.IsRangerManaphy(Entity))
+                {
+                    State = YieldState.End;
                     return SetCurrent(EncounterGenerator4.RangerManaphy);
+                }
                 goto case YieldState.Event;
             case YieldState.Event:
                 if (TryGetNext(EncounterEvent.MGDB_G4))
@@ -90,13 +93,13 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
                     return true;
                 if (Yielded)
                     break;
-                Index = 0; State = YieldState.Bred; goto case YieldState.Bred;
+                Index = 0; goto case YieldState.Bred;
 
             case YieldState.Bred:
                 if (!Locations.IsEggLocationBred4(Entity.Egg_Location, Version))
-                { State = YieldState.TradeStart; goto case YieldState.TradeStart; }
+                    goto case YieldState.TradeStart;
                 if (!EncounterGenerator4.TryGetEgg(Chain, Version, out var egg))
-                    break;
+                    goto case YieldState.TradeStart;
                 State = YieldState.BredSplit;
                 return SetCurrent(egg);
             case YieldState.BredSplit:
@@ -118,17 +121,17 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.TradeDPPt:
                 if (TryGetNext(Encounters4DPPt.TradeGift_DPPtIngame))
                     return true;
-                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; goto case YieldState.StartCaptures;
             case YieldState.TradeHGSS:
                 if (TryGetNext(Encounters4HGSS.TradeGift_HGSS))
                     return true;
-                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; goto case YieldState.StartCaptures;
 
             case YieldState.StartCaptures:
                 InitializeWildLocationInfo();
                 if (mustBeSlot)
-                { State = YieldState.SlotStart; goto case YieldState.SlotStart; }
-                State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                    goto case YieldState.SlotStart;
+                goto case YieldState.StaticStart;
 
             case YieldState.SlotStart:
                 if (!EncounterStateUtil.CanBeWildEncounter(Entity))
@@ -218,7 +221,7 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.StaticPokewalker:
                 if (TryGetNext(Encounters4HGSS.Encounter_PokeWalker))
                     return true;
-                Index = 0; State = YieldState.StaticEnd; goto case YieldState.StaticEnd;
+                Index = 0; goto case YieldState.StaticEnd;
 
             case YieldState.StaticEnd:
                 if (mustBeSlot)

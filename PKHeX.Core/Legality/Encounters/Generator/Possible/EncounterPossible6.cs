@@ -89,7 +89,7 @@ public record struct EncounterPossible6(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.EventLocal:
                 if (TryGetNextEvent(EncounterEvent.EGDB_G6))
                     return true;
-                Index = 0; State = YieldState.TradeStart; goto case YieldState.TradeStart;
+                Index = 0; goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Trade))
@@ -102,11 +102,11 @@ public record struct EncounterPossible6(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.TradeXY:
                 if (TryGetNext(Encounters6XY.TradeGift_XY))
                     return true;
-                Index = 0; State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                Index = 0; goto case YieldState.StaticStart;
             case YieldState.TradeAO:
                 if (TryGetNext(Encounters6AO.TradeGift_AO))
                     return true;
-                Index = 0; State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                Index = 0; goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Static))
@@ -132,7 +132,7 @@ public record struct EncounterPossible6(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticSharedAO:
                 if (TryGetNext(Encounters6AO.Encounter_AO))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.StaticX:
                 if (TryGetNext(Encounters6XY.StaticX))
@@ -145,7 +145,7 @@ public record struct EncounterPossible6(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticSharedXY:
                 if (TryGetNext(Encounters6XY.Encounter_XY))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))

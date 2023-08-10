@@ -59,7 +59,7 @@ public record struct EncounterPossible7GG(EvoCriteria[] Chain, EncounterTypeGrou
             case YieldState.EventLocal:
                 if (TryGetNextEvent(EncounterEvent.EGDB_G7GG))
                     return true;
-                Index = 0; State = YieldState.TradeStart; goto case YieldState.TradeStart;
+                Index = 0; goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Trade))
@@ -80,7 +80,7 @@ public record struct EncounterPossible7GG(EvoCriteria[] Chain, EncounterTypeGrou
             case YieldState.TradeShared:
                 if (TryGetNext(Encounters7GG.TradeGift_GG))
                     return true;
-                Index = 0; State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                Index = 0; goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Static))
@@ -102,7 +102,7 @@ public record struct EncounterPossible7GG(EvoCriteria[] Chain, EncounterTypeGrou
             case YieldState.StaticShared:
                 if (TryGetNext(Encounters7GG.Encounter_GG))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))

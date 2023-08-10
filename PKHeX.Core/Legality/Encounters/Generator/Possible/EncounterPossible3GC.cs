@@ -51,7 +51,7 @@ public record struct EncounterPossible3GC(EvoCriteria[] Chain, EncounterTypeGrou
             case YieldState.Trade:
                 if (TryGetNext(Encounters3XD.Trades))
                     return true;
-                Index = 0; State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                Index = 0; goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Static))
@@ -79,7 +79,7 @@ public record struct EncounterPossible3GC(EvoCriteria[] Chain, EncounterTypeGrou
             case YieldState.StaticEReader:
                 if (TryGetNext(Encounters3Colo.EReader))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))

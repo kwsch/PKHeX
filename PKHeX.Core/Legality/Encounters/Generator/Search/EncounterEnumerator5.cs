@@ -70,11 +70,10 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                     break;
 
                 if (Entity.Met_Location == Locations.LinkTrade5NPC)
-                { State = YieldState.TradeStart; goto case YieldState.TradeStart; }
-
-                if (Entity.FatefulEncounter)
-                { State = YieldState.Event; goto case YieldState.Event; }
-                goto case YieldState.Bred;
+                    goto case YieldState.TradeStart;
+                if (!Entity.FatefulEncounter)
+                    goto case YieldState.Bred;
+                State = YieldState.Event; goto case YieldState.Event;
 
             case YieldState.Event:
                 if (TryGetNext(EncounterEvent.MGDB_G5))
@@ -85,13 +84,13 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                     return true;
                 if (Yielded)
                     break;
-                Index = 0; State = YieldState.Bred; goto case YieldState.Bred;
+                Index = 0; goto case YieldState.Bred;
 
             case YieldState.Bred:
                 if (!Locations.IsEggLocationBred5(Entity.Egg_Location))
                     goto case YieldState.StartCaptures;
                 if (!EncounterGenerator5.TryGetEgg(Chain, Version, out var egg))
-                { State = YieldState.StartCaptures; goto case YieldState.StartCaptures; }
+                    goto case YieldState.StartCaptures;
                 State = YieldState.BredSplit;
                 return SetCurrent(egg);
             case YieldState.BredSplit:
@@ -141,13 +140,13 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
                     return true;
                 if (Yielded)
                     break;
-                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; goto case YieldState.StartCaptures;
             case YieldState.TradeB2W2:
                 if (TryGetNext(Encounters5B2W2.TradeGift_B2W2))
                     return true;
                 if (Yielded)
                     break;
-                Index = 0; State = YieldState.StartCaptures; goto case YieldState.StartCaptures;
+                Index = 0; goto case YieldState.StartCaptures;
 
             case YieldState.StartCaptures:
                 InitializeWildLocationInfo();
@@ -236,7 +235,7 @@ public record struct EncounterEnumerator5(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.StaticEntreeShared:
                 if (TryGetNext(Encounters5DR.DreamWorld_Common))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.Fallback:
                 State = YieldState.End;

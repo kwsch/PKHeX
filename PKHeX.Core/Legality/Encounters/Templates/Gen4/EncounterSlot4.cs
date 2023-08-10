@@ -23,7 +23,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public SlotType Type => Parent.Type;
     public GroundTileAllowed GroundTile => Parent.GroundTile;
 
-    public bool CanUseRadar => !GameVersion.HGSS.Contains(Version) && GroundTile.HasFlag(GroundTileAllowed.Grass) && !Locations.IsSafariZoneLocation4(Location);
+    public bool CanUseRadar => Version is not (GameVersion.HG or GameVersion.SS) && GroundTile.HasFlag(GroundTileAllowed.Grass) && !Locations.IsSafariZoneLocation4(Location);
 
     private Ball GetRequiredBallValue(Ball fallback = Ball.None)
     {
@@ -156,7 +156,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
             return true;
         // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
         if (val is PIDType.ChainShiny)
-            return Version is GameVersion.HG or GameVersion.SS && pk.IsShiny && CanUseRadar;
+            return pk.IsShiny && CanUseRadar;
         if (val is PIDType.CuteCharm)
             return pk.Gender is 0 or 1 && MethodFinder.IsCuteCharm4Valid(this, pk);
         return false;

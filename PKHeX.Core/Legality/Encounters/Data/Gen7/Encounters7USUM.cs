@@ -39,7 +39,7 @@ internal static class Encounters7USUM
         new(USUM) { FixedBall = Ball.Poke, Species = 025, Level = 40, Location = 070, FlawlessIVCount = 3, Relearn = new(57) }, // Pikachu @ Heahea City
         new(USUM) { FixedBall = Ball.Poke, Species = 803, Level = 40, Location = 208, FlawlessIVCount = 3 }, // Poipole @ Megalo Tower
         new(USUM) { FixedBall = Ball.Poke, Species = 803, Level = 40, Location = 206, FlawlessIVCount = 3 }, // Poipole @ Ultra Megalopolis
-        
+
         new(USUM) { FixedBall = Ball.Poke, Species = 778, Level = 40, Ability = OnlyFirst,  Location = 202, Form = 2, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Mimikyu
         new(USUM) { FixedBall = Ball.Poke, Species = 718, Level = 63, Ability = OnlyFirst,  Location = 118, Form = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zygarde (10%) @ Route 16
 

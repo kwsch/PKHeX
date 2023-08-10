@@ -87,7 +87,7 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.EventLocal:
                 if (TryGetNextEvent(EncounterEvent.EGDB_G5))
                     return true;
-                Index = 0; State = YieldState.TradeStart; goto case YieldState.TradeStart;
+                Index = 0; goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Trade))
@@ -121,11 +121,11 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.TradeBW:
                 if (TryGetNext(Encounters5BW.TradeGift_BW))
                     return true;
-                Index = 0; State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                Index = 0; goto case YieldState.StaticStart;
             case YieldState.TradeB2W2:
                 if (TryGetNext(Encounters5B2W2.TradeGift_B2W2))
                     return true;
-                Index = 0; State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                Index = 0; goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Static))
@@ -181,7 +181,7 @@ public record struct EncounterPossible5(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticEntreeShared:
                 if (TryGetNext(Encounters5DR.DreamWorld_Common))
                     return true;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))

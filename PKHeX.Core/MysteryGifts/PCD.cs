@@ -127,7 +127,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         return Gift.ConvertToPKM(tr, criteria);
     }
 
-    public bool CanBeReceivedByVersion(int pkmVersion) => ((CardCompatibility >> pkmVersion) & 1) == 1;
+    public bool CanBeReceivedByVersion(int pkmVersion) => (byte)Version == pkmVersion;
 
     public override bool IsMatchExact(PKM pk, EvoCriteria evo)
     {

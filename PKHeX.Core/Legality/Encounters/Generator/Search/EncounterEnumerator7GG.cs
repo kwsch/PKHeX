@@ -55,10 +55,9 @@ public record struct EncounterEnumerator7GG(PKM Entity, EvoCriteria[] Chain, Gam
                     break;
                 InitializeWildLocationInfo();
                 if (met == Locations.LinkTrade6NPC)
-                { State = YieldState.TradeStart; goto case YieldState.TradeStart; }
-
+                    goto case YieldState.TradeStart;
                 if (!Entity.FatefulEncounter)
-                { State = YieldState.StaticStart; goto case YieldState.StaticStart; }
+                    goto case YieldState.StaticStart;
                 State = YieldState.Event; goto case YieldState.Event;
 
             case YieldState.TradeStart:
@@ -89,7 +88,7 @@ public record struct EncounterEnumerator7GG(PKM Entity, EvoCriteria[] Chain, Gam
                     return true;
                 if (Yielded)
                     break;
-                Index = 0; State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                Index = 0; goto case YieldState.StaticStart;
 
             case YieldState.StaticStart:
                 if (Version == GameVersion.GP)
@@ -111,7 +110,7 @@ public record struct EncounterEnumerator7GG(PKM Entity, EvoCriteria[] Chain, Gam
                     return true;
                 if (Yielded)
                     break;
-                Index = 0; State = YieldState.SlotStart; goto case YieldState.SlotStart;
+                Index = 0; goto case YieldState.SlotStart;
 
             case YieldState.SlotStart:
                 if (!EncounterStateUtil.CanBeWildEncounter(Entity))

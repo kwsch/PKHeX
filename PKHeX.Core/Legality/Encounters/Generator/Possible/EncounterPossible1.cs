@@ -126,21 +126,21 @@ public record struct EncounterPossible1(EvoCriteria[] Chain, EncounterTypeGroup 
                     return true;
                 Index = 0;
                 if (Version == GameVersion.BU)
-                { State = YieldState.EventStart; goto case YieldState.EventStart; }
+                    goto case YieldState.EventStart;
                 State = YieldState.SlotYW; goto case YieldState.SlotYW;
             case YieldState.SlotYW:
                 if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsYW))
                     return true;
                 Index = 0;
                 if (Version == GameVersion.YW)
-                { State = YieldState.EventStart; goto case YieldState.EventStart; }
+                    goto case YieldState.EventStart;
                 State = YieldState.SlotRD; goto case YieldState.SlotRD;
             case YieldState.SlotRD:
                 if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsRD))
                     return true;
                 Index = 0;
                 if (Version == GameVersion.RD)
-                { State = YieldState.EventStart; goto case YieldState.EventStart; }
+                    goto case YieldState.EventStart;
                 State = YieldState.SlotGN; goto case YieldState.SlotGN;
             case YieldState.SlotGN:
                 if (TryGetNext<EncounterArea1, EncounterSlot1>(Encounters1.SlotsGN))

@@ -122,8 +122,8 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.StartCaptures:
                 InitializeWildLocationInfo();
                 if (mustBeSlot)
-                { State = YieldState.SlotStart; goto case YieldState.SlotStart; }
-                State = YieldState.StaticStart; goto case YieldState.StaticStart;
+                   goto case YieldState.SlotStart;
+                goto case YieldState.StaticStart;
 
             case YieldState.SlotStart:
                 if (!EncounterStateUtil.CanBeWildEncounter(Entity))
@@ -192,7 +192,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.StaticSharedRSE:
                 if (TryGetNext(Encounters3RSE.StaticRSE))
                     return true;
-                Index = 0; State = YieldState.StaticEnd; goto case YieldState.StaticEnd;
+                Index = 0; goto case YieldState.StaticEnd;
             case YieldState.StaticFR:
                 if (TryGetNext(Encounters3FRLG.StaticFR))
                     return true;
@@ -204,7 +204,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.StaticSharedFRLG:
                 if (TryGetNext(Encounters3FRLG.StaticFRLG))
                     return true;
-                Index = 0; State = YieldState.StaticEnd; goto case YieldState.StaticEnd;
+                Index = 0; goto case YieldState.StaticEnd;
 
             case YieldState.StaticEnd:
                 if (mustBeSlot)

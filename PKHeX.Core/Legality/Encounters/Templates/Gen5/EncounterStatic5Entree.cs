@@ -96,7 +96,6 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
         return true;
     }
 
-    // override me if the encounter type has any eggs
     private bool IsMatchEggLocation(PKM pk)
     {
         var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
