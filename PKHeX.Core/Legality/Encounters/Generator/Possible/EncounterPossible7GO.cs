@@ -33,16 +33,17 @@ public record struct EncounterPossible7GO(EvoCriteria[] Chain, EncounterTypeGrou
                     break;
                 if (!Flags.HasFlag(EncounterTypeGroup.Slot))
                     break;
-                State = YieldState.Seek; goto case YieldState.Seek;
+                State = YieldState.Slot;
+                goto case YieldState.Seek;
             case YieldState.Seek:
                 if (!SeekNextArea(EncountersGO.SlotsGO_GG))
                     break;
-                State = YieldState.Slot; goto case YieldState.Slot;
+                goto case YieldState.Slot;
             case YieldState.Slot:
                 var group = EncountersGO.SlotsGO_GG[Index];
                 if (TryGetNext(group.Slots))
                     return true;
-                State = YieldState.Seek; goto case YieldState.Seek;
+                goto case YieldState.Seek;
         }
         return false;
     }

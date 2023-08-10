@@ -168,9 +168,9 @@ public record struct EncounterEnumerator4(PKM Entity, EvoCriteria[] Chain, GameV
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
-                if (mustBeSlot)
-                    goto case YieldState.StaticStart; // be generous with bad balls
-                goto case YieldState.Fallback; // already checked everything else
+                if (!mustBeSlot)
+                    goto case YieldState.Fallback; // already checked everything else
+                Index = 0; goto case YieldState.StaticStart; // be generous with bad balls
 
             case YieldState.StaticStart:
                 if (Version == GameVersion.D)

@@ -112,11 +112,11 @@ public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, Game
             case YieldState.SlotBD:
                 if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsBD))
                     return true;
-                goto case YieldState.SlotEnd;
+                Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotSP:
                 if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsSP))
                     return true;
-                goto case YieldState.SlotEnd;
+                Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
                 if (!mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else

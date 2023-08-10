@@ -98,11 +98,11 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.SlotStart:
                 if (!EncounterStateUtil.CanBeWildEncounter(Entity))
                     goto case YieldState.SlotEnd;
-                goto case YieldState.Slot;
+                State = YieldState.Slot; goto case YieldState.Slot;
             case YieldState.Slot:
                 if (TryGetNext<EncounterArea9, EncounterSlot9>(Encounters9.Slots))
                     return true;
-                goto case YieldState.SlotEnd;
+                Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
                 if (!mustBeSlot)
                     goto case YieldState.Fallback; // already checked everything else

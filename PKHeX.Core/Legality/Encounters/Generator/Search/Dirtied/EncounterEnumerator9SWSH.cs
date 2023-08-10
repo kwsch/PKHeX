@@ -93,7 +93,7 @@ public record struct EncounterEnumerator9SWSH(PKM Entity, EvoCriteria[] Chain, G
             case YieldState.SlotStart:
                 if (!EncounterStateUtil.CanBeWildEncounter(Entity))
                     goto case YieldState.SlotEnd;
-                goto case YieldState.Slot;
+                State = YieldState.Slot; goto case YieldState.Slot;
             case YieldState.Slot:
                 if (TryGetNext<EncounterArea9, EncounterSlot9>(Encounters9.Slots))
                     return true;
