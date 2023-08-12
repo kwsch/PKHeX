@@ -71,6 +71,9 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             HeightScalar = PokeSizeUtil.GetRandomScalar(),
             WeightScalar = PokeSizeUtil.GetRandomScalar(),
+
+            DynamaxLevel = DynamaxLevel,
+            CanGigantamax = CanGigantamax,
         };
 
         SetPINGA(pk, criteria);
