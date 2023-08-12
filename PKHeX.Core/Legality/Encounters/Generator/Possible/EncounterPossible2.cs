@@ -42,6 +42,7 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
         SlotC,
         SlotGD,
         SlotSI,
+        End,
     }
 
     public bool MoveNext()
@@ -160,7 +161,7 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
                 { State = YieldState.EventGB; goto case YieldState.EventGB; }
                 throw new InvalidOperationException("No events allowed");
             case YieldState.EventVC:
-                State = YieldState.Trade;
+                State = YieldState.End;
                 if (Chain[^1].Species == (int)Species.Celebi && Version == GameVersion.C)
                     return SetCurrent(Encounters2.CelebiVC);
                 break;

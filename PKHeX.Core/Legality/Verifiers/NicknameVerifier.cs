@@ -290,10 +290,9 @@ public sealed class NicknameVerifier : Verifier
 
     private static void VerifyNicknameTrade(LegalityAnalysis data, IEncounterTemplate t)
     {
-        switch (data.EncounterOriginal)
+        switch (t)
         {
             case EncounterTrade8b b: VerifyTrade8b(data, b); return;
-            case EncounterTrade2: return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
             case EncounterTrade4PID t4: VerifyTrade4(data, t4); return;
             case EncounterTrade5BW t5:
                 VerifyEncounterTrade5(data, t5); return;

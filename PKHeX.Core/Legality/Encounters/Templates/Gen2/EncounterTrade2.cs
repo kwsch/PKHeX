@@ -128,16 +128,18 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
                     return false;
             }
         }
+        return true;
+    }
 
-        var indexOT = GetIndexTrainer(pk);
+    private bool IsTrainerNicknameCorrect(PKM pk)
+    {
+        var indexOT = GetIndexTrainer(pk.OT_Name, pk);
         if (indexOT == -1)
             return false;
         if (pk.Nickname != Nicknames[indexOT])
             return false;
         return true;
     }
-
-    private int GetIndexTrainer(PKM pk) => GetIndexTrainer(pk.OT_Name, pk);
 
     private int GetIndexTrainer(ReadOnlySpan<char> OT, PKM pk)
     {
@@ -178,9 +180,23 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
     }
 
     // Already required for encounter matching.
-    public EncounterMatchRating GetMatchRating(PKM pk) => EncounterMatchRating.Match;
-    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => true;
-    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => true;
+    public EncounterMatchRating GetMatchRating(PKM pk)
+    {
+        if (!IsTrainerNicknameCorrect(pk))
+            return EncounterMatchRating.DeferredErrors;
+        return EncounterMatchRating.Match;
+    }
+
+    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => GetIndexTrainer(trainer, pk) != -1;
+
+    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language)
+    {
+        var index = GetIndexTrainer(pk.OT_Name, pk);
+        if (index == -1)
+            return false;
+        return nickname.SequenceEqual(Nicknames[index]);
+    }
+
     public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
 
     #endregion
