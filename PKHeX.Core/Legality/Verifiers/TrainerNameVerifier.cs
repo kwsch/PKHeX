@@ -59,7 +59,7 @@ public sealed class TrainerNameVerifier : Verifier
     /// </summary>
     internal static bool IsPlayerOriginalTrainer(IEncounterable enc) => enc switch
     {
-        EncounterTrade { HasTrainerName: true } => false,
+        IFixedTrainer { IsFixedTrainer: true } => false,
         MysteryGift { IsEgg: false } => false,
         EncounterStatic5N => false,
         _ => true,
@@ -78,7 +78,7 @@ public sealed class TrainerNameVerifier : Verifier
             return ot.Length <= len;
         }
 
-        if (e is EncounterTrade { HasTrainerName: true })
+        if (e is IFixedTrainer { IsFixedTrainer: true })
             return true; // already verified
 
         if (e is MysteryGift mg && mg.OT_Name.Length == ot.Length)
@@ -108,7 +108,7 @@ public sealed class TrainerNameVerifier : Verifier
 
         if (pk.OT_Gender == 1)
         {
-            if (pk is ICaughtData2 {CaughtData:0} or { Format: > 2, VC1: true } || data is {EncounterOriginal: {Generation:1} or EncounterStatic2E {IsGift:true}})
+            if (pk is ICaughtData2 {CaughtData:0} or { Format: > 2, VC1: true } || data is {EncounterOriginal: {Generation:1} or EncounterGift2 {IsGift:true}})
                 data.AddLine(GetInvalid(LG1OTGender));
         }
     }
@@ -117,7 +117,7 @@ public sealed class TrainerNameVerifier : Verifier
     {
         if (StringConverter12.GetIsG1English(str))
         {
-            if (str.Length > 7 && data.EncounterOriginal is not EncounterTradeGB) // OT already verified; GER shuckle has 8 chars
+            if (str.Length > 7 && data.EncounterOriginal is not IFixedTrainer { IsFixedTrainer: true }) // OT already verified; GER shuckle has 8 chars
                 data.AddLine(GetInvalid(LOTLong));
         }
         else if (StringConverter12.GetIsG1Japanese(str))

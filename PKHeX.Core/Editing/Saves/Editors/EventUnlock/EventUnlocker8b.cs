@@ -105,5 +105,4 @@ public sealed class EventUnlocker8b : EventUnlocker<SAV8BS>
         for (int i = FASHION_START; i <= FASHION_END; i++)
             SAV.FlagWork.SetFlag(i, true);
     }
-
 }

@@ -76,7 +76,7 @@ public static class MarkRules
 
     private static bool IsSlotWeatherPermittedSWSH(AreaWeather8 permit, EncounterSlot8 s)
     {
-        var location = s.Location;
+        var location = s.Parent.Location;
         // If it's not in the main table, it can only have Normal weather.
         if (!EncounterArea8.WeatherbyArea.TryGetValue(location, out var weather))
             weather = AreaWeather8.Normal;
@@ -88,7 +88,7 @@ public static class MarkRules
             return false;
 
         // Check bleed conditions otherwise.
-        return EncounterArea8.IsWeatherBleedPossible(s.SlotType, permit, location);
+        return EncounterArea8.IsWeatherBleedPossible(s.Type, permit, location);
     }
 
     /// <summary>

@@ -3,9 +3,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Wrapper result to store suggestion data related to encounters.
 /// </summary>
-public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn
+public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn, ILevelRange
 {
-    private readonly IEncounterable? Encounter;
+    public readonly IEncounterable? Encounter;
 
     public ushort Species { get; }
     public byte Form { get; }

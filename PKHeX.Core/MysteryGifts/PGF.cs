@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 Mystery Gift Template File
 /// </summary>
-public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature
+public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature, IRestrictVersion
 {
     public const int Size = 0xCC;
     public const int SizeFull = 0x2D0;
@@ -251,8 +251,10 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             source.SetEncounterMoves(Species, Form, Level, moves);
             pk.SetMoves(moves);
         }
-
-        pk.SetMaximumPPCurrent();
+        else
+        {
+            pk.SetMaximumPPCurrent();
+        }
 
         if (IsEgg) // User's
         {
@@ -414,7 +416,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         return true;
     }
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => !CanBeReceivedByVersion(pk.Version);
 
     public bool CanBeReceivedByVersion(int game) => OriginGame == 0 || OriginGame == game;

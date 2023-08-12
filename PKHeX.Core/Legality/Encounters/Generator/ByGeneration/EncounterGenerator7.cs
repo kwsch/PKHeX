@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-
-using static PKHeX.Core.EncounterStateUtil;
-using static PKHeX.Core.EncounterTypeGroup;
-using static PKHeX.Core.EncounterMatchRating;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -11,263 +8,21 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
 {
     public static readonly EncounterGenerator7 Instance = new();
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncounterEvent.MGDB_G7;
-            foreach (var enc in GetPossibleGifts(chain, table, game))
-                yield return enc;
-        }
-        if (groups.HasFlag(Egg))
-        {
-            var eggs = GetEggs(pk, chain, game);
-            foreach (var enc in eggs)
-                yield return enc;
-        }
-        if (groups.HasFlag(Static))
-        {
-            var table = GetStatic(game);
-            foreach (var enc in GetPossibleStatic(chain, table))
-                yield return enc;
-        }
-        if (groups.HasFlag(Slot))
-        {
-            var areas = GetAreas(game);
-            foreach (var enc in GetPossibleSlots(chain, areas))
-                yield return enc;
-        }
-        if (groups.HasFlag(Trade))
-        {
-            var table = GetTrades(game);
-            foreach (var enc in GetPossibleTrades(chain, table))
-                yield return enc;
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleGifts(EvoCriteria[] chain, IReadOnlyList<WC7> table, GameVersion game)
-    {
-        foreach (var enc in table)
-        {
-            if (!enc.CanBeReceivedByVersion((int)game))
-                continue;
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleStatic(EvoCriteria[] chain, EncounterStatic7[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea7[] areas)
-    {
-        foreach (var area in areas)
-        {
-            foreach (var slot in area.Slots)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != slot.Species)
-                        continue;
-                    yield return slot;
-                    break;
-                }
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleTrades(EvoCriteria[] chain, EncounterTrade7[] table)
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
+        var iterator = new EncounterPossible7(chain, groups, game);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
-        if (chain.Length == 0)
-            yield break;
-        var game = (GameVersion)pk.Version;
-
-        bool yielded = false;
-        IEncounterable? deferred = null;
-        IEncounterable? partial = null;
-
-        if (pk.FatefulEncounter)
-        {
-            foreach (var z in EncounterEvent.MGDB_G7)
-            {
-                foreach (var evo in chain)
-                {
-                    if (z.Species != evo.Species)
-                        continue;
-
-                    if (!z.IsMatchExact(pk, evo))
-                        break;
-
-                    var match = z.GetMatchRating(pk);
-                    switch (match)
-                    {
-                        case Match: yield return z; yielded = true; break;
-                        case Deferred: deferred ??= z; break;
-                        case PartialMatch: partial ??= z; break;
-                    }
-                    break;
-                }
-            }
-            if (!yielded)
-            {
-                if (deferred != null)
-                {
-                    yield return deferred;
-                    yielded = true;
-                }
-                if (partial != null)
-                {
-                    yield return partial;
-                    yielded = true;
-                }
-            }
-            if (yielded)
-                yield break;
-        }
-
-        if (Locations.IsEggLocationBred6(pk.Egg_Location))
-        {
-            var eggs = GetEggs(pk, chain, game);
-            foreach (var egg in eggs)
-                yield return egg;
-            if (chain[^1].Species != (int)Species.Eevee) // Static encounter clash (gift egg)
-                yield break;
-        }
-
-        var table = GetStatic(game);
-        foreach (var z in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (z.Species != evo.Species)
-                    continue;
-                if (!z.IsMatchExact(pk, evo))
-                    continue;
-
-                var match = z.GetMatchRating(pk);
-                switch (match)
-                {
-                    case Match: yield return z; yielded = true; break;
-                    case Deferred: deferred ??= z; break;
-                    case PartialMatch: partial ??= z; break;
-                }
-            }
-        }
-        if (yielded)
-            yield break;
-
-        if (CanBeWildEncounter(pk))
-        {
-            var location = pk.Met_Location;
-            var areas = GetAreas(game);
-            foreach (var area in areas)
-            {
-                if (!area.IsMatchLocation(location))
-                    continue;
-
-                var slots = area.GetMatchingSlots(pk, chain);
-                foreach (var slot in slots)
-                {
-                    var match = slot.GetMatchRating(pk);
-                    switch (match)
-                    {
-                        case Match: yield return slot; yielded = true; break;
-                        case Deferred: deferred ??= slot; break;
-                        case PartialMatch: partial ??= slot; break;
-                    }
-                }
-            }
-            if (yielded)
-                yield break;
-        }
-
-        var trades = GetTrades(game);
-        foreach (var trade in trades)
-        {
-            foreach (var evo in chain)
-            {
-                if (trade.Species != evo.Species)
-                    continue;
-                if (!trade.IsMatchExact(pk, evo))
-                    continue;
-
-                var match = trade.GetMatchRating(pk);
-                switch (match)
-                {
-                    case Match: yield return trade; break;
-                    case Deferred: deferred ??= trade; break;
-                    case PartialMatch: partial ??= trade; break;
-                }
-            }
-        }
-
-        if (deferred != null)
-            yield return deferred;
-        else if (partial != null)
-            yield return partial;
+        var iterator = new EncounterEnumerator7(pk, chain, (GameVersion)pk.Version);
+        foreach (var enc in iterator)
+            yield return enc.Encounter;
     }
 
-    private static EncounterStatic7[] GetStatic(GameVersion game) => game switch
-    {
-        GameVersion.SN => Encounters7SM.StaticSN,
-        GameVersion.MN => Encounters7SM.StaticMN,
-        GameVersion.US => Encounters7USUM.StaticUS,
-        GameVersion.UM => Encounters7USUM.StaticUM,
-        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
-    };
-
-    private static EncounterArea7[] GetAreas(GameVersion game) => game switch
-    {
-        GameVersion.SN => Encounters7SM.SlotsSN,
-        GameVersion.MN => Encounters7SM.SlotsMN,
-        GameVersion.US => Encounters7USUM.SlotsUS,
-        GameVersion.UM => Encounters7USUM.SlotsUM,
-        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
-    };
-
-    private static EncounterTrade7[] GetTrades(GameVersion game) => game switch
-    {
-        GameVersion.SN => Encounters7SM.TradeGift_SM,
-        GameVersion.MN => Encounters7SM.TradeGift_SM,
-        GameVersion.US => Encounters7USUM.TradeGift_USUM,
-        GameVersion.UM => Encounters7USUM.TradeGift_USUM,
-        _ => throw new ArgumentOutOfRangeException(nameof(game), game, null),
-    };
-
-    internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pk, ushort encSpecies, ReadOnlySpan<EvoCriteria> chain)
+    internal static EncounterTransfer7 GetVCStaticTransferEncounter(PKM pk, ushort encSpecies, ReadOnlySpan<EvoCriteria> chain)
     {
         // Obtain the lowest evolution species with matching OT friendship. Not all species chains have the same base friendship.
         var met = (byte)pk.Met_Level;
@@ -278,12 +33,12 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
             var species = GetVCSpecies(chain, pk, Legal.MaxSpeciesID_1);
             var vc1Species = species > Legal.MaxSpeciesID_1 ? encSpecies : species;
             if (vc1Species <= Legal.MaxSpeciesID_1)
-                return EncounterStatic7.GetVC1(vc1Species, met);
+                return EncounterTransfer7.GetVC1(vc1Species, met);
         }
         // fall through else
         {
             var species = GetVCSpecies(chain, pk, Legal.MaxSpeciesID_2);
-            return EncounterStatic7.GetVC2(species > Legal.MaxSpeciesID_2 ? encSpecies : species, met);
+            return EncounterTransfer7.GetVC2(species > Legal.MaxSpeciesID_2 ? encSpecies : species, met);
         }
     }
 
@@ -308,53 +63,52 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
 
     private const int Generation = 7;
     private const EntityContext Context = EntityContext.Gen7;
-    private const byte EggLevel = 1;
+    private const byte EggLevel = EggStateLegality.EggMetLevel;
 
-    private static IEnumerable<EncounterEgg> GetEggs(PKM pk, EvoCriteria[] chain, GameVersion version)
+    public static bool TryGetEgg(ReadOnlySpan<EvoCriteria> chain, GameVersion version, [NotNullWhen(true)] out EncounterEgg? result)
     {
+        result = null;
         var devolved = chain[^1];
         if (!devolved.InsideLevelRange(EggLevel))
-            yield break;
+            return false;
 
         // Ensure most devolved species is the same as the egg species.
         var (species, form) = GetBaby(devolved);
         if (species != devolved.Species && !Breeding.IsSplitBreedNotBabySpecies4(devolved.Species))
-            yield break; // not a split-breed.
+            return false; // not a split-breed.
 
         // Sanity Check 1
         if (!Breeding.CanHatchAsEgg(species))
-            yield break;
+            return false;
         // Sanity Check 2
         if (!Breeding.CanHatchAsEgg(species, form, Context))
-            yield break;
+            return false;
         // Sanity Check 3
         if (!PersonalTable.USUM.IsPresentInGame(species, form))
-            yield break;
+            return false;
 
-        var egg = CreateEggEncounter(species, form, version);
-        yield return egg;
-        if (pk.IsEgg)
-            yield break;
-        bool otherVersion = pk is { Egg_Location: Locations.LinkTrade6 };
-        if (otherVersion)
-            yield return egg with { Version = GetOtherGamePair(version) };
+        result = CreateEggEncounter(species, form, version);
+        return true;
+    }
 
+    public static EncounterEgg MutateEggTrade(EncounterEgg egg) => egg with { Version = GetOtherGamePair(egg.Version) };
+
+    public static bool TryGetSplit(EncounterEgg other, ReadOnlySpan<EvoCriteria> chain, [NotNullWhen(true)] out EncounterEgg? result)
+    {
+        result = null;
         // Check for split-breed
-        if (species == devolved.Species)
+        var devolved = chain[^1];
+        if (other.Species == devolved.Species)
         {
             if (chain.Length < 2)
-                yield break; // no split-breed
+                return false; // no split-breed
             devolved = chain[^2];
         }
         if (!Breeding.IsSplitBreedNotBabySpecies4(devolved.Species))
-            yield break;
+            return false;
 
-        species = devolved.Species;
-        form = devolved.Form;
-        egg = CreateEggEncounter(species, form, version);
-        yield return egg;
-        if (otherVersion)
-            yield return egg with { Version = GetOtherGamePair(version) };
+        result = other with { Species = devolved.Species, Form = devolved.Form };
+        return true;
     }
 
     private static GameVersion GetOtherGamePair(GameVersion version)

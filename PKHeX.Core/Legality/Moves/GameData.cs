@@ -3,10 +3,23 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Provides access to game-specific data for Personal and LearnSource.
+/// </summary>
 public static class GameData
 {
+    /// <summary>
+    /// Gets the Personal table for the specified game version.
+    /// </summary>
+    /// <param name="game">The game version to retrieve data for.</param>
+    /// <returns>The Personal table for the specified game version.</returns>
     public static IPersonalTable GetPersonal(GameVersion game) => Personal(game);
 
+    /// <summary>
+    /// Gets the LearnSource for the specified game version.
+    /// </summary>
+    /// <param name="game">The game version to retrieve data for.</param>
+    /// <returns>The LearnSource for the specified game version.</returns>
     public static ILearnSource GetLearnSource(GameVersion game) => game switch
     {
         RD or GN or BU or RB => LearnSource1RB.Instance,
@@ -56,6 +69,11 @@ public static class GameData
         _ => throw new ArgumentOutOfRangeException(nameof(game), $"{game} is not a valid entry in the expression."),
     };
 
+    /// <summary>
+    /// Retrieves the personal table for the specified game version.
+    /// </summary>
+    /// <param name="game">The game version to retrieve data for.</param>
+    /// <returns>The Personal table of the specified game version.</returns>
     private static IPersonalTable Personal(GameVersion game) => game switch
     {
         RD or GN or BU or RB => PersonalTable.RB,

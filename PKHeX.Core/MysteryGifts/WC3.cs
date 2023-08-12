@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// This is fabricated data built to emulate the future generation Mystery Gift objects.
 /// Data here is not stored in any save file and cannot be naturally exported.
 /// </remarks>
-public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
+public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate, IRandomCorrelation
 {
     public override MysteryGift Clone() => (WC3)MemberwiseClone();
 
@@ -19,6 +19,17 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
     /// Matched <see cref="PIDIV"/> Type
     /// </summary>
     public PIDType Method { get; init; }
+    public PIDType GetSuggestedCorrelation() => Method;
+    public bool IsCompatible(PIDType type, PKM pk)
+    {
+        if (type == Method)
+            return true;
+
+        // forced shiny eggs, when hatched, can lose their detectable correlation.
+        if (!IsEgg || pk.IsEgg)
+            return false;
+        return type is PIDType.BACD_R_S or PIDType.BACD_U_S;
+    }
 
     private const ushort UnspecifiedID = ushort.MaxValue;
 
@@ -261,11 +272,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         if (Language != -1 && Language != pk.Language) return false;
         if (Ball != pk.Ball) return false;
         if (FatefulEncounter != pk.FatefulEncounter)
-        {
-            // XD Gifts only at level 20 get flagged after transfer
-            if (Version == GameVersion.XD != (pk is XK3))
-                return false;
-        }
+            return false;
 
         if (pk.IsNative)
         {
@@ -295,7 +302,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate
         return ot.Length == 7 && wc.StartsWith(ot, StringComparison.Ordinal);
     }
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk) => false;
 
     public string GetNickname(int language) => Nickname ?? string.Empty;

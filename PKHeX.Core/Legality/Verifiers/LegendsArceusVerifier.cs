@@ -167,14 +167,13 @@ public sealed class LegendsArceusVerifier : Verifier
         return ctr;
     }
 
-    private static int GetMoveCount(PKM pa)
+    private static int GetMoveCount(PA8 pa)
     {
         var count = 0;
-        for (int i = 0; i < 4; i++)
-        {
-            if (pa.GetMove(i) is not 0)
-                count++;
-        }
+        if (pa.Move1 != 0) count++;
+        if (pa.Move2 != 0) count++;
+        if (pa.Move3 != 0) count++;
+        if (pa.Move4 != 0) count++;
         return count;
     }
 

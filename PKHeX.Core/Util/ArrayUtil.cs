@@ -128,7 +128,7 @@ public static class ArrayUtil
         arr3.CopyTo(result[ctr..]);
         return arr;
     }
-    
+
     internal static T[] ConcatAll<T>(ReadOnlySpan<T> arr1, ReadOnlySpan<T> arr2, ReadOnlySpan<T> arr3, ReadOnlySpan<T> arr4)
     {
         int len = arr1.Length + arr2.Length + arr3.Length + arr4.Length;

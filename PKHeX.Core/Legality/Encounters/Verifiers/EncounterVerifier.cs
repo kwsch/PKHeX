@@ -22,11 +22,14 @@ public static class EncounterVerifier
     private static CheckResult VerifyEncounter(PKM pk, IEncounterTemplate enc) => enc switch
     {
         EncounterEgg e => VerifyEncounterEgg(pk, e.Generation),
-        EncounterTrade t => VerifyEncounterTrade(pk, t),
-        EncounterSlot w => VerifyEncounterWild(w),
-        EncounterStatic s => VerifyEncounterStatic(pk, s),
+        { EggEncounter: true } => VerifyEncounterEgg(pk, enc.Generation),
+        EncounterShadow3Colo { EReader: true } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LG3EReader),
+        EncounterStatic3 { Species: (int)Species.Mew, Location: 201 } when pk.Language != (int)LanguageID.Japanese => GetInvalid(LEncUnreleasedEMewJP),
+        EncounterStatic3 { Species: (int)Species.Deoxys, Location: 200 } when pk.Language == (int)LanguageID.Japanese => GetInvalid(LEncUnreleased),
+        EncounterStatic4 { Roaming: true } when pk is G4PKM { Met_Location: 193, GroundTile: GroundTileType.Water } => GetInvalid(LG4InvalidTileR45Surf),
         MysteryGift g => VerifyEncounterEvent(pk, g),
-        _ => GetInvalid(LEncInvalid),
+        EncounterInvalid => GetInvalid(LEncInvalid),
+        _ => GetValid(string.Empty), // todo: refactor
     };
 
     private static CheckResult VerifyEncounterG12(PKM pk, IEncounterTemplate enc)
@@ -38,45 +41,31 @@ public static class EncounterVerifier
         {
             EncounterSlot1 => GetValid(LEncCondition),
             EncounterSlot2 s2 => VerifyWildEncounterGen2(pk, s2),
-            EncounterStatic s => VerifyEncounterStatic(pk, s),
-            EncounterTrade t => VerifyEncounterTrade(pk, t),
-            _ => GetInvalid(LEncInvalid),
+            EncounterTrade1 t => VerifyEncounterTrade(pk, t),
+            EncounterTrade2 => GetValid(LEncTradeMatch),
+            _ => GetValid(string.Empty), // todo: refactor
         };
     }
 
     // Gen2 Wild Encounters
-    private static CheckResult VerifyWildEncounterGen2(PKM pk, EncounterSlot2 encounter)
+    private static CheckResult VerifyWildEncounterGen2(ITrainerID16 pk, EncounterSlot2 enc) => enc.SlotType switch
     {
-        switch (encounter.SlotType)
-        {
-            case SlotType.Headbutt:
-                return VerifyWildEncounterCrystalHeadbutt(pk, encounter);
-
-            case SlotType.Old_Rod or SlotType.Good_Rod or SlotType.Super_Rod:
-                switch (encounter.Location)
-                {
-                    case 19: // National Park
-                        return GetInvalid(LG2InvalidTilePark);
-                    case 76: // Route 14
-                        return GetInvalid(LG2InvalidTileR14);
-                }
-                break;
-        }
-
-        return GetValid(LEncCondition);
-    }
-
-    private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID32 tr, EncounterSlot2 s2)
-    {
-        return s2.IsTreeAvailable(tr.TID16)
+        SlotType.Headbutt => enc.IsTreeAvailable(pk.TID16)
             ? GetValid(LG2TreeID)
-            : GetInvalid(LG2InvalidTileTreeNotFound);
-    }
+            : GetInvalid(LG2InvalidTileTreeNotFound),
+        SlotType.Old_Rod or SlotType.Good_Rod or SlotType.Super_Rod => enc.Location switch
+        {
+            19 => GetInvalid(LG2InvalidTilePark), // National Park
+            76 => GetInvalid(LG2InvalidTileR14), // Route 14
+            _ => GetValid(LEncCondition),
+        },
+        _ => GetValid(LEncCondition),
+    };
 
     // Eggs
     private static CheckResult VerifyEncounterEgg(PKM pk, int gen) => gen switch
     {
-        2 => new CheckResult(CheckIdentifier.Encounter), // valid -- no met location info
+        2 => pk.IsEgg ? VerifyUnhatchedEgg2(pk) : VerifyEncounterEgg2(pk),
         3 => pk.IsEgg ? VerifyUnhatchedEgg3(pk) : VerifyEncounterEgg3(pk),
         4 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade4) : VerifyEncounterEgg4(pk),
         5 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade5) : VerifyEncounterEgg5(pk),
@@ -87,6 +76,32 @@ public static class EncounterVerifier
         9 => pk.IsEgg ? VerifyUnhatchedEgg(pk, Locations.LinkTrade6) : VerifyEncounterEgg9(pk),
         _ => GetInvalid(LEggLocationInvalid),
     };
+
+    private static CheckResult VerifyEncounterEgg2(PKM pk)
+    {
+        if (pk is not ICaughtData2 { CaughtData: not 0 } c2)
+            return GetValid(LEggLocation);
+
+        if (c2.Met_Level != 1)
+            return GetInvalid(string.Format(LEggFMetLevel_0, 1));
+
+        if (pk.Met_Location > 95)
+            return GetInvalid(LEggMetLocationFail);
+        // Any met location is fine.
+        return GetValid(LEggLocation);
+    }
+
+    private static CheckResult VerifyUnhatchedEgg2(PKM pk)
+    {
+        if (pk is not ICaughtData2 { CaughtData: not 0 } c2)
+            return new CheckResult(CheckIdentifier.Encounter);
+
+        if (c2.Met_Level != 1)
+            return GetInvalid(string.Format(LEggFMetLevel_0, 1));
+        if (c2.Met_Location != 0)
+            return GetInvalid(LEggLocationInvalid);
+        return GetValid(LEggLocation);
+    }
 
     private static CheckResult VerifyUnhatchedEgg3(PKM pk)
     {
@@ -163,7 +178,7 @@ public static class EncounterVerifier
         }
 
         // Native
-        const byte level = 0;
+        const byte level = EggStateLegality.EggMetLevel34;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
@@ -180,7 +195,7 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounterEgg5(PKM pk)
     {
-        const byte level = 1;
+        const byte level = EggStateLegality.EggMetLevel;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
@@ -194,7 +209,7 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounterEgg6(PKM pk)
     {
-        const byte level = 1;
+        const byte level = EggStateLegality.EggMetLevel;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
@@ -210,7 +225,7 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounterEgg7(PKM pk)
     {
-        const byte level = 1;
+        const byte level = EggStateLegality.EggMetLevel;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
@@ -226,7 +241,7 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyEncounterEgg8(PKM pk)
     {
-        const byte level = 1;
+        const byte level = EggStateLegality.EggMetLevel;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
@@ -250,7 +265,7 @@ public static class EncounterVerifier
         if (pk is PK8)
             return VerifyEncounterEgg8(pk);
 
-        const byte level = 1;
+        const byte level = EggStateLegality.EggMetLevel;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
@@ -269,7 +284,7 @@ public static class EncounterVerifier
         if (pk is PK8)
             return VerifyEncounterEgg8(pk);
 
-        const byte level = 1;
+        const byte level = EggStateLegality.EggMetLevel;
         if (pk.Met_Level != level)
             return GetInvalid(string.Format(LEggFMetLevel_0, level));
 
@@ -285,7 +300,7 @@ public static class EncounterVerifier
 
     private static CheckResult VerifyUnhatchedEgg(PKM pk, int tradeLoc, int noneLoc = 0)
     {
-        var eggLevel = pk.Format < 5 ? 0 : 1;
+        var eggLevel = pk.Format is 3 or 4 ? EggStateLegality.EggMetLevel34 : EggStateLegality.EggMetLevel;
         if (pk.Met_Level != eggLevel)
             return GetInvalid(string.Format(LEggFMetLevel_0, eggLevel));
         if (pk.Egg_Location == tradeLoc)
@@ -299,51 +314,7 @@ public static class EncounterVerifier
             : GetInvalid(LEggLocationNone);
     }
 
-    // Other
-    private static CheckResult VerifyEncounterWild(EncounterSlot slot)
-    {
-        var summary = slot.GetConditionString(out bool valid);
-        return valid ? GetValid(summary) : GetInvalid(summary);
-    }
-
-    private static CheckResult VerifyEncounterStatic(PKM pk, EncounterStatic s)
-    {
-        // Check for Unreleased Encounters / Collisions
-        switch (s.Generation)
-        {
-            case 3:
-                if (s is EncounterStaticShadow {EReader: true} && pk.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
-                    return GetInvalid(LG3EReader);
-
-                switch (s.Species)
-                {
-                    case (int)Species.Mew when s.Location == 201 && pk.Language != (int)LanguageID.Japanese: // Non-JP Mew (Old Sea Map)
-                        return GetInvalid(LEncUnreleasedEMewJP);
-                    case (int)Species.Deoxys when s.Location == 200 && pk.Language == (int)LanguageID.Japanese: // JP Deoxys (Birth Island)
-                        return GetInvalid(LEncUnreleased);
-                }
-
-                break;
-            case 4:
-                if (s is EncounterStatic4 {Roaming: true} && pk.Met_Location == 193 && pk is IGroundTile {GroundTile:GroundTileType.Water}) // Roaming pokemon surfing in Johto Route 45
-                    return GetInvalid(LG4InvalidTileR45Surf);
-                break;
-            case 7:
-                if (s.EggLocation == Locations.Daycare5 && pk.RelearnMove1 != 0) // Eevee gift egg
-                    return GetInvalid(LEncStaticRelearn, CheckIdentifier.RelearnMove); // not gift egg
-                break;
-        }
-        if (s.EggEncounter && !pk.IsEgg) // hatched
-        {
-            var hatchCheck = VerifyEncounterEgg(pk, s.Generation);
-            if (!hatchCheck.Valid)
-                return hatchCheck;
-        }
-
-        return GetValid(LEncStaticMatch);
-    }
-
-    private static CheckResult VerifyEncounterTrade(ISpeciesForm pk, EncounterTrade trade)
+    private static CheckResult VerifyEncounterTrade(ISpeciesForm pk, EncounterTrade1 trade)
     {
         var species = pk.Species;
         if (trade.EvolveOnTrade && trade.Species == species)

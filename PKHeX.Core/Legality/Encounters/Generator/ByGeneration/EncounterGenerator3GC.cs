@@ -1,71 +1,17 @@
 using System;
 using System.Collections.Generic;
 
-using static PKHeX.Core.EncounterStateUtil;
-using static PKHeX.Core.EncounterTypeGroup;
-using static PKHeX.Core.EncounterMatchRating;
-
 namespace PKHeX.Core;
 
 public sealed class EncounterGenerator3GC : IEncounterGenerator
 {
     public static readonly EncounterGenerator3GC Instance = new();
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion __, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Mystery))
-        {
-            var table = EncountersWC3.Encounter_WC3CXD;
-            foreach (var enc in GetPossible(chain, table))
-                yield return enc;
-        }
-        if (groups.HasFlag(Slot))
-        {
-            var areas = Encounters3XD.SlotsXD;
-            foreach (var enc in GetPossibleSlots(chain, areas))
-                yield return enc;
-        }
-        if (groups.HasFlag(Static))
-        {
-            foreach (var enc in GetPossible(chain, Encounters3XD.Encounter_CXDShadow))
-                yield return enc;
-            foreach (var enc in GetPossible(chain, Encounters3XD.Encounter_CXDGift))
-                yield return enc;
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea3XD[] areas)
-    {
-        foreach (var area in areas)
-        {
-            foreach (var slot in area.Slots)
-            {
-                foreach (var evo in chain)
-                {
-                    if (evo.Species != slot.Species)
-                        continue;
-                    yield return slot;
-                    break;
-                }
-            }
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossible<T>(EvoCriteria[] chain, T[] table) where T : class, IEncounterable
-    {
-        foreach (var enc in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                yield return enc;
-                break;
-            }
-        }
+        var iterator = new EncounterPossible3GC(chain, groups);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, LegalInfo info)
@@ -82,23 +28,29 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
         info.PIDIV = MethodFinder.Analyze(pk);
         foreach (var z in IterateInner(pk, chain))
         {
-            if (z is EncounterSlot3PokeSpot w)
+            if (z is EncounterSlot3XD w)
             {
                 var pidiv = MethodFinder.GetPokeSpotSeedFirst(pk, w.SlotNumber);
                 if (pidiv.Type == PIDType.PokeSpot)
                     info.PIDIV = pidiv;
             }
-            else if (z is EncounterStaticShadow s)
+            else if (z is IShadow3 s)
             {
                 bool valid = GetIsShadowLockValid(pk, info, s);
                 if (!valid)
                 {
-                    partial ??= s;
+                    partial ??= z;
                     continue;
                 }
             }
+            static bool IsTypeCompatible(IEncounterTemplate enc, PKM pk, PIDType type)
+            {
+                if (enc is IRandomCorrelation r)
+                    return r.IsCompatible(type, pk);
+                return type == PIDType.None;
+            }
 
-            if (info.PIDIV.Type.IsCompatible3(z, pk))
+            if (IsTypeCompatible(z, pk, info.PIDIV.Type))
                 yield return z;
             else
                 partial ??= z;
@@ -113,82 +65,19 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
 
     private static IEnumerable<IEncounterable> IterateInner(PKM pk, EvoCriteria[] chain)
     {
-        IEncounterable? partial = null;
-        foreach (var enc in EncountersWC3.Encounter_WC3CXD)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                // Don't bother deferring matches.
-                var match = enc.GetMatchRating(pk);
-                if (match != PartialMatch)
-                    yield return enc;
-                break;
-            }
-        }
-        foreach (var enc in Encounters3XD.Encounter_CXDShadow)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                var match = enc.GetMatchRating(pk);
-                if (match == PartialMatch)
-                    partial ??= enc;
-                else
-                    yield return enc;
-                break;
-            }
-        }
-        foreach (var enc in Encounters3XD.Encounter_CXDGift)
-        {
-            foreach (var evo in chain)
-            {
-                if (evo.Species != enc.Species)
-                    continue;
-                if (!enc.IsMatchExact(pk, evo))
-                    break;
-
-                var match = enc.GetMatchRating(pk);
-                if (match == PartialMatch)
-                    partial ??= enc;
-                else
-                    yield return enc;
-                break;
-            }
-        }
-        if (CanBeWildEncounter(pk))
-        {
-            foreach (var area in Encounters3XD.SlotsXD)
-            {
-                var slots = area.GetMatchingSlots(pk, chain);
-                foreach (var slot in slots)
-                {
-                    var match = slot.GetMatchRating(pk);
-                    if (match == PartialMatch)
-                        partial ??= slot;
-                    else
-                        yield return slot;
-                }
-            }
-        }
-
-        if (partial != null)
-            yield return partial;
+        var iterator = new EncounterEnumerator3GC(pk, chain);
+        foreach (var enc in iterator)
+            yield return enc.Encounter;
     }
 
-    private static bool GetIsShadowLockValid(PKM pk, LegalInfo info, EncounterStaticShadow s)
+    private static bool GetIsShadowLockValid(PKM pk, LegalInfo info, IShadow3 s) => s switch
     {
-        if (!s.EReader)
-            return LockFinder.IsAllShadowLockValid(s, info.PIDIV, pk);
+        EncounterShadow3Colo { EReader: true } => GetIsShadowLockValidEReader(pk, info, s),
+        _ => LockFinder.IsAllShadowLockValid(s, info.PIDIV, pk),
+    };
 
+    private static bool GetIsShadowLockValidEReader(PKM pk, LegalInfo info, IShadow3 s)
+    {
         // E-Reader have fixed IVs, and aren't recognized as CXD (no PID-IV correlation).
         Span<uint> seeds = stackalloc uint[XDRNG.MaxCountSeedsPID];
         var count = XDRNG.GetSeeds(seeds, pk.EncryptionConstant);

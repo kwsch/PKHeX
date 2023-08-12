@@ -1,9 +1,9 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Type of PID-Nature roll algorithm the frame is obtained from.
 /// </summary>
-public enum FrameType
+public enum FrameType : byte
 {
     None,
 

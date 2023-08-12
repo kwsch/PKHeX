@@ -538,7 +538,9 @@ public static class BatchEditing
     {
         if (cmd.PropertyName == nameof(PKM.IVs))
         {
-            pk.SetRandomIVs();
+            var la = new LegalityAnalysis(pk);
+            var flawless = la.EncounterMatch is IFlawlessIVCount fc ? fc.FlawlessIVCount : 0;
+            pk.SetRandomIVs(flawless);
             return;
         }
 

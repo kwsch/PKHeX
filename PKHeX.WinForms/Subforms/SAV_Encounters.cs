@@ -261,18 +261,20 @@ public partial class SAV_Encounters : Form
         var comparer = new ReferenceComparer<IEncounterInfo>();
         results = results.Distinct(comparer); // only distinct objects
 
+        static Func<IEncounterInfo, bool> IsPresent<TTable>(TTable pt) where TTable : IPersonalTable => z =>
+        {
+            if (pt.IsPresentInGame(z.Species, z.Form))
+                return true;
+            return z is IEncounterFormRandom { IsRandomUnspecificForm: true } && pt.IsSpeciesInGame(z.Species);
+        };
         if (Main.Settings.EncounterDb.FilterUnavailableSpecies)
         {
-            static bool IsPresentInGameSV(ISpeciesForm pk) => PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameSWSH(ISpeciesForm pk) => PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameBDSP(ISpeciesForm pk) => PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameLA(ISpeciesForm pk) => PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form);
             results = SAV switch
             {
-                SAV9SV => results.Where(IsPresentInGameSV),
-                SAV8SWSH => results.Where(IsPresentInGameSWSH),
-                SAV8BS => results.Where(IsPresentInGameBDSP),
-                SAV8LA => results.Where(IsPresentInGameLA),
+                SAV9SV s9 => results.Where(IsPresent(s9.Personal)),
+                SAV8SWSH s8 => results.Where(IsPresent(s8.Personal)),
+                SAV8BS b8 => results.Where(IsPresent(b8.Personal)),
+                SAV8LA a8 => results.Where(IsPresent(a8.Personal)),
                 _ => results.Where(z => z.Generation <= 7),
             };
         }

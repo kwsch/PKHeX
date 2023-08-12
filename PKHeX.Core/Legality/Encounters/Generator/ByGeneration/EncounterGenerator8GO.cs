@@ -1,85 +1,22 @@
 using System.Collections.Generic;
 
-using static PKHeX.Core.EncounterStateUtil;
-using static PKHeX.Core.EncounterTypeGroup;
-using static PKHeX.Core.EncounterMatchRating;
-
 namespace PKHeX.Core;
 
 public sealed class EncounterGenerator8GO : IEncounterGenerator
 {
     public static readonly EncounterGenerator8GO Instance = new();
 
-    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion __, EncounterTypeGroup groups)
     {
-        if (chain.Length == 0)
-            yield break;
-
-        if (groups.HasFlag(Slot))
-        {
-            var table = EncountersGO.SlotsGO;
-            foreach (var enc in GetPossibleSlots(chain, table))
-                yield return enc;
-        }
-    }
-
-    private static IEnumerable<IEncounterable> GetPossibleSlots(EvoCriteria[] chain, EncounterArea8g[] table)
-    {
-        foreach (var area in table)
-        {
-            foreach (var evo in chain)
-            {
-                if (area.Species != evo.Species)
-                    continue;
-
-                foreach (var slot in area.Slots)
-                    yield return slot;
-                break;
-            }
-        }
+        var iterator = new EncounterPossible8GO(chain, groups);
+        foreach (var enc in iterator)
+            yield return enc;
     }
 
     public IEnumerable<IEncounterable> GetEncounters(PKM pk, EvoCriteria[] chain, LegalInfo info)
     {
-        if (chain.Length == 0)
-            yield break;
-        if (!CanBeWildEncounter(pk))
-            yield break;
-
-        IEncounterable? deferred = null;
-        IEncounterable? partial = null;
-
-        bool yielded = false;
-        foreach (var area in EncountersGO.SlotsGO)
-        {
-            foreach (var evo in chain)
-            {
-                if (area.Species != evo.Species)
-                    continue;
-
-                if (area.Form != evo.Form && !FormInfo.IsFormChangeable(area.Species, area.Form, evo.Form, EntityContext.Gen8, pk.Context))
-                    continue;
-
-                var slots = area.GetMatchingSlots(pk, evo);
-                foreach (var z in slots)
-                {
-                    var match = z.GetMatchRating(pk);
-                    switch (match)
-                    {
-                        case Match: yield return z; yielded = true; break;
-                        case Deferred: deferred ??= z; break;
-                        case PartialMatch: partial ??= z; break;
-                    }
-                }
-                break;
-            }
-        }
-        if (yielded)
-            yield break;
-
-        if (deferred != null)
-            yield return deferred;
-        else if (partial != null)
-            yield return partial;
+        var iterator = new EncounterEnumerator8GO(pk, chain);
+        foreach (var enc in iterator)
+            yield return enc.Encounter;
     }
 }

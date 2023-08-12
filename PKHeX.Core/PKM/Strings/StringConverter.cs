@@ -127,6 +127,11 @@ public static class StringConverter
         _ => chr,
     };
 
+    /// <summary>
+    /// Determines if a string contains full-width characters.
+    /// </summary>
+    /// <param name="str">The input string to check for full-width characters.</param>
+    /// <returns>True if the input string contains full-width characters; otherwise, false.</returns>
     internal static bool GetIsFullWidthString(ReadOnlySpan<char> str)
     {
         foreach (var c in str)
@@ -140,6 +145,11 @@ public static class StringConverter
         return false;
     }
 
+    /// <summary>
+    /// Determines if a string contains East Asian script characters.
+    /// </summary>
+    /// <param name="str">The input string to check for East Asian script characters.</param>
+    /// <returns>True if the input string contains East Asian script characters; otherwise, false.</returns>
     public static bool HasEastAsianScriptCharacters(ReadOnlySpan<char> str)
     {
         foreach (var c in str)

@@ -1,13 +1,12 @@
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
-using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.EncounterStatic8aCorrelation;
 
 namespace PKHeX.Core;
 
 internal static class Encounters8a
 {
-    internal static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"), PLA);
+    internal static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"));
 
     private const byte M = 127; // Middle Height/Weight
     private const byte A = 255; // Max Height/Weight for Alphas
@@ -16,13 +15,13 @@ internal static class Encounters8a
     internal static readonly EncounterStatic8a[] StaticLA =
     {
         // Gifts
-        new(722,000,05,M,M) { Location = 006,                      Gift = true, Method = Fixed, Ball = (int)Ball.LAPoke   }, // Rowlet
-        new(155,000,05,M,M) { Location = 006,                      Gift = true, Method = Fixed, Ball = (int)Ball.LAPoke   }, // Cyndaquil
-        new(501,000,05,M,M) { Location = 006,                      Gift = true, Method = Fixed, Ball = (int)Ball.LAPoke   }, // Oshawott
-        new(037,001,40,M,M) { Location = 088,                      Gift = true, Method = Fixed, Ball = (int)Ball.LAPoke   }, // Vulpix-1
-        new(483,000,65,M,M) { Location = 109, FlawlessIVCount = 3, Gift = true, Method = Fixed, Ball = (int)Ball.LAOrigin }, // Dialga
-        new(484,000,65,M,M) { Location = 109, FlawlessIVCount = 3, Gift = true, Method = Fixed, Ball = (int)Ball.LAOrigin }, // Palkia
-        new(493,000,75,M,M) { Location = 109, FlawlessIVCount = 3, Gift = true, Method = Fixed, Ball = (int)Ball.LAPoke, FatefulEncounter = true }, // Arceus
+        new(722,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed, }, // Rowlet
+        new(155,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed, }, // Cyndaquil
+        new(501,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed, }, // Oshawott
+        new(037,001,40,M,M) { Location = 088,                      FixedBall = Ball.LAPoke,   Method = Fixed, }, // Vulpix-1
+        new(483,000,65,M,M) { Location = 109, FlawlessIVCount = 3, FixedBall = Ball.LAOrigin, Method = Fixed, }, // Dialga
+        new(484,000,65,M,M) { Location = 109, FlawlessIVCount = 3, FixedBall = Ball.LAOrigin, Method = Fixed, }, // Palkia
+        new(493,000,75,M,M) { Location = 109, FlawlessIVCount = 3, FixedBall = Ball.LAPoke,   Method = Fixed, FatefulEncounter = true }, // Arceus
 
         // Static Encounters - Scripted Table Slots
         new(480,000,70,M,M) { Location = 111, FlawlessIVCount = 3, Moves = new(129,326,832,095) }, // Uxie
@@ -38,14 +37,9 @@ internal static class Encounters8a
 
         new(077,000,15    ) { Location = 014, Shiny = Always}, // Ponyta*
         new(442,000,60,M,M) { Location = 043, FlawlessIVCount = 3 }, // Spiritomb
-        new(570,001,27    ) { Location = 027 }, // Zorua
-        new(570,001,28    ) { Location = 027 }, // Zorua
-        new(570,001,29    ) { Location = 027 }, // Zorua
+        new(570,001,27    ) { Location = 027, LevelMax = 29 }, // Zorua
 
-        new(489,000,33    ) { Location = 064, FatefulEncounter = true,                      Moves = new(145,352,151,428) }, // Phione
-        new(489,000,34    ) { Location = 064, FatefulEncounter = true,                      Moves = new(145,352,151,428) }, // Phione
-        new(489,000,35    ) { Location = 064, FatefulEncounter = true,                      Moves = new(145,352,151,428) }, // Phione
-        new(489,000,36    ) { Location = 064, FatefulEncounter = true,                      Moves = new(145,352,151,428) }, // Phione
+        new(489,000,33    ) { Location = 064, FatefulEncounter = true, LevelMax = 36, Moves = new(145,352,151,428) }, // Phione
         new(490,000,50,M,M) { Location = 064, FlawlessIVCount = 3, FatefulEncounter = true, Moves = new(352,428,585,145) }, // Manaphy
         new(491,000,70,M,M) { Location = 010, FlawlessIVCount = 3, FatefulEncounter = true, Moves = new(506,399,094,464) }, // Darkrai
         new(492,000,70,M,M) { Location = 026, FlawlessIVCount = 3, FatefulEncounter = true, Moves = new(403,412,414,465) }, // Shaymin

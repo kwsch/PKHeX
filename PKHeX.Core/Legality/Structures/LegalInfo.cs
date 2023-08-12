@@ -67,7 +67,7 @@ public sealed class LegalInfo : IGeneration
     public bool PIDIVMatches { get; internal set; } = true;
 
     /// <summary>Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/> with explicit RNG <see cref="Frame"/> matching.</summary>
-    /// <remarks>This boolean is true until all valid <see cref="Frame"/> entries are tested for all possible <see cref="EncounterSlot"/> matches, after which it is false.</remarks>
+    /// <remarks>This boolean is true until all valid <see cref="Frame"/> entries are tested for all possible <see cref="IEncounterTemplate"/> matches, after which it is false.</remarks>
     public bool FrameMatches { get; internal set; } = true;
 
     public LegalInfo(PKM pk, List<CheckResult> parse)

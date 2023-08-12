@@ -271,9 +271,8 @@ public static class SpriteUtil
 
     public static int GetDisplayGender(IEncounterTemplate enc) => enc switch
     {
-        EncounterSlotGO g => (int)g.Gender & 1,
-        EncounterStatic s => Math.Max(0, (int)s.Gender),
-        EncounterTrade t => Math.Max(0, (int)t.Gender),
+        IFixedGender { IsFixedGender: true } s => Math.Max(0, (int)s.Gender),
+        IPogoSlot g => (int)g.Gender & 1,
         _ => 0,
     };
 

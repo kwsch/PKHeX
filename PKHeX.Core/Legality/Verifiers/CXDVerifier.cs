@@ -12,44 +12,44 @@ public sealed class CXDVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (data.EncounterMatch is EncounterStatic3 s3)
-            VerifyCXDStarterCorrelation(data, s3);
+        if (data.EncounterMatch is EncounterStatic3Colo { IsColoStarter: true })
+            VerifyStarterColo(data);
+        else if (data.EncounterMatch is EncounterStatic3XD { Species: (ushort)Species.Eevee })
+            VerifyStarterXD(data);
+
         if (pk.OT_Gender == 1)
             data.AddLine(GetInvalid(LG3OTGender, CheckIdentifier.Trainer));
     }
 
-    private static void VerifyCXDStarterCorrelation(LegalityAnalysis data, EncounterStatic3 enc)
+    private static void VerifyStarterColo(LegalityAnalysis data)
+    {
+        var type = data.Info.PIDIV.Type;
+        if (type is not (PIDType.CXD or PIDType.CXDAnti or PIDType.CXD_ColoStarter))
+            return; // already flagged as invalid
+        if (type != PIDType.CXD_ColoStarter)
+            data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
+    }
+
+    private static void VerifyStarterXD(LegalityAnalysis data)
     {
         var (type, seed) = data.Info.PIDIV;
         if (type is not (PIDType.CXD or PIDType.CXDAnti or PIDType.CXD_ColoStarter))
             return; // already flagged as invalid
 
         bool valid;
-        if (enc.Species is (int)Species.Espeon or (int)Species.Umbreon)
+        var pk = data.Entity;
+        if (type == PIDType.CXD_ColoStarter && pk.Species == (int)Species.Umbreon)
         {
-            valid = type == PIDType.CXD_ColoStarter;
-        }
-        else if (enc.Species == (int)Species.Eevee)
-        {
-            var pk = data.Entity;
-            if (type == PIDType.CXD_ColoStarter && pk.Species == (int)Species.Umbreon)
-            {
-                // reset pidiv type to be CXD -- ColoStarter is same correlation as Eevee->Umbreon
-                data.Info.PIDIV = new PIDIV(PIDType.CXD, seed);
-                valid = true;
-            }
-            else
-            {
-                valid = LockFinder.IsXDStarterValid(seed, pk.TID16, pk.SID16);
-                if (valid) // unroll seed to origin that generated TID16/SID16->pkm
-                    data.Info.PIDIV = new PIDIV(PIDType.CXD, XDRNG.Prev4(seed));
-            }
+            // reset pidiv type to be CXD -- ColoStarter is same correlation as Eevee->Umbreon
+            data.Info.PIDIV = new PIDIV(PIDType.CXD, seed);
+            valid = true;
         }
         else
         {
-            return;
+            valid = LockFinder.IsXDStarterValid(seed, pk.TID16, pk.SID16);
+            if (valid) // unroll seed to origin that generated TID16/SID16->pkm
+                data.Info.PIDIV = new PIDIV(PIDType.CXD, XDRNG.Prev4(seed));
         }
-
         if (!valid)
             data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
     }
