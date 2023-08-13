@@ -244,7 +244,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         var pid = pk.PID;
         if (enc is EncounterStatic8U ug)
         {
-            var seeds = new XoroMachineConsecutive(ec, pid);
+            var seeds = new XoroMachineSkip(ec, pid);
             foreach (var seed in seeds)
             {
                 if (ug.Verify(pk, seed))
