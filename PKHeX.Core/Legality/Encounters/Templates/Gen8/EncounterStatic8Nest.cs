@@ -13,7 +13,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 {
     public int Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
-    public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; }
+    public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; } = IsMatch;
     public static Action<PKM, T, EncounterCriteria>? GenerateData { private get; set; }
 
     int ILocation.Location => SharedNest;
@@ -137,9 +137,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (Version != GameVersion.SWSH && pk.Version != (int)Version && pk.Met_Location != SharedNest)
             return false;
 
-        if (VerifyCorrelation != null && !VerifyCorrelation(pk, (T)this))
-            return false;
-
         if (pk is IRibbonSetMark8 { HasMarkEncounter8: true })
             return false;
         if (pk.Species == (int)Core.Species.Shedinja && pk is IRibbonSetAffixed { AffixedRibbon: >= (int)RibbonIndex.MarkLunchtime })
@@ -218,6 +215,9 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (Species == (int)Core.Species.Runerigus && pk is IFormArgument { FormArgument: not 0 })
             return true;
 
+        if (VerifyCorrelation != null && !VerifyCorrelation(pk, (T)this))
+            return true;
+
         if (pk is { AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))
             return true;
 
@@ -231,5 +231,54 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         return false;
     }
 
+    #endregion
+
+    #region RNG Matching
+
+    private static bool IsMatch(PKM pk, T enc)
+    {
+        if (pk.IsShiny)
+            return true;
+
+        var ec = pk.EncryptionConstant;
+        var pid = pk.PID;
+        if (enc is EncounterStatic8U ug)
+        {
+            var seeds = new XoroMachineConsecutive(ec, pid);
+            foreach (var seed in seeds)
+            {
+                if (ug.Verify(pk, seed))
+                    return true;
+            }
+        }
+        else if (enc is EncounterStatic8N un)
+        {
+            var seeds = new XoroMachineSkip(ec, pid);
+            foreach (var seed in seeds)
+            {
+                if (un.Verify(pk, seed))
+                    return true;
+            }
+        }
+        else if (enc is EncounterStatic8ND ud)
+        {
+            var seeds = new XoroMachineSkip(ec, pid);
+            foreach (var seed in seeds)
+            {
+                if (ud.Verify(pk, seed))
+                    return true;
+            }
+        }
+        else if (enc is EncounterStatic8NC uc)
+        {
+            var seeds = new XoroMachineSkip(ec, pid);
+            foreach (var seed in seeds)
+            {
+                if (uc.Verify(pk, seed))
+                    return true;
+            }
+        }
+        return false;
+    }
     #endregion
 }

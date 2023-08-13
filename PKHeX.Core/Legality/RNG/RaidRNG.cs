@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RaidRNG
 {
-    public static bool Verify<T>(this T raid, PK8 pk8, ulong seed) where T: EncounterStatic8Nest<T>
+    public static bool Verify<T>(this T raid, PKM pk8, ulong seed) where T: EncounterStatic8Nest<T>
     {
         var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
         var ratio = pi.Gender;
@@ -124,11 +124,11 @@ public static class RaidRNG
 
         switch (gender_ratio)
         {
-            case PersonalInfo.RatioMagicGenderless when pk.Gender != 2:
+            case PersonalInfo.RatioMagicGenderless:
                 if (pk.Gender != 2)
                     return false;
                 break;
-            case PersonalInfo.RatioMagicFemale when pk.Gender != 1:
+            case PersonalInfo.RatioMagicFemale:
                 if (pk.Gender != 1)
                     return false;
                 break;
@@ -137,7 +137,7 @@ public static class RaidRNG
                     return false;
                 break;
             default:
-                var gender = (int)rng.NextInt(252) + 1 < gender_ratio ? 1 : 0;
+                var gender = (int)rng.NextInt(253) < gender_ratio ? 1 : 0;
                 if (pk.Gender != gender)
                     return false;
                 break;
