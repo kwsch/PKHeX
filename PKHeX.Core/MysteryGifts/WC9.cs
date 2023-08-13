@@ -198,8 +198,13 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
     public int MetLevel { get => Data[CardStart + 0x241]; set => Data[CardStart + 0x241] = (byte)value; }
     public MoveType TeraTypeOriginal { get => (MoveType)Data[CardStart + 0x242]; set => Data[CardStart + 0x242] = (byte)value; }
-    public MoveType TeraTypeOverride { get => (MoveType)Data[CardStart + 0x243]; set => Data[CardStart + 0x243] = (byte)value; }
-    public MoveType TeraType => TeraTypeUtil.GetTeraType((byte)TeraTypeOriginal, (byte)TeraTypeOverride);
+    public MoveType TeraTypeOverride
+    {
+        get => (MoveType)TeraTypeUtil.OverrideNone;
+        set { }
+    }
+
+    public MoveType TeraType => TeraTypeOriginal;
     public short HeightValue { get => ReadInt16LittleEndian(Data.AsSpan(CardStart + 0x244)); set => WriteInt16LittleEndian(Data.AsSpan(CardStart + 0x244), value); }
     public short WeightValue { get => ReadInt16LittleEndian(Data.AsSpan(CardStart + 0x246)); set => WriteInt16LittleEndian(Data.AsSpan(CardStart + 0x246), value); }
 
@@ -551,18 +556,18 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     private DateOnly GetSuggestedDate()
     {
         if (!IsDateRestricted)
-            return DateOnly.FromDateTime(DateTime.Now);
+            return EncounterDate.GetDateSwitch();
         if (EncounterServerDate.WC9GiftsChk.TryGetValue(Checksum, out var range))
             return range.Start;
         if (EncounterServerDate.WC9Gifts.TryGetValue(CardID, out range))
             return range.Start;
-        return DateOnly.FromDateTime(DateTime.Now);
+        return EncounterDate.GetDateSwitch();
     }
 
     private void SetEggMetData(PKM pk)
     {
         pk.IsEgg = true;
-        pk.EggMetDate = DateOnly.FromDateTime(DateTime.Now);
+        pk.EggMetDate = EncounterDate.GetDateSwitch();
         pk.Nickname = SpeciesName.GetEggName(pk.Language, Generation);
         pk.IsNicknamed = true;
     }
@@ -773,7 +778,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
 
     public bool IsDateRestricted => true;
 
-    protected override bool IsMatchDeferred(PKM pk) => Species != pk.Species;
+    protected override bool IsMatchDeferred(PKM pk) => false;
     protected override bool IsMatchPartial(PKM pk)
     {
         if (pk is ITeraType t && TeraType != t.TeraTypeOriginal)

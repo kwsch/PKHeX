@@ -16,11 +16,20 @@ public interface IRegionOrigin
 
 public static partial class Extensions
 {
-    public static void SetDefaultRegionOrigins(this IRegionOrigin o)
+    public static void SetDefaultRegionOrigins(this IRegionOrigin o, int language)
     {
-        o.ConsoleRegion = 1; // North America
-        o.Region = 7; // California
-        o.Country = 49; // USA
+        if (language == 1)
+        {
+            o.ConsoleRegion = 0; // Japan
+            o.Country = 1; // Japan
+            o.Region = 0;
+        }
+        else
+        {
+            o.ConsoleRegion = 1; // North America
+            o.Country = 49; // USA
+            o.Region = 7; // California
+        }
     }
 
     public static void CopyRegionOrigin(this IRegionOrigin source, IRegionOrigin dest)

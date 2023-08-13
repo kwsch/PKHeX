@@ -13,6 +13,26 @@ public sealed partial class MemoryContext6 : MemoryContext
 
     public override EntityContext Context => EntityContext.Gen6;
 
+    public static bool GetCanBeCaptured(ushort species, GameVersion version) => version switch
+    {
+        GameVersion.Any => GetCanBeCaptured(species, CaptureFlagsX) || GetCanBeCaptured(species, CaptureFlagsY)
+                        || GetCanBeCaptured(species, CaptureFlagsAS) || GetCanBeCaptured(species, CaptureFlagsOR),
+        GameVersion.X  => GetCanBeCaptured(species, CaptureFlagsX),
+        GameVersion.Y  => GetCanBeCaptured(species, CaptureFlagsY),
+        GameVersion.AS => GetCanBeCaptured(species, CaptureFlagsAS),
+        GameVersion.OR => GetCanBeCaptured(species, CaptureFlagsOR),
+        _ => false,
+    };
+
+    private static bool GetCanBeCaptured(ushort species, ReadOnlySpan<byte> flags)
+    {
+        int offset = species >> 3;
+        if (offset >= flags.Length)
+            return false;
+        int bitIndex = species & 7;
+        return (flags[offset] & (1 << bitIndex)) != 0;
+    }
+
     private static ReadOnlySpan<byte> GetPokeCenterLocations(GameVersion game)
     {
         return GameVersion.XY.Contains(game) ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;

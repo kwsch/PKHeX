@@ -427,7 +427,7 @@ public partial class StatEditor : UserControl
         else if (ModifierKeys == Keys.Alt)
             ivs.Clear();
         else
-            Entity.SetRandomIVs(ivs);
+            Entity.SetRandomIVs(ivs, new LegalityAnalysis(Entity).EncounterMatch is IFlawlessIVCount fc ? fc.FlawlessIVCount : 0);
 
         LoadIVs(ivs);
         if (Entity is IGanbaru g)

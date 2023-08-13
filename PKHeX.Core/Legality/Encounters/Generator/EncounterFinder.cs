@@ -54,7 +54,7 @@ public static class EncounterFinder
                 break;
 
             var match = mx.GetMatchRating(pk);
-            if (match != EncounterMatchRating.PartialMatch)
+            if (match < EncounterMatchRating.PartialMatch)
                 break;
 
             // Reaching here implies the encounter wasn't valid. Try stepping to the next encounter.
@@ -66,7 +66,7 @@ public static class EncounterFinder
             break;
         }
 
-        if (info is { FrameMatches: false, EncounterMatch: EncounterSlot }) // if false, all valid RNG frame matches have already been consumed
+        if (info is { FrameMatches: false }) // if false, all valid RNG frame matches have already been consumed
             info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, CheckIdentifier.PID, LEncConditionBadRNGFrame)); // todo for further confirmation
         if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
             info.Parse.Add(new CheckResult(Severity.Invalid, CheckIdentifier.PID, LPIDTypeMismatch));

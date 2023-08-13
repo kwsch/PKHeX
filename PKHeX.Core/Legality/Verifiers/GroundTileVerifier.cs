@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
 
@@ -13,8 +13,21 @@ public sealed class GroundTileVerifier : Verifier
     {
         if (data.Entity is not IGroundTile e)
             return;
-        var type = data.EncounterMatch is IGroundTypeTile t ? t.GroundTile : GroundTileAllowed.None;
-        var result = !type.Contains(e.GroundTile) ? GetInvalid(LEncTypeMismatch) : GetValid(LEncTypeMatch);
+        var enc = data.EncounterMatch;
+        bool valid = IsGroundTileValid(enc, e);
+        var result = !valid ? GetInvalid(LEncTypeMismatch) : GetValid(LEncTypeMatch);
         data.AddLine(result);
+    }
+
+    /// <summary>
+    /// Indicates if the <see cref="IGroundTile"/> is valid for the <see cref="IEncounterTemplate"/>.
+    /// </summary>
+    /// <param name="enc">Encounter Template</param>
+    /// <param name="e">Entity with a stored <see cref="IGroundTile.GroundTile"/> value.</param>
+    /// <returns>True if stored ground tile value is permitted.</returns>
+    public static bool IsGroundTileValid(IEncounterTemplate enc, IGroundTile e)
+    {
+        var type = enc is IGroundTypeTile t ? t.GroundTile : GroundTileAllowed.None;
+        return type.Contains(e.GroundTile);
     }
 }

@@ -11,43 +11,6 @@ internal static class EncounterUtil
     internal static ReadOnlySpan<byte> Get(string resource) => Util.GetBinaryResource($"encounter_{resource}.pkl");
     internal static BinLinkerAccessor Get(string resource, string ident) => BinLinkerAccessor.Get(Get(resource), ident);
 
-    /// <summary>
-    /// Gets the relevant <see cref="EncounterStatic"/> objects that appear in the relevant game.
-    /// </summary>
-    /// <param name="source">Table of valid encounters that appear for the game pairing</param>
-    /// <param name="game">Game to filter for</param>
-    /// <returns>Array of encounter objects that can be encountered in the input game</returns>
-    internal static T[] GetEncounters<T>(T[] source, GameVersion game) where T : IVersion
-    {
-        return Array.FindAll(source, s => s.Version.Contains(game));
-    }
-
-    /// <summary>
-    /// Gets the relevant <see cref="EncounterStatic"/> objects that appear in the relevant game.
-    /// </summary>
-    /// <param name="source">Table of valid encounters that appear for the game pairing</param>
-    /// <param name="exclude">Game to filter out</param>
-    /// <returns>Array of encounter objects that can be encountered in the input game</returns>
-    internal static T[] GetEncounters<T>(T[][] source, GameVersion exclude) where T : EncounterStatic
-    {
-        var count = 0;
-        foreach (T[] arr in source)
-            count += arr.Length;
-
-        var temp = new T[count];
-        count = 0;
-        foreach (var arr in source)
-        {
-            foreach (var enc in arr)
-            {
-                if (enc.Version != exclude)
-                    temp[count++] = enc;
-            }
-        }
-        Array.Resize(ref temp, count);
-        return temp;
-    }
-
     internal static T? GetMinByLevel<T>(ReadOnlySpan<EvoCriteria> chain, IEnumerable<T> possible) where T : class, IEncounterTemplate
     {
         // MinBy grading: prefer species-form match, select lowest min level encounter.
@@ -76,48 +39,12 @@ internal static class EncounterUtil
     }
 
     /// <summary>
-    /// Loads the language string lists into the <see cref="T"/> objects.
-    /// </summary>
-    /// <typeparam name="T">Encounter template type</typeparam>
-    /// <param name="table">Trade templates</param>
-    /// <param name="strings">Localization strings, grouped by language.</param>
-    /// <remarks>
-    /// The first half of strings in the language resource array are <see cref="EncounterTrade.Nicknames"/>
-    /// The second half of strings in the language resource strings are <see cref="EncounterTrade.TrainerNames"/>
-    /// </remarks>
-    internal static void MarkEncounterTradeStrings<T>(T[] table, ReadOnlySpan<string[]> strings) where T : EncounterTrade
-    {
-        uint languageCount = (uint)strings[1].Length / 2;
-        for (uint i = 0; i < languageCount; i++)
-        {
-            var t = table[i];
-            t.Nicknames = GetNamesForLanguage(strings, i);
-            t.TrainerNames = GetNamesForLanguage(strings, languageCount + i);
-        }
-    }
-
-    /// <summary>
-    /// Loads the language string lists into the <see cref="T"/> objects.
-    /// </summary>
-    /// <typeparam name="T">Encounter template type</typeparam>
-    /// <param name="table">Trade templates</param>
-    /// <param name="strings">Localization strings, grouped by language.</param>
-    internal static void MarkEncounterTradeNicknames<T>(T[] table, ReadOnlySpan<string[]> strings) where T : EncounterTrade
-    {
-        for (uint i = 0; i < table.Length; i++)
-        {
-            var t = table[i];
-            t.Nicknames = GetNamesForLanguage(strings, i);
-        }
-    }
-
-    /// <summary>
     /// Grabs the localized names for individual templates for all languages from the specified <see cref="index"/> of the <see cref="names"/> list.
     /// </summary>
     /// <param name="names">Arrays of strings grouped by language</param>
     /// <param name="index">Index to grab from the language arrays</param>
     /// <returns>Row of localized strings for the template.</returns>
-    private static string[] GetNamesForLanguage(ReadOnlySpan<string[]> names, uint index)
+    public static string[] GetNamesForLanguage(ReadOnlySpan<string[]> names, uint index)
     {
         var result = new string[names.Length];
         for (int i = 0; i < result.Length; i++)

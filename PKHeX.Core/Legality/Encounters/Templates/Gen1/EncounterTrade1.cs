@@ -1,0 +1,197 @@
+using System;
+using System.Collections.Generic;
+
+namespace PKHeX.Core;
+
+/// <summary>
+/// Trade Encounter data with a fixed Catch Rate
+/// </summary>
+/// <remarks>
+/// Generation 1 specific value used in detecting unmodified/un-traded Generation 1 Trade Encounter data.
+/// Species &amp; Minimum level (legal) possible to acquire at.
+/// </remarks>
+public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK1>
+{
+    public int Generation => 1;
+    public EntityContext Context => EntityContext.Gen1;
+    public bool EggEncounter => false;
+    public Ball FixedBall => Ball.Poke;
+    public AbilityPermission Ability => AbilityPermission.OnlyHidden;
+    public Shiny Shiny => Shiny.Random;
+    public bool IsShiny => false;
+    public int Location => 0;
+    public int EggLocation => 0;
+    public bool IsFixedTrainer => true;
+    public bool IsFixedNickname => true;
+
+    private static IReadOnlyList<string> TrainerNames => StringConverter12.G1TradeOTName;
+    private string[] Nicknames { get; }
+    public ushort Species { get; }
+    public byte Form => 0;
+    public bool EvolveOnTrade { get; init; }
+    public GameVersion Version { get; }
+    public byte LevelMinRBY { get; }
+    public byte LevelMinGSC { get; }
+
+    private const string _name = "In-game Trade";
+    public string Name => _name;
+    public string LongName => _name;
+    public byte LevelMin => CanObtainMinGSC() ? LevelMinGSC : LevelMinRBY;
+    public byte LevelMax => 100;
+
+    public EncounterTrade1(ReadOnlySpan<string[]> names, byte index, ushort species, GameVersion version, byte rby) : this(names, index, species, version, rby, rby) { }
+
+    public EncounterTrade1(ReadOnlySpan<string[]> names, byte index, ushort species, GameVersion version, byte levelMinRBY, byte levelMinGSC)
+    {
+        Nicknames = EncounterUtil.GetNamesForLanguage(names, index);
+        Species = species;
+        Version = version;
+        LevelMinRBY = levelMinRBY;
+        LevelMinGSC = levelMinGSC;
+    }
+
+    private bool IsNicknameValid(PKM pk)
+    {
+        var nick = pk.Nickname;
+        if (pk.Format <= 2)
+            return IsNicknameAnyMatch(nick);
+
+        // Converted string 1/2->7 to language specific value
+        // Nicknames can be from any of the languages it can trade between.
+        int lang = pk.Language;
+        if (lang == 1)
+        {
+            // Special consideration for Hiragana strings that are transferred
+            if (Version == GameVersion.YW && Species == (int)Core.Species.Dugtrio)
+                return nick == "ぐりお";
+            return nick == Nicknames[1];
+        }
+
+        return GetNicknameIndex(nick) >= 2;
+    }
+
+    private bool IsNicknameAnyMatch(ReadOnlySpan<char> current) => GetNicknameIndex(current) >= 0;
+
+    private static bool IsTrainerNameValid(PKM pk)
+    {
+        if (pk.Format <= 2)
+            return pk.OT_Name == StringConverter12.G1TradeOTStr;
+        return pk.Language switch
+        {
+            1 => GetIndex(pk.OT_Name, TrainerNames) == 1,
+            _ => GetIndex(pk.OT_Name, TrainerNames) >= 2,
+        };
+    }
+
+    private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames);
+
+    private static int GetIndex(ReadOnlySpan<char> name, IReadOnlyList<string> arr)
+    {
+        for (int i = 0; i < arr.Count; i++)
+        {
+            if (arr[i].AsSpan().SequenceEqual(name))
+                return i;
+        }
+
+        return -1;
+    }
+
+    private bool CanObtainMinGSC()
+    {
+        if (!ParseSettings.AllowGen1Tradeback)
+            return false;
+        if (Version == GameVersion.BU && EvolveOnTrade)
+            return ParseSettings.AllowGBStadium2;
+        return true;
+    }
+
+    #region Generating
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
+    PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
+
+    public PK1 ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr, EncounterCriteria.Unrestricted);
+
+    public PK1 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
+    {
+        var level = ParseSettings.AllowGen1Tradeback ? LevelMinGSC : LevelMinRBY;
+        int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
+        var isJapanese = lang == (int)LanguageID.Japanese;
+        var pi = EncounterUtil1.GetPersonal1(Version, Species);
+        var pk = new PK1(isJapanese)
+        {
+            Species = Species,
+            CurrentLevel = level,
+            Catch_Rate = EncounterUtil1.GetWildCatchRate(Version, Species),
+            DV16 = EncounterUtil1.GetRandomDVs(Util.Rand),
+
+            OT_Name = StringConverter12.G1TradeOTStr,
+            Nickname = Nicknames[lang],
+            TID16 = tr.TID16,
+            Type1 = pi.Type1,
+            Type2 = pi.Type2,
+        };
+
+        EncounterUtil1.SetEncounterMoves(pk, Version, level);
+
+        pk.ResetPartyStats();
+
+        return pk;
+    }
+    #endregion
+
+    #region Matching
+    public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => IsTrainerNameValid(pk);
+    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => IsNicknameValid(pk);
+    public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
+
+    public EncounterMatchRating GetMatchRating(PKM pk)
+    {
+        if (IsMatchPartial(pk))
+            return EncounterMatchRating.PartialMatch;
+        return EncounterMatchRating.Match;
+    }
+
+    public bool IsMatchExact(PKM pk, EvoCriteria evo)
+    {
+        if (!IsMatchLevel(pk, evo.LevelMax)) // minimum required level
+            return false;
+        if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
+            return false;
+        if (Version == GameVersion.BU)
+        {
+            // Encounters with this version have to originate from the Japanese Blue game.
+            if (!pk.Japanese)
+                return false;
+            // Stadium 2 can transfer from GSC->RBY without a "Trade", thus allowing un-evolved outsiders
+            if (EvolveOnTrade && !ParseSettings.AllowGBStadium2 && pk.CurrentLevel < LevelMinRBY)
+                return false;
+        }
+        return true;
+    }
+
+    private bool IsMatchLevel(PKM pk, int lvl)
+    {
+        if (pk is not PK1)
+            return lvl >= LevelMinGSC;
+        return lvl >= LevelMin;
+    }
+
+    private bool IsMatchPartial(PKM pk)
+    {
+        if (!IsTrainerNameValid(pk))
+            return true;
+        if (!IsNicknameValid(pk))
+            return true;
+        if (EvolveOnTrade && pk.Species == Species)
+            return false;
+        if (ParseSettings.AllowGen1Tradeback)
+            return false;
+        if (pk is not PK1 pk1)
+            return false;
+
+        var req = EncounterUtil1.GetWildCatchRate(Version, Species);
+        return req != pk1.Catch_Rate;
+    }
+
+    #endregion
+}

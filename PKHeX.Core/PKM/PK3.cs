@@ -259,7 +259,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
             PKRS_Strain = PKRS_Strain,
             PKRS_Days = PKRS_Days,
             OT_Gender = OT_Gender,
-            MetDate = DateOnly.FromDateTime(DateTime.Now),
+            MetDate = EncounterDate.GetDateNDS(),
             Met_Level = CurrentLevel,
             Met_Location = Locations.Transfer3, // Pal Park
 

@@ -20,6 +20,7 @@ public static class FrameFinder
         if (pk.Version == (int)GameVersion.CXD)
             return Array.Empty<Frame>();
 
+        // Don't trust pk.Nature, just get the correct original via EncryptionConstant
         var info = new FrameGenerator(pk) {Nature = pk.EncryptionConstant % 25};
         var seeds = GetSeeds(pidiv, info, pk);
         var frames = pidiv.Type == PIDType.CuteCharm
@@ -67,9 +68,8 @@ public static class FrameFinder
                 continue;
 
             var prev = LCRNG.Prev(f.Seed); // ESV
-            var rand = prev >> 16;
-            f.RandESV = rand;
-            f.RandLevel = f.Seed >> 16;
+            f.RandESV = (ushort)(prev >> 16);
+            f.RandLevel = (ushort)(f.Seed >> 16);
             f.OriginSeed = LCRNG.Prev(prev);
             if (f.Lead != LeadRequired.CuteCharm) // needs proc checking
                 yield return f;
@@ -111,11 +111,11 @@ public static class FrameFinder
             if (f.Lead == LeadRequired.CuteCharm) // 100% required for frame base
             {
                 if (cc)
-                    yield return info.GetFrame(prev2, LeadRequired.CuteCharm, p2, p1, prev3);
+                    yield return info.GetFrame(prev2, LeadRequired.CuteCharm, (ushort)p2, (ushort)p1, prev3);
                 yield break;
             }
             lead = cc ? LeadRequired.CuteCharm : LeadRequired.CuteCharmFail;
-            yield return info.GetFrame(prev2, lead, p2, p1, prev3);
+            yield return info.GetFrame(prev2, lead, (ushort)p2, (ushort)p1, prev3);
         }
         if (f.Lead == LeadRequired.CuteCharm)
             yield break;
@@ -127,7 +127,7 @@ public static class FrameFinder
         //  1 Nature
         bool max = p0 % 2 == 1;
         lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
-        yield return info.GetFrame(prev2, lead, p2, p1, prev3);
+        yield return info.GetFrame(prev2, lead, (ushort)p2, (ushort)p1, prev3);
 
         // Keen Eye, Intimidate (Not compatible with Sweet Scent)
         // -2 ESV
@@ -138,7 +138,7 @@ public static class FrameFinder
         if (max) // same result as above, no need to recalculate
         {
             lead = LeadRequired.IntimidateKeenEye;
-            yield return info.GetFrame(prev2, lead, p2, p1, prev3);
+            yield return info.GetFrame(prev2, lead, (ushort)p2, (ushort)p1, prev3);
         }
 
         // Static or Magnet Pull
@@ -151,7 +151,7 @@ public static class FrameFinder
         {
             // Since a failed proc is indistinguishable from the default frame calls, only generate if it succeeds.
             lead = LeadRequired.StaticMagnet;
-            yield return info.GetFrame(prev2, lead, p1, p0, prev3);
+            yield return info.GetFrame(prev2, lead, (ushort)p1, (ushort)p0, prev3);
         }
     }
 
@@ -160,7 +160,7 @@ public static class FrameFinder
         foreach (var f in frames)
         {
             // Current Seed of the frame is the ESV.
-            var rand = f.Seed >> 16;
+            var rand = (ushort)(f.Seed >> 16);
             f.RandESV = rand;
             f.RandLevel = rand; // unused
             f.OriginSeed = LCRNG.Prev(f.Seed);
@@ -176,7 +176,7 @@ public static class FrameFinder
             // Create a copy for level; shift ESV and origin back
             var esv = f.OriginSeed >> 16;
             var origin = LCRNG.Prev(f.OriginSeed);
-            var withLevel = info.GetFrame(f.Seed, f.Lead | LeadRequired.UsesLevelCall, esv, f.RandLevel, origin);
+            var withLevel = info.GetFrame(f.Seed, f.Lead | LeadRequired.UsesLevelCall, (ushort)esv, f.RandLevel, origin);
             yield return withLevel;
 
             if (f.Lead == LeadRequired.None)
@@ -212,13 +212,13 @@ public static class FrameFinder
             if (f.Lead == LeadRequired.CuteCharm) // 100% required for frame base
             {
                 if (!cc) yield break;
-                yield return info.GetFrame(prev2, LeadRequired.CuteCharm, p1, p1, prev2);
-                yield return info.GetFrame(prev2, LeadRequired.CuteCharm | LeadRequired.UsesLevelCall, p2, p1, prev3);
+                yield return info.GetFrame(prev2, LeadRequired.CuteCharm, (ushort)p1, (ushort)p1, prev2);
+                yield return info.GetFrame(prev2, LeadRequired.CuteCharm | LeadRequired.UsesLevelCall, (ushort)p2, (ushort)p1, prev3);
                 yield break;
             }
             lead = cc ? LeadRequired.CuteCharm : LeadRequired.CuteCharmFail;
-            yield return info.GetFrame(prev2, lead, p1, p1, prev2);
-            yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, p2, p1, prev3);
+            yield return info.GetFrame(prev2, lead, (ushort)p1, (ushort)p1, prev2);
+            yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, (ushort)p2, (ushort)p1, prev3);
         }
         if (f.Lead == LeadRequired.CuteCharm)
             yield break;
@@ -230,8 +230,8 @@ public static class FrameFinder
         //  1 Nature
         bool max = (info.DPPt ? p0 >> 15 : p0 & 1) == 1;
         lead = max ? LeadRequired.PressureHustleSpirit : LeadRequired.PressureHustleSpiritFail;
-        yield return info.GetFrame(prev2, lead, p1, p1, prev2);
-        yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, p2, p1, prev3);
+        yield return info.GetFrame(prev2, lead, (ushort)p1, (ushort)p1, prev2);
+        yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, (ushort)p2, (ushort)p1, prev3);
 
         // Keen Eye, Intimidate (Not compatible with Sweet Scent)
         // -2 ESV
@@ -242,8 +242,8 @@ public static class FrameFinder
         if (max) // same result as above, no need to recalculate
         {
             lead = LeadRequired.IntimidateKeenEye;
-            yield return info.GetFrame(prev2, lead, p1, p1, prev2);
-            yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, p2, p1, prev3);
+            yield return info.GetFrame(prev2, lead, (ushort)p1, (ushort)p1, prev2);
+            yield return info.GetFrame(prev2, lead | LeadRequired.UsesLevelCall, (ushort)p2, (ushort)p1, prev3);
         }
 
         // Static or Magnet Pull
@@ -253,11 +253,11 @@ public static class FrameFinder
         //  1 Nature
         var force1 = (info.DPPt ? p1 >> 15 : p1 & 1) == 1;
         lead = force1 ? LeadRequired.StaticMagnet : LeadRequired.StaticMagnetFail;
-        yield return info.GetFrame(prev2, lead, p0, p0, prev3);
+        yield return info.GetFrame(prev2, lead, (ushort)p0, (ushort)p0, prev3);
 
         var force2 = (info.DPPt ? p2 >> 15 : p2 & 1) == 1;
         lead = (force2 ? LeadRequired.StaticMagnet : LeadRequired.StaticMagnetFail) | LeadRequired.UsesLevelCall;
-        yield return info.GetFrame(prev2, lead, p1, p0, prev3);
+        yield return info.GetFrame(prev2, lead, (ushort)p1, (ushort)p0, prev3);
     }
 
     /// <summary>

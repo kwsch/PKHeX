@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Locks associated to a given NPC PKM that appears before a <see cref="EncounterStaticShadow"/>.
+/// Locks associated to a given NPC PKM that appears before a <see cref="IShadow3"/>.
 /// </summary>
 public readonly record struct NPCLock
 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Indicates the requirement of the player's lead Pokémon, first sent out when starting a battle.
 /// </summary>
 [Flags]
-public enum LeadRequired
+public enum LeadRequired : byte
 {
     /// <summary> No Lead ability effect is present, or is not checked for this type of frame. </summary>
     None = 0,

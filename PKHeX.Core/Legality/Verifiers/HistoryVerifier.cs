@@ -216,7 +216,7 @@ public sealed class HistoryVerifier : Verifier
 
         return enc switch
         {
-            EncounterTrade => false,
+            IFixedTrainer { IsFixedTrainer: true } => false,
             EncounterSlot8GO => false,
             WC6 { OT_Name.Length: > 0 } => false,
             WC7 { OT_Name.Length: > 0, TID16: not 18075 } => false, // Ash Pikachu QR Gift doesn't set Current Handler

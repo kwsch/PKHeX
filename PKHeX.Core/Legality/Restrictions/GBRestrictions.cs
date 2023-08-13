@@ -124,7 +124,7 @@ internal static class GBRestrictions
     /// </summary>
     /// <param name="pk">Data to check</param>
     /// <returns>true if can inhabit, false if not.</returns>
-    private static bool CanInhabitGen1(this PKM pk)
+    internal static bool CanInhabitGen1(this PKM pk)
     {
         // Korean Gen2 games can't trade-back because there are no Gen1 Korean games released
         if (pk.Korean || pk.IsEgg)
@@ -134,7 +134,7 @@ internal static class GBRestrictions
         // If you put a Pokemon in the N64 box, the met info is retained, even if you switch over to a Gen1 game to teach it TMs
         // You can use rare candies from within the lab, so level-up moves from RBY context can be learned this way as well
         // Stadium 2 is GB Cart Era only (not 3DS Virtual Console).
-        if (pk is ICaughtData2 {CaughtData: not 0} && !ParseSettings.AllowGBCartEra)
+        if (pk is ICaughtData2 {CaughtData: not 0} && !ParseSettings.AllowGBStadium2)
             return false;
 
         // Sanity check species, if it could have existed as a pre-evolution.
@@ -234,7 +234,7 @@ internal static class GBRestrictions
 
     private static bool IsCatchRateMatchEncounter(IEncounterTemplate enc, PK1 pk1) => enc switch
     {
-        EncounterStatic1 s when s.GetMatchRating(pk1) != EncounterMatchRating.PartialMatch => true,
+        EncounterStatic1 s when s.GetMatchRating(pk1) < EncounterMatchRating.PartialMatch => true,
         EncounterTrade1 => true,
         _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.Catch_Rate),
     };

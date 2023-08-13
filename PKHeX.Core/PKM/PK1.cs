@@ -175,7 +175,7 @@ public sealed class PK1 : GBPKML, IPersonalType
             Nature = Experience.GetNatureVC(EXP),
             PID = rnd.Rand32(),
             Ball = 4,
-            MetDate = DateOnly.FromDateTime(DateTime.Now),
+            MetDate = EncounterDate.GetDate3DS(),
             Version = (int)GameVersion.RD, // Default to red
             Move1 = Move1,
             Move2 = Move2,

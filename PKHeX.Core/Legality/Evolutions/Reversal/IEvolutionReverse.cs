@@ -30,5 +30,5 @@ public interface IEvolutionReverse
     /// <param name="skipChecks">Skip evolution exclusion checks</param>
     /// <param name="result">Resulting evolution criteria</param>
     /// <returns>True if the de-evolution is possible and <see cref="result"/> is valid.</returns>
-    bool TryDevolve(ISpeciesForm head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result);
+    bool TryDevolve<T>(T head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm;
 }

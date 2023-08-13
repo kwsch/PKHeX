@@ -7,12 +7,6 @@ namespace PKHeX.Core.Tests.Simulator;
 
 public class GeneratorTests
 {
-    static GeneratorTests()
-    {
-        if (!EncounterEvent.Initialized)
-            EncounterEvent.RefreshMGDB();
-    }
-
     public static IEnumerable<object[]> PokemonGenerationTestData()
     {
         for (int i = 1; i <= 807; i++)
@@ -45,7 +39,7 @@ public class GeneratorTests
     {
         const Species species = Species.Haxorus;
         var pk5 = new PK5 {Species = (int) species};
-        var ez = EncounterMovesetGenerator.GenerateEncounters(pk5, pk5.Moves, GameVersion.W2).OfType<EncounterStatic>().First();
+        var ez = EncounterMovesetGenerator.GenerateEncounters(pk5, pk5.Moves, GameVersion.W2).OfType<EncounterStatic5>().First();
         ez.Should().NotBeNull("Shiny Haxorus stationary encounter exists for B2/W2");
 
         var criteria = EncounterCriteria.Unrestricted;

@@ -42,7 +42,7 @@ public sealed class EvolutionForwardSpecies : IEvolutionForward
         }
     }
 
-    public bool TryEvolve(ISpeciesForm head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
+    public bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
     {
         var methods = GetForward(head.Species, head.Form);
         foreach (var method in methods.Span)

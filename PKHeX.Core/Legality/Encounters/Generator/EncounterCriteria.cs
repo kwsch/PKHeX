@@ -22,11 +22,11 @@ public sealed record EncounterCriteria
     public AbilityPermission AbilityNumber { get; init; } = Any12H;
 
     /// <summary> End result's nature. </summary>
-    /// <remarks> Leave as <see cref="Core.Nature.Random"/> to not restrict nature. </remarks>
+    /// <remarks> Leave as <see cref="Nature.Random"/> to not restrict nature. </remarks>
     public Nature Nature { get; init; } = Nature.Random;
 
     /// <summary> End result's shininess. </summary>
-    /// <remarks> Leave as <see cref="Core.Shiny.Random"/> to not restrict shininess. </remarks>
+    /// <remarks> Leave as <see cref="Shiny.Random"/> to not restrict shininess. </remarks>
     public Shiny Shiny { get; init; }
 
     public int IV_HP  { get; init; } = RandomIV;
@@ -186,5 +186,72 @@ public sealed record EncounterCriteria
         pk.IV_SPA = IV_SPA != RandomIV ? IV_SPA : Util.Rand.Next(32);
         pk.IV_SPD = IV_SPD != RandomIV ? IV_SPD : Util.Rand.Next(32);
         pk.IV_SPE = IV_SPE != RandomIV ? IV_SPE : Util.Rand.Next(32);
+    }
+
+    public void SetRandomIVs(PKM pk, int flawless)
+    {
+        Span<int> ivs = stackalloc[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        flawless -= ivs.Count(31);
+        int remain = ivs.Count(RandomIV);
+        if (flawless > remain)
+        {
+            // Overwrite specified IVs until we have enough remaining slots.
+            while (flawless > remain)
+            {
+                int index = Util.Rand.Next(6);
+                if (ivs[index] is RandomIV or 31)
+                    continue;
+                ivs[index] = RandomIV;
+                remain++;
+            }
+        }
+
+        // Sprinkle in remaining flawless IVs
+        while (flawless > 0)
+        {
+            int index = Util.Rand.Next(6);
+            if (ivs[index] != RandomIV)
+                continue;
+            ivs[index] = 31;
+            flawless--;
+        }
+        // Fill in the rest
+        for (int i = 0; i < ivs.Length; i++)
+        {
+            if (ivs[i] == RandomIV)
+                ivs[i] = Util.Rand.Next(32);
+        }
+        // Done.
+        pk.SetIVs(ivs);
+    }
+
+    /// <summary>
+    /// Applies random IVs without any correlation.
+    /// </summary>
+    /// <param name="pk">Entity to mutate.</param>
+    /// <param name="template">Template to populate from</param>
+    public void SetRandomIVs(PKM pk, IndividualValueSet template)
+    {
+        if (!template.IsSpecified)
+        {
+            SetRandomIVs(pk);
+            return;
+        }
+
+        pk.IV_HP = Get(template.HP, IV_HP);
+        pk.IV_ATK = Get(template.ATK, IV_ATK);
+        pk.IV_DEF = Get(template.DEF, IV_DEF);
+        pk.IV_SPE = Get(template.SPE, IV_SPE);
+        pk.IV_SPA = Get(template.SPA, IV_SPA);
+        pk.IV_SPD = Get(template.SPD, IV_SPD);
+
+        static int Get(sbyte template, int request)
+        {
+            if (template != -1)
+                return template;
+            if (request != RandomIV)
+                return request;
+            return Util.Rand.Next(32);
+        }
     }
 }

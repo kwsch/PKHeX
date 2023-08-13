@@ -36,7 +36,7 @@ public sealed class LevelVerifier : Verifier
                 return;
             }
 
-            var reqEXP = enc is EncounterStatic2Odd
+            var reqEXP = enc is EncounterStatic2 { DizzyPunchEgg: true }
                 ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
                 : Experience.GetEXP(elvl, pk.PersonalInfo.EXPGrowth);
             if (reqEXP != pk.EXP)
@@ -124,7 +124,7 @@ public sealed class LevelVerifier : Verifier
         // Context check is only applicable to gen1/2; transferring to Gen2 is a trade.
         // Stadium 2 can transfer across game/generation boundaries without initiating a trade.
         // Ignore this check if the environment's loaded trainer is not from Gen1/2 or is from GB Era.
-        if (ParseSettings.ActiveTrainer.Generation >= 3 || ParseSettings.AllowGBCartEra)
+        if (ParseSettings.ActiveTrainer.Generation >= 3 || ParseSettings.AllowGBStadium2)
             return false;
 
         var moves = data.Info.Moves;

@@ -20,9 +20,6 @@ public class LegalityTest
             if (IsInitialized)
                 return;
             RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
-            if (EncounterEvent.Initialized)
-                return;
-            EncounterEvent.RefreshMGDB();
             IsInitialized = true;
         }
     }

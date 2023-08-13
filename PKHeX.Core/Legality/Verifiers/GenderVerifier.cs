@@ -43,11 +43,13 @@ public sealed class GenderVerifier : Verifier
     private static void VerifyNaturePID(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var result = pk.EncryptionConstant % 25 == pk.Nature
+        var result = GetExpectedNature(pk) == pk.Nature
             ? GetValid(LPIDNatureMatch, CheckIdentifier.Nature)
             : GetInvalid(LPIDNatureMismatch, CheckIdentifier.Nature);
         data.AddLine(result);
     }
+
+    private static uint GetExpectedNature(PKM pk) => pk.EncryptionConstant % 25;
 
     private static bool IsValidGenderPID(LegalityAnalysis data)
     {

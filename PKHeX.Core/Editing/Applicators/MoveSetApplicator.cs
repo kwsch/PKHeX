@@ -48,7 +48,6 @@ public static class MoveSetApplicator
 
         var clone = pk.Clone();
         clone.SetMoves(moves);
-        clone.SetMaximumPPCurrent(moves);
         var newLa = new LegalityAnalysis(clone);
 
         if (newLa.Valid)

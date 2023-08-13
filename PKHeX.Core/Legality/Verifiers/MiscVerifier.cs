@@ -49,6 +49,9 @@ public sealed class MiscVerifier : Verifier
 
         switch (pk)
         {
+            case PK5 pk5:
+                VerifyGen5Stats(data, pk5);
+                break;
             case PK7 {ResortEventStatus: >= ResortEventState.MAX}:
                 data.AddLine(GetInvalid(LTransferBad));
                 break;
@@ -137,6 +140,21 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatIncorrectHeightValue));
     }
 
+    private static void VerifyGen5Stats(LegalityAnalysis data, PK5 pk5)
+    {
+        var enc = data.EncounterMatch;
+        if (enc is EncounterStatic5N)
+        {
+            if (!pk5.NSparkle)
+                data.AddLine(GetInvalid(LG5SparkleRequired, Fateful));
+        }
+        else
+        {
+            if (pk5.NSparkle)
+                data.AddLine(GetInvalid(LG5SparkleInvalid, Fateful));
+        }
+    }
+
     private static bool IsHeightScaleMatchRequired(PKM pk)
     {
         if (pk is IHomeTrack { HasTracker: false })
@@ -159,7 +177,7 @@ public sealed class MiscVerifier : Verifier
         var enc = data.EncounterOriginal;
         if (pk9 is { HeightScalar: 0, WeightScalar: 0 })
         {
-            if (enc.Context.Generation() < 9 && enc is not EncounterSlotGO && !data.Info.EvoChainsAllGens.HasVisitedPLA) // <=Gen8 rerolls height/weight, never zero.
+            if (enc.Context.Generation() < 9 && !data.Info.EvoChainsAllGens.HasVisitedPLA && enc is not IPogoSlot) // <=Gen8 rerolls height/weight, never zero.
                 data.AddLine(Get(LStatInvalidHeightWeight, Severity.Invalid, Encounter));
             else if (CheckHeightWeightOdds(enc) && ParseSettings.ZeroHeightWeight != Severity.Valid)
                 data.AddLine(Get(LStatInvalidHeightWeight, ParseSettings.ZeroHeightWeight, Encounter));
@@ -285,7 +303,7 @@ public sealed class MiscVerifier : Verifier
         {
             var pi = PersonalTable.RB[species];
             var (match1, match2) = pi.IsMatchType(pk1);
-            if (!match2 && ParseSettings.AllowGBCartEra)
+            if (!match2 && ParseSettings.AllowGBStadium2)
                 match2 = (species is (int)Species.Magnemite or (int)Species.Magneton) && pk1.Type2 == 9; // Steel Magnemite via Stadium2
 
             var first = match1 ? GetValid(LG1TypeMatch1) : GetInvalid(LG1Type1Fail);
@@ -319,7 +337,7 @@ public sealed class MiscVerifier : Verifier
             if (MoveInfo.IsAnyFromGeneration(2, data.Info.Moves))
                 return GetInvalid(LG1CatchRateItem);
             var e = data.EncounterMatch;
-            if (e is EncounterStatic1E {Version: GameVersion.Stadium} or EncounterTrade1)
+            if (e is EncounterGift1 {Version: GameVersion.Stadium} or EncounterTrade1)
                 return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
 
             ushort species = pk1.Species;
@@ -610,10 +628,10 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
     }
 
-    private static bool IsStarterLGPE(ISpeciesForm pk) => pk.Species switch
+    private static bool IsStarterLGPE(ISpeciesForm pk) => pk switch
     {
-        (int)Species.Pikachu when pk.Form == 8 => true,
-        (int)Species.Eevee   when pk.Form == 1 => true,
+        { Species: (int)Species.Pikachu, Form: 8 } => true,
+        { Species: (int)Species.Eevee, Form: 1 } => true,
         _ => false,
     };
 

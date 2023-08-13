@@ -20,7 +20,6 @@ internal static class LegalityAnalyzers
     public static readonly HyperTrainingVerifier HyperTraining = new();
     public static readonly GenderVerifier GenderValues = new();
     public static readonly PIDVerifier PIDEC = new();
-    public static readonly NHarmoniaVerifier NHarmonia = new();
     public static readonly CXDVerifier CXD = new();
     public static readonly MemoryVerifier Memory = new();
     public static readonly HistoryVerifier History = new();
