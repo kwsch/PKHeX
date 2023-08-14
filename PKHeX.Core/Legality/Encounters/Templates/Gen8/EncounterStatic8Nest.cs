@@ -34,7 +34,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     public byte FlawlessIVCount { get; init; }
     public bool CanGigantamax { get; init; }
 
-    public string Name => "Static Encounter";
+    public abstract string Name { get; }
     public string LongName => Name;
     public virtual byte LevelMin => Level;
     public virtual byte LevelMax => Level;

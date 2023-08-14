@@ -13,6 +13,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     private readonly byte MinRank;
     private readonly byte MaxRank;
     private readonly byte NestID;
+    public override string Name => "Stock Raid Den Encounter";
 
     private byte[] NestLocations => Encounters8Nest.NestLocations[NestID];
 

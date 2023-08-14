@@ -14,6 +14,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
     /// Distribution raid index for <see cref="GameVersion.SWSH"/>
     /// </summary>
     public byte Index { get; }
+    public override string Name => "Distribution Raid Den Encounter";
 
     public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, byte index, GameVersion game) : base(game)
     {

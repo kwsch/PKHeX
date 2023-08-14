@@ -10,6 +10,7 @@ public sealed record EncounterStatic8NC(GameVersion Version) : EncounterStatic8N
 {
     int ILocation.Location => Watchtower;
     public const ushort Location = Watchtower;
+    public override string Name => "Watchtower Crystal Den Encounter";
 
     protected override ushort GetLocation() => Location;
 
