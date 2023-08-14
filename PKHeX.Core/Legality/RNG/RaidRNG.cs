@@ -8,49 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RaidRNG
 {
-    public static bool Verify<T>(this T raid, PKM pk8, ulong seed) where T: EncounterStatic8Nest<T>
-    {
-        var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
-        var ratio = pi.Gender;
-        var abil = RemapAbilityToParam(raid.Ability);
-
-        Span<int> IVs = stackalloc int[6];
-        LoadIVs(raid, IVs);
-        return Verify(pk8, seed, IVs, raid.Species, raid.FlawlessIVCount, abil, ratio);
-    }
-
-    public static void ApplyDetailsTo<T>(this T raid, PK8 pk8, ulong seed) where T : EncounterStatic8Nest<T>
-    {
-        // Ensure the species-form is set correctly (nature)
-        pk8.Species = raid.Species;
-        pk8.Form = raid.Form;
-        var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
-        var ratio = pi.Gender;
-        var abil = RemapAbilityToParam(raid.Ability);
-
-        Span<int> IVs = stackalloc int[6];
-        LoadIVs(raid, IVs);
-        ApplyDetailsTo(pk8, seed, IVs, raid.Species, raid.FlawlessIVCount, abil, ratio);
-    }
-
-    private static void LoadIVs<T>(T raid, Span<int> span) where T : EncounterStatic8Nest<T>
-    {
-        // Template stores with speed in middle (standard), convert for generator purpose.
-        var ivs = raid.IVs;
-        if (ivs.IsSpecified)
-            ivs.CopyToSpeedLast(span);
-        else
-            span.Fill(-1);
-    }
-
-    private static byte RemapAbilityToParam(AbilityPermission a) => a switch
-    {
-        AbilityPermission.Any12H => 254,
-        AbilityPermission.Any12  => 255,
-        _ => a.GetSingleValue(),
-    };
-
-    private static bool Verify(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    public static bool Verify(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
     {
         var rng = new Xoroshiro128Plus(seed);
         var ec = (uint)rng.NextInt();
@@ -188,7 +146,7 @@ public static class RaidRNG
         }
     }
 
-    private static bool ApplyDetailsTo(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    public static bool ApplyDetailsTo(PK8 pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
     {
         var rng = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rng.NextInt();
@@ -257,7 +215,7 @@ public static class RaidRNG
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
-            _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0,
+            _ => (int) rng.NextInt(253) < gender_ratio ? 1 : 0,
         };
 
         int nature = nature_param != -1 ? nature_param
@@ -267,13 +225,10 @@ public static class RaidRNG
 
         pk.StatNature = pk.Nature = nature;
 
-        if (pk is IScaledSize s)
-        {
-            var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-            var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-            s.HeightScalar = (byte)height;
-            s.WeightScalar = (byte)weight;
-        }
+        var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
+        var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
+        pk.HeightScalar = (byte)height;
+        pk.WeightScalar = (byte)weight;
 
         return true;
     }

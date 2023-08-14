@@ -13,8 +13,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 {
     public int Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
-    public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; } = IsMatch;
-    public static Action<PKM, T, EncounterCriteria>? GenerateData { private get; set; }
 
     int ILocation.Location => SharedNest;
     private const ushort Location = SharedNest;
@@ -69,8 +67,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             OT_Friendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = PokeSizeUtil.GetRandomScalar(),
 
             DynamaxLevel = DynamaxLevel,
             CanGigantamax = CanGigantamax,
@@ -88,38 +84,31 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     private void SetPINGA(PK8 pk, EncounterCriteria criteria)
     {
-        if (GenerateData != null)
+        bool requestShiny = criteria.Shiny.IsShiny();
+        bool checkShiny = requestShiny && Shiny != Shiny.Never;
+        var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
+        var ratio = pi.Gender;
+        var abil = RemapAbilityToParam(Ability);
+        Span<int> iv = stackalloc int[6];
+
+        int ctr = 0;
+        var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
+        while (ctr++ < 100_000)
         {
-            GenerateData(pk, (T)this, criteria);
-            return;
+            var seed = rand.Next();
+            ApplyDetailsTo(pk, seed, iv, abil, ratio);
+
+            if (criteria.IV_ATK != 31 && pk.IV_ATK != criteria.IV_ATK)
+                continue;
+            if (criteria.IV_SPE != 31 && pk.IV_SPE != criteria.IV_SPE)
+                continue;
+            if (checkShiny && pk.IsShiny != requestShiny)
+                continue;
+            break;
         }
 
-        var pi = pk.PersonalInfo;
-        int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
-        int ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);
-        criteria.SetRandomIVs(pk);
-        pk.StatNature = pk.Nature;
-        pk.EncryptionConstant = Util.Rand32();
-        if (Species == (int)Core.Species.Toxtricity)
-        {
-            while (true)
-            {
-                var result = EvolutionMethod.GetAmpLowKeyResult(pk.Nature);
-                if (result == pk.Form)
-                    break;
-                pk.Nature = Util.Rand.Next(25);
-            }
-
-            // Might be originally generated with a Neutral nature, then above logic changes to another.
-            // Realign the stat nature to Serious mint.
-            if (pk.Nature != pk.StatNature && ((Nature)pk.StatNature).IsNeutral())
-                pk.StatNature = (int)Nature.Serious;
-        }
-        var pid = pk.PID;
-        RaidRNG.ForceShinyState(pk, Shiny == Shiny.Always, ref pid);
-        pk.PID = pid;
+        if ((byte)criteria.Nature != pk.Nature && criteria.Nature.IsMint())
+            pk.StatNature = (byte)criteria.Nature;
     }
 
     #endregion
@@ -215,10 +204,10 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (Species == (int)Core.Species.Runerigus && pk is IFormArgument { FormArgument: not 0 })
             return true;
 
-        if (VerifyCorrelation != null && !VerifyCorrelation(pk, (T)this))
+        if (pk is { AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))
             return true;
 
-        if (pk is { AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))
+        if (!IsMatchCorrelation(pk))
             return true;
 
         switch (Shiny)
@@ -234,49 +223,52 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     #endregion
 
     #region RNG Matching
+    public bool Verify(PKM pk, ulong seed)
+    {
+        var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
+        var ratio = pi.Gender;
+        var abil = RemapAbilityToParam(Ability);
 
-    private static bool IsMatch(PKM pk, T enc)
+        Span<int> iv = stackalloc int[6];
+        LoadIVs(iv);
+        return RaidRNG.Verify(pk, seed, iv, Species, FlawlessIVCount, abil, ratio);
+    }
+
+    private void ApplyDetailsTo(PK8 pk, ulong seed, Span<int> iv, byte abil, byte ratio)
+    {
+        LoadIVs(iv);
+        RaidRNG.ApplyDetailsTo(pk, seed, iv, Species, FlawlessIVCount, abil, ratio);
+    }
+
+    private void LoadIVs(Span<int> span)
+    {
+        // Template stores with speed in middle (standard), convert for generator purpose.
+        var ivs = IVs;
+        if (ivs.IsSpecified)
+            ivs.CopyToSpeedLast(span);
+        else
+            span.Fill(-1);
+    }
+
+    private static byte RemapAbilityToParam(AbilityPermission a) => a switch
+    {
+        Any12H => 254,
+        Any12 => 255,
+        _ => a.GetSingleValue(),
+    };
+
+    private bool IsMatchCorrelation(PKM pk)
     {
         if (pk.IsShiny)
             return true;
 
         var ec = pk.EncryptionConstant;
         var pid = pk.PID;
-        if (enc is EncounterStatic8U ug)
+        var seeds = new XoroMachineSkip(ec, pid);
+        foreach (var seed in seeds)
         {
-            var seeds = new XoroMachineSkip(ec, pid);
-            foreach (var seed in seeds)
-            {
-                if (ug.Verify(pk, seed))
-                    return true;
-            }
-        }
-        else if (enc is EncounterStatic8N un)
-        {
-            var seeds = new XoroMachineSkip(ec, pid);
-            foreach (var seed in seeds)
-            {
-                if (un.Verify(pk, seed))
-                    return true;
-            }
-        }
-        else if (enc is EncounterStatic8ND ud)
-        {
-            var seeds = new XoroMachineSkip(ec, pid);
-            foreach (var seed in seeds)
-            {
-                if (ud.Verify(pk, seed))
-                    return true;
-            }
-        }
-        else if (enc is EncounterStatic8NC uc)
-        {
-            var seeds = new XoroMachineSkip(ec, pid);
-            foreach (var seed in seeds)
-            {
-                if (uc.Verify(pk, seed))
-                    return true;
-            }
+            if (Verify(pk, seed))
+                return true;
         }
         return false;
     }
