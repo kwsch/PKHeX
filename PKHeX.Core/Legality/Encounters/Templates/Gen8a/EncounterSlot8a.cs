@@ -42,12 +42,16 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.LA[Species, Form].BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (int)Version,
+            Version = (byte)GameVersion.PLA,
             IsAlpha = IsAlpha,
             Ball = (int)Ball.LAPoke,
+
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
+            OT_Friendship = PersonalTable.LA[Species, Form].BaseFriendship,
 
             HeightScalar = IsAlpha ? (byte)255 : PokeSizeUtil.GetRandomScalar(),
             WeightScalar = IsAlpha ? (byte)255 : PokeSizeUtil.GetRandomScalar(),

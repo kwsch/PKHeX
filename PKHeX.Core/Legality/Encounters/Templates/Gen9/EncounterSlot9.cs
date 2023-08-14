@@ -90,6 +90,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var form = GetWildForm(Form);
+        var version = Version != GameVersion.SV ? Version : GameVersion.SV.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.SL;
         var pk = new PK9
         {
             Species = Species,
@@ -97,7 +98,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             CurrentLevel = LevelMin,
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = (byte)version,
             Ball = (byte)Ball.Poke,
             MetDate = EncounterDate.GetDateSwitch(),
 
@@ -129,7 +130,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
-        pk.SetRandomIVs();
+        criteria.SetRandomIVs(pk);
 
         pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
         pk.Gender = criteria.GetGender(Gender, PersonalTable.SV[pk.Species, pk.Form]);

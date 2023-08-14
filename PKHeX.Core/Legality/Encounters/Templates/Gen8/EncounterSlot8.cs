@@ -97,11 +97,19 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
         var req = GetRequirement(pk);
         if (req != MustHave)
         {
-            pk.EncryptionConstant = Util.Rand32();
+            var pi = PersonalTable.SWSH[Species, Form];
+            var rand = Util.Rand;
+            pk.EncryptionConstant = rand.Rand32();
+            pk.PID = rand.Rand32();
+            criteria.SetRandomIVs(pk);
+            pk.Gender = criteria.GetGender(-1, pi);
+            pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
+            pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
             return;
         }
         // Don't bother honoring shiny state.
         Overworld8RNG.ApplyDetails(pk, c, Shiny.Random);
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
     }
 
     public OverworldCorrelation8Requirement GetRequirement(PKM pk)

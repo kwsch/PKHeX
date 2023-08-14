@@ -32,6 +32,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public PK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var version = Version != GameVersion.RSE ? Version : GameVersion.RSE.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.E;
         var pk = new PK3
         {
             Species = Species,
@@ -40,7 +41,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
 
             Met_Location = Location,
             Met_Level = LevelMin,
-            Version = (byte)Version,
+            Version = (byte)version,
             Ball = (byte)GetRequiredBall(Ball.Poke),
 
             Language = lang,
