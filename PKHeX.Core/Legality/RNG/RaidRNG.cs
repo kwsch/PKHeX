@@ -95,8 +95,8 @@ public static class RaidRNG
                     return false;
                 break;
             default:
-                var gender = (int)rng.NextInt(253) < gender_ratio ? 1 : 0;
-                if (pk.Gender != gender)
+                var gender = (int)rng.NextInt(253) + 1 < gender_ratio ? 1 : 0;
+                if (pk.Gender != gender && pk.Gender != 2) // allow Nincada(0/1)->Shedinja(2)
                     return false;
                 break;
         }
@@ -215,7 +215,7 @@ public static class RaidRNG
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
-            _ => (int) rng.NextInt(253) < gender_ratio ? 1 : 0,
+            _ => (int) rng.NextInt(253) + 1 < gender_ratio ? 1 : 0,
         };
 
         int nature = nature_param != -1 ? nature_param
