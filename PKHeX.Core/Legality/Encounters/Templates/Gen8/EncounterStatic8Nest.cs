@@ -270,6 +270,12 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             if (IsMatchSeed(pk, seed))
                 return true;
         }
+        seeds = new XoroMachineSkip(ec, pid ^ 0x1000_0000);
+        foreach (var seed in seeds)
+        {
+            if (IsMatchSeed(pk, seed))
+                return true;
+        }
         return false;
     }
 
