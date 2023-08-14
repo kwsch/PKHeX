@@ -118,7 +118,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
             if (pk is IDynamaxLevelReadOnly r)
             {
                 var current = r.DynamaxLevel;
-                int expectD = GetDynamaxLevel(rand, i);
+                int expectD = GetInitialDynamaxLevel(rand, i);
                 if (expectD > current)
                     continue;
             }
@@ -137,11 +137,23 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         return false;
     }
 
-    private static int GetDynamaxLevel(Xoroshiro128Plus rand, int i)
+    private static byte GetInitialDynamaxLevel(Xoroshiro128Plus rand, int rank)
     {
-        var baseValue = i == 4 ? 6 : (i + 1);
-        var deltaRange = i == 4 ? 3u : 2u;
+        var baseValue = rank == 4 ? 6 : (rank + 1);
+        var deltaRange = rank == 4 ? 3u : 2u;
         var boost = (int)rand.NextInt(deltaRange);
-        return baseValue + boost;
+        return (byte)(baseValue + boost);
+    }
+
+    protected override void FinishCorrelation(PK8 pk, ulong seed)
+    {
+        var xoro = new Xoroshiro128Plus(seed);
+        var levelDelta = (int)xoro.NextInt(6);
+
+        var levelMin = LevelCaps[MinRank * 2];
+        var level = levelMin + levelDelta;
+        pk.Met_Level = (byte)level;
+        pk.CurrentLevel = (byte)level;
+        pk.DynamaxLevel = GetInitialDynamaxLevel(xoro, MinRank);
     }
 }

@@ -93,9 +93,10 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
         int ctr = 0;
         var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
-        while (ctr++ < 100_000)
+        ulong seed;
+        do
         {
-            var seed = rand.Next();
+            seed = rand.Next();
             ApplyDetailsTo(pk, seed, iv, abil, ratio);
 
             if (criteria.IV_ATK != 31 && pk.IV_ATK != criteria.IV_ATK)
@@ -105,11 +106,14 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             if (checkShiny && pk.IsShiny != requestShiny)
                 continue;
             break;
-        }
+        } while (ctr++ < 100_000);
 
+        FinishCorrelation(pk, seed);
         if ((byte)criteria.Nature != pk.Nature && criteria.Nature.IsMint())
             pk.StatNature = (byte)criteria.Nature;
     }
+
+    protected virtual void FinishCorrelation(PK8 pk, ulong seed) { }
 
     #endregion
 
