@@ -223,7 +223,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     #endregion
 
     #region RNG Matching
-    public bool Verify(PKM pk, ulong seed)
+    public bool Verify(PKM pk, ulong seed, bool forceNoShiny = false)
     {
         var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
         var ratio = pi.Gender;
@@ -231,7 +231,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
         Span<int> iv = stackalloc int[6];
         LoadIVs(iv);
-        return RaidRNG.Verify(pk, seed, iv, Species, FlawlessIVCount, abil, ratio);
+        return RaidRNG.Verify(pk, seed, iv, Species, FlawlessIVCount, abil, ratio, forceNoShiny: forceNoShiny);
     }
 
     private void ApplyDetailsTo(PK8 pk, ulong seed, Span<int> iv, byte abil, byte ratio)
@@ -267,10 +267,13 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         var seeds = new XoroMachineSkip(ec, pid);
         foreach (var seed in seeds)
         {
-            if (Verify(pk, seed))
+            if (IsMatchSeed(pk, seed))
                 return true;
         }
         return false;
     }
+
+    protected virtual bool IsMatchSeed(PKM pk, ulong seed) => Verify(pk, seed);
+
     #endregion
 }

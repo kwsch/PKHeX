@@ -99,4 +99,10 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
             _ => EncounterArea8.IsWildArea8(loc),
         };
     }
+
+    protected override bool IsMatchSeed(PKM pk, ulong seed)
+    {
+        bool IsDownleveled = pk.Met_Level < Level;
+        return Verify(pk, seed, IsDownleveled);
+    }
 }

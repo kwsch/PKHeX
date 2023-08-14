@@ -91,7 +91,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
         // native down-levels: only allow 1 rank down (1 badge 2star -> 25), (3badge 3star -> 35)
         return ((MinRank <= 1 && 1 <= MaxRank && met == 25)
-                || (MinRank <= 2 && 2 <= MaxRank && met == 35)) && !pk.IsShiny;
+             || (MinRank <= 2 && 2 <= MaxRank && met == 35)) && !pk.IsShiny;
     }
 
     protected override bool IsMatchLocation(PKM pk)
@@ -102,5 +102,45 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         if (loc > byte.MaxValue)
             return false;
         return Array.IndexOf(NestLocations, (byte)loc) >= 0;
+    }
+
+    protected override bool IsMatchSeed(PKM pk, ulong seed)
+    {
+        var rand = new Xoroshiro128Plus(seed);
+        var levelDelta = (int)rand.NextInt(6);
+        var met = pk.Met_Level;
+        for (int i = MaxRank; i >= MinRank; i--)
+        {
+            // check for dmax level
+            // 5 star uses rand(3), otherwise rand(2)
+            // some raids can be 5 star and below, so check for both possibilities
+            if (pk is IDynamaxLevelReadOnly r)
+            {
+                var current = r.DynamaxLevel;
+                int expectD = GetDynamaxLevel(rand, i);
+                if (expectD != current)
+                    continue;
+            }
+            var levelMin = LevelCaps[i * 2];
+            var expect = levelMin + levelDelta;
+            if (expect == met)
+                return Verify(pk, seed);
+
+            // Check for down-leveled
+            if (met > levelMin)
+                break;
+
+            if (IsDownLeveled(pk, met - 15, met))
+                return Verify(pk, seed, true);
+        }
+        return false;
+    }
+
+    private static int GetDynamaxLevel(Xoroshiro128Plus rand, int i)
+    {
+        var baseValue = i == 4 ? 6 : (i + 1);
+        var deltaRange = i == 4 ? 3u : 2u;
+        var boost = (int)rand.NextInt(deltaRange);
+        return baseValue + boost;
     }
 }

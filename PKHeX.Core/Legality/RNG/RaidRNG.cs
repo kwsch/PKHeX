@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RaidRNG
 {
-    public static bool Verify(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    public static bool Verify(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, bool forceNoShiny = false)
     {
         var rng = new Xoroshiro128Plus(seed);
         var ec = (uint)rng.NextInt();
@@ -17,20 +17,19 @@ public static class RaidRNG
 
         uint pid;
         bool isShiny;
-        if (shiny == Shiny.Random) // let's decide if it's shiny or not!
         {
             var trID = (uint)rng.NextInt();
             pid = (uint)rng.NextInt();
-            isShiny = GetShinyXor(pid, trID) < 16;
-        }
-        else
-        {
-            // no need to calculate a fake trainer
-            pid = (uint)rng.NextInt();
-            isShiny = shiny == Shiny.Always;
+            var xor = GetShinyXor(pid, trID);
+            isShiny = xor < 16;
+            if (isShiny && forceNoShiny)
+            {
+                ForceShinyState(false, ref pid, trID);
+                isShiny = false;
+            }
         }
 
-        ForceShinyState(pk, isShiny, ref pid);
+        ForceShinyState(isShiny, ref pid, pk.ID32);
 
         if (pk.PID != pid)
             return false;
@@ -75,7 +74,7 @@ public static class RaidRNG
         var current = pk.AbilityNumber;
         if (abil == 4)
         {
-            if (current != 4)
+            if (current != 4 && pk is PK8)
                 return false;
         }
         // else, for things that were made Hidden Ability, defer to Ability Checks (Ability Patch)
@@ -132,16 +131,16 @@ public static class RaidRNG
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ForceShinyState(PKM pk, bool isShiny, ref uint pid)
+    public static void ForceShinyState(bool isShiny, ref uint pid, uint tid)
     {
         if (isShiny)
         {
-            if (!GetIsShiny(pk.ID32, pid))
-                pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
+            if (!GetIsShiny(tid, pid))
+                pid = GetShinyPID((ushort)(tid & 0xFFFFu), (ushort)(tid >> 16), pid, 0);
         }
         else
         {
-            if (GetIsShiny(pk.ID32, pid))
+            if (GetIsShiny(tid, pid))
                 pid ^= 0x1000_0000;
         }
     }
