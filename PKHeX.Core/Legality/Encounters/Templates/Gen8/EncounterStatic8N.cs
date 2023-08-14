@@ -119,7 +119,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
             {
                 var current = r.DynamaxLevel;
                 int expectD = GetDynamaxLevel(rand, i);
-                if (expectD != current)
+                if (expectD > current)
                     continue;
             }
             var levelMin = LevelCaps[i * 2];
