@@ -174,10 +174,11 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)
     {
+        if (evo.LevelMax < Level)
+            return false;
         if (pk is ICaughtData2 { CaughtData: not 0 })
             return pk.Met_Level == (EggEncounter ? 1 : Level);
-
-        return Level <= evo.LevelMax;
+        return true;
     }
 
     // Routes 29-46, except 40 & 41; total 16.

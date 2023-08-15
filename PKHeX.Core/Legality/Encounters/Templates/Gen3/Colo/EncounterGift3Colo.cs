@@ -36,7 +36,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         Version = game;
     }
 
-    public string Name => "Static Encounter";
+    public string Name => "Gift Encounter";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;

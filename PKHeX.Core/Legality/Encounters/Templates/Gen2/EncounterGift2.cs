@@ -26,7 +26,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
     public Moveset Moves { get; init; }
     public bool EggEncounter => EggCycles != 0;
 
-    public string Name => "Static Encounter";
+    public string Name => "GB Era Event Gift";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
@@ -245,9 +245,11 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
 
     private bool IsMatchLevel(PKM pk, EvoCriteria evo)
     {
+        if (evo.LevelMax < Level)
+            return false;
         if (pk is ICaughtData2 { CaughtData: not 0 })
             return pk.Met_Level == (EggEncounter ? 1 : Level);
-        return evo.LevelMax >= Level;
+        return true;
     }
 
     #endregion

@@ -46,7 +46,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
         Nicknames = nicknames;
     }
 
-    public string Name => "Static Encounter";
+    public string Name => "Trade Encounter";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
