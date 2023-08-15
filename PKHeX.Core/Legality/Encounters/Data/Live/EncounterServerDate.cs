@@ -182,6 +182,7 @@ public static class EncounterServerDate
         {0024, (new(2023, 07, 26), new(2023, 08, 19))}, // Nontaro's Shiny Grimmsnarl
         {0505, (new(2023, 08, 07), new(2023, 09, 01))}, // WCS 2023 Stretchy Form Tatsugiri
         {1521, (new(2023, 08, 08), new(2023, 09, 19))}, // My Very Own Mew
+        {0506, (new(2023, 08, 10), new(2023, 08, 15))}, // Eduardo Gastrodon
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
