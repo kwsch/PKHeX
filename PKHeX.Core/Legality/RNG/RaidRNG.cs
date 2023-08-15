@@ -8,6 +8,19 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RaidRNG
 {
+    /// <summary>
+    /// Verify a Raid Seed against a PKM.
+    /// </summary>
+    /// <param name="pk">Entity to verify against</param>
+    /// <param name="seed">Seed that generated the entity</param>
+    /// <param name="ivs">Buffer of IVs (potentially with already specified values)</param>
+    /// <param name="species">Species of the entity</param>
+    /// <param name="iv_count">Number of flawless IVs to generate</param>
+    /// <param name="ability_param">Ability to generate</param>
+    /// <param name="gender_ratio">Gender distribution to generate</param>
+    /// <param name="nature_param">Nature to generate</param>
+    /// <param name="forceNoShiny">Force the entity to be non-shiny via special handling</param>
+    /// <returns>True if the seed matches the entity</returns>
     public static bool Verify(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, bool forceNoShiny = false)
     {
         var rng = new Xoroshiro128Plus(seed);
@@ -131,7 +144,7 @@ public static class RaidRNG
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ForceShinyState(bool isShiny, ref uint pid, uint tid)
+    private static void ForceShinyState(bool isShiny, ref uint pid, uint tid)
     {
         if (isShiny)
         {
@@ -145,6 +158,19 @@ public static class RaidRNG
         }
     }
 
+    /// <summary>
+    /// Apply the details to the PKM
+    /// </summary>
+    /// <param name="pk">Entity to verify against</param>
+    /// <param name="seed">Seed that generated the entity</param>
+    /// <param name="ivs">Buffer of IVs (potentially with already specified values)</param>
+    /// <param name="species">Species of the entity</param>
+    /// <param name="iv_count">Number of flawless IVs to generate</param>
+    /// <param name="ability_param">Ability to generate</param>
+    /// <param name="gender_ratio">Gender distribution to generate</param>
+    /// <param name="nature_param">Nature to generate</param>
+    /// <param name="shiny">Shiny state to generate</param>
+    /// <returns>True if the seed matches the entity</returns>
     public static bool ApplyDetailsTo(PK8 pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
     {
         var rng = new Xoroshiro128Plus(seed);
@@ -152,17 +178,16 @@ public static class RaidRNG
 
         uint pid;
         bool isShiny;
-        if (shiny == Shiny.Random) // let's decide if it's shiny or not!
         {
             var trID = (uint)rng.NextInt();
             pid = (uint)rng.NextInt();
-            isShiny = GetShinyXor(pid, trID) < 16;
-        }
-        else
-        {
-            // no need to calculate a fake trainer
-            pid = (uint)rng.NextInt();
-            isShiny = shiny == Shiny.Always;
+            var xor = GetShinyXor(pid, trID);
+            isShiny = xor < 16;
+            if (isShiny && shiny == Shiny.Never)
+            {
+                ForceShinyState(false, ref pid, trID);
+                isShiny = false;
+            }
         }
 
         if (isShiny)

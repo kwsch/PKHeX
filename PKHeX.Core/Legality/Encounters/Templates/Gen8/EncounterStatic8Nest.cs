@@ -226,6 +226,13 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     #endregion
 
     #region RNG Matching
+    /// <summary>
+    /// Checks if the raid seed is valid for the given criteria.
+    /// </summary>
+    /// <param name="pk">Entity to check</param>
+    /// <param name="seed">Seed that generated the entity</param>
+    /// <param name="forceNoShiny">Down-level specific override to force no shiny via special handling.</param>
+    /// <returns>True if the seed is valid for the criteria.</returns>
     public bool Verify(PKM pk, ulong seed, bool forceNoShiny = false)
     {
         var ratio = RemapGenderToParam(Gender);

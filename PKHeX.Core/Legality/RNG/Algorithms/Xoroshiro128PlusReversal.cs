@@ -6,8 +6,20 @@ using static PKHeX.Core.Xoroshiro128Plus;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Reversal logic for consecutive <see cref="Xoroshiro128Plus.Next()"/> calls.
+/// </summary>
 public static class Xoroshiro128PlusReversal
 {
+    /// <summary>
+    /// Reverses two consecutive <see cref="Xoroshiro128Plus.Next()"/> calls (low 32-bits) to get the original 64-bit seed.
+    /// </summary>
+    /// <param name="seed">Resulting seed</param>
+    /// <param name="out1">First output, low 32-bits</param>
+    /// <param name="out2">Second output, low 32-bits</param>
+    /// <param name="assume1">Carry bit</param>
+    /// <param name="assume2">Brute-forced guess of bits 32-37</param>
+    /// <returns>True if a satisfactory seed was found, false otherwise.</returns>
     public static bool Explore(out ulong seed, uint out1, uint out2, ulong assume1, ulong assume2)
     {
         seed = 0;
@@ -50,6 +62,16 @@ public static class Xoroshiro128PlusReversal
         return true;
     }
 
+    /// <summary>
+    /// Reverses two consecutive <see cref="Xoroshiro128Plus.Next()"/> calls (low 32-bits) with an unknown result in between to get the original 64-bit seed.
+    /// </summary>
+    /// <param name="seed">Resulting seed</param>
+    /// <param name="out1">First output, low 32-bits</param>
+    /// <param name="out2">Second output, low 32-bits</param>
+    /// <param name="assume1">Carry bit</param>
+    /// <param name="assume2">Brute-forced guess of bits 32-36</param>
+    /// <param name="assume3">Brute-forced guess of bits 48-53</param>
+    /// <returns>True if a satisfactory seed was found, false otherwise.</returns>
     public static bool ExploreDouble(out ulong seed, uint out1, uint out2, ulong assume1, ulong assume2, ulong assume3)
     {
         seed = 0;
@@ -101,6 +123,15 @@ public static class Xoroshiro128PlusReversal
     }
 }
 
+/// <summary>
+/// Provides enumeration of all possible seeds that can generate the given output of two consecutive 32-bit results.
+/// </summary>
+/// <param name="First">First 32-bit result</param>
+/// <param name="Second">Second 32-bit result</param>
+/// <remarks>
+/// State machine implementation as we normally don't need to know all results.
+/// Only one result seed will be useful in verifying all remaining rand() calls.
+/// </remarks>
 public record struct XoroMachineConsecutive(uint First, uint Second) : IEnumerator<ulong>
 {
     public readonly ulong Current => seed;
@@ -123,12 +154,22 @@ public record struct XoroMachineConsecutive(uint First, uint Second) : IEnumerat
         return false;
     }
 
+    // IEnumerator Implementation -- used for foreach syntax sugar inlining
     public void Reset() => assume1 = carry = 0;
     readonly object IEnumerator.Current => Current;
     public readonly void Dispose() { }
-    public readonly IEnumerator <ulong> GetEnumerator() => this;
+    public readonly IEnumerator<ulong> GetEnumerator() => this;
 }
 
+/// <summary>
+/// Provides enumeration of all possible seeds that can generate the given output of two consecutive 32-bit results with an unknown result in-between the first and third result.
+/// </summary>
+/// <param name="First">First 32-bit result</param>
+/// <param name="Third">Third 32-bit result</param>
+/// <remarks>
+/// State machine implementation as we normally don't need to know all results.
+/// Only one result seed will be useful in verifying all remaining rand() calls.
+/// </remarks>
 public record struct XoroMachineSkip(uint First, uint Third) : IEnumerator<ulong>
 {
     public readonly ulong Current => seed;
@@ -156,6 +197,7 @@ public record struct XoroMachineSkip(uint First, uint Third) : IEnumerator<ulong
         return false;
     }
 
+    // IEnumerator Implementation -- used for foreach syntax sugar inlining
     public void Reset() => assume1 = assume2 = carry = 0;
     readonly object IEnumerator.Current => Current;
     public readonly void Dispose() { }
