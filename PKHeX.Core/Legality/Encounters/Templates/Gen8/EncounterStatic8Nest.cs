@@ -13,8 +13,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 {
     public int Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
-    public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; }
-    public static Action<PKM, T, EncounterCriteria>? GenerateData { private get; set; }
 
     int ILocation.Location => SharedNest;
     private const ushort Location = SharedNest;
@@ -36,7 +34,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     public byte FlawlessIVCount { get; init; }
     public bool CanGigantamax { get; init; }
 
-    public string Name => "Static Encounter";
+    public abstract string Name { get; }
     public string LongName => Name;
     public virtual byte LevelMin => Level;
     public virtual byte LevelMax => Level;
@@ -69,8 +67,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             OT_Friendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = PokeSizeUtil.GetRandomScalar(),
 
             DynamaxLevel = DynamaxLevel,
             CanGigantamax = CanGigantamax,
@@ -88,39 +84,35 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     private void SetPINGA(PK8 pk, EncounterCriteria criteria)
     {
-        if (GenerateData != null)
-        {
-            GenerateData(pk, (T)this, criteria);
-            return;
-        }
+        bool requestShiny = criteria.Shiny.IsShiny();
+        bool checkShiny = requestShiny && Shiny != Shiny.Never;
+        var ratio = RemapGenderToParam(Gender);
+        var abil = RemapAbilityToParam(Ability);
+        Span<int> iv = stackalloc int[6];
 
-        var pi = pk.PersonalInfo;
-        int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
-        int ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);
-        criteria.SetRandomIVs(pk);
-        pk.StatNature = pk.Nature;
-        pk.EncryptionConstant = Util.Rand32();
-        if (Species == (int)Core.Species.Toxtricity)
+        int ctr = 0;
+        var rand = new Xoroshiro128Plus(Util.Rand.Rand64());
+        ulong seed;
+        do
         {
-            while (true)
-            {
-                var result = EvolutionMethod.GetAmpLowKeyResult(pk.Nature);
-                if (result == pk.Form)
-                    break;
-                pk.Nature = Util.Rand.Next(25);
-            }
+            seed = rand.Next();
+            ApplyDetailsTo(pk, seed, iv, abil, ratio);
 
-            // Might be originally generated with a Neutral nature, then above logic changes to another.
-            // Realign the stat nature to Serious mint.
-            if (pk.Nature != pk.StatNature && ((Nature)pk.StatNature).IsNeutral())
-                pk.StatNature = (int)Nature.Serious;
-        }
-        var pid = pk.PID;
-        RaidRNG.ForceShinyState(pk, Shiny == Shiny.Always, ref pid);
-        pk.PID = pid;
+            if (criteria.IV_ATK != 31 && pk.IV_ATK != criteria.IV_ATK)
+                continue;
+            if (criteria.IV_SPE != 31 && pk.IV_SPE != criteria.IV_SPE)
+                continue;
+            if (checkShiny && pk.IsShiny != requestShiny)
+                continue;
+            break;
+        } while (ctr++ < 100_000);
+
+        FinishCorrelation(pk, seed);
+        if ((byte)criteria.Nature != pk.Nature && criteria.Nature.IsMint())
+            pk.StatNature = (byte)criteria.Nature;
     }
+
+    protected virtual void FinishCorrelation(PK8 pk, ulong seed) { }
 
     #endregion
 
@@ -135,9 +127,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             return false; // H
 
         if (Version != GameVersion.SWSH && pk.Version != (int)Version && pk.Met_Location != SharedNest)
-            return false;
-
-        if (VerifyCorrelation != null && !VerifyCorrelation(pk, (T)this))
             return false;
 
         if (pk is IRibbonSetMark8 { HasMarkEncounter8: true })
@@ -221,6 +210,9 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (pk is { AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))
             return true;
 
+        if (!IsMatchCorrelation(pk))
+            return true;
+
         switch (Shiny)
         {
             case Shiny.Never when pk.IsShiny:
@@ -230,6 +222,81 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
         return false;
     }
+
+    #endregion
+
+    #region RNG Matching
+    /// <summary>
+    /// Checks if the raid seed is valid for the given criteria.
+    /// </summary>
+    /// <param name="pk">Entity to check</param>
+    /// <param name="seed">Seed that generated the entity</param>
+    /// <param name="forceNoShiny">Down-level specific override to force no shiny via special handling.</param>
+    /// <returns>True if the seed is valid for the criteria.</returns>
+    public bool Verify(PKM pk, ulong seed, bool forceNoShiny = false)
+    {
+        var ratio = RemapGenderToParam(Gender);
+        var abil = RemapAbilityToParam(Ability);
+
+        Span<int> iv = stackalloc int[6];
+        LoadIVs(iv);
+        return RaidRNG.Verify(pk, seed, iv, Species, FlawlessIVCount, abil, ratio, forceNoShiny: forceNoShiny);
+    }
+
+    private void ApplyDetailsTo(PK8 pk, ulong seed, Span<int> iv, byte abil, byte ratio)
+    {
+        LoadIVs(iv);
+        RaidRNG.ApplyDetailsTo(pk, seed, iv, Species, FlawlessIVCount, abil, ratio);
+    }
+
+    private void LoadIVs(Span<int> span)
+    {
+        // Template stores with speed in middle (standard), convert for generator purpose.
+        var ivs = IVs;
+        if (ivs.IsSpecified)
+            ivs.CopyToSpeedLast(span);
+        else
+            span.Fill(-1);
+    }
+
+    private byte RemapGenderToParam(sbyte gender) => gender switch
+    {
+        0 => PersonalInfo.RatioMagicMale,
+        1 => PersonalInfo.RatioMagicFemale,
+        2 => PersonalInfo.RatioMagicGenderless,
+        _ => PersonalTable.SWSH.GetFormEntry(Species, Form).Gender,
+    };
+
+    private static byte RemapAbilityToParam(AbilityPermission a) => a switch
+    {
+        Any12H => 254,
+        Any12 => 255,
+        _ => a.GetSingleValue(),
+    };
+
+    private bool IsMatchCorrelation(PKM pk)
+    {
+        if (pk.IsShiny)
+            return true;
+
+        var ec = pk.EncryptionConstant;
+        var pid = pk.PID;
+        var seeds = new XoroMachineSkip(ec, pid);
+        foreach (var seed in seeds)
+        {
+            if (IsMatchSeed(pk, seed))
+                return true;
+        }
+        seeds = new XoroMachineSkip(ec, pid ^ 0x1000_0000);
+        foreach (var seed in seeds)
+        {
+            if (IsMatchSeed(pk, seed))
+                return true;
+        }
+        return false;
+    }
+
+    protected virtual bool IsMatchSeed(PKM pk, ulong seed) => Verify(pk, seed);
 
     #endregion
 }

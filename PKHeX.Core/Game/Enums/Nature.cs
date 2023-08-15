@@ -56,6 +56,11 @@ public static class NatureUtil
     public static bool IsFixed(this Nature value) => value is >= 0 and < Nature.Random;
 
     /// <summary>
+    /// Checks if the provided <see cref="value"/> is a possible mint nature.
+    /// </summary>
+    public static bool IsMint(this Nature value) => (value.IsFixed() && (byte)value % 6 != 0) || value == Nature.Serious;
+
+    /// <summary>
     /// Checks if the provided <see cref="value"/> is a neutral nature which has no stat amps applied.
     /// </summary>
     public static bool IsNeutral(this Nature value) => value.IsFixed() && (byte)value % 6 == 0;

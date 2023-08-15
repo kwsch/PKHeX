@@ -15,6 +15,17 @@ public class RaidTests
         byte[] data = raw.ToByteArray();
         var pk8 = new PK8(data);
 
+        bool found = false;
+        var seeds = new XoroMachineSkip(pk8.EncryptionConstant, pk8.PID);
+        foreach (var s in seeds)
+        {
+            if (s != seed)
+                continue;
+            found = true;
+            break;
+        }
+        found.Should().BeTrue();
+
         var la = new LegalityAnalysis(pk8);
         var enc = la.EncounterMatch;
 
@@ -23,6 +34,7 @@ public class RaidTests
             EncounterStatic8N r => r.Verify(pk8, seed),
             EncounterStatic8ND r => r.Verify(pk8, seed),
             EncounterStatic8NC r => r.Verify(pk8, seed),
+            EncounterStatic8U r => r.Verify(pk8, seed),
             _ => throw new ArgumentException(nameof(enc)),
         };
         compare.Should().BeTrue();

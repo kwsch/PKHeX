@@ -12,6 +12,7 @@ public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
 {
     int ILocation.Location => MaxLair;
     private const ushort Location = MaxLair;
+    public override string Name => "Max Lair Encounter";
 
     public EncounterStatic8U(ushort species, byte form, byte level) : base(GameVersion.SWSH) // no difference in met location for hosted raids
     {

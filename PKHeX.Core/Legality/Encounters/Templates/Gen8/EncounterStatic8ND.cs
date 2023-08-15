@@ -14,6 +14,7 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
     /// Distribution raid index for <see cref="GameVersion.SWSH"/>
     /// </summary>
     public byte Index { get; }
+    public override string Name => "Distribution Raid Den Encounter";
 
     public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, byte index, GameVersion game) : base(game)
     {
@@ -98,5 +99,11 @@ public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8N
             >= IndexMinDLC1 => EncounterArea8.IsWildArea8(loc) || EncounterArea8.IsWildArea8Armor(loc),
             _ => EncounterArea8.IsWildArea8(loc),
         };
+    }
+
+    protected override bool IsMatchSeed(PKM pk, ulong seed)
+    {
+        bool IsDownleveled = pk.Met_Level < Level;
+        return Verify(pk, seed, IsDownleveled);
     }
 }

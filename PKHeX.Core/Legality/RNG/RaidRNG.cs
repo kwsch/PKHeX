@@ -8,49 +8,20 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RaidRNG
 {
-    public static bool Verify<T>(this T raid, PK8 pk8, ulong seed) where T: EncounterStatic8Nest<T>
-    {
-        var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
-        var ratio = pi.Gender;
-        var abil = RemapAbilityToParam(raid.Ability);
-
-        Span<int> IVs = stackalloc int[6];
-        LoadIVs(raid, IVs);
-        return Verify(pk8, seed, IVs, raid.Species, raid.FlawlessIVCount, abil, ratio);
-    }
-
-    public static void ApplyDetailsTo<T>(this T raid, PK8 pk8, ulong seed) where T : EncounterStatic8Nest<T>
-    {
-        // Ensure the species-form is set correctly (nature)
-        pk8.Species = raid.Species;
-        pk8.Form = raid.Form;
-        var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
-        var ratio = pi.Gender;
-        var abil = RemapAbilityToParam(raid.Ability);
-
-        Span<int> IVs = stackalloc int[6];
-        LoadIVs(raid, IVs);
-        ApplyDetailsTo(pk8, seed, IVs, raid.Species, raid.FlawlessIVCount, abil, ratio);
-    }
-
-    private static void LoadIVs<T>(T raid, Span<int> span) where T : EncounterStatic8Nest<T>
-    {
-        // Template stores with speed in middle (standard), convert for generator purpose.
-        var ivs = raid.IVs;
-        if (ivs.IsSpecified)
-            ivs.CopyToSpeedLast(span);
-        else
-            span.Fill(-1);
-    }
-
-    private static byte RemapAbilityToParam(AbilityPermission a) => a switch
-    {
-        AbilityPermission.Any12H => 254,
-        AbilityPermission.Any12  => 255,
-        _ => a.GetSingleValue(),
-    };
-
-    private static bool Verify(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    /// <summary>
+    /// Verify a Raid Seed against a PKM.
+    /// </summary>
+    /// <param name="pk">Entity to verify against</param>
+    /// <param name="seed">Seed that generated the entity</param>
+    /// <param name="ivs">Buffer of IVs (potentially with already specified values)</param>
+    /// <param name="species">Species of the entity</param>
+    /// <param name="iv_count">Number of flawless IVs to generate</param>
+    /// <param name="ability_param">Ability to generate</param>
+    /// <param name="gender_ratio">Gender distribution to generate</param>
+    /// <param name="nature_param">Nature to generate</param>
+    /// <param name="forceNoShiny">Force the entity to be non-shiny via special handling</param>
+    /// <returns>True if the seed matches the entity</returns>
+    public static bool Verify(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, bool forceNoShiny = false)
     {
         var rng = new Xoroshiro128Plus(seed);
         var ec = (uint)rng.NextInt();
@@ -59,20 +30,19 @@ public static class RaidRNG
 
         uint pid;
         bool isShiny;
-        if (shiny == Shiny.Random) // let's decide if it's shiny or not!
         {
             var trID = (uint)rng.NextInt();
             pid = (uint)rng.NextInt();
-            isShiny = GetShinyXor(pid, trID) < 16;
-        }
-        else
-        {
-            // no need to calculate a fake trainer
-            pid = (uint)rng.NextInt();
-            isShiny = shiny == Shiny.Always;
+            var xor = GetShinyXor(pid, trID);
+            isShiny = xor < 16;
+            if (isShiny && forceNoShiny)
+            {
+                ForceShinyState(false, ref pid, trID);
+                isShiny = false;
+            }
         }
 
-        ForceShinyState(pk, isShiny, ref pid);
+        ForceShinyState(isShiny, ref pid, pk.ID32);
 
         if (pk.PID != pid)
             return false;
@@ -117,18 +87,18 @@ public static class RaidRNG
         var current = pk.AbilityNumber;
         if (abil == 4)
         {
-            if (current != 4)
+            if (current != 4 && pk is PK8)
                 return false;
         }
         // else, for things that were made Hidden Ability, defer to Ability Checks (Ability Patch)
 
         switch (gender_ratio)
         {
-            case PersonalInfo.RatioMagicGenderless when pk.Gender != 2:
+            case PersonalInfo.RatioMagicGenderless:
                 if (pk.Gender != 2)
                     return false;
                 break;
-            case PersonalInfo.RatioMagicFemale when pk.Gender != 1:
+            case PersonalInfo.RatioMagicFemale:
                 if (pk.Gender != 1)
                     return false;
                 break;
@@ -137,8 +107,8 @@ public static class RaidRNG
                     return false;
                 break;
             default:
-                var gender = (int)rng.NextInt(252) + 1 < gender_ratio ? 1 : 0;
-                if (pk.Gender != gender)
+                var gender = (int)rng.NextInt(253) + 1 < gender_ratio ? 1 : 0;
+                if (pk.Gender != gender && pk.Gender != 2) // allow Nincada(0/1)->Shedinja(2)
                     return false;
                 break;
         }
@@ -174,38 +144,50 @@ public static class RaidRNG
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ForceShinyState(PKM pk, bool isShiny, ref uint pid)
+    private static void ForceShinyState(bool isShiny, ref uint pid, uint tid)
     {
         if (isShiny)
         {
-            if (!GetIsShiny(pk.ID32, pid))
-                pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
+            if (!GetIsShiny(tid, pid))
+                pid = GetShinyPID((ushort)(tid & 0xFFFFu), (ushort)(tid >> 16), pid, 0);
         }
         else
         {
-            if (GetIsShiny(pk.ID32, pid))
+            if (GetIsShiny(tid, pid))
                 pid ^= 0x1000_0000;
         }
     }
 
-    private static bool ApplyDetailsTo(PKM pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
+    /// <summary>
+    /// Apply the details to the PKM
+    /// </summary>
+    /// <param name="pk">Entity to verify against</param>
+    /// <param name="seed">Seed that generated the entity</param>
+    /// <param name="ivs">Buffer of IVs (potentially with already specified values)</param>
+    /// <param name="species">Species of the entity</param>
+    /// <param name="iv_count">Number of flawless IVs to generate</param>
+    /// <param name="ability_param">Ability to generate</param>
+    /// <param name="gender_ratio">Gender distribution to generate</param>
+    /// <param name="nature_param">Nature to generate</param>
+    /// <param name="shiny">Shiny state to generate</param>
+    /// <returns>True if the seed matches the entity</returns>
+    public static bool ApplyDetailsTo(PK8 pk, ulong seed, Span<int> ivs, ushort species, byte iv_count, byte ability_param, byte gender_ratio, sbyte nature_param = -1, Shiny shiny = Shiny.Random)
     {
         var rng = new Xoroshiro128Plus(seed);
         pk.EncryptionConstant = (uint)rng.NextInt();
 
         uint pid;
         bool isShiny;
-        if (shiny == Shiny.Random) // let's decide if it's shiny or not!
         {
             var trID = (uint)rng.NextInt();
             pid = (uint)rng.NextInt();
-            isShiny = GetShinyXor(pid, trID) < 16;
-        }
-        else
-        {
-            // no need to calculate a fake trainer
-            pid = (uint)rng.NextInt();
-            isShiny = shiny == Shiny.Always;
+            var xor = GetShinyXor(pid, trID);
+            isShiny = xor < 16;
+            if (isShiny && shiny == Shiny.Never)
+            {
+                ForceShinyState(false, ref pid, trID);
+                isShiny = false;
+            }
         }
 
         if (isShiny)
@@ -257,7 +239,7 @@ public static class RaidRNG
             PersonalInfo.RatioMagicGenderless => 2,
             PersonalInfo.RatioMagicFemale => 1,
             PersonalInfo.RatioMagicMale => 0,
-            _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0,
+            _ => (int) rng.NextInt(253) + 1 < gender_ratio ? 1 : 0,
         };
 
         int nature = nature_param != -1 ? nature_param
@@ -267,13 +249,10 @@ public static class RaidRNG
 
         pk.StatNature = pk.Nature = nature;
 
-        if (pk is IScaledSize s)
-        {
-            var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-            var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
-            s.HeightScalar = (byte)height;
-            s.WeightScalar = (byte)weight;
-        }
+        var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
+        var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
+        pk.HeightScalar = (byte)height;
+        pk.WeightScalar = (byte)weight;
 
         return true;
     }

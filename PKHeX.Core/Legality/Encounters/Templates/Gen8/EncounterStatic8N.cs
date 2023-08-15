@@ -13,6 +13,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     private readonly byte MinRank;
     private readonly byte MaxRank;
     private readonly byte NestID;
+    public override string Name => "Stock Raid Den Encounter";
 
     private byte[] NestLocations => Encounters8Nest.NestLocations[NestID];
 
@@ -91,7 +92,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
         // native down-levels: only allow 1 rank down (1 badge 2star -> 25), (3badge 3star -> 35)
         return ((MinRank <= 1 && 1 <= MaxRank && met == 25)
-                || (MinRank <= 2 && 2 <= MaxRank && met == 35)) && !pk.IsShiny;
+             || (MinRank <= 2 && 2 <= MaxRank && met == 35)) && !pk.IsShiny;
     }
 
     protected override bool IsMatchLocation(PKM pk)
@@ -102,5 +103,57 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         if (loc > byte.MaxValue)
             return false;
         return Array.IndexOf(NestLocations, (byte)loc) >= 0;
+    }
+
+    protected override bool IsMatchSeed(PKM pk, ulong seed)
+    {
+        var rand = new Xoroshiro128Plus(seed);
+        var levelDelta = (int)rand.NextInt(6);
+        var met = pk.Met_Level;
+        for (int i = MaxRank; i >= MinRank; i--)
+        {
+            // check for dmax level
+            // 5 star uses rand(3), otherwise rand(2)
+            // some raids can be 5 star and below, so check for both possibilities
+            if (pk is IDynamaxLevelReadOnly r)
+            {
+                var current = r.DynamaxLevel;
+                int expectD = GetInitialDynamaxLevel(rand, i);
+                if (expectD > current)
+                    continue;
+            }
+            var levelMin = LevelCaps[i * 2];
+            var expect = levelMin + levelDelta;
+            if (expect == met)
+                return Verify(pk, seed);
+
+            // Check for down-leveled
+            if (met > levelMin)
+                break;
+
+            if (IsDownLeveled(pk, met - 15, met))
+                return Verify(pk, seed, true);
+        }
+        return false;
+    }
+
+    private static byte GetInitialDynamaxLevel(Xoroshiro128Plus rand, int rank)
+    {
+        var baseValue = rank == 4 ? 6 : (rank + 1);
+        var deltaRange = rank == 4 ? 3u : 2u;
+        var boost = (int)rand.NextInt(deltaRange);
+        return (byte)(baseValue + boost);
+    }
+
+    protected override void FinishCorrelation(PK8 pk, ulong seed)
+    {
+        var xoro = new Xoroshiro128Plus(seed);
+        var levelDelta = (int)xoro.NextInt(6);
+
+        var levelMin = LevelCaps[MinRank * 2];
+        var level = levelMin + levelDelta;
+        pk.Met_Level = (byte)level;
+        pk.CurrentLevel = (byte)level;
+        pk.DynamaxLevel = GetInitialDynamaxLevel(xoro, MinRank);
     }
 }
