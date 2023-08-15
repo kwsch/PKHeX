@@ -86,8 +86,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     {
         bool requestShiny = criteria.Shiny.IsShiny();
         bool checkShiny = requestShiny && Shiny != Shiny.Never;
-        var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
-        var ratio = pi.Gender;
+        var ratio = RemapGenderToParam(Gender);
         var abil = RemapAbilityToParam(Ability);
         Span<int> iv = stackalloc int[6];
 
@@ -229,8 +228,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     #region RNG Matching
     public bool Verify(PKM pk, ulong seed, bool forceNoShiny = false)
     {
-        var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
-        var ratio = pi.Gender;
+        var ratio = RemapGenderToParam(Gender);
         var abil = RemapAbilityToParam(Ability);
 
         Span<int> iv = stackalloc int[6];
@@ -253,6 +251,14 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         else
             span.Fill(-1);
     }
+
+    private byte RemapGenderToParam(sbyte gender) => gender switch
+    {
+        0 => PersonalInfo.RatioMagicMale,
+        1 => PersonalInfo.RatioMagicFemale,
+        2 => PersonalInfo.RatioMagicGenderless,
+        _ => PersonalTable.SWSH.GetFormEntry(Species, Form).Gender,
+    };
 
     private static byte RemapAbilityToParam(AbilityPermission a) => a switch
     {
