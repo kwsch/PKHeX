@@ -143,7 +143,7 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
 
     #region eBerry
     private const int OFFSET_EBERRY = 0x30EC;
-    private const int SIZE_EBERRY = 0x134;
+    private const int SIZE_EBERRY = 0x34;
 
     public override byte[] GetEReaderBerry() => Large.Slice(OFFSET_EBERRY, SIZE_EBERRY);
     public override void SetEReaderBerry(ReadOnlySpan<byte> data) => data.CopyTo(Large.AsSpan(OFFSET_EBERRY));
