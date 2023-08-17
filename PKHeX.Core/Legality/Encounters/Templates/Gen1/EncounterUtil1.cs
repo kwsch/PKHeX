@@ -27,7 +27,7 @@ public static class EncounterUtil1
     {
         Span<ushort> moves = stackalloc ushort[4];
         var source = GameData.GetLearnSource(version);
-        source.SetEncounterMoves(pk.Species, 0, level, moves);
+        source.SetEncounterMoves(pk.Species, pk.Form, level, moves);
         pk.SetMoves(moves);
     }
 

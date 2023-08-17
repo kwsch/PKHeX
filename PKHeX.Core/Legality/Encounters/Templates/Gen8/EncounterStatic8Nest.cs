@@ -53,6 +53,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         var pk = new PK8
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Met_Location = GetLocation(),
             Met_Level = Level,

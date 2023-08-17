@@ -71,6 +71,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
         {
             PID = Util.Rand32(),
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Met_Location = Location,
             Met_Level = Level,

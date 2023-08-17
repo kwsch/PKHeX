@@ -39,6 +39,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
         var pk = new PB7
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = LevelMin,
             OT_Friendship = PersonalTable.GG[Species, Form].BaseFriendship,
             Met_Location = Location,

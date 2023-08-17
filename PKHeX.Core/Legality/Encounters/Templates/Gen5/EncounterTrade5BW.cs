@@ -72,6 +72,7 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
         {
             PID = PID,
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Met_Location = Location,
             Met_Level = Level,

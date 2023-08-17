@@ -46,6 +46,7 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
             PID = Util.Rand32(),
             EncryptionConstant = Util.Rand32(),
             Species = Species,
+            Form = Form,
             CurrentLevel = LevelMin,
             OT_Friendship = PersonalTable.GG[Species].BaseFriendship,
             Met_Location = Location,

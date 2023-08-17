@@ -37,6 +37,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
         var pk = new PK5
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Met_Location = Location,
             Met_Level = Level,

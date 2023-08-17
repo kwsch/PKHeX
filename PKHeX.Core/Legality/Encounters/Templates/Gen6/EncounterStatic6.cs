@@ -56,6 +56,7 @@ public sealed record EncounterStatic6(GameVersion Version)
         {
             EncryptionConstant = Util.Rand32(),
             Species = Species,
+            Form = Form,
             CurrentLevel = LevelMin,
             Met_Location = Location,
             Met_Level = LevelMin,

@@ -33,6 +33,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
         var pk = new PK5
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = LevelMin,
             Met_Location = Location,
             Met_Level = LevelMin,

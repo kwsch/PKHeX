@@ -66,6 +66,7 @@ public sealed record EncounterTrade9
         var pk = new PK9
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Met_Location = Location,
             Met_Level = Level,

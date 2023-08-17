@@ -77,6 +77,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         var pk = new PK8
         {
             Species = Species,
+            Form = Form,
             CurrentLevel = Level,
             Met_Location = Location,
             Met_Level = Level,
@@ -112,22 +113,22 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         if (Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
             pk.CurrentLevel = pk.Met_Level = EncounterArea8.BoostLevel;
 
+        var pi = PersonalTable.SWSH[Species, Form];
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
+        pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
+        pk.Gender = criteria.GetGender(-1, pi);
+
         var req = GetRequirement(pk);
         if (req != MustHave)
         {
-            var pi = PersonalTable.SWSH[Species, Form];
             var rand = Util.Rand;
             pk.EncryptionConstant = rand.Rand32();
             pk.PID = rand.Rand32();
             criteria.SetRandomIVs(pk);
-            pk.Gender = criteria.GetGender(-1, pi);
-            pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
-            pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
             return;
         }
         var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
         Overworld8RNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount);
-        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
     }
 
     #endregion
