@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -21,10 +22,9 @@ public sealed class CGearBackground
 
     internal const int CountTilePool = 0xFF;
     private const int LengthTilePool = CountTilePool * Tile.SIZE_TILE; // 0x1FE0
-    private const int CountColors = 0x10;
-    private const int LengthColorData = CountColors * 2; // 0x20
+    private const int LengthColorData = ColorCount * sizeof(ushort); // 0x20
     private const int OffsetTileMap = LengthTilePool + LengthColorData; // 0x2000
-    private const int LengthTileMap = TileCount * 2; // 0x600
+    private const int LengthTileMap = TileCount * sizeof(ushort); // 0x600
 
     public const int SIZE_CGB = OffsetTileMap + LengthTileMap; // 0x2600
 
@@ -120,18 +120,32 @@ public sealed class CGearBackground
 
     private static int[] ReadColorPalette(ReadOnlySpan<byte> data)
     {
-        var result = new int[data.Length / 2];
-        for (int i = 0; i < result.Length; i++)
-            result[i] = Color15Bit.GetRGB555_16(ReadUInt16LittleEndian(data[(i * 2)..]));
-        return result;
+        var colors = new int[data.Length / 2]; // u16->rgb32
+        ReadColorPalette(data, colors);
+        return colors;
+    }
+
+    private static void ReadColorPalette(ReadOnlySpan<byte> data, Span<int> colors)
+    {
+        var buffer = MemoryMarshal.Cast<byte, ushort>(data)[..colors.Length];
+        for (int i = 0; i < colors.Length; i++)
+        {
+            var value = buffer[i];
+            if (!BitConverter.IsLittleEndian)
+                value = ReverseEndianness(value);
+            colors[i] = Color15Bit.GetColorExpand(value);
+        }
     }
 
     private static void WriteColorPalette(Span<byte> data, ReadOnlySpan<int> colors)
     {
+        var buffer = MemoryMarshal.Cast<byte, ushort>(data)[..colors.Length];
         for (int i = 0; i < colors.Length; i++)
         {
-            var value = Color15Bit.GetRGB555(colors[i]);
-            WriteUInt16LittleEndian(data[(i * 2)..], value);
+            var value = Color15Bit.GetColorCompress(colors[i]);
+            if (!BitConverter.IsLittleEndian)
+                value = ReverseEndianness(value);
+            buffer[i] = value;
         }
     }
 
@@ -169,7 +183,7 @@ public sealed class CGearBackground
             var pixel = pixels[i];
             if (!BitConverter.IsLittleEndian)
                 pixel = ReverseEndianness(pixel);
-            colors[i] = Color15Bit.GetRGB555_32(pixel);
+            colors[i] = Color15Bit.GetColorAsOpaque(pixel);
         }
         return colors;
     }
@@ -242,24 +256,34 @@ public sealed class CGearBackground
 
     private void WriteImageData(Span<byte> data)
     {
-        for (int i = 0; i < Map.TileChoices.Length; i++)
+        var tiles = Map.TileChoices;
+        var rotations = Map.Rotations;
+        for (int i = 0; i < tiles.Length; i++)
         {
-            int x = (i * 8) % Width;
-            int y = 8 * ((i * 8) / Width);
-            var choice = Map.TileChoices[i] % (Tiles.Length + 1);
+            var choice = tiles[i];
+            var rotation = rotations[i];
             var tile = Tiles[choice];
-            var tileData = tile.Rotate(Map.Rotations[i]);
-            for (int iy = 0; iy < 8; iy++)
+            var tileData = tile.Rotate(rotation);
+
+            int x = (i * TileSize) % Width;
+            int y = TileSize * ((i * TileSize) / Width);
+
+            for (int row = 0; row < TileSize; row++)
             {
-                const int size = 4 * 8;
-                int src = iy * size;
-                int dest = (((y + iy) * Width) + x) * 4;
-                tileData.Slice(src, size).CopyTo(data.Slice(dest, size));
+                const int pixelLineSize = TileSize * sizeof(int);
+                int ofsSrc = row * pixelLineSize;
+                int ofsDest = (((y + row) * Width) + x) * sizeof(int);
+                var line = tileData.Slice(ofsSrc, pixelLineSize);
+                line.CopyTo(data[ofsDest..]);
             }
         }
     }
 }
 
+/// <summary>
+/// Generation 5 image tile composed of 8x8 pixels.
+/// </summary>
+/// <remarks>Each pixel's color choice is a nibble (4 bits).</remarks>
 public sealed class Tile
 {
     internal const int SIZE_TILE = 0x20;
@@ -268,9 +292,16 @@ public sealed class Tile
     internal readonly byte[] ColorChoices = new byte[TileWidth * TileHeight];
 
     // Keep track of known rotations for this tile.
+    // If the tile's rotated value has not yet been calculated, the field is null.
     private byte[] PixelData = Array.Empty<byte>();
     private byte[]? PixelDataX;
     private byte[]? PixelDataY;
+
+    private const byte FlagFlipX = 0b0100; // 0x4
+    private const byte FlagFlipY = 0b1000; // 0x8
+    private const byte FlagFlipXY = FlagFlipX | FlagFlipY; // 0xC
+    private const byte FlagFlipNone = 0b0000; // 0x0
+    internal const byte ROTATION_BAD = byte.MaxValue;
 
     internal Tile() { }
 
@@ -316,7 +347,9 @@ public sealed class Tile
         for (int i = 0; i < data.Length; i++)
         {
             var span = colorChoices.Slice(i * 2, 2);
-            data[i] = (byte)((span[0] & 0xF) | ((span[1] & 0xF) << 4));
+            var second = span[1] & 0xF;
+            var first = span[0] & 0xF;
+            data[i] = (byte)(first | (second << 4));
         }
     }
 
@@ -324,80 +357,76 @@ public sealed class Tile
     {
         if (rotFlip == 0)
             return PixelData;
-        if ((rotFlip & 4) > 0)
+        if ((rotFlip & FlagFlipXY) == FlagFlipXY)
+            return FlipY(PixelDataX ??= FlipX(PixelData, TileWidth), TileHeight);
+        if ((rotFlip & FlagFlipX) == FlagFlipX)
             return PixelDataX ??= FlipX(PixelData, TileWidth);
-        if ((rotFlip & 8) > 0)
+        if ((rotFlip & FlagFlipY) == FlagFlipY)
             return PixelDataY ??= FlipY(PixelData, TileHeight);
         return PixelData;
     }
 
-    private static byte[] FlipX(ReadOnlySpan<byte> data, int width, int bpp = 4)
+    private static byte[] FlipX(ReadOnlySpan<byte> data, [ConstantExpected] int width, [ConstantExpected] int bpp = 4)
     {
         byte[] result = new byte[data.Length];
-        Result(data, result, width, bpp);
+        FlipX(data, result, width, bpp);
         return result;
     }
 
-    private static byte[] FlipY(ReadOnlySpan<byte> data, int height, int bpp = 4)
+    private static byte[] FlipY(ReadOnlySpan<byte> data, [ConstantExpected] int height, [ConstantExpected] int bpp = 4)
     {
         byte[] result = new byte[data.Length];
         FlipY(data, result, height, bpp);
         return result;
     }
 
-    private static void Result(ReadOnlySpan<byte> data, Span<byte> result, int width, int bpp)
+    private static void FlipX(ReadOnlySpan<byte> data, Span<byte> result, [ConstantExpected] int width, [ConstantExpected] int bpp)
     {
         int pixels = data.Length / bpp;
+        var resultInt = MemoryMarshal.Cast<byte, int>(result);
+        var dataInt = MemoryMarshal.Cast<byte, int>(data);
         for (int i = 0; i < pixels; i++)
         {
             int x = i % width;
             int y = i / width;
 
             x = width - x - 1; // flip x
-            int dest = ((y * width) + x) * bpp;
 
-            var o = i * bpp;
-            result[dest + 0] = data[o + 0];
-            result[dest + 1] = data[o + 1];
-            result[dest + 2] = data[o + 2];
-            result[dest + 3] = data[o + 3];
+            int dest = ((y * width) + x);
+            resultInt[dest] = dataInt[i];
         }
     }
 
-    private static void FlipY(ReadOnlySpan<byte> data, Span<byte> result, int height, int bpp)
+    private static void FlipY(ReadOnlySpan<byte> data, Span<byte> result, [ConstantExpected] int height, [ConstantExpected] int bpp)
     {
         int pixels = data.Length / bpp;
         int width = pixels / height;
+        var resultInt = MemoryMarshal.Cast<byte, int>(result);
+        var dataInt = MemoryMarshal.Cast<byte, int>(data);
         for (int i = 0; i < pixels; i++)
         {
             int x = i % width;
             int y = i / width;
 
-            y = height - y - 1; // flip x
-            int dest = ((y * width) + x) * bpp;
+            y = height - y - 1; // flip y
 
-            var o = i * bpp;
-            result[dest + 0] = data[o + 0];
-            result[dest + 1] = data[o + 1];
-            result[dest + 2] = data[o + 2];
-            result[dest + 3] = data[o + 3];
+            int dest = ((y * width) + x);
+            resultInt[dest] = dataInt[i];
         }
     }
-
-    internal const byte ROTATION_BAD = byte.MaxValue;
 
     internal byte GetRotationValue(ReadOnlySpan<byte> tileColors)
     {
         // Check all rotation types
         if (tileColors.SequenceEqual(ColorChoices))
-            return 0;
+            return FlagFlipNone;
 
         if (IsMirrorX(tileColors))
-            return 4;
+            return FlagFlipX;
         if (IsMirrorY(tileColors))
-            return 8;
+            return FlagFlipY;
         if (IsMirrorXY(tileColors))
-            return 12;
+            return FlagFlipXY;
 
         return ROTATION_BAD;
     }
@@ -539,13 +568,7 @@ public sealed class TileMap
 
     public static (byte Tile, byte Rotation) DecomposeValuePSK(ushort val)
     {
-        ushort value;
-        var trunc = (val & 0x3FF);
-        if (trunc is < 0xA0 or > 0x280)
-            value = (ushort)((val & 0x5C00) | 0xFF);
-        else
-            value = (ushort)(((val % 0x20) + (17 * ((trunc - 0xA0) / 0x20))) | (val & 0x5C00));
-
+        ushort value = UnmapPSKValue(val);
         byte tile = (byte)value;
         byte rot = (byte)(value >> 8);
         if (tile == CGearBackground.CountTilePool) // out of range?
@@ -553,59 +576,21 @@ public sealed class TileMap
         return (tile, rot);
     }
 
+    private static ushort UnmapPSKValue(ushort val)
+    {
+        var rot = val & 0xFC00;
+        var trunc = (val & 0x3FF);
+        if (trunc is < 0xA0 or > 0x280)
+            return (ushort)(rot | CGearBackground.CountTilePool); // default empty
+        return (ushort)(rot | ((val & 0x1F) + (17 * ((trunc - 0xA0) >> 5))));
+    }
+
     public static ushort GetPSKValue(byte tile, byte rot)
     {
         if (tile == CGearBackground.CountTilePool) // out of range?
             tile = 0;
 
-        var result = tile + (15 * (tile / 17)) + 0xA0A0 + rot;
+        var result = ((rot & 0x0C) << 8) | ((15 * (tile / 17)) + tile + 0xA0) | 0xA000;
         return (ushort)result;
     }
-}
-
-public static class Color15Bit
-{
-    public static int GetRGB555_32(int val) => unchecked((int)0xFF_000000) | val; // Force opaque
-
-    public static int GetRGB555_16(ushort val)
-    {
-        int R = (val >> 0) & 0x1F;
-        int G = (val >> 5) & 0x1F;
-        int B = (val >> 10) & 0x1F;
-
-        R = Convert5To8[R];
-        G = Convert5To8[G];
-        B = Convert5To8[B];
-
-        return (0xFF << 24) | (R << 16) | (G << 8) | B;
-    }
-
-    public static ushort GetRGB555(int v)
-    {
-        var R = (byte)(v >> 16);
-        var G = (byte)(v >> 8);
-        var B = (byte)(v >> 0);
-
-        int val = 0;
-        val |= Convert8to5(R) << 0;
-        val |= Convert8to5(G) << 5;
-        val |= Convert8to5(B) << 10;
-        return (ushort)val;
-    }
-
-    private static byte Convert8to5(int colorval)
-    {
-        byte i = 0;
-        while (colorval > Convert5To8[i])
-            i++;
-        return i;
-    }
-
-    private static ReadOnlySpan<byte> Convert5To8 => new byte[] // 0x20 entries
-    {
-        0x00,0x08,0x10,0x18,0x20,0x29,0x31,0x39,
-        0x41,0x4A,0x52,0x5A,0x62,0x6A,0x73,0x7B,
-        0x83,0x8B,0x94,0x9C,0xA4,0xAC,0xB4,0xBD,
-        0xC5,0xCD,0xD5,0xDE,0xE6,0xEE,0xF6,0xFF,
-    };
 }
