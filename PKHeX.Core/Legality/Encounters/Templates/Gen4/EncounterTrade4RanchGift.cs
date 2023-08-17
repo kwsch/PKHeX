@@ -95,7 +95,6 @@ public sealed record EncounterTrade4RanchGift
 
             OT_Friendship = PersonalTable.DP[Species, Form].BaseFriendship,
 
-            IsNicknamed = true,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
             HT_Name = tr.OT,
