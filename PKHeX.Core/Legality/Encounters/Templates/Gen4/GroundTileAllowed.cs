@@ -54,13 +54,12 @@ public static class GroundTileAllowedExtensions
     /// </summary>
     /// <param name="permit">Tile bit-permission value</param>
     /// <param name="value">Tile type to check.</param>
-    /// <returns></returns>
     public static bool Contains(this GroundTileAllowed permit, GroundTileType value) => (permit & (GroundTileAllowed)(1 << (int)value)) != 0;
 
     /// <summary>
-    /// Grabs the highest set bit from the tile value.
+    /// Grabs the lowest set bit from the tile value.
     /// </summary>
     /// <param name="permit">Tile bit-permission value</param>
     /// <returns>Bit index</returns>
-    public static GroundTileType GetIndex(this GroundTileAllowed permit) => (GroundTileType)System.Numerics.BitOperations.Log2((uint)permit);
+    public static GroundTileType GetIndex(this GroundTileAllowed permit) => (GroundTileType)System.Numerics.BitOperations.Log2((uint)(permit & ~(permit - 1)));
 }
