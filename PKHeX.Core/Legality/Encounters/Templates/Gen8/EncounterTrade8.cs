@@ -134,6 +134,9 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
         SetPINGA(pk, criteria);
+        if (IVs.IsSpecified)
+            criteria.SetRandomIVs(pk, IVs);
+
         pk.ResetPartyStats();
 
         return pk;
@@ -165,7 +168,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (IVs.IsSpecified)
         {
-            if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
+            if (!Legal.GetIsFixedIVSequenceValidNoRand(IVs, pk))
                 return false;
         }
         if (!IsMatchNatureGenderShiny(pk))

@@ -263,6 +263,9 @@ public sealed record EncounterMight9
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Obedience_Level = LevelMin,
             RibbonMarkMightiest = true,
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
         };
         SetPINGA(pk, criteria);
         pk.SetMoves(Moves);
