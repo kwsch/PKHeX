@@ -116,7 +116,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
 
     private static void SetPINGA(PKM pk, EncounterCriteria criteria)
     {
-        pk.SetRandomIVs(minFlawless: 3);
+        criteria.SetRandomIVs(pk, 3);
         if (pk.Format <= 2)
             return;
 
@@ -134,11 +134,10 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
         else
         {
             pk.PID = Util.Rand32();
-            pk.Nature = nature;
+            pk.Nature = pk.StatNature = nature;
             pk.Gender = gender;
             pk.RefreshAbility(Util.Rand.Next(2));
         }
-        pk.StatNature = nature;
     }
 
     private void SetMetData(PKM pk)

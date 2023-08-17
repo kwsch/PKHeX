@@ -95,7 +95,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         return pk;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PK4 pk, EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(Gender, pi);

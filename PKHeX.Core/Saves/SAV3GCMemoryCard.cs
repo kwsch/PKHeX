@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -74,7 +75,7 @@ public sealed class SAV3GCMemoryCard
     public SAV3GCMemoryCard(byte[] data) => Data = data;
 
     // Checksums
-    private (ushort Checksum, ushort Inverse) GetChecksum(int block, int offset, int length)
+    private (ushort Checksum, ushort Inverse) GetChecksum(int block, int offset, [ConstantExpected(Min = 0)] int length)
     {
         ushort csum = 0;
         ushort inv_csum = 0;

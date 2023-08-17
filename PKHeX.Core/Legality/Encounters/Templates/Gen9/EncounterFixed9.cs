@@ -121,8 +121,7 @@ public sealed record EncounterFixed9
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.StatNature = pk.Nature;
+        pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
         pk.Gender = criteria.GetGender(-1, PersonalTable.SV.GetFormEntry(Species, Form));
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 

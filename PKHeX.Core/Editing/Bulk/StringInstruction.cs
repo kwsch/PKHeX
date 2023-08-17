@@ -286,10 +286,7 @@ public sealed class StringInstruction
 
         value = tuple[(splitIndex + 1)..];
         var noExtra = value.IndexOf(SplitInstruction);
-        if (noExtra != -1)
-            return false;
-
-        return true;
+        return noExtra == -1;
     }
 
     /// <summary>

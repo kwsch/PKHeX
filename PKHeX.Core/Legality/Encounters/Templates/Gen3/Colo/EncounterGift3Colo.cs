@@ -19,6 +19,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public AbilityPermission Ability => AbilityPermission.Any12;
     public Ball FixedBall => Ball.Poke;
     public bool IsFixedTrainer => true;
+    public bool IsJapaneseBonusDisk => Version == GameVersion.R;
 
     private readonly string[] TrainerNames;
     public ushort Species { get; }
@@ -79,7 +80,12 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         return pk;
     }
 
-    private int GetTemplateLanguage(ITrainerInfo tr) => (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+    private int GetTemplateLanguage(ITrainerInfo tr)
+    {
+        if (IsJapaneseBonusDisk)
+            return 1; // Japanese
+        return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+    }
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria)
     {
@@ -143,6 +149,8 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     private bool IsMatchPartial(PKM pk)
     {
         if (pk.Ball != (byte)FixedBall)
+            return true;
+        if (IsJapaneseBonusDisk && !pk.Japanese) // Japanese Colosseum
             return true;
         return false;
     }

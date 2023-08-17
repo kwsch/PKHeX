@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -34,8 +35,8 @@ public static class ArrayUtil
         return count;
     }
 
-    public static byte[] Slice(this byte[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
-    public static T[] Slice<T>(this T[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
+    public static byte[] Slice(this byte[] src, int offset, [ConstantExpected(Min = 0)] int length) => src.AsSpan(offset, length).ToArray();
+    public static T[] Slice<T>(this T[] src, int offset, [ConstantExpected(Min = 0)] int length) => src.AsSpan(offset, length).ToArray();
 
     /// <summary>
     /// Checks the range (exclusive max) if the <see cref="value"/> is inside.

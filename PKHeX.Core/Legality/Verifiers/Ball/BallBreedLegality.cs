@@ -978,6 +978,8 @@ internal static class BallBreedLegality
 #pragma warning disable RCS1163, IDE0060 // Unused parameter.
     public static Ball GetDefaultBall(GameVersion version, ushort species)
     {
+        if (version.GetGeneration() <= 5)
+            return Ball.Poke;
         return Ball.None;
     }
 }

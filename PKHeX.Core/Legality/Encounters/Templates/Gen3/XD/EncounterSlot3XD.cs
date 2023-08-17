@@ -62,7 +62,7 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
         var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
-        int ability = criteria.GetAbilityFromNumber(0);
+        int ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
     }
 

@@ -76,7 +76,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
         return pk;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(XK3 pk, EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);

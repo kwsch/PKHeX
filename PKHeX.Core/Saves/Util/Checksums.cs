@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -102,7 +103,7 @@ public static class Checksums
     /// <param name="data">Input byte array</param>
     /// <param name="initial">Initial value for checksum</param>
     /// <returns>Checksum</returns>
-    private static ushort CRC16(ReadOnlySpan<byte> data, ushort initial)
+    private static ushort CRC16(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] ushort initial)
     {
         ushort chk = initial;
         foreach (var b in data)
@@ -122,7 +123,7 @@ public static class Checksums
     /// <param name="data">Input byte array</param>
     /// <param name="initial">Initial value for checksum</param>
     /// <returns>Checksum</returns>
-    public static ushort CheckSum32(ReadOnlySpan<byte> data, uint initial = 0)
+    public static ushort CheckSum32(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] uint initial = 0)
     {
         uint chk = initial;
         foreach (var u32 in MemoryMarshal.Cast<byte, uint>(data))
@@ -139,7 +140,7 @@ public static class Checksums
     /// <param name="data">Input byte array</param>
     /// <param name="initial">Initial value for checksum</param>
     /// <returns>Checksum</returns>
-    private static uint CRC32(ReadOnlySpan<byte> data, uint initial)
+    private static uint CRC32(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] uint initial)
     {
         uint chk = initial;
         foreach (var b in data)
@@ -159,7 +160,7 @@ public static class Checksums
     /// <param name="data">Input byte array</param>
     /// <param name="initial">Initial value for checksum</param>
     /// <returns>Checksum</returns>
-    public static ushort CheckSum16(ReadOnlySpan<byte> data, ushort initial = 0)
+    public static ushort CheckSum16(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] ushort initial = 0)
     {
         ushort acc = initial;
         foreach (byte b in data)

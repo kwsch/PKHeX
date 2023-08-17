@@ -441,7 +441,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         return pk;
     }
 
-    private void SetEggMetData(PKM pk)
+    private void SetEggMetData(PB7 pk)
     {
         pk.IsEgg = true;
         pk.EggMetDate = Date;
@@ -449,9 +449,9 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         pk.IsNicknamed = true;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
     {
-        var pi = PersonalTable.GG.GetFormEntry(Species, Form);
+        var pi = pk.PersonalInfo;
         pk.Nature = (int)criteria.GetNature((Nature)Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
         var av = GetAbilityIndex(criteria);
@@ -476,7 +476,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         _ => AbilityPermission.Any12H,
     };
 
-    private void SetPID(PKM pk)
+    private void SetPID(PB7 pk)
     {
         switch (PIDType)
         {
@@ -497,7 +497,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
         }
     }
 
-    private void SetIVs(PKM pk)
+    private void SetIVs(PB7 pk)
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);

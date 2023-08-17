@@ -188,6 +188,25 @@ public sealed record EncounterCriteria
         pk.IV_SPE = IV_SPE != RandomIV ? IV_SPE : Util.Rand.Next(32);
     }
 
+    public void SetRandomIVsGO(PKM pk, int minIV = 0, int maxIV = 15)
+    {
+        var rnd = Util.Rand;
+        pk.IV_HP =
+              IV_HP != RandomIV ? IV_HP | 1
+            : (rnd.Next(minIV, maxIV + 1) << 1) | 1; // hp
+        pk.IV_ATK = pk.IV_SPA =
+              IV_ATK != RandomIV ? IV_ATK | 1
+            : IV_SPA != RandomIV ? IV_SPA | 1
+            : (rnd.Next(minIV, maxIV + 1) << 1) | 1; // attack
+        pk.IV_DEF = pk.IV_SPD =
+              IV_DEF != RandomIV ? IV_DEF | 1
+            : IV_SPD != RandomIV ? IV_SPD | 1
+            : (rnd.Next(minIV, maxIV + 1) << 1) | 1; // defense
+        pk.IV_SPE =
+              IV_SPE != RandomIV ? IV_SPE
+            : rnd.Next(32); // speed
+    }
+
     public void SetRandomIVs(PKM pk, int flawless)
     {
         Span<int> ivs = stackalloc[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };

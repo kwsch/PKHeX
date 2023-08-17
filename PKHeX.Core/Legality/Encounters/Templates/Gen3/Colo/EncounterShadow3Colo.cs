@@ -78,7 +78,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     private int GetTemplateLanguage(ITrainerInfo tr) => EReader ? 1 : (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(CK3 pk, EncounterCriteria criteria)
     {
         if (!EReader)
             SetPINGA_Regular(pk, criteria);
@@ -86,7 +86,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
             SetPINGA_EReader(pk);
     }
 
-    private void SetPINGA_Regular(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA_Regular(CK3 pk, EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
@@ -111,11 +111,10 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
         System.Diagnostics.Debug.Assert(ctr < 100_000);
     }
 
-    private void SetPINGA_EReader(PKM pk)
+    private void SetPINGA_EReader(CK3 pk)
     {
         // E-Reader have all IVs == 0
-        for (int i = 0; i < 6; i++)
-            pk.SetIV(i, 0);
+        // Skip setting IVs.
 
         // All E-Reader shadows are actually nature/gender locked.
         var locked = PartyPrior.Span[0].Locks[^1];

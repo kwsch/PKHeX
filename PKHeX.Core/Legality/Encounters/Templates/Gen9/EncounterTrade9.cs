@@ -110,10 +110,10 @@ public sealed record EncounterTrade9
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
-        pk.StatNature = pk.Nature = (int)criteria.GetNature(Nature.Random);
+        pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
         pk.Gender = criteria.GetGender(-1, PersonalTable.SV.GetFormEntry(Species, Form));
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-        pk.SetRandomIVsTemplate(IVs, 0);
+        criteria.SetRandomIVs(pk, IVs);
     }
 
     private MoveType GetOriginalTeraType()

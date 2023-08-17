@@ -52,11 +52,11 @@ public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.Start:
                 if (Chain.Length == 0)
                     break;
+                if (!Flags.HasFlag(EncounterTypeGroup.Egg))
+                    goto case YieldState.TradeStart;
                 goto case YieldState.Bred;
 
             case YieldState.Bred:
-                if (!Flags.HasFlag(EncounterTypeGroup.Egg))
-                    goto case YieldState.TradeStart;
                 // try with specific version, for yielded metadata purposes.
                 var ver = Version is GameVersion.GD or GameVersion.SI ? Version : GameVersion.GS;
                 if (!EncounterGenerator2.TryGetEgg(Chain, ver, out var egg))

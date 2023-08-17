@@ -85,6 +85,7 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
+        criteria.SetRandomIVs(pk);
     }
     #endregion
 

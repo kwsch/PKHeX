@@ -122,10 +122,10 @@ public sealed record EncounterTrade4PID
             pk.SetMoves(Moves);
         else
             EncounterUtil1.SetEncounterMoves(pk, version, Level);
-        pk.SetRandomIVsTemplate(IVs, 0);
+        criteria.SetRandomIVs(pk, IVs);
         pk.PID = PID;
         pk.Gender = Gender;
-        pk.RefreshAbility((int)(PID % 2));
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         this.CopyContestStatsTo(pk);
         pk.ResetPartyStats();
 

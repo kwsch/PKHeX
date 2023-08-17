@@ -247,7 +247,7 @@ public static class RaidRNG
                 ? ToxtricityUtil.GetRandomNature(ref rng, pk.Form)
                 : (byte)rng.NextInt(25);
 
-        pk.StatNature = pk.Nature = nature;
+        pk.Nature = pk.StatNature = nature;
 
         var height = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);
         var weight = (int)rng.NextInt(0x81) + (int)rng.NextInt(0x80);

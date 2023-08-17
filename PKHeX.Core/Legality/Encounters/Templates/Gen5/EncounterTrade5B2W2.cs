@@ -106,7 +106,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
         pk.Nature = (int)criteria.GetNature(Nature.Random);
         pk.Gender = criteria.GetGender(-1, PersonalTable.B2W2.GetFormEntry(Species, Form));
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
-        pk.SetRandomIVsTemplate(IVs, 0);
+        criteria.SetRandomIVs(pk, IVs);
     }
 
     #endregion

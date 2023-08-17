@@ -154,8 +154,11 @@ public abstract class GBPKM : PKM
         {
             if (Species != 201) // Unown
                 return;
-            while (Form != value)
-                SetRandomIVs(0);
+            if (Form == value)
+                return;
+            var rnd = Util.Rand;
+            do DV16 = (ushort)rnd.Next();
+            while (Form != value);
         }
     }
 

@@ -2,6 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Represents a date range for an encounter.
+/// </summary>
 public interface IPogoDateRange
 {
     /// <summary> Start date the encounter became available. If zero, no date specified (unbounded start). </summary>

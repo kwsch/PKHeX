@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -133,7 +134,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         }
     }
 
-    private static int GetActiveBlock(ReadOnlySpan<byte> data, int begin, int length)
+    private static int GetActiveBlock(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] int begin, [ConstantExpected(Min = 0)] int length)
     {
         int offset = begin + length - 0x14;
         return SAV4BlockDetection.CompareFooters(data, offset, offset + PartitionSize);

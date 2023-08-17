@@ -105,8 +105,8 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
         if (pk.IsShiny)
             pk.PID ^= 0x1000_0000;
-        pk.SetRandomIVsTemplate(IVs, 0);
-        pk.RefreshAbility((byte)Ability >> 1);
+        criteria.SetRandomIVs(pk, IVs);
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         pk.ResetPartyStats();
 
         return pk;

@@ -519,7 +519,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
         return pk;
     }
 
-    private void SetEggMetData(PKM pk)
+    private void SetEggMetData(PB8 pk)
     {
         pk.IsEgg = true;
         pk.EggMetDate = EncounterDate.GetDateSwitch();
@@ -527,11 +527,10 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
         pk.IsNicknamed = false;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PB8 pk, EncounterCriteria criteria)
     {
-        var pi = PersonalTable.BDSP.GetFormEntry(Species, Form);
-        pk.Nature = (int)criteria.GetNature(Nature == -1 ? Core.Nature.Random : (Nature)Nature);
-        pk.StatNature = pk.Nature;
+        var pi = pk.PersonalInfo;
+        pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature == -1 ? Core.Nature.Random : (Nature)Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
         var av = GetAbilityIndex(criteria);
         pk.RefreshAbility(av);
@@ -588,12 +587,12 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
         return pid;
     }
 
-    private void SetPID(PKM pk)
+    private void SetPID(PB8 pk)
     {
         pk.PID = GetPID(pk, PIDType);
     }
 
-    private void SetIVs(PKM pk)
+    private void SetIVs(PB8 pk)
     {
         Span<int> finalIVs = stackalloc int[6];
         GetIVs(finalIVs);

@@ -89,7 +89,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PK4 pk, EncounterCriteria criteria)
     {
         var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(Gender, pi);
@@ -102,8 +102,7 @@ public sealed record EncounterStatic4(GameVersion Version)
             { Species: (ushort)Core.Species.Pichu } => PIDType.Pokewalker,
             _ => PIDType.Method_1,
         };
-        PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, type);
-        pk.StatNature = pk.Nature;
+        PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
     }
 
     #endregion

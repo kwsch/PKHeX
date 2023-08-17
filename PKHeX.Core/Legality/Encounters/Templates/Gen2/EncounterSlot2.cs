@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// Referenced Area object contains Time data which is used for <see cref="GameVersion.C"/> origin data.
 /// </remarks>
 public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte SlotNumber)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, INumberedSlot
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, INumberedSlot, IEncounterFormRandom
 {
     public int Generation => 2;
     public EntityContext Context => EntityContext.Gen2;
@@ -19,6 +19,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public int EggLocation => 0;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";

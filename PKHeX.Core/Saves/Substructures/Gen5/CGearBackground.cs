@@ -366,21 +366,21 @@ public sealed class Tile
         return PixelData;
     }
 
-    private static byte[] FlipX(ReadOnlySpan<byte> data, [ConstantExpected] int width, [ConstantExpected] int bpp = 4)
+    private static byte[] FlipX(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] int width, [ConstantExpected(Min = 4, Max = 4)] int bpp = 4)
     {
         byte[] result = new byte[data.Length];
         FlipX(data, result, width, bpp);
         return result;
     }
 
-    private static byte[] FlipY(ReadOnlySpan<byte> data, [ConstantExpected] int height, [ConstantExpected] int bpp = 4)
+    private static byte[] FlipY(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] int height, [ConstantExpected(Min = 4, Max = 4)] int bpp = 4)
     {
         byte[] result = new byte[data.Length];
         FlipY(data, result, height, bpp);
         return result;
     }
 
-    private static void FlipX(ReadOnlySpan<byte> data, Span<byte> result, [ConstantExpected] int width, [ConstantExpected] int bpp)
+    private static void FlipX(ReadOnlySpan<byte> data, Span<byte> result, [ConstantExpected(Min = 0)] int width, [ConstantExpected(Min = 4, Max = 4)] int bpp)
     {
         int pixels = data.Length / bpp;
         var resultInt = MemoryMarshal.Cast<byte, int>(result);
@@ -397,7 +397,7 @@ public sealed class Tile
         }
     }
 
-    private static void FlipY(ReadOnlySpan<byte> data, Span<byte> result, [ConstantExpected] int height, [ConstantExpected] int bpp)
+    private static void FlipY(ReadOnlySpan<byte> data, Span<byte> result, [ConstantExpected(Min = 0)] int height, [ConstantExpected(Min = 4, Max = 4)] int bpp)
     {
         int pixels = data.Length / bpp;
         int width = pixels / height;

@@ -179,7 +179,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
         if ((uint)ability < pi.AbilityCount)
             pk.Ability = pi.GetAbilityAtIndex(ability);
 
-        pk.SetRandomIVsGO(Type.GetMinIV());
+        criteria.SetRandomIVsGO(pk, Type.GetMinIV());
 
         switch (Shiny)
         {

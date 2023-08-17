@@ -182,7 +182,7 @@ public static class Overworld8aRNG
         pk.Gender = gender;
 
         int nature = (int)rand.NextInt(25);
-        pk.StatNature = pk.Nature = nature;
+        pk.Nature = pk.StatNature = nature;
 
         var (height, weight) = para.IsAlpha
             ? (byte.MaxValue, byte.MaxValue)

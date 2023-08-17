@@ -109,8 +109,8 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
 
         this.CopyContestStatsTo(pk);
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
-        pk.SetRandomIVsTemplate(IVs, 0);
-        pk.RefreshAbility((byte)Ability >> 1);
+        criteria.SetRandomIVs(pk, IVs);
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         pk.ResetPartyStats();
 
         return pk;

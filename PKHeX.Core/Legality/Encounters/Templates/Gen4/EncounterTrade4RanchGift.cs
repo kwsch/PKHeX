@@ -108,7 +108,7 @@ public sealed record EncounterTrade4RanchGift
         return pk;
     }
 
-    private void SetPINGA(PKM pk, EncounterCriteria criteria)
+    private void SetPINGA(PK4 pk, EncounterCriteria criteria)
     {
         var pid = FatefulEncounter ? Util.Rand32() : PID;
         pk.PID = pid;

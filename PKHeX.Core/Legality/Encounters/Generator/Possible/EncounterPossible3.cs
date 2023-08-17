@@ -62,6 +62,8 @@ public record struct EncounterPossible3(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.Start:
                 if (Chain.Length == 0)
                     break;
+                if (!Flags.HasFlag(EncounterTypeGroup.Egg))
+                    goto case YieldState.EventStart;
                 goto case YieldState.Bred;
 
             case YieldState.Bred:

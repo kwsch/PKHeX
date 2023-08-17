@@ -109,7 +109,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
         pk.OT_Name = TrainerNames[lang];
 
         EncounterUtil1.SetEncounterMoves(pk, Version, Level);
-        SetPINGA(pk);
+        SetPINGA(pk, criteria);
 
         pk.ResetPartyStats();
         this.CopyContestStatsTo(pk);
@@ -117,11 +117,11 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
         return pk;
     }
 
-    private void SetPINGA(PK3 pk)
+    private void SetPINGA(PK3 pk, EncounterCriteria criteria)
     {
         pk.PID = PID;
-        pk.SetRandomIVsTemplate(IVs, 0);
-        pk.RefreshAbility((int)Ability >> 1);
+        criteria.SetRandomIVs(pk, IVs);
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         // Nature and Gender are derived from PID.
     }
 

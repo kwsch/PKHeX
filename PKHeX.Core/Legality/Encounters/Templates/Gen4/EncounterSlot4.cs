@@ -77,10 +77,14 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
 
     private void SetPINGA(PK4 pk, EncounterCriteria criteria)
     {
+        var pi = pk.PersonalInfo;
+        int gender = criteria.GetGender(-1, pi);
+        int nature = (int)criteria.GetNature(Nature.Random);
+        var ability = criteria.GetAbilityFromNumber(Ability);
         int ctr = 0;
         do
         {
-            SetPINGAInner(pk, criteria);
+            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
             var pidiv = MethodFinder.Analyze(pk);
             var frames = FrameFinder.GetFrames(pidiv, pk);
             foreach (var frame in frames)
@@ -91,15 +95,6 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         } while (ctr++ < 10_000);
     }
 
-    private void SetPINGAInner(PK4 pk, EncounterCriteria criteria)
-    {
-        var pi = pk.PersonalInfo;
-        int gender = criteria.GetGender(-1, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
-        var ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1);
-        pk.Gender = gender;
-    }
     #endregion
 
     #region Matching

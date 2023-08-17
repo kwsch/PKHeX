@@ -134,8 +134,6 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
         SetPINGA(pk, criteria);
-        if (IVs.IsSpecified)
-            criteria.SetRandomIVs(pk, IVs);
 
         pk.ResetPartyStats();
 
@@ -148,10 +146,13 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
         int gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);
-        PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
         pk.Nature = pk.StatNature = nature;
         pk.Gender = gender;
         pk.RefreshAbility(ability);
+        if (IVs.IsSpecified)
+            criteria.SetRandomIVs(pk, IVs);
+        else
+            criteria.SetRandomIVs(pk, FlawlessIVCount);
     }
 
     #endregion
