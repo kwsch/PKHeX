@@ -66,6 +66,9 @@ public sealed record EncounterStatic9(GameVersion Version)
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Obedience_Level = LevelMin,
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
         };
 
         if (Gift && !ScriptedYungoos)

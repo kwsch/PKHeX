@@ -93,6 +93,9 @@ public sealed record EncounterFixed9
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Obedience_Level = LevelMin,
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
         };
 
         var type = Tera9RNG.GetTeraType(Util.Rand.Rand64(), TeraType, Species, Form);
@@ -105,7 +108,10 @@ public sealed record EncounterFixed9
         pk.Scale = TeraType != 0 ? (byte)(MinScaleStrongTera + Util.Rand.Next(byte.MaxValue - MinScaleStrongTera + 1)) : PokeSizeUtil.GetRandomScalar();
 
         SetPINGA(pk, criteria);
-        pk.SetMoves(Moves);
+        if (Moves.HasMoves)
+            pk.SetMoves(Moves);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;
@@ -116,6 +122,7 @@ public sealed record EncounterFixed9
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         pk.Nature = (int)criteria.GetNature(Nature.Random);
+        pk.StatNature = pk.Nature;
         pk.Gender = criteria.GetGender(-1, PersonalTable.SV.GetFormEntry(Species, Form));
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 

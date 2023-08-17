@@ -134,6 +134,13 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
         SetPINGA(pk, criteria);
+        if (IVs.IsSpecified)
+        {
+            var tempIVs = new int[6];
+            IVs.CopyToSpeedLast(tempIVs);
+            pk.SetIVs(tempIVs);
+        }
+
         pk.ResetPartyStats();
 
         return pk;

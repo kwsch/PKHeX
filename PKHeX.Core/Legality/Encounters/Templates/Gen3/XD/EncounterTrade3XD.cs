@@ -69,7 +69,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
             Met_Level = Level,
             Version = (byte)GameVersion.CXD,
             Ball = (byte)Ball.Poke,
-
+            FatefulEncounter = FatefulEncounter,
             Language = lang,
             OT_Name = TrainerNames[lang],
             OT_Gender = 0,
