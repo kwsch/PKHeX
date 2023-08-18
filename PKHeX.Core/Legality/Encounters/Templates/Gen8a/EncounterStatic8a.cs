@@ -69,13 +69,9 @@ public sealed record EncounterStatic8a
             Version = (int)Version,
             IsAlpha = IsAlpha,
             Ball = (byte)(FixedBall == Ball.None ? Ball.LAPoke : FixedBall),
-
-            HeightScalar = HasFixedHeight ? HeightScalar : PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = HasFixedWeight ? WeightScalar : PokeSizeUtil.GetRandomScalar(),
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
         SetPINGA(pk, criteria);
-        pk.Scale = pk.HeightScalar;
         pk.ResetHeight();
         pk.ResetWeight();
         SetEncounterMoves(pk, (byte)pk.Met_Level);
@@ -97,6 +93,12 @@ public sealed record EncounterStatic8a
 
         if (Method == EncounterStatic8aCorrelation.Fixed)
             pk.EncryptionConstant = Util.Rand32();
+
+        if (HasFixedHeight)
+            pk.HeightScalar = HeightScalar;
+        if (HasFixedWeight)
+            pk.WeightScalar = WeightScalar;
+        pk.Scale = pk.HeightScalar;
     }
 
     private void SetEncounterMoves(PA8 pk, int level)
