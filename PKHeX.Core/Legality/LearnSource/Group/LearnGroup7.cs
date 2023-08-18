@@ -9,7 +9,7 @@ public sealed class LearnGroup7 : ILearnGroup
 {
     public static readonly LearnGroup7 Instance = new();
     private const int Generation = 7;
-    public ushort MaxMoveID => Legal.MaxMoveID_7;
+    public ushort MaxMoveID => Legal.MaxMoveID_7_USUM;
 
     public ILearnGroup? GetPrevious(PKM pk, EvolutionHistory history, IEncounterTemplate enc, LearnOption option) => enc.Generation switch
     {
