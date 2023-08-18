@@ -2193,7 +2193,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // Set the Move ComboBoxes too..
         LegalMoveSource.ChangeMoveSource(source.Moves);
         foreach (var cb in Relearn)
-            SetIfDifferentCount(source.Moves, cb, force);
+            SetIfDifferentCount(source.Relearn, cb, force);
         foreach (var cb in Moves)
             SetIfDifferentCount(source.Moves, cb.CB_Move, force);
         if (sav is SAV8LA)

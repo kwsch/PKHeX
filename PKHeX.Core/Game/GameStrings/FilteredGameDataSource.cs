@@ -14,6 +14,7 @@ public sealed class FilteredGameDataSource
         Source = source;
         Species = GetFilteredSpecies(sav, source, HaX).ToList();
         Moves = GetFilteredMoves(sav, source, HaX).ToList();
+        Relearn = GetFilteredMoves(sav.BlankPKM, source, HaX).ToList(); // allow for US/UM relearn move limits on S/M
         if (sav.Generation > 1)
         {
             var items = Source.GetItemDataSource(sav.Version, sav.Context, sav.HeldItems, HaX);
@@ -74,22 +75,23 @@ public sealed class FilteredGameDataSource
         }
     }
 
-    private static IEnumerable<ComboItem> GetFilteredMoves(IGameValueLimit sav, GameDataSource source, bool HaX = false)
+    private static IEnumerable<ComboItem> GetFilteredMoves(IGameValueLimit limit, GameDataSource source, bool HaX = false)
     {
         if (HaX)
-            return source.HaXMoveDataSource.Where(m => m.Value <= sav.MaxMoveID);
+            return source.HaXMoveDataSource.Where(m => m.Value <= limit.MaxMoveID);
 
         var legal = source.LegalMoveDataSource;
-        return sav switch
+        return limit switch
         {
-            SAV7b => legal.Where(s => MoveInfo7b.IsAllowedMoveGG((ushort)s.Value)), // LGPE: Not all moves are available
-            _ => legal.Where(m => m.Value <= sav.MaxMoveID),
+            SAV7b or PB7 => legal.Where(s => MoveInfo7b.IsAllowedMoveGG((ushort)s.Value)), // LGPE: Not all moves are available
+            _ => legal.Where(m => m.Value <= limit.MaxMoveID),
         };
     }
 
     public readonly GameDataSource Source;
 
     public readonly IReadOnlyList<ComboItem> Moves;
+    public readonly IReadOnlyList<ComboItem> Relearn;
     public readonly IReadOnlyList<ComboItem> Balls;
     public readonly IReadOnlyList<ComboItem> Games;
     public readonly IReadOnlyList<ComboItem> Items;
