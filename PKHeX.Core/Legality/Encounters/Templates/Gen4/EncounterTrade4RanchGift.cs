@@ -86,6 +86,7 @@ public sealed record EncounterTrade4RanchGift
             Met_Level = Level,
             MetDate = EncounterDate.GetDateNDS(),
             Ball = (byte)FixedBall,
+            FatefulEncounter = FatefulEncounter,
 
             ID32 = ID32,
             Version = (byte)version,

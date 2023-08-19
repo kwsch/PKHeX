@@ -64,6 +64,7 @@ public sealed record EncounterStatic8a
             Form = Form,
             CurrentLevel = LevelMin,
             OT_Friendship = PersonalTable.LA[Species, Form].BaseFriendship,
+            FatefulEncounter = FatefulEncounter,
             Met_Location = Location,
             Met_Level = LevelMin,
             Version = (int)Version,
