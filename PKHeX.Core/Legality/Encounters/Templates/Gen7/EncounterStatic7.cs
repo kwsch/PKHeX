@@ -65,6 +65,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             Met_Level = LevelMin,
             MetDate = EncounterDate.GetDate3DS(),
             Ball = (byte)(FixedBall is Ball.None ? Ball.Poke : FixedBall),
+            FatefulEncounter = FatefulEncounter,
 
             ID32 = tr.ID32,
             Version = (byte)version,
