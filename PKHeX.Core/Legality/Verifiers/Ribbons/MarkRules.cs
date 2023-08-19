@@ -186,6 +186,18 @@ public static class MarkRules
     }
 
     /// <summary>
+    /// Checks if the input's <see cref="IRibbonSetMark9.RibbonMarkMightiest"/> mark state is valid.
+    /// </summary>
+    public static bool IsMarkValidMightiest(IEncounterTemplate enc, bool hasMark, EvolutionHistory evos)
+    {
+        if (IsMarkPresentMightiest(enc))
+            return hasMark;
+        //if (enc.Species == (int)Species.Mew && evos.HasVisitedGen9)
+        //    return true; // Can be awarded the mark for battling Mewtwo.
+        return !hasMark;
+    }
+
+    /// <summary>
     /// Checks if the input should have the <see cref="IRibbonSetMark9.RibbonMarkTitan"/> mark.
     /// </summary>
     public static bool IsMarkPresentTitan(IEncounterTemplate enc)

@@ -129,6 +129,7 @@ public sealed record EncounterSlot8GO(int StartDate, int EndDate, ushort Species
             pk.MetDate = this.GetRandomValidDate();
 
             pk.OT_Name = tr.OT;
+            pk.ID32 = tr.ID32;
             pk.OT_Gender = tr.Gender;
             pk.HT_Name = "PKHeX";
             pk.CurrentHandler = 1;

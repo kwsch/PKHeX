@@ -17,7 +17,7 @@ public static class RibbonVerifierMark9
             list.Add(MarkItemfinder);
         if (r.RibbonMarkJumbo && !MarkRules.IsMarkAllowedJumbo(args.History, args.Entity))
             list.Add(MarkJumbo);
-        if (r.RibbonMarkMightiest != MarkRules.IsMarkPresentMightiest(args.Encounter))
+        if (!MarkRules.IsMarkValidMightiest(args.Encounter, r.RibbonMarkMightiest, args.History))
             list.Add(MarkMightiest, !r.RibbonMarkMightiest);
         if (r.RibbonMarkMini && !MarkRules.IsMarkAllowedMini(args.History, args.Entity))
             list.Add(MarkMini);

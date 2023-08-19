@@ -70,7 +70,7 @@ public sealed class MemoryVerifier : Verifier
             if (ValidSet(results, start))
                 return;
         }
-        if (sources.HasFlag(MemorySource.Deleted) )
+        if (sources.HasFlag(MemorySource.Deleted))
         {
             results.RemoveRange(start, results.Count - start);
             VerifyHTMemoryNone(data, (ITrainerMemories)data.Entity);

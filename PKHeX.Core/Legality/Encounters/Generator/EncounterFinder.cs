@@ -45,7 +45,8 @@ public static class EncounterFinder
 
             // Looks like we might have a good enough match. Check if this is really a good match.
             info.EncounterMatch = enc;
-            info.Parse.Add(e);
+            if (e.Comment.Length > 0)
+                info.Parse.Add(e);
             if (!VerifySecondaryChecks(pk, info, encounter))
                 continue;
 
@@ -117,14 +118,20 @@ public static class EncounterFinder
             if (m is IMemoryOT o && MemoryPermissions.IsMemoryOfKnownMove(o.OT_Memory))
             {
                 var mem = MemoryVariableSet.Read(m, 0);
-                if (!MemoryPermissions.CanKnowMove(pk, mem, info.EncounterMatch.Context, info))
+                bool valid = MemoryPermissions.CanKnowMove(pk, mem, info.EncounterMatch.Context, info);
+                if (!valid && iterator.PeekIsNext())
                     return false;
             }
             if (m is IMemoryHT h && MemoryPermissions.IsMemoryOfKnownMove(h.HT_Memory) && !pk.HasMove(h.HT_TextVar))
             {
                 var mem = MemoryVariableSet.Read(m, 1);
-                var context = Memories.GetContextHandler(pk.Context);
-                if (!MemoryPermissions.CanKnowMove(pk, mem, context, info))
+
+                var sources = MemoryRules.GetPossibleSources(info.EvoChainsAllGens);
+                sources = MemoryRules.ReviseSourcesHandler(pk, sources, info.EncounterOriginal);
+
+                bool valid = (sources.HasFlag(MemorySource.Gen6) && MemoryPermissions.CanKnowMove(pk, mem, EntityContext.Gen6, info))
+                          || (sources.HasFlag(MemorySource.Gen8) && MemoryPermissions.CanKnowMove(pk, mem, EntityContext.Gen8, info));
+                if (!valid && iterator.PeekIsNext())
                     return false;
             }
         }
