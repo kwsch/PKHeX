@@ -27,7 +27,7 @@ public sealed record EncounterTransfer7(GameVersion Version, ushort Species, byt
     public byte LevelMax => Level;
     public bool IsShiny => false;
 
-    public string Name => "Virtual Console Transfer";
+    public string Name => $"Virtual Console Transfer ({Version})";
     public string LongName => Name;
 
     public static EncounterTransfer7 GetVC1(ushort species, byte metLevel)

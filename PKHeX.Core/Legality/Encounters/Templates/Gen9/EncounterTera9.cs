@@ -38,7 +38,7 @@ public sealed record EncounterTera9
     public bool IsAvailableHostScarlet => RandRateMinScarlet != -1;
     public bool IsAvailableHostViolet => RandRateMinViolet != -1;
 
-    public string Name => "Tera Raid Encounter";
+    public string Name => $"Tera Raid Encounter [{(Index == 0 ? "Base" : Index)}] {Stars}★";
     public string LongName => Name;
     public byte LevelMin => Level;
     public byte LevelMax => Level;
