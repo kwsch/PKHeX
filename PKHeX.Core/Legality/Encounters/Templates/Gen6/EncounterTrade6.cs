@@ -65,6 +65,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.AO[Species, 0];
         var pk = new PK6
         {
             PID = Util.Rand32(),
@@ -88,7 +89,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
             OT_Intensity = OT_Intensity,
             OT_Feeling = OT_Feeling,
             OT_TextVar = OT_TextVar,
-            OT_Friendship = PersonalTable.AO[Species, 0].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
@@ -96,7 +97,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
             HT_Name = tr.OT,
             HT_Gender = tr.Gender,
             CurrentHandler = 1,
-            HT_Friendship = PersonalTable.AO[Species, 0].BaseFriendship,
+            HT_Friendship = pi.BaseFriendship,
         };
         if (tr is IRegionOrigin r)
             r.CopyRegionOrigin(pk);

@@ -184,7 +184,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         return pk.Species switch
         {
             (int)Species.Furfrou => 5u, // Furfrou
-            (int)Species.Hoopa => 3u, // Hoopa
+            // Hoopa no longer sets Form Argument for Unbound form. Let it set 0.
             _ => 0u,
         };
     }

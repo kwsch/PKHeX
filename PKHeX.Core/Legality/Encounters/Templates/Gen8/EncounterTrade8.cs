@@ -95,6 +95,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.SWSH[Species, Form];
         var pk = new PK8
         {
             PID = Util.Rand32(),
@@ -117,7 +118,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             OT_Intensity = OT_Intensity,
             OT_Feeling = OT_Feeling,
             OT_TextVar = OT_TextVar,
-            OT_Friendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
@@ -126,7 +127,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             HT_Gender = tr.Gender,
             HT_Language = (byte)tr.Language,
             CurrentHandler = 1,
-            HT_Friendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
+            HT_Friendship = pi.BaseFriendship,
         };
         if (Shiny == Shiny.Never && pk.IsShiny)
             pk.PID ^= 0x1000_0000u;

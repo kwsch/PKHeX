@@ -63,6 +63,7 @@ public sealed record EncounterTrade9
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
             Species = Species,
@@ -82,7 +83,7 @@ public sealed record EncounterTrade9
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],
 
-            OT_Friendship = PersonalTable.SV[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             IsNicknamed = true,
             Nickname = Nicknames[lang],
@@ -95,24 +96,24 @@ public sealed record EncounterTrade9
             HT_Name = tr.OT,
             HT_Language = (byte)tr.Language,
             CurrentHandler = 1,
-            HT_Friendship = PersonalTable.SV[Species, Form].BaseFriendship,
+            HT_Friendship = pi.BaseFriendship,
             Obedience_Level = Level,
         };
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
 
         pk.ResetPartyStats();
 
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, PersonalTable.SV.GetFormEntry(Species, Form));
+        pk.Gender = criteria.GetGender(-1, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk, IVs);
     }

@@ -55,11 +55,12 @@ public static class EvolutionChain
             EvolutionUtil.ConditionBaseChainForward(chain, encSpecies);
         if (context == EntityContext.Gen2)
         {
+            // Handle the evolution case for Gen2->Gen1
             EvolutionGroup2.Instance.Evolve(chain, pk, enc, history);
             EvolutionGroup1.Instance.Evolve(chain, pk, enc, history);
-            if (pk.Format > 2)
+            if (pk.Format > 2) // Skip forward to Gen7
                 context = EntityContext.Gen7;
-            else
+            else // no more possible contexts; done.
                 return history;
         }
 

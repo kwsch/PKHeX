@@ -45,6 +45,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.GG[Species, Form];
         var pk = new PB7
         {
             Species = Species,
@@ -61,7 +62,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],
 
-            OT_Friendship = PersonalTable.GG[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             HeightScalar = PokeSizeUtil.GetRandomScalar(),
             WeightScalar = PokeSizeUtil.GetRandomScalar(),
@@ -71,7 +72,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             HT_Name = tr.OT,
             HT_Gender = tr.Gender,
             CurrentHandler = 1,
-            HT_Friendship = PersonalTable.GG[Species, Form].BaseFriendship,
+            HT_Friendship = pi.BaseFriendship,
         };
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);

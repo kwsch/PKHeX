@@ -188,19 +188,26 @@ public sealed record EncounterCriteria
         pk.IV_SPE = IV_SPE != RandomIV ? IV_SPE : Util.Rand.Next(32);
     }
 
+    /// <summary>
+    /// Applies random IVs with a minimum and maximum (bitshifted >> 1)
+    /// </summary>
+    /// <param name="pk">Entity to mutate.</param>
+    /// <param name="minIV">Minimum IV from GO</param>
+    /// <param name="maxIV">Maximum IV from GO</param>
     public void SetRandomIVsGO(PKM pk, int minIV = 0, int maxIV = 15)
     {
+        var bareMin = (minIV << 1) | 1;
         var rnd = Util.Rand;
         pk.IV_HP =
-              IV_HP != RandomIV ? IV_HP | 1
+              IV_HP  != RandomIV && IV_HP  >= bareMin ? IV_HP  | 1
             : (rnd.Next(minIV, maxIV + 1) << 1) | 1; // hp
         pk.IV_ATK = pk.IV_SPA =
-              IV_ATK != RandomIV ? IV_ATK | 1
-            : IV_SPA != RandomIV ? IV_SPA | 1
+              IV_ATK != RandomIV && IV_ATK >= bareMin ? IV_ATK | 1
+            : IV_SPA != RandomIV && IV_SPA >= bareMin ? IV_SPA | 1
             : (rnd.Next(minIV, maxIV + 1) << 1) | 1; // attack
         pk.IV_DEF = pk.IV_SPD =
-              IV_DEF != RandomIV ? IV_DEF | 1
-            : IV_SPD != RandomIV ? IV_SPD | 1
+              IV_DEF != RandomIV && IV_DEF >= bareMin ? IV_DEF | 1
+            : IV_SPD != RandomIV && IV_SPD >= bareMin ? IV_SPD | 1
             : (rnd.Next(minIV, maxIV + 1) << 1) | 1; // defense
         pk.IV_SPE =
               IV_SPE != RandomIV ? IV_SPE

@@ -13,12 +13,15 @@ public interface IMasteryInitialMoveShop8
     void SetInitialMastery(PKM pk)
     {
         if (pk is PA8 pa8)
-        {
-            Span<ushort> moves = stackalloc ushort[4];
-            var level = pa8.Met_Level;
-            var (learn, mastery) = LearnSource8LA.GetLearnsetAndMastery(pk.Species, pk.Form);
-            LoadInitialMoveset(pa8, moves, learn, level);
-            pa8.SetEncounterMasteryFlags(moves, mastery, level);
-        }
+            SetInitialMastery(pa8);
+    }
+
+    void SetInitialMastery(PA8 pk)
+    {
+        Span<ushort> moves = stackalloc ushort[4];
+        var level = pk.Met_Level;
+        var (learn, mastery) = LearnSource8LA.GetLearnsetAndMastery(pk.Species, pk.Form);
+        LoadInitialMoveset(pk, moves, learn, level);
+        pk.SetEncounterMasteryFlags(moves, mastery, level);
     }
 }

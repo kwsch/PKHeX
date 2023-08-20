@@ -72,6 +72,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.BDSP[Species, Form];
         var pk = new PB8
         {
             PID = PID,
@@ -100,7 +101,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
             WeightScalar = WeightScalar,
             HT_Name = tr.OT,
             HT_Language = (byte)tr.Language,
-            HT_Friendship = PersonalTable.BDSP[Species, Form].BaseFriendship,
+            HT_Friendship = pi.BaseFriendship,
         };
 
         // Has German Language ID for all except German origin, which is Japanese
