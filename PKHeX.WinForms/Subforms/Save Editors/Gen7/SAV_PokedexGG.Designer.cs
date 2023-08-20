@@ -88,6 +88,10 @@
             NUD_RHeightMax = new System.Windows.Forms.NumericUpDown();
             NUD_RHeightMin = new System.Windows.Forms.NumericUpDown();
             B_Counts = new System.Windows.Forms.Button();
+            CHK_MinH = new System.Windows.Forms.CheckBox();
+            CHK_MaxH = new System.Windows.Forms.CheckBox();
+            CHK_MinW = new System.Windows.Forms.CheckBox();
+            CHK_MaxW = new System.Windows.Forms.CheckBox();
             GB_Language.SuspendLayout();
             GB_Encountered.SuspendLayout();
             GB_Owned.SuspendLayout();
@@ -523,6 +527,10 @@
             // 
             // GB_SizeRecords
             // 
+            GB_SizeRecords.Controls.Add(CHK_MaxW);
+            GB_SizeRecords.Controls.Add(CHK_MinW);
+            GB_SizeRecords.Controls.Add(CHK_MaxH);
+            GB_SizeRecords.Controls.Add(CHK_MinH);
             GB_SizeRecords.Controls.Add(CHK_RMaxWeight);
             GB_SizeRecords.Controls.Add(CHK_RMinWeight);
             GB_SizeRecords.Controls.Add(CHK_RMaxHeight);
@@ -660,7 +668,7 @@
             // 
             // NUD_RWeightMax
             // 
-            NUD_RWeightMax.Location = new System.Drawing.Point(149, 113);
+            NUD_RWeightMax.Location = new System.Drawing.Point(145, 113);
             NUD_RWeightMax.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_RWeightMax.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_RWeightMax.Name = "NUD_RWeightMax";
@@ -670,7 +678,7 @@
             // 
             // NUD_RWeightMin
             // 
-            NUD_RWeightMin.Location = new System.Drawing.Point(149, 90);
+            NUD_RWeightMin.Location = new System.Drawing.Point(145, 90);
             NUD_RWeightMin.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_RWeightMin.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_RWeightMin.Name = "NUD_RWeightMin";
@@ -680,7 +688,7 @@
             // 
             // NUD_RHeightMaxWeight
             // 
-            NUD_RHeightMaxWeight.Location = new System.Drawing.Point(149, 67);
+            NUD_RHeightMaxWeight.Location = new System.Drawing.Point(145, 67);
             NUD_RHeightMaxWeight.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_RHeightMaxWeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_RHeightMaxWeight.Name = "NUD_RHeightMaxWeight";
@@ -690,7 +698,7 @@
             // 
             // NUD_RHeightMinWeight
             // 
-            NUD_RHeightMinWeight.Location = new System.Drawing.Point(149, 44);
+            NUD_RHeightMinWeight.Location = new System.Drawing.Point(145, 44);
             NUD_RHeightMinWeight.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_RHeightMinWeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_RHeightMinWeight.Name = "NUD_RHeightMinWeight";
@@ -700,7 +708,7 @@
             // 
             // NUD_RWeightMaxHeight
             // 
-            NUD_RWeightMaxHeight.Location = new System.Drawing.Point(50, 113);
+            NUD_RWeightMaxHeight.Location = new System.Drawing.Point(46, 113);
             NUD_RWeightMaxHeight.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_RWeightMaxHeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_RWeightMaxHeight.Name = "NUD_RWeightMaxHeight";
@@ -710,7 +718,7 @@
             // 
             // NUD_RWeightMinHeight
             // 
-            NUD_RWeightMinHeight.Location = new System.Drawing.Point(50, 90);
+            NUD_RWeightMinHeight.Location = new System.Drawing.Point(46, 90);
             NUD_RWeightMinHeight.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_RWeightMinHeight.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_RWeightMinHeight.Name = "NUD_RWeightMinHeight";
@@ -720,7 +728,7 @@
             // 
             // NUD_RHeightMax
             // 
-            NUD_RHeightMax.Location = new System.Drawing.Point(50, 67);
+            NUD_RHeightMax.Location = new System.Drawing.Point(46, 67);
             NUD_RHeightMax.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_RHeightMax.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_RHeightMax.Name = "NUD_RHeightMax";
@@ -730,7 +738,7 @@
             // 
             // NUD_RHeightMin
             // 
-            NUD_RHeightMin.Location = new System.Drawing.Point(50, 44);
+            NUD_RHeightMin.Location = new System.Drawing.Point(46, 44);
             NUD_RHeightMin.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_RHeightMin.Maximum = new decimal(new int[] { 255, 0, 0, 0 });
             NUD_RHeightMin.Name = "NUD_RHeightMin";
@@ -748,6 +756,46 @@
             B_Counts.Text = "Counts";
             B_Counts.UseVisualStyleBackColor = true;
             B_Counts.Click += B_Counts_Click;
+            // 
+            // CHK_MinH
+            // 
+            CHK_MinH.AutoSize = true;
+            CHK_MinH.Location = new System.Drawing.Point(98, 47);
+            CHK_MinH.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_MinH.Name = "CHK_MinH";
+            CHK_MinH.Size = new System.Drawing.Size(15, 14);
+            CHK_MinH.TabIndex = 70;
+            CHK_MinH.UseVisualStyleBackColor = true;
+            // 
+            // CHK_MaxH
+            // 
+            CHK_MaxH.AutoSize = true;
+            CHK_MaxH.Location = new System.Drawing.Point(98, 70);
+            CHK_MaxH.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_MaxH.Name = "CHK_MaxH";
+            CHK_MaxH.Size = new System.Drawing.Size(15, 14);
+            CHK_MaxH.TabIndex = 71;
+            CHK_MaxH.UseVisualStyleBackColor = true;
+            // 
+            // CHK_MinW
+            // 
+            CHK_MinW.AutoSize = true;
+            CHK_MinW.Location = new System.Drawing.Point(98, 93);
+            CHK_MinW.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_MinW.Name = "CHK_MinW";
+            CHK_MinW.Size = new System.Drawing.Size(15, 14);
+            CHK_MinW.TabIndex = 72;
+            CHK_MinW.UseVisualStyleBackColor = true;
+            // 
+            // CHK_MaxW
+            // 
+            CHK_MaxW.AutoSize = true;
+            CHK_MaxW.Location = new System.Drawing.Point(98, 116);
+            CHK_MaxW.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            CHK_MaxW.Name = "CHK_MaxW";
+            CHK_MaxW.Size = new System.Drawing.Size(15, 14);
+            CHK_MaxW.TabIndex = 73;
+            CHK_MaxW.UseVisualStyleBackColor = true;
             // 
             // SAV_PokedexGG
             // 
@@ -859,5 +907,9 @@
         private System.Windows.Forms.NumericUpDown NUD_RHeightMax;
         private System.Windows.Forms.NumericUpDown NUD_RHeightMin;
         private System.Windows.Forms.Button B_Counts;
+        private System.Windows.Forms.CheckBox CHK_MaxW;
+        private System.Windows.Forms.CheckBox CHK_MinW;
+        private System.Windows.Forms.CheckBox CHK_MaxH;
+        private System.Windows.Forms.CheckBox CHK_MinH;
     }
 }

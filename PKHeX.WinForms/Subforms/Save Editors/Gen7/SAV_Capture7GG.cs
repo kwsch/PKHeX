@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -30,8 +29,7 @@ public partial class SAV_Capture7GG : Form
         CB_Species.Items.Clear();
 
         // Fill List
-        var list = GetLegalSpecies().ToArray();
-        var species = GameInfo.FilteredSources.Species.Where(z => list.Contains(z.Value)).ToList();
+        var species = GameInfo.FilteredSources.Species.Where(z => IsLegalSpecies(z.Value)).ToList();
         CB_Species.InitializeBinding();
         CB_Species.DataSource = new BindingSource(species, null);
         foreach (var (text, value) in species.OrderBy(z => z.Value))
@@ -44,13 +42,7 @@ public partial class SAV_Capture7GG : Form
         Loading = false;
     }
 
-    private static IEnumerable<int> GetLegalSpecies()
-    {
-        foreach (var z in Enumerable.Range(1, 151))
-            yield return z;
-        yield return 808;
-        yield return 809;
-    }
+    private static bool IsLegalSpecies(int species) => species is >= 1 and (<= 151 or 808 or 809);
 
     private void ChangeCBSpecies(object sender, EventArgs e)
     {

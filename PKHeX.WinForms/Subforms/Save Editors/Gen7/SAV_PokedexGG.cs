@@ -278,16 +278,17 @@ public partial class SAV_PokedexGG : Form
         if (!hasRecord)
             return;
 
-        void set(DexSizeType type, NumericUpDown nudH, NumericUpDown nudW, CheckBox ck)
+        void set(DexSizeType type, NumericUpDown nudH, NumericUpDown nudW, CheckBox used, CheckBox flag)
         {
-            nudH.Enabled = nudW.Enabled = ck.Checked = Dex.GetSizeData(type, index, out byte h, out byte w);
+            nudH.Enabled = nudW.Enabled = used.Checked = Dex.GetSizeData(type, index, out byte h, out byte w, out bool isFlagged);
+            flag.Checked = isFlagged;
             nudH.Value = h;
             nudW.Value = w;
         }
-        set(DexSizeType.MinHeight, NUD_RHeightMin, NUD_RHeightMinWeight, CHK_RMinHeight);
-        set(DexSizeType.MaxHeight, NUD_RHeightMax, NUD_RHeightMaxWeight, CHK_RMaxHeight);
-        set(DexSizeType.MinWeight, NUD_RWeightMinHeight, NUD_RWeightMin, CHK_RMinWeight);
-        set(DexSizeType.MaxWeight, NUD_RWeightMaxHeight, NUD_RWeightMax, CHK_RMaxWeight);
+        set(DexSizeType.MinHeight, NUD_RHeightMin, NUD_RHeightMinWeight, CHK_RMinHeight, CHK_MinH);
+        set(DexSizeType.MaxHeight, NUD_RHeightMax, NUD_RHeightMaxWeight, CHK_RMaxHeight, CHK_MaxH);
+        set(DexSizeType.MinWeight, NUD_RWeightMinHeight, NUD_RWeightMin, CHK_RMinWeight, CHK_MinW);
+        set(DexSizeType.MaxWeight, NUD_RWeightMaxHeight, NUD_RWeightMax, CHK_RMaxWeight, CHK_MaxW);
     }
 
     private void SetRecord(ushort species, byte form)
@@ -296,12 +297,13 @@ public partial class SAV_PokedexGG : Form
         if (!hasRecord)
             return;
 
-        static byte get(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValue : (byte)nud.Value;
+        static byte getW(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValueW : (byte)nud.Value;
+        static byte getH(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValueH : (byte)nud.Value;
 
-        Dex.SetSizeData(DexSizeType.MinHeight, index, get(NUD_RHeightMin, CHK_RMinHeight), get(NUD_RHeightMinWeight, CHK_RMinHeight));
-        Dex.SetSizeData(DexSizeType.MaxHeight, index, get(NUD_RHeightMax, CHK_RMaxHeight), get(NUD_RHeightMaxWeight, CHK_RMaxHeight));
-        Dex.SetSizeData(DexSizeType.MinWeight, index, get(NUD_RWeightMinHeight, CHK_RMinWeight), get(NUD_RWeightMin, CHK_RMinWeight));
-        Dex.SetSizeData(DexSizeType.MaxWeight, index, get(NUD_RWeightMaxHeight, CHK_RMaxWeight), get(NUD_RWeightMax, CHK_RMaxWeight));
+        Dex.SetSizeData(DexSizeType.MinHeight, index, getH(NUD_RHeightMin, CHK_RMinHeight), getW(NUD_RHeightMinWeight, CHK_RMinHeight), CHK_MinH.Checked);
+        Dex.SetSizeData(DexSizeType.MaxHeight, index, getH(NUD_RHeightMax, CHK_RMaxHeight), getW(NUD_RHeightMaxWeight, CHK_RMaxHeight), CHK_MaxH.Checked);
+        Dex.SetSizeData(DexSizeType.MinWeight, index, getH(NUD_RWeightMinHeight, CHK_RMinWeight), getW(NUD_RWeightMin, CHK_RMinWeight), CHK_MinW.Checked);
+        Dex.SetSizeData(DexSizeType.MaxWeight, index, getH(NUD_RWeightMaxHeight, CHK_RMaxWeight), getW(NUD_RWeightMax, CHK_RMaxWeight), CHK_MaxW.Checked);
     }
 
     private void CHK_RUsed_CheckedChanged(object sender, EventArgs e)
@@ -312,8 +314,10 @@ public partial class SAV_PokedexGG : Form
         var w = RecordWeight[index];
 
         h.Enabled = w.Enabled = ck.Checked;
-        if (!editing && !ck.Checked)
-            h.Value = w.Value = Zukan7b.DefaultEntryValue;
+        if (editing || ck.Checked)
+            return;
+        h.Value = Zukan7b.DefaultEntryValueH;
+        w.Value = Zukan7b.DefaultEntryValueW;
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)
