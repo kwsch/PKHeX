@@ -26,32 +26,33 @@ public sealed class TrainerIDVerifier : Verifier
                 return;
             }
         }
-        else if (pk.VC && pk.SID16 != 0)
+        else if (pk.VC)
         {
-            data.AddLine(GetInvalid(LOT_SID0Invalid));
+            // Only TID is used for Gen 1/2 VC
+            if (pk.SID16 != 0)
+                data.AddLine(GetInvalid(LOT_SID0Invalid));
+            if (pk.TID16 == 0)
+                data.AddLine(Get(LOT_TID0, Severity.Fishy));
+            return;
+        }
+        else if (pk.Format <= 2)
+        {
+            // Only TID is used for Gen 1/2
+            if (pk.TID16 == 0)
+                data.AddLine(Get(LOT_TID0, Severity.Fishy));
             return;
         }
 
         if (pk is { ID32: 0 })
-        {
             data.AddLine(Get(LOT_IDs0, Severity.Fishy));
-        }
         else if (pk.TID16 == pk.SID16)
-        {
             data.AddLine(Get(LOT_IDEqual, Severity.Fishy));
-        }
         else if (pk.TID16 == 0)
-        {
             data.AddLine(Get(LOT_TID0, Severity.Fishy));
-        }
         else if (pk.SID16 == 0)
-        {
             data.AddLine(Get(LOT_SID0, Severity.Fishy));
-        }
         else if (IsOTIDSuspicious(pk.TID16, pk.SID16))
-        {
             data.AddLine(Get(LOTSuspicious, Severity.Fishy));
-        }
     }
 
     public static bool IsOTIDSuspicious(ushort tid16, ushort sid16) => (tid16, sid16) switch
