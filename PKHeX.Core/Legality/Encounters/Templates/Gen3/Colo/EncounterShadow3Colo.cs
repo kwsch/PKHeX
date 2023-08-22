@@ -48,11 +48,12 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
     public CK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = GetTemplateLanguage(tr);
+        var pi = PersonalTable.E[Species];
         var pk = new CK3
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.E[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Met_Location = Location,
             Met_Level = LevelMin,
@@ -69,7 +70,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
             RibbonNational = true,
         };
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.SetMoves(Moves);
 
         pk.ResetPartyStats();
@@ -78,17 +79,16 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     private int GetTemplateLanguage(ITrainerInfo tr) => EReader ? 1 : (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
-    private void SetPINGA(CK3 pk, EncounterCriteria criteria)
+    private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
         if (!EReader)
-            SetPINGA_Regular(pk, criteria);
+            SetPINGA_Regular(pk, criteria, pi);
         else
             SetPINGA_EReader(pk);
     }
 
-    private void SetPINGA_Regular(CK3 pk, EncounterCriteria criteria)
+    private void SetPINGA_Regular(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         int ability = criteria.GetAbilityFromNumber(0);

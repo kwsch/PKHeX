@@ -79,18 +79,18 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
         pk.ResetHeight();
         pk.ResetWeight();
         pk.ResetCP();
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 
         return pk;
     }
 
-    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, EncounterCriteria criteria, PersonalInfo7GG pi)
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, PersonalTable.GG.GetFormEntry(Species, Form));
+        pk.Gender = criteria.GetGender(-1, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk, IVs);
     }

@@ -232,6 +232,14 @@ public sealed record EncounterMight9
         _ => throw new ArgumentOutOfRangeException(nameof(b), b, null),
     };
 
+    private byte GetGender(PersonalInfo9SV pi) => Gender switch
+    {
+        0 => PersonalInfo.RatioMagicMale,
+        1 => PersonalInfo.RatioMagicFemale,
+        2 => PersonalInfo.RatioMagicGenderless,
+        _ => pi.Gender,
+    };
+
     private byte GetGender() => Gender switch
     {
         0 => PersonalInfo.RatioMagicMale,
@@ -248,13 +256,14 @@ public sealed record EncounterMight9
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
             Language = lang,
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.SV[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
             Version = (int)version,
@@ -267,18 +276,18 @@ public sealed record EncounterMight9
             OT_Gender = tr.Gender,
             ID32 = tr.ID32,
         };
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.SetMoves(Moves);
 
         pk.ResetPartyStats();
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         const byte rollCount = 1;
         const byte undefinedSize = 0;
-        byte gender = GetGender();
+        byte gender = GetGender(pi);
         var param = new GenerateParam9(Species, gender, FlawlessIVCount, rollCount,
             undefinedSize, undefinedSize, ScaleType, Scale,
             Ability, Shiny, Nature, IVs);

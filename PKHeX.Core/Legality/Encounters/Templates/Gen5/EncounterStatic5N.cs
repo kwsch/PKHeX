@@ -45,7 +45,7 @@ public sealed record EncounterStatic5N(uint PID)
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
-        var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
+        var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
         {
             Species = Species,

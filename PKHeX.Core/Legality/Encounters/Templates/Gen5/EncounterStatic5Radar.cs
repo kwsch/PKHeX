@@ -30,6 +30,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
         {
             Species = Species,
@@ -46,22 +47,21 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
 
-            OT_Friendship = PersonalTable.B2W2[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
         EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 
         return pk;
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
-        var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);

@@ -39,6 +39,8 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     public virtual byte LevelMin => Level;
     public virtual byte LevelMax => Level;
 
+    private PersonalInfo8SWSH Info => PersonalTable.SWSH[Species, Form];
+
     #region Generating
 
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
@@ -50,6 +52,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = Info;
         var pk = new PK8
         {
             Species = Species,
@@ -65,7 +68,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
-            OT_Friendship = PersonalTable.SWSH[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
@@ -73,7 +76,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             CanGigantamax = CanGigantamax,
         };
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
         pk.ResetPartyStats();
@@ -83,11 +86,11 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     protected virtual ushort GetLocation() => Location;
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
         bool requestShiny = criteria.Shiny.IsShiny();
         bool checkShiny = requestShiny && Shiny != Shiny.Never;
-        var ratio = RemapGenderToParam(Gender);
+        var ratio = RemapGenderToParam(Gender, pi);
         var abil = RemapAbilityToParam(Ability);
         Span<int> iv = stackalloc int[6];
 
@@ -236,7 +239,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     /// <returns>True if the seed is valid for the criteria.</returns>
     public bool Verify(PKM pk, ulong seed, bool forceNoShiny = false)
     {
-        var ratio = RemapGenderToParam(Gender);
+        var ratio = RemapGenderToParam(Gender, Info);
         var abil = RemapAbilityToParam(Ability);
 
         Span<int> iv = stackalloc int[6];
@@ -260,12 +263,12 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             span.Fill(-1);
     }
 
-    private byte RemapGenderToParam(sbyte gender) => gender switch
+    private static byte RemapGenderToParam(sbyte gender, PersonalInfo8SWSH pi) => gender switch
     {
         0 => PersonalInfo.RatioMagicMale,
         1 => PersonalInfo.RatioMagicFemale,
         2 => PersonalInfo.RatioMagicGenderless,
-        _ => PersonalTable.SWSH.GetFormEntry(Species, Form).Gender,
+        _ => pi.Gender,
     };
 
     private static byte RemapAbilityToParam(AbilityPermission a) => a switch

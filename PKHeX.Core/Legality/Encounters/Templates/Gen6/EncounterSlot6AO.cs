@@ -57,12 +57,13 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     public PK6 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pi = PersonalTable.AO[Species];
         var pk = new PK6
         {
             Species = Species,
             Form = GetWildForm(Form),
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.AO[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
             Version = (byte)Version,
@@ -80,7 +81,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
         else
             pk.SetDefaultRegionOrigins(lang);
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
         if (CanDexNav)
         {
@@ -101,12 +102,12 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
         return (byte)Util.Rand.Next(PersonalTable.AO[Species].FormCount);
     }
 
-    private void SetPINGA(PK6 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6AO pi)
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, PersonalTable.AO.GetFormEntry(Species, Form));
+        pk.Gender = criteria.GetGender(-1, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk);
     }

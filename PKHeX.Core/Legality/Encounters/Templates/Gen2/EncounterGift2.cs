@@ -58,6 +58,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = GetTemplateLanguage(tr);
+        var pi = PersonalTable.C[Species];
         var pk = new PK2
         {
             Species = Species,
@@ -66,7 +67,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
             TID16 = TID16 != UnspecifiedID ? TID16 : tr.TID16,
             OT_Name = GetInitialOT(tr),
 
-            OT_Friendship = PersonalTable.C[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };

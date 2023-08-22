@@ -91,6 +91,7 @@ public sealed record EncounterTrade4PID
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.DP[Species];
         var pk = new PK4
         {
             PID = PID,
@@ -109,7 +110,7 @@ public sealed record EncounterTrade4PID
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],
 
-            OT_Friendship = PersonalTable.DP[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             IsNicknamed = true,
             Nickname = Nicknames[lang],

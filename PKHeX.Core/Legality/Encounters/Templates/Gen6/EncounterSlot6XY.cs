@@ -15,26 +15,17 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     public int EggLocation => 0;
     public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
 
-    public byte FlawlessIVCount
-    {
-        get
-        {
-            var pi = PersonalTable.XY.GetFormEntry(Species, Form);
-            return pi.EggGroup1 == 15 ? (byte)3 : IsFriendSafari ? (byte)2 : (byte)0;
-        }
-    }
+    private PersonalInfo6XY PersonalInfo => PersonalTable.XY[Species];
+    public byte FlawlessIVCount => PersonalInfo.EggGroup1 == 15 ? (byte)3 : IsFriendSafari ? (byte)2 : (byte)0;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
     public SlotType Type => Parent.Type;
-
-    public bool Pressure { get; init; }
+    
     public bool IsFriendSafari => Type == SlotType.FriendSafari;
     public bool IsHorde => Type == SlotType.Horde;
-
-    public EncounterSlot6XY CreatePressureFormCopy(byte form) => this with {Form = form, Pressure = true};
 
     private HiddenAbilityPermission IsHiddenAbilitySlot() => IsHorde || IsFriendSafari ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
 
@@ -61,6 +52,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = Version != GameVersion.XY ? Version : GameVersion.XY.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.X;
         var form = GetWildForm(Form);
+        var pi = PersonalInfo;
         var pk = new PK6
         {
             Species = Species,
@@ -77,7 +69,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
             OT_Gender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            OT_Friendship = PersonalTable.XY[Species, form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
         };
         if (tr is IRegionOrigin r)
             r.CopyRegionOrigin(pk);

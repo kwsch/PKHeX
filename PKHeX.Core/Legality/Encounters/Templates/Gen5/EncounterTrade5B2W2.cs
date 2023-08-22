@@ -67,6 +67,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.B2W2[Species];
         var pk = new PK5
         {
             PID = Util.Rand32(),
@@ -84,28 +85,25 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],
 
-            OT_Friendship = PersonalTable.B2W2[Species, 0].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-
-            HT_Name = tr.OT,
-            HT_Gender = tr.Gender,
         };
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 
         return pk;
     }
 
-    private void SetPINGA(PK5 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
         if (pk.IsShiny)
             pk.PID ^= 0x1000_0000;
         pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, PersonalTable.B2W2.GetFormEntry(Species, Form));
+        pk.Gender = criteria.GetGender(-1, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk, IVs);
     }

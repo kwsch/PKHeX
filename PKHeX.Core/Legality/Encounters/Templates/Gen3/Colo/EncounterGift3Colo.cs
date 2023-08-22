@@ -52,11 +52,12 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
     public CK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = GetTemplateLanguage(tr);
+        var pi = PersonalTable.E[Species];
         var pk = new CK3
         {
             Species = Species,
             CurrentLevel = Level,
-            OT_Friendship = PersonalTable.E[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Met_Location = Location,
             Met_Level = Level,
@@ -70,7 +71,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
@@ -87,9 +88,8 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         return (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
     }
 
-    private void SetPINGA(CK3 pk, EncounterCriteria criteria)
+    private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);

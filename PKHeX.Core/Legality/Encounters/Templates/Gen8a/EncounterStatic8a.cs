@@ -40,6 +40,7 @@ public sealed record EncounterStatic8a
     public bool HasFixedWeight => WeightScalar != NoScalar;
 
     private const byte NoScalar = 0;
+    private const byte ScaleMax = 255;
 
     public EncounterStatic8a(ushort species, byte form, byte level, byte heightScalar = NoScalar, byte weightScalar = NoScalar)
     {
@@ -57,13 +58,14 @@ public sealed record EncounterStatic8a
     public PA8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pi = PersonalTable.LA[Species, Form];
         var pk = new PA8
         {
             Language = lang,
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.LA[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             FatefulEncounter = FatefulEncounter,
             Met_Location = Location,
             Met_Level = LevelMin,
@@ -92,6 +94,7 @@ public sealed record EncounterStatic8a
         if (LevelMin != LevelMax)
             pk.CurrentLevel = pk.Met_Level = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
 
+        // Disassociate the correlation if it is supposed to use the global 128-bit RNG state instead.
         if (Method == EncounterStatic8aCorrelation.Fixed)
             pk.EncryptionConstant = Util.Rand32();
 
@@ -182,7 +185,7 @@ public sealed record EncounterStatic8a
                 if (s is not { HeightScalar: 127, WeightScalar: 127 }) // Original? 
                 {
                     // Must match the HOME updated values AND must have the Alpha ribbon (visited HOME).
-                    if (s is not { HeightScalar: 255, WeightScalar: 255 })
+                    if (s is not { HeightScalar: ScaleMax, WeightScalar: ScaleMax })
                         return false;
                     if (pk is IRibbonSetMark9 { RibbonMarkAlpha: false })
                         return false;
@@ -193,7 +196,7 @@ public sealed record EncounterStatic8a
             else
             {
                 // Must match the HOME updated values
-                if (s is not { HeightScalar: 255, WeightScalar: 255 })
+                if (s is not { HeightScalar: ScaleMax, WeightScalar: ScaleMax })
                     return false;
             }
         }

@@ -84,12 +84,13 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var isJapanese = lang == (int)LanguageID.Japanese;
+        var pi = PersonalTable.C[Species];
         var pk = new PK2(isJapanese)
         {
             Species = Species,
             // Form is only Unown and is derived from IVs.
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.C[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             DV16 = EncounterUtil1.GetRandomDVs(Util.Rand),
 
             Language = lang,

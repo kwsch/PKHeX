@@ -47,6 +47,7 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var form = GetWildForm(Form);
+        var pi = PersonalTable.USUM[Species, form];
         var pk = new PK7
         {
             Species = Species,
@@ -63,14 +64,14 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
             OT_Gender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            OT_Friendship = PersonalTable.USUM[Species, form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
         };
         if (tr is IRegionOrigin r)
             r.CopyRegionOrigin(pk);
         else
             pk.SetDefaultRegionOrigins(lang);
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
         pk.ResetPartyStats();
         return pk;
@@ -85,9 +86,8 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
         return (byte)Util.Rand.Next(PersonalTable.USUM[Species].FormCount);
     }
 
-    private void SetPINGA(PK7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK7 pk, EncounterCriteria criteria, PersonalInfo7 pi)
     {
-        var pi = pk.PersonalInfo;
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         pk.Nature = (int)criteria.GetNature(Nature.Random);

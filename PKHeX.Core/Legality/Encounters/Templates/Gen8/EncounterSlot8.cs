@@ -49,6 +49,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var form = GetWildForm(Form);
+        var pi = PersonalTable.SWSH[Species, form];
         var pk = new PK8
         {
             Species = Species,
@@ -65,9 +66,9 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             OT_Gender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-            OT_Friendship = PersonalTable.SWSH[Species, form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
         };
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
 
         bool symbol = Parent.PermitCrossover;
@@ -89,7 +90,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
 
     #endregion
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
         bool symbol = Parent.PermitCrossover;
         var c = symbol ? EncounterCriteria.Unrestricted : criteria;
@@ -97,7 +98,6 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
         var req = GetRequirement(pk);
         if (req != MustHave)
         {
-            var pi = PersonalTable.SWSH[Species, Form];
             var rand = Util.Rand;
             pk.EncryptionConstant = rand.Rand32();
             pk.PID = rand.Rand32();

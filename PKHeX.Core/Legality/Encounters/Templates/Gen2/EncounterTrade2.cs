@@ -58,6 +58,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
         // Prefer to generate as Crystal, as it will include met data.
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, GameVersion.C);
         var isJapanese = lang == (int)LanguageID.Japanese;
+        var pi = PersonalTable.C[Species];
         var pk = new PK2(isJapanese)
         {
             Species = Species,
@@ -67,7 +68,7 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
 
             Nickname = Nicknames[lang],
             OT_Name = TrainerNames[lang],
-            OT_Friendship = PersonalTable.C[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
         };
 
         if (IVs.IsSpecified)

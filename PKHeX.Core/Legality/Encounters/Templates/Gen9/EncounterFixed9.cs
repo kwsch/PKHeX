@@ -79,13 +79,14 @@ public sealed record EncounterFixed9
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
             Language = lang,
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.SV[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
             Version = (int)version,
@@ -107,7 +108,7 @@ public sealed record EncounterFixed9
         pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
         pk.Scale = TeraType != 0 ? (byte)(MinScaleStrongTera + Util.Rand.Next(byte.MaxValue - MinScaleStrongTera + 1)) : PokeSizeUtil.GetRandomScalar();
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
@@ -117,12 +118,12 @@ public sealed record EncounterFixed9
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, PersonalTable.SV.GetFormEntry(Species, Form));
+        pk.Gender = criteria.GetGender(-1, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         criteria.SetRandomIVs(pk, FlawlessIVCount);

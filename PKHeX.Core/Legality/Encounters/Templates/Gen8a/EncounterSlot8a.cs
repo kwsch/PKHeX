@@ -29,6 +29,8 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
 
     public bool HasAlphaMove => IsAlpha && Type is not SlotType.Landmark;
 
+    private const byte ScaleMax = 255;
+
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr) => ConvertToPKM(tr);
@@ -36,6 +38,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     public PA8 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pi = PersonalTable.LA[Species, Form];
         var pk = new PA8
         {
             Language = lang,
@@ -51,13 +54,13 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             OT_Name = tr.OT,
             OT_Gender = tr.Gender,
             ID32 = tr.ID32,
-            OT_Friendship = PersonalTable.LA[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
-            HeightScalar = IsAlpha ? (byte)255 : PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = IsAlpha ? (byte)255 : PokeSizeUtil.GetRandomScalar(),
+            HeightScalar = IsAlpha ? ScaleMax : PokeSizeUtil.GetRandomScalar(),
+            WeightScalar = IsAlpha ? ScaleMax : PokeSizeUtil.GetRandomScalar(),
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.Scale = pk.HeightScalar;
         pk.ResetHeight();
         pk.ResetWeight();
@@ -66,14 +69,15 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         return pk;
     }
 
-    private void SetPINGA(PA8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PA8 pk, EncounterCriteria criteria, PersonalInfo8LA pi)
     {
-        var para = GetParams();
+        var para = GetParams(pi);
         while (true)
         {
             var (_, slotSeed) = Overworld8aRNG.ApplyDetails(pk, criteria, para, HasAlphaMove);
             if (this.IsRandomLevel())
             {
+                // Give a random level according to the RNG correlation.
                 var lvl = Overworld8aRNG.GetRandomLevel(slotSeed, LevelMin, LevelMax);
                 if (criteria.ForceMinLevelRange && lvl != LevelMin)
                     continue;
@@ -83,7 +87,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         }
     }
 
-    private OverworldParam8a GetParams() => new()
+    private OverworldParam8a GetParams(PersonalInfo8LA pi) => new()
     {
         Shiny = Shiny,
         IsAlpha = IsAlpha,
@@ -93,7 +97,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
         {
             Gender.Male => PersonalInfo.RatioMagicMale,
             Gender.Female => PersonalInfo.RatioMagicFemale,
-            _ => PersonalTable.LA[Species, Form].Gender,
+            _ => pi.Gender,
         },
     };
 

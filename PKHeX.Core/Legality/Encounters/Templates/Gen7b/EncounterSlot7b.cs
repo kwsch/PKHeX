@@ -29,11 +29,12 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
     public PB7 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pi = PersonalTable.GG[Species];
         var pk = new PB7
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.GG[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
             Version = (byte)Version,
@@ -49,7 +50,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.ResetHeight();
         pk.ResetWeight();
         pk.ResetCP();
@@ -58,12 +59,12 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
         return pk;
     }
 
-    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, EncounterCriteria criteria, PersonalInfo7GG pi)
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, PersonalTable.GG.GetFormEntry(Species, Form));
+        pk.Gender = criteria.GetGender(-1, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         criteria.SetRandomIVs(pk);

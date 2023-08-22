@@ -134,16 +134,15 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
         pk.SetRelearnMoves(Relearn);
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
 
         pk.ResetPartyStats();
 
         return pk;
     }
 
-    private void SetPINGA(PK8 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK8 pk, EncounterCriteria criteria, PersonalInfo8SWSH pi)
     {
-        var pi = PersonalTable.SWSH[Species, Form];
         int gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);

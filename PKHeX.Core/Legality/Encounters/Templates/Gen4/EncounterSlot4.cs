@@ -40,12 +40,13 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     public PK4 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pi = PersonalTable.HGSS[Species];
         var pk = new PK4
         {
             Species = Species,
             Form = GetWildForm(Form),
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.HGSS[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Met_Location = Location,
             Met_Level = LevelMin,
@@ -61,7 +62,7 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
 
         pk.ResetPartyStats();
@@ -75,9 +76,8 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
         return form;
     }
 
-    private void SetPINGA(PK4 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
-        var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);

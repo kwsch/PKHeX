@@ -18,6 +18,9 @@ public interface IEncounterConvertible
     PKM ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria);
 }
 
+/// <summary>
+/// Exposes conversion methods to create a <see cref="T"/> from the object's data.
+/// </summary>
 public interface IEncounterConvertible<out T> where T : PKM
 {
     /// <summary>

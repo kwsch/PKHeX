@@ -36,12 +36,13 @@ public sealed record EncounterStatic7b(GameVersion Version)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var pi = PersonalTable.GG[Species, Form];
         var pk = new PB7
         {
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.GG[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
             Version = (byte)version,
@@ -57,7 +58,7 @@ public sealed record EncounterStatic7b(GameVersion Version)
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.ResetHeight();
         pk.ResetWeight();
         pk.ResetCP();
@@ -66,12 +67,12 @@ public sealed record EncounterStatic7b(GameVersion Version)
         return pk;
     }
 
-    private void SetPINGA(PB7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PB7 pk, EncounterCriteria criteria, PersonalInfo7GG pi)
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, PersonalTable.GG.GetFormEntry(Species, Form));
+        pk.Gender = criteria.GetGender(-1, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         if (IVs.IsSpecified)

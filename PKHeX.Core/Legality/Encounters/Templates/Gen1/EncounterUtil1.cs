@@ -23,7 +23,7 @@ public static class EncounterUtil1
         return pt[species];
     }
 
-    public static void SetEncounterMoves<T>(T pk, GameVersion version, int level) where T : PKM
+    public static void SetEncounterMoves<T>(T pk, GameVersion version, byte level) where T : PKM
     {
         Span<ushort> moves = stackalloc ushort[4];
         var source = GameData.GetLearnSource(version);

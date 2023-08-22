@@ -41,6 +41,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.C[Species];
         var pk = new PK2
         {
             Species = Species,
@@ -49,7 +50,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             TID16 = tr.TID16,
             OT_Name = tr.OT,
 
-            OT_Friendship = PersonalTable.C[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };

@@ -44,11 +44,12 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pi = PersonalTable.E[Species];
         var pk = new XK3
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.E[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Met_Location = Location,
             Met_Level = LevelMin,
@@ -66,7 +67,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
             RibbonNational = true,
         };
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
@@ -76,9 +77,8 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
         return pk;
     }
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria)
+    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         int ability = criteria.GetAbilityFromNumber(0);

@@ -91,6 +91,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var form = GetWildForm(Form);
         var version = Version != GameVersion.SV ? Version : GameVersion.SV.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.SL;
+        var pi = PersonalTable.SV[Species, form];
         var pk = new PK9
         {
             Species = Species,
@@ -107,10 +108,10 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             OT_Gender = tr.Gender,
             ID32 = tr.ID32,
             Obedience_Level = LevelMin,
-            OT_Friendship = PersonalTable.SV[Species, form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
         pk.ResetPartyStats();
         return pk;
@@ -126,14 +127,14 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         return (byte)Util.Rand.Next(PersonalTable.SV[Species].FormCount);
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         criteria.SetRandomIVs(pk);
 
         pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(Gender, PersonalTable.SV[pk.Species, pk.Form]);
+        pk.Gender = criteria.GetGender(Gender, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         var rand = new Xoroshiro128Plus(Util.Rand.Rand64());

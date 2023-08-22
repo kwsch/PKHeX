@@ -52,6 +52,7 @@ public sealed record EncounterStatic6(GameVersion Version)
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.AO[Species];
         var pk = new PK6
         {
             EncryptionConstant = Util.Rand32(),
@@ -69,7 +70,7 @@ public sealed record EncounterStatic6(GameVersion Version)
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
 
-            OT_Friendship = PersonalTable.AO[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -95,13 +96,13 @@ public sealed record EncounterStatic6(GameVersion Version)
         this.CopyContestStatsTo(pk);
 
         pk.SetRandomMemory6();
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 
         return pk;
     }
 
-    private void SetPINGA(PK6 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK6 pk, EncounterCriteria criteria, PersonalInfo6AO pi)
     {
         pk.PID = Util.Rand32();
         if (pk.IsShiny)
@@ -120,7 +121,6 @@ public sealed record EncounterStatic6(GameVersion Version)
         else
             criteria.SetRandomIVs(pk, FlawlessIVCount);
 
-        var pi = pk.PersonalInfo;
         var ability = criteria.GetAbilityFromNumber(Ability);
         pk.Nature = (int)criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);

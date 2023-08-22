@@ -68,6 +68,7 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.BW[Species];
         var pk = new PK5
         {
             PID = PID,
@@ -87,13 +88,10 @@ public sealed record EncounterTrade5BW : IEncounterable, IEncounterMatch, IFixed
             OT_Gender = OTGender,
             OT_Name = TrainerNames[lang],
 
-            OT_Friendship = PersonalTable.BW[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             IsNicknamed = IsFixedNickname,
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
-
-            HT_Name = tr.OT,
-            HT_Gender = tr.Gender,
         };
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);

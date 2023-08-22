@@ -52,13 +52,14 @@ public sealed record EncounterStatic9(GameVersion Version)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var pi = PersonalTable.SV[Species, Form];
         var pk = new PK9
         {
             Language = lang,
             Species = Species,
             Form = Form,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.SV[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
             Version = (int)version,
@@ -78,14 +79,14 @@ public sealed record EncounterStatic9(GameVersion Version)
         if (IsTitan)
             pk.RibbonMarkTitan = true;
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.SetMoves(Moves);
 
         pk.ResetPartyStats();
         return pk;
     }
 
-    private void SetPINGA(PK9 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK9 pk, EncounterCriteria criteria, PersonalInfo9SV pi)
     {
         const byte undefinedSize = 0;
         byte height, weight, scale;
@@ -101,7 +102,6 @@ public sealed record EncounterStatic9(GameVersion Version)
         }
 
         const byte rollCount = 1;
-        var pi = PersonalTable.SV.GetFormEntry(Species, Form);
         var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount, height, weight, ScaleType, scale,
             Ability, Shiny);
 

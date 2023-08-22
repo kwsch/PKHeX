@@ -32,11 +32,12 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
     public XK3 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+        var pi = PersonalTable.E[Species];
         var pk = new XK3
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.E[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
             FatefulEncounter = FatefulEncounter,
             Met_Location = Location,
             Met_Level = LevelMin,
@@ -50,16 +51,15 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         EncounterUtil1.SetEncounterMoves(pk, GameVersion.XD, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
     }
 
-    private void SetPINGA(XK3 pk, EncounterCriteria criteria)
+    private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         int ability = criteria.GetAbilityFromNumber(Ability);

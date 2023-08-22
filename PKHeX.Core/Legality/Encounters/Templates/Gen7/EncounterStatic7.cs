@@ -55,6 +55,7 @@ public sealed record EncounterStatic7(GameVersion Version)
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.USUM[Species, Form];
         var pk = new PK7
         {
             EncryptionConstant = Util.Rand32(),
@@ -73,7 +74,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
 
-            OT_Friendship = PersonalTable.USUM[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
@@ -97,7 +98,7 @@ public sealed record EncounterStatic7(GameVersion Version)
         if (Relearn.HasMoves)
             pk.SetRelearnMoves(Relearn);
         EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 
         return pk;
@@ -116,7 +117,7 @@ public sealed record EncounterStatic7(GameVersion Version)
         return form;
     }
 
-    private void SetPINGA(PK7 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK7 pk, EncounterCriteria criteria, PersonalInfo7 pi)
     {
         pk.PID = Util.Rand32();
         if (pk.IsShiny)
@@ -134,8 +135,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             criteria.SetRandomIVs(pk, IVs);
         else
             criteria.SetRandomIVs(pk, FlawlessIVCount);
-
-        var pi = pk.PersonalInfo;
+        
         var ability = criteria.GetAbilityFromNumber(Ability);
         pk.Nature = (int)criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);

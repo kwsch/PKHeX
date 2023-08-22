@@ -62,6 +62,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.BDSP[Species, Form];
         var pk = new PB8
         {
             Species = Species,
@@ -78,7 +79,7 @@ public sealed record EncounterStatic8b(GameVersion Version)
             Language = lang,
             OT_Gender = tr.Gender,
             OT_Name = tr.OT,
-            OT_Friendship = PersonalTable.BDSP[Species, Form].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             HeightScalar = PokeSizeUtil.GetRandomScalar(),

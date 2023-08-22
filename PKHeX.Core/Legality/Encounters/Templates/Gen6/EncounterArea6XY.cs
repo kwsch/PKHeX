@@ -47,21 +47,22 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
     private EncounterSlot6XY[] LoadSafariSlots()
     {
         const int SpeciesFormSlots = 4;
+        const byte Level = 30;
 
         // Single form species
         var species = AllSpecies;
         var slots = new EncounterSlot6XY[species.Length + SpeciesFormSlots];
         int i = 0;
         for (; i < species.Length; i++)
-            slots[i] = new EncounterSlot6XY(this, species[i], 0, 30, 30);
+            slots[i] = new EncounterSlot6XY(this, species[i], 0, Level, Level);
 
         // Floette has 3 separate forms (RBY)
-        slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 0, 30, 30);
-        slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 1, 30, 30);
-        slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 3, 30, 30);
+        slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 0, Level, Level);
+        slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 1, Level, Level);
+        slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 3, Level, Level);
 
         // Region Random Vivillon
-        slots[i] = new EncounterSlot6XY(this, (int)Species.Vivillon, EncounterUtil1.FormVivillon, 30, 30);
+        slots[i] = new EncounterSlot6XY(this, (int)Species.Vivillon, EncounterUtil1.FormVivillon, Level, Level);
         return slots;
     }
 

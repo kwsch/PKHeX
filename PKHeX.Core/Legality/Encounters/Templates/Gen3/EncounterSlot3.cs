@@ -33,11 +33,12 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = Version != GameVersion.RSE ? Version : GameVersion.RSE.Contains(tr.Game) ? (GameVersion)tr.Game : GameVersion.E;
+        var pi = PersonalTable.E[Species];
         var pk = new PK3
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.E[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Met_Location = Location,
             Met_Level = LevelMin,
@@ -51,16 +52,15 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         SetEncounterMoves(pk);
 
         pk.ResetPartyStats();
         return pk;
     }
 
-    private void SetPINGA(PK3 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(-1, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
         var ability = criteria.GetAbilityFromNumber(Ability);

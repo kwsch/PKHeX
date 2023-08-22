@@ -85,6 +85,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
+        var pi = PersonalTable.E[Species];
         var pk = new PK3
         {
             Species = Species,
@@ -94,7 +95,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
             Met_Level = Level,
             Version = (byte)version,
             Ball = (byte)FixedBall,
-            OT_Friendship = PersonalTable.E[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Language = lang,
             OT_Gender = OTGender,

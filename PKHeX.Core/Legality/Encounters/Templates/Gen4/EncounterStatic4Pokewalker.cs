@@ -69,11 +69,12 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
+        var pi = PersonalTable.HGSS[Species];
         var pk = new PK4
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            OT_Friendship = PersonalTable.HGSS[Species].BaseFriendship,
+            OT_Friendship = pi.BaseFriendship,
 
             Met_Location = Location,
             Met_Level = LevelMin,
@@ -88,16 +89,15 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        SetPINGA(pk, criteria);
+        SetPINGA(pk, criteria, pi);
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
     }
 
-    private void SetPINGA(PK4 pk, EncounterCriteria criteria)
+    private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
-        var pi = pk.PersonalInfo;
         int gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature(Nature.Random);
 

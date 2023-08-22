@@ -65,7 +65,7 @@ public sealed record EncounterTrade6 : IEncounterable, IEncounterMatch, IFixedTr
     {
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
-        var pi = PersonalTable.AO[Species, 0];
+        var pi = PersonalTable.AO[Species];
         var pk = new PK6
         {
             PID = Util.Rand32(),
