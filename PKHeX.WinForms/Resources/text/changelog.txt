@@ -1,7 +1,22 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/07/09 - New Update:
+23/08/23 - New Update:
+ - Legality: Added realtime RNG correlation checks for most SW/SH raids. Thanks @SciresM & @Lusamine !
+ - - Note: Seed details do not trickle out to the verbose legality report at this time since seeds are 64bit (not 32bit).
+ - - Added: The encounter generator / matching API has been refactored for better performance and maintenance.
+ - - Fixed: More evotree edge cases have been resolved since the last update.
+ - - Fixed: Gen4 Move Tutor now permits correctly for alternate forms.
+ - - Fixed: Gen2 Union Cave B2F fishing slots are now recognized correctly.
+ - - Fixed: Gen1/2 SID check no longer indicates "Fishy" when SID is correctly zero.
+ - Added: Technical Record editor now indicates yellow for record indexes that can be legally learned by a previous evolution.
+ - Added: Gen9 origin Transfers back to PK9 format now regenerate with legal values that would be sourced from HOME.
+ - Fixed: Gen9 Hoopa-Unbound no longer sets a FormArgument value of 3 whenever set back to box slots.
+ - Fixed: Gen7 US/UM relearn moves now properly show in all PK7s when loaded to tabs.
+ - Fixed: Gen5 CGear Skin handling now behaves correctly for importing & saving skins.
+ - Fixed: Pokérus strains now indicate correctly again in the PKM Editor GUI.
+
+23/07/09 - New Update: (225659) [7207300]
  - Legality: Updated evolution checking algorithms to better identify game visitation. Thanks @Lusamine & @sora10pls !
  - - Added: HOME 3.0.0 move sharing logic for learning moves via HOME instead of in-game.
  - - Added: HOME 3.0.0 ball inheritance logic for breeding encounters for/from Scarlet/Violet.
