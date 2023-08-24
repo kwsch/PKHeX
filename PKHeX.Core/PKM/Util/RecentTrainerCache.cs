@@ -43,9 +43,6 @@ public static class RecentTrainerCache
     /// <inheritdoc cref="SetConsoleRegionData3DS(IRegionOrigin, ITrainerInfo)"/>
     public static void SetConsoleRegionData3DS(IRegionOrigin pk) => SetConsoleRegionData3DS(pk, Trainer);
 
-    /// <inheritdoc cref="SetFirstCountryRegion(IGeoTrack, ITrainerInfo)"/>
-    public static void SetFirstCountryRegion(IGeoTrack pk) => SetFirstCountryRegion(pk, Trainer);
-
     /// <summary>
     /// Fetches an <see cref="IRegionOrigin"/> trainer to apply details to the input <see cref="pk"/>.
     /// </summary>
@@ -63,11 +60,9 @@ public static class RecentTrainerCache
     /// Fetches an <see cref="IRegionOrigin"/> trainer to apply details to the input <see cref="pk"/>.
     /// </summary>
     /// <param name="pk">Entity to apply details to.</param>
-    /// <param name="trainer">Trainer that is receiving the entity.</param>
-    public static void SetFirstCountryRegion(IGeoTrack pk, ITrainerInfo trainer)
+    public static void SetFirstCountryRegion(IGeoTrack pk)
     {
-        var tr = GetTrainer3DS(trainer);
-        pk.Geo1_Country = tr.Country;
-        pk.Geo1_Region = tr.Region;
+        pk.Geo1_Country = pk.Country;
+        pk.Geo1_Region = pk.Region;
     }
 }

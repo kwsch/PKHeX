@@ -132,6 +132,9 @@ public sealed class PK2 : GBPKML, ICaughtData2
     public PK7 ConvertToPK7()
     {
         var rnd = Util.Rand;
+        var lang = TransferLanguage(RecentTrainerCache.Language);
+        var pi = PersonalTable.SM[Species];
+        int abil = TransporterLogic.IsHiddenDisallowedVC2(Species) ? 0 : 2; // Hidden
         var pk7 = new PK7
         {
             EncryptionConstant = rnd.Rand32(),
@@ -161,37 +164,23 @@ public sealed class PK2 : GBPKML, ICaughtData2
             CurrentHandler = 1,
             HT_Name = RecentTrainerCache.OT_Name,
             HT_Gender = RecentTrainerCache.OT_Gender,
+
+            Language = lang,
+            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, 7),
+            OT_Name = GetTransferTrainerName(lang),
+            OT_Gender = OT_Gender, // Crystal
+            OT_Friendship = pi.BaseFriendship,
+            HT_Friendship = pi.BaseFriendship,
+
+            Ability = pi.GetAbilityAtIndex(abil),
+            AbilityNumber = 1 << abil,
         };
-        RecentTrainerCache.SetConsoleRegionData3DS(pk7);
-        RecentTrainerCache.SetFirstCountryRegion(pk7);
-        var lang = TransferLanguage(RecentTrainerCache.Language);
-        pk7.Language = lang;
-        pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, lang, pk7.Format);
 
-        // IVs
         var special = Species is 151 or 251;
-        Span<int> finalIVs = stackalloc int[6];
         int flawless = special ? 5 : 3;
-        for (var i = 0; i < finalIVs.Length; i++)
-            finalIVs[i] = rnd.Next(32);
-        for (var i = 0; i < flawless; i++)
-            finalIVs[i] = 31;
-        rnd.Shuffle(finalIVs);
-        pk7.SetIVs(finalIVs);
-
-        switch (IsShiny ? Shiny.Always : Shiny.Never)
-        {
-            case Shiny.Always when !pk7.IsShiny: // Force Square
-                var low = pk7.PID & 0xFFFF;
-                pk7.PID = (low ^ pk7.TID16 ^ 0u) << 16 | low;
-                break;
-            case Shiny.Never when pk7.IsShiny: // Force Not Shiny
-                pk7.PID ^= 0x1000_0000;
-                break;
-        }
-
-        int abil = TransporterLogic.IsHiddenDisallowedVC2(Species) ? 0 : 2; // Hidden
-        pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
+        pk7.SetTransferIVs(flawless, rnd);
+        pk7.SetTransferPID(IsShiny);
+        pk7.SetTransferLocale(lang);
 
         if (special)
         {
@@ -203,31 +192,26 @@ public sealed class PK2 : GBPKML, ICaughtData2
             pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(Nickname_Trash, Japanese);
         }
 
-        if (OT_Trash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
-            pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
-        else if (Korean)
-            pk7.OT_Name = OT_Name;
-        else
-            pk7.OT_Name = StringConverter12Transporter.GetString(OT_Trash, Japanese);
-
-        pk7.OT_Gender = OT_Gender; // Crystal
-        pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
-
-        pk7.SetTradeMemoryHT6(bank: true); // oh no, memories on gen7 pk
-
         // Dizzy Punch cannot be transferred
+        var dizzy = pk7.GetMoveIndex(146); // Dizzy Punch
+        if (dizzy != -1)
         {
-            var index = pk7.GetMoveIndex(146); // Dizzy Punch
-            if (index != -1)
-            {
-                pk7.SetMove(index, 0);
-                pk7.FixMoves();
-            }
-            pk7.HealPP();
+            pk7.SetMove(dizzy, 0);
+            pk7.FixMoves();
         }
 
+        pk7.HealPP();
         pk7.RefreshChecksum();
         return pk7;
+    }
+
+    private string GetTransferTrainerName(int lang)
+    {
+        if (OT_Trash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+            return StringConverter12.G1TradeOTName[lang];
+        if (Korean)
+            return OT_Name;
+        return StringConverter12Transporter.GetString(OT_Trash, Japanese);
     }
 
     public SK2 ConvertToSK2() => new(Japanese)

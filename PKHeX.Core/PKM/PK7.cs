@@ -497,6 +497,44 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int MaxItemID => Legal.MaxItemID_7_USUM;
     public override int MaxBallID => Legal.MaxBallID_7;
     public override int MaxGameID => Legal.MaxGameID_7;
+
+    internal void SetTransferLocale(int lang)
+    {
+        this.SetTradeMemoryHT6(bank: true); // oh no, memories on gen7 pk
+        RecentTrainerCache.SetConsoleRegionData3DS(this);
+        RecentTrainerCache.SetFirstCountryRegion(this);
+        if (lang == 1 && Country != 1) // Japan Only
+        {
+            ConsoleRegion = 1;
+            Country = 1;
+            Region = 0;
+        }
+    }
+
+    internal void SetTransferIVs(int flawless, Random rnd)
+    {
+        Span<int> finalIVs = stackalloc int[6];
+        for (var i = 0; i < finalIVs.Length; i++)
+            finalIVs[i] = rnd.Next(32);
+        for (var i = 0; i < flawless; i++)
+            finalIVs[i] = 31;
+        rnd.Shuffle(finalIVs);
+        SetIVs(finalIVs);
+    }
+
+    internal void SetTransferPID(bool isShiny)
+    {
+        switch (isShiny ? Shiny.Always : Shiny.Never)
+        {
+            case Shiny.Always when !IsShiny: // Force Square
+                var low = PID & 0xFFFF;
+                PID = (low ^ TID16 ^ 0u) << 16 | low;
+                break;
+            case Shiny.Never when IsShiny: // Force Not Shiny
+                PID ^= 0x1000_0000;
+                break;
+        }
+    }
 }
 
 public enum ResortEventState : byte
