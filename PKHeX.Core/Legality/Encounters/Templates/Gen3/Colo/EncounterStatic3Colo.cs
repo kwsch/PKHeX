@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 3 Static Encounter
 /// </summary>
 public sealed record EncounterStatic3Colo(ushort Species, byte Level)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IFixedGender, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<CK3>, IFixedGender, IRandomCorrelation, IMoveset
 {
     public int Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
@@ -102,6 +102,8 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
     {
         if (IsMatchPartial(pk))
             return EncounterMatchRating.PartialMatch;
+        if (pk.FatefulEncounter) // Clash with XD's starter Eevee
+            return EncounterMatchRating.DeferredErrors;
         return EncounterMatchRating.Match;
     }
 

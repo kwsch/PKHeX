@@ -139,7 +139,6 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             return EncounterMatchRating.PartialMatch;
         return EncounterMatchRating.Match;
     }
-    private bool IsDeferredWurmple(PKM pk) => Species == (int)Core.Species.Wurmple && pk.Species != (int)Core.Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pk);
 
     private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
 
@@ -183,8 +182,6 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
     private bool IsMatchPartial(PKM pk)
     {
         if (IsDeferredSafari3(pk.Ball == (int)Ball.Safari))
-            return true;
-        if (IsDeferredWurmple(pk))
             return true;
         if (Gift && pk.Ball != (byte)FixedBall)
             return true;

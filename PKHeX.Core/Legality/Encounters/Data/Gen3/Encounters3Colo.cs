@@ -23,27 +23,27 @@ internal static class Encounters3Colo
     {
         new(01, 03000, ColoMakuhita) { Species = 296, Level = 30, Moves = new(193,116,233,238), Location = 005 }, // Makuhita: Miror B.Peon Trudly @ Phenac City
 
-        new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 003  }, // Bayleef: Cipher Peon Verde @ Phenac City
-        new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 069  }, // Bayleef: Cipher Peon Verde @ Shadow PKMN Lab
-        new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 115  }, // Bayleef: Cipher Peon Verde @ Realgam Tower
-        new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 132  }, // Bayleef: Cipher Peon Verde @ Snagem Hideout
-        new(03, 03000, First)     { Species = 156, Level = 30, Moves = new(241,108,091,172), Location = 003  }, // Quilava: Cipher Peon Rosso @ Phenac City
-        new(03, 03000, First)     { Species = 156, Level = 30, Moves = new(241,108,091,172), Location = 069  }, // Quilava: Cipher Peon Rosso @ Shadow PKMN Lab
-        new(03, 03000, First)     { Species = 156, Level = 30, Moves = new(241,108,091,172), Location = 115  }, // Quilava: Cipher Peon Rosso @ Realgam Tower
-        new(03, 03000, First)     { Species = 156, Level = 30, Moves = new(241,108,091,172), Location = 132  }, // Quilava: Cipher Peon Rosso @ Snagem Hideout
-        new(04, 03000, First)     { Species = 159, Level = 30, Moves = new(240,184,044,057), Location = 003  }, // Croconaw: Cipher Peon Bluno @ Phenac City
-        new(04, 03000, First)     { Species = 159, Level = 30, Moves = new(240,184,044,057), Location = 069  }, // Croconaw: Cipher Peon Bluno @ Shadow PKMN Lab
-        new(04, 03000, First)     { Species = 159, Level = 30, Moves = new(240,184,044,057), Location = 115  }, // Croconaw: Cipher Peon Bluno @ Realgam Tower
-        new(04, 03000, First)     { Species = 159, Level = 30, Moves = new(240,184,044,057), Location = 132  }, // Croconaw: Cipher Peon Bluno @ Snagem Hideout
+        new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 003 }, // Bayleef: Cipher Peon Verde @ Phenac City
+        new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 069 }, // Bayleef: Cipher Peon Verde @ Shadow PKMN Lab
+        new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 115 }, // Bayleef: Cipher Peon Verde @ Realgam Tower
+        new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 132 }, // Bayleef: Cipher Peon Verde @ Snagem Hideout
+        new(03, 03000, First)     { Species = 156, Level = 30, Moves = new(241,108,091,172), Location = 003 }, // Quilava: Cipher Peon Rosso @ Phenac City
+        new(03, 03000, First)     { Species = 156, Level = 30, Moves = new(241,108,091,172), Location = 069 }, // Quilava: Cipher Peon Rosso @ Shadow PKMN Lab
+        new(03, 03000, First)     { Species = 156, Level = 30, Moves = new(241,108,091,172), Location = 115 }, // Quilava: Cipher Peon Rosso @ Realgam Tower
+        new(03, 03000, First)     { Species = 156, Level = 30, Moves = new(241,108,091,172), Location = 132 }, // Quilava: Cipher Peon Rosso @ Snagem Hideout
+        new(04, 03000, First)     { Species = 159, Level = 30, Moves = new(240,184,044,057), Location = 003 }, // Croconaw: Cipher Peon Bluno @ Phenac City
+        new(04, 03000, First)     { Species = 159, Level = 30, Moves = new(240,184,044,057), Location = 069 }, // Croconaw: Cipher Peon Bluno @ Shadow PKMN Lab
+        new(04, 03000, First)     { Species = 159, Level = 30, Moves = new(240,184,044,057), Location = 115 }, // Croconaw: Cipher Peon Bluno @ Realgam Tower
+        new(04, 03000, First)     { Species = 159, Level = 30, Moves = new(240,184,044,057), Location = 132 }, // Croconaw: Cipher Peon Bluno @ Snagem Hideout
         new(05, 03000, First)     { Species = 164, Level = 30, Moves = new(211,095,115,019), Location = 015 }, // Noctowl: Rider Nover @ Pyrite Town
         new(06, 03000, First)     { Species = 180, Level = 30, Moves = new(085,086,178,084), Location = 015 }, // Flaaffy: St.Performer Diogo @ Pyrite Town
         new(07, 03000, First)     { Species = 188, Level = 30, Moves = new(235,079,178,072), Location = 015 }, // Skiploom: Rider Leba @ Pyrite Town
         new(08, 04000, First)     { Species = 195, Level = 30, Moves = new(341,133,021,057), Location = 015 }, // Quagsire: Bandana Guy Divel @ Pyrite Town
         new(09, 04000, First)     { Species = 200, Level = 30, Moves = new(060,109,212,247), Location = 015 }, // Misdreavus: Rider Vant @ Pyrite Town
-        new(10, 05000, First)     { Species = 193, Level = 33, Moves = new(197,048,049,253), Location = 025  }, // Yanma: Cipher Peon Nore @ Pyrite Bldg
-        new(10, 05000, First)     { Species = 193, Level = 33, Moves = new(197,048,049,253), Location = 132  }, // Yanma: Cipher Peon Nore @ Snagem Hideout
-        new(11, 05000, First)     { Species = 162, Level = 33, Moves = new(231,270,098,070), Location = 015  }, // Furret: Rogue Cail @ Pyrite Town
-        new(12, 04000, First)     { Species = 218, Level = 30, Moves = new(241,281,088,053), Location = 015  }, // Slugma: Roller Boy Lon @ Pyrite Town
+        new(10, 05000, First)     { Species = 193, Level = 33, Moves = new(197,048,049,253), Location = 025 }, // Yanma: Cipher Peon Nore @ Pyrite Bldg
+        new(10, 05000, First)     { Species = 193, Level = 33, Moves = new(197,048,049,253), Location = 132 }, // Yanma: Cipher Peon Nore @ Snagem Hideout
+        new(11, 05000, First)     { Species = 162, Level = 33, Moves = new(231,270,098,070), Location = 015 }, // Furret: Rogue Cail @ Pyrite Town
+        new(12, 04000, First)     { Species = 218, Level = 30, Moves = new(241,281,088,053), Location = 015 }, // Slugma: Roller Boy Lon @ Pyrite Town
         new(13, 04000, First)     { Species = 223, Level = 20, Moves = new(061,199,060,062), Location = 028 }, // Remoraid: Miror B.Peon Reath @ Pyrite Bldg
         new(13, 04000, First)     { Species = 223, Level = 20, Moves = new(061,199,060,062), Location = 030 }, // Remoraid: Miror B.Peon Reath @ Pyrite Cave
         new(14, 05000, First)     { Species = 226, Level = 33, Moves = new(017,048,061,036), Location = 028 }, // Mantine: Miror B.Peon Ferma @ Pyrite Bldg

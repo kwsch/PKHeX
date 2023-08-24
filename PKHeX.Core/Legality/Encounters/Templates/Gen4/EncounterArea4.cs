@@ -80,9 +80,9 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGTy
     private static bool IsMunchlaxTree(in MunchlaxTreeSet4 trees, ushort location)
     {
         return LocationID_HoneyTree[trees.Tree1] == location
-            && LocationID_HoneyTree[trees.Tree2] == location
-            && LocationID_HoneyTree[trees.Tree3] == location
-            && LocationID_HoneyTree[trees.Tree4] == location;
+            || LocationID_HoneyTree[trees.Tree2] == location
+            || LocationID_HoneyTree[trees.Tree3] == location
+            || LocationID_HoneyTree[trees.Tree4] == location;
     }
 
     private static ReadOnlySpan<byte> LocationID_HoneyTree => new byte[]

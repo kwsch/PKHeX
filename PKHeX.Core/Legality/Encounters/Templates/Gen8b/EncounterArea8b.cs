@@ -95,9 +95,9 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
     private static bool IsMunchlaxTree(in MunchlaxTreeSet4 trees, ushort location)
     {
         return LocationID_HoneyTree[trees.Tree1] == location
-            && LocationID_HoneyTree[trees.Tree2] == location
-            && LocationID_HoneyTree[trees.Tree3] == location
-            && LocationID_HoneyTree[trees.Tree4] == location;
+            || LocationID_HoneyTree[trees.Tree2] == location
+            || LocationID_HoneyTree[trees.Tree3] == location
+            || LocationID_HoneyTree[trees.Tree4] == location;
     }
 
     private static ReadOnlySpan<ushort> LocationID_HoneyTree => new ushort[]
