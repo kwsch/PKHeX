@@ -26,7 +26,7 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
             throw new ArgumentOutOfRangeException(nameof(species), species, null);
 
         var internalSpecies = SpeciesConverter.GetInternal9(species);
-        var span = Paldea.Data.AsSpan(internalSpecies * EntrySize);
+        var span = Paldea.Data.AsSpan(internalSpecies * EntrySize,EntrySize);
         return new PokeDexEntry9SV(span);
     }
 
