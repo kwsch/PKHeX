@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.Locations;
 
@@ -101,12 +102,15 @@ public sealed class MetDataSource
     private IReadOnlyList<ComboItem> CreateGen5Transfer()
     {
         // PokéTransfer to front
-        var met = MetGen5.ToArray();
-        var index = Array.FindIndex(met, static z => z.Value == Locations.Transfer4);
-        var xfr = met[index];
-        Array.Copy(met, 0, met, 1, index);
-        met[0] = xfr;
-        return met;
+        var index = MetGen5.FindIndex(static z => z.Value == Locations.Transfer4);
+        var xfr = MetGen5[index];
+        var result = new ComboItem[MetGen5.Count];
+        result[0] = xfr;
+        var dest = result.AsSpan(1);
+        var span = CollectionsMarshal.AsSpan(MetGen5);
+        span[..index].CopyTo(dest);
+        span[(index + 1)..].CopyTo(dest[index..]);
+        return result;
     }
 
     private static List<ComboItem> CreateGen6(GameStrings s)
@@ -230,10 +234,15 @@ public sealed class MetDataSource
         // Insert the BDSP none location if the format requires it.
         if (context is EntityContext.Gen8b && !BDSP.Contains(version))
         {
-            var list = new List<ComboItem>(result.Count + 1);
-            list.AddRange(result);
-            list.Insert(1, new ComboItem($"{list[0].Text} (BD/SP)", Locations.Default8bNone));
-            result = list;
+            var bdsp = new ComboItem[result.Count + 1];
+            var none = bdsp[0] = result[0];
+            bdsp[1] = new ComboItem($"{none.Text} (BD/SP)", Locations.Default8bNone);
+            var dest = bdsp.AsSpan(2);
+            if (result is ComboItem[] arr)
+                arr.AsSpan(1).CopyTo(dest);
+            else if (result is List<ComboItem> list)
+                CollectionsMarshal.AsSpan(list)[1..].CopyTo(dest);
+            return bdsp;
         }
 
         return result;

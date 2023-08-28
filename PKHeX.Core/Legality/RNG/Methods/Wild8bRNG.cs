@@ -103,7 +103,7 @@ public static class Wild8bRNG
             AbilityPermission.Any12H => (int)xors.NextUInt(3),
             _ => (int)ability >> 1,
         };
-        pk.SetAbilityIndex(n);
+        pk.RefreshAbility(n);
 
         // Gender (skip this if gender is fixed)
         var genderRatio = PersonalTable.BDSP.GetFormEntry(pk.Species, pk.Form).Gender;

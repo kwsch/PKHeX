@@ -84,8 +84,8 @@ public sealed class PIDVerifier : Verifier
         if (pk.Species == (int)Species.Wurmple)
         {
             // Indicate what it will evolve into
-            uint evoVal = WurmpleUtil.GetWurmpleEvoVal(pk.EncryptionConstant);
-            var evolvesTo = evoVal == 0 ? (int)Species.Beautifly : (int)Species.Dustox;
+            var evoVal = WurmpleUtil.GetWurmpleEvoVal(pk.EncryptionConstant);
+            var evolvesTo = evoVal == WurmpleEvolution.Silcoon ? (int)Species.Beautifly : (int)Species.Dustox;
             var species = ParseSettings.SpeciesStrings[evolvesTo];
             var msg = string.Format(L_XWurmpleEvo_0, species);
             data.AddLine(GetValid(msg, CheckIdentifier.EC));

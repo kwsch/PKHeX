@@ -28,7 +28,7 @@ public partial class SAV_EventReset1 : Form
             var specName = split[0][G1OverworldSpawner.FlagPropertyPrefix.Length..];
 
             // convert species name to current localization language
-            var species = SpeciesName.GetSpeciesID(specName);
+            SpeciesName.TryGetSpecies(specName, (int)LanguageID.English, out var species);
             var pkmname = GameInfo.Strings.specieslist[species];
 
             if (split.Length != 1)

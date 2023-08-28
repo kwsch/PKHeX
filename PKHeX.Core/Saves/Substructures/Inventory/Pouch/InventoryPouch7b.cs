@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -13,7 +14,7 @@ public sealed class InventoryPouch7b : InventoryPouch
 
     public override InventoryItem7b GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 
-    public InventoryPouch7b(InventoryType type, IItemStorage info, int maxCount, int offset, int size) : base(type, info, maxCount, offset, size) { }
+    public InventoryPouch7b(InventoryType type, IItemStorage info, int maxCount, int offset, [ConstantExpected] int size) : base(type, info, maxCount, offset, size) { }
 
     public override void GetPouch(ReadOnlySpan<byte> data)
     {

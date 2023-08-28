@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 public sealed class InventoryPouch3GC : InventoryPouch
 {
-    public InventoryPouch3GC(InventoryType type, IItemStorage info, int maxCount, int offset, int size)
+    public InventoryPouch3GC(InventoryType type, IItemStorage info, int maxCount, int offset, [ConstantExpected] int size)
         : base(type, info, maxCount, offset, size)
     {
     }

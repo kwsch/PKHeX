@@ -11,7 +11,7 @@ internal static class Encounters3Colo
         new(197, 26) { Moves = new(044, 269, 290, 289) }, // Umbreon (Bite)
     };
 
-    internal static readonly string[] TrainerNameDuking = { string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN", };
+    internal static readonly string[] TrainerNameDuking = { string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN" };
 
     internal static readonly EncounterGift3Colo[] Gifts =
     {

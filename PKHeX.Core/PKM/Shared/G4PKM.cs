@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -7,7 +8,7 @@ public abstract class G4PKM : PKM,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons, IContestStats, IGroundTile
 {
     protected G4PKM(byte[] data) : base(data) { }
-    protected G4PKM(int size) : base(size) { }
+    protected G4PKM([ConstantExpected] int size) : base(size) { }
 
     // Maximums
     public sealed override ushort MaxMoveID => Legal.MaxMoveID_4;

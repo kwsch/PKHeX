@@ -1,16 +1,16 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Encounter data from <see cref="GameVersion.GO"/>, which has multiple generations of origin.
 /// </summary>
 #if !DEBUG
-    internal static class EncountersGO
-    {
-        internal const int MAX_LEVEL = 50;
+internal static class EncountersGO
+{
+    internal const int MAX_LEVEL = 50;
 
-        internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(EncounterUtil.Get("go_lgpe", "go"));
-        internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(EncounterUtil.Get("go_home", "go"));
-    }
+    internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(EncounterUtil.Get("go_lgpe", "go"));
+    internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(EncounterUtil.Get("go_home", "go"));
+}
 #else
 public static class EncountersGO
 {

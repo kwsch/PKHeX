@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -19,7 +20,7 @@ public abstract class GBPKM : PKM
 
     public sealed override ReadOnlySpan<ushort> ExtraBytes => ReadOnlySpan<ushort>.Empty;
 
-    protected GBPKM(int size) : base(size) { }
+    protected GBPKM([ConstantExpected] int size) : base(size) { }
     protected GBPKM(byte[] data) : base(data) { }
 
     public sealed override byte[] EncryptedPartyData => Encrypt();

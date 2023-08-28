@@ -127,7 +127,11 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate,
             pk.Language = (int)GetSafeLanguage((LanguageID)tr.Language);
             pk.OT_Name = !string.IsNullOrWhiteSpace(OT_Name) ? OT_Name : tr.OT;
             if (IsEgg)
+            {
                 pk.IsEgg = true; // lang should be set to japanese already
+                if (pk.OT_Trash[0] == 0xFF)
+                    pk.OT_Name = "ゲーフリ";
+            }
         }
         pk.Nickname = Nickname ?? SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
 
@@ -200,6 +204,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate,
         var seed = Util.Rand32();
         seed = TID16 == 06930 ? MystryMew.GetSeed(seed, Method) : GetSaneSeed(seed);
         PIDGenerator.SetValuesFromSeed(pk, Method, seed);
+        pk.RefreshAbility((int)(pk.EncryptionConstant & 1));
     }
 
     private uint GetSaneSeed(uint seed) => Method switch

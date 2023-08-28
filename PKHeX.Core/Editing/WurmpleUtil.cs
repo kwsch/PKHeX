@@ -10,23 +10,22 @@ public static class WurmpleUtil
     /// </summary>
     /// <param name="encryptionConstant">Encryption Constant</param>
     /// <returns>Wurmple Evolution Value</returns>
-    public static uint GetWurmpleEvoVal(uint encryptionConstant)
+    public static WurmpleEvolution GetWurmpleEvoVal(uint encryptionConstant)
     {
         var evoVal = encryptionConstant >> 16;
-        return evoVal % 10 / 5;
+        return (WurmpleEvolution)(evoVal % 10 / 5);
     }
 
     /// <summary>
     /// Gets the evo chain of Wurmple
     /// </summary>
-    /// <param name="species">Current species</param>
-    /// <returns>-1 if not a Wurmple Evo, 0 if Silcoon chain, 1 if Cascoon chain</returns>
-    public static int GetWurmpleEvoGroup(ushort species)
+    /// <param name="species">Current species, must be evolved from Wurmple.</param>
+    public static WurmpleEvolution GetWurmpleEvoGroup(ushort species)
     {
         int wIndex = species - (int)Species.Silcoon;
         if ((wIndex & 3) != wIndex) // Wurmple evo, [0,3]
-            return -1;
-        return wIndex >> 1; // Silcoon, Cascoon
+            return WurmpleEvolution.None;
+        return (WurmpleEvolution)(wIndex >> 1); // Silcoon, Cascoon
     }
 
     /// <summary>
@@ -35,7 +34,7 @@ public static class WurmpleUtil
     /// <param name="evoVal">Wurmple Evolution Value</param>
     /// <remarks>0 = Silcoon, 1 = Cascoon</remarks>
     /// <returns>Encryption Constant</returns>
-    public static uint GetWurmpleEncryptionConstant(int evoVal)
+    public static uint GetWurmpleEncryptionConstant(WurmpleEvolution evoVal)
     {
         uint result;
         var rnd = Util.Rand;
@@ -51,8 +50,23 @@ public static class WurmpleUtil
     /// <returns>True if valid, false if invalid</returns>
     public static bool IsWurmpleEvoValid(PKM pk)
     {
-        uint evoVal = GetWurmpleEvoVal(pk.EncryptionConstant);
-        int wIndex = GetWurmpleEvoGroup(pk.Species);
+        var evoVal = GetWurmpleEvoVal(pk.EncryptionConstant);
+        var wIndex = GetWurmpleEvoGroup(pk.Species);
         return evoVal == wIndex;
     }
+}
+
+/// <summary>
+/// Indicates the evolution of Wurmple
+/// </summary>
+public enum WurmpleEvolution
+{
+    /// <summary> Invalid value </summary>
+    None = -1,
+
+    /// <summary> Evolves into Silcoon/Beautifly </summary>
+    Silcoon = 0,
+
+    /// <summary> Evolves into Cascoon/Dustox </summary>
+    Cascoon = 1,
 }

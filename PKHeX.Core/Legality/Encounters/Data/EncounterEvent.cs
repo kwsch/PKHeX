@@ -73,9 +73,6 @@ public static class EncounterEvent
     public static WC9[] EGDB_G9 { get; private set; } = Array.Empty<WC9>();
     #endregion
 
-    /// <summary>Indicates if the databases are initialized.</summary>
-    public static bool Initialized => MGDB_G3.Length != 0;
-
     private static PCD[] GetPCDDB(ReadOnlySpan<byte> bin) => Get(bin, PCD.Size, static d => new PCD(d));
     private static PGF[] GetPGFDB(ReadOnlySpan<byte> bin) => Get(bin, PGF.Size, static d => new PGF(d));
 
@@ -178,6 +175,7 @@ public static class EncounterEvent
     {
         var regular = new IReadOnlyList<MysteryGift>[]
         {
+            MGDB_G3,
             MGDB_G4,       EGDB_G4,
             MGDB_G5,       EGDB_G5,
             MGDB_G6,       EGDB_G6,
@@ -188,8 +186,7 @@ public static class EncounterEvent
             MGDB_G8B,      EGDB_G8B,
             MGDB_G9,       EGDB_G9,
         }.SelectMany(z => z);
-        regular = regular.Where(mg => mg is { IsItem: false, IsEntity: true, Species: > 0 });
-        var result = MGDB_G3.Concat(regular);
+        var result = regular.Where(mg => mg is { IsItem: false, IsEntity: true, Species: not 0 });
         if (sorted)
             result = result.OrderBy(mg => mg.Species);
         return result;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -39,7 +40,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override int MaxBallID => Legal.MaxBallID_5;
     public override int MaxGameID => Legal.MaxGameID_5; // B2
 
-    protected SAV5(int size) : base(size)
+    protected SAV5([ConstantExpected] int size) : base(size)
     {
         Initialize();
         ClearBoxes();

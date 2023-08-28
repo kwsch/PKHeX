@@ -92,7 +92,7 @@ public static class Roaming8bRNG
         pk.IV_SPE = ivs[5];
 
         // Ability
-        pk.SetAbilityIndex((int)xoro.NextUInt(2));
+        pk.RefreshAbility((int)xoro.NextUInt(2));
 
         // Remainder
         var scale = (IScaledSize)pk;

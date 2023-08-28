@@ -15,12 +15,12 @@ internal static class Encounters8a
     internal static readonly EncounterStatic8a[] StaticLA =
     {
         // Gifts
-        new(722,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed, }, // Rowlet
-        new(155,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed, }, // Cyndaquil
-        new(501,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed, }, // Oshawott
-        new(037,001,40,M,M) { Location = 088,                      FixedBall = Ball.LAPoke,   Method = Fixed, }, // Vulpix-1
-        new(483,000,65,M,M) { Location = 109, FlawlessIVCount = 3, FixedBall = Ball.LAOrigin, Method = Fixed, }, // Dialga
-        new(484,000,65,M,M) { Location = 109, FlawlessIVCount = 3, FixedBall = Ball.LAOrigin, Method = Fixed, }, // Palkia
+        new(722,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed }, // Rowlet
+        new(155,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed }, // Cyndaquil
+        new(501,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed }, // Oshawott
+        new(037,001,40,M,M) { Location = 088,                      FixedBall = Ball.LAPoke,   Method = Fixed }, // Vulpix-1
+        new(483,000,65,M,M) { Location = 109, FlawlessIVCount = 3, FixedBall = Ball.LAOrigin, Method = Fixed }, // Dialga
+        new(484,000,65,M,M) { Location = 109, FlawlessIVCount = 3, FixedBall = Ball.LAOrigin, Method = Fixed }, // Palkia
         new(493,000,75,M,M) { Location = 109, FlawlessIVCount = 3, FixedBall = Ball.LAPoke,   Method = Fixed, FatefulEncounter = true }, // Arceus
 
         // Static Encounters - Scripted Table Slots

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -7,7 +8,7 @@ public sealed class InventoryPouch3 : InventoryPouch
 {
     public uint SecurityKey { private get; set; } // = 0 // Gen3 Only
 
-    public InventoryPouch3(InventoryType type, IItemStorage info, int maxCount, int offset, int size)
+    public InventoryPouch3(InventoryType type, IItemStorage info, int maxCount, int offset, [ConstantExpected] int size)
         : base(type, info, maxCount, offset, size)
     {
     }

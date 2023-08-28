@@ -102,9 +102,10 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
     {
         if (pk.IsShiny)
             pk.PID ^= 0x1000_0000;
-        pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, pi);
-        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
+        var nature = (int)criteria.GetNature(Nature);
+        var gender = criteria.GetGender(Gender, pi);
+        var ability = criteria.GetAbilityFromNumber(Ability);
+        PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
         criteria.SetRandomIVs(pk, IVs);
     }
 

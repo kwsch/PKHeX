@@ -203,7 +203,7 @@ public static class WinFormsTranslator
             var argCount = constructors[0].GetParameters().Length;
             try
             {
-                var _ = (Form?)Activator.CreateInstance(t, new object[argCount]);
+                _ = (Form?)Activator.CreateInstance(t, new object[argCount]);
             }
             // This is a debug utility method, will always be logging. Shouldn't ever fail.
             catch

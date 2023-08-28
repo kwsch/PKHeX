@@ -51,7 +51,7 @@ public static class CommonEdits
     /// Sets the <see cref="PKM.Ability"/> value by sanity checking the provided <see cref="PKM.Ability"/> against the possible pool of abilities.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
-    /// <param name="abil">Desired <see cref="PKM.Ability"/> to set.</param>
+    /// <param name="abil">Desired <see cref="Ability"/> value to set.</param>
     public static void SetAbility(this PKM pk, int abil)
     {
         if (abil < 0)

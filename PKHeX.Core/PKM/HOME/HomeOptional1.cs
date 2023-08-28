@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -19,7 +20,7 @@ public abstract class HomeOptional1
     protected HomeOptional1(ushort size) => Buffer = new byte[size];
     protected HomeOptional1(Memory<byte> buffer) => Buffer = buffer;
 
-    protected void EnsureSize(int size)
+    protected void EnsureSize([ConstantExpected] int size)
     {
         if (Buffer.Length != size)
             throw new ArgumentOutOfRangeException(nameof(size), size, $"Expected size {Buffer.Length} but received {size}.");

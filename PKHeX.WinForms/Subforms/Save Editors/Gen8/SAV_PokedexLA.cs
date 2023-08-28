@@ -235,9 +235,13 @@ public partial class SAV_PokedexLA : Form
         {
             var selectedForm = Dex.GetSelectedForm(species);
             CB_DisplayForm.SelectedIndex = 0;
-            for (var i = 0; i < CB_DisplayForm.Items.Count; ++i)
+            var items = CB_DisplayForm.Items;
+            for (var i = 0; i < items.Count; ++i)
             {
-                if (((ComboItem)CB_DisplayForm.Items[i]).Value != selectedForm)
+                var item = items[i];
+                if (item is not ComboItem cb)
+                    throw new Exception("Invalid item type");
+                if (cb.Value != selectedForm)
                     continue;
 
                 CB_DisplayForm.SelectedIndex = i;

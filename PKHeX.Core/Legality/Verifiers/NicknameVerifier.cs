@@ -22,7 +22,7 @@ public sealed class NicknameVerifier : Verifier
             data.AddLine(GetInvalid(LNickLengthShort));
             return;
         }
-        if (pk.Species > SpeciesName.SpeciesLang[0].Count)
+        if (pk.Species > SpeciesName.MaxSpeciesID)
         {
             data.AddLine(Get(LNickLengthShort, Severity.Invalid));
             return;
@@ -143,7 +143,7 @@ public sealed class NicknameVerifier : Verifier
             data.AddLine(GetInvalid(LNickMatchLanguageFlag));
     }
 
-    private bool VerifyUnNicknamedEncounter(LegalityAnalysis data, PKM pk, string nickname)
+    private bool VerifyUnNicknamedEncounter(LegalityAnalysis data, PKM pk, ReadOnlySpan<char> nickname)
     {
         if (pk.IsNicknamed)
         {
@@ -157,11 +157,11 @@ public sealed class NicknameVerifier : Verifier
                     return true;
                 }
             }
-            for (int i = 0; i < SpeciesName.SpeciesDict.Count; i++)
+            foreach (var language in Language.GetAvailableGameLanguages(pk.Format))
             {
-                if (!SpeciesName.SpeciesDict[i].TryGetValue(nickname, out var species))
+                if (!SpeciesName.TryGetSpecies(nickname, language, out var species))
                     continue;
-                var msg = species == pk.Species && i != pk.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
+                var msg = species == pk.Species && language != pk.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
                 data.AddLine(Get(msg, ParseSettings.NicknamedAnotherSpecies));
                 return true;
             }

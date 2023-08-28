@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -8,7 +9,7 @@ public abstract class G6PKM : PKM, ISanityChecksum
     public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
     protected G6PKM(byte[] data) : base(data) { }
-    protected G6PKM(int size) : base(size) { }
+    protected G6PKM([ConstantExpected] int size) : base(size) { }
 
     // Trash Bytes
     public sealed override Span<byte> Nickname_Trash => Data.AsSpan(0x40, 26);

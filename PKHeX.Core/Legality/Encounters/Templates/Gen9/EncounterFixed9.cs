@@ -20,7 +20,7 @@ public sealed record EncounterFixed9
     public Ball FixedBall => Ball.None;
     public bool IsShiny => false;
     public int EggLocation => 0;
-    public AbilityPermission Ability => AbilityPermission.Any12;
+    public AbilityPermission Ability => Any12;
 
     public required ushort Species { get; init; }
     public required byte Form { get; init; }

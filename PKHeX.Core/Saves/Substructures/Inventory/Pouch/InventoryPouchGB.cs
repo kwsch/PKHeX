@@ -1,10 +1,11 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
 public sealed class InventoryPouchGB : InventoryPouch
 {
-    public InventoryPouchGB(InventoryType type, IItemStorage info, int maxCount, int offset, int size)
+    public InventoryPouchGB(InventoryType type, IItemStorage info, int maxCount, int offset, [ConstantExpected] int size)
         : base(type, info, maxCount, offset, size)
     {
     }
