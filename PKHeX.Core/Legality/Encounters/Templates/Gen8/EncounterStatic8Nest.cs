@@ -108,6 +108,8 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
                 continue;
             if (checkShiny && pk.IsShiny != requestShiny)
                 continue;
+            if (criteria.Gender != FixedGenderUtil.GenderRandom && pk.Gender != criteria.Gender)
+                continue;
             break;
         } while (ctr++ < 100_000);
 
