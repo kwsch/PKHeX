@@ -42,7 +42,7 @@ public sealed record EncounterArea9 : IEncounterArea<EncounterSlot9>, IAreaLocat
             var slot = areaData[(i * size)..];
             var species = ReadUInt16LittleEndian(slot);
             var form = slot[2];
-            var gender = (sbyte)slot[3];
+            var gender = slot[3];
 
             var min = slot[4];
             var max = slot[5];

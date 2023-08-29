@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8 BD/SP Trade Encounter
 /// </summary>
-public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PB8>, IScaledSizeReadOnly, IFixedOTFriendship, IMoveset, IContestStatsReadOnly
+public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PB8>, IScaledSizeReadOnly, IFixedOTFriendship, IMoveset, IContestStatsReadOnly, IFixedGender, IFixedNature
 {
     public int Generation => 8;
     public EntityContext Context => EntityContext.Gen8b;

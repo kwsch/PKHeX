@@ -36,7 +36,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     {
         Species = ReadUInt16LittleEndian(data),
         Form = data[2],
-        Gender = (sbyte)data[3],
+        Gender = data[3],
         Ability = (AbilityPermission)data[4],
         CanGigantamax = data[5] != 0,
     };

@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 7 Static Encounter
 /// </summary>
 public sealed record EncounterStatic7(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK7>, IRelearn, IEncounterFormRandom, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK7>, IRelearn, IEncounterFormRandom, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IFixedNature
 {
     public int Generation => 7;
     public EntityContext Context => EntityContext.Gen7;
@@ -26,7 +26,7 @@ public sealed record EncounterStatic7(GameVersion Version)
     public byte FlawlessIVCount { get; init; }
     public Shiny Shiny { get; init; }
     public AbilityPermission Ability { get; init; }
-    public sbyte Gender { get; init; } = -1;
+    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public Nature Nature { get; init; } = Nature.Random;
     public Ball FixedBall { get; init; }
 
@@ -163,7 +163,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             return false;
         if (!IsMatchForm(pk, evo))
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
             return false;

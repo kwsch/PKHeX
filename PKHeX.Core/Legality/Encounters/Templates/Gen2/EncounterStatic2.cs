@@ -21,7 +21,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
 
     public Shiny Shiny { get; init; } = Shiny.Random;
     public byte Location { get; init; }
-    public sbyte Gender { get; init; } = -1;
+    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public IndividualValueSet IVs { get; init; }
     public Moveset Moves { get; init; }
     public bool EggEncounter { get; init; }
@@ -131,7 +131,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
             }
             else
             {
-                if (Gender != -1 && pk.Gender != Gender)
+                if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
                     return false;
             }
         }

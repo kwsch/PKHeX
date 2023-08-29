@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Generation 4 Pokéwalker  Encounter
 /// </summary>
 public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IRandomCorrelation, IFixedGender
 {
     public int Generation => 4;
     public EntityContext Context => EntityContext.Gen4;

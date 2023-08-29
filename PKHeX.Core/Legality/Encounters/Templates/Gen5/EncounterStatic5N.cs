@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 5 Static Encounter from N
 /// </summary>
 public sealed record EncounterStatic5N(uint PID)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IFixedTrainer
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IFixedTrainer, IFixedNature
 {
     public int Generation => 5;
     public EntityContext Context => EntityContext.Gen5;

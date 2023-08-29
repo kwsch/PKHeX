@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 4 Static Encounter
 /// </summary>
 public sealed record EncounterStatic4(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IGroundTypeTile, IFatefulEncounterReadOnly, IFixedGender, IRandomCorrelation
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IMoveset, IGroundTypeTile, IFatefulEncounterReadOnly, IFixedGender, IRandomCorrelation, IFixedNature
 {
     public int Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
@@ -26,7 +26,7 @@ public sealed record EncounterStatic4(GameVersion Version)
     public byte Form { get; init; }
     public Shiny Shiny { get; init; }
     public ushort EggLocation { get; init; }
-    public sbyte Gender { get; init; } = -1;
+    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
 
     public string Name => "Static Encounter";
     public string LongName => Name;
@@ -126,7 +126,7 @@ public sealed record EncounterStatic4(GameVersion Version)
             return false;
         if (!IsMatchLevel(pk, evo))
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;

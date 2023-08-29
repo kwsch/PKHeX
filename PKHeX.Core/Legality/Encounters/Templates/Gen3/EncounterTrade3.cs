@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 3 Trade Encounter
 /// </summary>
-public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK3>, IContestStatsReadOnly
+public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IFixedGender, IFixedNature, IEncounterConvertible<PK3>, IContestStatsReadOnly
 {
     public int Generation => 3;
     public EntityContext Context => EntityContext.Gen3;
@@ -17,6 +17,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
     public int EggLocation => 0;
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
+    public Nature Nature => (Nature)(PID % 25);
 
     private string[] TrainerNames { get; }
     private string[] Nicknames { get; }

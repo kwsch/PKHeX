@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Intermediary Representation of Dream World Data
 /// </summary>
-public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, ushort Move2 = 0, ushort Move3 = 0, byte Form = 0, sbyte Gender = -1)
+public readonly record struct DreamWorldEntry(ushort Species, byte Level, ushort Move1 = 0, ushort Move2 = 0, ushort Move3 = 0, byte Form = 0, byte Gender = FixedGenderUtil.GenderRandom)
 {
     private int EntryCount => Move1 == 0 ? 1 : Move2 == 0 ? 1 : Move3 == 0 ? 2 : 3;
 

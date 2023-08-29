@@ -27,7 +27,7 @@ public sealed record EncounterFixed9
     public required byte Level { get; init; }
     public required byte FlawlessIVCount { get; init; }
     public required GemType TeraType { get; init; }
-    public required sbyte Gender { get; init; }
+    public required byte Gender { get; init; }
     public required Moveset Moves { get; init; }
     private byte Location0 { get; init; }
     private byte Location1 { get; init; }
@@ -53,7 +53,7 @@ public sealed record EncounterFixed9
         Level = data[0x03],
         FlawlessIVCount = data[0x04],
         TeraType = (GemType)data[0x05],
-        Gender = (sbyte)data[0x06],
+        Gender = data[0x06],
         // 1 byte reserved
         Moves = new Moveset(
             ReadUInt16LittleEndian(data[0x08..]),
@@ -135,7 +135,7 @@ public sealed record EncounterFixed9
     {
         if (!this.IsLevelWithinRange(pk.Met_Level))
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         if (!IsMatchEggLocation(pk))
             return false;

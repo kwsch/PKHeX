@@ -30,7 +30,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     public byte DynamaxLevel { get; init; }
     public Shiny Shiny { get; init; }
     public AbilityPermission Ability { get; init; }
-    public sbyte Gender { get; init; } = -1;
+    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public byte FlawlessIVCount { get; init; }
     public bool CanGigantamax { get; init; }
 
@@ -165,7 +165,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     }
 
     protected virtual bool IsMatchLevel(PKM pk) => pk.Met_Level == Level;
-    private bool IsMatchGender(PKM pk) => Gender == -1 || Gender == pk.Gender;
+    private bool IsMatchGender(PKM pk) => Gender == FixedGenderUtil.GenderRandom || Gender == pk.Gender;
     private bool IsMatchForm(PKM pk, EvoCriteria evo) => Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context);
     private bool IsMatchIVs(PKM pk)
     {
@@ -263,7 +263,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             span.Fill(-1);
     }
 
-    private static byte RemapGenderToParam(sbyte gender, PersonalInfo8SWSH pi) => gender switch
+    private static byte RemapGenderToParam(byte gender, PersonalInfo8SWSH pi) => gender switch
     {
         0 => PersonalInfo.RatioMagicMale,
         1 => PersonalInfo.RatioMagicFemale,

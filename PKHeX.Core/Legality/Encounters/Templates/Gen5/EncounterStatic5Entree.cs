@@ -3,8 +3,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 Entree Forest static encounter
 /// </summary>
-public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species, byte Level, byte Form, sbyte Gender, AbilityPermission Ability)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IMoveset
+public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species, byte Level, byte Form, byte Gender, AbilityPermission Ability)
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK5>, IMoveset, IFixedGender
 {
     public int Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
@@ -21,7 +21,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
 
     public Moveset Moves { get; }
 
-    public EncounterStatic5Entree(GameVersion version, ushort species, byte level, byte form, sbyte gender, AbilityPermission ability, ushort Move)
+    public EncounterStatic5Entree(GameVersion version, ushort species, byte level, byte form, byte gender, AbilityPermission ability, ushort Move)
         : this(version, species, level, form, gender, ability) => Moves = new Moveset(Move);
 
     #region Generating
@@ -90,7 +90,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
             return false;
         if (pk.Met_Level != Level)
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return true;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;

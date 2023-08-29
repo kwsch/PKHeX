@@ -20,7 +20,7 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
 
     public Ball FixedBall => Ball.Poke;
     public byte Location => 254;
-    public sbyte Gender => 0;
+    public byte Gender => 0;
     public required Moveset Moves { get; init; }
 
     public string Name => "Static Encounter";
@@ -91,7 +91,7 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
             return false;
         if (!IsMatchLevel(pk, evo))
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (pk.Gender != Gender)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;

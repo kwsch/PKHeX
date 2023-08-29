@@ -8,10 +8,15 @@ public interface IFixedGender
     /// <summary>
     /// Magic gender index for the encounter.
     /// </summary>
-    sbyte Gender { get; }
+    byte Gender { get; }
 
     /// <summary>
     /// Indicates if the gender is a single value (not random).
     /// </summary>
-    bool IsFixedGender => Gender != -1;
+    bool IsFixedGender => Gender != FixedGenderUtil.GenderRandom;
+}
+
+public static class FixedGenderUtil
+{
+    public const byte GenderRandom = 0xFF;
 }

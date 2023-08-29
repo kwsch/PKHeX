@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 9 Trade Encounter
 /// </summary>
 public sealed record EncounterTrade9
-    : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK9>, IGemType
+    : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK9>, IGemType, IFixedGender, IFixedNature
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;

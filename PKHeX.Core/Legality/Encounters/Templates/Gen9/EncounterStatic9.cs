@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 9 Static Encounter
 /// </summary>
 public sealed record EncounterStatic9(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IGemType, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IGemType, IFixedGender, IFixedNature
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -20,7 +20,7 @@ public sealed record EncounterStatic9(GameVersion Version)
     public required ushort Species { get; init; }
     public required byte Level { get; init; }
     public byte Form { get; init; }
-    public sbyte Gender { get; init; } = -1;
+    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public AbilityPermission Ability { get; init; }
     public byte FlawlessIVCount { get; init; }
     public Shiny Shiny { get; init; }
@@ -119,8 +119,8 @@ public sealed record EncounterStatic9(GameVersion Version)
             pk.IV_SPE = IVs.SPE;
         }
 
-        if (Gender != -1)
-            pk.Gender = (byte)Gender;
+        if (Gender != FixedGenderUtil.GenderRandom)
+            pk.Gender = Gender;
         if (Nature != Nature.Random)
             pk.Nature = pk.StatNature = (int)Nature;
     }
@@ -131,7 +131,7 @@ public sealed record EncounterStatic9(GameVersion Version)
     {
         if (!this.IsLevelWithinRange(pk.Met_Level))
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         if (!IsMatchEggLocation(pk))
             return false;

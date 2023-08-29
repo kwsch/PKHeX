@@ -24,7 +24,7 @@ public sealed record EncounterStatic5(GameVersion Version)
     public byte Form { get; init; }
     public Shiny Shiny { get; init; }
     public ushort EggLocation { get; init; }
-    public sbyte Gender { get; init; } = -1;
+    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
 
     public string Name => "Static Encounter";
     public string LongName => Name;
@@ -107,8 +107,12 @@ public sealed record EncounterStatic5(GameVersion Version)
         {
             if (Shiny == Shiny.Random && criteria.Shiny.IsShiny())
             {
-                var low = pk.PID & 0xFFFF;
-                var pid = ((low ^ pk.TID16 ^ pk.SID16) << 16) | low;
+                var pid = pk.PID;
+                var low = ((pid >> 16) & 1) | (pid & 0xFFFE);
+                uint idx = (uint)pk.TID16 ^ pk.SID16;
+                if ((idx & 1) == 1)
+                    low ^= 1;
+                pid = ((low ^ idx) << 16) | low;
                 var result = (pid & 1) ^ (pid >> 31) ^ (pk.TID16 & 1) ^ (pk.SID16 & 1);
                 if (result == 1)
                     pid ^= 1;
@@ -135,7 +139,7 @@ public sealed record EncounterStatic5(GameVersion Version)
             return false;
         if (pk.Met_Level != Level)
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;

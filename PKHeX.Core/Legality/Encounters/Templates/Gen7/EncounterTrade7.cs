@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 Trade Encounter
 /// </summary>
-public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK7>, IMemoryOTReadOnly
+public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK7>, IMemoryOTReadOnly, IFixedGender, IFixedNature
 {
     public int Generation => 7;
     public EntityContext Context => EntityContext.Gen7;

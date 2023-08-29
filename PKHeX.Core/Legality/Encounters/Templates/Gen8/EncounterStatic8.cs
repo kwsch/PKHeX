@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, IRelearn,
-        IFlawlessIVCount, IFixedGender, IDynamaxLevelReadOnly, IGigantamaxReadOnly, IOverworldCorrelation8, IFatefulEncounterReadOnly
+        IFlawlessIVCount, IFixedGender, IFixedNature, IDynamaxLevelReadOnly, IGigantamaxReadOnly, IOverworldCorrelation8, IFatefulEncounterReadOnly
 {
     public int Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
@@ -30,7 +30,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     public Nature Nature { get; init; }
     public Shiny Shiny { get; init; }
     public AbilityPermission Ability { get; init; }
-    public sbyte Gender { get; init; } = -1;
+    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public Ball FixedBall { get; init; }
     public byte FlawlessIVCount { get; init; }
     public bool ScriptedNoMarks { get; init; }
@@ -147,7 +147,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
             return false;
         if (pk.Met_Level < EncounterArea8.BoostLevel && Weather is AreaWeather8.Heavy_Fog && EncounterArea8.IsBoostedArea60Fog(Location))
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;

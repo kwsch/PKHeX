@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 4 Trade Encounter with a fixed PID value, met location, and version.
 /// </summary>
 public sealed record EncounterTrade4RanchGift
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IFatefulEncounterReadOnly, IFixedTrainer, IMoveset
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK4>, IFatefulEncounterReadOnly, IFixedTrainer, IMoveset, IFixedGender, IFixedNature
 {
     public int Generation => 4;
     public EntityContext Context => EntityContext.Gen4;
@@ -15,6 +15,8 @@ public sealed record EncounterTrade4RanchGift
     /// Fixed <see cref="PKM.PID"/> value the encounter must have.
     /// </summary>
     public readonly uint PID;
+
+    public Nature Nature => (Nature)(PID % 25);
 
     public int MetLocation { private get; init; }
     public int Location => MetLocation;

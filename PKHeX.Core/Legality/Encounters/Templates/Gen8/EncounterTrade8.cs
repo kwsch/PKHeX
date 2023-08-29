@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 8 Trade Encounter
 /// </summary>
-public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK8>, IDynamaxLevelReadOnly, IRelearn, IMemoryOTReadOnly, IFlawlessIVCount, IFixedGender
+public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK8>, IDynamaxLevelReadOnly, IRelearn, IMemoryOTReadOnly, IFlawlessIVCount, IFixedGender, IFixedNature
 {
     public int Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
@@ -33,7 +34,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
     public Nature Nature { get; init; } // always set by either constructor or initializer
     public required uint ID32 { get; init; }
     public required AbilityPermission Ability { get; init; }
-    public sbyte Gender { get; init; }
+    public required byte Gender { get; init; }
     public required byte OTGender { get; init; }
 
     public required IndividualValueSet IVs { get; init; }
@@ -66,6 +67,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
         IsFixedNickname = true;
     }
 
+    [SetsRequiredMembers]
     public EncounterTrade8(string[] trainerNames, GameVersion game, ushort species, byte level, byte memory, ushort arg, byte feel, byte intensity)
     {
         Version = game;
@@ -80,7 +82,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
         OT_Feeling = feel;
         OT_Intensity = intensity;
         IsFixedNickname = false;
-        Gender = -1;
+        Gender = FixedGenderUtil.GenderRandom;
         Nature = Nature.Random;
     }
 
@@ -203,7 +205,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (Nature != Nature.Random && pk.Nature != (int)Nature)
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         return true;
     }

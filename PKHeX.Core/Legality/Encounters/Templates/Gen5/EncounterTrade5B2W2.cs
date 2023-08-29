@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Generation 5 Trade Encounter
 /// </summary>
-public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK5>, IFixedGender
+public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK5>, IFixedGender, IFixedNature
 {
     public int Generation => 5;
     public EntityContext Context => EntityContext.Gen5;
@@ -26,7 +27,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
     public required uint ID32 { get; init; }
 
     public byte Form { get; init; }
-    public sbyte Gender { get; init; }
+    public required byte Gender { get; init; }
     public IndividualValueSet IVs { get; init; }
     public Nature Nature { get; init; } = Nature.Random;
 
@@ -46,10 +47,12 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
         TrainerNames = EncounterUtil.GetNamesForLanguage(names, (uint)(index + (names[1].Length >> 1)));
         IsFixedNickname = true;
     }
+
+    [SetsRequiredMembers]
     public EncounterTrade5B2W2(string[] names, GameVersion version)
     {
         Version = version;
-        Gender = -1;
+        Gender = FixedGenderUtil.GenderRandom;
         Nature = Nature.Random;
         Nicknames = Array.Empty<string>();
         TrainerNames = names;
@@ -147,7 +150,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
     {
         if (!Shiny.IsValid(pk))
             return false;
-        if (Gender != -1 && Gender != pk.Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && Gender != pk.Gender)
             return false;
         if (Nature != Nature.Random && pk.Nature != (int)Nature)
             return false;

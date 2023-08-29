@@ -6,8 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Encounter Slot found in <see cref="GameVersion.SV"/>.
 /// </summary>
-public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, sbyte Gender, byte Time)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IEncounterFormRandom
+public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte Form, byte LevelMin, byte LevelMax, byte Gender, byte Time)
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IEncounterFormRandom, IFixedGender
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -157,7 +157,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     {
         if (Form != evo.Form && !IsRandomUnspecificForm && !IsFormOkayWild(Species, evo.Form))
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         if (!this.IsLevelWithinRange(pk.Met_Level))
             return false;

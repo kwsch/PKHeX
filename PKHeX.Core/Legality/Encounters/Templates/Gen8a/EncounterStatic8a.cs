@@ -23,7 +23,7 @@ public sealed record EncounterStatic8a
     public byte WeightScalar { get; }
     public byte LevelMin { get; }
     public byte LevelMax { get; init; }
-    public sbyte Gender { get; init; } = -1;
+    public byte Gender { get; init; } = FixedGenderUtil.GenderRandom;
     public required byte Location { get; init; }
     public byte FlawlessIVCount { get; init; }
     public Shiny Shiny { get; init; } = Shiny.Never;
@@ -161,7 +161,7 @@ public sealed record EncounterStatic8a
     {
         if (!this.IsLevelWithinRange(pk.Met_Level))
             return false;
-        if (Gender != -1 && pk.Gender != Gender)
+        if (Gender != FixedGenderUtil.GenderRandom && pk.Gender != Gender)
             return false;
         if (pk is IAlpha a && a.IsAlpha != IsAlpha)
             return false;
