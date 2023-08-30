@@ -231,12 +231,12 @@ public sealed class CGearBackground
     private static void FindPossibleRotatedTile(Tile t, IList<Tile> tilelist, TileMap tm, int tileIndex)
     {
         // Test all tiles currently in the list
-        for (byte i = 0; i < tilelist.Count; i++)
+        for (int i = 0; i < tilelist.Count; i++)
         {
             var rotVal = t.GetRotationValue(tilelist[i].ColorChoices);
             if (rotVal == Tile.ROTATION_BAD)
                 continue;
-            tm.TileChoices[tileIndex] = i;
+            tm.TileChoices[tileIndex] = (byte)i;
             tm.Rotations[tileIndex] = rotVal;
             return;
         }
