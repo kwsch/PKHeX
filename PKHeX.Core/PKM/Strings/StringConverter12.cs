@@ -39,7 +39,6 @@ public static class StringConverter12
     public const char G1Terminator = '\0';
     public const byte G1TradeOTCode = 0x5D;
     public const char G1TradeOT = '*';
-    public const string G1TradeOTStr = "*";
     public const byte G1SpaceCode = 0x7F;
 
     public static readonly IReadOnlyList<string> G1TradeOTName = new []
@@ -111,7 +110,7 @@ public static class StringConverter12
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
     {
-        if (data[0] == G1TradeOTCode)
+        if (data[0] == G1TradeOTCode) // In-game Trade
         {
             result[0] = G1TradeOT;
             return 1;

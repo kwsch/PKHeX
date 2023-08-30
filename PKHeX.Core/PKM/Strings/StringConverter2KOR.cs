@@ -50,7 +50,7 @@ public static class StringConverter2KOR
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
     {
-        if (data[0] == G1TradeOTCode)
+        if (data[0] == G1TradeOTCode) // In-game Trade
         {
             result[0] = G1TradeOT;
             return 1;

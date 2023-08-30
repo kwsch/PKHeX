@@ -75,7 +75,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     private static bool IsTrainerNameValid(PKM pk)
     {
         if (pk.Format <= 2)
-            return pk.OT_Name == StringConverter12.G1TradeOTStr;
+            return pk.OT_Trash is [StringConverter12.G1TradeOTCode, StringConverter12.G1TerminatorCode, _];
         return pk.Language switch
         {
             1 => GetIndex(pk.OT_Name, TrainerNames) == 1,
@@ -89,7 +89,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     {
         for (int i = 0; i < arr.Count; i++)
         {
-            if (arr[i].AsSpan().SequenceEqual(name))
+            if (name.SequenceEqual(arr[i]))
                 return i;
         }
 
@@ -124,12 +124,12 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
             Catch_Rate = EncounterUtil1.GetWildCatchRate(Version, Species),
             DV16 = EncounterUtil1.GetRandomDVs(Util.Rand),
 
-            OT_Name = StringConverter12.G1TradeOTStr,
             Nickname = Nicknames[lang],
             TID16 = tr.TID16,
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
+        pk.OT_Trash[0] = StringConverter12.G1TradeOTCode;
 
         EncounterUtil1.SetEncounterMoves(pk, Version, level);
 

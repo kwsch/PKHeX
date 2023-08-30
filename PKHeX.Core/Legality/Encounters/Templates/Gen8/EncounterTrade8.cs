@@ -109,6 +109,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             Met_Level = Level,
             MetDate = EncounterDate.GetDateSwitch(),
             Ball = (byte)FixedBall,
+            Gender = Gender,
 
             ID32 = ID32,
             Version = (byte)version,

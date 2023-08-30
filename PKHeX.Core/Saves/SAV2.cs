@@ -720,16 +720,16 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
 
     private ushort GetResetKey()
     {
-        var value = (TID16 >> 8) + (TID16 & 0xFF) + ((Money >> 16) & 0xFF) + ((Money >> 8) & 0xFF) + (Money & 0xFF);
-        var ot = Data.AsSpan(Offsets.Trainer1 + 2, 5);
-        var sum = 0;
-        foreach (var b in ot)
-        {
-            if (b == StringConverter12.G1TerminatorCode)
-                break;
-            sum += b;
-        }
-        return (ushort)(value + sum);
+        ushort result = 0;
+        foreach (var b in Data.AsSpan(Offsets.Money, 3))
+            result += b;
+        var tr = Data.AsSpan(Offsets.Trainer1, 7);
+        var end = tr[2..].IndexOf(StringConverter12.G1TerminatorCode);
+        if (end >= 0)
+            tr = tr[..(end + 2)];
+        foreach (var b in tr)
+            result += b;
+        return result;
     }
 
     /// <summary>
