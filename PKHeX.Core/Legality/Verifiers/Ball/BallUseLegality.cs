@@ -15,7 +15,7 @@ internal static class BallUseLegality
         7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
         8 when GameVersion.BDSP.Contains(game) => WildPokeBalls4_HGSS,
         8 when GameVersion.PLA == game => WildPokeBalls8a,
-        8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
+        8 => GameVersion.GO == game ? WildPokeballs8g_WithRaid : WildPokeballs8,
         9 => WildPokeballs9,
         _ => default,
     };
@@ -70,7 +70,8 @@ internal static class BallUseLegality
     internal const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
 
     private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);
-    internal const ulong WildPokeballs8g = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
+    internal const ulong WildPokeballs8g_WithRaid = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
+    internal const ulong WildPokeballs8g_WithoutRaid = WildPokeRegular & ~(1ul << (int)Master); // Ultra Great Poke, no Premier/Master
 
     internal const ulong WildPokeballs9 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
 }

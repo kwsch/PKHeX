@@ -424,12 +424,14 @@ public sealed class BallVerifier : Verifier
     {
         var enc = data.EncounterMatch;
         var species = enc.Species;
-        if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval) // G9 Starters
-            return VerifyBallEquals(data, (int)Poke);
+
+        // Paldea Starters: Only via GO (Adventures Abound)
+        if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval)
+            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8g_WithoutRaid);
 
         // PLA Voltorb: Only via PLA (transfer only, not wild) and GO
         if (enc is { Species: (ushort)Species.Voltorb, Form: 1 })
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8g);
+            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8g_WithRaid);
 
         // S/V Tauros forms > 1: Only local Wild Balls for Blaze/Aqua breeds -- can't inherit balls from Kantonian/Combat.
         if (enc is { Species: (ushort)Species.Tauros, Form: > 1 })
