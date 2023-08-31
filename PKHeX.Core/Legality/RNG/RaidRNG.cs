@@ -226,13 +226,24 @@ public static class RaidRNG
 
         if (!param.IVs.IsSpecified && !criteria.IsIVsCompatible(ivs, 8))
             return false;
-
-        pk.IV_HP = ivs[0];
-        pk.IV_ATK = ivs[1];
-        pk.IV_DEF = ivs[2];
-        pk.IV_SPA = ivs[3];
-        pk.IV_SPD = ivs[4];
-        pk.IV_SPE = ivs[5];
+        if (param.IVs.IsSpecified)
+        {
+            pk.IV_HP = ivs[0];
+            pk.IV_ATK = ivs[1];
+            pk.IV_DEF = ivs[2];
+            pk.IV_SPA = ivs[3];
+            pk.IV_SPD = ivs[4];
+            pk.IV_SPE = ivs[5];
+        }
+        else
+        {
+            pk.IV_HP = ivs[0];
+            pk.IV_ATK = ivs[1];
+            pk.IV_DEF = ivs[2];
+            pk.IV_SPA = ivs[4];
+            pk.IV_SPD = ivs[5];
+            pk.IV_SPE = ivs[3];
+        }
 
         int abil = param.Ability switch
         {
