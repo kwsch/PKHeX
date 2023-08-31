@@ -50,9 +50,8 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         LevelMinGSC = levelMinGSC;
     }
 
-    private bool IsNicknameValid(PKM pk)
+    private bool IsNicknameValid(PKM pk, ReadOnlySpan<char> nick)
     {
-        var nick = pk.Nickname;
         if (pk.Format <= 2)
             return IsNicknameAnyMatch(nick);
 
@@ -63,8 +62,8 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         {
             // Special consideration for Hiragana strings that are transferred
             if (Version == GameVersion.YW && Species == (int)Core.Species.Dugtrio)
-                return nick == "ぐりお";
-            return nick == Nicknames[1];
+                return nick is "ぐりお";
+            return nick.SequenceEqual(Nicknames[1]);
         }
 
         return GetNicknameIndex(nick) >= 2;
@@ -75,7 +74,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     private static bool IsTrainerNameValid(PKM pk)
     {
         if (pk.Format <= 2)
-            return pk.OT_Trash is [StringConverter12.G1TradeOTCode, StringConverter12.G1TerminatorCode, _];
+            return pk.OT_Trash is [StringConverter12.G1TradeOTCode, StringConverter12.G1TerminatorCode, ..];
         return pk.Language switch
         {
             1 => GetIndex(pk.OT_Name, TrainerNames) == 1,
@@ -141,7 +140,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
 
     #region Matching
     public bool IsTrainerMatch(PKM pk, ReadOnlySpan<char> trainer, int language) => IsTrainerNameValid(pk);
-    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => IsNicknameValid(pk);
+    public bool IsNicknameMatch(PKM pk, ReadOnlySpan<char> nickname, int language) => IsNicknameValid(pk, nickname);
     public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : Nicknames[0];
 
     public EncounterMatchRating GetMatchRating(PKM pk)
@@ -180,7 +179,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     {
         if (!IsTrainerNameValid(pk))
             return true;
-        if (!IsNicknameValid(pk))
+        if (!IsNicknameValid(pk, pk.Nickname))
             return true;
         if (EvolveOnTrade && pk.Species == Species)
             return false;

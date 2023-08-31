@@ -99,16 +99,15 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         const int max = 100_000;
         do
         {
-            seed = rand.Next();
-            if (!TryApply(pk, seed, iv, param, criteria))
+            if (!TryApply(pk, seed = rand.Next(), iv, param, criteria))
                 continue;
             if (checkShiny && pk.IsShiny != requestShiny)
                 continue;
             break;
-        } while (ctr++ < max);
+        } while (++ctr < max);
 
         if (ctr == max) // fail
-            TryApply(pk, rand.Next(), iv, param, EncounterCriteria.Unrestricted);
+            while (!TryApply(pk, seed = rand.Next(), iv, param, EncounterCriteria.Unrestricted)) { }
 
         FinishCorrelation(pk, seed);
         if ((byte)criteria.Nature != pk.Nature && criteria.Nature.IsMint())
@@ -249,7 +248,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         return RaidRNG.Verify(pk, seed, iv, param, forceNoShiny: forceNoShiny);
     }
 
-    private static bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
+    protected virtual bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
     {
         return RaidRNG.TryApply(pk, seed, iv, param, criteria);
     }

@@ -81,7 +81,7 @@ public static class Roaming8bRNG
                 ivs[i] = (int)xoro.NextUInt(MAX + 1);
         }
 
-        if (!criteria.IsIVsCompatible(ivs, 8))
+        if (!criteria.IsIVsCompatibleSpeedLast(ivs, 8))
             return false;
 
         pk.IV_HP = ivs[0];

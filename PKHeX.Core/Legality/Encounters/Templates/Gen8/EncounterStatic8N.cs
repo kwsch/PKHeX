@@ -107,7 +107,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         return Array.IndexOf(NestLocations, (byte)loc) >= 0;
     }
 
-    protected override bool IsMatchSeed(PKM pk, ulong seed)
+    public (bool Possible, bool ForceNoShiny) IsPossibleSeed<T>(T pk, ulong seed) where T : PKM
     {
         var rand = new Xoroshiro128Plus(seed);
         var levelDelta = (int)rand.NextInt(6);
@@ -127,16 +127,24 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
             var levelMin = LevelCaps[i * 2];
             var expect = levelMin + levelDelta;
             if (expect == met)
-                return Verify(pk, seed);
+                return (Possible: true, ForceNoShiny: false);
 
             // Check for down-leveled
             if (met > levelMin)
                 break;
 
             if (IsDownLeveled(pk, met - 15, met))
-                return Verify(pk, seed, true);
+                return (Possible: true, ForceNoShiny: true);
         }
-        return false;
+        return default;
+    }
+
+    protected override bool IsMatchSeed(PKM pk, ulong seed)
+    {
+        var (possible, forceNoShiny) = IsPossibleSeed(pk, seed);
+        if (!possible)
+            return false;
+        return Verify(pk, seed, forceNoShiny);
     }
 
     private static byte GetInitialDynamaxLevel(Xoroshiro128Plus rand, int rank)
@@ -145,6 +153,20 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         var deltaRange = rank == 4 ? 3u : 2u;
         var boost = (int)rand.NextInt(deltaRange);
         return (byte)(baseValue + boost);
+    }
+
+    protected override bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
+    {
+        var (possible, noShiny) = IsPossibleSeed(pk, seed);
+        if (!possible)
+            return false;
+        if (noShiny) // Should never be hit via ctor as we don't generate downleveled.
+        {
+            if (criteria.Shiny.IsShiny())
+                return false;
+            param = param with { Shiny = Shiny.Never };
+        }
+        return base.TryApply(pk, seed, iv, param, criteria);
     }
 
     protected override void FinishCorrelation(PK8 pk, ulong seed)

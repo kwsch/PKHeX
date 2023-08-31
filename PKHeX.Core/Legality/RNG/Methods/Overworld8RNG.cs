@@ -72,10 +72,10 @@ public static class Overworld8RNG
         for (int i = 0; i < ivs.Length; i++)
         {
             if (ivs[i] == UNSET)
-                ivs[i] = (int) xoro.NextInt(32);
+                ivs[i] = (int)xoro.NextInt(MAX + 1);
         }
 
-        if (!criteria.IsIVsCompatible(ivs, 8))
+        if (!criteria.IsIVsCompatibleSpeedLast(ivs, 8))
             return false;
 
         pk.IV_HP = ivs[0];

@@ -51,18 +51,20 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
     /// <summary>
     /// Checks if the IVs are compatible with the encounter's defined IV restrictions.
     /// </summary>
-    /// <param name="encounterIVs">Encounter template's IV restrictions. Speed is not last.</param>
+    /// <param name="encounterIVs">Encounter template's IV restrictions. Speed is last!</param>
     /// <param name="generation">Destination generation</param>
     /// <returns>True if compatible, false if incompatible.</returns>
-    public bool IsIVsCompatible(Span<int> encounterIVs, int generation)
+    public bool IsIVsCompatibleSpeedLast(Span<int> encounterIVs, int generation)
     {
         var IVs = encounterIVs;
         if (!ivCanMatch(IV_HP , IVs[0])) return false;
         if (!ivCanMatch(IV_ATK, IVs[1])) return false;
         if (!ivCanMatch(IV_DEF, IVs[2])) return false;
-        if (!ivCanMatch(IV_SPE, IVs[3])) return false;
-        if (!ivCanMatch(IV_SPA, IVs[4])) return false;
-        if (!ivCanMatch(IV_SPD, IVs[5])) return false;
+        if (!ivCanMatch(IV_SPA, IVs[3])) return false;
+        if (!ivCanMatch(IV_SPD, IVs[4])) return false;
+        if (!ivCanMatch(IV_SPE, IVs[5])) return false;
+
+        return true;
 
         bool ivCanMatch(int requestedIV, int encounterIV)
         {
@@ -70,8 +72,6 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
                 return true;
             return encounterIV == RandomIV || requestedIV == RandomIV || requestedIV == encounterIV;
         }
-
-        return true;
     }
 
     /// <inheritdoc cref="GetCriteria(IBattleTemplate, IPersonalInfo)"/>

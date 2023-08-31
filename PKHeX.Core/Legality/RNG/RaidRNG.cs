@@ -221,10 +221,10 @@ public static class RaidRNG
         for (int i = 0; i < 6; i++)
         {
             if (ivs[i] == UNSET)
-                ivs[i] = (int)rng.NextInt(32);
+                ivs[i] = (int)rng.NextInt(MAX + 1);
         }
 
-        if (!param.IVs.IsSpecified && !criteria.IsIVsCompatible(ivs, 8))
+        if (!param.IVs.IsSpecified && !criteria.IsIVsCompatibleSpeedLast(ivs, 8))
             return false;
 
         pk.IV_HP = ivs[0];

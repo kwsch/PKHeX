@@ -65,6 +65,7 @@ public static class Encounter9RNG
         pk.PID = GetAdaptedPID(ref rand, pk, enc);
 
         const int UNSET = -1;
+        const int MAX = 31;
         Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
         if (enc.IVs.IsSpecified)
         {
@@ -72,7 +73,6 @@ public static class Encounter9RNG
         }
         else
         {
-            const int MAX = 31;
             for (int i = 0; i < enc.FlawlessIVs; i++)
             {
                 int index;
@@ -82,13 +82,14 @@ public static class Encounter9RNG
             }
         }
 
-        if (!ignoreIVs && !criteria.IsIVsCompatible(ivs, 9))
-            return false;
         for (int i = 0; i < 6; i++)
         {
             if (ivs[i] == UNSET)
-                ivs[i] = (int)rand.NextInt(32);
+                ivs[i] = (int)rand.NextInt(MAX + 1);
         }
+
+        if (!ignoreIVs && !criteria.IsIVsCompatibleSpeedLast(ivs, 9))
+            return false;
 
         pk.IV_HP = ivs[0];
         pk.IV_ATK = ivs[1];
