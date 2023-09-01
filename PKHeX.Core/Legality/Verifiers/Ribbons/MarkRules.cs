@@ -192,8 +192,8 @@ public static class MarkRules
     {
         if (IsMarkPresentMightiest(enc))
             return hasMark;
-        //if (enc.Species == (int)Species.Mew && evos.HasVisitedGen9)
-        //    return true; // Can be awarded the mark for battling Mewtwo.
+        if (enc.Species == (int)Species.Mew && evos.HasVisitedGen9)
+            return true; // Can be awarded the mark for battling Mewtwo.
         return !hasMark;
     }
 
