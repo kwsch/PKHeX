@@ -62,6 +62,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             OT_Friendship = pi.BaseFriendship,
             Met_Location = Location,
             Met_Level = LevelMin,
+            MetDate = EncounterDate.GetDateSwitch(),
             Version = (int)version,
             Ball = (byte)Ball.Poke,
 

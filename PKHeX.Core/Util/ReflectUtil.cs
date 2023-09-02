@@ -36,8 +36,21 @@ public static class ReflectUtil
         pi.SetValue(obj, c, null);
     }
 
-    public static object? GetValue(object obj, string name) => GetPropertyInfo(obj.GetType().GetTypeInfo(), name)?.GetValue(obj);
-    public static void SetValue(object obj, string name, object value) => GetPropertyInfo(obj.GetType().GetTypeInfo(), name)?.SetValue(obj, value, null);
+    public static object? GetValue(object obj, string name)
+    {
+        if (TryGetPropertyInfo(obj.GetType().GetTypeInfo(), name, out var pi))
+            return pi.GetValue(obj, null);
+        return default;
+    }
+    public static bool SetValue(object obj, string name, object value)
+    {
+        if (!TryGetPropertyInfo(obj.GetType().GetTypeInfo(), name, out var pi))
+            return false;
+        if (!pi.CanWrite)
+            return false;
+        pi.SetValue(obj, value);
+        return true;
+    }
 
     public static IEnumerable<string> GetPropertiesStartWithPrefix(Type type, string prefix)
     {
@@ -143,11 +156,28 @@ public static class ReflectUtil
     /// <param name="name">Name of the property.</param>
     /// <param name="pi">Reference to the property info for the object, if it exists.</param>
     /// <returns>True if has property, and false if does not have property. <see cref="pi"/> is null when returning false.</returns>
-    public static bool HasProperty(object obj, string name, [NotNullWhen(true)] out PropertyInfo? pi) => (pi = GetPropertyInfo(obj.GetType().GetTypeInfo(), name)) != null;
-
-    public static PropertyInfo? GetPropertyInfo(this TypeInfo typeInfo, string name)
+    public static bool HasProperty(object obj, string name, [NotNullWhen(true)] out PropertyInfo? pi)
     {
-        return typeInfo.GetAllTypeInfo().Select(t => t.GetDeclaredProperty(name)).FirstOrDefault(pi => pi != null);
+        var type = obj.GetType();
+        return TryGetPropertyInfo(type.GetTypeInfo(), name, out pi);
+    }
+
+    public static bool TryGetPropertyInfo(this TypeInfo typeInfo, string name, [NotNullWhen(true)] out PropertyInfo? pi)
+    {
+        foreach (var t in typeInfo.GetAllTypeInfo())
+        {
+            pi = t.GetDeclaredProperty(name);
+            if (pi != null)
+                return true;
+            foreach (var i in t.ImplementedInterfaces)
+            {
+                pi = i.GetTypeInfo().GetDeclaredProperty(name);
+                if (pi != null)
+                    return true;
+            }
+        }
+        pi = null;
+        return false;
     }
 
     private static IEnumerable<T> GetAll<T>(this TypeInfo typeInfo, Func<TypeInfo, IEnumerable<T>> accessor)
