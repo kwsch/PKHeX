@@ -526,9 +526,12 @@ public static class MethodFinder
             return GetNonMatch(out pidiv);
 
         // No Pokewalker Pokémon evolves into a different gender-ratio species.
-        // Besides Azurill.
+        // Besides Azurill, and Froslass
         var gender = pk.Gender;
-        uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID16, pk.SID16, nature, gender, pk.PersonalInfo.Gender);
+        var gr = pk.PersonalInfo.Gender;
+        if (pk.Species == (int)Species.Froslass)
+            gr = 0x7F; // Snorunt
+        uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID16, pk.SID16, nature, gender, gr);
         if (pid != oldpid)
         {
             if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, oldpid)))
