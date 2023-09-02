@@ -107,7 +107,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         return Array.IndexOf(NestLocations, (byte)loc) >= 0;
     }
 
-    public (bool Possible, bool ForceNoShiny) IsPossibleSeed<T>(T pk, ulong seed) where T : PKM
+    public (bool Possible, bool ForceNoShiny) IsPossibleSeed<T>(T pk, ulong seed, bool checkDmax) where T : PKM
     {
         var rand = new Xoroshiro128Plus(seed);
         var levelDelta = (int)rand.NextInt(6);
@@ -117,7 +117,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
             // check for dmax level
             // 5 star uses rand(3), otherwise rand(2)
             // some raids can be 5 star and below, so check for both possibilities
-            if (pk is IDynamaxLevelReadOnly r)
+            if (checkDmax && pk is IDynamaxLevelReadOnly r)
             {
                 var current = r.DynamaxLevel;
                 int expectD = GetInitialDynamaxLevel(rand, i);
@@ -141,7 +141,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
     protected override bool IsMatchSeed(PKM pk, ulong seed)
     {
-        var (possible, forceNoShiny) = IsPossibleSeed(pk, seed);
+        var (possible, forceNoShiny) = IsPossibleSeed(pk, seed, true);
         if (!possible)
             return false;
         return Verify(pk, seed, forceNoShiny);
@@ -157,7 +157,7 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
     protected override bool TryApply(PK8 pk, ulong seed, Span<int> iv, GenerateParam8 param, EncounterCriteria criteria)
     {
-        var (possible, noShiny) = IsPossibleSeed(pk, seed);
+        var (possible, noShiny) = IsPossibleSeed(pk, seed, false);
         if (!possible)
             return false;
         if (noShiny) // Should never be hit via ctor as we don't generate downleveled.
