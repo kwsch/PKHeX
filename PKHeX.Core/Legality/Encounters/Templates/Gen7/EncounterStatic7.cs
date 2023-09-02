@@ -135,7 +135,7 @@ public sealed record EncounterStatic7(GameVersion Version)
             criteria.SetRandomIVs(pk, IVs);
         else
             criteria.SetRandomIVs(pk, FlawlessIVCount);
-        
+
         var ability = criteria.GetAbilityFromNumber(Ability);
         pk.Nature = (int)criteria.GetNature(Nature);
         pk.Gender = criteria.GetGender(Gender, pi);
