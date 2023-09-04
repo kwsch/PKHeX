@@ -69,6 +69,7 @@ public sealed record EncounterStatic8a
             FatefulEncounter = FatefulEncounter,
             Met_Location = Location,
             Met_Level = LevelMin,
+            MetDate = EncounterDate.GetDateSwitch(),
             Version = (int)Version,
             IsAlpha = IsAlpha,
             Ball = (byte)(FixedBall == Ball.None ? Ball.LAPoke : FixedBall),

@@ -47,6 +47,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
             CurrentLevel = LevelMin,
             Met_Location = Location,
             Met_Level = LevelMin,
+            MetDate = EncounterDate.GetDateSwitch(),
             Version = (byte)GameVersion.PLA,
             IsAlpha = IsAlpha,
             Ball = (int)Ball.LAPoke,

@@ -16,7 +16,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     public EntityContext Context => EntityContext.Gen1;
     public bool EggEncounter => false;
     public Ball FixedBall => Ball.Poke;
-    public AbilityPermission Ability => AbilityPermission.OnlyHidden;
+    public AbilityPermission Ability => Species == (ushort)Core.Species.Haunter ? AbilityPermission.OnlyFirst : AbilityPermission.OnlyHidden;
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public int Location => 0;

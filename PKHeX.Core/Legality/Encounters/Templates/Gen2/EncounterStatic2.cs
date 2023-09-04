@@ -16,7 +16,7 @@ public sealed record EncounterStatic2(ushort Species, byte Level, GameVersion Ve
     int ILocation.Location => Location;
     public int EggLocation => 0;
     public bool IsShiny => Shiny == Shiny.Always;
-    public AbilityPermission Ability => AbilityPermission.OnlyHidden;
+    public AbilityPermission Ability => Species != (int)Core.Species.Koffing ? AbilityPermission.OnlyHidden : AbilityPermission.OnlyFirst;
     public bool Roaming => Species is (int)Core.Species.Entei or (int)Core.Species.Raikou or (int)Core.Species.Suicune && Location != 23;
 
     public Shiny Shiny { get; init; } = Shiny.Random;
