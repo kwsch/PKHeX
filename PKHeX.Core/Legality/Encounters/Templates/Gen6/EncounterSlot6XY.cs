@@ -96,8 +96,8 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         var pi = PersonalTable.XY.GetFormEntry(Species, Form);
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, pi);
+        pk.Nature = (int)criteria.GetNature();
+        pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         criteria.SetRandomIVs(pk, FlawlessIVCount);
     }

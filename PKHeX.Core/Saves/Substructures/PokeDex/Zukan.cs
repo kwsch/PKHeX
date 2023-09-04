@@ -152,7 +152,7 @@ public abstract class Zukan<T> : ZukanBase<T> where T : SaveFile
 
     public override void SetDex(PKM pk)
     {
-        if ((uint)(pk.Species - 1) >= SAV.MaxSpeciesID) // out of range
+        if (pk.Species - 1u >= SAV.MaxSpeciesID) // out of range
             return;
         if (pk.IsEgg) // do not add
             return;

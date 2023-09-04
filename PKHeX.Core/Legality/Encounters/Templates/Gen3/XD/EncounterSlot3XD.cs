@@ -60,8 +60,8 @@ public sealed record EncounterSlot3XD(EncounterArea3XD Parent, ushort Species, b
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(-1, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
+        int gender = criteria.GetGender(pi);
+        int nature = (int)criteria.GetNature();
         int ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
     }

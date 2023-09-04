@@ -127,24 +127,40 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
     }
 
     /// <summary>
-    /// Gets a random nature to generate, based off an encounter's <see cref="encValue"/>.
+    /// Gets the nature to generate, random if unspecified by the template or criteria.
     /// </summary>
     public Nature GetNature(Nature encValue)
     {
         if ((uint)encValue < 25)
             return encValue;
+        return GetNature();
+    }
+
+    /// <summary>
+    /// Gets the nature to generate, random if unspecified.
+    /// </summary>
+    public Nature GetNature()
+    {
         if (Nature != Nature.Random)
             return Nature;
         return (Nature)Util.Rand.Next(25);
     }
 
     /// <summary>
-    /// Gets a random gender to generate, based off an encounter's <see cref="gender"/>.
+    /// Gets the gender to generate, random if unspecified by the template or criteria.
     /// </summary>
     public int GetGender(int gender, IGenderDetail pkPersonalInfo)
     {
         if ((uint)gender < 3)
             return gender;
+        return GetGender(pkPersonalInfo);
+    }
+
+    /// <summary>
+    /// Gets the gender to generate, random if unspecified.
+    /// </summary>
+    public int GetGender(IGenderDetail pkPersonalInfo)
+    {
         if (!pkPersonalInfo.IsDualGender)
             return pkPersonalInfo.FixedGender();
         if (pkPersonalInfo.Genderless)

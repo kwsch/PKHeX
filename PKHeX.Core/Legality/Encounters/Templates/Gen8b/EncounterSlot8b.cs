@@ -97,8 +97,8 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
         criteria.SetRandomIVs(pk);
-        pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, pi);
+        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Gender = criteria.GetGender(pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
     }
 

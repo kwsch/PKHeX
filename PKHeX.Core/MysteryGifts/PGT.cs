@@ -212,7 +212,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         if ((pk4.IV32 & 0x3FFF_FFFFu) == 0) // Ignore Nickname/Egg flag bits
         {
             uint iv1 = ((seed = LCRNG.Next(seed)) >> 16) & 0x7FFF;
-            uint iv2 = ((LCRNG.Next(seed)) >> 16) & 0x7FFF;
+            uint iv2 = (LCRNG.Next(seed) >> 16) & 0x7FFF;
             pk4.IV32 |= iv1 | (iv2 << 15);
         }
     }
@@ -225,7 +225,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
         // The games don't decide the Nature/Gender up-front, but we can try to honor requests.
         // Pre-determine the result values, and generate something.
-        var n = (int)criteria.GetNature(Nature.Random);
+        var n = (int)criteria.GetNature();
         // Gender is already pre-determined in the template.
         while (true)
         {
@@ -258,23 +258,23 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             uint pid1 = (seed = LCRNG.Next(seed)) >> 16; // low
             uint pid2 = (seed = LCRNG.Next(seed)) & 0xFFFF0000; // hi
             pk4.PID = pid2 | pid1;
+            while (pk4.IsShiny) // Call the ARNG to change the PID
+                pk4.PID = ARNG.Next(pk4.PID);
             // sanity check gender for non-genderless PID cases
         } while (!pk4.IsGenderValid());
 
-        while (pk4.IsShiny) // Call the ARNG to change the PID
-            pk4.PID = ARNG.Next(pk4.PID);
         return seed;
     }
 
     public static bool IsRangerManaphy(PKM pk)
     {
+        if (pk.Language >= (int)LanguageID.Korean) // never korean
+            return false;
+
         var egg = pk.Egg_Location;
         if (!pk.IsEgg) // Link Trade Egg or Ranger
             return egg is Locations.LinkTrade4 or Locations.Ranger4;
         if (egg != Locations.Ranger4)
-            return false;
-
-        if (pk.Language == (int)LanguageID.Korean) // never korean
             return false;
 
         var met = pk.Met_Location;

@@ -33,9 +33,9 @@ public sealed class ItemStorage3RS : IItemStorage
 
     internal static ReadOnlySpan<ushort> Pouch_TM_RS => Pouch_TMHM_RS[..COUNT_TM];
 
-    public static bool IsTMHM(ushort itemID) => (uint)(itemID - 289) < COUNT_TM + COUNT_HM;
-    public static bool IsTM(ushort itemID) => (uint)(itemID - 289) < COUNT_TM;
-    public static bool IsHM(ushort itemID) => (uint)(itemID - 339) < COUNT_HM;
+    public static bool IsTMHM(ushort itemID) => itemID - 289u < COUNT_TM + COUNT_HM;
+    public static bool IsTM(ushort itemID) => itemID - 289u < COUNT_TM;
+    public static bool IsHM(ushort itemID) => itemID - 339u < COUNT_HM;
 
     internal static ReadOnlySpan<ushort> Pouch_Berries_RS => new ushort[]
     {

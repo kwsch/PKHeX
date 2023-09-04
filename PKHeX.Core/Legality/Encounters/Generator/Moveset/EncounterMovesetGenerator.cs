@@ -209,7 +209,7 @@ public static class EncounterMovesetGenerator
     private static bool IsSane(PKM pk, ReadOnlySpan<ushort> moves)
     {
         var species = pk.Species;
-        if ((uint)(species - 1) >= pk.MaxSpeciesID) // can enter this method after failing to set a species ID that cannot exist in the format
+        if (species - 1u >= pk.MaxSpeciesID) // can enter this method after failing to set a species ID that cannot exist in the format
             return false;
         if (AnyMoveOutOfRange(moves, pk.MaxMoveID))
             return false;

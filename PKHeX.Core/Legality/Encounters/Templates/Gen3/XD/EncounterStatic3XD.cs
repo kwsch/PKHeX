@@ -71,25 +71,13 @@ public sealed record EncounterStatic3XD(ushort Species, byte Level)
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(-1, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
+        int gender = criteria.GetGender(pi);
+        int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
-        if (Species == (int)Core.Species.Unown)
+        do
         {
-            do
-            {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1_Unown);
-                ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
-            } while (pk.Form != Form);
-        }
-        else
-        {
-            const PIDType type = PIDType.CXD;
-            do
-            {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
-            } while (Shiny == Shiny.Never && pk.IsShiny);
-        }
+            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
+        } while (Shiny == Shiny.Never && pk.IsShiny);
     }
     #endregion
 

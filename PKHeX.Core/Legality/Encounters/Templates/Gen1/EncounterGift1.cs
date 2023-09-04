@@ -58,7 +58,7 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
             Species = Species,
             CurrentLevel = LevelMin,
             Catch_Rate = GetInitialCatchRate(),
-            DV16 = EncounterUtil1.GetRandomDVs(Util.Rand),
+            DV16 = IVs.IsSpecified ? EncounterUtil1.GetDV16(IVs) : EncounterUtil1.GetRandomDVs(Util.Rand),
 
             OT_Name = EncounterUtil1.GetTrainerName(tr, lang),
             TID16 = tr.TID16,

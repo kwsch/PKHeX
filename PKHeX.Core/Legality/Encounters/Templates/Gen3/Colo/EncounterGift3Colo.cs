@@ -90,8 +90,8 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(-1, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
+        int gender = criteria.GetGender(pi);
+        int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         do
         {

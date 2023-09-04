@@ -99,7 +99,7 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
         int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
+        int nature = (int)criteria.GetNature();
 
         // Cannot force an ability; nature-gender-trainerID only yield fixed PIDs.
         // int ability = criteria.GetAbilityFromNumber(Ability, pi);

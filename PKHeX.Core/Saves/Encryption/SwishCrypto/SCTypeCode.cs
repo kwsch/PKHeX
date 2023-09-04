@@ -32,7 +32,7 @@ public enum SCTypeCode : byte
 
 public static class SCTypeCodeExtensions
 {
-    public static bool IsBoolean(this SCTypeCode type) => unchecked((uint)type - 1) < 3;
+    public static bool IsBoolean(this SCTypeCode type) => unchecked((uint)type - 1u) < 3;
 
     public static int GetTypeSize(this SCTypeCode type) => type switch
     {

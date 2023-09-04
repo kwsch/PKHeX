@@ -72,7 +72,7 @@ public sealed class EncounterGenerator3GC : IEncounterGenerator
 
     private static bool GetIsShadowLockValid(PKM pk, LegalInfo info, IShadow3 s) => s switch
     {
-        EncounterShadow3Colo { EReader: true } => GetIsShadowLockValidEReader(pk, info, s),
+        EncounterShadow3Colo { IsEReader: true } => GetIsShadowLockValidEReader(pk, info, s),
         _ => LockFinder.IsAllShadowLockValid(s, info.PIDIV, pk),
     };
 

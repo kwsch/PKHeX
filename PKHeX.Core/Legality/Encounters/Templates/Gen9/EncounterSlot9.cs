@@ -133,7 +133,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         pk.EncryptionConstant = Util.Rand32();
         criteria.SetRandomIVs(pk);
 
-        pk.Nature = pk.StatNature = (int)criteria.GetNature(Nature.Random);
+        pk.Nature = pk.StatNature = (int)criteria.GetNature();
         pk.Gender = criteria.GetGender(Gender, pi);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 

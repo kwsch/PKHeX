@@ -291,8 +291,7 @@ public static class PIDGenerator
         // Pokewalker PIDs cannot yield multiple abilities from the input nature-gender-trainerID. Disregard any ability request.
         var pi = pk.PersonalInfo.Gender;
         pk.Gender = gender;
-        do pk.PID = GetPokeWalkerPID(pk.TID16, pk.SID16, (uint)nature, gender, pi);
-        while (!pk.IsGenderValid());
+        pk.PID = GetPokeWalkerPID(pk.TID16, pk.SID16, (uint)nature, gender, pi);
         pk.RefreshAbility((int) (pk.PID & 1));
     }
 

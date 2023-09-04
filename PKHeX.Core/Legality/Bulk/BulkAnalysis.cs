@@ -47,7 +47,7 @@ public sealed class BulkAnalysis
     private static bool IsEmptyData(SlotCache obj)
     {
         var pk = obj.Entity;
-        if ((uint)(pk.Species - 1) >= pk.MaxSpeciesID)
+        if (pk.Species - 1u >= pk.MaxSpeciesID)
             return true;
         if (!pk.ChecksumValid)
             return true;

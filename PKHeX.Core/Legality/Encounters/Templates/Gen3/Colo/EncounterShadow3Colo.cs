@@ -38,7 +38,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
     /// <summary>
     /// Originates from the EReader scans (Japanese Only)
     /// </summary>
-    public bool EReader => Location == 128; // @ Card e Room (Japanese games only)
+    public bool IsEReader => Location == 128; // @ Card e Room (Japanese games only)
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
@@ -77,11 +77,11 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
         return pk;
     }
 
-    private int GetTemplateLanguage(ITrainerInfo tr) => EReader ? 1 : (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
+    private int GetTemplateLanguage(ITrainerInfo tr) => IsEReader ? 1 : (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language);
 
     private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        if (!EReader)
+        if (!IsEReader)
             SetPINGA_Regular(pk, criteria, pi);
         else
             SetPINGA_EReader(pk);
@@ -89,9 +89,9 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     private void SetPINGA_Regular(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(-1, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
-        int ability = criteria.GetAbilityFromNumber(0);
+        int gender = criteria.GetGender(pi);
+        int nature = (int)criteria.GetNature();
+        int ability = criteria.GetAbilityFromNumber(Ability);
 
         // Ensure that any generated specimen has valid Shadow Locks
         // This can be kinda slow, depending on how many locks / how strict they are.
@@ -108,7 +108,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
         }
         while (++ctr <= max);
 
-        System.Diagnostics.Debug.Assert(ctr < 100_000);
+        System.Diagnostics.Debug.Assert(ctr < max);
     }
 
     private void SetPINGA_EReader(CK3 pk)
@@ -139,7 +139,7 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
         while (++ctr <= max);
 
 #if DEBUG
-        System.Diagnostics.Debug.Assert(ctr < 100_000);
+        System.Diagnostics.Debug.Assert(ctr < max);
 #endif
     }
 
@@ -200,14 +200,14 @@ public sealed record EncounterShadow3Colo(byte ID, short Gauge, ReadOnlyMemory<T
 
     public bool IsCompatible(PIDType val, PKM pk)
     {
-        if (EReader)
+        if (IsEReader)
             return true;
         return val is PIDType.CXD;
     }
 
     public PIDType GetSuggestedCorrelation()
     {
-        if (EReader)
+        if (IsEReader)
             return PIDType.None;
         return PIDType.CXD;
     }

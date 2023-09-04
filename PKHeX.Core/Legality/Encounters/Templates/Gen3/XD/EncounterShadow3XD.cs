@@ -79,9 +79,9 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
 
     private void SetPINGA(XK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(-1, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
-        int ability = criteria.GetAbilityFromNumber(0);
+        int gender = criteria.GetGender(pi);
+        int nature = (int)criteria.GetNature();
+        int ability = criteria.GetAbilityFromNumber(Ability);
 
         // Ensure that any generated specimen has valid Shadow Locks
         // This can be kinda slow, depending on how many locks / how strict they are.
@@ -98,7 +98,7 @@ public sealed record EncounterShadow3XD(byte ID, short Gauge, ReadOnlyMemory<Tea
         }
         while (++ctr <= max);
 
-        System.Diagnostics.Debug.Assert(ctr < 100_000);
+        System.Diagnostics.Debug.Assert(ctr < max);
     }
 
     #endregion

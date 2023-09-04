@@ -297,7 +297,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     {
         var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
         pk.Nature = (int)criteria.GetNature((Nature)Nature);
-        pk.Gender = pi.Genderless ? 2 : Gender != 2 ? Gender : criteria.GetGender(-1, pi);
+        pk.Gender = pi.Genderless ? 2 : Gender != 2 ? Gender : criteria.GetGender(pi);
         var av = GetAbilityIndex(criteria);
         SetPID(pk, av);
         pk.RefreshAbility(av);

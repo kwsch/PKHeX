@@ -90,8 +90,8 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
     {
         pk.PID = Util.Rand32();
         pk.EncryptionConstant = Util.Rand32();
-        pk.Nature = (int)criteria.GetNature(Nature.Random);
-        pk.Gender = criteria.GetGender(-1, pi);
+        pk.Nature = (int)criteria.GetNature();
+        pk.Gender = criteria.GetGender(pi);
         criteria.SetRandomIVs(pk);
 
         var num = Ability;

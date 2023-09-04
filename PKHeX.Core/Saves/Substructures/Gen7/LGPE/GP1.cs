@@ -179,7 +179,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
 
         var pi = pk.PersonalInfo;
         pk.Gender = criteria.GetGender(Gender, pi);
-        pk.Nature = (int)criteria.GetNature(Nature.Random);
+        pk.Nature = (int)criteria.GetNature();
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
 
         bool isShiny = pk.IsShiny;

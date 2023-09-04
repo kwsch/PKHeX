@@ -70,7 +70,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
     private void SetPINGA(PK5 pk, EncounterCriteria criteria, PersonalInfo5B2W2 pi)
     {
         int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
+        int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
         PIDGenerator.SetRandomWildPID5(pk, nature, ability, gender);
         if (pk.IsShiny)

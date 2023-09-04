@@ -72,12 +72,11 @@ public sealed record EncounterStatic3Colo(ushort Species, byte Level)
     private void SetPINGA(CK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
         int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
+        int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
-        const PIDType type = PIDType.CXD;
         do
         {
-            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
+            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.CXD);
         } while (Shiny == Shiny.Never && pk.IsShiny);
     }
     #endregion

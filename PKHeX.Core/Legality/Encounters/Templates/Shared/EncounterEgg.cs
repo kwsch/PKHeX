@@ -120,8 +120,8 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
         if (pk.Format <= 2)
             return;
 
-        int gender = criteria.GetGender(-1, pk.PersonalInfo);
-        int nature = (int)criteria.GetNature(Nature.Random);
+        int gender = criteria.GetGender(pk.PersonalInfo);
+        int nature = (int)criteria.GetNature();
 
         if (pk.Format <= 5)
         {

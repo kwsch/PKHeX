@@ -93,29 +93,14 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
 
     private void SetPINGA(PK3 pk, EncounterCriteria criteria, PersonalInfo3 pi)
     {
-        int gender = criteria.GetGender(-1, pi);
-        int nature = (int)criteria.GetNature(Nature.Random);
+        int gender = criteria.GetGender(pi);
+        int nature = (int)criteria.GetNature();
         var ability = criteria.GetAbilityFromNumber(Ability);
-        if (Species == (int)Core.Species.Unown)
+        var type = Roaming && Version != GameVersion.E ? PIDType.Method_1_Roamer : PIDType.Method_1;
+        do
         {
-            do
-            {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, PIDType.Method_1_Unown);
-                ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
-            } while (pk.Form != Form);
-        }
-        else
-        {
-            PIDType type = this switch
-            {
-                { Roaming: true, Version: not GameVersion.E } => PIDType.Method_1_Roamer,
-                _ => PIDType.Method_1,
-            };
-            do
-            {
-                PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
-            } while (Shiny == Shiny.Never && pk.IsShiny);
-        }
+            PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
+        } while (Shiny == Shiny.Never && pk.IsShiny);
     }
     #endregion
 

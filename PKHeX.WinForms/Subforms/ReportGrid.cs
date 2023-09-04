@@ -58,7 +58,7 @@ public partial class ReportGrid : Form
         foreach (var entry in Data)
         {
             var pk = entry.Entity;
-            if ((uint)(pk.Species - 1) >= pk.MaxSpeciesID)
+            if (pk.Species - 1u >= pk.MaxSpeciesID)
             {
                 continue;
             }

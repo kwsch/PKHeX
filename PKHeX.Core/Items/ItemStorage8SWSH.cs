@@ -104,7 +104,7 @@ public sealed class ItemStorage8SWSH : IItemStorage
 
     private const int COUNT_TR = 100;
     private static ReadOnlySpan<ushort> Pouch_TR_SWSH => Pouch_TMTR_SWSH.Slice(99, COUNT_TR);
-    public static bool IsTechRecord(ushort itemID) => (uint)(itemID - 1130) < COUNT_TR;
+    public static bool IsTechRecord(ushort itemID) => itemID - 1130u < COUNT_TR;
 
     private static ReadOnlySpan<ushort> Pouch_Medicine_SWSH => new ushort[]
     {
