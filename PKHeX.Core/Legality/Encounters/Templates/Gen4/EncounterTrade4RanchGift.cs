@@ -105,7 +105,10 @@ public sealed record EncounterTrade4RanchGift
             HT_Gender = tr.Gender,
         };
 
-        EncounterUtil1.SetEncounterMoves(pk, version, actualLevel);
+        if (Moves.HasMoves)
+            pk.SetMoves(Moves);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, version, actualLevel);
         SetPINGA(pk, criteria);
         pk.ResetPartyStats();
 

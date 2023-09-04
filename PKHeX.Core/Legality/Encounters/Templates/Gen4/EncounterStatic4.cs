@@ -85,7 +85,10 @@ public sealed record EncounterStatic4(GameVersion Version)
         }
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        if (Moves.HasMoves)
+            pk.SetMoves(Moves);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
@@ -100,7 +103,7 @@ public sealed record EncounterStatic4(GameVersion Version)
             criteria.SetRandomIVs(pk);
             return;
         }
-        
+
         int gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);

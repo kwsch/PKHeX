@@ -78,7 +78,10 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
         SetPINGA(pk, criteria, pi);
 
-        EncounterUtil1.SetEncounterMoves(pk, version, Level);
+        if (Moves.HasMoves)
+            pk.SetMoves(Moves);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, version, Level);
         pk.ResetPartyStats();
 
         return pk;

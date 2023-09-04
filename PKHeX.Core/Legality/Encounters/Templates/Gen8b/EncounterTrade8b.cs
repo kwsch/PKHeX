@@ -109,7 +109,7 @@ public sealed record EncounterTrade8b : IEncounterable, IEncounterMatch, IFixedT
             pk.Language = (int)(pk.Language == (int)LanguageID.German ? LanguageID.Japanese : LanguageID.German);
 
         this.CopyContestStatsTo(pk);
-        EncounterUtil1.SetEncounterMoves(pk, version, Level);
+        pk.SetMoves(Moves);
         criteria.SetRandomIVs(pk, IVs);
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         pk.ResetPartyStats();

@@ -102,7 +102,10 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
 
         SetPINGA(pk, criteria);
 
-        EncounterUtil1.SetEncounterMoves(pk, version, Level);
+        if (Moves.HasMoves)
+            pk.SetMoves(Moves);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, version, Level);
         pk.ResetPartyStats();
 
         return pk;

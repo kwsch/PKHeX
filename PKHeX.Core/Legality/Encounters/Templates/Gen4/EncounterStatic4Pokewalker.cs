@@ -90,7 +90,10 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         };
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        if (Moves.HasMoves)
+            pk.SetMoves(Moves);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;

@@ -83,7 +83,10 @@ public sealed record EncounterGift1(ushort Species, byte Level, GameVersion Vers
                 pk.Catch_Rate = Util.Rand.Next(2) == 0 ? (byte)167 : (byte)168;
         }
 
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        if (Moves.HasMoves)
+            pk.SetMoves(Moves);
+        else
+            EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
