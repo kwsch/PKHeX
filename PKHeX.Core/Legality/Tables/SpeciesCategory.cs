@@ -78,10 +78,13 @@ public static class SpeciesCategory
 
         (int)Wormadam => true, //(F)
         (int)Mothim => true, // (M)
-
+        (int)Vespiquen => true, // (F)
         (int)Gallade => true, // (M)
         (int)Froslass => true, // (F)
+
+        // Species introduced after Gender has been disassociated from PID
         (int)Meowstic => true, // (M/F) form specific
+        (int)Salazzle => true, // (F)
         (int)Oinkologne => true, // (M/F) form specific
 
         _ => false,
