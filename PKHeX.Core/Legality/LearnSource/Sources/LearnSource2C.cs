@@ -61,7 +61,7 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
         {
             var learn = GetLearnset(evo.Species, evo.Form);
             var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && evo.LevelMin <= level && level <= evo.LevelMax)
+            if (level != -1 && evo.InsideLevelRange(level))
                 return new(LevelUp, Game, (byte)level);
         }
 

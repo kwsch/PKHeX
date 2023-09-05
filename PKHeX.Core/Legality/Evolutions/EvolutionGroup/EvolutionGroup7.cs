@@ -19,7 +19,7 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
         return null;
     }
 
-    public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk) => EvolutionUtil.Discard(result, Personal);
+    public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc) => EvolutionUtil.Discard(result, Personal);
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {

@@ -28,7 +28,12 @@ public sealed class LearnGroup2 : ILearnGroup
 
         var evos = history.Gen2;
         for (var i = 0; i < evos.Length; i++)
+        {
+            // Disallow Evolution moves if the evo is the last in the list (encounter species).
+            if (i == evos.Length - 1 && types.HasFlag(MoveSourceType.Evolve))
+                types &= ~MoveSourceType.Evolve;
             Check(result, current, pk, evos[i], i, option, types);
+        }
 
         if (enc is EncounterEgg { Generation: Generation } egg)
             CheckEncounterMoves(result, current, egg);

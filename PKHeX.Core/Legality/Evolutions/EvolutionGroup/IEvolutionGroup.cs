@@ -39,7 +39,7 @@ public interface IEvolutionGroup
     /// <summary>
     /// Discards all entries that do not exist in the group.
     /// </summary>
-    void DiscardForOrigin(Span<EvoCriteria> result, PKM pk);
+    void DiscardForOrigin(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc);
 }
 
 /// <summary>

@@ -11,7 +11,7 @@ public sealed class EvolutionGroup7b : IEvolutionGroup
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => pk.Format > Generation ? EvolutionGroupHOME.Instance : null;
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => null;
-    public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk) => EvolutionUtil.Discard(result, Personal);
+    public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc) => EvolutionUtil.Discard(result, Personal);
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {

@@ -11,7 +11,13 @@ public sealed class EvolutionGroup2 : IEvolutionGroup
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => pk.Format > Generation ? EvolutionGroup7.Instance : null;
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => pk.Format != 1 ? EvolutionGroup1.Instance : null;
-    public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk) => EvolutionUtil.Discard(result, Personal);
+    public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
+    {
+        if (enc.Generation == 1)
+            EvolutionUtil.Discard(result, PersonalTable.RB);
+        else
+            EvolutionUtil.Discard(result, PersonalTable.C);
+    }
 
     public int Devolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {

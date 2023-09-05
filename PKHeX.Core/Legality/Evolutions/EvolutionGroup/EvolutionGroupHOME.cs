@@ -25,7 +25,7 @@ public sealed class EvolutionGroupHOME : IEvolutionGroup
         return EvolutionGroup7.Instance;
     }
 
-    public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk)
+    public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc)
     {
         if (pk.SV)
             Discard(result, PersonalTable.SV);

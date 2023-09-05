@@ -17,11 +17,12 @@ public enum MoveSourceType
     EnhancedTutor   = 1 << 5,
     SharedEggMove   = 1 << 6,
     TechnicalRecord = 1 << 7,
+    Evolve          = 1 << 8,
 
     AllTutors = TypeTutor | SpecialTutor | EnhancedTutor,
     AllMachines = Machine | TechnicalRecord,
 
-    Reminder = LevelUp | RelearnMoves | TechnicalRecord,
+    Reminder = LevelUp | RelearnMoves | TechnicalRecord | Evolve,
     Encounter = LevelUp | RelearnMoves,
     ExternalSources = Reminder | AllMachines | AllTutors,
     All = ExternalSources | SharedEggMove | RelearnMoves,

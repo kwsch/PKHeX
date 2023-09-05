@@ -45,7 +45,7 @@ public sealed class LearnSource1YW : ILearnSource<PersonalInfo1>
         {
             var learn = Learnsets[evo.Species];
             var level = learn.GetLevelLearnMove(move);
-            if (level != -1 && evo.LevelMin <= level && level <= evo.LevelMax)
+            if (level != -1 && evo.InsideLevelRange(level))
                 return new(LevelUp, Game, (byte)level);
         }
 

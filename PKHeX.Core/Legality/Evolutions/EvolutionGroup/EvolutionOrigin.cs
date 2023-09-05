@@ -21,7 +21,7 @@ public readonly record struct EvolutionOrigin(ushort Species, byte Version, byte
     /// <summary>
     /// Internally used to enforce Gen1 origin encounters NOT jumping to Gen2 to continue devolving.
     /// </summary>
-    public bool NoDevolveGen1 => Options.HasFlag(OriginOptions.EncounterTemplate);
+    public bool IsDiscardRequired(int format) => format <= 2 && Options.HasFlag(OriginOptions.ForceDiscard);
 }
 
 [Flags]
@@ -29,7 +29,7 @@ public enum OriginOptions : byte
 {
     None = 0,
     SkipChecks = 1 << 0,
-    CheckVersionWhenNavigating = 1 << 1,
+    ForceDiscard = 1 << 1,
 
-    EncounterTemplate = SkipChecks | CheckVersionWhenNavigating,
+    EncounterTemplate = SkipChecks | ForceDiscard,
 }
