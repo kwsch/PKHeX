@@ -1210,7 +1210,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         {
             CheckMetLocationChange(version, Entity.Context);
             if (FieldsLoaded)
-                Entity.Version = (int)version;
+                Entity.Version = (byte)version;
         }
 
         // Visibility logic for Gen 4 ground tile; only show for Gen 4 Pokemon.

@@ -70,7 +70,12 @@ public sealed record EncounterStatic8a
             Met_Location = Location,
             Met_Level = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (int)Version,
+            Version = (byte)Version,
+
+            OT_Name = tr.OT,
+            OT_Gender = tr.Gender,
+            ID32 = tr.ID32,
+
             IsAlpha = IsAlpha,
             Ball = (byte)(FixedBall == Ball.None ? Ball.LAPoke : FixedBall),
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),

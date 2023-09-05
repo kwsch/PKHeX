@@ -38,7 +38,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
         pk.Language = lang;
         pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, gen);
         pk.CurrentLevel = Level;
-        pk.Version = (int)version;
+        pk.Version = (byte)version;
 
         var ball = FixedBall;
         pk.Ball = ball is Ball.None ? (int)Ball.Poke : (int)ball;

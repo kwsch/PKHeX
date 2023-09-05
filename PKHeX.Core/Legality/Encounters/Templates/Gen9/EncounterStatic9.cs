@@ -63,7 +63,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             Met_Location = Location,
             Met_Level = LevelMin,
             MetDate = EncounterDate.GetDateSwitch(),
-            Version = (int)version,
+            Version = (byte)version,
             Ball = (byte)Ball.Poke,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
