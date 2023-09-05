@@ -8,7 +8,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves1;
 
     public IEvolutionGroup GetNext(PKM pk, EvolutionOrigin enc) => EvolutionGroup2.Instance;
-    public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => pk.Format == 1 && ParseSettings.AllowGen1Tradeback ? EvolutionGroup2.Instance : null;
+    public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => !enc.NoDevolveGen1 && pk.Format == 1 && ParseSettings.AllowGen1Tradeback ? EvolutionGroup2.Instance : null;
 
     public void DiscardForOrigin(Span<EvoCriteria> result, PKM pk)
     {

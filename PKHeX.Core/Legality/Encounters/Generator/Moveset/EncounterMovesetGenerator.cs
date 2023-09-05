@@ -191,7 +191,7 @@ public static class EncounterMovesetGenerator
 
     private static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, ReadOnlyMemory<ushort> moves, GameVersion version, byte generation, EntityContext context)
     {
-        var origin = new EvolutionOrigin(pk.Species, (byte)version, generation, 1, 100, true);
+        var origin = new EvolutionOrigin(pk.Species, (byte)version, generation, 1, 100, OriginOptions.EncounterTemplate);
         var chain = EvolutionChain.GetOriginChain(pk, origin);
         if (chain.Length == 0)
             yield break;
@@ -259,7 +259,7 @@ public static class EncounterMovesetGenerator
         var length = pk.MaxMoveID + 1;
         var rent = ArrayPool<bool>.Shared.Rent(length);
         var permitted = rent.AsSpan(0, length);
-        var enc = new EvolutionOrigin(pk.Species, (byte)ver, (byte)generation, 1, 100, true);
+        var enc = new EvolutionOrigin(pk.Species, (byte)ver, (byte)generation, 1, 100, OriginOptions.EncounterTemplate);
         var history = EvolutionChain.GetEvolutionChainsSearch(pk, enc, context, 0);
         var e = new NeededEncounter(context, generation, ver); // default empty
         LearnPossible.Get(pk, e, history, permitted);

@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -8,5 +10,26 @@ namespace PKHeX.Core;
 /// <param name="Generation">Generation the encounter originated in</param>
 /// <param name="LevelMin">Minimum level the encounter originated at</param>
 /// <param name="LevelMax">Maximum level in final state</param>
-/// <param name="SkipChecks">Skip enforcement of legality for evolution criteria</param>
-public readonly record struct EvolutionOrigin(ushort Species, byte Version, byte Generation, byte LevelMin, byte LevelMax, bool SkipChecks = false);
+/// <param name="Options">Options to toggle logic when using this data</param>
+public readonly record struct EvolutionOrigin(ushort Species, byte Version, byte Generation, byte LevelMin, byte LevelMax, OriginOptions Options = 0)
+{
+    /// <summary>
+    /// Checks if evolution checks against the Entity should be skipped when devolving or devolving.
+    /// </summary>
+    public bool SkipChecks => Options.HasFlag(OriginOptions.SkipChecks);
+
+    /// <summary>
+    /// Internally used to enforce Gen1 origin encounters NOT jumping to Gen2 to continue devolving.
+    /// </summary>
+    public bool NoDevolveGen1 => Options.HasFlag(OriginOptions.EncounterTemplate);
+}
+
+[Flags]
+public enum OriginOptions : byte
+{
+    None = 0,
+    SkipChecks = 1 << 0,
+    CheckVersionWhenNavigating = 1 << 1,
+
+    EncounterTemplate = SkipChecks | CheckVersionWhenNavigating,
+}

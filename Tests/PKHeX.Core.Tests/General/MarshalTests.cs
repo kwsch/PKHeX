@@ -21,6 +21,7 @@ public class MarshalTests
     [Theory]
     [InlineData( 8, typeof(NPCLock))]
     [InlineData( 8, typeof(IndividualValueSet))]
+    [InlineData( 8, typeof(EvolutionOrigin))]
     [InlineData(16, typeof(DreamWorldEntry))]
     [InlineData(16, typeof(CheckResult))]
     [InlineData(16, typeof(EvolutionLink))]
