@@ -62,13 +62,10 @@ internal static class Encounters8
 
         #region Static Part 1
         // encounters
-        new(SW  ) { Species = 888, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new(533,014,442,242), Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zacian
-        new(  SH) { Species = 889, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new(163,242,442,334), Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zamazenta
         new()     { Species = 890, Level = 60, Location = 66, ScriptedNoMarks = true, Moves = new(440,406,053,744), Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Eternatus-1 (reverts to form 0)
 
         // Motostoke Stadium Static Encounters
         new()     { Species = 037, Level = 24, Location = 24, ScriptedNoMarks = true }, // Vulpix at Motostoke Stadium
-      //new(  SH) { Species = 058, Level = 24, Location = 24, ScriptedNoMarks = true }, // Growlithe at Motostoke Stadium (both versions have Vulpix)
         new()     { Species = 607, Level = 25, Location = 24, ScriptedNoMarks = true }, // Litwick at Motostoke Stadium
         new()     { Species = 850, Level = 25, Location = 24, ScriptedNoMarks = true, FlawlessIVCount = 3 }, // Sizzlipede at Motostoke Stadium
 
@@ -635,7 +632,6 @@ internal static class Encounters8
         new()     { Species = 614, Level = 67, Location = 214, Crossover = new(226, 228), Weather = Icy }, // Beartic on Snowslide Slope, Frigid Sea, Three-Point Pass
         new()     { Species = 126, Level = 65, Location = 214, Crossover = new(230), Weather = Intense_Sun }, // Magmar on Snowslide Slope, Ballimere Lake
         new()     { Species = 584, Level = 67, Location = 214, Weather = Icy }, // Vanilluxe on Snowslide Slope
-        new(SW  ) { Species = 555, Level = 67, Location = 214, Form = 02, Weather = Snowstorm }, // Darmanitan-2 on Snowslide Slope
         new()     { Species = 861, Level = 67, Location = 214, Weather = Heavy_Fog }, // Grimmsnarl on Snowslide Slope
         new()     { Species = 359, Level = 67, Location = 214, Crossover = new(218, 222), Weather = Snowstorm }, // Absol on Snowslide Slope, Path to the Peak, Giant’s Foot
         new()     { Species = 778, Level = 65, Location = 214, Crossover = new(222, 230), Weather = Heavy_Fog }, // Mimikyu on Snowslide Slope, Giant’s Foot, Ballimere Lake
@@ -704,6 +700,8 @@ internal static class Encounters8
 
     public static readonly EncounterStatic8[] StaticSW =
     {
+        new(SW  ) { Species = 888, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new(533,014,442,242), Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zacian
+
         new(SW  ) { Species = 275, Level = 34, Location = 124, Weather = Normal | Overcast | Stormy | Heavy_Fog }, // Shiftry in the Dappled Grove
         new(SW  ) { Species = 784, Level = 60, Location = 146, Ability = OnlyFirst,  Weather = Normal | Intense_Sun | Icy | Sandstorm | Heavy_Fog }, // Kommo-o in Dusty Bowl
         new(SW  ) { Species = 559, Level = 20, Location = 166, Weather = Overcast }, // Scraggy in the Soothing Wetlands
@@ -720,6 +718,7 @@ internal static class Encounters8
         new(SW  ) { Species = 628, Level = 42, Location = 184, Weather = Normal | Overcast | Raining | Sandstorm | Intense_Sun | Heavy_Fog }, // Braviary in the Potbottom Desert
         new(SW  ) { Species = 576, Level = 65, Location = 204, Crossover = new(208), Weather = Heavy_Fog }, // Gothitelle on Slippery Slope, Frostpoint Field
         new(SW  ) { Species = 874, Level = 63, Location = 210, Weather = All_CT }, // Stonjourner in the Giant’s Bed
+        new(SW  ) { Species = 555, Level = 67, Location = 214, Form = 02, Weather = Snowstorm }, // Darmanitan-2 on Snowslide Slope
         new(SW  ) { Species = 371, Level = 65, Location = 216, Weather = Overcast }, // Bagon in the Tunnel to the Top
         new(SW  ) { Species = 373, Level = 68, Location = 216, Weather = Overcast }, // Salamence in the Tunnel to the Top
         new(SW  ) { Species = 373, Level = 68, Location = 218, Weather = Intense_Sun }, // Salamence on the Path to the Peak
@@ -731,6 +730,8 @@ internal static class Encounters8
 
     public static readonly EncounterStatic8[] StaticSH =
     {
+        new(  SH) { Species = 889, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new(163,242,442,334), Shiny = Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Zamazenta
+
         new(  SH) { Species = 272, Level = 34, Location = 124, Weather = Normal | Overcast | Stormy | Heavy_Fog }, // Ludicolo in the Dappled Grove
         new(  SH) { Species = 248, Level = 60, Location = 146, Weather = Normal | Intense_Sun | Icy | Sandstorm | Heavy_Fog }, // Tyranitar in Dusty Bowl
         new(  SH) { Species = 453, Level = 20, Location = 166, Weather = Overcast }, // Croagunk in the Soothing Wetlands
