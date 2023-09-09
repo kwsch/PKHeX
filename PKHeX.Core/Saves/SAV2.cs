@@ -528,6 +528,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             Data[ofs] = (byte)value;
         }
     }
+
     public override IReadOnlyList<InventoryPouch> Inventory
     {
         get
