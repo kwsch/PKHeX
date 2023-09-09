@@ -11,6 +11,7 @@
 0190	*	Kurt can check GS Ball
 0191	*	Kurt ready to return GS Ball (combine with above Flag)
 0192	*	GS Ball can be inserted into Ilex Forest Shrine
+1809	*	No Mystery Gift item is waiting in the Pokemon Center
 0672	*	SOLVED_HO_OH_PUZZLE
 0673	*	SOLVED_KABUTO_PUZZLE
 0674	*	SOLVED_OMANYTE_PUZZLE

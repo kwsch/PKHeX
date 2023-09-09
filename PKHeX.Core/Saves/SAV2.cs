@@ -507,6 +507,27 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
+    public MysteryGiftItem MysteryGiftItem
+    {
+        get
+        {
+            int ofs = Offsets.MysteryGiftItem;
+            if (ofs == -1)
+                return MysteryGiftItem.None;
+            if (GetEventFlag(1809))
+                return MysteryGiftItem.None;
+            return (MysteryGiftItem)Data[ofs];
+        }
+        set
+        {
+            int ofs = Offsets.MysteryGiftItem;
+            if (ofs == -1)
+                return;
+
+            SetEventFlag(1809, value == MysteryGiftItem.None);
+            Data[ofs] = (byte)value;
+        }
+    }
     public override IReadOnlyList<InventoryPouch> Inventory
     {
         get
@@ -784,4 +805,41 @@ public enum GBMobileCableColor : byte
     Gray = 8,
     Debug = 0x81,
     Disabled = 0xFF,
+}
+
+public enum MysteryGiftItem : byte
+{
+    None = 0,
+    ScopeLens = 140,
+    EonMail = 185,
+    MorphMail = 186,
+    MusicMail = 188,
+    MiracleBerry = 109,
+    Berry = 173,
+    PRZCureBerry = 78,
+    MintBerry = 84,
+    IceBerry = 80,
+    BurntBerry = 79,
+    PSNCureBerry = 74,
+    GuardSpec = 41,
+    XDefend = 51,
+    XAttack = 49,
+    BitterBerry = 83,
+    DireHit = 44,
+    XSpecial = 53,
+    XAccuracy = 33,
+    GoldBerry = 174,
+    Revive = 39,
+    GreatBall = 4,
+    SuperRepel = 42,
+    MaxRepel = 43,
+    Elixer = 65,
+    Ether = 63,
+    WaterStone = 24,
+    FireStone = 22,
+    LeafStone = 34,
+    Thunderstone = 23,
+    MaxEther = 64,
+    MaxElixer = 21,
+    MaxRevive = 40
 }

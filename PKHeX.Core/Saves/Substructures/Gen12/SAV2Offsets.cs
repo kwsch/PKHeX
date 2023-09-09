@@ -46,6 +46,7 @@ internal sealed class SAV2Offsets
     public int Daycare { get; }
 
     public int BlueCardPoints { get; private set; } = -1;
+    public int MysteryGiftItem { get; private set; } = -1;
 
     public int PouchTMHM { get; private set; } = -1;
     public int PouchItem { get; private set; } = -1;
@@ -94,6 +95,7 @@ internal sealed class SAV2Offsets
                 CurrentBoxIndex = 0x2700;
                 BoxNames = 0x2703;
                 BlueCardPoints = 0x27D9;
+                MysteryGiftItem = 0xBE4;
                 Party = 0x2865;
                 PokedexCaught = 0x2A27;
                 PokedexSeen = 0x2A47;
