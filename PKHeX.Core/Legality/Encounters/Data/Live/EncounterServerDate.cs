@@ -183,6 +183,7 @@ public static class EncounterServerDate
         {0505, (new(2023, 08, 07), new(2023, 09, 01))}, // WCS 2023 Stretchy Form Tatsugiri
         {1521, (new(2023, 08, 08), new(2023, 09, 19))}, // My Very Own Mew
         {0506, (new(2023, 08, 10), new(2023, 08, 15))}, // Eduardo Gastrodon
+        {1524, (new(2023, 09, 06), new(2024, 08, 31))}, // Glaseado Cetitan
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
