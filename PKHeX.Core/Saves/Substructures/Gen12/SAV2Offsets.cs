@@ -161,6 +161,7 @@ internal sealed class SAV2Offsets
                 CurrentBoxIndex = 0x26E2;
                 BoxNames = 0x26E5;
                 BlueCardPoints = 0x278E;
+                MysteryGiftItem = 0xB52;
                 Party = 0x281A;
                 PokedexCaught = 0x29AA;
                 PokedexSeen = 0x29CA;

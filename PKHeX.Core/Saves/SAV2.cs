@@ -842,5 +842,7 @@ public enum MysteryGiftItem : byte
     Thunderstone = 23,
     MaxEther = 64,
     MaxElixer = 21,
-    MaxRevive = 40
+    MaxRevive = 40,
+    HPUp = 26,
+    PPUp = 62
 }
