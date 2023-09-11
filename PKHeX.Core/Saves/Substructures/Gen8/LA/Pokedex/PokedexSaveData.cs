@@ -40,8 +40,8 @@ public sealed class PokedexSaveData
     public bool IsPokedexCompleted(PokedexType8a which) => (GlobalData.Flags & (which < PokedexType8a.Count ? (1 << (int)which) : 1)) != 0;
     public bool IsPokedexPerfect(PokedexType8a which) => (GlobalData.Flags & ((which < PokedexType8a.Count ? (1 << (int)which) : 1) << 6)) != 0;
 
-    public void SetPokedexCompleted(PokedexType8a which) => GlobalData.Flags |= (uint)(which < PokedexType8a.Count ? (1 << (int)which) : 1);
-    public void SetPokedexPerfect(PokedexType8a which) => GlobalData.Flags |= (uint)((which < PokedexType8a.Count ? (1 << (int)which) : 1) << 6);
+    public void SetPokedexCompleted(PokedexType8a which) => GlobalData.Flags |= which < PokedexType8a.Count ? (1u << (int)which) : 1;
+    public void SetPokedexPerfect(PokedexType8a which) => GlobalData.Flags |= (which < PokedexType8a.Count ? (1u << (int)which) : 1) << 6;
 
     public PokedexSaveResearchEntry GetResearchEntry(ushort species) => ResearchEntries[species];
 

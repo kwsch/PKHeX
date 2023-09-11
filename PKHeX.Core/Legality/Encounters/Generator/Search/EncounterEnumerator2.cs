@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Iterates to find potentially matched encounters for <see cref="GameVersion.Gen2"/>.
+/// </summary>
 public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncounterable>>
 {
     private IEncounterable? Deferred;
@@ -79,25 +82,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
             case YieldState.Start:
                 if (Chain.Length == 0)
                     break;
-                goto case YieldState.EventStart;
-
-            case YieldState.EventStart:
-                if (Entity.Korean)
-                { State = YieldState.Trade; goto case YieldState.Trade; }
-                if (ParseSettings.AllowGBVirtualConsole3DS)
-                { State = YieldState.EventVC; goto case YieldState.EventVC; }
-                if (ParseSettings.AllowGBEraEvents)
-                { State = YieldState.EventGB; goto case YieldState.EventGB; }
-                throw new InvalidOperationException("No events allowed");
-            case YieldState.EventVC:
-                State = YieldState.Trade;
-                if (IsMatch(Encounters2.CelebiVC))
-                    return SetCurrent(Encounters2.CelebiVC);
-                goto case YieldState.Trade;
-            case YieldState.EventGB:
-                if (TryGetNext(Encounters2GBEra.StaticEventsGB))
-                    return true;
-                Index = 0; State = YieldState.Trade; goto case YieldState.Trade;
+                State = YieldState.Trade; goto case YieldState.Trade;
 
             case YieldState.Trade:
                 if (TryGetNext(Encounters2.TradeGift_GSC))
@@ -170,7 +155,25 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                     return true;
                 Index = 0; goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
+                goto case YieldState.EventStart;
+
+            case YieldState.EventStart:
+                if (Entity.Korean)
+                { State = YieldState.Fallback; goto case YieldState.Fallback; }
+                if (ParseSettings.AllowGBVirtualConsole3DS)
+                { State = YieldState.EventVC; goto case YieldState.EventVC; }
+                if (ParseSettings.AllowGBEraEvents)
+                { State = YieldState.EventGB; goto case YieldState.EventGB; }
+                throw new InvalidOperationException("No events allowed");
+            case YieldState.EventVC:
+                State = YieldState.Fallback;
+                if (IsMatch(Encounters2.CelebiVC))
+                    return SetCurrent(Encounters2.CelebiVC);
                 goto case YieldState.Fallback;
+            case YieldState.EventGB:
+                if (TryGetNext(Encounters2GBEra.StaticEventsGB))
+                    return true;
+                State = YieldState.Fallback; goto case YieldState.Fallback;
 
             case YieldState.Fallback:
                 State = YieldState.End;

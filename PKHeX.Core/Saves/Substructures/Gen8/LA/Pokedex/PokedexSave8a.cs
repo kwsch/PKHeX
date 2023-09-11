@@ -1121,8 +1121,10 @@ public sealed class PokedexSave8a
         if (hash == 0xCBF29CE484222645)
             return 0;
 
-        return (int)(uint)SaveFile.Accessor.GetBlockValue((uint)(hash & 0xFFFFFFFF));
+        return (int)(uint)SaveFile.Accessor.GetBlockValue(GetSaveBlockKey(hash));
     }
+
+    private static uint GetSaveBlockKey(ulong hash) => (uint)hash; // truncate to 32-bit
 
     private int GetSpeciesQuestState(ulong hash)
     {
@@ -1130,7 +1132,8 @@ public sealed class PokedexSave8a
             return 0;
 
         // These are single-byte blocks, but type is "object"...
-        return SaveFile.Accessor.GetBlock((uint)(hash & 0xFFFFFFFF)).Data[0];
+        var key = GetSaveBlockKey(hash);
+        return SaveFile.Accessor.GetBlock(key).Data[0];
     }
 
     public static bool IsAnyTaskTriggered(ushort species, PokedexResearchTaskType8a which, MoveType moveType, int move, PokedexTimeOfDay8a timeOfDay)

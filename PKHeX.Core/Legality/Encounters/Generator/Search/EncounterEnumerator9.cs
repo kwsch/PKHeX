@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Iterates to find potentially matched encounters for <see cref="GameVersion.SV"/>.
+/// </summary>
 public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
 {
     private IEncounterable? Deferred;

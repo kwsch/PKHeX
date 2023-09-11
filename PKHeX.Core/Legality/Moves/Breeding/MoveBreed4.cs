@@ -24,8 +24,12 @@ public static class MoveBreed4
         if (count == -1)
             count = moves.Length;
 
-        var learn = GameData.GetLearnSource(version);
-        var learnset = learn.GetLearnset(species, 0);
+        var learnset = version switch
+        {
+            HG or SS => LearnSource4HGSS.Instance.GetLearnset(species, 0),
+            D or P => LearnSource4DP.Instance.GetLearnset(species, 0),
+            _ => LearnSource4Pt.Instance.GetLearnset(species, 0),
+        };
         var table = version switch
         {
             HG or SS => PersonalTable.HGSS,

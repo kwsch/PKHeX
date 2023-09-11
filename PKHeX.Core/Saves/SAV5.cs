@@ -115,8 +115,8 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     {
         var pk5 = (PK5)pk;
         // Apply to this Save File
-        DateTime Date = DateTime.Now;
-        if (pk5.Trade(OT, ID32, Gender, Date.Day, Date.Month, Date.Year))
+        var now = EncounterDate.GetDateNDS();
+        if (pk5.Trade(OT, ID32, Gender, now.Day, now.Month, now.Year))
             pk.RefreshChecksum();
     }
 

@@ -135,9 +135,9 @@ public sealed class GameDataSource
     {
         var languages = new List<ComboItem>(LanguageList);
         if (gen == 3)
-            languages.RemoveAll(l => l.Value >= (int)LanguageID.Korean);
+            languages.RemoveAll(static l => l.Value >= (int)LanguageID.Korean);
         else if (gen < 7)
-            languages.RemoveAll(l => l.Value > (int)LanguageID.Korean);
+            languages.RemoveAll(static l => l.Value > (int)LanguageID.Korean);
         return languages;
     }
 }

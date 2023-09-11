@@ -455,7 +455,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         Move2 = value.Move2;
         Move3 = value.Move3;
         Move4 = value.Move4;
-        this.SetMaximumPPCurrent(Moves);
+        this.SetMaximumPPCurrent(value);
     }
 
     public void SetMoves(ReadOnlySpan<ushort> value)
@@ -464,7 +464,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         Move2 = value.Length > 1 ? value[1] : default;
         Move3 = value.Length > 2 ? value[2] : default;
         Move4 = value.Length > 3 ? value[3] : default;
-        this.SetMaximumPPCurrent(Moves);
+        this.SetMaximumPPCurrent(value);
     }
 
     public ushort[] RelearnMoves

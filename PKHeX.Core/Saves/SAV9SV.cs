@@ -164,8 +164,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         PK9 pk9 = (PK9)pk;
         // Apply to this Save File
-        DateTime Date = DateTime.Now;
-        pk9.Trade(this, Date.Day, Date.Month, Date.Year);
+        var now = EncounterDate.GetDateSwitch();
+        pk9.Trade(this, now.Day, now.Month, now.Year);
 
         if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk9.Species, pk9.Form))
         {

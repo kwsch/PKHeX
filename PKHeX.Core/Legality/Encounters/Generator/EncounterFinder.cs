@@ -167,23 +167,23 @@ public static class EncounterFinder
         LearnVerifier.Verify(info.Moves, pk, info.EncounterMatch, info.EvoChainsAllGens);
     }
 
-    private static string GetHintWhyNotFound(PKM pk, int gen)
+    private static string GetHintWhyNotFound(PKM pk, int generation)
     {
-        if (WasGiftEgg(pk, gen, (ushort)pk.Egg_Location))
+        if (WasGiftEgg(pk, generation, (ushort)pk.Egg_Location))
             return LEncGift;
-        if (WasEventEgg(pk, gen))
+        if (WasEventEgg(pk, generation))
             return LEncGiftEggEvent;
-        if (WasEvent(pk, gen))
+        if (WasEvent(pk, generation))
             return LEncGiftNotFound;
         return LEncInvalid;
     }
 
-    private static bool WasGiftEgg(PKM pk, int gen, ushort loc) => !pk.FatefulEncounter && gen switch
+    private static bool WasGiftEgg(PKM pk, int generation, ushort eggLocation) => !pk.FatefulEncounter && generation switch
     {
         3 => pk.IsEgg && (byte)pk.Met_Location == 253, // Gift Egg, indistinguishable from normal eggs after hatch
-        4 => (uint)(loc - 2009) <= (2014 - 2009) || (pk.Format != 4 && (loc == Locations.Faraway4 && pk.HGSS)),
-        5 => loc is Locations.Breeder5,
-        _ => loc is Locations.Breeder6,
+        4 => eggLocation - 2009u <= (2014 - 2009) || (pk.Format != 4 && (eggLocation == Locations.Faraway4 && pk.HGSS)),
+        5 => eggLocation is Locations.Breeder5,
+        _ => eggLocation is Locations.Breeder6,
     };
 
     private static bool WasEventEgg(PKM pk, int gen) => gen switch

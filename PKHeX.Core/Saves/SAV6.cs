@@ -111,8 +111,8 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
         PK6 pk6 = (PK6)pk;
         // Apply to this Save File
         int CT = pk6.CurrentHandler;
-        DateTime Date = DateTime.Now;
-        pk6.Trade(this, Date.Day, Date.Month, Date.Year);
+        var now = EncounterDate.GetDate3DS();
+        pk6.Trade(this, now.Day, now.Month, now.Year);
         if (CT != pk6.CurrentHandler) // Logic updated Friendship
         {
             // Copy over the Friendship Value only under certain circumstances

@@ -5,6 +5,9 @@ using System.Diagnostics;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Iterates to find potentially matched encounters for <see cref="GameVersion.BDSP"/>.
+/// </summary>
 public record struct EncounterEnumerator8b(PKM Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
 {
     private IEncounterable? Deferred;

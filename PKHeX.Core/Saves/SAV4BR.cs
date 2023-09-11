@@ -244,8 +244,8 @@ public sealed class SAV4BR : SaveFile
     {
         var pk4 = (BK4)pk;
         // Apply to this Save File
-        DateTime Date = DateTime.Now;
-        if (pk4.Trade(OT, ID32, Gender, Date.Day, Date.Month, Date.Year))
+        var now = EncounterDate.GetDateNDS();
+        if (pk4.Trade(OT, ID32, Gender, now.Day, now.Month, now.Year))
             pk.RefreshChecksum();
     }
 

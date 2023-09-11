@@ -61,7 +61,7 @@ internal static class Encounters2
         new(223, 40, GS) { Location = 039 }, // Remoraid Swarm @ Route 44 (Super Rod)
 
         // Roamer
-        new(245, 40, GS)  { Location = 002 }, // Suicune
+        new(245, 40, GS) { Location = 002 }, // Suicune
     };
 
     public static readonly EncounterStatic2[] StaticGD =

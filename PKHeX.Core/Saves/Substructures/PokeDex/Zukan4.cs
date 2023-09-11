@@ -86,7 +86,9 @@ public sealed class Zukan4 : ZukanBase<SAV4>
         const int brSize = 0x40;
         if (species == (int)Species.Deoxys)
         {
-            uint val = (uint)(Data[0x4 + (1 * brSize) - 1] | (Data[0x4 + (2 * brSize) - 1] << 8));
+            var br1 = Data[0x4 + (1 * brSize) - 1];
+            var br2 = Data[0x4 + (2 * brSize) - 1];
+            uint val = (uint)(br1 | (br2 << 8));
             return GetDexFormValues(val, 4, 4);
         }
 
