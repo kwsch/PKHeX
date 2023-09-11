@@ -60,7 +60,7 @@ public sealed class EncounterGenerator3 : IEncounterGenerator
         foreach (var enc in iterator)
         {
             var e = enc.Encounter;
-            if (e is not EncounterSlot3 s3)
+            if (e is not EncounterSlot3 s3 || s3 is EncounterSlot3Swarm)
             {
                 yield return e;
                 continue;

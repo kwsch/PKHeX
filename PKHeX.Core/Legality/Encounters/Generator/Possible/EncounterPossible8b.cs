@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Iterates to find possible encounters for <see cref="GameVersion.BDSP"/> encounters.
 /// </summary>
-public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup Flags, GameVersion Version) : IEnumerator<IEncounterable>
+public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup Flags, GameVersion Version, PKM Entity) : IEnumerator<IEncounterable>
 {
     public IEncounterable Current { get; private set; }
 
@@ -119,11 +119,11 @@ public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup
                 { State = YieldState.SlotSP; goto case YieldState.SlotSP; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.SlotBD:
-                if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsBD))
+                if (TryGetNext(Encounters8b.SlotsBD))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotSP:
-                if (TryGetNext<EncounterArea8b, EncounterSlot8b>(Encounters8b.SlotsSP))
+                if (TryGetNext(Encounters8b.SlotsSP))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
@@ -132,9 +132,7 @@ public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup
         return false;
     }
 
-    private bool TryGetNext<TArea, TSlot>(TArea[] areas)
-        where TArea : class, IEncounterArea<TSlot>
-        where TSlot : class, IEncounterable, IEncounterMatch
+    private bool TryGetNext(EncounterArea8b[] areas)
     {
         for (; Index < areas.Length; Index++, SubIndex = 0)
         {
@@ -145,7 +143,7 @@ public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup
         return false;
     }
 
-    private bool TryGetNextSub<T>(T[] slots) where T : class, IEncounterable, IEncounterMatch
+    private bool TryGetNextSub(EncounterSlot8b[] slots)
     {
         while (SubIndex < slots.Length)
         {
@@ -153,6 +151,8 @@ public record struct EncounterPossible8b(EvoCriteria[] Chain, EncounterTypeGroup
             foreach (var evo in Chain)
             {
                 if (enc.Species != evo.Species)
+                    continue;
+                if (enc.IsInvalidMunchlaxTree(Entity))
                     continue;
                 return SetCurrent(enc);
             }

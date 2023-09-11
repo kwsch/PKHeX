@@ -76,7 +76,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
             OT_Gender = 0,
             TID16 = TID16,
             SID16 = tr.SID16,
-            Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
+            Nickname = IsFixedNickname ? GetNickname(lang) : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
         SetPINGA(pk, criteria, pi);

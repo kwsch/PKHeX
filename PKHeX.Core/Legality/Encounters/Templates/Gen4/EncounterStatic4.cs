@@ -83,6 +83,10 @@ public sealed record EncounterStatic4(GameVersion Version)
             pk.Egg_Location = EggLocation;
             pk.EggMetDate = pk.MetDate;
         }
+        else if (Species == (int)Core.Species.Giratina && Form == 1)
+        {
+            pk.HeldItem = 0112; // Griseous Orb
+        }
 
         SetPINGA(pk, criteria, pi);
         if (Moves.HasMoves)

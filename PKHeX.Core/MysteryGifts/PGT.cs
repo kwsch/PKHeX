@@ -196,6 +196,8 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         pk4.Language = lang;
         pk4.Egg_Location = 1; // Ranger (will be +3000 later)
         pk4.Nickname = SpeciesName.GetSpeciesNameGeneration((int)Core.Species.Manaphy, lang, 4);
+        pk4.Met_Location = pk4.Version is (int)GameVersion.HG or (int)GameVersion.SS ? Locations.HatchLocationHGSS : Locations.HatchLocationDPPt;
+        pk4.MetDate = EncounterDate.GetDateNDS();
     }
 
     private void SetPINGA(PK4 pk4, EncounterCriteria criteria)
@@ -306,6 +308,8 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     {
         if (IsManaphyEgg)
             return IsG4ManaphyPIDValid(val, pk);
+        if (PK.PID != 1 && val == PIDType.G5MGShiny)
+            return true;
         return val == PIDType.None;
     }
 

@@ -112,7 +112,8 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
 
     public PK1 ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria)
     {
-        var level = ParseSettings.AllowGen1Tradeback ? LevelMinGSC : LevelMinRBY;
+        bool gsc = CanObtainMinGSC();
+        var level = gsc ? LevelMinGSC : LevelMinRBY;
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
         var isJapanese = lang == (int)LanguageID.Japanese;
         var pi = EncounterUtil1.GetPersonal1(Version, Species);
@@ -131,6 +132,8 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         pk.OT_Trash[0] = StringConverter12.G1TradeOTCode;
 
         EncounterUtil1.SetEncounterMoves(pk, Version, level);
+        if (EvolveOnTrade)
+            pk.Species++;
 
         pk.ResetPartyStats();
 
@@ -170,7 +173,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
 
     private bool IsMatchLevel(PKM pk, int lvl)
     {
-        if (pk is not PK1)
+        if (pk is not PK1 || CanObtainMinGSC())
             return lvl >= LevelMinGSC;
         return lvl >= LevelMin;
     }

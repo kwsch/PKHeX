@@ -105,6 +105,12 @@ public sealed record EncounterTrade4RanchGift
             HT_Gender = tr.Gender,
         };
 
+        if (EggLocation != 0)
+        {
+            pk.Egg_Location = EggLocation;
+            pk.EggMetDate = pk.MetDate;
+        }
+
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
