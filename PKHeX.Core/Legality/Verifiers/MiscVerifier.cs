@@ -269,7 +269,7 @@ public sealed class MiscVerifier : Verifier
                 var time = t.Met_TimeOfDay;
                 bool valid = data.EncounterOriginal switch
                 {
-                    EncounterGift2 => time == 0,
+                    EncounterGift2 g2 when (!g2.EggEncounter || pk.IsEgg) => time == 0,
                     EncounterTrade2 => time == 0,
                     _ => time is 1 or 2 or 3,
                 };
