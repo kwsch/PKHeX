@@ -75,7 +75,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
             Met_Level = LevelMin,
             Version = (byte)Version,
             MetDate = EncounterDate.GetDateSwitch(),
-            Ball = (byte)Ball.Poke,
+            Ball = (byte)GetRequiredBall(),
 
             Language = lang,
             OT_Name = tr.OT,

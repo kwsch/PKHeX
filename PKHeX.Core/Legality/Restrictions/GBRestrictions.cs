@@ -96,8 +96,7 @@ internal static class GBRestrictions
     private static bool GetCatchRateMatchesPreEvolution(PK1 pk, byte catch_rate)
     {
         // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
-        ISpeciesForm head = pk;
-        byte max = (byte)pk.CurrentLevel;
+        var head = new EvoCriteria { Species = pk.Species, Form = pk.Form, LevelMax = (byte)pk.CurrentLevel }; // as struct to avoid boxing
         while (true)
         {
             var s = head.Species;
@@ -107,10 +106,8 @@ internal static class GBRestrictions
                     return true;
             }
 
-            if (!EvolutionGroup1.Instance.TryDevolve(head, pk, max, 2, false, out var next))
+            if (!EvolutionGroup1.Instance.TryDevolve(head, pk, head.LevelMax, 2, false, out head))
                 break;
-            head = next;
-            max = next.LevelMax;
         }
 
         // Account for oddities via special catch rate encounters

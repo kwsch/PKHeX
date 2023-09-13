@@ -127,7 +127,10 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
             var rand = Util.Rand;
             pk.EncryptionConstant = rand.Rand32();
             pk.PID = rand.Rand32();
-            criteria.SetRandomIVs(pk, IVs);
+            if (IVs.IsSpecified)
+                criteria.SetRandomIVs(pk, IVs);
+            else
+                criteria.SetRandomIVs(pk, FlawlessIVCount);
             return;
         }
         var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
