@@ -16,4 +16,19 @@ internal static class TestUtil
         }
         return folder;
     }
+
+    private static readonly object InitLock = new();
+    private static bool IsInitialized;
+
+    public static void InitializeLegality()
+    {
+        lock (InitLock)
+        {
+            if (IsInitialized)
+                return;
+            RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
+            IsInitialized = true;
+        }
+    }
+
 }
