@@ -40,9 +40,10 @@ public static class SaveUtil
     public const int SIZE_G9_DLC1_B = 0x4329A0; // +9
     public const int SIZE_G9_DLC1_0 = 0x4329A9; // +4
     public const int SIZE_G9_DLC1_E = 0x4329AD; // +1
-    public const int SIZE_G9_DLC1_1 = 0x4329AE; // +5
+    public const int SIZE_G9_DLC1_1 = 0x4329AE; // +1
     public const int SIZE_G9_DLC1_D = 0x4329B2; // +4
-    public const int SIZE_G9_DLC1_A = 0x4329B6; // +8
+    public const int SIZE_G9_DLC1_F = 0x4329B3; // +1
+    public const int SIZE_G9_DLC1_A = 0x4329B6; // +3
     public const int SIZE_G9_DLC1_2 = 0x4329BB; // +5
     public const int SIZE_G9_DLC1_3 = 0x4329C0; // +5
     public const int SIZE_G9_DLC1_4 = 0x432EB6;
