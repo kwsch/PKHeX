@@ -160,6 +160,8 @@ public sealed record EncounterStatic9(GameVersion Version)
             return false;
         if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return false;
+        if (Nature != Nature.Random && pk.Nature != (int)Nature)
+            return false;
 
         return true;
     }
