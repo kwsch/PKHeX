@@ -98,7 +98,6 @@ namespace PKHeX.WinForms
             B_MaxLP = new System.Windows.Forms.Button();
             L_LP = new System.Windows.Forms.Label();
             Tab_MiscValues = new System.Windows.Forms.TabPage();
-            CB_Fashion = new System.Windows.Forms.ComboBox();
             B_UnlockClothing = new System.Windows.Forms.Button();
             B_UnlockBikeUpgrades = new System.Windows.Forms.Button();
             B_UnlockTMRecipes = new System.Windows.Forms.Button();
@@ -725,7 +724,6 @@ namespace PKHeX.WinForms
             // 
             // Tab_MiscValues
             // 
-            Tab_MiscValues.Controls.Add(CB_Fashion);
             Tab_MiscValues.Controls.Add(B_UnlockClothing);
             Tab_MiscValues.Controls.Add(B_UnlockBikeUpgrades);
             Tab_MiscValues.Controls.Add(B_UnlockTMRecipes);
@@ -740,16 +738,6 @@ namespace PKHeX.WinForms
             Tab_MiscValues.TabIndex = 4;
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
-            // 
-            // CB_Fashion
-            // 
-            CB_Fashion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            CB_Fashion.FormattingEnabled = true;
-            CB_Fashion.Items.AddRange(new object[] { "All base game clothes", "Extra hats and Rotometry cases", "DLCs preorder clothes", "PokéPortal clothes" });
-            CB_Fashion.Location = new System.Drawing.Point(15, 199);
-            CB_Fashion.Name = "CB_Fashion";
-            CB_Fashion.Size = new System.Drawing.Size(260, 28);
-            CB_Fashion.TabIndex = 65;
             // 
             // B_UnlockClothing
             // 
@@ -1061,6 +1049,5 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.PictureBox P_CurrIcon;
         private System.Windows.Forms.PictureBox P_CurrPhoto;
         private System.Windows.Forms.Button B_UnlockClothing;
-        private System.Windows.Forms.ComboBox CB_Fashion;
     }
 }

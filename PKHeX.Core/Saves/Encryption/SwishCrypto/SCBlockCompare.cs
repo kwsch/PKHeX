@@ -45,7 +45,7 @@ public sealed class SCBlockCompare
             else
             {
                 var b = s2.GetBlock(k);
-                AddedKeys.Add($"{name} - {b.Type}");
+                AddedKeys.Add($"{name} - {b.Type} - 0x{b.Data.Length:X5} {b.Data.Length}");
             }
         }
     }

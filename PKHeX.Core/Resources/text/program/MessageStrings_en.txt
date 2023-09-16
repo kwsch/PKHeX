@@ -232,7 +232,6 @@ MsgItemPouchSizeSmall = Pouch is too small for all items.
 MsgItemPouchRandom = Yes: Give by Item ID{0}No: Random assortment
 MsgItemPouchWarning = If you save changes, the item(s) will no longer be in the pouch.
 MsgItemPouchRemoved = The following item(s) have been removed from the {0} pouch.
-MsgClothingAdded = Added {0} clothing options.
 MsgSaveDifferentTypes = Save File types are different.
 MsgSaveDifferentVersions = Save File versions are not the same.
 MsgSaveNumberInvalid = Save File {0} is not valid.

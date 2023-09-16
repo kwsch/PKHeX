@@ -232,7 +232,6 @@ MsgItemPouchSizeSmall = 包包對於所有道具太小。
 MsgItemPouchRandom = 是: 獲得道具ID {0} 否: 隨機組合
 MsgItemPouchWarning = 如果你保存更改，道具將從包包裡移除。
 MsgItemPouchRemoved = 下列道具經已從 {0} 物品欄刪除。
-MsgClothingAdded = Added {0} clothing options.
 MsgSaveDifferentTypes = 儲存資料檔案類型不同。
 MsgSaveDifferentVersions = 儲存資料檔案版本不同。
 MsgSaveNumberInvalid = 儲存資料檔案 {0} 無效。

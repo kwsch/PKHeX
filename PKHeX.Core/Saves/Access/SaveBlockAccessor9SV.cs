@@ -105,7 +105,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint KFashionUnlockedFootwear = 0x0221A618; // 4000-4999
     public const uint KFashionUnlockedHeadwear = 0x860CD8FB; // 5000-5999
     public const uint KFashionUnlockedLegwear = 0xD186222E; // 6000-6999
-    public const uint KFashionUnlockedUniform = 0x78FF2CB2; // 7000-7999
+    public const uint KFashionUnlockedClothing = 0x78FF2CB2; // 7000-7999
     public const uint KFashionUnlockedPhoneCase = 0xED0AC675; // 8000-8999
 
     // Profile Picture
