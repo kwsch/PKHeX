@@ -161,6 +161,10 @@ public sealed class FormVerifier : Verifier
                 break;
             }
 
+            // Ogerpon's form changes depending on its held mask
+            case Ogerpon when (form & 3) != GetOgerponFormFromHeldItem(pk.HeldItem):
+                return GetInvalid(LFormItemInvalid);
+
             // Impossible Egg forms
             case Rotom when pk.IsEgg && form != 0:
             case Furfrou when pk.IsEgg && form != 0:
@@ -220,4 +224,12 @@ public sealed class FormVerifier : Verifier
             return (byte)(item - 115);
         return 0;
     }
+
+    private static byte GetOgerponFormFromHeldItem(int item) => item switch
+    {
+        2407 => 1, // Wellspring Mask
+        2408 => 2, // Hearthflame Mask
+        2406 => 3, // Cornerstone Mask
+        _ => 0, // Teal Mask
+    };
 }

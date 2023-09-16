@@ -18,6 +18,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9SV(this);
+        SaveRevision = GetRevision();
         Initialize();
     }
 
@@ -25,8 +26,16 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         AllBlocks = Meta9.GetBlankDataSV();
         Blocks = new SaveBlockAccessor9SV(this);
+        SaveRevision = GetRevision();
         Initialize();
         ClearBoxes();
+    }
+
+    private int GetRevision()
+    {
+        if (!Blocks.HasBlock(0x08E1CF45))
+            return 0;
+        return 1;
     }
 
     public override void CopyChangesFrom(SaveFile sav)
@@ -40,11 +49,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         State.Edited = true;
     }
 
-    public int SaveRevision => 0; // No DLC (yet?)
+    public int SaveRevision { get; }
 
     public string SaveRevisionString => SaveRevision switch
     {
         0 => "-Base", // Vanilla
+        1 => "-TM", // Teal Mask
+        2 => "-ID", // Indigo Disk
         _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
     };
 
@@ -87,12 +98,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         return new(blockCopy);
     }
 
-    public override ushort MaxMoveID => Legal.MaxMoveID_9;
-    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_9;
-    public override int MaxItemID => Legal.MaxItemID_9;
+    private ushort m_spec, m_item, m_move, m_abil;
     public override int MaxBallID => Legal.MaxBallID_9;
     public override int MaxGameID => Legal.MaxGameID_HOME;
-    public override int MaxAbilityID => Legal.MaxAbilityID_9;
+    public override ushort MaxMoveID => m_move;
+    public override ushort MaxSpeciesID => m_spec;
+    public override int MaxItemID => m_item;
+    public override int MaxAbilityID => m_abil;
 
     private void Initialize()
     {
@@ -100,6 +112,26 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         Party = 0;
         PokeDex = 0;
         TeamIndexes.LoadBattleTeams();
+
+        int rev = SaveRevision;
+        if (rev == 0)
+        {
+            m_move = Legal.MaxMoveID_9_T0;
+            m_spec = Legal.MaxSpeciesID_9_T0;
+            m_item = Legal.MaxItemID_9_T0;
+            m_abil = Legal.MaxAbilityID_9_T0;
+        }
+        else if (rev == 1)
+        {
+            m_move = Legal.MaxMoveID_9_T1;
+            m_spec = Legal.MaxSpeciesID_9_T1;
+            m_item = Legal.MaxItemID_9_T1;
+            m_abil = Legal.MaxAbilityID_9_T1;
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException(nameof(SaveRevision));
+        }
     }
 
     public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
@@ -317,7 +349,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public void UnlockAllTMRecipes()
     {
-        for (int i = 1; i <= 171; i++)
+        for (int i = 1; i <= 201; i++)
         {
             var flag = $"FSYS_UI_WAZA_MACHINE_RELEASE_{i:000}";
             var hash = (uint)FnvHash.HashFnv1a_64(flag);

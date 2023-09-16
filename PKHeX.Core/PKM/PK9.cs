@@ -16,7 +16,6 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
         0x23,
         0x33,
         0x3E, 0x3F,
-        0x4B, 0x4C, 0x4D, 0x4E, 0x4F, 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57,
         0x90, 0x91, 0x92, 0x93, // Status condition
         0x96, 0x97, 0x98, 0x99, 0x9A, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7,
         0xC5,
@@ -325,7 +324,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     public byte WeightScalar { get => Data[0x49]; set => Data[0x49] = value; }
     public byte Scale        { get => Data[0x4A]; set => Data[0x4A] = value; }
 
-    // 0x52-0x57 unused
+    // 0x4B-0x57 is DLC TM Record Flags, see TM flag handling below for details
 
     #endregion
     #region Block B
@@ -443,29 +442,63 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
         set => WriteUInt64LittleEndian(Data.AsSpan(0x127), value);
     }
 
-    private const int RecordStart = 0x12F;
-    internal const int COUNT_RECORD = 200; // Up to 200 TM flags, but not all are used.
-    private const int RecordLength = COUNT_RECORD / 8;
-    public Span<byte> RecordFlags => Data.AsSpan(RecordStart, RecordLength);
+    private const int RecordStartBase = 0x12F;
+    internal const int COUNT_RECORD_BASE = 200; // Up to 200 TM flags, but not all are used.
+    private const int RecordLengthBase = COUNT_RECORD_BASE / 8; // 0x19 bytes, 8 bits
+    public Span<byte> RecordFlagsBase => Data.AsSpan(RecordStartBase, RecordLengthBase);
+
+    private const int RecordStartDLC = 0x4B;
+    internal const int COUNT_RECORD_DLC = 104; // 13 additional bytes allocated for DLC1/2 TM Flags
+    private const int RecordLengthDLC = COUNT_RECORD_DLC / 8;
+    public Span<byte> RecordFlagsDLC => Data.AsSpan(RecordStartDLC, RecordLengthDLC);
 
     public bool GetMoveRecordFlag(int index)
     {
-        if ((uint)index > COUNT_RECORD) // 0x19 bytes, 8 bits
+        if ((uint)index >= COUNT_RECORD_BASE)
+            return GetMoveRecordFlagDLC(index - COUNT_RECORD_BASE);
+        int ofs = index >> 3;
+        return FlagUtil.GetFlag(Data, RecordStartBase + ofs, index & 7);
+    }
+
+    private bool GetMoveRecordFlagDLC(int index)
+    {
+        if ((uint)index >= COUNT_RECORD_DLC)
             throw new ArgumentOutOfRangeException(nameof(index));
         int ofs = index >> 3;
-        return FlagUtil.GetFlag(Data, RecordStart + ofs, index & 7);
+        return FlagUtil.GetFlag(Data, RecordStartDLC + ofs, index & 7);
     }
 
     public void SetMoveRecordFlag(int index, bool value = true)
     {
-        if ((uint)index > COUNT_RECORD) // 0x19 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
+        if ((uint)index >= COUNT_RECORD_BASE)
+        {
+            SetMoveRecordFlagDLC(value, index - COUNT_RECORD_BASE);
+            return;
+        }
         int ofs = index >> 3;
-        FlagUtil.SetFlag(Data, RecordStart + ofs, index & 7, value);
+        FlagUtil.SetFlag(Data, RecordStartBase + ofs, index & 7, value);
     }
 
-    public bool GetMoveRecordFlagAny() => RecordFlags.IndexOfAnyExcept<byte>(0) >= 0;
-    public void ClearMoveRecordFlags() => RecordFlags.Clear();
+    private void SetMoveRecordFlagDLC(bool value, int index)
+    {
+        if ((uint)index >= COUNT_RECORD_DLC)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        int ofs = index >> 3;
+        FlagUtil.SetFlag(Data, RecordStartDLC + ofs, index & 7, value);
+    }
+
+    public bool GetMoveRecordFlagAny() => GetMoveRecordFlagAnyBase() || GetMoveRecordFlagAnyDLC();
+    private bool GetMoveRecordFlagAnyBase() => RecordFlagsBase.IndexOfAnyExcept<byte>(0) >= 0;
+    private bool GetMoveRecordFlagAnyDLC() => RecordFlagsDLC.IndexOfAnyExcept<byte>(0) >= 0;
+
+    public void ClearMoveRecordFlags()
+    {
+        ClearMoveRecordFlagsBase();
+        ClearMoveRecordFlagsDLC();
+    }
+
+    private void ClearMoveRecordFlagsBase() => RecordFlagsBase.Clear();
+    private void ClearMoveRecordFlagsDLC() => RecordFlagsDLC.Clear();
 
     #endregion
     #region Battle Stats
@@ -513,6 +546,9 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     {
         if (IsEgg)
         {
+            if (Egg_Location == 60005 && tr.Gender == OT_Gender && tr.Language == Language && tr.OT == OT_Name)
+                return; // Jacq gift, don't change.
+
             // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
             // If not matching the trainer details, mark as a traded egg.
             if (!IsTradedEgg && tr.Gender == OT_Gender && tr.Language == Language && tr.OT == OT_Name)

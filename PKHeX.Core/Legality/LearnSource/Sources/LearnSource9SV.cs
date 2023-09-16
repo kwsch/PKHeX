@@ -85,6 +85,17 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
         if (types.HasFlag(MoveSourceType.EnhancedTutor) && GetIsEnhancedTutor(evo, pk, move))
             return new(Tutor, Game);
 
+        // In 2.0.1, the following moves are no longer learned via Level Up.
+        // Since they could have been learned via Level Up prior to 2.0.1, we need to check for them.
+        // This is double-checked outside of this method -- this is a silly workaround.
+        if (types.HasFlag(MoveSourceType.LevelUp))
+        {
+            if (move == (int)Move.BugBite && evo is { Species: (int)Species.Larvesta, Form: 0, LevelMax: >= 28 })
+                return new(LevelUp, Game, 28);
+            if (move == (int)Move.Spite   && evo is { Species: (int)Species.Zorua   , Form: 1, LevelMax: >= 24 })
+                return new(LevelUp, Game, 28);
+        }
+
         return default;
     }
 

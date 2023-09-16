@@ -1,7 +1,16 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/08/23 - New Update:
+23/09/16 - New Update:
+ - Added support for Scarlet & Violet 2.0.1 (Teal Mask)
+ - Legality: Added encounters / changes as per Teal Mask DLC adjustments. 
+ - - May still have issues with crossovers / hidden ability permissions.
+ - - Changed: Evolve-Knowing-Move criteria has been rewritten for better side-game checks & accuracy.
+ - - Changed: More encounter generator fixes implemented (missed a few properties).
+ - Fixed: Gen9 Pokédex clearing individual entries now only wipes the entry instead of everything that follows. Thanks @Alexander3a !
+ - Fixed: Gen5 CGear Skin importing now gives the correct error message when too many unique tiles are imported.
+
+23/08/23 - New Update: (160296) [7367596]
  - Legality: Added realtime RNG correlation checks for most SW/SH raids. Thanks @SciresM & @Lusamine !
  - - Note: Seed details do not trickle out to the verbose legality report at this time since seeds are 64bit (not 32bit).
  - - Added: The encounter generator / matching API has been refactored for better performance and maintenance.

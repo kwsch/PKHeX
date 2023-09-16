@@ -307,17 +307,9 @@ public sealed class BallVerifier : Verifier
             return GetInvalid(LBallSpecies);
         }
         if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
-        {
-            if (!BallBreedLegality.Ban_Gen4Ball_7.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
+            return GetValid(LBallSpeciesPass);
         if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
-        {
-            if (!BallBreedLegality.Ban_Gen3Ball_7.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
+            return GetValid(LBallSpeciesPass);
 
         if (ball == Beast)
         {
@@ -477,7 +469,9 @@ public sealed class BallVerifier : Verifier
 
     private static bool IsPaldeaCatchAndBreed(ushort species)
     {
-        if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval) // starter
+        if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval) // paldea starter
+            return false;
+        if (species is >= (int)Species.Turtwig and <= (int)Species.Empoleon) // sinnoh starter
             return false;
         var pt = PersonalTable.SV;
         var pi = pt.GetFormEntry(species, 0);

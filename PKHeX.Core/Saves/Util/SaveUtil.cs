@@ -36,6 +36,17 @@ public static class SaveUtil
     public const int SIZE_G9_3P0 = SIZE_G9_3B0 + 0x5; // GO (before Multiplayer)
     public const int SIZE_G9_3P1 = SIZE_G9_3B1 + 0x5; // GO (before Multiplayer)
 
+    // 2.0.0: Teal Mask
+    public const int SIZE_G9_DLC1_0 = 0x4329A9;
+    public const int SIZE_G9_DLC1_1 = 0x4329AE; // +5
+    public const int SIZE_G9_DLC1_2 = 0x4329BB; // +5
+    public const int SIZE_G9_DLC1_3 = 0x4329C0; // +5
+    public const int SIZE_G9_DLC1_4 = 0x432EB6;
+    public const int SIZE_G9_DLC1_5 = 0x432EBF; // +9
+    public const int SIZE_G9_DLC1_6 = 0x432EC3; // +4
+    public const int SIZE_G9_DLC1_7 = 0x432EC8; // +5
+    public const int SIZE_G9_DLC1_8 = 0x432ECD; // +5
+
     public const int SIZE_G8LA = 0x136DDE;
     public const int SIZE_G8LA_1 = 0x13AD06;
 
@@ -127,6 +138,16 @@ public static class SaveUtil
         SIZE_G9_3B0, SIZE_G9_3B1,
         SIZE_G9_3G0, SIZE_G9_3G1,
         SIZE_G9_3P0, SIZE_G9_3P1,
+
+        SIZE_G9_DLC1_0,
+        SIZE_G9_DLC1_1,
+        SIZE_G9_DLC1_2,
+        SIZE_G9_DLC1_3,
+        SIZE_G9_DLC1_4,
+        SIZE_G9_DLC1_5,
+        SIZE_G9_DLC1_6,
+        SIZE_G9_DLC1_7,
+        SIZE_G9_DLC1_8,
     };
 
     private static readonly HashSet<long> SizesSWSH = new()

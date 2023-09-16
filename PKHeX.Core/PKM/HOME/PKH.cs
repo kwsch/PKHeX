@@ -236,8 +236,8 @@ public sealed class PKH : PKM, IHandlerLanguage, IFormArgument, IHomeTrack, IBat
 
     #endregion
 
-    public override int SIZE_PARTY => HomeCrypto.SIZE_2STORED;
-    public override int SIZE_STORED => HomeCrypto.SIZE_2STORED;
+    public override int SIZE_PARTY => HomeCrypto.SIZE_3STORED;
+    public override int SIZE_STORED => HomeCrypto.SIZE_3STORED;
     public override bool Valid { get => true; set { } }
     public override PersonalInfo PersonalInfo => LatestGameData.GetPersonalInfo(Species, Form);
     public override void RefreshChecksum() => Checksum = 0;

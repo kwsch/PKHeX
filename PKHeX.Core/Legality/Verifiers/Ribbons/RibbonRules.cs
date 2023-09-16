@@ -128,9 +128,18 @@ public static class RibbonRules
         var species = pk.Species;
         if (species is (int)WalkingWake or (int)IronLeaves)
             return false;
+        if (species is (int)Greninja)
+            return pk.Form == 0; // Disallow Ash-Greninja
         if (SpeciesCategory.IsLegendary(species))
             return false;
         if (SpeciesCategory.IsMythical(species))
+            return false;
+
+        // DLC 1: Teal Mask Additions
+        if (species is (>= (int)Turtwig and <= (int)Empoleon))
+            return false;
+        var pi = PersonalTable.SV.GetFormEntry(species, pk.Form);
+        if (pi.DexPaldea == 0 && pi.DexKitakami != 0)
             return false;
         return true;
     }

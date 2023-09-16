@@ -14,10 +14,6 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         Paldea = paldea;
     }
 
-    /// <summary>
-    /// Checks how much DLC patches have been installed by detecting if DLC blocks are present.
-    /// </summary>
-    public int GetRevision() => 0; // No DLC1 data allocated
     private const int EntrySize = PokeDexEntry9SV.SIZE;
 
     public PokeDexEntry9SV Get(ushort species)
@@ -71,6 +67,13 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         var form = pk.Form;
         var pt = SAV.Personal;
         if (!pt.IsPresentInGame(species, form))
+            return;
+
+        // Don't register bad species-form data for DLC-less saves.
+        var pi = pt.GetFormEntry(species, form);
+        if (SAV.SaveRevision == 0 && pi.DexGroup > 1)
+            return;
+        if (SAV.SaveRevision == 1 && pi.DexGroup > 2)
             return;
 
         var entry = Get(species);
@@ -134,14 +137,15 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         var pt = SAV.Personal;
         // For each form including form 0, check the dex index.
         var pi = pt.GetFormEntry(species, 0);
-        if (pi.DexIndex != 0)
-            return (pi.DexGroup, pi.DexIndex);
-
-        for (byte f = 1; f <= pi.FormCount; f++)
+        for (byte f = 0; f <= pi.FormCount; f++)
         {
             pi = pt.GetFormEntry(species, f);
-            if (pi.DexIndex != 0)
-                return (pi.DexGroup, pi.DexIndex);
+            if (pi.DexPaldea != 0)
+                return (1, pi.DexPaldea);
+            if (pi.DexKitakami != 0)
+                return (2, pi.DexKitakami);
+            if (pi.DexBlueberry != 0)
+                return (3, pi.DexBlueberry);
         }
         return (0, 0);
     }

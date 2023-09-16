@@ -2230,64 +2230,64 @@ MT168
 MT169
 MT170
 MT171
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+MT172
+MT173
+MT174
+MT175
+MT176
+MT177
+MT178
+MT179
+MT180
+MT181
+MT182
+MT183
+MT184
+MT185
+MT186
+MT187
+MT188
+MT189
+MT190
+MT191
+MT192
+MT193
+MT194
+MT195
+MT196
+MT197
+MT198
+MT199
+MT200
+MT201
+MT202
+MT203
+MT204
+MT205
+MT206
+MT207
+MT208
+MT209
+MT210
+MT211
+MT212
+MT213
+MT214
+MT215
+MT216
+MT217
+MT218
+MT219
+MT220
+MT221
+MT222
+MT223
+MT224
+MT225
+MT226
+MT227
+MT228
+MT229
 
 
 
@@ -2399,3 +2399,84 @@ Piatto arancione
 Piatto rosso
 Piatto bianco
 Piatto giallo
+Piuma fatata
+Sciroppomo
+Tazza dozzinale
+Tazza eccezionale
+Maschera Turchese
+Maschera Fondamenta
+Maschera Pozzo
+Maschera Focolare
+Tessera chic verde
+Pezzo di cristallo
+Mochi della salute
+Mochi della potenza
+Mochi della tutela
+Mochi dell’ingegno
+Mochi dell’intuito
+Mochi della reazione
+Sedie semplici
+Sedie accademia
+Sedie accademia
+Sedie carine
+Sedie natura
+Sedie dispetto
+Sedie a quadri gialle
+Sedie a quadri viola
+Sedie a quadri rosse
+Sedie erba alta
+Sedie sfida
+Sedie mostruose
+Sedie a righe
+Sedie a rombi
+Sedie a pois
+Sedie lilla
+Sedie menta
+Sedie pesca
+Sedie gialle
+Sedie blu
+Sedie rosa
+Zanna di Ekans
+Artiglio di Sandshrew
+Pelo di Cleffa
+Pelo di Vulpix
+Muco di Poliwag
+Viticcio di Bellsprout
+Frammento di Geodude
+Gas di Koffing
+Zanna di Munchlax
+Pelo di Sentret
+Penna di Hoothoot
+Filo di Spinarak
+Pelo di Aipom
+Aculeo di Yanma
+Zanna di Gligar
+Lava di Slugma
+Pelo di Swinub
+Zanna di Poochyena
+Foglia di Lotad
+Picciolo di Seedot
+Frammento di Nosepass
+Fluido di Volbeat
+Fluido di Illumise
+Carapace di Corphish
+Squama di Feebas
+Frammento di Duskull
+Frammento di Chingling
+Sudore di Timburr
+Foglia di Sewaddle
+Penna di Ducklett
+Fuliggine di Litwick
+Artiglio di Mienfoo
+Penna di Vullaby
+Gemma di Carbink
+Ramo di Phantump
+Filo di Grubbin
+Polvere di Cutiefly
+Squama di Jangmo-o
+Piuma di Cramorant
+Seme di Morpeko
+Polvere di Poltchageist
+Mochi del ripristino
+Bastone Rotoselfie
+Brillamuleto

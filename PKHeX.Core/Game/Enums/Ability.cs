@@ -304,5 +304,13 @@ public enum Ability : ushort
     ArmorTail,
     EarthEater,
     MyceliumMight,
+    Hospitality,
+    MindsEye,
+    EmbodyAspect0,
+    EmbodyAspect1,
+    EmbodyAspect2,
+    EmbodyAspect3,
+    ToxicChain,
+    SupersweetSyrup,
     MAX_COUNT,
 }

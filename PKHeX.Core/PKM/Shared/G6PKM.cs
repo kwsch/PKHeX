@@ -110,5 +110,5 @@ public interface ISuperTrain
     uint SuperTrainBitFlags { get; set; }
     bool SecretSuperTrainingUnlocked { get; set; }
     bool SecretSuperTrainingComplete { get; set; }
-    int SuperTrainingMedalCount(int maxCount = 30);
+    int SuperTrainingMedalCount(int lowBitCount = 30);
 }

@@ -1016,5 +1016,12 @@ public enum Species : ushort
     Miraidon,
     WalkingWake,
     IronLeaves,
+    Dipplin,
+    Poltchageist,
+    Sinistcha,
+    Okidogi,
+    Munkidori,
+    Fezandipiti,
+    Ogerpon,
     MAX_COUNT,
 }

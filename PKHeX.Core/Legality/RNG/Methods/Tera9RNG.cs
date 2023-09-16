@@ -174,8 +174,9 @@ public static class Tera9RNG
     /// <param name="raidRate">Random weight of the raid to be used in the comparison with the game specific min rates.</param>
     /// <param name="randRateMinScarlet">Total weight of all Scarlet raids prior to this encounter.</param>
     /// <param name="randRateMinViolet">Total weight of all Violet raids prior to this encounter.</param>
+    /// <param name="map">Parent map the Raid can be obtained on.</param>
     /// <returns>True if the raid seed can generate the encounter.</returns>
-    public static bool IsMatchStarChoice(in uint seed, in byte stars, in byte raidRate, in short randRateMinScarlet, in short randRateMinViolet)
+    public static bool IsMatchStarChoice(in uint seed, in byte stars, in byte raidRate, in short randRateMinScarlet, in short randRateMinViolet, TeraRaidMapParent map)
     {
         // When determining a raid, the game takes the u32 seed and does two rand calls.
         // Rand 1: Star count of the raid (depends on game progress).
@@ -201,7 +202,7 @@ public static class Tera9RNG
         // The inputs to this function have pre-computed the total rate when the encounter is checked.
 
         // If Scarlet...
-        var maxScarlet = EncounterTera9.GetRateTotalBaseSL(stars);
+        var maxScarlet = EncounterTera9.GetRateTotalSL(stars, map);
         {
             var xoro = rand; // copy
             var rateRand = (int)xoro.NextInt((uint)maxScarlet);
@@ -209,7 +210,7 @@ public static class Tera9RNG
                 return true; // Seed can yield this encounter for Scarlet.
         }
         // If Violet..
-        var maxViolet = EncounterTera9.GetRateTotalBaseVL(stars);
+        var maxViolet = EncounterTera9.GetRateTotalVL(stars, map);
         {
             var xoro = rand; // copy
             var rateRand = (int)xoro.NextInt((uint)maxViolet);

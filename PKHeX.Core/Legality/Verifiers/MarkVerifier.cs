@@ -24,8 +24,10 @@ public sealed class MarkVerifier : Verifier
         VerifyAffixedRibbonMark(data, m);
 
         // temp logic to catch this case; in the future we will need more robust checks for encounters
-        if (data.EncounterMatch is WC9 { RibbonMarkCharismatic: true} && pk is IRibbonSetMark8 { RibbonMarkCharismatic: false})
+        if (data.EncounterMatch is WC9 { RibbonMarkCharismatic: true } && pk is IRibbonSetMark8 { RibbonMarkCharismatic: false })
             data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(MarkCharismatic))));
+        else if (data.EncounterMatch is EncounterStatic9 { RibbonMarkCrafty: true } && pk is IRibbonSetMark8 { RibbonMarkCrafty: false })
+            data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(MarkCrafty))));
     }
 
     private void VerifyNoMarksPresent(LegalityAnalysis data, IRibbonIndex m)

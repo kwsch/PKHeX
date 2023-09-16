@@ -34,6 +34,7 @@ public static class MarkRules
     {
         EncounterSlot8 or EncounterStatic8 { Gift: false, ScriptedNoMarks: false } => IsMarkAllowedSpecific8(mark, pk, enc),
         EncounterSlot9 s => IsMarkAllowedSpecific9(mark, s),
+        EncounterStatic9 s => IsMarkAllowedSpecific9(mark, s),
         WC9 wc9 => wc9.GetRibbonIndex(mark),
         _ => false,
     };
@@ -64,6 +65,16 @@ public static class MarkRules
         >= MarkLunchtime and <= MarkDawn => x.CanSpawnAtTime(mark),
         >= MarkCloudy and <= MarkMisty => x.CanSpawnInWeather(mark),
         _ => true,
+    };
+
+    /// <summary>
+    /// Checks if a specific encounter mark is disallowed.
+    /// </summary>
+    /// <returns>False if mark is disallowed based on specific conditions.</returns>
+    public static bool IsMarkAllowedSpecific9(RibbonIndex mark, EncounterStatic9 s) => mark switch
+    {
+        MarkCrafty => s.RibbonMarkCrafty,
+        _ => false,
     };
 
     // Encounter slots check location weather, while static encounters check weather per encounter.
@@ -209,7 +220,7 @@ public static class MarkRules
     /// <summary>
     /// Checks if the input should have the <see cref="IRibbonSetMark9.RibbonMarkItemfinder"/> mark.
     /// </summary>
-    public static bool IsMarkValidItemFinder(EvolutionHistory evos) => false; // evos.HasVisitedGen9;
+    public static bool IsMarkValidItemFinder(EvolutionHistory evos) => evos.HasVisitedGen9; // Obtainable starting in DLC1.
 
     /// <summary>
     /// Checks if the input should have the <see cref="IRibbonSetMark9.RibbonMarkPartner"/> mark.

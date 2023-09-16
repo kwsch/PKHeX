@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPermitRecord
 {
-    public const int SIZE = 0x44;
+    public const int SIZE = 0x4C;
     private readonly byte[] Data;
 
     public PersonalInfo9SV(byte[] data) => Data = data;
@@ -45,7 +45,7 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
     public override int Color      { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
     public bool IsPresentInGame    { get => Data[0x1C] != 0; set => Data[0x1C] = value ? (byte)1 : (byte)0; }
     public byte DexGroup           { get => Data[0x1D]; set => Data[0x1D] = value; }
-    public ushort DexIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }
+    public ushort DexPaldea { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }
     public override int Height { get => ReadUInt16LittleEndian(Data.AsSpan(0x20)); set => WriteUInt16LittleEndian(Data.AsSpan(0x20), (ushort)value); }
     public override int Weight { get => ReadUInt16LittleEndian(Data.AsSpan(0x22)); set => WriteUInt16LittleEndian(Data.AsSpan(0x22), (ushort)value); }
     public ushort HatchSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x24)); set => WriteUInt16LittleEndian(Data.AsSpan(0x24), value); }
@@ -65,7 +65,7 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
     /// <summary>
     /// Checks if the entry shows up in any of the built-in Pokédex.
     /// </summary>
-    public bool IsInDex => DexIndex != 0;
+    public bool IsInDex => DexPaldea != 0 || DexKitakami != 0 || DexBlueberry != 0;
 
     public override int AbilityCount => 3;
     public override int GetIndexOfAbility(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
@@ -78,7 +78,7 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
     };
 
     private const int TM = 0x2C;
-    private const int CountTM = 172;
+    private const int CountTM = 202;
     private const int ByteCountTM = (CountTM + 7) / 8;
 
     public bool GetIsLearnTM(int index)
@@ -112,7 +112,7 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
     public bool IsRecordPermitted(int index) => GetIsLearnTM(index);
 
     public ReadOnlySpan<ushort> RecordPermitIndexes => TM_SV;
-    public int RecordCountTotal => 200;
+    public int RecordCountTotal => 202;
     public int RecordCountUsed => CountTM;
 
     private static ReadOnlySpan<ushort> TM_SV => new ushort[]
@@ -134,6 +134,12 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
         417, 126, 056, 059, 519, 518, 520, 528, 188, 089,
         444, 566, 416, 307, 308, 338, 200, 315, 411, 437,
         542, 433, 405, 063, 413, 394, 087, 370, 076, 434,
-        796, 851,
+        796, 851, 046, 268, 114, 092, 328, 180, 356, 479,
+        360, 282, 450, 162, 410, 679, 667, 333, 503, 535,
+        669, 253, 264, 311, 803, 807, 812, 814, 809, 808,
+        799, 802,
     };
+
+    public byte DexKitakami { get => Data[0x4A]; set => Data[0x4A] = value; }
+    public byte DexBlueberry { get => Data[0x4B]; set => Data[0x4B] = value; }
 }

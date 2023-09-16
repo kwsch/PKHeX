@@ -41,7 +41,8 @@ public record struct EncounterPossible9(EvoCriteria[] Chain, EncounterTypeGroup 
         StaticVersionVL,
         StaticShared,
         StaticFixed,
-        StaticTera,
+        StaticTeraBase,
+        StaticTeraDLC1,
         StaticDist,
         StaticMight,
         StaticEnd,
@@ -107,9 +108,13 @@ public record struct EncounterPossible9(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticFixed:
                 if (TryGetNext(Encounters9.Fixed))
                     return true;
-                Index = 0; State = YieldState.StaticTera; goto case YieldState.StaticTera;
-            case YieldState.StaticTera:
-                if (TryGetNext(Encounters9.Tera))
+                Index = 0; State = YieldState.StaticTeraBase; goto case YieldState.StaticTeraBase;
+            case YieldState.StaticTeraBase:
+                if (TryGetNext(Encounters9.TeraBase))
+                    return true;
+                Index = 0; State = YieldState.StaticTeraDLC1; goto case YieldState.StaticTeraDLC1;
+            case YieldState.StaticTeraDLC1:
+                if (TryGetNext(Encounters9.TeraDLC1))
                     return true;
                 Index = 0; State = YieldState.StaticDist; goto case YieldState.StaticDist;
             case YieldState.StaticDist:

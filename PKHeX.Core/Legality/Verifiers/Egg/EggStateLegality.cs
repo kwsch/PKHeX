@@ -114,6 +114,7 @@ public static class EggStateLegality
     {
         EncounterStatic7 => false,
         WB8 or EncounterStatic8b when pk.IsUntraded => false,
+        EncounterStatic9 { EggLocation: 60005 } => false, // Jacq Egg does not have flag set!
         { Generation: 4 } => false,
         _ => true,
     };

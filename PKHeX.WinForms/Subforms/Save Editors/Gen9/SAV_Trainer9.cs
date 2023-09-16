@@ -261,6 +261,19 @@ public partial class SAV_Trainer9 : Form
             FSYS_YMAP_MOKKAN,
             FSYS_YMAP_TSURUGI,
             FSYS_YMAP_UTSUWA,
+
+            // Sudachi 1
+            FSYS_YMAP_SU1MAP_CHANGE, // can change map to Kitakami
+            FSYS_YMAP_FLY_SU1_AREA10,
+            FSYS_YMAP_FLY_SU1_BUSSTOP,
+            FSYS_YMAP_FLY_SU1_CENTER01,
+            FSYS_YMAP_FLY_SU1_PLAZA,
+            FSYS_YMAP_FLY_SU1_SPOT01,
+            FSYS_YMAP_FLY_SU1_SPOT02,
+            FSYS_YMAP_FLY_SU1_SPOT03,
+            FSYS_YMAP_FLY_SU1_SPOT04,
+            FSYS_YMAP_FLY_SU1_SPOT05,
+            FSYS_YMAP_FLY_SU1_SPOT06,
             #endregion
         };
         var accessor = SAV.Accessor;

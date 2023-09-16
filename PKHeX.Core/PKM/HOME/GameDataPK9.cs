@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize3, IGameDataSplitAbility
 {
     private const HomeGameDataFormat ExpectFormat = HomeGameDataFormat.PK9;
-    private const int SIZE = HomeCrypto.SIZE_2GAME_PK9;
+    private const int SIZE = HomeCrypto.SIZE_3GAME_PK9;
     protected override HomeGameDataFormat Format => ExpectFormat;
 
     public GameDataPK9() : base(SIZE) { }
@@ -44,33 +44,72 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
     public int Egg_Location { get => ReadUInt16LittleEndian(Data[0x1C..]); set => WriteUInt16LittleEndian(Data[0x1C..], (ushort)value); }
     public int Met_Location { get => ReadUInt16LittleEndian(Data[0x1E..]); set => WriteUInt16LittleEndian(Data[0x1E..], (ushort)value); }
 
-    private const int RecordStart = 0x20;
-    private const int RecordCount = PK9.COUNT_RECORD; // Up to 200 TM flags, but not all are used.
-    private const int RecordLength = RecordCount / 8;
-    private Span<byte> RecordFlags => Data.Slice(RecordStart, RecordLength);
-
-    public bool GetMoveRecordFlag(int index)
-    {
-        if ((uint)index > RecordCount) // 0x19 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        return FlagUtil.GetFlag(RecordFlags, index >> 3, index & 7);
-    }
-
-    public void SetMoveRecordFlag(int index, bool value = true)
-    {
-        if ((uint)index > RecordCount) // 0x19 bytes, 8 bits
-            throw new ArgumentOutOfRangeException(nameof(index));
-        FlagUtil.SetFlag(RecordFlags, index >> 3, index & 7, value);
-    }
-
-    public bool GetMoveRecordFlagAny() => RecordFlags.IndexOfAnyExcept<byte>(0) >= 0;
-    public void ClearMoveRecordFlags() => RecordFlags.Clear();
+    private const int RecordStartBase = 0x20;
+    internal const int COUNT_RECORD_BASE = PK9.COUNT_RECORD_BASE; // Up to 200 TM flags, but not all are used.
+    private const int RecordLengthBase = COUNT_RECORD_BASE / 8; // 0x19 bytes, 8 bits
+    public Span<byte> RecordFlagsBase => Data.Slice(RecordStartBase, RecordLengthBase);
 
     // Rev2 Additions
     public byte Obedience_Level { get => Data[0x39]; set => Data[0x39] = value; }
     public ushort Ability { get => ReadUInt16LittleEndian(Data[0x3A..]); set => WriteUInt16LittleEndian(Data[0x3A..], value); }
     public byte AbilityNumber { get => Data[0x3C]; set => Data[0x3C] = value; }
 
+    // Rev3 Additions
+    private const int RecordStartDLC = 0x3D;
+    internal const int COUNT_RECORD_DLC = PK9.COUNT_RECORD_DLC; // 13 additional bytes allocated for DLC1/2 TM Flags
+    private const int RecordLengthDLC = COUNT_RECORD_DLC / 8;
+    public Span<byte> RecordFlagsDLC => Data.Slice(RecordStartDLC, RecordLengthDLC);
+
+    #endregion
+
+    #region TM Flag Methods
+    public bool GetMoveRecordFlag(int index)
+    {
+        if ((uint)index >= COUNT_RECORD_BASE)
+            return GetMoveRecordFlagDLC(index - COUNT_RECORD_BASE);
+        int ofs = index >> 3;
+        return FlagUtil.GetFlag(Data, RecordStartBase + ofs, index & 7);
+    }
+
+    private bool GetMoveRecordFlagDLC(int index)
+    {
+        if ((uint)index >= COUNT_RECORD_DLC)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        int ofs = index >> 3;
+        return FlagUtil.GetFlag(Data, RecordStartDLC + ofs, index & 7);
+    }
+
+    public void SetMoveRecordFlag(int index, bool value = true)
+    {
+        if ((uint)index >= COUNT_RECORD_BASE)
+        {
+            SetMoveRecordFlagDLC(value, index - COUNT_RECORD_BASE);
+            return;
+        }
+        int ofs = index >> 3;
+        FlagUtil.SetFlag(Data, RecordStartBase + ofs, index & 7, value);
+    }
+
+    private void SetMoveRecordFlagDLC(bool value, int index)
+    {
+        if ((uint)index >= COUNT_RECORD_DLC)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        int ofs = index >> 3;
+        FlagUtil.SetFlag(Data, RecordStartDLC + ofs, index & 7, value);
+    }
+
+    public bool GetMoveRecordFlagAny() => GetMoveRecordFlagAnyBase() || GetMoveRecordFlagAnyDLC();
+    private bool GetMoveRecordFlagAnyBase() => RecordFlagsBase.IndexOfAnyExcept<byte>(0) >= 0;
+    private bool GetMoveRecordFlagAnyDLC() => RecordFlagsDLC.IndexOfAnyExcept<byte>(0) >= 0;
+
+    public void ClearMoveRecordFlags()
+    {
+        ClearMoveRecordFlagsBase();
+        ClearMoveRecordFlagsDLC();
+    }
+
+    private void ClearMoveRecordFlagsBase() => RecordFlagsBase.Clear();
+    private void ClearMoveRecordFlagsDLC() => RecordFlagsDLC.Clear();
     #endregion
 
     #region Conversion
@@ -83,7 +122,8 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
         pk.Scale = Scale;
         pk.TeraTypeOriginal = TeraTypeOriginal;
         pk.TeraTypeOverride = TeraTypeOverride;
-        RecordFlags.CopyTo(pk.RecordFlags);
+        RecordFlagsBase.CopyTo(pk.RecordFlagsBase);
+        RecordFlagsDLC.CopyTo(pk.RecordFlagsDLC);
         pk.Obedience_Level = Obedience_Level;
         pk.Ability = Ability;
         pk.AbilityNumber = AbilityNumber;
@@ -95,7 +135,8 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
         pkh.HeightScalar = Scale = pk.Scale; // Overwrite Height
         TeraTypeOriginal = pk.TeraTypeOriginal;
         TeraTypeOverride = pk.TeraTypeOverride;
-        pk.RecordFlags.CopyTo(RecordFlags);
+        pk.RecordFlagsBase.CopyTo(RecordFlagsBase);
+        pk.RecordFlagsDLC.CopyTo(RecordFlagsDLC);
         Obedience_Level = pk.Obedience_Level;
         Ability = (ushort)pk.Ability;
         AbilityNumber = (byte)pk.AbilityNumber;
