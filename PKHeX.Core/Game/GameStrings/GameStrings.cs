@@ -190,8 +190,8 @@ public sealed class GameStrings : IBasicStrings
         abilitylist[(int)Core.Ability.AsOneG] += $" ({specieslist[(int)Core.Species.Spectrier]})";
         // De-duplicate the Ogerpon ability names
         abilitylist[(int)Core.Ability.EmbodyAspect0] += $" ({forms[FormConverter.MaskTeal]})";
-        abilitylist[(int)Core.Ability.EmbodyAspect1] += $" ({forms[FormConverter.MaskWellspring]})";
-        abilitylist[(int)Core.Ability.EmbodyAspect2] += $" ({forms[FormConverter.MaskHearthflame]})";
+        abilitylist[(int)Core.Ability.EmbodyAspect1] += $" ({forms[FormConverter.MaskHearthflame]})";
+        abilitylist[(int)Core.Ability.EmbodyAspect2] += $" ({forms[FormConverter.MaskWellspring]})";
         abilitylist[(int)Core.Ability.EmbodyAspect3] += $" ({forms[FormConverter.MaskCornerstone]})";
 
         // Replace the Egg Name with ---; egg name already stored to eggname
