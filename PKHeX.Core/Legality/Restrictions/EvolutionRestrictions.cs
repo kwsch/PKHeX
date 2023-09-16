@@ -20,7 +20,7 @@ internal static class EvolutionRestrictions
         (int)Eevee => 0,
         (int)MimeJr => (int)Mimic,
         (int)Bonsly => (int)Mimic,
-        (int)Aipom => (int)Mimic,
+        (int)Aipom => (int)DoubleHit,
         (int)Lickitung => (int)Rollout,
         (int)Tangela => (int)AncientPower,
         (int)Yanma => (int)AncientPower,
