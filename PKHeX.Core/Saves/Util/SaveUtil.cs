@@ -39,6 +39,7 @@ public static class SaveUtil
     // 2.0.0: Teal Mask
     public const int SIZE_G9_DLC1_0 = 0x4329A9;
     public const int SIZE_G9_DLC1_1 = 0x4329AE; // +5
+    public const int SIZE_G9_DLC1_A = 0x4329B6; // +8
     public const int SIZE_G9_DLC1_2 = 0x4329BB; // +5
     public const int SIZE_G9_DLC1_3 = 0x4329C0; // +5
     public const int SIZE_G9_DLC1_4 = 0x432EB6;
@@ -148,6 +149,7 @@ public static class SaveUtil
         SIZE_G9_DLC1_6,
         SIZE_G9_DLC1_7,
         SIZE_G9_DLC1_8,
+        SIZE_G9_DLC1_A,
     };
 
     private static readonly HashSet<long> SizesSWSH = new()
