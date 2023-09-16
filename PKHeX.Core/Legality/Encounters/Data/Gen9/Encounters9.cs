@@ -65,8 +65,8 @@ internal static class Encounters9
         new(SV) { Species = 1014, Shiny = Never, Level = 70, Location = 162, Ability = OnlyFirst, Gender = 0, TeraType = GemType.Poison, Size = 128, FlawlessIVCount = 3 }, // Okidogi
         new(SV) { Species = 1015, Shiny = Never, Level = 70, Location = 156, Ability = OnlyFirst, Gender = 0, TeraType = GemType.Poison, Size = 128, FlawlessIVCount = 3 }, // Munkidori
         new(SV) { Species = 1016, Shiny = Never, Level = 70, Location = 144, Ability = OnlyFirst, Gender = 0, TeraType = GemType.Poison, Size = 128, FlawlessIVCount = 3 }, // Fezandipiti
-        new(SV) { Species = 1017, Shiny = Never, Level = 20, Location = 146, Ability = OnlyFirst, Gender = 1, Nature = Nature.Lonely, TeraType = GemType.Grass, Size = 128, IVs = new(31,31,20,31,20,20), Moves = new(904,021,074,022) }, // Ogerpon
         new(SV) { Species = 1017, Shiny = Never, Level = 70, Location = 146, Ability = OnlyFirst, Gender = 1, Nature = Nature.Lonely, TeraType = GemType.Grass, Size = 128, IVs = new(31,31,20,31,20,20), Moves = new(904,067,021,580) }, // Ogerpon
+        new(SV) { Species = 1017, Shiny = Never, Level = 20, Location = 146, Ability = OnlyFirst, Gender = 1, Nature = Nature.Lonely, TeraType = GemType.Grass, Size = 128, IVs = new(31,31,20,31,20,20), Moves = new(904,021,074,022) }, // Ogerpon
 
         new(SV) { FixedBall = Ball.Poke, Species = 0446, Shiny = Always, Level = 01, Location = 142, Ability = OnlyHidden, Gender = 0, Nature = Nature.Impish, Size = 255 }, // Munchlax
         new(SV) { FixedBall = Ball.Poke, Species = 0058, Shiny = Never,  Level = 15, Location = 134, Ability = OnlyHidden, Gender = 0, Nature = Nature.Jolly, TeraType = GemType.Rock, Size = 254, IVs = new(31,31,20,31,20,20), Form = 1 }, // Growlithe-1

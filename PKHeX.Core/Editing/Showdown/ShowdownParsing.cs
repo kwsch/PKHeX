@@ -102,7 +102,6 @@ public static class ShowdownParsing
             (int)Necrozma when form is "Dusk"           => $"{form}-Mane",
             (int)Necrozma when form is "Dawn"           => $"{form}-Wings",
             (int)Polteageist or (int)Sinistea           => form == "Antique" ? form : string.Empty,
-            (int)Sinistcha or (int)Poltchageist         => form == "Antique" ? form : string.Empty,
             (int)Maushold when form is "Family of Four" => "Four",
 
             (int)Greninja or (int)Rockruff or (int)Koraidon or (int)Miraidon => string.Empty,
