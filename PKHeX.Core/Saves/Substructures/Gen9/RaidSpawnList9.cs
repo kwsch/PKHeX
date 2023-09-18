@@ -143,6 +143,8 @@ public enum TeraRaidDisplayType : uint
     None = 0,
     Unrestricted = 1,
     RequiresRide = 2,
+    Requires3 = 3,
+    Requires4 = 4,
 }
 
 public enum TeraRaidContentType : uint
