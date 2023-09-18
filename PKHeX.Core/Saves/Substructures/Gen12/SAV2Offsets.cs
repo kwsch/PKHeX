@@ -46,6 +46,7 @@ internal sealed class SAV2Offsets
     public int Daycare { get; }
 
     public int BlueCardPoints { get; private set; } = -1;
+    public int MysteryGiftIsUnlocked { get; private set; } = -1;
 
     public int PouchTMHM { get; private set; } = -1;
     public int PouchItem { get; private set; } = -1;
@@ -60,6 +61,8 @@ internal sealed class SAV2Offsets
         Rival = 0x2021;
         DaylightSavings = 0x2042;
         OtherCurrentBox = 0x284C;
+        MysteryGiftIsUnlocked = 0xBE3; // And 0xBE5;
+
         switch (version)
         {
             case GameVersion.GS:
@@ -125,6 +128,7 @@ internal sealed class SAV2Offsets
         Palette = 0x204C;
         CurrentBox = 0x2D10;
         OtherCurrentBox = 0x2842;
+        MysteryGiftIsUnlocked = 0xB51; // And 0xB53;
 
         switch (version)
         {
