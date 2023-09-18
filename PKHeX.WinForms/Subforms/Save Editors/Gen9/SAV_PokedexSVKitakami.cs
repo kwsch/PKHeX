@@ -6,7 +6,7 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms;
 
-public partial class SAV_PokedexSV : Form
+public partial class SAV_PokedexSVKitakami : Form
 {
     private readonly SAV9SV Origin;
     private readonly SAV9SV SAV;
@@ -16,7 +16,7 @@ public partial class SAV_PokedexSV : Form
     private readonly bool CanSave;
     private readonly bool Loading;
 
-    public SAV_PokedexSV(SAV9SV sav)
+    public SAV_PokedexSVKitakami(SAV9SV sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -27,6 +27,14 @@ public partial class SAV_PokedexSV : Form
         // Clear Listbox and ComboBox
         LB_Species.Items.Clear();
         CB_Species.Items.Clear();
+
+        var empty = new string[32];
+        foreach (ref var x in empty.AsSpan())
+            x = string.Empty;
+        CLB_FormSeen.Items.AddRange(empty);
+        CLB_FormObtained.Items.AddRange(empty);
+        CLB_FormHeard.Items.AddRange(empty);
+        CLB_FormViewed.Items.AddRange(empty);
 
         // Fill List
         CB_Species.InitializeBinding();
@@ -107,9 +115,11 @@ public partial class SAV_PokedexSV : Form
     private ushort GetSpecies(int listBoxIndex) => Array.Find(ListBoxToSpecies, z => z.ListIndex == listBoxIndex)?.Species ?? 0;
     private int GetIndex(ushort species) => Array.Find(ListBoxToSpecies, z => z.Species == species)?.ListIndex ?? 0;
 
+    private bool IgnoreChangeEvent;
+
     private void ChangeCBSpecies(object sender, EventArgs e)
     {
-        if (Loading)
+        if (Loading || IgnoreChangeEvent)
             return;
 
         var species = (ushort)WinFormsUtil.GetIndex(CB_Species);
@@ -120,12 +130,16 @@ public partial class SAV_PokedexSV : Form
 
     private void ChangeLBSpecies(object sender, EventArgs e)
     {
-        if (Loading || LB_Species.SelectedIndex < 0)
+        if (Loading || LB_Species.SelectedIndex < 0 || IgnoreChangeEvent)
             return;
 
         SetEntry(lastIndex);
         lastIndex = LB_Species.SelectedIndex;
         GetEntry(lastIndex);
+
+        IgnoreChangeEvent = true;
+        CB_Species.SelectedValue = (int)GetSpecies(lastIndex);
+        IgnoreChangeEvent = false;
     }
 
     private void GetEntry(int index)
@@ -138,30 +152,45 @@ public partial class SAV_PokedexSV : Form
 
     private void GetEntry(ushort species)
     {
-        var entry = SAV.Zukan.DexPaldea.Get(species);
+        var entry = SAV.Zukan.DexKitakami.Get(species);
         var forms = GetFormList(species);
         if (forms[0].Length == 0)
             forms[0] = GameInfo.Strings.Types[0];
 
-        CB_State.SelectedIndex = (int)entry.GetState();
-        CHK_IsNew.Checked = entry.GetDisplayIsNew();
+        this.SuspendLayout();
+        // Clear all CheckedListBoxes
+        var seen = CLB_FormSeen.Items;
+        var obtained = CLB_FormObtained.Items;
+        var heard = CLB_FormHeard.Items;
+        var viewed = CLB_FormViewed.Items;
+        var p = CB_PaldeaForm.Items;
+        var k = CB_KitakamiForm.Items;
+        var b = CB_BlueberryForm.Items;
+        p.Clear();
+        k.Clear();
+        b.Clear();
+        p.AddRange(forms);
+        k.AddRange(forms);
+        b.AddRange(forms);
 
+        // Fill CheckedListBoxes
+        for (byte i = 0; i < sizeof(uint) * 8; i++)
+        {
+            var name = i < forms.Length ? forms[i] : $"--{i:00}--";
+            seen[i] = obtained[i] = heard[i] = viewed[i] = name;
+            CLB_FormSeen.SetItemChecked(i, entry.GetSeenForm(i));
+            CLB_FormObtained.SetItemChecked(i, entry.GetObtainedForm(i));
+            CLB_FormHeard.SetItemChecked(i, entry.GetHeardForm(i));
+            CLB_FormViewed.SetItemChecked(i, entry.GetCheckedForm(i));
+        }
+
+        // Fill Checkboxes
         CHK_SeenMale.Checked = entry.GetIsGenderSeen(0);
         CHK_SeenFemale.Checked = entry.GetIsGenderSeen(1);
         CHK_SeenGenderless.Checked = entry.GetIsGenderSeen(2);
-        CHK_SeenShiny.Checked = entry.GetSeenIsShiny();
+        CHK_SeenShiny.Checked = entry.GetIsModelSeen(true);
 
-        CLB_FormSeen.Items.Clear();
-        for (byte i = 0; i < forms.Length; i++)
-            CLB_FormSeen.Items.Add(forms[i], entry.GetIsFormSeen(i));
-
-        CB_DisplayForm.Items.Clear();
-        CB_DisplayForm.Items.AddRange(forms);
-        CB_Gender.SelectedIndex = (int)entry.GetDisplayGender();
-        CHK_DisplayShiny.Checked = entry.GetDisplayIsShiny();
-        CHK_G.Checked = entry.GetDisplayGenderIsDifferent();
-        CB_DisplayForm.SelectedIndex = (int)entry.GetDisplayForm();
-
+        // Fill Languages
         CHK_LangJPN.Checked = entry.GetLanguageFlag((int)LanguageID.Japanese);
         CHK_LangENG.Checked = entry.GetLanguageFlag((int)LanguageID.English);
         CHK_LangFRE.Checked = entry.GetLanguageFlag((int)LanguageID.French);
@@ -171,6 +200,38 @@ public partial class SAV_PokedexSV : Form
         CHK_LangKOR.Checked = entry.GetLanguageFlag((int)LanguageID.Korean);
         CHK_LangCHS.Checked = entry.GetLanguageFlag((int)LanguageID.ChineseS);
         CHK_LangCHT.Checked = entry.GetLanguageFlag((int)LanguageID.ChineseT);
+
+        // Fill Paldea
+        CB_PaldeaForm.SelectedIndex = entry.DisplayedPaldeaForm;
+        CB_PaldeaGender.SelectedIndex = entry.DisplayedPaldeaGender;
+        CHK_PaldeaShiny.Checked = entry.DisplayedPaldeaShiny != 0;
+
+        // Fill Kitakami
+        CB_KitakamiForm.SelectedIndex = entry.DisplayedKitakamiForm;
+        CB_KitakamiGender.SelectedIndex = entry.DisplayedKitakamiGender;
+        CHK_KitakamiShiny.Checked = entry.DisplayedKitakamiShiny != 0;
+
+        // Fill Blueberry
+        CB_BlueberryForm.SelectedIndex = entry.DisplayedBlueberryForm;
+        CB_BlueberryGender.SelectedIndex = entry.DisplayedBlueberryGender;
+        CHK_BlueberryShiny.Checked = entry.DisplayedBlueberryShiny != 0;
+
+        var pi = SAV.Personal[species];
+        var fc = pi.FormCount;
+        bool paldea = false, kitakami = false, blueberry = false;
+        for (byte i = 0; i < fc; i++)
+        {
+            pi = SAV.Personal.GetFormEntry(species, i);
+            if (pi.DexPaldea != 0)
+                paldea = true;
+            if (pi.DexKitakami != 0)
+                kitakami = true;
+            if (pi.DexBlueberry != 0)
+                blueberry = true;
+        }
+        GB_Paldea.Enabled = paldea;
+        GB_Kitakami.Enabled = kitakami;
+        GB_Blueberry.Enabled = blueberry;
     }
 
     private static string[] GetFormList(in ushort species)
@@ -191,23 +252,24 @@ public partial class SAV_PokedexSV : Form
 
     private void SetEntry(ushort species)
     {
-        var entry = SAV.Zukan.DexPaldea.Get(species);
-        entry.SetState((uint)CB_State.SelectedIndex);
-        entry.SetDisplayIsNew(CHK_IsNew.Checked);
+        var entry = SAV.Zukan.DexKitakami.Get(species);
 
+        // Set Form Flags
+        for (byte i = 0; i < sizeof(uint) * 8; i++)
+        {
+            entry.SetSeenForm(i, CLB_FormSeen.GetItemChecked(i));
+            entry.SetObtainedForm(i, CLB_FormObtained.GetItemChecked(i));
+            entry.SetHeardForm(i, CLB_FormHeard.GetItemChecked(i));
+            entry.SetCheckedForm(i, CLB_FormViewed.GetItemChecked(i));
+        }
+
+        // Set Flags
         entry.SetIsGenderSeen(0, CHK_SeenMale.Checked);
         entry.SetIsGenderSeen(1, CHK_SeenFemale.Checked);
         entry.SetIsGenderSeen(2, CHK_SeenGenderless.Checked);
-        entry.SetSeenIsShiny(CHK_SeenShiny.Checked);
+        entry.SetIsModelSeen(true, CHK_SeenShiny.Checked);
 
-        for (byte i = 0; i < CLB_FormSeen.Items.Count; i++)
-            entry.SetIsFormSeen(i, CLB_FormSeen.GetItemChecked(i));
-
-        entry.SetDisplayGender(CB_Gender.SelectedIndex);
-        entry.SetDisplayIsShiny(CHK_DisplayShiny.Checked);
-        entry.SetDisplayGenderIsDifferent(CHK_G.Checked);
-        entry.SetDisplayForm((uint)CB_DisplayForm.SelectedIndex);
-
+        // Set Languages
         entry.SetLanguageFlag((int)LanguageID.Japanese, CHK_LangJPN.Checked);
         entry.SetLanguageFlag((int)LanguageID.English, CHK_LangENG.Checked);
         entry.SetLanguageFlag((int)LanguageID.French, CHK_LangFRE.Checked);
@@ -217,6 +279,11 @@ public partial class SAV_PokedexSV : Form
         entry.SetLanguageFlag((int)LanguageID.Korean, CHK_LangKOR.Checked);
         entry.SetLanguageFlag((int)LanguageID.ChineseS, CHK_LangCHS.Checked);
         entry.SetLanguageFlag((int)LanguageID.ChineseT, CHK_LangCHT.Checked);
+
+        // Set Local Dexes
+        entry.SetLocalPaldea((byte)CB_PaldeaForm.SelectedIndex, (byte)CB_PaldeaGender.SelectedIndex, CHK_PaldeaShiny.Checked ? (byte)1 : (byte)0);
+        entry.SetLocalKitakami((byte)CB_KitakamiForm.SelectedIndex, (byte)CB_KitakamiGender.SelectedIndex, CHK_KitakamiShiny.Checked ? (byte)1 : (byte)0);
+        entry.SetLocalBlueberry((byte)CB_BlueberryForm.SelectedIndex, (byte)CB_BlueberryGender.SelectedIndex, CHK_BlueberryShiny.Checked ? (byte)1 : (byte)0);
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)

@@ -86,6 +86,7 @@ namespace PKHeX.WinForms.Controls
             B_Raids = new System.Windows.Forms.Button();
             B_RaidArmor = new System.Windows.Forms.Button();
             B_RaidCrown = new System.Windows.Forms.Button();
+            B_RaidKitakami = new System.Windows.Forms.Button();
             B_Blocks = new System.Windows.Forms.Button();
             B_OtherSlots = new System.Windows.Forms.Button();
             B_OpenSealStickers = new System.Windows.Forms.Button();
@@ -394,6 +395,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_Raids);
             FLP_SAVtools.Controls.Add(B_RaidArmor);
             FLP_SAVtools.Controls.Add(B_RaidCrown);
+            FLP_SAVtools.Controls.Add(B_RaidKitakami);
             FLP_SAVtools.Controls.Add(B_Blocks);
             FLP_SAVtools.Controls.Add(B_OtherSlots);
             FLP_SAVtools.Controls.Add(B_OpenSealStickers);
@@ -761,6 +763,16 @@ namespace PKHeX.WinForms.Controls
             B_RaidCrown.UseVisualStyleBackColor = true;
             B_RaidCrown.Click += B_OpenRaids_Click;
             // 
+            // B_RaidKitakami
+            // 
+            B_RaidKitakami.Margin = new System.Windows.Forms.Padding(4);
+            B_RaidKitakami.Name = "B_RaidKitakami";
+            B_RaidKitakami.Size = new System.Drawing.Size(96, 32);
+            B_RaidKitakami.TabIndex = 4;
+            B_RaidKitakami.Text = "Raids (DLC 1)";
+            B_RaidKitakami.UseVisualStyleBackColor = true;
+            B_RaidKitakami.Click += B_OpenRaids_Click;
+            // 
             // B_Blocks
             // 
             B_Blocks.Location = new System.Drawing.Point(212, 284);
@@ -1062,6 +1074,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_RaidArmor;
         private System.Windows.Forms.Button B_OtherSlots;
         private System.Windows.Forms.Button B_RaidCrown;
+        private System.Windows.Forms.Button B_RaidKitakami;
         private System.Windows.Forms.Button Menu_ExportBAK;
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVToolsMisc;
         private System.Windows.Forms.Button B_OpenSealStickers;

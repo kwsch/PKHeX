@@ -1,14 +1,14 @@
 using System;
-using System.Buffers.Binary;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public readonly ref struct PokeDexEntry9SV
+public readonly ref struct PokeDexEntry9Paldea
 {
     public const int SIZE = 0x18;
 
     private readonly Span<byte> Data;
-    public PokeDexEntry9SV(Span<byte> data) => Data = data;
+    public PokeDexEntry9Paldea(Span<byte> data) => Data = data;
     public void Clear() => Data.Clear();
 
     /*  Structure: 0x18 bytes
@@ -30,22 +30,22 @@ public readonly ref struct PokeDexEntry9SV
         0x17 u8 - unused alignment
      */
 
-    public uint GetState() => BinaryPrimitives.ReadUInt32LittleEndian(Data);
-    private uint FlagsFormSeen     { get => BinaryPrimitives.ReadUInt32LittleEndian(Data[0x04..]); set => BinaryPrimitives.WriteUInt32LittleEndian(Data[0x04..], value); }
-    private ushort FlagsGenderSeen     { get => BinaryPrimitives.ReadUInt16LittleEndian(Data[0x08..]); set => BinaryPrimitives.WriteUInt16LittleEndian(Data[0x08..], value); }
-    private ushort FlagsLanguage   { get => BinaryPrimitives.ReadUInt16LittleEndian(Data[0x0A..]); set => BinaryPrimitives.WriteUInt16LittleEndian(Data[0x0A..], value); }
+    public uint GetState() => ReadUInt32LittleEndian(Data);
+    private uint FlagsFormSeen     { get => ReadUInt32LittleEndian(Data[0x04..]); set => WriteUInt32LittleEndian(Data[0x04..], value); }
+    private ushort FlagsGenderSeen     { get => ReadUInt16LittleEndian(Data[0x08..]); set => WriteUInt16LittleEndian(Data[0x08..], value); }
+    private ushort FlagsLanguage   { get => ReadUInt16LittleEndian(Data[0x0A..]); set => WriteUInt16LittleEndian(Data[0x0A..], value); }
 
     public bool GetSeenIsShiny() => Data[0x0C] != 0;
     public bool GetDisplayIsNew() => Data[0x0D] != 0;
     public byte GetUnused0E() => Data[0x0E];
     public byte GetUnused0F() => Data[0x0F];
-    private uint DisplayFormIndex { get => BinaryPrimitives.ReadUInt32LittleEndian(Data[0x10..]); set => BinaryPrimitives.WriteUInt32LittleEndian(Data[0x10..], value); }
+    private uint DisplayFormIndex { get => ReadUInt32LittleEndian(Data[0x10..]); set => WriteUInt32LittleEndian(Data[0x10..], value); }
     private byte DisplayGender { get => Data[0x14]; set => Data[0x14] = value; }
     public bool GetDisplayIsShiny() => Data[0x15] != 0;
     public bool GetDisplayGenderIsDifferent() => Data[0x16] != 0;
     public byte GetUnused17() => Data[0x17];
 
-    public void SetState(uint value) => BinaryPrimitives.WriteUInt32LittleEndian(Data, value);
+    public void SetState(uint value) => WriteUInt32LittleEndian(Data, value);
     public void SetSeenIsShiny(bool value = true) => Data[0x0C] = value ? (byte)1 : (byte)0;
     public void SetDisplayIsNew(bool value = true) => Data[0x0D] = value ? (byte)1 : (byte)0;
     public void SetUnused0E(byte value) => Data[0x0E] = value;

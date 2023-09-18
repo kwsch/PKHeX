@@ -23,7 +23,8 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public Epoch1970Value LastSaved { get; }
     public PlayerFashion9 PlayerFashion { get; }
     public PlayerAppearance9 PlayerAppearance { get; }
-    public RaidSpawnList9 Raid { get; }
+    public RaidSpawnList9 RaidPaldea { get; }
+    public RaidSpawnList9 RaidKitakami { get; }
     public RaidSevenStar9 RaidSevenStar { get; }
     public Epoch1900Value EnrollmentDate { get; }
 
@@ -36,13 +37,14 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         BoxLayout = new BoxLayout9(sav, GetBlock(KBoxLayout));
         MyStatus = new MyStatus9(sav, GetBlock(KMyStatus));
         Played = new PlayTime9(sav, GetBlock(KPlayTime));
-        Zukan = new Zukan9(sav, GetBlock(KZukan));
+        Zukan = new Zukan9(sav, GetBlock(KZukan), GetBlockSafe(KZukanT1));
         Config = new ConfigSave9(sav, GetBlock(KConfig));
         TeamIndexes = new TeamIndexes9(sav, GetBlock(KTeamIndexes));
         LastSaved = new Epoch1970Value(GetBlock(KLastSaved));
         PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
         PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
-        Raid = new RaidSpawnList9(sav, GetBlock(KTeraRaids));
+        RaidPaldea = new RaidSpawnList9(sav, GetBlock(KTeraRaidPaldea), RaidSpawnList9.RaidCountLegal_T0, true);
+        RaidKitakami = new RaidSpawnList9(sav, GetBlockSafe(KTeraRaidKitakami), RaidSpawnList9.RaidCountLegal_T1, false);
         RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaids));
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
     }
@@ -65,11 +67,12 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KSessionLength = 0x1522C79C; // Milliseconds(?) elapsed
     private const uint KOverworld = 0x173304D8; // [0x158+7C][20] overworld pokemon
     private const uint KGimmighoul = 0x53DC955C; // ulong seed x2 (today and tomorrow); Gimmighoul struct (0x20): bool is_active, u64 hash, u64 seed, bool ??, bool first_time
-    private const uint KTeraRaids = 0xCAAC8800;
+    private const uint KTeraRaidPaldea = 0xCAAC8800;
+    private const uint KTeraRaidKitakami = 0x100B93DA;
     public const uint KBoxesUnlocked = 0x71825204;
     public const uint KFusedCalyrex = 0x916BCA9E; // Calyrex
     private const uint KZukan = 0x0DEAAEBD;
-    private const uint KZukanT1 = 0x8; // TODO TEAL MASK
+    private const uint KZukanT1 = 0xF5D7C0E2;
     private const uint KMysteryGift = 0x99E1625E;
     private const uint KDLCGifts = 0xA4B7A814; // Unix timestamp, 1 byte type of gift (0 = Pokémon, 1 = Item, 2 = Apparel)
     private const uint KLastSaved = 0x7495969E; // u64 time_t

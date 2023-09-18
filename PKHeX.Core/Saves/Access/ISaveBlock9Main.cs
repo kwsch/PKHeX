@@ -17,5 +17,6 @@ public interface ISaveBlock9Main
     Epoch1970Value LastSaved { get; }
     PlayerFashion9 PlayerFashion { get; }
     PlayerAppearance9 PlayerAppearance { get; }
-    RaidSpawnList9 Raid { get; }
+    RaidSpawnList9 RaidPaldea { get; }
+    RaidSpawnList9 RaidKitakami { get; }
 }

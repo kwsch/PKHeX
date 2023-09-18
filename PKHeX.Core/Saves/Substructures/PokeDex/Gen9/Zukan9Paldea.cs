@@ -5,25 +5,21 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.SV"/>.
 /// </summary>>
-public sealed class Zukan9 : ZukanBase<SAV9SV>
+public sealed class Zukan9Paldea : ZukanBase<SAV9SV>
 {
-    private readonly SCBlock Paldea;
+    private readonly SCBlock Block;
 
-    public Zukan9(SAV9SV sav, SCBlock paldea) : base(sav, 0)
-    {
-        Paldea = paldea;
-    }
+    public Zukan9Paldea(SAV9SV sav, SCBlock block) : base(sav, 0) => Block = block;
 
-    private const int EntrySize = PokeDexEntry9SV.SIZE;
-
-    public PokeDexEntry9SV Get(ushort species)
+    public PokeDexEntry9Paldea Get(ushort species)
     {
         if (species > SAV.MaxSpeciesID)
             throw new ArgumentOutOfRangeException(nameof(species), species, null);
 
+        const int size = PokeDexEntry9Paldea.SIZE;
         var internalSpecies = SpeciesConverter.GetInternal9(species);
-        var span = Paldea.Data.AsSpan(internalSpecies * EntrySize, EntrySize);
-        return new PokeDexEntry9SV(span);
+        var span = Block.Data.AsSpan(internalSpecies * size, size);
+        return new PokeDexEntry9Paldea(span);
     }
 
     public override bool GetSeen(ushort species) => Get(species).IsSeen;
@@ -34,7 +30,7 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
 
     public bool GetIsLanguageObtained(ushort species, int language)
     {
-        int langIndex = PokeDexEntry9SV.GetDexLangFlag(language);
+        int langIndex = PokeDexEntry9Paldea.GetDexLangFlag(language);
         if (langIndex < 0)
             return false;
 
@@ -43,7 +39,7 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
 
     public void SetIsLanguageObtained(ushort species, int language, bool value = true)
     {
-        int langIndex = PokeDexEntry9SV.GetDexLangFlag(language);
+        int langIndex = PokeDexEntry9Paldea.GetDexLangFlag(language);
         if (langIndex < 0)
             return;
 
@@ -76,26 +72,7 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         if (SAV.SaveRevision == 1 && pi.DexGroup > 2)
             return;
 
-        var entry = Get(species);
-        if (!entry.IsKnown)
-            entry.SetDisplayIsNew();
-
-        entry.SetCaught(true);
-        entry.SetIsGenderSeen(pk.Gender, true);
-        entry.SetIsFormSeen(form, true);
-        entry.SetDisplayForm(form);
-        entry.SetDisplayGender(pk.Gender);
-        if (pk.IsShiny)
-        {
-            entry.SetDisplayIsShiny();
-            entry.SetSeenIsShiny();
-        }
-        entry.SetLanguageFlag(pk.Language, true);
-        if (SAV.Language != pk.Language)
-            entry.SetLanguageFlag(SAV.Language, true);
-
-        // Update adjacent entries if not seen.
-        UpdateAdjacent(species);
+        Register(pk, species, form);
     }
 
     public void UpdateAdjacent(ushort species)
@@ -142,17 +119,13 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
             pi = pt.GetFormEntry(species, f);
             if (pi.DexPaldea != 0)
                 return (1, pi.DexPaldea);
-            if (pi.DexKitakami != 0)
-                return (2, pi.DexKitakami);
-            if (pi.DexBlueberry != 0)
-                return (3, pi.DexBlueberry);
         }
-        return (0, 0);
+        return default;
     }
 
     public override void SeenNone()
     {
-        Array.Clear(Paldea.Data, 0, Paldea.Data.Length);
+        Array.Clear(Block.Data, 0, Block.Data.Length);
     }
 
     public override void CaughtNone()
@@ -169,7 +142,7 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         SetAllSeen(true, shinyToo);
     }
 
-    private void SeenAll(ushort species, byte formCount, bool value = true, bool shinyToo = false)
+    public void SeenAll(ushort species, byte formCount, bool value = true, bool shinyToo = false)
     {
         // Wipe existing gender flags.
         var entry = Get(species);
@@ -189,14 +162,14 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         }
     }
 
-    private static void SetIsFormSeen(PokeDexEntry9SV entry, IGenderDetail pi, byte form, bool seenForm)
+    private static void SetIsFormSeen(PokeDexEntry9Paldea entry, IGenderDetail pi, byte form, bool seenForm)
     {
         entry.SetIsFormSeen(form, seenForm);
         if (seenForm)
             SetIsFormSeenGender(entry, pi);
     }
 
-    private static void SetIsFormSeenGender(PokeDexEntry9SV entry, IGenderDetail pi)
+    private static void SetIsFormSeenGender(PokeDexEntry9Paldea entry, IGenderDetail pi)
     {
         if (pi.IsDualGender)
         {
@@ -235,7 +208,7 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
         }
     }
 
-    private void SetAllCaught(ushort species, bool value = true, bool shinyToo = false)
+    public void SetAllCaught(ushort species, bool value = true, bool shinyToo = false)
     {
         SetCaught(species, value);
         for (int i = 1; i <= (int)LanguageID.ChineseT; i++)
@@ -284,4 +257,28 @@ public sealed class Zukan9 : ZukanBase<SAV9SV>
     public override void ClearDexEntryAll(ushort species) => Get(species).Clear();
 
     #endregion
+
+    public void Register(PKM pk, ushort species, byte form)
+    {
+        var entry = Get(species);
+        if (!entry.IsKnown)
+            entry.SetDisplayIsNew();
+
+        entry.SetCaught(true);
+        entry.SetIsGenderSeen(pk.Gender, true);
+        entry.SetIsFormSeen(form, true);
+        entry.SetDisplayForm(form);
+        entry.SetDisplayGender(pk.Gender);
+        if (pk.IsShiny)
+        {
+            entry.SetDisplayIsShiny();
+            entry.SetSeenIsShiny();
+        }
+        entry.SetLanguageFlag(pk.Language, true);
+        if (SAV.Language != pk.Language)
+            entry.SetLanguageFlag(SAV.Language, true);
+
+        // Update adjacent entries if not seen.
+        UpdateAdjacent(species);
+    }
 }

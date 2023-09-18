@@ -9,16 +9,23 @@ public sealed class RaidSpawnList9 : SaveBlock<SAV9SV>
 {
     public readonly int CountAll;
     public readonly int CountUsed;
+    public const int RaidCountLegal_T0 = 72;
+    public const int RaidCountLegal_T1 = 100;
+    public readonly bool HasSeeds;
+    private readonly int OffsetRaidStart;
 
-    public RaidSpawnList9(SAV9SV sav, SCBlock block) : base(sav, block.Data)
+    public RaidSpawnList9(SAV9SV sav, SCBlock block, int countUsed, bool hasSeeds) : base(sav, block.Data)
     {
-        CountAll = block.Data.Length / TeraRaidDetail.SIZE;
-        CountUsed = RaidCountLegal_A0;
+        var length = block.Data.Length;
+        HasSeeds = hasSeeds;
+        OffsetRaidStart = hasSeeds ? 0x10 : 0;
+        CountAll = length == 0 ? 0 : (length - OffsetRaidStart) / TeraRaidDetail.SIZE;
+        CountUsed = countUsed;
     }
 
-    public const int RaidCountLegal_A0 = 72;
+    public TeraRaidDetail GetRaid(int entry) => new(Data.AsMemory(GetOffset(entry), TeraRaidDetail.SIZE));
 
-    public TeraRaidDetail GetRaid(int entry) => new(Data, 0x10 + (entry * TeraRaidDetail.SIZE));
+    private int GetOffset(int entry) => OffsetRaidStart + (entry * TeraRaidDetail.SIZE);
 
     public TeraRaidDetail[] GetAllRaids()
     {
@@ -30,14 +37,14 @@ public sealed class RaidSpawnList9 : SaveBlock<SAV9SV>
 
     public ulong CurrentSeed
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x00));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x00), value);
+        get => HasSeeds ? ReadUInt64LittleEndian(Data.AsSpan(0x00)) : 0;
+        set { if (HasSeeds) WriteUInt64LittleEndian(Data.AsSpan(0x00), value); }
     }
 
     public ulong TomorrowSeed
     {
-        get => ReadUInt64LittleEndian(Data.AsSpan(0x08));
-        set => WriteUInt64LittleEndian(Data.AsSpan(0x08), value);
+        get => HasSeeds ? ReadUInt64LittleEndian(Data.AsSpan(0x08)) : 0;
+        set { if (HasSeeds) WriteUInt64LittleEndian(Data.AsSpan(0x08), value); }
     }
 
     /// <summary>
@@ -66,14 +73,10 @@ public sealed class TeraRaidDetail
 {
     public const int SIZE = 0x20;
 
-    private readonly byte[] Data;
-    private readonly int Offset;
+    private readonly Memory<byte> Data;
+    private Span<byte> Span => Data.Span;
 
-    public TeraRaidDetail(byte[] data, int ofs)
-    {
-        Data = data;
-        Offset = ofs;
-    }
+    public TeraRaidDetail(Memory<byte> data) => Data = data;
 
     private const string General = nameof(General);
     private const string Misc = nameof(Misc);
@@ -81,57 +84,57 @@ public sealed class TeraRaidDetail
     [Category(General), Description("Indicates if this entry has an active raid crystal.")]
     public bool IsEnabled
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x00)) != 0;
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value ? 1u : 0);
+        get => ReadUInt32LittleEndian(Span) != 0;
+        set => WriteUInt32LittleEndian(Span, value ? 1u : 0);
     }
 
     [Category(General), Description("Zone the raid crystal is located in.")]
     public uint AreaID
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x04));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
+        get => ReadUInt32LittleEndian(Span[0x04..]);
+        set => WriteUInt32LittleEndian(Span[0x04..], value);
     }
 
     [Category(Misc), Description("Indicates how the crystal is shown on the player's YMAP.")]
     public TeraRaidDisplayType DisplayType
     {
-        get => (TeraRaidDisplayType)ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x08));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x08), (uint)value);
+        get => (TeraRaidDisplayType)ReadUInt32LittleEndian(Span[0x08..]);
+        set => WriteUInt32LittleEndian(Span[0x08..], (uint)value);
     }
 
     [Category(General), Description("Zone-specific overworld spawn point for the raid crystal.")]
     public uint SpawnPointID
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x0C));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x0C), value);
+        get => ReadUInt32LittleEndian(Span[0x0C..]);
+        set => WriteUInt32LittleEndian(Span[0x0C..], value);
     }
 
     [Category(General), Description("RNG Seed (32bit) for fetching the raid data table and generating the raid."), TypeConverter(typeof(TypeConverterU32))]
     public uint Seed
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x10));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x10), value);
+        get => ReadUInt32LittleEndian(Span[0x10..]);
+        set => WriteUInt32LittleEndian(Span[0x10..], value);
     }
 
     [Category(Misc), Description("Always zero.")]
     public uint Unused
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x14));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x14), value);
+        get => ReadUInt32LittleEndian(Span[0x14..]);
+        set => WriteUInt32LittleEndian(Span[0x14..], value);
     }
 
     [Category(General), Description("Indicates the source of the raid encounter data and rewards.")]
     public TeraRaidContentType Content
     {
-        get => (TeraRaidContentType)ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x18));
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x18), (uint)value);
+        get => (TeraRaidContentType)ReadUInt32LittleEndian(Span[0x18..]);
+        set => WriteUInt32LittleEndian(Span[0x18..], (uint)value);
     }
 
     [Category(Misc), Description("Has player already collected the League Points for this raid?")]
     public bool IsClaimedLeaguePoints
     {
-        get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1C)) != 0;
-        set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x1C), value ? 1u : 0);
+        get => ReadUInt32LittleEndian(Span[0x1C..]) != 0;
+        set => WriteUInt32LittleEndian(Span[0x1C..], value ? 1u : 0);
     }
 }
 
