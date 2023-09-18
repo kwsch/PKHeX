@@ -7,9 +7,9 @@ public interface IRibbonSetCommon9
     bool RibbonOnceInALifetime { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetCommon9(this IRibbonSetCommon9 set, IRibbonSetCommon9 dest)
+    public static void CopyRibbonSetCommon9(this IRibbonSetCommon9 set, IRibbonSetCommon9 dest)
     {
         dest.RibbonChampionPaldea = set.RibbonChampionPaldea;
         dest.RibbonOnceInALifetime = set.RibbonOnceInALifetime;

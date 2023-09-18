@@ -11,9 +11,9 @@ public interface IRibbonSetEvent3
     bool RibbonChampionNational { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetEvent3(this IRibbonSetEvent3 set, IRibbonSetEvent3 dest)
+    public static void CopyRibbonSetEvent3(this IRibbonSetEvent3 set, IRibbonSetEvent3 dest)
     {
         dest.RibbonEarth            = set.RibbonEarth;
         dest.RibbonNational         = set.RibbonNational;

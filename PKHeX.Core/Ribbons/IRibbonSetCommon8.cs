@@ -10,9 +10,9 @@ public interface IRibbonSetCommon8
     bool RibbonHisui { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetCommon8(this IRibbonSetCommon8 set, IRibbonSetCommon8 dest)
+    public static void CopyRibbonSetCommon8(this IRibbonSetCommon8 set, IRibbonSetCommon8 dest)
     {
         dest.RibbonChampionGalar = set.RibbonChampionGalar;
         dest.RibbonTowerMaster = set.RibbonTowerMaster;

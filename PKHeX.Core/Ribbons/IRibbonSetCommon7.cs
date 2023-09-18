@@ -9,9 +9,9 @@ public interface IRibbonSetCommon7
     bool RibbonBattleTreeMaster { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetCommon7(this IRibbonSetCommon7 set, IRibbonSetCommon7 dest)
+    public static void CopyRibbonSetCommon7(this IRibbonSetCommon7 set, IRibbonSetCommon7 dest)
     {
         dest.RibbonChampionAlola = set.RibbonChampionAlola;
         dest.RibbonBattleRoyale = set.RibbonBattleRoyale;
