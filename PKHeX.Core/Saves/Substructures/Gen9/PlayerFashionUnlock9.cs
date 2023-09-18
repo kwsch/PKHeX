@@ -101,8 +101,8 @@ public static class PlayerFashionUnlock9
         6115, 6116, 6117, 6118, 6119, 6120, 6121, 6122,
     };
 
-    private static ReadOnlySpan<ushort> ClothingF => new ushort[] { 7000, 7001, 7002, 7003, 7008, 7009, 7010, 7011, 7017, 7019, 7021, 7023 };
-    private static ReadOnlySpan<ushort> ClothingM => new ushort[] { 7004, 7005, 7006, 7007, 7012, 7013, 7014, 7015, 7016, 7018, 7020, 7022 };
+    private static ReadOnlySpan<ushort> ClothingF => new ushort[] { 7000, 7001, 7002, 7003, 7008, 7009, 7010, 7011, 7017, 7019, 7021, 7023, 7025 };
+    private static ReadOnlySpan<ushort> ClothingM => new ushort[] { 7004, 7005, 7006, 7007, 7012, 7013, 7014, 7015, 7016, 7018, 7020, 7022, 7024 };
 
     private static ReadOnlySpan<ushort> PhoneCase => new ushort[]
     {
