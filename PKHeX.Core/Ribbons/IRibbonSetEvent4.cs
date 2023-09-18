@@ -14,9 +14,9 @@ public interface IRibbonSetEvent4
     bool RibbonSouvenir { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetEvent4(this IRibbonSetEvent4 set, IRibbonSetEvent4 dest)
+    public static void CopyRibbonSetEvent4(this IRibbonSetEvent4 set, IRibbonSetEvent4 dest)
     {
         dest.RibbonClassic = set.RibbonClassic;
         dest.RibbonWishing = set.RibbonWishing;

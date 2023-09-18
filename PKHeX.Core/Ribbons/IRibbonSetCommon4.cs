@@ -19,9 +19,9 @@ public interface IRibbonSetCommon4
     bool RibbonLegend { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetCommon4(this IRibbonSetCommon4 set, IRibbonSetCommon4 dest)
+    public static void CopyRibbonSetCommon4(this IRibbonSetCommon4 set, IRibbonSetCommon4 dest)
     {
         dest.RibbonChampionSinnoh = set.RibbonChampionSinnoh;
         dest.RibbonAlert = set.RibbonAlert;

@@ -18,14 +18,14 @@ public interface IRibbonSetCommon6
     bool RibbonMasterToughness { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
     /// <summary>
     /// Checks if the <see cref="set"/> has all five contest stat ribbons true.
     /// </summary>
     public static bool HasAllContestRibbons(this IRibbonSetCommon6 set) => set is { RibbonMasterCoolness: true, RibbonMasterBeauty: true, RibbonMasterCuteness: true, RibbonMasterCleverness: true, RibbonMasterToughness: true };
 
-    internal static void CopyRibbonSetCommon6(this IRibbonSetCommon6 set, IRibbonSetCommon6 dest)
+    public static void CopyRibbonSetCommon6(this IRibbonSetCommon6 set, IRibbonSetCommon6 dest)
     {
         dest.RibbonChampionKalos = set.RibbonChampionKalos;
         dest.RibbonChampionG6Hoenn = set.RibbonChampionG6Hoenn;

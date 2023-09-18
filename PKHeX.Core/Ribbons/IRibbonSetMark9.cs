@@ -15,9 +15,9 @@ public interface IRibbonSetMark9
     bool HasMarkEncounter9 { get; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetMark9(this IRibbonSetMark9 set, IRibbonSetMark9 dest)
+    public static void CopyRibbonSetMark9(this IRibbonSetMark9 set, IRibbonSetMark9 dest)
     {
         dest.RibbonMarkJumbo = set.RibbonMarkJumbo;
         dest.RibbonMarkMini = set.RibbonMarkMini;
