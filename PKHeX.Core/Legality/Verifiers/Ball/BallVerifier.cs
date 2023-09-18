@@ -416,6 +416,8 @@ public sealed class BallVerifier : Verifier
     {
         var enc = data.EncounterMatch;
         var species = enc.Species;
+        if (species == (int)Species.Phione)
+            return VerifyBallEquals(data, (int)Poke);
 
         // Paldea Starters: Only via GO (Adventures Abound)
         if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval)
