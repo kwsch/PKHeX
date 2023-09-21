@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -20,7 +20,7 @@ public partial class PokeGear4Editor : UserControl
 
     private void RefreshList()
     {
-        PG_Rolodex.SelectedObject = Rolodex = SAV.GetPokeGearRoloDex();
+        PG_Rolodex.SelectedObject = Rolodex = SAV.GetPokeGearRoloDex().ToArray();
         PG_Rolodex.Refresh();
     }
 

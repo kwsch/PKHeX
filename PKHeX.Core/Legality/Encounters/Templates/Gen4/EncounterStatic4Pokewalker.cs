@@ -165,6 +165,8 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     {
         if (IsMatchPartial(pk))
             return EncounterMatchRating.PartialMatch;
+        if (pk.IsShiny)
+            return EncounterMatchRating.DeferredErrors;
         return EncounterMatchRating.Match;
     }
 

@@ -105,7 +105,6 @@ public sealed class SearchSettings
         BatchFiltersMeta = meta;
     }
 
-
     private IEnumerable<PKM> SearchInner(IEnumerable<PKM> list)
     {
         foreach (var pk in list)

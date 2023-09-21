@@ -168,8 +168,22 @@ public sealed record EncounterStatic9(GameVersion Version)
 
     private bool IsMatchEggLocation(PKM pk)
     {
-        var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        var eggloc = pk.Egg_Location;
+        if (!EggEncounter)
+        {
+            var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
+            return eggloc == expect;
+        }
+
+        if (!pk.IsEgg) // hatched
+            return eggloc == EggLocation || eggloc == Locations.LinkTrade6;
+
+        // Unhatched:
+        if (eggloc != EggLocation)
+            return false;
+        if (pk.Met_Location is not (0 or Locations.LinkTrade6))
+            return false;
+        return true;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -191,7 +205,7 @@ public sealed record EncounterStatic9(GameVersion Version)
 
     private bool IsMatchLocationExact(PKM pk)
     {
-        if (EggEncounter && !pk.IsEgg)
+        if (EggEncounter)
             return true;
         return pk.Met_Location == Location;
     }
@@ -249,7 +263,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             }
             var current = pk is IScaledSize3 size3 ? size3.Scale : v.HeightScalar;
             if (current != Size)
-                return false;
+                return true;
         }
 
         if (pk is { AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))

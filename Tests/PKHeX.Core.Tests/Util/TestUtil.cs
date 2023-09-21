@@ -30,5 +30,4 @@ internal static class TestUtil
             IsInitialized = true;
         }
     }
-
 }
