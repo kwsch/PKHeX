@@ -347,10 +347,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         {
             var flag = $"FSYS_UI_WAZA_MACHINE_RELEASE_{i:000}";
             var hash = (uint)FnvHash.HashFnv1a_64(flag);
-            if (!Accessor.HasBlock(hash))
-                continue;
-            var block = Accessor.GetBlock(hash);
-            block.ChangeBooleanType(SCTypeCode.Bool2);
+            if (Accessor.TryGetBlock(hash, out var block))
+                block.ChangeBooleanType(SCTypeCode.Bool2);
         }
     }
 }
