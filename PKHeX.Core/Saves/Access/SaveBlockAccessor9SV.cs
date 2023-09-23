@@ -45,7 +45,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
         RaidPaldea = new RaidSpawnList9(sav, GetBlock(KTeraRaidPaldea), RaidSpawnList9.RaidCountLegal_T0, true);
         RaidKitakami = new RaidSpawnList9(sav, GetBlockSafe(KTeraRaidKitakami), RaidSpawnList9.RaidCountLegal_T1, false);
-        RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaids));
+        RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture));
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
     }
 
@@ -83,14 +83,21 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KCurrentAppearance = 0x812FC3E3;
     private const uint KCurrentRotomPhoneCase = 0x1433CED7;
     private const uint KRentalTeams = 0x19CB0339;
-    private const uint KSevenStarRaids = 0x8B14392F;
+    private const uint KSevenStarRaidsCapture = 0x8B14392F; // prior to 2.0.1, this also stored defeat history
+    private const uint KSevenStarRaidsDefeat = 0xA4BA4848; // 2.0.1 onward stores defeat history separately from capture history
 
-    // BCAT
+    // BCAT (Tera Raid Battles)
     private const uint KBCATFixedRewardItemArray = 0x7D6C2B82; // fixed_reward_item_array
     private const uint KBCATLotteryRewardItemArray = 0xA52B4811; // lottery_reward_item_array
     private const uint KBCATRaidEnemyArray = 0x0520A1B0; // raid_enemy_array
     private const uint KBCATRaidPriorityArray = 0x095451E4; // raid_priority_array
     private const uint KBCATEventRaidIdentifier = 0x37B99B4D; // VersionNo
+
+    // BCAT (Mass Outbreaks)
+    private const uint KBCATOutbreakZones1 = 0x1B45E41C; // todo: zone_main_array ?
+    private const uint KBCATOutbreakZones2 = 0x3FDC5DFF; // todo: zone_su1_array ?
+    private const uint KBCATOutbreakZones3 = 0xF9F156A3; // todo: zone_su2_array ?
+    private const uint KBCATOutbreakPokeData = 0x6C1A131B; // pokedata_array
 
     // PlayerSave
     public const uint KCoordinates = 0x708D1511; // PlayerSave_StartPosition
@@ -99,7 +106,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KPlayerLastSubField = 0x37AF0454; // PlayerSave_LastSubField
     private const uint KPlayerLastRoomMapName = 0x9F1ABF26; // PlayerSave_LastRoomMapName
     private const uint KPlayerLastGreenPosition = 0x5C6F8291; // PlayerSave_LastGreenPos
-    private const uint KPlayerCurrentFieldId = 0xF17EB014; // PlayerSave_CurrentFieldId
+    private const uint KPlayerCurrentFieldID = 0xF17EB014; // PlayerSave_CurrentFieldId (0 = Paldea, 1 = Kitakami, 2 = Blueberry)
 
     // Fashion
     public const uint KFashionUnlockedEyewear = 0xCBA20ED5; // 1000-1999
@@ -879,6 +886,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KPurchasedDracoPlate = 0x895FF0AC; // FEVT_SERI_LEGEND_0311
     private const uint KPurchasedDreadPlate = 0x895FF5C5; // FEVT_SERI_LEGEND_0312
     private const uint KPurchasedIronPlate = 0x895FF412; // FEVT_SERI_LEGEND_0313
+    private const uint KPurchasedGracidea = 0x97A78CE7; // FEVT_SERI_LEGEND_0466
     private const uint KPurchasedRevealGlass = 0xA1E7C2EE; // FEVT_SERI_LEGEND_0638
     private const uint KPurchasedPixiePlate = 0xA1D94C55; // FEVT_SERI_LEGEND_0644
     private const uint KPurchasedPrisonBottle = 0x9CA69C5B; // FEVT_SERI_LEGEND_0765
@@ -1474,15 +1482,26 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KUnlockedDLCEmote3 = 0x29583572; // FSYS_DLC1_EMOTE_03_RELEASE
     private const uint KUnlockedDLCEmote4 = 0x298A7CFB; // FSYS_DLC1_EMOTE_04_RELEASE
     private const uint KUnlockedDLCEmote5 = 0x3DA607F0; // FSYS_DLC1_EMOTE_05_RELEASE
-    private const uint KUnlockedDLCSelfieEmote0 = 0x1170E5C8; // FSYS_DLC1_EMOTE_SELFIE_00_RELEASE
-    private const uint KUnlockedDLCSelfieEmote1 = 0xBBBA5D73; // FSYS_DLC1_EMOTE_SELFIE_01_RELEASE
-    private const uint KUnlockedDLCSelfieEmote2 = 0xA3EB52A6; // FSYS_DLC1_EMOTE_SELFIE_02_RELEASE
+    private const uint KUnlockedDLCSelfieEmote1 = 0x1170E5C8; // FSYS_DLC1_EMOTE_SELFIE_00_RELEASE
+    private const uint KUnlockedDLCSelfieEmote2 = 0xBBBA5D73; // FSYS_DLC1_EMOTE_SELFIE_01_RELEASE
+    private const uint KUnlockedDLCSelfieEmote3 = 0xA3EB52A6; // FSYS_DLC1_EMOTE_SELFIE_02_RELEASE
     private const uint KLastPokedexVolumeRewardThresholdKitakami = 0xCD5D70B6; // WSYS_S1_POKEDX_REWARD_CHIHOUA_VALUE
+    private const uint KUnlockedTMMachineMoveFiltering = 0x3CC63057; // FSYS_SU1_SHOPWAZAMACHINE_MESSAGE
+    private const uint KCompletedBillyONareQuestPart1 = 0xCB190E5E; // FEVT_S1_SUB_003_TALKED
+    private const uint KCompletedBillyONareQuestPart2 = 0x6BBE8497; // FEVT_S1_SUB_006_TALKED
+    private const uint KCompletedBillyONareQuestPart3 = 0xDB267000; // FEVT_S1_SUB_009_TALKED
+    private const uint KLoyaltyPlazaFundraiserStarted = 0x57A38A70; // FEVT_S1_SUB_015_FIRST_TALKED
+    private const uint KLoyaltyPlazaFundraiserDonations = 0xBB9076CA; // WEVT_S1_SUB_015_UNITS_HELD
+    private const uint KCurrentMenuBorderDesign = 0x56D810B6; // 0 = match location, 1 = force Paldea
+
+    private const uint KIndexDefeatedLoyalThreeOkidogi = 0x919437A0; // WEVT_S1_INU_CLEAR_NUM
+    private const uint KIndexDefeatedLoyalThreeMunkidori = 0x657672CD; // WEVT_S1_SARU_CLEAR_NUM
+    private const uint KIndexDefeatedLoyalThreeFezandipiti = 0x9EF45981; // WEVT_S1_KIZI_CLEAR_NUM
 
     private const uint KCapturedOkidogi = 0x7042479E; // FEVT_S1_SUB_011_CAPTURED
     private const uint KCapturedMunkidori = 0x9F5556DD; // FEVT_S1_SUB_012_CAPTURED
     private const uint KCapturedFezandipiti = 0xFF7CAD99; // FEVT_S1_SUB_016_CAPTURED
-    private const uint KCanChallengeOgreClan = 0x18ABCD92; // FEVT_S1_SUB_017_BATTLE_ENABLE
+    private const uint KCanChallengeOgreClanLeader = 0x18ABCD92; // FEVT_S1_SUB_017_BATTLE_ENABLE
     private const uint KOgreClanReward1 = 0x19B5A525; // FEVT_S1_SUB_017_REWARD_01
     private const uint KOgreClanReward2 = 0x19B5A00C; // FEVT_S1_SUB_017_REWARD_02
     private const uint KOgreClanReward3 = 0x19B5A1BF; // FEVT_S1_SUB_017_REWARD_03
@@ -1495,9 +1514,9 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KOgreOustinClearedHard = 0x17AD6C82; // OniballoonSave_isCleardHard
     private const uint KOgreOustinUnlockedNormal = 0xFDC0C3C6; // OniballoonSave_isReleaseNormal
     private const uint KOgreOustinUnlockedHard = 0x2F009BE8; // OniballoonSave_isReleaseHard
-    private const uint KOgreOustinReceivedRewardEasy = 0xCE0977F2; // OniballoonSave_isCanReceiveRewardEasy
-    private const uint KOgreOustinReceivedRewardNormal = 0x84E725C7; // OniballoonSave_isCanReceiveRewardNormal
-    private const uint KOgreOustinReceivedRewardHard = 0x176CD6C9; // OniballoonSave_isCanReceiveRewardHard
+    private const uint KOgreOustinCanReceiveRewardEasy = 0xCE0977F2; // OniballoonSave_isCanReceiveRewardEasy
+    private const uint KOgreOustinCanReceiveRewardNormal = 0x84E725C7; // OniballoonSave_isCanReceiveRewardNormal
+    private const uint KOgreOustinCanReceiveRewardHard = 0x176CD6C9; // OniballoonSave_isCanReceiveRewardHard
     private const uint KOgreOustinHighScoreEasy = 0x52F7FB36; // OniballoonSave_bestScoreEasy
     private const uint KOgreOustinHighScoreNormal = 0xC887C363; // OniballoonSave_bestScoreNormal
     private const uint KOgreOustinHighScoreHard = 0x24AD643D; // OniballoonSave_bestScoreHard
@@ -1506,40 +1525,27 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KOgreOustinPlayedHard = 0xAB32F81A; // OniballoonSave_isPlayedHard
     private const uint KOgreOustinCompletedMessage = 0x838484DB; // OniballoonSave_isPlayedCompleteMessage
 
-    private const uint FSYS_SU1_SHOPWAZAMACHINE_MESSAGE = 0x3CC63057;
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon01 = 0x45C5F800; // WEVT_S1_SIDE02_0040_POKE01
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon02 = 0x45C5FD19; // WEVT_S1_SIDE02_0040_POKE02
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon03 = 0x45C5FB66; // WEVT_S1_SIDE02_0040_POKE03
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon04 = 0x45C6007F; // WEVT_S1_SIDE02_0040_POKE04
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon05 = 0x45C5FECC; // WEVT_S1_SIDE02_0040_POKE05
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon06 = 0x45C603E5; // WEVT_S1_SIDE02_0040_POKE06
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon07 = 0x45C60232; // WEVT_S1_SIDE02_0040_POKE07
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon08 = 0x45C6074B; // WEVT_S1_SIDE02_0040_POKE08
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon09 = 0x45C60598; // WEVT_S1_SIDE02_0040_POKE09
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon10 = 0x45C3168A; // WEVT_S1_SIDE02_0040_POKE10
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon11 = 0x45C3183D; // WEVT_S1_SIDE02_0040_POKE11
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon12 = 0x45C31324; // WEVT_S1_SIDE02_0040_POKE12
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon13 = 0x45C314D7; // WEVT_S1_SIDE02_0040_POKE13
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon14 = 0x45C30FBE; // WEVT_S1_SIDE02_0040_POKE14
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon15 = 0x45C31171; // WEVT_S1_SIDE02_0040_POKE15
+
     private const uint FEVT_S1_SIDE02_0037_FIRST_TALKED = 0x0ACD73FD;
-    private const uint FEVT_S1_SUB_003_TALKED = 0xCB190E5E;
-    private const uint FEVT_S1_SUB_006_TALKED = 0x6BBE8497;
-    private const uint FEVT_S1_SUB_009_TALKED = 0xDB267000;
     private const uint FEVT_S1_SUB_013_TALKED_CHAIR_NPC = 0xBF14EBB7;
     private const uint FEVT_S1_SUB_013_TALKED_REST_NPC = 0x59F64244;
     private const uint FEVT_S1_SUB_014_CHECK = 0xD9C569E3;
-    private const uint FEVT_S1_SUB_015_FIRST_TALKED = 0x57A38A70;
-    private const uint VS_S1_SIDE02_ESCAPE = 0xC217F789;
-    private const uint VS_S1_SIDE02_FINISH_WIN = 0x79DDB83C;
-    private const uint VS_S1_SIDE02_LOSE = 0x11AF5F7F;
-    private const uint VS_S1_SIDE02_START = 0x6A6D7756;
-    private const uint VS_S1_SIDE02_WIN = 0xAC73B640;
-    private const uint WEVT_S1_INU_CLEAR_NUM = 0x919437A0;
-    private const uint WEVT_S1_KIZI_CLEAR_NUM = 0x9EF45981;
-    private const uint WEVT_S1_SARU_CLEAR_NUM = 0x657672CD;
-    private const uint WEVT_S1_SIDE02_0040_POKE01 = 0x45C5F800;
-    private const uint WEVT_S1_SIDE02_0040_POKE02 = 0x45C5FD19;
-    private const uint WEVT_S1_SIDE02_0040_POKE03 = 0x45C5FB66;
-    private const uint WEVT_S1_SIDE02_0040_POKE04 = 0x45C6007F;
-    private const uint WEVT_S1_SIDE02_0040_POKE05 = 0x45C5FECC;
-    private const uint WEVT_S1_SIDE02_0040_POKE06 = 0x45C603E5;
-    private const uint WEVT_S1_SIDE02_0040_POKE07 = 0x45C60232;
-    private const uint WEVT_S1_SIDE02_0040_POKE08 = 0x45C6074B;
-    private const uint WEVT_S1_SIDE02_0040_POKE09 = 0x45C60598;
-    private const uint WEVT_S1_SIDE02_0040_POKE10 = 0x45C3168A;
-    private const uint WEVT_S1_SIDE02_0040_POKE11 = 0x45C3183D;
-    private const uint WEVT_S1_SIDE02_0040_POKE12 = 0x45C31324;
-    private const uint WEVT_S1_SIDE02_0040_POKE13 = 0x45C314D7;
-    private const uint WEVT_S1_SIDE02_0040_POKE14 = 0x45C30FBE;
-    private const uint WEVT_S1_SIDE02_0040_POKE15 = 0x45C31171;
     private const uint WEVT_S1_SIDE02_0040_TIP_NUM = 0x820588A0;
-    private const uint WEVT_S1_SUB_015_UNITS_HELD = 0xBB9076CA;
     private const uint WEVT_S1_SUB_017_WIN_NUM = 0x15F0F3D4;
     private const uint WSYS_S1_EMOTE_NEW_FLAG = 0x49475505;
     private const uint WSYS_S1_EMOTE_SELFIE_NEW_FLAG = 0xBE35FE80;
