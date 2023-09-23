@@ -343,10 +343,12 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public void UnlockAllTMRecipes()
     {
-        for (int i = 1; i <= 201; i++)
+        for (int i = 1; i <= 229; i++)
         {
             var flag = $"FSYS_UI_WAZA_MACHINE_RELEASE_{i:000}";
             var hash = (uint)FnvHash.HashFnv1a_64(flag);
+            if (!Accessor.HasBlock(hash))
+                continue;
             var block = Accessor.GetBlock(hash);
             block.ChangeBooleanType(SCTypeCode.Bool2);
         }

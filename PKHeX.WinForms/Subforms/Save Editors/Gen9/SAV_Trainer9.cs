@@ -276,7 +276,11 @@ public partial class SAV_Trainer9 : Form
         };
         var accessor = SAV.Accessor;
         foreach (var block in blocks)
+        {
+            if (!accessor.HasBlock(block))
+                continue;
             accessor.GetBlock(block).ChangeBooleanType(SCTypeCode.Bool2);
+        }
         System.Media.SystemSounds.Asterisk.Play();
     }
 
