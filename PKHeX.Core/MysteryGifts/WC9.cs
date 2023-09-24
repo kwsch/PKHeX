@@ -127,6 +127,12 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     // Since we expose the 16bit (pk9) component values here, just adjust them accordingly with an inlined calc.
     public override uint ID32
     {
+        get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18));
+        set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), value);
+    }
+
+    public uint ID32Old
+    {
         get => ReadUInt32LittleEndian(Data.AsSpan(CardStart + 0x18)) - (1000000u * (uint)CardID);
         set => WriteUInt32LittleEndian(Data.AsSpan(CardStart + 0x18), value + (1000000u * (uint)CardID));
     }
@@ -448,8 +454,7 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         var pk = new PK9
         {
             EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : rnd.Rand32(),
-            TID16 = TID16,
-            SID16 = SID16,
+            ID32 = ID32,
             Species = Species,
             Form = Form,
             CurrentLevel = currentLevel,
@@ -506,14 +511,18 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
             while (!CanBeReceivedByVersion(pk));
         }
 
+        var date = GetSuggestedDate();
+        pk.MetDate = date;
+
         if (OTGender >= 2)
         {
             pk.TID16 = tr.TID16;
             pk.SID16 = tr.SID16;
         }
-
-        var date = GetSuggestedDate();
-        pk.MetDate = date;
+        else if (IsBeforePatch200(date))
+        {
+            pk.ID32 = ID32Old;
+        }
 
         var nickname_language = GetLanguage(language);
         pk.Language = nickname_language != 0 ? nickname_language : tr.Language;
@@ -551,7 +560,9 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
     private static bool IsBeforePatch120(int cardID) => cardID is 0001 or 0006 or 0501 or 1501; // Flabébé, Gyarados, Pikachu, Garganacl
 
     private const int DayNumber20230301 = 738579; // S/V Patch 1.2.0
-    private static bool IsBeforePatch120(DateOnly date) => date.DayNumber < DayNumber20230301;
+    private const int DayNumber20230913 = 738775; // S/V Patch 2.0.1
+    private static bool IsBeforePatch120(DateOnly date) => date.DayNumber < DayNumber20230301; // scale handling updated
+    private static bool IsBeforePatch200(DateOnly date) => date.DayNumber <= DayNumber20230913; // ID32 handling updated
 
     private DateOnly GetSuggestedDate()
     {
@@ -669,8 +680,8 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         {
             if (OTGender < 2)
             {
-                if (SID16 != pk.SID16) return false;
-                if (TID16 != pk.TID16) return false;
+                var expect = pk.MetDate is { } x && IsBeforePatch200(x) ? ID32Old : ID32;
+                if (expect != pk.ID32) return false;
                 if (OTGender != pk.OT_Gender) return false;
             }
 
