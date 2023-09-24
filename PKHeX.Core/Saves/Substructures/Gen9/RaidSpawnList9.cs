@@ -89,25 +89,30 @@ public sealed class TeraRaidDetail
     }
 
     [Category(General), Description("Zone the raid crystal is located in.")]
+    [RefreshProperties(RefreshProperties.All)]
     public uint AreaID
     {
         get => ReadUInt32LittleEndian(Span[0x04..]);
         set => WriteUInt32LittleEndian(Span[0x04..], value);
     }
 
-    [Category(Misc), Description("Indicates how the crystal is shown on the player's YMAP.")]
-    public TeraRaidDisplayType DisplayType
+    [Category(Misc), Description("Indicates which group the crystal belongs to.")]
+    [RefreshProperties(RefreshProperties.All)]
+    public uint LotteryGroup
     {
-        get => (TeraRaidDisplayType)ReadUInt32LittleEndian(Span[0x08..]);
-        set => WriteUInt32LittleEndian(Span[0x08..], (uint)value);
+        get => ReadUInt32LittleEndian(Span[0x08..]);
+        set => WriteUInt32LittleEndian(Span[0x08..], value);
     }
 
-    [Category(General), Description("Zone-specific overworld spawn point for the raid crystal.")]
+    [Category(General), Description("Random crystal choice from the area and lottery group.")]
+    [RefreshProperties(RefreshProperties.All)]
     public uint SpawnPointID
     {
         get => ReadUInt32LittleEndian(Span[0x0C..]);
         set => WriteUInt32LittleEndian(Span[0x0C..], value);
     }
+
+    public string ScenePointName => $"Raid_Point_{AreaID}_{LotteryGroup}_{SpawnPointID}";
 
     [Category(General), Description("RNG Seed (32bit) for fetching the raid data table and generating the raid."), TypeConverter(typeof(TypeConverterU32))]
     public uint Seed
@@ -136,15 +141,6 @@ public sealed class TeraRaidDetail
         get => ReadUInt32LittleEndian(Span[0x1C..]) != 0;
         set => WriteUInt32LittleEndian(Span[0x1C..], value ? 1u : 0);
     }
-}
-
-public enum TeraRaidDisplayType : uint
-{
-    None = 0,
-    Unrestricted = 1,
-    RequiresRide = 2,
-    Requires3 = 3,
-    Requires4 = 4,
 }
 
 public enum TeraRaidContentType : uint
