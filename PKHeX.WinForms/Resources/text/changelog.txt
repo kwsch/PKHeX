@@ -1,7 +1,15 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/09/16 - New Update:
+23/09/25 - New Update:
+ - Added support for more Scarlet & Violet 2.0.1 save file sizes.
+ - Legality: Added more Kitakami encounters (sub-zones) and basic weather mark recognition.
+ - Fixed: Encounter template recognition regressions resolved (Gen4 Pokewalker, Gen9 static encounter scale).
+ - Fixed: Gen9 S/V Pokédex for 2.0.1+ save files now references a new save file block & GUI editor.
+ - Added: Gen9 TM/Fly cheats now check for if a flag exists for pre-2.0.1 save files.
+ - Added: Gen9 Fashion unlock cheat now adds 2.0.1+ fashion if available.
+
+23/09/16 - New Update: (112092) [7479688]
  - Added support for Scarlet & Violet 2.0.1 (Teal Mask)
  - Legality: Added encounters / changes as per Teal Mask DLC adjustments. 
  - - May still have issues with crossovers / hidden ability permissions.
