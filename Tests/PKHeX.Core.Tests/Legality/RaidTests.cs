@@ -38,5 +38,9 @@ public class RaidTests
             _ => throw new ArgumentException(nameof(enc)),
         };
         compare.Should().BeTrue();
+
+        var s64 = (ISeedCorrelation64<Core.PKM>)enc;
+        s64.TryGetSeed(pk8, out ulong detected).Should().BeTrue();
+        detected.Should().Be(seed);
     }
 }

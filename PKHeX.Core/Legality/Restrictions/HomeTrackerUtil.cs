@@ -11,10 +11,10 @@ public static class HomeTrackerUtil
     /// <param name="enc">Encounter source</param>
     /// <param name="pk">Entity to check</param>
     /// <returns>True if the encounter must have a <see cref="IHomeTrack.Tracker"/> value</returns>
-    public static bool IsRequired(IEncounterable enc, PKM pk) => IsRequired(enc, pk.Context);
+    public static bool IsRequired(IEncounterTemplate enc, PKM pk) => IsRequired(enc, pk.Context);
 
-    /// <inheritdoc cref="IsRequired(IEncounterable,PKM)"/>
-    public static bool IsRequired(IEncounterable enc, EntityContext current)
+    /// <inheritdoc cref="IsRequired(IEncounterTemplate,PKM)"/>
+    public static bool IsRequired(IEncounterTemplate enc, EntityContext current)
     {
         if (IsRequired(current, enc.Context))
             return true;
@@ -23,18 +23,10 @@ public static class HomeTrackerUtil
         return false;
     }
 
-    /// <inheritdoc cref="IsRequired(IEncounterable,PKM)"/>
-    public static bool IsRequired(EntityContext current, EntityContext origin)
-    {
-        if (origin == current)
-            return false;
-        var gen = origin.Generation();
-        if (gen < 8 && current is EntityContext.Gen8)
-            return false;
-        return true;
-    }
+    /// <inheritdoc cref="IsRequired(IEncounterTemplate,PKM)"/>
+    public static bool IsRequired(EntityContext current, EntityContext origin) => origin != current;
 
-    /// <inheritdoc cref="IsRequired(IEncounterable,PKM)"/>
+    /// <inheritdoc cref="IsRequired(IEncounterTemplate,PKM)"/>
     /// <remarks>
     /// Encounters that originate in HOME -> transfer to save data
     /// </remarks>

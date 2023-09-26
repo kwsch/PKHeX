@@ -37,7 +37,7 @@ public static class SaveUtil
     public const int SIZE_G9_3P1 = SIZE_G9_3B1 + 0x5; // GO (before Multiplayer)
 
     // 2.0.1 (2.0.0 skipped): Teal Mask
-    public const int SIZE_G9_DLC1_B = 0x4329A0; // +9
+    public const int SIZE_G9_DLC1_B = 0x4329A0;
     public const int SIZE_G9_DLC1_T = 0x4329A5; // +5
     public const int SIZE_G9_DLC1_0 = 0x4329A9; // +4
     public const int SIZE_G9_DLC1_E = 0x4329AD; // +1
@@ -47,6 +47,7 @@ public static class SaveUtil
     public const int SIZE_G9_DLC1_A = 0x4329B6; // +3
     public const int SIZE_G9_DLC1_Q = 0x4329B7; // +1
     public const int SIZE_G9_DLC1_2 = 0x4329BB; // +5
+    public const int SIZE_G9_DLC1_U = 0x4329BC; // +1
     public const int SIZE_G9_DLC1_W = 0x4329BF; // +4
     public const int SIZE_G9_DLC1_3 = 0x4329C0; // +5
     public const int SIZE_G9_DLC1_9 = 0x4329C4;
@@ -178,6 +179,7 @@ public static class SaveUtil
         SIZE_G9_DLC1_R,
         SIZE_G9_DLC1_T,
         SIZE_G9_DLC1_Y,
+        SIZE_G9_DLC1_U,
     };
 
     private static readonly HashSet<long> SizesSWSH = new()
