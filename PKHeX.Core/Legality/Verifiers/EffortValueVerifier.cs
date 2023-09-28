@@ -16,7 +16,6 @@ public sealed class EffortValueVerifier : Verifier
     public override void Verify(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var enc = data.EncounterMatch;
         if (pk.IsEgg)
         {
             if (pk.EVTotal is not 0)
@@ -33,6 +32,7 @@ public sealed class EffortValueVerifier : Verifier
         if (sum > totalMax) // format >= 3
             data.AddLine(GetInvalid(LEffortAbove510));
 
+        var enc = data.EncounterMatch;
         Span<int> evs = stackalloc int[6];
         pk.GetEVs(evs);
         if (format >= 6 && evs.IndexOfAny(253, 254, 255) != -1)
@@ -43,7 +43,7 @@ public sealed class EffortValueVerifier : Verifier
         // Only one of the following can be true: 0, 508, and x%6!=0
         if (sum == 0 && !enc.IsWithinEncounterRange(pk))
             data.AddLine(Get(LEffortEXPIncreased, Severity.Fishy));
-        else if (sum == 508)
+        else if (sum == EffortValues.MaxEffective)
             data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
         else if (evs[0] != 0 && evs.IndexOfAnyExcept(evs[0]) == -1)
             data.AddLine(Get(LEffortAllEqual, Severity.Fishy));

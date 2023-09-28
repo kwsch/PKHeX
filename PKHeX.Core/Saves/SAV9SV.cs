@@ -142,7 +142,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override Type PKMType => typeof(PK9);
 
     public override int BoxCount => BoxLayout9.BoxCount;
-    public override int MaxEV => 252;
+    public override int MaxEV => EffortValues.Max252;
     public override int Generation => 9;
     public override EntityContext Context => EntityContext.Gen9;
     public override int MaxStringLengthOT => 12;

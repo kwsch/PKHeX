@@ -23,7 +23,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public override Type PKMType => typeof(PK5);
 
     public override int BoxCount => 24;
-    public override int MaxEV => 255;
+    public override int MaxEV => EffortValues.Max255;
     public override int Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
     public override int MaxStringLengthOT => 7;

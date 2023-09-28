@@ -185,7 +185,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public sealed override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_RS;
 
     public sealed override int BoxCount => 14;
-    public sealed override int MaxEV => 255;
+    public sealed override int MaxEV => EffortValues.Max255;
     public sealed override int Generation => 3;
     public sealed override EntityContext Context => EntityContext.Gen3;
     protected sealed override int GiftCountMax => 1;

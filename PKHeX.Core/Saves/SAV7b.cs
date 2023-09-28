@@ -74,7 +74,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     public override int MaxAbilityID => Legal.MaxAbilityID_7b;
 
     public override int MaxIV => 31;
-    public override int MaxEV => 252;
+    public override int MaxEV => EffortValues.Max252;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
     protected override int GiftCountMax => 48;

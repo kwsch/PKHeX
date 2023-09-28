@@ -12,7 +12,7 @@ public sealed class SAV1Stadium : SAV_STADIUM
     public override string SaveRevisionString => Japanese ? "J" : "U";
 
     public override PersonalTable1 Personal => PersonalTable.Y;
-    public override int MaxEV => ushort.MaxValue;
+    public override int MaxEV => EffortValues.Max12;
     public override ReadOnlySpan<ushort> HeldItems => Array.Empty<ushort>();
     public override GameVersion Version { get; protected set; } = GameVersion.Stadium;
 

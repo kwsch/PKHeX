@@ -106,7 +106,7 @@ public sealed class SAV8BS : SaveFile, ISaveFileRevision, ITrainerStatRecord, IE
     public override Type PKMType => typeof(PB8);
 
     public override int BoxCount => BoxLayout8b.BoxCount;
-    public override int MaxEV => 252;
+    public override int MaxEV => EffortValues.Max252;
 
     public override int Generation => 8;
     public override EntityContext Context => EntityContext.Gen8b;

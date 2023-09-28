@@ -309,11 +309,11 @@ public static class CommonEdits
     public static int GetMaximumEV(this PKM pk, int index)
     {
         if (pk.Format < 3)
-            return ushort.MaxValue;
+            return EffortValues.Max12;
 
         var sum = pk.EVTotal - pk.GetEV(index);
-        int remaining = 510 - sum;
-        return Math.Clamp(remaining, 0, 252);
+        int remaining = EffortValues.Max510 - sum;
+        return Math.Clamp(remaining, 0, EffortValues.Max252);
     }
 
     /// <summary>

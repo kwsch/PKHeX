@@ -23,7 +23,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public override Type PKMType => typeof(PK6);
 
     public override int BoxCount => 31;
-    public override int MaxEV => 252;
+    public override int MaxEV => EffortValues.Max252;
     public override int Generation => 6;
     public override EntityContext Context => EntityContext.Gen6;
     protected override int GiftCountMax => 24;

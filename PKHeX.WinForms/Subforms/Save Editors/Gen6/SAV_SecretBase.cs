@@ -192,12 +192,12 @@ public partial class SAV_SecretBase : Form
         pk.Nature = WinFormsUtil.GetIndex(CB_Nature);
         pk.Gender = EntityGender.GetFromString(Label_Gender.Text);
         pk.Form = (byte)CB_Form.SelectedIndex;
-        pk.EV_HP = Math.Min(Convert.ToInt32(TB_HPEV.Text), 252);
-        pk.EV_ATK = Math.Min(Convert.ToInt32(TB_ATKEV.Text), 252);
-        pk.EV_DEF = Math.Min(Convert.ToInt32(TB_DEFEV.Text), 252);
-        pk.EV_SPA = Math.Min(Convert.ToInt32(TB_SPAEV.Text), 252);
-        pk.EV_SPD = Math.Min(Convert.ToInt32(TB_SPDEV.Text), 252);
-        pk.EV_SPE = Math.Min(Convert.ToInt32(TB_SPEEV.Text), 252);
+        pk.EV_HP  = Math.Clamp(Convert.ToInt32(TB_HPEV.Text) , 0, EffortValues.Max252);
+        pk.EV_ATK = Math.Clamp(Convert.ToInt32(TB_ATKEV.Text), 0, EffortValues.Max252);
+        pk.EV_DEF = Math.Clamp(Convert.ToInt32(TB_DEFEV.Text), 0, EffortValues.Max252);
+        pk.EV_SPA = Math.Clamp(Convert.ToInt32(TB_SPAEV.Text), 0, EffortValues.Max252);
+        pk.EV_SPD = Math.Clamp(Convert.ToInt32(TB_SPDEV.Text), 0, EffortValues.Max252);
+        pk.EV_SPE = Math.Clamp(Convert.ToInt32(TB_SPEEV.Text), 0, EffortValues.Max252);
         pk.Move1 = (ushort)WinFormsUtil.GetIndex(CB_Move1);
         pk.Move2 = (ushort)WinFormsUtil.GetIndex(CB_Move2);
         pk.Move3 = (ushort)WinFormsUtil.GetIndex(CB_Move3);
@@ -206,7 +206,7 @@ public partial class SAV_SecretBase : Form
         pk.Move2_PPUps = CB_PPu2.SelectedIndex;
         pk.Move3_PPUps = CB_PPu3.SelectedIndex;
         pk.Move4_PPUps = CB_PPu4.SelectedIndex;
-        pk.IV_HP = Convert.ToByte(TB_HPIV.Text) & 0x1F;
+        pk.IV_HP  = Convert.ToByte(TB_HPIV.Text)  & 0x1F;
         pk.IV_ATK = Convert.ToByte(TB_ATKIV.Text) & 0x1F;
         pk.IV_DEF = Convert.ToByte(TB_DEFIV.Text) & 0x1F;
         pk.IV_SPA = Convert.ToByte(TB_SPAIV.Text) & 0x1F;

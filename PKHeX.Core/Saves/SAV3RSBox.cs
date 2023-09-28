@@ -108,7 +108,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     public override int MaxBallID => Legal.MaxBallID_3;
     public override int MaxGameID => Legal.MaxGameID_3;
 
-    public override int MaxEV => 255;
+    public override int MaxEV => EffortValues.Max255;
     public override int Generation => 3;
     public override EntityContext Context => EntityContext.Gen3;
     protected override int GiftCountMax => 1;

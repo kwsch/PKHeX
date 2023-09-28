@@ -285,7 +285,7 @@ public sealed class PK5 : PKM, ISanityChecksum,
     public override int MaxBallID => Legal.MaxBallID_5;
     public override int MaxGameID => Legal.MaxGameID_5; // B2
     public override int MaxIV => 31;
-    public override int MaxEV => 255;
+    public override int MaxEV => EffortValues.Max255;
     public override int MaxStringLengthOT => 7;
     public override int MaxStringLengthNickname => 10;
 
@@ -351,13 +351,13 @@ public sealed class PK5 : PKM, ISanityChecksum,
             CNT_Tough = CNT_Tough,
             CNT_Sheen = CNT_Sheen,
 
-            // Cap EVs
-            EV_HP = Math.Min(EV_HP, 252),
-            EV_ATK = Math.Min(EV_ATK, 252),
-            EV_DEF = Math.Min(EV_DEF, 252),
-            EV_SPA = Math.Min(EV_SPA, 252),
-            EV_SPD = Math.Min(EV_SPD, 252),
-            EV_SPE = Math.Min(EV_SPE, 252),
+            // Cap EVs -- anything above 252 is dropped down to 252.
+            EV_HP  = Math.Min(EV_HP , EffortValues.Max252),
+            EV_ATK = Math.Min(EV_ATK, EffortValues.Max252),
+            EV_DEF = Math.Min(EV_DEF, EffortValues.Max252),
+            EV_SPA = Math.Min(EV_SPA, EffortValues.Max252),
+            EV_SPD = Math.Min(EV_SPD, EffortValues.Max252),
+            EV_SPE = Math.Min(EV_SPE, EffortValues.Max252),
 
             Move1 = Move1,
             Move2 = Move2,

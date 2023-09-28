@@ -280,7 +280,7 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     public int EventFlagCount => 2000;
 
     public override int BoxCount => Japanese ? 9 : 14;
-    public override int MaxEV => 65535;
+    public override int MaxEV => EffortValues.Max12;
     public override int MaxIV => 15;
     public override int Generation => 2;
     public override EntityContext Context => EntityContext.Gen2;

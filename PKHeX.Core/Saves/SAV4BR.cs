@@ -104,7 +104,7 @@ public sealed class SAV4BR : SaveFile
     public override int MaxBallID => Legal.MaxBallID_4;
     public override int MaxGameID => Legal.MaxGameID_4;
 
-    public override int MaxEV => 255;
+    public override int MaxEV => EffortValues.Max255;
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     protected override int GiftCountMax => 1;
