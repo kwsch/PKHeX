@@ -11,20 +11,20 @@ public static class MarkRules
     /// <summary>
     /// Checks if an encounter-only mark is possible to obtain for the encounter, if not lost via data manipulation.
     /// </summary>
-    public static bool IsEncounterMarkAllowed(LegalityAnalysis data)
+    public static bool IsEncounterMarkAllowed(IEncounterTemplate enc, PKM pk)
     {
-        if (IsEncounterMarkLost(data))
+        if (IsEncounterMarkLost(enc, pk))
             return false;
-        return data.Info.EncounterOriginal.Context is EntityContext.Gen8 or EntityContext.Gen9;
+        return enc.Context is EntityContext.Gen8 or EntityContext.Gen9;
     }
 
     /// <summary>
     /// Checks if original marks and ribbons are lost via data manipulation.
     /// </summary>
-    public static bool IsEncounterMarkLost(LegalityAnalysis data)
+    public static bool IsEncounterMarkLost(IEncounterTemplate enc, PKM pk)
     {
         // Nincada -> Shedinja loses all ribbons and marks, but does not purge any Affixed Ribbon value.
-        return data.EncounterOriginal.Species is (int)Species.Nincada && data.Entity.Species == (int)Species.Shedinja;
+        return enc.Species is (int)Species.Nincada && pk.Species == (int)Species.Shedinja;
     }
 
     /// <summary>

@@ -85,6 +85,17 @@ public static class LCRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev9(uint seed) => (seed * rMult9) + rAdd9;
 
     /// <summary>
+    /// Gets the next 16 bits of the next RNG seed.
+    /// </summary>
+    /// <param name="seed">Seed to advance one step.</param>
+    /// <param name="result">Next seed, top 16 bits.</param>
+    public static void Next16(ref uint seed, out int result)
+    {
+        seed = Next(seed);
+        result = (int)(seed >> 16);
+    }
+
+    /// <summary>
     /// Advances the RNG seed to the next state value a specified amount of times.
     /// </summary>
     /// <param name="seed">Current seed</param>

@@ -14,8 +14,8 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public int EggLocation => 0;
-    public bool IsUnderground => Parent.Location is (>= 508 and <= 617);
-    public bool IsMarsh => Parent.Location is (>= 219 and <= 224);
+    public bool IsUnderground => Locations8b.IsUnderground(Parent.Location);
+    public bool IsMarsh => Locations8b.IsMarsh(Parent.Location);
     public Ball FixedBall => GetRequiredBall();
     private Ball GetRequiredBall(Ball fallback = Ball.None) => IsMarsh ? Ball.Safari : fallback;
 

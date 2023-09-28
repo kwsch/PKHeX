@@ -100,7 +100,7 @@ public abstract class G6PKM : PKM, ISanityChecksum
 
     // Maximums
     public sealed override int MaxIV => 31;
-    public sealed override int MaxEV => 252;
+    public sealed override int MaxEV => EffortValues.Max252;
     public sealed override int MaxStringLengthOT => 12;
     public sealed override int MaxStringLengthNickname => 12;
 }

@@ -194,14 +194,17 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
     /// Applies random IVs without any correlation.
     /// </summary>
     /// <param name="pk">Entity to mutate.</param>
-    public void SetRandomIVs(PKM pk)
+    public void SetRandomIVs(PKM pk) => SetRandomIVs(pk, Util.Rand);
+
+    /// <inheritdoc cref="SetRandomIVs(PKM)"/>
+    public void SetRandomIVs(PKM pk, Random rnd)
     {
-        pk.IV_HP = IV_HP != RandomIV ? IV_HP : Util.Rand.Next(32);
-        pk.IV_ATK = IV_ATK != RandomIV ? IV_ATK : Util.Rand.Next(32);
-        pk.IV_DEF = IV_DEF != RandomIV ? IV_DEF : Util.Rand.Next(32);
-        pk.IV_SPA = IV_SPA != RandomIV ? IV_SPA : Util.Rand.Next(32);
-        pk.IV_SPD = IV_SPD != RandomIV ? IV_SPD : Util.Rand.Next(32);
-        pk.IV_SPE = IV_SPE != RandomIV ? IV_SPE : Util.Rand.Next(32);
+        pk.IV_HP = IV_HP != RandomIV ? IV_HP : rnd.Next(32);
+        pk.IV_ATK = IV_ATK != RandomIV ? IV_ATK : rnd.Next(32);
+        pk.IV_DEF = IV_DEF != RandomIV ? IV_DEF : rnd.Next(32);
+        pk.IV_SPA = IV_SPA != RandomIV ? IV_SPA : rnd.Next(32);
+        pk.IV_SPD = IV_SPD != RandomIV ? IV_SPD : rnd.Next(32);
+        pk.IV_SPE = IV_SPE != RandomIV ? IV_SPE : rnd.Next(32);
     }
 
     /// <summary>

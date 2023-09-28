@@ -16,7 +16,7 @@ public sealed class MarkVerifier : Verifier
         if (pk is not IRibbonIndex m)
             return;
 
-        if (!MarkRules.IsEncounterMarkAllowed(data)) // Shedinja doesn't copy Ribbons or Marks
+        if (!MarkRules.IsEncounterMarkAllowed(data.EncounterOriginal, data.Entity)) // Shedinja doesn't copy Ribbons or Marks
             VerifyNoMarksPresent(data, m);
         else
             VerifyMarksPresent(data, m);
@@ -93,7 +93,7 @@ public sealed class MarkVerifier : Verifier
         if (m is not PKM pk)
             return;
 
-        if (MarkRules.IsEncounterMarkLost(data))
+        if (MarkRules.IsEncounterMarkLost(data.EncounterOriginal, data.Entity))
         {
             VerifyShedinjaAffixed(data, affix, pk, m);
             return;
