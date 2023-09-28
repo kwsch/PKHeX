@@ -42,10 +42,11 @@ public partial class Main : Form
         startup.ReadArguments(args);
         startup.ReadSettings(Settings.Startup);
         startup.ReadTemplateIfNoEntity(TemplatePath);
-        FormLoadInitialFiles(startup);
 
         if (Settings.Startup.PluginLoadMethod != PluginLoadSetting.DontLoad)
             FormLoadPlugins();
+
+        FormLoadInitialFiles(startup);
 
         if (HaX)
         {
