@@ -105,7 +105,8 @@ public static class RibbonRules
     /// </summary>
     private static bool IsRibbonValidMasterRankSWSH(PKM pk, IEncounterTemplate enc)
     {
-        if (enc.Generation < 8 && pk is IBattleVersion { BattleVersion: 0 })
+        // Transfers from prior games, as well as from GO, require the battle-ready symbol in order to participate in Ranked.
+        if (enc.Generation < 8 || enc.Version == GameVersion.GO && pk is IBattleVersion { BattleVersion: 0 })
             return false;
 
         // GO transfers: Capture date is global time, and not console changeable.
@@ -133,13 +134,6 @@ public static class RibbonRules
         if (SpeciesCategory.IsLegendary(species))
             return false;
         if (SpeciesCategory.IsMythical(species))
-            return false;
-
-        // DLC 1: Teal Mask Additions
-        if (species is (>= (int)Turtwig and <= (int)Empoleon))
-            return false;
-        var pi = PersonalTable.SV.GetFormEntry(species, pk.Form);
-        if (pi.DexPaldea == 0 && pi.DexKitakami != 0)
             return false;
         return true;
     }
