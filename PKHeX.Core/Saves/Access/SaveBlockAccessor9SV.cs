@@ -20,6 +20,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public PlayTime9 Played { get; }
     public Zukan9 Zukan { get; }
     public ConfigSave9 Config { get; }
+    public ConfigCamera9 ConfigCamera { get; }
     public TeamIndexes9 TeamIndexes { get; }
     public Epoch1970Value LastSaved { get; }
     public PlayerFashion9 PlayerFashion { get; }
@@ -40,6 +41,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         Played = new PlayTime9(sav, GetBlock(KPlayTime));
         Zukan = new Zukan9(sav, GetBlock(KZukan), GetBlockSafe(KZukanT1));
         Config = new ConfigSave9(sav, GetBlock(KConfig));
+        ConfigCamera = new ConfigCamera9(sav, GetBlock(KConfigCamera));
         TeamIndexes = new TeamIndexes9(sav, GetBlock(KTeamIndexes));
         LastSaved = new Epoch1970Value(GetBlock(KLastSaved));
         PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
@@ -63,6 +65,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint KLeaguePoints = 0xADB4FE17; // u32
     private const uint KMyStatus = 0xE3E89BD1; // Trainer Details
     private const uint KConfig = 0xDF4F1875; // u32 bits
+    private const uint KConfigCamera = 0x998844C9; // u32 bits
     private const uint KItem = 0x21C9BD44; // Items
     private const uint KPlayTime = 0xEDAFF794; // Time Played
     private const uint KSessionLength = 0x1522C79C; // Milliseconds(?) elapsed

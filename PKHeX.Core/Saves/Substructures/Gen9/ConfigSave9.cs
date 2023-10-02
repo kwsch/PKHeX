@@ -58,5 +58,5 @@ public sealed class ConfigSave9 : SaveBlock<SAV9SV>
 public enum ConfigOption9 : byte
 {
     On = 0,
-    off = 1,
+    Off = 1,
 }
