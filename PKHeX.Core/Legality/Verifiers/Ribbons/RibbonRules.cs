@@ -106,7 +106,7 @@ public static class RibbonRules
     private static bool IsRibbonValidMasterRankSWSH(PKM pk, IEncounterTemplate enc)
     {
         // Transfers from prior games, as well as from GO, require the battle-ready symbol in order to participate in Ranked.
-        if (enc.Generation < 8 || enc.Version == GameVersion.GO && pk is IBattleVersion { BattleVersion: 0 })
+        if ((enc.Generation < 8 || enc.Version == GameVersion.GO) && pk is IBattleVersion { BattleVersion: 0 })
             return false;
 
         // GO transfers: Capture date is global time, and not console changeable.
