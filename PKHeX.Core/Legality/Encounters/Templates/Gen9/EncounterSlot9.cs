@@ -143,7 +143,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         if (form < EncounterUtil1.FormDynamic)
             return form;
         if (form == EncounterUtil1.FormVivillon)
-            return 18; // Fancy Vivillon
+            return Vivillon3DS.FancyFormID; // Fancy Vivillon
         // flagged as totally random
         return (byte)Util.Rand.Next(PersonalTable.SV[Species].FormCount);
     }

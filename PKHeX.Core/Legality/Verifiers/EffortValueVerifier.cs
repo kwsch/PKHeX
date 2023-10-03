@@ -51,17 +51,21 @@ public sealed class EffortValueVerifier : Verifier
 
     private void VerifyGainedEVs34(LegalityAnalysis data, IEncounterTemplate enc, Span<int> evs, PKM pk)
     {
+        bool anyAbove100 = evs.Find(static ev => ev > vitaMax) != default;
+        if (!anyAbove100)
+            return;
+
         if (enc.LevelMin == 100) // only true for Gen4 and Format=4
         {
             // Cannot EV train at level 100 -- Certain events are distributed at level 100.
-            if (evs.Find(static ev => ev > vitaMax) != default) // EVs can only be increased by vitamins to a max of 100.
-                data.AddLine(GetInvalid(LEffortCap100));
+            // EVs can only be increased by vitamins to a max of 100.
+            data.AddLine(GetInvalid(LEffortCap100));
         }
-        else // check for gained EVs without gaining EXP -- don't check gen5+ which have wings to boost above 100.
+        else // Check for gained EVs without gaining EXP -- don't check gen5+ which have wings to boost above 100.
         {
             var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
             var baseEXP = Experience.GetEXP(enc.LevelMin, growth);
-            if (baseEXP == pk.EXP && evs.Find(static ev => ev > vitaMax) != default)
+            if (baseEXP == pk.EXP)
                 data.AddLine(GetInvalid(string.Format(LEffortUntrainedCap, vitaMax)));
         }
     }

@@ -17,7 +17,7 @@ internal static class EvolutionRestrictions
     /// </summary>
     private static ushort GetSpeciesEvolutionMove(ushort species) => species switch
     {
-        (int)Eevee => 0,
+        (int)Eevee => EEVEE,
         (int)MimeJr => (int)Mimic,
         (int)Bonsly => (int)Mimic,
         (int)Aipom => (int)DoubleHit,
@@ -35,7 +35,8 @@ internal static class EvolutionRestrictions
         _ => NONE,
     };
 
-    private const ushort NONE = ushort.MaxValue;
+    private const ushort NONE = 0;
+    private const ushort EEVEE = ushort.MaxValue;
 
     private static ReadOnlySpan<ushort> EeveeFairyMoves => new ushort[]
     {
@@ -63,7 +64,7 @@ internal static class EvolutionRestrictions
         var move = GetSpeciesEvolutionMove(enc.Species);
         if (move is NONE)
             return true; // not a move evolution
-        if (move == 0)
+        if (move is EEVEE)
             return species != (int)Sylveon || IsValidEvolutionWithMoveSylveon(pk, enc, info);
         if (!IsMoveSlotAvailable(info.Moves))
             return false;
