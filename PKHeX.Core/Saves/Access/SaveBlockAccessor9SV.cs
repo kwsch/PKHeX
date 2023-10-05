@@ -41,7 +41,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         Played = new PlayTime9(sav, GetBlock(KPlayTime));
         Zukan = new Zukan9(sav, GetBlock(KZukan), GetBlockSafe(KZukanT1));
         Config = new ConfigSave9(sav, GetBlock(KConfig));
-        ConfigCamera = new ConfigCamera9(sav, GetBlock(KConfigCamera));
+        ConfigCamera = new ConfigCamera9(sav, GetBlockSafe(KConfigCamera));
         TeamIndexes = new TeamIndexes9(sav, GetBlock(KTeamIndexes));
         LastSaved = new Epoch1970Value(GetBlock(KLastSaved));
         PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
