@@ -44,6 +44,7 @@ public record struct EncounterPossible9(EvoCriteria[] Chain, EncounterTypeGroup 
         StaticTeraBase,
         StaticTeraDLC1,
         StaticDist,
+        StaticOutbreak,
         StaticMight,
         StaticEnd,
 
@@ -119,6 +120,10 @@ public record struct EncounterPossible9(EvoCriteria[] Chain, EncounterTypeGroup 
                 Index = 0; State = YieldState.StaticDist; goto case YieldState.StaticDist;
             case YieldState.StaticDist:
                 if (TryGetNext(Encounters9.Dist))
+                    return true;
+                Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
+            case YieldState.StaticOutbreak:
+                if (TryGetNext(Encounters9.Outbreak))
                     return true;
                 Index = 0; State = YieldState.StaticMight; goto case YieldState.StaticMight;
             case YieldState.StaticMight:

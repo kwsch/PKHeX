@@ -37,7 +37,13 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
 
     public bool CanSpawnInWeather(RibbonIndex mark)
     {
-        if (AreaWeather.TryGetValue((byte)Location, out var areaWeather))
+        var loc = (byte)Location;
+        return CanSpawnInWeather(mark, loc);
+    }
+
+    public static bool CanSpawnInWeather(RibbonIndex mark, byte loc)
+    {
+        if (AreaWeather.TryGetValue(loc, out var areaWeather))
             return areaWeather.IsMarkCompatible(mark);
         return false;
     }

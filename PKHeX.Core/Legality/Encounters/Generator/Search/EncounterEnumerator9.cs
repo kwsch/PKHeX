@@ -47,6 +47,7 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
         StaticTeraBase,
         StaticTeraDLC1,
         StaticDist,
+        StaticOutbreak,
         StaticMight,
 
         Fallback,
@@ -149,6 +150,10 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
                 Index = 0; State = YieldState.StaticDist; goto case YieldState.StaticDist;
             case YieldState.StaticDist:
                 if (TryGetNext(Encounters9.Dist))
+                    return true;
+                Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
+            case YieldState.StaticOutbreak:
+                if (TryGetNext(Encounters9.Outbreak))
                     return true;
                 Index = 0; State = YieldState.StaticMight; goto case YieldState.StaticMight;
             case YieldState.StaticMight:
