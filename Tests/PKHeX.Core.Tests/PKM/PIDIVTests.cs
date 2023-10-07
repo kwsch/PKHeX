@@ -152,6 +152,17 @@ public class PIDIVTest
         Assert.True(MethodFinder.GetPokeSpotSeedFirst(pkPS2, 2).Type == PIDType.PokeSpot, "PokeSpot encounter info mismatch (Rare)");
     }
 
+    [Theory]
+    [InlineData(30, 31, 31, 14, 31, 31, 0x28070031, 24, (int)Species.Pikachu, PokewalkerCourse4.YellowForest)]
+    public void PokewalkerIVTest(uint hp, uint atk, uint def, uint spA, uint spD, uint spE, uint seed, int expect, ushort species, PokewalkerCourse4 course)
+    {
+        Span<uint> tmp = stackalloc uint[LCRNG.MaxCountSeedsIV];
+        (uint actualSeed, int prior) = MethodFinderPokewalker.GetSeedsPokewalkerIVs(species, course, tmp, hp, atk, def, spA, spD, spE);
+        prior.Should().NotBe(MethodFinderPokewalker.NoPokwalkerMatch);
+        prior.Should().Be(expect);
+        actualSeed.Should().Be(seed);
+    }
+
     [Fact]
     public void PIDIVPokewalkerTest()
     {
