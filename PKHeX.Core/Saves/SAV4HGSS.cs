@@ -254,9 +254,11 @@ public sealed class SAV4HGSS : SAV4
 
     public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => WriteUInt32LittleEndian(General[(OFS_WALKER + 0x8)..], value);
 
+    // Swarm
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x68A8..]); set => WriteUInt32LittleEndian(General[0x68A8..], value); }
     public override uint SwarmMaxCountModulo => 20;
 
+    // Roamers
     public Roamer4 RoamerRaikou => GetRoamer(0);
     public Roamer4 RoamerEntei  => GetRoamer(1);
     public Roamer4 RoamerLatias => GetRoamer(2);
@@ -269,4 +271,7 @@ public sealed class SAV4HGSS : SAV4
         var mem = GeneralBuffer.Slice(ofs, size);
         return new Roamer4(mem);
     }
+
+    // Pokeathlon
+    public uint PokeathlonPoints { get => ReadUInt32LittleEndian(General[0xE548..]); set => WriteUInt32LittleEndian(General[0xE548..], value); }
 }
