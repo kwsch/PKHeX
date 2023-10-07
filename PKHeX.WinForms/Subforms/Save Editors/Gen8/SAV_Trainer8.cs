@@ -97,12 +97,10 @@ public partial class SAV_Trainer8 : Form
         L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
         //}
 
-        L_Started.Visible = CAL_AdventureStartDate.Visible = CAL_AdventureStartTime.Visible = false;
+        CAL_AdventureStartTime.Visible = false;
+        CAL_AdventureStartDate.Value = new DateTime(SAV.TrainerCard.StartedYear, SAV.TrainerCard.StartedMonth, SAV.TrainerCard.StartedDay);
+
         L_Fame.Visible = CAL_HoFDate.Visible = CAL_HoFTime.Visible = false;
-        // DateUtil.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
-        // CAL_AdventureStartDate.Value = date;
-        // CAL_AdventureStartTime.Value = time;
-        // 
         // DateUtil.GetDateTime2000(SAV.SecondsToFame, out date, out time);
         // CAL_HoFDate.Value = date;
         // CAL_HoFTime.Value = time;
@@ -171,7 +169,10 @@ public partial class SAV_Trainer8 : Form
         SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text) % 60;
         SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
 
-        //SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+        SAV.TrainerCard.StartedYear = (ushort)CAL_AdventureStartDate.Value.Year;
+        SAV.TrainerCard.StartedMonth = (byte)CAL_AdventureStartDate.Value.Month;
+        SAV.TrainerCard.StartedDay = (byte)CAL_AdventureStartDate.Value.Day;
+
         //SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
         //
         //if (SAV.Played.LastSavedDate.HasValue)
