@@ -142,9 +142,14 @@ public partial class SAV_Misc4 : Form
         NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 
         if (SAV is SAV4Sinnoh sinnoh)
+        {
             ReadPoketch(sinnoh);
+        }
         else if (SAV is SAV4HGSS hgss)
+        {
             ReadWalker(hgss);
+            ReadPokeathlon(hgss);
+        }
 
         if (ofsUGFlagCount > 0)
         {
@@ -184,9 +189,14 @@ public partial class SAV_Misc4 : Form
         WriteUInt16LittleEndian(SAV.General[ofsBP..], (ushort)NUD_BP.Value);
 
         if (SAV is SAV4Sinnoh sinnoh)
+        {
             SavePoketch(sinnoh);
-        if (SAV is SAV4HGSS hgss)
+        }
+        else if (SAV is SAV4HGSS hgss)
+        {
             SaveWalker(hgss);
+            SavePokeathlon(hgss);
+        }
 
         if (ofsUGFlagCount > 0)
         {
@@ -838,5 +848,15 @@ public partial class SAV_Misc4 : Form
     {
         SAV.SetAllSeals(99, sender == B_AllSealsIllegal);
         System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void ReadPokeathlon(SAV4HGSS s)
+    {
+        NUD_PokeathlonPoints.Value = s.PokeathlonPoints;
+    }
+
+    private void SavePokeathlon(SAV4HGSS s)
+    {
+        s.PokeathlonPoints = (uint)NUD_PokeathlonPoints.Value;
     }
 }

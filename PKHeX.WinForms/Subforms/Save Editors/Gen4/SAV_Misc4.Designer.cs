@@ -115,6 +115,8 @@
             pokeGear4Editor1 = new PokeGear4Editor();
             tip1 = new System.Windows.Forms.ToolTip(components);
             tip2 = new System.Windows.Forms.ToolTip(components);
+            NUD_PokeathlonPoints = new System.Windows.Forms.NumericUpDown();
+            L_PokeathlonPoints = new System.Windows.Forms.Label();
             TC_Misc.SuspendLayout();
             TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)NUD_Coin).BeginInit();
@@ -160,6 +162,7 @@
             Tab_Misc.SuspendLayout();
             Tab_Poffins.SuspendLayout();
             Tab_PokeGear.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_PokeathlonPoints).BeginInit();
             SuspendLayout();
             // 
             // B_Cancel
@@ -1086,6 +1089,8 @@
             // 
             // Tab_Misc
             // 
+            Tab_Misc.Controls.Add(NUD_PokeathlonPoints);
+            Tab_Misc.Controls.Add(L_PokeathlonPoints);
             Tab_Misc.Controls.Add(B_AllSealsIllegal);
             Tab_Misc.Controls.Add(B_AllSealsLegal);
             Tab_Misc.Location = new System.Drawing.Point(4, 24);
@@ -1161,6 +1166,26 @@
             pokeGear4Editor1.Size = new System.Drawing.Size(428, 272);
             pokeGear4Editor1.TabIndex = 0;
             // 
+            // NUD_PokeathlonPoints
+            // 
+            NUD_PokeathlonPoints.Location = new System.Drawing.Point(149, 131);
+            NUD_PokeathlonPoints.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_PokeathlonPoints.Maximum = new decimal(new int[] { 9999999, 0, 0, 0 });
+            NUD_PokeathlonPoints.Name = "NUD_PokeathlonPoints";
+            NUD_PokeathlonPoints.Size = new System.Drawing.Size(75, 23);
+            NUD_PokeathlonPoints.TabIndex = 11;
+            NUD_PokeathlonPoints.Value = new decimal(new int[] { 9999999, 0, 0, 0 });
+            // 
+            // L_PokeathlonPoints
+            // 
+            L_PokeathlonPoints.Location = new System.Drawing.Point(28, 128);
+            L_PokeathlonPoints.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_PokeathlonPoints.Name = "L_PokeathlonPoints";
+            L_PokeathlonPoints.Size = new System.Drawing.Size(119, 25);
+            L_PokeathlonPoints.TabIndex = 12;
+            L_PokeathlonPoints.Text = "Pokeathlon Points:";
+            L_PokeathlonPoints.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_Misc4
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1221,6 +1246,7 @@
             Tab_Misc.ResumeLayout(false);
             Tab_Poffins.ResumeLayout(false);
             Tab_PokeGear.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_PokeathlonPoints).EndInit();
             ResumeLayout(false);
         }
 
@@ -1312,5 +1338,7 @@
         private PokeGear4Editor pokeGear4Editor1;
         private System.Windows.Forms.ToolTip tip1;
         private System.Windows.Forms.ToolTip tip2;
+        private System.Windows.Forms.NumericUpDown NUD_PokeathlonPoints;
+        private System.Windows.Forms.Label L_PokeathlonPoints;
     }
 }
