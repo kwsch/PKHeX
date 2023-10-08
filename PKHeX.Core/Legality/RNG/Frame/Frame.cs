@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <param name="FrameType"></param>
 /// <param name="Lead"></param>
 [DebuggerDisplay($"{{{nameof(FrameType)},nq}}[{{{nameof(Lead)},nq}}]")]
-public record Frame(uint Seed, FrameType FrameType, LeadRequired Lead)
+public sealed record Frame(uint Seed, FrameType FrameType, LeadRequired Lead)
 {
     /// <summary>
     /// Starting seed for the frame (to generate the frame).

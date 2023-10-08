@@ -299,4 +299,23 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
             return Util.Rand.Next(32);
         }
     }
+
+    public bool IsCompatibleIVs(ReadOnlySpan<int> ivs)
+    {
+        if (ivs.Length != 6)
+            return false;
+        if (IV_HP != RandomIV && IV_HP != ivs[0])
+            return false;
+        if (IV_ATK != RandomIV && IV_ATK != ivs[1])
+            return false;
+        if (IV_DEF != RandomIV && IV_DEF != ivs[2])
+            return false;
+        if (IV_SPE != RandomIV && IV_SPE != ivs[3])
+            return false;
+        if (IV_SPA != RandomIV && IV_SPA != ivs[4])
+            return false;
+        if (IV_SPD != RandomIV && IV_SPD != ivs[5])
+            return false;
+        return true;
+    }
 }

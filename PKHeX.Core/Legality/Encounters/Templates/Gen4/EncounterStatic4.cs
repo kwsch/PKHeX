@@ -103,7 +103,8 @@ public sealed record EncounterStatic4(GameVersion Version)
         // Pichu is special -- use Pokewalker method
         if (Species == (int)Core.Species.Pichu)
         {
-            PIDGenerator.SetRandomPIDPokewalker(pk, (byte)Nature, Gender);
+            var pid = pk.PID = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, (uint)Nature, pk.Gender = Gender, pi.Gender);
+            pk.RefreshAbility((int)(pid & 1));
             criteria.SetRandomIVs(pk);
             return;
         }

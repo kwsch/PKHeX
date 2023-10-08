@@ -23,10 +23,9 @@ public static class WordFilter
     {
         var lineCount = 1 + patterns.Count('\n');
         var result = new Regex[lineCount];
-        var enumerator = patterns.EnumerateLines();
         int i = 0;
-        while (enumerator.MoveNext())
-            result[i++] = new Regex(enumerator.Current.ToString(), Options);
+        foreach (var line in patterns.EnumerateLines())
+            result[i++] = new Regex(line.ToString(), Options);
         return result;
     }
 

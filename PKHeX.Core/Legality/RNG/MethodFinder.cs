@@ -511,17 +511,17 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetPokewalkerMatch(PKM pk, uint oldpid, out PIDIV pidiv)
+    private static bool GetPokewalkerMatch(PKM pk, uint pid, out PIDIV pidiv)
     {
         // check surface compatibility
         // Bits 8-24 must all be zero or all be one.
         const uint midMask = 0x00FFFF00;
-        var mid = oldpid & midMask;
+        var mid = pid & midMask;
         if (mid is not (0 or midMask))
             return GetNonMatch(out pidiv);
 
         // Quirky Nature is not possible with the algorithm.
-        var nature = oldpid % 25;
+        var nature = pid % 25;
         if (nature == 24)
             return GetNonMatch(out pidiv);
 
@@ -531,10 +531,10 @@ public static class MethodFinder
         var gr = pk.PersonalInfo.Gender;
         if (pk.Species == (int)Species.Froslass)
             gr = 0x7F; // Snorunt
-        uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID16, pk.SID16, nature, gender, gr);
-        if (pid != oldpid)
+        var expect = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, gender, gr);
+        if (expect != pid)
         {
-            if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, oldpid)))
+            if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, pid)))
                 return GetNonMatch(out pidiv);
         }
         pidiv = PIDIV.Pokewalker;
@@ -554,7 +554,7 @@ public static class MethodFinder
         if (gender != 1)
             return false;
 
-        var pid = PIDGenerator.GetPokeWalkerPID(pk.TID16, pk.SID16, nature, 1, AzurillGenderRatio);
+        var pid = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, 1, AzurillGenderRatio);
         return pid == oldpid;
     }
 
@@ -806,121 +806,4 @@ public static class MethodFinder
         }
         return default;
     }
-}
-
-public static class MethodFinderPokewalker
-{
-    public static (uint Seed, int Prior) GetSeedsPokewalkerIVs(ushort species, PokewalkerCourse4 course,
-        Span<uint> tmpIVs, uint hp, uint atk, uint def, uint spa, uint spd, uint spe)
-    {
-        uint first = (hp | (atk << 5) | (def << 10)) << 16;
-        uint second = (spe | (spa << 5) | (spd << 10)) << 16;
-        return GetSeedsPokewalkerIVs(species, course, tmpIVs, first, second);
-    }
-
-    public const int NoPokwalkerMatch = -1;
-
-    public static (uint Seed, int Prior) GetSeedsPokewalkerIVs(ushort species, PokewalkerCourse4 course,
-        Span<uint> result, uint first, uint second)
-    {
-        // When generating a set of Pokéwalker Pokémon (and their IVs), the game does the following logic:
-        // If the player does not begin a stroll, generate an initial seed based on seconds elapsed in the day (< 86400).
-        // Otherwise, generate an initial seed based on the elapsed time and date (similar to Gen4 initial seeding).
-
-        // If the player begins a stroll, the game generates a set of 3 Pokémon to see, with results untraceable to the correlation.
-        // Then, the game generates each Pokémon's IVs by calling rand() twice.
-        // Since stroll causes 3 RNG advancements, an initial seed [stroll] can be advanced 3+(2*n) times, or [no-stroll] advanced 0+(2*n) times.
-        // To determine the first valid initial seed, take advantage of the even-odd nature of the RNG frames (different initial seeding algorithm).
-
-        // seeding for [stroll]: 3600 * hour + 60 * minute + second
-        // seeding for [no-stroll]: (((month*day + minute + second) & 0xff) << 24) | (hour << 16) | (year)
-        // the top byte of no-stroll can be any value, so we can skip checking that byte.
-
-        int ctr = LCRNGReversal.GetSeedsIVs(result, first, second);
-        if (ctr == 0)
-            return (0, NoPokwalkerMatch);
-
-        result = result[..ctr];
-
-        const int boxCount = 18;
-        const int boxSize = 30;
-        const int boxCapacity = boxCount * boxSize;
-        const int maxHours = 24;
-        const int maxYears = 100;
-        const int secondsPerDay = 60 * 60 * 24;
-        for (int priorPoke = 0; priorPoke < boxCapacity; priorPoke++)
-        {
-            foreach (ref var seed in result)
-            {
-                var s = seed; // already unrolled once
-
-                // Check the [no-stroll] case.
-                if ((byte)(s >> 16) < maxHours && (ushort)s < maxYears)
-                    return (s, priorPoke);
-                s = seed = LCRNG.Prev(seed);
-
-                // Check the [stroll] case.
-                if (priorPoke != 0 && s < secondsPerDay && IsValidStrollSeed(s, species, course)) // seed can't be hit due to the 3 advances from stroll
-                    return (s, priorPoke);
-                seed = LCRNG.Prev(seed); // prep for next loop
-            }
-        }
-        return (0, NoPokwalkerMatch);
-    }
-
-    private const int SlotsPerCourse = 6;
-
-    public static bool IsValidStrollSeed(uint seed, ushort species, PokewalkerCourse4 course)
-    {
-        // initial seed
-        // rand() & 1 => slot A
-        // rand() & 1 => slot B
-        // rand() & 1 => slot C
-        // generate IVs
-        var span = CourseSpecies.Slice((int)course * SlotsPerCourse, SlotsPerCourse);
-        seed = LCRNG.Next(seed);
-        var slotA = (seed >> 16) & 1;
-        if (span[(int)slotA] == species)
-            return true;
-        seed = LCRNG.Next(seed);
-        var slotB = (seed >> 16) & 1;
-        if (span[(int)slotB + 2] == species)
-            return true;
-        seed = LCRNG.Next(seed);
-        var slotC = (seed >> 16) & 1;
-        if (span[(int)slotC + 4] == species)
-            return true;
-        return false;
-    }
-
-    private static ReadOnlySpan<ushort> CourseSpecies => new ushort[]
-    {
-        115, 084, 029, 032, 016, 161, // 00 Refreshing Field 
-        202, 069, 048, 046, 043, 021, // 01 Noisy Forest 
-        240, 095, 066, 077, 163, 074, // 02 Rugged Road 
-        054, 120, 079, 060, 191, 194, // 03 Beautiful Beach 
-        239, 081, 081, 198, 163, 019, // 04 Suburban Area 
-        238, 092, 092, 095, 041, 066, // 05 Dim Cave 
-        147, 060, 098, 090, 118, 072, // 06 Blue Lake 
-        063, 100, 109, 088, 019, 162, // 07 Town Outskirts 
-        300, 264, 314, 313, 263, 265, // 08 Hoenn Field 
-        320, 298, 116, 318, 118, 129, // 09 Warm Beach 
-        218, 307, 228, 111, 077, 074, // 10 Volcano Path 
-        352, 351, 203, 234, 044, 070, // 11 Treehouse 
-        105, 128, 042, 177, 066, 092, // 12 Scary Cave 
-        439, 415, 403, 406, 399, 401, // 13 Sinnoh Field 
-        459, 361, 215, 436, 220, 179, // 14 Icy Mountain Road 
-        357, 438, 114, 400, 179, 102, // 15 Big Forest 
-        433, 200, 093, 418, 223, 170, // 16 White Lake 
-        456, 422, 129, 086, 054, 090, // 17 Stormy Beach 
-        417, 025, 039, 035, 183, 187, // 18 Resort 
-        442, 446, 433, 349, 164, 042, // 19 Quiet Cave 
-        120, 224, 116, 222, 223, 170, // 20 Beyond The Sea 
-        035, 039, 041, 163, 074, 095, // 21 Night Sky's Edge 
-        025, 025, 025, 025, 025, 025, // 22 Yellow Forest 
-        441, 302, 025, 453, 427, 417, // 23 Rally 
-        255, 133, 279, 061, 052, 025, // 24 Sightseeing 
-        446, 374, 116, 355, 129, 436, // 25 Winners Path 
-        239, 240, 238, 440, 174, 173, // 26 Amity Meadow 
-    };
 }

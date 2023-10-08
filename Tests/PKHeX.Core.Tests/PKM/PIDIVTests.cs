@@ -153,14 +153,14 @@ public class PIDIVTest
     }
 
     [Theory]
-    [InlineData(30, 31, 31, 14, 31, 31, 0x28070031, 24, (int)Species.Pikachu, PokewalkerCourse4.YellowForest)]
-    public void PokewalkerIVTest(uint hp, uint atk, uint def, uint spA, uint spD, uint spE, uint seed, int expect, ushort species, PokewalkerCourse4 course)
+    [InlineData(30, 31, 31, 14, 31, 31, 0x28070031, 24, (int)Species.Pikachu, PokewalkerCourse4.YellowForest, PokewalkerSeedType.NoStroll)]
+    public void PokewalkerIVTest(uint hp, uint atk, uint def, uint spA, uint spD, uint spE, uint seed, ushort expect, ushort species, PokewalkerCourse4 course, PokewalkerSeedType type)
     {
         Span<uint> tmp = stackalloc uint[LCRNG.MaxCountSeedsIV];
-        (uint actualSeed, int prior) = MethodFinderPokewalker.GetSeedsPokewalkerIVs(species, course, tmp, hp, atk, def, spA, spD, spE);
-        prior.Should().NotBe(MethodFinderPokewalker.NoPokwalkerMatch);
-        prior.Should().Be(expect);
-        actualSeed.Should().Be(seed);
+        var result = PokewalkerRNG.GetFirstSeed(species, course, tmp, hp, atk, def, spA, spD, spE);
+        result.Type.Should().Be(type);
+        result.PriorPoke.Should().Be(expect);
+        result.Seed.Should().Be(seed);
     }
 
     [Fact]
