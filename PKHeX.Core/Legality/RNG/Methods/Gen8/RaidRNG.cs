@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
+using static PKHeX.Core.ShinyUtil;
 
 namespace PKHeX.Core;
 
@@ -33,12 +33,12 @@ public static class RaidRNG
             isShiny = xor < 16;
             if (isShiny && forceNoShiny)
             {
-                ForceShinyState(false, ref pid, trID);
+                ForceShinyState(false, ref pid, trID, 0);
                 isShiny = false;
             }
         }
 
-        ForceShinyState(isShiny, ref pid, pk.ID32);
+        ForceShinyState(isShiny, ref pid, pk.ID32, 0);
 
         if (pk.PID != pid)
             return false;
@@ -144,21 +144,6 @@ public static class RaidRNG
         return true;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void ForceShinyState(bool isShiny, ref uint pid, uint tid)
-    {
-        if (isShiny)
-        {
-            if (!GetIsShiny(tid, pid))
-                pid = GetShinyPID((ushort)(tid & 0xFFFFu), (ushort)(tid >> 16), pid, 0);
-        }
-        else
-        {
-            if (GetIsShiny(tid, pid))
-                pid ^= 0x1000_0000;
-        }
-    }
-
     /// <summary>
     /// Apply the details to the PKM
     /// </summary>
@@ -182,7 +167,7 @@ public static class RaidRNG
             isShiny = xor < 16;
             if (isShiny && param.Shiny == Shiny.Never)
             {
-                ForceShinyState(false, ref pid, trID);
+                ForceShinyState(false, ref pid, trID, 0);
                 isShiny = false;
             }
         }
@@ -266,18 +251,5 @@ public static class RaidRNG
         pk.WeightScalar = (byte)weight;
 
         return true;
-    }
-
-    private static uint GetShinyPID(ushort tid, ushort sid, uint pid, uint type)
-    {
-        return (type ^ tid ^ sid ^ (pid & 0xFFFF)) << 16 | (pid & 0xFFFF);
-    }
-
-    private static bool GetIsShiny(uint id32, uint pid) => GetShinyXor(pid, id32) < 16;
-
-    private static uint GetShinyXor(uint pid, uint id32)
-    {
-        var xor = pid ^ id32;
-        return (xor ^ (xor >> 16)) & 0xFFFF;
     }
 }

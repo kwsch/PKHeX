@@ -72,7 +72,7 @@ public readonly record struct EvolutionMethod(ushort Species, ushort Argument, b
 
         // Permit the evolution if we're exploring for mistakes.
         LevelUpBeauty when pk is IContestStatsReadOnly s && s.CNT_Beauty < Argument => skipChecks ? Valid : LowContestStat,
-        LevelUpNatureAmped or LevelUpNatureLowKey when GetAmpLowKeyResult(pk.Nature) != pk.Form => skipChecks ? Valid : BadForm,
+        LevelUpNatureAmped or LevelUpNatureLowKey when ToxtricityUtil.GetAmpLowKeyResult(pk.Nature) != pk.Form => skipChecks ? Valid : BadForm,
 
         // Version checks come in pairs, check for any pair match
         LevelUpVersion or LevelUpVersionDay or LevelUpVersionNight when ((pk.Version & 1) != (Argument & 1) && pk.IsUntraded) => skipChecks ? Valid : VisitVersion,
@@ -93,12 +93,4 @@ public readonly record struct EvolutionMethod(ushort Species, ushort Argument, b
         Trade or TradeHeldItem or TradeShelmetKarrablast => !pk.IsUntraded || skipChecks ? Valid : Untraded,
         _ => Valid, // no conditions
     };
-
-    public static int GetAmpLowKeyResult(int n)
-    {
-        var index = n - 1;
-        if ((uint)index > 22)
-            return 0;
-        return (0b_0101_1011_1100_1010_0101_0001 >> index) & 1;
-    }
 }

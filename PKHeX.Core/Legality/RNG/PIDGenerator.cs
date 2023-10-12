@@ -197,22 +197,13 @@ public static class PIDGenerator
 
     public static void SetRandomChainShinyPID(PKM pk, uint seed)
     {
-        // 13 rand bits
-        // 1 3-bit for upper
-        // 1 3-bit for lower
+        pk.PID = ClassicEraRNG.GetChainShinyPID(ref seed, pk.ID32);
 
-        uint lower = Next(ref seed) & 7;
-        uint upper = Next(ref seed) & 7;
-        for (int i = 0; i < 13; i++)
-            lower |= (Next(ref seed) & 1) << (3 + i);
-
-        upper = ((lower ^ pk.TID16 ^ pk.SID16) & 0xFFF8) | (upper & 0x7);
-        pk.PID = (upper << 16) | lower;
         Span<int> IVs = stackalloc int[6];
-        MethodFinder.GetIVsInt32(IVs, Next(ref seed), Next(ref seed));
+        var rand1 = LCRNG.Next16(ref seed);
+        var rand2 = LCRNG.Next16(ref seed);
+        MethodFinder.GetIVsInt32(IVs, rand1, rand2);
         pk.SetIVs(IVs);
-
-        static uint Next(ref uint seed) => (seed = LCRNG.Next(seed)) >> 16;
     }
 
     private static void SetRandomPokeSpotPID(PKM pk, uint seed)
@@ -273,7 +264,7 @@ public static class PIDGenerator
         }
     }
 
-    private static bool IsValidCriteria4(PKM pk, int nature, int ability, int gender)
+    public static bool IsValidCriteria4(PKM pk, int nature, int ability, int gender)
     {
         if (pk.GetSaneGender() != gender)
             return false;

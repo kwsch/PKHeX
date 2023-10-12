@@ -1,4 +1,3 @@
-using System;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Species;
 
@@ -28,9 +27,9 @@ public sealed class FormVerifier : Verifier
     private CheckResult VerifyForm(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var PersonalInfo = data.PersonalInfo;
+        var pi = data.PersonalInfo;
 
-        int count = PersonalInfo.FormCount;
+        int count = pi.FormCount;
         var form = pk.Form;
         if (count <= 1 && form == 0)
             return VALID; // no forms to check
@@ -39,7 +38,7 @@ public sealed class FormVerifier : Verifier
         var enc = data.EncounterMatch;
         var Info = data.Info;
 
-        if (!PersonalInfo.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, Info.Generation))
+        if (!pi.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, Info.Generation))
             return GetInvalid(string.Format(LFormInvalidRange, count - 1, form));
 
         switch ((Species)species)
@@ -79,7 +78,7 @@ public sealed class FormVerifier : Verifier
 
             case Arceus:
             {
-                var arceus = GetArceusFormFromHeldItem(pk.HeldItem, pk.Format);
+                var arceus = FormItem.GetFormArceus(pk.HeldItem, pk.Format);
                 return arceus != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
             }
             case Keldeo when enc.Generation != 5 || pk.Format >= 8:
@@ -93,7 +92,7 @@ public sealed class FormVerifier : Verifier
                 break;
             case Genesect:
             {
-                var genesect = GetGenesectFormFromHeldItem(pk.HeldItem);
+                var genesect = FormItem.GetFormGenesect(pk.HeldItem);
                 return genesect != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
             }
             case Greninja:
@@ -143,7 +142,7 @@ public sealed class FormVerifier : Verifier
 
             case Silvally:
             {
-                var silvally = GetSilvallyFormFromHeldItem(pk.HeldItem);
+                var silvally = FormItem.GetFormSilvally(pk.HeldItem);
                 return silvally != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
             }
 
@@ -156,13 +155,13 @@ public sealed class FormVerifier : Verifier
             case Toxtricity when enc.Species == (int)Toxtricity:
             {
                 // The game enforces the Nature for Toxtricity encounters too!
-                if (pk.Form != EvolutionMethod.GetAmpLowKeyResult(pk.Nature))
+                if (pk.Form != ToxtricityUtil.GetAmpLowKeyResult(pk.Nature))
                     return GetInvalid(LFormInvalidNature);
                 break;
             }
 
             // Ogerpon's form changes depending on its held mask
-            case Ogerpon when (form & 3) != GetOgerponFormFromHeldItem(pk.HeldItem):
+            case Ogerpon when (form & 3) != FormItem.GetFormOgerpon(pk.HeldItem):
                 return GetInvalid(LFormItemInvalid);
 
             // Impossible Egg forms
@@ -185,51 +184,4 @@ public sealed class FormVerifier : Verifier
 
         return VALID;
     }
-
-    private static ReadOnlySpan<ushort> Arceus_PlateIDs => new ushort[] { 303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644 };
-    private static ReadOnlySpan<ushort> Arceus_ZCrystal => new ushort[] { 782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793 };
-
-    public static byte GetArceusFormFromHeldItem(int item, int format) => item switch
-    {
-        (>= 777 and <= 793)        => GetArceusFormFromZCrystal(item),
-        (>= 298 and <= 313) or 644 => GetArceusFormFromPlate(item, format),
-        _ => 0,
-    };
-
-    private static byte GetArceusFormFromZCrystal(int item)
-    {
-        return (byte)(Arceus_ZCrystal.IndexOf((ushort)item) + 1);
-    }
-
-    private static byte GetArceusFormFromPlate(int item, int format)
-    {
-        byte form = (byte)(Arceus_PlateIDs.IndexOf((ushort)item) + 1);
-        if (format != 4) // No need to consider Curse type
-            return form;
-        if (form < 9)
-            return form;
-        return ++form; // ??? type Form shifts everything by 1
-    }
-
-    public static byte GetSilvallyFormFromHeldItem(int item)
-    {
-        if (item is >= 904 and <= 920)
-            return (byte)(item - 903);
-        return 0;
-    }
-
-    public static byte GetGenesectFormFromHeldItem(int item)
-    {
-        if (item is >= 116 and <= 119)
-            return (byte)(item - 115);
-        return 0;
-    }
-
-    private static byte GetOgerponFormFromHeldItem(int item) => item switch
-    {
-        2407 => 1, // Wellspring Mask
-        2408 => 2, // Hearthflame Mask
-        2406 => 3, // Cornerstone Mask
-        _ => 0, // Teal Mask
-    };
 }

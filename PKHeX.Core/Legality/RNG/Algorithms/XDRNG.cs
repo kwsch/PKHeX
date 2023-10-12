@@ -145,6 +145,24 @@ public static class XDRNG
         }
     }
 
+    /// <summary>
+    /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
+    /// </summary>
+    /// <param name="seed">RNG seed</param>
+    /// <returns>Combined IVs as <see cref="uint"/>.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static uint GetSequentialIVsInt32(uint seed)
+    {
+        var result = 0u;
+        for (int i = 0; i < 6; i++)
+        {
+            seed = Next(seed);
+            var shift = 27 - (i * 5);
+            result |= (seed >> shift);
+        }
+        return result;
+    }
+
     // By abusing the innate properties of a LCG, we can calculate the seed from a known result.
     // https://crypto.stackexchange.com/questions/10608/how-to-attack-a-fixed-lcg-with-partial-output/10629#10629
     // Unlike our LCRNG implementation, `k` is small enough (max = 7).

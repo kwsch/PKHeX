@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.ShinyUtil;
 
 namespace PKHeX.Core;
 
@@ -199,14 +200,6 @@ public static class Overworld8RNG
         return NoMatchIVs;
     }
 
-    private static bool GetIsShiny(uint id32, uint pid) => GetShinyXor(pid, id32) < 16;
-    private static uint GetShinyPID(ushort tid, ushort sid, uint pid, uint type) => (((pid & 0xFFFF) ^ tid ^ sid ^ type) << 16) | (pid & 0xFFFF);
-
-    private static uint GetShinyXor(uint pid, uint id32)
-    {
-        var xor = pid ^ id32;
-        return (xor ^ (xor >> 16)) & 0xFFFF;
-    }
 
     /// <summary>
     /// Obtains the original seed for the Generation 8 overworld wild encounter.

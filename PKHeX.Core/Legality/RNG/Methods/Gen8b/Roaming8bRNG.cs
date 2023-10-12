@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.ShinyUtil;
 
 namespace PKHeX.Core;
 
@@ -258,10 +259,4 @@ public static class Roaming8bRNG
         < 16 => Shiny.AlwaysStar,
         _ => Shiny.Never,
     };
-
-    private static uint GetShinyXor(uint pid, uint id32)
-    {
-        var xor = pid ^ id32;
-        return (xor ^ (xor >> 16)) & 0xFFFF;
-    }
 }

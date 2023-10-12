@@ -103,17 +103,44 @@ public sealed record EncounterStatic4(GameVersion Version)
         // Pichu is special -- use Pokewalker method
         if (Species == (int)Core.Species.Pichu)
         {
-            var pid = pk.PID = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, (uint)Nature, pk.Gender = Gender, pi.Gender);
+            var pid = pk.PID = PokewalkerRNG.GetPID(pk.ID32, (uint)Nature, pk.Gender = Gender, pi.Gender);
             pk.RefreshAbility((int)(pid & 1));
-            criteria.SetRandomIVs(pk);
+            criteria.SetRandomIVs(pk); // IVs are sufficiently random; set based on request.
             return;
         }
 
         int gender = criteria.GetGender(Gender, pi);
         int nature = (int)criteria.GetNature(Nature);
         int ability = criteria.GetAbilityFromNumber(Ability);
+        if (Shiny == Shiny.Always) // Chain Shiny
+        {
+            SetChainShiny(pk, pi.Gender, ability, gender, nature);
+            return;
+        }
         PIDType type = this is { Shiny: Shiny.Always } ? PIDType.ChainShiny : PIDType.Method_1;
         PIDGenerator.SetRandomWildPID4(pk, nature, ability, gender, type);
+    }
+
+    private static void SetChainShiny(PK4 pk, byte gr, int ability, int gender, int nature)
+    {
+        pk.RefreshAbility(ability);
+        pk.Gender = gender;
+        var seed = Util.Rand32();
+        var id32 = pk.ID32;
+        while (true)
+        {
+            var pid = ClassicEraRNG.GetChainShinyPID(ref seed, id32);
+            if (pid % 25 != nature)
+                continue;
+            if (EntityGender.GetFromPIDAndRatio(pid, gr) != gender)
+                continue;
+            if ((pid & 1) != ability)
+                continue;
+
+            pk.PID = pid;
+            pk.IV32 = ClassicEraRNG.GetSequentialIVs(ref seed);
+            break;
+        }
     }
 
     #endregion

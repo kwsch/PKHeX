@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
+using static PKHeX.Core.ShinyUtil;
 
 namespace PKHeX.Core;
 
@@ -275,7 +275,7 @@ public static class Encounter9RNG
                 pid = (uint)rand.NextInt();
                 i++;
             }
-            ForceShinyState(pk, isShiny, ref pid, xor);
+            ForceShinyState(isShiny, ref pid, pk.ID32, xor);
         }
         else if (enc.Shiny == Shiny.Always)
         {
@@ -306,36 +306,4 @@ public static class Encounter9RNG
 
         _ => throw new ArgumentOutOfRangeException(nameof(ratio)),
     };
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ForceShinyState(PKM pk, in bool isShiny, ref uint pid, uint xor)
-    {
-        if (isShiny)
-        {
-            if (!GetIsShiny(pk.ID32, pid))
-                pid = GetShinyPID(pk.TID16, pk.SID16, pid, xor);
-        }
-        else
-        {
-            if (GetIsShiny(pk.ID32, pid))
-                pid ^= 0x1000_0000;
-        }
-    }
-
-    private static uint GetShinyPID(in ushort tid, in ushort sid, in uint pid, in uint type)
-    {
-        var low = pid & 0xFFFF;
-        return ((type ^ tid ^ sid ^ low) << 16) | low;
-    }
-
-    private static bool GetIsShiny(in uint id32, in uint pid)
-    {
-        return GetShinyXor(id32, pid) < 16;
-    }
-
-    private static uint GetShinyXor(in uint pid, in uint id32)
-    {
-        var xor = pid ^ id32;
-        return (xor ^ (xor >> 16)) & 0xFFFF;
-    }
 }

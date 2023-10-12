@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.CompilerServices;
+using static PKHeX.Core.ShinyUtil;
 
 namespace PKHeX.Core;
 
@@ -8,15 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Overworld8aRNG
 {
-    private static uint GetShinyPID(ushort tid, ushort sid, uint pid, uint type) => (((pid & 0xFFFF) ^ tid ^ sid ^ type) << 16) | (pid & 0xFFFF);
-    private static bool GetIsShiny(uint id32, uint pid) => GetShinyXor(id32, pid) < 16;
-
-    private static uint GetShinyXor(uint pid, uint id32)
-    {
-        var xor = pid ^ id32;
-        return (xor ^ (xor >> 16)) & 0xFFFF;
-    }
-
     private const int UNSET = -1;
 
     // ReSharper disable once UnusedTupleComponentInReturnValue
@@ -120,7 +111,7 @@ public static class Overworld8aRNG
             isShiny = para.Shiny == Shiny.Always;
         }
 
-        ForceShinyState(pk, isShiny, ref pid);
+        ForceShinyState(isShiny, ref pid, pk.ID32, 0);
 
         var xor = GetShinyXor(pk.ID32, pid);
         var type = GetRareType(xor);
@@ -236,7 +227,7 @@ public static class Overworld8aRNG
             isShiny = para.Shiny == Shiny.Always;
         }
 
-        ForceShinyState(pk, isShiny, ref pid);
+        ForceShinyState(isShiny, ref pid, pk.ID32, 0);
 
         if (pk.PID != pid)
             return false;
@@ -306,21 +297,6 @@ public static class Overworld8aRNG
         }
 
         return true;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void ForceShinyState(PKM pk, bool isShiny, ref uint pid)
-    {
-        if (isShiny)
-        {
-            if (!GetIsShiny(pk.ID32, pid))
-                pid = GetShinyPID(pk.TID16, pk.SID16, pid, 0);
-        }
-        else
-        {
-            if (GetIsShiny(pk.ID32, pid))
-                pid ^= 0x1000_0000;
-        }
     }
 
     public static int GetRandomLevel(ulong slotSeed, byte LevelMin, byte LevelMax)

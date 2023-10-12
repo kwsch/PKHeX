@@ -62,9 +62,9 @@ public static class HoneyTreeUtil
     /// <param name="isMunchlaxTree">If the tree is a "rare" tree based on <see cref="CalculateMunchlaxTrees"/>.</param>"/>
     public static (HoneyTreeSlotGroup Group, int Slot, int Shakes) GetHoneyTreeResult(uint seed, bool isMunchlaxTree)
     {
-        LCRNG.Next16(ref seed, out var randGroup);
-        LCRNG.Next16(ref seed, out var randSlot);
-        LCRNG.Next16(ref seed, out var randShakes);
+        var randGroup = LCRNG.Next16(ref seed) % 100;
+        var randSlot = LCRNG.Next16(ref seed) % 100;
+        var randShakes = LCRNG.Next16(ref seed) % 100;
 
         var group = GetHoneyTreeGroup(randGroup, isMunchlaxTree);
         var slot = GetHoneyTreeSlotIndex(randSlot);
@@ -76,7 +76,7 @@ public static class HoneyTreeUtil
     /// <summary>
     /// Indicates which slot group rarity inhabits a honey tree.
     /// </summary>
-    public static HoneyTreeSlotGroup GetHoneyTreeGroup(int rnd, bool isMunchlaxTree) => isMunchlaxTree switch
+    public static HoneyTreeSlotGroup GetHoneyTreeGroup(uint rnd, bool isMunchlaxTree) => isMunchlaxTree switch
     {
         true => rnd switch
         {
@@ -96,7 +96,7 @@ public static class HoneyTreeUtil
     /// <summary>
     /// Indicates which slot index of the group inhabits in the honey tree.
     /// </summary>
-    public static int GetHoneyTreeSlotIndex(int rnd) => rnd switch
+    public static int GetHoneyTreeSlotIndex(uint rnd) => rnd switch
     {
         < 05 => 5, // 5%
         < 10 => 4, // 5%
@@ -109,7 +109,7 @@ public static class HoneyTreeUtil
     /// <summary>
     /// Indicates how many times the tree shakes before the encounter.
     /// </summary>
-    public static int GetShakeCount(int rnd, HoneyTreeSlotGroup group) => group switch
+    public static int GetShakeCount(uint rnd, HoneyTreeSlotGroup group) => group switch
     {
         Common => rnd switch
         {
