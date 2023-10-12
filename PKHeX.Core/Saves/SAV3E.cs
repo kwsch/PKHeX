@@ -27,6 +27,7 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 
     protected override int EventFlag => 0x1270;
     protected override int EventWork => 0x139C;
+    public override int MaxItemID => Legal.MaxItemID_3_E;
 
     private void Initialize()
     {

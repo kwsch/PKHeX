@@ -160,7 +160,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public sealed override ushort MaxMoveID => Legal.MaxMoveID_3;
     public sealed override ushort MaxSpeciesID => Legal.MaxSpeciesID_3;
     public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
-    public sealed override int MaxItemID => Legal.MaxItemID_3;
+    public override int MaxItemID => Legal.MaxItemID_3;
     public sealed override int MaxBallID => Legal.MaxBallID_3;
     public sealed override int MaxGameID => Legal.MaxGameID_3;
 
