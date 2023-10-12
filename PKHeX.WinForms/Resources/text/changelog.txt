@@ -8,7 +8,7 @@ http://projectpokemon.org/pkhex/
  - - Gen9 Distribution Outbreaks now recognized. Thanks @Lusamine & @sora10pls!
  - - Gen9 Crossover met location logic tweaked for better location identification in Kitakami.
  - - Gen4 Pokéwalker IV spreads are now validated. Thanks @Lincoln-LM & @HappyLappy1!
- - Added: Gen8 SW/SH adventure start date can now be changed in the Trainer Editor. Thansk @foohyfooh!
+ - Added: Gen8 SW/SH adventure start date can now be changed in the Trainer Editor. Thanks @foohyfooh!
  - Added: Gen4 Pokeathlon Points can now be edited via the Block Editor.
  - Fixed: Initial program startup now notifies all plugins when a save is loaded on startup.
 
