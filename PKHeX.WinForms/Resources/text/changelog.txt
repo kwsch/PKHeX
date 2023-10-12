@@ -1,7 +1,18 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/09/25 - New Update:
+23/10/11 - New Update:
+ - Added support for Scarlet & Violet 2.0.2 save file sizes.
+ - Legality:
+ - - Badwords list has been updated to be more strict per latest Nintendo Switch 16.0.0 firmware. Thanks @Bl4ckSh4rk!
+ - - Gen9 Distribution Outbreaks now recognized. Thanks @Lusamine & @sora10pls!
+ - - Gen9 Crossover met location logic tweaked for better location identification in Kitakami.
+ - - Gen4 Pokéwalker IV spreads are now validated. Thanks @Lincoln-LM & @HappyLappy1!
+ - Added: Gen8 SW/SH adventure start date can now be changed in the Trainer Editor. Thansk @foohyfooh!
+ - Added: Gen4 Pokeathlon Points can now be edited via the Block Editor.
+ - Fixed: Initial program startup now notifies all plugins when a save is loaded on startup.
+
+23/09/25 - New Update: (100007) [7579695]
  - Added support for more Scarlet & Violet 2.0.1 save file sizes.
  - Legality: Added more Kitakami encounters (sub-zones) and basic weather mark recognition.
  - Fixed: Encounter template recognition regressions resolved (Gen4 Pokewalker, Gen9 static encounter scale).
