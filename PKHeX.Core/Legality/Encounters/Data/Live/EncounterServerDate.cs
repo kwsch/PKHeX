@@ -184,6 +184,7 @@ public static class EncounterServerDate
         {1521, (new(2023, 08, 08), new(2023, 09, 19))}, // My Very Own Mew
         {0506, (new(2023, 08, 10), new(2023, 08, 15))}, // Eduardo Gastrodon
         {1524, (new(2023, 09, 06), new(2024, 09, 01))}, // Glaseado Cetitan
+        {0507, (new(2023, 10, 13), new(2024, 01, 01))}, // Trixie Mimikyu
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
