@@ -388,7 +388,7 @@ public sealed class MiscVerifier : Verifier
             ushort species = pk1.Species;
             if (GBRestrictions.IsSpeciesNotAvailableCatchRate((byte)species) && catch_rate == PersonalTable.RB[species].CatchRate)
             {
-                if (species != (int) Species.Dragonite || catch_rate != 45 || !e.Version.Contains(GameVersion.YW))
+                if (species != (int) Species.Dragonite || catch_rate != 45 || !(e.Version == GameVersion.BU || e.Version.Contains(GameVersion.YW)))
                     return GetInvalid(LG1CatchRateEvo);
             }
             if (!GBRestrictions.RateMatchesEncounter(e.Species, e.Version, catch_rate))

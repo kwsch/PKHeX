@@ -105,7 +105,7 @@ public record struct EncounterEnumerator2 : IEnumerator<MatchedEncounter<IEncoun
                 { State = YieldState.StaticCOdd; goto case YieldState.StaticCOdd; }
                 if (canOriginateCrystal)
                 { State = YieldState.StaticC; goto case YieldState.StaticC; }
-                State = YieldState.SlotGD; goto case YieldState.SlotGD;
+                State = YieldState.StaticGD; goto case YieldState.StaticGD;
             case YieldState.StaticCOdd:
                 if (TryGetNext(Encounters2.StaticOddEggC))
                     return true;
