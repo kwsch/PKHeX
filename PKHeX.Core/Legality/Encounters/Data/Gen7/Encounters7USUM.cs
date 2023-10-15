@@ -9,8 +9,8 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters7USUM
 {
-    internal static readonly EncounterArea7[] SlotsUS = EncounterArea7.GetAreas(Get("us", "uu"), US);
-    internal static readonly EncounterArea7[] SlotsUM = EncounterArea7.GetAreas(Get("um", "uu"), UM);
+    internal static readonly EncounterArea7[] SlotsUS = EncounterArea7.GetAreas(Get("us", "uu"u8), US);
+    internal static readonly EncounterArea7[] SlotsUM = EncounterArea7.GetAreas(Get("um", "uu"u8), UM);
 
     private const string tradeUSUM = "tradeusum";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeUSUM);

@@ -19,7 +19,7 @@ public readonly record struct MoveLearnInfo(LearnMethod Method, LearnEnvironment
         Summarize(sb, localized);
     }
 
-    private void Summarize(StringBuilder sb, string localizedMethod)
+    private void Summarize(StringBuilder sb, ReadOnlySpan<char> localizedMethod)
     {
         if (Environment.IsSpecified())
             sb.Append(Environment).Append('-');

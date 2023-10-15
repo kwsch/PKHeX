@@ -9,8 +9,8 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters6AO
 {
-    internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(Get("as", "ao"), AS);
-    internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("or", "ao"), OR);
+    internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(Get("as", "ao"u8), AS);
+    internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("or", "ao"u8), OR);
 
     private const string tradeAO = "tradeao";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeAO);

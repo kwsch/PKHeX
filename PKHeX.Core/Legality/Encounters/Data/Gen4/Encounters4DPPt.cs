@@ -10,9 +10,9 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters4DPPt
 {
-    internal static readonly EncounterArea4[] SlotsD = EncounterArea4.GetAreas(Get("d", "da"), D);
-    internal static readonly EncounterArea4[] SlotsP = EncounterArea4.GetAreas(Get("p", "pe"), P);
-    internal static readonly EncounterArea4[] SlotsPt = EncounterArea4.GetAreas(Get("pt", "pt"), Pt);
+    internal static readonly EncounterArea4[] SlotsD = EncounterArea4.GetAreas(Get("d", "da"u8), D);
+    internal static readonly EncounterArea4[] SlotsP = EncounterArea4.GetAreas(Get("p", "pe"u8), P);
+    internal static readonly EncounterArea4[] SlotsPt = EncounterArea4.GetAreas(Get("pt", "pt"u8), Pt);
 
     private const string tradeDPPt = "tradedppt";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeDPPt);

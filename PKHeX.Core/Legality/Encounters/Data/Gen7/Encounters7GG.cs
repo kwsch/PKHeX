@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 
 internal static class Encounters7GG
 {
-    internal static readonly EncounterArea7b[] SlotsGP = EncounterArea7b.GetAreas(Get("gp", "gg"), GP);
-    internal static readonly EncounterArea7b[] SlotsGE = EncounterArea7b.GetAreas(Get("ge", "gg"), GE);
+    internal static readonly EncounterArea7b[] SlotsGP = EncounterArea7b.GetAreas(Get("gp", "gg"u8), GP);
+    internal static readonly EncounterArea7b[] SlotsGE = EncounterArea7b.GetAreas(Get("ge", "gg"u8), GE);
 
     internal static readonly EncounterStatic7b[] Encounter_GG =
     {

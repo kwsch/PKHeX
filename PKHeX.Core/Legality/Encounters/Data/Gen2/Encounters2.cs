@@ -8,9 +8,9 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters2
 {
-    internal static readonly EncounterArea2[] SlotsGD = EncounterArea2.GetAreas(Get("gold", "g2"), GD);
-    internal static readonly EncounterArea2[] SlotsSI = EncounterArea2.GetAreas(Get("silver", "g2"), SI);
-    internal static readonly EncounterArea2[] SlotsC = EncounterArea2.GetAreas(Get("crystal", "g2"), C);
+    internal static readonly EncounterArea2[] SlotsGD = EncounterArea2.GetAreas(Get("gold", "g2"u8), GD);
+    internal static readonly EncounterArea2[] SlotsSI = EncounterArea2.GetAreas(Get("silver", "g2"u8), SI);
+    internal static readonly EncounterArea2[] SlotsC = EncounterArea2.GetAreas(Get("crystal", "g2"u8), C);
 
     private const string tradeGSC = "tradegsc";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeGSC);

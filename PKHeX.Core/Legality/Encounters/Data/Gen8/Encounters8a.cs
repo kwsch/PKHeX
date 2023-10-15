@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 internal static class Encounters8a
 {
-    internal static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"));
+    internal static readonly EncounterArea8a[] SlotsLA = EncounterArea8a.GetAreas(Get("la", "la"u8));
 
     private const byte M = 127; // Middle Height/Weight
     private const byte A = 255; // Max Height/Weight for Alphas

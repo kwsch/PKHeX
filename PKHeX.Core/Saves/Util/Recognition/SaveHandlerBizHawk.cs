@@ -4,7 +4,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Logic for recognizing .dsv save files from DeSmuME.
+/// Logic for recognizing .dsv save files from BizHawk.
 /// </summary>
 public sealed class SaveHandlerBizHawk : ISaveHandler
 {

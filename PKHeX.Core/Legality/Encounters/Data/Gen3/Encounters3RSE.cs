@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
@@ -10,13 +11,15 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters3RSE
 {
-    private static readonly EncounterArea3[] SlotsSwarmRSE = GetSwarm("rse_swarm", "rs", RSE);
-    internal static readonly EncounterArea3[] SlotsR = ArrayUtil.ConcatAll(GetRegular("r", "ru", R), SlotsSwarmRSE);
-    internal static readonly EncounterArea3[] SlotsS = ArrayUtil.ConcatAll(GetRegular("s", "sa", S), SlotsSwarmRSE);
-    internal static readonly EncounterArea3[] SlotsE = ArrayUtil.ConcatAll(GetRegular("e", "em", E), SlotsSwarmRSE);
+    private static readonly EncounterArea3[] SlotsSwarmRSE = GetSwarm("rse_swarm", "rs"u8, RSE);
+    internal static readonly EncounterArea3[] SlotsR = ArrayUtil.ConcatAll(GetRegular("r", "ru"u8, R), SlotsSwarmRSE);
+    internal static readonly EncounterArea3[] SlotsS = ArrayUtil.ConcatAll(GetRegular("s", "sa"u8, S), SlotsSwarmRSE);
+    internal static readonly EncounterArea3[] SlotsE = ArrayUtil.ConcatAll(GetRegular("e", "em"u8, E), SlotsSwarmRSE);
 
-    private static EncounterArea3[] GetRegular(string resource, string ident, GameVersion game) => EncounterArea3.GetAreas(Get(resource, ident), game);
-    private static EncounterArea3[] GetSwarm(string resource, string ident, GameVersion game) => EncounterArea3.GetAreasSwarm(Get(resource, ident), game);
+    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [ConstantExpected(Min = 2, Max = 2)] ReadOnlySpan<byte> ident, GameVersion game)
+        => EncounterArea3.GetAreas(Get(resource, ident), game);
+    private static EncounterArea3[] GetSwarm([ConstantExpected] string resource, [ConstantExpected(Min = 2, Max = 2)] ReadOnlySpan<byte> ident, GameVersion game)
+        => EncounterArea3.GetAreasSwarm(Get(resource, ident), game);
 
     private static readonly string[] TrainersPikachu = { string.Empty, "コロシアム", "COLOS", "COLOSSEUM", "ARENA", "COLOSSEUM", string.Empty, "CLAUDIO" };
     private static readonly string[] TrainersCelebi = { string.Empty, "アゲト", "AGATE", "SAMARAGD", "SOFO", "EMERITAE", string.Empty, "ÁGATA" };

@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters9
 {
-    internal static readonly EncounterArea9[] Slots = EncounterArea9.GetAreas(Get("wild_paldea", "sv"), SV);
+    internal static readonly EncounterArea9[] Slots = EncounterArea9.GetAreas(Get("wild_paldea", "sv"u8), SV);
 
     internal static readonly EncounterStatic9[] Encounter_SV =
     {
