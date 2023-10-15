@@ -12,7 +12,7 @@ public static class ShinyUtil
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool GetIsShiny(in uint id32, in uint pid, [ConstantExpected] uint cmp = 16) => GetShinyXor(id32, pid) < cmp;
+    public static bool GetIsShiny(in uint id32, in uint pid, [ConstantExpected(Max = 16, Min = 8)] uint cmp = 16) => GetShinyXor(id32, pid) < cmp;
 
     public static uint GetShinyXor(in uint pid, in uint id32)
     {

@@ -93,25 +93,25 @@ internal static class GBRestrictions
         return rate == PersonalTable.RB[species].CatchRate;
     }
 
+    private static bool RateMatchesEither(byte catch_rate, ushort rate)
+    {
+        return catch_rate == PersonalTable.RB[rate].CatchRate || catch_rate == PersonalTable.Y[rate].CatchRate;
+    }
+
     private static bool GetCatchRateMatchesPreEvolution(PK1 pk, byte catch_rate)
     {
         // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
         var head = new EvoCriteria { Species = pk.Species, Form = pk.Form, LevelMax = (byte)pk.CurrentLevel }; // as struct to avoid boxing
-        while (true)
+        do
         {
             var s = head.Species;
-            if (!IsSpeciesNotAvailableCatchRate((byte)s))
-            {
-                if (catch_rate == PersonalTable.RB[s].CatchRate || catch_rate == PersonalTable.Y[s].CatchRate)
-                    return true;
-            }
-
-            if (!EvolutionGroup1.Instance.TryDevolve(head, pk, head.LevelMax, 2, false, out head))
-                break;
+            if (!IsSpeciesNotAvailableCatchRate((byte)s) && RateMatchesEither(catch_rate, s))
+                return true;
         }
+        while (EvolutionGroup1.Instance.TryDevolve(head, pk, head.LevelMax, 2, false, out head));
 
         // Account for oddities via special catch rate encounters
-        if (catch_rate is 167 or 168 && IsStadiumGiftSpecies((byte)pk.Species))
+        if (catch_rate is 167 or 168 && IsStadiumGiftSpecies((byte)head.Species))
             return true;
         return false;
     }
