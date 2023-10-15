@@ -841,6 +841,7 @@ SAV_Misc4.L_CastleRank01=Recovery / Item / Info
 SAV_Misc4.L_Coin=Coin:
 SAV_Misc4.L_CurrentApp=Current App
 SAV_Misc4.L_CurrentMap=Current Map
+SAV_Misc4.L_PokeathlonPoints=Pokeathlon Points:
 SAV_Misc4.L_Stat0=Current
 SAV_Misc4.L_Stat1=Échanger
 SAV_Misc4.L_Stat2=Record

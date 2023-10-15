@@ -841,6 +841,7 @@ SAV_Misc4.L_CastleRank01=回復 / アイテム / 情報
 SAV_Misc4.L_Coin=コイン
 SAV_Misc4.L_CurrentApp=表示中のアプリ
 SAV_Misc4.L_CurrentMap=マップカード
+SAV_Misc4.L_PokeathlonPoints=Pokeathlon Points:
 SAV_Misc4.L_Stat0=連勝記録
 SAV_Misc4.L_Stat1=交換
 SAV_Misc4.L_Stat2=最高記録

@@ -841,6 +841,7 @@ SAV_Misc4.L_CastleRank01=恢復 / 道具 / 信息
 SAV_Misc4.L_Coin=代幣:
 SAV_Misc4.L_CurrentApp=當前App
 SAV_Misc4.L_CurrentMap=當前地圖
+SAV_Misc4.L_PokeathlonPoints=Pokeathlon Points:
 SAV_Misc4.L_Stat0=當前
 SAV_Misc4.L_Stat1=交換
 SAV_Misc4.L_Stat2=記錄
