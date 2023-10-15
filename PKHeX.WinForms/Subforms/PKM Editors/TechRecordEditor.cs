@@ -21,11 +21,12 @@ public partial class TechRecordEditor : Form
 
     public TechRecordEditor(ITechRecord techRecord, PKM pk)
     {
+        InitializeComponent();
+        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+
         Record = techRecord;
         Entity = pk;
         Legality = new LegalityAnalysis(pk);
-        InitializeComponent();
-        WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
 
         Span<ushort> currentMoves = stackalloc ushort[4];
         pk.GetMoves(currentMoves);
