@@ -164,7 +164,8 @@ public partial class SAV_BlockDump8 : Form
 
     private void B_ExportAllSingle_Click(object sender, EventArgs e)
     {
-        using var sfd = new SaveFileDialog { FileName = "raw.bin" };
+        using var sfd = new SaveFileDialog();
+        sfd.FileName = "raw.bin";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
@@ -186,7 +187,8 @@ public partial class SAV_BlockDump8 : Form
 
     private void B_LoadOld_Click(object sender, EventArgs e)
     {
-        using var ofd = new OpenFileDialog { FileName = "main" };
+        using var ofd = new OpenFileDialog();
+        ofd.FileName = "main";
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
         TB_OldSAV.Text = ofd.FileName;
@@ -196,7 +198,8 @@ public partial class SAV_BlockDump8 : Form
 
     private void B_LoadNew_Click(object sender, EventArgs e)
     {
-        using var ofd = new OpenFileDialog { FileName = "main" };
+        using var ofd = new OpenFileDialog();
+        ofd.FileName = "main";
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
         TB_NewSAV.Text = ofd.FileName;
@@ -232,7 +235,8 @@ public partial class SAV_BlockDump8 : Form
     private static void ExportSelectBlock(SCBlock block)
     {
         var name = GetBlockFileNameWithoutExtension(block);
-        using var sfd = new SaveFileDialog { FileName = $"{name}.bin" };
+        using var sfd = new SaveFileDialog();
+        sfd.FileName = $"{name}.bin";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
         File.WriteAllBytes(sfd.FileName, block.Data);
@@ -242,7 +246,8 @@ public partial class SAV_BlockDump8 : Form
     {
         var key = blockTarget.Key;
         var data = blockTarget.Data;
-        using var ofd = new OpenFileDialog { FileName = $"{key:X8}.bin" };
+        using var ofd = new OpenFileDialog();
+        ofd.FileName = $"{key:X8}.bin";
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 

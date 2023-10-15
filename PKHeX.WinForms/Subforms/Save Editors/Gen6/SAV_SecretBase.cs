@@ -418,7 +418,9 @@ public partial class SAV_SecretBase : Form
         var tr = sb.TrainerName;
         if (string.IsNullOrWhiteSpace(tr))
             tr = "Trainer";
-        using var sfd = new SaveFileDialog { Filter = "Secret Base Data|*.sb6", FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6" };
+        using var sfd = new SaveFileDialog();
+        sfd.Filter = "Secret Base Data|*.sb6";
+        sfd.FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 

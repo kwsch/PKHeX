@@ -32,11 +32,9 @@ public class VerticalTabControl : TabControl
             e.DrawBackground();
         }
 
-        using var flags = new StringFormat
-        {
-            Alignment = StringAlignment.Center,
-            LineAlignment = StringAlignment.Center,
-        };
+        using var flags = new StringFormat();
+        flags.Alignment = StringAlignment.Center;
+        flags.LineAlignment = StringAlignment.Center;
         using var text = new SolidBrush(ForeColor);
         var tab = TabPages[index];
         graphics.DrawString(tab.Text, Font, text, bounds, flags);
@@ -90,11 +88,9 @@ public sealed class VerticalTabControlEntityEditor : VerticalTabControl
             e.DrawBackground();
         }
 
-        using var flags = new StringFormat
-        {
-            Alignment = StringAlignment.Center,
-            LineAlignment = StringAlignment.Center,
-        };
+        using var flags = new StringFormat();
+        flags.Alignment = StringAlignment.Center;
+        flags.LineAlignment = StringAlignment.Center;
         using var text = new SolidBrush(ForeColor);
         var tab = TabPages[index];
         graphics.DrawString(tab.Text, Font, text, bounds, flags);

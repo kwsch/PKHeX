@@ -256,15 +256,13 @@ public static class WinFormsUtil
     public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string? path)
     {
         string supported = string.Join(";", extensions.Select(s => $"*.{s}").Concat(new[] { "*.pk" }));
-        using var ofd = new OpenFileDialog
-        {
-            Filter = "All Files|*.*" +
+        using var ofd = new OpenFileDialog();
+        ofd.Filter = "All Files|*.*" +
                      $"|Supported Files (*.*)|main;*.bin;{supported};*.bak" + ExtraSaveExtensions +
                      "|Save Files (*.sav)|main" + ExtraSaveExtensions +
                      "|Decrypted PKM File (*.pk)|" + supported +
                      "|Binary File|*.bin" +
-                     "|Backup File|*.bak",
-        };
+                     "|Backup File|*.bak";
 
         // Detect main
         SaveFile? sav = null;
@@ -306,12 +304,10 @@ public static class WinFormsUtil
                             (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx[1..]}" : string.Empty) +
                             "|Binary File|*.bin" +
                             "|All Files|*.*";
-        using var sfd = new SaveFileDialog
-        {
-            Filter = genericFilter,
-            DefaultExt = pkx,
-            FileName = Util.CleanFileName(pk.FileName),
-        };
+        using var sfd = new SaveFileDialog();
+        sfd.Filter = genericFilter;
+        sfd.DefaultExt = pkx;
+        sfd.FileName = Util.CleanFileName(pk.FileName);
         if (sfd.ShowDialog() != DialogResult.OK)
             return false;
 
@@ -346,13 +342,11 @@ public static class WinFormsUtil
     /// <returns>Result of whether or not the file was saved.</returns>
     public static bool ExportSAVDialog(SaveFile sav, int currentBox = 0)
     {
-        using var sfd = new SaveFileDialog
-        {
-            Filter = sav.Metadata.Filter,
-            FileName = sav.Metadata.FileName,
-            FilterIndex = 1000, // default to last, All Files
-            RestoreDirectory = true,
-        };
+        using var sfd = new SaveFileDialog();
+        sfd.Filter = sav.Metadata.Filter;
+        sfd.FileName = sav.Metadata.FileName;
+        sfd.FilterIndex = 1000; // default to last, All Files
+        sfd.RestoreDirectory = true;
         if (Directory.Exists(sav.Metadata.FileFolder))
             sfd.InitialDirectory = sav.Metadata.FileFolder;
 
@@ -403,11 +397,9 @@ public static class WinFormsUtil
     /// <returns>Result of whether or not the file was saved.</returns>
     public static bool ExportMGDialog(DataMysteryGift gift)
     {
-        using var sfd = new SaveFileDialog
-        {
-            Filter = GetMysterGiftFilter(gift.Context),
-            FileName = Util.CleanFileName(gift.FileName),
-        };
+        using var sfd = new SaveFileDialog();
+        sfd.Filter = GetMysterGiftFilter(gift.Context);
+        sfd.FileName = Util.CleanFileName(gift.FileName);
         if (sfd.ShowDialog() != DialogResult.OK)
             return false;
 

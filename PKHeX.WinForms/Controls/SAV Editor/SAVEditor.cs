@@ -724,7 +724,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
             return;
         }
         string filename = $"{s6.JPEGTitle}'s picture";
-        using var sfd = new SaveFileDialog { FileName = filename, Filter = "JPEG|*.jpeg" };
+        using var sfd = new SaveFileDialog();
+        sfd.FileName = filename;
+        sfd.Filter = "JPEG|*.jpeg";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
         File.WriteAllBytes(sfd.FileName, jpeg);
@@ -818,7 +820,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         }
 
         var suggestion = Util.CleanFileName(SAV.Metadata.BAKName);
-        using var sfd = new SaveFileDialog { FileName = suggestion };
+        using var sfd = new SaveFileDialog();
+        sfd.FileName = suggestion;
         if (sfd.ShowDialog() != DialogResult.OK)
             return false;
 

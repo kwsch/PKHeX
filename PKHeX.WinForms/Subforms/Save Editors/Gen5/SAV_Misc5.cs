@@ -769,7 +769,9 @@ public partial class SAV_Misc5 : Form
 
     private void B_DumpFC_Click(object sender, EventArgs e)
     {
-        using var sfd = new SaveFileDialog { Filter = ForestCityBinFilter, FileName = string.Format(ForestCityBinPath, SAV.Version) };
+        using var sfd = new SaveFileDialog();
+        sfd.Filter = ForestCityBinFilter;
+        sfd.FileName = string.Format(ForestCityBinPath, SAV.Version);
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
@@ -779,7 +781,9 @@ public partial class SAV_Misc5 : Form
 
     private void B_ImportFC_Click(object sender, EventArgs e)
     {
-        using var ofd = new OpenFileDialog { Filter = ForestCityBinFilter, FileName = string.Format(ForestCityBinPath, SAV.Version) };
+        using var ofd = new OpenFileDialog();
+        ofd.Filter = ForestCityBinFilter;
+        ofd.FileName = string.Format(ForestCityBinPath, SAV.Version);
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 

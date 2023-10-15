@@ -165,12 +165,10 @@ public partial class SAV_Trainer7GG : Form
 
     private void B_Import_Click(object sender, EventArgs e)
     {
-        using var sfd = new OpenFileDialog
-        {
-            Filter = GoFilter,
-            FilterIndex = 0,
-            RestoreDirectory = true,
-        };
+        using var sfd = new OpenFileDialog();
+        sfd.Filter = GoFilter;
+        sfd.FilterIndex = 0;
+        sfd.RestoreDirectory = true;
 
         // Export
         if (sfd.ShowDialog() != DialogResult.OK)
@@ -211,13 +209,11 @@ public partial class SAV_Trainer7GG : Form
         index = Math.Clamp(index, 0, max);
         var data = Park[index];
 
-        using var sfd = new SaveFileDialog
-        {
-            FileName = data.FileName,
-            Filter = GoFilter,
-            FilterIndex = 0,
-            RestoreDirectory = true,
-        };
+        using var sfd = new SaveFileDialog();
+        sfd.FileName = data.FileName;
+        sfd.Filter = GoFilter;
+        sfd.FilterIndex = 0;
+        sfd.RestoreDirectory = true;
 
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
