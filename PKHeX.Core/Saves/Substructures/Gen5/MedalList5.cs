@@ -1,6 +1,7 @@
 namespace PKHeX.Core;
 
-public sealed class MedalList5: SaveBlock<SAV5B2W2> {
+public sealed class MedalList5 : SaveBlock<SAV5B2W2>
+{
 
     const int MAX_MEDALS = 255;
     private readonly Medal5[] Medals;

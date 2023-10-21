@@ -2,7 +2,8 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class Medal5 {
+public sealed class Medal5
+{
 
     private const int SIZE = 4;
 
