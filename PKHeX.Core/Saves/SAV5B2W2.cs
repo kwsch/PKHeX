@@ -56,6 +56,7 @@ public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     public override UnityTower5 UnityTower => Blocks.UnityTower;
     public FestaBlock5 Festa => Blocks.Festa;
     public PWTBlock5 PWT => Blocks.PWT;
+    public MedalList5 Medals => Blocks.Medals;
     public int Fused => 0x1FA00 + sizeof(uint);
     public override int GTS => 0x20400;
 
