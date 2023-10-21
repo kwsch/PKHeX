@@ -46,5 +46,5 @@ public enum RanchToyType : byte
     Twirler = 36,
     Bound_Mat = 37,
     Tree = 38,
-    Water = 39, // Normally unused; creates a massive plane of water in the sky
+    Water = 39, // Normally unobtainable; creates a massive plane of water in the sky featured in the "Surfing Jump" event
 }

@@ -5,9 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RanchLevel
 {
-    public static int GetLevel(byte levelIndex) => levelIndex + 1;
-
-    public static int GetMaxMiiCount(byte levelIndex) => levelIndex switch
+    public static int GetMaxMiiCount(int ranchLevel) => ranchLevel switch
     {
         >= 11 => 20,
         >= 08 => 15,
@@ -15,7 +13,7 @@ public static class RanchLevel
         _ => 5,
     };
 
-    public static int GetMaxToyCount(byte levelIndex) => levelIndex switch
+    public static int GetMaxToyCount(int ranchLevel) => ranchLevel switch
     {
         >= 25 => 6,
         >= 20 => 5,
@@ -25,36 +23,38 @@ public static class RanchLevel
         _ => 1,
     };
 
-    public static int GetSlotCount(byte levelIndex) => levelIndex switch
+    public static int GetSlotCount(int ranchLevel) => ranchLevel switch
     {
-        00 => 020,
-        01 => 025,
-        02 => 030,
-        03 => 040,
-        04 => 050,
-        05 => 060,
-        06 => 080,
+        01 => 020,
+        02 => 025,
+        03 => 030,
 
-        07 => 100,
-        08 => 150,
-        09 => 200,
-        10 => 250,
-        11 => 300,
-        12 => 350,
+        04 => 040,
+        05 => 050,
+        06 => 060,
 
-        13 => 400,
-        14 => 500,
-        15 => 600,
-        16 => 700,
-        17 => 800,
-        18 => 900,
-        19 => 1000,
+        07 => 080,
+        08 => 100,
 
+        09 => 150,
+        10 => 200,
+        11 => 250,
+        12 => 300,
+        13 => 350,
+
+        14 => 400,
+        15 => 500,
+        16 => 600,
+        17 => 700,
+        18 => 800,
+        19 => 900,
         20 => 1000,
+
         21 => 1000,
         22 => 1000,
         23 => 1000,
         24 => 1000,
+        25 => 1000,
 
         _ => 1500,
     };
