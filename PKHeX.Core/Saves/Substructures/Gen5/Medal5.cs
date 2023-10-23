@@ -12,7 +12,8 @@ public sealed class Medal5
     private readonly int Offset;
     public readonly Epoch2000Value Date;
 
-    public Medal5(byte[] data, int baseOffset, int index) {
+    public Medal5(byte[] data, int baseOffset, int index)
+    {
         Data = data;
         Offset = baseOffset + (SIZE * index);
         Date = new Epoch2000Value(Data.AsMemory(Offset, 2));
@@ -24,7 +25,8 @@ public sealed class Medal5
         set => FlagUtil.SetFlag(Span, 2, 3, value);
     }
 
-    public Medal5State State {
+    public Medal5State State
+    {
         get => (Medal5State)(Span[2] & 0b0111);
         set => Span[2] = (byte)((Span[2] & 0b1000) | ((int)value & 0b0111));
     }
