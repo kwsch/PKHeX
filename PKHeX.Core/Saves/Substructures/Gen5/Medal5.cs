@@ -37,5 +37,5 @@ public enum Medal5State
     CanObtainHintMedal = 1,
     HintMedalObtained = 2,
     CanObtainMedal = 3,
-    MedalObtain = 4,
+    MedalObtained = 4,
 }
