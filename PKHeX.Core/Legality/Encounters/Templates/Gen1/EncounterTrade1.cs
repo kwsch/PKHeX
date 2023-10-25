@@ -24,7 +24,6 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     public bool IsFixedTrainer => true;
     public bool IsFixedNickname => true;
 
-    private static IReadOnlyList<string> TrainerNames => StringConverter12.G1TradeOTName;
     private string[] Nicknames { get; }
     public ushort Species { get; }
     public byte Form => 0;
@@ -75,11 +74,9 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
     {
         if (pk.Format <= 2)
             return pk.OT_Trash is [StringConverter12.G1TradeOTCode, StringConverter12.G1TerminatorCode, ..];
-        return pk.Language switch
-        {
-            1 => GetIndex(pk.OT_Name, TrainerNames) == 1,
-            _ => GetIndex(pk.OT_Name, TrainerNames) >= 2,
-        };
+        var lang = pk.Language;
+        var expect = StringConverter12Transporter.GetTradeNameGen1(lang);
+        return pk.OT_Name == expect;
     }
 
     private int GetNicknameIndex(ReadOnlySpan<char> nickname) => GetIndex(nickname, Nicknames);

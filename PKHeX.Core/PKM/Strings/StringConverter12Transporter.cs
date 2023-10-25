@@ -120,6 +120,7 @@ public static class StringConverter12Transporter
     /// <summary>
     /// Japanese 1/2->7 character translation table
     /// </summary>
+    /// <remarks>Full-width 0-9 removed from the Japanese table as these glyphs are inaccessible via the character entry screen.</remarks>
     private static ReadOnlySpan<ushort> CharTableJPN => new ushort[]
     {
         0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30AC, 0x30AE, 0x30B0, 0x30B2, 0x30B4, 0x30B6, 0x30B8, 0x30BA, 0x30BC, 0x30BE, 0x30C0, // 0
@@ -138,5 +139,17 @@ public static class StringConverter12Transporter
         0x307F, 0x3080, 0x3081, 0x3082, 0x3084, 0x3086, 0x3088, 0x3089, 0x30EA, 0x308B, 0x308C, 0x308D, 0x308F, 0x3092, 0x3093, 0x3063, // D
         0x3083, 0x3085, 0x3087, 0x30FC, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x30A1, 0x30A5, 0x30A7, 0x3000, 0x3000, 0x3000, 0x2642, // E
         0x3000, 0x3000, 0x3000, 0x3000, 0x30A9, 0x2640, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, // F
+    };
+
+    public static string GetTradeNameGen1(int language) => language switch
+    {
+        1 => "トレーナー",
+        2 => "Trainer",
+        3 => "Dresseur",
+        4 => "Allenatore",
+        5 => "Trainer",
+        7 => "Entrenador",
+      //8 => "트레이너",
+        _ => string.Empty,
     };
 }
