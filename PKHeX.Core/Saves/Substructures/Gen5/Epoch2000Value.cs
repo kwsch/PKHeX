@@ -33,7 +33,8 @@ public sealed class Epoch2000Value
             int day = value.Day;
             int month = value.Month;
             int year = value.Year - Epoch.Year;
-            BitConverter.GetBytes(((day & 0x1F) << 11) | ((month & 0x0F) << 7) | (year & 0x7F)).CopyTo(Span);            
+            ushort dateBytes = (ushort)(((day & 0x1F) << 11) | ((month & 0x0F) << 7) | (year & 0x7F));
+            BitConverter.GetBytes(dateBytes).CopyTo(Span);            
         }
     }
 
