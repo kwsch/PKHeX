@@ -81,26 +81,38 @@ public static class PIDGenerator
 
     private static void SetValuesFromSeedXDRNG(PKM pk, uint seed)
     {
-        switch (pk.Species)
+        var species = pk.Species;
+        switch (species)
         {
             case (int)Species.Umbreon or (int)Species.Eevee: // Colo Umbreon, XD Eevee
-                pk.TID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
-                pk.SID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
-                seed = XDRNG.Next2(seed); // PID calls consumed
+                pk.TID16 = (ushort)XDRNG.Next16(ref seed);
+                pk.SID16 = (ushort)XDRNG.Next16(ref seed);
+                seed = XDRNG.Next2(seed); // fake PID
                 break;
             case (int)Species.Espeon: // Colo Espeon
-                pk.TID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
-                pk.SID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
-                seed = XDRNG.Next9(seed); // PID calls consumed, skip over Umbreon
+                var tid = pk.TID16 = (ushort)XDRNG.Next16(ref seed);
+                var sid = pk.SID16 = (ushort)XDRNG.Next16(ref seed);
+                LockFinder.SkipValidColoStarter(ref seed, tid, sid);
+                seed = XDRNG.Next2(seed); // fake PID
                 break;
         }
         var A = XDRNG.Next(seed); // IV1
         var B = XDRNG.Next(A); // IV2
-        var C = XDRNG.Next(B); // Ability?
-        var D = XDRNG.Next(C); // PID
-        var E = XDRNG.Next(D); // PID
+        var C = XDRNG.Next(B); // Ability
 
-        pk.PID = (D & 0xFFFF0000) | (E >> 16);
+        if (species is (int)Species.Umbreon or (int)Species.Espeon)
+        {
+            // Reuse existing logic.
+            pk.PID = LockFinder.GenerateStarterPID(ref C, pk.TID16, pk.SID16);
+        }
+        else
+        {
+            // Generate PID.
+            var D = XDRNG.Next(C); // PID
+            var E = XDRNG.Next(D); // PID
+            pk.PID = (D & 0xFFFF0000) | (E >> 16);
+        }
+
         Span<int> IVs = stackalloc int[6];
         MethodFinder.GetIVsInt32(IVs, A >> 16, B >> 16);
         pk.SetIVs(IVs);

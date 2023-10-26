@@ -62,41 +62,39 @@ public static class LockFinder
     /// Checks if the Colosseum starter correlation can be obtained with the trainer's IDs.
     /// </summary>
     /// <param name="species">Species of the starter, to indicate Espeon vs Umbreon</param>
-    /// <param name="seed">Seed the PID/IV is generated with</param>
+    /// <param name="origin">Seed the PID/IV is generated with</param>
     /// <param name="TID16">Trainer ID of the trainer</param>
     /// <param name="SID16">Secret ID of the trainer</param>
     /// <param name="pkPID">PID of the entity</param>
     /// <param name="IV1">First 3 IVs combined</param>
     /// <param name="IV2">Last 3 IVs combined</param>
-    public static bool IsColoStarterValid(ushort species, ref uint seed, ushort TID16, ushort SID16, uint pkPID, uint IV1, uint IV2)
+    public static bool IsColoStarterValid(ushort species, ref uint origin, ushort TID16, ushort SID16, uint pkPID, uint IV1, uint IV2)
     {
-        // reverse the seed the bare minimum
-        uint SIDf = species == (int)Species.Espeon
-            ? XDRNG.Prev9(seed)
-            : XDRNG.Prev2(seed);
+        // Input seed is right after the TID/SID and 2x fake rolls. Reverse the seed to the first possible SID seed value.
+        var seed = species == (int)Species.Espeon
+            ? XDRNG.Prev12(origin)
+            : XDRNG.Prev3(origin);
 
-        // reverse until we find the TID16/SID16, then run the generation forward to see if it matches our inputs.
+        // Reverse until we find the TID16/SID16, then run the generation forward to see if it matches our inputs.
+        const int arbitraryLookback = 8;
         int ctr = 0;
-        uint temp;
-        while ((temp = XDRNG.Prev(SIDf)) >> 16 != TID16 || SIDf >> 16 != SID16)
+        while (true)
         {
-            SIDf = temp;
-            if (ctr > 32) // arbitrary
-                return false;
-            ctr++;
+            if (seed >> 16 == SID16 && XDRNG.Prev(seed) >> 16 == TID16)
+            {
+                origin = XDRNG.Prev2(seed);
+                break; // result!
+            }
+            if (++ctr == arbitraryLookback)
+                return false; // no valid seed found
+            seed = XDRNG.Prev2(seed);
         }
 
-        var next = XDRNG.Next(SIDf);
-
         // generate Umbreon
-        var PIDIV = GenerateValidColoStarterPID(ref next, TID16, SID16);
+        var PIDIV = GenerateValidColoStarter(ref seed, TID16, SID16);
         if (species == (int)Species.Espeon) // need Espeon, which is immediately next
-            PIDIV = GenerateValidColoStarterPID(ref next, TID16, SID16);
-
-        if (!PIDIV.Equals(pkPID, IV1, IV2))
-            return false;
-        seed = XDRNG.Prev2(SIDf);
-        return true;
+            PIDIV = GenerateValidColoStarter(ref seed, TID16, SID16);
+        return PIDIV.Equals(pkPID, IV1, IV2);
     }
 
     private readonly record struct PIDIVGroup(uint PID, uint IV1, uint IV2)
@@ -104,36 +102,31 @@ public static class LockFinder
         public bool Equals(uint pid, uint iv1, uint iv2) => PID == pid && IV1 == iv1 && IV2 == iv2;
     }
 
-    private static PIDIVGroup GenerateValidColoStarterPID(ref uint uSeed, ushort TID16, ushort SID16)
-    {
-        uSeed = XDRNG.Next2(uSeed); // skip fakePID
-        var IV1 = (uSeed >> 16) & 0x7FFF;
-        uSeed = XDRNG.Next(uSeed);
-        var IV2 = (uSeed >> 16) & 0x7FFF;
-        uSeed = XDRNG.Next(uSeed);
-        uSeed = XDRNG.Next(uSeed); // skip ability call
-        var PID = GenerateStarterPID(ref uSeed, TID16, SID16);
+    public static void SkipValidColoStarter(ref uint seed, ushort TID16, ushort SID16) => GenerateValidColoStarter(ref seed, TID16, SID16);
 
-        uSeed = XDRNG.Next2(uSeed); // PID calls consumed
+    private static PIDIVGroup GenerateValidColoStarter(ref uint seed, ushort TID16, ushort SID16)
+    {
+        seed = XDRNG.Next2(seed); // skip fakePID
+        var IV1 = XDRNG.Next15(ref seed);
+        var IV2 = XDRNG.Next15(ref seed);
+        seed = XDRNG.Next(seed); // ability call
+        var PID = GenerateStarterPID(ref seed, TID16, SID16);
 
         return new PIDIVGroup(PID, IV1, IV2);
     }
 
     private static bool IsShiny(ushort TID16, ushort SID16, uint PID) => ((PID >> 16) ^ TID16 ^ SID16 ^ (PID & 0xFFFF)) < 8;
 
-    private static uint GenerateStarterPID(ref uint uSeed, ushort TID16, ushort SID16)
+    public static uint GenerateStarterPID(ref uint seed, ushort TID16, ushort SID16)
     {
-        uint PID;
         const byte ratio = 0x1F; // 12.5% F (can't be female)
         while (true)
         {
-            var next = XDRNG.Next(uSeed);
-            PID = (uSeed & 0xFFFF0000) | (next >> 16);
+            var first = seed = XDRNG.Next(seed); // first PID roll
+            var second = seed = XDRNG.Next(seed); // second PID roll
+            var PID = (first & 0xFFFF0000) | (second >> 16);
             if ((PID & 0xFF) >= ratio && !IsShiny(TID16, SID16, PID))
-                break;
-            uSeed = XDRNG.Next(next);
+                return PID;
         }
-
-        return PID;
     }
 }

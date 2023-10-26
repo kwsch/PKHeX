@@ -66,7 +66,8 @@ public record struct EncounterPossible3GC(EvoCriteria[] Chain, EncounterTypeGrou
                 Index = 0; State = YieldState.StaticColoStarters; goto case YieldState.StaticColoStarters;
             case YieldState.StaticColoStarters:
                 if (TryGetNext(Encounters3Colo.Starters))
-                    Index = 0; State = YieldState.StaticColoGift; goto case YieldState.StaticColoGift;
+                    return true;
+                Index = 0; State = YieldState.StaticColoGift; goto case YieldState.StaticColoGift;
             case YieldState.StaticColoGift:
                 if (TryGetNext(Encounters3Colo.Gifts))
                     return true;
