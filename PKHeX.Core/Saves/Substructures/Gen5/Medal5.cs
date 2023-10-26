@@ -1,28 +1,50 @@
 using System;
+using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
 public sealed class Medal5
 {
+    public const int SIZE = 4;
+    private readonly Memory<byte> Data;
+    private Span<byte> Span => Data.Span;
+    public Medal5(Memory<byte> data) => Data = data;
 
-    private const int SIZE = 4;
+    // Structure:
+    // ushort Date:7
+    // ushort Month:4
+    // ushort Day:5
 
-    private readonly byte[] Data;
-    private Span<byte> Span => Data.AsSpan(Offset);
-    private readonly int Offset;
-    public readonly Epoch2000Value Date;
+    // byte State:3
+    // byte IsUnread:1
+    // byte unused:4
 
-    public Medal5(byte[] data, int baseOffset, int index)
+    // byte unused
+
+    private const int EpochYear = 2000;
+
+    public ushort RawDate
     {
-        Data = data;
-        Offset = baseOffset + (SIZE * index);
-        Date = new Epoch2000Value(Data.AsMemory(Offset, 2));
+        get => ReadUInt16LittleEndian(Span);
+        set => WriteUInt16LittleEndian(Span, value);
     }
 
-    public bool Unread
+    public int Year
     {
-        get => FlagUtil.GetFlag(Span, 2, 3);
-        set => FlagUtil.SetFlag(Span, 2, 3, value);
+        get => (RawDate & 0x007F) + EpochYear;
+        set => RawDate = (ushort)((RawDate & 0xFF80) | ((value - EpochYear) & 0x007F));
+    }
+
+    public int Month
+    {
+        get => (RawDate & 0x0780) >> 7;
+        set => RawDate = (ushort)((RawDate & 0xF87F) | ((value & 0x0F) << 7));
+    }
+
+    public int Day
+    {
+        get => RawDate >> 11;
+        set => RawDate = (ushort)((RawDate & 0x07FF) | ((value & 0x1F) << 11));
     }
 
     public Medal5State State
@@ -31,16 +53,55 @@ public sealed class Medal5
         set => Span[2] = (byte)((Span[2] & 0b1000) | ((int)value & 0b0111));
     }
 
-    public bool HasDateBytesSet => BitConverter.ToUInt16(Span) != 0;
+    public bool IsUnread
+    {
+        get => FlagUtil.GetFlag(Span, 2, 3);
+        set => FlagUtil.SetFlag(Span, 2, 3, value);
+    }
 
-    public bool CanHaveDate => State == Medal5State.HintMedalObtained || State == Medal5State.MedalObtained || State == Medal5State.CanObtainMedal && HasDateBytesSet;
+    public bool CanHaveDate => State switch
+    {
+        Medal5State.HintObtained => true,
+        Medal5State.Obtained => true,
+        Medal5State.ObtainReady => HasDate,
+        _ => false,
+    };
+
+    public bool HasDate => RawDate != 0;
+    public bool IsObtained => State == Medal5State.Obtained;
+    public void Clear() => Span.Clear();
+
+    public DateOnly Date { get => GetDate(RawDate); set => RawDate = GetDate(value); }
+
+    private static ushort GetDate(DateOnly date)
+    {
+        int year = date.Year - EpochYear;
+        int month = date.Month;
+        int day = date.Day;
+        return (ushort)((year & 0x007F) | ((month & 0x0F) << 7) | ((day & 0x1F) << 11));
+    }
+
+    public static DateOnly GetDate(ushort date)
+    {
+        int year = (date & 0x007F) + EpochYear;
+        int month = (date & 0x0780) >> 7;
+        int day = date >> 11;
+        return new DateOnly(year, month, day);
+    }
+
+    public void Obtain(DateOnly time, bool unread = true)
+    {
+        RawDate = GetDate(time);
+        State = Medal5State.Obtained;
+        IsUnread = unread;
+    }
 }
 
 public enum Medal5State
 {
     Unobtained = 0,
-    CanObtainHintMedal = 1,
-    HintMedalObtained = 2,
-    CanObtainMedal = 3,
-    MedalObtained = 4,
+    HintReady = 1,
+    HintObtained = 2,
+    ObtainReady = 3,
+    Obtained = 4,
 }
