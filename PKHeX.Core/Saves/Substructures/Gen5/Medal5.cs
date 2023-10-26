@@ -31,6 +31,9 @@ public sealed class Medal5
         set => Span[2] = (byte)((Span[2] & 0b1000) | ((int)value & 0b0111));
     }
 
+    public bool HasDateBytesSet => BitConverter.ToUInt16(Span) != 0;
+
+    public bool CanHaveDate => State == Medal5State.HintMedalObtained || State == Medal5State.MedalObtained || State == Medal5State.CanObtainMedal && HasDateBytesSet;
 }
 
 public enum Medal5State

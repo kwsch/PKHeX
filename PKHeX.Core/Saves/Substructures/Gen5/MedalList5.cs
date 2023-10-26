@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core;
 
 public sealed class MedalList5 : SaveBlock<SAV5B2W2>
@@ -18,6 +20,20 @@ public sealed class MedalList5 : SaveBlock<SAV5B2W2>
     {
         get => Medals[index];
         set => Medals[index] = value;
+    }
+
+    public void UnlockAll()
+    {
+        for(int i = 0;i < Medals.Length;i++)
+        {
+            Medal5 currentMedal = Medals[i];
+            if (currentMedal.State != Medal5State.MedalObtained)
+            {
+                currentMedal.State = Medal5State.MedalObtained;
+                if (!currentMedal.HasDateBytesSet)
+                    currentMedal.Date.Timestamp = DateTime.Today;
+            }
+        }
     }
 
 }

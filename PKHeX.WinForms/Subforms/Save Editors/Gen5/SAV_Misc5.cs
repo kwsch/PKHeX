@@ -41,6 +41,7 @@ public partial class SAV_Misc5 : Form
         LoadForest();
         ReadSubway();
         ReadEntralink();
+        ReadMedals();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -124,6 +125,7 @@ public partial class SAV_Misc5 : Form
 
         if (SAV is SAV5BW)
         {
+            TC_Misc.TabPages.Remove(TAB_Medals);
             GB_KeySystem.Visible = false;
             // Roamer
             cbr = new[] { CB_Roamer642, CB_Roamer641 };
@@ -796,5 +798,87 @@ public partial class SAV_Misc5 : Form
 
         var data = File.ReadAllBytes(ofd.FileName);
         SAV.SetData(data, ofsForestCity);
+    }
+
+    private readonly string[] MedalNames = Util.GetStringList("medals", Main.CurrentLanguage);
+
+    private void ReadMedals()
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            CB_CurrentMedal.Items.AddRange(MedalNames);
+            CB_MedalState.Items.AddRange(new string[] { "Unobtained", "Can Obtain Hint Medal", "Hint Medal Obtained", "Can Obtain Medal", "Medal Obtained " });
+            CB_CurrentMedal.SelectedIndex = 0;
+        }
+    }
+
+    private void CB_CurrentMedal_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            Medal5 currentMedal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            CB_MedalState.SelectedIndex = (int)currentMedal.State;
+            if (currentMedal.CanHaveDate)
+            {
+                CAL_MedalDate.Value = currentMedal.Date.Timestamp;
+                CAL_MedalDate.Enabled = true;
+            }
+            else
+            {
+                CAL_MedalDate.Enabled = false;
+                CAL_MedalDate.ValueChanged -= CAL_MedalDate_ValueChanged;
+                CAL_MedalDate.Value = DateTime.Today;
+                CAL_MedalDate.ValueChanged += CAL_MedalDate_ValueChanged;
+            }
+            CHK_MedalUnread.Checked = currentMedal.Unread;
+        }
+    }
+
+    private void CB_MedalState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            Medal5 currentMedal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            currentMedal.State = (Medal5State)CB_MedalState.SelectedIndex;
+            if (currentMedal.CanHaveDate)
+            {
+                if (!currentMedal.HasDateBytesSet)
+                {
+                    currentMedal.Date.Timestamp = DateTime.Today;
+                }
+                CAL_MedalDate.Enabled = true;
+            }
+            else
+            {
+                CAL_MedalDate.Enabled = false;
+            }
+        }
+    }
+
+    private void CAL_MedalDate_ValueChanged(object? sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            Medal5 currentMedal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            currentMedal.Date.Timestamp = CAL_MedalDate.Value;
+        }
+    }
+
+    private void CHK_MedalUnread_CheckedChanged(object sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            Medal5 currentMedal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            currentMedal.Unread = CHK_MedalUnread.Checked;
+        }
+    }
+
+    private void B_UnlockAllMedals_Click(object sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            b2w2.Medals.UnlockAll();
+            System.Media.SystemSounds.Asterisk.Play();
+        }
     }
 }

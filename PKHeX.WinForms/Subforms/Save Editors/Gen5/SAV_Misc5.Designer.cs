@@ -157,6 +157,12 @@ namespace PKHeX.WinForms
             L_FC = new System.Windows.Forms.Label();
             B_ImportFC = new System.Windows.Forms.Button();
             B_DumpFC = new System.Windows.Forms.Button();
+            TAB_Medals = new System.Windows.Forms.TabPage();
+            CB_CurrentMedal = new System.Windows.Forms.ComboBox();
+            CB_MedalState = new System.Windows.Forms.ComboBox();
+            CAL_MedalDate = new System.Windows.Forms.DateTimePicker();
+            CHK_MedalUnread = new System.Windows.Forms.CheckBox();
+            B_UnlockAllMedals = new System.Windows.Forms.Button();
             TipExpB = new System.Windows.Forms.ToolTip(components);
             TipExpW = new System.Windows.Forms.ToolTip(components);
             TC_Misc.SuspendLayout();
@@ -209,6 +215,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_SingleRecord).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_SinglePast).BeginInit();
             TAB_BWCityForest.SuspendLayout();
+            TAB_Medals.SuspendLayout();
             SuspendLayout();
             // 
             // B_Cancel
@@ -243,7 +250,8 @@ namespace PKHeX.WinForms
             TC_Misc.Controls.Add(TAB_Forest);
             TC_Misc.Controls.Add(TAB_Subway);
             TC_Misc.Controls.Add(TAB_BWCityForest);
-            TC_Misc.Location = new System.Drawing.Point(14, 15);
+            TC_Misc.Controls.Add(TAB_Medals);
+            TC_Misc.Location = new System.Drawing.Point(14, 17);
             TC_Misc.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TC_Misc.Name = "TC_Misc";
             TC_Misc.SelectedIndex = 0;
@@ -1734,6 +1742,67 @@ namespace PKHeX.WinForms
             B_DumpFC.UseVisualStyleBackColor = true;
             B_DumpFC.Click += B_DumpFC_Click;
             // 
+            // TAB_Medals
+            // 
+            TAB_Medals.Controls.Add(this.B_UnlockAllMedals);
+            TAB_Medals.Controls.Add(CAL_MedalDate);
+            TAB_Medals.Controls.Add(CHK_MedalUnread);
+            TAB_Medals.Controls.Add(CB_MedalState);
+            TAB_Medals.Controls.Add(CB_CurrentMedal);
+            TAB_Medals.Location = new System.Drawing.Point(4, 24);
+            TAB_Medals.Name = "TAB_Medals";
+            TAB_Medals.Size = new System.Drawing.Size(390, 338);
+            TAB_Medals.TabIndex = 5;
+            TAB_Medals.Text = "Medals";
+            TAB_Medals.UseVisualStyleBackColor = true;
+            // 
+            // CB_CurrentMedal
+            // 
+            CB_CurrentMedal.FormattingEnabled = true;
+            CB_CurrentMedal.Location = new System.Drawing.Point(3, 16);
+            CB_CurrentMedal.Name = "CB_CurrentMedal";
+            CB_CurrentMedal.Size = new System.Drawing.Size(384, 23);
+            CB_CurrentMedal.TabIndex = 0;
+            CB_CurrentMedal.SelectedIndexChanged += CB_CurrentMedal_SelectedIndexChanged;
+            // 
+            // CB_MedalState
+            // 
+            CB_MedalState.FormattingEnabled = true;
+            CB_MedalState.Location = new System.Drawing.Point(3, 45);
+            CB_MedalState.Name = "CB_MedalState";
+            CB_MedalState.Size = new System.Drawing.Size(384, 23);
+            CB_MedalState.TabIndex = 1;
+            CB_MedalState.SelectedIndexChanged += CB_MedalState_SelectedIndexChanged;
+            // 
+            // CAL_MedalDate
+            // 
+            CAL_MedalDate.Location = new System.Drawing.Point(3, 74);
+            CAL_MedalDate.Name = "CAL_MedalDate";
+            CAL_MedalDate.Size = new System.Drawing.Size(384, 23);
+            CAL_MedalDate.TabIndex = 2;
+            CAL_MedalDate.ValueChanged += CAL_MedalDate_ValueChanged;
+            // 
+            // CHK_MedalUnread
+            // 
+            CHK_MedalUnread.AutoSize = true;
+            CHK_MedalUnread.Location = new System.Drawing.Point(3, 103);
+            CHK_MedalUnread.Name = "CHK_MedalUnread";
+            CHK_MedalUnread.Size = new System.Drawing.Size(64, 19);
+            CHK_MedalUnread.TabIndex = 3;
+            CHK_MedalUnread.Text = "Unread";
+            CHK_MedalUnread.UseVisualStyleBackColor = true;
+            CHK_MedalUnread.CheckedChanged += CHK_MedalUnread_CheckedChanged;
+            // 
+            // B_UnlockAllMedals
+            // 
+            B_UnlockAllMedals.Location = new System.Drawing.Point(3, 264);
+            B_UnlockAllMedals.Name = "B_UnlockAllMedals";
+            B_UnlockAllMedals.Size = new System.Drawing.Size(117, 71);
+            B_UnlockAllMedals.TabIndex = 4;
+            B_UnlockAllMedals.Text = "Unlock All Medals";
+            B_UnlockAllMedals.UseVisualStyleBackColor = true;
+            B_UnlockAllMedals.Click += this.B_UnlockAllMedals_Click;
+            // 
             // SAV_Misc5
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1800,6 +1869,8 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)NUD_SingleRecord).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_SinglePast).EndInit();
             TAB_BWCityForest.ResumeLayout(false);
+            TAB_Medals.ResumeLayout(false);
+            TAB_Medals.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1935,5 +2006,11 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Label L_FC;
         private System.Windows.Forms.Button B_ImportFC;
         private System.Windows.Forms.Button B_DumpFC;
+        private System.Windows.Forms.TabPage TAB_Medals;
+        private System.Windows.Forms.ComboBox CB_CurrentMedal;
+        private System.Windows.Forms.ComboBox CB_MedalState;
+        private System.Windows.Forms.DateTimePicker CAL_MedalDate;
+        private System.Windows.Forms.CheckBox CHK_MedalUnread;
+        private System.Windows.Forms.Button B_UnlockAllMedals;
     }
 }
