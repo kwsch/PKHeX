@@ -162,7 +162,7 @@ namespace PKHeX.WinForms
             CB_MedalState = new System.Windows.Forms.ComboBox();
             CAL_MedalDate = new System.Windows.Forms.DateTimePicker();
             CHK_MedalUnread = new System.Windows.Forms.CheckBox();
-            B_UnlockAllMedals = new System.Windows.Forms.Button();
+            B_ObtainAllMedals = new System.Windows.Forms.Button();
             TipExpB = new System.Windows.Forms.ToolTip(components);
             TipExpW = new System.Windows.Forms.ToolTip(components);
             TC_Misc.SuspendLayout();
@@ -1744,7 +1744,7 @@ namespace PKHeX.WinForms
             // 
             // TAB_Medals
             // 
-            TAB_Medals.Controls.Add(this.B_UnlockAllMedals);
+            TAB_Medals.Controls.Add(this.B_ObtainAllMedals);
             TAB_Medals.Controls.Add(CAL_MedalDate);
             TAB_Medals.Controls.Add(CHK_MedalUnread);
             TAB_Medals.Controls.Add(CB_MedalState);
@@ -1795,13 +1795,13 @@ namespace PKHeX.WinForms
             // 
             // B_UnlockAllMedals
             // 
-            B_UnlockAllMedals.Location = new System.Drawing.Point(3, 264);
-            B_UnlockAllMedals.Name = "B_UnlockAllMedals";
-            B_UnlockAllMedals.Size = new System.Drawing.Size(117, 71);
-            B_UnlockAllMedals.TabIndex = 4;
-            B_UnlockAllMedals.Text = "Unlock All Medals";
-            B_UnlockAllMedals.UseVisualStyleBackColor = true;
-            B_UnlockAllMedals.Click += this.B_UnlockAllMedals_Click;
+            B_ObtainAllMedals.Location = new System.Drawing.Point(3, 264);
+            B_ObtainAllMedals.Name = "B_UnlockAllMedals";
+            B_ObtainAllMedals.Size = new System.Drawing.Size(117, 71);
+            B_ObtainAllMedals.TabIndex = 4;
+            B_ObtainAllMedals.Text = "Obtain All Medals";
+            B_ObtainAllMedals.UseVisualStyleBackColor = true;
+            B_ObtainAllMedals.Click += this.B_ObtainAllMedals_Click;
             // 
             // SAV_Misc5
             // 
@@ -2011,6 +2011,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.ComboBox CB_MedalState;
         private System.Windows.Forms.DateTimePicker CAL_MedalDate;
         private System.Windows.Forms.CheckBox CHK_MedalUnread;
-        private System.Windows.Forms.Button B_UnlockAllMedals;
+        private System.Windows.Forms.Button B_ObtainAllMedals;
     }
 }

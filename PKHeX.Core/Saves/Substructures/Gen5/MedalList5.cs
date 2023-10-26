@@ -37,7 +37,7 @@ public sealed class MedalList5 : SaveBlock<SAV5B2W2>
         set => Medals[index] = value;
     }
 
-    public void UnlockAll(DateOnly date, bool unread = true)
+    public void ObtainAll(DateOnly date, bool unread = true)
     {
         foreach (var medal in Medals)
         {

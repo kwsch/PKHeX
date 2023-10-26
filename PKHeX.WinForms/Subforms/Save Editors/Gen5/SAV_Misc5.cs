@@ -807,7 +807,7 @@ public partial class SAV_Misc5 : Form
         if (SAV is SAV5B2W2)
         {
             CB_CurrentMedal.Items.AddRange(MedalNames);
-            CB_MedalState.Items.AddRange(new[] { "Unobtained", "Can Obtain Hint Medal", "Hint Medal Obtained", "Can Obtain Medal", "Medal Obtained " });
+            CB_MedalState.Items.AddRange(new[] { "Unobtained", "Can Obtain Hint Medal", "Hint Medal Obtained", "Can Obtain Medal", "Medal Obtained" });
             CB_CurrentMedal.SelectedIndex = 0;
         }
     }
@@ -871,12 +871,12 @@ public partial class SAV_Misc5 : Form
         }
     }
 
-    private void B_UnlockAllMedals_Click(object sender, EventArgs e)
+    private void B_ObtainAllMedals_Click(object sender, EventArgs e)
     {
         if (SAV is SAV5B2W2 b2w2)
         {
             var now = EncounterDate.GetDateNDS();
-            b2w2.Medals.UnlockAll(now, unread: true);
+            b2w2.Medals.ObtainAll(now, unread: true);
             System.Media.SystemSounds.Asterisk.Play();
         }
     }
