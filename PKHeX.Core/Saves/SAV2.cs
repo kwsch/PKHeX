@@ -507,16 +507,16 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
-    public MysteryGiftItem MysteryGiftItem
+    public byte MysteryGiftItem
     {
         get
         {
             int ofs = Offsets.MysteryGiftItem;
             if (ofs == -1)
-                return MysteryGiftItem.None;
+                return 0;
             if (GetEventFlag(1809))
-                return MysteryGiftItem.None;
-            return (MysteryGiftItem)Data[ofs];
+                return 0;
+            return Data[ofs];
         }
         set
         {
@@ -524,8 +524,8 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
             if (ofs == -1)
                 return;
 
-            SetEventFlag(1809, value == MysteryGiftItem.None);
-            Data[ofs] = (byte)value;
+            SetEventFlag(1809, value == 0);
+            Data[ofs] = value;
         }
     }
 
@@ -806,43 +806,4 @@ public enum GBMobileCableColor : byte
     Gray = 8,
     Debug = 0x81,
     Disabled = 0xFF,
-}
-
-public enum MysteryGiftItem : byte
-{
-    None = 0,
-    Scope_Lens = 140,
-    Eon_Mail = 185,
-    Morph_Mail = 186,
-    Music_Mail = 188,
-    MiracleBerry = 109,
-    Berry = 173,
-    PRZCureBerry = 78,
-    Mint_Berry = 84,
-    Ice_Berry = 80,
-    Burnt_Berry = 79,
-    PSNCureBerry = 74,
-    Guard_Spec = 41,
-    X_Defend = 51,
-    X_Attack = 49,
-    Bitter_Berry = 83,
-    Dire_Hit = 44,
-    X_Special = 53,
-    X_Accuracy = 33,
-    Gold_Berry = 174,
-    Revive = 39,
-    Great_Ball = 4,
-    Super_Repel = 42,
-    Max_Repel = 43,
-    Elixer = 65,
-    Ether = 63,
-    Water_Stone = 24,
-    Fire_Stone = 22,
-    Leaf_Stone = 34,
-    Thunderstone = 23,
-    Max_Ether = 64,
-    Max_Elixer = 21,
-    Max_Revive = 40,
-    HP_Up = 26,
-    PP_Up = 62
 }
