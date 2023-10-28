@@ -100,6 +100,7 @@ public sealed class SaveBlockAccessor5B2W2 : ISaveBlockAccessor<BlockInfoNDS>, I
         Encount = new Encount5B2W2(sav, 0x21900);
         BattleSubway = new BattleSubway5(sav, 0x21B00);
         PWT = new PWTBlock5(sav, 0x23700);
+        Medals = new MedalList5(sav, 0x25300);
         Festa = new FestaBlock5(sav, 0x25900);
     }
 
@@ -118,4 +119,5 @@ public sealed class SaveBlockAccessor5B2W2 : ISaveBlockAccessor<BlockInfoNDS>, I
     public Musical5 Musical { get; }
     public Encount5 Encount { get; }
     public UnityTower5 UnityTower { get; }
+    public MedalList5 Medals { get; }
 }
