@@ -507,6 +507,28 @@ public sealed class SAV2 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
         }
     }
 
+    public byte MysteryGiftItem
+    {
+        get
+        {
+            int ofs = Offsets.MysteryGiftItem;
+            if (ofs == -1)
+                return 0;
+            if (GetEventFlag(1809))
+                return 0;
+            return Data[ofs];
+        }
+        set
+        {
+            int ofs = Offsets.MysteryGiftItem;
+            if (ofs == -1)
+                return;
+
+            SetEventFlag(1809, value == 0);
+            Data[ofs] = value;
+        }
+    }
+
     public bool MysteryGiftIsUnlocked
     {
         get
