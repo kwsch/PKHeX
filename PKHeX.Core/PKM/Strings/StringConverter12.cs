@@ -101,6 +101,8 @@ public static class StringConverter12
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result, bool jp)
     {
+        if (data.Length == 0)
+            return 0;
         if (data[0] == G1TradeOTCode) // In-game Trade
         {
             result[0] = G1TradeOT;
@@ -139,7 +141,9 @@ public static class StringConverter12
         else if (option is StringConverterOption.Clear7F)
             destBuffer.Fill(G1SpaceCode);
 
-        if (value.Length != 0 && value[0] == G1TradeOT) // Handle "[TRAINER]"
+        if (value.Length == 0)
+            return 0;
+        if (value[0] == G1TradeOT) // Handle "[TRAINER]"
         {
             destBuffer[0] = G1TradeOTCode;
             destBuffer[1] = G1TerminatorCode;
@@ -149,7 +153,7 @@ public static class StringConverter12
         if (value.Length > maxLength)
             value = value[..maxLength]; // Hard cap
 
-        var dict = jp ? TableEN : TableJP;
+        var dict = jp ? TableJP : TableEN;
         int i = 0;
         for (; i < value.Length; i++)
         {
@@ -213,7 +217,7 @@ public static class StringConverter12
         'チ', 'ツ', 'テ', 'ト', 'ナ', 'ニ', 'ヌ', 'ネ', 'ノ', 'ハ', 'ヒ', 'フ', 'ホ', 'マ', 'ミ', 'ム', // 90-9F
         'メ', 'モ', 'ヤ', 'ユ', 'ヨ', 'ラ', 'ル', 'レ', 'ロ', 'ワ', 'ヲ', 'ン', 'ッ', 'ャ', 'ュ', 'ョ', // A0-AF
         'ィ', 'あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', // B0-BF
-        'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'ヘ', 'ほ', 'ま', // C0-CF
+        'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', // C0-CF
         'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'リ', 'る', 'れ', 'ろ', 'わ', 'を', 'ん', 'っ', // D0-DF
         'ゃ', 'ゅ', 'ょ', 'ー', 'ﾟ', 'ﾞ', '？', '！', '。', 'ァ', 'ゥ', 'ェ', NUL, NUL, NUL, '♂', // E0-EF
         MNY, NUL, '．', '／', 'ォ', '♀', '０', '１', '２', '３', '４', '５', '６', '７', '８', '９', // F0-FF

@@ -52,10 +52,13 @@ public static class LockFinder
     /// <returns>True if the starter ID correlation is correct</returns>
     public static bool IsXDStarterValid(uint seed, uint TID16, uint SID16)
     {
-        // pidiv reversed 2x yields SID16, 3x yields TID16. shift by 7 if another PKM is generated prior
-        var SIDf = XDRNG.Prev2(seed);
-        var TIDf = XDRNG.Prev(SIDf);
-        return SIDf >> 16 == SID16 && TIDf >> 16 == TID16;
+        // pidiv is right before the IV calls; need to unroll 2x for fake calls, then unroll for the TID/SID.
+        // reversed 2x yields SID16, 3x yields TID16.
+        var TIDf = XDRNG.Prev3(seed);
+        if (TIDf >> 16 != TID16)
+            return false;
+        var SIDf = XDRNG.Next(TIDf);
+        return SIDf >> 16 == SID16;
     }
 
     /// <summary>

@@ -40,6 +40,8 @@ public static class StringConverter2KOR
     /// <returns>Character count loaded.</returns>
     public static int LoadString(ReadOnlySpan<byte> data, Span<char> result)
     {
+        if (data.Length == 0)
+            return 0;
         if (data[0] == G1TradeOTCode) // In-game Trade
         {
             result[0] = G1TradeOT;
@@ -91,7 +93,10 @@ public static class StringConverter2KOR
         else if (option is StringConverterOption.Clear50)
             destBuffer.Fill(G1TerminatorCode);
 
-        if (value.Length != 0 && value[0] == G1TradeOT) // Handle "[TRAINER]"
+        if (value.Length == 0)
+            return 0;
+        // Can't get Gen1 In-Game trades with this char, but handle it anyways since the game can handle it.
+        if (value[0] == G1TradeOT) // Handle "[TRAINER]"
         {
             destBuffer[0] = G1TradeOTCode;
             destBuffer[1] = G1TerminatorCode;

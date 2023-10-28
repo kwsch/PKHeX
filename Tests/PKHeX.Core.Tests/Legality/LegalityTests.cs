@@ -99,8 +99,8 @@ public class LegalityTest
 
         var info = legality.Info;
         foreach (var m in info.Moves.Where(z => !z.Valid))
-            yield return m.Summary(legality.Info.Entity, legality.Info.EvoChainsAllGens);
+            yield return m.Summary(info.Entity, info.EvoChainsAllGens);
         foreach (var r in info.Relearn.Where(z => !z.Valid))
-            yield return r.Summary(legality.Info.Entity, legality.Info.EvoChainsAllGens);
+            yield return r.Summary(info.Entity, info.EvoChainsAllGens);
     }
 }
