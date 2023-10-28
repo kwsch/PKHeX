@@ -23,7 +23,8 @@
 0173	g	Traded for Steene in Seafolk Village
 0174	g	Traded for Talonflame on Poni Gauntlet
 0789	s	Lillie Disappeared from Altar
-0791	s	Solgaleo/Lunala Disappeared from Altar
+0790	s	Solgaleo Disappeared from Altar
+0791	s	Lunala Disappeared from Altar
 0185	s	Had First Title Defense Battle
 0186	t	Encountered Hapu (Title Defense)
 2435	t	Defeated Hapu (Title Defense)
