@@ -101,11 +101,9 @@ public partial class ReportGrid : Form
     {
         if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
             return;
-        using var savecsv = new SaveFileDialog
-        {
-            Filter = "Spreadsheet|*.csv",
-            FileName = "Box Data Dump.csv",
-        };
+        using var savecsv = new SaveFileDialog();
+        savecsv.Filter = "Spreadsheet|*.csv";
+        savecsv.FileName = "Box Data Dump.csv";
         if (savecsv.ShowDialog() == DialogResult.OK)
         {
             Hide();

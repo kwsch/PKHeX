@@ -204,9 +204,7 @@ public partial class RibbonEditor : Form
         nud.ValueChanged += (sender, e) =>
         {
             var controlName = PrefixPB + rib.Name;
-            var pb = FLP_Ribbons.Controls[controlName];
-            if (pb is null)
-                throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
+            var pb = FLP_Ribbons.Controls[controlName] ?? throw new ArgumentException($"{controlName} not found in {FLP_Ribbons.Name}.");
             pb.Visible = (rib.RibbonCount = (byte)nud.Value) != 0;
             pb.BackgroundImage = RibbonSpriteUtil.GetRibbonSprite(rib.Name, (int)nud.Maximum, (int)nud.Value);
 

@@ -82,6 +82,8 @@ public static class SpriteName
         (int)Species.Polteageist,
         (int)Species.Urshifu,
         (int)Species.Dudunsparce,
+        (int)Species.Poltchageist,
+        (int)Species.Sinistcha,
     };
 
     /// <summary>

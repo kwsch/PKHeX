@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Iterates to find possible encounters for <see cref="GameVersion.Gen2"/> encounters.
+/// </summary>
 public record struct EncounterPossible2(EvoCriteria[] Chain, EncounterTypeGroup Flags, GameVersion Version, PKM Entity) : IEnumerator<IEncounterable>
 {
     public IEncounterable Current { get; private set; }

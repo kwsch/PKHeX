@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters9
 {
-    internal static readonly EncounterArea9[] Slots = EncounterArea9.GetAreas(Get("wild_paldea", "sv"), SV);
+    internal static readonly EncounterArea9[] Slots = EncounterArea9.GetAreas(Get("wild_paldea", "sv"u8), SV);
 
     internal static readonly EncounterStatic9[] Encounter_SV =
     {
@@ -58,6 +58,22 @@ internal static class Encounters9
         new(SV) { Species = 0999, Shiny = Never, Level = 50, Location = 048 }, // Gimmighoul - North Province (Area Two)
         new(SV) { Species = 0999, Shiny = Never, Level = 50, Location = 109 }, // Gimmighoul - Socarrat Trail
         #endregion
+
+        #region Sudachi 1
+        new(SV) { Species = 0168, Shiny = Never, Level = 65, Location = 166, Ability = OnlyFirst, Gender = 0, Nature = Nature.Hardy, TeraType = GemType.Bug, Size = 128, IVs = new(20,20,20,20,20,20) }, // Ariados
+        new(SV) { Species = 0901, Shiny = Never, Level = 70, Location = 166, Ability = OnlyFirst, Gender = 0, Nature = Nature.Hardy, TeraType = GemType.Normal, Size = 128, FlawlessIVCount = 3, Moves = new(901,414,163,347), Form = 1 }, // Ursaluna-1
+        new(SV) { Species = 1014, Shiny = Never, Level = 70, Location = 162, Ability = OnlyFirst, Gender = 0, TeraType = GemType.Poison, Size = 128, FlawlessIVCount = 3 }, // Okidogi
+        new(SV) { Species = 1015, Shiny = Never, Level = 70, Location = 156, Ability = OnlyFirst, Gender = 0, TeraType = GemType.Poison, Size = 128, FlawlessIVCount = 3 }, // Munkidori
+        new(SV) { Species = 1016, Shiny = Never, Level = 70, Location = 144, Ability = OnlyFirst, Gender = 0, TeraType = GemType.Poison, Size = 128, FlawlessIVCount = 3 }, // Fezandipiti
+        new(SV) { Species = 1017, Shiny = Never, Level = 70, Location = 146, Ability = OnlyFirst, Gender = 1, Nature = Nature.Lonely, TeraType = GemType.Grass, Size = 128, IVs = new(31,31,20,31,20,20), Moves = new(904,067,021,580) }, // Ogerpon
+        new(SV) { Species = 1017, Shiny = Never, Level = 20, Location = 146, Ability = OnlyFirst, Gender = 1, Nature = Nature.Lonely, TeraType = GemType.Grass, Size = 128, IVs = new(31,31,20,31,20,20), Moves = new(904,021,074,022) }, // Ogerpon
+
+        new(SV) { FixedBall = Ball.Poke, Species = 0446, Shiny = Always, Level = 01, Location = 142, Ability = OnlyHidden, Gender = 0, Nature = Nature.Impish, Size = 255 }, // Munchlax
+        new(SV) { FixedBall = Ball.Poke, Species = 0058, Shiny = Never,  Level = 15, Location = 134, Ability = OnlyHidden, Gender = 0, Nature = Nature.Jolly, TeraType = GemType.Rock, Size = 254, IVs = new(31,31,20,31,20,20), Form = 1 }, // Growlithe-1
+        new(SV) { FixedBall = Ball.Poke, Species = 0387, Shiny = Never,  Level = 01, Location = 000, Ability = OnlyFirst, Size = 128, EggLocation = 60005 }, // Turtwig
+        new(SV) { FixedBall = Ball.Poke, Species = 0390, Shiny = Never,  Level = 01, Location = 000, Ability = OnlyFirst, Size = 128, EggLocation = 60005 }, // Chimchar
+        new(SV) { FixedBall = Ball.Poke, Species = 0393, Shiny = Never,  Level = 01, Location = 000, Ability = OnlyFirst, Size = 128, EggLocation = 60005 }, // Piplup
+        #endregion
     };
 
     internal static readonly EncounterStatic9[] StaticSL =
@@ -101,8 +117,10 @@ internal static class Encounters9
         new(TradeNames, 02, SV, 0872,10) { ID32 = 050724, Ability = Any12,      OTGender = 0, Gender = 1, Nature = Nature.Bashful, IVs = new(31,18,13,20,28,26)                       }, // Snom
     };
 
-    internal static readonly EncounterTera9[] Tera = EncounterTera9.GetArray(Get("gem_paldea"));
+    internal static readonly EncounterTera9[] TeraBase = EncounterTera9.GetArray(Get("gem_paldea"), TeraRaidMapParent.Paldea);
+    internal static readonly EncounterTera9[] TeraDLC1 = EncounterTera9.GetArray(Get("gem_kitakami"), TeraRaidMapParent.Kitakami);
     internal static readonly EncounterDist9[] Dist = EncounterDist9.GetArray(Get("dist_paldea"));
     internal static readonly EncounterMight9[] Might = EncounterMight9.GetArray(Get("might_paldea"));
     internal static readonly EncounterFixed9[] Fixed = EncounterFixed9.GetArray(Get("fixed_paldea"));
+    internal static readonly EncounterOutbreak9[] Outbreak = EncounterOutbreak9.GetArray(Get("outbreak_paldea"));
 }

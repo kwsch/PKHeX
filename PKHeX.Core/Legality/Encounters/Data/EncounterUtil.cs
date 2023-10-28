@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -8,8 +9,8 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class EncounterUtil
 {
-    internal static ReadOnlySpan<byte> Get(string resource) => Util.GetBinaryResource($"encounter_{resource}.pkl");
-    internal static BinLinkerAccessor Get(string resource, string ident) => BinLinkerAccessor.Get(Get(resource), ident);
+    internal static ReadOnlySpan<byte> Get([ConstantExpected] string resource) => Util.GetBinaryResource($"encounter_{resource}.pkl");
+    internal static BinLinkerAccessor Get([ConstantExpected] string resource, [ConstantExpected(Min = 2, Max = 2)] ReadOnlySpan<byte> ident) => BinLinkerAccessor.Get(Get(resource), ident);
 
     internal static T? GetMinByLevel<T>(ReadOnlySpan<EvoCriteria> chain, IEnumerable<T> possible) where T : class, IEncounterTemplate
     {

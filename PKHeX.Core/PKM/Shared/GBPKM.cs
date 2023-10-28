@@ -16,7 +16,7 @@ public abstract class GBPKM : PKM
     public sealed override int MinGameID => (int)GameVersion.RD;
     public sealed override int MaxGameID => (int)GameVersion.C;
     public sealed override int MaxIV => 15;
-    public sealed override int MaxEV => ushort.MaxValue;
+    public sealed override int MaxEV => EffortValues.Max12;
 
     public sealed override ReadOnlySpan<ushort> ExtraBytes => ReadOnlySpan<ushort>.Empty;
 

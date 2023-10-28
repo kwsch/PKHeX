@@ -23,7 +23,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public override Type PKMType => typeof(PK6);
 
     public override int BoxCount => 31;
-    public override int MaxEV => 252;
+    public override int MaxEV => EffortValues.Max252;
     public override int Generation => 6;
     public override EntityContext Context => EntityContext.Gen6;
     protected override int GiftCountMax => 24;
@@ -111,8 +111,8 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
         PK6 pk6 = (PK6)pk;
         // Apply to this Save File
         int CT = pk6.CurrentHandler;
-        DateTime Date = DateTime.Now;
-        pk6.Trade(this, Date.Day, Date.Month, Date.Year);
+        var now = EncounterDate.GetDate3DS();
+        pk6.Trade(this, now.Day, now.Month, now.Year);
         if (CT != pk6.CurrentHandler) // Logic updated Friendship
         {
             // Copy over the Friendship Value only under certain circumstances

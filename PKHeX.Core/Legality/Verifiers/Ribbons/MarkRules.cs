@@ -11,20 +11,20 @@ public static class MarkRules
     /// <summary>
     /// Checks if an encounter-only mark is possible to obtain for the encounter, if not lost via data manipulation.
     /// </summary>
-    public static bool IsEncounterMarkAllowed(LegalityAnalysis data)
+    public static bool IsEncounterMarkAllowed(IEncounterTemplate enc, PKM pk)
     {
-        if (IsEncounterMarkLost(data))
+        if (IsEncounterMarkLost(enc, pk))
             return false;
-        return data.Info.EncounterOriginal.Context is EntityContext.Gen8 or EntityContext.Gen9;
+        return enc.Context is EntityContext.Gen8 or EntityContext.Gen9;
     }
 
     /// <summary>
     /// Checks if original marks and ribbons are lost via data manipulation.
     /// </summary>
-    public static bool IsEncounterMarkLost(LegalityAnalysis data)
+    public static bool IsEncounterMarkLost(IEncounterTemplate enc, PKM pk)
     {
         // Nincada -> Shedinja loses all ribbons and marks, but does not purge any Affixed Ribbon value.
-        return data.EncounterOriginal.Species is (int)Species.Nincada && data.Entity.Species == (int)Species.Shedinja;
+        return enc.Species is (int)Species.Nincada && pk.Species == (int)Species.Shedinja;
     }
 
     /// <summary>
@@ -34,6 +34,8 @@ public static class MarkRules
     {
         EncounterSlot8 or EncounterStatic8 { Gift: false, ScriptedNoMarks: false } => IsMarkAllowedSpecific8(mark, pk, enc),
         EncounterSlot9 s => IsMarkAllowedSpecific9(mark, s),
+        EncounterStatic9 s => IsMarkAllowedSpecific9(mark, s),
+        EncounterOutbreak9 o when o.Ribbon == mark || IsMarkAllowedSpecific9(mark, pk) => true, // not guaranteed ribbon/mark
         WC9 wc9 => wc9.GetRibbonIndex(mark),
         _ => false,
     };
@@ -64,6 +66,31 @@ public static class MarkRules
         >= MarkLunchtime and <= MarkDawn => x.CanSpawnAtTime(mark),
         >= MarkCloudy and <= MarkMisty => x.CanSpawnInWeather(mark),
         _ => true,
+    };
+
+    /// <summary>
+    /// Checks if a specific encounter mark is disallowed.
+    /// </summary>
+    /// <returns>False if mark is disallowed based on specific conditions.</returns>
+    /// <remarks>ONLY USE FOR <see cref="EncounterOutbreak9"/></remarks>
+    public static bool IsMarkAllowedSpecific9(RibbonIndex mark, PKM pk) => mark switch
+    {
+        MarkCurry => false,
+        MarkFishing => false,
+        MarkDestiny => true, // Capture on Birthday
+        >= MarkLunchtime and <= MarkDawn => true, // no time restrictions
+        >= MarkCloudy and <= MarkMisty => pk is PK8 || EncounterSlot9.CanSpawnInWeather(mark, (byte)pk.Met_Location),
+        _ => true,
+    };
+
+    /// <summary>
+    /// Checks if a specific encounter mark is disallowed.
+    /// </summary>
+    /// <returns>False if mark is disallowed based on specific conditions.</returns>
+    public static bool IsMarkAllowedSpecific9(RibbonIndex mark, EncounterStatic9 s) => mark switch
+    {
+        MarkCrafty => s.RibbonMarkCrafty,
+        _ => false,
     };
 
     // Encounter slots check location weather, while static encounters check weather per encounter.
@@ -209,7 +236,7 @@ public static class MarkRules
     /// <summary>
     /// Checks if the input should have the <see cref="IRibbonSetMark9.RibbonMarkItemfinder"/> mark.
     /// </summary>
-    public static bool IsMarkValidItemFinder(EvolutionHistory evos) => false; // evos.HasVisitedGen9;
+    public static bool IsMarkValidItemFinder(EvolutionHistory evos) => evos.HasVisitedGen9; // Obtainable starting in DLC1.
 
     /// <summary>
     /// Checks if the input should have the <see cref="IRibbonSetMark9.RibbonMarkPartner"/> mark.

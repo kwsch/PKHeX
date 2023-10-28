@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -8,24 +11,24 @@ internal static class EncountersGO
 {
     internal const int MAX_LEVEL = 50;
 
-    internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(EncounterUtil.Get("go_lgpe", "go"));
-    internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(EncounterUtil.Get("go_home", "go"));
+    internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(EncounterUtil.Get("go_lgpe", "go"u8));
+    internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(EncounterUtil.Get("go_home", "go"u8));
 }
 #else
 public static class EncountersGO
 {
     internal const int MAX_LEVEL = 50;
 
-    internal static EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"));
-    internal static EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"));
+    internal static EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"u8));
+    internal static EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"u8));
 
     public static void Reload()
     {
-        SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"));
-        SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"));
+        SlotsGO_GG = EncounterArea7g.GetArea(Get("go_lgpe", "go"u8));
+        SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"u8));
     }
 
-    private static BinLinkerAccessor Get(string resource, string ident)
+    private static BinLinkerAccessor Get([ConstantExpected] string resource, [ConstantExpected(Min = 2, Max = 2)] ReadOnlySpan<byte> ident)
     {
         var name = $"encounter_{resource}.pkl";
         var data = System.IO.File.Exists(name) ? System.IO.File.ReadAllBytes(name) : Util.GetBinaryResource(name);

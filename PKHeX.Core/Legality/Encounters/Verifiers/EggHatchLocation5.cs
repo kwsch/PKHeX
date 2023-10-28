@@ -12,7 +12,7 @@ public static class EggHatchLocation5
 
     public static bool IsValidMet5(int location, GameVersion game)
     {
-        var shift = (uint)((int)game - (int)W);
+        var shift = (uint)(game - W);
         if (shift >= 4)
             return false;
 

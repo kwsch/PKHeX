@@ -136,6 +136,7 @@ public static class Breeding
         (int)Floette when form == 5 => false, // can't get Eternal Flower from egg
         (int)Greninja when form == 1 => false, // can't get Battle Bond Greninja from egg
         (int)Sinistea or (int)Polteageist => false, // can't get Antique eggs
+        (int)Poltchageist or (int)Sinistcha => false, // can't get Masterpiece eggs
         _ => true,
     };
 
@@ -204,6 +205,7 @@ public static class Breeding
         (int)RoaringMoon or (int)IronValiant => false,
         (int)Koraidon or (int)Miraidon => false,
         (int)WalkingWake or (int)IronLeaves => false,
+        (int)Okidogi or (int)Munkidori or (int)Fezandipiti or (int)Ogerpon => false,
 
         _ => true,
     };

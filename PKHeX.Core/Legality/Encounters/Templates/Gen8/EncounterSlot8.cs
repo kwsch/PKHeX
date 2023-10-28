@@ -94,6 +94,9 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
     {
         bool symbol = Parent.PermitCrossover;
         var c = symbol ? EncounterCriteria.Unrestricted : criteria;
+        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
+        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+        pk.Gender = criteria.GetGender(pi);
 
         var req = GetRequirement(pk);
         if (req != MustHave)
@@ -101,15 +104,13 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             var rand = Util.Rand;
             pk.EncryptionConstant = rand.Rand32();
             pk.PID = rand.Rand32();
+            pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rand);
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rand);
             criteria.SetRandomIVs(pk);
-            pk.Gender = criteria.GetGender(pi);
-            pk.Nature = pk.StatNature = (int)criteria.GetNature();
-            pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
             return;
         }
         // Don't bother honoring shiny state.
         Overworld8RNG.ApplyDetails(pk, c, Shiny.Random);
-        pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
     }
 
     public OverworldCorrelation8Requirement GetRequirement(PKM pk)

@@ -17,7 +17,7 @@ public sealed class WC7Full
         Data = data;
         var wc7 = data.AsSpan(GiftStart).ToArray();
         Gift = new WC7(wc7);
-        var now = DateTime.Now;
+        var now = EncounterDate.GetDate3DS();
         Gift.RawDate = WC7.SetDate((uint)now.Year, (uint)now.Month, (uint)now.Day);
 
         Gift.RestrictVersion = RestrictVersion;
@@ -30,7 +30,7 @@ public sealed class WC7Full
         var countgift = data.Length / WC7.Size;
         var result = new WC7[countfull + countgift];
 
-        var now = DateTime.Now;
+        var now = EncounterDate.GetDate3DS();
         for (int i = 0; i < countfull; i++)
             result[i] = ReadWC7(wc7Full, i * Size, now);
         for (int i = 0; i < countgift; i++)
@@ -39,7 +39,7 @@ public sealed class WC7Full
         return result;
     }
 
-    private static WC7 ReadWC7(ReadOnlySpan<byte> data, int ofs, DateTime date)
+    private static WC7 ReadWC7(ReadOnlySpan<byte> data, int ofs, DateOnly date)
     {
         var slice = data.Slice(ofs + GiftStart, WC7.Size).ToArray();
         return new WC7(slice)

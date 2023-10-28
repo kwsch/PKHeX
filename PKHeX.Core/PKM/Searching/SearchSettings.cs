@@ -35,6 +35,7 @@ public sealed class SearchSettings
     public CloneDetectionMethod SearchClones { get; set; }
     public string BatchInstructions { get; init; } = string.Empty;
     private IReadOnlyList<StringInstruction> BatchFilters { get; set; } = Array.Empty<StringInstruction>();
+    private IReadOnlyList<StringInstruction> BatchFiltersMeta { get; set; } = Array.Empty<StringInstruction>();
 
     public readonly List<ushort> Moves = new();
 
@@ -62,7 +63,7 @@ public sealed class SearchSettings
     /// <returns>Search results that match all criteria</returns>
     public IEnumerable<PKM> Search(IEnumerable<PKM> list)
     {
-        BatchFilters = StringInstruction.GetFilters(BatchInstructions);
+        InitializeFilters();
         var result = SearchInner(list);
 
         if (SearchClones != CloneDetectionMethod.None)
@@ -81,7 +82,7 @@ public sealed class SearchSettings
     /// <returns>Search results that match all criteria</returns>
     public IEnumerable<SlotCache> Search(IEnumerable<SlotCache> list)
     {
-        BatchFilters = StringInstruction.GetFilters(BatchInstructions);
+        InitializeFilters();
         var result = SearchInner(list);
 
         if (SearchClones != CloneDetectionMethod.None)
@@ -92,6 +93,16 @@ public sealed class SearchSettings
         }
 
         return result;
+    }
+
+    private void InitializeFilters()
+    {
+        var filters = StringInstruction.GetFilters(BatchInstructions);
+        var meta = filters.Where(z => Core.BatchFilters.FilterMeta.Any(x => x.IsMatch(z.PropertyName))).ToList();
+        if (meta.Count != 0)
+            filters.RemoveAll(meta.Contains);
+        BatchFilters = filters;
+        BatchFiltersMeta = meta;
     }
 
     private IEnumerable<PKM> SearchInner(IEnumerable<PKM> list)
@@ -109,6 +120,8 @@ public sealed class SearchSettings
         foreach (var entry in list)
         {
             var pk = entry.Entity;
+            if (BatchFiltersMeta.Count != 0 && !BatchEditing.IsFilterMatchMeta(BatchFiltersMeta, entry))
+                continue;
             if (!IsSearchMatch(pk))
                 continue;
             yield return entry;

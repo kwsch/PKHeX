@@ -150,8 +150,11 @@ public static class SpeciesConverter
         029, -53, -65, 025, -06, -03, -07, -04, -04, -08,
         -04, 001, -03, -03, -06, -04, -47, -47, -47, -23,
         -23, -05, -07, -09, -07, -20, -13, -09, -09, -29,
-        -23,
+        -23, 001, 012, 012, 000, 000, 000, -06, UNK, UNK,
+        UNK, UNK, UNK, UNK, UNK, UNK,
     };
+
+    private const sbyte UNK = 111;
 
     /// <summary>
     /// Difference of Gen9 Species IDs (index) and the associated National Dex IDs (value)
@@ -168,6 +171,7 @@ public static class SpeciesConverter
         029, 008, 003, 004, 004, 020, 004, 023, 006, 003,
         003, 004, -01, 013, 009, 007, 005, 007, 009, 009,
         -43, -43, -43, -68, -68, -68, -58, -58, -25, -29,
-        -31,
+        -31, 006, -01, UNK, 000, 000, 000, UNK, UNK, UNK,
+        UNK, UNK, UNK, UNK, -12, -12,
     };
 }

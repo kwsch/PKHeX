@@ -16,7 +16,7 @@ public sealed class MarkVerifier : Verifier
         if (pk is not IRibbonIndex m)
             return;
 
-        if (!MarkRules.IsEncounterMarkAllowed(data)) // Shedinja doesn't copy Ribbons or Marks
+        if (!MarkRules.IsEncounterMarkAllowed(data.EncounterOriginal, data.Entity)) // Shedinja doesn't copy Ribbons or Marks
             VerifyNoMarksPresent(data, m);
         else
             VerifyMarksPresent(data, m);
@@ -24,8 +24,10 @@ public sealed class MarkVerifier : Verifier
         VerifyAffixedRibbonMark(data, m);
 
         // temp logic to catch this case; in the future we will need more robust checks for encounters
-        if (data.EncounterMatch is WC9 { RibbonMarkCharismatic: true} && pk is IRibbonSetMark8 { RibbonMarkCharismatic: false})
+        if (data.EncounterMatch is WC9 { RibbonMarkCharismatic: true } && pk is IRibbonSetMark8 { RibbonMarkCharismatic: false })
             data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(MarkCharismatic))));
+        else if (data.EncounterMatch is EncounterStatic9 { RibbonMarkCrafty: true } && pk is IRibbonSetMark8 { RibbonMarkCrafty: false })
+            data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(MarkCrafty))));
     }
 
     private void VerifyNoMarksPresent(LegalityAnalysis data, IRibbonIndex m)
@@ -91,7 +93,7 @@ public sealed class MarkVerifier : Verifier
         if (m is not PKM pk)
             return;
 
-        if (MarkRules.IsEncounterMarkLost(data))
+        if (MarkRules.IsEncounterMarkLost(data.EncounterOriginal, data.Entity))
         {
             VerifyShedinjaAffixed(data, affix, pk, m);
             return;

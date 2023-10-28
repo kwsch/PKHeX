@@ -4,7 +4,10 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public record struct EncounterPossible4(EvoCriteria[] Chain, EncounterTypeGroup Flags, GameVersion Version) : IEnumerator<IEncounterable>
+/// <summary>
+/// Iterates to find possible encounters for <see cref="GameVersion.Gen4"/> encounters.
+/// </summary>
+public record struct EncounterPossible4(EvoCriteria[] Chain, EncounterTypeGroup Flags, GameVersion Version, PKM Entity) : IEnumerator<IEncounterable>
 {
     public IEncounterable Current { get; private set; }
 
@@ -178,23 +181,23 @@ public record struct EncounterPossible4(EvoCriteria[] Chain, EncounterTypeGroup 
                 { State = YieldState.SlotSS; goto case YieldState.SlotSS; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
             case YieldState.SlotHG:
-                if (TryGetNext<EncounterArea4, EncounterSlot4>(Encounters4HGSS.SlotsHG))
+                if (TryGetNext(Encounters4HGSS.SlotsHG))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotSS:
-                if (TryGetNext<EncounterArea4, EncounterSlot4>(Encounters4HGSS.SlotsSS))
+                if (TryGetNext(Encounters4HGSS.SlotsSS))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotD:
-                if (TryGetNext<EncounterArea4, EncounterSlot4>(Encounters4DPPt.SlotsD))
+                if (TryGetNext(Encounters4DPPt.SlotsD))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotP:
-                if (TryGetNext<EncounterArea4, EncounterSlot4>(Encounters4DPPt.SlotsP))
+                if (TryGetNext(Encounters4DPPt.SlotsP))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotPt:
-                if (TryGetNext<EncounterArea4, EncounterSlot4>(Encounters4DPPt.SlotsPt))
+                if (TryGetNext(Encounters4DPPt.SlotsPt))
                     return true;
                 goto case YieldState.SlotEnd;
             case YieldState.SlotEnd:
@@ -203,9 +206,7 @@ public record struct EncounterPossible4(EvoCriteria[] Chain, EncounterTypeGroup 
         return false;
     }
 
-    private bool TryGetNext<TArea, TSlot>(TArea[] areas)
-        where TArea : class, IEncounterArea<TSlot>
-        where TSlot : class, IEncounterable, IEncounterMatch
+    private bool TryGetNext(EncounterArea4[] areas)
     {
         for (; Index < areas.Length; Index++, SubIndex = 0)
         {
@@ -233,7 +234,7 @@ public record struct EncounterPossible4(EvoCriteria[] Chain, EncounterTypeGroup 
         return false;
     }
 
-    private bool TryGetNextSub<T>(T[] slots) where T : class, IEncounterable, IEncounterMatch
+    private bool TryGetNextSub(EncounterSlot4[] slots)
     {
         while (SubIndex < slots.Length)
         {
@@ -241,6 +242,8 @@ public record struct EncounterPossible4(EvoCriteria[] Chain, EncounterTypeGroup 
             foreach (var evo in Chain)
             {
                 if (enc.Species != evo.Species)
+                    continue;
+                if (enc.IsInvalidMunchlaxTree(Entity))
                     continue;
                 return SetCurrent(enc);
             }

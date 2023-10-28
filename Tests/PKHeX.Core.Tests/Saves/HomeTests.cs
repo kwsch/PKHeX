@@ -13,7 +13,7 @@ public static class HomeTests
     {
         var folder = TestUtil.GetRepoPath();
         var path = Path.Combine(folder, "TestData");
-        return Directory.EnumerateFiles(path, "*.eh2", SearchOption.TopDirectoryOnly);
+        return Directory.EnumerateFiles(path, "*.eh3", SearchOption.TopDirectoryOnly);
     }
 
     [Fact]

@@ -43,8 +43,6 @@ public partial class SAV_Trainer9 : Form
         GetTextBoxes();
         LoadMap();
 
-        CB_Fashion.SelectedIndex = 0;
-
         Loading = false;
     }
 
@@ -179,95 +177,112 @@ public partial class SAV_Trainer9 : Form
 
     private void UnlockFlyLocations()
     {
-        var blocks = new[]
-        {
-            #region Fly Flags
-            FSYS_YMAP_FLY_01,
-            FSYS_YMAP_FLY_02,
-            FSYS_YMAP_FLY_03,
-            FSYS_YMAP_FLY_04,
-            FSYS_YMAP_FLY_05,
-            FSYS_YMAP_FLY_06,
-            FSYS_YMAP_FLY_07,
-            FSYS_YMAP_FLY_08,
-            FSYS_YMAP_FLY_09,
-            FSYS_YMAP_FLY_10,
-            FSYS_YMAP_FLY_11,
-            FSYS_YMAP_FLY_12,
-            FSYS_YMAP_FLY_13,
-            FSYS_YMAP_FLY_14,
-            FSYS_YMAP_FLY_15,
-            FSYS_YMAP_FLY_16,
-            FSYS_YMAP_FLY_17,
-            FSYS_YMAP_FLY_18,
-            FSYS_YMAP_FLY_19,
-            FSYS_YMAP_FLY_20,
-            FSYS_YMAP_FLY_21,
-            FSYS_YMAP_FLY_22,
-            FSYS_YMAP_FLY_23,
-            FSYS_YMAP_FLY_24,
-            FSYS_YMAP_FLY_25,
-            FSYS_YMAP_FLY_26,
-            FSYS_YMAP_FLY_27,
-            FSYS_YMAP_FLY_28,
-            FSYS_YMAP_FLY_29,
-            FSYS_YMAP_FLY_30,
-            FSYS_YMAP_FLY_31,
-            FSYS_YMAP_FLY_32,
-            FSYS_YMAP_FLY_33,
-            FSYS_YMAP_FLY_34,
-            FSYS_YMAP_FLY_35,
-            FSYS_YMAP_FLY_MAGATAMA,
-            FSYS_YMAP_FLY_MOKKAN,
-            FSYS_YMAP_FLY_TSURUGI,
-            FSYS_YMAP_FLY_UTSUWA,
-            FSYS_YMAP_POKECEN_02,
-            FSYS_YMAP_POKECEN_03,
-            FSYS_YMAP_POKECEN_04,
-            FSYS_YMAP_POKECEN_05,
-            FSYS_YMAP_POKECEN_06,
-            FSYS_YMAP_POKECEN_07,
-            FSYS_YMAP_POKECEN_08,
-            FSYS_YMAP_POKECEN_09,
-            FSYS_YMAP_POKECEN_10,
-            FSYS_YMAP_POKECEN_11,
-            FSYS_YMAP_POKECEN_12,
-            FSYS_YMAP_POKECEN_13,
-            FSYS_YMAP_POKECEN_14,
-            FSYS_YMAP_POKECEN_15,
-            FSYS_YMAP_POKECEN_16,
-            FSYS_YMAP_POKECEN_17,
-            FSYS_YMAP_POKECEN_18,
-            FSYS_YMAP_POKECEN_19,
-            FSYS_YMAP_POKECEN_20,
-            FSYS_YMAP_POKECEN_21,
-            FSYS_YMAP_POKECEN_22,
-            FSYS_YMAP_POKECEN_23,
-            FSYS_YMAP_POKECEN_24,
-            FSYS_YMAP_POKECEN_25,
-            FSYS_YMAP_POKECEN_26,
-            FSYS_YMAP_POKECEN_27,
-            FSYS_YMAP_POKECEN_28,
-            FSYS_YMAP_POKECEN_29,
-            FSYS_YMAP_POKECEN_30,
-            FSYS_YMAP_POKECEN_31,
-            FSYS_YMAP_POKECEN_32,
-            FSYS_YMAP_POKECEN_33,
-            FSYS_YMAP_POKECEN_34,
-            FSYS_YMAP_POKECEN_35,
-
-            // Treasures of Ruin shrine toggles
-            FSYS_YMAP_MAGATAMA,
-            FSYS_YMAP_MOKKAN,
-            FSYS_YMAP_TSURUGI,
-            FSYS_YMAP_UTSUWA,
-            #endregion
-        };
         var accessor = SAV.Accessor;
-        foreach (var block in blocks)
-            accessor.GetBlock(block).ChangeBooleanType(SCTypeCode.Bool2);
+        foreach (var hash in FlyHashes)
+        {
+            if (accessor.TryGetBlock(hash, out var block))
+                block.ChangeBooleanType(SCTypeCode.Bool2);
+        }
         System.Media.SystemSounds.Asterisk.Play();
     }
+
+    private static ReadOnlySpan<uint> FlyHashes => new[]
+    {
+        #region Fly Flags
+        FSYS_YMAP_FLY_01,
+        FSYS_YMAP_FLY_02,
+        FSYS_YMAP_FLY_03,
+        FSYS_YMAP_FLY_04,
+        FSYS_YMAP_FLY_05,
+        FSYS_YMAP_FLY_06,
+        FSYS_YMAP_FLY_07,
+        FSYS_YMAP_FLY_08,
+        FSYS_YMAP_FLY_09,
+        FSYS_YMAP_FLY_10,
+        FSYS_YMAP_FLY_11,
+        FSYS_YMAP_FLY_12,
+        FSYS_YMAP_FLY_13,
+        FSYS_YMAP_FLY_14,
+        FSYS_YMAP_FLY_15,
+        FSYS_YMAP_FLY_16,
+        FSYS_YMAP_FLY_17,
+        FSYS_YMAP_FLY_18,
+        FSYS_YMAP_FLY_19,
+        FSYS_YMAP_FLY_20,
+        FSYS_YMAP_FLY_21,
+        FSYS_YMAP_FLY_22,
+        FSYS_YMAP_FLY_23,
+        FSYS_YMAP_FLY_24,
+        FSYS_YMAP_FLY_25,
+        FSYS_YMAP_FLY_26,
+        FSYS_YMAP_FLY_27,
+        FSYS_YMAP_FLY_28,
+        FSYS_YMAP_FLY_29,
+        FSYS_YMAP_FLY_30,
+        FSYS_YMAP_FLY_31,
+        FSYS_YMAP_FLY_32,
+        FSYS_YMAP_FLY_33,
+        FSYS_YMAP_FLY_34,
+        FSYS_YMAP_FLY_35,
+        FSYS_YMAP_FLY_MAGATAMA,
+        FSYS_YMAP_FLY_MOKKAN,
+        FSYS_YMAP_FLY_TSURUGI,
+        FSYS_YMAP_FLY_UTSUWA,
+        FSYS_YMAP_POKECEN_02,
+        FSYS_YMAP_POKECEN_03,
+        FSYS_YMAP_POKECEN_04,
+        FSYS_YMAP_POKECEN_05,
+        FSYS_YMAP_POKECEN_06,
+        FSYS_YMAP_POKECEN_07,
+        FSYS_YMAP_POKECEN_08,
+        FSYS_YMAP_POKECEN_09,
+        FSYS_YMAP_POKECEN_10,
+        FSYS_YMAP_POKECEN_11,
+        FSYS_YMAP_POKECEN_12,
+        FSYS_YMAP_POKECEN_13,
+        FSYS_YMAP_POKECEN_14,
+        FSYS_YMAP_POKECEN_15,
+        FSYS_YMAP_POKECEN_16,
+        FSYS_YMAP_POKECEN_17,
+        FSYS_YMAP_POKECEN_18,
+        FSYS_YMAP_POKECEN_19,
+        FSYS_YMAP_POKECEN_20,
+        FSYS_YMAP_POKECEN_21,
+        FSYS_YMAP_POKECEN_22,
+        FSYS_YMAP_POKECEN_23,
+        FSYS_YMAP_POKECEN_24,
+        FSYS_YMAP_POKECEN_25,
+        FSYS_YMAP_POKECEN_26,
+        FSYS_YMAP_POKECEN_27,
+        FSYS_YMAP_POKECEN_28,
+        FSYS_YMAP_POKECEN_29,
+        FSYS_YMAP_POKECEN_30,
+        FSYS_YMAP_POKECEN_31,
+        FSYS_YMAP_POKECEN_32,
+        FSYS_YMAP_POKECEN_33,
+        FSYS_YMAP_POKECEN_34,
+        FSYS_YMAP_POKECEN_35,
+
+        // Treasures of Ruin shrine toggles
+        FSYS_YMAP_MAGATAMA,
+        FSYS_YMAP_MOKKAN,
+        FSYS_YMAP_TSURUGI,
+        FSYS_YMAP_UTSUWA,
+
+        // Sudachi 1
+        FSYS_YMAP_SU1MAP_CHANGE, // can change map to Kitakami
+        FSYS_YMAP_FLY_SU1_AREA10,
+        FSYS_YMAP_FLY_SU1_BUSSTOP,
+        FSYS_YMAP_FLY_SU1_CENTER01,
+        FSYS_YMAP_FLY_SU1_PLAZA,
+        FSYS_YMAP_FLY_SU1_SPOT01,
+        FSYS_YMAP_FLY_SU1_SPOT02,
+        FSYS_YMAP_FLY_SU1_SPOT03,
+        FSYS_YMAP_FLY_SU1_SPOT04,
+        FSYS_YMAP_FLY_SU1_SPOT05,
+        FSYS_YMAP_FLY_SU1_SPOT06,
+        #endregion
+    };
 
     private void B_CollectAllStakes_Click(object sender, EventArgs e)
     {
@@ -326,15 +341,7 @@ public partial class SAV_Trainer9 : Form
     private void B_UnlockClothing_Click(object sender, EventArgs e)
     {
         var accessor = SAV.Accessor;
-        var added = CB_Fashion.SelectedIndex switch
-        {
-            0 => PlayerFashionUnlock9.UnlockBase(accessor, SAV.Gender),
-            1 => PlayerFashionUnlock9.UnlockExtras(accessor),
-            2 => PlayerFashionUnlock9.UnlockPreorder(accessor, SAV.Gender),
-            3 => PlayerFashionUnlock9.UnlockPortal(accessor),
-            _ => throw new Exception("Invalid fashion type."),
-        };
-        WinFormsUtil.Alert(string.Format(MessageStrings.MsgClothingAdded, added));
+        PlayerFashionUnlock9.UnlockBase(accessor, SAV.Gender);
         System.Media.SystemSounds.Asterisk.Play();
     }
 }

@@ -8,9 +8,9 @@ public sealed class EncounterGenerator8b : IEncounterGenerator
 {
     public static readonly EncounterGenerator8b Instance = new();
 
-    public IEnumerable<IEncounterable> GetPossible(PKM _, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
+    public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)
     {
-        var iterator = new EncounterPossible8b(chain, groups, game);
+        var iterator = new EncounterPossible8b(chain, groups, game, pk);
         foreach (var enc in iterator)
             yield return enc;
     }

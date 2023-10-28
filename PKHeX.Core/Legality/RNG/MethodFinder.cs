@@ -511,17 +511,17 @@ public static class MethodFinder
         return GetNonMatch(out pidiv);
     }
 
-    private static bool GetPokewalkerMatch(PKM pk, uint oldpid, out PIDIV pidiv)
+    private static bool GetPokewalkerMatch(PKM pk, uint pid, out PIDIV pidiv)
     {
         // check surface compatibility
         // Bits 8-24 must all be zero or all be one.
         const uint midMask = 0x00FFFF00;
-        var mid = oldpid & midMask;
+        var mid = pid & midMask;
         if (mid is not (0 or midMask))
             return GetNonMatch(out pidiv);
 
         // Quirky Nature is not possible with the algorithm.
-        var nature = oldpid % 25;
+        var nature = pid % 25;
         if (nature == 24)
             return GetNonMatch(out pidiv);
 
@@ -531,10 +531,10 @@ public static class MethodFinder
         var gr = pk.PersonalInfo.Gender;
         if (pk.Species == (int)Species.Froslass)
             gr = 0x7F; // Snorunt
-        uint pid = PIDGenerator.GetPokeWalkerPID(pk.TID16, pk.SID16, nature, gender, gr);
-        if (pid != oldpid)
+        var expect = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, gender, gr);
+        if (expect != pid)
         {
-            if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, oldpid)))
+            if (!(gender == 0 && IsAzurillEdgeCaseM(pk, nature, pid)))
                 return GetNonMatch(out pidiv);
         }
         pidiv = PIDIV.Pokewalker;
@@ -554,7 +554,7 @@ public static class MethodFinder
         if (gender != 1)
             return false;
 
-        var pid = PIDGenerator.GetPokeWalkerPID(pk.TID16, pk.SID16, nature, 1, AzurillGenderRatio);
+        var pid = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, 1, AzurillGenderRatio);
         return pid == oldpid;
     }
 

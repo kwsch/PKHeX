@@ -107,6 +107,9 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
         if (pk.IsShiny)
             pk.PID ^= 0x1000_0000;
         criteria.SetRandomIVs(pk, IVs);
+        if (EvolveOnTrade)
+            pk.Species++;
+
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         pk.ResetPartyStats();
 

@@ -429,6 +429,10 @@ public static class FormConverter
                 types[0],
                 forms[Lord],
             },
+            Ursaluna when generation >= 9 => new[] {
+                types[0],
+                forms[Bloodmoon],
+            },
             Enamorus => new[] {
                 forms[641], // Incarnate
                 forms[952], // Therian
@@ -485,6 +489,24 @@ public static class FormConverter
                 forms[Drive],
                 forms[Aquatic],
                 forms[Glide],
+            },
+            Ogerpon => new[] {
+                forms[MaskTeal],
+                forms[MaskWellspring],
+                forms[MaskHearthflame],
+                forms[MaskCornerstone],
+                $"*{forms[MaskTeal]}",
+                $"*{forms[MaskWellspring]}",
+                $"*{forms[MaskHearthflame]}",
+                $"*{forms[MaskCornerstone]}",
+            },
+            Poltchageist => new[] {
+                forms[Counterfeit],
+                forms[Artisan],
+            },
+            Sinistcha => new[] {
+                forms[Unremarkable],
+                forms[Masterpiece],
             },
             _ => EMPTY,
         };
@@ -873,6 +895,15 @@ public static class FormConverter
     private const int PaldeanCombat = 1123;
     private const int PaldeanBlaze = 1124;
     private const int PaldeanAqua = 1125;
+    internal const int MaskTeal = 1126;
+    private const int Counterfeit = 1127;
+    private const int Unremarkable = 1128;
+    private const int Bloodmoon = 1129;
+    internal const int MaskWellspring = 1130;
+    internal const int MaskHearthflame = 1131;
+    internal const int MaskCornerstone = 1132;
+    private const int Artisan = 1133;
+    private const int Masterpiece = 1134;
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 

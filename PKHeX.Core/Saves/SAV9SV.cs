@@ -18,6 +18,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9SV(this);
+        SaveRevision = Zukan.GetRevision();
         Initialize();
     }
 
@@ -25,6 +26,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         AllBlocks = Meta9.GetBlankDataSV();
         Blocks = new SaveBlockAccessor9SV(this);
+        SaveRevision = Zukan.GetRevision();
         Initialize();
         ClearBoxes();
     }
@@ -40,11 +42,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         State.Edited = true;
     }
 
-    public int SaveRevision => 0; // No DLC (yet?)
+    public int SaveRevision { get; }
 
     public string SaveRevisionString => SaveRevision switch
     {
         0 => "-Base", // Vanilla
+        1 => "-TM", // Teal Mask
+        2 => "-ID", // Indigo Disk
         _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
     };
 
@@ -74,7 +78,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public Epoch1970Value LastSaved => Blocks.LastSaved;
     public PlayerFashion9 PlayerFashion => Blocks.PlayerFashion;
     public PlayerAppearance9 PlayerAppearance => Blocks.PlayerAppearance;
-    public RaidSpawnList9 Raid => Blocks.Raid;
+    public RaidSpawnList9 RaidPaldea => Blocks.RaidPaldea;
+    public RaidSpawnList9 RaidKitakami => Blocks.RaidKitakami;
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
     public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
     #endregion
@@ -87,12 +92,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         return new(blockCopy);
     }
 
-    public override ushort MaxMoveID => Legal.MaxMoveID_9;
-    public override ushort MaxSpeciesID => Legal.MaxSpeciesID_9;
-    public override int MaxItemID => Legal.MaxItemID_9;
+    private ushort m_spec, m_item, m_move, m_abil;
     public override int MaxBallID => Legal.MaxBallID_9;
     public override int MaxGameID => Legal.MaxGameID_HOME;
-    public override int MaxAbilityID => Legal.MaxAbilityID_9;
+    public override ushort MaxMoveID => m_move;
+    public override ushort MaxSpeciesID => m_spec;
+    public override int MaxItemID => m_item;
+    public override int MaxAbilityID => m_abil;
 
     private void Initialize()
     {
@@ -100,6 +106,26 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         Party = 0;
         PokeDex = 0;
         TeamIndexes.LoadBattleTeams();
+
+        int rev = SaveRevision;
+        if (rev == 0)
+        {
+            m_move = Legal.MaxMoveID_9_T0;
+            m_spec = Legal.MaxSpeciesID_9_T0;
+            m_item = Legal.MaxItemID_9_T0;
+            m_abil = Legal.MaxAbilityID_9_T0;
+        }
+        else if (rev == 1)
+        {
+            m_move = Legal.MaxMoveID_9_T1;
+            m_spec = Legal.MaxSpeciesID_9_T1;
+            m_item = Legal.MaxItemID_9_T1;
+            m_abil = Legal.MaxAbilityID_9_T1;
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException(nameof(SaveRevision));
+        }
     }
 
     public override IReadOnlyList<string> PKMExtensions => Array.FindAll(PKM.Extensions, f =>
@@ -116,7 +142,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override Type PKMType => typeof(PK9);
 
     public override int BoxCount => BoxLayout9.BoxCount;
-    public override int MaxEV => 252;
+    public override int MaxEV => EffortValues.Max252;
     public override int Generation => 9;
     public override EntityContext Context => EntityContext.Gen9;
     public override int MaxStringLengthOT => 12;
@@ -164,8 +190,8 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         PK9 pk9 = (PK9)pk;
         // Apply to this Save File
-        DateTime Date = DateTime.Now;
-        pk9.Trade(this, Date.Day, Date.Month, Date.Year);
+        var now = EncounterDate.GetDateSwitch();
+        pk9.Trade(this, now.Day, now.Month, now.Year);
 
         if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk9.Species, pk9.Form))
         {
@@ -317,12 +343,12 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public void UnlockAllTMRecipes()
     {
-        for (int i = 1; i <= 171; i++)
+        for (int i = 1; i <= 229; i++)
         {
             var flag = $"FSYS_UI_WAZA_MACHINE_RELEASE_{i:000}";
             var hash = (uint)FnvHash.HashFnv1a_64(flag);
-            var block = Accessor.GetBlock(hash);
-            block.ChangeBooleanType(SCTypeCode.Bool2);
+            if (Accessor.TryGetBlock(hash, out var block))
+                block.ChangeBooleanType(SCTypeCode.Bool2);
         }
     }
 }

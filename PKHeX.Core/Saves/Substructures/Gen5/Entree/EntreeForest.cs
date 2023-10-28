@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -50,7 +50,7 @@ public sealed class EntreeForest
         {
             var slots = new EntreeSlot[TotalSlots];
             for (int i = 0; i < slots.Length; i++)
-                slots[i] = new EntreeSlot(Data, i * 4) { Area = GetSlotArea(i) };
+                slots[i] = new EntreeSlot(Data.AsMemory(i * EntreeSlot.SIZE, EntreeSlot.SIZE)) { Area = GetSlotArea(i) };
             return slots;
         }
     }
@@ -116,6 +116,6 @@ public sealed class EntreeForest
         0 => EntreeForestArea.Center,
         1 => EntreeForestArea.Left,
         2 => EntreeForestArea.Right,
-        _ => throw new ArgumentOutOfRangeException(),
+        _ => throw new ArgumentOutOfRangeException(nameof(index)),
     };
 }

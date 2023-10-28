@@ -142,15 +142,15 @@ public record struct XoroMachineConsecutive(uint First, uint Second) : IEnumerat
 
     public bool MoveNext()
     {
-        while (assume1 < 0x40)
+        do
         {
             while (carry < 2)
             {
                 if (Xoroshiro128PlusReversal.Explore(out seed, First, Second, carry++, assume1))
                     return true;
             }
-            assume1++; carry = 0;
-        }
+            carry = 0;
+        } while (++assume1 < 0x40);
         return false;
     }
 
@@ -181,19 +181,19 @@ public record struct XoroMachineSkip(uint First, uint Third) : IEnumerator<ulong
 
     public bool MoveNext()
     {
-        while (assume1 < 0x20)
+        do
         {
-            while (assume2 < 0x40)
+            do
             {
                 while (carry < 2)
                 {
                     if (Xoroshiro128PlusReversal.ExploreDouble(out seed, First, Third, carry++, assume1, assume2))
                         return true;
                 }
-                assume2++; carry = 0;
-            }
-            assume1++; assume2 = 0;
-        }
+                carry = 0;
+            } while (++assume2 < 0x40);
+            assume2 = 0;
+        } while (++assume1 < 0x20);
         return false;
     }
 

@@ -225,7 +225,9 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
 
         if (dr == DialogResult.Yes)
         {
-            using var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
+            using var sfd = new SaveFileDialog();
+            sfd.Filter = "Box Data|*.bin";
+            sfd.FileName = "pcdata.bin";
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
             File.WriteAllBytes(sfd.FileName, SAV.GetPCBinary());
@@ -233,7 +235,9 @@ public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
         }
         if (dr == DialogResult.No)
         {
-            using var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = $"boxdata {CurrentBoxName}.bin" };
+            using var sfd = new SaveFileDialog();
+            sfd.Filter = "Box Data|*.bin";
+            sfd.FileName = $"boxdata {CurrentBoxName}.bin";
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
             File.WriteAllBytes(sfd.FileName, SAV.GetBoxBinary(CurrentBox));

@@ -185,7 +185,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
         var rnd = Util.Rand;
 
-        var dt = DateTime.Now;
+        var dt = EncounterDate.GetDateNDS();
         if (Day == 0)
         {
             Day = (byte)dt.Day;
@@ -202,7 +202,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             Met_Level = currentLevel,
             Nature = Nature != -1 ? Nature : rnd.Next(25),
             Form = Form,
-            Version = OriginGame == 0 ? tr.Game : OriginGame,
+            Version = GetVersion(tr, rnd),
             Language = Language == 0 ? tr.Language : Language,
             Ball = Ball,
             Move1 = Move1,
@@ -241,8 +241,6 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
             FatefulEncounter = true,
         };
-        if (tr.Generation > 5 && OriginGame == 0) // Gen6+, give random gen5 game
-            pk.Version = (int)GameVersion.W + rnd.Next(4);
 
         if (Move1 == 0) // No moves defined
         {
@@ -283,6 +281,23 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
         pk.RefreshChecksum();
         return pk;
+    }
+
+    private int GetVersion(ITrainerInfo tr, Random rnd)
+    {
+        if (OriginGame != 0)
+            return OriginGame;
+        if (tr.Generation <= 5)
+            return tr.Game;
+        // Gen6+, give random gen5 game
+        var bias = rnd.Next(4);
+        for (int i = 0; i < 4; i++)
+        {
+            var ver = (int)GameVersion.W + ((bias + i) % 4);
+            if (CanBeReceivedByVersion(ver))
+                return ver;
+        }
+        return (int)GameVersion.W; // should never hit this for any distributed card
     }
 
     private void SetEggMetDetails(PK5 pk)

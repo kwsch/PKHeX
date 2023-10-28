@@ -319,8 +319,6 @@ public static class MessageStrings
     #endregion
 
     #region Misc
-    public static string MsgClothingAdded { get; set; } = "Added {0} clothing options.";
-
     public static string MsgSaveDifferentTypes { get; set; } = "Save File types are different.";
     public static string MsgSaveDifferentVersions { get; set; } = "Save File versions are not the same.";
     public static string MsgSaveNumberInvalid { get; set; } = "Save File {0} is not valid.";

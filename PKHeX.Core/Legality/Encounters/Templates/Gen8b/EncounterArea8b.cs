@@ -88,16 +88,17 @@ public sealed record EncounterArea8b : IEncounterArea<EncounterSlot8b>, IAreaLoc
     {
         // We didn't encode the honey tree index to the encounter slot resource.
         // Check if any of the slot's location doesn't match any of the groupC trees' area location ID.
-        var trees = SAV4Sinnoh.CalculateMunchlaxTrees(pk.TID16, pk.SID16);
+        Span<byte> trees = stackalloc byte[4];
+        HoneyTreeUtil.CalculateMunchlaxTrees(pk.ID32, trees);
         return IsMunchlaxTree(trees, location);
     }
 
-    private static bool IsMunchlaxTree(in MunchlaxTreeSet4 trees, ushort location)
+    private static bool IsMunchlaxTree(ReadOnlySpan<byte> trees, ushort location)
     {
-        return LocationID_HoneyTree[trees.Tree1] == location
-            || LocationID_HoneyTree[trees.Tree2] == location
-            || LocationID_HoneyTree[trees.Tree3] == location
-            || LocationID_HoneyTree[trees.Tree4] == location;
+        return LocationID_HoneyTree[trees[0]] == location
+            || LocationID_HoneyTree[trees[1]] == location
+            || LocationID_HoneyTree[trees[2]] == location
+            || LocationID_HoneyTree[trees[3]] == location;
     }
 
     private static ReadOnlySpan<ushort> LocationID_HoneyTree => new ushort[]

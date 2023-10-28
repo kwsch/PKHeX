@@ -142,7 +142,8 @@ public partial class SAV_Wondercard : Form
     private void B_Import_Click(object sender, EventArgs e)
     {
         var fileFilter = WinFormsUtil.GetMysterGiftFilter(SAV.Context);
-        using var import = new OpenFileDialog { Filter = fileFilter };
+        using var import = new OpenFileDialog();
+        import.Filter = fileFilter;
         if (import.ShowDialog() != DialogResult.OK)
             return;
 

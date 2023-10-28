@@ -20,12 +20,26 @@ public partial class SAV_Raid9 : Form
         Raids = raid;
         CB_Raid.Items.AddRange(Enumerable.Range(1, raid.CountUsed).Select(z => (object)$"Raid {z:000}").ToArray());
         CB_Raid.SelectedIndex = 0;
+        LoadSeeds(raid);
+    }
 
-        TB_SeedToday.Text = Raids.CurrentSeed.ToString("X16");
-        TB_SeedTomorrow.Text = Raids.TomorrowSeed.ToString("X16");
+    private void LoadSeeds(RaidSpawnList9 raid)
+    {
+        if (raid.HasSeeds)
+        {
+            TB_SeedToday.Text = Raids.CurrentSeed.ToString("X16");
+            TB_SeedTomorrow.Text = Raids.TomorrowSeed.ToString("X16");
 
-        TB_SeedToday.Validated += UpdateStringSeed;
-        TB_SeedTomorrow.Validated += UpdateStringSeed;
+            TB_SeedToday.Validated += UpdateStringSeed;
+            TB_SeedTomorrow.Validated += UpdateStringSeed;
+        }
+        else
+        {
+            L_SeedCurrent.Visible = false;
+            L_SeedTomorrow.Visible = false;
+            TB_SeedToday.Visible = false;
+            TB_SeedTomorrow.Visible = false;
+        }
     }
 
     private void LoadRaid(int index) => PG_Raid.SelectedObject = Raids.GetRaid(index);

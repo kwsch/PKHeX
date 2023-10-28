@@ -9,8 +9,8 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters7SM
 {
-    internal static readonly EncounterArea7[] SlotsSN = EncounterArea7.GetAreas(Get("sn", "sm"), SN);
-    internal static readonly EncounterArea7[] SlotsMN = EncounterArea7.GetAreas(Get("mn", "sm"), MN);
+    internal static readonly EncounterArea7[] SlotsSN = EncounterArea7.GetAreas(Get("sn", "sm"u8), SN);
+    internal static readonly EncounterArea7[] SlotsMN = EncounterArea7.GetAreas(Get("mn", "sm"u8), MN);
 
     private const string tradeSM = "tradesm";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSM);

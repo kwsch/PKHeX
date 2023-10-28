@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Iterates to find possible encounters for <see cref="GameVersion.GO"/> encounters.
+/// </summary>
 public record struct EncounterPossible8GO(EvoCriteria[] Chain, EncounterTypeGroup Flags) : IEnumerator<IEncounterable>
 {
     public IEncounterable Current { get; private set; }

@@ -188,6 +188,11 @@ public sealed class GameStrings : IBasicStrings
         // De-duplicate the Calyrex ability names
         abilitylist[(int)Core.Ability.AsOneI] += $" ({specieslist[(int)Core.Species.Glastrier]})";
         abilitylist[(int)Core.Ability.AsOneG] += $" ({specieslist[(int)Core.Species.Spectrier]})";
+        // De-duplicate the Ogerpon ability names
+        abilitylist[(int)Core.Ability.EmbodyAspect0] += $" ({forms[FormConverter.MaskTeal]})";
+        abilitylist[(int)Core.Ability.EmbodyAspect1] += $" ({forms[FormConverter.MaskHearthflame]})";
+        abilitylist[(int)Core.Ability.EmbodyAspect2] += $" ({forms[FormConverter.MaskWellspring]})";
+        abilitylist[(int)Core.Ability.EmbodyAspect3] += $" ({forms[FormConverter.MaskCornerstone]})";
 
         // Replace the Egg Name with ---; egg name already stored to eggname
         specieslist[0] = EmptyIndex;
@@ -290,6 +295,9 @@ public sealed class GameStrings : IBasicStrings
         items[2329] += " (1)"; // Academy Ball
         items[2330] += " (2)"; // Academy Ball
         items[0694] += " (G6-8)"; // TM100, not held.
+
+        items[2418] += " (SL)"; // Academy Chairs
+        items[2419] += " (VL)"; // Academy Chairs
     }
 
     private static void SanitizeItemsLA(string[] items)
@@ -591,6 +599,19 @@ public sealed class GameStrings : IBasicStrings
         m[118] += " (1)"; // Zero Lab
         m[120] += " (2)"; // Zero Lab
         m[122] += " (3)"; // Zero Lab
+
+        m[144] += " (1)"; // Oni Mountain
+        m[147] += " (2)"; // Oni Mountain
+        m[149] += " (3)"; // Oni Mountain
+        m[150] += " (4)"; // Oni Mountain
+        m[169] += " (5)"; // Oni Mountain
+
+        m[152] += " (1)"; // Crystal Pool
+        m[154] += " (2)"; // Crystal Pool
+        m[153] += " (1)"; // Oni Mountain Summit
+        m[155] += " (2)"; // Oni Mountain Summit
+        m[164] += " (1)"; // Kitakami Wilds
+        m[167] += " (2)"; // Kitakami Wilds
 
         set.Met3[1] += $" ({NPC})";      // Anything from an NPC
         set.Met3[2] += $" ({EggName})";  // Egg From Link Trade

@@ -104,7 +104,7 @@ public sealed class SAV4BR : SaveFile
     public override int MaxBallID => Legal.MaxBallID_4;
     public override int MaxGameID => Legal.MaxGameID_4;
 
-    public override int MaxEV => 255;
+    public override int MaxEV => EffortValues.Max255;
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     protected override int GiftCountMax => 1;
@@ -244,8 +244,8 @@ public sealed class SAV4BR : SaveFile
     {
         var pk4 = (BK4)pk;
         // Apply to this Save File
-        DateTime Date = DateTime.Now;
-        if (pk4.Trade(OT, ID32, Gender, Date.Day, Date.Month, Date.Year))
+        var now = EncounterDate.GetDateNDS();
+        if (pk4.Trade(OT, ID32, Gender, now.Day, now.Month, now.Year))
             pk.RefreshChecksum();
     }
 

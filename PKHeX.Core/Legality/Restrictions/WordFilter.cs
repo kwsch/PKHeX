@@ -14,16 +14,18 @@ public static class WordFilter
     /// Regex patterns to check against
     /// </summary>
     /// <remarks>No need to keep the original pattern strings around; the <see cref="Regex"/> object retrieves this via <see cref="Regex.ToString()"/></remarks>
-    private static readonly Regex[] Regexes = LoadPatterns(Util.GetStringList("badwords"));
+    private static readonly Regex[] Regexes = LoadPatterns(Util.GetStringResource("badwords")!);
 
     // if you're running this as a server and don't mind a few extra seconds of startup, add RegexOptions.Compiled for slightly better checking.
     private const RegexOptions Options = RegexOptions.CultureInvariant;
 
-    private static Regex[] LoadPatterns(IReadOnlyList<string> patterns)
+    private static Regex[] LoadPatterns(ReadOnlySpan<char> patterns)
     {
-        var result = new Regex[patterns.Count];
-        for (int i = 0; i < patterns.Count; i++)
-            result[i] = new Regex(patterns[i], Options);
+        var lineCount = 1 + patterns.Count('\n');
+        var result = new Regex[lineCount];
+        int i = 0;
+        foreach (var line in patterns.EnumerateLines())
+            result[i++] = new Regex(line.ToString(), Options);
         return result;
     }
 

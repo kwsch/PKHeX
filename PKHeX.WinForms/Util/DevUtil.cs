@@ -166,9 +166,7 @@ namespace PKHeX.WinForms
             var path = Application.StartupPath;
             while (true)
             {
-                var parent = Directory.GetParent(path);
-                if (parent is null)
-                    throw new DirectoryNotFoundException();
+                var parent = Directory.GetParent(path) ?? throw new DirectoryNotFoundException(path);
                 path = parent.FullName;
                 if (path.EndsWith(repo))
                     return Path.Combine(path, Path.Combine(subdir));

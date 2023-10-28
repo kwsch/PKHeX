@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public static class LocationsHOME
 {
     // 60000 - (version - PLA)
-    private const int RemapCount = 5;
+    private const int RemapCount = 5; // Count of future game version IDs that can transfer back into SW/SH.
     public const ushort SHVL = 59996; // VL traded to (SW)SH
     public const ushort SWSL = 59997; // SL traded to SW(SH)
     public const ushort SHSP = 59998; // SP traded to (SW)SH

@@ -189,17 +189,17 @@ public sealed class SAV4HGSS : SAV4
     public PokegearNumber GetCallerAtIndex(int index) => (PokegearNumber)General[OFS_GearRolodex + index];
     public void SetCallerAtIndex(int index, PokegearNumber caller) => General[OFS_GearRolodex + index] = (byte)caller;
 
-    public PokegearNumber[] GetPokeGearRoloDex()
+    public Span<PokegearNumber> GetPokeGearRoloDex()
     {
         var arr = General.Slice(OFS_GearRolodex, GearMaxCallers);
-        return MemoryMarshal.Cast<byte, PokegearNumber>(arr).ToArray();
+        return MemoryMarshal.Cast<byte, PokegearNumber>(arr);
     }
 
     public void SetPokeGearRoloDex(ReadOnlySpan<PokegearNumber> value)
     {
         if (value.Length > GearMaxCallers)
             throw new ArgumentOutOfRangeException(nameof(value));
-        MemoryMarshal.Cast<PokegearNumber, byte>(value).CopyTo(General.Slice(OFS_GearRolodex, GearMaxCallers));
+        MemoryMarshal.AsBytes(value).CopyTo(General.Slice(OFS_GearRolodex, GearMaxCallers));
     }
 
     public void PokeGearUnlockAllCallers()
@@ -210,31 +210,32 @@ public sealed class SAV4HGSS : SAV4
 
     public void PokeGearClearAllCallers(int start = 0)
     {
-        for (int i = start; i < GearMaxCallers; i++)
-            SetCallerAtIndex(i, PokegearNumber.None);
+        var dex = GetPokeGearRoloDex();
+        dex[start..].Fill(PokegearNumber.None);
     }
+
+    private static ReadOnlySpan<PokegearNumber> NotTrainers => new[]
+    {
+        PokegearNumber.Mother,
+        PokegearNumber.Professor_Elm,
+        PokegearNumber.Professor_Oak,
+        PokegearNumber.Ethan,
+        PokegearNumber.Lyra,
+        PokegearNumber.Kurt,
+        PokegearNumber.Daycare_Man,
+        PokegearNumber.Daycare_Lady,
+        PokegearNumber.Bill,
+        PokegearNumber.Bike_Shop,
+        PokegearNumber.Baoba,
+    };
 
     public void PokeGearUnlockAllCallersNoTrainers()
     {
-        var nonTrainers = new[]
-        {
-            PokegearNumber.Mother,
-            PokegearNumber.Professor_Elm,
-            PokegearNumber.Professor_Oak,
-            PokegearNumber.Ethan,
-            PokegearNumber.Lyra,
-            PokegearNumber.Kurt,
-            PokegearNumber.Daycare_Man,
-            PokegearNumber.Daycare_Lady,
-            PokegearNumber.Bill,
-            PokegearNumber.Bike_Shop,
-            PokegearNumber.Baoba,
-        };
-        for (int i = 0; i < nonTrainers.Length; i++)
-            SetCallerAtIndex(i, nonTrainers[i]);
+        var dex = GetPokeGearRoloDex();
+        NotTrainers.CopyTo(dex);
 
         // clear remaining callers
-        PokeGearClearAllCallers(nonTrainers.Length);
+        PokeGearClearAllCallers(NotTrainers.Length);
     }
 
     // Apricorn Pouch
@@ -253,9 +254,11 @@ public sealed class SAV4HGSS : SAV4
 
     public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => WriteUInt32LittleEndian(General[(OFS_WALKER + 0x8)..], value);
 
+    // Swarm
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x68A8..]); set => WriteUInt32LittleEndian(General[0x68A8..], value); }
     public override uint SwarmMaxCountModulo => 20;
 
+    // Roamers
     public Roamer4 RoamerRaikou => GetRoamer(0);
     public Roamer4 RoamerEntei  => GetRoamer(1);
     public Roamer4 RoamerLatias => GetRoamer(2);
@@ -268,4 +271,7 @@ public sealed class SAV4HGSS : SAV4
         var mem = GeneralBuffer.Slice(ofs, size);
         return new Roamer4(mem);
     }
+
+    // Pokeathlon
+    public uint PokeathlonPoints { get => ReadUInt32LittleEndian(General[0xE548..]); set => WriteUInt32LittleEndian(General[0xE548..], value); }
 }

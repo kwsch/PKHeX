@@ -8,9 +8,9 @@ public interface IRibbonSetCommon3
     bool RibbonEffort { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetCommon3(this IRibbonSetCommon3 set, IRibbonSetCommon3 dest)
+    public static void CopyRibbonSetCommon3(this IRibbonSetCommon3 set, IRibbonSetCommon3 dest)
     {
         dest.RibbonChampionG3 = set.RibbonChampionG3;
         dest.RibbonArtist = set.RibbonArtist;

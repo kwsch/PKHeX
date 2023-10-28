@@ -3,7 +3,7 @@ using static PKHeX.Core.RibbonIndex;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Parsing logic for <see cref="IRibbonSetCommon8"/>.
+/// Parsing logic for <see cref="IRibbonSetMark9"/>.
 /// </summary>
 public static class RibbonVerifierMark9
 {

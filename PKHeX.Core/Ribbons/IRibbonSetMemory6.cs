@@ -8,9 +8,9 @@ public interface IRibbonSetMemory6
     bool HasBattleMemoryRibbon { get; set; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
-    internal static void CopyRibbonSetMemory6(this IRibbonSetMemory6 set, IRibbonSetMemory6 dest)
+    public static void CopyRibbonSetMemory6(this IRibbonSetMemory6 set, IRibbonSetMemory6 dest)
     {
         dest.HasContestMemoryRibbon = set.HasContestMemoryRibbon;
         dest.HasBattleMemoryRibbon = set.HasBattleMemoryRibbon;

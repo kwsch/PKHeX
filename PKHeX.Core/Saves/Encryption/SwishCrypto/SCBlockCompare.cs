@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -45,7 +46,7 @@ public sealed class SCBlockCompare
             else
             {
                 var b = s2.GetBlock(k);
-                AddedKeys.Add($"{name} - {b.Type}");
+                AddedKeys.Add($"{name} - {b.Type} - 0x{b.Data.Length:X5} {b.Data.Length}");
             }
         }
     }
@@ -130,10 +131,9 @@ public sealed class SCBlockCompare
             if (list.Count == 0)
                 return;
             result.Add(hdr);
-            if (!sort)
-                result.AddRange(list);
-            else
-                result.AddRange(list.OrderBy(z => z));
+            result.AddRange(list);
+            if (sort)
+                result.Sort(result.Count - list.Count, list.Count, StringComparer.Ordinal);
             result.Add(string.Empty);
         }
     }

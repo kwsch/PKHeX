@@ -92,11 +92,12 @@ public sealed class InventoryPouch9 : InventoryPouch
 
     public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
     {
-        bool pick = item is (>= 2334 and <= 2342) or (>= 2385 and <= 2394);
+        bool isPick = item is (>= 2334 and <= 2342) or (>= 2385 and <= 2394);
+        bool isAccessory = item is (>= 2311 and <= 2400) or (>= 2417 and <= 2437); // tablecloths, chairs, cups, etc
         return t switch
         {
             // Picnic table accessories are clamped to 1, let actual ingredients and sandwich picks be whatever
-            InventoryType.Ingredients => !pick && item is (>= 2311 and <= 2400) ? 1 : requestVal,
+            InventoryType.Ingredients => !isPick && isAccessory ? 1 : requestVal,
             _ => requestVal,
         };
     }

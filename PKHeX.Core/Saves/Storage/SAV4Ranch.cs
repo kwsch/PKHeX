@@ -26,12 +26,12 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     private readonly int TrainerMiiCountOffset;
     private readonly int PokemonCountOffset;
 
-    public override int SlotCount => RanchLevel.GetSlotCount(CurrentRanchLevelIndex);
+    public override int SlotCount => RanchLevel.GetSlotCount(CurrentRanchLevel);
     public override int BoxCount => (int)Math.Ceiling((decimal)SlotCount / SlotsPerBox);
     public int MiiCount { get; }
     public int TrainerMiiCount { get; }
-    public int MaxToyCount => RanchLevel.GetMaxToyCount(CurrentRanchLevelIndex);
-    public int MaxMiiCount => RanchLevel.GetMaxMiiCount(CurrentRanchLevelIndex);
+    public int MaxToyCount => RanchLevel.GetMaxToyCount(CurrentRanchLevel);
+    public int MaxMiiCount => RanchLevel.GetMaxMiiCount(CurrentRanchLevel);
 
     private readonly RanchToy BlankToy = new(new byte[RanchToy.SIZE]);
 
@@ -83,8 +83,8 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     private const int ToyBaseOffset = 0x227B;
 
-    public byte CurrentRanchLevelIndex { get => Data[0x5A]; set => Data[0x5A] = value; }
-    public byte PlannedRanchLevelIndex { get => Data[0x5B]; set => Data[0x5B] = value; } // tomorrow's level
+    public int CurrentRanchLevel { get => Data[0x5A] + 1; set => Data[0x5A] = (byte)(value - 1); }
+    public int PlannedRanchLevel { get => Data[0x5B] + 1; set => Data[0x5B] = (byte)(value - 1); } // tomorrow's level
 
     public uint SecondsSince2000 { get => ReadUInt32BigEndian(Data.AsSpan(0x5C)); set => WriteUInt32BigEndian(Data.AsSpan(0x5C), value); }
     public uint TotalSeconds { get => ReadUInt32BigEndian(Data.AsSpan(0x60)); set => WriteUInt32BigEndian(Data.AsSpan(0x60), value); }

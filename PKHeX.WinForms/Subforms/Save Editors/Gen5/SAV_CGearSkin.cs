@@ -28,12 +28,9 @@ public partial class SAV_CGearSkin : Form
 
     private void B_ImportPNG_Click(object sender, EventArgs e)
     {
-        using var ofd = new OpenFileDialog
-        {
-            Filter = "PNG File|*.png",
-            FileName = "Background.png",
-        };
-
+        using var ofd = new OpenFileDialog();
+        ofd.Filter = "PNG File|*.png";
+        ofd.FileName = "Background.png";
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 
@@ -51,25 +48,19 @@ public partial class SAV_CGearSkin : Form
 
     private void B_ExportPNG_Click(object sender, EventArgs e)
     {
-        Image png = PB_Background.Image;
-        using var sfd = new SaveFileDialog
-        {
-            Filter = "PNG File|*.png",
-            FileName = "Background.png",
-        };
-
+        using var sfd = new SaveFileDialog();
+        sfd.Filter = "PNG File|*.png";
+        sfd.FileName = "Background.png";
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
-        png.Save(sfd.FileName, ImageFormat.Png);
+        PB_Background.Image.Save(sfd.FileName, ImageFormat.Png);
     }
 
     private void B_ImportCGB_Click(object sender, EventArgs e)
     {
-        using var ofd = new OpenFileDialog
-        {
-            Filter = CGearBackground.Filter + "|PokeStock C-Gear Skin|*.psk",
-        };
+        using var ofd = new OpenFileDialog();
+        ofd.Filter = CGearBackground.Filter + "|PokeStock C-Gear Skin|*.psk";
 
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
@@ -89,10 +80,8 @@ public partial class SAV_CGearSkin : Form
 
     private void B_ExportCGB_Click(object sender, EventArgs e)
     {
-        using var sfd = new SaveFileDialog
-        {
-            Filter = CGearBackground.Filter,
-        };
+        using var sfd = new SaveFileDialog();
+        sfd.Filter = CGearBackground.Filter;
 
         if (sfd.ShowDialog() != DialogResult.OK)
             return;

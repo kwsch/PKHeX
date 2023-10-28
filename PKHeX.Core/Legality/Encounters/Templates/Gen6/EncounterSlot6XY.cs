@@ -76,6 +76,9 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         else
             pk.SetDefaultRegionOrigins(lang);
 
+        if (IsRandomUnspecificForm && Form == EncounterUtil1.FormVivillon)
+            pk.Form = Vivillon3DS.GetPattern(pk.Country, pk.Region);
+
         SetPINGA(pk, criteria);
         EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
         pk.SetRandomMemory6();
@@ -85,8 +88,11 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
 
     private byte GetWildForm(byte form)
     {
-        if (form != EncounterUtil1.FormRandom)
+        if (form < EncounterUtil1.FormDynamic)
             return form;
+        if (form == EncounterUtil1.FormVivillon)
+            return 0; // rectify later
+
         // flagged as totally random
         return (byte)Util.Rand.Next(PersonalTable.XY[Species].FormCount);
     }

@@ -899,3 +899,7 @@ Finsterturbo
 Toxiturbo
 Raufturbo
 Zauberturbo
+Blutmond
+Quirlschuss
+Sirupbombe
+Rankenkeule

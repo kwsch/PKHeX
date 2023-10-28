@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AbilityPermission;
@@ -10,10 +11,10 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters3FRLG
 {
-    internal static readonly EncounterArea3[] SlotsFR = GetRegular("fr", "fr", FR);
-    internal static readonly EncounterArea3[] SlotsLG = GetRegular("lg", "lg", LG);
+    internal static readonly EncounterArea3[] SlotsFR = GetRegular("fr", "fr"u8, FR);
+    internal static readonly EncounterArea3[] SlotsLG = GetRegular("lg", "lg"u8, LG);
 
-    private static EncounterArea3[] GetRegular(string resource, string ident, GameVersion game) => EncounterArea3.GetAreas(Get(resource, ident), game);
+    private static EncounterArea3[] GetRegular([ConstantExpected] string resource, [ConstantExpected(Min = 2, Max = 2)] ReadOnlySpan<byte> ident, GameVersion game) => EncounterArea3.GetAreas(Get(resource, ident), game);
 
     private const string tradeFRLG = "tradefrlg";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeFRLG);

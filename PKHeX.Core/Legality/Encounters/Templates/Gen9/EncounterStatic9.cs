@@ -10,13 +10,14 @@ public sealed record EncounterStatic9(GameVersion Version)
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
-    public int EggLocation => 0;
     public bool IsShiny => Shiny == Shiny.Always;
-    public bool EggEncounter => false;
+    public bool EggEncounter => EggLocation != 0;
     int ILocation.Location => Location;
+    int ILocation.EggLocation => EggLocation;
 
     public Ball FixedBall { get; init; }
     public required ushort Location { get; init; }
+    public ushort EggLocation { get; init; }
     public required ushort Species { get; init; }
     public required byte Level { get; init; }
     public byte Form { get; init; }
@@ -30,6 +31,7 @@ public sealed record EncounterStatic9(GameVersion Version)
     public GemType TeraType { get; init; }
     public byte Size { get; init; }
     public bool IsTitan { get; init; }
+    public bool RibbonMarkCrafty => Species == (int)Core.Species.Munchlax; // Shiny etc
 
     private bool Gift => FixedBall != Ball.None;
 
@@ -73,12 +75,23 @@ public sealed record EncounterStatic9(GameVersion Version)
             ID32 = tr.ID32,
         };
 
+        if (EggEncounter)
+        {
+            // Fake as hatched.
+            pk.Met_Location = Locations.HatchLocation9;
+            pk.Met_Level = EggStateLegality.EggMetLevel;
+            pk.Egg_Location = EggLocation;
+            pk.EggMetDate = pk.MetDate;
+        }
+
         if (Gift && !ScriptedYungoos)
             pk.HT_Language = (byte)pk.Language;
         if (StarterBoxLegend)
             pk.FormArgument = 1; // Not Ride Form.
         if (IsTitan)
             pk.RibbonMarkTitan = true;
+        else if (RibbonMarkCrafty)
+            pk.RibbonMarkCrafty = true;
 
         SetPINGA(pk, criteria, pi);
         if (Moves.HasMoves)
@@ -147,14 +160,30 @@ public sealed record EncounterStatic9(GameVersion Version)
             return false;
         if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return false;
+        if (Nature != Nature.Random && pk.Nature != (int)Nature)
+            return false;
 
         return true;
     }
 
     private bool IsMatchEggLocation(PKM pk)
     {
-        var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
-        return pk.Egg_Location == expect;
+        var eggloc = pk.Egg_Location;
+        if (!EggEncounter)
+        {
+            var expect = pk is PB8 ? Locations.Default8bNone : EggLocation;
+            return eggloc == expect;
+        }
+
+        if (!pk.IsEgg) // hatched
+            return eggloc == EggLocation || eggloc == Locations.LinkTrade6;
+
+        // Unhatched:
+        if (eggloc != EggLocation)
+            return false;
+        if (pk.Met_Location is not (0 or Locations.LinkTrade6))
+            return false;
+        return true;
     }
 
     private bool IsMatchLocation(PKM pk)
@@ -174,7 +203,12 @@ public sealed record EncounterStatic9(GameVersion Version)
         return IsMatchDeferred(pk);
     }
 
-    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+    private bool IsMatchLocationExact(PKM pk)
+    {
+        if (EggEncounter)
+            return true;
+        return pk.Met_Location == Location;
+    }
 
     private bool IsMatchLocationRemapped(PKM pk)
     {
@@ -229,7 +263,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             }
             var current = pk is IScaledSize3 size3 ? size3.Scale : v.HeightScalar;
             if (current != Size)
-                return false;
+                return true;
         }
 
         if (pk is { AbilityNumber: 4 } && this.IsPartialMatchHidden(pk.Species, Species))

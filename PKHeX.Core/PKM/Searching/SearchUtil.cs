@@ -45,8 +45,8 @@ public static class SearchUtil
     {
         1 => pk.EVTotal == 0, // None (0)
         2 => pk.EVTotal is (not 0) and < 128, // Some (127-1)
-        3 => pk.EVTotal is >= 128 and < 508, // Half (128-507)
-        4 => pk.EVTotal >= 508, // Full (508+)
+        3 => pk.EVTotal is >= 128 and < EffortValues.MaxEffective, // Half (128-507)
+        4 => pk.EVTotal >= EffortValues.MaxEffective, // Full (508+)
         _ => true,
     };
 

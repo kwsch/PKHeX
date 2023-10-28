@@ -4,6 +4,9 @@ namespace PKHeX.Core;
 
 internal static class Locations8b
 {
+    public static bool IsUnderground(ushort location) => location is (>= 508 and <= 617);
+    public static bool IsMarsh(ushort location) => location is (>= 219 and <= 224);
+
     public static ReadOnlySpan<ushort> Met0 => new ushort[]
     {
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,

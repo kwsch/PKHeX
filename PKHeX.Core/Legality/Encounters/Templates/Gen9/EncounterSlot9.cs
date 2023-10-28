@@ -37,7 +37,13 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
 
     public bool CanSpawnInWeather(RibbonIndex mark)
     {
-        if (AreaWeather.TryGetValue((byte)Location, out var areaWeather))
+        var loc = (byte)Location;
+        return CanSpawnInWeather(mark, loc);
+    }
+
+    public static bool CanSpawnInWeather(RibbonIndex mark, byte loc)
+    {
+        if (AreaWeather.TryGetValue(loc, out var areaWeather))
             return areaWeather.IsMarkCompatible(mark);
         return false;
     }
@@ -79,6 +85,27 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         {  80, Standard },                       // Cabo Poco
         { 109, Standard },                       // Socarrat Trail
         { 124, Inside },                         // Area Zero (5)
+
+        { 132, Standard }, // Kitakami Road
+        { 134, Standard }, // Mossui Town
+        { 136, Standard }, // Apple Hills
+        { 138, Standard }, // Loyalty Plaza
+        { 140, Standard }, // Reveler’s Road
+        { 142, Standard }, // Kitakami Hall
+        { 144, Standard }, // Oni Mountain
+        { 146, Standard }, // Dreaded Den
+        { 148, Standard }, // Oni’s Maw
+        { 150, Standard }, // Oni Mountain
+        { 152, Standard }, // Crystal Pool
+        { 154, Standard }, // Crystal Pool
+        { 156, Standard }, // Wistful Fields
+        { 158, Standard }, // Mossfell Confluence
+        { 160, Standard }, // Fellhorn Gorge
+        { 162, Standard }, // Paradise Barrens
+        { 164, Standard }, // Kitakami Wilds
+        { 166, Standard }, // Timeless Woods
+        { 168, Standard }, // Infernal Pass
+        { 170, Standard }, // Chilling Waterhead
     };
 
     #region Generating
@@ -122,7 +149,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         if (form < EncounterUtil1.FormDynamic)
             return form;
         if (form == EncounterUtil1.FormVivillon)
-            return 18; // Fancy Vivillon
+            return Vivillon3DS.FancyFormID; // Fancy Vivillon
         // flagged as totally random
         return (byte)Util.Rand.Next(PersonalTable.SV[Species].FormCount);
     }

@@ -81,26 +81,38 @@ public static class PIDGenerator
 
     private static void SetValuesFromSeedXDRNG(PKM pk, uint seed)
     {
-        switch (pk.Species)
+        var species = pk.Species;
+        switch (species)
         {
             case (int)Species.Umbreon or (int)Species.Eevee: // Colo Umbreon, XD Eevee
-                pk.TID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
-                pk.SID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
-                seed = XDRNG.Next2(seed); // PID calls consumed
+                pk.TID16 = (ushort)XDRNG.Next16(ref seed);
+                pk.SID16 = (ushort)XDRNG.Next16(ref seed);
+                seed = XDRNG.Next2(seed); // fake PID
                 break;
             case (int)Species.Espeon: // Colo Espeon
-                pk.TID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
-                pk.SID16 = (ushort)((seed = XDRNG.Next(seed)) >> 16);
-                seed = XDRNG.Next9(seed); // PID calls consumed, skip over Umbreon
+                var tid = pk.TID16 = (ushort)XDRNG.Next16(ref seed);
+                var sid = pk.SID16 = (ushort)XDRNG.Next16(ref seed);
+                LockFinder.SkipValidColoStarter(ref seed, tid, sid);
+                seed = XDRNG.Next2(seed); // fake PID
                 break;
         }
         var A = XDRNG.Next(seed); // IV1
         var B = XDRNG.Next(A); // IV2
-        var C = XDRNG.Next(B); // Ability?
-        var D = XDRNG.Next(C); // PID
-        var E = XDRNG.Next(D); // PID
+        var C = XDRNG.Next(B); // Ability
 
-        pk.PID = (D & 0xFFFF0000) | (E >> 16);
+        if (species is (int)Species.Umbreon or (int)Species.Espeon)
+        {
+            // Reuse existing logic.
+            pk.PID = LockFinder.GenerateStarterPID(ref C, pk.TID16, pk.SID16);
+        }
+        else
+        {
+            // Generate PID.
+            var D = XDRNG.Next(C); // PID
+            var E = XDRNG.Next(D); // PID
+            pk.PID = (D & 0xFFFF0000) | (E >> 16);
+        }
+
         Span<int> IVs = stackalloc int[6];
         MethodFinder.GetIVsInt32(IVs, A >> 16, B >> 16);
         pk.SetIVs(IVs);
@@ -178,7 +190,11 @@ public static class PIDGenerator
                 return SetValuesFromSeedMG5Shiny;
 
             case PIDType.Pokewalker:
-                return (pk, seed) => pk.PID = GetPokeWalkerPID(pk.TID16, pk.SID16, seed%24, pk.Gender, pk.PersonalInfo.Gender);
+                return (pk, seed) =>
+                {
+                    var pid = pk.PID = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, seed % 24, pk.Gender, pk.PersonalInfo.Gender);
+                    pk.RefreshAbility((int)(pid & 1));
+                };
 
             // others: unimplemented
             case PIDType.CuteCharm:
@@ -193,22 +209,13 @@ public static class PIDGenerator
 
     public static void SetRandomChainShinyPID(PKM pk, uint seed)
     {
-        // 13 rand bits
-        // 1 3-bit for upper
-        // 1 3-bit for lower
+        pk.PID = ClassicEraRNG.GetChainShinyPID(ref seed, pk.ID32);
 
-        uint lower = Next(ref seed) & 7;
-        uint upper = Next(ref seed) & 7;
-        for (int i = 0; i < 13; i++)
-            lower |= (Next(ref seed) & 1) << (3 + i);
-
-        upper = ((lower ^ pk.TID16 ^ pk.SID16) & 0xFFF8) | (upper & 0x7);
-        pk.PID = (upper << 16) | lower;
         Span<int> IVs = stackalloc int[6];
-        MethodFinder.GetIVsInt32(IVs, Next(ref seed), Next(ref seed));
+        var rand1 = LCRNG.Next16(ref seed);
+        var rand2 = LCRNG.Next16(ref seed);
+        MethodFinder.GetIVsInt32(IVs, rand1, rand2);
         pk.SetIVs(IVs);
-
-        static uint Next(ref uint seed) => (seed = LCRNG.Next(seed)) >> 16;
     }
 
     private static void SetRandomPokeSpotPID(PKM pk, uint seed)
@@ -245,55 +252,12 @@ public static class PIDGenerator
         return PID;
     }
 
-    public static uint GetPokeWalkerPID(ushort TID16, ushort SID16, uint nature, int gender, byte gr)
-    {
-        if (nature >= 24)
-            nature = 0;
-        uint pid = ((((uint)TID16 ^ SID16) >> 8) ^ 0xFF) << 24; // the most significant byte of the PID is chosen so the Pokémon can never be shiny.
-        // Ensure nature is set to required nature without affecting shininess
-        pid += nature - (pid % 25);
-
-        if (gr is 0 or >= 0xFE) // non-dual gender
-            return pid;
-
-        // Ensure Gender is set to required gender without affecting other properties
-        // If Gender is modified, modify the ability if appropriate
-
-        // either m/f
-        var pidGender = (pid & 0xFF) < gr ? 1 : 0;
-        if (gender == pidGender)
-            return pid;
-
-        if (gender == 0) // Male
-        {
-            pid += (((gr - (pid & 0xFF)) / 25) + 1) * 25;
-            if ((nature & 1) != (pid & 1))
-                pid += 25;
-        }
-        else
-        {
-            pid -= ((((pid & 0xFF) - gr) / 25) + 1) * 25;
-            if ((nature & 1) != (pid & 1))
-                pid -= 25;
-        }
-        return pid;
-    }
-
     public static void SetValuesFromSeedMG5Shiny(PKM pk, uint seed)
     {
         var gv = seed >> 24;
         var av = seed & 1; // arbitrary choice
         pk.PID = GetMG5ShinyPID(gv, av, pk.TID16, pk.SID16);
         SetRandomIVs(pk);
-    }
-
-    public static void SetRandomPIDPokewalker(PKM pk, int nature, int gender)
-    {
-        // Pokewalker PIDs cannot yield multiple abilities from the input nature-gender-trainerID. Disregard any ability request.
-        var pi = pk.PersonalInfo.Gender;
-        pk.Gender = gender;
-        pk.PID = GetPokeWalkerPID(pk.TID16, pk.SID16, (uint)nature, gender, pi);
-        pk.RefreshAbility((int) (pk.PID & 1));
     }
 
     public static void SetRandomWildPID4(PKM pk, int nature, int ability, int gender, PIDType type)
@@ -312,7 +276,7 @@ public static class PIDGenerator
         }
     }
 
-    private static bool IsValidCriteria4(PKM pk, int nature, int ability, int gender)
+    public static bool IsValidCriteria4(PKM pk, int nature, int ability, int gender)
     {
         if (pk.GetSaneGender() != gender)
             return false;

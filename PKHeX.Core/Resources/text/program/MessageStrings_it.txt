@@ -232,7 +232,6 @@ MsgItemPouchSizeSmall = La tasca è troppo piccola per tutti gli strumenti.
 MsgItemPouchRandom = Si: Dai per identificativo strumento {0}No: Dai casualmente
 MsgItemPouchWarning = Se salvi i cambiamenti, gli strumenti non saranno più nelle tasche della borsa.
 MsgItemPouchRemoved = I seguenti strumenti sono stati rimossi dalla tasca {0}.
-MsgClothingAdded = Added {0} clothing options.
 MsgSaveDifferentTypes = I tipi di salvataggio sono differenti.
 MsgSaveDifferentVersions = Le versioni dei file di salvataggio sono differenti.
 MsgSaveNumberInvalid = Il file di salvataggio {0} non è valido.

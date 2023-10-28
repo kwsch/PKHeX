@@ -19,11 +19,13 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public PlayTime9 Played { get; }
     public Zukan9 Zukan { get; }
     public ConfigSave9 Config { get; }
+    public ConfigCamera9 ConfigCamera { get; }
     public TeamIndexes9 TeamIndexes { get; }
     public Epoch1970Value LastSaved { get; }
     public PlayerFashion9 PlayerFashion { get; }
     public PlayerAppearance9 PlayerAppearance { get; }
-    public RaidSpawnList9 Raid { get; }
+    public RaidSpawnList9 RaidPaldea { get; }
+    public RaidSpawnList9 RaidKitakami { get; }
     public RaidSevenStar9 RaidSevenStar { get; }
     public Epoch1900Value EnrollmentDate { get; }
 
@@ -36,14 +38,16 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         BoxLayout = new BoxLayout9(sav, GetBlock(KBoxLayout));
         MyStatus = new MyStatus9(sav, GetBlock(KMyStatus));
         Played = new PlayTime9(sav, GetBlock(KPlayTime));
-        Zukan = new Zukan9(sav, GetBlock(KZukan));
+        Zukan = new Zukan9(sav, GetBlock(KZukan), GetBlockSafe(KZukanT1));
         Config = new ConfigSave9(sav, GetBlock(KConfig));
+        ConfigCamera = new ConfigCamera9(sav, GetBlockSafe(KConfigCamera));
         TeamIndexes = new TeamIndexes9(sav, GetBlock(KTeamIndexes));
         LastSaved = new Epoch1970Value(GetBlock(KLastSaved));
         PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
         PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
-        Raid = new RaidSpawnList9(sav, GetBlock(KTeraRaids));
-        RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaids));
+        RaidPaldea = new RaidSpawnList9(sav, GetBlock(KTeraRaidPaldea), RaidSpawnList9.RaidCountLegal_T0, true);
+        RaidKitakami = new RaidSpawnList9(sav, GetBlockSafe(KTeraRaidKitakami), RaidSpawnList9.RaidCountLegal_T1, false);
+        RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture));
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
     }
 
@@ -60,15 +64,18 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint KLeaguePoints = 0xADB4FE17; // u32
     private const uint KMyStatus = 0xE3E89BD1; // Trainer Details
     private const uint KConfig = 0xDF4F1875; // u32 bits
+    private const uint KConfigCamera = 0x998844C9; // u32 bits
     private const uint KItem = 0x21C9BD44; // Items
     private const uint KPlayTime = 0xEDAFF794; // Time Played
     private const uint KSessionLength = 0x1522C79C; // Milliseconds(?) elapsed
     private const uint KOverworld = 0x173304D8; // [0x158+7C][20] overworld pokemon
     private const uint KGimmighoul = 0x53DC955C; // ulong seed x2 (today and tomorrow); Gimmighoul struct (0x20): bool is_active, u64 hash, u64 seed, bool ??, bool first_time
-    private const uint KTeraRaids = 0xCAAC8800;
+    private const uint KTeraRaidPaldea = 0xCAAC8800;
+    private const uint KTeraRaidKitakami = 0x100B93DA;
     public const uint KBoxesUnlocked = 0x71825204;
     public const uint KFusedCalyrex = 0x916BCA9E; // Calyrex
     private const uint KZukan = 0x0DEAAEBD;
+    private const uint KZukanT1 = 0xF5D7C0E2;
     private const uint KMysteryGift = 0x99E1625E;
     private const uint KDLCGifts = 0xA4B7A814; // Unix timestamp, 1 byte type of gift (0 = Pokémon, 1 = Item, 2 = Apparel)
     private const uint KLastSaved = 0x7495969E; // u64 time_t
@@ -79,21 +86,31 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KCurrentAppearance = 0x812FC3E3;
     private const uint KCurrentRotomPhoneCase = 0x1433CED7;
     private const uint KRentalTeams = 0x19CB0339;
-    private const uint KSevenStarRaids = 0x8B14392F;
+    private const uint KSevenStarRaidsCapture = 0x8B14392F; // prior to 2.0.1, this also stored defeat history
+    private const uint KSevenStarRaidsDefeat = 0xA4BA4848; // 2.0.1 onward stores defeat history separately from capture history
 
-    // BCAT
-    private const uint KBCATFixedRewardItemArray = 0x7D6C2B82; // fixed_reward_item_array
-    private const uint KBCATLotteryRewardItemArray = 0xA52B4811; // lottery_reward_item_array
+    // BCAT (Tera Raid Battles)
+    private const uint KBCATRaidFixedRewardItemArray = 0x7D6C2B82; // fixed_reward_item_array
+    private const uint KBCATRaidLotteryRewardItemArray = 0xA52B4811; // lottery_reward_item_array
     private const uint KBCATRaidEnemyArray = 0x0520A1B0; // raid_enemy_array
     private const uint KBCATRaidPriorityArray = 0x095451E4; // raid_priority_array
-    private const uint KBCATEventRaidIdentifier = 0x37B99B4D; // VersionNo
+    private const uint KBCATRaidIdentifier = 0x37B99B4D; // VersionNo
+
+    // BCAT (Mass Outbreaks)
+    private const uint KBCATOutbreakZonesPaldea = 0x3FDC5DFF; // zone_main_array
+    private const uint KBCATOutbreakZonesKitakami = 0xF9F156A3; // zone_su1_array
+    private const uint KBCATOutbreakZonesBlueberry = 0x1B45E41C; // zone_su2_array
+    private const uint KBCATOutbreakPokeData = 0x6C1A131B; // pokedata_array
+    private const uint KBCATOutbreakEnabled = 0x61552076;
 
     // PlayerSave
     public const uint KCoordinates = 0x708D1511; // PlayerSave_StartPosition
-    private const uint KIsInField = 0x32645CB7; // PlayerSave_IsInField
-    private const uint KLastSubField = 0x37AF0454; // PlayerSave_LastSubField
-    private const uint KLastRoomMapName = 0x9F1ABF26; // PlayerSave_LastRoomMapName
-    private const uint KLastGreenPosition = 0x5C6F8291; // PlayerSave_LastGreenPos
+    private const uint KPlayerRotation = 0x31EF132C; // PlayerSave_StartRotation
+    private const uint KPlayerIsInField = 0x32645CB7; // PlayerSave_IsInField
+    private const uint KPlayerLastSubField = 0x37AF0454; // PlayerSave_LastSubField
+    private const uint KPlayerLastRoomMapName = 0x9F1ABF26; // PlayerSave_LastRoomMapName
+    private const uint KPlayerLastGreenPosition = 0x5C6F8291; // PlayerSave_LastGreenPos
+    private const uint KPlayerCurrentFieldID = 0xF17EB014; // PlayerSave_CurrentFieldId (0 = Paldea, 1 = Kitakami, 2 = Blueberry)
 
     // Fashion
     public const uint KFashionUnlockedEyewear = 0xCBA20ED5; // 1000-1999
@@ -102,7 +119,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint KFashionUnlockedFootwear = 0x0221A618; // 4000-4999
     public const uint KFashionUnlockedHeadwear = 0x860CD8FB; // 5000-5999
     public const uint KFashionUnlockedLegwear = 0xD186222E; // 6000-6999
-    public const uint KFashionUnlockedUniform = 0x78FF2CB2; // 7000-7999
+    public const uint KFashionUnlockedClothing = 0x78FF2CB2; // 7000-7999
     public const uint KFashionUnlockedPhoneCase = 0xED0AC675; // 8000-8999
 
     // Profile Picture
@@ -201,6 +218,17 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint FSYS_YMAP_POKECEN_33 = 0xB6088661;
     public const uint FSYS_YMAP_POKECEN_34 = 0xB6088814;
     public const uint FSYS_YMAP_POKECEN_35 = 0xB60889C7;
+    public const uint FSYS_YMAP_FLY_SU1_AREA10 = 0x7DFB08F3;
+    public const uint FSYS_YMAP_FLY_SU1_BUSSTOP = 0xA92B960F;
+    public const uint FSYS_YMAP_FLY_SU1_CENTER01 = 0x477F8C2D;
+    public const uint FSYS_YMAP_FLY_SU1_PLAZA = 0xF94F91E7;
+    public const uint FSYS_YMAP_FLY_SU1_SPOT01 = 0xB59008C4;
+    public const uint FSYS_YMAP_FLY_SU1_SPOT02 = 0xB5900DDD;
+    public const uint FSYS_YMAP_FLY_SU1_SPOT03 = 0xB5900C2A;
+    public const uint FSYS_YMAP_FLY_SU1_SPOT04 = 0xB59003AB;
+    public const uint FSYS_YMAP_FLY_SU1_SPOT05 = 0xB59001F8;
+    public const uint FSYS_YMAP_FLY_SU1_SPOT06 = 0xB5900711;
+    public const uint FSYS_YMAP_SU1MAP_CHANGE = 0x69284BE7;
 
     private const uint FSYS_YMAP_SCENARIO_DAN_AKU = 0x1EE90D7F;
     private const uint FSYS_YMAP_SCENARIO_DAN_DOKU = 0x6D2CE931;
@@ -544,6 +572,64 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KCanCraftTM169 = 0xF7D7A1BA; // FSYS_UI_WAZA_MACHINE_RELEASE_169
     private const uint KCanCraftTM170 = 0xF7D47C4C; // FSYS_UI_WAZA_MACHINE_RELEASE_170
     private const uint KCanCraftTM171 = 0xF7D47DFF; // FSYS_UI_WAZA_MACHINE_RELEASE_171
+    private const uint KCanCraftTM172 = 0xF7D47FB2; // FSYS_UI_WAZA_MACHINE_RELEASE_172
+    private const uint KCanCraftTM173 = 0xF7D48165; // FSYS_UI_WAZA_MACHINE_RELEASE_173
+    private const uint KCanCraftTM174 = 0xF7D47580; // FSYS_UI_WAZA_MACHINE_RELEASE_174
+    private const uint KCanCraftTM175 = 0xF7D47733; // FSYS_UI_WAZA_MACHINE_RELEASE_175
+    private const uint KCanCraftTM176 = 0xF7D478E6; // FSYS_UI_WAZA_MACHINE_RELEASE_176
+    private const uint KCanCraftTM177 = 0xF7D47A99; // FSYS_UI_WAZA_MACHINE_RELEASE_177
+    private const uint KCanCraftTM178 = 0xF7D489E4; // FSYS_UI_WAZA_MACHINE_RELEASE_178
+    private const uint KCanCraftTM179 = 0xF7D48B97; // FSYS_UI_WAZA_MACHINE_RELEASE_179
+    private const uint KCanCraftTM180 = 0xF7BAB63B; // FSYS_UI_WAZA_MACHINE_RELEASE_180
+    private const uint KCanCraftTM181 = 0xF7BAB488; // FSYS_UI_WAZA_MACHINE_RELEASE_181
+    private const uint KCanCraftTM182 = 0xF7BAB9A1; // FSYS_UI_WAZA_MACHINE_RELEASE_182
+    private const uint KCanCraftTM183 = 0xF7BAB7EE; // FSYS_UI_WAZA_MACHINE_RELEASE_183
+    private const uint KCanCraftTM184 = 0xF7BABD07; // FSYS_UI_WAZA_MACHINE_RELEASE_184
+    private const uint KCanCraftTM185 = 0xF7BABB54; // FSYS_UI_WAZA_MACHINE_RELEASE_185
+    private const uint KCanCraftTM186 = 0xF7BAC06D; // FSYS_UI_WAZA_MACHINE_RELEASE_186
+    private const uint KCanCraftTM187 = 0xF7BABEBA; // FSYS_UI_WAZA_MACHINE_RELEASE_187
+    private const uint KCanCraftTM188 = 0xF7BAA8A3; // FSYS_UI_WAZA_MACHINE_RELEASE_188
+    private const uint KCanCraftTM189 = 0xF7BAA6F0; // FSYS_UI_WAZA_MACHINE_RELEASE_189
+    private const uint KCanCraftTM190 = 0xF7B79CB2; // FSYS_UI_WAZA_MACHINE_RELEASE_190
+    private const uint KCanCraftTM191 = 0xF7B79E65; // FSYS_UI_WAZA_MACHINE_RELEASE_191
+    private const uint KCanCraftTM192 = 0xF7B7994C; // FSYS_UI_WAZA_MACHINE_RELEASE_192
+    private const uint KCanCraftTM193 = 0xF7B79AFF; // FSYS_UI_WAZA_MACHINE_RELEASE_193
+    private const uint KCanCraftTM194 = 0xF7B795E6; // FSYS_UI_WAZA_MACHINE_RELEASE_194
+    private const uint KCanCraftTM195 = 0xF7B79799; // FSYS_UI_WAZA_MACHINE_RELEASE_195
+    private const uint KCanCraftTM196 = 0xF7B79280; // FSYS_UI_WAZA_MACHINE_RELEASE_196
+    private const uint KCanCraftTM197 = 0xF7B79433; // FSYS_UI_WAZA_MACHINE_RELEASE_197
+    private const uint KCanCraftTM198 = 0xF7B7AA4A; // FSYS_UI_WAZA_MACHINE_RELEASE_198
+    private const uint KCanCraftTM199 = 0xF7B7ABFD; // FSYS_UI_WAZA_MACHINE_RELEASE_199
+    private const uint KCanCraftTM200 = 0xFBA50B8E; // FSYS_UI_WAZA_MACHINE_RELEASE_200
+    private const uint KCanCraftTM201 = 0xFBA50D41; // FSYS_UI_WAZA_MACHINE_RELEASE_201
+    private const uint KCanCraftTM202 = 0xFBA50828; // FSYS_UI_WAZA_MACHINE_RELEASE_202
+    private const uint KCanCraftTM203 = 0xFBA509DB; // FSYS_UI_WAZA_MACHINE_RELEASE_203
+    private const uint KCanCraftTM204 = 0xFBA5125A; // FSYS_UI_WAZA_MACHINE_RELEASE_204
+    private const uint KCanCraftTM205 = 0xFBA5140D; // FSYS_UI_WAZA_MACHINE_RELEASE_205
+    private const uint KCanCraftTM206 = 0xFBA50EF4; // FSYS_UI_WAZA_MACHINE_RELEASE_206
+    private const uint KCanCraftTM207 = 0xFBA510A7; // FSYS_UI_WAZA_MACHINE_RELEASE_207
+    private const uint KCanCraftTM208 = 0xFBA4FDF6; // FSYS_UI_WAZA_MACHINE_RELEASE_208
+    private const uint KCanCraftTM209 = 0xFBA4FFA9; // FSYS_UI_WAZA_MACHINE_RELEASE_209
+    private const uint KCanCraftTM210 = 0xFBA74B97; // FSYS_UI_WAZA_MACHINE_RELEASE_210
+    private const uint KCanCraftTM211 = 0xFBA749E4; // FSYS_UI_WAZA_MACHINE_RELEASE_211
+    private const uint KCanCraftTM212 = 0xFBA74EFD; // FSYS_UI_WAZA_MACHINE_RELEASE_212
+    private const uint KCanCraftTM213 = 0xFBA74D4A; // FSYS_UI_WAZA_MACHINE_RELEASE_213
+    private const uint KCanCraftTM214 = 0xFBA744CB; // FSYS_UI_WAZA_MACHINE_RELEASE_214
+    private const uint KCanCraftTM215 = 0xFBA74318; // FSYS_UI_WAZA_MACHINE_RELEASE_215
+    private const uint KCanCraftTM216 = 0xFBA74831; // FSYS_UI_WAZA_MACHINE_RELEASE_216
+    private const uint KCanCraftTM217 = 0xFBA7467E; // FSYS_UI_WAZA_MACHINE_RELEASE_217
+    private const uint KCanCraftTM218 = 0xFBA73DFF; // FSYS_UI_WAZA_MACHINE_RELEASE_218
+    private const uint KCanCraftTM219 = 0xFBA73C4C; // FSYS_UI_WAZA_MACHINE_RELEASE_219
+    private const uint KCanCraftTM220 = 0xFB9ED87C; // FSYS_UI_WAZA_MACHINE_RELEASE_220
+    private const uint KCanCraftTM221 = 0xFB9EDA2F; // FSYS_UI_WAZA_MACHINE_RELEASE_221
+    private const uint KCanCraftTM222 = 0xFB9EDBE2; // FSYS_UI_WAZA_MACHINE_RELEASE_222
+    private const uint KCanCraftTM223 = 0xFB9EDD95; // FSYS_UI_WAZA_MACHINE_RELEASE_223
+    private const uint KCanCraftTM224 = 0xFB9ED1B0; // FSYS_UI_WAZA_MACHINE_RELEASE_224
+    private const uint KCanCraftTM225 = 0xFB9ED363; // FSYS_UI_WAZA_MACHINE_RELEASE_225
+    private const uint KCanCraftTM226 = 0xFB9ED516; // FSYS_UI_WAZA_MACHINE_RELEASE_226
+    private const uint KCanCraftTM227 = 0xFB9ED6C9; // FSYS_UI_WAZA_MACHINE_RELEASE_227
+    private const uint KCanCraftTM228 = 0xFB9EE614; // FSYS_UI_WAZA_MACHINE_RELEASE_228
+    private const uint KCanCraftTM229 = 0xFB9EE7C7; // FSYS_UI_WAZA_MACHINE_RELEASE_229
     #endregion
 
     #region Other System Flags (Humanized, Hash, Internal Name)
@@ -566,13 +652,13 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KSelectedBirthday = 0xB1AF24E4; // FSYS_IS_INPUT_BIRTHDAY
     private const uint KUnlockedEmotes = 0xCB13D905; // FSYS_EMOTE_UNLOCK_EVENT
 
-    private const uint KGameClear = 0x92CE2CF6; // FSYS_SCENARIO_GAME_CLEAR
+    private const uint KGameClearPaldea = 0x92CE2CF6; // FSYS_SCENARIO_GAME_CLEAR
     private const uint KCanRideLegendary = 0xB9B1220D; // FSYS_RIDE_ENABLE
     private const uint KFixedSpawnsOnly = 0x8BA58864; // FSYS_ENCOUNT_FIXEDSPAWN_ONLY
     private const uint KWildSpawnsEnabled = 0xC812EDC7; // FSYS_ENCOUNT_ENABLE_SPAWN
     private const uint KIsBirthdayToday = 0xB223D309; // FSYS_BIRTHDAY_EVENT
-    private const uint KClaimedPokedexDiploma = 0xF7900D11; // FSYS_POKEDEX_SYOUJOU_EVENT
-    private const uint KCanClaimPokedexDiploma = 0xF0D246CC; // FSYS_POKEDEX_SYOUJOU_ENABLE
+    private const uint KCanClaimPokedexDiplomaPaldea = 0xF0D246CC; // FSYS_POKEDEX_SYOUJOU_ENABLE
+    private const uint KClaimedPokedexDiplomaPaldea = 0xF7900D11; // FSYS_POKEDEX_SYOUJOU_EVENT
     private const uint KReceivedMasterRankRibbon = 0x44CA754B; // FSYS_GET_RIBBON_MASTERRANK
     private const uint KIsFlyDisabled = 0xC1555927; // FSYS_FLY_DISABLE
 
@@ -804,6 +890,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KPurchasedDracoPlate = 0x895FF0AC; // FEVT_SERI_LEGEND_0311
     private const uint KPurchasedDreadPlate = 0x895FF5C5; // FEVT_SERI_LEGEND_0312
     private const uint KPurchasedIronPlate = 0x895FF412; // FEVT_SERI_LEGEND_0313
+    private const uint KPurchasedGracidea = 0x97A78CE7; // FEVT_SERI_LEGEND_0466
     private const uint KPurchasedRevealGlass = 0xA1E7C2EE; // FEVT_SERI_LEGEND_0638
     private const uint KPurchasedPixiePlate = 0xA1D94C55; // FEVT_SERI_LEGEND_0644
     private const uint KPurchasedPrisonBottle = 0x9CA69C5B; // FEVT_SERI_LEGEND_0765
@@ -1044,7 +1131,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KBagSortingOption = 0xEEAEB167; // WSYS_BAG_SORT
     private const uint KGimmighoulCoinOverflow = 0x0265ECEB; // WSYS_COIN_OVERFLOW_NUM
     private const uint KSkinTone = 0xEDBB0C80; // WSYS_PLAYER_SKIN_SELECT
-    private const uint KLastPokedexVolumeRewardThreshold = 0x359436C5; // WSYS_POKEDX_REWARD_CHIHOUA_VALUE
+    private const uint KLastPokedexVolumeRewardThresholdPaldea = 0x359436C5; // WSYS_POKEDX_REWARD_CHIHOUA_VALUE
     private const uint KRaidsWonDifficulty4 = 0x6A0F66E2; // WSYS_RAID_DIFFICTLTY4_WIN_COUNT
     private const uint KRaidsWonDifficulty6 = 0xF97AC8A4; // WSYS_RAID_DIFFICTLTY6_WIN_COUNT
 
@@ -1067,80 +1154,544 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint WSYS_YMAP_CLEAR_EFFECT_DONE = 0x2F532744;
     #endregion
 
-    #region EncountOutbreakSave
-    private const uint KMassOutbreakNumActive     = 0x6C375C8A; // EncountOutbreakSave_enablecount
+    #region EncountOutbreakSave (Paldea)
+    private const uint KOutbreakMainNumActive        = 0x6C375C8A; // EncountOutbreakSave_enablecount
 
-    private const uint KMassOutbreak01CenterPos   = 0x2ED42F4D; // EncountOutbreakSave_centerPos[0]
-    private const uint KMassOutbreak01DummyPos    = 0x4A13BE7C; // EncountOutbreakSave_dummyPos[0]
-    private const uint KMassOutbreak01Species     = 0x76A2F996; // EncountOutbreakSave_monsno[0]
-    private const uint KMassOutbreak01Form        = 0x29B4615D; // EncountOutbreakSave_formno[0]
-    private const uint KMassOutbreak01Found       = 0x7E203623; // EncountOutbreakSave_isFind[0]
-    private const uint KMassOutbreak01NumKOed     = 0x4B16FBC2; // EncountOutbreakSave_subjugationCount[0]
-    private const uint KMassOutbreak01TotalSpawns = 0xB7DC495A; // EncountOutbreakSave_subjugationLimit[0]
-    private const uint KMassOutbreak01Materials   = 0x598C9F67; // EncountOutbreakSave_dropMaterialCount[0]
+    private const uint KOutbreak01MainCenterPos      = 0x2ED42F4D; // EncountOutbreakSave_centerPos[0]
+    private const uint KOutbreak01MainDummyPos       = 0x4A13BE7C; // EncountOutbreakSave_dummyPos[0]
+    private const uint KOutbreak01MainSpecies        = 0x76A2F996; // EncountOutbreakSave_monsno[0]
+    private const uint KOutbreak01MainForm           = 0x29B4615D; // EncountOutbreakSave_formno[0]
+    private const uint KOutbreak01MainFound          = 0x7E203623; // EncountOutbreakSave_isFind[0]
+    private const uint KOutbreak01MainNumKOed        = 0x4B16FBC2; // EncountOutbreakSave_subjugationCount[0]
+    private const uint KOutbreak01MainTotalSpawns    = 0xB7DC495A; // EncountOutbreakSave_subjugationLimit[0]
+    private const uint KOutbreak01MainMaterials      = 0x598C9F67; // EncountOutbreakSave_dropMaterialCount[0]
+    private const uint KOutbreak01MainDeliveryID     = 0xF7598F85; // EncountOutbreakSave_deliveryId[0]
+    private const uint KOutbreak01MainDeliveryZoneID = 0xE32CFC01; // EncountOutbreakSave_deliveryZoneIdx[0]
+    private const uint KOutbreak01MainDeliveryPokeID = 0xF13432AE; // EncountOutbreakSave_deliveryPokeIdx[0]
 
-    private const uint KMassOutbreak02CenterPos   = 0x2ED5F198; // EncountOutbreakSave_centerPos[1]
-    private const uint KMassOutbreak02DummyPos    = 0x4A118F71; // EncountOutbreakSave_dummyPos[1]
-    private const uint KMassOutbreak02Species     = 0x76A0BCF3; // EncountOutbreakSave_monsno[1]
-    private const uint KMassOutbreak02Form        = 0x29B84368; // EncountOutbreakSave_formno[1]
-    private const uint KMassOutbreak02Found       = 0x7E22DF86; // EncountOutbreakSave_isFind[1]
-    private const uint KMassOutbreak02NumKOed     = 0x4B14BF1F; // EncountOutbreakSave_subjugationCount[1]
-    private const uint KMassOutbreak02TotalSpawns = 0xB7DA0CB7; // EncountOutbreakSave_subjugationLimit[1]
-    private const uint KMassOutbreak02Materials   = 0x598E6F4A; // EncountOutbreakSave_dropMaterialCount[1]
+    private const uint KOutbreak02MainCenterPos      = 0x2ED5F198; // EncountOutbreakSave_centerPos[1]
+    private const uint KOutbreak02MainDummyPos       = 0x4A118F71; // EncountOutbreakSave_dummyPos[1]
+    private const uint KOutbreak02MainSpecies        = 0x76A0BCF3; // EncountOutbreakSave_monsno[1]
+    private const uint KOutbreak02MainForm           = 0x29B84368; // EncountOutbreakSave_formno[1]
+    private const uint KOutbreak02MainFound          = 0x7E22DF86; // EncountOutbreakSave_isFind[1]
+    private const uint KOutbreak02MainNumKOed        = 0x4B14BF1F; // EncountOutbreakSave_subjugationCount[1]
+    private const uint KOutbreak02MainTotalSpawns    = 0xB7DA0CB7; // EncountOutbreakSave_subjugationLimit[1]
+    private const uint KOutbreak02MainMaterials      = 0x598E6F4A; // EncountOutbreakSave_dropMaterialCount[1]
+    private const uint KOutbreak02MainDeliveryID     = 0xF75BBE90; // EncountOutbreakSave_deliveryId[1]
+    private const uint KOutbreak02MainDeliveryZoneID = 0xE32EBE4C; // EncountOutbreakSave_deliveryZoneIdx[1]
+    private const uint KOutbreak02MainDeliveryPokeID = 0xF131F60B; // EncountOutbreakSave_deliveryPokeIdx[1]
 
-    private const uint KMassOutbreak03CenterPos   = 0x2ECE09D3; // EncountOutbreakSave_centerPos[2]
-    private const uint KMassOutbreak03DummyPos    = 0x4A0E135A; // EncountOutbreakSave_dummyPos[2]
-    private const uint KMassOutbreak03Species     = 0x76A97E38; // EncountOutbreakSave_monsno[2]
-    private const uint KMassOutbreak03Form        = 0x29AF8223; // EncountOutbreakSave_formno[2]
-    private const uint KMassOutbreak03Found       = 0x7E25155D; // EncountOutbreakSave_isFind[2]
-    private const uint KMassOutbreak03NumKOed     = 0x4B1CA6E4; // EncountOutbreakSave_subjugationCount[2]
-    private const uint KMassOutbreak03TotalSpawns = 0xB7E1F47C; // EncountOutbreakSave_subjugationLimit[2]
-    private const uint KMassOutbreak03Materials   = 0x59925821; // EncountOutbreakSave_dropMaterialCount[2]
+    private const uint KOutbreak03MainCenterPos      = 0x2ECE09D3; // EncountOutbreakSave_centerPos[2]
+    private const uint KOutbreak03MainDummyPos       = 0x4A0E135A; // EncountOutbreakSave_dummyPos[2]
+    private const uint KOutbreak03MainSpecies        = 0x76A97E38; // EncountOutbreakSave_monsno[2]
+    private const uint KOutbreak03MainForm           = 0x29AF8223; // EncountOutbreakSave_formno[2]
+    private const uint KOutbreak03MainFound          = 0x7E25155D; // EncountOutbreakSave_isFind[2]
+    private const uint KOutbreak03MainNumKOed        = 0x4B1CA6E4; // EncountOutbreakSave_subjugationCount[2]
+    private const uint KOutbreak03MainTotalSpawns    = 0xB7E1F47C; // EncountOutbreakSave_subjugationLimit[2]
+    private const uint KOutbreak03MainMaterials      = 0x59925821; // EncountOutbreakSave_dropMaterialCount[2]
+    private const uint KOutbreak03MainDeliveryID     = 0xF752FD4B; // EncountOutbreakSave_deliveryId[2]
+    private const uint KOutbreak03MainDeliveryZoneID = 0xE32669C7; // EncountOutbreakSave_deliveryZoneIdx[2]
+    private const uint KOutbreak03MainDeliveryPokeID = 0xF13AB750; // EncountOutbreakSave_deliveryPokeIdx[2]
 
-    private const uint KMassOutbreak04CenterPos   = 0x2ED04676; // EncountOutbreakSave_centerPos[3]
-    private const uint KMassOutbreak04DummyPos    = 0x4A0BD6B7; // EncountOutbreakSave_dummyPos[3]
-    private const uint KMassOutbreak04Species     = 0x76A6E26D; // EncountOutbreakSave_monsno[3]
-    private const uint KMassOutbreak04Form        = 0x29B22B86; // EncountOutbreakSave_formno[3]
-    private const uint KMassOutbreak04Found       = 0x7E28F768; // EncountOutbreakSave_isFind[3]
-    private const uint KMassOutbreak04NumKOed     = 0x4B1A77D9; // EncountOutbreakSave_subjugationCount[3]
-    private const uint KMassOutbreak04TotalSpawns = 0xB7DFC571; // EncountOutbreakSave_subjugationLimit[3]
-    private const uint KMassOutbreak04Materials   = 0x5994F3EC; // EncountOutbreakSave_dropMaterialCount[3]
+    private const uint KOutbreak04MainCenterPos      = 0x2ED04676; // EncountOutbreakSave_centerPos[3]
+    private const uint KOutbreak04MainDummyPos       = 0x4A0BD6B7; // EncountOutbreakSave_dummyPos[3]
+    private const uint KOutbreak04MainSpecies        = 0x76A6E26D; // EncountOutbreakSave_monsno[3]
+    private const uint KOutbreak04MainForm           = 0x29B22B86; // EncountOutbreakSave_formno[3]
+    private const uint KOutbreak04MainFound          = 0x7E28F768; // EncountOutbreakSave_isFind[3]
+    private const uint KOutbreak04MainNumKOed        = 0x4B1A77D9; // EncountOutbreakSave_subjugationCount[3]
+    private const uint KOutbreak04MainTotalSpawns    = 0xB7DFC571; // EncountOutbreakSave_subjugationLimit[3]
+    private const uint KOutbreak04MainMaterials      = 0x5994F3EC; // EncountOutbreakSave_dropMaterialCount[3]
+    private const uint KOutbreak04MainDeliveryID     = 0xF756ECEE; // EncountOutbreakSave_deliveryId[3]
+    private const uint KOutbreak04MainDeliveryZoneID = 0xE329132A; // EncountOutbreakSave_deliveryZoneIdx[3]
+    private const uint KOutbreak04MainDeliveryPokeID = 0xF136D545; // EncountOutbreakSave_deliveryPokeIdx[3]
 
-    private const uint KMassOutbreak05CenterPos   = 0x2EC78531; // EncountOutbreakSave_centerPos[4]
-    private const uint KMassOutbreak05DummyPos    = 0x4A1FFBD8; // EncountOutbreakSave_dummyPos[4]
-    private const uint KMassOutbreak05Species     = 0x76986F3A; // EncountOutbreakSave_monsno[4]
-    private const uint KMassOutbreak05Form        = 0x29A9D701; // EncountOutbreakSave_formno[4]
-    private const uint KMassOutbreak05Found       = 0x7E13F8C7; // EncountOutbreakSave_isFind[4]
-    private const uint KMassOutbreak05NumKOed     = 0x4B23391E; // EncountOutbreakSave_subjugationCount[4]
-    private const uint KMassOutbreak05TotalSpawns = 0xB7E886B6; // EncountOutbreakSave_subjugationLimit[4]
-    private const uint KMassOutbreak05Materials   = 0x599729C3; // EncountOutbreakSave_dropMaterialCount[4]
+    private const uint KOutbreak05MainCenterPos      = 0x2EC78531; // EncountOutbreakSave_centerPos[4]
+    private const uint KOutbreak05MainDummyPos       = 0x4A1FFBD8; // EncountOutbreakSave_dummyPos[4]
+    private const uint KOutbreak05MainSpecies        = 0x76986F3A; // EncountOutbreakSave_monsno[4]
+    private const uint KOutbreak05MainForm           = 0x29A9D701; // EncountOutbreakSave_formno[4]
+    private const uint KOutbreak05MainFound          = 0x7E13F8C7; // EncountOutbreakSave_isFind[4]
+    private const uint KOutbreak05MainNumKOed        = 0x4B23391E; // EncountOutbreakSave_subjugationCount[4]
+    private const uint KOutbreak05MainTotalSpawns    = 0xB7E886B6; // EncountOutbreakSave_subjugationLimit[4]
+    private const uint KOutbreak05MainMaterials      = 0x599729C3; // EncountOutbreakSave_dropMaterialCount[4]
+    private const uint KOutbreak05MainDeliveryID     = 0xF74D5229; // EncountOutbreakSave_deliveryId[4]
+    private const uint KOutbreak05MainDeliveryZoneID = 0xE337865D; // EncountOutbreakSave_deliveryZoneIdx[4]
+    private const uint KOutbreak05MainDeliveryPokeID = 0xF1286212; // EncountOutbreakSave_deliveryPokeIdx[4]
 
-    private const uint KMassOutbreak06CenterPos   = 0x2ECB673C; // EncountOutbreakSave_centerPos[5]
-    private const uint KMassOutbreak06DummyPos    = 0x4A1C868D; // EncountOutbreakSave_dummyPos[5]
-    private const uint KMassOutbreak06Species     = 0x76947F97; // EncountOutbreakSave_monsno[5]
-    private const uint KMassOutbreak06Form        = 0x29AB994C; // EncountOutbreakSave_formno[5]
-    private const uint KMassOutbreak06Found       = 0x7E16A22A; // EncountOutbreakSave_isFind[5]
-    private const uint KMassOutbreak06NumKOed     = 0x4B208FBB; // EncountOutbreakSave_subjugationCount[5]
-    private const uint KMassOutbreak06TotalSpawns = 0xB7E49713; // EncountOutbreakSave_subjugationLimit[5]
-    private const uint KMassOutbreak06Materials   = 0x599AACA6; // EncountOutbreakSave_dropMaterialCount[5]
+    private const uint KOutbreak06MainCenterPos      = 0x2ECB673C; // EncountOutbreakSave_centerPos[5]
+    private const uint KOutbreak06MainDummyPos       = 0x4A1C868D; // EncountOutbreakSave_dummyPos[5]
+    private const uint KOutbreak06MainSpecies        = 0x76947F97; // EncountOutbreakSave_monsno[5]
+    private const uint KOutbreak06MainForm           = 0x29AB994C; // EncountOutbreakSave_formno[5]
+    private const uint KOutbreak06MainFound          = 0x7E16A22A; // EncountOutbreakSave_isFind[5]
+    private const uint KOutbreak06MainNumKOed        = 0x4B208FBB; // EncountOutbreakSave_subjugationCount[5]
+    private const uint KOutbreak06MainTotalSpawns    = 0xB7E49713; // EncountOutbreakSave_subjugationLimit[5]
+    private const uint KOutbreak06MainMaterials      = 0x599AACA6; // EncountOutbreakSave_dropMaterialCount[5]
+    private const uint KOutbreak06MainDeliveryID     = 0xF7513434; // EncountOutbreakSave_deliveryId[5]
+    private const uint KOutbreak06MainDeliveryZoneID = 0xE33B6868; // EncountOutbreakSave_deliveryZoneIdx[5]
+    private const uint KOutbreak06MainDeliveryPokeID = 0xF125B8AF; // EncountOutbreakSave_deliveryPokeIdx[5]
 
-    private const uint KMassOutbreak07CenterPos   = 0x2EC1CC77; // EncountOutbreakSave_centerPos[6]
-    private const uint KMassOutbreak07DummyPos    = 0x4A1A50B6; // EncountOutbreakSave_dummyPos[6]
-    private const uint KMassOutbreak07Species     = 0x769D40DC; // EncountOutbreakSave_monsno[6]
-    private const uint KMassOutbreak07Form        = 0x29A344C7; // EncountOutbreakSave_formno[6]
-    private const uint KMassOutbreak07Found       = 0x7E1A8B01; // EncountOutbreakSave_isFind[6]
-    private const uint KMassOutbreak07NumKOed     = 0x4B28E440; // EncountOutbreakSave_subjugationCount[6]
-    private const uint KMassOutbreak07TotalSpawns = 0xB7EE31D8; // EncountOutbreakSave_subjugationLimit[6]
-    private const uint KMassOutbreak07Materials   = 0x599CE27D; // EncountOutbreakSave_dropMaterialCount[6]
+    private const uint KOutbreak07MainCenterPos      = 0x2EC1CC77; // EncountOutbreakSave_centerPos[6]
+    private const uint KOutbreak07MainDummyPos       = 0x4A1A50B6; // EncountOutbreakSave_dummyPos[6]
+    private const uint KOutbreak07MainSpecies        = 0x769D40DC; // EncountOutbreakSave_monsno[6]
+    private const uint KOutbreak07MainForm           = 0x29A344C7; // EncountOutbreakSave_formno[6]
+    private const uint KOutbreak07MainFound          = 0x7E1A8B01; // EncountOutbreakSave_isFind[6]
+    private const uint KOutbreak07MainNumKOed        = 0x4B28E440; // EncountOutbreakSave_subjugationCount[6]
+    private const uint KOutbreak07MainTotalSpawns    = 0xB7EE31D8; // EncountOutbreakSave_subjugationLimit[6]
+    private const uint KOutbreak07MainMaterials      = 0x599CE27D; // EncountOutbreakSave_dropMaterialCount[6]
+    private const uint KOutbreak07MainDeliveryID     = 0xF74872EF; // EncountOutbreakSave_deliveryId[6]
+    private const uint KOutbreak07MainDeliveryZoneID = 0xE332A723; // EncountOutbreakSave_deliveryZoneIdx[6]
+    private const uint KOutbreak07MainDeliveryPokeID = 0xF12E79F4; // EncountOutbreakSave_deliveryPokeIdx[6]
 
-    private const uint KMassOutbreak08CenterPos   = 0x2EC5BC1A; // EncountOutbreakSave_centerPos[7]
-    private const uint KMassOutbreak08DummyPos    = 0x4A166113; // EncountOutbreakSave_dummyPos[7]
-    private const uint KMassOutbreak08Species     = 0x769B11D1; // EncountOutbreakSave_monsno[7]
-    private const uint KMassOutbreak08Form        = 0x29A5EE2A; // EncountOutbreakSave_formno[7]
-    private const uint KMassOutbreak08Found       = 0x7E1C4D4C; // EncountOutbreakSave_isFind[7]
-    private const uint KMassOutbreak08NumKOed     = 0x4B256EF5; // EncountOutbreakSave_subjugationCount[7]
-    private const uint KMassOutbreak08TotalSpawns = 0xB7EABC8D; // EncountOutbreakSave_subjugationLimit[7]
-    private const uint KMassOutbreak08Materials   = 0x59A0C488; // EncountOutbreakSave_dropMaterialCount[7]
+    private const uint KOutbreak08MainCenterPos      = 0x2EC5BC1A; // EncountOutbreakSave_centerPos[7]
+    private const uint KOutbreak08MainDummyPos       = 0x4A166113; // EncountOutbreakSave_dummyPos[7]
+    private const uint KOutbreak08MainSpecies        = 0x769B11D1; // EncountOutbreakSave_monsno[7]
+    private const uint KOutbreak08MainForm           = 0x29A5EE2A; // EncountOutbreakSave_formno[7]
+    private const uint KOutbreak08MainFound          = 0x7E1C4D4C; // EncountOutbreakSave_isFind[7]
+    private const uint KOutbreak08MainNumKOed        = 0x4B256EF5; // EncountOutbreakSave_subjugationCount[7]
+    private const uint KOutbreak08MainTotalSpawns    = 0xB7EABC8D; // EncountOutbreakSave_subjugationLimit[7]
+    private const uint KOutbreak08MainMaterials      = 0x59A0C488; // EncountOutbreakSave_dropMaterialCount[7]
+    private const uint KOutbreak08MainDeliveryID     = 0xF74B1C52; // EncountOutbreakSave_deliveryId[7]
+    private const uint KOutbreak08MainDeliveryZoneID = 0xE3355086; // EncountOutbreakSave_deliveryZoneIdx[7]
+    private const uint KOutbreak08MainDeliveryPokeID = 0xF12C4AE9; // EncountOutbreakSave_deliveryPokeIdx[7]
+    #endregion
+
+    #region EncountOutbreakSave_f1 (Kitakami)
+    private const uint KOutbreakDLC1NumActive        = 0xBD7C2A04; // EncountOutbreakSave_f1_enablecount
+
+    private const uint KOutbreak01DLC1CenterPos      = 0x411A0C07; // EncountOutbreakSave_f1_centerPos[0]
+    private const uint KOutbreak01DLC1DummyPos       = 0x632EFBFE; // EncountOutbreakSave_f1_dummyPos[0]
+    private const uint KOutbreak01DLC1Species        = 0x37E55F64; // EncountOutbreakSave_f1_monsno[0]
+    private const uint KOutbreak01DLC1Form           = 0x69A930AB; // EncountOutbreakSave_f1_formno[0]
+    private const uint KOutbreak01DLC1Found          = 0x7B688081; // EncountOutbreakSave_f1_isFind[0]
+    private const uint KOutbreak01DLC1NumKOed        = 0xB29D7978; // EncountOutbreakSave_f1_subjugationCount[0]
+    private const uint KOutbreak01DLC1TotalSpawns    = 0x9E16873C; // EncountOutbreakSave_f1_subjugationLimit[0]
+    private const uint KOutbreak01DLC1Materials      = 0x0DEEA32D; // EncountOutbreakSave_f1_dropMaterialCount[0]
+    private const uint KOutbreak01DLC1DeliveryID     = 0x6CADFC47; // EncountOutbreakSave_f1_deliveryId[0]
+    private const uint KOutbreak01DLC1DeliveryZoneID = 0x9F8C7243; // EncountOutbreakSave_f1_deliveryZoneIdx[0]
+    private const uint KOutbreak01DLC1DeliveryPokeID = 0x75BCDC74; // EncountOutbreakSave_f1_deliveryPokeIdx[0]
+
+    private const uint KOutbreak02DLC1CenterPos      = 0x411CB56A; // EncountOutbreakSave_f1_centerPos[1]
+    private const uint KOutbreak02DLC1DummyPos       = 0x632D2C1B; // EncountOutbreakSave_f1_dummyPos[1]
+    private const uint KOutbreak02DLC1Species        = 0x37E33059; // EncountOutbreakSave_f1_monsno[1]
+    private const uint KOutbreak02DLC1Form           = 0x69AD204E; // EncountOutbreakSave_f1_formno[1]
+    private const uint KOutbreak02DLC1Found          = 0x7B6A42CC; // EncountOutbreakSave_f1_isFind[1]
+    private const uint KOutbreak02DLC1NumKOed        = 0xB29ADDAD; // EncountOutbreakSave_f1_subjugationCount[1]
+    private const uint KOutbreak02DLC1TotalSpawns    = 0x9E12A531; // EncountOutbreakSave_f1_subjugationLimit[1]
+    private const uint KOutbreak02DLC1Materials      = 0x0DF13EF8; // EncountOutbreakSave_f1_dropMaterialCount[1]
+    private const uint KOutbreak02DLC1DeliveryID     = 0x6CB0A5AA; // EncountOutbreakSave_f1_deliveryId[1]
+    private const uint KOutbreak02DLC1DeliveryZoneID = 0x9F8FF526; // EncountOutbreakSave_f1_deliveryZoneIdx[1]
+    private const uint KOutbreak02DLC1DeliveryPokeID = 0x75BAAD69; // EncountOutbreakSave_f1_deliveryPokeIdx[1]
+
+    private const uint KOutbreak03DLC1CenterPos      = 0x411EEB41; // EncountOutbreakSave_f1_centerPos[2]
+    private const uint KOutbreak03DLC1DummyPos       = 0x633580A0; // EncountOutbreakSave_f1_dummyPos[2]
+    private const uint KOutbreak03DLC1Species        = 0x37DFB442; // EncountOutbreakSave_f1_monsno[2]
+    private const uint KOutbreak03DLC1Form           = 0x69AEE965; // EncountOutbreakSave_f1_formno[2]
+    private const uint KOutbreak03DLC1Found          = 0x7B61EE47; // EncountOutbreakSave_f1_isFind[2]
+    private const uint KOutbreak03DLC1NumKOed        = 0xB298A7D6; // EncountOutbreakSave_f1_subjugationCount[2]
+    private const uint KOutbreak03DLC1TotalSpawns    = 0x9E10DC1A; // EncountOutbreakSave_f1_subjugationLimit[2]
+    private const uint KOutbreak03DLC1Materials      = 0x0DE87DB3; // EncountOutbreakSave_f1_dropMaterialCount[2]
+    private const uint KOutbreak03DLC1DeliveryID     = 0x6CB48E81; // EncountOutbreakSave_f1_deliveryId[2]
+    private const uint KOutbreak03DLC1DeliveryZoneID = 0x9F922AFD; // EncountOutbreakSave_f1_deliveryZoneIdx[2]
+    private const uint KOutbreak03DLC1DeliveryPokeID = 0x75B6C492; // EncountOutbreakSave_f1_deliveryPokeIdx[2]
+
+    private const uint KOutbreak04DLC1CenterPos      = 0x4122608C; // EncountOutbreakSave_f1_centerPos[3]
+    private const uint KOutbreak04DLC1DummyPos       = 0x6332E4D5; // EncountOutbreakSave_f1_dummyPos[3]
+    private const uint KOutbreak04DLC1Species        = 0x37DD779F; // EncountOutbreakSave_f1_monsno[3]
+    private const uint KOutbreak04DLC1Form           = 0x69B2CB70; // EncountOutbreakSave_f1_formno[3]
+    private const uint KOutbreak04DLC1Found          = 0x7B6497AA; // EncountOutbreakSave_f1_isFind[3]
+    private const uint KOutbreak04DLC1NumKOed        = 0xB294B833; // EncountOutbreakSave_f1_subjugationCount[3]
+    private const uint KOutbreak04DLC1TotalSpawns    = 0x9E0CEC77; // EncountOutbreakSave_f1_subjugationLimit[3]
+    private const uint KOutbreak04DLC1Materials      = 0x0DEC6D56; // EncountOutbreakSave_f1_dropMaterialCount[3]
+    private const uint KOutbreak04DLC1DeliveryID     = 0x6CB650CC; // EncountOutbreakSave_f1_deliveryId[3]
+    private const uint KOutbreak04DLC1DeliveryZoneID = 0x9F960D08; // EncountOutbreakSave_f1_deliveryZoneIdx[3]
+    private const uint KOutbreak04DLC1DeliveryPokeID = 0x75B41B2F; // EncountOutbreakSave_f1_deliveryPokeIdx[3]
+    #endregion
+
+    #region EncountOutbreakSave_f2 (Blueberry)
+    private const uint KOutbreakDLC2NumActive        = 0x19A98811; // EncountOutbreakSave_f2_enablecount
+
+    private const uint KOutbreak01DLC2CenterPos      = 0xCE463C0C; // EncountOutbreakSave_f2_centerPos[0]
+    private const uint KOutbreak01DLC2DummyPos       = 0x0B0C71CB; // EncountOutbreakSave_f2_dummyPos[0]
+    private const uint KOutbreak01DLC2Species        = 0xB8E99C8D; // EncountOutbreakSave_f2_monsno[0]
+    private const uint KOutbreak01DLC2Form           = 0xEFA6983A; // EncountOutbreakSave_f2_formno[0]
+    private const uint KOutbreak01DLC2Found          = 0x32074910; // EncountOutbreakSave_f2_isFind[0]
+    private const uint KOutbreak01DLC2NumKOed        = 0x4EF9BC25; // EncountOutbreakSave_f2_subjugationCount[0]
+    private const uint KOutbreak01DLC2TotalSpawns    = 0x4385E0AD; // EncountOutbreakSave_f2_subjugationLimit[0]
+    private const uint KOutbreak01DLC2Materials      = 0x01B2F482; // EncountOutbreakSave_f2_dropMaterialCount[0]
+    private const uint KOutbreak01DLC2DeliveryID     = 0x8273D376; // EncountOutbreakSave_f2_deliveryId[0]
+    private const uint KOutbreak01DLC2DeliveryZoneID = 0x1BF676D4; // EncountOutbreakSave_f2_deliveryZoneIdx[0]
+    private const uint KOutbreak01DLC2DeliveryPokeID = 0x1786D1CB; // EncountOutbreakSave_f2_deliveryPokeIdx[0]
+    #endregion
+
+    #region EncountOutbreakSave_bc (Paldea, BCAT)
+    private const uint KOutbreakBCMainNumActive        = 0x7478FD9A; // EncountOutbreakSave_bc_enablecount
+
+    private const uint KOutbreakBC01MainCenterPos      = 0x71DB2C9D; // EncountOutbreakSave_bc_centerPos[0]
+    private const uint KOutbreakBC01MainDummyPos       = 0xB5D2D0EC; // EncountOutbreakSave_bc_dummyPos[0]
+    private const uint KOutbreakBC01MainSpecies        = 0x84AB44A6; // EncountOutbreakSave_bc_monsno[0]
+    private const uint KOutbreakBC01MainForm           = 0xD82BDDAD; // EncountOutbreakSave_bc_formno[0]
+    private const uint KOutbreakBC01MainFound          = 0x6F473373; // EncountOutbreakSave_bc_isFind[0]
+    private const uint KOutbreakBC01MainNumKOed        = 0x65AC15F2; // EncountOutbreakSave_bc_subjugationCount[0]
+    private const uint KOutbreakBC01MainTotalSpawns    = 0x71862A2A; // EncountOutbreakSave_bc_subjugationLimit[0]
+    private const uint KOutbreakBC01MainMaterials      = 0xB577AF37; // EncountOutbreakSave_bc_dropMaterialCount[0]
+    private const uint KOutbreakBC01MainDeliveryID     = 0xF2248B55; // EncountOutbreakSave_bc_deliveryId[0]
+    private const uint KOutbreakBC01MainDeliveryZoneID = 0xC41AEEB1; // EncountOutbreakSave_bc_deliveryZoneIdx[0]
+    private const uint KOutbreakBC01MainDeliveryPokeID = 0x53DFC2DE; // EncountOutbreakSave_bc_deliveryPokeIdx[0]
+
+    private const uint KOutbreakBC02MainCenterPos      = 0x71DD5BA8; // EncountOutbreakSave_bc_centerPos[1]
+    private const uint KOutbreakBC02MainDummyPos       = 0xB5D03521; // EncountOutbreakSave_bc_dummyPos[1]
+    private const uint KOutbreakBC02MainSpecies        = 0x84A7C1C3; // EncountOutbreakSave_bc_monsno[1]
+    private const uint KOutbreakBC02MainForm           = 0xD82E7978; // EncountOutbreakSave_bc_formno[1]
+    private const uint KOutbreakBC02MainFound          = 0x6F497016; // EncountOutbreakSave_bc_isFind[1]
+    private const uint KOutbreakBC02MainNumKOed        = 0x65A8930F; // EncountOutbreakSave_bc_subjugationCount[1]
+    private const uint KOutbreakBC02MainTotalSpawns    = 0x718380C7; // EncountOutbreakSave_bc_subjugationLimit[1]
+    private const uint KOutbreakBC02MainMaterials      = 0xB579EBDA; // EncountOutbreakSave_bc_dropMaterialCount[1]
+    private const uint KOutbreakBC02MainDeliveryID     = 0xF2272720; // EncountOutbreakSave_bc_deliveryId[1]
+    private const uint KOutbreakBC02MainDeliveryZoneID = 0xC41ED0BC; // EncountOutbreakSave_bc_deliveryZoneIdx[1]
+    private const uint KOutbreakBC02MainDeliveryPokeID = 0x53DD197B; // EncountOutbreakSave_bc_deliveryPokeIdx[1]
+
+    private const uint KOutbreakBC03MainCenterPos      = 0x71D49A63; // EncountOutbreakSave_bc_centerPos[2]
+    private const uint KOutbreakBC03MainDummyPos       = 0xB5CC4C4A; // EncountOutbreakSave_bc_dummyPos[2]
+    private const uint KOutbreakBC03MainSpecies        = 0x84B15C88; // EncountOutbreakSave_bc_monsno[2]
+    private const uint KOutbreakBC03MainForm           = 0xD825B833; // EncountOutbreakSave_bc_formno[2]
+    private const uint KOutbreakBC03MainFound          = 0x6F4D58ED; // EncountOutbreakSave_bc_isFind[2]
+    private const uint KOutbreakBC03MainNumKOed        = 0x65B22DD4; // EncountOutbreakSave_bc_subjugationCount[2]
+    private const uint KOutbreakBC03MainTotalSpawns    = 0x718BD54C; // EncountOutbreakSave_bc_subjugationLimit[2]
+    private const uint KOutbreakBC03MainMaterials      = 0xB57D67F1; // EncountOutbreakSave_bc_dropMaterialCount[2]
+    private const uint KOutbreakBC03MainDeliveryID     = 0xF21ED29B; // EncountOutbreakSave_bc_deliveryId[2]
+    private const uint KOutbreakBC03MainDeliveryZoneID = 0xC41535F7; // EncountOutbreakSave_bc_deliveryZoneIdx[2]
+    private const uint KOutbreakBC03MainDeliveryPokeID = 0x53E56E00; // EncountOutbreakSave_bc_deliveryPokeIdx[2]
+
+    private const uint KOutbreakBC04MainCenterPos      = 0x71D743C6; // EncountOutbreakSave_bc_centerPos[3]
+    private const uint KOutbreakBC04MainDummyPos       = 0xB5CA7C67; // EncountOutbreakSave_bc_dummyPos[3]
+    private const uint KOutbreakBC04MainSpecies        = 0x84AD7A7D; // EncountOutbreakSave_bc_monsno[3]
+    private const uint KOutbreakBC04MainForm           = 0xD829A7D6; // EncountOutbreakSave_bc_formno[3]
+    private const uint KOutbreakBC04MainFound          = 0x6F4FF4B8; // EncountOutbreakSave_bc_isFind[3]
+    private const uint KOutbreakBC04MainNumKOed        = 0x65AE4BC9; // EncountOutbreakSave_bc_subjugationCount[3]
+    private const uint KOutbreakBC04MainTotalSpawns    = 0x718A1301; // EncountOutbreakSave_bc_subjugationLimit[3]
+    private const uint KOutbreakBC04MainMaterials      = 0xB57F96FC; // EncountOutbreakSave_bc_dropMaterialCount[3]
+    private const uint KOutbreakBC04MainDeliveryID     = 0xF220A27E; // EncountOutbreakSave_bc_deliveryId[3]
+    private const uint KOutbreakBC04MainDeliveryZoneID = 0xC419259A; // EncountOutbreakSave_bc_deliveryZoneIdx[3]
+    private const uint KOutbreakBC04MainDeliveryPokeID = 0x53E3ABB5; // EncountOutbreakSave_bc_deliveryPokeIdx[3]
+
+    private const uint KOutbreakBC05MainCenterPos      = 0x71CEEF41; // EncountOutbreakSave_bc_centerPos[4]
+    private const uint KOutbreakBC05MainDummyPos       = 0xB5DEA188; // EncountOutbreakSave_bc_dummyPos[4]
+    private const uint KOutbreakBC05MainSpecies        = 0x849F074A; // EncountOutbreakSave_bc_monsno[4]
+    private const uint KOutbreakBC05MainForm           = 0xD8200D11; // EncountOutbreakSave_bc_formno[4]
+    private const uint KOutbreakBC05MainFound          = 0x6F3AF617; // EncountOutbreakSave_bc_isFind[4]
+    private const uint KOutbreakBC05MainNumKOed        = 0x65B70D0E; // EncountOutbreakSave_bc_subjugationCount[4]
+    private const uint KOutbreakBC05MainTotalSpawns    = 0x71926786; // EncountOutbreakSave_bc_subjugationLimit[4]
+    private const uint KOutbreakBC05MainMaterials      = 0xB5823993; // EncountOutbreakSave_bc_dropMaterialCount[4]
+    private const uint KOutbreakBC05MainDeliveryID     = 0xF218BAB9; // EncountOutbreakSave_bc_deliveryId[4]
+    private const uint KOutbreakBC05MainDeliveryZoneID = 0xC42798CD; // EncountOutbreakSave_bc_deliveryZoneIdx[4]
+    private const uint KOutbreakBC05MainDeliveryPokeID = 0x53D53882; // EncountOutbreakSave_bc_deliveryPokeIdx[4]
+
+    private const uint KOutbreakBC06MainCenterPos      = 0x71D2648C; // EncountOutbreakSave_bc_centerPos[5]
+    private const uint KOutbreakBC06MainDummyPos       = 0xB5DABF7D; // EncountOutbreakSave_bc_dummyPos[5]
+    private const uint KOutbreakBC06MainSpecies        = 0x849D3767; // EncountOutbreakSave_bc_monsno[5]
+    private const uint KOutbreakBC06MainForm           = 0xD823EF1C; // EncountOutbreakSave_bc_formno[5]
+    private const uint KOutbreakBC06MainFound          = 0x6F3EE5BA; // EncountOutbreakSave_bc_isFind[5]
+    private const uint KOutbreakBC06MainNumKOed        = 0x65B4D06B; // EncountOutbreakSave_bc_subjugationCount[5]
+    private const uint KOutbreakBC06MainTotalSpawns    = 0x718FBE23; // EncountOutbreakSave_bc_subjugationLimit[5]
+    private const uint KOutbreakBC06MainMaterials      = 0xB5862936; // EncountOutbreakSave_bc_dropMaterialCount[5]
+    private const uint KOutbreakBC06MainDeliveryID     = 0xF21AE9C4; // EncountOutbreakSave_bc_deliveryId[5]
+    private const uint KOutbreakBC06MainDeliveryZoneID = 0xC4295B18; // EncountOutbreakSave_bc_deliveryZoneIdx[5]
+    private const uint KOutbreakBC06MainDeliveryPokeID = 0x53D148DF; // EncountOutbreakSave_bc_deliveryPokeIdx[5]
+
+    private const uint KOutbreakBC07MainCenterPos      = 0x71CA1007; // EncountOutbreakSave_bc_centerPos[6]
+    private const uint KOutbreakBC07MainDummyPos       = 0xB5D889A6; // EncountOutbreakSave_bc_dummyPos[6]
+    private const uint KOutbreakBC07MainSpecies        = 0x84A58BEC; // EncountOutbreakSave_bc_monsno[6]
+    private const uint KOutbreakBC07MainForm           = 0xD81B2DD7; // EncountOutbreakSave_bc_formno[6]
+    private const uint KOutbreakBC07MainFound          = 0x6F418851; // EncountOutbreakSave_bc_isFind[6]
+    private const uint KOutbreakBC07MainNumKOed        = 0x65BCB830; // EncountOutbreakSave_bc_subjugationCount[6]
+    private const uint KOutbreakBC07MainTotalSpawns    = 0x71987F68; // EncountOutbreakSave_bc_subjugationLimit[6]
+    private const uint KOutbreakBC07MainMaterials      = 0xB5885F0D; // EncountOutbreakSave_bc_dropMaterialCount[6]
+    private const uint KOutbreakBC07MainDeliveryID     = 0xF212287F; // EncountOutbreakSave_bc_deliveryId[6]
+    private const uint KOutbreakBC07MainDeliveryZoneID = 0xC4217353; // EncountOutbreakSave_bc_deliveryZoneIdx[6]
+    private const uint KOutbreakBC07MainDeliveryPokeID = 0x53DAE3A4; // EncountOutbreakSave_bc_deliveryPokeIdx[6]
+
+    private const uint KOutbreakBC08MainCenterPos      = 0x71CCB96A; // EncountOutbreakSave_bc_centerPos[7]
+    private const uint KOutbreakBC08MainDummyPos       = 0xB5D506C3; // EncountOutbreakSave_bc_dummyPos[7]
+    private const uint KOutbreakBC08MainSpecies        = 0x84A2F021; // EncountOutbreakSave_bc_monsno[7]
+    private const uint KOutbreakBC08MainForm           = 0xD81D6A7A; // EncountOutbreakSave_bc_formno[7]
+    private const uint KOutbreakBC08MainFound          = 0x6F43B75C; // EncountOutbreakSave_bc_isFind[7]
+    private const uint KOutbreakBC08MainNumKOed        = 0x65BA8925; // EncountOutbreakSave_bc_subjugationCount[7]
+    private const uint KOutbreakBC08MainTotalSpawns    = 0x71949D5D; // EncountOutbreakSave_bc_subjugationLimit[7]
+    private const uint KOutbreakBC08MainMaterials      = 0xB58BD458; // EncountOutbreakSave_bc_dropMaterialCount[7]
+    private const uint KOutbreakBC08MainDeliveryID     = 0xF2161822; // EncountOutbreakSave_bc_deliveryId[7]
+    private const uint KOutbreakBC08MainDeliveryZoneID = 0xC423AFF6; // EncountOutbreakSave_bc_deliveryZoneIdx[7]
+    private const uint KOutbreakBC08MainDeliveryPokeID = 0x53D70199; // EncountOutbreakSave_bc_deliveryPokeIdx[7]
+
+    private const uint KOutbreakBC09MainCenterPos      = 0x71F18795; // EncountOutbreakSave_bc_centerPos[8]
+    private const uint KOutbreakBC09MainDummyPos       = 0xB5E92BE4; // EncountOutbreakSave_bc_dummyPos[8]
+    private const uint KOutbreakBC09MainSpecies        = 0x84C2791E; // EncountOutbreakSave_bc_monsno[8]
+    private const uint KOutbreakBC09MainForm           = 0xD842A565; // EncountOutbreakSave_bc_formno[8]
+    private const uint KOutbreakBC09MainFound          = 0x6F5E67EB; // EncountOutbreakSave_bc_isFind[8]
+    private const uint KOutbreakBC09MainNumKOed        = 0x65954E3A; // EncountOutbreakSave_bc_subjugationCount[8]
+    private const uint KOutbreakBC09MainTotalSpawns    = 0x719E3822; // EncountOutbreakSave_bc_subjugationLimit[8]
+    private const uint KOutbreakBC09MainMaterials      = 0xB58E0A2F; // EncountOutbreakSave_bc_dropMaterialCount[8]
+    private const uint KOutbreakBC09MainDeliveryID     = 0xF20C7D5D; // EncountOutbreakSave_bc_deliveryId[8]
+    private const uint KOutbreakBC09MainDeliveryZoneID = 0xC4322329; // EncountOutbreakSave_bc_deliveryZoneIdx[8]
+    private const uint KOutbreakBC09MainDeliveryPokeID = 0x53C88E66; // EncountOutbreakSave_bc_deliveryPokeIdx[8]
+
+    private const uint KOutbreakBC10MainCenterPos      = 0x71F42360; // EncountOutbreakSave_bc_centerPos[9]
+    private const uint KOutbreakBC10MainDummyPos       = 0xB5E6FCD9; // EncountOutbreakSave_bc_dummyPos[9]
+    private const uint KOutbreakBC10MainSpecies        = 0x84BFCFBB; // EncountOutbreakSave_bc_monsno[9]
+    private const uint KOutbreakBC10MainForm           = 0xD8468770; // EncountOutbreakSave_bc_formno[9]
+    private const uint KOutbreakBC10MainFound          = 0x6F60A48E; // EncountOutbreakSave_bc_isFind[9]
+    private const uint KOutbreakBC10MainNumKOed        = 0x65915E97; // EncountOutbreakSave_bc_subjugationCount[9]
+    private const uint KOutbreakBC10MainTotalSpawns    = 0x719A487F; // EncountOutbreakSave_bc_subjugationLimit[9]
+    private const uint KOutbreakBC10MainMaterials      = 0xB590B392; // EncountOutbreakSave_bc_dropMaterialCount[9]
+    private const uint KOutbreakBC10MainDeliveryID     = 0xF2105F68; // EncountOutbreakSave_bc_deliveryId[9]
+    private const uint KOutbreakBC10MainDeliveryZoneID = 0xC4360534; // EncountOutbreakSave_bc_deliveryZoneIdx[9]
+    private const uint KOutbreakBC10MainDeliveryPokeID = 0x53C6BE83; // EncountOutbreakSave_bc_deliveryPokeIdx[9]
+    #endregion
+
+    #region EncountOutbreakSave_f1_bc (Kitakami, BCAT)
+    private const uint KOutbreakBCDLC1NumActive        = 0x0D326604; // EncountOutbreakSave_f1_bc_enablecount
+
+    private const uint KOutbreakBC01DLC1CenterPos      = 0xB3C20007; // EncountOutbreakSave_f1_bc_centerPos[0]
+    private const uint KOutbreakBC01DLC1DummyPos       = 0xB2E537FE; // EncountOutbreakSave_f1_bc_dummyPos[0]
+    private const uint KOutbreakBC01DLC1Species        = 0x0F4D3B64; // EncountOutbreakSave_f1_bc_monsno[0]
+    private const uint KOutbreakBC01DLC1Form           = 0x41110CAB; // EncountOutbreakSave_f1_bc_formno[0]
+    private const uint KOutbreakBC01DLC1Found          = 0x52D05C81; // EncountOutbreakSave_f1_bc_isFind[0]
+    private const uint KOutbreakBC01DLC1NumKOed        = 0xAA733578; // EncountOutbreakSave_f1_bc_subjugationCount[0]
+    private const uint KOutbreakBC01DLC1TotalSpawns    = 0x95EC433C; // EncountOutbreakSave_f1_bc_subjugationLimit[0]
+    private const uint KOutbreakBC01DLC1Materials      = 0x2E1D172D; // EncountOutbreakSave_f1_bc_dropMaterialCount[0]
+    private const uint KOutbreakBC01DLC1DeliveryID     = 0x40119847; // EncountOutbreakSave_f1_bc_deliveryId[0]
+    private const uint KOutbreakBC01DLC1DeliveryZoneID = 0xC1A9C643; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[0]
+    private const uint KOutbreakBC01DLC1DeliveryPokeID = 0x97DA3074; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[0]
+
+    private const uint KOutbreakBC02DLC1CenterPos      = 0xB3C4A96A; // EncountOutbreakSave_f1_bc_centerPos[1]
+    private const uint KOutbreakBC02DLC1DummyPos       = 0xB2E3681B; // EncountOutbreakSave_f1_bc_dummyPos[1]
+    private const uint KOutbreakBC02DLC1Species        = 0x0F4B0C59; // EncountOutbreakSave_f1_bc_monsno[1]
+    private const uint KOutbreakBC02DLC1Form           = 0x4114FC4E; // EncountOutbreakSave_f1_bc_formno[1]
+    private const uint KOutbreakBC02DLC1Found          = 0x52D21ECC; // EncountOutbreakSave_f1_bc_isFind[1]
+    private const uint KOutbreakBC02DLC1NumKOed        = 0xAA7099AD; // EncountOutbreakSave_f1_bc_subjugationCount[1]
+    private const uint KOutbreakBC02DLC1TotalSpawns    = 0x95E86131; // EncountOutbreakSave_f1_bc_subjugationLimit[1]
+    private const uint KOutbreakBC02DLC1Materials      = 0x2E1FB2F8; // EncountOutbreakSave_f1_bc_dropMaterialCount[1]
+    private const uint KOutbreakBC02DLC1DeliveryID     = 0x401441AA; // EncountOutbreakSave_f1_bc_deliveryId[1]
+    private const uint KOutbreakBC02DLC1DeliveryZoneID = 0xC1AD4926; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[1]
+    private const uint KOutbreakBC02DLC1DeliveryPokeID = 0x97D80169; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[1]
+
+    private const uint KOutbreakBC03DLC1CenterPos      = 0xB3C6DF41; // EncountOutbreakSave_f1_bc_centerPos[2]
+    private const uint KOutbreakBC03DLC1DummyPos       = 0xB2EBBCA0; // EncountOutbreakSave_f1_bc_dummyPos[2]
+    private const uint KOutbreakBC03DLC1Species        = 0x0F479042; // EncountOutbreakSave_f1_bc_monsno[2]
+    private const uint KOutbreakBC03DLC1Form           = 0x4116C565; // EncountOutbreakSave_f1_bc_formno[2]
+    private const uint KOutbreakBC03DLC1Found          = 0x52C9CA47; // EncountOutbreakSave_f1_bc_isFind[2]
+    private const uint KOutbreakBC03DLC1NumKOed        = 0xAA6E63D6; // EncountOutbreakSave_f1_bc_subjugationCount[2]
+    private const uint KOutbreakBC03DLC1TotalSpawns    = 0x95E6981A; // EncountOutbreakSave_f1_bc_subjugationLimit[2]
+    private const uint KOutbreakBC03DLC1Materials      = 0x2E16F1B3; // EncountOutbreakSave_f1_bc_dropMaterialCount[2]
+    private const uint KOutbreakBC03DLC1DeliveryID     = 0x40182A81; // EncountOutbreakSave_f1_bc_deliveryId[2]
+    private const uint KOutbreakBC03DLC1DeliveryZoneID = 0xC1AF7EFD; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[2]
+    private const uint KOutbreakBC03DLC1DeliveryPokeID = 0x97D41892; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[2]
+
+    private const uint KOutbreakBC04DLC1CenterPos      = 0xB3CA548C; // EncountOutbreakSave_f1_bc_centerPos[3]
+    private const uint KOutbreakBC04DLC1DummyPos       = 0xB2E920D5; // EncountOutbreakSave_f1_bc_dummyPos[3]
+    private const uint KOutbreakBC04DLC1Species        = 0x0F45539F; // EncountOutbreakSave_f1_bc_monsno[3]
+    private const uint KOutbreakBC04DLC1Form           = 0x411AA770; // EncountOutbreakSave_f1_bc_formno[3]
+    private const uint KOutbreakBC04DLC1Found          = 0x52CC73AA; // EncountOutbreakSave_f1_bc_isFind[3]
+    private const uint KOutbreakBC04DLC1NumKOed        = 0xAA6A7433; // EncountOutbreakSave_f1_bc_subjugationCount[3]
+    private const uint KOutbreakBC04DLC1TotalSpawns    = 0x95E2A877; // EncountOutbreakSave_f1_bc_subjugationLimit[3]
+    private const uint KOutbreakBC04DLC1Materials      = 0x2E1AE156; // EncountOutbreakSave_f1_bc_dropMaterialCount[3]
+    private const uint KOutbreakBC04DLC1DeliveryID     = 0x4019ECCC; // EncountOutbreakSave_f1_bc_deliveryId[3]
+    private const uint KOutbreakBC04DLC1DeliveryZoneID = 0xC1B36108; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[3]
+    private const uint KOutbreakBC04DLC1DeliveryPokeID = 0x97D16F2F; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[3]
+
+    private const uint KOutbreakBC05DLC1CenterPos      = 0xB3CC8A63; // EncountOutbreakSave_f1_bc_centerPos[4]
+    private const uint KOutbreakBC05DLC1DummyPos       = 0xB2DAADA2; // EncountOutbreakSave_f1_bc_dummyPos[4]
+    private const uint KOutbreakBC05DLC1Species        = 0x0F5978C0; // EncountOutbreakSave_f1_bc_monsno[4]
+    private const uint KOutbreakBC05DLC1Form           = 0x4106824F; // EncountOutbreakSave_f1_bc_formno[4]
+    private const uint KOutbreakBC05DLC1Found          = 0x52DAE6DD; // EncountOutbreakSave_f1_bc_isFind[4]
+    private const uint KOutbreakBC05DLC1NumKOed        = 0xAA68AB1C; // EncountOutbreakSave_f1_bc_subjugationCount[4]
+    private const uint KOutbreakBC05DLC1TotalSpawns    = 0x95F6CD98; // EncountOutbreakSave_f1_bc_subjugationLimit[4]
+    private const uint KOutbreakBC05DLC1Materials      = 0x2E114691; // EncountOutbreakSave_f1_bc_dropMaterialCount[4]
+    private const uint KOutbreakBC05DLC1DeliveryID     = 0x401DD5A3; // EncountOutbreakSave_f1_bc_deliveryId[4]
+    private const uint KOutbreakBC05DLC1DeliveryZoneID = 0xC19F3BE7; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[4]
+    private const uint KOutbreakBC05DLC1DeliveryPokeID = 0x97E66DD0; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[4]
+
+    private const uint KOutbreakBC06DLC1CenterPos      = 0xB3CF33C6; // EncountOutbreakSave_f1_bc_centerPos[5]
+    private const uint KOutbreakBC06DLC1DummyPos       = 0xB2D6BDFF; // EncountOutbreakSave_f1_bc_dummyPos[5]
+    private const uint KOutbreakBC06DLC1Species        = 0x0F560375; // EncountOutbreakSave_f1_bc_monsno[5]
+    private const uint KOutbreakBC06DLC1Form           = 0x41085232; // EncountOutbreakSave_f1_bc_formno[5]
+    private const uint KOutbreakBC06DLC1Found          = 0x52DEC8E8; // EncountOutbreakSave_f1_bc_isFind[5]
+    private const uint KOutbreakBC06DLC1NumKOed        = 0xAA64C911; // EncountOutbreakSave_f1_bc_subjugationCount[5]
+    private const uint KOutbreakBC06DLC1TotalSpawns    = 0x95F50B4D; // EncountOutbreakSave_f1_bc_subjugationLimit[5]
+    private const uint KOutbreakBC06DLC1Materials      = 0x2E15289C; // EncountOutbreakSave_f1_bc_dropMaterialCount[5]
+    private const uint KOutbreakBC06DLC1DeliveryID     = 0x40207F06; // EncountOutbreakSave_f1_bc_deliveryId[5]
+    private const uint KOutbreakBC06DLC1DeliveryZoneID = 0xC1A10BCA; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[5]
+    private const uint KOutbreakBC06DLC1DeliveryPokeID = 0x97E28BC5; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[5]
+
+    private const uint KOutbreakBC07DLC1CenterPos      = 0xB3D31C9D; // EncountOutbreakSave_f1_bc_centerPos[6]
+    private const uint KOutbreakBC07DLC1DummyPos       = 0xB2DF7F44; // EncountOutbreakSave_f1_bc_dummyPos[6]
+    private const uint KOutbreakBC07DLC1Species        = 0x0F53CD9E; // EncountOutbreakSave_f1_bc_monsno[6]
+    private const uint KOutbreakBC07DLC1Form           = 0x410C3B09; // EncountOutbreakSave_f1_bc_formno[6]
+    private const uint KOutbreakBC07DLC1Found          = 0x52D607A3; // EncountOutbreakSave_f1_bc_isFind[6]
+    private const uint KOutbreakBC07DLC1NumKOed        = 0xAA62267A; // EncountOutbreakSave_f1_bc_subjugationCount[6]
+    private const uint KOutbreakBC07DLC1TotalSpawns    = 0x95F12276; // EncountOutbreakSave_f1_bc_subjugationLimit[6]
+    private const uint KOutbreakBC07DLC1Materials      = 0x2E0C6757; // EncountOutbreakSave_f1_bc_dropMaterialCount[6]
+    private const uint KOutbreakBC07DLC1DeliveryID     = 0x4022B4DD; // EncountOutbreakSave_f1_bc_deliveryId[6]
+    private const uint KOutbreakBC07DLC1DeliveryZoneID = 0xC1A4F4A1; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[6]
+    private const uint KOutbreakBC07DLC1DeliveryPokeID = 0x97DFE92E; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[6]
+
+    private const uint KOutbreakBC08DLC1CenterPos      = 0xB3D54BA8; // EncountOutbreakSave_f1_bc_centerPos[7]
+    private const uint KOutbreakBC08DLC1DummyPos       = 0xB2DD5039; // EncountOutbreakSave_f1_bc_dummyPos[7]
+    private const uint KOutbreakBC08DLC1Species        = 0x0F51243B; // EncountOutbreakSave_f1_bc_monsno[7]
+    private const uint KOutbreakBC08DLC1Form           = 0x410E6A14; // EncountOutbreakSave_f1_bc_formno[7]
+    private const uint KOutbreakBC08DLC1Found          = 0x52D8B106; // EncountOutbreakSave_f1_bc_isFind[7]
+    private const uint KOutbreakBC08DLC1NumKOed        = 0xAA5FE9D7; // EncountOutbreakSave_f1_bc_subjugationCount[7]
+    private const uint KOutbreakBC08DLC1TotalSpawns    = 0x95EEE5D3; // EncountOutbreakSave_f1_bc_subjugationLimit[7]
+    private const uint KOutbreakBC08DLC1Materials      = 0x2E0EA3FA; // EncountOutbreakSave_f1_bc_dropMaterialCount[7]
+    private const uint KOutbreakBC08DLC1DeliveryID     = 0x402696E8; // EncountOutbreakSave_f1_bc_deliveryId[7]
+    private const uint KOutbreakBC08DLC1DeliveryZoneID = 0xC1A7906C; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[7]
+    private const uint KOutbreakBC08DLC1DeliveryPokeID = 0x97DDAC8B; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[7]
+
+    private const uint KOutbreakBC09DLC1CenterPos      = 0xB3D8C7BF; // EncountOutbreakSave_f1_bc_centerPos[8]
+    private const uint KOutbreakBC09DLC1DummyPos       = 0xB2CEDD06; // EncountOutbreakSave_f1_bc_dummyPos[8]
+    private const uint KOutbreakBC09DLC1Species        = 0x0F36E06C; // EncountOutbreakSave_f1_bc_monsno[8]
+    private const uint KOutbreakBC09DLC1Form           = 0x40F9D833; // EncountOutbreakSave_f1_bc_formno[8]
+    private const uint KOutbreakBC09DLC1Found          = 0x52E72439; // EncountOutbreakSave_f1_bc_isFind[8]
+    private const uint KOutbreakBC09DLC1NumKOed        = 0xAA8B4370; // EncountOutbreakSave_f1_bc_subjugationCount[8]
+    private const uint KOutbreakBC09DLC1TotalSpawns    = 0x960377B4; // EncountOutbreakSave_f1_bc_subjugationLimit[8]
+    private const uint KOutbreakBC09DLC1Materials      = 0x2E33DEE5; // EncountOutbreakSave_f1_bc_dropMaterialCount[8]
+    private const uint KOutbreakBC09DLC1DeliveryID     = 0x40285FFF; // EncountOutbreakSave_f1_bc_deliveryId[8]
+    private const uint KOutbreakBC09DLC1DeliveryZoneID = 0xC1C1D43B; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[8]
+    private const uint KOutbreakBC09DLC1DeliveryPokeID = 0x97C2FBFC; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[8]
+
+    private const uint KOutbreakBC10DLC1CenterPos      = 0xB3DB0462; // EncountOutbreakSave_f1_bc_centerPos[9]
+    private const uint KOutbreakBC10DLC1DummyPos       = 0xB2CC33A3; // EncountOutbreakSave_f1_bc_dummyPos[9]
+    private const uint KOutbreakBC10DLC1Species        = 0x0F3444A1; // EncountOutbreakSave_f1_bc_monsno[9]
+    private const uint KOutbreakBC10DLC1Form           = 0x40FDC7D6; // EncountOutbreakSave_f1_bc_formno[9]
+    private const uint KOutbreakBC10DLC1Found          = 0x52E95344; // EncountOutbreakSave_f1_bc_isFind[9]
+    private const uint KOutbreakBC10DLC1NumKOed        = 0xAA876165; // EncountOutbreakSave_f1_bc_subjugationCount[9]
+    private const uint KOutbreakBC10DLC1TotalSpawns    = 0x95FF95A9; // EncountOutbreakSave_f1_bc_subjugationLimit[9]
+    private const uint KOutbreakBC10DLC1Materials      = 0x2E37C0F0; // EncountOutbreakSave_f1_bc_dropMaterialCount[9]
+    private const uint KOutbreakBC10DLC1DeliveryID     = 0x402C4FA2; // EncountOutbreakSave_f1_bc_deliveryId[9]
+    private const uint KOutbreakBC10DLC1DeliveryZoneID = 0xC1C47D9E; // EncountOutbreakSave_f1_bc_deliveryZoneIdx[9]
+    private const uint KOutbreakBC10DLC1DeliveryPokeID = 0x97C0CCF1; // EncountOutbreakSave_f1_bc_deliveryPokeIdx[9]
+    #endregion
+
+    #region EncountOutbreakSave_f2_bc (Blueberry, BCAT)
+    private const uint KOutbreakBCDLC2NumActive        = 0x1B4ECAC3; // EncountOutbreakSave_f2_bc_enablecount
+
+    private const uint KOutbreakBC01DLC2CenterPos      = 0xE623D9F6; // EncountOutbreakSave_f2_bc_centerPos[0]
+    private const uint KOutbreakBC01DLC2DummyPos       = 0xB1E70E4D; // EncountOutbreakSave_f2_bc_dummyPos[0]
+    private const uint KOutbreakBC01DLC2Species        = 0x03B50A2B; // EncountOutbreakSave_f2_bc_monsno[0]
+    private const uint KOutbreakBC01DLC2Form           = 0x9F47C0A8; // EncountOutbreakSave_f2_bc_formno[0]
+    private const uint KOutbreakBC01DLC2Found          = 0x57C23026; // EncountOutbreakSave_f2_bc_isFind[0]
+    private const uint KOutbreakBC01DLC2NumKOed        = 0x6CB77613; // EncountOutbreakSave_f2_bc_subjugationCount[0]
+    private const uint KOutbreakBC01DLC2TotalSpawns    = 0xCDB0C887; // EncountOutbreakSave_f2_bc_subjugationLimit[0]
+    private const uint KOutbreakBC01DLC2Materials      = 0x09934588; // EncountOutbreakSave_f2_bc_dropMaterialCount[0]
+    private const uint KOutbreakBC01DLC2DeliveryID     = 0x4E4E8528; // EncountOutbreakSave_f2_bc_deliveryId[0]
+    private const uint KOutbreakBC01DLC2DeliveryZoneID = 0xD38F831E; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[0]
+    private const uint KOutbreakBC01DLC2DeliveryPokeID = 0x19334439; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[0]
+
+    private const uint KOutbreakBC02DLC2CenterPos      = 0xE6219D53; // EncountOutbreakSave_f2_bc_centerPos[1]
+    private const uint KOutbreakBC02DLC2DummyPos       = 0xB1E8D098; // EncountOutbreakSave_f2_bc_dummyPos[1]
+    private const uint KOutbreakBC02DLC2Species        = 0x03B8F9CE; // EncountOutbreakSave_f2_bc_monsno[1]
+    private const uint KOutbreakBC02DLC2Form           = 0x9F45919D; // EncountOutbreakSave_f2_bc_formno[1]
+    private const uint KOutbreakBC02DLC2Found          = 0x57BEAD43; // EncountOutbreakSave_f2_bc_isFind[1]
+    private const uint KOutbreakBC02DLC2NumKOed        = 0x6CBB65B6; // EncountOutbreakSave_f2_bc_subjugationCount[1]
+    private const uint KOutbreakBC02DLC2TotalSpawns    = 0xCDB371EA; // EncountOutbreakSave_f2_bc_subjugationLimit[1]
+    private const uint KOutbreakBC02DLC2Materials      = 0x098F637D; // EncountOutbreakSave_f2_bc_dropMaterialCount[1]
+    private const uint KOutbreakBC02DLC2DeliveryID     = 0x4E4C561D; // EncountOutbreakSave_f2_bc_deliveryId[1]
+    private const uint KOutbreakBC02DLC2DeliveryZoneID = 0xD38CD9BB; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[1]
+    private const uint KOutbreakBC02DLC2DeliveryPokeID = 0x19357344; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[1]
+
+    private const uint KOutbreakBC03DLC2CenterPos      = 0xE6298518; // EncountOutbreakSave_f2_bc_centerPos[2]
+    private const uint KOutbreakBC03DLC2DummyPos       = 0xB1E0E8D3; // EncountOutbreakSave_f2_bc_dummyPos[2]
+    private const uint KOutbreakBC03DLC2Species        = 0x03BAC2E5; // EncountOutbreakSave_f2_bc_monsno[2]
+    private const uint KOutbreakBC03DLC2Form           = 0x9F41A8C6; // EncountOutbreakSave_f2_bc_formno[2]
+    private const uint KOutbreakBC03DLC2Found          = 0x57C84808; // EncountOutbreakSave_f2_bc_isFind[2]
+    private const uint KOutbreakBC03DLC2NumKOed        = 0x6CBD9B8D; // EncountOutbreakSave_f2_bc_subjugationCount[2]
+    private const uint KOutbreakBC03DLC2TotalSpawns    = 0xCDB5A7C1; // EncountOutbreakSave_f2_bc_subjugationLimit[2]
+    private const uint KOutbreakBC03DLC2Materials      = 0x098D2DA6; // EncountOutbreakSave_f2_bc_dropMaterialCount[2]
+    private const uint KOutbreakBC03DLC2DeliveryID     = 0x4E486D46; // EncountOutbreakSave_f2_bc_deliveryId[2]
+    private const uint KOutbreakBC03DLC2DeliveryZoneID = 0xD3952E40; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[2]
+    private const uint KOutbreakBC03DLC2DeliveryPokeID = 0x192CB1FF; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[2]
+
+    private const uint KOutbreakBC04DLC2CenterPos      = 0xE627C2CD; // EncountOutbreakSave_f2_bc_centerPos[3]
+    private const uint KOutbreakBC04DLC2DummyPos       = 0xB1E32576; // EncountOutbreakSave_f2_bc_dummyPos[3]
+    private const uint KOutbreakBC04DLC2Species        = 0x03BEA4F0; // EncountOutbreakSave_f2_bc_monsno[3]
+    private const uint KOutbreakBC04DLC2Form           = 0x9F3EFF63; // EncountOutbreakSave_f2_bc_formno[3]
+    private const uint KOutbreakBC04DLC2Found          = 0x57C465FD; // EncountOutbreakSave_f2_bc_isFind[3]
+    private const uint KOutbreakBC04DLC2NumKOed        = 0x6CC110D8; // EncountOutbreakSave_f2_bc_subjugationCount[3]
+    private const uint KOutbreakBC04DLC2TotalSpawns    = 0xCDB91D0C; // EncountOutbreakSave_f2_bc_subjugationLimit[3]
+    private const uint KOutbreakBC04DLC2Materials      = 0x0989AAC3; // EncountOutbreakSave_f2_bc_dropMaterialCount[3]
+    private const uint KOutbreakBC04DLC2DeliveryID     = 0x4E45C3E3; // EncountOutbreakSave_f2_bc_deliveryId[3]
+    private const uint KOutbreakBC04DLC2DeliveryZoneID = 0xD391B8F5; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[3]
+    private const uint KOutbreakBC04DLC2DeliveryPokeID = 0x1930A1A2; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[3]
+
+    private const uint KOutbreakBC05DLC2CenterPos      = 0xE6194F9A; // EncountOutbreakSave_f2_bc_centerPos[4]
+    private const uint KOutbreakBC05DLC2DummyPos       = 0xB1DA6431; // EncountOutbreakSave_f2_bc_dummyPos[4]
+    private const uint KOutbreakBC05DLC2Species        = 0x03AA7FCF; // EncountOutbreakSave_f2_bc_monsno[4]
+    private const uint KOutbreakBC05DLC2Form           = 0x9F3CC98C; // EncountOutbreakSave_f2_bc_formno[4]
+    private const uint KOutbreakBC05DLC2Found          = 0x57B5F2CA; // EncountOutbreakSave_f2_bc_isFind[4]
+    private const uint KOutbreakBC05DLC2NumKOed        = 0x6CACEBB7; // EncountOutbreakSave_f2_bc_subjugationCount[4]
+    private const uint KOutbreakBC05DLC2TotalSpawns    = 0xCDBB52E3; // EncountOutbreakSave_f2_bc_subjugationLimit[4]
+    private const uint KOutbreakBC05DLC2Materials      = 0x098774EC; // EncountOutbreakSave_f2_bc_dropMaterialCount[4]
+    private const uint KOutbreakBC05DLC2DeliveryID     = 0x4E438E0C; // EncountOutbreakSave_f2_bc_deliveryId[4]
+    private const uint KOutbreakBC05DLC2DeliveryZoneID = 0xD38345C2; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[4]
+    private const uint KOutbreakBC05DLC2DeliveryPokeID = 0x193F14D5; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[4]
+
+    private const uint KOutbreakBC06DLC2CenterPos      = 0xE6155FF7; // EncountOutbreakSave_f2_bc_centerPos[5]
+    private const uint KOutbreakBC06DLC2DummyPos       = 0xB1DE463C; // EncountOutbreakSave_f2_bc_dummyPos[5]
+    private const uint KOutbreakBC06DLC2Species        = 0x03AC4FB2; // EncountOutbreakSave_f2_bc_monsno[5]
+    private const uint KOutbreakBC06DLC2Form           = 0x9F395441; // EncountOutbreakSave_f2_bc_formno[5]
+    private const uint KOutbreakBC06DLC2Found          = 0x57B422E7; // EncountOutbreakSave_f2_bc_isFind[5]
+    private const uint KOutbreakBC06DLC2NumKOed        = 0x6CAF285A; // EncountOutbreakSave_f2_bc_subjugationCount[5]
+    private const uint KOutbreakBC06DLC2TotalSpawns    = 0xCDBDFC46; // EncountOutbreakSave_f2_bc_subjugationLimit[5]
+    private const uint KOutbreakBC06DLC2Materials      = 0x0984D921; // EncountOutbreakSave_f2_bc_dropMaterialCount[5]
+    private const uint KOutbreakBC06DLC2DeliveryID     = 0x4E4018C1; // EncountOutbreakSave_f2_bc_deliveryId[5]
+    private const uint KOutbreakBC06DLC2DeliveryZoneID = 0xD381091F; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[5]
+    private const uint KOutbreakBC06DLC2DeliveryPokeID = 0x1941B0A0; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[5]
+
+    private const uint KOutbreakBC07DLC2CenterPos      = 0xE61EFABC; // EncountOutbreakSave_f2_bc_centerPos[6]
+    private const uint KOutbreakBC07DLC2DummyPos       = 0xB1D4AB77; // EncountOutbreakSave_f2_bc_dummyPos[6]
+    private const uint KOutbreakBC07DLC2Species        = 0x03B03889; // EncountOutbreakSave_f2_bc_monsno[6]
+    private const uint KOutbreakBC07DLC2Form           = 0x9F371E6A; // EncountOutbreakSave_f2_bc_formno[6]
+    private const uint KOutbreakBC07DLC2Found          = 0x57BC776C; // EncountOutbreakSave_f2_bc_isFind[6]
+    private const uint KOutbreakBC07DLC2NumKOed        = 0x6CB2A471; // EncountOutbreakSave_f2_bc_subjugationCount[6]
+    private const uint KOutbreakBC07DLC2TotalSpawns    = 0xCDC1E51D; // EncountOutbreakSave_f2_bc_subjugationLimit[6]
+    private const uint KOutbreakBC07DLC2Materials      = 0x0980F04A; // EncountOutbreakSave_f2_bc_dropMaterialCount[6]
+    private const uint KOutbreakBC07DLC2DeliveryID     = 0x4E3DE2EA; // EncountOutbreakSave_f2_bc_deliveryId[6]
+    private const uint KOutbreakBC07DLC2DeliveryZoneID = 0xD388F0E4; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[6]
+    private const uint KOutbreakBC07DLC2DeliveryPokeID = 0x19395C1B; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[6]
+
+    private const uint KOutbreakBC08DLC2CenterPos      = 0xE61B18B1; // EncountOutbreakSave_f2_bc_centerPos[7]
+    private const uint KOutbreakBC08DLC2DummyPos       = 0xB1D89B1A; // EncountOutbreakSave_f2_bc_dummyPos[7]
+    private const uint KOutbreakBC08DLC2Species        = 0x03B26794; // EncountOutbreakSave_f2_bc_monsno[7]
+    private const uint KOutbreakBC08DLC2Form           = 0x9F347507; // EncountOutbreakSave_f2_bc_formno[7]
+    private const uint KOutbreakBC08DLC2Found          = 0x57B9DBA1; // EncountOutbreakSave_f2_bc_isFind[7]
+    private const uint KOutbreakBC08DLC2NumKOed        = 0x6CB4D37C; // EncountOutbreakSave_f2_bc_subjugationCount[7]
+    private const uint KOutbreakBC08DLC2TotalSpawns    = 0xCDC41428; // EncountOutbreakSave_f2_bc_subjugationLimit[7]
+    private const uint KOutbreakBC08DLC2Materials      = 0x097F2067; // EncountOutbreakSave_f2_bc_dropMaterialCount[7]
+    private const uint KOutbreakBC08DLC2DeliveryID     = 0x4E3B3987; // EncountOutbreakSave_f2_bc_deliveryId[7]
+    private const uint KOutbreakBC08DLC2DeliveryZoneID = 0xD386C1D9; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[7]
+    private const uint KOutbreakBC08DLC2DeliveryPokeID = 0x193B2BFE; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[7]
+
+    private const uint KOutbreakBC09DLC2CenterPos      = 0xE63BE7EE; // EncountOutbreakSave_f2_bc_centerPos[8]
+    private const uint KOutbreakBC09DLC2DummyPos       = 0xB1FDD605; // EncountOutbreakSave_f2_bc_dummyPos[8]
+    private const uint KOutbreakBC09DLC2Species        = 0x039DD5B3; // EncountOutbreakSave_f2_bc_monsno[8]
+    private const uint KOutbreakBC09DLC2Form           = 0x9F5E8860; // EncountOutbreakSave_f2_bc_formno[8]
+    private const uint KOutbreakBC09DLC2Found          = 0x57D9649E; // EncountOutbreakSave_f2_bc_isFind[8]
+    private const uint KOutbreakBC09DLC2NumKOed        = 0x6CCF840B; // EncountOutbreakSave_f2_bc_subjugationCount[8]
+    private const uint KOutbreakBC09DLC2TotalSpawns    = 0xCDC7903F; // EncountOutbreakSave_f2_bc_subjugationLimit[8]
+    private const uint KOutbreakBC09DLC2Materials      = 0x09AA0D40; // EncountOutbreakSave_f2_bc_dropMaterialCount[8]
+    private const uint KOutbreakBC09DLC2DeliveryID     = 0x4E654CE0; // EncountOutbreakSave_f2_bc_deliveryId[8]
+    private const uint KOutbreakBC09DLC2DeliveryZoneID = 0xD3784EA6; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[8]
+    private const uint KOutbreakBC09DLC2DeliveryPokeID = 0x191C7C81; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[8]
+
+    private const uint KOutbreakBC10DLC2CenterPos      = 0xE637F84B; // EncountOutbreakSave_f2_bc_centerPos[9]
+    private const uint KOutbreakBC10DLC2DummyPos       = 0xB2000510; // EncountOutbreakSave_f2_bc_dummyPos[9]
+    private const uint KOutbreakBC10DLC2Species        = 0x03A1C556; // EncountOutbreakSave_f2_bc_monsno[9]
+    private const uint KOutbreakBC10DLC2Form           = 0x9F5BEC95; // EncountOutbreakSave_f2_bc_formno[9]
+    private const uint KOutbreakBC10DLC2Found          = 0x57D6BB3B; // EncountOutbreakSave_f2_bc_isFind[9]
+    private const uint KOutbreakBC10DLC2NumKOed        = 0x6CD1C0AE; // EncountOutbreakSave_f2_bc_subjugationCount[9]
+    private const uint KOutbreakBC10DLC2TotalSpawns    = 0xCDC9CCE2; // EncountOutbreakSave_f2_bc_subjugationLimit[9]
+    private const uint KOutbreakBC10DLC2Materials      = 0x09A697F5; // EncountOutbreakSave_f2_bc_dropMaterialCount[9]
+    private const uint KOutbreakBC10DLC2DeliveryID     = 0x4E62B115; // EncountOutbreakSave_f2_bc_deliveryId[9]
+    private const uint KOutbreakBC10DLC2DeliveryZoneID = 0xD374CBC3; // EncountOutbreakSave_f2_bc_deliveryZoneIdx[9]
+    private const uint KOutbreakBC10DLC2DeliveryPokeID = 0x191E3ECC; // EncountOutbreakSave_f2_bc_deliveryPokeIdx[9]
     #endregion
 
     #region GameEnvSave
@@ -1171,5 +1722,89 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KFixedSymbolRetainer08 = 0x74ABB4B3;
     private const uint KFixedSymbolRetainer09 = 0x74ABCACA;
     private const uint KFixedSymbolRetainer10 = 0x74ABCC7D;
+    #endregion
+
+    #region Sudachi 1
+    private const uint KGameClearTealMask = 0x0DDBBC62; // FSYS_SCENARIO_GAME_CLEAR_SU1
+    private const uint KUnlockedPokedexKitakami = 0x4877DB86; // FSYS_DLC1_POKEDEX_ADD
+    private const uint KCanClaimPokedexDiplomaKitakami = 0xC4E1A713; // FSYS_DLC1_POKEDEX_SYOUJOU_ENABLE
+    private const uint KClaimedPokedexDiplomaKitakami = 0xA066600C; // FSYS_DLC1_POKEDEX_SYOUJOU_EVENT
+    private const uint KUnlockedRotoStick = 0x478A8C60; // FSYS_DLC1_SELFIE_STICK_UNLOCK
+    private const uint KUnlockedDLCEmote0 = 0x99849BBF; // FSYS_DLC1_EMOTE_00_RELEASE
+    private const uint KUnlockedDLCEmote1 = 0xF6A77854; // FSYS_DLC1_EMOTE_01_RELEASE
+    private const uint KUnlockedDLCEmote2 = 0xC2ECD3E5; // FSYS_DLC1_EMOTE_02_RELEASE
+    private const uint KUnlockedDLCEmote3 = 0x29583572; // FSYS_DLC1_EMOTE_03_RELEASE
+    private const uint KUnlockedDLCEmote4 = 0x298A7CFB; // FSYS_DLC1_EMOTE_04_RELEASE
+    private const uint KUnlockedDLCEmote5 = 0x3DA607F0; // FSYS_DLC1_EMOTE_05_RELEASE
+    private const uint KUnlockedDLCSelfieEmote1 = 0x1170E5C8; // FSYS_DLC1_EMOTE_SELFIE_00_RELEASE
+    private const uint KUnlockedDLCSelfieEmote2 = 0xBBBA5D73; // FSYS_DLC1_EMOTE_SELFIE_01_RELEASE
+    private const uint KUnlockedDLCSelfieEmote3 = 0xA3EB52A6; // FSYS_DLC1_EMOTE_SELFIE_02_RELEASE
+    private const uint KLastPokedexVolumeRewardThresholdKitakami = 0xCD5D70B6; // WSYS_S1_POKEDX_REWARD_CHIHOUA_VALUE
+    private const uint KUnlockedTMMachineMoveFiltering = 0x3CC63057; // FSYS_SU1_SHOPWAZAMACHINE_MESSAGE
+    private const uint KCompletedBillyONareQuestPart1 = 0xCB190E5E; // FEVT_S1_SUB_003_TALKED
+    private const uint KCompletedBillyONareQuestPart2 = 0x6BBE8497; // FEVT_S1_SUB_006_TALKED
+    private const uint KCompletedBillyONareQuestPart3 = 0xDB267000; // FEVT_S1_SUB_009_TALKED
+    private const uint KLoyaltyPlazaFundraiserStarted = 0x57A38A70; // FEVT_S1_SUB_015_FIRST_TALKED
+    private const uint KLoyaltyPlazaFundraiserDonations = 0xBB9076CA; // WEVT_S1_SUB_015_UNITS_HELD
+    private const uint KCurrentMenuBorderDesign = 0x56D810B6; // 0 = match location, 1 = force Paldea
+
+    private const uint KIndexDefeatedLoyalThreeOkidogi = 0x919437A0; // WEVT_S1_INU_CLEAR_NUM
+    private const uint KIndexDefeatedLoyalThreeMunkidori = 0x657672CD; // WEVT_S1_SARU_CLEAR_NUM
+    private const uint KIndexDefeatedLoyalThreeFezandipiti = 0x9EF45981; // WEVT_S1_KIZI_CLEAR_NUM
+
+    private const uint KCapturedOkidogi = 0x7042479E; // FEVT_S1_SUB_011_CAPTURED
+    private const uint KCapturedMunkidori = 0x9F5556DD; // FEVT_S1_SUB_012_CAPTURED
+    private const uint KCapturedFezandipiti = 0xFF7CAD99; // FEVT_S1_SUB_016_CAPTURED
+    private const uint KCanChallengeOgreClanLeader = 0x18ABCD92; // FEVT_S1_SUB_017_BATTLE_ENABLE
+    private const uint KOgreClanReward1 = 0x19B5A525; // FEVT_S1_SUB_017_REWARD_01
+    private const uint KOgreClanReward2 = 0x19B5A00C; // FEVT_S1_SUB_017_REWARD_02
+    private const uint KOgreClanReward3 = 0x19B5A1BF; // FEVT_S1_SUB_017_REWARD_03
+    private const uint KOgreClanReward4 = 0x19B59CA6; // FEVT_S1_SUB_017_REWARD_04
+    private const uint KOgreClanReward5 = 0x19B59E59; // FEVT_S1_SUB_017_REWARD_05
+    private const uint KOgreClanReward6 = 0x19B59940; // FEVT_S1_SUB_017_REWARD_06
+    private const uint KOgreClanReward7 = 0x19B59AF3; // FEVT_S1_SUB_017_REWARD_07
+
+    private const uint KOgreOustinClearedNormal = 0xA5596DD0; // OniballoonSave_isCleardNormal
+    private const uint KOgreOustinClearedHard = 0x17AD6C82; // OniballoonSave_isCleardHard
+    private const uint KOgreOustinUnlockedNormal = 0xFDC0C3C6; // OniballoonSave_isReleaseNormal
+    private const uint KOgreOustinUnlockedHard = 0x2F009BE8; // OniballoonSave_isReleaseHard
+    private const uint KOgreOustinCanReceiveRewardEasy = 0xCE0977F2; // OniballoonSave_isCanReceiveRewardEasy
+    private const uint KOgreOustinCanReceiveRewardNormal = 0x84E725C7; // OniballoonSave_isCanReceiveRewardNormal
+    private const uint KOgreOustinCanReceiveRewardHard = 0x176CD6C9; // OniballoonSave_isCanReceiveRewardHard
+    private const uint KOgreOustinHighScoreEasy = 0x52F7FB36; // OniballoonSave_bestScoreEasy
+    private const uint KOgreOustinHighScoreNormal = 0xC887C363; // OniballoonSave_bestScoreNormal
+    private const uint KOgreOustinHighScoreHard = 0x24AD643D; // OniballoonSave_bestScoreHard
+    private const uint KOgreOustinPlayedEasy = 0xB5757519; // OniballoonSave_isPlayedEasy
+    private const uint KOgreOustinPlayedNormal = 0x299B1DB8; // OniballoonSave_isPlayedNormal
+    private const uint KOgreOustinPlayedHard = 0xAB32F81A; // OniballoonSave_isPlayedHard
+    private const uint KOgreOustinCompletedMessage = 0x838484DB; // OniballoonSave_isPlayedCompleteMessage
+
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon01 = 0x45C5F800; // WEVT_S1_SIDE02_0040_POKE01
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon02 = 0x45C5FD19; // WEVT_S1_SIDE02_0040_POKE02
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon03 = 0x45C5FB66; // WEVT_S1_SIDE02_0040_POKE03
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon04 = 0x45C6007F; // WEVT_S1_SIDE02_0040_POKE04
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon05 = 0x45C5FECC; // WEVT_S1_SIDE02_0040_POKE05
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon06 = 0x45C603E5; // WEVT_S1_SIDE02_0040_POKE06
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon07 = 0x45C60232; // WEVT_S1_SIDE02_0040_POKE07
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon08 = 0x45C6074B; // WEVT_S1_SIDE02_0040_POKE08
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon09 = 0x45C60598; // WEVT_S1_SIDE02_0040_POKE09
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon10 = 0x45C3168A; // WEVT_S1_SIDE02_0040_POKE10
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon11 = 0x45C3183D; // WEVT_S1_SIDE02_0040_POKE11
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon12 = 0x45C31324; // WEVT_S1_SIDE02_0040_POKE12
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon13 = 0x45C314D7; // WEVT_S1_SIDE02_0040_POKE13
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon14 = 0x45C30FBE; // WEVT_S1_SIDE02_0040_POKE14
+    private const uint KTimelessWoodsSurveyIndexFoundPokemon15 = 0x45C31171; // WEVT_S1_SIDE02_0040_POKE15
+
+    private const uint FEVT_S1_SIDE02_0037_FIRST_TALKED = 0x0ACD73FD;
+    private const uint FEVT_S1_SUB_013_TALKED_CHAIR_NPC = 0xBF14EBB7;
+    private const uint FEVT_S1_SUB_013_TALKED_REST_NPC = 0x59F64244;
+    private const uint FEVT_S1_SUB_014_CHECK = 0xD9C569E3;
+    private const uint WEVT_S1_SIDE02_0040_TIP_NUM = 0x820588A0;
+    private const uint WEVT_S1_SUB_017_WIN_NUM = 0x15F0F3D4;
+    private const uint WSYS_S1_EMOTE_NEW_FLAG = 0x49475505;
+    private const uint WSYS_S1_EMOTE_SELFIE_NEW_FLAG = 0xBE35FE80;
+    private const uint WSYS_S1_GOZONJI_HINT_COUNT = 0x58E1035D;
+    private const uint WSYS_S1_POKECEN_KAIFUKU_COUNT = 0x5CC43913;
+    private const uint WSYS_S1_SYOUTEN_LP_FLAG_COUNT = 0x3ECD61A0;
     #endregion
 }

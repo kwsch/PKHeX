@@ -193,7 +193,7 @@ public static class SaveExtensions
     /// <returns>Template if it exists, or a blank <see cref="PKM"/> from the <see cref="sav"/></returns>
     public static PKM LoadTemplate(this SaveFile sav, string? templatePath = null)
     {
-        if (templatePath == null || !Directory.Exists(templatePath))
+        if (!Directory.Exists(templatePath))
             return LoadTemplateInternal(sav);
 
         var di = new DirectoryInfo(templatePath);

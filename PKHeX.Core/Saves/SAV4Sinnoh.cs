@@ -125,25 +125,6 @@ public abstract class SAV4Sinnoh : SAV4
     public HoneyTreeValue GetHoneyTree(int index) => new(GetHoneyTreeSpan(index).ToArray());
     public void SetHoneyTree(HoneyTreeValue tree, int index) => SetData(GetHoneyTreeSpan(index), tree.Data);
 
-    public MunchlaxTreeSet4 GetMunchlaxTrees() => CalculateMunchlaxTrees(TID16, SID16);
-
-    public static MunchlaxTreeSet4 CalculateMunchlaxTrees(ushort tid, ushort sid)
-    {
-        int A = (tid >> 8) % 21;
-        int B = (tid & 0x00FF) % 21;
-        int C = (sid >> 8) % 21;
-        int D = (sid & 0x00FF) % 21;
-
-        if (A == B) B = (B + 1) % 21;
-        if (A == C) C = (C + 1) % 21;
-        if (B == C) C = (C + 1) % 21;
-        if (A == D) D = (D + 1) % 21;
-        if (B == D) D = (D + 1) % 21;
-        if (C == D) D = (D + 1) % 21;
-
-        return new(A, B, C, D);
-    }
-
     #endregion
 
     public int OFS_PoffinCase { get; protected set; }
@@ -226,9 +207,4 @@ public enum PoketchApp
     Matchup_Checker,
     Stopwatch,
     Alarm_Clock,
-}
-
-public readonly record struct MunchlaxTreeSet4(int Tree1, int Tree2, int Tree3, int Tree4)
-{
-    public bool Contains(int tree) => tree == Tree1 || tree == Tree2 || tree == Tree3 || tree == Tree4;
 }

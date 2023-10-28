@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 8 Nest Encounter (Raid)
 /// </summary>
 public abstract record EncounterStatic8Nest<T>(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset,
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, ISeedCorrelation64<PKM>,
         IFlawlessIVCount, IFixedGender, IDynamaxLevelReadOnly, IGigantamaxReadOnly where T : EncounterStatic8Nest<T>
 {
     public int Generation => 8;
@@ -142,7 +142,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
         if (pk is IRibbonSetMark8 { HasMarkEncounter8: true })
             return false;
-        if (pk.Species == (int)Core.Species.Shedinja && pk is IRibbonSetAffixed { AffixedRibbon: >= (int)RibbonIndex.MarkLunchtime })
+        if (pk.Species == (int)Core.Species.Shedinja && pk is IRibbonSetAffixed { AffixedRibbon: >= (int)RibbonIndex.MarkLunchtime and <= (int)RibbonIndex.MarkSlump })
             return false;
 
         if (!IsMatchEggLocation(pk))
@@ -269,20 +269,26 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (pk.IsShiny)
             return true;
 
+        return TryGetSeed(pk, out _);
+    }
+
+    public bool TryGetSeed(PKM pk, out ulong seed)
+    {
         var ec = pk.EncryptionConstant;
         var pid = pk.PID;
         var seeds = new XoroMachineSkip(ec, pid);
-        foreach (var seed in seeds)
+        foreach (var s in seeds)
         {
-            if (IsMatchSeed(pk, seed))
+            if (IsMatchSeed(pk, seed = s))
                 return true;
         }
         seeds = new XoroMachineSkip(ec, pid ^ 0x1000_0000);
-        foreach (var seed in seeds)
+        foreach (var s in seeds)
         {
-            if (IsMatchSeed(pk, seed))
+            if (IsMatchSeed(pk, seed = s))
                 return true;
         }
+        seed = 0;
         return false;
     }
 

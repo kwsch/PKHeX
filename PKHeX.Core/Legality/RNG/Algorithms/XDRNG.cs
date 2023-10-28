@@ -62,6 +62,15 @@ public static class XDRNG
     private const uint  Add9  = unchecked((Add8 * Mult) + Add);   // 0xA8D2826B
     private const uint rAdd9  = unchecked((rAdd8 * rMult) + rAdd);// 0x46C51ED9
 
+    private const uint rMult10 = unchecked(rMult9 * rMult);        // 0xC6169599
+    private const uint rAdd10  = unchecked((rAdd9 * rMult) + rAdd);// 0x3E86BD4E
+
+    private const uint rMult11 = unchecked(rMult10 * rMult);
+    private const uint rAdd11  = unchecked((rAdd10 * rMult) + rAdd);
+
+    private const uint rMult12 = unchecked(rMult11 * rMult);
+    private const uint rAdd12  = unchecked((rAdd11 * rMult) + rAdd);
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next (uint seed) => (seed * Mult ) + Add ;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next2(uint seed) => (seed * Mult2) + Add2;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next3(uint seed) => (seed * Mult3) + Add3;
@@ -81,6 +90,31 @@ public static class XDRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev7(uint seed) => (seed * rMult7) + rAdd7;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev8(uint seed) => (seed * rMult8) + rAdd8;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev9(uint seed) => (seed * rMult9) + rAdd9;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev10(uint seed) => (seed * rMult10) + rAdd10;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev11(uint seed) => (seed * rMult11) + rAdd11;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev12(uint seed) => (seed * rMult12) + rAdd12;
+
+    /// <summary>
+    /// Gets the next 16 bits of the next RNG seed.
+    /// </summary>
+    /// <param name="seed">Seed to advance one step.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint Next16(ref uint seed)
+    {
+        seed = Next(seed);
+        return seed >> 16;
+    }
+
+    /// <summary>
+    /// Gets the next 16 bits of the next RNG seed.
+    /// </summary>
+    /// <param name="seed">Seed to advance one step.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint Next15(ref uint seed)
+    {
+        seed = Next(seed);
+        return (seed >> 16) & 0x7FFF;
+    }
 
     /// <summary>
     /// Advances the RNG seed to the next state value a specified amount of times.
@@ -143,6 +177,24 @@ public static class XDRNG
             seed = Next(seed);
             ivs[i] = (int)(seed >> 27);
         }
+    }
+
+    /// <summary>
+    /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
+    /// </summary>
+    /// <param name="seed">RNG seed</param>
+    /// <returns>Combined IVs as <see cref="uint"/>.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static uint GetSequentialIVsInt32(uint seed)
+    {
+        var result = 0u;
+        for (int i = 0; i < 6; i++)
+        {
+            seed = Next(seed);
+            var shift = 27 - (i * 5);
+            result |= (seed >> shift);
+        }
+        return result;
     }
 
     // By abusing the innate properties of a LCG, we can calculate the seed from a known result.

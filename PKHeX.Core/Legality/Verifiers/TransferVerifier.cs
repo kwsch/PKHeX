@@ -125,10 +125,8 @@ public sealed class TransferVerifier : Verifier
     {
         var pk = data.Entity;
         var enc = data.EncounterMatch;
-        bool native = enc.Generation == 8 && pk.IsNative;
-        if (native && pk is PK8 pk8 && LocationsHOME.IsLocationSWSH(pk8.Met_Location))
-            native = false;
-        if (!native || IsHOMETrackerRequired(enc))
+        bool required = HomeTrackerUtil.IsRequired(enc, pk);
+        if (required)
             VerifyHOMETracker(data, pk);
 
         if (enc.Generation < 8)
@@ -168,17 +166,6 @@ public sealed class TransferVerifier : Verifier
         if (!pt.IsPresentInGame(pk.Species, pk.Form))
             data.AddLine(GetInvalid(LTransferBad));
     }
-
-    // Encounters that originate in HOME -> transfer to save data
-    private static bool IsHOMETrackerRequired(IEncounterTemplate enc) => enc switch
-    {
-        EncounterSlot8GO => true,
-        WC8 { IsHOMEGift: true } => true,
-        WB8 { IsHOMEGift: true } => true,
-        WA8 { IsHOMEGift: true } => true,
-        WC9 { IsHOMEGift: true } => true,
-        _ => enc.Generation < 8,
-    };
 
     private void VerifyHOMETransfer(LegalityAnalysis data, PKM pk)
     {

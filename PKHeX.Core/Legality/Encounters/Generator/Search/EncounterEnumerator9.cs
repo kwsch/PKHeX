@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Iterates to find potentially matched encounters for <see cref="GameVersion.SV"/>.
+/// </summary>
 public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameVersion Version) : IEnumerator<MatchedEncounter<IEncounterable>>
 {
     private IEncounterable? Deferred;
@@ -41,8 +44,10 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
         StaticVersionVL,
         StaticShared,
         StaticFixed,
-        StaticTera,
+        StaticTeraBase,
+        StaticTeraDLC1,
         StaticDist,
+        StaticOutbreak,
         StaticMight,
 
         Fallback,
@@ -73,9 +78,11 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
                 Index = 0; goto case YieldState.Bred;
 
             case YieldState.Bred:
-                State = YieldState.TradeStart;
+                State = Entity.IsEgg ? YieldState.StaticShared : YieldState.TradeStart;
                 if (Locations.IsEggLocationBred9(Entity.Egg_Location) && EncounterGenerator9.TryGetEgg(Entity, Chain, Version, out var egg))
                     return SetCurrent(egg);
+                if (Entity.IsEgg)
+                    goto case YieldState.StaticShared;
                 goto case YieldState.TradeStart;
 
             case YieldState.TradeStart:
@@ -132,13 +139,21 @@ public record struct EncounterEnumerator9(PKM Entity, EvoCriteria[] Chain, GameV
             case YieldState.StaticFixed:
                 if (TryGetNext(Encounters9.Fixed))
                     return true;
-                Index = 0; State = YieldState.StaticTera; goto case YieldState.StaticTera;
-            case YieldState.StaticTera:
-                if (TryGetNext(Encounters9.Tera))
+                Index = 0; State = YieldState.StaticTeraBase; goto case YieldState.StaticTeraBase;
+            case YieldState.StaticTeraBase:
+                if (TryGetNext(Encounters9.TeraBase))
+                    return true;
+                Index = 0; State = YieldState.StaticTeraDLC1; goto case YieldState.StaticTeraDLC1;
+            case YieldState.StaticTeraDLC1:
+                if (TryGetNext(Encounters9.TeraDLC1))
                     return true;
                 Index = 0; State = YieldState.StaticDist; goto case YieldState.StaticDist;
             case YieldState.StaticDist:
                 if (TryGetNext(Encounters9.Dist))
+                    return true;
+                Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
+            case YieldState.StaticOutbreak:
+                if (TryGetNext(Encounters9.Outbreak))
                     return true;
                 Index = 0; State = YieldState.StaticMight; goto case YieldState.StaticMight;
             case YieldState.StaticMight:

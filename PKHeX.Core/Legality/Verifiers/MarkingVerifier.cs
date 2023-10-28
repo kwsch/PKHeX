@@ -1,4 +1,4 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core;
@@ -20,7 +20,7 @@ public sealed class MarkingVerifier : Verifier
     private void VerifyFavoriteMark(LegalityAnalysis data, PKM pk)
     {
         // Can only be toggled on in LGP/E, and is retained via transfer to HOME and into other games.
-        if (pk is IFavorite { IsFavorite: true } && !pk.GG)
+        if (pk is IFavorite { IsFavorite: true } && !data.Info.EvoChainsAllGens.HasVisitedLGPE)
             data.AddLine(GetInvalid(LFavoriteMarkingUnavailable));
     }
 

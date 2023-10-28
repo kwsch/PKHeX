@@ -371,11 +371,11 @@ public partial class StatEditor : UserControl
         EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
     }
 
-    private Color GetEVTotalColor(int evtotal, Color defaultColor) => evtotal switch
+    private Color GetEVTotalColor(int evtotal, Color defaultColor) => EffortValues.GetGrade(evtotal) switch
     {
-        > 510 => EVsInvalid, // Background turns Red
-        510 => EVsMaxed, // Maximum EVs
-        508 => EVsFishy, // Fishy EVs
+        EffortValueGrade.Illegal => EVsInvalid, // Background turns Red
+        EffortValueGrade.MaxLegal => EVsMaxed, // Maximum EVs
+        EffortValueGrade.MaxEffective => EVsFishy, // Fishy EVs
         _ => defaultColor,
     };
 

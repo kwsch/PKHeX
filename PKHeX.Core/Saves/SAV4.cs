@@ -77,7 +77,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public sealed override Type PKMType => typeof(PK4);
 
     public sealed override int BoxCount => 18;
-    public sealed override int MaxEV => 255;
+    public sealed override int MaxEV => EffortValues.Max255;
     public sealed override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
     public int EventFlagCount => 0xB60; // 2912
@@ -275,8 +275,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     {
         var pk4 = (PK4)pk;
         // Apply to this Save File
-        DateTime Date = DateTime.Now;
-        if (pk4.Trade(OT, ID32, Gender, Date.Day, Date.Month, Date.Year))
+        var now = EncounterDate.GetDateNDS();
+        if (pk4.Trade(OT, ID32, Gender, now.Day, now.Month, now.Year))
             pk.RefreshChecksum();
     }
 

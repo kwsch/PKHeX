@@ -24,7 +24,7 @@ PKHeX si aspetta file di salvataggio non criptati con le chiavi specifiche della
 
 ## Screenshots
 
-![Main Window](https://i.imgur.com/18b86pC.png)
+![Main Window](https://i.imgur.com/epXOQ5M.png)
 
 ## Building
 

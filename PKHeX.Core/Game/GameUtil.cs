@@ -250,4 +250,7 @@ public static class GameUtil
             generation = 9;
         return versions.Where(version => version.GetGeneration() <= generation);
     }
+
+    public static GameVersion[] GetVersionsWithinRange(this GameVersion lump, GameVersion[] source) =>
+        Array.FindAll(source, z => lump.Contains(z));
 }

@@ -4,6 +4,16 @@ namespace PKHeX.Core;
 
 internal static class Locations9
 {
+    /// <summary>
+    /// Checks if the location is accessible in Paldea (without DLC).
+    /// </summary>
+    public static bool IsAccessiblePreDLC(ushort location) => !IsKitakami(location);
+
+    /// <summary>
+    /// Checks if the location is accessible in Kitakami.
+    /// </summary>
+    public static bool IsKitakami(ushort location) => location is (>= 132 and <= 170);
+
     public static ReadOnlySpan<byte> Met0 => new byte[]
     {
              002, 004, 006, 008,
@@ -23,7 +33,10 @@ internal static class Locations9
         067, 069,
         099, 101, 103, 105, 107, 109,
         111, 113, 115, 117,
-        130, 131,
+        130, 131, 132, 134, 136, 138,
+        140, 142, 144, 146, 148, 150,
+        152, 154, 156, 158, 160, 162,
+        164, 166, 168, 170,
     };
 
     public static ReadOnlySpan<ushort> Met3 => new ushort[]
@@ -45,5 +58,5 @@ internal static class Locations9
         40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078,
     };
 
-    public static ReadOnlySpan<ushort> Met6 => new ushort[] {/* XY */ 60001, 60003, /* ORAS */ 60004 };
+    public static ReadOnlySpan<ushort> Met6 => new ushort[] {/* XY */ 60001, 60003, /* ORAS */ 60004, /* SV */ 60005 };
 }

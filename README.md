@@ -28,7 +28,7 @@ PKHeX expects save files that are not encrypted with console-specific keys. Use 
 
 ## Screenshots
 
-![Main Window](https://i.imgur.com/ROUQ021.png)
+![Main Window](https://i.imgur.com/xofMmf8.png)
 
 ## Building
 

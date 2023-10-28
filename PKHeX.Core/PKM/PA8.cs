@@ -68,7 +68,7 @@ public sealed class PA8 : PKM, ISanityChecksum,
 
     // Maximums
     public override int MaxIV => 31;
-    public override int MaxEV => 252;
+    public override int MaxEV => EffortValues.Max252;
     public override int MaxStringLengthOT => 12;
     public override int MaxStringLengthNickname => 12;
 

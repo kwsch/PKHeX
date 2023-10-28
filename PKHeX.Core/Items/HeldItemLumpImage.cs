@@ -45,9 +45,9 @@ public static class HeldItemLumpUtil
         8 when item is (>= 0328 and <= 0427) => HeldItemLumpImage.TechnicalMachine, // BDSP TMs
         8 when item is (>= 1130 and <= 1229) => HeldItemLumpImage.TechnicalRecord, // Gen8 TR
         9 when item is (>= 0328 and <= 0419) // TM01-TM92
-            or (>= 0618 and <= 0620) // TM93-TM95
-            or (>= 0690 and <= 0693) // TM96-TM99
-            or (>= 2160 and <= 2231) /* TM100-TM171 */ => HeldItemLumpImage.TechnicalMachine,
+            or (>= 0618 and <= 0620) // TM093-TM095
+            or (>= 0690 and <= 0693) // TM096-TM099
+            or (>= 2160 and <= 2261) /* TM100-TM201 */ => HeldItemLumpImage.TechnicalMachine,
         _ => HeldItemLumpImage.NotLump,
     };
 }

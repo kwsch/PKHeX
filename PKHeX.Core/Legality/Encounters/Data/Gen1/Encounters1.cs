@@ -8,10 +8,10 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class Encounters1
 {
-    internal static readonly EncounterArea1[] SlotsRD = EncounterArea1.GetAreas(Get("red", "g1"), RD);
-    internal static readonly EncounterArea1[] SlotsGN = EncounterArea1.GetAreas(Get("blue", "g1"), GN);
-    internal static readonly EncounterArea1[] SlotsYW = EncounterArea1.GetAreas(Get("yellow", "g1"), YW);
-    internal static readonly EncounterArea1[] SlotsBU = EncounterArea1.GetAreas(Get("blue_jp", "g1"), BU);
+    internal static readonly EncounterArea1[] SlotsRD = EncounterArea1.GetAreas(Get("red", "g1"u8), RD);
+    internal static readonly EncounterArea1[] SlotsGN = EncounterArea1.GetAreas(Get("blue", "g1"u8), GN);
+    internal static readonly EncounterArea1[] SlotsYW = EncounterArea1.GetAreas(Get("yellow", "g1"u8), YW);
+    internal static readonly EncounterArea1[] SlotsBU = EncounterArea1.GetAreas(Get("blue_jp", "g1"u8), BU);
 
     private const string tradeRBY = "traderby";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeRBY);

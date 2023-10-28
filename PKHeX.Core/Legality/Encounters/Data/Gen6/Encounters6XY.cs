@@ -10,8 +10,8 @@ namespace PKHeX.Core;
 internal static class Encounters6XY
 {
     private static readonly EncounterArea6XY FriendSafari = new();
-    internal static readonly EncounterArea6XY[] SlotsX = EncounterArea6XY.GetAreas(Get("x", "xy"), X, FriendSafari);
-    internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"), Y, FriendSafari);
+    internal static readonly EncounterArea6XY[] SlotsX = EncounterArea6XY.GetAreas(Get("x", "xy"u8), X, FriendSafari);
+    internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"u8), Y, FriendSafari);
 
     private const string tradeXY = "tradexy";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeXY);

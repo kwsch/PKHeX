@@ -20,7 +20,14 @@ public interface IMagnetStatic
     /// <summary> Count of slots in the parent area that can be yielded by <see cref="Ability.MagnetPull"/> </summary>
     byte MagnetPullCount { get; }
 
+    /// <summary>
+    /// Indicates if the slot can be yielded by <see cref="Ability.Static"/>.
+    /// </summary>
     bool IsStaticSlot => StaticCount != 0 && StaticIndex != byte.MaxValue;
+
+    /// <summary>
+    /// Indicates if the slot can be yielded by <see cref="Ability.MagnetPull"/>.
+    /// </summary>
     bool IsMagnetSlot => MagnetPullCount != 0 && MagnetPullIndex != byte.MaxValue;
 
     bool IsMatchStatic(int index, int count) => index == StaticIndex && count == StaticCount;

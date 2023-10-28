@@ -63,7 +63,7 @@ public interface IRibbonSetMarks
     int RibbonMarkCount { get; }
 }
 
-internal static partial class RibbonExtensions
+public static partial class RibbonExtensions
 {
     public static bool HasWeatherMark(this IRibbonSetMark8 m)
     {
@@ -71,7 +71,7 @@ internal static partial class RibbonExtensions
             || m.RibbonMarkBlizzard || m.RibbonMarkDry   || m.RibbonMarkSandstorm || m.RibbonMarkMisty;
     }
 
-    internal static void CopyRibbonSetMark8(this IRibbonSetMark8 set, IRibbonSetMark8 dest)
+    public static void CopyRibbonSetMark8(this IRibbonSetMark8 set, IRibbonSetMark8 dest)
     {
         dest.RibbonMarkLunchtime = set.RibbonMarkLunchtime;
         dest.RibbonMarkSleepyTime = set.RibbonMarkSleepyTime;

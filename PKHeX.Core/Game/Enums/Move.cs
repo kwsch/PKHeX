@@ -906,5 +906,9 @@ public enum Move : ushort
     NoxiousTorque,
     CombatTorque,
     MagicalTorque,
+    BloodMoon,
+    MatchaGotcha,
+    SyrupBomb,
+    IvyCudgel,
     MAX_COUNT,
 }

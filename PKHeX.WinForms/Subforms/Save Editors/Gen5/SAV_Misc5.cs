@@ -41,6 +41,7 @@ public partial class SAV_Misc5 : Form
         LoadForest();
         ReadSubway();
         ReadEntralink();
+        ReadMedals();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -124,6 +125,7 @@ public partial class SAV_Misc5 : Form
 
         if (SAV is SAV5BW)
         {
+            TC_Misc.TabPages.Remove(TAB_Medals);
             GB_KeySystem.Visible = false;
             // Roamer
             cbr = new[] { CB_Roamer642, CB_Roamer641 };
@@ -769,7 +771,9 @@ public partial class SAV_Misc5 : Form
 
     private void B_DumpFC_Click(object sender, EventArgs e)
     {
-        using var sfd = new SaveFileDialog { Filter = ForestCityBinFilter, FileName = string.Format(ForestCityBinPath, SAV.Version) };
+        using var sfd = new SaveFileDialog();
+        sfd.Filter = ForestCityBinFilter;
+        sfd.FileName = string.Format(ForestCityBinPath, SAV.Version);
         if (sfd.ShowDialog() != DialogResult.OK)
             return;
 
@@ -779,7 +783,9 @@ public partial class SAV_Misc5 : Form
 
     private void B_ImportFC_Click(object sender, EventArgs e)
     {
-        using var ofd = new OpenFileDialog { Filter = ForestCityBinFilter, FileName = string.Format(ForestCityBinPath, SAV.Version) };
+        using var ofd = new OpenFileDialog();
+        ofd.Filter = ForestCityBinFilter;
+        ofd.FileName = string.Format(ForestCityBinPath, SAV.Version);
         if (ofd.ShowDialog() != DialogResult.OK)
             return;
 
@@ -792,5 +798,86 @@ public partial class SAV_Misc5 : Form
 
         var data = File.ReadAllBytes(ofd.FileName);
         SAV.SetData(data, ofsForestCity);
+    }
+
+    private readonly string[] MedalNames = Util.GetStringList("medals", Main.CurrentLanguage);
+
+    private void ReadMedals()
+    {
+        if (SAV is SAV5B2W2)
+        {
+            CB_CurrentMedal.Items.AddRange(MedalNames);
+            CB_MedalState.Items.AddRange(new[] { "Unobtained", "Can Obtain Hint Medal", "Hint Medal Obtained", "Can Obtain Medal", "Medal Obtained" });
+            CB_CurrentMedal.SelectedIndex = 0;
+        }
+    }
+
+    private void CB_CurrentMedal_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            CB_MedalState.SelectedIndex = (int)medal.State;
+            if (medal.CanHaveDate)
+            {
+                CAL_MedalDate.Value = medal.Date.ToDateTime(new TimeOnly());
+                CAL_MedalDate.Enabled = true;
+            }
+            else
+            {
+                CAL_MedalDate.Enabled = false;
+                CAL_MedalDate.ValueChanged -= CAL_MedalDate_ValueChanged;
+                CAL_MedalDate.Value = EncounterDate.GetDateNDS().ToDateTime(new TimeOnly());
+                CAL_MedalDate.ValueChanged += CAL_MedalDate_ValueChanged;
+            }
+            CHK_MedalUnread.Checked = medal.IsUnread;
+        }
+    }
+
+    private void CB_MedalState_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            medal.State = (Medal5State)CB_MedalState.SelectedIndex;
+            if (medal.CanHaveDate)
+            {
+                if (!medal.HasDate)
+                    medal.Date = EncounterDate.GetDateNDS();
+                CAL_MedalDate.Enabled = true;
+            }
+            else
+            {
+                CAL_MedalDate.Enabled = false;
+            }
+        }
+    }
+
+    private void CAL_MedalDate_ValueChanged(object? sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            medal.Date = DateOnly.FromDateTime(CAL_MedalDate.Value);
+        }
+    }
+
+    private void CHK_MedalUnread_CheckedChanged(object sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            var medal = b2w2.Medals[CB_CurrentMedal.SelectedIndex];
+            medal.IsUnread = CHK_MedalUnread.Checked;
+        }
+    }
+
+    private void B_ObtainAllMedals_Click(object sender, EventArgs e)
+    {
+        if (SAV is SAV5B2W2 b2w2)
+        {
+            var now = EncounterDate.GetDateNDS();
+            b2w2.Medals.ObtainAll(now, unread: true);
+            System.Media.SystemSounds.Asterisk.Play();
+        }
     }
 }

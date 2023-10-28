@@ -189,7 +189,7 @@ public sealed class LegalityAnalysis
         Nickname.Verify(this);
         Level.Verify(this);
         Level.VerifyG1(this);
-        Trainer.VerifyOTG1(this);
+        Trainer.VerifyOTGB(this);
         MiscValues.VerifyMiscG1(this);
         if (Entity.Format == 2)
             Item.Verify(this);

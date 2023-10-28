@@ -102,6 +102,8 @@ public sealed record EncounterTrade9
 
         EncounterUtil1.SetEncounterMoves(pk, version, Level);
         SetPINGA(pk, criteria, pi);
+        if (EvolveOnTrade)
+            pk.Species++;
 
         pk.ResetPartyStats();
 

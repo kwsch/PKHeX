@@ -119,7 +119,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         var pi = PersonalTable.SWSH[Species, Form];
         pk.RefreshAbility(criteria.GetAbilityFromNumber(Ability));
         pk.Nature = pk.StatNature = (int)criteria.GetNature();
-        pk.Gender = criteria.GetGender(pi);
+        pk.Gender = criteria.GetGender(Gender, pi);
 
         var req = GetRequirement(pk);
         if (req != MustHave)
@@ -127,7 +127,12 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
             var rand = Util.Rand;
             pk.EncryptionConstant = rand.Rand32();
             pk.PID = rand.Rand32();
-            criteria.SetRandomIVs(pk, IVs);
+            pk.HeightScalar = PokeSizeUtil.GetRandomScalar(rand);
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar(rand);
+            if (IVs.IsSpecified)
+                criteria.SetRandomIVs(pk, IVs);
+            else
+                criteria.SetRandomIVs(pk, FlawlessIVCount);
             return;
         }
         var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;

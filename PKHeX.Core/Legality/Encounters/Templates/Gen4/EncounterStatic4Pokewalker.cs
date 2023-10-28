@@ -46,16 +46,17 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
 
     public static EncounterStatic4Pokewalker[] GetAll(ReadOnlySpan<byte> data)
     {
-        const int size = 0xC;
-        var count = data.Length / size;
-        System.Diagnostics.Debug.Assert(count == 6 * (int)PokewalkerCourse4.MAX_COUNT);
-        var result = new EncounterStatic4Pokewalker[count];
-        for (int i = 0; i < result.Length; i++)
+        const int SlotSize = 0xC;
+        const int SlotsPerCourse = PokewalkerRNG.SlotsPerCourse;
+        const int SlotCount = SlotsPerCourse * (int)PokewalkerCourse4.MAX_COUNT;
+        System.Diagnostics.Debug.Assert(data.Length == SlotCount * SlotSize);
+
+        PokewalkerCourse4 course = 0;
+        var result = new EncounterStatic4Pokewalker[SlotCount];
+        for (int i = 0, offset = 0; i < result.Length; course++)
         {
-            var offset = i * size;
-            var slice = data.Slice(offset, size);
-            var course = (PokewalkerCourse4)(i / 6);
-            result[i] = new(slice, course);
+            for (int s = 0; s < SlotsPerCourse; s++, offset += SlotSize)
+                result[i++] = new(data.Slice(offset, SlotSize), course);
         }
         return result;
     }
@@ -102,13 +103,14 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     private void SetPINGA(PK4 pk, EncounterCriteria criteria, PersonalInfo4 pi)
     {
         int gender = criteria.GetGender(Gender, pi);
-        int nature = (int)criteria.GetNature();
+        var nature = (uint)criteria.GetNature();
 
+        var pid = pk.PID = PokewalkerRNG.GetPID(pk.TID16, pk.SID16, nature, pk.Gender = gender, pi.Gender);
         // Cannot force an ability; nature-gender-trainerID only yield fixed PIDs.
-        // int ability = criteria.GetAbilityFromNumber(Ability, pi);
-
-        PIDGenerator.SetRandomPIDPokewalker(pk, nature, gender);
-        criteria.SetRandomIVs(pk);
+        pk.RefreshAbility((int)(pid & 1));
+        Span<int> ivs = stackalloc int[6];
+        PokewalkerRNG.SetRandomIVs(ivs, criteria);
+        pk.SetIVs(ivs);
     }
 
     #endregion
@@ -127,6 +129,14 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
         return true;
+    }
+
+    private bool IsMatchSeed(PKM pk)
+    {
+        Span<int> ivs = stackalloc int[6];
+        pk.GetIVs(ivs);
+        var seed = PokewalkerRNG.GetFirstSeed(Species, Course, ivs);
+        return seed.Type != PokewalkerSeedType.None;
     }
 
     private bool IsMatchGender(PKM pk)
@@ -165,10 +175,12 @@ public sealed record EncounterStatic4Pokewalker(PokewalkerCourse4 Course)
     {
         if (IsMatchPartial(pk))
             return EncounterMatchRating.PartialMatch;
+        if (pk.IsShiny)
+            return EncounterMatchRating.DeferredErrors;
         return EncounterMatchRating.Match;
     }
 
-    private static bool IsMatchPartial(PKM pk) => pk.Ball != (byte)Ball.Poke;
+    private bool IsMatchPartial(PKM pk) => pk.Ball != (byte)Ball.Poke || !IsMatchSeed(pk);
     #endregion
 
     public bool IsCompatible(PIDType val, PKM pk)

@@ -29,19 +29,21 @@ public partial class SAV_PokedexSV : Form
         CB_Species.Items.Clear();
 
         // Fill List
+        const int maxSpecies = (int)Species.IronLeaves; // 1010 -- no DLC species
         CB_Species.InitializeBinding();
-        var species = GameInfo.SpeciesDataSource.Where(z => SAV.Personal.IsSpeciesInGame((ushort)z.Value)).ToArray();
+        var species = GameInfo.SpeciesDataSource.Where(z => SAV.Personal.IsSpeciesInGame((ushort)z.Value) && z.Value <= maxSpecies).ToArray();
         CB_Species.DataSource = new BindingSource(species, null);
 
         var list = species
             .Select(z => new DexMap(z))
-            .OrderBy(z => z.DexIndex).ToArray();
+            .OrderByDescending(z => z.IsInAnyDex)
+            .ThenBy(z => z.Dex).ToArray();
 
         var lbi = LB_Species.Items;
         for (var i = 0; i < list.Length; i++)
         {
             var n = list[i];
-            var display = n.DexIndex == int.MaxValue ? "***" : n.DexIndex.ToString("000");
+            var display = n.GetDexString();
             lbi.Add($"{display} - {n.Name}");
             n.ListIndex = i;
         }
@@ -58,7 +60,8 @@ public partial class SAV_PokedexSV : Form
     private record DexMap
     {
         public ushort Species { get; }
-        public int DexIndex { get; }
+        public bool IsInAnyDex => Dex != default;
+        public (int Group, int Index) Dex { get; }
         public string Name { get; }
         public int ListIndex { get; set; }
 
@@ -66,21 +69,37 @@ public partial class SAV_PokedexSV : Form
         {
             Species = (ushort)c.Value;
             Name = c.Text;
-            DexIndex = GetDexIndex(Species);
+            Dex = GetDexIndex(Species);
         }
 
-        private static int GetDexIndex(ushort species)
+        private static (int Group, int Index) GetDexIndex(ushort species)
         {
             var entry = PersonalTable.SV.GetFormEntry(species, 0);
-            if (entry.DexIndex != 0)
-                return entry.DexIndex;
-            for (byte i = 1; i < entry.FormCount; i++)
+            for (byte i = 0; i < entry.FormCount; i++)
             {
                 entry = PersonalTable.SV.GetFormEntry(species, i);
-                if (entry.DexIndex != 0)
-                    return entry.DexIndex;
+                if (entry.DexPaldea != 0)
+                    return (1, entry.DexPaldea);
+                if (entry.DexKitakami != 0)
+                    return (2, entry.DexKitakami);
+                if (entry.DexBlueberry != 0)
+                    return (3, entry.DexBlueberry);
             }
-            return int.MaxValue;
+            return default;
+        }
+
+        public string GetDexString()
+        {
+            if (!IsInAnyDex)
+                return "***";
+            var prefix = Dex.Group switch
+            {
+                1 => "P",
+                2 => "K",
+                3 => "B",
+                _ => "?",
+            };
+            return $"{prefix}-{Dex.Index:000}";
         }
     }
 
@@ -120,7 +139,7 @@ public partial class SAV_PokedexSV : Form
 
     private void GetEntry(ushort species)
     {
-        var entry = SAV.Zukan.Get(species);
+        var entry = SAV.Zukan.DexPaldea.Get(species);
         var forms = GetFormList(species);
         if (forms[0].Length == 0)
             forms[0] = GameInfo.Strings.Types[0];
@@ -173,7 +192,7 @@ public partial class SAV_PokedexSV : Form
 
     private void SetEntry(ushort species)
     {
-        var entry = SAV.Zukan.Get(species);
+        var entry = SAV.Zukan.DexPaldea.Get(species);
         entry.SetState((uint)CB_State.SelectedIndex);
         entry.SetDisplayIsNew(CHK_IsNew.Checked);
 

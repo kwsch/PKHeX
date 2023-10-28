@@ -7,10 +7,10 @@ namespace PKHeX.Core;
 
 internal static class Encounters8b
 {
-    private static readonly EncounterArea8b[] SlotsBD_OW = EncounterArea8b.GetAreas(Get("bd", "bs"), BD);
-    private static readonly EncounterArea8b[] SlotsSP_OW = EncounterArea8b.GetAreas(Get("sp", "bs"), SP);
-    private static readonly EncounterArea8b[] SlotsBD_UG = EncounterArea8b.GetAreas(Get("bd_underground", "bs"), BD);
-    private static readonly EncounterArea8b[] SlotsSP_UG = EncounterArea8b.GetAreas(Get("sp_underground", "bs"), SP);
+    private static readonly EncounterArea8b[] SlotsBD_OW = EncounterArea8b.GetAreas(Get("bd", "bs"u8), BD);
+    private static readonly EncounterArea8b[] SlotsSP_OW = EncounterArea8b.GetAreas(Get("sp", "bs"u8), SP);
+    private static readonly EncounterArea8b[] SlotsBD_UG = EncounterArea8b.GetAreas(Get("bd_underground", "bs"u8), BD);
+    private static readonly EncounterArea8b[] SlotsSP_UG = EncounterArea8b.GetAreas(Get("sp_underground", "bs"u8), SP);
 
     internal static readonly EncounterArea8b[] SlotsBD = ArrayUtil.ConcatAll(SlotsBD_OW, SlotsBD_UG);
     internal static readonly EncounterArea8b[] SlotsSP = ArrayUtil.ConcatAll(SlotsSP_OW, SlotsSP_UG);

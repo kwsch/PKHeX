@@ -273,22 +273,33 @@ public sealed class MetDataSource
             BD or SP => Partition2(MetGen8b, IsMetLocation8BDSP),
             PLA => Partition2(MetGen8a, IsMetLocation8LA),
             SL or VL => Partition2(MetGen9, IsMetLocation9SV),
-            _ => new List<ComboItem>(GetLocationListModified(version, context)),
+            _ => GetLocationListModified(version, context),
         };
 
-        static IReadOnlyList<ComboItem> Partition1(IReadOnlyList<ComboItem> list, Func<ushort, bool> criteria)
+        static ComboItem[] Partition1(List<ComboItem> list, Func<ushort, bool> criteria)
         {
+            var span = CollectionsMarshal.AsSpan(list);
             var result = new ComboItem[list.Count];
-            return GetOrderedList(list, result, criteria);
+            ReorderList(span, result, criteria);
+            return result;
         }
 
-        static IReadOnlyList<ComboItem> GetOrderedList(IReadOnlyList<ComboItem> list, ComboItem[] result,
-            Func<ushort, bool> criteria, int start = 0)
+        static ComboItem[] Partition2(List<ComboItem> list, Func<ushort, bool> criteria, int keepFirst = 3)
+        {
+            var span = CollectionsMarshal.AsSpan(list);
+            var result = new ComboItem[span.Length];
+            for (int i = 0; i < keepFirst; i++)
+                result[i] = list[i];
+            ReorderList(span, result, criteria, keepFirst);
+            return result;
+        }
+
+        static void ReorderList(Span<ComboItem> list, Span<ComboItem> result, Func<ushort, bool> criteria, int start = 0)
         {
             // store values that match criteria at the next available position of the array
             // store non-matches starting at the end. reverse before returning
-            int end = list.Count - 1;
-            for (var index = start; index < list.Count; index++)
+            int end = list.Length - 1;
+            for (var index = start; index < list.Length; index++)
             {
                 var item = list[index];
                 if (criteria((ushort)item.Value))
@@ -297,18 +308,8 @@ public sealed class MetDataSource
                     result[end--] = item;
             }
 
-            // since the non-matches are reversed in order, we swap them back since we know where they end up at.
-            Array.Reverse(result, start, list.Count - start);
-            return result;
-        }
-
-        static IReadOnlyList<ComboItem> Partition2(IReadOnlyList<ComboItem> list, Func<ushort, bool> criteria,
-            int keepFirst = 3)
-        {
-            var result = new ComboItem[list.Count];
-            for (int i = 0; i < keepFirst; i++)
-                result[i] = list[i];
-            return GetOrderedList(list, result, criteria, keepFirst);
+            // since the non-matches are reversed in order, we reverse that section.
+            result[start..].Reverse();
         }
     }
 

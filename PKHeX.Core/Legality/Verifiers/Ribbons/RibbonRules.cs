@@ -105,7 +105,8 @@ public static class RibbonRules
     /// </summary>
     private static bool IsRibbonValidMasterRankSWSH(PKM pk, IEncounterTemplate enc)
     {
-        if (enc.Generation < 8 && pk is IBattleVersion { BattleVersion: 0 })
+        // Transfers from prior games, as well as from GO, require the battle-ready symbol in order to participate in Ranked.
+        if ((enc.Generation < 8 || enc.Version == GameVersion.GO) && pk is IBattleVersion { BattleVersion: 0 })
             return false;
 
         // GO transfers: Capture date is global time, and not console changeable.
@@ -128,6 +129,8 @@ public static class RibbonRules
         var species = pk.Species;
         if (species is (int)WalkingWake or (int)IronLeaves)
             return false;
+        if (species is (int)Greninja)
+            return pk.Form == 0; // Disallow Ash-Greninja
         if (SpeciesCategory.IsLegendary(species))
             return false;
         if (SpeciesCategory.IsMythical(species))

@@ -9,9 +9,5 @@ namespace PKHeX.Core;
 internal sealed record EncounterSlot3Swarm(EncounterArea3 Parent, ushort Species, byte LevelMin, byte LevelMax, byte SlotNumber, Moveset Moves)
     : EncounterSlot3(Parent, Species, 0, LevelMin, LevelMax, SlotNumber, 0, 0, 0, 0), IMoveset
 {
-    protected override void SetEncounterMoves(PKM pk)
-    {
-        pk.SetMoves(Moves);
-        pk.SetMaximumPPCurrent(Moves);
-    }
+    protected override void SetEncounterMoves(PKM pk) => pk.SetMoves(Moves);
 }

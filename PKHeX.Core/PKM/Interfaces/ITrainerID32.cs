@@ -7,12 +7,22 @@ namespace PKHeX.Core;
 /// </summary>
 public interface ITrainerID32 : ITrainerID16
 {
+    /// <summary>
+    /// 32-bit Trainer ID (0-4294967295)
+    /// </summary>
     uint ID32 { get; set; }
+
+    /// <summary>
+    /// 16-bit Secret ID (0-65535)
+    /// </summary>
     ushort SID16 { get; set; }
 }
 
 public interface ITrainerID16 : ITrainerID
 {
+    /// <summary>
+    /// 16-bit Trainer ID (0-65535)
+    /// </summary>
     ushort TID16 { get; set; }
 }
 
@@ -28,9 +38,12 @@ public static class ITrainerID32Extensions
     public static bool IsShiny(this ITrainerID32 tr, uint pid, int gen = 7)
     {
         var xor = GetShinyXor(tr, pid);
-        var threshold = (gen >= 7 ? 16 : 8);
+        var threshold = (gen >= 7 ? ShinyXorThreshold7 : ShinyXorThreshold36);
         return xor < threshold;
     }
+
+    private const int ShinyXorThreshold36 = 8; // 1:8192
+    private const int ShinyXorThreshold7 = 16; // 1:4096
 
     /// <summary>
     /// Calculates the <see cref="pid"/> and <see cref="ITrainerID32.ID32"/> xor.

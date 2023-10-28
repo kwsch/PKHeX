@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
+/// <summary>
+/// Iterates to find possible encounters for <see cref="GameVersion.SV"/> encounters.
+/// </summary>
 public record struct EncounterPossible9(EvoCriteria[] Chain, EncounterTypeGroup Flags, GameVersion Version) : IEnumerator<IEncounterable>
 {
     public IEncounterable Current { get; private set; }
@@ -38,8 +41,10 @@ public record struct EncounterPossible9(EvoCriteria[] Chain, EncounterTypeGroup 
         StaticVersionVL,
         StaticShared,
         StaticFixed,
-        StaticTera,
+        StaticTeraBase,
+        StaticTeraDLC1,
         StaticDist,
+        StaticOutbreak,
         StaticMight,
         StaticEnd,
 
@@ -104,13 +109,21 @@ public record struct EncounterPossible9(EvoCriteria[] Chain, EncounterTypeGroup 
             case YieldState.StaticFixed:
                 if (TryGetNext(Encounters9.Fixed))
                     return true;
-                Index = 0; State = YieldState.StaticTera; goto case YieldState.StaticTera;
-            case YieldState.StaticTera:
-                if (TryGetNext(Encounters9.Tera))
+                Index = 0; State = YieldState.StaticTeraBase; goto case YieldState.StaticTeraBase;
+            case YieldState.StaticTeraBase:
+                if (TryGetNext(Encounters9.TeraBase))
+                    return true;
+                Index = 0; State = YieldState.StaticTeraDLC1; goto case YieldState.StaticTeraDLC1;
+            case YieldState.StaticTeraDLC1:
+                if (TryGetNext(Encounters9.TeraDLC1))
                     return true;
                 Index = 0; State = YieldState.StaticDist; goto case YieldState.StaticDist;
             case YieldState.StaticDist:
                 if (TryGetNext(Encounters9.Dist))
+                    return true;
+                Index = 0; State = YieldState.StaticOutbreak; goto case YieldState.StaticOutbreak;
+            case YieldState.StaticOutbreak:
+                if (TryGetNext(Encounters9.Outbreak))
                     return true;
                 Index = 0; State = YieldState.StaticMight; goto case YieldState.StaticMight;
             case YieldState.StaticMight:

@@ -134,7 +134,7 @@ public static class PokedexConstants8a
          88, 279,  89, 280,  90,  91,  92,  93,  94,  95,  96,  97,  98,  99,
     };
 
-    public static readonly PokedexResearchTask8a[][] ResearchTasks = DeserializeResearchTasks(BinLinkerAccessor.Get(Util.GetBinaryResource("researchtask_la.pkl"), "la"));
+    public static readonly PokedexResearchTask8a[][] ResearchTasks = DeserializeResearchTasks(BinLinkerAccessor.Get(Util.GetBinaryResource("researchtask_la.pkl"), "la"u8));
 
     private static PokedexResearchTask8a[][] DeserializeResearchTasks(BinLinkerAccessor accessor)
     {

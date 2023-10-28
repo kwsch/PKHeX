@@ -159,6 +159,11 @@ public static class MemoryPermissions
         else
             return false;
 
+        return GetCanKnowMove(enc, move, history, pk, game);
+    }
+
+    public static bool GetCanKnowMove(IEncounterTemplate enc, ushort move, EvolutionHistory history, PKM pk, ILearnGroup game)
+    {
         Span<MoveResult> result = stackalloc MoveResult[1];
         Span<ushort> moves = stackalloc ushort[] { move };
         LearnVerifierHistory.MarkAndIterate(result, moves, enc, pk, history, game, MoveSourceType.All, LearnOption.AtAnyTime);

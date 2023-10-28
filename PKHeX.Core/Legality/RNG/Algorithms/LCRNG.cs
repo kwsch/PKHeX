@@ -61,7 +61,9 @@ public static class LCRNG
     private const uint  Add9  = unchecked((Add8 * Mult) + Add);   // 0xFC3351DB
     private const uint rAdd9  = unchecked((rAdd8 * rMult) + rAdd);// 0x3CFD9579
 
+    /// <summary> Used to pre-size a result array for the maximum number of seeds that may be returned when searching for seeds via PID. </summary>
     public const int MaxCountSeedsPID = 3;
+    /// <summary> Used to pre-size a result array for the maximum number of seeds that may be returned when searching for seeds via IVs. </summary>
     public const int MaxCountSeedsIV = 6;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Next (uint seed) => (seed * Mult ) + Add ;
@@ -83,6 +85,17 @@ public static class LCRNG
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev7(uint seed) => (seed * rMult7) + rAdd7;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev8(uint seed) => (seed * rMult8) + rAdd8;
     [MethodImpl(MethodImplOptions.AggressiveInlining)] public static uint Prev9(uint seed) => (seed * rMult9) + rAdd9;
+
+    /// <summary>
+    /// Gets the next 16 bits of the next RNG seed.
+    /// </summary>
+    /// <param name="seed">Seed to advance one step.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint Next16(ref uint seed)
+    {
+        seed = Next(seed);
+        return seed >> 16;
+    }
 
     /// <summary>
     /// Advances the RNG seed to the next state value a specified amount of times.

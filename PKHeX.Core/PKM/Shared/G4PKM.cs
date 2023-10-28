@@ -18,7 +18,7 @@ public abstract class G4PKM : PKM,
     public sealed override int MaxBallID => Legal.MaxBallID_4;
     public sealed override int MaxGameID => Legal.MaxGameID_4;
     public sealed override int MaxIV => 31;
-    public sealed override int MaxEV => 255;
+    public sealed override int MaxEV => EffortValues.Max255;
     public sealed override int MaxStringLengthOT => 7;
     public sealed override int MaxStringLengthNickname => 10;
 

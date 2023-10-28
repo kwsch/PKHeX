@@ -77,13 +77,14 @@ public sealed class LegalInfo : IGeneration
         StoreMetadata(pk.Generation);
     }
 
-    internal void StoreMetadata(int gen)
+    /// <summary>
+    /// We can call this method at the start for any Gen3+ encounter iteration.
+    /// Additionally, We need to call this for each Gen1/2 encounter as Version is not stored for those origins.
+    /// </summary>
+    /// <param name="generation">Encounter generation</param>
+    internal void StoreMetadata(int generation) => Generation = generation switch
     {
-        // We can call this method at the start for any Gen3+ encounter iteration.
-        // We need to call this for each Gen1/2 encounter as Version is not stored for those origins.
-        Generation = gen;
-
-        if (gen == -1 && Entity is PK9 { IsUnhatchedEgg: true })
-            Generation = 9;
-    }
+        -1 when Entity is PK9 { IsUnhatchedEgg: true } => 9,
+        _ => generation,
+    };
 }

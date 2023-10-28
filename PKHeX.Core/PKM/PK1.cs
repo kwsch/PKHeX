@@ -230,7 +230,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     private string GetTransferTrainerName(int lang)
     {
         if (OT_Trash[0] == StringConverter12.G1TradeOTCode) // In-game Trade
-            return StringConverter12.G1TradeOTName[lang];
+            return StringConverter12Transporter.GetTradeNameGen1(lang);
         return StringConverter12Transporter.GetString(OT_Trash, Japanese);
     }
 }

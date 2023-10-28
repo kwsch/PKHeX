@@ -63,6 +63,27 @@ public static class EntityContextExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
+    public static GameVersion[] GetVersionsWithin(this EntityContext value, GameVersion[] source) => value.GetVersionLump().GetVersionsWithinRange(source);
+
+    public static GameVersion GetVersionLump(this EntityContext value) => value switch
+    {
+        Gen1 => GameVersion.Gen1,
+        Gen2 => GameVersion.Gen2,
+        Gen3 => GameVersion.Gen3,
+        Gen4 => GameVersion.Gen4,
+        Gen5 => GameVersion.Gen5,
+        Gen6 => GameVersion.Gen6,
+        Gen7 => GameVersion.Gen7,
+        Gen8 => GameVersion.Gen8,
+        Gen9 => GameVersion.Gen9,
+
+        Gen7b => GameVersion.Gen7b,
+        Gen8a => GameVersion.PLA,
+        Gen8b => GameVersion.BDSP,
+
+        _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
+    };
+
     public static EntityContext GetContext(this GameVersion version) => version switch
     {
         GameVersion.GP or GameVersion.GE or GameVersion.GO => Gen7b,

@@ -60,6 +60,7 @@ public static class SpeciesCategory
         (int)TypeNull, (int)Silvally, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini,
         (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier, (int)Enamorus,
         (int)WoChien, (int)ChienPao, (int)TingLu, (int)ChiYu,
+        (int)Okidogi, (int)Munkidori, (int)Fezandipiti, (int)Ogerpon,
     };
 
     /// <summary>

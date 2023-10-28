@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 
 public sealed class BV6 : BattleVideo
 {
-    internal const int SIZE = 0x2E60;
+    public const int SIZE = 0x2E60;
     private const string NPC = "NPC";
     private readonly byte[] Data;
     private const int PlayerCount = 4;

@@ -9,8 +9,8 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Encounters5BW
 {
-    internal static readonly EncounterArea5[] SlotsB = EncounterArea5.GetAreas(Get("b", "51"), B);
-    internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(Get("w", "51"), W);
+    internal static readonly EncounterArea5[] SlotsB = EncounterArea5.GetAreas(Get("b", "51"u8), B);
+    internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(Get("w", "51"u8), W);
 
     private const string tradeBW = "tradebw";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeBW);

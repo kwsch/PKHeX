@@ -12,7 +12,7 @@ public sealed class LearnSource3RS : LearnSource3, ILearnSource<PersonalInfo3>, 
 {
     public static readonly LearnSource3RS Instance = new();
     private static readonly PersonalTable3 Personal = PersonalTable.RS;
-    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"));
+    private static readonly Learnset[] Learnsets = LearnsetReader.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"u8));
     private const int MaxSpecies = Legal.MaxSpeciesID_3;
     private const LearnEnvironment Game = RS;
     private const int Generation = 3;

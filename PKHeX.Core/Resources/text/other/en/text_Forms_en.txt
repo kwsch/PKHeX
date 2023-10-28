@@ -1124,3 +1124,12 @@ Glide
 Combat
 Blaze
 Aqua
+Teal
+Counterfeit
+Unremarkable
+Bloodmoon
+Wellspring
+Hearthflame
+Cornerstone
+Artisan
+Masterpiece

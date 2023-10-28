@@ -2230,64 +2230,64 @@ MT168
 MT169
 MT170
 MT171
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+MT172
+MT173
+MT174
+MT175
+MT176
+MT177
+MT178
+MT179
+MT180
+MT181
+MT182
+MT183
+MT184
+MT185
+MT186
+MT187
+MT188
+MT189
+MT190
+MT191
+MT192
+MT193
+MT194
+MT195
+MT196
+MT197
+MT198
+MT199
+MT200
+MT201
+MT202
+MT203
+MT204
+MT205
+MT206
+MT207
+MT208
+MT209
+MT210
+MT211
+MT212
+MT213
+MT214
+MT215
+MT216
+MT217
+MT218
+MT219
+MT220
+MT221
+MT222
+MT223
+MT224
+MT225
+MT226
+MT227
+MT228
+MT229
 
 
 
@@ -2399,3 +2399,84 @@ Plato Naranja
 Plato Rojo
 Plato Blanco
 Plato Amarillo
+Pluma Feérica
+Manzana Melosa
+Cuenco Mediocre
+Cuenco Exquisito
+Máscara Turquesa
+Máscara Cimiento
+Máscara Fuente
+Máscara Horno
+Tarjeta Chic Verde
+Fragmento de Cristal
+Mochi Vigor
+Mochi Músculo
+Mochi Aguante
+Mochi Intelecto
+Mochi Mente
+Mochi Ímpetu
+Sillas Simples
+Sillas Academia
+Sillas Academia
+Sillas Cucas
+Sillas Naturaleza
+Sillas Espectrales
+Sillas Cuadros Ámbares
+Sillas Cuadros Azules
+Sillas Cuadros Rojas
+Sillas Hierba Alta
+Sillas Combate
+Sillas Monstruosas
+Sillas Rayas
+Sillas Rombos
+Sillas Lunares
+Sillas Malvas
+Sillas Menta
+Sillas Beis
+Sillas Amarillas
+Sillas Azules
+Sillas Rosas
+Colmillo de Ekans
+Garra de Sandshrew
+Pelo de Cleffa
+Pelo de Vulpix
+Secreción de Poliwag
+Liana de Bellsprout
+Fragmento de Geodude
+Gas de Koffing
+Colmillo de Munchlax
+Pelo de Sentret
+Pluma de Hoothoot
+Hilo de Spinarak
+Pelo de Aipom
+Aguijón de Yanma
+Colmillo de Gligar
+Lava de Slugma
+Pelo de Swinub
+Colmillo de Poochyena
+Hoja de Lotad
+Tallo de Seedot
+Fragmento de Nosepass
+Fluido de Volbeat
+Fluido de Illumise
+Cáscara de Corphish
+Escama de Feebas
+Fragmento de Duskull
+Fragmento de Chingling
+Sudor de Timburr
+Hoja de Sewaddle
+Pluma de Ducklett
+Hollín de Litwick
+Garra de Mienfoo
+Pluma de Vullaby
+Gema de Carbink
+Rama de Phantump
+Hilo de Grubbin
+Polvo de Cutiefly
+Escama de Jangmo-o
+Plumón de Cramorant
+Semilla de Morpeko
+Polvo de Poltchageist
+Mochi Reinicio
+Paloselfi Rotom
+Amuleto Cristalino

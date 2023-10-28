@@ -171,8 +171,21 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatBattleVersionInvalid));
         if (!IsObedienceLevelValid(pk9, pk9.Obedience_Level, pk9.Met_Level))
             data.AddLine(GetInvalid(LTransferObedienceLevel));
-        if (pk9.IsEgg && pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
-            data.AddLine(GetInvalid(LTeraTypeIncorrect));
+        if (pk9.IsEgg)
+        {
+            if (pk9.TeraTypeOverride != (MoveType)TeraTypeUtil.OverrideNone)
+                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+        }
+        else if (pk9.Species == (int)Species.Ogerpon)
+        {
+            if (!TeraTypeUtil.IsValidOgerpon((byte)pk9.TeraTypeOverride, pk9.Form))
+                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+        }
+        else
+        {
+            if (!TeraTypeUtil.IsValid((byte)pk9.TeraTypeOriginal))
+                data.AddLine(GetInvalid(LTeraTypeIncorrect));
+        }
 
         var enc = data.EncounterOriginal;
         if (pk9 is { HeightScalar: 0, WeightScalar: 0 })
@@ -206,6 +219,33 @@ public sealed class MiscVerifier : Verifier
             if (pk9.CurrentHandler != 0 || pk9.Tracker != 0)
                 data.AddLine(GetInvalid(LTransferBad));
         }
+
+        if (!Locations9.IsAccessiblePreDLC((ushort)pk9.Met_Location))
+        {
+            if (enc is { Species: (int)Species.Larvesta, Form: 0 } and not EncounterEgg)
+                DisallowLevelUpMove(24, (ushort)Move.BugBite, pk9, data);
+            if (enc is { Species: (int)Species.Zorua, Form: 1 } and not EncounterEgg)
+                DisallowLevelUpMove(28, (ushort)Move.Spite, pk9, data);
+        }
+    }
+
+    private static void DisallowLevelUpMove(byte level, ushort move, PK9 pk, LegalityAnalysis data)
+    {
+        if (pk.Tracker != 0)
+            return;
+        int index = pk.GetMoveIndex(move);
+        if (index == -1)
+            return;
+
+        ref var m = ref data.Info.Moves[index];
+        if (m.Info.Method != LearnMethod.LevelUp || m.Info.Argument != level)
+            return;
+        var flagIndex = pk.Permit.RecordPermitIndexes.IndexOf(move);
+        if (flagIndex == -1)
+            throw new ArgumentOutOfRangeException(nameof(move), move, "Expected a valid TM index.");
+        if (pk.GetMoveRecordFlag(flagIndex))
+            return;
+        m = new MoveResult(LearnMethod.None);
     }
 
     public static int GetTeraImportMatch(ReadOnlySpan<EvoCriteria> evos, MoveType actual, IEncounterTemplate enc)
@@ -269,7 +309,7 @@ public sealed class MiscVerifier : Verifier
                 var time = t.Met_TimeOfDay;
                 bool valid = data.EncounterOriginal switch
                 {
-                    EncounterGift2 => time == 0,
+                    EncounterGift2 g2 when (!g2.EggEncounter || pk.IsEgg) => time == 0,
                     EncounterTrade2 => time == 0,
                     _ => time is 1 or 2 or 3,
                 };
@@ -348,7 +388,7 @@ public sealed class MiscVerifier : Verifier
             ushort species = pk1.Species;
             if (GBRestrictions.IsSpeciesNotAvailableCatchRate((byte)species) && catch_rate == PersonalTable.RB[species].CatchRate)
             {
-                if (species != (int) Species.Dragonite || catch_rate != 45 || !e.Version.Contains(GameVersion.YW))
+                if (species != (int) Species.Dragonite || catch_rate != 45 || !(e.Version == GameVersion.BU || e.Version.Contains(GameVersion.YW)))
                     return GetInvalid(LG1CatchRateEvo);
             }
             if (!GBRestrictions.RateMatchesEncounter(e.Species, e.Version, catch_rate))
