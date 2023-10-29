@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public abstract record EncounterStatic8Nest<T>(GameVersion Version)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, ISeedCorrelation64<PKM>,
-        IFlawlessIVCount, IFixedGender, IDynamaxLevelReadOnly, IGigantamaxReadOnly where T : EncounterStatic8Nest<T>
+        IFlawlessIVCount, IFixedIVSet, IFixedGender, IDynamaxLevelReadOnly, IGigantamaxReadOnly where T : EncounterStatic8Nest<T>
 {
     public int Generation => 8;
     public EntityContext Context => EntityContext.Gen8;

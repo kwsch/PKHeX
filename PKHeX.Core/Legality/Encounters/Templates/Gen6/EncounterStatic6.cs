@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 6 Static Encounter
 /// </summary>
 public sealed record EncounterStatic6(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IContestStatsReadOnly, IHatchCycle, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IFixedNature, IMoveset
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK6>, IContestStatsReadOnly, IHatchCycle, IFlawlessIVCount, IFatefulEncounterReadOnly, IFixedGender, IFixedNature, IMoveset, IFixedIVSet
 {
     public int Generation => 6;
     public EntityContext Context => EntityContext.Gen6;
@@ -153,6 +153,8 @@ public sealed record EncounterStatic6(GameVersion Version)
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
             return false;
         if (Nature != Nature.Random && pk.Nature != (int)Nature)
+            return false;
+        if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
         return true;
     }

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 9 Static Encounter
 /// </summary>
 public sealed record EncounterStatic9(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IGemType, IFixedGender, IFixedNature
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IFixedIVSet, IGemType, IFixedGender, IFixedNature
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -157,6 +157,8 @@ public sealed record EncounterStatic9(GameVersion Version)
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
+            return false;
+        if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
         if (TeraType != GemType.Random && pk is ITeraType t && !Tera9RNG.IsMatchTeraType(TeraType, Species, Form, (byte)t.TeraTypeOriginal))
             return false;

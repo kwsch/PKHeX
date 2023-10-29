@@ -132,6 +132,8 @@ public sealed record EncounterStatic8b(GameVersion Version)
             return false;
         if (evo.Form != Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
+        if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
+            return false;
         if (!IsMatchEggLocation(pk))
             return false;
         return true;

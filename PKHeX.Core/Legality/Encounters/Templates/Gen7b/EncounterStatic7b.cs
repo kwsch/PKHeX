@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 /// Generation 7 Static Encounter (<see cref="GameVersion.GG"/>
 /// </summary>
 public sealed record EncounterStatic7b(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PB7>
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PB7>, IFlawlessIVCount, IFixedIVSet
 {
     public int Generation => 7;
     public EntityContext Context => EntityContext.Gen7b;
@@ -93,6 +93,8 @@ public sealed record EncounterStatic7b(GameVersion Version)
         if (pk.Met_Level != Level)
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
+            return false;
+        if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
         return true;
     }

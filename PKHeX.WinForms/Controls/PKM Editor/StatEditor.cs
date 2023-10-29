@@ -423,11 +423,25 @@ public partial class StatEditor : UserControl
     {
         Span<int> ivs = stackalloc int[6];
         if (ModifierKeys == Keys.Control)
+        {
             ivs.Fill(Entity.MaxIV);
+        }
         else if (ModifierKeys == Keys.Alt)
+        {
             ivs.Clear();
+        }
         else
-            Entity.SetRandomIVs(ivs, new LegalityAnalysis(Entity).EncounterMatch is IFlawlessIVCount fc ? fc.FlawlessIVCount : 0);
+        {
+            var pk = Entity;
+            var la = new LegalityAnalysis(pk);
+            var enc = la.EncounterMatch;
+            if (enc is IFlawlessIVCount { FlawlessIVCount: not 0 } fc)
+                pk.SetRandomIVs(ivs, fc.FlawlessIVCount);
+            else if (enc is IFixedIVSet { IVs: { IsSpecified: true } iv })
+                pk.SetRandomIVs(ivs, iv);
+            else
+                pk.SetRandomIVs(ivs);
+        }
 
         LoadIVs(ivs);
         if (Entity is IGanbaru g)

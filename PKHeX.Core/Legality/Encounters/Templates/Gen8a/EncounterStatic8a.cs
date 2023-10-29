@@ -177,6 +177,8 @@ public sealed record EncounterStatic8a
             return false;
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
+        if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
+            return false;
 
         if (pk is not IScaledSize s)
             return true;

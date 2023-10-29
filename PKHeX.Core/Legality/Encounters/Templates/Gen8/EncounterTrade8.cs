@@ -181,7 +181,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             return false;
         if (pk is PK8 d && d.DynamaxLevel < DynamaxLevel)
             return false;
-        if (pk.FlawlessIVCount < FlawlessIVCount)
+        if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
         if (evo.Form != Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;

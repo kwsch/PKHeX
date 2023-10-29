@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Event data for Generation 2
 /// </summary>
 public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Version = GameVersion.GS)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IFixedGBLanguage, IHatchCycle, IMoveset
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK2>, IFixedGBLanguage, IHatchCycle, IMoveset, IFixedIVSet
 {
     public int Generation => 2;
     public EntityContext Context => EntityContext.Gen2;

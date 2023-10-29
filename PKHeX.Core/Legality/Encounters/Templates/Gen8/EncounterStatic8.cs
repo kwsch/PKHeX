@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK8>, IMoveset, IRelearn,
-        IFlawlessIVCount, IFixedGender, IFixedNature, IDynamaxLevelReadOnly, IGigantamaxReadOnly, IOverworldCorrelation8, IFatefulEncounterReadOnly
+        IFlawlessIVCount, IFixedIVSet, IFixedGender, IFixedNature, IDynamaxLevelReadOnly, IGigantamaxReadOnly, IOverworldCorrelation8, IFatefulEncounterReadOnly
 {
     public int Generation => 8;
     public EntityContext Context => EntityContext.Gen8;
@@ -160,6 +160,8 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
         if (IVs.IsSpecified && !Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pk))
+            return false;
+        if (FlawlessIVCount != 0 && pk.FlawlessIVCount < FlawlessIVCount)
             return false;
         return true;
     }
