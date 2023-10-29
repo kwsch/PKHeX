@@ -25,11 +25,10 @@ public class LegalityTest
     [Theory]
     [InlineData("Legal", true)]
     [InlineData("Illegal", false)]
-    public void TestPublicFiles(string name, bool isValid)
+    public void TestPublicFiles(string subFolder, bool isValid)
     {
-        var folder = TestUtil.GetRepoPath();
-        folder = Path.Combine(folder, "Legality");
-        VerifyAll(folder, name, isValid);
+        var folder = Path.Combine(TestPath, "Legality");
+        VerifyAll(folder, subFolder, isValid);
     }
 
     [Theory]
@@ -37,16 +36,16 @@ public class LegalityTest
     [InlineData("Illegal", false)]
     [InlineData("PassingHacks", true)] // mad hacks, stuff to be flagged in the future
     [InlineData("FalseFlags", false)] // legal quirks, to be fixed in the future
-    public void TestPrivateFiles(string name, bool isValid)
+    public void TestPrivateFiles(string subFolder, bool isValid)
     {
         var folder = Path.Combine(TestPath, "Legality", "Private");
-        VerifyAll(folder, name, isValid, false);
+        VerifyAll(folder, subFolder, isValid, false);
     }
 
     // ReSharper disable once UnusedParameter.Local
-    private static void VerifyAll(string folder, string name, bool isValid, bool checkDir = true)
+    private static void VerifyAll(string folder, string subFolder, bool isValid, bool checkDir = true)
     {
-        var path = Path.Combine(folder, name);
+        var path = Path.Combine(folder, subFolder);
         bool exists = Directory.Exists(path);
         if (checkDir)
             exists.Should().BeTrue($"the specified test directory at '{path}' should exist");
@@ -89,7 +88,7 @@ public class LegalityTest
                 legality.Valid.Should().BeFalse($"because the file '{fn}' should be invalid, but found Valid.");
             }
         }
-        ctr.Should().BeGreaterThan(0);
+        ctr.Should().BeGreaterThan(0, "any amount of files should have been processed from a folder that exists.");
     }
 
     private static IEnumerable<string> GetIllegalLines(LegalityAnalysis legality)

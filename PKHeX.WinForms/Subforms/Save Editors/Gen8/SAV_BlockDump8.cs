@@ -142,7 +142,11 @@ public partial class SAV_BlockDump8 : Form
     private static void ExportAllBlocks(IEnumerable<SCBlock> blocks, string path)
     {
         foreach (var b in blocks.Where(z => z.Data.Length != 0))
-            File.WriteAllBytes(Path.Combine(path, $"{GetBlockFileNameWithoutExtension(b)}.bin"), b.Data);
+        {
+            var fn = $"{GetBlockFileNameWithoutExtension(b)}.bin";
+            var fileName = Path.Combine(path, fn);
+            File.WriteAllBytes(fileName, b.Data);
+        }
     }
 
     private void B_ImportFolder_Click(object sender, EventArgs e)
@@ -170,8 +174,14 @@ public partial class SAV_BlockDump8 : Form
             return;
 
         var path = sfd.FileName;
-
         var blocks = SAV.Accessor.BlockInfo;
+        var option = GetExportOption();
+
+        ExportAllBlocksAsSingleFile(blocks, path, option);
+    }
+
+    private SCBlockExportOption GetExportOption()
+    {
         var option = SCBlockExportOption.None;
         if (CHK_DataOnly.Checked)
             option |= SCBlockExportOption.DataOnly;
@@ -181,8 +191,7 @@ public partial class SAV_BlockDump8 : Form
             option |= SCBlockExportOption.TypeInfo;
         if (CHK_FakeHeader.Checked)
             option |= SCBlockExportOption.FakeHeader;
-
-        ExportAllBlocksAsSingleFile(blocks, path, option);
+        return option;
     }
 
     private void B_LoadOld_Click(object sender, EventArgs e)
@@ -260,7 +269,7 @@ public partial class SAV_BlockDump8 : Form
         }
 
         var bytes = File.ReadAllBytes(path);
-        bytes.CopyTo(data, 0);
+        blockTarget.ChangeData(bytes);
     }
 
     private void PG_BlockView_PropertyValueChanged(object s, PropertyValueChangedEventArgs? e)
