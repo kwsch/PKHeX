@@ -1,5 +1,3 @@
-using System;
-
 namespace PKHeX.Core;
 
 /// <summary>
@@ -17,7 +15,8 @@ public static class EntityTemplates
         pk.Move1 = (int)Move.Pound;
         pk.HealPP();
         pk.Ball = 4;
-        pk.MetDate = DateOnly.FromDateTime(DateTime.Today);
+        if (pk.Format >= 4)
+            pk.MetDate = EncounterDate.GetDate(pk.Context.GetConsole());
 
         if (tr.Game >= 0)
             pk.Version = tr.Game;

@@ -427,16 +427,21 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         set => SetMoves(value);
     }
 
-    public void PushMove(ushort move)
+    public bool AddMove(ushort move, bool pushOut = true)
     {
         if (move == 0 || move >= MaxMoveID || HasMove(move))
-            return;
+            return false;
 
         var ct = MoveCount;
         if (ct == 4)
+        {
+            if (!pushOut)
+                return false;
             ct = 0;
+        }
         SetMove(ct, move);
         HealPPIndex(ct);
+        return true;
     }
 
     public int MoveCount => Convert.ToInt32(Move1 != 0) + Convert.ToInt32(Move2 != 0) + Convert.ToInt32(Move3 != 0) + Convert.ToInt32(Move4 != 0);
@@ -649,13 +654,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// IV Judge scales his response 0 (worst) to 3 (best).<br/>
     /// Assumes IVs are in the 0-31 range, so this isn't really useful for Gen1/2 formats that are 0-15 per IV.
     /// </remarks>
-    public int PotentialRating => IVTotal switch
-    {
-        <=  90 => 0,
-        <= 120 => 1,
-        <= 150 => 2,
-        _      => 3,
-    };
+    public int PotentialRating => PowerPotential.GetPotential(IVTotal);
 
     /// <summary>
     /// Gets the current Battle Stats.
@@ -899,6 +898,27 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     /// <inheritdoc cref="SetRandomIVs(Span{int},int)"/>
     public void SetRandomIVs(int minFlawless = 0) => SetRandomIVs(stackalloc int[6], minFlawless);
+
+    /// <inheritdoc cref="SetRandomIVs(Span{int},int)"/>
+    public void SetRandomIVs(IndividualValueSet template)
+    {
+        Span<int> ivs = stackalloc int[6];
+        SetRandomIVs(ivs, template);
+    }
+
+    /// <inheritdoc cref="SetRandomIVs(Span{int},int)"/>
+    public void SetRandomIVs(Span<int> ivs, IndividualValueSet template)
+    {
+        var rnd = Util.Rand;
+        for (int i = 0; i < ivs.Length; i++)
+        {
+            if (template[i] == -1)
+                ivs[i] = rnd.Next(MaxIV + 1);
+            else
+                ivs[i] = template[i];
+        }
+        SetIVs(ivs);
+    }
 
     /// <summary>
     /// Randomizes the IVs within game constraints.

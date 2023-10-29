@@ -113,7 +113,7 @@ public sealed class QRPK7 : IEncounterInfo
             HT_Name = tr.OT,
             CurrentLevel = Level,
             Met_Level = Level,
-            MetDate = DateOnly.FromDateTime(DateTime.Today),
+            MetDate = EncounterDate.GetDate3DS(),
         };
         RecentTrainerCache.SetConsoleRegionData3DS(pk, tr);
 

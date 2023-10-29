@@ -29,6 +29,17 @@ public static class EncounterDate
     /// </summary>
     public static DateOnly GetDateSwitch() => DateOnly.FromDateTime(Now);
 
+    /// <summary>
+    /// Fetches a valid date for the specified <see cref="GameConsole"/>.
+    /// </summary>
+    public static DateOnly GetDate(GameConsole console) => console switch
+    {
+        GameConsole.NDS => GetDateNDS(),
+        GameConsole._3DS => GetDate3DS(),
+        GameConsole.NX => GetDateSwitch(),
+        _ => throw new ArgumentOutOfRangeException(nameof(console), console, null)
+    };
+
     public static bool IsValidDateNDS(DateOnly date)
     {
         if (date.Year is < 2000 or > 2099)
