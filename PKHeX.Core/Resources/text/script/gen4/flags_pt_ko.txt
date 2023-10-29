@@ -240,6 +240,3 @@
 2763	t	Defeated Pokémon Trainer Marley in Battleground (Today)
 2764	t	Defeated Pokémon Trainer Buck in Battleground (Today)
 2765	t	Defeated Pokémon Trainer Mira in Battleground (Today)
-		t
-		t
-		t
