@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -53,25 +52,25 @@ internal static class MoveInfo8
         10, 10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05, 15,
         05, 10, 10, 10, 05, 05, 05,
     };
+
     /// <summary>
-    /// Moves that are kill
+    /// Bitflag indexes of moves that are not usable in game.
     /// </summary>
-    public static readonly HashSet<ushort> DummiedMoves_SWSH = new()
+    /// <remarks>
+    /// This is a bitflag array, where each bit represents a move. If the bit is set, the move is not usable in game.
+    /// Instead of allocating a hashset, this is a more efficient method (no allocation) with O(1) lookup (faster than HashSet's O(1) lookup).
+    /// </remarks>
+    public static ReadOnlySpan<byte> DummiedMoves => new byte[] // 144 moves (288 bytes) => 93 bytes.
     {
-        002, 003, 004, 013, 026, 027, 041, 049, 082, 096,
-        099, 112, 117, 119, 121, 125, 128, 131, 132, 134,
-        140, 145, 146, 148, 149, 159, 169, 171, 185, 193,
-        216, 218, 222, 228, 237, 265, 274, 287, 289, 290,
-        293, 300, 301, 302, 316, 318, 320, 324, 327, 346,
-        357, 358, 363, 373, 376, 377, 378, 381, 382, 386,
-        426, 429, 431, 443, 445, 456, 466, 477, 481, 485,
-        498, 507, 516, 531, 537, 563, 569, 622, 623, 624,
-        625, 626, 627, 628, 629, 630, 631, 632, 633, 634,
-        635, 636, 637, 638, 639, 640, 641, 642, 643, 644,
-        645, 646, 647, 648, 649, 650, 651, 652, 653, 654,
-        655, 656, 657, 658, 671, 695, 696, 697, 698, 699,
-        700, 701, 702, 703, 719, 723, 724, 725, 726, 727,
-        728, 729, 730, 731, 732, 733, 734, 735, 736, 737,
-        738, 739, 740, 741,
+        0x1C, 0x20, 0x00, 0x0C, 0x00, 0x02, 0x02, 0x00, 0x00, 0x00,
+        0x04, 0x00, 0x09, 0x00, 0xA1, 0x22, 0x59, 0x10, 0x36, 0x80,
+        0x00, 0x0A, 0x00, 0x02, 0x02, 0x00, 0x00, 0x45, 0x10, 0x20,
+        0x00, 0x00, 0x00, 0x02, 0x04, 0x80, 0x26, 0x70, 0x00, 0x50,
+        0x91, 0x00, 0x00, 0x04, 0x60, 0x08, 0x20, 0x67, 0x04, 0x00,
+        0x00, 0x00, 0x00, 0xA4, 0x00, 0x28, 0x00, 0x01, 0x04, 0x20,
+        0x22, 0x00, 0x04, 0x08, 0x10, 0x00, 0x08, 0x02, 0x00, 0x00,
+        0x08, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0xFF, 0xFF,
+        0xFF, 0xFF, 0x07, 0x80, 0x00, 0x00, 0x80, 0xFF, 0x00, 0x80,
+        0xF8, 0xFF, 0x3F,
     };
 }

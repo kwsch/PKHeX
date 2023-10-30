@@ -2246,8 +2246,7 @@ public static class MoveDisplay
         if (isIllegal)
             return Resources.warn;
 
-        var dummied = MoveInfo.GetDummiedMovesHashSet(pk.Context);
-        if (dummied?.Contains(pk.GetMove(index)) == true)
+        if (MoveInfo.IsDummiedMove(pk, index))
             return Resources.hint;
 
         return null;

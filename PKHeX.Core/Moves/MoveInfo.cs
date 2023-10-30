@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static PKHeX.Core.Move;
 using static PKHeX.Core.EntityContext;
 
@@ -48,13 +47,13 @@ public static class MoveInfo
     /// <summary>
     /// Gets a collection that can be used to check if a move cannot be used in battle.
     /// </summary>
-    public static IReadOnlySet<ushort>? GetDummiedMovesHashSet(EntityContext context) => context switch
+    public static ReadOnlySpan<byte> GetDummiedMovesHashSet(EntityContext context) => context switch
     {
-        Gen8 => MoveInfo8.DummiedMoves_SWSH,
-        Gen8a => MoveInfo8a.DummiedMoves_LA,
-        Gen8b => MoveInfo8b.DummiedMoves_BDSP,
-        Gen9 => MoveInfo9.DummiedMoves_SV,
-        _ => null,
+        Gen8 => MoveInfo8.DummiedMoves,
+        Gen8a => MoveInfo8a.DummiedMoves,
+        Gen8b => MoveInfo8b.DummiedMoves,
+        Gen9 => MoveInfo9.DummiedMoves,
+        _ => default,
     };
 
     /// <summary>
@@ -85,8 +84,34 @@ public static class MoveInfo
     /// </summary>
     public static bool IsDummiedMove(PKM pk, ushort move)
     {
-        var hashSet = GetDummiedMovesHashSet(pk.Context);
-        return hashSet?.Contains(move) ?? false;
+        var context = pk.Context;
+        var hashSet = GetDummiedMovesHashSet(context);
+        return IsDummiedMove(hashSet, move);
+    }
+
+    /// <summary>
+    /// Checks if the move at the requested <see cref="index"/> is unable to be used in battle.
+    /// </summary>
+    public static bool IsDummiedMove(PKM pk, int index)
+    {
+        var context = pk.Context;
+        var hashSet = GetDummiedMovesHashSet(context);
+        if (hashSet.Length == 0)
+            return false;
+        var move = pk.GetMove(index);
+        return IsDummiedMove(hashSet, move);
+    }
+
+    private static bool IsDummiedMove(ReadOnlySpan<byte> bitSet, ushort move)
+    {
+        var offset = move >> 3;
+        if (offset >= bitSet.Length)
+            return false;
+
+        var bit = move & 7;
+        if ((bitSet[offset] & (1 << bit)) != 0)
+            return true;
+        return false;
     }
 
     /// <summary>
@@ -94,14 +119,14 @@ public static class MoveInfo
     /// </summary>
     public static bool IsDummiedMoveAny(PKM pk)
     {
-        var hs = GetDummiedMovesHashSet(pk.Context);
-        if (hs is null)
+        var bitSet = GetDummiedMovesHashSet(pk.Context);
+        if (bitSet.Length == 0)
             return false;
 
         for (int i = 0; i < 4; i++)
         {
             var move = pk.GetMove(i);
-            if (hs.Contains(move))
+            if (IsDummiedMove(bitSet, move))
                 return true;
         }
         return false;
@@ -147,7 +172,7 @@ public static class MoveInfo
     private static bool IsSketchPossible(ushort move, EntityContext context) => context switch
     {
         Gen6 when move is (int)ThousandArrows or (int)ThousandWaves => false,
-        Gen8b when MoveInfo8b.DummiedMoves_BDSP.Contains(move) => false,
+        Gen8b when IsDummiedMove(MoveInfo8b.DummiedMoves, move) => false,
         _ => true,
     };
 
