@@ -439,6 +439,8 @@ public partial class StatEditor : UserControl
                 pk.SetRandomIVs(ivs, fc.FlawlessIVCount);
             else if (enc is IFixedIVSet { IVs: { IsSpecified: true } iv })
                 pk.SetRandomIVs(ivs, iv);
+            else if (enc is IFlawlessIVCountConditional c && c.GetFlawlessIVCount(pk) is { Max: not 0 } x)
+                pk.SetRandomIVs(ivs, Util.Rand.Next(x.Min, x.Max + 1));
             else
                 pk.SetRandomIVs(ivs);
         }

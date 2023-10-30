@@ -141,17 +141,14 @@ public static class PokewalkerRNG
         // rand() & 1 => slot C
         // generate IVs
         var span = GetSpecies(course);
-        seed = LCRNG.Next(seed);
-        var slotA = (seed >> 16) & 1;
-        if (span[(int)slotA] == species)
+        var slotA = (int)(LCRNG.Next16(ref seed) & 1);
+        if (span[slotA] == species)
             return true;
-        seed = LCRNG.Next(seed);
-        var slotB = (seed >> 16) & 1;
-        if (span[(int)slotB + 2] == species)
+        var slotB = (int)(LCRNG.Next16(ref seed) & 1);
+        if (span[slotB + 2] == species)
             return true;
-        seed = LCRNG.Next(seed);
-        var slotC = (seed >> 16) & 1;
-        if (span[(int)slotC + 4] == species)
+        var slotC = (int)(LCRNG.Next16(ref seed) & 1);
+        if (span[slotC + 4] == species)
             return true;
         return false;
     }

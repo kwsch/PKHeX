@@ -38,14 +38,17 @@ public partial class SAV_Roamer3 : Form
 
     private void SaveData()
     {
-        Span<int> IVs = stackalloc int[6];
-        var iv = new[] { TB_HPIV, TB_ATKIV, TB_DEFIV, TB_SPEIV, TB_SPAIV, TB_SPDIV };
-        for (int i = 0; i < iv.Length; i++)
-            IVs[i] = Util.ToInt32(iv[i].Text);
-
         Reader.PID = Util.GetHexValue(TB_PID.Text);
         Reader.Species = (ushort)WinFormsUtil.GetIndex(CB_Species);
-        Reader.SetIVs(IVs);
+        Reader.SetIVs(stackalloc int[6]
+        {
+            Util.ToInt32(TB_HPIV.Text),
+            Util.ToInt32(TB_ATKIV.Text),
+            Util.ToInt32(TB_DEFIV.Text),
+            Util.ToInt32(TB_SPEIV.Text),
+            Util.ToInt32(TB_SPAIV.Text),
+            Util.ToInt32(TB_SPDIV.Text),
+        });
         Reader.Active = CHK_Active.Checked;
         Reader.CurrentLevel = (int)NUD_Level.Value;
     }

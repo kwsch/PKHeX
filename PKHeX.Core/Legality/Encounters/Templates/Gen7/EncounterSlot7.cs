@@ -135,6 +135,7 @@ public sealed record EncounterSlot7(EncounterArea7 Parent, ushort Species, byte 
         // Chain of 10 yields 5% HA and 2 flawless IVs
         if (pk is { Context: EntityContext.Gen7, AbilityNumber: 4 })
             return (2, 2);
-        return default;
+        // Player could have changed the ability from a regular encounter via Ability Patch.
+        return default; // Don't restrict.
     }
 }

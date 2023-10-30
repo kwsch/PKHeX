@@ -361,6 +361,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         set => SetIVs(value);
     }
 
+    /// <summary>
+    /// Retrieves the IVs of the PKM in the order HP, ATK, DEF, SPE, SPA, SPD
+    /// </summary>
+    /// <param name="value">Span of length 6 to write the IVs to</param>
     public void GetIVs(Span<int> value)
     {
         if (value.Length != 6)
@@ -373,6 +377,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         value[5] = IV_SPD;
     }
 
+    /// <summary>
+    /// Sets the IVs of the PKM in the order HP, ATK, DEF, SPE, SPA, SPD
+    /// </summary>
+    /// <param name="value">Span of length 6 to read the IVs from</param>
     public void SetIVs(ReadOnlySpan<int> value)
     {
         if (value.Length != 6)
@@ -385,6 +393,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         IV_SPD = value[5];
     }
 
+    /// <summary>
+    /// Retrieves the EVs of the PKM in the order HP, ATK, DEF, SPE, SPA, SPD
+    /// </summary>
+    /// <param name="value">Span of length 6 to write the EVs to</param>
     public void GetEVs(Span<int> value)
     {
         if (value.Length != 6)
@@ -397,6 +409,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
         value[5] = EV_SPD;
     }
 
+    /// <summary>
+    /// Sets the EVs of the PKM in the order HP, ATK, DEF, SPE, SPA, SPD
+    /// </summary>
+    /// <param name="value">Span of length 6 to read the EVs from</param>
     public void SetEVs(ReadOnlySpan<int> value)
     {
         if (value.Length != 6)
@@ -900,11 +916,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public void SetRandomIVs(int minFlawless = 0) => SetRandomIVs(stackalloc int[6], minFlawless);
 
     /// <inheritdoc cref="SetRandomIVs(Span{int},int)"/>
-    public void SetRandomIVs(IndividualValueSet template)
-    {
-        Span<int> ivs = stackalloc int[6];
-        SetRandomIVs(ivs, template);
-    }
+    public void SetRandomIVs(IndividualValueSet template) => SetRandomIVs(stackalloc int[6], template);
 
     /// <inheritdoc cref="SetRandomIVs(Span{int},int)"/>
     public void SetRandomIVs(Span<int> ivs, IndividualValueSet template)
@@ -1060,6 +1072,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     /// </summary>
     public bool HasRelearnMove(ushort move) => RelearnMove1 == move || RelearnMove2 == move || RelearnMove3 == move || RelearnMove4 == move;
 
+    /// <summary>
+    /// Loads the Relearn moves into the <see cref="value"/> array.
+    /// </summary>
+    /// <param name="value">Span to load the relearn moves into.</param>
     public void GetRelearnMoves(Span<ushort> value)
     {
         value[3] = RelearnMove4;

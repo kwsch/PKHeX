@@ -544,6 +544,8 @@ public static class BatchEditing
                 pk.SetRandomIVs(fc.FlawlessIVCount);
             else if (enc is IFixedIVSet { IVs: {IsSpecified: true} iv})
                 pk.SetRandomIVs(iv);
+            else if (enc is IFlawlessIVCountConditional c && c.GetFlawlessIVCount(pk) is { Max: not 0 } x)
+                pk.SetRandomIVs(Util.Rand.Next(x.Min, x.Max + 1));
             else
                 pk.SetRandomIVs();
             return;
