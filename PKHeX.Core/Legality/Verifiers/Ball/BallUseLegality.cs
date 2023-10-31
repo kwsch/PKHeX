@@ -4,7 +4,17 @@ namespace PKHeX.Core;
 
 internal static class BallUseLegality
 {
-    internal static ulong GetWildBalls(int generation, GameVersion game) => generation switch
+    /// <summary>
+    /// In Sun/Moon, capturing with Heavy Ball is impossible in Sun/Moon for specific hard to catch species.
+    /// </summary>
+    /// <param name="species">Encounter species.</param>
+    /// <remarks>
+    /// Catch rate for these species is 3. Due to the heavy ball modifier adding [-20], the catch rate becomes 0.
+    /// </remarks>
+    /// <returns>True if it is impossible to capture in a <see cref="Heavy"/> ball.</returns>
+    public static bool IsAlolanCaptureNoHeavyBall(ushort species) => species is (int)Species.Beldum or (int)Species.TapuKoko or (int)Species.TapuLele or (int)Species.TapuBulu or (int)Species.TapuFini;
+
+    public static ulong GetWildBalls(int generation, GameVersion game) => generation switch
     {
         1 => WildPokeBalls1,
         2 => WildPokeBalls2,
@@ -61,17 +71,17 @@ internal static class BallUseLegality
     private const ulong WildPokeBalls2 = WildPokeBalls1;
     private const ulong WildPokeBalls3 = WildPokeRegular | WildPokeEnhance3;
     private const ulong WildPokeBalls4_DPPt = WildPokeBalls3 | WildPokeEnhance4;
-    private const ulong WildPokeBalls4_HGSS = WildPokeBalls4_DPPt | WildPokeKurt4;
+    public const ulong WildPokeBalls4_HGSS = WildPokeBalls4_DPPt | WildPokeKurt4;
     private const ulong WildPokeBalls5 = WildPokeBalls4_DPPt;
 
-    internal const ulong DreamWorldBalls = WildPokeBalls5 | WildPokeEnhance5;
-    internal const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
-    internal const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HGSS + Beast
-    internal const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
+    public const ulong DreamWorldBalls = WildPokeBalls5 | WildPokeEnhance5;
+    private const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
+    private const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HGSS + Beast
+    private const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
 
     private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);
-    internal const ulong WildPokeballs8g_WithRaid = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
-    internal const ulong WildPokeballs8g_WithoutRaid = WildPokeRegular & ~(1ul << (int)Master); // Ultra Great Poke, no Premier/Master
+    public const ulong WildPokeballs8g_WithRaid = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
+    public const ulong WildPokeballs8g_WithoutRaid = WildPokeRegular & ~(1ul << (int)Master); // Ultra Great Poke, no Premier/Master
 
-    internal const ulong WildPokeballs9 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
+    public const ulong WildPokeballs9 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.GroundTileAllowed;
 
 namespace PKHeX.Core;
@@ -243,7 +244,7 @@ public sealed record EncounterStatic4(GameVersion Version)
 
     private bool IsMatchPartial(PKM pk) => Gift && pk.Ball != (byte)FixedBall;
 
-    public static bool IsMatchRoamerLocation(ulong permit, int location, int first)
+    public static bool IsMatchRoamerLocation([ConstantExpected] ulong permit, int location, int first)
     {
         var value = location - first;
         if ((uint)value >= 64)
@@ -251,7 +252,7 @@ public sealed record EncounterStatic4(GameVersion Version)
         return (permit & (1ul << value)) != 0;
     }
 
-    public static bool IsMatchRoamerLocation(uint permit, int location, int first)
+    public static bool IsMatchRoamerLocation([ConstantExpected] uint permit, int location, int first)
     {
         var value = location - first;
         if ((uint)value >= 32)

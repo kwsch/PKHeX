@@ -144,28 +144,11 @@ internal static class AbilityBreedLegality
         (int)Rotom + (5 << 11),
     };
 
-    // <summary>
-    // Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen8"/>
-    // </summary>
-    // internal static readonly HashSet<ushort> BanHidden8 = new(); // none as of DLC 1!
-
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.BDSP"/>
     /// </summary>
     internal static readonly HashSet<ushort> BanHidden8b = new()
     {
-        (int)Rotom,
-        (int)Rotom + (1 << 11),
-        (int)Rotom + (2 << 11),
-        (int)Rotom + (3 << 11),
-        (int)Rotom + (4 << 11),
-        (int)Rotom + (5 << 11),
-
-        (int)Baltoy,
-        (int)Claydol,
-        (int)Solrock,
-        (int)Lunatone,
-
         (int)Phione,
     };
 }
