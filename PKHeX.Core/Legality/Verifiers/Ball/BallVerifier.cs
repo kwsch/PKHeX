@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Ball;
@@ -10,7 +11,6 @@ namespace PKHeX.Core;
 public sealed class BallVerifier : Verifier
 {
     protected override CheckIdentifier Identifier => CheckIdentifier.Ball;
-    private CheckResult NONE => GetInvalid(LBallNone);
 
     public override void Verify(LegalityAnalysis data)
     {
@@ -66,44 +66,42 @@ public sealed class BallVerifier : Verifier
 
         return enc switch
         {
-            EncounterStatic5Entree => VerifyBallEquals(data, BallUseLegality.DreamWorldBalls),
+            EncounterStatic5Entree => VerifyBallEquals((Ball)pk.Ball, BallUseLegality.DreamWorldBalls),
             EncounterEgg => VerifyBallEgg(data),
             EncounterInvalid => VerifyBallEquals(data, pk.Ball), // ignore ball, pass whatever
-            _ => VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, enc.Version)),
+            _ => VerifyBallEquals((Ball)pk.Ball, BallUseLegality.GetWildBalls(data.Info.Generation, enc.Version)),
         };
     }
 
     private CheckResult VerifyBallEgg(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (data.Info.Generation < 6) // No inheriting Balls
+        var info = data.Info;
+        if (info.Generation < 6) // No inheriting Balls
             return VerifyBallEquals(data, (int)Poke); // Must be Pokéball -- no ball inheritance.
 
         return pk.Ball switch
         {
             (int)Master => GetInvalid(LBallEggMaster), // Master Ball
             (int)Cherish => GetInvalid(LBallEggCherish), // Cherish Ball
-            _ => VerifyBallInherited(data),
+            _ => VerifyBallInherited(data, info.EncounterMatch.Context),
         };
     }
 
-    private CheckResult VerifyBallInherited(LegalityAnalysis data) => data.Info.EncounterMatch.Context switch
+    private CheckResult VerifyBallInherited(LegalityAnalysis data, EntityContext context) => context switch
     {
         EntityContext.Gen6 => VerifyBallEggGen6(data), // Gen6 Inheritance Rules
         EntityContext.Gen7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
         EntityContext.Gen8 => VerifyBallEggGen8(data),
         EntityContext.Gen8b => VerifyBallEggGen8BDSP(data),
         EntityContext.Gen9 => VerifyBallEggGen9(data),
-        _ => NONE,
+        _ => GetInvalid(LBallNone),
     };
 
     private CheckResult VerifyBallEggGen6(LegalityAnalysis data)
     {
         var pk = data.Entity;
         var ball = (Ball)pk.Ball;
-        if (pk.Ball == (int)Poke)
-            return GetValid(LBallEnc); // Poké Ball
-
         var instance = BallContext6.Instance;
         if (ball > Dream)
             return GetInvalid(LBallUnavailable);
@@ -122,9 +120,6 @@ public sealed class BallVerifier : Verifier
     {
         var pk = data.Entity;
         var ball = (Ball)pk.Ball;
-        if (ball == Poke)
-            return GetValid(LBallEnc); // Poké Ball
-
         var instance = BallContext7.Instance;
         if (ball > Beast)
             return GetInvalid(LBallUnavailable);
@@ -142,13 +137,10 @@ public sealed class BallVerifier : Verifier
     private CheckResult VerifyBallEggGen8BDSP(LegalityAnalysis data)
     {
         var species = data.EncounterMatch.Species;
-        if (species is (int)Species.Spinda) // Can't transfer via HOME.
-            return VerifyBallEquals(data, BallUseLegality.WildPokeBalls4_HGSS);
-
         var pk = data.Entity;
         var ball = (Ball)pk.Ball;
-        if (ball == Poke)
-            return GetValid(LBallEnc); // Poké Ball
+        if (species is (int)Species.Spinda) // Can't transfer via HOME.
+            return VerifyBallEquals(ball, BallUseLegality.WildPokeBalls4_HGSS);
 
         var instance = BallContextHOME.Instance;
         if (ball > Beast)
@@ -168,9 +160,6 @@ public sealed class BallVerifier : Verifier
     {
         var pk = data.Entity;
         var ball = (Ball)pk.Ball;
-        if (ball == Poke)
-            return GetValid(LBallEnc); // Poké Ball
-
         var instance = BallContextHOME.Instance;
         if (ball > Beast)
             return GetInvalid(LBallUnavailable);
@@ -189,23 +178,20 @@ public sealed class BallVerifier : Verifier
     {
         var enc = data.EncounterMatch;
         var species = enc.Species;
+        var pk = data.Entity;
+        var ball = (Ball)pk.Ball;
 
         // Paldea Starters: Only via GO (Adventures Abound)
         if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval)
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8g_WithoutRaid);
+            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs8g_WithoutRaid);
 
         // PLA Voltorb: Only via PLA (transfer only, not wild) and GO
         if (enc is { Species: (ushort)Species.Voltorb, Form: 1 })
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8g_WithRaid);
+            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs8g_WithRaid);
 
         // S/V Tauros forms > 1: Only local Wild Balls for Blaze/Aqua breeds -- can't inherit balls from Kantonian/Combat.
         if (enc is { Species: (ushort)Species.Tauros, Form: > 1 })
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs9);
-
-        var pk = data.Entity;
-        var ball = (Ball)pk.Ball;
-        if (ball == Poke)
-            return GetValid(LBallEnc); // Poké Ball
+            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs9);
 
         var instance = BallContextHOME.Instance;
         if (ball > Beast)
@@ -221,14 +207,7 @@ public sealed class BallVerifier : Verifier
     }
 
     private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.Entity.Ball);
-    private CheckResult VerifyBallEquals(LegalityAnalysis data, [ConstantExpected] ulong permit) => GetResult(IsBallPermitted(permit, data.Entity.Ball));
-
-    private static bool IsBallPermitted([ConstantExpected] ulong permit, int ball)
-    {
-        if ((uint)ball >= 64)
-            return false;
-        return (permit & (1ul << ball)) != 0;
-    }
+    private CheckResult VerifyBallEquals(Ball ball, [ConstantExpected] ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (int)ball));
 
     private CheckResult GetResult(bool valid) => valid ? GetValid(LBallEnc) : GetInvalid(LBallEncMismatch);
 }
