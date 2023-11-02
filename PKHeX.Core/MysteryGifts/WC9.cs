@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 9 Mystery Gift Template File
 /// </summary>
 public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbonIndex, IMemoryOT, ILangNicknamedTemplate, IEncounterServerDate,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8, IRibbonSetCommon9, IRibbonSetMark9, IEncounterMarkExtra
 {
     public const int Size = 0x2C8;
     public const int CardStart = 0x0;
@@ -227,8 +227,6 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         {
             foreach (var value in RibbonSpan)
             {
-                if (value == RibbonByteNone)
-                    return false; // end
                 if (((RibbonIndex)value).IsEncounterMark8())
                     return true;
             }
@@ -242,8 +240,6 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         {
             foreach (var value in RibbonSpan)
             {
-                if (value == RibbonByteNone)
-                    return false; // end
                 if (((RibbonIndex)value).IsEncounterMark9())
                     return true;
             }
@@ -933,4 +929,18 @@ public sealed class WC9 : DataMysteryGift, ILangNick, INature, ITeraType, IRibbo
         }
     }
     #endregion
+
+    public bool IsMissingExtraMark(PKM pk, out RibbonIndex missing)
+    {
+        foreach (var value in RibbonSpan)
+        {
+            missing = (RibbonIndex)value;
+            if (!missing.IsEncounterMark8())
+                continue;
+            if (pk is IRibbonSetMark8 m8 && !m8.HasMark8(missing))
+                return true;
+        }
+        missing = default;
+        return false;
+    }
 }

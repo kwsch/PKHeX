@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Provides ribbon information about the state of a given ribbon.
+/// Provides information about the state of a given ribbon.
 /// </summary>
 public sealed class RibbonInfo
 {

@@ -255,3 +255,24 @@ public static class MarkRules
         return unchecked((RibbonIndex)(-1));
     }
 }
+
+/// <summary>
+/// Indicates if the encounter is lacking a specific mark.
+/// </summary>
+/// <remarks>
+/// Some encounters are made available with a specific mark, and the mark is required to be present.
+/// </remarks>
+public interface IEncounterMarkExtra
+{
+    /// <summary>
+    /// Checks if the encounter is missing a specific mark.
+    /// </summary>
+    /// <param name="pk">The encounter to check.</param>
+    /// <param name="missing">The missing mark.</param>
+    /// <returns>True if the encounter is missing the mark.</returns>
+    /// <remarks>
+    /// If the encounter is missing the mark, the <paramref name="missing"/> value will be set to the missing mark.
+    /// </remarks>
+    bool IsMissingExtraMark(PKM pk, out RibbonIndex missing);
+}
+

@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 9 Static Encounter
 /// </summary>
 public sealed record EncounterStatic9(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IFixedIVSet, IGemType, IFixedGender, IFixedNature
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IFixedIVSet, IGemType, IFixedGender, IFixedNature, IEncounterMarkExtra
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -32,6 +32,19 @@ public sealed record EncounterStatic9(GameVersion Version)
     public byte Size { get; init; }
     public bool IsTitan { get; init; }
     public bool RibbonMarkCrafty => Species == (int)Core.Species.Munchlax; // Shiny etc
+    public bool IsMissingExtraMark(PKM pk, out RibbonIndex index)
+    {
+        if (RibbonMarkCrafty)
+        {
+            if (pk is IRibbonSetMark8 m8 && !m8.HasMark8(RibbonIndex.MarkCrafty))
+            {
+                index = RibbonIndex.MarkCrafty;
+                return true;
+            }
+        }
+        index = default;
+        return false;
+    }
 
     private bool Gift => FixedBall != Ball.None;
 
