@@ -46,7 +46,7 @@ public sealed class BallContext7 : IBallContext
         if ((permit & (1 << (byte)permitBit)) == 0)
             return Invalid;
 
-        if (pk.Format <= 7 && !IsAbilityAllowed(species, form, pk, permitBit))
+        if (!BallContextHOME.IsAbilityPatchPossible(pk.Format, species) && !IsAbilityAllowed(species, form, pk, permitBit))
             return BadAbility;
         return Valid;
     }

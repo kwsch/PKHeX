@@ -29,6 +29,30 @@ public sealed class BallContextHOME : IBallContext
         return true;
     }
 
+    /// <summary>
+    /// Checks if a past ball inheritance context's restriction for Hidden Ability exclusions can be ignored.
+    /// </summary>
+    /// <param name="format">Current Entity format</param>
+    /// <param name="species">Original encounter species</param>
+    /// <returns>True if the restriction can be ignored, false if not.</returns>
+    /// <remarks>Ability Patch can be used on any species that has a Hidden Ability distinct from its regular ability.</remarks>
+    public static bool IsAbilityPatchPossible(int format, ushort species)
+    {
+        if (format <= 7)
+            return false;
+
+        // Species (that can breed, from Gen6/7) that have never had a Hidden Ability distinct from their regular ability
+        // Gen8+ has encounters with HA, so this is no longer a concern for anything originating from Gen8+.
+        return species switch
+        {
+            (int)Species.Lunatone => false, // Levitate
+            (int)Species.Solrock => false, // Levitate
+            (int)Species.Rotom => false, // Levitate
+            (int)Species.Archen => false, // Defeatist
+            _ => true,
+        };
+    }
+
     public BallInheritanceResult CanBreedWithBall(ushort species, byte form, Ball ball, PKM pk) => CanBreedWithBall(species, form, ball) ? Valid : Invalid;
 
     private static BallType GetPermitBit(Ball ball) => ball switch
