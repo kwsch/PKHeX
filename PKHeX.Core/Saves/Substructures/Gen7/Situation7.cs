@@ -17,7 +17,6 @@ public sealed class Situation7 : SaveBlock<SAV7>
     public void UpdateOverworldCoordinates()
     {
         var o = SAV.Overworld;
-        o.M = M;
         o.X = X;
         o.Z = Z;
         o.Y = Y;
