@@ -129,7 +129,7 @@ public partial class SAV_Trainer7 : Form
             NUD_X.Value = (decimal)SAV.Situation.X;
             NUD_Z.Value = (decimal)SAV.Situation.Z;
             NUD_Y.Value = (decimal)SAV.Situation.Y;
-            NUD_R.Value = (decimal)SAV.Situation.R;
+            NUD_R.Value = (decimal)(Math.Atan2(SAV.Situation.RZ, SAV.Situation.RW) * 360.0 / Math.PI);
         }
         // Sometimes the coordinates aren't really decimal/float coordinates?
         catch { GB_Map.Enabled = false; }
@@ -343,7 +343,9 @@ public partial class SAV_Trainer7 : Form
             SAV.Situation.X = (float)NUD_X.Value;
             SAV.Situation.Z = (float)NUD_Z.Value;
             SAV.Situation.Y = (float)NUD_Y.Value;
-            SAV.Situation.R = (float)NUD_R.Value;
+            var angle = (double)NUD_R.Value * Math.PI / 360.0;
+            SAV.Situation.RZ = (float)Math.Sin(angle);
+            SAV.Situation.RW = (float)Math.Cos(angle);
             SAV.Situation.UpdateOverworldCoordinates();
         }
 
