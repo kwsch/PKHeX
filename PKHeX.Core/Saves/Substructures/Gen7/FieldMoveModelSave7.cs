@@ -10,7 +10,7 @@ public sealed class FieldMoveModelSave7 : SaveBlock<SAV7>
 
     //public int Unknown { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0x00), (ushort)value); } // related to Ride Pokemon
     public float X { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x08), value); }
-    public float Z { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x10)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x10), value); }
-    public float Y { get => (int)ReadSingleLittleEndian(Data.AsSpan(Offset + 0x18)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x18), value); }
+    public float Z { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x0C)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x0C), value); }
+    public float Y { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x10)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x10), value); }
     public float R { get => (int)ReadSingleLittleEndian(Data.AsSpan(Offset + 0x20)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x20), value); }
 }
