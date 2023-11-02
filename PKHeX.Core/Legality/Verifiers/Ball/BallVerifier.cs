@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Ball;
 
@@ -9,7 +11,6 @@ namespace PKHeX.Core;
 public sealed class BallVerifier : Verifier
 {
     protected override CheckIdentifier Identifier => CheckIdentifier.Ball;
-    private CheckResult NONE => GetInvalid(LBallNone);
 
     public override void Verify(LegalityAnalysis data)
     {
@@ -60,438 +61,153 @@ public sealed class BallVerifier : Verifier
         }
 
         // Capturing with Heavy Ball is impossible in Sun/Moon for specific species.
-        if (pk is { Ball: (int)Heavy, SM: true } && enc is not EncounterEgg && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains(enc.Species))
+        if (pk is { Ball: (int)Heavy, SM: true } && enc is not EncounterEgg && BallUseLegality.IsAlolanCaptureNoHeavyBall(enc.Species))
             return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (US/UM fixed catch rate calc)
 
         return enc switch
         {
-            EncounterStatic5Entree => VerifyBallEquals(data, BallUseLegality.DreamWorldBalls),
+            EncounterStatic5Entree => VerifyBallEquals((Ball)pk.Ball, BallUseLegality.DreamWorldBalls),
             EncounterEgg => VerifyBallEgg(data),
             EncounterInvalid => VerifyBallEquals(data, pk.Ball), // ignore ball, pass whatever
-            _ => VerifyBallEquals(data, BallUseLegality.GetWildBalls(data.Info.Generation, enc.Version)),
+            _ => VerifyBallEquals((Ball)pk.Ball, BallUseLegality.GetWildBalls(data.Info.Generation, enc.Version)),
         };
     }
 
     private CheckResult VerifyBallEgg(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (data.Info.Generation < 6) // No inheriting Balls
+        var info = data.Info;
+        if (info.Generation < 6) // No inheriting Balls
             return VerifyBallEquals(data, (int)Poke); // Must be Pokéball -- no ball inheritance.
 
         return pk.Ball switch
         {
             (int)Master => GetInvalid(LBallEggMaster), // Master Ball
             (int)Cherish => GetInvalid(LBallEggCherish), // Cherish Ball
-            _ => VerifyBallInherited(data),
+            _ => VerifyBallInherited(data, info.EncounterMatch.Context),
         };
     }
 
-    private CheckResult VerifyBallInherited(LegalityAnalysis data) => data.Info.EncounterMatch.Context switch
+    private CheckResult VerifyBallInherited(LegalityAnalysis data, EntityContext context) => context switch
     {
         EntityContext.Gen6 => VerifyBallEggGen6(data), // Gen6 Inheritance Rules
         EntityContext.Gen7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
         EntityContext.Gen8 => VerifyBallEggGen8(data),
         EntityContext.Gen8b => VerifyBallEggGen8BDSP(data),
         EntityContext.Gen9 => VerifyBallEggGen9(data),
-        _ => NONE,
+        _ => GetInvalid(LBallNone),
     };
 
     private CheckResult VerifyBallEggGen6(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.Ball == (int)Poke)
-            return GetValid(LBallEnc); // Poké Ball
-
-        var enc = data.EncounterMatch;
-        var species = enc.Species;
-        if (pk.Gender == 2 || BallBreedLegality.BreedMaleOnly6.Contains(species)) // Genderless
-            return VerifyBallEquals(data, (int)Poke); // Must be Pokéball as ball can only pass via mother (not Ditto!)
-
-        Ball ball = (Ball)pk.Ball;
-
-        if (ball == Safari) // Safari Ball
-        {
-            if (!BallBreedLegality.Inherit_Safari.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if (IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball.IsApricornBall()) // Apricorn Ball
-        {
-            if (!BallBreedLegality.Inherit_Apricorn6.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if (IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball == Sport) // Sport Ball
-        {
-            if (!BallBreedLegality.Inherit_Sport.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if (IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball == Dream) // Dream Ball
-        {
-            if (BallBreedLegality.Ban_DreamHidden.Contains(species) && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            if (BallBreedLegality.Inherit_Dream.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-        if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
-        {
-            if (!BallBreedLegality.Ban_Gen4Ball_6.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-        if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
-        {
-            if (BallBreedLegality.Ban_Gen3Ball.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_Gen3BallHidden.Contains((ushort)(species | (enc.Form << 11))) && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-
-        if (species > 650 && species != 700) // Sylveon
-        {
-            if (IsBallPermitted(BallUseLegality.WildPokeballs6, pk.Ball))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-
-        if (ball >= Dream)
+        var ball = (Ball)pk.Ball;
+        var instance = BallContext6.Instance;
+        if (ball > Dream)
             return GetInvalid(LBallUnavailable);
 
-        return NONE;
+        var enc = data.EncounterMatch;
+        var result = instance.CanBreedWithBall(enc.Species, enc.Form, ball, pk);
+        return result switch
+        {
+            BallInheritanceResult.Valid => GetValid(LBallSpeciesPass),
+            BallInheritanceResult.BadAbility => GetInvalid(LBallAbility),
+            _ => GetInvalid(LBallSpecies),
+        };
     }
 
     private CheckResult VerifyBallEggGen7(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.Ball == (int)Poke)
-            return GetValid(LBallEnc); // Poké Ball
-
-        var species = data.EncounterMatch.Species;
-        if (species is >= 722 and <= 730) // G7 Starters
-            return VerifyBallEquals(data, (int)Poke);
-
-        Ball ball = (Ball)pk.Ball;
-
-        if (ball == Safari)
-        {
-            if (!(BallBreedLegality.Inherit_Safari.Contains(species) || BallBreedLegality.Inherit_SafariMale.Contains(species)))
-                return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_SafariBallHidden_7.Contains(species) && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball.IsApricornBall()) // Apricorn Ball
-        {
-            if (!BallBreedLegality.Inherit_Apricorn7.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_NoHidden7Apricorn.Contains((ushort)(species | (pk.Form << 11))) && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball == Sport) // Sport Ball
-        {
-            if (!BallBreedLegality.Inherit_Sport.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if ((species is (int)Species.Volbeat or (int)Species.Illumise) && IsHiddenAndNotPossible(pk)) // Volbeat/Illumise
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball == Dream) // Dream Ball
-        {
-            if (BallBreedLegality.Inherit_Dream.Contains(species) || BallBreedLegality.Inherit_DreamMale.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-        if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
-        {
-            if (!BallBreedLegality.Ban_Gen4Ball_7.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-        if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
-        {
-            if (!BallBreedLegality.Ban_Gen3Ball_7.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-
-        if (ball == Beast)
-        {
-            if (species == (int)Species.Flabébé && pk.Form == 3 && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-            if (species == (int)Species.Voltorb && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility); // Can't obtain with Hidden Ability in wild (can only breed with Ditto)
-            if ((species is >= (int)Species.Pikipek and <= (int)Species.Kommoo) || BallBreedLegality.AlolanCaptureOffspring.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            if (BallBreedLegality.PastGenAlolanScans.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            // next statement catches all new alolans
-        }
-
-        if (species > (int)Species.Volcanion)
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs7);
-
+        var ball = (Ball)pk.Ball;
+        var instance = BallContext7.Instance;
         if (ball > Beast)
             return GetInvalid(LBallUnavailable);
 
-        return NONE;
+        var enc = data.EncounterMatch;
+        var result = instance.CanBreedWithBall(enc.Species, enc.Form, ball, pk);
+        return result switch
+        {
+            BallInheritanceResult.Valid => GetValid(LBallSpeciesPass),
+            BallInheritanceResult.BadAbility => GetInvalid(LBallAbility),
+            _ => GetInvalid(LBallSpecies),
+        };
     }
 
     private CheckResult VerifyBallEggGen8BDSP(LegalityAnalysis data)
     {
         var species = data.EncounterMatch.Species;
-        if (species == (int)Species.Phione)
-            return VerifyBallEquals(data, (int)Poke);
-
-        if (species is (int)Species.Cranidos or (int)Species.Shieldon)
-            return VerifyBallEquals(data, BallUseLegality.DreamWorldBalls);
-
         var pk = data.Entity;
-        Ball ball = (Ball)pk.Ball;
-        var balls = BallUseLegality.GetWildBalls(8, GameVersion.BDSP);
-        if (IsBallPermitted(balls, (int)ball))
-            return GetValid(LBallSpeciesPass);
+        var ball = (Ball)pk.Ball;
+        if (species is (int)Species.Spinda) // Can't transfer via HOME.
+            return VerifyBallEquals(ball, BallUseLegality.WildPokeBalls4_HGSS);
 
-        if (species is (int)Species.Spinda)
-            return GetInvalid(LBallSpecies); // Can't enter or exit, needs to adhere to wild balls.
-
-        // Cross-game inheritance
-        if (IsGalarCatchAndBreed(species))
-        {
-            if (IsBallPermitted(BallUseLegality.WildPokeballs8, (int)ball))
-                return GetValid(LBallSpeciesPass);
-        }
-        if (IsPaldeaCatchAndBreed(species))
-        {
-            if (IsBallPermitted(BallUseLegality.WildPokeballs9, (int)ball))
-                return GetValid(LBallSpeciesPass);
-        }
-
-        if (ball == Safari)
-        {
-            if (!(BallBreedLegality.Inherit_Safari.Contains(species) || BallBreedLegality.Inherit_SafariMale.Contains(species)))
-                return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_SafariBallHidden_7.Contains(species) && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball.IsApricornBall()) // Apricorn Ball
-        {
-            if (!BallBreedLegality.Inherit_Apricorn7.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_NoHidden8Apricorn.Contains((ushort)(species | (pk.Form << 11))) && IsHiddenAndNotPossible(pk)) // lineage is 3->2->origin
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball == Sport) // Sport Ball
-        {
-            if (!BallBreedLegality.Inherit_Sport.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if ((species is (int)Species.Volbeat or (int)Species.Illumise) && IsHiddenAndNotPossible(pk)) // Volbeat/Illumise
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball == Dream) // Dream Ball
-        {
-            if (BallBreedLegality.Inherit_Dream.Contains(species) || BallBreedLegality.Inherit_DreamMale.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-        if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
-            return GetValid(LBallSpeciesPass);
-        if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
-            return GetValid(LBallSpeciesPass);
-
-        if (ball == Beast)
-        {
-            // Most were already caught by Galar ball logic. Check for stuff not in SW/SH.
-            if (BallBreedLegality.AlolanCaptureOffspring.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            if (BallBreedLegality.PastGenAlolanScans.Contains(species))
-                return GetValid(LBallSpeciesPass);
-        }
-
+        var instance = BallContextHOME.Instance;
         if (ball > Beast)
             return GetInvalid(LBallUnavailable);
 
-        return GetInvalid(LBallEncMismatch);
+        var enc = data.EncounterMatch;
+        var result = instance.CanBreedWithBall(species, enc.Form, ball, pk);
+        return result switch
+        {
+            BallInheritanceResult.Valid => GetValid(LBallSpeciesPass),
+            BallInheritanceResult.BadAbility => GetInvalid(LBallAbility),
+            _ => GetInvalid(LBallSpecies),
+        };
     }
 
     private CheckResult VerifyBallEggGen8(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.Ball == (int)Poke)
-            return GetValid(LBallEnc); // Poké Ball
-
-        var species = data.EncounterMatch.Species;
-        if (IsGalarCatchAndBreed(species))
-        {
-            if (IsBallPermitted(BallUseLegality.WildPokeballs8, pk.Ball))
-                return GetValid(LBallSpeciesPass);
-        }
-        if (IsPaldeaCatchAndBreed(species))
-        {
-            if (IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
-                return GetValid(LBallSpeciesPass);
-        }
-
-        Ball ball = (Ball)pk.Ball;
-
-        if (ball == Safari)
-        {
-            if (!(BallBreedLegality.Inherit_Safari.Contains(species) || BallBreedLegality.Inherit_SafariMale.Contains(species)))
-                return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_SafariBallHidden_7.Contains(species) && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball.IsApricornBall()) // Apricorn Ball
-        {
-            if (!BallBreedLegality.Inherit_Apricorn7.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if (BallBreedLegality.Ban_NoHidden8Apricorn.Contains((ushort)(species | (pk.Form << 11))) && IsHiddenAndNotPossible(pk)) // lineage is 3->2->origin
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball == Sport) // Sport Ball
-        {
-            if (!BallBreedLegality.Inherit_Sport.Contains(species))
-                return GetInvalid(LBallSpecies);
-            if ((species is (int)Species.Volbeat or (int)Species.Illumise) && IsHiddenAndNotPossible(pk)) // Volbeat/Illumise
-                return GetInvalid(LBallAbility);
-            return GetValid(LBallSpeciesPass);
-        }
-        if (ball == Dream) // Dream Ball
-        {
-            if (BallBreedLegality.Inherit_Dream.Contains(species) || BallBreedLegality.Inherit_DreamMale.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-        if (ball is >= Dusk and <= Quick) // Dusk Heal Quick
-        {
-            if (!BallBreedLegality.Ban_Gen4Ball_7.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-        if (ball is >= Ultra and <= Premier) // Don't worry, Safari was already checked.
-        {
-            if (!BallBreedLegality.Ban_Gen3Ball_7.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            return GetInvalid(LBallSpecies);
-        }
-
-        if (ball == Beast)
-        {
-            if (species == (int)Species.Flabébé && pk.Form == 3 && IsHiddenAndNotPossible(pk))
-                return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-            if ((species is >= (int)Species.Pikipek and <= (int)Species.Kommoo) || BallBreedLegality.AlolanCaptureOffspring.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            if (BallBreedLegality.PastGenAlolanScans.Contains(species))
-                return GetValid(LBallSpeciesPass);
-            // next statement catches all new alolans
-        }
-
-        if (species > Legal.MaxSpeciesID_7_USUM)
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8);
-
-        if (species > (int)Species.Volcanion)
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs7);
-
+        var ball = (Ball)pk.Ball;
+        var instance = BallContextHOME.Instance;
         if (ball > Beast)
             return GetInvalid(LBallUnavailable);
 
-        return NONE;
+        var enc = data.EncounterMatch;
+        var result = instance.CanBreedWithBall(enc.Species, enc.Form, ball, pk);
+        return result switch
+        {
+            BallInheritanceResult.Valid => GetValid(LBallSpeciesPass),
+            BallInheritanceResult.BadAbility => GetInvalid(LBallAbility),
+            _ => GetInvalid(LBallSpecies),
+        };
     }
 
     private CheckResult VerifyBallEggGen9(LegalityAnalysis data)
     {
         var enc = data.EncounterMatch;
         var species = enc.Species;
-        if (species == (int)Species.Phione)
-            return VerifyBallEquals(data, (int)Poke);
+        var pk = data.Entity;
+        var ball = (Ball)pk.Ball;
 
         // Paldea Starters: Only via GO (Adventures Abound)
         if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval)
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8g_WithoutRaid);
+            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs8g_WithoutRaid);
 
         // PLA Voltorb: Only via PLA (transfer only, not wild) and GO
         if (enc is { Species: (ushort)Species.Voltorb, Form: 1 })
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs8g_WithRaid);
+            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs8g_WithRaid);
 
         // S/V Tauros forms > 1: Only local Wild Balls for Blaze/Aqua breeds -- can't inherit balls from Kantonian/Combat.
         if (enc is { Species: (ushort)Species.Tauros, Form: > 1 })
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs9);
+            return VerifyBallEquals(ball, BallUseLegality.WildPokeballs9);
 
-        var pk = data.Entity;
-        if (IsPaldeaCatchAndBreed(species) && IsBallPermitted(BallUseLegality.WildPokeballs9, pk.Ball))
-            return GetValid(LBallSpeciesPass);
+        var instance = BallContextHOME.Instance;
+        if (ball > Beast)
+            return GetInvalid(LBallUnavailable);
 
-        if (species > Legal.MaxSpeciesID_8)
-            return VerifyBallEquals(data, BallUseLegality.WildPokeballs9);
-
-        return VerifyBallEggGen8(data);
-    }
-
-    private static bool IsHiddenAndNotPossible(PKM pk)
-    {
-        if (pk.AbilityNumber != 4)
-            return false;
-        var abilities = (IPersonalAbility12H)pk.PersonalInfo;
-        return !AbilityVerifier.CanAbilityPatch(pk.Format, abilities, pk.Species);
-    }
-
-    private static bool IsGalarCatchAndBreed(ushort species)
-    {
-        if (species is >= (int)Species.Grookey and <= (int)Species.Inteleon) // starter
-            return false;
-
-        // Everything breed-able that is in the Galar Dex can be captured in-game.
-        var pt = PersonalTable.SWSH;
-        var pi = pt.GetFormEntry(species, 0);
-        if (pi.IsInDex)
-            return true;
-
-        // Foreign Captures
-        if (species is >= (int)Species.Treecko and <= (int)Species.Swampert) // Dynamax Adventures
-            return true;
-        if (species is >= (int)Species.Rowlet and <= (int)Species.Primarina) // Distribution Raids
-            return true;
-
-        return false;
-    }
-
-    private static bool IsPaldeaCatchAndBreed(ushort species)
-    {
-        if (species is >= (int)Species.Sprigatito and <= (int)Species.Quaquaval) // paldea starter
-            return false;
-        if (species is >= (int)Species.Turtwig and <= (int)Species.Empoleon) // sinnoh starter
-            return false;
-        var pt = PersonalTable.SV;
-        var pi = pt.GetFormEntry(species, 0);
-        if (pi.IsPresentInGame)
-            return true;
-
-        return false;
+        var result = instance.CanBreedWithBall(enc.Species, enc.Form, ball, pk);
+        return result switch
+        {
+            BallInheritanceResult.Valid => GetValid(LBallSpeciesPass),
+            BallInheritanceResult.BadAbility => GetInvalid(LBallAbility),
+            _ => GetInvalid(LBallSpecies),
+        };
     }
 
     private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.Entity.Ball);
-    private CheckResult VerifyBallEquals(LegalityAnalysis data, ulong permit) => GetResult(IsBallPermitted(permit, data.Entity.Ball));
-
-    private static bool IsBallPermitted(ulong permit, int ball)
-    {
-        if ((uint)ball >= 64)
-            return false;
-        return (permit & (1ul << ball)) != 0;
-    }
+    private CheckResult VerifyBallEquals(Ball ball, [ConstantExpected] ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (int)ball));
 
     private CheckResult GetResult(bool valid) => valid ? GetValid(LBallEnc) : GetInvalid(LBallEncMismatch);
 }

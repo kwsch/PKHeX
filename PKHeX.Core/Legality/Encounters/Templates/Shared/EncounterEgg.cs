@@ -16,7 +16,7 @@ public sealed record EncounterEgg(ushort Species, byte Form, byte Level, int Gen
     public bool IsShiny => false;
     public int Location => 0;
     public int EggLocation => Locations.GetDaycareLocation(Generation, Version);
-    public Ball FixedBall => BallBreedLegality.GetDefaultBall(Version, Species);
+    public Ball FixedBall => Generation <= 5 ? Ball.Poke : Ball.None;
     public Shiny Shiny => Shiny.Random;
     public AbilityPermission Ability => AbilityPermission.Any12H;
 
