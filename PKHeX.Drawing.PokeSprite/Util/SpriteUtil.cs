@@ -216,7 +216,12 @@ public static class SpriteUtil
     {
         bool egg = pk.IsEgg;
         var formarg = pk is IFormArgument f ? f.FormArgument : 0;
-        baseSprite = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, 0, egg, Shiny.Never, pk.Context);
+        Shiny shiny;
+        if (pk.Context == EntityContext.Gen9)
+            shiny = !pk.IsShiny ? Shiny.Never : (ShinyExtensions.IsSquareShinyExist(pk) ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
+        else
+            shiny = Shiny.Never;
+        baseSprite = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, 0, egg, shiny, pk.Context);
         GetSpriteGlow(baseSprite, blue, green, red, out pixels, forceHollow || egg);
     }
 
