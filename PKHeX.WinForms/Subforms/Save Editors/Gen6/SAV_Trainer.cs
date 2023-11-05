@@ -136,6 +136,7 @@ public partial class SAV_Trainer : Form
 
         var sit = SAV.Situation;
         NUD_M.Value = sit.M;
+        NUD_R.Value = sit.R;
         // Sanity Check Map Coordinates
         if (!GB_Map.Enabled || sit.X % 0.5 != 0 || sit.Z % 0.5 != 0 || sit.Y % 0.5 != 0)
         {
@@ -233,6 +234,7 @@ public partial class SAV_Trainer : Form
             sit.X = (float)NUD_X.Value;
             sit.Z = (float)NUD_Z.Value;
             sit.Y = (float)NUD_Y.Value;
+            sit.R = (int)NUD_R.Value;
         }
 
         SAV.BP = ushort.Parse(TB_BP.Text);

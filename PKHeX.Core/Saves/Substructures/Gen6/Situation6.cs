@@ -14,7 +14,18 @@ public sealed class Situation6 : SaveBlock<SAV6>
         {
             var span = Data.AsSpan(Offset + 0x02);
             WriteUInt16LittleEndian(span, (ushort)value);
-            WriteUInt16LittleEndian(span[0xF4..], (ushort)value);
+            WriteUInt16LittleEndian(span[0xF2..], (ushort)value);
+        }
+    }
+
+    public int R
+    {
+        get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0x06));
+        set
+        {
+            var span = Data.AsSpan(Offset + 0x06);
+            WriteUInt16LittleEndian(span, (ushort)value);
+            WriteUInt16LittleEndian(span[0xF0..], (ushort)value);
         }
     }
 
