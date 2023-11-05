@@ -185,6 +185,8 @@ public static class EncounterServerDate
         {0506, (new(2023, 08, 10), new(2023, 08, 15))}, // Eduardo Gastrodon
         {1524, (new(2023, 09, 06), new(2024, 09, 01))}, // Glaseado Cetitan
         {0507, (new(2023, 10, 13), new(2024, 01, 01))}, // Trixie Mimikyu
+        {0031, (new(2023, 11, 01), new(2025, 02, 01))}, // PokéCenter Birthday Charcadet and Pawmi
+        {1006, (new(2023, 11, 02), new(2024, 01, 01))}, // Korea Bundle Fidough
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
