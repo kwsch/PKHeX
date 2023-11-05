@@ -27,6 +27,8 @@ public partial class SAV_Trainer8a : Form
         GetTextBoxes();
     }
 
+    private bool MapUpdated;
+
     private void GetComboBoxes()
     {
         CB_Language.InitializeBinding();
@@ -43,6 +45,17 @@ public partial class SAV_Trainer8a : Form
         trainerID1.LoadIDValues(SAV, SAV.Generation);
         MT_Money.Text = SAV.Money.ToString();
         CB_Language.SelectedValue = SAV.Language;
+
+        TB_M.Text = SAV.Coordinates.M;
+        // Sanity Check Map Coordinates
+        try
+        {
+            NUD_X.Value = (decimal)(double)SAV.Coordinates.X;
+            NUD_Z.Value = (decimal)(double)SAV.Coordinates.Z;
+            NUD_Y.Value = (decimal)(double)SAV.Coordinates.Y;
+            NUD_R.Value = (decimal)(Math.Atan2(SAV.Coordinates.RZ, SAV.Coordinates.RW) * 360.0 / Math.PI);
+        }
+        catch { GB_Map.Enabled = false; }
 
         // Load Play Time
         MT_Hours.Text = SAV.PlayedHours.ToString();
@@ -80,6 +93,20 @@ public partial class SAV_Trainer8a : Form
         SAV.Money = Util.ToUInt32(MT_Money.Text);
         SAV.Language = WinFormsUtil.GetIndex(CB_Language);
         SAV.OT = TB_OTName.Text;
+
+        // Copy Position
+        if (GB_Map.Enabled && MapUpdated)
+        {
+            SAV.Coordinates.M = TB_M.Text;
+            SAV.Coordinates.X = (float)NUD_X.Value;
+            SAV.Coordinates.Z = (float)NUD_Z.Value;
+            SAV.Coordinates.Y = (float)NUD_Y.Value;
+            var angle = (double)NUD_R.Value * Math.PI / 360.0;
+            SAV.Coordinates.RX = 0;
+            SAV.Coordinates.RZ = (float)Math.Sin(angle);
+            SAV.Coordinates.RY = 0;
+            SAV.Coordinates.RW = (float)Math.Cos(angle);
+        }
 
         // Save PlayTime
         SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
@@ -126,5 +153,10 @@ public partial class SAV_Trainer8a : Form
         MaskedTextBox box = (MaskedTextBox)sender;
         if (box.Text.Length == 0) box.Text = "0";
         if (Util.ToInt32(box.Text) > 255) box.Text = "255";
+    }
+
+    private void ChangeMapValue(object sender, EventArgs e)
+    {
+        MapUpdated = true;
     }
 }
