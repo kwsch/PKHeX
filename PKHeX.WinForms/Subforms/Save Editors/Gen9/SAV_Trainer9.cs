@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -70,9 +71,10 @@ public partial class SAV_Trainer9 : Form
     {
         try
         {
-            NUD_X.Value = (decimal)SAV.X;
-            NUD_Y.Value = (decimal)SAV.Y;
-            NUD_Z.Value = (decimal)SAV.Z;
+            NUD_X.Value = (decimal)(double)SAV.X;
+            NUD_Y.Value = (decimal)(double)SAV.Y;
+            NUD_Z.Value = (decimal)(double)SAV.Z;
+            NUD_R.Value = (decimal)(Math.Atan2(SAV.RZ, SAV.RW) * 360.0 / Math.PI);
         }
         // If we can't accurately represent the coordinates, don't allow them to be changed.
         catch { GB_Map.Enabled = false; }
@@ -116,6 +118,8 @@ public partial class SAV_Trainer9 : Form
         if (!MapUpdated)
             return;
         SAV.SetCoordinates((float)NUD_X.Value, (float)NUD_Y.Value, (float)NUD_Z.Value);
+        var angle = (double)NUD_R.Value * Math.PI / 360.0;
+        SAV.SetPlayerRotation(0, (float)Math.Sin(angle), 0, (float)Math.Cos(angle));
     }
 
     private void SaveTrainerInfo()

@@ -276,6 +276,11 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public float X { get => ReadSingleLittleEndian(Coordinates); set => WriteSingleLittleEndian(Coordinates, value); }
     public float Y { get => ReadSingleLittleEndian(Coordinates[4..]); set => WriteSingleLittleEndian(Coordinates[4..], value); }
     public float Z { get => ReadSingleLittleEndian(Coordinates[8..]); set => WriteSingleLittleEndian(Coordinates[8..], value); }
+    public Span<byte> PlayerRotation => Blocks.GetBlock(SaveBlockAccessor9SV.KPlayerRotation).Data;
+    public float RX { get => ReadSingleLittleEndian(PlayerRotation); set => WriteSingleLittleEndian(PlayerRotation, value); }
+    public float RY { get => ReadSingleLittleEndian(PlayerRotation[4..]); set => WriteSingleLittleEndian(PlayerRotation[4..], value); }
+    public float RZ { get => ReadSingleLittleEndian(PlayerRotation[8..]); set => WriteSingleLittleEndian(PlayerRotation[8..], value); }
+    public float RW { get => ReadSingleLittleEndian(PlayerRotation[12..]); set => WriteSingleLittleEndian(PlayerRotation[12..], value); }
 
     public void SetCoordinates(float x, float y, float z)
     {
@@ -286,6 +291,18 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         X = x;
         Y = y;
         Z = z;
+    }
+
+    public void SetPlayerRotation(float rx, float ry, float rz, float rw)
+    {
+        // Only set coordinates if epsilon is different enough
+        const float epsilon = 0.0001f;
+        if (Math.Abs(RX - rx) < epsilon && Math.Abs(RY - ry) < epsilon && Math.Abs(RZ - rz) < epsilon && Math.Abs(RW - rw) < epsilon)
+            return;
+        RX = rx;
+        RY = ry;
+        RZ = rz;
+        RW = rw;
     }
 
     public override int GetBoxWallpaper(int box)
