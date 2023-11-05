@@ -13,6 +13,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public Box8 BoxInfo { get; }
     public Party8 PartyInfo { get; }
     public MyItem8 Items { get; }
+    public Coordinates8 Coordinates { get; }
     public MyStatus8 MyStatus { get; }
     public Misc8 Misc { get; }
     public Zukan8 Zukan { get; }
@@ -36,6 +37,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
         BoxInfo = new Box8(sav, GetBlock(KBox));
         PartyInfo = new Party8(sav, GetBlock(KParty));
         Items = new MyItem8(sav, GetBlock(KItem));
+        Coordinates = new Coordinates8(sav, GetBlock(KCoordinates));
         Zukan = new Zukan8(sav, GetBlock(KZukan), GetBlockSafe(KZukanR1), GetBlockSafe(KZukanR2));
         MyStatus = new MyStatus8(sav, GetBlock(KMyStatus));
         Misc = new Misc8(sav, GetBlock(KMisc));

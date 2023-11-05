@@ -66,6 +66,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
     public Party8 PartyInfo => Blocks.PartyInfo;
     public MyItem8 Items => Blocks.Items;
     public MyStatus8 MyStatus => Blocks.MyStatus;
+    public Coordinates8 Coordinates => Blocks.Coordinates;
     public Misc8 Misc => Blocks.Misc;
     public Zukan8 Zukan => Blocks.Zukan;
     public BoxLayout8 BoxLayout => Blocks.BoxLayout;

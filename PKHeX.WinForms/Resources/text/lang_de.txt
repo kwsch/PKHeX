@@ -1506,6 +1506,7 @@ SAV_Trainer.L_NormalB=Normal
 SAV_Trainer.L_NormalC=Normal
 SAV_Trainer.L_Offset=(offset)
 SAV_Trainer.L_PM=Pokémeilen:
+SAV_Trainer.L_R=Rotation:
 SAV_Trainer.L_Region=Region:
 SAV_Trainer.L_RotationB=Rotation:
 SAV_Trainer.L_RotationC=Rotation:

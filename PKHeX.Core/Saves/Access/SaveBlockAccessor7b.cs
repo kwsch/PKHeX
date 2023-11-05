@@ -41,6 +41,7 @@ public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISave
         Zukan = new Zukan7b(sav, GetBlockOffset(BelugaBlockIndex.Zukan), 0x550);
         Config = new ConfigSave7b(sav, GetBlockOffset(BelugaBlockIndex.ConfigSave));
         Items = new MyItem7b(sav, GetBlockOffset(BelugaBlockIndex.MyItem));
+        Coordinates = new Coordinates7b(sav, GetBlockOffset(BelugaBlockIndex.Coordinates));
         Storage = new PokeListHeader(sav, GetBlockOffset(BelugaBlockIndex.PokeListHeader));
         Status = new MyStatus7b(sav, GetBlockOffset(BelugaBlockIndex.MyStatus));
         Played = new PlayTime7b(sav, GetBlockOffset(BelugaBlockIndex.PlayTime));
@@ -53,6 +54,7 @@ public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISave
     }
 
     public MyItem Items { get; }
+    public Coordinates7b Coordinates { get; }
     public Misc7b Misc { get; }
     public Zukan7b Zukan { get; }
     public MyStatus7b Status { get; }

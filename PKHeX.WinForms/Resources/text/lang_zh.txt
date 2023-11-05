@@ -1507,6 +1507,7 @@ SAV_Trainer.L_NormalB=普通
 SAV_Trainer.L_NormalC=普通
 SAV_Trainer.L_Offset=(偏移)
 SAV_Trainer.L_PM=宝可里程:
+SAV_Trainer.L_R=轮盘:
 SAV_Trainer.L_Region=区域:
 SAV_Trainer.L_RotationB=轮盘:
 SAV_Trainer.L_RotationC=轮盘:

@@ -138,6 +138,8 @@ namespace PKHeX.WinForms
             CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             Tab_BadgeMap = new System.Windows.Forms.TabPage();
             GB_Map = new System.Windows.Forms.GroupBox();
+            NUD_R = new System.Windows.Forms.NumericUpDown();
+            L_R = new System.Windows.Forms.Label();
             NUD_Z = new System.Windows.Forms.NumericUpDown();
             NUD_M = new System.Windows.Forms.NumericUpDown();
             NUD_Y = new System.Windows.Forms.NumericUpDown();
@@ -167,6 +169,7 @@ namespace PKHeX.WinForms
             GB_Adventure.SuspendLayout();
             Tab_BadgeMap.SuspendLayout();
             GB_Map.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_R).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Z).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_M).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Y).BeginInit();
@@ -287,7 +290,7 @@ namespace PKHeX.WinForms
             // CHK_Badge1
             // 
             CHK_Badge1.AutoSize = true;
-            CHK_Badge1.Location = new System.Drawing.Point(197, 23);
+            CHK_Badge1.Location = new System.Drawing.Point(307, 23);
             CHK_Badge1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge1.Name = "CHK_Badge1";
             CHK_Badge1.Size = new System.Drawing.Size(32, 19);
@@ -298,7 +301,7 @@ namespace PKHeX.WinForms
             // CHK_Badge2
             // 
             CHK_Badge2.AutoSize = true;
-            CHK_Badge2.Location = new System.Drawing.Point(197, 50);
+            CHK_Badge2.Location = new System.Drawing.Point(307, 50);
             CHK_Badge2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge2.Name = "CHK_Badge2";
             CHK_Badge2.Size = new System.Drawing.Size(32, 19);
@@ -309,7 +312,7 @@ namespace PKHeX.WinForms
             // CHK_Badge3
             // 
             CHK_Badge3.AutoSize = true;
-            CHK_Badge3.Location = new System.Drawing.Point(197, 76);
+            CHK_Badge3.Location = new System.Drawing.Point(307, 76);
             CHK_Badge3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge3.Name = "CHK_Badge3";
             CHK_Badge3.Size = new System.Drawing.Size(32, 19);
@@ -320,7 +323,7 @@ namespace PKHeX.WinForms
             // CHK_Badge4
             // 
             CHK_Badge4.AutoSize = true;
-            CHK_Badge4.Location = new System.Drawing.Point(197, 103);
+            CHK_Badge4.Location = new System.Drawing.Point(307, 103);
             CHK_Badge4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge4.Name = "CHK_Badge4";
             CHK_Badge4.Size = new System.Drawing.Size(32, 19);
@@ -331,7 +334,7 @@ namespace PKHeX.WinForms
             // CHK_Badge5
             // 
             CHK_Badge5.AutoSize = true;
-            CHK_Badge5.Location = new System.Drawing.Point(241, 23);
+            CHK_Badge5.Location = new System.Drawing.Point(351, 23);
             CHK_Badge5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge5.Name = "CHK_Badge5";
             CHK_Badge5.Size = new System.Drawing.Size(32, 19);
@@ -342,7 +345,7 @@ namespace PKHeX.WinForms
             // CHK_Badge7
             // 
             CHK_Badge7.AutoSize = true;
-            CHK_Badge7.Location = new System.Drawing.Point(241, 76);
+            CHK_Badge7.Location = new System.Drawing.Point(351, 76);
             CHK_Badge7.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge7.Name = "CHK_Badge7";
             CHK_Badge7.Size = new System.Drawing.Size(32, 19);
@@ -353,7 +356,7 @@ namespace PKHeX.WinForms
             // CHK_Badge8
             // 
             CHK_Badge8.AutoSize = true;
-            CHK_Badge8.Location = new System.Drawing.Point(241, 103);
+            CHK_Badge8.Location = new System.Drawing.Point(351, 103);
             CHK_Badge8.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge8.Name = "CHK_Badge8";
             CHK_Badge8.Size = new System.Drawing.Size(32, 19);
@@ -1444,6 +1447,8 @@ namespace PKHeX.WinForms
             // 
             // GB_Map
             // 
+            GB_Map.Controls.Add(NUD_R);
+            GB_Map.Controls.Add(L_R);
             GB_Map.Controls.Add(NUD_Z);
             GB_Map.Controls.Add(NUD_M);
             GB_Map.Controls.Add(NUD_Y);
@@ -1452,23 +1457,44 @@ namespace PKHeX.WinForms
             GB_Map.Controls.Add(L_CurrentMap);
             GB_Map.Controls.Add(L_Z);
             GB_Map.Controls.Add(L_X);
-            GB_Map.Location = new System.Drawing.Point(134, 136);
+            GB_Map.Location = new System.Drawing.Point(7, 7);
             GB_Map.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Map.Name = "GB_Map";
             GB_Map.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Map.Size = new System.Drawing.Size(183, 144);
+            GB_Map.Size = new System.Drawing.Size(237, 180);
             GB_Map.TabIndex = 52;
             GB_Map.TabStop = false;
             GB_Map.Text = "Map Position";
             // 
+            // NUD_R
+            // 
+            NUD_R.Location = new System.Drawing.Point(108, 138);
+            NUD_R.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_R.Maximum = new decimal(new int[] { 7, 0, 0, 0 });
+            NUD_R.Name = "NUD_R";
+            NUD_R.Size = new System.Drawing.Size(58, 23);
+            NUD_R.TabIndex = 55;
+            NUD_R.ValueChanged += ChangeMapValue;
+            // 
+            // L_R
+            // 
+            L_R.Location = new System.Drawing.Point(7, 138);
+            L_R.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_R.Name = "L_R";
+            L_R.Size = new System.Drawing.Size(93, 23);
+            L_R.TabIndex = 54;
+            L_R.Text = "Rotation:";
+            L_R.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // NUD_Z
             // 
+            NUD_Z.DecimalPlaces = 6;
             NUD_Z.Location = new System.Drawing.Point(108, 78);
             NUD_Z.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Z.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Z.Minimum = new decimal(new int[] { 65535, 0, 0, int.MinValue });
             NUD_Z.Name = "NUD_Z";
-            NUD_Z.Size = new System.Drawing.Size(58, 23);
+            NUD_Z.Size = new System.Drawing.Size(112, 23);
             NUD_Z.TabIndex = 53;
             NUD_Z.ValueChanged += ChangeMapValue;
             // 
@@ -1484,23 +1510,23 @@ namespace PKHeX.WinForms
             // 
             // NUD_Y
             // 
-            NUD_Y.DecimalPlaces = 1;
+            NUD_Y.DecimalPlaces = 6;
             NUD_Y.Location = new System.Drawing.Point(108, 108);
             NUD_Y.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Y.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Y.Name = "NUD_Y";
-            NUD_Y.Size = new System.Drawing.Size(58, 23);
+            NUD_Y.Size = new System.Drawing.Size(112, 23);
             NUD_Y.TabIndex = 51;
             NUD_Y.ValueChanged += ChangeMapValue;
             // 
             // NUD_X
             // 
-            NUD_X.DecimalPlaces = 1;
+            NUD_X.DecimalPlaces = 6;
             NUD_X.Location = new System.Drawing.Point(108, 48);
             NUD_X.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_X.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_X.Name = "NUD_X";
-            NUD_X.Size = new System.Drawing.Size(58, 23);
+            NUD_X.Size = new System.Drawing.Size(112, 23);
             NUD_X.TabIndex = 50;
             NUD_X.ValueChanged += ChangeMapValue;
             // 
@@ -1547,7 +1573,7 @@ namespace PKHeX.WinForms
             // CHK_Badge6
             // 
             CHK_Badge6.AutoSize = true;
-            CHK_Badge6.Location = new System.Drawing.Point(241, 50);
+            CHK_Badge6.Location = new System.Drawing.Point(351, 50);
             CHK_Badge6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             CHK_Badge6.Name = "CHK_Badge6";
             CHK_Badge6.Size = new System.Drawing.Size(32, 19);
@@ -1686,6 +1712,7 @@ namespace PKHeX.WinForms
             Tab_BadgeMap.ResumeLayout(false);
             Tab_BadgeMap.PerformLayout();
             GB_Map.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_R).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Z).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_M).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Y).EndInit();
@@ -1828,5 +1855,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.CheckBox CHK_MegaRayquazaUnlocked;
         private System.Windows.Forms.ToolTip Tip1;
         private System.Windows.Forms.ToolTip Tip2;
+        private System.Windows.Forms.NumericUpDown NUD_R;
+        private System.Windows.Forms.Label L_R;
     }
 }

@@ -114,6 +114,8 @@ namespace PKHeX.WinForms
             P_InitialIcon = new System.Windows.Forms.PictureBox();
             P_CurrIcon = new System.Windows.Forms.PictureBox();
             P_CurrPhoto = new System.Windows.Forms.PictureBox();
+            NUD_R = new System.Windows.Forms.NumericUpDown();
+            L_R = new System.Windows.Forms.Label();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             Tab_MiscValues.SuspendLayout();
@@ -125,6 +127,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)P_InitialIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)P_CurrIcon).BeginInit();
             ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_R).BeginInit();
             SuspendLayout();
             // 
             // B_Cancel
@@ -418,7 +421,7 @@ namespace PKHeX.WinForms
             // 
             TB_MBTN.Location = new System.Drawing.Point(0, 0);
             TB_MBTN.Name = "TB_MBTN";
-            TB_MBTN.Size = new System.Drawing.Size(100, 27);
+            TB_MBTN.Size = new System.Drawing.Size(100, 23);
             TB_MBTN.TabIndex = 0;
             // 
             // TB_MBDS
@@ -741,7 +744,7 @@ namespace PKHeX.WinForms
             // 
             // B_UnlockClothing
             // 
-            B_UnlockClothing.Location = new System.Drawing.Point(15, 151);
+            B_UnlockClothing.Location = new System.Drawing.Point(15, 182);
             B_UnlockClothing.Margin = new System.Windows.Forms.Padding(0);
             B_UnlockClothing.Name = "B_UnlockClothing";
             B_UnlockClothing.Size = new System.Drawing.Size(260, 45);
@@ -796,6 +799,8 @@ namespace PKHeX.WinForms
             // 
             // GB_Map
             // 
+            GB_Map.Controls.Add(NUD_R);
+            GB_Map.Controls.Add(L_R);
             GB_Map.Controls.Add(NUD_Z);
             GB_Map.Controls.Add(NUD_Y);
             GB_Map.Controls.Add(NUD_X);
@@ -806,7 +811,7 @@ namespace PKHeX.WinForms
             GB_Map.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             GB_Map.Name = "GB_Map";
             GB_Map.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            GB_Map.Size = new System.Drawing.Size(260, 129);
+            GB_Map.Size = new System.Drawing.Size(260, 160);
             GB_Map.TabIndex = 59;
             GB_Map.TabStop = false;
             GB_Map.Text = "Map Position";
@@ -814,13 +819,13 @@ namespace PKHeX.WinForms
             // NUD_Z
             // 
             NUD_Z.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            NUD_Z.DecimalPlaces = 5;
+            NUD_Z.DecimalPlaces = 6;
             NUD_Z.Location = new System.Drawing.Point(95, 56);
             NUD_Z.Margin = new System.Windows.Forms.Padding(0);
             NUD_Z.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             NUD_Z.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_Z.Name = "NUD_Z";
-            NUD_Z.Size = new System.Drawing.Size(148, 27);
+            NUD_Z.Size = new System.Drawing.Size(148, 23);
             NUD_Z.TabIndex = 53;
             NUD_Z.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_Z.ValueChanged += ChangeMapValue;
@@ -828,13 +833,13 @@ namespace PKHeX.WinForms
             // NUD_Y
             // 
             NUD_Y.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            NUD_Y.DecimalPlaces = 5;
+            NUD_Y.DecimalPlaces = 6;
             NUD_Y.Location = new System.Drawing.Point(95, 92);
             NUD_Y.Margin = new System.Windows.Forms.Padding(0);
             NUD_Y.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             NUD_Y.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_Y.Name = "NUD_Y";
-            NUD_Y.Size = new System.Drawing.Size(148, 27);
+            NUD_Y.Size = new System.Drawing.Size(148, 23);
             NUD_Y.TabIndex = 51;
             NUD_Y.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_Y.ValueChanged += ChangeMapValue;
@@ -842,13 +847,13 @@ namespace PKHeX.WinForms
             // NUD_X
             // 
             NUD_X.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            NUD_X.DecimalPlaces = 5;
+            NUD_X.DecimalPlaces = 6;
             NUD_X.Location = new System.Drawing.Point(95, 21);
             NUD_X.Margin = new System.Windows.Forms.Padding(0);
             NUD_X.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             NUD_X.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_X.Name = "NUD_X";
-            NUD_X.Size = new System.Drawing.Size(148, 27);
+            NUD_X.Size = new System.Drawing.Size(148, 23);
             NUD_X.TabIndex = 50;
             NUD_X.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             NUD_X.ValueChanged += ChangeMapValue;
@@ -931,6 +936,29 @@ namespace PKHeX.WinForms
             P_CurrPhoto.TabStop = false;
             P_CurrPhoto.Click += P_CurrPhoto_Click;
             // 
+            // NUD_R
+            // 
+            NUD_R.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            NUD_R.DecimalPlaces = 6;
+            NUD_R.Location = new System.Drawing.Point(95, 128);
+            NUD_R.Margin = new System.Windows.Forms.Padding(0);
+            NUD_R.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            NUD_R.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
+            NUD_R.Name = "NUD_R";
+            NUD_R.Size = new System.Drawing.Size(148, 23);
+            NUD_R.TabIndex = 55;
+            NUD_R.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_R
+            // 
+            L_R.Location = new System.Drawing.Point(-15, 125);
+            L_R.Margin = new System.Windows.Forms.Padding(0);
+            L_R.Name = "L_R";
+            L_R.Size = new System.Drawing.Size(110, 31);
+            L_R.TabIndex = 54;
+            L_R.Text = "Rotation:";
+            L_R.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_Trainer9
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -958,6 +986,7 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)P_InitialIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)P_CurrIcon).EndInit();
             ((System.ComponentModel.ISupportInitialize)P_CurrPhoto).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_R).EndInit();
             ResumeLayout(false);
         }
 
@@ -1049,5 +1078,7 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.PictureBox P_CurrIcon;
         private System.Windows.Forms.PictureBox P_CurrPhoto;
         private System.Windows.Forms.Button B_UnlockClothing;
+        private System.Windows.Forms.NumericUpDown NUD_R;
+        private System.Windows.Forms.Label L_R;
     }
 }

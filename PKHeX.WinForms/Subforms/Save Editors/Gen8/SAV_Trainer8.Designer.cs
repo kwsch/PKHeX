@@ -119,6 +119,12 @@ namespace PKHeX.WinForms
             CAL_LastSavedTime = new System.Windows.Forms.DateTimePicker();
             Tab_BadgeMap = new System.Windows.Forms.TabPage();
             GB_Map = new System.Windows.Forms.GroupBox();
+            NUD_SZ = new System.Windows.Forms.NumericUpDown();
+            NUD_SY = new System.Windows.Forms.NumericUpDown();
+            NUD_SX = new System.Windows.Forms.NumericUpDown();
+            L_SY = new System.Windows.Forms.Label();
+            L_SZ = new System.Windows.Forms.Label();
+            L_SX = new System.Windows.Forms.Label();
             NUD_R = new System.Windows.Forms.NumericUpDown();
             L_R = new System.Windows.Forms.Label();
             NUD_Z = new System.Windows.Forms.NumericUpDown();
@@ -156,6 +162,9 @@ namespace PKHeX.WinForms
             GB_Adventure.SuspendLayout();
             Tab_BadgeMap.SuspendLayout();
             GB_Map.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)NUD_SZ).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_SY).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_SX).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_R).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Z).BeginInit();
             ((System.ComponentModel.ISupportInitialize)NUD_M).BeginInit();
@@ -1017,6 +1026,12 @@ namespace PKHeX.WinForms
             // 
             // GB_Map
             // 
+            GB_Map.Controls.Add(NUD_SZ);
+            GB_Map.Controls.Add(NUD_SY);
+            GB_Map.Controls.Add(NUD_SX);
+            GB_Map.Controls.Add(L_SY);
+            GB_Map.Controls.Add(L_SZ);
+            GB_Map.Controls.Add(L_SX);
             GB_Map.Controls.Add(NUD_R);
             GB_Map.Controls.Add(L_R);
             GB_Map.Controls.Add(NUD_Z);
@@ -1027,85 +1042,154 @@ namespace PKHeX.WinForms
             GB_Map.Controls.Add(L_CurrentMap);
             GB_Map.Controls.Add(L_Z);
             GB_Map.Controls.Add(L_X);
-            GB_Map.Location = new System.Drawing.Point(138, 103);
+            GB_Map.Location = new System.Drawing.Point(7, 7);
             GB_Map.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Map.Name = "GB_Map";
             GB_Map.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Map.Size = new System.Drawing.Size(237, 180);
+            GB_Map.Size = new System.Drawing.Size(237, 270);
             GB_Map.TabIndex = 58;
             GB_Map.TabStop = false;
             GB_Map.Text = "Map Position";
             // 
+            // NUD_SZ
+            // 
+            NUD_SZ.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            NUD_SZ.DecimalPlaces = 6;
+            NUD_SZ.Location = new System.Drawing.Point(108, 168);
+            NUD_SZ.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_SZ.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            NUD_SZ.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
+            NUD_SZ.Name = "NUD_SZ";
+            NUD_SZ.Size = new System.Drawing.Size(112, 23);
+            NUD_SZ.TabIndex = 59;
+            NUD_SZ.ValueChanged += ChangeMapValue;
+            // 
+            // NUD_SY
+            // 
+            NUD_SY.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            NUD_SY.DecimalPlaces = 6;
+            NUD_SY.Location = new System.Drawing.Point(108, 198);
+            NUD_SY.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_SY.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            NUD_SY.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
+            NUD_SY.Name = "NUD_SY";
+            NUD_SY.Size = new System.Drawing.Size(112, 23);
+            NUD_SY.TabIndex = 60;
+            NUD_SY.ValueChanged += ChangeMapValue;
+            // 
+            // NUD_SX
+            // 
+            NUD_SX.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            NUD_SX.DecimalPlaces = 6;
+            NUD_SX.Location = new System.Drawing.Point(108, 138);
+            NUD_SX.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            NUD_SX.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
+            NUD_SX.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
+            NUD_SX.Name = "NUD_SX";
+            NUD_SX.Size = new System.Drawing.Size(112, 23);
+            NUD_SX.TabIndex = 58;
+            NUD_SX.ValueChanged += ChangeMapValue;
+            // 
+            // L_SY
+            // 
+            L_SY.Location = new System.Drawing.Point(7, 198);
+            L_SY.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SY.Name = "L_SY";
+            L_SY.Size = new System.Drawing.Size(93, 23);
+            L_SY.TabIndex = 52;
+            L_SY.Text = "Y Scale:";
+            L_SY.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_SZ
+            // 
+            L_SZ.Location = new System.Drawing.Point(7, 168);
+            L_SZ.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SZ.Name = "L_SZ";
+            L_SZ.Size = new System.Drawing.Size(93, 23);
+            L_SZ.TabIndex = 51;
+            L_SZ.Text = "Z Scale:";
+            L_SZ.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // L_SX
+            // 
+            L_SX.Location = new System.Drawing.Point(7, 138);
+            L_SX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            L_SX.Name = "L_SX";
+            L_SX.Size = new System.Drawing.Size(93, 23);
+            L_SX.TabIndex = 50;
+            L_SX.Text = "X Scale:";
+            L_SX.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // NUD_R
             // 
             NUD_R.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            NUD_R.DecimalPlaces = 5;
-            NUD_R.Location = new System.Drawing.Point(108, 138);
+            NUD_R.DecimalPlaces = 6;
+            NUD_R.Location = new System.Drawing.Point(108, 228);
             NUD_R.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_R.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             NUD_R.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_R.Name = "NUD_R";
             NUD_R.Size = new System.Drawing.Size(112, 23);
-            NUD_R.TabIndex = 55;
+            NUD_R.TabIndex = 61;
             NUD_R.ValueChanged += ChangeMapValue;
             // 
             // L_R
             // 
-            L_R.Location = new System.Drawing.Point(7, 138);
+            L_R.Location = new System.Drawing.Point(7, 228);
             L_R.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_R.Name = "L_R";
             L_R.Size = new System.Drawing.Size(93, 23);
-            L_R.TabIndex = 54;
+            L_R.TabIndex = 53;
             L_R.Text = "Rotation:";
             L_R.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // NUD_Z
             // 
             NUD_Z.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            NUD_Z.DecimalPlaces = 5;
+            NUD_Z.DecimalPlaces = 6;
             NUD_Z.Location = new System.Drawing.Point(108, 78);
             NUD_Z.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Z.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             NUD_Z.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_Z.Name = "NUD_Z";
             NUD_Z.Size = new System.Drawing.Size(112, 23);
-            NUD_Z.TabIndex = 53;
+            NUD_Z.TabIndex = 56;
             NUD_Z.ValueChanged += ChangeMapValue;
             // 
             // NUD_M
             // 
             NUD_M.Location = new System.Drawing.Point(108, 18);
             NUD_M.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            NUD_M.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            NUD_M.Maximum = new decimal(new int[] { -1, -1, 0, 0 });
             NUD_M.Name = "NUD_M";
-            NUD_M.Size = new System.Drawing.Size(58, 23);
-            NUD_M.TabIndex = 52;
+            NUD_M.Size = new System.Drawing.Size(112, 23);
+            NUD_M.TabIndex = 54;
             NUD_M.ValueChanged += ChangeMapValue;
             // 
             // NUD_Y
             // 
             NUD_Y.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            NUD_Y.DecimalPlaces = 5;
+            NUD_Y.DecimalPlaces = 6;
             NUD_Y.Location = new System.Drawing.Point(108, 108);
             NUD_Y.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Y.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             NUD_Y.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_Y.Name = "NUD_Y";
             NUD_Y.Size = new System.Drawing.Size(112, 23);
-            NUD_Y.TabIndex = 51;
+            NUD_Y.TabIndex = 57;
             NUD_Y.ValueChanged += ChangeMapValue;
             // 
             // NUD_X
             // 
             NUD_X.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            NUD_X.DecimalPlaces = 5;
+            NUD_X.DecimalPlaces = 6;
             NUD_X.Location = new System.Drawing.Point(108, 48);
             NUD_X.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_X.Maximum = new decimal(new int[] { 99999999, 0, 0, 0 });
             NUD_X.Minimum = new decimal(new int[] { 99999999, 0, 0, int.MinValue });
             NUD_X.Name = "NUD_X";
             NUD_X.Size = new System.Drawing.Size(112, 23);
-            NUD_X.TabIndex = 50;
+            NUD_X.TabIndex = 55;
             NUD_X.ValueChanged += ChangeMapValue;
             // 
             // L_Y
@@ -1400,6 +1484,9 @@ namespace PKHeX.WinForms
             GB_Adventure.PerformLayout();
             Tab_BadgeMap.ResumeLayout(false);
             GB_Map.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)NUD_SZ).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_SY).EndInit();
+            ((System.ComponentModel.ISupportInitialize)NUD_SX).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_R).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_Z).EndInit();
             ((System.ComponentModel.ISupportInitialize)NUD_M).EndInit();
@@ -1538,5 +1625,11 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_CopyFromPartyToTrainerCard;
         private System.Windows.Forms.Button B_CopyFromPartyToTitleScreen;
         private System.Windows.Forms.Button B_CollectDiglett;
+        private System.Windows.Forms.NumericUpDown NUD_SZ;
+        private System.Windows.Forms.NumericUpDown NUD_SY;
+        private System.Windows.Forms.NumericUpDown NUD_SX;
+        private System.Windows.Forms.Label L_SY;
+        private System.Windows.Forms.Label L_SZ;
+        private System.Windows.Forms.Label L_SX;
     }
 }

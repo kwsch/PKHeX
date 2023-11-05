@@ -51,6 +51,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
 
     // Save Block accessors
     public MyItem Items => Blocks.Items;
+    public Coordinates7b Coordinates => Blocks.Coordinates;
     public Misc7b Misc => Blocks.Misc;
     public Zukan7b Zukan => Blocks.Zukan;
     public MyStatus7b Status => Blocks.Status;

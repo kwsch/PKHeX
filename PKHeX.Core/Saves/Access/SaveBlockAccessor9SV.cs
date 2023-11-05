@@ -105,7 +105,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
 
     // PlayerSave
     public const uint KCoordinates = 0x708D1511; // PlayerSave_StartPosition
-    private const uint KPlayerRotation = 0x31EF132C; // PlayerSave_StartRotation
+    public const uint KPlayerRotation = 0x31EF132C; // PlayerSave_StartRotation
     private const uint KPlayerIsInField = 0x32645CB7; // PlayerSave_IsInField
     private const uint KPlayerLastSubField = 0x37AF0454; // PlayerSave_LastSubField
     private const uint KPlayerLastRoomMapName = 0x9F1ABF26; // PlayerSave_LastRoomMapName
