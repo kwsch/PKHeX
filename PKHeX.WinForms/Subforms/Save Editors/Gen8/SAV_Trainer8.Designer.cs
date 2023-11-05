@@ -1062,6 +1062,7 @@ namespace PKHeX.WinForms
             NUD_SZ.Name = "NUD_SZ";
             NUD_SZ.Size = new System.Drawing.Size(112, 23);
             NUD_SZ.TabIndex = 59;
+            NUD_SZ.ValueChanged += ChangeMapValue;
             // 
             // NUD_SY
             // 
@@ -1074,6 +1075,7 @@ namespace PKHeX.WinForms
             NUD_SY.Name = "NUD_SY";
             NUD_SY.Size = new System.Drawing.Size(112, 23);
             NUD_SY.TabIndex = 60;
+            NUD_SY.ValueChanged += ChangeMapValue;
             // 
             // NUD_SX
             // 
@@ -1086,6 +1088,7 @@ namespace PKHeX.WinForms
             NUD_SX.Name = "NUD_SX";
             NUD_SX.Size = new System.Drawing.Size(112, 23);
             NUD_SX.TabIndex = 58;
+            NUD_SX.ValueChanged += ChangeMapValue;
             // 
             // L_SY
             // 
