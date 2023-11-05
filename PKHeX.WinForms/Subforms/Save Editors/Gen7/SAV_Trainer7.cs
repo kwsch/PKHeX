@@ -126,9 +126,9 @@ public partial class SAV_Trainer7 : Form
         // Sanity Check Map Coordinates
         try
         {
-            NUD_X.Value = (decimal)(double)SAV.Situation.X;
-            NUD_Z.Value = (decimal)(double)SAV.Situation.Z;
-            NUD_Y.Value = (decimal)(double)SAV.Situation.Y;
+            NUD_X.Value = (decimal)(SAV.Situation.X / 60.0);
+            NUD_Z.Value = (decimal)(SAV.Situation.Z / 60.0);
+            NUD_Y.Value = (decimal)(SAV.Situation.Y / 60.0);
             NUD_R.Value = (decimal)(Math.Atan2(SAV.Situation.RZ, SAV.Situation.RW) * 360.0 / Math.PI);
         }
         catch { GB_Map.Enabled = false; }
@@ -339,11 +339,13 @@ public partial class SAV_Trainer7 : Form
         if (GB_Map.Enabled && MapUpdated)
         {
             SAV.Situation.M = (int)NUD_M.Value;
-            SAV.Situation.X = (float)NUD_X.Value;
-            SAV.Situation.Z = (float)NUD_Z.Value;
-            SAV.Situation.Y = (float)NUD_Y.Value;
+            SAV.Situation.X = (float)(NUD_X.Value * 60);
+            SAV.Situation.Z = (float)(NUD_Z.Value * 60);
+            SAV.Situation.Y = (float)(NUD_Y.Value * 60);
             var angle = (double)NUD_R.Value * Math.PI / 360.0;
+            SAV.Situation.RX = 0;
             SAV.Situation.RZ = (float)Math.Sin(angle);
+            SAV.Situation.RY = 0;
             SAV.Situation.RW = (float)Math.Cos(angle);
             SAV.Situation.UpdateOverworldCoordinates();
         }

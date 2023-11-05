@@ -140,9 +140,9 @@ public partial class SAV_Trainer : Form
         // Sanity Check Map Coordinates
         try
         {
-            NUD_X.Value = (decimal)(double)sit.X;
-            NUD_Z.Value = (decimal)(double)sit.Z;
-            NUD_Y.Value = (decimal)(double)sit.Y;
+            NUD_X.Value = (decimal)(sit.X / 18.0);
+            NUD_Z.Value = (decimal)(sit.Z / 18.0);
+            NUD_Y.Value = (decimal)(sit.Y / 18.0);
         }
         catch { GB_Map.Enabled = false; }
 
@@ -223,9 +223,9 @@ public partial class SAV_Trainer : Form
         if (GB_Map.Enabled && MapUpdated)
         {
             sit.M = (int)NUD_M.Value;
-            sit.X = (float)NUD_X.Value;
-            sit.Z = (float)NUD_Z.Value;
-            sit.Y = (float)NUD_Y.Value;
+            sit.X = (float)(NUD_X.Value * 18);
+            sit.Z = (float)(NUD_Z.Value * 18);
+            sit.Y = (float)(NUD_Y.Value * 18);
             sit.R = (int)NUD_R.Value;
         }
 

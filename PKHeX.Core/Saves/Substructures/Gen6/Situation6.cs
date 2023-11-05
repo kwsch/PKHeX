@@ -31,34 +31,34 @@ public sealed class Situation6 : SaveBlock<SAV6>
 
     public float X
     {
-        get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x10)) / 18;
+        get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x10));
         set
         {
             var span = Data.AsSpan(Offset + 0x10);
-            WriteSingleLittleEndian(span, value * 18);
-            WriteSingleLittleEndian(span[0xF4..], value * 18);
+            WriteSingleLittleEndian(span, value);
+            WriteSingleLittleEndian(span[0xF4..], value);
         }
     }
 
     public float Z
     {
-        get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14)) / 18;
+        get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14));
         set
         {
             var span = Data.AsSpan(Offset + 0x14);
-            WriteSingleLittleEndian(span, value * 18);
-            WriteSingleLittleEndian(span[0xF4..], value * 18);
+            WriteSingleLittleEndian(span, value);
+            WriteSingleLittleEndian(span[0xF4..], value);
         }
     }
 
     public float Y
     {
-        get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x18)) / 18;
+        get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x18));
         set
         {
             var span = Data.AsSpan(Offset + 0x18);
-            WriteSingleLittleEndian(span, value * 18);
-            WriteSingleLittleEndian(span[0xF4..], value * 18);
+            WriteSingleLittleEndian(span, value);
+            WriteSingleLittleEndian(span[0xF4..], value);
         }
     }
 
