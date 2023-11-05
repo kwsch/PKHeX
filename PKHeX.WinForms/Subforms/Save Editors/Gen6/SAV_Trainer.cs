@@ -138,21 +138,13 @@ public partial class SAV_Trainer : Form
         NUD_M.Value = sit.M;
         NUD_R.Value = sit.R;
         // Sanity Check Map Coordinates
-        if (!GB_Map.Enabled || sit.X % 0.5 != 0 || sit.Z % 0.5 != 0 || sit.Y % 0.5 != 0)
+        try
         {
-            GB_Map.Enabled = false;
+            NUD_X.Value = (decimal)(double)sit.X;
+            NUD_Z.Value = (decimal)(double)sit.Z;
+            NUD_Y.Value = (decimal)(double)sit.Y;
         }
-        else
-        {
-            try
-            {
-                NUD_X.Value = (decimal)sit.X;
-                NUD_Z.Value = (decimal)sit.Z;
-                NUD_Y.Value = (decimal)sit.Y;
-            }
-            // If we can't accurately represent the coordinates, don't allow them to be changed.
-            catch { GB_Map.Enabled = false; }
-        }
+        catch { GB_Map.Enabled = false; }
 
         // Load BP and PokeMiles
         TB_BP.Text = SAV.BP.ToString();

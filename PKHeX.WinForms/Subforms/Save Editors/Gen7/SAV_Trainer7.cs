@@ -126,12 +126,11 @@ public partial class SAV_Trainer7 : Form
         // Sanity Check Map Coordinates
         try
         {
-            NUD_X.Value = (decimal)SAV.Situation.X;
-            NUD_Z.Value = (decimal)SAV.Situation.Z;
-            NUD_Y.Value = (decimal)SAV.Situation.Y;
+            NUD_X.Value = (decimal)(double)SAV.Situation.X;
+            NUD_Z.Value = (decimal)(double)SAV.Situation.Z;
+            NUD_Y.Value = (decimal)(double)SAV.Situation.Y;
             NUD_R.Value = (decimal)(Math.Atan2(SAV.Situation.RZ, SAV.Situation.RW) * 360.0 / Math.PI);
         }
-        // Sometimes the coordinates aren't really decimal/float coordinates?
         catch { GB_Map.Enabled = false; }
 
         // Load Play Time

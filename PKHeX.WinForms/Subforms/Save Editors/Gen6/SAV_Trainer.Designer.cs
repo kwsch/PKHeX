@@ -1488,12 +1488,13 @@ namespace PKHeX.WinForms
             // 
             // NUD_Z
             // 
+            NUD_Z.DecimalPlaces = 6;
             NUD_Z.Location = new System.Drawing.Point(108, 78);
             NUD_Z.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Z.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Z.Minimum = new decimal(new int[] { 65535, 0, 0, int.MinValue });
             NUD_Z.Name = "NUD_Z";
-            NUD_Z.Size = new System.Drawing.Size(58, 23);
+            NUD_Z.Size = new System.Drawing.Size(112, 23);
             NUD_Z.TabIndex = 53;
             NUD_Z.ValueChanged += ChangeMapValue;
             // 
@@ -1509,23 +1510,23 @@ namespace PKHeX.WinForms
             // 
             // NUD_Y
             // 
-            NUD_Y.DecimalPlaces = 1;
+            NUD_Y.DecimalPlaces = 6;
             NUD_Y.Location = new System.Drawing.Point(108, 108);
             NUD_Y.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Y.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_Y.Name = "NUD_Y";
-            NUD_Y.Size = new System.Drawing.Size(58, 23);
+            NUD_Y.Size = new System.Drawing.Size(112, 23);
             NUD_Y.TabIndex = 51;
             NUD_Y.ValueChanged += ChangeMapValue;
             // 
             // NUD_X
             // 
-            NUD_X.DecimalPlaces = 1;
+            NUD_X.DecimalPlaces = 6;
             NUD_X.Location = new System.Drawing.Point(108, 48);
             NUD_X.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_X.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
             NUD_X.Name = "NUD_X";
-            NUD_X.Size = new System.Drawing.Size(58, 23);
+            NUD_X.Size = new System.Drawing.Size(112, 23);
             NUD_X.TabIndex = 50;
             NUD_X.ValueChanged += ChangeMapValue;
             // 
