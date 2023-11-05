@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -8,147 +8,73 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class AbilityBreedLegality
 {
+    private static ReadOnlySpan<byte> BanHidden5 => new byte[]
+    {
+        0x92, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02,
+        0x10, 0x10, 0x20, 0x00, 0x01, 0x11, 0x02, 0x00, 0x49, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x10, 0x00, 0x90, 0x04,
+        0x00, 0x00, 0x80, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x86, 0x80,
+        0x49, 0x00, 0x40, 0x00, 0x48, 0x02, 0x00, 0x00, 0x10, 0x00, 0x12,
+        0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x82, 0x24, 0x80, 0x0A, 0x00,
+        0x00, 0x0C, 0x00, 0x00, 0x44, 0x44, 0x00, 0x00, 0xA0, 0x84, 0x80,
+        0x40, 0x08, 0x12,
+    };
+
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen5"/>
     /// </summary>
-    internal static readonly HashSet<ushort> BanHidden5 = new()
+    public static bool IsHiddenPossible5(ushort species)
     {
-        // Only males distributed; unable to pass to offspring
-        (int)Bulbasaur, (int)Charmander, (int)Squirtle,
-        (int)Tauros,
-        (int)Chikorita, (int)Cyndaquil, (int)Totodile,
-        (int)Tyrogue,
-        (int)Treecko, (int)Torchic, (int)Mudkip,
-        (int)Turtwig, (int)Chimchar, (int)Piplup,
-        (int)Pansage, (int)Pansear, (int)Panpour,
-        (int)Gothita,
-
-        // Genderless; unable to pass to offspring
-        (int)Magnemite,
-        (int)Voltorb,
-        (int)Staryu,
-        (int)Ditto,
-        (int)Porygon,
-        (int)Beldum,
-        (int)Bronzor,
-        (int)Golett,
-
-        // Not available at all
-        (int)Gastly,
-        (int)Koffing,
-        (int)Misdreavus,
-        (int)Unown,
-        (int)Slakoth,
-        (int)Plusle,
-        (int)Plusle,
-        (int)Lunatone,
-        (int)Solrock,
-        (int)Baltoy,
-        (int)Castform,
-        (int)Kecleon,
-        (int)Duskull,
-        (int)Chimecho,
-        (int)Cherubi,
-        (int)Chingling,
-        (int)Rotom,
-        (int)Phione,
-        (int)Snivy, (int)Tepig, (int)Oshawott,
-        (int)Throh, (int)Sawk,
-        (int)Yamask,
-        (int)Archen,
-        (int)Zorua,
-        (int)Ferroseed,
-        (int)Klink,
-        (int)Tynamo,
-        (int)Litwick,
-        (int)Cryogonal,
-        (int)Rufflet,
-        (int)Deino,
-        (int)Larvesta,
-    };
+        var index = species >> 3;
+        var table = BanHidden5;
+        if (index >= table.Length)
+            return true;
+        return (BanHidden5[index] & (1 << (species & 7))) == 0;
+    }
 
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen6"/>
     /// </summary>
-    internal static readonly HashSet<ushort> BanHidden6 = new()
+    public static bool IsHiddenPossible6(ushort species, byte form) => species switch
     {
-        // Not available at Friend Safari or Horde Encounter
-        (int)Flabébé + (2 << 11), // Orange
-        (int)Flabébé + (4 << 11), // White
-
-        // Super Size can be obtained as a Pumpkaboo from event distributions
-        (int)Pumpkaboo + (1 << 11), // Small
-        (int)Pumpkaboo + (2 << 11), // Large
-
         // Same abilities (1/2/H), not available as H
-        (int)Honedge,
-        (int)Carnivine,
-        (int)Cryogonal,
-        (int)Archen,
-        (int)Rotom,
-        (int)Rotom + (1 << 11),
-        (int)Rotom + (2 << 11),
-        (int)Rotom + (3 << 11),
-        (int)Rotom + (4 << 11),
-        (int)Rotom + (5 << 11),
+        (int)Castform => false,
+        (int)Carnivine => false,
+        (int)Rotom => false,
+        (int)Phione => false,
+        (int)Archen => false,
+        (int)Cryogonal => false,
 
-        (int)Castform,
-        (int)Furfrou,
-        (int)Furfrou + (1 << 11),
-        (int)Furfrou + (2 << 11),
-        (int)Furfrou + (3 << 11),
-        (int)Furfrou + (4 << 11),
-        (int)Furfrou + (5 << 11),
-        (int)Furfrou + (6 << 11),
-        (int)Furfrou + (7 << 11),
-        (int)Furfrou + (8 << 11),
-        (int)Furfrou + (9 << 11),
+        (int)Flabébé => form is not (2 or 4), // Orange or White - not available in Friend Safari or Horde
+        (int)Honedge => false,
+        (int)Furfrou => false,
+        (int)Pumpkaboo => form is not (1 or 2), // Previous-Gen: Size & Ability inherit from mother
+
+        _ => true,
     };
 
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.Gen7"/>
     /// </summary>
-    internal static readonly HashSet<ushort> BanHidden7 = new()
+    public static bool IsHiddenPossible7(ushort species, byte form) => species switch
     {
-        // SOS slots have 0 call rate
-        (int)Wimpod,
-        (int)Golisopod,
-        (int)Komala,
-
-        // No Encounter
-        (int)Minior + (07 << 11),
-        (int)Minior + (08 << 11),
-        (int)Minior + (09 << 11),
-        (int)Minior + (10 << 11),
-        (int)Minior + (11 << 11),
-        (int)Minior + (12 << 11),
-        (int)Minior + (13 << 11),
-
-        // Previous-Gen
-        (int)Pumpkaboo + (1 << 11), // Small
-        (int)Pumpkaboo + (2 << 11), // Large
-
         // Same abilities (1/2/H), not available as H
-        (int)Honedge,
-        (int)Doublade,
-        (int)Aegislash,
-        (int)Carnivine,
-        (int)Cryogonal,
-        (int)Archen,
-        (int)Archeops,
-        (int)Rotom,
-        (int)Rotom + (1 << 11),
-        (int)Rotom + (2 << 11),
-        (int)Rotom + (3 << 11),
-        (int)Rotom + (4 << 11),
-        (int)Rotom + (5 << 11),
+        (int)Carnivine => false,
+        (int)Rotom => false,
+        (int)Phione => false,
+        (int)Archen => false,
+        (int)Cryogonal => false,
+        (int)Honedge => false,
+        (int)Pumpkaboo => form is not (1 or 2), // Previous-Gen: Size & Ability inherit from mother
+
+        (int)Minior => false, // No SOS Encounter
+        (int)Wimpod => false, // SOS slots have 0 call rate
+        (int)Komala => false, // SOS slots have 0 call rate
+        _ => true,
     };
 
     /// <summary>
     /// Species that cannot be bred with a Hidden Ability originating in <see cref="GameVersion.BDSP"/>
     /// </summary>
-    internal static readonly HashSet<ushort> BanHidden8b = new()
-    {
-        (int)Phione,
-    };
+    public static bool IsHiddenPossibleHOME(ushort eggSpecies) => eggSpecies is not (int)Phione; // Everything else can!
 }

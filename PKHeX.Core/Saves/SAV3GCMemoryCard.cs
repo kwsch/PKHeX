@@ -321,9 +321,14 @@ public sealed class SAV3GCMemoryCard
         int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (EntrySelected * DENTRY_SIZE);
         string GameCode = EncodingType.GetString(Data, offset, 4);
         string Makercode = EncodingType.GetString(Data, offset + 0x04, 2);
-        string FileName = EncodingType.GetString(Data, offset + 0x08, DENTRY_STRLEN);
 
-        return $"{Makercode}-{GameCode}-{Util.TrimFromZero(FileName)}.gci";
+        Span<char> FileName = stackalloc char[DENTRY_STRLEN];
+        EncodingType.GetString(Data.AsSpan(offset + 0x08, DENTRY_STRLEN));
+        var zero = FileName.IndexOf('\0');
+        if (zero >= 0)
+            FileName = FileName[..zero];
+
+        return $"{Makercode}-{GameCode}-{FileName}.gci";
     }
 
     public ReadOnlyMemory<byte> ReadSaveGameData()

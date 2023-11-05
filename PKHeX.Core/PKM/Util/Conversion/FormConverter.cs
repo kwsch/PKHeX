@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.Species;
 using static PKHeX.Core.EntityContext;
 
@@ -907,11 +908,26 @@ public static class FormConverter
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 
+    private const byte AlcremieCountDecoration = 7;
+    private const byte AlcremieCountForms = 9;
+    private const byte AlcremieCountDifferent = AlcremieCountDecoration * AlcremieCountForms;
+
+    /// <summary>
+    /// Used to enumerate the possible combinations of Alcremie forms and decorations.
+    /// </summary>
+    /// <param name="forms">Form names</param>
+    /// <remarks>
+    /// Used for Pokédex display listings.
+    /// </remarks>>
     public static string[] GetAlcremieFormList(IReadOnlyList<string> forms)
     {
-        const int deco = 7;
-        const byte fc = 9;
-        var result = new string[deco * fc]; // 63
+        var result = new string[AlcremieCountDifferent]; // 63
+        SetAlcremieFormList(forms, result);
+        return result;
+    }
+
+    private static void SetAlcremieFormList(IReadOnlyList<string> forms, Span<string> result)
+    {
         SetDecorations(result, 0, forms[(int)Alcremie]); // Vanilla Cream
         SetDecorations(result, 1, forms[RubyCream]);
         SetDecorations(result, 2, forms[MatchaCream]);
@@ -922,12 +938,12 @@ public static class FormConverter
         SetDecorations(result, 7, forms[CaramelSwirl]);
         SetDecorations(result, 8, forms[RainbowSwirl]);
 
-        return result;
+        return;
 
-        static void SetDecorations(string[] result, int f, string baseName)
+        static void SetDecorations(Span<string> result, [ConstantExpected] byte f, string baseName)
         {
-            int start = f * deco;
-            var slice = result.AsSpan(start, deco);
+            int start = f * AlcremieCountDecoration;
+            var slice = result.Slice(start, AlcremieCountDecoration);
             for (int i = 0; i < slice.Length; i++)
                 slice[i] = $"{baseName} ({(AlcremieDecoration)i})";
         }

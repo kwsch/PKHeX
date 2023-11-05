@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 
 namespace PKHeX.Drawing.Misc;
@@ -11,7 +11,7 @@ public static class QRImageUtil
         var foreground = new Bitmap(preview.Width + 4, preview.Height + 4);
         using (Graphics gfx = Graphics.FromImage(foreground))
         {
-            gfx.FillRectangle(new SolidBrush(Color.White), 0, 0, foreground.Width, foreground.Height);
+            gfx.FillRectangle(Brushes.White, 0, 0, foreground.Width, foreground.Height);
             int x = (foreground.Width / 2) - (preview.Width / 2);
             int y = (foreground.Height / 2) - (preview.Height / 2);
             gfx.DrawImage(preview, x, y);
@@ -25,17 +25,17 @@ public static class QRImageUtil
         }
     }
 
-    public static Bitmap GetQRImageExtended(Font font, Image qr, Image pk, int width, int height, string[] lines, string extraText)
+    public static Bitmap GetQRImageExtended(Font font, Image qr, Image pk, int width, int height, ReadOnlySpan<string> lines, string extraText)
     {
         var pic = GetQRImage(qr, pk);
         return ExtendImage(font, qr, width, height, pic, lines, extraText);
     }
 
-    private static Bitmap ExtendImage(Font font, Image qr, int width, int height, Image pic, string[] lines, string extraText)
+    private static Bitmap ExtendImage(Font font, Image qr, int width, int height, Image pic, ReadOnlySpan<string> lines, string extraText)
     {
         var newpic = new Bitmap(width, height);
         using Graphics g = Graphics.FromImage(newpic);
-        g.FillRectangle(new SolidBrush(Color.White), 0, 0, newpic.Width, newpic.Height);
+        g.FillRectangle(Brushes.White, 0, 0, newpic.Width, newpic.Height);
         g.DrawImage(pic, 0, 0);
 
         g.DrawString(GetLine(lines, 0), font, Brushes.Black, new PointF(18, qr.Height - 5));
@@ -46,5 +46,5 @@ public static class QRImageUtil
         return newpic;
     }
 
-    private static string GetLine(string[] lines, int line) => lines.Length <= line ? string.Empty : lines[line];
+    private static string GetLine(ReadOnlySpan<string> lines, int line) => lines.Length <= line ? string.Empty : lines[line];
 }

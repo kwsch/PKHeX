@@ -134,7 +134,7 @@ public partial class SAV_PokedexGG : Form
             return false;
         }
 
-        // sanity check forms -- SM does not have totem form dex bits
+        // sanity check forms -- GG does not have totem form dex bits
         int count = SAV.Personal[bspecies].FormCount;
         if (count < ds.Count)
             ds.RemoveAt(count); // remove last

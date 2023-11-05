@@ -3,7 +3,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Hardware console types.
 /// </summary>
-/// <remarks>Related to <see cref="EntityContext"/>; no need to specify side-game consoles like the N64 as they're tied to the mainline console.</remarks>
+/// <remarks>
+/// Related to <see cref="EntityContext"/>; no need to specify side-game consoles like the N64 as they're tied to the mainline console.
+/// Console revisions (like GameBoy Color) or 3DS-XL are not included, again, only care about console limitations that run the games.
+/// </remarks>
 public enum GameConsole : byte
 {
     /// <summary> Invalid console type. </summary>

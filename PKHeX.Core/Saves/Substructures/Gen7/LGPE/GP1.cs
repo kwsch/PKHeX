@@ -51,8 +51,18 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
 
     public static void InitializeBlank(Span<byte> data) => Blank20.CopyTo(data);
 
-    public string Username1 => Util.TrimFromZero(Encoding.ASCII.GetString(Data.AsSpan(0x00, 0x10)));
-    public string Username2 => Util.TrimFromZero(Encoding.ASCII.GetString(Data.AsSpan(0x10, 0x10)));
+    private static ReadOnlySpan<byte> GetLength(ReadOnlySpan<byte> buffer)
+    {
+        var length = buffer.IndexOf((byte)0);
+        if (length == -1)
+            return buffer;
+        return buffer[..length];
+    }
+
+    private static string GetString(ReadOnlySpan<byte> buffer) => Encoding.ASCII.GetString(GetLength(buffer));
+
+    public string Username1 => GetString(Data.AsSpan(0x00, 0x10));
+    public string Username2 => GetString(Data.AsSpan(0x10, 0x10));
 
     public ushort Species => ReadUInt16LittleEndian(Data.AsSpan(0x28)); // s32, just read as u16
     public int CP => ReadInt32LittleEndian(Data.AsSpan(0x2C));
@@ -104,9 +114,9 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     public int Move1 => ReadInt32LittleEndian(Data.AsSpan(0x74)); // uses Go Indexes
     public int Move2 => ReadInt32LittleEndian(Data.AsSpan(0x78)); // uses Go Indexes
 
-    public string GeoCityName => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x7C, 0x60)); // dunno length
+    public string GeoCityName => GetString(Data.AsSpan(0x7C, 0x60)); // dunno length
 
-    public string Nickname => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x12D, 0x20)); // dunno length
+    public string Nickname => GetString(Data.AsSpan(0x12D, 0x20)); // dunno length
 
     public static readonly IReadOnlyList<string> Genders = GameInfo.GenderSymbolASCII;
     public string GenderString => (uint) Gender >= Genders.Count ? string.Empty : Genders[Gender];

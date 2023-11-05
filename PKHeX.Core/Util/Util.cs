@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
@@ -141,10 +140,22 @@ public static partial class Util
 
     private const string HexChars = "0123456789ABCDEF";
 
+    /// <summary>
+    /// Converts the byte array into a hex string (non-spaced, bytes in reverse order).
+    /// </summary>
     public static string GetHexStringFromBytes(ReadOnlySpan<byte> data)
     {
         System.Diagnostics.Debug.Assert(data.Length is (4 or 8 or 12 or 16));
         Span<char> result = stackalloc char[data.Length * 2];
+        GetHexStringFromBytes(data, result);
+        return new string(result);
+    }
+
+    /// <inheritdoc cref="GetHexStringFromBytes(ReadOnlySpan{byte})"/>
+    public static void GetHexStringFromBytes(ReadOnlySpan<byte> data, Span<char> result)
+    {
+        if (result.Length != data.Length * 2)
+            throw new ArgumentException("Result buffer must be twice the size of the input buffer.");
         for (int i = 0; i < data.Length; i++)
         {
             // Write tuples from the opposite side of the result buffer.
@@ -152,7 +163,6 @@ public static partial class Util
             result[offset + 0] = HexChars[data[i] >> 4];
             result[offset + 1] = HexChars[data[i] & 0xF];
         }
-        return new string(result);
     }
 
     /// <summary>
@@ -164,14 +174,21 @@ public static partial class Util
         if (str.IsWhiteSpace())
             return string.Empty;
 
-        int ctr = 0;
         Span<char> result = stackalloc char[str.Length];
+        int ctr = GetOnlyHex(str, ref result);
+        return new string(result[..ctr]);
+    }
+
+    /// <inheritdoc cref="GetOnlyHex(ReadOnlySpan{char})"/>
+    public static int GetOnlyHex(ReadOnlySpan<char> str, ref Span<char> result)
+    {
+        int ctr = 0;
         foreach (var c in str)
         {
             if (char.IsAsciiHexDigit(c))
                 result[ctr++] = c;
         }
-        return new string(result[..ctr]);
+        return ctr;
     }
 
     /// <summary>
@@ -184,6 +201,13 @@ public static partial class Util
             return string.Empty;
 
         Span<char> result = stackalloc char[span.Length];
+        ToTitleCase(span, result);
+        return new string(result);
+    }
+
+    /// <inheritdoc cref="ToTitleCase(ReadOnlySpan{char})"/>
+    public static void ToTitleCase(ReadOnlySpan<char> span, Span<char> result)
+    {
         // Add each word to the string builder. Continue from the first index that isn't a space.
         // Add the first character as uppercase, then add each successive character as lowercase.
         bool first = true;
@@ -205,7 +229,6 @@ public static partial class Util
             }
             result[i] = c;
         }
-        return new string(result);
     }
 
     /// <summary>
@@ -213,12 +236,15 @@ public static partial class Util
     /// </summary>
     /// <param name="input">String to trim.</param>
     /// <returns>Trimmed string.</returns>
-    public static string TrimFromZero(string input) => TrimFromFirst(input, '\0');
+    public static ReadOnlySpan<char> TrimFromZero(ReadOnlySpan<char> input) => TrimFromFirst(input, '\0');
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string TrimFromFirst(string input, char c)
+    private static ReadOnlySpan<char> TrimFromFirst(ReadOnlySpan<char> input, char c)
     {
         int index = input.IndexOf(c);
         return index < 0 ? input : input[..index];
     }
+
+    /// <inheritdoc cref="TrimFromZero(ReadOnlySpan{char})"/>
+    public static string TrimFromZero(string input) => TrimFromZero(input.AsSpan()).ToString();
 }

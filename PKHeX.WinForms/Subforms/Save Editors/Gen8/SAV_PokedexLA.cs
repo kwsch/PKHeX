@@ -167,8 +167,8 @@ public partial class SAV_PokedexLA : Form
         if (!hasForms)
             return false;
 
-        var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context).ToList();
-        if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
+        var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Context);
+        if (ds.Length == 1 && string.IsNullOrEmpty(ds[0]))
         {
             // empty
             LB_Forms.Enabled = CB_DisplayForm.Enabled = false;

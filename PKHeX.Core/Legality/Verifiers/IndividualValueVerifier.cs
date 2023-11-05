@@ -14,9 +14,8 @@ public sealed class IndividualValueVerifier : Verifier
     {
         switch (data.EncounterMatch)
         {
-            case EncounterSlot7GO:
-            case EncounterSlot8GO:
-                VerifyIVsGoTransfer(data);
+            case IPogoSlot s:
+                VerifyIVsGoTransfer(data, s);
                 break;
             case IFlawlessIVCount s:
                 VerifyIVsFlawless(data, s);
@@ -83,9 +82,9 @@ public sealed class IndividualValueVerifier : Verifier
             data.AddLine(GetInvalid(string.Format(LIVF_COUNT0_31, count)));
     }
 
-    private void VerifyIVsGoTransfer(LegalityAnalysis data)
+    private void VerifyIVsGoTransfer(LegalityAnalysis data, IPogoSlot g)
     {
-        if (data.EncounterMatch is IPogoSlot g && !g.GetIVsValid(data.Entity))
+        if (!g.GetIVsValid(data.Entity))
             data.AddLine(GetInvalid(LIVNotCorrect));
     }
 }

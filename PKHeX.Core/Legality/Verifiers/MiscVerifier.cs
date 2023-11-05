@@ -799,9 +799,10 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(LStatNatureInvalid));
     }
 
+    private static string GetMoveName<T>(T pk, int index) where T : PKM, ITechRecord => ParseSettings.MoveStrings[pk.Permit.RecordPermitIndexes[index]];
+
     private void VerifyTechRecordSWSH<T>(LegalityAnalysis data, T pk) where T : PKM, ITechRecord
     {
-        string GetMoveName(int index) => ParseSettings.MoveStrings[pk.Permit.RecordPermitIndexes[index]];
         var evos = data.Info.EvoChainsAllGens.Gen8;
         if (evos.Length == 0)
         {
@@ -810,7 +811,7 @@ public sealed class MiscVerifier : Verifier
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(i))));
+                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
             }
         }
         else
@@ -836,7 +837,7 @@ public sealed class MiscVerifier : Verifier
                         continue;
                 }
 
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(i))));
+                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
             }
         }
     }
@@ -849,7 +850,6 @@ public sealed class MiscVerifier : Verifier
 
     private void VerifyTechRecordSV(LegalityAnalysis data, PK9 pk)
     {
-        string GetMoveName(int index) => ParseSettings.MoveStrings[pk.Permit.RecordPermitIndexes[index]];
         var evos = data.Info.EvoChainsAllGens.Gen9;
         if (evos.Length == 0)
         {
@@ -858,7 +858,7 @@ public sealed class MiscVerifier : Verifier
             {
                 if (!pk.GetMoveRecordFlag(i))
                     continue;
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(i))));
+                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
             }
         }
         else
@@ -884,7 +884,7 @@ public sealed class MiscVerifier : Verifier
                     break;
                 }
                 if (!preEvoHas)
-                    data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(i))));
+                    data.AddLine(GetInvalid(string.Format(LMoveSourceTR, GetMoveName(pk, i))));
             }
         }
     }

@@ -13,6 +13,7 @@ namespace PKHeX.Core;
 /// </remarks>
 public enum EntityContext : byte
 {
+    // Generation numerically so we can cast to and from int for most cases.
     None = 0,
     Gen1 = 1,
     Gen2 = 2,
@@ -24,16 +25,28 @@ public enum EntityContext : byte
     Gen8 = 8,
     Gen9 = 9,
 
+    /// <summary>
+    /// Internal separator to pivot between adjacent contexts.
+    /// </summary>
     SplitInvalid,
+    /// <summary> Let's Go, Pikachu! &amp; Let's Go, Eevee! </summary>
     Gen7b,
+    /// <summary> Legends: Arceus </summary>
     Gen8a,
+    /// <summary> Brilliant Diamond &amp; Shining Pearl </summary>
     Gen8b,
 
+    /// <summary>
+    /// Internal separator to bounds check count.
+    /// </summary>
     MaxInvalid,
 }
 
 public static class EntityContextExtensions
 {
+    /// <summary>
+    /// Get the generation number of the context.
+    /// </summary>
     public static int Generation(this EntityContext value) => value < SplitInvalid ? (int)value : value switch
     {
         Gen7b => 7,
@@ -42,8 +55,16 @@ public static class EntityContextExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
+    /// <summary>
+    /// Checks if the context is a defined value assigned to a valid context.
+    /// </summary>
+    /// <returns>True if the context is valid.</returns>
     public static bool IsValid(this EntityContext value) => value is not (0 or SplitInvalid) and < MaxInvalid;
 
+    /// <summary>
+    /// Get a pre-defined single game version associated with the context.
+    /// </summary>
+    /// <remarks>Game ID choice here is the developer's choice; if multiple game sets exist for a context, one from the most recent was chosen.</remarks>
     public static GameVersion GetSingleGameVersion(this EntityContext value) => value switch
     {
         Gen1 => GameVersion.RD,
@@ -63,6 +84,9 @@ public static class EntityContextExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
+    /// <summary>
+    /// Get the game console associated with the context.
+    /// </summary>
     public static GameConsole GetConsole(this EntityContext value) => value switch
     {
         Gen1 or Gen2 => GameConsole.GB,
@@ -74,8 +98,15 @@ public static class EntityContextExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
+    /// <summary>
+    /// Gets all <see cref="GameVersion"/> values that fall within the context.
+    /// </summary>
     public static GameVersion[] GetVersionsWithin(this EntityContext value, GameVersion[] source) => value.GetVersionLump().GetVersionsWithinRange(source);
 
+    /// <summary>
+    /// Gets the corresponding lumped <see cref="GameVersion"/> value for the context.
+    /// </summary>
+    /// <remarks>Shouldn't really use this; see <see cref="GetVersionsWithin"/>.</remarks>
     public static GameVersion GetVersionLump(this EntityContext value) => value switch
     {
         Gen1 => GameVersion.Gen1,
@@ -95,6 +126,9 @@ public static class EntityContextExtensions
         _ => throw new ArgumentOutOfRangeException(nameof(value), value, null),
     };
 
+    /// <summary>
+    /// Gets the corresponding <see cref="EntityContext"/> value for the <see cref="GameVersion"/>.
+    /// </summary>
     public static EntityContext GetContext(this GameVersion version) => version switch
     {
         GameVersion.GP or GameVersion.GE or GameVersion.GO => Gen7b,

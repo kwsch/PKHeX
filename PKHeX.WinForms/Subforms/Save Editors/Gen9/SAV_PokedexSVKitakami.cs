@@ -239,7 +239,7 @@ public partial class SAV_PokedexSVKitakami : Form
         var s = GameInfo.Strings;
         if (species == (int)Species.Alcremie)
             return FormConverter.GetAlcremieFormList(s.forms);
-        return FormConverter.GetFormList(species, s.Types, s.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen9).ToArray();
+        return FormConverter.GetFormList(species, s.Types, s.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen9);
     }
 
     private void SetEntry(int index)

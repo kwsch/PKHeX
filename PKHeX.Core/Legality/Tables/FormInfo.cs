@@ -16,27 +16,19 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="format">Current generation format</param>
     /// <returns>True if it can only exist in a battle, false if it can exist outside of battle.</returns>
-    public static bool IsBattleOnlyForm(ushort species, byte form, int format)
+    public static bool IsBattleOnlyForm(ushort species, byte form, int format) => BattleOnly.Contains(species) && species switch
     {
-        if (!BattleOnly.Contains(species))
-            return false;
-
+        // Only continue checking if the species is in the list of Battle Only forms.
         // Some species have battle only forms as well as out-of-battle forms (other than base form).
-        switch (species)
-        {
-            case (int)Slowbro when form == 2 && format >= 8: // this one is OK, Galarian Slowbro (not a Mega)
-            case (int)Darmanitan when form == 2 && format >= 8: // this one is OK, Galarian non-Zen
-            case (int)Zygarde when form < 4: // Zygarde Complete
-            case (int)Mimikyu when form == 2: // Totem disguise Mimikyu
-            case (int)Necrozma when form < 3: // Only mark Ultra Necrozma as Battle Only
-                return false;
-            case (int)Minior: return form < 7; // Minior Shields-Down
-            case (int)Ogerpon: return form >= 4; // Embody Aspect
-
-            default:
-                return form != 0;
-        }
-    }
+        (ushort)Slowbro => form == 1, // Mega
+        (ushort)Darmanitan => (form & 1) == 1, // Zen
+        (ushort)Zygarde => form == 4, // Zygarde Complete
+        (ushort)Minior => form < 7, // Minior Shields-Down
+        (ushort)Mimikyu => (form & 1) == 1, // Busted
+        (ushort)Necrozma => form == 3, // Ultra Necrozma
+        (ushort)Ogerpon => form >= 4, // Embody Aspect
+        _ => form != 0,
+    };
 
     /// <summary>
     /// Reverts the Battle Form to the form it would have outside of Battle.
@@ -48,10 +40,11 @@ public static class FormInfo
     /// <returns>Suggested alt form value.</returns>
     public static byte GetOutOfBattleForm(ushort species, byte form, int format) => species switch
     {
-        (int)Darmanitan => (byte)(form & 2),
-        (int)Zygarde when format > 6 => 3,
-        (int)Minior => (byte)(form + 7),
-        (int)Ogerpon => (byte)(form & 3),
+        (ushort)Darmanitan => (byte)(form & 2),
+        (ushort)Zygarde when format > 6 => 3,
+        (ushort)Minior => (byte)(form + 7),
+        (ushort)Mimikyu => (byte)(form & 2),
+        (ushort)Ogerpon => (byte)(form & 3),
         _ => 0,
     };
 
@@ -65,9 +58,9 @@ public static class FormInfo
     /// <returns>True if it trading should be disallowed.</returns>
     public static bool IsUntradable(ushort species, byte form, uint formArg, int format) => species switch
     {
-        (int)Koraidon or (int)Miraidon when formArg == 1 => true, // Ride-able Box Legend
-        (int)Pikachu when form == 8 && format == 7 => true, // Let's Go Pikachu Starter
-        (int)Eevee when form == 1 && format == 7 => true, // Let's Go Eevee Starter
+        (ushort)Koraidon or (int)Miraidon => formArg == 1, // Ride-able Box Legend
+        (ushort)Pikachu => format == 7 && form == 8, // Let's Go Pikachu Starter
+        (ushort)Eevee => format == 7 && form == 1, // Let's Go Eevee Starter
         _ => IsFusedForm(species, form, format),
     };
 
@@ -80,9 +73,9 @@ public static class FormInfo
     /// <returns>True if it is a fused species-form, false if it is not fused.</returns>
     public static bool IsFusedForm(ushort species, byte form, int format) => species switch
     {
-        (int)Kyurem when form != 0 && format >= 5 => true,
-        (int)Necrozma when form != 0 && format >= 7 => true,
-        (int)Calyrex when form != 0 && format >= 8 => true,
+        (ushort)Kyurem => form != 0 && format >= 5,
+        (ushort)Necrozma => form != 0 && format >= 7,
+        (ushort)Calyrex => form != 0 && format >= 8,
         _ => false,
     };
 
@@ -224,18 +217,16 @@ public static class FormInfo
         (int)Necrozma, // Ultra Necrozma
     };
 
-    /// <summary>
-    /// Species that have a primal form that cannot exist outside of battle.
-    /// </summary>
-    private static readonly HashSet<ushort> BattlePrimals = new() { (int)Kyogre, (int)Groudon };
-
     private static readonly HashSet<ushort> BattleOnly = GetBattleFormSet();
 
     private static HashSet<ushort> GetBattleFormSet()
     {
         var hs = new HashSet<ushort>(BattleForms);
         hs.UnionWith(BattleMegas);
-        hs.UnionWith(BattlePrimals);
+
+        // Primals
+        hs.Add((ushort)Kyogre);
+        hs.Add((ushort)Groudon);
         return hs;
     }
 
