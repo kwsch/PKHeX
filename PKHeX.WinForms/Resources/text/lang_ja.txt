@@ -1506,6 +1506,7 @@ SAV_Trainer.L_NormalB=ノーマル
 SAV_Trainer.L_NormalC=ノーマル
 SAV_Trainer.L_Offset=(offset)
 SAV_Trainer.L_PM=ポケマイル
+SAV_Trainer.L_R=回転座標
 SAV_Trainer.L_Region=地域
 SAV_Trainer.L_RotationB=ﾛｰﾃｰｼｮﾝ
 SAV_Trainer.L_RotationC=ﾛｰﾃｰｼｮﾝ

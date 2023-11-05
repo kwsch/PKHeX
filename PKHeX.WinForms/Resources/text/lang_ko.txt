@@ -1506,6 +1506,7 @@ SAV_Trainer.L_NormalB=노말
 SAV_Trainer.L_NormalC=노말
 SAV_Trainer.L_Offset=(오프셋)
 SAV_Trainer.L_PM=포켓마일:
+SAV_Trainer.L_R=회전:
 SAV_Trainer.L_Region=지역:
 SAV_Trainer.L_RotationB=로테이션:
 SAV_Trainer.L_RotationC=로테이션:
