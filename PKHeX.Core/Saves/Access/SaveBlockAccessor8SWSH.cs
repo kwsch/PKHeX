@@ -140,10 +140,10 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public const uint KCapturedRegisteel = 0xEE1FD86E; // FE_CAPTURE_REGISTEEL
     public const uint KCapturedSpiritomb = 0x11C12005; // FE_CAPTURE_MIKARUGE
     public const uint KCapturedRegigigas = 0xC4308A93; // FE_CAPTURE_REGIGIGASU
-    public const uint KCapturedCobalion = 0xBB305227; // z_wr0312_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
-    public const uint KCapturedTerrakion = 0x750C83A4; // z_wr0322_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
-    public const uint KCapturedVirizion = 0x1A27DF2C; // z_wr0304_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
-    public const uint KCapturedKeldeo = 0xA097DE31; // z_wr0321_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
+    public const uint KDisappearedCobalion = 0xBB305227; // z_wr0312_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
+    public const uint KDisappearedTerrakion = 0x750C83A4; // z_wr0322_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
+    public const uint KDisappearedVirizion = 0x1A27DF2C; // z_wr0304_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
+    public const uint KDisappearedKeldeo = 0xA097DE31; // z_wr0321_SymbolEncountPokemonGimmickSpawner_WR03_Sanjyuusi
     public const uint KCapturedRegieleki = 0x4F4AEC32; // FE_CAPTURE_REDEN
     public const uint KCapturedRegidrago = 0x4F30F174; // FE_CAPTURE_REDRA
 
@@ -260,11 +260,18 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public const uint KDojoWattDonationTotal = 0xC7161487; // U32 Amount of Watts donated to Master Dojo
     public const uint KDiggingPaWattStreak = 0x68BBA8B1; // U32 Most Watts dug up by the Digging Pa
     public const uint KAlolanDiglettFound = 0x4AEA5A7E; // U32 Amount of Alolan Diglett found on Isle of Armor
-    public const uint KStorySoniaCTQuestProgress = 0xCB135C68; // U32 Swords of Justice Quest progress. Values are from 0-7; 7=completed
     public const uint KBikeBoostChargeSteps = 0x57F29628; // U32 Current step counter, fully charged when this value matches KBikeBoostChargeLimit
     public const uint KBikeBoostChargeLimit = 0xF64719D9; // U32 Steps to charge bike boost, starts at 128 -> 64 when fully upgraded
     public const uint KEggHatchCycleSteps = 0x6C99F9A0; // U16 Current step counter for an egg cycle, 0-127
     public const uint KFriendshipWalkSteps = 0xE2798DDE; // U8 Current step counter for party to gain friendship, 0-127
+
+    // Swords Of Justice
+    public const uint KStorySoniaCTQuestStatus = 0x4DBB9B79; // U32 Swords of Justice Quest status. Values are 0=Can't Start, 10=Can Start, 20=Camera Highlights Cobalion Footprints, 30=In Progress
+    public const uint KStorySoniaCTQuestProgress = 0xCB135C68; // U32 Swords of Justice Quest progress. Values are from 0=0 Reported, 1=1 Reported, 2=2 Reported, 4=3 Reported, 7=Keldeo Caught, 8=Keldeo Reported; 8=Completed
+    public const uint KStorySoniaCTQuestCobalionProgress = 0xC35F6291; // U32 Sword of Justice Cobalion progress. Values are 0=Footprints Unreported, 1=Location Revealed, 2=Caught, 3=Capture Reported
+    public const uint KStorySoniaCTQuestTerrakionProgress = 0x03C69A96; // U32 Sword of Justice Terrakion progress. Values are 0=Footprints Unreported, 1=Location Revealed, 2=Caught, 3=Capture Reported
+    public const uint KStorySoniaCTQuestVirizionProgress = 0xB98F962B; // U32 Sword of Justice Virizion progress. Values are 0=Footprints Unreported, 1=Location Revealed, 2=Caught, 3=Capture Reported
+    public const uint KStorySoniaCTQuestKeldeoProgress = 0x9A39C8FC; // U32 Sword of Justice Keldeo progress. Values are 0=Have To Camp, 2=Appeared, 3=Caught
 
     public const uint KSparringStreakNormal = 0xDB5E16CB; // U32 Best Normal-Type Restricted Sparring Streak
     public const uint KSparringNormalPartySlot1Species = 0x7BF09DD3; // U16 Species ID of 1st PKM used in party
