@@ -216,7 +216,8 @@ public static class SpriteUtil
     {
         bool egg = pk.IsEgg;
         var formarg = pk is IFormArgument f ? f.FormArgument : 0;
-        baseSprite = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, 0, egg, Shiny.Never, pk.Context);
+        var shiny = pk.IsShiny ? Shiny.Always : Shiny.Never;
+        baseSprite = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, 0, egg, shiny, pk.Context);
         GetSpriteGlow(baseSprite, blue, green, red, out pixels, forceHollow || egg);
     }
 
