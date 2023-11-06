@@ -46,7 +46,7 @@ public partial class SAV_Misc4 : Form
                     new[] { 2, 0, 0x696C, 0x10, 0x7F00 },
                     new[] { 0, 0, 0x699C, 0x04, 0x7F04 },
                 };
-                Hall = FetchHallBlock(SAV, 0x2820);
+                Hall = SAV.GetHall();
                 break;
             case GameVersion.HG or GameVersion.SS or GameVersion.HGSS:
                 ofsFlag = 0x10C4;
@@ -63,7 +63,7 @@ public partial class SAV_Misc4 : Form
                     new[] { 2, 0, 0x52F0, 0x10, 0x6884 },
                     new[] { 0, 0, 0x5320, 0x04, 0x6888 },
                 };
-                Hall = FetchHallBlock(SAV, 0x230C);
+                Hall = SAV.GetHall();
                 break;
             default: return;
         }
@@ -512,31 +512,6 @@ public partial class SAV_Misc4 : Form
 
         editing = false;
         CB_Stats1.SelectedIndex = 0;
-    }
-
-    private static Hall4? FetchHallBlock(SAV4 sav, int magicKeyOffset)
-    {
-        for (int i = 0; i < 2; i++, magicKeyOffset += 0x14)
-        {
-            var h = ReadInt32LittleEndian(sav.General[magicKeyOffset..]);
-            if (h == -1)
-                continue;
-
-            for (int j = 0; j < 0x20; j++)
-            {
-                for (int k = 0, a = (j + 0x20) << 12; k < 2; k++, a += 0x40000)
-                {
-                    var span = sav.Data.AsSpan(a);
-                    if (h != ReadInt32LittleEndian(span))
-                        continue;
-                    if (ReadInt16LittleEndian(span[0xBA8..]) != 0xBA0)
-                        continue;
-                    return new Hall4(sav.Data, a);
-                }
-            }
-        }
-
-        return null;
     }
 
     private void SaveBattleFrontier()

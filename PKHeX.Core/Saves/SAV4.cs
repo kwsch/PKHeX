@@ -620,4 +620,12 @@ public abstract class SAV4 : SaveFile, IEventFlag37
                 ++SwarmSeed;
         }
     }
+
+    public Hall4? GetHall()
+    {
+        var block = ExtraBlocks[1];
+        var key = ReadUInt32LittleEndian(General[Extra..]);
+        var active = SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key);
+        return active == -1 ? null : new Hall4(Data, active * PartitionSize + block.Offset);
+    }
 }
