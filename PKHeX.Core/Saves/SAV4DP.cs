@@ -30,6 +30,9 @@ public sealed class SAV4DP : SAV4Sinnoh
 
     private const int GeneralSize = 0xC100;
     private const int StorageSize = 0x121E0; // Start 0xC100, +4 starts box data
+    protected override BlockInfo4[] ExtraBlocks => new[] {
+        new BlockInfo4(0, 0x20000, 0x2AC0), // Hall of Fame
+    };
 
     private void Initialize()
     {
