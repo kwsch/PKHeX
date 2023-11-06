@@ -106,6 +106,7 @@ namespace PKHeX.WinForms.Controls
             TB_Secure1 = new System.Windows.Forms.TextBox();
             L_GameSync = new System.Windows.Forms.Label();
             TB_GameSync = new System.Windows.Forms.TextBox();
+            B_ConvertKorean = new System.Windows.Forms.Button();
             tabBoxMulti.SuspendLayout();
             Tab_Box.SuspendLayout();
             Tab_PartyBattle.SuspendLayout();
@@ -835,6 +836,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVToolsMisc.Controls.Add(B_VerifySaveEntities);
             FLP_SAVToolsMisc.Controls.Add(Menu_ExportBAK);
             FLP_SAVToolsMisc.Controls.Add(B_JPEG);
+            FLP_SAVToolsMisc.Controls.Add(B_ConvertKorean);
             FLP_SAVToolsMisc.Dock = System.Windows.Forms.DockStyle.Top;
             FLP_SAVToolsMisc.Location = new System.Drawing.Point(0, 0);
             FLP_SAVToolsMisc.Margin = new System.Windows.Forms.Padding(0);
@@ -848,7 +850,7 @@ namespace PKHeX.WinForms.Controls
             B_SaveBoxBin.Margin = new System.Windows.Forms.Padding(0);
             B_SaveBoxBin.Name = "B_SaveBoxBin";
             B_SaveBoxBin.Size = new System.Drawing.Size(88, 48);
-            B_SaveBoxBin.TabIndex = 8;
+            B_SaveBoxBin.TabIndex = 1;
             B_SaveBoxBin.Text = "Save Box Data++";
             B_SaveBoxBin.UseVisualStyleBackColor = true;
             B_SaveBoxBin.Click += B_SaveBoxBin_Click;
@@ -870,7 +872,7 @@ namespace PKHeX.WinForms.Controls
             B_VerifySaveEntities.Margin = new System.Windows.Forms.Padding(0);
             B_VerifySaveEntities.Name = "B_VerifySaveEntities";
             B_VerifySaveEntities.Size = new System.Drawing.Size(88, 48);
-            B_VerifySaveEntities.TabIndex = 104;
+            B_VerifySaveEntities.TabIndex = 3;
             B_VerifySaveEntities.Text = "Verify All PKMs";
             B_VerifySaveEntities.UseVisualStyleBackColor = true;
             B_VerifySaveEntities.Click += ClickVerifyStoredEntities;
@@ -881,7 +883,7 @@ namespace PKHeX.WinForms.Controls
             Menu_ExportBAK.Margin = new System.Windows.Forms.Padding(0);
             Menu_ExportBAK.Name = "Menu_ExportBAK";
             Menu_ExportBAK.Size = new System.Drawing.Size(88, 48);
-            Menu_ExportBAK.TabIndex = 103;
+            Menu_ExportBAK.TabIndex = 4;
             Menu_ExportBAK.Text = "Export Backup";
             Menu_ExportBAK.UseVisualStyleBackColor = true;
             Menu_ExportBAK.Click += Menu_ExportBAK_Click;
@@ -892,7 +894,7 @@ namespace PKHeX.WinForms.Controls
             B_JPEG.Margin = new System.Windows.Forms.Padding(0);
             B_JPEG.Name = "B_JPEG";
             B_JPEG.Size = new System.Drawing.Size(88, 48);
-            B_JPEG.TabIndex = 12;
+            B_JPEG.TabIndex = 5;
             B_JPEG.Text = "Save PGL .JPEG";
             B_JPEG.UseVisualStyleBackColor = true;
             B_JPEG.Click += B_JPEG_Click;
@@ -981,6 +983,17 @@ namespace PKHeX.WinForms.Controls
             TB_GameSync.Size = new System.Drawing.Size(120, 24);
             TB_GameSync.TabIndex = 10;
             TB_GameSync.Validated += UpdateStringSeed;
+            // 
+            // B_ConvertKorean
+            // 
+            B_ConvertKorean.Location = new System.Drawing.Point(0, 48);
+            B_ConvertKorean.Margin = new System.Windows.Forms.Padding(0);
+            B_ConvertKorean.Name = "B_ConvertKorean";
+            B_ConvertKorean.Size = new System.Drawing.Size(88, 48);
+            B_ConvertKorean.TabIndex = 6;
+            B_ConvertKorean.Text = "Korean Save Conversion";
+            B_ConvertKorean.UseVisualStyleBackColor = true;
+            B_ConvertKorean.Click += B_ConvertKorean_Click;
             // 
             // SAVEditor
             // 
@@ -1081,5 +1094,6 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_Poffins;
         private System.Windows.Forms.Button B_VerifySaveEntities;
         private System.Windows.Forms.Button B_RaidsSevenStar;
+        private System.Windows.Forms.Button B_ConvertKorean;
     }
 }

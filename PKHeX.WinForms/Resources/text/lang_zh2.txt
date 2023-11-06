@@ -177,6 +177,7 @@ Main.B_CGearSkin=C裝置皮膚
 Main.B_Clear=清理
 Main.B_FestivalPlaza=圓慶廣場
 Main.B_JPEG=儲存PGL.JPEG
+Main.B_ConvertKorean=Korean Save Conversion
 Main.B_MailBox=郵箱
 Main.B_MoveShop=招式商店
 Main.B_OpenApricorn=果球

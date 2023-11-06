@@ -177,6 +177,7 @@ Main.B_CGearSkin=C-Gear
 Main.B_Clear=Limpiar
 Main.B_FestivalPlaza=Festi Plaza
 Main.B_JPEG=Guardar PGL .JPEG
+Main.B_ConvertKorean=Korean Save Conversion
 Main.B_MailBox=Correo
 Main.B_MoveShop=Tienda Movs.
 Main.B_OpenApricorn=Bonguri

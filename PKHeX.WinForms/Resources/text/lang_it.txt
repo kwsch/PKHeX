@@ -177,6 +177,7 @@ Main.B_CGearSkin=C-Gear Skin
 Main.B_Clear=Pulisci
 Main.B_FestivalPlaza=Festiplaza
 Main.B_JPEG=Salva PGL .JPEG
+Main.B_ConvertKorean=Korean Save Conversion
 Main.B_MailBox=Messaggi
 Main.B_MoveShop=Negozio Mosse
 Main.B_OpenApricorn=Ghicocche

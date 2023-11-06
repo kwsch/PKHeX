@@ -177,6 +177,7 @@ Main.B_CGearSkin=Cギア スキン
 Main.B_Clear=Clear
 Main.B_FestivalPlaza=フェスサークル
 Main.B_JPEG=PGL 画像保存
+Main.B_ConvertKorean=Korean Save Conversion
 Main.B_MailBox=メールボックス
 Main.B_MoveShop=Move Shop
 Main.B_OpenApricorn=ぼんぐりのみ
