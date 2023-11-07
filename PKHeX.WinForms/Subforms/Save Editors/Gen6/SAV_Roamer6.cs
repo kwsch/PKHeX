@@ -7,6 +7,7 @@ namespace PKHeX.WinForms;
 public partial class SAV_Roamer6 : Form
 {
     private const int SpeciesOffset = 144;
+    private const int StarterChoiceIndex = 48;
     private readonly SAV6XY Origin;
     private readonly SAV6XY SAV;
     private readonly Roamer6 roamer;
@@ -19,9 +20,19 @@ public partial class SAV_Roamer6 : Form
         roamer = SAV.Encount.Roamer;
 
         CB_Species.Items.AddRange(new[] { "Articuno", "Zapdos", "Moltres" });
-        CB_Species.SelectedIndex = roamer.Species - SpeciesOffset;
-        NUD_TimesEncountered.Value = roamer.TimesEncountered;
         CB_RoamState.Items.AddRange(new[] { "Inactive", "Roaming", "Stationary", "Defeated", "Captured" });
+
+        if (roamer.Species != 0)
+        {
+            CB_Species.SelectedIndex = roamer.Species - SpeciesOffset;
+        }
+        else
+        {
+            // Roamer Species is not set if the player hasn't beaten the league so derive the species from the starter choice
+            EventWorkspace<SAV6XY, ushort> editor = new EventWorkspace<SAV6XY, ushort>(sav);
+            CB_Species.SelectedIndex = editor.Values[StarterChoiceIndex];
+        }
+        NUD_TimesEncountered.Value = roamer.TimesEncountered;
         CB_RoamState.SelectedIndex = (int)roamer.RoamStatus;
     }
 
