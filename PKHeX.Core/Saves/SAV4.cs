@@ -24,12 +24,13 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     protected internal readonly Memory<byte> GeneralBuffer;
     protected Span<byte> Storage => StorageBuffer.Span;
     public Span<byte> General => GeneralBuffer.Span;
-    private readonly Memory<byte> StorageInactiveBuffer;
-    protected internal readonly Memory<byte> GeneralInactiveBuffer;
-    protected Span<byte> StorageInactive => StorageInactiveBuffer.Span;
-    public Span<byte> GeneralInactive => GeneralInactiveBuffer.Span;
     protected sealed override Span<byte> BoxBuffer => Storage;
     protected sealed override Span<byte> PartyBuffer => General;
+
+    private readonly Memory<byte> BackupStorageBuffer;
+    private readonly Memory<byte> BackupGeneralBuffer;
+    private Span<byte> BackupStorage => BackupStorageBuffer.Span;
+    private Span<byte> BackupGeneral => BackupGeneralBuffer.Span;
     protected abstract IReadOnlyList<BlockInfo4> ExtraBlocks { get; }
 
     public abstract Zukan4 Dex { get; }
@@ -43,8 +44,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     {
         GeneralBuffer = new byte[gSize];
         StorageBuffer = new byte[sSize];
-        GeneralInactiveBuffer = new byte[gSize];
-        StorageInactiveBuffer = new byte[sSize];
+        BackupGeneralBuffer = new byte[gSize];
+        BackupStorageBuffer = new byte[sSize];
         ClearBoxes();
     }
 
@@ -58,10 +59,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         GeneralBuffer = Data.AsMemory(gbo, gSize);
         StorageBuffer = Data.AsMemory(sbo, sSize);
 
-        var gibo = (GeneralBlockPosition != 0 ? 0 : PartitionSize);
-        var sibo = (StorageBlockPosition != 0 ? 0 : PartitionSize) + sStart;
-        GeneralInactiveBuffer = Data.AsMemory(gibo, gSize);
-        StorageInactiveBuffer = Data.AsMemory(sibo, sSize);
+        var gboBackup = (GeneralBlockPosition != 0 ? 0 : PartitionSize);
+        var sboBackup = (StorageBlockPosition != 0 ? 0 : PartitionSize) + sStart;
+        BackupGeneralBuffer = Data.AsMemory(gboBackup, gSize);
+        BackupStorageBuffer = Data.AsMemory(sboBackup, sSize);
     }
 
     // Configuration
@@ -117,9 +118,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     protected void SetMagics(uint magic)
     {
         WriteUInt32LittleEndian(General[^8..^4], magic);
-        WriteUInt32LittleEndian(GeneralInactive[^8..^4], magic);
         WriteUInt32LittleEndian(Storage[^8..^4], magic);
-        WriteUInt32LittleEndian(StorageInactive[^8..^4], magic);
+        if (ReadUInt32LittleEndian(BackupGeneral[^8..^4]) != 0xFFFFFFFF)
+            WriteUInt32LittleEndian(BackupGeneral[^8..^4], magic);
+        if (ReadUInt32LittleEndian(BackupStorage[^8..^4]) != 0xFFFFFFFF)
+            WriteUInt32LittleEndian(BackupStorage[^8..^4], magic);
         ExtraBlocks.SetMagics(Data.AsSpan(), magic);
         ExtraBlocks.SetMagics(Data.AsSpan(PartitionSize..), magic);
     }
@@ -127,9 +130,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     protected sealed override void SetChecksums()
     {
         WriteUInt16LittleEndian(General[^2..], CalcBlockChecksum(General));
-        WriteUInt16LittleEndian(GeneralInactive[^2..], CalcBlockChecksum(GeneralInactive));
         WriteUInt16LittleEndian(Storage[^2..], CalcBlockChecksum(Storage));
-        WriteUInt16LittleEndian(StorageInactive[^2..], CalcBlockChecksum(StorageInactive));
+        if (ReadUInt32LittleEndian(BackupGeneral[^8..^4]) != 0xFFFFFFFF)
+            WriteUInt16LittleEndian(BackupGeneral[^2..], CalcBlockChecksum(BackupGeneral));
+        if (ReadUInt32LittleEndian(BackupStorage[^8..^4]) != 0xFFFFFFFF)
+            WriteUInt16LittleEndian(BackupStorage[^2..], CalcBlockChecksum(BackupStorage));
         ExtraBlocks.SetChecksums(Data.AsSpan());
         ExtraBlocks.SetChecksums(Data.AsSpan(PartitionSize..));
     }
