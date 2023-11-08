@@ -520,10 +520,10 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private void B_Roamer_Click(object sender, EventArgs e)
     {
-        if (SAV is SAV3)
-            OpenDialog(new SAV_Roamer3(SAV));
-        else if (SAV is SAV6XY)
-            OpenDialog(new SAV_Roamer6((SAV6XY)SAV));
+        if (SAV is SAV3 s3)
+            OpenDialog(new SAV_Roamer3(s3));
+        else if (SAV is SAV6XY xy)
+            OpenDialog(new SAV_Roamer6(xy));
     }
 
     private void B_OpenEventFlags_Click(object sender, EventArgs e)

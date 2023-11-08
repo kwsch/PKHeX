@@ -19,21 +19,23 @@ public partial class SAV_Roamer6 : Form
         SAV = (SAV6XY)(Origin = sav).Clone();
         roamer = SAV.Encount.Roamer;
 
-        CB_Species.Items.AddRange(new[] { "Articuno", "Zapdos", "Moltres" });
-        CB_RoamState.Items.AddRange(new[] { "Inactive", "Roaming", "Stationary", "Defeated", "Captured" });
+        var species = GameInfo.Strings.specieslist;
+        var entries = new[] { species[(int)Species.Articuno], species[(int)Species.Zapdos], species[(int)Species.Moltres] };
+        var states = new[] { "Inactive", "Roaming", "Stationary", "Defeated", "Captured" };
+        CB_Species.Items.AddRange(entries);
+        CB_RoamState.Items.AddRange(states);
 
-        if (roamer.Species != 0)
-        {
-            CB_Species.SelectedIndex = roamer.Species - SpeciesOffset;
-        }
-        else
-        {
-            // Roamer Species is not set if the player hasn't beaten the league so derive the species from the starter choice
-            EventWorkspace<SAV6XY, ushort> editor = new EventWorkspace<SAV6XY, ushort>(sav);
-            CB_Species.SelectedIndex = editor.Values[StarterChoiceIndex];
-        }
+        CB_Species.SelectedIndex = GetInitialIndex(sav);
         NUD_TimesEncountered.Value = roamer.TimesEncountered;
         CB_RoamState.SelectedIndex = (int)roamer.RoamStatus;
+    }
+
+    private int GetInitialIndex(SAV6XY sav)
+    {
+        if (roamer.Species != 0)
+            return roamer.Species - SpeciesOffset;
+        // Roamer Species is not set if the player hasn't beaten the league so derive the species from the starter choice
+        return sav.GetWork(StarterChoiceIndex);
     }
 
     private void CB_Species_SelectedIndexChanged(object sender, EventArgs e) => roamer.Species = (ushort)(SpeciesOffset + CB_Species.SelectedIndex);
