@@ -180,6 +180,31 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         return SAV4BlockDetection.CompareFooters(data, offset, offset + PartitionSize);
     }
 
+    private int GetActiveExtraBlock(BlockInfo4 block)
+    {
+        int index = (int)block.ID;
+
+        // Hall of Fame
+        if (index == 0)
+            return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block);
+
+        // Battle Hall/Battle Videos
+        var KeyOffset = Extra;
+        var KeyBackupOffset = Extra + 0x4 * (ExtraBlocks.Count - 1);
+        var PreferOffset = Extra + 2 * 0x4 * (ExtraBlocks.Count - 1);
+        var key = ReadUInt32LittleEndian(General[(KeyOffset + 0x4 * (index - 1))..]);
+        var keyBackup = ReadUInt32LittleEndian(General[(KeyBackupOffset + 0x4 * (index - 1))..]);
+        var prefer = General[(PreferOffset + (index - 1))];
+        return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key, keyBackup, prefer);
+    }
+
+    public Hall4? GetHall()
+    {
+        var block = ExtraBlocks[1];
+        var active = GetActiveExtraBlock(block);
+        return active == -1 ? null : new Hall4(Data, (active == 0 ? 0 : PartitionSize) + block.Offset);
+    }
+
     protected int WondercardFlags = int.MinValue;
     protected int AdventureInfo = int.MinValue;
     protected int Seal = int.MinValue;
@@ -624,13 +649,5 @@ public abstract class SAV4 : SaveFile, IEventFlag37
             while (SwarmIndex != value)
                 ++SwarmSeed;
         }
-    }
-
-    public Hall4? GetHall()
-    {
-        var block = ExtraBlocks[1];
-        var key = ReadUInt32LittleEndian(General[Extra..]);
-        var active = SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key);
-        return active == -1 ? null : new Hall4(Data, active * PartitionSize + block.Offset);
     }
 }

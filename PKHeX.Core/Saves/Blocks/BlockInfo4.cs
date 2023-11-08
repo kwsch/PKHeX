@@ -32,6 +32,11 @@ public class BlockInfo4 : BlockInfo
         return (ID == 0 && GetRevision(data) != 0xFFFFFFFF) || (ID != 0 && GetKey(data) != 0xFFFFFFFF);
     }
 
+    public bool SizeValid(ReadOnlySpan<byte> data)
+    {
+        return GetSize(data) == Length;
+    }
+
     protected override bool ChecksumValid(ReadOnlySpan<byte> data)
     {
         if (!IsInitialized(data))
@@ -41,6 +46,11 @@ public class BlockInfo4 : BlockInfo
         if (chk != ReadUInt16LittleEndian(data[(FooterOffset + 14)..]))
             return false;
         return true;
+    }
+
+    public bool IsValid(ReadOnlySpan<byte> data)
+    {
+        return IsInitialized(data) && SizeValid(data) && ChecksumValid(data);
     }
 
     protected override void SetChecksum(Span<byte> data)
