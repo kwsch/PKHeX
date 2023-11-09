@@ -19,16 +19,16 @@ public sealed class Encount6 : SaveBlock<SAV6>
 
     public PokeRadar6 Radar
     {
-        get => new(Data.Slice(Offset + 0x04, PokeRadar6.SIZE));
-        set => value.Data.CopyTo(Data, Offset + 0x04);
+        get => new(Data.AsMemory(Offset + 0x04, PokeRadar6.SIZE));
+        set => value.Data.CopyTo(Data.AsMemory(Offset + 0x04));
     }
 
     // 0x1C
 
     public Roamer6 Roamer
     {
-        get => new(Data.Slice(Offset + 0x1C, Roamer6.SIZE));
-        set => value.Data.CopyTo(Data, Offset + 0x1C);
+        get => new(Data.AsMemory(Offset + 0x1C, Roamer6.SIZE));
+        set => value.Data.CopyTo(Data.AsMemory(Offset + 0x1C, Roamer6.SIZE));
     }
 
     // 0x44
@@ -44,20 +44,21 @@ public sealed class PokeRadar6
     private const int MaxCharge = 50;
     private const int RecordCount = 5;
 
-    public readonly byte[] Data;
+    public readonly Memory<byte> Data;
+    private Span<byte> Span => Data.Span;
 
-    public PokeRadar6(byte[] data) => Data = data;
+    public PokeRadar6(Memory<byte> data) => Data = data;
     public override string ToString() => ((Species)PokeRadarSpecies).ToString();
 
-    public ushort PokeRadarSpecies { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); }
-    private ushort PokeRadarPacked { get => ReadUInt16LittleEndian(Data.AsSpan(0x02)); set => WriteUInt16LittleEndian(Data.AsSpan(0x02), value); }
+    public ushort PokeRadarSpecies { get => ReadUInt16LittleEndian(Span[0..2]); set => WriteUInt16LittleEndian(Span[0..2], value); }
+    private ushort PokeRadarPacked { get => ReadUInt16LittleEndian(Span[2..4]); set => WriteUInt16LittleEndian(Span[2..4], value); }
 
     public int PokeRadarCharge { get => PokeRadarPacked & 0x3FFF; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~0x3FFF) | Math.Min(MaxCharge, value)); }
     public bool PokeRadarFlag1 { get => PokeRadarPacked >> 14 != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 14)) | (value ? (1 << 14) : 0)); }
     public bool PokeRadarFlag2 { get => PokeRadarPacked >> 15 != 0; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~(1 << 15)) | (value ? (1 << 15) : 0)); }
 
-    public PokeRadarRecord GetRecord(int index) => PokeRadarRecord.ReadRecord(Data.AsSpan(GetRecordOffset(index)));
-    public void SetRecord(PokeRadarRecord record, int index) => record.WriteRecord(Data.AsSpan(GetRecordOffset(index)));
+    public PokeRadarRecord GetRecord(int index) => PokeRadarRecord.ReadRecord(Span[GetRecordOffset(index)..]);
+    public void SetRecord(PokeRadarRecord record, int index) => record.WriteRecord(Span[GetRecordOffset(index)..]);
 
     private static int GetRecordOffset(int index)
     {
@@ -108,21 +109,22 @@ public sealed class Roamer6
 {
     public const int SIZE = 0x28;
 
-    public readonly byte[] Data;
+    public readonly Memory<byte> Data;
+    private Span<byte> Span => Data.Span;
 
-    public Roamer6(byte[] data) => Data = data;
+    public Roamer6(Memory<byte> data) => Data = data;
     public override string ToString() => ((Species)Species).ToString();
 
-    private ushort SpecForm { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); }
+    private ushort SpecForm { get => ReadUInt16LittleEndian(Span[0..2]); set => WriteUInt16LittleEndian(Span[0..2], value); }
     public ushort Species { get => (ushort)(SpecForm & 0x3FF); set => SpecForm = (ushort)((SpecForm & ~0x3FF) | (value & 0x3FF)); }
     public bool Flag1 { get => SpecForm >> 14 != 0; set => SpecForm = (ushort)((SpecForm & 0xBFFF) | (value ? (1 << 14) : 0)); }
     public bool Flag2 { get => SpecForm >> 15 != 0; set => SpecForm = (ushort)((SpecForm & 0x7FFF) | (value ? (1 << 15) : 0)); }
 
-    public int CurrentLevel { get => Data[0x04]; set => Data[0x04] = (byte)value; }
-    private int Status { get => Data[0x07]; set => Data[0x07] = (byte)value; }
+    public int CurrentLevel { get => Span[4]; set => Span[4] = (byte)value; }
+    private int Status { get => Span[7]; set => Span[7] = (byte)value; }
     public Roamer6State RoamStatus { get => (Roamer6State)((Status >> 4) & 0xF); set => Status = (Status & 0x0F) | (((int)value << 4) & 0xF0); }
 
-    public uint TimesEncountered { get => ReadUInt32LittleEndian(Data.AsSpan(0x24)); set => WriteUInt32LittleEndian(Data.AsSpan(0x24), value); }
+    public uint TimesEncountered { get => ReadUInt32LittleEndian(Span[36..40]); set => WriteUInt32LittleEndian(Span[36..40], value); }
 }
 
 public enum Roamer6State

@@ -510,7 +510,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenSecretBase_Click(object sender, EventArgs e) => OpenDialog(new SAV_SecretBase(SAV));
     private void B_CellsStickers_Click(object sender, EventArgs e) => OpenDialog(new SAV_ZygardeCell(SAV));
     private void B_LinkInfo_Click(object sender, EventArgs e) => OpenDialog(new SAV_Link6(SAV));
-    private void B_Roamer_Click(object sender, EventArgs e) => OpenDialog(new SAV_Roamer3(SAV));
     private void B_OpenApricorn_Click(object sender, EventArgs e) => OpenDialog(new SAV_Apricorn((SAV4HGSS)SAV));
     private void B_CGearSkin_Click(object sender, EventArgs e) => OpenDialog(new SAV_CGearSkin(SAV));
     private void B_OpenTrainerInfo_Click(object sender, EventArgs e) => OpenDialog(GetTrainerEditor(SAV));
@@ -518,6 +517,14 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     private void B_OpenHoneyTreeEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_HoneyTree((SAV4Sinnoh)SAV));
     private void B_OpenGeonetEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_Geonet4((SAV4)SAV));
     private void B_OpenUnityTowerEditor_Click(object sender, EventArgs e) => OpenDialog(new SAV_UnityTower((SAV5)SAV));
+
+    private void B_Roamer_Click(object sender, EventArgs e)
+    {
+        if (SAV is SAV3 s3)
+            OpenDialog(new SAV_Roamer3(s3));
+        else if (SAV is SAV6XY xy)
+            OpenDialog(new SAV_Roamer6(xy));
+    }
 
     private void B_OpenEventFlags_Click(object sender, EventArgs e)
     {
@@ -1129,7 +1136,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OtherSlots.Visible = sav is SAV1StadiumJ or SAV1Stadium or SAV2Stadium;
         B_OpenTrainerInfo.Visible = B_OpenItemPouch.Visible = (sav.HasParty && SAV is not SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
         B_OpenMiscEditor.Visible = sav is SAV3 or SAV4 or SAV5 or SAV8BS;
-        B_Roamer.Visible = sav is SAV3;
+        B_Roamer.Visible = sav is SAV3 or SAV6XY;
 
         B_OpenHoneyTreeEditor.Visible = sav is SAV4Sinnoh;
         B_OpenUGSEditor.Visible = sav is SAV4Sinnoh or SAV8BS;

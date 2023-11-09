@@ -8,11 +8,11 @@ public partial class SAV_Roamer3 : Form
 {
     private readonly Roamer3 Reader;
 
-    public SAV_Roamer3(SaveFile sav)
+    public SAV_Roamer3(SAV3 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        Reader = new Roamer3((SAV3)sav);
+        Reader = new Roamer3(sav);
 
         CB_Species.InitializeBinding();
         CB_Species.DataSource = new BindingSource(GameInfo.FilteredSources.Species, null);
