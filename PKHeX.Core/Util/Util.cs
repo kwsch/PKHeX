@@ -175,12 +175,12 @@ public static partial class Util
             return string.Empty;
 
         Span<char> result = stackalloc char[str.Length];
-        int ctr = GetOnlyHex(str, ref result);
+        int ctr = GetOnlyHex(str, result);
         return new string(result[..ctr]);
     }
 
     /// <inheritdoc cref="GetOnlyHex(ReadOnlySpan{char})"/>
-    public static int GetOnlyHex(ReadOnlySpan<char> str, ref Span<char> result)
+    public static int GetOnlyHex(ReadOnlySpan<char> str, Span<char> result)
     {
         int ctr = 0;
         foreach (var c in str)

@@ -726,7 +726,7 @@ public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDyn
         if (Nature != -1 && pk.Nature != Nature) return false;
         if (Gender != 3 && Gender != pk.Gender) return false;
 
-        if (pk is PK8 and IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pk.Species, pk.Form, Species, Form))
+        if (pk is PK8 and IGigantamax g && g.CanGigantamax != CanGigantamax && !Gigantamax.CanToggle(pk.Species, pk.Form, Species, Form))
             return false;
 
         if (pk is PK8 pk8 && pk8.DynamaxLevel < DynamaxLevel)

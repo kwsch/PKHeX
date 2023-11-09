@@ -646,7 +646,7 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
                 SeenAll(species, i, value, pi, shinyToo);
         }
 
-        if (SpeciesWithGigantamaxData.Contains(species))
+        if (IsGigantamaxFormStored(species))
         {
             SeenAll(species, 63, value, pi, shinyToo);
             if (species == (int)Species.Urshifu)
@@ -687,41 +687,10 @@ public sealed class Zukan8 : ZukanBase<SAV8SWSH>
         }
     }
 
-    private static readonly HashSet<ushort> SpeciesWithGigantamaxData = new()
+    public static bool IsGigantamaxFormStored(ushort species)
     {
-        (int)Species.Charizard,
-        (int)Species.Butterfree,
-        (int)Species.Pikachu,
-        (int)Species.Meowth,
-        (int)Species.Machamp,
-        (int)Species.Gengar,
-        (int)Species.Kingler,
-        (int)Species.Lapras,
-        (int)Species.Eevee,
-        (int)Species.Snorlax,
-        (int)Species.Garbodor,
-        (int)Species.Corviknight,
-        (int)Species.Orbeetle,
-        (int)Species.Drednaw,
-        (int)Species.Coalossal,
-        (int)Species.Flapple,
-        (int)Species.Appletun,
-        (int)Species.Sandaconda,
-        (int)Species.Toxtricity,
-        (int)Species.Centiskorch,
-        (int)Species.Hatterene,
-        (int)Species.Grimmsnarl,
-        (int)Species.Alcremie,
-        (int)Species.Copperajah,
-        (int)Species.Duraludon,
-        (int)Species.Eternatus,
-
-        // DLC 1
-        (int)Species.Rillaboom,
-        (int)Species.Cinderace,
-        (int)Species.Inteleon,
-        (int)Species.Urshifu,
-    };
+        return Gigantamax.CanToggle(species) || species == (int)Species.Eternatus;
+    }
     #endregion
 }
 

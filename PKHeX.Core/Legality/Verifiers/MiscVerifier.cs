@@ -702,7 +702,7 @@ public sealed class MiscVerifier : Verifier
         bool originGMax = enc is IGigantamaxReadOnly {CanGigantamax: true};
         if (originGMax != pk8.CanGigantamax)
         {
-            bool ok = !pk8.IsEgg && pk8.CanToggleGigantamax(pk8.Species, pk8.Form, enc.Species, enc.Form);
+            bool ok = !pk8.IsEgg && Gigantamax.CanToggle(pk8.Species, pk8.Form, enc.Species, enc.Form);
             var chk = ok ? GetValid(LStatGigantamaxValid) : GetInvalid(LStatGigantamaxInvalid);
             data.AddLine(chk);
         }

@@ -211,7 +211,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
 
     protected bool IsMatchPartial(PKM pk)
     {
-        if (pk is PK8 and IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pk.Species, pk.Form, Species, Form))
+        if (pk is PK8 and IGigantamax g && g.CanGigantamax != CanGigantamax && !Gigantamax.CanToggle(pk.Species, pk.Form, Species, Form))
             return true;
         if (Species == (int)Core.Species.Alcremie && pk is IFormArgument { FormArgument: not 0 })
             return true;
