@@ -29,6 +29,14 @@ public sealed class SAV4Pt : SAV4Sinnoh
 
     private const int GeneralSize = 0xCF2C;
     private const int StorageSize = 0x121E4; // Start 0xCF2C, +4 starts box data
+    protected override BlockInfo4[] ExtraBlocks => new[] {
+        new BlockInfo4(0, 0x20000, 0x2AC0), // Hall of Fame
+        new BlockInfo4(1, 0x23000, 0x0BB0), // Battle Hall
+        new BlockInfo4(2, 0x24000, 0x1D60), // Battle Video (My Video)
+        new BlockInfo4(3, 0x26000, 0x1D60), // Battle Video (Other Videos 1)
+        new BlockInfo4(4, 0x28000, 0x1D60), // Battle Video (Other Videos 2)
+        new BlockInfo4(5, 0x2A000, 0x1D60), // Battle Video (Other Videos 3)
+    };
 
     private void Initialize()
     {
@@ -45,6 +53,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
         Trainer1 = 0x68;
         Party = 0xA0;
         PokeDex = 0x1328;
+        Extra = 0x2820;
         Geonet = 0xA4C4;
         WondercardFlags = 0xB4C0;
         WondercardData = 0xB5C0;

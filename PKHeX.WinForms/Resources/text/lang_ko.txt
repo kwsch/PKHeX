@@ -177,6 +177,7 @@ Main.B_CGearSkin=C기어 스킨
 Main.B_Clear=지우기
 Main.B_FestivalPlaza=페스서클
 Main.B_JPEG=PGL .JPEG 저장
+Main.B_ConvertKorean=Korean Save Conversion
 Main.B_MailBox=메일박스
 Main.B_MoveShop=Move Shop
 Main.B_OpenApricorn=규토리

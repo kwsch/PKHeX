@@ -190,6 +190,8 @@ public static class MessageStrings
     public static string MsgSaveGen2RTCResetPassword { get; set; } = "RTC Reset Password: {0:00000}";
     public static string MsgSaveGen2RTCResetBitflag { get; set; } = "Would you like to reset the RTC?";
     public static string MsgSaveJPEGExportFail { get; set; } = "No picture data found in the save file!";
+    public static string MsgSaveGen4ConvertKorean { get; set; } = "Would you like to convert this Japanese/International save file to be playable with Korean games?";
+    public static string MsgSaveGen4ConvertInternational { get; set; } = "Would you like to convert this Korean save file to be playable with Japanese/International games?";
 
     public static string MsgSaveChecksumFailEdited { get; set; } = "Save has been edited. Cannot integrity check.";
     public static string MsgSaveChecksumValid { get; set; } = "Checksums are valid.";

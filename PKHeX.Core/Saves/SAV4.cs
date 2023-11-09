@@ -27,6 +27,12 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     protected sealed override Span<byte> BoxBuffer => Storage;
     protected sealed override Span<byte> PartyBuffer => General;
 
+    private readonly Memory<byte> BackupStorageBuffer;
+    private readonly Memory<byte> BackupGeneralBuffer;
+    private Span<byte> BackupStorage => BackupStorageBuffer.Span;
+    private Span<byte> BackupGeneral => BackupGeneralBuffer.Span;
+    protected abstract IReadOnlyList<BlockInfo4> ExtraBlocks { get; }
+
     public abstract Zukan4 Dex { get; }
 
     protected abstract int EventFlag { get; }
@@ -38,6 +44,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     {
         GeneralBuffer = new byte[gSize];
         StorageBuffer = new byte[sSize];
+        BackupGeneralBuffer = new byte[gSize];
+        BackupStorageBuffer = new byte[sSize];
         ClearBoxes();
     }
 
@@ -50,6 +58,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         var sbo = (StorageBlockPosition == 0 ? 0 : PartitionSize) + sStart;
         GeneralBuffer = Data.AsMemory(gbo, gSize);
         StorageBuffer = Data.AsMemory(sbo, sSize);
+
+        var gboBackup = (GeneralBlockPosition != 0 ? 0 : PartitionSize);
+        var sboBackup = (StorageBlockPosition != 0 ? 0 : PartitionSize) + sStart;
+        BackupGeneralBuffer = Data.AsMemory(gboBackup, gSize);
+        BackupStorageBuffer = Data.AsMemory(sboBackup, sSize);
     }
 
     // Configuration
@@ -101,10 +114,29 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     private static ushort GetBlockChecksumSaved(ReadOnlySpan<byte> data) => ReadUInt16LittleEndian(data[^2..]);
     private bool GetBlockChecksumValid(ReadOnlySpan<byte> data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
 
+
+    protected void SetMagics(uint magic)
+    {
+        WriteUInt32LittleEndian(General[^8..^4], magic);
+        WriteUInt32LittleEndian(Storage[^8..^4], magic);
+        if (ReadUInt32LittleEndian(BackupGeneral[^8..^4]) != 0xFFFFFFFF)
+            WriteUInt32LittleEndian(BackupGeneral[^8..^4], magic);
+        if (ReadUInt32LittleEndian(BackupStorage[^8..^4]) != 0xFFFFFFFF)
+            WriteUInt32LittleEndian(BackupStorage[^8..^4], magic);
+        ExtraBlocks.SetMagics(Data.AsSpan(), magic);
+        ExtraBlocks.SetMagics(Data.AsSpan(PartitionSize..), magic);
+    }
+
     protected sealed override void SetChecksums()
     {
         WriteUInt16LittleEndian(General[^2..], CalcBlockChecksum(General));
         WriteUInt16LittleEndian(Storage[^2..], CalcBlockChecksum(Storage));
+        if (ReadUInt32LittleEndian(BackupGeneral[^8..^4]) != 0xFFFFFFFF)
+            WriteUInt16LittleEndian(BackupGeneral[^2..], CalcBlockChecksum(BackupGeneral));
+        if (ReadUInt32LittleEndian(BackupStorage[^8..^4]) != 0xFFFFFFFF)
+            WriteUInt16LittleEndian(BackupStorage[^2..], CalcBlockChecksum(BackupStorage));
+        ExtraBlocks.SetChecksums(Data.AsSpan());
+        ExtraBlocks.SetChecksums(Data.AsSpan(PartitionSize..));
     }
 
     public sealed override bool ChecksumsValid
@@ -114,6 +146,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37
             if (!GetBlockChecksumValid(General))
                 return false;
             if (!GetBlockChecksumValid(Storage))
+                return false;
+            if (!ExtraBlocks.GetChecksumsValid(Data.AsSpan()))
+                return false;
+            if (!ExtraBlocks.GetChecksumsValid(Data.AsSpan(PartitionSize..)))
                 return false;
 
             return true;
@@ -129,6 +165,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37
                 list.Add("Small block checksum is invalid");
             if (!GetBlockChecksumValid(Storage))
                 list.Add("Large block checksum is invalid");
+            if (!ExtraBlocks.GetChecksumsValid(Data.AsSpan()))
+                list.Add(ExtraBlocks.GetChecksumInfo(Data.AsSpan()));
+            if (!ExtraBlocks.GetChecksumsValid(Data.AsSpan(PartitionSize..)))
+                list.Add(ExtraBlocks.GetChecksumInfo(Data.AsSpan(PartitionSize..)));
 
             return list.Count != 0 ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
         }
@@ -140,10 +180,36 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         return SAV4BlockDetection.CompareFooters(data, offset, offset + PartitionSize);
     }
 
+    private int GetActiveExtraBlock(BlockInfo4 block)
+    {
+        int index = (int)block.ID;
+
+        // Hall of Fame
+        if (index == 0)
+            return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block);
+
+        // Battle Hall/Battle Videos
+        var KeyOffset = Extra;
+        var KeyBackupOffset = Extra + 0x4 * (ExtraBlocks.Count - 1);
+        var PreferOffset = Extra + 2 * 0x4 * (ExtraBlocks.Count - 1);
+        var key = ReadUInt32LittleEndian(General[(KeyOffset + 0x4 * (index - 1))..]);
+        var keyBackup = ReadUInt32LittleEndian(General[(KeyBackupOffset + 0x4 * (index - 1))..]);
+        var prefer = General[(PreferOffset + (index - 1))];
+        return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key, keyBackup, prefer);
+    }
+
+    public Hall4? GetHall()
+    {
+        var block = ExtraBlocks[1];
+        var active = GetActiveExtraBlock(block);
+        return active == -1 ? null : new Hall4(Data, (active == 0 ? 0 : PartitionSize) + block.Offset);
+    }
+
     protected int WondercardFlags = int.MinValue;
     protected int AdventureInfo = int.MinValue;
     protected int Seal = int.MinValue;
     public int Geonet = int.MinValue;
+    protected int Extra = int.MinValue;
     protected int Trainer1;
     public int GTS { get; protected set; } = int.MinValue;
 
@@ -267,6 +333,10 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         get => General[Geonet + 2];
         set { if (value < 0) return; General[Geonet + 2] = (byte)value; }
     }
+
+    public const uint MAGIC_JAPAN_INTL = 0x20060623;
+    public const uint MAGIC_KOREAN = 0x20070903;
+    public uint Magic { get => ReadUInt32LittleEndian(General[^8..^4]); set => SetMagics(value); }
 
     protected sealed override PK4 GetPKM(byte[] data) => new(data);
     protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);

@@ -177,6 +177,7 @@ Main.B_CGearSkin=Fonds C-Gear
 Main.B_Clear=Effacer
 Main.B_FestivalPlaza=Place Festival
 Main.B_JPEG=Sauver image PGL
+Main.B_ConvertKorean=Korean Save Conversion
 Main.B_MailBox=Boîte aux lettres
 Main.B_MoveShop=Move Shop
 Main.B_OpenApricorn=Noigrumes

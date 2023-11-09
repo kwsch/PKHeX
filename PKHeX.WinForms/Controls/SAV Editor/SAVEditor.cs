@@ -739,6 +739,19 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         File.WriteAllBytes(sfd.FileName, jpeg);
     }
 
+    private void B_ConvertKorean_Click(object sender, EventArgs e)
+    {
+        if (SAV.Generation != 4)
+            return;
+        var s4 = (SAV4)SAV;
+        var isKorean = s4.Magic == SAV4.MAGIC_KOREAN;
+        var msg = isKorean ? MsgSaveGen4ConvertInternational : MsgSaveGen4ConvertKorean;
+        if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, msg))
+            return;
+        s4.Magic = isKorean ? SAV4.MAGIC_JAPAN_INTL : SAV4.MAGIC_KOREAN;
+        SAV.State.Edited = true;
+    }
+
     private void ClickVerifyCHK(object sender, EventArgs e)
     {
         if (SAV.State.Edited)
@@ -1113,11 +1126,13 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             FLP_SAVtools.Visible = false;
             B_JPEG.Visible = false;
+            B_ConvertKorean.Visible = false;
             SL_Extra.HideAllSlots();
             return;
         }
 
         GB_Daycare.Visible = sav.HasDaycare;
+        B_ConvertKorean.Visible = sav is SAV4;
         B_OpenPokeblocks.Visible = sav is SAV6AO;
         B_OpenSecretBase.Visible = sav is SAV6AO;
         B_OpenPokepuffs.Visible = sav is ISaveBlock6Main;

@@ -177,6 +177,7 @@ Main.B_CGearSkin=C-Gear Skin
 Main.B_Clear=Löschen
 Main.B_FestivalPlaza=Festival-Plaza
 Main.B_JPEG=Speichere PGL .JPEG
+Main.B_ConvertKorean=Korean Save Conversion
 Main.B_MailBox=Briefbox
 Main.B_MoveShop=Attacken Tutor
 Main.B_OpenApricorn=Aprikokos
