@@ -111,7 +111,10 @@ public sealed class SlotChangeManager : IDisposable
     public void MouseMove(object? sender, MouseEventArgs e)
     {
         if (!Drag.CanStartDrag)
+        {
+            Hover.UpdateMousePosition(e.Location);
             return;
+        }
         if (sender is not PictureBox pb)
             return;
 

@@ -317,6 +317,9 @@ public sealed class MysteryGiftDatabaseSettings
 [Serializable]
 public sealed class HoverSettings
 {
+    [LocalizedDescription("Show PKM Slot Preview on Hover")]
+    public bool HoverSlotShowPreview { get; set; } = true;
+
     [LocalizedDescription("Show PKM Slot ToolTip on Hover")]
     public bool HoverSlotShowText { get; set; } = true;
 
