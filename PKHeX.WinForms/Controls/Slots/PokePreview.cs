@@ -9,7 +9,15 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class PokePreview : Form
 {
-    public PokePreview() => InitializeComponent();
+    public PokePreview()
+    {
+        InitializeComponent();
+        InitialWidth = Width;
+        InitialHeight = Height;
+    }
+
+    private readonly int InitialWidth;
+    private readonly int InitialHeight;
 
     private static readonly Image[] GenderImages =
     {
@@ -23,7 +31,7 @@ public partial class PokePreview : Form
         var pi = pk.PersonalInfo;
         PopulateHeader(pk, pi);
         PopulateMoves(pk);
-        PopulateStats(pk, pi);
+        PopulateStats(pk);
     }
 
     private void PopulateHeader(PKM pk, IPersonalType pi)
@@ -95,16 +103,32 @@ public partial class PokePreview : Form
         text.Text = moves[move];
     }
 
-    private void PopulateStats(PKM pk, PersonalInfo pi)
+    private void PopulateStats(PKM pk)
     {
-        var sb = new StringBuilder(128);
-        sb.AppendLine("* Base IV EV");
-        sb.AppendLine($"H {pi.HP:000}  {pk.IV_HP:00} {pk.EV_HP,-3}");
-        sb.AppendLine($"A {pi.ATK:000}  {pk.IV_ATK:00} {pk.EV_ATK,-3}");
-        sb.AppendLine($"B {pi.DEF:000}  {pk.IV_DEF:00} {pk.EV_DEF,-3}");
-        sb.AppendLine($"C {pi.SPA:000}  {pk.IV_SPA:00} {pk.EV_SPA,-3}");
-        sb.AppendLine($"D {pi.SPD:000}  {pk.IV_SPD:00} {pk.EV_SPD,-3}");
-        sb.AppendLine($"S {pi.SPE:000}  {pk.IV_SPE:00} {pk.EV_SPE,-3}");
-        L_Stats.Text = sb.ToString();
+        var stats = GetStatsString(pk);
+        var size = TextRenderer.MeasureText(stats, Font);
+        var totalFormWidth = size.Width + L_Stats.Left + 4;
+        var totalFormHeight = size.Height + L_Stats.Top + 8;
+        Width = Math.Clamp(totalFormWidth, InitialWidth, totalFormWidth);
+        L_Stats.Width = size.Width;
+        Height = Math.Clamp(totalFormHeight, InitialHeight, totalFormHeight);
+        L_Stats.Height = size.Height;
+        L_Stats.Text = stats;
+    }
+
+    private static string GetStatsString(PKM pk)
+    {
+        var setText = SummaryPreviewer.GetPreviewText(pk);
+        var sb = new StringBuilder();
+        var lines = setText.AsSpan().EnumerateLines();
+        lines.MoveNext(); // Skip Species Name Line
+        while (lines.MoveNext())
+        {
+            var line = lines.Current;
+            if (line.Length != 0 && line[0] == '-')
+                continue; // Skip moves
+            sb.AppendLine(line.ToString());
+        }
+        return sb.ToString();
     }
 }

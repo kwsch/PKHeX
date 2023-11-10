@@ -62,7 +62,7 @@ public sealed class SummaryPreviewer
         Cry.Stop();
     }
 
-    private static string GetPreviewText(PKM pk)
+    public static string GetPreviewText(PKM pk)
     {
         var text = ShowdownParsing.GetLocalizedPreviewText(pk, Main.Settings.Startup.Language);
         var la = new LegalityAnalysis(pk);
