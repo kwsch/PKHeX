@@ -275,4 +275,3 @@ public interface IEncounterMarkExtra
     /// </remarks>
     bool IsMissingExtraMark(PKM pk, out RibbonIndex missing);
 }
-

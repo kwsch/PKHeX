@@ -200,7 +200,6 @@ public static class Overworld8RNG
         return NoMatchIVs;
     }
 
-
     /// <summary>
     /// Obtains the original seed for the Generation 8 overworld wild encounter.
     /// </summary>

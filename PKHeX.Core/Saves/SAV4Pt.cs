@@ -27,7 +27,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_Pt;
     public override int MaxItemID => Legal.MaxItemID_4_Pt;
 
-    private const int GeneralSize = 0xCF2C;
+    public const int GeneralSize = 0xCF2C;
     private const int StorageSize = 0x121E4; // Start 0xCF2C, +4 starts box data
     protected override BlockInfo4[] ExtraBlocks => new[] {
         new BlockInfo4(0, 0x20000, 0x2AC0), // Hall of Fame

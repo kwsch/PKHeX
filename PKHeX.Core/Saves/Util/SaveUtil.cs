@@ -479,30 +479,28 @@ public static class SaveUtil
         if (data.Length != SIZE_G4RAW)
             return Invalid;
 
-        // The block footers contain a u32 'size' followed by a u32 binary-coded-decimal timestamp(?)
-        // Korean saves have a different timestamp from other localizations.
-        static bool validSequence(ReadOnlySpan<byte> data, int offset)
-        {
-            var size = ReadUInt32LittleEndian(data[(offset - 0xC)..]);
-            if (size != (offset & 0xFFFF))
-                return false;
-            var sdk = ReadUInt32LittleEndian(data[(offset - 0x8)..]);
-
-            const int DATE_INT = 0x20060623;
-            const int DATE_KO  = 0x20070903;
-            return sdk is DATE_INT or DATE_KO;
-        }
-
         // Check the other save -- first save is done to the latter half of the binary.
         // The second save should be all that is needed to check.
-        if (validSequence(data, 0x4C100))
+        const int generalOffset = 0x40000;
+        if (IsValidGeneralFooter(data.Slice(generalOffset, SAV4DP.GeneralSize)))
             return DP;
-        if (validSequence(data, 0x4CF2C))
+        if (IsValidGeneralFooter(data.Slice(generalOffset, SAV4Pt.GeneralSize)))
             return Pt;
-        if (validSequence(data, 0x4F628))
+        if (IsValidGeneralFooter(data.Slice(generalOffset, SAV4HGSS.GeneralSize)))
             return HGSS;
 
         return Invalid;
+
+        // The block footers contain a u32 'size' followed by a u32 binary-coded-decimal timestamp
+        // Korean saves have a different timestamp from other localizations.
+        static bool IsValidGeneralFooter(ReadOnlySpan<byte> general)
+        {
+            var size = ReadUInt32LittleEndian(general[^0xC..]);
+            if (size != general.Length)
+                return false;
+            var sdk = ReadUInt32LittleEndian(general[^0x8..]);
+            return sdk is SAV4.MAGIC_JAPAN_INTL or SAV4.MAGIC_KOREAN;
+        }
     }
 
     /// <summary>Checks to see if the data belongs to a Gen4 Battle Revolution save</summary>

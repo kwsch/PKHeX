@@ -50,7 +50,7 @@ public sealed class PokeRadar6
     public PokeRadar6(Memory<byte> data) => Data = data;
     public override string ToString() => ((Species)PokeRadarSpecies).ToString();
 
-    public ushort PokeRadarSpecies { get => ReadUInt16LittleEndian(Span[0..2]); set => WriteUInt16LittleEndian(Span[0..2], value); }
+    public ushort PokeRadarSpecies { get => ReadUInt16LittleEndian(Span[..2]); set => WriteUInt16LittleEndian(Span[..2], value); }
     private ushort PokeRadarPacked { get => ReadUInt16LittleEndian(Span[2..4]); set => WriteUInt16LittleEndian(Span[2..4], value); }
 
     public int PokeRadarCharge { get => PokeRadarPacked & 0x3FFF; set => PokeRadarPacked = (ushort)((PokeRadarPacked & ~0x3FFF) | Math.Min(MaxCharge, value)); }
@@ -115,7 +115,7 @@ public sealed class Roamer6
     public Roamer6(Memory<byte> data) => Data = data;
     public override string ToString() => ((Species)Species).ToString();
 
-    private ushort SpecForm { get => ReadUInt16LittleEndian(Span[0..2]); set => WriteUInt16LittleEndian(Span[0..2], value); }
+    private ushort SpecForm { get => ReadUInt16LittleEndian(Span[..2]); set => WriteUInt16LittleEndian(Span[..2], value); }
     public ushort Species { get => (ushort)(SpecForm & 0x3FF); set => SpecForm = (ushort)((SpecForm & ~0x3FF) | (value & 0x3FF)); }
     public bool Flag1 { get => SpecForm >> 14 != 0; set => SpecForm = (ushort)((SpecForm & 0xBFFF) | (value ? (1 << 14) : 0)); }
     public bool Flag2 { get => SpecForm >> 15 != 0; set => SpecForm = (ushort)((SpecForm & 0x7FFF) | (value ? (1 << 15) : 0)); }

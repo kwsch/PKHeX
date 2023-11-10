@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Ball;

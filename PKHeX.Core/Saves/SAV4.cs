@@ -114,7 +114,6 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     private static ushort GetBlockChecksumSaved(ReadOnlySpan<byte> data) => ReadUInt16LittleEndian(data[^2..]);
     private bool GetBlockChecksumValid(ReadOnlySpan<byte> data) => CalcBlockChecksum(data) == GetBlockChecksumSaved(data);
 
-
     protected void SetMagics(uint magic)
     {
         WriteUInt32LittleEndian(General[^8..^4], magic);

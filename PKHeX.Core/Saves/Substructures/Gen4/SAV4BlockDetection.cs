@@ -49,7 +49,6 @@ public static class SAV4BlockDetection
         return Same;
     }
 
-
     /// <summary>
     /// Compares two extra blocks to determine which is newest.
     /// </summary>
