@@ -45,7 +45,8 @@ public sealed class SummaryPreviewer
     {
         var cLoc = Cursor.Position;
         var shift = Settings.PreviewCursorShift;
-        Previewer.Location = cLoc with { X = cLoc.X + shift.X, Y = cLoc.Y + shift.Y };
+        cLoc.Offset(shift);
+        Previewer.Location = cLoc;
     }
 
     public void Show(Control pb, IEncounterInfo enc)

@@ -37,9 +37,9 @@ namespace PKHeX.WinForms.Controls
             // 
             // FLP_Move
             // 
+            FLP_Move.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             FLP_Move.Controls.Add(PB_Type);
             FLP_Move.Controls.Add(L_Move);
-            FLP_Move.Dock = System.Windows.Forms.DockStyle.Fill;
             FLP_Move.Location = new System.Drawing.Point(0, 0);
             FLP_Move.Name = "FLP_Move";
             FLP_Move.Size = new System.Drawing.Size(138, 24);
@@ -57,11 +57,11 @@ namespace PKHeX.WinForms.Controls
             // 
             // L_Move
             // 
-            L_Move.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            L_Move.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             L_Move.Location = new System.Drawing.Point(26, 0);
             L_Move.Margin = new System.Windows.Forms.Padding(0);
             L_Move.Name = "L_Move";
-            L_Move.Size = new System.Drawing.Size(100, 24);
+            L_Move.Size = new System.Drawing.Size(112, 24);
             L_Move.TabIndex = 79;
             L_Move.Text = "Name";
             L_Move.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

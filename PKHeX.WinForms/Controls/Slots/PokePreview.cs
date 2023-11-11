@@ -11,10 +11,15 @@ public partial class PokePreview : Form
     /// <summary> Minimum width to display the form. </summary>
     private readonly int InitialWidth;
 
+    private readonly int InitialNameWidth;
+
+    private const int interiorMargin = 4; // 2x pixel border on each side
+
     public PokePreview()
     {
         InitializeComponent();
         InitialWidth = Width;
+        InitialNameWidth = L_Name.Width;
     }
 
     private static readonly Image[] GenderImages =
@@ -27,16 +32,23 @@ public partial class PokePreview : Form
     public void Populate(PKM pk)
     {
         var la = new LegalityAnalysis(pk);
-        PopulateHeader(pk);
-        PopulateMoves(pk, la);
-        PopulateText(pk, la);
+        int width = PopulateHeader(pk);
+        PopulateMoves(pk, la, ref width);
+        PopulateText(pk, la, width);
     }
 
-    private void PopulateHeader(PKM pk)
+    private int PopulateHeader(PKM pk)
     {
-        L_Name.Text = pk.Nickname;
+        var nick = pk.Nickname;
+        var size = MeasureSize(nick, L_Name.Font);
+        L_Name.Width = Math.Max(InitialNameWidth, size.Width);
+        L_Name.Text = nick;
+
         PopulateBall(pk);
         PopulateGender(pk);
+
+        var width = L_Name.Width + PB_Ball.Width + PB_Ball.Margin.Horizontal + PB_Gender.Width + PB_Gender.Margin.Horizontal + interiorMargin;
+        return Math.Max(InitialWidth, width);
     }
 
     private void PopulateBall(PKM pk)
@@ -61,28 +73,32 @@ public partial class PokePreview : Form
         PB_Gender.Image = GenderImages[gender];
     }
 
-    private void PopulateMoves(PKM pk, LegalityAnalysis la)
+    private void PopulateMoves(PKM pk, LegalityAnalysis la, ref int width)
     {
         var context = pk.Context;
         var names = GameInfo.Strings.movelist;
-        Move1.Populate(pk, pk.Move1, context, names, la.Info.Moves[0].Valid);
-        Move2.Populate(pk, pk.Move2, context, names, la.Info.Moves[1].Valid);
-        Move3.Populate(pk, pk.Move3, context, names, la.Info.Moves[2].Valid);
-        Move4.Populate(pk, pk.Move4, context, names, la.Info.Moves[3].Valid);
+        var check = la.Info.Moves;
+        var w1 = Move1.Populate(pk, pk.Move1, context, names, check[0].Valid);
+        var w2 = Move2.Populate(pk, pk.Move2, context, names, check[1].Valid);
+        var w3 = Move3.Populate(pk, pk.Move3, context, names, check[2].Valid);
+        var w4 = Move4.Populate(pk, pk.Move4, context, names, check[3].Valid);
+
+        var maxWidth = Math.Max(w1, Math.Max(w2, Math.Max(w3, w4)));
+        width = Math.Max(width, maxWidth + Move1.Margin.Horizontal + interiorMargin);
     }
 
-    private void PopulateText(PKM pk, LegalityAnalysis la)
+    private void PopulateText(PKM pk, LegalityAnalysis la, int minWidth)
     {
         var (stats, enc) = GetStatsString(pk, la);
         var settings = Main.Settings.Hover;
-        var height = FLP_List.Top + FLP_Moves.Height + FLP_Moves.Margin.Vertical + 4; // 1px border * 4
-        var width = InitialWidth;
+        var height = FLP_List.Top + FLP_Moves.Height + FLP_Moves.Margin.Vertical + interiorMargin;
+        var width = minWidth;
         ToggleLabel(L_Stats, stats, settings.PreviewShowPaste, ref width, ref height);
         ToggleLabel(L_Etc, enc, settings.HoverSlotShowEncounter, ref width, ref height);
         Size = new Size(width, height);
     }
 
-    private void ToggleLabel(Control display, string text, bool visible, ref int width, ref int height)
+    private static void ToggleLabel(Control display, string text, bool visible, ref int width, ref int height)
     {
         if (!visible)
         {
@@ -90,9 +106,7 @@ public partial class PokePreview : Form
             return;
         }
 
-        const TextFormatFlags flags = TextFormatFlags.LeftAndRightPadding | TextFormatFlags.VerticalCenter;
-
-        var size = TextRenderer.MeasureText(text, Font, new Size(), flags);
+        var size = MeasureSize(text, display.Font);
         width = Math.Max(width, display.Margin.Horizontal + size.Width);
         var actHeight = size.Height;
         height += actHeight + display.Margin.Vertical;
@@ -100,6 +114,12 @@ public partial class PokePreview : Form
         display.Height = actHeight;
         display.Text = text;
         display.Visible = true;
+    }
+
+    public static Size MeasureSize(string text, Font font)
+    {
+        const TextFormatFlags flags = TextFormatFlags.LeftAndRightPadding | TextFormatFlags.VerticalCenter;
+        return TextRenderer.MeasureText(text, font, new Size(), flags);
     }
 
     private static (string Detail, string Encounter) GetStatsString(PKM pk, LegalityAnalysis la)
