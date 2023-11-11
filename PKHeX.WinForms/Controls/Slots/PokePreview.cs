@@ -8,13 +8,14 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class PokePreview : Form
 {
+    /// <summary> Minimum width to display the form. </summary>
+    private readonly int InitialWidth;
+
     public PokePreview()
     {
         InitializeComponent();
         InitialWidth = Width;
     }
-
-    private readonly int InitialWidth;
 
     private static readonly Image[] GenderImages =
     {
@@ -146,5 +147,19 @@ public partial class PokePreview : Form
         return (detail.TrimEnd(), enc.TrimEnd());
 
         static bool IsMoveLine(ReadOnlySpan<char> line) => line.Length != 0 && line[0] == '-';
+    }
+
+    /// <summary> Prevent stealing focus from the form that shows this. </summary>
+    protected override bool ShowWithoutActivation => true;
+
+    private const int WS_EX_TOPMOST = 0x00000008;
+    protected override CreateParams CreateParams
+    {
+        get
+        {
+            CreateParams createParams = base.CreateParams;
+            createParams.ExStyle |= WS_EX_TOPMOST;
+            return createParams;
+        }
     }
 }

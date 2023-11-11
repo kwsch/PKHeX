@@ -59,7 +59,7 @@ namespace PKHeX.WinForms.Controls
             PAN_All.Location = new System.Drawing.Point(0, 0);
             PAN_All.Margin = new System.Windows.Forms.Padding(0);
             PAN_All.Name = "PAN_All";
-            PAN_All.Size = new System.Drawing.Size(148, 348);
+            PAN_All.Size = new System.Drawing.Size(148, 180);
             PAN_All.TabIndex = 19;
             // 
             // FLP_List
@@ -71,7 +71,7 @@ namespace PKHeX.WinForms.Controls
             FLP_List.Controls.Add(L_Etc);
             FLP_List.Location = new System.Drawing.Point(0, 34);
             FLP_List.Name = "FLP_List";
-            FLP_List.Size = new System.Drawing.Size(146, 312);
+            FLP_List.Size = new System.Drawing.Size(146, 144);
             FLP_List.TabIndex = 1;
             // 
             // L_Stats
@@ -190,7 +190,7 @@ namespace PKHeX.WinForms.Controls
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(148, 348);
+            ClientSize = new System.Drawing.Size(148, 180);
             Controls.Add(PAN_All);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             MaximizeBox = false;
@@ -199,7 +199,6 @@ namespace PKHeX.WinForms.Controls
             ShowIcon = false;
             ShowInTaskbar = false;
             Text = "PokePreview";
-            TopMost = true;
             PAN_All.ResumeLayout(false);
             FLP_List.ResumeLayout(false);
             FLP_List.PerformLayout();

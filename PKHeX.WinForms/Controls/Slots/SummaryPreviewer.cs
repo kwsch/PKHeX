@@ -77,6 +77,8 @@ public sealed class SummaryPreviewer
     public static string GetPreviewText(PKM pk, LegalityAnalysis la)
     {
         var text = ShowdownParsing.GetLocalizedPreviewText(pk, Main.Settings.Startup.Language);
+        if (!Main.Settings.Hover.HoverSlotShowEncounter)
+            return text;
         var result = new List<string> { text, string.Empty };
         LegalityFormatting.AddEncounterInfo(la, result);
         return string.Join(Environment.NewLine, result);
