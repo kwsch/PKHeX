@@ -74,7 +74,7 @@ public partial class PokePreview : Form
     {
         var (stats, enc) = GetStatsString(pk, la);
         var settings = Main.Settings.Hover;
-        var height = FLP_List.Top + (pk.MoveCount * Move1.Height) + 4;
+        var height = FLP_List.Top + FLP_Moves.Height + FLP_Moves.Margin.Vertical + 4; // 1px border * 4
         var width = InitialWidth;
         ToggleLabel(L_Stats, stats, settings.HoverSlotShowPaste, ref width, ref height);
         ToggleLabel(L_Etc, enc, settings.HoverSlotShowEncounter, ref width, ref height);
@@ -89,12 +89,13 @@ public partial class PokePreview : Form
             return;
         }
 
-        const int factor = 8;
-        var size = TextRenderer.MeasureText(text, Font);
-        width = Math.Max(width, display.Left + size.Width + factor);
-        var actHeight = (int)Math.Round((size.Height + factor) / (double)factor, MidpointRounding.AwayFromZero) * factor;
-        height += actHeight + display.Margin.Top;
-        display.Width = size.Width + factor - display.Left;
+        const TextFormatFlags flags = TextFormatFlags.LeftAndRightPadding | TextFormatFlags.VerticalCenter;
+
+        var size = TextRenderer.MeasureText(text, Font, new Size(), flags);
+        width = Math.Max(width, display.Margin.Horizontal + size.Width);
+        var actHeight = size.Height;
+        height += actHeight + display.Margin.Vertical;
+        display.Width = size.Width;
         display.Height = actHeight;
         display.Text = text;
         display.Visible = true;

@@ -42,8 +42,9 @@ public sealed class SummaryPreviewer
 
     public void UpdatePreviewPosition(Point location)
     {
-        var pt = Cursor.Position;
-        Previewer.Location = pt with { X = pt.X + 12, Y = pt.Y + 8 };
+        var cLoc = Cursor.Position;
+        var cSize = Cursor.Current?.Size ?? new Size(16, 8);
+        Previewer.Location = cLoc with { X = cLoc.X + (cSize.Width / 2), Y = cLoc.Y + (cSize.Height / 4)};
     }
 
     public void Show(Control pb, IEncounterInfo enc)
