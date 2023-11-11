@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -11,6 +13,7 @@ public sealed class SummaryPreviewer
     private readonly ToolTip ShowSet = new() { InitialDelay = 200, IsBalloon = false, AutoPopDelay = 32_767 };
     private readonly CryPlayer Cry = new();
     private readonly PokePreview Previewer = new();
+    private CancellationTokenSource _source = new();
 
     public void Show(Control pb, PKM pk)
     {
@@ -30,6 +33,8 @@ public sealed class SummaryPreviewer
 
     private void UpdatePreview(Control pb, PKM pk)
     {
+        _source.Cancel();
+        _source = new();
         UpdatePreviewPosition(new());
         Previewer.Populate(pk);
         Previewer.Show();
@@ -57,7 +62,13 @@ public sealed class SummaryPreviewer
 
     public void Clear()
     {
-        Previewer.Hide();
+        var src = _source;
+        Task.Run(async () =>
+        {
+            await Task.Delay(50, CancellationToken.None).ConfigureAwait(false);
+            if (!src.IsCancellationRequested)
+                Previewer.Invoke(Previewer.Hide);
+        }, src.Token);
         ShowSet.RemoveAll();
         Cry.Stop();
     }

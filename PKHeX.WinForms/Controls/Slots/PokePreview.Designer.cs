@@ -187,6 +187,7 @@ namespace PKHeX.WinForms.Controls
             ShowIcon = false;
             ShowInTaskbar = false;
             Text = "PokePreview";
+            TopMost = true;
             PAN_All.ResumeLayout(false);
             FLP_List.ResumeLayout(false);
             PAN_Top.ResumeLayout(false);
