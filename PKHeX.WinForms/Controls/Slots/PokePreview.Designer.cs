@@ -28,241 +28,158 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new System.Windows.Forms.Panel();
-            splitContainer1 = new System.Windows.Forms.SplitContainer();
-            PB_Other = new System.Windows.Forms.PictureBox();
-            PB_Gender = new System.Windows.Forms.PictureBox();
-            PB_Type2 = new System.Windows.Forms.PictureBox();
-            PB_Type1 = new System.Windows.Forms.PictureBox();
+            PAN_All = new System.Windows.Forms.Panel();
+            FLP_List = new System.Windows.Forms.FlowLayoutPanel();
+            L_Stats = new System.Windows.Forms.Label();
+            Move1 = new MoveDisplay();
+            Move2 = new MoveDisplay();
+            Move3 = new MoveDisplay();
+            Move4 = new MoveDisplay();
+            L_Etc = new System.Windows.Forms.Label();
+            PAN_Top = new System.Windows.Forms.Panel();
             L_Name = new System.Windows.Forms.Label();
             PB_Ball = new System.Windows.Forms.PictureBox();
-            L_Stats = new System.Windows.Forms.Label();
-            L_Move4 = new System.Windows.Forms.Label();
-            L_Move3 = new System.Windows.Forms.Label();
-            L_Move2 = new System.Windows.Forms.Label();
-            L_Move1 = new System.Windows.Forms.Label();
-            PB_Move4 = new System.Windows.Forms.PictureBox();
-            PB_Move3 = new System.Windows.Forms.PictureBox();
-            PB_Move2 = new System.Windows.Forms.PictureBox();
-            PB_Move1 = new System.Windows.Forms.PictureBox();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)PB_Other).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Gender).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Type2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Type1).BeginInit();
+            PB_Gender = new System.Windows.Forms.PictureBox();
+            PAN_All.SuspendLayout();
+            FLP_List.SuspendLayout();
+            PAN_Top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)PB_Ball).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Move4).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Move3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Move2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Move1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Gender).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // PAN_All
             // 
-            panel1.BackColor = System.Drawing.SystemColors.Window;
-            panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            panel1.Controls.Add(splitContainer1);
-            panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            panel1.Location = new System.Drawing.Point(0, 0);
-            panel1.Margin = new System.Windows.Forms.Padding(0);
-            panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(276, 152);
-            panel1.TabIndex = 19;
+            PAN_All.BackColor = System.Drawing.SystemColors.Window;
+            PAN_All.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            PAN_All.Controls.Add(FLP_List);
+            PAN_All.Controls.Add(PAN_Top);
+            PAN_All.Dock = System.Windows.Forms.DockStyle.Fill;
+            PAN_All.Location = new System.Drawing.Point(0, 0);
+            PAN_All.Margin = new System.Windows.Forms.Padding(0);
+            PAN_All.Name = "PAN_All";
+            PAN_All.Size = new System.Drawing.Size(148, 180);
+            PAN_All.TabIndex = 19;
             // 
-            // splitContainer1
+            // FLP_List
             // 
-            splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            splitContainer1.IsSplitterFixed = true;
-            splitContainer1.Location = new System.Drawing.Point(0, 0);
-            splitContainer1.Margin = new System.Windows.Forms.Padding(0);
-            splitContainer1.Name = "splitContainer1";
-            splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            FLP_List.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            FLP_List.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            FLP_List.Controls.Add(L_Stats);
+            FLP_List.Controls.Add(Move1);
+            FLP_List.Controls.Add(Move2);
+            FLP_List.Controls.Add(Move3);
+            FLP_List.Controls.Add(Move4);
+            FLP_List.Controls.Add(L_Etc);
+            FLP_List.Location = new System.Drawing.Point(0, 34);
+            FLP_List.Name = "FLP_List";
+            FLP_List.Size = new System.Drawing.Size(146, 144);
+            FLP_List.TabIndex = 1;
             // 
-            // splitContainer1.Panel1
+            // L_Stats
             // 
-            splitContainer1.Panel1.Controls.Add(PB_Other);
-            splitContainer1.Panel1.Controls.Add(PB_Gender);
-            splitContainer1.Panel1.Controls.Add(PB_Type2);
-            splitContainer1.Panel1.Controls.Add(PB_Type1);
-            splitContainer1.Panel1.Controls.Add(L_Name);
-            splitContainer1.Panel1.Controls.Add(PB_Ball);
+            FLP_List.SetFlowBreak(L_Stats, true);
+            L_Stats.Location = new System.Drawing.Point(2, 2);
+            L_Stats.Margin = new System.Windows.Forms.Padding(2, 2, 0, 0);
+            L_Stats.Name = "L_Stats";
+            L_Stats.Size = new System.Drawing.Size(32, 15);
+            L_Stats.TabIndex = 5;
+            L_Stats.Text = "Stats";
             // 
-            // splitContainer1.Panel2
+            // Move1
             // 
-            splitContainer1.Panel2.Controls.Add(L_Stats);
-            splitContainer1.Panel2.Controls.Add(L_Move4);
-            splitContainer1.Panel2.Controls.Add(L_Move3);
-            splitContainer1.Panel2.Controls.Add(L_Move2);
-            splitContainer1.Panel2.Controls.Add(L_Move1);
-            splitContainer1.Panel2.Controls.Add(PB_Move4);
-            splitContainer1.Panel2.Controls.Add(PB_Move3);
-            splitContainer1.Panel2.Controls.Add(PB_Move2);
-            splitContainer1.Panel2.Controls.Add(PB_Move1);
-            splitContainer1.Size = new System.Drawing.Size(274, 150);
-            splitContainer1.SplitterDistance = 40;
-            splitContainer1.SplitterWidth = 1;
-            splitContainer1.TabIndex = 52;
+            FLP_List.SetFlowBreak(Move1, true);
+            Move1.Location = new System.Drawing.Point(4, 17);
+            Move1.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            Move1.Name = "Move1";
+            Move1.Size = new System.Drawing.Size(138, 24);
+            Move1.TabIndex = 1;
             // 
-            // PB_Other
+            // Move2
             // 
-            PB_Other.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            PB_Other.Location = new System.Drawing.Point(232, 8);
-            PB_Other.Margin = new System.Windows.Forms.Padding(0);
-            PB_Other.Name = "PB_Other";
-            PB_Other.Size = new System.Drawing.Size(24, 24);
-            PB_Other.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            PB_Other.TabIndex = 45;
-            PB_Other.TabStop = false;
+            FLP_List.SetFlowBreak(Move2, true);
+            Move2.Location = new System.Drawing.Point(4, 41);
+            Move2.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            Move2.Name = "Move2";
+            Move2.Size = new System.Drawing.Size(138, 24);
+            Move2.TabIndex = 2;
             // 
-            // PB_Gender
+            // Move3
             // 
-            PB_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            PB_Gender.Location = new System.Drawing.Point(128, 8);
-            PB_Gender.Margin = new System.Windows.Forms.Padding(0);
-            PB_Gender.Name = "PB_Gender";
-            PB_Gender.Size = new System.Drawing.Size(24, 24);
-            PB_Gender.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            PB_Gender.TabIndex = 44;
-            PB_Gender.TabStop = false;
+            FLP_List.SetFlowBreak(Move3, true);
+            Move3.Location = new System.Drawing.Point(4, 65);
+            Move3.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            Move3.Name = "Move3";
+            Move3.Size = new System.Drawing.Size(138, 24);
+            Move3.TabIndex = 3;
             // 
-            // PB_Type2
+            // Move4
             // 
-            PB_Type2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            PB_Type2.Location = new System.Drawing.Point(192, 8);
-            PB_Type2.Margin = new System.Windows.Forms.Padding(0);
-            PB_Type2.Name = "PB_Type2";
-            PB_Type2.Size = new System.Drawing.Size(24, 24);
-            PB_Type2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            PB_Type2.TabIndex = 43;
-            PB_Type2.TabStop = false;
+            FLP_List.SetFlowBreak(Move4, true);
+            Move4.Location = new System.Drawing.Point(4, 89);
+            Move4.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
+            Move4.Name = "Move4";
+            Move4.Size = new System.Drawing.Size(138, 24);
+            Move4.TabIndex = 4;
             // 
-            // PB_Type1
+            // L_Etc
             // 
-            PB_Type1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            PB_Type1.Location = new System.Drawing.Point(168, 8);
-            PB_Type1.Margin = new System.Windows.Forms.Padding(0);
-            PB_Type1.Name = "PB_Type1";
-            PB_Type1.Size = new System.Drawing.Size(24, 24);
-            PB_Type1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            PB_Type1.TabIndex = 42;
-            PB_Type1.TabStop = false;
+            FLP_List.SetFlowBreak(L_Etc, true);
+            L_Etc.Location = new System.Drawing.Point(2, 115);
+            L_Etc.Margin = new System.Windows.Forms.Padding(2, 2, 0, 0);
+            L_Etc.Name = "L_Etc";
+            L_Etc.Size = new System.Drawing.Size(28, 15);
+            L_Etc.TabIndex = 6;
+            L_Etc.Text = "Info";
+            // 
+            // PAN_Top
+            // 
+            PAN_Top.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            PAN_Top.Controls.Add(L_Name);
+            PAN_Top.Controls.Add(PB_Ball);
+            PAN_Top.Controls.Add(PB_Gender);
+            PAN_Top.Dock = System.Windows.Forms.DockStyle.Top;
+            PAN_Top.Location = new System.Drawing.Point(0, 0);
+            PAN_Top.Name = "PAN_Top";
+            PAN_Top.Size = new System.Drawing.Size(146, 34);
+            PAN_Top.TabIndex = 0;
             // 
             // L_Name
             // 
-            L_Name.Location = new System.Drawing.Point(40, 8);
+            L_Name.Location = new System.Drawing.Point(30, 4);
             L_Name.Name = "L_Name";
-            L_Name.Size = new System.Drawing.Size(100, 24);
-            L_Name.TabIndex = 41;
+            L_Name.Size = new System.Drawing.Size(80, 24);
+            L_Name.TabIndex = 0;
             L_Name.Text = "Species";
             L_Name.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PB_Ball
             // 
             PB_Ball.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            PB_Ball.Location = new System.Drawing.Point(8, 8);
+            PB_Ball.Location = new System.Drawing.Point(4, 4);
             PB_Ball.Margin = new System.Windows.Forms.Padding(0);
             PB_Ball.Name = "PB_Ball";
             PB_Ball.Size = new System.Drawing.Size(24, 24);
             PB_Ball.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            PB_Ball.TabIndex = 40;
+            PB_Ball.TabIndex = 68;
             PB_Ball.TabStop = false;
             // 
-            // L_Stats
+            // PB_Gender
             // 
-            L_Stats.Location = new System.Drawing.Point(162, 4);
-            L_Stats.Name = "L_Stats";
-            L_Stats.Size = new System.Drawing.Size(100, 96);
-            L_Stats.TabIndex = 58;
-            L_Stats.Text = "Stats";
-            L_Stats.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // L_Move4
-            // 
-            L_Move4.Location = new System.Drawing.Point(40, 78);
-            L_Move4.Name = "L_Move4";
-            L_Move4.Size = new System.Drawing.Size(100, 24);
-            L_Move4.TabIndex = 57;
-            L_Move4.Text = "Move4";
-            L_Move4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // L_Move3
-            // 
-            L_Move3.Location = new System.Drawing.Point(40, 54);
-            L_Move3.Name = "L_Move3";
-            L_Move3.Size = new System.Drawing.Size(100, 24);
-            L_Move3.TabIndex = 56;
-            L_Move3.Text = "Move3";
-            L_Move3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // L_Move2
-            // 
-            L_Move2.Location = new System.Drawing.Point(40, 30);
-            L_Move2.Name = "L_Move2";
-            L_Move2.Size = new System.Drawing.Size(100, 24);
-            L_Move2.TabIndex = 55;
-            L_Move2.Text = "Move2";
-            L_Move2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // L_Move1
-            // 
-            L_Move1.Location = new System.Drawing.Point(40, 6);
-            L_Move1.Name = "L_Move1";
-            L_Move1.Size = new System.Drawing.Size(100, 24);
-            L_Move1.TabIndex = 54;
-            L_Move1.Text = "Move1";
-            L_Move1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // PB_Move4
-            // 
-            PB_Move4.Location = new System.Drawing.Point(8, 78);
-            PB_Move4.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            PB_Move4.Name = "PB_Move4";
-            PB_Move4.Size = new System.Drawing.Size(24, 24);
-            PB_Move4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            PB_Move4.TabIndex = 53;
-            PB_Move4.TabStop = false;
-            // 
-            // PB_Move3
-            // 
-            PB_Move3.Location = new System.Drawing.Point(8, 54);
-            PB_Move3.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            PB_Move3.Name = "PB_Move3";
-            PB_Move3.Size = new System.Drawing.Size(24, 24);
-            PB_Move3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            PB_Move3.TabIndex = 52;
-            PB_Move3.TabStop = false;
-            // 
-            // PB_Move2
-            // 
-            PB_Move2.Location = new System.Drawing.Point(8, 30);
-            PB_Move2.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            PB_Move2.Name = "PB_Move2";
-            PB_Move2.Size = new System.Drawing.Size(24, 24);
-            PB_Move2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            PB_Move2.TabIndex = 51;
-            PB_Move2.TabStop = false;
-            // 
-            // PB_Move1
-            // 
-            PB_Move1.Location = new System.Drawing.Point(8, 6);
-            PB_Move1.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            PB_Move1.Name = "PB_Move1";
-            PB_Move1.Size = new System.Drawing.Size(24, 24);
-            PB_Move1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            PB_Move1.TabIndex = 50;
-            PB_Move1.TabStop = false;
+            PB_Gender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            PB_Gender.Location = new System.Drawing.Point(115, 4);
+            PB_Gender.Margin = new System.Windows.Forms.Padding(0);
+            PB_Gender.Name = "PB_Gender";
+            PB_Gender.Size = new System.Drawing.Size(24, 24);
+            PB_Gender.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            PB_Gender.TabIndex = 70;
+            PB_Gender.TabStop = false;
             // 
             // PokePreview
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(276, 152);
-            Controls.Add(panel1);
+            ClientSize = new System.Drawing.Size(148, 180);
+            Controls.Add(PAN_All);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -270,41 +187,27 @@ namespace PKHeX.WinForms.Controls
             ShowIcon = false;
             ShowInTaskbar = false;
             Text = "PokePreview";
-            panel1.ResumeLayout(false);
-            splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)PB_Other).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Gender).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Type2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Type1).EndInit();
+            PAN_All.ResumeLayout(false);
+            FLP_List.ResumeLayout(false);
+            PAN_Top.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)PB_Ball).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Move4).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Move3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Move2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)PB_Move1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)PB_Gender).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.PictureBox PB_Other;
-        private System.Windows.Forms.PictureBox PB_Gender;
-        private System.Windows.Forms.PictureBox PB_Type2;
-        private System.Windows.Forms.PictureBox PB_Type1;
+        private System.Windows.Forms.Panel PAN_All;
+        private System.Windows.Forms.FlowLayoutPanel FLP_List;
+        private System.Windows.Forms.Label L_Stats;
+        private System.Windows.Forms.Panel PAN_Top;
         private System.Windows.Forms.Label L_Name;
         private System.Windows.Forms.PictureBox PB_Ball;
-        private System.Windows.Forms.Label L_Stats;
-        private System.Windows.Forms.Label L_Move4;
-        private System.Windows.Forms.Label L_Move3;
-        private System.Windows.Forms.Label L_Move2;
-        private System.Windows.Forms.Label L_Move1;
-        private System.Windows.Forms.PictureBox PB_Move4;
-        private System.Windows.Forms.PictureBox PB_Move3;
-        private System.Windows.Forms.PictureBox PB_Move2;
-        private System.Windows.Forms.PictureBox PB_Move1;
+        private System.Windows.Forms.PictureBox PB_Gender;
+        private MoveDisplay Move1;
+        private MoveDisplay Move2;
+        private MoveDisplay Move3;
+        private MoveDisplay Move4;
+        private System.Windows.Forms.Label L_Etc;
     }
 }

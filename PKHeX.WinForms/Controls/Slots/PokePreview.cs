@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.Drawing.Misc;
 
 namespace PKHeX.WinForms.Controls;
 
@@ -13,11 +12,9 @@ public partial class PokePreview : Form
     {
         InitializeComponent();
         InitialWidth = Width;
-        InitialHeight = Height;
     }
 
     private readonly int InitialWidth;
-    private readonly int InitialHeight;
 
     private static readonly Image[] GenderImages =
     {
@@ -28,23 +25,16 @@ public partial class PokePreview : Form
 
     public void Populate(PKM pk)
     {
-        var pi = pk.PersonalInfo;
-        PopulateHeader(pk, pi);
+        PopulateHeader(pk);
         PopulateMoves(pk);
-        PopulateStats(pk);
+        PopulateText(pk);
     }
 
-    private void PopulateHeader(PKM pk, IPersonalType pi)
+    private void PopulateHeader(PKM pk)
     {
         L_Name.Text = pk.Nickname;
         PopulateBall(pk);
         PopulateGender(pk);
-        PopulateExtra(pk);
-
-        var type1 = pi.Type1;
-        var type2 = pi.Type2;
-        PB_Type1.Image = TypeSpriteUtil.GetTypeSpriteIcon(type1);
-        PB_Type2.Image = type1 == type2 ? null : TypeSpriteUtil.GetTypeSpriteIcon(type2);
     }
 
     private void PopulateBall(PKM pk)
@@ -53,16 +43,6 @@ public partial class PokePreview : Form
         if (pk.Format >= 3)
             ball = pk.Ball;
         PB_Ball.Image = Drawing.PokeSprite.SpriteUtil.GetBallSprite(ball);
-    }
-
-    private void PopulateExtra(PKM pk)
-    {
-        if (pk is IGigantamaxReadOnly { CanGigantamax: true })
-            PB_Other.Image = Drawing.PokeSprite.Properties.Resources.dyna;
-        else if (pk is ITeraTypeReadOnly tera)
-            PB_Other.Image = TypeSpriteUtil.GetTypeSpriteGem((byte)tera.TeraType);
-        else
-            PB_Other.Image = null;
     }
 
     private void PopulateGender(PKM pk)
@@ -83,52 +63,86 @@ public partial class PokePreview : Form
     {
         var context = pk.Context;
         var names = GameInfo.Strings.movelist;
-        ToggleMove(PB_Move1, L_Move1, pk.Move1, names, context);
-        ToggleMove(PB_Move2, L_Move2, pk.Move2, names, context);
-        ToggleMove(PB_Move3, L_Move3, pk.Move3, names, context);
-        ToggleMove(PB_Move4, L_Move4, pk.Move4, names, context);
+        Move1.Populate(pk.Move1, context, names);
+        Move2.Populate(pk.Move2, context, names);
+        Move3.Populate(pk.Move3, context, names);
+        Move4.Populate(pk.Move4, context, names);
     }
 
-    private static void ToggleMove(PictureBox type, Control text, ushort move, ReadOnlySpan<string> moves, EntityContext context)
+    private void PopulateText(PKM pk)
     {
-        if (move == 0 || move >= moves.Length)
+        var (stats, enc) = GetStatsString(pk);
+        var settings = Main.Settings.Hover;
+        var height = FLP_List.Top + (pk.MoveCount * Move1.Height) + 4;
+        var width = InitialWidth;
+        ToggleLabel(L_Stats, stats, settings.HoverSlotShowPaste, ref width, ref height);
+        ToggleLabel(L_Etc, enc, settings.HoverSlotShowEncounter, ref width, ref height);
+        Size = new Size(width, height);
+    }
+
+    private void ToggleLabel(Control display, string text, bool visible, ref int width, ref int height)
+    {
+        if (!visible)
         {
-            type.Visible = text.Visible = false;
+            display.Visible = false;
             return;
         }
 
-        var moveType = MoveInfo.GetType(move, context);
-        type.Image = TypeSpriteUtil.GetTypeSpriteIcon(moveType);
-        type.Visible = text.Visible = true;
-        text.Text = moves[move];
+        const int factor = 8;
+        var size = TextRenderer.MeasureText(text, Font);
+        width = Math.Max(width, display.Left + size.Width + factor);
+        var actHeight = (int)Math.Round((size.Height + factor) / (double)factor, MidpointRounding.AwayFromZero) * factor;
+        height += actHeight + display.Margin.Top;
+        display.Width = size.Width + factor - display.Left;
+        display.Height = actHeight;
+        display.Text = text;
+        display.Visible = true;
     }
 
-    private void PopulateStats(PKM pk)
-    {
-        var stats = GetStatsString(pk);
-        var size = TextRenderer.MeasureText(stats, Font);
-        var totalFormWidth = size.Width + L_Stats.Left + 4;
-        var totalFormHeight = size.Height + L_Stats.Top + 8;
-        Width = Math.Clamp(totalFormWidth, InitialWidth, totalFormWidth);
-        L_Stats.Width = size.Width;
-        Height = Math.Clamp(totalFormHeight, InitialHeight, totalFormHeight);
-        L_Stats.Height = size.Height;
-        L_Stats.Text = stats;
-    }
-
-    private static string GetStatsString(PKM pk)
+    private static (string Detail, string Encounter) GetStatsString(PKM pk)
     {
         var setText = SummaryPreviewer.GetPreviewText(pk);
         var sb = new StringBuilder();
         var lines = setText.AsSpan().EnumerateLines();
-        lines.MoveNext(); // Skip Species Name Line
+        if (!lines.MoveNext())
+            throw new ArgumentException("Invalid text format", nameof(pk));
+
+        var first = lines.Current;
+        var itemIndex = first.IndexOf('@');
+        if (itemIndex != -1) // Held Item
+        {
+            var remaining = first[(itemIndex + 2)..];
+            if (remaining[^1] == ')')
+                remaining = remaining[..^3]; // lop off gender
+            var item = remaining.Trim().ToString();
+            sb.AppendLine(item);
+        }
+
         while (lines.MoveNext())
         {
             var line = lines.Current;
-            if (line.Length != 0 && line[0] == '-')
-                continue; // Skip moves
+            if (IsMoveLine(line))
+            {
+                while (lines.MoveNext())
+                {
+                    if (!IsMoveLine(lines.Current))
+                        break;
+                }
+                break;
+            }
             sb.AppendLine(line.ToString());
         }
-        return sb.ToString();
+
+        var detail = sb.ToString();
+        sb.Clear();
+        while (lines.MoveNext())
+        {
+            var line = lines.Current;
+            sb.AppendLine(line.ToString());
+        }
+        var enc = sb.ToString();
+        return (detail.TrimEnd(), enc.TrimEnd());
+
+        static bool IsMoveLine(ReadOnlySpan<char> line) => line.Length != 0 && line[0] == '-';
     }
 }
