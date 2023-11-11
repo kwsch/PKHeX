@@ -26,7 +26,7 @@ public sealed class SummaryPreviewer
         if (Main.Settings.Hover.HoverSlotShowPreview && Control.ModifierKeys != Keys.Alt)
             UpdatePreview(pb, pk);
         else if (Main.Settings.Hover.HoverSlotShowText)
-            ShowSet.SetToolTip(pb, GetPreviewText(pk));
+            ShowSet.SetToolTip(pb, GetPreviewText(pk, new LegalityAnalysis(pk)));
         if (Main.Settings.Hover.HoverSlotPlayCry)
             Cry.PlayCry(pk, pk.Context);
     }
@@ -73,10 +73,9 @@ public sealed class SummaryPreviewer
         Cry.Stop();
     }
 
-    public static string GetPreviewText(PKM pk)
+    public static string GetPreviewText(PKM pk, LegalityAnalysis la)
     {
         var text = ShowdownParsing.GetLocalizedPreviewText(pk, Main.Settings.Startup.Language);
-        var la = new LegalityAnalysis(pk);
         var result = new List<string> { text, string.Empty };
         LegalityFormatting.AddEncounterInfo(la, result);
         return string.Join(Environment.NewLine, result);

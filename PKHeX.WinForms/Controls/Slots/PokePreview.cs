@@ -25,9 +25,10 @@ public partial class PokePreview : Form
 
     public void Populate(PKM pk)
     {
+        var la = new LegalityAnalysis(pk);
         PopulateHeader(pk);
-        PopulateMoves(pk);
-        PopulateText(pk);
+        PopulateMoves(pk, la);
+        PopulateText(pk, la);
     }
 
     private void PopulateHeader(PKM pk)
@@ -59,19 +60,19 @@ public partial class PokePreview : Form
         PB_Gender.Image = GenderImages[gender];
     }
 
-    private void PopulateMoves(PKM pk)
+    private void PopulateMoves(PKM pk, LegalityAnalysis la)
     {
         var context = pk.Context;
         var names = GameInfo.Strings.movelist;
-        Move1.Populate(pk.Move1, context, names);
-        Move2.Populate(pk.Move2, context, names);
-        Move3.Populate(pk.Move3, context, names);
-        Move4.Populate(pk.Move4, context, names);
+        Move1.Populate(pk.Move1, context, names, la.Info.Moves[0].Valid);
+        Move2.Populate(pk.Move2, context, names, la.Info.Moves[1].Valid);
+        Move3.Populate(pk.Move3, context, names, la.Info.Moves[2].Valid);
+        Move4.Populate(pk.Move4, context, names, la.Info.Moves[3].Valid);
     }
 
-    private void PopulateText(PKM pk)
+    private void PopulateText(PKM pk, LegalityAnalysis la)
     {
-        var (stats, enc) = GetStatsString(pk);
+        var (stats, enc) = GetStatsString(pk, la);
         var settings = Main.Settings.Hover;
         var height = FLP_List.Top + (pk.MoveCount * Move1.Height) + 4;
         var width = InitialWidth;
@@ -99,9 +100,9 @@ public partial class PokePreview : Form
         display.Visible = true;
     }
 
-    private static (string Detail, string Encounter) GetStatsString(PKM pk)
+    private static (string Detail, string Encounter) GetStatsString(PKM pk, LegalityAnalysis la)
     {
-        var setText = SummaryPreviewer.GetPreviewText(pk);
+        var setText = SummaryPreviewer.GetPreviewText(pk, la);
         var sb = new StringBuilder();
         var lines = setText.AsSpan().EnumerateLines();
         if (!lines.MoveNext())
