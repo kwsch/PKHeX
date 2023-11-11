@@ -380,7 +380,7 @@ public partial class Main : Form
         }
     }
 
-    private static bool IsPopupFormType(Form z) => z is not (Main or SplashScreen or SAV_FolderList);
+    private static bool IsPopupFormType(Form z) => z is not (Main or SplashScreen or SAV_FolderList or PokePreview);
 
     private void MainMenuSettings(object sender, EventArgs e)
     {
