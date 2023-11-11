@@ -119,7 +119,7 @@ public static class ContestStatInfo
 
         var rawAvg = GetAverageFeel(s, 0, initial);
         if (rawAvg == MaxContestStat)
-            return MaxContestStat;
+            return BestSheenStat3;
 
         var avg = Math.Max(1, nature % 6 == 0 ? rawAvg : GetAverageFeel(s, nature, initial));
         avg = Math.Min(rawAvg, avg); // be generous
