@@ -14,6 +14,7 @@ public sealed class SummaryPreviewer
     private readonly CryPlayer Cry = new();
     private readonly PokePreview Previewer = new();
     private CancellationTokenSource _source = new();
+    private static HoverSettings Settings => Main.Settings.Hover;
 
     public void Show(Control pb, PKM pk)
     {
@@ -23,11 +24,11 @@ public sealed class SummaryPreviewer
             return;
         }
 
-        if (Main.Settings.Hover.HoverSlotShowPreview && Control.ModifierKeys != Keys.Alt)
+        if (Settings.HoverSlotShowPreview && Control.ModifierKeys != Keys.Alt)
             UpdatePreview(pb, pk);
-        else if (Main.Settings.Hover.HoverSlotShowText)
+        else if (Settings.HoverSlotShowText)
             ShowSet.SetToolTip(pb, GetPreviewText(pk, new LegalityAnalysis(pk)));
-        if (Main.Settings.Hover.HoverSlotPlayCry)
+        if (Settings.HoverSlotPlayCry)
             Cry.PlayCry(pk, pk.Context);
     }
 
@@ -43,8 +44,8 @@ public sealed class SummaryPreviewer
     public void UpdatePreviewPosition(Point location)
     {
         var cLoc = Cursor.Position;
-        var cSize = Cursor.Current?.Size ?? new Size(16, 8);
-        Previewer.Location = cLoc with { X = cLoc.X + (cSize.Width / 2), Y = cLoc.Y + (cSize.Height / 4)};
+        var shift = Settings.PreviewCursorShift;
+        Previewer.Location = cLoc with { X = cLoc.X + shift.X, Y = cLoc.Y + shift.Y };
     }
 
     public void Show(Control pb, IEncounterInfo enc)
@@ -55,9 +56,9 @@ public sealed class SummaryPreviewer
             return;
         }
 
-        if (Main.Settings.Hover.HoverSlotShowText)
+        if (Settings.HoverSlotShowText)
             ShowSet.SetToolTip(pb, GetPreviewText(enc));
-        if (Main.Settings.Hover.HoverSlotPlayCry)
+        if (Settings.HoverSlotPlayCry)
             Cry.PlayCry(enc, enc.Context);
     }
 

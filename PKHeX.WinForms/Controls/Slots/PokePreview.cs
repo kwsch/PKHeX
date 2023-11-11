@@ -77,7 +77,7 @@ public partial class PokePreview : Form
         var settings = Main.Settings.Hover;
         var height = FLP_List.Top + FLP_Moves.Height + FLP_Moves.Margin.Vertical + 4; // 1px border * 4
         var width = InitialWidth;
-        ToggleLabel(L_Stats, stats, settings.HoverSlotShowPaste, ref width, ref height);
+        ToggleLabel(L_Stats, stats, settings.PreviewShowPaste, ref width, ref height);
         ToggleLabel(L_Etc, enc, settings.HoverSlotShowEncounter, ref width, ref height);
         Size = new Size(width, height);
     }
