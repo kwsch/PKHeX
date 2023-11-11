@@ -64,10 +64,10 @@ public partial class PokePreview : Form
     {
         var context = pk.Context;
         var names = GameInfo.Strings.movelist;
-        Move1.Populate(pk.Move1, context, names, la.Info.Moves[0].Valid);
-        Move2.Populate(pk.Move2, context, names, la.Info.Moves[1].Valid);
-        Move3.Populate(pk.Move3, context, names, la.Info.Moves[2].Valid);
-        Move4.Populate(pk.Move4, context, names, la.Info.Moves[3].Valid);
+        Move1.Populate(pk, pk.Move1, context, names, la.Info.Moves[0].Valid);
+        Move2.Populate(pk, pk.Move2, context, names, la.Info.Moves[1].Valid);
+        Move3.Populate(pk, pk.Move3, context, names, la.Info.Moves[2].Valid);
+        Move4.Populate(pk, pk.Move4, context, names, la.Info.Moves[3].Valid);
     }
 
     private void PopulateText(PKM pk, LegalityAnalysis la)

@@ -10,7 +10,7 @@ public partial class MoveDisplay : UserControl
 {
     public MoveDisplay() => InitializeComponent();
 
-    public void Populate(ushort move, EntityContext context, ReadOnlySpan<string> moves, bool valid = true)
+    public void Populate(PKM pk, ushort move, EntityContext context, ReadOnlySpan<string> moves, bool valid = true)
     {
         if (move == 0 || move >= moves.Length)
         {
@@ -19,9 +19,16 @@ public partial class MoveDisplay : UserControl
         }
         Visible = true;
 
-        L_Move.Text = moves[move];
-        var type = MoveInfo.GetType(move, context);
+        byte type = MoveInfo.GetType(move, context);
+        var name = moves[move];
+        if (move == (int)Core.Move.HiddenPower && pk.Format < 8)
+        {
+            type = (byte)pk.HPType;
+            name = $"{name} {pk.HPPower}";
+        }
+
         PB_Type.Image = TypeSpriteUtil.GetTypeSpriteIcon(type);
+        L_Move.Text = name;
         if (valid)
             L_Move.ResetForeColor();
         else
