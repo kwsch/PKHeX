@@ -112,10 +112,13 @@ public sealed class LearnSource2C : ILearnSource<PersonalInfo2>, IEggSource
             pi.SetAllLearnTutorType(result, Tutors_GSC);
     }
 
-    public static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> init)
+    public static void GetEncounterMoves(PKM pk, IEncounterTemplate enc, Span<ushort> init)
     {
         var species = enc.Species;
         var learn = Learnsets[species];
-        learn.SetEncounterMoves(enc.LevelMin, init);
+        var level = enc.LevelMin;
+        if (pk is ICaughtData2 { CaughtData: not 0 })
+            level = Math.Max(level, (byte)pk.Met_Level); // ensure the met level is somewhat accurate
+        learn.SetEncounterMoves(level, init);
     }
 }

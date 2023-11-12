@@ -24,7 +24,7 @@ public sealed class LearnGroup2 : ILearnGroup
         MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (enc.Generation == Generation && types.HasFlag(MoveSourceType.Encounter))
-            CheckEncounterMoves(result, current, enc);
+            CheckEncounterMoves(pk, result, current, enc);
 
         var evos = history.Gen2;
         for (var i = 0; i < evos.Length; i++)
@@ -41,20 +41,20 @@ public sealed class LearnGroup2 : ILearnGroup
         return MoveResult.AllParsed(result);
     }
 
-    private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc)
+    private static void CheckEncounterMoves(PKM pk, Span<MoveResult> result, ReadOnlySpan<ushort> current, IEncounterTemplate enc)
     {
         Span<ushort> moves = stackalloc ushort[4];
         if (enc is IMoveset { Moves: { HasMoves: true } x })
             x.CopyTo(moves);
         else
-            GetEncounterMoves(enc, moves);
+            GetEncounterMoves(pk, enc, moves);
         LearnVerifierHistory.MarkInitialMoves(result, current, moves);
     }
 
-    private static void GetEncounterMoves(IEncounterTemplate enc, Span<ushort> moves)
+    private static void GetEncounterMoves(PKM pk, IEncounterTemplate enc, Span<ushort> moves)
     {
         if (enc.Version is GameVersion.C or GameVersion.GSC)
-            LearnSource2C.GetEncounterMoves(enc, moves);
+            LearnSource2C.GetEncounterMoves(pk, enc, moves);
         else
             LearnSource2GS.GetEncounterMoves(enc, moves);
     }
@@ -141,7 +141,7 @@ public sealed class LearnGroup2 : ILearnGroup
     public void GetAllMoves(Span<bool> result, PKM pk, EvolutionHistory history, IEncounterTemplate enc, MoveSourceType types = MoveSourceType.All, LearnOption option = LearnOption.Current)
     {
         if (types.HasFlag(MoveSourceType.Encounter) && enc.Generation == Generation)
-            FlagEncounterMoves(enc, result);
+            FlagEncounterMoves(pk, enc, result);
 
         foreach (var evo in history.Gen2)
             GetAllMoves(result, pk, evo, types);
@@ -158,7 +158,7 @@ public sealed class LearnGroup2 : ILearnGroup
         LearnSource2C.Instance.GetAllMoves(result, pk, evo, types);
     }
 
-    private static void FlagEncounterMoves(IEncounterTemplate enc, Span<bool> result)
+    private static void FlagEncounterMoves(PKM pk, IEncounterTemplate enc, Span<bool> result)
     {
         if (enc is IMoveset { Moves: { HasMoves: true } x })
         {
@@ -170,7 +170,7 @@ public sealed class LearnGroup2 : ILearnGroup
         else
         {
             Span<ushort> moves = stackalloc ushort[4];
-            GetEncounterMoves(enc, moves);
+            GetEncounterMoves(pk,enc, moves);
             foreach (var move in moves)
                 result[move] = true;
         }
