@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 1 <see cref="SaveFile"/> object.
 /// </summary>
-public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
+public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWorkArray<byte>
 {
     protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
     public override string Extension => ".sav";
@@ -163,6 +163,11 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray
             throw new ArgumentOutOfRangeException(nameof(flagNumber), $"Event Flag to set ({flagNumber}) is greater than max ({EventFlagCount}).");
         SetFlag(Offsets.EventFlag + (flagNumber >> 3), flagNumber & 7, value);
     }
+
+    // Event Work
+    public int EventWorkCount => 0x100;
+    public byte GetWork(int index) => Data[Offsets.EventWork + index];
+    public void SetWork(int index, byte value) => Data[Offsets.EventWork + index] = value;
 
     protected override byte[] GetFinalData()
     {
