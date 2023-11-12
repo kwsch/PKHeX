@@ -55,8 +55,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
-    private const uint KHiddenItemsPaldea = 0x6DAB304B; // Paldea Hidden Items statuses array
-    private const uint KHiddenItemsKitakami = 0xA07A4B1D; // Kitakami Hidden Items statuses array
 
     // Objects (Blocks)
     private const uint KBox = 0x0d66012c; // Box Data
