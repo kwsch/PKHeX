@@ -55,6 +55,8 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
+    private const uint KHiddenItemsPaldea = 0x6DAB304B; // Paldea Hidden Items statuses array
+    private const uint KHiddenItemsKitakami = 0xA07A4B1D; // Kitakami Hidden Items statuses array
 
     // Objects (Blocks)
     private const uint KBox = 0x0d66012c; // Box Data
@@ -88,6 +90,9 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KRentalTeams = 0x19CB0339;
     private const uint KSevenStarRaidsCapture = 0x8B14392F; // prior to 2.0.1, this also stored defeat history
     private const uint KSevenStarRaidsDefeat = 0xA4BA4848; // 2.0.1 onward stores defeat history separately from capture history
+    private const uint KFieldItems = 0x2482AD60; // Stores grabbed status for each existing field item
+    private const uint KDefeatedTrainersTracker = 0xF018C4AC; // Stores history of up to 300 regular trainers defeated
+    private const uint KDefeatedTrainersTrackerExp = 0x28E475DE; // 2.0.2+ Expansion with additional 100 slots
 
     // BCAT (Tera Raid Battles)
     private const uint KBCATRaidFixedRewardItemArray = 0x7D6C2B82; // fixed_reward_item_array
