@@ -87,12 +87,16 @@ public partial class PokePreview : Form
         width = Math.Max(width, maxWidth + Move1.Margin.Horizontal + interiorMargin);
     }
 
-    private void PopulateText(PKM pk, LegalityAnalysis la, int minWidth)
+    private void PopulateText(PKM pk, LegalityAnalysis la, int width)
     {
         var (stats, enc) = GetStatsString(pk, la);
         var settings = Main.Settings.Hover;
-        var height = FLP_List.Top + FLP_Moves.Height + FLP_Moves.Margin.Vertical + interiorMargin;
-        var width = minWidth;
+
+        bool hasMoves = pk.MoveCount != 0;
+        FLP_Moves.Visible = hasMoves;
+        var height = FLP_List.Top + interiorMargin;
+        if (hasMoves)
+            height += FLP_Moves.Height + FLP_Moves.Margin.Vertical;
         ToggleLabel(L_Stats, stats, settings.PreviewShowPaste, ref width, ref height);
         ToggleLabel(L_Etc, enc, settings.HoverSlotShowEncounter, ref width, ref height);
         Size = new Size(width, height);
@@ -108,10 +112,7 @@ public partial class PokePreview : Form
 
         var size = MeasureSize(text, display.Font);
         width = Math.Max(width, display.Margin.Horizontal + size.Width);
-        var actHeight = size.Height;
-        height += actHeight + display.Margin.Vertical;
-        display.Width = size.Width;
-        display.Height = actHeight;
+        height += size.Height + display.Margin.Vertical;
         display.Text = text;
         display.Visible = true;
     }

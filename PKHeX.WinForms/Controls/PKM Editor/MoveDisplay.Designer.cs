@@ -69,6 +69,8 @@ namespace PKHeX.WinForms.Controls
             // MoveDisplay
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            AutoSize = true;
+            AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Controls.Add(FLP_Move);
             Name = "MoveDisplay";
             Size = new System.Drawing.Size(138, 24);

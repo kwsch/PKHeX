@@ -71,14 +71,17 @@ namespace PKHeX.WinForms.Controls
             FLP_List.Controls.Add(L_Stats);
             FLP_List.Controls.Add(FLP_Moves);
             FLP_List.Controls.Add(L_Etc);
+            FLP_List.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             FLP_List.Location = new System.Drawing.Point(0, 34);
+            FLP_List.Margin = new System.Windows.Forms.Padding(0);
             FLP_List.Name = "FLP_List";
             FLP_List.Size = new System.Drawing.Size(146, 144);
             FLP_List.TabIndex = 1;
+            FLP_List.WrapContents = false;
             // 
             // L_Stats
             // 
-            FLP_List.SetFlowBreak(L_Stats, true);
+            L_Stats.AutoSize = true;
             L_Stats.Location = new System.Drawing.Point(2, 4);
             L_Stats.Margin = new System.Windows.Forms.Padding(2, 4, 0, 0);
             L_Stats.Name = "L_Stats";
@@ -90,20 +93,25 @@ namespace PKHeX.WinForms.Controls
             // 
             FLP_Moves.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             FLP_Moves.AutoSize = true;
+            FLP_Moves.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             FLP_Moves.Controls.Add(Move1);
             FLP_Moves.Controls.Add(Move2);
             FLP_Moves.Controls.Add(Move3);
             FLP_Moves.Controls.Add(Move4);
+            FLP_List.SetFlowBreak(FLP_Moves, true);
+            FLP_Moves.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             FLP_Moves.Location = new System.Drawing.Point(0, 23);
             FLP_Moves.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
             FLP_Moves.Name = "FLP_Moves";
             FLP_Moves.Size = new System.Drawing.Size(142, 96);
             FLP_Moves.TabIndex = 7;
+            FLP_Moves.WrapContents = false;
             // 
             // Move1
             // 
             Move1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            FLP_Moves.SetFlowBreak(Move1, true);
+            Move1.AutoSize = true;
+            Move1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Move1.Location = new System.Drawing.Point(4, 0);
             Move1.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             Move1.Name = "Move1";
@@ -113,7 +121,8 @@ namespace PKHeX.WinForms.Controls
             // Move2
             // 
             Move2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            FLP_Moves.SetFlowBreak(Move2, true);
+            Move2.AutoSize = true;
+            Move2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Move2.Location = new System.Drawing.Point(4, 24);
             Move2.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             Move2.Name = "Move2";
@@ -123,7 +132,8 @@ namespace PKHeX.WinForms.Controls
             // Move3
             // 
             Move3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            FLP_Moves.SetFlowBreak(Move3, true);
+            Move3.AutoSize = true;
+            Move3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Move3.Location = new System.Drawing.Point(4, 48);
             Move3.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             Move3.Name = "Move3";
@@ -132,7 +142,8 @@ namespace PKHeX.WinForms.Controls
             // 
             // Move4
             // 
-            FLP_Moves.SetFlowBreak(Move4, true);
+            Move4.AutoSize = true;
+            Move4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             Move4.Location = new System.Drawing.Point(4, 72);
             Move4.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             Move4.Name = "Move4";
@@ -141,7 +152,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // L_Etc
             // 
-            FLP_List.SetFlowBreak(L_Etc, true);
+            L_Etc.AutoSize = true;
             L_Etc.Location = new System.Drawing.Point(2, 123);
             L_Etc.Margin = new System.Windows.Forms.Padding(2, 0, 0, 4);
             L_Etc.Name = "L_Etc";
@@ -155,6 +166,7 @@ namespace PKHeX.WinForms.Controls
             PAN_Top.Controls.Add(FLP_Top);
             PAN_Top.Dock = System.Windows.Forms.DockStyle.Top;
             PAN_Top.Location = new System.Drawing.Point(0, 0);
+            PAN_Top.Margin = new System.Windows.Forms.Padding(0);
             PAN_Top.Name = "PAN_Top";
             PAN_Top.Size = new System.Drawing.Size(146, 34);
             PAN_Top.TabIndex = 0;
@@ -166,6 +178,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Top.Controls.Add(PB_Gender);
             FLP_Top.Dock = System.Windows.Forms.DockStyle.Fill;
             FLP_Top.Location = new System.Drawing.Point(0, 0);
+            FLP_Top.Margin = new System.Windows.Forms.Padding(0);
             FLP_Top.Name = "FLP_Top";
             FLP_Top.Size = new System.Drawing.Size(144, 32);
             FLP_Top.TabIndex = 71;
@@ -219,6 +232,7 @@ namespace PKHeX.WinForms.Controls
             FLP_List.ResumeLayout(false);
             FLP_List.PerformLayout();
             FLP_Moves.ResumeLayout(false);
+            FLP_Moves.PerformLayout();
             PAN_Top.ResumeLayout(false);
             FLP_Top.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)PB_Ball).EndInit();

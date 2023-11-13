@@ -620,8 +620,10 @@ public partial class SAV_Database : Form
 
     private void UpdateScroll(object sender, ScrollEventArgs e)
     {
-        if (e.OldValue != e.NewValue)
-            FillPKXBoxes(e.NewValue);
+        if (e.OldValue == e.NewValue)
+            return;
+        FillPKXBoxes(e.NewValue);
+        ShowSet.Clear();
     }
 
     private void SetResults(List<SlotCache> res)
@@ -693,8 +695,10 @@ public partial class SAV_Database : Form
             return;
         int oldval = SCR_Box.Value;
         int newval = oldval + (e.Delta < 0 ? 1 : -1);
-        if (newval >= SCR_Box.Minimum && SCR_Box.Maximum >= newval)
-            FillPKXBoxes(SCR_Box.Value = newval);
+        if (newval < SCR_Box.Minimum || SCR_Box.Maximum < newval)
+            return;
+        FillPKXBoxes(SCR_Box.Value = newval);
+        ShowSet.Clear();
     }
 
     private void ChangeFormatFilter(object sender, EventArgs e)
