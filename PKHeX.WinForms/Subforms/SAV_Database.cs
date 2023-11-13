@@ -77,7 +77,11 @@ public partial class SAV_Database : Form
 
             slot.ContextMenuStrip = mnu;
             if (Main.Settings.Hover.HoverSlotShowText)
+            {
+                slot.MouseMove += (o, args) => ShowSet.UpdatePreviewPosition(args.Location);
                 slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
+                slot.MouseLeave += (o, args) => ShowSet.Clear();
+            }
             slot.Enter += (sender, e) =>
             {
                 if (sender is not PictureBox pb)
@@ -121,6 +125,7 @@ public partial class SAV_Database : Form
         };
         CB_Format.Items[0] = MsgAny;
         CenterToParent();
+        Closing += (sender, e) => ShowSet.Clear();
     }
 
     private readonly PictureBox[] PKXBOXES;

@@ -37,9 +37,12 @@ public sealed partial class SAV_GroupViewer : Form
         foreach (PictureBox pb in Box.Entries)
         {
             pb.Click += (o, args) => OmniClick(pb, args);
-            pb.MouseHover += (o, args) => HoverSlot(pb, args);
             pb.ContextMenuStrip = mnu;
+            pb.MouseMove += (o, args) => Preview.UpdatePreviewPosition(args.Location);
+            pb.MouseEnter += (o, args) => HoverSlot(pb, args);
+            pb.MouseLeave += (o, args) => Preview.Clear();
         }
+        Closing += (s, e) => Preview.Clear();
     }
 
     private void HoverSlot(object sender, EventArgs e)
