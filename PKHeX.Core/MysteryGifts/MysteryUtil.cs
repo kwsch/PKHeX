@@ -23,7 +23,8 @@ public static class MysteryUtil
             if (!MysteryGift.IsMysteryGift(fi.Length))
                 continue;
 
-            var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
+            var data = File.ReadAllBytes(file);
+            var gift = MysteryGift.GetMysteryGift(data, fi.Extension);
             if (gift != null)
                 yield return gift;
         }

@@ -25,7 +25,7 @@ public static class QRPKM
             if (move == 0)
                 continue;
             if (sb.Length != 0)
-                sb.Append(" / ");
+                sb.Append(Moveset.DefaultSeparator);
             var moveName = move < s.movelist.Length ? s.movelist[move] : "ERROR";
             sb.Append(moveName);
         }

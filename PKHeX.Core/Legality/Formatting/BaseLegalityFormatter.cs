@@ -19,7 +19,8 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         if (!l.Parsed)
             return L_AnalysisUnavailable;
 
-        var lines = GetLegalityReportLines(l);
+        List<string> lines = new();
+        GetLegalityReportLines(l, lines);
         return string.Join(Environment.NewLine, lines);
     }
 
@@ -35,22 +36,25 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         return string.Join(Environment.NewLine, lines);
     }
 
-    private static List<string> GetLegalityReportLines(LegalityAnalysis l)
+    private static void GetLegalityReportLines(LegalityAnalysis l, List<string> lines)
     {
-        var lines = new List<string>();
         var info = l.Info;
         var pk = l.Entity;
 
-        LegalityFormatting.AddMoves(info.Moves, lines, pk.Format, false, pk, l.Info.EvoChainsAllGens);
+        var evos = info.EvoChainsAllGens;
+        LegalityFormatting.AddMoves(info.Moves, lines, pk.Format, false, pk, evos);
         if (pk.Format >= 6)
-            LegalityFormatting.AddRelearn(info.Relearn, lines, false, pk, l.Info.EvoChainsAllGens);
+            LegalityFormatting.AddRelearn(info.Relearn, lines, false, pk, evos);
         LegalityFormatting.AddSecondaryChecksInvalid(l.Results, lines);
-        return lines;
     }
 
     private static IReadOnlyList<string> GetVerboseLegalityReportLines(LegalityAnalysis l)
     {
-        var lines = l.Valid ? new List<string> {L_ALegal} : GetLegalityReportLines(l);
+        var lines = new List<string>();
+        if (l.Valid)
+            lines.Add(L_ALegal);
+        else
+            GetLegalityReportLines(l, lines);
         var info = l.Info;
         var pk = l.Entity;
         const string separator = "===";
@@ -59,10 +63,11 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         int initialCount = lines.Count;
 
         var format = pk.Format;
-        LegalityFormatting.AddMoves(info.Moves, lines, format, true, pk, l.Info.EvoChainsAllGens);
+        var evos = info.EvoChainsAllGens;
+        LegalityFormatting.AddMoves(info.Moves, lines, format, true, pk, evos);
 
         if (format >= 6)
-            LegalityFormatting.AddRelearn(info.Relearn, lines, true, pk, l.Info.EvoChainsAllGens);
+            LegalityFormatting.AddRelearn(info.Relearn, lines, true, pk, evos);
 
         if (lines.Count != initialCount) // move info added, break for next section
             lines.Add(string.Empty);

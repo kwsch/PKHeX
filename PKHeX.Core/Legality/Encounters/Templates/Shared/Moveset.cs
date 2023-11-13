@@ -9,6 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Move3 = 0, ushort Move4 = 0)
 {
+    public const string DefaultSeparator = " / ";
     public bool HasMoves => Move1 != 0;
 
     public bool Contains(ushort move) => move == Move1 || move == Move2 || move == Move3 || move == Move4;
@@ -44,14 +45,14 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
         return true;
     }
 
-    public string GetMovesetLine(IReadOnlyList<string> names, string split = " / ")
+    public string GetMovesetLine(IReadOnlyList<string> names, string split = DefaultSeparator)
     {
         var sb = new StringBuilder(128);
         AddMovesetLine(sb, names, split);
         return sb.ToString();
     }
 
-    public void AddMovesetLine(StringBuilder sb, IReadOnlyList<string> names, string split = " / ")
+    public void AddMovesetLine(StringBuilder sb, IReadOnlyList<string> names, string split = DefaultSeparator)
     {
         // Always has at least 1 move if calling this.
         sb.Append(names[Move1]);

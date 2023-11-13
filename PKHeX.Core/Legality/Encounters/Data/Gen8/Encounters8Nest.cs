@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
@@ -284,7 +285,7 @@ internal static class Encounters8Nest
         new(SWSH) { Species = 133, Level = 25, Ability = A2, IVs = new(31,31,31,-1,-1,-1), DynamaxLevel = 5, Moves = new(606,273,038,129), CanGigantamax = true }, // ★Sgr7194 Gigantamax Eevee
     };
 
-    private static EncounterStatic8N[] GetBase(string name, GameVersion game)
+    private static EncounterStatic8N[] GetBase([ConstantExpected] string name, [ConstantExpected] GameVersion game)
     {
         var data = EncounterUtil.Get($"{name}_nest");
         const int size = 10;
@@ -299,7 +300,7 @@ internal static class Encounters8Nest
         return result;
     }
 
-    private static EncounterStatic8ND[] GetDist(string name, GameVersion game)
+    private static EncounterStatic8ND[] GetDist([ConstantExpected] string name, [ConstantExpected] GameVersion game)
     {
         var data = EncounterUtil.Get($"{name}_dist");
         const int size = 0x10;

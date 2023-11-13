@@ -53,12 +53,12 @@ public sealed class SecretBase3Team
         var pk = Team[index];
         WriteUInt32LittleEndian(Data.AsSpan(GetOffsetPID(index)), pk.PID);
         WriteUInt16LittleEndian(Data.AsSpan(GetOffsetSpecies(index)), pk.Species);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetItem(index)), (ushort)pk.HeldItem);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 0)), (ushort)pk.Move1);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 1)), (ushort)pk.Move2);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 2)), (ushort)pk.Move3);
-        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 3)), (ushort)pk.Move4);
-        Data[O_Level + index] = (byte)pk.Level;
-        Data[O_EV + index] = (byte)pk.EVAll;
+        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetItem(index)), pk.HeldItem);
+        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 0)), pk.Move1);
+        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 1)), pk.Move2);
+        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 2)), pk.Move3);
+        WriteUInt16LittleEndian(Data.AsSpan(GetOffsetMove(index, 3)), pk.Move4);
+        Data[O_Level + index] = pk.Level;
+        Data[O_EV + index] = pk.EVAll;
     }
 }

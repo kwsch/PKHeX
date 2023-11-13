@@ -63,7 +63,7 @@ public sealed class ResortSave7 : SaveBlock<SAV7>
         return GetBeanIndexNames(colors);
     }
 
-    private static string[] GetBeanIndexNames(string[] colors)
+    private static string[] GetBeanIndexNames(ReadOnlySpan<string> colors)
     {
         // 7 regular, 7 patterned, one rainbow
         var beans = new string[(colors.Length * 2) + 1];

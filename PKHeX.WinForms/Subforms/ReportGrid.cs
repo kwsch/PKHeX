@@ -150,7 +150,7 @@ public partial class ReportGrid : Form
         return true;
     }
 
-    private static string[] ConvertTabbedToRedditTable(string[] lines)
+    private static string[] ConvertTabbedToRedditTable(ReadOnlySpan<string> lines)
     {
         string[] newlines = new string[lines.Length + 1];
         int tabcount = lines[0].Count(c => c == '\t');

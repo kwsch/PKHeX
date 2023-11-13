@@ -11,9 +11,9 @@ public static partial class Util
     private static readonly Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
     private static readonly Dictionary<string, string> resourceNameMap = BuildLookup(thisAssembly.GetManifestResourceNames());
 
-    private static Dictionary<string, string> BuildLookup(IReadOnlyCollection<string> manifestNames)
+    private static Dictionary<string, string> BuildLookup(ReadOnlySpan<string> manifestNames)
     {
-        var result = new Dictionary<string, string>(manifestNames.Count);
+        var result = new Dictionary<string, string>(manifestNames.Length);
         foreach (var resName in manifestNames)
         {
             var fileName = GetFileName(resName);
