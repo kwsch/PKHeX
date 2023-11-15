@@ -425,7 +425,7 @@ public sealed class ShowdownSet : IBattleTemplate
         return $"{Nickname} ({specForm})";
     }
 
-    private static string[] GetStringStats(ReadOnlySpan<int> stats, int ignoreValue)
+    public static string[] GetStringStats<T>(ReadOnlySpan<T> stats, T ignoreValue) where T : IEquatable<T>
     {
         var count = stats.Length - stats.Count(ignoreValue);
         if (count == 0)
@@ -437,7 +437,7 @@ public sealed class ShowdownSet : IBattleTemplate
         {
             var statIndex = GetStatIndexStored(i);
             var statValue = stats[statIndex];
-            if (statValue == ignoreValue)
+            if (statValue.Equals(ignoreValue))
                 continue; // ignore unused stats
             var statName = StatNames[statIndex];
             result[ctr++] = $"{statValue} {statName}";

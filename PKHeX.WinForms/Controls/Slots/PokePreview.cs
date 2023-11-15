@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -39,16 +40,29 @@ public partial class PokePreview : Form
 
     private int PopulateHeader(PKM pk)
     {
-        var nick = pk.Nickname;
-        var size = MeasureSize(nick, L_Name.Font);
+        var name = GetNameTitle(pk);
+        var size = MeasureSize(name, L_Name.Font);
         L_Name.Width = Math.Max(InitialNameWidth, size.Width);
-        L_Name.Text = nick;
+        L_Name.Text = name;
 
         PopulateBall(pk);
         PopulateGender(pk);
 
         var width = L_Name.Width + PB_Ball.Width + PB_Ball.Margin.Horizontal + PB_Gender.Width + PB_Gender.Margin.Horizontal + interiorMargin;
         return Math.Max(InitialWidth, width);
+    }
+
+    private static string GetNameTitle(PKM pk)
+    {
+        var nick = pk.Nickname;
+        var all = GameInfo.Strings.Species;
+        var species = pk.Species;
+        if (species >= all.Count)
+            return nick;
+        var expect = all[species];
+        if (nick.Equals(expect, StringComparison.OrdinalIgnoreCase))
+            return nick;
+        return $"{nick} ({expect})";
     }
 
     private void PopulateBall(PKM pk)
@@ -138,9 +152,15 @@ public partial class PokePreview : Form
             var remaining = first[(itemIndex + 2)..];
             if (remaining[^1] == ')')
                 remaining = remaining[..^3]; // lop off gender
-            var item = remaining.Trim().ToString();
-            sb.AppendLine(item);
+            var item = remaining.Trim();
+            if (item.Length > 0)
+                sb.AppendLine($"Held Item: {item}");
         }
+
+        if (pk is IGanbaru g)
+            AddGanbaru(g, sb);
+        if (pk is IAwakened a)
+            AddAwakening(a, sb);
 
         while (lines.MoveNext())
         {
@@ -168,6 +188,27 @@ public partial class PokePreview : Form
         return (detail.TrimEnd(), enc.TrimEnd());
 
         static bool IsMoveLine(ReadOnlySpan<char> line) => line.Length != 0 && line[0] == '-';
+    }
+
+    private static void AddGanbaru(IGanbaru g, StringBuilder sb)
+    {
+        Span<byte> gvs = stackalloc byte[6];
+        g.GetGVs(gvs);
+        TryAdd<byte>(sb, "GVs", gvs);
+    }
+
+    private static void AddAwakening(IAwakened a, StringBuilder sb)
+    {
+        Span<byte> avs = stackalloc byte[6];
+        a.GetAVs(avs);
+        TryAdd<byte>(sb, "AVs", avs);
+    }
+
+    private static void TryAdd<T>(StringBuilder sb, [ConstantExpected] string type, ReadOnlySpan<T> stats, T ignore = default) where T : unmanaged, IEquatable<T>
+    {
+        var chunks = ShowdownSet.GetStringStats(stats, ignore);
+        if (chunks.Length != 0)
+            sb.AppendLine($"{type}: {string.Join(" / ", chunks)}");
     }
 
     /// <summary> Prevent stealing focus from the form that shows this. </summary>
