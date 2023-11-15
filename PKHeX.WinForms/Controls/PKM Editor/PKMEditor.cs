@@ -2238,7 +2238,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     }
 }
 
-public static class MoveDisplay
+public static class MoveDisplayState
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Bitmap? GetMoveImage(bool isIllegal, PKM pk, int index)

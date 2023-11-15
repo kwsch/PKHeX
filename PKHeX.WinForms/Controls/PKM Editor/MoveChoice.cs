@@ -51,7 +51,7 @@ public partial class MoveChoice : UserControl
             return;
         }
         PB_Triangle.Visible = true;
-        PB_Triangle.Image = MoveDisplay.GetMoveImage(!move.Valid, entity, i);
+        PB_Triangle.Image = MoveDisplayState.GetMoveImage(!move.Valid, entity, i);
     }
 
     public void HealPP(PKM pk)

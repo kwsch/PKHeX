@@ -138,6 +138,23 @@ public static class GanbaruExtensions
     };
 
     /// <summary>
+    /// Loads the <see cref="IGanbaru"/> values and stores them in the provided <see cref="Span{T}"/>.
+    /// </summary>
+    /// <param name="pk">Pokémon to check.</param>
+    /// <param name="value">Span to store values in.</param>
+    public static void GetGVs(this IGanbaru pk, Span<byte> value)
+    {
+        if (value.Length != 6)
+            return;
+        value[0] = pk.GV_HP;
+        value[1] = pk.GV_ATK;
+        value[2] = pk.GV_DEF;
+        value[3] = pk.GV_SPE;
+        value[4] = pk.GV_SPA;
+        value[5] = pk.GV_SPD;
+    }
+
+    /// <summary>
     /// Checks if any of the <see cref="IGanbaru"/> values are below a reference's minimum value.
     /// </summary>
     /// <param name="pk">Pokémon to check.</param>

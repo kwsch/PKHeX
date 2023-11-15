@@ -15,8 +15,7 @@ public sealed class SlotHoverHandler : IDisposable
     public DrawConfig Draw { private get; set; } = new();
     public bool GlowHover { private get; set; } = true;
 
-    public static readonly CryPlayer CryPlayer = new();
-    public static readonly SummaryPreviewer Preview = new();
+    private readonly SummaryPreviewer Preview = new();
     private static Bitmap Hover => SpriteUtil.Spriter.Hover;
 
     private readonly BitmapAnimator HoverWorker = new();
@@ -79,5 +78,10 @@ public sealed class SlotHoverHandler : IDisposable
         HoverWorker.Dispose();
         Slot = null;
         Draw.Dispose();
+    }
+
+    public void UpdateMousePosition(Point location)
+    {
+        Preview.UpdatePreviewPosition(location);
     }
 }
