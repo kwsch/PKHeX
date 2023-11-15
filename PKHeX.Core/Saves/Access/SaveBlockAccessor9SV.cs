@@ -86,6 +86,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KCurrentAppearance = 0x812FC3E3;
     private const uint KCurrentRotomPhoneCase = 0x1433CED7;
     private const uint KRentalTeams = 0x19CB0339;
+    private const uint KRentalTeamCodes = 0xB476F6D4;
     private const uint KSevenStarRaidsCapture = 0x8B14392F; // prior to 2.0.1, this also stored defeat history
     private const uint KSevenStarRaidsDefeat = 0xA4BA4848; // 2.0.1 onward stores defeat history separately from capture history
 
