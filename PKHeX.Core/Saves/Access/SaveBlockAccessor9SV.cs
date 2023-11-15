@@ -55,6 +55,15 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
     private const uint KBoxLayout = 0x19722c89; // Box Names
     public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
+    private const uint KHiddenItemsSouthPaldea = 0x6DAB304B; // South Paldea areas Hidden Items statuses array
+    private const uint KHiddenItemsWestPaldea = 0x6EAB31DE; // West Paldea Hidden Items statuses array
+    private const uint KHiddenItemsNorthPaldea = 0x6FAB3371; // North Paldea Hidden Items statuses array
+    private const uint KHiddenItemsEastPaldea = 0x6CAB2EB8; // East Paldea Hidden Items statuses array
+    private const uint KHiddenItemsAreaZero01 = 0x9A7A41AB; // Area Zero part1 Hidden Items statuses array
+    private const uint KHiddenItemsAreaZero02 = 0x9B7A433E; // Area Zero part2 Hidden Items statuses array
+    private const uint KHiddenItemsAreaZero03 = 0x9C7A44D1; // Area Zero part3 Hidden Items statuses array
+    private const uint KHiddenItemsKitakami01 = 0x917A3380; // DLC1 Kitakami part1 Hidden Items statuses array
+    private const uint KHiddenItemsKitakami02 = 0xA07A4B1D; // DLC1 Kitakami part2 Hidden Items statuses array
 
     // Objects (Blocks)
     private const uint KBox = 0x0d66012c; // Box Data
