@@ -18,7 +18,7 @@ public static class FrameFinder
     public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
     {
         if (pk.Version == (int)GameVersion.CXD)
-            return Array.Empty<Frame>();
+            return [];
 
         // Don't trust pk.Nature, just get the correct original via EncryptionConstant
         var info = new FrameGenerator(pk) {Nature = pk.EncryptionConstant % 25};
@@ -87,7 +87,7 @@ public static class FrameFinder
     private static IEnumerable<Frame> GenerateLeadSpecificFrames3(Frame f, FrameGenerator info)
     {
         // Check leads -- none in list if leads are not allowed
-        // Certain leads inject a RNG call
+        // Certain leads inject an RNG call
         // 3 different rand places
         LeadRequired lead;
         var prev0 = f.Seed; // 0

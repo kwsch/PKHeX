@@ -47,7 +47,7 @@ public static class Breeding
     /// Checks if the <see cref="species"/> can be born with inherited moves from the parents.
     /// </summary>
     /// <param name="species">Entity species ID</param>
-    /// <returns>True if can inherit moves, false if cannot.</returns>
+    /// <returns>True if it can inherit moves, false if cannot.</returns>
     internal static bool GetCanInheritMoves(ushort species)
     {
         var pi = PKX.Personal[species];
@@ -128,7 +128,7 @@ public static class Breeding
     /// <summary>
     /// Some species can have forms that cannot exist as egg (event/special forms). Same idea as <see cref="FormInfo.IsTotemForm(ushort,byte,EntityContext)"/>
     /// </summary>
-    /// <returns>True if can be bred.</returns>
+    /// <returns>True if it can be bred.</returns>
     private static bool IsBreedableForm(ushort species, byte form) => species switch
     {
         (int)Pikachu or (int)Eevee => false, // can't get these forms as egg

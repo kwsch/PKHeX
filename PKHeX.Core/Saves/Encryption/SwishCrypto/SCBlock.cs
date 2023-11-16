@@ -59,7 +59,7 @@ public sealed class SCBlock
     /// </summary>
     /// <param name="key">Hash key</param>
     /// <param name="type">Value the block has</param>
-    internal SCBlock(uint key, SCTypeCode type) : this(key, type, Array.Empty<byte>())
+    internal SCBlock(uint key, SCTypeCode type) : this(key, type, [])
     {
     }
 
@@ -261,7 +261,7 @@ public sealed class SCBlock
     private static void EnsureArrayIsSane(SCTypeCode sub, ReadOnlySpan<byte> arr)
     {
         if (sub == SCTypeCode.Bool3)
-            Debug.Assert(arr.IndexOfAnyExcept<byte>(0, 1, 2) == -1);
+            Debug.Assert(!arr.ContainsAnyExcept<byte>(0, 1, 2));
         else
             Debug.Assert(sub > SCTypeCode.Array);
     }

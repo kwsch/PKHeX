@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>
 /// Related to <see cref="EntityContext"/>; no need to specify side-game consoles like the N64 as they're tied to the mainline console.
-/// Console revisions (like GameBoy Color) or 3DS-XL are not included, again, only care about console limitations that run the games.
+/// Console revisions (like Game Boy Color) or 3DS-XL are not included, again, only care about console limitations that run the games.
 /// </remarks>
 public enum GameConsole : byte
 {

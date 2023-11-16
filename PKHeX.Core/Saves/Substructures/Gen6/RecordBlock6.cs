@@ -52,13 +52,12 @@ public abstract class RecordBlock6 : RecordBlock<SaveFile> // 6 or 7
     }
 }
 
-public sealed class RecordBlock6XY : RecordBlock6
+public sealed class RecordBlock6XY(SAV6XY sav, int offset) : RecordBlock6(sav, offset)
 {
-    public RecordBlock6XY(SAV6XY sav, int offset) : base(sav, offset) { }
     protected override ReadOnlySpan<byte> RecordMax => MaxType_XY;
 
-    private static ReadOnlySpan<byte> MaxType_XY => new byte[]
-    {
+    private static ReadOnlySpan<byte> MaxType_XY =>
+    [
         0, 0, 0, 0, 0, 0, 0, 2, 2, 2,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -80,7 +79,7 @@ public sealed class RecordBlock6XY : RecordBlock6
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-    };
+    ];
 }
 
 public sealed class RecordBlock6AO : RecordBlock6
@@ -89,8 +88,8 @@ public sealed class RecordBlock6AO : RecordBlock6
     public RecordBlock6AO(SAV6AODemo sav, int offset) : base(sav, offset) { }
     protected override ReadOnlySpan<byte> RecordMax => MaxType_AO;
 
-    private static ReadOnlySpan<byte> MaxType_AO => new byte[]
-    {
+    private static ReadOnlySpan<byte> MaxType_AO =>
+    [
         0, 0, 0, 0, 0, 0, 0, 2, 2, 2,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -112,16 +111,15 @@ public sealed class RecordBlock6AO : RecordBlock6
         4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
         7, 7, 7, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-    };
+    ];
 }
 
-public sealed class RecordBlock7SM : RecordBlock6
+public sealed class RecordBlock7SM(SAV7SM sav, int offset) : RecordBlock6(sav, offset)
 {
-    public RecordBlock7SM(SAV7SM sav, int offset) : base(sav, offset) { }
     protected override ReadOnlySpan<byte> RecordMax => MaxType_SM;
 
-    private static ReadOnlySpan<byte> MaxType_SM => new byte[]
-    {
+    private static ReadOnlySpan<byte> MaxType_SM =>
+    [
         0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
@@ -143,16 +141,15 @@ public sealed class RecordBlock7SM : RecordBlock6
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-    };
+    ];
 }
 
-public sealed class RecordBlock7USUM : RecordBlock6
+public sealed class RecordBlock7USUM(SAV7USUM sav, int offset) : RecordBlock6(sav, offset)
 {
-    public RecordBlock7USUM(SAV7USUM sav, int offset) : base(sav, offset) { }
     protected override ReadOnlySpan<byte> RecordMax => MaxType_USUM;
 
-    private static ReadOnlySpan<byte> MaxType_USUM => new byte[]
-    {
+    private static ReadOnlySpan<byte> MaxType_USUM =>
+    [
         0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
@@ -174,5 +171,5 @@ public sealed class RecordBlock7USUM : RecordBlock6
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
         5, 5, 4, 4, 4, 5, 5, 4, 5, 5,
-    };
+    ];
 }

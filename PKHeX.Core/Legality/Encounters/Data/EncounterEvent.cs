@@ -46,31 +46,31 @@ public static class EncounterEvent
 
     #region Locally Loaded Data
     /// <summary>Event Database for Generation 4</summary>
-    public static PCD[] EGDB_G4 { get; private set; } = Array.Empty<PCD>();
+    public static PCD[] EGDB_G4 { get; private set; } = [];
 
     /// <summary>Event Database for Generation 5</summary>
-    public static PGF[] EGDB_G5 { get; private set; } = Array.Empty<PGF>();
+    public static PGF[] EGDB_G5 { get; private set; } = [];
 
     /// <summary>Event Database for Generation 6</summary>
-    public static WC6[] EGDB_G6 { get; private set; } = Array.Empty<WC6>();
+    public static WC6[] EGDB_G6 { get; private set; } = [];
 
     /// <summary>Event Database for Generation 7</summary>
-    public static WC7[] EGDB_G7 { get; private set; } = Array.Empty<WC7>();
+    public static WC7[] EGDB_G7 { get; private set; } = [];
 
     /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
-    public static WB7[] EGDB_G7GG { get; private set; } = Array.Empty<WB7>();
+    public static WB7[] EGDB_G7GG { get; private set; } = [];
 
     /// <summary>Event Database for Generation 8</summary>
-    public static WC8[] EGDB_G8 { get; private set; } = Array.Empty<WC8>();
+    public static WC8[] EGDB_G8 { get; private set; } = [];
 
     /// <summary>Event Database for Generation 8 <see cref="GameVersion.PLA"/></summary>
-    public static WA8[] EGDB_G8A { get; private set; } = Array.Empty<WA8>();
+    public static WA8[] EGDB_G8A { get; private set; } = [];
 
     /// <summary>Event Database for Generation 8 <see cref="GameVersion.BDSP"/></summary>
-    public static WB8[] EGDB_G8B { get; private set; } = Array.Empty<WB8>();
+    public static WB8[] EGDB_G8B { get; private set; } = [];
 
     /// <summary>Event Database for Generation 9 <see cref="GameVersion.SV"/></summary>
-    public static WC9[] EGDB_G9 { get; private set; } = Array.Empty<WC9>();
+    public static WC9[] EGDB_G9 { get; private set; } = [];
     #endregion
 
     private static PCD[] GetPCDDB(ReadOnlySpan<byte> bin) => Get(bin, PCD.Size, static d => new PCD(d));
@@ -143,9 +143,9 @@ public static class EncounterEvent
 
                 static bool AddOrExpand<T>(ref HashSet<T>? arr, ref List<T>? extra, T obj, T[] master)
                 {
-                    arr ??= new(master);
+                    arr ??= [..master];
                     if (arr.Add(obj))
-                        (extra ??= new()).Add(obj);
+                        (extra ??= []).Add(obj);
                     return true;
                 }
             }
@@ -161,7 +161,7 @@ public static class EncounterEvent
             static T[] SetArray<T>(List<T>? arr)
             {
                 if (arr is null)
-                    return Array.Empty<T>();
+                    return [];
                 return arr.ToArray();
             }
         }

@@ -1,15 +1,13 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class TeamIndexes8 : SaveBlock<SAV8SWSH>, ITeamIndexSet
+public sealed class TeamIndexes8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data), ITeamIndexSet
 {
     private const int TeamCount = 6;
     private const int NONE_SELECTED = -1;
     public readonly int[] TeamSlots = new int[TeamCount * 6];
-
-    public TeamIndexes8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
     public void LoadBattleTeams()
     {

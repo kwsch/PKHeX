@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using static PKHeX.Core.RibbonIndex;
 
 namespace PKHeX.Core;
@@ -28,7 +29,7 @@ public static class MarkRules
     }
 
     /// <summary>
-    /// Checks if a SW/SH mark is valid.
+    /// Checks if a characteristic encounter mark (only those that were introduced in SW/SH) is valid.
     /// </summary>
     public static bool IsEncounterMarkValid(RibbonIndex mark, PKM pk, IEncounterTemplate enc) => enc switch
     {
@@ -105,8 +106,7 @@ public static class MarkRules
     {
         var location = s.Parent.Location;
         // If it's not in the main table, it can only have Normal weather.
-        if (!EncounterArea8.WeatherbyArea.TryGetValue(location, out var weather))
-            weather = AreaWeather8.Normal;
+        var weather = EncounterArea8.WeatherbyArea.GetValueOrDefault(location, AreaWeather8.Normal);
         if (weather.HasFlag(permit))
             return true;
 
@@ -208,7 +208,7 @@ public static class MarkRules
     /// </summary>
     public static bool IsMarkPresentMightiest(IEncounterTemplate enc)
     {
-        // 7 star raids only.
+        // 7-Star raids that can be captured force the mark when obtained.
         return enc is EncounterMight9 { Stars: 7 };
     }
 

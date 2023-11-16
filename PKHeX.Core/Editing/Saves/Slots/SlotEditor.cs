@@ -3,18 +3,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Facilitates interaction with a <see cref="SaveFile"/> or other data location's slot data.
 /// </summary>
-public sealed class SlotEditor<T>
+public sealed class SlotEditor<T>(SaveFile SAV)
 {
-    private readonly SaveFile SAV;
-    public readonly SlotChangelog Changelog;
-    public readonly SlotPublisher<T> Publisher;
-
-    public SlotEditor(SaveFile sav)
-    {
-        SAV = sav;
-        Changelog = new SlotChangelog(sav);
-        Publisher = new SlotPublisher<T>();
-    }
+    public readonly SlotChangelog Changelog = new(SAV);
+    public readonly SlotPublisher<T> Publisher = new();
 
     private void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pk) => Publisher.NotifySlotChanged(slot, type, pk);
 

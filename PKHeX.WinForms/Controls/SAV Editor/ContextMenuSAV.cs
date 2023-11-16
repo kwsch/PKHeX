@@ -140,11 +140,9 @@ public partial class ContextMenuSAV : UserControl
     private static SlotViewInfo<PictureBox> GetSenderInfo(object sender)
     {
         var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-        if (pb == null)
-            throw new InvalidCastException("Unable to find PictureBox");
+        ArgumentNullException.ThrowIfNull(pb);
         var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
-        if (view == null)
-            throw new InvalidCastException("Unable to find View Parent");
+        ArgumentNullException.ThrowIfNull(view);
         var loc = view.GetSlotData(pb);
         return new SlotViewInfo<PictureBox>(loc, view);
     }

@@ -48,7 +48,7 @@ public partial class SAV_Trainer9 : Form
 
     private void GetImages()
     {
-        static Image GetImage(SCBlockAccessor blocks, uint kd, uint kw, uint kh)
+        static Bitmap GetImage(SCBlockAccessor blocks, uint kd, uint kw, uint kh)
         {
             var data = blocks.GetBlock(kd).Data;
             var width = blocks.GetBlockValue<uint>(kw);
@@ -189,8 +189,8 @@ public partial class SAV_Trainer9 : Form
         System.Media.SystemSounds.Asterisk.Play();
     }
 
-    private static ReadOnlySpan<uint> FlyHashes => new[]
-    {
+    private static ReadOnlySpan<uint> FlyHashes =>
+    [
         #region Fly Flags
         FSYS_YMAP_FLY_01,
         FSYS_YMAP_FLY_02,
@@ -285,7 +285,7 @@ public partial class SAV_Trainer9 : Form
         FSYS_YMAP_FLY_SU1_SPOT05,
         FSYS_YMAP_FLY_SU1_SPOT06,
         #endregion
-    };
+    ];
 
     private void B_CollectAllStakes_Click(object sender, EventArgs e)
     {

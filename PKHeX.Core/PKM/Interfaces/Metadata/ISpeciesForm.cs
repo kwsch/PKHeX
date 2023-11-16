@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Simple identification values for an Pokémon Entity.
+/// Simple identification values for a Pokémon Entity.
 /// </summary>
 public interface ISpeciesForm
 {

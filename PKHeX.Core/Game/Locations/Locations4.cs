@@ -4,8 +4,8 @@ namespace PKHeX.Core;
 
 internal static class Locations4
 {
-    public static ReadOnlySpan<byte> Met0 => new byte[]
-    {
+    public static ReadOnlySpan<byte> Met0 =>
+    [
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
         020, 021, 022, 023, 024, 025, 026, 027, 028, 029,
@@ -30,17 +30,17 @@ internal static class Locations4
         210, 211, 212, 213, 214, 215, 216, 217, 218, 219,
         220, 221, 222, 223, 224, 225, 226, 227, 228, 229,
         230, 231, 232, 233, 234,
-    };
+    ];
 
     // Ignore the --- met location at index 7.
-    public static ReadOnlySpan<ushort> Met2 => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Met2 =>
+    [
         2000, 2001, 2002, 2003, 2004, 2005, 2006,       2008, 2009,
         2010, 2011, 2012, 2013, 2014,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> Met3 => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Met3 =>
+    [
         3000, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009,
         3010, 3011, 3012, 3013, 3014, 3015, 3016, 3017, 3018, 3019,
         3020, 3021, 3022, 3023, 3024, 3025, 3026, 3027, 3028, 3029,
@@ -49,5 +49,5 @@ internal static class Locations4
         3050, 3051, 3052, 3053, 3054, 3055, 3056, 3057, 3058, 3059,
         3060, 3061, 3062, 3063, 3064, 3065, 3066, 3067, 3068, 3069,
         3070, 3071, 3072, 3073, 3074, 3075, 3076,
-    };
+    ];
 }

@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Interface for an <see cref="IEncounterTemplate"/> that can be one of many forms.
+/// Interface for <see cref="IEncounterTemplate"/> objects that can be one of many forms.
 /// </summary>
 public interface IEncounterFormRandom
 {

@@ -27,7 +27,7 @@ public partial class BallBrowser : Form
             flags[(int)ball] = true;
 
         int countLegal = 0;
-        List<PictureBox> controls = new();
+        List<PictureBox> controls = [];
         var names = GameInfo.BallDataSource;
         for (int ballID = 1; ballID < flags.Length; ballID++)
         {
@@ -62,7 +62,7 @@ public partial class BallBrowser : Form
         throw new ArgumentOutOfRangeException(nameof(ballID));
     }
 
-    private PictureBox GetBallView(int ballID, string name, bool valid)
+    private SelectablePictureBox GetBallView(int ballID, string name, bool valid)
     {
         var img = SpriteUtil.GetBallSprite(ballID);
         var pb = new SelectablePictureBox

@@ -1,14 +1,14 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Structure containing the Mystery Gift Data
 /// </summary>
-public class MysteryGiftAlbum
+public class MysteryGiftAlbum(DataMysteryGift[] Gifts, bool[] Flags)
 {
     /// <summary>
     /// Mystery Gift data received
     /// </summary>
-    public readonly DataMysteryGift[] Gifts;
+    public readonly DataMysteryGift[] Gifts = Gifts;
 
     /// <summary>
     /// Received Flag list
@@ -16,21 +16,14 @@ public class MysteryGiftAlbum
     /// <remarks>
     /// this[index] == true iff index=<see cref="MysteryGift.CardID"/> has been received already.
     /// </remarks>
-    public readonly bool[] Flags;
-
-    public MysteryGiftAlbum(DataMysteryGift[] gifts, bool[] flags)
-    {
-        Flags = flags;
-        Gifts = gifts;
-    }
+    public readonly bool[] Flags = Flags;
 }
 
-public sealed class EncryptedMysteryGiftAlbum : MysteryGiftAlbum
+public sealed class EncryptedMysteryGiftAlbum(DataMysteryGift[] Gifts, bool[] Flags, uint Seed)
+    : MysteryGiftAlbum(Gifts, Flags)
 {
     /// <summary>
     /// Encryption Seed (only used in Generation 5 to encrypt the stored data)
     /// </summary>
-    public readonly uint Seed;
-
-    public EncryptedMysteryGiftAlbum(DataMysteryGift[] gifts, bool[] flags, uint seed) : base(gifts, flags) => Seed = seed;
+    public readonly uint Seed = Seed;
 }

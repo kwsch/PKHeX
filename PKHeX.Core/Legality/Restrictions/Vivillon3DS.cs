@@ -14,8 +14,8 @@ public static class Vivillon3DS
     /// <summary>
     /// List of valid regions as bitflags indexed by Vivillon form.
     /// </summary>
-    private static ReadOnlySpan<Region3DSFlags> VivillonRegionTable => new[]
-    {
+    private static ReadOnlySpan<Region3DSFlags> VivillonRegionTable =>
+    [
         /* 0 Icy Snow    */          Americas | Europe,
         /* 1 Polar       */          Americas | Europe | China,
         /* 2 Tundra      */ Japan  |            Europe,
@@ -34,7 +34,7 @@ public static class Vivillon3DS
         /*15 Sun         */          Americas | Europe,
         /*16 Ocean       */          Americas | Europe,
         /*17 Jungle      */          Americas | Europe,
-    };
+    ];
 
     private static Region3DSFlags GetConsoleRegionFlag(in byte consoleRegion) => (Region3DSFlags)(1 << consoleRegion);
 
@@ -97,20 +97,20 @@ public static class Vivillon3DS
     }
 
     // The game stores an equirectangular projection byte map of forms, laid out over a map of Earth.
-    // The game then determines form based on the player's selected Country and Region via its latitude and longitude stored in the 3DS' system files.
+    // The game then determines form based on the player's selected Country and Region via its latitude and longitude stored in the 3DS's system files.
     // Since we have dumped these country,region->latitude,longitude mappings, we can determine the form that would be obtained in-game.
     // Using the data from @abcboy101 located here: https://github.com/abcboy101/vivillon/blob/main/data_points.json
     // Provide efficient and quick lookups for checking if a form can originate from a given country/region.
     // Reminder: Vivillon form is set when you start the Save File. Changing Country/Region after will update Country/Region for OT, not the form available.
 
     // 93 countries have the same form. This is about half the total amount of countries [0,186].
-    // Instead of doing a index = lookup(country) -> form[index], can do array[country] with a sentinel to indicate the country is different by region.
+    // Instead of doing an index = lookup(country) -> form[index], can do array[country] with a sentinel to indicate the country is different by region.
     // This results in O(1) performance, better than O(log(n)) for the binary search approach.
     // None of the these countries with same form have form 0, so we can use that as a sentinel value.
     private const byte XX = 0;
 
-    private static ReadOnlySpan<byte> SameCountry => new byte[]
-    {
+    private static ReadOnlySpan<byte> SameCountry =>
+    [
         XX, XX, XX, XX, XX, XX, XX, XX, 09, 09, XX, 09, 09, 09, 15, 14,
         XX, 09, XX, 15, XX, XX, XX, 09, 09, 17, 15, 17, 09, 09, 15, 17,
         09, 15, 09, 09, XX, 09, 09, 15, 17, 14, XX, 09, 09, 09, 17, 09,
@@ -123,13 +123,13 @@ public static class Vivillon3DS
         03, XX, XX, XX, XX, XX, XX, XX, XX, 17, XX, XX, 17, XX, XX, XX,
         XX, XX, XX, XX, XX, XX, XX, XX, 11, XX, XX, XX, XX, XX, 11, XX,
         XX, XX, XX, XX, XX, XX, XX, XX, 08, 08, 07,
-    };
+    ];
 
     // (country:X2_region:X2)
     // do it this way instead of region_country so that the byte[] form is better ordered for better file compression :)
     // 777 entries, so we can use a binary search to find the form. Worst case is log2(777) = 10 comparisons.
-    private static ReadOnlySpan<ushort> DiffCountryRegion => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> DiffCountryRegion =>
+    [
         0x0100, 0x0102, 0x0103, 0x0104, 0x0105, 0x0106, 0x0107, 0x0108, 0x0109, 0x010A, 0x010B, 0x010C, 0x010D, 0x010E, 0x010F, 0x0110,
         0x0111, 0x0112, 0x0113, 0x0114, 0x0115, 0x0116, 0x0117, 0x0118, 0x0119, 0x011A, 0x011B, 0x011C, 0x011D, 0x011E, 0x011F, 0x0120,
         0x0121, 0x0122, 0x0123, 0x0124, 0x0125, 0x0126, 0x0127, 0x0128, 0x0129, 0x012A, 0x012B, 0x012C, 0x012D, 0x012E, 0x012F, 0x0130,
@@ -179,10 +179,10 @@ public static class Vivillon3DS
         0xA01B, 0xA01D, 0xA01E, 0xA01F, 0xA020, 0xA021, 0xA900, 0xA902, 0xA903, 0xA904, 0xA905, 0xA906, 0xA907, 0xA908, 0xA909, 0xA90A,
         0xA90C, 0xA90D, 0xA90E, 0xA90F, 0xA910, 0xA911, 0xA912, 0xA913, 0xA914, 0xA915, 0xA916, 0xA917, 0xA918, 0xA919, 0xA91A, 0xA91C,
         0xA91D, 0xA91E, 0xA91F, 0xA920, 0xA921, 0xA922, 0xA923, 0xA924, 0xA925,
-    };
+    ];
 
-    private static ReadOnlySpan<byte> DiffForm => new byte[]
-    {
+    private static ReadOnlySpan<byte> DiffForm =>
+    [
         05, 05, 02, 02, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05,
         05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 05,
         05, 05, 05, 05, 05, 05, 05, 05, 05, 05, 03, 05, 05, 05, 05, 13,
@@ -232,7 +232,7 @@ public static class Vivillon3DS
         03, 13, 10, 03, 10, 13, 13, 13, 13, 13, 13, 03, 13, 13, 03, 03,
         17, 13, 13, 13, 13, 13, 13, 13, 13, 03, 13, 13, 13, 13, 13, 13,
         13, 13, 13, 13, 13, 13, 13, 03, 13,
-    };
+    ];
 }
 
 /// <summary>

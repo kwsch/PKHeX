@@ -42,7 +42,7 @@ public sealed class RandomGroup8b : SaveBlock<SAV8BS>
 /// Random Seed data.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class RandomSeed8b
+public sealed class RandomSeed8b(byte[] Data, int Offset)
 {
     public const int GROUP_NAME_SIZE = 16; // chars
     public const int PERSON_NAME_SIZE = 32; // chars
@@ -56,15 +56,6 @@ public sealed class RandomSeed8b
     private const int OFS_TICK = OFS_RAND + 8; // 0x78
     private const int OFS_UID = OFS_TICK + 8; // 0x80
     public const int SIZE = OFS_UID + 4; // 0x84
-
-    private readonly int Offset;
-    private readonly byte[] Data;
-
-    public RandomSeed8b(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
 
     public string GroupName
     {

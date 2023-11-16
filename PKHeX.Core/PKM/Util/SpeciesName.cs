@@ -38,7 +38,7 @@ public static class SpeciesName
     /// </summary>
     /// <remarks>Indexing matches <see cref="SpeciesLang"/>.</remarks>
     private static readonly string[] EggNames =
-    {
+    [
         "タマゴ",
         "タマゴ",
         "Egg",
@@ -50,14 +50,14 @@ public static class SpeciesName
         "알",
         "蛋",
         "蛋",
-    };
+    ];
 
     /// <summary>
     /// <see cref="PKM.Nickname"/> to <see cref="Species"/> table for all <see cref="LanguageID"/> values.
     /// </summary>
-    private static readonly IReadOnlyList<Dictionary<int, ushort>> SpeciesDict = GetDictionary(SpeciesLang);
+    private static readonly Dictionary<int, ushort>[] SpeciesDict = GetDictionary(SpeciesLang);
 
-    private static IReadOnlyList<Dictionary<int, ushort>> GetDictionary(IReadOnlyList<IReadOnlyList<string>> names)
+    private static Dictionary<int, ushort>[] GetDictionary(IReadOnlyList<IReadOnlyList<string>> names)
     {
         var result = new Dictionary<int, ushort>[names.Count];
         for (int i = 0; i < result.Length; i++)
@@ -302,7 +302,7 @@ public static class SpeciesName
         var dict = SpeciesDict[language];
         if (!dict.TryGetValue(hash, out species))
             return false;
-        // Double check the species name
+        // Double-check the species name
         var arr = SpeciesLang[language];
         var expect = arr[species];
         return speciesName.SequenceEqual(expect);

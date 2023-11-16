@@ -71,7 +71,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
     public EncounterTrade8(string[] trainerNames, GameVersion game, ushort species, byte level, byte memory, ushort arg, byte feel, byte intensity)
     {
         Version = game;
-        Nicknames = Array.Empty<string>();
+        Nicknames = [];
         TrainerNames = trainerNames;
         Species = species;
         Level = level;

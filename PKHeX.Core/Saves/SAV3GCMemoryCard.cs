@@ -27,7 +27,7 @@ public enum GCMemoryCardState
 /// <summary>
 /// GameCube save container which may or may not contain Generation 3 <see cref="SaveFile"/> objects.
 /// </summary>
-public sealed class SAV3GCMemoryCard
+public sealed class SAV3GCMemoryCard(byte[] Data)
 {
     private const int BLOCK_SIZE = 0x2000;
     private const int MBIT_TO_BLOCKS = 0x10;
@@ -63,8 +63,6 @@ public sealed class SAV3GCMemoryCard
     private const int DirectoryBAK = BLOCK_SIZE * DirectoryBackup_Block;
     private const int BlockAlloc = BLOCK_SIZE * BlockAlloc_Block;
     private const int BlockAllocBAK = BLOCK_SIZE * BlockAllocBackup_Block;
-
-    public SAV3GCMemoryCard(byte[] data) => Data = data;
 
     // Checksums
     private (ushort Checksum, ushort Inverse) GetChecksum(int block, int offset, [ConstantExpected(Min = 0)] int length)
@@ -219,7 +217,7 @@ public sealed class SAV3GCMemoryCard
             ? DirectoryBackup_Block
             : Directory_Block;
 
-        // Search for pokemon savegames in the directory
+        // Search for Pokémon saves in the directory
         SaveGameCount = 0;
         for (int i = 0; i < NumEntries_Directory; i++)
         {
@@ -310,7 +308,7 @@ public sealed class SAV3GCMemoryCard
     }
 
     public string GCISaveName => GCISaveGameName();
-    public readonly byte[] Data;
+    public readonly byte[] Data = Data;
 
     private string GCISaveGameName()
     {
@@ -337,7 +335,7 @@ public sealed class SAV3GCMemoryCard
     {
         var entry = EntrySelected;
         if (entry < 0)
-            return Array.Empty<byte>(); // No entry selected
+            return ReadOnlyMemory<byte>.Empty; // No entry selected
         return ReadSaveGameData(entry);
     }
 

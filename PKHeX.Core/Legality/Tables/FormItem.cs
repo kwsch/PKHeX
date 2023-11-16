@@ -8,8 +8,8 @@ namespace PKHeX.Core;
 /// </summary>
 public static class FormItem
 {
-    private static ReadOnlySpan<ushort> Arceus_PlateIDs => new ushort[] { 303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644 };
-    private static ReadOnlySpan<ushort> Arceus_ZCrystal => new ushort[] { 782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793 };
+    private static ReadOnlySpan<ushort> Arceus_PlateIDs => [303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644];
+    private static ReadOnlySpan<ushort> Arceus_ZCrystal => [782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793];
 
     /// <summary>
     /// Gets the form for <see cref="Arceus"/> based on the held item.

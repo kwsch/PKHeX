@@ -4,7 +4,7 @@ using System.Linq;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Provides a summary for an <see cref="IEncounterTemplate"/> object.
+/// Provides a summary for <see cref="IEncounterTemplate"/> objects.
 /// </summary>
 public sealed record EncounterSummary
 {

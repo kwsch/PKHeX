@@ -20,7 +20,7 @@ internal static class Encounters4DPPt
     #region Static Encounter/Gift Tables
 
     public static readonly EncounterStatic4[] StaticDPPt =
-    {
+    [
         // Gift
         new(DPPt) { FixedBall = Ball.Poke, Species = 447, Level = 01, Location = 000, EggLocation = 2010 }, // Riolu Egg from Riley
         new(DPPt) { Species = 442, Level = 25, Location = 24 }, // Spiritomb @ Route 209
@@ -30,10 +30,10 @@ internal static class Encounters4DPPt
         // Roamers
         new(DPPt) { Roaming = true, Location = 16, Species = 481, Level = 50, GroundTile = Grass | Water }, // Mesprit
         new(DPPt) { Roaming = true, Location = 16, Species = 488, Level = 50, GroundTile = Grass | Water }, // Cresselia
-    };
+    ];
 
     public static readonly EncounterStatic4[] StaticDP =
-    {
+    [
         new(DP) { FixedBall = Ball.Poke, Species = 133, Level = 05, Location = 010, GroundTile = Max_DP }, // Eevee @ Hearthome City
         new(DP) { FixedBall = Ball.Poke, Species = 440, Level = 01, Location = 000, EggLocation = 2009 }, // Happiny Egg from Traveling Man
 
@@ -50,16 +50,16 @@ internal static class Encounters4DPPt
         new(DP) { FixedBall = Ball.Poke, Species = 410, Level = 20, Location = 094, GroundTile = Max_DP }, // Shieldon
 
         new(DP) { Species = 425, Level = 22, Location = 47 }, // Drifloon @ Valley Windworks
-        new(DP) { Species = 479, Level = 15, Location = 70, GroundTile = Building }, // Rotom @ Old Chateau
+        new(DP) { Species = 479, Level = 15, Location = 70, GroundTile = Building }, // Rotom @ Old Château
 
         new(DP) { Species = 485, Level = 70, Location = 084, GroundTile = Cave }, // Heatran @ Stark Mountain
         new(DP) { Species = 486, Level = 70, Location = 064, GroundTile = Cave }, // Regigigas @ Snowpoint Temple
         new(DP) { Species = 487, Level = 70, Location = 062, GroundTile = Cave, Form = 0 }, // Giratina @ Turnback Cave
         //new(DP) { Species = 492, Form = 0, Level = 30, Location = 063, Fateful = false }, // Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
-    };
+    ];
 
     public static readonly EncounterStatic4[] StaticPt =
-    {
+    [
         new(Pt) { FixedBall = Ball.Poke, Species = 387, Level = 5, Location = 016, GroundTile = Max_Pt }, // Turtwig @ Route 201
         new(Pt) { FixedBall = Ball.Poke, Species = 390, Level = 5, Location = 016, GroundTile = Max_Pt }, // Chimchar
         new(Pt) { FixedBall = Ball.Poke, Species = 393, Level = 5, Location = 016, GroundTile = Max_Pt }, // Piplup
@@ -77,7 +77,7 @@ internal static class Encounters4DPPt
         new(Pt) { FixedBall = Ball.Poke, Species = 175, Level = 01, Location = 000, EggLocation = 2011 }, // Togepi Egg from Cynthia
 
         new(Pt) { Species = 425, Level = 15, Location = 47 }, // Drifloon @ Valley Windworks
-        new(Pt) { Species = 479, Level = 20, Location = 70, GroundTile = Building }, // Rotom @ Old Chateau
+        new(Pt) { Species = 479, Level = 20, Location = 70, GroundTile = Building }, // Rotom @ Old Château
 
         // Stationary Legendary
         new(Pt) { Species = 377, Level = 30, Location = 125, GroundTile = Cave }, // Regirock @ Rock Peak Ruins
@@ -95,23 +95,23 @@ internal static class Encounters4DPPt
         new(Pt)   { Roaming = true, Location = 16, Species = 144, Level = 60, GroundTile = Grass | Water }, // Articuno
         new(Pt)   { Roaming = true, Location = 16, Species = 145, Level = 60, GroundTile = Grass | Water }, // Zapdos
         new(Pt)   { Roaming = true, Location = 16, Species = 146, Level = 60, GroundTile = Grass | Water }, // Moltres
-    };
+    ];
 
     public static readonly EncounterStatic4[] StaticD =
-    {
+    [
         new(D ) { Species = 483, Level = 47, Location = 051, GroundTile = Rock }, // Dialga @ Spear Pillar
-    };
+    ];
 
     public static readonly EncounterStatic4[] StaticP =
-    {
+    [
         new( P) { Species = 484, Level = 47, Location = 051, GroundTile = Rock }, // Palkia @ Spear Pillar
-    };
+    ];
 
     #endregion
     #region Trade Tables
 
     internal static readonly EncounterTrade4RanchGift[] RanchGifts =
-    {
+    [
         new(323975838, 025, 18) { Moves = new(447,085,148,104), TID16 = 1000, SID16 = 19840, OTGender = 1, MetLocation = 0068, Gender = 0, Ability = OnlyFirst,  CurrentLevel = 20 }, // Pikachu
         new(323977664, 037, 16) { Moves = new(412,109,053,219), TID16 = 1000, SID16 = 21150, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = OnlyFirst,  CurrentLevel = 30 }, // Vulpix
         new(323975579, 077, 13) { Moves = new(036,033,039,052), TID16 = 1000, SID16 = 01123, OTGender = 1, MetLocation = 3000, Gender = 0, Ability = OnlySecond, CurrentLevel = 16 }, // Ponyta
@@ -134,15 +134,15 @@ internal static class Encounters4DPPt
         new(323975582, 459, 32) { Moves = new(452,420,275,059), TID16 = 1000, SID16 = 23360, OTGender = 1, MetLocation = 0031, Gender = 0, Ability = OnlyFirst,  CurrentLevel = 41 }, // Snover
         new(151, 50) { Moves = new(235,216,095,100), TID16 = 1000, SID16 = 59228, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12 }, // Mew
         new(489, 01) { Moves = new(447,240,156,057), TID16 = 1000, SID16 = 09248, OTGender = 1, FixedBall = Ball.Cherish, Gender = 2, Ability = Any12, CurrentLevel = 50, EggLocation = 3000 }, // Phione
-    };
+    ];
 
     internal static readonly EncounterTrade4PID[] TradeGift_DPPtIngame =
-    {
+    [
         new(TradeNames, 00, DPPt, 0x0000008E, 063, 01) { Ability = OnlyFirst,  TID16 = 25643, SID16 = 00000, OTGender = 1, Gender = 0, IVs = new(15,15,15,20,25,25) }, // Machop -> Abra
         new(TradeNames, 01, DPPt, 0x00000867, 441, 01) { Ability = OnlySecond, TID16 = 44142, SID16 = 00000, OTGender = 0, Gender = 1, IVs = new(15,20,15,25,25,15), Contest = 20 }, // Buizel -> Chatot
         new(TradeNames, 02, DPPt, 0x00000088, 093, 35) { Ability = OnlyFirst,  TID16 = 19248, SID16 = 00000, OTGender = 1, Gender = 0, IVs = new(20,25,15,25,15,15) }, // Medicham (35 from Route 217) -> Haunter
         new(TradeNames, 03, DPPt, 0x0000045C, 129, 01) { Ability = OnlyFirst,  TID16 = 53277, SID16 = 00000, OTGender = 0, Gender = 1, IVs = new(15,25,15,20,25,15) }, // Finneon -> Magikarp
-    };
+    ];
 
     #endregion
 }

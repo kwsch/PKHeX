@@ -41,7 +41,7 @@ public sealed class LearnSource7SM : ILearnSource<PersonalInfo7>, IEggSource
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if (species > MaxSpecies)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return EggMoves.GetFormEggMoves(species, form);
     }
 

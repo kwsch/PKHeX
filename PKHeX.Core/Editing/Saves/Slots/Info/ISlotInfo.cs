@@ -19,7 +19,7 @@ public interface ISlotInfo
     /// Indicates if this slot can write to the requested <see cref="sav"/>.
     /// </summary>
     /// <param name="sav">Save file to try writing to.</param>
-    /// <returns>True if can write to</returns>
+    /// <returns>True if the slot can be written to</returns>
     bool CanWriteTo(SaveFile sav);
 
     /// <summary>
@@ -27,7 +27,7 @@ public interface ISlotInfo
     /// </summary>
     /// <param name="sav">Save file to try writing to.</param>
     /// <param name="pk">Entity data to try writing.</param>
-    /// <returns>True if can write to</returns>
+    /// <returns>True if the slot can be written to</returns>
     WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pk);
 
     /// <summary>

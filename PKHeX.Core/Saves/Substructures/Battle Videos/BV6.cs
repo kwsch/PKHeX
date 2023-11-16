@@ -6,11 +6,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BV6 : BattleVideo
+public sealed class BV6(byte[] Data) : BattleVideo
 {
+    private readonly byte[] Data = (byte[])Data.Clone();
+
     public const int SIZE = 0x2E60;
     private const string NPC = "NPC";
-    private readonly byte[] Data;
     private const int PlayerCount = 4;
 
     public override IReadOnlyList<PK6> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
@@ -23,7 +24,6 @@ public sealed class BV6 : BattleVideo
         return ReadUInt64LittleEndian(data[0xE18..]) != 0 && ReadUInt16LittleEndian(data[0xE12..]) == 0;
     }
 
-    public BV6(byte[] data) => Data = (byte[])data.Clone();
     public int Mode { get => Data[0x00]; set => Data[0x00] = (byte)value; }
     public int Style { get => Data[0x01]; set => Data[0x01] = (byte)value; }
 
@@ -99,7 +99,8 @@ public sealed class BV6 : BattleVideo
         {
             int offset = start + (PokeCrypto.SIZE_6PARTY * ((t * 6) + p));
             offset += 8 * (((t * 6) + p) / 6); // 8 bytes padding between teams
-            team[p] = new PK6(Data.Slice(offset, PokeCrypto.SIZE_6PARTY));
+            var span = Data.AsSpan(offset, PokeCrypto.SIZE_6PARTY);
+            team[p] = new PK6(span.ToArray());
         }
 
         return team;

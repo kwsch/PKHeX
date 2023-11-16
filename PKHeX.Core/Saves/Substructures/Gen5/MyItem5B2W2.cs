@@ -18,13 +18,13 @@ public sealed class MyItem5B2W2 : MyItem
         {
             var info = ItemStorage5B2W2.Instance;
             InventoryPouch4[] pouch =
-            {
+            [
                 new(InventoryType.Items, info, 999, Offset + HeldItem),
                 new(InventoryType.KeyItems, info, 1, Offset + KeyItem),
                 new(InventoryType.TMHMs, info, 1, Offset + TMHM),
                 new(InventoryType.Medicine, info, 999, Offset + Medicine),
                 new(InventoryType.Berries, info, 999, Offset + Berry),
-            };
+            ];
             return pouch.LoadAll(Data);
         }
         set => value.SaveAll(Data);

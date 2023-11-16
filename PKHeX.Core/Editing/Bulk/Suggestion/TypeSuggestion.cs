@@ -1,22 +1,16 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
 /// <inheritdoc cref="ISuggestModification"/>
 /// <typeparam name="T">Specific (or not) type</typeparam>
-public sealed class TypeSuggestion<T> : ISuggestModification
+public sealed class TypeSuggestion<T>(string Keyword, Action<T> Action) : ISuggestModification
 {
-    public readonly string Keyword;
-    public readonly Action<T, string> Action;
+    public readonly string Keyword = Keyword;
+    public readonly Action<T, string> Action = (pk, _) => Action(pk);
     public readonly Func<T, bool> Criteria = _ => true;
 
-    public TypeSuggestion(string keyword, Action<T> action)
-    {
-        Keyword = keyword;
-        Action = (pk, _) => action(pk);
-    }
-
-    public TypeSuggestion(string keyword, Func<T, bool> criteria, Action<T> action) : this(keyword, action)
+    public TypeSuggestion(string Keyword, Func<T, bool> criteria, Action<T> action) : this(Keyword, action)
     {
         Criteria = criteria;
     }

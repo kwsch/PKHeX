@@ -21,7 +21,7 @@ public static class EvolutionSet
     private static EvolutionMethod[] GetEntry(ReadOnlySpan<byte> data, byte levelUp)
     {
         if (data.Length == 0)
-            return Array.Empty<EvolutionMethod>();
+            return [];
 
         var result = new EvolutionMethod[data.Length / SIZE];
         for (int i = 0, offset = 0; i < result.Length; i++, offset += SIZE)

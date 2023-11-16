@@ -50,8 +50,8 @@ public partial class SuperTrainingEditor : Form
         }
     }
 
-    private readonly List<RegimenInfo> reglist = new();
-    private readonly List<RegimenInfo> distlist = new();
+    private readonly List<RegimenInfo> reglist = [];
+    private readonly List<RegimenInfo> distlist = [];
     private readonly ISuperTrain Entity;
     private const string PrefixCHK = "CHK_";
 

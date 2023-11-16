@@ -99,8 +99,8 @@ public sealed class LearnGroupHOME : ILearnGroup
     /// <returns>True if all results are valid.</returns>
     private static bool CleanPurge(Span<MoveResult> result, ReadOnlySpan<ushort> current, PKM pk, MoveSourceType types, IHomeSource local, ReadOnlySpan<EvoCriteria> evos)
     {
-        // The logic used to update the results did not check if the move was actually able to be learned in the local game.
-        // Double check the results and remove any that are not valid for the local game.
+        // The logic used to update the results did not check if the move was could be learned in the local game.
+        // Double-check the results and remove any that are not valid for the local game.
         // SW/SH will continue to iterate downwards to previous groups after HOME is checked, so we can exactly check via Environment.
         for (int i = 0; i < result.Length; i++)
         {
@@ -124,7 +124,7 @@ public sealed class LearnGroupHOME : ILearnGroup
                     valid = true;
             }
 
-            // HOME has special handling to allow Volt Tackle outside of learnset possibilities.
+            // HOME has special handling to allow Volt Tackle outside learnset possibilities.
             // Most games do not have a Learn Source for Volt Tackle besides it being specially inserted for Egg Encounters.
             if (!valid && move is not (ushort)Move.VoltTackle)
                 r = default;
@@ -276,7 +276,7 @@ public sealed class LearnGroupHOME : ILearnGroup
             foreach (var evo in evos)
             {
                 var chk = dest.GetCanLearnHOME(pk, evo, move, types);
-                // HOME has special handling to allow Volt Tackle outside of learnset possibilities.
+                // HOME has special handling to allow Volt Tackle outside learnset possibilities.
                 // Most games do not have a Learn Source for Volt Tackle besides it being specially inserted for Egg Encounters.
                 if (chk.Method == LearnMethod.None && move is not (int)Move.VoltTackle)
                     continue;

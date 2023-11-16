@@ -41,7 +41,7 @@ public sealed class GameDataPB8 : HomeOptional1, IGameDataSide<PB8>, IGameDataSp
     private Span<byte> RecordFlag => Data.Slice(0x18, 14);
     public bool GetMoveRecordFlag(int index) => FlagUtil.GetFlag(RecordFlag, index >> 3, index & 7);
     public void SetMoveRecordFlag(int index, bool value) => FlagUtil.SetFlag(RecordFlag, index >> 3, index & 7, value);
-    public bool GetMoveRecordFlagAny() => RecordFlag.IndexOfAnyExcept<byte>(0) >= 0;
+    public bool GetMoveRecordFlagAny() => RecordFlag.ContainsAnyExcept<byte>(0);
     public void ClearMoveRecordFlags() => RecordFlag.Clear();
 
     public int Ball { get => Data[0x26]; set => Data[0x26] = (byte)value; }

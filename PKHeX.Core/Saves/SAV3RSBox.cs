@@ -22,7 +22,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     {
         Japanese = japanese;
         Box = 0;
-        Blocks = Array.Empty<BlockInfoRSBOX>();
+        Blocks = [];
         ClearBoxes();
     }
 
@@ -39,7 +39,11 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
         int[] SaveCounts = Array.ConvertAll(Blocks, block => (int)block.SaveCount);
         SaveCount = SaveCounts.Max();
         int ActiveSAV = Array.IndexOf(SaveCounts, SaveCount) / BLOCK_COUNT;
-        Blocks = Blocks.Skip(ActiveSAV * BLOCK_COUNT).Take(BLOCK_COUNT).OrderBy(b => b.ID).ToArray();
+        var ordered = Blocks
+            .Skip(ActiveSAV * BLOCK_COUNT)
+            .Take(BLOCK_COUNT)
+            .OrderBy(b => b.ID);
+        Blocks = [..ordered];
 
         // Set up PC data buffer beyond end of save file.
         Box = Data.Length;
@@ -193,7 +197,7 @@ public sealed class SAV3RSBox : SaveFile, IGCSaveFile
         return PokeCrypto.DecryptArray3(data);
     }
 
-    protected override void SetDex(PKM pk) { /* No Pokedex for this game, do nothing */ }
+    protected override void SetDex(PKM pk) { /* No Pokédex for this game, do nothing */ }
 
     public override void WriteBoxSlot(PKM pk, Span<byte> data)
     {

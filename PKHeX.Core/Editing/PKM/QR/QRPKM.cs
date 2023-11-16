@@ -33,12 +33,12 @@ public static class QRPKM
         string IVs = $"IVs: {pk.IV_HP:00}/{pk.IV_ATK:00}/{pk.IV_DEF:00}/{pk.IV_SPA:00}/{pk.IV_SPD:00}/{pk.IV_SPE:00}";
         string EVs = $"EVs: {pk.EV_HP:00}/{pk.EV_ATK:00}/{pk.EV_DEF:00}/{pk.EV_SPA:00}/{pk.EV_SPD:00}/{pk.EV_SPE:00}";
 
-        return new[]
-        {
+        return
+        [
             string.Join(" ", header),
             sb.ToString(),
             IVs + "   " + EVs,
-        };
+        ];
     }
 
     private static IEnumerable<string> GetHeader(PKM pk, GameStrings s)

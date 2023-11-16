@@ -91,7 +91,7 @@ public partial class Main : Form
 
     private readonly string[] main_langlist = Enum.GetNames(typeof(ProgramLanguage));
 
-    private static readonly List<IPlugin> Plugins = new();
+    private static readonly List<IPlugin> Plugins = [];
     #endregion
 
     #region Path Variables
@@ -441,9 +441,11 @@ public partial class Main : Form
             WinFormsUtil.Alert(result);
     }
 
+    /// <summary>
+    /// Dumps all Entity content stored in the SaveFile's boxes to disk.
+    /// </summary>
     private void MainMenuBoxDump(object sender, EventArgs e)
     {
-        // Dump all of box content to files.
         string? path = null;
         DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDatabaseExport);
         if (ld == DialogResult.Yes)
@@ -888,7 +890,7 @@ public partial class Main : Form
         {
             if (ModifierKeys == Keys.Control || s3.IsCorruptPokedexFF())
             {
-                var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
+                GameVersion[] g = [GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG];
                 var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
                 var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
                 using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);

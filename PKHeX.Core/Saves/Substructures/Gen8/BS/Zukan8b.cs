@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Pokédex structure used for Brilliant Diamond &amp; Shining Pearl.
 /// </summary>
 /// <remarks>size 0x30B8, struct_name ZUKAN_WORK</remarks>
-public sealed class Zukan8b : ZukanBase<SAV8BS>
+public sealed class Zukan8b(SAV8BS sav, int dex) : ZukanBase<SAV8BS>(sav, dex)
 {
     /* Structure Notes:
         u32 [493] state: None/HeardOf/Seen/Captured
@@ -132,8 +132,6 @@ public sealed class Zukan8b : ZukanBase<SAV8BS>
         (1 << ((int)LanguageID.ChineseT - 2));
 
     private static PersonalTable8BDSP Personal => PersonalTable.BDSP;
-
-    public Zukan8b(SAV8BS sav, int dex) : base(sav, dex) { }
 
     public ZukanState8b GetState(ushort species)
     {

@@ -42,7 +42,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
     {
         var index = Personal.GetFormIndex(species, form);
         if (index >= EggMoves.Length)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return EggMoves[index];
     }
 
@@ -59,7 +59,7 @@ public sealed class LearnSource9SV : ILearnSource<PersonalInfo9SV>, IEggSource, 
     {
         var index = Personal.GetFormIndex(species, form);
         if (index >= Reminder.Length)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return Reminder[index];
     }
 

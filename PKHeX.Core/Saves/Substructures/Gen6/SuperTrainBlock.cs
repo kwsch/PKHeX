@@ -283,17 +283,8 @@ public sealed class SuperTrainBlock : SaveBlock<SAV6>
     public void ClearBlock() => Array.Clear(Data, Offset, 0x318);
 }
 
-public sealed class SuperTrainingSpeciesRecord : ISpeciesForm
+public sealed class SuperTrainingSpeciesRecord(byte[] Data, int Offset) : ISpeciesForm
 {
-    private readonly byte[] Data;
-    private readonly int Offset;
-
-    public SuperTrainingSpeciesRecord(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
-
     /// <summary>
     /// <see cref="PKM.Species"/> of the Record Holder.
     /// </summary>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -21,8 +21,7 @@ public sealed class SecretBase6Block : SaveBlock<SAV6AO>
     public const int Count_Goods = 200;
     public const int Count_Goods_Used = 173;
 
-    public SecretBase6GoodStock GetGood(int index) => new(Data.AsSpan(Offset + GetGoodOffset(index)));
-    public void SetGood(SecretBase6GoodStock good, int index) => good.Write(Data.AsSpan(Offset + GetGoodOffset(index)));
+    public SecretBase6GoodStock GetGood(int index) => new(Data, Offset + GetGoodOffset(index));
 
     private static int GetGoodOffset(int index)
     {

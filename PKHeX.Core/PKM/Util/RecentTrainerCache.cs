@@ -44,7 +44,7 @@ public static class RecentTrainerCache
     public static void SetConsoleRegionData3DS(IRegionOrigin pk) => SetConsoleRegionData3DS(pk, Trainer);
 
     /// <summary>
-    /// Fetches an <see cref="IRegionOrigin"/> trainer to apply details to the input <see cref="pk"/>.
+    /// Fetches a trainer to apply details to the input <see cref="pk"/>.
     /// </summary>
     /// <param name="pk">Entity to apply details to.</param>
     /// <param name="trainer">Trainer that is receiving the entity.</param>
@@ -57,7 +57,7 @@ public static class RecentTrainerCache
     }
 
     /// <summary>
-    /// Fetches an <see cref="IRegionOrigin"/> trainer to apply details to the input <see cref="pk"/>.
+    /// Fetches a trainer to apply details to the input <see cref="pk"/>.
     /// </summary>
     /// <param name="pk">Entity to apply details to.</param>
     public static void SetFirstCountryRegion(IGeoTrack pk)

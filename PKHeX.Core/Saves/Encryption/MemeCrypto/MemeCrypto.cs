@@ -47,7 +47,7 @@ public static class MemeCrypto
                 return true;
         }
 
-        output = Array.Empty<byte>();
+        output = [];
         return false;
     }
 
@@ -58,7 +58,7 @@ public static class MemeCrypto
             if (VerifyMemeData(input, out output, keyIndex))
                 return true;
         }
-        output = Array.Empty<byte>();
+        output = [];
         return false;
     }
 
@@ -66,7 +66,7 @@ public static class MemeCrypto
     {
         if (input.Length < MemeKey.SignatureLength)
         {
-            output = Array.Empty<byte>();
+            output = [];
             return false;
         }
         var key = new MemeKey(keyIndex);
@@ -84,7 +84,7 @@ public static class MemeCrypto
         if (DecryptCompare(output, sigBuffer, key))
             return true;
 
-        output = Array.Empty<byte>();
+        output = [];
         return false;
     }
 
@@ -108,7 +108,7 @@ public static class MemeCrypto
             output = newOutput;
             return true;
         }
-        output = Array.Empty<byte>();
+        output = [];
         return false;
     }
 

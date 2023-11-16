@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class FashionUnlock8 : SaveBlock<SAV8SWSH>
+public sealed class FashionUnlock8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
     private const int SIZE_ENTRY = 0x80;
     private const int REGIONS = 15;
@@ -17,8 +17,6 @@ public sealed class FashionUnlock8 : SaveBlock<SAV8SWSH>
     public const int REGION_BOTTOMS   = 12;
     public const int REGION_LEGWEAR   = 13;
     public const int REGION_FOOTWEAR  = 14;
-
-    public FashionUnlock8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
     public bool[] GetArrayOwnedFlag(int region) => FlagUtil.GitBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), SIZE_ENTRY * 8);
     public bool[] GetArrayNewFlag(int region) => FlagUtil.GitBitFlagArray(Data.AsSpan((region + REGIONS) * SIZE_ENTRY), SIZE_ENTRY * 8);
@@ -38,7 +36,7 @@ public sealed class FashionUnlock8 : SaveBlock<SAV8SWSH>
             if (arr[i])
                 list.Add(i);
         }
-        return list.ToArray();
+        return [.. list];
     }
 
     public static bool[] SetIndexes(ReadOnlySpan<int> arr)

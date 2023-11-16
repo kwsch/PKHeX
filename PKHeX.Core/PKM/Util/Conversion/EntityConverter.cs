@@ -34,7 +34,7 @@ public static class EntityConverter
     /// </summary>
     /// <param name="pk"></param>
     /// <param name="format"></param>
-    /// <returns>True if can be converted to the requested format value.</returns>
+    /// <returns>True if it can be converted to the requested format value.</returns>
     public static bool IsConvertibleToFormat(PKM pk, int format)
     {
         if (pk.Format >= 3 && pk.Format > format && format < 8)
@@ -208,7 +208,7 @@ public static class EntityConverter
     /// If the PKM is compatible, some properties may be forced to sanitized values.</remarks>
     /// <param name="pk">PKM input that is to be sanity checked.</param>
     /// <param name="limit">Value clamps for the destination format</param>
-    /// <returns>Indication whether or not the PKM is compatible.</returns>
+    /// <returns>Indication whether the PKM is compatible.</returns>
     public static bool IsCompatibleWithModifications(PKM pk, IGameValueLimit limit)
     {
         if (pk.Species > limit.MaxSpeciesID)

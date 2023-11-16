@@ -55,7 +55,7 @@ public partial class SAV_Encounters : Form
         if (hdelta != 0)
             Height += hdelta;
 
-        PKXBOXES = grid.Entries.ToArray();
+        PKXBOXES = [..grid.Entries];
 
         // Enable Scrolling when hovered over
         foreach (var slot in PKXBOXES)
@@ -127,7 +127,7 @@ public partial class SAV_Encounters : Form
     }
 
     private readonly PictureBox[] PKXBOXES;
-    private List<IEncounterInfo> Results = new();
+    private List<IEncounterInfo> Results = [];
     private int slotSelected = -1; // = null;
     private Image? slotColor;
     private const int RES_MAX = 66;
@@ -203,7 +203,7 @@ public partial class SAV_Encounters : Form
         var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
         DS_Species.RemoveAt(0); DS_Species.Insert(0, Any); CB_Species.DataSource = DS_Species;
 
-        // Set the Move ComboBoxes too..
+        // Set the Move ComboBoxes too.
         var DS_Move = new List<ComboItem>(GameInfo.MoveDataSource);
         DS_Move.RemoveAt(0); DS_Move.Insert(0, Any);
         {
@@ -245,7 +245,7 @@ public partial class SAV_Encounters : Form
 
         // If nothing is specified, instead of just returning all possible encounters, just return nothing.
         if (settings is { Species: 0, Moves.Count: 0 } && Main.Settings.EncounterDb.ReturnNoneIfEmptySearch)
-            return Array.Empty<IEncounterInfo>();
+            return [];
         var pk = SAV.BlankPKM;
 
         var moves = settings.Moves.ToArray();

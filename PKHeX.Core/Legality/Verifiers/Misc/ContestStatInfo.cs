@@ -95,7 +95,7 @@ public static class ContestStatInfo
         _ => throw new ArgumentOutOfRangeException(nameof(method)),
     };
 
-    // Slightly better stat:sheen ratio than Gen4; prefer if has visited.
+    // BD/SP has a slightly better stat:sheen ratio than Gen4; prefer if it has visited.
     public static int CalculateMinimumSheen8b(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
     {
         if (s.IsContestEqual(initial))
@@ -223,8 +223,8 @@ public static class ContestStatInfo
         public byte CNT_Sheen => 0;
     }
 
-    private static ReadOnlySpan<sbyte> NatureAmpTable => new sbyte[]
-    {
+    private static ReadOnlySpan<sbyte> NatureAmpTable =>
+    [
         // Spicy, Dry, Sweet, Bitter, Sour
         0, 0, 0, 0, 0, // Hardy
         1, 0, 0, 0,-1, // Lonely
@@ -251,5 +251,5 @@ public static class ContestStatInfo
         0, 0,-1, 1, 0, // Sassy
         0,-1, 0, 1, 0, // Careful
         0, 0, 0, 0, 0, // Quirky
-    };
+    ];
 }

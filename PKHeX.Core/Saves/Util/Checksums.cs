@@ -27,8 +27,8 @@ public static class Checksums
         return (ushort)((top << 8) | bot);
     }
 
-    private static ReadOnlySpan<ushort> crc16 => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> crc16 =>
+    [
         0x0000, 0xC0C1, 0xC181, 0x0140, 0xC301, 0x03C0, 0x0280, 0xC241,
         0xC601, 0x06C0, 0x0780, 0xC741, 0x0500, 0xC5C1, 0xC481, 0x0440,
         0xCC01, 0x0CC0, 0x0D80, 0xCD41, 0x0F00, 0xCFC1, 0xCE81, 0x0E40,
@@ -61,10 +61,10 @@ public static class Checksums
         0x4E00, 0x8EC1, 0x8F81, 0x4F40, 0x8D01, 0x4DC0, 0x4C80, 0x8C41,
         0x4400, 0x84C1, 0x8581, 0x4540, 0x8701, 0x47C0, 0x4680, 0x8641,
         0x8201, 0x42C0, 0x4380, 0x8341, 0x4100, 0x81C1, 0x8081, 0x4040,
-    };
+    ];
 
-    private static ReadOnlySpan<uint> crc32 => new uint[]
-    {
+    private static ReadOnlySpan<uint> crc32 =>
+    [
         0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
         0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,
         0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de, 0x1adad47d, 0x6ddde4eb, 0xf4d4b551, 0x83d385c7,
@@ -97,13 +97,13 @@ public static class Checksums
         0xaed16a4a, 0xd9d65adc, 0x40df0b66, 0x37d83bf0, 0xa9bcae53, 0xdebb9ec5, 0x47b2cf7f, 0x30b5ffe9,
         0xbdbdf21c, 0xcabac28a, 0x53b39330, 0x24b4a3a6, 0xbad03605, 0xcdd70693, 0x54de5729, 0x23d967bf,
         0xb3667a2e, 0xc4614ab8, 0x5d681b02, 0x2a6f2b94, 0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d,
-    };
+    ];
 
     /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
     /// <param name="data">Input byte array</param>
     /// <param name="initial">Initial value for checksum</param>
     /// <returns>Checksum</returns>
-    private static ushort CRC16(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] ushort initial)
+    private static ushort CRC16(ReadOnlySpan<byte> data, [ConstantExpected] ushort initial)
     {
         ushort chk = initial;
         foreach (var b in data)
@@ -111,9 +111,11 @@ public static class Checksums
         return chk;
     }
 
+    private const ushort CRC16Initial = unchecked((ushort)~0);
+
     /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
     /// <param name="data">Input byte array</param>
-    public static ushort CRC16Invert(ReadOnlySpan<byte> data) => (ushort)~CRC16(data, unchecked((ushort)~0));
+    public static ushort CRC16Invert(ReadOnlySpan<byte> data) => (ushort)~CRC16(data, CRC16Initial);
 
     /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
     /// <param name="data">Input byte array</param>
@@ -123,7 +125,7 @@ public static class Checksums
     /// <param name="data">Input byte array</param>
     /// <param name="initial">Initial value for checksum</param>
     /// <returns>Checksum</returns>
-    public static ushort CheckSum32(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] uint initial = 0)
+    public static ushort CheckSum32(ReadOnlySpan<byte> data, [ConstantExpected] uint initial = 0)
     {
         uint chk = initial;
         foreach (var u32 in MemoryMarshal.Cast<byte, uint>(data))
@@ -140,7 +142,7 @@ public static class Checksums
     /// <param name="data">Input byte array</param>
     /// <param name="initial">Initial value for checksum</param>
     /// <returns>Checksum</returns>
-    private static uint CRC32(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] uint initial)
+    private static uint CRC32(ReadOnlySpan<byte> data, [ConstantExpected] uint initial)
     {
         uint chk = initial;
         foreach (var b in data)
@@ -148,11 +150,13 @@ public static class Checksums
         return chk;
     }
 
-    /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
-    /// <param name="data">Input byte array</param>
-    public static uint CRC32Invert(ReadOnlySpan<byte> data) => ~CRC32(data, unchecked((uint)~0));
+    private const uint CRC32Initial = unchecked((uint)~0);
 
-    /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
+    /// <summary>Calculates the 32bit checksum over an input byte array.</summary>
+    /// <param name="data">Input byte array</param>
+    public static uint CRC32Invert(ReadOnlySpan<byte> data) => ~CRC32(data, CRC32Initial);
+
+    /// <summary>Calculates the 32bit checksum over an input byte array.</summary>
     /// <param name="data">Input byte array</param>
     public static uint CRC32NoInvert(ReadOnlySpan<byte> data) => CRC32(data, 0);
 
@@ -160,7 +164,7 @@ public static class Checksums
     /// <param name="data">Input byte array</param>
     /// <param name="initial">Initial value for checksum</param>
     /// <returns>Checksum</returns>
-    public static ushort CheckSum16(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] ushort initial = 0)
+    public static ushort CheckSum16(ReadOnlySpan<byte> data, [ConstantExpected] ushort initial = 0)
     {
         ushort acc = initial;
         foreach (byte b in data)

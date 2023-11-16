@@ -187,13 +187,13 @@ public sealed class SK2 : GBPKM, ICaughtData2
         const byte terminator = StringConverter12.G1TerminatorCode;
 
         var ot = data.Slice(0x30, StringLength);
-        if (ot[6..].IndexOfAnyExcept(empty, terminator) != -1)
+        if (ot[6..].ContainsAnyExcept(empty, terminator))
             return false;
         if (!StringConverter12.GetIsG1Japanese(ot))
             return false;
 
         var nick = data.Slice(0x24, StringLength);
-        if (nick[6..].IndexOfAnyExcept(empty, terminator) != -1)
+        if (nick[6..].ContainsAnyExcept(empty, terminator))
             return false;
         if (!StringConverter12.GetIsG1Japanese(nick))
             return false;

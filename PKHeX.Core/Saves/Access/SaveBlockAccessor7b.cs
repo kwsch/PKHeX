@@ -10,7 +10,7 @@ public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISave
     private const int boGG = 0xB8800 - 0x200; // nowhere near 1MB (savedata.bin size)
 
     private static readonly BlockInfo7b[] BlockInfoGG =
-    {
+    [
         new(boGG, 00, 0x00000, 0x00D90),
         new(boGG, 01, 0x00E00, 0x00200),
         new(boGG, 02, 0x01000, 0x00168),
@@ -32,7 +32,7 @@ public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>, ISave
         new(boGG, 18, 0x4E200, 0x69780),
         new(boGG, 19, 0xB7A00, 0x000B0),
         new(boGG, 20, 0xB7C00, 0x00940),
-    };
+    ];
 
     public IReadOnlyList<BlockInfo7b> BlockInfo => BlockInfoGG;
 

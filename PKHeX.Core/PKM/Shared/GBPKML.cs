@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -21,7 +22,7 @@ public abstract class GBPKML : GBPKM
     public sealed override Span<byte> Nickname_Trash => RawNickname;
     public sealed override Span<byte> OT_Trash => RawOT;
 
-    protected GBPKML(int size, bool jp = false) : base(size)
+    protected GBPKML([ConstantExpected] int size, bool jp = false) : base(size)
     {
         int strLen = jp ? StringLengthJapanese : StringLengthNotJapan;
 

@@ -47,7 +47,7 @@ public sealed class CryPlayer
         if (pk is { Species: (int)Species.Urshifu, Form: 1 }) // same sprite for both forms, but different cries
             return "892-1";
 
-        // don't grab sprite of pk, no gender specific cries
+        // don't grab sprite of pk, no gender-specific cries
         var res = SpriteName.GetResourceStringSprite(pk.Species, pk.Form, 0, 0, context);
 
         // people like - instead of _ file names ;)

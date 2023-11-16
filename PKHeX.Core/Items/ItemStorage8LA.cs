@@ -6,8 +6,8 @@ public sealed class ItemStorage8LA : IItemStorage
 {
     public static readonly ItemStorage8LA Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Items_LA => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Items_LA =>
+    [
         017, 023, 024, 025, 026, 027, 028, 029, 039, 041,
         050, 054, 072, 073, 075, 080, 081, 082, 083, 084,
         085, 090, 091, 092, 107, 108, 109, 110, 149, 150,
@@ -28,10 +28,10 @@ public sealed class ItemStorage8LA : IItemStorage
         1733, 1734, 1735, 1736, 1738, 1739, 1740, 1741, 1742, 1746,
         1747, 1748, 1749, 1750, 1754, 1755, 1756, 1757, 1758, 1759,
         1760, 1761, 1762, 1764, 1785,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Recipe_LA => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Recipe_LA =>
+    [
         1640, 1641, 1642, 1643, 1644,       1646, 1647, 1648, 1649,
         1650,       1652, 1653, 1654, 1655, 1656, 1657, 1658, 1659,
         1660, 1661, 1662, 1663, 1664, 1665, 1666, 1667, 1668, 1669,
@@ -43,10 +43,10 @@ public sealed class ItemStorage8LA : IItemStorage
         1751, 1752, 1753,
 
         1783, 1784,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_LA => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Key_LA =>
+    [
         111,
         298, 299,
         300, 301, 302, 303, 304, 305, 306, 307, 308, 309,
@@ -60,7 +60,7 @@ public sealed class ItemStorage8LA : IItemStorage
         1795, 1796, 1797, 1798, 1799, 1800, 1801, 1802, 1803, 1804,
         1805, 1806, 1807,
         1828,
-    };
+    ];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => GetItems(type).BinarySearch((ushort)itemIndex) >= 0;
 

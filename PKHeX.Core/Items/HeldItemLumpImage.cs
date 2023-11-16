@@ -22,7 +22,7 @@ public enum HeldItemLumpImage
 }
 
 /// <summary>
-/// Logic to check if a held item should how a lumped image sprite.
+/// Logic to check if a held item should show a lumped image sprite.
 /// </summary>
 public static class HeldItemLumpUtil
 {

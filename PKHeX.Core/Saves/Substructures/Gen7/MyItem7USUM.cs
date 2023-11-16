@@ -20,7 +20,7 @@ public sealed class MyItem7USUM : MyItem
         {
             var info = ItemStorage7USUM.Instance;
             InventoryPouch7[] pouch =
-            {
+            [
                 new(InventoryType.Medicine, info, 999, Medicine),
                 new(InventoryType.Items, info, 999, HeldItem),
                 new(InventoryType.TMHMs, info, 1, TMHM),
@@ -28,7 +28,7 @@ public sealed class MyItem7USUM : MyItem
                 new(InventoryType.KeyItems, info, 1, KeyItem),
                 new(InventoryType.ZCrystals, info, 1, ZCrystals),
                 new(InventoryType.BattleItems, info, 999, BattleItems),
-            };
+            ];
             return pouch.LoadAll(Data);
         }
         set => value.SaveAll(Data);

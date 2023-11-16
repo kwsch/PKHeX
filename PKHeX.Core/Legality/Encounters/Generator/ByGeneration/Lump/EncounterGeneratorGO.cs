@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -14,7 +13,7 @@ public sealed class EncounterGeneratorGO : IEncounterGenerator
             return EncounterGenerator7GO.Instance.GetEncounters(pk, chain, info);
         if (loc == Locations.GO8)
             return EncounterGenerator8GO.Instance.GetEncounters(pk, chain, info);
-        return Array.Empty<IEncounterable>();
+        return [];
     }
 
     public IEnumerable<IEncounterable> GetPossible(PKM pk, EvoCriteria[] chain, GameVersion game, EncounterTypeGroup groups)

@@ -20,7 +20,7 @@ public sealed class DuplicateTrainerChecker : IBulkAnalyzer
         }
     }
 
-    private static void Verify(BulkAnalysis input, IDictionary<uint, CombinedReference> dict, SlotCache cs, LegalityAnalysis ca)
+    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, SlotCache cs, LegalityAnalysis ca)
     {
         var id = cs.Entity.ID32;
 

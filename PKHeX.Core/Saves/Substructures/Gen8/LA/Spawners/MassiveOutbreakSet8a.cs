@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
@@ -13,6 +13,7 @@ public readonly ref struct MassiveOutbreakSet8a
     private readonly Span<byte> Data;
 
     public MassiveOutbreakSet8a(SCBlock block) : this(block.Data) { }
+    // ReSharper disable once ConvertToPrimaryConstructor
     public MassiveOutbreakSet8a(Span<byte> data) => Data = data;
 
     public MassiveOutbreakArea8a this[int index] => new(Data.Slice(MassiveOutbreakArea8a.SIZE * index, MassiveOutbreakArea8a.SIZE));

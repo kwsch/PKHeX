@@ -42,7 +42,7 @@ public partial class SAV_Misc3 : Form
             TB_RivalName.Text = frlg.RivalName;
 
             // Trainer Card Species
-            ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
+            ComboBox[] cba = [CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6];
             var legal = GameInfo.FilteredSources.Species.ToList();
             for (int i = 0; i < cba.Length; i++)
             {
@@ -71,7 +71,7 @@ public partial class SAV_Misc3 : Form
         if (SAV is SAV3FRLG frlg)
         {
             frlg.RivalName = TB_RivalName.Text;
-            ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
+            ComboBox[] cba = [CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6];
             for (int i = 0; i < cba.Length; i++)
             {
                 var species = (ushort)WinFormsUtil.GetIndex(cba[i]);
@@ -113,7 +113,7 @@ public partial class SAV_Misc3 : Form
     #endregion
 
     private const ushort ItemIDOldSeaMap = 0x178;
-    private static ReadOnlySpan<ushort> TicketItemIDs => new ushort[] { 0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap }; // item IDs
+    private static ReadOnlySpan<ushort> TicketItemIDs => [ 0x109, 0x113, 0x172, 0x173, ItemIDOldSeaMap ]; // item IDs
 
     #region Ferry
     private void B_GetTickets_Click(object sender, EventArgs e)
@@ -360,35 +360,35 @@ public partial class SAV_Misc3 : Form
     private void ReadBattleFrontier()
     {
         loading = true;
-        BFF = new[] {
+        BFF = [
             // { BFV, BFT, addr(BFV.len), checkBitShift(BFT.len)
-            new[] { 0, 2, 0xCE0, 0xCF0, 0x00, 0x0E, 0x10, 0x12 },
-            new[] { 1, 1, 0xD0C, 0xD14, 0xD1C, 0x02, 0x14 },
-            new[] { 0, 1, 0xDC8, 0xDD0, 0x04, 0x16 },
-            new[] { 0, 0, 0xDDA, 0xDDE, 0x06 },
-            new[] { 2, 1, 0xDE2, 0xDF2, 0xDEA, 0xDFA, 0x08, 0x18 },
-            new[] { 1, 0, 0xE04, 0xE08, 0xE0C, 0x0A },
-            new[] { 0, 0, 0xE1A, 0xE1E, 0x0C },
-        };
-        BFV = new[]
-        {
-            new[] { 0, 2 }, // Current, Max
-            new[] { 0, 2, 3 }, // Current, Max, Total
-            new[] { 0, 1, 2, 3 }, // Current, Trade, Max, Trade
-        };
-        BFT = new[] {
+            [0, 2, 0xCE0, 0xCF0, 0x00, 0x0E, 0x10, 0x12],
+            [1, 1, 0xD0C, 0xD14, 0xD1C, 0x02, 0x14],
+            [0, 1, 0xDC8, 0xDD0, 0x04, 0x16],
+            [0, 0, 0xDDA, 0xDDE, 0x06],
+            [2, 1, 0xDE2, 0xDF2, 0xDEA, 0xDFA, 0x08, 0x18],
+            [1, 0, 0xE04, 0xE08, 0xE0C, 0x0A],
+            [0, 0, 0xE1A, 0xE1E, 0x0C],
+        ];
+        BFV =
+        [
+            [0, 2], // Current, Max
+            [0, 2, 3], // Current, Max, Total
+            [0, 1, 2, 3], // Current, Trade, Max, Trade
+        ];
+        BFT = [
             null,
-            new[] { "Singles", "Doubles" },
-            new[] { "Singles", "Doubles", "Multi", "Linked" },
-        };
-        BFN = new[]
-        {
+            ["Singles", "Doubles"],
+            ["Singles", "Doubles", "Multi", "Linked"],
+        ];
+        BFN =
+        [
             "Tower","Dome","Palace","Arena","Factory","Pike","Pyramid",
-        };
-        StatNUDA = new[] { NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3 };
-        StatLabelA = new[] { L_Stat0, L_Stat1, L_Stat2, L_Stat3 };
-        StatRBA = new[] { RB_Stats3_01, RB_Stats3_02 };
-        SymbolButtonA = new[] { BTN_SymbolA, BTN_SymbolT, BTN_SymbolS, BTN_SymbolG, BTN_SymbolK, BTN_SymbolL, BTN_SymbolB };
+        ];
+        StatNUDA = [NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3];
+        StatLabelA = [L_Stat0, L_Stat1, L_Stat2, L_Stat3];
+        StatRBA = [RB_Stats3_01, RB_Stats3_02];
+        SymbolButtonA = [BTN_SymbolA, BTN_SymbolT, BTN_SymbolS, BTN_SymbolG, BTN_SymbolK, BTN_SymbolL, BTN_SymbolB];
         CHK_ActivatePass.Checked = SAV.GetEventFlag(0x860 + 0x72);
         SetFrontierSymbols();
 

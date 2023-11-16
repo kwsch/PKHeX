@@ -122,8 +122,8 @@ public static class BallApplicator
 
     static BallApplicator()
     {
-        ReadOnlySpan<Ball> exclude = stackalloc Ball[] {None, Poke};
-        ReadOnlySpan<Ball> end = stackalloc Ball[] {Poke};
+        ReadOnlySpan<Ball> exclude = [None, Poke];
+        ReadOnlySpan<Ball> end = [Poke];
         Span<Ball> all = stackalloc Ball[BallList.Length - exclude.Length];
         all = all[..FillExcept(all, exclude, BallList)];
 
@@ -166,17 +166,17 @@ public static class BallApplicator
     /// </summary>
     private static readonly Dictionary<PersonalColor, Ball[]> BallColors = new()
     {
-        [PersonalColor.Red] =    new[] { Cherish, Repeat, Fast, Heal, Great, Dream, Lure },
-        [PersonalColor.Blue] =   new[] { Dive, Net, Great, Beast, Lure },
-        [PersonalColor.Yellow] = new[] { Level, Ultra, Repeat, Quick, Moon },
-        [PersonalColor.Green] =  new[] { Safari, Friend, Nest, Dusk },
-        [PersonalColor.Black] =  new[] { Luxury, Heavy, Ultra, Moon, Net, Beast },
+        [PersonalColor.Red] =    [Cherish, Repeat, Fast, Heal, Great, Dream, Lure],
+        [PersonalColor.Blue] =   [Dive, Net, Great, Beast, Lure],
+        [PersonalColor.Yellow] = [Level, Ultra, Repeat, Quick, Moon],
+        [PersonalColor.Green] =  [Safari, Friend, Nest, Dusk],
+        [PersonalColor.Black] =  [Luxury, Heavy, Ultra, Moon, Net, Beast],
 
-        [PersonalColor.Brown] =  new[] { Level, Heavy },
-        [PersonalColor.Purple] = new[] { Master, Love, Dream, Heal },
-        [PersonalColor.Gray] =   new[] { Heavy, Premier, Luxury },
-        [PersonalColor.White] =  new[] { Premier, Timer, Luxury, Ultra },
-        [PersonalColor.Pink] =   new[] { Love, Dream, Heal },
+        [PersonalColor.Brown] =  [Level, Heavy],
+        [PersonalColor.Purple] = [Master, Love, Dream, Heal],
+        [PersonalColor.Gray] =   [Heavy, Premier, Luxury],
+        [PersonalColor.White] =  [Premier, Timer, Luxury, Ultra],
+        [PersonalColor.Pink] =   [Love, Dream, Heal],
     };
 
     /// <summary>

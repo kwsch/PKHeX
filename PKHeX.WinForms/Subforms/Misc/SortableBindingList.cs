@@ -4,17 +4,13 @@ using System.ComponentModel;
 
 namespace PKHeX.WinForms;
 
-public abstract class SortableBindingList<T> : BindingList<T> where T : class
+public abstract class SortableBindingList<T>() : BindingList<T>([])
+    where T : class
 {
-    private readonly Dictionary<Type, PropertyComparer<T>> comparers;
+    private readonly Dictionary<Type, PropertyComparer<T>> comparers = [];
     private bool isSorted;
     private ListSortDirection listSortDirection;
     private PropertyDescriptor? propertyDescriptor;
-
-    protected SortableBindingList() : base(new List<T>())
-    {
-        comparers = new Dictionary<Type, PropertyComparer<T>>();
-    }
 
     protected override bool SupportsSortingCore => true;
 

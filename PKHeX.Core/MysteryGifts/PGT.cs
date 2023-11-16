@@ -6,8 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 Mystery Gift Template File (Inner Gift Data, no card data)
 /// </summary>
-public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IRandomCorrelation
+public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, IRandomCorrelation
 {
+    public PGT() : this(new byte[Size]) { }
+
     public const int Size = 0x104; // 260
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
@@ -50,9 +52,6 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     public override bool GiftUsed { get => false; set { } }
     public override Shiny Shiny => IsEgg ? Shiny.Random : PK.PID == 1 ? Shiny.Never : IsShiny ? Shiny.Always : Shiny.Never;
 
-    public PGT() : this(new byte[Size]) { }
-    public PGT(byte[] data) : base(data) { }
-
     public byte CardType { get => Data[0]; set => Data[0] = value; }
     // Unused 0x01
     public byte Slot { get => Data[2]; set => Data[2] = value; }
@@ -61,7 +60,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public PK4 PK
     {
-        get => _pk ??= new PK4(Data.Slice(8, PokeCrypto.SIZE_4PARTY));
+        get => _pk ??= new PK4(Data.AsSpan(8, PokeCrypto.SIZE_4PARTY).ToArray());
         set
         {
             _pk = value;
@@ -84,7 +83,7 @@ public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     private PK4? _pk;
 
     /// <summary>
-    /// Double checks the encryption of the gift data for Pokemon data.
+    /// Double-checks the encryption of the gift data for Pokémon data.
     /// </summary>
     /// <returns>True if data was encrypted, false if the data was not modified.</returns>
     public bool VerifyPKEncryption()

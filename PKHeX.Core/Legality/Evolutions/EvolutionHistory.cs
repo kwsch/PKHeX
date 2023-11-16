@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class EvolutionHistory
 {
-    private static readonly EvoCriteria[] NONE = Array.Empty<EvoCriteria>();
+    private static readonly EvoCriteria[] NONE = [];
 
     public EvoCriteria[] Gen1  = NONE;
     public EvoCriteria[] Gen2  = NONE;

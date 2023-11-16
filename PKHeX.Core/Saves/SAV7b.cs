@@ -106,7 +106,7 @@ public sealed class SAV7b : SAV_BEEF, ISaveBlock7b, IGameSync, IEventFlagArray
     protected override PB7 GetPKM(byte[] data) => new(data);
     protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
     public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_BOXSLOT);
-    protected override IList<int>[] SlotPointers => new[] { Blocks.Storage.PokeListInfo };
+    protected override IList<int>[] SlotPointers => [ Blocks.Storage.PokeListInfo ];
 
     public override int GetPartyOffset(int slot) => Blocks.Storage.GetPartyOffset(slot);
     public override int PartyCount { get => Blocks.Storage.PartyCount; protected set => Blocks.Storage.PartyCount = value; }

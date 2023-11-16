@@ -4,16 +4,10 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class RaidSpawnList8 : SaveBlock<SAV8SWSH>
+public sealed class RaidSpawnList8(SAV8SWSH sav, SCBlock block, int legal) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    public readonly int CountAll;
-    public readonly int CountUsed;
-
-    public RaidSpawnList8(SAV8SWSH sav, SCBlock block, int legal) : base(sav, block.Data)
-    {
-        CountAll = block.Data.Length / RaidSpawnDetail.SIZE;
-        CountUsed = legal;
-    }
+    public readonly int CountAll = block.Data.Length / RaidSpawnDetail.SIZE;
+    public readonly int CountUsed = legal;
 
     public const int RaidCountLegal_O0 = 100;
     public const int RaidCountLegal_R1 = 90;
@@ -62,18 +56,9 @@ public sealed class RaidSpawnList8 : SaveBlock<SAV8SWSH>
     }
 }
 
-public sealed class RaidSpawnDetail
+public sealed class RaidSpawnDetail(byte[] Data, int Offset)
 {
     public const int SIZE = 0x18;
-
-    private readonly byte[] Data;
-    private readonly int Offset;
-
-    public RaidSpawnDetail(byte[] data, int ofs)
-    {
-        Data = data;
-        Offset = ofs;
-    }
 
     private const string General = nameof(General);
     private const string Derived = nameof(Derived);

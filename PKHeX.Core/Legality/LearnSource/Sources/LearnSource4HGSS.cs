@@ -41,7 +41,7 @@ public sealed class LearnSource4HGSS : ILearnSource<PersonalInfo4>, IEggSource
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if (species > MaxSpecies)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return EggMoves[species].Moves;
     }
 

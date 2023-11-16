@@ -84,7 +84,7 @@ public abstract class G6PKM : PKM, ISanityChecksum
         if (IsEgg)
         {
             // Eggs do not have any modifications done if they are traded
-            // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
+            // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
             if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6);
             return;

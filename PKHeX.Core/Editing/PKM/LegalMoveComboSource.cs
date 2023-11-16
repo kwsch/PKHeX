@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core;
 
@@ -10,16 +9,16 @@ namespace PKHeX.Core;
 public sealed class LegalMoveComboSource : ILegalMoveDisplaySource<ComboItem>
 {
     private readonly bool[] IsMoveBoxOrdered = new bool[4];
-    private ComboItem[] MoveDataAllowed = Array.Empty<ComboItem>();
+    private ComboItem[] MoveDataAllowed = [];
 
-    public IReadOnlyList<ComboItem> DataSource => (ComboItem[])MoveDataAllowed.Clone();
+    public IReadOnlyList<ComboItem> DataSource => [.. MoveDataAllowed]; // copy
 
     /// <summary>
     /// Resets the <see cref="MoveDataAllowed"/> data source with an updated collection.
     /// </summary>
     public void ReloadMoves(IReadOnlyList<ComboItem> moves)
     {
-        MoveDataAllowed = moves.ToArray();
+        MoveDataAllowed = [.. moves]; // copy
         ClearUpdateCheck();
     }
 
@@ -35,7 +34,7 @@ public sealed class LegalMoveComboSource : ILegalMoveDisplaySource<ComboItem>
     private void SortMoves(LegalMoveInfo info) => Array.Sort(MoveDataAllowed, (i1, i2) => Compare(i1, i2, info.CanLearn));
 
     // defer re-population until dropdown is opened; handled by dropdown event
-    private void ClearUpdateCheck() => Array.Clear(IsMoveBoxOrdered, 0, IsMoveBoxOrdered.Length);
+    private void ClearUpdateCheck() => IsMoveBoxOrdered.AsSpan().Clear();
 
     private static int Compare(ComboItem i1, ComboItem i2, Func<ushort, bool> check)
     {

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// Contains logic for the Generation 8b (BD/SP) roaming spawns.
 /// </summary>
 /// <remarks>
-/// Roaming encounters use the pokemon's 32-bit <see cref="PKM.EncryptionConstant"/> as RNG seed.
+/// Roaming encounters use the Pokémon's 32-bit <see cref="PKM.EncryptionConstant"/> as RNG seed.
 /// </remarks>
 public static class Roaming8bRNG
 {
@@ -64,7 +64,7 @@ public static class Roaming8bRNG
         pk.PID = pid;
 
         // Check IVs: Create flawless IVs at random indexes, then the random IVs for not flawless.
-        Span<int> ivs = stackalloc [] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+        Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
         const int MAX = 31;
         var determined = 0;
         while (determined < flawless)
@@ -118,7 +118,7 @@ public static class Roaming8bRNG
             return false;
 
         // Check IVs: Create flawless IVs at random indexes, then the random IVs for not flawless.
-        Span<int> ivs = stackalloc [] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+        Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
 
         var determined = 0;
         while (determined < flawless)

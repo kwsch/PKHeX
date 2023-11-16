@@ -3,13 +3,13 @@ namespace PKHeX.Core;
 internal static class Encounters1GBEra
 {
     private static readonly IndividualValueSet Yoshira = new(5, 10, 1, 12, 5, 5);
-    private static readonly string[] YoshiOT = { "YOSHIRA", "YOSHIRB", "YOSHIBA", "YOSHIBB" };
-    private static readonly string[] TourOT = { "LINKE", "LINKW", "LUIGE", "LUIGW", "LUIGIC", "YOSHIC" };
-    private static readonly string[] StadiumOT_Int = { "STADIUM", "STADE", "STADIO", "ESTADIO" };
+    private static readonly string[] YoshiOT = ["YOSHIRA", "YOSHIRB", "YOSHIBA", "YOSHIBB"];
+    private static readonly string[] TourOT = ["LINKE", "LINKW", "LUIGE", "LUIGW", "LUIGIC", "YOSHIC"];
+    private static readonly string[] StadiumOT_Int = ["STADIUM", "STADE", "STADIO", "ESTADIO"];
     private const string StadiumOT_JPN = "スタジアム";
 
     internal static readonly EncounterGift1[] Gifts =
-    {
+    [
         // Stadium 1 (International)
         new(001, 05, GameVersion.Stadium) {Moves = new(033, 045), TID16 = 2000, OT_Names = StadiumOT_Int, Language = EncounterGBLanguage.International}, // Bulbasaur
         new(004, 05, GameVersion.Stadium) {Moves = new(010, 043), TID16 = 2000, OT_Names = StadiumOT_Int, Language = EncounterGBLanguage.International}, // Charmander
@@ -34,5 +34,5 @@ internal static class Encounters1GBEra
 
         new(151, 5, GameVersion.RB) {IVs = Yoshira, OT_Names = YoshiOT, Language = EncounterGBLanguage.International }, // Yoshira Mew Events
         new(151, 5, GameVersion.RB) {IVs = Yoshira, OT_Names = TourOT, Language = EncounterGBLanguage.International }, // Pokémon 2000 Stadium Tour Mew
-    };
+    ];
 }

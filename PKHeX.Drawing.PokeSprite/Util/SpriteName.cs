@@ -72,8 +72,8 @@ public static class SpriteName
     /// <summary>
     /// Species that show their default Species sprite regardless of current <see cref="PKM.Form"/>
     /// </summary>
-    private static ReadOnlySpan<ushort> SpeciesDefaultFormSprite => new[]
-    {
+    private static ReadOnlySpan<ushort> SpeciesDefaultFormSprite =>
+    [
         (ushort)Mothim,
         (ushort)Scatterbug,
         (ushort)Spewpa,
@@ -85,13 +85,13 @@ public static class SpriteName
         (ushort)Dudunsparce,
         (ushort)Poltchageist,
         (ushort)Sinistcha,
-    };
+    ];
 
     /// <summary>
     /// Species that show a <see cref="PKM.Gender"/> specific Sprite
     /// </summary>
-    private static ReadOnlySpan<ushort> SpeciesGenderedSprite => new[]
-    {
+    private static ReadOnlySpan<ushort> SpeciesGenderedSprite =>
+    [
         (ushort)Pikachu,
         (ushort)Hippopotas,
         (ushort)Hippowdon,
@@ -99,5 +99,5 @@ public static class SpriteName
         (ushort)Frillish,
         (ushort)Jellicent,
         (ushort)Pyroar,
-    };
+    ];
 }

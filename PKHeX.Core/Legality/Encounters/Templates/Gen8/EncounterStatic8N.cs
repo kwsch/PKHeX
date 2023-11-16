@@ -41,14 +41,14 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         CanGigantamax = data[5] != 0,
     };
 
-    private static ReadOnlySpan<byte> LevelCaps => new byte[]
-    {
+    private static ReadOnlySpan<byte> LevelCaps =>
+    [
         15, 20, // 0
         25, 30, // 1
         35, 40, // 2
         45, 50, // 3
         55, 60, // 4
-    };
+    ];
 
     protected override bool IsMatchLevel(PKM pk)
     {

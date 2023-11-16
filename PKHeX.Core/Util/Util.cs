@@ -1,12 +1,11 @@
 using System;
-using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
 public static partial class Util
 {
     /// <summary>
-    /// Parses the string into an <see cref="int"/>, skipping all characters except for valid digits.
+    /// Parses the string into a 32-bit integer, skipping all characters except for valid digits.
     /// </summary>
     /// <param name="value">String to parse</param>
     /// <returns>Parsed value</returns>
@@ -117,6 +116,10 @@ public static partial class Util
         }
         return result;
     }
+
+#if NET9_0_OR_GREATER
+    REPLACE WITH TryFromHexString / TryToHexString
+#endif
 
     /// <summary>
     /// Parses a variable length hex string (non-spaced, bytes in reverse order).
@@ -230,21 +233,4 @@ public static partial class Util
             result[i] = c;
         }
     }
-
-    /// <summary>
-    /// Trims a string at the first instance of a 0x0000 terminator.
-    /// </summary>
-    /// <param name="input">String to trim.</param>
-    /// <returns>Trimmed string.</returns>
-    public static ReadOnlySpan<char> TrimFromZero(ReadOnlySpan<char> input) => TrimFromFirst(input, '\0');
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static ReadOnlySpan<char> TrimFromFirst(ReadOnlySpan<char> input, char c)
-    {
-        int index = input.IndexOf(c);
-        return index < 0 ? input : input[..index];
-    }
-
-    /// <inheritdoc cref="TrimFromZero(ReadOnlySpan{char})"/>
-    public static string TrimFromZero(string input) => TrimFromZero(input.AsSpan()).ToString();
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -30,10 +30,8 @@ public abstract class Misc5 : SaveBlock<SAV5>, IGymTeamInfo
 
     private int GetBadgeVictorySpeciesOffset(uint badge, uint slot)
     {
-        if (badge >= 8)
-            throw new ArgumentOutOfRangeException(nameof(badge));
-        if (slot >= 6)
-            throw new ArgumentOutOfRangeException(nameof(slot));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>(badge, 8);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>(slot, 6);
 
         return Offset + BadgeVictoryOffset + (int)(((6 * badge) + slot) * sizeof(ushort));
     }
@@ -51,16 +49,14 @@ public abstract class Misc5 : SaveBlock<SAV5>, IGymTeamInfo
     }
 }
 
-public sealed class Misc5BW : Misc5
+public sealed class Misc5BW(SAV5BW sav, int offset) : Misc5(sav, offset)
 {
-    public Misc5BW(SAV5BW sav, int offset) : base(sav, offset) { }
     protected override int TransferMinigameScoreOffset => 0x14;
     protected override int BadgeVictoryOffset => 0x58; // thru 0xB7
 }
 
-public sealed class Misc5B2W2 : Misc5
+public sealed class Misc5B2W2(SAV5B2W2 sav, int offset) : Misc5(sav, offset)
 {
-    public Misc5B2W2(SAV5B2W2 sav, int offset) : base(sav, offset) { }
     protected override int TransferMinigameScoreOffset => 0x18;
     protected override int BadgeVictoryOffset => 0x5C; // thru 0xBB
 }

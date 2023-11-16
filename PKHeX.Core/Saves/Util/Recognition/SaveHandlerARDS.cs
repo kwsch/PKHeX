@@ -17,6 +17,6 @@ public sealed class SaveHandlerARDS : ISaveHandler
         // No authentication to see if it actually is a header; no size collisions expected.
         var header = input[..sizeHeader].ToArray();
         var data = input[sizeHeader..].ToArray();
-        return new SaveHandlerSplitResult(data, header, Array.Empty<byte>());
+        return new SaveHandlerSplitResult(data, header, []);
     }
 }

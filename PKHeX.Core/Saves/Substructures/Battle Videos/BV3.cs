@@ -5,14 +5,16 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BV3 : BattleVideo
+public sealed class BV3(byte[] Data) : BattleVideo
 {
+    public BV3() : this(new byte[SIZE]) { }
+
+    public readonly byte[] Data = (byte[])Data.Clone();
+
     internal const int SIZE = 0xF80;
     public override int Generation => 3;
 
     public override IReadOnlyList<PK3> BattlePKMs => PlayerTeams.SelectMany(z => z).ToArray();
-
-    public readonly byte[] Data;
 
     internal new static bool IsValid(ReadOnlySpan<byte> data)
     {
@@ -28,16 +30,9 @@ public sealed class BV3 : BattleVideo
         return chk == expect;
     }
 
-    public BV3(byte[] data) => Data = (byte[])data.Clone();
-    public BV3() : this(new byte[SIZE]) { }
-
     public IReadOnlyList<PK3[]> PlayerTeams
     {
-        get => new[]
-        {
-            GetTeam(0),
-            GetTeam(1),
-        };
+        get => [GetTeam(0), GetTeam(1)];
         set
         {
             SetTeam(value[0], 0);
@@ -55,7 +50,8 @@ public sealed class BV3 : BattleVideo
         for (int p = 0; p < 6; p++)
         {
             int offset = ofs + (PokeCrypto.SIZE_3PARTY * p);
-            team[p] = new PK3(Data.Slice(offset, PokeCrypto.SIZE_3PARTY));
+            var span = Data.AsSpan(offset, PokeCrypto.SIZE_3PARTY);
+            team[p] = new PK3(span.ToArray());
         }
 
         return team;

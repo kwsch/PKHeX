@@ -645,8 +645,8 @@ public sealed class MiscVerifier : Verifier
             data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
     }
 
-    private static readonly HashSet<ushort> Unfeedable = new()
-    {
+    private static readonly HashSet<ushort> Unfeedable =
+    [
         (int)Species.Metapod,
         (int)Species.Kakuna,
         (int)Species.Pineco,
@@ -654,7 +654,7 @@ public sealed class MiscVerifier : Verifier
         (int)Species.Cascoon,
         (int)Species.Shedinja,
         (int)Species.Spewpa,
-    };
+    ];
 
     private static void VerifyBelugaStats(LegalityAnalysis data, PB7 pb7)
     {
@@ -827,7 +827,7 @@ public sealed class MiscVerifier : Verifier
                     continue;
 
                 // Calyrex-0 can have TR flags for Calyrex-1/2 after it has force unlearned them.
-                // Re-fusing can be reacquire the move via relearner, rather than needing another TR.
+                // Re-fusing can reacquire the move via relearner, rather than needing another TR.
                 // Calyrex-0 cannot reacquire the move via relearner, even though the TR is checked off in the TR list.
                 if (pk.Species == (int)Species.Calyrex)
                 {

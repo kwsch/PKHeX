@@ -7,12 +7,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Inventory Pouch used by <see cref="GameVersion.SWSH"/>
 /// </summary>
-public sealed class InventoryPouch8 : InventoryPouch
+public sealed class InventoryPouch8(InventoryType type, IItemStorage info, int maxCount, int offset, [ConstantExpected] int size)
+    : InventoryPouch(type, info, maxCount, offset, size)
 {
     public bool SetNew { get; set; }
-    private int[] OriginalItems = Array.Empty<int>();
-
-    public InventoryPouch8(InventoryType type, IItemStorage info, int maxCount, int offset, [ConstantExpected] int size) : base(type, info, maxCount, offset, size) { }
+    private int[] OriginalItems = [];
 
     public override InventoryItem8 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 

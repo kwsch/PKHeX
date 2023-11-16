@@ -11,7 +11,7 @@ public sealed class SaveBlockAccessor7USUM : ISaveBlockAccessor<BlockInfo7>, ISa
     private const int boUU = BlockMetadataOffset;
 
     private static readonly BlockInfo7[] BlockInfoUSUM =
-    {
+    [
         new(boUU, 00, 0x00000, 0x00E28), // 00 MyItem
         new(boUU, 01, 0x01000, 0x0007C), // 01 Situation
         new(boUU, 02, 0x01200, 0x00014), // 02 RandomGroup
@@ -51,7 +51,7 @@ public sealed class SaveBlockAccessor7USUM : ISaveBlockAccessor<BlockInfo7>, ISa
         new(boUU, 36, 0x6C000, 0x00200), // 36 TurtleSalmonSave
         new(boUU, 37, 0x6C200, 0x0039C), // 37 BattleFesSave
         new(boUU, 38, 0x6C600, 0x00400), // 38 FinderStudioSave
-    };
+    ];
 
     public SaveBlockAccessor7USUM(SAV7USUM sav)
     {

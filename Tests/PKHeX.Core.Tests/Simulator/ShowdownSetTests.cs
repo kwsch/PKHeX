@@ -157,8 +157,13 @@ public class ShowdownSetTests
 
         sets = ShowdownParsing.GetShowdownSets(string.Empty);
         Assert.True(!sets.Any());
+    }
 
-        sets = ShowdownParsing.GetShowdownSets(new [] {"", "   ", " "});
+    [Fact]
+    public void SimulatorParseEmpty()
+    {
+        string[] lines = ["", "   ", " "];
+        var sets = ShowdownParsing.GetShowdownSets(lines);
         Assert.True(!sets.Any());
     }
 
@@ -303,7 +308,7 @@ Adamant Nature
 - Iron Tail";
 
     private static readonly string[] Sets =
-    {
+    [
         SetGlaceonUSUMTutor,
         SetNicknamedTypeNull,
         SetMunchSnorLax,
@@ -316,5 +321,5 @@ Timid Nature
 - Spikes
 - Water Shuriken
 - Dark Pulse",
-    };
+    ];
 }

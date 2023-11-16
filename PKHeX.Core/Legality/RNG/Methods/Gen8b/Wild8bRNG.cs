@@ -68,7 +68,7 @@ public static class Wild8bRNG
         pk.PID = pid;
 
         // Check IVs: Create flawless IVs at random indexes, then the random IVs for not flawless.
-        Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+        Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
         const int MAX = 31;
         var determined = 0;
         while (determined < flawless)

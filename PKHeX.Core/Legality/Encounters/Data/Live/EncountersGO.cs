@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
@@ -28,7 +29,7 @@ public static class EncountersGO
         SlotsGO = EncounterArea8g.GetArea(Get("go_home", "go"u8));
     }
 
-    private static BinLinkerAccessor Get([ConstantExpected] string resource, [ConstantExpected(Min = 2, Max = 2)] ReadOnlySpan<byte> ident)
+    private static BinLinkerAccessor Get([ConstantExpected] string resource, [Length(2, 2)] ReadOnlySpan<byte> ident)
     {
         var name = $"encounter_{resource}.pkl";
         var data = System.IO.File.Exists(name) ? System.IO.File.ReadAllBytes(name) : Util.GetBinaryResource(name);

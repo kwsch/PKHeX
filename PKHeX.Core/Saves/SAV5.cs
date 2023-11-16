@@ -107,7 +107,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
 
     public bool BattleBoxLocked
     {
-        get => Data[BattleBoxOffset + 0x358] != 0; // wifi/live
+        get => Data[BattleBoxOffset + 0x358] != 0; // Wi-Fi/Live Tournament Active
         set => Data[BattleBoxOffset + 0x358] = value ? (byte)1 : (byte)0;
     }
 
@@ -176,7 +176,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
         set => Data[CGearSkinInfoOffset + 2] = Data[PlayerData.Offset + (this is SAV5B2W2 ? 0x6C : 0x54)] = value ? (byte)1 : (byte)0;
     }
 
-    private static ReadOnlySpan<byte> DLCFooter => new byte[] { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
+    private static ReadOnlySpan<byte> DLCFooter => [ 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 ];
 
     public byte[] CGearSkinData
     {

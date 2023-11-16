@@ -30,7 +30,7 @@ public partial class KChart : Form
         {
             var fc = pt[s, 0].FormCount;
             var formNames = fc <= 1
-                ? Array.Empty<string>()
+                ? []
                 : FormConverter.GetFormList(s, strings.Types, strings.forms, Main.GenderSymbols, SAV.Context);
 
             for (byte f = 0; f < fc; f++)
@@ -95,8 +95,8 @@ public partial class KChart : Form
         _ => true,
     };
 
-    private static ReadOnlySpan<ushort> PastGenAlolanNatives => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> PastGenAlolanNatives =>
+    [
         010, 011, 012, 019, 020, 021, 022, 023, 025, 026, 027, 028, 035, 036, 037, 038, 039, 040, 041, 042, 046, 047,
         050, 051, 052, 053, 054, 055, 056, 057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 072, 073, 074,
         075, 076, 079, 080, 081, 082, 086, 088, 089, 090, 091, 092, 093, 094, 096, 097, 100, 101, 102, 103, 104, 105,
@@ -112,5 +112,5 @@ public partial class KChart : Form
         570, 572, 580, 581, 582, 583, 584, 587, 592, 594, 605, 618, 619, 621, 622, 624, 627, 628, 629, 630, 636, 661,
         662, 663, 667, 669, 674, 675, 676, 686, 688, 689, 690, 692, 694, 695, 696, 698, 700, 701, 702, 703, 704, 705,
         706, 707, 708, 709, 714, 718,
-    };
+    ];
 }

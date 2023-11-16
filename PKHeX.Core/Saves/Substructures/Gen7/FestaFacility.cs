@@ -35,8 +35,8 @@ public sealed class FestaFacility
     public uint UsedRandStat { get => ReadUInt32LittleEndian(Data.AsSpan(0x2C)); set => WriteUInt32LittleEndian(Data.AsSpan(0x2C), value); }
 
     public int NPC { get => Math.Max(0, ReadInt32LittleEndian(Data.AsSpan(0x30))); set => WriteInt32LittleEndian(Data.AsSpan(0x30), Math.Max(0, value)); }
-    public byte[] TrainerFesID { get => Data.Slice(0x34, 0xC); set => value.CopyTo(Data, 0x34); }
-    public void ClearTrainerFesID() => Data.AsSpan(0x34, 0xC).Clear();
+    public Span<byte> TrainerFesID => Data.AsSpan(0x34, 0xC);
+    public void ClearTrainerFesID() => TrainerFesID.Clear();
     public int ExchangeLeftCount { get => Data[0x40]; set => Data[0x40] = (byte)value; } // used when Type=Exchange
 
     public int GetMessage(int index) => index switch

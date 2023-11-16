@@ -96,7 +96,7 @@ public sealed class LevelVerifier : Verifier
 
         if (IsTradeEvolutionRequired(data, enc))
         {
-            // Pokemon has been traded illegally between games without evolving.
+            // Pokémon has been traded illegally between games without evolving.
             // Trade evolution species IDs for Gen1 are sequential dex numbers.
             var species = enc.Species;
             var evolved = ParseSettings.SpeciesStrings[species + 1];

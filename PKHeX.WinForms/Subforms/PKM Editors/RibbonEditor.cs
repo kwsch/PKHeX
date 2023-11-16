@@ -117,7 +117,7 @@ public partial class RibbonEditor : Form
             style.SizeType = SizeType.AutoSize;
     }
 
-    private static int GetSortOrder(string name, IReadOnlyDictionary<string, RibbonResult> dict, List<RibbonInfo> otherList)
+    private static int GetSortOrder(string name, Dictionary<string, RibbonResult> dict, List<RibbonInfo> otherList)
     {
         if (name.StartsWith("RibbonMark"))
             return 99;

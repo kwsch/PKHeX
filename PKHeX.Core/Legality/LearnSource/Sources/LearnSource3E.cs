@@ -41,7 +41,7 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if (species > MaxSpecies)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return EggMoves[species].Moves;
     }
 
@@ -140,10 +140,10 @@ public sealed class LearnSource3E : LearnSource3, ILearnSource<PersonalInfo3>, I
         }
     }
 
-    private static ReadOnlySpan<ushort> Tutor_E => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Tutor_E =>
+    [
         005, 014, 025, 034, 038, 068, 069, 102, 118, 135,
         138, 086, 153, 157, 164, 223, 205, 244, 173, 196,
         203, 189, 008, 207, 214, 129, 111, 009, 007, 210,
-    };
+    ];
 }

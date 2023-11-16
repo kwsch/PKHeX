@@ -167,7 +167,9 @@ public static class MoveListSuggest
     {
         enc.GetEggRelearnMoves(parse, pk, moves);
         int generation = enc.Generation;
-        if (generation <= 5) // gen2 does not have splitbreed, <=5 do not have relearn moves and shouldn't even be here.
+
+        // Gen2 does not have split breed, Gen5 and below do not store relearn moves in the data structure.
+        if (generation <= 5)
             return;
 
         // Split-breed species like Budew & Roselia may be legal for one, and not the other.

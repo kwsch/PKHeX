@@ -6,8 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 PGL QR Code encoded <see cref="PKM"/> entities.
 /// </summary>
-public sealed class QRPK7 : IEncounterInfo
+public sealed class QRPK7(byte[] Data) : IEncounterInfo
 {
+    private readonly byte[] Data = (byte[])Data.Clone();
+
     public GameVersion Version => (GameVersion)CassetteVersion;
     public bool EggEncounter => false;
     public byte LevelMin => Level;
@@ -16,9 +18,7 @@ public sealed class QRPK7 : IEncounterInfo
     public EntityContext Context => EntityContext.Gen7;
     public bool IsShiny => false;
 
-    private readonly byte[] Data;
     public const int SIZE = 0x30;
-    public QRPK7(byte[] d) => Data = (byte[])d.Clone();
 
     public uint EncryptionConstant => ReadUInt32LittleEndian(Data.AsSpan(0));
     public byte HT_Flags => Data[4];

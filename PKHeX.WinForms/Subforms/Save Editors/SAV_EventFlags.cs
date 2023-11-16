@@ -11,8 +11,8 @@ namespace PKHeX.WinForms;
 public sealed partial class SAV_EventFlags : Form
 {
     private readonly EventWorkspace<IEventFlag37, ushort> Editor;
-    private readonly Dictionary<int, NumericUpDown> WorkDict = new();
-    private readonly Dictionary<int, int> FlagDict = new();
+    private readonly Dictionary<int, NumericUpDown> WorkDict = [];
+    private readonly Dictionary<int, int> FlagDict = [];
 
     private bool editing;
 

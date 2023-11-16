@@ -13,7 +13,7 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
 
     public SAV8LA(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
 
-    private SAV8LA(IReadOnlyList<SCBlock> blocks) : base(Array.Empty<byte>())
+    private SAV8LA(IReadOnlyList<SCBlock> blocks) : base([])
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor8LA(this);
@@ -195,12 +195,12 @@ public sealed class SAV8LA : SaveFile, ISaveBlock8LA, ISCBlockArray, ISaveFileRe
 
     public override byte[] BoxFlags
     {
-        get => new[]
-        {
+        get =>
+        [
             Convert.ToByte(Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox01).Type - 1),
             Convert.ToByte(Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox02).Type - 1),
             Convert.ToByte(Blocks.GetBlock(SaveBlockAccessor8LA.KUnlockedSecretBox03).Type - 1),
-        };
+        ];
         set
         {
             if (value.Length != 3)

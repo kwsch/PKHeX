@@ -137,7 +137,7 @@ public static class MoveInfo
     /// </summary>
     /// <param name="move">Move ID</param>
     /// <param name="context">Generation to check</param>
-    /// <returns>True if can be sketched, false if not available.</returns>
+    /// <returns>True if the move can be sketched, false if not possible.</returns>
     public static bool IsSketchValid(ushort move, EntityContext context)
     {
         if (move > GetMaxMoveID(context))

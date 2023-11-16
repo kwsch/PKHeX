@@ -132,14 +132,14 @@ public static class MemoryPermissions
         if (context == EntityContext.Gen6)
         {
             Span<MoveResult> result = stackalloc MoveResult[1];
-            Span<ushort> moves = stackalloc ushort[] { move };
+            Span<ushort> moves = [move];
             LearnGroup6.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
             return result[0].Valid;
         }
         if (context == EntityContext.Gen8)
         {
             Span<MoveResult> result = stackalloc MoveResult[1];
-            Span<ushort> moves = stackalloc ushort[] { move };
+            Span<ushort> moves = [move];
             LearnGroup8.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
             return result[0].Valid;
         }
@@ -165,7 +165,7 @@ public static class MemoryPermissions
     public static bool GetCanKnowMove(IEncounterTemplate enc, ushort move, EvolutionHistory history, PKM pk, ILearnGroup game)
     {
         Span<MoveResult> result = stackalloc MoveResult[1];
-        Span<ushort> moves = stackalloc ushort[] { move };
+        Span<ushort> moves = [move];
         LearnVerifierHistory.MarkAndIterate(result, moves, enc, pk, history, game, MoveSourceType.All, LearnOption.AtAnyTime);
         return result[0].Valid;
     }
@@ -195,8 +195,8 @@ public static class MemoryPermissions
     private static bool IsDynamaxSH(ushort species) => species is (int)Gengar or (int)Lapras or (int)Dusknoir or (int)Froslass or (int)Appletun;
 
     // common to SW & SH
-    private static readonly HashSet<ushort> DynamaxTrainer_SWSH = new()
-    {
+    private static readonly HashSet<ushort> DynamaxTrainer_SWSH =
+    [
         (int)Venusaur,
         (int)Blastoise,
         (int)Charizard,
@@ -224,7 +224,7 @@ public static class MemoryPermissions
         (int)Copperajah,
         (int)Duraludon,
         (int)Urshifu,
-    };
+    ];
 
     public static bool GetCanFishSpecies(ushort species, EntityContext context, GameVersion version) => context switch
     {
@@ -247,8 +247,8 @@ public static class MemoryPermissions
         _ => false,
     };
 
-    private static readonly HashSet<ushort> FishingSpecies_SWSH = new()
-    {
+    private static readonly HashSet<ushort> FishingSpecies_SWSH =
+    [
         (int)Shellder, (int)Cloyster,
         (int)Krabby,
         (int)Goldeen,
@@ -272,10 +272,10 @@ public static class MemoryPermissions
         (int)Dhelmise,
         (int)Chewtle, (int)Drednaw,
         (int)Arrokuda, (int)Barraskewda,
-    };
+    ];
 
-    private static readonly HashSet<ushort> FishingSpecies_AO = new()
-    {
+    private static readonly HashSet<ushort> FishingSpecies_AO =
+    [
         (int)Tentacool,
         (int)Horsea, (int)Seadra,
         (int)Goldeen, (int)Seaking,
@@ -289,15 +289,15 @@ public static class MemoryPermissions
         (int)Corphish, (int)Crawdaunt,
         (int)Feebas,
         (int)Luvdisc,
-    };
+    ];
 
     // exclusive to version
     private static bool IsFishingSpeciesX(ushort species) => species is (int)Staryu or (int)Starmie or (int)Huntail or (int)Clauncher or (int)Clawitzer;
     private static bool IsFishingSpeciesY(ushort species) => species is (int)Shellder or (int)Cloyster or (int)Gorebyss or (int)Skrelp or (int)Dragalge;
 
     // common to X & Y
-    private static readonly HashSet<ushort> FishingSpecies_XY = new()
-    {
+    private static readonly HashSet<ushort> FishingSpecies_XY =
+    [
         (int)Poliwag, (int)Poliwhirl, (int)Poliwrath, (int)Politoed,
         (int)Horsea, (int)Seadra,
         (int)Goldeen, (int)Seaking,
@@ -315,5 +315,5 @@ public static class MemoryPermissions
         (int)Luvdisc,
         (int)Basculin,
         (int)Alomomola,
-    };
+    ];
 }

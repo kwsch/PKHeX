@@ -9,7 +9,7 @@ namespace PKHeX.WinForms.Controls;
 public sealed class BoxMenuStrip : ContextMenuStrip
 {
     private readonly SAVEditor SAV;
-    private readonly List<ItemVisibility> CustomItems = new();
+    private readonly List<ItemVisibility> CustomItems = [];
     private readonly BoxManipulator Manipulator;
 
     public BoxMenuStrip(SAVEditor sav)
@@ -89,18 +89,9 @@ public sealed class BoxMenuStrip : ContextMenuStrip
         [BoxManipType.ModifyHeal] = Resources.heart,
     };
 
-    private sealed class ItemVisibility
+    private sealed class ItemVisibility(ToolStripItem toolStripItem, IBoxManip visible)
     {
-        private readonly ToolStripItem Item;
-        private readonly IBoxManip Manip;
-
-        public ItemVisibility(ToolStripItem toolStripItem, IBoxManip visible)
-        {
-            Item = toolStripItem;
-            Manip = visible;
-        }
-
-        public void SetVisibility(SaveFile s) => Item.Visible = Manip.Usable(s);
+        public void SetVisibility(SaveFile s) => toolStripItem.Visible = visible.Usable(s);
     }
 
     public void ToggleVisibility()
@@ -110,12 +101,12 @@ public sealed class BoxMenuStrip : ContextMenuStrip
     }
 
     private static readonly Image[] TopLevelImages =
-    {
+    [
         Resources.nocheck,
         Resources.swapBox,
         Resources.settings,
         Resources.wand,
-    };
+    ];
 
     public void Clear() => Manipulator.Execute(BoxManipType.DeleteAll, SAV.CurrentBox, All);
     public void Sort() => Manipulator.Execute(BoxManipType.SortSpecies, SAV.CurrentBox, All);
@@ -127,17 +118,11 @@ public sealed class BoxMenuStrip : ContextMenuStrip
 /// <summary>
 /// Implementation of a WinForms box manipulator (using MessageBox prompts)
 /// </summary>
-public sealed class BoxManipulatorWF : BoxManipulator
+public sealed class BoxManipulatorWF(SAVEditor editor) : BoxManipulator
 {
-    private readonly SAVEditor Editor;
-    protected override SaveFile SAV => Editor.SAV;
+    protected override SaveFile SAV => editor.SAV;
 
-    public BoxManipulatorWF(SAVEditor editor)
-    {
-        Editor = editor;
-    }
-
-    protected override void FinishBoxManipulation(string message, bool all, int count) => Editor.FinishBoxManipulation(message, all, count);
+    protected override void FinishBoxManipulation(string message, bool all, int count) => editor.FinishBoxManipulation(message, all, count);
 
     protected override bool CanManipulateRegion(int start, int end, string prompt, string fail)
     {

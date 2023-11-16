@@ -22,7 +22,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         Metadata = new SaveFileMetadata(this);
     }
 
-    protected SaveFile(int size = 0) : this(size == 0 ? Array.Empty<byte>() : new byte[size], false) { }
+    protected SaveFile(int size = 0) : this(size == 0 ? [] : new byte[size], false) { }
 
     protected internal abstract string ShortSummary { get; }
     public abstract string Extension { get; }
@@ -113,15 +113,15 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// <remarks>Flag is Set (true) or not Set (false)</remarks>
     public virtual void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Data, offset, bitIndex, value);
 
-    public virtual IReadOnlyList<InventoryPouch> Inventory { get => Array.Empty<InventoryPouch>(); set { } }
+    public virtual IReadOnlyList<InventoryPouch> Inventory { get => []; set { } }
 
     #region Mystery Gift
     protected virtual int GiftCountMax => int.MinValue;
     protected virtual int GiftFlagMax => 0x800;
     protected int WondercardData { get; set; } = int.MinValue;
     public bool HasWondercards => WondercardData > -1;
-    protected virtual bool[] MysteryGiftReceivedFlags { get => Array.Empty<bool>(); set { } }
-    protected virtual DataMysteryGift[] MysteryGiftCards { get => Array.Empty<DataMysteryGift>(); set { } }
+    protected virtual bool[] MysteryGiftReceivedFlags { get => []; set { } }
+    protected virtual DataMysteryGift[] MysteryGiftCards { get => []; set { } }
 
     public virtual MysteryGiftAlbum GiftAlbum
     {
@@ -360,7 +360,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     /// </summary>
     /// <param name="pk">Entity to adapt</param>
     /// <param name="party">Entity exists in party format</param>
-    /// <param name="trade">Setting on whether or not to adapt</param>
+    /// <param name="trade">Setting on whether to adapt</param>
     public void AdaptPKM(PKM pk, bool party = true, PKMImportSetting trade = PKMImportSetting.UseDefault)
     {
         if (GetTradeUpdateSetting(trade))
@@ -434,7 +434,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     public bool HasBox => Box > -1;
     public virtual int BoxSlotCount => 30;
     public virtual int BoxesUnlocked { get => -1; set { } }
-    public virtual byte[] BoxFlags { get => Array.Empty<byte>(); set { } }
+    public virtual byte[] BoxFlags { get => []; set { } }
     public virtual int CurrentBox { get; set; }
 
     #region BoxData
@@ -492,12 +492,12 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
     #endregion
 
     #region Storage Health & Metadata
-    protected int[] TeamSlots = Array.Empty<int>();
+    protected int[] TeamSlots = [];
 
     /// <summary>
     /// Slot indexes that are protected from overwriting.
     /// </summary>
-    protected virtual IList<int>[] SlotPointers => new[] { TeamSlots };
+    protected virtual IList<int>[] SlotPointers => [ TeamSlots ];
     public virtual StorageSlotSource GetSlotFlags(int index) => StorageSlotSource.None;
     public StorageSlotSource GetSlotFlags(int box, int slot) => GetSlotFlags((box * BoxSlotCount) + slot);
     public bool IsSlotLocked(int box, int slot) => GetSlotFlags(box, slot).HasFlag(StorageSlotSource.Locked);
@@ -896,7 +896,7 @@ public static class StorageUtil
             {
                 if (ctr != i) // copy required
                 {
-                    shiftedSlots = true; // appending empty slots afterwards is now required since a rewrite was done
+                    shiftedSlots = true; // appending empty slots afterward is now required since a rewrite was done
                     int destOfs = sav.GetBoxSlotOffset(ctr);
                     storage[offset..(offset + size)].CopyTo(storage[destOfs..(destOfs + size)]);
                     SlotPointerUtil.UpdateRepointFrom(ctr, i, slotPointers);

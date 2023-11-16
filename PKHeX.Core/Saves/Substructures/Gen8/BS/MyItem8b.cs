@@ -56,8 +56,8 @@ public sealed class MyItem8b : MyItem
 
     private IReadOnlyList<InventoryPouch> ConvertToPouches()
     {
-        var pouches = new[]
-        {
+        InventoryPouch8b[] pouches =
+        [
             MakePouch(InventoryType.Items),
             MakePouch(InventoryType.KeyItems),
             MakePouch(InventoryType.TMHMs),
@@ -66,7 +66,7 @@ public sealed class MyItem8b : MyItem
             MakePouch(InventoryType.Balls),
             MakePouch(InventoryType.BattleItems),
             MakePouch(InventoryType.Treasure),
-        };
+        ];
         return pouches.LoadAll(Data);
     }
 

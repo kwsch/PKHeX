@@ -22,18 +22,14 @@ public abstract class Encount5 : SaveBlock<SAV5>
     }
 }
 
-public sealed class Encount5BW : Encount5
+public sealed class Encount5BW(SAV5BW SAV, int offset) : Encount5(SAV, offset)
 {
-    public Encount5BW(SAV5BW SAV, int offset) : base(SAV, offset) { }
-
     public override byte SwarmSeed { get => Data[Offset + 0x30]; set => Data[Offset + 0x30] = value; }
     public override uint SwarmMaxCountModulo => 17;
 }
 
-public sealed class Encount5B2W2 : Encount5
+public sealed class Encount5B2W2(SAV5B2W2 SAV, int offset) : Encount5(SAV, offset)
 {
-    public Encount5B2W2(SAV5B2W2 SAV, int offset) : base(SAV, offset) { }
-
     public override byte SwarmSeed { get => Data[Offset + 0x2C]; set => Data[Offset + 0x2C] = value; }
     public override uint SwarmMaxCountModulo => 19;
 }

@@ -59,9 +59,9 @@ public sealed class LearnGroup9 : ILearnGroup
 
     private static void CheckEncounterMoves(Span<MoveResult> result, ReadOnlySpan<ushort> current, EncounterEgg egg)
     {
-        ILearnSource game = LearnSource9SV.Instance;
+        var game = LearnSource9SV.Instance;
         var eggMoves = game.GetEggMoves(egg.Species, egg.Form);
-        var levelMoves = game.GetInheritMoves(egg.Species, egg.Form);
+        var levelMoves = ((ILearnSource)game).GetInheritMoves(egg.Species, egg.Form);
 
         for (var i = result.Length - 1; i >= 0; i--)
         {

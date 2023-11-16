@@ -47,23 +47,16 @@ public sealed class RecordAddData8b : SaveBlock<SAV8BS>
     }
 }
 
-public sealed class RecordAdd8b
+public sealed class RecordAdd8b(byte[] Data, int Offset)
 {
     public const int SIZE = 0x30;
 
-    public readonly byte[] Data;
-    private readonly int Offset;
-
-    public RecordAdd8b(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
     public string OT
     {
         get => StringConverter8.GetString(Data.AsSpan(Offset + 0, 0x1A));
         set => StringConverter8.SetString(Data.AsSpan(Offset + 0, 0x1A), value, 12, StringConverterOption.ClearZero);
     }
+
     // 1A reserved byte
     // 1B reserved byte
 

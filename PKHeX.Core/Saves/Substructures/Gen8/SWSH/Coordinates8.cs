@@ -6,10 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Stores the position of the player.
 /// </summary>
-public sealed class Coordinates8 : SaveBlock<SAV8SWSH>
+public sealed class Coordinates8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    public Coordinates8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
-
     // Position
     public float X { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x10)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x10), value); }
     public float Z { get => ReadSingleLittleEndian(Data.AsSpan(Offset + 0x14)); set => WriteSingleLittleEndian(Data.AsSpan(Offset + 0x14), value); }

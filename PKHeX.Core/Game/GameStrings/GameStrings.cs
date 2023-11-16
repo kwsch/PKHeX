@@ -42,14 +42,14 @@ public sealed class GameStrings : IBasicStrings
     /// <summary>
     /// Item IDs that correspond to the <see cref="Ball"/> value.
     /// </summary>
-    private static ReadOnlySpan<ushort> Items_Ball => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Items_Ball =>
+    [
         0000, 0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009,
         0010, 0011, 0012, 0013, 0014, 0015, 0016, 0492, 0493, 0494,
         0495, 0496, 0497, 0498, 0499, 0576, 0851,
         1785, 1710, 1711,
         1712, 1713, 1746, 1747, 1748, 1749, 1750, 1771,
-    };
+    ];
 
     internal GameStrings(string l)
     {
@@ -513,7 +513,7 @@ public sealed class GameStrings : IBasicStrings
 
         for (int i = 55; i < 61; i++) // distinguish Event year duplicates
             set.Met4[i] += " (-)";
-        set.Met4[30] += " (-)"; // a Video game Event (in spanish etc) -- duplicate with line 39
+        set.Met4[30] += " (-)"; // a Video game Event (in spanish etc.) -- duplicate with line 39
         set.Met4[53] += " (-)"; // a Pokémon event -- duplicate with line 37
 
         set.Met4[81] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
@@ -542,7 +542,7 @@ public sealed class GameStrings : IBasicStrings
             set.Met3[i] += " (-)";
         set.Met3[19] += " (?)"; // Kanto for the third time
 
-        set.Met4[30] += " (-)"; // a Video game Event (in spanish etc) -- duplicate with line 39
+        set.Met4[30] += " (-)"; // a Video game Event (in spanish etc.) -- duplicate with line 39
         set.Met4[53] += " (-)"; // a Pokémon event -- duplicate with line 37
 
         set.Met4[81] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
@@ -622,7 +622,7 @@ public sealed class GameStrings : IBasicStrings
         for (int i = 49; i <= 54; i++) // distinguish Event year duplicates
             set.Met4[i] += " (-)";
 
-        set.Met4[27] += " (-)"; // a Video game Event (in spanish etc) -- duplicate with line 36
+        set.Met4[27] += " (-)"; // a Video game Event (in spanish etc.) -- duplicate with line 36
         set.Met4[48] += " (-)"; // a Pokémon event -- duplicate with line 34
 
         set.Met4[73] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
@@ -736,7 +736,7 @@ public sealed class GameStrings : IBasicStrings
     /// <param name="format">Current <see cref="PKM.Format"/></param>
     /// <param name="generation"><see cref="PKM.Generation"/> of origin</param>
     /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.Gen7b"/> differentiation)</param>
-    /// <returns>Location name. May be an empty string if no location name is known for that location value.</returns>
+    /// <returns>Location name. Potentially an empty string if no location name is known for that location value.</returns>
     public string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
     {
         if (format == 1)
@@ -803,7 +803,7 @@ public sealed class GameStrings : IBasicStrings
     {
         var set = GetLocations(gen, version);
         if (set is null)
-            return Array.Empty<string>();
+            return [];
         return set.GetLocationNames(bankID);
     }
 }

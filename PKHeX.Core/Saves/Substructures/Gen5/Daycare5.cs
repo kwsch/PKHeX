@@ -7,7 +7,7 @@ public sealed class Daycare5 : SaveBlock<SAV5>
 {
     // struct daycareSlot 
     // bool32 occupied
-    // pk5party pk
+    // pk5 (party sized) pk
     // u32 expGained
     private const int SlotSize = 4 + PokeCrypto.SIZE_5PARTY + 4; // occupied u32 flag, pk5, exp
 

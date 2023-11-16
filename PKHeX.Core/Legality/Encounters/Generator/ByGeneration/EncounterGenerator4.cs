@@ -16,7 +16,7 @@ public sealed class EncounterGenerator4 : IEncounterGenerator
     {
         var chain = EncounterOrigin.GetOriginChain(pk, 4);
         if (chain.Length == 0)
-            return Array.Empty<IEncounterable>();
+            return [];
         return GetEncounters(pk, chain, info);
     }
 

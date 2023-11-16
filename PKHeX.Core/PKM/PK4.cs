@@ -7,10 +7,10 @@ namespace PKHeX.Core;
 /// <summary> Generation 4 <see cref="PKM"/> format. </summary>
 public sealed class PK4 : G4PKM
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
-    };
+    ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
@@ -361,7 +361,7 @@ public sealed class PK4 : G4PKM
         pk5.Met_Level = pk5.CurrentLevel;
 
         // Remove HM moves; Defog should be kept if both are learned.
-        // if has defog, remove whirlpool.
+        // If it has Defog, remove Whirlpool.
         bool hasDefog = HasMove((int) Move.Defog);
         var banned = LearnSource4.GetPreferredTransferHMs(hasDefog);
         if (banned.Contains(Move1)) pk5.Move1 = 0;

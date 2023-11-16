@@ -182,7 +182,7 @@ public enum PIDType
     Overworld8,
 
     /// <summary>
-    /// Generation 8b Roaming Pokemon PID
+    /// Generation 8b Roaming Pokémon PID
     /// </summary>
     /// <remarks>Formulaic based on EC value = 32bit-seed.</remarks>
     Roaming8b,

@@ -5,21 +5,19 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class BV7 : BattleVideo
+public sealed class BV7(byte[] data) : BattleVideo
 {
     public const int SIZE = 0x2BC0;
     private const string NPC = "NPC";
     private const int PlayerCount = 4;
 
     public override int Generation => 7;
-    private readonly byte[] Data;
+    private readonly byte[] Data = (byte[])data.Clone();
 
     public override IReadOnlyList<PK7> BattlePKMs => PlayerTeams.SelectMany(t => t).ToArray();
     internal new static bool IsValid(ReadOnlySpan<byte> data) => data.Length == SIZE;
 
-    public BV7(byte[] data) => Data = (byte[])data.Clone();
-
-    private static ReadOnlySpan<ushort> offsets => new ushort[] { 0xE41, 0x145E, 0x1A7B, 0x2098 };
+    private static ReadOnlySpan<ushort> TeamOffsets => [0xE41, 0x145E, 0x1A7B, 0x2098];
 
     public IReadOnlyList<PK7[]> PlayerTeams
     {
@@ -40,11 +38,12 @@ public sealed class BV7 : BattleVideo
     public PK7[] GetTeam(int teamIndex)
     {
         var team = new PK7[6];
-        var ofs = offsets[teamIndex];
+        var ofs = TeamOffsets[teamIndex];
         for (int p = 0; p < 6; p++)
         {
             int offset = ofs + (PokeCrypto.SIZE_6PARTY * p);
-            team[p] = new PK7(Data.Slice(offset, PokeCrypto.SIZE_6STORED));
+            var span = Data.AsSpan(offset, PokeCrypto.SIZE_6STORED);
+            team[p] = new PK7(span.ToArray());
         }
 
         return team;
@@ -52,7 +51,7 @@ public sealed class BV7 : BattleVideo
 
     public void SetTeam(IReadOnlyList<PK7> team, int teamIndex)
     {
-        var ofs = offsets[teamIndex];
+        var ofs = TeamOffsets[teamIndex];
         for (int p = 0; p < 6; p++)
         {
             int offset = ofs + (PokeCrypto.SIZE_6PARTY * p);

@@ -37,7 +37,7 @@ public static class EncounterDate
         GameConsole.NDS => GetDateNDS(),
         GameConsole._3DS => GetDate3DS(),
         GameConsole.NX => GetDateSwitch(),
-        _ => throw new ArgumentOutOfRangeException(nameof(console), console, null)
+        _ => throw new ArgumentOutOfRangeException(nameof(console), console, null),
     };
 
     public static bool IsValidDateNDS(DateOnly date)

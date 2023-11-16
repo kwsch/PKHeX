@@ -43,7 +43,7 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
         // Array is optimized to not have entries for species above 460 (not able to breed / no egg moves).
         var arr = EggMoves;
         if (species >= arr.Length)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return arr[species].Moves;
     }
 
@@ -125,8 +125,8 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
         }
     }
 
-    public static ReadOnlySpan<ushort> TMHM_BDSP => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> TMHM_BDSP =>
+    [
         264, 337, 352, 347, 046, 092, 258, 339, 331, 526,
         241, 269, 058, 059, 063, 113, 182, 240, 202, 219,
         605, 076, 231, 085, 087, 089, 490, 091, 094, 247,
@@ -138,15 +138,15 @@ public sealed class LearnSource8BDSP : ILearnSource<PersonalInfo8BDSP>, IEggSour
         404, 214, 523, 398, 138, 447, 207, 365, 369, 164,
         430, 433,
         015, 019, 057, 070, 432, 249, 127, 431,
-    };
+    ];
 
-    internal static ReadOnlySpan<ushort> TypeTutor8b => new ushort[]
-    {
+    internal static ReadOnlySpan<ushort> TypeTutor8b =>
+    [
         (int)Move.FrenzyPlant,
         (int)Move.BlastBurn,
         (int)Move.HydroCannon,
         (int)Move.DracoMeteor,
-    };
+    ];
 
     public LearnEnvironment Environment => Game;
     public MoveLearnInfo GetCanLearnHOME(PKM pk, EvoCriteria evo, ushort move, MoveSourceType types = MoveSourceType.All)

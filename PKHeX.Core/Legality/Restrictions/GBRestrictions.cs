@@ -120,7 +120,7 @@ internal static class GBRestrictions
     /// Checks if the <see cref="pk"/> can inhabit <see cref="Gen1"></see>
     /// </summary>
     /// <param name="pk">Data to check</param>
-    /// <returns>true if can inhabit, false if not.</returns>
+    /// <returns>true if it can inhabit, false if it can not.</returns>
     internal static bool CanInhabitGen1(this PKM pk)
     {
         // Korean Gen2 games can't trade-back because there are no Gen1 Korean games released
@@ -128,7 +128,7 @@ internal static class GBRestrictions
             return false;
 
         // Gen2 format with met data can't receive Gen1 moves, unless Stadium 2 is used (Oak's PC).
-        // If you put a Pokemon in the N64 box, the met info is retained, even if you switch over to a Gen1 game to teach it TMs
+        // If you put a Pokémon in the N64 box, the met info is retained, even if you switch over to a Gen1 game to teach it TMs
         // You can use rare candies from within the lab, so level-up moves from RBY context can be learned this way as well
         // Stadium 2 is GB Cart Era only (not 3DS Virtual Console).
         if (pk is ICaughtData2 {CaughtData: not 0} && !ParseSettings.AllowGBStadium2)
@@ -144,17 +144,17 @@ internal static class GBRestrictions
     /// <summary>
     /// Gets the Tradeback status depending on various values.
     /// </summary>
-    /// <param name="pk">Pokémon to guess the tradeback status from.</param>
+    /// <param name="pk">Pokémon to guess the Tradeback status from.</param>
     internal static PotentialGBOrigin GetTradebackStatusInitial(PKM pk)
     {
         if (pk is PK1 pk1)
             return GetTradebackStatusRBY(pk1);
 
-        if (pk.Format == 2 || pk.VC2) // Check for impossible tradeback scenarios
+        if (pk.Format == 2 || pk.VC2) // Check for impossible Tradeback scenarios
             return !pk.CanInhabitGen1() ? Gen2Only : Either;
 
         // VC2 is released, we can assume it will be TradebackType.Any.
-        // Is impossible to differentiate a VC1 pokemon traded to Gen7 after VC2 is available.
+        // Is impossible to differentiate a VC1 Pokémon traded to Gen7 after VC2 is available.
         // Met Date cannot be used definitively as the player can change their system clock.
         return Either;
     }
@@ -162,13 +162,13 @@ internal static class GBRestrictions
     /// <summary>
     /// Gets the Tradeback status depending on the <see cref="PK1.Catch_Rate"/>
     /// </summary>
-    /// <param name="pk">Pokémon to guess the tradeback status from.</param>
+    /// <param name="pk">Pokémon to guess the Tradeback status from.</param>
     private static PotentialGBOrigin GetTradebackStatusRBY(PK1 pk)
     {
         if (!ParseSettings.AllowGen1Tradeback)
             return Gen1Only;
 
-        // Detect tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the pk's evolution chain.
+        // Detect Tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the Pokémon's evolution chain.
         var catch_rate = pk.Catch_Rate;
         if (catch_rate == 0)
             return Either;

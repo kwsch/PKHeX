@@ -78,13 +78,13 @@ public static class EncounterFinder
     /// </summary>
     /// <remarks>
     /// When an encounter is initially validated, only encounter-related checks are performed.
-    /// By checking Moves, Evolution, and <see cref="PIDIV"/> data, a best match encounter can be found.
+    /// By checking Moves, Evolution, and <see cref="PIDIV"/> data, the best match encounter can be found.
     /// If the encounter is not valid, the method will not reject it unless another encounter is available to check.
     /// </remarks>
     /// <param name="pk">Source data to check the match for</param>
     /// <param name="info">Information containing the matched encounter</param>
     /// <param name="iterator">Peekable iterator </param>
-    /// <returns>Indication whether or not the encounter passes secondary checks</returns>
+    /// <returns>Indication whether the encounter passes secondary checks</returns>
     private static bool VerifySecondaryChecks(PKM pk, LegalInfo info, PeekEnumerator<IEncounterable> iterator)
     {
         var relearn = info.Relearn.AsSpan();

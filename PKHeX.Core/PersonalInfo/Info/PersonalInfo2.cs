@@ -5,12 +5,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 2 games.
 /// </summary>
-public sealed class PersonalInfo2 : PersonalInfo, IPersonalInfoTM, IPersonalInfoTutorType
+public sealed class PersonalInfo2(byte[] Data) : PersonalInfo, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x20;
-    private readonly byte[] Data;
 
-    public PersonalInfo2(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public int DEX_ID { get => Data[0x00]; set => Data[0x00] = (byte)value; }

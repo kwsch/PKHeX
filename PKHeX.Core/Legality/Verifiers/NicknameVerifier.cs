@@ -37,7 +37,7 @@ public sealed class NicknameVerifier : Verifier
             return;
         }
 
-        if (pk is { Format: <= 7, IsNicknamed: true }) // can nickname afterwards
+        if (pk is { Format: <= 7, IsNicknamed: true }) // can nickname afterward
         {
             if (pk.VC)
                 VerifyG1NicknameWithinBounds(data, nickname);

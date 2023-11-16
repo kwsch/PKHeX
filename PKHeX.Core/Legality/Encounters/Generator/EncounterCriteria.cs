@@ -235,7 +235,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
 
     public void SetRandomIVs(PKM pk, int flawless)
     {
-        Span<int> ivs = stackalloc[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        Span<int> ivs = [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         flawless -= ivs.Count(31);
         int remain = ivs.Count(RandomIV);
         if (flawless > remain)

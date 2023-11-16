@@ -6,8 +6,8 @@ public abstract class LearnSource5
 {
     private protected readonly EggMoves6[] EggMoves = EggMoves6.GetArray(BinLinkerAccessor.Get(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"u8));
 
-    internal static ReadOnlySpan<ushort> TMHM_BW => new ushort[]
-    {
+    internal static ReadOnlySpan<ushort> TMHM_BW =>
+    [
         468, 337, 473, 347, 046, 092, 258, 339, 474, 237,
         241, 269, 058, 059, 063, 113, 182, 240, 477, 219,
         218, 076, 479, 085, 087, 089, 216, 091, 094, 247,
@@ -20,10 +20,10 @@ public abstract class LearnSource5
         430, 433, 528, 249, 555,
 
         015, 019, 057, 070, 127, 291,
-    };
+    ];
 
-    internal static ReadOnlySpan<ushort> TypeTutor567 => new ushort[]
-    {
+    internal static ReadOnlySpan<ushort> TypeTutor567 =>
+    [
         (int)Move.GrassPledge,
         (int)Move.FirePledge,
         (int)Move.WaterPledge,
@@ -32,5 +32,5 @@ public abstract class LearnSource5
         (int)Move.HydroCannon,
         (int)Move.DracoMeteor,
         (int)Move.DragonAscent,
-    };
+    ];
 }

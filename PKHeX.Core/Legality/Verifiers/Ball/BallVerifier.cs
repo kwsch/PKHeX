@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Ball;
 
@@ -206,7 +205,7 @@ public sealed class BallVerifier : Verifier
     }
 
     private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.Entity.Ball);
-    private CheckResult VerifyBallEquals(Ball ball, [ConstantExpected] ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (int)ball));
+    private CheckResult VerifyBallEquals(Ball ball, ulong permit) => GetResult(BallUseLegality.IsBallPermitted(permit, (int)ball));
 
     private CheckResult GetResult(bool valid) => valid ? GetValid(LBallEnc) : GetInvalid(LBallEncMismatch);
 }

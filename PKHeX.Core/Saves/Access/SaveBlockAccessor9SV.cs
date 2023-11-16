@@ -68,7 +68,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KItem = 0x21C9BD44; // Items
     private const uint KPlayTime = 0xEDAFF794; // Time Played
     private const uint KSessionLength = 0x1522C79C; // Milliseconds(?) elapsed
-    private const uint KOverworld = 0x173304D8; // [0x158+7C][20] overworld pokemon
+    private const uint KOverworld = 0x173304D8; // [0x158+7C][20] overworld Pokémon
     private const uint KGimmighoul = 0x53DC955C; // ulong seed x2 (today and tomorrow); Gimmighoul struct (0x20): bool is_active, u64 hash, u64 seed, bool ??, bool first_time
     private const uint KTeraRaidPaldea = 0xCAAC8800;
     private const uint KTeraRaidKitakami = 0x100B93DA;

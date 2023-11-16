@@ -1,28 +1,23 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
 /// <inheritdoc cref="ISuggestModification"/>
-public sealed class ComplexSuggestion : ISuggestModification
+public sealed class ComplexSuggestion(
+    string Keyword,
+    Func<string, string, BatchInfo, ModifyResult> Action)
+    : ISuggestModification
 {
-    public readonly string Keyword;
+    public readonly string Keyword = Keyword;
     public readonly Func<PKM, bool> Criteria = _ => true;
-    public readonly Func<string, string, BatchInfo, ModifyResult> Action;
+    public readonly Func<string, string, BatchInfo, ModifyResult> Action = Action;
 
     public ComplexSuggestion(
-        string keyword,
+        string Keyword,
         Func<PKM, bool> criteria,
-        Func<string, string, BatchInfo, ModifyResult> action) : this(keyword, action)
+        Func<string, string, BatchInfo, ModifyResult> action) : this(Keyword, action)
     {
         Criteria = criteria;
-    }
-
-    public ComplexSuggestion(
-        string keyword,
-        Func<string, string, BatchInfo, ModifyResult> action)
-    {
-        Keyword = keyword;
-        Action = action;
     }
 
     public bool IsMatch(string name, string value, BatchInfo info)

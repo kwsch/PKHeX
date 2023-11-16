@@ -28,7 +28,7 @@ public readonly record struct RibbonResult
     public bool Equals(RibbonIndex4 index) => Type == Index4 && Value == (byte)index;
 
     /// <summary>
-    /// Property Name that the ribbon can be get/set with, or looked up for localization.
+    /// Property Name of the ribbon based on the source code's getters/setters, allowing lookup for localization.
     /// </summary>
     public string PropertyName => Type switch
     {

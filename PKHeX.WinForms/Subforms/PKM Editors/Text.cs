@@ -10,7 +10,7 @@ public partial class TrashEditor : Form
 {
     private readonly SaveFile SAV;
 
-    public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, Array.Empty<byte>(), sav) { }
+    public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, [], sav) { }
 
     public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, SaveFile sav)
     {
@@ -28,7 +28,7 @@ public partial class TrashEditor : Form
         }
         else
         {
-            Raw = FinalBytes = Array.Empty<byte>();
+            Raw = FinalBytes = [];
         }
 
         var f = FontUtil.GetPKXFont();
@@ -52,7 +52,7 @@ public partial class TrashEditor : Form
         CenterToParent();
     }
 
-    private readonly List<NumericUpDown> Bytes = new();
+    private readonly List<NumericUpDown> Bytes = [];
     public string FinalString;
     public byte[] FinalBytes;
     private readonly byte[] Raw;
@@ -207,14 +207,14 @@ public partial class TrashEditor : Form
     {
         6 => SpecialCharsGen67,
         7 => SpecialCharsGen67,
-        _ => Array.Empty<ushort>(), // Undocumented
+        _ => [], // Undocumented
     };
 
-    private static ReadOnlySpan<ushort> SpecialCharsGen67 => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> SpecialCharsGen67 =>
+    [
         0xE081, 0xE082, 0xE083, 0xE084, 0xE085, 0xE086, 0xE087, 0xE08D,
         0xE08E, 0xE08F, 0xE090, 0xE091, 0xE092, 0xE093, 0xE094, 0xE095,
         0xE096, 0xE097, 0xE098, 0xE099, 0xE09A, 0xE09B, 0xE09C, 0xE09D,
         0xE09E, 0xE09F, 0xE0A0, 0xE0A1, 0xE0A2, 0xE0A3, 0xE0A4, 0xE0A5,
-    };
+    ];
 }

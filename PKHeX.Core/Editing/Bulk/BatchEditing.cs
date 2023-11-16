@@ -16,24 +16,24 @@ namespace PKHeX.Core;
 public static class BatchEditing
 {
     public static readonly Type[] Types =
-    {
+    [
         typeof (PK9),
         typeof (PK8), typeof (PA8), typeof (PB8),
         typeof (PB7),
         typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4), typeof(RK4),
         typeof (PK3), typeof (XK3), typeof (CK3),
         typeof (PK2), typeof (SK2), typeof (PK1),
-    };
+    ];
 
     /// <summary>
     /// Extra properties to show in the list of selectable properties (GUI)
     /// </summary>
-    public static readonly List<string> CustomProperties = new()
-    {
+    public static readonly List<string> CustomProperties =
+    [
         PROP_LEGAL, PROP_TYPENAME, PROP_RIBBONS, PROP_CONTESTSTATS, PROP_MOVEMASTERY,
         PROP_TYPE1, PROP_TYPE2, PROP_TYPEEITHER,
         IdentifierContains, nameof(ISlotInfo.Slot), nameof(SlotInfoBox.Box),
-    };
+    ];
 
     /// <summary>
     /// Property names, indexed by <see cref="Types"/>.
@@ -122,7 +122,7 @@ public static class BatchEditing
     /// <param name="pk">Pokémon to check</param>
     /// <param name="name">Property Name to check</param>
     /// <param name="pi">Property Info retrieved (if any).</param>
-    /// <returns>True if has property, false if does not.</returns>
+    /// <returns>True if it has property, false if it does not.</returns>
     public static bool TryGetHasProperty(PKM pk, string name, [NotNullWhen(true)] out PropertyInfo? pi)
     {
         var type = pk.GetType();
@@ -135,7 +135,7 @@ public static class BatchEditing
     /// <param name="type">Type to check</param>
     /// <param name="name">Property Name to check</param>
     /// <param name="pi">Property Info retrieved (if any).</param>
-    /// <returns>True if has property, false if does not.</returns>
+    /// <returns>True if it has property, false if it does not.</returns>
     public static bool TryGetHasProperty(Type type, string name, [NotNullWhen(true)] out PropertyInfo? pi)
     {
         var index = Array.IndexOf(Types, type);
@@ -167,7 +167,7 @@ public static class BatchEditing
     /// Gets the type of the <see cref="PKM"/> property using the saved cache of properties.
     /// </summary>
     /// <param name="propertyName">Property Name to fetch the type for</param>
-    /// <param name="typeIndex">Type index (within <see cref="Types"/>. Leave empty (0) for a nonspecific format.</param>
+    /// <param name="typeIndex">Type index (within <see cref="Types"/>). Leave empty (0) for a nonspecific format.</param>
     /// <returns>Short name of the property's type.</returns>
     public static string? GetPropertyType(string propertyName, int typeIndex = 0)
     {
@@ -385,13 +385,13 @@ public static class BatchEditing
     }
 
     /// <summary>
-    /// Sets the if the <see cref="BatchInfo"/> should be filtered due to the <see cref="StringInstruction"/> provided.
+    /// Sets the property if the <see cref="BatchInfo"/> should be filtered due to the <see cref="StringInstruction"/> provided.
     /// </summary>
     /// <param name="cmd">Command Filter</param>
     /// <param name="info">Pokémon to check.</param>
     /// <param name="props">PropertyInfo cache (optional)</param>
     /// <returns>True if filtered, else false.</returns>
-    private static ModifyResult SetPKMProperty(StringInstruction cmd, BatchInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
+    private static ModifyResult SetPKMProperty(StringInstruction cmd, BatchInfo info, Dictionary<string, PropertyInfo> props)
     {
         var pk = info.Entity;
         if (cmd.PropertyValue.StartsWith(CONST_BYTES, StringComparison.Ordinal))

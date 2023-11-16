@@ -14,11 +14,11 @@ public partial class SAV_HallOfFame7 : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = sav;
-        entries = new[]
-        {
+        entries =
+        [
             CB_F1, CB_F2, CB_F3, CB_F4, CB_F5, CB_F6,
             CB_C1, CB_C2, CB_C3, CB_C4, CB_C5, CB_C6,
-        };
+        ];
 
         var block = SAV.Fame;
         var specList = GameInfo.FilteredSources.Species;

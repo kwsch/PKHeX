@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -11,6 +11,7 @@ public readonly ref struct SpawnerMeta8a
     public const int SIZE = 0x40;
     private readonly Span<byte> Data;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public SpawnerMeta8a(Span<byte> data) => Data = data;
 
     public ulong CountSeed { get => ReadUInt64LittleEndian(Data);       set => WriteUInt64LittleEndian(Data        , value); }

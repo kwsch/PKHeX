@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -24,11 +24,8 @@ public abstract class SubEventLog6 : SaveBlock<SAV6>, IGymTeamInfo
 
     private int GetBadgeVictorySpeciesOffset(uint badge, uint slot)
     {
-        if (badge >= 8)
-            throw new ArgumentOutOfRangeException(nameof(badge));
-        if (slot >= 6)
-            throw new ArgumentOutOfRangeException(nameof(slot));
-
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>(badge, 8);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>(slot, 6);
         return Offset + BadgeVictoryOffset + (int)(((6 * badge) + slot) * sizeof(ushort));
     }
 
@@ -45,10 +42,8 @@ public abstract class SubEventLog6 : SaveBlock<SAV6>, IGymTeamInfo
     }
 }
 
-public sealed class SubEventLog6XY : SubEventLog6
+public sealed class SubEventLog6XY(SAV6XY sav, int offset) : SubEventLog6(sav, offset)
 {
-    public SubEventLog6XY(SAV6XY sav, int offset) : base(sav, offset) { }
-
     // Structure:
 
     // 0x00
@@ -70,7 +65,7 @@ public sealed class SubEventLog6XY : SubEventLog6
         get => (ushort)(ChateauValue >> 4);
         set => ChateauValue = (ushort)((ushort)(value << 4) | (ChateauValue & 0xFu));
     }
-    // other chateau data?
+    // other château data?
     // u32 SUBE @ 0x28
 
     // 0x2C
@@ -92,10 +87,8 @@ public sealed class SubEventLog6XY : SubEventLog6
     // u8[0xA0] unused?
 }
 
-public sealed class SubEventLog6AO : SubEventLog6
+public sealed class SubEventLog6AO(SAV6AO sav, int offset) : SubEventLog6(sav, offset)
 {
-    public SubEventLog6AO(SAV6AO sav, int offset) : base(sav, offset) { }
-
     // Structure:
 
     // 0x00
@@ -104,7 +97,7 @@ public sealed class SubEventLog6AO : SubEventLog6
     // u32 SUBE @ 0x5C
 
     // 0x60
-    protected override int BadgeVictoryOffset => 0x60; // thru 0xBF
+    protected override int BadgeVictoryOffset => 0x60; // through 0xBF
     // u16[6 * 8] trainer teams for gyms
     // u32 SUBE @ 0xC0
 

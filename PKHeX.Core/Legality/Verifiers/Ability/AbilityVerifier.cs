@@ -218,7 +218,7 @@ public sealed class AbilityVerifier : Verifier
         // Gen3 origin... a lot of edge cases to check.
         var pk = data.Entity;
         var format = pk.Format;
-        // CXD pokemon can have any ability without matching PID
+        // CXD Pokémon can have any ability without matching PID
         if (format == 3)
         {
             if (pk.Version == (int)GameVersion.CXD)

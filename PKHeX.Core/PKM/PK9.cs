@@ -9,8 +9,8 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     IContestStats, IHyperTrain, IScaledSize, IScaledSize3, IFavorite, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories,
     IRibbonIndex, IRibbonSetAffixed, IRibbonSetRibbons, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetCommon9, IRibbonSetMarks, IRibbonSetMark8, IRibbonSetMark9
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x17,
         0x1A, 0x1B,
         0x23,
@@ -22,7 +22,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
         0xD6, 0xD7, 0xD8, 0xD9, 0xDA, 0xDB, 0xDC, 0xDD, 0xDE, 0xDF,
         0xE0, 0xE1, 0xE2, 0xE3, 0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9, 0xEA, 0xEB, 0xEC, 0xED, 0xEE, 0xEF, 0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7,
         0x115,
-    };
+    ];
 
     public override PersonalInfo9SV PersonalInfo => PersonalTable.SV.GetFormEntry(Species, Form);
     public IPermitRecord Permit => PersonalInfo;
@@ -488,8 +488,8 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
     }
 
     public bool GetMoveRecordFlagAny() => GetMoveRecordFlagAnyBase() || GetMoveRecordFlagAnyDLC();
-    private bool GetMoveRecordFlagAnyBase() => RecordFlagsBase.IndexOfAnyExcept<byte>(0) >= 0;
-    private bool GetMoveRecordFlagAnyDLC() => RecordFlagsDLC.IndexOfAnyExcept<byte>(0) >= 0;
+    private bool GetMoveRecordFlagAnyBase() => RecordFlagsBase.ContainsAnyExcept<byte>(0);
+    private bool GetMoveRecordFlagAnyDLC() => RecordFlagsDLC.ContainsAnyExcept<byte>(0);
 
     public void ClearMoveRecordFlags()
     {
@@ -549,7 +549,7 @@ public sealed class PK9 : PKM, ISanityChecksum, ITeraType, ITechRecord, IObedien
             if (Egg_Location == 60005 && tr.Gender == OT_Gender && tr.Language == Language && tr.OT == OT_Name)
                 return; // Jacq gift, don't change.
 
-            // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
+            // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
             // If not matching the trainer details, mark as a traded egg.
             if (!IsTradedEgg && tr.Gender == OT_Gender && tr.Language == Language && tr.OT == OT_Name)
             {

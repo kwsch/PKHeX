@@ -7,10 +7,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokémon Team that shows up at the title screen.
 /// </summary>
-public sealed class TitleScreen8 : SaveBlock<SAV8SWSH>
+public sealed class TitleScreen8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    public TitleScreen8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
-
     /// <summary>
     /// Gets an object that exposes the data of the corresponding party <see cref="index"/>.
     /// </summary>
@@ -35,17 +33,9 @@ public sealed class TitleScreen8 : SaveBlock<SAV8SWSH>
     }
 }
 
-public sealed class TitleScreen8Poke : ISpeciesForm
+public sealed class TitleScreen8Poke(byte[] Data, int Offset) : ISpeciesForm
 {
     public const int SIZE = 0x28;
-    private readonly byte[] Data;
-    private readonly int Offset;
-
-    public TitleScreen8Poke(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
 
     public ushort Species
     {

@@ -115,7 +115,7 @@ public partial class SAV_SecretBase : Form
         PG_Base.SelectedObject = bdata;
 
         var pIndex = (int)NUD_FObject.Value;
-        LoadPlacement(bdata, bdata.GetPlacement(pIndex), pIndex);
+        LoadPlacement(bdata.GetPlacement(pIndex), pIndex);
         if (bdata is SecretBase6Other o)
             LoadOtherData(o);
         else
@@ -126,25 +126,25 @@ public partial class SAV_SecretBase : Form
 
     private void SaveCurrent(SecretBase6 bdata)
     {
-        SavePlacement(bdata, (int)NUD_FObject.Value);
+        SavePlacement((int)NUD_FObject.Value);
         if (bdata is SecretBase6Other o)
             SaveOtherData(o);
     }
 
-    private void LoadPlacement(SecretBase6 bdata, SecretBase6GoodPlacement p, int index)
+    private void LoadPlacement(SecretBase6GoodPlacement p, int index)
     {
-        SavePlacement(bdata, index);
+        SavePlacement(index);
         CurrentPlacement = p;
         CurrentPlacementIndex = index;
 
-        static decimal Clamp(NumericUpDown nud, decimal value) => Math.Min(nud.Maximum, Math.Max(nud.Minimum, value));
         NUD_FObjType.Value = Clamp(NUD_FObjType, p.Good);
         NUD_FX.Value = Clamp(NUD_FX, p.X);
         NUD_FY.Value = Clamp(NUD_FY, p.Y);
         NUD_FRot.Value = Clamp(NUD_FRot, p.Rotation);
+        static decimal Clamp(NumericUpDown nud, decimal value) => Math.Clamp(value, nud.Minimum, nud.Maximum);
     }
 
-    private void SavePlacement(SecretBase6 bdata, int index)
+    private void SavePlacement(int index)
     {
         var p = CurrentPlacement;
         if (p is null || index < 0)
@@ -154,8 +154,6 @@ public partial class SAV_SecretBase : Form
         p.X = (ushort)NUD_FX.Value;
         p.Y = (ushort)NUD_FY.Value;
         p.Rotation = (byte)NUD_FRot.Value;
-
-        bdata.SetPlacement(index, p);
     }
 
     private void SaveOtherData(SecretBase6Other full)
@@ -286,9 +284,9 @@ public partial class SAV_SecretBase : Form
         if (bdata is null)
             return;
 
-        SavePlacement(bdata, CurrentPlacementIndex);
+        SavePlacement(CurrentPlacementIndex);
         var pIndex = (int)NUD_FObject.Value;
-        LoadPlacement(bdata, bdata.GetPlacement(pIndex), pIndex);
+        LoadPlacement(bdata.GetPlacement(pIndex), pIndex);
     }
 
     private void ChangeIndexPKM(object sender, EventArgs e)

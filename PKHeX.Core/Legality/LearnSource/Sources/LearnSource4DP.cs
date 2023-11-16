@@ -40,7 +40,7 @@ public sealed class LearnSource4DP : LearnSource4, ILearnSource<PersonalInfo4>, 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if (species > MaxSpecies)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return EggMoves[species].Moves;
     }
 

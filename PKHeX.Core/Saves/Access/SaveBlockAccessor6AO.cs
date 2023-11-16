@@ -11,7 +11,7 @@ public sealed class SaveBlockAccessor6AO : ISaveBlockAccessor<BlockInfo6>, ISave
     private const int boAO = BlockMetadataOffset;
 
     private static readonly BlockInfo6[] BlocksAO =
-    {
+    [
         new(boAO, 00, 0x00000, 0x002C8), // 00 Puff
         new(boAO, 01, 0x00400, 0x00B90), // 01 MyItem
         new(boAO, 02, 0x01000, 0x0002C), // 02 ItemInfo (Select Bound Items)
@@ -70,7 +70,7 @@ public sealed class SaveBlockAccessor6AO : ISaveBlockAccessor<BlockInfo6>, ISave
         new(boAO, 55, 0x2B600, 0x078B0), // 55 EonTicket
         new(boAO, 56, 0x33000, 0x34AD0), // 56 Box
         new(boAO, 57, 0x67C00, 0x0E058), // 57 JPEG
-    };
+    ];
 
     public IReadOnlyList<BlockInfo6> BlockInfo => BlocksAO;
     public MyItem Items { get; }

@@ -11,7 +11,7 @@ namespace PKHeX.WinForms;
 public static class FontUtil
 {
     private static readonly PrivateFontCollection CustomFonts = new();
-    private static readonly Dictionary<float, Font> GeneratedFonts = new();
+    private static readonly Dictionary<float, Font> GeneratedFonts = [];
 
     static FontUtil()
     {

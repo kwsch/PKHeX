@@ -61,7 +61,7 @@ public abstract class BlockInfo
     private static int GetInvalidBlockCount(IReadOnlyList<BlockInfo> blocks, Span<byte> data, out List<string> list)
     {
         int invalid = 0;
-        list = new List<string>();
+        list = [];
         for (int i = 0; i < blocks.Count; i++)
         {
             var block = blocks[i];

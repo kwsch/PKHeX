@@ -68,6 +68,7 @@ public readonly ref struct Dendou4Record
 
     private readonly Span<byte> Data;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public Dendou4Record(Span<byte> data) => Data = data;
 
     public Dendou4Entity this[int index] => GetEntity(index);
@@ -91,6 +92,7 @@ public readonly ref struct Dendou4Entity
     public const int SIZE = 0x3C;
     private readonly Span<byte> Data;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public Dendou4Entity(Span<byte> data) => Data = data;
     public ushort Species { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }
     public byte Level { get => Data[2]; set => Data[2] = value; }

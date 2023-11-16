@@ -175,7 +175,7 @@ public sealed class SAV6AO : SAV6, ISaveBlock6AO, IMultiplayerSprite
     }
 
     public override string JPEGTitle => !HasJPPEGData ? string.Empty : StringConverter6.GetString(Data.AsSpan(JPEG, 0x1A));
-    public override byte[] GetJPEGData() => !HasJPPEGData ? Array.Empty<byte>() : Data.AsSpan(JPEG + 0x54, 0xE004).ToArray();
+    public override byte[] GetJPEGData() => !HasJPPEGData ? [] : Data.AsSpan(JPEG + 0x54, 0xE004).ToArray();
     private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 
     protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }

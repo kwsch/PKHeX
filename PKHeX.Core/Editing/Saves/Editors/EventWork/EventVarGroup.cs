@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class EventVarGroup
+public sealed class EventVarGroup(EventVarType type)
 {
-    public readonly EventVarType Type;
-    public readonly List<EventVar> Vars = new();
-
-    public EventVarGroup(EventVarType type) => Type = type;
+    public readonly EventVarType Type = type;
+    public readonly List<EventVar> Vars = [];
 }

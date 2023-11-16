@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -76,11 +76,8 @@ public abstract class TrainerFashion6
     }
 }
 
-public sealed class Fashion6Male : TrainerFashion6
+public sealed class Fashion6Male(byte[] data, int offset) : TrainerFashion6(data, offset)
 {
-    public Fashion6Male(byte[] data, int offset)
-        : base(data, offset) { }
-
     public uint Version  { get => GetBits(data0,  0, 3); set => data0 = SetBits(data0,  0, 3, value); }
     public uint Model    { get => GetBits(data0,  3, 3); set => data0 = SetBits(data0,  3, 3, value); }
     public F6Skin Skin   { get => (F6Skin)GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, (uint)value); }
@@ -276,11 +273,8 @@ public sealed class Fashion6Male : TrainerFashion6
     }
 }
 
-public sealed class Fashion6Female : TrainerFashion6
+public sealed class Fashion6Female(byte[] data, int offset) : TrainerFashion6(data, offset)
 {
-    public Fashion6Female(byte[] data, int offset)
-        : base(data, offset) { }
-
     public uint Version  { get => GetBits(data0,  0, 3); set => data0 = SetBits(data0,  0, 3, value); }
     public uint Model    { get => GetBits(data0,  3, 3); set => data0 = SetBits(data0,  3, 3, value); }
     public F6Skin Skin   { get => (F6Skin)GetBits(data0,  6, 2); set => data0 = SetBits(data0,  6, 2, (uint)value); }

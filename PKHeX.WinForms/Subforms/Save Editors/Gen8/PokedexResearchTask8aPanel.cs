@@ -13,9 +13,9 @@ public partial class PokedexResearchTask8aPanel : UserControl
     public int ReportedCount { get; private set; }
     public PokedexResearchTask8a Task { get; private set; } = new();
 
-    private string[] TaskDescriptions = Array.Empty<string>();
-    private string[] SpeciesQuests = Array.Empty<string>();
-    private string[] TimeTaskDescriptions = Array.Empty<string>();
+    private string[] TaskDescriptions = [];
+    private string[] SpeciesQuests = [];
+    private string[] TimeTaskDescriptions = [];
 
     private readonly MaskedTextBox[] ThresholdBoxes;
     private readonly bool Loaded;
@@ -24,7 +24,7 @@ public partial class PokedexResearchTask8aPanel : UserControl
     {
         InitializeComponent();
 
-        ThresholdBoxes = new[] { MTB_Threshold1, MTB_Threshold2, MTB_Threshold3, MTB_Threshold4, MTB_Threshold5 };
+        ThresholdBoxes = [MTB_Threshold1, MTB_Threshold2, MTB_Threshold3, MTB_Threshold4, MTB_Threshold5];
         Loaded = true;
     }
 

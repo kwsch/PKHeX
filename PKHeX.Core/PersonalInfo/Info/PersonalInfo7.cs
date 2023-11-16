@@ -6,12 +6,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the Sun &amp; Moon games.
 /// </summary>
-public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType
+public sealed class PersonalInfo7(byte[] Data)
+    : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x54;
-    private readonly byte[] Data;
 
-    public PersonalInfo7(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
@@ -164,13 +163,13 @@ public sealed class PersonalInfo7 : PersonalInfo, IPersonalAbility12H, IPersonal
         }
     }
 
-    private static ReadOnlySpan<ushort> Tutors_USUM => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Tutors_USUM =>
+    [
         450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008,
         277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401,      428, 406, 304, 231,
         020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409,      264, 351, 352,
         380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446,      285,
 
         477, 502, 432, 710, 707, 675, 673,
-    };
+    ];
 }

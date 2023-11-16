@@ -10,10 +10,10 @@ namespace PKHeX.Core;
 /// </remarks>
 public sealed class RK4 : G4PKM
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
-    };
+    ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_4RSTORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_4RSTORED;
@@ -25,8 +25,8 @@ public sealed class RK4 : G4PKM
 
     private static byte[] Decrypt(byte[] data)
     {
-        byte[] pkData = data.Slice(0, PokeCrypto.SIZE_4STORED);
-        PokeCrypto.DecryptIfEncrypted45(ref pkData);
+        data = data[..PokeCrypto.SIZE_4STORED];
+        PokeCrypto.DecryptIfEncrypted45(ref data);
         return data;
     }
 
@@ -331,7 +331,7 @@ public sealed class RK4 : G4PKM
         RefreshChecksum();
 
         byte[] data = (byte[])Data.Clone();
-        byte[] pkData = data.Slice(0, PokeCrypto.SIZE_4STORED);
+        byte[] pkData = data[..PokeCrypto.SIZE_4STORED];
         pkData = PokeCrypto.EncryptArray45(pkData);
         pkData.CopyTo(data, 0);
         return data;

@@ -33,7 +33,7 @@ public abstract class InventoryPouch
 
     protected InventoryPouch(InventoryType type, IItemStorage storage, int maxCount, int offset, int size = -1)
     {
-        Items = Array.Empty<InventoryItem>();
+        Items = [];
         Type = type;
         Info = storage;
         MaxCount = maxCount;

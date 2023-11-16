@@ -12,7 +12,7 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
 {
-    public IList<PictureBox> SlotPictureBoxes { get; private set; } = Array.Empty<PictureBox>();
+    public IList<PictureBox> SlotPictureBoxes { get; private set; } = [];
     public SaveFile SAV => M?.SE.SAV ?? throw new ArgumentNullException(nameof(SAV));
 
     public int BoxSlotCount { get; private set; }

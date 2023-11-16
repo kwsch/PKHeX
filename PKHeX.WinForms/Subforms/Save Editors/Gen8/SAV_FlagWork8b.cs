@@ -14,9 +14,9 @@ public sealed partial class SAV_FlagWork8b : Form
     private readonly SAV8BS SAV;
 
     private bool editing;
-    private readonly Dictionary<int, NumericUpDown> WorkDict = new();
-    private readonly Dictionary<int, CheckBox> FlagDict = new();
-    private readonly Dictionary<int, CheckBox> SystemDict = new();
+    private readonly Dictionary<int, NumericUpDown> WorkDict = [];
+    private readonly Dictionary<int, CheckBox> FlagDict = [];
+    private readonly Dictionary<int, CheckBox> SystemDict = [];
 
     public SAV_FlagWork8b(SAV8BS sav)
     {
@@ -264,7 +264,7 @@ public sealed partial class SAV_FlagWork8b : Form
             return;
         }
 
-        RTB_Diff.Lines = diff.Summarize().ToArray();
+        RTB_Diff.Lines = [.. diff.Summarize()];
     }
 
     private static void Main_DragEnter(object? sender, DragEventArgs? e)

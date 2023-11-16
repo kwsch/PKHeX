@@ -50,10 +50,7 @@ public static class StringConverter7ZH
     internal static char ConvertString2BinG7_zh(char chr, bool traditional)
     {
         var table = traditional ? G7_CHT : G7_CHS;
-
-        if (table.TryGetValue(chr, out var remap))
-            return remap;
-        return chr;
+        return table.GetValueOrDefault(chr, chr);
     }
 
     public static bool IsTraditional(ReadOnlySpan<char> input, int lang)

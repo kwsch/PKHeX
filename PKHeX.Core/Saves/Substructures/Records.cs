@@ -32,16 +32,16 @@ public static class Records
         _ => -1,
     };
 
-    private static ReadOnlySpan<int> MaxByType => new[] {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
+    private static ReadOnlySpan<int> MaxByType => [999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7];
 
-    public static ReadOnlySpan<byte> DailyPairs_6 => new byte[] {29, 30, 110, 111, 112, 113, 114, 115, 116, 117};
-    public static ReadOnlySpan<byte> DailyPairs_7 => new byte[] {22, 23, 110, 111, 112, 113, 114, 115, 116, 117};
+    public static ReadOnlySpan<byte> DailyPairs_6 => [29, 30, 110, 111, 112, 113, 114, 115, 116, 117];
+    public static ReadOnlySpan<byte> DailyPairs_7 => [22, 23, 110, 111, 112, 113, 114, 115, 116, 117];
 
     /// <summary>
     /// Festa pairs; if updating the lower index record, update the Festa Mission record if currently active?
     /// </summary>
-    public static ReadOnlySpan<byte> FestaPairs_7 => new byte[]
-    {
+    public static ReadOnlySpan<byte> FestaPairs_7 =>
+    [
         175, 6,
         176, 33,
         177, 8,
@@ -51,7 +51,7 @@ public static class Records
         183, 7,
         184, 159,
         185, 9,
-    };
+    ];
 }
 
 public static class RecordLists

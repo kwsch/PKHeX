@@ -15,8 +15,8 @@ public partial class MemoryAmie : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         Entity = pk;
         MemStrings = new MemoryStrings(GameInfo.Strings);
-        PrevCountries = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
-        PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4 };
+        PrevCountries = [CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4];
+        PrevRegions = [CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4];
         string[] arguments = L_Arguments.Text.Split(new[] { " ; " }, StringSplitOptions.None);
 
         TextArgs = new TextMarkup(arguments);
@@ -313,9 +313,11 @@ public partial class MemoryAmie : Form
 
     private void ChangeCountryIndex(object sender, EventArgs e)
     {
-        int index = Array.IndexOf(PrevCountries, sender);
-        int val;
-        if (sender is ComboBox c && (val = WinFormsUtil.GetIndex(c)) > 0)
+        if (sender is not ComboBox cb)
+            return;
+        int index = Array.IndexOf(PrevCountries, cb);
+        int val = WinFormsUtil.GetIndex(cb);
+        if (val > 0)
         {
             Main.SetCountrySubRegion(PrevRegions[index], $"sr_{val:000}");
             PrevRegions[index].Enabled = true;
@@ -346,7 +348,7 @@ public partial class MemoryAmie : Form
 
     private void ClickResetLocation(object sender, EventArgs e)
     {
-        Label[] senderarr = { L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4 };
+        Label[] senderarr = [L_Geo0, L_Geo1, L_Geo2, L_Geo3, L_Geo4];
         int index = Array.IndexOf(senderarr, sender);
         PrevCountries[index].SelectedValue = 0;
 

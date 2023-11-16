@@ -227,8 +227,8 @@ public static class Tera9RNG
         // Thanks to a silly <= check, the range check edge is inclusive (unlike the slot determination).
         // Each rate has its low bound used by the prior's rate check.
         // This results in:
-        // - the first rate check having a total range of one more than the intended range.
-        // - the last rate check having a total range of one less than the intended range.
+        // - the 1st rate check has a total range of one more than the intended range.
+        // - the last rate check has a total range of one less than the intended range.
         1 => rand <= 80,                                             // [  0, 80], [ 0, 30], or [ 0, 20]
         2 => rand is (> 80) or (> 30 and <= 70) or (> 20 and <= 40), // (80, 100], (30, 70], or (20, 40]
         3 => true, // all progress ranges overlap!                   // (70, 100], (40, 70], or [ 0, 40]

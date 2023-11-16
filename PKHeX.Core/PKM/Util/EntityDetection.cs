@@ -6,25 +6,25 @@ namespace PKHeX.Core;
 
 public static class EntityDetection
 {
-    private static readonly HashSet<int> Sizes = new()
-    {
-        PokeCrypto.SIZE_1JLIST,   PokeCrypto.SIZE_1ULIST,
-        PokeCrypto.SIZE_2ULIST,   PokeCrypto.SIZE_2JLIST,   PokeCrypto.SIZE_2STADIUM,
-        PokeCrypto.SIZE_3STORED,  PokeCrypto.SIZE_3PARTY,
+    private static readonly HashSet<int> Sizes =
+    [
+        PokeCrypto.SIZE_1JLIST, PokeCrypto.SIZE_1ULIST,
+        PokeCrypto.SIZE_2ULIST, PokeCrypto.SIZE_2JLIST, PokeCrypto.SIZE_2STADIUM,
+        PokeCrypto.SIZE_3STORED, PokeCrypto.SIZE_3PARTY,
         PokeCrypto.SIZE_3CSTORED, PokeCrypto.SIZE_3XSTORED,
-        PokeCrypto.SIZE_4STORED,  PokeCrypto.SIZE_4PARTY,   PokeCrypto.SIZE_4RSTORED,
+        PokeCrypto.SIZE_4STORED, PokeCrypto.SIZE_4PARTY, PokeCrypto.SIZE_4RSTORED,
         PokeCrypto.SIZE_5PARTY,
-        PokeCrypto.SIZE_6STORED,  PokeCrypto.SIZE_6PARTY,
-        PokeCrypto.SIZE_8STORED,  PokeCrypto.SIZE_8PARTY,
+        PokeCrypto.SIZE_6STORED, PokeCrypto.SIZE_6PARTY,
+        PokeCrypto.SIZE_8STORED, PokeCrypto.SIZE_8PARTY,
         PokeCrypto.SIZE_8ASTORED, PokeCrypto.SIZE_8APARTY,
-        PokeCrypto.SIZE_9STORED,  PokeCrypto.SIZE_9PARTY,
-    };
+        PokeCrypto.SIZE_9STORED, PokeCrypto.SIZE_9PARTY,
+    ];
 
     /// <summary>
     /// Determines if the given length is valid for a <see cref="PKM"/>.
     /// </summary>
     /// <param name="len">Data length of the file/array.</param>
-    /// <returns>A <see cref="bool"/> indicating whether or not the length is valid for a <see cref="PKM"/>.</returns>
+    /// <returns>A <see cref="bool"/> indicating whether the length is valid for a <see cref="PKM"/>.</returns>
     public static bool IsSizePlausible(long len) => Sizes.Contains((int)len);
 
     public static bool IsPresentGB(ReadOnlySpan<byte> data) => data[0] != 0; // Species non-zero

@@ -6,8 +6,8 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
 {
     private const int CountryCount = 232;
 
-    private static ReadOnlySpan<byte> LegalCountries => new byte[]
-    {
+    private static ReadOnlySpan<byte> LegalCountries =>
+    [
         001, 002, 003, 006, 008, 009, 012, 013, 015, 016, 017, 018, 020, 021, 022, 023,
         025, 027, 028, 029, 031, 033, 034, 035, 036, 040, 042, 043, 045, 047, 048, 049,
         051, 053, 054, 058, 060, 061, 062, 063, 064, 071, 072, 073, 074, 076, 079, 080,
@@ -17,7 +17,7 @@ public sealed class UnityTower5 : SaveBlock<SAV5>
         166, 167, 170, 173, 174, 181, 185, 186, 188, 189, 190, 191, 194, 195, 196, 198,
         199, 200, 201, 203, 205, 206, 210, 211, 215, 217, 218, 219, 220, 221, 222, 224,
         226, 227,
-    };
+    ];
 
     public static byte GetSubregionCount(byte country) => country switch
     {

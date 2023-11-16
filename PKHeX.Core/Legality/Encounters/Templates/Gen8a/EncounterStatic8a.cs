@@ -142,7 +142,7 @@ public sealed record EncounterStatic8a
             IsAlpha = IsAlpha,
             FlawlessIVs = FlawlessIVCount,
             Shiny = Shiny,
-            RollCount = 1, // Everything is shiny locked anyways
+            RollCount = 1, // Everything is shiny locked anyway
             GenderRatio = gender,
         };
     }

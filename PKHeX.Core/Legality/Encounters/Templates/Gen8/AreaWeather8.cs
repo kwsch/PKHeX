@@ -50,6 +50,6 @@ public static class AreaWeather8Extensions
         if (m.RibbonMarkDry) return (weather & Intense_Sun) != 0;
         if (m.RibbonMarkSandstorm) return (weather & Sandstorm) != 0;
         if (m.RibbonMarkMisty) return (weather & Heavy_Fog) != 0;
-        return true; // no mark / etc is fine; check later.
+        return true; // no mark / etc. is fine; check later.
     }
 }

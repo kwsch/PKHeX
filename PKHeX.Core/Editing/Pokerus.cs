@@ -63,7 +63,7 @@ public static class Pokerus
     /// <inheritdoc cref="IsStrainValid(PKM,int,int)"/>
     /// <remarks>
     /// Gen3 R/S have a 30/255 chance of giving strain 0, and a 1/255 chance of giving strain 8.
-    /// Transfers will retain strain 0/8 and they're still able to infect others.
+    /// Transfers will retain strain 0/8, and they're still able to infect others.
     /// </remarks>
     public static bool IsStrainValid(int strain) => strain <= 0xF;
 
@@ -102,11 +102,11 @@ public static class Pokerus
     /// </summary>
     /// <param name="strain">Strain number</param>
     /// <param name="days">Duration remaining</param>
-    /// <returns>True if can be infected by another infectious individual.</returns>
+    /// <returns>True if it can be infected by another infectious individual.</returns>
     public static bool IsSusceptible(int strain, int days) => strain == 0 && days == 0;
 
     /// <summary>
-    /// Vaccinates the Pokémon so it will never be infectious in the format it exists in.
+    /// Vaccinates the Pokémon, so it will never be infectious in the format it exists in.
     /// </summary>
     /// <param name="pk">Entity to modify.</param>
     /// <remarks>Overwrites all Pokérus values even if already legal.</remarks>

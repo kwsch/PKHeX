@@ -16,7 +16,7 @@ public partial class SAV_Pokedex4 : Form
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6 }; // JPN,ENG,FRA,GER,ITA,SPA
+        CL = [CHK_L1, CHK_L2, CHK_L3, CHK_L5, CHK_L4, CHK_L6]; // JPN,ENG,FRA,GER,ITA,SPA
         SAV = (SAV4)(Origin = sav).Clone();
 
         editing = true;
@@ -35,7 +35,7 @@ public partial class SAV_Pokedex4 : Form
         editing = false;
         LB_Species.SelectedIndex = 0;
 
-        string[] dexMode = { "not given", "simple mode", "detect forms", "national dex", "other languages" };
+        string[] dexMode = ["not given", "simple mode", "detect forms", "national dex", "other languages"];
         if (SAV is SAV4HGSS) dexMode = dexMode.Where((_, i) => i != 2).ToArray();
         foreach (string mode in dexMode)
             CB_DexUpgraded.Items.Add(mode);

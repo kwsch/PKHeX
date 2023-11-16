@@ -63,7 +63,7 @@ public static class LearnPossible
     private static void IterateAndFlag(Span<bool> result, PKM pk, IEncounterTemplate enc, EvolutionHistory history, MoveSourceType types)
     {
         // Similar to the iteration when validating a set of currently known moves, iterate backwards.
-        // Instead of checking if a single move can be learned, get an enumerable of moves and flag.
+        // Instead of checking if a single move can be learned, get an iterable chain of sources and flag for each.
         // Keep iterating backwards, as an older game may have an exclusive move.
         var game = LearnGroupUtil.GetCurrentGroup(pk);
         while (true)

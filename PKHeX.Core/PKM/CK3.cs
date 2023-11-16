@@ -4,10 +4,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon Colosseum. </summary>
-public sealed class CK3 : G3PKM, IShadowCapture
+public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public CK3() : this(new byte[PokeCrypto.SIZE_3CSTORED]) { }
+
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x11, 0x12, 0x13,
         0x61, 0x62, 0x63, 0x64,
         0xD1, 0xD2, 0xD3, 0xD4, 0xD5, 0xDA, 0xDB,
@@ -15,14 +17,12 @@ public sealed class CK3 : G3PKM, IShadowCapture
         0xFB, // not fateful -- what is it?
         0xD7, // index within party
         // 0xFC onwards unused? no, it's some pointers and values used by the game?
-    };
+    ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;
     public override EntityContext Context => EntityContext.Gen3;
     public override PersonalInfo3 PersonalInfo => PersonalTable.RS[Species];
-    public CK3(byte[] data) : base(data) { }
-    public CK3() : this(new byte[PokeCrypto.SIZE_3CSTORED]) { }
     public override CK3 Clone() => new((byte[])Data.Clone());
 
     // Trash Bytes

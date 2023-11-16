@@ -66,8 +66,8 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
         return slots;
     }
 
-    private static ReadOnlySpan<ushort> AllSpecies => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> AllSpecies =>
+    [
         002, 005, 008, 012, 014, 016, 021, 025, 027, 035,
         038, 039, 043, 044, 046, 049, 049, 051, 056, 058,
         061, 063, 067, 077, 082, 083, 084, 087, 089, 091,
@@ -90,7 +90,7 @@ public sealed record EncounterArea6XY : IEncounterArea<EncounterSlot6XY>, IAreaL
         712, 714,
 
         // Handle Floette (670) and Vivillon (666) separately
-    };
+    ];
 
     private EncounterSlot6XY[] ReadSlots(ReadOnlySpan<byte> data)
     {

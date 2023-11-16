@@ -83,8 +83,7 @@ public abstract class Zukan<T> : ZukanBase<T> where T : SaveFile
     protected Zukan(T sav, int dex, int langflag) : base(sav, dex)
     {
         PokeDexLanguageFlags = langflag;
-        if (langflag > dex)
-            throw new ArgumentOutOfRangeException(nameof(langflag));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(langflag, dex);
     }
 
     protected abstract int OFS_SEEN { get; }

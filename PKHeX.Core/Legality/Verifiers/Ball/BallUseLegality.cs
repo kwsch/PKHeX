@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.Ball;
 
 namespace PKHeX.Core;
@@ -15,7 +14,7 @@ internal static class BallUseLegality
     /// <returns>True if it is impossible to capture in a <see cref="Heavy"/> ball.</returns>
     public static bool IsAlolanCaptureNoHeavyBall(ushort species) => species is (int)Species.Beldum or (int)Species.TapuKoko or (int)Species.TapuLele or (int)Species.TapuBulu or (int)Species.TapuFini;
 
-    public static bool IsBallPermitted([ConstantExpected] ulong permit, int ball)
+    public static bool IsBallPermitted(ulong permit, int ball)
     {
         if ((uint)ball >= 64)
             return false;

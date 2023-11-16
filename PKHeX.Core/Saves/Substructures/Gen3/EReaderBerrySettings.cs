@@ -49,20 +49,18 @@ public static class EReaderBerrySettings
         return NoMatch;
     }
 
-    private static readonly HashSet<string> EReaderBerriesNames_USA = new()
-    {
-        // USA Series 1
+    private static readonly HashSet<string> EReaderBerriesNames_USA =
+    [
         "PUMKIN",
         "DRASH",
         "EGGANT",
         "STRIB",
         "CHILAN",
         "NUTPEA",
-    };
+    ];
 
-    private static readonly HashSet<string> EReaderBerriesNames_JP = new()
-    {
-        // JP Series 1
+    private static readonly HashSet<string> EReaderBerriesNames_JP =
+    [
         "カチャ", // PUMKIN
         "ブ－カ", // DRASH
         "ビスナ", // EGGANT
@@ -77,7 +75,7 @@ public static class EReaderBerrySettings
         "トウガ", // TOUGA
         "ニニク", // NINIKU
         "トポ", // TOPO
-    };
+    ];
 
     public static void LoadFrom(SAV3 sav3)
     {

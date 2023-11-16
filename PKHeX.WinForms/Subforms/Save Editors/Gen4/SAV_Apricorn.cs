@@ -18,7 +18,7 @@ public partial class SAV_Apricorn : Form
     private readonly SAV4HGSS Origin;
     private readonly SAV4HGSS SAV;
     private const int Count = 7;
-    private static readonly string[] itemlist = { "Red", "Yellow", "Blue", "Green", "Pink", "White", "Black" };
+    private static readonly string[] itemlist = ["Red", "Yellow", "Blue", "Green", "Pink", "White", "Black"];
 
     private void Setup()
     {

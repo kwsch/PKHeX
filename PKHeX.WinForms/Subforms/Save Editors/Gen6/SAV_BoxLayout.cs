@@ -123,7 +123,7 @@ public partial class SAV_BoxLayout : Form
         }
     }
 
-    private NumericUpDown[] flagArr = Array.Empty<NumericUpDown>();
+    private NumericUpDown[] flagArr = [];
     private bool editing;
     private bool renamingBox;
 

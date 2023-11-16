@@ -14,7 +14,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
 
     public SAV9SV(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
 
-    private SAV9SV(IReadOnlyList<SCBlock> blocks) : base(Array.Empty<byte>())
+    private SAV9SV(IReadOnlyList<SCBlock> blocks) : base([])
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9SV(this);
@@ -340,13 +340,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             }
         }
 
-        var blocks = new[]
-        {
+        string[] blocks =
+        [
             "WEVT_SUB_014_EVENT_STATE_UTHUWA",
             "WEVT_SUB_015_EVENT_STATE_TSURUGI",
             "WEVT_SUB_016_EVENT_STATE_MOKKAN",
             "WEVT_SUB_017_EVENT_STATE_MAGATAMA",
-        };
+        ];
 
         foreach (var block in blocks)
             Accessor.GetBlock(block).SetValue(1); // lift seals from each shrine

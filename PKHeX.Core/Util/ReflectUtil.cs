@@ -155,7 +155,7 @@ public static class ReflectUtil
     /// <param name="obj">Object to check for property existence.</param>
     /// <param name="name">Name of the property.</param>
     /// <param name="pi">Reference to the property info for the object, if it exists.</param>
-    /// <returns>True if has property, and false if does not have property. <see cref="pi"/> is null when returning false.</returns>
+    /// <returns>True if it has property, and false if it does not have property. <see cref="pi"/> is null when returning false.</returns>
     public static bool HasProperty(object obj, string name, [NotNullWhen(true)] out PropertyInfo? pi)
     {
         var type = obj.GetType();

@@ -15,8 +15,8 @@ public sealed class LegalMoveInfo
     /// <summary>
     /// Checks if the requested <see cref="move"/> is legally able to be learned.
     /// </summary>
-    /// <param name="move">Move to check if can be learned</param>
-    /// <returns>True if can learn the move</returns>
+    /// <param name="move">Move to check if it can be learned</param>
+    /// <returns>True if it can learn the move</returns>
     public bool CanLearn(ushort move) => AllowedMoves[move];
 
     /// <summary>

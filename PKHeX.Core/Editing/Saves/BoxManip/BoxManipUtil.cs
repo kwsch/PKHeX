@@ -12,12 +12,12 @@ public static class BoxManipUtil
     /// Grouped categories of different <see cref="IBoxManip"/>.
     /// </summary>
     public static readonly IReadOnlyList<IBoxManip>[] ManipCategories =
-    {
+    [
         BoxManipDefaults.ClearCommon,
         BoxManipDefaults.SortCommon,
         BoxManipDefaults.SortAdvanced,
         BoxManipDefaults.ModifyCommon,
-    };
+    ];
 
     /// <summary>
     /// Manipulation Group Names to be used for uniquely naming groups of GUI controls.
@@ -26,12 +26,12 @@ public static class BoxManipUtil
     /// Order should match that of <see cref="ManipCategories"/>.
     /// </remarks>
     public static readonly string[] ManipCategoryNames =
-    {
+    [
         "Delete",
         "Sort",
         "SortAdvanced",
         "Modify",
-    };
+    ];
 
     /// <summary>
     /// Gets a <see cref="IBoxManip"/> reference that carries out the action of the requested <see cref="type"/>.

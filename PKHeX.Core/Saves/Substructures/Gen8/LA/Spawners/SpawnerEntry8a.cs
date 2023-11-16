@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -14,6 +14,7 @@ public readonly ref struct SpawnerEntry8a
     public const int SIZE = 0x80;
     private readonly Span<byte> Data;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public SpawnerEntry8a(Span<byte> data) => Data = data;
 
     public float Coordinate_00 { get => ReadSingleLittleEndian(Data); set => WriteSingleLittleEndian(Data, value); }
@@ -48,7 +49,7 @@ public readonly ref struct SpawnerEntry8a
     public ulong AlphaSeed { get => ReadUInt64LittleEndian(Data[0x58..]); set => WriteUInt64LittleEndian(Data[0x58..], value); }
 
     /// <summary>
-    /// When spawning an <see cref="IAlpha.IsAlpha"/> entity, the game assigns a random alpha move index from the allowed move shop list.
+    /// When spawning an entity, the game assigns a random alpha move index from the allowed move shop list.
     /// </summary>
     /// <param name="countMoveShopCanLearn">Count of move shop moves that the species can learn</param>
     /// <returns>Learn-able move shop index to set as the <see cref="PA8.AlphaMove"/></returns>

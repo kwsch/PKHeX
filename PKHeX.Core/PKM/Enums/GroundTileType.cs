@@ -48,8 +48,8 @@ public static class GroundTileTypeExtensions
 {
     public static bool IsObtainable(this GroundTileType type) => ((0b_1_10000000_00010110_10110111 >> (int) type) & 1) == 1;
 
-    public static ReadOnlySpan<byte> ValidTileTypes => new[]
-    {
+    public static ReadOnlySpan<byte> ValidTileTypes =>
+    [
         (byte)None, (byte)Sand, (byte)Grass, (byte)Rock, (byte)Cave, (byte)Water, (byte)Building, (byte)Marsh, (byte)Max_DP, (byte)Distortion, (byte)Max_Pt,
-    };
+    ];
 }

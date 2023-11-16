@@ -6,8 +6,8 @@ public sealed class ItemStorage8SWSH : IItemStorage
 {
     public static readonly ItemStorage8SWSH Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Regular_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Regular_SWSH =>
+    [
         045, 046, 047, 048, 049, 050, 051, 052, 053, 076, 077, 079, 080, 081, 082, 083, 084, 085, 107, 108, 109,
         110, 112, 116, 117, 118, 119, 135, 136, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 228,
         229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249,
@@ -42,23 +42,23 @@ public sealed class ItemStorage8SWSH : IItemStorage
 
         // DLC 2
         1592, 1604, 1606,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ball_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Ball_SWSH =>
+    [
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016,
         492, 493, 494, 495, 496, 497, 498, 499, 500,
         576,
         851,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Battle_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Battle_SWSH =>
+    [
         055, 056, 057, 058, 059, 060, 061, 062, 063, 1580,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Key_SWSH =>
+    [
         078,
         628, 629, 631, 632, 638,
         703,
@@ -69,10 +69,10 @@ public sealed class ItemStorage8SWSH : IItemStorage
 
         // DLC 2
         1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605, 1607,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_TMTR_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_TMTR_SWSH =>
+    [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
         348, 349, 350, 351, 352, 353, 354, 355, 356, 357,
@@ -100,14 +100,14 @@ public sealed class ItemStorage8SWSH : IItemStorage
         1220, 1221, 1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229,
 
         1230, // TM00
-    };
+    ];
 
     private const int COUNT_TR = 100;
     private static ReadOnlySpan<ushort> Pouch_TR_SWSH => Pouch_TMTR_SWSH.Slice(99, COUNT_TR);
     public static bool IsTechRecord(ushort itemID) => itemID - 1130u < COUNT_TR;
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Medicine_SWSH =>
+    [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026,
         027, 028, 029, 030, 031, 032, 033, 034, 035, 036,
         037, 038, 039, 040, 041, 042, 043, 054,
@@ -116,35 +116,38 @@ public sealed class ItemStorage8SWSH : IItemStorage
         708, 709,
         852, 903,
         1579,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Berries_SWSH => new ushort[]
-    {
-        149, 150, 151, 152, 153, 154, 155, 156, 157, 158,
-        159, 160, 161, 162, 163, 169, 170, 171, 172, 173,
-        174, 184, 185, 186, 187, 188, 189, 190, 191, 192,
-        193, 194, 195, 196, 197, 198, 199, 200, 201, 202,
-        203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
+    private static ReadOnlySpan<ushort> Pouch_Berries_SWSH =>
+    [
+                                                     149,
+        150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
+        160, 161, 162, 163,                          169,
+        170, 171, 172, 173, 174,
+                            184, 185, 186, 187, 188, 189,
+        190, 191, 192, 193, 194, 195, 196, 197, 198, 199,
+        200, 201, 202, 203, 204, 205, 206, 207, 208, 209,
+        210, 211, 212,
         686, 687, 688,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ingredients_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Ingredients_SWSH =>
+    [
         1084, 1085, 1086, 1087, 1088, 1089, 1090, 1091, 1092, 1093,
         1094, 1095, 1096, 1097, 1098, 1099, 1256, 1257, 1258, 1259,
         1260, 1261, 1262, 1263, 1264,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Treasure_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Treasure_SWSH =>
+    [
         086, 087, 088, 089, 090, 091, 092, 094, 106,
         571, 580, 581, 582, 583,
         795, 796,
         1105, 1106, 1107, 1108,
-    };
+    ];
 
-    internal static ReadOnlySpan<ushort> Unreleased => new ushort[]
-    {
+    internal static ReadOnlySpan<ushort> Unreleased =>
+    [
         016, // Cherish Ball
         298, // Flame Plate
         299, // Splash Plate
@@ -165,7 +168,7 @@ public sealed class ItemStorage8SWSH : IItemStorage
 
         500, // Park Ball
         // 644, // Pixie Plate
-    };
+    ];
 
     internal static Range DynamaxCrystalBCAT => new(DMAX_START, DMAX_END + 1);
 
@@ -194,10 +197,7 @@ public sealed class ItemStorage8SWSH : IItemStorage
         return Unreleased.BinarySearch(item) < 0;
     }
 
-    public static ushort[] GetAllHeld()
-    {
-        return ArrayUtil.ConcatAll(Pouch_Regular_SWSH, Pouch_Ball_SWSH, Pouch_Battle_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, Pouch_TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
-    }
+    public static ushort[] GetAllHeld() => [..Pouch_Regular_SWSH, ..Pouch_Ball_SWSH, ..Pouch_Battle_SWSH, ..Pouch_Berries_SWSH, ..Pouch_Medicine_SWSH, ..Pouch_TR_SWSH, ..Pouch_Treasure_SWSH, ..Pouch_Ingredients_SWSH];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
     {

@@ -9,18 +9,26 @@ namespace PKHeX.Core;
 /// Stores the position of the player.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class Coordinates8a : SaveBlock<SAV8LA>
+public sealed class Coordinates8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Data)
 {
-    public Coordinates8a(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
-
     // Map
+    private Span<byte> MapName() => Data.AsSpan(0x08, 0x48);
+
     public string M
     {
-        get => Util.TrimFromZero(Encoding.ASCII.GetString(Data, 0x08, 0x48));
+        get
+        {
+            var span = MapName();
+            var trim = span.IndexOf<byte>(0);
+            if (trim >= 0)
+                span = span[..trim];
+            return Encoding.ASCII.GetString(span);
+        }
         set
         {
-            for (int i = 0; i < 0x48; i++)
-                Data[0x08 + i] = (byte)(value.Length > i ? value[i] : '\0');
+            var span = MapName();
+            span.Clear();
+            Encoding.ASCII.GetBytes(value, span);
         }
     }
 

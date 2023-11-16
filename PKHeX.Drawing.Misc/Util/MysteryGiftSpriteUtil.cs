@@ -7,9 +7,9 @@ namespace PKHeX.Drawing.Misc;
 
 public static class MysteryGiftSpriteUtil
 {
-    public static Image Sprite(this MysteryGift gift) => GetSprite(gift);
+    public static Bitmap Sprite(this MysteryGift gift) => GetSprite(gift);
 
-    private static Image GetSprite(MysteryGift gift)
+    private static Bitmap GetSprite(MysteryGift gift)
     {
         if (gift.Empty)
             return SpriteUtil.Spriter.None;
@@ -22,7 +22,7 @@ public static class MysteryGiftSpriteUtil
         return img;
     }
 
-    private static Image GetBaseImage(MysteryGift gift)
+    private static Bitmap GetBaseImage(MysteryGift gift)
     {
         if (gift is { IsEgg: true, Species: (int)Species.Manaphy }) // Manaphy Egg
             return SpriteUtil.GetMysteryGiftPreviewPoke(gift);

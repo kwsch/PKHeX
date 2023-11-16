@@ -24,8 +24,8 @@ public sealed class GameDataSource
     /// <summary>
     /// List of <see cref="LanguageID"/> values to display.
     /// </summary>
-    private static readonly List<ComboItem> LanguageList = new()
-    {
+    private static readonly List<ComboItem> LanguageList =
+    [
         new ComboItem("JPN (日本語)",   (int)LanguageID.Japanese),
         new ComboItem("ENG (English)",  (int)LanguageID.English),
         new ComboItem("FRE (Français)", (int)LanguageID.French),
@@ -35,7 +35,7 @@ public sealed class GameDataSource
         new ComboItem("KOR (한국어)",    (int)LanguageID.Korean),
         new ComboItem("CHS (简体中文)",  (int)LanguageID.ChineseS),
         new ComboItem("CHT (繁體中文)",  (int)LanguageID.ChineseT),
-    };
+    ];
 
     public GameDataSource(GameStrings s)
     {
@@ -87,8 +87,8 @@ public sealed class GameDataSource
     /// Preferentially ordered list of <see cref="GameVersion"/> values to display in a list.
     /// </summary>
     /// <remarks>Most recent games are at the top, loosely following Generation groups.</remarks>
-    private static ReadOnlySpan<byte> OrderedVersionArray => new byte[]
-    {
+    private static ReadOnlySpan<byte> OrderedVersionArray =>
+    [
         50, 51, // 9 sv
         47,     // 8 legends arceus
         48, 49, // 8 bdsp
@@ -111,13 +111,13 @@ public sealed class GameDataSource
         34, // 7go
 
         00,
-    };
+    ];
 
-    private static IReadOnlyList<ComboItem> GetBalls(ReadOnlySpan<string> itemList) => Util.GetVariedCBListBall(itemList, BallStoredIndexes, BallItemIDs);
+    private static ComboItem[] GetBalls(ReadOnlySpan<string> itemList) => Util.GetVariedCBListBall(itemList, BallStoredIndexes, BallItemIDs);
 
     // Since Poké Ball (and Great Ball / Ultra Ball) are most common, any list should have them at the top. The rest can be sorted alphabetically.
-    private static ReadOnlySpan<byte> BallStoredIndexes => new byte[]   { 004, 003, 002, 001, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 0027, 0028, 0029, 0030, 0031, 0032, 0033, 0034, 0035, 0036, 0037 };
-    private static ReadOnlySpan<ushort> BallItemIDs     => new ushort[] { 004, 003, 002, 001, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576, 851, 1785, 1710, 1711, 1712, 1713, 1746, 1747, 1748, 1749, 1750, 1771 };
+    private static ReadOnlySpan<byte> BallStoredIndexes => [ 004, 003, 002, 001, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 0027, 0028, 0029, 0030, 0031, 0032, 0033, 0034, 0035, 0036, 0037 ];
+    private static ReadOnlySpan<ushort> BallItemIDs     => [ 004, 003, 002, 001, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576, 851, 1785, 1710, 1711, 1712, 1713, 1746, 1747, 1748, 1749, 1750, 1771 ];
 
     private static ComboItem[] GetVersionList(GameStrings s)
     {

@@ -38,7 +38,7 @@ public static class SaveExtensions
         return true;
     }
 
-    private static IReadOnlyList<string> GetSaveFileErrata(this SaveFile sav, PKM pk, IBasicStrings strings)
+    private static List<string> GetSaveFileErrata(this SaveFile sav, PKM pk, IBasicStrings strings)
     {
         var errata = new List<string>();
         ushort held = (ushort)pk.HeldItem;

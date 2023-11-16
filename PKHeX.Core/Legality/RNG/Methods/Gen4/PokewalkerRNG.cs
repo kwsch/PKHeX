@@ -35,8 +35,8 @@ public static class PokewalkerRNG
     /// All species for all Pokéwalker courses.
     /// </summary>
     /// <remarks>6 species per course; each course has 3 groups (A/B/C) of 2 species (0/1).</remarks>
-    private static ReadOnlySpan<ushort> CourseSpecies => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> CourseSpecies =>
+    [
         115, 084, 029, 032, 016, 161, // 00 Refreshing Field 
         202, 069, 048, 046, 043, 021, // 01 Noisy Forest 
         240, 095, 066, 077, 163, 074, // 02 Rugged Road 
@@ -64,7 +64,7 @@ public static class PokewalkerRNG
         255, 133, 279, 061, 052, 025, // 24 Sightseeing 
         446, 374, 116, 355, 129, 436, // 25 Winners Path 
         239, 240, 238, 440, 174, 173, // 26 Amity Meadow 
-    };
+    ];
 
     /// <summary>
     /// Gets the first valid seed for the given Pokéwalker IVs.

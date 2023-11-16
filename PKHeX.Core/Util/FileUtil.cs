@@ -16,7 +16,7 @@ public static class FileUtil
     /// Attempts to get a binary object from the provided path.
     /// </summary>
     /// <param name="path"></param>
-    /// <param name="reference">Reference savefile used for PC Binary compatibility checks.</param>
+    /// <param name="reference">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>Supported file object reference, null if none found.</returns>
     public static object? GetSupportedFile(string path, SaveFile? reference = null)
     {
@@ -44,7 +44,7 @@ public static class FileUtil
     /// </summary>
     /// <param name="data">Binary data for the file.</param>
     /// <param name="ext">File extension used as a hint.</param>
-    /// <param name="reference">Reference savefile used for PC Binary compatibility checks.</param>
+    /// <param name="reference">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>Supported file object reference, null if none found.</returns>
     public static object? GetSupportedFile(byte[] data, ReadOnlySpan<char> ext, SaveFile? reference = null)
     {
@@ -164,7 +164,7 @@ public static class FileUtil
     public static bool IsFileTooSmall(long length) => length < 0x20; // bigger than PK1
 
     /// <summary>
-    /// Tries to get an <see cref="SaveFile"/> object from the input parameters.
+    /// Tries to get a <see cref="SaveFile"/> object from the input parameters.
     /// </summary>
     /// <param name="data">Binary data</param>
     /// <param name="sav">Output result</param>
@@ -176,7 +176,7 @@ public static class FileUtil
     }
 
     /// <summary>
-    /// Tries to get an <see cref="SAV3GCMemoryCard"/> object from the input parameters.
+    /// Tries to get a <see cref="SAV3GCMemoryCard"/> object from the input parameters.
     /// </summary>
     /// <param name="data">Binary data</param>
     /// <param name="memcard">Output result</param>
@@ -205,7 +205,7 @@ public static class FileUtil
     }
 
     /// <summary>
-    /// Tries to get an <see cref="PKM"/> object from the input parameters.
+    /// Tries to get a <see cref="PKM"/> object from the input parameters.
     /// </summary>
     /// <param name="data">Binary data</param>
     /// <param name="pk">Output result</param>
@@ -225,17 +225,17 @@ public static class FileUtil
     }
 
     /// <summary>
-    /// Tries to get an <see cref="IEnumerable{T}"/> object from the input parameters.
+    /// Tries to get a <see cref="IEnumerable{T}"/> object from the input parameters.
     /// </summary>
     /// <param name="data">Binary data</param>
     /// <param name="pkms">Output result</param>
-    /// <param name="sav">Reference savefile used for PC Binary compatibility checks.</param>
+    /// <param name="sav">Reference SaveFile used for PC Binary compatibility checks.</param>
     /// <returns>True if file object reference is valid, false if none found.</returns>
     public static bool TryGetPCBoxBin(byte[] data, out IEnumerable<byte[]> pkms, SaveFile? sav)
     {
         if (sav == null)
         {
-            pkms = Array.Empty<byte[]>();
+            pkms = [];
             return false;
         }
         var length = data.Length;
@@ -244,7 +244,7 @@ public static class FileUtil
             pkms = ArrayUtil.EnumerateSplit(data, length);
             return true;
         }
-        pkms = Array.Empty<byte[]>();
+        pkms = [];
         return false;
     }
 

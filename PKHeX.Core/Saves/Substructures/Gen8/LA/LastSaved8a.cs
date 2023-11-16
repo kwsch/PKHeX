@@ -12,9 +12,8 @@ namespace PKHeX.Core;
 /// Month value is offset by -1.
 /// </remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class LastSaved8a : SaveBlock<SAV8LA>
+public sealed class LastSaved8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Data)
 {
-    public LastSaved8a(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
     private uint LastSaved { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x0), value); }
     private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)value; }
     private int LastSavedMonth { get => (int)((LastSaved >> 12) & 0xF); set => LastSaved = (LastSaved & 0xFFFF0FFF) | (((uint)value & 0xF) << 12); }

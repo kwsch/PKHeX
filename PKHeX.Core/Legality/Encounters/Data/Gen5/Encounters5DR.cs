@@ -11,7 +11,7 @@ public static class Encounters5DR
     #region Dream Radar Tables
 
     internal static readonly EncounterStatic5Radar[] Encounter_DreamRadar =
-    {
+    [
         new(079, 0), // Slowpoke
         new(120, 0), // Staryu
         new(137, 0), // Porygon
@@ -38,13 +38,13 @@ public static class Encounters5DR
         new(641, 1), // Therian Tornadus
         new(642, 1), // Therian Thundurus
         new(645, 1), // Therian Landorus
-    };
+    ];
 
     #endregion
     #region DreamWorld Encounter
 
-    public static readonly EncounterStatic5Entree[] DreamWorld_Common = DreamWorldEntry.GetArray(Gen5, stackalloc DreamWorldEntry[]
-    {
+    public static readonly EncounterStatic5Entree[] DreamWorld_Common = DreamWorldEntry.GetArray(Gen5,
+    [
         // Pleasant Forest
         new(019, 10, 098, 382, 231), // Rattata
         new(043, 10, 230, 298, 202), // Oddish
@@ -217,7 +217,7 @@ public static class Encounters5DR
         new(149, 55, 245, Gender: 0), // Dragonite
         new(248, 55, 069, Gender: 0), // Tyranitar
         new(376, 45, 038, Gender: 2), // Metagross
-    });
+    ]);
 
     #endregion
 }

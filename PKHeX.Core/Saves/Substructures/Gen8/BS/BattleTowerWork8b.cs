@@ -55,18 +55,9 @@ public sealed class BattleTowerWork8b : SaveBlock<SAV8BS>
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class BattleTowerClassData8b
+public sealed class BattleTowerClassData8b(byte[] Data, int Offset)
 {
     public const int SIZE = 0x68;
-
-    private readonly int Offset;
-    private readonly byte[] Data;
-
-    public BattleTowerClassData8b(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
 
     public override string ToString() => $"Rank: {Rank}, Streak: {RenshouCount} (Max {RenshouCountOld}), Wins: {TotalWins}|{TotalWinsLoop}|{TotalWinsLose}";
 

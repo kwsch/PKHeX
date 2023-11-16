@@ -6,12 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Provides forward evolution pathways based only on species.
 /// </summary>
-public sealed class EvolutionForwardSpecies : IEvolutionForward
+public sealed class EvolutionForwardSpecies(EvolutionMethod[][] Entries) : IEvolutionForward
 {
-    private readonly EvolutionMethod[][] Entries;
-
-    public EvolutionForwardSpecies(EvolutionMethod[][] entries) => Entries = entries;
-
     public IEnumerable<(ushort Species, byte Form)> GetEvolutions(ushort species, byte form)
     {
         var methods = GetForward(species, form);
@@ -20,10 +16,9 @@ public sealed class EvolutionForwardSpecies : IEvolutionForward
 
     public ReadOnlyMemory<EvolutionMethod> GetForward(ushort species, byte form)
     {
-        var arr = Entries;
-        if (species >= arr.Length)
-            return Array.Empty<EvolutionMethod>();
-        return arr[species];
+        if (species >= Entries.Length)
+            return ReadOnlyMemory<EvolutionMethod>.Empty;
+        return Entries[species];
     }
 
     private IEnumerable<(ushort Species, byte Form)> GetEvolutions(ReadOnlyMemory<EvolutionMethod> evos, byte form)

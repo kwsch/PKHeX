@@ -231,7 +231,7 @@ public static class ImageUtil
         {
             if (data[i + 3] == 0)
                 continue;
-            byte greyS = (byte)(((0.3 * data[i + 2]) + (0.59 * data[i + 1]) + (0.11 * data[i + 0])));
+            byte greyS = (byte)((0.3 * data[i + 2]) + (0.59 * data[i + 1]) + (0.11 * data[i + 0]));
             data[i + 0] = greyS;
             data[i + 1] = greyS;
             data[i + 2] = greyS;

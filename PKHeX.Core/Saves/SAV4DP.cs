@@ -30,9 +30,11 @@ public sealed class SAV4DP : SAV4Sinnoh
 
     public const int GeneralSize = 0xC100;
     private const int StorageSize = 0x121E0; // Start 0xC100, +4 starts box data
-    protected override BlockInfo4[] ExtraBlocks => new[] {
+
+    protected override BlockInfo4[] ExtraBlocks =>
+    [
         new BlockInfo4(0, 0x20000, 0x2AC0), // Hall of Fame
-    };
+    ];
 
     private void Initialize()
     {
@@ -89,7 +91,7 @@ public sealed class SAV4DP : SAV4Sinnoh
         {
             var info = ItemStorage4DP.Instance;
             InventoryPouch[] pouch =
-            {
+            [
                 new InventoryPouch4(InventoryType.Items, info, 999, 0x624),
                 new InventoryPouch4(InventoryType.KeyItems, info, 1, 0x8B8),
                 new InventoryPouch4(InventoryType.TMHMs, info, 99, 0x980),
@@ -98,7 +100,7 @@ public sealed class SAV4DP : SAV4Sinnoh
                 new InventoryPouch4(InventoryType.Berries, info, 999, 0xBE0),
                 new InventoryPouch4(InventoryType.Balls, info, 999, 0xCE0),
                 new InventoryPouch4(InventoryType.BattleItems, info, 999, 0xD1C),
-            };
+            ];
             return pouch.LoadAll(General);
         }
         set => value.SaveAll(General);
@@ -163,13 +165,13 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x53C8..]); set => WriteUInt32LittleEndian(General[0x53C8..], value); }
     public override uint SwarmMaxCountModulo => 28;
 
-    protected override ReadOnlySpan<ushort> TreeSpecies =>new ushort[]
-    {
+    protected override ReadOnlySpan<ushort> TreeSpecies =>
+    [
         000, 000, 000, 000, 000, 000,
         265, 266, 415, 412, 420, 190,
         415, 412, 420, 190, 214, 265,
         446, 446, 446, 446, 446, 446,
-    };
+    ];
 
     public Roamer4 RoamerMesprit   => GetRoamer(0);
     public Roamer4 RoamerCresselia => GetRoamer(1);

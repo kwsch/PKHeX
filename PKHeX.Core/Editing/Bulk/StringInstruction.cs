@@ -16,20 +16,16 @@ namespace PKHeX.Core;
 /// <see cref="FilterNotEqual"/>
 /// <see cref="FilterEqual"/>
 /// <see cref="Apply"/>
-public sealed class StringInstruction
+public sealed class StringInstruction(string name, string value)
 {
     /// <summary> Property to modify. </summary>
-    public string PropertyName { get; }
+    public string PropertyName { get; } = name;
+
     /// <summary> Value to set to the property. </summary>
-    public string PropertyValue { get; private set; }
+    public string PropertyValue { get; private set; } = value;
+
     /// <summary> Filter Comparison Type </summary>
     public InstructionComparer Comparer { get; private init; }
-
-    public StringInstruction(string name, string value)
-    {
-        PropertyName = name;
-        PropertyValue = value;
-    }
 
     public void SetScreenedValue(ReadOnlySpan<string> arr)
     {
@@ -41,7 +37,12 @@ public sealed class StringInstruction
     /// <summary>
     /// Valid prefixes that are recognized for <see cref="InstructionComparer"/> value comparison types.
     /// </summary>
-    public static ReadOnlySpan<char> Prefixes => new[] { Apply, FilterEqual, FilterNotEqual, FilterGreaterThan, FilterGreaterThanOrEqual, FilterLessThan, FilterLessThanOrEqual };
+    public static ReadOnlySpan<char> Prefixes =>
+    [
+        Apply,
+        FilterEqual, FilterNotEqual, FilterGreaterThan, FilterGreaterThanOrEqual, FilterLessThan, FilterLessThanOrEqual,
+    ];
+
     private const char Apply = '.';
     private const char SplitRange = ',';
 

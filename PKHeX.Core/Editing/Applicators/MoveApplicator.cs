@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public static class MoveApplicator
 {
     /// <summary>
-    /// Sets the individual PP Up count values depending if a Move is present in the move's slot or not.
+    /// Sets the individual PP Up count values depending on if a Move is present in the move's slot or not.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     /// <param name="moves"><see cref="PKM.Moves"/> to use.</param>
@@ -29,7 +29,7 @@ public static class MoveApplicator
     }
 
     /// <summary>
-    /// Sets the individual PP Up count values depending if a Move is present in the move slot or not.
+    /// Sets the individual PP Up count values depending on if a Move is present in the move slot or not.
     /// </summary>
     /// <param name="pk">Pokémon to modify.</param>
     public static void SetMaximumPPUps(this PKM pk)

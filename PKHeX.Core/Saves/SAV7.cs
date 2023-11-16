@@ -29,7 +29,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
 
     protected void ReloadBattleTeams()
     {
-        var demo = this is SAV7SM && Data.AsSpan(BoxLayout.Offset, 0x4C4).IndexOfAnyExcept<byte>(0) == -1; // up to Battle Box values
+        var demo = this is SAV7SM && !Data.AsSpan(BoxLayout.Offset, 0x4C4).ContainsAnyExcept<byte>(0); // up to Battle Box values
         if (demo || !State.Exportable)
         {
             BoxLayout.ClearBattleTeams();
@@ -210,7 +210,7 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         if (pk.Form == 0)
             return 0;
         // Gen7 allows forms to be stored in the box with the current duration & form
-        // Just cap out the form duration anyways
+        // Just cap out the form duration anyway
         return pk.Species switch
         {
             (int)Species.Furfrou => 5u, // Furfrou

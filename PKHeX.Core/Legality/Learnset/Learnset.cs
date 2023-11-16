@@ -5,25 +5,19 @@ namespace PKHeX.Core;
 /// <summary>
 /// Level Up Learn Movepool Information
 /// </summary>
-public sealed class Learnset
+public sealed class Learnset(ushort[] moves, byte[] levels)
 {
     /// <summary>
     /// Moves that can be learned.
     /// </summary>
-    private readonly ushort[] Moves;
+    private readonly ushort[] Moves = moves;
 
     /// <summary>
     /// Levels at which a move at a given index can be learned.
     /// </summary>
-    private readonly byte[] Levels;
+    private readonly byte[] Levels = levels;
 
     private const byte MagicEvolutionMoveLevel = 0;
-
-    public Learnset(ushort[] moves, byte[] levels)
-    {
-        Moves = moves;
-        Levels = levels;
-    }
 
     public ReadOnlySpan<ushort> GetAllMoves() => Moves;
 
@@ -251,7 +245,7 @@ public sealed class Learnset
 
         // Return a slice containing the moves <= level.
         if (count == 0)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
 
         int start = 0;
         if (count > 4)

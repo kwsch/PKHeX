@@ -10,13 +10,20 @@ namespace PKHeX.Core;
 public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainerID32, IFatefulEncounterReadOnly, IEncounterMatch
 {
     /// <summary>
-    /// Determines whether or not the given length of bytes is valid for a mystery gift.
+    /// Determines whether the given length of bytes is valid for a mystery gift.
     /// </summary>
     /// <param name="len">Length, in bytes, of the data of which to determine validity.</param>
-    /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
+    /// <returns>A boolean indicating whether the given length is valid for a mystery gift.</returns>
     public static bool IsMysteryGift(long len) => Sizes.Contains((int)len);
 
-    private static readonly HashSet<int> Sizes = new() { WA8.Size, WB8.Size, WC8.Size, WC6Full.Size, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
+    private static readonly HashSet<int> Sizes =
+    [
+        // WC9.Size, SAME AS WA8
+        WA8.Size, WB8.Size, WC8.Size,
+        WC6Full.Size, WC6.Size,
+        PGF.Size, PGT.Size,
+        PCD.Size,
+    ];
 
     /// <summary>
     /// Converts the given data to a <see cref="MysteryGift"/>.
@@ -142,7 +149,7 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
     // Search Properties
     public virtual Moveset Moves { get => default; set { } }
     public virtual Moveset Relearn { get => default; set { } }
-    public virtual int[] IVs { get => Array.Empty<int>(); set { } }
+    public virtual int[] IVs { get => []; set { } }
     public virtual bool HasFixedIVs => true;
     public virtual void GetIVs(Span<int> value) { }
     public virtual bool IsShiny => false;

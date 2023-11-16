@@ -29,7 +29,7 @@ public enum Severity : sbyte
 public static partial class Extensions
 {
     /// <summary>
-    /// Converts a Check result Severity determination (Valid/Invalid/etc) to the localized string.
+    /// Converts a Check result Severity determination (Valid/Invalid/etc.) to the localized string.
     /// </summary>
     /// <param name="s"><see cref="Severity"/> value to convert to string.</param>
     /// <returns>Localized <see cref="string"/>.</returns>

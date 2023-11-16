@@ -5,14 +5,12 @@ namespace PKHeX.Core;
 /// <summary>
 /// Mystery Gift backed by serialized fields from ROM/SAV data, rather than observed specifications.
 /// </summary>
-public abstract class DataMysteryGift : MysteryGift
+public abstract class DataMysteryGift(byte[] Data) : MysteryGift
 {
-    public readonly byte[] Data;
-
-    protected DataMysteryGift(byte[] data) => Data = data;
+    public readonly byte[] Data = Data;
 
     /// <summary>
-    /// Returns an array for exporting outside the program (to disk, etc).
+    /// Returns an array for exporting outside the program (to disk, etc.).
     /// </summary>
     public virtual byte[] Write() => Data;
 
@@ -35,5 +33,5 @@ public abstract class DataMysteryGift : MysteryGift
         return result;
     }
 
-    public override bool Empty => Data.AsSpan().IndexOfAnyExcept<byte>(0) == -1;
+    public override bool Empty => !Data.AsSpan().ContainsAnyExcept<byte>(0);
 }

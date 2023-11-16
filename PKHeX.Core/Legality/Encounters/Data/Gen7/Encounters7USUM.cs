@@ -16,7 +16,7 @@ internal static class Encounters7USUM
     private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeUSUM);
 
     public static readonly EncounterStatic7[] StaticUSUM =
-    {
+    [
         new(USUM) { FixedBall = Ball.Poke, Species = 722, Level = 05, Location = 008 }, // Rowlet
         new(USUM) { FixedBall = Ball.Poke, Species = 725, Level = 05, Location = 008 }, // Litten
         new(USUM) { FixedBall = Ball.Poke, Species = 728, Level = 05, Location = 008 }, // Popplio
@@ -54,7 +54,7 @@ internal static class Encounters7USUM
         new(USUM) { FixedBall = Ball.Poke, Species = 718, Form = 2, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3 }, // Zygarde (10%-C)
         new(USUM) { FixedBall = Ball.Poke, Species = 718, Form = 3, Level = 50, Shiny = Shiny.Never, Location = 118, FlawlessIVCount = 3 }, // Zygarde (50%-C)
 
-        // QR Scan: Su/M/Tu/W/Th/F/Sa
+        // QR Scan: Su/M/Tu/W/Thu/F/Sa
         // Melemele Island
         new(USUM) { Species = 004, Level = 12, Location = 010, Relearn = new(068,108,052,010) }, // Charmander @ Route 3
         new(USUM) { Species = 007, Level = 12, Location = 042, Relearn = new(453,110,055,033) }, // Squirtle @ Seaward Cave
@@ -173,10 +173,10 @@ internal static class Encounters7USUM
         new(USUM) { Species = 739, Level = 28, Location = 110 }, // Ula'ula Beach
         new(USUM) { Species = 739, Level = 31, Location = 118 }, // Route 16
         new(USUM) { Species = 739, Level = 32, Location = 120 }, // Route 17
-    };
+    ];
 
     public static readonly EncounterStatic7[] StaticUS =
-    {
+    [
         new(US  ) { FixedBall = Ball.Poke, Species = 789, Level = 05, Location = 142, FlawlessIVCount = 3, Shiny = Shiny.Never, Ability = OnlySecond }, // Cosmog @ Lake of the Sunne
 
         // Totem-Sized Gifts @ Heahea Beach
@@ -200,10 +200,10 @@ internal static class Encounters7USUM
         new(US  ) { Species = 794, Level = 60, Location = 218, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Buzzwole @ Ultra Jungle
         new(US  ) { Species = 798, Level = 60, Location = 216, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Ultra Forest
         new(US  ) { Species = 806, Level = 60, Location = 164, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Blacephalon @ Poni Grove
-    };
+    ];
 
     public static readonly EncounterStatic7[] StaticUM =
-    {
+    [
         new(  UM) { FixedBall = Ball.Poke, Species = 789, Level = 05, Location = 144, FlawlessIVCount = 3, Shiny = Shiny.Never, Ability = OnlySecond }, // Cosmog @ Lake of the Moone
 
         // Totem-Sized Gifts @ Heahea Beach
@@ -229,10 +229,10 @@ internal static class Encounters7USUM
         new(  UM) { Species = 805, Level = 60, Location = 164, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Stakataka @ Poni Grove
 
         new(  UM) { Species = 769, Level = 30, Location = 116, Shiny = Shiny.Never, Relearn = new(310,523,072,328) }, // Sandygast @ Route 15
-    };
+    ];
 
     internal static readonly EncounterTrade7[] TradeGift_USUM =
-    {
+    [
         // Trades - 4.bin
         new(TradeNames, 00, USUM) { Species = 701, Form = 0, Level = 08, Ability = OnlySecond, ID32 = 000410, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Hawlucha
         new(TradeNames, 01, USUM) { Species = 714, Form = 0, Level = 19, Ability = OnlyFirst,  ID32 = 610507, IVs = new(-1,-1,-1,-1,31,-1), OTGender = 0, Gender = 0, Nature = Nature.Modest }, // Noibat
@@ -241,5 +241,5 @@ internal static class Encounters7USUM
         new(TradeNames, 04, USUM) { Species = 708, Form = 0, Level = 33, Ability = OnlyFirst,  ID32 = 610602, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
         new(TradeNames, 05, USUM) { Species = 422, Form = 0, Level = 44, Ability = OnlySecond, ID32 = 610503, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 1, Gender = 1, Nature = Nature.Quiet }, // Shellos
         new(TradeNames, 06, USUM) { Species = 128, Form = 0, Level = 59, Ability = OnlyFirst,  ID32 = 581022, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Tauros
-    };
+    ];
 }

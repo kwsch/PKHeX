@@ -13,7 +13,7 @@ public static class EventLabelParsing
     private const char Split = '\t';
 
     private static readonly NamedEventConst Custom = new("Custom", NamedEventConst.CustomMagicValue);
-    private static readonly NamedEventConst[] Empty = { Custom };
+    private static readonly NamedEventConst[] Empty = [Custom];
 
     public static List<NamedEventValue> GetFlags(ReadOnlySpan<string> strings, int maxValue = int.MaxValue)
     {
@@ -45,14 +45,13 @@ public static class EventLabelParsing
         return result;
     }
 
-    private static void SanityCheck(NamedEventValue item, ISet<int> processed, int maxValue)
+    private static void SanityCheck(NamedEventValue item, ISet<int> processed, int maxValue) => SanityCheck(processed, maxValue, item.Index);
+
+    private static void SanityCheck(ISet<int> processed, int maxValue, int index)
     {
-        var index = item.Index;
-        if (index >= maxValue)
-            throw new ArgumentOutOfRangeException(nameof(index), index, "Value too high.");
-        if (processed.Contains(index))
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, maxValue);
+        if (!processed.Add(index))
             throw new ArgumentOutOfRangeException(nameof(index), index, "Already have an entry for this!");
-        processed.Add(index);
     }
 
     public static bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out NamedEventValue? result)
@@ -115,9 +114,9 @@ public static class EventLabelParsing
         return (desc, predefined);
     }
 
-    private static IReadOnlyList<NamedEventConst> GetPredefinedArray(ReadOnlySpan<char> combined)
+    private static List<NamedEventConst> GetPredefinedArray(ReadOnlySpan<char> combined)
     {
-        var result = new List<NamedEventConst>(Empty);
+        List<NamedEventConst> result = [..Empty];
 
         // x:y tuples separated by ,
         while (true)

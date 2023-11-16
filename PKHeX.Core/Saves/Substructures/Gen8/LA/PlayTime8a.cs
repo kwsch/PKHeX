@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -8,10 +8,8 @@ namespace PKHeX.Core;
 /// Stores the amount of time the save file has been played.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class PlayTime8a : SaveBlock<SAV8LA>
+public sealed class PlayTime8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Data)
 {
-    public PlayTime8a(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
-
     public ushort PlayedHours
     {
         get => ReadUInt16LittleEndian(Data.AsSpan(Offset));

@@ -24,8 +24,8 @@ public static class SpeciesCategory
     /// </summary>
     public static bool IsSubLegendary(ushort species) => SubLegends.Contains(species);
 
-    private static readonly HashSet<ushort> Mythicals = new()
-    {
+    private static readonly HashSet<ushort> Mythicals =
+    [
         (int)Mew,
         (int)Celebi,
         (int)Jirachi, (int)Deoxys,
@@ -35,10 +35,10 @@ public static class SpeciesCategory
         (int)Magearna, (int)Marshadow,
         (int)Zeraora, (int)Meltan, (int)Melmetal,
         (int)Zarude,
-    };
+    ];
 
-    private static readonly HashSet<ushort> Legends = new()
-    {
+    private static readonly HashSet<ushort> Legends =
+    [
         (int)Mewtwo,
         (int)Lugia, (int)HoOh,
         (int)Kyogre, (int)Groudon, (int)Rayquaza,
@@ -48,10 +48,10 @@ public static class SpeciesCategory
         (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma,
         (int)Zacian, (int)Zamazenta, (int)Eternatus, (int)Calyrex,
         (int)Koraidon, (int)Miraidon,
-    };
+    ];
 
-    private static readonly HashSet<ushort> SubLegends = new()
-    {
+    private static readonly HashSet<ushort> SubLegends =
+    [
         (int)Articuno, (int)Zapdos, (int)Moltres,
         (int)Raikou, (int)Entei, (int)Suicune,
         (int)Regirock, (int)Regice, (int)Registeel, (int)Latias, (int)Latios,
@@ -61,7 +61,7 @@ public static class SpeciesCategory
         (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier, (int)Enamorus,
         (int)WoChien, (int)ChienPao, (int)TingLu, (int)ChiYu,
         (int)Okidogi, (int)Munkidori, (int)Fezandipiti, (int)Ogerpon,
-    };
+    ];
 
     /// <summary>
     /// Checks if the <see cref="species"/> is an Ultra Beast Pokémon.

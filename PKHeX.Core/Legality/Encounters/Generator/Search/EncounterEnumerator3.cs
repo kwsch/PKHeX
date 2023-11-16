@@ -50,6 +50,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
         SlotR,
         SlotS,
         SlotE,
+        SwarmRSE,
         SlotFR,
         SlotLG,
         SlotEnd,
@@ -142,18 +143,24 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
                 if (Version == GameVersion.LG)
                 { State = YieldState.SlotLG; goto case YieldState.SlotLG; }
                 throw new ArgumentOutOfRangeException(nameof(Version));
+
             case YieldState.SlotR:
                 if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3RSE.SlotsR))
                     return true;
-                Index = 0; goto case YieldState.SlotEnd;
+                Index = 0; State = YieldState.SwarmRSE; goto case YieldState.SwarmRSE;
             case YieldState.SlotS:
                 if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3RSE.SlotsS))
                     return true;
-                Index = 0; goto case YieldState.SlotEnd;
+                Index = 0; State = YieldState.SwarmRSE; goto case YieldState.SwarmRSE;
             case YieldState.SlotE:
                 if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3RSE.SlotsE))
                     return true;
+                Index = 0; State = YieldState.SwarmRSE; goto case YieldState.SwarmRSE;
+            case YieldState.SwarmRSE:
+                if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3RSE.SlotsSwarmRSE))
+                    return true;
                 Index = 0; goto case YieldState.SlotEnd;
+
             case YieldState.SlotFR:
                 if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3FRLG.SlotsFR))
                     return true;
@@ -162,6 +169,7 @@ public record struct EncounterEnumerator3(PKM Entity, EvoCriteria[] Chain, GameV
                 if (TryGetNext<EncounterArea3, EncounterSlot3>(Encounters3FRLG.SlotsLG))
                     return true;
                 Index = 0; goto case YieldState.SlotEnd;
+
             case YieldState.SlotEnd:
                 if (mustBeSlot)
                     goto case YieldState.StaticStart; // be generous with bad balls

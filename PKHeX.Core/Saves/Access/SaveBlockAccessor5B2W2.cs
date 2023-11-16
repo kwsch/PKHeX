@@ -5,10 +5,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Information for Accessing individual blocks within a <see cref="SAV5B2W2"/>.
 /// </summary>
-public sealed class SaveBlockAccessor5B2W2 : ISaveBlockAccessor<BlockInfoNDS>, ISaveBlock5BW, ISaveBlock5B2W2
+public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
+    : ISaveBlockAccessor<BlockInfoNDS>, ISaveBlock5BW, ISaveBlock5B2W2
 {
     private static readonly BlockInfoNDS[] BlocksB2W2 =
-    {
+    [
         new(0x00000, 0x03e0, 0x003E2, 0x25F00), // 00 Box Names
         new(0x00400, 0x0ff0, 0x013F2, 0x25F02), // 01 Box 1
         new(0x01400, 0x0ff0, 0x023F2, 0x25F04), // 02 Box 2
@@ -35,7 +36,7 @@ public sealed class SaveBlockAccessor5B2W2 : ISaveBlockAccessor<BlockInfoNDS>, I
         new(0x16400, 0x0ff0, 0x173F2, 0x25F2E), // 23 Box 23
         new(0x17400, 0x0ff0, 0x183F2, 0x25F30), // 24 Box 24
         new(0x18400, 0x09ec, 0x18DEE, 0x25F32), // 25 Inventory
-        new(0x18E00, 0x0534, 0x19336, 0x25F34), // 26 Party Pokemon
+        new(0x18E00, 0x0534, 0x19336, 0x25F34), // 26 Party Pokémon
         new(0x19400, 0x00b0, 0x194B2, 0x25F36), // 27 Trainer Data
         new(0x19500, 0x00a8, 0x195AA, 0x25F38), // 28 Trainer Position
         new(0x19600, 0x1338, 0x1A93A, 0x25F3A), // 29 Unity Tower and survey stuff
@@ -67,7 +68,7 @@ public sealed class SaveBlockAccessor5B2W2 : ISaveBlockAccessor<BlockInfoNDS>, I
         new(0x21900, 0x0034, 0x21936, 0x25F6E), // 55 Encount (Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type)
         new(0x21A00, 0x003c, 0x21A3E, 0x25F70), // 56 Battle Subway Play Info
         new(0x21B00, 0x01ac, 0x21CAE, 0x25F72), // 57 Battle Subway Score Info
-        new(0x21D00, 0x0b90, 0x22892, 0x25F74), // 58 Battle Subway WiFi Info
+        new(0x21D00, 0x0b90, 0x22892, 0x25F74), // 58 Battle Subway Wi-Fi Info
         new(0x22900, 0x00ac, 0x229AE, 0x25F76), // 59 Online Records
         new(0x22A00, 0x0850, 0x23252, 0x25F78), // 60 Entralink Forest pokémon data
         new(0x23300, 0x0284, 0x23586, 0x25F7A), // 61 Answered Questions
@@ -83,41 +84,22 @@ public sealed class SaveBlockAccessor5B2W2 : ISaveBlockAccessor<BlockInfoNDS>, I
         new(0x25A00, 0x03e4, 0x25DE6, 0x25F8E), // 71 Pokestar Studios
         new(0x25E00, 0x00f0, 0x25EF2, 0x25F90), // 72 ???
         new(0x25F00, 0x0094, 0x25FA2, 0x25FA2), // 73 Checksum Block
-    };
-
-    public SaveBlockAccessor5B2W2(SAV5B2W2 sav)
-    {
-        BoxLayout = new BoxLayout5(sav, 0x00000);
-        Items = new MyItem5B2W2(sav, 0x18400);
-        PlayerData = new PlayerData5(sav, 0x19400);
-        UnityTower = new UnityTower5(sav, 0x19600);
-        Mystery = new MysteryBlock5(sav, 0x1C800);
-        Musical = new Musical5(sav, 0x1F700);
-        Daycare = new Daycare5(sav, 0x20D00);
-        Misc = new Misc5B2W2(sav, 0x21100);
-        Entralink = new Entralink5B2W2(sav, 0x21200);
-        Zukan = new Zukan5(sav, 0x21400, 0x328); // form flags size is + 8 from bw with new forms (therians)
-        Encount = new Encount5B2W2(sav, 0x21900);
-        BattleSubway = new BattleSubway5(sav, 0x21B00);
-        PWT = new PWTBlock5(sav, 0x23700);
-        Medals = new MedalList5(sav, 0x25300);
-        Festa = new FestaBlock5(sav, 0x25900);
-    }
+    ];
 
     public IReadOnlyList<BlockInfoNDS> BlockInfo => BlocksB2W2;
-    public MyItem Items { get; }
-    public Zukan5 Zukan { get; }
-    public Misc5 Misc { get; }
-    public MysteryBlock5 Mystery { get; }
-    public Daycare5 Daycare { get; }
-    public BoxLayout5 BoxLayout { get; }
-    public PlayerData5 PlayerData { get; }
-    public BattleSubway5 BattleSubway { get; }
-    public PWTBlock5 PWT { get; }
-    public Entralink5 Entralink { get; }
-    public FestaBlock5 Festa { get; }
-    public Musical5 Musical { get; }
-    public Encount5 Encount { get; }
-    public UnityTower5 UnityTower { get; }
-    public MedalList5 Medals { get; }
+    public BoxLayout5 BoxLayout { get; } = new(sav, 0x00000);
+    public PlayerData5 PlayerData { get; } = new(sav, 0x19400);
+    public MyItem Items { get; } = new MyItem5B2W2(sav, 0x18400);
+    public UnityTower5 UnityTower { get; } = new(sav, 0x19600);
+    public MysteryBlock5 Mystery { get; } = new(sav, 0x1C800);
+    public Musical5 Musical { get; } = new(sav, 0x1F700);
+    public Daycare5 Daycare { get; } = new(sav, 0x20D00);
+    public Misc5 Misc { get; } = new Misc5B2W2(sav, 0x21100);
+    public Zukan5 Zukan { get; } = new(sav, 0x21400, 0x328); // form flags size is + 8 from bw with new forms (therians)
+    public Entralink5 Entralink { get; } = new Entralink5B2W2(sav, 0x21200);
+    public Encount5 Encount { get; } = new Encount5B2W2(sav, 0x21900);
+    public BattleSubway5 BattleSubway { get; } = new(sav, 0x21B00);
+    public PWTBlock5 PWT { get; } = new(sav, 0x23700);
+    public MedalList5 Medals { get; } = new(sav, 0x25300);
+    public FestaBlock5 Festa { get; } = new(sav, 0x25900);
 }

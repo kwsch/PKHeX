@@ -13,7 +13,7 @@ internal static class Encounters9
     internal static readonly EncounterArea9[] Slots = EncounterArea9.GetAreas(Get("wild_paldea", "sv"u8), SV);
 
     internal static readonly EncounterStatic9[] Encounter_SV =
-    {
+    [
         // Starters
         new(SV) { FixedBall = Ball.Poke, Species = 0906, Shiny = Never, Level = 05, Location = 080, Ability = OnlyFirst, Size = 128 }, // Sprigatito
         new(SV) { FixedBall = Ball.Poke, Species = 0909, Shiny = Never, Level = 05, Location = 080, Ability = OnlyFirst, Size = 128 }, // Fuecoco
@@ -74,10 +74,10 @@ internal static class Encounters9
         new(SV) { FixedBall = Ball.Poke, Species = 0390, Shiny = Never,  Level = 01, Location = 000, Ability = OnlyFirst, Size = 128, EggLocation = 60005 }, // Chimchar
         new(SV) { FixedBall = Ball.Poke, Species = 0393, Shiny = Never,  Level = 01, Location = 000, Ability = OnlyFirst, Size = 128, EggLocation = 60005 }, // Piplup
         #endregion
-    };
+    ];
 
     internal static readonly EncounterStatic9[] StaticSL =
-    {
+    [
         // Box Legendary (Ride Form)
         new(SL) { FixedBall = Ball.Poke, Species = 1007, Shiny = Never, Level = 68, Location = 070, Ability = OnlyFirst, Nature = Nature.Quirky, TeraType = GemType.Dragon, Size = 128, IVs = new(31,31,28,31,31,28), Moves = new(053,878,203,851) }, // Koraidon
 
@@ -89,10 +89,10 @@ internal static class Encounters9
 
         // Former Quaking Earth Titan
         new(SL) { Species = 0984, Shiny = Never, Level = 45, Location = 024, Ability = OnlyFirst, Nature = Nature.Naughty, Size = 255, IVs = new(30,30,30,30,30,30), Moves = new(229,280,282,707), IsTitan = true }, // Great Tusk
-    };
+    ];
 
     internal static readonly EncounterStatic9[] StaticVL =
-    {
+    [
         // Box Legendary (Ride Form)
         new(VL) { FixedBall = Ball.Poke, Species = 1008, Shiny = Never, Level = 68, Location = 070, Ability = OnlyFirst, Nature = Nature.Quirky, TeraType = GemType.Dragon, Size = 128, IVs = new(31,31,28,31,31,28), Moves = new(408,879,203,851) }, // Miraidon
 
@@ -105,17 +105,17 @@ internal static class Encounters9
         // Former Quaking Earth Titan
         new(VL) { Species = 0990, Shiny = Never, Level = 45, Location = 024, Ability = OnlyFirst, Nature = Nature.Naughty, Size = 255, IVs = new(30,30,30,30,30,30), Moves = new(229,442,282,707), IsTitan = true }, // Iron Treads
 
-    };
+    ];
 
     private const string tradeSV = "tradesv";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSV, "zh2");
 
     internal static readonly EncounterTrade9[] TradeGift_SV =
-    {
+    [
         new(TradeNames, 00, SV, 0194,18) { ID32 = 033081, Ability = OnlySecond, OTGender = 1, Gender = 0, Nature = Nature.Relaxed, IVs = new(27,18,25,13,16,31)                       }, // Wooper
         new(TradeNames, 01, SV, 0093,25) { ID32 = 016519, Ability = OnlyFirst,  OTGender = 1, Gender = 1, Nature = Nature.Lonely,  IVs = new(14,20,25,31,28,16), EvolveOnTrade = true }, // Haunter
         new(TradeNames, 02, SV, 0872,10) { ID32 = 050724, Ability = Any12,      OTGender = 0, Gender = 1, Nature = Nature.Bashful, IVs = new(31,18,13,20,28,26)                       }, // Snom
-    };
+    ];
 
     internal static readonly EncounterTera9[] TeraBase = EncounterTera9.GetArray(Get("gem_paldea"), TeraRaidMapParent.Paldea);
     internal static readonly EncounterTera9[] TeraDLC1 = EncounterTera9.GetArray(Get("gem_kitakami"), TeraRaidMapParent.Kitakami);

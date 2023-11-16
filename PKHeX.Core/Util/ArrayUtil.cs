@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace PKHeX.Core;
 
@@ -9,11 +8,6 @@ namespace PKHeX.Core;
 /// </summary>
 public static class ArrayUtil
 {
-    public static int Count<T>(this Span<T> data, T value) where T : IEquatable<T>
-    {
-        return ((ReadOnlySpan<T>)data).Count(value);
-    }
-
     public static T Find<T>(this Span<T> data, Func<T, bool> value) where T : unmanaged
     {
         foreach (var x in data)
@@ -24,20 +18,6 @@ public static class ArrayUtil
         return default;
     }
 
-    public static int Count<T>(this ReadOnlySpan<T> data, T value) where T : IEquatable<T>
-    {
-        int count = 0;
-        foreach (var t in data)
-        {
-            if (t.Equals(value))
-                count++;
-        }
-        return count;
-    }
-
-    public static byte[] Slice(this byte[] src, int offset, [ConstantExpected(Min = 0)] int length) => src.AsSpan(offset, length).ToArray();
-    public static T[] Slice<T>(this T[] src, int offset, [ConstantExpected(Min = 0)] int length) => src.AsSpan(offset, length).ToArray();
-
     /// <summary>
     /// Checks the range (exclusive max) if the <see cref="value"/> is inside.
     /// </summary>
@@ -46,7 +26,7 @@ public static class ArrayUtil
     public static IEnumerable<T[]> EnumerateSplit<T>(T[] bin, int size, int start = 0)
     {
         for (int i = start; i < bin.Length; i += size)
-            yield return bin.Slice(i, size);
+            yield return bin.AsSpan(i, size).ToArray();
     }
 
     /// <summary>
@@ -85,128 +65,5 @@ public static class ArrayUtil
                 return ctr;
             ctr++;
         }
-    }
-
-    internal static T[] ConcatAll<T>(params T[][] arr)
-    {
-        int len = 0;
-        foreach (var a in arr)
-            len += a.Length;
-
-        var result = new T[len];
-
-        int ctr = 0;
-        foreach (var a in arr)
-        {
-            a.CopyTo(result, ctr);
-            ctr += a.Length;
-        }
-
-        return result;
-    }
-
-    internal static T[] ConcatAll<T>(ReadOnlySpan<T> arr1, ReadOnlySpan<T> arr2)
-    {
-        int len = arr1.Length + arr2.Length;
-        var arr = new T[len];
-
-        var result = arr.AsSpan();
-        int ctr = 0;
-        arr1.CopyTo(result); ctr += arr1.Length;
-        arr2.CopyTo(result[ctr..]);
-        return arr;
-    }
-
-    internal static T[] ConcatAll<T>(ReadOnlySpan<T> arr1, ReadOnlySpan<T> arr2, ReadOnlySpan<T> arr3)
-    {
-        int len = arr1.Length + arr2.Length + arr3.Length;
-        var arr = new T[len];
-
-        var result = arr.AsSpan();
-        int ctr = 0;
-        arr1.CopyTo(result); ctr += arr1.Length;
-        arr2.CopyTo(result[ctr..]); ctr += arr2.Length;
-        arr3.CopyTo(result[ctr..]);
-        return arr;
-    }
-
-    internal static T[] ConcatAll<T>(ReadOnlySpan<T> arr1, ReadOnlySpan<T> arr2, ReadOnlySpan<T> arr3, ReadOnlySpan<T> arr4)
-    {
-        int len = arr1.Length + arr2.Length + arr3.Length + arr4.Length;
-        var arr = new T[len];
-
-        var result = arr.AsSpan();
-        int ctr = 0;
-        arr1.CopyTo(result); ctr += arr1.Length;
-        arr2.CopyTo(result[ctr..]); ctr += arr2.Length;
-        arr3.CopyTo(result[ctr..]); ctr += arr3.Length;
-        arr4.CopyTo(result[ctr..]);
-        return arr;
-    }
-
-    internal static T[] ConcatAll<T>(ReadOnlySpan<T> arr1, ReadOnlySpan<T> arr2, ReadOnlySpan<T> arr3, ReadOnlySpan<T> arr4, ReadOnlySpan<T> arr5)
-    {
-        int len = arr1.Length + arr2.Length + arr3.Length + arr4.Length + arr5.Length;
-        var arr = new T[len];
-
-        var result = arr.AsSpan();
-        int ctr = 0;
-        arr1.CopyTo(result); ctr += arr1.Length;
-        arr2.CopyTo(result[ctr..]); ctr += arr2.Length;
-        arr3.CopyTo(result[ctr..]); ctr += arr3.Length;
-        arr4.CopyTo(result[ctr..]); ctr += arr4.Length;
-        arr5.CopyTo(result[ctr..]);
-        return arr;
-    }
-
-    internal static T[] ConcatAll<T>(ReadOnlySpan<T> arr1, ReadOnlySpan<T> arr2, ReadOnlySpan<T> arr3, ReadOnlySpan<T> arr4, ReadOnlySpan<T> arr5, ReadOnlySpan<T> arr6)
-    {
-        int len = arr1.Length + arr2.Length + arr3.Length + arr4.Length + arr5.Length + arr6.Length;
-        var arr = new T[len];
-
-        var result = arr.AsSpan();
-        int ctr = 0;
-        arr1.CopyTo(result); ctr += arr1.Length;
-        arr2.CopyTo(result[ctr..]); ctr += arr2.Length;
-        arr3.CopyTo(result[ctr..]); ctr += arr3.Length;
-        arr4.CopyTo(result[ctr..]); ctr += arr4.Length;
-        arr5.CopyTo(result[ctr..]); ctr += arr5.Length;
-        arr6.CopyTo(result[ctr..]);
-        return arr;
-    }
-
-    internal static T[] ConcatAll<T>(ReadOnlySpan<T> arr1, ReadOnlySpan<T> arr2, ReadOnlySpan<T> arr3, ReadOnlySpan<T> arr4, ReadOnlySpan<T> arr5, ReadOnlySpan<T> arr6, ReadOnlySpan<T> arr7)
-    {
-        int len = arr1.Length + arr2.Length + arr3.Length + arr4.Length + arr5.Length + arr6.Length + arr7.Length;
-        var arr = new T[len];
-
-        var result = arr.AsSpan();
-        int ctr = 0;
-        arr1.CopyTo(result); ctr += arr1.Length;
-        arr2.CopyTo(result[ctr..]); ctr += arr2.Length;
-        arr3.CopyTo(result[ctr..]); ctr += arr3.Length;
-        arr4.CopyTo(result[ctr..]); ctr += arr4.Length;
-        arr5.CopyTo(result[ctr..]); ctr += arr5.Length;
-        arr6.CopyTo(result[ctr..]); ctr += arr6.Length;
-        arr7.CopyTo(result[ctr..]);
-        return arr;
-    }
-
-    internal static T[] ConcatAll<T>(ReadOnlySpan<T> arr1, ReadOnlySpan<T> arr2, ReadOnlySpan<T> arr3, ReadOnlySpan<T> arr4, ReadOnlySpan<T> arr5, ReadOnlySpan<T> arr6, ReadOnlySpan<T> arr7, ReadOnlySpan<T> arr8)
-    {
-        int len = arr1.Length + arr2.Length + arr3.Length + arr4.Length + arr5.Length + arr6.Length + arr7.Length + arr8.Length;
-        var arr = new T[len];
-
-        var result = arr.AsSpan();
-        int ctr = 0;
-        arr1.CopyTo(result); ctr += arr1.Length;
-        arr2.CopyTo(result[ctr..]); ctr += arr2.Length;
-        arr3.CopyTo(result[ctr..]); ctr += arr3.Length;
-        arr4.CopyTo(result[ctr..]); ctr += arr4.Length;
-        arr5.CopyTo(result[ctr..]); ctr += arr5.Length;
-        arr6.CopyTo(result[ctr..]); ctr += arr6.Length;
-        arr7.CopyTo(result[ctr..]); ctr += arr7.Length;
-        arr8.CopyTo(result[ctr..]);
-        return arr;
     }
 }

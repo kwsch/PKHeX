@@ -41,7 +41,7 @@ public sealed class TeamLockResult
     /// </summary>
     /// <remarks>
     /// If this value is >= 0, the CPU Trainer Shiny Value must be equal to this value as a <see cref="SeedFrame"/> skipped over a matching interrupt frame.
-    /// If this value is <see cref="NOT_FORCED"/>, the CPU Trainer Shiny Value can be anything (except matching any of the <see cref="SeedFrame"/> result members.
+    /// If this value is <see cref="NOT_FORCED"/>, the CPU Trainer Shiny Value can be anything (except matching any of the <see cref="SeedFrame"/> result members).
     /// </remarks>
     private uint RCSV = NOT_FORCED;
 
@@ -100,14 +100,14 @@ public sealed class TeamLockResult
     /// </summary>
     /// <param name="ctr">Starting frame for the traversal.</param>
     /// <param name="current">Current lock criteria to satisfy. Used to find valid <see cref="SeedFrame"/> results to yield.</param>
-    /// <param name="prior">Prior lock criteria. Used for determining when the traversal stops.</param>
+    /// <param name="prior">Lock criteria for previous party member. Used for determining when the traversal stops.</param>
     /// <returns>List of possible locks for the provided input.</returns>
     private IEnumerable<SeedFrame> GetPossibleLocks(int ctr, NPCLock current, NPCLock? prior)
     {
-        if (prior?.Shadow != false)
+        if (prior is not { Shadow: false } x)
             return GetSingleLock(ctr, current);
 
-        return GetAllLocks(ctr, current, (NPCLock)prior);
+        return GetAllLocks(ctr, current, x);
     }
 
     /// <summary>
@@ -144,7 +144,7 @@ public sealed class TeamLockResult
             {
                 if (sv == RCSV)
                 {
-                    // No CPU shiny value forced yet. Lets try to skip this lock by requiring the eventual OT to get this shiny.
+                    // No CPU shiny value forced yet. Let's try to skip this lock by requiring the eventual OT to get this shiny.
                     RCSV = sv;
                     forcedOT = true;
                     continue; // don't break
@@ -165,7 +165,7 @@ public sealed class TeamLockResult
     /// </summary>
     /// <param name="ctr">Starting frame for the traversal.</param>
     /// <param name="current">Current lock criteria to satisfy. Used to find valid <see cref="SeedFrame"/> results to yield.</param>
-    /// <param name="prior">Prior lock criteria. Used for determining when the traversal stops.</param>
+    /// <param name="prior">Lock criteria for previous party member. Used for determining when the traversal stops.</param>
     /// <returns>List of possible locks for the provided input.</returns>
     /// <remarks>
     /// An "interrupt" signals the end of the traversal.
@@ -206,7 +206,7 @@ public sealed class TeamLockResult
                             yield break; // Since we can't skip this interrupt, we're done.
                         }
                     }
-                    else // No CPU shiny value forced yet. Lets try to skip this lock by requiring the eventual OT to get this shiny.
+                    else // No CPU shiny value forced yet. Let's try to skip this lock by requiring the eventual OT to get this shiny.
                     {
                         RCSV = sv;
                         forcedOT = true;

@@ -46,7 +46,7 @@ public partial class SAV_Trainer7 : Form
     private bool MapUpdated;
 
     private static readonly string[] AllStyles = Enum.GetNames(typeof(PlayerBattleStyle7));
-    private readonly List<string> BattleStyles = new(AllStyles);
+    private readonly List<string> BattleStyles = [..AllStyles];
 
     private int[] FlyDestFlagOfs = null!, MapUnmaskFlagOfs = null!;
     private int SkipFlag => SAV is SAV7USUM ? 4160 : 3200; // FlagMax - 768
@@ -230,28 +230,28 @@ public partial class SAV_Trainer7 : Form
     private void LoadMapFlyToData()
     {
         var metLocationList = GameInfo.GetLocationList(GameVersion.US, EntityContext.Gen7, false);
-        int[] FlyDestNameIndex = {
+        int[] FlyDestNameIndex = [
             -1,24,34,8,20,38,12,46,40,30,//Melemele
             70,68,78,86,74,104,82,58,90,72,76,92,62,//Akala
             132,136,138,114,118,144,130,154,140,//Ula'ula
             172,184,180,174,176,156,186,//Poni
             188,-1,-1,
             198,202,110,204,//Beach
-        };
+        ];
         if (SAV.Version is GameVersion.UM or GameVersion.MN)
         {
             FlyDestNameIndex[28] = 142;
             FlyDestNameIndex[36] = 178;
         }
-        FlyDestFlagOfs = new[] {
+        FlyDestFlagOfs = [
             44,43,45,40,41,49,42,47,46,48,
             50,54,39,57,51,55,59,52,58,53,61,60,56,
             62,66,67,64,65,273,270,37,38,
             69,74,72,71,276,73,70,
             75,332,334,
             331,333,335,336,
-        };
-        string[] FlyDestAltName = { "My House", "Photo Club (Hau'oli)", "Photo Club (Konikoni)" };
+        ];
+        string[] FlyDestAltName = ["My House", "Photo Club (Hau'oli)", "Photo Club (Konikoni)"];
         CLB_FlyDest.Items.Clear();
         for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV is SAV7USUM ? 0 : 6); i < m; i++)
         {
@@ -260,23 +260,23 @@ public partial class SAV_Trainer7 : Form
             var state = SAV.GetEventFlag(SkipFlag + FlyDestFlagOfs[i]);
             CLB_FlyDest.Items.Add(name, state);
         }
-        int[] MapUnmaskNameIndex = {
+        int[] MapUnmaskNameIndex = [
             6,8,24,-1,18,-1,20,22,12,10,14,
             70,50,68,52,74,54,56,58,60,72,62,64,
             132,192,106,108,122,112,114,126,116,118,120,154,
             172,158,160,162,164,166,168,170,
             188,
             198,202,110,204,
-        };
-        MapUnmaskFlagOfs = new[] {
+        ];
+        MapUnmaskFlagOfs = [
             5,76,82,91,79,84,80,81,77,78,83,
             19,10,18,11,21,12,13,14,15,20,16,17,
             33,34,30,31,98,92,93,94,95,96,97,141,
             173,144,145,146,147,148,149,172,
             181,
             409,297,32,296,
-        };
-        string[] MapUnmaskAltName = { "Melemele Sea (East)", "Melemele Sea (West)" };
+        ];
+        string[] MapUnmaskAltName = ["Melemele Sea (East)", "Melemele Sea (West)"];
         CLB_MapUnmask.Items.Clear();
         for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV is SAV7USUM ? 0 : 4); i < m; i++)
         {
@@ -398,8 +398,8 @@ public partial class SAV_Trainer7 : Form
         // Skin changed && (gender matches || override)
         int gender = CB_Gender.SelectedIndex & 1;
         int skin = CB_SkinColor.SelectedIndex & 1;
-        var gStr = CB_Gender.Items[gender].ToString();
-        var sStr = CB_Gender.Items[skin].ToString();
+        var gStr = CB_Gender.Items[gender]!.ToString();
+        var sStr = CB_Gender.Items[skin]!.ToString();
 
         if (SAV.MyStatus.DressUpSkinColor == CB_SkinColor.SelectedIndex)
             return;

@@ -50,7 +50,7 @@ public sealed class BoxLayout6 : SaveBlock<SAV6>, IBoxDetailName, IBoxDetailWall
 
     public byte[] BoxFlags
     {
-        get => new[] { Data[Offset + PCFlags] }; // 7 bits for wallpaper unlocks, top bit to unlock final box (delta episode)
+        get => [ Data[Offset + PCFlags] ]; // 7 bits for wallpaper unlocks, top bit to unlock final box (delta episode)
         set
         {
             if (value.Length != 1)

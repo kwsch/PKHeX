@@ -5,10 +5,8 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class TrainerCard8 : SaveBlock<SAV8SWSH>
+public sealed class TrainerCard8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    public TrainerCard8(SAV8SWSH sav, SCBlock block) : base (sav, block.Data) { }
-
     private Span<byte> OT_Trash => Data.AsSpan(0x00, 0x1A);
 
     public string OT
@@ -269,23 +267,15 @@ public sealed class TrainerCard8 : SaveBlock<SAV8SWSH>
 
     public uint TimestampPrinted
     {
-        // should this be a ulong?
+        // should this be an unsigned long?
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x1A8));
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x1A8), value);
     }
 }
 
-public sealed class TrainerCard8Poke : ISpeciesForm
+public sealed class TrainerCard8Poke(byte[] Data, int Offset) : ISpeciesForm
 {
     public const int SIZE = 0x1C;
-    private readonly byte[] Data;
-    private readonly int Offset;
-
-    public TrainerCard8Poke(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
 
     public ushort Species
     {

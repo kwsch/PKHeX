@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 public interface IEntityRejuvenator
 {
     /// <summary>
-    /// After converting, the method will attempt to auto-fill missing properties.
+    /// After converting, the method will attempt to autofill missing properties.
     /// </summary>
     /// <param name="result">Output data after conversion</param>
     /// <param name="original">Input data prior to conversion</param>

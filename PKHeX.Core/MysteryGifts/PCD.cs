@@ -12,8 +12,11 @@ namespace PKHeX.Core;
 /// https://projectpokemon.org/home/forums/topic/5870-pok%C3%A9mon-mystery-gift-editor-v143-now-with-bw-support/
 /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
 /// </remarks>
-public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, IRestrictVersion, IRandomCorrelation
+public sealed class PCD(byte[] Data)
+    : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, IRestrictVersion, IRandomCorrelation
 {
+    public PCD() : this(new byte[Size]) { }
+
     public const int Size = 0x358; // 856
     public override int Generation => 4;
     public override EntityContext Context => EntityContext.Gen4;
@@ -32,9 +35,6 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         set => Gift.Ball = value;
     }
 
-    public PCD() : this(new byte[Size]) { }
-    public PCD(byte[] data) : base(data) { }
-
     public override byte[] Write()
     {
         // Ensure PGT content is encrypted
@@ -46,7 +46,7 @@ public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public PGT Gift
     {
-        get => _gift ??= new PGT(Data.Slice(0, PGT.Size));
+        get => _gift ??= new PGT(Data[..PGT.Size]);
         set => (_gift = value).Data.CopyTo(Data, 0);
     }
 

@@ -14,7 +14,7 @@ public static class QRDecode
 
     public static QRDecodeResult GetQRData(string address, out byte[] result)
     {
-        result = Array.Empty<byte>();
+        result = [];
         // Fetch data from QR code...
 
         if (!address.StartsWith("http"))

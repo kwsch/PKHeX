@@ -47,23 +47,17 @@ public sealed class FashionBlock7 : SaveBlock<SAV7>
     };
 
     // Offsets that are set to '3' when the game starts for a specific gender.
-    private static ReadOnlySpan<ushort> DefaultFashionOffsetSM_M => new ushort[] { 0x000, 0x0FB, 0x124, 0x28F, 0x3B4, 0x452, 0x517 };
-    private static ReadOnlySpan<ushort> DefaultFashionOffsetSM_F => new ushort[] { 0x000, 0x100, 0x223, 0x288, 0x3B4, 0x452, 0x517 };
-    private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_M => new ushort[] { 0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584 };
-    private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_F => new ushort[] { 0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8 };
+    private static ReadOnlySpan<ushort> DefaultFashionOffsetSM_M => [ 0x000, 0x0FB, 0x124, 0x28F, 0x3B4, 0x452, 0x517 ];
+    private static ReadOnlySpan<ushort> DefaultFashionOffsetSM_F => [ 0x000, 0x100, 0x223, 0x288, 0x3B4, 0x452, 0x517 ];
+    private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_M => [ 0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584 ];
+    private static ReadOnlySpan<ushort> DefaultFashionOffsetUU_F => [ 0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8 ];
 }
 
 // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)
-public sealed class FashionItem7
+public sealed class FashionItem7(byte b)
 {
-    public bool IsOwned { get; set; }
-    public bool IsNew { get; set; }
-
-    public FashionItem7(byte b)
-    {
-        IsOwned = (b & 1) != 0;
-        IsNew = (b & 2) != 0;
-    }
+    public bool IsOwned { get; set; } = (b & 1) != 0;
+    public bool IsNew { get; set; } = (b & 2) != 0;
 
     public byte Value => (byte)((IsOwned ? 1 : 0) | (IsNew ? 2 : 0));
 }

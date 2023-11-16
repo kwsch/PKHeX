@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EventWorkUtil;
@@ -10,10 +9,10 @@ namespace PKHeX.Core;
 public sealed class EventWorkDiff7b : IEventWorkDiff
 {
     private SAV7b? S1;
-    public List<int> SetFlags { get; } = new();
-    public List<int> ClearedFlags { get; } = new();
-    public List<int> WorkChanged { get; } = new();
-    public List<string> WorkDiff { get; } = new();
+    public List<int> SetFlags { get; } = [];
+    public List<int> ClearedFlags { get; } = [];
+    public List<int> WorkChanged { get; } = [];
+    public List<string> WorkDiff { get; } = [];
     public EventWorkDiffCompatibility Message { get; private set; }
 
     private const int MAX_SAVEFILE_SIZE = 0x10_0000; // 1 MB
@@ -53,7 +52,7 @@ public sealed class EventWorkDiff7b : IEventWorkDiff
     public IReadOnlyList<string> Summarize()
     {
         if (S1 == null)
-            return Array.Empty<string>();
+            return [];
         var ew = S1.Blocks.EventWork;
 
         var fOn = SetFlags.Select(z => FlagSummary.Get(z, ew).ToString());

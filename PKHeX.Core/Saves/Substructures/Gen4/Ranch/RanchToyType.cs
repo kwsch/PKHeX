@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Toys used in My Pokemon Ranch save files.
+/// Toys used in My Pokémon Ranch save files.
 /// </summary>
 public enum RanchToyType : byte
 {

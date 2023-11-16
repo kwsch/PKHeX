@@ -10,7 +10,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
 {
     public SAV8SWSH(byte[] data) : this(SwishCrypto.Decrypt(data)) { }
 
-    private SAV8SWSH(IReadOnlyList<SCBlock> blocks) : base(Array.Empty<byte>())
+    private SAV8SWSH(IReadOnlyList<SCBlock> blocks) : base([])
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor8SWSH(this);
@@ -277,7 +277,10 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
 
     public override byte[] BoxFlags
     {
-        get => new [] {(byte)(Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type - 1)};
+        get =>
+        [
+            (byte)(Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type - 1),
+        ];
         set
         {
             if (value.Length != 1)
@@ -313,7 +316,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
 
         // Zone specific values
         (int Zone, int Max)[] zones =
-        {
+        [
             (0201, 16), // Fields of Honor
             (0202, 18), // Soothing Wetlands
             (0203, 6), // Forest of Focus
@@ -330,7 +333,7 @@ public sealed class SAV8SWSH : SaveFile, ISaveBlock8SWSH, ITrainerStatRecord, IS
             (0223, 3), // Insular Sea
             (0224, 1), // Honeycalm Sea
             (0231, 9), // Honeycalm Island
-        };
+        ];
         var s = Blocks;
         foreach (var (zone, max) in zones)
         {

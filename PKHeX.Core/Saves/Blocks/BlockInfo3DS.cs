@@ -48,20 +48,17 @@ public abstract class BlockInfo3DS : BlockInfo
     }
 }
 
-public sealed class BlockInfo6 : BlockInfo3DS
+public sealed class BlockInfo6(int bo, uint id, int ofs, int len) : BlockInfo3DS(bo, id, ofs, len)
 {
-    public BlockInfo6(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
     protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16_CCITT(data.Slice(Offset, Length));
 }
 
-public sealed class BlockInfo7 : BlockInfo3DS
+public sealed class BlockInfo7(int bo, uint id, int ofs, int len) : BlockInfo3DS(bo, id, ofs, len)
 {
-    public BlockInfo7(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
     protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16Invert(data.Slice(Offset, Length));
 }
 
-public sealed class BlockInfo7b : BlockInfo3DS
+public sealed class BlockInfo7b(int bo, uint id, int ofs, int len) : BlockInfo3DS(bo, id, ofs, len)
 {
-    public BlockInfo7b(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
     protected override ushort GetChecksum(ReadOnlySpan<byte> data) => Checksums.CRC16NoInvert(data.Slice(Offset, Length));
 }

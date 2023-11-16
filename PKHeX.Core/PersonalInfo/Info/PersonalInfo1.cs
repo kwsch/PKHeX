@@ -5,12 +5,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 1 games.
 /// </summary>
-public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
+public sealed class PersonalInfo1(byte[] Data) : PersonalInfo, IPersonalInfoTM
 {
     public const int SIZE = 0x1C;
-    private readonly byte[] Data;
 
-    public PersonalInfo1(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public override byte Gender { get => Data[0x00]; set => Data[0x00] = value; }
@@ -91,8 +89,8 @@ public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
     }
 
     // 0-2 to indicate how many steps down to get the base species ID.
-    private static ReadOnlySpan<byte> EvoStages => new byte[]
-    {
+    private static ReadOnlySpan<byte> EvoStages =>
+    [
         0, 0, 1, 2, 0, 1, 2, 0, 1, 2,
         0, 1, 2, 0, 1, 2, 0, 1, 2, 0,
         1, 0, 1, 0, 1, 0, 1, 0, 1, 0,
@@ -108,7 +106,7 @@ public sealed class PersonalInfo1 : PersonalInfo, IPersonalInfoTM
         0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
         1, 0, 0, 0, 1, 1, 1, 0, 0, 1,
         0, 1, 0, 0, 0, 0, 0, 0, 1, 2,
-    };
+    ];
 
     /// <summary>
     /// Gets the amount of times a species has evolved from the base species.

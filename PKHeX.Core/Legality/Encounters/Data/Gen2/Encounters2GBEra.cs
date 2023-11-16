@@ -5,11 +5,11 @@ namespace PKHeX.Core;
 
 internal static class Encounters2GBEra
 {
-    private static readonly string[] PCNYx = { "PCNYa", "PCNYb", "PCNYc", "PCNYd" };
-    private static readonly string[] Stadium2 = { "Stade", "Stadion", "Stadio", "Estadio" };
+    private static readonly string[] PCNYx = ["PCNYa", "PCNYb", "PCNYc", "PCNYd"];
+    private static readonly string[] Stadium2 = ["Stade", "Stadion", "Stadio", "Estadio"];
 
     internal static readonly EncounterGift2[] StaticEventsGB =
-    {
+    [
         // Stadium 2 Baton Pass Farfetch'd
         new(083, 05, C) {Moves = new(226, 14, 97, 163), Location = 127, TID16 = 2000, OT_Name = "スタジアム"},
         new(083, 05, C) {Moves = new(226, 14, 97, 163), Location = 127, TID16 = 2000, OT_Name = "Stadium", Language = International},
@@ -36,7 +36,7 @@ internal static class Encounters2GBEra
         new(225, 05, GS) {OT_Names = PCNYx, Moves = new(006), EggCycles = 10, Language = International}, // Pay Day Delibird
         new(251, 05, C) {OT_Names = PCNYx, Location = 127, Language = International}, // Celebi
 
-        // The Initial Three Set (December 28, 2001 to January 31, 2002)
+        // The Initial Three Set (December 28, 2001, to January 31, 2002)
         new(001, 05, GS) {OT_Names = PCNYx, Moves = new(246), EggCycles = 10, Language = International}, // Bulbasaur Ancientpower
         new(004, 05, GS) {OT_Names = PCNYx, Moves = new(242), EggCycles = 10, Language = International}, // Charmander Crunch
         new(007, 05, GS) {OT_Names = PCNYx, Moves = new(192), EggCycles = 10, Language = International}, // Squirtle Zap Cannon
@@ -172,7 +172,7 @@ internal static class Encounters2GBEra
         new(086, 05, GS) {OT_Names = PCNYx, Moves = new(175), EggCycles = 10, Language = International}, // Seel Flail
         new(220, 05, GS) {OT_Names = PCNYx, Moves = new(018), EggCycles = 10, Language = International}, // Swinub Whirlwind
 
-        // Pokémon that Appear at Night only (December 27, 2002 to January 2, 2003)
+        // Pokémon that Appear at Night only (December 27, 2002, to January 2, 2003)
         new(163, 05, GS) {OT_Names = PCNYx, Moves = new(101), EggCycles = 10, Language = International}, // Hoothoot Night Shade
         new(215, 05, GS) {OT_Names = PCNYx, Moves = new(236), EggCycles = 10, Language = International}, // Sneasel Moonlight
 
@@ -229,7 +229,7 @@ internal static class Encounters2GBEra
 
         // Gen2 Events
         // Egg Cycles Subject to Change. OTs for Eggs are unknown.
-        // Pokémon Center Mystery Egg #1 (December 15, 2001 to January 14, 2002)
+        // Pokémon Center Mystery Egg #1 (December 15, 2001, to January 14, 2002)
         new(152, 05, GSC) {Moves = new(080), EggCycles = 10}, // Chikorita Petal Dance
         new(172, 05, GSC) {Moves = new(047), EggCycles = 10}, // Pichu Sing
         new(173, 05, GSC) {Moves = new(129), EggCycles = 10}, // Cleffa Swift
@@ -250,5 +250,5 @@ internal static class Encounters2GBEra
         new(004, 05, GSC) {Moves = new(242), EggCycles = 10}, // Charmander Crunch
         new(158, 05, GSC) {Moves = new(066), EggCycles = 10}, // Totodile Submission
         new(163, 05, GSC) {Moves = new(101), EggCycles = 10}, // Hoot-Hoot Night Shade
-    };
+    ];
 }

@@ -164,7 +164,7 @@ public class Zukan7 : Zukan<SaveFile>
     }
 
     /// <summary>
-    /// Gets the last viewed dex entry in the Pokedex (by National Dex ID), internally called DefaultMons
+    /// Gets the last viewed dex entry in the Pokédex (by National Dex ID), internally called DefaultMons
     /// </summary>
     public uint CurrentViewedDex => (ReadUInt32LittleEndian(SAV.Data.AsSpan(PokeDex + 4)) >> 9) & 0x3FF;
 

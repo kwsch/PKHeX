@@ -183,8 +183,8 @@ public static class StringConverter12
     private const char LEA = '%'; // é for Box
     private const char DOT = '․'; // Not .
 
-    public static ReadOnlySpan<char> TableEN => new[]
-    {
+    public static ReadOnlySpan<char> TableEN =>
+    [
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 00-0F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 10-1F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 20-2F
@@ -201,10 +201,10 @@ public static class StringConverter12
         'ì', 'í', 'ñ', 'ò', 'ó', 'ú', NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, '←', '\'', // D0-DF
         '’', LPK, LMN, '-', NUL, NUL, '?', '!', '.', '&', LEA, '→', '▷', '▶', '▼', '♂', // E0-EF
         MNY, '×', DOT, '/', ',', '♀', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', // F0-FF
-    };
+    ];
 
-    public static ReadOnlySpan<char> TableJP => new[]
-    {
+    public static ReadOnlySpan<char> TableJP =>
+    [
         NUL, NUL, NUL, NUL, NUL, 'ガ', 'ギ', 'グ', 'ゲ', 'ゴ', 'ザ', 'ジ', 'ズ', 'ゼ', 'ゾ', 'ダ', // 00-0F
         'ヂ', 'ヅ', 'デ', 'ド', NUL, NUL, NUL, NUL, NUL, 'バ', 'ビ', 'ブ', 'ボ', NUL,  NUL, NUL, // 10-1F
         NUL, NUL, NUL, NUL, NUL, NUL, 'が', 'ぎ', 'ぐ', 'げ', 'ご', 'ざ', 'じ', 'ず', 'ぜ', 'ぞ', // 20-2F
@@ -221,7 +221,7 @@ public static class StringConverter12
         'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'リ', 'る', 'れ', 'ろ', 'わ', 'を', 'ん', 'っ', // D0-DF
         'ゃ', 'ゅ', 'ょ', 'ー', 'ﾟ', 'ﾞ', '？', '！', '。', 'ァ', 'ゥ', 'ェ', NUL, NUL, NUL, '♂', // E0-EF
         MNY, NUL, '．', '／', 'ォ', '♀', '０', '１', '２', '３', '４', '５', '６', '７', '８', '９', // F0-FF
-    };
+    ];
 
     #endregion
 }

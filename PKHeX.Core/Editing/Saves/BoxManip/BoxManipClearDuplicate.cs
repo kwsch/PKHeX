@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <typeparam name="T">Base type of the "is duplicate" hash for the duplicate detection.</typeparam>
 public sealed class BoxManipClearDuplicate<T> : BoxManipBase
 {
-    private readonly HashSet<T> HashSet = new();
+    private readonly HashSet<T> HashSet = [];
     private readonly Func<PKM, bool> Criteria;
     public BoxManipClearDuplicate(BoxManipType type, Func<PKM, T> criteria) : this(type, criteria, _ => true) { }
 
@@ -18,10 +18,7 @@ public sealed class BoxManipClearDuplicate<T> : BoxManipBase
         Criteria = pk =>
         {
             var result = criteria(pk);
-            if (HashSet.Contains(result))
-                return true;
-            HashSet.Add(result);
-            return false;
+            return !HashSet.Add(result);
         };
     }
 
@@ -33,7 +30,8 @@ public sealed class BoxManipClearDuplicate<T> : BoxManipBase
     {
         HashSet.Clear();
         var (start, stop, reverse) = param;
-        bool Method(PKM p) => reverse ^ Criteria(p);
         return sav.ClearBoxes(start, stop, Method);
+
+        bool Method(PKM p) => reverse ^ Criteria(p);
     }
 }

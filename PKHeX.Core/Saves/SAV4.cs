@@ -40,7 +40,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     public sealed override bool GetFlag(int offset, int bitIndex) => FlagUtil.GetFlag(General, offset, bitIndex);
     public sealed override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
 
-    protected SAV4(int gSize, int sSize)
+    protected SAV4([ConstantExpected] int gSize, [ConstantExpected] int sSize)
     {
         GeneralBuffer = new byte[gSize];
         StorageBuffer = new byte[sSize];
@@ -49,7 +49,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         ClearBoxes();
     }
 
-    protected SAV4(byte[] data, int gSize, int sSize, int sStart) : base(data)
+    protected SAV4(byte[] data, [ConstantExpected] int gSize, [ConstantExpected] int sSize, [ConstantExpected] int sStart) : base(data)
     {
         var GeneralBlockPosition = GetActiveBlock(data, 0, gSize);
         var StorageBlockPosition = GetActiveBlock(data, sStart, sSize);
@@ -173,7 +173,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
         }
     }
 
-    private static int GetActiveBlock(ReadOnlySpan<byte> data, [ConstantExpected(Min = 0)] int begin, [ConstantExpected(Min = 0)] int length)
+    private static int GetActiveBlock(ReadOnlySpan<byte> data, [ConstantExpected] int begin, [ConstantExpected] int length)
     {
         int offset = begin + length - 0x14;
         return SAV4BlockDetection.CompareFooters(data, offset, offset + PartitionSize);
@@ -189,11 +189,11 @@ public abstract class SAV4 : SaveFile, IEventFlag37
 
         // Battle Hall/Battle Videos
         var KeyOffset = Extra;
-        var KeyBackupOffset = Extra + 0x4 * (ExtraBlocks.Count - 1);
-        var PreferOffset = Extra + 2 * 0x4 * (ExtraBlocks.Count - 1);
-        var key = ReadUInt32LittleEndian(General[(KeyOffset + 0x4 * (index - 1))..]);
-        var keyBackup = ReadUInt32LittleEndian(General[(KeyBackupOffset + 0x4 * (index - 1))..]);
-        var prefer = General[(PreferOffset + (index - 1))];
+        var KeyBackupOffset = Extra + (0x4 * (ExtraBlocks.Count - 1));
+        var PreferOffset = Extra + (2 * 0x4 * (ExtraBlocks.Count - 1));
+        var key = ReadUInt32LittleEndian(General[(KeyOffset + (0x4 * (index - 1)))..]);
+        var keyBackup = ReadUInt32LittleEndian(General[(KeyBackupOffset + (0x4 * (index - 1)))..]);
+        var prefer = General[PreferOffset + (index - 1)];
         return SAV4BlockDetection.CompareExtra(Data, Data.AsSpan(PartitionSize), block, key, keyBackup, prefer);
     }
 

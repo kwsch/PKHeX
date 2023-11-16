@@ -6,19 +6,19 @@ namespace PKHeX.Drawing.Misc;
 
 public static class RibbonSpriteUtil
 {
-    public static Image? GetRibbonSprite(RibbonIndex ribbon)
+    public static Bitmap? GetRibbonSprite(RibbonIndex ribbon)
     {
         var name = $"Ribbon{ribbon}";
         return GetRibbonSprite(name);
     }
 
-    public static Image? GetRibbonSprite(string name)
+    public static Bitmap? GetRibbonSprite(string name)
     {
         var resource = name.Replace("CountG3", "G3").ToLowerInvariant();
         return (Bitmap?)Resources.ResourceManager.GetObject(resource);
     }
 
-    public static Image? GetRibbonSprite(string name, int max, int value)
+    public static Bitmap? GetRibbonSprite(string name, int max, int value)
     {
         var resource = GetRibbonSpriteName(name, max, value);
         return (Bitmap?)Resources.ResourceManager.GetObject(resource);

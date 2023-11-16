@@ -19,10 +19,10 @@ public sealed class CaptureRecords : SaveBlock<SAV7b>
 
     // 0x770 ??
 
-    // 0x46D94 is a u32 stores how many total Pokémon you've caught (caps out at 999,999,999).
+    // 0x46D94: u32 stores how many total Pokémon you've caught (caps out at 999,999,999).
     private const int TotalCapturedOffset = 0x794;
 
-    // 0x46DA8 is a u32 that stores how many Pokémon you've transferred to Professor Oak.
+    // 0x46DA8: u32 that stores how many Pokémon you've transferred to Professor Oak.
     // This value is equal to the sum of all individual transferred Species, but caps out at 999,999,999 even if the sum of all individual Species exceeds this.
     private const int TotalTransferredOffset = 0x7A8;
 

@@ -61,128 +61,128 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
     public static bool IsWildArea8Crown(int location) => location is >= 204 and <= 234 and not 206; // Slippery Slope -> Dyna Tree Hill, skip Freezington
 
     // Location, and areas that it can feed encounters to.
-    public static readonly IReadOnlyDictionary<byte, byte[]> ConnectingArea8 = new Dictionary<byte, byte[]>
+    private static readonly Dictionary<byte, byte[]> ConnectingArea8 = new()
     {
         // Route 3
         // City of Motostoke
-        {28, new byte[] {20}},
+        {28, [20]},
 
         // Rolling Fields
         // Dappled Grove, East Lake Axewell, West Lake Axewell
         // Also connects to South Lake Miloch but too much of a stretch
-        {122, new byte[] {124, 128, 130}},
+        {122, [124, 128, 130]},
 
         // Dappled Grove
         // Rolling Fields, Watchtower Ruins
-        {124, new byte[] {122, 126}},
+        {124, [122, 126]},
 
         // Watchtower Ruins
         // Dappled Grove, West Lake Axewell
-        {126, new byte[] {124, 130}},
+        {126, [124, 130]},
 
         // East Lake Axewell
         // Rolling Fields, West Lake Axewell, Axew's Eye, North Lake Miloch
-        {128, new byte[] {122, 130, 132, 138}},
+        {128, [122, 130, 132, 138]},
 
         // West Lake Axewell
         // Rolling Fields, Watchtower Ruins, East Lake Axewell, Axew's Eye
-        {130, new byte[] {122, 126, 128, 132}},
+        {130, [122, 126, 128, 132]},
 
         // Axew's Eye
         // East Lake Axewell, West Lake Axewell
-        {132, new byte[] {128, 130}},
+        {132, [128, 130]},
 
         // South Lake Miloch
         // Giant's Seat, North Lake Miloch
-        {134, new byte[] {136, 138}},
+        {134, [136, 138]},
 
         // Giant's Seat
         // South Lake Miloch, North Lake Miloch
-        {136, new byte[] {134, 138}},
+        {136, [134, 138]},
 
         // North Lake Miloch
         // East Lake Axewell, South Lake Miloch, Giant's Seat
         // Also connects to Motostoke Riverbank but too much of a stretch
-        {138, new byte[] {134, 136}},
+        {138, [134, 136]},
 
         // Motostoke Riverbank
         // Bridge Field
-        {140, new byte[] {142}},
+        {140, [142]},
 
         // Bridge Field
         // Motostoke Riverbank, Stony Wilderness
-        {142, new byte[] {140, 144}},
+        {142, [140, 144]},
 
         // Stony Wilderness
         // Bridge Field, Dusty Bowl, Giant's Mirror, Giant's Cap
-        {144, new byte[] {142, 146, 148, 152}},
+        {144, [142, 146, 148, 152]},
 
         // Dusty Bowl
         // Stony Wilderness, Giant's Mirror, Hammerlocke Hills
-        {146, new byte[] {144, 148, 150}},
+        {146, [144, 148, 150]},
 
         // Giant's Mirror
         // Stony Wilderness, Dusty Bowl, Hammerlocke Hills
-        {148, new byte[] {144, 146, 148}},
+        {148, [144, 146, 148]},
 
         // Hammerlocke Hills
         // Dusty Bowl, Giant's Mirror, Giant's Cap
-        {150, new byte[] {146, 148, 152}},
+        {150, [146, 148, 152]},
 
         // Giant's Cap
         // Stony Wilderness, Giant's Cap
         // Also connects to Lake of Outrage but too much of a stretch
-        {152, new byte[] {144, 150}},
+        {152, [144, 150]},
 
         // Lake of Outrage is just itself.
 
         // Challenge Beach
         // Soothing Wetlands, Courageous Cavern
-        {170, new byte[] {166, 176}},
+        {170, [166, 176]},
 
         // Challenge Road
         // Brawler's Cave
-        {174, new byte[] {172}},
+        {174, [172]},
 
         // Courageous Cavern
         // Loop Lagoon
-        {176, new byte[] {178}},
+        {176, [178]},
 
         // Warm-Up Tunnel
         // Training Lowlands, Potbottom Desert
-        {182, new byte[] {180, 184}},
+        {182, [180, 184]},
 
         // Workout Sea
         // Fields of Honor
-        {186, new byte[] {164}},
+        {186, [164]},
 
         // Stepping-Stone Sea
         // Fields of Honor
-        {188, new byte[] {170}},
+        {188, [170]},
 
         // Insular Sea
         // Honeycalm Sea
-        {190, new byte[] {192}},
+        {190, [192]},
 
         // Honeycalm Sea
         // Honeycalm Island
-        {192, new byte[] {194}},
+        {192, [194]},
 
         // Frostpoint Field
         // Freezington
-        {208, new byte[] {206}},
+        {208, [206]},
 
         // Old Cemetery
         // Giant’s Bed
-        {212, new byte[] {210}},
+        {212, [210]},
 
         // Roaring-Sea Caves
         // Giant’s Foot
-        {224, new byte[] {222}},
+        {224, [222]},
 
         // Ballimere Lake
         // Lakeside Cave
-        {230, new byte[] {232}},
+        {230, [232]},
     };
 
     /// <summary>

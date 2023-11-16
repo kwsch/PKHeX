@@ -42,7 +42,7 @@ internal static class EvolutionUtil
     private static EvoCriteria[] GetLocalEvolutionArray(Span<EvoCriteria> result)
     {
         if (result.Length == 0)
-            return Array.Empty<EvoCriteria>();
+            return [];
 
         var array = result.ToArray();
         var length = CleanEvolve(array);

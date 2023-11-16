@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -175,7 +175,7 @@ public static class EntitySorting
     /// <summary>
     /// Sorts an <see cref="Enumerable"/> list of <see cref="PKM"/> objects in reverse.
     /// </summary>
-    /// <param name="list">Source list to revese sort</param>
+    /// <param name="list">Source list to reverse sort</param>
     /// <returns>Enumerable list that is sorted</returns>
     public static IEnumerable<PKM> ReverseSort(this IEnumerable<PKM> list)
     {

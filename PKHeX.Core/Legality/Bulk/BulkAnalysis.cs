@@ -11,8 +11,8 @@ public sealed class BulkAnalysis
     public readonly IReadOnlyList<SlotCache> AllData;
     public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;
     public readonly ITrainerInfo Trainer;
-    public readonly List<CheckResult> Parse = new();
-    public readonly Dictionary<ulong, SlotCache> Trackers = new();
+    public readonly List<CheckResult> Parse = [];
+    public readonly Dictionary<ulong, SlotCache> Trackers = [];
     public readonly bool Valid;
 
     public readonly IBulkAnalysisSettings Settings;
@@ -57,15 +57,15 @@ public sealed class BulkAnalysis
     /// <summary>
     /// Supported <see cref="IBulkAnalyzer"/> checkers that will be iterated through to check all entities.
     /// </summary>
-    public static readonly List<IBulkAnalyzer> Analyzers = new()
-    {
+    public static readonly List<IBulkAnalyzer> Analyzers =
+    [
         new StandardCloneChecker(),
         new DuplicateTrainerChecker(),
         new DuplicatePIDChecker(),
         new DuplicateEncryptionChecker(),
         new HandlerChecker(),
         new DuplicateGiftChecker(),
-    };
+    ];
 
     private void ScanAll()
     {
@@ -95,7 +95,7 @@ public sealed class BulkAnalysis
         Parse.Add(chk);
     }
 
-    private static IReadOnlyList<LegalityAnalysis> GetIndividualAnalysis(IReadOnlyList<SlotCache> pkms)
+    private static LegalityAnalysis[] GetIndividualAnalysis(IReadOnlyList<SlotCache> pkms)
     {
         var results = new LegalityAnalysis[pkms.Count];
         for (int i = 0; i < pkms.Count; i++)

@@ -132,7 +132,7 @@ public static class Overworld8aRNG
         }
         pk.PID = pid;
 
-        Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+        Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
         const int MAX = 31;
         for (int i = 0; i < para.FlawlessIVs; i++)
         {
@@ -231,7 +231,7 @@ public static class Overworld8aRNG
 
         if (pk.PID != pid)
             return false;
-        Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+        Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
         const int MAX = 31;
         for (int i = 0; i < para.FlawlessIVs; i++)
         {

@@ -37,17 +37,16 @@ public sealed class Encount6 : SaveBlock<SAV6>
 }
 
 [TypeConverter(typeof(ValueTypeTypeConverter))]
-public sealed class PokeRadar6
+public sealed class PokeRadar6(Memory<byte> Data)
 {
     public const int SIZE = 2 + (RecordCount * PokeRadarRecord.SIZE); // 0x18
 
     private const int MaxCharge = 50;
     private const int RecordCount = 5;
 
-    public readonly Memory<byte> Data;
+    public readonly Memory<byte> Data = Data;
     private Span<byte> Span => Data.Span;
 
-    public PokeRadar6(Memory<byte> data) => Data = data;
     public override string ToString() => ((Species)PokeRadarSpecies).ToString();
 
     public ushort PokeRadarSpecies { get => ReadUInt16LittleEndian(Span[..2]); set => WriteUInt16LittleEndian(Span[..2], value); }
@@ -105,14 +104,13 @@ public sealed class PokeRadarRecord
 }
 
 [TypeConverter(typeof(ValueTypeTypeConverter))]
-public sealed class Roamer6
+public sealed class Roamer6(Memory<byte> Data)
 {
     public const int SIZE = 0x28;
 
-    public readonly Memory<byte> Data;
+    public readonly Memory<byte> Data = Data;
     private Span<byte> Span => Data.Span;
 
-    public Roamer6(Memory<byte> data) => Data = data;
     public override string ToString() => ((Species)Species).ToString();
 
     private ushort SpecForm { get => ReadUInt16LittleEndian(Span[..2]); set => WriteUInt16LittleEndian(Span[..2], value); }

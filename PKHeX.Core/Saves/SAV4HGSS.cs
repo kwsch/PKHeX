@@ -32,14 +32,16 @@ public sealed class SAV4HGSS : SAV4
     private const int StorageSize = 0x12310; // Start 0xF700, +0 starts box data
     private const int GeneralGap = 0xD8;
     protected override int FooterSize => 0x10;
-    protected override BlockInfo4[] ExtraBlocks => new[] {
+
+    protected override BlockInfo4[] ExtraBlocks =>
+    [
         new BlockInfo4(0, 0x23000, 0x2AC0), // Hall of Fame
         new BlockInfo4(1, 0x26000, 0x0BB0), // Battle Hall
         new BlockInfo4(2, 0x27000, 0x1D60), // Battle Video (My Video)
         new BlockInfo4(3, 0x29000, 0x1D60), // Battle Video (Other Videos 1)
         new BlockInfo4(4, 0x2B000, 0x1D60), // Battle Video (Other Videos 2)
         new BlockInfo4(5, 0x2D000, 0x1D60), // Battle Video (Other Videos 3)
-    };
+    ];
 
     private void Initialize()
     {
@@ -106,7 +108,7 @@ public sealed class SAV4HGSS : SAV4
 
     public override byte[] BoxFlags
     {
-        get => new[] { Storage[BOX_FLAGS] };
+        get => [ Storage[BOX_FLAGS] ];
         set => Storage[BOX_FLAGS] = value[0];
     }
 
@@ -155,7 +157,7 @@ public sealed class SAV4HGSS : SAV4
         {
             var info = ItemStorage4HGSS.Instance;
             InventoryPouch[] pouch =
-            {
+            [
                 new InventoryPouch4(InventoryType.Items, info, 999, 0x644), // 0x644-0x8D7 (0x8CB)
                 new InventoryPouch4(InventoryType.KeyItems, info, 1, 0x8D8), // 0x8D8-0x99F (0x979)
                 new InventoryPouch4(InventoryType.TMHMs, info, 99, 0x9A0), // 0x9A0-0xB33 (0xB2F)
@@ -164,7 +166,7 @@ public sealed class SAV4HGSS : SAV4
                 new InventoryPouch4(InventoryType.Berries, info, 999, 0xC04), // 0xC04-0xD03
                 new InventoryPouch4(InventoryType.Balls, info, 999, 0xD04), // 0xD04-0xD63
                 new InventoryPouch4(InventoryType.BattleItems, info, 999, 0xD64), // 0xD64-0xD97
-            };
+            ];
             return pouch.LoadAll(General);
         }
         set => value.SaveAll(General);
@@ -223,8 +225,8 @@ public sealed class SAV4HGSS : SAV4
         dex[start..].Fill(PokegearNumber.None);
     }
 
-    private static ReadOnlySpan<PokegearNumber> NotTrainers => new[]
-    {
+    private static ReadOnlySpan<PokegearNumber> NotTrainers =>
+    [
         PokegearNumber.Mother,
         PokegearNumber.Professor_Elm,
         PokegearNumber.Professor_Oak,
@@ -236,7 +238,7 @@ public sealed class SAV4HGSS : SAV4
         PokegearNumber.Bill,
         PokegearNumber.Bike_Shop,
         PokegearNumber.Baoba,
-    };
+    ];
 
     public void PokeGearUnlockAllCallersNoTrainers()
     {

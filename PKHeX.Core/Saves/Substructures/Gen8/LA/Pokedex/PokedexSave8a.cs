@@ -9,23 +9,15 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.PLA"/>.
 /// </summary>>
-public sealed class PokedexSave8a
+public sealed class PokedexSave8a(SAV8LA SaveFile, SCBlock block)
 {
-    private readonly SAV8LA SaveFile;
-
-    private readonly PokedexSaveData SaveData;
+    private readonly PokedexSaveData SaveData = new(block.Data);
 
     public const int MAX_SPECIES = 981;
     public const int MAX_FORM = 120;
 
     private static PersonalTable8LA Personal => PersonalTable.LA;
     private const int MaxSpeciesID = Legal.MaxSpeciesID_8a;
-
-    public PokedexSave8a(SAV8LA sav, SCBlock block)
-    {
-        SaveFile = sav;
-        SaveData = new PokedexSaveData(block.Data);
-    }
 
     private const int DexInvalid = 0;
 
@@ -166,15 +158,15 @@ public sealed class PokedexSave8a
 
         for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
-            // Only allow reports of pokemon in hisui dex
+            // Only allow reports of Pokémon in Hisui dex
             if (GetDexIndex(Hisui, species) == 0)
                 continue;
 
-            // Only allow reports of pokemon which have been caught
+            // Only allow reports of Pokémon which have been caught
             if (SaveData.GetPokeGetCount(species) == 0)
                 continue;
 
-            // Check if the pokemon is unreported or has unreported tasks.
+            // Check if the Pokémon is unreported or has unreported tasks.
             if (!SaveData.HasAnyReport(species) || GetUnreportedTaskCount(species) > 0)
                 count++;
         }
@@ -188,7 +180,7 @@ public sealed class PokedexSave8a
 
         for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
-            // Only allow reports of pokemon which have been caught
+            // Only allow reports of Pokémon which have been caught
             if (SaveData.GetPokeGetCount(species) == 0)
                 continue;
 
@@ -436,7 +428,7 @@ public sealed class PokedexSave8a
 
         for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
-            // Only return pokemon with all required tasks complete
+            // Only return Pokémon with all required tasks complete
             if (!IsAllRequiredTasksComplete(species))
                 continue;
 
@@ -559,8 +551,8 @@ public sealed class PokedexSave8a
     {
         var hisuiComplete = true;
         var hisuiPerfect = true;
-        Span<bool> localComplete = stackalloc bool[] { true, true, true, true, true };
-        Span<bool> localPerfect = stackalloc bool[] { true, true, true, true, true };
+        Span<bool> localComplete = [true, true, true, true, true];
+        Span<bool> localPerfect = [true, true, true, true, true];
 
         for (ushort species = 1; species <= MaxSpeciesID; species++)
         {
@@ -664,7 +656,7 @@ public sealed class PokedexSave8a
         if (species >= MAX_SPECIES)
             return;
 
-        // All research increases set the update flag whether or not they increment the value
+        // All research increases set the update flag whether they increment the value
         SetPokeHasBeenUpdated(species);
 
         // If we shouldn't, don't do the update
@@ -696,7 +688,7 @@ public sealed class PokedexSave8a
         if (species >= MAX_SPECIES)
             return;
 
-        // All research increases set the update flag whether or not they increment the value
+        // All research increases set the update flag whether they increment the value
         SetPokeHasBeenUpdated(species);
 
         // Get the research entry
@@ -886,15 +878,15 @@ public sealed class PokedexSave8a
         // Light poke potentially obtained 
         OnPokeLightCaught(pk.Species, pa8.WeightAbsolute);
 
-        // Handle if pokemon was caught while sleeping
+        // Handle if Pokémon was caught while sleeping
         if (sleeping)
             OnPokeCaughtSleeping(pk.Species);
 
-        // Handle if pokemon was caught while in the air
+        // Handle if Pokémon was caught while in the air
         if (inAir)
             OnPokeCaughtInAir(pk.Species);
 
-        // Handle if pokemon was caught while not spotted
+        // Handle if Pokémon was caught while not spotted
         if (notSpotted)
             OnPokeCaughtNotSpotted(pk.Species);
 

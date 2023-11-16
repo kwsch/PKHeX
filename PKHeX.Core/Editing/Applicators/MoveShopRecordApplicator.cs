@@ -129,7 +129,7 @@ public static class MoveShopRecordApplicator
             if (!permit.IsRecordPermitted(index))
                 continue;
 
-            // If the Pokémon is caught with any move shop move in its learnset
+            // If the Pokémon is caught with any move shop move in its learnset,
             // and it is high enough level to master it, the game will automatically
             // give it the "Mastered" flag but not the "Purchased" flag
             // For moves that are not in the learnset, it returns -1 which is true, thus set as mastered.

@@ -1,6 +1,3 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
-public sealed class Box8 : SaveBlock<SaveFile>
-{
-    public Box8(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
-}
+public sealed class Box8(SaveFile sav, SCBlock block) : SaveBlock<SaveFile>(sav, block.Data);

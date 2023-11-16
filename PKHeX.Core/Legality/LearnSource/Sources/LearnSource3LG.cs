@@ -41,7 +41,7 @@ public sealed class LearnSource3LG : LearnSource3, ILearnSource<PersonalInfo3>, 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if (species > MaxSpecies)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return EggMoves[species].Moves;
     }
 

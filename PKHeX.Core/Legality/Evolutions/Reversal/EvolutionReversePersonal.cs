@@ -2,10 +2,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
-public sealed class EvolutionReversePersonal : IEvolutionReverse
+public sealed class EvolutionReversePersonal(EvolutionMethod[][] Entries, IPersonalTable Personal) : IEvolutionReverse
 {
-    public IEvolutionLookup Lineage { get; }
-    public EvolutionReversePersonal(EvolutionMethod[][] entries, IPersonalTable t) => Lineage = GetLineage(t, entries);
+    public IEvolutionLookup Lineage { get; } = GetLineage(Personal, Entries);
     public ref readonly EvolutionNode GetReverse(ushort species, byte form) => ref Lineage[species, form];
 
     private static EvolutionReverseLookup GetLineage(IPersonalTable t, EvolutionMethod[][] entries)

@@ -48,7 +48,7 @@ public partial class ReportGrid : Form
         dgData.ContextMenuStrip = mnu;
     }
 
-    private sealed class PokemonList<T> : SortableBindingList<T> where T : class { }
+    private sealed class PokemonList<T> : SortableBindingList<T> where T : class;
 
     public void PopulateData(IList<SlotCache> Data)
     {

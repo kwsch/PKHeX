@@ -26,7 +26,7 @@ public sealed class EncounterGenerator1 : IEncounterGenerator
         // Favor special event move gifts as Static Encounters when applicable
         var chain = EncounterOrigin.GetOriginChain12(pk, game);
         if (chain.Length == 0)
-            return Array.Empty<IEncounterable>();
+            return [];
         return GetEncounters(pk, chain);
     }
 

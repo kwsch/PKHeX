@@ -6,8 +6,8 @@ public sealed class ItemStorage6XY : IItemStorage
 {
     public static readonly ItemStorage6XY Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Items_XY => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Items_XY =>
+    [
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 055, 056,
         057, 058, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 074, 075,
         076, 077, 078, 079, 080, 081, 082, 083, 084, 085, 086, 087, 088, 089, 090, 091, 092, 093, 094,
@@ -24,20 +24,20 @@ public sealed class ItemStorage6XY : IItemStorage
         647, 648, 649, 650, 652, 653, 654, 655, 656, 657, 658, 659, 660, 661, 662, 663, 664, 665, 666,
         667, 668, 669, 670, 671, 672, 673, 674, 675, 676, 677, 678, 679, 680, 681, 682, 683, 684, 685,
         699, 704, 710, 711, 715,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_XY => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Key_XY =>
+    [
         216, 431, 442, 445, 446, 447, 450, 465, 466, 471, 628,
         629, 631, 632, 638, 641, 642, 643, 651, 689, 695, 696, 697, 698,
         700, 701, 702, 703, 705, 712, 713, 714,
 
         // Illegal
         // 716, 717, 706, 707,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_TMHM_XY => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_TMHM_XY =>
+    [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
         348, 349, 350, 351, 352, 353, 354, 355, 356, 357,
@@ -53,10 +53,10 @@ public sealed class ItemStorage6XY : IItemStorage
         690, 691, 692, 693, 694, // 96-100
 
         420, 421, 422, 423, 424,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_XY => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Medicine_XY =>
+    [
         017, 018, 019,
         020, 021, 022, 023, 024, 025, 026, 027, 028, 029,
         030, 031, 032, 033, 034, 035, 036, 037, 038, 039,
@@ -70,10 +70,10 @@ public sealed class ItemStorage6XY : IItemStorage
         591,
         645,
         708, 709,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> Pouch_Berry_XY => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Pouch_Berry_XY =>
+    [
         149, // Cheri Berry
         150, 151, 152, 153, 154, 155, 156, 157, 158, 159,
         160, 161, 162, 163, 164, 165, 166, 167, 168, 169,
@@ -86,15 +86,12 @@ public sealed class ItemStorage6XY : IItemStorage
         686, // Roseli Berry
         687, // Kee Berry
         688, // Maranga Berry
-    };
+    ];
 
-    public static ushort[] GetAllHeld()
-    {
-        return ArrayUtil.ConcatAll(Pouch_Items_XY, Pouch_Medicine_XY, Pouch_Berry_XY);
-    }
+    public static ushort[] GetAllHeld() => [..Pouch_Items_XY, ..Pouch_Medicine_XY, ..Pouch_Berry_XY];
 
-    internal static ReadOnlySpan<ushort> Unreleased => new ushort[]
-    {
+    internal static ReadOnlySpan<ushort> Unreleased =>
+    [
         005, // Safari Ball
         016, // Cherish Ball
         492, // Fast Ball
@@ -130,7 +127,7 @@ public sealed class ItemStorage6XY : IItemStorage
         589, // Relic Statue
         590, // Relic Crown
         715, // Fairy Gem
-    };
+    ];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
     {

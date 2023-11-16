@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 public static class UpdateUtil
 {
     /// <summary>
-    /// Gets the latest version of PKHeX according to the Github API
+    /// Gets the latest version of PKHeX according to the GitHub API
     /// </summary>
     /// <returns>A version representing the latest available version of PKHeX, or null if the latest version could not be determined</returns>
     public static Version? GetLatestPKHeXVersion()

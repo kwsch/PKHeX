@@ -23,4 +23,16 @@ public class HiddenPowerTests
         pk.HPType.Should().Be((int)type - 1); // no normal type, down-shift by 1
         pk.HPPower.Should().Be(power);
     }
+
+    [Theory]
+    [InlineData(15, 15, MoveType.Dark)]
+    [InlineData(15, 10, MoveType.Dragon)]
+    public void HiddenPowerTestGen2(int atk, int def, MoveType type)
+    {
+        int expect = (int)type - 1; // no normal type, down-shift by 1
+        var pk2 = new PK2 { IV_ATK = atk, IV_DEF = def };
+        pk2.HPType.Should().Be(expect);
+        HiddenPower.GetTypeGB(pk2.IVs).Should().Be(expect);
+        HiddenPower.GetTypeGB(pk2.DV16).Should().Be(expect);
+    }
 }

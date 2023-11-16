@@ -3,12 +3,11 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class InventoryPouch7 : InventoryPouch
+public sealed class InventoryPouch7(InventoryType type, IItemStorage info, int maxCount, int offset)
+    : InventoryPouch(type, info, maxCount, offset)
 {
     public bool SetNew { get; set; }
-    private int[] OriginalItems = Array.Empty<int>();
-
-    public InventoryPouch7(InventoryType type, IItemStorage info, int maxCount, int offset) : base(type, info, maxCount, offset) { }
+    private int[] OriginalItems = [];
 
     public override InventoryItem7 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count };
 

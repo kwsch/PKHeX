@@ -18,7 +18,7 @@ public partial class SAV_Inventory : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (Origin = sav).Clone();
-        itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version).ToArray();
+        itemlist = [.. GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version)]; // copy
 
         for (int i = 0; i < itemlist.Length; i++)
         {
@@ -52,7 +52,7 @@ public partial class SAV_Inventory : Form
     private int ColumnFavorite;
     private int ColumnNEW;
 
-    private readonly Dictionary<InventoryType, DataGridView> ControlGrids = new();
+    private readonly Dictionary<InventoryType, DataGridView> ControlGrids = [];
     private DataGridView GetGrid(InventoryType type) => ControlGrids[type];
     private DataGridView GetGrid(int pouch) => ControlGrids[Pouches[pouch].Type];
 
@@ -151,7 +151,7 @@ public partial class SAV_Inventory : Form
         FlatStyle = FlatStyle.Flat,
     };
 
-    private static DataGridViewColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
+    private static DataGridViewTextBoxColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
     {
         var dgvIndex = new DataGridViewTextBoxColumn
         {

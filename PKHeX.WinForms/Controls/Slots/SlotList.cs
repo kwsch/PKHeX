@@ -10,8 +10,8 @@ public partial class SlotList : UserControl, ISlotViewer<PictureBox>
 {
     private static readonly string[] names = Enum.GetNames(typeof(StorageSlotType));
     private readonly Label[] Labels = new Label[names.Length];
-    private readonly List<PictureBox> slots = new();
-    private List<SlotInfoMisc> SlotOffsets = new();
+    private readonly List<PictureBox> slots = [];
+    private List<SlotInfoMisc> SlotOffsets = [];
     public int SlotCount { get; private set; }
     public SaveFile SAV { get; set; } = null!;
     public bool FlagIllegal { get; set; }

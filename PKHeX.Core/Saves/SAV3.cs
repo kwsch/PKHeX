@@ -594,20 +594,18 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     public MailDetail GetMail(int mailIndex)
     {
         var ofs = GetMailOffset(mailIndex);
-        var data = Large.Slice(ofs, Mail3.SIZE);
+        var data = Large.AsSpan(ofs, Mail3.SIZE).ToArray();
         return new Mail3(data, ofs, Japanese);
     }
 
     #region eBerry
-    public abstract byte[] GetEReaderBerry();
-    public abstract void SetEReaderBerry(ReadOnlySpan<byte> data);
-    public abstract string EBerryName { get; }
-    public abstract bool IsEBerryEngima { get; }
+    public abstract Span<byte> EReaderBerry();
+    public string EBerryName => GetString(EReaderBerry()[..7]);
+    public bool IsEBerryEngima => EReaderBerry()[0] is 0 or 0xFF;
     #endregion
 
     #region eTrainer
-    public abstract byte[] GetEReaderTrainer();
-    public abstract void SetEReaderTrainer(ReadOnlySpan<byte> data);
+    public abstract Span<byte> EReaderTrainer();
     #endregion
 
     public abstract Gen3MysteryData MysteryData { get; set; }

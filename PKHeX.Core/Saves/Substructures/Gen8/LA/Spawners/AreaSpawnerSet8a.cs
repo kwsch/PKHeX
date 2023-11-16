@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -20,6 +20,7 @@ public readonly ref struct AreaSpawnerSet8a
     // metadata (count)
 
     public AreaSpawnerSet8a(SCBlock block) : this(block.Data) { }
+    // ReSharper disable once ConvertToPrimaryConstructor
     public AreaSpawnerSet8a(Span<byte> data) => Data = data;
 
     private Span<byte> Meta => Data[MetaOffset..];

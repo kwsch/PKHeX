@@ -24,11 +24,11 @@ public partial class PokePreview : Form
     }
 
     private static readonly Image[] GenderImages =
-    {
+    [
         Properties.Resources.gender_0,
         Properties.Resources.gender_1,
         Properties.Resources.gender_2,
-    };
+    ];
 
     public void Populate(PKM pk)
     {

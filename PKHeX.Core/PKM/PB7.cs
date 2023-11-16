@@ -7,8 +7,8 @@ namespace PKHeX.Core;
 /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
 public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, ICombatPower, IFavorite, IFormArgument
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x2A, // Old Marking Value (PelagoEventStatus)
         0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, // Unused Ribbons
         0x58, 0x59, // Nickname Terminator
@@ -18,7 +18,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         0xA7, 0xAA, 0xAB,
         0xAC, 0xAD, // Fatigue, no GUI editing
         0xC8, 0xC9, // OT Terminator
-    };
+    ];
 
     public override int SIZE_PARTY => SIZE;
     public override int SIZE_STORED => SIZE;
@@ -413,8 +413,8 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         return NatureAmpTable[(5 * nature) + index];
     }
 
-    private static ReadOnlySpan<sbyte> NatureAmpTable => new sbyte[]
-    {
+    private static ReadOnlySpan<sbyte> NatureAmpTable =>
+    [
         0, 0, 0, 0, 0, // Hardy
         1,-1, 0, 0, 0, // Lonely
         1, 0, 0, 0,-1, // Brave
@@ -440,7 +440,7 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         0, 0, 0, 1,-1, // Sassy
         0, 0,-1, 1, 0, // Careful
         0, 0, 0, 0, 0, // Quirky
-    };
+    ];
 
     public int CalcCP => Math.Min(10000, AwakeCP + BaseCP);
 

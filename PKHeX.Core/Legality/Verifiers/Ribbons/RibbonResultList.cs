@@ -5,16 +5,15 @@ namespace PKHeX.Core;
 /// <summary>
 /// List using a fixed-size span to store results. Only exposes <see cref="Count"/>; the span is hidden, and only accessible if the span was already a known instance.
 /// </summary>
-public ref struct RibbonResultList
+public ref struct RibbonResultList(Span<RibbonResult> Span)
 {
-    private readonly Span<RibbonResult> Span;
+    // ReSharper disable once ReplaceWithPrimaryConstructorParameter
+    private readonly Span<RibbonResult> Span = Span;
 
     /// <summary>
     /// Count of results that were added to the span.
     /// </summary>
     public int Count { get; private set; }
-
-    public RibbonResultList(Span<RibbonResult> span) => Span = span;
 
     private void Add(RibbonResult item) => Span[Count++] = item;
 

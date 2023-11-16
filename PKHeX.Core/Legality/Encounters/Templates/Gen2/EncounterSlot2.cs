@@ -31,13 +31,13 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     public SlotType SlotType => Type & (SlotType)0xF;
     public bool IsHeadbutt => SlotType == SlotType.Headbutt;
 
-    private static ReadOnlySpan<byte> TreeIndexes => new byte[]
-    {
+    private static ReadOnlySpan<byte> TreeIndexes =>
+    [
         02, 04, 05, 08, 11, 12, 14, 15, 18, 20, 21, 25, 26, 34, 37, 38, 39, 91, 92,
-    };
+    ];
 
-    private static ReadOnlySpan<int> Trees => new[]
-    {
+    private static ReadOnlySpan<int> Trees =>
+    [
         0x3FF_3FF, // Route 29
         0x0FF_3FF, // Route 30
         0x3FE_3FF, // Route 31
@@ -57,7 +57,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
         0x2FF_3FF, // Route 44
         0x200_1FF, // Route 26
         0x2BB_3FF, // Route 27
-    };
+    ];
 
     public bool IsTreeAvailable(ushort trainerID)
     {

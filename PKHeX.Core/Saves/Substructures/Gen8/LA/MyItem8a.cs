@@ -9,15 +9,13 @@ namespace PKHeX.Core;
 /// <remarks>
 /// Reads four separate pouch blobs: Items, Key Items, Storage, and Recipes.
 /// </remarks>
-public sealed class MyItem8a : MyItem
+public sealed class MyItem8a(SAV8LA sav, SCBlock block) : MyItem(sav, block.Data)
 {
-    public MyItem8a(SAV8LA SAV, SCBlock block) : base(SAV, block.Data) { }
-
     public override IReadOnlyList<InventoryPouch> Inventory
     {
         get
         {
-            var access = ((SAV8LA)SAV).Accessor;
+            var access = sav.Accessor;
             var satchel = (uint)access.GetBlock(SaveBlockAccessor8LA.KSatchelUpgrades).GetValue();
             var regularSize = (int)Math.Min(675, satchel + 20);
 
@@ -31,13 +29,13 @@ public sealed class MyItem8a : MyItem
             stored.GetPouch(access.GetBlock(SaveBlockAccessor8LA.KItemStored).Data);
             recipe.GetPouch(access.GetBlock(SaveBlockAccessor8LA.KItemRecipe).Data);
 
-            var result = new[] { regular, key, stored, recipe };
+            InventoryPouch8a[] result = [ regular, key, stored, recipe ];
             LoadFavorites(result, access);
             return result;
         }
         set
         {
-            var access = ((SAV8LA)SAV).Accessor;
+            var access = sav.Accessor;
             foreach (var p in value)
                 ((InventoryPouch8a)p).SanitizeCounts();
 

@@ -11,10 +11,10 @@ public sealed class TrainerNameVerifier : Verifier
     protected override CheckIdentifier Identifier => CheckIdentifier.Trainer;
 
     private static readonly string[] SuspiciousOTNames =
-    {
+    [
         "PKHeX",
         "ＰＫＨｅＸ",
-    };
+    ];
 
     public override void Verify(LegalityAnalysis data)
     {

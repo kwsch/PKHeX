@@ -7,9 +7,14 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 8b Mystery Gift Template File
 /// </summary>
-public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, IContestStatsReadOnly, ILangNicknamedTemplate, IEncounterServerDate,
-    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
+public sealed class WB8(byte[] Data) : DataMysteryGift(Data),
+    ILangNick, INature, IRibbonIndex, IContestStatsReadOnly,
+    ILangNicknamedTemplate, IEncounterServerDate,
+    IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7,
+    IRibbonSetCommon8, IRibbonSetMark8
 {
+    public WB8() : this(new byte[Size]) { }
+
     public const int Size = 0x2DC;
     public const int CardStart = 0x0;
 
@@ -30,9 +35,6 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
         Money = 5,
         UnderGroundItem = 6,
     }
-
-    public WB8() : this(new byte[Size]) { }
-    public WB8(byte[] data) : base(data) { }
 
     // TODO: public byte RestrictVersion?
 
@@ -253,7 +255,7 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
     // Meta Accessible Properties
     public override int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
         {
             if (value.Length != 6) return;
@@ -276,10 +278,11 @@ public sealed class WB8 : DataMysteryGift, ILangNick, INature, IRibbonIndex, ICo
 
     public int[] EVs
     {
-        get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
+        get => [EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD];
         set
         {
-            if (value.Length != 6) return;
+            if (value.Length != 6)
+                return;
             EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
             EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
         }

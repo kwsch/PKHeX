@@ -59,7 +59,7 @@ public static class MoveBreed
         // Group and order moves by their possible origin flags.
         Span<MoveOrder> expected = stackalloc MoveOrder[moves.Length];
         GetSortedMoveOrder(generation, moves, origins, expected);
-        // Don't mutate the expected list any more.
+        // Don't mutate the expected list anymore.
 
         // Temp buffer for the validation origin flags, unused in current scope but used inside the called method.
         Span<byte> temp = stackalloc byte[moves.Length];
