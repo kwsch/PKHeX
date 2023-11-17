@@ -187,6 +187,7 @@ public static class EncounterServerDate
         {0507, (new(2023, 10, 13), new(2024, 01, 01))}, // Trixie Mimikyu
         {0031, (new(2023, 11, 01), new(2025, 02, 01))}, // PokéCenter Birthday Charcadet and Pawmi
         {1006, (new(2023, 11, 02), new(2024, 01, 01))}, // Korea Bundle Fidough
+        {0508, (new(2023, 11, 16), new(2023, 11, 21))}, // Alex's Dragapult
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
