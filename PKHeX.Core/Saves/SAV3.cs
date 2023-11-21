@@ -599,13 +599,13 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
     }
 
     #region eBerry
-    public abstract Span<byte> EReaderBerry();
-    public string EBerryName => GetString(EReaderBerry()[..7]);
-    public bool IsEBerryEngima => EReaderBerry()[0] is 0 or 0xFF;
+    public abstract Span<byte> EReaderBerry { get; }
+    public string EBerryName => GetString(EReaderBerry[..7]);
+    public bool IsEBerryEngima => EReaderBerry[0] is 0 or 0xFF;
     #endregion
 
     #region eTrainer
-    public abstract Span<byte> EReaderTrainer();
+    public abstract Span<byte> EReaderTrainer { get; }
     #endregion
 
     public abstract Gen3MysteryData MysteryData { get; set; }

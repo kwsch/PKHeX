@@ -145,11 +145,11 @@ public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     private const int OFFSET_EBERRY = 0x30EC;
     private const int SIZE_EBERRY = 0x34;
 
-    public override Span<byte> EReaderBerry() => Large.AsSpan(OFFSET_EBERRY, SIZE_EBERRY);
+    public override Span<byte> EReaderBerry => Large.AsSpan(OFFSET_EBERRY, SIZE_EBERRY);
     #endregion
 
     #region eTrainer
-    public override Span<byte> EReaderTrainer() => Small.AsSpan(0x4A0, 0xBC);
+    public override Span<byte> EReaderTrainer => Small.AsSpan(0x4A0, 0xBC);
     #endregion
 
     public int WonderOffset => WonderNewsOffset;
