@@ -136,7 +136,7 @@ public sealed class PersonalInfo6AO : PersonalInfo, IPersonalAbility12H, IPerson
 
     private const int CountTutor1 = 15;
     private const int CountTutor2 = 17;
-    private const int CountTutor3 = 13;
+    private const int CountTutor3 = 16;
     private const int CountTutor4 = 15;
 
     public bool GetIsTutor1(int index)
