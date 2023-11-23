@@ -70,7 +70,7 @@ public abstract class SAV4Sinnoh : SAV4
 
     public bool PoketchFlag6 { get => (PoketchPacked & 0x40) != 0; set => PoketchPacked = (byte)(value ? (PoketchPacked | 0x40) : (PoketchPacked & ~0x40)); }
     public bool PoketchFlag7 { get => (PoketchPacked & 0x80) != 0; set => PoketchPacked = (byte)(value ? (PoketchPacked | 0x80) : (PoketchPacked & ~0x80)); }
-    public byte Poketch1 { get => General[PoketchStart + 1]; set => General[PoketchStart + 1] = value; }
+    public byte PoketchUnlockedCount { get => General[PoketchStart + 1]; set => General[PoketchStart + 1] = value; }
     public sbyte CurrentPoketchApp { get => (sbyte)General[PoketchStart + 2]; set => General[PoketchStart + 2] = (byte)Math.Min((sbyte)PoketchApp.Alarm_Clock, value); }
 
     public bool GetPoketchAppUnlocked(PoketchApp index)
