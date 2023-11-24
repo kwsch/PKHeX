@@ -249,13 +249,16 @@ public partial class SAV_Misc4 : Form
 
     private void SavePoketch(SAV4Sinnoh s)
     {
+        int unlockedCount = 0;
         s.CurrentPoketchApp = (sbyte)CB_CurrentApp.SelectedIndex;
         for (int i = 0; i < CLB_Poketch.Items.Count; i++)
         {
             var b = CLB_Poketch.GetItemChecked(i);
             s.SetPoketchAppUnlocked((PoketchApp)i, b);
+            if (b) unlockedCount++;
         }
         s.SetPoketchDotArtistData(DotArtistByte);
+        s.PoketchUnlockedCount = (byte)unlockedCount;
     }
 
     private void SetPictureBoxFromFlags(ReadOnlySpan<byte> inp)
