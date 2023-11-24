@@ -90,7 +90,7 @@ internal static class Encounters3Colo
         new(36, 07000, First)     { Species = 225, Level = 45, Moves = new(059,213,217,019), Location = 109 }, // Delibird: Cipher Peon Arton @ Realgam Tower
         new(36, 07000, First)     { Species = 225, Level = 45, Moves = new(059,213,217,019), Location = 132 }, // Delibird: Cipher Peon Arton @ Snagem Hideout
         new(37, 07000, Heracross) { Species = 214, Level = 45, Moves = new(179,203,068,280), Location = 111 }, // Heracross: Cipher Peon Dioge @ Realgam Tower
-        new(37, 07000, Heracross) { Species = 214, Level = 45, Moves = new(179,203,068,280), Location = 132 }, // Heracross: Cipher Peon Dioge @ Snagem Hideout
+        new(37, 07000, First)     { Species = 214, Level = 45, Moves = new(179,203,068,280), Location = 132 }, // Heracross: Cipher Peon Dioge @ Snagem Hideout (Rebattle, can skip original Heracross)
         new(38, 13000, First)     { Species = 227, Level = 47, Moves = new(065,319,314,211), Location = 117 }, // Skarmory: Snagem Head Gonzap @ Realgam Tower
         new(38, 13000, First)     { Species = 227, Level = 47, Moves = new(065,319,314,211), Location = 133 }, // Skarmory: Snagem Head Gonzap @ Snagem Hideout
 
