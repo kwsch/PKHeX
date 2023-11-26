@@ -64,6 +64,7 @@ public static class SaveFinder
     public static IEnumerable<string> GetSwitchBackupPaths(string root)
     {
         yield return Path.Combine(root, "switch", "Checkpoint", "saves");
+        yield return Path.Combine(root, "JKSV");
     }
 
     /// <summary>
