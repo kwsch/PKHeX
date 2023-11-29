@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using static PKHeX.Core.RibbonIndex;
 
 namespace PKHeX.Core;
@@ -106,7 +105,7 @@ public static class MarkRules
     {
         var location = s.Parent.Location;
         // If it's not in the main table, it can only have Normal weather.
-        var weather = EncounterArea8.WeatherbyArea.GetValueOrDefault(location, AreaWeather8.Normal);
+        var weather = EncounterArea8.GetWeather(location);
         if (weather.HasFlag(permit))
             return true;
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using static PKHeX.Core.AreaWeather9;
 
 namespace PKHeX.Core;
@@ -43,69 +42,70 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
 
     public static bool CanSpawnInWeather(RibbonIndex mark, byte loc)
     {
-        if (AreaWeather.TryGetValue(loc, out var areaWeather))
-            return areaWeather.IsMarkCompatible(mark);
-        return false;
+        var weather = GetWeather(loc);
+        return weather.IsMarkCompatible(mark);
     }
 
     /// <summary>
-    /// Location IDs matched with possible weather types.
+    /// Location IDs matched with possible weather types. Unlisted locations may only have Normal weather.
     /// </summary>
-    internal static readonly Dictionary<byte, AreaWeather9> AreaWeather = new()
+    public static AreaWeather9 GetWeather(byte location) => location switch
     {
-        {   6, Standard },                       // South Province (Area One)
-        {  10, Standard },                       // Pokémon League
-        {  12, Standard },                       // South Province (Area Two)
-        {  14, Standard },                       // South Province (Area Four)
-        {  16, Standard },                       // South Province (Area Six)
-        {  18, Standard },                       // South Province (Area Five)
-        {  20, Standard },                       // South Province (Area Three)
-        {  22, Standard },                       // West Province (Area One)
-        {  24, Sand },                           // Asado Desert
-        {  26, Standard },                       // West Province (Area Two)
-        {  28, Standard },                       // West Province (Area Three)
-        {  30, Standard },                       // Tagtree Thicket
-        {  32, Standard },                       // East Province (Area Three)
-        {  34, Standard },                       // East Province (Area One)
-        {  36, Standard },                       // East Province (Area Two)
-        {  38, Snow },                           // Glaseado Mountain (1)
-        {  40, Standard },                       // Casseroya Lake
-        {  44, Standard },                       // North Province (Area Three)
-        {  46, Standard },                       // North Province (Area One)
-        {  48, Standard },                       // North Province (Area Two)
-        {  50, Standard },                       // Great Crater of Paldea
-        {  56, Standard },                       // South Paldean Sea
-        {  58, Standard },                       // West Paldean Sea
-        {  60, Standard },                       // East Paldean Sea
-        {  62, Standard },                       // North Paldean Sea
-        {  64, Inside },                         // Inlet Grotto
-        {  67, Inside },                         // Alfornada Cavern
-        {  69, Standard | Inside | Snow | Snow },// Dalizapa Passage (Near Medali, Tunnels, Near Pokémon Center, Near Zapico)
-        {  70, Standard },                       // Poco Path
-        {  80, Standard },                       // Cabo Poco
-        { 109, Standard },                       // Socarrat Trail
-        { 124, Inside },                         // Area Zero (5)
+        006 => Standard,                       // South Province (Area One)
+        010 => Standard,                       // Pokémon League
+        012 => Standard,                       // South Province (Area Two)
+        014 => Standard,                       // South Province (Area Four)
+        016 => Standard,                       // South Province (Area Six)
+        018 => Standard,                       // South Province (Area Five)
+        020 => Standard,                       // South Province (Area Three)
+        022 => Standard,                       // West Province (Area One)
+        024 => Sand,                           // Asado Desert
+        026 => Standard,                       // West Province (Area Two)
+        028 => Standard,                       // West Province (Area Three)
+        030 => Standard,                       // Tagtree Thicket
+        032 => Standard,                       // East Province (Area Three)
+        034 => Standard,                       // East Province (Area One)
+        036 => Standard,                       // East Province (Area Two)
+        038 => Snow,                           // Glaseado Mountain (1)
+        040 => Standard,                       // Casseroya Lake
+        044 => Standard,                       // North Province (Area Three)
+        046 => Standard,                       // North Province (Area One)
+        048 => Standard,                       // North Province (Area Two)
+        050 => Standard,                       // Great Crater of Paldea
+        056 => Standard,                       // South Paldean Sea
+        058 => Standard,                       // West Paldean Sea
+        060 => Standard,                       // East Paldean Sea
+        062 => Standard,                       // North Paldean Sea
+        064 => Inside,                         // Inlet Grotto
+        067 => Inside,                         // Alfornada Cavern
+        069 => Standard | Inside | Snow | Snow,// Dalizapa Passage (Near Medali, Tunnels, Near Pokémon Center, Near Zapico)
+        070 => Standard,                       // Poco Path
+        080 => Standard,                       // Cabo Poco
+        109 => Standard,                       // Socarrat Trail
+        124 => Inside,                         // Area Zero (5)
 
-        { 132, Standard }, // Kitakami Road
-        { 134, Standard }, // Mossui Town
-        { 136, Standard }, // Apple Hills
-        { 138, Standard }, // Loyalty Plaza
-        { 140, Standard }, // Reveler’s Road
-        { 142, Standard }, // Kitakami Hall
-        { 144, Standard }, // Oni Mountain
-        { 146, Standard }, // Dreaded Den
-        { 148, Standard }, // Oni’s Maw
-        { 150, Standard }, // Oni Mountain
-        { 152, Standard }, // Crystal Pool
-        { 154, Standard }, // Crystal Pool
-        { 156, Standard }, // Wistful Fields
-        { 158, Standard }, // Mossfell Confluence
-        { 160, Standard }, // Fellhorn Gorge
-        { 162, Standard }, // Paradise Barrens
-        { 164, Standard }, // Kitakami Wilds
-        { 166, Standard }, // Timeless Woods
-        { 168, Standard }, // Infernal Pass
-        { 170, Standard }, // Chilling Waterhead
+        132 => Standard, // Kitakami Road
+        134 => Standard, // Mossui Town
+        136 => Standard, // Apple Hills
+        138 => Standard, // Loyalty Plaza
+        140 => Standard, // Reveler’s Road
+        142 => Standard, // Kitakami Hall
+        144 => Standard, // Oni Mountain
+        146 => Standard, // Dreaded Den
+        148 => Standard, // Oni’s Maw
+        150 => Standard, // Oni Mountain
+        152 => Standard, // Crystal Pool
+        154 => Standard, // Crystal Pool
+        156 => Standard, // Wistful Fields
+        158 => Standard, // Mossfell Confluence
+        160 => Standard, // Fellhorn Gorge
+        162 => Standard, // Paradise Barrens
+        164 => Standard, // Kitakami Wilds
+        166 => Standard, // Timeless Woods
+        168 => Standard, // Infernal Pass
+        170 => Standard, // Chilling Waterhead
+
+        _ => None,
     };
 
     #region Generating

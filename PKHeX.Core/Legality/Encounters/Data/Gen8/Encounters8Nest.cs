@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.GameVersion;
@@ -218,36 +217,44 @@ internal static class Encounters8Nest
     /// <summary>
     /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.
     /// </summary>
-    internal static readonly Dictionary<byte, byte[]> InaccessibleRank12Nests = new()
+    internal static bool IsInaccessibleRank12Nest(byte nestID, byte location)
     {
-        {128, [6,43]}, // East Lake Axewell
-        {130, [6,41,43]}, // West Lake Axewell
-        {132, [37,63]}, // Axew's Eye
-        {134, [7,40,75,90]}, // South Lake Miloch
-        {138, [40,75]}, // North Lake Miloch
-        {142, [7,43]}, // Bridge Field
-        {146, [8,74]}, // Dusty Bowl
-        {148, [41,66]}, // Giant's Mirror
-        {154, [7,17,24,33,43,55,73,76]}, // Lake of Outrage
-        {164, [136,137]}, // Fields of Honor
-        {168, [124,125,134,135,144,153]}, // Forest of Focus
-        {170, [126,127]}, // Challenge Beach
-        {176, [132,133]}, // Courageous Cavern
-        {178, [106,107,112,113,130,136,137,150]}, // Loop Lagoon
-        {180, [116,117]}, // Training Lowlands
-        {186, [106,107,108,109,120,121,130,131,138,139,145,151,152,154]}, // Workout Sea
-        {188, [98,99,102,103,106,107,116,117,118,119,126,127,128,129,138,139,145,154]}, // Stepping-Stone Sea
-        {190, [98,99,110,111,124,125,136,138,139,146]}, // Insular Sea
-        {192, [104,105,120,121,122,123,130,131,138,139]}, // Honeycalm Sea
-        {194, [142,143]}, // Honeycalm Island
-        {210, [169,170,183,184]}, // Giant's Bed
-        {222, [181,182,185,186]}, // Giant's Foot
-        {226, [161,162,163,164,167,168,169,170,171,172,173,174,175,176,181,182,183,184,185,186,187,188,189,190]}, // Frigid Sea
-        {228, [163,164,183,184]}, // Three-Point Pass
-        {230, [157,158,159,160,161,162,163,164,165,166,171,172,173,174,175,176,177,178,179,180,181,182,183,184,189,190,191,192,193,194]}, // Ballimere Lake
-        {234, [175,176]}, // Dyna Tree Hill
+        var noNest = GetInaccessibleRank12Nests(location);
+        return noNest.Length > 0 && noNest.Contains(nestID);
+    }
 
-        {162, [6,7,37,40,41,43,66,73,75,76,130,131,138,139,142,143,145,146,150,151,152,154,169,170,193,194]}, // Completely inaccessible
+    private static ReadOnlySpan<byte> GetInaccessibleRank12Nests(byte location) => location switch
+    {
+        128 => [6,43], // East Lake Axewell
+        130 => [6,41,43], // West Lake Axewell
+        132 => [37,63], // Axew's Eye
+        134 => [7,40,75,90], // South Lake Miloch
+        138 => [40,75], // North Lake Miloch
+        142 => [7,43], // Bridge Field
+        146 => [8,74], // Dusty Bowl
+        148 => [41,66], // Giant's Mirror
+        154 => [7,17,24,33,43,55,73,76], // Lake of Outrage
+        164 => [136,137], // Fields of Honor
+        168 => [124,125,134,135,144,153], // Forest of Focus
+        170 => [126,127], // Challenge Beach
+        176 => [132,133], // Courageous Cavern
+        178 => [106,107,112,113,130,136,137,150], // Loop Lagoon
+        180 => [116,117], // Training Lowlands
+        186 => [106,107,108,109,120,121,130,131,138,139,145,151,152,154], // Workout Sea
+        188 => [98,99,102,103,106,107,116,117,118,119,126,127,128,129,138,139,145,154], // Stepping-Stone Sea
+        190 => [98,99,110,111,124,125,136,138,139,146], // Insular Sea
+        192 => [104,105,120,121,122,123,130,131,138,139], // Honeycalm Sea
+        194 => [142,143], // Honeycalm Island
+        210 => [169,170,183,184], // Giant's Bed
+        222 => [181,182,185,186], // Giant's Foot
+        226 => [161,162,163,164,167,168,169,170,171,172,173,174,175,176,181,182,183,184,185,186,187,188,189,190], // Frigid Sea
+        228 => [163,164,183,184], // Three-Point Pass
+        230 => [157,158,159,160,161,162,163,164,165,166,171,172,173,174,175,176,177,178,179,180,181,182,183,184,189,190,191,192,193,194], // Ballimere Lake
+        234 => [175,176], // Dyna Tree Hill
+
+        162 => [6,7,37,40,41,43,66,73,75,76,130,131,138,139,142,143,145,146,150,151,152,154,169,170,193,194], // Completely inaccessible
+
+        _ => ReadOnlySpan<byte>.Empty,
     };
 
     // Abilities Allowed

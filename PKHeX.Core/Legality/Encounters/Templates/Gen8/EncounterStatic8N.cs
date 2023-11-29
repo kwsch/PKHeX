@@ -62,12 +62,8 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
         if (rank <= 1 && met <= byte.MaxValue)
         {
-            if (InaccessibleRank12Nests.TryGetValue((byte)met, out var nests))
-            {
-                var nest = Array.IndexOf(nests, NestID);
-                if (nest >= 0)
-                    return false;
-            }
+            if (IsInaccessibleRank12Nest(NestID, (byte)met))
+                return false;
         }
 
         if (rank < MinRank) // down-leveled

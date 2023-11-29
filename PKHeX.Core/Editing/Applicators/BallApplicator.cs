@@ -96,7 +96,7 @@ public static class BallApplicator
         // Gen1/2 don't store color in personal info
         var pi = pk.Format >= 3 ? pk.PersonalInfo : PersonalTable.USUM.GetFormEntry(pk.Species, 0);
         var color = (PersonalColor)pi.Color;
-        var balls = BallColors[color];
+        var balls = BallColors[(int)color];
         var currentBall = (Ball)pk.Ball;
         return GetCircularOnce(balls, currentBall, result);
     }
@@ -128,8 +128,9 @@ public static class BallApplicator
         all = all[..FillExcept(all, exclude, BallList)];
 
         var colors = (PersonalColor[])Enum.GetValues(typeof(PersonalColor));
-        foreach (var c in colors)
+        foreach (var color in colors)
         {
+            int c = (int)color;
             // Replace the array reference with a new array that appends non-matching values, followed by the end values.
             var defined = BallColors[c];
             Span<Ball> match = (BallColors[c] = new Ball[all.Length + end.Length]);
@@ -164,20 +165,20 @@ public static class BallApplicator
     /// <summary>
     /// Priority Match ball IDs that match the color ID in descending order
     /// </summary>
-    private static readonly Dictionary<PersonalColor, Ball[]> BallColors = new()
-    {
-        [PersonalColor.Red] =    [Cherish, Repeat, Fast, Heal, Great, Dream, Lure],
-        [PersonalColor.Blue] =   [Dive, Net, Great, Beast, Lure],
-        [PersonalColor.Yellow] = [Level, Ultra, Repeat, Quick, Moon],
-        [PersonalColor.Green] =  [Safari, Friend, Nest, Dusk],
-        [PersonalColor.Black] =  [Luxury, Heavy, Ultra, Moon, Net, Beast],
+    private static readonly Ball[][] BallColors =
+    [
+        /* Red */    [Cherish, Repeat, Fast, Heal, Great, Dream, Lure],
+        /* Blue */   [Dive, Net, Great, Beast, Lure],
+        /* Yellow */ [Level, Ultra, Repeat, Quick, Moon],
+        /* Green */  [Safari, Friend, Nest, Dusk],
+        /* Black */  [Luxury, Heavy, Ultra, Moon, Net, Beast],
 
-        [PersonalColor.Brown] =  [Level, Heavy],
-        [PersonalColor.Purple] = [Master, Love, Dream, Heal],
-        [PersonalColor.Gray] =   [Heavy, Premier, Luxury],
-        [PersonalColor.White] =  [Premier, Timer, Luxury, Ultra],
-        [PersonalColor.Pink] =   [Love, Dream, Heal],
-    };
+        /* Brown */  [Level, Heavy],
+        /* Purple */ [Master, Love, Dream, Heal],
+        /* Gray */   [Heavy, Premier, Luxury],
+        /* White */  [Premier, Timer, Luxury, Ultra],
+        /* Pink */   [Love, Dream, Heal],
+    ];
 
     /// <summary>
     /// Personal Data color IDs
