@@ -37,8 +37,6 @@ public static class StringConverter4GC
             if (value == Terminator)
                 break;
             char chr = (char)ConvertValue2CharG4(value);
-            if (chr == TerminatorChar)
-                break;
             chr = StringConverter.SanitizeChar(chr);
             result[i/2] = chr;
         }

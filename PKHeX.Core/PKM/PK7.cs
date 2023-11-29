@@ -241,8 +241,12 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         get => StringConverter7.GetString(Nickname_Trash);
         set
         {
+            // For Pokémon with no nickname, and match their Chinese species name, we need to use the private codepoint range instead of unicode.
+            // Can't use the stored language as it might have been traded & evolved -> mismatch; Gen8+ will match the origin language, not Gen7 :(
             if (!IsNicknamed)
             {
+                // Detect the language of the species name.
+                // If the species name is the same for Traditional and Simplified Chinese, we prefer the saved language.
                 int lang = SpeciesName.GetSpeciesNameLanguage(Species, Language, value, 7);
                 if (lang is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT)
                 {

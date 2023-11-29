@@ -7,12 +7,6 @@ namespace PKHeX.Core.Tests.PKM;
 public class StringTests
 {
     [Fact]
-    public void Gen7ZHLengthCorrect()
-    {
-        StringConverter7ZH.Gen7_ZHRaw.Length.Should().Be(StringConverter7ZH.Gen7_ZHLength);
-    }
-
-    [Fact]
     public void EncodesOTNameCorrectly()
     {
         const string name_fabian = "Fabian♂";

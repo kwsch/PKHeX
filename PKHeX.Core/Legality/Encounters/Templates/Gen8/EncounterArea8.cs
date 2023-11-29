@@ -183,7 +183,7 @@ public sealed record EncounterArea8 : IEncounterArea<EncounterSlot8>, IAreaLocat
         // Ballimere Lake
         // Lakeside Cave
         230 => [232],
-        _ => default,
+        _ => [],
     };
 
     /// <summary>

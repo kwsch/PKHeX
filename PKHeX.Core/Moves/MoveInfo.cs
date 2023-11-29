@@ -53,7 +53,7 @@ public static class MoveInfo
         Gen8a => MoveInfo8a.DummiedMoves,
         Gen8b => MoveInfo8b.DummiedMoves,
         Gen9 => MoveInfo9.DummiedMoves,
-        _ => default,
+        _ => [],
     };
 
     /// <summary>
