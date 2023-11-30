@@ -10,7 +10,6 @@ namespace PKHeX.Core;
 public static class StringConverter4
 {
     private const ushort Terminator = 0xFFFF;
-    private const char TerminatorChar = (char)Terminator;
 
     /// <summary>Converts Generation 4 encoded data to decoded string.</summary>
     /// <param name="data">Encoded data</param>

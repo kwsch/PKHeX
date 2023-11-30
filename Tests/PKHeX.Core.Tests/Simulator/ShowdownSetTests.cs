@@ -48,15 +48,14 @@ public class ShowdownSetTests
         }
     }
 
-    [Fact]
-    public void SimGetVivillonPostcardSV()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(Vivillon3DS.FancyFormID)]
+    public void SimGetVivillonPostcardSV(byte form)
     {
-        var pk9 = new PK9 { Species = (int)Species.Vivillon, Form = 1 };
-        var encounters = EncounterMovesetGenerator.GenerateEncounters(pk9, Array.Empty<ushort>(), GameVersion.SL);
-        encounters.OfType<EncounterSlot9>().Should().NotBeEmpty();
-
-        pk9 = new PK9 { Species = (int)Species.Vivillon, Form = Vivillon3DS.FancyFormID };
-        encounters = EncounterMovesetGenerator.GenerateEncounters(pk9, Array.Empty<ushort>(), GameVersion.SL);
+        var pk9 = new PK9 { Species = (int)Species.Vivillon, Form = form };
+        ushort[] moves = [];
+        var encounters = EncounterMovesetGenerator.GenerateEncounters(pk9, moves, GameVersion.SL);
         encounters.OfType<EncounterSlot9>().Should().NotBeEmpty();
     }
 
