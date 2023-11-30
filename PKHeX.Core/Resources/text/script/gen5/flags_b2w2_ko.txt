@@ -4,9 +4,9 @@
 0329	r	테라키온 (재대결, 레벨 +20)
 0801	r	비리디온 사라짐
 0300	r	비리디온 (재대결, 레벨 +20)
-0928    r   Volcarona Disappeared
-0403    r   Volcarona Captured (Level 35/65)
-0404    r   Volcarona Defeated (Level 35)
+0928	r	Volcarona Disappeared
+0403	r	Volcarona Captured (Level 35/65)
+0404	r	Volcarona Defeated (Level 35)
 0667	r	레시라무/제크로무 사라짐
 1004	r	큐레무 사라짐
 0922	r	레지락 사라짐
