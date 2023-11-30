@@ -33,7 +33,6 @@ namespace PKHeX.WinForms
             B_Cancel = new System.Windows.Forms.Button();
             B_Save = new System.Windows.Forms.Button();
             tabControl1 = new System.Windows.Forms.TabControl();
-            IL_Pouch = new System.Windows.Forms.ImageList(components);
             B_GiveAll = new System.Windows.Forms.Button();
             B_Sort = new System.Windows.Forms.Button();
             sortMenu = new System.Windows.Forms.ContextMenuStrip(components);
@@ -81,32 +80,12 @@ namespace PKHeX.WinForms
             tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            tabControl1.ImageList = IL_Pouch;
             tabControl1.Location = new System.Drawing.Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new System.Drawing.Size(291, 336);
             tabControl1.TabIndex = 17;
             tabControl1.SelectedIndexChanged += new System.EventHandler(SwitchBag);
-            // 
-            // IL_Pouch
-            // 
-            IL_Pouch.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject($"IL_Pouch.ImageStream")));
-            IL_Pouch.TransparentColor = System.Drawing.Color.Transparent;
-            IL_Pouch.Images.SetKeyName(0, "Bag_Items.png");
-            IL_Pouch.Images.SetKeyName(1, "Bag_Key.png");
-            IL_Pouch.Images.SetKeyName(2, "Bag_TMHM.png");
-            IL_Pouch.Images.SetKeyName(3, "Bag_Medicine.png");
-            IL_Pouch.Images.SetKeyName(4, "Bag_Berries.png");
-            IL_Pouch.Images.SetKeyName(5, "Bag_Balls.png");
-            IL_Pouch.Images.SetKeyName(6, "Bag_Battle.png");
-            IL_Pouch.Images.SetKeyName(7, "Bag_Mail.png");
-            IL_Pouch.Images.SetKeyName(8, "Bag_PCItems.png");
-            IL_Pouch.Images.SetKeyName(9, "Bag_Free.png");
-            IL_Pouch.Images.SetKeyName(10, "Bag_Z.png");
-            IL_Pouch.Images.SetKeyName(11, "Bag_Candy.png");
-            IL_Pouch.Images.SetKeyName(12, "Bag_Treasure.png");
-            IL_Pouch.Images.SetKeyName(13, "Bag_Ingredient.png");
             // 
             // B_GiveAll
             // 
@@ -283,7 +262,6 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.Button B_GiveAll;
-        private System.Windows.Forms.ImageList IL_Pouch;
         private System.Windows.Forms.Button B_Sort;
         private System.Windows.Forms.ContextMenuStrip sortMenu;
         private System.Windows.Forms.ToolStripMenuItem mnuSortNameReverse;
