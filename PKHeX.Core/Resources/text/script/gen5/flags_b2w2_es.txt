@@ -4,9 +4,9 @@
 0329	r	Terrakion (Revancha, Nivel +20)
 0801	r	Virizion Desaparecido
 0300	r	Virizion (Revancha, Nivel +20)
-0928    r   Volcarona Disappeared
-0403    r   Volcarona Captured (Level 35/65)
-0404    r   Volcarona Defeated (Level 35)
+0928	r	Volcarona Disappeared
+0403	r	Volcarona Captured (Level 35/65)
+0404	r	Volcarona Defeated (Level 35)
 0667	r	Reshiram/Zekrom Desaparecido
 1004	r	Kyurem Desaparecido
 0922	r	Regirock Desaparecido
