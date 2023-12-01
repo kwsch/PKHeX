@@ -1,5 +1,6 @@
 0048	*	御三家	0:藤藤蛇,1:暖暖猪,2:水水獭
 0077	s	连入	6:完成教程
+0143	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
 0268	r	拉帝亚斯/拉帝欧斯	5:可对战,6:消失
 0291	s	N的索罗亚克 (冠军之路)	0:阻止进一步访问（未成为冠军）,1:希望你跟随（成为冠军后）,2:在外面的悬崖上,3:在N的城堡前,4:走进N的城堡
 0294	e	琉璃/阿铁 呼叫 (雷文市)	0:无效,1:可激活,2:已激活

@@ -4,9 +4,9 @@
 0329	r	テラキオン (再戦・レベル+20)
 0801	r	ビリジオン (戦闘済み)
 0300	r	ビリジオン (再戦・レベル+20)
-0928    r   Volcarona Disappeared
-0403    r   Volcarona Captured (Level 35/65)
-0404    r   Volcarona Defeated (Level 35)
+0928	r	Volcarona Disappeared
+0403	r	Volcarona Captured (Level 35/65)
+0404	r	Volcarona Defeated (Level 35)
 0667	r	レシラム / ゼクロム (戦闘済み)
 1004	r	キュレム (戦闘済み)
 0922	r	レジロック (戦闘済み)
