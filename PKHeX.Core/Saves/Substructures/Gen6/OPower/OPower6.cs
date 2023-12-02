@@ -71,7 +71,7 @@ public sealed class OPower6 : SaveBlock<SAV6>
             if (clearOnly)
                 continue;
 
-            int lvl = allEvents ? m.BaseCount : (m.BaseCount != 1 ? 3 : 0); // Full_Recovery is ORAS/event only @ 1 level
+            int lvl = allEvents ? m.BaseCount : (m.BaseCount != 1 ? 3 : 0); // Full_Recovery is OR/AS event only @ 1 level
             m.SetOPowerLevel(span, lvl);
             if (!allEvents)
                 continue;

@@ -5,17 +5,17 @@ namespace PKHeX.Core;
 /// <summary>
 /// Level Up Learn Movepool Information
 /// </summary>
-public sealed class Learnset(ushort[] moves, byte[] levels)
+public sealed class Learnset(ushort[] Moves, byte[] Levels)
 {
     /// <summary>
     /// Moves that can be learned.
     /// </summary>
-    private readonly ushort[] Moves = moves;
+    private readonly ushort[] Moves = Moves;
 
     /// <summary>
     /// Levels at which a move at a given index can be learned.
     /// </summary>
-    private readonly byte[] Levels = levels;
+    private readonly byte[] Levels = Levels;
 
     private const byte MagicEvolutionMoveLevel = 0;
 

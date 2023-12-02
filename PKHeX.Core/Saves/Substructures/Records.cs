@@ -234,7 +234,7 @@ public static class RecordLists
         {175, "Times used Escape Rope"},
         {176, "Times used Dowsing Machine"},
         {177, "Trainer's Eye Rematches"},
-        {178, "FUREAI Interest ???"}, // similar to USUM idb
+        {178, "FUREAI Interest ???"}, // similar to US/UM idb
 
         {179, "Shiny Pokemon Encountered"},
         {180, "Trick House Clears"},
@@ -314,7 +314,7 @@ public static class RecordLists
         {067, "Berry Piles (not full) Collected"},
         {068, "Berry Piles (full) Collected"},
         {069, "Items Reeled In"},
-        // USUM
+        // US/UM
         {070, "Roto Lotos"},
 
         {072, "Stickers Collected"},
@@ -411,7 +411,7 @@ public static class RecordLists
         {186, "Get BP at the Battle Tree!"},
         {187, "Catch a lot of Pokémon!"},
 
-        // USUM
+        // US/UM
         {188, "Ultra Wormhole Travels"},
         {189, "Mantine Surf Plays"},
         {190, "Photo Club Photos saved"},

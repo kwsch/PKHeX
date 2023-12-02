@@ -1142,7 +1142,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7;
         B_OpenOPowers.Visible = sav is ISaveBlock6Main;
         B_OpenPokedex.Visible = sav.HasPokeDex;
-        B_OpenBerryField.Visible = sav is SAV6XY; // oras undocumented
+        B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented
         B_OpenFriendSafari.Visible = sav is SAV6XY;
         B_OpenEventFlags.Visible = sav is IEventFlag37 or SAV1 or SAV2 or SAV8BS or SAV7b;
         B_CGearSkin.Visible = sav.Generation == 5;

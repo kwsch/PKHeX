@@ -118,7 +118,7 @@ public partial class MemoryAmie : Form
                 GB_M_OT.Text = $"{TextArgs.PastGen} {Entity.OT_Name}: {TextArgs.OT}"; // Past Gen OT : OTNAME
                 GB_M_CT.Text = $"{TextArgs.MemoriesWith} {Entity.HT_Name}"; // Memories with : HTNAME
                 enable = false;
-                // Reset to no memory -- don't reset affection as ORAS can raise it
+                // Reset to no memory -- don't reset affection as OR/AS can raise it (+20 * n) via Contests
                 CB_OTQual.SelectedIndex = CB_OTFeel.SelectedIndex = 0;
                 CB_OTVar.SelectedValue = CB_OTMemory.SelectedValue = 0;
             }

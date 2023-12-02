@@ -61,7 +61,7 @@ public static class FormArgumentUtil
             ? GetFormArgumentMax(pk.Species, pk.Form, pk.Context)
             : GetFormArgumentMinEvolution(pk.Species, originalSpecies);
         if (pk.Species is (int)Hoopa && pk.Format >= 8)
-            value = 0; // SV does not set the argument for Hoopa
+            value = 0; // S/V does not set the argument for Hoopa
         pk.ChangeFormArgument(value);
     }
 

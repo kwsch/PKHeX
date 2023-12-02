@@ -229,12 +229,12 @@ public static class Tera9RNG
         // This results in:
         // - the 1st rate check has a total range of one more than the intended range.
         // - the last rate check has a total range of one less than the intended range.
-        1 => rand <= 80,                                             // [  0, 80], [ 0, 30], or [ 0, 20]
-        2 => rand is (> 80) or (> 30 and <= 70) or (> 20 and <= 40), // (80, 100], (30, 70], or (20, 40]
-        3 => true, // all progress ranges overlap!                   // (70, 100], (40, 70], or [ 0, 40]
-        4 => rand is (> 70) or (> 40 and <= 75) or (> 30 and <= 70), // (70, 100], (40, 75], or (30, 70]
-        5 => rand > 70,                                              // (70, 100]
-        _ => true,                                                   // forced star count
+        1 => rand <= 80,                      // [  0, 80], [ 0, 30], or [ 0, 20]
+        2 => rand is (<=70 and >20) or (>80), // (80, 100], (30, 70], or (20, 40]
+        3 => true, // all ranges overlap!     // (70, 100], (40, 70], or [ 0, 40]
+        4 => rand > 30,                       // (70, 100], (40, 75], or (30, 70]
+        5 => rand > 70,                       // (70, 100]
+        _ => true,                            // forced star count
     };
 
     /// <summary>

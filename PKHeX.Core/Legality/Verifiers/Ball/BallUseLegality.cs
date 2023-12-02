@@ -83,7 +83,7 @@ internal static class BallUseLegality
 
     public const ulong DreamWorldBalls = WildPokeBalls5 | WildPokeEnhance5;
     private const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
-    private const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HGSS + Beast
+    private const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HG/SS + Beast
     private const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
 
     private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);

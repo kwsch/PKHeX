@@ -43,13 +43,13 @@ public sealed class CGearBackground
     * The tiles are chosen based on the 16bit index of the tile.
     * 0x300 * 2 = 0x600!
     *
-    * CGearBackgrounds tilemap (when stored on BW) employs some obfuscation.
-    * BW obfuscates by adding 0xA0A0.
+    * CGearBackgrounds tilemap (when stored on B/W) employs some obfuscation.
+    * B/W obfuscates by adding 0xA0A0.
     * The obfuscated number is then tweaked by adding 15*(i/17)
     * To reverse, use a similar reverse calculation
     * PSK files are basically raw game rips (obfuscated)
-    * CGB files are un-obfuscated / B2W2.
-    * Due to BW and B2W2 using different obfuscation adds, PSK files are incompatible between the versions.
+    * CGB files are un-obfuscated / B2/W2.
+    * Due to B/W and B2/W2 using different obfuscation adds, PSK files are incompatible between the versions.
     */
 
     public readonly int[] ColorPalette;

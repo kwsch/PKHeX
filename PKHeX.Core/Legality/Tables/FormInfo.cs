@@ -106,9 +106,9 @@ public static class FormInfo
         if (species is (int)Deerling or (int)Sawsbuck)
         {
             if (origin == EntityContext.Gen5)
-                return true; // B/W
+                return true; // B/W or B2/W2 change via seasons
             if (current.Generation() >= 8)
-                return true; // Via S/V
+                return true; // Via S/V change via in-game province on startup.
         }
         return false;
     }
@@ -158,12 +158,17 @@ public static class FormInfo
     /// <summary>
     /// Species that have an alternate form that cannot exist outside of battle.
     /// </summary>
-    private static readonly HashSet<ushort> BattleForms =
+    private static ReadOnlySpan<ushort> BattleForms =>
     [
         (int)Castform,
+        (int)Kyogre,
+        (int)Groudon,
+
         (int)Cherrim,
+
         (int)Darmanitan,
         (int)Meloetta,
+
         (int)Aegislash,
         (int)Xerneas,
         (int)Zygarde,
@@ -171,11 +176,11 @@ public static class FormInfo
         (int)Wishiwashi,
         (int)Minior,
         (int)Mimikyu,
+        (int)Necrozma,
 
         (int)Cramorant,
         (int)Morpeko,
         (int)Eiscue,
-
         (int)Zacian,
         (int)Zamazenta,
         (int)Eternatus,
@@ -188,8 +193,9 @@ public static class FormInfo
     /// Species that have a mega form that cannot exist outside of battle.
     /// </summary>
     /// <remarks>Using a held item to change form during battle, via an in-battle transformation feature.</remarks>
-    private static readonly HashSet<ushort> BattleMegas =
+    private static ReadOnlySpan<ushort> BattleMegas =>
     [
+        // X/Y
         (int)Venusaur, (int)Charizard, (int)Blastoise,
         (int)Alakazam, (int)Gengar, (int)Kangaskhan, (int)Pinsir,
         (int)Gyarados, (int)Aerodactyl, (int)Mewtwo,
@@ -201,7 +207,7 @@ public static class FormInfo
 
         (int)Garchomp, (int)Lucario, (int)Abomasnow,
 
-        // AO
+        // OR/AS
         (int)Beedrill, (int)Pidgeot, (int)Slowbro,
 
         (int)Steelix,
@@ -211,21 +217,20 @@ public static class FormInfo
 
         (int)Lopunny, (int)Gallade,
         (int)Audino, (int)Diancie,
-
-        // USUM
-        (int)Necrozma, // Ultra Necrozma
     ];
 
     private static readonly HashSet<ushort> BattleOnly = GetBattleFormSet();
 
     private static HashSet<ushort> GetBattleFormSet()
     {
-        var hs = new HashSet<ushort>(BattleForms);
-        hs.UnionWith(BattleMegas);
-
-        // Primals
-        hs.Add((ushort)Kyogre);
-        hs.Add((ushort)Groudon);
+        var reg = BattleForms;
+        var mega = BattleMegas;
+        var count = reg.Length + mega.Length + 2;
+        var hs = new HashSet<ushort>(count);
+        foreach (var species in reg)
+            hs.Add(species);
+        foreach (var species in mega)
+            hs.Add(species);
         return hs;
     }
 

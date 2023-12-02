@@ -125,7 +125,7 @@ public partial class SAV_FestivalPlaza : Form
         ];
 
         CB_FacilityType.Items.Clear();
-        for (int k = 0; k < RES_FacilityLevelType.Length - (SAV is SAV7USUM ? 0 : 1); k++) //Exchange is USUM only
+        for (int k = 0; k < RES_FacilityLevelType.Length - (SAV is SAV7USUM ? 0 : 1); k++) // Exchange is US/UM only
         {
             var arr = RES_FacilityLevelType[k];
             for (int j = 0; j < arr.Length; j++)

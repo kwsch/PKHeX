@@ -62,7 +62,7 @@ public sealed class ItemStorage6AO : IItemStorage
         // Illegal
         // 716, 717, 723, 745, 746, 747, 748, 749, 750, 766,
 
-        // ORAS
+        // OR/AS
         457, 474, 503,
 
         718, 719,
@@ -98,7 +98,7 @@ public sealed class ItemStorage6AO : IItemStorage
         InventoryType.KeyItems => Pouch_Key_AO,
         InventoryType.TMHMs => Pouch_TMHM_AO,
         InventoryType.Medicine => Pouch_Medicine_AO,
-        InventoryType.Berries => ItemStorage6XY.Pouch_Berry_XY,
+        InventoryType.Berries => Pouch_Berry_XY,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

@@ -53,7 +53,7 @@ public sealed class PB8 : G8PKM
             if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
 
-            // Unfortunately, BDSP doesn't return if it's an egg, and can update the HT details & handler.
+            // Unfortunately, BD/SP doesn't return if it's an egg, and can update the HT details & handler.
             // Continue to the rest of the method.
             // return;
         }

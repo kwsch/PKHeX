@@ -6,7 +6,7 @@ internal static class Locations6
 {
     public static ReadOnlySpan<ushort> Met0 =>
     [
-        /* XY */
+        /* X/Y */
              002,      006, 008,
         010, 012, 014, 016, 018,
         020, 022, 024, 026, 028,
@@ -25,7 +25,7 @@ internal static class Locations6
         150, 152, 154, 156, 158,
         160, 162, 164, 166, 168,
 
-        /* ORAS */
+        /* OR/AS */
         170, 172, 174, 176, 178,
         180, 182, 184, 186, 188,
         190, 192, 194, 196, 198,
@@ -65,5 +65,5 @@ internal static class Locations6
         40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078, 40079,
     ];
 
-    public static ReadOnlySpan<ushort> Met6 => [/* XY */ 60001, 60003, /* ORAS */ 60004];
+    public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004];
 }

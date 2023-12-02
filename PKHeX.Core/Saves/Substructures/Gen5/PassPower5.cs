@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Text File 263 in Black2/White2
@@ -56,7 +56,7 @@ public enum PassPower5
     // 47
     None = 48,
 
-    // B2W2
+    // B2/W2
     Search_Plus1 = 49,
     Search_Plus2 = 50,
     Search_Plus3 = 51,

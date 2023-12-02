@@ -4,7 +4,7 @@ namespace PKHeX.Core;
 
 public sealed class MyItem5BW : MyItem
 {
-    // offsets/pouch sizes are the same for both BW and B2W2, but Key Item permissions are different
+    // offsets/pouch sizes are the same for both B/W and B2/W2, but Key Item permissions are different
     private const int HeldItem = 0x000; // 0
     private const int KeyItem  = 0x4D8; // 1
     private const int TMHM     = 0x624; // 2

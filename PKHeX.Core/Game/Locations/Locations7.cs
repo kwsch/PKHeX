@@ -51,5 +51,5 @@ internal static class Locations7
         40080, 40081, 40082, 40083, 40084, 40085, 40086, 40087, 40088,
     ];
 
-    public static ReadOnlySpan<ushort> Met6 => [/* XY */ 60001, 60003, /* ORAS */ 60004];
+    public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004];
 }

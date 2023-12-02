@@ -215,7 +215,7 @@ public sealed class MetDataSource(GameStrings s)
         else
             result = GetLocationListInternal(version, context);
 
-        // Insert the BDSP none location if the format requires it.
+        // Insert the BD/SP none location if the format requires it.
         if (context is EntityContext.Gen8b && !BDSP.Contains(version))
         {
             var bdsp = new ComboItem[result.Count + 1];

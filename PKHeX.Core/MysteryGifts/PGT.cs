@@ -322,14 +322,7 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
     private static bool IsG4ManaphyPIDValid(PIDType val, PKM pk)
     {
         if (pk.IsEgg)
-        {
-            if (pk.IsShiny)
-                return false;
-            if (val == PIDType.Method_1)
-                return true;
-            return val == PIDType.G4MGAntiShiny && IsAntiShinyARNG(pk);
-        }
-
+            return val == PIDType.Method_1;
         if (val == PIDType.Method_1)
             return pk.WasTradedEgg || !pk.IsShiny; // can't be shiny on received game
         return val == PIDType.G4MGAntiShiny && (pk.WasTradedEgg || IsAntiShinyARNG(pk));

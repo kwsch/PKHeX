@@ -31,7 +31,7 @@ public interface ILearnSource
         learn.SetEncounterMoves(level, init, start);
     }
 
-    public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form) => ReadOnlySpan<ushort>.Empty;
+    public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form) => [];
 
     public ReadOnlySpan<ushort> GetInheritMoves(ushort species, byte form)
     {

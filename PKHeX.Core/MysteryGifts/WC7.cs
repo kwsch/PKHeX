@@ -617,7 +617,7 @@ public sealed class WC7(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         if (CardID is 1122 or 1133 && !CanBeReceivedByVersion(pk.Version))
             return false; // Each version pair has a separate card -- since we aren't using deferral/partial match logic to reorder, just return false.
         if (CardID == 2046) // Greninja WC has variant PID and can arrive @ 36 or 37
-            return pk.SM; // not USUM
+            return pk.SM; // not US/UM
 
         return PIDType != 0 || pk.PID == PID;
     }

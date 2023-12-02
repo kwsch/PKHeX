@@ -411,10 +411,10 @@ public sealed class GameStrings : IBasicStrings
 
     private void SanitizeMetGen5(LocationSet6 set)
     {
-        set.Met0[36] = $"{set.Met0[84]}/{set.Met0[36]}"; // Cold Storage in BW = PWT in BW2
-        set.Met0[40] += " (B/W)"; // Victory Road in BW
-        set.Met0[134] += " (B2/W2)"; // Victory Road in B2W2
-        // BW2 Entries from 76 to 105 are for Entralink in BW
+        set.Met0[36] = $"{set.Met0[84]}/{set.Met0[36]}"; // Cold Storage in B/W = PWT in B2/W2
+        set.Met0[40] += " (B/W)"; // Victory Road in B/W
+        set.Met0[134] += " (B2/W2)"; // Victory Road in B2/W2
+        // B2/W2 Entries from 76 to 105 are for Entralink in B/W
         for (int i = 76; i < 106; i++)
             set.Met0[i] += "●";
 

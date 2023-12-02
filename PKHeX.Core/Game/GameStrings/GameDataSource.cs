@@ -89,25 +89,25 @@ public sealed class GameDataSource
     /// <remarks>Most recent games are at the top, loosely following Generation groups.</remarks>
     private static ReadOnlySpan<byte> OrderedVersionArray =>
     [
-        50, 51, // 9 sv
-        47,     // 8 legends arceus
-        48, 49, // 8 bdsp
-        44, 45, // 8 swsh
-        42, 43, // 7 gg
-        30, 31, // 7 sm
-        32, 33, // 7 usum
-        24, 25, // 6 xy
-        27, 26, // 6 oras
-        21, 20, // 5 bw
-        23, 22, // 5 b2w2
-        10, 11, 12, // 4 dppt
-        07, 08, // 4 hgss
-        02, 01, 03, // 3 rse
-        04, 05, // 3 frlg
-        15,     // 3 cxd
+        50, 51, // 9 S/V
+        47,     // 8 PLA
+        48, 49, // 8 BD/SP
+        44, 45, // 8 SW/SH
+        42, 43, // 7 LGP/E
+        30, 31, // 7 S/M
+        32, 33, // 7 US/UM
+        24, 25, // 6 X/Y
+        27, 26, // 6 OR/AS
+        21, 20, // 5 B/W
+        23, 22, // 5 B2/W2
+        10, 11, 12, // 4 D/P/Pt
+        07, 08, // 4 HG/SS
+        02, 01, 03, // 3 R/S/E
+        04, 05, // 3 FR/LG
+        15,     // 3 Colosseum & XD
 
-        39, 40, 41, // 7vc2
-        35, 36, 37, 38, // 7vc1
+        39, 40, 41, // 7vc2 (Gen2 VC)
+        35, 36, 37, 38, // 7vc1 (Gen1 VC)
         34, // 7go
 
         00,

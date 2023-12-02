@@ -98,5 +98,5 @@ internal static class Locations8b
         40070, 40071, 40072, 40074, 40075, 40076, 40077,
     ];
 
-    public static ReadOnlySpan<ushort> Met6 => [/* XY */ 60001, 60003, /* ORAS */ 60004, /* BDSP */ 60005, 60006, 60007, 60010];
+    public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004, /* BD/SP */ 60005, 60006, 60007, 60010];
 }

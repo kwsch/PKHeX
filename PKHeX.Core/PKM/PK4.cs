@@ -341,7 +341,7 @@ public sealed class PK4 : G4PKM
         pk5.Nature = Nature;
 
         // Delete Platinum/HGSS Met Location Data
-        WriteUInt32LittleEndian(pk5.Data.AsSpan(0x44), 0);
+        pk5.Data.AsSpan(0x44, 4).Clear();
 
         // Met / Crown Data Detection
         pk5.Met_Location = PK5.GetTransferMetLocation4(pk5);
@@ -349,8 +349,8 @@ public sealed class PK4 : G4PKM
         // Egg Location is not modified; when clearing Pt/HGSS egg data, the location will revert to Faraway Place
         // pk5.Egg_Location = Egg_Location;
 
-        // Delete HGSS Data
-        WriteUInt16LittleEndian(pk5.Data.AsSpan(0x86), 0);
+        // Delete HG/S Data
+        pk5.Data.AsSpan(0x86, 2).Clear();
         pk5.Ball = Ball;
 
         // Transfer Nickname and OT Name, update encoding

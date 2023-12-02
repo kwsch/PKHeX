@@ -254,7 +254,7 @@ internal static class Encounters8Nest
 
         162 => [6,7,37,40,41,43,66,73,75,76,130,131,138,139,142,143,145,146,150,151,152,154,169,170,193,194], // Completely inaccessible
 
-        _ => ReadOnlySpan<byte>.Empty,
+        _ => [],
     };
 
     // Abilities Allowed

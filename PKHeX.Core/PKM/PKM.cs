@@ -42,7 +42,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     // Trash Bytes
     public abstract Span<byte> Nickname_Trash { get; }
     public abstract Span<byte> OT_Trash { get; }
-    public virtual Span<byte> HT_Trash => Span<byte>.Empty;
+    public virtual Span<byte> HT_Trash => [];
 
     protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }

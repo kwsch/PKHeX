@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 public enum PlayerBattleStyle7
 {
@@ -12,7 +12,7 @@ public enum PlayerBattleStyle7
     Idol,
 
     /// <summary>
-    /// USUM Only
+    /// US/UM Only
     /// </summary>
     Nihilist,
 }

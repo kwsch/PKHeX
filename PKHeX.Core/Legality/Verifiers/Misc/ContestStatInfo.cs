@@ -59,10 +59,10 @@ public static class ContestStatInfo
         3 => pk.Format < 6    ? CorrelateSheen : Mixed,
         4 => pk.Format < 6    ? CorrelateSheen : Mixed,
 
-        5 => pk.Format < 6                         ? None : !h.HasVisitedBDSP ? NoSheen : Mixed, // ORAS Contests
+        5 => pk.Format < 6                         ? None : !h.HasVisitedBDSP ? NoSheen : Mixed, // OR/AS Contests
         6 => pk is { AO: false, IsUntraded: true } ? None : !h.HasVisitedBDSP ? NoSheen : Mixed,
 
-        _ => h.HasVisitedBDSP ? CorrelateSheen : None, // BDSP Contests
+        _ => h.HasVisitedBDSP ? CorrelateSheen : None, // BD/SP Contests
     };
 
     public static int CalculateMaximumSheen(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial, bool pokeBlock3)

@@ -412,8 +412,8 @@ public abstract class SAV4 : SaveFile, IEventFlag37
                 if (!pcd.GiftEquals(pgt))
                     continue;
 
-                if (this is SAV4HGSS)
-                    j++; // hgss 0,1,2; dppt 1,2,3
+                if (this is not SAV4HGSS)
+                    j++; // HG/SS 0,1,2; D/P/Pt 1,2,3
                 indexes[i] = pgt.Slot = j;
                 break;
             }

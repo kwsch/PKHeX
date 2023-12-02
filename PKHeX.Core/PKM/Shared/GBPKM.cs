@@ -18,7 +18,7 @@ public abstract class GBPKM : PKM
     public sealed override int MaxIV => 15;
     public sealed override int MaxEV => EffortValues.Max12;
 
-    public sealed override ReadOnlySpan<ushort> ExtraBytes => ReadOnlySpan<ushort>.Empty;
+    public sealed override ReadOnlySpan<ushort> ExtraBytes => [];
 
     protected GBPKM([ConstantExpected] int size) : base(size) { }
     protected GBPKM(byte[] data) : base(data) { }

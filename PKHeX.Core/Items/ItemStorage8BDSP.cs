@@ -57,7 +57,7 @@ public sealed class ItemStorage8BDSP : IItemStorage
 
     internal static ReadOnlySpan<ushort> DisallowHeldTreasure =>
     [
-        // new BDSP items, but they can't be held
+        // new BD/SP items, but they can't be held
         1808, // Mysterious Shard S
         1809, // Mysterious Shard L
         1810, // Digger Drill
@@ -86,8 +86,6 @@ public sealed class ItemStorage8BDSP : IItemStorage
     [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037,
         038, 039, 040, 041, 042, 043, 044, 054,
-
-        // 134 Sweet Heart (future event item?)
     ];
 
     private static ReadOnlySpan<ushort> Pouch_Berries_BS =>
@@ -120,7 +118,7 @@ public sealed class ItemStorage8BDSP : IItemStorage
         398, 399, 400, 401, 402, 403, 404, 405, 406, 407,
         408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
         418, 419,
-        420, 421, 422, 423, 424, 425, 426, 427, // Previously called HM0X, in BDSP they're now called TM93-TM100
+        420, 421, 422, 423, 424, 425, 426, 427, // Previously called HM0X, in BD/SP they're now called TM93-TM100
     ];
 
     public int GetMax(InventoryType type) => type switch

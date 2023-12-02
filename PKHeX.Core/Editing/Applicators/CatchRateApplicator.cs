@@ -34,17 +34,22 @@ public static class CatchRateApplicator
             case EncounterGift1 { Version: GameVersion.Stadium, Species: (int)Species.Psyduck }:
                 return pk.Japanese ? (byte)167 : (byte)168; // Amnesia Psyduck has different catch rates depending on language
             default:
-                var pt = GetPersonalTable(sav, enc);
+                var pt = GetPersonalTable(sav, enc.Version);
                 var pi = pt[enc.Species];
                 return (byte)pi.CatchRate;
         }
     }
 
-    private static PersonalTable1 GetPersonalTable(SaveFile sav, IEncounterable v)
+    private static PersonalTable1 GetPersonalTable(SaveFile sav, GameVersion ver)
     {
-        if (sav.Personal is PersonalTable1 pt && (sav.Version.Contains(v.Version) || v.Version.Contains(sav.Version)))
-            return pt;
-        if (!GameVersion.RB.Contains(v.Version))
+        if (sav.Personal is PersonalTable1 pt)
+        {
+            var other = sav.Version;
+            if (other.Contains(ver) || ver.Contains(other))
+                return pt;
+        }
+
+        if (!GameVersion.RB.Contains(ver))
             return PersonalTable.Y;
         return PersonalTable.RB;
     }

@@ -233,9 +233,9 @@ public sealed record EncounterTrade4PID
         int lang = pk.Language;
         switch (Species)
         {
-            case (int)Core.Species.Pikachu: // HGSS Pikachu
+            case (int)Core.Species.Pikachu: // H/GSS Pikachu
                 return DetectTradeLanguageG4SurgePikachu(pk, lang);
-            case (int)Core.Species.Magikarp: // DPPt Magikarp
+            case (int)Core.Species.Magikarp: // D/P/Pt Magikarp
                 return DetectTradeLanguageG4MeisterMagikarp(pk, lang);
         }
         // DP English origin are Japanese lang. Can't have LanguageID 2

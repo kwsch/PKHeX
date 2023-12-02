@@ -95,7 +95,7 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
     public Musical5 Musical { get; } = new(sav, 0x1F700);
     public Daycare5 Daycare { get; } = new(sav, 0x20D00);
     public Misc5 Misc { get; } = new Misc5B2W2(sav, 0x21100);
-    public Zukan5 Zukan { get; } = new(sav, 0x21400, 0x328); // form flags size is + 8 from bw with new forms (therians)
+    public Zukan5 Zukan { get; } = new(sav, 0x21400, 0x328); // form flags size is + 8 from B/W with new forms (Therians)
     public Entralink5 Entralink { get; } = new Entralink5B2W2(sav, 0x21200);
     public Encount5 Encount { get; } = new Encount5B2W2(sav, 0x21900);
     public BattleSubway5 BattleSubway { get; } = new(sav, 0x21B00);

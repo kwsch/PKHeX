@@ -132,7 +132,7 @@ public partial class SAV_PokedexSM : Form
             return false;
         }
 
-        // sanity check forms -- SM does not have totem form dex bits
+        // sanity check forms -- S/M does not have totem form dex bits
         int count = SAV.Personal[bspecies].FormCount;
         if (count < ds.Count)
             ds.RemoveAt(count); // remove last

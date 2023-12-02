@@ -7,6 +7,10 @@ public static class SlotNumber
 {
     private const int Invalid = -1;
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a Gen3 Old Rod encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
     public static int GetHOldRod(uint roll) => roll switch
     {
         < 70 => 0, // 00,69 (70%)
@@ -14,6 +18,10 @@ public static class SlotNumber
         _ => Invalid,
     };
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a Gen3 Good Rod encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
     public static int GetHGoodRod(uint roll) => roll switch
     {
         < 60 => 0, // 00,59 (60%)
@@ -22,6 +30,10 @@ public static class SlotNumber
         _ => Invalid,
     };
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a Gen3 Super Rod encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
     public static int GetHSuperRod(uint roll) => roll switch
     {
         < 40 => 0, // 00,39 (40%)
@@ -32,6 +44,10 @@ public static class SlotNumber
         _ => Invalid,
     };
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a Gen3 Surf encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
     public static int GetHSurf(uint roll) => roll switch
     {
         < 60 => 0, // 00,59 (60%)
@@ -42,6 +58,10 @@ public static class SlotNumber
         _ => Invalid,
     };
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a Gen3 Wild encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
     public static int GetHRegular(uint roll) => roll switch
     {
         < 20 => 0, // 00,19 (20%)
@@ -59,6 +79,10 @@ public static class SlotNumber
         _ => Invalid,
     };
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a D/P/Pt Super Rod encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
     public static int GetJSuperRod(uint roll) => roll switch
     {
         < 40 => 0, // 00,39 (40%)
@@ -69,6 +93,10 @@ public static class SlotNumber
         _ => Invalid,
     };
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a HG/SS Super Rod encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
     public static int GetKSuperRod(uint roll) => roll switch
     {
         < 40 => 0, // 00,39 (40%)
@@ -79,21 +107,32 @@ public static class SlotNumber
         _ => Invalid,
     };
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a Bug Catching Contest encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
+    /// <remarks>
+    /// Slot indexes are reversed for the Bug Catching Contest.
+    /// </remarks>
     public static int GetKBCC(uint roll) => roll switch
     {
-        >= 100 => Invalid,
-        >= 80 => 0, // 80,99 (20%)
-        >= 60 => 1, // 60,79 (20%)
-        >= 50 => 2, // 50,59 (10%)
-        >= 40 => 3, // 40,49 (10%)
-        >= 30 => 4, // 30,39 (10%)
-        >= 20 => 5, // 20,29 (10%)
-        >= 15 => 6, // 15,19 ( 5%)
-        >= 10 => 7, // 10,14 ( 5%)
-        >= 05 => 8, // 05,09 ( 5%)
-        >= 00 => 9, // 00,04 ( 5%)
+        < 05 => 9, // 00,04 ( 5%)
+        < 10 => 8, // 05,09 ( 5%)
+        < 15 => 7, // 10,14 ( 5%)
+        < 20 => 6, // 15,19 ( 5%)
+        < 30 => 5, // 20,29 (10%)
+        < 40 => 4, // 30,39 (10%)
+        < 50 => 3, // 40,49 (10%)
+        < 60 => 2, // 50,59 (10%)
+        < 80 => 1, // 60,79 (20%)
+        < 100=> 0, // 80,99 (20%)
+        _ => Invalid,
     };
 
+    /// <summary>
+    /// Calculates the encounter slot index based on the roll for a HG/SS Headbutt encounter.
+    /// </summary>
+    /// <param name="roll">[0,100)</param>
     public static int GetKHeadbutt(uint roll) => roll switch
     {
         < 50 => 0, // 00,49 (50%)

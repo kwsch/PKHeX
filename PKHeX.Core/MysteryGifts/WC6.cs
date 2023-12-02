@@ -525,7 +525,7 @@ public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
         {
             if (OTGender != 3)
             {
-                // Skip ID check if ORASDEMO Simulated wc6
+                // Skip ID check if it is an OR/AS Demo Simulated wc6
                 if (CardID != 0)
                 {
                     if (SID16 != pk.SID16) return false;

@@ -40,7 +40,8 @@ public class GeneratorTests
         int count = 0;
         template.Species = (ushort)species;
         template.Gender = template.PersonalInfo.RandomGender();
-        var encounters = EncounterMovesetGenerator.GenerateEncounters(template, tr, ReadOnlyMemory<ushort>.Empty, games);
+        var moves = ReadOnlyMemory<ushort>.Empty;
+        var encounters = EncounterMovesetGenerator.GenerateEncounters(template, tr, moves, games);
 
         foreach (var enc in encounters)
         {

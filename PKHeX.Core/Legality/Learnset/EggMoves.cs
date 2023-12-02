@@ -6,11 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Stores the valid Move IDs the entry can be obtained with.
 /// </summary>
-public abstract class EggMoves
+public abstract class EggMoves(ushort[] moves)
 {
-    public readonly ushort[] Moves;
-    protected EggMoves(ushort[] moves) => Moves = moves;
-    public bool GetHasEggMove(ushort move) => Array.IndexOf(Moves, move) != -1;
+    public ReadOnlySpan<ushort> Moves => moves;
+    public bool GetHasEggMove(ushort move) => Moves.Contains(move);
 }
 
 /// <summary>

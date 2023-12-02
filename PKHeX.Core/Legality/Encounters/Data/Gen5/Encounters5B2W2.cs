@@ -114,7 +114,7 @@ public static class Encounters5B2W2
         new(B2W2) { Species = 591, Level = 43, Location = 024 }, // Amoonguss @ Route 11
         new(B2W2) { Species = 591, Level = 47, Location = 127 }, // Amoonguss @ Route 22
         new(B2W2) { Species = 591, Level = 56, Location = 128 }, // Amoonguss @ Route 23
-        new(B2W2) { Species = 593, Level = 40, Location = 071 }, // HA Jellicent @ Undella Bay EncounterSlot collision
+        new(B2W2) { Species = 593, Level = 40, Location = 071, Ability = OnlyHidden }, // Jellicent @ Undella Bay w/ Hidden Ability
         new(B2W2) { Species = 637, Level = 35, Location = 035 }, // Volcarona @ Relic Castle
         new(B2W2) { Species = 637, Level = 65, Location = 035 }, // Volcarona @ Relic Castle
         new(B2W2) { Species = 558, Level = 42, Location = 141 }, // Crustle @ Seaside Cave
