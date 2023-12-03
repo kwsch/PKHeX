@@ -349,7 +349,7 @@ public sealed class MemoryVerifier : Verifier
                 break;
 
             // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
-            case 4 when mc.Context == Gen6: // gen8 applies this memory erroneously
+            case 4 when mc.Context == Gen6: // Gen8 applies this memory erroneously
                 data.AddLine(GetInvalid(string.Format(LMemoryArgBadOTEgg, L_XOT)));
                 return;
 

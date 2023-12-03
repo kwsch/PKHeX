@@ -235,7 +235,7 @@ public sealed class AbilityVerifier : Verifier
         if (g3.Length == 0)
             return AbilityState.MustMatch;
 
-        // Fall through when gen3 pk transferred to gen4/5
+        // Fall through when Gen3 pk transferred to Gen4/5
         var maxGen3Species = g3[0].Species;
         return VerifyAbilityGen3Transfer(data, abilities, maxGen3Species);
     }

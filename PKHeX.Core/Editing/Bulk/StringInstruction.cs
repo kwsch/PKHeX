@@ -16,13 +16,13 @@ namespace PKHeX.Core;
 /// <see cref="FilterNotEqual"/>
 /// <see cref="FilterEqual"/>
 /// <see cref="Apply"/>
-public sealed class StringInstruction(string name, string value)
+public sealed class StringInstruction(string PropertyName, string PropertyValue)
 {
     /// <summary> Property to modify. </summary>
-    public string PropertyName { get; } = name;
+    public string PropertyName { get; } = PropertyName;
 
     /// <summary> Value to set to the property. </summary>
-    public string PropertyValue { get; private set; } = value;
+    public string PropertyValue { get; private set; } = PropertyValue;
 
     /// <summary> Filter Comparison Type </summary>
     public InstructionComparer Comparer { get; private init; }
@@ -293,8 +293,6 @@ public sealed class StringInstruction(string name, string value)
     /// <summary>
     /// Gets the <see cref="InstructionComparer"/> from the input <see cref="opCode"/>.
     /// </summary>
-    /// <param name="opCode"></param>
-    /// <returns></returns>
     public static InstructionComparer GetComparer(char opCode) => opCode switch
     {
         FilterEqual => IsEqual,

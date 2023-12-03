@@ -537,51 +537,8 @@ public sealed class PA8 : PKM, ISanityChecksum,
     public static int GetStat(int baseStat, int level, int nature, int statIndex)
     {
         var initial = (int)((((level / 50.0f) + 1.0f) * baseStat) / 1.5f);
-        return AmplifyStat(nature, statIndex, initial);
+        return NatureAmp.AmplifyStat(nature, statIndex, initial);
     }
-
-    private static int AmplifyStat(int nature, int index, int initial) => GetNatureAmp(nature, index) switch
-    {
-        1 => 110 * initial / 100, // 110%
-        -1 => 90 * initial / 100, // 90%
-        _ => initial,
-    };
-
-    private static sbyte GetNatureAmp(int nature, int index)
-    {
-        if ((uint)nature >= 25)
-            return -1;
-        return NatureAmpTable[(5 * nature) + index];
-    }
-
-    private static ReadOnlySpan<sbyte> NatureAmpTable =>
-    [
-        0, 0, 0, 0, 0, // Hardy
-        1,-1, 0, 0, 0, // Lonely
-        1, 0, 0, 0,-1, // Brave
-        1, 0,-1, 0, 0, // Adamant
-        1, 0, 0,-1, 0, // Naughty
-       -1, 1, 0, 0, 0, // Bold
-        0, 0, 0, 0, 0, // Docile
-        0, 1, 0, 0,-1, // Relaxed
-        0, 1,-1, 0, 0, // Impish
-        0, 1, 0,-1, 0, // Lax
-       -1, 0, 0, 0, 1, // Timid
-        0,-1, 0, 0, 1, // Hasty
-        0, 0, 0, 0, 0, // Serious
-        0, 0,-1, 0, 1, // Jolly
-        0, 0, 0,-1, 1, // Naive
-       -1, 0, 1, 0, 0, // Modest
-        0,-1, 1, 0, 0, // Mild
-        0, 0, 1, 0,-1, // Quiet
-        0, 0, 0, 0, 0, // Bashful
-        0, 0, 1,-1, 0, // Rash
-       -1, 0, 0, 1, 0, // Calm
-        0,-1, 0, 1, 0, // Gentle
-        0, 0, 0, 1,-1, // Sassy
-        0, 0,-1, 1, 0, // Careful
-        0, 0, 0, 0, 0, // Quirky
-    ];
 
     public override int MarkingCount => 6;
 

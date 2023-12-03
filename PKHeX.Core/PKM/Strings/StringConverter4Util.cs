@@ -39,11 +39,11 @@ public static class StringConverter4Util
     }
 
     /// <summary>
-    /// Strips diacritics on gen1-4 french pk names
+    /// Strips diacritics on Gen1-4 French species names.
     /// </summary>
     /// <param name="input">String to clean</param>
     /// <returns>Cleaned string</returns>
-    /// <remarks>Only 4 characters are accented in gen1-4</remarks>
+    /// <remarks>Only 4 characters are accented in Gen1-4</remarks>
     public static void StripDiacriticsFR4(Span<char> input)
     {
         foreach (ref var c in input)

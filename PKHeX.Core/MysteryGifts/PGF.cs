@@ -290,7 +290,7 @@ public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
             return OriginGame;
         if (tr.Generation <= 5)
             return tr.Game;
-        // Gen6+, give random gen5 game
+        // Gen6+, give random Gen5 game
         var bias = rnd.Next(4);
         for (int i = 0; i < 4; i++)
         {

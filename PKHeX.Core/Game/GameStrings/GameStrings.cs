@@ -398,11 +398,11 @@ public sealed class GameStrings : IBasicStrings
 
     private void SanitizeMetGen4(LocationSet4 set)
     {
-        set.Met0[054] += " (DP/Pt)"; // Victory Road
+        set.Met0[054] += " (D/P/Pt)"; // Victory Road
         set.Met0[221] += " (HG/SS)"; // Victory Road
 
         // German language duplicate; handle for all since it can be confused.
-        set.Met0[104] += " (DP/Pt)"; // Vista Lighthouse
+        set.Met0[104] += " (D/P/Pt)"; // Vista Lighthouse
         set.Met0[212] += " (HG/SS)"; // Lighthouse
 
         set.Met2[1] += $" ({NPC})";     // Anything from an NPC

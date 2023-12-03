@@ -462,8 +462,8 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
         if (Generation < 7) // must be transferred via bank, and must have memories
         {
-            this.SetTradeMemoryHT6(true); // oh no, memories on gen7 pk
-            // georegions cleared on 6->7, no need to set
+            this.SetTradeMemoryHT6(true); // oh no, memories on Gen7 pk
+            // geolocations cleared on 6->7, no need to set
         }
     }
 
@@ -505,7 +505,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     internal void SetTransferLocale(int lang)
     {
-        this.SetTradeMemoryHT6(bank: true); // oh no, memories on gen7 pk
+        this.SetTradeMemoryHT6(bank: true); // oh no, memories on Gen7 pk
         RecentTrainerCache.SetConsoleRegionData3DS(this);
         RecentTrainerCache.SetFirstCountryRegion(this);
         if (lang == 1 && Country != 1) // Japan Only

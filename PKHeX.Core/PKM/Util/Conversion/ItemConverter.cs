@@ -185,7 +185,8 @@ internal static class ItemConverter
             if (destFormat > srcFormat) // can't set past gen items
                 return 0;
 
-            // ShowdownSet checks gen3 then gen2. For gen2 collisions (if any?) remap 3->4->2.
+            // ShowdownSet checks Gen3 then Gen2.
+            // For Gen2 collisions (if any?) remap 3->4->2.
             srcItem = GetItemFuture3((ushort)srcItem);
             srcItem = GetItemOld2((ushort)srcItem);
             if (srcItem <= 0)

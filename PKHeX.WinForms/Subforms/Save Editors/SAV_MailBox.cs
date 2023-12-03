@@ -378,7 +378,7 @@ public partial class SAV_MailBox : Form
         }
         // Gen5
         // P
-        // gen5, move mail to pc will not erase mail data, still remains, duplicates.
+        // Gen5, move mail to pc will not erase mail data, still remains, duplicates.
         else if (Gen == 5)
         {
             for (int i = 0; i < p.Count; i++)

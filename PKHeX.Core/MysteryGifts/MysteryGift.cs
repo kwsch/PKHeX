@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -14,16 +13,13 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
     /// </summary>
     /// <param name="len">Length, in bytes, of the data of which to determine validity.</param>
     /// <returns>A boolean indicating whether the given length is valid for a mystery gift.</returns>
-    public static bool IsMysteryGift(long len) => Sizes.Contains((int)len);
-
-    private static readonly HashSet<int> Sizes =
-    [
-        // WC9.Size, SAME AS WA8
-        WA8.Size, WB8.Size, WC8.Size,
-        WC6Full.Size, WC6.Size,
-        PGF.Size, PGT.Size,
-        PCD.Size,
-    ];
+    public static bool IsMysteryGift(long len) => len is
+        // WC9.Size or SAME AS WA8
+        WA8.Size or WB8.Size or WC8.Size or
+        WC6Full.Size or WC6.Size or
+        PGF.Size or PGT.Size or
+        PCD.Size
+    ;
 
     /// <summary>
     /// Converts the given data to a <see cref="MysteryGift"/>.
@@ -72,12 +68,12 @@ public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ITrainer
         // WC8/WC5Full: WC8 0x2CF always 0, WC5Full 0x2CF contains card checksum
         WC8.Size => data[0x2CF] == 0 ? new WC8(data) : new PGF(data),
 
-        // WA8/WC9: WA8 CardType >0 for wa8, 0 for wc9.
+        // WA8/WC9: WA8 CardType >0 for WA8, 0 for WC9.
         WA8.Size => data[0xF] > 0 ? new WA8(data) : new WC9(data),
 
         // WC6/WC7: Check year
         WC6.Size => ReadUInt32LittleEndian(data.AsSpan(0x4C)) / 10000 < 2000 ? new WC7(data) : new WC6(data),
-        // WC6Full/WC7Full: 0x205 has 3 * 0x46 for gen6, now only 2.
+        // WC6Full/WC7Full: 0x205 has 3 * 0x46 for Gen6, now only 2.
         WC6Full.Size => data[0x205] == 0 ? new WC7Full(data).Gift : new WC6Full(data).Gift,
         _ => null,
     };

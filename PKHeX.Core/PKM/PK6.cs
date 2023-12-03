@@ -494,7 +494,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
                 pk7.Ability = pk7.PersonalInfo.GetAbilityAtIndex(index);
         }
 
-        pk7.SetTradeMemoryHT6(true); // oh no, memories on gen7 pk
+        pk7.SetTradeMemoryHT6(true); // oh no, memories on Gen7 pk
         RecentTrainerCache.SetFirstCountryRegion(pk7);
 
         // Bank-accurate data zeroing

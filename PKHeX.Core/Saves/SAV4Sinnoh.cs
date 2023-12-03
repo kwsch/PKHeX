@@ -153,7 +153,6 @@ public abstract class SAV4Sinnoh : SAV4
     /// <summary>
     /// First 40 are the sphere type, last 40 are the sphere sizes
     /// </summary>
-    /// <returns></returns>
     public Span<byte> GetUGI_Spheres() => General.Slice(OFS_UG_Items + 0x78, UG_POUCH_SIZE * 2);
 
     #endregion

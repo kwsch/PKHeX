@@ -98,8 +98,6 @@ public static partial class Extensions
     /// <summary>
     /// Checks if all Geolocation tuples are valid.
     /// </summary>
-    /// <param name="g"></param>
-    /// <returns></returns>
     public static bool GetIsValid(this IGeoTrack g) => g.GetValidity() == GeoValid.Valid;
 
     /// <summary>

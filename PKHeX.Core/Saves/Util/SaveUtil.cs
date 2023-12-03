@@ -200,13 +200,13 @@ public static class SaveUtil
     [
         ..SizesGen2, ..SizesSWSH, ..SizesSV,
         SIZE_G8LA, SIZE_G8LA_1, SIZE_G8BDSP, SIZE_G8BDSP_1, SIZE_G8BDSP_2, SIZE_G8BDSP_3,
-        // SizesSWSH covers gen8 sizes since there's so many
+        // SizesSWSH covers Gen8 sizes since there's so many
         SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
         SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
         SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
         SIZE_G4BR, SIZE_G4RAW,
         SIZE_G3BOX, SIZE_G3COLO, SIZE_G3XD, SIZE_G3RAW, SIZE_G3EMU, SIZE_G3RAWHALF,
-        // SizesGen2 covers gen2 sizes since there's so many
+        // SizesGen2 covers Gen2 sizes since there's so many
         SIZE_G1RAW, SIZE_G1BAT,
 
         SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH, SIZE_G4RANCH_PLAT,

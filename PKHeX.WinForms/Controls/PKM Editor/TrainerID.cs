@@ -143,7 +143,7 @@ public partial class TrainerID : UserControl
         }
         else
         {
-            if (value > ushort.MaxValue) // prior to gen7
+            if (value > ushort.MaxValue) // prior to Gen7
                 mt.Text = (value = ushort.MaxValue).ToString();
 
             if (mt == TB_TID)

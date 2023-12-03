@@ -38,15 +38,15 @@ public sealed class BallVerifier : Verifier
 
         // Capture / Inherit cases -- can be one of many balls
         var pk = data.Entity;
-        if (pk.Species == (int)Species.Shedinja && enc.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
+        if (pk.Species == (int)Species.Shedinja && enc.Species != (int)Species.Shedinja) // Shedinja. For Gen3, copy the ball from Nincada
         {
             // Only a Gen3 origin Shedinja can copy the wild ball.
             // Evolution chains will indicate if it could have existed as Shedinja in Gen3.
             // The special move verifier has a similar check!
-            if (pk is { HGSS: true, Ball: (int)Sport }) // Can evolve in DP to retain the HG/SS ball (separate byte) -- not able to be captured in any other ball
+            if (pk is { HGSS: true, Ball: (int)Sport }) // Can evolve in D/P to retain the HG/SS ball (separate byte) -- not able to be captured in any other ball
                 return VerifyBallEquals(data, (int)Sport);
             if (Info.Generation != 3 || Info.EvoChainsAllGens.Gen3.Length != 2) // not evolved in Gen3 Nincada->Shedinja
-                return VerifyBallEquals(data, (int)Poke); // Poké ball Only
+                return VerifyBallEquals(data, (int)Poke); // Poké Ball Only
         }
 
         // Fixed ball cases -- can be only one ball ever

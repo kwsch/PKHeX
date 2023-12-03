@@ -165,7 +165,7 @@ public static class SaveExtensions
     {
         if (pk.Format >= 3 || sav.Generation >= 7)
             return EntityConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
-        // gen1-2 compatibility check
+        // Gen1/2 compatibility check
         if (pk.Japanese != ((ILangDeviantSave)sav).Japanese)
             return sav.BlankPKM;
         if (sav is SAV2 s2 && s2.Korean != pk.Korean)

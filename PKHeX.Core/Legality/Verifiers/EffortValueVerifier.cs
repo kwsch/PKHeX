@@ -61,7 +61,7 @@ public sealed class EffortValueVerifier : Verifier
             // EVs can only be increased by vitamins to a max of 100.
             data.AddLine(GetInvalid(LEffortCap100));
         }
-        else // Check for gained EVs without gaining EXP -- don't check gen5+ which have wings to boost above 100.
+        else // Check for gained EVs without gaining EXP -- don't check Gen5+ which have wings to boost above 100.
         {
             var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
             var baseEXP = Experience.GetEXP(enc.LevelMin, growth);

@@ -739,16 +739,16 @@ public static class FormConverter
         ],
     };
 
-    private static bool IsFormListSingleMega(ushort species) => Mega_6_Single.Contains(species);
-
-    private static readonly HashSet<ushort> Mega_6_Single =
-    [
-        003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359,
-        380, 381, 445, 448, 460,
+    private static bool IsFormListSingleMega(ushort species) => species is
+        // XY
+        003 or 009 or 065 or 094 or 115 or 127 or 130 or 142 or 181 or 212 or
+        214 or 229 or 248 or 257 or 282 or 303 or 306 or 308 or 310 or 354 or
+        359 or 380 or 381 or 445 or 448 or 460 or
 
         // AO
-        015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
-    ];
+        015 or 018 or 080 or 208 or 254 or 260 or 302 or 319 or 323 or 334 or
+        362 or 373 or 376 or 384 or 428 or 475 or 531 or 719
+    ;
 
     private static string[] GetMegaSingle(IReadOnlyList<string> types, IReadOnlyList<string> forms)
     {

@@ -67,7 +67,7 @@ public static class EntityFormat
         if (ReadUInt16LittleEndian(data[0x4..]) != 0)
             return FormatBK4; // BK4 non-zero sanity
         if (data[0x5F] < 0x10 && ReadUInt16LittleEndian(data[0x80..]) < 0x3333)
-            return FormatPK4; // gen3/4 version origin, not Transporter
+            return FormatPK4; // Gen3/4 version origin, not Transporter
         if (ReadUInt16LittleEndian(data[0x46..]) != 0)
             return FormatPK4; // PK4.Met_LocationExtended (unused in PK5)
         return FormatPK5;
@@ -176,7 +176,7 @@ public static class EntityFormat
 
             if (!pk.Gen4) // can't have GroundTile
                 return FormatPK7;
-            if (et > GroundTileType.Max_Pt) // invalid gen4 GroundTile
+            if (et > GroundTileType.Max_Pt) // invalid Gen4 GroundTile
                 return FormatPK7;
         }
 

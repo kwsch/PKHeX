@@ -21,8 +21,8 @@ public static class RibbonVerifierCommon4
         bool bdsp = evos.HasVisitedBDSP;
         bool oras6 = gen6 && pk is not { IsUntraded: true, XY: true };
         bool sinnoh4 = gen4 && args.Encounter is not EncounterStatic4 { Species: (int)Species.Pichu, Form: 1 };
-        bool sinnohChamp = sinnoh4 || bdsp; // no gen4 hg/ss
-        bool cosmetic = sinnoh4 || oras6 || bdsp; // no gen4 hg/ss
+        bool sinnohChamp = sinnoh4 || bdsp; // no Gen4 HG/SS
+        bool cosmetic = sinnoh4 || oras6 || bdsp; // no Gen4 HG/SS
         bool daily = gen4 || gen6 || bdsp;
 
         if (r.RibbonLegend && !gen4)
@@ -33,7 +33,7 @@ public static class RibbonVerifierCommon4
             FlagDaily(r, ref list);
 
         // Gen6 can get individual ribbons via Ritzy Ribbon Retail -- OR/AS
-        // Gen4 Ribbon Syndicate is sequential purchase (prerequisite ribbon cannot be disjointed) -- DP/Pt
+        // Gen4 Ribbon Syndicate is sequential purchase (prerequisite ribbon cannot be disjointed) -- D/P/Pt
         // Gen8 Ribbon Syndicate is sequential purchase (prerequisite ribbon cannot be disjointed) -- BD/SP
         if (!cosmetic)
             FlagCosmetic(r, ref list);

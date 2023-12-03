@@ -153,7 +153,7 @@ public partial class MemoryAmie : Form
         RTB_CT.Text = GetMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, Entity.HT_Name);
         RTB_OT.Text = GetMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, Entity.OT_Name);
 
-        // Affection no longer stored in gen8+, so only show in gen6/7.
+        // Affection no longer stored in Gen8+, so only show in Gen6/7.
         L_OT_Affection.Visible = L_CT_Affection.Visible = M_OT_Affection.Visible = M_CT_Affection.Visible = Entity.Format <= 7;
         L_Sociability.Visible = MT_Sociability.Visible = Entity is ISociability;
     }

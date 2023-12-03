@@ -24,7 +24,7 @@ public enum GroundTileType : byte
     Building = 09,
     Marsh    = 10,
     Bridge   = 11, // No encounters from this tile type
-    Max_DP   = 12, // Unspecific, catch-all for DP undefined tiles.
+    Max_DP   = 12, // Unspecific, catch-all for D/P undefined tiles.
 
     // added tile types in Pt
     // no encounters from these tile types

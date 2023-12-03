@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
@@ -641,20 +640,18 @@ public sealed class MiscVerifier : Verifier
         if (pk.Species != data.EncounterMatch.Species)
             return; // evolved
 
-        if (Unfeedable.Contains(pk.Species))
+        if (IsUnfeedable(pk.Species))
             data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, "0"), Encounter));
     }
 
-    private static readonly HashSet<ushort> Unfeedable =
-    [
-        (int)Species.Metapod,
-        (int)Species.Kakuna,
-        (int)Species.Pineco,
-        (int)Species.Silcoon,
-        (int)Species.Cascoon,
-        (int)Species.Shedinja,
-        (int)Species.Spewpa,
-    ];
+    public static bool IsUnfeedable(ushort species) => species is
+        (int)Species.Metapod or
+        (int)Species.Kakuna or
+        (int)Species.Pineco or
+        (int)Species.Silcoon or
+        (int)Species.Cascoon or
+        (int)Species.Shedinja or
+        (int)Species.Spewpa;
 
     private static void VerifyBelugaStats(LegalityAnalysis data, PB7 pb7)
     {

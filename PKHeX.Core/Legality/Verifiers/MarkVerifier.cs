@@ -131,7 +131,7 @@ public sealed class MarkVerifier : Verifier
 
     private static bool IsMoveSetEvolvedShedinja(PKM pk)
     {
-        // Check for gen3/4 exclusive moves that are Ninjask glitch only.
+        // Check for Gen3/4 exclusive moves that are Ninjask glitch only.
         if (pk.HasMove((int) Move.Screech))
             return true;
         if (pk.HasMove((int) Move.SwordsDance))

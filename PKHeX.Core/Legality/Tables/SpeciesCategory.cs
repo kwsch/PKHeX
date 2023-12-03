@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core;
@@ -11,57 +10,50 @@ public static class SpeciesCategory
     /// <summary>
     /// Checks if a Species is classified as a Mythical Distributions (disallowed species for competitive rulesets)
     /// </summary>
-    public static bool IsMythical(ushort species) => Mythicals.Contains(species);
+    public static bool IsMythical(ushort species) => species is
+        (int)Mew or
+        (int)Celebi or
+        (int)Jirachi or (int)Deoxys or
+        (int)Phione or (int)Manaphy or (int)Darkrai or (int)Shaymin or (int)Arceus or
+        (int)Victini or (int)Keldeo or (int)Meloetta or (int)Genesect or
+        (int)Diancie or (int)Hoopa or (int)Volcanion or
+        (int)Magearna or (int)Marshadow or
+        (int)Zeraora or (int)Meltan or (int)Melmetal or
+        (int)Zarude
+        ;
 
     /// <summary>
     /// Checks if a Species is classified as "Legend" by the game code.
     /// </summary>
     /// <remarks>Previous games may have included Mythicals in this species list, but that list should be considered separately.</remarks>
-    public static bool IsLegendary(ushort species) => Legends.Contains(species);
+    public static bool IsLegendary(ushort species) => species is
+
+        (int)Mewtwo or
+        (int)Lugia or (int)HoOh or
+        (int)Kyogre or (int)Groudon or (int)Rayquaza or
+        (int)Dialga or (int)Palkia or (int)Giratina or
+        (int)Reshiram or (int)Zekrom or (int)Kyurem or
+        (int)Xerneas or (int)Yveltal or (int)Zygarde or
+        (int)Cosmog or (int)Cosmoem or (int)Solgaleo or (int)Lunala or (int)Necrozma or
+        (int)Zacian or (int)Zamazenta or (int)Eternatus or (int)Calyrex or
+        (int)Koraidon or (int)Miraidon
+        ;
 
     /// <summary>
     /// Checks if a Species is classified as "SubLegend" by the game code.
     /// </summary>
-    public static bool IsSubLegendary(ushort species) => SubLegends.Contains(species);
+    public static bool IsSubLegendary(ushort species) => species is
 
-    private static readonly HashSet<ushort> Mythicals =
-    [
-        (int)Mew,
-        (int)Celebi,
-        (int)Jirachi, (int)Deoxys,
-        (int)Phione, (int)Manaphy, (int)Darkrai, (int)Shaymin, (int)Arceus,
-        (int)Victini, (int)Keldeo, (int)Meloetta, (int)Genesect,
-        (int)Diancie, (int)Hoopa, (int)Volcanion,
-        (int)Magearna, (int)Marshadow,
-        (int)Zeraora, (int)Meltan, (int)Melmetal,
-        (int)Zarude,
-    ];
-
-    private static readonly HashSet<ushort> Legends =
-    [
-        (int)Mewtwo,
-        (int)Lugia, (int)HoOh,
-        (int)Kyogre, (int)Groudon, (int)Rayquaza,
-        (int)Dialga, (int)Palkia, (int)Giratina,
-        (int)Reshiram, (int)Zekrom, (int)Kyurem,
-        (int)Xerneas, (int)Yveltal, (int)Zygarde,
-        (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma,
-        (int)Zacian, (int)Zamazenta, (int)Eternatus, (int)Calyrex,
-        (int)Koraidon, (int)Miraidon,
-    ];
-
-    private static readonly HashSet<ushort> SubLegends =
-    [
-        (int)Articuno, (int)Zapdos, (int)Moltres,
-        (int)Raikou, (int)Entei, (int)Suicune,
-        (int)Regirock, (int)Regice, (int)Registeel, (int)Latias, (int)Latios,
-        (int)Uxie, (int)Mesprit, (int)Azelf, (int)Heatran, (int)Regigigas, (int)Cresselia,
-        (int)Cobalion, (int)Terrakion, (int)Virizion, (int)Tornadus, (int)Thundurus, (int)Landorus,
-        (int)TypeNull, (int)Silvally, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini,
-        (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier, (int)Enamorus,
-        (int)WoChien, (int)ChienPao, (int)TingLu, (int)ChiYu,
-        (int)Okidogi, (int)Munkidori, (int)Fezandipiti, (int)Ogerpon,
-    ];
+        (int)Articuno or (int)Zapdos or (int)Moltres or
+        (int)Raikou or (int)Entei or (int)Suicune or
+        (int)Regirock or (int)Regice or (int)Registeel or (int)Latias or (int)Latios or
+        (int)Uxie or (int)Mesprit or (int)Azelf or (int)Heatran or (int)Regigigas or (int)Cresselia or
+        (int)Cobalion or (int)Terrakion or (int)Virizion or (int)Tornadus or (int)Thundurus or (int)Landorus or
+        (int)TypeNull or (int)Silvally or (int)TapuKoko or (int)TapuLele or (int)TapuBulu or (int)TapuFini or
+        (int)Kubfu or (int)Urshifu or (int)Regieleki or (int)Regidrago or (int)Glastrier or (int)Spectrier or (int)Enamorus or
+        (int)WoChien or (int)ChienPao or (int)TingLu or (int)ChiYu or
+        (int)Okidogi or (int)Munkidori or (int)Fezandipiti or (int)Ogerpon
+        ;
 
     /// <summary>
     /// Checks if the <see cref="species"/> is an Ultra Beast Pokémon.

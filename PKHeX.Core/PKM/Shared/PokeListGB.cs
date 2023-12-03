@@ -17,7 +17,7 @@ public abstract class PokeListGB<T> where T : GBPKML
     // 
     // where,
     // - str has variable size (jp/int)
-    // - pkx is different size for gen1/gen2
+    // - pkx is different size for Gen1/Gen2
 
     private readonly int StringLength;
     private readonly byte[] Data;
