@@ -55,8 +55,13 @@ public sealed class SAV1 : SaveFile, ILangDeviantSave, IEventFlagArray, IEventWo
     private void Initialize(GameVersion versionOverride)
     {
         // see if RBY can be differentiated
-        if (Starter != 0 && versionOverride is not (GameVersion.RB or GameVersion.YW))
-            Version = Yellow ? GameVersion.YW : GameVersion.RB;
+        if (versionOverride is not (GameVersion.RB or GameVersion.YW))
+        {
+            if (Starter != 0)
+                Version = Yellow ? GameVersion.YW : GameVersion.RB;
+            else
+                Version = Data[Offsets.PikaFriendship] != 0 ? GameVersion.YW : GameVersion.RB;
+        }
 
         Box = Data.Length;
         Array.Resize(ref Data, Data.Length + SIZE_RESERVED);

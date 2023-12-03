@@ -134,7 +134,7 @@ public sealed class PersonalInfo6AO(byte[] Data) : PersonalInfo, IPersonalAbilit
 
     private const int CountTutor1 = 15;
     private const int CountTutor2 = 17;
-    private const int CountTutor3 = 13;
+    private const int CountTutor3 = 16;
     private const int CountTutor4 = 15;
 
     public bool GetIsTutor1(int index)

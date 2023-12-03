@@ -321,18 +321,17 @@ public sealed class PGT(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, 
 
     private static bool IsG4ManaphyPIDValid(PIDType val, PKM pk)
     {
+        // Unhatched: Can't trigger ARNG, so it must always be Method 1
         if (pk.IsEgg)
             return val == PIDType.Method_1;
-        if (val == PIDType.Method_1)
-            return pk.WasTradedEgg || !pk.IsShiny; // can't be shiny on received game
-        return val == PIDType.G4MGAntiShiny && (pk.WasTradedEgg || IsAntiShinyARNG(pk));
 
-        static bool IsAntiShinyARNG(PKM pk)
-        {
-            var shinyPID = ARNG.Prev(pk.PID);
-            var tmp = pk.ID32 ^ shinyPID;
-            var xor = (ushort)(tmp ^ (tmp >> 16));
-            return xor < 8; // shiny proc
-        }
+        // Hatching: Code checks if the TID/SID yield a shiny, and re-roll until not shiny.
+        // However, the TID/SID reference is stale (original OT, not hatching OT), so it's fallible.
+        // Hatched: Can't be shiny for an un-traded egg.
+        if (val == PIDType.Method_1)
+            return pk.WasTradedEgg || !pk.IsShiny;
+
+        // Hatched when the egg was shiny: PID needs to be from the ARNG.
+        return val == PIDType.G4MGAntiShiny;
     }
 }

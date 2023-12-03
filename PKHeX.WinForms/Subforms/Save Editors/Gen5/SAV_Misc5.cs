@@ -42,6 +42,7 @@ public partial class SAV_Misc5 : Form
         ReadSubway();
         ReadEntralink();
         ReadMedals();
+        ReadMusical();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -880,5 +881,29 @@ public partial class SAV_Misc5 : Form
             b2w2.Medals.ObtainAll(now, unread: true);
             System.Media.SystemSounds.Asterisk.Play();
         }
+    }
+
+    private readonly string[] PropNames = Util.GetStringList("props", Main.CurrentLanguage);
+
+    private void ReadMusical()
+    {
+        CB_Prop.Items.AddRange(PropNames);
+        CB_Prop.SelectedIndex = 0;
+    }
+
+    private void CB_Prop_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        CHK_PropObtained.Checked = SAV.Musical.GetHasProp(CB_Prop.SelectedIndex);
+    }
+
+    private void CHK_PropObtained_CheckedChanged(object sender, EventArgs e)
+    {
+        SAV.Musical.SetHasProp(CB_Prop.SelectedIndex, CHK_PropObtained.Checked);
+    }
+
+    private void B_UnlockAllProps_Click(object sender, EventArgs e)
+    {
+        SAV.Musical.UnlockAllMusicalProps();
+        System.Media.SystemSounds.Asterisk.Play();
     }
 }

@@ -1,5 +1,6 @@
 0048	*	Inicial	0:Snivy,1:Tepig,2:Oshawott
 0077	s	Zona Nexo	6:Tutorial Terminado
+0143	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
 0268	r	Latios/Latias	5:Luchable,6:Desaparecido/a
 0291	s	N's Zoroark (Victory Road)	0:Blocks further access (Pre-Champion),1:Wants you to follow (Post-Champion),2:On the outside cliff,3:In front of N's Castle,4:Went into N's Castle
 0294	e	Yancy/Curtis Call (Nimbasa City)	0:Inactive,1:Active,2:Activated

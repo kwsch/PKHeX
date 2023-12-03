@@ -334,22 +334,39 @@ public static class MethodFinder
 
     private static bool GetMG4Match(Span<uint> seeds, uint pid, ReadOnlySpan<uint> IVs, out PIDIV pidiv)
     {
-        uint mg4Rev = ARNG.Prev(pid);
+        var currentPSV = getPSV(pid);
+        pid = ARNG.Prev(pid);
+        var originalPSV = getPSV(pid);
+        // ARNG shiny value must be different from the original shiny
+        // if we have a multi-rerolled PID, each re-roll must be from the same shiny value
+        if (originalPSV == currentPSV)
+            return GetNonMatch(out pidiv);
 
-        var count = LCRNGReversal.GetSeeds(seeds, mg4Rev << 16, mg4Rev & 0xFFFF0000);
-        var mg4 = seeds[..count];
-        foreach (var seed in mg4)
+        // ARNG can happen at most 3 times (checked all 2^32 seeds)
+        for (int i = 0; i < 3; i++)
         {
-            var B = LCRNG.Next2(seed);
-            var C = LCRNG.Next(B);
-            var D = LCRNG.Next(C);
-            if (!IVsMatch(C >> 16, D >> 16, IVs))
-                continue;
+            var count = LCRNGReversal.GetSeeds(seeds, pid << 16, pid & 0xFFFF0000);
+            var mg4 = seeds[..count];
+            foreach (var seed in mg4)
+            {
+                var C = LCRNG.Next3(seed);
+                var D = LCRNG.Next(C);
+                if (!IVsMatch(C >> 16, D >> 16, IVs))
+                    continue;
 
-            pidiv = new PIDIV(G4MGAntiShiny, seed);
-            return true;
+                pidiv = new PIDIV(G4MGAntiShiny, seed);
+                return true;
+            }
+
+            // Continue checking for multi-rerolls
+            pid = ARNG.Prev(pid);
+            var prevPSV = getPSV(pid);
+            if (prevPSV != originalPSV)
+                break;
         }
         return GetNonMatch(out pidiv);
+
+        static uint getPSV(uint u32) => ((u32 >> 16) ^ (u32 & 0xFFFF)) >> 3;
     }
 
     private static bool GetG5MGShinyMatch(PKM pk, uint pid, out PIDIV pidiv)

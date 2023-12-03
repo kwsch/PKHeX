@@ -16,7 +16,7 @@ public sealed class G1OverworldSpawner
         SAV = sav;
         EventFlags = sav.GetEventFlags();
         SpawnFlags = sav.EventSpawnFlags;
-        bool yellow = SAV.Yellow;
+        bool yellow = SAV.Version == GameVersion.YW;
 
         // FlagPairs set for Red/Blue when appropriate.
         FlagEevee = new FlagPairG1(0x45);

@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 public sealed class Musical5 : SaveBlock<SAV5>
 {
@@ -9,11 +9,11 @@ public sealed class Musical5 : SaveBlock<SAV5>
 
     public void UnlockAllMusicalProps()
     {
-        // 101 props, which is 12.X bytes of bitflags.
+        // 100 props, which is 12.5 bytes of bitflags.
         var bitFieldOffset = Offset + PropOffset;
         for (int i = 0; i < 0xC; i++)
             Data[bitFieldOffset + i] = 0xFF;
-        Data[bitFieldOffset + 0xC] = 0x1F; // top 3 bits unset, to complete multiple of 8 (101=>104 bits).
+        Data[bitFieldOffset + 0xC] = 0x0F; // top 4 bits unset, to complete multiple of 8 (100=>104 bits).
     }
 
     public bool GetHasProp(int prop)
