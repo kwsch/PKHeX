@@ -144,7 +144,7 @@ public partial class ReportGrid : Form
         }
 
         // Reformat datagrid clipboard content
-        string[] lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        string[] lines = data.Split(Environment.NewLine);
         string[] newlines = ConvertTabbedToRedditTable(lines);
         WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, newlines));
         return true;

@@ -252,7 +252,7 @@ public sealed class AdvancedSettings
     public string HideEvent8Contains { get; set; } = string.Empty;
 
     [Browsable(false)]
-    public string[] GetExclusionList8() => Array.ConvertAll(HideEvent8Contains.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries), z => z.Trim());
+    public string[] GetExclusionList8() => Array.ConvertAll(HideEvent8Contains.Split(',', StringSplitOptions.RemoveEmptyEntries), z => z.Trim());
 }
 
 [Serializable]

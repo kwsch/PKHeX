@@ -17,7 +17,7 @@ public partial class MemoryAmie : Form
         MemStrings = new MemoryStrings(GameInfo.Strings);
         PrevCountries = [CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4];
         PrevRegions = [CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4];
-        string[] arguments = L_Arguments.Text.Split(new[] { " ; " }, StringSplitOptions.None);
+        string[] arguments = L_Arguments.Text.Split(" ; ");
 
         TextArgs = new TextMarkup(arguments);
 
@@ -82,13 +82,13 @@ public partial class MemoryAmie : Form
         if (Entity is ITrainerMemories m)
         {
             // Load the OT Memories
-            CB_OTQual.SelectedIndex = Math.Max(0, m.OT_Intensity - 1);
+            CB_OTQual.SelectedIndex = m.OT_Intensity;
             CB_OTMemory.SelectedValue = (int)m.OT_Memory;
             CB_OTVar.SelectedValue = (int)m.OT_TextVar;
             CB_OTFeel.SelectedIndex = m.OT_Feeling;
 
             // Load the HT Memories
-            CB_CTQual.SelectedIndex = Math.Max(0, m.HT_Intensity - 1);
+            CB_CTQual.SelectedIndex = m.HT_Intensity;
             CB_CTMemory.SelectedValue = (int)m.HT_Memory;
             CB_CTVar.SelectedValue = (int)m.HT_TextVar;
             CB_CTFeel.SelectedIndex = m.HT_Feeling;
@@ -192,12 +192,12 @@ public partial class MemoryAmie : Form
         {
             m.OT_Memory = (byte)WinFormsUtil.GetIndex(CB_OTMemory);
             m.OT_TextVar = CB_OTVar.Enabled ? (ushort)WinFormsUtil.GetIndex(CB_OTVar) : (ushort)0;
-            m.OT_Intensity = CB_OTFeel.Enabled ? (byte)(CB_OTQual.SelectedIndex + 1) : (byte)0;
+            m.OT_Intensity = CB_OTFeel.Enabled ? (byte)CB_OTQual.SelectedIndex : (byte)0;
             m.OT_Feeling = CB_OTFeel.Enabled ? (byte)CB_OTFeel.SelectedIndex : (byte)0;
 
             m.HT_Memory = (byte)WinFormsUtil.GetIndex(CB_CTMemory);
             m.HT_TextVar = CB_CTVar.Enabled ? (ushort)WinFormsUtil.GetIndex(CB_CTVar) : (ushort)0;
-            m.HT_Intensity = CB_CTFeel.Enabled ? (byte)(CB_CTQual.SelectedIndex + 1) : (byte)0;
+            m.HT_Intensity = CB_CTFeel.Enabled ? (byte)CB_CTQual.SelectedIndex : (byte)0;
             m.HT_Feeling = CB_CTFeel.Enabled ? (byte)CB_CTFeel.SelectedIndex : (byte)0;
         }
 
@@ -226,17 +226,22 @@ public partial class MemoryAmie : Form
         CB_CTMemory.DataSource = new BindingSource(strings.Memory, null);
 
         // Quality Chooser
-        foreach (var q in strings.GetMemoryQualities())
-        {
-            CB_CTQual.Items.Add(q);
-            CB_OTQual.Items.Add(q);
-        }
+        AddIntensity(this, strings.Species[0].Text); // None
+        foreach (var q in strings.GetMemoryQualities()[1..])
+            AddIntensity(this, q);
 
         // Feeling Chooser
         foreach (var q in strings.GetMemoryFeelings(Entity.Generation))
             CB_OTFeel.Items.Add(q);
         foreach (var q in strings.GetMemoryFeelings(Entity.Format))
             CB_CTFeel.Items.Add(q);
+
+        // Same for each game.
+        static void AddIntensity(MemoryAmie f, string line)
+        {
+            f.CB_CTQual.Items.Add(line);
+            f.CB_OTQual.Items.Add(line);
+        }
     }
 
     private void UpdateMemoryDisplay(object sender)
