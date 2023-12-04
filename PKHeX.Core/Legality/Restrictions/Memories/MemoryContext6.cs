@@ -122,7 +122,7 @@ public sealed partial class MemoryContext6 : MemoryContext
         return (MemoryFeelings[memory] & (1 << feeling)) != 0;
     }
 
-    public const byte MaxIntensity = 6;
+    public const byte MaxIntensity = 7;
 
     public static bool CanHaveIntensity6(int memory, int intensity)
     {
