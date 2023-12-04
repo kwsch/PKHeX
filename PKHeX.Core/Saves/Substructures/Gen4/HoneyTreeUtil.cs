@@ -51,7 +51,7 @@ public static class HoneyTreeUtil
         }
     }
 
-    // There aren't any RNG considerations for Munchlax/etc encounter slot legality.
+    // There aren't any RNG considerations for Munchlax/etc. encounter slot legality.
     // The RNG calls for populating the tree are disjointed from the RNG calls for generating the Entity upon encounter.
     // Group -> Slot -> Shakes
 

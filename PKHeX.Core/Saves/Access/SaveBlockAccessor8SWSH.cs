@@ -234,9 +234,9 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public const uint KDiggingDuoStreakStamina = 0x066F38F5; // U32
     public const uint KBirthMonth = 0x0D987D50; // U32
     public const uint KBirthDay = 0x355C8314; // U32
-    public const uint KCurrentDexEntry = 0x62743428; // U16 Species ID of last Pokedex entry viewed in Galar Dex
-    public const uint KCurrentDexEntryR1 = 0x789FF72D; // U16 Species ID of last Pokedex entry viewed in Armor Dex
-    public const uint KCurrentDexEntryR2 = 0x759FF274; // U16 Species ID of last Pokedex entry viewed in Crown Dex
+    public const uint KCurrentDexEntry = 0x62743428; // U16 Species ID of last Pokédex entry viewed in Galar Dex
+    public const uint KCurrentDexEntryR1 = 0x789FF72D; // U16 Species ID of last Pokédex entry viewed in Armor Dex
+    public const uint KCurrentDexEntryR2 = 0x759FF274; // U16 Species ID of last Pokédex entry viewed in Crown Dex
     public const uint KCurrentDex = 0x9CF58395; // U32 Galar=0, Armor=1, Crown=2
 
     public const uint KVolumeBackgroundMusic = 0xF8154AC9; // U32 0-10

@@ -40,7 +40,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
 
     public SAV3Colosseum() : base(SaveUtil.SIZE_G3COLO)
     {
-        BAK = Array.Empty<byte>();
+        BAK = [];
         StrategyMemo = Initialize();
         ClearBoxes();
     }
@@ -385,14 +385,14 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
         {
             var info = ItemStorage3Colo.Instance;
             InventoryPouch[] pouch =
-            {
+            [
                 new InventoryPouch3GC(InventoryType.Items, info, 99, 0x007F8, 20), // 20 COLO, 30 XD
                 new InventoryPouch3GC(InventoryType.KeyItems, info, 1, 0x00848, 43),
                 new InventoryPouch3GC(InventoryType.Balls, info, 99, 0x008F4, 16),
                 new InventoryPouch3GC(InventoryType.TMHMs, info, 99, 0x00934, 64), // no HMs
                 new InventoryPouch3GC(InventoryType.Berries, info, 999, 0x00A34, 46),
                 new InventoryPouch3GC(InventoryType.Medicine, info, 99, 0x00AEC, 3), // Cologne
-            };
+            ];
             return pouch.LoadAll(Data);
         }
         set => value.SaveAll(Data);

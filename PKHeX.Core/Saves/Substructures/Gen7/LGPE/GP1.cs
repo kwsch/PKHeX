@@ -8,10 +8,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
 /// </summary>
-public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOnly, IEncounterConvertible<PB7>
+public sealed class GP1(byte[] Data)
+    : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOnly, IEncounterConvertible<PB7>
 {
     public const int SIZE = 0x1B0;
-    public readonly byte[] Data;
+    public readonly byte[] Data = Data;
 
     public GameVersion Version => GameVersion.GO;
     public bool EggEncounter => false;
@@ -21,7 +22,6 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     public EntityContext Context => EntityContext.Gen7b;
     public AbilityPermission Ability => AbilityPermission.Any12;
 
-    public GP1(byte[] data) => Data = data;
     public GP1() : this(new byte[SIZE]) => InitializeBlank(Data);
     public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
 
@@ -41,13 +41,13 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
     /// <summary>
     /// First 0x20 bytes of an empty <see cref="GP1"/>, all other bytes are 0.
     /// </summary>
-    private static ReadOnlySpan<byte> Blank20 => new byte[]
-    {
+    private static ReadOnlySpan<byte> Blank20 =>
+    [
         0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x80, 0x3F, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x80, 0x3F,
         0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x85, 0xEC, 0x33, 0x01,
-    };
+    ];
 
     public static void InitializeBlank(Span<byte> data) => Blank20.CopyTo(data);
 
@@ -204,8 +204,7 @@ public sealed class GP1 : IEncounterInfo, IFixedAbilityNumber, IScaledSizeReadOn
         }
 
         Span<ushort> moves = stackalloc ushort[4];
-        ILearnSource source = LearnSource7GG.Instance;
-        source.SetEncounterMoves(Species, Form, Level, moves);
+        ((ILearnSource)LearnSource7GG.Instance).SetEncounterMoves(Species, Form, Level, moves);
         pk.SetMoves(moves);
         pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 

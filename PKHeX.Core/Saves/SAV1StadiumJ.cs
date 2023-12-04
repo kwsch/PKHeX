@@ -14,7 +14,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
 
     public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => EffortValues.Max12;
-    public override ReadOnlySpan<ushort> HeldItems => Array.Empty<ushort>();
+    public override ReadOnlySpan<ushort> HeldItems => [];
     public override GameVersion Version { get; protected set; } = GameVersion.StadiumJ;
 
     protected override SAV1StadiumJ CloneInternal() => new((byte[])Data.Clone());
@@ -85,7 +85,7 @@ public sealed class SAV1StadiumJ : SAV_STADIUM
         const int len = StringLength;
         var nick = data.AsSpan(0x21, len);
         var ot = data.AsSpan(0x21 + len, len);
-        data = data.Slice(0, 0x21);
+        data = data[..0x21];
         var pk1 = new PK1(data, true);
         nick.CopyTo(pk1.Nickname_Trash);
         ot.CopyTo(pk1.OT_Trash);

@@ -319,8 +319,8 @@ public static class EncounterVerifier
         var species = pk.Species;
         if (trade.EvolveOnTrade && trade.Species == species)
         {
-            // Pokemon that evolve on trade can not be in the phase evolution after the trade
-            // If the trade holds an everstone EvolveOnTrade will be false for the encounter
+            // Pokémon that evolve on trade can not be in the phase evolution after the trade
+            // If the trade holds an Everstone, EvolveOnTrade will be false for the encounter
             var names = ParseSettings.SpeciesStrings;
             var evolved = names[species + 1];
             var unevolved = names[species];

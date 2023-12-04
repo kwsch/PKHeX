@@ -6,10 +6,7 @@ public sealed class ItemStorage4DP : ItemStorage4, IItemStorage
 {
     public static readonly ItemStorage4DP Instance = new();
 
-    public static ushort[] GetAllHeld()
-    {
-        return ArrayUtil.ConcatAll(Pouch_Items_DP, Pouch_Mail_DP, Pouch_Medicine_DP, Pouch_Berries_DP, Pouch_Ball_DP, Pouch_TMHM_DP[..^8]);
-    }
+    public static ushort[] GetAllHeld() => [..Pouch_Items_DP, ..Pouch_Mail_DP, ..Pouch_Medicine_DP, ..Pouch_Berries_DP, ..Pouch_Ball_DP, ..Pouch_TMHM_DP[..^8]];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
 

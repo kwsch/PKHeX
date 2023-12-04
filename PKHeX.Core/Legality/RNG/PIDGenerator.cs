@@ -16,7 +16,7 @@ public static class PIDGenerator
             B = LCRNG.Next(B);
 
         var swappedPIDHalves = type is >= PIDType.Method_1_Unown and <= PIDType.Method_4_Unown;
-        if (swappedPIDHalves) // switched order of PID halves, "BA.."
+        if (swappedPIDHalves) // switched order of PID halves, "BA**"
             pk.PID = (A & 0xFFFF0000) | (B >> 16);
         else
             pk.PID = (B & 0xFFFF0000) | (A >> 16);

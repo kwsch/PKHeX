@@ -3,10 +3,8 @@ using System.Buffers.Binary;
 
 namespace PKHeX.Core;
 
-public sealed class ConfigSave9 : SaveBlock<SAV9SV>
+public sealed class ConfigSave9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
 {
-    public ConfigSave9(SAV9SV sav, SCBlock block) : base(sav, block.Data) { }
-
     // Structure: u32
     /* TalkingSpeed:2
      * SkipMoveLearning:1 | On = 0, Off = 1

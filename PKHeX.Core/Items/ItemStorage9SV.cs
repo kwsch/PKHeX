@@ -6,37 +6,37 @@ public sealed class ItemStorage9SV : IItemStorage
 {
     public static readonly ItemStorage9SV Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Medicine_SV =>
+    [
         0017, 0018, 0019, 0020, 0021, 0022, 0023, 0024, 0025, 0026,
         0027, 0028, 0029, 0030, 0031, 0032, 0033, 0034, 0035, 0036,
         0037, 0038, 0039, 0040, 0041, 0708, 0709,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ball_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Ball_SV =>
+    [
         0001, 0002, 0003, 0004, 0005, 0006, 0007, 0008, 0009, 0010,
         0011, 0012, 0013, 0014, 0015, 0016, 0492, 0493, 0494, 0495,
         0496, 0497, 0498, 0499, 0500, 0576, 0851, 1785,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Battle_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Battle_SV =>
+    [
         0055, 0056, 0057, 0058, 0059, 0060, 0061, 0062, 0063,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Berries_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Berries_SV =>
+    [
         0149, 0150, 0151, 0152, 0153, 0154, 0155, 0156, 0157, 0158,
         0159, 0160, 0161, 0162, 0163, 0169, 0170, 0171, 0172, 0173,
         0174, 0184, 0185, 0186, 0187, 0188, 0189, 0190, 0191, 0192,
         0193, 0194, 0195, 0196, 0197, 0198, 0199, 0200, 0201, 0202,
         0203, 0204, 0205, 0206, 0207, 0208, 0209, 0210, 0211, 0212,
         0686, 0687, 0688,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Other_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Other_SV =>
+    [
         0045, 0046, 0047, 0048, 0049, 0050, 0051, 0052, 0053, 0080,
         0081, 0082, 0083, 0084, 0085, 0107, 0108, 0109, 0110, 0111,
         0112, 0135, 0136, 0213, 0214, 0217, 0218, 0219, 0220, 0221,
@@ -61,10 +61,10 @@ public sealed class ItemStorage9SV : IItemStorage
         1873, 1874, 1875, 1876, 1877, 1878, 1879, 1880, 1881, 1882,
         1883, 1884, 1885, 1886, 2344, 2345, 2401, 2402, 2403, 2404,
         2406, 2407, 2408, 2411, 2412, 2413, 2414, 2415, 2416, 2479,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_TM_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_TM_SV =>
+    [
         0328, 0329, 0330, 0331, 0332, 0333, 0334, 0335, 0336, 0337,
         0338, 0339, 0340, 0341, 0342, 0343, 0344, 0345, 0346, 0347,
         0348, 0349, 0350, 0351, 0352, 0353, 0354, 0355, 0356, 0357,
@@ -86,16 +86,16 @@ public sealed class ItemStorage9SV : IItemStorage
         2240, 2241, 2242, 2243, 2244, 2245, 2246, 2247, 2248, 2249,
         2250, 2251, 2252, 2253, 2254, 2255, 2256, 2257, 2258, 2259,
         2260, 2261,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Treasure_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Treasure_SV =>
+    [
         0086, 0087, 0088, 0089, 0090, 0091, 0092, 0094, 0106, 0571,
         0580, 0581, 0582, 0583, 1842, 1843,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Picnic_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Picnic_SV =>
+    [
         1888, 1889, 1890, 1891, 1892, 1893, 1894, 1895, 1896, 1897,
         1898, 1899, 1900, 1901, 1902, 1903, 1904, 1905, 1906, 1907,
         1908, 1909, 1910, 1911, 1912, 1913, 1914, 1915, 1916, 1917,
@@ -113,17 +113,17 @@ public sealed class ItemStorage9SV : IItemStorage
         2399, 2400, 2417, 2418, 2419, 2420, 2421, 2422, 2423, 2424,
         2425, 2426, 2427, 2428, 2429, 2430, 2431, 2432, 2433, 2434,
         2435, 2436, 2437,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Event_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Event_SV =>
+    [
         0078, 0466, 0631, 0632, 0638, 0703, 0765, 1267, 1278, 1587,
         1589, 1590, 1591, 1829, 1830, 1831, 1832, 1833, 1834, 1835,
         1836, 1857, 1858, 2405, 2409, 2410, 2480, 2481,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Material_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Material_SV =>
+    [
         1956, 1957, 1958, 1959, 1960, 1961, 1962, 1963, 1964, 1965,
         1966, 1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975,
         1976, 1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985,
@@ -147,28 +147,28 @@ public sealed class ItemStorage9SV : IItemStorage
         2457, 2458, 2459, 2460, 2461, 2462, 2463, 2464, 2465, 2466,
         2467, 2468, 2469, 2470, 2471, 2472, 2473, 2474, 2475, 2476,
         2477, 2478,
-    };
+    ];
 
-    internal static ReadOnlySpan<InventoryType> ValidTypes => new[]
-    {
+    internal static ReadOnlySpan<InventoryType> ValidTypes =>
+    [
         InventoryType.Items, InventoryType.KeyItems,
         InventoryType.TMHMs,
         InventoryType.Medicine, InventoryType.Berries, InventoryType.Balls, InventoryType.BattleItems,
         InventoryType.Treasure,
         InventoryType.Ingredients, InventoryType.Candy,
-    };
+    ];
 
-    private static ReadOnlySpan<InventoryType> ValidHeldTypes => new[]
-    {
+    private static ReadOnlySpan<InventoryType> ValidHeldTypes =>
+    [
         InventoryType.Items,
         InventoryType.TMHMs,
         InventoryType.Medicine, InventoryType.Berries, InventoryType.Balls, InventoryType.BattleItems,
         InventoryType.Treasure,
-    };
+    ];
 
     // [AUCTION] Porto Marinada specialty auctioneer, locked behind HOME in 2023.
-    public static ReadOnlySpan<ushort> Unreleased => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Unreleased =>
+    [
         0005, // Safari Ball
         0016, // Cherish Ball
 
@@ -193,7 +193,7 @@ public sealed class ItemStorage9SV : IItemStorage
         1592, // Galarica Wreath
 
         1785, // Strange Ball
-    };
+    ];
 
     public int GetMax(InventoryType type) => type switch
     {

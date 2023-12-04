@@ -6,8 +6,8 @@ public sealed class ItemStorage8BDSP : IItemStorage
 {
     public static readonly ItemStorage8BDSP Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Regular_BS => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Regular_BS =>
+    [
         045, 046, 047, 048, 049, 050, 051, 052, 053, 072, 073, 074, 075, 076, 077, 078,
         079, 080, 081, 082, 083, 084, 085, 093, 094, 107, 108, 109, 110, 111, 112, 135,
         136, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228,
@@ -21,23 +21,23 @@ public sealed class ItemStorage8BDSP : IItemStorage
 
         1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239, 1240, 1241, 1242, 1243, 1244,
         1245, 1246, 1247, 1248, 1249, 1250, 1251, 1606,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Ball_BS => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Ball_BS =>
+    [
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016,
         492, 493, 494, 495, 496, 497, 498, 499, 500,
         576,
         851,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Battle_BS => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Battle_BS =>
+    [
         055, 056, 057, 058, 059, 060, 061, 062, 063,
-    };
+    ];
 
-    internal static ReadOnlySpan<ushort> Unreleased => new ushort[]
-    {
+    internal static ReadOnlySpan<ushort> Unreleased =>
+    [
         005, // Safari Ball
         016, // Cherish Ball
         044, // Sacred Ash
@@ -53,11 +53,11 @@ public sealed class ItemStorage8BDSP : IItemStorage
         576, // Dream Ball
         849, // Ice Stone
         851, // Beast Ball
-    };
+    ];
 
-    internal static ReadOnlySpan<ushort> DisallowHeldTreasure => new ushort[]
-    {
-        // new BDSP items, but they can't be held
+    internal static ReadOnlySpan<ushort> DisallowHeldTreasure =>
+    [
+        // new BD/SP items, but they can't be held
         1808, // Mysterious Shard S
         1809, // Mysterious Shard L
         1810, // Digger Drill
@@ -72,26 +72,24 @@ public sealed class ItemStorage8BDSP : IItemStorage
         1819, // Genome Slate
         1820, // Discovery Slate
         1821, // Distortion Slate
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_BS => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Key_BS =>
+    [
         428, 431, 432, 433, 438, 439, 440, 443, 445, 446, 447, 448, 449, 450, 451, 452,
         453, 454, 455, 459, 460, 461, 462, 463, 464, 466, 467, 631, 632,
 
         1267, 1278, 1822,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_BS => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Medicine_BS =>
+    [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037,
         038, 039, 040, 041, 042, 043, 044, 054,
+    ];
 
-        // 134 Sweet Heart (future event item?)
-    };
-
-    private static ReadOnlySpan<ushort> Pouch_Berries_BS => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Berries_BS =>
+    [
         149, 150, 151, 152, 153, 154, 155, 156, 157, 158,
         159, 160, 161, 162, 163, 164, 165, 166, 167, 168,
         169, 170, 171, 172, 173, 174, 175, 176, 177, 178,
@@ -99,17 +97,17 @@ public sealed class ItemStorage8BDSP : IItemStorage
         189, 190, 191, 192, 193, 194, 195, 196, 197, 198,
         199, 200, 201, 202, 203, 204, 205, 206, 207, 208,
         209, 210, 211, 212, 686,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Treasure_BS => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Treasure_BS =>
+    [
         086, 087, 088, 089, 090, 091, 092, 099, 100, 101, 102, 103, 104, 105, 106, 795, 796,
 
         1808, 1809, 1810, 1811, 1812, 1813, 1814, 1815, 1816, 1817, 1818, 1819, 1820, 1821,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_TMHM_BS => new ushort[] // TM01-TM100
-    {
+    private static ReadOnlySpan<ushort> Pouch_TMHM_BS => // TM01-TM100
+    [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
         348, 349, 350, 351, 352, 353, 354, 355, 356, 357,
@@ -120,8 +118,8 @@ public sealed class ItemStorage8BDSP : IItemStorage
         398, 399, 400, 401, 402, 403, 404, 405, 406, 407,
         408, 409, 410, 411, 412, 413, 414, 415, 416, 417,
         418, 419,
-        420, 421, 422, 423, 424, 425, 426, 427, // Previously called HM0X, in BDSP they're now called TM93-TM100
-    };
+        420, 421, 422, 423, 424, 425, 426, 427, // Previously called HM0X, in BD/SP they're now called TM93-TM100
+    ];
 
     public int GetMax(InventoryType type) => type switch
     {
@@ -151,16 +149,13 @@ public sealed class ItemStorage8BDSP : IItemStorage
         _ => throw new ArgumentOutOfRangeException(nameof(type)),
     };
 
-    internal static ReadOnlySpan<InventoryType> ValidTypes => new[]
-    {
+    internal static ReadOnlySpan<InventoryType> ValidTypes =>
+    [
         InventoryType.Items, InventoryType.KeyItems, InventoryType.TMHMs, InventoryType.Medicine,
         InventoryType.Berries, InventoryType.Balls, InventoryType.BattleItems, InventoryType.Treasure,
-    };
+    ];
 
-    public static ushort[] GetAll()
-    {
-        return ArrayUtil.ConcatAll(Pouch_Regular_BS, Pouch_Ball_BS, Pouch_Battle_BS, Pouch_Berries_BS, Pouch_TMHM_BS, Pouch_Medicine_BS, Pouch_Treasure_BS);
-    }
+    public static ushort[] GetAll() => [..Pouch_Regular_BS, ..Pouch_Ball_BS, ..Pouch_Battle_BS, ..Pouch_Berries_BS, ..Pouch_TMHM_BS, ..Pouch_Medicine_BS, ..Pouch_Treasure_BS];
 
     public static InventoryType GetInventoryPouch(ushort itemIndex)
     {

@@ -96,7 +96,7 @@ public sealed class LevelVerifier : Verifier
 
         if (IsTradeEvolutionRequired(data, enc))
         {
-            // Pokemon has been traded illegally between games without evolving.
+            // Pokémon has been traded illegally between games without evolving.
             // Trade evolution species IDs for Gen1 are sequential dex numbers.
             var species = enc.Species;
             var evolved = ParseSettings.SpeciesStrings[species + 1];
@@ -121,7 +121,7 @@ public sealed class LevelVerifier : Verifier
         if (!GBRestrictions.IsTradeEvolution1(enc.Species))
             return false;
 
-        // Context check is only applicable to gen1/2; transferring to Gen2 is a trade.
+        // Context check is only applicable to Gen1/2; transferring to Gen2 is a trade.
         // Stadium 2 can transfer across game/generation boundaries without initiating a trade.
         // Ignore this check if the environment's loaded trainer is not from Gen1/2 or is from GB Era.
         if (ParseSettings.ActiveTrainer.Generation >= 3 || ParseSettings.AllowGBStadium2)

@@ -35,7 +35,7 @@ internal static class Encounters6AO
     };
 
     private static readonly EncounterStatic6[] Encounter_AO_Regular =
-    {
+    [
         // Starters @ Route 101
         new(ORAS) { FixedBall = Ball.Poke, Species = 252, Level = 5, Location = 204 }, // Treeko
         new(ORAS) { FixedBall = Ball.Poke, Species = 255, Level = 5, Location = 204 }, // Torchic
@@ -124,10 +124,10 @@ internal static class Encounters6AO
         BaseCosplay with {Form = 4, Moves = new(098, 486, 086, (int)Move.ElectricTerrain)}, // Ph.D.
         BaseCosplay with {Form = 5, Moves = new(098, 486, 086, (int)Move.FlyingPress)}, // Libre
         BaseCosplay, // Cosplay, same 3 level up moves.
-    };
+    ];
 
     internal static readonly EncounterStatic6[] StaticA =
-    {
+    [
         new(  AS) { Species = 380, Level = 30, Location = 320, Ability = OnlyFirst, FixedBall = Ball.Poke, FlawlessIVCount = 3 }, // Latias
         new(  AS) { Species = 382, Level = 45, Location = 296, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Kyogre
         new(  AS) { Species = 249, Level = 50, Location = 304, FlawlessIVCount = 3 }, // Lugia
@@ -136,10 +136,10 @@ internal static class Encounters6AO
         new(  AS) { Species = 642, Level = 50, Location = 348, FlawlessIVCount = 3 }, // Thundurus
         new(  AS) { Species = 381, Level = 30, Location = 320, FlawlessIVCount = 3 }, // Latios
         new(  AS) { Species = 101, Level = 40, Location = 292 }, // Electrode
-    };
+    ];
 
     internal static readonly EncounterStatic6[] StaticO =
-    {
+    [
         new(OR  ) { Species = 381, Level = 30, Location = 320, Ability = OnlyFirst, FixedBall = Ball.Poke, FlawlessIVCount = 3 }, // Latios
         new(OR  ) { Species = 383, Level = 45, Location = 296, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Groudon
         new(OR  ) { Species = 250, Level = 50, Location = 304, FlawlessIVCount = 3 }, // Ho-Oh
@@ -148,17 +148,17 @@ internal static class Encounters6AO
         new(OR  ) { Species = 641, Level = 50, Location = 348, FlawlessIVCount = 3 }, // Tornadus
         new(OR  ) { Species = 380, Level = 30, Location = 320, FlawlessIVCount = 3 }, // Latias
         new(OR  ) { Species = 101, Level = 40, Location = 314 }, // Electrode
-    };
+    ];
 
     internal static readonly EncounterStatic6[] Encounter_AO = Encounter_AO_Regular;
 
     #endregion
     #region Trade Tables
     internal static readonly EncounterTrade6[] TradeGift_AO =
-    {
+    [
         new(TradeNames, 00, ORAS, 01,3,05,040) { Species = 296, Level = 09, Ability = OnlySecond, ID32 = 30724, Gender = 0, OTGender = 0, IVs = new(-1,31,-1,-1,-1,-1), Nature = Nature.Brave }, // Makuhita
         new(TradeNames, 01, ORAS, 34,3,13,176) { Species = 300, Level = 30, Ability = OnlyFirst,  ID32 = 03239, Gender = 1, OTGender = 1, IVs = new(-1,-1,-1,31,-1,-1), Nature = Nature.Naughty }, // Skitty
         new(TradeNames, 02, ORAS, 07,4,10,319) { Species = 222, Level = 50, Ability = OnlyHidden, ID32 = 00325, Gender = 1, OTGender = 1, IVs = new(31,-1,-1,-1,-1,31), Nature = Nature.Calm }, // Corsola
-    };
+    ];
     #endregion
 }

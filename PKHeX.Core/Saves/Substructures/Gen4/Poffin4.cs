@@ -3,12 +3,10 @@ using System.ComponentModel;
 
 namespace PKHeX.Core;
 
-public sealed class Poffin4
+public sealed class Poffin4(byte[] Data)
 {
     public const int SIZE = 8;
-    public readonly byte[] Data;
-
-    public Poffin4(byte[] data) => Data = data;
+    public readonly byte[] Data = Data;
 
     private const string Stats = nameof(Stats);
 

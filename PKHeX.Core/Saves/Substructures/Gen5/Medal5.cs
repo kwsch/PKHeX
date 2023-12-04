@@ -3,12 +3,10 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Medal5
+public sealed class Medal5(Memory<byte> Data)
 {
     public const int SIZE = 4;
-    private readonly Memory<byte> Data;
     private Span<byte> Span => Data.Span;
-    public Medal5(Memory<byte> data) => Data = data;
 
     // Structure:
     // ushort Date:7

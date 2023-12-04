@@ -1,4 +1,5 @@
 using System;
+using static PKHeX.Core.ItemStorage6XY;
 
 namespace PKHeX.Core;
 
@@ -6,8 +7,8 @@ public sealed class ItemStorage6AO : IItemStorage
 {
     public static readonly ItemStorage6AO Instance = new();
 
-    internal static ReadOnlySpan<ushort> Pouch_TMHM_AO => new ushort[]
-    {
+    internal static ReadOnlySpan<ushort> Pouch_TMHM_AO =>
+    [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
         348, 349, 350, 351, 352, 353, 354, 355, 356, 357,
@@ -26,10 +27,10 @@ public sealed class ItemStorage6AO : IItemStorage
 
         // OR/AS
         425, 737,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Items_AO => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Items_AO =>
+    [
         // Flutes moved to the Medicine pouch.
         001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 055, 056,
         057, 058, 059, 060, 061, 062, 063, 064,                068, 069, 070, 071, 072, 073, 074, 075,
@@ -51,17 +52,17 @@ public sealed class ItemStorage6AO : IItemStorage
         // OR/AS Additions
         534, 535,
         752, 753, 754, 755, 756, 757, 758, 759, 760, 761, 762, 763, 764, 767, 768, 769, 770,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Key_AO => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Key_AO =>
+    [
         216, 445, 446, 447, 465, 466, 471, 628,
         629, 631, 632, 638, 697,
 
         // Illegal
         // 716, 717, 723, 745, 746, 747, 748, 749, 750, 766,
 
-        // ORAS
+        // OR/AS
         457, 474, 503,
 
         718, 719,
@@ -70,28 +71,25 @@ public sealed class ItemStorage6AO : IItemStorage
         740, 741, 742, 743, 744,
         751,
         765, 771, 772, 774, 775,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_AO => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Medicine_AO =>
+    [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033,
         034, 035, 036, 037, 038, 039, 040, 041, 042, 043, 044, 045, 046, 047, 048, 049, 050, 051,
         052, 053, 054, 134, 504, 565, 566, 567, 568, 569, 570, 571, 591, 645, 708, 709,
 
         // OR/AS -- Moved from Items pouch.
         065, 066, 067,
-    };
+    ];
 
-    public static ushort[] GetAllHeld()
-    {
-        return ArrayUtil.ConcatAll(Pouch_Items_AO, Pouch_Medicine_AO, ItemStorage6XY.Pouch_Berry_XY);
-    }
+    public static ushort[] GetAllHeld() => [..Pouch_Items_AO, ..Pouch_Medicine_AO, ..Pouch_Berry_XY];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount)
     {
         if (type is InventoryType.KeyItems)
             return true;
-        return ItemStorage6XY.Unreleased.BinarySearch((ushort)itemIndex) < 0;
+        return Unreleased.BinarySearch((ushort)itemIndex) < 0;
     }
 
     public ReadOnlySpan<ushort> GetItems(InventoryType type) => type switch
@@ -100,7 +98,7 @@ public sealed class ItemStorage6AO : IItemStorage
         InventoryType.KeyItems => Pouch_Key_AO,
         InventoryType.TMHMs => Pouch_TMHM_AO,
         InventoryType.Medicine => Pouch_Medicine_AO,
-        InventoryType.Berries => ItemStorage6XY.Pouch_Berry_XY,
+        InventoryType.Berries => Pouch_Berry_XY,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
 }

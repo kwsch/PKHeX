@@ -7,18 +7,12 @@ namespace PKHeX.Core.Tests.PKM;
 public class StringTests
 {
     [Fact]
-    public void Gen7ZHLengthCorrect()
-    {
-        StringConverter7ZH.Gen7_ZHRaw.Length.Should().Be(StringConverter7ZH.Gen7_ZHLength);
-    }
-
-    [Fact]
     public void EncodesOTNameCorrectly()
     {
         const string name_fabian = "Fabian♂";
         var pk = new PK7 { OT_Name = name_fabian };
-        Span<byte> byte_fabian = stackalloc byte[]
-        {
+        Span<byte> byte_fabian =
+        [
             0x46, 0x00, // F
             0x61, 0x00, // a
             0x62, 0x00, // b
@@ -27,7 +21,7 @@ public class StringTests
             0x6E, 0x00, // n
             0x8E, 0xE0, // ♂
             0x00, 0x00, // \0 terminator
-        };
+        ];
         CheckStringGetSet(nameof(pk.OT_Name), name_fabian, pk.OT_Name, byte_fabian, pk.OT_Trash);
     }
 
@@ -36,15 +30,15 @@ public class StringTests
     {
         const string name_nidoran = "ニドラン♀";
         var pk = new PK7 { Nickname = name_nidoran };
-        Span<byte> byte_nidoran = stackalloc byte[]
-        {
+        Span<byte> byte_nidoran =
+        [
             0xCB, 0x30, // ニ
             0xC9, 0x30, // ド
             0xE9, 0x30, // ラ
             0xF3, 0x30, // ン
             0x40, 0x26, // ♀
             0x00, 0x00, // \0 terminator
-        };
+        ];
         CheckStringGetSet(nameof(pk.Nickname), name_nidoran, pk.Nickname, byte_nidoran, pk.Nickname_Trash);
     }
 

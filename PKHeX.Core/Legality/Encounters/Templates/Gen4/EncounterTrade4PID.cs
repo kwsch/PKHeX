@@ -138,7 +138,7 @@ public sealed record EncounterTrade4PID
         if (Version == GameVersion.DPPt)
             return GetLanguageDPPt(lang, game);
 
-        // HGSS
+        // HG/SS
         // Has English Language ID for all except English origin, which is French
         if (Species == (int)Core.Species.Pikachu)
             return (int)(lang == (int)LanguageID.English ? LanguageID.French : LanguageID.English);
@@ -150,7 +150,7 @@ public sealed record EncounterTrade4PID
         // Has German Language ID for all except German origin, which is English
         if (Species == (int)Core.Species.Magikarp)
             return (int)(lang == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
-        // All other trades received (DP only): English games have a Japanese language ID instead of English.
+        // All other trades received (D/P only): English games have a Japanese language ID instead of English.
         if (game is not GameVersion.Pt && lang == (int)LanguageID.English)
             return (int)LanguageID.Japanese;
         return lang;
@@ -233,12 +233,12 @@ public sealed record EncounterTrade4PID
         int lang = pk.Language;
         switch (Species)
         {
-            case (int)Core.Species.Pikachu: // HGSS Pikachu
+            case (int)Core.Species.Pikachu: // HG/SS Pikachu
                 return DetectTradeLanguageG4SurgePikachu(pk, lang);
-            case (int)Core.Species.Magikarp: // DPPt Magikarp
+            case (int)Core.Species.Magikarp: // D/P/Pt Magikarp
                 return DetectTradeLanguageG4MeisterMagikarp(pk, lang);
         }
-        // DP English origin are Japanese lang. Can't have LanguageID 2
+        // D/P English origin are Japanese lang. Can't have LanguageID 2
         if (lang != 1 || pk.Version is not ((int)GameVersion.D or (int)GameVersion.P))
             return lang;
 

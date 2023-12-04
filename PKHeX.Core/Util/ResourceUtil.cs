@@ -32,7 +32,7 @@ public static partial class Util
         return resName.EndsWith(".txt", StringComparison.Ordinal) ? resName[start..^4].ToLowerInvariant() : resName[start..];
     }
 
-    private static readonly Dictionary<string, string[]> stringListCache = new();
+    private static readonly Dictionary<string, string[]> stringListCache = [];
 
     private static readonly object getStringListLoadLock = new();
 
@@ -99,54 +99,54 @@ public static partial class Util
     /// </summary>
     /// <param name="fileName">Base file name</param>
     /// <remarks>Ignores Korean Language.</remarks>
-    public static string[][] GetLanguageStrings7(string fileName) => new[]
-    {
-        Array.Empty<string>(), // 0 - None
+    public static string[][] GetLanguageStrings7(string fileName) =>
+    [
+        [], // 0 - None
         GetStringList(fileName, "ja"), // 1
         GetStringList(fileName, "en"), // 2
         GetStringList(fileName, "fr"), // 3
         GetStringList(fileName, "it"), // 4
         GetStringList(fileName, "de"), // 5
-        Array.Empty<string>(), // 6 - None
+        [], // 6 - None
         GetStringList(fileName, "es"), // 7
-    };
+    ];
 
     /// <summary>
     /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Korean.
     /// </summary>
     /// <param name="fileName">Base file name</param>
-    public static string[][] GetLanguageStrings8(string fileName) => new[]
-    {
-        Array.Empty<string>(), // 0 - None
+    public static string[][] GetLanguageStrings8(string fileName) =>
+    [
+        [], // 0 - None
         GetStringList(fileName, "ja"), // 1
         GetStringList(fileName, "en"), // 2
         GetStringList(fileName, "fr"), // 3
         GetStringList(fileName, "it"), // 4
         GetStringList(fileName, "de"), // 5
-        Array.Empty<string>(), // 6 - None
+        [], // 6 - None
         GetStringList(fileName, "es"), // 7
         GetStringList(fileName, "ko"), // 8
-    };
+    ];
 
     /// <summary>
     /// Retrieves the localization index list for all requested strings for the <see cref="fileName"/> through Chinese.
     /// </summary>
     /// <param name="fileName">Base file name</param>
     /// <param name="zh2">String to use for the second Chinese localization.</param>
-    public static string[][] GetLanguageStrings10(string fileName, string zh2 = "zh") => new[]
-    {
-        Array.Empty<string>(), // 0 - None
+    public static string[][] GetLanguageStrings10(string fileName, string zh2 = "zh") =>
+    [
+        [], // 0 - None
         GetStringList(fileName, "ja"), // 1
         GetStringList(fileName, "en"), // 2
         GetStringList(fileName, "fr"), // 3
         GetStringList(fileName, "it"), // 4
         GetStringList(fileName, "de"), // 5
-        Array.Empty<string>(), // 6 - None
+        [], // 6 - None
         GetStringList(fileName, "es"), // 7
         GetStringList(fileName, "ko"), // 8
         GetStringList(fileName, "zh"), // 9
         GetStringList(fileName, zh2), // 10
-    };
+    ];
 
     #endregion
 
@@ -171,7 +171,7 @@ public static partial class Util
     public static string[] LoadStringList(string file, string? txt)
     {
         if (txt == null)
-            return Array.Empty<string>();
+            return [];
         string[] raw = FastSplit(txt);
 
         // Make sure only one thread can write to the cache
@@ -187,11 +187,11 @@ public static partial class Util
     public static byte[] GetBinaryResource(string name)
     {
         if (!resourceNameMap.TryGetValue(name, out var resName))
-            return Array.Empty<byte>();
+            return [];
 
         using var resource = thisAssembly.GetManifestResourceStream(resName);
         if (resource is null)
-            return Array.Empty<byte>();
+            return [];
 
         var buffer = new byte[resource.Length];
         resource.ReadExactly(buffer);
@@ -214,7 +214,7 @@ public static partial class Util
     {
         // Get Count
         if (s.Length == 0)
-            return Array.Empty<string>();
+            return [];
 
         var count = GetCount(s);
         var result = new string[count];

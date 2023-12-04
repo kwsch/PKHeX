@@ -20,10 +20,8 @@ public abstract class Entralink5 : SaveBlock<SAV5>
     }
 }
 
-public sealed class Entralink5BW : Entralink5
+public sealed class Entralink5BW(SAV5BW SAV, int offset) : Entralink5(SAV, offset)
 {
-    public Entralink5BW(SAV5BW SAV, int offset) : base(SAV, offset) { }
-
     public byte MissionsComplete
     {
         get => Data[Offset + 0x1A4];
@@ -31,10 +29,8 @@ public sealed class Entralink5BW : Entralink5
     }
 }
 
-public sealed class Entralink5B2W2 : Entralink5
+public sealed class Entralink5B2W2(SAV5B2W2 SAV, int offset) : Entralink5(SAV, offset)
 {
-    public Entralink5B2W2(SAV5B2W2 SAV, int offset) : base(SAV, offset) { }
-
     public byte PassPower1
     {
         get => Data[Offset + 0x1A0];

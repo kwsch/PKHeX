@@ -9,15 +9,15 @@ public sealed class PK5 : PKM, ISanityChecksum,
     IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetRibbons,
     IContestStats, IGroundTile
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x43, 0x44, 0x45, 0x46, 0x47,
         0x5E, // unused
         0x63, // last 8 bits of a 32bit ribbonset
         0x64, 0x65, 0x66, 0x67, // unused 32bit ribbonset?
         0x86, // unused
         0x87, // PokeStar Fame
-    };
+    ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;

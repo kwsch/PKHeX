@@ -14,8 +14,8 @@ internal static class Locations9
     /// </summary>
     public static bool IsKitakami(ushort location) => location is (>= 132 and <= 170);
 
-    public static ReadOnlySpan<byte> Met0 => new byte[]
-    {
+    public static ReadOnlySpan<byte> Met0 =>
+    [
              002, 004, 006, 008,
         010, 012, 014, 016, 018,
         020, 022, 024, 026, 028,
@@ -37,17 +37,17 @@ internal static class Locations9
         140, 142, 144, 146, 148, 150,
         152, 154, 156, 158, 160, 162,
         164, 166, 168, 170,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> Met3 => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Met3 =>
+    [
                30001,        30003, 30004, 30005, 30006, 30007, 30008, 30009,
         30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018, 30019,
         30020, 30021, 30022, 30023, 30024,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> Met4 => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Met4 =>
+    [
                40001, 40002, 40003, 40004, 40005, 40006, 40007, 40008, 40009,
         40010, 40011, 40012, 40013, 40014, 40015, 40016, 40017, 40018, 40019,
         40020, 40021, 40022, 40024, 40024, 40025, 40026, 40027, 40028, 40029,
@@ -56,7 +56,7 @@ internal static class Locations9
         40050, 40051, 40052, 40053, 40054, 40055, 40056, 40057, 40058, 40059,
         40060, 40061, 40062, 40063, 40064, 40065, 40066, 40067, 40068, 40069,
         40070, 40071, 40072, 40073, 40074, 40075, 40076, 40077, 40078,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> Met6 => new ushort[] {/* XY */ 60001, 60003, /* ORAS */ 60004, /* SV */ 60005 };
+    public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004, /* S/V */ 60005];
 }

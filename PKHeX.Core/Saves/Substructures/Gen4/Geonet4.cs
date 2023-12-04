@@ -14,8 +14,8 @@ public sealed class Geonet4
     private readonly int Offset;
     private const int CountryCount = 233;
 
-    private static ReadOnlySpan<byte> LegalCountries => new byte[]
-    {
+    private static ReadOnlySpan<byte> LegalCountries =>
+    [
         001, 002, 003, 006, 008, 009, 012, 013, 015, 016, 017, 018, 020, 021, 022, 023,
         025, 027, 028, 029, 031, 033, 034, 035, 036, 040, 042, 043, 045, 048, 049, 050,
         052, 054, 055, 056, 058, 059, 060, 061, 062, 069, 070, 071, 072, 074, 077, 078,
@@ -25,7 +25,7 @@ public sealed class Geonet4
         164, 166, 167, 110, 171, 172, 179, 183, 186, 187, 188, 189, 192, 193, 194, 196,
         198, 199, 200, 202, 205, 207, 211, 212, 216, 218, 219, 204, 221, 220, 222, 224,
         226, 227,
-    };
+    ];
 
     public static byte GetSubregionCount(byte country) => country switch
     {

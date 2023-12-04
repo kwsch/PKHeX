@@ -1,20 +1,13 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Represents a Box Editor that loads the contents for easy manipulation.
 /// </summary>
-public sealed class BoxEdit
+public sealed class BoxEdit(SaveFile SAV)
 {
-    private readonly SaveFile SAV;
-    private readonly PKM[] CurrentContents;
-
-    public BoxEdit(SaveFile sav)
-    {
-        SAV = sav;
-        CurrentContents = new PKM[sav.BoxSlotCount];
-    }
+    private readonly PKM[] CurrentContents = new PKM[SAV.BoxSlotCount];
 
     public void Reload() => LoadBox(CurrentBox);
 

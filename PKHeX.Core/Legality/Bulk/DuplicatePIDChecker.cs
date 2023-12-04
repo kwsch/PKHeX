@@ -25,7 +25,7 @@ public sealed class DuplicatePIDChecker : IBulkAnalyzer
         }
     }
 
-    private static void Verify(BulkAnalysis input, IDictionary<uint, CombinedReference> dict, LegalityAnalysis ca, SlotCache cp)
+    private static void Verify(BulkAnalysis input, Dictionary<uint, CombinedReference> dict, LegalityAnalysis ca, SlotCache cp)
     {
         bool g345 = ca.Info.Generation is 3 or 4 or 5;
         var id = g345 ? cp.Entity.EncryptionConstant : cp.Entity.PID;

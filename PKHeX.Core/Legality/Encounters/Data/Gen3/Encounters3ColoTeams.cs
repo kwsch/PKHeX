@@ -1,4 +1,3 @@
-using System;
 using static PKHeX.Core.Encounters3ColoShadow;
 
 namespace PKHeX.Core;
@@ -8,17 +7,17 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Encounters3ColoTeams
 {
-    public static readonly TeamLock[] First = Array.Empty<TeamLock>();
+    public static readonly TeamLock[] First = [];
 
     // Colo
-    public static readonly TeamLock[] ColoMakuhita = { CMakuhita };
-    public static readonly TeamLock[] Gligar = { CGligar };
-    public static readonly TeamLock[] Murkrow = { CMurkrow };
-    public static readonly TeamLock[] Heracross = { CHeracross };
-    public static readonly TeamLock[] Ursaring = { CUrsaring };
+    public static readonly TeamLock[] ColoMakuhita = [CMakuhita];
+    public static readonly TeamLock[] Gligar = [CGligar];
+    public static readonly TeamLock[] Murkrow = [CMurkrow];
+    public static readonly TeamLock[] Heracross = [CHeracross];
+    public static readonly TeamLock[] Ursaring = [CUrsaring];
 
     // E-Reader
-    public static readonly TeamLock[] CTogepi = {ETogepi};
-    public static readonly TeamLock[] CMareep = {EMareep};
-    public static readonly TeamLock[] CScizor = {EScizor};
+    public static readonly TeamLock[] CTogepi = [ETogepi];
+    public static readonly TeamLock[] CMareep = [EMareep];
+    public static readonly TeamLock[] CScizor = [EScizor];
 }

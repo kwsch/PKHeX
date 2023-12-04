@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonStrings
 {
-    private static readonly Dictionary<string, string> RibbonNames = new();
+    private static readonly Dictionary<string, string> RibbonNames = [];
 
     /// <summary>
     /// Resets the Ribbon Dictionary to use the supplied set of Ribbon (Property) Names.

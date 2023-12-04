@@ -16,7 +16,7 @@ public static class EntityFileExtension
     private const string ExtensionPA8 = "pa8";
     private const int CountExtra = 8;
 
-    public static IReadOnlyList<string> Extensions7b => new[] { ExtensionPB7 };
+    public static IReadOnlyList<string> Extensions7b => [ExtensionPB7];
 
     /// <summary>
     /// Gets an array of valid <see cref="PKM"/> file extensions.
@@ -50,7 +50,7 @@ public static class EntityFileExtension
         if (maxGeneration >= 8)
             result.Add(ExtensionPA8); // Legends: Arceus
 
-        return result.ToArray();
+        return [.. result];
     }
 
     /// <summary>

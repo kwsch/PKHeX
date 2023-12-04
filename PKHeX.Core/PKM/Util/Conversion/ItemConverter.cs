@@ -59,8 +59,8 @@ internal static class ItemConverter
 
     #region Item Mapping Tables
     /// <summary> Gen2 items (index) and their corresponding Gen4 item ID (value) </summary>
-    private static ReadOnlySpan<ushort> arr2 => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> arr2 =>
+    [
         000, 001, 002, 213, 003, 004, NaN, 450, 081, 018, // 0
         019, 020, 021, 022, 023, 024, 025, 026, 017, 078, // 1
         079, 041, 082, 083, 084, NaN, 045, 046, 047, 048, // 2
@@ -87,11 +87,11 @@ internal static class ItemConverter
         365, 366, 367, 368, 369, 370, 371, 372, 373, 374, // 23
         375, 376, 377, 420, 421, 422, 423, 424, 425, 426, // 24
         427, NaN, NaN, NaN, NaN, NaN,
-    };
+    ];
 
     /// <summary> Gen3 items (index) and their corresponding Gen4 item ID (value) </summary>
-    private static ReadOnlySpan<ushort> arr3 => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> arr3 =>
+    [
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 017, 018, 019, 020, 021, 022, 023,
         024, 025, 026, 027, 028, 029, 030, 031, 032, 033,
@@ -127,7 +127,7 @@ internal static class ItemConverter
         348, 349, 350, 351, 352, 353, 354, 355, 356, 357,
         358, 359, 360, 361, 362, 363, 364, 365, 366, 367,
         368, 369, 370, 371, 372, 373, 374, 375, 376, 377,
-    };
+    ];
     #endregion
 
     /// <summary>
@@ -185,7 +185,8 @@ internal static class ItemConverter
             if (destFormat > srcFormat) // can't set past gen items
                 return 0;
 
-            // ShowdownSet checks gen3 then gen2. For gen2 collisions (if any?) remap 3->4->2.
+            // ShowdownSet checks Gen3 then Gen2.
+            // For Gen2 collisions (if any?) remap 3->4->2.
             srcItem = GetItemFuture3((ushort)srcItem);
             srcItem = GetItemOld2((ushort)srcItem);
             if (srcItem <= 0)

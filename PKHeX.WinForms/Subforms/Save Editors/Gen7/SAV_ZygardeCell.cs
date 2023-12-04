@@ -49,7 +49,7 @@ public partial class SAV_ZygardeCell : Form
     private const int cellscollected = 169;
     private const int celloffset = 0xC6;
     private int CellCount => SAV is SAV7USUM ? 100 : 95;
-    private static readonly string[] states = { "None", "Available", "Received" };
+    private static readonly string[] states = ["None", "Available", "Received"];
 
     private void B_Save_Click(object sender, EventArgs e)
     {
@@ -100,7 +100,7 @@ public partial class SAV_ZygardeCell : Form
     #region locations -- lazy
 
     private static readonly string[] locationsSM =
-    {
+    [
         "Verdant Cave - Trial Site",
         "Ruins of Conflict - Outside",
         "Route 1 (Day)",
@@ -196,10 +196,10 @@ public partial class SAV_ZygardeCell : Form
         "Aether Foundation 1F - Outside (Day)",
         "Aether Foundation 1F - Entrance (Night)",
         "Aether Foundation 1F - Main Building",
-    };
+    ];
 
     private static readonly string[] locationsUSUM =
-    {
+    [
         "Hau'oli City (Shopping) - Salon (Outside)",
         "Hau'oli City (Shopping) - Malasada Shop (Outside)",
         "Hau'oli City (Shopping) - Ilima's House (2F)",
@@ -300,7 +300,7 @@ public partial class SAV_ZygardeCell : Form
         "Ancient Poni Path - Hapu's House (Outside Behind Well)",
         "Ancient Poni Path - Northeast",
         "Battle Tree - Entrance",
-    };
+    ];
 
     #endregion
 }

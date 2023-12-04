@@ -12,9 +12,9 @@ public sealed class SaveHandlerGCI : ISaveHandler
     private const int SIZE_G3COLOGCI = headerSize + SaveUtil.SIZE_G3COLO; // GCI data
     private const int SIZE_G3XDGCI   = headerSize + SaveUtil.SIZE_G3XD; // GCI data
 
-    private static readonly string[] HEADER_COLO  = { "GC6J", "GC6E", "GC6P" }; // NTSC-J, NTSC-U, PAL
-    private static readonly string[] HEADER_XD    = { "GXXJ", "GXXE", "GXXP" }; // NTSC-J, NTSC-U, PAL
-    private static readonly string[] HEADER_RSBOX = { "GPXJ", "GPXE", "GPXP" }; // NTSC-J, NTSC-U, PAL
+    private static readonly string[] HEADER_COLO  = ["GC6J", "GC6E", "GC6P"]; // NTSC-J, NTSC-U, PAL
+    private static readonly string[] HEADER_XD    = ["GXXJ", "GXXE", "GXXP"]; // NTSC-J, NTSC-U, PAL
+    private static readonly string[] HEADER_RSBOX = ["GPXJ", "GPXE", "GPXP"]; // NTSC-J, NTSC-U, PAL
 
     private static bool IsGameMatchHeader(ReadOnlySpan<string> headers, ReadOnlySpan<byte> data)
     {
@@ -55,7 +55,7 @@ public sealed class SaveHandlerGCI : ISaveHandler
         var header = input[..headerSize].ToArray();
         var data = input[headerSize..].ToArray();
 
-        return new SaveHandlerSplitResult(data, header, Array.Empty<byte>());
+        return new SaveHandlerSplitResult(data, header, []);
     }
 
     /// <summary>

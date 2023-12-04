@@ -7,13 +7,13 @@ namespace PKHeX.Core;
 /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon XD. </summary>
 public sealed class XK3 : G3PKM, IShadowCapture
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x0A, 0x0B, 0x0C, 0x0D, 0x1E, 0x1F,
         0x2A, 0x2B,
         0x7A, 0x7B,
         0x7E, 0x7F,
-    };
+    ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;

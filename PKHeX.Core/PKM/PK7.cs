@@ -8,12 +8,12 @@ namespace PKHeX.Core;
 public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetCommon7, IRibbonSetRibbons,
     IContestStats, IHyperTrain, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IPokerusStatus
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x2A, // Old Marking Value (PelagoEventStatus)
         // 0x36, 0x37, // Unused Ribbons
         0x58, 0x59, 0x73, 0x90, 0x91, 0x9E, 0x9F, 0xA0, 0xA1, 0xA7, 0xAA, 0xAB, 0xAC, 0xAD, 0xC8, 0xC9, 0xD7, 0xE4, 0xE5, 0xE6, 0xE7,
-    };
+    ];
 
     public override EntityContext Context => EntityContext.Gen7;
     public override PersonalInfo7 PersonalInfo => PersonalTable.USUM.GetFormEntry(Species, Form);
@@ -241,8 +241,12 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
         get => StringConverter7.GetString(Nickname_Trash);
         set
         {
+            // For Pokémon with no nickname, and match their Chinese species name, we need to use the private codepoint range instead of unicode.
+            // Can't use the stored language as it might have been traded & evolved -> mismatch; Gen8+ will match the origin language, not Gen7 :(
             if (!IsNicknamed)
             {
+                // Detect the language of the species name.
+                // If the species name is the same for Traditional and Simplified Chinese, we prefer the saved language.
                 int lang = SpeciesName.GetSpeciesNameLanguage(Species, Language, value, 7);
                 if (lang is (int)LanguageID.ChineseS or (int)LanguageID.ChineseT)
                 {
@@ -458,8 +462,8 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
         if (Generation < 7) // must be transferred via bank, and must have memories
         {
-            this.SetTradeMemoryHT6(true); // oh no, memories on gen7 pk
-            // georegions cleared on 6->7, no need to set
+            this.SetTradeMemoryHT6(true); // oh no, memories on Gen7 pk
+            // geolocations cleared on 6->7, no need to set
         }
     }
 
@@ -501,7 +505,7 @@ public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
     internal void SetTransferLocale(int lang)
     {
-        this.SetTradeMemoryHT6(bank: true); // oh no, memories on gen7 pk
+        this.SetTradeMemoryHT6(bank: true); // oh no, memories on Gen7 pk
         RecentTrainerCache.SetConsoleRegionData3DS(this);
         RecentTrainerCache.SetFirstCountryRegion(this);
         if (lang == 1 && Country != 1) // Japan Only

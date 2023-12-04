@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,7 +34,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
     /// <summary> Trainer name for the event. </summary>
     public string OT_Name { get; init; } = string.Empty;
 
-    public IReadOnlyList<string> OT_Names { get; init; } = Array.Empty<string>();
+    public IReadOnlyList<string> OT_Names { get; init; } = [];
 
     private const ushort UnspecifiedID = 0;
 

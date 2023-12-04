@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -42,7 +42,7 @@ public sealed class SplitEventEditor<T> where T : struct
     }
 
     /// <summary>
-    /// Writes all of the updated event values back to the block.
+    /// Writes all the updated event values back to the block.
     /// </summary>
     public void Save()
     {

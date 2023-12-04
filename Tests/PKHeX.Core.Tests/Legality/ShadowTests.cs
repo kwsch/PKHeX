@@ -89,7 +89,7 @@ public static class ValidityTests
 
     public static IEnumerable<object[]> Lock5()
     {
-        // many prior, all non shadow
+        // many prior, all non-shadow
         yield return new object[] { Seedot, 0x8CBD29DB, new[] { 19, 29, 30, 0, 7, 2 } };
     }
 
@@ -118,15 +118,15 @@ public static class PIDTests
             new[]
             {
                 new uint[] {0xD118BA52, 0xA3127782, 0x16D95FA5, 0x31538B48},
-                new uint[] {0x7D5FFE3E, 0x1D5720ED, 0xE0D89C99, 0x3494CDA1},
-                new uint[] {0xAEB0C3A6, 0x956DC2FD, 0x3C11DCE8, 0xC93DF897},
-                new uint[] {0xACCE2655, 0xFF2BA0A2, 0x22A8A7E6, 0x5F5380F4},
-                new uint[] {0xDC1D1894, 0xFC0F75E2, 0x97BFAEBC, 0x38DDE117},
-                new uint[] {0xDE278967, 0xFD86C9F7, 0x3E16FCFD, 0x1956D8B5},
-                new uint[] {0xF8CB4CAE, 0x42DE628B, 0x48796CDA, 0xF6EAD3E2},
-                new uint[] {0x56548F49, 0xA308E7DA, 0x28CB8ADF, 0xBEADBDC3},
-                new uint[] {0xF2AC8419, 0xADA208E3, 0xDB3A0BA6, 0x5EEF1076},
-                new uint[] {0x9D28899D, 0xA3ECC9F0, 0x606EC6F0, 0x451FAE3C},
+                [0x7D5FFE3E, 0x1D5720ED, 0xE0D89C99, 0x3494CDA1],
+                [0xAEB0C3A6, 0x956DC2FD, 0x3C11DCE8, 0xC93DF897],
+                [0xACCE2655, 0xFF2BA0A2, 0x22A8A7E6, 0x5F5380F4],
+                [0xDC1D1894, 0xFC0F75E2, 0x97BFAEBC, 0x38DDE117],
+                [0xDE278967, 0xFD86C9F7, 0x3E16FCFD, 0x1956D8B5],
+                [0xF8CB4CAE, 0x42DE628B, 0x48796CDA, 0xF6EAD3E2],
+                [0x56548F49, 0xA308E7DA, 0x28CB8ADF, 0xBEADBDC3],
+                [0xF2AC8419, 0xADA208E3, 0xDB3A0BA6, 0x5EEF1076],
+                [0x9D28899D, 0xA3ECC9F0, 0x606EC6F0, 0x451FAE3C],
             },
             Delcatty,
         };
@@ -135,15 +135,15 @@ public static class PIDTests
             new[]
             {
                 new uint[] {0x4D6BE487, 0xBB3EFBFB, 0x6FD7EE06, 0x289D435F, 0x0EC25CE5},
-                new uint[] {0xB04DF5B3, 0x661E499C, 0x94EB752D, 0xC5FA9DE5, 0x0A8C9738},
-                new uint[] {0xCBB9A3B0, 0x9AC1A0B8, 0xCA3CAD46, 0x54FFCA27, 0x1D5AEC4F},
-                new uint[] {0xB2AF145E, 0x455155C9, 0xB5CE4932, 0x4B8C6554, 0x55CE5E4B},
-                new uint[] {0x193A0F3B, 0xE1474ECF, 0x4C30D215, 0x72262B89, 0x9B2F5B53},
-                new uint[] {0xB73010B9, 0x361F1DB1, 0x2C65320A, 0x329A4A1E, 0x9334337E},
-                new uint[] {0xFB6A6770, 0xE0068ECC, 0xB99B326E, 0x08A18311, 0x92D31CC2},
-                new uint[] {0x5B1214BC, 0xB82FDDA9, 0x606D3D18, 0xA142F730, 0xCBA7A0C3},
-                new uint[] {0xC7315E32, 0x76566AA1, 0xC0CE436E, 0x98C45DA8, 0x9D1BDC4A},
-                new uint[] {0xB687F0AF, 0xC01DB6C6, 0xAD6DEC75, 0xDB041314, 0x0D949325},
+                [0xB04DF5B3, 0x661E499C, 0x94EB752D, 0xC5FA9DE5, 0x0A8C9738],
+                [0xCBB9A3B0, 0x9AC1A0B8, 0xCA3CAD46, 0x54FFCA27, 0x1D5AEC4F],
+                [0xB2AF145E, 0x455155C9, 0xB5CE4932, 0x4B8C6554, 0x55CE5E4B],
+                [0x193A0F3B, 0xE1474ECF, 0x4C30D215, 0x72262B89, 0x9B2F5B53],
+                [0xB73010B9, 0x361F1DB1, 0x2C65320A, 0x329A4A1E, 0x9334337E],
+                [0xFB6A6770, 0xE0068ECC, 0xB99B326E, 0x08A18311, 0x92D31CC2],
+                [0x5B1214BC, 0xB82FDDA9, 0x606D3D18, 0xA142F730, 0xCBA7A0C3],
+                [0xC7315E32, 0x76566AA1, 0xC0CE436E, 0x98C45DA8, 0x9D1BDC4A],
+                [0xB687F0AF, 0xC01DB6C6, 0xAD6DEC75, 0xDB041314, 0x0D949325],
             },
             Butterfree,
         };
@@ -178,14 +178,14 @@ public static class PIDTests
         }
     }
 
-    private static ReadOnlySpan<uint> MawileTeamPIDs => new uint[]
-    {
+    private static ReadOnlySpan<uint> MawileTeamPIDs =>
+    [
         0x4C3005E8, // Loudred
         0xD28DE40E, // Girafarig (re - rolled 64 times to next viable match)
         0x049F2F05, // Mawile
-    };
+    ];
 
-    private static ReadOnlySpan<int> MawileIVs => new[] {31, 30, 29, 31, 23, 27};
+    private static ReadOnlySpan<int> MawileIVs => [31, 30, 29, 31, 23, 27];
 
     [Fact]
     public static void VerifyMawileAntishiny()

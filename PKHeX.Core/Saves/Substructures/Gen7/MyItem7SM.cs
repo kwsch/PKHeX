@@ -19,14 +19,14 @@ public sealed class MyItem7SM : MyItem
         {
             var info = ItemStorage7SM.Instance;
             InventoryPouch7[] pouch =
-            {
+            [
                 new(InventoryType.Medicine, info, 999, Offset + Medicine),
                 new(InventoryType.Items, info, 999, Offset + HeldItem),
                 new(InventoryType.TMHMs, info, 1, Offset + TMHM),
                 new(InventoryType.Berries, info, 999, Offset + Berry),
                 new(InventoryType.KeyItems, info, 1, Offset + KeyItem),
                 new(InventoryType.ZCrystals, info, 1, Offset + ZCrystals),
-            };
+            ];
             return pouch.LoadAll(Data);
         }
         set => value.SaveAll(Data);

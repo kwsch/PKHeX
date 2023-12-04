@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 using static PKHeX.Core.Move;
 using static PKHeX.Core.Species;
@@ -132,14 +131,14 @@ public static class MemoryPermissions
         if (context == EntityContext.Gen6)
         {
             Span<MoveResult> result = stackalloc MoveResult[1];
-            Span<ushort> moves = stackalloc ushort[] { move };
+            Span<ushort> moves = [move];
             LearnGroup6.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
             return result[0].Valid;
         }
         if (context == EntityContext.Gen8)
         {
             Span<MoveResult> result = stackalloc MoveResult[1];
-            Span<ushort> moves = stackalloc ushort[] { move };
+            Span<ushort> moves = [move];
             LearnGroup8.Instance.Check(result, moves, pk, history, enc, MoveSourceType.Reminder, LearnOption.AtAnyTime);
             return result[0].Valid;
         }
@@ -165,7 +164,7 @@ public static class MemoryPermissions
     public static bool GetCanKnowMove(IEncounterTemplate enc, ushort move, EvolutionHistory history, PKM pk, ILearnGroup game)
     {
         Span<MoveResult> result = stackalloc MoveResult[1];
-        Span<ushort> moves = stackalloc ushort[] { move };
+        Span<ushort> moves = [move];
         LearnVerifierHistory.MarkAndIterate(result, moves, enc, pk, history, game, MoveSourceType.All, LearnOption.AtAnyTime);
         return result[0].Valid;
     }
@@ -184,136 +183,154 @@ public static class MemoryPermissions
 
         return version switch
         {
-            GameVersion.SW => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSW(species),
-            GameVersion.SH => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSH(species),
-            _              => DynamaxTrainer_SWSH.Contains(species) || IsDynamaxSW(species) || IsDynamaxSH(species),
+            GameVersion.SW => IsDynamaxSWSH(species) || IsDynamaxSW(species),
+            GameVersion.SH => IsDynamaxSWSH(species) || IsDynamaxSH(species),
+            _ => IsDynamaxSWSH(species) || IsDynamaxSW(species) || IsDynamaxSH(species),
         };
     }
 
-    // exclusive to version
+    /// <summary>
+    /// Checks if the <see cref="species"/> can be Dynamaxed by a trainer available exclusively in Sword.
+    /// </summary>
     private static bool IsDynamaxSW(ushort species) => species is (int)Machamp or (int)Gigalith or (int)Conkeldurr or (int)Coalossal or (int)Flapple;
+
+    /// <summary>
+    /// Checks if the <see cref="species"/> can be Dynamaxed by a trainer available exclusively in Sword.
+    /// </summary>
     private static bool IsDynamaxSH(ushort species) => species is (int)Gengar or (int)Lapras or (int)Dusknoir or (int)Froslass or (int)Appletun;
 
-    // common to SW & SH
-    private static readonly HashSet<ushort> DynamaxTrainer_SWSH = new()
-    {
-        (int)Venusaur,
-        (int)Blastoise,
-        (int)Charizard,
-        (int)Slowbro,
-        (int)Gyarados,
-        (int)Snorlax,
-        (int)Slowking,
-        (int)Torkoal,
-        (int)Vespiquen,
-        (int)Regigigas,
-        (int)Garbodor,
-        (int)Haxorus,
-        (int)Tsareena,
-        (int)Rillaboom,
-        (int)Inteleon,
-        (int)Cinderace,
-        (int)Greedent,
-        (int)Corviknight,
-        (int)Eldegoss,
-        (int)Drednaw,
-        (int)Centiskorch,
-        (int)Hatterene,
-        (int)Grimmsnarl,
-        (int)Alcremie,
-        (int)Copperajah,
-        (int)Duraludon,
-        (int)Urshifu,
-    };
+    /// <summary>
+    /// Checks if the <see cref="species"/> can be Dynamaxed by a trainer available in both Sword and Shield.
+    /// </summary>
+    private static bool IsDynamaxSWSH(ushort species) => species is
+        (int)Venusaur or
+        (int)Blastoise or
+        (int)Charizard or
+        (int)Slowbro or
+        (int)Gyarados or
+        (int)Snorlax or
+        (int)Slowking or
+        (int)Torkoal or
+        (int)Vespiquen or
+        (int)Regigigas or
+        (int)Garbodor or
+        (int)Haxorus or
+        (int)Tsareena or
+        (int)Rillaboom or
+        (int)Inteleon or
+        (int)Cinderace or
+        (int)Greedent or
+        (int)Corviknight or
+        (int)Eldegoss or
+        (int)Drednaw or
+        (int)Centiskorch or
+        (int)Hatterene or
+        (int)Grimmsnarl or
+        (int)Alcremie or
+        (int)Copperajah or
+        (int)Duraludon or
+        (int)Urshifu
+    ;
 
     public static bool GetCanFishSpecies(ushort species, EntityContext context, GameVersion version) => context switch
     {
         EntityContext.Gen6 => version switch
         {
-            GameVersion.Any => FishingSpecies_XY.Contains(species) || FishingSpecies_AO.Contains(species)
-                                                                   || IsFishingSpeciesX(species) || IsFishingSpeciesY(species),
+            GameVersion.Any => IsFishingSpeciesXY(species) || IsFishingSpeciesAO(species)
+                             || IsFishingSpeciesX(species) || IsFishingSpeciesY(species),
 
-            GameVersion.X => FishingSpecies_XY.Contains(species) || IsFishingSpeciesX(species),
-            GameVersion.Y => FishingSpecies_XY.Contains(species) || IsFishingSpeciesY(species),
+            GameVersion.X => IsFishingSpeciesXY(species) || IsFishingSpeciesX(species),
+            GameVersion.Y => IsFishingSpeciesXY(species) || IsFishingSpeciesY(species),
 
-            GameVersion.OR or GameVersion.AS => FishingSpecies_AO.Contains(species),
+            GameVersion.OR or GameVersion.AS => IsFishingSpeciesAO(species),
             _ => false,
         },
         EntityContext.Gen8 => version switch
         {
-            GameVersion.Any or GameVersion.SW or GameVersion.SH => FishingSpecies_SWSH.Contains(species),
+            GameVersion.Any or GameVersion.SW or GameVersion.SH => IsFishingSpeciesSWSH(species),
             _ => false,
         },
         _ => false,
     };
 
-    private static readonly HashSet<ushort> FishingSpecies_SWSH = new()
-    {
-        (int)Shellder, (int)Cloyster,
-        (int)Krabby,
-        (int)Goldeen,
-        (int)Magikarp, (int)Gyarados,
-        (int)Lapras,
-        (int)Dratini,
-        (int)Chinchou, (int)Lanturn,
-        (int)Qwilfish,
-        (int)Remoraid, (int)Octillery,
-        (int)Carvanha, (int)Sharpedo,
-        (int)Wailmer, (int)Wailord,
-        (int)Barboach, (int)Whiscash,
-        (int)Corphish,
-        (int)Lileep,
-        (int)Feebas,
-        (int)Mantyke, (int)Mantine,
-        (int)Basculin,
-        (int)Wishiwashi,
-        (int)Mareanie,
-        (int)Pyukumuku,
-        (int)Dhelmise,
-        (int)Chewtle, (int)Drednaw,
-        (int)Arrokuda, (int)Barraskewda,
-    };
+    /// <summary>
+    /// Checks if the <see cref="species"/> can be fished in either <see cref="GameVersion.SW"/> or <see cref="GameVersion.SH"/>.
+    /// </summary>
+    private static bool IsFishingSpeciesSWSH(ushort species) => species is
+        (int)Shellder or (int)Cloyster or
+        (int)Krabby or
+        (int)Goldeen or
+        (int)Magikarp or (int)Gyarados or
+        (int)Lapras or
+        (int)Dratini or
+        (int)Chinchou or (int)Lanturn or
+        (int)Qwilfish or
+        (int)Remoraid or (int)Octillery or
+        (int)Carvanha or (int)Sharpedo or
+        (int)Wailmer or (int)Wailord or
+        (int)Barboach or (int)Whiscash or
+        (int)Corphish or
+        (int)Lileep or
+        (int)Feebas or
+        (int)Mantyke or (int)Mantine or
+        (int)Basculin or
+        (int)Wishiwashi or
+        (int)Mareanie or
+        (int)Pyukumuku or
+        (int)Dhelmise or
+        (int)Chewtle or (int)Drednaw or
+        (int)Arrokuda or (int)Barraskewda
+    ;
 
-    private static readonly HashSet<ushort> FishingSpecies_AO = new()
-    {
-        (int)Tentacool,
-        (int)Horsea, (int)Seadra,
-        (int)Goldeen, (int)Seaking,
-        (int)Staryu,
-        (int)Magikarp, (int)Gyarados,
-        (int)Corsola,
-        (int)Remoraid, (int)Octillery,
-        (int)Carvanha, (int)Sharpedo,
-        (int)Wailmer,
-        (int)Barboach, (int)Whiscash,
-        (int)Corphish, (int)Crawdaunt,
-        (int)Feebas,
-        (int)Luvdisc,
-    };
+    /// <summary>
+    /// Checks if the <see cref="species"/> can be fished in either <see cref="GameVersion.AS"/> or <see cref="GameVersion.OR"/>.
+    /// </summary>
+    public static bool IsFishingSpeciesAO(ushort species) => species is
+        (int)Tentacool or
+        (int)Horsea or (int)Seadra or
+        (int)Goldeen or (int)Seaking or
+        (int)Staryu or
+        (int)Magikarp or (int)Gyarados or
+        (int)Corsola or
+        (int)Remoraid or (int)Octillery or
+        (int)Carvanha or (int)Sharpedo or
+        (int)Wailmer or
+        (int)Barboach or (int)Whiscash or
+        (int)Corphish or (int)Crawdaunt or
+        (int)Feebas or
+        (int)Luvdisc
+    ;
 
-    // exclusive to version
-    private static bool IsFishingSpeciesX(ushort species) => species is (int)Staryu or (int)Starmie or (int)Huntail or (int)Clauncher or (int)Clawitzer;
-    private static bool IsFishingSpeciesY(ushort species) => species is (int)Shellder or (int)Cloyster or (int)Gorebyss or (int)Skrelp or (int)Dragalge;
+    /// <summary>
+    /// Checks if the <see cref="species"/> can be fished in only <see cref="GameVersion.X"/>.
+    /// </summary>
+    public static bool IsFishingSpeciesX(ushort species) => species is (int)Staryu or (int)Starmie or (int)Huntail or (int)Clauncher or (int)Clawitzer;
 
-    // common to X & Y
-    private static readonly HashSet<ushort> FishingSpecies_XY = new()
-    {
-        (int)Poliwag, (int)Poliwhirl, (int)Poliwrath, (int)Politoed,
-        (int)Horsea, (int)Seadra,
-        (int)Goldeen, (int)Seaking,
-        (int)Magikarp, (int)Gyarados,
-        (int)Dratini, (int)Dragonair,
-        (int)Chinchou, (int)Lanturn,
-        (int)Qwilfish,
-        (int)Corsola,
-        (int)Remoraid, (int)Octillery,
-        (int)Carvanha, (int)Sharpedo,
-        (int)Barboach, (int)Whiscash,
-        (int)Corphish, (int)Crawdaunt,
-        (int)Clamperl,
-        (int)Relicanth,
-        (int)Luvdisc,
-        (int)Basculin,
-        (int)Alomomola,
-    };
+    /// <summary>
+    /// Checks if the <see cref="species"/> can be fished in only <see cref="GameVersion.Y"/>.
+    /// </summary>
+    public static bool IsFishingSpeciesY(ushort species) => species is (int)Shellder or (int)Cloyster or (int)Gorebyss or (int)Skrelp or (int)Dragalge;
+
+    /// <summary>
+    /// Checks if the <see cref="species"/> can be fished in both <see cref="GameVersion.X"/> and <see cref="GameVersion.Y"/>.
+    /// </summary>
+    public static bool IsFishingSpeciesXY(ushort species) => species is
+        (int)Poliwag or (int)Poliwhirl or (int)Poliwrath or (int)Politoed or
+        (int)Horsea or (int)Seadra or
+        (int)Goldeen or (int)Seaking or
+        (int)Magikarp or (int)Gyarados or
+        (int)Dratini or (int)Dragonair or
+        (int)Chinchou or (int)Lanturn or
+        (int)Qwilfish or
+        (int)Corsola or
+        (int)Remoraid or (int)Octillery or
+        (int)Carvanha or (int)Sharpedo or
+        (int)Barboach or (int)Whiscash or
+        (int)Corphish or (int)Crawdaunt or
+        (int)Clamperl or
+        (int)Relicanth or
+        (int)Luvdisc or
+        (int)Basculin or
+        (int)Alomomola
+    ;
 }

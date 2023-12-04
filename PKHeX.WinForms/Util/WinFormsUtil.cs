@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows.Forms;
 
 using static PKHeX.Core.MessageStrings;
@@ -202,7 +203,7 @@ public static class WinFormsUtil
     /// </summary>
     /// <typeparam name="T">Type of control</typeparam>
     /// <param name="control"></param>
-    /// <returns>All children and subchildren contained by <see cref="control"/>.</returns>
+    /// <returns>All children and sub-children contained by <see cref="control"/>.</returns>
     public static IEnumerable<Control> GetAllControlsOfType<T>(Control control) where T : Control
     {
         foreach (var c in control.Controls.Cast<Control>())
@@ -229,9 +230,8 @@ public static class WinFormsUtil
         }
     }
 
-    private static readonly List<string> CustomSaveExtensions = new()
-    {
-        // THESE ARE SAVE FILE EXTENSION TYPES. SAVE STATE (RAM SNAPSHOT) EXTENSIONS DO NOT GO HERE.
+    private static readonly List<string> CustomSaveExtensions =
+    [
         "sav", // standard
         "dat", // VC data
         "gci", // Dolphin GameCubeImage
@@ -239,7 +239,7 @@ public static class WinFormsUtil
         "srm", // RetroArch save files
         "fla", // flash
         "SaveRAM", // BizHawk
-    };
+    ];
 
     public static bool IsFileExtensionSAV(string file) => CustomSaveExtensions.Contains(Path.GetExtension(file));
 
@@ -252,10 +252,15 @@ public static class WinFormsUtil
     /// </summary>
     /// <param name="extensions">Misc extensions of <see cref="PKM"/> files supported by the Save File.</param>
     /// <param name="path">Output result path</param>
-    /// <returns>Result of whether or not a file is to be loaded from the output path.</returns>
+    /// <returns>Result of the dialog menu indicating if a file is to be loaded from the output path.</returns>
     public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string? path)
     {
-        string supported = string.Join(";", extensions.Select(s => $"*.{s}").Concat(new[] { "*.pk" }));
+        var sb = new StringBuilder(128);
+        foreach (var type in extensions)
+            sb.Append("*.").Append(type).Append(';');
+        sb.Append("*.pk");
+
+        string supported = sb.ToString();
         using var ofd = new OpenFileDialog();
         ofd.Filter = "All Files|*.*" +
                      $"|Supported Files (*.*)|main;*.bin;{supported};*.bak" + ExtraSaveExtensions +
@@ -295,7 +300,7 @@ public static class WinFormsUtil
     /// Opens a dialog to save a <see cref="PKM"/> file.
     /// </summary>
     /// <param name="pk"><see cref="PKM"/> file to be saved.</param>
-    /// <returns>Result of whether or not the file was saved.</returns>
+    /// <returns>True if the file was saved.</returns>
     public static bool SavePKMDialog(PKM pk)
     {
         string pkx = pk.Extension;
@@ -339,7 +344,7 @@ public static class WinFormsUtil
     /// </summary>
     /// <param name="sav"><see cref="SaveFile"/> to be saved.</param>
     /// <param name="currentBox">Box the player will be greeted with when accessing the PC ingame.</param>
-    /// <returns>Result of whether or not the file was saved.</returns>
+    /// <returns>True if the file was saved.</returns>
     public static bool ExportSAVDialog(SaveFile sav, int currentBox = 0)
     {
         using var sfd = new SaveFileDialog();
@@ -394,7 +399,7 @@ public static class WinFormsUtil
     /// Opens a dialog to save a <see cref="MysteryGift"/> file.
     /// </summary>
     /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
-    /// <returns>Result of whether or not the file was saved.</returns>
+    /// <returns>True if the file was saved.</returns>
     public static bool ExportMGDialog(DataMysteryGift gift)
     {
         using var sfd = new SaveFileDialog();

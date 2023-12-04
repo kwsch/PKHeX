@@ -7,9 +7,9 @@ namespace PKHeX.Drawing.Misc;
 
 public static class WallpaperUtil
 {
-    public static Image WallpaperImage(this SaveFile sav, int box) => GetWallpaper(sav, box);
+    public static Bitmap WallpaperImage(this SaveFile sav, int box) => GetWallpaper(sav, box);
 
-    private static Image GetWallpaper(SaveFile sav, int box)
+    private static Bitmap GetWallpaper(SaveFile sav, int box)
     {
         string s = GetWallpaperResourceName(sav.Version, sav.GetBoxWallpaper(box));
         return (Bitmap?)Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy;

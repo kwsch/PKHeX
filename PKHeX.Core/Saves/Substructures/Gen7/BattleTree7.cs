@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -11,8 +11,7 @@ public sealed class BattleTree7 : SaveBlock<SAV7>
 
     public int GetTreeStreak(int battletype, bool super, bool max)
     {
-        if (battletype > 3)
-            throw new ArgumentOutOfRangeException(nameof(battletype));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(battletype, 3);
 
         var offset = GetStreakOffset(battletype, super, max);
         return ReadUInt16LittleEndian(Data.AsSpan(Offset + offset));
@@ -20,8 +19,7 @@ public sealed class BattleTree7 : SaveBlock<SAV7>
 
     public void SetTreeStreak(int value, int battletype, bool super, bool max)
     {
-        if (battletype > 3)
-            throw new ArgumentOutOfRangeException(nameof(battletype));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(battletype, 3);
 
         if (value > ushort.MaxValue)
             value = ushort.MaxValue;
@@ -96,33 +94,20 @@ public sealed class BattleTree7 : SaveBlock<SAV7>
 }
 
 [TypeConverter(typeof(ValueTypeTypeConverter))]
-public sealed class BattleTreeTrainer
+public sealed class BattleTreeTrainer(short id, BattleTreePokemon poke1, BattleTreePokemon poke2)
 {
-    public short ID { get; set; }
-    public BattleTreePokemon Poke1 { get; set; }
-    public BattleTreePokemon Poke2 { get; set; }
-
-    public BattleTreeTrainer(short id, BattleTreePokemon poke1, BattleTreePokemon poke2)
-    {
-        ID = id;
-        Poke1 = poke1;
-        Poke2 = poke2;
-    }
+    public short ID { get; set; } = id;
+    public BattleTreePokemon Poke1 { get; set; } = poke1;
+    public BattleTreePokemon Poke2 { get; set; } = poke2;
 
     public override string ToString() => $"{ID}: [{Poke1}] & [{Poke2}]";
 }
 
 [TypeConverter(typeof(ValueTypeTypeConverter))]
-public sealed class BattleTreePokemon
+public sealed class BattleTreePokemon(short p1, sbyte a1)
 {
-    public short ID { get; set; }
-    public sbyte AbilityIndex { get; set; }
-
-    public BattleTreePokemon(short p1, sbyte a1)
-    {
-        ID = p1;
-        AbilityIndex = a1;
-    }
+    public short ID { get; set; } = p1;
+    public sbyte AbilityIndex { get; set; } = a1;
 
     public override string ToString() => $"{ID},{AbilityIndex}";
 }

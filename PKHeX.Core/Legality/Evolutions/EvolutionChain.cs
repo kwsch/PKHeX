@@ -88,7 +88,7 @@ public static class EvolutionChain
         Span<EvoCriteria> result = stackalloc EvoCriteria[EvolutionTree.MaxEvolutions];
         int count = GetOriginChain(result, pk, enc, encSpecies, discard);
         if (count == 0)
-            return Array.Empty<EvoCriteria>();
+            return [];
 
         var chain = result[..count];
         return chain.ToArray();

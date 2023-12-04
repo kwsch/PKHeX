@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Logic for modifying the Memory parameters of a <see cref="PKM"/>.
@@ -43,8 +43,9 @@ public static class MemoryApplicator
     public static void SetRandomMemory6(this PK6 pk)
     {
         // for lack of better randomization :)
-        pk.OT_Memory = 63;
-        pk.OT_Intensity = 6;
-        pk.OT_Feeling = MemoryContext6.GetRandomFeeling6(pk.OT_Memory);
+        const byte memory = 63; // almost got lost when it explored a forest with {Trainer}
+        pk.OT_Memory = memory;
+        pk.OT_Feeling = MemoryContext6.GetRandomFeeling6(memory);
+        pk.OT_Intensity = MemoryContext6.MaxIntensity;
     }
 }

@@ -8,10 +8,8 @@ namespace PKHeX.Core;
 /// Stores data about the player.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class MyStatus8a : SaveBlock<SAV8LA>
+public sealed class MyStatus8a(SAV8LA sav, SCBlock block) : SaveBlock<SAV8LA>(sav, block.Data)
 {
-    public MyStatus8a(SAV8LA sav, SCBlock block) : base(sav, block.Data) { }
-
     public uint ID32
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(0x10));

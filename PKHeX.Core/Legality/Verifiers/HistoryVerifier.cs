@@ -86,7 +86,7 @@ public sealed class HistoryVerifier : Verifier
     private static bool IsUntradeableEncounter(IEncounterTemplate enc) => enc switch
     {
         EncounterStatic7b { Location: 28 } => true, // LGP/E Starter
-        EncounterStatic9  { Species: 998 or 999, Level: 68 } => true, // SV Ride legend
+        EncounterStatic9  { Species: 998 or 999, Level: 68 } => true, // S/V Ride legend
         _ => false,
     };
 
@@ -129,7 +129,7 @@ public sealed class HistoryVerifier : Verifier
         // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
         // Since some evolutions have different base friendship values, check all possible evolutions for a match.
         // If none match, then it is not a valid OT friendship.
-        // VC transfers use SM personal info
+        // VC transfers use S/M personal info
         var any = IsMatchFriendship(data.Info.EvoChainsAllGens.Gen7, pk.OT_Friendship);
         if (!any)
             data.AddLine(GetInvalid(LMemoryStatFriendshipOTBaseEvent));
@@ -205,7 +205,7 @@ public sealed class HistoryVerifier : Verifier
             data.AddLine(GetInvalid(LGeoNoCountryHT));
     }
 
-    // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
+    // OR/AS contests mistakenly apply 20 affection to the OT instead of the current handler's value
     private static bool IsInvalidContestAffection(IAffection pk) => pk.OT_Affection != 255 && pk.OT_Affection % 20 != 0;
 
     public static bool GetCanOTHandle(IEncounterTemplate enc, PKM pk, int generation)

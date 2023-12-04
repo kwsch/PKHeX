@@ -65,8 +65,8 @@ public partial class ContestStat : UserControl, IContestStats
 
         Visible = TabStop = true;
         bool smart = context.Generation() < 6;
-        Label_Smart.Visible = smart; // show smart gen3-5
-        Label_Clever.Visible = !smart; // show clever gen6+
+        Label_Smart.Visible = smart; // show "Smart" for Gen3-5
+        Label_Clever.Visible = !smart; // show "Clever" for Gen6+
     }
 
     private void ClickTextBox(object sender, EventArgs e)

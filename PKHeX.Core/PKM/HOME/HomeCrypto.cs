@@ -186,7 +186,7 @@ public static class HomeCrypto
     private static bool IsEncryptedCore3(ReadOnlySpan<byte> data) => IsEncryptedCore2(data); // Same struct as Core version 2.
 
     /// <summary>
-    /// Gets the checksum of an Pokémon's AES-encrypted data.
+    /// Gets the checksum of a Pokémon's AES-encrypted data.
     /// </summary>
     /// <param name="data">AES-Encrypted Pokémon data.</param>
     public static uint GetCHK(ReadOnlySpan<byte> data)

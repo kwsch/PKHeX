@@ -66,18 +66,11 @@ public sealed class StrategyMemo
     }
 }
 
-public sealed class StrategyMemoEntry
+public sealed class StrategyMemoEntry(bool XD, byte[] Data)
 {
-    public readonly byte[] Data;
-    private readonly bool XD;
+    public readonly byte[] Data = Data;
 
-    public StrategyMemoEntry(bool xd) : this(xd, new byte[StrategyMemo.SIZE_ENTRY]) { }
-
-    public StrategyMemoEntry(bool xd, byte[] data)
-    {
-        Data = data;
-        XD = xd;
-    }
+    public StrategyMemoEntry(bool XD) : this(XD, new byte[StrategyMemo.SIZE_ENTRY]) { }
 
     public ushort Species
     {

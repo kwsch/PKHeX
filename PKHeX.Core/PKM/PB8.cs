@@ -5,8 +5,8 @@ namespace PKHeX.Core;
 /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
 public sealed class PB8 : G8PKM
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         // Alignment bytes
         0x17, 0x1A, 0x1B, 0x23, 0x33, 0x3E, 0x3F,
         0x4C, 0x4D, 0x4E, 0x4F,
@@ -23,7 +23,7 @@ public sealed class PB8 : G8PKM
 
         0x13D, 0x13E, 0x13F,
         0x140, 0x141, 0x142, 0x143, 0x144, 0x145, 0x146, 0x147,
-    };
+    ];
 
     public override PersonalInfo8BDSP PersonalInfo => PersonalTable.BDSP.GetFormEntry(Species, Form);
     public override IPermitRecord Permit => PersonalInfo;
@@ -49,11 +49,11 @@ public sealed class PB8 : G8PKM
     {
         if (IsEgg)
         {
-            // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc)
+            // Apply link trade data, only if it left the OT (ignore if dumped & imported, or cloned, etc.)
             if ((tr.TID16 != TID16) || (tr.SID16 != SID16) || (tr.Gender != OT_Gender) || (tr.OT != OT_Name))
                 SetLinkTradeEgg(Day, Month, Year, Locations.LinkTrade6NPC);
 
-            // Unfortunately, BDSP doesn't return if it's an egg, and can update the HT details & handler.
+            // Unfortunately, BD/SP doesn't return if it's an egg, and can update the HT details & handler.
             // Continue to the rest of the method.
             // return;
         }

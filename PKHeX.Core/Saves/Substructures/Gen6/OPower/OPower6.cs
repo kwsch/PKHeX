@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 public sealed class OPower6 : SaveBlock<SAV6>
 {
     private static readonly OPowerFlagSet[] Mapping =
-    {
+    [
         // Skip unused byte
         new(5, Hatching) {Offset = 1},
         new(5, Bargain) {Offset = 6},
@@ -30,7 +30,7 @@ public sealed class OPower6 : SaveBlock<SAV6>
         new(3, Speed) {Offset = 56},
         new(3, Critical) {Offset = 59},
         new(3, Accuracy) {Offset = 62},
-    };
+    ];
 
     public OPower6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
     public OPower6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
@@ -71,7 +71,7 @@ public sealed class OPower6 : SaveBlock<SAV6>
             if (clearOnly)
                 continue;
 
-            int lvl = allEvents ? m.BaseCount : (m.BaseCount != 1 ? 3 : 0); // Full_Recovery is ORAS/event only @ 1 level
+            int lvl = allEvents ? m.BaseCount : (m.BaseCount != 1 ? 3 : 0); // Full_Recovery is OR/AS event only @ 1 level
             m.SetOPowerLevel(span, lvl);
             if (!allEvents)
                 continue;

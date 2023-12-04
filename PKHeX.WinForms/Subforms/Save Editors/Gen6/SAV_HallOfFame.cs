@@ -28,7 +28,7 @@ public partial class SAV_HallOfFame : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV6)(Origin = sav).Clone();
 
-        data = SAV.Data.Slice(SAV.HoF, StructureTotal); // Copy HoF section of save into Data
+        data = SAV.Data.AsSpan(SAV.HoF, StructureTotal).ToArray(); // Copy HoF section of save into Data
         Setup();
         LB_DataEntry.SelectedIndex = 0;
         NUP_PartyIndex_ValueChanged(this, EventArgs.Empty);
@@ -113,7 +113,7 @@ public partial class SAV_HallOfFame : Form
             }
         }
 
-        RTB.Lines = s.ToArray();
+        RTB.Lines = [.. s];
         RTB.Font = new Font("Courier New", 8);
     }
 

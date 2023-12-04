@@ -41,14 +41,14 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
         CanGigantamax = data[5] != 0,
     };
 
-    private static ReadOnlySpan<byte> LevelCaps => new byte[]
-    {
+    private static ReadOnlySpan<byte> LevelCaps =>
+    [
         15, 20, // 0
         25, 30, // 1
         35, 40, // 2
         45, 50, // 3
         55, 60, // 4
-    };
+    ];
 
     protected override bool IsMatchLevel(PKM pk)
     {
@@ -62,12 +62,8 @@ public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
 
         if (rank <= 1 && met <= byte.MaxValue)
         {
-            if (InaccessibleRank12Nests.TryGetValue((byte)met, out var nests))
-            {
-                var nest = Array.IndexOf(nests, NestID);
-                if (nest >= 0)
-                    return false;
-            }
+            if (IsInaccessibleRank12Nest(NestID, (byte)met))
+                return false;
         }
 
         if (rank < MinRank) // down-leveled

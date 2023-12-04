@@ -34,17 +34,17 @@ public sealed class SearchSettings
 
     public CloneDetectionMethod SearchClones { get; set; }
     public string BatchInstructions { get; init; } = string.Empty;
-    private IReadOnlyList<StringInstruction> BatchFilters { get; set; } = Array.Empty<StringInstruction>();
-    private IReadOnlyList<StringInstruction> BatchFiltersMeta { get; set; } = Array.Empty<StringInstruction>();
+    private IReadOnlyList<StringInstruction> BatchFilters { get; set; } = [];
+    private IReadOnlyList<StringInstruction> BatchFiltersMeta { get; set; } = [];
 
-    public readonly List<ushort> Moves = new();
+    public readonly List<ushort> Moves = [];
 
     // ReSharper disable once CollectionNeverUpdated.Global
     /// <summary>
     /// Extra Filters to be checked after all other filters have been checked.
     /// </summary>
     /// <remarks>Collection is iterated right before clones are checked.</remarks>
-    public List<Func<PKM, bool>> ExtraFilters { get; } = new();
+    public List<Func<PKM, bool>> ExtraFilters { get; } = [];
 
     /// <summary>
     /// Adds a move to the required move list.
@@ -213,9 +213,9 @@ public sealed class SearchSettings
 
         return Generation switch
         {
-            1 when !ParseSettings.AllowGen1Tradeback => new[] {RD, BU, GN, YW},
-            2 when sav is SAV2 {Korean: true} => new[] {GD, SI},
-            1 or 2 => new[] {RD, BU, GN, YW, /* */ GD, SI, C},
+            1 when !ParseSettings.AllowGen1Tradeback => [RD, BU, GN, YW],
+            2 when sav is SAV2 {Korean: true} => [GD, SI],
+            1 or 2 => [RD, BU, GN, YW, /* */ GD, SI, C],
 
             _ when fallback.GetGeneration() == Generation => GameUtil.GetVersionsWithinRange(sav, Generation).ToArray(),
             _ => GameUtil.GameVersions,

@@ -6,9 +6,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used by <see cref="SAV4"/> games.
 /// </summary>
-public sealed class Zukan4 : ZukanBase<SAV4>
+public sealed class Zukan4(SAV4 sav, int offset) : ZukanBase<SAV4>(sav, offset)
 {
-    private readonly Memory<byte> Buffer;
+    private readonly Memory<byte> Buffer = sav.GeneralBuffer[offset..];
     private Span<byte> Data => Buffer.Span;
 
     // General structure: u32 magic, 4*bitflags, u32 spinda, form flags, language flags, more form flags, upgrade flags
@@ -39,11 +39,6 @@ public sealed class Zukan4 : ZukanBase<SAV4>
     private bool HGSS => SAV is SAV4HGSS;
     private bool DP => SAV is SAV4DP;
 
-    public Zukan4(SAV4 sav, int offset) : base(sav, offset)
-    {
-        Buffer = sav.GeneralBuffer[offset..];
-    }
-
     public uint Magic { get => ReadUInt32LittleEndian(Data); set => WriteUInt32LittleEndian(Data, value); }
 
     public override bool GetCaught(ushort species) => GetRegionFlag(0, species - 1);
@@ -73,9 +68,9 @@ public sealed class Zukan4 : ZukanBase<SAV4>
 
     public static string[] GetFormNames4Dex(ushort species)
     {
-        string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Array.Empty<string>(), EntityContext.Gen4);
+        string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, [], EntityContext.Gen4);
         if (species == (int)Species.Pichu)
-            formNames = new[] { MALE, FEMALE, formNames[1] }; // Spiky
+            formNames = [MALE, FEMALE, formNames[1]]; // Spiky
         return formNames;
     }
 
@@ -107,7 +102,7 @@ public sealed class Zukan4 : ZukanBase<SAV4>
                 return Data.Slice(FormOffset1 + 4, 0x1C).ToArray();
         }
         if (DP)
-            return Array.Empty<byte>();
+            return [];
 
         int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
         int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
@@ -117,7 +112,7 @@ public sealed class Zukan4 : ZukanBase<SAV4>
             (int)Species.Shaymin => GetDexFormValues(Data[FormOffset2 + 4], 1, 2),
             (int)Species.Giratina => GetDexFormValues(Data[FormOffset2 + 5], 1, 2),
             (int)Species.Pichu when HGSS => GetDexFormValues(Data[FormOffset2 + 6], 2, 3),
-            _ => Array.Empty<byte>(),
+            _ => [],
         };
     }
 
@@ -385,7 +380,7 @@ public sealed class Zukan4 : ZukanBase<SAV4>
         return species;
     }
 
-    private static ReadOnlySpan<ushort> DPLangSpecies => new ushort[] { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
+    private static ReadOnlySpan<ushort> DPLangSpecies => [023, 025, 054, 077, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315];
 
     public static int GetGen4LanguageBitIndex(int lang) => --lang switch
     {
@@ -486,7 +481,7 @@ public sealed class Zukan4 : ZukanBase<SAV4>
         SetSeen(species, false);
         SetSeenGenderNeither(species);
 
-        SetForms(species, ReadOnlySpan<byte>.Empty);
+        SetForms(species, []);
         ClearLanguages(species);
     }
 

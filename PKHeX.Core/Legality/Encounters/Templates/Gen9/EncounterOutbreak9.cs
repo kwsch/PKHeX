@@ -59,11 +59,7 @@ public sealed record EncounterOutbreak9
         ScaleMin = data[0x09],
         ScaleMax = data[0x0A],
         IsShiny = data[0x0B] != 0,
-#if NET8_0_OR_GREATER
-FAIL TO COMPILE, USE THE NEW UINT128 METHOD -- DOUBLE CHECK IF GetFirstMetLocation CAN USE UINT128 TOO
         MetFlags = ReadUInt128LittleEndian(data[0x0C..]),
-#endif
-        MetFlags = new UInt128(ReadUInt64LittleEndian(data[0x14..]), ReadUInt64LittleEndian(data[0x0C..])),
     };
 
     public string Name => "Distribution Outbreak Encounter";

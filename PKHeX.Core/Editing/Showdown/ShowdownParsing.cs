@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class ShowdownParsing
 {
-    private static readonly string[] genderForms = { "", "F", "" };
+    private static readonly string[] genderForms = ["", "F", ""];
 
     /// <summary>
     /// Gets the Form ID from the input <see cref="name"/>.
@@ -193,7 +193,7 @@ public static class ShowdownParsing
     {
         // Find the end of the Showdown Set lines.
         // The end is implied when:
-        // - we see a completely whitespace or empty line, or
+        // - we see a complete whitespace or empty line, or
         // - we witness four 'move' definition lines.
         int length = 0;
         int moveCount = 4;

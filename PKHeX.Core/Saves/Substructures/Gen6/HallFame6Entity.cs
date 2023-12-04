@@ -7,6 +7,7 @@ public readonly ref struct HallFame6Entity
 {
     public const int SIZE = 0x48;
     private readonly Span<byte> Data;
+    // ReSharper disable once ConvertToPrimaryConstructor
     public HallFame6Entity(Span<byte> data) => Data = data;
 
     public ushort Species { get => ReadUInt16LittleEndian(Data); set => WriteUInt16LittleEndian(Data, value); }

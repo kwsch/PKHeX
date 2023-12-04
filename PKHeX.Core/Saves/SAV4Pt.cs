@@ -29,14 +29,16 @@ public sealed class SAV4Pt : SAV4Sinnoh
 
     public const int GeneralSize = 0xCF2C;
     private const int StorageSize = 0x121E4; // Start 0xCF2C, +4 starts box data
-    protected override BlockInfo4[] ExtraBlocks => new[] {
+
+    protected override BlockInfo4[] ExtraBlocks =>
+    [
         new BlockInfo4(0, 0x20000, 0x2AC0), // Hall of Fame
         new BlockInfo4(1, 0x23000, 0x0BB0), // Battle Hall
         new BlockInfo4(2, 0x24000, 0x1D60), // Battle Video (My Video)
         new BlockInfo4(3, 0x26000, 0x1D60), // Battle Video (Other Videos 1)
         new BlockInfo4(4, 0x28000, 0x1D60), // Battle Video (Other Videos 2)
         new BlockInfo4(5, 0x2A000, 0x1D60), // Battle Video (Other Videos 3)
-    };
+    ];
 
     private void Initialize()
     {
@@ -105,7 +107,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
         {
             var info = ItemStorage4Pt.Instance;
             InventoryPouch[] pouch =
-            {
+            [
                 new InventoryPouch4(InventoryType.Items, info, 999, 0x630),
                 new InventoryPouch4(InventoryType.KeyItems, info, 1, 0x8C4),
                 new InventoryPouch4(InventoryType.TMHMs, info, 99, 0x98C),
@@ -114,7 +116,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
                 new InventoryPouch4(InventoryType.Berries, info, 999, 0xBEC),
                 new InventoryPouch4(InventoryType.Balls, info, 999, 0xCEC),
                 new InventoryPouch4(InventoryType.BattleItems, info, 999, 0xD28),
-            };
+            ];
             return pouch.LoadAll(General);
         }
         set => value.SaveAll(General);
@@ -140,13 +142,13 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x5664..]); set => WriteUInt32LittleEndian(General[0x5664..], value); }
     public override uint SwarmMaxCountModulo => 22;
 
-    protected override ReadOnlySpan<ushort> TreeSpecies => new ushort[]
-    {
+    protected override ReadOnlySpan<ushort> TreeSpecies =>
+    [
         000, 000, 000, 000, 000, 000,
         415, 265, 412, 420, 190, 190,
         412, 420, 415, 190, 190, 214,
         446, 446, 446, 446, 446, 446,
-    };
+    ];
 
     public Roamer4 RoamerMesprit   => GetRoamer(0);
     public Roamer4 RoamerCresselia => GetRoamer(1);

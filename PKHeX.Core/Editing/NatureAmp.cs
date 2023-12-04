@@ -17,7 +17,7 @@ public static class NatureAmp
     /// <returns>New nature value</returns>
     public static int GetNewNature(this NatureAmpRequest type, int statIndex, int currentNature)
     {
-        if (currentNature > (int)Nature.Quirky)
+        if (currentNature >= NatureCount)
             return -1;
 
         var (up, dn) = GetNatureModification(currentNature);
@@ -104,6 +104,64 @@ public static class NatureAmp
         ref var dnStat = ref stats[dn + 1];
         upStat = (ushort)((upStat * 11) / 10);
         dnStat = (ushort)((dnStat * 9) / 10);
+    }
+
+    /// <summary>
+    /// Nature Amplification Table
+    /// </summary>
+    /// <remarks>-1 is 90%, 0 is 100%, 1 is 110%.</remarks>
+    public static ReadOnlySpan<sbyte> Table =>
+    [
+        0, 0, 0, 0, 0, // Hardy
+        1,-1, 0, 0, 0, // Lonely
+        1, 0, 0, 0,-1, // Brave
+        1, 0,-1, 0, 0, // Adamant
+        1, 0, 0,-1, 0, // Naughty
+       -1, 1, 0, 0, 0, // Bold
+        0, 0, 0, 0, 0, // Docile
+        0, 1, 0, 0,-1, // Relaxed
+        0, 1,-1, 0, 0, // Impish
+        0, 1, 0,-1, 0, // Lax
+       -1, 0, 0, 0, 1, // Timid
+        0,-1, 0, 0, 1, // Hasty
+        0, 0, 0, 0, 0, // Serious
+        0, 0,-1, 0, 1, // Jolly
+        0, 0, 0,-1, 1, // Naive
+       -1, 0, 1, 0, 0, // Modest
+        0,-1, 1, 0, 0, // Mild
+        0, 0, 1, 0,-1, // Quiet
+        0, 0, 0, 0, 0, // Bashful
+        0, 0, 1,-1, 0, // Rash
+       -1, 0, 0, 1, 0, // Calm
+        0,-1, 0, 1, 0, // Gentle
+        0, 0, 0, 1,-1, // Sassy
+        0, 0,-1, 1, 0, // Careful
+        0, 0, 0, 0, 0, // Quirky
+    ];
+
+    private const int NatureCount = 25;
+    private const int AmpWidth = 5;
+
+    public static int AmplifyStat(int nature, int index, int initial) => GetNatureAmp(nature, index) switch
+    {
+        1 => 110 * initial / 100, // 110%
+        -1 => 90 * initial / 100, // 90%
+        _ => initial,
+    };
+
+    private static sbyte GetNatureAmp(int nature, int index)
+    {
+        if ((uint)nature >= NatureCount)
+            return -1;
+        var amps = GetAmps(nature);
+        return amps[index];
+    }
+
+    public static ReadOnlySpan<sbyte> GetAmps(int nature)
+    {
+        if ((uint)nature >= NatureCount)
+            nature = 0;
+        return Table.Slice(AmpWidth * nature, AmpWidth);
     }
 }
 

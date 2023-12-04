@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -6,10 +6,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Storage for the two in-game daycare structures.
 /// </summary>
-public sealed class Daycare8 : SaveBlock<SAV8SWSH>
+public sealed class Daycare8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    public Daycare8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
-
     // BLOCK STRUCTURE:
     // bool8 present
     // pk8 entry1

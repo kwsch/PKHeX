@@ -22,7 +22,7 @@ public sealed record InventoryItem8 : InventoryItem, IItemFavorite, IItemNewFlag
         Index = (int)(value & 0x7FF),
         Count = (int)((value >> 15) & 0x3FF), // clamp to sane values
         IsNew = (value & 0x40000000) != 0, // 30th bit is "NEW"
-        IsFavorite = (value & 0x80000000) != 0, // 31th bit is "FAVORITE"
+        IsFavorite = (value & 0x80000000) != 0, // 31st bit is "FAVORITE"
     };
 
     public uint GetValue(bool setNew, ICollection<int> original)

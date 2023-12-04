@@ -45,12 +45,12 @@ public sealed class PL6
     public uint Flags_6 { get => ReadUInt32LittleEndian(Data.AsSpan(0x3E1)); set => WriteUInt32LittleEndian(Data.AsSpan(0x3E1), value); }
 
     // Pokémon
-    public PL6_PKM Poke_1 { get => new(Data.Slice(0x09D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x09D); }
-    public PL6_PKM Poke_2 { get => new(Data.Slice(0x145, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x145); }
-    public PL6_PKM Poke_3 { get => new(Data.Slice(0x1ED, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x1ED); }
-    public PL6_PKM Poke_4 { get => new(Data.Slice(0x295, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x295); }
-    public PL6_PKM Poke_5 { get => new(Data.Slice(0x33D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x33D); }
-    public PL6_PKM Poke_6 { get => new(Data.Slice(0x3E5, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x3E5); }
+    public PL6_PKM Poke_1 { get => new(Data.AsSpan(0x09D, PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x09D); }
+    public PL6_PKM Poke_2 { get => new(Data.AsSpan(0x145, PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x145); }
+    public PL6_PKM Poke_3 { get => new(Data.AsSpan(0x1ED, PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x1ED); }
+    public PL6_PKM Poke_4 { get => new(Data.AsSpan(0x295, PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x295); }
+    public PL6_PKM Poke_5 { get => new(Data.AsSpan(0x33D, PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x33D); }
+    public PL6_PKM Poke_6 { get => new(Data.AsSpan(0x3E5, PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x3E5); }
 
     // Item Properties
     public int Item_1     { get => ReadUInt16LittleEndian(Data.AsSpan(0x489)); set => WriteUInt16LittleEndian(Data.AsSpan(0x489), (ushort)value); }
@@ -71,20 +71,20 @@ public sealed class PL6
 }
 
 /// <summary>
-/// Pokemon Link Gift Template
+/// Pokémon Link Gift Template
 /// </summary>
 /// <remarks>
 /// This Template object is very similar to the <see cref="WC6"/> structure and similar objects, in that the structure offsets are ordered the same.
 /// This template object is only present in Generation 6 save files.
 /// </remarks>
-public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo, IMoveset, IRelearn, IContestStats, IMemoryOT, ITrainerID32
+public sealed class PL6_PKM(byte[] Data) : IRibbonSetEvent3, IRibbonSetEvent4, IEncounterInfo, IMoveset, IRelearn,
+    IContestStats, IMemoryOT, ITrainerID32
 {
     internal const int Size = 0xA0;
 
-    public readonly byte[] Data;
+    public readonly byte[] Data = Data;
 
     public PL6_PKM() : this(new byte[Size]) { }
-    public PL6_PKM(byte[] data) => Data = data;
 
     public TrainerIDFormat TrainerIDDisplayFormat => TrainerIDFormat.SixteenBit;
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.GameVersion;
@@ -13,7 +12,7 @@ public sealed class EncounterGenerator9 : IEncounterGenerator
     {
         var chain = EncounterOrigin.GetOriginChain(pk, 9);
         if (chain.Length == 0)
-            return Array.Empty<IEncounterable>();
+            return [];
 
         return (GameVersion)pk.Version switch
         {

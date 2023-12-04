@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -104,11 +103,11 @@ public partial class TrainerID : UserControl
         (DisplayType, XorFormat) = (display, format);
     }
 
-    private IEnumerable<Control> GetControlsForFormat(TrainerIDFormat format) => format switch
+    private Control[] GetControlsForFormat(TrainerIDFormat format) => format switch
     {
-        TrainerIDFormat.SixDigit => new Control[] { Label_SID, TB_SID7, Label_TID, TB_TID7 },
-        TrainerIDFormat.SixteenBitSingle => new Control[] { Label_TID, TB_TID }, // Gen1/2
-        _ => new Control[] { Label_TID, TB_TID, Label_SID, TB_SID },
+        TrainerIDFormat.SixDigit => [Label_SID, TB_SID7, Label_TID, TB_TID7],
+        TrainerIDFormat.SixteenBitSingle => [Label_TID, TB_TID], // Gen1/2
+        _ => [Label_TID, TB_TID, Label_SID, TB_SID],
     };
 
     private void UpdateTSV(object sender, EventArgs e) => UpdateTSV();
@@ -144,7 +143,7 @@ public partial class TrainerID : UserControl
         }
         else
         {
-            if (value > ushort.MaxValue) // prior to gen7
+            if (value > ushort.MaxValue) // prior to Gen7
                 mt.Text = (value = ushort.MaxValue).ToString();
 
             if (mt == TB_TID)

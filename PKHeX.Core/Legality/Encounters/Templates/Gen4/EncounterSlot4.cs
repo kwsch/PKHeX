@@ -156,7 +156,8 @@ public sealed record EncounterSlot4(EncounterArea4 Parent, ushort Species, byte 
     {
         if (val is PIDType.Method_1)
             return true;
-        // Chain shiny with Poké Radar is only possible in DPPt, in grass. Safari Zone does not allow using the Poké Radar
+        // Chain shiny with Poké Radar is only possible in D/P/Pt, in grass.
+        // Safari Zone does not allow using the Poké Radar
         if (val is PIDType.ChainShiny)
             return pk.IsShiny && CanUseRadar;
         if (val is PIDType.CuteCharm)

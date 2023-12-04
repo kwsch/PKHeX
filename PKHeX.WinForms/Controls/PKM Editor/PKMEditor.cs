@@ -37,17 +37,17 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         TB_Nickname.Font = TB_OT.Font = TB_HT.Font = font;
 
         // Commonly reused Control arrays
-        Moves = new[] { MC_Move1, MC_Move2, MC_Move3, MC_Move4 };
-        Relearn = new[] { CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4 };
-        Markings = new[] { PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6 };
+        Moves = [MC_Move1, MC_Move2, MC_Move3, MC_Move4];
+        Relearn = [CB_RelearnMove1, CB_RelearnMove2, CB_RelearnMove3, CB_RelearnMove4];
+        Markings = [PB_Mark1, PB_Mark2, PB_Mark3, PB_Mark4, PB_Mark5, PB_Mark6];
 
         // Legality Indicators
-        relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
+        relearnPB = [PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4];
 
         // Validation of incompletely entered data fields
         bool Criteria(Control c) => c.BackColor == Draw.InvalidSelection && c is ComboBox { Items.Count: not 0 };
-        ValidatedControls = new ValidationRequiredSet[]
-        {
+        ValidatedControls =
+        [
             new(Moves, _ => true, z => Criteria(((MoveChoice)z).CB_Move)),
             new(new[] {CB_Species}, _ => true, Criteria),
             new(new[] {CB_HeldItem}, pk => pk.Format >= 2, Criteria),
@@ -57,7 +57,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             new(Relearn, pk => pk.Format >= 6, Criteria),
             new(new[] {CB_StatNature}, pk => pk.Format >= 8, Criteria),
             new(new[] {CB_AlphaMastered}, pk => pk is PA8, Criteria),
-        };
+        ];
 
         foreach (var c in WinFormsUtil.GetAllControlsOfType<ComboBox>(this))
             c.KeyDown += WinFormsUtil.RemoveDropCB;
@@ -83,36 +83,25 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         FlickerInterface();
     }
 
-    private sealed class ValidationRequiredSet
+    private sealed class ValidationRequiredSet(Control[] Controls, Func<PKM, bool> ShouldCheck, Func<Control, bool> State)
     {
-        private readonly Control[] Controls;
-        private readonly Func<PKM, bool> ShouldCheck;
-        private readonly Func<Control, bool> IsInvalidState;
-
         public Control? IsNotValid(PKM pk)
         {
             if (!ShouldCheck(pk))
                 return null;
-            return Array.Find(Controls, z => IsInvalidState(z));
-        }
-
-        public ValidationRequiredSet(Control[] controls, Func<PKM, bool> shouldCheck, Func<Control, bool> state)
-        {
-            Controls = controls;
-            ShouldCheck = shouldCheck;
-            IsInvalidState = state;
+            return Array.Find(Controls, z => State(z));
         }
     }
 
     public void InitializeBinding()
     {
         ComboBox[] cbs =
-        {
+        [
             CB_Nature, CB_StatNature,
             CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
             CB_GroundTile, CB_GameOrigin, CB_BattleVersion, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language, CB_HTLanguage,
             CB_AlphaMastered,
-        };
+        ];
         foreach (var cb in cbs.Concat(Relearn))
             cb.InitializeBinding();
 
@@ -149,7 +138,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     public bool Unicode { get; set; } = true;
     private bool _hax;
     public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
-    private byte[] LastData = Array.Empty<byte>();
+    private byte[] LastData = [];
 
     public PKM Data => Entity;
     public PKM Entity { get; private set; } = null!;
@@ -227,7 +216,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             if (ModifierKeys == (Keys.Control | Keys.Shift | Keys.Alt))
                 return true; // Override
 
-            // If any controls are partially filled out, find the first one so we can indicate as such.
+            // Find the first unfilled control, indicate as invalid.
             Control? cb = null;
             foreach (var type in ValidatedControls)
             {
@@ -1213,7 +1202,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
                 Entity.Version = (byte)version;
         }
 
-        // Visibility logic for Gen 4 ground tile; only show for Gen 4 Pokemon.
+        // Visibility logic for Gen 4 ground tile; only show for Gen 4 Pokémon.
         if (Entity is IGroundTile)
         {
             bool g4 = Entity.Gen4;
@@ -1389,7 +1378,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
             return;
 
         // Open Trash/Special Character form
-        // Set the string back to the entity in the right spot, so the span fetch has latest date.
+        // Set the string back to the entity in the right spot, so the span fetch has the latest data.
         Span<byte> trash;
         TextBox tb = sender as TextBox ?? TB_Nickname;
         if (tb == TB_Nickname)
@@ -2088,9 +2077,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, value != 0);
     }
 
-    private static Image GetMarkSprite(PictureBox p, bool opaque, double trans = 0.175)
+    private static Bitmap GetMarkSprite(PictureBox p, bool opaque, double trans = 0.175)
     {
-        var sprite = p.InitialImage;
+        var img = p.InitialImage;
+        if (img is not Bitmap sprite)
+            throw new Exception();
         return opaque ? sprite : ImageUtil.ChangeOpacity(sprite, trans);
     }
 
@@ -2140,7 +2131,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         CB_Nature.DataSource = new BindingSource(source.Natures, null);
         CB_StatNature.DataSource = new BindingSource(source.Natures, null);
 
-        // Sub editors
+        // Sub-editors
         Stats.InitializeDataSources();
 
         PopulateFilteredDataSources(sav, true);
@@ -2188,7 +2179,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         }
         SetIfDifferentCount(source.Species, CB_Species, force);
 
-        // Set the Move ComboBoxes too..
+        // Set the Move ComboBoxes too.
         LegalMoveSource.ChangeMoveSource(source.Moves);
         foreach (var cb in Relearn)
             SetIfDifferentCount(source.Relearn, cb, force);

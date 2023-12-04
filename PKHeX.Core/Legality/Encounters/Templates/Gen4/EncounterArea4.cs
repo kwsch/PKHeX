@@ -86,8 +86,8 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGTy
             || LocationID_HoneyTree[trees[3]] == location;
     }
 
-    private static ReadOnlySpan<byte> LocationID_HoneyTree => new byte[]
-    {
+    private static ReadOnlySpan<byte> LocationID_HoneyTree =>
+    [
         20, // 00 Route 205 Floaroma
         20, // 01 Route 205 Eterna
         21, // 02 Route 206
@@ -109,5 +109,5 @@ public sealed record EncounterArea4 : IEncounterArea<EncounterSlot4>, ISlotRNGTy
         48, // 18 Eterna Forest
         49, // 19 Fuego Ironworks
         58, // 20 Floaroma Meadow
-    };
+    ];
 }

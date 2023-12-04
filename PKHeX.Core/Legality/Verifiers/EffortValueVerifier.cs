@@ -23,9 +23,9 @@ public sealed class EffortValueVerifier : Verifier
             return;
         }
 
-        // In Generations I and II, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
+        // In Generation 1 & 2, when a Pokémon is taken out of the Day Care, its experience will lower to the minimum value for its current level.
         int format = pk.Format;
-        if (format < 3) // can abuse daycare for EV training without EXP gain
+        if (format < 3) // Can abuse daycare for EV training without EXP gain
             return;
 
         int sum = pk.EVTotal;
@@ -35,7 +35,7 @@ public sealed class EffortValueVerifier : Verifier
         var enc = data.EncounterMatch;
         Span<int> evs = stackalloc int[6];
         pk.GetEVs(evs);
-        if (format >= 6 && evs.IndexOfAny(253, 254, 255) != -1)
+        if (format >= 6 && evs.ContainsAny(253, 254, 255))
             data.AddLine(GetInvalid(LEffortAbove252));
         else if (format < 5) // 3/4
             VerifyGainedEVs34(data, enc, evs, pk);
@@ -45,7 +45,7 @@ public sealed class EffortValueVerifier : Verifier
             data.AddLine(Get(LEffortEXPIncreased, Severity.Fishy));
         else if (sum == EffortValues.MaxEffective)
             data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
-        else if (evs[0] != 0 && evs.IndexOfAnyExcept(evs[0]) == -1)
+        else if (evs[0] != 0 && !evs.ContainsAnyExcept(evs[0]))
             data.AddLine(Get(LEffortAllEqual, Severity.Fishy));
     }
 
@@ -61,7 +61,7 @@ public sealed class EffortValueVerifier : Verifier
             // EVs can only be increased by vitamins to a max of 100.
             data.AddLine(GetInvalid(LEffortCap100));
         }
-        else // Check for gained EVs without gaining EXP -- don't check gen5+ which have wings to boost above 100.
+        else // Check for gained EVs without gaining EXP -- don't check Gen5+ which have wings to boost above 100.
         {
             var growth = PersonalTable.HGSS[enc.Species].EXPGrowth;
             var baseEXP = Experience.GetEXP(enc.LevelMin, growth);

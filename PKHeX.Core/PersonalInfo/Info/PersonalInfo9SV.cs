@@ -6,12 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.SV"/> games.
 /// </summary>
-public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPermitRecord
+public sealed class PersonalInfo9SV(byte[] Data) : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPermitRecord
 {
     public const int SIZE = 0x4C;
-    private readonly byte[] Data;
 
-    public PersonalInfo9SV(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
@@ -115,8 +113,8 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
     public int RecordCountTotal => 202;
     public int RecordCountUsed => CountTM;
 
-    private static ReadOnlySpan<ushort> TM_SV => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> TM_SV =>
+    [
         005, 036, 204, 313, 097, 189, 184, 182, 424, 422,
         423, 352, 067, 491, 512, 522, 060, 109, 168, 574,
         885, 884, 886, 451, 083, 263, 342, 332, 523, 506,
@@ -138,7 +136,7 @@ public sealed class PersonalInfo9SV : PersonalInfo, IPersonalAbility12H, IPerson
         360, 282, 450, 162, 410, 679, 667, 333, 503, 535,
         669, 253, 264, 311, 803, 807, 812, 814, 809, 808,
         799, 802,
-    };
+    ];
 
     public byte DexKitakami { get => Data[0x4A]; set => Data[0x4A] = value; }
     public byte DexBlueberry { get => Data[0x4B]; set => Data[0x4B] = value; }

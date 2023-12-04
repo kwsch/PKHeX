@@ -13,16 +13,14 @@ public sealed class WB7Records : SaveBlock<SAV7b>
 
     private int GetRecordOffset(int index)
     {
-        if (index >= RecordMax)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, RecordMax);
 
         return Offset + (index * WR7.Size);
     }
 
     private int GetFlagOffset(int flag)
     {
-        if (flag >= FlagCountMax)
-            throw new ArgumentOutOfRangeException(nameof(flag));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(flag, FlagCountMax);
         return FlagStart + (flag / 8);
     }
 

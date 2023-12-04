@@ -17,8 +17,8 @@ public static class EggHatchLocation8
     }
 
     // Odd indexes ignored.
-    private static ReadOnlySpan<byte> LocationPermitted8 => new byte[]
-    {
+    private static ReadOnlySpan<byte> LocationPermitted8 =>
+    [
         0, 0, 0, 1, 1, 0, 1, 1, 1, 1,
         1, 1, 1, 0, 1, 1, 1, 1, 1, 0,
         1, 0, 1, 1, 1, 0, 1, 1, 1, 1,
@@ -32,5 +32,5 @@ public static class EggHatchLocation8
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1,
-    };
+    ];
 }

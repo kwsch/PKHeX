@@ -9,11 +9,10 @@ namespace PKHeX.Core;
 /// This is fabricated data built to emulate the future generation Mystery Gift objects.
 /// Data here is not stored in any save file and cannot be naturally exported.
 /// </remarks>
-public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate, IRandomCorrelation
+public sealed class WC3(bool Fateful = false)
+    : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate, IRandomCorrelation
 {
     public override MysteryGift Clone() => (WC3)MemberwiseClone();
-
-    public WC3(bool fateful = false) => FatefulEncounter = fateful;
 
     /// <summary>
     /// Matched <see cref="PIDIV"/> Type
@@ -47,7 +46,7 @@ public sealed class WC3 : MysteryGift, IRibbonSetEvent3, ILangNicknamedTemplate,
     public override Moveset Moves { get; set; }
     public bool NotDistributed { get; init; }
     public override Shiny Shiny { get; init; }
-    public override bool FatefulEncounter { get; } // Obedience Flag
+    public override bool FatefulEncounter { get; } = Fateful; // Obedience Flag
 
     // Mystery Gift Properties
     public override int Generation => 3;

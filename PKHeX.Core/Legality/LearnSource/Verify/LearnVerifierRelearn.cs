@@ -46,7 +46,7 @@ public static class LearnVerifierRelearn
 
     private static void VerifyRelearnDexNav(PKM pk, Span<MoveResult> result, EncounterSlot6AO slot)
     {
-        // All other relearn moves must be empty.
+        // Only has one relearn move from the encounter. Every other relearn move must be empty.
         result[3] = ParseExpect(pk.RelearnMove4);
         result[2] = ParseExpect(pk.RelearnMove3);
         result[1] = ParseExpect(pk.RelearnMove2);
@@ -57,7 +57,7 @@ public static class LearnVerifierRelearn
 
     private static void VerifyRelearnUnderground(PKM pk, Span<MoveResult> result, EncounterSlot8b slot)
     {
-        // All other relearn moves must be empty.
+        // Only has one relearn move from the encounter. Every other relearn move must be empty.
         result[3] = ParseExpect(pk.RelearnMove4);
         result[2] = ParseExpect(pk.RelearnMove3);
         result[1] = ParseExpect(pk.RelearnMove2);

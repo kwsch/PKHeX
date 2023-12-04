@@ -1,7 +1,7 @@
 namespace PKHeX.Core;
 
 /// <summary>
-/// Logic to calculate max counts denoted by the ranch level in My Pokemon Ranch
+/// Logic to calculate max counts denoted by the ranch level in My Pokémon Ranch
 /// </summary>
 public static class RanchLevel
 {

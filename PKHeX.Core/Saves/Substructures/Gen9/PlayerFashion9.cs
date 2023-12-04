@@ -8,9 +8,8 @@ namespace PKHeX.Core;
 /// Stores the selected clothing choices of the player.
 /// </summary>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class PlayerFashion9 : SaveBlock<SAV9SV>
+public sealed class PlayerFashion9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
 {
-    public PlayerFashion9(SAV9SV sav, SCBlock block) : base(sav, block.Data) { }
     public ulong Base      { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x00)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x00), value); }
     public ulong Accessory { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x08)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x08), value); }
     public ulong Bag       { get => ReadUInt64LittleEndian(Data.AsSpan(Offset + 0x10)); set => WriteUInt64LittleEndian(Data.AsSpan(Offset + 0x10), value); }

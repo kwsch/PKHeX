@@ -28,12 +28,12 @@ public static class GameLanguage
     /// Language codes supported for loading string resources
     /// </summary>
     /// <see cref="ProgramLanguage"/>
-    private static readonly string[] LanguageCodes = { "ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2" };
+    private static readonly string[] LanguageCodes = ["ja", "en", "fr", "it", "de", "es", "ko", "zh", "zh2"];
 
     /// <summary>
     /// Pokétransporter location names, ordered per index of <see cref="LanguageCodes"/>
     /// </summary>
-    private static readonly string[] ptransp = { "ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送" };
+    private static readonly string[] ptransp = ["ポケシフター", "Poké Transfer", "Poké Fret", "Pokétrasporto", "Poképorter", "Pokétransfer", "포케시프터", "宝可传送", "寶可傳送"];
 
     /// <summary>
     /// Gets the Met Location display name for the Pokétransporter.

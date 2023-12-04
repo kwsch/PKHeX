@@ -18,7 +18,7 @@ public partial class SAV_FolderList : Form
     private readonly List<INamedFolderPath> Paths;
     private readonly SortableBindingList<SavePreview> Recent;
     private readonly SortableBindingList<SavePreview> Backup;
-    private readonly List<Label> TempTranslationLabels = new();
+    private readonly List<Label> TempTranslationLabels = [];
 
     public SAV_FolderList(Action<SaveFile> openSaveFile)
     {
@@ -76,15 +76,15 @@ public partial class SAV_FolderList : Form
 
     private static List<INamedFolderPath> GetPathList(IReadOnlyList<string> drives)
     {
-        var locs = new List<INamedFolderPath>
-        {
+        List<INamedFolderPath> locs =
+        [
             new CustomFolderPath(Main.BackupPath, "PKHeX Backups"),
-        };
-        locs.AddRange(GetUserPaths());
-        locs.AddRange(GetConsolePaths(drives));
-        locs.AddRange(GetSwitchPaths(drives));
-        return locs.DistinctBy(z => z.Path)
-            .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
+            ..GetUserPaths(), ..GetConsolePaths(drives), ..GetSwitchPaths(drives),
+        ];
+        var filtered = locs
+            .DistinctBy(z => z.Path)
+            .OrderByDescending(z => Directory.Exists(z.Path));
+        return [..filtered];
     }
 
     private const int ButtonHeight = 40;
@@ -127,13 +127,13 @@ public partial class SAV_FolderList : Form
     {
         var path3DS = SaveFinder.Get3DSLocation(drives);
         if (path3DS == null)
-            return Array.Empty<CustomFolderPath>();
+            return [];
 
         var root = Path.GetPathRoot(path3DS);
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         // ReSharper disable once HeuristicUnreachableCode
         if (root == null)
-            return Array.Empty<CustomFolderPath>();
+            return [];
 
         var paths = SaveFinder.Get3DSBackupPaths(root);
         return paths.Select(z => new CustomFolderPath(z));
@@ -143,13 +143,13 @@ public partial class SAV_FolderList : Form
     {
         var pathNX = SaveFinder.GetSwitchLocation(drives);
         if (pathNX == null)
-            return Array.Empty<CustomFolderPath>();
+            return [];
 
         var root = Path.GetPathRoot(pathNX);
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         // ReSharper disable once HeuristicUnreachableCode
         if (root == null)
-            return Array.Empty<CustomFolderPath>();
+            return [];
 
         var paths = SaveFinder.GetSwitchBackupPaths(root);
         return paths.Select(z => new CustomFolderPath(z));
@@ -184,7 +184,7 @@ public partial class SAV_FolderList : Form
         public override string ToString() => $"{DisplayText}\t{Path}";
     }
 
-    private sealed class SaveList<T> : SortableBindingList<T> where T : class { }
+    private sealed class SaveList<T> : SortableBindingList<T> where T : class;
 
     private ContextMenuStrip GetContextMenu(DataGridView dgv)
     {
@@ -369,6 +369,6 @@ public partial class SAV_FolderList : Form
             row.Visible = false;
             return;
         }
-        row.Visible = value.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0; // case insensitive contains
+        row.Visible = value.Contains(text, StringComparison.CurrentCultureIgnoreCase); // case insensitive contains
     }
 }

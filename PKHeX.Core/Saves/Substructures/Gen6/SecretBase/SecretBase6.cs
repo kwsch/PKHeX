@@ -6,15 +6,15 @@ namespace PKHeX.Core;
 /// <summary>
 /// Secret base format for <see cref="GameVersion.ORAS"/>
 /// </summary>
-public class SecretBase6
+public class SecretBase6(byte[] Data, int Offset = 0)
 {
     public const int SIZE = 0x310;
     public const int COUNT_GOODS = 28;
     public const int MinLocationID = -1;
     public const int MaxLocationID = 85;
 
-    protected readonly byte[] Data;
-    protected readonly int Offset;
+    protected readonly byte[] Data = Data;
+    protected readonly int Offset = Offset;
 
     // structure: (first at 23D24 in sav)
     // [000-001] u8 IsNew
@@ -36,12 +36,6 @@ public class SecretBase6
     // [30C] byte CollectedFlagsToday
     // [30D] byte CollectedFlagsYesterday
     // 2 bytes alignment for u32
-
-    public SecretBase6(byte[] data, int offset = 0)
-    {
-        Data = data;
-        Offset = offset;
-    }
 
     public bool IsNew
     {
@@ -67,9 +61,7 @@ public class SecretBase6
         };
     }
 
-    public SecretBase6GoodPlacement GetPlacement(int index) => new(Data.AsSpan(Offset + GetPlacementOffset(index)));
-
-    public void SetPlacement(int index, SecretBase6GoodPlacement value) => value.Write(Data.AsSpan(Offset + GetPlacementOffset(index)));
+    public SecretBase6GoodPlacement GetPlacement(int index) => new(Data, Offset + GetPlacementOffset(index));
 
     private static int GetPlacementOffset(int index)
     {
@@ -143,7 +135,7 @@ public class SecretBase6
             LoadSelf(other);
     }
 
-    public virtual byte[] Write() => Data.Slice(Offset, SIZE);
+    public virtual byte[] Write() => Data.AsSpan(Offset, SIZE).ToArray();
 
     public static SecretBase6? Read(byte[] data)
     {
@@ -159,13 +151,9 @@ public class SecretBase6
 /// <summary>
 /// An expanded structure of <see cref="SecretBase6"/> containing extra fields to describe another trainer's base.
 /// </summary>
-public sealed class SecretBase6Other : SecretBase6
+public sealed class SecretBase6Other(byte[] Data, int Offset = 0) : SecretBase6(Data, Offset)
 {
     public new const int SIZE = 0x3E0;
-
-    public SecretBase6Other(byte[] data, int offset = 0) : base(data, offset)
-    {
-    }
 
     // [310-31F] u128 key struct
     // [320] byte language
@@ -201,17 +189,9 @@ public sealed class SecretBase6Other : SecretBase6
 
     public const int COUNT_TEAM = 3;
 
-    public SecretBase6PKM GetParticipant(int index)
-    {
-        var data = Data.Slice(GetParticipantOffset(index), SecretBase6PKM.SIZE);
-        return new SecretBase6PKM(data);
-    }
-
-    public void SetParticipant(int index, SecretBase6PKM pk)
-    {
-        var ofs = GetParticipantOffset(index);
-        pk.Data.CopyTo(Data, ofs);
-    }
+    private Span<byte> GetParticipantData(int index) => Data.AsSpan(GetParticipantOffset(index), SecretBase6PKM.SIZE);
+    public SecretBase6PKM GetParticipant(int index) => new(GetParticipantData(index).ToArray());
+    public void SetParticipant(int index, SecretBase6PKM pk) => pk.Data.CopyTo(GetParticipantData(index));
 
     public int GetParticipantOffset(int index)
     {
@@ -244,5 +224,5 @@ public sealed class SecretBase6Other : SecretBase6
 
     protected override void LoadOther(SecretBase6Other other) => other.Data.AsSpan(other.Offset, SIZE).CopyTo(Data.AsSpan(Offset));
 
-    public override byte[] Write() => Data.Slice(Offset, SIZE);
+    public override byte[] Write() => Data.AsSpan(Offset, SIZE).ToArray();
 }

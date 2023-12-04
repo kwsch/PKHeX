@@ -1,15 +1,14 @@
-﻿using System;
+using System;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Modifies contents of boxes by using an <see cref="Action"/> (referencing a Save File) to change data.
 /// </summary>
-public sealed class BoxManipModifyComplex : BoxManipBase
+public sealed class BoxManipModifyComplex(BoxManipType Type, Action<PKM, SaveFile> Action, Func<SaveFile, bool> Usable)
+    : BoxManipBase(Type, Usable)
 {
-    private readonly Action<PKM, SaveFile> Action;
-    public BoxManipModifyComplex(BoxManipType type, Action<PKM, SaveFile> action) : this(type, action, _ => true) { }
-    public BoxManipModifyComplex(BoxManipType type, Action<PKM, SaveFile> action, Func<SaveFile, bool> usable) : base(type, usable) => Action = action;
+    public BoxManipModifyComplex(BoxManipType Type, Action<PKM, SaveFile> Action) : this(Type, Action, _ => true) { }
 
     public override string GetPrompt(bool all) => string.Empty;
     public override string GetFail(bool all) => string.Empty;

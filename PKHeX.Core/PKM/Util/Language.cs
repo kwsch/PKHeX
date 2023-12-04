@@ -8,8 +8,8 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Language
 {
-    private static ReadOnlySpan<byte> Languages => new[]
-    {
+    private static ReadOnlySpan<byte> Languages =>
+    [
         (byte)Japanese,
         (byte)English,
         (byte)French,
@@ -22,7 +22,7 @@ public static class Language
 
         (byte)ChineseS,
         (byte)ChineseT,
-    };
+    ];
 
     // check Korean for the VC case, never possible to match string outside of this case
     private static ReadOnlySpan<byte> Languages_GB => Languages[..7]; // [..KOR]

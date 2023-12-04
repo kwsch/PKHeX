@@ -26,7 +26,7 @@ public partial class SAV_PokedexLA : Form
     private bool Editing;
     private readonly bool CanSave;
 
-    private readonly IList<ComboItem> DisplayedForms;
+    private readonly List<ComboItem> DisplayedForms;
 
     private readonly string[] TaskDescriptions = Util.GetStringList("tasks8a", Main.CurrentLanguage);
     private readonly string[] SpeciesQuests = Util.GetStringList("species_tasks8a", Main.CurrentLanguage);
@@ -39,12 +39,12 @@ public partial class SAV_PokedexLA : Form
         SAV = (SAV8LA)(Origin = sav).Clone();
         Dex = SAV.Blocks.PokedexSave;
         var speciesNames = GameInfo.Strings.Species;
-        CHK_SeenWild = new[] { CHK_S0, CHK_S1, CHK_S2, CHK_S3, CHK_S4, CHK_S5, CHK_S6, CHK_S7 };
-        CHK_Obtained = new[] { CHK_O0, CHK_O1, CHK_O2, CHK_O3, CHK_O4, CHK_O5, CHK_O6, CHK_O7 };
-        CHK_CaughtWild = new[] { CHK_C0, CHK_C1, CHK_C2, CHK_C3, CHK_C4, CHK_C5, CHK_C6, CHK_C7 };
+        CHK_SeenWild = [CHK_S0, CHK_S1, CHK_S2, CHK_S3, CHK_S4, CHK_S5, CHK_S6, CHK_S7];
+        CHK_Obtained = [CHK_O0, CHK_O1, CHK_O2, CHK_O3, CHK_O4, CHK_O5, CHK_O6, CHK_O7];
+        CHK_CaughtWild = [CHK_C0, CHK_C1, CHK_C2, CHK_C3, CHK_C4, CHK_C5, CHK_C6, CHK_C7];
 
-        TaskControls = new[]
-        {
+        TaskControls =
+        [
             PRT_1,
             PRT_2,
             PRT_3,
@@ -55,7 +55,7 @@ public partial class SAV_PokedexLA : Form
             PRT_8,
             PRT_9,
             PRT_10,
-        };
+        ];
 
         foreach (var tc in TaskControls)
         {

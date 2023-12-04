@@ -44,7 +44,7 @@ public sealed record EncounterTrade4RanchGift
     public byte CurrentLevel { get; init; }
     public byte Form { get; init; }
 
-    private static readonly string[] TrainerNames = { string.Empty, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", string.Empty, "Eulalia" };
+    private static readonly string[] TrainerNames = [string.Empty, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", string.Empty, "Eulalia"];
 
     private const string _name = "In-game Trade";
     public string Name => _name;

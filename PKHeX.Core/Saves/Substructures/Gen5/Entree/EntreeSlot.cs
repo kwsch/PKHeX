@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 <see cref="EntreeForest"/> slot
 /// </summary>
-public sealed class EntreeSlot : ISpeciesForm
+public sealed class EntreeSlot(Memory<byte> Data) : ISpeciesForm
 {
     /// <summary>
     /// <see cref="PKM.Species"/> index
@@ -62,7 +62,7 @@ public sealed class EntreeSlot : ISpeciesForm
         set => RawValue = ((RawValue << 3) >> 3) | (uint)((value & 0x7) << 29);
     }
 
-    private Memory<byte> Data { get; }
+    private Memory<byte> Data { get; } = Data;
 
     /// <summary>
     /// Raw Data Value
@@ -85,6 +85,4 @@ public sealed class EntreeSlot : ISpeciesForm
     /// Extra metadata for the slot which is not stored in the raw data.
     /// </summary>
     public EntreeForestArea Area { get; init; }
-
-    public EntreeSlot(Memory<byte> data) => Data = data;
 }

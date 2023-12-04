@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
 /// <summary>
 /// Tracks <see cref="PKM"/> slot changes and provides the ability to revert a change.
 /// </summary>
-public sealed class SlotChangelog
+public sealed class SlotChangelog(SaveFile SAV)
 {
-    private readonly SaveFile SAV;
     private readonly Stack<SlotReversion> UndoStack = new();
     private readonly Stack<SlotReversion> RedoStack = new();
-
-    public SlotChangelog(SaveFile sav) => SAV = sav;
 
     public bool CanUndo => UndoStack.Count != 0;
     public bool CanRedo => RedoStack.Count != 0;
@@ -57,26 +54,22 @@ public sealed class SlotChangelog
         _ => new SingleSlotReversion(info, sav),
     };
 
-    private abstract class SlotReversion
+    private abstract class SlotReversion(ISlotInfo Info)
     {
-        internal readonly ISlotInfo Info;
-        protected SlotReversion(ISlotInfo info) => Info = info;
-
+        internal readonly ISlotInfo Info = Info;
         public abstract void Revert(SaveFile sav);
     }
 
-    private sealed class PartyReversion : SlotReversion
+    private sealed class PartyReversion(ISlotInfo info, IList<PKM> Party) : SlotReversion(info)
     {
-        private readonly IList<PKM> Party;
-        public PartyReversion(ISlotInfo info, SaveFile s) : base(info) => Party = s.PartyData;
+        public PartyReversion(ISlotInfo info, SaveFile s) : this(info, s.PartyData) { }
 
         public override void Revert(SaveFile sav) => sav.PartyData = Party;
     }
 
-    private sealed class SingleSlotReversion : SlotReversion
+    private sealed class SingleSlotReversion(ISlotInfo info, PKM Entity) : SlotReversion(info)
     {
-        private readonly PKM Entity;
-        public SingleSlotReversion(ISlotInfo info, SaveFile sav) : base(info) => Entity = info.Read(sav);
+        public SingleSlotReversion(ISlotInfo info, SaveFile sav) : this(info, info.Read(sav)) { }
 
         public override void Revert(SaveFile sav) => Info.WriteTo(sav, Entity, PKMImportSetting.Skip);
     }

@@ -13,7 +13,7 @@ public sealed class SAV1Stadium : SAV_STADIUM
 
     public override PersonalTable1 Personal => PersonalTable.Y;
     public override int MaxEV => EffortValues.Max12;
-    public override ReadOnlySpan<ushort> HeldItems => Array.Empty<ushort>();
+    public override ReadOnlySpan<ushort> HeldItems => [];
     public override GameVersion Version { get; protected set; } = GameVersion.Stadium;
 
     protected override SAV1Stadium CloneInternal() => new((byte[])Data.Clone(), Japanese);
@@ -112,8 +112,7 @@ public sealed class SAV1Stadium : SAV_STADIUM
         int len = StringLength;
         var nick = data.AsSpan(PokeCrypto.SIZE_1STORED, len);
         var ot = data.AsSpan(PokeCrypto.SIZE_1STORED + len, len);
-        data = data.Slice(0, PokeCrypto.SIZE_1STORED);
-        var pk1 = new PK1(data, Japanese);
+        var pk1 = new PK1(data[..PokeCrypto.SIZE_1STORED], Japanese);
         nick.CopyTo(pk1.Nickname_Trash);
         ot.CopyTo(pk1.OT_Trash);
         return pk1;

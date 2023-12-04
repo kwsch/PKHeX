@@ -5,7 +5,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Side game data base class for <see cref="PKM"/> data transferred into HOME.
+/// Base class for Side-game data used to store <see cref="PKM"/> data transferred into HOME.
 /// </summary>
 public abstract class HomeOptional1
 {

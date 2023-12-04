@@ -6,7 +6,7 @@ namespace PKHeX.Core.Tests.Saves;
 
 public static class SMTests
 {
-    private static SAV7 GetSave()
+    private static SAV7SM GetSave()
     {
         var folder = TestUtil.GetRepoPath();
         var path = Path.Combine(folder, "TestData", "SM Project 802.main");

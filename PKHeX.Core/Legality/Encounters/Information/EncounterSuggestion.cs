@@ -64,7 +64,7 @@ public static class EncounterSuggestion
             return pk.CurrentLevel; // be generous with transfer conditions
         if (pk.Format < 5) // and native
             return pk.Format == 2 && pk.Met_Location != 0 ? 1 : 0;
-        return 1; // gen5+
+        return 1; // Gen5+
     }
 
     public static int GetSuggestedEncounterEggLocationEgg(PKM pk, bool traded = false)

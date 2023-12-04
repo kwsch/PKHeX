@@ -57,7 +57,7 @@ public partial class SAV_MysteryGiftDB : Form
         if (hdelta != 0)
             Height += hdelta;
 
-        PKXBOXES = grid.Entries.ToArray();
+        PKXBOXES = [.. grid.Entries];
 
         // Enable Scrolling when hovered over
         foreach (var slot in PKXBOXES)
@@ -103,8 +103,8 @@ public partial class SAV_MysteryGiftDB : Form
 
     private readonly PictureBox[] PKXBOXES;
     private readonly string DatabasePath = Main.MGDatabasePath;
-    private List<MysteryGift> Results = new();
-    private List<MysteryGift> RawDB = new();
+    private List<MysteryGift> Results = [];
+    private List<MysteryGift> RawDB = [];
     private int slotSelected = -1; // = null;
     private Image? slotColor;
     private const int RES_MAX = 66;
@@ -201,11 +201,11 @@ public partial class SAV_MysteryGiftDB : Form
         var items = new List<ComboItem>(GameInfo.ItemDataSource);
         items.Insert(0, comboAny); CB_HeldItem.DataSource = items;
 
-        // Set the Move ComboBoxes too..
+        // Set the Move ComboBoxes too.
         var moves = new List<ComboItem>(GameInfo.MoveDataSource);
         moves.RemoveAt(0); moves.Insert(0, comboAny);
         {
-            var arr = new[] { CB_Move1, CB_Move2, CB_Move3, CB_Move4 };
+            ComboBox[] arr = [CB_Move1, CB_Move2, CB_Move3, CB_Move4];
             foreach (var cb in arr)
             {
                 cb.InitializeBinding();
@@ -252,7 +252,7 @@ public partial class SAV_MysteryGiftDB : Form
             };
         }
 
-        RawDB = new List<MysteryGift>(db);
+        RawDB = [..db];
         foreach (var mg in RawDB)
             mg.GiftUsed = false;
 
@@ -353,7 +353,7 @@ public partial class SAV_MysteryGiftDB : Form
         if (results.Length == 0)
             WinFormsUtil.Alert(MsgDBSearchNone);
 
-        SetResults(new List<MysteryGift>(results)); // updates Count Label as well.
+        SetResults([..results]); // updates Count Label as well.
         System.Media.SystemSounds.Asterisk.Play();
     }
 
@@ -367,7 +367,7 @@ public partial class SAV_MysteryGiftDB : Form
 
     private void SetResults(List<MysteryGift> res)
     {
-        Results = new List<MysteryGift>(res);
+        Results = [..res];
         ShowSet.Clear();
 
         SCR_Box.Maximum = (int)Math.Ceiling((decimal)Results.Count / RES_MIN);

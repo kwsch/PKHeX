@@ -7,8 +7,8 @@ public sealed class ItemStorage1 : IItemStorage
     public static readonly ItemStorage1 Instance = new();
     private ItemStorage1() { }
 
-    private static ReadOnlySpan<ushort> Pouch_Items_RBY => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Items_RBY =>
+    [
         000,001,002,003,004,005,006,            010,011,012,013,014,015,
         016,017,018,019,020,                                029,030,031,
         032,033,034,035,036,037,038,039,040,041,042,043,    045,046,047,
@@ -22,7 +22,7 @@ public sealed class ItemStorage1 : IItemStorage
         208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,
         224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,
         240,241,242,243,244,245,246,247,248,249,250,
-    };
+    ];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
 

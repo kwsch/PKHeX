@@ -6,8 +6,8 @@ public sealed class ItemStorage7GG : IItemStorage
 {
     public static readonly ItemStorage7GG Instance = new();
 
-    private static ReadOnlySpan<ushort> Pouch_Candy_GG => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Candy_GG =>
+    [
         050, // Rare Candy
         960, 961, 962, 963, 964, 965, // S
         966, 967, 968, 969, 970, 971, // L
@@ -24,44 +24,44 @@ public sealed class ItemStorage7GG : IItemStorage
         1040, 1041, 1042, 1043, 1044, 1045, 1046, 1047, 1048, 1049,
         1050, 1051, 1052, 1053, 1054, 1055, 1056,
         1057,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Medicine_GG => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Medicine_GG =>
+    [
         017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 038, 039, 040, 041, 709, 903,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_TM_GG => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_TM_GG =>
+    [
         328, 329, 330, 331, 332, 333, 334, 335, 336, 337,
         338, 339, 340, 341, 342, 343, 344, 345, 346, 347,
         348, 349, 350, 351, 352, 353, 354, 355, 356, 357,
         358, 359, 360, 361, 362, 363, 364, 365, 366, 367,
         368, 369, 370, 371, 372, 373, 374, 375, 376, 377,
         378, 379, 380, 381, 382, 383, 384, 385, 386, 387,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_PowerUp_GG => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_PowerUp_GG =>
+    [
         051, 053, 081, 082, 083, 084, 085,
         849,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Catching_GG => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Catching_GG =>
+    [
         001, 002, 003, 004, 012, 164, 166, 168,
         861, 862, 863, 864, 865, 866,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Battle_GG => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Battle_GG =>
+    [
         055, 056, 057, 058, 059, 060, 061, 062,
         656, 659, 660, 661, 662, 663, 671, 672, 675, 676, 678, 679,
         760, 762, 770, 773,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Pouch_Regular_GG => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Pouch_Regular_GG =>
+    [
         076, 077, 078, 079, 086, 087, 088, 089,
         090, 091, 092, 093, 101, 102, 103, 113, 115,
         121, 122, 123, 124, 125, 126, 127, 128,
@@ -70,10 +70,10 @@ public sealed class ItemStorage7GG : IItemStorage
         632, 651,
         795, 796,
         872, 873, 874, 875, 876, 877, 878, 885, 886, 887, 888, 889, 890, 891, 892, 893, 894, 895, 896, 900, 901, 902,
-    };
+    ];
 
-    internal static ReadOnlySpan<ushort> Pouch_Regular_GG_Key => new ushort[]
-    {
+    internal static ReadOnlySpan<ushort> Pouch_Regular_GG_Key =>
+    [
         113, // Tea
         115, // Autograph
         121, // Pokémon Box
@@ -107,7 +107,7 @@ public sealed class ItemStorage7GG : IItemStorage
         894, // Leaf Letter (P)
         895, // Leaf Letter (E)
         896, // Small Bouquet
-    };
+    ];
 
     public bool IsLegal(InventoryType type, int itemIndex, int itemCount) => true;
 

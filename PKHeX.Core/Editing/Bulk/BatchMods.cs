@@ -10,8 +10,8 @@ namespace PKHeX.Core;
 /// </summary>
 public static class BatchMods
 {
-    public static readonly List<ISuggestModification> SuggestionMods = new()
-    {
+    public static readonly List<ISuggestModification> SuggestionMods =
+    [
         // Interface Specific
         new TypeSuggestion<ICombatPower>(nameof(ICombatPower.Stat_CP), p => p.ResetCP()),
         new TypeSuggestion<IScaledSizeValue>(nameof(IScaledSizeValue.HeightAbsolute), p => p.ResetHeight()),
@@ -49,13 +49,12 @@ public static class BatchMods
         new ComplexSuggestion(nameof(PKM.CurrentLevel), (_, _, info) => BatchModifications.SetMinimumCurrentLevel(info)),
         new ComplexSuggestion(PROP_CONTESTSTATS, p => p is IContestStats, (_, value, info) => BatchModifications.SetContestStats(info.Entity, info.Legality, value)),
         new ComplexSuggestion(PROP_MOVEMASTERY, (_, value, info) => BatchModifications.SetSuggestedMasteryData(info, value)),
-    };
+    ];
 
     private static DateOnly ParseDate(ReadOnlySpan<char> val) => DateOnly.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture);
 
-    public static readonly List<IComplexSet> ComplexMods = new()
-    {
-        // Date
+    public static readonly List<IComplexSet> ComplexMods =
+    [
         new ComplexSet(nameof(PKM.MetDate), (pk, cmd) => pk.MetDate = ParseDate(cmd.PropertyValue)),
         new ComplexSet(nameof(PKM.EggMetDate), (pk, cmd) => pk.EggMetDate = ParseDate(cmd.PropertyValue)),
 
@@ -84,7 +83,7 @@ public static class BatchMods
 
         // Complicated
         new ComplexSet(nameof(PKM.EncryptionConstant), value => value.StartsWith(CONST_RAND), (pk, cmd) => pk.EncryptionConstant = CommonEdits.GetComplicatedEC(pk, option: cmd.PropertyValue[^1])),
-    };
+    ];
 
     private static void SetRandomTeraType(PKM pk)
     {

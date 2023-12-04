@@ -8,6 +8,7 @@ public readonly ref struct PokeDexEntry9Kitakami
     public const int SIZE = 0x20;
 
     private readonly Span<byte> Data;
+    // ReSharper disable once ConvertToPrimaryConstructor
     public PokeDexEntry9Kitakami(Span<byte> data) => Data = data;
 
     /*  Structure: 0x20 bytes

@@ -6,12 +6,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.SWSH"/> games.
 /// </summary>
-public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTR, IPersonalInfoTutorType, IPermitRecord
+public sealed class PersonalInfo8SWSH(byte[] Data) : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM,
+    IPersonalInfoTR, IPersonalInfoTutorType, IPermitRecord
 {
     public const int SIZE = 0xB0;
-    private readonly byte[] Data;
 
-    public PersonalInfo8SWSH(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
@@ -207,8 +206,8 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         }
     }
 
-    private static ReadOnlySpan<ushort> TM_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> TM_SWSH =>
+    [
         005, 025, 006, 007, 008, 009, 019, 042, 063, 416,
         345, 076, 669, 083, 086, 091, 103, 113, 115, 219,
         120, 156, 157, 168, 173, 182, 184, 196, 202, 204,
@@ -219,10 +218,10 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         433, 472, 478, 440, 474, 490, 496, 506, 512, 514,
         521, 523, 527, 534, 541, 555, 566, 577, 580, 581,
         604, 678, 595, 598, 206, 403, 684, 693, 707, 784,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> TR_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> TR_SWSH =>
+    [
         014, 034, 053, 056, 057, 058, 059, 067, 085, 087,
         089, 094, 097, 116, 118, 126, 127, 133, 141, 161,
         164, 179, 188, 191, 200, 473, 203, 214, 224, 226,
@@ -233,10 +232,10 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         430, 437, 438, 441, 442, 444, 446, 447, 482, 484,
         486, 492, 500, 502, 503, 526, 528, 529, 535, 542,
         583, 599, 605, 663, 667, 675, 676, 706, 710, 776,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> TypeTutor8 => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> TypeTutor8 =>
+    [
         (int)Move.GrassPledge,
         (int)Move.FirePledge,
         (int)Move.WaterPledge,
@@ -245,14 +244,14 @@ public sealed class PersonalInfo8SWSH : PersonalInfo, IPersonalAbility12H, IPers
         (int)Move.HydroCannon,
         (int)Move.DracoMeteor,
         (int)Move.SteelBeam,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> Tutors_SWSH => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Tutors_SWSH =>
+    [
         805, 807, 812, 804, 803, 813, 811, 810,
         815, 814, 797, 806, 800, 809, 799, 808,
         798, 802,
-    };
+    ];
 
     public bool IsRecordPermitted(int index) => GetIsLearnTR(index);
 

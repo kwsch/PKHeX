@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -102,14 +101,15 @@ public partial class SAV_Pokepuff : Form
 
     private byte[] GetPuffs()
     {
-        var puffs = new List<byte>();
+        var count = dgv.Rows.Count;
+        var puffs = new byte[count];
         for (int i = 0; i < dgv.Rows.Count; i++)
         {
             var puff = dgv.Rows[i].Cells[1].Value?.ToString();
             int index = (byte)Array.IndexOf(pfa, puff);
-            puffs.Add((byte)index);
+            puffs[i] = (byte)index;
         }
-        return puffs.ToArray();
+        return puffs;
     }
 
     private void B_Save_Click(object sender, EventArgs e)

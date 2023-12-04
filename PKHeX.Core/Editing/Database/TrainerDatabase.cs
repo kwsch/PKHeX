@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class TrainerDatabase
 {
-    private readonly Dictionary<GameVersion, List<ITrainerInfo>> Database = new();
+    private readonly Dictionary<GameVersion, List<ITrainerInfo>> Database = [];
 
     /// <summary>
     /// Fetches an appropriate trainer based on the requested <see cref="version"/>.
@@ -104,7 +104,7 @@ public sealed class TrainerDatabase
             ver = s.Version;
         if (!Database.TryGetValue(ver, out var list))
         {
-            Database.Add(ver, new List<ITrainerInfo> { trainer });
+            Database.Add(ver, [trainer]);
             return;
         }
 
@@ -127,7 +127,7 @@ public sealed class TrainerDatabase
     /// <remarks>A copy of the object will be made to prevent modifications, just in case.</remarks>
     public void RegisterCopy(ITrainerInfo info) => Register(new SimpleTrainerInfo(info));
 
-    private static ITrainerInfo GetTrainerReference(PKM pk)
+    private static SimpleTrainerInfo GetTrainerReference(PKM pk)
     {
         var result = new SimpleTrainerInfo((GameVersion)pk.Version)
         {

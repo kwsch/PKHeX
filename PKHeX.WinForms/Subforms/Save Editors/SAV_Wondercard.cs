@@ -29,8 +29,8 @@ public partial class SAV_Wondercard : Form
 
         pba = SAV.Generation switch
         {
-            4 => PopulateViewGiftsG4().ToArray(),
-            5 or 6 or 7 => PopulateViewGiftsG567().ToArray(),
+            4 => PopulateViewGiftsG4(),
+            5 or 6 or 7 => PopulateViewGiftsG567(),
             _ => throw new ArgumentOutOfRangeException(nameof(SAV.Generation), "Game not supported."),
         };
         foreach (var pb in pba)
@@ -72,7 +72,7 @@ public partial class SAV_Wondercard : Form
 
     private readonly MysteryGiftAlbum mga;
     private DataMysteryGift? mg;
-    private readonly IList<PictureBox> pba;
+    private readonly List<PictureBox> pba; // don't mutate this list
 
     // Repopulation Functions
     private void SetBackground(int index, Image bg)
@@ -277,7 +277,7 @@ public partial class SAV_Wondercard : Form
 
     private void B_Save_Click(object sender, EventArgs e)
     {
-        // Make sure all of the Received Flags are flipped!
+        // Store the list of set flag indexes back to the bitflag array.
         bool[] flags = new bool[mga.Flags.Length];
         foreach (var o in LB_Received.Items)
         {
@@ -592,7 +592,7 @@ public partial class SAV_Wondercard : Form
     // UI Generation
     private List<PictureBox> PopulateViewGiftsG4()
     {
-        List<PictureBox> pb = new();
+        List<PictureBox> pb = [];
         var spriter = SpriteUtil.Spriter;
 
         // Row 1
@@ -645,7 +645,7 @@ public partial class SAV_Wondercard : Form
 
     private List<PictureBox> PopulateViewGiftsG567()
     {
-        var pb = new List<PictureBox>();
+        List<PictureBox> pb = [];
 
         const int cellsPerRow = 6;
         int rows = (int)Math.Ceiling(mga.Gifts.Length / (decimal)cellsPerRow);

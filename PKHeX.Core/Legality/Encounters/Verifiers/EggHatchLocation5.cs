@@ -33,11 +33,11 @@ public static class EggHatchLocation5
         return (flags & mask) != 0;
     }
 
-    // Two game-specific locations we need to double check for.
+    // Two game-specific locations we need to double-check for.
     // White / White2 cannot access Black Gate (112)
     // Black / Black2 cannot access White Gate (113)
-    private static ReadOnlySpan<byte> LocationPermitted5 => new byte[]
-    {
+    private static ReadOnlySpan<byte> LocationPermitted5 =>
+    [
         00, 00, 00, 00, 15, 15, 15, 15, 15, 15,
         15, 15, 15, 15, 15, 15, 15, 15, 15, 15,
         15, 15, 15, 03, 15, 15, 15, 15, 15, 15,
@@ -54,5 +54,5 @@ public static class EggHatchLocation5
         12, 12, 12, 12, 12, 12, 12, 12, 00, 12,
         12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
         12, 12, 12, 12,
-    };
+    ];
 }

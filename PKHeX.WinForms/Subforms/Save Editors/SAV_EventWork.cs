@@ -11,7 +11,7 @@ namespace PKHeX.WinForms;
 public sealed partial class SAV_EventWork : Form
 {
     private readonly SAV7b Origin;
-    private readonly IEventVar<int> SAV;
+    private readonly EventWork7b SAV;
     private readonly SplitEventEditor<int> Editor;
 
     public SAV_EventWork(SAV7b sav)
@@ -277,7 +277,7 @@ public sealed partial class SAV_EventWork : Form
             return;
         }
 
-        RTB_Diff.Lines = diff7b.Summarize().ToArray();
+        RTB_Diff.Lines = [.. diff7b.Summarize()];
     }
 
     private static void Main_DragEnter(object? sender, DragEventArgs? e)

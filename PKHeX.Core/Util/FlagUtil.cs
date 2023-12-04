@@ -15,7 +15,7 @@ public static class FlagUtil
     /// <param name="bitIndex">Bit to read</param>
     public static bool GetFlag(ReadOnlySpan<byte> arr, int offset, int bitIndex)
     {
-        bitIndex &= 7; // ensure bit access is 0-7
+        bitIndex &= 7; // ensure the bit access is 0-7
         return ((arr[offset] >> bitIndex) & 1) != 0;
     }
 
@@ -28,7 +28,7 @@ public static class FlagUtil
     /// <param name="value">Bit flag value to set</param>
     public static void SetFlag(Span<byte> arr, int offset, int bitIndex, bool value)
     {
-        bitIndex &= 7; // ensure bit access is 0-7
+        bitIndex &= 7; // ensure the bit access is 0-7
         var current = arr[offset] & ~(1 << bitIndex);
         var newValue = current | ((value ? 1 : 0) << bitIndex);
         arr[offset] = (byte)newValue;

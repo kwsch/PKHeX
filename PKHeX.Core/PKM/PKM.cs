@@ -21,7 +21,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public abstract int SIZE_STORED { get; }
     public string Extension => GetType().Name.ToLowerInvariant();
     public abstract PersonalInfo PersonalInfo { get; }
-    public virtual ReadOnlySpan<ushort> ExtraBytes => Array.Empty<ushort>();
+    public virtual ReadOnlySpan<ushort> ExtraBytes => [];
 
     // Internal Attributes set on creation
     public readonly byte[] Data; // Raw Storage
@@ -42,7 +42,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     // Trash Bytes
     public abstract Span<byte> Nickname_Trash { get; }
     public abstract Span<byte> OT_Trash { get; }
-    public virtual Span<byte> HT_Trash => Span<byte>.Empty;
+    public virtual Span<byte> HT_Trash => [];
 
     protected abstract byte[] Encrypt();
     public abstract EntityContext Context { get; }
@@ -357,7 +357,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     public int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set => SetIVs(value);
     }
 
@@ -427,7 +427,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     public int[] Stats
     {
-        get => new[] { Stat_HPCurrent, Stat_ATK, Stat_DEF, Stat_SPE, Stat_SPA, Stat_SPD };
+        get => [Stat_HPCurrent, Stat_ATK, Stat_DEF, Stat_SPE, Stat_SPA, Stat_SPD];
         set
         {
             if (value.Length != 6)
@@ -439,7 +439,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     public ushort[] Moves
     {
-        get => new[] { Move1, Move2, Move3, Move4 };
+        get => [Move1, Move2, Move3, Move4];
         set => SetMoves(value);
     }
 
@@ -490,7 +490,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
 
     public ushort[] RelearnMoves
     {
-        get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
+        get => [RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4];
         set => SetRelearnMoves(value);
     }
 
@@ -658,7 +658,7 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public virtual void RefreshAbility(int n)
     {
         AbilityNumber = 1 << n;
-        IPersonalAbility pi = PersonalInfo;
+        var pi = PersonalInfo;
         if ((uint)n < pi.AbilityCount)
             Ability = pi.GetAbilityAtIndex(n);
     }

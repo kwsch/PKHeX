@@ -8,9 +8,9 @@ namespace PKHeX.Core;
 public static class EntityFormat
 {
     /// <summary>
-    /// Gets the generation of the Pokemon data.
+    /// Gets the generation of the Pokémon data.
     /// </summary>
-    /// <param name="data">Raw data representing a Pokemon.</param>
+    /// <param name="data">Raw data representing a Pokémon.</param>
     /// <returns>Enum indicating the generation of the PKM file, or <see cref="None"/> if the data is invalid.</returns>
     public static EntityFormatDetected GetFormat(ReadOnlySpan<byte> data)
     {
@@ -50,8 +50,8 @@ public static class EntityFormat
         if (ReadUInt16LittleEndian(data[0x04..]) != 0) // Bad Sanity?
             return false; // PGT with non-zero ItemID
 
-        // PGT files have the last 0x10 bytes 00; PK6/etc will have data here.
-        if (data[..^0x10].IndexOfAnyExcept<byte>(0) != -1)
+        // PGT files have the last 0x10 bytes 00; PK6/etc. will have data here.
+        if (data[..^0x10].ContainsAnyExcept<byte>(0))
             return true;
 
         if (ReadUInt16LittleEndian(data[0x06..]) == Checksums.Add16(data[8..SIZE_6STORED]))
@@ -67,7 +67,7 @@ public static class EntityFormat
         if (ReadUInt16LittleEndian(data[0x4..]) != 0)
             return FormatBK4; // BK4 non-zero sanity
         if (data[0x5F] < 0x10 && ReadUInt16LittleEndian(data[0x80..]) < 0x3333)
-            return FormatPK4; // gen3/4 version origin, not Transporter
+            return FormatPK4; // Gen3/4 version origin, not Transporter
         if (ReadUInt16LittleEndian(data[0x46..]) != 0)
             return FormatPK4; // PK4.Met_LocationExtended (unused in PK5)
         return FormatPK5;
@@ -106,7 +106,7 @@ public static class EntityFormat
     /// <summary>
     /// Creates an instance of <see cref="PKM"/> from the given data.
     /// </summary>
-    /// <param name="data">Raw data of the Pokemon file.</param>
+    /// <param name="data">Raw data of the Pokémon file.</param>
     /// <param name="prefer">Optional identifier for the preferred generation.  Usually the generation of the destination save file.</param>
     /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
     public static PKM? GetFromBytes(byte[] data, EntityContext prefer = EntityContext.None)
@@ -176,7 +176,7 @@ public static class EntityFormat
 
             if (!pk.Gen4) // can't have GroundTile
                 return FormatPK7;
-            if (et > GroundTileType.Max_Pt) // invalid gen4 GroundTile
+            if (et > GroundTileType.Max_Pt) // invalid Gen4 GroundTile
                 return FormatPK7;
         }
 

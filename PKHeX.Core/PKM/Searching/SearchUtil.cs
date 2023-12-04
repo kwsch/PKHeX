@@ -88,7 +88,7 @@ public static class SearchUtil
         _ => $"{pk.Species:0000}{pk.PID:X8}{GetIVString(pk)}{pk.Form:00}",
     };
 
-    // use a space so we don't merge single digit IVs and potentially get incorrect collisions
+    // Use a space as our separator -- don't merge single digit IVs and potentially get incorrect collisions
     private static string GetIVString(PKM pk) => $"{pk.IV_HP} {pk.IV_ATK} {pk.IV_DEF} {pk.IV_SPE} {pk.IV_SPA} {pk.IV_SPD}";
 
     public static string HashByPID(PKM pk) => pk switch
@@ -122,10 +122,8 @@ public static class SearchUtil
         foreach (var t in db)
         {
             var hash = method(t);
-            if (hs.Contains(hash))
+            if (!hs.Add(hash))
                 yield return t;
-            else
-                hs.Add(hash);
         }
     }
 }

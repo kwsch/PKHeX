@@ -54,7 +54,7 @@ public static class Xoroshiro128PlusReversal
         var test1 = check.Next();
         var test2 = check.Next();
 
-        // Double check our result.
+        // Double-check our result.
         if ((uint)test1 != out1)
             return false;
         if ((uint)test2 != out2)
@@ -109,7 +109,7 @@ public static class Xoroshiro128PlusReversal
         x0 = seed ^ XOROSHIRO_CONST;
         seed |= (((((out2 >> 21) - ((seed >> 24) ^ (x0 >> 48) ^ (x0 >> 32) ^ (x0 >> 11)) - assume1) >> 3) ^ (XOROSHIRO_CONST ^ (seed >> 48) ^ (x0 >> 24) ^ (x0 >> 51) ^ (x0 >> 35))) & 0xFF) << 40;
 
-        // Double check our result.
+        // Double-check our result.
         var check = new Xoroshiro128Plus(seed);
         var test1 = check.Next();
         _ = check.Next(); // gap

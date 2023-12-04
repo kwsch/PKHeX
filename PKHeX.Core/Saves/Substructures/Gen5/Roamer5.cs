@@ -9,12 +9,11 @@ namespace PKHeX.Core;
 /// </summary>
 /// <remarks>size 0x18</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class Roamer5
+public sealed class Roamer5(byte[] Data, int offset)
 {
     public const int SIZE = 0x14;
-    private readonly Memory<byte> Raw;
+    private readonly Memory<byte> Raw = Data.AsMemory(offset, SIZE);
 
-    public Roamer5(byte[] raw, int offset) => Raw = raw.AsMemory(offset, SIZE);
     private Span<byte> Data => Raw.Span;
 
     public ushort Location       { get => ReadUInt16LittleEndian(Data);         set => WriteUInt16LittleEndian(Data        , value); }
@@ -41,7 +40,7 @@ public sealed class Roamer5
     /// </summary>
     public int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set => SetIVs(value);
     }
 

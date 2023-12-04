@@ -17,8 +17,8 @@ public partial class SAV_PokedexGG : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (SAV7b)(Origin = sav).Clone();
-        CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9 };
-        CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9 };
+        CP = [CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9];
+        CL = [CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9];
 
         editing = true;
         // Clear Listbox and ComboBox
@@ -36,10 +36,10 @@ public partial class SAV_PokedexGG : Form
         foreach (var n in names)
             LB_Species.Items.Add(n);
 
-        RecordUsed = new[] { CHK_RMinHeight, CHK_RMaxHeight, CHK_RMinWeight, CHK_RMaxWeight };
-        RecordHeight = new[] { NUD_RHeightMin, NUD_RHeightMax, NUD_RWeightMinHeight, NUD_RWeightMaxHeight };
-        RecordWeight = new[] { NUD_RHeightMinWeight, NUD_RHeightMaxWeight, NUD_RWeightMin, NUD_RWeightMax };
-        RecordFlag = new[] { CHK_MinH, CHK_MaxH, CHK_MinW, CHK_MaxW };
+        RecordUsed = [CHK_RMinHeight, CHK_RMaxHeight, CHK_RMinWeight, CHK_RMaxWeight];
+        RecordHeight = [NUD_RHeightMin, NUD_RHeightMax, NUD_RWeightMinHeight, NUD_RWeightMaxHeight];
+        RecordWeight = [NUD_RHeightMinWeight, NUD_RHeightMaxWeight, NUD_RWeightMin, NUD_RWeightMax];
+        RecordFlag = [CHK_MinH, CHK_MaxH, CHK_MinW, CHK_MaxW];
 
         editing = false;
         LB_Species.SelectedIndex = 0;

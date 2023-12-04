@@ -262,16 +262,16 @@ public static class MethodFinder
                 return true;
             }
 
-            // check for anti-shiny against player TSV
+            // Check for anti-shiny against player TSV
             var tsv = (uint)(pk.TID16 ^ pk.SID16) >> 3;
             var psv = (top ^ bot) >> 3;
-            if (psv == tsv) // already shiny, wouldn't be anti-shiny
+            if (psv == tsv) // Already shiny, wouldn't be made anti-shiny
                 continue;
 
             var p2 = seed;
             var p1 = B;
             psv = ((p2 ^ p1) >> 19);
-            if (psv != tsv) // prior PID must be shiny
+            if (psv != tsv) // The prior PID must be shiny!
                 continue;
 
             do
@@ -561,7 +561,7 @@ public static class MethodFinder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool IsAzurillEdgeCaseM(PKM pk, uint nature, uint oldpid)
     {
-        // check for Azurill evolution edge case... 75% F-M is now 50% F-M; was this a F->M bend?
+        // check for Azurill evolution edge case... 75% F-M is now 50% F-M; was this a Female->Male bend?
         ushort species = pk.Species;
         if (species is not ((int)Species.Marill or (int)Species.Azumarill))
             return false;
@@ -743,7 +743,7 @@ public static class MethodFinder
         s = XDRNG.Prev(seed);
         if ((s >> 16) % 3 != 0)
         {
-            if ((s >> 16) % 100 < 10) // can't fail a munchlax/bonsly encounter check
+            if ((s >> 16) % 100 < 10) // can't fail a Munchlax/Bonsly encounter check
             {
                 // todo
             }
@@ -787,7 +787,7 @@ public static class MethodFinder
 
         // These evolved species cannot be encountered with cute charm.
         // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
-        // We can assume the re-mapped species's [gender ratio] is what was encountered.
+        // We can assume the re-mapped species' [gender ratio] is what was encountered.
         (int)Species.Wormadam  => ((int)Species.Burmy,   1),
         (int)Species.Mothim    => ((int)Species.Burmy,   0),
         (int)Species.Vespiquen => ((int)Species.Combee,  1),
@@ -795,7 +795,7 @@ public static class MethodFinder
         (int)Species.Froslass  => ((int)Species.Snorunt, 1),
         // Azurill & Marill/Azumarill collision
         // Changed gender ratio (25% M -> 50% M) needs special treatment.
-        // Double check the encounter species with IsCuteCharm4Valid afterwards.
+        // Double-check the encounter species with IsCuteCharm4Valid afterward.
         (int)Species.Marill or (int)Species.Azumarill when IsCuteCharmAzurillMale(pid) => ((int)Species.Azurill, 0),
 
         // Future evolutions

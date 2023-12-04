@@ -6,8 +6,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 7 Mystery Gift Template File (LGP/E)
 /// </summary>
-public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangNicknamedTemplate, IRestrictVersion
+public sealed class WB7(byte[] Data)
+    : DataMysteryGift(Data), ILangNick, IAwakened, INature, ILangNicknamedTemplate, IRestrictVersion
 {
+    public WB7() : this(new byte[SizeFull]) { }
+
     public const int Size = 0x108;
     public const int SizeFull = 0x310;
     private const int CardStart = SizeFull - Size;
@@ -15,10 +18,6 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
 
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7b;
-
-    public WB7() : this(new byte[SizeFull]) { }
-    public WB7(byte[] data) : base(data) { }
-
     public override GameVersion Version { get => GameVersion.GG; set { } }
 
     public byte RestrictVersion { get => Data[0]; set => Data[0] = value; }
@@ -242,7 +241,7 @@ public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangN
     // Meta Accessible Properties
     public override int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
         {
             if (value.Length != 6) return;

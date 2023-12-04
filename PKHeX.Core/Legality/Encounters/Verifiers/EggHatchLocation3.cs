@@ -32,15 +32,15 @@ public static class EggHatchLocation3
     }
 
     // 064 is an unused location for Meteor Falls
-    // 084 is Inside of a truck, no possible pokemon can be hatched there
+    // 084 is Inside a truck, no possible Pokémon can be obtained at the start of the game
     // 071 is Mirage island, cannot be obtained as the player is technically still on Route 130's map.
     // 075 is an unused location for Fiery Path
     // 077 is an unused location for Jagged Pass
 
     // 155 - 158 Sevii Isle 6-9 Unused
     // 171 - 173 Sevii Isle 22-24 Unused
-    private static ReadOnlySpan<byte> LocationPermitted3 => new byte[]
-    {
+    private static ReadOnlySpan<byte> LocationPermitted3 =>
+    [
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
@@ -63,5 +63,5 @@ public static class EggHatchLocation3
         4, 4, 4, 4, 4, 4, 6, 2, 2, 2, // 196 = fr/lg & e
         2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
         2, 2, 2,
-    };
+    ];
 }

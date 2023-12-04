@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core;
 
@@ -18,7 +17,7 @@ public static class FormChangeUtil
     public static bool ShouldIterateForms(ushort species, byte form, int generation, LearnOption option)
     {
         if (option.IsPast())
-            return FormChangeMoves.TryGetValue(species, out var func) && func((generation, form));
+            return IsFormChangeDifferentMoves(species, generation);
         return IterateAllForms(species);
     }
 
@@ -27,34 +26,36 @@ public static class FormChangeUtil
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.
     /// </summary>
-    private static ReadOnlySpan<ushort> FormChangeMovesRetain => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> FormChangeMovesRetain =>
+    [
         (int)Species.Deoxys,
         (int)Species.Giratina,
         (int)Species.Shaymin,
         (int)Species.Hoopa,
-    };
+    ];
 
     /// <summary>
     /// Species that can change between their forms and get access to form-specific moves.
     /// </summary>
-    private static readonly Dictionary<ushort, Func<(int Generation, int Form), bool>> FormChangeMoves = new()
+    private static bool IsFormChangeDifferentMoves(ushort species, int generation) => species switch
     {
-        {(int)Species.Deoxys,   g => g.Generation >= 6},
-        {(int)Species.Giratina, g => g.Generation >= 6},
-        {(int)Species.Shaymin,  g => g.Generation >= 6},
-        {(int)Species.Rotom,    g => g.Generation >= 6},
-        {(int)Species.Hoopa,    g => g.Generation >= 6},
-        {(int)Species.Tornadus, g => g.Generation >= 6},
-        {(int)Species.Thundurus,g => g.Generation >= 6},
-        {(int)Species.Landorus, g => g.Generation >= 6},
-        {(int)Species.Urshifu,  g => g.Generation >= 8},
-        {(int)Species.Enamorus, g => g.Generation >= 8},
+        (int)Species.Deoxys    => generation >= 6,
+        (int)Species.Giratina  => generation >= 6,
+        (int)Species.Shaymin   => generation >= 6,
+        (int)Species.Rotom     => generation >= 6,
+        (int)Species.Hoopa     => generation >= 6,
+        (int)Species.Tornadus  => generation >= 6,
+        (int)Species.Thundurus => generation >= 6,
+        (int)Species.Landorus  => generation >= 6,
+        (int)Species.Urshifu   => generation >= 8,
+        (int)Species.Enamorus  => generation >= 8,
         // Fuse
-        {(int)Species.Kyurem,   g => g.Generation >= 6},
-        {(int)Species.Necrozma, g => g.Generation >= 8},
-        {(int)Species.Calyrex,  g => g.Generation >= 8},
+        (int)Species.Kyurem    => generation >= 6,
+        (int)Species.Necrozma  => generation >= 8,
+        (int)Species.Calyrex   => generation >= 8,
 
-        {(int)Species.Pikachu,  g => g.Generation == 6},
+        (int)Species.Pikachu   => generation == 6,
+
+        _ => false,
     };
 }

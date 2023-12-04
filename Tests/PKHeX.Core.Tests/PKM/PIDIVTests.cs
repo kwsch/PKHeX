@@ -13,123 +13,121 @@ public class PIDIVTest
     public void PIDIVMatchingTest3()
     {
         // Method 1/2/4
-        var pk1 = new PK3 {PID = 0xE97E0000, IVs = new[] {17, 19, 20, 16, 13, 12}};
+        var pk1 = new PK3 {PID = 0xE97E0000, IVs = [17, 19, 20, 16, 13, 12]};
         var ga1 = MethodFinder.Analyze(pk1);
-        Assert.Equal(PIDType.Method_1, ga1.Type);
-        var pk2 = new PK3 {PID = 0x5271E97E, IVs = new[] {02, 18, 03, 12, 22, 24}};
-        Assert.Equal(PIDType.Method_2, MethodFinder.Analyze(pk2).Type);
-        var pk4 = new PK3 {PID = 0x31B05271, IVs = new[] {02, 18, 03, 05, 30, 11}};
-        Assert.Equal(PIDType.Method_4, MethodFinder.Analyze(pk4).Type);
+        ga1.Type.Should().Be(PIDType.Method_1);
+        var pk2 = new PK3 {PID = 0x5271E97E, IVs = [02, 18, 03, 12, 22, 24]};
+        MethodFinder.Analyze(pk2).Type.Should().Be(PIDType.Method_2);
+        var pk4 = new PK3 {PID = 0x31B05271, IVs = [02, 18, 03, 05, 30, 11]};
+        MethodFinder.Analyze(pk4).Type.Should().Be(PIDType.Method_4);
 
         var gk1 = new PK3();
         PIDGenerator.SetValuesFromSeed(gk1, ga1.Type, ga1.OriginSeed);
-        Assert.Equal(pk1.PID, gk1.PID);
-        Assert.True(gk1.IVs.SequenceEqual(pk1.IVs), "Unable to match generated PID to Method 1 IVs");
+        gk1.PID.Should().Be(pk1.PID);
+        gk1.IVs.SequenceEqual(pk1.IVs).Should().BeTrue();
     }
 
     [Fact]
     public void PIDIVMatchingTest3Unown()
     {
         // Method 1/2/4, reversed for Unown.
-        var pk1U = new PK3 {PID = 0x815549A2, IVs = new[] {02, 26, 30, 30, 11, 26}, Species = 201}; // Unown-C
-        Assert.Equal(PIDType.Method_1_Unown, MethodFinder.Analyze(pk1U).Type);
-        var pk2U = new PK3 {PID = 0x8A7B5190, IVs = new[] {14, 02, 21, 30, 29, 15}, Species = 201}; // Unown-M
-        Assert.Equal(PIDType.Method_2_Unown, MethodFinder.Analyze(pk2U).Type);
-        var pk4U = new PK3 {PID = 0x5FA80D70, IVs = new[] {02, 06, 03, 26, 04, 19}, Species = 201}; // Unown-A
-        Assert.Equal(PIDType.Method_4_Unown, MethodFinder.Analyze(pk4U).Type);
+        var pk1U = new PK3 {PID = 0x815549A2, IVs = [02, 26, 30, 30, 11, 26], Species = 201}; // Unown-C
+        MethodFinder.Analyze(pk1U).Type.Should().Be(PIDType.Method_1_Unown);
+        var pk2U = new PK3 {PID = 0x8A7B5190, IVs = [14, 02, 21, 30, 29, 15], Species = 201}; // Unown-M
+        MethodFinder.Analyze(pk2U).Type.Should().Be(PIDType.Method_2_Unown);
+        var pk4U = new PK3 {PID = 0x5FA80D70, IVs = [02, 06, 03, 26, 04, 19], Species = 201}; // Unown-A
+        MethodFinder.Analyze(pk4U).Type.Should().Be(PIDType.Method_4_Unown);
     }
 
     [Fact]
     public void PIDIVMatchingTest3Method3()
     {
-        // Method 3, reversed for Unown.
-        var m3R = new PK3 { PID = 0x3DD1BB49, IVs = new[] { 23, 12, 31, 09, 03, 03 }, Species = 001 }; // Regular
-        var (type3, _) = MethodFinder.Analyze(m3R);
-        Assert.Equal(PIDType.Method_3, type3);
-
-        var m3u = new PK3 { PID = 0xBB493DD1, IVs = new[] { 23, 12, 31, 09, 03, 03 }, Species = 201 }; // Unown
-        var (type3R, _) = MethodFinder.Analyze(m3u);
-        Assert.Equal(PIDType.Method_3_Unown, type3R);
+        // Method 3
+        var m3R = new PK3 { PID = 0x3DD1BB49, IVs = [23, 12, 31, 09, 03, 03], Species = 001 }; // Regular
+        MethodFinder.Analyze(m3R).Type.Should().Be(PIDType.Method_3);
+        // Reversed for Unown
+        var m3u = new PK3 { PID = 0xBB493DD1, IVs = [23, 12, 31, 09, 03, 03], Species = 201 }; // Unown
+        MethodFinder.Analyze(m3u).Type.Should().Be(PIDType.Method_3_Unown);
     }
 
     [Fact]
     public void PIDIVMatchingTest3MiscCXD()
     {
         // Colosseum / XD
-        var pk3 = new PK3 {PID = 0x0985A297, IVs = new[] {06, 01, 00, 07, 17, 07}};
+        var pk3 = new PK3 {PID = 0x0985A297, IVs = [06, 01, 00, 07, 17, 07]};
         var (type, seed) = MethodFinder.Analyze(pk3);
-        Assert.Equal(PIDType.CXD, type);
+        type.Should().Be(PIDType.CXD);
 
         var gk3 = new PK3();
         PIDGenerator.SetValuesFromSeed(gk3, PIDType.CXD, seed);
-        Assert.Equal(pk3.PID, gk3.PID);
-        Assert.True(pk3.IVs.SequenceEqual(gk3.IVs), "Unable to match generated IVs to CXD spread");
+        gk3.PID.Should().Be(pk3.PID);
+        gk3.IVs.SequenceEqual(pk3.IVs).Should().BeTrue();
     }
 
     [Fact]
     public void PIDIVMatchingTest3MiscChannel()
     {
         // Channel Jirachi
-        var pkC = new PK3 {PID = 0x264750D9, IVs = new[] {06, 31, 14, 27, 05, 27}, SID16 = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
+        var pkC = new PK3 {PID = 0x264750D9, IVs = [06, 31, 14, 27, 05, 27], SID16 = 45819, OT_Gender = 1, Version = (int)GameVersion.R};
         var (type, seed) = MethodFinder.Analyze(pkC);
-        Assert.Equal(PIDType.Channel,type);
+        type.Should().Be(PIDType.Channel);
 
         var gkC = new PK3();
         PIDGenerator.SetValuesFromSeed(gkC, PIDType.Channel, seed);
-        Assert.Equal(pkC.PID, gkC.PID);
-        Assert.True(pkC.IVs.SequenceEqual(gkC.IVs), "Unable to match generated IVs to Channel spread");
+        gkC.PID.Should().Be(pkC.PID);
+        gkC.IVs.SequenceEqual(pkC.IVs).Should().BeTrue();
     }
 
     [Fact]
     public void PIDIVMatchingTest3Event()
     {
         // Restricted: TID16/SID16 are zero.
-        var pkR = new PK3 {PID = 0x0000E97E, IVs = new[] {17, 19, 20, 16, 13, 12}};
-        Assert.Equal(PIDType.BACD_R, MethodFinder.Analyze(pkR).Type);
+        var pkR = new PK3 {PID = 0x0000E97E, IVs = [17, 19, 20, 16, 13, 12]};
+        MethodFinder.Analyze(pkR).Type.Should().Be(PIDType.BACD_R);
 
         // Restricted Antishiny: PID is incremented 2 times to lose shininess.
-        var pkRA = new PK3 {PID = 0x0000E980, IVs = new[] {17, 19, 20, 16, 13, 12}, TID16 = 01337, SID16 = 60486};
-        Assert.Equal(PIDType.BACD_R_A, MethodFinder.Analyze(pkRA).Type);
+        var pkRA = new PK3 {PID = 0x0000E980, IVs = [17, 19, 20, 16, 13, 12], TID16 = 01337, SID16 = 60486};
+        MethodFinder.Analyze(pkRA).Type.Should().Be(PIDType.BACD_R_A);
 
         // Unrestricted: TID16/SID16 are zero.
-        var pkU = new PK3 {PID = 0x67DBFC33, IVs = new[] {12, 25, 27, 30, 02, 31}};
-        Assert.Equal(PIDType.BACD_U, MethodFinder.Analyze(pkU).Type);
+        var pkU = new PK3 {PID = 0x67DBFC33, IVs = [12, 25, 27, 30, 02, 31]};
+        MethodFinder.Analyze(pkU).Type.Should().Be(PIDType.BACD_U);
 
         // Unrestricted Antishiny: PID is incremented 5 times to lose shininess.
-        var pkUA = new PK3 {PID = 0x67DBFC38, IVs = new[] {12, 25, 27, 30, 02, 31}, TID16 = 01337, SID16 = 40657};
-        Assert.Equal(PIDType.BACD_U_A, MethodFinder.Analyze(pkUA).Type);
+        var pkUA = new PK3 {PID = 0x67DBFC38, IVs = [12, 25, 27, 30, 02, 31], TID16 = 01337, SID16 = 40657};
+        MethodFinder.Analyze(pkUA).Type.Should().Be(PIDType.BACD_U_A);
 
         // berry fix zigzagoon: seed 0x0020
-        var pkRS = new PK3 {PID = 0x38CA4EA0, IVs = new[] {00, 20, 28, 11, 19, 00}, TID16 = 30317, SID16 = 00000};
+        var pkRS = new PK3 {PID = 0x38CA4EA0, IVs = [00, 20, 28, 11, 19, 00], TID16 = 30317, SID16 = 00000};
         var a_pkRS = MethodFinder.Analyze(pkRS);
-        Assert.Equal(PIDType.BACD_R_S, a_pkRS.Type);
-        Assert.True(a_pkRS.OriginSeed == 0x0020, "Unable to match PID to BACD-R shiny spread origin seed");
+        a_pkRS.Type.Should().Be(PIDType.BACD_R_S);
+        a_pkRS.OriginSeed.Should().Be(0x0020);
 
         var gkRS = new PK3 { TID16 = 30317, SID16 = 00000 };
         PIDGenerator.SetValuesFromSeed(gkRS, PIDType.BACD_R_S, a_pkRS.OriginSeed);
-        Assert.Equal(pkRS.PID, gkRS.PID);
-        Assert.True(pkRS.IVs.SequenceEqual(gkRS.IVs), "Unable to match generated IVs to BACD-R shiny spread");
+        gkRS.PID.Should().Be(pkRS.PID);
+        gkRS.IVs.SequenceEqual(pkRS.IVs).Should().BeTrue();
 
         // Unrestricted Antishiny nyx
-        var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = new[] {00, 15, 05, 04, 21, 05}, TID16 = 80, SID16 = 0};
+        var nyxUA = new PK3 {PID = 0xBD3DF676, IVs = [00, 15, 05, 04, 21, 05], TID16 = 80, SID16 = 0};
         var nyx_pkUA = MethodFinder.Analyze(nyxUA);
-        Assert.Equal(PIDType.BACD_U_AX, nyx_pkUA.Type);
+        nyx_pkUA.Type.Should().Be(PIDType.BACD_U_AX);
     }
 
     [Fact]
     public void PIDIVMatchingTest4()
     {
         // Cute Charm: Male Bulbasaur
-        var pkCC = new PK4 {PID = 0x00000037, IVs = new[] {16, 13, 12, 02, 18, 03}, Species = 1, Gender = 0};
-        Assert.Equal(PIDType.CuteCharm, MethodFinder.Analyze(pkCC).Type);
+        var pkCC = new PK4 {PID = 0x00000037, IVs = [16, 13, 12, 02, 18, 03], Species = 1, Gender = 0};
+        MethodFinder.Analyze(pkCC).Type.Should().Be(PIDType.CuteCharm);
 
         // Antishiny Mystery Gift: TID16/SID16 are zero. Original PID of 0x5271E97E is rerolled.
-        var pkASR = new PK4 {PID = 0x07578CB7, IVs = new[] {16, 13, 12, 02, 18, 03}};
-        Assert.Equal(PIDType.G4MGAntiShiny, MethodFinder.Analyze(pkASR).Type);
+        var pkASR = new PK4 {PID = 0x07578CB7, IVs = [16, 13, 12, 02, 18, 03]};
+        MethodFinder.Analyze(pkASR).Type.Should().Be(PIDType.G4MGAntiShiny);
 
         // Chain Shiny: TID16/SID16 are zero.
-        var pkCS = new PK4 {PID = 0xA9C1A9C6, IVs = new[] {22, 14, 23, 24, 11, 04}};
-        Assert.Equal(PIDType.ChainShiny, MethodFinder.Analyze(pkCS).Type);
+        var pkCS = new PK4 {PID = 0xA9C1A9C6, IVs = [22, 14, 23, 24, 11, 04]};
+        MethodFinder.Analyze(pkCS).Type.Should().Be(PIDType.ChainShiny);
     }
 
     [Fact]
@@ -137,7 +135,7 @@ public class PIDIVTest
     {
         // Shiny Mystery Gift PGF; IVs are unrelated.
         var pkS5 = new PK5 {PID = 0xBEEF0037, TID16 = 01337, SID16 = 48097};
-        Assert.Equal(PIDType.G5MGShiny, MethodFinder.Analyze(pkS5).Type);
+        MethodFinder.Analyze(pkS5).Type.Should().Be(PIDType.G5MGShiny);
     }
 
     [Fact]
@@ -145,11 +143,13 @@ public class PIDIVTest
     {
         // XD PokeSpots: Check all 3 Encounter Slots (examples are one for each location).
         var pkPS0 = new PK3 { PID = 0x7B2D9DA7 }; // Zubat (Cave)
-        Assert.True(MethodFinder.GetPokeSpotSeedFirst(pkPS0, 0).Type == PIDType.PokeSpot, "PokeSpot encounter info mismatch (Common)");
+        MethodFinder.GetPokeSpotSeedFirst(pkPS0, 0).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Common)
+
         var pkPS1 = new PK3 { PID = 0x3EE9AF66 }; // Gligar (Rock)
-        Assert.True(MethodFinder.GetPokeSpotSeedFirst(pkPS1, 1).Type == PIDType.PokeSpot, "PokeSpot encounter info mismatch (Uncommon)");
+        MethodFinder.GetPokeSpotSeedFirst(pkPS1, 1).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Uncommon)
+
         var pkPS2 = new PK3 { PID = 0x9B667F3C }; // Surskit (Oasis)
-        Assert.True(MethodFinder.GetPokeSpotSeedFirst(pkPS2, 2).Type == PIDType.PokeSpot, "PokeSpot encounter info mismatch (Rare)");
+        MethodFinder.GetPokeSpotSeedFirst(pkPS2, 2).Type.Should().Be(PIDType.PokeSpot); // PokeSpot encounter info mismatch (Rare)
     }
 
     [Theory]
@@ -166,8 +166,8 @@ public class PIDIVTest
     [Fact]
     public void PIDIVPokewalkerTest()
     {
-        var pkPW = new[]
-        {
+        PK4[] fakes =
+        [
             new PK4 { Species = 025, PID = 0x34000089, TID16 = 20790, SID16 = 39664, Gender = 0}, // Pikachu
             new PK4 { Species = 025, PID = 0x7DFFFF60, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
             new PK4 { Species = 025, PID = 0x7DFFFF65, TID16 = 30859, SID16 = 63760, Gender = 1}, // Pikachu
@@ -178,18 +178,18 @@ public class PIDIVTest
             new PK4 { Species = 025, PID = 0xC0000001, TID16 = 17398, SID16 = 31936, Gender = 1}, // Pikachu
             new PK4 { Species = 025, PID = 0x2FFFFF5E, TID16 = 27008, SID16 = 42726, Gender = 1}, // Pikachu
             new PK4 { Species = 025, PID = 0x59FFFFFE, TID16 = 51223, SID16 = 28044, Gender = 0}, // Pikachu
-        };
-        foreach (var pk in pkPW)
-            Assert.Equal(PIDType.Pokewalker, MethodFinder.Analyze(pk).Type);
+        ];
+        foreach (var pk in fakes)
+            MethodFinder.Analyze(pk).Type.Should().Be(PIDType.Pokewalker);
     }
 
     [Fact]
     public void PIDIVEncounterSlotTest()
     {
         // Modest Method 1
-        var pk = new PK3 {PID = 0x6937DA48, IVs = new[] {31, 31, 31, 31, 31, 31}};
+        var pk = new PK3 {PID = 0x6937DA48, IVs = [31, 31, 31, 31, 31, 31]};
         var pidiv = MethodFinder.Analyze(pk);
-        Assert.Equal(PIDType.Method_1, pidiv.Type);
+        pidiv.Type.Should().Be(PIDType.Method_1);
 
         // Test for Method J
         {
@@ -206,10 +206,14 @@ public class PIDIVTest
             noSync.Should().HaveCount(2);
 
             const SlotType type = SlotType.Grass;
-            var slots = new[] { 0, 1, 2, 3, 4, 5, 6, 7, 9 };
-            Assert.True(slots.All(s => results.Any(z => z.GetSlot(type) == s)), "Required slots not present.");
-            var slotsForType = results.Where(z => !z.LevelSlotModified).Select(z => z.GetSlot(type)).Distinct().OrderBy(z => z);
-            Assert.True(slotsForType.SequenceEqual(slots), "Unexpected slots present.");
+            Span<byte> slots = [ 0, 1, 2, 3, 4, 5, 6, 7, 9 ];
+            foreach (var slot in slots)
+                results.Any(z => z.GetSlot(type) == slot).Should().BeTrue("Required slot not present.");
+            var slotsForType = results
+                .Where(z => !z.LevelSlotModified).Select(z => z.GetSlot(type))
+                .Distinct();
+            foreach (var slot in slotsForType)
+                slots.Contains((byte)slot).Should().BeTrue();
         }
         // Test for Method H and K
         {
@@ -236,7 +240,7 @@ public class PIDIVTest
     [Fact]
     public void PIDIVMethod4IVs()
     {
-        var pk4 = new PK3 { PID = 0xFEE73213, IVs = new[] { 03, 29, 23, 30, 28, 24 } };
+        var pk4 = new PK3 { PID = 0xFEE73213, IVs = [03, 29, 23, 30, 28, 24] };
         var analysis = MethodFinder.Analyze(pk4);
         analysis.Type.Should().Be(PIDType.Method_4);
 

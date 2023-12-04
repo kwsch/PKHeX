@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,7 +22,7 @@ public sealed class FilteredGameDataSource
         }
         else
         {
-            Items = Array.Empty<ComboItem>();
+            Items = [];
         }
 
         var gamelist = GameUtil.GetVersionsWithinRange(sav, sav.Generation).ToList();
@@ -123,5 +122,5 @@ public sealed class FilteredGameDataSource
         return list;
     }
 
-    private static readonly string[] AbilityIndexSuffixes = { " (1)", " (2)", " (H)" };
+    private static readonly string[] AbilityIndexSuffixes = [" (1)", " (2)", " (H)"];
 }

@@ -4,8 +4,8 @@ namespace PKHeX.Core;
 
 public partial class MemoryContext8
 {
-    private static ReadOnlySpan<byte> Memory_NotSWSH => new byte[]
-    {
+    private static ReadOnlySpan<byte> Memory_NotSWSH =>
+    [
         10, // {0} got treats from {1}. {4} that {3}.
         17, // {0} battled at {1}’s side and beat {2}. {4} that {3}.
         20, // {0} surfed across the water, carrying {1} on its back. {4} that {3}.
@@ -40,15 +40,15 @@ public partial class MemoryContext8
         87, // {0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
         88, // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
         89, // When {0} was in a Box, it had a weird dream in which {1} was using the move {2}. {4} that {3}.
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> KeyItemMemoryArgsAnySpecies => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> KeyItemMemoryArgsAnySpecies =>
+    [
         628, 629, // DNA Splicers
         943, 944, 945, 946, // N-Lunarizer / N-Solarizer
         1278, // Rotom Catalog
         1590, 1591, // Reigns of Unity
-    };
+    ];
 
     private static bool IsKeyItemMemoryArgValid(ushort species, ushort arg) => species switch
     {
@@ -62,8 +62,8 @@ public partial class MemoryContext8
     /// <summary>
     /// Includes all purchase-able items except for TRs (separate span).
     /// </summary>
-    private static ReadOnlySpan<ushort> PurchaseItemsNoTR => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> PurchaseItemsNoTR =>
+    [
         0002, 0003, 0004, 0006, 0007, 0008, 0009, 0010, 0011, 0013,
         0014, 0015, 0017, 0018, 0019, 0020, 0021, 0022, 0023, 0024,
         0025, 0026, 0027, 0028, 0033, 0034, 0035, 0036, 0037, 0042,
@@ -79,30 +79,27 @@ public partial class MemoryContext8
         1237, 1238, 1239, 1240, 1241, 1242, 1243, 1244, 1245, 1246,
         1247, 1248, 1249, 1250, 1251, 1252, 1256, 1257, 1258, 1259,
         1260, 1261, 1262, 1263,
-    };
+    ];
 
-    private static ReadOnlySpan<byte> LotoPrizeSWSH => new byte[]
-    {
-        0001, 0033, 0050, 0051, 0053,
-    };
+    private static ReadOnlySpan<byte> LotoPrizeSWSH => [0001, 0033, 0050, 0051, 0053];
 
     // {met, values allowed}
-    private static ReadOnlySpan<byte> MultiLoc006 => new byte[] { 1, 2, 3 }; // town of Postwick: first town, at home, friend's house
-    private static ReadOnlySpan<byte> MultiLoc014 => new byte[] { 4, 6, 8, 9 }; // town of Wedgehurst: someone's house, boutique, simple town, Pokémon Center
-    private static ReadOnlySpan<byte> MultiLoc018 => new byte[] { 16, 44, 71 }; // Route 2: lab, tranquil road, lakeside road
-    private static ReadOnlySpan<byte> MultiLoc020 => new byte[] { 6, 9, 11, 20, 24, 30, 35 }; // city of Motostoke: boutique, Pokémon Center, hotel, Pokémon Gym, stylish café, hair salon, town with a mysterious air
-    private static ReadOnlySpan<byte> MultiLoc024 => new byte[] { 20, 73 };// Motostoke Stadium: Pokémon Gym, stadium
-    private static ReadOnlySpan<byte> MultiLoc034 => new byte[] { 9, 12 }; // town of Turffield: Pokémon Center, town with a mysterious air
-    private static ReadOnlySpan<byte> MultiLoc040 => new byte[] { 44, 74 }; // Route 5: tranquil road, Pokémon Nursery
-    private static ReadOnlySpan<byte> MultiLoc044 => new byte[] { 4, 9, 31, 33 }; // town of Hulbury: someone’s house, Pokémon Center, restaurant, seaside town
-    private static ReadOnlySpan<byte> MultiLoc056 => new byte[] { 4, 6, 9, 20, 24, 30, 35 }; // city of Hammerlocke: someone’s house, boutique, Pokémon Center, Pokémon Gym, stylish café, hair salon, town with a mysterious air
-    private static ReadOnlySpan<byte> MultiLoc070 => new byte[] { 4, 9, 76 }; // town of Stow-on-Side: someone’s house, Pokémon Center, town in the mountains
-    private static ReadOnlySpan<byte> MultiLoc078 => new byte[] { 4, 9, 12 }; // town of Ballonlea: someone’s house, Pokémon Center, town with a mysterious air
-    private static ReadOnlySpan<byte> MultiLoc096 => new byte[] { 4, 6, 9, 11, 30, 31, 37 }; // town of Circhester: someone’s house, boutique, Pokémon Center, hotel, hair salon, restaurant, snowcapped town
-    private static ReadOnlySpan<byte> MultiLoc102 => new byte[] { 9, 77 }; // town of Spikemuth: Pokémon Center, run-down town
-    private static ReadOnlySpan<byte> MultiLoc110 => new byte[] { 4, 6, 9, 11, 22, 24, 30 }; // city of Wyndon: someone’s house, boutique, Pokémon Center, hotel, large town, stylish café, hair salon
-    private static ReadOnlySpan<byte> MultiLoc206 => new byte[] { 04, 37 }; // town of Freezington: someone’s house, snowcapped town
-    private static ReadOnlySpan<byte> MultiLoc220 => new byte[] { 53, 65 };// at the Crown Shrine: on a snow-swept road, in a mystical place
+    private static ReadOnlySpan<byte> MultiLoc006 => [ 1, 2, 3 ]; // town of Postwick: first town, at home, friend's house
+    private static ReadOnlySpan<byte> MultiLoc014 => [ 4, 6, 8, 9 ]; // town of Wedgehurst: someone's house, boutique, simple town, Pokémon Center
+    private static ReadOnlySpan<byte> MultiLoc018 => [ 16, 44, 71 ]; // Route 2: lab, tranquil road, lakeside road
+    private static ReadOnlySpan<byte> MultiLoc020 => [ 6, 9, 11, 20, 24, 30, 35 ]; // city of Motostoke: boutique, Pokémon Center, hotel, Pokémon Gym, stylish café, hair salon, town with a mysterious air
+    private static ReadOnlySpan<byte> MultiLoc024 => [ 20, 73 ];// Motostoke Stadium: Pokémon Gym, stadium
+    private static ReadOnlySpan<byte> MultiLoc034 => [ 9, 12 ]; // town of Turffield: Pokémon Center, town with a mysterious air
+    private static ReadOnlySpan<byte> MultiLoc040 => [ 44, 74 ]; // Route 5: tranquil road, Pokémon Nursery
+    private static ReadOnlySpan<byte> MultiLoc044 => [ 4, 9, 31, 33 ]; // town of Hulbury: someone’s house, Pokémon Center, restaurant, seaside town
+    private static ReadOnlySpan<byte> MultiLoc056 => [ 4, 6, 9, 20, 24, 30, 35 ]; // city of Hammerlocke: someone’s house, boutique, Pokémon Center, Pokémon Gym, stylish café, hair salon, town with a mysterious air
+    private static ReadOnlySpan<byte> MultiLoc070 => [ 4, 9, 76 ]; // town of Stow-on-Side: someone’s house, Pokémon Center, town in the mountains
+    private static ReadOnlySpan<byte> MultiLoc078 => [ 4, 9, 12 ]; // town of Ballonlea: someone’s house, Pokémon Center, town with a mysterious air
+    private static ReadOnlySpan<byte> MultiLoc096 => [ 4, 6, 9, 11, 30, 31, 37 ]; // town of Circhester: someone’s house, boutique, Pokémon Center, hotel, hair salon, restaurant, snowcapped town
+    private static ReadOnlySpan<byte> MultiLoc102 => [ 9, 77 ]; // town of Spikemuth: Pokémon Center, run-down town
+    private static ReadOnlySpan<byte> MultiLoc110 => [ 4, 6, 9, 11, 22, 24, 30 ]; // city of Wyndon: someone’s house, boutique, Pokémon Center, hotel, large town, stylish café, hair salon
+    private static ReadOnlySpan<byte> MultiLoc206 => [ 04, 37 ]; // town of Freezington: someone’s house, snowcapped town
+    private static ReadOnlySpan<byte> MultiLoc220 => [ 53, 65 ];// at the Crown Shrine: on a snow-swept road, in a mystical place
 
     private static bool IsMultiGenLocArea(int location, out ReadOnlySpan<byte> expect)
     {
@@ -128,7 +125,7 @@ public partial class MemoryContext8
         110 => MultiLoc110,
         206 => MultiLoc206,
         220 => MultiLoc220,
-        _ => ReadOnlySpan<byte>.Empty,
+        _ => [],
     };
 
     private static bool IsSingleGenLocArea(int location, out byte expect)
@@ -144,8 +141,8 @@ public partial class MemoryContext8
     }
 
     // {met, value allowed}
-    private static ReadOnlySpan<byte> SingleGenLocAreas => new byte[]
-    {
+    private static ReadOnlySpan<byte> SingleGenLocAreas =>
+    [
         // {008, 41}, // Slumbering Weald, forest
         // {012, 44}, // Route 1, tranquil road
         // {016, 28}, // Wedgehurst Station, train station
@@ -253,12 +250,12 @@ public partial class MemoryContext8
         34, 28, 53, 00, 53, 72, 48, 53, 40, 53,
         00, 44, 40, 49, 72, 72, 40, 72, 65, 65,
         65, 65, 40, 28,
-    };
+    ];
 
     public static bool IsGeneralLocation8(byte location) => PossibleGeneralLocations8.BinarySearch(location) >= 0;
 
-    private static ReadOnlySpan<byte> PossibleGeneralLocations8 => new byte[]
-    {
+    private static ReadOnlySpan<byte> PossibleGeneralLocations8 =>
+    [
         01, 02, 03, 04, 06, 08, 09,
         11, 12, 16,
         20, 22, 24, 28, 29,
@@ -267,10 +264,10 @@ public partial class MemoryContext8
         50, 51, 53,
         65,
         71, 72, 73, 74, 75, 76, 77, 78, 79,
-    };
+    ];
 
-    private static ReadOnlySpan<byte> MemoryMinIntensity => new byte[]
-    {
+    private static ReadOnlySpan<byte> MemoryMinIntensity =>
+    [
         0, 1, 1, 1, 1, 2, 2, 2, 2, 2,
         2, 2, 2, 2, 3, 3, 3, 3, 4, 4,
         3, 3, 3, 3, 3, 3, 3, 4, 5, 5,
@@ -280,7 +277,7 @@ public partial class MemoryContext8
         3, 3, 3, 3, 3, 2, 3, 4, 4, 2, // same as Gen6
         2, 3, 3, 3, 3, 4, 5, 3, 3, 3,
         3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-    };
+    ];
 
 #if FALSE
     // [0,99]+1 >= CHANCE -> abort
@@ -288,8 +285,8 @@ public partial class MemoryContext8
     // 100% memories to fail 1% of the time
     // 1% memories to fail 100% of the time (!!!)
     // SW/SH v1.3 sub_71013B0C40
-    private static ReadOnlySpan<byte> MemoryRandChance => new byte[]
-    {
+    private static ReadOnlySpan<byte> MemoryRandChance =>
+    [
         000, 100, 100, 100, 100, 005, 005, 005, 005, 005,
         005, 005, 005, 005, 010, 020, 010, 001, 050, 030,
         005, 005, 020, 005, 005, 005, 001, 050, 100, 050,
@@ -299,15 +296,15 @@ public partial class MemoryContext8
         050, 020, 020, 020, 020, 010, 010, 050, 020, 005, // same as Gen6
         005, 010, 010, 020, 020, 010, 100, 010, 005, 010,
         010, 010, 010, 010, 010, 010, 010, 001, 001, 001,
-    };
+    ];
 #endif
 
     /// <summary>
     /// 24bits of flags allowing certain feelings for a given memory index.
     /// </summary>
     /// <remarks>Beware, there was an off-by-one error in the game that made Feeling 0 unobtainable, and thus the Happy feeling bit (rightmost) is omitted.</remarks>
-    private static ReadOnlySpan<int> MemoryFeelings => new[]
-    {
+    private static ReadOnlySpan<int> MemoryFeelings =>
+    [
         0x000000, 0x04CBFD, 0x004BFD, 0x04CBFD, 0x04CBFD, 0xFFFBFB, 0x84FFF9, 0x47FFFF, 0xBF7FFA, 0x7660B0,
         0x80BDF9, 0x88FB7A, 0x083F79, 0x0001FE, 0xCFEFFF, 0x84EBAF, 0xB368B0, 0x091F7E, 0x0320A0, 0x080DDD,
         0x081A7B, 0x404030, 0x0FFFFF, 0x9A08BC, 0x089A7B, 0x0032AA, 0x80FF7A, 0x0FFFFF, 0x0805FD, 0x098278,
@@ -317,10 +314,10 @@ public partial class MemoryContext8
         0xB770B0, 0x881F7A, 0x839F7A, 0x839F7A, 0x839F7A, 0x53897F, 0x41BB6F, 0x0C35FF, 0x8BBF7F, 0x8BBF7F, // same as Gen6
         0x90CC7E, 0x2FBF7F, 0x2FBF7F, 0xB797FF, 0x3FB7FF, 0xBFFFFF, 0xCC8BFF, 0xF69F7F, 0x37FDFF, 0x2B277F,
         0x8FFBFA, 0x8CDFFA, 0xFCE9EF, 0x8F6F7B, 0x826AB0, 0x866AB0, 0x8C69FE, 0x776AB0, 0x8CFB7A, 0x0CFEBA,
-    };
+    ];
 
-    public static ReadOnlySpan<byte> CaptureFlagsSW => new byte[]
-    {
+    public static ReadOnlySpan<byte> CaptureFlagsSW =>
+    [
         0xFE, 0x1F, 0x00, 0xFE, 0xFF, 0x3F, 0xFC, 0xFC, 0x1F, 0xE3, 0x0F, 0xFC, 0xCC, 0xFF, 0xFF, 0xFF,
         0xFF, 0xFF, 0x7F, 0x00, 0x18, 0xFE, 0xC7, 0x07, 0xBC, 0x44, 0xF9, 0xF0, 0x4F, 0xF0, 0xFF, 0x67,
         0x9B, 0xC1, 0xCF, 0x07, 0xFC, 0xC4, 0x67, 0xC8, 0x13, 0x67, 0xFE, 0x7F, 0x98, 0x3F, 0xFA, 0xFF,
@@ -329,10 +326,10 @@ public partial class MemoryContext8
         0xFF, 0x00, 0xF8, 0x00, 0xEC, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x24, 0x01, 0xC7, 0xFF, 0xFF, 0xFF,
         0x1F, 0xF7, 0xBF, 0xFF, 0x69, 0x24, 0xF9, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xCD,
         0x07,
-    };
+    ];
 
-    public static ReadOnlySpan<byte> CaptureFlagsSH => new byte[]
-    {
+    public static ReadOnlySpan<byte> CaptureFlagsSH =>
+    [
         0xFE, 0x1F, 0x00, 0xFE, 0xFF, 0x3F, 0xFC, 0xFC, 0x1F, 0xE3, 0x0F, 0xFC, 0xCC, 0xFF, 0xFF, 0xFF,
         0xFF, 0xFF, 0x7F, 0x00, 0x18, 0xFE, 0xC7, 0x07, 0xBC, 0x44, 0xF9, 0xF0, 0x4F, 0xF0, 0xFF, 0x67,
         0x9B, 0xC1, 0xCF, 0x07, 0xFC, 0xC4, 0x67, 0xC8, 0x13, 0x67, 0xFE, 0x7F, 0x98, 0x3F, 0xFA, 0xFF,
@@ -341,5 +338,5 @@ public partial class MemoryContext8
         0xFF, 0x00, 0xF8, 0x00, 0xEC, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x24, 0x01, 0xC7, 0xFF, 0xFF, 0xFF,
         0x1F, 0xF7, 0xBF, 0xFF, 0x69, 0x24, 0xF9, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xCE,
         0x07,
-    };
+    ];
 }

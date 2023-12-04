@@ -53,11 +53,11 @@ public partial class GenderToggle : UserControl, IGenderToggle
     }
 
     private static readonly Image[] GenderImages =
-    {
+    [
         gender_0,
         gender_1,
         gender_2,
-    };
+    ];
 
     private int SetGender(int value)
     {
@@ -111,7 +111,7 @@ public partial class GenderToggle : UserControl, IGenderToggle
 public interface IGenderToggle
 {
     /// <summary>
-    /// Enables use of the built in click action.
+    /// Enables use of the built-in click action.
     /// </summary>
     bool AllowClick { get; set; }
 
@@ -123,6 +123,6 @@ public interface IGenderToggle
     /// <summary>
     /// Manually flips the gender state if possible.
     /// </summary>
-    /// <returns>True if can toggle, and the resulting value.</returns>
+    /// <returns>True if the gender was toggled, and the current Gender value after the operation.</returns>
     (bool CanToggle, int Value) ToggleGender();
 }

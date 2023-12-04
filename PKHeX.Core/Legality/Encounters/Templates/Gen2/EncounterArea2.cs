@@ -10,9 +10,9 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
     public EncounterSlot2[] Slots { get; }
     public GameVersion Version { get; }
 
-    private static ReadOnlySpan<byte> BCC_SlotRates => new byte[] { 20, 20, 10, 10, 05, 05, 10, 10, 05, 05 };
-    private static ReadOnlySpan<byte> RatesGrass => new byte[] { 30, 30, 20, 10, 5, 4, 1 };
-    private static ReadOnlySpan<byte> RatesSurf => new byte[] { 60, 30, 10 };
+    private static ReadOnlySpan<byte> BCC_SlotRates => [ 20, 20, 10, 10, 05, 05, 10, 10, 05, 05 ];
+    private static ReadOnlySpan<byte> RatesGrass => [ 30, 30, 20, 10, 5, 4, 1 ];
+    private static ReadOnlySpan<byte> RatesSurf => [ 60, 30, 10 ];
 
     public readonly byte[]? Rates;
     internal readonly EncounterTime Time;

@@ -5,14 +5,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class RaidSevenStar9 : SaveBlock<SAV9SV>
+public sealed class RaidSevenStar9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
 {
-    public readonly int CountAll;
-
-    public RaidSevenStar9(SAV9SV sav, SCBlock block) : base(sav, block.Data)
-    {
-        CountAll = block.Data.Length / SevenStarRaidDetail.SIZE;
-    }
+    public readonly int CountAll = block.Data.Length / SevenStarRaidDetail.SIZE;
 
     public SevenStarRaidDetail GetRaid(int entry) => new(Data, 0x00 + (entry * SevenStarRaidDetail.SIZE));
 
@@ -25,18 +20,9 @@ public sealed class RaidSevenStar9 : SaveBlock<SAV9SV>
     }
 }
 
-public sealed class SevenStarRaidDetail
+public sealed class SevenStarRaidDetail(byte[] Data, int Offset)
 {
     public const int SIZE = 0x08;
-
-    private readonly byte[] Data;
-    private readonly int Offset;
-
-    public SevenStarRaidDetail(byte[] data, int ofs)
-    {
-        Data = data;
-        Offset = ofs;
-    }
 
     private const string General = nameof(General);
 

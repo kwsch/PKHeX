@@ -69,14 +69,11 @@ public sealed class RaidSpawnList9 : SaveBlock<SAV9SV>
     }
 }
 
-public sealed class TeraRaidDetail
+public sealed class TeraRaidDetail(Memory<byte> Data)
 {
     public const int SIZE = 0x20;
 
-    private readonly Memory<byte> Data;
     private Span<byte> Span => Data.Span;
-
-    public TeraRaidDetail(Memory<byte> data) => Data = data;
 
     private const string General = nameof(General);
     private const string Misc = nameof(Misc);

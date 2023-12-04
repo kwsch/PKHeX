@@ -59,7 +59,7 @@ public static class Overworld8RNG
         pk.PID = pid;
 
         // IVs
-        Span<int> ivs = stackalloc[] {UNSET, UNSET, UNSET, UNSET, UNSET, UNSET};
+        Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
         const int MAX = 31;
         for (int i = 0; i < flawless; i++)
         {
@@ -164,7 +164,7 @@ public static class Overworld8RNG
                 continue;
 
             var copy = xoro;
-            Span<int> ivs = stackalloc [] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+            Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
             const int MAX = 31;
             for (int i = 0; i < iv_count; i++)
             {

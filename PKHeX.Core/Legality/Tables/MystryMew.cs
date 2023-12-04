@@ -7,8 +7,8 @@ namespace PKHeX.Core;
 /// </summary>
 public static class MystryMew
 {
-    private static ReadOnlySpan<ushort> Seeds => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Seeds =>
+    [
         0x0652, 0x0932, 0x0C13, 0x0D43, 0x0EEE,
         0x1263, 0x13C9, 0x1614, 0x1C09, 0x1EA5,
         0x20BF, 0x2389, 0x2939, 0x302D, 0x306E,
@@ -31,7 +31,7 @@ public static class MystryMew
 
         0xEE7F, 0xEE9F, 0xEFC8, 0xF0E4, 0xFE4E,
         0xFE9D,
-    };
+    ];
 
   //private const int FramesPerMew = 5;
     private const int MewPerRestrictedSeed = 5;

@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using static PKHeX.Core.Ball;
 
 namespace PKHeX.Core;
@@ -15,7 +14,7 @@ internal static class BallUseLegality
     /// <returns>True if it is impossible to capture in a <see cref="Heavy"/> ball.</returns>
     public static bool IsAlolanCaptureNoHeavyBall(ushort species) => species is (int)Species.Beldum or (int)Species.TapuKoko or (int)Species.TapuLele or (int)Species.TapuBulu or (int)Species.TapuFini;
 
-    public static bool IsBallPermitted([ConstantExpected] ulong permit, int ball)
+    public static bool IsBallPermitted(ulong permit, int ball)
     {
         if ((uint)ball >= 64)
             return false;
@@ -84,7 +83,7 @@ internal static class BallUseLegality
 
     public const ulong DreamWorldBalls = WildPokeBalls5 | WildPokeEnhance5;
     private const ulong WildPokeballs6 = WildPokeBalls5; // Same as Gen5
-    private const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HGSS + Beast
+    private const ulong WildPokeballs7 = WildPokeBalls4_HGSS | WildPokeEnhance7; // Same as HG/SS + Beast
     private const ulong WildPokeballs8 = WildPokeballs7 | WildPokeEnhance8;
 
     private const ulong WildPokeballs7b = WildPokeRegular | (1 << (int)Premier);

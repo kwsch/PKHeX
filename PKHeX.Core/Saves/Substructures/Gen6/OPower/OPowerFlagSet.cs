@@ -3,20 +3,15 @@ using System.Diagnostics;
 
 namespace PKHeX.Core;
 
-internal sealed class OPowerFlagSet
+internal sealed class OPowerFlagSet(int Count, OPower6Type Identifier)
 {
-    public readonly OPower6Type Identifier;
-    public readonly int Count;
-    public int Offset { get; set; }
+    public readonly OPower6Type Identifier = Identifier;
+    public readonly int Count = Count;
+
     public int BaseCount => Math.Min(3, Count);
     public bool HasOPowerS => Count > 3;
     public bool HasOPowerMAX => Count == 5;
-
-    public OPowerFlagSet(int count, OPower6Type ident)
-    {
-        Identifier = ident;
-        Count = count;
-    }
+    public int Offset { get; init; }
 
     public int GetOPowerLevel(ReadOnlySpan<byte> data)
     {

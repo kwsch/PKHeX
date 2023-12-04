@@ -10,17 +10,16 @@ namespace PKHeX.Core;
 /// A full <see cref="WB7"/> is not stored in the <see cref="SAV7b"/> structure, as it is immediately converted to <see cref="PKM"/> upon receiving from server.
 /// The save file just stores a summary of the received data for the user to look back at.
 /// </remarks>
-public sealed class WR7 : DataMysteryGift
+public sealed class WR7(byte[] Data) : DataMysteryGift(Data)
 {
+    public WR7() : this(new byte[Size]) { }
+
     public const int Size = 0x140;
     public override int Generation => 7;
     public override EntityContext Context => EntityContext.Gen7;
     public override bool FatefulEncounter => true;
 
     public override GameVersion Version { get => GameVersion.GG; set { } }
-
-    public WR7() : this(new byte[Size]) { }
-    public WR7(byte[] data) : base(data) { }
 
     public override AbilityPermission Ability => AbilityPermission.Any12H; // undefined
 
@@ -66,7 +65,7 @@ public sealed class WR7 : DataMysteryGift
 
     public override bool GiftUsed { get; set; }
 
-    public override byte Level // are moves stored? mew has '1' but this could be move
+    public override byte Level // are moves stored? mew has '1' but this could be storing a Move ID...
     {
         get => Data[0x10E];
         set => Data[0x10E] = value;

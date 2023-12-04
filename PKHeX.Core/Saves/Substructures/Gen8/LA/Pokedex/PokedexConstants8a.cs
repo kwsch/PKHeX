@@ -9,13 +9,13 @@ public static class PokedexConstants8a
 {
     public const int MaxPokedexResearchPoints = 60000;
 
-    public static ReadOnlySpan<ushort> ResearchPointsForRank => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> ResearchPointsForRank =>
+    [
         0, 500, 1800, 3500, 6000, 8500, 11000, 15000, 20000, 30000, 60000,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> PokemonInfoIds => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> PokemonInfoIds =>
+    [
              0,    25,    26,    35,    36,    37,    38,    41,    42,    46,
             47,    54,    55,    63,    64,    65,    66,    67,    68,    72,
             73,    74,    75,    76,    77,    78,    81,    82,    92,    93,
@@ -48,10 +48,10 @@ public static class PokedexConstants8a
          16877, 18633, 18925, 20681, 20973, 22729, 23021, 24777, 25069, 26825,
          27117, 28873, 29165, 30921, 31213, 32969, 33261, 35017, 35309, 37065,
          39113, 41161, 43209, 45257, 47305, 49353, 51401, 53449, 55497,
-    };
+    ];
 
-    public static ReadOnlySpan<byte> PokemonInfoGenders => new byte[]
-    {
+    public static ReadOnlySpan<byte> PokemonInfoGenders =>
+    [
         0x04, 0x03, 0x03, 0x08, 0x08, 0x08, 0x08, 0x03, 0x03, 0x08,
         0x08, 0x08, 0x08, 0x08, 0x03, 0x03, 0x08, 0x08, 0x08, 0x08,
         0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x04, 0x04, 0x08, 0x08,
@@ -84,10 +84,10 @@ public static class PokedexConstants8a
         0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
         0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
         0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> FormStorageIndexIds => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> FormStorageIndexIds =>
+    [
             0,    25,    26,    35,    36,    37,    38,    41,    42,    46,    47,    54,    55,    63,    64,    65,
            66,    67,    68,    72,    73,    74,    75,    76,    77,    78,    81,    82,    92,    93,    94,    95,
           108,   111,   112,   113,   114,   122,   123,   125,   126,   129,   130,   133,   134,   135,   136,   137,
@@ -108,10 +108,10 @@ public static class PokedexConstants8a
          4645,  4646,  4809,  6345,  6623,  6637,  8393,  8671,  8685, 10441, 10719, 10733, 12489, 12781, 14537, 14829,
         16585, 16877, 18633, 18925, 20681, 20973, 22729, 23021, 24777, 25069, 26825, 27117, 28873, 29165, 30921, 31213,
         32969, 33261, 35017, 35309, 37065, 39113, 41161, 43209, 45257, 47305, 49353, 51401, 53449, 55497,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> FormStorageIndexValues => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> FormStorageIndexValues =>
+    [
           0,   1,   2,   3,   4,   5,   7,   9,  10,  11,  12,  13,  14,  18,  19,  20,
          21,  22,  23,  24,  25,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,
          40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,  52,  53,  54,  55,
@@ -132,7 +132,7 @@ public static class PokedexConstants8a
         286, 287, 304,  75, 243, 266,  76, 244, 267,  77, 245, 268,  78, 269,  79, 270,
          80, 271,  81, 272,  82, 273,  83, 274,  84, 275,  85, 276,  86, 277,  87, 278,
          88, 279,  89, 280,  90,  91,  92,  93,  94,  95,  96,  97,  98,  99,
-    };
+    ];
 
     public static readonly PokedexResearchTask8a[][] ResearchTasks = DeserializeResearchTasks(BinLinkerAccessor.Get(Util.GetBinaryResource("researchtask_la.pkl"), "la"u8));
 

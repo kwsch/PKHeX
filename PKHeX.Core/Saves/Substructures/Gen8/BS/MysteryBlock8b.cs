@@ -150,23 +150,14 @@ public sealed class MysteryBlock8b : SaveBlock<SAV8BS>
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class RecvData8b
+public sealed class RecvData8b(byte[] Data, int Offset = 0)
 {
     public const int SIZE = 0xE0;
     // private const int ItemCount = 7;
     // private const int DressIDCount = 7;
 
-    private readonly int Offset;
-    private readonly byte[] Data;
-
-    public RecvData8b(byte[] data, int offset = 0)
-    {
-        Data = data;
-        Offset = offset;
-    }
-
     public override string ToString() => $"{DeliveryID:0000} @ {LocalTimestamp:F}";
-    public void CopyTo(Span<byte> destination, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(destination[offset..]);
+    public void CopyTo(Span<byte> destination, int offset1) => Data.AsSpan(Offset, SIZE).CopyTo(destination[offset1..]);
     public void Clear() => Data.AsSpan(Offset, SIZE).Clear();
 
     public long Ticks { get => ReadInt64LittleEndian(Data.AsSpan(Offset)); set => WriteInt64LittleEndian(Data.AsSpan(Offset), value); }
@@ -234,22 +225,13 @@ public sealed class RecvData8b
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class OneDay8b
+public sealed class OneDay8b(byte[] Data, int Offset = 0)
 {
     public const int SIZE = 0x10;
 
-    private readonly int Offset;
-    private readonly byte[] Data;
-
-    public OneDay8b(byte[] data, int offset = 0)
-    {
-        Data = data;
-        Offset = offset;
-    }
-
     public override string ToString() => $"{DeliveryID:0000} @ {LocalTimestamp:F}";
 
-    public void CopyTo(Span<byte> destination, int offset) => Data.AsSpan(Offset, SIZE).CopyTo(destination[offset..]);
+    public void CopyTo(Span<byte> destination, int offset1) => Data.AsSpan(Offset, SIZE).CopyTo(destination[offset1..]);
     public void Clear() => Data.AsSpan(Offset, SIZE).Clear();
 
     public long Ticks { get => ReadInt64LittleEndian(Data.AsSpan(Offset)); set => WriteInt64LittleEndian(Data.AsSpan(Offset), value); }

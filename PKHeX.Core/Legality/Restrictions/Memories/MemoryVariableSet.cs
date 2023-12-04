@@ -1,3 +1,5 @@
+using static PKHeX.Core.LegalityCheckStrings;
+
 namespace PKHeX.Core;
 
 /// <summary>
@@ -12,8 +14,8 @@ public readonly record struct MemoryVariableSet(string Handler, byte MemoryID, u
 {
     public static MemoryVariableSet Read(ITrainerMemories pk, int handler) => handler switch
     {
-        0 => new MemoryVariableSet(LegalityCheckStrings.L_XOT, pk.OT_Memory, pk.OT_TextVar, pk.OT_Intensity, pk.OT_Feeling), // OT
-        1 => new MemoryVariableSet(LegalityCheckStrings.L_XHT, pk.HT_Memory, pk.HT_TextVar, pk.HT_Intensity, pk.HT_Feeling), // HT
-        _ => new MemoryVariableSet(LegalityCheckStrings.L_XOT, 0, 0, 0, 0),
+        0 => new(L_XOT, pk.OT_Memory, pk.OT_TextVar, pk.OT_Intensity, pk.OT_Feeling), // OT
+        1 => new(L_XHT, pk.HT_Memory, pk.HT_TextVar, pk.HT_Intensity, pk.HT_Feeling), // HT
+        _ => new(L_XOT, 0, 0, 0, 0),
     };
 }

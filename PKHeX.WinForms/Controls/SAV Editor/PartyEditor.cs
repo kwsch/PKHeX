@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -8,7 +8,7 @@ namespace PKHeX.WinForms.Controls;
 
 public partial class PartyEditor : UserControl, ISlotViewer<PictureBox>
 {
-    public IList<PictureBox> SlotPictureBoxes { get; private set; } = Array.Empty<PictureBox>();
+    public IList<PictureBox> SlotPictureBoxes { get; private set; } = [];
     public SaveFile SAV => M?.SE.SAV ?? throw new ArgumentNullException(nameof(SAV));
 
     public int BoxSlotCount { get; private set; }

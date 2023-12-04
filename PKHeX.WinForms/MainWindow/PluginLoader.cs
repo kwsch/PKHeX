@@ -13,7 +13,7 @@ public static class PluginLoader
     public static IEnumerable<T> LoadPlugins<T>(string pluginPath, PluginLoadSetting loadSetting) where T : class
     {
         var dllFileNames = !Directory.Exists(pluginPath)
-            ? Array.Empty<string>() // Don't immediately return, as we may be loading plugins merged with this .exe
+            ? [] // Don't immediately return, as we may be loading plugins merged with this .exe
             : Directory.EnumerateFiles(pluginPath, "*.dll", SearchOption.AllDirectories);
         var assemblies = GetAssemblies(dllFileNames, loadSetting);
         var pluginTypes = GetPluginsOfType<T>(assemblies);
@@ -79,7 +79,7 @@ public static class PluginLoader
             // Handle Costura merged plugin dll's; need to Attach for them to correctly retrieve their dependencies.
             var assemblyLoaderType = z.GetType("Costura.AssemblyLoader", false);
             var attachMethod = assemblyLoaderType?.GetMethod("Attach", BindingFlags.Static | BindingFlags.Public);
-            attachMethod?.Invoke(null, Array.Empty<object>());
+            attachMethod?.Invoke(null, []);
 
             var types = z.GetExportedTypes();
             return types.Where(type => IsTypePlugin(type, plugin));
@@ -90,14 +90,14 @@ public static class PluginLoader
             Debug.WriteLine($"Unable to load plugin [{plugin.FullName}]: {z.FullName}");
             Debug.WriteLine(ex.Message);
             if (ex is not ReflectionTypeLoadException rtle)
-                return Array.Empty<Type>();
+                return [];
 
             foreach (var le in rtle.LoaderExceptions)
             {
                 if (le is not null)
                     Debug.WriteLine(le.Message);
             }
-            return Array.Empty<Type>();
+            return [];
         }
     }
 

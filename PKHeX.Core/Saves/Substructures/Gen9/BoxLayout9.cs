@@ -2,13 +2,11 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class BoxLayout9 : SaveBlock<SAV9SV>, IBoxDetailName
+public sealed class BoxLayout9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data), IBoxDetailName
 {
     public const int BoxCount = 32;
 
     private const int StringMaxLength = SAV6.LongStringLength / 2;
-
-    public BoxLayout9(SAV9SV sav, SCBlock block) : base(sav, block.Data) { }
 
     private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
     private Span<byte> GetBoxNameSpan(int box) => Data.AsSpan(GetBoxNameOffset(box), SAV6.LongStringLength);

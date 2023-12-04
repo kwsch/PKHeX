@@ -7,8 +7,8 @@ namespace PKHeX.Core;
 /// </summary>
 internal static class MoveInfo8a
 {
-    public static ReadOnlySpan<byte> MovePP_LA => new byte[]
-    {
+    public static ReadOnlySpan<byte> MovePP_LA =>
+    [
         00, 35, 25, 10, 15, 20, 20, 10, 10, 10, 35, 30, 05, 10, 20, 30, 25, 35, 20, 15,
         20, 20, 25, 20, 30, 05, 10, 15, 15, 15, 25, 20, 05, 30, 15, 20, 20, 10, 05, 30,
         20, 20, 20, 30, 20, 40, 20, 15, 20, 20, 20, 30, 25, 10, 30, 25, 05, 15, 10, 05,
@@ -52,7 +52,7 @@ internal static class MoveInfo8a
         10, 10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05, 15,
         05, 10, 10, 10, 05, 05, 35, 15, 10, 10, 15, 05, 10, 10, 10, 05, 05, 10, 05, 15,
         10, 15, 10, 15, 15, 15, 05, 05, 05, 10, 10,
-    };
+    ];
 
     /// <summary>
     /// Bitflag indexes of moves that are not usable in game.
@@ -61,8 +61,8 @@ internal static class MoveInfo8a
     /// This is a bitflag array, where each bit represents a move. If the bit is set, the move is not usable in game.
     /// Instead of allocating a hashset, this is a more efficient method (no allocation) with O(1) lookup (faster than HashSet's O(1) lookup).
     /// </remarks>
-    public static ReadOnlySpan<byte> DummiedMoves => new byte[] // 673 moves (1346 bytes) => 104 bytes.
-    {
+    public static ReadOnlySpan<byte> DummiedMoves => // 673 moves (1346 bytes) => 104 bytes.
+    [
         0x7E, 0xBC, 0xFE, 0xFF, 0xBD, 0xEA, 0xCF, 0x72, 0x7F, 0x1F,
         0x0E, 0x1F, 0xAB, 0xFD, 0xEF, 0xBE, 0x7D, 0xD7, 0x35, 0xCF,
         0xD5, 0xEF, 0x5F, 0x0F, 0xEF, 0x9E, 0xFD, 0xFF, 0x7E, 0x5F,
@@ -74,5 +74,5 @@ internal static class MoveInfo8a
         0xFF, 0xFF, 0xFF, 0xB7, 0xFF, 0xFF, 0xFF, 0xFF, 0xBF, 0xFF,
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xEF,
         0xFF, 0xFF, 0xFF, 0x07,
-    };
+    ];
 }

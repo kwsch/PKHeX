@@ -8,7 +8,7 @@ public enum SlotOrigin : byte
     /// <summary>
     /// Slot data originated from the Party, or follows "party format" data rules.
     /// </summary>
-    /// <remarks>Some games do not permit forms to exist outside of the party.</remarks>
+    /// <remarks>Some games do not permit forms to exist outside the party.</remarks>
     Party = 0,
 
     /// <summary>

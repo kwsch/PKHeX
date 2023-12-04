@@ -30,7 +30,7 @@ public sealed partial class ErrorWindow : Form
     }
 
     /// <summary>
-    /// Gets or sets whether or not the "Continue" button is visible.
+    /// Gets or sets the visibility of the "Continue" button.
     /// </summary>
     /// <remarks>For UI exceptions, continuing could be safe.
     /// For application exceptions, continuing is not possible, so the button should not be shown.</remarks>

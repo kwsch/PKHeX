@@ -11,7 +11,7 @@ public sealed class SaveBlockAccessor7SM : ISaveBlockAccessor<BlockInfo7>, ISave
     private const int boSM = BlockMetadataOffset;
 
     private static readonly BlockInfo7[] BlockInfoSM =
-    {
+    [
         new(boSM, 00, 0x00000, 0x00DE0), // 00 MyItem
         new(boSM, 01, 0x00E00, 0x0007C), // 01 Situation
         new(boSM, 02, 0x01000, 0x00014), // 02 RandomGroup
@@ -49,7 +49,7 @@ public sealed class SaveBlockAccessor7SM : ISaveBlockAccessor<BlockInfo7>, ISave
         new(boSM, 34, 0x6B600, 0x00120), // 34 WeatherSave
         new(boSM, 35, 0x6B800, 0x001C8), // 35 QRReaderSaveData
         new(boSM, 36, 0x6BA00, 0x00200), // 36 TurtleSalmonSave
-    };
+    ];
 
     public SaveBlockAccessor7SM(SAV7SM sav)
     {

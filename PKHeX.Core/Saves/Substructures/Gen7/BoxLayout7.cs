@@ -45,7 +45,7 @@ public sealed class BoxLayout7 : SaveBlock<SAV7>, IBoxDetailName, IBoxDetailWall
 
     public byte[] BoxFlags
     {
-        get => new[] { Data[Offset + PCFlags] }; // bits for wallpaper unlocks
+        get => [ Data[Offset + PCFlags] ]; // bits for wallpaper unlocks
         set
         {
             if (value.Length != 1)

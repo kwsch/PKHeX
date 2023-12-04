@@ -15,7 +15,7 @@ public readonly record struct Moveset(ushort Move1, ushort Move2 = 0, ushort Mov
     public bool Contains(ushort move) => move == Move1 || move == Move2 || move == Move3 || move == Move4;
     public bool AnyAbove(int max) => Move1 > max || Move2 > max || Move3 > max || Move4 > max;
 
-    public ushort[] ToArray() => new[] { Move1, Move2, Move3, Move4 };
+    public ushort[] ToArray() => [Move1, Move2, Move3, Move4];
 
     public void CopyTo(Span<ushort> moves)
     {

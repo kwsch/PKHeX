@@ -20,7 +20,7 @@ public static class ItemRestrictions
     }
 
     /// <summary>
-    /// Checks if an <see cref="item"/> is available to be held in <see cref="context"/>.
+    /// Checks if an item is available to be held in <see cref="context"/>.
     /// </summary>
     /// <param name="item">Held Item ID</param>
     /// <param name="context">Entity context to check</param>
@@ -45,7 +45,7 @@ public static class ItemRestrictions
         EntityContext.Gen9 => ReleasedHeldItems_9,
 
         EntityContext.Gen8b => ReleasedHeldItems_8b,
-        _ => Array.Empty<bool>(), // lgp/e, pla, etc
+        _ => [], // lgp/e, pla, etc
     };
 
     private static readonly bool[] ReleasedHeldItems_2 = GetPermitList(MaxItemID_2, HeldItems_GSC);

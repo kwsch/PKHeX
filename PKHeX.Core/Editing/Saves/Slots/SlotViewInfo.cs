@@ -6,21 +6,16 @@ namespace PKHeX.Core;
 /// Tuple containing data for a <see cref="Slot"/> and the originating <see cref="View"/>
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public sealed class SlotViewInfo<T> : IEquatable<T> where T : class
+public sealed class SlotViewInfo<T>(ISlotInfo Slot, ISlotViewer<T> View) : IEquatable<T>
+    where T : class
 {
-    public readonly ISlotInfo Slot;
-    public readonly ISlotViewer<T> View;
+    public readonly ISlotInfo Slot = Slot;
+    public readonly ISlotViewer<T> View = View;
 
     public PKM ReadCurrent() => Slot.Read(View.SAV);
     public bool CanWriteTo() => Slot.CanWriteTo(View.SAV);
     public bool IsEmpty() => Slot.IsEmpty(View.SAV);
     public WriteBlockedMessage CanWriteTo(PKM pk) => Slot.CanWriteTo(View.SAV, pk);
-
-    public SlotViewInfo(ISlotInfo slot, ISlotViewer<T> view)
-    {
-        Slot = slot;
-        View = view;
-    }
 
     private bool Equals(SlotViewInfo<T> other)
     {

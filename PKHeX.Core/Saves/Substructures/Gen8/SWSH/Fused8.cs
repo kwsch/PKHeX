@@ -5,10 +5,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Storage for the species that was fused into <see cref="Species.Kyurem"/> and <see cref="Species.Necrozma"/>.
 /// </summary>
-public sealed class Fused8 : SaveBlock<SAV8SWSH>
+public sealed class Fused8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8SWSH>(sav, block.Data)
 {
-    public Fused8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
-
     public static int GetFusedSlotOffset(int slot)
     {
         if ((uint)slot >= 3)

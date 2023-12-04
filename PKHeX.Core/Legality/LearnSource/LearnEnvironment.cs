@@ -56,6 +56,6 @@ public static class LearnEnvironmentExtensions
         PLA => history.Gen8a,
         BDSP => history.Gen8b,
         SV => history.Gen9,
-        _ => ReadOnlySpan<EvoCriteria>.Empty,
+        _ => [],
     };
 }

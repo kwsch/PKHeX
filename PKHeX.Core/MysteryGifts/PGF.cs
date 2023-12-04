@@ -6,16 +6,16 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 5 Mystery Gift Template File
 /// </summary>
-public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature, IRestrictVersion
+public sealed class PGF(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, ILangNick,
+    IContestStats, INature, IRestrictVersion
 {
+    public PGF() : this(new byte[Size]) { }
+
     public const int Size = 0xCC;
     public const int SizeFull = 0x2D0;
     public override int Generation => 5;
     public override EntityContext Context => EntityContext.Gen5;
     public override bool FatefulEncounter => true;
-
-    public PGF() : this(new byte[Size]) { }
-    public PGF(byte[] data) : base(data) { }
 
     public override uint ID32 { get => ReadUInt32LittleEndian(Data.AsSpan(0x00)); set => WriteUInt32LittleEndian(Data.AsSpan(0x00), value); }
     public override ushort TID16 { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), value); }
@@ -149,10 +149,11 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     // Meta Accessible Properties
     public override int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
         {
-            if (value.Length != 6) return;
+            if (value.Length != 6)
+                return;
             IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
             IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
         }
@@ -289,7 +290,7 @@ public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
             return OriginGame;
         if (tr.Generation <= 5)
             return tr.Game;
-        // Gen6+, give random gen5 game
+        // Gen6+, give random Gen5 game
         var bias = rnd.Next(4);
         for (int i = 0; i < 4; i++)
         {

@@ -38,11 +38,11 @@ internal static class EvolutionRestrictions
     private const ushort NONE = 0;
     private const ushort EEVEE = ushort.MaxValue;
 
-    private static ReadOnlySpan<ushort> EeveeFairyMoves => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> EeveeFairyMoves =>
+    [
         (int)Charm,
         (int)BabyDollEyes,
-    };
+    ];
 
     /// <summary>
     /// Checks if the <see cref="pk"/> is correctly evolved, assuming it had a known move requirement evolution in its evolution chain.
@@ -98,8 +98,8 @@ internal static class EvolutionRestrictions
 
     private static bool IsMoveSlotAvailable(ReadOnlySpan<MoveResult> moves)
     {
-        // If the pokemon does not currently have the move, it could have been an egg move that was forgotten.
-        // This requires the pokemon to not have 4 other moves identified as egg moves or inherited level up moves.
+        // If the Pokémon does not currently have the move, it could have been an egg move that was forgotten.
+        // This requires the Pokémon to not have 4 other moves identified as egg moves or inherited level up moves.
         // If any move is not an egg source, then a slot could have been forgotten.
         foreach (var move in moves)
         {

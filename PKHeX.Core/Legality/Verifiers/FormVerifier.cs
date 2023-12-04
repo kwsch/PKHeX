@@ -87,8 +87,8 @@ public sealed class FormVerifier : Verifier
                 var arceus = FormItem.GetFormArceus(pk.HeldItem, pk.Format);
                 return arceus != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
             case Keldeo when enc.Generation != 5 || pk.Format >= 8:
-                // can mismatch in gen5 via BW tutor and transfer up
-                // can mismatch in gen8+ as the form activates in battle when knowing the move; outside of battle can be either state.
+                // can mismatch in Gen5 via B/W tutor and transfer up
+                // can mismatch in Gen8+ as the form activates in battle when knowing the move; outside of battle can be either state.
                 // Generation 8 patched out the mismatch; always forced to match moves.
                 bool hasSword = pk.HasMove((int) Move.SecretSword);
                 bool isSword = pk.Form == 1;
@@ -101,7 +101,7 @@ public sealed class FormVerifier : Verifier
             case Greninja:
                 if (form > 1) // Ash Battle Bond active
                     return GetInvalid(LFormBattle);
-                if (form != 0 && enc is not MysteryGift) // Forms are not breedable, MysteryGift already checked
+                if (form != 0 && enc is not MysteryGift) // Form can not be bred for, MysteryGift already checked
                     return GetInvalid(string.Format(LFormInvalidRange, 0, form));
                 break;
 

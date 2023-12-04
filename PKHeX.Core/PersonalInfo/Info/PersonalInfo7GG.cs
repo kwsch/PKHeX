@@ -6,12 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.GG"/> games.
 /// </summary>
-public sealed class PersonalInfo7GG : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM
+public sealed class PersonalInfo7GG(byte[] Data) : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM
 {
     public const int SIZE = 0x54;
-    private readonly byte[] Data;
 
-    public PersonalInfo7GG(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }

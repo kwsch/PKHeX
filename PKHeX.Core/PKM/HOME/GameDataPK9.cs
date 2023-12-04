@@ -99,8 +99,8 @@ public sealed class GameDataPK9 : HomeOptional1, IGameDataSide<PK9>, IScaledSize
     }
 
     public bool GetMoveRecordFlagAny() => GetMoveRecordFlagAnyBase() || GetMoveRecordFlagAnyDLC();
-    private bool GetMoveRecordFlagAnyBase() => RecordFlagsBase.IndexOfAnyExcept<byte>(0) >= 0;
-    private bool GetMoveRecordFlagAnyDLC() => RecordFlagsDLC.IndexOfAnyExcept<byte>(0) >= 0;
+    private bool GetMoveRecordFlagAnyBase() => RecordFlagsBase.ContainsAnyExcept<byte>(0);
+    private bool GetMoveRecordFlagAnyDLC() => RecordFlagsDLC.ContainsAnyExcept<byte>(0);
 
     public void ClearMoveRecordFlags()
     {

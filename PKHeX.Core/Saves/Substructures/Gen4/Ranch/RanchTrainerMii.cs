@@ -3,12 +3,10 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class RanchTrainerMii
+public sealed class RanchTrainerMii(byte[] Data)
 {
     public const int SIZE = 0x2C;
-    public readonly byte[] Data;
-
-    public RanchTrainerMii(byte[] data) => Data = data;
+    public readonly byte[] Data = Data;
 
     public uint MiiId    { get => ReadUInt32BigEndian(Data.AsSpan(0x00)); set => WriteUInt32BigEndian(Data.AsSpan(0x00), value); }
     public uint SystemId { get => ReadUInt32BigEndian(Data.AsSpan(0x04)); set => WriteUInt32BigEndian(Data.AsSpan(0x04), value); }

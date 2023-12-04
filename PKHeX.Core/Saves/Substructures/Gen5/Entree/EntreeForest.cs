@@ -4,12 +4,12 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generation 5 Entree Forest
+/// Generation 5 Entrée Forest
 /// </summary>
 public sealed class EntreeForest
 {
     /// <summary>
-    /// Areas 1 thru 8 have 20 slots.
+    /// Areas 1 through 8 have 20 slots.
     /// </summary>
     private const byte Count18 = 20;
 
@@ -21,7 +21,7 @@ public sealed class EntreeForest
     private const int TotalSlots = Count18 + (3 * 8 * Count18) + (3 * Count9); // 530
 
     /// <summary>
-    /// Areas 3 thru 8 can be unlocked (set a value 0 to 6).
+    /// Areas 3 through 8 can be unlocked (set a value 0 to 6).
     /// </summary>
     private const byte MaxUnlock38Areas = 6;
 

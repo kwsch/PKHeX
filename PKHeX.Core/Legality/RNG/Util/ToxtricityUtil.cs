@@ -8,9 +8,9 @@ namespace PKHeX.Core;
 public static class ToxtricityUtil
 {
     /// <summary> Amped Nature Table </summary>
-    private static ReadOnlySpan<byte> Nature0 => new byte[] { 3, 4, 2, 8, 9, 19, 22, 11, 13, 14, 0, 6, 24 };
+    private static ReadOnlySpan<byte> Nature0 => [ 3, 4, 2, 8, 9, 19, 22, 11, 13, 14, 0, 6, 24 ];
     /// <summary> Low Key Nature Table </summary>
-    private static ReadOnlySpan<byte> Nature1 => new byte[] { 1, 5, 7, 10, 12, 15, 16, 17, 18, 20, 21, 23 };
+    private static ReadOnlySpan<byte> Nature1 => [ 1, 5, 7, 10, 12, 15, 16, 17, 18, 20, 21, 23 ];
 
     /// <summary>
     /// Gets a random nature for Toxel -> Toxtricity.

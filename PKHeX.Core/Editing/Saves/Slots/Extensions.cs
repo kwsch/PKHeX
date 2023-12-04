@@ -29,7 +29,7 @@ public static partial class Extensions
         return arr;
     }
 
-    private static readonly List<SlotInfoMisc> None = new();
+    private static readonly List<SlotInfoMisc> None = [];
 
     public static List<SlotInfoMisc> GetExtraSlots(this SaveFile sav, bool all = false) => sav switch
     {
@@ -50,20 +50,20 @@ public static partial class Extensions
 
     private static List<SlotInfoMisc> GetExtraSlots2(SAV2 sav)
     {
-        return new List<SlotInfoMisc>
-        {
+        return
+        [
             new(sav.Data.AsMemory(sav.GetDaycareSlotOffset(0, 2)), 0) {Type = StorageSlotType.Daycare }, // egg
-        };
+        ];
     }
 
     private static List<SlotInfoMisc> GetExtraSlots3(SAV3 sav)
     {
         if (sav is not SAV3FRLG)
             return None;
-        return new List<SlotInfoMisc>
-        {
+        return
+        [
             new(sav.Large.AsMemory(0x3C98), 0) {Type = StorageSlotType.Daycare},
-        };
+        ];
     }
 
     private static List<SlotInfoMisc> GetExtraSlots4(SAV4 sav)
@@ -99,8 +99,8 @@ public static partial class Extensions
 
     private static List<SlotInfoMisc> GetExtraSlots6XY(SAV6XY sav)
     {
-        return new List<SlotInfoMisc>
-        {
+        return
+        [
             new(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
             new(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
             new(sav.Data, 0, sav.SUBE.Give) {Type = StorageSlotType.Misc}, // Old Man
@@ -111,13 +111,13 @@ public static partial class Extensions
             new(sav.Data, 3, sav.GetBattleBoxSlot(3)) {Type = StorageSlotType.BattleBox},
             new(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
             new(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
-        };
+        ];
     }
 
     private static List<SlotInfoMisc> GetExtraSlots6AO(SAV6AO sav)
     {
-        return new List<SlotInfoMisc>
-        {
+        return
+        [
             new(sav.Data, 0, SAV6AO.GTS) {Type = StorageSlotType.GTS},
             new(sav.Data, 0, SAV6AO.Fused) {Type = StorageSlotType.Fused},
             new(sav.Data, 0, sav.SUBE.Give) {Type = StorageSlotType.Misc},
@@ -128,7 +128,7 @@ public static partial class Extensions
             new(sav.Data, 3, sav.GetBattleBoxSlot(3)) {Type = StorageSlotType.BattleBox},
             new(sav.Data, 4, sav.GetBattleBoxSlot(4)) {Type = StorageSlotType.BattleBox},
             new(sav.Data, 5, sav.GetBattleBoxSlot(5)) {Type = StorageSlotType.BattleBox},
-        };
+        ];
     }
 
     private static List<SlotInfoMisc> GetExtraSlots7(SAV7 sav, bool all)
@@ -164,10 +164,10 @@ public static partial class Extensions
 
     private static List<SlotInfoMisc> GetExtraSlots7b(SAV7b sav)
     {
-        return new List<SlotInfoMisc>
-        {
+        return
+        [
             new(sav.Data, 0, sav.Blocks.GetBlockOffset(BelugaBlockIndex.Daycare) + 8, true) {Type = StorageSlotType.Daycare},
-        };
+        ];
     }
 
     private static List<SlotInfoMisc> GetExtraSlots8(ISaveBlock8Main sav)
@@ -198,8 +198,8 @@ public static partial class Extensions
 
     private static List<SlotInfoMisc> GetExtraSlots8b(SAV8BS sav)
     {
-        return new List<SlotInfoMisc>
-        {
+        return
+        [
             new(sav.Data, 0, sav.UgSaveData.GetSlotOffset(0), true) { Type = StorageSlotType.Misc },
             new(sav.Data, 1, sav.UgSaveData.GetSlotOffset(1), true) { Type = StorageSlotType.Misc },
             new(sav.Data, 2, sav.UgSaveData.GetSlotOffset(2), true) { Type = StorageSlotType.Misc },
@@ -209,12 +209,12 @@ public static partial class Extensions
             new(sav.Data, 6, sav.UgSaveData.GetSlotOffset(6), true) { Type = StorageSlotType.Misc },
             new(sav.Data, 7, sav.UgSaveData.GetSlotOffset(7), true) { Type = StorageSlotType.Misc },
             new(sav.Data, 8, sav.UgSaveData.GetSlotOffset(8), true) { Type = StorageSlotType.Misc },
-        };
+        ];
     }
 
     private static List<SlotInfoMisc> GetExtraSlots8a(SAV8LA _)
     {
-        return new List<SlotInfoMisc>();
+        return [];
     }
 
     private static List<SlotInfoMisc> GetExtraSlots9(SAV9SV sav)

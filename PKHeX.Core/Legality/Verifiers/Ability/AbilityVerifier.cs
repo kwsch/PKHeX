@@ -218,7 +218,7 @@ public sealed class AbilityVerifier : Verifier
         // Gen3 origin... a lot of edge cases to check.
         var pk = data.Entity;
         var format = pk.Format;
-        // CXD pokemon can have any ability without matching PID
+        // CXD Pokémon can have any ability without matching PID
         if (format == 3)
         {
             if (pk.Version == (int)GameVersion.CXD)
@@ -235,7 +235,7 @@ public sealed class AbilityVerifier : Verifier
         if (g3.Length == 0)
             return AbilityState.MustMatch;
 
-        // Fall through when gen3 pk transferred to gen4/5
+        // Fall through when Gen3 pk transferred to Gen4/5
         var maxGen3Species = g3[0].Species;
         return VerifyAbilityGen3Transfer(data, abilities, maxGen3Species);
     }

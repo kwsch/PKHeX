@@ -15,6 +15,7 @@ public readonly ref struct Spawner8a
     // entry[8]
     // metadata
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public Spawner8a(Span<byte> data) => Data = data;
 
     public SpawnerEntry8a this[int index] => GetEntry(index);

@@ -9,39 +9,23 @@ namespace PKHeX.Core;
 /// <summary>
 /// Cached copies of Met Location lists
 /// </summary>
-public sealed class MetDataSource
+public sealed class MetDataSource(GameStrings s)
 {
-    private readonly List<ComboItem> MetGen2;
-    private readonly List<ComboItem> MetGen3;
-    private readonly List<ComboItem> MetGen3CXD;
-    private readonly List<ComboItem> MetGen4;
-    private readonly List<ComboItem> MetGen5;
-    private readonly List<ComboItem> MetGen6;
-    private readonly List<ComboItem> MetGen7;
-    private readonly List<ComboItem> MetGen7GG;
-    private readonly List<ComboItem> MetGen8;
-    private readonly List<ComboItem> MetGen8a;
-    private readonly List<ComboItem> MetGen8b;
-    private readonly List<ComboItem> MetGen9;
+    private readonly List<ComboItem> MetGen2 = CreateGen2(s);
+    private readonly List<ComboItem> MetGen3 = CreateGen3(s);
+    private readonly List<ComboItem> MetGen3CXD = CreateGen3CXD(s);
+    private readonly List<ComboItem> MetGen4 = CreateGen4(s);
+    private readonly List<ComboItem> MetGen5 = CreateGen5(s);
+    private readonly List<ComboItem> MetGen6 = CreateGen6(s);
+    private readonly List<ComboItem> MetGen7 = CreateGen7(s);
+    private readonly List<ComboItem> MetGen7GG = CreateGen7GG(s);
+    private readonly List<ComboItem> MetGen8 = CreateGen8(s);
+    private readonly List<ComboItem> MetGen8a = CreateGen8a(s);
+    private readonly List<ComboItem> MetGen8b = CreateGen8b(s);
+    private readonly List<ComboItem> MetGen9 = CreateGen9(s);
 
     private IReadOnlyList<ComboItem>? MetGen4Transfer;
     private IReadOnlyList<ComboItem>? MetGen5Transfer;
-
-    public MetDataSource(GameStrings s)
-    {
-        MetGen2 = CreateGen2(s);
-        MetGen3 = CreateGen3(s);
-        MetGen3CXD = CreateGen3CXD(s);
-        MetGen4 = CreateGen4(s);
-        MetGen5 = CreateGen5(s);
-        MetGen6 = CreateGen6(s);
-        MetGen7 = CreateGen7(s);
-        MetGen7GG = CreateGen7GG(s);
-        MetGen8 = CreateGen8(s);
-        MetGen8a = CreateGen8a(s);
-        MetGen8b = CreateGen8b(s);
-        MetGen9 = CreateGen9(s);
-    }
 
     private static List<ComboItem> CreateGen2(GameStrings s)
     {
@@ -76,7 +60,7 @@ public sealed class MetDataSource
         return locations;
     }
 
-    private IReadOnlyList<ComboItem> CreateGen4Transfer()
+    private ComboItem[] CreateGen4Transfer()
     {
         // Pal Park to front
         var met = MetGen4.ToArray();
@@ -99,7 +83,7 @@ public sealed class MetDataSource
         return locations;
     }
 
-    private IReadOnlyList<ComboItem> CreateGen5Transfer()
+    private ComboItem[] CreateGen5Transfer()
     {
         // PokéTransfer to front
         var index = MetGen5.FindIndex(static z => z.Value == Locations.Transfer4);
@@ -231,7 +215,7 @@ public sealed class MetDataSource
         else
             result = GetLocationListInternal(version, context);
 
-        // Insert the BDSP none location if the format requires it.
+        // Insert the BD/SP none location if the format requires it.
         if (context is EntityContext.Gen8b && !BDSP.Contains(version))
         {
             var bdsp = new ComboItem[result.Count + 1];
@@ -323,6 +307,6 @@ public sealed class MetDataSource
     {
         <= CXD when context == EntityContext.Gen4 => MetGen4Transfer ??= CreateGen4Transfer(),
         < X when context.Generation() >= 5 => MetGen5Transfer ??= CreateGen5Transfer(),
-        _ => Array.Empty<ComboItem>(),
+        _ => [],
     };
 }

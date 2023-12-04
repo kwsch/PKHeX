@@ -6,12 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.PLA"/> games.
 /// </summary>
-public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H, IPermitRecord
+public sealed class PersonalInfo8LA(byte[] Data) : PersonalInfo, IPersonalAbility12H, IPermitRecord
 {
     public const int SIZE = 0xB0;
-    private readonly byte[] Data;
 
-    public PersonalInfo8LA(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
@@ -117,8 +115,8 @@ public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H, IPermit
     public int RecordCountUsed => MoveShopCount;
     public bool HasMoveShop => MoveShopBits != 0;
 
-    private static ReadOnlySpan<ushort> MoveShopMoves => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> MoveShopMoves =>
+    [
         (int)Move.FalseSwipe,
         (int)Move.FireFang,
         (int)Move.ThunderFang,
@@ -180,7 +178,7 @@ public sealed class PersonalInfo8LA : PersonalInfo, IPersonalAbility12H, IPermit
         (int)Move.DracoMeteor,
         (int)Move.SteelBeam,
         (int)Move.VoltTackle,
-    };
+    ];
 
     public static ushort GetMoveShopMove(int index)
     {

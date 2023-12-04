@@ -6,12 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from Generation 4 games.
 /// </summary>
-public sealed class PersonalInfo4 : PersonalInfo, IPersonalAbility12, IPersonalInfoTM, IPersonalInfoTutorType
+public sealed class PersonalInfo4(byte[] Data) : PersonalInfo, IPersonalAbility12, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x2C;
-    private readonly byte[] Data;
 
-    public PersonalInfo4(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
@@ -67,7 +65,7 @@ public sealed class PersonalInfo4 : PersonalInfo, IPersonalAbility12, IPersonalI
     /// <summary>
     /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
     /// </summary>
-    public bool[] TypeTutors { get; private set; } = Array.Empty<bool>();
+    public bool[] TypeTutors { get; private set; } = [];
 
     private const int TMHM = 0x1C;
     private const int CountTM = 92;

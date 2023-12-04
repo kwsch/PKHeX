@@ -143,10 +143,10 @@ public static class Legal
     internal static readonly ushort[] HeldItems_AO = ItemStorage6AO.GetAllHeld();
     internal static readonly ushort[] HeldItems_SM = ItemStorage7SM.GetAllHeld();
     internal static readonly ushort[] HeldItems_USUM = ItemStorage7USUM.GetAllHeld();
-    internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();
+    internal static readonly ushort[] HeldItems_GG = [];
     internal static readonly ushort[] HeldItems_SWSH = ItemStorage8SWSH.GetAllHeld();
     internal static readonly ushort[] HeldItems_BS = ItemStorage8BDSP.GetAll();
-    internal static readonly ushort[] HeldItems_LA = Array.Empty<ushort>();
+    internal static readonly ushort[] HeldItems_LA = [];
     internal static readonly ushort[] HeldItems_SV = ItemStorage9SV.GetAllHeld();
 
     internal static int GetMaxLanguageID(int generation) => generation switch
@@ -193,7 +193,7 @@ public static class Legal
     public static bool IsPPUpAvailable(ushort moveID) => moveID switch
     {
         0 => false,
-        (int)Move.Sketch => false, // BD/SP v1.0 could use PP Ups on Sketch, but not in later versions. Disallow anyways.
+        (int)Move.Sketch => false, // BD/SP v1.0 could use PP Ups on Sketch, but not in later versions. Disallow anyway.
         (int)Move.RevivalBlessing => false,
         _ => true,
     };

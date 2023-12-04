@@ -50,12 +50,12 @@ public partial class SAV_BlockDump8 : Form
     {
         var extra = Main.Settings.Advanced.PathBlockKeyList;
         if (extra.Length != 0 && !Directory.Exists(extra))
-            return Array.Empty<string>();
+            return [];
 
         var file = Path.Combine(extra, obj.GetType().Name);
         file = $"{file}.txt";
         if (!File.Exists(file))
-            return Array.Empty<string>();
+            return [];
 
         return File.ReadLines(file);
     }
@@ -238,7 +238,7 @@ public partial class SAV_BlockDump8 : Form
         // Get an external source of names if available.
         var extra = GetExtraKeyNames(w1);
         var compare = new SCBlockCompare(w1.Accessor, w2.Accessor, extra);
-        richTextBox1.Lines = compare.Summary().ToArray();
+        richTextBox1.Lines = [.. compare.Summary()];
     }
 
     private static void ExportSelectBlock(SCBlock block)

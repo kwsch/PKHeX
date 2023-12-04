@@ -14,7 +14,7 @@ using PKHeX.Drawing.PokeSprite;
 namespace PKHeX.WinForms;
 
 [JsonSerializable(typeof(PKHeXSettings))]
-public sealed partial class PKHeXSettingsContext : JsonSerializerContext { }
+public sealed partial class PKHeXSettingsContext : JsonSerializerContext;
 
 [Serializable]
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
@@ -111,10 +111,10 @@ public sealed class BackupSettings
     public bool BAKPrompt { get; set; }
 
     [LocalizedDescription("List of extra locations to look for Save Files.")]
-    public List<string> OtherBackupPaths { get; set; } = new();
+    public List<string> OtherBackupPaths { get; set; } = [];
 
     [LocalizedDescription("Save File file-extensions (no period) that the program should also recognize.")]
-    public List<string> OtherSaveFileExtensions { get; set; } = new();
+    public List<string> OtherSaveFileExtensions { get; set; } = [];
 }
 
 [Serializable]
@@ -252,7 +252,7 @@ public sealed class AdvancedSettings
     public string HideEvent8Contains { get; set; } = string.Empty;
 
     [Browsable(false)]
-    public string[] GetExclusionList8() => Array.ConvertAll(HideEvent8Contains.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries), z => z.Trim());
+    public string[] GetExclusionList8() => Array.ConvertAll(HideEvent8Contains.Split(',', StringSplitOptions.RemoveEmptyEntries), z => z.Trim());
 }
 
 [Serializable]

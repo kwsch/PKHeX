@@ -6,12 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the OR &amp; AS games.
 /// </summary>
-public sealed class PersonalInfo6AO : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType
+public sealed class PersonalInfo6AO(byte[] Data) : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType
 {
     public const int SIZE = 0x50;
-    private readonly byte[] Data;
 
-    public PersonalInfo6AO(byte[] data) => Data = data;
     public override byte[] Write() => Data;
 
     public override int HP { get => Data[0x00]; set => Data[0x00] = (byte)value; }
@@ -275,10 +273,10 @@ public sealed class PersonalInfo6AO : PersonalInfo, IPersonalAbility12H, IPerson
         }
     }
 
-    private static ReadOnlySpan<ushort> TutorMoves1 => new ushort[] { 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 };
-    private static ReadOnlySpan<ushort> TutorMoves2 => new ushort[] { 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 };
-    private static ReadOnlySpan<ushort> TutorMoves3 => new ushort[] { 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352 }; // Last 3 added, Different from G5 Humilau
-    private static ReadOnlySpan<ushort> TutorMoves4 => new ushort[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 };
+    private static ReadOnlySpan<ushort> TutorMoves1 => [ 450, 343, 162, 530, 324, 442, 402, 529, 340, 067, 441, 253, 009, 007, 008 ];
+    private static ReadOnlySpan<ushort> TutorMoves2 => [ 277, 335, 414, 492, 356, 393, 334, 387, 276, 527, 196, 401, 399, 428, 406, 304, 231 ];
+    private static ReadOnlySpan<ushort> TutorMoves3 => [ 020, 173, 282, 235, 257, 272, 215, 366, 143, 220, 202, 409, 355, 264, 351, 352 ]; // Last 3 added, Different from Gen5 Humilau
+    private static ReadOnlySpan<ushort> TutorMoves4 => [ 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 ];
 
     public bool GetIsTutorSpecial(ushort move)
     {

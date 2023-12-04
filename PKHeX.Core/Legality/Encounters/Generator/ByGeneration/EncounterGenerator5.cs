@@ -12,7 +12,7 @@ public sealed class EncounterGenerator5 : IEncounterGenerator
     {
         var chain = EncounterOrigin.GetOriginChain(pk, 5);
         if (chain.Length == 0)
-            return Array.Empty<IEncounterable>();
+            return [];
         return GetEncounters(pk, chain, info);
     }
 

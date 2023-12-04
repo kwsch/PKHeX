@@ -23,7 +23,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     public GameVersion Version => Parent.Version;
     public int Location => Parent.Location;
     public SlotType Type => Parent.Type;
-    
+
     public bool IsFriendSafari => Type == SlotType.FriendSafari;
     public bool IsHorde => Type == SlotType.Horde;
 

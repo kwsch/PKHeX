@@ -43,13 +43,13 @@ public sealed class CGearBackground
     * The tiles are chosen based on the 16bit index of the tile.
     * 0x300 * 2 = 0x600!
     *
-    * CGearBackgrounds tilemap (when stored on BW) employs some obfuscation.
-    * BW obfuscates by adding 0xA0A0.
+    * CGearBackgrounds tilemap (when stored on B/W) employs some obfuscation.
+    * B/W obfuscates by adding 0xA0A0.
     * The obfuscated number is then tweaked by adding 15*(i/17)
     * To reverse, use a similar reverse calculation
     * PSK files are basically raw game rips (obfuscated)
-    * CGB files are un-obfuscated / B2W2.
-    * Due to BW and B2W2 using different obfuscation adds, PSK files are incompatible between the versions.
+    * CGB files are un-obfuscated / B2/W2.
+    * Due to B/W and B2/W2 using different obfuscation adds, PSK files are incompatible between the versions.
     */
 
     public readonly int[] ColorPalette;
@@ -171,7 +171,7 @@ public sealed class CGearBackground
             throw new ArgumentException($"Too many unique tiles. Expected < 256, received {tilelist.Count}.");
 
         // Finished!
-        return new CGearBackground(palette, tilelist.ToArray(), tm);
+        return new CGearBackground(palette, [.. tilelist], tm);
     }
 
     private static int[] GetColorData(ReadOnlySpan<byte> data)
@@ -220,7 +220,7 @@ public sealed class CGearBackground
 
     private static void GetTileList(ReadOnlySpan<Tile> tiles, out List<Tile> tilelist, out TileMap tm)
     {
-        tilelist = new List<Tile> { tiles[0] };
+        tilelist = [tiles[0]];
         tm = new TileMap(LengthTileMap);
 
         // start at 1 as the 0th tile is always non-duplicate
@@ -228,7 +228,7 @@ public sealed class CGearBackground
             FindPossibleRotatedTile(tiles[i], tilelist, tm, i);
     }
 
-    private static void FindPossibleRotatedTile(Tile t, IList<Tile> tilelist, TileMap tm, int tileIndex)
+    private static void FindPossibleRotatedTile(Tile t, List<Tile> tilelist, TileMap tm, int tileIndex)
     {
         // Test all tiles currently in the list
         for (int i = 0; i < tilelist.Count; i++)
@@ -293,7 +293,7 @@ public sealed class Tile
 
     // Keep track of known rotations for this tile.
     // If the tile's rotated value has not yet been calculated, the field is null.
-    private byte[] PixelData = Array.Empty<byte>();
+    private byte[] PixelData = [];
     private byte[]? PixelDataX;
     private byte[]? PixelDataY;
 
@@ -471,16 +471,10 @@ public sealed class Tile
     }
 }
 
-public sealed class TileMap
+public sealed class TileMap(int length)
 {
-    public readonly byte[] TileChoices;
-    public readonly byte[] Rotations;
-
-    public TileMap(int length)
-    {
-        TileChoices = new byte[length / 2];
-        Rotations = new byte[length / 2];
-    }
+    public readonly byte[] TileChoices = new byte[length / 2];
+    public readonly byte[] Rotations = new byte[length / 2];
 
     internal TileMap(ReadOnlySpan<byte> data) : this(data.Length) => LoadData(data, TileChoices, Rotations);
 

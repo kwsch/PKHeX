@@ -10,7 +10,7 @@ namespace PKHeX.Core;
 public static class FormInfo
 {
     /// <summary>
-    /// Checks if the form cannot exist outside of a Battle.
+    /// Checks if the form cannot exist outside a Battle.
     /// </summary>
     /// <param name="species">Entity species</param>
     /// <param name="form">Entity form</param>
@@ -55,7 +55,7 @@ public static class FormInfo
     /// <param name="form">Entity form</param>
     /// <param name="formArg">Entity form argument</param>
     /// <param name="format">Current generation format</param>
-    /// <returns>True if it trading should be disallowed.</returns>
+    /// <returns>True if trading should be disallowed.</returns>
     public static bool IsUntradable(ushort species, byte form, uint formArg, int format) => species switch
     {
         (ushort)Koraidon or (int)Miraidon => formArg == 1, // Ride-able Box Legend
@@ -79,7 +79,7 @@ public static class FormInfo
         _ => false,
     };
 
-    /// <summary>Checks if the form may be different than the original encounter detail.</summary>
+    /// <summary>Checks if the form may be different from the original encounter detail.</summary>
     /// <param name="species">Original species</param>
     /// <param name="oldForm">Original form</param>
     /// <param name="newForm">Current form</param>
@@ -106,28 +106,28 @@ public static class FormInfo
         if (species is (int)Deerling or (int)Sawsbuck)
         {
             if (origin == EntityContext.Gen5)
-                return true; // B/W
+                return true; // B/W or B2/W2 change via seasons
             if (current.Generation() >= 8)
-                return true; // Via S/V
+                return true; // Via S/V change via in-game province on startup.
         }
         return false;
     }
 
     public static bool IsFormChangeEgg(ushort species) => FormChangeEgg.Contains(species);
 
-    private static ReadOnlySpan<ushort> FormChangeEgg => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> FormChangeEgg =>
+    [
         (int)Burmy,
         (int)Furfrou,
         (int)Oricorio,
-    };
+    ];
 
     /// <summary>
     /// Species that can change between their forms, regardless of origin.
     /// </summary>
     /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-    private static readonly HashSet<ushort> FormChange = new()
-    {
+    private static readonly HashSet<ushort> FormChange =
+    [
         (int)Burmy,
         (int)Furfrou,
         (int)Oricorio,
@@ -153,17 +153,22 @@ public static class FormInfo
         (int)Calyrex,
         (int)Enamorus,
         (int)Ogerpon,
-    };
+    ];
 
     /// <summary>
     /// Species that have an alternate form that cannot exist outside of battle.
     /// </summary>
-    private static readonly HashSet<ushort> BattleForms = new()
-    {
+    private static ReadOnlySpan<ushort> BattleForms =>
+    [
         (int)Castform,
+        (int)Kyogre,
+        (int)Groudon,
+
         (int)Cherrim,
+
         (int)Darmanitan,
         (int)Meloetta,
+
         (int)Aegislash,
         (int)Xerneas,
         (int)Zygarde,
@@ -171,26 +176,26 @@ public static class FormInfo
         (int)Wishiwashi,
         (int)Minior,
         (int)Mimikyu,
+        (int)Necrozma,
 
         (int)Cramorant,
         (int)Morpeko,
         (int)Eiscue,
-
         (int)Zacian,
         (int)Zamazenta,
         (int)Eternatus,
 
         (int)Palafin,
         (int)Ogerpon,
-    };
+    ];
 
     /// <summary>
     /// Species that have a mega form that cannot exist outside of battle.
     /// </summary>
     /// <remarks>Using a held item to change form during battle, via an in-battle transformation feature.</remarks>
-    private static readonly HashSet<ushort> BattleMegas = new()
-    {
-        // XY
+    private static ReadOnlySpan<ushort> BattleMegas =>
+    [
+        // X/Y
         (int)Venusaur, (int)Charizard, (int)Blastoise,
         (int)Alakazam, (int)Gengar, (int)Kangaskhan, (int)Pinsir,
         (int)Gyarados, (int)Aerodactyl, (int)Mewtwo,
@@ -202,7 +207,7 @@ public static class FormInfo
 
         (int)Garchomp, (int)Lucario, (int)Abomasnow,
 
-        // AO
+        // OR/AS
         (int)Beedrill, (int)Pidgeot, (int)Slowbro,
 
         (int)Steelix,
@@ -212,21 +217,20 @@ public static class FormInfo
 
         (int)Lopunny, (int)Gallade,
         (int)Audino, (int)Diancie,
-
-        // USUM
-        (int)Necrozma, // Ultra Necrozma
-    };
+    ];
 
     private static readonly HashSet<ushort> BattleOnly = GetBattleFormSet();
 
     private static HashSet<ushort> GetBattleFormSet()
     {
-        var hs = new HashSet<ushort>(BattleForms);
-        hs.UnionWith(BattleMegas);
-
-        // Primals
-        hs.Add((ushort)Kyogre);
-        hs.Add((ushort)Groudon);
+        var reg = BattleForms;
+        var mega = BattleMegas;
+        var count = reg.Length + mega.Length + 2;
+        var hs = new HashSet<ushort>(count);
+        foreach (var species in reg)
+            hs.Add(species);
+        foreach (var species in mega)
+            hs.Add(species);
         return hs;
     }
 
@@ -332,7 +336,7 @@ public static class FormInfo
     /// <param name="pi">Game specific personal info</param>
     /// <param name="species"><see cref="Species"/> ID</param>
     /// <param name="format"><see cref="PKM.Form"/> ID</param>
-    /// <returns>True if has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
+    /// <returns>True if it has forms that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
     public static bool HasFormSelection(IPersonalFormInfo pi, ushort species, int format)
     {
         if (format <= 3 && species != (int)Unown)

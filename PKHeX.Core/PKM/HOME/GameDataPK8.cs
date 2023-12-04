@@ -45,7 +45,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
     private Span<byte> PokeJob => Data.Slice(0x1E, 14);
     public bool GetPokeJobFlag(int index) => FlagUtil.GetFlag(PokeJob, index >> 3, index & 7);
     public void SetPokeJobFlag(int index, bool value) => FlagUtil.SetFlag(PokeJob, index >> 3, index & 7, value);
-    public bool GetPokeJobFlagAny() => PokeJob.IndexOfAnyExcept<byte>(0) >= 0;
+    public bool GetPokeJobFlagAny() => PokeJob.ContainsAnyExcept<byte>(0);
     public void ClearPokeJobFlags() => PokeJob.Clear();
 
     public byte Fullness { get => Data[0x2C]; set => Data[0x2C] = value; }
@@ -53,7 +53,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
     private Span<byte> RecordFlags => Data.Slice(0x2D, 14);
     public bool GetMoveRecordFlag(int index) => FlagUtil.GetFlag(RecordFlags, index >> 3, index & 7);
     public void SetMoveRecordFlag(int index, bool value) => FlagUtil.SetFlag(RecordFlags, index >> 3, index & 7, value);
-    public bool GetMoveRecordFlagAny() => RecordFlags.IndexOfAnyExcept<byte>(0) >= 0;
+    public bool GetMoveRecordFlagAny() => RecordFlags.ContainsAnyExcept<byte>(0);
     public void ClearMoveRecordFlags() => RecordFlags.Clear();
 
     public int Palma { get => ReadInt32LittleEndian(Data[0x3B..]); set => WriteInt32LittleEndian(Data[0x3B..], value); }
@@ -171,7 +171,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
 
     public void InitializeFrom(IGameDataSide side, PKH pkh)
     {
-        // BDSP->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg
+        // BD/SP->SW/SH: Set the Met Location to the magic Location, set the Egg Location to 0 if -1, otherwise BDSPEgg
         // (0 is a valid location, but no eggs can be EggMet there -- only hatched.)
         // PLA->SWSH: Set the Met Location to the magic Location, set the Egg Location to 0 (no eggs in game).
         var ver = pkh.Version;

@@ -20,7 +20,7 @@ public sealed class MyItem7b : MyItem
         {
             var info = ItemStorage7GG.Instance;
             InventoryPouch7b[] pouch =
-            {
+            [
                 new(InventoryType.Medicine, info, 999, Medicine, PouchSize7b.Medicine),
                 new(InventoryType.TMHMs, info, 1, TM, PouchSize7b.TM),
                 new(InventoryType.Balls, info, 999, Catching, PouchSize7b.Catching),
@@ -28,7 +28,7 @@ public sealed class MyItem7b : MyItem
                 new(InventoryType.BattleItems, info, 999, Battle, PouchSize7b.Battle),
                 new(InventoryType.ZCrystals, info, 999, PowerUp, PouchSize7b.PowerUp),
                 new(InventoryType.Candy, info, 999, Candy, PouchSize7b.Candy),
-            };
+            ];
             return pouch.LoadAll(Data);
         }
         set

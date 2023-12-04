@@ -11,8 +11,8 @@ public static class BatchFilters
     /// <summary>
     /// Filters to use for <see cref="BatchEditing"/> that are derived from the <see cref="PKM"/> data.
     /// </summary>
-    public static readonly List<IComplexFilter> FilterMods = new()
-    {
+    public static readonly List<IComplexFilter> FilterMods =
+    [
         new ComplexFilter(PROP_LEGAL,
             (pk, cmd) => bool.TryParse(cmd.PropertyValue, out var b) && cmd.Comparer.IsCompareEquivalence(b == new LegalityAnalysis(pk).Valid),
             (info, cmd) => bool.TryParse(cmd.PropertyValue, out var b) && cmd.Comparer.IsCompareEquivalence(b == info.Legality.Valid)),
@@ -32,13 +32,13 @@ public static class BatchFilters
         new ComplexFilter(PROP_TYPEEITHER,
             (pk, cmd) => byte.TryParse(cmd.PropertyValue, out var b) && cmd.Comparer.IsCompareEquivalence(pk.PersonalInfo.IsType(b)),
             (info, cmd) => byte.TryParse(cmd.PropertyValue, out var b) && cmd.Comparer.IsCompareEquivalence(info.Entity.PersonalInfo.IsType(b))),
-    };
+    ];
 
     /// <summary>
     /// Filters to use for <see cref="BatchEditing"/> that are derived from the <see cref="PKM"/> source.
     /// </summary>
-    public static readonly List<IComplexFilterMeta> FilterMeta = new()
-    {
+    public static readonly List<IComplexFilterMeta> FilterMeta =
+    [
         new MetaFilter(IdentifierContains,
             (obj, cmd) => obj is SlotCache s && cmd.Comparer.IsCompareEquivalence(s.Identify().Contains(cmd.PropertyValue))),
 
@@ -47,5 +47,5 @@ public static class BatchFilters
 
         new MetaFilter(nameof(ISlotInfo.Slot),
             (obj, cmd) => obj is SlotCache s && int.TryParse(cmd.PropertyValue, out var slot) && cmd.Comparer.IsCompareOperator((s.Source.Slot + 1).CompareTo(slot))),
-    };
+    ];
 }

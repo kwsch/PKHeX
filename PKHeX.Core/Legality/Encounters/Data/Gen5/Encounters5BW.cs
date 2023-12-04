@@ -17,8 +17,8 @@ public static class Encounters5BW
 
     #region DreamWorld Encounter
 
-    public static readonly EncounterStatic5Entree[] DreamWorld_BW = DreamWorldEntry.GetArray(BW, stackalloc DreamWorldEntry[]
-    {
+    public static readonly EncounterStatic5Entree[] DreamWorld_BW = DreamWorldEntry.GetArray(BW,
+    [
         // Pleasant Forest
         new(029, 10, 010, 389, 162), // Nidoran♀
         new(032, 10, 064, 068, 162), // Nidoran♂
@@ -116,12 +116,12 @@ public static class Encounters5BW
         new(242, 10), // Blissey
         new(448, 10, 418, Gender: 0), // Lucario
         new(189, 27, 206, Gender: 0), // Jumpluff
-    });
+    ]);
 
     #endregion
     #region Static Encounter/Gift Tables
     public static readonly EncounterStatic5[] Encounter_BW =
-    {
+    [
         // Starters @ Nuvema Town
         new(BW) { FixedBall = Ball.Poke, Species = 495, Level = 05, Location = 004 }, // Snivy
         new(BW) { FixedBall = Ball.Poke, Species = 498, Level = 05, Location = 004 }, // Tepig
@@ -164,40 +164,40 @@ public static class Encounters5BW
         new(BW) { Species = 494, Level = 15, Location = 062, Shiny = Shiny.Never}, // Victini @ Liberty Garden
         new(BW) { Species = 570, Level = 10, Location = 008, Shiny = Shiny.Never, Gender = 0 }, // Zorua @ Castelia City
         new(BW) { Species = 571, Level = 25, Location = 072, Shiny = Shiny.Never, Gender = 1 }, // Zoroark @ Lostlorn Forest
-    };
+    ];
 
     public static readonly EncounterStatic5[] StaticB =
-    {
+    [
         new(B) { Species = 643, Level = 50, Location = 045, Shiny = Shiny.Never }, // Reshiram @ N's Castle
         new(B) { Species = 643, Level = 50, Location = 039, Shiny = Shiny.Never }, // Reshiram @ Dragonspiral Tower
         new(B) { Roaming = true, Species = 641, Level = 40, Location = 25 }, // Tornadus
-    };
+    ];
     public static readonly EncounterStatic5[] StaticW =
-    {
+    [
         new( W) { Species = 644, Level = 50, Location = 045, Shiny = Shiny.Never }, // Zekrom @ N's Castle
         new( W) { Species = 644, Level = 50, Location = 039, Shiny = Shiny.Never }, // Zekrom @ Dragonspiral Tower
         new( W) { Roaming = true, Species = 642, Level = 40, Location = 25 }, // Thundurus
-    };
+    ];
 
     #endregion
     #region Trade Tables
     internal static readonly EncounterTrade5BW[] TradeGift_BW =
-    {
+    [
         new(TradeNames, 04, BW, 0xD400007F) { Species = 587, Level = 30, Ability = OnlyFirst,  ID32 = 11195, OTGender = 0, Gender = 0, IVs = new(20,20,31,20,20,20), Nature = Nature.Lax }, // Emolga
         new(TradeNames, 05, BW, 0x2A000000) { Species = 479, Level = 60, Ability = OnlyFirst,  ID32 = 54673, OTGender = 1, Gender = 2, IVs = new(20,20,20,20,20,31), Nature = Nature.Gentle }, // Rotom
         new(TradeNames, 06, BW, 0x6200001F) { Species = 446, Level = 60, Ability = OnlySecond, ID32 = 40217, OTGender = 0, Gender = 0, IVs = new(31,20,20,20,20,20), Nature = Nature.Serious }, // Munchlax
-    };
+    ];
 
     internal static readonly EncounterTrade5BW[] TradeGift_B =
-    {
+    [
         new(TradeNames, 00, B , 0x64000000) { Species = 548, Level = 15, Ability = OnlyFirst,  ID32 = 39922, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Petilil
         new(TradeNames, 02, B , 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  ID32 = 27646, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 0 }, // Basculin-Red
-    };
+    ];
 
     internal static readonly EncounterTrade5BW[] TradeGift_W =
-    {
+    [
         new(TradeNames, 01,  W, 0x6400007E) { Species = 546, Level = 15, Ability = OnlyFirst,  ID32 = 39922, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
         new(TradeNames, 03,  W, 0x9400007F) { Species = 550, Level = 25, Ability = OnlyFirst,  ID32 = 27646, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, Form = 1 }, // Basculin-Blue
-    };
+    ];
     #endregion
 }

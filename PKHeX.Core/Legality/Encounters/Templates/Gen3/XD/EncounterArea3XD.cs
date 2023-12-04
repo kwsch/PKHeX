@@ -15,11 +15,11 @@ public sealed record EncounterArea3XD : IVersion, IEncounterArea<EncounterSlot3X
     public EncounterArea3XD(byte loc, ushort s0, byte l0, ushort s1, byte l1, ushort s2, byte l2)
     {
         Location = loc;
-        Slots = new[]
-        {
+        Slots =
+        [
             new EncounterSlot3XD(this, s0, 10, l0, 0),
             new EncounterSlot3XD(this, s1, 10, l1, 1),
             new EncounterSlot3XD(this, s2, 10, l2, 2),
-        };
+        ];
     }
 }

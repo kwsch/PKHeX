@@ -8,12 +8,10 @@ namespace PKHeX.Core;
 /// This implementation allows for yielding crypto bytes on demand.
 /// </para>
 /// </summary>
-public ref struct SCXorShift32
+public ref struct SCXorShift32(uint seed)
 {
     private int Counter;
-    private uint State;
-
-    public SCXorShift32(uint seed) => State = GetInitialState(seed);
+    private uint State = GetInitialState(seed);
 
     private static uint GetInitialState(uint state)
     {

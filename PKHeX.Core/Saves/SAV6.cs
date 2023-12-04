@@ -52,7 +52,7 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
     public virtual string JPEGTitle => string.Empty;
-    public virtual byte[] GetJPEGData() => Array.Empty<byte>();
+    public virtual byte[] GetJPEGData() => [];
 
     protected internal const int LongStringLength = 0x22; // bytes, not characters
     protected internal const int ShortStringLength = 0x1A; // bytes, not characters

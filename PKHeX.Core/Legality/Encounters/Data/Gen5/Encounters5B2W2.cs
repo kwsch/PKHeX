@@ -16,8 +16,8 @@ public static class Encounters5B2W2
     private static readonly string[][] TradeNames = Util.GetLanguageStrings8(tradeB2W2);
 
     #region DreamWorld Encounter
-    public static readonly EncounterStatic5Entree[] DreamWorld_B2W2 = DreamWorldEntry.GetArray(B2W2, stackalloc DreamWorldEntry[]
-    {
+    public static readonly EncounterStatic5Entree[] DreamWorld_B2W2 = DreamWorldEntry.GetArray(B2W2,
+    [
         // Pleasant Forest
         new(535, 10, 496, 414, 352), // Tympole
         new(546, 10, 073, 227, 388), // Cottonee
@@ -78,12 +78,12 @@ public static class Encounters5B2W2
         new(390, 10, 252, Gender: 0), // Chimchar
         new(393, 10, 297, Gender: 0), // Piplup
         new(575, 32, 286, Gender: 0), // Gothorita
-    });
+    ]);
     #endregion
     #region Static Encounter/Gift Tables
 
     public static readonly EncounterStatic5[] Encounter_B2W2_Regular =
-    {
+    [
         // Starters @ Aspertia City
         new(B2W2) { FixedBall = Ball.Poke, Species = 495, Level = 05, Location = 117 }, // Snivy
         new(B2W2) { FixedBall = Ball.Poke, Species = 498, Level = 05, Location = 117 }, // Tepig
@@ -114,7 +114,7 @@ public static class Encounters5B2W2
         new(B2W2) { Species = 591, Level = 43, Location = 024 }, // Amoonguss @ Route 11
         new(B2W2) { Species = 591, Level = 47, Location = 127 }, // Amoonguss @ Route 22
         new(B2W2) { Species = 591, Level = 56, Location = 128 }, // Amoonguss @ Route 23
-        new(B2W2) { Species = 593, Level = 40, Location = 071 }, // HA Jellicent @ Undella Bay EncounterSlot collision
+        new(B2W2) { Species = 593, Level = 40, Location = 071, Ability = OnlyHidden }, // Jellicent @ Undella Bay w/ Hidden Ability
         new(B2W2) { Species = 637, Level = 35, Location = 035 }, // Volcarona @ Relic Castle
         new(B2W2) { Species = 637, Level = 65, Location = 035 }, // Volcarona @ Relic Castle
         new(B2W2) { Species = 558, Level = 42, Location = 141 }, // Crustle @ Seaside Cave
@@ -137,28 +137,28 @@ public static class Encounters5B2W2
         new(B2W2) { Species = 640, Level = 45, Location = 024 }, // Virizion @ Route 11
         new(B2W2) { Species = 640, Level = 65, Location = 024 }, // Virizion @ Route 11
         new(B2W2) { Species = 646, Level = 70, Location = 061, Form = 0 }, // Kyurem @ Giant Chasm
-    };
+    ];
 
     public static readonly EncounterStatic5[] StaticB2 =
-    {
+    [
         new(B2  ) { Species = 443, Level = 01, Location = 122, Shiny = Shiny.Always, Gender = 0, FixedBall = Ball.Poke }, // Shiny Gible @ Floccesy Town
         new(B2  ) { Species = 381, Level = 68, Location = 032 }, // Latios @ Dreamyard
         new(B2  ) { Species = 593, Level = 40, Location = 071, Ability = OnlyHidden, Gender = 0 }, // HA Jellicent @ Undella Bay Mon Only
         new(B2  ) { Species = 630, Level = 25, Location = 017, Ability = OnlyHidden, Gender = 1 }, // HA Mandibuzz @ Route 4 Thurs Only
         new(B2  ) { Species = 644, Level = 70, Location = 039, Shiny = Shiny.Never }, // Zekrom @ Dragonspiral Tower
-    };
+    ];
 
     public static readonly EncounterStatic5[] StaticW2 =
-    {
+    [
         new(  W2) { Species = 147, Level = 01, Location = 122, Shiny = Shiny.Always, Gender = 0, FixedBall = Ball.Poke }, // Shiny Dratini @ Floccesy Town
         new(  W2) { Species = 380, Level = 68, Location = 032 }, // Latias @ Dreamyard
         new(  W2) { Species = 593, Level = 40, Location = 071, Ability = OnlyHidden, Gender = 1 }, // HA Jellicent @ Undella Bay Thurs Only
         new(  W2) { Species = 628, Level = 25, Location = 017, Ability = OnlyHidden, Gender = 0 }, // HA Braviary @ Route 4 Mon Only
         new(  W2) { Species = 643, Level = 70, Location = 039, Shiny = Shiny.Never }, // Reshiram @ Dragonspiral Tower
-    };
+    ];
 
     public static readonly EncounterStatic5N[] Encounter_B2W2_N =
-    {
+    [
         // N's Pokemon
         new(0xFF01007F) { Species = 509, Level = 07, Location = 015, Ability = OnlySecond, Nature = Nature.Timid }, // Purloin @ Route 2
         new(0xFF01007F) { Species = 519, Level = 13, Location = 033, Ability = OnlySecond, Nature = Nature.Sassy }, // Pidove @ Pinwheel Forest
@@ -175,17 +175,17 @@ public static class Encounters5B2W2
         new(0xFF00007F) { Species = 597, Level = 28, Location = 037, Ability = OnlyFirst,  Nature = Nature.Bashful }, // Ferroseed @ Chargestone Cave
         new(0xFF000000) { Species = 599, Level = 28, Location = 037, Ability = OnlyFirst,  Nature = Nature.Rash }, // Klink @ Chargestone Cave
         new(0xFF00001F) { Species = 570, Level = 25, Location = 010, Ability = OnlyFirst,  Nature = Nature.Hasty }, // N's Zorua @ Driftveil City
-    };
+    ];
 
     #endregion
     #region Trade Tables
     private const ushort YancyTID = 10303;
     private const ushort CurtisTID = 54118;
-    private static readonly string[] TradeOT_B2W2_F = { string.Empty, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", string.Empty, "Belinda", "루리" };
-    private static readonly string[] TradeOT_B2W2_M = { string.Empty, "テツ", "Curtis", "Julien", "Dadi", "Markus", string.Empty, "Julián", "철권" };
+    private static readonly string[] TradeOT_B2W2_F = [string.Empty, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", string.Empty, "Belinda", "루리"];
+    private static readonly string[] TradeOT_B2W2_M = [string.Empty, "テツ", "Curtis", "Julien", "Dadi", "Markus", string.Empty, "Julián", "철권"];
 
     public static readonly EncounterTrade5B2W2[] TradeGift_B2W2 =
-    {
+    [
         new(TradeNames, 00, B2  ) { Species = 548, Level = 20, Ability = OnlySecond, ID32 = 65217, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Timid }, // Petilil
         new(TradeNames, 01,   W2) { Species = 546, Level = 20, Ability = OnlyFirst,  ID32 = 71256, OTGender = 0, Gender = 0, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
         new(TradeNames, 02, B2W2) { Species = 526, Level = 35, Ability = OnlyFirst,  ID32 = 11195, OTGender = 0, Gender = 0, IVs = new(20,31,20,20,20,20), Nature = Nature.Adamant, IsFixedNickname = false }, // Gigalith
@@ -221,17 +221,17 @@ public static class Encounters5B2W2
         new(TradeOT_B2W2_M, B2W2) { Species = 231, Level = 50, Ability = OnlyHidden, ID32 = CurtisTID, OTGender = 0 }, // Phanpy
         new(TradeOT_B2W2_M, B2W2) { Species = 327, Level = 50, Ability = OnlyHidden, ID32 = CurtisTID, OTGender = 0 }, // Spinda
         new(TradeOT_B2W2_M, B2W2) { Species = 175, Level = 50, Ability = OnlyHidden, ID32 = CurtisTID, OTGender = 0 }, // Togepi
-    };
+    ];
 
     public static readonly EncounterTrade5B2W2[] TradeGift_W2 =
-    {
+    [
         new(TradeNames, 01,   W2) { Species = 546, Level = 20, Ability = OnlyFirst,  ID32 = 71256, OTGender = 0, Gender = 0, IVs = new(20,20,20,20,31,20), Nature = Nature.Modest }, // Cottonee
-    };
+    ];
 
     public static readonly EncounterTrade5B2W2[] TradeGift_B2 =
-    {
+    [
         new(TradeNames, 00, B2  ) { Species = 548, Level = 20, Ability = OnlySecond, ID32 = 65217, OTGender = 1, Gender = 1, IVs = new(20,20,20,20,31,20), Nature = Nature.Timid }, // Petilil
-    };
+    ];
 
     #endregion
 }

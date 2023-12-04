@@ -44,12 +44,12 @@ public sealed record EncounterStatic8b(GameVersion Version)
     }
 
     // defined by mvpoke in encounter data
-    private static ReadOnlySpan<ushort> Roaming_MetLocation_BDSP => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Roaming_MetLocation_BDSP =>
+    [
         197, 201, 354, 355, 356, 357, 358, 359, 361, 362, 364, 365, 367, 373, 375, 377,
         378, 379, 383, 385, 392, 394, 395, 397, 400, 403, 404, 407,
         485,
-    };
+    ];
 
     #region Generating
 

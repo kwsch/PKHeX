@@ -17,8 +17,8 @@ internal static class Encounters1
     private static readonly string[][] TradeNames = Util.GetLanguageStrings7(tradeRBY);
 
     internal static readonly EncounterStatic1[] StaticRBY =
-    {
-        // GameVersion is RBY for Pokemon with the same catch rate and initial moves in all games
+    [
+        // GameVersion is RBY for Pokémon with the same catch rate and initial moves in all games
         // If there are any differences in moves or catch rate, they will be defined as different encounters (GameVersion)
         new(001, 05, RBY), // Bulbasaur
         new(004, 05, RBY), // Charmander
@@ -65,35 +65,35 @@ internal static class Encounters1
         // new(001, 10, YW), // Bulbasaur (Cerulean City)
         // new(004, 10, YW), // Charmander (Route 24)
         // new(007, 10, YW), // Squirtle (Vermillion City)
-    };
+    ];
 
     internal static readonly EncounterStatic1[] StaticRB =
-    {
+    [
         new(030, 17, RB), // Nidorina (Red Game Corner)
         new(033, 17, RB), // Nidorino (Blue[EN] / Green[JP] Game Corner)
         new(063, 06, RB), // Abra (Blue[EN] / Green[JP] Game Corner)
         new(133, 25, RB), // Eevee
         new(127, 20, RB), // Pinsir (Blue[EN] / Green[JP] Game Corner)
         new(137, 18, RB), // Porygon (Blue[EN] / Green[JP] Game Corner)
-    };
+    ];
 
     internal static readonly EncounterStatic1[] StaticYW =
-    {
+    [
         new(025, 05, YW), // Pikachu
         new(127, 30, YW), // Pinsir (Yellow Game Corner) (Different initial moves)
         new(133, 25, YW), // Eevee (Different initial moves)
-    };
+    ];
 
     internal static readonly EncounterStatic1[] StaticBU =
-    {
+    [
         new(116, 18, BU), // Horsea (Blue[JP] Game Corner)
         new(036, 24, BU), // Clefable (Blue[JP] Game Corner)
         new(148, 30, BU), // Dragonair (Blue[JP] Game Corner)
         new(025, 12, BU), // Pikachu (Blue[JP] Game Corner) (Different catch rate)
-    };
+    ];
 
     internal static readonly EncounterTrade1[] TradeGift_RB =
-    {
+    [
         new(TradeNames, 00, 122, RB, 06, 05), // Mr. Mime - Abra
         new(TradeNames, 01, 032, RB, 02    ), // Nidoran♂ - Nidoran♀
         new(TradeNames, 02, 030, RB, 16    ), // Nidorina - Nidorino
@@ -103,10 +103,10 @@ internal static class Encounters1
         new(TradeNames, 06, 101, RB, 03    ), // Electrode - Raichu
         new(TradeNames, 07, 114, RB, 13, 05), // Tangela - Venonat
         new(TradeNames, 08, 086, RB, 28, 05), // Seel - Ponyta
-    };
+    ];
 
     public static readonly EncounterTrade1[] TradeGift_YW =
-    {
+    [
         new(TradeNames, 09, 122, YW, 08, 06), // Mr. Mime - Clefairy
         new(TradeNames, 10, 067, YW, 16, 05) { EvolveOnTrade = true }, // Machoke - Cubone
         new(TradeNames, 11, 051, YW, 15, 05), // Dugtrio - Lickitung
@@ -114,10 +114,10 @@ internal static class Encounters1
         new(TradeNames, 13, 112, YW, 15, 10), // Rhydon - Golduck
         new(TradeNames, 14, 087, YW, 15, 05), // Dewgong - Growlithe
         new(TradeNames, 15, 089, YW, 25, 05), // Muk - Kangaskhan
-    };
+    ];
 
     public static readonly EncounterTrade1[] TradeGift_BU =
-    {
+    [
         new(TradeNames, 16, 122, BU, 03    ), // Mr. Mime - Jigglypuff
         new(TradeNames, 17, 029, BU, 02    ), // Nidoran♀ - Nidoran♂
         new(TradeNames, 18, 060, BU, 02    ), // Poliwag - Rattata
@@ -128,5 +128,5 @@ internal static class Encounters1
         new(TradeNames, 23, 075, BU, 16, 15) { EvolveOnTrade = true }, // Graveler - Abra->Kadabra
         new(TradeNames, 24, 079, BU, 22, 05), // Slowpoke - Seel
         new(TradeNames, 25, 098, BU, 15, 05), // Krabby - Growlithe
-    };
+    ];
 }

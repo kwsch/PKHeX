@@ -8,10 +8,10 @@ namespace PKHeX.Core;
 
 public sealed class SCBlockCompare
 {
-    private readonly List<string> AddedKeys = new();
-    private readonly List<string> RemovedKeys = new();
-    private readonly List<string> TypesChanged = new();
-    private readonly List<string> ValueChanged = new();
+    private readonly List<string> AddedKeys = [];
+    private readonly List<string> RemovedKeys = [];
+    private readonly List<string> TypesChanged = [];
+    private readonly List<string> ValueChanged = [];
 
     private readonly Dictionary<uint, string> KeyNames;
     private string GetKeyName(uint key) => KeyNames.TryGetValue(key, out var value) ? value : $"{key:X8}";

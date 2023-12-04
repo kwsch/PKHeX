@@ -61,7 +61,7 @@ internal static class Program
 #if !DEBUG
     private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
-    // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
+    // Handle the UI exceptions by showing a dialog box, and asking the user if they wish to abort execution.
     private static void UIThreadException(object sender, ThreadExceptionEventArgs t)
     {
         DialogResult result = DialogResult.Cancel;
@@ -79,8 +79,7 @@ internal static class Program
             Application.Exit();
     }
 
-    // Handle the UI exceptions by showing a dialog box, and asking the user whether
-    // or not they wish to abort execution.
+    // Handle the UI exceptions by showing a dialog box, and asking the user if they wish to abort execution.
     // NOTE: This exception cannot be kept from terminating the application - it can only
     // log the event, and inform the user about it.
     private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

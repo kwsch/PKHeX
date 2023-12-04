@@ -40,7 +40,7 @@ public sealed class LearnSource3RS : LearnSource3, ILearnSource<PersonalInfo3>, 
     public ReadOnlySpan<ushort> GetEggMoves(ushort species, byte form)
     {
         if (species > MaxSpecies)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         return EggMoves[species].Moves;
     }
 
@@ -150,34 +150,34 @@ public sealed class LearnSource3RS : LearnSource3, ILearnSource<PersonalInfo3>, 
         }
     }
 
-    private static ReadOnlySpan<ushort> Tutor_3Mew => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> Tutor_3Mew =>
+    [
         (int)Move.FeintAttack,
         (int)Move.FakeOut,
         (int)Move.Hypnosis,
         (int)Move.NightShade,
         (int)Move.RolePlay,
         (int)Move.ZapCannon,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> SpecialTutors_XD_SelfDestruct => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> SpecialTutors_XD_SelfDestruct =>
+    [
         074, 075, 076, 088, 089, 090, 091, 092, 093, 094, 095,
         100, 101, 102, 103, 109, 110, 143, 150, 151, 185, 204,
         205, 208, 211, 218, 219, 222, 273, 274, 275, 299, 316,
         317, 320, 321, 323, 324, 337, 338, 343, 344, 362, 375,
         376, 377, 378, 379,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> SpecialTutors_XD_SkyAttack => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> SpecialTutors_XD_SkyAttack =>
+    [
         016, 017, 018, 021, 022, 084, 085, 142, 144, 145, 146,
         151, 163, 164, 176, 177, 178, 198, 225, 227, 250, 276,
         277, 278, 279, 333, 334,
-    };
+    ];
 
-    private static ReadOnlySpan<ushort> SpecialTutors_XD_Nightmare => new ushort[]
-    {
+    private static ReadOnlySpan<ushort> SpecialTutors_XD_Nightmare =>
+    [
         012, 035, 036, 039, 040, 052, 053, 063, 064, 065, 079,
         080, 092, 093, 094, 096, 097, 102, 103, 108, 121, 122,
         124, 131, 137, 150, 151, 163, 164, 173, 174, 177, 178,
@@ -185,5 +185,5 @@ public sealed class LearnSource3RS : LearnSource3, ILearnSource<PersonalInfo3>, 
         233, 234, 238, 248, 249, 250, 251, 280, 281, 282, 284,
         292, 302, 315, 316, 317, 327, 353, 354, 355, 356, 358,
         359, 385, 386,
-    };
+    ];
 }

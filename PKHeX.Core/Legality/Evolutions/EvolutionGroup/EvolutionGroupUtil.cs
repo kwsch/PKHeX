@@ -3,7 +3,7 @@ using static PKHeX.Core.EntityContext;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Utility logic for getting an <see cref="IEvolutionGroup"/> based on the input.
+/// Utility logic for getting the <see cref="IEvolutionGroup"/> based on the input.
 /// </summary>
 public static class EvolutionGroupUtil
 {

@@ -3,13 +3,11 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class TeamIndexes9 : SaveBlock<SAV9SV>, ITeamIndexSet
+public sealed class TeamIndexes9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data), ITeamIndexSet
 {
     private const int TeamCount = 6;
     private const int NONE_SELECTED = -1;
     public readonly int[] TeamSlots = new int[TeamCount * 6];
-
-    public TeamIndexes9(SAV9SV sav, SCBlock block) : base(sav, block.Data) { }
 
     public void LoadBattleTeams()
     {

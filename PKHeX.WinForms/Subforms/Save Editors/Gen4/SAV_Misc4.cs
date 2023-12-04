@@ -31,7 +31,9 @@ public partial class SAV_Misc4 : Form
                 ofsUGFlagCount = 0x3A60;
                 L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                 GB_Prints.Visible = GB_Prints.Enabled = GB_Hall.Visible = GB_Hall.Enabled = GB_Castle.Visible = GB_Castle.Enabled = false;
-                BFF = new[] { new[] { 0, 1, 0x5FCA, 0x04, 0x6601 } };
+                BFF = [
+                    [0, 1, 0x5FCA, 0x04, 0x6601],
+                ];
                 break;
             case GameVersion.Pt:
                 ofsFlag = 0xFEC;
@@ -39,13 +41,13 @@ public partial class SAV_Misc4 : Form
                 ofsUGFlagCount = 0x3CE8;
                 L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                 ofsPrints = 0xE4A;
-                BFF = new[] {
-                    new[] { 0, 1, 0x68E0, 0x04, 0x723D },
-                    new[] { 1, 0, 0x68F4, 0x10, 0x7EF8 },
-                    new[] { 0, 0, 0x6924, 0x18, 0x7EFC },
-                    new[] { 2, 0, 0x696C, 0x10, 0x7F00 },
-                    new[] { 0, 0, 0x699C, 0x04, 0x7F04 },
-                };
+                BFF = [
+                    [0, 1, 0x68E0, 0x04, 0x723D],
+                    [1, 0, 0x68F4, 0x10, 0x7EF8],
+                    [0, 0, 0x6924, 0x18, 0x7EFC],
+                    [2, 0, 0x696C, 0x10, 0x7F00],
+                    [0, 0, 0x699C, 0x04, 0x7F04],
+                ];
                 Hall = SAV.GetHall();
                 break;
             case GameVersion.HG or GameVersion.SS or GameVersion.HGSS:
@@ -55,14 +57,14 @@ public partial class SAV_Misc4 : Form
                 GB_Poketch.Visible = false;
                 ofsMap = 0xBAE7;
                 ofsPrints = 0xE7E;
-                BFF = new[] {
+                BFF = [
                     // { BFV, BFT, addr, 1BFTlen, checkBit
-                    new[] { 0, 1, 0x5264, 0x04, 0x5BC1 },
-                    new[] { 1, 0, 0x5278, 0x10, 0x687C },
-                    new[] { 0, 0, 0x52A8, 0x18, 0x6880 },
-                    new[] { 2, 0, 0x52F0, 0x10, 0x6884 },
-                    new[] { 0, 0, 0x5320, 0x04, 0x6888 },
-                };
+                    [0, 1, 0x5264, 0x04, 0x5BC1],
+                    [1, 0, 0x5278, 0x10, 0x687C],
+                    [0, 0, 0x52A8, 0x18, 0x6880],
+                    [2, 0, 0x52F0, 0x10, 0x6884],
+                    [0, 0, 0x5320, 0x04, 0x6888],
+                ];
                 Hall = SAV.GetHall();
                 break;
             default: return;
@@ -117,13 +119,13 @@ public partial class SAV_Misc4 : Form
         {
             case SAV4Sinnoh:
                 metLocationList = GameInfo.GetLocationList(GameVersion.Pt, EntityContext.Gen4, false);
-                FlyDestD = new[] { 001, 002, 006, 008, 003, 009, 010, 004, 012, 011, 005, 007, 014, 013, 054, 015, 081, 082, 083, 055 };
-                FlyDestC = new[] { 000, 001, 007, 009, 002, 010, 011, 003, 013, 012, 004, 008, 015, 014, 016, 068, 017, 005, 006, 067 };
+                FlyDestD = [001, 002, 006, 008, 003, 009, 010, 004, 012, 011, 005, 007, 014, 013, 054, 015, 081, 082, 083, 055];
+                FlyDestC = [000, 001, 007, 009, 002, 010, 011, 003, 013, 012, 004, 008, 015, 014, 016, 068, 017, 005, 006, 067];
                 break;
             case SAV4HGSS:
                 metLocationList = GameInfo.GetLocationList(GameVersion.HG, EntityContext.Gen4, false);
-                FlyDestD = new[] { 126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225 };
-                FlyDestC = new[] { 011, 012, 013, 014, 016, 018, 017, 015, 019, 020, 021, 030, 027, 022, 033, 009, 000, 001, 002, 003, 005, 004, 006, 010, 007, 008, 035 };
+                FlyDestD = [126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225];
+                FlyDestC = [011, 012, 013, 014, 016, 018, 017, 015, 019, 020, 021, 030, 027, 022, 033, 009, 000, 001, 002, 003, 005, 004, 006, 010, 007, 008, 035];
                 break;
             default: return;
         }
@@ -158,7 +160,7 @@ public partial class SAV_Misc4 : Form
         }
         if (ofsMap > 0)
         {
-            string[] items = { "Map Johto", "Map Johto+", "Map Johto & Kanto" };
+            string[] items = ["Map Johto", "Map Johto+", "Map Johto & Kanto"];
             int index = (SAV.General[ofsMap] >> 3) & 3;
             if (index > 2) index = 2;
             CB_UpgradeMap.Items.AddRange(items);
@@ -220,7 +222,7 @@ public partial class SAV_Misc4 : Form
 
     #region Poketch
     private byte[] DotArtistByte = null!;
-    private static ReadOnlySpan<byte> ColorTable => new byte[] { 248, 168, 88, 8 };
+    private static ReadOnlySpan<byte> ColorTable => [ 248, 168, 88, 8 ];
 
     private void ReadPoketch(SAV4Sinnoh s)
     {
@@ -461,37 +463,37 @@ public partial class SAV_Misc4 : Form
 
     private void ReadBattleFrontier()
     {
-        BFV = new[] {
-            new[] { 2, 0 }, // Max, Current
-            new[] { 2, 0, 3, 1 }, // Max, Current, Max(Trade), Current(Trade)
-            new[] { 2, 0, 1, -1, 3 }, // Max, Current, Current(CP), (UsedCP), Max(CP)
-        };
-        BFT = new[] {
-            new[] { "Singles", "Doubles", "Multi" },
-            new[] { "Singles", "Doubles", "Multi (Trainer)", "Multi (Friend)", "Wi-Fi" },
-        };
-        BFN = new[] { "Tower", "Factory", "Hall", "Castle", "Arcade" };
+        BFV = [
+            [2, 0], // Max, Current
+            [2, 0, 3, 1], // Max, Current, Max(Trade), Current(Trade)
+            [2, 0, 1, -1, 3], // Max, Current, Current(CP), (UsedCP), Max(CP)
+        ];
+        BFT = [
+            ["Singles", "Doubles", "Multi"],
+            ["Singles", "Doubles", "Multi (Trainer)", "Multi (Friend)", "Wi-Fi"],
+        ];
+        BFN = ["Tower", "Factory", "Hall", "Castle", "Arcade"];
         if (SAV is SAV4DP) BFN = BFN.Take(1).ToArray();
-        StatNUDA = new[] { NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3 };
-        StatLabelA = new[] { L_Stat0, L_Stat1, L_Stat2, L_Stat3 };
-        StatRBA = new[] { RB_Stats3_01, RB_Stats3_02 };
+        StatNUDA = [NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3];
+        StatLabelA = [L_Stat0, L_Stat1, L_Stat2, L_Stat3];
+        StatRBA = [RB_Stats3_01, RB_Stats3_02];
 
         if (ofsPrints > 0)
         {
-            PrintColorA = new[] { Color.Transparent, Color.Silver, Color.Gold };
-            PrintButtonA = new[] { BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade };
+            PrintColorA = [Color.Transparent, Color.Silver, Color.Gold];
+            PrintButtonA = [BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade];
             Prints = new int[PrintButtonA.Length];
             for (int i = 0; i < Prints.Length; i++)
                 Prints[i] = 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General[(ofsPrints + (i << 1))..]) >> 1) - 1);
             SetPrints();
 
-            HallNUDA = new[] {
+            HallNUDA = [
                 NUD_HallType01, NUD_HallType02, NUD_HallType03, NUD_HallType04, NUD_HallType05, NUD_HallType06,
                 NUD_HallType07, NUD_HallType08, NUD_HallType09, NUD_HallType10, NUD_HallType11, NUD_HallType12,
                 NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17,
-            };
+            ];
             string[] typeNames = GameInfo.Strings.types;
-            int[] typenameIndex = { 0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8 };
+            int[] typenameIndex = [0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8];
             for (int i = 0; i < HallNUDA.Length; i++)
                 tip2.SetToolTip(HallNUDA[i], typeNames[typenameIndex[i]]);
         }
@@ -542,7 +544,9 @@ public partial class SAV_Misc4 : Form
 
     private void BTN_Print_Click(object sender, EventArgs e)
     {
-        int index = Array.IndexOf(PrintButtonA, sender);
+        if (sender is not Button b)
+            return;
+        int index = Array.IndexOf(PrintButtonA, b);
         if (index < 0)
             return;
         Prints[index] = (Prints[index] + 1) % 3;
@@ -594,16 +598,16 @@ public partial class SAV_Misc4 : Form
         if (sender is RadioButton { Checked: false })
             return;
         StatAddrControl(SetValToSav: -2, SetSavToVal: true);
-        if (GB_Hall.Visible)
+        if (GB_Hall.Visible && CB_Stats2.SelectedItem is string sH)
         {
-            GB_Hall.Text = $"Battle Hall ({(string)CB_Stats2.SelectedItem})";
+            GB_Hall.Text = $"Battle Hall ({sH})";
             editing = true;
             GetHallStat();
             editing = false;
         }
-        else if (GB_Castle.Visible)
+        else if (GB_Castle.Visible && CB_Stats2.SelectedItem is string sC)
         {
-            GB_Castle.Text = $"Battle Castle ({(string)CB_Stats2.SelectedItem})";
+            GB_Castle.Text = $"Battle Castle ({sC})";
             editing = true;
             GetCastleStat();
             editing = false;
@@ -715,7 +719,7 @@ public partial class SAV_Misc4 : Form
     private void GetCastleStat()
     {
         int ofs = BFF[3][2] + (BFF[3][3] * CB_Stats2.SelectedIndex) + 0x0A;
-        NumericUpDown[] na = { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
+        NumericUpDown[] na = [NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo];
         for (int i = 0; i < na.Length; i++)
         {
             int val = ReadInt16LittleEndian(SAV.General[(ofs + (i << 1))..]);
@@ -727,7 +731,7 @@ public partial class SAV_Misc4 : Form
     {
         if (editing)
             return;
-        NumericUpDown[] na = { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
+        NumericUpDown[] na = [NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo];
         int i = Array.IndexOf(na, sender);
         if (i < 0)
             return;

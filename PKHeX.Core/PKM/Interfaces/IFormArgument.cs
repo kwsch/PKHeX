@@ -9,7 +9,7 @@ namespace PKHeX.Core;
 /// <remarks>
 /// <see cref="Furfrou"/> How long (days) the form can last before reverting to Form-0 (5 days max)
 /// <see cref="Hoopa"/>: How long (days) the form can last before reverting to Form-0 (3 days max)
-/// <see cref="Alcremie"/>: Topping (Strawberry, Star, etc); [0,7]
+/// <see cref="Alcremie"/>: Topping (Strawberry, Star, etc.); [0,7]
 /// <see cref="Yamask"/> How much damage the Pokémon has taken as Yamask-1 [0,9999].
 /// <see cref="Runerigus"/> How much damage the Pokémon has taken as Yamask-1 [0,9999].
 /// <see cref="Stantler"/> How many times the Pokémon has used Psyshield Bash in the Agile Style [0,9999].
@@ -19,8 +19,8 @@ namespace PKHeX.Core;
 /// <see cref="Bisharp"/> How many Bisharp that head up a group of Pawniard have been KOed [0,9999].
 /// <see cref="Gimmighoul"/> How many Gimmighoul Coins were in the player's Bag after last leveling up [0,998].
 /// <see cref="Gholdengo"/> How many Gimmighoul Coins were used on Gimmighoul to evolve into this Pokémon.
-/// <see cref="Koraidon"/> Flags whether or not this Pokémon was originally in its Ride Form (0/1).
-/// <see cref="Miraidon"/> Flags whether or not this Pokémon was originally in its Ride Form (0/1).
+/// <see cref="Koraidon"/> Flags whether this Pokémon was originally in its Ride Form (0/1).
+/// <see cref="Miraidon"/> Flags whether this Pokémon was originally in its Ride Form (0/1).
 /// </remarks>
 public interface IFormArgument
 {
@@ -46,7 +46,7 @@ public interface IFormArgument
 }
 
 /// <summary>
-/// Logic for mutating an <see cref="IFormArgument"/> object.
+/// Logic for mutating <see cref="IFormArgument"/> objects.
 /// </summary>
 public static class FormArgumentUtil
 {
@@ -61,7 +61,7 @@ public static class FormArgumentUtil
             ? GetFormArgumentMax(pk.Species, pk.Form, pk.Context)
             : GetFormArgumentMinEvolution(pk.Species, originalSpecies);
         if (pk.Species is (int)Hoopa && pk.Format >= 8)
-            value = 0; // SV does not set the argument for Hoopa
+            value = 0; // S/V does not set the argument for Hoopa
         pk.ChangeFormArgument(value);
     }
 

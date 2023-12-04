@@ -10,7 +10,7 @@ public sealed record LocationSet4(string[] Met0, string[] Met2, string[] Met3) :
         0 => Met0,
         2 => Met2,
         3 => Met3,
-        _ => Array.Empty<string>(),
+        _ => [],
     };
 
     public string GetLocationName(int locationID) => locationID switch

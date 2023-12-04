@@ -5,22 +5,22 @@ namespace PKHeX.Core;
 internal static class Encounters3Colo
 {
     internal static readonly EncounterStatic3Colo[] Starters =
-    {
+    [
         // Colosseum Starters: Gender locked to male
         new(196, 25) { Moves = new(093, 216, 115, 270) }, // Espeon
         new(197, 26) { Moves = new(044, 269, 290, 289) }, // Umbreon (Bite)
-    };
+    ];
 
-    internal static readonly string[] TrainerNameDuking = { string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN" };
+    internal static readonly string[] TrainerNameDuking = [string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN"];
 
     internal static readonly EncounterGift3Colo[] Gifts =
-    {
+    [
         // In-Game without Bonus Disk
         new(311, 13, TrainerNameDuking, GameVersion.CXD) { Location = 254, TID16 = 37149, OT_Gender = 0, Moves = new(045, 086, 098, 270) }, // Plusle @ Ingame Trade
-    };
+    ];
 
     internal static readonly EncounterShadow3Colo[] Shadow =
-    {
+    [
         new(01, 03000, ColoMakuhita) { Species = 296, Level = 30, Moves = new(193,116,233,238), Location = 005 }, // Makuhita: Miror B.Peon Trudly @ Phenac City
 
         new(02, 03000, First)     { Species = 153, Level = 30, Moves = new(241,235,075,034), Location = 003 }, // Bayleef: Cipher Peon Verde @ Phenac City
@@ -106,13 +106,13 @@ internal static class Encounters3Colo
         new(57, 07000, First)     { Species = 213, Level = 45, Moves = new(219,227,156,117), Location = 125 }, // Shuckle: Deep King Agnol @ Deep Colosseum
 
         new(67, 05000, First)     { Species = 176, Level = 20, Moves = new(118,204,186,281), Location = 001 }, // Togetic: Cipher Peon Fein @ Outskirt Stand
-    };
+    ];
 
     public static readonly EncounterShadow3Colo[] EReader =
-    {
+    [
         // Japanese E-Reader: 0 IVs
         new(00, 00000, CTogepi)   { Species = 175, Level = 20, Moves = new(118,204,186,281), Location = 128 }, // Togepi: Chaser ボデス @ Card e Room (Japanese games only)
         new(00, 00000, CMareep)   { Species = 179, Level = 37, Moves = new(087,084,086,178), Location = 128 }, // Mareep: Hunter ホル @ Card e Room (Japanese games only)
         new(00, 00000, CScizor)   { Species = 212, Level = 50, Moves = new(210,232,014,163), Location = 128 }, // Scizor: Bodybuilder ワーバン @ Card e Room (Japanese games only)
-    };
+    ];
 }

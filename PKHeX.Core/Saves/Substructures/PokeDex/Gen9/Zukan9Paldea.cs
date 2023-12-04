@@ -5,12 +5,8 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.SV"/>.
 /// </summary>>
-public sealed class Zukan9Paldea : ZukanBase<SAV9SV>
+public sealed class Zukan9Paldea(SAV9SV sav, SCBlock block) : ZukanBase<SAV9SV>(sav, 0)
 {
-    private readonly SCBlock Block;
-
-    public Zukan9Paldea(SAV9SV sav, SCBlock block) : base(sav, 0) => Block = block;
-
     public PokeDexEntry9Paldea Get(ushort species)
     {
         if (species > SAV.MaxSpeciesID)
@@ -18,7 +14,7 @@ public sealed class Zukan9Paldea : ZukanBase<SAV9SV>
 
         const int size = PokeDexEntry9Paldea.SIZE;
         var internalSpecies = SpeciesConverter.GetInternal9(species);
-        var span = Block.Data.AsSpan(internalSpecies * size, size);
+        var span = block.Data.AsSpan(internalSpecies * size, size);
         return new PokeDexEntry9Paldea(span);
     }
 
@@ -125,7 +121,7 @@ public sealed class Zukan9Paldea : ZukanBase<SAV9SV>
 
     public override void SeenNone()
     {
-        Array.Clear(Block.Data, 0, Block.Data.Length);
+        Array.Clear(block.Data, 0, block.Data.Length);
     }
 
     public override void CaughtNone()

@@ -29,8 +29,8 @@ public static class EggHatchLocation7
         return (flags & mask) != 0;
     }
 
-    private static ReadOnlySpan<byte> LocationPermitted7 => new byte[]
-    {
+    private static ReadOnlySpan<byte> LocationPermitted7 =>
+    [
         0, 0, 0, 0, 0, 0, 3, 0, 3, 0, // 000
         3, 0, 3, 0, 3, 0, 3, 0, 3, 0,
         3, 0, 3, 0, 3, 0, 3, 0, 3, 0,
@@ -55,5 +55,5 @@ public static class EggHatchLocation7
         2, 0, 2, 0, 2, 0, 2, 0, 2, 0,
         2, 0, 2, 0, 2, 0, 2, 0, 2, 0,
         2, 0, 2,
-    };
+    ];
 }

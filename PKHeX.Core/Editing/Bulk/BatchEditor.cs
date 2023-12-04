@@ -69,7 +69,7 @@ public sealed class BatchEditor
     /// </summary>
     /// <param name="lines">Batch instruction line(s)</param>
     /// <param name="data">Entities to modify</param>
-    /// <returns>Editor object if follow up modifications are desired.</returns>
+    /// <returns>Editor object if follow-up modifications are desired.</returns>
     public static BatchEditor Execute(ReadOnlySpan<string> lines, IEnumerable<PKM> data)
     {
         var editor = new BatchEditor();

@@ -10,7 +10,7 @@ namespace PKHeX.WinForms;
 
 public static class WinFormsTranslator
 {
-    private static readonly Dictionary<string, TranslationContext> Context = new();
+    private static readonly Dictionary<string, TranslationContext> Context = [];
     internal static void TranslateInterface(this Control form, string lang) => TranslateForm(form, GetContext(lang));
 
     private static string GetTranslationFileNameInternal(string lang) => $"lang_{lang}";
@@ -89,7 +89,7 @@ public static class WinFormsTranslator
     private static ReadOnlySpan<string> GetTranslationFile(string lang)
     {
         var file = GetTranslationFileNameInternal(lang);
-        // Check to see if a the translation file exists in the same folder as the executable
+        // Check to see if the desired translation file exists in the same folder as the executable
         string externalLangPath = GetTranslationFileNameExternal(file);
         if (File.Exists(externalLangPath))
         {
@@ -272,7 +272,7 @@ public sealed class TranslationContext
     public bool AddNew { private get; set; }
     public bool RemoveUsedKeys { private get; set; }
     public const char Separator = '=';
-    private readonly Dictionary<string, string> Translation = new();
+    private readonly Dictionary<string, string> Translation = [];
     public IReadOnlyDictionary<string, string> Lookup => Translation;
 
     public TranslationContext(ReadOnlySpan<string> content, char separator = Separator)

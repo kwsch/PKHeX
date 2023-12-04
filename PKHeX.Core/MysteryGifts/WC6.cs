@@ -6,16 +6,15 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 6 Mystery Gift Template File
 /// </summary>
-public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature, IMemoryOT, IRestrictVersion
+public sealed class WC6(byte[] Data) : DataMysteryGift(Data), IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature, IMemoryOT, IRestrictVersion
 {
+    public WC6() : this(new byte[Size]) { }
+
     public const int Size = 0x108;
     public const uint EonTicketConst = 0x225D73C2;
     public override int Generation => 6;
     public override EntityContext Context => EntityContext.Gen6;
-    public override bool FatefulEncounter => !IsLinkGift; // Link gifts do not set fateful encounter;
-
-    public WC6() : this(new byte[Size]) { }
-    public WC6(byte[] data) : base(data) { }
+    public override bool FatefulEncounter => !IsLinkGift; // Link gifts do not set fateful encounter
 
     public int RestrictLanguage { get; set; } // None
     public byte RestrictVersion { get; set; } // Permit All
@@ -244,10 +243,11 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
     // Meta Accessible Properties
     public override int[] IVs
     {
-        get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        get => [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         set
         {
-            if (value.Length != 6) return;
+            if (value.Length != 6)
+                return;
             IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
             IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
         }
@@ -255,10 +255,11 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
 
     public int[] EVs
     {
-        get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
+        get => [EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD];
         set
         {
-            if (value.Length != 6) return;
+            if (value.Length != 6)
+                return;
             EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
             EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
         }
@@ -524,7 +525,7 @@ public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, I
         {
             if (OTGender != 3)
             {
-                // Skip ID check if ORASDEMO Simulated wc6
+                // Skip ID check if it is an OR/AS Demo Simulated wc6
                 if (CardID != 0)
                 {
                     if (SID16 != pk.SID16) return false;

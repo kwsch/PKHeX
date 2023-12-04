@@ -112,7 +112,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
         if (count < 2 || pi is not IPersonalAbility12 a)
             return Any12;
         var dual = GetAbilityValueDual(ability, a);
-        if (count == 2 || pi is not IPersonalAbility12H h) // prior to gen5
+        if (count == 2 || pi is not IPersonalAbility12H h) // prior to Gen5
             return dual;
         if (ability == h.AbilityH)
             return dual == Any12 ? Any12H : OnlyHidden;
@@ -235,7 +235,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
 
     public void SetRandomIVs(PKM pk, int flawless)
     {
-        Span<int> ivs = stackalloc[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
+        Span<int> ivs = [IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD];
         flawless -= ivs.Count(31);
         int remain = ivs.Count(RandomIV);
         if (flawless > remain)

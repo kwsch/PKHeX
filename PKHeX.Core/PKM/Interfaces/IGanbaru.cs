@@ -22,7 +22,7 @@ public static class GanbaruExtensions
     /// </summary>
     public const byte TrueMax = 10;
 
-    private static ReadOnlySpan<byte> GanbaruMultiplier => new byte[] { 0, 2, 3, 4, 7, 8, 9, 14, 15, 16, 25 };
+    private static ReadOnlySpan<byte> GanbaruMultiplier => [ 0, 2, 3, 4, 7, 8, 9, 14, 15, 16, 25 ];
 
     /// <summary>
     /// Gets the max possible value that can be legally stored for the specific stat <see cref="index"/>.

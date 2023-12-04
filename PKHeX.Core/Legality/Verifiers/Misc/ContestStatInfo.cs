@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using static PKHeX.Core.ContestStatGranting;
 
 namespace PKHeX.Core;
@@ -59,10 +61,10 @@ public static class ContestStatInfo
         3 => pk.Format < 6    ? CorrelateSheen : Mixed,
         4 => pk.Format < 6    ? CorrelateSheen : Mixed,
 
-        5 => pk.Format < 6                         ? None : !h.HasVisitedBDSP ? NoSheen : Mixed, // ORAS Contests
+        5 => pk.Format < 6                         ? None : !h.HasVisitedBDSP ? NoSheen : Mixed, // OR/AS Contests
         6 => pk is { AO: false, IsUntraded: true } ? None : !h.HasVisitedBDSP ? NoSheen : Mixed,
 
-        _ => h.HasVisitedBDSP ? CorrelateSheen : None, // BDSP Contests
+        _ => h.HasVisitedBDSP ? CorrelateSheen : None, // BD/SP Contests
     };
 
     public static int CalculateMaximumSheen(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial, bool pokeBlock3)
@@ -95,7 +97,7 @@ public static class ContestStatInfo
         _ => throw new ArgumentOutOfRangeException(nameof(method)),
     };
 
-    // Slightly better stat:sheen ratio than Gen4; prefer if has visited.
+    // BD/SP has a slightly better stat:sheen ratio than Gen4; prefer if it has visited.
     public static int CalculateMinimumSheen8b(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
     {
         if (s.IsContestEqual(initial))
@@ -171,20 +173,31 @@ public static class ContestStatInfo
         return (int)Math.Ceiling(sum / 5f);
     }
 
+    // Indexes into the NatureAmpTable
+    private const int AmpIndexCool   = 0; // Spicy
+    private const int AmpIndexTough  = 1; // Sour
+    private const int AmpIndexBeauty = 2; // Dry
+    private const int AmpIndexSmart  = 3; // Bitter
+    private const int AmpIndexCute   = 4; // Sweet
+
     private static int GetGainedSum(IContestStatsReadOnly s, int nature, IContestStatsReadOnly initial)
     {
-        var span = NatureAmpTable.Slice(5 * nature, 5);
+        var span = NatureAmp.GetAmps(nature);
         int sum = 0;
-        sum += GetAmpedStat(span, 0, s.CNT_Cool - initial.CNT_Cool);
-        sum += GetAmpedStat(span, 1, s.CNT_Beauty - initial.CNT_Beauty);
-        sum += GetAmpedStat(span, 2, s.CNT_Cute - initial.CNT_Cute);
-        sum += GetAmpedStat(span, 3, s.CNT_Smart - initial.CNT_Smart);
-        sum += GetAmpedStat(span, 4, s.CNT_Tough - initial.CNT_Tough);
+        sum += GetAmpedStat(span, AmpIndexCool, s.CNT_Cool, initial.CNT_Cool);
+        sum += GetAmpedStat(span, AmpIndexTough, s.CNT_Tough, initial.CNT_Tough);
+        sum += GetAmpedStat(span, AmpIndexBeauty, s.CNT_Beauty, initial.CNT_Beauty);
+        sum += GetAmpedStat(span, AmpIndexSmart, s.CNT_Smart, initial.CNT_Smart);
+        sum += GetAmpedStat(span, AmpIndexCute, s.CNT_Cute, initial.CNT_Cute);
         return sum;
     }
 
-    private static int GetAmpedStat(ReadOnlySpan<sbyte> amps, int index, int gain)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int GetAmpedStat(ReadOnlySpan<sbyte> amps, [ConstantExpected] int index, byte current, byte initial)
     {
+        var gain = current - initial;
+        if (gain <= 0)
+            return 0;
         var amp = amps[index];
         if (amp == 0)
             return gain;
@@ -222,34 +235,4 @@ public static class ContestStatInfo
         public byte CNT_Tough => 0;
         public byte CNT_Sheen => 0;
     }
-
-    private static ReadOnlySpan<sbyte> NatureAmpTable => new sbyte[]
-    {
-        // Spicy, Dry, Sweet, Bitter, Sour
-        0, 0, 0, 0, 0, // Hardy
-        1, 0, 0, 0,-1, // Lonely
-        1, 0,-1, 0, 0, // Brave
-        1,-1, 0, 0, 0, // Adamant
-        1, 0, 0,-1, 0, // Naughty
-       -1, 0, 0, 0, 1, // Bold
-        0, 0, 0, 0, 0, // Docile
-        0, 0,-1, 0, 1, // Relaxed
-        0,-1, 0, 0, 1, // Impish
-        0, 0, 0,-1, 1, // Lax
-       -1, 0, 1, 0, 0, // Timid
-        0, 0, 1, 0,-1, // Hasty
-        0, 0, 0, 0, 0, // Serious
-        0,-1, 1, 0, 0, // Jolly
-        0, 0, 1,-1, 0, // Naive
-       -1, 1, 0, 0, 0, // Modest
-        0, 1, 0, 0,-1, // Mild
-        0, 1,-1, 0, 0, // Quiet
-        0, 0, 0, 0, 0, // Bashful
-        0, 1, 0,-1, 0, // Rash
-       -1, 0, 0, 1, 0, // Calm
-        0, 0, 0, 1,-1, // Gentle
-        0, 0,-1, 1, 0, // Sassy
-        0,-1, 0, 1, 0, // Careful
-        0, 0, 0, 0, 0, // Quirky
-    };
 }

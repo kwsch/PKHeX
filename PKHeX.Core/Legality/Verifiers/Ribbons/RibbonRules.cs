@@ -119,7 +119,7 @@ public static class RibbonRules
                 return false;
         }
 
-        // Series 13 rule-set was the first time Ranked Battles allowed the use of Mythical Pokémon.
+        // Series 13 rule-set was the first rule-set that Ranked Battles allowed the use of Mythical Pokémon.
         // All species that can exist in SW/SH can compete in ranked.
         return true;
     }
@@ -231,8 +231,8 @@ public static class RibbonRules
 
     // Derived from ROM data: true for all Footprint types besides 5 (5 = no feet).
     // If true, requires gaining 30 levels to obtain ribbon. If false, can obtain ribbon at any level.
-    private static ReadOnlySpan<bool> HasFootprintBDSP => new[]
-    {
+    private static ReadOnlySpan<bool> HasFootprintBDSP =>
+    [
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
         true, false,  true,  true, false,  true,  true,  true,  true,  true,
         true,  true,  true,  true,  true,  true,  true,  true,  true,  true,
@@ -283,7 +283,7 @@ public static class RibbonRules
         true,  true,  true,  true, false,  true, false,  true,  true,  true,
         true,  true,  true,  true,  true,  true, false,  true,  true,  true,
         true,  true,  true,  true,
-    };
+    ];
 
     /// <summary>
     /// Checks if the input can receive the <see cref="IRibbonSetEvent3.RibbonNational"/> ribbon.
@@ -401,8 +401,8 @@ public static class RibbonRules
     /// <summary>
     /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
     /// </summary>
-    public static readonly HashSet<ushort> BattleFrontierBanlist = new()
-    {
+    public static readonly HashSet<ushort> BattleFrontierBanlist =
+    [
         (int)Mewtwo, (int)Mew,
         (int)Lugia, (int)HoOh, (int)Celebi,
         (int)Kyogre, (int)Groudon, (int)Rayquaza, (int)Jirachi, (int)Deoxys,
@@ -412,5 +412,5 @@ public static class RibbonRules
         (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
         (int)Meltan, (int)Melmetal,
         (int)Koraidon, (int)Miraidon,
-    };
+    ];
 }

@@ -178,8 +178,12 @@ public sealed partial class MemoryContext8 : MemoryContext
         return (MemoryFeelings[memory] & (1 << --feeling)) != 0;
     }
 
+    public const byte MaxIntensity = 7;
+
     public static bool CanHaveIntensity8(byte memory, byte intensity)
     {
+        if ((uint)intensity > MaxIntensity)
+            return false;
         if (memory >= MemoryFeelings.Length)
             return false;
         return MemoryMinIntensity[memory] <= intensity;
@@ -197,10 +201,10 @@ public sealed partial class MemoryContext8 : MemoryContext
         }
     }
 
-    public static int GetMinimumIntensity8(int memory)
+    public static byte GetMinimumIntensity8(int memory)
     {
         if (memory >= MemoryMinIntensity.Length)
-            return -1;
+            return 0;
         return MemoryMinIntensity[memory];
     }
 

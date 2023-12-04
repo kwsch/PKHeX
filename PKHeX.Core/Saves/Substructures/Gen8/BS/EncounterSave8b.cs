@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -144,43 +144,39 @@ public sealed class EncounterSave8b : SaveBlock<SAV8BS>
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class HoneyTree8b
+public sealed class HoneyTree8b(byte[] Data, int Offset)
 {
     public const int SIZE = 0xC;
-
-    private readonly int Offset;
-    private readonly byte[] Data;
-
-    public HoneyTree8b(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
 
     public bool Spreaded
     {
         get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0x00)) == 1;
         set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0x00), value ? 1u : 0u);
     }
+
     public int Minutes
     {
         get => ReadInt32LittleEndian(Data.AsSpan(Offset + 0x04));
         set => WriteInt32LittleEndian(Data.AsSpan(Offset + 0x04), value);
     }
+
     public byte TblMonsNo
     {
         get => Data[Offset + 0x08];
         set => Data[Offset + 0x08] = value;
     }
+
     public byte RareLv
     {
         get => Data[Offset + 0x09];
         set => Data[Offset + 0x09] = value;
     }
+
     public byte SwayLv
     {
         get => Data[Offset + 0x0A];
         set => Data[Offset + 0x0A] = value;
     }
+
     // 0xB alignment
 }

@@ -32,7 +32,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
     public SAV3XD() : base(SaveUtil.SIZE_G3XD)
     {
-        BAK = Array.Empty<byte>();
+        BAK = [];
         // create fake objects
         StrategyMemo = new StrategyMemo();
         ShadowInfo = new ShadowInfoTableXD(false);
@@ -426,7 +426,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
         {
             var info = ItemStorage3XD.Instance;
             InventoryPouch[] pouch =
-            {
+            [
                 new InventoryPouch3GC(InventoryType.Items, info, 999, OFS_PouchHeldItem, 30), // 20 COLO, 30 XD
                 new InventoryPouch3GC(InventoryType.KeyItems, info, 1, OFS_PouchKeyItem, 43),
                 new InventoryPouch3GC(InventoryType.Balls, info, 999, OFS_PouchBalls, 16),
@@ -434,7 +434,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
                 new InventoryPouch3GC(InventoryType.Berries, info, 999, OFS_PouchBerry, 46),
                 new InventoryPouch3GC(InventoryType.Medicine, info, 999, OFS_PouchCologne, 3), // Cologne
                 new InventoryPouch3GC(InventoryType.BattleItems, info, 1, OFS_PouchDisc, 60),
-            };
+            ];
             return pouch.LoadAll(Data);
         }
         set => value.SaveAll(Data);

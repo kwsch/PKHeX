@@ -54,7 +54,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
         Version = version;
         Gender = FixedGenderUtil.GenderRandom;
         Nature = Nature.Random;
-        Nicknames = Array.Empty<string>();
+        Nicknames = [];
         TrainerNames = names;
         IsFixedNickname = false;
     }

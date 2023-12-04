@@ -4,16 +4,11 @@ using System.Diagnostics;
 
 namespace PKHeX.Core;
 
-public sealed class InventoryPouch9 : InventoryPouch
+public sealed class InventoryPouch9(InventoryType type, IItemStorage info, int maxCount, uint pouch)
+    : InventoryPouch(type, info, maxCount, 0)
 {
     public bool SetNew { get; set; }
-    public uint PouchIndex { get; set; }
-
-    public InventoryPouch9(InventoryType type, IItemStorage info, int maxCount, uint pouch)
-        : base(type, info, maxCount, 0)
-    {
-        PouchIndex = pouch;
-    }
+    public uint PouchIndex { get; set; } = pouch;
 
     public override InventoryItem9 GetEmpty(int itemID = 0, int count = 0) => new() { Index = itemID, Count = count, IsNew = true };
 
@@ -44,7 +39,7 @@ public sealed class InventoryPouch9 : InventoryPouch
 
     public override void SetPouch(Span<byte> data)
     {
-        HashSet<ushort> processed = new();
+        HashSet<ushort> processed = [];
 
         // Write all the item slots still present in the pouch. Keep track of the item IDs processed.
         var items = (InventoryItem9[])Items;

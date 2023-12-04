@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -13,6 +13,7 @@ public readonly ref struct MassiveOutbreakArea8a
 
     private readonly Span<byte> Data;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public MassiveOutbreakArea8a(Span<byte> data) => Data = data;
 
     public ulong AreaHash => ReadUInt64LittleEndian(Data);

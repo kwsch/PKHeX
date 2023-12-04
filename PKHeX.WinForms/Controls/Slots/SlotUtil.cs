@@ -14,7 +14,7 @@ public static class SlotUtil
     /// <summary>
     /// Gets the background image for a slot based on the provided <see cref="type"/>.
     /// </summary>
-    public static Image GetTouchTypeBackground(SlotTouchType type) => type switch
+    public static Bitmap GetTouchTypeBackground(SlotTouchType type) => type switch
     {
         SlotTouchType.None => SpriteUtil.Spriter.Transparent,
         SlotTouchType.Get => SpriteUtil.Spriter.View,

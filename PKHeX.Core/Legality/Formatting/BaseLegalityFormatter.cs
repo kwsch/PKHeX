@@ -19,7 +19,7 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         if (!l.Parsed)
             return L_AnalysisUnavailable;
 
-        List<string> lines = new();
+        List<string> lines = [];
         GetLegalityReportLines(l, lines);
         return string.Join(Environment.NewLine, lines);
     }
@@ -48,7 +48,7 @@ public sealed class BaseLegalityFormatter : ILegalityFormatter
         LegalityFormatting.AddSecondaryChecksInvalid(l.Results, lines);
     }
 
-    private static IReadOnlyList<string> GetVerboseLegalityReportLines(LegalityAnalysis l)
+    private static List<string> GetVerboseLegalityReportLines(LegalityAnalysis l)
     {
         var lines = new List<string>();
         if (l.Valid)

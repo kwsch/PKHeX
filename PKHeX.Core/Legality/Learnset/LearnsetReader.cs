@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class LearnsetReader
 {
-    private static readonly Learnset EMPTY = new(Array.Empty<ushort>(), Array.Empty<byte>());
+    private static readonly Learnset EMPTY = new([], []);
 
     /// <summary>
     /// Loads a learnset using the 8-bit-per-move storage structure used by Generation 1 &amp; 2 games.

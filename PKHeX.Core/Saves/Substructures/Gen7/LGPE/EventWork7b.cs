@@ -11,7 +11,7 @@ public sealed class EventWork7b : SaveBlock<SAV7b>, IEventVar<int>
         // Zone @ 0x21A0 - 0x21AF (128 flags)
         // System @ 0x21B0 - 0x21EF (512 flags) -- is this really 256 instead, with another 256 region after for the small vanish?
         // Vanish @ 0x21F0 - 0x22AF (1536 flags)
-        // Event @ 0x22B0 - 0x23A7 (rest of the flags) (512) -- I think trainer flags are afterwards.... For now, this is a catch-all
+        // Event @ 0x22B0 - 0x23A7 (rest of the flags) (512) -- I think trainer flags are afterward.... For now, this is a catch-all
 
         // time flags (39 used flags of 42) = 6 bytes 0x22F0-0x22F5
         // trainer flags (???) = 0x22F6 - end?

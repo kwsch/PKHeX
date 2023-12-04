@@ -11,7 +11,7 @@ public static class EvolutionVerifier
     private static readonly CheckResult VALID = new(CheckIdentifier.Evolution);
 
     /// <summary>
-    /// Verifies Evolution scenarios of an <see cref="IEncounterable"/> for an input <see cref="PKM"/> and relevant <see cref="LegalInfo"/>.
+    /// Verifies Evolution scenarios of <see cref="IEncounterable"/> templates for an input <see cref="PKM"/> and relevant <see cref="LegalInfo"/>.
     /// </summary>
     /// <param name="pk">Source data to verify</param>
     /// <param name="info">Source supporting information to verify with</param>

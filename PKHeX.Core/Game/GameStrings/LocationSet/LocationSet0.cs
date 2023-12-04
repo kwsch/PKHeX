@@ -8,7 +8,7 @@ public sealed record LocationSet0(string[] Met0) : ILocationSet
     public ReadOnlySpan<string> GetLocationNames(int bankID) => bankID switch
     {
         0 => Met0,
-        _ => Array.Empty<string>(),
+        _ => [],
     };
 
     public string GetLocationName(int locationID)

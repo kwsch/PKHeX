@@ -7,10 +7,10 @@ namespace PKHeX.Core;
 /// <summary> Generation 4 <see cref="PKM"/> format. </summary>
 public sealed class PK4 : G4PKM
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
-    };
+    ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
     public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
@@ -341,7 +341,7 @@ public sealed class PK4 : G4PKM
         pk5.Nature = Nature;
 
         // Delete Platinum/HGSS Met Location Data
-        WriteUInt32LittleEndian(pk5.Data.AsSpan(0x44), 0);
+        pk5.Data.AsSpan(0x44, 4).Clear();
 
         // Met / Crown Data Detection
         pk5.Met_Location = PK5.GetTransferMetLocation4(pk5);
@@ -349,8 +349,8 @@ public sealed class PK4 : G4PKM
         // Egg Location is not modified; when clearing Pt/HGSS egg data, the location will revert to Faraway Place
         // pk5.Egg_Location = Egg_Location;
 
-        // Delete HGSS Data
-        WriteUInt16LittleEndian(pk5.Data.AsSpan(0x86), 0);
+        // Delete HG/S Data
+        pk5.Data.AsSpan(0x86, 2).Clear();
         pk5.Ball = Ball;
 
         // Transfer Nickname and OT Name, update encoding
@@ -361,7 +361,7 @@ public sealed class PK4 : G4PKM
         pk5.Met_Level = pk5.CurrentLevel;
 
         // Remove HM moves; Defog should be kept if both are learned.
-        // if has defog, remove whirlpool.
+        // If it has Defog, remove Whirlpool.
         bool hasDefog = HasMove((int) Move.Defog);
         var banned = LearnSource4.GetPreferredTransferHMs(hasDefog);
         if (banned.Contains(Move1)) pk5.Move1 = 0;

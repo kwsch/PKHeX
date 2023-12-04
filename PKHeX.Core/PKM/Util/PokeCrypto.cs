@@ -60,8 +60,8 @@ public static class PokeCrypto
     /// <summary>
     /// Positions for shuffling.
     /// </summary>
-    private static ReadOnlySpan<byte> BlockPosition => new byte[]
-    {
+    private static ReadOnlySpan<byte> BlockPosition =>
+    [
         0, 1, 2, 3,
         0, 1, 3, 2,
         0, 2, 1, 3,
@@ -96,16 +96,16 @@ public static class PokeCrypto
         0, 3, 2, 1,
         1, 0, 2, 3,
         1, 0, 3, 2,
-    };
+    ];
 
     /// <summary>
-    /// Positions for unshuffling.
+    /// Positions for un-shuffling.
     /// </summary>
-    private static ReadOnlySpan<byte> BlockPositionInvert => new byte[]
-    {
+    private static ReadOnlySpan<byte> BlockPositionInvert =>
+    [
         0, 1, 2, 4, 3, 5, 6, 7, 12, 18, 13, 19, 8, 10, 14, 20, 16, 22, 9, 11, 15, 21, 17, 23,
         0, 1, 2, 4, 3, 5, 6, 7, // duplicates of 0-7 to eliminate modulus
-    };
+    ];
 
     /// <summary>
     /// Shuffles a 232 byte array containing Pokémon data.

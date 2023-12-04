@@ -67,10 +67,10 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
     {
         InitializeComponent();
 
-        L_SlotOccupied = new[] { L_DC1, L_DC2 };
-        TB_SlotEXP = new[] { TB_Daycare1XP, TB_Daycare2XP };
-        L_SlotEXP = new[] { L_XP1, L_XP2 };
-        SlotPictureBoxes = new[] { dcpkx1, dcpkx2 };
+        L_SlotOccupied = [L_DC1, L_DC2];
+        TB_SlotEXP = [TB_Daycare1XP, TB_Daycare2XP];
+        L_SlotEXP = [L_XP1, L_XP2];
+        SlotPictureBoxes = [dcpkx1, dcpkx2];
 
         Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
         M = new SlotChangeManager(this) { Env = EditEnv };
@@ -201,7 +201,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         return GetSlotData(index);
     }
 
-    private ISlotInfo GetSlotData(int index)
+    private SlotInfoMisc GetSlotData(int index)
     {
         var ofs = SAV.GetDaycareSlotOffset(SAV.DaycareIndex, index);
         return new SlotInfoMisc(SAV, index, ofs);
@@ -1007,7 +1007,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         WindowTranslationRequired |= ToggleViewParty(SAV, BoxTab);
         int PartyTab = tabBoxMulti.TabPages.IndexOf(Tab_PartyBattle);
         WindowTranslationRequired |= ToggleViewDaycare(SAV, BoxTab, PartyTab);
-        SetPKMBoxes();   // Reload all of the PKX Windows
+        SetPKMBoxes(); // Reload all Entity picture boxes
 
         ToggleViewMisc(SAV);
 
@@ -1017,7 +1017,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
     private void ToggleViewReset()
     {
-        // Close subforms that are save dependent
+        // Close sub-forms that are SaveFile dependent
         foreach (var z in M.Boxes.Skip(1).ToArray())
             z.FindForm()?.Close();
 
@@ -1142,7 +1142,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7;
         B_OpenOPowers.Visible = sav is ISaveBlock6Main;
         B_OpenPokedex.Visible = sav.HasPokeDex;
-        B_OpenBerryField.Visible = sav is SAV6XY; // oras undocumented
+        B_OpenBerryField.Visible = sav is SAV6XY; // OR/AS undocumented
         B_OpenFriendSafari.Visible = sav is SAV6XY;
         B_OpenEventFlags.Visible = sav is IEventFlag37 or SAV1 or SAV2 or SAV8BS or SAV7b;
         B_CGearSkin.Visible = sav.Generation == 5;

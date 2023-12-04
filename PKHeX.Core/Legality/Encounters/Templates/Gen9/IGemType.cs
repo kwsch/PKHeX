@@ -11,12 +11,13 @@ public interface IGemType
 /// <summary>
 /// Possible values the encounter may have.
 /// </summary>
-public enum GemType : sbyte
+public enum GemType : byte
 {
     /// <summary> Default value, first type when encountered. </summary>
     Default = 0,
     /// <summary> Random type [0,17] </summary>
     Random = 1,
+
     Normal = 2,
     Fighting = 3,
     Flying = 4,

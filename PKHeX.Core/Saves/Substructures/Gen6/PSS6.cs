@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 public static class PSS6
 {
     private const string Header = "PSS List";
-    private static readonly string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby" };
+    private static readonly string[] headers = ["PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby"];
 
     public static List<string> GetPSSParse(SAV6 SAV)
     {
@@ -27,7 +27,7 @@ public static class PSS6
         return result;
     }
 
-    private static void ReadTrainers(ICollection<string> result, Span<byte> data, int offset, int count)
+    private static void ReadTrainers(List<string> result, Span<byte> data, int offset, int count)
     {
         int r_offset = offset;
         const int size = 0xC8;
@@ -43,7 +43,7 @@ public static class PSS6
         }
     }
 
-    private static bool ReadTrainer(ICollection<string> result, ReadOnlySpan<byte> data)
+    private static bool ReadTrainer(List<string> result, ReadOnlySpan<byte> data)
     {
         ulong pssID = ReadUInt64LittleEndian(data);
         if (pssID == 0)

@@ -11,10 +11,10 @@ namespace PKHeX.Core;
 /// </remarks>
 public sealed class BK4 : G4PKM
 {
-    public override ReadOnlySpan<ushort> ExtraBytes => new ushort[]
-    {
+    public override ReadOnlySpan<ushort> ExtraBytes =>
+    [
         0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87,
-    };
+    ];
 
     public override int SIZE_PARTY => PokeCrypto.SIZE_4STORED;
     public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;

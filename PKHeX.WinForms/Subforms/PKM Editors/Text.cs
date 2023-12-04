@@ -10,7 +10,7 @@ public partial class TrashEditor : Form
 {
     private readonly SaveFile SAV;
 
-    public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, Array.Empty<byte>(), sav) { }
+    public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, [], sav) { }
 
     public TrashEditor(TextBoxBase TB_NN, Span<byte> raw, SaveFile sav)
     {
@@ -28,7 +28,7 @@ public partial class TrashEditor : Form
         }
         else
         {
-            Raw = FinalBytes = Array.Empty<byte>();
+            Raw = FinalBytes = [];
         }
 
         var f = FontUtil.GetPKXFont();
@@ -52,7 +52,7 @@ public partial class TrashEditor : Form
         CenterToParent();
     }
 
-    private readonly List<NumericUpDown> Bytes = new();
+    private readonly List<NumericUpDown> Bytes = [];
     public string FinalString;
     public byte[] FinalBytes;
     private readonly byte[] Raw;
@@ -205,16 +205,88 @@ public partial class TrashEditor : Form
 
     private static ReadOnlySpan<ushort> GetChars(int generation) => generation switch
     {
+        5 => SpecialCharsGen5,
         6 => SpecialCharsGen67,
         7 => SpecialCharsGen67,
-        _ => Array.Empty<ushort>(), // Undocumented
+        _ => [], // Undocumented
     };
 
-    private static ReadOnlySpan<ushort> SpecialCharsGen67 => new ushort[]
-    {
-        0xE081, 0xE082, 0xE083, 0xE084, 0xE085, 0xE086, 0xE087, 0xE08D,
-        0xE08E, 0xE08F, 0xE090, 0xE091, 0xE092, 0xE093, 0xE094, 0xE095,
-        0xE096, 0xE097, 0xE098, 0xE099, 0xE09A, 0xE09B, 0xE09C, 0xE09D,
-        0xE09E, 0xE09F, 0xE0A0, 0xE0A1, 0xE0A2, 0xE0A3, 0xE0A4, 0xE0A5,
-    };
+    // Unicode codepoints for special characters, incorrectly starting at 0x2460 instead of 0xE0xx.
+    private static ReadOnlySpan<ushort> SpecialCharsGen5 =>
+    [
+        0x2460, // Full Neutral (Happy in Gen7)
+        0x2461, // Full Happy (Angry in Gen7)
+        0x2462, // Full Sad
+        0x2463, // Full Angry (Neutral in Gen7)
+        0x2464, // Full Right-up arrow
+        0x2465, // Full Right-down arrow
+        0x2466, // Full Zz
+        0x2467, // ×
+        0x2468, // ÷
+        // Skip 69-6B, can't be entered.
+        0x246C, // …
+        0x246D, // ♂
+        0x246E, // ♀
+        0x246F, // ♠
+        0x2470, // ♣
+        0x2471, // ♥
+        0x2472, // ♦
+        0x2473, // ★
+        0x2474, // ◎
+        0x2475, // ○
+        0x2476, // □
+        0x2477, // △
+        0x2478, // ◇
+        0x2479, // ♪
+        0x247A, // ☀
+        0x247B, // ☁
+        0x247C, // ☂
+        0x247D, // ☃
+        0x247E, // Half Neutral
+        0x247F, // Half Happy
+        0x2480, // Half Sad
+        0x2481, // Half Angry
+        0x2482, // Half Right-up arrow
+        0x2483, // Half Right-down arrow 
+        0x2484, // Half Zz
+    ];
+
+    private static ReadOnlySpan<ushort> SpecialCharsGen67 =>
+    [
+        0xE081, // Full Neutral (Happy in Gen7)
+        0xE082, // Full Happy (Angry in Gen7)
+        0xE083, // Full Sad
+        0xE084, // Full Angry (Neutral in Gen7)
+        0xE085, // Full Right-up arrow
+        0xE086, // Full Right-down arrow
+        0xE087, // Full Zz
+        0xE088, // ×
+        0xE089, // ÷
+        // Skip 8A-8C, can't be entered.
+        0xE08D, // …
+        0xE08E, // ♂
+        0xE08F, // ♀
+        0xE090, // ♠
+        0xE091, // ♣
+        0xE092, // ♥
+        0xE093, // ♦
+        0xE094, // ★
+        0xE095, // ◎
+        0xE096, // ○
+        0xE097, // □
+        0xE098, // △
+        0xE099, // ◇
+        0xE09A, // ♪
+        0xE09B, // ☀
+        0xE09C, // ☁
+        0xE09D, // ☂
+        0xE09E, // ☃
+        0xE09F, // Half Neutral
+        0xE0A0, // Half Happy
+        0xE0A1, // Half Sad
+        0xE0A2, // Half Angry
+        0xE0A3, // Half Right-up arrow
+        0xE0A4, // Half Right-down arrow 
+        0xE0A5, // Half Zz
+    ];
 }

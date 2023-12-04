@@ -104,8 +104,8 @@ public sealed record EncounterSlot7GO(int StartDate, int EndDate, ushort Species
     private void SetEncounterMoves(PB7 pk, int level)
     {
         Span<ushort> moves = stackalloc ushort[4];
-        ILearnSource source = LearnSource7GG.Instance;
-        source.SetEncounterMoves(Species, Form, level, moves);
+        var source = LearnSource7GG.Instance;
+        ((ILearnSource)source).SetEncounterMoves(Species, Form, level, moves);
         pk.SetMoves(moves);
     }
     #endregion

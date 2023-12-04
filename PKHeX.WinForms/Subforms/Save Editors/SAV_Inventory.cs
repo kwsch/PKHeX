@@ -13,12 +13,15 @@ public partial class SAV_Inventory : Form
     private readonly SaveFile Origin;
     private readonly SaveFile SAV;
 
+    private static readonly ImageList IL_Pouch = InventoryTypeImageUtil.GetImageList();
+
     public SAV_Inventory(SaveFile sav)
     {
         InitializeComponent();
+        tabControl1.ImageList = IL_Pouch;
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (Origin = sav).Clone();
-        itemlist = GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version).ToArray();
+        itemlist = [.. GameInfo.Strings.GetItemStrings(SAV.Context, SAV.Version)]; // copy
 
         for (int i = 0; i < itemlist.Length; i++)
         {
@@ -52,7 +55,7 @@ public partial class SAV_Inventory : Form
     private int ColumnFavorite;
     private int ColumnNEW;
 
-    private readonly Dictionary<InventoryType, DataGridView> ControlGrids = new();
+    private readonly Dictionary<InventoryType, DataGridView> ControlGrids = [];
     private DataGridView GetGrid(InventoryType type) => ControlGrids[type];
     private DataGridView GetGrid(int pouch) => ControlGrids[Pouches[pouch].Type];
 
@@ -72,7 +75,7 @@ public partial class SAV_Inventory : Form
         tabControl1.ItemSize = new Size(IL_Pouch.Images[0].Width + 4, IL_Pouch.Images[0].Height + 4);
         foreach (var pouch in Pouches)
         {
-            var tab = new TabPage {ImageIndex = (int)(pouch.Type - 1)};
+            var tab = new TabPage { ImageIndex = InventoryTypeImageUtil.GetImageIndex(pouch.Type) };
             var dgv = GetDGV(pouch);
             ControlGrids.Add(pouch.Type, dgv);
             tab.Controls.Add(dgv);
@@ -151,7 +154,7 @@ public partial class SAV_Inventory : Form
         FlatStyle = FlatStyle.Flat,
     };
 
-    private static DataGridViewColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
+    private static DataGridViewTextBoxColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
     {
         var dgvIndex = new DataGridViewTextBoxColumn
         {
@@ -371,4 +374,61 @@ public partial class SAV_Inventory : Form
         func(p); // update
         GetBag(dgv, p); // load current
     }
+}
+
+/// <summary>
+/// File specific utility class for creating a <see cref="ImageList"/> for displaying an icon in each of the tabs.
+/// </summary>
+file static class InventoryTypeImageUtil
+{
+    /// <summary>
+    /// Gets the index within the <see cref="ImageList"/> for the given <see cref="InventoryType"/>.
+    /// </summary>
+    /// <remarks><see cref="InventoryType.None"/> is skipped.</remarks>
+    public static int GetImageIndex(InventoryType type) => (int)type - 1;
+
+    /// <summary>
+    /// Creates a <see cref="ImageList"/> for displaying an icon in each of the tabs.
+    /// </summary>
+    public static ImageList GetImageList()
+    {
+        var result = new ImageList
+        {
+            TransparentColor = Color.Transparent,
+            ImageSize = Properties.Resources.bag_items.Size, // Match the size of the resources.
+        };
+        var images = result.Images;
+        var types = (InventoryType[])Enum.GetValues(typeof(InventoryType));
+        foreach (var type in types)
+        {
+            if (type is InventoryType.None)
+                continue;
+            var img = GetImage(type);
+
+            int index = GetImageIndex(type);
+            var name = type.ToString();
+            images.Add(name, img);
+            images.SetKeyName(index, name);
+        }
+        return result;
+    }
+
+    private static Bitmap GetImage(InventoryType type) => type switch
+    {
+        InventoryType.Items => Properties.Resources.bag_items,
+        InventoryType.KeyItems => Properties.Resources.bag_key,
+        InventoryType.TMHMs => Properties.Resources.bag_tech,
+        InventoryType.Medicine => Properties.Resources.bag_medicine,
+        InventoryType.Berries => Properties.Resources.bag_berries,
+        InventoryType.Balls => Properties.Resources.bag_balls,
+        InventoryType.BattleItems => Properties.Resources.bag_battle,
+        InventoryType.MailItems => Properties.Resources.bag_mail,
+        InventoryType.PCItems => Properties.Resources.bag_pcitems,
+        InventoryType.FreeSpace => Properties.Resources.bag_free,
+        InventoryType.ZCrystals => Properties.Resources.bag_z,
+        InventoryType.Candy => Properties.Resources.bag_candy,
+        InventoryType.Treasure => Properties.Resources.bag_treasure,
+        InventoryType.Ingredients => Properties.Resources.bag_ingredient,
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+    };
 }

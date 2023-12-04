@@ -7,8 +7,8 @@ internal static class Locations8b
     public static bool IsUnderground(ushort location) => location is (>= 508 and <= 617);
     public static bool IsMarsh(ushort location) => location is (>= 219 and <= 224);
 
-    public static ReadOnlySpan<ushort> Met0 => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Met0 =>
+    [
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
         020, 021, 022, 023, 024, 025, 026, 027, 028, 029,
@@ -77,17 +77,17 @@ internal static class Locations8b
 
         // Ramanas Park rooms with lights out
         648, 649, 650, 651, 652, 653, 654, 655, 656, 657,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> Met3 => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Met3 =>
+    [
                30001,        30003, 30004, 30005, 30006, 30007,        30009,
         30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018, 30019,
         30020,        30022,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> Met4 => new ushort[]
-    {
+    public static ReadOnlySpan<ushort> Met4 =>
+    [
                40001, 40002, 40003, 40005, 40006, 40007, 40008, 40009,
         40010, 40011, 40012, 40013, 40014, 40016, 40017, 40018, 40019,
         40020, 40021, 40022, 40024, 40025, 40026, 40027, 40028, 40029,
@@ -96,7 +96,7 @@ internal static class Locations8b
         40050, 40051, 40052, 40053, 40055, 40056, 40057, 40058, 40059,
         40060, 40061, 40063, 40064, 40065, 40066, 40067, 40068, 40069,
         40070, 40071, 40072, 40074, 40075, 40076, 40077,
-    };
+    ];
 
-    public static ReadOnlySpan<ushort> Met6 => new ushort[] {/* XY */ 60001, 60003, /* ORAS */ 60004, /* BDSP */ 60005, 60006, 60007, 60010 };
+    public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004, /* BD/SP */ 60005, 60006, 60007, 60010];
 }

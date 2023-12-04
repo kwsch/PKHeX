@@ -32,16 +32,16 @@ public static class Records
         _ => -1,
     };
 
-    private static ReadOnlySpan<int> MaxByType => new[] {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
+    private static ReadOnlySpan<int> MaxByType => [999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7];
 
-    public static ReadOnlySpan<byte> DailyPairs_6 => new byte[] {29, 30, 110, 111, 112, 113, 114, 115, 116, 117};
-    public static ReadOnlySpan<byte> DailyPairs_7 => new byte[] {22, 23, 110, 111, 112, 113, 114, 115, 116, 117};
+    public static ReadOnlySpan<byte> DailyPairs_6 => [29, 30, 110, 111, 112, 113, 114, 115, 116, 117];
+    public static ReadOnlySpan<byte> DailyPairs_7 => [22, 23, 110, 111, 112, 113, 114, 115, 116, 117];
 
     /// <summary>
     /// Festa pairs; if updating the lower index record, update the Festa Mission record if currently active?
     /// </summary>
-    public static ReadOnlySpan<byte> FestaPairs_7 => new byte[]
-    {
+    public static ReadOnlySpan<byte> FestaPairs_7 =>
+    [
         175, 6,
         176, 33,
         177, 8,
@@ -51,7 +51,7 @@ public static class Records
         183, 7,
         184, 159,
         185, 9,
-    };
+    ];
 }
 
 public static class RecordLists
@@ -234,7 +234,7 @@ public static class RecordLists
         {175, "Times used Escape Rope"},
         {176, "Times used Dowsing Machine"},
         {177, "Trainer's Eye Rematches"},
-        {178, "FUREAI Interest ???"}, // similar to USUM idb
+        {178, "FUREAI Interest ???"}, // similar to US/UM idb
 
         {179, "Shiny Pokemon Encountered"},
         {180, "Trick House Clears"},
@@ -314,7 +314,7 @@ public static class RecordLists
         {067, "Berry Piles (not full) Collected"},
         {068, "Berry Piles (full) Collected"},
         {069, "Items Reeled In"},
-        // USUM
+        // US/UM
         {070, "Roto Lotos"},
 
         {072, "Stickers Collected"},
@@ -411,7 +411,7 @@ public static class RecordLists
         {186, "Get BP at the Battle Tree!"},
         {187, "Catch a lot of Pokémon!"},
 
-        // USUM
+        // US/UM
         {188, "Ultra Wormhole Travels"},
         {189, "Mantine Surf Plays"},
         {190, "Photo Club Photos saved"},

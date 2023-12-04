@@ -1,14 +1,12 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class RTC3
+public sealed class RTC3(byte[] Data)
 {
-    public readonly byte[] Data;
+    public readonly byte[] Data = Data;
     public const int Size = 8;
-
-    public RTC3(byte[] data) => Data = data;
 
     public int Day { get => ReadUInt16LittleEndian(Data.AsSpan(0x00)); set => WriteUInt16LittleEndian(Data.AsSpan(0x00), (ushort)value); }
     public int Hour { get => Data[2]; set => Data[2] = (byte)value; }

@@ -13,7 +13,7 @@ internal static class Encounters8a
     private const byte U = 128; // Middle Height - Unown
 
     internal static readonly EncounterStatic8a[] StaticLA =
-    {
+    [
         // Gifts
         new(722,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed }, // Rowlet
         new(155,000,05,M,M) { Location = 006,                      FixedBall = Ball.LAPoke,   Method = Fixed }, // Cyndaquil
@@ -107,5 +107,5 @@ internal static class Encounters8a
         new(571,001,58,M,M) { Location = 111, Method = Fixed, IsAlpha = true,                                  Moves = new(555,421,841,417) }, // zoroark01: Zoroark-1
         new(706,001,58,M,M) { Location = 104, Method = Fixed, IsAlpha = true,                                  Moves = new(231,406,842,056) }, // numelgon01: Goodra-1
         new(904,000,58,M,M) { Location = 105, Method = Fixed, IsAlpha = true,                                  Moves = new(301,398,401,038) }, // harysen01: Overqwil
-    };
+    ];
 }

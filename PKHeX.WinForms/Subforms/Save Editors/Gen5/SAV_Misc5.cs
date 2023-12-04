@@ -58,13 +58,14 @@ public partial class SAV_Misc5 : Form
         Close();
     }
 
-    private static ReadOnlySpan<uint> keyKS => new uint[] {
+    private static ReadOnlySpan<uint> keyKS =>
+    [
         // 0x34525, 0x11963,           // Selected City
         // 0x31239, 0x15657, 0x49589,  // Selected Difficulty
         // 0x94525, 0x81963, 0x38569,  // Selected Mystery Door
         0x35691, 0x18256, 0x59389, 0x48292, 0x09892, // Obtained Keys(EasyMode, Challenge, City, Iron, Iceberg)
         0x93389, 0x22843, 0x34771, 0xAB031, 0xB3818, // Unlocked(EasyMode, Challenge, City, Iron, Iceberg)
-    };
+    ];
 
     private uint[] valKS = null!;
     private bool[] bKS = null!;
@@ -76,22 +77,22 @@ public partial class SAV_Misc5 : Form
         {
             case GameVersion.B or GameVersion.W or GameVersion.BW:
                 ofsFly = 0x204B2;
-                FlyDestA = new[] {
+                FlyDestA = [
                     "Nuvema Town", "Accumula Town", "Striaton City", "Nacrene City",
                     "Castelia City", "Nimbasa City", "Driftveil City", "Mistralton City",
                     "Icirrus City", "Opelucid City", "Victory Road", "Pokemon League",
                     "Lacunosa Town", "Undella Town", "Black City/White Forest", "(Unity Tower)",
-                };
-                FlyDestC = new[] {
+                ];
+                FlyDestC = [
                     0, 1, 2, 3,
                     4, 5, 6, 7,
                     8, 9, 15, 11,
                     10, 13, 12, 14,
-                };
+                ];
                 break;
             case GameVersion.B2 or GameVersion.W2 or GameVersion.B2W2:
                 ofsFly = 0x20392;
-                FlyDestA = new[] {
+                FlyDestA = [
                     "Aspertia City", "Floccesy Town", "Virbank City",
                     "Nuvema Town", "Accumula Town", "Striaton City", "Nacrene City",
                     "Castelia City", "Nimbasa City", "Driftveil City", "Mistralton City",
@@ -99,8 +100,8 @@ public partial class SAV_Misc5 : Form
                     "Lacunosa Town", "Undella Town", "Black City/White Forest",
                     "Lentimas Town", "Humilau City", "Victory Road", "Pokemon League",
                     "Pokestar Studios", "Join Avenue", "PWT", "(Unity Tower)",
-                };
-                FlyDestC = new[] {
+                ];
+                FlyDestC = [
                     24, 27, 25,
                     8, 9, 10, 11,
                     12, 13, 14, 15,
@@ -108,7 +109,7 @@ public partial class SAV_Misc5 : Form
                     18, 21, 20,
                     28, 26, 66, 19,
                     5, 6, 7, 22,
-                };
+                ];
                 break;
 
             default: throw new ArgumentOutOfRangeException(nameof(SAV.Version));
@@ -129,7 +130,7 @@ public partial class SAV_Misc5 : Form
             TC_Misc.TabPages.Remove(TAB_Medals);
             GB_KeySystem.Visible = false;
             // Roamer
-            cbr = new[] { CB_Roamer642, CB_Roamer641 };
+            cbr = [CB_Roamer642, CB_Roamer641];
             // CurrentStat:ComboboxSource
             // Not roamed: Not roamed/Defeated/Captured
             //    Roaming: Roaming/Defeated/Captured
@@ -175,11 +176,11 @@ public partial class SAV_Misc5 : Form
             GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
             // KeySystem
             string[] KeySystemA =
-            {
+            [
                 "Obtain EasyKey", "Obtain ChallengeKey", "Obtain CityKey", "Obtain IronKey", "Obtain IcebergKey",
                 "Unlock EasyMode", "Unlock ChallengeMode", "Unlock City", "Unlock IronChamber",
                 "Unlock IcebergChamber",
-            };
+            ];
             uint KSID = ReadUInt32LittleEndian(SAV.Data.AsSpan(ofsKS + 0x34));
             valKS = new uint[keyKS.Length];
             bKS = new bool[keyKS.Length];
@@ -198,20 +199,20 @@ public partial class SAV_Misc5 : Form
         }
     }
 
-    private static List<ComboItem> GetStates() => new()
-    {
+    private static List<ComboItem> GetStates() =>
+    [
         new ComboItem("Not roamed", 0),
         new ComboItem("Roaming", 1),
         new ComboItem("Defeated", 2),
         new ComboItem("Captured", 3),
-    };
+    ];
 
-    private static List<ComboItem> GetRoamStatusStates() => new()
-    {
+    private static List<ComboItem> GetRoamStatusStates() =>
+    [
         new ComboItem("Not happened", 0),
         new ComboItem("Go to route 7", 1),
         new ComboItem("Event finished", 3),
-    };
+    ];
 
     private void SaveMain()
     {
@@ -301,7 +302,7 @@ public partial class SAV_Misc5 : Form
             var pass = (Entralink5B2W2)entree;
             var ppv = (PassPower5[])Enum.GetValues(typeof(PassPower5));
             var ppn = Enum.GetNames(typeof(PassPower5));
-            ComboItem[] PassPowerB = ppn.Zip(ppv, (f, s) => new ComboItem(f, (int)s)).OrderBy(z => z.Text).ToArray();
+            ComboItem[] PassPowerB = [.. ppn.Zip(ppv, (f, s) => new ComboItem(f, (int)s)).OrderBy(z => z.Text)];
             var cba = new[] { CB_PassPower1, CB_PassPower2, CB_PassPower3 };
             foreach (var cb in cba)
             {

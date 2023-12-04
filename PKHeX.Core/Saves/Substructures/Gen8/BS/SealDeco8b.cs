@@ -45,21 +45,13 @@ public sealed class SealBallDecoData8b : SaveBlock<SAV8BS>
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class SealCapsule8b
+public sealed class SealCapsule8b(byte[] Data, int Offset)
 {
     public const int COUNT_SEAL = 20; // AffixSealData[20]
     public const int SIZE = 12 + (COUNT_SEAL * AffixSealData8b.SIZE); // 0xAC
 
-    private readonly int Offset;
-    private readonly byte[] Data;
-
     public override string ToString() => $"{(Species)Species}-{EncryptionConstant:X8}-{Unknown}";
 
-    public SealCapsule8b(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
     public uint Species            { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 0)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 0), value); }
     public uint EncryptionConstant { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 4)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 4), value); }
     public uint Unknown            { get => ReadUInt32LittleEndian(Data.AsSpan(Offset + 8)); set => WriteUInt32LittleEndian(Data.AsSpan(Offset + 8), value); }
@@ -87,20 +79,11 @@ public sealed class SealCapsule8b
 }
 
 [TypeConverter(typeof(ExpandableObjectConverter))]
-public sealed class AffixSealData8b
+public sealed class AffixSealData8b(byte[] Data, int Offset)
 {
     public const int SIZE = 8; // u16 id, s16 x,y,z
 
-    private readonly int Offset;
-    private readonly byte[] Data;
-
     public override string ToString() => $"{(Seal8b)SealID}-({X},{Y},{Z})";
-
-    public AffixSealData8b(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
 
     public ushort SealID { get => ReadUInt16LittleEndian(Data.AsSpan(Offset + 0)); set => WriteUInt16LittleEndian(Data.AsSpan(Offset + 0), value); }
     public short X { get => ReadInt16LittleEndian(Data.AsSpan(Offset + 2)); set => WriteInt16LittleEndian(Data.AsSpan(Offset + 2), value); }

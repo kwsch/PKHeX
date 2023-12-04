@@ -18,7 +18,7 @@ public static class LocationsHOME
     public const ushort SWSHEgg = 65534; // -2 = 8bNone-1..
 
     /// <summary>
-    /// Gets the external entity version needs to be remapped into a SW/SH location.
+    /// Gets the external entity version needs to be remapped into a location for SW/SH.
     /// </summary>
     /// <param name="version"></param>
     /// <returns>True if a known remap exists.</returns>
@@ -100,7 +100,7 @@ public static class LocationsHOME
     /// <summary>
     /// Checks if the met location is a valid location for the input <see cref="ver"/>.
     /// </summary>
-    /// <remarks>Relevant when a BD/SP entity is transferred to SW/SH.</remarks>
+    /// <remarks>Relevant when an entity from BD/SP is transferred to SW/SH.</remarks>
     public static bool IsValidMetBDSP(ushort loc, int ver) => loc switch
     {
         SHSP when ver == (int)GameVersion.SH => true,
@@ -111,7 +111,7 @@ public static class LocationsHOME
     /// <summary>
     /// Checks if the met location is a valid location for the input <see cref="ver"/>.
     /// </summary>
-    /// <remarks>Relevant when a S/V entity is transferred to SW/SH.</remarks>
+    /// <remarks>Relevant when an entity from S/V is transferred to SW/SH.</remarks>
     public static bool IsValidMetSV(ushort loc, int ver) => loc switch
     {
         SHVL when ver == (int)GameVersion.SH => true,

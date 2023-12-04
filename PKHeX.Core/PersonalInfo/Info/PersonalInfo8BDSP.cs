@@ -6,12 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.BDSP"/> games.
 /// </summary>
-public sealed class PersonalInfo8BDSP : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType, IPermitRecord
+public sealed class PersonalInfo8BDSP(byte[] Data)
+    : PersonalInfo, IPersonalAbility12H, IPersonalInfoTM, IPersonalInfoTutorType, IPermitRecord
 {
     public const int SIZE = 0x44;
-    private readonly byte[] Data;
-
-    public PersonalInfo8BDSP(byte[] data) => Data = data;
 
     public override byte[] Write() => Data;
 

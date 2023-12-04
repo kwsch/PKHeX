@@ -47,7 +47,7 @@ public static class StringConverter7
     /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
     /// <param name="language">Language specific conversion (Chinese)</param>
     /// <param name="option">Buffer pre-formatting option</param>
-    /// <param name="chinese">Chinese string remapping should be attempted</param>
+    /// <param name="chinese">Chinese string remapping should be attempted (only Pokémon names, without Nickname flag set)</param>
     /// <returns>Encoded data.</returns>
     public static int SetString(Span<byte> destBuffer, ReadOnlySpan<char> value, int maxLength, int language,
         StringConverterOption option = StringConverterOption.ClearZero, bool chinese = false)
@@ -58,7 +58,6 @@ public static class StringConverter7
         if (option is StringConverterOption.ClearZero)
             destBuffer.Clear();
 
-        bool trad = StringConverter7ZH.IsTraditional(value, language);
         bool isFullWidth = StringConverter.GetIsFullWidthString(value);
         for (int i = 0; i < value.Length; i++)
         {
@@ -66,7 +65,7 @@ public static class StringConverter7
             if (!isFullWidth)
                 c = StringConverter.UnSanitizeChar(c);
             if (chinese)
-                c = StringConverter7ZH.ConvertString2BinG7_zh(c, trad);
+                c = StringConverter7ZH.GetPrivateChar(c, language == (int)LanguageID.ChineseT);
             WriteUInt16LittleEndian(destBuffer[(i * 2)..], c);
         }
 

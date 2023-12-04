@@ -26,8 +26,8 @@ public partial class SAV_FestivalPlaza : Form
 
         if (SAV is SAV7USUM)
         {
-            PBs = new[] { ppkx1, ppkx2, ppkx3 };
-            NUD_Trainers = new[] { NUD_Trainer1, NUD_Trainer2, NUD_Trainer3 };
+            PBs = [ppkx1, ppkx2, ppkx3];
+            NUD_Trainers = [NUD_Trainer1, NUD_Trainer2, NUD_Trainer3];
             LoadBattleAgency();
         }
         else
@@ -49,7 +49,7 @@ public partial class SAV_FestivalPlaza : Form
         switch (Main.CurrentLanguage)
         {
             case "ja":
-                res = new[] {
+                res = [
                     "おじさんの きんのたま だからね！","かがくの ちからって すげー","1 2の …… ポカン！","おーす！ みらいの チャンピオン！","おお！ あんたか！","みんな げんきに なりましたよ！","とっても 幸せそう！","なんでも ないです","いあいぎりで きりますか？","レポートを かきこんでいます",
                     "…… ぼくも もう いかなきゃ！","ボンジュール！","バイビー！","ばか はずれです……","やけどなおしの よういは いいか！","ウー！ ハーッ！","ポケモンは たたかわせるものさ","ヤドランは そっぽを むいた！","マサラは まっしろ はじまりのいろ","10000こうねん はやいんだよ！","おーい！ まてー！ まつんじゃあ！","こんちわ！ ぼく ポケモン……！","っだと こらあ！","ぐ ぐーッ！ そんな ばかなーッ！","みゅう！","タチサレ…… タチサレ……",
                     "カイリュー はかいこうせん","どっちか 遊んでくれないか？","ぬいぐるみ かっておいたわよ","ひとのこと じろじろ みてんなよ","なんのことだか わかんない","みんな ポケモン やってるやん","きょうから 24時間 とっくんだ！","あたいが ホンモノ！","でんげきで いちころ……","スイクンを おいかけて 10ねん","かんどうが よみがえるよ！","われわれ ついに やりましたよー！","ヤドンのシッポを うるなんて……","ショオーッ!!","ギャーアアス!!","だいいっぽを ふみだした！",
@@ -58,12 +58,12 @@ public partial class SAV_FestivalPlaza : Form
                     "やめたげてよぉ！","ブラボー！ スーパー ブラボー！","ボクは チャンピオンを こえる","オレは いまから いかるぜッ！","ライモンで ポケモン つよいもん","キミ むしポケモン つかいなよ","ストップ！","ひとよんで メダルおやじ！","トレーナーさんも がんばれよ！","おもうぞんぶん きそおーぜ！","プラズマズイ！","ワタクシを とめることは できない！","けいさんずみ ですとも！","ババリバリッシュ！","ンバーニンガガッ！","ヒュラララ！",
                     "お友達に なっちゃお♪","じゃあ みんな またねえ！","このひとたち ムチャクチャです……","トレーナーとは なにか しりたい","スマートに くずれおちるぜ","いのち ばくはつッ!!","いいんじゃない いいんじゃないの！","あれだよ あれ おみごとだよ！","ぜんりょくでいけー！ ってことよ！","おまちなさいな！","つまり グッド ポイント なわけ！","ざんねん ですが さようなら","にくすぎて むしろ 好きよ","この しれもの が！","イクシャア!!","イガレッカ!!",
                     "フェスサークル ランク 100！",
-                };
+                ];
                 break;
             default:
                 const string musical8note = "♪";
                 const string linedP = "₽"; //currency Ruble
-                res = new[] { //source:UltraMoon
+                res = [ //source:UltraMoon
                     /* (SM)Pokémon House */"There's nothing funny about Nuggets.","The Power of science is awesome.","1, 2, and... Ta-da!","How's the future Champ today?","Why, you!","There! All happy and healthy!","Your Pokémon seems to be very happy!","No thanks!","Would you like to use Cut?","Saving...",
                     /* (SM)Kanto Tent */"Well, I better get going!","Bonjour!","Smell ya later!","Sorry! Bad call!","You better have Burn Heal!","Hoo hah!","Pokémon are for battling!","Slowbro took a snooze...","Shades of your journey await!","You're 10,000 light-years from facing Brock!","Hey! Wait! Don't go out!","Hiya! I'm a Pokémon...","What do you want?","WHAT! This can't be!","Mew!","Be gone... Intruders...",
                     /* (SM)Joht Tent */"Dragonite, Hymer Beam.","Spread the fun around.","I bought an adorable doll with your money.","What are you staring at?","I just don't understand.","Everyone is into Pokémon.","I'm going to train 24 hours a day!","I'm the real deal!","With a jolt of electricity...","For 10 years I chased Suicune.","I am just so deeply moved!","We have finally made it!","...But selling Slowpoke Tails?","Shaoooh!","Gyaaas!","you've taken your first step!",
@@ -72,7 +72,7 @@ public partial class SAV_FestivalPlaza : Form
                     /* (SM)Unova Tent */"Knock it off!","Bravo! Excellent!!","I'll defeat the Champion.","You're about to feel my rage!","Nimbasa's Pokémon can dance a nimble bossa!","Use Bug-type Pokémon!","Stop!","People call me Mr. Medal!","Trainer, do your best, too!","See who's stronger!","Plasbad, for short!","I won't allow anyone to stop me!","I was expecting exactly that kind of move!","Bazzazzazzash!","Preeeeaah!","Haaahraaan!",
                     /* (SM)Kalos Tent */"We'll become friends. "+musical8note,"I'll see you all later!","These people have a few screws loose...","I want to know what a \"Trainer\" is.","When I lose, I go out in style!","Let's give it all we've got!","Fantastic! Just fantastic!","Outstanding!","Try as hard as possible!","Stop right there!","That really hit me right here...","But this is adieu to you all.","You're just too much, you know?","Fool! You silly, unseeing child!","Xsaaaaaah!","Yvaaaaaar!",
                     "I reached Festival Plaza Rank 100!",
-                };
+                ];
                 break;
         }
         CLB_Phrases.Items.Clear();
@@ -83,7 +83,7 @@ public partial class SAV_FestivalPlaza : Form
         DateTime dt = SAV.Festa.FestaDate ?? new DateTime(2000, 1, 1);
         CAL_FestaStartDate.Value = CAL_FestaStartTime.Value = dt;
 
-        string[] res2 = { "Rank 4: missions", "Rank 8: facility", "Rank 10: fashion", "Rank 20: rename", "Rank 30: special menu", "Rank 40: BGM", "Rank 50: theme Glitz", "Rank 60: theme Fairy", "Rank 70: theme Tone", "Rank 100: phrase", "Current Rank" };
+        string[] res2 = ["Rank 4: missions", "Rank 8: facility", "Rank 10: fashion", "Rank 20: rename", "Rank 30: special menu", "Rank 40: BGM", "Rank 50: theme Glitz", "Rank 60: theme Fairy", "Rank 70: theme Tone", "Rank 100: phrase", "Current Rank"];
         CLB_Reward.Items.Clear();
         CLB_Reward.Items.Add(res2[^1], (CheckState)RewardState[SAV.Festa.GetFestPrizeReceived(10)]); //add CurrentRank before const-rewards
         for (int i = 0; i < res2.Length - 1; i++)
@@ -92,11 +92,11 @@ public partial class SAV_FestivalPlaza : Form
         for (int i = 0; i < 7; i++)
             f[i] = new FestaFacility(SAV, i);
 
-        string[] res3 = { "Meet", "Part", "Moved", "Disappointed" };
+        string[] res3 = ["Meet", "Part", "Moved", "Disappointed"];
         CB_FacilityMessage.Items.Clear();
         CB_FacilityMessage.Items.AddRange(res3);
         string[] res5 =
-        {
+        [
             "Ace Trainer" + gendersymbols[1],
             "Ace Trainer" + gendersymbols[0],
             "Veteran" + gendersymbols[1],
@@ -109,23 +109,23 @@ public partial class SAV_FestivalPlaza : Form
             "Breeder" + gendersymbols[1],
             "Youngster",
             "Lass",
-        };
+        ];
         CB_FacilityNPC.Items.Clear();
         CB_FacilityNPC.Items.AddRange(res5);
-        string[] res6 = { "Lottery", "Haunted", "Goody", "Food", "Bouncy", "Fortune", "Dye", "Exchange" };
-        string[][] res7 = {
-            new[]{"BigDream","GoldRush","TreasureHunt"},
-            new[]{"GhostsDen","TrickRoom","ConfuseRay"},
-            new[]{"Ball","General","Battle","SoftDrink","Pharmacy"},
-            new[]{"Rare","Battle", "FriendshipCafé", "FriendshipParlor"},
-            new[]{"Thump","Clink","Stomp"},
-            new[]{"Kanto","Johto","Hoenn","Sinnoh","Unova","Kalos","Pokémon"},
-            new[]{"Red","Yellow","Green","Blue","Orange","NavyBlue","Purple","Pink"},
-            new[]{"Switcheroo"},
-        };
+        string[] res6 = ["Lottery", "Haunted", "Goody", "Food", "Bouncy", "Fortune", "Dye", "Exchange"];
+        string[][] res7 = [
+            ["BigDream","GoldRush","TreasureHunt"],
+            ["GhostsDen","TrickRoom","ConfuseRay"],
+            ["Ball","General","Battle","SoftDrink","Pharmacy"],
+            ["Rare","Battle", "FriendshipCafé", "FriendshipParlor"],
+            ["Thump","Clink","Stomp"],
+            ["Kanto","Johto","Hoenn","Sinnoh","Unova","Kalos","Pokémon"],
+            ["Red","Yellow","Green","Blue","Orange","NavyBlue","Purple","Pink"],
+            ["Switcheroo"],
+        ];
 
         CB_FacilityType.Items.Clear();
-        for (int k = 0; k < RES_FacilityLevelType.Length - (SAV is SAV7USUM ? 0 : 1); k++) //Exchange is USUM only
+        for (int k = 0; k < RES_FacilityLevelType.Length - (SAV is SAV7USUM ? 0 : 1); k++) // Exchange is US/UM only
         {
             var arr = RES_FacilityLevelType[k];
             for (int j = 0; j < arr.Length; j++)
@@ -149,8 +149,8 @@ public partial class SAV_FestivalPlaza : Form
             }
         }
 
-        string[] types = { "GTS", "Wonder Trade", "Battle Spot", "Festival Plaza", "mission", "lottery shop", "haunted house" };
-        string[] lvl = { "+", "++", "+++" };
+        string[] types = ["GTS", "Wonder Trade", "Battle Spot", "Festival Plaza", "mission", "lottery shop", "haunted house"];
+        string[] lvl = ["+", "++", "+++"];
         CB_LuckyResult.Items.Clear();
         CB_LuckyResult.Items.Add("none");
         foreach (string type in types)
@@ -161,7 +161,7 @@ public partial class SAV_FestivalPlaza : Form
 
         NUD_Rank.Value = SAV.Festa.FestaRank;
         LoadRankLabel(SAV.Festa.FestaRank);
-        NUD_Messages = new[] { NUD_MyMessageMeet, NUD_MyMessagePart, NUD_MyMessageMoved, NUD_MyMessageDissapointed };
+        NUD_Messages = [NUD_MyMessageMeet, NUD_MyMessagePart, NUD_MyMessageMoved, NUD_MyMessageDissapointed];
         for (int i = 0; i < NUD_Messages.Length; i++)
             NUD_Messages[i].Value = SAV.Festa.GetFestaMessage(i);
 
@@ -174,7 +174,7 @@ public partial class SAV_FestivalPlaza : Form
     }
 
     private bool editing;
-    private static ReadOnlySpan<byte> RewardState => new byte[] { 0, 2, 1 }; // CheckState.Indeterminate <-> CheckState.Checked
+    private static ReadOnlySpan<byte> RewardState => [ 0, 2, 1 ]; // CheckState.Indeterminate <-> CheckState.Checked
     private readonly int typeMAX;
     private readonly FestaFacility[] f = new FestaFacility[7];
     private readonly string[] RES_Color = Enum.GetNames(typeof(FestivalPlazaFacilityColor));
@@ -185,28 +185,28 @@ public partial class SAV_FestivalPlaza : Form
     }
 
     private readonly byte[][] RES_FacilityColor = //facility appearance
-    {
-        new byte[]{0,1,2,3},//Lottery
-        new byte[]{4,0,5,3},//Haunted
-        new byte[]{1,0,5,3},//Goody
-        new byte[]{6,7,0,3},//Food
-        new byte[]{4,5,8,3},//Bouncy
-        new byte[]{0,1,2,3},//Fortune
-        new byte[]{0,7,8,4,5,1,9,10},//Dye
-        new byte[]{11,1,5,3},//Exchange
-    };
+    [
+        [0,1,2,3],//Lottery
+        [4,0,5,3],//Haunted
+        [1,0,5,3],//Goody
+        [6,7,0,3],//Food
+        [4,5,8,3],//Bouncy
+        [0,1,2,3],//Fortune
+        [0,7,8,4,5,1,9,10],//Dye
+        [11,1,5,3],//Exchange
+    ];
 
     private readonly byte[][] RES_FacilityLevelType = //3:123 4:135 5:12345
-    {
-        new byte[]{5,5,5},
-        new byte[]{5,5,5},
-        new byte[]{3,5,3,3,3},
-        new byte[]{5,4,5,5},
-        new byte[]{5,5,5},
-        new byte[]{4,4,4,4,4,4,4},
-        new byte[]{4,4,4,4,4,4,4,4},
-        new byte[]{3},
-    };
+    [
+        [5,5,5],
+        [5,5,5],
+        [3,5,3,3,3],
+        [5,4,5,5],
+        [5,5,5],
+        [4,4,4,4,4,4,4],
+        [4,4,4,4,4,4,4,4],
+        [3],
+    ];
 
     private int TypeIndexToType(int typeIndex)
     {
@@ -405,7 +405,7 @@ public partial class SAV_FestivalPlaza : Form
         tb.Text = d.FinalString;
     }
 
-    private readonly string[] gendersymbols = { "♂", "♀" };
+    private readonly string[] gendersymbols = ["♂", "♀"];
 
     private void LoadOTlabel(int b)
     {
@@ -484,7 +484,8 @@ public partial class SAV_FestivalPlaza : Form
         }
         else if (sender == TB_FacilityID)
         {
-            f[entry].TrainerFesID = Util.GetBytesFromHexString(t.PadLeft(24, '0'));
+            var updated = Util.GetBytesFromHexString(t.PadLeft(24, '0'));
+            updated.CopyTo(f[entry].TrainerFesID);
         }
     }
 
@@ -676,7 +677,7 @@ public partial class SAV_FestivalPlaza : Form
         if (entry < 0)
             return;
         var facility = f[entry];
-        // there is a unknown value when not introduced...no reproducibility, just mistake?
+        // there is an unknown value when not introduced...no reproducibility, just mistake?
         if (facility.IsIntroduced)
             facility.ClearTrainerFesID();
         facility.IsIntroduced = false;

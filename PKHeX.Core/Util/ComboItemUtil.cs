@@ -126,10 +126,8 @@ public static partial class Util
     private static readonly FunctorComparer<ComboItem> Comparer =
         new((a, b) => string.CompareOrdinal(a.Text, b.Text));
 
-    private sealed class FunctorComparer<T> : IComparer<T>
+    private sealed class FunctorComparer<T>(Comparison<T> Comparison) : IComparer<T>
     {
-        private readonly Comparison<T> Comparison;
-        public FunctorComparer(Comparison<T> comparison) => Comparison = comparison;
         public int Compare(T? x, T? y)
         {
             if (x == null)

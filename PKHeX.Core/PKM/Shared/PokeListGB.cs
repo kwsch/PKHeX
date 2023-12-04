@@ -17,7 +17,7 @@ public abstract class PokeListGB<T> where T : GBPKML
     // 
     // where,
     // - str has variable size (jp/int)
-    // - pkx is different size for gen1/gen2
+    // - pkx is different size for Gen1/Gen2
 
     private readonly int StringLength;
     private readonly byte[] Data;
@@ -140,7 +140,7 @@ public abstract class PokeListGB<T> where T : GBPKML
         int otOfs = GetOffsetPKMOT(base_ofs, index);
         int nkOfs = GetOffsetPKMNickname(base_ofs, index);
 
-        var dat = Data.Slice(pkOfs, Entry_Size);
+        var dat = Data.AsSpan(pkOfs, Entry_Size).ToArray();
         var otname = Data.AsSpan(otOfs, StringLength);
         var nick = Data.AsSpan(nkOfs, StringLength);
 

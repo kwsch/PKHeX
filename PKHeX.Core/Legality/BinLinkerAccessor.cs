@@ -1,6 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -41,14 +41,14 @@ public readonly ref struct BinLinkerAccessor
     /// </summary>
     /// <param name="data">Data reference</param>
     /// <param name="identifier">Expected identifier (debug verification only)</param>
-    public static BinLinkerAccessor Get(ReadOnlySpan<byte> data, [ConstantExpected(Min = 2, Max = 2)] ReadOnlySpan<byte> identifier)
+    public static BinLinkerAccessor Get(ReadOnlySpan<byte> data, [Length(2, 2)] ReadOnlySpan<byte> identifier)
     {
         SanityCheckIdentifier(data, identifier);
         return new BinLinkerAccessor(data);
     }
 
     [Conditional("DEBUG")]
-    private static void SanityCheckIdentifier(ReadOnlySpan<byte> data, [ConstantExpected(Min = 2, Max = 2)] ReadOnlySpan<byte> identifier)
+    private static void SanityCheckIdentifier(ReadOnlySpan<byte> data, [Length(2, 2)] ReadOnlySpan<byte> identifier)
     {
         Debug.Assert(data.Length > 4);
         Debug.Assert(identifier[0] == data[0] && identifier[1] == data[1]);

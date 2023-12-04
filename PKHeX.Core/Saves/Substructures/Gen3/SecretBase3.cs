@@ -3,17 +3,9 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class SecretBase3
+public sealed class SecretBase3(byte[] Data, int Offset)
 {
-    private readonly byte[] Data;
-    private readonly int Offset;
     private bool Japanese => Language == (int) LanguageID.Japanese;
-
-    public SecretBase3(byte[] data, int offset)
-    {
-        Data = data;
-        Offset = offset;
-    }
 
     public int SecretBaseLocation { get => Data[Offset + 0]; set => Data[Offset + 0] = (byte) value; }
 
@@ -60,15 +52,16 @@ public sealed class SecretBase3
     public int Unused11  { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = (byte)value; } // alignment padding
 
     public Span<byte> GetDecorations() => Data.AsSpan(Offset + 0x12, 0x10);
-    public void SetDecorations(Span<byte> value) => value.CopyTo(Data.AsSpan(Offset + 0x12, 0x10));
+    public void SetDecorations(Span<byte> value) => value.CopyTo(GetDecorations());
 
-    public Span<byte> GetDecorationCoordinates() => Data.Slice(Offset + 0x22, 0x10);
-    public void SetDecorationCoordinates(Span<byte> value) => value.CopyTo(Data.AsSpan(Offset + 0x22, 0x10));
+    public Span<byte> GetDecorationCoordinates() => Data.AsSpan(Offset + 0x22, 0x10);
+    public void SetDecorationCoordinates(Span<byte> value) => value.CopyTo(GetDecorationCoordinates());
 
+    private Span<byte> TeamData => Data.AsSpan(Offset + 50, 72);
     public SecretBase3Team Team
     {
-        get => new(Data.Slice(Offset + 50, 72));
-        set => value.Write().CopyTo(Data, Offset + 50);
+        get => new(TeamData.ToArray());
+        set => value.Write().CopyTo(TeamData);
     }
 
     public int TID16

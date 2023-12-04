@@ -1,31 +1,28 @@
 using System;
-using System.Collections.Generic;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.Core.PokeCrypto;
 
 namespace PKHeX.Core;
 
 public static class EntityDetection
 {
-    private static readonly HashSet<int> Sizes = new()
-    {
-        PokeCrypto.SIZE_1JLIST,   PokeCrypto.SIZE_1ULIST,
-        PokeCrypto.SIZE_2ULIST,   PokeCrypto.SIZE_2JLIST,   PokeCrypto.SIZE_2STADIUM,
-        PokeCrypto.SIZE_3STORED,  PokeCrypto.SIZE_3PARTY,
-        PokeCrypto.SIZE_3CSTORED, PokeCrypto.SIZE_3XSTORED,
-        PokeCrypto.SIZE_4STORED,  PokeCrypto.SIZE_4PARTY,   PokeCrypto.SIZE_4RSTORED,
-        PokeCrypto.SIZE_5PARTY,
-        PokeCrypto.SIZE_6STORED,  PokeCrypto.SIZE_6PARTY,
-        PokeCrypto.SIZE_8STORED,  PokeCrypto.SIZE_8PARTY,
-        PokeCrypto.SIZE_8ASTORED, PokeCrypto.SIZE_8APARTY,
-        PokeCrypto.SIZE_9STORED,  PokeCrypto.SIZE_9PARTY,
-    };
-
     /// <summary>
     /// Determines if the given length is valid for a <see cref="PKM"/>.
     /// </summary>
     /// <param name="len">Data length of the file/array.</param>
-    /// <returns>A <see cref="bool"/> indicating whether or not the length is valid for a <see cref="PKM"/>.</returns>
-    public static bool IsSizePlausible(long len) => Sizes.Contains((int)len);
+    /// <returns>A <see cref="bool"/> indicating whether the length is valid for a <see cref="PKM"/>.</returns>
+    public static bool IsSizePlausible(long len) => len is
+        SIZE_1JLIST or SIZE_1ULIST or
+        SIZE_2ULIST or SIZE_2JLIST or SIZE_2STADIUM or
+        SIZE_3STORED or SIZE_3PARTY or
+        SIZE_3CSTORED or SIZE_3XSTORED or
+        SIZE_4STORED or SIZE_4PARTY or SIZE_4RSTORED or
+        SIZE_5PARTY or
+        SIZE_6STORED or SIZE_6PARTY or
+        SIZE_8STORED or SIZE_8PARTY or
+        SIZE_8ASTORED or SIZE_8APARTY or
+        SIZE_9STORED or SIZE_9PARTY
+        ;
 
     public static bool IsPresentGB(ReadOnlySpan<byte> data) => data[0] != 0; // Species non-zero
     public static bool IsPresentGC(ReadOnlySpan<byte> data) => ReadUInt16BigEndian(data) != 0; // Species non-zero
@@ -51,7 +48,7 @@ public static class EntityDetection
             return x => IsPresent(x);
         if (blank.Format <= 2)
             return x => IsPresentGB(x);
-        if (blank.Data.Length <= PokeCrypto.SIZE_3PARTY)
+        if (blank.Data.Length <= SIZE_3PARTY)
             return x => IsPresentGBA(x);
         return x => IsPresentGC(x);
     }

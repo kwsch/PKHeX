@@ -66,7 +66,7 @@ public static class Encounter9RNG
 
         const int UNSET = -1;
         const int MAX = 31;
-        Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+        Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
         if (enc.IVs.IsSpecified)
         {
             enc.IVs.CopyToSpeedLast(ivs);
@@ -143,7 +143,7 @@ public static class Encounter9RNG
             return false;
 
         const int UNSET = -1;
-        Span<int> ivs = stackalloc[] { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
+        Span<int> ivs = [UNSET, UNSET, UNSET, UNSET, UNSET, UNSET];
         if (enc.IVs.IsSpecified)
         {
             enc.IVs.CopyToSpeedLast(ivs);

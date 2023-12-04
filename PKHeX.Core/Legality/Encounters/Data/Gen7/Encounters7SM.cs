@@ -16,7 +16,7 @@ internal static class Encounters7SM
     private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSM);
 
     public static readonly EncounterStatic7[] StaticSM = // @ a\1\5\5
-    {
+    [
         // Gifts - 0.bin
         new(SM) { FixedBall = Ball.Poke, Species = 722, Level = 5,  Location = 024 }, // Rowlet
         new(SM) { FixedBall = Ball.Poke, Species = 725, Level = 5,  Location = 024 }, // Litten
@@ -71,7 +71,7 @@ internal static class Encounters7SM
         new(SM) { Species = 799, Level = 70, Location = 182, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Guzzlord @ Resolution Cave
         new(SM) { Species = 800, Level = 75, Location = 036, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Necrozma @ Ten Carat Hill (Farthest Hollow)
 
-        // QR Scan: Su/M/Tu/W/Th/F/Sa
+        // QR Scan: Su/M/Tu/W/Thu/F/Sa
         // Melemele Island
         new(SM) { Species = 155, Level = 12, Location = 010, Relearn = new(024, 052, 108, 043) }, // Cyndaquil @ Route 3
         new(SM) { Species = 158, Level = 12, Location = 042, Relearn = new(232, 099, 055, 043) }, // Totodile @ Seaward Cave
@@ -107,26 +107,26 @@ internal static class Encounters7SM
         new(SM) { Species = 497, Level = 43, Location = 184, Relearn = new(137, 489, 348, 021) }, // Serperior @ Exeggutor Island
         new(SM) { Species = 503, Level = 43, Location = 158, Relearn = new(362, 227, 453, 279) }, // Samurott @ Poni Wilds
         new(SM) { Species = 500, Level = 43, Location = 160, Relearn = new(276, 053, 372, 535) }, // Emboar @ Ancient Poni Path
-    };
+    ];
 
     public static readonly EncounterStatic7[] StaticSN =
-    {
+    [
         new(SN) { Species = 791, Level = 55, Location = 176, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new(713, 322, 242, 428) }, // Solgaleo
         new(SN) { Species = 794, Level = 65, Location = 040, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Buzzwole @ Melemele Meadow
         new(SN) { Species = 798, Level = 60, Location = 134, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Malie Garden
         new(SN) { Species = 798, Level = 60, Location = 120, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Kartana @ Route 17
-    };
+    ];
 
     public static readonly EncounterStatic7[] StaticMN =
-    {
+    [
         new(MN) { Species = 792, Level = 55, Location = 178, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3, Relearn = new(714, 322, 539, 247) }, // Lunala
         new(MN) { Species = 795, Level = 60, Location = 046, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Pheromosa @ Verdant Cavern (Trial Site)
         new(MN) { Species = 797, Level = 65, Location = 124, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Haina Desert
         new(MN) { Species = 797, Level = 65, Location = 134, Shiny = Shiny.Never, Ability = OnlyFirst,  FlawlessIVCount = 3 }, // Celesteela @ Malie Garden
-    };
+    ];
 
     internal static readonly EncounterTrade7[] TradeGift_SM = // @ a\1\5\5
-    {
+    [
         // Trades - 4.bin
         new(TradeNames, 00, SM) { Species = 066, Form = 0, Level = 09, Ability = OnlySecond, ID32 = 000410, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 1, Gender = 0, Nature = Nature.Brave }, // Machop
         new(TradeNames, 01, SM) { Species = 761, Form = 0, Level = 16, Ability = OnlyFirst,  ID32 = 610507, IVs = new(-1,31,-1,-1,-1,-1), OTGender = 0, Gender = 1, Nature = Nature.Adamant }, // Bounsweet
@@ -135,5 +135,5 @@ internal static class Encounters7SM
         new(TradeNames, 04, SM) { Species = 075, Form = 1, Level = 32, Ability = OnlyFirst,  ID32 = 610602, IVs = new(-1,-1,31,-1,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
         new(TradeNames, 05, SM) { Species = 762, Form = 0, Level = 43, Ability = OnlyFirst,  ID32 = 610503, IVs = new(-1,-1,-1,-1,-1,31), OTGender = 1, Gender = 1, Nature = Nature.Careful }, // Steenee
         new(TradeNames, 06, SM) { Species = 663, Form = 0, Level = 59, Ability = OnlyHidden, ID32 = 581022, IVs = new(-1,-1,-1,31,-1,-1), OTGender = 0, Gender = 0, Nature = Nature.Jolly }, // Talonflame
-    };
+    ];
 }

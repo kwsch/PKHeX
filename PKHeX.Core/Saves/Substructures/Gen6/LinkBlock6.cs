@@ -8,7 +8,7 @@ public sealed class LinkBlock6 : SaveBlock<SAV6>
     public LinkBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
     public LinkBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
-    public byte[] GetLinkInfoData() => Data.Slice(Offset + 0x1FF, PL6.Size);
+    public byte[] GetLinkInfoData() => Data.AsSpan(Offset + 0x1FF, PL6.Size).ToArray();
     public PL6 GetLinkInfo() => new(GetLinkInfoData());
 
     public void SetLinkInfoData(ReadOnlySpan<byte> data)

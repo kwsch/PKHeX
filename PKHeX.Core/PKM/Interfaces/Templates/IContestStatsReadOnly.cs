@@ -19,7 +19,7 @@ public static partial class Extensions
     /// Checks if any contest stat value is nonzero.
     /// </summary>
     /// <param name="stats">Object containing contest stat data.</param>
-    /// <returns>True if has any nonzero contest stat, false if all are zero.</returns>
+    /// <returns>True if it has any nonzero contest stat, false if all are zero.</returns>
     public static bool HasContestStats(this IContestStatsReadOnly stats)
     {
         if (stats.CNT_Cool != 0)

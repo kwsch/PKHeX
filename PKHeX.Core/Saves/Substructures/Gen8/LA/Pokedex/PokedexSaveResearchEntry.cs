@@ -138,8 +138,7 @@ public sealed class PokedexSaveResearchEntry
     public void SetCurrentResearchLevel(PokedexResearchTaskType8a task, int idx, int value)
     {
         // Bound values in [0, 60000]
-        if (value < 0)
-            throw new ArgumentOutOfRangeException(nameof(value));
+        ArgumentOutOfRangeException.ThrowIfNegative(value);
 
         var cappedValue = (ushort)Math.Min(value, PokedexConstants8a.MaxPokedexResearchPoints);
         switch (task)

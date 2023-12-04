@@ -172,18 +172,18 @@ public static class CommonEdits
         {
             // In Generation 1/2 Format sets, when IVs are not specified with a Hidden Power set, we might not have the hidden power type.
             // Under this scenario, just force the Hidden Power type.
-            if (Array.IndexOf(Set.Moves, (ushort)Move.HiddenPower) != -1 && pk.HPType != Set.HiddenPowerType)
+            if (Array.IndexOf(Set.Moves, (ushort)Move.HiddenPower) != -1 && gb.HPType != Set.HiddenPowerType)
             {
-                if (Set.IVs.AsSpan().IndexOfAny(30, 31) >= 0)
-                    pk.SetHiddenPower(Set.HiddenPowerType);
+                if (Set.IVs.AsSpan().ContainsAny(30, 31))
+                    gb.SetHiddenPower(Set.HiddenPowerType);
             }
 
             // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
             // Under this scenario, just apply maximum EVs (65535).
-            if (Set.EVs.AsSpan().IndexOfAnyExcept(0) == -1)
+            if (!Set.EVs.AsSpan().ContainsAnyExcept(0))
                 gb.MaxEVs();
             else
-                pk.SetEVs(Set.EVs);
+                gb.SetEVs(Set.EVs);
         }
         else
         {
@@ -191,7 +191,7 @@ public static class CommonEdits
         }
 
         // IVs have no side effects such as hidden power type in gen 8
-        // therefore all specified IVs are deliberate and should not be Hyper Trained for pokemon met in gen 8
+        // therefore all specified IVs are deliberate and should not be Hyper Trained for Pokémon met in gen 8
         if (pk.Generation < 8)
             pk.SetSuggestedHyperTrainingData(Set.IVs);
 

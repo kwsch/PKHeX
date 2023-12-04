@@ -34,7 +34,7 @@ public partial class SAV_PokedexResearchEditorLA : Form
 
         #region Declare Arrays
         Label[] taskLabels =
-        {
+        [
             L_Catch,
             L_CatchAlpha,
             L_CatchLarge,
@@ -68,10 +68,10 @@ public partial class SAV_PokedexResearchEditorLA : Form
             L_LeapSnow,
             L_LeapOre,
             L_LeapTussocks,
-        };
+        ];
 
-        TaskNUPs = new[]
-        {
+        TaskNUPs =
+        [
             NUP_Catch,
             NUP_CatchAlpha,
             NUP_CatchLarge,
@@ -105,10 +105,10 @@ public partial class SAV_PokedexResearchEditorLA : Form
             NUP_LeapSnow,
             NUP_LeapOre,
             NUP_LeapTussocks,
-        };
+        ];
 
-        TaskTypes = new[]
-        {
+        TaskTypes =
+        [
             Catch,
             CatchAlpha,
             CatchLarge,
@@ -142,10 +142,10 @@ public partial class SAV_PokedexResearchEditorLA : Form
             LeapFromSnow,
             LeapFromOre,
             LeapFromTussocks,
-        };
+        ];
 
-        TaskIndexes = new[]
-        {
+        TaskIndexes =
+        [
             -1,
             -1,
             -1,
@@ -179,7 +179,7 @@ public partial class SAV_PokedexResearchEditorLA : Form
             -1,
             -1,
             -1,
-        };
+        ];
 
         TaskParameters = new int[TaskIndexes.Length];
         InitializeTaskParameters(dexIdx);

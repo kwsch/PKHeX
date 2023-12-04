@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// A single Generation 9 Rental Team
 /// </summary>
-public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
+public sealed class RentalTeam9(byte[] Data) : IRentalTeam<PK9>, IPokeGroup
 {
     private const int LEN_OT = 11; // char
     private const int LEN_TEAMNAME = 10; // char
@@ -29,9 +29,7 @@ public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
     private const int OFS_END = OFS_6 + LEN_POKE;
     public const int SIZE = OFS_END + sizeof(uint); // 0x844
 
-    public readonly byte[] Data;
-
-    public RentalTeam9(byte[] data) => Data = data;
+    public readonly byte[] Data = Data;
 
     // 2 bytes number
     public ushort ID
@@ -71,8 +69,8 @@ public sealed class RentalTeam9 : IRentalTeam<PK9>, IPokeGroup
     public PK9 GetSlot(int slot)
     {
         var ofs = GetSlotOffset(slot);
-        var data = Data.Slice(ofs, LEN_POKE);
-        var pk9 = new PK9(data);
+        var data = Data.AsSpan(ofs, LEN_POKE);
+        var pk9 = new PK9(data.ToArray());
         pk9.ResetPartyStats();
         return pk9;
     }

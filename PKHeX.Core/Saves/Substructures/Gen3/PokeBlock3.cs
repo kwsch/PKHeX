@@ -2,11 +2,9 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class PokeBlock3
+public sealed class PokeBlock3(byte[] Data)
 {
     public const int SIZE = 8;
-    private readonly byte[] Data;
-    public PokeBlock3(byte[] data) => Data = data;
 
     public PokeBlock3Color Color { get => (PokeBlock3Color)Data[0]; set => Data[0] = (byte)value; }
     public byte Spicy  { get => Data[1]; set => Data[1] = value; }
@@ -27,7 +25,7 @@ public sealed class PokeBlock3
         Color = PokeBlock3Color.Gold;
     }
 
-    public void SetBlock(Span<byte> data) => Data.CopyTo(data);
+    public void SetBlock(Span<byte> data1) => Data.CopyTo(data1);
 
     public static PokeBlock3 GetBlock(ReadOnlySpan<byte> data, int offset)
     {

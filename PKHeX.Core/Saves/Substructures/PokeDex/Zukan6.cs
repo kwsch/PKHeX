@@ -220,7 +220,7 @@ public sealed class Zukan6XY : Zukan6
 
     protected override void SetCaughtFlag(int bit, int origin)
     {
-        // Species: 1-649 for X/Y, and not for ORAS; Set the Foreign Owned Flag
+        // Species: 1-649 for X/Y, and not for OR/AS; Set the Foreign Owned Flag
         if (origin < (int)GameVersion.X && bit < (int)Species.Genesect)
             SetForeignFlag(bit);
         else

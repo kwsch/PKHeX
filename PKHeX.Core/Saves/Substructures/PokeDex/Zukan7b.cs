@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Pokédex structure used for <see cref="GameVersion.GG"/> games, slightly modified from <see cref="Zukan7"/>.
 /// </summary>>
-public sealed class Zukan7b : Zukan7
+public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex, langflag)
 {
     private const int UNSET = 0x007F00FE;
     private const int BaseOffset = 0x2A00;
@@ -16,10 +16,6 @@ public sealed class Zukan7b : Zukan7
 
     public const byte DefaultEntryValueH = 0xFE;
     public const byte DefaultEntryValueW = 0x7F;
-
-    public Zukan7b(SAV7b sav, int dex, int langflag) : base(sav, dex, langflag)
-    {
-    }
 
     public override void SetDex(PKM pk)
     {
@@ -176,8 +172,8 @@ public sealed class Zukan7b : Zukan7
         return false;
     }
 
-    private static ReadOnlySpan<byte> SizeDexInfoTable => new byte[]
-    {
+    private static ReadOnlySpan<byte> SizeDexInfoTable =>
+    [
         // species, form
         003, 1,
         006, 1,
@@ -212,7 +208,7 @@ public sealed class Zukan7b : Zukan7
         142, 1,
         150, 1,
         150, 2,
-    };
+    ];
 
     protected override bool GetSaneFormsToIterate(ushort species, out int formStart, out int formEnd, int formIn)
     {

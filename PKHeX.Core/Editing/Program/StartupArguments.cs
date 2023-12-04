@@ -16,7 +16,7 @@ public sealed class StartupArguments
     // ReSharper disable once UnassignedGetOnlyAutoProperty
     public Exception? Error { get; }
     // ReSharper disable once CollectionNeverQueried.Global
-    public readonly List<object> Extra = new();
+    public readonly List<object> Extra = [];
 
     /// <summary>
     /// Step 1: Reads in command line arguments.

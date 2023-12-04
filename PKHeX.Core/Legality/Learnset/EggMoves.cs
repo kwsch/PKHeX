@@ -6,11 +6,10 @@ namespace PKHeX.Core;
 /// <summary>
 /// Stores the valid Move IDs the entry can be obtained with.
 /// </summary>
-public abstract class EggMoves
+public abstract class EggMoves(ushort[] moves)
 {
-    public readonly ushort[] Moves;
-    protected EggMoves(ushort[] moves) => Moves = moves;
-    public bool GetHasEggMove(ushort move) => Array.IndexOf(Moves, move) != -1;
+    public ReadOnlySpan<ushort> Moves => moves;
+    public bool GetHasEggMove(ushort move) => Moves.Contains(move);
 }
 
 /// <summary>
@@ -28,7 +27,7 @@ public sealed class EggMoves2 : EggMoves
     public static EggMoves2[] GetArray(ReadOnlySpan<byte> data, ushort count)
     {
         var entries = new EggMoves2[count + 1];
-        var empty = entries[0] = new EggMoves2(Array.Empty<ushort>());
+        var empty = entries[0] = new EggMoves2([]);
 
         int baseOffset = ReadInt16LittleEndian(data) - (count * 2);
         for (int i = 1; i < entries.Length; i++)
@@ -63,7 +62,7 @@ public sealed class EggMoves6 : EggMoves
     public static EggMoves6[] GetArray(BinLinkerAccessor entries)
     {
         var result = new EggMoves6[entries.Length];
-        var empty = result[0] = new EggMoves6(Array.Empty<ushort>());
+        var empty = result[0] = new EggMoves6([]);
         for (int i = 1; i < result.Length; i++)
         {
             var data = entries[i];
@@ -99,7 +98,7 @@ public sealed class EggMoves7 : EggMoves
     public static EggMoves7[] GetArray(BinLinkerAccessor entries)
     {
         var result = new EggMoves7[entries.Length];
-        var empty = result[0] = new EggMoves7(Array.Empty<ushort>());
+        var empty = result[0] = new EggMoves7([]);
         for (int i = 1; i < result.Length; i++)
         {
             var data = entries[i];
@@ -109,7 +108,7 @@ public sealed class EggMoves7 : EggMoves
             {
                 // Might need to keep track of the Form Index for unavailable forms pointing to valid forms.
                 if (formIndex != 0)
-                    result[i] = new EggMoves7(Array.Empty<ushort>(), formIndex);
+                    result[i] = new EggMoves7([], formIndex);
                 else
                     result[i] = empty;
                 continue;
@@ -130,7 +129,7 @@ internal static class EggMovesExtensions
     public static ReadOnlySpan<ushort> GetFormEggMoves(this EggMoves7[] table, ushort species, byte form)
     {
         if (species >= table.Length)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
 
         var entry = table[species];
         if (form == 0 || species >= entry.FormTableIndex)
@@ -140,10 +139,10 @@ internal static class EggMovesExtensions
         var baseIndex = entry.FormTableIndex;
         var index = baseIndex + form - 1;
         if ((uint)index >= table.Length)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
         entry = table[index];
         if (entry.FormTableIndex != baseIndex)
-            return ReadOnlySpan<ushort>.Empty;
+            return [];
 
         return entry.Moves;
     }
@@ -157,7 +156,7 @@ public static class EggMoves9
     public static ushort[][] GetArray(BinLinkerAccessor entries)
     {
         var result = new ushort[entries.Length][];
-        var empty = result[0] = Array.Empty<ushort>();
+        var empty = result[0] = [];
         for (int i = 1; i < result.Length; i++)
         {
             var data = entries[i];

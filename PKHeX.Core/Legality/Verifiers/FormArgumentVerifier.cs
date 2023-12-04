@@ -80,8 +80,8 @@ public sealed class FormArgumentVerifier : Verifier
             },
             Gimmighoul => arg switch
             {
-                // Leveling up sets the save file's current coin count to the arg. If 999+, triggers level up.
-                // Without leveling up, cannot have a form arg value.
+                // When leveled up, the game copies the save file's current coin count to the arg (clamped to <=999). If >=999, evolution is triggered.
+                // Without being leveled up at least once, it cannot have a form arg value.
                 >= 999 => GetInvalid(LFormArgumentHigh),
                 0 => GetValid(LFormArgumentValid),
                 _ => pk.CurrentLevel != pk.Met_Level ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentNotAllowed),

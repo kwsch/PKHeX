@@ -11,7 +11,7 @@ public partial class ShinyLeaf : UserControl
     public ShinyLeaf()
     {
         InitializeComponent();
-        Flags = new[] { CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_C };
+        Flags = [CHK_1, CHK_2, CHK_3, CHK_4, CHK_5, CHK_C];
     }
 
     private readonly CheckBox[] Flags;

@@ -121,7 +121,7 @@ public sealed class LearnGroup5 : ILearnGroup
         if (!inst.TryGetPersonal(evo.Species, evo.Form, out var pi))
             return;
 
-        // Above species have same level up moves on BW & B2/W2; just check B2/W2.
+        // Above species have same level up moves on B/W & B2/W2; just check B2/W2.
         var fc = pi.FormCount;
         for (int i = 0; i < fc; i++)
             LearnSource5B2W2.Instance.GetAllMoves(result, pk, evo with { Form = (byte)i }, types);

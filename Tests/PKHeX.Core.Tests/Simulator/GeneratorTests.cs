@@ -12,12 +12,12 @@ public class GeneratorTests
     private const string SkipReasonLong = "Long duration test, run manually & very infrequently.";
     static GeneratorTests() => TestUtil.InitializeLegality();
 
-    public static IEnumerable<object[]> GetSpecies17() => GetSpecies(PersonalTable.USUM, new SimpleTrainerInfo(GameVersion.US), () => new PK7(), Array.Empty<GameVersion>());
-    public static IEnumerable<object[]> GetSpeciesLGPE() => GetSpecies(PersonalTable.GG, new SimpleTrainerInfo(GameVersion.GP), () => new PB7(), new[] { GameVersion.GP, GameVersion.GE});
-    public static IEnumerable<object[]> GetSpeciesSWSH() => GetSpecies(PersonalTable.SWSH, new SimpleTrainerInfo(GameVersion.SW), () => new PK8(), new[] { GameVersion.SW, GameVersion.SH });
-    public static IEnumerable<object[]> GetSpeciesPLA() => GetSpecies(PersonalTable.LA, new SimpleTrainerInfo(GameVersion.PLA), () => new PA8(), new[] { GameVersion.PLA });
-    public static IEnumerable<object[]> GetSpeciesBDSP() => GetSpecies(PersonalTable.BDSP, new SimpleTrainerInfo(GameVersion.BD), () => new PB8(), new[] { GameVersion.BD, GameVersion.SP });
-    public static IEnumerable<object[]> GetSpeciesSV() => GetSpecies(PersonalTable.SV, new SimpleTrainerInfo(GameVersion.SL), () => new PK9(), new[] { GameVersion.SL, GameVersion.VL });
+    public static IEnumerable<object[]> GetSpecies17() => GetSpecies(PersonalTable.USUM, new SimpleTrainerInfo(GameVersion.US), () => new PK7(), []);
+    public static IEnumerable<object[]> GetSpeciesLGPE() => GetSpecies(PersonalTable.GG, new SimpleTrainerInfo(GameVersion.GP), () => new PB7(), [GameVersion.GP, GameVersion.GE]);
+    public static IEnumerable<object[]> GetSpeciesSWSH() => GetSpecies(PersonalTable.SWSH, new SimpleTrainerInfo(GameVersion.SW), () => new PK8(), [GameVersion.SW, GameVersion.SH]);
+    public static IEnumerable<object[]> GetSpeciesPLA() => GetSpecies(PersonalTable.LA, new SimpleTrainerInfo(GameVersion.PLA), () => new PA8(), [GameVersion.PLA]);
+    public static IEnumerable<object[]> GetSpeciesBDSP() => GetSpecies(PersonalTable.BDSP, new SimpleTrainerInfo(GameVersion.BD), () => new PB8(), [GameVersion.BD, GameVersion.SP]);
+    public static IEnumerable<object[]> GetSpeciesSV() => GetSpecies(PersonalTable.SV, new SimpleTrainerInfo(GameVersion.SL), () => new PK9(), [GameVersion.SL, GameVersion.VL]);
 
     private static IEnumerable<object[]> GetSpecies<T>(T table, SimpleTrainerInfo tr, Func<Core.PKM> ctor, GameVersion[] games) where T : IPersonalTable
     {
@@ -40,7 +40,8 @@ public class GeneratorTests
         int count = 0;
         template.Species = (ushort)species;
         template.Gender = template.PersonalInfo.RandomGender();
-        var encounters = EncounterMovesetGenerator.GenerateEncounters(template, tr, Array.Empty<ushort>(), games);
+        var moves = ReadOnlyMemory<ushort>.Empty;
+        var encounters = EncounterMovesetGenerator.GenerateEncounters(template, tr, moves, games);
 
         foreach (var enc in encounters)
         {

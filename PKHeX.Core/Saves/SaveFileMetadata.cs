@@ -26,8 +26,8 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     /// </summary>
     public string? FileFolder { get; private set; }
 
-    private byte[] Footer = Array.Empty<byte>(); // .dsv
-    private byte[] Header = Array.Empty<byte>(); // .gci
+    private byte[] Footer = []; // .dsv
+    private byte[] Header = []; // .gci
 
     private string BAKSuffix => $" [{SAV.ShortSummary}].bak";
 
@@ -53,9 +53,9 @@ public sealed record SaveFileMetadata(SaveFile SAV)
     public byte[] Finalize(byte[] data, BinaryExportSetting setting)
     {
         if (Footer.Length > 0 && setting.HasFlag(BinaryExportSetting.IncludeFooter))
-            return ArrayUtil.ConcatAll(data, Footer);
+            return [..data, ..Footer];
         if (Header.Length > 0 && setting.HasFlag(BinaryExportSetting.IncludeHeader))
-            return ArrayUtil.ConcatAll(Header, data);
+            return [..Header, ..data];
         return data;
     }
 

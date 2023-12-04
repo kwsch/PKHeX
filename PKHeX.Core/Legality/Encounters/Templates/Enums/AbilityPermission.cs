@@ -54,7 +54,7 @@ public static class AbilityPermissionExtensions
     /// Indicates if the given <see cref="AbilityPermission"/> value can be initially obtained with a hidden ability.
     /// </summary>
     /// <param name="value">Value to check</param>
-    /// <returns>True if can be hidden.</returns>
+    /// <returns>True if it can be a hidden ability.</returns>
     public static bool CanBeHidden(this AbilityPermission value) => value switch
     {
         Any12H => true,

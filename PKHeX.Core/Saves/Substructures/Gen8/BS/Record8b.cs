@@ -48,8 +48,8 @@ public sealed class Record8b : SaveBlock<SAV8BS>, IRecordStatStorage
 
     public void AddRecord(int recordID, int count = 1) => SetRecord(recordID, GetRecord(recordID) + count);
 
-    public static ReadOnlySpan<int> MaxValue_BDSP => new[]
-    {
+    public static ReadOnlySpan<int> MaxValue_BDSP =>
+    [
         int.MaxValue, // CLEAR_TIME
         9_999, // DENDOU_CNT
         999_999, // CAPTURE_POKE
@@ -80,7 +80,7 @@ public sealed class Record8b : SaveBlock<SAV8BS>, IRecordStatStorage
         100,  // CONTEST_RATE_LOCAL
         100,  // CONTEST_RATE_NETWORK
         65_536,// CONTEST_GET_RIBBON
-    };
+    ];
 
     public static readonly Dictionary<int, string> RecordList_8b = new()
     {

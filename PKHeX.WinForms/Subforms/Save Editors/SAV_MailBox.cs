@@ -20,17 +20,17 @@ public partial class SAV_MailBox : Form
         p = SAV.PartyData;
         editing = true;
 
-        Messages = new[]
-        {
-            new[] { NUD_Message00, NUD_Message01, NUD_Message02, NUD_Message03 },
-            new[] { NUD_Message10, NUD_Message11, NUD_Message12, NUD_Message13 },
-            new[] { NUD_Message20, NUD_Message21, NUD_Message22, NUD_Message23 },
-        };
-        PKMLabels = new[] { L_PKM1, L_PKM2, L_PKM3, L_PKM4, L_PKM5, L_PKM6 };
-        PKMHeldItems = new[] { L_HeldItem1, L_HeldItem2, L_HeldItem3, L_HeldItem4, L_HeldItem5, L_HeldItem6 };
-        PKMNUDs = new[] { NUD_MailID1, NUD_MailID2, NUD_MailID3, NUD_MailID4, NUD_MailID5, NUD_MailID6 };
-        AppearPKMs = new[] { CB_AppearPKM1, CB_AppearPKM2, CB_AppearPKM3 };
-        Miscs = new[] { NUD_Misc1, NUD_Misc2, NUD_Misc3 };
+        Messages =
+        [
+            [NUD_Message00, NUD_Message01, NUD_Message02, NUD_Message03],
+            [NUD_Message10, NUD_Message11, NUD_Message12, NUD_Message13],
+            [NUD_Message20, NUD_Message21, NUD_Message22, NUD_Message23],
+        ];
+        PKMLabels = [L_PKM1, L_PKM2, L_PKM3, L_PKM4, L_PKM5, L_PKM6];
+        PKMHeldItems = [L_HeldItem1, L_HeldItem2, L_HeldItem3, L_HeldItem4, L_HeldItem5, L_HeldItem6];
+        PKMNUDs = [NUD_MailID1, NUD_MailID2, NUD_MailID3, NUD_MailID4, NUD_MailID5, NUD_MailID6];
+        AppearPKMs = [CB_AppearPKM1, CB_AppearPKM2, CB_AppearPKM3];
+        Miscs = [NUD_Misc1, NUD_Misc2, NUD_Misc3];
 
         NUD_BoxSize.Visible = L_BoxSize.Visible = Gen == 2;
         GB_MessageTB.Visible = Gen == 2;
@@ -62,7 +62,7 @@ public partial class SAV_MailBox : Form
                     m[i] = new Mail2(sav2, i);
 
                 NUD_BoxSize.Value = SAV.Data[0x834];
-                MailItemID = new[] { 0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD };
+                MailItemID = [0x9E, 0xB5, 0xB6, 0xB7, 0xB8, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD];
                 PartyBoxCount = 6;
                 break;
             case SAV3 sav3:
@@ -70,7 +70,7 @@ public partial class SAV_MailBox : Form
                 for (int i = 0; i < m.Length; i++)
                     m[i] = sav3.GetMail(i);
 
-                MailItemID = new[] { 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132 };
+                MailItemID = [121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132];
                 PartyBoxCount = 6;
                 break;
             case SAV4 sav4:
@@ -82,7 +82,7 @@ public partial class SAV_MailBox : Form
                 var l4 = (Mail4)m[^1];
                 ResetVer = l4.AuthorVersion;
                 ResetLang = l4.AuthorLanguage;
-                MailItemID = new[] { 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148 };
+                MailItemID = [137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148];
                 PartyBoxCount = p.Count;
                 break;
             case SAV5 sav5:
@@ -94,7 +94,7 @@ public partial class SAV_MailBox : Form
                 var l5 = (Mail5)m[^1];
                 ResetVer = l5.AuthorVersion;
                 ResetLang = l5.AuthorLanguage;
-                MailItemID = new[] { 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148 };
+                MailItemID = [137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148];
                 PartyBoxCount = p.Count;
                 break;
         }
@@ -207,7 +207,7 @@ public partial class SAV_MailBox : Form
             if (isInit)
                 PKMLabels[i].Text = GetSpeciesNameFromCB(p[i].Species);
             int j = Array.IndexOf(MailItemID, p[i].HeldItem);
-            PKMHeldItems[i].Text = j >= 0 ? CB_MailType.Items[j + 1].ToString() : "(not Mail)";
+            PKMHeldItems[i].Text = j >= 0 ? CB_MailType.Items[j + 1]!.ToString() : "(not Mail)";
             if (Gen != 3)
                 continue;
             int k = ((PK3)p[i]).HeldMailID;
@@ -378,7 +378,7 @@ public partial class SAV_MailBox : Form
         }
         // Gen5
         // P
-        // gen5, move mail to pc will not erase mail data, still remains, duplicates.
+        // Gen5, move mail to pc will not erase mail data, still remains, duplicates.
         else if (Gen == 5)
         {
             for (int i = 0; i < p.Count; i++)
@@ -552,7 +552,7 @@ public partial class SAV_MailBox : Form
         editing = false;
     }
 
-    private readonly string[] gendersymbols = { "♂", "♀" };
+    private readonly string[] gendersymbols = ["♂", "♀"];
 
     private void LoadOTlabel()
     {

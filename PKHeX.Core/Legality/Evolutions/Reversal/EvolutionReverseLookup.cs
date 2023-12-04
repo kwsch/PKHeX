@@ -5,18 +5,11 @@ namespace PKHeX.Core;
 /// <summary>
 /// Object storing a reversal path for evolution nodes.
 /// </summary>
-public sealed class EvolutionReverseLookup : IEvolutionLookup
+public sealed class EvolutionReverseLookup(ushort MaxSpecies) : IEvolutionLookup
 {
-    private readonly EvolutionNode[] Nodes;
-    private readonly Dictionary<int, int> KeyLookup;
-    private readonly ushort MaxSpecies;
-
-    public EvolutionReverseLookup(ushort maxSpecies)
-    {
-        Nodes = new EvolutionNode[maxSpecies * 2];
-        KeyLookup = new Dictionary<int, int>(maxSpecies);
-        MaxSpecies = maxSpecies;
-    }
+    private const int ExtraBufferFraction = 3; // magic number that gives a minimal-ish allocation
+    private readonly EvolutionNode[] Nodes = new EvolutionNode[MaxSpecies + (MaxSpecies >> ExtraBufferFraction)];
+    private readonly Dictionary<int, int> KeyLookup = new(MaxSpecies >> ExtraBufferFraction);
 
     private void Register(in EvolutionLink link, int index)
     {
@@ -54,7 +47,7 @@ public sealed class EvolutionReverseLookup : IEvolutionLookup
         if (form == 0)
             return species;
         int key = GetKey(species, form);
-        return KeyLookup.TryGetValue(key, out var index) ? index : 0;
+        return KeyLookup.GetValueOrDefault(key, 0);
     }
 
     private static int GetKey(ushort species, byte form) => species | form << 11;

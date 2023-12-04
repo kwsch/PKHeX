@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -12,6 +12,7 @@ public readonly ref struct MassiveOutbreakSpawner8a
 
     private readonly Span<byte> Data;
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public MassiveOutbreakSpawner8a(Span<byte> data) => Data = data;
 
     public float X { get => ReadSingleLittleEndian(Data);      set => WriteSingleLittleEndian(Data, value); }
