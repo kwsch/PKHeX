@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class EvolutionReverseLookup(ushort MaxSpecies) : IEvolutionLookup
 {
-    private const int ExtraBufferFraction = 4; // magic number that gives a minimal-ish allocation
+    private const int ExtraBufferFraction = 3; // magic number that gives a minimal-ish allocation
     private readonly EvolutionNode[] Nodes = new EvolutionNode[MaxSpecies + (MaxSpecies >> ExtraBufferFraction)];
     private readonly Dictionary<int, int> KeyLookup = new(MaxSpecies >> ExtraBufferFraction);
 
