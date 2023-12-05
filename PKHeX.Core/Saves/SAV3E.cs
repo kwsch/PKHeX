@@ -239,7 +239,7 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     private Span<byte> BattleVideoData => Data.AsSpan(OFS_BV + 4, BV3.SIZE);
     public BV3 BattleVideo
     {
-        get => !HasBattleVideo ? new BV3(BattleVideoData.ToArray()) : new BV3();
+        get => HasBattleVideo ? new BV3(BattleVideoData.ToArray()) : new BV3();
         set => SetData(BattleVideoData, value.Data);
     }
 }
