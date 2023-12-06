@@ -471,7 +471,7 @@ public sealed class Zukan4(SAV4 sav, int offset) : ZukanBase<SAV4>(sav, offset)
         }
         else
         {
-            SetSeenGender(species, pi.FixedGender() & 1);
+            SetSeenGenderNewFlag(species, pi.FixedGender() & 1);
         }
     }
 
