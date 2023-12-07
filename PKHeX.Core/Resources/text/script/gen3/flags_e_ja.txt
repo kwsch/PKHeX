@@ -1,1571 +1,1571 @@
-0137	s	Received ひでんマシン01 いあいぎり
-0110	s	Received ひでんマシン02 そらをとぶ
-0122	s	Received ひでんマシン03 なみのり
-0106	s	Received ひでんマシン04 かいりき
-0109	s	Received ひでんマシン05 フラッシュ
-0107	s	Received ひでんマシン06 いわくだき
-0312	s	Received ひでんマシン07 たきのぼり
-0123	s	Received ひでんマシン08 ダイビング
-0090	s	Received マッハじてんしゃ/ダートじてんしゃ
+0137	s	ひでんマシン01『いあいぎり』入手済
+0110	s	ひでんマシン02『そらをとぶ』入手済
+0122	s	ひでんマシン03『なみのり』入手済
+0106	s	ひでんマシン04『かいりき』入手済
+0109	s	ひでんマシン05『フラッシュ』入手済
+0107	s	ひでんマシン06『いわくだき』入手済
+0312	s	ひでんマシン07『たきのぼり』入手済
+0123	s	ひでんマシン08『ダイビング』入手済
+0090	s	「マッハじてんしゃ/ダートじてんしゃ」受け取り済み
 
-2151	*	Received ストーンバッジ
-2152	*	Received ナックルバッジ
-2153	*	Received ダイナモバッジ
-2154	*	Received ヒートバッジ
-2155	*	Received バランスバッジ
-2156	*	Received フェザーバッジ
-2157	*	Received マインドバッジ
-2158	*	Received レインバッジ
+2151	*	ストーンバッジ獲得
+2152	*	ナックルバッジ獲得
+2153	*	ダイナモバッジ獲得
+2154	*	ヒートバッジ獲得
+2155	*	バランスバッジ獲得
+2156	*	フェザーバッジ獲得
+2157	*	マインドバッジ獲得
+2158	*	レインバッジ獲得
 
-0153	g	Traded in カナズミシティ
-0154	g	Traded in キナギタウン
-0155	g	Traded in ヒワマキシティ
-0156	g	Traded in バトルフロンティア
+0153	g	カナズミシティで タネボーを 交換した
+0154	g	キナギタウンで タッツーを 交換した
+0155	g	ヒワマキシティで プラスルを 交換した
+0156	g	バトルフロンティアで ニャースを 交換した
 
-0151	g	Received ポワルン
-0266	g	Received ソーナノのたまご
-0298	g	Received ダンバル
+0151	g	ポワルン 受け取り済み
+0266	g	ソーナノのタマゴ 受け取り済み
+0298	g	ダンバル 受け取り済み
 
-0314	e	Received オーロラチケット from ふしぎなおくりもの
-0315	e	Received しんぴのチケット from ふしぎなおくりもの
-0316	e	Received ふるびたかいず from ふしぎなおくりもの
+0314	e	ふしぎなおくりもので オーロラチケットを 受け取った
+0315	e	ふしぎなおくりもので しんぴのチケットを 受け取った
+0316	e	ふしぎなおくりもので ふるびたかいずを 受け取った
 
-0430	e	Shown むげんのチケット
-0431	e	Shown オーロラチケット
-0432	e	Shown ふるびたかいず
-0475	e	Shown しんぴのチケット
+0430	e	むげんのチケットを 船乗りに見せた
+0431	e	オーロラチケットを 船乗りに見せた
+0432	e	ふるびたかいずを 船乗りに見せた
+0475	e	しんぴのチケットを 船乗りに見せた
 
-2227	e	Can Travel to みなみのことう
-2261	e	Can Travel to たんじょうのしま
-2262	e	Can Travel to さいはてのことう
-2272	e	Can Travel to へそのいわ
+2227	e	みなみのことうへ 行けるようになる
+2261	e	たんじょうのしまへ 行けるようになる
+2262	e	さいはてのことうへ 行けるようになる
+2272	e	へそのいわへ 行けるようになる
 
-0255	r	ラティアス・ラティオス Roaming
+0255	r	ラティアス・ラティオス徘徊フラグ
 
-0455	r	Defeated ミュウ
-0458	r	Captured ミュウ
-0145	r	Captured ルギア
-0146	r	Captured ホウオウ
-0476	r	Defeated ホウオウ
-0477	r	Defeated ルギア
-0443	r	Captured/Defeated レジロック
-0444	r	Captured/Defeated レジアイス
-0445	r	Captured/Defeated レジスチル
-0456	r	Defeated ラティアス・ラティオス on みなみのことう
-0457	r	Captured ラティアス・ラティオス on みなみのことう
-0446	r	Captured/Defeated カイオーガ
-0447	r	Captured/Defeated グラードン
-0448	r	Captured/Defeated レックウザ
-0428	r	Defeated デオキシス
-0429	r	Captured デオキシス
+0455	r	ミュウ撃破
+0458	r	ミュウ捕獲
+0145	r	ルギア捕獲
+0146	r	ホウオウ捕獲
+0476	r	ホウオウ撃破
+0477	r	ルギア撃破
+0443	r	レジロック捕獲/撃破
+0444	r	レジアイス捕獲/撃破
+0445	r	レジスチル捕獲/撃破
+0456	r	みなみのことうのラティアス・ラティオス撃破
+0457	r	みなみのことうのラティアス・ラティオス捕獲
+0446	r	カイオーガ捕獲/撃破
+0447	r	グラードン捕獲/撃破
+0448	r	レックウザ捕獲/撃破
+0428	r	デオキシス撃破
+0429	r	デオキシス捕獲
 
-0433	*	Used Move Tutor in カイナシティ (Swagger)
-0434	*	Used Move Tutor in キンセツシティ (Rollout)
-0435	*	Used Move Tutor in シダケタウン (Fury Cutter)
-0436	*	Used Move Tutor in フエンタウン (Mimic)
-0437	*	Used Move Tutor in ハジツゲタウン (Metronome)
-0438	*	Used Move Tutor in ヒワマキシティ (Sleep Talk)
-0439	*	Used Move Tutor in ミナモシティ (Substitute)
-0440	*	Used Move Tutor in トクサネシティ (Dynamic Punch)
-0441	*	Used Move Tutor in ルネシティ (Double-Edge)
-0442	*	Used Move Tutor in キナギタウン (Explosion)
+0433	*	教え技『いばる』(カイナシティ)習得済
+0434	*	教え技『ころがる』(キンセツシティ)習得済
+0435	*	教え技『れんぞくぎり』(シダケタウン)習得済
+0436	*	教え技『ものまね』(フエンタウン)習得済
+0437	*	教え技『ゆびをふる』(ハジツゲタウン)習得済
+0438	*	教え技『ねごと』(ヒワマキシティ)習得済
+0439	*	教え技『みがわり』(ミナモシティ)習得済
+0440	*	教え技『ばくれつパンチ』(トクサネシティ)習得済
+0441	*	教え技『すてみタックル』(ルネシティ)習得済
+0442	*	教え技『だいばくはつ』(キナギタウン)習得済
 
-2144	s	Unlock menu item POKéMON
-2145	s	Unlock menu item ポケモンずかん
-2146	s	Unlock menu item ポケナビ
-2148	s	Entered 殿堂入り
-2150	s	Met ナウいおやじ
-2192	s	Watched TV at Home
-2196	s	Mixed Records
-2197	s	Set Clock
-2198	s	Received ぜんこくずかん
-2202	s	あさせのほらあな Tide
-2203	s	Received a Ribbon
-2219	s	Unlocked マユミ's PC
-2221	s	Used しろいビードロ
-2222	s	Used くろいビードロ
-2223	s	Completed おふれのせきしつ Puzzle (1)
-0228	s	Completed おふれのせきしつ Puzzle (2)
-2224	s	Completed レジロック Puzzle
-2225	s	Completed レジアイス Puzzle
-2226	s	Completed レジスチル Puzzle
-2239	s	Can Receive かいがらのすず
-2240	*	Received ランニングシューズ
-2242	*	Reset RTC Enabled
-2267	*	ふしぎなおくりもの Enabled
-2276	s	Received ポケモンずかん
+2144	s	メニューに『ポケモン』が解放
+2145	s	メニューに『ずかん』が解放
+2146	s	メニューに『ポケナビ』が解放
+2148	s	殿堂入り済
+2150	s	ナウいおやじに話しかけた
+2192	s	ラティ兄妹のニュースの番組を見た
+2196	s	レコードを混ぜた
+2197	s	時計をセットした
+2198	s	ぜんこくずかんを受け取った
+2202	s	あさせのほらあなが満潮
+2203	s	チャンプリボンを受け取った
+2219	s	『マユミのPC』が解放
+2221	s	しろいビードロ使用中
+2222	s	くろいビードロ使用中
+2223	s	おふれのせきしつ1番目のパズルクリア
+0228	s	おふれのせきしつ2番目のパズルクリア
+2224	s	さばくいせき（レジロック）のパズルクリア
+2225	s	こじまのよこあな（レジアイス）のパズルクリア
+2226	s	こだいづか（レジスチル）のパズルクリア
+2239	s	かいがらのすず受け取り可能
+2240	*	ランニングシューズ受け取り済み
+2242	*	RTCリセット
+2267	*	『ふしぎなおくりもの』解放済み
+2276	s	ポケモンずかん受け取り済み
 
-2244	a	Received Silver Ability Symbol (バトルタワー)
-2245	a	Received Gold Ability Symbol (バトルタワー)
-2246	a	Received Silver Tactics Symbol (バトルドーム)
-2247	a	Received Gold Tactics Symbol (バトルドーム)
-2248	a	Received Silver Spirits Symbol (バトルパレス)
-2249	a	Received Gold Spirits Symbol (バトルパレス)
-2250	a	Received Silver Guts Symbol (バトルアリーナ)
-2251	a	Received Gold Guts Symbol (バトルアリーナ)
-2252	a	Received Silver Knowledge Symbol (バトルファクトリー)
-2253	a	Received Gold Knowledge Symbol (バトルファクトリー)
-2254	a	Received Silver Luck Symbol (バトルチューブ)
-2255	a	Received Gold Luck Symbol (バトルチューブ)
-2256	a	Received Silver Brave Symbol (バトルピラミッド)
-2257	a	Received Gold Brave Symbol (バトルピラミッド)
-2258	*	Received フロンティアパス
+2244	a	銀アビリティシンボル(バトルタワー)獲得
+2245	a	金アビリティシンボル(バトルタワー)獲得
+2246	a	銀タクティクスシンボル(バトルドーム)獲得
+2247	a	金タクティクスシンボル(バトルドーム)獲得
+2248	a	銀スピリットシンボル(バトルパレス)獲得
+2249	a	金スピリットシンボル(バトルパレス)獲得
+2250	a	銀ガッツシンボル(バトルアリーナ)獲得
+2251	a	金ガッツシンボル(バトルアリーナ)獲得
+2252	a	銀ノウレッジシンボル(バトルファクトリー)獲得
+2253	a	金ノウレッジシンボル(バトルファクトリー)獲得
+2254	a	銀ラックシンボル(バトルチューブ)獲得
+2255	a	金ラックシンボル(バトルチューブ)獲得
+2256	a	銀ブレイブシンボル(バトルピラミッド)獲得
+2257	a	金ブレイブシンボル(バトルピラミッド)獲得
+2258	*	フロンティアパス受け取り済み
 
-0335	s	Chose ねっこのカセキ in げんえいのとう (ツメのカセキ in さばくのちかどう)
-0336	s	Chose ツメのカセキ in げんえいのとう (ねっこのカセキ in さばくのちかどう)
+0335	s	げんえいのとうでねっこのカセキを選択（さばくのちかどうではツメのカセキ）
+0336	s	げんえいのとうでツメのカセキを選択（さばくのちかどうではねっこのカセキ）
 
-500	r	こおりなおし (hidden) in フエンタウン found
-501	r	きんのたま (hidden) in カラクリやしき Reward Room found (unused)
-502	r	ほしのすな (hidden) on 111ばんどうろ found
-503	r	ピーピーエイド (hidden) on 113ばんどうろ found
-504	r	インドメタシン (hidden) on 114ばんどうろ found
-505	r	リゾチウム (hidden) on 119ばんどうろ found
-506	r	ハイパーボール (hidden) on 119ばんどうろ found
-507	r	シルバースプレー (hidden) on 123ばんどうろ found
-508	r	インドメタシン (hidden) on 124ばんすいどう (underwater) found
-509	r	みどりのかけら (hidden) on 124ばんすいどう (underwater) found
-510	r	しんじゅ (hidden) on 124ばんすいどう (underwater) found
-511	r	おおきなしんじゅ (hidden) on 124ばんすいどう (underwater) found
-512	r	あおいかけら (hidden) on 126ばんすいどう (underwater) found
-513	r	ハートのウロコ (hidden; single ダイビング Spot) on 124ばんすいどう (underwater) found
-514	r	ハートのウロコ  (hidden) on 126ばんすいどう (underwater) found
-515	r	ハイパーボール (hidden) on 126ばんすいどう (underwater) found
-516	r	ほしのすな (hidden) on 126ばんすいどう (underwater) found
-517	r	しんじゅ (hidden) on 126ばんすいどう (underwater) found
-518	r	きいろいかけら (hidden) on 126ばんすいどう (underwater) found
-519	r	ブロムヘキシン (hidden) on 126ばんすいどう (underwater) found
-520	r	おおきなしんじゅ (hidden) on 126ばんすいどう (underwater) found
-521	r	ほしのかけら (hidden) on 127ばんすいどう (underwater) found
-522	r	マックスアップ (hidden) on 127ばんすいどう (underwater) found
-523	r	ハートのウロコ (hidden) on 127ばんすいどう (underwater) found
-524	r	あかいかけら (hidden) on 127ばんすいどう (underwater) found
-525	r	タウリン (hidden) on 128ばんすいどう (underwater) found
-526	r	しんじゅ (hidden) on 128ばんすいどう (underwater) found
-527	r	ハートのウロコ (hidden) in ミナモシティ found
-528	r	きんのたま (hidden) in ハジツゲタウン found
-529	r	ハイパーボール (hidden) on おくりびやま found
-530	r	わざマシン32 (hidden) on 113ばんどうろ found
-531	r	1ごうしつのカギ (hidden) on すてられぶね found
-532	r	2ごうしつのカギ (hidden) on すてられぶね found
-533	r	4ごうしつのカギ (hidden) on すてられぶね found
-534	r	6ごうしつのカギ (hidden) on すてられぶね found
-535	r	たべのこし (hidden) on タイドリップごう found
-536	r	リゾチウム (hidden) on 124ばんすいどう (underwater) found
-537	r	キズぐすり (hidden) on 104ばんどうろ found
-538	r	ハートのウロコ (hidden; ダイビング Spot with path) on 124ばんすいどう (underwater) found
-539	r	マックスアップ (hidden) on 121ばんどうろ found
-540	r	きんのたま (hidden) on 121ばんどうろ found
-541	r	げんきのかけら (hidden) on 123ばんどうろ found
-542	r	げんきのかけら (hidden) on 114ばんどうろ found
-543	r	ポイントアップ (hidden) in ミナモシティ found
-544	r	いいキズぐすり (hidden) on 104ばんどうろ found
-545	r	いいキズぐすり (hidden) on 116ばんどうろ found
-546	r	ほしのすな (hidden) on 106ばんすいどう found
-547	r	ハートのウロコ (hidden) on 106ばんすいどう found
-548	r	かわらずのいし (hidden; requires マッハじてんしゃ) in いしのどうくつ found
-549	r	かわらずのいし (hidden) in いしのどうくつ found
-550	r	げんきのかけら (hidden) on 109ばんすいどう found
-551	r	スーパーボール (hidden) on 109ばんすいどう found
-552	r	ハートのウロコ (hidden; near old man) on 109ばんすいどう found
-553	r	スーパーボール (hidden) on 110ばんどうろ found
-554	r	げんきのかけら (hidden) on 110ばんどうろ found
-555	r	なんでもなおし (hidden) on 110ばんどうろ found
-556	r	タウリン (hidden) on 111ばんどうろ found
-557	r	ふしぎなアメ (hidden) on 111ばんどうろ found
-558	r	キズぐすり (hidden) in トウカのもり found
-559	r	ちいさなキノコ (hidden) in nothern section of トウカのもり found
-560	r	ちいさなキノコ (hidden) in eastern section of トウカのもり found
-561	r	モンスターボール (hidden) in トウカのもり found
-562	r	モンスターボール (hidden) on 104ばんどうろ found
-563	r	モンスターボール (hidden) on 106ばんすいどう found
-564	r	ピーピーエイド (hidden) on 109ばんすいどう found
-565	r	モンスターボール (hidden) on 110ばんどうろ found
-566	r	ハートのウロコ (hidden) on 118ばんどうろ found
-567	r	ブロムヘキシン (hidden) on 118ばんどうろ found
-568	r	なんでもなおし (hidden) on 119ばんどうろ found
-569	r	ふしぎなアメ (hidden; south) on 120ばんどうろ found
-570	r	キトサン (hidden) on 120ばんどうろ found
-571	r	ふしぎなアメ (hidden; north) on 120ばんどうろ found
-572	r	むしよけスプレー (hidden) on 117ばんどうろ found
-573	r	なんでもなおし (hidden) on 121ばんどうろ found
-574	r	すごいキズぐすり (hidden) on 123ばんどうろ found
-575	r	モンスターボール (hidden) in ミナモシティ found
-576	r	スーパーボール (hidden) on デコボコさんどう found
-577	r	なんでもなおし (hidden) on デコボコさんどう found
-578	r	ピーピーリカバー (hidden) on おくりびやま found
-579	r	キトサン (hidden) on おくりびやま found
-580	r	ふしぎなアメ (hidden) on おくりびやま found
-581	r	ハイパーボール (hidden) in チャンピオンロード found
-582	r	ピーピーエイダー (hidden) in チャンピオンロード found
-583	r	ゴールドスプレー (hidden) in チャンピオンロード found
-584	r	げんきのかけら (hidden) on 120ばんどうろ found
-585	r	どくけし (hidden) on 104ばんどうろ found
-586	r	ふしぎなアメ (hidden) on 108ばんすいどう found
-587	r	ピーピーリカバー (hidden) on 119ばんどうろ found
-588	r	ハートのウロコ (hidden) on 104ばんどうろ found
-589	r	ハートのウロコ (hidden) on 105ばんすいどう found
-590	r	ハートのウロコ (hidden; under umbrella) on 109ばんすいどう found
-591	r	ハートのウロコ (hidden; near couple) on 109ばんすいどう found
-592	r	ハートのウロコ (hidden; near Cooltrainer) on 128ばんすいどう found
-593	r	ハートのウロコ (hidden; near rock wall) on 128ばんすいどう found
-594	r	ハートのウロコ (hidden; southwest) on 128ばんすいどう found
-595	r	ふしぎなアメ (hidden) in トウカシティ found
-596	r	くろいメガネ (hidden) on 116ばんどうろ found
-597	r	ハートのウロコ (hidden) on 115ばんどうろ found
-598	r	きんのたま (hidden) on 113ばんどうろ found
-599	r	ポイントアップ (hidden) on 123ばんどうろ found
-600	r	げんきのかたまり (hidden) on 121ばんどうろ found
-601	r	リゾチウム (hidden) in アトリエのあな found
-602	r	キトサン (hidden) in アトリエのあな found
-603	r	タウリン (hidden) in アトリエのあな found
-604	r	ブロムヘキシン (hidden) in アトリエのあな found
-605	r	かいふくのくすり (hidden) in サファリゾーン found
-606	r	ふしぎなアメ (hidden) in サファリゾーン found
-607	r	キトサン (hidden) in サファリゾーン found
-608	r	ポイントアップ (hidden) in サファリゾーン found
-609	r	せいなるはい (hidden) on へそのいわ found
-610	r	ふしぎなアメ (hidden) on 123ばんどうろ found
-611	r	おおきなしんじゅ (hidden) on 105ばんすいどう found
+500	r	こおりなおし(隠し; フエンタウン)入手済
+501	r	きんのたま(隠し; カラクリやしき)入手済(未使用)
+502	r	ほしのすな(隠し; 111ばんどうろ)入手済
+503	r	ピーピーエイド(隠し; 113ばんどうろ)入手済
+504	r	インドメタシン(隠し; 114ばんどうろ)入手済
+505	r	リゾチウム(隠し; 119ばんどうろ)入手済
+506	r	ハイパーボール(隠し; 119ばんどうろ)入手済
+507	r	シルバースプレー(隠し; 123ばんどうろ)入手済
+508	r	インドメタシン(隠し; 124ばんすいどう(すいちゅう))入手済
+509	r	みどりのかけら(隠し; 124ばんすいどう(すいちゅう)入手済
+510	r	しんじゅ(隠し; 124ばんすいどう(すいちゅう))入手済
+511	r	おおきなしんじゅ(隠し; 124ばんすいどう(すいちゅう))入手済
+512	r	あおいかけら(隠し; 126ばんすいどう(すいちゅう))入手済
+513	r	ハートのウロコ(隠し; single ダイビング Spot; 124ばんすいどう(すいちゅう))入手済
+514	r	ハートのウロコ(隠し; 126ばんすいどう(すいちゅう))入手済
+515	r	ハイパーボール(隠し; 126ばんすいどう(すいちゅう))入手済
+516	r	ほしのすな(隠し; 126ばんすいどう(すいちゅう))入手済
+517	r	しんじゅ(隠し; 126ばんすいどう(すいちゅう))入手済
+518	r	きいろいかけら(隠し; 126ばんすいどう(すいちゅう))入手済
+519	r	ブロムヘキシン(隠し; 126ばんすいどう(すいちゅう))入手済
+520	r	おおきなしんじゅ(隠し; 126ばんすいどう(すいちゅう)入手済
+521	r	ほしのかけら(隠し; 127ばんすいどう(すいちゅう))入手済
+522	r	マックスアップ(隠し; 127ばんすいどう(すいちゅう))入手済
+523	r	ハートのウロコ(隠し; 127ばんすいどう(すいちゅう))入手済
+524	r	あかいかけら(隠し; 127ばんすいどう(すいちゅう))入手済
+525	r	タウリン(隠し; 128ばんすいどう(すいちゅう))入手済
+526	r	しんじゅ(隠し; 128ばんすいどう(すいちゅう))入手済
+527	r	ハートのウロコ(隠し; ミナモシティ)入手済
+528	r	きんのたま(隠し; ハジツゲタウン)入手済
+529	r	ハイパーボール(隠し; おくりびやま)入手済
+530	r	わざマシン32(隠し; 113ばんどうろ)入手済
+531	r	1ごうしつのカギ(隠し; すてられぶね)入手済
+532	r	2ごうしつのカギ(隠し; すてられぶね)入手済
+533	r	4ごうしつのカギ(隠し; すてられぶね)入手済
+534	r	6ごうしつのカギ(隠し; すてられぶね)入手済
+535	r	たべのこし(隠し; タイドリップごう)入手済
+536	r	リゾチウム(隠し; 124ばんすいどう(すいちゅう))入手済
+537	r	キズぐすり(隠し; 104ばんどうろ)入手済
+538	r	ハートのウロコ(隠し; 水道中央のダイビングスポット; 124ばんすいどう(すいちゅう))入手済
+539	r	マックスアップ(隠し; 121ばんどうろ)入手済
+540	r	きんのたま(隠し; 121ばんどうろ)入手済
+541	r	げんきのかけら(隠し; 123ばんどうろ)入手済
+542	r	げんきのかけら(隠し; 114ばんどうろ)入手済
+543	r	ポイントアップ(隠し)をミナモシティ)入手済
+544	r	いいキズぐすり(隠し; 104ばんどうろ)入手済
+545	r	いいキズぐすり(隠し; 116ばんどうろ)入手済
+546	r	ほしのすな(隠し; 106ばんすいどう)入手済
+547	r	ハートのウロコ(隠し; 106ばんすいどう)入手済
+548	r	かわらずのいし(隠し;要マッハじてんしゃ; いしのどうくつ)入手済
+549	r	かわらずのいし(隠し; いしのどうくつ)入手済
+550	r	げんきのかけら(隠し; 109ばんすいどう)入手済
+551	r	スーパーボール(隠し; 109ばんすいどう)入手済
+552	r	ハートのウロコ(隠し; 老人の上; 109ばんすいどう)入手済
+553	r	スーパーボール(隠し; 110ばんどうろ)入手済
+554	r	げんきのかけら(隠し; 110ばんどうろ)入手済
+555	r	なんでもなおし(隠し; 110ばんどうろ)入手済
+556	r	タウリン(隠し; 111ばんどうろ)入手済
+557	r	ふしぎなアメ(隠し; 111ばんどうろ)入手済
+558	r	キズぐすり(隠し; トウカのもり)入手済
+559	r	ちいさなキノコ(隠し; トウカのもり(北))入手済
+560	r	ちいさなキノコ(隠し; トウカのもり(東))入手済
+561	r	モンスターボール(隠し; トウカのもり)入手済
+562	r	モンスターボール(隠し; 104ばんどうろ)入手済
+563	r	モンスターボール(隠し; 106ばんすいどう)入手済
+564	r	ピーピーエイド(隠し; 109ばんすいどう)入手済
+565	r	モンスターボール(隠し; 110ばんどうろ)入手済
+566	r	ハートのウロコ(隠し; 118ばんどうろ)入手済
+567	r	ブロムヘキシン(隠し; 118ばんどうろ)入手済
+568	r	なんでもなおし(隠し; 119ばんどうろ)入手済
+569	r	ふしぎなアメ(隠し; 120ばんどうろ(南))入手済
+570	r	キトサン(隠し; 120ばんどうろ)入手済
+571	r	ふしぎなアメ(隠し; 120ばんどうろ(北))入手済
+572	r	むしよけスプレー(隠し; 117ばんどうろ)入手済
+573	r	なんでもなおし(隠し; 121ばんどうろ)入手済
+574	r	すごいキズぐすり(隠し; 123ばんどうろ)入手済
+575	r	モンスターボール(隠し)をミナモシティ)入手済
+576	r	スーパーボール(隠し; デコボコさんどう)入手済
+577	r	なんでもなおし(隠し; デコボコさんどう)入手済
+578	r	ピーピーリカバー(隠し; おくりびやま)入手済
+579	r	キトサン(隠し; おくりびやま)入手済
+580	r	ふしぎなアメ(隠し; おくりびやま)入手済
+581	r	ハイパーボール(隠し)をチャンピオンロード)入手済
+582	r	ピーピーエイダー(隠し)をチャンピオンロード)入手済
+583	r	ゴールドスプレー(隠し)をチャンピオンロード)入手済
+584	r	げんきのかけら(隠し; 120ばんどうろ)入手済
+585	r	どくけし(隠し; 104ばんどうろ)入手済
+586	r	ふしぎなアメ(隠し; 108ばんすいどう)入手済
+587	r	ピーピーリカバー(隠し; 119ばんどうろ)入手済
+588	r	ハートのウロコ(隠し; 104ばんどうろ)入手済
+589	r	ハートのウロコ(隠し; 105ばんすいどう)入手済
+590	r	ハートのウロコ(隠し; 109ばんすいどう(パラソルの下))入手済
+591	r	ハートのウロコ(隠し; 109ばんすいどう(カップルの前))入手済
+592	r	ハートのウロコ(隠し; 128ばんすいどう(エリートトレーナーの近く))入手済
+593	r	ハートのウロコ(隠し; 128ばんすいどう(岩の近く))入手済
+594	r	ハートのウロコ(隠し; 128ばんすいどう(南西付近))入手済
+595	r	ふしぎなアメ(隠し; トウカシティ)入手済
+596	r	くろいメガネ(隠し; 116ばんどうろ)入手済
+597	r	ハートのウロコ(隠し; 115ばんどうろ)入手済
+598	r	きんのたま(隠し; 113ばんどうろ)入手済
+599	r	ポイントアップ(隠し; 123ばんどうろ)入手済
+600	r	げんきのかたまり(隠し; 121ばんどうろ)入手済
+601	r	リゾチウム(隠し; アトリエのあな)入手済
+602	r	キトサン(隠し; アトリエのあな)入手済
+603	r	タウリン(隠し; アトリエのあな)入手済
+604	r	ブロムヘキシン(隠し; アトリエのあな)入手済
+605	r	かいふくのくすり(隠し; サファリゾーン)入手済
+606	r	ふしぎなアメ(隠し; サファリゾーン)入手済
+607	r	キトサン(隠し; サファリゾーン)入手済
+608	r	ポイントアップ(隠し; サファリゾーン)入手済
+609	r	せいなるはい(隠し; へそのいわ)入手済
+610	r	ふしぎなアメ(隠し; 123ばんどうろ)入手済
+611	r	おおきなしんじゅ(隠し; 105ばんすいどう)入手済
 
-700	r	Don't spawn オダマキ博士's bag on 101ばんどうろ
-701	r	Don't spawn apprentice in バトルタワー
-702	r	Don't spawn ふしぎなおくりもの guy in ポケモンセンター 2F
+700	r	101ばんどうろのオダマキ博士のバッグを非表示
+701	r	バトルタワーの弟子を非表示
+702	r	ポケモンセンター2Fの配達員を非表示
 
-717	r	Don't spawn Guards in サファリゾーン blocking サファリゾーン expansion
-718	r	Don't spawn ミュウ on さいはてのことう
-719	r	Don't spawn ユウキ/ハルカ on 104ばんどうろ
-720	r	Don't spawn running オダマキ博士 on 101ばんどうろ
-721	r	Don't spawn オダマキ博士 in his laboratory
-722	r	Don't spawn ハルカ in her house 2F
-723	r	Don't spawn ユウキ/ハルカ on 103ばんどうろ
-724	r	Don't spawn Devon Researcher in トウカのもり
-725	r	Don't spawn Team Aqua Grunt in トウカのもり
-726	r	Don't spawn ミツル in トウカシティ
-727	r	Don't spawn letter in ダイゴ's house (invisible)
-728	r	Don't spawn woman in トウカシティ
+717	r	サファリゾーンのジョウトゾーンをふさぐ職員を非表示
+718	r	さいはてのことうのミュウを非表示
+719	r	104ばんどうろのライバルを非表示
+720	r	101ばんどうろのオダマキ博士を非表示
+721	r	研究所のオダマキ博士を非表示
+722	r	ハルカの部屋にいるハルカを非表示
+723	r	103ばんどうろのライバルを非表示
+724	r	トウカのもりのデボンコーポレーションの社員を非表示
+725	r	トウカのもりのアクア団したっぱを非表示
+726	r	トウカシティのミツルを非表示
+727	r	ダイゴの家の手紙(見えない状態)を非表示
+728	r	トウカシティのミツルママを非表示
 
-730	r	Don't spawn man in ポケモントレーナーファンクラブ
-731	r	Don't spawn Team Aqua Grunt in カナズミシティ
-732	r	Don't spawn Devon Researcher in カナズミシティ
-733	r	Don't spawn カイオーガ in かいていどうくつ
-734	r	Don't spawn センリ in ユウキ's/ハルカ's house
-735	r	Don't spawn kid in ユウキ's house
-736	r	Don't spawn kid in ハルカ's house
-737	r	Don't spawn Magma Letter in トクサネうちゅうセンター (invisible)
-738	r	Don't spawn ハギろうじん on 104ばんどうろ
-739	r	Don't spawn ハギろうじん in his cottage
-740	r	Don't spawn ハギろうじん in ムロタウン
-741	r	Don't spawn ハギろうじん on 109ばんすいどう
-742	r	Don't spawn ハギろうじん's ship on 104ばんどうろ
-743	r	Don't spawn ハギろうじん's ship in ムロタウン
-744	r	Don't spawn ハギろうじん's ship on 109ばんすいどう
-745	r	Don't spawn ユウキ in his house 1F
-746	r	Don't spawn ハルカ in her house 1F
-747	r	Don't spawn Guard in サファリゾーン Area 5
-748	r	Don't spawn ハギろうじん in ミナモシティ Harbor
-749	r	Don't spawn エニシダ in カイナシティ
-750	r	Don't spawn ジグザグマ on 101ばんどうろ
-751	r	Don't spawn ミツル in チャンピオンロード (near exit)
-752	r	Don't spawn mother in ミシロタウン
-753	r	Don't spawn ダイゴ in トクサネうちゅうセンター 1F
-754	r	Don't spawn ヤルキモノ in front of TV in ユウキ's and ハルカ's house
-755	r	Don't spawn moving ヤルキモノ in ユウキ's and ハルカ's house
-756	r	Don't spawn Team Magma Grunts in トクサネうちゅうセンター 1F
-757	r	Don't spawn mother in ユウキ's/ハルカ's house 2F
-758	r	Don't spawn mother in ユウキ's house
-759	r	Don't spawn mother in ハルカ's house
-760	r	Don't spawn ユウキ in his house
-761	r	Don't spawn truck in front of ユウキ's house
-762	r	Don't spawn truck in front of ハルカ's house
+730	r	ポケモントレーナーファンクラブの男性を非表示
+731	r	カナズミシティのアクア団したっぱを非表示
+732	r	カナズミシティのデボンコーポレーションの社員を非表示
+733	r	かいていどうくつのカイオーガを非表示
+734	r	主人公の家のセンリを非表示
+735	r	ユウキの家の妹を非表示
+736	r	ハルカの家の妹を非表示
+737	r	トクサネうちゅうセンターのマグマ団の手紙(見えない状態)を非表示
+738	r	104ばんどうろのハギろうじんを非表示
+739	r	ハギろうじんの小屋のハギろうじんを非表示
+740	r	ムロタウンのハギろうじんを非表示
+741	r	109ばんすいどうのハギろうじんを非表示
+742	r	104ばんどうろのハギろうじんの船を非表示
+743	r	ムロタウンのハギろうじんの船を非表示
+744	r	109ばんすいどうのハギろうじんの船を非表示
+745	r	ユウキの家1Fのユウキを非表示
+746	r	ハルカの家1Fのハルカを非表示
+747	r	サファリゾーンのエリア５の職員（入り口？）を非表示
+748	r	ミナモシティ船乗り場のハギろうじんを非表示
+749	r	をカイナシティのエニシダを非表示
+750	r	101ばんどうろのジグザグマを非表示
+751	r	チャンピオンロード(出口付近)ミツルを非表示
+752	r	ミシロタウンにいる(ランニングシューズ)ママを非表示
+753	r	トクサネうちゅうセンター1Fのダイゴを非表示
+754	r	主人公の家のテレビ前にいるヤルキモノを非表示
+755	r	主人公の家で動いているヤルキモノを非表示
+756	r	トクサネうちゅうセンター1Fのマグマ団したっぱを非表示
+757	r	主人公の家2Fのママを非表示
+758	r	ユウキの家のママを非表示
+759	r	ハルカの家のママを非表示
+760	r	ユウキの家にいるユウキを非表示
+761	r	ユウキの家の前のトラックを非表示
+762	r	ハルカの家の前のトラックを非表示
 
-764	r	Don't spawn triangle on たんじょうのしま
-765	r	Don't spawn エニシダ in キンセツシティ
-766	r	Don't spawn エニシダ in シダケタウン バトルテント
-767	r	Don't spawn エニシダ in ハジツゲタウン バトルテント
-768	r	Don't spawn Winstrate Victor on 111ばんどうろ
-769	r	Don't spawn Winstrate Victoria on 111ばんどうろ
-770	r	Don't spawn Winstrate Vivi on 111ばんどうろ
-771	r	Don't spawn Winstrate Vicky on 111ばんどうろ
-772	r	Don't spawn センリ in トウカジム
-773	r	Don't spawn レックウザ on そらのはしら
-774	r	Don't spawn Artist in ミナモ ポケモンコンテスト会場 (Left Door)
-775	r	Don't spawn Curator in ミナモびじゅつかん 1F/Can receive paintings
-776	r	Don't spawn Girl in ミナモびじゅつかん 1F
-777	r	Don't spawn Girl in ミナモびじゅつかん 2F
-778	r	Don't spawn Boy in ミナモびじゅつかん 1F
-779	r	Don't spawn Artist in ミナモびじゅつかん 1F
-780	r	Don't spawn Fat Guy/Old Man/Boy in ミナモびじゅつかん
-781	r	Don't spawn Gym Guide in トウカジム
-782	r	Don't spawn カイオーガ in うみのどうくつ
-783	r	Don't spawn グラードン in りくのどうくつ
-784	r	Don't spawn ライバル's mother in ユウキ's house
-785	r	Don't spawn ライバル's mother in ハルカ's house
-786	r	Don't spawn エニシダ on 119ばんどうろ
-787	r	Don't spawn エニシダ in みんしゅくモナミ
-788	r	Don't spawn エニシダ in トクサネシティ
-789	r	Don't spawn old woman in ポケモントレーナーファンクラブ
-790	r	Don't spawn man in ポケモントレーナーファンクラブ
-791	r	Don't spawn kid in ポケモントレーナーファンクラブ
-792	r	Don't spawn woman in ポケモントレーナーファンクラブ
-793	r	Don't spawn エニシダ in サイユウシティ ポケモンセンター
-794	r	Don't spawn ユウキ/ハルカ in ミシロタウン
-795	r	Don't spawn オダマキ博士 in ミシロタウン
-796	r	Don't spawn Interviewer Gabby & Ty on 111ばんどうろ
-797	r	Don't spawn Interviewer Gabby & Ty on 118ばんどうろ (for Rematch 1)
-798	r	Don't spawn Interviewer Gabby & Ty on 120ばんどうろ (for Rematch 2)
-799	r	Don't spawn Interviewer Gabby & Ty on 111ばんどうろ (for Rematch 3)
-800	r	Don't spawn ルギア in へそのいわ
-801	r	Don't spawn ホウオウ on へそのいわ
-802	r	Don't spawn Interviewer in ミナモ ポケモンコンテスト会場
+764	r	たんじょうのしまの三角形(デオキシス)を非表示
+765	r	キンセツシティのエニシダを非表示
+766	r	シダケタウンのバトルテントにいるエニシダを非表示
+767	r	ハジツゲタウンのバトルテントにいるエニシダを非表示
+768	r	111ばんどうろのハルヒコ(カチヌキファミリー)を非表示
+769	r	111ばんどうろのヤスエ(カチヌキファミリー)を非表示
+770	r	111ばんどうろのアキ(カチヌキファミリー)を非表示
+771	r	111ばんどうろのミツヨ(カチヌキファミリー)を非表示
+772	r	トウカジム(奥)のセンリを非表示
+773	r	そらのはしらのレックウザを非表示
+774	r	ミナモポケモンコンテスト会場(左ドア)の絵描きを非表示
+775	r	ミナモびじゅつかん1Fにいる館長を非表示/絵が受け取れるようになる
+776	r	ミナモびじゅつかん1Fにいる少女を非表示
+777	r	ミナモびじゅつかん2Fにいる少女を非表示
+778	r	ミナモびじゅつかん1Fにいる少年を非表示
+779	r	ミナモびじゅつかん1Fにいる絵描きを非表示
+780	r	ミナモびじゅつかんにいる太った男/老人/少年を非表示
+781	r	トウカジムのアドバイザーを非表示
+782	r	うみのどうくつのカイオーガを非表示
+783	r	りくのどうくつグラードンを非表示
+784	r	ユウキの家にいるハルカのママを非表示
+785	r	ハルカの家にいるユウキのママを非表示
+786	r	119ばんどうろのエニシダを非表示
+787	r	みんしゅくモナミにいるエニシダ
+788	r	トクサネシティにいるエニシダ
+789	r	ポケモントレーナーファンクラブの老人を非表示
+790	r	ポケモントレーナーファンクラブの男性を非表示
+791	r	ポケモントレーナーファンクラブの子供を非表示
+792	r	ポケモントレーナーファンクラブの女性を非表示
+793	r	サイユウシティ(下)ポケモンセンターにいるエニシダを非表示
+794	r	ミシロタウンのユウキ/ハルカを非表示
+795	r	ミシロタウンのオダマキ博士を非表示
+796	r	111ばんどうろのインタビュアー マリとダイを非表示
+797	r	118ばんどうろ(再戦1回目用)インタビュアー マリとダイを非表示
+798	r	120ばんどうろ(再戦2回目用)インタビュアー マリとダイを非表示
+799	r	111ばんどうろ(再戦3回目用)インタビュアー マリとダイを非表示
+800	r	へそのいわルギアを非表示
+801	r	へそのいわホウオウを非表示
+802	r	ミナモポケモンコンテスト会場のインタビュアーを非表示
 
-804	r	Don't spawn ミツル in キンセツシティ
-805	r	Don't spawn ミツル's uncle in キンセツシティ
-806	r	Don't spawn ミツル in ミチル's house
-807	r	Don't spawn Black Belt in カナシダトンネル
-808	r	Don't spawn Black Belt in ミチル's house
-809	r	Don't spawn ミツル's uncle in ミチル's house
-810	r	Don't spawn エニシダ on Ship
-811	r	Don't spawn モンスターボール containing ヒノアラシ in オダマキ博士の研究所
-812	r	Don't spawn モンスターボール containing ワニノコ in オダマキ博士の研究所
-813	r	Don't spawn black haired guy on 116ばんどうろ
-814	r	Don't spawn ユウキ/ハルカ in カナズミシティ
-815	r	Don't spawn チルット Doll in ユウキ's house
-816	r	Don't spawn ミクリ in ルネシティ
-817	r	Don't spawn Pokéball in ユウキ's house
-818	r	Don't spawn Pokéball in ハルカ's house
-819	r	Don't spawn Team Magma Grunts on 112ばんどうろ
-820	r	Don't spawn ミクリ in めざめのほこら
-821	r	Don't spawn left Team Aqua Grunt in アクアだんアジト
-822	r	Don't spawn right Team Aqua Grunt in アクアだんアジト
-823	r	Don't spawn Team Magma Grunts & マツブサ in トクサネシティ
-824	r	Don't spawn ミツル's dad in トウカジム
+804	r	キンセツシティのミツルを非表示
+805	r	キンセツシティのミツルのおじを非表示
+806	r	ミチルの家にいるミツルを非表示
+807	r	カナシダトンネルにいるカラテおうを非表示
+808	r	ミチルの家にいるカラテおうを非表示
+809	r	ミチルの家にいるミツルのおじを非表示
+810	r	船にいるエニシダを非表示
+811	r	オダマキ博士の研究所にあるヒノアラシのモンスターボールを非表示
+812	r	オダマキ博士の研究所にあるワニノコのモンスターボールを非表示
+813	r	116ばんどうろにいる男(くろいメガネのイベント)を非表示
+814	r	カナズミシティのライバルを非表示
+815	r	ユウキの家のチルットドールを非表示
+816	r	ルネシティのミクリを非表示
+817	r	ユウキの部屋のモンスターボールを非表示
+818	r	ハルカの部屋のモンスターボールを非表示
+819	r	112ばんどうろのマグマ団したっぱを非表示
+820	r	めざめのほこらのミクリを非表示
+821	r	アクアだんアジトをふさぐ左のアクア団したっぱを非表示
+822	r	アクアだんアジトをふさぐ右のアクア団したっぱを非表示
+823	r	トクサネシティのマグマ団したっぱとマツブサを非表示
+824	r	トウカジムのミツルのパパを非表示
 
-826	r	Don't spawn アオギリ in ルネシティ
-827	r	Don't spawn マツブサ in ルネシティ
+826	r	ルネシティのアオギリを非表示
+827	r	ルネシティのマツブサを非表示
 
-830	r	Don't spawn ミツル's dad in トウカシティ
+830	r	トウカシティのミツルのパパを非表示
 
-832	r	Don't spawn ブレンドめいじん and Spectators in ミナモ ポケモンコンテスト会場
-833	r	Don't spawn ダイゴ in いしのどうくつ
+832	r	ミナモポケモンコンテスト会場にいるブレンドめいじんと観客を非表示
+833	r	いしのどうくつにいるダイゴを非表示
 
-835	r	Don't spawn Interviewer in カイナシティ
-836	r	Don't spawn エニシダ in バトルフロンティア entrance
-837	r	Don't spawn オダマキ博士 on 110ばんどうろ
-838	r	Don't spawn モンスターボール containing チコリータ in オダマキ博士の研究所
-839	r	Don't spawn man in northern ルネシティ
-840	r	Don't spawn クスノキ館長 in カイナシティ
-841	r	Don't spawn クスノキ館長 in カイナシティふねのりば
-842	r	Don't spawn ウソッキー in バトルフロンティア
-843	r	Don't spawn fat guy on 111ばんどうろ
-844	r	Don't spawn Devon Researcher (white coat) in カナズミシティ
-845	r	Don't spawn Team Aqua Grunt in カイナシティふねのりば
-846	r	Don't spawn Team Aqua Leader アオギリ in カイナシティふねのりば
-847	r	Don't spawn Team Magma Grunt on デコボコさんどう
-848	r	Don't spawn Submarine Shadow in カイナシティふねのりば
-849	r	Don't spawn ピチュー doll in ハルカ's house
-850	r	Don't spawn グラードン (petrified) in マグマだんアジト
-851	r	Don't spawn ユウキ/ハルカ on 119ばんどうろ
-852	r	Don't spawn Team Aqua Grunts in ミナモシティ
-853	r	Don't spawn グラードン (awake) in マグマだんアジト
-854	r	Don't spawn additional villagers in ルネシティ
-855	r	Don't spawn ミクリ in front of そらのはしら
-856	r	Don't spawn マツブサ on おくりびやま
-857	r	Don't spawn Team Magma in マグマだんアジト
-858	r	Don't spawn ミツル in チャンピオンロード (near entrance)
+835	r	カイナシティのインタビュアーを非表示
+836	r	バトルフロンティアのエントランスのエニシダを非表示
+837	r	110ばんどうろのオダマキ博士を非表示
+838	r	オダマキ博士の研究所にあるチコリータのモンスターボールを非表示
+839	r	ルネシティ北部の男性を非表示
+840	r	カイナシティのクスノキ館長を非表示
+841	r	カイナシティ船乗り場のクスノキ館長を非表示
+842	r	バトルフロンティアのウソッキーを非表示
+843	r	111ばんどうろの太った男を非表示
+844	r	カナズミシティの白衣姿のデボンコーポレーション社員を非表示
+845	r	カイナシティ船乗り場のアクア団したっぱを非表示
+846	r	カイナシティ船乗り場のアクア団リーダーアオギリを非表示
+847	r	デコボコさんどうのマグマ団したっぱを非表示
+848	r	カイナシティ船乗り場の潜水艦の影を非表示
+849	r	ハルカの家のピチュードールを非表示
+850	r	マグマだんアジトのグラードン(未覚醒)を非表示
+851	r	119ばんどうろのライバルを非表示
+852	r	ミナモシティのアクア団したっぱたちを非表示
+853	r	マグマだんアジトのグラードン(覚醒)を非表示
+854	r	ルネシティの町の人たち(イベント用)を非表示
+855	r	そらのはしらのミクリを非表示
+856	r	おくりびやまのマツブサを非表示
+857	r	マグマだんアジトのマグマ団を非表示
+858	r	チャンピオンロード(入り口付近)ミツルを非表示
 
-860	r	Don't spawn タイドリップごう in カイナシティふねのりば
-861	r	Don't spawn タイドリップごう in ミナモシティふねのりば
-862	r	Don't spawn Team Magma in トクサネうちゅうセンター 2F
-863	r	Don't spawn ダイゴ in トクサネうちゅうセンター 2F
+860	r	カイナシティ船乗り場のタイドリップごうを非表示
+861	r	ミナモシティ船乗り場のタイドリップごうを非表示
+862	r	トクサネうちゅうセンター2Fのマグマ団を非表示
+863	r	トクサネうちゅうセンター2Fのダイゴを非表示
 
-866	r	Don't spawn ミツル in トウカジム
+866	r	トウカジムのミツルを非表示
 
-868	r	Don't spawn fat man in ミシロタウン
-869	r	Don't spawnハギろうじん in クスノキぞうせんじょ
-870	r	Don't spawn マユミ in her house
-871	r	Don't spawn マユミ in ハジツゲタウン ポケモンセンター
-872	r	Don't spawn Trick Master in カラクリやしき Entrance
-873	r	Don't spawn Old Man in ミナモ ポケモンコンテスト会場
-874	r	Don't spawn かせき in さばくのちかどう
-875	r	Don't spawn ユウキ/ハルカ on 111ばんどうろ さばく (unused?)
-876	r	Don't spawn かせき on 111ばんどうろ
-877	r	Don't spawn Trainers on えんとつやま
-878	r	Don't spawn Team Aqua Grunt in カナシダトンネル
-879	r	Don't spawn ハギろうじん in カナシダトンネル
-880	r	Don't spawn ピーコ (キャモメ) in カナシダトンネル
-881	r	Don't spawn ピーコ (キャモメ) in ハギろうじんの小屋
-882	r	Don't spawn Team Aqua Grunts in カイナシティ
-883	r	Don't spawn Team Aqua Grunts in うみのかがくはくぶつかん
-884	r	Don't spawn Team Aqua Grunt in うみのかがくはくぶつかん 2F
-885	r	Don't spawn Team Aqua Grunt in うみのかがくはくぶつかん 2F
-886	r	Don't spawn アオギリ in うみのかがくはくぶつかん 2F
-887	r	Don't spawn クスノキ館長 in うみのかがくはくぶつかん
+868	r	ミシロタウンの太った男を非表示
+869	r	クスノキぞうせんじょにいるハギろうじんを非表示
+870	r	マユミの家にいるマユミを非表示
+871	r	ハジツゲタウンポケモンセンターにいるマユミを非表示
+872	r	カラクリやしき最初の部屋にいるカラクリ大王を非表示
+873	r	ミナモポケモンコンテスト会場にいる老人を非表示
+874	r	さばくのちかどうのカセキを非表示
+875	r	111ばんどうろのさばくにいるライバルを非表示(未使用?)
+876	r	111ばんどうろのカセキを非表示
+877	r	えんとつやまにいるトレーナーたちを非表示
+878	r	カナシダトンネルにいるアクア団したっぱを非表示
+879	r	カナシダトンネルにいるハギろうじんを非表示
+880	r	カナシダトンネルにいるピーコちゃん(キャモメ)を非表示
+881	r	ハギろうじんの小屋のピーコちゃん(キャモメ)を非表示
+882	r	カイナシティのアクア団したっぱたちを非表示
+883	r	うみのかがくはくぶつかんにいるアクア団したっぱたちを非表示
+884	r	うみのかがくはくぶつかん2Fにいるアクア団したっぱを非表示
+885	r	うみのかがくはくぶつかん2Fにいるアクア団したっぱを非表示
+886	r	うみのかがくはくぶつかん2Fにいるアオギリを非表示
+887	r	うみのかがくはくぶつかん2Fにいるクスノキ館長を非表示
 
-889	r	Don't spawn ユウキ/ハルカ in オダマキ博士の研究所
-890	r	Don't spawn Team Aqua in てんきけんきゅうじょ
-891	r	Don't spawn ハギろうじん on 116ばんどうろ
-892	r	Don't spawn assistants in てんきけんきゅうじょ 1F
-893	r	Don't spawn assistants in てんきけんきゅうじょ 2F
-894	r	Don't spawn Black Belt on 116ばんどうろ
-895	r	Don't spawn Artist in ミナモ ポケモンコンテスト会場 (Right Door)
+889	r	オダマキ博士の研究所にいるライバルを非表示
+890	r	てんきけんきゅうじょにいるアクア団を非表示
+891	r	116ばんどうろにいるハギろうじんをを非表示
+892	r	てんきけんきゅうじょ1Fの研究員を非表示
+893	r	てんきけんきゅうじょ2Fの研究員を非表示
+894	r	116ばんどうろにいるカラテおうを非表示
+895	r	ミナモポケモンコンテスト会場(右のドア)にいる絵描きを非表示
 
-897	r	Don't spawn オダマキ博士 on 101ばんどうろ
-898	r	Don't spawn オダマキ博士 on 103ばんどうろ
-899	r	Don't spawn Trick Master in カラクリやしき Reward Room
-900	r	Don't spawn Team Aqua Grunts on 110ばんどうろ
-901	r	Don't spawn Interviewer Gabby & Ty on 118ばんどうろ (for Rematch 4)
-902	r	Don't spawn Interviewer Gabby & Ty on 120ばんどうろ (for Rematch 5)
-903	r	Don't spawn Interviewer Gabby & Ty on 111ばんどうろ (for Rematch 5)
-904	r	Don't spawn Interviewer Gabby & Ty on 118ばんどうろ (Rematch 5)
-905	r	Don't spawn sailor and fat guy in カイナシティふねのりば
-906	r	Don't spawn girl on 104ばんどうろ
-907	r	Don't spawn Azurill in ハジツゲタウン
-908	r	Don't spawn Lady in ミナモシティ Harbor
-909	r	Don't spawn Sailor in ミナモシティ Harbor
+897	r	101ばんどうろにいるオダマキ博士を非表示
+898	r	103ばんどうろにいるオダマキ博士を非表示
+899	r	カラクリやしき最後の部屋にいるカラクリ大王を非表示
+900	r	110ばんどうろのアクア団したっぱたちを非表示
+901	r	118ばんどうろ(再戦4回目用)インタビュアー マリとダイを非表示
+902	r	120ばんどうろ(再戦5回目用)インタビュアー マリとダイを非表示
+903	r	111ばんどうろ(再戦5回目用)インタビュアー マリとダイを非表示
+904	r	118ばんどうろ(再戦5回目用)インタビュアー マリとダイを非表示
+905	r	カイナシティ船乗り場の船員と太った男を非表示
+906	r	104ばんどうろの少女を非表示
+907	r	ハジツゲタウンのルリリを非表示
+908	r	ミナモシティ船乗り場の受け付けの女性を非表示
+909	r	ミナモシティ船乗り場の船員を非表示
 
-912	r	Don't spawn テッセン in キンセツシティ
-913	r	Don't spawn テッセン in キンセツジム
-914	r	Don't spawn Team Aqua Grunts on 121ばんどうろ
+912	r	キンセツシティのテッセンを非表示
+913	r	キンセツジムのテッセンを非表示
+914	r	121ばんどうろのアクア団したっぱたちを非表示
 
-916	r	Don't spawn アオギリ on おくりびやま
-917	r	Don't spawn Team Aqua Grunts on おくりびやま
-918	r	Don't spawn Interviewer in バトルタワー
-919	r	Don't spawn ユウキ/ハルカ on 110ばんどうろ
+916	r	おくりびやまのアオギリを非表示
+917	r	おくりびやまのアクア団したっぱたちを非表示
+918	r	バトルタワーのインタビュアーを非表示
+919	r	110ばんどうろのライバルを非表示
 
-922	r	Don't spawn ユウキ/ハルカ (on bike) on 110ばんどうろ (unused?)
-923	r	Don't spawn ユウキ/ハルカ (on bike) on 119ばんどうろ (unused?)
-924	r	Don't spawn Team Aqua in アクアだんアジト
-925	r	Don't spawn ゲームフリークのスタッフ in みんしゅくモナミ
-926	r	Don't spawn Team Aqua on えんとつやま
-927	r	Don't spawn Team Magma on えんとつやま
-928	r	Don't spawn ソライシ in his house
-929	r	Don't spawn ユウキ/ハルカ in フエンタウン
-930	r	Don't spawn ユウキ/ハルカ (on bike) in フエンタウン (unused?)
-931	r	Don't spawn bottom boulder in カナシダトンネル
-932	r	Don't spawn top boulder in カナシダトンネル
-933	r	Don't spawn Wingull in ヒワマキシティ
-934	r	Don't spawn Wingull in トクサネシティ
-935	r	Don't spawn レジロック in さばくいせき
+922	r	110ばんどうろのライバル(+じてんしゃ)を非表示(未使用?)
+923	r	119ばんどうろライバル(+じてんしゃ)を非表示(未使用?)
+924	r	アクアだんアジトのアクア団を非表示
+925	r	みんしゅくモナミゲームフリークのスタッフたちを非表示
+926	r	えんとつやまのアクア団を非表示
+927	r	えんとつやまのマグマ団を非表示
+928	r	ソライシの家のソライシを非表示
+929	r	フエンタウンのライバルを非表示
+930	r	フエンタウンのライバル(+じてんしゃ)を非表示(未使用?)
+931	r	カナシダトンネルの下の岩(いわくだきの)を非表示
+932	r	カナシダトンネルの上の岩(いわくだきの)を非表示
+933	r	ヒワマキシティのキャモメを非表示
+934	r	トクサネシティのキャモメを非表示
+935	r	さばくいせきのレジロックを非表示
 	
-938	r	Don't spawn Team Aqua Grunts and アオギリ in りゅうせいのたき
-939	r	Don't spawn Team Magma Grunts in りゅうせいのたき
-940	r	Don't spawn black haired guy in ムロしゅうかいじょ
-941	r	Don't spawn Team Aqua Grunt in かいていどうくつ Entrance
-942	r	Don't spawn ソライシ in りゅうせいのたき
-943	r	Don't spawn submarine shadow in アクアだんアジト
-944	r	Don't spawn アオギリ above かいていどうくつ
-945	r	Don't spawn マツブサ above かいていどうくつ
-946	r	Don't spawn Team Aqua in かいていどうくつ
-947	r	Don't spawn Devon Researcher on 116ばんどうろ
-948	r	Don't spawn Sells Guy in カイナシティ
-949	r	Don't spawn Devon Researcher in デボンコーポレーション
-950	r	Don't spawn ハギろうじん and ピーコ (キャモメ) on タイドリップごう
+938	r	りゅうせいのたきアクア団したっぱたちとアオギリを非表示
+939	r	りゅうせいのたきのマグマ団したっぱたちを非表示
+940	r	ムロしゅうかいじょの黒髪の男を非表示
+941	r	かいていどうくつ入り口をふさぐアクア団したっぱを非表示
+942	r	りゅうせいのたきのソライシを非表示
+943	r	アクアだんアジトの潜水艦の影を非表示
+944	r	かいていどうくつ真上の浅瀬のアオギリを非表示
+945	r	かいていどうくつ真上の浅瀬のマツブサを非表示
+946	r	かいていどうくつのアクア団を非表示
+947	r	116ばんどうろのデボンコーポレーション社員を非表示
+948	r	カイナいちばのひみつのちからを売ってくれる店員を非表示
+949	r	デボンコーポレーションにいるデボンコーポレーション社員を非表示
+950	r	タイドリップごうにいるハギろうじんとピーコちゃん(キャモメ)を非表示
 
-952	r	Shoal Salt (inner room north) in あさせのほらあな found
-953	r	Shoal Salt (inner room south) in あさせのほらあな found
-954	r	Shoal Salt (stairs room) in あさせのほらあな found
-955	r	Shoal Salt (lower room) in あさせのほらあな found
-956	r	Shoal Shell (southeast) in あさせのほらあな found
-957	r	Shoal Shell (northeast) in あさせのほらあな found
-958	r	Shoal Shell (northwest) in あさせのほらあな found
-959	r	Shoal Shell (near center) in あさせのほらあな found
-960	r	Don't spawn boy that gives わざマシン43 on 111ばんどうろ
-961	r	Don't spawn visitors in うみのかがくはくぶつかん
-962	r	Don't spawn Sales Guy on rooftop of ミナモデパート
-963	r	Don't spawn ねっこのカセキ in げんえいのとう
-964	r	Don't spawn ツメのカセキ in げんえいのとう
-965	r	Don't spawn Team Aqua Grunt in うみのかがくはくぶつかん 1F
-966	r	Don't spawn ダイゴ on 118ばんどうろ
-967	r	Don't spawn ダイゴ in his own house
-968	r	Don't spawn ダンバル (Pokéball) in ダイゴ's house
-969	r	Don't spawn カクレオン in ヒワマキシティ
-970	r	Dont't spawn カクレオン on 120ばんどうろ (Bridge)
-971	r	Don't spawn ユウキ/ハルカ in ミナモシティ
-972	r	Don't spawn ダイゴ on 120ばんどうろ
-973	r	Don't spawn ダイゴ in ルネシティ
-974	r	Don't spawn ビリリダマ on green switch in ニューキンセツ
-975	r	Don't spawn ビリリダマ on blue switch in ニューキンセツ
-976	r	Don't spawn ビリリダマ on blue switch in ニューキンセツ
-977	r	Don't spawn top マルマイン in アクアだんアジト
-978	r	Don't spawn bottom マルマイン in アクアだんアジト
-979	r	Don't spawn ユウキ/ハルカ in コトキタウン
-980	r	Don't spawn submarine in かいていどうくつ (invisible)
-981	r	Don't spawn カクレオン shadow on 120ばんどうろ
-982	r	Don't spawn カクレオン on 120ばんどうろ (Stairs)
-983	r	Don't spawn ミチル in カナシダトンネル
-984	r	Don't spawn ミチル in ミチル's house
-985	r	Don't spawn カクレオン on 120ばんどうろ (Behind Sign)
-986	r	Don't spawn カクレオン on 120ばんどうろ (Behind Berry Trees)
-987	r	Don't spawn カクレオン on 120ばんどうろ (Left of Long Grass Maze)
-988	r	Don't spawn カクレオン on 120ばんどうろ (Behind こだいづか)
-989	r	Don't spawn カクレオン on 119ばんどうろ (Right of Ninja Boy)
-990	r	Don't spawn カクレオン on 119ばんどうろ (Left of Ninja Boy)
-991	r	Don't spawn guy in grass on 101ばんどうろ
+952	r	あさせのほらあな(奥の部屋北)の あさせのしお入手済
+953	r	あさせのほらあな(奥の部屋南)の あさせのしお入手済
+954	r	あさせのほらあな(段々の部屋)の あさせのしお入手済
+955	r	あさせのほらあな(地下の部屋)の あさせのしお入手済
+956	r	あさせのほらあな(南東)の あさせのかいがら入手済
+957	r	あさせのほらあな(北東)の あさせのかいがら入手済
+958	r	あさせのほらあな(北西)の あさせのかいがら入手済
+959	r	あさせのほらあな(中央付近)の あさせのかいがら入手済
+960	r	111ばんどうろにいるわざマシン43くれる人を非表示
+961	r	うみのかがくはくぶつかんの来館者を非表示
+962	r	ミナモデパート屋上の店員を非表示
+963	r	げんえいのとうのねっこのカセキを非表示
+964	r	げんえいのとうのツメのカセキを非表示
+965	r	うみのかがくはくぶつかん1Fのアクア団したっぱたちを非表示
+966	r	118ばんどうろのダイゴを非表示
+967	r	ダイゴの家にいるダイゴを非表示
+968	r	ダイゴの家のダンバル(モンスターボール)を非表示
+969	r	ヒワマキシティのカクレオンを非表示
+970	r	120ばんどうろ(橋)のカクレオンを非表示 
+971	r	ミナモデパートをふさぐライバルを非表示
+972	r	120ばんどうろのダイゴを非表示
+973	r	ルネシティのダイゴを非表示
+974	r	ニューキンセツのビリリダマ(緑スイッチの上)を非表示
+975	r	ニューキンセツのビリリダマ(青スイッチの上)を非表示
+976	r	ニューキンセツのビリリダマ(青スイッチの上)を非表示
+977	r	アクアだんアジトの上のマルマインを非表示
+978	r	アクアだんアジトの下のマルマインを非表示
+979	r	コトキタウンのライバルを非表示
+980	r	かいていどうくつの潜水艦(見えない状態)を非表示
+981	r	120ばんどうろのカクレオンの影を非表示
+982	r	120ばんどうろ(階段)のカクレオンを非表示
+983	r	カナシダトンネルのミチルを非表示
+984	r	ミチルの家にいるミチルを非表示
+985	r	120ばんどうろ(看板の後ろ)のカクレオンを非表示
+986	r	120ばんどうろ(木の実の後ろ)のカクレオンを非表示
+987	r	120ばんどうろ(長い草の迷路の左)のカクレオンを非表示
+988	r	120ばんどうろ(こだいづかの後ろ)のカクレオンを非表示
+989	r	119ばんどうろ(右のニンジャごっこ付近)のカクレオンを非表示
+990	r	119ばんどうろ(左のニンジャごっこ付近)のカクレオンを非表示
+991	r	101ばんどうろの草むらにいる男を非表示
 
-993	r	Don't spawn Guy named Handsome in ミナモシティ ポケモンセンター
-994	r	Don't spawn old woman on えんとつやま
+993	r	ミナモシティポケモンセンターにいるおねえさんを非表示
+994	r	えんとつやまのおばあちゃんを非表示
 
-996	r	Don't spawn レックウザ in ルネシティ
-997	r	Don't spawn カイオーガ in ルネシティ
-998	r	Don't spawn グラードン in ルネシティ
-999	r	Don't spawn エニシダ in ポケモントレーナーズスクール
-1000	r	キズぐすり on 102ばんどうろ found
-1001	r	スペシャルアップ on 116ばんどうろ found
-1002	r	ポイントアップ on 104ばんどうろ found
-1003	r	ブロムヘキシン on 105ばんすいどう found
-1004	r	タウリン on 106ばんすいどう found
-1005	r	ポイントアップ on 109ばんすいどう found
-1006	r	ふしぎなアメ on 110ばんどうろ found
-1007	r	クリティカッター on 110ばんどうろ found
-1008	r	わざマシン37 on 111ばんどうろ found
-1009	r	ほしのすな on 111ばんどうろ found
-1010	r	マックスアップ on 111ばんどうろ found
-1011	r	きんのたま on 112ばんどうろ found
-1012	r	ピーピーリカバー on 113ばんどうろ found
-1013	r	シルバースプレー on 113ばんどうろ found
-1014	r	ふしぎなアメ on 114ばんどうろ found
-1015	r	タウリン on 114ばんどうろ found
-1016	r	いいキズぐすり on 115ばんどうろ found
-1017	r	わざマシン01 on 115ばんどうろ found
-1018	r	ブロムヘキシン on 115ばんどうろ found
-1019	r	ピーピーエイド on 116ばんどうろ found
-1020	r	むしよけスプレー on 116ばんどうろ found
-1021	r	マックスアップ on 116ばんどうろ found
-1022	r	スーパーボール on 117ばんどうろ found
-1023	r	げんきのかけら on 117ばんどうろ found
-1024	r	シルバースプレー on 119ばんどうろ found
-1025	r	キトサン on 119ばんどうろ found
-1026	r	ピーピーエイダー (near tall grass) on 119ばんどうろ found
-1027	r	リーフのいし on 119ばんどうろ found
-1028	r	ふしぎなアメ on 119ばんどうろ found
-1029	r	すごいキズぐすり (large grass patch) on 119ばんどうろ found
-1030	r	きんのたま on 120ばんどうろ found
-1031	r	なんでもなおし on 120ばんどうろ found
-1032	r	リゾチウム on 123ばんどうろ found
+996	r	ルネシティのレックウザを非表示
+997	r	ルネシティのカイオーガを非表示
+998	r	ルネシティのグラードンを非表示
+999	r	ポケモントレーナーズスクールエニシダを非表示
+1000	r	キズぐすり(102ばんどうろ)入手済
+1001	r	スペシャルアップ(116ばんどうろ)入手済
+1002	r	ポイントアップ(104ばんどうろ)入手済
+1003	r	ブロムヘキシン(105ばんすいどう)入手済
+1004	r	タウリン(106ばんすいどう)入手済
+1005	r	ポイントアップ(109ばんすいどう)入手済
+1006	r	ふしぎなアメ(110ばんどうろ)入手済
+1007	r	クリティカッター(110ばんどうろ)入手済
+1008	r	わざマシン37(111ばんどうろ)入手済
+1009	r	ほしのすな(111ばんどうろ)入手済
+1010	r	マックスアップ(111ばんどうろ)入手済
+1011	r	きんのたま(112ばんどうろ)入手済
+1012	r	ピーピーリカバー(113ばんどうろ)入手済
+1013	r	シルバースプレー(113ばんどうろ)入手済
+1014	r	ふしぎなアメ(114ばんどうろ)入手済
+1015	r	タウリン(114ばんどうろ)入手済
+1016	r	いいキズぐすり(115ばんどうろ)入手済
+1017	r	わざマシン01(115ばんどうろ)入手済
+1018	r	ブロムヘキシン(115ばんどうろ)入手済
+1019	r	ピーピーエイド(116ばんどうろ)入手済
+1020	r	むしよけスプレー(116ばんどうろ)入手済
+1021	r	マックスアップ(116ばんどうろ)入手済
+1022	r	スーパーボール(117ばんどうろ)入手済
+1023	r	げんきのかけら(117ばんどうろ)入手済
+1024	r	シルバースプレー(119ばんどうろ)入手済
+1025	r	キトサン(119ばんどうろ)入手済
+1026	r	ピーピーエイダー(高い草の近く)(119ばんどうろ)入手済
+1027	r	リーフのいし(119ばんどうろ)入手済
+1028	r	ふしぎなアメ(119ばんどうろ)入手済
+1029	r	すごいキズぐすり(南の高い草の中)(119ばんどうろ)入手済
+1030	r	きんのたま(120ばんどうろ)入手済
+1031	r	なんでもなおし(120ばんどうろ)入手済
+1032	r	リゾチウム(123ばんどうろ)入手済
 
-1034	r	キトサン on 127ばんすいどう found
-1035	r	インドメタシン on 127ばんすいどう found
-1036	r	ふしぎなアメ on 132ばんすいどう found
-1037	r	おおきなしんじゅ on 133ばんすいどう found
-1038	r	ほしのかけら on 133ばんすいどう found
-1039	r	げんきのかたまり in トウカシティ found
-1040	r	ピーピーエイド in トウカシティ found
-1041	r	ディフェンダー in カナズミシティ found
-1042	r	ゴールドスプレー in ミナモシティ found
-1043	r	ネットボール in トクサネシティ found
-1044	r	わざマシン23 in りゅうせいのたき found
-1045	r	なんでもなおし in りゅうせいのたき found
-1046	r	つきのいし in りゅうせいのたき found
-1047	r	ポイントアップ in りゅうせいのたき found
-1048	r	モンスターボール in カナシダトンネル found
-1049	r	ピーピーリカバー in カナシダトンネル found
-1050	r	あなぬけのヒモ in いしのどうくつ found
-1051	r	モンスターボール in いしのどうくつ found
-1052	r	のんきのおこう in おくりびやま found
-1053	r	むしよけスプレー in いしのどうくつ found
-1054	r	ふしぎなアメ in いしのどうくつ found
-1055	r	プラスパワー in トウカのもり found
-1056	r	スーパーボール in トウカのもり found
-1057	r	モンスターボール on 104ばんどうろ found
-1058	r	ピーピーエイド in トウカのもり found
-1059	r	あなぬけのヒモ in マグマだんアジト found
-1060	r	オレンジメール in カラクリやしき Puzzle 1 found
-1061	r	ハーバーメール in カラクリやしき Puzzle 2 found
-1062	r	クロスメール in カラクリやしき Puzzle 2 found
-1063	r	シャドーメール in カラクリやしき Puzzle 3 found
-1064	r	ウッディメール in カラクリやしき Puzzle 3 found
-1065	r	メカニカルメール in カラクリやしき Puzzle 4 found
-1066	r	きいろいかけら on 124ばんすいどう found
-1067	r	キラキラメール in カラクリやしき Puzzle 6 found
-1068	r	トロピカルメール in カラクリやしき Puzzle 7 found
-1069	r	トレジャーメール in カラクリやしき Puzzle 8 found
-1070	r	やけどなおし on デコボコさんどう found
-1071	r	ピーピーマックス in アクアだんアジト found
-1072	r	ネストボール in アクアだんアジト found
-1073	r	まんたんのくすり on おくりびやま found
-1074	r	わざマシン48 on おくりびやま found
-1075	r	ハイパーボール in ニューキンセツ found
-1076	r	あなぬけのヒモ in ニューキンセツ found
-1077	r	ゴージャスボール on すてられぶね found
-1078	r	たんちき on すてられぶね found
-1079	r	わざマシン11 in ひでりのいわと found
-1080	r	わざマシン02 in りゅうせいのたき found
-1081	r	おおきなしんじゅ in あさせのほらあな found
-1082	r	ふしぎなアメ in あさせのほらあな found
-1083	r	こおりなおし in あさせのほらあな found
-1084	r	ピーピーマックス in チャンピオンロード found
-1085	r	ポイントアップ in チャンピオンロード found
-1086	r	わざマシン29 in チャンピオンロード found
-1087	r	かいふくのくすり in チャンピオンロード found
-1088	r	なんでもなおし in チャンピオンロード found
-1089	r	わざマシン30 in おくりびやま found
-1090	r	わざマシン26 in かいていどうくつ found
-1091	r	わざマシン06 in ほのおのぬけみち found
-1092	r	あかいかけら on 124ばんすいどう found
-1093	r	あおいかけら on 124ばんすいどう found
-1094	r	わざマシン22 in サファリゾーン found
-1095	r	ハーバーメール on すてられぶね found
-1096	r	あなぬけのヒモ on すてられぶね found
-1097	r	ダイブボール on すてられぶね found
-1098	r	わざマシン13 on すてられぶね found
-1099	r	げんきのかけら on すてられぶね found
-1100	r	そうこのカギ on すてられぶね found
-1101	r	みずのいし on すてられぶね found
-1102	r	わざマシン18 on すてられぶね found
-1103	r	インドメタシン on 121ばんどうろ found
-1104	r	ハイパーボール on 123ばんどうろ found
-1105	r	みどりのかけら on 126ばんすいどう found
-1106	r	すごいキズぐすり (near muddy slope) on 119ばんどうろ found
-1107	r	すごいキズぐすり on 120ばんどうろ found
-1108	r	ネストボール on 120ばんどうろ found
-1109	r	ピーピーエイダー on 123ばんどうろ found
-1110	r	かみなりのいし on ニューキンセツ found
-1111	r	ほのおのいし in ほのおのぬけみち found
-1112	r	わざマシン07 in あさせのほらあな found
-1113	r	とけないこおり in あさせのほらあな found
-1114	r	エフェクトガード on 103ばんどうろ found
-1115	r	ヨクアタール on 104ばんどうろ found
-1116	r	スピーダー in キンセツシティ found
-1117	r	まひなおし in トウカのもり found
-1118	r	スーパーボール on 115ばんどうろ found
-1119	r	リゾチウム in サファリゾーン found
-1120	r	シルバースプレー in おくりびやま found
-1121	r	すごいキズぐすり on 118ばんどうろ found
-1122	r	なんでもなおし in ニューキンセツ found
-1123	r	まひなおし in ニューキンセツ found
-1124	r	マスターボール in アクアだんアジト found
+1034	r	キトサン(127ばんすいどう)入手済
+1035	r	インドメタシン(127ばんすいどう)入手済
+1036	r	ふしぎなアメ(132ばんすいどう)入手済
+1037	r	おおきなしんじゅ(133ばんすいどう)入手済
+1038	r	ほしのかけら(133ばんすいどう)入手済
+1039	r	げんきのかたまりをトウカシティ)入手済
+1040	r	ピーピーエイド(トウカシティ)入手済
+1041	r	ディフェンダー(カナズミシティ)入手済
+1042	r	ゴールドスプレー(ミナモシティ)入手済
+1043	r	ネットボール(トクサネシティ)入手済
+1044	r	わざマシン23(りゅうせいのたき)入手済
+1045	r	なんでもなおし(りゅうせいのたき)入手済
+1046	r	つきのいし(りゅうせいのたき)入手済
+1047	r	ポイントアップ(りゅうせいのたき)入手済
+1048	r	モンスターボール(カナシダトンネル)入手済
+1049	r	ピーピーリカバー(カナシダトンネル)入手済
+1050	r	あなぬけのヒモ(いしのどうくつ)入手済
+1051	r	モンスターボール(いしのどうくつ)入手済
+1052	r	のんきのおこう(おくりびやま)入手済
+1053	r	むしよけスプレー(いしのどうくつ)入手済
+1054	r	ふしぎなアメ(いしのどうくつ)入手済
+1055	r	プラスパワー(トウカのもり)入手済
+1056	r	スーパーボール(トウカのもり)入手済
+1057	r	モンスターボール(104ばんどうろ)入手済
+1058	r	ピーピーエイド(トウカのもり)入手済
+1059	r	あなぬけのヒモ(マグマだんアジト)入手済
+1060	r	オレンジメール(カラクリやしき１回目)入手済
+1061	r	ハーバーメール(カラクリやしき２回目)入手済
+1062	r	クロスメール(カラクリやしき２回目)入手済
+1063	r	シャドーメール(カラクリやしき３回目)入手済
+1064	r	ウッディメール(カラクリやしき３回目)入手済
+1065	r	メカニカルメール(カラクリやしき４回目)入手済
+1066	r	きいろいかけら(124ばんすいどう)入手済
+1067	r	キラキラメール(カラクリやしき６回目)入手済
+1068	r	トロピカルメール(カラクリやしき７回目)入手済
+1069	r	トレジャーメール(カラクリやしき８回目)入手済
+1070	r	やけどなおし(デコボコさんどう)入手済
+1071	r	ピーピーマックス(アクアだんアジト)入手済
+1072	r	ネストボール(アクアだんアジト)入手済
+1073	r	まんたんのくすり(おくりびやま)入手済
+1074	r	わざマシン48(おくりびやま)入手済
+1075	r	ハイパーボール(ニューキンセツ)入手済
+1076	r	あなぬけのヒモ(ニューキンセツ)入手済
+1077	r	ゴージャスボール(すてられぶね)入手済
+1078	r	たんちき(すてられぶね)入手済
+1079	r	わざマシン11(ひでりのいわと)入手済
+1080	r	わざマシン02(りゅうせいのたき)入手済
+1081	r	おおきなしんじゅ入手済
+1082	r	ふしぎなアメ入手済
+1083	r	こおりなおし入手済
+1084	r	ピーピーマックス(チャンピオンロード)入手済
+1085	r	ポイントアップ(チャンピオンロード)入手済
+1086	r	わざマシン29(チャンピオンロード)入手済
+1087	r	かいふくのくすり(チャンピオンロード)入手済
+1088	r	なんでもなおし(チャンピオンロード)入手済
+1089	r	わざマシン30(おくりびやま)入手済
+1090	r	わざマシン26(かいていどうくつ)入手済
+1091	r	わざマシン06(ほのおのぬけみち)入手済
+1092	r	あかいかけら(124ばんすいどう)入手済
+1093	r	あおいかけら(124ばんすいどう)入手済
+1094	r	わざマシン22(サファリゾーン)入手済
+1095	r	ハーバーメール(すてられぶね)入手済
+1096	r	あなぬけのヒモ(すてられぶね)入手済
+1097	r	ダイブボール(すてられぶね)入手済
+1098	r	わざマシン13(すてられぶね)入手済
+1099	r	げんきのかけら(すてられぶね)入手済
+1100	r	そうこのカギ(すてられぶね)入手済
+1101	r	みずのいし(すてられぶね)入手済
+1102	r	わざマシン18(すてられぶね)入手済
+1103	r	インドメタシン(121ばんどうろ)入手済
+1104	r	ハイパーボール(123ばんどうろ)入手済
+1105	r	みどりのかけら(126ばんすいどう)入手済
+1106	r	すごいキズぐすり(中央西)(119ばんどうろ)入手済
+1107	r	すごいキズぐすり(120ばんどうろ)入手済
+1108	r	ネストボール(120ばんどうろ)入手済
+1109	r	ピーピーエイダー(123ばんどうろ)入手済
+1110	r	かみなりのいし(ニューキンセツ)入手済
+1111	r	ほのおのいし(ほのおのぬけみち)入手済
+1112	r	わざマシン07(あさせのほらあな)入手済
+1113	r	とけないこおり(あさせのほらあな)入手済
+1114	r	エフェクトガード(103ばんどうろ)入手済
+1115	r	ヨクアタール(104ばんどうろ)入手済
+1116	r	スピーダーをキンセツシティ)入手済
+1117	r	まひなおしをトウカのもり)入手済
+1118	r	スーパーボール(115ばんどうろ)入手済
+1119	r	リゾチウム(サファリゾーン)入手済
+1120	r	シルバースプレー(おくりびやま)入手済
+1121	r	すごいキズぐすり(118ばんどうろ)入手済
+1122	r	なんでもなおし(ニューキンセツ)入手済
+1123	r	まひなおし(ニューキンセツ)入手済
+1124	r	マスターボール(アクアだんアジト)入手済
 
-1129	r	ハイパーボール in おくりびやま found
-1130	r	うしおのおこう in おくりびやま found
-1131	r	げんきのかたまり in サファリゾーン found
-1132	r	きんのたま in アクアだんアジト found
+1129	r	ハイパーボール(おくりびやま)入手済
+1130	r	うしおのおこう(おくりびやま)入手済
+1131	r	げんきのかたまり(サファリゾーン)入手済
+1132	r	きんのたま(アクアだんアジト)入手済
 
-1134	r	きんのたま on 119ばんどうろ found
-1135	r	キズぐすり on 104ばんどうろ found
+1134	r	きんのたま(119ばんどうろ)入手済
+1135	r	キズぐすり(104ばんどうろ)入手済
 
-1137	r	ポイントアップ on 103ばんどうろ found
+1137	r	ポイントアップ(103ばんどうろ)入手済
 
-1139	r	ほしのかけら on 108ばんすいどう found
-1140	r	キズぐすり on 109ばんすいどう found
-1141	r	ピーピーエイダー on 110ばんどうろ found
-1142	r	ピーピーエイダー on 111ばんどうろ found
-1143	r	すごいキズぐすり on 113ばんどうろ found
-1144	r	ばんのうごな on 115ばんどうろ found
+1139	r	ほしのかけら(108ばんすいどう)入手済
+1140	r	キズぐすり(109ばんすいどう)入手済
+1141	r	ピーピーエイダー(110ばんどうろ)入手済
+1142	r	ピーピーエイダー(111ばんどうろ)入手済
+1143	r	すごいキズぐすり(113ばんどうろ)入手済
+1144	r	ばんのうごな(115ばんどうろ)入手済
 
-1146	r	キズぐすり on 116ばんどうろ found
-1147	r	ピーピーエイダー (near water) on 119ばんどうろ found
-1148	r	げんきのかけら on 120ばんどうろ found
-1149	r	げんきのかけら on 121ばんどうろ found
-1150	r	キトサン on 121ばんどうろ found
-1151	r	ふしぎなアメ in マグマだんアジト found
-1152	r	ポイントアップ on 123ばんどうろ found
-1153	r	ふっかつそう on 123ばんどうろ found
-1154	r	おおきなしんじゅ on 125ばんすいどう found
-1155	r	ふしぎなアメ on 127ばんすいどう found
-1156	r	タウリン on 132ばんすいどう found
-1157	r	げんきのかたまり on 133ばんすいどう found
-1158	r	インドメタシン on 134ばんすいどう found
-1159	r	ほしのかけら on 134ばんすいどう found
-1160	r	ちからのこな on 114ばんどうろ found
-1161	r	ポイントアップ on 115ばんどうろ found
-1162	r	マックスアップ in アトリエのあな found
-1163	r	インドメタシン in アトリエのあな found
-1164	r	ピーピーマックス in マグマだんアジト found
-1165	r	かいふくのくすり in マグマだんアジト found
-1166	r	きんのたま in マグマだんアジト found
-1167	r	ポイントマックス in マグマだんアジト found
-1168	r	げんきのかたまり in マグマだんアジト found
-1169	r	きんのたま in サファリゾーン found
-1170	r	おおきなしんじゅ in サファリゾーン found
+1146	r	キズぐすり(116ばんどうろ)入手済
+1147	r	ピーピーエイダー(水の近く)(119ばんどうろ)入手済
+1148	r	げんきのかけら(120ばんどうろ)入手済
+1149	r	げんきのかけら(121ばんどうろ)入手済
+1150	r	キトサン(121ばんどうろ)入手済
+1151	r	ふしぎなアメ(マグマだんアジト)入手済
+1152	r	ポイントアップ(123ばんどうろ)入手済
+1153	r	ふっかつそう(123ばんどうろ)入手済
+1154	r	おおきなしんじゅ(125ばんすいどう)入手済
+1155	r	ふしぎなアメ(127ばんすいどう)入手済
+1156	r	タウリン(132ばんすいどう)入手済
+1157	r	げんきのかたまり(133ばんすいどう)入手済
+1158	r	インドメタシン(134ばんすいどう)入手済
+1159	r	ほしのかけら(134ばんすいどう)入手済
+1160	r	ちからのこな(114ばんどうろ)入手済
+1161	r	ポイントアップ(115ばんどうろ)入手済
+1162	r	マックスアップ(アトリエのあな)入手済
+1163	r	インドメタシン(アトリエのあな)入手済
+1164	r	ピーピーマックス(マグマだんアジト)入手済
+1165	r	かいふくのくすり(マグマだんアジト)入手済
+1166	r	きんのたま(マグマだんアジト)入手済
+1167	r	ポイントマックス(マグマだんアジト)入手済
+1168	r	げんきのかたまり(マグマだんアジト)入手済
+1169	r	きんのたま(サファリゾーン)入手済
+1170	r	おおきなしんじゅ(サファリゾーン)入手済
 
-1272	s	Change text of Pokémon Trainer ダイゴ in りゅうせいのたき (Unset for rebattle)
+1272	s	りゅうせいのたきのたきのダイゴの台詞変化(Unset for rebattle)
 
-1281	t	Hiker Sawyer on えんとつやま defeated
-1282	t	Team Aqua Grunt (Male) in アクアだんアジト 1F defeated
-1283	t	Team Aqua Grunt (Male) in アクアだんアジト B1F defeated
-1284	t	Team Aqua Grunt (Male) in アクアだんアジト B1F defeated
-1285	t	Team Aqua Grunt (Male) in アクアだんアジト B2F defeated
-1286	t	Team Aqua Grunt (Male) in かいていどうくつ Room 1 defeated
-1287	t	Team Aqua Grunt (Male) in かいていどうくつ Room 1 defeated
-1288	t	Team Aqua Grunt (Male) in かいていどうくつ Room 3 defeated
-1289	t	Pokémon Breeder Gabrielle in おくりびやま defeated
-1290	t	Team Aqua Grunt (Male) in トウカのもり defeated
-1291	t	Cooltrainer Marcel on 121ばんどうろ defeated
-1292	t	Bird Keeper Alberto on 123ばんどうろ defeated
-1293	t	Collector Ed on 123ばんどうろ defeated
-1294	t	Team Aqua Grunt (Female) in かいていどうくつ Room 3 defeated
-1295	t	Swimmer Declan on 124ばんすいどう defeated
-1296	t	Team Aqua Grunt (Male) in カナシダトンネル defeated
-1297	t	Team Aqua Grunt (Male) in てんきけんきゅうじょ 1F defeated
-1298	t	Team Aqua Grunt (Male) in てんきけんきゅうじょ 2F defeated
-1299	t	Team Aqua Grunt (Male) in てんきけんきゅうじょ 2F defeated
-1300	t	Team Aqua Grunt (Male) in うみのかがくはくぶつかん defeated
-1301	t	Team Aqua Grunt (Male) in うみのかがくはくぶつかん defeated
-1302	t	Team Magma Grunt (Male) in トクサネうちゅうセンター 1F defeated
-1303	t	Team Aqua Grunt (Male) on おくりびやま defeated
-1304	t	Team Aqua Grunt (Male) on おくりびやま defeated
-1305	t	Team Aqua Grunt (Male) on おくりびやま defeated
-1306	t	Team Aqua Grunt (Female) in てんきけんきゅうじょ 1F defeated
-1307	t	Team Aqua Grunt (Female) in アクアだんアジト B1F defeated
-1308	t	Team Aqua Grunt (Female) in アクアだんアジト B2F defeated
-1309	t	Expert Fredrick on 123ばんどうろ defeated
-1310	t	Team Aqua Admin Matt in アクアだんアジト defeated
-1311	t	Black Belt Zander in おくりびやま defeated
-1312	t	Aqua Admin Shelly in てんきけんきゅうじょ defeated
-1313	t	Aqua Admin Shelly in かいていどうくつ defeated
-1314	t	Aqua Leader アオギリ in かいていどうくつ defeated
-1315	t	Hex Maniac Leah in おくりびやま defeated
-1316	t	Aroma Lady Daisy on 103ばんどうろ defeated
-1317	t	Aroma Lady Rose on 118ばんどうろ defeated
-1318	t	Cooltrainer Felix in チャンピオンロード B2F defeated
-1319	t	Aroma Lady Violet on 123ばんどうろ defeated
-1320	t	Aroma Lady Violet (Rematch 1) on 123ばんどうろ defeated
-1321	t	Aroma Lady Violet (Rematch 2) on 123ばんどうろ defeated
-1322	t	Aroma Lady Violet (Rematch 3) on 123ばんどうろ defeated
-1323	t	Aroma Lady Violet (Rematch 4) on 123ばんどうろ defeated
-1324	t	Ruin Maniac Dusty on 111ばんどうろ defeated
-1325	t	Ruin Maniac Chip on 120ばんどうろ defeated
-1326	t	Ruin Maniac Foster on 105ばんすいどう defeated
-1327	t	Ruin Maniac Dusty (Rematch 1) on 111ばんどうろ defeated
-1328	t	Ruin Maniac Dusty (Rematch 2) on 111ばんどうろ defeated
-1329	t	Ruin Maniac Dusty (Rematch 3) on 111ばんどうろ defeated
-1330	t	Ruin Maniac Dusty (Rematch 4) on 111ばんどうろ defeated
-1331	t	Interviewer Gabby & Ty on 111ばんどうろ defeated
-1332	t	Interviewer Gabby & Ty on 118ばんどうろ defeated
-1333	t	Interviewer Gabby & Ty on 120ばんどうろ defeated
-1334	t	Interviewer Gabby & Ty on 111ばんどうろ defeated (Rematch 1)
-1335	t	Interviewer Gabby & Ty on 118ばんどうろ defeated (Rematch 2)
-1336	t	Interviewer Gabby & Ty defeated (Rematch 3)
-1337	t	Tuber Lola on 109ばんすいどう defeated
-1338	t	Tuber Austina on 109ばんすいどう defeated
-1339	t	Tuber Gwen on 109ばんすいどう defeated
-1340	t	Tuber Lola (Rematch 1) on 109ばんすいどう defeated
-1341	t	Tuber Lola (Rematch 2) on 109ばんすいどう defeated
-1342	t	Tuber Lola (Rematch 3) on 109ばんすいどう defeated
-1343	t	Tuber Lola (Rematch 4) on 109ばんすいどう defeated
-1344	t	Tuber Ricky on 109ばんすいどう defeated
-1345	t	Tuber Simon on 109ばんすいどう defeated
-1346	t	Tuber Charlie on すてられぶね defeated
-1347	t	Tuber Ricky (Rematch 1) on 109ばんすいどう defeated
-1348	t	Tuber Ricky (Rematch 2) on 109ばんすいどう defeated
-1349	t	Tuber Ricky (Rematch 3) on 109ばんすいどう defeated
-1350	t	Tuber Ricky (Rematch 4) on 109ばんすいどう defeated
-1351	t	Cooltrainer Randall in トウカジム defeated
-1352	t	Cooltrainer Parker in トウカジム defeated
-1353	t	Cooltrainer George in トウカジム defeated
-1354	t	Cooltrainer Berke in トウカジム defeated
-1355	t	Cooltrainer Braxton on 123ばんどうろ defeated
-1356	t	Cooltrainer Vincent in カラクリやしき Puzzle 8 defeated
-1357	t	Cooltrainer Leroy in カラクリやしき Puzzle 8 defeated
-1358	t	Cooltrainer Wilton on 111ばんどうろ defeated
-1359	t	Cooltrainer Edgar in チャンピオンロード 1F defeated
-1360	t	Cooltrainer Albert in チャンピオンロード 1F defeated
-1361	t	Cooltrainer Samuel in チャンピオンロード B1F defeated
-1362	t	Cooltrainer Vito in チャンピオンロード B2F defeated
-1363	t	Cooltrainer Owen in チャンピオンロード B2F defeated
-1364	t	Cooltrainer Wilton (Rematch 1) on 111ばんどうろ defeated
-1365	t	Cooltrainer Wilton (Rematch 2) on 111ばんどうろ defeated
-1366	t	Cooltrainer Wilton (Rematch 3) on 111ばんどうろ defeated
-1367	t	Cooltrainer Wilton (Rematch 4) on 111ばんどうろ defeated
-1368	t	Cooltrainer Warren on 133ばんすいどう defeated
-1369	t	Cooltrainer Mary in トウカジム defeated
-1370	t	Cooltrainer Alexia in トウカジム defeated
-1371	t	Cooltrainer Jody in トウカジム defeated
-1372	t	Cooltrainer Wendy on 123ばんどうろ defeated
-1373	t	Cooltrainer Keira in カラクリやしき Puzzle 8 defeated
-1374	t	Cooltrainer Brooke on 111ばんどうろ defeated
-1375	t	Cooltrainer Jennifer on 120ばんどうろ defeated
-1376	t	Cooltrainer Hope in チャンピオンロード 1F defeated
-1377	t	Cooltrainer Shannon in チャンピオンロード B1F defeated
-1378	t	Cooltrainer Michelle in チャンピオンロード B1F defeated
-1379	t	Cooltrainer Caroline in チャンピオンロード B2F defeated
-1380	t	Cooltrainer Julie in チャンピオンロード B2F defeated
-1381	t	Cooltrainer Brooke (Rematch 1) on 111ばんどうろ defeated
-1382	t	Cooltrainer Brooke (Rematch 2) on 111ばんどうろ defeated
-1383	t	Cooltrainer Brooke (Rematch 3) on 111ばんどうろ defeated
-1384	t	Cooltrainer Brooke (Rematch 4) on 111ばんどうろ defeated
-1385	t	Hex Maniac Patricia in カラクリやしき Puzzle 7 defeated
-1386	t	Hex Maniac Kindra on 123ばんどうろ defeated
-1387	t	Hex Maniac Tammy on 121ばんどうろ defeated
-1388	t	Hex Maniac Valerie in おくりびやま defeated
-1389	t	Hex Maniac Tasha in おくりびやま defeated
-1390	t	Hex Maniac Valerie (Rematch 1) in おくりびやま defeated
-1391	t	Hex Maniac Valerie (Rematch 2) in おくりびやま defeated
-1392	t	Hex Maniac Valerie (Rematch 3) in おくりびやま defeated
-1393	t	Hex Maniac Valerie (Rematch 4) in おくりびやま defeated
-1394	t	Lady Cindy on 104ばんどうろ defeated
-1395	t	Lady Daphne in ルネジム defeated
-1396	t	Team Magma Grunt (Male) in トクサネうちゅうセンター 1F defeated
+1281	t	やまおとこ マサヒコ(えんとつやま)に勝利
+1282	t	アクア団 したっぱ(男)(アクアだんアジト1F)に勝利
+1283	t	アクア団 したっぱ(男)(アクアだんアジトB1F)に勝利
+1284	t	アクア団 したっぱ(男)(アクアだんアジトB1F)に勝利
+1285	t	アクア団 したっぱ(男)(アクアだんアジトB2F)に勝利
+1286	t	アクア団 したっぱ(男)(かいていどうくつ)に勝利
+1287	t	アクア団 したっぱ(男)(かいていどうくつ)に勝利
+1288	t	アクア団 したっぱ(男)(かいていどうくつ)に勝利
+1289	t	ポケモンブリーダー フクミ(おくりびやま)に勝利
+1290	t	アクア団 したっぱ(男)(トウカのもり)に勝利
+1291	t	エリートトレーナー セツオ(121ばんどうろ)に勝利
+1292	t	とりつかい ヨウスケ(123ばんどうろ)に勝利
+1293	t	ポケモンコレクター スグル(123ばんどうろ)に勝利
+1294	t	アクア団 したっぱ(女)(かいていどうくつ)に勝利
+1295	t	かいパンやろう イッペイ(124ばんすいどう)に勝利
+1296	t	アクア団 したっぱ(男)(カナシダトンネル)に勝利
+1297	t	アクア団 したっぱ(男)(てんきけんきゅうじょ1F)に勝利
+1298	t	アクア団 したっぱ(男)(てんきけんきゅうじょ2F)に勝利
+1299	t	アクア団 したっぱ(男)(てんきけんきゅうじょ2F)に勝利
+1300	t	アクア団 したっぱ(男)(うみのかがくはくぶつかん)に勝利
+1301	t	アクア団 したっぱ(男)(うみのかがくはくぶつかん)に勝利
+1302	t	アクア団 したっぱ(男)(トクサネうちゅうセンター1F)に勝利
+1303	t	アクア団 したっぱ(男)(おくりびやま)に勝利
+1304	t	アクア団 したっぱ(男)(おくりびやま)に勝利
+1305	t	アクア団 したっぱ(男)(おくりびやま)に勝利
+1306	t	アクア団 したっぱ(女)(てんきけんきゅうじょ1F)に勝利
+1307	t	アクア団 したっぱ(女)(アクアだんアジトB1F)に勝利
+1308	t	アクア団 したっぱ(女)(アクアだんアジトB2F)に勝利
+1309	t	たつじん トシシゲ(123ばんどうろ)に勝利
+1310	t	アクア団かんぶ ウシオ(アクアだんアジト)に勝利
+1311	t	カラテおう リョウジ(おくりびやま)に勝利
+1312	t	アクア団かんぶ イズミ(てんきけんきゅうじょ)に勝利
+1313	t	アクア団かんぶ イズミ(かいていどうくつ)に勝利
+1314	t	アクア団リーダー アオギリ(かいていどうくつ)に勝利
+1315	t	オカルトマニア エミ(おくりびやま)に勝利
+1316	t	アロマなおねえさん ミドリ(103ばんどうろ)に勝利
+1317	t	アロマなおねえさん ヤヨイ(118ばんどうろ)に勝利
+1318	t	エリートトレーナー コウジロウ(チャンピオンロードB2F)に勝利
+1319	t	アロマなおねえさん チヅル(123ばんどうろ)に勝利
+1320	t	アロマなおねえさん ヤヨイ(再戦１回目; 118ばんどうろ)に勝利
+1321	t	アロマなおねえさん ヤヨイ(再戦２回目; 118ばんどうろ)に勝利
+1322	t	アロマなおねえさん ヤヨイ(再戦３回目; 118ばんどうろ)に勝利
+1323	t	アロマなおねえさん ヤヨイ(再戦４回目; 118ばんどうろ)に勝利
+1324	t	いせきマニア ノブオ(111ばんどうろ)に勝利
+1325	t	いせきマニア ケイイチ(120ばんどうろ)に勝利
+1326	t	いせきマニア アキヒト(105ばんすいどう)に勝利
+1327	t	いせきマニア ノブオ(再戦１回目; 111ばんどうろ)に勝利
+1328	t	いせきマニア ノブオ(再戦２回目; 111ばんどうろ)に勝利
+1329	t	いせきマニア ノブオ(再戦３回目; 111ばんどうろ)に勝利
+1330	t	いせきマニア ノブオ(再戦４回目; 111ばんどうろ)に勝利
+1331	t	インタビュアー マリとダイ(111ばんどうろ)に勝利
+1332	t	インタビュアー マリとダイ(118ばんどうろ)に勝利
+1333	t	インタビュアー マリとダイ(120ばんどうろ)に勝利
+1334	t	インタビュアー マリとダイ(再戦; 111ばんどうろ)に勝利
+1335	t	インタビュアー マリとダイ(再戦; 118ばんどうろ)に勝利
+1336	t	インタビュアー マリとダイ(再戦; 120ばんどうろ)に勝利
+1337	t	うきわガール アユミ(109ばんすいどう)に勝利
+1338	t	うきわガール ヒロミ(109ばんすいどう)に勝利
+1339	t	うきわガール ノゾミ(109ばんすいどう)に勝利
+1340	t	うきわガール アユミ(再戦１回目; 109ばんすいどう)に勝利
+1341	t	うきわガール アユミ(再戦２回目; 109ばんすいどう)に勝利
+1342	t	うきわガール アユミ(再戦３回目; 109ばんすいどう)に勝利
+1343	t	うきわガール アユミ(再戦４回目; 109ばんすいどう)に勝利
+1344	t	うきわボーイ ユウタ(109ばんすいどう)に勝利
+1345	t	うきわボーイ ヤスノブ(109ばんすいどう)に勝利
+1346	t	うきわボーイ マナブ(すてられぶね)に勝利
+1347	t	うきわボーイ ユウタ(再戦１回目; 109ばんすいどう)に勝利
+1348	t	うきわボーイ ユウタ(再戦２回目; 109ばんすいどう)に勝利
+1349	t	うきわボーイ ユウタ(再戦３回目; 109ばんすいどう)に勝利
+1350	t	うきわボーイ ユウタ(再戦４回目; 109ばんすいどう)に勝利
+1351	t	エリートトレーナー トシキ(トウカジム)に勝利
+1352	t	エリートトレーナー ヒデキ(トウカジム)に勝利
+1353	t	エリートトレーナー カズマ(トウカジム)に勝利
+1354	t	エリートトレーナー ナオキ(トウカジム)に勝利
+1355	t	エリートトレーナー ヨシオ(123ばんどうろ)に勝利
+1356	t	エリートトレーナー ユウト(カラクリやしき８回目)に勝利
+1357	t	エリートトレーナー マコト(カラクリやしき８回目)に勝利
+1358	t	エリートトレーナー ユウスケ(111ばんどうろ)に勝利
+1359	t	エリートトレーナー コウキ(チャンピオンロード1F)に勝利
+1360	t	エリートトレーナー ショウ(チャンピオンロード1F)に勝利
+1361	t	エリートトレーナー タクヤ(チャンピオンロードB1F)に勝利
+1362	t	エリートトレーナー リョウヘイ(チャンピオンロードB2F)に勝利
+1363	t	エリートトレーナー カケル(チャンピオンロードB2F)に勝利
+1364	t	エリートトレーナー ユウスケ(再戦１回目; 111ばんどうろ)に勝利
+1365	t	エリートトレーナー ユウスケ(再戦２回目; 111ばんどうろ)に勝利
+1366	t	エリートトレーナー ユウスケ(再戦３回目; 111ばんどうろ)に勝利
+1367	t	エリートトレーナー ユウスケ(再戦４回目; 111ばんどうろ)に勝利
+1368	t	エリートトレーナー レイジ(133ばんすいどう)に勝利
+1369	t	エリートトレーナー アヤカ(トウカジム)に勝利
+1370	t	エリートトレーナー ミハル(トウカジム)に勝利
+1371	t	エリートトレーナー サオリ(トウカジム)に勝利
+1372	t	エリートトレーナー セツナ(123ばんどうろ)に勝利
+1373	t	エリートトレーナー アイナ(カラクリやしき８回目)に勝利
+1374	t	エリートトレーナー マリア(111ばんどうろ)に勝利
+1375	t	エリートトレーナー ヤエコ(120ばんどうろ)に勝利
+1376	t	エリートトレーナー アイリ(チャンピオンロード1F)に勝利
+1377	t	エリートトレーナー エリコ(チャンピオンロードB1F)に勝利
+1378	t	エリートトレーナー カズミ(チャンピオンロードB1F)に勝利
+1379	t	エリートトレーナー コトミ(チャンピオンロードB2F)に勝利
+1380	t	エリートトレーナー ヒヅキ(チャンピオンロードB2F)に勝利
+1381	t	エリートトレーナー マリア(再戦１回目; 111ばんどうろ)に勝利
+1382	t	エリートトレーナー マリア(再戦２回目; 111ばんどうろ)に勝利
+1383	t	エリートトレーナー マリア(再戦３回目; 111ばんどうろ)に勝利
+1384	t	エリートトレーナー マリア(再戦４回目; 111ばんどうろ)に勝利
+1385	t	オカルトマニア コトネ(カラクリやしき７回目)に勝利
+1386	t	オカルトマニア サチコ(123ばんどうろ)に勝利
+1387	t	オカルトマニア ミコト(121ばんどうろ)に勝利
+1388	t	オカルトマニア ホノカ(おくりびやま)に勝利
+1389	t	オカルトマニア ホタル(おくりびやま)に勝利
+1390	t	オカルトマニア ホノカ(再戦１回目; おくりびやま)に勝利
+1391	t	オカルトマニア ホノカ(再戦２回目; おくりびやま)に勝利
+1392	t	オカルトマニア ホノカ(再戦３回目; おくりびやま)に勝利
+1393	t	オカルトマニア ホノカ(再戦４回目; おくりびやま)に勝利
+1394	t	おじょうさま レイカ(104ばんどうろ)に勝利
+1395	t	おじょうさま エイカ(ルネジム)に勝利
+1396	t	アクア団 したっぱ(男)(トクサネうちゅうセンター1F)に勝利
 
-1398	t	Lady Brianna in ルネジム defeated
-1399	t	Lady Naomi on タイドリップごう defeated
-1400	t	Lady Cindy (Rematch 1) on 104ばんどうろ defeated
-1401	t	Lady Cindy (Rematch 2) on 104ばんどうろ defeated
-1402	t	Lady Cindy (Rematch 3) on 104ばんどうろ defeated
-1403	t	Lady Cindy (Rematch 4) on 104ばんどうろ defeated
-1404	t	Beauty Melissa on えんとつやま defeated
-1405	t	Beauty Sheila on えんとつやま defeated
-1406	t	Beauty Shirley on えんとつやま defeated
-1407	t	Beauty Jessica on 121ばんどうろ defeated
-1408	t	Beauty Connie in ルネジム defeated
-1409	t	Beauty Bridget in ルネジム defeated
-1410	t	Beauty Olivia in ルネジム defeated
-1411	t	Beauty Tiffany in ルネジム defeated
-1412	t	Beauty Jessica (Rematch 1) on 121ばんどうろ defeated
-1413	t	Beauty Jessica (Rematch 2) on 121ばんどうろ defeated
-1414	t	Beauty Jessica (Rematch 3) on 121ばんどうろ defeated
-1415	t	Beauty Jessica (Rematch 4) on 121ばんどうろ defeated
-1416	t	Rich Boy Winston on 104ばんどうろ defeated
-1417	t	Expert Mollie on 133ばんすいどう defeated
-1418	t	Rich Boy Garret on タイドリップごう defeated
-1419	t	Rich Boy Winston (Rematch 1) on 104ばんどうろ defeated
-1420	t	Rich Boy Winston (Rematch 2) on 104ばんどうろ defeated
-1421	t	Rich Boy Winston (Rematch 3) on 104ばんどうろ defeated
-1422	t	Rich Boy Winston (Rematch 4) on 104ばんどうろ defeated
-1423	t	PokéManiac Steve on 114ばんどうろ defeated
-1424	t	Beauty Thalia on すてられぶね defeated
-1425	t	PokéManiac Mark in おくりびやま defeated
-1426	t	Team Magma Grunt (Female) on えんとつやま defeated
-1427	t	PokéManiac Steve (Rematch 1) on 114ばんどうろ defeated
-1428	t	PokéManiac Steve (Rematch 2) on 114ばんどうろ defeated
-1429	t	PokéManiac Steve (Rematch 3) on 114ばんどうろ defeated
-1430	t	PokéManiac Steve (Rematch 4) on 114ばんどうろ defeated
-1431	t	Swimmer Luis on 105ばんすいどう defeated
-1432	t	Swimmer Dominik on 105ばんすいどう defeated
-1433	t	Swimmer Douglas on 106ばんすいどう defeated
-1434	t	Swimmer Darrin on 107ばんすいどう defeated
-1435	t	Swimmer Tony on 107ばんすいどう defeated
-1436	t	Swimmer Jerome on 108ばんすいどう defeated
-1437	t	Swimmer Matthew on 108ばんすいどう defeated
-1438	t	Swimmer David on 109ばんすいどう defeated
-1439	t	Swimmer Spencer on 124ばんすいどう defeated
-1440	t	Swimmer Roland on 124ばんすいどう defeated
-1441	t	Swimmer Nolen on 125ばんすいどう defeated
-1442	t	Swimmer Stan on 125ばんすいどう defeated
-1443	t	Swimmer Barry on 126ばんすいどう defeated
-1444	t	Swimmer Dean on 126ばんすいどう defeated
-1445	t	Swimmer Rodney on 130ばんすいどう defeated
-1446	t	Swimmer Richard on 131ばんすいどう defeated
-1447	t	Swimmer Herman on 131ばんすいどう defeated
-1448	t	Swimmer Santiago on 130ばんすいどう defeated
-1449	t	Swimmer Gilbert on 132ばんすいどう defeated
-1450	t	Swimmer Franklin on 133ばんすいどう defeated
-1451	t	Swimmer Kevin on 131ばんすいどう defeated
-1452	t	Swimmer Jack on 134ばんすいどう defeated
+1398	t	おじょうさま シオリ(ルネジム)に勝利
+1399	t	おじょうさま カナコ(タイドリップごう)に勝利
+1400	t	おじょうさま レイカ(再戦１回目; 104ばんどうろ)に勝利
+1401	t	おじょうさま レイカ(再戦２回目; 104ばんどうろ)に勝利
+1402	t	おじょうさま レイカ(再戦３回目; 104ばんどうろ)に勝利
+1403	t	おじょうさま レイカ(再戦４回目; 104ばんどうろ)に勝利
+1404	t	おとなのおねえさん メグミ(えんとつやま)に勝利
+1405	t	おとなのおねえさん クニミ(えんとつやま)に勝利
+1406	t	おとなのおねえさん アサミ(えんとつやま)に勝利
+1407	t	おとなのおねえさん ヨリコ(121ばんどうろ)に勝利
+1408	t	おとなのおねえさん マユコ(ルネジム)に勝利
+1409	t	おとなのおねえさん セイコ(ルネジム)に勝利
+1410	t	おとなのおねえさん ナオコ(ルネジム)に勝利
+1411	t	おとなのおねえさん ハルコ(ルネジム)に勝利
+1412	t	おとなのおねえさん ヨリコ(再戦１回目; 121ばんどうろ)に勝利
+1413	t	おとなのおねえさん ヨリコ(再戦２回目; 121ばんどうろ)に勝利
+1414	t	おとなのおねえさん ヨリコ(再戦３回目; 121ばんどうろ)に勝利
+1415	t	おとなのおねえさん ヨリコ(再戦４回目; 121ばんどうろ)に勝利
+1416	t	おぼっちゃま ミツグ(104ばんどうろ)に勝利
+1417	t	たつじん ナエ(133ばんすいどう)に勝利
+1418	t	おぼっちゃま ショウイチ(タイドリップごう)に勝利
+1419	t	おぼっちゃま ミツグ(再戦１回目; 104ばんどうろ)に勝利
+1420	t	おぼっちゃま ミツグ(再戦２回目; 104ばんどうろ)に勝利
+1421	t	おぼっちゃま ミツグ(再戦３回目; 104ばんどうろ)に勝利
+1422	t	おぼっちゃま ミツグ(再戦４回目; 104ばんどうろ)に勝利
+1423	t	かいじゅうマニア トシオ(114ばんどうろ)に勝利
+1424	t	おとなのおねえさん ショウ(すてられぶね)に勝利
+1425	t	かいじゅうマニア モトフミ(おくりびやま)に勝利
+1426	t	アクア団 したっぱ(女)(えんとつやま)に勝利
+1427	t	かいじゅうマニア トシオ(再戦１回目; 114ばんどうろ)に勝利
+1428	t	かいじゅうマニア トシオ(再戦２回目; 114ばんどうろ)に勝利
+1429	t	かいじゅうマニア トシオ(再戦３回目; 114ばんどうろ)に勝利
+1430	t	かいじゅうマニア トシオ(再戦４回目; 114ばんどうろ)に勝利
+1431	t	かいパンやろう ヨウヘイ(105ばんすいどう)に勝利
+1432	t	かいパンやろう ヒロミ(105ばんすいどう)に勝利
+1433	t	かいパンやろう タツオ(106ばんすいどう)に勝利
+1434	t	かいパンやろう テルユキ(107ばんすいどう)に勝利
+1435	t	かいパンやろう エイイチ(107ばんすいどう)に勝利
+1436	t	かいパンやろう モリオ(108ばんすいどう)に勝利
+1437	t	かいパンやろう クニヒコ(108ばんすいどう)に勝利
+1438	t	かいパンやろう ケンイチ(109ばんすいどう)に勝利
+1439	t	かいパンやろう トシヒロ(124ばんすいどう)に勝利
+1440	t	かいパンやろう マサトシ(124ばんすいどう)に勝利
+1441	t	かいパンやろう シノブ(125ばんすいどう)に勝利
+1442	t	かいパンやろう ケイシ(125ばんすいどう)に勝利
+1443	t	かいパンやろう ガクジ(126ばんすいどう)に勝利
+1444	t	かいパンやろう レツジ(126ばんすいどう)に勝利
+1445	t	かいパンやろう マサヒロ(130ばんすいどう)に勝利
+1446	t	かいパンやろう ハルキ(131ばんすいどう)に勝利
+1447	t	かいパンやろう ダイスケ(131ばんすいどう)に勝利
+1448	t	かいパンやろう シンジ(130ばんすいどう)に勝利
+1449	t	かいパンやろう ゴウ(132ばんすいどう)に勝利
+1450	t	かいパンやろう シゲオ(133ばんすいどう)に勝利
+1451	t	かいパンやろう ツトム(131ばんすいどう)に勝利
+1452	t	かいパンやろう ヒデノリ(134ばんすいどう)に勝利
 
-1454	t	Swimmer Chad on 124ばんすいどう defeated
-1455	t	Swimmer Tony (Rematch 1) on 107ばんすいどう defeated
-1456	t	Swimmer Tony (Rematch 2) on 107ばんすいどう defeated
-1457	t	Swimmer Tony (Rematch 3) on 107ばんすいどう defeated
-1458	t	Swimmer Tony (Rematch 4) on 107ばんすいどう defeated
-1459	t	Black Belt Takao in ムロジム defeated
-1460	t	Black Belt Hitoshi on 134ばんすいどう defeated
-1461	t	Black Belt Kiyo on 132ばんすいどう defeated
-1462	t	Black Belt Koichi on 115ばんどうろ defeated
-1463	t	Black Belt Nob on 115ばんどうろ defeated
-1464	t	Black Belt Nob (Rematch 1) on 115ばんどうろ defeated
-1465	t	Black Belt Nob (Rematch 2) on 115ばんどうろ defeated
-1466	t	Black Belt Nob (Rematch 3) on 115ばんどうろ defeated
-1467	t	Black Belt Nob (Rematch 4) on 115ばんどうろ defeated
-1468	t	Black Belt Yuji in カラクリやしき Puzzle 4 defeated
-1469	t	Black Belt Daisuke on 111ばんどうろ defeated
-1470	t	Black Belt Atsushi in おくりびやま defeated
-1471	t	Guitarist Kirk in キンセツジム defeated
-1472	t	Team Aqua Grunt (Female) in アクアだんアジト B1F defeated
-1473	t	Team Aqua Grunt (Male) in アクアだんアジト B2F defeated
-1474	t	Guitarist Shawn in キンセツジム defeated
-1475	t	Guitarist Fernando on 123ばんどうろ defeated
-1476	t	Guitarist Dalton on 118ばんどうろ defeated
-1477	t	Guitarist Dalton (Rematch 1) on 118ばんどうろ defeated
-1478	t	Guitarist Dalton (Rematch 2) on 118ばんどうろ defeated
-1479	t	Guitarist Dalton (Rematch 3) on 118ばんどうろ defeated
-1480	t	Guitarist Dalton (Rematch 4) on 118ばんどうろ defeated
-1481	t	Kindler Coler in フエンジム defeated
-1482	t	Kindler Jeff in フエンジム defeated
-1483	t	Kindler Axle in フエンジム defeated
-1484	t	Kindler Jace in フエンジム defeated
-1485	t	Kindler Keegan in フエンジム defeated
-1486	t	Kindler Bernie on 114ばんどうろ defeated
-1487	t	Kindler Bernie (Rematch 1) on 114ばんどうろ defeated
-1488	t	Kindler Bernie (Rematch 2) on 114ばんどうろ defeated
-1489	t	Kindler Bernie (Rematch 3) on 114ばんどうろ defeated
-1490	t	Kindler Bernie (Rematch 4) on 114ばんどうろ defeated
-1491	t	Camper Drew on 111ばんどうろ defeated
-1492	t	Camper Beau on 111ばんどうろ defeated
-1493	t	Camper Larry on 112ばんどうろ defeated
-1494	t	Camper Shane on 114ばんどうろ defeated
-1495	t	Camper Justin in カラクリやしき Puzzle 3 defeated
-1496	t	Camper Ethan on デコボコさんどう defeated
-1497	t	Picnicker Autumn on デコボコさんどう defeated
-1498	t	Camper Travis on 111ばんどうろ defeated
-1499	t	Camper Ethan (Rematch 1) on デコボコさんどう defeated
-1500	t	Camper Ethan (Rematch 2) on デコボコさんどう defeated
-1501	t	Camper Ethan (Rematch 3) on デコボコさんどう defeated
-1502	t	Camper Ethan (Rematch 4) on デコボコさんどう defeated
-1503	t	Bug Maniac Brent on 119ばんどうろ defeated
-1504	t	Bug Maniac Donald on 119ばんどうろ defeated
-1505	t	Bug Maniac Taylor on 119ばんどうろ defeated
-1506	t	Bug Maniac Jeffrey on 120ばんどうろ defeated
-1507	t	Bug Maniac Derek on 117ばんどうろ defeated
-1508	t	Bug Maniac Jeffrey (Rematch 1) on 120ばんどうろ defeated
-1509	t	Bug Maniac Jeffrey (Rematch 2) on 120ばんどうろ defeated
-1510	t	Bug Maniac Jeffrey (Rematch 3) on 120ばんどうろ defeated
-1511	t	Bug Maniac Jeffrey (Rematch 4) on 120ばんどうろ defeated
-1512	t	Psychic Edward on 110ばんどうろ defeated
-1513	t	Psychic Preston in トクサネジム defeated
-1514	t	Psychic Virgil in トクサネジム defeated
-1515	t	Psychic Blake in トクサネジム defeated
-1516	t	Psychic William in おくりびやま defeated
-1517	t	Psychic Joshua in カラクリやしき Puzzle 7 defeated
-1518	t	Psychic Cameron on 123ばんどうろ defeated
-1519	t	Psychic Cameron (Rematch 1) on 123ばんどうろ defeated
-1520	t	Psychic Cameron (Rematch 2) on 123ばんどうろ defeated
-1521	t	Psychic Cameron (Rematch 3) on 123ばんどうろ defeated
-1522	t	Psychic Cameron (Rematch 4) on 123ばんどうろ defeated
-1523	t	Psychic Jaclyn on 110ばんどうろ defeated
-1524	t	Psychic Hannah in トクサネジム defeated
-1525	t	Psychic Samantha in トクサネジム defeated
-1526	t	Psychic Maura in トクサネジム defeated
-1527	t	Psychic Kayla in おくりびやま defeated
-1528	t	Psychic Alexis in カラクリやしき Puzzle 7 defeated
-1529	t	Psychic Jacki on 123ばんどうろ defeated
-1530	t	Psychic Jacki (Rematch 1) on 123ばんどうろ defeated
-1531	t	Psychic Jacki (Rematch 2) on 123ばんどうろ defeated
-1532	t	Psychic Jacki (Rematch 3) on 123ばんどうろ defeated
-1533	t	Psychic Jacki (Rematch 4) on 123ばんどうろ defeated
-1534	t	Gentleman Walter on 121ばんどうろ defeated
-1535	t	Gentleman Micah on タイドリップごう defeated
-1536	t	Gentleman Thomas on タイドリップごう defeated
-1537	t	Gentleman Walter (Rematch 1) on 121ばんどうろ defeated
-1538	t	Gentleman Walter (Rematch 2) on 121ばんどうろ defeated
-1539	t	Gentleman Walter (Rematch 3) on 121ばんどうろ defeated
-1540	t	Gentleman Walter (Rematch 4) on 121ばんどうろ defeated
-1541	t	してんのう カゲツ defeated
-1542	t	してんのう フヨウ defeated
-1543	t	してんのう プリム defeated
-1544	t	してんのう ゲンジ defeated
-1545	t	ジムリーダー ツツジ defeated
-1546	t	ジムリーダー トウキ defeated
-1547	t	ジムリーダー テッセン defeated
-1548	t	ジムリーダー アスナ defeated
-1549	t	ジムリーダー センリ defeated
-1550	t	ジムリーダー ナギ defeated
-1551	t	ジムリーダー フウとラン defeated
-1552	t	ジムリーダー アダン defeated
-1553	t	School Kid Jerry on 116ばんどうろ defeated
-1554	t	School Kid Ted in カラクリやしき Puzzle 2 defeated
-1555	t	School Kid Paul in カラクリやしき Puzzle 2 defeated
-1556	t	School Kid Jerry (Rematch 1) on 116ばんどうろ defeated
-1557	t	School Kid Jerry (Rematch 2) on 116ばんどうろ defeated
-1558	t	School Kid Jerry (Rematch 3) on 116ばんどうろ defeated
-1559	t	School Kid Jerry (Rematch 4) on 116ばんどうろ defeated
-1560	t	School Kid Karen on 116ばんどうろ defeated
-1561	t	School Kid Georgia in カラクリやしき Puzzle 2 defeated
-1562	t	School Kid Karen (Rematch 1) on 116ばんどうろ defeated
-1563	t	School Kid Karen (Rematch 2) on 116ばんどうろ defeated
-1564	t	School Kid Karen (Rematch 3) on 116ばんどうろ defeated
-1565	t	School Kid Karen (Rematch 4) on 116ばんどうろ defeated
-1566	t	Sr. And Jr. Kate & Joy on 121ばんどうろ defeated
-1567	t	Sr. And Jr. Anna & Meg on 117ばんどうろ defeated
-1568	t	Sr. And Jr. Anna & Meg (Rematch 1) on 117ばんどうろ defeated
-1569	t	Sr. And Jr. Anna & Meg (Rematch 2) on 117ばんどうろ defeated
-1570	t	Sr. And Jr. Anna & Meg (Rematch 3) on 117ばんどうろ defeated
-1571	t	Sr. And Jr. Anna & Meg (Rematch 4) on 117ばんどうろ defeated
-1572	t	Winstrate Victor on 111ばんどうろ defeated
-1573	t	Pokéfan Miguel on 103ばんどうろ defeated
-1574	t	Pokéfan Colton on タイドリップごう defeated
-1575	t	Pokéfan Miguel (Rematch 1) on 103ばんどうろ defeated
-1576	t	Pokéfan Miguel (Rematch 2) on 103ばんどうろ defeated
-1577	t	Pokéfan Miguel (Rematch 3) on 103ばんどうろ defeated
-1578	t	Pokéfan Miguel (Rematch 4) on 103ばんどうろ defeated
-1579	t	Winstrate Victoria on 111ばんどうろ defeated
-1580	t	Pokéfan Vanessa on 121ばんどうろ defeated
-1581	t	Pokéfan Bethany in ルネジム defeated
-1582	t	Pokéfan Isabel on 110ばんどうろ defeated
-1583	t	Pokéfan Isabel (Rematch 1) on 110ばんどうろ defeated
-1584	t	Pokéfan Isabel (Rematch 2) on 110ばんどうろ defeated
-1585	t	Pokéfan Isabel (Rematch 3) on 110ばんどうろ defeated
-1586	t	Pokéfan Isabel (Rematch 4) on 110ばんどうろ defeated
-1587	t	Expert Timothy on 115ばんどうろ defeated
-1588	t	Expert Timothy (Rematch 1) on 115ばんどうろ defeated
-1589	t	Expert Timothy (Rematch 2) on 115ばんどうろ defeated
-1590	t	Expert Timothy (Rematch 3) on 115ばんどうろ defeated
-1591	t	Expert Timothy (Rematch 4) on 115ばんどうろ defeated
-1592	t	Winstrate Vicky on 111ばんどうろ defeated
-1593	t	Expert Shelby on えんとつやま defeated
-1594	t	Expert Shelby (Rematch 1) on えんとつやま defeated
-1595	t	Expert Shelby (Rematch 2) on えんとつやま defeated
-1596	t	Expert Shelby (Rematch 3) on えんとつやま defeated
-1597	t	Expert Shelby (Rematch 4) on えんとつやま defeated
-1598	t	Youngster Calvin on 102ばんどうろ defeated
-1599	t	Youngster Billy on 104ばんどうろ defeated
-1600	t	Youngster Josh in カナズミジム defeated
-1601	t	Youngster Tommy in カナズミジム defeated
-1602	t	Youngster Joey on 116ばんどうろ defeated
-1603	t	Youngster Ben in キンセツジム defeated
-1604	t	Cooltrainer Quincy in チャンピオンロード 1F defeated
-1605	t	Cooltrainer Katelynn in チャンピオンロード 1F defeated
-1606	t	Youngster Jaylen on 113ばんどうろ defeated
-1607	t	Youngster Dillon on 113ばんどうろ defeated
-1608	t	Youngster Calvin (Rematch 1) on 102ばんどうろ defeated
-1609	t	Youngster Calvin (Rematch 2) on 102ばんどうろ defeated
-1610	t	Youngster Calvin (Rematch 3) on 102ばんどうろ defeated
-1611	t	Youngster Calvin (Rematch 4) on 102ばんどうろ defeated
-1612	t	Youngster Eddie in カラクリやしき Puzzle 1 defeated
-1613	t	Youngster Allen on 102ばんどうろ defeated
-1614	t	Youngster Timmy on 110ばんどうろ defeated
-1615	t	Chamption ミクリ defeated
-1616	t	Fisherman Andrew on 103ばんどうろ defeated
-1617	t	Fisherman Ivan on 104ばんどうろ defeated
-1618	t	Fisherman Claude on 114ばんどうろ defeated
-1619	t	Fisherman Elliot on 106ばんすいどう defeated
-1620	t	Fisherman Ned on 106ばんすいどう defeated
-1621	t	Fisherman Dale on 110ばんどうろ defeated
-1622	t	Fisherman Nolan on 114ばんどうろ defeated
-1623	t	Fisherman Barny on 118ばんどうろ defeated
-1624	t	Fisherman Wade on 118ばんどうろ defeated
-1625	t	Fisherman Carter on 109ばんすいどう defeated
-1626	t	Fisherman Elliot (Rematch 1) on 106ばんすいどう defeated
-1627	t	Fisherman Elliot (Rematch 2) on 106ばんすいどう defeated
-1628	t	Fisherman Elliot (Rematch 3) on 106ばんすいどう defeated
-1629	t	Fisherman Elliot (Rematch 4) on 106ばんすいどう defeated
-1630	t	Fisherman Ronald on 132ばんすいどう defeated
-1631	t	Triathlete Jacob on 110ばんどうろ defeated
-1632	t	Triathlete Anthony on 110ばんどうろ defeated
-1633	t	Triathlete Benjamin on 110ばんどうろ defeated
-1634	t	Triathlete Benjamin (Rematch 1) on 110ばんどうろ defeated
-1635	t	Triathlete Benjamin (Rematch 2) on 110ばんどうろ defeated
-1636	t	Triathlete Benjamin (Rematch 3) on 110ばんどうろ defeated
-1637	t	Triathlete Benjamin (Rematch 4) on 110ばんどうろ defeated
-1638	t	Triathlete Abigail on 110ばんどうろ defeated
-1639	t	Triathlete Jasmine on 110ばんどうろ defeated
-1640	t	Triathlete Abigail (Rematch 1) on 110ばんどうろ defeated
-1641	t	Triathlete Abigail (Rematch 2) on 110ばんどうろ defeated
-1642	t	Triathlete Abigail (Rematch 3) on 110ばんどうろ defeated
-1643	t	Triathlete Abigail (Rematch 4) on 110ばんどうろ defeated
-1644	t	Triathlete Dylan on 117ばんどうろ defeated
-1645	t	Triathlete Dylan (Rematch 1) on 117ばんどうろ defeated
-1646	t	Triathlete Dylan (Rematch 2) on 117ばんどうろ defeated
-1647	t	Triathlete Dylan (Rematch 3) on 117ばんどうろ defeated
-1648	t	Triathlete Dylan (Rematch 4) on 117ばんどうろ defeated
-1649	t	Triathlete Maria on 117ばんどうろ defeated
-1650	t	Triathlete Maria (Rematch 1) on 117ばんどうろ defeated
-1651	t	Triathlete Maria (Rematch 2) on 117ばんどうろ defeated
-1652	t	Triathlete Maria (Rematch 3) on 117ばんどうろ defeated
-1653	t	Triathlete Maria (Rematch 4) on 117ばんどうろ defeated
-1654	t	Triathlete Camden on 127ばんすいどう defeated
-1655	t	Youngster Demetrius on すてられぶね defeated
-1656	t	Triathlete Isaiah on 128ばんすいどう defeated
-1657	t	Triathlete Pablo on 126ばんすいどう defeated
-1658	t	Triathlete Chase on 129ばんすいどう defeated
-1659	t	Triathlete Isaiah (Rematch 1) on 128ばんすいどう defeated
-1660	t	Triathlete Isaiah (Rematch 2) on 128ばんすいどう defeated
-1661	t	Triathlete Isaiah (Rematch 3) on 128ばんすいどう defeated
-1662	t	Triathlete Isaiah (Rematch 4) on 128ばんすいどう defeated
-1663	t	Triathlete Isobel on 126ばんすいどう defeated
-1664	t	Triathlete Donny on 127ばんすいどう defeated
-1665	t	Triathlete Taila on 131ばんすいどう defeated
-1666	t	Triathlete Katelyn on 128ばんすいどう defeated
-1667	t	Triathlete Allison on 129ばんすいどう defeated
-1668	t	Triathlete Katelyn (Rematch 1) on 128ばんすいどう defeated
-1669	t	Triathlete Katelyn (Rematch 2) on 128ばんすいどう defeated
-1670	t	Triathlete Katelyn (Rematch 3) on 128ばんすいどう defeated
-1671	t	Triathlete Katelyn (Rematch 4) on 128ばんすいどう defeated
-1672	t	Dragon Tamer Nicolas in りゅうせいのたき defeated
-1673	t	Dragon Tamer Nicolas (Rematch 1) in りゅうせいのたき defeated
-1674	t	Dragon Tamer Nicolas (Rematch 2) in りゅうせいのたき defeated
-1675	t	Dragon Tamer Nicolas (Rematch 3) in りゅうせいのたき defeated
-1676	t	Dragon Tamer Nicolas (Rematch 4) in りゅうせいのたき defeated
-1677	t	Dragon Tamer Aaron on 134ばんすいどう defeated
-1678	t	Bird Keeper Perry on 118ばんどうろ defeated
-1679	t	Bird Keeper Hugh on 119ばんどうろ defeated
-1680	t	Bird Keeper Phil on 119ばんどうろ defeated
-1681	t	Bird Keeper Jared in ヒワマキジム defeated
-1682	t	Bird Keeper Humberto in ヒワマキジム defeated
-1683	t	Bird Keeper Presley on 125ばんすいどう defeated
-1684	t	Bird Keeper Edwardo in ヒワマキジム defeated
-1685	t	Bird Keeper Colin on 120ばんどうろ defeated
-1686	t	Bird Keeper Robert on 120ばんどうろ defeated
-1687	t	Bird Keeper Benny in カラクリやしき Puzzle 6 defeated
-1688	t	Bird Keeper Chester on 118ばんどうろ defeated
-1689	t	Bird Keeper Robert (Rematch 1) on 120ばんどうろ defeated
-1690	t	Bird Keeper Robert (Rematch 2) on 120ばんどうろ defeated
-1691	t	Bird Keeper Robert (Rematch 3) on 120ばんどうろ defeated
-1692	t	Bird Keeper Robert (Rematch 4) on 120ばんどうろ defeated
-1693	t	Bird Keeper Alex on 134ばんすいどう defeated
-1694	t	Bird Keeper Beck on 133ばんすいどう defeated
-1695	t	Ninja Boy Yasu on 119ばんどうろ defeated
-1696	t	Ninja Boy Takashi on 119ばんどうろ defeated
-1697	t	Cooltrainer Dianne in チャンピオンロード B2F defeated
-1698	t	Tuber Jani on すてられぶね defeated
-1699	t	Ninja Boy Lao on 113ばんどうろ defeated
-1700	t	Ninja Boy Lung on 113ばんどうろ defeated
-1701	t	Ninja Boy Lao (Rematch 1) on 113ばんどうろ defeated
-1702	t	Ninja Boy Lao (Rematch 2) on 113ばんどうろ defeated
-1703	t	Ninja Boy Lao (Rematch 3) on 113ばんどうろ defeated
-1704	t	Ninja Boy Lao (Rematch 4) on 113ばんどうろ defeated
-1705	t	Battle Girl Jocelyn in ムロジム defeated
-1706	t	Battle Girl Laura in ムロジム defeated
-1707	t	Battle Girl Cyndy on 115ばんどうろ defeated
-1708	t	Battle Girl Cora in カラクリやしき Puzzle 4 defeated
-1709	t	Battle Girl Paula in カラクリやしき Puzzle 4 defeated
-1710	t	Battle Girl Cyndy (Rematch 1) on 115ばんどうろ defeated
-1711	t	Battle Girl Cyndy (Rematch 2) on 115ばんどうろ defeated
-1712	t	Battle Girl Cyndy (Rematch 3) on 115ばんどうろ defeated
-1713	t	Battle Girl Cyndy (Rematch 4) on 115ばんどうろ defeated
-1714	t	Parasol Lady Madeline on 113ばんどうろ defeated
-1715	t	Parasol Lady Clarissa on 120ばんどうろ defeated
-1716	t	Parasol Lady Angelica on 120ばんどうろ defeated
-1717	t	Parasol Lady Madeline (Rematch 1) on 113ばんどうろ defeated
-1718	t	Parasol Lady Madeline (Rematch 2) on 113ばんどうろ defeated
-1719	t	Parasol Lady Madeline (Rematch 3) on 113ばんどうろ defeated
-1720	t	Parasol Lady Madeline (Rematch 4) on 113ばんどうろ defeated
-1721	t	Swimmer Beverly on 105ばんすいどう defeated
-1722	t	Swimmer Imani on 105ばんすいどう defeated
-1723	t	Swimmer Kyla on 106ばんすいどう  defeated
-1724	t	Swimmer Denise on 107ばんすいどう defeated
-1725	t	Swimmer Beth on 107ばんすいどう defeated
-1726	t	Swimmer Tara on 108ばんすいどう defeated
-1727	t	Swimmer Missy on 108ばんすいどう defeated
-1728	t	Swimmer Alice on 109ばんすいどう defeated
-1729	t	Swimmer Jenny on 124ばんすいどう defeated
-1730	t	Swimmer Grace on 124ばんすいどう defeated
-1731	t	Swimmer Tanya on 125ばんすいどう defeated
-1732	t	Swimmer Sharon on 125ばんすいどう defeated
-1733	t	Swimmer Nikki on 126ばんすいどう defeated
-1734	t	Swimmer Brenda on 126ばんすいどう defeated
-1735	t	Swimmer Katie on 130ばんすいどう defeated
-1736	t	Swimmer Susie on 131ばんすいどう defeated
-1737	t	Swimmer Kara on 131ばんすいどう defeated
-1738	t	Swimmer Dana on 132ばんすいどう defeated
-1739	t	Swimmer Sienna on 126ばんすいどう defeated
-1740	t	Swimmer Debra on 133ばんすいどう defeated
-1741	t	Swimmer Linda on 133ばんすいどう defeated
+1454	t	かいパンやろう カツユキ(124ばんすいどう)に勝利
+1455	t	かいパンやろう エイイチ(再戦１回目; 107ばんすいどう)に勝利
+1456	t	かいパンやろう エイイチ(再戦２回目; 107ばんすいどう)に勝利
+1457	t	かいパンやろう エイイチ(再戦３回目; 107ばんすいどう)に勝利
+1458	t	かいパンやろう エイイチ(再戦４回目; 107ばんすいどう)に勝利
+1459	t	カラテおう タイケイ(ムロジム)に勝利
+1460	t	カラテおう イワオ(134ばんすいどう)に勝利
+1461	t	カラテおう タクマ(132ばんすいどう)に勝利
+1462	t	カラテおう タケノリ(115ばんどうろ)に勝利
+1463	t	カラテおう ゴロウ(115ばんどうろ)に勝利
+1464	t	カラテおう ゴロウ(再戦１回目; 115ばんどうろ)に勝利
+1465	t	カラテおう ゴロウ(再戦２回目; 115ばんどうろ)に勝利
+1466	t	カラテおう ゴロウ(再戦３回目; 115ばんどうろ)に勝利
+1467	t	カラテおう ゴロウ(再戦４回目; 115ばんどうろ)に勝利
+1468	t	カラテおう カズシ(カラクリやしき４回目)に勝利
+1469	t	カラテおう タダシ(111ばんどうろ)に勝利
+1470	t	カラテおう テツヒサ(おくりびやま)に勝利
+1471	t	ギタリスト ジョージ(キンセツジム)に勝利
+1472	t	アクア団 したっぱ(女)(アクアだんアジトB1F)に勝利
+1473	t	アクア団 したっぱ(男)(アクアだんアジトB2F)に勝利
+1474	t	ギタリスト マイク(キンセツジム)に勝利
+1475	t	ギタリスト ジョー(123ばんどうろ)に勝利
+1476	t	ギタリスト テリー(118ばんどうろ)に勝利
+1477	t	ギタリスト テリー(再戦１回目; 118ばんどうろ)に勝利
+1478	t	ギタリスト テリー(再戦２回目; 118ばんどうろ)に勝利
+1479	t	ギタリスト テリー(再戦３回目; 118ばんどうろ)に勝利
+1480	t	ギタリスト テリー(再戦４回目; 118ばんどうろ)に勝利
+1481	t	キャンプファイヤー アキラ(フエンジム)に勝利
+1482	t	キャンプファイヤー コウタ(フエンジム)に勝利
+1483	t	キャンプファイヤー タモツ(フエンジム)に勝利
+1484	t	キャンプファイヤー ジュンジ(フエンジム)に勝利
+1485	t	キャンプファイヤー タカハル(フエンジム)に勝利
+1486	t	キャンプファイヤー ノブヒコ(114ばんどうろ)に勝利
+1487	t	キャンプファイヤー ノブヒコ(再戦１回目; 114ばんどうろ)に勝利
+1488	t	キャンプファイヤー ノブヒコ(再戦２回目; 114ばんどうろ)に勝利
+1489	t	キャンプファイヤー ノブヒコ(再戦３回目; 114ばんどうろ)に勝利
+1490	t	キャンプファイヤー ノブヒコ(再戦４回目; 114ばんどうろ)に勝利
+1491	t	キャンプボーイ ノリヒロ(111ばんどうろ)に勝利
+1492	t	キャンプボーイ カズユキ(111ばんどうろ)に勝利
+1493	t	キャンプボーイ キヨフミ(112ばんどうろ)に勝利
+1494	t	キャンプボーイ トモヒロ(114ばんどうろ)に勝利
+1495	t	キャンプボーイ マサミチ(カラクリやしき３回目)に勝利
+1496	t	キャンプボーイ ヨシハル(デコボコさんどう)に勝利
+1497	t	ピクニックガール ナツコ(デコボコさんどう)に勝利
+1498	t	キャンプボーイ ヨシヤ(111ばんどうろ)に勝利
+1499	t	キャンプボーイ ヨシハル(再戦１回目; デコボコさんどう)に勝利
+1500	t	キャンプボーイ ヨシハル(再戦２回目; デコボコさんどう)に勝利
+1501	t	キャンプボーイ ヨシハル(再戦３回目; デコボコさんどう)に勝利
+1502	t	キャンプボーイ ヨシハル(再戦４回目; デコボコさんどう)に勝利
+1503	t	こんちゅうマニア ヨウイチ(119ばんどうろ)に勝利
+1504	t	こんちゅうマニア イクミ(119ばんどうろ)に勝利
+1505	t	こんちゅうマニア ソウスケ(119ばんどうろ)に勝利
+1506	t	こんちゅうマニア ミキオ(120ばんどうろ)に勝利
+1507	t	こんちゅうマニア ヨシアキ(117ばんどうろ)に勝利
+1508	t	こんちゅうマニア ミキオ(再戦１回目; 120ばんどうろ)に勝利
+1509	t	こんちゅうマニア ミキオ(再戦２回目; 120ばんどうろ)に勝利
+1510	t	こんちゅうマニア ミキオ(再戦３回目; 120ばんどうろ)に勝利
+1511	t	こんちゅうマニア ミキオ(再戦４回目; 120ばんどうろ)に勝利
+1512	t	サイキッカー アキト(110ばんどうろ)に勝利
+1513	t	サイキッカー ヒロム(トクサネジム)に勝利
+1514	t	サイキッカー ユウヤ(トクサネジム)に勝利
+1515	t	サイキッカー サトキ(トクサネジム)に勝利
+1516	t	サイキッカー テツヤ(おくりびやま)に勝利
+1517	t	サイキッカー シュウイチ(カラクリやしき７回目)に勝利
+1518	t	サイキッカー カオル(123ばんどうろ)に勝利
+1519	t	サイキッカー カオル(再戦１回目; 123ばんどうろ)に勝利
+1520	t	サイキッカー カオル(再戦２回目; 123ばんどうろ)に勝利
+1521	t	サイキッカー カオル(再戦３回目; 123ばんどうろ)に勝利
+1522	t	サイキッカー カオル(再戦４回目; 123ばんどうろ)に勝利
+1523	t	サイキッカー マリコ(110ばんどうろ)に勝利
+1524	t	サイキッカー アスカ(トクサネジム)に勝利
+1525	t	サイキッカー ミライ(トクサネジム)に勝利
+1526	t	サイキッカー ヒカリ(トクサネジム)に勝利
+1527	t	サイキッカー オリエ(おくりびやま)に勝利
+1528	t	サイキッカー ナナコ(カラクリやしき７回目)に勝利
+1529	t	サイキッカー シホミ(123ばんどうろ)に勝利
+1530	t	サイキッカー シホミ(再戦１回目; 123ばんどうろ)に勝利
+1531	t	サイキッカー シホミ(再戦２回目; 123ばんどうろ)に勝利
+1532	t	サイキッカー シホミ(再戦３回目; 123ばんどうろ)に勝利
+1533	t	サイキッカー シホミ(再戦４回目; 123ばんどうろ)に勝利
+1534	t	ジェントルマン ロバート(121ばんどうろ)に勝利
+1535	t	ジェントルマン オルソン(タイドリップごう)に勝利
+1536	t	ジェントルマン スコット(タイドリップごう)に勝利
+1537	t	ジェントルマン ロバート(再戦１回目; 121ばんどうろ)に勝利
+1538	t	ジェントルマン ロバート(再戦２回目; 121ばんどうろ)に勝利
+1539	t	ジェントルマン ロバート(再戦３回目; 121ばんどうろ)に勝利
+1540	t	ジェントルマン ロバート(再戦４回目; 121ばんどうろ)に勝利
+1541	t	してんのう カゲツに勝利
+1542	t	してんのう フヨウに勝利
+1543	t	してんのう プリムに勝利
+1544	t	してんのう ゲンジに勝利
+1545	t	ジムリーダー ツツジに勝利
+1546	t	ジムリーダー トウキに勝利
+1547	t	ジムリーダー テッセンに勝利
+1548	t	ジムリーダー アスナに勝利
+1549	t	ジムリーダー センリに勝利
+1550	t	ジムリーダー ナギに勝利
+1551	t	ジムリーダー フウとランに勝利
+1552	t	ジムリーダー アダンに勝利
+1553	t	じゅくがえり ヒデオ(116ばんどうろ)に勝利
+1554	t	じゅくがえり ノブヒサ(カラクリやしき２回目)に勝利
+1555	t	じゅくがえり カツトシ(カラクリやしき２回目)に勝利
+1556	t	じゅくがえり ヒデオ(再戦１回目; 116ばんどうろ)に勝利
+1557	t	じゅくがえり ヒデオ(再戦２回目; 116ばんどうろ)に勝利
+1558	t	じゅくがえり ヒデオ(再戦３回目; 116ばんどうろ)に勝利
+1559	t	じゅくがえり ヒデオ(再戦４回目; 116ばんどうろ)に勝利
+1560	t	じゅくがえり ハツネ(116ばんどうろ)に勝利
+1561	t	じゅくがえり ミキエ(カラクリやしき２回目)に勝利
+1562	t	じゅくがえり ハツネ(再戦１回目; 116ばんどうろ)に勝利
+1563	t	じゅくがえり ハツネ(再戦２回目; 116ばんどうろ)に勝利
+1564	t	じゅくがえり ハツネ(再戦３回目; 116ばんどうろ)に勝利
+1565	t	じゅくがえり ハツネ(再戦４回目; 116ばんどうろ)に勝利
+1566	t	センパイとコウハイ マナとユイ(121ばんどうろ)に勝利
+1567	t	センパイとコウハイ ミホとリコ(117ばんどうろ)に勝利
+1568	t	センパイとコウハイ ミホとリコ(再戦１回目; 117ばんどうろ)に勝利
+1569	t	センパイとコウハイ ミホとリコ(再戦２回目; 117ばんどうろ)に勝利
+1570	t	センパイとコウハイ ミホとリコ(再戦３回目; 117ばんどうろ)に勝利
+1571	t	センパイとコウハイ ミホとリコ(再戦４回目; 117ばんどうろ)に勝利
+1572	t	カチヌキさんち ハルヒコ(111ばんどうろ)に勝利
+1573	t	だいすきクラブ ミツハル(103ばんどうろ)に勝利
+1574	t	だいすきクラブ ヒサシ(タイドリップごう)に勝利
+1575	t	だいすきクラブ ミツハル(再戦１回目; 103ばんどうろ)に勝利
+1576	t	だいすきクラブ ミツハル(再戦２回目; 103ばんどうろ)に勝利
+1577	t	だいすきクラブ ミツハル(再戦３回目; 103ばんどうろ)に勝利
+1578	t	だいすきクラブ ミツハル(再戦４回目; 103ばんどうろ)に勝利
+1579	t	カチヌキさんち ヤスエ(111ばんどうろ)に勝利
+1580	t	だいすきクラブ ケサコ(121ばんどうろ)に勝利
+1581	t	だいすきクラブ テイコ(ルネジム)に勝利
+1582	t	だいすきクラブ マサコ(110ばんどうろ)に勝利
+1583	t	だいすきクラブ マサコ(再戦１回目; 110ばんどうろ)に勝利
+1584	t	だいすきクラブ マサコ(再戦２回目; 110ばんどうろ)に勝利
+1585	t	だいすきクラブ マサコ(再戦３回目; 110ばんどうろ)に勝利
+1586	t	だいすきクラブ マサコ(再戦４回目; 110ばんどうろ)に勝利
+1587	t	たつじん ウンショウ(115ばんどうろ)に勝利
+1588	t	たつじん ウンショウ(再戦１回目; 115ばんどうろ)に勝利
+1589	t	たつじん ウンショウ(再戦２回目; 115ばんどうろ)に勝利
+1590	t	たつじん ウンショウ(再戦３回目; 115ばんどうろ)に勝利
+1591	t	たつじん ウンショウ(再戦４回目; 115ばんどうろ)に勝利
+1592	t	カチヌキさんち ミツヨ(111ばんどうろ)に勝利
+1593	t	たつじん ミヤコ(えんとつやま)に勝利
+1594	t	たつじん ミヤコ(再戦１回目; えんとつやま)に勝利
+1595	t	たつじん ミヤコ(再戦２回目; えんとつやま)に勝利
+1596	t	たつじん ミヤコ(再戦３回目; えんとつやま)に勝利
+1597	t	たつじん ミヤコ(再戦４回目; えんとつやま)に勝利
+1598	t	たんぱんこぞう カズキ(102ばんどうろ)に勝利
+1599	t	たんぱんこぞう ケイタ(104ばんどうろ)に勝利
+1600	t	たんぱんこぞう タロウ(カナズミジム)に勝利
+1601	t	たんぱんこぞう カツオ(カナズミジム)に勝利
+1602	t	たんぱんこぞう タケオ(116ばんどうろ)に勝利
+1603	t	たんぱんこぞう ヒロト(キンセツジム)に勝利
+1604	t	エリートトレーナー タダトシ(チャンピオンロード1F)に勝利
+1605	t	エリートトレーナー スズカ(チャンピオンロード1F)に勝利
+1606	t	たんぱんこぞう マサユキ(113ばんどうろ)に勝利
+1607	t	たんぱんこぞう ヨシト(113ばんどうろ)に勝利
+1608	t	たんぱんこぞう カズキ(再戦１回目; 102ばんどうろ)に勝利
+1609	t	たんぱんこぞう カズキ(再戦２回目; 102ばんどうろ)に勝利
+1610	t	たんぱんこぞう カズキ(再戦３回目; 102ばんどうろ)に勝利
+1611	t	たんぱんこぞう カズキ(再戦４回目; 102ばんどうろ)に勝利
+1612	t	たんぱんこぞう ヤスユキ(カラクリやしき初回)に勝利
+1613	t	たんぱんこぞう イサム(102ばんどうろ)に勝利
+1614	t	たんぱんこぞう シンゴ(110ばんどうろ)に勝利
+1615	t	チャンピオン ミクリに勝利
+1616	t	つりびと カツノリ(103ばんどうろ)に勝利
+1617	t	つりびと ヨシタカ(104ばんどうろ)に勝利
+1618	t	つりびと ヒデユキ(114ばんどうろ)に勝利
+1619	t	つりびと アキヒコ(106ばんすいどう)に勝利
+1620	t	つりびと トモカズ(106ばんすいどう)に勝利
+1621	t	つりびと タカフミ(110ばんどうろ)に勝利
+1622	t	つりびと タカノリ(114ばんどうろ)に勝利
+1623	t	つりびと カズヒコ(118ばんどうろ)に勝利
+1624	t	つりびと イサオ(118ばんどうろ)に勝利
+1625	t	つりびと タカヒロ(109ばんすいどう)に勝利
+1626	t	つりびと アキヒコ(再戦１回目; 106ばんすいどう)に勝利
+1627	t	つりびと アキヒコ(再戦２回目; 106ばんすいどう)に勝利
+1628	t	つりびと アキヒコ(再戦３回目; 106ばんすいどう)に勝利
+1629	t	つりびと アキヒコ(再戦４回目; 106ばんすいどう)に勝利
+1630	t	つりびと カズオ(132ばんすいどう)に勝利
+1631	t	トライアスリート ススム(110ばんどうろ)に勝利
+1632	t	トライアスリート シュンスケ(110ばんどうろ)に勝利
+1633	t	トライアスリート ヒデアキ(110ばんどうろ)に勝利
+1634	t	トライアスリート ヒデアキ(再戦１回目; 110ばんどうろ)に勝利
+1635	t	トライアスリート ヒデアキ(再戦２回目; 110ばんどうろ)に勝利
+1636	t	トライアスリート ヒデアキ(再戦３回目; 110ばんどうろ)に勝利
+1637	t	トライアスリート ヒデアキ(再戦４回目; 110ばんどうろ)に勝利
+1638	t	トライアスリート ショウコ(110ばんどうろ)に勝利
+1639	t	トライアスリート ヒデミ(110ばんどうろ)に勝利
+1640	t	トライアスリート ショウコ(再戦１回目; 110ばんどうろ)に勝利
+1641	t	トライアスリート ショウコ(再戦２回目; 110ばんどうろ)に勝利
+1642	t	トライアスリート ショウコ(再戦３回目; 110ばんどうろ)に勝利
+1643	t	トライアスリート ショウコ(再戦４回目; 110ばんどうろ)に勝利
+1644	t	トライアスリート ツヨシ(117ばんどうろ)に勝利
+1645	t	トライアスリート ツヨシ(再戦１回目; 117ばんどうろ)に勝利
+1646	t	トライアスリート ツヨシ(再戦２回目; 117ばんどうろ)に勝利
+1647	t	トライアスリート ツヨシ(再戦３回目; 117ばんどうろ)に勝利
+1648	t	トライアスリート ツヨシ(再戦４回目; 117ばんどうろ)に勝利
+1649	t	トライアスリート サエコ(117ばんどうろ)に勝利
+1650	t	トライアスリート サエコ(再戦１回目; 117ばんどうろ)に勝利
+1651	t	トライアスリート サエコ(再戦２回目; 117ばんどうろ)に勝利
+1652	t	トライアスリート サエコ(再戦３回目; 117ばんどうろ)に勝利
+1653	t	トライアスリート サエコ(再戦４回目; 117ばんどうろ)に勝利
+1654	t	トライアスリート シゲハル(127ばんすいどう)に勝利
+1655	t	たんぱんこぞう フミタケ(すてられぶね)に勝利
+1656	t	トライアスリート エイスケ(128ばんすいどう)に勝利
+1657	t	トライアスリート ヤスヒロ(126ばんすいどう)に勝利
+1658	t	トライアスリート ショウゴ(129ばんすいどう)に勝利
+1659	t	トライアスリート エイスケ(再戦１回目; 128ばんすいどう)に勝利
+1660	t	トライアスリート エイスケ(再戦２回目; 128ばんすいどう)に勝利
+1661	t	トライアスリート エイスケ(再戦３回目; 128ばんすいどう)に勝利
+1662	t	トライアスリート エイスケ(再戦４回目; 128ばんすいどう)に勝利
+1663	t	トライアスリート キヌエ(126ばんすいどう)に勝利
+1664	t	トライアスリート ユヅル(127ばんすいどう)に勝利
+1665	t	トライアスリート ミカコ(131ばんすいどう)に勝利
+1666	t	トライアスリート ナツミ(128ばんすいどう)に勝利
+1667	t	トライアスリート チサト(129ばんすいどう)に勝利
+1668	t	トライアスリート ナツミ(再戦１回目; 128ばんすいどう)に勝利
+1669	t	トライアスリート ナツミ(再戦２回目; 128ばんすいどう)に勝利
+1670	t	トライアスリート ナツミ(再戦３回目; 128ばんすいどう)に勝利
+1671	t	トライアスリート ナツミ(再戦４回目; 128ばんすいどう)に勝利
+1672	t	ドラゴンつかい タケル(りゅうせいのたき)に勝利
+1673	t	ドラゴンつかい タケル(再戦１回目; りゅうせいのたき)に勝利
+1674	t	ドラゴンつかい タケル(再戦２回目; りゅうせいのたき)に勝利
+1675	t	ドラゴンつかい タケル(再戦３回目; りゅうせいのたき)に勝利
+1676	t	ドラゴンつかい タケル(再戦４回目; りゅうせいのたき)に勝利
+1677	t	ドラゴンつかい タツマ(134ばんすいどう)に勝利
+1678	t	とりつかい キヨヒコ(118ばんどうろ)に勝利
+1679	t	とりつかい タクミ(119ばんどうろ)に勝利
+1680	t	とりつかい シュンペイ(119ばんどうろ)に勝利
+1681	t	とりつかい エイジ(ヒワマキジム)に勝利
+1682	t	とりつかい ミツアキ(ヒワマキジム)に勝利
+1683	t	とりつかい ナオヒロ(125ばんすいどう)に勝利
+1684	t	とりつかい ジョウタ(ヒワマキジム)に勝利
+1685	t	とりつかい モリカズ(120ばんどうろ)に勝利
+1686	t	とりつかい ツバサ(120ばんどうろ)に勝利
+1687	t	とりつかい アキマサ(カラクリやしき６回目)に勝利
+1688	t	とりつかい タイシ(118ばんどうろ)に勝利
+1689	t	とりつかい ツバサ(再戦１回目; 120ばんどうろ)に勝利
+1690	t	とりつかい ツバサ(再戦２回目; 120ばんどうろ)に勝利
+1691	t	とりつかい ツバサ(再戦３回目; 120ばんどうろ)に勝利
+1692	t	とりつかい ツバサ(再戦４回目; 120ばんどうろ)に勝利
+1693	t	とりつかい マサツグ(134ばんすいどう)に勝利
+1694	t	とりつかい トシアキ(133ばんすいどう)に勝利
+1695	t	ニンジャごっこ ヒロノブ(119ばんどうろ)に勝利
+1696	t	ニンジャごっこ シロウ(119ばんどうろ)に勝利
+1697	t	エリートトレーナー ココロ(チャンピオンロードB2F)に勝利
+1698	t	うきわガール マミ(すてられぶね)に勝利
+1699	t	ニンジャごっこ キンジ(113ばんどうろ)に勝利
+1700	t	ニンジャごっこ ムラマサ(113ばんどうろ)に勝利
+1701	t	ニンジャごっこ キンジ(再戦１回目; 113ばんどうろ)に勝利
+1702	t	ニンジャごっこ キンジ(再戦２回目; 113ばんどうろ)に勝利
+1703	t	ニンジャごっこ キンジ(再戦３回目; 113ばんどうろ)に勝利
+1704	t	ニンジャごっこ キンジ(再戦４回目; 113ばんどうろ)に勝利
+1705	t	バトルガール シノブ(ムロジム)に勝利
+1706	t	バトルガール ミサト(ムロジム)に勝利
+1707	t	バトルガール ユリカ(115ばんどうろ)に勝利
+1708	t	バトルガール フウカ(カラクリやしき４回目)に勝利
+1709	t	バトルガール ヒイナ(カラクリやしき４回目)に勝利
+1710	t	バトルガール ユリカ(再戦１回目; 115ばんどうろ)に勝利
+1711	t	バトルガール ユリカ(再戦２回目; 115ばんどうろ)に勝利
+1712	t	バトルガール ユリカ(再戦３回目; 115ばんどうろ)に勝利
+1713	t	バトルガール ユリカ(再戦４回目; 115ばんどうろ)に勝利
+1714	t	パラソルおねえさん マドカ(113ばんどうろ)に勝利
+1715	t	パラソルおねえさん ミカ(120ばんどうろ)に勝利
+1716	t	パラソルおねえさん ウキエ(120ばんどうろ)に勝利
+1717	t	パラソルおねえさん マドカ(再戦１回目; 113ばんどうろ)に勝利
+1718	t	パラソルおねえさん マドカ(再戦２回目; 113ばんどうろ)に勝利
+1719	t	パラソルおねえさん マドカ(再戦３回目; 113ばんどうろ)に勝利
+1720	t	パラソルおねえさん マドカ(再戦４回目; 113ばんどうろ)に勝利
+1721	t	ビキニのおねえさん ナツキ(105ばんすいどう)に勝利
+1722	t	ビキニのおねえさん マユカ(105ばんすいどう)に勝利
+1723	t	ビキニのおねえさん ミズハ(106ばんすいどう )に勝利
+1724	t	ビキニのおねえさん マサミ(107ばんすいどう)に勝利
+1725	t	ビキニのおねえさん ノリカ(107ばんすいどう)に勝利
+1726	t	ビキニのおねえさん チヒロ(108ばんすいどう)に勝利
+1727	t	ビキニのおねえさん クミコ(108ばんすいどう)に勝利
+1728	t	ビキニのおねえさん エツコ(109ばんすいどう)に勝利
+1729	t	ビキニのおねえさん ナギサ(124ばんすいどう)に勝利
+1730	t	ビキニのおねえさん アキエ(124ばんすいどう)に勝利
+1731	t	ビキニのおねえさん ケイコ(125ばんすいどう)に勝利
+1732	t	ビキニのおねえさん サイカ(125ばんすいどう)に勝利
+1733	t	ビキニのおねえさん シズエ(126ばんすいどう)に勝利
+1734	t	ビキニのおねえさん テルミ(126ばんすいどう)に勝利
+1735	t	ビキニのおねえさん フミエ(130ばんすいどう)に勝利
+1736	t	ビキニのおねえさん ミサキ(131ばんすいどう)に勝利
+1737	t	ビキニのおねえさん マリエ(131ばんすいどう)に勝利
+1738	t	ビキニのおねえさん ミユキ(132ばんすいどう)に勝利
+1739	t	ビキニのおねえさん イクコ(126ばんすいどう)に勝利
+1740	t	ビキニのおねえさん リカコ(133ばんすいどう)に勝利
+1741	t	ビキニのおねえさん ハルミ(133ばんすいどう)に勝利
 
-1743	t	Swimmer Laurel on 134ばんすいどう defeated
-1744	t	Swimmer Carlee on 128ばんすいどう defeated
-1745	t	Swimmer Jenny (Rematch 1) on 124ばんすいどう defeated
-1746	t	Swimmer Jenny (Rematch 2) on 124ばんすいどう defeated
-1747	t	Swimmer Jenny (Rematch 3) on 124ばんすいどう defeated
-1748	t	Swimmer Jenny (Rematch 4) on 124ばんすいどう defeated
-1749	t	Picnicker Heidi on 111ばんどうろ defeated
-1750	t	Picnicker Becky on 111ばんどうろ defeated
-1751	t	Picnicker Carol on 112ばんどうろ defeated
-1752	t	Picnicker Nancy on 114ばんどうろ defeated
-1753	t	Picnicker Martha in カラクリやしき Puzzle 3 defeated
-1754	t	Picnicker Diana on デコボコさんどう defeated
-1755	t	Psychic Cedric in おくりびやま defeated
-1756	t	Picnicker Irene on 111ばんどうろ defeated
-1757	t	Picnicker Diana (Rematch 1) on デコボコさんどう defeated
-1758	t	Picnicker Diana (Rematch 2) on デコボコさんどう defeated
-1759	t	Picnicker Diana (Rematch 3) on デコボコさんどう defeated
-1760	t	Picnicker Diana (Rematch 4) on デコボコさんどう defeated
-1761	t	Twins Amy & Liv on 103ばんどうろ defeated
-1762	t	Twins Amy & Liv (Rematch 1) on 103ばんどうろ defeated
-1763	t	Twins Gina & Mia on 104ばんどうろ defeated
-1764	t	Twins Miu & Yuki on 123ばんどうろ defeated
+1743	t	ビキニのおねえさん ソノコ(134ばんすいどう)に勝利
+1744	t	ビキニのおねえさん クニコ(128ばんすいどう)に勝利
+1745	t	ビキニのおねえさん ナギサ(再戦１回目; 124ばんすいどう)に勝利
+1746	t	ビキニのおねえさん ナギサ(再戦２回目; 124ばんすいどう)に勝利
+1747	t	ビキニのおねえさん ナギサ(再戦３回目; 124ばんすいどう)に勝利
+1748	t	ビキニのおねえさん ナギサ(再戦４回目; 124ばんすいどう)に勝利
+1749	t	ピクニックガール チカコ(111ばんどうろ)に勝利
+1750	t	ピクニックガール アイミ(111ばんどうろ)に勝利
+1751	t	ピクニックガール ヒロコ(112ばんどうろ)に勝利
+1752	t	ピクニックガール サツキ(114ばんどうろ)に勝利
+1753	t	ピクニックガール トモコ(カラクリやしき３回目)に勝利
+1754	t	ピクニックガール コズエ(デコボコさんどう)に勝利
+1755	t	サイキッカー ヨシキヨ(おくりびやま)に勝利
+1756	t	ピクニックガール ミズキ(111ばんどうろ)に勝利
+1757	t	ピクニックガール コズエ(再戦１回目; デコボコさんどう)に勝利
+1758	t	ピクニックガール コズエ(再戦２回目; デコボコさんどう)に勝利
+1759	t	ピクニックガール コズエ(再戦３回目; デコボコさんどう)に勝利
+1760	t	ピクニックガール コズエ(再戦４回目; デコボコさんどう)に勝利
+1761	t	ふたごちゃん クミとルミ(103ばんどうろ)に勝利
+1762	t	ふたごちゃん クミとルミ(再戦１回目; 103ばんどうろ)に勝利
+1763	t	ふたごちゃん ナオとミオ(104ばんどうろ)に勝利
+1764	t	ふたごちゃん ミウとユキ(123ばんどうろ)に勝利
 
-1767	t	Twins Amy & Liv (Rematch 2) on 103ばんどうろ defeated
-1768	t	Twins Amy & Liv (Rematch 3) on 103ばんどうろ defeated
-1769	t	Twins Amy & Liv (Rematch 4) on 103ばんどうろ defeated
-1770	t	Sailor Huey on 109ばんすいどう defeated
-1771	t	Sailor Edmond on 109ばんすいどう defeated
-1772	t	Sailor Ernest on 125ばんすいどう defeated
-1773	t	Sailor Dwayne on 109ばんすいどう defeated
-1774	t	Sailor Phillip on タイドリップごう defeated
-1775	t	Sailor Leonard on タイドリップごう defeated
-1776	t	Sailor Duncan on すてられぶね defeated
-1777	t	Sailor Ernest (Rematch 1) on 125ばんすいどう defeated
-1778	t	Sailor Ernest (Rematch 2) on 125ばんすいどう defeated
-1779	t	Sailor Ernest (Rematch 3) on 125ばんすいどう defeated
-1780	t	Sailor Ernest (Rematch 4) on 125ばんすいどう defeated
-1781	t	Hiker Eli in フエンジム defeated
-1782	t	Pokéfan Annika in ルネジム defeated
-1783	t	Cooltrainer Jazmyn on 123ばんどうろ defeated
-1784	t	Ninja Boy Jonas on 123ばんどうろ defeated
-1785	t	Parasol Lady Kayley on 123ばんどうろ defeated
-1786	t	Expert Auron on 125ばんすいどう defeated
-1787	t	Sailor Kelvin on 134ばんすいどう defeated
-1788	t	Cooltrainer Marley on 134ばんすいどう defeated
-1789	t	Battle Girl Reyna on 134ばんすいどう defeated
-1790	t	Sailor Hudson on 134ばんすいどう defeated
-1791	t	Expert Conor on 133ばんすいどう defeated
-1792	t	Collector Edwin on 110ばんどうろ defeated
-1793	t	Collector Hector on 115ばんどうろ defeated
+1767	t	ふたごちゃん クミとルミ(再戦２回目; 103ばんどうろ)に勝利
+1768	t	ふたごちゃん クミとルミ(再戦３回目; 103ばんどうろ)に勝利
+1769	t	ふたごちゃん クミとルミ(再戦４回目; 103ばんどうろ)に勝利
+1770	t	ふなのり タツロウ(109ばんすいどう)に勝利
+1771	t	ふなのり カツヤ(109ばんすいどう)に勝利
+1772	t	ふなのり ジロウ(125ばんすいどう)に勝利
+1773	t	ふなのり タツヒコ(109ばんすいどう)に勝利
+1774	t	ふなのり ユウサク(タイドリップごう)に勝利
+1775	t	ふなのり ダイキ(タイドリップごう)に勝利
+1776	t	ふなのり ヒデフミ(すてられぶね)に勝利
+1777	t	ふなのり ジロウ(再戦１回目; 125ばんすいどう)に勝利
+1778	t	ふなのり ジロウ(再戦２回目; 125ばんすいどう)に勝利
+1779	t	ふなのり ジロウ(再戦３回目; 125ばんすいどう)に勝利
+1780	t	ふなのり ジロウ(再戦４回目; 125ばんすいどう)に勝利
+1781	t	やまおとこ テルヨシ(フエンジム)に勝利
+1782	t	だいすきクラブ ミネコ(ルネジム)に勝利
+1783	t	エリートトレーナー ミワ(123ばんどうろ)に勝利
+1784	t	ニンジャごっこ シンスケ(123ばんどうろ)に勝利
+1785	t	パラソルおねえさん カオルコ(123ばんどうろ)に勝利
+1786	t	たつじん イッケイ(125ばんすいどう)に勝利
+1787	t	ふなのり ナオヤ(134ばんすいどう)に勝利
+1788	t	エリートトレーナー リツコ(134ばんすいどう)に勝利
+1789	t	バトルガール タマキ(134ばんすいどう)に勝利
+1790	t	ふなのり ジュンヤ(134ばんすいどう)に勝利
+1791	t	たつじん シゲヨシ(133ばんすいどう)に勝利
+1792	t	ポケモンコレクター モトキ(110ばんどうろ)に勝利
+1793	t	ポケモンコレクター トシノブ(115ばんどうろ)に勝利
 
-1795	t	Collector Edwin (Rematch 1) on 110ばんどうろ defeated
-1796	t	Collector Edwin (Rematch 2) on 110ばんどうろ defeated
-1797	t	Collector Edwin (Rematch 3) on 110ばんどうろ defeated
-1798	t	Collector Edwin (Rematch 4) on 110ばんどうろ defeated
-1799	t	Pokémon Trainer ミツル in チャンピオンロード defeated
-1800	t	Pokémon Trainer ユウキ on 103ばんどうろ defeated (Starter ミズゴロウ)
-1801	t	Pokémon Trainer ユウキ on 110ばんどうろ defeated (Starter ミズゴロウ)
-1802	t	Pokémon Trainer ユウキ on 119ばんどうろ defeated (Starter ミズゴロウ)
-1803	t	Pokémon Trainer ユウキ on 103ばんどうろ defeated (Starter キモリ)
-1804	t	Pokémon Trainer ユウキ on 110ばんどうろ defeated (Starter キモリ)
-1805	t	Pokémon Trainer ユウキ on 119ばんどうろ defeated (Starter キモリ)
-1806	t	Pokémon Trainer ユウキ on 103ばんどうろ defeated (Starter アチャモ)
-1807	t	Pokémon Trainer ユウキ on 110ばんどうろ defeated (Starter アチャモ)
-1808	t	Pokémon Trainer ユウキ on 119ばんどうろ defeated (Starter アチャモ)
-1809	t	Pokémon Trainer ハルカ on 103ばんどうろ defeated (Starter ミズゴロウ)
-1810	t	Pokémon Trainer ハルカ on 110ばんどうろ defeated (Starter ミズゴロウ)
-1811	t	Pokémon Trainer ハルカ on 119ばんどうろ defeated (Starter ミズゴロウ)
-1812	t	Pokémon Trainer ハルカ on 103ばんどうろ defeated (Starter キモリ)
-1813	t	Pokémon Trainer ハルカ on 110ばんどうろ defeated (Starter キモリ)
-1814	t	Pokémon Trainer ハルカ on 119ばんどうろ defeated (Starter キモリ)
-1815	t	Pokémon Trainer ハルカ on 103ばんどうろ defeated (Starter アチャモ)
-1816	t	Pokémon Trainer ハルカ on 110ばんどうろ defeated (Starter アチャモ)
-1817	t	Pokémon Trainer ハルカ on 119ばんどうろ defeated (Starter アチャモ)
-1818	t	Pokémon Breeder Isaac on 117ばんどうろ defeated
-1819	t	Bug Catcher Davis on 123ばんどうろ defeated
-1820	t	Cooltrainer Mitchell in チャンピオンロード B1F defeated
-1821	t	Pokémon Breeder Isaac (Rematch 1) on 117ばんどうろ defeated
-1822	t	Pokémon Breeder Isaac (Rematch 2) on 117ばんどうろ defeated
-1823	t	Pokémon Breeder Isaac (Rematch 3) on 117ばんどうろ defeated
-1824	t	Pokémon Breeder Isaac (Rematch 4) on 117ばんどうろ defeated
-1825	t	Pokémon Breeder Lydia on 117ばんどうろ defeated
-1826	t	Cooltrainer Halle in チャンピオンロード B1F defeated
-1827	t	Ruin Maniac Garrison on すてられぶね defeated
-1828	t	Pokémon Breeder Lydia (Rematch 1) on 117ばんどうろ defeated
-1829	t	Pokémon Breeder Lydia (Rematch 2) on 117ばんどうろ defeated
-1830	t	Pokémon Breeder Lydia (Rematch 3) on 117ばんどうろ defeated
-1831	t	Pokémon Breeder Lydia (Rematch 4) on 117ばんどうろ defeated
-1832	t	Pokémon Ranger Jackson on 119ばんどうろ defeated
-1833	t	Pokémon Ranger Lorenzo on 120ばんどうろ defeated
-1834	t	Pokémon Ranger Sebastian in カラクリやしき Puzzle 6 defeated
-1835	t	Pokémon Ranger Jackson (Rematch 1) on 119ばんどうろ defeated
-1836	t	Pokémon Ranger Jackson (Rematch 2) on 119ばんどうろ defeated
-1837	t	Pokémon Ranger Jackson (Rematch 3) on 119ばんどうろ defeated
-1838	t	Pokémon Ranger Jackson (Rematch 4) on 119ばんどうろ defeated
-1839	t	Pokémon Ranger Catherine on 119ばんどうろ defeated
-1840	t	Pokémon Ranger Jenna on 120ばんどうろ defeated
-1841	t	Pokémon Ranger Sophia in カラクリやしき Puzzle 6 defeated
-1842	t	Pokémon Ranger Catherine (Rematch 1) on 119ばんどうろ defeated
-1843	t	Pokémon Ranger Catherine (Rematch 2) on 119ばんどうろ defeated
-1844	t	Pokémon Ranger Catherine (Rematch 3) on 119ばんどうろ defeated
-1845	t	Pokémon Ranger Catherine (Rematch 4) on 119ばんどうろ defeated
-1846	t	Triathlete Julio on デコボコさんどう defeated
-1847	t	Team Aqua Grunt (Male) in かいていどうくつ Room 7 defeated
+1795	t	ポケモンコレクター モトキ(再戦１回目; 110ばんどうろ)に勝利
+1796	t	ポケモンコレクター モトキ(再戦２回目; 110ばんどうろ)に勝利
+1797	t	ポケモンコレクター モトキ(再戦３回目; 110ばんどうろ)に勝利
+1798	t	ポケモンコレクター モトキ(再戦４回目; 110ばんどうろ)に勝利
+1799	t	ポケモントレーナー ミツル(チャンピオンロード)に勝利
+1800	t	ポケモントレーナー ユウキ(103ばんどうろ; 御三家：ミズゴロウ)に勝利
+1801	t	ポケモントレーナー ユウキ(110ばんどうろ; 御三家：ミズゴロウ)に勝利
+1802	t	ポケモントレーナー ユウキ(119ばんどうろ; 御三家：ミズゴロウ)に勝利
+1803	t	ポケモントレーナー ユウキ(103ばんどうろ; 御三家：キモリ)に勝利
+1804	t	ポケモントレーナー ユウキ(110ばんどうろ; 御三家：キモリ)に勝利
+1805	t	ポケモントレーナー ユウキ(119ばんどうろ; 御三家：キモリ)に勝利
+1806	t	ポケモントレーナー ユウキ(103ばんどうろ; 御三家：アチャモ)に勝利
+1807	t	ポケモントレーナー ユウキ(110ばんどうろ; 御三家：アチャモ)に勝利
+1808	t	ポケモントレーナー ユウキ(119ばんどうろ; 御三家：アチャモ)に勝利
+1809	t	ポケモントレーナー ハルカ(103ばんどうろ; 御三家：ミズゴロウ)に勝利
+1810	t	ポケモントレーナー ハルカ(110ばんどうろ; 御三家：ミズゴロウ)に勝利
+1811	t	ポケモントレーナー ハルカ(119ばんどうろ; 御三家：ミズゴロウ)に勝利
+1812	t	ポケモントレーナー ハルカ(103ばんどうろ; 御三家：キモリ)に勝利
+1813	t	ポケモントレーナー ハルカ(110ばんどうろ; 御三家：キモリ)に勝利
+1814	t	ポケモントレーナー ハルカ(119ばんどうろ; 御三家：キモリ)に勝利
+1815	t	ポケモントレーナー ハルカ(103ばんどうろ; 御三家：アチャモ)に勝利
+1816	t	ポケモントレーナー ハルカ(110ばんどうろ; 御三家：アチャモ)に勝利
+1817	t	ポケモントレーナー ハルカ(119ばんどうろ; 御三家：アチャモ)に勝利
+1818	t	ポケモンブリーダー セイジ(117ばんどうろ)に勝利
+1819	t	むしとりしょうねん ヨシロウ(123ばんどうろ)に勝利
+1820	t	エリートトレーナー テッペイ(チャンピオンロードB1F)に勝利
+1821	t	ポケモンブリーダー セイジ(再戦１回目; 117ばんどうろ)に勝利
+1822	t	ポケモンブリーダー セイジ(再戦２回目; 117ばんどうろ)に勝利
+1823	t	ポケモンブリーダー セイジ(再戦３回目; 117ばんどうろ)に勝利
+1824	t	ポケモンブリーダー セイジ(再戦４回目; 117ばんどうろ)に勝利
+1825	t	ポケモンブリーダー イクエ(117ばんどうろ)に勝利
+1826	t	エリートトレーナー ヒロエ(チャンピオンロード B1F)に勝利
+1827	t	いせきマニア ツネヤス(すてられぶね)に勝利
+1828	t	ポケモンブリーダー イクエ(再戦１回目; 117ばんどうろ)に勝利
+1829	t	ポケモンブリーダー イクエ(再戦２回目; 117ばんどうろ)に勝利
+1830	t	ポケモンブリーダー イクエ(再戦３回目; 117ばんどうろ)に勝利
+1831	t	ポケモンブリーダー イクエ(再戦４回目; 117ばんどうろ)に勝利
+1832	t	ポケモンレンジャー マモル(119ばんどうろ)に勝利
+1833	t	ポケモンレンジャー ジュンサク(120ばんどうろ)に勝利
+1834	t	ポケモンレンジャー ケイスケ(カラクリやしき６回目)に勝利
+1835	t	ポケモンレンジャー マモル(再戦１回目; 119ばんどうろ)に勝利
+1836	t	ポケモンレンジャー マモル(再戦２回目; 119ばんどうろ)に勝利
+1837	t	ポケモンレンジャー マモル(再戦３回目; 119ばんどうろ)に勝利
+1838	t	ポケモンレンジャー マモル(再戦４回目; 119ばんどうろ)に勝利
+1839	t	ポケモンレンジャー マナミ(119ばんどうろ)に勝利
+1840	t	ポケモンレンジャー セリナ(120ばんどうろ)に勝利
+1841	t	ポケモンレンジャー チアキ(カラクリやしき６回目)に勝利
+1842	t	ポケモンレンジャー マナミ(再戦１回目; 119ばんどうろ)に勝利
+1843	t	ポケモンレンジャー マナミ(再戦２回目; 119ばんどうろ)に勝利
+1844	t	ポケモンレンジャー マナミ(再戦３回目; 119ばんどうろ)に勝利
+1845	t	ポケモンレンジャー マナミ(再戦４回目; 119ばんどうろ)に勝利
+1846	t	トライアスリート ミツオ(デコボコさんどう)に勝利
+1847	t	アクア団 したっぱ(男)(かいていどうくつ)に勝利
 
-1849	t	Team Aqua Grunt (Female) on おくりびやま defeated
-1850	t	Team Magma Grunt on デコボコさんどう defeated2
-1851	t	Hiker Marc in カナズミジム defeated
-1852	t	Sailor Brenden in ムロジム defeated
-1853	t	Battle Girl Lilith in ムロジム defeated
-1854	t	Black Belt Cristian in ムロジム defeated
-1855	t	Hex Maniac Sylvia in トクサネジム defeated
-1856	t	Swimmer Leonardo on 126ばんすいどう defeated
-1857	t	Cooltrainer Athena on 127ばんすいどう defeated
-1858	t	Swimmer Harrison on 128ばんすいどう defeated
-1859	t	Team Magma Grunt (Male) on えんとつやま defeated
-1860	t	Swimmer Clarence on 129ばんすいどう defeated
+1849	t	アクア団 したっぱ(女)(おくりびやま)に勝利
+1850	t	アクア団 したっぱ(デコボコさんどう)に勝利
+1851	t	やまおとこ ソウタロウ(カナズミジム)に勝利
+1852	t	ふなのり カズマサ(ムロジム)に勝利
+1853	t	バトルガール アズミ(ムロジム)に勝利
+1854	t	カラテおう トシヒデ(ムロジム)に勝利
+1855	t	オカルトマニア アサヨ(トクサネジム)に勝利
+1856	t	かいパンやろう カズシゲ(126ばんすいどう)に勝利
+1857	t	エリートトレーナー エミリ(127ばんすいどう)に勝利
+1858	t	かいパンやろう マサアキ(128ばんすいどう)に勝利
+1859	t	アクア団 したっぱ(男)(えんとつやま)に勝利
+1860	t	かいパンやろう ヨシフミ(129ばんすいどう)に勝利
 
-1862	t	Gentleman Nate in トクサネジム defeated
-1863	t	Hex Maniac Kathleen in トクサネジム defeated
-1864	t	Gentleman Clifford in トクサネジム defeated
-1865	t	Psychic Nicholas in トクサネジム defeated
-1866	t	Team Magma Grunt (Female) in トクサネうちゅうセンター 1F defeated
-1867	t	Team Magma Grunt (Male) in トクサネうちゅうセンター 1F defeated
-1868	t	Team Magma Grunt (Male) in トクサネうちゅうセンター 2F defeated
-1869	t	Team Magma Grunt (Male) in トクサネうちゅうセンター 2F defeated
-1870	t	Team Magma Grunt (Male) in トクサネうちゅうセンター 2F defeated
-1871	t	Psychic Macey in トクサネジム defeated
-1872	t	Pokémon Trainer ユウキ in カナズミシティ or on 104ばんどうろ defeated (Starter キモリ)
-1873	t	Pokémon Trainer ユウキ in カナズミシティ or on 104ばんどうろ defeated (Starter ミズゴロウ)
-1874	t	Expert Paxton on 132ばんすいどう defeated
-1875	t	Triathlete Isabella on 124ばんすいどう defeated
-1876	t	Team Aqua Grunt (Female) in てんきけんきゅうじょ 2F defeated
-1877	t	Team Magma Admin Tabitha on えんとつやま defeated
-1878	t	Cooltrainer Jonathan on 132ばんすいどう defeated
-1879	t	Pokémon Trainer ユウキ in カナズミシティ or on 104ばんどうろ defeated (Starter アチャモ)
-1880	t	Pokémon Trainer ハルカ in カナズミシティ or on 104ばんどうろ defeated (Starter ミズゴロウ)
-1881	t	Team Magma Leader マツブサ in マグマだんアジト defeated
-1882	t	Team Magma Leader マツブサ on えんとつやま defeated
-1883	t	Lass Tiana on 102ばんどうろ defeated
-1884	t	Lass Haley on 104ばんどうろ defeated
-1885	t	Lass Janice on 116ばんどうろ defeated
-1886	t	Winstrate Vivi on 111ばんどうろ defeated
-1887	t	Lass Haley (Rematch 1) on 104ばんどうろ defeated
-1888	t	Lass Haley (Rematch 2) on 104ばんどうろ defeated
-1889	t	Lass Haley (Rematch 3) on 104ばんどうろ defeated
-1890	t	Lass Haley (Rematch 4) on 104ばんどうろ defeated
-1891	t	Lass Sally in カラクリやしき Puzzle 1 defeated
-1892	t	Lass Robin in カラクリやしき Puzzle 1 defeated
-1893	t	Lass Andrea in ルネジム defeated
-1894	t	Lass Crissy in ルネジム defeated
-1895	t	Bug Catcher Rick on 102ばんどうろ defeated
-1896	t	Bug Catcher Lyle in トウカのもり defeated
-1897	t	Bug Catcher Jose on 116ばんどうろ defeated
-1898	t	Bug Catcher Doug on 119ばんどうろ defeated
-1899	t	Bug Catcher Greg on 119ばんどうろ defeated
-1900	t	Bug Catcher Kent on 119ばんどうろ defeated
-1901	t	Bug Catcher James in トウカのもり defeated
-1902	t	Bug Catcher James (Rematch 1) in トウカのもり defeated
-1903	t	Bug Catcher James (Rematch 2) in トウカのもり defeated
-1904	t	Bug Catcher James (Rematch 3) in トウカのもり defeated
-1905	t	Bug Catcher James (Rematch 4) in トウカのもり defeated
-1906	t	Hiker Brice on 112ばんどうろ defeated
-1907	t	Hiker Trent on 112ばんどうろ defeated
-1908	t	Hiker Lenny on 114ばんどうろ defeated
-1909	t	Hiker Lucas on 114ばんどうろ defeated
-1910	t	Hiker Alan in カラクリやしき Puzzle 3 defeated
-1911	t	Hiker Clark on 116ばんどうろ defeated
-1912	t	Hiker Eric on デコボコさんどう defeated
+1862	t	ジェントルマン トニー(トクサネジム)に勝利
+1863	t	オカルトマニア ユキヨ(トクサネジム)に勝利
+1864	t	ジェントルマン スティーブ(トクサネジム)に勝利
+1865	t	サイキッカー リョウイチ(トクサネジム)に勝利
+1866	t	アクア団 したっぱ(女)(トクサネうちゅうセンター1F)に勝利
+1867	t	アクア団 したっぱ(男)(トクサネうちゅうセンター1F)に勝利
+1868	t	アクア団 したっぱ(男)(トクサネうちゅうセンター2F)に勝利
+1869	t	アクア団 したっぱ(男)(トクサネうちゅうセンター2F)に勝利
+1870	t	アクア団 したっぱ(男)(トクサネうちゅうセンター2F)に勝利
+1871	t	サイキッカー フサコ(トクサネジム)に勝利
+1872	t	ポケモントレーナー ユウキ(カナズミシティ; 御三家：キモリ)に勝利
+1873	t	ポケモントレーナー ユウキ(カナズミシティ; 御三家：ミズゴロウ)に勝利
+1874	t	たつじん ゴウゾウ(132ばんすいどう)に勝利
+1875	t	トライアスリート カズハ(124ばんすいどう)に勝利
+1876	t	アクア団 したっぱ(女)(てんきけんきゅうじょ 2F)に勝利
+1877	t	マグマ団かんぶ ホムラ(えんとつやま)に勝利
+1878	t	エリートトレーナー リョウスケ(132ばんすいどう)に勝利
+1879	t	ポケモントレーナー ユウキ(カナズミシティ; 御三家：アチャモ)に勝利
+1880	t	ポケモントレーナー ハルカ(カナズミシティ; 御三家：ミズゴロウ)に勝利
+1881	t	マグマ団リーダー マツブサ(マグマだんアジト)に勝利
+1882	t	マグマ団リーダー マツブサ(えんとつやま)に勝利
+1883	t	ミニスカート チカ(102ばんどうろ)に勝利
+1884	t	ミニスカート マキ(104ばんどうろ)に勝利
+1885	t	ミニスカート エリ(116ばんどうろ)に勝利
+1886	t	カチヌキさんち アキ(111ばんどうろ)に勝利
+1887	t	ミニスカート マキ(再戦１回目; 104ばんどうろ)に勝利
+1888	t	ミニスカート マキ(再戦２回目; 104ばんどうろ)に勝利
+1889	t	ミニスカート マキ(再戦３回目; 104ばんどうろ)に勝利
+1890	t	ミニスカート マキ(再戦４回目; 104ばんどうろ)に勝利
+1891	t	ミニスカート ミナ(カラクリやしき初回)に勝利
+1892	t	ミニスカート シホ(カラクリやしき初回)に勝利
+1893	t	ミニスカート ミキ(ルネジム)に勝利
+1894	t	ミニスカート メイ(ルネジム)に勝利
+1895	t	むしとりしょうねん シンイチ(102ばんどうろ)に勝利
+1896	t	むしとりしょうねん フジオ(トウカのもり)に勝利
+1897	t	むしとりしょうねん トモノリ(116ばんどうろ)に勝利
+1898	t	むしとりしょうねん オサム(119ばんどうろ)に勝利
+1899	t	むしとりしょうねん ヒロユキ(119ばんどうろ)に勝利
+1900	t	むしとりしょうねん トモミチ(119ばんどうろ)に勝利
+1901	t	むしとりしょうねん ミキヤ(トウカのもり)に勝利
+1902	t	むしとりしょうねん ミキヤ(再戦１回目; トウカのもり)に勝利
+1903	t	むしとりしょうねん ミキヤ(再戦２回目; トウカのもり)に勝利
+1904	t	むしとりしょうねん ミキヤ(再戦３回目; トウカのもり)に勝利
+1905	t	むしとりしょうねん ミキヤ(再戦４回目; トウカのもり)に勝利
+1906	t	やまおとこ ハルノブ(112ばんどうろ)に勝利
+1907	t	やまおとこ ケンサク(112ばんどうろ)に勝利
+1908	t	やまおとこ カツヒト(114ばんどうろ)に勝利
+1909	t	やまおとこ サブロウ(114ばんどうろ)に勝利
+1910	t	やまおとこ マサノリ(カラクリやしき３回目)に勝利
+1911	t	やまおとこ カズノリ(116ばんどうろ)に勝利
+1912	t	やまおとこ ダイチ(デコボコさんどう)に勝利
 
-1915	t	Hiker Mike in カナシダトンネル defeated
-1916	t	Hiker Trent (Rematch 1) on 112ばんどうろ defeated
-1917	t	Hiker Trent (Rematch 2) on 112ばんどうろ defeated
-1918	t	Hiker Trent (Rematch 3) on 112ばんどうろ defeated
-1919	t	Hiker Trent (Rematch 4) on 112ばんどうろ defeated
-1920	t	Young Couple Dez & Luke in おくりびやま defeated
-1921	t	Young Couple Lea & Jed on タイドリップごう defeated
-1922	t	Young Couple Kira & Dan on すてられぶね defeated
-1923	t	Young Couple Kira & Dan (Rematch 1) on すてられぶね defeated
-1924	t	Young Couple Kira & Dan (Rematch 2) on すてられぶね defeated
-1925	t	Young Couple Kira & Dan (Rematch 3) on すてられぶね defeated
-1926	t	Young Couple Kira & Dan (Rematch 4) on すてられぶね defeated
-1927	t	Beauty Johanna on 109ばんすいどう defeated
-1928	t	Cooltrainer Gerald in フエンジム defeated
-1929	t	Battle Girl Vivian in キンセツジム defeated
-1930	t	Battle Girl Danielle in フエンジム defeated
-1931	t	Ninja Boy Hideo on 119ばんどうろ defeated
-1932	t	Ninja Boy Keigo on 120ばんどうろ defeated
-1933	t	Ninja Boy Riley on 120ばんどうろ defeated
-1934	t	Camper Flint in ヒワマキジム defeated
-1935	t	Picnicker Ashley in ヒワマキジム defeated
-1936	t	Pokémon Trainer ミツル in キンセツシティ defeated
-1937	t	Pokémon Trainer ミツル (Rematch 1) in チャンピオンロード defeated
-1938	t	Pokémon Trainer ミツル (Rematch 2) in チャンピオンロード defeated
-1939	t	Pokémon Trainer ミツル (Rematch 3) in チャンピオンロード defeated
-1940	t	Pokémon Trainer ミツル (Rematch 4) in チャンピオンロード defeated
-1941	t	ユウキ in ミナモシティ defeated (Starter ミズゴロウ)
-1942	t	ユウキ in ミナモシティ defeated (Starter キモリ)
-1943	t	ユウキ in ミナモシティ defeated (Starter アチャモ)
-1944	t	ハルカ in ミナモシティ defeated (Starter ミズゴロウ)
-1945	t	ハルカ in ミナモシティ defeated (Starter キモリ)
-1946	t	ハルカ in ミナモシティ defeated (Starter アチャモ)
-1947	t	Fisherman Jonah on 127ばんすいどう defeated
-1948	t	Fisherman Henry on 127ばんすいどう defeated
-1949	t	Fisherman Roger on 127ばんすいどう defeated
-1950	t	Cooltrainer Alexa on 128ばんすいどう defeated
-1951	t	Cooltrainer Ruben on 128ばんすいどう defeated
-1952	t	Black Belt Koji on 127ばんすいどう defeated
-1953	t	Fisherman Wayne on 128ばんすいどう defeated
-1954	t	Bird Keeper Aidan on 127ばんすいどう defeated
-1955	t	Swimmer Reed on 129ばんすいどう defeated
-1956	t	Swimmer Tisha on 129ばんすいどう defeated
-1957	t	Twins Tori & Tia on 113ばんどうろ defeated
-1958	t	Sr. and Jr. Kim & Iris on 125ばんすいどう defeated
-1959	t	Sr. and Jr. Tyra & Ivy on 114ばんどうろ defeated
-1960	t	Young Couple Mel & Paul on 109ばんすいどう defeated
-1961	t	Old Couple John & Jay in りゅうせいのたき defeated
-1962	t	Old Couple John & Jay (Rematch 1) in りゅうせいのたき defeated
-1963	t	Old Couple John & Jay (Rematch 2) in りゅうせいのたき defeated
-1964	t	Old Couple John & Jay (Rematch 3) in りゅうせいのたき defeated
-1965	t	Old Couple John & Jay (Rematch 4) in りゅうせいのたき defeated
-1966	t	Sis and Bro Reli & Ian on 131ばんすいどう defeated
-1967	t	Sis and Bro Lila & Roy on 124ばんすいどう defeated
-1968	t	Sis and Bro Lila & Roy (Rematch 1) on 124ばんすいどう defeated
-1969	t	Sis and Bro Lila & Roy (Rematch 2) on 124ばんすいどう defeated
-1970	t	Sis and Bro Lila & Roy (Rematch 3) on 124ばんすいどう defeated
-1971	t	Sis and Bro Lila & Roy (Rematch 4) on 124ばんすいどう defeated
-1972	t	Sis and Bro Lisa & Ray on 107ばんすいどう defeated
-1973	t	Fisherman Chris on 119ばんどうろ defeated
-1974	t	Rich Boy Dawson on 116ばんどうろ defeated
-1975	t	Lady Sarah on 116ばんどうろ defeted
-1976	t	Fisherman Darian on 104ばんどうろ defeated
-1977	t	Tuber Hailey on 109ばんすいどう defeated
-1978	t	Tuber Chandler on 109ばんすいどう defeated
-1979	t	Pokéfan Kaleb on 110ばんどうろ defeated
-1980	t	Guitarist Joseph on 110ばんどうろ defeated
-1981	t	Triathlete Alyssa on 110ばんどうろ defeated
-1982	t	Guitarist Marcos on 103ばんどうろ defeated
-1983	t	Black Belt Rhett on 103ばんどうろ defeated
-1984	t	Camper Tyron on 111ばんどうろ defeated
-1985	t	Aroma Lady Celina on 111ばんどうろ defeated
-1986	t	Picnicker Bianca on 111ばんどうろ defeated
-1987	t	Kindler Hayden on 111ばんどうろ defeated
-1988	t	Picnicker Sophie on 113ばんどうろ defeated
-1989	t	Bird Keeper Coby on 113ばんどうろ defeated
-1990	t	Camper Lawrence on 113ばんどうろ defeated
-1991	t	PokéManiac Wyatt on 113ばんどうろ defeated
-1992	t	Picnicker Angelina on 114ばんどうろ defeated
-1993	t	Fisherman Kai on 114ばんどうろ defeated
-1994	t	Picnicker Charlotte on 114ばんどうろ defeated
-1995	t	Youngster Deandre on 118ばんどうろ defeated
-1996	t	Team Magma Grunt (Male) in マグマだんアジト 1F defeated
-1997	t	Team Magma Grunt (Male) in マグマだんアジト 1F defeated
-1998	t	Team Magma Grunt (Male) in マグマだんアジト 2F defeated
-1999	t	Team Magma Grunt (Male) in マグマだんアジト 2F defeated
-2000	t	Team Magma Grunt (Male) in マグマだんアジト 2F defeated
-2001	t	Team Magma Grunt (Male) in マグマだんアジト 8F defeated
-2002	t	Team Magma Grunt (Male) in マグマだんアジト 8F defeated
-2003	t	Team Magma Grunt (Male) in マグマだんアジト 8F defeated
-2004	t	Team Magma Grunt (Male) in マグマだんアジト 3F defeated
-2005	t	Team Magma Grunt (Male) in マグマだんアジト 7F defeated
-2006	t	Team Magma Grunt (Male) in マグマだんアジト 4F defeated
-2007	t	Team Magma Grunt (Male) in マグマだんアジト 4F defeated
-2008	t	Team Magma Grunt (Male) in マグマだんアジト 4F defeated
-2009	t	Team Magma Grunt (Female) in マグマだんアジト 2F defeated
-2010	t	Team Magma Grunt (Female) in マグマだんアジト 8F defeated
-2011	t	Team Magma Grunt (Female) in マグマだんアジト 3F defeated
-2012	t	Team Magma Admin Tabitha in マグマだんアジト defeated
-2013	t	Cooltrainer Darcy on 132ばんすいどう defeated
+1915	t	やまおとこ ノボル(カナシダトンネル)に勝利
+1916	t	やまおとこ ケンサク(再戦１回目; 112ばんどうろ)に勝利
+1917	t	やまおとこ ケンサク(再戦２回目; 112ばんどうろ)に勝利
+1918	t	やまおとこ ケンサク(再戦３回目; 112ばんどうろ)に勝利
+1919	t	やまおとこ ケンサク(再戦４回目; 112ばんどうろ)に勝利
+1920	t	ラブラブカップル マコとテル(おくりびやま)に勝利
+1921	t	ラブラブカップル カホとジン(タイドリップごう)に勝利
+1922	t	ラブラブカップル ナツとフミ(すてられぶね)に勝利
+1923	t	ラブラブカップル ナツとフミ(再戦１回目; すてられぶね)に勝利
+1924	t	ラブラブカップル ナツとフミ(再戦２回目; すてられぶね)に勝利
+1925	t	ラブラブカップル ナツとフミ(再戦３回目; すてられぶね)に勝利
+1926	t	ラブラブカップル ナツとフミ(再戦４回目; すてられぶね)に勝利
+1927	t	おとなのおねえさん アツコ(109ばんすいどう)に勝利
+1928	t	エリートトレーナー タクロウ(フエンジム)に勝利
+1929	t	バトルガール マコト(キンセツジム)に勝利
+1930	t	バトルガール トモミ(フエンジム)に勝利
+1931	t	ニンジャごっこ カツハル(119ばんどうろ)に勝利
+1932	t	ニンジャごっこ テツジ(120ばんどうろ)に勝利
+1933	t	ニンジャごっこ タダヒロ(120ばんどうろ)に勝利
+1934	t	キャンプボーイ テルオ(ヒワマキジム)に勝利
+1935	t	ピクニックガール ミミコ(ヒワマキジム)に勝利
+1936	t	ポケモントレーナー ミツル(キンセツシティ)に勝利
+1937	t	ポケモントレーナー ミツル(再戦１回目; チャンピオンロード)に勝利
+1938	t	ポケモントレーナー ミツル(再戦２回目; チャンピオンロード)に勝利
+1939	t	ポケモントレーナー ミツル(再戦３回目; チャンピオンロード)に勝利
+1940	t	ポケモントレーナー ミツル(再戦４回目; チャンピオンロード)に勝利
+1941	t	ユウキ(ミナモシティ; 御三家：ミズゴロウ)に勝利
+1942	t	ユウキ(ミナモシティ; 御三家：キモリ)に勝利
+1943	t	ユウキ(ミナモシティ; 御三家：アチャモ)に勝利
+1944	t	ハルカ(ミナモシティ; 御三家：ミズゴロウ)に勝利
+1945	t	ハルカ(ミナモシティ; 御三家：キモリ)に勝利
+1946	t	ハルカ(ミナモシティ; 御三家：アチャモ)に勝利
+1947	t	つりびと ヨシノリ(127ばんすいどう)に勝利
+1948	t	つりびと ケンタロウ(127ばんすいどう)に勝利
+1949	t	つりびと トモヒコ(127ばんすいどう)に勝利
+1950	t	エリートトレーナー サヤカ(128ばんすいどう)に勝利
+1951	t	エリートトレーナー ジュン(128ばんすいどう)に勝利
+1952	t	カラテおう テツロウ(127ばんすいどう)に勝利
+1953	t	つりびと コウサク(128ばんすいどう)に勝利
+1954	t	とりつかい イクオ(127ばんすいどう)に勝利
+1955	t	かいパンやろう アキオ(129ばんすいどう)に勝利
+1956	t	ビキニのおねえさん ユカリ(129ばんすいどう)に勝利
+1957	t	ふたごちゃん ナナとネネ(113ばんどうろ)に勝利
+1958	t	センパイとコウハイ マホとナホ(125ばんすいどう)に勝利
+1959	t	センパイとコウハイ カヨとイヨ(114ばんどうろ)に勝利
+1960	t	ラブラブカップル シキとリキ(109ばんすいどう)に勝利
+1961	t	きんこんしき ゲンとハツ(りゅうせいのたき)に勝利
+1962	t	きんこんしき ゲンとハツ(再戦１回目; りゅうせいのたき)に勝利
+1963	t	きんこんしき ゲンとハツ(再戦２回目; りゅうせいのたき)に勝利
+1964	t	きんこんしき ゲンとハツ(再戦３回目; りゅうせいのたき)に勝利
+1965	t	きんこんしき ゲンとハツ(再戦４回目; りゅうせいのたき)に勝利
+1966	t	うみきょうだい カツとアミ(131ばんすいどう)に勝利
+1967	t	うみきょうだい コウとカコ(124ばんすいどう)に勝利
+1968	t	うみきょうだい コウとカコ(再戦１回目; 124ばんすいどう)に勝利
+1969	t	うみきょうだい コウとカコ(再戦２回目; 124ばんすいどう)に勝利
+1970	t	うみきょうだい コウとカコ(再戦３回目; 124ばんすいどう)に勝利
+1971	t	うみきょうだい コウとカコ(再戦４回目; 124ばんすいどう)に勝利
+1972	t	うみきょうだい シンとユミ(107ばんすいどう)に勝利
+1973	t	つりびと マサシ(119ばんどうろ)に勝利
+1974	t	おぼっちゃま ノゾム(116ばんどうろ)に勝利
+1975	t	おじょうさま サクラコ(116ばんどうろ)に勝利
+1976	t	つりびと ケンキチ(104ばんどうろ)に勝利
+1977	t	うきわガール ハナ(109ばんすいどう)に勝利
+1978	t	うきわボーイ タイスケ(109ばんすいどう)に勝利
+1979	t	だいすきクラブ マサタカ(110ばんどうろ)に勝利
+1980	t	ギタリスト ポール(110ばんどうろ)に勝利
+1981	t	トライアスリート サエミ(110ばんどうろ)に勝利
+1982	t	ギタリスト エリック(103ばんどうろ)に勝利
+1983	t	カラテおう シゲモリ(103ばんどうろ)に勝利
+1984	t	キャンプボーイ トシフミ(111ばんどうろ)に勝利
+1985	t	アロマなおねえさん ワカコ(111ばんどうろ)に勝利
+1986	t	ピクニックガール イオリ(111ばんどうろ)に勝利
+1987	t	キャンプファイヤー クニアキ(111ばんどうろ)に勝利
+1988	t	ピクニックガール ノドカ(113ばんどうろ)に勝利
+1989	t	とりつかい カズタカ(113ばんどうろ)に勝利
+1990	t	キャンプボーイ ユウゴ(113ばんどうろ)に勝利
+1991	t	かいじゅうマニア ミチオ(113ばんどうろ)に勝利
+1992	t	ピクニックガール マツリ(114ばんどうろ)に勝利
+1993	t	つりびと ヒロミツ(114ばんどうろ)に勝利
+1994	t	ピクニックガール ミナミ(114ばんどうろ)に勝利
+1995	t	たんぱんこぞう マサヤ(118ばんどうろ)に勝利
+1996	t	アクア団 したっぱ(男)(マグマだんアジト 1F)に勝利
+1997	t	アクア団 したっぱ(男)(マグマだんアジト 1F)に勝利
+1998	t	アクア団 したっぱ(男)(マグマだんアジト 2F)に勝利
+1999	t	アクア団 したっぱ(男)(マグマだんアジト 2F)に勝利
+2000	t	アクア団 したっぱ(男)(マグマだんアジト 2F)に勝利
+2001	t	アクア団 したっぱ(男)(マグマだんアジト 8F)に勝利
+2002	t	アクア団 したっぱ(男)(マグマだんアジト 8F)に勝利
+2003	t	アクア団 したっぱ(男)(マグマだんアジト 8F)に勝利
+2004	t	アクア団 したっぱ(男)(マグマだんアジト 3F)に勝利
+2005	t	アクア団 したっぱ(男)(マグマだんアジト 7F)に勝利
+2006	t	アクア団 したっぱ(男)(マグマだんアジト 4F)に勝利
+2007	t	アクア団 したっぱ(男)(マグマだんアジト 4F)に勝利
+2008	t	アクア団 したっぱ(男)(マグマだんアジト 4F)に勝利
+2009	t	アクア団 したっぱ(女)(マグマだんアジト 2F)に勝利
+2010	t	アクア団 したっぱ(女)(マグマだんアジト 8F)に勝利
+2011	t	アクア団 したっぱ(女)(マグマだんアジト 3F)に勝利
+2012	t	マグマ団かんぶ ホムラ(マグマだんアジト)に勝利
+2013	t	エリートトレーナー ナルミ(132ばんすいどう)に勝利
 
-2015	t	Swimmer Pete on 103ばんどうろ defeated
-2016	t	Swimmer Isabelle on 103ばんどうろ defeated
-2017	t	Ruin Maniac Andres on 105ばんすいどう defeated
-2018	t	Bird Keeper Josue on 105ばんすいどう defeated
-2019	t	Triathlete Camron on 107ばんすいどう defeated
-2020	t	Sailor Cory on 108ばんすいどう defeated
-2021	t	Cooltrainer Carolina on 108ばんすいどう defeated
-2022	t	Bird Keeper Elijah on 109ばんすいどう defeated
-2023	t	Picnicker Celia on 111ばんどうろ defeated
-2024	t	Ruin Maniac Bryan on 111ばんどうろ defeated
-2025	t	Camper Branden on 111ばんどうろ defeated
-2026	t	Kindler Bryant on 112ばんどうろ defeated
-2027	t	Aroma Lady Shayla on 112ばんどうろ defeated
-2028	t	Triathlete Kyra on 115ばんどうろ defeated
-2029	t	Ninja Boy Jaiden on 115ばんどうろ defeated
-2030	t	Psychic Alix on 115ばんどうろ defeated
-2031	t	Battle Girl Helene on 115ばんどうろ defeated
-2032	t	Psychic Marlene on 115ばんどうろ defeated
-2033	t	Hiker Devan on 116ばんどうろ defeated
-2034	t	Youngster Johnson on 116ばんどうろ defeated
-2035	t	Triathlete Melina on 117ばんどうろ defeated
-2036	t	Psychic Brandi on 117ばんどうろ defeated
-2037	t	Battle Girl Aisha on 117ばんどうろ defeated
-2038	t	Expert Makayla on 132ばんすいどう defeated
-2039	t	Guitarist Fabian on 119ばんどうろ defeated
-2040	t	Kindler Dayton on 119ばんどうろ defeated
-2041	t	Parasol Lady Rachel on 119ばんどうろ defeated
-2042	t	Cooltrainer Leonel on 120ばんどうろ defeated
-2043	t	Battle Girl Callie on 120ばんどうろ defeated
-2044	t	Bug Maniac Cale on 121ばんどうろ defeated
-2045	t	Pokémon Breeder Myles on 121ばんどうろ defeated
-2046	t	Pokémon Breeder Pat on 121ばんどうろ defeated
-2047	t	Cooltrainer Cristin on 121ばんどうろ defeated
-2048	t	Pokémon Trainer ハルカ in カナズミシティ or on 104ばんどうろ defeated (Starter キモリ)
-2049	t	Pokémon Trainer ハルカ in カナズミシティ or on 104ばんどうろ defeated (Starter アチャモ)
-2050	t	ジムリーダー ツツジ (Rematch 1) defeated
-2051	t	ジムリーダー ツツジ (Rematch 2) defeated
-2052	t	ジムリーダー ツツジ (Rematch 3) defeated
-2053	t	ジムリーダー ツツジ (Rematch 4) defeated
-2054	t	ジムリーダー トウキ (Rematch 1) defeated
-2055	t	ジムリーダー トウキ (Rematch 2) defeated
-2056	t	ジムリーダー トウキ (Rematch 3) defeated
-2057	t	ジムリーダー トウキ (Rematch 4) defeated
-2058	t	ジムリーダー テッセン (Rematch 1) defeated
-2059	t	ジムリーダー テッセン (Rematch 2) defeated
-2060	t	ジムリーダー テッセン (Rematch 3) defeated
-2061	t	ジムリーダー テッセン (Rematch 4) defeated
-2062	t	ジムリーダー アスナ (Rematch 1) defeated
-2063	t	ジムリーダー アスナ (Rematch 2) defeated
-2064	t	ジムリーダー アスナ (Rematch 3) defeated
-2065	t	ジムリーダー アスナ (Rematch 4) defeated
-2066	t	ジムリーダー センリ (Rematch 1) defeated
-2067	t	ジムリーダー センリ (Rematch 2) defeated
-2068	t	ジムリーダー センリ (Rematch 3) defeated
-2069	t	ジムリーダー センリ (Rematch 4) defeated
-2070	t	ジムリーダー ナギ (Rematch 1) defeated
-2071	t	ジムリーダー ナギ (Rematch 2) defeated
-2072	t	ジムリーダー ナギ (Rematch 3) defeated
-2073	t	ジムリーダー ナギ (Rematch 4) defeated
-2074	t	ジムリーダー フウとラン (Rematch 1) defeated
-2075	t	ジムリーダー フウとラン (Rematch 2) defeated
-2076	t	ジムリーダー フウとラン (Rematch 3) defeated
-2077	t	ジムリーダー フウとラン (Rematch 4) defeated
-2078	t	ジムリーダー アダン (Rematch 1) defeated
-2079	t	ジムリーダー アダン (Rematch 2) defeated
-2080	t	ジムリーダー アダン (Rematch 3) defeated
-2081	t	ジムリーダー アダン (Rematch 4) defeated
-2082	t	Bug Maniac Angelo in キンセツジム defeated
-2083	t	Bird Keeper Darius in ヒワマキジム defeated
-2084	t	Pokémon Trainer ダイゴ in りゅうせいのたき defeated
+2015	t	かいパンやろう ヒデヒコ(103ばんどうろ)に勝利
+2016	t	ビキニのおねえさん ユミコ(103ばんどうろ)に勝利
+2017	t	いせきマニア ダイジロウ(105ばんすいどう)に勝利
+2018	t	とりつかい ヤスフミ(105ばんすいどう)に勝利
+2019	t	トライアスリート クニオ(107ばんすいどう)に勝利
+2020	t	ふなのり ノリタカ(108ばんすいどう)に勝利
+2021	t	エリートトレーナー セイカ(108ばんすいどう)に勝利
+2022	t	とりつかい トシタカ(109ばんすいどう)に勝利
+2023	t	ピクニックガール アキコ(111ばんどうろ)に勝利
+2024	t	いせきマニア ヒロトシ(111ばんどうろ)に勝利
+2025	t	キャンプボーイ ヤスノリ(111ばんどうろ)に勝利
+2026	t	キャンプファイヤー アツオ(112ばんどうろ)に勝利
+2027	t	アロマなおねえさん タエコ(112ばんどうろ)に勝利
+2028	t	トライアスリート リンコ(115ばんどうろ)に勝利
+2029	t	ニンジャごっこ ユウゾウ(115ばんどうろ)に勝利
+2030	t	サイキッカー シノ(115ばんどうろ)に勝利
+2031	t	バトルガール チトセ(115ばんどうろ)に勝利
+2032	t	サイキッカー リネ(115ばんどうろ)に勝利
+2033	t	やまおとこ ミチヤス(116ばんどうろ)に勝利
+2034	t	たんぱんこぞう ユウリ(116ばんどうろ)に勝利
+2035	t	トライアスリート モトコ(117ばんどうろ)に勝利
+2036	t	サイキッカー ミナツ(117ばんどうろ)に勝利
+2037	t	バトルガール シマ(117ばんどうろ)に勝利
+2038	t	たつじん スズ(132ばんすいどう)に勝利
+2039	t	ギタリスト ジミー(119ばんどうろ)に勝利
+2040	t	キャンプファイヤー アツヒロ(119ばんどうろ)に勝利
+2041	t	パラソルおねえさん ミヅキ(119ばんどうろ)に勝利
+2042	t	エリートトレーナー カズヒロ(120ばんどうろ)に勝利
+2043	t	バトルガール フウコ(120ばんどうろ)に勝利
+2044	t	こんちゅうマニア ケンスケ(121ばんどうろ)に勝利
+2045	t	ポケモンブリーダー ヤスオ(121ばんどうろ)に勝利
+2046	t	ポケモンブリーダー ハルイ(121ばんどうろ)に勝利
+2047	t	エリートトレーナー トキコ(121ばんどうろ)に勝利
+2048	t	ポケモントレーナー ハルカ(カナズミシティ; 御三家：キモリ)に勝利
+2049	t	ポケモントレーナー ハルカ(カナズミシティ; 御三家：アチャモ)に勝利
+2050	t	ジムリーダー ツツジ(再戦１回目)に勝利
+2051	t	ジムリーダー ツツジ(再戦２回目)に勝利
+2052	t	ジムリーダー ツツジ(再戦３回目)に勝利
+2053	t	ジムリーダー ツツジ(再戦４回目)に勝利
+2054	t	ジムリーダー トウキ(再戦１回目)に勝利
+2055	t	ジムリーダー トウキ(再戦２回目)に勝利
+2056	t	ジムリーダー トウキ(再戦３回目)に勝利
+2057	t	ジムリーダー トウキ(再戦４回目)に勝利
+2058	t	ジムリーダー テッセン(再戦１回目)に勝利
+2059	t	ジムリーダー テッセン(再戦２回目)に勝利
+2060	t	ジムリーダー テッセン(再戦３回目)に勝利
+2061	t	ジムリーダー テッセン(再戦４回目)に勝利
+2062	t	ジムリーダー アスナ(再戦１回目)に勝利
+2063	t	ジムリーダー アスナ(再戦２回目)に勝利
+2064	t	ジムリーダー アスナ(再戦３回目)に勝利
+2065	t	ジムリーダー アスナ(再戦４回目)に勝利
+2066	t	ジムリーダー センリ(再戦１回目)に勝利
+2067	t	ジムリーダー センリ(再戦２回目)に勝利
+2068	t	ジムリーダー センリ(再戦３回目)に勝利
+2069	t	ジムリーダー センリ(再戦４回目)に勝利
+2070	t	ジムリーダー ナギ(再戦１回目)に勝利
+2071	t	ジムリーダー ナギ(再戦２回目)に勝利
+2072	t	ジムリーダー ナギ(再戦３回目)に勝利
+2073	t	ジムリーダー ナギ(再戦４回目)に勝利
+2074	t	ジムリーダー フウとラン(再戦１回目)に勝利
+2075	t	ジムリーダー フウとラン(再戦２回目)に勝利
+2076	t	ジムリーダー フウとラン(再戦３回目)に勝利
+2077	t	ジムリーダー フウとラン(再戦４回目)に勝利
+2078	t	ジムリーダー アダン(再戦１回目)に勝利
+2079	t	ジムリーダー アダン(再戦２回目)に勝利
+2080	t	ジムリーダー アダン(再戦３回目)に勝利
+2081	t	ジムリーダー アダン(再戦４回目)に勝利
+2082	t	こんちゅうマニア モトヒロ(キンセツジム)に勝利
+2083	t	とりつかい セイイチ(ヒワマキジム)に勝利
+2084	t	ポケモントレーナー ダイゴ(りゅうせいのたき)に勝利
 
-2092	t	Ruin Maniac Andres (Rematch 1) on 105ばんすいどう defeated
-2093	t	Ruin Maniac Andres (Rematch 2) on 105ばんすいどう defeated
-2094	t	Ruin Maniac Andres (Rematch 3) on 105ばんすいどう defeated
-2095	t	Ruin Maniac Andres (Rematch 4) on 105ばんすいどう defeated
-2096	t	Sailor Cory (Rematch 1) on 108ばんすいどう defeated
-2097	t	Sailor Cory (Rematch 2) on 108ばんすいどう defeated
-2098	t	Sailor Cory (Rematch 3) on 108ばんすいどう defeated
-2099	t	Sailor Cory (Rematch 4) on 108ばんすいどう defeated
-2100	t	Triathlete Pablo (Rematch 1) on 126ばんすいどう defeated
-2101	t	Triathlete Pablo (Rematch 2) on 126ばんすいどう defeated
-2102	t	Triathlete Pablo (Rematch 3) on 126ばんすいどう defeated
-2103	t	Triathlete Pablo (Rematch 4) on 126ばんすいどう defeated
-2104	t	Black Belt Koji (Rematch 1) on 127ばんすいどう defeated
-2105	t	Black Belt Koji (Rematch 2) on 127ばんすいどう defeated
-2106	t	Black Belt Koji (Rematch 3) on 127ばんすいどう defeated
-2107	t	Black Belt Koji (Rematch 4) on 127ばんすいどう defeated
-2108	t	Cooltrainer Cristin (Rematch 1) on 121ばんどうろ defeated
-2109	t	Cooltrainer Cristin (Rematch 2) on 121ばんどうろ defeated
-2110	t	Cooltrainer Cristin (Rematch 3) on 121ばんどうろ defeated
-2111	t	Cooltrainer Cristin (Rematch 4) on 121ばんどうろ defeated
-2112	t	Guitarist Fernando (Rematch 1) on 123ばんどうろ defeated
-2113	t	Guitarist Fernando (Rematch 2) on 123ばんどうろ defeated
-2114	t	Guitarist Fernando (Rematch 3) on 123ばんどうろ defeated
-2115	t	Guitarist Fernando (Rematch 4) on 123ばんどうろ defeated
-2116	t	Hiker Sawyer on (Rematch 1) えんとつやま defeated
-2117	t	Hiker Sawyer on (Rematch 2) えんとつやま defeated
-2118	t	Hiker Sawyer on (Rematch 3) えんとつやま defeated
-2119	t	Hiker Sawyer on (Rematch 4) えんとつやま defeated
-2120	t	Pokémon Breeder Gabrielle (Rematch 1) in おくりびやま defeated
-2121	t	Pokémon Breeder Gabrielle (Rematch 2) in おくりびやま defeated
-2122	t	Pokémon Breeder Gabrielle (Rematch 3) in おくりびやま defeated
-2123	t	Pokémon Breeder Gabrielle (Rematch 4) in おくりびやま defeated
-2124	t	Beauty Thalia (Rematch 1) on すてられぶね defeated
-2125	t	Beauty Thalia (Rematch 2) on すてられぶね defeated
-2126	t	Beauty Thalia (Rematch 3) on すてられぶね defeated
-2127	t	Beauty Thalia (Rematch 4) on すてられぶね defeated
-2128	t	Psychic Mariella in カラクリやしき Puzzle 7 defeated
-2129	t	Psychic Alvaro in カラクリやしき Puzzle 7 defeated
-2130	t	Gentleman Everett in カラクリやしき Puzzle 7 defeated
+2092	t	いせきマニア ダイジロウ(再戦１回目; 105ばんすいどう)に勝利
+2093	t	いせきマニア ダイジロウ(再戦２回目; 105ばんすいどう)に勝利
+2094	t	いせきマニア ダイジロウ(再戦３回目; 105ばんすいどう)に勝利
+2095	t	いせきマニア ダイジロウ(再戦４回目; 105ばんすいどう)に勝利
+2096	t	ふなのり ノリタカ(再戦１回目; 108ばんすいどう)に勝利
+2097	t	ふなのり ノリタカ(再戦２回目; 108ばんすいどう)に勝利
+2098	t	ふなのり ノリタカ(再戦３回目; 108ばんすいどう)に勝利
+2099	t	ふなのり ノリタカ(再戦４回目; 108ばんすいどう)に勝利
+2100	t	トライアスリート ヤスヒロ(再戦１回目; 126ばんすいどう)に勝利
+2101	t	トライアスリート ヤスヒロ(再戦２回目; 126ばんすいどう)に勝利
+2102	t	トライアスリート ヤスヒロ(再戦３回目; 126ばんすいどう)に勝利
+2103	t	トライアスリート ヤスヒロ(再戦４回目; 126ばんすいどう)に勝利
+2104	t	カラテおう テツロウ(再戦１回目; 127ばんすいどう)に勝利
+2105	t	カラテおう テツロウ(再戦２回目; 127ばんすいどう)に勝利
+2106	t	カラテおう テツロウ(再戦３回目; 127ばんすいどう)に勝利
+2107	t	カラテおう テツロウ(再戦４回目; 127ばんすいどう)に勝利
+2108	t	エリートトレーナー トキコ(再戦１回目; 121ばんどうろ)に勝利
+2109	t	エリートトレーナー トキコ(再戦２回目; 121ばんどうろ)に勝利
+2110	t	エリートトレーナー トキコ(再戦３回目; 121ばんどうろ)に勝利
+2111	t	エリートトレーナー トキコ(再戦４回目; 121ばんどうろ)に勝利
+2112	t	ギタリスト ジョー(再戦１回目; 123ばんどうろ)に勝利
+2113	t	ギタリスト ジョー(再戦２回目; 123ばんどうろ)に勝利
+2114	t	ギタリスト ジョー(再戦３回目; 123ばんどうろ)に勝利
+2115	t	ギタリスト ジョー(再戦４回目; 123ばんどうろ)に勝利
+2116	t	やまおとこ マサヒコ(再戦１回目; えんとつやま)に勝利
+2117	t	やまおとこ マサヒコ(再戦２回目; えんとつやま)に勝利
+2118	t	やまおとこ マサヒコ(再戦３回目; えんとつやま)に勝利
+2119	t	やまおとこ マサヒコ(再戦４回目; えんとつやま)に勝利
+2120	t	ポケモンブリーダー フクミ(再戦１回目; おくりびやま)に勝利
+2121	t	ポケモンブリーダー フクミ(再戦２回目; おくりびやま)に勝利
+2122	t	ポケモンブリーダー フクミ(再戦３回目; おくりびやま)に勝利
+2123	t	ポケモンブリーダー フクミ(再戦４回目; おくりびやま)に勝利
+2124	t	おとなのおねえさん ショウ(再戦１回目; すてられぶね)に勝利
+2125	t	おとなのおねえさん ショウ(再戦２回目; すてられぶね)に勝利
+2126	t	おとなのおねえさん ショウ(再戦３回目; すてられぶね)に勝利
+2127	t	おとなのおねえさん ショウ(再戦４回目; すてられぶね)に勝利
+2128	t	サイキッカー ミハネ(カラクリやしき７回目)に勝利
+2129	t	サイキッカー シンヤ(カラクリやしき７回目)に勝利
+2130	t	ジェントルマン ダグ(カラクリやしき７回目)に勝利
 
-2186	m	Rain and Harsh Sunlight in Eastern Hoenn
-2159	f	Can そらをとぶ to ミシロタウン
-2160	f	Can そらをとぶ to コトキタウン
-2161	f	Can そらをとぶ to ムロタウン
-2162	f	Can そらをとぶ to フエンタウン
-2163	f	Can そらをとぶ to ハジツゲタウン
-2164	f	Can そらをとぶ to シダケタウン
-2165	f	Can そらをとぶ to キナギタウン
-2166	f	Can そらをとぶ to トウカシティ
-2167	f	Can そらをとぶ to カイナシティ
-2168	f	Can そらをとぶ to キンセツシティ
-2169	f	Can そらをとぶ to カナズミシティ
-2170	f	Can そらをとぶ to ヒワマキシティ
-2171	f	Can そらをとぶ to ミナモシティ
-2172	f	Can そらをとぶ to トクサネシティ
-2173	f	Can そらをとぶ to ルネシティ
-2174	f	Can そらをとぶ to サイユウシティ
-2216	f	Can そらをとぶ to バトルフロンティア
-2204	m	Visited フラワーショップ サン・トウカ
-2205	m	Visited ハギろうじんの小屋
-2206	m	Visited すてられぶね
-2207	m	Visited うみのいえ
-2208	m	Visited ニューキンセツ
-2209	m	Visited ケンコーばあさんの家
-2210	m	Visited カラクリやしき
-2211	m	Visited カチヌキファミリー
-2212	m	Visited ガラスざいくのおみせ
-2213	m	Visited マユミの家
-2214	m	Visited そだてや
-2215	m	Visited かいていどうくつ
-2218	m	Visited ほのおのぬけみち
-2228	m	Visited ポケモンリーグ
-2229	m	Visited こじまのよこあな
-2230	m	Visited さばくいせき
-2231	m	Visited かせきマニアの家
-2232	m	Visited ひでりのいわと
-2233	m	Visited こだいづか
-2234	m	Visited トンネルこうじさぎょういんつめしょ
-2235	m	Visited トレジャーハンターのこや
-2236	m	Visited おふれのせきしつ
-2238	m	Visited そらのはしら
-2243	m	Visited きのみ名人の家
-2268	m	Visited げんえいのとう
-2269	m	Visited へんげのどうくつ
-2270	m	Visited さばくのちかどう
-2274	m	Visited トレーナーヒル
+2186	m	おおあめとひでり発生中（ルネシティのイベント）
+2159	f	ミシロタウンへそらをとぶできる
+2160	f	コトキタウンへそらをとぶできる
+2161	f	ムロタウンへそらをとぶできる
+2162	f	フエンタウンへそらをとぶできる
+2163	f	ハジツゲタウンへそらをとぶできる
+2164	f	シダケタウンへそらをとぶできる
+2165	f	キナギタウンへそらをとぶできる
+2166	f	トウカシティへそらをとぶできる
+2167	f	カイナシティへそらをとぶできる
+2168	f	キンセツシティへそらをとぶできる
+2169	f	カナズミシティへそらをとぶできる
+2170	f	ヒワマキシティへそらをとぶできる
+2171	f	ミナモシティへそらをとぶできる
+2172	f	トクサネシティへそらをとぶできる
+2173	f	ルネシティへそらをとぶ可能
+2174	f	サイユウシティ（下）へそらをとぶできる
+2216	f	バトルフロンティアへそらをとぶできる
+2204	m	フラワーショップ サン・トウカに訪れた 
+2205	m	ハギろうじんの小屋に訪れた 
+2206	m	すてられぶねに訪れた
+2207	m	うみのいえに訪れた
+2208	m	ニューキンセツに訪れた
+2209	m	ケンコーばあさんの家に訪れた
+2210	m	カラクリやしきに訪れた
+2211	m	カチヌキファミリーに訪れた
+2212	m	ガラスざいくのおみせに訪れた
+2213	m	マユミの家に訪れた
+2214	m	そだてやに訪れた
+2215	m	かいていどうくつに訪れた
+2218	m	ほのおのぬけみちに訪れた
+2228	m	ポケモンリーグに訪れた
+2229	m	こじまのよこあなに訪れた
+2230	m	さばくいせきに訪れた
+2231	m	かせきマニアの家に訪れた
+2232	m	ひでりのいわとに訪れた
+2233	m	こだいづかに訪れた
+2234	m	トンネルこうじさぎょういんつめしょに訪れた
+2235	m	トレジャーハンターのこやに訪れた
+2236	m	おふれのせきしつに訪れた
+2238	m	そらのはしらに訪れた
+2243	m	きのみ名人の家に訪れた
+2268	m	げんえいのとうに訪れた
+2269	m	へんげのどうくつに訪れた
+2270	m	さばくのちかどうに訪れた
+2274	m	トレーナーヒルに訪れた
