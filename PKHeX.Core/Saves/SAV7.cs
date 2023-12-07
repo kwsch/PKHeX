@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -19,11 +20,11 @@ public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IReg
         return gen <= 7 && f[1] != 'b'; // ignore PB7
     });
 
-    protected SAV7(byte[] data, int biOffset) : base(data, biOffset)
+    protected SAV7(byte[] data, [ConstantExpected] int biOffset) : base(data, biOffset)
     {
     }
 
-    protected SAV7(int size, int biOffset) : base(size, biOffset)
+    protected SAV7([ConstantExpected] int size, [ConstantExpected] int biOffset) : base(size, biOffset)
     {
     }
 

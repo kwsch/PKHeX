@@ -226,16 +226,8 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
             return;
 
         // Hall of Fame Checksums
-        {
-            var sector = Data.AsSpan(0x1C000, SIZE_SECTOR);
-            ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
-            WriteUInt16LittleEndian(sector[0xFF4..], chk);
-        }
-        {
-            var sector = Data.AsSpan(0x1D000, SIZE_SECTOR);
-            ushort chk = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
-            WriteUInt16LittleEndian(sector[0xFF4..], chk);
-        }
+        SetSectoryValidExtra(0x1C000);
+        SetSectoryValidExtra(0x1D000);
     }
 
     public sealed override bool ChecksumsValid
@@ -259,9 +251,16 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         }
     }
 
-    private bool IsSectorValidExtra(int ofs)
+    private void SetSectoryValidExtra(int offset)
     {
-        var sector = Data.AsSpan(ofs, SIZE_SECTOR);
+        var sector = Data.AsSpan(offset, SIZE_SECTOR);
+        var expect = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
+        WriteUInt16LittleEndian(sector[0xFF4..], expect);
+    }
+
+    private bool IsSectorValidExtra(int offset)
+    {
+        var sector = Data.AsSpan(offset, SIZE_SECTOR);
         var expect = Checksums.CheckSum32(sector[..SIZE_SECTOR_USED]);
         var actual = ReadUInt16LittleEndian(sector[0xFF4..]);
         return expect == actual;

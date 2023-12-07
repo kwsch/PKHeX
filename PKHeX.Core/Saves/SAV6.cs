@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -13,8 +14,8 @@ public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IReg
     protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
     public override string Extension => string.Empty;
 
-    protected SAV6(byte[] data, int biOffset) : base(data, biOffset) { }
-    protected SAV6(int size, int biOffset) : base(size, biOffset) { }
+    protected SAV6(byte[] data, [ConstantExpected] int biOffset) : base(data, biOffset) { }
+    protected SAV6([ConstantExpected] int size, [ConstantExpected] int biOffset) : base(size, biOffset) { }
 
     // Configuration
     protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;

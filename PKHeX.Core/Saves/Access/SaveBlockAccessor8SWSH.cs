@@ -220,7 +220,7 @@ public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     public const uint KPlayRecordsQuest = 0xBF24DDAE; // FSYS_PLAY_POKEMON_QUEST
 
     // Dojo event flags (bool)
-    public const uint KDojoHairSylistAvailable = 0xE02A722C;
+    public const uint KDojoHairStylistAvailable = 0xE02A722C;
     public const uint KDojoBrokenRotomiDisappeared = 0x60E04225;
     public const uint KDojoRotomiDisappeared = 0x82E071A0;
     public const uint KDojoTableDisappeared = 0x3D83DC85;

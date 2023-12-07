@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace PKHeX.Core;
@@ -22,7 +23,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         Metadata = new SaveFileMetadata(this);
     }
 
-    protected SaveFile(int size = 0) : this(size == 0 ? [] : new byte[size], false) { }
+    protected SaveFile([ConstantExpected] int size = 0) : this(size == 0 ? [] : new byte[size], false) { }
 
     protected internal abstract string ShortSummary { get; }
     public abstract string Extension { get; }

@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -11,12 +12,12 @@ namespace PKHeX.Core;
 /// <remarks>Shared logic is used by Gen6 and Gen7 save files.</remarks>
 public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
 {
-    protected SAV_BEEF(byte[] data, int biOffset) : base(data)
+    protected SAV_BEEF(byte[] data, [ConstantExpected] int biOffset) : base(data)
     {
         BlockInfoOffset = biOffset;
     }
 
-    protected SAV_BEEF(int size, int biOffset) : base(size)
+    protected SAV_BEEF([ConstantExpected] int size, [ConstantExpected] int biOffset) : base(size)
     {
         BlockInfoOffset = biOffset;
     }
