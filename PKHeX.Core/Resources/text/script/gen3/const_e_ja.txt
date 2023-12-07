@@ -1,34 +1,34 @@
-0x4021	m	むしよけスプレー Step Counter
-0x4023	*	Starter Pokemon	00:キモリ,01:アチャモ,02:ミズゴロウ
-0x4024	r	まぼろしじま RND (High)
-0x4025	r	まぼろしじま RND (Low)
-0x4026	*	Current ひみつきち
+0x4021	m	むしよけスプレー歩数
+0x4023	*	御三家	00:キモリ,01:アチャモ,02:ミズゴロウ
+0x4024	r	マボロシじま乱数(上位)
+0x4025	r	マボロシじま乱数(下位)
+0x4026	*	現在のひみつきち
 
-0x402A	m	Friendship Step Counter
-0x402B	m	Poison Step Counter
-0x402C	*	Reset RTC	00:Disabled,2336:Enabled
-0x402D	*	ナゾのみ Available
+0x402A	m	なつきの歩数
+0x402B	m	毒の歩数
+0x402C	*	リセットRTC	00:無効,2336:有効
+0x402D	*	ナゾのみ利用可能
 
-0x403E	r	野生のポケモン in へんげのどうくつ	00:ズバット,01:メリープ,02:クヌギダマ,03:デルビル,04:ヒメグマ,05:エイパム,06:ツボツボ,07:オドシシ,08:ドーブル
+0x403E	r	へんげのどうくつの野生ポケモン	00:ズバット,01:メリープ,02:クヌギダマ,03:デルビル,04:ヒメグマ,05:エイパム,06:ツボツボ,07:オドシシ,08:ドーブル
 
-0x4040	*	Days Passed
+0x4040	*	経過した日数
 
-0x4043	m	ミナモデパート Floor	04:1F,05:2F,06:3F,07:4F,08:5F,15:Rooftop
-0x4045	s	Pokelot Prize Item
-0x4046	*	ぜんこくずかん Enabled
-0x4047	+	Seedot Size Record
-0x4048	*	かざんばい Gathered
-0x4049	m	オダマキ博士 State
-0x404A	s	タイドリップごう Step Counter
-0x404B	*	Pokelot RND (High)
-0x404C	*	Pokelot RND (Low)
+0x4043	m	ミナモデパート回数	04:1F,05:2F,06:3F,07:4F,08:5F,15:屋上
+0x4045	s	IDくじの景品
+0x4046	*	ぜんこくずかん有効化
+0x4047	+	タネボーのサイズ記録
+0x4048	*	集めたかざんばい
+0x4049	m	オダマキ博士の状態
+0x404A	s	タイドリップごうでの歩数
+0x404B	*	IDくじ乱数(上位)
+0x404C	*	IDくじ乱数(下位)
 
-0x404F	+	Lotad Size Record
+0x404F	+	ハスボーのサイズ記録
 
-0068	s	カラクリやしき	0:On Puzzle 1,1:On Puzzle 2,2:On Puzzle 3,3:On Puzzle 4,4:On Puzzle 5,5:On Puzzle 6,6:On Puzzle 7,7:On Puzzle 8,8:All Puzzles Completed
-0167	s	カラクリやしき Scroll	0:Normal (Trick Master hiding),1:Can Enter,4:Read Note Affixed (Trick Master left),5:Just finished a Puzzle
-0094	s	レックウザ Event	0:Not Activated,1:グラードン and カイオーガ in Sootopolis,2:Saw グラードン and カイオーガ Scene,3:ミクリ at そらのはしら,4:ミクリ left そらのはしら,5:Awakened,6:Defeated アダン
-0202	s	レックウザ Cutscene	0:Not Awakened,1:Appeared in ルネシティ,3:Occurred
-0203	s	げんえいのとう	0:Can Appear,2:Collapsed,3:Accessed 111ばんどうろ after Collapsed
-0211	s	オダマキ博士 Quest	0:Pre-Champion,1:Will Get ぜんこくずかん in ミシロタウン (Post-Champion),2:Got ぜんこくずかん,3:Can choose ジョウト starter (If Hoenn Dex Completed),5:Asked to choose ジョウト starter,6:Chose ジョウト starter
-0213	r	TV Roamer Chosen	0:ラティアス (ラティオス in みなみのことう),1:ラティオス (ラティアス in みなみのことう)
+0068	s	カラクリやしき	0:初回 1,2回目 2,3回目 3,4回目 4,5回目 5,6回目 6,7回目 7,8回目 8,8:全ての仕掛けクリア
+0167	s	カラクリやしきの状態	0:通常(大王が隠れてる),1:奥に入れる,4:奥に入れない(大王がいなくなった後),5:仕掛けクリア直後
+0094	s	レックウザのイベント	0:発生してない,1:グラードンとカイオーガがルネシティにいる,2:グラードンとカイオーガのムービーを見た,3:そらのはしらがミクリにいる,4:ミクリがそらのはしらを去った後,5:レックウザ覚醒,6:アダン勝利後
+0202	s	レックウザのムービー	0:覚醒させてない,1:ルネシティに登場,3:見終わった
+0203	s	げんえいのとう	0:出現可能,2:崩壊,3:崩壊後に111ばんどうろに訪れた
+0211	s	オダマキ博士イベントの状態	0:殿堂入り前,1:ぜんこくずかんもらう直前,2:ぜんこくずかんにアップデート,3:ジョウト御三家を選べる(ホウエン図鑑完成後),5:ジョウト御三家を選ぶ状態,6:ジョウト御三家を選んだ後
+0213	r	ラティ兄妹の選択	0:ラティアス(ラティオスがみなみのことうに),1:ラティオス(ラティアスがみなみのことうに)
