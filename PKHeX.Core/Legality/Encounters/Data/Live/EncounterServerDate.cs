@@ -189,6 +189,8 @@ public static class EncounterServerDate
         {1006, (new(2023, 11, 02), new(2024, 01, 01))}, // Korea Bundle Fidough
         {0508, (new(2023, 11, 17), new(2023, 11, 21))}, // Alex's Dragapult
         {1526, (new(2023, 11, 22), new(2024, 11, 01))}, // Team Star Revavroom
+        {1529, (new(2023, 12, 07), new(2023, 12, 22))}, // Darkrai
+        {1530, (new(2023, 12, 07), new(2024, 01, 04))}, // Shiny Lucario
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
