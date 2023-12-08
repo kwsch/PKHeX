@@ -6,7 +6,7 @@ using static System.Buffers.Binary.BinaryPrimitives;
 namespace PKHeX.Core;
 
 public sealed record EncounterDist9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IFixedNature
 {
     public int Generation => 9;
     int ILocation.Location => Location;
@@ -25,6 +25,7 @@ public sealed record EncounterDist9
     public required AbilityPermission Ability { get; init; }
     public required byte FlawlessIVCount { get; init; }
     public required Shiny Shiny { get; init; }
+    public required Nature Nature { get; init; }
     public required byte Level { get; init; }
     public required Moveset Moves { get; init; }
     public required IndividualValueSet IVs { get; init; }
@@ -217,7 +218,7 @@ public sealed record EncounterDist9
         RandRate3TotalScarlet = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 14))..]),
         RandRate3TotalViolet  = ReadUInt16LittleEndian(data[(WeightStart + (sizeof(ushort) * 15))..]),
 
-        // 0x34 reserved
+        Nature = (Nature)data[0x34],
         IVs = new IndividualValueSet((sbyte)data[0x35], (sbyte)data[0x36], (sbyte)data[0x37], (sbyte)data[0x38], (sbyte)data[0x39], (sbyte)data[0x3A], (IndividualValueSetType)data[0x3B]),
         ScaleType = (SizeType9)data[0x3C],
         Scale = data[0x3D],
@@ -274,7 +275,7 @@ public sealed record EncounterDist9
         const byte undefinedSize = 0;
         var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
             undefinedSize, undefinedSize, ScaleType, Scale,
-            Ability, Shiny, IVs: IVs);
+            Ability, Shiny, IVs: IVs, Nature: Nature);
 
         var init = Util.Rand.Rand64();
         var success = this.TryApply32(pk, init, param, criteria);
