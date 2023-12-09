@@ -380,7 +380,7 @@ public sealed record EncounterDist9
             return true;
 
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, 1, 0, 0, ScaleType, Scale, Ability, Shiny, IVs: IVs);
+        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, 1, 0, 0, ScaleType, Scale, Ability, Shiny, IVs: IVs, Nature: Nature);
         if (!Encounter9RNG.IsMatch(pk, param, seed))
             return true;
 
