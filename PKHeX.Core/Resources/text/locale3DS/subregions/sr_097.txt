@@ -7,7 +7,7 @@
 007	ルブシュ	Lubusz	Lubusz	Lebus	Lebus	Lubus	鲁布斯卡省	루부쉬	魯布斯卡省
 008	マウォポルスカ	Lesser Poland	Petite-Pologne	Kleinpolen	Piccola Polonia	Pequeña Polonia	小波兰省	소폴란드	小波蘭省
 009	オポーレ	Opole	Opole	Oppeln	Opole	Opole	奥波莱省	오폴레	奧波萊省
-010	ポトカルパチェ	Subcarpathia	Basses-Carpates	Karpatenvorland	Precarpazi	Subcarpacia	喀尔巴阡山省	카르파티아	喀爾巴阡山省
+010	ポトカルパチェ	Subcarpathia	Basses-Carpates	Karpatenvorland	Precarpazia	Subcarpacia	喀尔巴阡山省	카르파티아	喀爾巴阡山省
 011	ポドラシェ	Podlachia	Podlachie	Podlachien	Podlachia	Podlaquia	波德拉斯省	포들라셰	波德拉斯省
 012	ポモージェ	Pomerania	Poméranie	Pommern	Pomerania	Pomerania	滨海省	포메라니아	濱海省
 013	シュレジエン	Silesia	Silésie	Schlesien	Slesia	Silesia	西里西亚省	슐레지엔	西裏西亞省
