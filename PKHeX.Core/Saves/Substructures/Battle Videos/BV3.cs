@@ -42,8 +42,7 @@ public sealed class BV3(byte[] Data) : BattleVideo
 
     public PK3[] GetTeam(int teamIndex)
     {
-        if ((uint)teamIndex > 2)
-            throw new ArgumentOutOfRangeException(nameof(teamIndex));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)teamIndex, 2);
 
         var ofs = 6 * PokeCrypto.SIZE_3PARTY * teamIndex;
         var team = new PK3[6];

@@ -157,8 +157,8 @@ public sealed class CGearBackground
     public static CGearBackground GetBackground(ReadOnlySpan<byte> data)
     {
         const int bpp = 4;
-        if (Width * Height * bpp != data.Length)
-            throw new ArgumentException("Invalid image data size.");
+        const int expectLength = Width * Height * bpp;
+        ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, expectLength);
 
         var colors = GetColorData(data);
         var palette = colors.Distinct().ToArray();
@@ -307,8 +307,7 @@ public sealed class Tile
 
     internal Tile(ReadOnlySpan<byte> data) : this()
     {
-        if (data.Length != SIZE_TILE)
-            throw new ArgumentException(null, nameof(data));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, SIZE_TILE);
 
         // Unpack the nibbles into the color choice array.
         for (int i = 0; i < data.Length; i++)

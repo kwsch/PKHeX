@@ -82,8 +82,7 @@ public sealed class PersonalInfo5B2W2(byte[] Data) : PersonalInfo, IPersonalAbil
 
     public void SetIsLearnTM(int index, bool value)
     {
-        if ((uint)index >= CountTMHM)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, CountTMHM);
         if (value)
             Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
         else
@@ -99,8 +98,7 @@ public sealed class PersonalInfo5B2W2(byte[] Data) : PersonalInfo, IPersonalAbil
 
     public void SetIsLearnTutorType(int index, bool value)
     {
-        if ((uint)index >= TypeTutorsCount)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, TypeTutorsCount);
         if (value)
             Data[TypeTutors + (index >> 3)] |= (byte)(1 << (index & 7));
         else
@@ -152,8 +150,7 @@ public sealed class PersonalInfo5B2W2(byte[] Data) : PersonalInfo, IPersonalAbil
 
     public void SetIsLearnTutor1(int index, bool value)
     {
-        if ((uint)index >= CountTutor1)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, CountTutor1);
         if (value)
             Data[Tutor1 + (index >> 3)] |= (byte)(1 << (index & 7));
         else
@@ -175,8 +172,7 @@ public sealed class PersonalInfo5B2W2(byte[] Data) : PersonalInfo, IPersonalAbil
 
     public void SetIsLearnTutor2(int index, bool value)
     {
-        if ((uint)index >= CountTutor2)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, CountTutor2);
         if (value)
             Data[Tutor2 + (index >> 3)] |= (byte)(1 << (index & 7));
         else
@@ -198,8 +194,7 @@ public sealed class PersonalInfo5B2W2(byte[] Data) : PersonalInfo, IPersonalAbil
 
     public void SetIsLearnTutor3(int index, bool value)
     {
-        if ((uint)index >= CountTutor3)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, CountTutor3);
         if (value)
             Data[Tutor3 + (index >> 3)] |= (byte)(1 << (index & 7));
         else
@@ -221,8 +216,7 @@ public sealed class PersonalInfo5B2W2(byte[] Data) : PersonalInfo, IPersonalAbil
 
     public void SetIsLearnTutor4(int index, bool value)
     {
-        if ((uint)index >= CountTutor4)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, CountTutor4);
         if (value)
             Data[Tutor4 + (index >> 3)] |= (byte)(1 << (index & 7));
         else

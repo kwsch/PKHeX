@@ -62,7 +62,8 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
         if (!TryGetSizeEntryIndex(species, form, out int index))
             return;
 
-        if (Math.Round(pk.HeightAbsolute) < pk.PersonalInfo.Height) // possible minimum height
+        var pi = PersonalTable.GG[species, form];
+        if (pk.HeightAbsolute < pi.Height) // possible minimum height
         {
             int ofs = GetDexSizeOffset(DexSizeType.MinHeight, index);
             var entry = SAV.Data.AsSpan(ofs, EntrySize);
@@ -70,7 +71,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
             if (pk.HeightScalar < minHeight || IsUnset(entry))
                 SetSizeData(pk, DexSizeType.MinHeight);
         }
-        else if (Math.Round(pk.HeightAbsolute) > pk.PersonalInfo.Height) // possible maximum height
+        else if (pk.HeightAbsolute > pi.Height) // possible maximum height
         {
             int ofs = GetDexSizeOffset(DexSizeType.MaxHeight, index);
             var entry = SAV.Data.AsSpan(ofs, EntrySize);
@@ -79,8 +80,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
                 SetSizeData(pk, DexSizeType.MaxHeight);
         }
 
-        var pi = PersonalTable.GG[species, form];
-        if (Math.Round(pk.WeightAbsolute) < pk.PersonalInfo.Weight) // possible minimum weight
+        if (pk.WeightAbsolute < pi.Weight) // possible minimum weight
         {
             int ofs = GetDexSizeOffset(DexSizeType.MinWeight, index);
             var entry = SAV.Data.AsSpan(ofs, EntrySize);
@@ -90,7 +90,7 @@ public sealed class Zukan7b(SAV7b sav, int dex, int langflag) : Zukan7(sav, dex,
             if (pk.WeightAbsolute < calcWeight || IsUnset(entry))
                 SetSizeData(pk, DexSizeType.MinWeight);
         }
-        else if (Math.Round(pk.WeightAbsolute) > pk.PersonalInfo.Weight) // possible maximum weight
+        else if (pk.WeightAbsolute > pi.Weight) // possible maximum weight
         {
             int ofs = GetDexSizeOffset(DexSizeType.MaxWeight, index);
             var entry = SAV.Data.AsSpan(ofs, EntrySize);

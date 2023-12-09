@@ -94,8 +94,7 @@ public sealed class MysteryBlock8b : SaveBlock<SAV8BS>
     }
     private void SetReceived(IReadOnlyList<RecvData8b> value)
     {
-        if (value.Count != RecvDataMax)
-            throw new ArgumentOutOfRangeException(nameof(value.Count));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, RecvDataMax);
         for (int i = 0; i < value.Count; i++)
             SetReceived(i, value[i]);
     }
@@ -117,8 +116,7 @@ public sealed class MysteryBlock8b : SaveBlock<SAV8BS>
     }
     private void SetFlags(IReadOnlyList<bool> value)
     {
-        if (value.Count != FlagSize)
-            throw new ArgumentOutOfRangeException(nameof(value.Count));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, FlagSize);
         for (int i = 0; i < value.Count; i++)
             SetFlag(i, value[i]);
     }
@@ -141,8 +139,7 @@ public sealed class MysteryBlock8b : SaveBlock<SAV8BS>
 
     private void SetOneDay(IReadOnlyList<OneDay8b> value)
     {
-        if (value.Count != OneDayMax)
-            throw new ArgumentOutOfRangeException(nameof(value.Count));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, OneDayMax);
         for (int i = 0; i < value.Count; i++)
             SetOneDay(i, value[i]);
     }

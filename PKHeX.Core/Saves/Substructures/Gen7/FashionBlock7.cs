@@ -43,7 +43,7 @@ public sealed class FashionBlock7 : SaveBlock<SAV7>
         SAV7SM   { Gender: 1 } => DefaultFashionOffsetSM_F,
         SAV7USUM { Gender: 0 } => DefaultFashionOffsetUU_M,
         SAV7USUM { Gender: 1 } => DefaultFashionOffsetUU_F,
-        _ => throw new ArgumentOutOfRangeException(nameof(SAV)),
+        _ => throw new ArgumentOutOfRangeException(nameof(sav)),
     };
 
     // Offsets that are set to '3' when the game starts for a specific gender.

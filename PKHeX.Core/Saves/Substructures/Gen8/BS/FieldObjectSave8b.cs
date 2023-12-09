@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
@@ -32,8 +32,7 @@ public sealed class FieldObjectSave8b : SaveBlock<SAV8BS>
 
     private static void SetObjects(IReadOnlyList<FieldObject8b> value)
     {
-        if (value.Count != COUNT_OBJECTS)
-            throw new ArgumentOutOfRangeException(nameof(value.Count));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, COUNT_OBJECTS);
         // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
     }
 }

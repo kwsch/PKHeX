@@ -84,8 +84,7 @@ public sealed class PersonalInfo7GG(byte[] Data) : PersonalInfo, IPersonalAbilit
 
     public void SetIsLearnTM(int index, bool value)
     {
-        if ((uint)index >= CountTMHM)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, CountTMHM);
         if (value)
             Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
         else

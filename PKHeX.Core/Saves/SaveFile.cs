@@ -452,8 +452,7 @@ public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpa
         }
         set
         {
-            if (value.Count != BoxCount * BoxSlotCount)
-                throw new ArgumentException($"Expected {BoxCount * BoxSlotCount}, got {value.Count}");
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, BoxCount * BoxSlotCount);
 
             for (int b = 0; b < BoxCount; b++)
                 SetBoxData(value, b, b * BoxSlotCount);

@@ -30,6 +30,8 @@ public static class PokewalkerRNG
 
     /// <summary> Species slots per course. </summary>
     public const int SlotsPerCourse = 6;
+    public const int GroupsPerCourse = 3;
+    public const int SlotsPerGroup = 2;
 
     /// <summary>
     /// All species for all Pokéwalker courses.
@@ -170,10 +172,8 @@ public static class PokewalkerRNG
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static ushort GetSpecies(PokewalkerCourse4 course, int group, int rare)
     {
-        if ((uint)group > 2)
-            throw new ArgumentOutOfRangeException(nameof(group));
-        if ((uint)rare > 1)
-            throw new ArgumentOutOfRangeException(nameof(rare));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)group, GroupsPerCourse);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)rare, SlotsPerGroup);
         var span = GetSpecies(course);
         return span[(group * 2) + rare];
     }

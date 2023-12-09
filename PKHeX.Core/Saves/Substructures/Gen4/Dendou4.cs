@@ -26,8 +26,7 @@ public sealed class Dendou4
 
     private Dendou4Record GetRecord(int index)
     {
-        if ((uint)index >= MaxRecords)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, MaxRecords);
         var slice = Data.Slice(index * Dendou4Record.SIZE, Dendou4Record.SIZE);
         return new Dendou4Record(slice);
     }
@@ -80,8 +79,7 @@ public readonly ref struct Dendou4Record
 
     private Dendou4Entity GetEntity(int index)
     {
-        if ((uint)index >= Count)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, Count);
         var slice = Data.Slice(index * Dendou4Entity.SIZE, Dendou4Entity.SIZE);
         return new Dendou4Entity(slice);
     }

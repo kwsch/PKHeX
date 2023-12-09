@@ -31,8 +31,7 @@ public sealed class InventoryPouch7b(InventoryType type, IItemStorage info, int 
 
     public override void SetPouch(Span<byte> data)
     {
-        if (Items.Length != PouchDataSize)
-            throw new ArgumentException("Item array length does not match original pouch size.");
+        ArgumentOutOfRangeException.ThrowIfNotEqual(Items.Length, PouchDataSize);
 
         var span = data[Offset..];
         var items = (InventoryItem7b[])Items;

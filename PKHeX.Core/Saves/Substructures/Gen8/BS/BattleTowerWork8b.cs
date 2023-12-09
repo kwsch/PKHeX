@@ -48,8 +48,7 @@ public sealed class BattleTowerWork8b : SaveBlock<SAV8BS>
 
     private static void SetRecords(IReadOnlyList<BattleTowerClassData8b> value)
     {
-        if (value.Count != COUNT_CLASSDATA)
-            throw new ArgumentException($"Expected {COUNT_CLASSDATA} items, received {value.Count}.", nameof(value));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, COUNT_CLASSDATA);
         // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
     }
 }

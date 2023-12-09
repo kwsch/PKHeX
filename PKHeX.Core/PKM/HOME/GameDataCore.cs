@@ -19,9 +19,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
 
     public GameDataCore(Memory<byte> buffer)
     {
-        if (buffer.Length != HomeCrypto.SIZE_CORE)
-            throw new ArgumentException("Invalid Core Data Size!");
-
+        ArgumentOutOfRangeException.ThrowIfNotEqual(buffer.Length, HomeCrypto.SIZE_CORE);
         Buffer = buffer;
     }
 

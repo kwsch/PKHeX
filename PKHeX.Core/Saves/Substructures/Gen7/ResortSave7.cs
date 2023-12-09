@@ -26,8 +26,7 @@ public sealed class ResortSave7 : SaveBlock<SAV7>
         }
         set
         {
-            if (value.Length != ResortCount)
-                throw new ArgumentException(nameof(ResortCount));
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, ResortCount);
 
             for (int i = 0; i < value.Length; i++)
             {

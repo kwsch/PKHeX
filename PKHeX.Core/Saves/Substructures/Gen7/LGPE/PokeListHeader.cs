@@ -118,8 +118,7 @@ public sealed class PokeListHeader : SaveBlock<SAV7b>
 
     public int GetPartyOffset(int slot)
     {
-        if ((uint)slot >= 6)
-            throw new ArgumentOutOfRangeException(nameof(slot) + " expected to be < 6.");
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)slot, 6);
         int position = PokeListInfo[slot];
         return SAV.GetBoxSlotOffset(position);
     }

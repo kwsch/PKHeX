@@ -240,8 +240,7 @@ public sealed class MiscVerifier : Verifier
         if (m.Info.Method != LearnMethod.LevelUp || m.Info.Argument != level)
             return;
         var flagIndex = pk.Permit.RecordPermitIndexes.IndexOf(move);
-        if (flagIndex == -1)
-            throw new ArgumentOutOfRangeException(nameof(move), move, "Expected a valid TM index.");
+        ArgumentOutOfRangeException.ThrowIfNegative(flagIndex, nameof(move)); // Always expect it to match.
         if (pk.GetMoveRecordFlag(flagIndex))
             return;
         m = new MoveResult(LearnMethod.None);

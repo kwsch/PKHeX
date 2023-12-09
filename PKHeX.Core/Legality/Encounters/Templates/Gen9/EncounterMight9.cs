@@ -340,9 +340,9 @@ public sealed record EncounterMight9
         return IsMatchDeferred(pk);
     }
 
-    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+    private static bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
 
-    private bool IsMatchLocationRemapped(PKM pk)
+    private static bool IsMatchLocationRemapped(PKM pk)
     {
         var met = (ushort)pk.Met_Location;
         var version = pk.Version;

@@ -19,8 +19,7 @@ public sealed class PokedexSaveData
 
     public PokedexSaveData(byte[] data)
     {
-        if (data.Length != POKEDEX_SAVE_DATA_SIZE)
-            throw new ArgumentException($"Unexpected {nameof(PokedexSaveData)} block size!");
+        ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, POKEDEX_SAVE_DATA_SIZE);
 
         GlobalData = new PokedexSaveGlobalData(data, 0);
 

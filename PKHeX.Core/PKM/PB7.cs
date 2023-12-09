@@ -522,7 +522,9 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         result *= 255f;
         int value = (int)result;
         int unsigned = value & ~(value >> 31);
-        return (byte)Math.Min(255, unsigned);
+        if (unsigned > 255)
+            unsigned = 255;
+        return (byte)unsigned;
     }
 
     [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
@@ -539,7 +541,9 @@ public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSizeValue, IComb
         result *= 255f;
         int value = (int)result;
         int unsigned = value & ~(value >> 31);
-        return (byte)Math.Min(255, unsigned);
+        if (unsigned > 255)
+            unsigned = 255;
+        return (byte)unsigned;
     }
 
     public static int GetRandomIndex(int bits, int characterIndex, int nature)

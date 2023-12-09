@@ -44,7 +44,7 @@ public sealed class EventWorkspace<TSave, TWork> where TSave : class, IEventFlag
         FR or LG or FRLG => "frlg",
         C => "c",
         GD or SI or GS => "gs",
-        _ => throw new ArgumentOutOfRangeException(nameof(GameVersion)),
+        _ => throw new ArgumentOutOfRangeException(nameof(ver), ver, null),
     };
 
     private static GameVersion GetVersion(TSave ver)

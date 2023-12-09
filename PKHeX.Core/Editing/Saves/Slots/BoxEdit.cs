@@ -13,8 +13,7 @@ public sealed class BoxEdit(SaveFile SAV)
 
     public void LoadBox(int box)
     {
-        if ((uint)box >= SAV.BoxCount)
-            throw new ArgumentOutOfRangeException(nameof(box));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)box, (uint)SAV.BoxCount);
 
         SAV.AddBoxData(CurrentContents, box, 0);
         CurrentBox = box;

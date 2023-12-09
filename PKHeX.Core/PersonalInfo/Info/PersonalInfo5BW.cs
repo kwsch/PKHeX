@@ -80,8 +80,7 @@ public sealed class PersonalInfo5BW(byte[] Data) : PersonalInfo, IPersonalAbilit
 
     public void SetIsLearnTM(int index, bool value)
     {
-        if ((uint)index >= CountTMHM)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, CountTMHM);
         if (value)
             Data[TMHM + (index >> 3)] |= (byte)(1 << (index & 7));
         else
@@ -97,8 +96,7 @@ public sealed class PersonalInfo5BW(byte[] Data) : PersonalInfo, IPersonalAbilit
 
     public void SetIsLearnTutorType(int index, bool value)
     {
-        if ((uint)index >= TypeTutorsCount)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, TypeTutorsCount);
         if (value)
             Data[TypeTutors + (index >> 3)] |= (byte)(1 << (index & 7));
         else

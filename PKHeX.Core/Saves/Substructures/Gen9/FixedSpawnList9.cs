@@ -27,8 +27,7 @@ public sealed class FixedSpawnList9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9S
         get => GetAllEntities();
         set
         {
-            if (value.Length != CountAll)
-                throw new ArgumentException(nameof(value));
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, CountAll);
             for (int i = 0; i < value.Length; i++)
                 GetSpawn(i).Entity = value[i];
         }

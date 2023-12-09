@@ -92,8 +92,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public RanchToy GetRanchToy(int index)
     {
-        if ((uint)index >= MaxToyCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxToyCount);
 
         int toyOffset = ToyBaseOffset + (RanchToy.SIZE * index);
         var data = Data.AsSpan(toyOffset, RanchToy.SIZE).ToArray();
@@ -102,8 +101,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public void SetRanchToy(RanchToy toy, int index)
     {
-        if ((uint)index >= MaxToyCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MaxToyCount);
         if (((int)toy.ToyType) > MaxToyID) // Ranch will throw "Corrupt Save" error if ToyId is > expected.
             toy = BlankToy;
 
@@ -113,8 +111,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public RanchMii GetRanchMii(int index)
     {
-        if ((uint)index >= MiiCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MiiCount);
 
         int offset = MiiDataOffset + (RanchMii.SIZE * index);
         var data = Data.AsSpan(offset, RanchMii.SIZE).ToArray();
@@ -123,8 +120,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public void SetRanchMii(RanchMii trainer, int index)
     {
-        if ((uint)index >= MiiCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)MiiCount);
 
         int offset = MiiDataOffset + (RanchMii.SIZE * index);
         SetData(Data.AsSpan(offset), trainer.Data);
@@ -132,8 +128,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public RanchTrainerMii GetRanchTrainerMii(int index)
     {
-        if ((uint)index >= TrainerMiiCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)TrainerMiiCount);
 
         int offset = TrainerMiiDataOffset + (RanchTrainerMii.SIZE * index);
         var data = Data.AsSpan(offset, RanchTrainerMii.SIZE).ToArray();
@@ -142,8 +137,7 @@ public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
 
     public void SetRanchTrainerMii(RanchTrainerMii mii, int index)
     {
-        if ((uint)index >= TrainerMiiCount)
-            throw new ArgumentOutOfRangeException(nameof(index));
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual((uint)index, (uint)TrainerMiiCount);
 
         int offset = TrainerMiiDataOffset + (RanchTrainerMii.SIZE * index);
         SetData(Data.AsSpan(offset), mii.Data);

@@ -21,7 +21,7 @@ public sealed class Record3(SAV3 SAV)
         GameVersion.RS or GameVersion.R or GameVersion.S => 0x1540,
         GameVersion.E => 0x159C,
         GameVersion.FRLG or GameVersion.FR or GameVersion.LG => 0x1200,
-        _ => throw new ArgumentException(nameof(ver)),
+        _ => throw new ArgumentOutOfRangeException(nameof(ver), ver, null),
     };
 
     private static Type GetEnumType(GameVersion ver) => ver switch
@@ -29,7 +29,7 @@ public sealed class Record3(SAV3 SAV)
         GameVersion.RS or GameVersion.R or GameVersion.S => typeof(RecID3RuSa),
         GameVersion.FRLG or GameVersion.FR or GameVersion.LG => typeof(RecID3FRLG),
         GameVersion.E => typeof(RecID3Emerald),
-        _ => throw new ArgumentException(nameof(ver)),
+        _ => throw new ArgumentOutOfRangeException(nameof(ver), ver, null),
     };
 
     public static int[] GetEnumValues(GameVersion ver) => (int[])Enum.GetValues(GetEnumType(ver));

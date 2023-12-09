@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -24,8 +24,7 @@ public sealed class SealList8b : SaveBlock<SAV8BS>
 
     public void WriteItems(IReadOnlyList<SealSticker8b> items)
     {
-        if (items.Count != SealSaveSize)
-            throw new ArgumentOutOfRangeException(nameof(items.Count));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(items.Count, SealSaveSize);
         foreach (var item in items)
             item.Write(Data, Offset);
         SAV.State.Edited = true;

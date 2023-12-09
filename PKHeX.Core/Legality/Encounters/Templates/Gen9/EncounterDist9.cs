@@ -275,7 +275,7 @@ public sealed record EncounterDist9
         const byte undefinedSize = 0;
         var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, rollCount,
             undefinedSize, undefinedSize, ScaleType, Scale,
-            Ability, Shiny, IVs: IVs, Nature: Nature);
+            Ability, Shiny, Nature, IVs: IVs);
 
         var init = Util.Rand.Rand64();
         var success = this.TryApply32(pk, init, param, criteria);
@@ -326,9 +326,9 @@ public sealed record EncounterDist9
         return IsMatchDeferred(pk);
     }
 
-    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+    private static bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
 
-    private bool IsMatchLocationRemapped(PKM pk)
+    private static bool IsMatchLocationRemapped(PKM pk)
     {
         var met = (ushort)pk.Met_Location;
         var version = pk.Version;
@@ -380,7 +380,7 @@ public sealed record EncounterDist9
             return true;
 
         var pi = PersonalTable.SV.GetFormEntry(Species, Form);
-        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, 1, 0, 0, ScaleType, Scale, Ability, Shiny, IVs: IVs, Nature: Nature);
+        var param = new GenerateParam9(Species, pi.Gender, FlawlessIVCount, 1, 0, 0, ScaleType, Scale, Ability, Shiny, Nature, IVs: IVs);
         if (!Encounter9RNG.IsMatch(pk, param, seed))
             return true;
 

@@ -95,7 +95,7 @@ public sealed class PersonalInfo8LA(byte[] Data) : PersonalInfo, IPersonalAbilit
             }
             bits >>= 1;
         }
-        throw new ArgumentOutOfRangeException(nameof(randIndexFromCount));
+        throw new ArgumentOutOfRangeException(nameof(randIndexFromCount), randIndexFromCount, "Insufficient bits set in the permission list.");
     }
 
     public bool IsRecordPermitted(int index)
@@ -182,8 +182,7 @@ public sealed class PersonalInfo8LA(byte[] Data) : PersonalInfo, IPersonalAbilit
 
     public static ushort GetMoveShopMove(int index)
     {
-        if ((uint)index >= MoveShopCount)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, MoveShopCount);
         return MoveShopMoves[index];
     }
 

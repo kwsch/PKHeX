@@ -94,8 +94,7 @@ public sealed class EncounterSave8b : SaveBlock<SAV8BS>
 
     private static void SetTrees(IReadOnlyList<HoneyTree8b> value)
     {
-        if (value.Count != COUNT_HONEYTREE)
-            throw new ArgumentOutOfRangeException(nameof(value.Count));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, COUNT_HONEYTREE);
         // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
     }
 

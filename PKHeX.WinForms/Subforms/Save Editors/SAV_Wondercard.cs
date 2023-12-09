@@ -26,13 +26,7 @@ public partial class SAV_Wondercard : Form
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (Origin = sav).Clone();
         mga = SAV.GiftAlbum;
-
-        pba = SAV.Generation switch
-        {
-            4 => PopulateViewGiftsG4(),
-            5 or 6 or 7 => PopulateViewGiftsG567(),
-            _ => throw new ArgumentOutOfRangeException(nameof(SAV.Generation), "Game not supported."),
-        };
+        pba = GetGiftPictureBoxes(SAV.Generation);
         foreach (var pb in pba)
         {
             pb.AllowDrop = true;
@@ -70,11 +64,18 @@ public partial class SAV_Wondercard : Form
             ViewGiftData(g);
     }
 
+    private List<PictureBox> GetGiftPictureBoxes(int generation) => generation switch
+    {
+        4 => PopulateViewGiftsG4(),
+        5 or 6 or 7 => PopulateViewGiftsG567(),
+        _ => throw new ArgumentOutOfRangeException(nameof(generation), generation, "Game not supported."),
+    };
+
     private readonly MysteryGiftAlbum mga;
     private DataMysteryGift? mg;
     private readonly List<PictureBox> pba; // don't mutate this list
 
-    // Repopulation Functions
+    // Re-population Functions
     private void SetBackground(int index, Image bg)
     {
         for (int i = 0; i < mga.Gifts.Length; i++)

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -8,7 +9,7 @@ namespace PKHeX.Core;
 /// </summary>
 public sealed class Bank7 : BulkStorage
 {
-    public Bank7(byte[] data, Type t, int start, int slotsPerBox = 30) : base(data, t, start, slotsPerBox) => Version = GameVersion.USUM;
+    public Bank7(byte[] data, Type t, [ConstantExpected] int start, int slotsPerBox = 30) : base(data, t, start, slotsPerBox) => Version = GameVersion.USUM;
 
     public override PersonalTable7 Personal => PersonalTable.USUM;
     public override ReadOnlySpan<ushort> HeldItems => Legal.HeldItems_SM;
@@ -24,8 +25,7 @@ public sealed class Bank7 : BulkStorage
 
     public string GetGroupName(int group)
     {
-        if ((uint)group > 10)
-            throw new ArgumentOutOfRangeException(nameof(group), $"{nameof(group)} must be 0-10.");
+        ArgumentOutOfRangeException.ThrowIfGreaterThan<uint>((uint)group, 10);
         int offset = 0x8 + (GroupNameSpacing * group) + 2; // skip over " "
         return GetString(Data.AsSpan(offset, GroupNameSize / 2));
     }

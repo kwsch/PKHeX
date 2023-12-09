@@ -148,8 +148,7 @@ public sealed class PersonalInfo8SWSH(byte[] Data) : PersonalInfo, IPersonalAbil
 
     public void SetIsLearnTutorType(int index, bool value)
     {
-        if ((uint)index >= CountTutorType)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, CountTutorType);
         if (value)
             Data[TutorType + (index >> 3)] |= (byte)(1 << (index & 7));
         else

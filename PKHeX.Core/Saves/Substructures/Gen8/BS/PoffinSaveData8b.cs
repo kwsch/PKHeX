@@ -43,8 +43,7 @@ public sealed class PoffinSaveData8b : SaveBlock<SAV8BS>
 
     public void SetPoffins(IReadOnlyCollection<Poffin8b> value)
     {
-        if (value.Count != COUNT_POFFIN)
-            throw new ArgumentException($"Expected {COUNT_POFFIN} items, received {value.Count}.", nameof(value));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, COUNT_POFFIN);
         var ordered = value.OrderBy(z => z.IsNull).ThenBy(z => z.IsNew);
         int ctr = 0;
         foreach (var p in ordered)

@@ -620,8 +620,7 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
 
     public void SetHallOfFameData(ReadOnlySpan<byte> value)
     {
-        if (value.Length != SIZE_SECTOR_USED * 2)
-            throw new ArgumentException("Invalid size", nameof(value));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, SIZE_SECTOR_USED * 2);
         // HoF Data is split across two sav sectors
         Span<byte> savedata = Data;
         value[..SIZE_SECTOR_USED].CopyTo(savedata[0x1C000..]);

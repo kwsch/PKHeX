@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core;
@@ -21,8 +21,7 @@ public sealed class UndergroundItemList8b : SaveBlock<SAV8BS>
 
     public void WriteItems(IReadOnlyList<UndergroundItem8b> items)
     {
-        if (items.Count != ItemSaveSize)
-            throw new ArgumentOutOfRangeException(nameof(items.Count));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(items.Count, ItemSaveSize);
         foreach (var item in items)
             item.Write(Data, Offset);
         SAV.State.Edited = true;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -10,11 +10,7 @@ public sealed class WonderCard3Extra : Gen3MysteryData
     /// </summary>
     public const int SIZE = sizeof(uint) + 36;
 
-    public WonderCard3Extra(byte[] data) : base(data)
-    {
-        if (data.Length != SIZE)
-            throw new ArgumentException("Invalid size.", nameof(data));
-    }
+    public WonderCard3Extra(byte[] data) : base(data) => ArgumentOutOfRangeException.ThrowIfNotEqual(data.Length, SIZE);
 
     public ushort Wins   { get => ReadUInt16LittleEndian(Data.AsSpan(0x4)); set => WriteUInt16LittleEndian(Data.AsSpan(0x4), value); }
     public ushort Losses { get => ReadUInt16LittleEndian(Data.AsSpan(0x6)); set => WriteUInt16LittleEndian(Data.AsSpan(0x6), value); }

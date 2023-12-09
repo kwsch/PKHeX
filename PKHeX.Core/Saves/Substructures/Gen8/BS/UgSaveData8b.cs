@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using static System.Buffers.Binary.BinaryPrimitives;
 
@@ -97,8 +97,7 @@ public sealed class UgSaveData8b : SaveBlock<SAV8BS>
 
     public void SetTrainers(ReadOnlySpan<byte> data)
     {
-        if (Data.Length > COUNT_TRAINERS)
-            throw new ArgumentOutOfRangeException(nameof(data.Length));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(data.Length, COUNT_TRAINERS);
         data.CopyTo(GetTrainers());
     }
 

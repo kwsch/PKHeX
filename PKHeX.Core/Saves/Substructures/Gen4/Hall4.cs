@@ -40,10 +40,8 @@ public sealed class Hall4
 
     private static int GetRecordOffset(int battleType, ushort species)
     {
-        if (species > Legal.MaxSpeciesID_4)
-            throw new ArgumentOutOfRangeException(nameof(species));
-        if ((uint)battleType > 2)
-            throw new ArgumentOutOfRangeException(nameof(battleType));
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(species, Legal.MaxSpeciesID_4);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)battleType, 3);
 
         return sizeof(uint) + (battleType * SIZE_ARRAY) + (species * sizeof(ushort));
     }

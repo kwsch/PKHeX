@@ -45,8 +45,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
         get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x10, GameSyncIDSize / 2));
         set
         {
-            if (value.Length != GameSyncIDSize)
-                throw new ArgumentException(nameof(value));
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, GameSyncIDSize);
 
             var data = Util.GetBytesFromHexString(value);
             SAV.SetData(data, Offset + 0x10);
@@ -58,8 +57,7 @@ public sealed class MyStatus7 : SaveBlock<SAV7>, IRegionOrigin
         get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x18, NexUniqueIDSize / 2));
         set
         {
-            if (value.Length != NexUniqueIDSize)
-                throw new ArgumentException(nameof(value));
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, NexUniqueIDSize);
 
             var data = Util.GetBytesFromHexString(value);
             SAV.SetData(data, Offset + 0x18);

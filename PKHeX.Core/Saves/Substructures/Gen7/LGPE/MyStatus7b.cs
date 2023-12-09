@@ -48,8 +48,7 @@ public sealed class MyStatus7b : SaveBlock<SAV7b>
         get => Util.GetHexStringFromBytes(Data.AsSpan(Offset + 0x10, GameSyncIDSize / 2));
         set
         {
-            if (value.Length > 16)
-                throw new ArgumentException(nameof(value));
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value.Length, 16);
 
             var data = Util.GetBytesFromHexString(value);
             SAV.SetData(data, Offset + 0x10);

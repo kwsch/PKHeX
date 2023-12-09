@@ -118,7 +118,9 @@ public sealed class EncounterGenerator7 : IEncounterGenerator
         // 32 -> 30 (US -> SN)
         // 33 -> 31 (UM -> MN)
         // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
+#pragma warning disable RCS1130 // Bitwise operation on enum without Flags attribute.
         return version ^ (GameVersion)0b111110;
+#pragma warning restore RCS1130 // Bitwise operation on enum without Flags attribute.
     }
 
     private static EncounterEgg CreateEggEncounter(ushort species, byte form, GameVersion version)

@@ -1246,9 +1246,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         CB_EggLocation.DataSource = new BindingSource(eggList, null);
         CB_EggLocation.DropDownWidth = GetWidth(eggList, CB_EggLocation.Font);
 
-        static int GetWidth(IReadOnlyList<ComboItem> items, Font f) => items.Count == 0 ? throw new ArgumentException("Expected items in array.", nameof(items)) :
-            items.Max(z => TextRenderer.MeasureText(z.Text, f).Width) +
-            SystemInformation.VerticalScrollBarWidth;
+        static int GetWidth(IReadOnlyCollection<ComboItem> items, Font f)
+        {
+            ArgumentOutOfRangeException.ThrowIfZero(items.Count);
+            return items.Max(z => TextRenderer.MeasureText(z.Text, f).Width) + SystemInformation.VerticalScrollBarWidth;
+        }
 
         if (FieldsLoaded)
         {

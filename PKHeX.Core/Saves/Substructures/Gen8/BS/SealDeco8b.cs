@@ -38,8 +38,7 @@ public sealed class SealBallDecoData8b : SaveBlock<SAV8BS>
 
     private static void SetCapsules(IReadOnlyList<SealCapsule8b> value)
     {
-        if (value.Count != COUNT_CAPSULE)
-            throw new ArgumentException($"Expected {COUNT_CAPSULE} items, received {value.Count}.", nameof(value));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, COUNT_CAPSULE);
         // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
     }
 }
@@ -72,8 +71,7 @@ public sealed class SealCapsule8b(byte[] Data, int Offset)
 
     private static void SetSeals(IReadOnlyList<AffixSealData8b> value)
     {
-        if (value.Count != COUNT_SEAL)
-            throw new ArgumentException($"Expected {COUNT_SEAL} items, received {value.Count}.", nameof(value));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(value.Count, COUNT_SEAL);
         // data is already hard-referencing the original byte array. This is mostly a hack for Property Grid displays.
     }
 }

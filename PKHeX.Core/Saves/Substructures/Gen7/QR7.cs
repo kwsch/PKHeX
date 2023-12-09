@@ -77,8 +77,7 @@ public static class QR7
         box = Math.Clamp(box, 0, 31);
         slot = Math.Clamp(slot, 0, 29);
         num_copies = Math.Min(num_copies, 1);
-        if (span.Length < SIZE)
-            throw new ArgumentException($"Span must be at least {SIZE} bytes long.", nameof(span));
+        ArgumentOutOfRangeException.ThrowIfLessThan(span.Length, SIZE);
 
         WriteUInt32LittleEndian(span, 0x454B4F50); // POKE magic
         span[0x4] = 0xFF; // QR Type

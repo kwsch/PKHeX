@@ -228,8 +228,7 @@ public sealed class SAV3XD : SaveFile, IGCSaveFile
 
     private static byte[] SetChecksums(byte[] input, int subOffset0)
     {
-        if (input.Length != SLOT_SIZE)
-            throw new ArgumentException("Input should be a slot, not the entire save binary.");
+        ArgumentOutOfRangeException.ThrowIfNotEqual(input.Length, SLOT_SIZE);
 
         byte[] data = (byte[])input.Clone();
         const int start = 0xA8; // 0x88 + 0x20

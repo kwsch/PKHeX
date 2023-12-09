@@ -115,8 +115,7 @@ public sealed class PersonalInfo7(byte[] Data)
 
     public void SetIsLearnTutorType(int index, bool value)
     {
-        if ((uint)index >= TypeTutorCount)
-            throw new ArgumentOutOfRangeException(nameof(index), index, null);
+        ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual<uint>((uint)index, TypeTutorCount);
         if (value)
             Data[TypeTutor + (index >> 3)] |= (byte)(1 << (index & 7));
         else

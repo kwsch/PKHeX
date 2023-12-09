@@ -122,6 +122,8 @@ public enum RibbonIndex : byte
     MarkMightiest,
     MarkTitan,
 
+    RibbonPartner = MarkTitan, // Todo DLC2
+
     MAX_COUNT,
 }
 

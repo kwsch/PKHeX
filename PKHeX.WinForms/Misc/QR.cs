@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -53,7 +53,7 @@ public partial class QR : Form
         splitContainer1.Width = img.Width;
     }
 
-    private Image ReloadQRData(PK7 pk7)
+    private Bitmap ReloadQRData(PK7 pk7)
     {
         var box = (int)NUD_Box.Value - 1;
         var slot = (int)NUD_Slot.Value - 1;

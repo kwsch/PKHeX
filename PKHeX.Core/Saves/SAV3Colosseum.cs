@@ -158,8 +158,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
 
     private static byte[] EncryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
     {
-        if (input.Length != SLOT_SIZE)
-            throw new ArgumentException("Incorrect slot size", nameof(input));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(input.Length, SLOT_SIZE);
 
         byte[] output = input.ToArray();
 
@@ -182,8 +181,7 @@ public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
 
     private static byte[] DecryptColosseum(ReadOnlySpan<byte> input, Span<byte> digest)
     {
-        if (input.Length != SLOT_SIZE)
-            throw new ArgumentException("Incorrect slot size", nameof(input));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(input.Length, SLOT_SIZE);
 
         byte[] output = input.ToArray();
 

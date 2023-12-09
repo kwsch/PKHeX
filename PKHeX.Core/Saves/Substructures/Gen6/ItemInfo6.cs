@@ -23,8 +23,7 @@ public sealed class ItemInfo6 : SaveBlock<SAV6>
         }
         set
         {
-            if (value.Length != BoundItemCount)
-                throw new ArgumentException(nameof(value));
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, BoundItemCount);
             var span = Data.AsSpan(Offset + 10);
             for (int i = 0; i < value.Length; i++)
                 WriteUInt16LittleEndian(span[(2 * i)..], value[i]);
@@ -44,8 +43,7 @@ public sealed class ItemInfo6 : SaveBlock<SAV6>
         }
         set
         {
-            if (value.Length != RecentItemCount)
-                throw new ArgumentException(nameof(value));
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value.Length, RecentItemCount);
             var span = Data.AsSpan(Offset + 20);
             for (int i = 0; i < value.Length; i++)
                 WriteUInt16LittleEndian(span[(2 * i)..], value[i]);

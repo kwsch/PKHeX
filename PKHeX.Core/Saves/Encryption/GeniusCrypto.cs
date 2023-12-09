@@ -17,8 +17,7 @@ public static class GeniusCrypto
 
     public static void Decrypt(ReadOnlySpan<byte> input, Span<byte> output, Span<ushort> keys)
     {
-        if (keys.Length != 4)
-            throw new ArgumentOutOfRangeException(nameof(keys));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(keys.Length, 4);
 
         var in16 = MemoryMarshal.Cast<byte, ushort>(input);
         var out16 = MemoryMarshal.Cast<byte, ushort>(output);
@@ -42,8 +41,7 @@ public static class GeniusCrypto
 
     public static void Encrypt(ReadOnlySpan<byte> input, Span<byte> output, Span<ushort> keys)
     {
-        if (keys.Length != 4)
-            throw new ArgumentOutOfRangeException(nameof(keys));
+        ArgumentOutOfRangeException.ThrowIfNotEqual(keys.Length, 4);
 
         var in16 = MemoryMarshal.Cast<byte, ushort>(input);
         var out16 = MemoryMarshal.Cast<byte, ushort>(output);

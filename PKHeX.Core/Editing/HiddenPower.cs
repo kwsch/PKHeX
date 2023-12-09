@@ -33,6 +33,39 @@ public static class HiddenPower
         return SixBitType[hp];
     }
 
+    /// <summary>
+    /// Gets the current Hidden Power Type of the input IVs for Generations 3+
+    /// </summary>
+    /// <param name="u32">32-bit value of the IVs</param>
+    /// <returns>Hidden Power Type of the IVs</returns>
+    public static int GetType(uint u32)
+    {
+        uint hp = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            hp |= (u32 & 1) << i;
+            u32 >>= 5;
+        }
+        return SixBitType[(int)hp];
+    }
+
+    /// <summary>
+    /// Gets the current Hidden Power Type of the input IVs for Generations 3+
+    /// </summary>
+    /// <param name="u32">32-bit value of the IVs</param>
+    /// <remarks>IVs are stored in reverse order in the 32-bit value</remarks>
+    /// <returns>Hidden Power Type of the IVs</returns>
+    public static int GetTypeBigEndian(uint u32)
+    {
+        uint hp = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            hp |= (u32 & 1) << (5 - i);
+            u32 >>= 5;
+        }
+        return SixBitType[(int)hp];
+    }
+
     private static ReadOnlySpan<byte> SixBitType =>
     [
         // (low-bit mash) * 15 / 63
@@ -191,6 +224,41 @@ public static class HiddenPower
     {
         for (int i = 0; i < ivs.Length; i++)
             ivs[i] = (ivs[i] & 0b11110) | ((bits >> i) & 1);
+    }
+
+    /// <inheritdoc cref="SetIVs(int,Span{int},EntityContext)"/>
+    public static uint SetIVs(int type, uint ivs)
+    {
+        var bits = DefaultLowBits[type];
+        for (int i = 0; i < 6; i++)
+        {
+            var bit = (bits >> i) & 1;
+            var bitIndex = i * 5;
+            var mask = (1u << bitIndex);
+            if (bit == 0)
+                ivs &= ~mask;
+            else
+                ivs |= mask;
+        }
+        return ivs;
+    }
+
+    /// <inheritdoc cref="SetIVs(int,uint)"/>
+    /// <remarks>IVs are stored in reverse order in the 32-bit value</remarks>
+    public static uint SetIVsBigEndian(int type, uint ivs)
+    {
+        var bits = DefaultLowBits[type];
+        for (int i = 0; i < 6; i++)
+        {
+            var bit = (bits >> i) & 1;
+            var bitIndex = (5 - i) * 5;
+            var mask = (1u << bitIndex);
+            if (bit == 0)
+                ivs &= ~mask;
+            else
+                ivs |= mask;
+        }
+        return ivs;
     }
 
     /// <summary>

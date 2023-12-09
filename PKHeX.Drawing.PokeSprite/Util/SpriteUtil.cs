@@ -190,7 +190,7 @@ public static class SpriteUtil
         return img;
     }
 
-    private static Bitmap ApplyExperience(PKM pk, Image img, IEncounterTemplate? enc = null)
+    private static Bitmap ApplyExperience(PKM pk, Bitmap img, IEncounterTemplate? enc = null)
     {
         const int bpp = 4;
         int start = bpp * SpriteWidth * (SpriteHeight - 1);
@@ -202,7 +202,7 @@ public static class SpriteUtil
         if (pct is not 0)
             return ImageUtil.WritePixels(img, Color.DodgerBlue, start, start + (int)(SpriteWidth * pct * bpp));
 
-        var encLevel = enc is { EggEncounter: true } x ? x.LevelMin : pk.Met_Level;
+        var encLevel = enc is { EggEncounter: true } ? enc.LevelMin : pk.Met_Level;
         var color = level != encLevel && pk.HasOriginalMetLocation ? Color.DarkOrange : Color.Yellow;
         return ImageUtil.WritePixels(img, color, start, start + (SpriteWidth * bpp));
     }
