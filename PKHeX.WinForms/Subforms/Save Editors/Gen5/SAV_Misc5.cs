@@ -329,7 +329,7 @@ public partial class SAV_Misc5 : Form
             LB_FunfestMissions.Items.AddRange(FMTitles);
 
             CB_FMLevel.Items.Clear();
-            CB_FMLevel.Items.AddRange(new[] { "Lv.1", "Lv.2 +", "Lv.3 ++", "Lv.3 +++" });
+            CB_FMLevel.Items.AddRange(["Lv.1", "Lv.2 +", "Lv.3 ++", "Lv.3 +++"]);
             SetNudMax();
             SetEntreeExpTooltip();
             LB_FunfestMissions.SelectedIndex = 0;
@@ -809,7 +809,7 @@ public partial class SAV_Misc5 : Form
         if (SAV is SAV5B2W2)
         {
             CB_CurrentMedal.Items.AddRange(MedalNames);
-            CB_MedalState.Items.AddRange(new[] { "Unobtained", "Can Obtain Hint Medal", "Hint Medal Obtained", "Can Obtain Medal", "Medal Obtained" });
+            CB_MedalState.Items.AddRange(["Unobtained", "Can Obtain Hint Medal", "Hint Medal Obtained", "Can Obtain Medal", "Medal Obtained"]);
             CB_CurrentMedal.SelectedIndex = 0;
         }
     }

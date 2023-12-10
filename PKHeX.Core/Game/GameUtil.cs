@@ -237,7 +237,7 @@ public static class GameUtil
     {
         var max = obj.MaxGameID;
         if (max == Legal.MaxGameID_7b) // edge case
-            return new[] {GO, GP, GE};
+            return [GO, GP, GE];
         var versions = GameVersions
             .Where(version => (GameVersion)obj.MinGameID <= version && version <= (GameVersion)max);
         if (generation < 0)

@@ -209,7 +209,7 @@ public sealed class SearchSettings
     public IReadOnlyList<GameVersion> GetVersions(SaveFile sav, GameVersion fallback)
     {
         if (Version > 0)
-            return new[] {(GameVersion) Version};
+            return [(GameVersion) Version];
 
         return Generation switch
         {

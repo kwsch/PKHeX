@@ -10,8 +10,8 @@ public static class GameInfo
     private static readonly GameStrings?[] Languages = new GameStrings[GameLanguage.LanguageCount];
 
     public static string CurrentLanguage { get; set; } = GameLanguage.DefaultLanguage;
-    public static readonly IReadOnlyList<string> GenderSymbolUnicode = new[] {"♂", "♀", "-"};
-    public static readonly IReadOnlyList<string> GenderSymbolASCII = new[] {"M", "F", "-"};
+    public static readonly IReadOnlyList<string> GenderSymbolUnicode = ["♂", "♀", "-"];
+    public static readonly IReadOnlyList<string> GenderSymbolASCII = ["M", "F", "-"];
     private static GameStrings _strings = GetStrings(CurrentLanguage);
 
     public static GameStrings GetStrings(string lang)

@@ -140,18 +140,18 @@ public static partial class Extensions
         };
         if (sav is SAV7USUM uu)
         {
-            list.AddRange(new[]
-            {
+            list.AddRange(
+            [
                 new SlotInfoMisc(uu.Data, 1, uu.GetFusedSlotOffset(1)) {Type = StorageSlotType.Fused},
                 new SlotInfoMisc(uu.Data, 2, uu.GetFusedSlotOffset(2)) {Type = StorageSlotType.Fused},
-            });
+            ]);
             var ba = uu.BattleAgency;
-            list.AddRange(new[]
-            {
+            list.AddRange(
+            [
                 new SlotInfoMisc(uu.Data, 0, ba.GetSlotOffset(0)) {Type = StorageSlotType.Misc},
                 new SlotInfoMisc(uu.Data, 1, ba.GetSlotOffset(1)) {Type = StorageSlotType.Misc},
                 new SlotInfoMisc(uu.Data, 2, ba.GetSlotOffset(2)) {Type = StorageSlotType.Misc},
-            });
+            ]);
         }
 
         if (!all)

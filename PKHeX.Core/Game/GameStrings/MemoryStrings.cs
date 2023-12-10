@@ -18,7 +18,7 @@ public sealed class MemoryStrings
     {
         s = strings;
         memories = new Lazy<List<ComboItem>>(GetMemories);
-        none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {string.Empty}));
+        none = new Lazy<List<ComboItem>>(() => Util.GetCBList([string.Empty]));
         species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist));
         item6 = new Lazy<List<ComboItem>>(() => GetItems(EntityContext.Gen6));
         item8 = new Lazy<List<ComboItem>>(() => GetItems(EntityContext.Gen8));

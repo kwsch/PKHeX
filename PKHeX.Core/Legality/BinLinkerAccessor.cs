@@ -18,7 +18,7 @@ public readonly ref struct BinLinkerAccessor
     public int Length => ReadUInt16LittleEndian(Data[2..]);
 
     /// <summary> Magic identifier for the file. </summary>
-    public string Identifier => new(new[] {(char)Data[0], (char)Data[1]});
+    public string Identifier => new([(char)Data[0], (char)Data[1]]);
 
     /// <summary>
     /// Retrieves a view of the entry at the requested <see cref="index"/>.
