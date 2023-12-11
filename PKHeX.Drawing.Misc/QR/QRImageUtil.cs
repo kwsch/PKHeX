@@ -40,10 +40,10 @@ public static class QRImageUtil
 
         var black = Brushes.Black;
         const int indent = 18;
-        g.DrawString(GetLine(lines, 0), font, black, new PointF(indent, qr.Height - 5));
-        g.DrawString(GetLine(lines, 1), font, black, new PointF(indent, qr.Height + 8));
-        g.DrawString(GetLine2(lines)  , font, black, new PointF(indent, qr.Height + 20));
-        g.DrawString(GetLine(lines, 3) + extraText, font, black, new PointF(indent, qr.Height + 32));
+        g.DrawString(GetLine(lines, 0), font, black, indent, qr.Height - 5);
+        g.DrawString(GetLine(lines, 1), font, black, indent, qr.Height + 8);
+        g.DrawString(GetLine2(lines)  , font, black, indent, qr.Height + 20);
+        g.DrawString(GetLine(lines, 3) + extraText, font, black, indent, qr.Height + 32);
         return newpic;
     }
 

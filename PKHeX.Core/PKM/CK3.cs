@@ -14,7 +14,6 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
         0x61, 0x62, 0x63, 0x64,
         0xD1, 0xD2, 0xD3, 0xD4, 0xD5, 0xDA, 0xDB,
         0xE4, 0xE5, 0xE6, 0xE7, 0xCE,
-        0xFB, // not fateful -- what is it?
         0xD7, // index within party
         // 0xFC onwards unused? no, it's some pointers and values used by the game?
     ];
@@ -167,7 +166,7 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     public override bool Unused2                { get => ((Data[0xC9] >> 1) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~2) | (value ? 2 : 0)); }
     public override bool Unused3                { get => ((Data[0xC9] >> 2) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~4) | (value ? 4 : 0)); }
     public override bool Unused4                { get => ((Data[0xC9] >> 3) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] & ~8) | (value ? 8 : 0)); }
-    public override bool FatefulEncounter       { get => ((Data[0xC9] >> 4) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] &~16) | (value ?16 : 0)); }
+    private bool FatefulEncounterJPN            { get => ((Data[0xC9] >> 4) & 1) == 1; set => Data[0xC9] = (byte)((Data[0xC9] &~16) | (value ?16 : 0)); }
     public override int RibbonCount => Data.AsSpan(0xBD, 12).Count<byte>(1) + RibbonCountG3Cool + RibbonCountG3Beauty + RibbonCountG3Cute + RibbonCountG3Smart + RibbonCountG3Tough;
 
     public override int PKRS_Strain { get => Data[0xCA] & 0xF; set => Data[0xCA] = (byte)(value & 0xF); }
@@ -182,6 +181,40 @@ public sealed class CK3(byte[] Data) : G3PKM(Data), IShadowCapture
     public ushort ShadowID { get => ReadUInt16BigEndian(Data.AsSpan(0xD8)); set => WriteUInt16BigEndian(Data.AsSpan(0xD8), value); }
     public int Purification { get => ReadInt32BigEndian(Data.AsSpan(0xDC)); set => WriteInt32BigEndian(Data.AsSpan(0xDC), value); }
     public uint EXP_Shadow { get => ReadUInt32BigEndian(Data.AsSpan(0xC0)); set => WriteUInt32BigEndian(Data.AsSpan(0xC0), value); }
+
+    private bool FatefulEncounterINT { get => ((Data[0xFB] >> 0) & 1) == 1; set => Data[0xFB] = (byte)((Data[0xFB] & ~1) | (value ? 1 : 0)); }
+
+    public override bool FatefulEncounter
+    {
+        // Property reads depend on the save file language, and we aren't differentiating via file.
+        // set based on language, resolve when setting to actual save
+        // treat both as False (more likely to be flagged invalid by legality checks)
+        get => FatefulEncounterJPN != FatefulEncounterINT;
+        set => ForceCorrectFatefulState(Japanese, value);
+    }
+
+    /// <summary>
+    /// Sets the Fateful Encounter flag to the correct value for the given language format.
+    /// </summary>
+    /// <param name="japanese">Is saved to a Japanese language save file</param>
+    /// <param name="value">Fateful Encounter state</param>
+    public void ForceCorrectFatefulState(bool japanese, bool value)
+    {
+        FatefulEncounterJPN = japanese && value;
+        FatefulEncounterINT = !japanese && value;
+    }
+
+    /// <summary>
+    /// Checks if the Fateful Encounter flag states are valid for the given language format.
+    /// </summary>
+    /// <param name="japanese">Is saved to a Japanese language save file</param>
+    /// <returns>True if the other-language Fateful Encounter flag is not set</returns>
+    public bool IsFatefulValid(bool japanese)
+    {
+        if (japanese)
+            return !FatefulEncounterINT;
+        return !FatefulEncounterJPN;
+    }
 
     public const int Purified = -100;
     public bool IsShadow => ShadowID != 0 && Purification != Purified;
