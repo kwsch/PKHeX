@@ -223,6 +223,7 @@ public abstract class SAV5 : SaveFile, ISaveBlock5BW, IEventFlag37
     public abstract Zukan5 Zukan { get; }
     public abstract Misc5 Misc { get; }
     public abstract MysteryBlock5 Mystery { get; }
+    public abstract Chatter5 Chatter { get; }
     public abstract Daycare5 Daycare { get; }
     public abstract BoxLayout5 BoxLayout { get; }
     public abstract PlayerData5 PlayerData { get; }

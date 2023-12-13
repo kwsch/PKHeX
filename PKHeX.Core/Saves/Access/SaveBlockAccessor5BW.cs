@@ -87,6 +87,7 @@ public sealed class SaveBlockAccessor5BW(SAV5BW sav) : ISaveBlockAccessor<BlockI
     public PlayerData5 PlayerData { get; } = new(sav, 0x19400);
     public UnityTower5 UnityTower { get; } = new(sav, 0x19600);
     public MysteryBlock5 Mystery { get; } = new(sav, 0x1C800);
+    public Chatter5 Chatter { get; } = new(sav, 0x1D500);
     public Musical5 Musical { get; } = new(sav, 0x1F700);
     public Daycare5 Daycare { get; } = new(sav, 0x20E00);
     public Misc5 Misc { get; } = new Misc5BW(sav, 0x21200);

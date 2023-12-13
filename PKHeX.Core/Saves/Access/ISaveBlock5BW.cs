@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Interface for Accessing named blocks within a Generation 5 save file.
@@ -9,6 +9,7 @@ public interface ISaveBlock5BW
     Zukan5 Zukan { get; }
     Misc5 Misc { get; }
     MysteryBlock5 Mystery { get; }
+    Chatter5 Chatter { get; }
     Daycare5 Daycare { get; }
     BoxLayout5 BoxLayout { get; }
     PlayerData5 PlayerData { get; }
