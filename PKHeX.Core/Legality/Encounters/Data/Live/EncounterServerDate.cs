@@ -192,6 +192,7 @@ public static class EncounterServerDate
         {1529, (new(2023, 12, 07), new(2023, 12, 22))}, // Darkrai
         {1530, (new(2023, 12, 07), new(2024, 01, 04))}, // Shiny Lucario
         {1527, (new(2023, 12, 13), new(2024, 12, 01))}, // Paldea Gimmighoul
+        {0036, (new(2023, 12, 15), Never)}, // コロコロ Roaring Moon and Iron Valiant
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
         {9022, HOME3_ML}, // Hidden Ability Fuecoco
