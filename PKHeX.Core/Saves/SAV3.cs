@@ -298,6 +298,21 @@ public abstract class SAV3 : SaveFile, ILangDeviantSave, IEventFlag37
         }
     }
 
+    public static bool IsMail(int itemID) => (uint)(itemID - 121) <= (132 - 121);
+
+    protected override void SetPartyValues(PKM pk, bool isParty)
+    {
+        if (pk is not PK3 p3)
+            return;
+
+        // If no mail ID is set, ensure it is set to 0xFF for party and 0x00 for box format.
+        // Box format doesn't store this value, but set it anyway for clarity.
+        if (!IsMail(p3.HeldItem))
+            p3.HeldMailID = isParty ? (sbyte)-1 : (sbyte)0;
+
+        base.SetPartyValues(pk, isParty);
+    }
+
     public abstract uint SecurityKey { get; set; }
 
     public sealed override string OT
