@@ -18,7 +18,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9SV(this);
-        SaveRevision = RaidBlueberry.Data.Length != 0 ? 2 : RaidKitakami.Data.Length != 0 ? 1 : 0;
+        SaveRevision = Blocks.HasBlock(SaveBlockAccessor9SV.KBlueberryPoints) ? 2 : RaidKitakami.Data.Length != 0 ? 1 : 0;
         Initialize();
     }
 
