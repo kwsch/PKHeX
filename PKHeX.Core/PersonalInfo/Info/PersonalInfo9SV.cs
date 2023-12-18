@@ -76,7 +76,7 @@ public sealed class PersonalInfo9SV(byte[] Data) : PersonalInfo, IPersonalAbilit
     };
 
     private const int TM = 0x2C;
-    private const int CountTM = 202;
+    private const int CountTM = 230;
     private const int ByteCountTM = (CountTM + 7) / 8;
 
     public bool GetIsLearnTM(int index)

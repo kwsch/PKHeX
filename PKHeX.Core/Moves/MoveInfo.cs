@@ -82,7 +82,7 @@ public static class MoveInfo
     /// <summary>
     /// Checks if the move is a Starmobile-only move.
     /// </summary>
-    public static bool IsMoveTorque(ushort move) => move - (uint)CombatTorque <= 3;
+    public static bool IsMoveTorque(ushort move) => move - (uint)BlazingTorque <= 3;
 
     /// <summary>
     /// Checks if the <see cref="move"/> is unable to be used in battle.
