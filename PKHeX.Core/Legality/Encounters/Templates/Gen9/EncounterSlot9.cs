@@ -114,8 +114,8 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         186 => Standard, // Coastal Plaza
         188 => Standard, // Canyon Plaza
         190 => Standard, // Polar Plaza
-        192 => Standard, // Chargestone Cavern
-        194 => Standard, // Torchlit Labyrinth
+        192 => Inside,   // Chargestone Cavern
+        194 => Inside,   // Torchlit Labyrinth
 
         _ => None,
     };
