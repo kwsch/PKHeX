@@ -1,4 +1,4 @@
-﻿PKHeX - By Kaphotics
+PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
 23/12/18 - New Update:
@@ -6,7 +6,7 @@ http://projectpokemon.org/pkhex/
  - - Requires Windows 64bit operating system, with the .NET Desktop Runtime 8.0.x
  - - https://dotnet.microsoft.com/en-us/download/dotnet/8.0
  - Added support for Scarlet & Violet 3.0.0 (Indigo Disk)
- - Legality: Added encounters / changes as per Teal Mask DLC adjustments. 
+ - Legality: Added encounters / changes as per Indigo Disk DLC adjustments. 
  - - Will still have issues with crossovers, Minior, and encounter locations. Will be addressed next release.
  - - Fixed: Gen4 Manaphy PID rerolling behavior updated. Thanks @Lincoln-LM!
  - Added: Hover preview now shows a custom preview tooltip. Old behavior can be reverted to via settings.

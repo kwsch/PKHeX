@@ -767,6 +767,7 @@ namespace PKHeX.WinForms
             B_UnlockCoaches.TabIndex = 66;
             B_UnlockCoaches.Text = "Unlock All Coaches";
             B_UnlockCoaches.UseVisualStyleBackColor = true;
+            B_UnlockCoaches.Click += B_UnlockCoaches_Click;
             // 
             // B_ActivateSnacksworthLegendaries
             // 

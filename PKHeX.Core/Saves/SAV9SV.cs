@@ -411,7 +411,12 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             "FSYS_CLUB_HUD_COACH_TEACHER_MATH",
         ];
 
+        // extra safety
         foreach (var block in blocks)
-            Accessor.GetBlock(block).SetValue(SCTypeCode.Bool2);
+        {
+            var hash = (uint)FnvHash.HashFnv1a_64(block);
+            if (Accessor.TryGetBlock(hash, out var flag))
+                flag.ChangeBooleanType(SCTypeCode.Bool2);
+        }
     }
 }
