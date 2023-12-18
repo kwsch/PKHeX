@@ -301,14 +301,14 @@ public partial class SAV_Trainer9 : Form
 
     private void B_UnlockBikeUpgrades_Click(object sender, EventArgs e)
     {
-        var blocks = new[]
-        {
+        string[] blocks =
+        [
             "FSYS_RIDE_DASH_ENABLE",
             "FSYS_RIDE_SWIM_ENABLE",
             "FSYS_RIDE_HIJUMP_ENABLE",
             "FSYS_RIDE_GLIDE_ENABLE",
             "FSYS_RIDE_CLIMB_ENABLE",
-        };
+        ];
 
         var accessor = SAV.Accessor;
         foreach (var block in blocks)

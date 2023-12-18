@@ -915,7 +915,7 @@ public partial class Main : Form
                 string fr = GameInfo.GetVersionName(GameVersion.FR);
                 string lg = GameInfo.GetVersionName(GameVersion.LG);
                 string dual = "{1}/{2} " + MsgFileLoadVersionDetect;
-                var g = new[] { GameVersion.FR, GameVersion.LG };
+                GameVersion[] g = [GameVersion.FR, GameVersion.LG];
                 var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
                 var msg = string.Format(dual, "3", fr, lg);
                 using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);

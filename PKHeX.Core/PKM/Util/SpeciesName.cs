@@ -13,8 +13,8 @@ public static class SpeciesName
     /// <summary>
     /// Species name lists indexed by the <see cref="LanguageID"/> value.
     /// </summary>
-    private static readonly IReadOnlyList<IReadOnlyList<string>> SpeciesLang = new[]
-    {
+    private static readonly IReadOnlyList<IReadOnlyList<string>> SpeciesLang =
+    [
         Util.GetSpeciesList("ja"), // 0 (unused, invalid)
         Util.GetSpeciesList("ja"), // 1
         Util.GetSpeciesList("en"), // 2
@@ -26,7 +26,7 @@ public static class SpeciesName
         Util.GetSpeciesList("ko"), // 8
         Util.GetSpeciesList("zh"), // 9 Simplified
         Util.GetSpeciesList("zh2"), // 10 Traditional
-    };
+    ];
 
     /// <summary>
     /// Gets the maximum valid species ID stored in the <see cref="SpeciesLang"/> list.
