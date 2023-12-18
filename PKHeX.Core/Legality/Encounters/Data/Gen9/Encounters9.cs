@@ -154,7 +154,7 @@ internal static class Encounters9
     private const string tradeSV = "tradesv";
     private static readonly string[][] TradeNames = Util.GetLanguageStrings10(tradeSV, "zh2");
 
-    // 3 Trades are currently inaccessible (legally at least) until the Mochi Mayhem Epilogue is released.
+    // 5 Trades are currently inaccessible (legally at least) until the Mochi Mayhem Epilogue is released.
     internal static readonly EncounterTrade9[] TradeGift_SV =
     [
         new(TradeNames, 00, SV, 0194, 18) { FixedBall = Ball.Poke,  ID32 = 033081, Ability = OnlySecond, OTGender = 1, Gender = 0, Nature = Nature.Relaxed, TeraType = GemType.Water,    Weight = SizeType9.M,     Scale = SizeType9.M,     IVs = new(27,18,25,13,16,31) }, // Wooper
@@ -184,10 +184,10 @@ internal static class Encounters9
         new(TradeNames, 24, SV, 0857, 33) { FixedBall = Ball.Poke,  ID32 = 654886, Ability = OnlyFirst,  OTGender = 0, Gender = 1, Nature = Nature.Serious, TeraType = GemType.Fairy,    Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(22,18,18,07,31,31) }, // Hattrem
         new(TradeNames, 25, SV, 0052, 21) { FixedBall = Ball.Poke,  ID32 = 314512, Ability = OnlySecond, OTGender = 0, Gender = 1, Nature = Nature.Relaxed, TeraType = GemType.Dark,     Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(09,31,24,11,12,12), Form = 1 }, // Meowth-1
         new(TradeNames, 26, SV, 0522, 20) { FixedBall = Ball.Poke,  ID32 = 390518, Ability = OnlyFirst,  OTGender = 0, Gender = 0, Nature = Nature.Hardy,   TeraType = GemType.Electric, Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(31,25,23,31,23,31), Shiny = Always }, // Blitzle
-        new(TradeNames, 27, SV, 0840, 15) { FixedBall = Ball.Poke,  ID32 = 184745, Ability = OnlyHidden, OTGender = 0, Gender = 0, Nature = Nature.Modest,  TeraType = GemType.Dragon,   Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(30,31,22,18,31,26), Moves = new(110,310,278,389) }, // Applin
+      //new(TradeNames, 27, SV, 0840, 15) { FixedBall = Ball.Poke,  ID32 = 184745, Ability = OnlyHidden, OTGender = 0, Gender = 0, Nature = Nature.Modest,  TeraType = GemType.Dragon,   Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(30,31,22,18,31,26), Moves = new(110,310,278,389) }, // Applin
         new(TradeNames, 28, SV, 0209, 18) { FixedBall = Ball.Nest,  ID32 = 816963, Ability = OnlyFirst,  OTGender = 1, Gender = 0, Nature = Nature.Adamant, TeraType = GemType.Fairy,    Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(18,30,24,31,24,25) }, // Snubbull
-        new(TradeNames, 29, SV, 0744, 12) { FixedBall = Ball.Poke,  ID32 = 980975, Ability = OnlyHidden, OTGender = 1, Gender = 1, Nature = Nature.Impish,  TeraType = GemType.Ground,   Weight = SizeType9.M,     Scale = SizeType9.M,     IVs = new(20,30,02,19,15,17), Moves = new(707,088,387,283)  }, // Rockruff
-        new(TradeNames, 30, SV, 1012, 30) { FixedBall = Ball.Poke,  ID32 = 704310, Ability = OnlyFirst,  OTGender = 1, Gender = 1, Nature = Nature.Sassy,   TeraType = GemType.Water,    Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(12,19,29,22,31,03), Moves = new(506,072,078,503)  }, // Poltchageist
+        new(TradeNames, 29, SV, 0744, 12) { FixedBall = Ball.Poke,  ID32 = 980975, Ability = OnlyHidden, OTGender = 1, Gender = 1, Nature = Nature.Impish,  TeraType = GemType.Ground,   Weight = SizeType9.M,     Scale = SizeType9.M,     IVs = new(20,30,02,19,15,17), Moves = new(707,088,387,283) }, // Rockruff
+      //new(TradeNames, 30, SV, 1012, 30) { FixedBall = Ball.Poke,  ID32 = 704310, Ability = OnlyFirst,  OTGender = 1, Gender = 1, Nature = Nature.Sassy,   TeraType = GemType.Water,    Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(12,19,29,22,31,03), Moves = new(506,072,078,503) }, // Poltchageist
         new(TradeNames, 31, SV, 0316, 17) { FixedBall = Ball.Poke,  ID32 = 134745, Ability = OnlyHidden, OTGender = 0, Gender = 1, Nature = Nature.Gentle,  TeraType = GemType.Poison,   Weight = SizeType9.VALUE, Scale = SizeType9.VALUE, IVs = new(12,28,25,19,17,31), Moves = new(491,227,499,281) }, // Gulpin
         new(TradeNames, 32, SV, 0872, 10) { FixedBall = Ball.Poke,  ID32 = 050724, Ability = Any12,      OTGender = 0, Gender = 1, Nature = Nature.Bashful, TeraType = GemType.Ice,      Weight = SizeType9.L,     Scale = SizeType9.L,     IVs = new(31,18,13,20,28,26) }, // Snom
     ];
