@@ -61,6 +61,13 @@ public sealed class FormArgumentVerifier : Verifier
                 > 9_999 => GetInvalid(LFormArgumentHigh),
                 _ => GetValid(LFormArgumentValid),
             },
+            Overqwil => arg switch
+            {
+                > 9_999 => GetInvalid(LFormArgumentHigh),
+                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 => GetInvalid(LFormArgumentLow),
+                >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA => GetInvalid(LFormArgumentLow),
+                _ => GetValid(LFormArgumentValid),
+            },
             Stantler => arg switch
             {
                 not 0 when pk.IsEgg => GetInvalid(LFormArgumentNotAllowed),
@@ -90,7 +97,6 @@ public sealed class FormArgumentVerifier : Verifier
             Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (uint)AlcremieDecoration.Ribbon),
             Wyrdeer     => VerifyFormArgumentRange(enc.Species, Wyrdeer,     arg,  20, 9999),
             Basculegion => VerifyFormArgumentRange(enc.Species, Basculegion, arg, 294, 9999),
-            Overqwil    => VerifyFormArgumentRange(enc.Species, Overqwil,    arg,  20, 9999),
             Annihilape  => VerifyFormArgumentRange(enc.Species, Annihilape,  arg,  20, 9999),
             Kingambit   => VerifyFormArgumentRange(enc.Species, Kingambit,   arg,   3, 9999),
             Gholdengo   => VerifyFormArgumentRange(enc.Species, Gholdengo,   arg, 999,  999),

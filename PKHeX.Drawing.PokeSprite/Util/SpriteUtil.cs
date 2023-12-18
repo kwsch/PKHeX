@@ -104,7 +104,8 @@ public static class SpriteUtil
             if (SpriteBuilder.ShowTeraType != SpriteBackgroundType.None && pk is ITeraType t)
             {
                 var type = t.TeraType;
-                sprite = ApplyTeraColor((byte)type, sprite, SpriteBuilder.ShowTeraType);
+                if (TeraTypeUtil.IsOverrideValid((byte)type))
+                    sprite = ApplyTeraColor((byte)type, sprite, SpriteBuilder.ShowTeraType);
             }
             if (flagIllegal)
             {

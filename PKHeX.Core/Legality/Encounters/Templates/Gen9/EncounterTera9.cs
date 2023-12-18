@@ -8,7 +8,7 @@ namespace PKHeX.Core;
 /// Generation 9 Tera Raid Encounter
 /// </summary>
 public sealed record EncounterTera9
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, ITeraRaid9, IMoveset, IFlawlessIVCount, IFixedGender, IEncounterFormRandom
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -38,6 +38,8 @@ public sealed record EncounterTera9
     public bool IsAvailableHostScarlet => RandRateMinScarlet != -1;
     public bool IsAvailableHostViolet => RandRateMinViolet != -1;
     public required TeraRaidMapParent Map { get; init; }
+
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
 
     public string Name => $"Tera Raid Encounter [{(Index == 0 ? "Base" : Index)}] {Stars}★";
     public string LongName => Name;
@@ -230,7 +232,7 @@ public sealed record EncounterTera9
             return false;
         if (!IsMatchLocation(pk))
             return false;
-        if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
+        if (Form != evo.Form && !IsRandomUnspecificForm && !FormInfo.IsFormChangeable(Species, Form, pk.Form, Context, pk.Context))
             return false;
 
         return true;
@@ -259,9 +261,9 @@ public sealed record EncounterTera9
         return IsMatchDeferred(pk);
     }
 
-    private bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
+    private static bool IsMatchLocationExact(PKM pk) => pk.Met_Location == Location;
 
-    private bool IsMatchLocationRemapped(PKM pk)
+    private static bool IsMatchLocationRemapped(PKM pk)
     {
         var met = (ushort)pk.Met_Location;
         var version = pk.Version;

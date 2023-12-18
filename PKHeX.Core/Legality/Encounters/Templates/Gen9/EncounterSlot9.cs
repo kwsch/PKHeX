@@ -105,6 +105,18 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         168 => Standard, // Infernal Pass
         170 => Standard, // Chilling Waterhead
 
+        174 => Standard, // Savanna Biome
+        176 => Standard, // Coastal Biome
+        178 => Standard, // Canyon Biome
+        180 => Snow,     // Polar Biome
+        182 => Standard, // Central Plaza
+        184 => Standard, // Savanna Plaza
+        186 => Standard, // Coastal Plaza
+        188 => Standard, // Canyon Plaza
+        190 => Standard, // Polar Plaza
+        192 => Standard, // Chargestone Cavern
+        194 => Standard, // Torchlit Labyrinth
+
         _ => None,
     };
 
