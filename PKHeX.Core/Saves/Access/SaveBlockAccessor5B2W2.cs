@@ -92,6 +92,7 @@ public sealed class SaveBlockAccessor5B2W2(SAV5B2W2 sav)
     public MyItem Items { get; } = new MyItem5B2W2(sav, 0x18400);
     public UnityTower5 UnityTower { get; } = new(sav, 0x19600);
     public MysteryBlock5 Mystery { get; } = new(sav, 0x1C800);
+    public Chatter5 Chatter { get; } = new(sav, 0x1D500);
     public Musical5 Musical { get; } = new(sav, 0x1F700);
     public Daycare5 Daycare { get; } = new(sav, 0x20D00);
     public Misc5 Misc { get; } = new Misc5B2W2(sav, 0x21100);

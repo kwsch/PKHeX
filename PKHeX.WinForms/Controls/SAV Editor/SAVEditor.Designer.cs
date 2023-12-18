@@ -79,6 +79,7 @@ namespace PKHeX.WinForms.Controls
             B_OpenUGSEditor = new System.Windows.Forms.Button();
             B_OpenGeonetEditor = new System.Windows.Forms.Button();
             B_OpenUnityTowerEditor = new System.Windows.Forms.Button();
+            B_OpenChatterEditor = new System.Windows.Forms.Button();
             B_Roamer = new System.Windows.Forms.Button();
             B_FestivalPlaza = new System.Windows.Forms.Button();
             B_MailBox = new System.Windows.Forms.Button();
@@ -389,6 +390,7 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_OpenUGSEditor);
             FLP_SAVtools.Controls.Add(B_OpenGeonetEditor);
             FLP_SAVtools.Controls.Add(B_OpenUnityTowerEditor);
+            FLP_SAVtools.Controls.Add(B_OpenChatterEditor);
             FLP_SAVtools.Controls.Add(B_Roamer);
             FLP_SAVtools.Controls.Add(B_FestivalPlaza);
             FLP_SAVtools.Controls.Add(B_MailBox);
@@ -686,6 +688,17 @@ namespace PKHeX.WinForms.Controls
             B_OpenUnityTowerEditor.Text = "Unity Tower";
             B_OpenUnityTowerEditor.UseVisualStyleBackColor = true;
             B_OpenUnityTowerEditor.Click += B_OpenUnityTowerEditor_Click;
+            // 
+            // B_OpenChatterEditor
+            // 
+            B_OpenChatterEditor.Location = new System.Drawing.Point(212, 204);
+            B_OpenChatterEditor.Margin = new System.Windows.Forms.Padding(4);
+            B_OpenChatterEditor.Name = "B_OpenChatterEditor";
+            B_OpenChatterEditor.Size = new System.Drawing.Size(96, 32);
+            B_OpenChatterEditor.TabIndex = 1;
+            B_OpenChatterEditor.Text = "Chatter";
+            B_OpenChatterEditor.UseVisualStyleBackColor = true;
+            B_OpenChatterEditor.Click += B_OpenChatterEditor_Click;
             // 
             // B_Roamer
             // 
@@ -1076,6 +1089,7 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_OpenUGSEditor;
         private System.Windows.Forms.Button B_OpenGeonetEditor;
         private System.Windows.Forms.Button B_OpenUnityTowerEditor;
+        private System.Windows.Forms.Button B_OpenChatterEditor;
         private System.Windows.Forms.Button B_Roamer;
         private System.Windows.Forms.Button B_FestivalPlaza;
         private System.Windows.Forms.Button B_MailBox;

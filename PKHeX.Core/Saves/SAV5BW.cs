@@ -45,6 +45,7 @@ public sealed class SAV5BW : SAV5
     public override Zukan5 Zukan => Blocks.Zukan;
     public override Misc5 Misc => Blocks.Misc;
     public override MysteryBlock5 Mystery => Blocks.Mystery;
+    public override Chatter5 Chatter => Blocks.Chatter;
     public override Daycare5 Daycare => Blocks.Daycare;
     public override BoxLayout5 BoxLayout => Blocks.BoxLayout;
     public override PlayerData5 PlayerData => Blocks.PlayerData;
