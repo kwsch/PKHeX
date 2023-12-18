@@ -2373,6 +2373,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap gem_99 {
+            get {
+                object obj = ResourceManager.GetObject("gem_99", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap ribbonability {
             get {
                 object obj = ResourceManager.GetObject("ribbonability", resourceCulture);
@@ -3813,6 +3823,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap ribbonpartner {
+            get {
+                object obj = ResourceManager.GetObject("ribbonpartner", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap ribbonpremier {
             get {
                 object obj = ResourceManager.GetObject("ribbonpremier", resourceCulture);
@@ -4913,6 +4933,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap type_icon_99 {
+            get {
+                object obj = ResourceManager.GetObject("type_icon_99", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap type_wide_00 {
             get {
                 object obj = ResourceManager.GetObject("type_wide_00", resourceCulture);
@@ -5086,6 +5116,16 @@ namespace PKHeX.Drawing.Misc.Properties {
         public static System.Drawing.Bitmap type_wide_17 {
             get {
                 object obj = ResourceManager.GetObject("type_wide_17", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap type_wide_99 {
+            get {
+                object obj = ResourceManager.GetObject("type_wide_99", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

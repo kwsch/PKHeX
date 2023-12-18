@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	卡洛斯冠軍
+RibbonChampionKalos	卡洛斯冠軍
 RibbonChampionG3	冠軍 (Gen3)
 RibbonChampionSinnoh	神奧冠軍
 RibbonBestFriends	好友
@@ -161,3 +161,4 @@ RibbonOnceInALifetime	千載難逢獎章
 RibbonMarkAlpha	頭目之證
 RibbonMarkMightiest	最強之證
 RibbonMarkTitan	寳主之證
+RibbonPartner	同伴獎章

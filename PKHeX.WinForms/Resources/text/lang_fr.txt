@@ -215,6 +215,7 @@ Main.B_OtherSlots=Other Slots
 Main.B_OUTPasserby=PSS
 Main.B_Poffins=Poffins
 Main.B_RaidArmor=Raids (DLC 1)
+Main.B_RaidBlueberry=Raids (DLC 2)
 Main.B_RaidCrown=Raids (DLC 2)
 Main.B_RaidKitakami=Raids (DLC 1)
 Main.B_Raids=Raids

@@ -169,8 +169,8 @@ public static class Locations
     public static bool IsMetLocation7SM(ushort z) => z < 200; // Outer Cape
     public static bool IsMetLocation7USUM(ushort z) => z < 234; // Dividing Peak Tunnel
     public static bool IsMetLocation7GG(ushort z) => z <= 54; // Pokémon League
-    public static bool IsMetLocation8SWSH(ushort z) => z <= 246; // at the Crown Tundra Station
+    public static bool IsMetLocation8SWSH(ushort z) => z <= 246; // Crown Tundra Station
     public static bool IsMetLocation8BDSP(ushort z) => z <= 657; // Ramanas Park (Genome Room)
     public static bool IsMetLocation8LA(ushort z) => z <= 155; // Training Grounds
-    public static bool IsMetLocation9SV(ushort z) => z <= 131; // Uva Academy
+    public static bool IsMetLocation9SV(ushort z) => z <= 200; // Terarium (Entry Tunnel)
 }

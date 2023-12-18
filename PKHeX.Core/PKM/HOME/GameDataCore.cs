@@ -191,7 +191,7 @@ public sealed class GameDataCore : IHomeTrack, ISpeciesForm, ITrainerID, INature
     public bool RibbonMarkAlpha        { get => GetFlag(0x3F, 3); set => SetFlag(0x3F, 3, value); }
     public bool RibbonMarkMightiest    { get => GetFlag(0x3F, 4); set => SetFlag(0x3F, 4, value); }
     public bool RibbonMarkTitan        { get => GetFlag(0x3F, 5); set => SetFlag(0x3F, 5, value); }
-    public bool RIB45_6                { get => GetFlag(0x3F, 6); set => SetFlag(0x3F, 6, value); }
+    public bool RibbonPartner          { get => GetFlag(0x3F, 6); set => SetFlag(0x3F, 6, value); }
     public bool RIB45_7                { get => GetFlag(0x3F, 7); set => SetFlag(0x3F, 7, value); }
 
     public bool RIB46_0                { get => GetFlag(0x40, 0); set => SetFlag(0x40, 0, value); }

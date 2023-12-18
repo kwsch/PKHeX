@@ -18,7 +18,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         AllBlocks = blocks;
         Blocks = new SaveBlockAccessor9SV(this);
-        SaveRevision = Zukan.GetRevision();
+        SaveRevision = RaidBlueberry.Data.Length != 0 ? 2 : RaidKitakami.Data.Length != 0 ? 1 : 0;
         Initialize();
     }
 
@@ -26,7 +26,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     {
         AllBlocks = Meta9.GetBlankDataSV();
         Blocks = new SaveBlockAccessor9SV(this);
-        SaveRevision = Zukan.GetRevision();
+        SaveRevision = Meta9.BlankRevision;
         Initialize();
         ClearBoxes();
     }
@@ -80,8 +80,10 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public PlayerAppearance9 PlayerAppearance => Blocks.PlayerAppearance;
     public RaidSpawnList9 RaidPaldea => Blocks.RaidPaldea;
     public RaidSpawnList9 RaidKitakami => Blocks.RaidKitakami;
+    public RaidSpawnList9 RaidBlueberry => Blocks.RaidBlueberry;
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
     public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
+    public BlueberryQuestRecord9 BlueberryQuestRecord => Blocks.BlueberryQuestRecord;
     #endregion
 
     protected override SAV9SV CloneInternal()
@@ -121,6 +123,13 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             m_spec = Legal.MaxSpeciesID_9_T1;
             m_item = Legal.MaxItemID_9_T1;
             m_abil = Legal.MaxAbilityID_9_T1;
+        }
+        else if (rev == 2)
+        {
+            m_move = Legal.MaxMoveID_9_T2;
+            m_spec = Legal.MaxSpeciesID_9_T2;
+            m_item = Legal.MaxItemID_9_T2;
+            m_abil = Legal.MaxAbilityID_9_T2;
         }
         else
         {
@@ -171,6 +180,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
     public override uint Money { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor9SV.KMoney); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KMoney, value); }
     public uint LeaguePoints { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor9SV.KLeaguePoints); set => Blocks.SetBlockValue(SaveBlockAccessor9SV.KLeaguePoints, value); }
+    public uint BlueberryPoints { get => (uint)Blocks.GetBlockValue(SaveBlockAccessor9SV.KBlueberryPoints); set => Blocks.SetBlockValueSafe(SaveBlockAccessor9SV.KBlueberryPoints, value); }
 
     public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
     public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
@@ -367,5 +377,41 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
             if (Accessor.TryGetBlock(hash, out var block))
                 block.ChangeBooleanType(SCTypeCode.Bool2);
         }
+    }
+
+    public void ActivateSnacksworthLegendaries()
+    {
+        for (int i = 13; i <= 37; i++)
+        {
+            var flag = $"WEVT_S2_SUB_{i:000}_STATE";
+            var hash = (uint)FnvHash.HashFnv1a_64(flag);
+            if (Accessor.TryGetBlock(hash, out var block))
+                block.SetValue(1); // appeared, not captured
+        }
+    }
+
+    public void UnlockAllCoaches()
+    {
+        string[] blocks =
+        [
+            "FSYS_CLUB_HUD_COACH_BOTAN",
+            "FSYS_CLUB_HUD_COACH_CHAMP_HAGANE",
+            "FSYS_CLUB_HUD_COACH_CHAMP_JIMEN",
+            "FSYS_CLUB_HUD_COACH_CHAMP_TOP",
+            "FSYS_CLUB_HUD_COACH_FRIEND",
+            "FSYS_CLUB_HUD_COACH_RIVAL",
+            "FSYS_CLUB_HUD_COACH_TEACHER_ART",
+            "FSYS_CLUB_HUD_COACH_TEACHER_ATHLETIC",
+            "FSYS_CLUB_HUD_COACH_TEACHER_BIOLOGY",
+            "FSYS_CLUB_HUD_COACH_TEACHER_HEAD",
+            "FSYS_CLUB_HUD_COACH_TEACHER_HEALTH",
+            "FSYS_CLUB_HUD_COACH_TEACHER_HISTORY",
+            "FSYS_CLUB_HUD_COACH_TEACHER_HOME",
+            "FSYS_CLUB_HUD_COACH_TEACHER_LANGUAGE",
+            "FSYS_CLUB_HUD_COACH_TEACHER_MATH",
+        ];
+
+        foreach (var block in blocks)
+            Accessor.GetBlock(block).SetValue(SCTypeCode.Bool2);
     }
 }

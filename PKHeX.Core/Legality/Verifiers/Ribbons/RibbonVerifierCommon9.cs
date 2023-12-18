@@ -13,6 +13,8 @@ public static class RibbonVerifierCommon9
             list.Add(ChampionPaldea);
         if (r.RibbonOnceInALifetime) // Flag it.
             list.Add(OnceInALifetime);
+        if (r.RibbonPartner != args.Encounter is IRibbonPartner { RibbonPartner: true })
+            list.Add(Partner);
     }
 
     public static void ParseEgg(this IRibbonSetCommon9 r, ref RibbonResultList list)
@@ -21,5 +23,7 @@ public static class RibbonVerifierCommon9
             list.Add(ChampionPaldea);
         if (r.RibbonOnceInALifetime)
             list.Add(OnceInALifetime);
+        if (r.RibbonPartner)
+            list.Add(Partner);
     }
 }

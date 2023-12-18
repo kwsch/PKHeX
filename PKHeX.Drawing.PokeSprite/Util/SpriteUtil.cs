@@ -148,7 +148,7 @@ public static class SpriteUtil
 
     private static Bitmap ApplyTeraColor(byte elementalType, Bitmap img, SpriteBackgroundType type)
     {
-        var color = TypeColor.GetTypeSpriteColor(elementalType);
+        var color = TypeColor.GetTeraSpriteColor(elementalType);
         var thk = SpriteBuilder.ShowTeraThicknessStripe;
         var op  = SpriteBuilder.ShowTeraOpacityStripe;
         var bg  = SpriteBuilder.ShowTeraOpacityBackground;

@@ -36,6 +36,7 @@ public enum GemType : byte
     Dragon = 17,
     Dark = 18,
     Fairy = 19,
+    Stellar = 101,
 }
 
 /// <summary>

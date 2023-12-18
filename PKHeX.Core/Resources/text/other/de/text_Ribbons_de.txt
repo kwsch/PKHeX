@@ -161,3 +161,4 @@ RibbonOnceInALifetime	Glückstrefferband
 RibbonMarkAlpha	Elite-Zeichen
 RibbonMarkMightiest	Titanen-Zeichen
 RibbonMarkTitan	Herrscher-Zeichen
+RibbonPartner	Partnerband

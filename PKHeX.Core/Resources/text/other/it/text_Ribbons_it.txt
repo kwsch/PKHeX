@@ -1,49 +1,49 @@
-RibbonChampionKalos	Kalos Champion
-RibbonChampionG3	Champion (Gen3)
-RibbonChampionSinnoh	Sinnoh Champion
-RibbonBestFriends	Best Friends
+RibbonChampionKalos	Campione Kalos
+RibbonChampionG3	Campione (Gen3)
+RibbonChampionSinnoh	Campione Sinnoh
+RibbonBestFriends	Amicizia
 RibbonTraining	Training
-RibbonBattlerSkillful	Skillful Battler
-RibbonBattlerExpert	Expert Battler
-RibbonEffort	Effort
-RibbonAlert	Alert
-RibbonShock	Shock
-RibbonDowncast	Downcast
-RibbonCareless	Careless
+RibbonBattlerSkillful	Asso della Lotta
+RibbonBattlerExpert	Genio della Lotta
+RibbonEffort	Merito
+RibbonAlert	Allarme
+RibbonShock	Stupore
+RibbonDowncast	Sconforto
+RibbonCareless	Indolenza
 RibbonRelax	Relax
-RibbonSnooze	Snooze
-RibbonSmile	Smile
-RibbonGorgeous	Gorgeous
-RibbonRoyal	Royal
-RibbonGorgeousRoyal	Gorgeous Royal
-RibbonArtist	Artist
-RibbonFootprint	Footprint
+RibbonSnooze	Pisolino
+RibbonSmile	Sorriso
+RibbonGorgeous	Meraviglia
+RibbonRoyal	Reale
+RibbonGorgeousRoyal	Meraviglia Reale
+RibbonArtist	Artista
+RibbonFootprint	Orma
 RibbonRecord	Record
-RibbonLegend	Legend
-RibbonCountry	Country
-RibbonNational	National
-RibbonEarth	Earth
-RibbonWorld	World
-RibbonClassic	Classic
-RibbonPremier	Premier
-RibbonEvent	Event
-RibbonBirthday	Birthday
-RibbonSpecial	Special
-RibbonSouvenir	Souvenir
-RibbonWishing	Wishing
-RibbonChampionBattle	Battle Champion
-RibbonChampionRegional	Regional Champion
-RibbonChampionNational	National Champion
-RibbonChampionWorld	World Champion
-RibbonCountMemoryContest	Contest Memory
-RibbonCountMemoryBattle	Battle Memory
-RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
-RibbonContestStar	Contest Star
-RibbonMasterCoolness	Coolness Master
-RibbonMasterBeauty	Beauty Master
-RibbonMasterCuteness	Cuteness Master
-RibbonMasterCleverness	Cleverness Master
-RibbonMasterToughness	Toughness Master
+RibbonLegend	Leggenda
+RibbonCountry	Paese
+RibbonNational	Nazionale
+RibbonEarth	Geo
+RibbonWorld	Mondiale
+RibbonClassic	Classico
+RibbonPremier	Principale
+RibbonEvent	Evento
+RibbonBirthday	Compleanno
+RibbonSpecial	Speciale
+RibbonSouvenir	Ricordo
+RibbonWishing	Desiderio
+RibbonChampionBattle	Campione Lotta
+RibbonChampionRegional	Campione Locale
+RibbonChampionNational	Campione Nazionale
+RibbonChampionWorld	Campione Mondiale
+RibbonCountMemoryContest	Ricordo delle Gare
+RibbonCountMemoryBattle	Ricordo delle Lotte
+RibbonChampionG6Hoenn	Campione Hoenn (ORAS)
+RibbonContestStar	Stella delle Gare
+RibbonMasterCoolness	Classe Suprema
+RibbonMasterBeauty	Bellezza Suprema
+RibbonMasterCuteness	Grazia Suprema
+RibbonMasterCleverness	Acume Supremo
+RibbonMasterToughness	Grinta Suprema
 RibbonG3Cool	Cool (G3)
 RibbonG3CoolSuper	Cool Super
 RibbonG3CoolHyper	Cool Hyper
@@ -97,10 +97,10 @@ RibbonCountG3Beauty	Beauty
 RibbonCountG3Cute	Cute
 RibbonCountG3Smart	Smart
 RibbonCountG3Tough	Tough
-RibbonChampionAlola	Alola Champion
-RibbonBattleRoyale	Battle Royal Champion
-RibbonBattleTreeGreat	Battle Tree Great
-RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionAlola	Campione Alola
+RibbonBattleRoyale	Asso Royale
+RibbonBattleTreeGreat	Asso dell’Albero
+RibbonBattleTreeMaster	Genio dell’Albero
 RibbonChampionGalar	Campione Galar
 RibbonTowerMaster	Asso della Torre
 RibbonMasterRank	Asso Competizione
@@ -161,3 +161,4 @@ RibbonOnceInALifetime	Eccezionale
 RibbonMarkAlpha	Emblema dell’Alfa
 RibbonMarkMightiest	Emblema della Forza Assoluta
 RibbonMarkTitan	Emblema del dominante
+RibbonPartner	Compagno

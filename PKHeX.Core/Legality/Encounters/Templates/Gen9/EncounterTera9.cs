@@ -56,6 +56,7 @@ public sealed record EncounterTera9
     {
         TeraRaidMapParent.Paldea => GetRateTotalBaseSL(star),
         TeraRaidMapParent.Kitakami => GetRateTotalKitakamiSL(star),
+        TeraRaidMapParent.Blueberry => GetRateTotalBlueberry(star),
         _ => 0,
     };
 
@@ -64,6 +65,7 @@ public sealed record EncounterTera9
     {
         TeraRaidMapParent.Paldea => GetRateTotalBaseVL(star),
         TeraRaidMapParent.Kitakami => GetRateTotalKitakamiVL(star),
+        TeraRaidMapParent.Blueberry => GetRateTotalBlueberry(star),
         _ => 0,
     };
 
@@ -108,6 +110,18 @@ public sealed record EncounterTera9
         4 => 2100,
         5 => 2250,
         6 => 2574, // +99
+        _ => 0,
+    };
+
+    // finally the same for both games
+    public static short GetRateTotalBlueberry(int star) => star switch
+    {
+        1 => 1100,
+        2 => 1100,
+        3 => 2000,
+        4 => 1900,
+        5 => 2100,
+        6 => 2600,
         _ => 0,
     };
 
@@ -312,4 +326,5 @@ public enum TeraRaidMapParent : byte
 {
     Paldea,
     Kitakami,
+    Blueberry,
 }

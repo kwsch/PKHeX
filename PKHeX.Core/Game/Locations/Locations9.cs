@@ -7,12 +7,22 @@ internal static class Locations9
     /// <summary>
     /// Checks if the location is accessible in Paldea (without DLC).
     /// </summary>
-    public static bool IsAccessiblePreDLC(ushort location) => !IsKitakami(location);
+    public static bool IsAccessiblePreDLC(ushort location) => location <= 131;
 
     /// <summary>
     /// Checks if the location is accessible in Kitakami.
     /// </summary>
     public static bool IsKitakami(ushort location) => location is (>= 132 and <= 170);
+
+    /// <summary>
+    /// Checks if the location is accessible in Blueberry Academy.
+    /// </summary>
+    public static bool IsBlueberry(ushort location) => location is (>= 172 and <= 194);
+
+    /// <summary>
+    /// Checks if the location is accessible in Blueberry Academy.
+    /// </summary>
+    public static bool IsPaldeaDLC(ushort location) => location is 196 or 198; // Area Zero Underdepths
 
     public static ReadOnlySpan<byte> Met0 =>
     [
@@ -36,7 +46,10 @@ internal static class Locations9
         130, 131, 132, 134, 136, 138,
         140, 142, 144, 146, 148, 150,
         152, 154, 156, 158, 160, 162,
-        164, 166, 168, 170,
+        164, 166, 168, 170, 172, 174,
+        176, 178, 180, 182, 184, 186,
+        188, 190, 192, 194, 196, 198,
+        200,
     ];
 
     public static ReadOnlySpan<ushort> Met3 =>

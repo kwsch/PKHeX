@@ -811,6 +811,9 @@
   <data name="gem_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\types\gem\gem_17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gem_99" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\gem\gem_99.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ribbonability" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\ribbons\ribbonability.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1243,6 +1246,9 @@
   <data name="ribbononceinalifetime" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\ribbons\ribbononceinalifetime.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ribbonpartner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonpartner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ribbonpremier" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\ribbons\ribbonpremier.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1573,6 +1579,9 @@
   <data name="type_icon_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\types\square\type_icon_17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="type_icon_99" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\square\type_icon_99.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="type_wide_00" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\types\wide\type_wide_00.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -1626,5 +1635,8 @@
   </data>
   <data name="type_wide_17" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\types\wide\type_wide_17.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="type_wide_99" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\types\wide\type_wide_99.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

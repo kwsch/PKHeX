@@ -309,7 +309,11 @@ public sealed class ShowdownSet : IBattleTemplate
         var types = Strings.types;
         var val = StringUtil.FindIndexIgnoreCase(types, value);
         if (val < 0)
-            return false;
+        {
+            if (value is not "Stellar")
+                return false;
+            val = TeraTypeUtil.Stellar;
+        }
         TeraType = (MoveType)val;
         return true;
     }
@@ -369,8 +373,14 @@ public sealed class ShowdownSet : IBattleTemplate
         // Secondary Stats
         if ((uint)Ability < Strings.Ability.Count)
             result.Add($"Ability: {Strings.Ability[Ability]}");
-        if (Context == EntityContext.Gen9 && TeraType != MoveType.Any && (uint)TeraType < Strings.Types.Count)
-            result.Add($"Tera Type: {Strings.Types[(int)TeraType]}");
+        if (Context == EntityContext.Gen9 && TeraType != MoveType.Any)
+        {
+            if ((uint)TeraType <= (int)MoveType.Fairy)
+                result.Add($"Tera Type: {Strings.Types[(int)TeraType]}");
+            else if ((uint)TeraType == TeraTypeUtil.Stellar)
+                result.Add($"Tera Type: {Strings.Types[TeraTypeUtil.StellarTypeDisplayStringIndex]}");
+        }
+
         if (Level != 100)
             result.Add($"Level: {Level}");
         if (Shiny)
@@ -703,7 +713,8 @@ public sealed class ShowdownSet : IBattleTemplate
 
         // Defined Hidden Power
         var type = GetHiddenPowerType(moveString[(hiddenPowerName.Length + 1)..]);
-        int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types.AsSpan(1, 16), type); // Get HP Type
+        var types = Strings.types.AsSpan(1, HiddenPower.TypeCount);
+        int hpVal = StringUtil.FindIndexIgnoreCase(types, type); // Get HP Type
         if (hpVal == -1)
             return hiddenPowerName;
 

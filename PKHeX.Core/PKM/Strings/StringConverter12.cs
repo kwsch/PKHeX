@@ -17,7 +17,7 @@ public static class StringConverter12
                 return false;
         }
         return true;
-        static bool IsJapanese(char c) => c is >= '\u3000' and <= '\u30FC'; // todo: bitmask check
+        static bool IsJapanese(char c) => c is >= '\u3000' and <= '\u30FC';
     }
 
     public static bool GetIsG1English(ReadOnlySpan<char> str) => !GetIsG1Japanese(str);

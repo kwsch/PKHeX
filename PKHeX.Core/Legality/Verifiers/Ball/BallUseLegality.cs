@@ -90,5 +90,6 @@ internal static class BallUseLegality
     public const ulong WildPokeballs8g_WithRaid = WildPokeballs7b & ~(1ul << (int)Master); // Ultra Great Poke Premier, no Master
     public const ulong WildPokeballs8g_WithoutRaid = WildPokeRegular & ~(1ul << (int)Master); // Ultra Great Poke, no Premier/Master
 
-    public const ulong WildPokeballs9 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
+    public const ulong WildPokeballs9 = WildPokeballs8;
+    public const ulong WildPokeballs9PreDLC2 = WildPokeballs7 | WildPokeEnhance5; // Same as Gen7 + Dream
 }

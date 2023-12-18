@@ -215,6 +215,7 @@ Main.B_OtherSlots=其他
 Main.B_OUTPasserby=路人
 Main.B_Poffins=寳芬
 Main.B_RaidArmor=團體戰(鎧島)
+Main.B_RaidBlueberry=Raids (DLC 2)
 Main.B_RaidCrown=團體戰(雪原)
 Main.B_RaidKitakami=團體戰(北上)
 Main.B_Raids=團體戰

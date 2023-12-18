@@ -161,3 +161,4 @@ RibbonOnceInALifetime	천재일우리본
 RibbonMarkAlpha	우두머리의증표
 RibbonMarkMightiest	최강의증표
 RibbonMarkTitan	주인의증표
+RibbonPartner	파트너리본

@@ -248,9 +248,9 @@ public static class MarkRules
     public static RibbonIndex GetMaxAffixValue(EvolutionHistory evos)
     {
         if (evos.HasVisitedGen9)
-            return MarkTitan;
+            return RibbonIndexExtensions.MAX_G9;
         if (evos.HasVisitedSWSH)
-            return MarkSlump; // Pioneer and Twinkling Star cannot be selected in SW/SH.
+            return RibbonIndexExtensions.MAX_G8; // Pioneer and Twinkling Star cannot be selected in SW/SH.
         return unchecked((RibbonIndex)(-1));
     }
 }

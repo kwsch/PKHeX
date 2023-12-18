@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 /// Generation 9 Static Encounter
 /// </summary>
 public sealed record EncounterStatic9(GameVersion Version)
-    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IFixedIVSet, IGemType, IFixedGender, IFixedNature, IEncounterMarkExtra
+    : IEncounterable, IEncounterMatch, IEncounterConvertible<PK9>, IMoveset, IFlawlessIVCount, IFixedIVSet, IGemType, IFatefulEncounterReadOnly, IFixedGender, IFixedNature, IEncounterMarkExtra
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
@@ -32,6 +32,7 @@ public sealed record EncounterStatic9(GameVersion Version)
     public byte Size { get; init; }
     public bool IsTitan { get; init; }
     public bool RibbonMarkCrafty => Species == (int)Core.Species.Munchlax; // Shiny etc
+    public bool FatefulEncounter { get; init; }
     public bool IsMissingExtraMark(PKM pk, out RibbonIndex index)
     {
         if (RibbonMarkCrafty)
@@ -80,6 +81,7 @@ public sealed record EncounterStatic9(GameVersion Version)
             MetDate = EncounterDate.GetDateSwitch(),
             Version = (byte)version,
             Ball = (byte)Ball.Poke,
+            FatefulEncounter = FatefulEncounter,
 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Obedience_Level = LevelMin,

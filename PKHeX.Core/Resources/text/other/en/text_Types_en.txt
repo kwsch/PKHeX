@@ -16,3 +16,4 @@ Ice
 Dragon
 Dark
 Fairy
+Stellar

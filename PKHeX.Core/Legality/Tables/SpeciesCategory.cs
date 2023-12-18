@@ -19,7 +19,8 @@ public static class SpeciesCategory
         (int)Diancie or (int)Hoopa or (int)Volcanion or
         (int)Magearna or (int)Marshadow or
         (int)Zeraora or (int)Meltan or (int)Melmetal or
-        (int)Zarude
+        (int)Zarude or
+        (int)Pecharunt
         ;
 
     /// <summary>
@@ -36,7 +37,8 @@ public static class SpeciesCategory
         (int)Xerneas or (int)Yveltal or (int)Zygarde or
         (int)Cosmog or (int)Cosmoem or (int)Solgaleo or (int)Lunala or (int)Necrozma or
         (int)Zacian or (int)Zamazenta or (int)Eternatus or (int)Calyrex or
-        (int)Koraidon or (int)Miraidon
+        (int)Koraidon or (int)Miraidon or
+        (int)Terapagos
         ;
 
     /// <summary>
@@ -63,7 +65,9 @@ public static class SpeciesCategory
     /// <summary>
     /// Checks if the <see cref="species"/> is a Paradox Pokémon.
     /// </summary>
-    public static bool IsParadox(ushort species) => species is (>= (int)GreatTusk and <= (int)IronThorns) or (int)RoaringMoon or (int)IronValiant;
+    public static bool IsParadox(ushort species) => species is (>= (int)GreatTusk and <= (int)IronThorns)
+        or (int)RoaringMoon or (int)IronValiant
+        or (int)GougingFire or (int)RagingBolt or (int)IronBoulder or (int)IronCrown;
 
     public static bool IsFixedGenderFromDual(ushort currentSpecies) => currentSpecies switch
     {

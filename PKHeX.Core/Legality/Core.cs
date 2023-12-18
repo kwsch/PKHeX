@@ -114,10 +114,10 @@ public static class Legal
   //internal const int MaxGameID_8b = (int)GameVersion.SP;
     internal const int MaxAbilityID_8b = MaxAbilityID_8_R2;
 
-    internal const int MaxSpeciesID_9 = MaxSpeciesID_9_T1;
-    internal const int MaxMoveID_9 = MaxMoveID_9_T1;
-    internal const int MaxItemID_9 = MaxItemID_9_T1;
-    internal const int MaxAbilityID_9 = MaxAbilityID_9_T1;
+    internal const int MaxSpeciesID_9 = MaxSpeciesID_9_T2;
+    internal const int MaxMoveID_9 = MaxMoveID_9_T2;
+    internal const int MaxItemID_9 = MaxItemID_9_T2;
+    internal const int MaxAbilityID_9 = MaxAbilityID_9_T2;
 
     internal const int MaxSpeciesID_9_T0 = (int)Species.IronLeaves;
     internal const int MaxMoveID_9_T0 = (int)Move.MagicalTorque;
@@ -128,6 +128,11 @@ public static class Legal
     internal const int MaxMoveID_9_T1 = (int)Move.IvyCudgel;
     internal const int MaxItemID_9_T1 = 2481; // Glimmering Charm
     internal const int MaxAbilityID_9_T1 = (int)Ability.SupersweetSyrup;
+
+    internal const int MaxSpeciesID_9_T2 = (int)Species.Pecharunt;
+    internal const int MaxMoveID_9_T2 = (int)Move.MalignantChain;
+    internal const int MaxItemID_9_T2 = 2557; // Briar’s Book
+    internal const int MaxAbilityID_9_T2 = (int)Ability.PoisonPuppeteer;
 
     internal const int MaxBallID_9 = (int)Ball.LAOrigin;
     internal const int MaxGameID_9 = (int)GameVersion.VL;

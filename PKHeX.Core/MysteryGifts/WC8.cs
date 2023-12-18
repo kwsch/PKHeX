@@ -195,16 +195,17 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     private const int RibbonBytesCount = 0x20;
     private const int RibbonByteNone = 0xFF; // signed -1
 
+    private ReadOnlySpan<byte> RibbonSpan => Data.AsSpan(RibbonBytesOffset, RibbonBytesCount);
+
     public bool HasMarkEncounter8
     {
         get
         {
-            for (int i = 0; i < RibbonBytesCount; i++)
+            foreach (var value in RibbonSpan)
             {
-                var value = Data[RibbonBytesOffset + i];
                 if (value == RibbonByteNone)
-                    return false;
-                if ((RibbonIndex)value is >= MarkLunchtime and <= MarkSlump)
+                    return false; // end
+                if (((RibbonIndex)value).IsEncounterMark8())
                     return true;
             }
 
@@ -883,11 +884,11 @@ public sealed class WC8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
     public bool RibbonHisui { get => this.GetRibbonIndex(Hisui); set => this.SetRibbonIndex(Hisui, value); }
 
     public int GetRibbonByte(int index) => Array.IndexOf(Data, (byte)index, RibbonBytesOffset, RibbonBytesCount);
-    public bool GetRibbon(int index) => GetRibbonByte(index) >= 0;
+    public bool GetRibbon(int index) => RibbonSpan.Contains((byte)index);
 
     public void SetRibbon(int index, bool value = true)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)index, (uint)MarkSlump);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)index, (uint)RibbonIndexExtensions.MAX_G8);
         if (value)
         {
             if (GetRibbon(index))

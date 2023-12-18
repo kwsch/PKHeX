@@ -1133,3 +1133,5 @@ Hearthflame
 Cornerstone
 Artisan
 Masterpiece
+Terastal
+Stellar

@@ -161,3 +161,4 @@ RibbonOnceInALifetime	Exceptionnel
 RibbonMarkAlpha	Insigne Baron
 RibbonMarkMightiest	Insigne Surpuissant
 RibbonMarkTitan	Insigne Dominant
+RibbonPartner	Partner Ribbon

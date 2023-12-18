@@ -187,6 +187,7 @@ public static class FormInfo
 
         (int)Palafin,
         (int)Ogerpon,
+        (int)Terapagos,
     ];
 
     /// <summary>
