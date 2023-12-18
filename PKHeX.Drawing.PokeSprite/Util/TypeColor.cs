@@ -40,4 +40,19 @@ public static class TypeColor
         Fairy    => Color.FromArgb(239, 113, 239),
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
     };
+
+    /// <summary>
+    /// Color to show for a <see cref="MoveType"/> of <see cref="TeraTypeUtil.Stellar"/>.
+    /// </summary>
+    public static Color Stellar => Color.LightYellow;
+
+    /// <summary>
+    /// Gets the color of a <see cref="MoveType"/> for a Tera sprite.
+    /// </summary>
+    public static Color GetTeraSpriteColor(byte elementalType)
+    {
+        if (elementalType == TeraTypeUtil.Stellar)
+            return Stellar;
+        return GetTypeSpriteColor(elementalType);
+    }
 }

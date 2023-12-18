@@ -16,3 +16,4 @@ Hielo
 Dragón
 Siniestro
 Hada
+Astral

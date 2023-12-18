@@ -813,7 +813,7 @@ public sealed class WA8(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
 
     public void SetRibbon(int index, bool value = true)
     {
-        ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)index, (uint)MarkSlump);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan((uint)index, (uint)RibbonIndexExtensions.MAX_G8A);
         if (value)
         {
             if (GetRibbon(index))

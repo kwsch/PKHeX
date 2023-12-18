@@ -47,7 +47,7 @@ public static class HeldItemLumpUtil
         9 when item is (>= 0328 and <= 0419) // TM01-TM92
             or (>= 0618 and <= 0620) // TM093-TM095
             or (>= 0690 and <= 0693) // TM096-TM099
-            or (>= 2160 and <= 2261) /* TM100-TM201 */ => HeldItemLumpImage.TechnicalMachine,
+            or (>= 2160 and <= 2289) /* TM100-TM229 */ => HeldItemLumpImage.TechnicalMachine,
         _ => HeldItemLumpImage.NotLump,
     };
 }

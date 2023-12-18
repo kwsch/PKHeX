@@ -161,3 +161,4 @@ RibbonOnceInALifetime	Excepcionalidad
 RibbonMarkAlpha	Emblema Alfa
 RibbonMarkMightiest	Emblema Imbatibilidad
 RibbonMarkTitan	Emblema Dominancia
+RibbonPartner	Camarada

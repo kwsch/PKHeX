@@ -24,7 +24,7 @@ PKHeX 所讀取檔案須未經主機唯一密鑰加密，因而請使用儲存�
 
 ## 螢幕擷取截圖
 
-![主介面](https://i.imgur.com/U5FKBIF.png)
+![主介面](https://i.imgur.com/zEGGuJC.png)
 
 ## 構建
 

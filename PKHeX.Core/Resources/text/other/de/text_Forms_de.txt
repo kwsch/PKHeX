@@ -1133,3 +1133,5 @@ Ofen
 Fundament
 Kostbarkeits
 Edle
+Terastal
+Stellar

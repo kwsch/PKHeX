@@ -6,14 +6,14 @@ namespace PKHeX.Core;
 /// Generation 9 Trade Encounter
 /// </summary>
 public sealed record EncounterTrade9
-    : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK9>, IGemType, IFixedGender, IFixedNature
+    : IEncounterable, IEncounterMatch, IFixedTrainer, IFixedNickname, IEncounterConvertible<PK9>, IGemType, IFixedGender, IFixedNature, IRibbonPartner, IMoveset
 {
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
     public int Location => Locations.LinkTrade6NPC;
-    public Shiny Shiny => Shiny.Never;
+    public Shiny Shiny { get; init; }
     public bool EggEncounter => false;
-    public Ball FixedBall => Ball.Poke;
+    public Ball FixedBall { get; init; }
     public bool IsShiny => false;
     public int EggLocation => 0;
     public bool IsFixedTrainer => true;
@@ -24,16 +24,20 @@ public sealed record EncounterTrade9
     private string[] Nicknames { get; }
 
     public required Nature Nature { get; init; }
-    public required ushort ID32 { get; init; }
+    public required uint ID32 { get; init; }
     public required AbilityPermission Ability { get; init; }
-    public required byte Gender { get; init; }
+    public byte Gender { get; init; }
     public required byte OTGender { get; init; }
     public required IndividualValueSet IVs { get; init; }
     public ushort Species { get; }
     public byte Level { get; }
+    public Moveset Moves { get; init; }
     public bool EvolveOnTrade { get; init; }
+    public SizeType9 Weight { get; init; }
+    public SizeType9 Scale { get; init; }
+    private const byte FixedValueScale = 128;
 
-    public byte Form => 0;
+    public byte Form { get; init; }
 
     private const string _name = "In-game Trade";
     public string Name => _name;
@@ -41,13 +45,15 @@ public sealed record EncounterTrade9
     public byte LevelMin => Level;
     public byte LevelMax => Level;
 
-    public GemType TeraType => GemType.Default;
+    public required GemType TeraType { get; init; }
+    public bool RibbonPartner { get; }
 
     public EncounterTrade9(ReadOnlySpan<string[]> names, byte index, GameVersion game, ushort species, byte level)
     {
         Version = game;
         Nicknames = EncounterUtil.GetNamesForLanguage(names, index);
         TrainerNames = EncounterUtil.GetNamesForLanguage(names, (uint)(index + (names[1].Length >> 1)));
+        RibbonPartner = index is (>= 2 and <= 31);
         Species = species;
         Level = level;
     }
@@ -64,6 +70,7 @@ public sealed record EncounterTrade9
         var version = this.GetCompatibleVersion((GameVersion)tr.Game);
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, version);
         var pi = PersonalTable.SV[Species, Form];
+        var rnd = new Xoroshiro128Plus(Util.Rand.Rand64());
         var pk = new PK9
         {
             Species = Species,
@@ -89,8 +96,8 @@ public sealed record EncounterTrade9
             Nickname = Nicknames[lang],
 
             HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = PokeSizeUtil.GetRandomScalar(),
-            Scale = PokeSizeUtil.GetRandomScalar(),
+            WeightScalar = Weight.GetSizeValue(Weight == SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
+            Scale = Scale.GetSizeValue(Scale == SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
             TeraTypeOriginal = GetOriginalTeraType(),
 
             HT_Name = tr.OT,
@@ -104,6 +111,8 @@ public sealed record EncounterTrade9
         SetPINGA(pk, criteria, pi);
         if (EvolveOnTrade)
             pk.Species++;
+        if (RibbonPartner)
+            pk.RibbonPartner = true;
 
         pk.ResetPartyStats();
 
@@ -174,7 +183,21 @@ public sealed record EncounterTrade9
             return false;
         if (EvolveOnTrade && pk.Species == Species)
             return false;
+        if (pk is IScaledSize s2)
+        {
+            if (pk is IScaledSize3 s3 && !VerifyScalar(Scale, s3.Scale))
+                return false;
+            if (!VerifyScalar(Weight, s2.WeightScalar))
+                return false;
+        }
         return true;
+    }
+
+    private static bool VerifyScalar(SizeType9 type, byte value)
+    {
+        if (type is SizeType9.VALUE)
+            return value == FixedValueScale;
+        return type.IsWithinRange(value);
     }
 
     private bool IsMatchEggLocation(PKM pk)

@@ -273,9 +273,5 @@ public sealed class EvolutionEnvironment9 : IEvolutionEnvironment
     }
 
     // Unreleased Item
-    private static bool IsEvolutionBanned(in ISpeciesForm head) => head.Species switch
-    {
-        (int)Species.Slowpoke => head.Form == 1,
-        _ => false,
-    };
+    private static bool IsEvolutionBanned(in ISpeciesForm head) => false;
 }

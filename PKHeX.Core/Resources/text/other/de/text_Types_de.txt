@@ -16,3 +16,4 @@ Eis
 Drache
 Unlicht
 Fee
+Stellar

@@ -1023,5 +1023,13 @@ public enum Species : ushort
     Munkidori,
     Fezandipiti,
     Ogerpon,
+    Archaludon,
+    Hydrapple,
+    GougingFire,
+    RagingBolt,
+    IronBoulder,
+    IronCrown,
+    Terapagos,
+    Pecharunt,
     MAX_COUNT,
 }

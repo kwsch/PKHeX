@@ -22,6 +22,8 @@ public static class FormConverter
     /// <returns>A list of strings corresponding to the forms that a Pokémon can have.</returns>
     public static string[] GetFormList(ushort species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, EntityContext context)
     {
+        int generation = context.Generation();
+
         // Mega List
         if (context.IsMegaGeneration() && IsFormListSingleMega(species))
             return GetMegaSingle(types, forms);
@@ -33,13 +35,13 @@ public static class FormConverter
         {
             <= Legal.MaxSpeciesID_1 => GetFormsGen1(species, types, forms, context),
             <= Legal.MaxSpeciesID_2 => GetFormsGen2(species, types, forms, context),
-            <= Legal.MaxSpeciesID_3 => GetFormsGen3(species, types, forms, context.Generation()),
-            <= Legal.MaxSpeciesID_4 => GetFormsGen4(species, types, forms, context.Generation()),
-            <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, context.Generation()),
-            <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, context.Generation()),
-            <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms, context.Generation()),
-            <= Legal.MaxSpeciesID_8a => GetFormsGen8(species, context.Generation(), types, forms, genders),
-            _ => GetFormsGen9(species, context.Generation(), types, forms, genders),
+            <= Legal.MaxSpeciesID_3 => GetFormsGen3(species, types, forms, generation),
+            <= Legal.MaxSpeciesID_4 => GetFormsGen4(species, types, forms, generation),
+            <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, generation),
+            <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders, generation),
+            <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms, generation),
+            <= Legal.MaxSpeciesID_8a => GetFormsGen8(species, generation, types, forms, genders),
+            _ => GetFormsGen9(species, generation, types, forms, genders),
         };
     }
 
@@ -351,11 +353,16 @@ public static class FormConverter
                 forms[(int)Mimikyu], // Disguised
                 forms[1058], // Busted
             ],
-            Necrozma => [
+            Necrozma when generation == 7 => [
                 types[0], // Normal
                 forms[1065], // Dusk Mane
                 forms[1066], // Dawn Wings
                 forms[1067], // Ultra Necrozma
+            ],
+            Necrozma => [
+                types[0], // Normal
+                forms[1065], // Dusk Mane
+                forms[1066], // Dawn Wings
             ],
             Magearna => [
                 types[0],
@@ -508,6 +515,11 @@ public static class FormConverter
             Sinistcha => [
                 forms[Unremarkable],
                 forms[Masterpiece],
+            ],
+            Terapagos => [
+                types[0], // Normal
+                forms[Terastal],
+                forms[Stellar],
             ],
             _ => EMPTY,
         };
@@ -904,6 +916,8 @@ public static class FormConverter
     internal const int MaskCornerstone = 1132;
     private const int Artisan = 1133;
     private const int Masterpiece = 1134;
+    private const int Terastal = 1135;
+    private const int Stellar = 1136;
 
     public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 

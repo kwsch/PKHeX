@@ -285,8 +285,7 @@ public partial class SAV_Database : Form
         versions.RemoveAt(versions.Count - 1); // None
         CB_GameOrigin.DataSource = versions;
 
-        string[] hptypes = new string[GameInfo.Strings.types.Length - 2];
-        Array.Copy(GameInfo.Strings.types, 1, hptypes, 0, hptypes.Length);
+        var hptypes = GameInfo.Strings.types.AsSpan(1, HiddenPower.TypeCount);
         var types = Util.GetCBList(hptypes);
         types.Insert(0, comboAny);
         CB_HPType.DataSource = types;

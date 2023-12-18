@@ -66,6 +66,11 @@ public static class HiddenPower
         return SixBitType[(int)hp];
     }
 
+    /// <summary>
+    /// Count of unique Hidden Power Types
+    /// </summary>
+    public const int TypeCount = 16;
+
     private static ReadOnlySpan<byte> SixBitType =>
     [
         // (low-bit mash) * 15 / 63

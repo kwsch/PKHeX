@@ -174,7 +174,7 @@ public sealed record EncounterSlot8a(EncounterArea8a Parent, ushort Species, byt
     private bool IsFormArgMismatch(PKM pk) => pk.Species switch
     {
         (int)Core.Species.Wyrdeer     when Species is not (int)Core.Species.Wyrdeer     && pk is IFormArgument { FormArgument: 0 } => true,
-        (int)Core.Species.Overqwil    when Species is not (int)Core.Species.Overqwil    && pk is IFormArgument { FormArgument: 0 } => true,
+        (int)Core.Species.Overqwil    when Species is not (int)Core.Species.Overqwil    && pk is IFormArgument { FormArgument: 0 } and IHomeTrack { HasTracker: false } => true,
         (int)Core.Species.Basculegion when Species is not (int)Core.Species.Basculegion && pk is IFormArgument { FormArgument: 0 } => true,
         _ => false,
     };

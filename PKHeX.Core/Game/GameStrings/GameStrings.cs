@@ -613,6 +613,9 @@ public sealed class GameStrings : IBasicStrings
         m[164] += " (1)"; // Kitakami Wilds
         m[167] += " (2)"; // Kitakami Wilds
 
+        m[196] += " (1)"; // Area Zero Underdepths
+        m[198] += " (2)"; // Area Zero Underdepths
+
         set.Met3[1] += $" ({NPC})";      // Anything from an NPC
         set.Met3[2] += $" ({EggName})";  // Egg From Link Trade
         for (int i = 3; i <= 6; i++) // distinguish first set of regions (unused) from second (used)

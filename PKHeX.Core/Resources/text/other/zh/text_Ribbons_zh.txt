@@ -161,3 +161,4 @@ RibbonOnceInALifetime	千载难逢奖章
 RibbonMarkAlpha	头目之证
 RibbonMarkMightiest	最强之证
 RibbonMarkTitan	宝主之证
+RibbonPartner	同伴奖章

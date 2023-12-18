@@ -208,6 +208,7 @@ Main.B_OtherSlots=Andere Felder
 Main.B_OUTPasserby=Passanten
 Main.B_Poffins=Pofflés
 Main.B_RaidArmor=Raids (DLC 1)
+Main.B_RaidBlueberry=Raids (DLC 2)
 Main.B_RaidCrown=Raids (DLC 2)
 Main.B_RaidKitakami=Raids (DLC 1)
 Main.B_Raids=Raids

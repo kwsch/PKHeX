@@ -9,6 +9,8 @@ public static class StringConverter3
 {
     private const byte TerminatorByte = 0xFF;
     private const char Terminator = (char)TerminatorByte;
+    private const char Apostrophe = '\''; // ’
+    private const byte ApostropheByte = 0xB4;
 
     /// <summary>
     /// Converts a Generation 3 encoded value array to string.
@@ -68,8 +70,8 @@ public static class StringConverter3
         for (; i < value.Length; i++)
         {
             var chr = value[i];
-            if (chr == '\'') // ’
-                return 0xB4;
+            if (chr == Apostrophe) // ’
+                return ApostropheByte;
             var b = (byte)table.IndexOf(chr);
             if (b == TerminatorByte)
                 break;
@@ -102,8 +104,8 @@ public static class StringConverter3
     /// <returns>Generation 3 encoded value.</returns>
     public static byte SetG3Char(char chr, bool jp)
     {
-        if (chr == '\'') // ’
-            return 0xB4;
+        if (chr == Apostrophe)
+            return ApostropheByte;
         var table = jp ? G3_JP : G3_EN;
         var index = table.IndexOf(chr);
         return (byte)index;

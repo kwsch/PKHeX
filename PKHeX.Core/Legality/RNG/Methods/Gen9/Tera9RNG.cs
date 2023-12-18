@@ -7,6 +7,9 @@ namespace PKHeX.Core;
 /// </summary>
 public static class Tera9RNG
 {
+    /// <summary>
+    /// Type max (exclusive) to use when picking a random a Tera Type.
+    /// </summary>
     private const uint TeraTypeCount = 18;
 
     /// <summary>

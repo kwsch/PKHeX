@@ -398,8 +398,8 @@ public partial class StatEditor : UserControl
         if (Entity is ITeraType)
         {
             var pi = Entity.PersonalInfo;
-            PB_TeraType1.SetType(pi.Type1);
-            PB_TeraType2.SetType(pi.Type2);
+            PB_TeraType1.SetType(pi.Type1, false); // Personal Info are just regular move types.
+            PB_TeraType2.SetType(pi.Type2, false); // Personal Info are just regular move types.
         }
     }
 
@@ -673,6 +673,8 @@ public partial class StatEditor : UserControl
 
     private const string TeraOverrideNone = "---";
     private const byte TeraOverrideNoneValue = TeraTypeUtil.OverrideNone;
+    private const byte TeraStellarValue = TeraTypeUtil.Stellar;
+    private const byte TeraDisplayIndex = TeraTypeUtil.StellarTypeDisplayStringIndex;
 
     private void L_TeraTypeOriginal_Click(object sender, EventArgs e)
     {
@@ -705,11 +707,12 @@ public partial class StatEditor : UserControl
         CB_TeraTypeOriginal.InitializeBinding();
         CB_TeraTypeOverride.InitializeBinding();
 
-        var types = GameInfo.Strings.types;
-        CB_HPType.DataSource = Util.GetCBList(types.AsSpan(1, 16));
+        var types = GameInfo.Strings.types.AsSpan();
+        CB_HPType.DataSource = Util.GetCBList(types.Slice(1, HiddenPower.TypeCount));
 
-        var tera = Util.GetCBList(types);
+        var tera = Util.GetCBList(types[..TeraDisplayIndex]);
         tera.Insert(0, new(TeraOverrideNone, TeraOverrideNoneValue));
+        tera.Add(new(types[TeraDisplayIndex], TeraStellarValue));
         CB_TeraTypeOriginal.DataSource = new BindingSource(tera, null);
         CB_TeraTypeOverride.DataSource = new BindingSource(tera, null);
 
@@ -763,14 +766,20 @@ public sealed class TypePictureBox : PictureBox
 {
     private byte Type;
 
-    public void SetType(byte type) => BackColor = TypeColor.GetTypeSpriteColor(Type = type);
+    public void SetType(byte type, bool tera) => BackColor = tera
+        ? TypeColor.GetTeraSpriteColor(Type = type)
+        : TypeColor.GetTypeSpriteColor(Type = type);
+
     private readonly ToolTip Tip = new() { InitialDelay = 500, ReshowDelay = 500, ShowAlways = true };
 
     // Show a tooltip when hovered.
     protected override void OnMouseHover(EventArgs e)
     {
         base.OnMouseHover(e);
-        var name = GameInfo.Strings.types[Type];
+        var index = Type;
+        if (index == TeraTypeUtil.Stellar)
+            index = TeraTypeUtil.StellarTypeDisplayStringIndex;
+        var name = GameInfo.Strings.types[index];
         Tip.SetToolTip(this, name);
     }
 }

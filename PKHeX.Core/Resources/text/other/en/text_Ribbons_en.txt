@@ -161,3 +161,4 @@ RibbonOnceInALifetime	Once-in-a-Lifetime
 RibbonMarkAlpha	Alpha Mark
 RibbonMarkMightiest	Mightiest Mark
 RibbonMarkTitan	Titan Mark
+RibbonPartner	Partner Ribbon

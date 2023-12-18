@@ -169,3 +169,33 @@ Wildnis von Kitakami
 Infernopass
 Oniyama
 Kaltwasserkarst
+
+Blaubeer-Akademie
+
+Savannen-Areal
+Tera-Kuppel
+Küsten-Areal
+Tera-Kuppel
+Canyon-Areal
+Tera-Kuppel
+Polar-Areal
+Tera-Kuppel
+Zentralplatz
+Tera-Kuppel
+Savannen-Platz
+Tera-Kuppel
+Küsten-Platz
+Tera-Kuppel
+Canyon-Platz
+Tera-Kuppel
+Polar-Platz
+Tera-Kuppel
+Elektrolithgrotte
+Tera-Kuppel
+Fackellabyrinth
+Tera-Kuppel
+Höhlensystem Null
+
+Höhlensystem Null
+
+Tera-Kuppel

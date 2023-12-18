@@ -77,7 +77,12 @@ public static class MoveInfo
     /// Checks if the move can be known by anything in any context.
     /// </summary>
     /// <remarks> Assumes the move ID is within [0,max]. </remarks>
-    public static bool IsMoveKnowable(ushort move) => !IsMoveZ(move) && !IsMoveDynamax(move);
+    public static bool IsMoveKnowable(ushort move) => !IsMoveZ(move) && !IsMoveDynamax(move) && !IsMoveTorque(move);
+
+    /// <summary>
+    /// Checks if the move is a Starmobile-only move.
+    /// </summary>
+    public static bool IsMoveTorque(ushort move) => move - (uint)CombatTorque <= 3;
 
     /// <summary>
     /// Checks if the <see cref="move"/> is unable to be used in battle.
@@ -173,6 +178,7 @@ public static class MoveInfo
     {
         Gen6 when move is (int)ThousandArrows or (int)ThousandWaves => false,
         Gen8b when IsDummiedMove(MoveInfo8b.DummiedMoves, move) => false,
+        Gen9 when IsDummiedMove(MoveInfo9.DummiedMoves, move) => false,
         _ => true,
     };
 

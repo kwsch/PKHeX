@@ -29,6 +29,7 @@ public partial class SAV_Trainer9 : Form
 
         B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
         B_MaxLP.Click += (sender, e) => MT_LP.Text = SAV.MaxMoney.ToString();
+        B_MaxBP.Click += (sender, e) => MT_BP.Text = SAV.MaxMoney.ToString();
 
         var games = GameInfo.Strings.gamelist;
         CB_Game.Items.Clear();
@@ -43,7 +44,22 @@ public partial class SAV_Trainer9 : Form
         GetTextBoxes();
         LoadMap();
 
+        if (SAV.SaveRevision >= 2)
+            LoadBlueberry();
+        else
+            TC_Editor.TabPages.Remove(Tab_Blueberry);
+
+        B_UnlockCoaches.Visible = SAV.SaveRevision >= 2;
+
         Loading = false;
+    }
+
+    private void LoadBlueberry()
+    {
+        var bbq = SAV.BlueberryQuestRecord;
+        MT_BP.Text = SAV.BlueberryPoints.ToString();
+        NUD_BBQSolo.Value = bbq.QuestsDoneSolo;
+        NUD_BBQGroup.Value = bbq.QuestsDoneGroup;
     }
 
     private void GetImages()
@@ -110,6 +126,16 @@ public partial class SAV_Trainer9 : Form
     {
         SaveTrainerInfo();
         SaveMap();
+        if (SAV.SaveRevision >= 2)
+            SaveBlueberry();
+    }
+
+    private void SaveBlueberry()
+    {
+        var bbq = SAV.BlueberryQuestRecord;
+        SAV.BlueberryPoints = Util.ToUInt32(MT_BP.Text);
+        bbq.QuestsDoneSolo = (uint)NUD_BBQSolo.Value;
+        bbq.QuestsDoneGroup = (uint)NUD_BBQGroup.Value;
     }
 
     private void SaveMap()
@@ -137,6 +163,9 @@ public partial class SAV_Trainer9 : Form
         SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text) % 60;
 
         SAV.EnrollmentDate.Timestamp = CAL_AdventureStartDate.Value;
+
+        if (SAV.Blocks.TryGetBlock(KBlueberryPoints, out var block))
+            block.SetValue(Util.ToUInt32(MT_BP.Text));
     }
 
     private void ClickOT(object sender, MouseEventArgs e)
@@ -284,6 +313,26 @@ public partial class SAV_Trainer9 : Form
         FSYS_YMAP_FLY_SU1_SPOT04,
         FSYS_YMAP_FLY_SU1_SPOT05,
         FSYS_YMAP_FLY_SU1_SPOT06,
+
+        // Sudachi 2
+        FSYS_YMAP_S2_MAPCHANGE_ENABLE, // can change map to Blueberry Academy
+        FSYS_YMAP_FLY_SU2_DRAGON,
+        FSYS_YMAP_FLY_SU2_ENTRANCE,
+        FSYS_YMAP_FLY_SU2_FAIRY,
+        FSYS_YMAP_FLY_SU2_HAGANE,
+        FSYS_YMAP_FLY_SU2_HONOO,
+        FSYS_YMAP_FLY_SU2_SPOT01,
+        FSYS_YMAP_FLY_SU2_SPOT02,
+        FSYS_YMAP_FLY_SU2_SPOT03,
+        FSYS_YMAP_FLY_SU2_SPOT04,
+        FSYS_YMAP_FLY_SU2_SPOT05,
+        FSYS_YMAP_FLY_SU2_SPOT06,
+        FSYS_YMAP_FLY_SU2_SPOT07,
+        FSYS_YMAP_FLY_SU2_SPOT08,
+        FSYS_YMAP_FLY_SU2_SPOT09,
+        FSYS_YMAP_FLY_SU2_SPOT10,
+        FSYS_YMAP_FLY_SU2_SPOT11,
+        FSYS_YMAP_POKECEN_SU02,
         #endregion
     ];
 
@@ -296,6 +345,18 @@ public partial class SAV_Trainer9 : Form
     private void B_UnlockTMRecipes_Click(object sender, EventArgs e)
     {
         SAV.UnlockAllTMRecipes();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void B_ActivateSnacksworthLegendaries_Click(object sender, EventArgs e)
+    {
+        SAV.ActivateSnacksworthLegendaries();
+        System.Media.SystemSounds.Asterisk.Play();
+    }
+
+    private void B_UnlockCoaches_Click(object sender, EventArgs e)
+    {
+        SAV.UnlockAllCoaches();
         System.Media.SystemSounds.Asterisk.Play();
     }
 
@@ -313,6 +374,8 @@ public partial class SAV_Trainer9 : Form
         var accessor = SAV.Accessor;
         foreach (var block in blocks)
             accessor.GetBlock(block).ChangeBooleanType(SCTypeCode.Bool2);
+        if (accessor.TryGetBlock("FSYS_RIDE_FLIGHT_ENABLE", out var fly))
+            fly.ChangeBooleanType(SCTypeCode.Bool2); // Base & DLC1 saves do not have this block
         System.Media.SystemSounds.Asterisk.Play();
     }
 

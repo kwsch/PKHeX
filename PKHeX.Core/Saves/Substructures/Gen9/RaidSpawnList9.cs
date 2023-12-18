@@ -11,6 +11,7 @@ public sealed class RaidSpawnList9 : SaveBlock<SAV9SV>
     public readonly int CountUsed;
     public const int RaidCountLegal_T0 = 72;
     public const int RaidCountLegal_T1 = 100;
+    public const int RaidCountLegal_T2 = 80;
     public readonly bool HasSeeds;
     private readonly int OffsetRaidStart;
 

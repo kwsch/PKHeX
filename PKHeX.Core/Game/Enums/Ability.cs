@@ -312,5 +312,9 @@ public enum Ability : ushort
     EmbodyAspect3,
     ToxicChain,
     SupersweetSyrup,
+    TeraShift,
+    TeraShell,
+    TeraformZero,
+    PoisonPuppeteer,
     MAX_COUNT,
 }

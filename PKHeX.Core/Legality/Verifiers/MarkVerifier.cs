@@ -30,10 +30,10 @@ public sealed class MarkVerifier : Verifier
 
     private void VerifyNoMarksPresent(LegalityAnalysis data, IRibbonIndex m)
     {
-        for (var x = MarkLunchtime; x <= MarkSlump; x++)
+        for (var mark = MarkLunchtime; mark <= MarkSlump; mark++)
         {
-            if (m.GetRibbon((int)x))
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(x))));
+            if (m.GetRibbon((int)mark))
+                data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, GetRibbonNameSafe(mark))));
         }
     }
 

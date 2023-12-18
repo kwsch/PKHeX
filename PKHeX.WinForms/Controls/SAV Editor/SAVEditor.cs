@@ -568,6 +568,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
                 OpenDialog(new SAV_Raid9(sv, sv.RaidPaldea));
             else if (sender == B_RaidKitakami)
                 OpenDialog(new SAV_Raid9(sv, sv.RaidKitakami));
+            else if (sender == B_RaidBlueberry)
+                OpenDialog(new SAV_Raid9(sv, sv.RaidBlueberry));
             else if (sender == B_RaidsSevenStar)
                 OpenDialog(new SAV_RaidSevenStar9(sv, sv.RaidSevenStar));
         }
@@ -1167,6 +1169,7 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         B_RaidArmor.Visible = sav is SAV8SWSH { SaveRevision: >= 1 };
         B_RaidCrown.Visible = sav is SAV8SWSH { SaveRevision: >= 2 };
         B_RaidKitakami.Visible = sav is SAV9SV { SaveRevision: >= 1 };
+        B_RaidBlueberry.Visible = sav is SAV9SV { SaveRevision: >= 2 };
         FLP_SAVtools.Visible = B_Blocks.Visible = true;
 
         var list = FLP_SAVtools.Controls.OfType<Control>().OrderBy(z => z.Text).ToArray();

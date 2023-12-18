@@ -26,8 +26,10 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public PlayerAppearance9 PlayerAppearance { get; }
     public RaidSpawnList9 RaidPaldea { get; }
     public RaidSpawnList9 RaidKitakami { get; }
+    public RaidSpawnList9 RaidBlueberry { get; }
     public RaidSevenStar9 RaidSevenStar { get; }
     public Epoch1900Value EnrollmentDate { get; }
+    public BlueberryQuestRecord9 BlueberryQuestRecord { get; }
 
     public SaveBlockAccessor9SV(SAV9SV sav)
     {
@@ -47,8 +49,10 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
         RaidPaldea = new RaidSpawnList9(sav, GetBlock(KTeraRaidPaldea), RaidSpawnList9.RaidCountLegal_T0, true);
         RaidKitakami = new RaidSpawnList9(sav, GetBlockSafe(KTeraRaidKitakami), RaidSpawnList9.RaidCountLegal_T1, false);
+        RaidBlueberry = new RaidSpawnList9(sav, GetBlockSafe(KTeraRaidBlueberry), RaidSpawnList9.RaidCountLegal_T2, false);
         RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture));
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
+        BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));
     }
 
     // Arrays (Blocks)
@@ -71,6 +75,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint KCurrentBox = 0x017C3CBB; // U32 Box Index
     public const uint KMoney = 0x4F35D0DD; // u32
     public const uint KLeaguePoints = 0xADB4FE17; // u32
+    public const uint KBlueberryPoints = 0x66A33824; // u32
     private const uint KMyStatus = 0xE3E89BD1; // Trainer Details
     private const uint KConfig = 0xDF4F1875; // u32 bits
     private const uint KConfigCamera = 0x998844C9; // u32 bits
@@ -81,8 +86,11 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KGimmighoul = 0x53DC955C; // ulong seed x2 (today and tomorrow); Gimmighoul struct (0x20): bool is_active, u64 hash, u64 seed, bool ??, bool first_time
     private const uint KTeraRaidPaldea = 0xCAAC8800;
     private const uint KTeraRaidKitakami = 0x100B93DA;
+    private const uint KTeraRaidBlueberry = 0x0C62D416;
     public const uint KBoxesUnlocked = 0x71825204;
-    public const uint KFusedCalyrex = 0x916BCA9E; // Calyrex
+    public const uint KFusedKyurem = 0x7E0ADF89;
+    public const uint KFusedNecrozma = 0x203FF693;
+    public const uint KFusedCalyrex = 0x916BCA9E;
     private const uint KZukan = 0x0DEAAEBD;
     private const uint KZukanT1 = 0xF5D7C0E2;
     private const uint KMysteryGift = 0x99E1625E;
@@ -90,6 +98,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KLastSaved = 0x7495969E; // u64 time_t
     private const uint KEnrollmentDate = 0xC7409C89;
     private const uint KPlayRecords = 0x549B6033; // 0x18 per entry, first 8 bytes always 01, u64 fnv hash of entry, last 8 bytes value
+    private const uint KBlueberryQuestRecords = 0x7BF02DBE;
     private const uint KSandwiches = 0x29B4AED2; // [0xC][151] index, unlocked, times made
     private const uint KCurrentClothing = 0x64235B3D;
     private const uint KCurrentAppearance = 0x812FC3E3;
@@ -242,6 +251,24 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public const uint FSYS_YMAP_FLY_SU1_SPOT05 = 0xB59001F8;
     public const uint FSYS_YMAP_FLY_SU1_SPOT06 = 0xB5900711;
     public const uint FSYS_YMAP_SU1MAP_CHANGE = 0x69284BE7;
+    public const uint FSYS_YMAP_FLY_SU2_DRAGON = 0x5BB15E3B;
+    public const uint FSYS_YMAP_FLY_SU2_ENTRANCE = 0x08C9673E;
+    public const uint FSYS_YMAP_FLY_SU2_FAIRY = 0x8FB3DFED;
+    public const uint FSYS_YMAP_FLY_SU2_HAGANE = 0x24F34372;
+    public const uint FSYS_YMAP_FLY_SU2_HONOO = 0x0CEEA16F;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT01 = 0x5E3A36DB;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT02 = 0x5E3A388E;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT03 = 0x5E3A3A41;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT04 = 0x5E3A3BF4;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT05 = 0x5E3A3DA7;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT06 = 0x5E3A3F5A;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT07 = 0x5E3A410D;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT08 = 0x5E3A2790;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT09 = 0x5E3A2943;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT10 = 0x5E3C7531;
+    public const uint FSYS_YMAP_FLY_SU2_SPOT11 = 0x5E3C737E;
+    public const uint FSYS_YMAP_POKECEN_SU02 = 0x6B58E1A5;
+    public const uint FSYS_YMAP_S2_MAPCHANGE_ENABLE = 0xD0906C85;
 
     private const uint FSYS_YMAP_SCENARIO_DAN_AKU = 0x1EE90D7F;
     private const uint FSYS_YMAP_SCENARIO_DAN_DOKU = 0x6D2CE931;
@@ -355,6 +382,37 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KUnlockedMultiplayerBGM24 = 0x727C056F; // FSYS_BGM_VS_SELECT_24
     private const uint KUnlockedMultiplayerBGM25 = 0x727C03BC; // FSYS_BGM_VS_SELECT_25
     private const uint KUnlockedMultiplayerBGM26 = 0x727C08D5; // FSYS_BGM_VS_SELECT_26
+  //private const uint KUnlockedMultiplayerBGM27 = 0x727C0722; // FSYS_BGM_VS_SELECT_27 does not exist
+    private const uint KUnlockedMultiplayerBGM28 = 0x727C0C3B; // FSYS_BGM_VS_SELECT_28
+    private const uint KUnlockedMultiplayerBGM29 = 0x727C0A88; // FSYS_BGM_VS_SELECT_29
+    private const uint KUnlockedMultiplayerBGM30 = 0x72791B7A; // FSYS_BGM_VS_SELECT_30
+    private const uint KUnlockedMultiplayerBGM31 = 0x72791D2D; // FSYS_BGM_VS_SELECT_31
+    private const uint KUnlockedMultiplayerBGM32 = 0x72791814; // FSYS_BGM_VS_SELECT_32
+    private const uint KUnlockedMultiplayerBGM33 = 0x727919C7; // FSYS_BGM_VS_SELECT_33
+    private const uint KUnlockedMultiplayerBGM34 = 0x727914AE; // FSYS_BGM_VS_SELECT_34
+    private const uint KUnlockedMultiplayerBGM35 = 0x72791661; // FSYS_BGM_VS_SELECT_35
+    private const uint KUnlockedMultiplayerBGM36 = 0x72791148; // FSYS_BGM_VS_SELECT_36
+    private const uint KUnlockedMultiplayerBGM37 = 0x727912FB; // FSYS_BGM_VS_SELECT_37
+    private const uint KUnlockedMultiplayerBGM38 = 0x72790DE2; // FSYS_BGM_VS_SELECT_38
+    private const uint KUnlockedMultiplayerBGM39 = 0x72790F95; // FSYS_BGM_VS_SELECT_39
+    private const uint KUnlockedMultiplayerBGM40 = 0x728231B5; // FSYS_BGM_VS_SELECT_40
+    private const uint KUnlockedMultiplayerBGM41 = 0x72823002; // FSYS_BGM_VS_SELECT_41
+    private const uint KUnlockedMultiplayerBGM42 = 0x72822E4F; // FSYS_BGM_VS_SELECT_42
+    private const uint KUnlockedMultiplayerBGM43 = 0x72822C9C; // FSYS_BGM_VS_SELECT_43
+    private const uint KUnlockedMultiplayerBGM44 = 0x72822AE9; // FSYS_BGM_VS_SELECT_44
+    private const uint KUnlockedMultiplayerBGM45 = 0x72822936; // FSYS_BGM_VS_SELECT_45
+    private const uint KUnlockedMultiplayerBGM46 = 0x72822783; // FSYS_BGM_VS_SELECT_46
+    private const uint KUnlockedMultiplayerBGM47 = 0x728225D0; // FSYS_BGM_VS_SELECT_47
+    private const uint KUnlockedMultiplayerBGM48 = 0x72823F4D; // FSYS_BGM_VS_SELECT_48
+    private const uint KUnlockedMultiplayerBGM49 = 0x72823D9A; // FSYS_BGM_VS_SELECT_49
+    private const uint KUnlockedMultiplayerBGM50 = 0x727F182C; // FSYS_BGM_VS_SELECT_50
+    private const uint KUnlockedMultiplayerBGM51 = 0x727F19DF; // FSYS_BGM_VS_SELECT_51
+    private const uint KUnlockedMultiplayerBGM52 = 0x727F1B92; // FSYS_BGM_VS_SELECT_52
+    private const uint KUnlockedMultiplayerBGM53 = 0x727F1D45; // FSYS_BGM_VS_SELECT_53
+    private const uint KUnlockedMultiplayerBGM54 = 0x727F1160; // FSYS_BGM_VS_SELECT_54
+    private const uint KUnlockedMultiplayerBGM55 = 0x727F1313; // FSYS_BGM_VS_SELECT_55
+    private const uint KUnlockedMultiplayerBGM56 = 0x727F14C6; // FSYS_BGM_VS_SELECT_56
+    private const uint KUnlockedMultiplayerBGM57 = 0x727F1679; // FSYS_BGM_VS_SELECT_57
     #endregion
 
     #region Tips
@@ -411,6 +469,42 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FSYS_TIPS_NEW_RAIDBATTLE_02 = 0xD864AA16;
     private const uint FSYS_TIPS_DISP_GO_01 = 0xCFC538C9;
     private const uint FSYS_TIPS_NEWS_GO_01 = 0xE2096F66;
+    private const uint FSYS_TIPS_DISP_BBMISSION_01 = 0x993B805B;
+    private const uint FSYS_TIPS_DISP_BBMISSION_02 = 0x993B820E;
+    private const uint FSYS_TIPS_DISP_BBMISSION_03 = 0x993B83C1;
+    private const uint FSYS_TIPS_DISP_BBMISSION_04 = 0x993B8574;
+    private const uint FSYS_TIPS_DISP_BBPOINT_01 = 0x16175953;
+    private const uint FSYS_TIPS_DISP_CLUBPC_01 = 0x9F190A1C;
+    private const uint FSYS_TIPS_DISP_CLUBPC_02 = 0x9F190F35;
+    private const uint FSYS_TIPS_DISP_CLUB_01 = 0x4B7CB04B;
+    private const uint FSYS_TIPS_DISP_HAGANE_01 = 0xD0D3A1F1;
+    private const uint FSYS_TIPS_DISP_HAGANE_02 = 0xD0D39CD8;
+    private const uint FSYS_TIPS_DISP_ITEMMACHINE_01 = 0xBBF27AF1;
+    private const uint FSYS_TIPS_DISP_PHOTOMODE_07 = 0x19792A1A;
+    private const uint FSYS_TIPS_DISP_PHOTOMODE_08 = 0x19791403;
+    private const uint FSYS_TIPS_DISP_RIDEFLY_01 = 0x5DA980EC;
+    private const uint FSYS_TIPS_DISP_RIDEFLY_02 = 0x5DA98605;
+    private const uint FSYS_TIPS_DISP_SCAN_01 = 0x240A7698;
+    private const uint FSYS_TIPS_DISP_SMACHINE_01 = 0x431261AD;
+    private const uint FSYS_TIPS_DISP_TTYPE_02 = 0x21737B64;
+    private const uint FSYS_TIPS_NEW_BBMISSION_01 = 0xE35C2239;
+    private const uint FSYS_TIPS_NEW_BBMISSION_02 = 0xE35C1D20;
+    private const uint FSYS_TIPS_NEW_BBMISSION_03 = 0xE35C1ED3;
+    private const uint FSYS_TIPS_NEW_BBMISSION_04 = 0xE35C2752;
+    private const uint FSYS_TIPS_NEW_BBPOINT_01 = 0x0ECDCBC1;
+    private const uint FSYS_TIPS_NEW_CLUBPC_01 = 0x5D6A9612;
+    private const uint FSYS_TIPS_NEW_CLUBPC_02 = 0x5D6A945F;
+    private const uint FSYS_TIPS_NEW_CLUB_01 = 0xBEAF2A0D;
+    private const uint FSYS_TIPS_NEW_HAGANE_01 = 0x3E7138CB;
+    private const uint FSYS_TIPS_NEW_HAGANE_02 = 0x3E713A7E;
+    private const uint FSYS_TIPS_NEW_ITEMMACHINE_01 = 0xB021BF5F;
+    private const uint FSYS_TIPS_NEW_PHOTOMODE_07 = 0x1756C5A0;
+    private const uint FSYS_TIPS_NEW_PHOTOMODE_08 = 0x1756DF1D;
+    private const uint FSYS_TIPS_NEW_RIDEFLY_01 = 0xAB3BFCA2;
+    private const uint FSYS_TIPS_NEW_RIDEFLY_02 = 0xAB3BFAEF;
+    private const uint FSYS_TIPS_NEW_SCAN_01 = 0x0EA4F786;
+    private const uint FSYS_TIPS_NEW_SMACHINE_01 = 0x15D6397B;
+    private const uint FSYS_TIPS_NEW_TTYPE_02 = 0x1D3E0CD6;
     #endregion
 
     #region TM
@@ -882,6 +976,11 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KAuctionVenue4Quantity = 0xFDDFB678; // WEVT_GYM_MIZU_SERI_VENUE4_ITEM_NUM
     private const uint KAuctionVenue4NPC1 = 0x3275F474; // WEVT_GYM_MIZU_SERI_VENUE4_NPC_ID1
     private const uint KAuctionVenue4NPC2 = 0x3275F98D; // WEVT_GYM_MIZU_SERI_VENUE4_NPC_ID2
+    private const uint KAuctionVenue5PurchasedItem = 0x732558F2; // WEVT_S2_SUB_004_SERI_VENUE5_PROGRESS
+    private const uint KAuctionVenue5Item = 0x20581C5A; // WEVT_S2_SUB_004_SERI_VENUE5_ITEM_ID
+    private const uint KAuctionVenue5Quantity = 0xDCFF8585; // WEVT_S2_SUB_004_SERI_VENUE5_ITEM_NUM
+    private const uint KAuctionVenue5NPC1 = 0xE118CB2F; // WEVT_S2_SUB_004_SERI_VENUE5_NPC_ID1
+    private const uint KAuctionVenue5NPC2 = 0xE118CCE2; // WEVT_S2_SUB_004_SERI_VENUE5_NPC_ID2
 
     private const uint FEVT_SERI_LEGEND_0112 = 0x8048F243; // unused Griseous Orb
     private const uint KPurchasedGriseousOrb = 0xF917055C; // FEVT_SERI_LEGEND_0112_v2
@@ -916,6 +1015,20 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KPurchasedGriseousCore = 0xFE092048; // FEVT_SERI_LEGEND_1779_v2
     private const uint KPurchasedScrollOfDarkness = 0x06B12DD6; // FEVT_SERI_LEGEND_1857
     private const uint KPurchasedScrollOfWaters = 0x06B14087; // FEVT_SERI_LEGEND_1858
+    private const uint KPurchasedNSolarizer = 0xA7353475; // FEVT_SERI_LEGEND_0943
+    private const uint KPurchasedNLunarizer = 0xA7352890; // FEVT_SERI_LEGEND_0944
+    private const uint KPurchasedMeteorite = 0xBE2BE1AB; // FEVT_SERI_LEGEND_2554
+    private const uint KPurchasedDNASplicers = 0xA1EADC77; // FEVT_SERI_LEGEND_0628
+    private const uint KPurchasedSoulDew = 0x8EA73E6C; // FEVT_SERI_LEGEND_0225
+
+    private const uint KPurchasedAtticusItem01 = 0x4C5E07B4; // FEVT_SERI_DRESSUP_2154
+    private const uint KPurchasedAtticusItem02 = 0x98898F16; // FEVT_SERI_DRESSUP_3177
+    private const uint KPurchasedAtticusItem03 = 0x9B1E6158; // FEVT_SERI_DRESSUP_4211
+    private const uint KPurchasedAtticusItem04 = 0x6B31E119; // FEVT_SERI_DRESSUP_5570
+    private const uint KPurchasedAtticusItem05 = 0x6B31DF66; // FEVT_SERI_DRESSUP_5571
+    private const uint KPurchasedAtticusItem06 = 0x6B31DC00; // FEVT_SERI_DRESSUP_5573
+    private const uint KPurchasedAtticusItem07 = 0x4B432C0F; // FEVT_SERI_DRESSUP_1248
+    private const uint KPurchasedAtticusItem08 = 0x6B31DDB3; // FEVT_SERI_DRESSUP_5572
     #endregion
 
     #region Former Titans
@@ -1333,6 +1446,54 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KOutbreak01DLC2DeliveryID     = 0x8273D376; // EncountOutbreakSave_f2_deliveryId[0]
     private const uint KOutbreak01DLC2DeliveryZoneID = 0x1BF676D4; // EncountOutbreakSave_f2_deliveryZoneIdx[0]
     private const uint KOutbreak01DLC2DeliveryPokeID = 0x1786D1CB; // EncountOutbreakSave_f2_deliveryPokeIdx[0]
+
+    private const uint KOutbreak02DLC2CenterPos      = 0xCE42C6C1; // EncountOutbreakSave_f2_centerPos[1]
+    private const uint KOutbreak02DLC2DummyPos       = 0x0B10616E; // EncountOutbreakSave_f2_dummyPos[1]
+    private const uint KOutbreak02DLC2Species        = 0xB8ED11D8; // EncountOutbreakSave_f2_monsno[1]
+    private const uint KOutbreak02DLC2Form           = 0xEFA2A897; // EncountOutbreakSave_f2_formno[1]
+    private const uint KOutbreak02DLC2Found          = 0x32051A05; // EncountOutbreakSave_f2_isFind[1]
+    private const uint KOutbreak02DLC2NumKOed        = 0x4EFBEB30; // EncountOutbreakSave_f2_subjugationCount[1]
+    private const uint KOutbreak02DLC2TotalSpawns    = 0x43887C78; // EncountOutbreakSave_f2_subjugationLimit[1]
+    private const uint KOutbreak02DLC2Materials      = 0x01AF04DF; // EncountOutbreakSave_f2_dropMaterialCount[1]
+    private const uint KOutbreak02DLC2DeliveryID     = 0x827196D3; // EncountOutbreakSave_f2_deliveryId[1]
+    private const uint KOutbreak02DLC2DeliveryZoneID = 0x1BF294C9; // EncountOutbreakSave_f2_deliveryZoneIdx[1]
+    private const uint KOutbreak02DLC2DeliveryPokeID = 0x178AC16E; // EncountOutbreakSave_f2_deliveryPokeIdx[1]
+
+    private const uint KOutbreak03DLC2CenterPos      = 0xCE4090EA; // EncountOutbreakSave_f2_centerPos[2]
+    private const uint KOutbreak03DLC2DummyPos       = 0x0B130405; // EncountOutbreakSave_f2_dummyPos[2]
+    private const uint KOutbreak03DLC2Species        = 0xB8E37713; // EncountOutbreakSave_f2_monsno[2]
+    private const uint KOutbreak03DLC2Form           = 0xEFAB69DC; // EncountOutbreakSave_f2_formno[2]
+    private const uint KOutbreak03DLC2Found          = 0x3202776E; // EncountOutbreakSave_f2_isFind[2]
+    private const uint KOutbreak03DLC2NumKOed        = 0x4EF4036B; // EncountOutbreakSave_f2_subjugationCount[2]
+    private const uint KOutbreak03DLC2TotalSpawns    = 0x437FBB33; // EncountOutbreakSave_f2_subjugationLimit[2]
+    private const uint KOutbreak03DLC2Materials      = 0x01B89FA4; // EncountOutbreakSave_f2_dropMaterialCount[2]
+    private const uint KOutbreak03DLC2DeliveryID     = 0x82797E98; // EncountOutbreakSave_f2_deliveryId[2]
+    private const uint KOutbreak03DLC2DeliveryZoneID = 0x1BF05EF2; // EncountOutbreakSave_f2_deliveryZoneIdx[2]
+    private const uint KOutbreak03DLC2DeliveryPokeID = 0x178D6405; // EncountOutbreakSave_f2_deliveryPokeIdx[2]
+
+    private const uint KOutbreak04DLC2CenterPos      = 0xCE3DE787; // EncountOutbreakSave_f2_centerPos[3]
+    private const uint KOutbreak04DLC2DummyPos       = 0x0B153310; // EncountOutbreakSave_f2_dummyPos[3]
+    private const uint KOutbreak04DLC2Species        = 0xB8E766B6; // EncountOutbreakSave_f2_monsno[3]
+    private const uint KOutbreak04DLC2Form           = 0xEFA93AD1; // EncountOutbreakSave_f2_formno[3]
+    private const uint KOutbreak04DLC2Found          = 0x31FE87CB; // EncountOutbreakSave_f2_isFind[3]
+    private const uint KOutbreak04DLC2NumKOed        = 0x4EF6400E; // EncountOutbreakSave_f2_subjugationCount[3]
+    private const uint KOutbreak04DLC2TotalSpawns    = 0x4383AAD6; // EncountOutbreakSave_f2_subjugationLimit[3]
+    private const uint KOutbreak04DLC2Materials      = 0x01B4BD99; // EncountOutbreakSave_f2_dropMaterialCount[3]
+    private const uint KOutbreak04DLC2DeliveryID     = 0x8277BC4D; // EncountOutbreakSave_f2_deliveryId[3]
+    private const uint KOutbreak04DLC2DeliveryZoneID = 0x1BECDC0F; // EncountOutbreakSave_f2_deliveryZoneIdx[3]
+    private const uint KOutbreak04DLC2DeliveryPokeID = 0x178F9310; // EncountOutbreakSave_f2_deliveryPokeIdx[3]
+
+    private const uint KOutbreak05DLC2CenterPos      = 0xCE513328; // EncountOutbreakSave_f2_centerPos[4]
+    private const uint KOutbreak05DLC2DummyPos       = 0x0B01E76F; // EncountOutbreakSave_f2_dummyPos[4]
+    private const uint KOutbreak05DLC2Species        = 0xB8DEA571; // EncountOutbreakSave_f2_monsno[4]
+    private const uint KOutbreak05DLC2Form           = 0xEFB12296; // EncountOutbreakSave_f2_formno[4]
+    private const uint KOutbreak05DLC2Found          = 0x31FCBEB4; // EncountOutbreakSave_f2_isFind[4]
+    private const uint KOutbreak05DLC2NumKOed        = 0x4EED7EC9; // EncountOutbreakSave_f2_subjugationCount[4]
+    private const uint KOutbreak05DLC2TotalSpawns    = 0x437A1011; // EncountOutbreakSave_f2_subjugationLimit[4]
+    private const uint KOutbreak05DLC2Materials      = 0x01BD7EDE; // EncountOutbreakSave_f2_dropMaterialCount[4]
+    private const uint KOutbreak05DLC2DeliveryID     = 0x8269491A; // EncountOutbreakSave_f2_deliveryId[4]
+    private const uint KOutbreak05DLC2DeliveryZoneID = 0x1C010130; // EncountOutbreakSave_f2_deliveryZoneIdx[4]
+    private const uint KOutbreak05DLC2DeliveryPokeID = 0x177C476F; // EncountOutbreakSave_f2_deliveryPokeIdx[4]
     #endregion
 
     #region EncountOutbreakSave_bc (Paldea, BCAT)
@@ -1743,12 +1904,12 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KCanClaimPokedexDiplomaKitakami = 0xC4E1A713; // FSYS_DLC1_POKEDEX_SYOUJOU_ENABLE
     private const uint KClaimedPokedexDiplomaKitakami = 0xA066600C; // FSYS_DLC1_POKEDEX_SYOUJOU_EVENT
     private const uint KUnlockedRotoStick = 0x478A8C60; // FSYS_DLC1_SELFIE_STICK_UNLOCK
-    private const uint KUnlockedDLCEmote0 = 0x99849BBF; // FSYS_DLC1_EMOTE_00_RELEASE
-    private const uint KUnlockedDLCEmote1 = 0xF6A77854; // FSYS_DLC1_EMOTE_01_RELEASE
-    private const uint KUnlockedDLCEmote2 = 0xC2ECD3E5; // FSYS_DLC1_EMOTE_02_RELEASE
-    private const uint KUnlockedDLCEmote3 = 0x29583572; // FSYS_DLC1_EMOTE_03_RELEASE
-    private const uint KUnlockedDLCEmote4 = 0x298A7CFB; // FSYS_DLC1_EMOTE_04_RELEASE
-    private const uint KUnlockedDLCEmote5 = 0x3DA607F0; // FSYS_DLC1_EMOTE_05_RELEASE
+    private const uint KUnlockedDLCEmote00 = 0x99849BBF; // FSYS_DLC1_EMOTE_00_RELEASE
+    private const uint KUnlockedDLCEmote01 = 0xF6A77854; // FSYS_DLC1_EMOTE_01_RELEASE
+    private const uint KUnlockedDLCEmote02 = 0xC2ECD3E5; // FSYS_DLC1_EMOTE_02_RELEASE
+    private const uint KUnlockedDLCEmote03 = 0x29583572; // FSYS_DLC1_EMOTE_03_RELEASE
+    private const uint KUnlockedDLCEmote04 = 0x298A7CFB; // FSYS_DLC1_EMOTE_04_RELEASE
+    private const uint KUnlockedDLCEmote05 = 0x3DA607F0; // FSYS_DLC1_EMOTE_05_RELEASE
     private const uint KUnlockedDLCSelfieEmote1 = 0x1170E5C8; // FSYS_DLC1_EMOTE_SELFIE_00_RELEASE
     private const uint KUnlockedDLCSelfieEmote2 = 0xBBBA5D73; // FSYS_DLC1_EMOTE_SELFIE_01_RELEASE
     private const uint KUnlockedDLCSelfieEmote3 = 0xA3EB52A6; // FSYS_DLC1_EMOTE_SELFIE_02_RELEASE
@@ -1819,5 +1980,278 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint WSYS_S1_GOZONJI_HINT_COUNT = 0x58E1035D;
     private const uint WSYS_S1_POKECEN_KAIFUKU_COUNT = 0x5CC43913;
     private const uint WSYS_S1_SYOUTEN_LP_FLAG_COUNT = 0x3ECD61A0;
+    #endregion
+
+    #region Sudachi 2
+    private const uint KGameClearIndigoDisk = 0x0DDBBAAF; // FSYS_SCENARIO_GAME_CLEAR_SU2
+
+    // ItemMachineSave
+    private const uint KItemMachineDeployRank = 0x28C953BA; // ItemMachineSave_deployRank
+    private const uint KItemMachineLotteryCount = 0x138CABE2; // ItemMachineSave_totalLottryCount
+    private const uint KItemMachineCurrentMode = 0xB1569533; // ItemMachineSave_currentMode
+    private const uint KItemMachineRemain = 0x516B0440; // ItemMachineSave_remainFluctuationMode
+    private const uint KItemMachineCurrentLotteryCount = 0x2B669CE8; // ItemMachineSave_currentSelectLotteryCount
+    private const uint KItemMachineMonster = 0x8E71343A; // ItemMachineSave_isFinishedRankupTalkGuideMonster
+    private const uint KItemMachineSuper = 0x20D430E7; // ItemMachineSave_isFinishedRankupTalkGuideSuper
+    private const uint KItemMachineHyper = 0x8F64EB06; // ItemMachineSave_isFinishedRankupTalkGuideHyper
+
+    private const uint KMeloettaStatus = 0x3B43EC45; // WEVT_S2_SUB_003_STATUS -- Set to 1 to have Meloetta spawned in the overworld.
+    private const uint KMeloettaPoint = 0xB06231C3; // WEVT_S2_SUB_003_POP_POINT_NO -- random spot Meloetta will spawn at if Status is 1.
+
+    private const uint KUnlockedUpgradeFly = 0x3A9255B2; // FSYS_RIDE_FLIGHT_ENABLE
+    private const uint KUnlockedClubroomBGM01 = 0x0215F564; // FSYS_CLUBROOM_BGM_RELEASE_00
+    private const uint KUnlockedClubroomBGM02 = 0x0215F717; // FSYS_CLUBROOM_BGM_RELEASE_01
+    private const uint KUnlockedClubroomBGM03 = 0x0215F8CA; // FSYS_CLUBROOM_BGM_RELEASE_02
+    private const uint KUnlockedClubroomBGM04 = 0x0215FA7D; // FSYS_CLUBROOM_BGM_RELEASE_03
+    private const uint KUnlockedClubroomBGM05 = 0x0215EE98; // FSYS_CLUBROOM_BGM_RELEASE_04
+    private const uint KUnlockedClubroomBGM06 = 0x0215F04B; // FSYS_CLUBROOM_BGM_RELEASE_05
+    private const uint KUnlockedSpecialCoaches = 0xD236F495; // FSYS_CLUBROOM_PC_COACH
+    private const uint KUnlockedBlueberryQuests = 0xF26983F0; // FSYS_CLUB_BBMISSION_ENABLE
+    private const uint KUnlockedAdvancedBBQs = 0x9D6CE802; // FSYS_CLUB_BBMISSION_LVUP_01
+    private const uint KUnlockedGroupBBQs = 0x9D6CE64F; // FSYS_CLUB_BBMISSION_LVUP_02
+    private const uint KUnlockedAdvancedBBQsEvent = 0x3681943B; // FSYS_CLUB_BBMISSION_LVUP_EVENT_01
+    private const uint KUnlockedGroupBBQsEvent = 0x368195EE; // FSYS_CLUB_BBMISSION_LVUP_EVENT_02
+    private const uint KUnlockedSpecialCoachPenny = 0xB5236DCD; // FSYS_CLUB_HUD_COACH_BOTAN
+    private const uint KUnlockedSpecialCoachPoppy = 0xBD5944BF; // FSYS_CLUB_HUD_COACH_CHAMP_HAGANE
+    private const uint KUnlockedSpecialCoachRika = 0x45825C80; // FSYS_CLUB_HUD_COACH_CHAMP_JIMEN
+    private const uint KUnlockedSpecialCoachGeeta = 0xB59CC7B0; // FSYS_CLUB_HUD_COACH_CHAMP_TOP
+    private const uint KUnlockedSpecialCoachArven = 0x70F44B91; // FSYS_CLUB_HUD_COACH_FRIEND
+    private const uint KUnlockedSpecialCoachNemona = 0x1D854087; // FSYS_CLUB_HUD_COACH_RIVAL
+    private const uint KUnlockedSpecialCoachHassel = 0xF12544CF; // FSYS_CLUB_HUD_COACH_TEACHER_ART
+    private const uint KUnlockedSpecialCoachDendra = 0x0B403D86; // FSYS_CLUB_HUD_COACH_TEACHER_ATHLETIC
+    private const uint KUnlockedSpecialCoachJacq = 0x7D6C9A65; // FSYS_CLUB_HUD_COACH_TEACHER_BIOLOGY
+    private const uint KUnlockedSpecialCoachClavell = 0x4287D1DC; // FSYS_CLUB_HUD_COACH_TEACHER_HEAD
+    private const uint KUnlockedSpecialCoachMiriam = 0xE0DBBCF8; // FSYS_CLUB_HUD_COACH_TEACHER_HEALTH
+    private const uint KUnlockedSpecialCoachRaifort = 0xD067C9D2; // FSYS_CLUB_HUD_COACH_TEACHER_HISTORY
+    private const uint KUnlockedSpecialCoachSaguaro = 0x119B604D; // FSYS_CLUB_HUD_COACH_TEACHER_HOME
+    private const uint KUnlockedSpecialCoachSalvatore = 0xE3FFF180; // FSYS_CLUB_HUD_COACH_TEACHER_LANGUAGE
+    private const uint KUnlockedSpecialCoachTyme = 0xFA1952E8; // FSYS_CLUB_HUD_COACH_TEACHER_MATH
+    private const uint KItemMachineUnlockedStellarShard = 0x5044B3DF; // FSYS_CLUB_ITEM_MACHINE_RELEASE_RAINBOW_PIECE
+    private const uint KUnlockedBallThrowSet01 = 0x9BC0F251; // FSYS_CLUB_ROOM_BALL_THROW_FORM_01
+    private const uint KUnlockedBallThrowSet02 = 0x9BC0ED38; // FSYS_CLUB_ROOM_BALL_THROW_FORM_02
+    private const uint KUnlockedBallThrowSet03 = 0x9BC0EEEB; // FSYS_CLUB_ROOM_BALL_THROW_FORM_03
+
+    // Starter Pokémon
+    private const uint KUnlockedTerariumStarters01 = 0xFAE9772D; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_00
+    private const uint KUnlockedTerariumStarters02 = 0xFAE9757A; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_01
+    private const uint KUnlockedTerariumStarters03 = 0xFAE973C7; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_02
+    private const uint KUnlockedTerariumStarters04 = 0xFAE97214; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_03
+
+    private const uint KUnlockedClubroomStyleSet01 = 0x255992C9; // FSYS_CLUB_ROOM_ROOM_STYLE_01
+    private const uint KUnlockedClubroomStyleSet02 = 0x25598DB0; // FSYS_CLUB_ROOM_ROOM_STYLE_02
+    private const uint KUnlockedClubroomStyleSet03 = 0x25598F63; // FSYS_CLUB_ROOM_ROOM_STYLE_03
+    private const uint KUnlockedDLCEmote06 = 0x511570D8; // FSYS_DLC2_EMOTE_00_RELEASE
+    private const uint KUnlockedDLCEmote07 = 0xB49C2E43; // FSYS_DLC2_EMOTE_01_RELEASE
+    private const uint KUnlockedDLCEmote08 = 0x0F5E8B36; // FSYS_DLC2_EMOTE_02_RELEASE
+    private const uint KUnlockedDLCEmote09 = 0x5D1C2089; // FSYS_DLC2_EMOTE_03_RELEASE
+    private const uint KUnlockedDLCEmote10 = 0xD57ACCDC; // FSYS_DLC2_EMOTE_04_RELEASE
+    private const uint KUnlockedDLCEmote11 = 0x8E6B4987; // FSYS_DLC2_EMOTE_05_RELEASE
+    private const uint KUnlockedDLCSelfie00 = 0x6F5EF795; // FSYS_DLC2_EMOTE_SELFIE_00_RELEASE
+    private const uint KUnlockedDLCSelfie01 = 0x102D3DA2; // FSYS_DLC2_EMOTE_SELFIE_01_RELEASE
+    private const uint KUnlockedDLCSelfie02 = 0xBE729BEF; // FSYS_DLC2_EMOTE_SELFIE_02_RELEASE
+    private const uint KUnlockedPhotoDeco00 = 0xACEBDCB6; // FSYS_DLC2_PHOTO_DECO_00_RELEASE
+    private const uint KUnlockedPhotoDeco01 = 0xFAA97209; // FSYS_DLC2_PHOTO_DECO_01_RELEASE
+    private const uint KUnlockedPhotoDeco02 = 0xEEA2C258; // FSYS_DLC2_PHOTO_DECO_02_RELEASE
+    private const uint KUnlockedPhotoDeco03 = 0x52297FC3; // FSYS_DLC2_PHOTO_DECO_03_RELEASE
+    private const uint KUnlockedPhotoDeco04 = 0xA256D5DA; // FSYS_DLC2_PHOTO_DECO_04_RELEASE
+    private const uint KUnlockedPhotoDeco05 = 0x71D1646D; // FSYS_DLC2_PHOTO_DECO_05_RELEASE
+    private const uint KUnlockedPhotoDeco06 = 0x73081E5C; // FSYS_DLC2_PHOTO_DECO_06_RELEASE
+    private const uint KUnlockedPhotoDeco07 = 0x2BF89B07; // FSYS_DLC2_PHOTO_DECO_07_RELEASE
+    private const uint KUnlockedPhotoDeco08 = 0x11A8ED8E; // FSYS_DLC2_PHOTO_DECO_08_RELEASE
+    private const uint KUnlockedPhotoDeco09 = 0xB707E501; // FSYS_DLC2_PHOTO_DECO_09_RELEASE
+    private const uint KUnlockedPhotoDeco10 = 0xBF2E7F93; // FSYS_DLC2_PHOTO_DECO_10_RELEASE
+    private const uint KUnlockedPhotoDeco11 = 0x940817E8; // FSYS_DLC2_PHOTO_DECO_11_RELEASE
+    private const uint KUnlockedPokedexBlueberry = 0x84284137; // FSYS_DLC2_POKEDEX_ADD
+    private const uint KCanClaimPokedexDiplomaBlueberry = 0x95AC870C; // FSYS_DLC2_POKEDEX_SYOUJOU_ENABLE
+    private const uint KClaimedPokedexDiplomaBlueberry = 0x9950D651; // FSYS_DLC2_POKEDEX_SYOUJOU_EVENT
+    private const uint KUnlockedDressupUpgrade02 = 0x3FCD09A3; // FSYS_DRESSUP_UNLOCK_02
+    private const uint KUnlockedHairSalonUpgrade02 = 0x1922C364; // FSYS_HAIRSALON_UNLOCK_02
+    private const uint KBattledStellarTerapagosOnce = 0x04A230FA; // FSYS_KODAIGAME_FORM2_ALREADY_BATTLED_ONCE
+    private const uint KLastPokedexVolumeRewardThresholdBlueberry = 0x10E48257; // WSYS_S2_POKEDX_REWARD_CHIHOUA_VALUE
+    private const uint KUnlockedAtticusAuctions = 0x88DEDE8E; // FEVT_S2_SUB_004_ENABLE_SERI
+    private const uint KClubroomReachedGoldIono = 0x25776710; // WEVT_S2_CLUBROOM_COACH_GYM_DENKI
+    private const uint KClubroomReachedGoldLarry = 0xE5B935B6; // WEVT_S2_CLUBROOM_COACH_GYM_NORMAL
+    private const uint KUnlockedSynchroMachine = 0x47CDA43D; // FSYS_SYNCHRO_POKEMON_ENABLE
+
+    // Snacksworth Legendary Pokémon
+    private const uint KLegendaryStateArticuno = 0x89CA5245; // WEVT_S2_SUB_013_STATE
+    private const uint KLegendaryStateZapdos = 0xCBDBC66C; // WEVT_S2_SUB_014_STATE
+    private const uint KLegendaryStateMoltres = 0xC07011C7; // WEVT_S2_SUB_015_STATE
+    private const uint KLegendaryStateRaikou = 0x92625C3E; // WEVT_S2_SUB_016_STATE
+    private const uint KLegendaryStateEntei = 0xE53A43E9; // WEVT_S2_SUB_017_STATE
+    private const uint KLegendaryStateSuicune = 0xA3009C30; // WEVT_S2_SUB_018_STATE
+    private const uint KLegendaryStateLugia = 0x408FD5EB; // WEVT_S2_SUB_019_STATE
+    private const uint KLegendaryStateHoOh = 0x9A4C4C57; // WEVT_S2_SUB_020_STATE
+    private const uint KLegendaryStateLatias = 0x50E4FDFC; // WEVT_S2_SUB_021_STATE
+    private const uint KLegendaryStateLatios = 0xF5E6BCF9; // WEVT_S2_SUB_022_STATE
+    private const uint KLegendaryStateKyogre = 0xAFCF960E; // WEVT_S2_SUB_023_STATE
+    private const uint KLegendaryStateGroudon = 0x58A26DB3; // WEVT_S2_SUB_024_STATE
+    private const uint KLegendaryStateRayquaza = 0x6623B5F8; // WEVT_S2_SUB_025_STATE
+    private const uint KLegendaryStateCobalion = 0xED5D6C15; // WEVT_S2_SUB_026_STATE
+    private const uint KLegendaryStateTerrakion = 0x6DAB710A; // WEVT_S2_SUB_027_STATE
+    private const uint KLegendaryStateVirizion = 0x29D699FF; // WEVT_S2_SUB_028_STATE
+    private const uint KLegendaryStateReshiram = 0xD13DFD64; // WEVT_S2_SUB_029_STATE
+    private const uint KLegendaryStateZekrom = 0x82D45B5E; // WEVT_S2_SUB_030_STATE
+    private const uint KLegendaryStateKyurem = 0x0D598609; // WEVT_S2_SUB_031_STATE
+    private const uint KLegendaryStateSolgaleo = 0x3FC0D18C; // WEVT_S2_SUB_032_STATE
+    private const uint KLegendaryStateLunala = 0x651DFAE7; // WEVT_S2_SUB_033_STATE
+    private const uint KLegendaryStateNecrozma = 0xD3877C9A; // WEVT_S2_SUB_034_STATE
+    private const uint KLegendaryStateKubfu = 0x04CC40E5; // WEVT_S2_SUB_035_STATE
+    private const uint KLegendaryStateGlastrier = 0x41D6BB48; // WEVT_S2_SUB_036_STATE
+    private const uint KLegendaryStateSpectrier = 0xF5E78743; // WEVT_S2_SUB_037_STATE
+
+    private const uint KTerariumCounselorReceivedReward01 = 0xA26D7394; // WEVT_S2_SUB_040_AREA_01_GET_REWARD_COUNT
+    private const uint KTerariumCounselorReceivedReward02 = 0xEA0D25C3; // WEVT_S2_SUB_040_AREA_02_GET_REWARD_COUNT
+    private const uint KTerariumCounselorReceivedReward03 = 0x80909E8A; // WEVT_S2_SUB_040_AREA_03_GET_REWARD_COUNT
+    private const uint KTerariumCounselorReceivedReward04 = 0x6139C751; // WEVT_S2_SUB_040_AREA_04_GET_REWARD_COUNT
+
+    private const uint FSYS_OPTION_RIDE_FLIGHT_RELEASE = 0xE1F8DEBA;
+    private const uint FSYS_PHOTO_CONVERSION_ENABLE = 0x20B167D8;
+    private const uint FSYS_SCENARIO_LAST_EPISODE_CLEAR = 0x4EF04CF2;
+    private const uint FSYS_SU2_SHOPWAZAMACHINE_MESSAGE = 0x91D434A6;
+    private const uint FSYS_TBALL_POWERUP_ENABLE = 0x59AFCA7B;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_CLASS_01_ROOM = 0x00E98985;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_CLASS_02_ROOM = 0xB96291D6;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_CLUB_ROOM = 0x8CD9BF8B;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_DINING = 0x7461D906;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_DOME_AREA = 0xF39A2414;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_ENTRANCE = 0x96B4DFA5;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_FRIEND_01_ROOM = 0x97BAC3F3;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_FRIEND_02_ROOM = 0x87D10030;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_PLAYER_ROOM = 0x0538039C;
+    private const uint FSYS_UI_BB_SCHOOL_MAP_SHOP = 0x4A0EA13B;
+    private const uint FSYS_UI_PHOTO_DECO_ENABLE = 0x596819E0;
+    private const uint FSYS_UI_SCAN_ENABLE = 0x9E3B4243;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0000 = 0x79B2E777;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0020 = 0x79ACB465;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0050 = 0x79A477AA;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0060 = 0x79A15E21;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0075 = 0x799E4D17;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0080 = 0x799C048F;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0090 = 0x7998EB06;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0095 = 0x7998F385;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0100 = 0x746E83AC;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0110 = 0x74719D35;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0120 = 0x7473DD3E;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0165 = 0x746881E1;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0170 = 0x746B6A23;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0180 = 0x7456FDA4;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0185 = 0x7456F88B;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0190 = 0x745A172D;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE02_0000 = 0xA264AD90;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE02_0005 = 0xA264B60F;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE02_0010 = 0xA266ED99;
+    private const uint FSYS_YMAP_SCENARIO_S2_SIDE02_0020 = 0xA26A0722;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0000 = 0x36C0F5DB;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0010 = 0x36BDDC52;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0040 = 0x36CC4C1F;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0050 = 0x36C93296;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0060 = 0x36C64F6D;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0070 = 0x36C335E4;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0080 = 0x36D7A263;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0085 = 0x36D7A77C;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0089 = 0x36D7AE48;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0090 = 0x36D4BF3A;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0110 = 0x317ED219;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0130 = 0x3185052B;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0140 = 0x31881EB4;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0150 = 0x318A5EBD;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0160 = 0x318D41E6;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0170 = 0x31905B6F;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0180 = 0x319374F8;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0200 = 0x41498711;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0210 = 0x41466D88;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0220 = 0x414F83C3;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0230 = 0x414CA09A;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0235 = 0x414C9B81;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0250 = 0x4151C3CC;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0252 = 0x4151C732;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0254 = 0x4151BD00;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0256 = 0x4151C066;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0260 = 0x415B1067;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0262 = 0x415B13CD;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0263 = 0x415B121A;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0264 = 0x415B099B;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0265 = 0x415B07E8;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0266 = 0x415B0D01;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0267 = 0x415B0B4E;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0268 = 0x415B02CF;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0270 = 0x4157F6DE;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0300 = 0x3C052346;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_0360 = 0x3BF399F0;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_A_01 = 0x190C92CF;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_A_02 = 0x190C9482;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_A_03 = 0x190C9635;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_A_04 = 0x190C8A50;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_B_01 = 0x401A2878;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_B_02 = 0x401A2D91;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_B_03 = 0x401A2BDE;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_B_04 = 0x401A30F7;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_C_01 = 0x8AF4810D;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_C_02 = 0x8AF47BF4;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_C_03 = 0x8AF47DA7;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_C_04 = 0x8AF4788E;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_D_01 = 0xEC018B16;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_D_02 = 0xEC018963;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_D_03 = 0xEC0187B0;
+    private const uint FSYS_YMAP_SCENARIO_SDC02_4KINGS_D_04 = 0xEC019395;
+    private const uint WSYS_S2_EMOTE_NEW_FLAG = 0x6BD54AEE;
+    private const uint WSYS_S2_EMOTE_SELFIE_NEW_FLAG = 0xE7D142D1;
+    private const uint WSYS_S2_PHOTO_DECO_NEW_FLAG = 0x2DF201B2;
+    private const uint FEVT_CLUBROOM_ART_CLUB_1STEVENT = 0x0755D298;
+    private const uint FEVT_CLUBROOM_FAVORITE_GYM_LEADER_TALKED = 0x1FEDE4BB;
+    private const uint FEVT_S2_SUB_040_AREA_01_CLEAR = 0x17B28AF8;
+    private const uint FEVT_S2_SUB_040_AREA_01_FIRST = 0xA7388F23;
+    private const uint FEVT_S2_SUB_040_AREA_02_CLEAR = 0x5E712C9D;
+    private const uint FEVT_S2_SUB_040_AREA_02_FIRST = 0x7D50B5DE;
+    private const uint FEVT_S2_SUB_040_AREA_03_CLEAR = 0xD586940E;
+    private const uint FEVT_S2_SUB_040_AREA_03_FIRST = 0xB18E928D;
+    private const uint FEVT_S2_SUB_040_AREA_04_CLEAR = 0x70C5A84B;
+    private const uint FEVT_S2_SUB_040_AREA_04_FIRST = 0xB6B4C348;
+    private const uint FEVT_S2_SUB_041_GUIDE_TALK = 0x36EAC9AF;
+    private const uint FEVT_S2_SUB_041_TUTORIAL = 0x4B3833D2;
+    private const uint FEVT_S2_SUB_042_FRIEND_TALKED = 0xF504033B;
+    private const uint FEVT_SDC02_0180_FIRST_TALK = 0x77314D65;
+    private const uint FEVT_SDC02_DRAGON_BATTLE_WIN_01 = 0x64B0D737;
+    private const uint FEVT_SDC02_DRAGON_BATTLE_WIN_02 = 0x64B0D8EA;
+    private const uint FEVT_SDC02_DRAGON_BATTLE_WIN_03 = 0x64B0DA9D;
+    private const uint FEVT_SDC02_DRAGON_CHALLENGE = 0xDDA84D75;
+    private const uint FEVT_SDC02_FAIRY_QUIZ_PERFECT = 0x449799D9;
+    private const uint FEVT_SDC02_HAGANE_CLEAR_ADVANCED = 0x96EDAF73;
+    private const uint FEVT_SDC02_HAGANE_CLEAR_ELEMENTARY = 0x370AAED3;
+    private const uint FEVT_SDC02_HAGANE_CLEAR_INTERMEDIANTE = 0x3EB0BCA0;
+    private const uint FEVT_SDC02_HAGANE_CLEAR_SUPERLATIVE = 0x7D215B69;
+    private const uint FEVT_SDC02_HAGANE_RELEASE_SUPERLATIVE = 0x10298895;
+    private const uint FEVT_SDC02_HONOO_FINISH_01 = 0x9793622B;
+    private const uint FEVT_SDC02_HONOO_FINISH_02 = 0x979363DE;
+    private const uint FEVT_SDC02_HONOO_FINISH_03 = 0x97936591;
+    private const uint FEVT_SDC02_HONOO_FINISH_04 = 0x97936744;
+    private const uint FEVT_SDC02_HONOO_FINISH_05 = 0x979368F7;
+    private const uint FEVT_SDC02_HONOO_FINISH_06 = 0x97936AAA;
+    private const uint FEVT_SDC02_HONOO_FINISH_07 = 0x97936C5D;
+    private const uint FEVT_SDC02_HONOO_FINISH_08 = 0x979352E0;
+    private const uint FEVT_SDC02_HONOO_FINISH_09 = 0x97935493;
+    private const uint FEVT_SDC02_HONOO_SELECT_06 = 0xB9EBABC3;
+    private const uint FEVT_SDC02_HONOO_SELECT_09 = 0xB9EBC1DA;
+    private const uint WEVT_S2_SIDE02_0010_STATE = 0x47F06CEF;
+    private const uint WEVT_S2_SIDE02_0020_STATE = 0x449803E0;
+    private const uint WEVT_S2_SUB_009_DOKU_RESULT = 0xF1F5520C;
+    private const uint WEVT_S2_SUB_009_FAIRY_RESULT = 0xAE205522;
+    private const uint WEVT_S2_SUB_009_HONOO_RESULT = 0x363B9E7C;
+    private const uint WEVT_S2_SUB_041_CLEAR_TUTORIAL = 0xE9EA2C75;
+    private const uint WEVT_S2_SUB_041_REWARD_SYNCHRO_COUNT = 0x7879E9FF;
+    private const uint WEVT_SDC02_0089_TUTORIAL = 0xBEB3C1F7;
+    private const uint WEVT_SDC02_DRAGON_CLEAR_NUM = 0x2413FDB1;
+    private const uint WEVT_SDC02_FAIRY_CLEAR_NUM = 0x5D406355;
+    private const uint WEVT_SDC02_FAIRY_CLEAR_QUESTION = 0xEBFE7753;
+    private const uint WEVT_SDC02_HAGANE_BEST_RECORD_ADVANCED = 0x38DC7F7F;
+    private const uint WEVT_SDC02_HAGANE_BEST_RECORD_ELEMENTARY = 0x19FADB5F;
+    private const uint WEVT_SDC02_HAGANE_BEST_RECORD_INTERMEDIANTE = 0x653DE564;
+    private const uint WEVT_SDC02_HAGANE_BEST_RECORD_SUPERLATIVE = 0x4C0B8215;
+    private const uint WEVT_SDC02_HAGANE_CLEAR_NUM = 0x819E21EC;
+    private const uint WEVT_SDC02_HAGANE_FAILD_COUNT = 0x9B37E77E;
+    private const uint WEVT_SDC02_HONOO_CLEAR_NUM = 0x04B519D3;
+    private const uint WEVT_SDC02_HONOO_PLAYING = 0x8E6114CB;
+    private const uint WEVT_SDC02_SUB_HAGANE_COURSE_LEVEL = 0x4B5F031F;
     #endregion
 }
