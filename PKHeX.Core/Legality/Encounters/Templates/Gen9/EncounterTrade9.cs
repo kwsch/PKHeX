@@ -92,8 +92,8 @@ public sealed record EncounterTrade9
 
             OT_Friendship = pi.BaseFriendship,
 
-            IsNicknamed = true,
-            Nickname = Nicknames[lang],
+            IsNicknamed = IsFixedNickname,
+            Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
 
             HeightScalar = PokeSizeUtil.GetRandomScalar(),
             WeightScalar = Weight.GetSizeValue(Weight != SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
