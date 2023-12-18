@@ -109,8 +109,10 @@ public sealed class PersonalInfo9SV(byte[] Data) : PersonalInfo, IPersonalAbilit
 
     public bool IsRecordPermitted(int index) => GetIsLearnTM(index);
 
+    private const int COUNT_RECORD_BASE = 200; // Up to 200 TM flags, but not all are used.
+    private const int COUNT_RECORD_DLC = 104; // 13 additional bytes allocated for DLC1/2 TM Flags
     public ReadOnlySpan<ushort> RecordPermitIndexes => TM_SV;
-    public int RecordCountTotal => 202;
+    public int RecordCountTotal => COUNT_RECORD_BASE + COUNT_RECORD_DLC;
     public int RecordCountUsed => CountTM;
 
     private static ReadOnlySpan<ushort> TM_SV =>
