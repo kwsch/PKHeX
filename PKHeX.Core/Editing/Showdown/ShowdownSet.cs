@@ -309,11 +309,9 @@ public sealed class ShowdownSet : IBattleTemplate
         var types = Strings.types;
         var val = StringUtil.FindIndexIgnoreCase(types, value);
         if (val < 0)
-        {
-            if (value is not "Stellar")
-                return false;
+            return false;
+        if (val == TeraTypeUtil.StellarTypeDisplayStringIndex)
             val = TeraTypeUtil.Stellar;
-        }
         TeraType = (MoveType)val;
         return true;
     }

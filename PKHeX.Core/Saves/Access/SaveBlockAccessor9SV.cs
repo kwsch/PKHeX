@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 // ReSharper disable UnusedMember.Local
 #pragma warning disable IDE0051 // Remove unused private members
@@ -47,9 +48,24 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
         LastSaved = new Epoch1970Value(GetBlock(KLastSaved));
         PlayerFashion = new PlayerFashion9(sav, GetBlock(KCurrentClothing));
         PlayerAppearance = new PlayerAppearance9(sav, GetBlock(KCurrentAppearance));
-        RaidPaldea = new RaidSpawnList9(sav, GetBlock(KTeraRaidPaldea), RaidSpawnList9.RaidCountLegal_T0, true);
-        RaidKitakami = new RaidSpawnList9(sav, GetBlockSafe(KTeraRaidKitakami), RaidSpawnList9.RaidCountLegal_T1, false);
-        RaidBlueberry = new RaidSpawnList9(sav, GetBlockSafe(KTeraRaidBlueberry), RaidSpawnList9.RaidCountLegal_T2, false);
+
+        var raidPaldea = GetBlock(KTeraRaidPaldea);
+        RaidPaldea = new RaidSpawnList9(sav, raidPaldea, raidPaldea.Data, RaidSpawnList9.RaidCountLegal_T0, true);
+        if (TryGetBlock(KTeraRaidDLC, out var raidDLC))
+        {
+            var buffer = raidDLC.Data;
+            const int size = 0xC80;
+            var memKita = buffer.AsMemory(0, size);
+            var memBlue = buffer.AsMemory(size, size);
+            RaidKitakami = new RaidSpawnList9(sav, raidDLC, memKita, RaidSpawnList9.RaidCountLegal_T1, false);
+            RaidBlueberry = new RaidSpawnList9(sav, raidDLC, memBlue, RaidSpawnList9.RaidCountLegal_T2, false);
+        }
+        else
+        {
+            var fake = GetFakeBlock();
+            RaidKitakami = new RaidSpawnList9(sav, fake, default, RaidSpawnList9.RaidCountLegal_T1, false);
+            RaidBlueberry = new RaidSpawnList9(sav, fake, default, RaidSpawnList9.RaidCountLegal_T2, false);
+        }
         RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture));
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
         BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));
@@ -85,7 +101,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KOverworld = 0x173304D8; // [0x158+7C][20] overworld Pokémon
     private const uint KGimmighoul = 0x53DC955C; // ulong seed x2 (today and tomorrow); Gimmighoul struct (0x20): bool is_active, u64 hash, u64 seed, bool ??, bool first_time
     private const uint KTeraRaidPaldea = 0xCAAC8800;
-    private const uint KTeraRaidKitakami = 0x100B93DA;
+    private const uint KTeraRaidDLC = 0x100B93DA;
     private const uint KTeraRaidBlueberry = 0x0C62D416;
     public const uint KBoxesUnlocked = 0x71825204;
     public const uint KFusedKyurem = 0x7E0ADF89;

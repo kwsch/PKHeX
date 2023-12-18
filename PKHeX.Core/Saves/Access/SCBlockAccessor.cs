@@ -116,8 +116,10 @@ public abstract class SCBlockAccessor : ISaveBlockAccessor<SCBlock>
         var index = FindIndex(array, key);
         if (index != -1)
             return array[index];
-        return new SCBlock(0, SCTypeCode.None);
+        return GetFakeBlock();
     }
+
+    protected static SCBlock GetFakeBlock() => new(0, SCTypeCode.None);
 
     /// <summary>
     /// Finds a specified <see cref="key"/> within the <see cref="array"/>.
