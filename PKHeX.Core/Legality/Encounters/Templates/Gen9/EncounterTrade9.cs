@@ -17,7 +17,7 @@ public sealed record EncounterTrade9
     public bool IsShiny => false;
     public int EggLocation => 0;
     public bool IsFixedTrainer => true;
-    public bool IsFixedNickname => true;
+    public bool IsFixedNickname => Nicknames.Length > 0;
     public GameVersion Version { get; }
 
     private string[] TrainerNames { get; }
@@ -51,9 +51,9 @@ public sealed record EncounterTrade9
     public EncounterTrade9(ReadOnlySpan<string[]> names, byte index, GameVersion game, ushort species, byte level)
     {
         Version = game;
-        Nicknames = EncounterUtil.GetNamesForLanguage(names, index);
+        bool partner = RibbonPartner = index is (>= 2 and <= 31);
+        Nicknames = partner ? [] : EncounterUtil.GetNamesForLanguage(names, index);
         TrainerNames = EncounterUtil.GetNamesForLanguage(names, (uint)(index + (names[1].Length >> 1)));
-        RibbonPartner = index is (>= 2 and <= 31);
         Species = species;
         Level = level;
     }
@@ -96,8 +96,8 @@ public sealed record EncounterTrade9
             Nickname = Nicknames[lang],
 
             HeightScalar = PokeSizeUtil.GetRandomScalar(),
-            WeightScalar = Weight.GetSizeValue(Weight == SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
-            Scale = Scale.GetSizeValue(Scale == SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
+            WeightScalar = Weight.GetSizeValue(Weight != SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
+            Scale = Scale.GetSizeValue(Scale != SizeType9.RANDOM ? FixedValueScale : default, ref rnd),
             TeraTypeOriginal = GetOriginalTeraType(),
 
             HT_Name = tr.OT,
