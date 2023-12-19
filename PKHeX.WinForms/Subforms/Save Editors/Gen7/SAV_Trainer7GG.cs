@@ -13,7 +13,7 @@ public partial class SAV_Trainer7GG : Form
     private readonly SAV7b SAV;
     private readonly GoParkStorage Park;
 
-    public SAV_Trainer7GG(SaveFile sav)
+    public SAV_Trainer7GG(SAV7b sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

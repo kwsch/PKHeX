@@ -30,7 +30,7 @@ public partial class SAV_Misc5 : Form
     private bool bLibPass;
     private const int ofsKS = 0x25828;
 
-    public SAV_Misc5(SaveFile sav)
+    public SAV_Misc5(SAV5 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

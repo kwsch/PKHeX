@@ -12,7 +12,7 @@ public partial class SAV_Raid9 : Form
     private readonly SAV9SV SAV;
     private readonly RaidSpawnList9 Raids;
 
-    public SAV_Raid9(SaveFile sav, RaidSpawnList9 raid)
+    public SAV_Raid9(SAV9SV sav, RaidSpawnList9 raid)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

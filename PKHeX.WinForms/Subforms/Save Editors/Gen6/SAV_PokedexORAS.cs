@@ -11,7 +11,7 @@ public partial class SAV_PokedexORAS : Form
     private readonly SaveFile Origin;
     private readonly SAV6AO SAV;
 
-    public SAV_PokedexORAS(SaveFile sav)
+    public SAV_PokedexORAS(SAV6AO sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

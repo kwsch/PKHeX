@@ -11,7 +11,7 @@ public partial class SAV_Raid8 : Form
     private readonly SAV8SWSH SAV;
     private readonly RaidSpawnList8 Raids;
 
-    public SAV_Raid8(SaveFile sav, RaidSpawnList8 raid)
+    public SAV_Raid8(SAV8SWSH sav, RaidSpawnList8 raid)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

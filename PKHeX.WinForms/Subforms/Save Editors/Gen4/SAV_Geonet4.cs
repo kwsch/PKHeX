@@ -10,7 +10,7 @@ public partial class SAV_Geonet4 : Form
     private readonly SAV4 SAV;
     private readonly Geonet4 Geonet;
 
-    public SAV_Geonet4(SaveFile sav)
+    public SAV_Geonet4(SAV4 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

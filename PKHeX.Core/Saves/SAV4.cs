@@ -207,11 +207,13 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     protected int WondercardFlags = int.MinValue;
     protected int AdventureInfo = int.MinValue;
     protected int Seal = int.MinValue;
-    public int Chatter { get; protected set; } = int.MinValue;
     public int Geonet { get; protected set; } = int.MinValue;
     protected int Extra = int.MinValue;
     protected int Trainer1;
     public int GTS { get; protected set; } = int.MinValue;
+
+    public int ChatterOffset { get; protected set; } = int.MinValue;
+    public Chatter4 Chatter => new(this);
 
     // Storage
     public override int PartyCount

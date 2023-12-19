@@ -17,7 +17,7 @@ public partial class SAV_Underground : Form
     private readonly string[] ugTrapsSorted;
     private readonly string[] ugTreasuresSorted;
 
-    public SAV_Underground(SaveFile sav)
+    public SAV_Underground(SAV4Sinnoh sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

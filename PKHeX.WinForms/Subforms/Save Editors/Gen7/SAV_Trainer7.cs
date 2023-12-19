@@ -11,7 +11,7 @@ public partial class SAV_Trainer7 : Form
     private readonly SaveFile Origin;
     private readonly SAV7 SAV;
 
-    public SAV_Trainer7(SaveFile sav)
+    public SAV_Trainer7(SAV7 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

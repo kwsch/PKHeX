@@ -20,7 +20,7 @@ public partial class SAV_Chatter : Form
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
         SAV = (Origin = sav).Clone();
-        Chatter = SAV is SAV5 s5 ? s5.Chatter : new Chatter4(SAV);
+        Chatter = SAV is SAV5 s5 ? s5.Chatter : ((SAV4)SAV).Chatter;
 
         DeleteTempFile();
         CHK_Initialized.Checked = Chatter.Initialized;
