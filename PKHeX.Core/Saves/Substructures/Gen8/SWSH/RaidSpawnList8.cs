@@ -214,3 +214,10 @@ public enum RaidType : byte
     Event = 5,
     DynamaxCrystal = 6,
 }
+
+public enum MaxRaidOrigin: uint
+{
+    Galar,
+    IsleOfArmor,
+    CrownTundra
+}
