@@ -85,9 +85,8 @@ namespace PKHeX.WinForms.Controls
             B_MailBox = new System.Windows.Forms.Button();
             B_OpenApricorn = new System.Windows.Forms.Button();
             B_Raids = new System.Windows.Forms.Button();
-            B_RaidArmor = new System.Windows.Forms.Button();
-            B_RaidCrown = new System.Windows.Forms.Button();
-            B_RaidKitakami = new System.Windows.Forms.Button();
+            B_RaidDLC1 = new System.Windows.Forms.Button();
+            B_RaidDLC2 = new System.Windows.Forms.Button();
             B_Blocks = new System.Windows.Forms.Button();
             B_OtherSlots = new System.Windows.Forms.Button();
             B_OpenSealStickers = new System.Windows.Forms.Button();
@@ -108,7 +107,6 @@ namespace PKHeX.WinForms.Controls
             TB_Secure1 = new System.Windows.Forms.TextBox();
             L_GameSync = new System.Windows.Forms.Label();
             TB_GameSync = new System.Windows.Forms.TextBox();
-            B_RaidBlueberry = new System.Windows.Forms.Button();
             tabBoxMulti.SuspendLayout();
             Tab_Box.SuspendLayout();
             Tab_PartyBattle.SuspendLayout();
@@ -397,10 +395,8 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_MailBox);
             FLP_SAVtools.Controls.Add(B_OpenApricorn);
             FLP_SAVtools.Controls.Add(B_Raids);
-            FLP_SAVtools.Controls.Add(B_RaidArmor);
-            FLP_SAVtools.Controls.Add(B_RaidCrown);
-            FLP_SAVtools.Controls.Add(B_RaidKitakami);
-            FLP_SAVtools.Controls.Add(B_RaidBlueberry);
+            FLP_SAVtools.Controls.Add(B_RaidDLC1);
+            FLP_SAVtools.Controls.Add(B_RaidDLC2);
             FLP_SAVtools.Controls.Add(B_Blocks);
             FLP_SAVtools.Controls.Add(B_OtherSlots);
             FLP_SAVtools.Controls.Add(B_OpenSealStickers);
@@ -693,7 +689,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenChatterEditor
             // 
-            B_OpenChatterEditor.Location = new System.Drawing.Point(212, 204);
+            B_OpenChatterEditor.Location = new System.Drawing.Point(108, 244);
             B_OpenChatterEditor.Margin = new System.Windows.Forms.Padding(4);
             B_OpenChatterEditor.Name = "B_OpenChatterEditor";
             B_OpenChatterEditor.Size = new System.Drawing.Size(96, 32);
@@ -704,7 +700,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_Roamer
             // 
-            B_Roamer.Location = new System.Drawing.Point(108, 244);
+            B_Roamer.Location = new System.Drawing.Point(212, 244);
             B_Roamer.Margin = new System.Windows.Forms.Padding(4);
             B_Roamer.Name = "B_Roamer";
             B_Roamer.Size = new System.Drawing.Size(96, 32);
@@ -715,7 +711,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_FestivalPlaza
             // 
-            B_FestivalPlaza.Location = new System.Drawing.Point(212, 244);
+            B_FestivalPlaza.Location = new System.Drawing.Point(316, 244);
             B_FestivalPlaza.Margin = new System.Windows.Forms.Padding(4);
             B_FestivalPlaza.Name = "B_FestivalPlaza";
             B_FestivalPlaza.Size = new System.Drawing.Size(96, 32);
@@ -726,7 +722,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_MailBox
             // 
-            B_MailBox.Location = new System.Drawing.Point(316, 244);
+            B_MailBox.Location = new System.Drawing.Point(4, 284);
             B_MailBox.Margin = new System.Windows.Forms.Padding(4);
             B_MailBox.Name = "B_MailBox";
             B_MailBox.Size = new System.Drawing.Size(96, 32);
@@ -737,7 +733,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenApricorn
             // 
-            B_OpenApricorn.Location = new System.Drawing.Point(4, 284);
+            B_OpenApricorn.Location = new System.Drawing.Point(108, 284);
             B_OpenApricorn.Margin = new System.Windows.Forms.Padding(4);
             B_OpenApricorn.Name = "B_OpenApricorn";
             B_OpenApricorn.Size = new System.Drawing.Size(96, 32);
@@ -748,7 +744,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_Raids
             // 
-            B_Raids.Location = new System.Drawing.Point(108, 284);
+            B_Raids.Location = new System.Drawing.Point(212, 284);
             B_Raids.Margin = new System.Windows.Forms.Padding(4);
             B_Raids.Name = "B_Raids";
             B_Raids.Size = new System.Drawing.Size(96, 32);
@@ -757,42 +753,31 @@ namespace PKHeX.WinForms.Controls
             B_Raids.UseVisualStyleBackColor = true;
             B_Raids.Click += B_OpenRaids_Click;
             // 
-            // B_RaidArmor
+            // B_RaidDLC1
             // 
-            B_RaidArmor.Location = new System.Drawing.Point(212, 284);
-            B_RaidArmor.Margin = new System.Windows.Forms.Padding(4);
-            B_RaidArmor.Name = "B_RaidArmor";
-            B_RaidArmor.Size = new System.Drawing.Size(96, 32);
-            B_RaidArmor.TabIndex = 2;
-            B_RaidArmor.Text = "Raids (DLC 1)";
-            B_RaidArmor.UseVisualStyleBackColor = true;
-            B_RaidArmor.Click += B_OpenRaids_Click;
+            B_RaidDLC1.Location = new System.Drawing.Point(316, 284);
+            B_RaidDLC1.Margin = new System.Windows.Forms.Padding(4);
+            B_RaidDLC1.Name = "B_RaidDLC1";
+            B_RaidDLC1.Size = new System.Drawing.Size(96, 32);
+            B_RaidDLC1.TabIndex = 2;
+            B_RaidDLC1.Text = "Raids (DLC 1)";
+            B_RaidDLC1.UseVisualStyleBackColor = true;
+            B_RaidDLC1.Click += B_OpenRaids_Click;
             // 
-            // B_RaidCrown
+            // B_RaidDLC2
             // 
-            B_RaidCrown.Location = new System.Drawing.Point(316, 284);
-            B_RaidCrown.Margin = new System.Windows.Forms.Padding(4);
-            B_RaidCrown.Name = "B_RaidCrown";
-            B_RaidCrown.Size = new System.Drawing.Size(96, 32);
-            B_RaidCrown.TabIndex = 4;
-            B_RaidCrown.Text = "Raids (DLC 2)";
-            B_RaidCrown.UseVisualStyleBackColor = true;
-            B_RaidCrown.Click += B_OpenRaids_Click;
-            // 
-            // B_RaidKitakami
-            // 
-            B_RaidKitakami.Location = new System.Drawing.Point(4, 324);
-            B_RaidKitakami.Margin = new System.Windows.Forms.Padding(4);
-            B_RaidKitakami.Name = "B_RaidKitakami";
-            B_RaidKitakami.Size = new System.Drawing.Size(96, 32);
-            B_RaidKitakami.TabIndex = 4;
-            B_RaidKitakami.Text = "Raids (DLC 1)";
-            B_RaidKitakami.UseVisualStyleBackColor = true;
-            B_RaidKitakami.Click += B_OpenRaids_Click;
+            B_RaidDLC2.Location = new System.Drawing.Point(4, 324);
+            B_RaidDLC2.Margin = new System.Windows.Forms.Padding(4);
+            B_RaidDLC2.Name = "B_RaidDLC2";
+            B_RaidDLC2.Size = new System.Drawing.Size(96, 32);
+            B_RaidDLC2.TabIndex = 4;
+            B_RaidDLC2.Text = "Raids (DLC 2)";
+            B_RaidDLC2.UseVisualStyleBackColor = true;
+            B_RaidDLC2.Click += B_OpenRaids_Click;
             // 
             // B_Blocks
             // 
-            B_Blocks.Location = new System.Drawing.Point(212, 324);
+            B_Blocks.Location = new System.Drawing.Point(108, 324);
             B_Blocks.Margin = new System.Windows.Forms.Padding(4);
             B_Blocks.Name = "B_Blocks";
             B_Blocks.Size = new System.Drawing.Size(96, 32);
@@ -803,7 +788,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OtherSlots
             // 
-            B_OtherSlots.Location = new System.Drawing.Point(316, 324);
+            B_OtherSlots.Location = new System.Drawing.Point(212, 324);
             B_OtherSlots.Margin = new System.Windows.Forms.Padding(4);
             B_OtherSlots.Name = "B_OtherSlots";
             B_OtherSlots.Size = new System.Drawing.Size(96, 32);
@@ -814,7 +799,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_OpenSealStickers
             // 
-            B_OpenSealStickers.Location = new System.Drawing.Point(4, 364);
+            B_OpenSealStickers.Location = new System.Drawing.Point(316, 324);
             B_OpenSealStickers.Margin = new System.Windows.Forms.Padding(4);
             B_OpenSealStickers.Name = "B_OpenSealStickers";
             B_OpenSealStickers.Size = new System.Drawing.Size(96, 32);
@@ -825,7 +810,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_Poffins
             // 
-            B_Poffins.Location = new System.Drawing.Point(108, 364);
+            B_Poffins.Location = new System.Drawing.Point(4, 364);
             B_Poffins.Margin = new System.Windows.Forms.Padding(4);
             B_Poffins.Name = "B_Poffins";
             B_Poffins.Size = new System.Drawing.Size(96, 32);
@@ -836,7 +821,7 @@ namespace PKHeX.WinForms.Controls
             // 
             // B_RaidsSevenStar
             // 
-            B_RaidsSevenStar.Location = new System.Drawing.Point(212, 364);
+            B_RaidsSevenStar.Location = new System.Drawing.Point(108, 364);
             B_RaidsSevenStar.Margin = new System.Windows.Forms.Padding(4);
             B_RaidsSevenStar.Name = "B_RaidsSevenStar";
             B_RaidsSevenStar.Size = new System.Drawing.Size(96, 32);
@@ -1011,17 +996,6 @@ namespace PKHeX.WinForms.Controls
             TB_GameSync.TabIndex = 10;
             TB_GameSync.Validated += UpdateStringSeed;
             // 
-            // B_RaidBlueberry
-            // 
-            B_RaidBlueberry.Location = new System.Drawing.Point(108, 324);
-            B_RaidBlueberry.Margin = new System.Windows.Forms.Padding(4);
-            B_RaidBlueberry.Name = "B_RaidBlueberry";
-            B_RaidBlueberry.Size = new System.Drawing.Size(96, 32);
-            B_RaidBlueberry.TabIndex = 8;
-            B_RaidBlueberry.Text = "Raids (DLC 2)";
-            B_RaidBlueberry.UseVisualStyleBackColor = true;
-            B_RaidBlueberry.Click += B_OpenRaids_Click;
-            // 
             // SAVEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -1112,10 +1086,9 @@ namespace PKHeX.WinForms.Controls
         private PartyEditor SL_Party;
         private System.Windows.Forms.Button B_Raids;
         private System.Windows.Forms.Button B_Blocks;
-        private System.Windows.Forms.Button B_RaidArmor;
+        private System.Windows.Forms.Button B_RaidDLC1;
         private System.Windows.Forms.Button B_OtherSlots;
-        private System.Windows.Forms.Button B_RaidCrown;
-        private System.Windows.Forms.Button B_RaidKitakami;
+        private System.Windows.Forms.Button B_RaidDLC2;
         private System.Windows.Forms.Button Menu_ExportBAK;
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVToolsMisc;
         private System.Windows.Forms.Button B_OpenSealStickers;
@@ -1123,6 +1096,5 @@ namespace PKHeX.WinForms.Controls
         private System.Windows.Forms.Button B_VerifySaveEntities;
         private System.Windows.Forms.Button B_RaidsSevenStar;
         private System.Windows.Forms.Button B_ConvertKorean;
-        private System.Windows.Forms.Button B_RaidBlueberry;
     }
 }

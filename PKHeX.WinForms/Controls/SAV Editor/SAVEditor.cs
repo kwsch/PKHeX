@@ -567,9 +567,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             if (sender == B_Raids)
                 OpenDialog(new SAV_Raid9(sv, sv.RaidPaldea));
-            else if (sender == B_RaidKitakami)
+            else if (sender == B_RaidDLC1)
                 OpenDialog(new SAV_Raid9(sv, sv.RaidKitakami));
-            else if (sender == B_RaidBlueberry)
+            else if (sender == B_RaidDLC2)
                 OpenDialog(new SAV_Raid9(sv, sv.RaidBlueberry));
             else if (sender == B_RaidsSevenStar)
                 OpenDialog(new SAV_RaidSevenStar9(sv, sv.RaidSevenStar));
@@ -578,9 +578,9 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         {
             if (sender == B_Raids)
                 OpenDialog(new SAV_Raid8(swsh, swsh.Raid));
-            else if (sender == B_RaidArmor)
+            else if (sender == B_RaidDLC1)
                 OpenDialog(new SAV_Raid8(swsh, swsh.RaidArmor));
-            else
+            else if(sender == B_RaidDLC2)
                 OpenDialog(new SAV_Raid8(swsh, swsh.RaidCrown));
         }
     }
@@ -1168,10 +1168,8 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
 
         B_Raids.Visible = sav is SAV8SWSH or SAV9SV;
         B_RaidsSevenStar.Visible = sav is SAV9SV;
-        B_RaidArmor.Visible = sav is SAV8SWSH { SaveRevision: >= 1 };
-        B_RaidCrown.Visible = sav is SAV8SWSH { SaveRevision: >= 2 };
-        B_RaidKitakami.Visible = sav is SAV9SV { SaveRevision: >= 1 };
-        B_RaidBlueberry.Visible = sav is SAV9SV { SaveRevision: >= 2 };
+        B_RaidDLC1.Visible = sav is SAV8SWSH { SaveRevision: >= 1 } or SAV9SV { SaveRevision: >= 1 };
+        B_RaidDLC2.Visible = sav is SAV8SWSH { SaveRevision: >= 2 } or SAV9SV { SaveRevision: >= 2 };
         FLP_SAVtools.Visible = B_Blocks.Visible = true;
 
         var list = FLP_SAVtools.Controls.OfType<Control>().OrderBy(z => z.Text).ToArray();
