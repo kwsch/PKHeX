@@ -10,7 +10,7 @@ public partial class SAV_Trainer8 : Form
     private readonly SaveFile Origin;
     private readonly SAV8SWSH SAV;
 
-    public SAV_Trainer8(SaveFile sav)
+    public SAV_Trainer8(SAV8SWSH sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

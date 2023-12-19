@@ -6,16 +6,9 @@ namespace PKHeX.Core;
 /// <summary>
 /// Generation 4 Chatter Recording
 /// </summary>
-public sealed class Chatter4: IChatter
+public sealed class Chatter4: SaveBlock<SAV4>, IChatter
 {
-    private readonly SAV4 SAV;
-    private readonly int Offset;
-
-    public Chatter4(SaveFile sav)
-    {
-        SAV = (SAV4)sav;
-        Offset = SAV.Chatter;
-    }
+    public Chatter4(SAV4 SAV) : base(SAV) => Offset = SAV.ChatterOffset;
 
     public bool Initialized
     {

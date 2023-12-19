@@ -10,7 +10,7 @@ public partial class SAV_UnityTower : Form
     private readonly SAV5 SAV;
     private readonly UnityTower5 UnityTower;
 
-    public SAV_UnityTower(SaveFile sav)
+    public SAV_UnityTower(SAV5 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

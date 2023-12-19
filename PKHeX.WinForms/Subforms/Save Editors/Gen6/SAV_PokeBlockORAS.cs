@@ -10,7 +10,7 @@ public partial class SAV_PokeBlockORAS : Form
     private readonly SaveFile Origin;
     private readonly SAV6AO SAV;
 
-    public SAV_PokeBlockORAS(SaveFile sav)
+    public SAV_PokeBlockORAS(SAV6AO sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

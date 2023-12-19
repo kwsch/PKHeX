@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -9,7 +9,7 @@ public partial class SAV_ZygardeCell : Form
     private readonly SaveFile Origin;
     private readonly SAV7 SAV;
 
-    public SAV_ZygardeCell(SaveFile sav)
+    public SAV_ZygardeCell(SAV7 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

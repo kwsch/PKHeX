@@ -13,7 +13,7 @@ public partial class SAV_Misc3 : Form
     private readonly SaveFile Origin;
     private readonly SAV3 SAV;
 
-    public SAV_Misc3(SaveFile sav)
+    public SAV_Misc3(SAV3 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

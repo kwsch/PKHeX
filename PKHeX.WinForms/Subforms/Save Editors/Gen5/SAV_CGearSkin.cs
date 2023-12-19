@@ -12,7 +12,7 @@ public partial class SAV_CGearSkin : Form
     private readonly SaveFile Origin;
     private readonly SAV5 SAV;
 
-    public SAV_CGearSkin(SaveFile sav)
+    public SAV_CGearSkin(SAV5 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

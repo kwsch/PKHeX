@@ -10,11 +10,11 @@ public partial class SAV_EventReset1 : Form
     private readonly G1OverworldSpawner Overworld;
     private void SAV_EventReset1_FormClosing(object sender, FormClosingEventArgs e) => Overworld.Save();
 
-    public SAV_EventReset1(SaveFile sav)
+    public SAV_EventReset1(SAV1 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        Overworld = new G1OverworldSpawner((SAV1)sav);
+        Overworld = new G1OverworldSpawner(sav);
 
         InitializeButtons();
     }

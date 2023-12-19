@@ -11,7 +11,7 @@ public partial class SAV_PokedexSM : Form
     private readonly SaveFile Origin;
     private readonly SAV7 SAV;
 
-    public SAV_PokedexSM(SaveFile sav)
+    public SAV_PokedexSM(SAV7 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

@@ -15,7 +15,7 @@ public partial class SAV_FestivalPlaza : Form
 
     private int entry;
 
-    public SAV_FestivalPlaza(SaveFile sav)
+    public SAV_FestivalPlaza(SAV7 sav)
     {
         InitializeComponent();
         SAV = (SAV7)(Origin = sav).Clone();

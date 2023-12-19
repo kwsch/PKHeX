@@ -13,7 +13,7 @@ public partial class SAV_SuperTrain : Form
 
     private readonly string[] trba;
 
-    public SAV_SuperTrain(SaveFile sav)
+    public SAV_SuperTrain(SAV6 sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

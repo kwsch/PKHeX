@@ -8,11 +8,11 @@ public partial class SAV_Pokepuff : Form
 {
     private readonly ISaveBlock6Main SAV;
 
-    public SAV_Pokepuff(SaveFile sav)
+    public SAV_Pokepuff(ISaveBlock6Main sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        SAV = (ISaveBlock6Main)sav;
+        SAV = sav;
 
         var puffs = SAV.Puff.GetPuffs();
         Setup(puffs.Length);

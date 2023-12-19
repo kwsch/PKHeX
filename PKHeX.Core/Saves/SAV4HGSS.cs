@@ -59,7 +59,7 @@ public sealed class SAV4HGSS : SAV4
         Party = 0x98;
         PokeDex = 0x12B8;
         Extra = 0x230C;
-        Chatter = 0x4E74;
+        ChatterOffset = 0x4E74;
         Geonet = 0x8D44;
         WondercardFlags = 0x9D3C;
         WondercardData = 0x9E3C;

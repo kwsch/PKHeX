@@ -20,7 +20,7 @@ public partial class SAV_SecretBase : Form
 
     private bool loading = true;
 
-    public SAV_SecretBase(SaveFile sav)
+    public SAV_SecretBase(SAV6AO sav)
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
