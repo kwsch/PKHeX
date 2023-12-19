@@ -18,12 +18,9 @@ public sealed class Chatter5 : SaveBlock<SAV5>, IChatter
 
     public Span<byte> Recording => Data.AsSpan(Offset + sizeof(uint), IChatter.SIZE_PCM);
 
-    public int ConfusionChance
+    public int ConfusionChance => !Initialized ? 0 : (Recording[99] ^ Recording[499] ^ Recording[699]) switch
     {
-        get => !Initialized ? 0 : (Recording[99] ^ Recording[499] ^ Recording[699]) switch
-        {
-            < 100 or >= 150 => 10,
-            _ => 0,
-        };
-    }
+        < 100 or >= 150 => 10,
+        _ => 0,
+    };
 }

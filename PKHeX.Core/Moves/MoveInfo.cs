@@ -82,7 +82,7 @@ public static class MoveInfo
     /// <summary>
     /// Checks if the move is a Starmobile-only move.
     /// </summary>
-    public static bool IsMoveTorque(ushort move) => move - (uint)BlazingTorque <= 3;
+    public static bool IsMoveTorque(ushort move) => move - (uint)BlazingTorque <= 4;
 
     /// <summary>
     /// Checks if the <see cref="move"/> is unable to be used in battle.
@@ -165,6 +165,7 @@ public static class MoveInfo
 
         // Unreleased
         (int)LightofRuin => false,
+        (int)MalignantChain => false,
 
         _ => IsMoveKnowable(move),
     };
@@ -178,9 +179,26 @@ public static class MoveInfo
     {
         Gen6 when move is (int)ThousandArrows or (int)ThousandWaves => false,
         Gen8b when IsDummiedMove(MoveInfo8b.DummiedMoves, move) => false,
-        Gen9 when IsDummiedMove(MoveInfo9.DummiedMoves, move) => false,
+        Gen9 when IsDummiedMove(MoveInfo9.DummiedMoves, move) || DisallowSketch9.Contains(move) => false,
         _ => true,
     };
+
+    /// <summary>
+    /// Moves that cannot be sketched in <see cref="Gen9"/>.
+    /// </summary>
+    private static ReadOnlySpan<ushort> DisallowSketch9 =>
+    [
+        (ushort)DarkVoid,
+        (ushort)HyperspaceFury,
+      //(ushort)BreakneckBlitzP, // 3.0.0 has this move set, but this move is disallowed with our other checks
+        (ushort)RevivalBlessing,
+        (ushort)BlazingTorque, // Revavroom
+        (ushort)WickedTorque, // Revavroom
+        (ushort)NoxiousTorque, // Revavroom
+        (ushort)CombatTorque, // Revavroom
+        (ushort)MagicalTorque, // Revavroom
+        (ushort)TeraStarstorm,
+    ];
 
     private static int GetMaxMoveID(EntityContext context) => context switch
     {
