@@ -566,22 +566,22 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         if (SAV is SAV9SV sv)
         {
             if (sender == B_Raids)
-                OpenDialog(new SAV_Raid9(sv, sv.RaidPaldea));
+                OpenDialog(new SAV_Raid9(sv, TeraRaidOrigin.Paldea));
             else if (sender == B_RaidDLC1)
-                OpenDialog(new SAV_Raid9(sv, sv.RaidKitakami));
+                OpenDialog(new SAV_Raid9(sv, TeraRaidOrigin.Kitakami));
             else if (sender == B_RaidDLC2)
-                OpenDialog(new SAV_Raid9(sv, sv.RaidBlueberry));
+                OpenDialog(new SAV_Raid9(sv, TeraRaidOrigin.BlueberryAcademy));
             else if (sender == B_RaidsSevenStar)
-                OpenDialog(new SAV_RaidSevenStar9(sv, sv.RaidSevenStar));
+                OpenDialog(new SAV_RaidSevenStar9(sv));
         }
         else if (SAV is SAV8SWSH swsh)
         {
             if (sender == B_Raids)
-                OpenDialog(new SAV_Raid8(swsh, swsh.Raid));
+                OpenDialog(new SAV_Raid8(swsh, MaxRaidOrigin.Galar));
             else if (sender == B_RaidDLC1)
-                OpenDialog(new SAV_Raid8(swsh, swsh.RaidArmor));
+                OpenDialog(new SAV_Raid8(swsh, MaxRaidOrigin.IsleOfArmor));
             else if(sender == B_RaidDLC2)
-                OpenDialog(new SAV_Raid8(swsh, swsh.RaidCrown));
+                OpenDialog(new SAV_Raid8(swsh, MaxRaidOrigin.CrownTundra));
         }
     }
 

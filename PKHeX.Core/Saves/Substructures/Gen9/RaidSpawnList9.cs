@@ -151,3 +151,10 @@ public enum TeraRaidContentType : uint
     Distribution,
     Might7,
 }
+
+public enum TeraRaidOrigin : uint
+{
+    Paldea,
+    Kitakami,
+    BlueberryAcademy
+}
