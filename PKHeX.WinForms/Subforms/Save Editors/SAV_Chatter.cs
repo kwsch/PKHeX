@@ -12,7 +12,6 @@ public partial class SAV_Chatter : Form
     private readonly SaveFile SAV;
     private readonly IChatter Chatter;
 
-    private readonly string TempPath = Path.Combine(Path.GetTempPath(), "Recording.wav");
     private readonly SoundPlayer Sounds = new();
 
     public SAV_Chatter(SaveFile sav)
@@ -22,7 +21,6 @@ public partial class SAV_Chatter : Form
         SAV = (Origin = sav).Clone();
         Chatter = SAV is SAV5 s5 ? s5.Chatter : ((SAV4)SAV).Chatter;
 
-        DeleteTempFile();
         CHK_Initialized.Checked = Chatter.Initialized;
         MT_Confusion.Text = Chatter.ConfusionChance.ToString();
     }
@@ -51,7 +49,6 @@ public partial class SAV_Chatter : Form
 
         byte[] data = File.ReadAllBytes(path);
         data.CopyTo(Chatter.Recording);
-        DeleteTempFile();
         CHK_Initialized.Checked = Chatter.Initialized = true;
         MT_Confusion.Text = Chatter.ConfusionChance.ToString();
     }
@@ -78,14 +75,15 @@ public partial class SAV_Chatter : Form
         File.WriteAllBytes(sfd.FileName, ConvertPCMToWAV(Chatter.Recording));
     }
 
-    private async void B_PlayRecording_Click(object sender, EventArgs e)
+    private void B_PlayRecording_Click(object sender, EventArgs e)
     {
-        if (!Chatter.Initialized && !Chatter.Recording.ContainsAnyExcept((byte)0x00))
+        if (!Chatter.Initialized && !Chatter.Recording.ContainsAnyExcept<byte>(0x00))
             return;
-        if (!File.Exists(TempPath))
-            await File.WriteAllBytesAsync(TempPath, ConvertPCMToWAV(Chatter.Recording)).ConfigureAwait(true);
-        Sounds.SoundLocation = TempPath;
-        try {
+
+        var data = ConvertPCMToWAV(Chatter.Recording);
+        Sounds.Stream = new MemoryStream(data);
+        try
+        {
             Sounds.Play();
         }
         catch { Debug.WriteLine("Failed to play sound."); }
@@ -95,27 +93,22 @@ public partial class SAV_Chatter : Form
     {
         Origin.CopyChangesFrom(SAV);
         Sounds.Stop();
-        DeleteTempFile();
         Close();
     }
 
     private void B_Cancel_Click(object sender, EventArgs e)
     {
         Sounds.Stop();
-        DeleteTempFile();
         Close();
     }
 
-    private void DeleteTempFile()
-    {
-        if (!File.Exists(TempPath))
-            return;
+    private static int GetWAVExpectedLength() => WAVHeader.Length + (IChatter.SIZE_PCM * 2);
 
-        try { File.Delete(TempPath); }
-        catch (Exception ex) { Debug.WriteLine(ex.Message); }
-    }
-
-    private static readonly byte[] WAVHeader = [
+    /// <summary>
+    /// Size: 2x <see cref="IChatter.SIZE_PCM"/>"/>
+    /// </summary>
+    private static ReadOnlySpan<byte> WAVHeader =>
+    [
         // RIFF chunk
         0x52, 0x49, 0x46, 0x46, // chunk name: "RIFF"
         0xF4, 0x07, 0x00, 0x00, // chunk size: 2036
@@ -143,14 +136,19 @@ public partial class SAV_Chatter : Form
     /// <returns>WAV file with unsigned 8-bit PCM data</returns>
     private static byte[] ConvertPCMToWAV(ReadOnlySpan<byte> pcm)
     {
-        byte[] data = new byte[WAVHeader.Length + pcm.Length * 2];
-        WAVHeader.CopyTo(data, 0);
+        byte[] data = new byte[GetWAVExpectedLength()];
+        ConvertPCMToWAV(pcm, data);
+        return data;
+    }
+
+    private static void ConvertPCMToWAV(ReadOnlySpan<byte> pcm, Span<byte> result)
+    {
+        WAVHeader.CopyTo(result);
         var i = WAVHeader.Length;
         foreach (byte b in pcm)
         {
-            data[i++] = (byte)((b & 0x0F) << 4);
-            data[i++] = (byte)(b & 0xF0);
+            result[i++] = (byte)((b & 0x0F) << 4);
+            result[i++] = (byte)(b & 0xF0);
         }
-        return data;
     }
 }
