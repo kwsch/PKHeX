@@ -29,6 +29,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
 
     public const int GeneralSize = 0xCF2C;
     private const int StorageSize = 0x121E4; // Start 0xCF2C, +4 starts box data
+    private const int VillaFurnitureStart = 0x111F;
 
     protected override BlockInfo4[] ExtraBlocks =>
     [
@@ -165,4 +166,42 @@ public sealed class SAV4Pt : SAV4Sinnoh
         var mem = GeneralBuffer.Slice(ofs, size);
         return new Roamer4(mem);
     }
+    
+    public bool GetVillaFurniturePurchased(VillaFurniture index)
+    {
+        if (index > VillaFurniture.MAX)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return FlagUtil.GetFlag(General, VillaFurnitureStart + (byte)index / 8, (byte)index % 8);
+    }
+
+    public void SetVillaFurniturePurchased(VillaFurniture index, bool value = true)
+    {
+        if (index > VillaFurniture.MAX)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        FlagUtil.SetFlag(General, VillaFurnitureStart + (byte)index / 8, (byte)index % 8, value);
+    }
+}
+
+public enum VillaFurniture
+{
+    BigSofa,
+    SmallSofa,
+    Bed,
+    NightTable,
+    TV,
+    AudioSystem,
+    Bookshelf,
+    Rack,
+    Houseplant,
+    PCDesk,
+    MusicBox,
+    PokemonBust1,
+    PokemonBust2,
+    Piano,
+    GuestSet,
+    WallClock,
+    Masterpiece,
+    TeaSet,
+    Chandelier,
+    MAX = Chandelier
 }
