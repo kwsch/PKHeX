@@ -166,19 +166,19 @@ public sealed class SAV4Pt : SAV4Sinnoh
         var mem = GeneralBuffer.Slice(ofs, size);
         return new Roamer4(mem);
     }
-    
+
     public bool GetVillaFurniturePurchased(VillaFurniture index)
     {
         if (index > VillaFurniture.MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return FlagUtil.GetFlag(General, VillaFurnitureStart + (byte)index / 8, (byte)index % 8);
+        return FlagUtil.GetFlag(General, VillaFurnitureStart + ((byte)index >> 3), (byte)index & 7);
     }
 
     public void SetVillaFurniturePurchased(VillaFurniture index, bool value = true)
     {
         if (index > VillaFurniture.MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        FlagUtil.SetFlag(General, VillaFurnitureStart + (byte)index / 8, (byte)index % 8, value);
+        FlagUtil.SetFlag(General, VillaFurnitureStart + ((byte)index >> 3), (byte)index & 7, value);
     }
 }
 
@@ -203,5 +203,5 @@ public enum VillaFurniture
     Masterpiece,
     TeaSet,
     Chandelier,
-    MAX = Chandelier
+    MAX = Chandelier,
 }
