@@ -67,7 +67,7 @@ public static class SpriteUtil
     private static Bitmap GetSprite(PKM pk)
     {
         var formarg = pk is IFormArgument f ? f.FormArgument : 0;
-        var shiny = !pk.IsShiny ? Shiny.Never : (ShinyExtensions.IsSquareShinyExist(pk) ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
+        var shiny = ShinyExtensions.GetType(pk);
 
         var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, shiny, pk.Context);
         if (pk is IShadowCapture {IsShadow: true})
