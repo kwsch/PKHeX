@@ -10,7 +10,7 @@ public sealed class RaidSevenStar9(SAV9SV sav, SCBlock captureBlock, SCBlock def
     public readonly RaidSevenStarCaptured9 Captured = new(sav, captureBlock);
     public readonly RaidSevenStarDefeated9 Defeated = new(sav, defeatedBlock);
 
-    public readonly int CountAll = captureBlock.Data.Length / SevenStarRaidCapturedDetail.SIZE;
+    public int CountAll => Captured.CountAll;
 
     public SevenStarRaidDetail GetRaid(int entry) => new(Captured.GetRaid(entry), Defeated.GetRaid(entry));
 
