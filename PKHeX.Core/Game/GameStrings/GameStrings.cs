@@ -298,6 +298,11 @@ public sealed class GameStrings : IBasicStrings
 
         items[2418] += " (SL)"; // Academy Chairs
         items[2419] += " (VL)"; // Academy Chairs
+
+        items[1834] += " (1)"; // Scarlet Book
+        items[1835] += " (1)"; // Violet Book
+        items[2555] += " (2)"; // Scarlet Book
+        items[2556] += " (2)"; // Violet Book
     }
 
     private static void SanitizeItemsLA(string[] items)

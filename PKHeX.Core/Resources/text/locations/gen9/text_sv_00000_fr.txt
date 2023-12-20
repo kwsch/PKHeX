@@ -173,27 +173,27 @@ Grotte Douche Froide
 Institut Myrtille
 
 Zone Savane
-Terra-Dôme
+
 Zone Côtière
-Terra-Dôme
+
 Zone Canyon
-Terra-Dôme
+
 Zone Polaire
-Terra-Dôme
+
 Poste Central
-Terra-Dôme
+
 Poste Savane
-Terra-Dôme
+
 Poste Côtier
-Terra-Dôme
+
 Poste Canyon
-Terra-Dôme
+
 Poste Polaire
-Terra-Dôme
+
 Caverne Électrolithe
-Terra-Dôme
+
 Dédale des Torches
-Terra-Dôme
+
 Abîme Zéro
 
 Abîme Zéro
