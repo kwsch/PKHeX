@@ -100,7 +100,7 @@ public sealed class SevenStarRaidCapturedDetail(byte[] Data, int Offset)
 public sealed class RaidSevenStarDefeated9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
 {
     // Structure matches the RaidSevenStarCapture9 but there are 4 bytes at the front to indicate if the copy of previous defeated flags happened when updating save
-    public readonly int CountAll = (block.Data.Length - 0x04) / SevenStarRaidCapturedDetail.SIZE;
+    public readonly int CountAll = (block.Data.Length - 0x04) / SevenStarRaidDefeatedDetail.SIZE;
 
     public SevenStarRaidDefeatedDetail? GetRaid(int entry) => block.Type != SCTypeCode.None ? new(Data, 0x04 + (entry * SevenStarRaidDefeatedDetail.SIZE)) : null;
 
