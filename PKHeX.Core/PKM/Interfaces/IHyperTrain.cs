@@ -141,7 +141,7 @@ public static partial class Extensions
     public static bool IsHyperTrainingAvailable(this EntityContext c, int currentLevel)
     {
         var min = GetHyperTrainMinLevel(c);
-        return currentLevel <= min;
+        return currentLevel >= min;
     }
 
     /// <inheritdoc cref="GetHyperTrainMinLevel(IHyperTrain,EvolutionHistory, EntityContext)"/>
