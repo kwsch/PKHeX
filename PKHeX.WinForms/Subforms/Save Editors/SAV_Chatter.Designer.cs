@@ -158,9 +158,11 @@ namespace PKHeX.WinForms
             Controls.Add(B_ImportPCM);
             Controls.Add(B_Cancel);
             Controls.Add(B_Save);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             Icon = Properties.Resources.Icon;
             Margin = new System.Windows.Forms.Padding(2);
             MaximizeBox = false;
+            MinimizeBox = false;
             MinimumSize = new System.Drawing.Size(306, 212);
             Name = "SAV_Chatter";
             StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
