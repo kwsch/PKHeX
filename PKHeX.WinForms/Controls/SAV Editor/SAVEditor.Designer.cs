@@ -85,8 +85,8 @@ namespace PKHeX.WinForms.Controls
             B_MailBox = new System.Windows.Forms.Button();
             B_OpenApricorn = new System.Windows.Forms.Button();
             B_Raids = new System.Windows.Forms.Button();
-            B_RaidDLC1 = new System.Windows.Forms.Button();
-            B_RaidDLC2 = new System.Windows.Forms.Button();
+            B_RaidsDLC1 = new System.Windows.Forms.Button();
+            B_RaidsDLC2 = new System.Windows.Forms.Button();
             B_Blocks = new System.Windows.Forms.Button();
             B_OtherSlots = new System.Windows.Forms.Button();
             B_OpenSealStickers = new System.Windows.Forms.Button();
@@ -395,8 +395,8 @@ namespace PKHeX.WinForms.Controls
             FLP_SAVtools.Controls.Add(B_MailBox);
             FLP_SAVtools.Controls.Add(B_OpenApricorn);
             FLP_SAVtools.Controls.Add(B_Raids);
-            FLP_SAVtools.Controls.Add(B_RaidDLC1);
-            FLP_SAVtools.Controls.Add(B_RaidDLC2);
+            FLP_SAVtools.Controls.Add(B_RaidsDLC1);
+            FLP_SAVtools.Controls.Add(B_RaidsDLC2);
             FLP_SAVtools.Controls.Add(B_Blocks);
             FLP_SAVtools.Controls.Add(B_OtherSlots);
             FLP_SAVtools.Controls.Add(B_OpenSealStickers);
@@ -753,27 +753,27 @@ namespace PKHeX.WinForms.Controls
             B_Raids.UseVisualStyleBackColor = true;
             B_Raids.Click += B_OpenRaids_Click;
             // 
-            // B_RaidDLC1
+            // B_RaidsDLC1
             // 
-            B_RaidDLC1.Location = new System.Drawing.Point(316, 284);
-            B_RaidDLC1.Margin = new System.Windows.Forms.Padding(4);
-            B_RaidDLC1.Name = "B_RaidDLC1";
-            B_RaidDLC1.Size = new System.Drawing.Size(96, 32);
-            B_RaidDLC1.TabIndex = 2;
-            B_RaidDLC1.Text = "Raids (DLC 1)";
-            B_RaidDLC1.UseVisualStyleBackColor = true;
-            B_RaidDLC1.Click += B_OpenRaids_Click;
+            B_RaidsDLC1.Location = new System.Drawing.Point(316, 284);
+            B_RaidsDLC1.Margin = new System.Windows.Forms.Padding(4);
+            B_RaidsDLC1.Name = "B_RaidsDLC1";
+            B_RaidsDLC1.Size = new System.Drawing.Size(96, 32);
+            B_RaidsDLC1.TabIndex = 2;
+            B_RaidsDLC1.Text = "Raids (DLC 1)";
+            B_RaidsDLC1.UseVisualStyleBackColor = true;
+            B_RaidsDLC1.Click += B_OpenRaids_Click;
             // 
-            // B_RaidDLC2
+            // B_RaidsDLC2
             // 
-            B_RaidDLC2.Location = new System.Drawing.Point(4, 324);
-            B_RaidDLC2.Margin = new System.Windows.Forms.Padding(4);
-            B_RaidDLC2.Name = "B_RaidDLC2";
-            B_RaidDLC2.Size = new System.Drawing.Size(96, 32);
-            B_RaidDLC2.TabIndex = 4;
-            B_RaidDLC2.Text = "Raids (DLC 2)";
-            B_RaidDLC2.UseVisualStyleBackColor = true;
-            B_RaidDLC2.Click += B_OpenRaids_Click;
+            B_RaidsDLC2.Location = new System.Drawing.Point(4, 324);
+            B_RaidsDLC2.Margin = new System.Windows.Forms.Padding(4);
+            B_RaidsDLC2.Name = "B_RaidsDLC2";
+            B_RaidsDLC2.Size = new System.Drawing.Size(96, 32);
+            B_RaidsDLC2.TabIndex = 4;
+            B_RaidsDLC2.Text = "Raids (DLC 2)";
+            B_RaidsDLC2.UseVisualStyleBackColor = true;
+            B_RaidsDLC2.Click += B_OpenRaids_Click;
             // 
             // B_Blocks
             // 
@@ -1086,9 +1086,9 @@ namespace PKHeX.WinForms.Controls
         private PartyEditor SL_Party;
         private System.Windows.Forms.Button B_Raids;
         private System.Windows.Forms.Button B_Blocks;
-        private System.Windows.Forms.Button B_RaidDLC1;
+        private System.Windows.Forms.Button B_RaidsDLC1;
+        private System.Windows.Forms.Button B_RaidsDLC2;
         private System.Windows.Forms.Button B_OtherSlots;
-        private System.Windows.Forms.Button B_RaidDLC2;
         private System.Windows.Forms.Button Menu_ExportBAK;
         private System.Windows.Forms.FlowLayoutPanel FLP_SAVToolsMisc;
         private System.Windows.Forms.Button B_OpenSealStickers;
