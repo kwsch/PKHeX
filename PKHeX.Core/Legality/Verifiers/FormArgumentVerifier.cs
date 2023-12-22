@@ -64,8 +64,9 @@ public sealed class FormArgumentVerifier : Verifier
             Overqwil => arg switch
             {
                 > 9_999 => GetInvalid(LFormArgumentHigh),
-                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 => GetInvalid(LFormArgumentLow),
-                >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA => GetInvalid(LFormArgumentLow),
+                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 || pk.CurrentLevel < 28 => GetInvalid(LFormArgumentLow),
+                >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA || pk.CurrentLevel < 25 => GetInvalid(LFormArgumentLow),
+                _ when pk is IHomeTrack { HasTracker: false } and PA8 { CurrentLevel: < 25 } => GetInvalid(LEvoInvalid),
                 _ => GetValid(LFormArgumentValid),
             },
             Stantler => arg switch
@@ -95,6 +96,7 @@ public sealed class FormArgumentVerifier : Verifier
             },
             Runerigus   => VerifyFormArgumentRange(enc.Species, Runerigus,   arg,  49, 9999),
             Alcremie    => VerifyFormArgumentRange(enc.Species, Alcremie,    arg,   0, (uint)AlcremieDecoration.Ribbon),
+            Wyrdeer when pk.CurrentLevel < 31 => GetInvalid(LEvoInvalid),
             Wyrdeer     => VerifyFormArgumentRange(enc.Species, Wyrdeer,     arg,  20, 9999),
             Basculegion => VerifyFormArgumentRange(enc.Species, Basculegion, arg, 294, 9999),
             Annihilape  => VerifyFormArgumentRange(enc.Species, Annihilape,  arg,  20, 9999),
