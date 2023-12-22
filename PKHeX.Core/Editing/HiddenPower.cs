@@ -97,7 +97,7 @@ public static class HiddenPower
     }
 
     /// <inheritdoc cref="GetTypeGB(ReadOnlySpan{int})"/>
-    public static int GetTypeGB(ushort u16) => ((u16 >> 12) & 0b1100) | ((u16 >> 8) & 0b11);
+    public static int GetTypeGB(ushort u16) => ((u16 >> 10) & 0b1100) | ((u16 >> 8) & 0b11);
 
     /// <summary>
     /// Modifies the provided <see cref="IVs"/> to have the requested <see cref="hiddenPowerType"/> for Generations 1 &amp; 2
@@ -116,7 +116,7 @@ public static class HiddenPower
     public static ushort SetTypeGB(int hiddenPowerType, ushort current)
     {
         // Extract bits from ATK and DEF.
-        var u16 = ((hiddenPowerType & 0b1100) << 12) | ((hiddenPowerType & 0b11) << 8);
+        var u16 = ((hiddenPowerType & 0b1100) << 10) | ((hiddenPowerType & 0b11) << 8);
         return (ushort)((current & 0b1100_1100_1111_1111) | u16);
     }
 
