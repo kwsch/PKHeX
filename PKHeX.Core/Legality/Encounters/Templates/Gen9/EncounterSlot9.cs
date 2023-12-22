@@ -32,7 +32,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         _ => 4,
     };
 
-    public bool CanSpawnAtTime(RibbonIndex mark) => Time == 0 || (Time & (1 << GetTime(mark))) != 0;
+    public bool CanSpawnAtTime(RibbonIndex mark) => (Time & (1 << GetTime(mark))) == 0;
 
     public bool CanSpawnInWeather(RibbonIndex mark)
     {
