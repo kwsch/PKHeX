@@ -529,8 +529,10 @@ public sealed class WC9(byte[] Data) : DataMysteryGift(Data), ILangNick, INature
         for (var i = 0; i < RibbonBytesCount; i++)
         {
             var ribbon = GetRibbonAtIndex(i);
-            if (ribbon != RibbonByteNone)
-                pk.SetRibbon(ribbon);
+            if (ribbon == RibbonByteNone)
+                continue;
+            pk.SetRibbon(ribbon);
+            pk.AffixedRibbon = (sbyte)ribbon;
         }
 
         SetPINGA(pk, criteria);

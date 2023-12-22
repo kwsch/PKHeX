@@ -112,7 +112,10 @@ public sealed record EncounterTrade9
         if (EvolveOnTrade)
             pk.Species++;
         if (RibbonPartner)
+        {
             pk.RibbonPartner = true;
+            pk.AffixedRibbon = (sbyte)RibbonIndex.Partner;
+        }
 
         pk.ResetPartyStats();
 

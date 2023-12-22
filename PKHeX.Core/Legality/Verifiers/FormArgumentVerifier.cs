@@ -64,7 +64,8 @@ public sealed class FormArgumentVerifier : Verifier
             Overqwil => arg switch
             {
                 > 9_999 => GetInvalid(LFormArgumentHigh),
-                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 || pk.CurrentLevel < 28 => GetInvalid(LFormArgumentLow),
+                0 when enc.Species == (ushort)Overqwil => GetValid(LFormArgumentValid),
+                < 20 when !data.Info.EvoChainsAllGens.HasVisitedGen9 || pk.CurrentLevel < (pk is IHomeTrack { HasTracker: true } ? 15 : 28) => GetInvalid(LFormArgumentLow),
                 >= 20 when !data.Info.EvoChainsAllGens.HasVisitedPLA || pk.CurrentLevel < 25 => GetInvalid(LFormArgumentLow),
                 _ when pk is IHomeTrack { HasTracker: false } and PA8 { CurrentLevel: < 25 } => GetInvalid(LEvoInvalid),
                 _ => GetValid(LFormArgumentValid),

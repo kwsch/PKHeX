@@ -104,9 +104,15 @@ public sealed record EncounterStatic9(GameVersion Version)
         if (StarterBoxLegend)
             pk.FormArgument = 1; // Not Ride Form.
         if (IsTitan)
+        {
             pk.RibbonMarkTitan = true;
+            pk.AffixedRibbon = (sbyte)RibbonIndex.MarkTitan;
+        }
         else if (RibbonMarkCrafty)
+        {
             pk.RibbonMarkCrafty = true;
+            pk.AffixedRibbon = (sbyte)RibbonIndex.MarkCrafty;
+        }
 
         SetPINGA(pk, criteria, pi);
         if (Moves.HasMoves)
