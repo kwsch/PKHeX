@@ -225,6 +225,17 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
         bool isHidden = pk.AbilityNumber == 4;
         if (isHidden && this.IsPartialMatchHidden(pk.Species, Species))
             return EncounterMatchRating.PartialMatch;
+        if (pk is IRibbonSetMark8 { HasMarkEncounter8: true } m)
+        {
+            if (m.RibbonMarkLunchtime && !CanSpawnAtTime(RibbonIndex.MarkLunchtime))
+                return EncounterMatchRating.DeferredErrors;
+            if (m.RibbonMarkSleepyTime && !CanSpawnAtTime(RibbonIndex.MarkSleepyTime))
+                return EncounterMatchRating.DeferredErrors;
+            if (m.RibbonMarkDusk && !CanSpawnAtTime(RibbonIndex.MarkDusk))
+                return EncounterMatchRating.DeferredErrors;
+            if (m.RibbonMarkDawn && !CanSpawnAtTime(RibbonIndex.MarkDawn))
+                return EncounterMatchRating.DeferredErrors;
+        }
         return EncounterMatchRating.Match;
     }
     #endregion
