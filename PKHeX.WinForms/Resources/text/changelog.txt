@@ -1,7 +1,14 @@
 PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-23/12/18 - New Update:
+23/12/22 - New Update:
+ - Legality: Updates for Scarlet & Violet 3.0.0 behaviors revised to fix inaccuracies.
+ - - Fixed: Recognition of marks, stellar fixed encounters, and underdepths encounters.
+ - - Gold Bottle Cap on flawless IVs in S/V is now flagged; upload to HOME & back to get the official fix.
+ - Fixed: Gen9 S/V 7-Star Raid records now can be edited with the revised raid block editor. Thanks @foohyfooh!
+ - Fixed: Other misc regressions too insignificant to note (but observed & reported by many -- thanks!)
+
+23/12/18 - New Update: (55399) [7929640]
  - Changed: PKHeX now uses .NET 8 for its runtime (updated from .NET 7)!
  - - Requires Windows 64bit operating system, with the .NET Desktop Runtime 8.0.x
  - - https://dotnet.microsoft.com/en-us/download/dotnet/8.0
