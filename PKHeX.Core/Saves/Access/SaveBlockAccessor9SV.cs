@@ -71,7 +71,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
             RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), kSevenStarDefeated);
         else
             RaidSevenStar = new RaidSevenStar9(sav, GetBlock(KSevenStarRaidsCapture), GetFakeBlock());
-        
+
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
         BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));
     }
@@ -110,7 +110,8 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KTeraRaidBlueberry = 0x0C62D416;
     public const uint KBoxesUnlocked = 0x71825204;
     public const uint KFusedKyurem = 0x7E0ADF89;
-    public const uint KFusedNecrozma = 0x203FF693;
+    public const uint KFusedNecrozmaS = 0x203FF693;
+    public const uint KFusedNecrozmaM = 0x5369FC39;
     public const uint KFusedCalyrex = 0x916BCA9E;
     private const uint KZukan = 0x0DEAAEBD;
     private const uint KZukanT1 = 0xF5D7C0E2;
@@ -811,6 +812,25 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KClearedLeagueRep20 = 0x7734776C; // FSYS_MISTER_TRAINER_AREA_20
     private const uint KClearedLeagueRep21 = 0x7734791F; // FSYS_MISTER_TRAINER_AREA_21
     private const uint KClearedLeagueRep22 = 0x77347AD2; // FSYS_MISTER_TRAINER_AREA_22
+
+    // Naranja/Uva Academy Warps
+    private const uint KSchoolMapUnlockedEntrance = 0x85DD1786; // FSYS_UI_SCHOOL_MAP_ENTRANCE
+    private const uint KSchoolMapUnlockedDormPlayer = 0xEB08C13D; // FSYS_UI_SCHOOL_MAP_PLAYER_ROOM
+    private const uint KSchoolMapUnlockedDormPenny = 0xB77CF240; // FSYS_UI_SCHOOL_MAP_FRIEND_01_ROOM
+    private const uint KSchoolMapUnlockedDormArven = 0x50859F43; // FSYS_UI_SCHOOL_MAP_FRIEND_02_ROOM
+    private const uint KSchoolMapUnlockedDormNemona = 0x2EE5C756; // FSYS_UI_SCHOOL_MAP_FRIEND_03_ROOM
+    private const uint KSchoolMapUnlockedClassroom1A = 0x13FCBD2C; // FSYS_UI_SCHOOL_MAP_PLAYER_CLASS_ROOM
+    private const uint KSchoolMapUnlockedClassroom2G = 0xBE262C7A; // FSYS_UI_SCHOOL_MAP_FRIEND_02_CLASS_ROOM
+    private const uint KSchoolMapUnlockedClassroom1D = 0xDC34F89F; // FSYS_UI_SCHOOL_MAP_FRIEND_03_CLASS_ROOM
+    private const uint KSchoolMapUnlockedDirectorsOffice = 0x565341B7; // FSYS_UI_SCHOOL_MAP_PRINCIPALS_ROOM
+    private const uint KSchoolMapUnlockedStaffRoom = 0x4FAD960C; // FSYS_UI_SCHOOL_MAP_STAFF_ROOM
+    private const uint KSchoolMapUnlockedNursesOffice = 0x56015654; // FSYS_UI_SCHOOL_MAP_HEALTH_ROOM
+    private const uint KSchoolMapUnlockedSchoolStore = 0x1C3C5E24; // FSYS_UI_SCHOOL_MAP_SHOP
+    private const uint KSchoolMapUnlockedHomeEcRoom = 0xD51D61AC; // FSYS_UI_SCHOOL_MAP_HOME_ECONOMICS_ROOM
+    private const uint KSchoolMapUnlockedBiologyLab = 0x85F9B2D9; // FSYS_UI_SCHOOL_MAP_BIOLOGICAL_ROOM
+    private const uint KSchoolMapUnlockedArtRoom = 0xC64FF6FD; // FSYS_UI_SCHOOL_MAP_ART_ROOM
+    private const uint KSchoolMapUnlockedCafeteria = 0x219F196D; // FSYS_UI_SCHOOL_MAP_DINING
+    private const uint KSchoolMapUnlockedSchoolyard = 0xB8090C8D; // FSYS_UI_SCHOOL_MAP_SCHOOL_YARD
 
     private const uint FSYS_REPORT_DISABLE = 0xFD2B3BCA;
     private const uint FSYS_XMENU_POKELIST_RIDE = 0x091382AD;
@@ -2008,7 +2028,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
 
     // ItemMachineSave
     private const uint KItemMachineDeployRank = 0x28C953BA; // ItemMachineSave_deployRank
-    private const uint KItemMachineLotteryCount = 0x138CABE2; // ItemMachineSave_totalLottryCount
+    private const uint KItemMachinePrintJobsDone = 0x138CABE2; // ItemMachineSave_totalLottryCount
     private const uint KItemMachineCurrentMode = 0xB1569533; // ItemMachineSave_currentMode
     private const uint KItemMachineRemain = 0x516B0440; // ItemMachineSave_remainFluctuationMode
     private const uint KItemMachineCurrentLotteryCount = 0x2B669CE8; // ItemMachineSave_currentSelectLotteryCount
@@ -2053,10 +2073,10 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KUnlockedBallThrowSet03 = 0x9BC0EEEB; // FSYS_CLUB_ROOM_BALL_THROW_FORM_03
 
     // Starter Pokémon
-    private const uint KUnlockedTerariumStarters01 = 0xFAE9772D; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_00
-    private const uint KUnlockedTerariumStarters02 = 0xFAE9757A; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_01
-    private const uint KUnlockedTerariumStarters03 = 0xFAE973C7; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_02
-    private const uint KUnlockedTerariumStarters04 = 0xFAE97214; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_03
+    private const uint KUnlockedTerariumStartersSavanna = 0xFAE9772D; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_00
+    private const uint KUnlockedTerariumStartersCoastal = 0xFAE9757A; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_01
+    private const uint KUnlockedTerariumStartersCanyon = 0xFAE973C7; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_02
+    private const uint KUnlockedTerariumStartersPolar = 0xFAE97214; // FSYS_CLUB_ROOM_ENCOUNT_RELEASE_03
 
     private const uint KUnlockedClubroomStyleSet01 = 0x255992C9; // FSYS_CLUB_ROOM_ROOM_STYLE_01
     private const uint KUnlockedClubroomStyleSet02 = 0x25598DB0; // FSYS_CLUB_ROOM_ROOM_STYLE_02
@@ -2070,18 +2090,18 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KUnlockedDLCSelfie00 = 0x6F5EF795; // FSYS_DLC2_EMOTE_SELFIE_00_RELEASE
     private const uint KUnlockedDLCSelfie01 = 0x102D3DA2; // FSYS_DLC2_EMOTE_SELFIE_01_RELEASE
     private const uint KUnlockedDLCSelfie02 = 0xBE729BEF; // FSYS_DLC2_EMOTE_SELFIE_02_RELEASE
-    private const uint KUnlockedPhotoDeco00 = 0xACEBDCB6; // FSYS_DLC2_PHOTO_DECO_00_RELEASE
-    private const uint KUnlockedPhotoDeco01 = 0xFAA97209; // FSYS_DLC2_PHOTO_DECO_01_RELEASE
-    private const uint KUnlockedPhotoDeco02 = 0xEEA2C258; // FSYS_DLC2_PHOTO_DECO_02_RELEASE
-    private const uint KUnlockedPhotoDeco03 = 0x52297FC3; // FSYS_DLC2_PHOTO_DECO_03_RELEASE
-    private const uint KUnlockedPhotoDeco04 = 0xA256D5DA; // FSYS_DLC2_PHOTO_DECO_04_RELEASE
-    private const uint KUnlockedPhotoDeco05 = 0x71D1646D; // FSYS_DLC2_PHOTO_DECO_05_RELEASE
-    private const uint KUnlockedPhotoDeco06 = 0x73081E5C; // FSYS_DLC2_PHOTO_DECO_06_RELEASE
-    private const uint KUnlockedPhotoDeco07 = 0x2BF89B07; // FSYS_DLC2_PHOTO_DECO_07_RELEASE
-    private const uint KUnlockedPhotoDeco08 = 0x11A8ED8E; // FSYS_DLC2_PHOTO_DECO_08_RELEASE
-    private const uint KUnlockedPhotoDeco09 = 0xB707E501; // FSYS_DLC2_PHOTO_DECO_09_RELEASE
-    private const uint KUnlockedPhotoDeco10 = 0xBF2E7F93; // FSYS_DLC2_PHOTO_DECO_10_RELEASE
-    private const uint KUnlockedPhotoDeco11 = 0x940817E8; // FSYS_DLC2_PHOTO_DECO_11_RELEASE
+    private const uint KUnlockedCameraEffect00 = 0xACEBDCB6; // FSYS_DLC2_PHOTO_DECO_00_RELEASE
+    private const uint KUnlockedCameraEffect01 = 0xFAA97209; // FSYS_DLC2_PHOTO_DECO_01_RELEASE
+    private const uint KUnlockedCameraEffect02 = 0xEEA2C258; // FSYS_DLC2_PHOTO_DECO_02_RELEASE
+    private const uint KUnlockedCameraEffect03 = 0x52297FC3; // FSYS_DLC2_PHOTO_DECO_03_RELEASE
+    private const uint KUnlockedCameraEffect04 = 0xA256D5DA; // FSYS_DLC2_PHOTO_DECO_04_RELEASE
+    private const uint KUnlockedCameraEffect05 = 0x71D1646D; // FSYS_DLC2_PHOTO_DECO_05_RELEASE
+    private const uint KUnlockedCameraEffect06 = 0x73081E5C; // FSYS_DLC2_PHOTO_DECO_06_RELEASE
+    private const uint KUnlockedCameraEffect07 = 0x2BF89B07; // FSYS_DLC2_PHOTO_DECO_07_RELEASE
+    private const uint KUnlockedCameraEffect08 = 0x11A8ED8E; // FSYS_DLC2_PHOTO_DECO_08_RELEASE
+    private const uint KUnlockedCameraEffect09 = 0xB707E501; // FSYS_DLC2_PHOTO_DECO_09_RELEASE
+    private const uint KUnlockedCameraEffect10 = 0xBF2E7F93; // FSYS_DLC2_PHOTO_DECO_10_RELEASE
+    private const uint KUnlockedCameraEffect11 = 0x940817E8; // FSYS_DLC2_PHOTO_DECO_11_RELEASE
     private const uint KUnlockedPokedexBlueberry = 0x84284137; // FSYS_DLC2_POKEDEX_ADD
     private const uint KCanClaimPokedexDiplomaBlueberry = 0x95AC870C; // FSYS_DLC2_POKEDEX_SYOUJOU_ENABLE
     private const uint KClaimedPokedexDiplomaBlueberry = 0x9950D651; // FSYS_DLC2_POKEDEX_SYOUJOU_EVENT
@@ -2093,8 +2113,9 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KClubroomReachedGoldIono = 0x25776710; // WEVT_S2_CLUBROOM_COACH_GYM_DENKI
     private const uint KClubroomReachedGoldLarry = 0xE5B935B6; // WEVT_S2_CLUBROOM_COACH_GYM_NORMAL
     private const uint KUnlockedSynchroMachine = 0x47CDA43D; // FSYS_SYNCHRO_POKEMON_ENABLE
+    private const uint KUnlockedLockOnUpgrade = 0x9E3B4243; // FSYS_UI_SCAN_ENABLE
 
-    // Snacksworth Legendary Pokémon
+    // Snacksworth Legendary Pokémon (0 = not started, 1 = visible, 2 = captured)
     private const uint KLegendaryStateArticuno = 0x89CA5245; // WEVT_S2_SUB_013_STATE
     private const uint KLegendaryStateZapdos = 0xCBDBC66C; // WEVT_S2_SUB_014_STATE
     private const uint KLegendaryStateMoltres = 0xC07011C7; // WEVT_S2_SUB_015_STATE
@@ -2121,6 +2142,22 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint KLegendaryStateGlastrier = 0x41D6BB48; // WEVT_S2_SUB_036_STATE
     private const uint KLegendaryStateSpectrier = 0xF5E78743; // WEVT_S2_SUB_037_STATE
 
+    // Paradox Pokémon (0 = not started, 1 = visible, 2 = captured)
+    private const uint KParadoxStateGougingFireIronBoulder = 0x47F06CEF; // WEVT_S2_SIDE02_0010_STATE
+    private const uint KParadoxStateRagingBoltIronCrown = 0x449803E0; // WEVT_S2_SIDE02_0020_STATE
+
+    // Blueberry Academy Warps
+    private const uint KBlueberrySchoolUIUnlockedClassroom14 = 0x00E98985; // FSYS_UI_BB_SCHOOL_MAP_CLASS_01_ROOM
+    private const uint KBlueberrySchoolUIUnlockedClassroom32 = 0xB96291D6; // FSYS_UI_BB_SCHOOL_MAP_CLASS_02_ROOM
+    private const uint KBlueberrySchoolUIUnlockedLeagueClubRoom = 0x8CD9BF8B; // FSYS_UI_BB_SCHOOL_MAP_CLUB_ROOM
+    private const uint KBlueberrySchoolUIUnlockedCafeteria = 0x7461D906; // FSYS_UI_BB_SCHOOL_MAP_DINING
+    private const uint KBlueberrySchoolUIUnlockedTerarium = 0xF39A2414; // FSYS_UI_BB_SCHOOL_MAP_DOME_AREA
+    private const uint KBlueberrySchoolUIUnlockedEntrance = 0x96B4DFA5; // FSYS_UI_BB_SCHOOL_MAP_ENTRANCE
+    private const uint KBlueberrySchoolUIUnlockedDormCarmine = 0x97BAC3F3; // FSYS_UI_BB_SCHOOL_MAP_FRIEND_01_ROOM
+    private const uint KBlueberrySchoolUIUnlockedDormKieran = 0x87D10030; // FSYS_UI_BB_SCHOOL_MAP_FRIEND_02_ROOM
+    private const uint KBlueberrySchoolUIUnlockedDormPlayer = 0x0538039C; // FSYS_UI_BB_SCHOOL_MAP_PLAYER_ROOM
+    private const uint KBlueberrySchoolUIUnlockedSchoolStore = 0x4A0EA13B; // FSYS_UI_BB_SCHOOL_MAP_SHOP
+
     private const uint KTerariumCounselorReceivedReward01 = 0xA26D7394; // WEVT_S2_SUB_040_AREA_01_GET_REWARD_COUNT
     private const uint KTerariumCounselorReceivedReward02 = 0xEA0D25C3; // WEVT_S2_SUB_040_AREA_02_GET_REWARD_COUNT
     private const uint KTerariumCounselorReceivedReward03 = 0x80909E8A; // WEVT_S2_SUB_040_AREA_03_GET_REWARD_COUNT
@@ -2131,18 +2168,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FSYS_SCENARIO_LAST_EPISODE_CLEAR = 0x4EF04CF2;
     private const uint FSYS_SU2_SHOPWAZAMACHINE_MESSAGE = 0x91D434A6;
     private const uint FSYS_TBALL_POWERUP_ENABLE = 0x59AFCA7B;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_CLASS_01_ROOM = 0x00E98985;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_CLASS_02_ROOM = 0xB96291D6;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_CLUB_ROOM = 0x8CD9BF8B;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_DINING = 0x7461D906;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_DOME_AREA = 0xF39A2414;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_ENTRANCE = 0x96B4DFA5;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_FRIEND_01_ROOM = 0x97BAC3F3;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_FRIEND_02_ROOM = 0x87D10030;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_PLAYER_ROOM = 0x0538039C;
-    private const uint FSYS_UI_BB_SCHOOL_MAP_SHOP = 0x4A0EA13B;
     private const uint FSYS_UI_PHOTO_DECO_ENABLE = 0x596819E0;
-    private const uint FSYS_UI_SCAN_ENABLE = 0x9E3B4243;
     private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0000 = 0x79B2E777;
     private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0020 = 0x79ACB465;
     private const uint FSYS_YMAP_SCENARIO_S2_SIDE01_0050 = 0x79A477AA;
@@ -2254,8 +2280,6 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     private const uint FEVT_SDC02_HONOO_FINISH_09 = 0x97935493;
     private const uint FEVT_SDC02_HONOO_SELECT_06 = 0xB9EBABC3;
     private const uint FEVT_SDC02_HONOO_SELECT_09 = 0xB9EBC1DA;
-    private const uint WEVT_S2_SIDE02_0010_STATE = 0x47F06CEF;
-    private const uint WEVT_S2_SIDE02_0020_STATE = 0x449803E0;
     private const uint WEVT_S2_SUB_009_DOKU_RESULT = 0xF1F5520C;
     private const uint WEVT_S2_SUB_009_FAIRY_RESULT = 0xAE205522;
     private const uint WEVT_S2_SUB_009_HONOO_RESULT = 0x363B9E7C;

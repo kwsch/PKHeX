@@ -231,8 +231,10 @@ public static partial class Extensions
 
         if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KFusedKyurem, out var kyurem))
             list.Add(new(kyurem.Data, 1, 0, true) { Type = StorageSlotType.Fused });
-        if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KFusedNecrozma, out var necrozma))
-            list.Add(new(necrozma.Data, 2, 0, true) { Type = StorageSlotType.Fused });
+        if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KFusedNecrozmaS, out var solgaleo))
+            list.Add(new(solgaleo.Data, 2, 0, true) { Type = StorageSlotType.Fused });
+        if (sav.Blocks.TryGetBlock(SaveBlockAccessor9SV.KFusedNecrozmaM, out var lunala))
+            list.Add(new(lunala.Data, 3, 0, true) { Type = StorageSlotType.Fused });
         return list;
     }
 }
