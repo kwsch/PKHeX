@@ -1,0 +1,22 @@
+0048	*	스타팅 포켓몬	0:없음,152:치코리타,155:브케인,158:리아코
+0299	r	삐죽귀 피츄 (너도밤나무숲)	0:나타나기 전,1:대기 중,2:사라짐
+0161	r	전설의 개 (불탄탑)	0:나타남,1:배회/도망침
+0304	s	Steven Stone Status	0:Clefairy Doll pending,1:Will meet in Vermilion (Lati@s Pending),2:Met (Lati@s Roamed),3:Asks to choose Hoenn Starter,4:Gave Hoenn Starter,5:Talked to at Pewter Museum,6:Wants to trade at Silph Co.,7:Traded for Beldum
+0067	e	수수께끼의수정	0:활성화되지 않음,1778:활성화됨
+0249	e	매몰탑	0:관동지방 스타팅 포켓몬 받기 전,1:관동지방 스타팅 포켓몬 받음,2:돌 받음,3:가이오가/그란돈 활성화됨,4:가이오가/그란돈 사라짐,6:레쿠쟈 활성화됨,7:레쿠쟈 잡음,9:레쿠쟈 사라짐
+0251	e	신도유적	1:입장 전,4:텔레포트됨 (첫 번째),5:밖으로 나감,6:난천에게 말 걸기 가능 (산장),7:난천에게 말 걸기 가능 (유적),8:전설의 포켓몬 선택 전,10:첫 번째 전설의 포켓몬 받음,13:텔레포트됨 (두 번째),14:두 번째 전설의 포켓몬 받음
+0259	r	신오지방 전설의 포켓몬 (첫 번째)	1:디아루가,2:펄기아,3:기라티나
+0258	r	텔레포트 (두 번째) 아르세우스	1:시작의 방,2:운명적인 만남
+0305	r	관동지방 스타팅 포켓몬	0:활성화 전,1:활성화됨,2:대기 중,3:이상해씨,4:꼬부기,5:파이리,6:Completed
+0116	r	Togepi Gift	0:Not Activated,1:Activated,2:Pending,3:Obtained,4:Completed
+0254	r	Celebi Event	0:Not Activated,5:Completed
+0314	a	Blue Card Points	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:11,12:12,13:13,14:14,15:15,16:16,17:17,18:18,19:19,20:20,21:21,22:22,23:23,24:24,25:25,26:26,27:27,28:28,29:29
+0069	r	Raikou Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0070	r	Entei Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0071	r	Roaming Latias Status (HG)	0:Pending,1:Caught,2:Fainted/Can Respawn
+0072	r	Roaming Latios Status (SS)	0:Pending,1:Caught,2:Fainted/Can Respawn
+0148	+	Total Week Siblings Met	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
+0151	s	Ace Trainer Sisters (Route 34)	0:Not Battled,1:Defeated Irene and Jenn,2:Power Herb Pending,3:Defeated Kate/Got Power Herb
+0253	r	Hoenn Starters	0:Not Activated,1:Activated
+0276	s	Mail Quest	0:Not Activated,1:Received Spearow with Mail,2:Delivered Mail on Route 31 (Bag Full),3:Delivered Mail on Route 31,5:Webster gave HP Up (Completed)
+0291	+	Catching Show Best Score

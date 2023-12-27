@@ -1,0 +1,16 @@
+148	*	Starter	00:Rowlet,01:Litten,02:Popplio
+432	r	Tapu Koko	03:Battleable,04:Defeated,05:Captured
+433	r	Tapu Lele	01:Battleable,02:Defeated,03:Captured
+434	r	Tapu Bulu	01:Battleable,02:Defeated,03:Captured
+404	r	Tapu Fini	03:Battleable,04:Defeated,05:Captured
+755	r	Zygarde	01:Battleable,02:Defeated,05:Captured
+867	r	Totem-Sized Gifts	00:None Received,01:One Received,02:Two Received,03:Three Received,04:Four Received,05:Five Received,06:All Received
+084	s	Pikachu Seen in Pikachu Valley
+078	+	Total Title Defenses
+083	+	Total Important NPC Battles
+750	s	League Fangirls	Event	0:0 Title Defenses,1:After 1 Title Defense (Sweet Heart x2 Pending),2:After 2 Title Defenses (Received Sweet Heart x2)
+756	s	Hypno Event (Hau'oli Police Station)	0:Not Activated,1:Activated,2:Completed
+769	s	Ditto Five Event	0:Disguised Officer Appeared,1:Defeated Disguised Officer (Reward Pending),2:Disguised Herb Seller Appeared,3:Defeated Disguised Herb Seller (Reward Pending),4:Disguised Chef Appeared,5:Defeated Disguised Chef (Reward Pending),6:Disguised Iomi Iomi Therapist Appeared,7:Defeated Disguised Iomi Iomi Therapist (Reward Pending),8:Disguised Olivia Appeared,9:Defeated Disguised Olivia (Reward Pending),10:Completed
+783	s	Hano Beach Youngster	0:Will Activate Seven Mysteries Event,1:Activated Seven Mysteries Event,2:Has Hyper Potion (Seven Mysteries Complete),3:Gave Hyper Potion
+784	r	Haunted Trainers' School Diary	0:Normal,5:Cursed (Drifloon Appeared)
+790	r	Haunted Trainers' School Gastly	6:Battleable,7:Battled

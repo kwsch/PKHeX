@@ -1,0 +1,36 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	アンダマン・ニコバルしょとう	Andaman and Nicobar Islands	Iles Andaman et Nicobar	Andamanen und Nikobaren	Isole Andamane e Nicobare	Islas Andamán y Nicobar	安达曼和尼科巴群岛中央直辖区	안다만 제도	安達曼和尼科巴羣島中央直轄區
+002	アーンドラ・プラデーシュ	Andhra Pradesh 	Andhra Pradesh	Andhra Pradesh	Andhra Pradesh	Andhra Pradesh	安得拉邦	안드라프라데시	安得拉邦
+003	アルナーチャル・プラデーシュ	Arunachal Pradesh	Arunachal Pradesh	Arunachal Pradesh	Arunachal Pradesh	Arunachal Pradesh	阿鲁纳恰尔邦	아루나찰프라데시	阿魯納查邦
+004	アッサム	Assam	Assam	Assam	Assam	Assam	阿萨姆邦	아삼	阿薩姆邦
+005	ビハール	Bihar	Bihar	Bihar	Bihar	Bihar	比哈尔邦	비하르	比哈爾邦
+006	チャンディガル	Chandigarh	Chandigarh	Chandigarh	Chandigarh	Chandigarh	昌迪加尔中央直辖区	찬디가르	昌迪加爾中央直轄區
+007	チャッティースガル	Chhattisgarh	Chhattisgarh	Chhattisgarh	Chhattisgarh	Chhattisgarh	查蒂斯加尔邦	차티스가르	查蒂斯加爾邦
+008	ダドラおよびナガル・アベリ	Dadra and Nagar Haveli	Dadra et Nagar Haveli	Dadra und Nagar Haveli	Dadra e Nagar Haveli	Dadra y Nagar Haveli	达德拉和纳加尔哈维利中央直辖区	다드라나가르하벨리	達德拉和納加爾哈維利中央直轄區
+009	ダマン・ディウ	Daman and Diu	Daman et Diu	Daman und Diu	Daman e Diu	Damán y Diu	达曼和第乌中央直辖区	다만디우	達曼和第烏中央直轄區
+010	デリー	Delhi	Delhi	Delhi	Delhi	Delhi	德里中央直辖区	델리	德裏中央直轄區
+011	ゴア	Goa	Goa	Goa	Goa	Goa	果阿邦	고아	果阿邦
+012	グジャラート	Gujarat	Gujarat	Gujarat	Gujarat	Gujarat	古吉拉特邦	구자라트	古吉拉特邦
+013	ハリヤーナー	Haryana	Haryana	Haryana	Haryana	Haryana	哈里亚纳邦	하리아나	哈裏亞納邦
+014	ヒマーチャル・プラデーシュ	Himachal Pradesh	Himachal Pradesh	Himachal Pradesh	Himachal Pradesh	Himachal Pradesh	喜马偕尔邦	히마찰프라데시	喜馬偕爾邦
+015	ジャンム・カシミール	Jammu and Kashmir	Jammu-et-Cachemire	Jammu und Kashmir	Jammu e Kashmir	Jammu y Cachemira	查谟和克什米尔邦	잠무카슈미르	查謨和喀什米爾邦
+016	ジャールカンド	Jharkhand	Jharkhand	Jharkhand	Jharkhand	Jharkhand	贾坎德邦	자르칸드	賈坎德邦
+017	カルナータカ	Karnataka 	Karnataka	Karnataka	Karnataka	Karnataka	卡纳塔克邦	카르나타카	卡納塔克邦
+018	ケーララ	Kerala 	Kerala	Kerala	Kerala	Kerala	喀拉拉邦	케랄라	喀拉拉邦
+019	ラクシャディープ	Lakshadweep	Laquedives	Lakshadweep	Lakshadweep	Lakshadweep	拉克沙群岛中央直辖区	락샤드위프 제도	拉克沙羣島中央直轄區
+020	マディヤ・プラデーシュ	Madhya Pradesh	Madhya Pradesh	Madhya Pradesh	Madhya Pradesh	Madhya Pradesh	中央邦	마디아프라데시	中央邦
+021	マハラシュトラ	Maharashtra	Maharashtra	Maharashtra	Maharashtra	Maharashtra	马哈拉施特拉邦	마하라슈트라	馬哈拉施特拉邦
+022	メガラヤ	Meghalaya	Meghalaya	Meghalaya	Meghalaya	Meghalaya	梅加拉亚邦	메갈라야	梅加拉亞邦
+023	ミゾラム	Mizoram	Mizoram	Mizoram	Mizoram	Mizoram	米佐拉姆邦	미조람	米佐拉姆邦
+024	マニプル	Manipur	Manipur	Manipur	Manipur	Manipur	曼尼普尔邦	마니푸르	曼尼普爾邦
+025	ナガランド	Nagaland	Nagaland	Nagaland	Nagaland	Nagaland	那加兰邦	나갈랜드	那加蘭邦
+026	オリッサ	Orissa	Orissa	Orissa	Orissa	Orissa	奥里萨邦	오리사	奧裏薩邦
+027	ポンディシェリ	Puducherry	Pondichéry	Puducherry	Puducherry	Puducherry	本地治里中央直辖区	퐁디셰리	本地治裏中央直轄區
+028	パンジャーブ	Punjab	Penjab	Punjab	Punjab	Punjab	旁遮普邦	펀자브	旁遮普邦
+029	ラジャスターン	Rajasthan	Rajasthan	Rajasthan	Rajasthan	Rajasthán	拉贾斯坦邦	라자스탄	拉賈斯坦邦
+030	シッキム	Sikkim	Sikkim	Sikkim	Sikkim	Sikkim	锡金邦	시킴	錫金邦
+031	タミル・ナードゥ	Tamil Nadu 	Tamil Nadu	Tamil Nadu 	Tamil Nadu	Tamil Nadu	泰米尔纳德邦	타밀나두	泰米爾納德邦
+032	トリプラ	Tripura	Tripura	Tripura	Tripura	Tripura	特里普拉邦	트리푸라	特裏普拉邦
+033	ウッタル・プラデーシュ	Uttar Pradesh	Uttar Pradesh	Uttar Pradesh	Uttar Pradesh	Uttar Pradesh	北方邦	우타르프라데시	北方邦
+034	ウッタランチャル	Uttaranchal	Uttaranchal	Uttaranchal	Uttaranchal	Uttaranchal	乌塔拉坎德邦	우타란찰	烏塔拉坎德邦
+035	にしベンガル	West Bengal	Bengale occidental	Westbengalen	Bengala Occidentale	Bengala Occidental	西孟加拉邦	서벵골	西孟加拉邦

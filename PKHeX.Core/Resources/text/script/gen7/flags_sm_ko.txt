@@ -1,0 +1,54 @@
+3100	*	알로라 챔피언 등극/마기아나 이벤트 활성화
+3487	g	마기아나 선물 받음
+0443	g	Received Gift Eevee Egg
+0493	g	폴리곤 선물 받음
+0504	g	프테라 선물 받음
+1216	g	코스모그 선물 받음
+0499	g	타입:널 선물 받음
+0160	*	월륜 [0] / 일륜 포탈 [1]
+3155	*	Unlocked IV Judge
+3113	s	Received Ride Pager
+3114	s	켄타로스 러시 해금됨
+3115	s	바랜드 서치 해금됨
+3116	s	괴력몬 푸시 해금됨
+3117	s	만마드 대시 해금됨
+3118	s	라프라스 스윔 해금됨
+3119	s	샤크니아 제트 해금됨
+3120	s	리자몽 플라이트 해금됨
+0168	g	Traded for Machop on Route 2
+0169	g	Traded for Bounsweet on Route 5
+0170	g	Traded for Poliwhirl in Konikoni City
+0171	g	Traded for Happiny in Malie City
+0172	g	Traded for Graveler in Tapu Village
+0173	g	Traded for Steene in Seafolk Village
+0174	g	Traded for Talonflame on Poni Gauntlet
+0789	s	Lillie Disappeared from Altar
+0790	s	Solgaleo Disappeared from Altar
+0791	s	Lunala Disappeared from Altar
+0185	s	Had First Title Defense Battle
+0186	t	Encountered Hapu (Title Defense)
+2435	t	Defeated Hapu (Title Defense)
+0187	t	Encountered Gladion (Title Defense)
+2493	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
+2494	t	Defeated Gladion (Title Defense;Litten is Player Starter)
+2495	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
+0188	t	Encountered Ryuki (Title Defense)
+2485	t	Defeated Ryuki (Title Defense)
+0189	t	Encountered Faba (Title Defense)
+2436	t	Defeated Faba (Title Defense)
+0190	t	Encountered Hau (Title Defense)
+2432	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
+2433	t	Defeated Hau (Title Defense;Litten is Player Starter)
+2434	t	Defeated Hau (Title Defense;Popplio is Player Starter)
+0191	t	Encountered Sophocles (Title Defense)
+2481	t	Defeated Sophocles (Title Defense)
+0192	t	Encountered Molayne (Title Defense)
+2557	t	Defeated Molayne (Title Defense)
+0193	t	Encountered Kukui (Title Defense)
+2553	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
+2554	t	Defeated Kukui (Title Defense;Litten is Player Starter)
+2555	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
+0194	t	Encountered Plumeria (Title Defense)
+2477	t	Defeated Plumeria (Title Defense)
+0195	t	Encountered Youngster Tristan (Title Defense)
+2556	t	Defeated Youngster Tristan (Title Defense)

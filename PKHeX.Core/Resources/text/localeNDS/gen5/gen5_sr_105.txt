@@ -1,0 +1,51 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	ほっかいどう（さっぽろ）	Hokkaido (Sapporo)	Hokkaido (Sapporo)	Hokkaido (Sapporo)	Hokkaido (Sapporo)	Hokkaido (Sapporo)	北海道（札幌市）	홋카이도 (삿포로)	北海道（札幌市）
+002	ほっかいどう（はこだて）	Hokkaido (Hakodate)	Hokkaido (Hakodate)	Hokkaido (Hakodate)	Hokkaido (Hakodate)	Hokkaido (Hakodate)	北海道（函馆市）	홋카이도 (하코다테)	北海道（函館市）
+003	ほっかいどう（わっかない）	Hokkaido (Wakkanai)	Hokkaido (Wakkanai)	Hokkaido (Wakkanai)	Hokkaido (Wakkanai)	Hokkaido (Wakkanai)	北海道（稚内市）	홋카이도 (왓카나이)	北海道（稚內市）
+004	ほっかいどう（くしろ）	Hokkaido (Kushiro)	Hokkaido (Kushiro)	Hokkaido (Kushiro)	Hokkaido (Kushiro)	Hokkaido (Kushiro)	北海道（钏路市）	홋카이도 (구시로)	北海道（釧路市）
+005	あおもり	Aomori	Aomori	Aomori	Aomori	Aomori	青森县	아오모리	青森縣
+006	いわて	Iwate	Iwate	Iwate	Iwate	Iwate	岩手县	이와테	巖手縣
+007	みやぎ	Miyagi	Miyagi	Miyagi	Miyagi	Miyagi	宫城县	미야기	宮城縣
+008	あきた	Akita	Akita	Akita	Akita	Akita	秋田县	아키타	秋田縣
+009	やまがた	Yamagata	Yamagata	Yamagata	Yamagata	Yamagata	山形县	야마가타	山形縣
+010	ふくしま	Fukushima	Fukushima	Fukushima	Fukushima	Fukushima	福岛县	후쿠시마	福島縣
+011	いばらき	Ibaraki	Ibaraki	Ibaraki	Ibaraki	Ibaraki	茨城县	이바라키	茨城縣
+012	とちぎ	Tochigi	Tochigi	Tochigi	Tochigi	Tochigi	枥木县	도치기	櫪木縣
+013	ぐんま	Gunma	Gunma	Gunma	Gunma	Gunma	群马县	군마	羣馬縣
+014	さいたま	Saitama	Saitama	Saitama	Saitama	Saitama	琦玉县	사이타마	琦玉縣
+015	ちば	Chiba	Chiba	Chiba	Chiba	Chiba	千叶县	지바	千葉縣
+016	とうきょう	Tokyo	Tokyo	Tokio	Tokyo	Tokio	东京都	도쿄	東京都
+017	かながわ	Kanagawa	Kanagawa	Kanagawa	Kanagawa	Kanagawa	神奈川县	가나가와	神奈川縣
+018	にいがた	Niigata	Niigata	Niigata	Niigata	Niigata	富山县	니가타	富山縣
+019	とやま	Toyama	Toyama	Toyama	Toyama	Toyama	石川县	도야마	石川縣
+020	いしかわ	Ishikawa	Ishikawa	Ishikawa	Ishikawa	Ishikawa	福井县	이시카와	福井縣
+021	ふくい	Fukui	Fukui	Fukui	Fukui	Fukui	山梨县	후쿠이	山梨縣
+022	やまなし	Yamanashi	Yamanashi	Yamanashi	Yamanashi	Yamanashi	长野县	야마나시	長野縣
+023	ながの	Nagano	Nagano	Nagano	Nagano	Nagano	新泻县	나가노	新瀉縣
+024	ぎふ	Gifu	Gifu	Gifu	Gifu	Gifu	歧阜县	기후	歧阜縣
+025	しずおか	Shizuoka	Shizuoka	Shizuoka	Shizuoka	Shizuoka	静冈县	시즈오카	靜岡縣
+026	あいち	Aichi	Aichi	Aichi	Aichi	Aichi	爱知县	아이치	愛知縣
+027	みえ	Mie	Mie	Mie	Mie	Mie	三重县	미에	三重縣
+028	しが	Shiga	Shiga	Shiga	Shiga	Shiga	滋贺县	시가	滋賀縣
+029	きょうと	Kyoto	Kyoto	Kyoto	Kyoto	Kioto	京都府	교토	京都府
+030	おおさか	Osaka	Osaka	Osaka	Osaka	Osaka	大阪府	오사카	大阪府
+031	ひょうご	Hyogo	Hyogo	Hyogo	Hyogo	Hyogo	兵库县	효고	兵庫縣
+032	なら	Nara	Nara	Nara	Nara	Nara	奈良县	나라	奈良縣
+033	わかやま	Wakayama	Wakayama	Wakayama	Wakayama	Wakayama	和歌山县	와카야마	和歌山縣
+034	とっとり	Tottori	Tottori	Tottori	Tottori	Tottori	鸟取县	돗토리	鳥取縣
+035	しまね	Shimane	Shimane	Shimane	Shimane	Shimane	岛根县	시마네	島根縣
+036	おかやま	Okayama	Okayama	Okayama	Okayama	Okayama	冈山县	오카야마	岡山縣
+037	ひろしま	Hiroshima	Hiroshima	Hiroshima	Hiroshima	Hiroshima	广岛县	히로시마	廣島縣
+038	やまぐち	Yamaguchi	Yamaguchi	Yamaguchi	Yamaguchi	Yamaguchi	山口县	야마구치	山口縣
+039	とくしま	Tokushima	Tokushima	Tokushima	Tokushima	Tokushima	德岛县	도쿠시마	德島縣
+040	かがわ	Kagawa	Kagawa	Kagawa	Kagawa	Kagawa	香川县	가가와	香川縣
+041	えひめ	Ehime	Ehime	Ehime	Ehime	Ehime	爱媛县	에히메	愛媛縣
+042	こうち	Kochi	Kochi	Kochi	Kochi	Kochi	高知县	고치	高知縣
+043	ふくおか	Fukuoka	Fukuoka	Fukuoka	Fukuoka	Fukuoka	福冈县	후쿠오카	福岡縣
+044	さが	Saga	Saga	Saga	Saga	Saga	佐贺县	사가	佐賀縣
+045	ながさき	Nagasaki	Nagasaki	Nagasaki	Nagasaki	Nagasaki	长崎县	나가사키	長崎縣
+046	くまもと	Kumamoto	Kumamoto	Kumamoto	Kumamoto	Kumamoto	熊本县	구마모토	熊本縣
+047	おおいた	Oita	Oita	Oita	Oita	Oita	大分县	오이타	大分縣
+048	みやざき	Miyazaki	Miyazaki	Miyazaki	Miyazaki	Miyazaki	宫崎县	미야자키	宮崎縣
+049	かごしま	Kagoshima	Kagoshima	Kagoshima	Kagoshima	Kagoshima	鹿儿岛县	가고시마	鹿兒島縣
+050	おきなわ	Okinawa	Okinawa	Okinawa	Okinawa	Okinawa	冲绳县	오키나와	衝繩縣

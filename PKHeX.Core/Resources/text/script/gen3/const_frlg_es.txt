@@ -1,0 +1,27 @@
+0x4031	*	Inicial	00:Bulbasaur,1:Squirtle,2:Charmander
+0x4055	s	Estado del Laboratorio de Oak	00:Primera Visita,01:Escoltado al Laboratorio,02:Inicial Disponible,03:Batalla contral Rival lista,04:Recoger Correo-Oak,05:Entregado Correo-Oak,06:Pokédex Recibida,08:Dex Nacional Recibida,9:Completed all events
+0x4057	s	Correo-Oak	00:No Recibido,01:Recibido,02:Entregado
+0x4051	s	Hombre Viejo Bloqueando Ruta 2	01:Sí,02:No
+0x4054	s	Estado del Rival (Ruta 22)	00:Oculto,1:Luchable,02:Derrotado,03:Luchable (8 Medallas),04:Derrotado (8 Medallas)
+0x4052	s	Rival Derrotado (Ciudad Celeste)	0:No,1:Sí
+0x405B	s	Rival Derrotado (S.S. Anne)	0:No,1:Sí
+0x405C	s	Rival Derrotado (Silph S.A.)	0:No,1:Sí
+0x405D	s	Rival Derrotado (Torre Pokémon)	0:No,1:Sí
+0x4089	s	Rival Encontrado (Centro Pokémon de Isla Sexta)	0:No,1:Sí
+
+0x4024	r	Pokémon Salvaje en Cueva Cambiante	00:Zubat,01:Mareep,02:Pineco,03:Houndour,04:Teddiursa,05:Aipom,06:Shuckle,07:Stantler,08:Smeargle
+
+0x4049	a	Sticker del Hall de la Fama en la Tarjeta Entrenador	0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
+0x404A	a	Sticker de Huevos Eclosionados en la Tarjeta Entrenador 0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
+0x404B	a	Sticker de Batallas Link en la Tarjeta Entrenador	0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
+
+0x408B	s	Super Nerd Fósil Derrotado (Mt. Moon)	0:No,1:Sí
+0x407E	s	Estatus del S.S. Anne	00:En Ciudad Carmín,01:Listo para embarcar,03:Ido
+0x4059	s	Fantasma de Marowak derrotado	0:No,1:Sí
+0x4062	s	Té entregado a los Guardias	0:No,1:Sí
+0x4060	s	Giovanni Derrotado (Silph S.A.)	0:No,1:Sí
+0x4058	*	Mejoras del Mapa	01:Normal,02:Recibido Tri-Ticket
+0x4076	*	Centro de Red Pokémon	0:Primera Visita,02:Meteorito Entregado,03:Red Establecida con Kanto,04:Pedido para encontrar Rubí,05:Recibido el Iris-Ticket,06:Zafiro Entregado,07:Red Establecida con Hoenn
+0x407F	s	Estado del Monte Ascuas	00:Primera Visita,01:Equipo Rocket Bloqueando el Camino a la Cima,02:Camino a la Cima Abierto
+0x4080	s	Estado de la Cueva Glaciada	00:Primera Visita,01:Lorelei Rescatada
+0x4084	s	Estado de Pedrita	00:En el Bosque Baya,1:En Recreativos,2:Regreso a casa

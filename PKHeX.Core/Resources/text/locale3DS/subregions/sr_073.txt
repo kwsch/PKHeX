@@ -1,0 +1,15 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	プラハ	Prague	Prague	Prag	Praga	Praga	布拉格市	프라하	布拉格市
+003	中部ボヘミア地方	Central Bohemian Region	Bohême centrale	Mittelböhmische Region	Boemia Centrale	Región de Bohemia Central	中捷克州	스트르제도체스키 지방	中捷克州
+004	南ボヘミア地方	South Bohemian Region	Bohême du Sud	Südböhmische Region	Boemia Meridionale	Región de Bohemia Meridional	南捷克州	이호체스키 지방	南捷克州
+005	プルゼニ地方	Plzeň Region	Région de Pilsen	Region Pilsen	Regione di Plseň	Región de Pilsen	比尔森州	플젠 지방	比爾森州
+006	カールスバート地方	Karlovy Vary Region	Région de Karlovy Vary	Region Karlsbad	Regione di Karlovy Vary	Región de Karlovy Vary	卡罗维发利州	카를로비바리 지방	卡羅維發利州
+007	ウースチー・ナド・ラベム地方	Ústí nad Labem Region	Région d'Ústí nad Labem	Region Ústí	Regione di Ústí nad Labem	Región de Ústí nad Labem	拉贝河畔乌斯季州	우스티나트라벰 지방	拉貝河畔烏斯季州
+008	リベレツ地方	Liberec Region	Région de Liberec	Region Liberec	Regione di Liberec	Región de Liberec	利贝雷克州	리베레츠 지방	利貝雷克州
+009	フラデツ・クラロベ地方	Hradec Králové Region	Région de Hradec Králové	Region Hradec Králové	Regione di Hradec Králové	Región de Hradec Králové	赫拉德茨-克拉洛韦州	흐라데츠크랄로베 지방	赫拉德茨-克拉洛韋州
+010	パルドゥビツェ地方	Pardubice Region	Région de Pardubice	Region Pardubice	Regione di Pardubice	Región de Pardubice	帕尔杜比采州	파르두비체 지방	帕爾杜比採州
+011	オロモウツ地方	Olomouc Region	Région d'Olomouc	Region Olmütz	Regione di Olomouc	Región de Olomouc	奥洛穆茨州	올로모우츠 지방	奧洛穆茨州
+012	モラビア・シレジア地方	Moravian-Silesian Region	Moravie-Silésie	Region Mährisch-Schlesien	Regione di Moravia-Slesia	Región de Moravia-Silesia	摩拉维亚-西里西亚州	모라비아실레지아 지방	摩拉維亞-西裏西亞州
+013	南モラビア地方	South Moravian Region	Moravie du Sud	Südmährische Region	Moravia Meridionale	Región de Moravia Meridional	南摩拉维亚州	이호모라프스키 지방	南摩拉維亞州
+014	ズリン地方	Zlín Region	Région de Zlín	Region Zlin	Regione di Zlín	Región de Zlín	兹林州	즐린 지방	茲林州
+015	ヴィソチナ地方	Vysočina Region	Vysočina	Region Vysočina	Regione di Vysočina	Región de Vysočina	维索基纳州	비소치나 지방	維索基納州

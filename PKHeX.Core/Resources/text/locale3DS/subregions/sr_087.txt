@@ -1,0 +1,11 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ヴィリニュス州	Vilnius	Vilnius	Vilnius	Vilnius	Condado de Vilna	维尔纽斯县	빌뉴스 주	維爾紐斯縣
+003	アリートゥス州	Alytus	Alytus	Alytus	Alytus	Condado de Alytus	阿利图斯县	알리투스 주	阿利圖斯縣
+004	カウナス州	Kaunas	Kaunas	Kaunas	Kaunas	Condado de Kaunas	考纳斯县	카우나스 주	考納斯縣
+005	クライペダ州	Klaipėda	Klaipėda	Klaipėda	Klaipėda	Condado de Klaipėda	克莱佩达县	클라이페다 주	克萊佩達縣
+006	マリヤンポレ州	Marijampolė	Marijampolė	Marijampolė	Marijampolė	Condado de Marijampolė	马里扬泊列县	마리얌폴레 주	馬裏揚泊列縣
+007	パネベジス州	Panevėžys	Panevėžys	Panevėžys	Panevėžys	Condado de Panevėžys	帕涅韦日斯县	파네베지스 주	帕涅韋日斯縣
+008	シャウレイ州	Šiauliai	Šiauliai	Šiauliai	Šiauliai	Condado de Šiauliai	希奥利艾县	샤울랴이 주	希奧利艾縣
+009	タウラゲ州	Taurage	Tauragė	Tauragė	Tauragė	Condado de Tauragė	陶拉格县	타우라게 주	陶拉格縣
+010	テルシェイ州	Telšiai	Telšiai	Telšiai	Telšiai	Condado de Telšiai	特尔希艾县	텔샤이 주	特爾希艾縣
+011	ウテナ州	Utena	Utena	Utena	Utena	Condado de Utena	乌田纳县	우테나 주	烏田納縣

@@ -1,0 +1,11 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	マセル県	Maseru	Maseru	Maseru	Maseru	Maseru	马塞卢区	마세루 주	馬塞盧區
+003	べレア県	Berea	Berea	Berea	Berea	Berea	伯里亚区	베레아 주	伯裏亞區
+004	ブータ・ブーテ県	Butha-Buthe	Butha-Buthe	Butha-Buthe	Butha-Buthe	Butha-Buthe	布塔布泰区	부타부테 주	布塔布泰區
+005	レリベ県	Leribe	Leribe	Leribe	Leribe	Leribe	莱里贝区	레리베 주	萊裏貝區
+006	マフェテング県	Mafeteng	Mafeteng	Mafeteng	Mafeteng	Mafeteng	马费滕区	마페텡 주	馬費滕區
+007	モハーレスフーク県	Mohale's Hoek	Mohale's Hoek	Mohale's Hoek	Mohale's Hoek	Mohale's Hoek	莫哈莱斯胡克区	모할레스후크 주	莫哈萊斯胡克區
+008	モコトロング県	Mokhotlong	Mokhotlong	Mokhotlong	Mokhotlong	Mokhotlong	莫霍特隆区	모코틀롱 주	莫霍特隆區
+009	クァクハスネック県	Qacha's Nek	Qacha's Nek	Qacha's Nek	Qacha's Nek	Qacha's Nek	加查斯内克区	카차스넥 주	加查斯內克區
+010	クティング県	Quthing	Quthing	Quthing	Quthing	Quthing	古廷区	쿠팅 주	古廷區
+011	ターバ・ツェーカ県	Thaba-Tseka	Thaba-Tseka	Thaba-Tseka	Thaba-Tseka	Thaba-Tseka	塔巴采卡区	타바체카 주	塔巴採卡區

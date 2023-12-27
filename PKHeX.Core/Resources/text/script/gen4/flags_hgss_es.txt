@@ -1,0 +1,211 @@
+0607	*	Rojo Desaparecido (Monte Plateado)
+0774	r	Articuno Desaparecido
+0663	r	Zapdos Desaparecido
+0775	r	Moltres Desaparecido
+0773	r	Mewtwo Desaparecido
+0457	r	Raikou Errante
+0458	r	Entei Errante
+0459	s	Suicune Escapó (Torre Quemada)
+0673	s	Suicune Desaparecido (Ruta 25)
+0782	r	Suicune Desaparecido (De regreso a Torre Quemada)
+0579	r	Lugia Desaparecido
+0578	r	Ho-Oh Desaparecido
+0781	r	Latios/Latias Desaparecido/a (Ciudad Plateada)
+0721	r	Kyogre/Groudon Desaparecido
+0722	r	Rayquaza Desaparecido
+2404	a	Entrada al Hall de la Fama (Mejora de Tarjeta Entrenador)
+0388	a	Obtenida 1 Corona Brillante (Mejora de Tarjeta Entrenador)
+0241	a	Superados Récords de Pokéathlon (Mejora de Tarjeta Entrenador)
+0766	s	Bola Inicial de Bulbasaur Desaparecida
+0767	s	Bola Inicial de Squirtle Desaparecida
+0768	s	Bola Inicial de Charmander Desaparecida
+0789	*	Funcionalidad de Intercambio Deshabilitada (Centro Pokémon)
+0501	r	Team Rocket HQ Electrode (1) Disappeared
+0502	r	Team Rocket HQ Electrode (2) Disappeared
+0503	r	Team Rocket HQ Electrode (3) Disappeared
+0609	r	Sleeping Snorlax Disappeared
+0149	g	Gift Eevee Received 
+0450	r	Route 36 Sudowoodo Disappeared
+0483	r	Red Gyarados Disappeared
+0191	g	Received Shuckle Gift
+0193	g	Shuckle returned or allowed to keep
+2744	r	Friday Lapras Disappeared
+0362	r	Caught Red Gyarados
+0219	g	Quiz answered wrong (Gift Dratini won't have Extremespeed)
+0220	g	Received Dratini Gift
+0268	g	Received Tyrogue Gift
+0269	s	Defeated Karate King in Mt. Mortar
+0113	g	Traded in Violet City
+0141	g	Traded at Goldenrod Dept. 5F
+0190	g	Traded in Olivine City
+0208	g	Traded in Blackthorn City
+0289	g	Traded at Power Plant
+0307	g	Traded in Pewter City
+0354	g	Traded with Lt. Surge
+0357	g	Traded with Brock
+0358	g	Traded with Jasmine
+0359	g	Traded with Steven
+0375	g	Got Hoenn Starter from Steven
+0762	s	Steven Disappeared from Silph Co.
+0791	s	Steven Disappeared from Pewter Museum
+0215	s	Met Monica/Got Sharp Beak
+0216	s	Met Tuscany/Got TwistedSpoon
+0213	s	Met Wesley/Got Black Belt
+0177	s	Met Arthur/Got Hard Stone
+0217	s	Met Frieda/Got Poison Barb
+0212	s	Met Santos/Got Soft Sand
+0165	s	Met Sunny/Got Magnet
+0539	*	Solved Ruins of Alph Escape Rope wall puzzle
+0541	*	Solved Ruins of Alph Flash wall puzzle
+0543	*	Solved Ruins of Alph Water Stone wall puzzle
+0545	*	Solved Ruins of Alph Ho-Oh wall puzzle
+1366	t	Defeated Policeman Keith (Night)
+1440	t	Defeated Policeman Dirk (Night)
+0693	t	Had Whitney Rematch
+0694	t	Had Janine Rematch
+0695	t	Had Clair Rematch
+0696	t	Had Erika Rematch
+0697	t	Had Misty Rematch
+0698	t	Had Blaine Rematch
+0699	t	Had Blue Rematch
+0700	t	Had Chuck Rematch
+0701	t	Had Brock Rematch
+0702	t	Had Bugsy Rematch
+0703	t	Had Sabrina Rematch
+0704	t	Had Falkner Rematch
+0705	t	Had Lt. Surge Rematch
+0706	t	Had Morty Rematch
+0707	t	Had Jasmine Rematch
+0708	t	Had Pryce Rematch
+1639	t	Had Youngster Joey 1st Rematch
+1640	t	Had Youngster Joey 2nd Rematch
+1870	t	Had Youngster Joey 3rd Rematch
+1820	t	Had Bug Catcher Wade 1st Rematch
+1821	t	Had Bug Catcher Wade 2nd Rematch
+1872	t	Had Bug Catcher Wade 3rd Rematch
+1636	t	Had Picnicker Liz 1st Rematch
+1637	t	Had Picnicker Liz 2nd Rematch
+1878	t	Had Picnicker Liz 3rd Rematch
+1822	t	Had Fisherman Ralph 1st Rematch
+1823	t	Had Fisherman Ralph 2nd Rematch
+1875	t	Had Fisherman Ralph 3rd Rematch
+1460	t	Had Hiker Anthony 1st Rematch
+1515	t	Had Hiker Anthony 2nd Rematch
+1883	t	Had Hiker Anthony 3rd Rematch
+1502	t	Had Picnicker Gina 1st Rematch
+1694	t	Had Picnicker Gina 2nd Rematch
+1880	t	Had Picnicker Gina 3rd Rematch
+1634	t	Had Camper Todd 1st Rematch
+1635	t	Had Camper Todd 2nd Rematch
+1885	t	Had Camper Todd 3rd Rematch
+1976	t	Had Youngster Ian 1st Rematch
+1977	t	Had Youngster Ian 2nd Rematch
+1978	t	Had Youngster Ian 3rd Rematch
+1720	t	Had Bug Catcher Arnie 1st Rematch
+1809	t	Had Bug Catcher Arnie 2nd Rematch
+1873	t	Had Bug Catcher Arnie 3rd Rematch
+1979	t	Had Firebreather Walt 1st Rematch
+1980	t	Had Firebreather Walt 2nd Rematch
+1981	t	Had Firebreather Walt 3rd Rematch
+1973	t	Had Lass Krise 1st Rematch
+1974	t	Had Lass Krise 2nd Rematch
+1975	t	Had Lass Krise 3rd Rematch
+1790	t	Had School Kid Jack 1st Rematch
+1791	t	Had School Kid Jack 2nd Rematch
+1863	t	Had School Kid Jack 3rd Rematch
+1792	t	Had School Kid Alan 1st Rematch
+1793	t	Had School Kid Alan 2nd Rematch
+1865	t	Had School Kid Alan 3rd Rematch
+1824	t	Had Lass Dana 1st Rematch
+1825	t	Had Lass Dana 2nd Rematch
+1888	t	Had Lass Dana 3rd Rematch
+1794	t	Had School Kid Chad 1st Rematch
+1795	t	Had School Kid Chad 2nd Rematch
+1867	t	Had School Kid Chad 3rd Rematch
+2032	t	Had Gentleman Alfred 1st Rematch
+2033	t	Had Gentleman Alfred 2nd Rematch
+2034	t	Had Gentleman Alfred 3rd Rematch
+1800	t	Had Sailor Huey 1st Rematch
+1801	t	Had Sailor Huey 2nd Rematch
+1869	t	Had Sailor Huey 3rd Rematch
+1683	t	Had Fisherman Tully 1st Rematch
+1684	t	Had Fisherman Tully 2nd Rematch
+1877	t	Had Fisherman Tully 3rd Rematch
+1826	t	Had Picnicker Tiffany 1st Rematch
+1827	t	Had Picnicker Tiffany 2nd Rematch
+1882	t	Had Picnicker Tiffany 3rd Rematch
+1532	t	Had PokéManiac Brent 1st Rematch
+1533	t	Had PokéManiac Brent 2nd Rematch
+1890	t	Had PokéManiac Brent 3rd Rematch
+1807	t	Had Bird Keeper Vance 1st Rematch
+1808	t	Had Bird Keeper Vance 2nd Rematch
+1972	t	Had Bird Keeper Vance 3rd Rematch
+1685	t	Had Fisherman Wilton 1st Rematch
+1810	t	Had Fisherman Wilton 2nd Rematch
+1968	t	Had Fisherman Wilton 3rd Rematch
+1610	t	Had Blackbelt Kenji 1st Rematch
+1638	t	Had Blackbelt Kenji 2nd Rematch
+1965	t	Had Blackbelt Kenji 3rd Rematch
+1811	t	Had Hiker Parry 1st Rematch
+1812	t	Had Hiker Parry 2nd Rematch
+1966	t	Had Hiker Parry 3rd Rematch
+1695	t	Had Picnicker Erin 1st Rematch
+1813	t	Had Picnicker Erin 2nd Rematch
+1963	t	Had Picnicker Erin 3rd Rematch
+1982	t	Had Bug Catcher Doug 1st Rematch
+1983	t	Had Bug Catcher Doug 2nd Rematch
+1984	t	Had Bug Catcher Doug 3rd Rematch
+1985	t	Had Bug Catcher Rob 1st Rematch
+1986	t	Had Bug Catcher Rob 2nd Rematch
+1987	t	Had Bug Catcher Rob 3rd Rematch
+2021	t	Had Fisherman Kyle 1st Rematch
+2022	t	Had Fisherman Kyle 2nd Rematch
+2023	t	Had Fisherman Kyle 3rd Rematch
+2024	t	Had Fisherman Kyler 1st Rematch
+2025	t	Had Fisherman Kyler 2nd Rematch
+2026	t	Had Fisherman Kyler 3rd Rematch
+2015	t	Had Hiker Kenny 1st Rematch
+2016	t	Had Hiker Kenny 2nd Rematch
+2017	t	Had Hiker Kenny 3rd Rematch
+2018	t	Had Camper Tanner 1st Rematch
+2019	t	Had Camper Tanner 2nd Rematch
+2020	t	Had Camper Tanner 3rd Rematch
+2012	t	Had Young Couple Tim and Sue 1st Rematch
+2013	t	Had Young Couple Tim and Sue 2nd Rematch
+2014	t	Had Young Couple Tim and Sue 3rd Rematch
+2006	t	Had Bird Keeper Josh 1st Rematch
+2007	t	Had Bird Keeper Josh 2nd Rematch
+2008	t	Had Bird Keeper Josh 3rd Rematch
+2009	t	Had Camper Torin 1st Rematch
+2010	t	Had Camper Torin 2nd Rematch
+2011	t	Had Camper Torin 3rd Rematch
+2000	t	Had School Kid Billy 1st Rematch
+2001	t	Had School Kid Billy 2nd Rematch
+2002	t	Had School Kid Billy 3rd Rematch
+1997	t	Had Teacher Hillary 1st Rematch
+1998	t	Had Teacher Hillary 2nd Rematch
+1999	t	Had Teacher Hillary 3rd Rematch
+2003	t	Had Twins Kay and Tia 1st Rematch
+2004	t	Had Twins Kay and Tia 2nd Rematch
+2005	t	Had Twins Kay and Tia 3rd Rematch
+1991	t	Had Biker Aiden 1st Rematch
+1992	t	Had Biker Aiden 2nd Rematch
+1993	t	Had Biker Aiden 3rd Rematch
+1994	t	Had Biker Ernest 1st Rematch
+1995	t	Had Biker Ernest 2nd Rematch
+1996	t	Had Biker Ernest 3rd Rematch
+1988	t	Had Biker Reese 1st Rematch
+1989	t	Had Biker Reese 2nd Rematch
+1990	t	Had Biker Reese 3rd Rematch
+1818	t	Had Ace Trainer Jamie 1st Rematch
+1819	t	Had Ace Trainer Jamie 2nd Rematch
+1969	t	Had Ace Trainer Jamie 3rd Rematch
+1816	t	Had Ace Trainer Gaven 1st Rematch
+1817	t	Had Ace Trainer Gaven 2nd Rematch
+1964	t	Had Ace Trainer Gaven 3rd Rematch
+1804	t	Had Ace Trainer Reena 1st Rematch
+1805	t	Had Ace Trainer Reena 2nd Rematch
+1967	t	Had Ace Trainer Reena 3rd Rematch
+1663	t	Had Bird Keeper Jose 1st Rematch
+1806	t	Had Bird Keeper Jose 2nd Rematch
+1962	t	Had Bird Keeper Jose 3rd Rematch

@@ -1,0 +1,22 @@
+0048	*	Starter	0:Not Chosen,152:Chikorita,155:Cyndaquil,158:Totodile
+0299	r	Spiky-eared Pichu (Ilex Forest)	0:Not appeared,1:Pending,2:Disappeared
+0161	r	Beasts (Burned Tower)	0:Appeared,1:Roaming/Fled
+0304	s	Steven Stone Status	0:Clefairy Doll pending,1:Will meet in Vermilion (Lati@s Pending),2:Met (Lati@s Roamed),3:Asks to choose Hoenn Starter,4:Gave Hoenn Starter,5:Talked to at Pewter Museum,6:Wants to trade at Silph Co.,7:Traded for Beldum
+0067	e	Enigma Stone	0:Not Activated,1778:Activated
+0249	e	Embedded Tower	0:Haven't Received Kanto Starter,1:Obtained Kanto Starter,2:Obtained Orb,3:Kyogre/Groudon Activated,4:Kyogre/Groudon Disappeared,6:Rayquaza Activated,7:Rayquaza Caught,9:Rayquaza Disappeared
+0251	e	Sinjoh Ruins	1:Not entered,4:Teleported (1st),5:Went Outside,6:Cynthia talkable (cabin),7:Cynthia talkable (stage),8:Before Choosing Legendary,10:Obtained First Legendary,13:Teleported (2nd),14:Obtained Second Legendary
+0259	r	Sinnoh Legendary (1st)	1:Dialga,2:Palkia,3:Giratina
+0258	r	Teleportable (2nd) Arceus	1:Hall of Origin,2:Fateful Encounter
+0305	r	Kanto Starters	0:Not Activated,1:Activated,2:Pending,3:Bulbasaur,4:Squirtle,5:Charmander,6:Completed
+0116	r	Togepi Gift	0:Not Activated,1:Activated,2:Pending,3:Obtained,4:Completed
+0254	r	Celebi Event	0:Not Activated,5:Completed
+0314	a	Blue Card Points	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:11,12:12,13:13,14:14,15:15,16:16,17:17,18:18,19:19,20:20,21:21,22:22,23:23,24:24,25:25,26:26,27:27,28:28,29:29
+0069	r	Raikou Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0070	r	Entei Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0071	r	Roaming Latias Status (HG)	0:Pending,1:Caught,2:Fainted/Can Respawn
+0072	r	Roaming Latios Status (SS)	0:Pending,1:Caught,2:Fainted/Can Respawn
+0148	+	Total Week Siblings Met	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
+0151	s	Ace Trainer Sisters (Route 34)	0:Not Battled,1:Defeated Irene and Jenn,2:Power Herb Pending,3:Defeated Kate/Got Power Herb
+0253	r	Hoenn Starters	0:Not Activated,1:Activated
+0276	s	Mail Quest	0:Not Activated,1:Received Spearow with Mail,2:Delivered Mail on Route 31 (Bag Full),3:Delivered Mail on Route 31,5:Webster gave HP Up (Completed)
+0291	+	Catching Show Best Score

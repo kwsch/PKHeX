@@ -1,0 +1,201 @@
+0511	r	Uxie Desaparecido
+0509	r	Mesprit Desaparecido (Caverna Veraz)
+0510	r	Azelf Desaparecido
+0621	r	Cresselia Desaparecida (Isla Plenilunio)
+0288	r	Heatran Desaparecido
+0609	r	Regigigas Desaparecido
+0622	r	Giratina Desaparecido
+0606	r	Darkrai Desaparecido
+0623	r	Shaymin Desaparecido (Paraiso Floral)
+0620	r	Arceus Desaparecido
+0286	r	Sala de Origen Desaparecida
+0307	r	Ferry a Isla Plenilunio Accesible
+0316	r	Ferry a Isla Lunanueva Accesible
+0301	r	Professor Oak Desaparecido (Ruta 224)
+0634	r	Shaymin Desaparecido
+2404	a	Entrada al Hall de la Fama (Mejora de Tarjeta Entrenador)
+2408	a	Maestro de Concurso Carisma
+2409	a	Maestro de Concurso de Belleza
+2410	a	Maestro de Concurso de Dulzura
+2411	a	Maestro de Concurso de Ingenio
+2412	a	Maestro de Concurso de Dureza
+0329	r	Rotom Capturado
+0665	s	Encontrado Mayordomo Fantasma en la Vieja Mansión
+0666	s	Encontrada Niña Fantasma en la Vieja Mansión
+0897	s	Encontrado Antidoto (escondido) en la Vieja Mansión
+1008	s	Encontrada Barrita Plus en la Vieja Mansión
+1233	s	Encontrada Tabla Oscura en la Vieja Mansión
+1234	s	Encontrada MT90 en la Vieja Mansión
+2401	*	Running Shoes disabled
+0251	g	Received Happiny Egg Gift
+0305	g	Received Eevee
+2430	*	Unlocked Bebe's PC
+2728	r	Friday Drifloon Disappeared
+2722	r	Today's Trophy Garden Pokémon Known
+0133	g	Traded in Oreburgh City
+0134	g	Traded in Eterna City
+0244	g	Traded in Snowpoint City
+0245	g	Traded on Route 226
+0787	s	Found HP Up in dried Lake Valor
+2507	s	Entered Pal Park Catching Show
+1409	t	Defeated Jogger Richard (Morning)
+1448	t	Defeated Policeman Bobby (Night)
+1449	t	Defeated Policeman Alex (Night)
+1450	t	Defeated Policeman Dylan (Night)
+1462	t	Defeated Policeman Caleb (Night)
+1490	t	Defeated Jogger Scott (Morning)
+1666	t	Defeated Jogger Wyatt (Morning)
+1667	t	Defeated Jogger Craig (Morning)
+1668	t	Defeated Jogger Raul (Morning)
+1692	t	Defeated Policeman Danny (Night)
+1693	t	Defeated Policeman Thomas (Night)
+1987	t	Had Aroma Lady Elizabeth 1st Rematch
+1988	t	Had Aroma Lady Elizabeth 2nd Rematch
+1989	t	Had Aroma Lady Elizabeth 3rd Rematch
+1990	t	Had Artist Kevin 1st Rematch
+1991	t	Had Artist Kevin 2nd Rematch
+1992	t	Had Artist Kevin 3rd Rematch
+1993	t	Had Battle Girl Helen 1st Rematch
+1994	t	Had Battle Girl Helen 2nd Rematch
+1995	t	Had Battle Girl Helen 3rd Rematch
+1996	t	Had Bird Keeper Brianna 1st Rematch
+1997	t	Had Bird Keeper Brianna 2nd Rematch
+1998	t	Had Bird Keeper Audrey Rematch
+1999	t	Had Pokémon Breeder Albert 1st Rematch
+2000	t	Had Pokémon Breeder Albert 2nd Rematch
+2001	t	Had Pokémon Breeder Albert 3rd Rematch
+2002	t	Had Pokémon Breeder Jennifer 1st Rematch
+2003	t	Had Pokémon Breeder Jennifer 2nd Rematch
+2004	t	Had Pokémon Breeder Jennnifer 3rd Rematch
+2005	t	Had Camper Zackary 1st Rematch
+2006	t	Had Camper Zackary 2nd Rematch
+2007	t	Had Camper Zackary 3rd Rematch
+2008	t	Had Ace Trainer Dalton Rematch
+2009	t	Had Ace Trainer Olivia Rematch
+2010	t	Had Collector Ivan Rematch
+2013	t	Had Cyclist John 1st Rematch
+2014	t	Had Cyclist John 2nd Rematch
+2015	t	Had Cyclist John 3rd Rematch
+2016	t	Had Cyclist Kayla 1st Rematch
+2017	t	Had Cyclist Kayla 2nd Rematch
+2018	t	Had Cyclist Kayla 3rd Rematch
+2019	t	Had Dragon Tamer Patrick 1st Rematch
+2020	t	Had Dragon Tamer Patrick 2nd Rematch
+2021	t	Had Dragon Tamer Hayden Rematch
+2022	t	Had Dragon Tamer Geoffrey Rematch
+2023	t	Had Ace Trainer Jake Rematch
+2024	t	Had Ace Trainer Dennis 1st Rematch
+2025	t	Had Ace Trainer Dennis 2nd Rematch
+2026	t	Had Ace Trainer Rodolfo Rematch
+2027	t	Had Ace Trainer Saul Rematch
+2028	t	Had Ace Trainer Shannon Rematch
+2029	t	Had Ace Trainer Maya 1st Rematch
+2030	t	Had Ace Trainer Maya 2nd Rematch
+2031	t	Had Ace Trainer Deanna Rematch
+2032	t	Had Ace Trainer Ariana Rematch
+2033	t	Had Psychic Mitchell 1st Rematch
+2034	t	Had Psychic Mitchell 2nd Rematch
+2035	t	Had Psychic Maxwell Rematch
+2036	t	Had Psychic Corbin Rematch
+2037	t	Had Psychic Abigail 1st Rematch
+2038	t	Had Psychic Abigail 2nd Rematch
+2039	t	Had Psychic Brittney Rematch
+2040	t	Had Psychic Daisy Rematch
+2041	t	Had Rancher Marco 1st Rematch
+2042	t	Had Rancher Marco 2nd Rematch
+2043	t	Had Fisherman Joseph 1st Rematch
+2044	t	Had Fisherman Joseph 2nd Rematch
+2045	t	Had Fisherman Miguel Rematch
+2046	t	Had Fisherman Alec Rematch
+2047	t	Had Twins Teri and Tia 1st Rematch
+2048	t	Had Twins Teri and Tia 2nd Rematch
+2049	t	Had PI Carlos 1st Rematch
+2050	t	Had PI Carlos 2nd Rematch
+2051	t	Had Gentleman Jeremy 1st Rematch
+2052	t	Had Gentleman Jeremy 2nd Rematch
+2053	t	Had Gentleman Jeremy 3rd Rematch
+2054	t	Had Guitarist Tony Rematch
+2055	t	Had Ruin Maniac Harry 1st Rematch
+2056	t	Had Ruin Maniac Harry 2nd Rematch
+2057	t	Had Jogger Craig 1st Rematch
+2058	t	Had Jogger Craig 2nd Rematch
+2059	t	Had Black Belt Philip Rematch
+2060	t	Had Black Belt Davon Rematch
+2061	t	Had Socialite Reina 1st Rematch
+2062	t	Had Socialite Reina 2nd Rematch
+2063	t	Had Lass Samantha 1st Rematch
+2064	t	Had Lass Samantha 2nd Rematch
+2065	t	Had Lass Samantha 3rd Rematch
+2066	t	Had Lass Madeline 1st Rematch
+2067	t	Had Lass Madeline 2nd Rematch
+2068	t	Had Lass Madeline 3rd Rematch
+2069	t	Had Hiker Theodore 1st Rematch
+2070	t	Had Hiker Theodore 2nd Rematch
+2071	t	Had Hiker Theodore 3rd Rematch
+2072	t	Had Bug Catcher Brandon 1st Rematch
+2073	t	Had Bug Catcher Brandon 2nd Rematch
+2074	t	Had Bug Catcher Brandon 3rd Rematch
+2075	t	Had Parasol Lady Alexa 1st Rematch
+2076	t	Had Parasol Lady Alexa 2nd Rematch
+2077	t	Had Parasol Lady Alexa 3rd Rematch
+2078	t	Had Picnicker Karina 1st Rematch
+2079	t	Had Picnicker Karina 2nd Rematch
+2080	t	Had Picnicker Karina 3rd Rematch
+2081	t	Had Poké Kid Danielle 1st Rematch
+2082	t	Had Poké Kid Danielle 2nd Rematch
+2083	t	Had Poké Kid Danielle 3rd Rematch
+2084	t	Had Policeman Danny 1st Rematch
+2085	t	Had Policeman Danny 2nd Rematch
+2086	t	Had Policeman Danny 3rd Rematch
+2087	t	Had Rich Boy Trey 1st Rematch
+2088	t	Had Rich Boy Trey 2nd Rematch
+2089	t	Had Lady Melissa 1st Rematch
+2090	t	Had Lady Melissa 2nd Rematch
+2091	t	Had Lady Melissa 3rd Rematch
+2092	t	Had Pokémon Ranger Taylor 1st Rematch
+2093	t	Had Pokémon Ranger Taylor 2nd Rematch
+2094	t	Had Pokémon Ranger Taylor 3rd Rematch
+2095	t	Had Pokémon Ranger Kyler Rematch
+2096	t	Had Pokémon Ranger Allison 1st Rematch
+2097	t	Had Pokémon Ranger Allison 2nd Rematch
+2098	t	Had Pokémon Ranger Allison 3rd Rematch
+2099	t	Had Pokémon Ranger Ashlee Rematch
+2100	t	Had Sailor Marc 1st Rematch
+2101	t	Had Sailor Marc 2nd Rematch
+2102	t	Had Sailor Zachariah Rematch
+2103	t	Had Scientist Shaun 1st Rematch
+2104	t	Had Scientist Shaun 2nd Rematch
+2105	t	Had Scientist Shaun 3rd Rematch
+2106	t	Had Ninja Boy Zach 1st Rematch
+2107	t	Had Ninja Boy Zach 2nd Rematch
+2108	t	Had Ninja Boy Zach 3rd Rematch
+2109	t	Had Beauty Cyndy 1st Rematch
+2110	t	Had Beauty Cyndy 2nd Rematch
+2111	t	Had Skier Edward 1st Rematch
+2112	t	Had Skier Edward 2nd Rematch
+2113	t	Had Skier Bjorn 1st Rematch
+2114	t	Had Skier Bjorn 2nd Rematch
+2115	t	Had Skier Andrea 1st Rematch
+2116	t	Had Skier Andrea 2nd Rematch
+2117	t	Had Skier Madison 1st Rematch
+2118	t	Had Skier Madison 2nd Rematch
+2119	t	Had Swimmer Wesley Rematch
+2120	t	Had Swimmer Francisco Rematch
+2121	t	Had Swimmer Glenn Rematch
+2122	t	Had Swimmer Miranda Rematch
+2123	t	Had Swimmer Crystal Rematch
+2124	t	Had Swimmer Joanna Rematch
+2125	t	Had Youngster Tristan 1st Rematch
+2126	t	Had Youngster Tristan 2nd Rematch
+2127	t	Had Youngster Tristan 3rd Rematch
+2128	t	Had Youngster Dallas 1st Rematch
+2129	t	Had Youngster Dallas 2nd Rematch
+2130	t	Had Youngster Dallas 3rd Rematch
+2131	t	Had Tuber Jared 1st Rematch
+2132	t	Had Tuber Jared 2nd Rematch
+2133	t	Had Tuber Chelsea 1st Rematch
+2135	t	Had Tuber Chelsea 2nd Rematch
+2134	t	Had Veteran Brian 1st Rematch
+2136	t	Had Veteran Brian 2nd Rematch
+2137	t	Had Veteran Armando Rematch
+2738	t	Defeated Rival in Fight Area (Current Saturday/Sunday)

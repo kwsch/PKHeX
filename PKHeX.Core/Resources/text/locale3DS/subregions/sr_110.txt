@@ -1,0 +1,5 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	イングランド	England	Angleterre	England	Inghilterra	Inglaterra	英格兰	잉글랜드	英格蘭
+004	スコットランド	Scotland	Écosse	Schottland	Scozia	Escocia	苏格兰	스코틀랜드	蘇格蘭
+005	ウェールズ	Wales	Pays de Galles	Wales	Galles	Gales	威尔士	웨일즈	威爾斯
+006	北アイルランド	Northern Ireland	Irlande du Nord	Nordirland	Irlanda del Nord	Irlanda del Norte	北爱尔兰	북아일랜드	北愛爾蘭

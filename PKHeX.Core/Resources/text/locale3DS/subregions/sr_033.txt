@@ -1,0 +1,19 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	フランシスコ・モラサン	Francisco Morazán	Francisco Morazán	Francisco Morazán	Francisco Morazán	Francisco Morazán	弗朗西斯科-莫拉桑省	프란시스코모라산	弗朗西斯科-莫拉桑省
+003	アトランティダ	Atlántida	Atlántida	Atlántida	Atlántida	Atlántida	阿特兰蒂达省	아틀란티다	阿特蘭蒂達省
+004	チョルテカ	Choluteca	Choluteca	Choluteca	Choluteca	Choluteca	乔卢特卡省	촐루테카	喬盧特卡省
+005	コロン	Colón	Colón	Colón	Colón	Colón	科隆省	콜론	科隆省
+006	コマヤグア	Comayagua	Comayagua	Comayagua	Comayagua	Comayagua	科马亚瓜省	코마야과	科馬亞瓜省
+007	コパン	Copán	Copán	Copán	Copán	Copán	科潘省	코판	科潘省
+008	コルテス	Cortés	Cortés	Cortés	Cortés	Cortés	科尔特斯省	코르테스	科爾特斯省
+009	エル・パライソ	El Paraíso	El Paraíso	El Paraíso	El Paraíso	El Paraíso	埃尔帕拉伊索省	엘파라이소	埃爾帕拉伊索省
+010	グラシアス・ア・ディオス	Gracias a Dios	Gracias a Dios	Gracias a Dios	Gracias a Dios	Gracias a Dios	格拉西亚斯-阿迪奥斯省	그라시아스아디오스	格拉西亞斯-阿迪奧斯省
+011	インティブカ	Intibucá	Intibucá	Intibucá	Intibucá	Intibucá	因蒂布卡省	인티부카	因蒂布卡省
+012	イスラス・デ・ラ・バイア	Islas de la Bahía	Islas de la Bahía	Islas de la Bahía	Islas de la Bahía	Islas de la Bahía	海湾群岛省	이슬라스데라바이아	海灣羣島省
+013	ラ・パス	La Paz	La Paz	La Paz	La Paz	La Paz	拉巴斯省	라파스	拉巴斯省
+014	レンピラ	Lempira	Lempira	Lempira	Lempira	Lempira	伦皮拉省	렘피라	倫皮拉省
+015	オコテペケ	Ocotepeque	Ocotepeque	Ocotepeque	Ocotepeque	Ocotepeque	奥科特佩克省	오코테페케	奧科特佩克省
+016	オランチョ	Olancho	Olancho	Olancho	Olancho	Olancho	奥兰乔省	올란초	奧蘭喬省
+017	サンタ・バルバラ	Santa Bárbara	Santa Bárbara	Santa Bárbara	Santa Bárbara	Santa Bárbara	圣巴巴拉省	산타바르바라	聖巴巴拉省
+018	バジェ	Valle	Valle	Valle	Valle	Valle	山谷省	바예	山谷省
+019	ヨロ	Yoro	Yoro	Yoro	Yoro	Yoro	约罗省	요로	約羅省

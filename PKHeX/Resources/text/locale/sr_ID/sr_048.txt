@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,タークス・カイコス諸島,Turks and Caicos Islands,Îles Turques-et-Caïques,Turks- und Caicosinseln,Isole Turks e Caicos,Islas Turcas y Caicos,特克斯和凯科斯群岛,터크스 케이커스 제도,

@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,マン島,Isle of Man,Île de Man,Isle of Man,Isola di Man,Isla de Man,马恩岛,맨 섬,

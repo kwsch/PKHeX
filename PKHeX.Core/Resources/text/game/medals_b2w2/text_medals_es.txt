@@ -1,0 +1,255 @@
+Primer Paso
+Finalista
+Aspirante
+Profesional
+Maestría
+Leyenda
+Gurú de las Insignias
+Paseante
+Excursionista
+Nómada
+Trotamundos
+Cronista Novel
+Cronista Habitual
+Cronista Tenaz
+Cronista Eminente
+Fan de Centro Pokémon
+Primeras Pistas
+Todas las Pistas
+Curiosidad Artística
+Ciclista Novel
+Ciclista Ocasional
+Ciclista Habitual
+Ciclista Profesional
+Debut Pesca
+Buena Pesca
+Superpesca
+As de la Pesca
+Colección Normal
+Colección Fuego
+Colección Agua
+Colección Eléctrico
+Colección Planta
+Colección Hielo
+Colección Lucha
+Colección Veneno
+Colección Tierra
+Colección Volador
+Colección Psíquico
+Colección Bicho
+Colección Roca
+Colección Fantasma
+Colección Dragón
+Colección Siniestro
+Colección Acero
+Colección Teselia
+Colección Nacional
+Caja 30
+Caja 120
+Caja 360
+Caja a Tope
+Captura Masiva
+Sed Insaciable
+Bebida Extra
+Evolución Incipiente
+Evolución Prometedora
+Evolución Magistral
+Evolución Suprema
+Piloto Magistral
+Empujarrocas
+Curiosidad Banal
+Estreno del Zahorí
+Aprendiz del Zahorí
+Profesional del Zahorí
+As del Zahorí
+Inventamotes
+Caja Tonta
+Cliente Regular
+Cliente Comedido
+Cliente Desprendido
+Cliente Millonario
+Cliente Multimillonario
+Cliente Sabio
+Hogar, Dulce Hogar
+Primer Encuentro
+30 Conocidos
+100 Conocidos
+1000 Conocidos
+Poder Regalo +
+Poder Regalo ++
+Poder Regalo +++
+Poder Regalo MAX
+Cabezada
+Siesta
+Primer Sueño
+Sueño Profundo
+Alma Exploradora
+Huevo I
+Huevo X
+Huevo L
+Huevo C
+Viva la Guardería
+Paleontología
+Corazón Puro
+Color de la Suerte
+Cazapokérus
+Cabecilla Porcelana
+Entusiasta de Trenes
+Avistamiento Wailord
+Fotorrecuerdo
+Fan de la Mecánica
+Submarinista
+Prismas de Hielo
+Entusiasta de Puentes
+Teselia Entera
+Espíritu Aventurero
+Cinturón Amarillo
+Cinturón Verde
+Cinturón Azul
+Cinturón Negro
+Debut en Combate
+Afición al Combate
+Pericia en Combate
+Maestría en Combate
+Complejo Magikarp
+Inquebrantable
+Acción Fútil
+Eficacia Extrema
+Pase Diario
+Pase Semanal
+Pase Mensual
+Pase Anual
+Exprés Individual
+Exprés Doble
+Exprés Múltiple
+1 Test
+10 Test
+30 Test
+50 Test
+Experiencia Millonaria
+PB de Honor
+Caza Oportuna
+Afición Deportiva
+Crucero Vespertino
+Trofeo Fayenza
+Trofeo Préstamo
+Trofeo Trueque
+Trofeo Teselia
+Trofeo Kanto
+Trofeo Johto
+Trofeo Hoenn
+Trofeo Sinnoh
+Trofeo Líderes
+Trofeo Campeones
+Supertrofeo Préstamo
+Supertrofeo Trueque
+Supertrofeo Tipos
+Mitad Rascacielos
+Ático Rascacielos
+Cavernogal Profundo
+Cavernogal Abismal
+Victorias contra 20
+Victorias contra 50
+Victorias contra 100
+Victorias contra 1000
+Victoria Fácil
+Victoria Difícil
+Tumbajefes Fácil
+Tumbajefes Difícil
+Santiamén Fácil
+Santiamén Difícil
+Espíritu Combativo
+1 Intercambio
+10 Intercambios
+50 Intercambios
+100 Intercambios
+Intercambio Mixto
+Correo Postal
+Portento Artístico
+Artista Amateur
+Artista Revelación
+Estrella en Ciernes
+Ídolo de Musicales
+Gurú de la Moda
+Club de Admiradores
+Primera Amistad
+Cuadrilla
+Pandilla
+Círculo Internacional
+Intercambio Giro
+Fan Compatibilidad
+Gran Compatibilidad
+Vueltas en la Noria
+Guía Novel
+Guía Júnior
+Guía Sénior
+Guía Estrella
+Alma de Emprendedor
+Alma de Comerciante
+Alma de Negociante
+Alma de Magnate
+10 Regalos
+30 Regalos
+50 Regalos
+100 Regalos
+Mi Avenida
+Fan del Minijuego
+Amante del Minijuego
+Fiebre del Minijuego
+Hacha del Minijuego
+50 Globopuntos
+200 Globopuntos
+500 Globopuntos
+1000 Globopuntos
+Estreno Superhéroes
+Superhéroes
+Acción
+Extraterrestres
+Monstruos
+Ciencia Ficción
+Romance
+Fantasía
+Comedia
+Thriller
+Robots
+Terror
+Final Heroico
+Estrella del Celuloide
+Intérprete Sublime
+Taquillazo
+Debut Culto
+Culto Consagrado
+Festigrupo
+Festigentío
+Puntuacién
+Puntuamil
+Festianfitrión 10
+Festianfitrión 50
+Participante Nivel 1
+Participante Nivel 2
+Proeza Nivel 1
+Proeza Nivel 2
+Proeza Nivel 3
+Dulces Sueños
+Primeros Recuerdos
+Buena Memoria
+Espíritu Divertido
+As Normal
+As Fuego
+As Agua
+As Eléctrico
+As Planta
+As Hielo
+As Lucha
+As Veneno
+As Tierra
+As Volador
+As Psíquico
+As Bicho
+As Roca
+As Fantasma
+As Dragón
+As Siniestro
+As Acero
+Victoria en Solitario
+Espíritu Desafiante

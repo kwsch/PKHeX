@@ -1,0 +1,13 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ノールト・ホラント州	North Holland	Hollande-Septentrionale	Nordholland	Olanda Settentrionale	Holanda Septentrional	北荷兰省	노르트홀란트 주	北荷蘭省
+003	ドレンテ州	Drenthe	Drenthe	Drenthe	Drenthe	Drente	德伦特省	드렌터 주	德倫特省
+004	フレボラント州	Flevoland	Flevoland	Flevoland	Flevoland	Flevoland	弗莱福兰省	플레볼란트 주	弗萊福蘭省
+005	フリースラント州	Friesland	Frise	Friesland	Frisia	Frisia	弗里斯兰省	프리슬란트 주	弗裏斯蘭省
+006	ヘルデンラント州	Gelderland	Gueldre	Gelderland	Gheldria	Güeldres	海尔德兰省	헬데를란트 주	海爾德蘭省
+007	フローニンゲン州	Groningen	Groningue	Groningen	Groninga	Groninga	格罗宁根省	흐로닝언 주	格羅寧根省
+008	リンビュルフ州	Limburg	Limbourg	Limburg	Limburgo	Limburgo	林堡省	림뷔르흐 주	林堡省
+009	ノールト・ブラバント州	North Brabant	Brabant-Septentrional	Nordbrabant	Brabante Settentrionale	Brabante Septentrional	北布拉班特省	노르트브라반트 주	北布拉班特省
+010	オーベルアイセル州	Overijssel	Overijssel	Overijssel	Overijssel	Overijssel	上艾瑟尔省	오버레이설 주	上艾瑟爾省
+011	ゾイト・ホラント州	South Holland	Hollande-Méridionale	Südholland	Olanda Meridionale	Holanda Meridional	南荷兰省	자위트홀란트 주	南荷蘭省
+012	ユトレヒト州	Utrecht	Utrecht	Utrecht	Utrecht	Utrecht	乌得勒支省	위트레흐트 주	烏得勒支省
+013	ゼーラント州	Zeeland	Zélande	Zeeland	Zelanda	Zelanda	泽兰省	제일란트 주	澤蘭省

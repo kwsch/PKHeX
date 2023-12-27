@@ -1,0 +1,1514 @@
+40	m	Don't spawn Bulbasaur's Pokéball in Oak's Lab
+41	m	Don't spawn Squirtle's Pokéball in Oak's Lab
+42	m	Don't spawn Charmander's Pokéball in Oak's Lab
+43	m	Don't spawn Prof. Oak in his Lab
+44	m	Don't spawn Prof. Oak in Pallet Town
+45	m	Don't spawn Blue in Oak's Lab
+46	m	Don't spawn boy near east entrance of Pewter City
+47	m	Don't spawn Dome Fossil in Mt. Moon
+48	m	Don't spawn Helix Fossil in Mt. Moon
+49	m	Don't spawn Team Rocket Grunt on Route 24
+50	m	Don't spawn Bill (Clefairy Form) in his house
+51	m	Don't spawn Bill in his house
+52	m	Don't spawn Mr. Fuji in Pokémon Tower
+53	m	Don't spawn Mr. Fuji in his house
+54	m	Don't spawn Lift Key in Rocket Hideout
+55	m	Don't spawn Silph Scope in Rocket Hideout
+56	m	Don't spawn Giovanni in Rocket Hideout
+57	m	Don't spawn Map on table in Blue's house
+58	m	Don't spawn Pokédexes on desk in Oak's Lab
+59	m	Don't spawn Team Rocket Grunt in Cerulean City
+60	m	Don't spawn Blue in Cerulean City
+
+62	m	Don't spawn Team Rocket in Saffron City
+63	m	Don't spawn residents in Saffron City
+64	m	Don't spawn West Boulder in Seafoam Islands 1F
+65	m	Don't spawn East Boulder in Seafoam Islands 1F
+66	m	Don't spawn West Boulder in Seafoam Islands B1F
+67	m	Don't spawn East Boulder in Seafoam Islands B1F
+68	m	Don't spawn West Boulder in Seafoam Islands B2F
+69	m	Don't spawn East Boulder in Seafoam Islands B2F
+70	m	Don't spawn West Water Boulder in Seafoam Islands B3F
+71	m	Don't spawn East Water Boulder in Seafoam Islands B3F
+72	m	Don't spawn Boulder 1 in Seafoam Islands B3F
+73	m	Don't spawn Boulder 2 in Seafoam Islands B3F
+74	m	Don't spawn Boulder 3 in Seafoam Islands B3F
+75	m	Don't spawn Boulder 4 in Seafoam Islands B3F
+76	m	Don't spawn West Boulder in Seafoam Islands B4F
+77	m	Don't spawn East Boulder in Seafoam Islands B4F
+78	m	Don't spawn Blue in Silph Co.
+79	m	Don't spawn Blue on Route 22
+80	m	Don't spawn man that leads to museum in Pewter City
+81	m	Don't spawn Blue in Pokémon Tower
+82	m	Don't spawn Moltres on Mt. Ember
+83	m	Don't spawn Team Rocket in Silph Co.
+84	m	Don't spawn Relaxo on Route 12
+85	m	Don't spawn Giovanni in Viridian Gym
+
+87	m	Don't spawn Eevee Ball in Celadon Mansion
+88	m	Don't spawn boulder in Victory Road 2F
+89	m	Don't spawn boulder in Victory Road 3F
+
+91	m	Don't spawn Team Rocket Grunt in Rocket Game Corner
+92	m	Don't spawn man infront of Cerulean Cave
+93	m	Don't spawn Zapdos in Power Plant
+94	m	Don't spawn Team Rocket Grunt (1) in Pokémon Tower
+95	m	Don't spawn Rocket Grunts and Silph Co. employee in Celadon City
+96	m	Don't spawn Hitmonlee Ball in Fighting Dojo
+97	m	Don't spawn Hitmonchan Ball in Fighting Dojo
+98	m	Don't spawn Bill on Cinnabar Island
+
+107	m	Don't spawn Seagallop ship on Cinnabar Island
+108	m	Don't spawn Black Belt in Trainer Fan Club
+109	m	Don't spawn Bird Keeper in Trainer Fan Club
+110	m	Don't spawn woman in Trainer Fan Club
+111	m	Don't spawn Beauty in Trainer Fan Club
+112	m	Don't spawn Mystery Gift guy in Pokémon Center 2F
+113	m	Don't spawn Bill on One Island
+114	m	Don't spawn Bill in One Island Pokémon Center
+115	m	Don't spawn Celio in One Island Pokémon Center
+116	m	Don't spawn Biker in Joyful Game Corner
+117	m	Don't spawn Lostelle in Joyful Game Corner
+118	m	Don't spawn Lostelle in her house
+
+121	m	Don't spawn Bikers on Three Island
+122	m	Don't spawn Lostelle in Berry Forest
+123	m	Don't spawn girl near shop on Two Island
+124	m	Don't spawn Beauty on Two Island
+125	m	Don't spawn PokéManiac on Two Island
+126	m	Don't spawn men on Three Island
+
+128	m	Don't spawn Relaxo on Route 16
+129	m	Don't spawn Mewtwo in Cerulean Cave
+130	m	Don't spawn Articuno in Seafoam Islands
+131	m	Don't spawn Team Rocket Grunt (2) in Pokémon Tower
+132	m	Don't spawn Team Rocket Grunt (3) in Pokémon Tower
+133	m	Don't spawn Electrode (south) in Power Plant
+134	m	Don't spawn Electrode (north) in Power Plant
+135	m	Don't spawn S.S. Anne in S.S. Anne Port
+136	m	Don't spawn Team Rocket in Rocket Warehouse/Five Isle Meadow/Outcast Island
+137	m	Don't spawn Team Rocket Grunts on Mt. Ember
+138	m	Don't spawn Ruby in Mt. Ember
+139	m	Don't spawn Lorelei in Icefall Cave
+140	m	Don't spawn Lorelei in her house
+141	m	Don't spawn Team Rocket Grunts in Icefall Cave
+142	m	Don't spawn Scientist in Ruin Valley
+143	m	Don't spawn Sapphire in Dotte Hole
+144	m	Don't spawn Scientist in Dotted Hole
+145	m	Don't spawn Biker Gang Boss on Three Island
+146	m	Don't spawn Prof. Oak's Aide near east entrance of Pewter City
+147	m	Don't spawn Lady Selphy in Lost Cave
+148	m	Don't spawn Lady Selphy in Resort Gorgeous
+149	m	Don't spawn Lady Selphy in her house
+150	m	Don't spawn Selphy's butler in Selphy's house
+151	m	Don't spawn Blue on Four Island
+152	m	Don't spawn Blue in Six Island Pokémon Center
+
+154	m	Don't spawn Triangle on Birth Island
+155	m	Don't spawn Lugia in Navel Rock
+156	m	Don't spawn Ho-Oh on Navel Rock
+157	m	Don't spawn certain Fame Checker NPCs
+158	m	Don't spawn Pokémon Journal (invisible) in Celadon Mansion
+159	m	Don't spawn Pokémon Journal (invisible) in Warden's Home
+160	m	Don't spawn Pokémon Journal (invisible) in Vermilion Pokémon Center
+161	m	Don't spawn Prof. Oak's Aide in Vermilion City
+162	m	Don't spawn Bill in Cinnabar Island Pokémon Center
+163	m	Don't spawn Blue on Indigo Plateau
+164	m	Don't spawn Prof. Oak on Indigo Plateau
+165	m	Don't spawn Meowth Doll in Lorelei's house
+166	m	Don't spawn Chansey Doll in Lorelei's house
+167	m	Don't spawn Nidoran♀ Doll in Lorelei's house
+168	m	Don't spawn Jigglypuff Doll in Lorelei's house
+169	m	Don't spawn Nidoran♂ Doll in Lorelei's house
+170	m	Don't spawn Fearow Doll in Lorelei's house
+171	m	Don't spawn Pidgeot Doll in Lorelei's house
+172	m	Don't spawn Lapras Doll in Lorelei's house
+173	m	Don't spawn Team Rocket in Mt. Moon/Rocket Hideout
+174	m	Don't spawn Pokémon Journal (invisible) in Saffron City Pokémon Center
+
+340	i	Ether on Route 2 found
+341	i	Paralyz Heal on Route 2 found
+342	i	Poké Ball in Viridian Forest found
+343	i	Antidote in Viridian Forest found
+344	i	Potion in Viridian Forest found
+345	i	Paralyz Heal in Mt. Moon found
+346	i	TM09 in Mt. Moon found
+347	i	Potion in Mt. Moon found
+348	i	Rare Candy in Mt. Moon found
+349	i	Escape Rope in Mt. Moon found
+350	i	Moon Stone in Mt. Moon found
+351	i	Star Piece in Mt. Moon found
+352	i	TM46 in Mt. Moon found
+353	i	TM05 on Route 4 found
+354	i	TM45 on Route 24 found
+355	i	TM43 on Route 25 found
+356	i	TM31 on S.S. Anne found
+357	i	Stardust on S.S. Anne found
+358	i	X Attack on S.S. Anne found
+359	i	TM44 on S.S. Anne found
+360	i	Ether on S.S. Anne found
+361	i	Super Potion on S.S. Anne found
+362	i	Great Ball on S.S. Anne found
+363	i	TM40 on Route 9 found
+364	i	Escape Rope in Rocket Hideout found
+365	i	Hyper Potion in Rocket Hideout found
+366	i	X Speed in Rocket Hideout found
+367	i	Moon Stone in Rocket Hideout found
+368	i	TM12 in Rocket Hideout found
+369	i	Super Potion in Rocket Hideout found
+370	i	Rare Candy in Rocket Hideout found
+371	i	TM21 in Rocket Hideout found
+372	i	TM49 in Rocket Hideout found
+373	i	Max Ether in Rocket Hideout found
+374	i	Calcium in Rocket Hideout found
+375	i	Escape Rope in Pokémon Tower found
+376	i	Elixir in Pokémon Tower found
+377	i	Awakening in Pokémon Tower found
+378	i	Great Ball in Pokémon Tower found
+379	i	Nugget in Pokémon Tower found
+380	i	Rare Candy in Pokémon Tower found
+381	i	X Accuracy in Pokémon Tower found
+382	i	TM48 on Route 12 found
+383	i	Iron on Route 12 found
+384	i	TM18 on Route 15 found
+385	i	Nugget in Safari Zone found
+386	i	Max Potion in Safari Zone found
+387	i	Full Restore in Safari Zone found
+388	i	TM11 in Safari Zone found
+389	i	Leaf Stone in Safari Zone found
+390	i	Protein in Safari Zone found
+391	i	TM47 in Safari Zone found
+392	i	TM32 in Safari Zone found
+393	i	Gold Teeth found
+394	i	Max Potion in Safari Zone found
+395	i	Max Revive in Safari Zone found
+396	i	Hyper Potion in Silph Co. found
+397	i	Max Revive in Silph Co. found
+398	i	Escape Rope in Silph Co. found
+399	i	Full Heal in Silph Co. found
+400	i	Protein in Silph Co. found
+401	i	TM01 in Silph Co. found
+402	i	Card Key in Silph Co. found
+403	i	HP Up in Silph Co. found
+404	i	X Special in Silph Co. found
+405	i	Calcium in Silph Co. found
+406	i	TM08 in Silph Co. found
+407	i	Carbos in Silph Co. found
+408	i	Ultra Ball in Silph Co. found
+409	i	Rare Candy in Silph Co. found
+410	i	Max Potion in Power Plant found
+411	i	TM17 in Power Plant found
+412	i	TM25 in Power Plant found
+413	i	Thunder Stone in Power Plant found
+414	i	Elixir in Power Plant found
+415	i	Carbos in Pokémon Mansion found
+416	i	Escape Rope in Pokémon Mansion found
+417	i	Calcium in Pokémon Mansion found
+418	i	Max Potion in Pokémon Mansion found
+419	i	Iron in Pokémon Mansion found
+420	i	TM14 in Pokémon Mansion found
+421	i	Full Restore in Pokémon Mansion found
+
+423	i	TM22 in Pokémon Mansion found
+424	i	Secret Key in Pokémon Mansion found
+425	i	Rare Candy in Victory Road found
+426	i	TM02 in Victory Road found
+427	i	Guard Spec. in Victory Road found
+428	i	TM07 in Victory Road found
+429	i	Full Heal in Victory Road found
+430	i	TM37 in Victory Road found
+431	i	Max Revive in Victory Road found
+432	i	TM50 in Victory Road found
+433	i	Max Elixir in Cerulean Cave found
+434	i	Nugget in Cerulean Cave found
+435	i	Full Restore in Cerulean Cave 1F found
+436	i	Full Restore in Cerulean Cave 2F found
+437	i	PP Up in Cerulean Cave found
+438	i	Ultra Ball in Cerulean Cave 2F found
+439	i	Max Revive in Cerulean Cave found
+440	i	Ultra Ball in Cerulean Cave B1F found
+441	i	Rare Candy in Fuchsia City found
+442	i	Revive on Two Island found
+443	i	Zinc on Three Island found
+
+446	i	Potion (southeast) in Viridian Forest found
+447	i	Revive in Mt. Moon found
+448	i	Antidote in Mt. Moon found
+449	i	X Defend on Route 11 found
+450	i	Burn Heal on Route 9 found
+451	i	Repel in Rock Tunnel found
+452	i	Pearl in Rock Tunnel found
+453	i	Escape Rope in Rock Tunnel found
+454	i	Revive in Rock Tunnel found
+455	i	Max Ether in Rock Tunnel found
+456	i	Iron in Silph Co. found
+457	i	Zinc in Silph Co. found
+458	i	Protein in Pokémon Mansion found
+459	i	Zinc in Pokémon Mansion found
+460	i	HP Up in Pokémon Mansion found
+461	i	Potion in Viridian City found
+462	i	Great Ball on Route 11 found
+463	i	Awakening on Route 11 found
+464	i	Cleanse Tag in Pokémon Tower found
+465	i	Ether in Celadon City
+466	i	BlackGlasses in Rocket Hideout found
+467	i	Quick Claw in Safari Zone found
+468	i	Ice Heal in Seafoam Islands found
+469	i	Water Stone in Seafoam Islands found
+470	i	Revive in Seafoam Islands found
+471	i	Big Pearl in Seafoam Islands found
+472	i	Ultra Ball in Seafoam Islands found
+473	i	Star Piece on Four Island found
+474	i	Stardust on Four Island found
+475	i	Ether on Kindle Road found
+476	i	Max Repel on Kindle Road found
+477	i	Carbos on Kindle Road found
+478	i	Max Potion on Five Isle Meadow found
+479	i	PP Up on Five Isle Meadow found
+480	i	Metal Coat on Memorial Pillar found
+481	i	PP Up on Outcast Island found
+482	i	Elixir on Water Path found
+483	i	Dragon Scale on Water Path found
+484	i	Full Restore in Ruin Valley found
+485	i	HP Up in Ruin Valley found
+486	i	Sun Stone in Ruin Valley found
+487	i	King's Rock in Sevault Canyon found
+488	i	Max Elixir in Sevault Canyon found
+489	i	Nugget in Sevault Canyon found
+490	i	Max Ether in Berry Forest found
+491	i	Full Heal in Berry Forest found
+492	i	Max Elixir in Berry Forest found
+493	i	Ultra Ball on Mt. Ember found
+494	i	Fire Stone on Mt. Ember found
+495	i	Dire Hit on Mt. Ember found
+496	i	Ultra Ball in Icefall Cave found
+497	i	HM07 found
+498	i	Full Restore in Icefall Cave found
+499	i	NeverMeltIce in Icefall Cave found
+500	i	Big Pearl in Rocket Warehouse found
+501	i	TM36 in Rocket Warehouse found
+502	i	Pearl in Rocket Warehouse found
+503	i	Up-Grade in Rocket Warehouse found
+504	i	Silk Scarf in Lost Cave found
+505	i	Lax Incense in Lost Cave found
+506	i	Sea Incense in Lost Cave found
+507	i	Max Revive in Lost Cave found
+508	i	Rare Candy in Lost Cave found
+509	i	Lucky Punch in Sevault Canyon found
+510	i	TM41 in Silph Co. found
+
+560	m	Received Potion from PokéMart employee on Route 1
+561	m	TM34 received
+562	m	Change Text of Fossil Nerd
+563	m	Change Text of Bill
+564	m	Change position of Police Officer and girl with Slowbro in Cerulean City and can board S.S. Anne
+565	m	???
+566	m	TM42 on Memorial Pillar received
+567	m	Received HM01 Cut
+568	m	Received HM02 Fly
+569	m	Received HM03 Surf
+570	m	Received HM04 Strength
+571	m	Received HM05 Flash
+572	m	Change text of boy in Mr. Fuji's house
+573	m	Received Poké Flute
+
+575	m	Change text of robbed man in Cerulean City
+576	m	Old Rod received
+577	m	Received Bike Voucher
+
+579	m	Coin Case received
+580	m	Good Rod received
+581	m	TM29 in Saffron City received
+582	m	Received Lapras
+583 m   Poké Balls from Prof. Oak received (after Route 22 Rival battle, no Poké Balls in Bag, no Pokémon catched)
+584	m	Traded on Route 2
+585	m	Purchased Magikarp
+586	m	Traded in Cerulean City
+587	m	Traded in Underground Tunnel
+
+589	m	Traded in Vermilion City
+590	m	TM38 from Blaine received
+591 m	Change text of Prof. Oak (after Poké Balls received)
+592	m	Master Ball from Silph Co. President received
+593	m	Traded on Route 11
+594	m	Received Itemfinder (Oak's Aide, Route 11)
+
+596	m	Received TM39 from Brock
+597	m	Super Rod received
+598	m	Received Exp. Share (Oak's Aide, Route 15)
+599	m	Traded on Route 18
+600	m	Change Text of Player's Mom (Let you heal Pokémon)
+601	m	TM06 from Koga received
+
+603	m	TM27 on Route 12 received
+
+606	m	Received Old Amber; Can resurrect Aerodactyl
+
+611	m	Eevee in Celadon Mansion collected
+612	m	Electric Barrier in Vermilion Gym disabled
+613	m	First Door in Cinnabar Gym opened
+614	m	Change position of Old Day-Care Man
+615	m	Second Door in Cinnabar Gym opened
+616	m	Third Door in Cinnabar Gym opened
+617	m	Fourth Door in Cinnabar Gym opened
+618	m	Fifth Door in Cinnabar Gym opened
+619	m	Sixth Door in Cinnabar Gym opened
+620	m	Pokémon Mansion Switch ON
+621	m	Team Rocket Hideout in Rocket Game Corner opened
+622	m	10 Coins in Rocket Game Corner received
+623	m	20 Coins in Rocket Game Corner received
+624	m	20 Coins in Rocket Game Corner received
+625	m	Bicycle received
+626	m	Dome Fossil chosen; Can resurrect Kabuto; Omanyte in Pokémon Zoo
+627	m	Helix Fossil chosen; Can resurrect Omanyte; Kabuto in Pokémon Zoo
+628	m	Traded in Cinnabar Lab (Electrode)
+629	m	Traded in Cinnabar Lab (Tangela)
+630	m	Traded in Cinnabar Lab (Seel)
+
+632	m	Hitmonlee or Hitmonchan taken
+
+634	m	Door (north) in Silph Co. 2F opened
+635	m	Door (south) in Silph Co. 2F opened
+636	m	Door (west) in Silph Co. 3F opened
+637	m	Door (east) in Silph Co. 3F opened
+638	m	Door (west) in Silph Co. 4F opened
+639	m	Door (east) in Silph Co. 4F opened
+640	m	Door (northwest) in Silph Co. 5F opened
+641	m	Door (southwest) in Silph Co. 5F opened
+642	m	Door (east) in Silph Co. 5F opened
+643	m	Door in Silph Co. 6F opened
+644	m	Door (west) in Silph Co. 7F opened
+645	m	Door (northeast) in Silph Co. 7F opened
+646	m	Door (southeast) in Silph Co. 7F opened
+647	m	Door in Silph Co. 8F opened
+648	m	Door (west) in Silph Co. 9F opened
+649	m	Door (south) in Silph Co. 9F opened
+650	m	Door (northeast) in Silph Co. 9F opened
+651	m	Door (southeast) in Silph Co. 9F opened
+652	m	Door in Silph Co. 10F opened
+653	m	Door in Silph Co. 11F opened
+
+656	m	Change text of Braggart on Four Island
+657	m	Sets Pallet Town Girl State to 2
+658	m	VS Seeker received
+659	m	TM19 from Erika received
+660	m	TM33 on Celadon Department Store Rooftop received
+661	m	TM20 on Celadon Department Store Rooftop received
+662	m	TM16 on Celadon Department Store Rooftop received
+663	m	TM03 from Misty received
+664	m	TM26 from Giovanni received
+
+666	m	TM04 from Sabrina received
+667	s	Received Fame Checker
+668 m	Set Magikarp Length Record
+669	m	Change text of shop owner on Two Island
+
+673	m	Change text of certain NPCs because PCs are working again
+
+675	m	Change text of girl in house north of Pokémon Center of Three Island
+
+677	s	Received Lift Key
+678	s	Received Tea
+679	e	Received Aurora Ticket from Mystery Gift
+680	e	Received Mystic Ticket from Mystery Gift
+
+699	m	Powder Jar received
+700	r	Mewtwo caught/defeated
+701	r	Moltres caught/defeated
+702	r	Articuno caught/defeated
+703	r	Zapdos caught/defeated
+704	*	Used Move Tutor in Victory Road (Double-Edge)
+705	*	Used Move Tutor in Silph Co. (Thunder Wave)
+706	*	Used Move Tutor in Rock Tunnel (Rock Slide)
+707	*	Used Move Tutor in Mt. Ember (Explosion)
+708	*	Used Move Tutor on Route 4 (Mega Punch)
+709	*	Used Move Tutor on Route 4 (Mega Kick)
+710	*	Used Move Tutor in Viridian City (Dream Eater)
+711	*	Used Move Tutor in Celadon City (Soft-Boiled)
+712	*	Used Move Tutor in Fuchsia City (Substitute)
+713	*	Used Move Tutor on Seven Island (Swords Dance)
+714	*	Used Move Tutor in Pewter City (Seismic Toss)
+715	*	Used Move Tutor in Celadon Department Store (Counter)
+716	*	Used Move Tutor on Cinnabar Island (Metronome)
+717	*	Used Move Tutor in Saffron City (Mimic)
+718	*	Used Move Tutor on Four Island (Body Slam)
+719	m   Is in Prof. Oak's Lab (for Help System)
+720	r	Electrode (south) in Power Plant defeated/ran/caught
+721	r	Electrode (north) in Power Plant defeated/ran/caught
+722	m	Boulder Puzzle in Seafoam Islands to south exit solved
+723	m	Boulder Puzzle to Articuno solved
+724	m	Change text of Lorelei in her house
+725	s	Team Rocket driven off from Sevii Islands
+726	s	Rocket Warehouse Door Opened
+727	m   Change text of Tectonix owner (no room for TM42)
+728	s	Sapphire in Dotte Hole stolen by Scientist/Can enter Rocket Warehouse
+729	m	Set Heracross Length Record
+730	m	Togepi Egg from Gentleman in Water Labyrinth received
+731	m	Change text of Gentleman in Water Labyrinth
+732	s	Sapphire from Scientist received
+733	s	Ruby in Mt. Ember found
+734	*	Used Move Tutor at Cape Brink (Frenzy Plant)
+735	*	Used Move Tutor at Cape Brink (Blast Burn)
+736	*	Used Move Tutor at Cape Brink (Hydro Cannon)
+737	*	Cape Brink Move Tutor taught all 3 Moves
+738	m	Nugget in Three Isle Path received
+739	s	Dotted Hole Door Opened
+740	r	Captured Deoxys
+
+748	*	Kabuto from Dome Fossil resurrected
+749	*	Omanyte from Helix Fossil resurrected
+750	*	Aerodactyl from Old Amber resurrected
+751	m	Received HM06 Rock Smash
+752	m	Shown Mystic Ticket
+753	m	Shown Aurora Ticket
+754	r	Captured Lugia
+755	r	Captured Ho-Oh
+756	s	Shown Prof. Oak the complete National Dex
+757	r	Defeated Lugia
+758	r	Defeated Ho-Oh
+759	r	Defeated Deoxys
+760	m   Change text of old woman in Celadon Mansion (after HoF)
+761	s	Spoke to Prof. Oak's Aide in Vermilion City
+762	*	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
+763	s	Gave Meteorite and received Moon Stone from Lostelle's daddy
+764	*	Full Restore from man for driving off bikers on Three Island received
+765	*	Received Amulet Coin (Oak's Aide, Route 16)
+
+767	m	Don't change color of text when rated over PC
+
+1000	h	Potion (hidden) in Viridian Forest found
+1001	h	Antidote (hidden) in Viridian Forest found
+1002	h	Moon Stone (hidden) in Mt. Moon found
+1003	h	Ether (hidden) in Mt. Moon found
+1004	h	Elixir (hidden) on Route 25 found
+1005	h	Ether (hidden) on Route 25 found
+1006	h	Ether (hidden) on Route 9 found
+
+1008	h	Hyper Potion (hidden) on S.S. Anne found
+1009	h	Super Potion (hidden) on Route 10 found
+1010	h	Max Ether (hidden) on Route 10 found
+1011	h	PP Up (hidden) in Rocket Hideout found
+1012	h	Nugget (hidden) in Rocket Hideout found
+1013	h	Nest Ball (hidden) in Rocket Hideout found
+1014	h	Big Mushroom (hidden) in Pokémon Tower found
+1015	h	PP Up (hidden) on Route 13 found
+
+1017	h	Rare Candy (hidden) on Route 17 found
+1018	h	Full Restore (hidden) on Route 17 found
+1019	h	PP Up (hidden) on Route 17 found
+1020	h	Max Revive (hidden) on Route 17 found
+1021	h	Max Elixir (hidden) on Route 17 found
+1022	h	Leaf Stone (hidden) in Safari Zone found
+1023	h	Revive (hidden) in Safari Zone found
+1024	h	Elixir (hidden) in Silph Co. found
+1025	h	Max Potion (hidden) in Silph Co. found
+1026	h	Nugget (hidden) in Saffron City found
+1027	h	Max Elixir (hidden) in Power Plant found
+1028	h	Thunder Stone (hidden) in Power Plant found
+1029	h	Nugget (hidden) in Seafoam Islands found
+1030	h	Water Stone (hidden) in Seafoam Islands found
+1031	h	Moon Stone (hidden) in Pokémon Mansion found
+1032	h	Rare Candy (hidden) in Pokémon Mansion found
+1033	h	Elixir (hidden) in Pokémon Mansion found
+1034	h	Full Restore (hidden) on Route 23 found
+1035	h	Ultra Ball (hidden) on Route 23 found
+1036	h	Max Ether (hidden) on Route 23 found
+1037	h	Ultra Ball (hidden) in Victory Road found
+1038	h	Full Restore (hidden) in Victory Road found
+1039	h	Ultra Ball (hidden) in Cerulean Cave found
+
+1041	h	Escape Rope (hidden) on Route 11 found
+1042	h	Hyper Potion (hidden) on Route 12 found
+
+1047	h	PP Up (hidden) in Celadon City found
+1048	h	Max Ether (hidden) in Vermilion City found
+1049	h	Rare Candy (hidden) in Cerulean City found
+1050	h	Great Ball (hidden) on Route 4 found
+1051	h	10 Coins (hidden) in Rocket Game Corner found
+1052	h	10 Coins (hidden) in Rocket Game Corner found
+1053	h	20 Coins (hidden) in Rocket Game Corner found
+1054	h	10 Coins (hidden) in Rocket Game Corner found
+1055	h	10 Coins (hidden) in Rocket Game Corner found
+1056	h	20 Coins (hidden) in Rocket Game Corner found
+1057	h	10 Coins (hidden) in Rocket Game Corner found
+1058	h	10 Coins (hidden) in Rocket Game Corner found
+1059	h	10 Coins (hidden) in Rocket Game Corner found
+1060	h	40 Coins (hidden) in Rocket Game Corner found
+1061	h	100 Coins (hidden) in Rocket Game Corner found
+1062	h	10 Coins (hidden) in Rocket Game Corner found
+1063	h	Cheri Berry (hidden) in Sevault Canyon found
+1064	h	Heart Scale  (hidden, recurring) on Tanoby Ruins found
+1065	h	Heart Scale  (hidden, recurring) on Tanoby Ruins found
+1066	h	Heart Scale  (hidden, recurring) on Tanoby Ruins found
+1067	h	Heart Scale  (hidden, recurring) on Tanoby Ruins found
+1068	h	Nest Ball (hidden) in Rocket Warehouse found
+1069	h	Net Ball (hidden) in Rocket Warehouse found
+1070	h	Potion (hidden, recurring) in Underground Path (vertical) found
+1071	h	Antidote (hidden, recurring) in Underground Path (vertical) found
+1072	h	Parlyz Heal (hidden, recurring) in Underground Path (vertical) found
+1073	h	Awakening (hidden, recurring) in Underground Path (vertical) found
+1074	h	Burn Heal (hidden, recurring) in Underground Path (vertical) found
+1075	h	Ice Heal (hidden, recurring) in Underground Path (vertical) found
+1076	h	Ether (hidden, recurring) in Underground Path (vertical) found
+1077	h	Potion (hidden, recurring) in Underground Path (horizontal) found
+1078	h	Antidote (hidden, recurring) in Underground Path (horizontal) found
+1079	h	Parlyz Heal (hidden, recurring) in Underground Path (horizontal) found
+1080	h	Awakening (hidden, recurring) in Underground Path (horizontal) found
+1081	h	Burn Heal (hidden, recurring) in Underground Path (horizontal) found
+1082	h	Ice Heal (hidden, recurring) in Underground Path (horizontal) found
+1083	h	Ether (hidden, recurring) in Underground Path (horizontal) found
+1084	h	Tiny Mushroom (hidden, recurring) in Mt. Moon found
+1085	h	Tiny Mushroom (hidden, recurring) in Mt. Moon found
+1086	h	Tiny Mushroom (hidden, recurring) in Mt. Moon found
+1087	h	Big Mushroom (hidden, recurring) in Mt. Moon found
+1088	h	Big Mushroom (hidden, recurring) in Mt. Moon found
+1089	h	Big Mushroom (hidden, recurring) in Mt. Moon found
+1090	h	Razz Berry (hidden, recurring) in Berry Forest found
+1091	h	Bluk Berry (hidden, recurring) in Berry Forest found
+1092	h	Nanab Berry (hidden, recurring) in Berry Forest found
+1093	h	Wepear Berry (hidden, recurring) in Berry Forest found
+1094	h	Oran Berry (hidden, recurring) in Berry Forest found
+1095	h	Cheri Berry (hidden, recurring) in Berry Forest found
+1096	h	Chesto Berry (hidden, recurring) in Berry Forest found
+1097	h	Pecha Berry (hidden, recurring) in Berry Forest found
+1098	h	Rawst Berry (hidden, recurring) in Berry Forest found
+1099	h	Aspear Berry (hidden, recurring) in Berry Forest found
+1100	h	Persim Berry (hidden, recurring) in Berry Forest found
+1101	h	Pinap Berry (hidden, recurring) in Berry Forest found
+1102	h	Lum Berry (hidden, recurring) in Berry Forest found
+1103	h	Stardust (hidden, recurring) on Treasure Beach found
+1104	h	Stardust (hidden, recurring) on Treasure Beach found
+1105	h	Pearl (hidden, recurring) on Treasure Beach found
+1106	h	Pearl (hidden, recurring) on Treasure Beach found
+1107	h	Ultra Ball (hidden, recurring) on Treasure Beach found
+1108	h	Ultra Ball (hidden, recurring) on Treasure Beach found
+1109	h	Star Piece (hidden, recurring) on Treasure Beach found
+1110	h	Big Pearl (hidden, recurring) on Treasure Beach found
+1111	h	Rare Candy (hidden) on Cape Brink found
+1112	h	Poké Ball (hidden) in Pewter City found
+1113	h	Oran Berry (hidden) on Route 3 found
+1114	h	Persim Berry (hidden) on Route 4 found
+1115	h	Pecha Berry on Route 24 found
+1116	h	Oran Berry (hidden) on Route 25 found
+1117	h	Bluk Berry (hidden) on Route 25 found
+1118	h	Sitrus Berry (hidden) on Route 6 found
+1119	h	Rare Candy (hidden) on Route 6 found
+1120	h	Pecha Berry (hidden) on S.S. Anne found
+1121	h	Cheri Berry (hidden) on S.S. Anne found
+1122	h	Chesto Berry (hidden) on S.S. Anne found
+1123	h	Rare Candy (hidden) on Route 9 found
+
+1125	h	Persim Berry (hidden) on Route 10 found
+1126	h	Cheri Berry (hidden) on Route 10 found
+1127	h	Rawst Berry (hidden) on Route 8 found
+1128	h	Lum Berry (hidden) on Route 8 found
+1129	h	Leppa Berry (hidden) on Route 8 found
+1130	h	Rare Candy (hidden) on Route 12 found
+1131	h	Leftovers on Route 12 found
+1132	h	Leftovers (hidden) on Route 16 found
+1133	h	Max Revive (hidden) in Fuchsia City found
+1134	h	Net Ball (hidden) in Rocket Hideout found
+1135	h	Ultra Ball (hidden) in Silph Co. found
+1136	h	Protein (hidden) in Silph Co. found
+1137	h	Iron (hidden) in Silph Co. found
+1138	h	PP Up (hidden) in Silph Co. found
+1139	h	Carbos (hidden) in Silph Co. found
+1140	h	Zinc (hidden) in Silph Co. found
+1141	h	Nugget (hidden) in Silph Co. found
+1142	h	Calcium (hidden) in Silph Co. found
+1143	h	HP Up (hidden) in Silph Co. found
+1144	h	Revive (hidden) in Silph Co. found
+1145	h	Lum Berry (hidden) on Route 23 found
+1146	h	Sitrus Berry (hidden) on Route 23 found
+1147	h	Aspear Berry (hidden) on Route 23 found
+1148	h	Leppa Berry (hidden) on Route 23 found
+1149	h	Zinc (hidden) on Route 14 found
+1150	h	Chesto Berry (hidden) on Route 9 found
+1151	h	Nanab Berry (hidden) on Route 10 found
+1152	h	Wepear Berry (hidden) on Route 7 found
+1153	h	Stardust (hidden, recurring) on Route 20 found
+1154	h	Pearl (hidden, recurring) on Route 21 found
+1155	h	Max Elixir (hidden) on Route 23 found
+1156	h	Razz Berry (hidden) on Route 4 found
+1157	h	Pinap Berry (hidden) on Route 14 found
+1158	h	Fire Stone (hidden) on Mt. Ember found
+1159	h	Soothe Bell (hidden) in Pokémon Tower found
+1160	h   Sacred Ash (hidden) on Navel Rock found
+1161	h	PP Max (hidden) on Cape Brink found
+1162	h	Ultra Ball (hidden) on Mt. Ember found
+1163	h	Nugget (hidden) in Three Isle Path found
+1164	h	PP Up (hidden) on Three Island found
+1165	h	Max Repel (hidden) on Bond Bridge found
+1166	h	Pearl (hidden, recurring) on Bond Bridge found
+1167	h	Stardust (hidden, recurring) on Bond Bridge found
+1168	h	Pearl (hidden, recurring) on Four Island found
+1169	h	Ultra Ball (hidden, recurring) on Four Island found
+1170	h	Big Pearl (hidden, recurring) on Memorial Pillar found
+1171	h	Razz Berry (hidden) on Memorial Pillar found
+1172	h	Sitrus Berry (hidden) on Memorial Pillar found
+1173	h	Bluk Berry (hidden) on Memorial Pillar found
+1174	h	Nest Ball (hidden, recurring) in Resort Gorgeous found
+1175	h	Stardust (hidden, recurring) in Resort Gorgeous found
+1176	h	Star Piece (hidden, recurring) in Resort Gorgeous found
+1177	h	Stardust (hidden, recurring) in Resort Gorgeous found
+1178	h	Star Piece (hidden, recurring) on Outcast Island found
+1179	h	Net Ball (hidden, recurring) on Outcast Island found
+1180	h	Ultra Ball (hidden, recurring) on Green Path found
+1181	h	Aspear Berry (hidden) on Water Path found
+1182	h	Oran Berry (hidden) on Water Path found
+1183	h	Pinap Berry (hidden) on Water Path found
+1184	h	Leppa Berry on Six Island found
+1185	h	Big Pearl (hidden, recurring) outside of Trainer Tower found
+1186	h	Pearl (hidden, recurring) outside of Trainer Tower found
+1187	h	Nanab Berry (hidden) outside of Trainer Tower found
+1188	h	Rawst Berry (hidden) in Canyon Entrance found
+1189	h   Macho Brace (hidden) in Viridian Gym found
+1190	h	Lava Cookie (hidden) at S.S. Anne Port found
+
+1200	m	Change Text of Gym Guide in Pewter City Gym
+1201	m	Change Text of Gym Guide in Cerulean Gym
+1202	m	Change Text of Gym Guide in Vermilion Gym
+1203	m	Change Text of Gym Guide in Celadon Gym
+1204	m	Change Text of Gym Guide in Fuchsia Gym
+1205	m	Change Text of Gym Guide in Saffron Gym
+1206	m	Change Text of Gym Guide in Cinnabar Gym
+1207	m	Change Text of Gym Guide in Viridian Gym
+1208	m	Door in Lorelei's room open/Lorelei defeated
+1209	m	Door in Bruno's room open/Bruno defeated
+1210	m	Door in Agatha's room open/Agatha defeated
+1211	m	Door in Lance's room open/Lance defeated
+1212	m	Door in Blue's room open/Blue defeated
+
+1281	t	(Unused) Aqua Leader defeated
+1282	t	(Unused) Team Aqua (Male) defeated
+1283	t	(Unused) Team Aqua (Female) defeated
+1284	t	(Unused) Aroma Lady defeated
+1285	t	(Unused) Ruin Maniac defeated
+1286	t	(Unused) Interviewer defeated
+1287	t	(Unused) Tuber (Female) defeated
+1288	t	(Unused) Tuber (Male) defeated
+1289	t	(Unused) Cooltrainer (Male) defeated
+1290	t	(Unused) Cooltrainer (Female) defeated
+1291	t	(Unused) Hex Maniac defeated
+1292	t	(Unused) Lady defeated
+1293	t	(Unused) Beauty defeated
+1294	t	(Unused) Rich Boy defeated
+1295	t	(Unused) PokéManiac defeated
+1296	t	(Unused) Swimmer♂ defeated
+1297	t	(Unused) Black Belt defeated
+1298	t	(Unused) Guitarist defeated
+1299	t	(Unused) Kindler defeated
+1300	t	(Unused) Camper (Male) defeated
+1301	t	(Unused) Bug Maniac defeated
+1302	t	(Unused) Psychic (Male) defeated
+1303	t	(Unused) Psychic (Female) defeated
+1304	t	(Unused) Gentleman defeated
+1305	t	(Unused) Elite Four Sidney defeated
+1306	t	(Unused) Elite Four Phoebe defeated
+1307	t	(Unused) Leader Roxanne defeated
+1308	t	(Unused) Leader Brawly defeated
+1309	t	(Unused) Leader Tate&Liza defeated
+1310	t	(Unused) School Kid (Male) defeated
+1311	t	(Unused) School Kid (Female) defeated
+1312	t	(Unused) Sr. and Jr. defeated
+1313	t	(Unused) Pokéfan (Male) defeated
+1314	t	(Unused) Pokéfan (Female) defeated
+1315	t	(Unused) Expert defeated
+1316	t	(Unused) Expert defeated
+1317	t	(Unused) Youngster defeated
+1318	t	(Unused) Champion defeated
+1319	t	(Unused) Fisherman defeated
+1320	t	(Unused) Triathlete (Male, Bike) defeated
+1321	t	(Unused) Triathlete (Female, Bike) defeated
+1322	t	(Unused) Triathlete (Male, Walking) defeated
+1323	t	(Unused) Triathlete (Female, Walking) defeated
+1324	t	(Unused) Triathlete (Male, Swimming) defeated
+1325	t	(Unused) Triathlete (Female, Swimming) defeated
+1326	t	(Unused) Dragon Tamer defeated
+1327	t	(Unused) Bird Keeper defeated
+1328	t	(Unused) Ninja Boy defeated
+1329	t	(Unused) Battle Girl defeated
+1330	t	(Unused) Parasol Lady defeated
+1331	t	(Unused) Swimmer♀ defeated
+1332	t	(Unused) Camper (Female) defeated
+1333	t	(Unused) Twins defeated
+1334	t	(Unused) Sailor defeated
+1335	t	(Unused) Boarder defeated
+1336	t	(Unused) Boarder defeated
+1337	t	(Unused) Collector defeated
+1338	t	(Unused) Pokémon Trainer (Wally) defeated
+1339	t	(Unused) Pokémon Trainer (Brendan) defeated
+1340	t	(Unused) Pokémon Trainer (Brendan) defeated
+1341	t	(Unused) Pokémon Trainer (Brendan) defeated
+1342	t	(Unused) Pokémon Trainer (May) defeated
+1343	t	(Unused) Pokémon Trainer (May) defeated
+1344	t	(Unused) Pokémon Trainer (May) defeated
+1345	t	(Unused) Pokémon Breeder (Male) defeated
+1346	t	(Unused) Pokémon Breeder (Female) defeated
+1347	t	(Unused) Pokémon Ranger (Male) defeated
+1348	t	(Unused) Pokémon Ranger (Female) defeated
+1349	t	(Unused) Magma Leader defeated
+1350	t	(Unused) Team Magma (Male) defeated
+1351	t	(Unused) Team Magma (Female) defeated
+1352	t	(Unused) Lass defeated
+1353	t	(Unused) Bug Catcher defeated
+1354	t	(Unused) Hiker defeated
+1355	t	(Unused) Young Couple defeated
+1356	t	(Unused) Old Couple defeated
+1357	t	(Unused) Sis and Bro defeated
+1358	t	(Unused) Aqua Admin Matt defeated
+1359	t	(Unused) Aqua Admin Shelly defeated
+1360	t	(Unused) Magma Admin Tabitha defeated
+1361	t	(Unused) Magma Admin Courtney defeated
+1362	t	(Unused) Leader Wattson defeated
+1363	t	(Unused) Leader Flannery defeated
+1364	t	(Unused) Leader Norman defeated
+1365	t	(Unused) Leader Winona defeated
+1366	t	(Unused) Leader Wallace defeated
+1367	t	(Unused) Elite Four Glacia defeated
+1368	t	(Unused) Elite Four Drake defeated
+1369	t	Youngster Ben on Route 3 defeated
+1370	t	Youngster Calvin on Route 3 defeated
+1371	t	Youngster Josh in Mt. Moon defeated
+1372	t	Youngster Timmy on Route 24 defeated
+1373	t	Youngster Joey on Route 25 defeated
+1374	t	Youngster Dan on Route 25 defeated
+1375	t	Youngster Chad on Route 25 defeated
+1376	t	Youngster Tyler  on S.S. Anne defeated
+1377	t	Youngster Eddie on Route 11 defeated
+1378	t	Youngster Dillon on Route 11 defeated
+1379	t	Youngster Yasu on Route 11 defeated
+1380	t	Youngster Dave on Route 11 defeated
+1381	t	Youngster Ben (Rematch 1) on Route 3 defeated
+1382	t	Bug Catcher Rick in Viridian Forest defeated
+1383	t	Bug Catcher Doug in Viridian Forest defeated
+1384	t	Bug Catcher Sammy in Viridian Forest defeated
+1385	t	Bug Catcher Colton on Route 3 defeated
+1386	t	Bug Catcher Greg on Route 3 defeated
+1387	t	Bug Catcher James on Route 3 defeated
+1388	t	Bug Catcher Kent in Mt. Moon defeated
+1389	t	Bug Catcher Robby in Mt. Moon defeated
+1390	t	Bug Catcher Cale on Route 24 defeated
+1391	t	Bug Catcher Keigo on Route 6 defeated
+1392	t	Bug Catcher Elijah on Route 6 defeated
+1393	t	(Unused) Bug Catcher defeated
+1394	t	Bug Catcher Brent on Route 9 defeated
+1395	t	Bug Catcher Conner on Route 9 defeated
+1396	t	Lass Janice on Route 3 defeated
+1397	t	Lass Sally on Route 3 defeated
+1398	t	Lass Robin on Route 3 defeated
+1399	t	Lass Crissy on Route 4 defeated
+1400	t	Lass Miriam in Mt. Moon defeated
+1401	t	Lass Iris in Mt. Moon defeated
+1402	t	Lass Reli on Route 24 defeated
+1403	t	Lass Ali on Route 24 defeated
+1404	t	(Unused) Lass defeated
+1405	t	Lass Haley on Route 25 defeated
+1406	t	Lass Ann on S.S. Anne defeated
+1407	t	Lass Dawn on S.S. Anne defeated
+1408	t	Lass Paige on Route 8 defeated
+1409	t	Lass Andrea on Route 8 defeated
+1410	t	Lass Megan on Route 8 defeated
+1411	t	Lass Julia on Route 8 defeated
+1412	t	Lass Kay in Celadon Gym defeated
+1413	t	Lass Lisa in Celadon Gym defeated
+1414	t	Sailor Edmond on S.S. Anne defeated
+1415	t	Sailor Trevor on S.S. Anne defeated
+1416	t	Sailor Leonard on S.S. Anne defeated
+1417	t	Sailor Duncan on S.S. Anne defeated
+1418	t	Sailor Huey on S.S. Anne defeated
+1419	t	Sailor Dylan on S.S. Anne defeated
+1420	t	Sailor Phillip on S.S. Anne defeated
+1421	t	Sailor Dwayne in Vermilion Gym defeated
+1422	t	Camper Liam in Pewter City Gym defeated
+1423	t	Camper Shane on Route 24 defeated
+1424	t	Camper Ethan on Route 24 defeated
+1425	t	Camper Ricky on Route 6 defeated
+1426	t	Camper Jeff on Route 6 defeated
+1427	t	(Unused) Camper defeated
+1428	t	Camper Chris on Route 9 defeated
+1429	t	Camper Drew on Route 9 defeated
+1430	t	Picnicker Diana in Cerulean Gym defeated
+1431	t	Picnicker Nancy on Route 6 defeated
+1432	t	Picnicker Isabelle on Route 6 defeated
+1433	t	Picnicker Kelsey on Route 25 defeated
+1434	t	Picnicker Alicia on Route 9 defeated
+1435	t	Picnicker Caitlin on Route 9 defeated
+1436	t	Picnicker Heidi on Route 10 defeated
+1437	t	Picnicker Carol on Route 10 defeated
+1438	t	Picnicker Sofia in Rock Tunnel defeated
+1439	t	Picnicker Martha in Rock Tunnel defeated
+1440	t	Picnicker Tina in Celadon Gym defeated
+1441	t	(Unused) Picnicker Hannah on Route 13 defeated
+1442	t	PokéManiac Mark on Route 10 defeated
+1443	t	PokéManiac Herman on Route 10 defeated
+1444	t	PokéManiac Cooper in Rock Tunnel defeated
+1445	t	PokéManiac Steve in Rock Tunnel defeated
+1446	t	PokéManiac Winston in Rock Tunnel defeated
+1447	t	PokéManiac Dawson in Victory Road defeated
+1448	t	PokéManiac Ashton in Rock Tunnel defeated
+1449	t	Super Nerd Jovan in Mt. Moon defeated
+1450	t	Super Nerd Miguel in Mt. Moon defeated
+1451	t	Super Nerd Aidan on Route 8 defeated
+1452	t	Super Nerd Glenn on Route 8 defeated
+1453	t	Super Nerd Leslie on Route 8 defeated
+1454	t	(Unused) Super Nerd defeated
+1455	t	(Unused) Super Nerd defeated
+1456	t	(Unused) Super Nerd defeated
+1457	t	Super Nerd Erik in Cinnabar Gym defeated
+1458	t	Super Nerd Avery in Cinnabar Gym defeated
+1459	t	Super Nerd Derek in Cinnabar Gym defeated
+1460	t	Super Nerd Zac in Cinnabar Gym defeated
+1461	t	Hiker Marcos in Mt. Moon defeated
+1462	t	Hiker Franklin on Route 25 defeated
+1463	t	Hiker Nob on Route 25 defeated
+1464	t	Hiker Wayne on Route 25 defeated
+1465	t	Hiker Alan on Route 9 defeated
+1466	t	Hiker Brice on Route 9 defeated
+1467	t	Hiker Clark on Route 10 defeated
+1468	t	Hiker Trent on Route 10 defeated
+1469	t	Hiker Dudley in Rock Tunnel defeated
+1470	t	Hiker Allen in Rock Tunnel defeated
+1471	t	Hiker Eric in Rock Tunnel defeated
+1472	t	Hiker Lenny in Rock Tunnel defeated
+1473	t	Hiker Oliver in Rock Tunnel defeated
+1474	t	Hiker Lucas in Rock Tunnel defeated
+1475	t	Biker Jared on Route 13 defeated
+1476	t	Biker Malik on Route 14 defeated
+1477	t	Biker Ernest on Route 15 defeated
+1478	t	Biker Alex on Route 15 defeated
+1479	t	Biker Lao on Route 16 defeated
+1480	t	(Unused) Biker defeated
+1481	t	Biker Hideo on Route 16 defeated
+1482	t	Biker Ruben on Route 16 defeated
+1483	t	Biker Billy on Route 17 defeated
+1484	t	Biker Nikolas on Route 17 defeated
+1485	t	Biker Jaxon on Route 17 defeated
+1486	t	Biker William on Route 17 defeated
+1487	t	Biker Lukas on Route 14 defeated
+1488	t	Biker Isaac on Route 14 defeated
+1489	t	Biker Gerald on Route 14 defeated
+1490	t	(Unused) Burglar defeated
+1491	t	(Unused) Burglar defeated
+1492	t	(Unused) Burglar defeated
+1493	t	Burglar Quinn in Cinnabar Gym defeated
+1494	t	Burglar Ramon in Cinnabar Gym defeated
+1495	t	Burglar Dusty in Cinnabar Gym defeated
+1496	t	Burglar Arnie in Pokémon Mansion defeated
+1497	t	(Unused) Burglar defeated
+1498	t	Burglar Simon in Pokémon Mansion defeated
+1499	t	Burglar Lewis in Pokémon Mansion defeated
+1500	t	Engineer Baily in Vermilion Gym defeated
+1501	t	Engineer Braxton on Route 11 defeated
+1502	t	Engineer Bernie on Route 11 defeated
+1503	t	Fisherman Dale on S.S. Anne defeated
+1504	t	Fisherman Barny on S.S. Anne defeated
+1505	t	Fisherman Ned on Route 12 defeated
+1506	t	Fisherman Chip on Route 12 defeated
+1507	t	Fisherman Hank on Route 12 defeated
+1508	t	Fisherman Elliot on Route 12 defeated
+1509	t	Fisherman Ronald on Route 21 defeated
+1510	t	Fisherman Claude on Route 21 defeated
+1511	t	Fisherman Wade on Route 21 defeated
+1512	t	Fisherman Nolan on Route 21 defeated
+1513	t	Fisherman Andrew on Route 12 defeated
+1514	t	Swimmer♂ Luis in Cerulean Gym defeated
+1515	t	Swimmer♂ Richard on Route 19 defeated
+1516	t	Swimmer♂ Reece on Route 19 defeated
+1517	t	Swimmer♂ Matthew on Route 19 defeated
+1518	t	Swimmer♂ Douglas on Route 19 defeated
+1519	t	Swimmer♂ David on Route 19 defeated
+1520	t	Swimmer♂ Tony on Route 19 defeated
+1521	t	Swimmer♂ Axle on Route 19 defeated
+1522	t	Swimmer♂ Barry on Route 20 defeated
+1523	t	Swimmer♂ Dean on Route 20 defeated
+1524	t	Swimmer♂ Darrin on Route 20 defeated
+1525	t	Swimmer♂ Spencer on Route 21 defeated
+1526	t	Swimmer♂ Jack on Route 21 defeated
+1527	t	Swimmer♂ Jerome on Route 21 defeated
+1528	t	Swimmer♂ Roland on Route 21 defeated
+1529	t	Cue Ball Koji on Route 16 defeated
+1530	t	Cue Ball Luke on Route 16 defeated
+1531	t	Cue Ball Camron on Route 16 defeated
+1532	t	Cue Ball Raul on Route 17 defeated
+1533	t	Cue Ball Isaiah on Route 17 defeated
+1534	t	Cue Ball Zeek on Route 17 defeated
+1535	t	Cue Ball Jamal on Route 17 defeated
+1536	t	Cue Ball Corey on Route 17 defeated
+1537	t	(Unused) Cue Ball Chase on Route 21 defeated
+1538	t	Gamer Hugo on Route 11 defeated
+1539	t	Gamer Jasper on Route 11 defeated
+1540	t	Gamer Dirk on Route 11 defeated
+1541	t	Gamer Darian on Route 11 defeated
+1542	t	Gamer Stan on Route 8 defeated
+1543	t	(Unused) Gamer defeated
+1544	t	Gamer Rich on Route 8 defeated
+1545	t	Beauty Bridget in Celadon Gym defeated
+1546	t	Beauty Tamia in Celadon Gym defeated
+1547	t	Beauty Lori in Celadon Gym defeated
+1548	t	Beauty Lola on Route 13 defeated
+1549	t	Beauty Sheila on Route 13 defeated
+1550	t	Swimmer♀ Tiffany on Route 20 defeated
+1551	t	Simmer♀ Nora on Route 20 defeated
+1552	t	Swimmer♀ Melissa on Route 20 defeated
+1553	t	Beauty Grace on Route 15 defeated
+1554	t	Beauty Olivia on Route 15 defeated
+1555	t	(Unused) Beauty Lauren defeated (Uses Swimmer♀ Sprite)
+1556	t	Swimmer♀ Anya on Route 19 defeated
+1557	t	Swimmer♀ Alice on Route 19 defeated
+1558	t	Swimmer♀ Connie on Route 19 defeated
+1559	t	Swimmer♀ Shirley on Route 20 defeated
+1560	t	Psychic Johan in Saffron Gym defeated
+1561	t	Psychic Tyorn in Saffron Gym defeated
+1562	t	Psychic Cameron in Saffron Gym defeated
+1563	t	Psychic Preston in Saffron Gym defeated
+1564	t	(Unused) Rocker Randall in Vermilion Gym defeated
+1565	t	Rocker Luca on Route 12 defeated
+1566	t	Juggler Dalton in Silph Co. 5F defeated
+1567	t	Juggler Nelson in Victory Road defeated
+1568	t	Juggler Kirk in Fuchsia Gym defeated
+1569	t	Juggler Shawn in Fuchsia Gym defeated
+1570	t	Juggler Gregory in Victory Road defeated
+1571	t	Juggler Edward on Water Path defeated
+1572	t	Juggler Kayden in Fuchsia Gym defeated
+1573	t	Juggler Nate in Fuchsia Gym defeated
+1574	t	Tamer Phil in Fuchsia Gym defeated
+1575	t	Tamer Edgar in Fuchsia Gym defeated
+1576	t	Tamer Jason in Viridian Gym defeated
+1577	t	Tamer Cole in Viridian Gym defeated
+1578	t	Tamer Vincent in Victory Road defeated
+1579	t	(Unused) Tamer John defeated
+1580	t	Bird Keeper Sebastian on Route 13 defeated
+1581	t	Bird Keeper Perry on Route 13 defeated
+1582	t	Bird Keeper Robert on Route 13 defeated
+1583	t	Bird Keeper Donald on Route 14 defeated
+1584	t	Bird Keeper Benny on Route 14 defeated
+1585	t	Bird Keeper Edwin on Route 15 defeated
+1586	t	Bird Keeper Chester on Route 15 defeated
+1587	t	Bird Keeper Wilton on Route 18 defeated
+1588	t	Bird Keeper Ramiro on Route 18 defeated
+1589	t	Bird Keeper Jacob on Route 18 defeated
+1590	t	Bird Keeper Roger on Route 20 defeated
+1591	t	(Unused) Bird Keeper Reed defeated
+1592	t	(Unused) Bird Keeper Keith defeated
+1593	t	Bird Keeper Carter on Route 14 defeated
+1594	t	Bird Keeper Mitch on Route 14 defeated
+1595	t	Bird Keeper Beck on Route 14 defeated
+1596	t	Bird Keeper Marlon on Route 14 defeated
+1597	t	Black Belt Koichi in Fighting Dojo defeated
+1598	t	Black Belt Mike in Fighting Dojo defeated
+1599	t	Black Belt Hideki in Fighting Dojo defeated
+1600	t	Black Belt Aaron in Fighting Dojo defeated
+1601	t	Black Belt Hitoshi in Fighting Dojo defeated
+1602	t	Black Belt Atsushi in Viridian Gym defeated
+1603	t	Black Belt Kiyo in Viridian Gym defeated
+1604	t	Black Belt Takashi in Viridian Gym defeated
+1605	t	Black Belt Daisuke in Victory Road defeated
+1606	t	Blue in Prof. Oak's Lab defeated/lost (Starter Charmander)
+1607	t	Blue in Prof. Oak's Lab defeated/lost (Starter Squirtle)
+1608	t	Blue in Prof. Oak's Lab defeated/lost (Starter Bulbasaur)
+1609	t	Blue (1) on Route 22 defeated (Starter Charmander)
+1610	t	Blue (1) on Route 22 defeated (Starter Squirtle)
+1611	t	Blue (1) on Route 22 defeated (Starter Bulbasaur)
+1612	t	Blue in Cerulean City defeated (Starter Charmander)
+1613	t	Blue in Cerulean City defeated (Starter Squirtle)
+1614	t	Blue in Cerulean City defeated (Starter Bulbasaur)
+1615	t	Scientist Ted in Pokémon Mansion defeated
+1616	t	Scientist Connor in Silph Co. 2F defeated
+1617	t	Scientist Jerry in Silph Co. 2F defeated
+1618	t	Scientist Jose in Silph Co. 3F defeated
+1619	t	Scientist Rodney in Silph Co. 4F defeated
+1620	t	Scientist Beau in Silph Co. 5F defeated
+1621	t	Scientist Taylor in Silph Co. 6F defeated
+1622	t	Scientist Joshua in Silph Co. 7F defeated
+1623	t	Scientist Parker in Silph Co. 8F defeated
+1624	t	Scientist Ed in Silph Co. 9F defeated
+1625	t	Scientist Travis in Silph Co. 10F defeated
+1626	t	Scientist Braydon in Pokémon Mansion defeated
+1627	t	Scientist Ivan in Pokémon Mansion defeated
+1628	t	Boss Giovanni in Rocket Hideout defeated
+1629	t	Boss Giovanni in Silph Co. defeated
+1630	t	Leader Giovanni defeated
+1631	t	Team Rocket Grunt (4) in Mt. Moon defeated
+1632	t	Team Rocket Grunt (1) in Mt. Moon defeated
+1633	t	Team Rocket Grunt (2) in Mt. Moon defeated
+1634	t	Team Rocket Grunt (3) in Mt. Moon defeated
+1635	t	Team Rocket Grunt in Cerulean City defeated
+1636	t	Team Rocket Grunt on Route 24 defeated
+1637	t	Team Rocket Grunt in Rocket Game Corner defeated
+1638	t	Team Rocket Grunt (1) in Rocket Hideout B1F defeated
+1639	t	Team Rocket Grunt (2) in Rocket Hideout B1F defeated
+1640	t	Team Rocket Grunt (4) in Rocket Hideout B1F defeated
+1641	t	Team Rocket Grunt (3) in Rocket Hideout B1F defeated
+1642	t	Team Rocket Grunt (5) in Rocket Hideout B1F defeated
+1643	t	Team Rocket Grunt in Rocket Hideout B2F defeated
+1644	t	Team Rocket Grunt (2) in Rocket Hideout B3F defeated
+1645	t	Team Rocket Grunt (1) in Rocket Hideout B3F defeated
+1646	t	Team Rocket Grunt (2) in Rocket Hideout B4F defeated
+1647	t	Team Rocket Grunt (3) in Rocket Hideout B4F defeated
+1648	t	Team Rocket Grunt (1) in Rocket Hideout B4F defeated
+1649	t	Team Rocket Grunt (1) in Pokémon Tower defeated
+1650	t	Team Rocket Grunt (2) in Pokémon Tower defeated
+1651	t	Team Rocket Grunt (3) in Pokémon Tower defeated
+1652	t	(Unused) Team Rocket Grunt defeated
+1653	t	Team Rocket Grunt (2) in Silph Co. 2F defeated
+1654	t	Team Rocket Grunt (1) in Silph Co. 2F defeated
+1655	t	Team Rocket Grunt in Silph Co. 3F defeated
+1656	t	Team Rocket Grunt (2) in Silph Co. 4F defeated
+1657	t	Team Rocket Grunt (1) in Silph Co. 4F defeated
+1658	t	Team Rocket Grunt (2) in Silph Co. 5F defeated
+1659	t	Team Rocket Grunt (1) in Silph Co. 5F defeated
+1660	t	Team Rocket Grunt (1) in Silph Co. 6F defeated
+1661	t	Team Rocket Grunt (2) in Silph Co. 6F defeated
+1662	t	Team Rocket Grunt (1) in Silph Co. 8F defeated
+1663	t	Team Rocket Grunt (1) in Silph Co. 7F defeated
+1664	t	Team Rocket Grunt (3) in Silph Co. 7F defeated
+1665	t	Team Rocket Grunt (2) in Silph Co. 7F defeated
+1666	t	Team Rocket Grunt (2) in Silph Co. 8F defeated
+1667	t	Team Rocket Grunt (2) in Silph Co. 9F defeated
+1668	t	Team Rocket Grunt (1) in Silph Co. 9F defeated
+1669	t	Team Rocket Grunt in Silph Co. 10F defeated
+1670	t	Team Rocket Grunt (1) in Silph Co. 11F defeated
+1671	t	Team Rocket Grunt (2) in Silph Co. 11F defeated
+1672	t	Cooltrainer Samuel in Viridian Gym defeated
+1673	t	Cooltrainer George in Victory Road defeated
+1674	t	Cooltrainer Colby in Victory Road defeated
+1675	t	(Unused) Cooltrainer Paul defeated
+1676	t	Cooltrainer Rolando in Victory Road defeated
+1677	t	(Unused) Cooltrainer Gilbert defeated
+1678	t	(Unused) Cooltrainer Owen defeated
+1679	t	(Unused) Cooltrainer Berke defeated
+1680	t	Cooltrainer Yuji in Viridian Gym defeated
+1681	t	Cooltrainer Warren in Viridian Gym defeated
+1682	t	Cooltrainer Mary in Celadon Gym defeated
+1683	t	Cooltrainer Caroline in Victory Road defeated
+1684	t	Cooltrainer Alexa in Victory Road defeated
+1685	t	(Unused) Cooltrainer Shannon defeated
+1686	t	Cooltrainer Naomi in Victory Road defeated
+1687	t	(Unused) Cooltrainer Brooker defeated
+1688	t	(Unused) Cooltrainer Austina defeated
+1689	t	(Unused) Cooltrainer Julie defeated
+1690	t	Elite Four Lorelei defeated
+1691	t	Elite Four Bruno defeated
+1692	t	Elite Four Agatha defeated
+1693	t	Elite Four Lance defeated
+1694	t	Leader Brock defeated
+1695	t	Leader Misty defeated
+1696	t	Leader Lt. Surge defeated
+1697	t	Leader Erika defeated
+1698	t	Leader Koga defeated
+1699	t	Leader Blaine defeated
+1700	t	Leader Sabrina defeated
+1701	t	Gentleman Thomas on S.S. Anne defeated
+1702	t	Gentleman Arthur on S.S. Anne defeated
+1703	t	Gentleman Tucker in Vermilion Gym defeated
+1704	t	(Unused) Gentleman Norton defeated
+1705	t	(Unused) Gentleman Walter defeated
+1706	t	Blue on S.S. Anne defeated (Starter Charmander)
+1707	t	Blue on S.S. Anne defeated (Starter Squirtle)
+1708	t	Blue on S.S. Anne defeated (Starter Bulbasaur)
+1709	t	Blue in Pokémon Tower defeated (Starter Charmander)
+1710	t	Blue in Pokémon Tower defeated (Starter Squirtle)
+1711	t	Blue in Pokémon Tower defeated (Starter Bulbasaur)
+1712	t	Blue in Silph Co. defeated (Starter Charmander)
+1713	t	Blue in Silph Co. defeated (Starter Squirtle)
+1714	t	Blue in Silph Co. defeated (Starter Bulbasaur)
+1715	t	Blue (2) on Route 22 defeated (Starter Charmander)
+1716	t	Blue (2) on Route 22 defeated (Starter Squirtle)
+1717	t	Blue (2) on Route 22 defeated (Starter Bulbasaur)
+1718	t	Blue (Champion) defeated (Starter Charmander)
+1719	t	Blue (Champion) defeated (Starter Squirtle)
+1720	t	Blue (Champion) defeated (Starter Bulbasaur)
+1721	t	Channeler Patricia in Pokémon Tower defeated
+1722	t	Channeler Carly in Pokémon Tower defeated
+1723	t	Channeler Hope in Pokémon Tower defeated
+1724	t	Channeler Paula in Pokémon Tower defeated
+1725	t	Channeler Laurel in Pokémon Tower defeated
+1726	t	Channeler Jody in Pokémon Tower defeated
+1727	t	Channeler Tammy in Pokémon Tower defeated
+1728	t	Channeler Ruth in Pokémon Tower defeated
+1729	t	Channeler Karina in Pokémon Tower defeated
+1730	t	Channeler Janae in Pokémon Tower defeated
+1731	t	Channeler Angelica in Pokémon Tower defeated
+1732	t	Channeler Emilia in Pokémon Tower defeated
+1733	t	Channeler Jennifer in Pokémon Tower defeated
+1734	t	(Unused) Channeler defeated
+1735	t	(Unused) Channeler defeated
+1736	t	(Unused) Channeler defeated
+1737	t	(Unused) Channeler defeated
+1738	t	(Unused) Channeler defeated
+1739	t	(Unused) Channeler defeated
+1740	t	(Unused) Channeler defeated
+1741	t	(Unused) Channeler defeated
+1742	t	Channeler Amanda in Saffron Gym defeated
+1743	t	Channeler Stacy in Saffron Gym defeated
+1744	t	Channeler Tasha in Saffron Gym defeated
+1745	t	Hiker Jeremy on Route 9 defeated
+1746	t	Picnicker Alma on Route 13 defeated
+1747	t	Picnicker Susie on Route 13 defeated
+1748	t	Picnicker Valerie on Route 13 defeated
+1749	t	Picnicker Gwen on Route 13 defeated
+1750	t	Biker Virgil on Route 17 defeated
+1751	t	Camper Flint on Route 25 defeated
+1752	t	Picnicker Missy on Route 20 defeated
+1753	t	Picnicker Irene on Route 20 defeated
+1754	t	Picnicker Dana in Rock Tunnel defeated
+1755	t	Picnicker Ariana in Rock Tunnel defeated
+1756	t	Picnicker Leah in Rock Tunnel defeated
+1757	t	Camper Justin on Route 12 defeated
+1758	t	Picnicker Yazmin on Route 15 defeated
+1759	t	Picnicker Kindra on Route 15 defeated
+1760	t	Picnicker Becky on Route 15 defeated
+1761	t	Picnicker Celia on Route 15 defeated
+1762	t	Gentleman Brooks on S.S. Anne defeated
+1763	t	Gentleman Lamar on S.S. Anne defeated
+1764	t	Twins Eli & Anne on Route 8 defeated
+1765	t	Cool Couple Ray & Tyra in Victory Road defeated
+1766	t	Young Couple Gia & Jes on Route 12 defeated
+1767	t	Twins Kiri & Jan on Route 14 defeated
+1768	t	Crush Kin Ron & Mya on Route 15 defeated
+1769	t	Young Couple Lea & Jed on Route 16 defeated
+1770	t	Sis and Bro Lia & Luc on Route 19 defeated
+1771	t	Sis and Bro Lil & Ian on Route 21 defeated
+1772	t	(Unused) Bug Catcher defeated
+1773	t	(Unused) Bug Catcher defeated
+1774	t	(Unused) Bug Catcher defeated
+1775	t	(Unused) Bug Catcher defeated
+1776	t	(Unused) Bug Catcher defeated
+1777	t	(Unused) Bug Catcher defeated
+1778	t	Youngster Ben (Rematch 2) on Route 3 defeated
+1779	t	Youngster Ben (Rematch 3) on Route 3 defeated
+1780	t	Youngster Chad (Rematch 1) on Route 25 defeated
+1781	t	Lass Reli (Rematch 1) on Route 24 defeated
+1782	t	Lass Reli (Rematch 2) on Route 24 defeated
+1783	t	Youngster Timmy (Rematch 1) on Route 24 defeated
+1784	t	Youngster Timmy (Rematch 2) on Route 24 defeated
+1785	t	Youngster Timmy (Rematch 3) on Route 24 defeated
+1786	t	Youngster Chad (Rematch 2) on Route 25 defeated
+1787	t	Lass Janice (Rematch 1) on Route 3 defeated
+1788	t	Lass Janice (Rematch 2) on Route 3 defeated
+1789	t	Youngster Chad (Rematch 3) on Route 25 defeated
+1790	t	Hiker Franklin (Rematch 1) on Route 25 defeated
+1791	t	(Unused) Pokémon Prof. Prof. Oak defeated
+1792	t	(Unused) Player Brendan defeated
+1793	t	(Unused) Player May defeated
+1794	t	(Unused) Player Red defeated
+1795	t	(Unused) Player Leaf defeated
+1796	t	Team Rocket Grunt (1) in Rocket Warehouse defeated
+1797	t	Psychic Jaclyn on Green Path defeated
+1798	t	Crush Girl Sharon on Kindle Road defeated
+1799	t	Tuber Amira on Bond Bridge defeated
+1800	t	Pokémon Breeder Alize in Water Labyrinth defeated
+1801	t	Pokémon Ranger Nicolas in Canyon Entrance defeated
+1802	t	Pokémon Ranger Madeline in Canyon Entrance defeated
+1803	t	Aroma Lady Nikki on Bond Bridge defeated
+1804	t	Ruin Maniac Stanly in Ruin Valley defeated
+1805	t	Lady Jacki in Resort Gorgeous defeated
+1806	t	Painter Daisy in Resort Gorgeous defeated
+1807	t	Biker Goon (1) on Three Island defeated
+1808	t	Biker Goon (2) on Three Island defeated
+1809	t	Biker Goon (3) on Three Island defeated
+1810	t	(Unused) Biker defeated
+1811	t	Bug Catcher Anthony in Viridian Forest defeated
+1812	t	Bug Catcher Charlie in Viridian Forest defeated
+1813	t	Twins Eli & Anne (Rematch 1) on Route 8 defeated
+1814	t	Youngster Johnson in Pokémon Mansion defeated
+1815	t	Biker Ricardo on Route 8 defeated
+1816	t	Biker Jaren on Route 8 defeated
+1817	t	Team Rocket Grunt (1) on Mt. Ember defeated
+1818	t	Team Rocket Grunt (2) on Mt. Ember defeated
+1819	t	Team Rocket Grunt in Icefall Cave defeated
+1820	t	Team Rocket Grunt on Outcast Island defeated
+1821	t	Team Rocket Grunt (2) in Rocket Warehouse defeated
+1822	t	Team Rocket Grunt (3) in Rocket Warehouse defeated
+1823	t	Team Rocket Admin (1) in Rocket Warehouse defeated
+1824	t	Team Rocket Admin (2) in Rocket Warehouse defeated
+1825	t	Scientist Gideon in Rocket Warehouse defeated
+1826	t	Swimmer♀ Amara on Treasure Beach defeated
+1827	t	Swimmer♀ Maria on Kindle Road defeated
+1828	t	Swimmer♀ Abigail on Kindle Road defeated
+1829	t	Swimmer♂ Finn on Kindle Road defeated
+1830	t	Swimmer♂ Garrett on Kindle Road defeated
+1831	t	Fisherman Tommy on Kindle Road defeated
+1832	t	Crush Girl Tanya on Kindle Road defeated
+1833	t	Black Belt Shea on Kindle Road defeated
+1834	t	Black Belt Hugh on Kindle Road defeated
+1835	t	Camper Bryce on Kindle Road defeated
+1836	t	Picnicker Claire on Kindle Road defeated
+1837	t	Crush Kin Mik & Kia on Kindle Road defeated
+1838	t	Aroma Lady Violet on Bond Bridge defeated
+1839	t	Tuber Alexis on Bond Bridge defeated
+1840	t	Twins Joy & Meg on Bond Bridge defeated
+1841	t	Swimmer♀ Tisha on Bond Bridge defeated
+1842	t	Painter Celina in Resort Gorgeous defeated
+1843	t	Painter Rayna in Resort Gorgeous defeated
+1844	t	Lady Gillian in Resort Gorgeous defeated
+1845	t	Youngster Destin in Resort Gorgeous defeated
+1846	t	Swimmer♂ Toby in Resort Gorgeous defeated
+1847	t	Team Rocket Grunt (1) on Five Isle Meadow defeated
+1848	t	Team Rocket Grunt (3) on Five Isle Meadow defeated
+1849	t	Team Rocket Grunt (2) on Five Isle Meadow defeated
+1850	t	Bird Keeper Milo on Memorial Pillar defeated
+1851	t	Bird Keeper Chaz on Memorial Pillar defeated
+1852	t	Bird Keeper Harold on Memorial Pillar defeated
+1853	t	Fisherman Tylor on Outcast Island defeated
+1854	t	Swimmer♂ Mymo on Outcast Island defeated
+1855	t	Swimmer♀ Nicole on Outcast Island defeated
+1856	t	Sis and Bro Ava & Geb on Outcast Island defeated
+1857	t	Aroma Lady Rose on Water Path defeated
+1858	t	Swimmer♂ Samir on Water Path defeated
+1859	t	Swimmer♀ Denise on Water Path defeated
+1860	t	Twins Miu & Mia on Water Path defeated
+1861	t	Hiker Earl on Water Path defeated
+1862	t	Ruin Maniac Foster in Ruin Valley defeated
+1863	t	Ruin Maniac Larry in Ruin Valley defeated
+1864	t	Hiker Daryl in Ruin Valley defeated
+1865	t	PokéManiac Hector in Ruin Valley defeated
+1866	t	Psychic Dario outside of Trainer Tower defeated
+1867	t	Psychic Rodette outside of Trainer Tower defeated
+1868	t	Aroma Lady Miah in Canyon Entrance defeated
+1869	t	Young Couple Eve & Jon in Canyon Entrance defeated
+1870	t	Juggler Mason in Canyon Entrance defeated
+1871	t	Crush Girl Cyndy in Sevault Canyon defeated
+1872	t	Crush Girl Jocelyn on Mt. Ember defeated
+1873	t	Tamer Evan in Sevault Canyon defeated
+1874	t	PokéManiac Mark (Rematch 1) on Route 10 defeated
+1875	t	Pkmn Ranger Logan on Mt. Ember defeated
+1876	t	Pokémon Ranger Jackson in Sevault Canyon defeated
+1877	t	Pkmn Ranger Beth on Mt. Ember defeated
+1878	t	Pokémon Ranger Katelyn in Sevault Canyon defeated
+1879	t	Cooltrainer Leroy in Sevault Canyon defeated
+1880	t	Cooltrainer Michelle in Sevault Canyon defeated
+1881	t	Cool Couple Lex & Nya in Sevault Canyon defeated
+1882	t	Ruin Maniac Brandon outside of Tanoby Ruins defeated
+1883	t	Ruin Maniac Benjamin outside of Tanoby Ruins defeated
+1884	t	Painter Edna outside of Tanoby Ruins defeated
+1885	t	Gentleman Clifford outside of Tanoby Ruins defeated
+1886	t	Lady Selphy in Lost Cave defeated
+1887	t	Ruin Maniac Lawson in Lost Cave defeated
+1888	t	Psychic Laura in Lost Cave defeated
+1889	t	Pokémon Breeder Bethany in Pattern Bush defeated
+1890	t	Pokémon Breeder Allison in Pattern Bush defeated
+1891	t	Bug Catcher Garret in Pattern Bush defeated
+1892	t	Bug Catcher Jonah in Pattern Bush defeated
+1893	t	Bug Catcher Vance in Pattern Bush defeated
+1894	t	Youngster Nash in Pattern Bush defeated
+1895	t	Youngster Cordell in Pattern Bush defeated
+1896	t	Lass Dalia in Pattern Bush defeated
+1897	t	Lass Joana in Pattern Bush defeated
+1898	t	Camper Riley in Pattern Bush defeated
+1899	t	Picnicker Marcy in Pattern Bush defeated
+1900	t	Ruin Maniac Layton in Pattern Bush defeated
+1901	t	Picnicker Kelsey (Rematch 1) on Route 25 defeated
+1902	t	Picnicker Kelsey (Rematch 2) on Route 25 defeated
+1903	t	Picnicker Kelsey (Rematch 3) on Route 25 defeated
+1904	t	Camper Ricky (Rematch 1) on Route 6 defeated
+1905	t	Camper Ricky (Rematch 2) on Route 6 defeated
+1906	t	Camper Ricky (Rematch 3) on Route 6 defeated
+1907	t	Camper Jeff (Rematch 1) on Route 6 defeated
+1908	t	Camper Jeff (Rematch 2) on Route 6 defeated
+1909	t	Camper Jeff (Rematch 3) on Route 6 defeated
+1910	t	Picnicker Isabelle (Rematch 1) on Route 6 defeated
+1911	t	Picnicker Isabelle (Rematch 2) on Route 6 defeated
+1912	t	Picnicker Isabelle (Rematch 3) on Route 6 defeated
+1913	t	Youngster Yasu (Rematch 1) on Route 11 defeated
+1914	t	Youngster Yasu (Rematch 2) on Route 11 defeated
+1915	t	Engineer Bernie (Rematch 1) on Route 11 defeated
+1916	t	Gamer Darian (Rematch 1) on Route 11 defeated
+1917	t	Camper Chris (Rematch 1) on Route 9 defeated
+1918	t	Camper Chris (Rematch 2) on Route 9 defeated
+1919	t	Camper Chris (Rematch 3) on Route 9 defeated
+1920	t	Picnicker Alicia (Rematch 1) on Route 9 defeated
+1921	t	Picnicker Alicia (Rematch 2) on Route 9 defeated
+1922	t	Picnicker Alicia (Rematch 3) on Route 9 defeated
+1923	t	Hiker Jeremy (Rematch 1) on Route 9 defeated
+1924	t	PokéManiac Mark (Rematch 2) on Route 10 defeated
+1925	t	PokéManiac Herman (Rematch 1) on Route 10 defeated
+1926	t	PokéManiac Herman (Rematch 2) on Route 10 defeated
+1927	t	Hiker Trent (Rematch 1) on Route 10 defeated
+1928	t	Lass Megan (Rematch 1) on Route 8 defeated
+1929	t	Lass Megan (Rematch 2) on Route 8 defeated
+1930	t	Super Nerd Glenn (Rematch 1) on Route 8 defeated
+1931	t	Gamer Rich (Rematch 1) on Route 8 defeated
+1932	t	Biker Jaren (Rematch 1) on Route 8 defeated
+1933	t	Fisherman Elliot (Rematch 1) on Route 12 defeated
+1934	t	Rocker Luca (Rematch 1) on Route 12 defeated
+1935	t	Beauty Sheila (Rematch 1) on Route 13 defeated
+1936	t	Bird Keeper Robert (Rematch 1) on Route 13 defeated
+1937	t	Bird Keeper Robert (Rematch 2) on Route 13 defeated
+1938	t	Picnicker Susie (Rematch 1) on Route 13 defeated
+1939	t	Picnicker Susie (Rematch 2) on Route 13 defeated
+1940	t	Picnicker Susie (Rematch 3) on Route 13 defeated
+1941	t	Biker Lukas (Rematch 1) on Route 14 defeated
+1942	t	Bird Keeper Benny (Rematch 1) on Route 14 defeated
+1943	t	Bird Keeper Benny (Rematch 2) on Route 14 defeated
+1944	t	Bird Keeper Marlon (Rematch 1) on Route 14 defeated
+1945	t	Bird Keeper Marlon (Rematch 2) on Route 14 defeated
+1946	t	Beauty Grace (Rematch 1) on Route 15 defeated
+1947	t	Bird Keeper Chester (Rematch 1) on Route 15 defeated
+1948	t	Bird Keeper Chester (Rematch 2) on Route 15 defeated
+1949	t	Picnicker Becky (Rematch 1) on Route 15 defeated
+1950	t	Picnicker Becky (Rematch 2) on Route 15 defeated
+1951	t	Picnicker Becky (Rematch 3) on Route 15 defeated
+1952	t	Crush Kin Ron & Mya (Rematch 1) on Route 15 defeated
+1953	t	Crush Kin Ron & Mya (Rematch 2) on Route 15 defeated
+1954	t	Crush Kin Ron & Mya (Rematch 3) on Route 15 defeated
+1955	t	Biker Ruben (Rematch 1) on Route 16 defeated
+1956	t	Cue Ball Camron (Rematch 1) on Route 16 defeated
+1957	t	Biker Jaxon (Rematch 1) on Route 17 defeated
+1958	t	Cue Ball Isaiah (Rematch 1) on Route 17 defeated
+1959	t	Cue Ball Corey (Rematch 1) on Route 17 defeated
+1960	t	Bird Keeper Jacob (Rematch 1) on Route 18 defeated
+1961	t	Bird Keeper Jacob (Rematch 2) on Route 18 defeated
+1962	t	Swimmer♀ Alice (Rematch 1) on Route 19 defeated
+1963	t	Swimmer♂ Darrin (Rematch 1) on Route 20 defeated
+1964	t	Picnicker Missy (Rematch 1) on Route 20 defeated
+1965	t	Picnicker Missy (Rematch 2) on Route 20 defeated
+1966	t	Fisherman Wade (Rematch 1) on Route 21 defeated
+1967	t	Swimmer♂ Jack (Rematch 1) on Route 21 defeated
+1968	t	Sis and Bro Lil & Ian (Rematch 1) on Route 21 defeated
+1969	t	Sis and Bro Lil & Ian (Rematch 2) on Route 21 defeated
+1970	t	Swimmer♂ Finn (Rematch 1) on Kindle Road defeated
+1971	t	Crush Girl Sharon (Rematch 1) on Kindle Road defeated
+1972	t	Crush Girl Sharon (Rematch 2) on Kindle Road defeated
+1973	t	Crush Girl Tanya (Rematch 1) on Kindle Road defeated
+1974	t	Crush Girl Tanya (Rematch 2) on Kindle Road defeated
+1975	t	Black Belt Shea (Rematch 1) on Kindle Road defeated
+1976	t	Black Belt Shea (Rematch 2) on Kindle Road defeated
+1977	t	Black Belt Hugh (Rematch 1) on Kindle Road defeated
+1978	t	Black Belt Hugh (Rematch 2) on Kindle Road defeated
+1979	t	Crush Kin Mik & Kia (Rematch 1) on Kindle Road defeated
+1980	t	Crush Kin Mik & Kia (Rematch 2) on Kindle Road defeated
+1981	t	Tuber Amira (Rematch 1) on Bond Bridge defeated
+1982	t	Twins Joy & Meg (Rematch 1) on Bond Bridge defeated
+1983	t	Painter Rayna (Rematch 1) in Resort Gorgeous defeated
+1984	t	Youngster Destin (Rematch 1) in Resort Gorgeous defeated
+1985	t	Pokémon Breeder Alize (Rematch 1) in Water Labyrinth defeated
+1986	t	Young Couple Gia & Jes (Rematch 1) on Route 12 defeated
+1987	t	Young Couple Gia & Jes (Rematch 1) on Route 12 defeated
+1988	t	Bird Keeper Milo (Rematch 1) on Memorial Pillar defeated
+1989	t	Bird Keeper Chaz (Rematch 1) on Memorial Pillar defeated
+1990	t	Bird Keeper Harold (Rematch 1) on Memorial Pillar defeated
+1991	t	Swimmer♀ Nicole (Rematch 1) on Outcast Island defeated
+1992	t	Psychic Jaclyn (Rematch 1) on Green Path defeated
+1993	t	Swimmer♂ Samir (Rematch 1) on Water Path defeated
+1994	t	Hiker Earl (Rematch 1) on Water Path defeated
+1995	t	Ruin Maniac Larry (Rematch 1) in Ruin Valley defeated
+1996	t	PokéManiac Hector (Rematch 1) in Ruin Valley defeated
+1997	t	Psychic Dario (Rematch 1) outside of Trainer Tower defeated
+1998	t	Psychic Rodette (Rematch 1) outside of Trainer Tower defeated
+1999	t	Juggler Mason (Rematch 1) in Canyon Entrance defeated
+2000	t	Pokémon Ranger Nicolas (Rematch 1) in Canyon Entrance defeated
+2001	t	Pokémon Ranger Madeline (Rematch 1) in Canyon Entrance defeated
+2002	t	Crush Girl Cyndy (Rematch 1) in Sevault Canyon defeated
+2003	t	Tamer Evan (Rematch 1) in Sevault Canyon defeated
+2004	t	Pokémon Ranger Jackson (Rematch 1) in Sevault Canyon defeated
+2005	t	Pokémon Ranger Katelyn (Rematch 1) in Sevault Canyon defeated
+2006	t	Cooltrainer Leroy (Rematch 1) in Sevault Canyon defeated
+2007	t	Cooltrainer Michelle (Rematch 1) in Sevault Canyon defeated
+2008	t	Cool Couple Lex & Nya (Rematch 1) in Sevault Canyon defeated
+2009	t	Bug Catcher Colton (Rematch 1) on Route 3 defeated
+2010	t	Bug Catcher Colton (Rematch 2) on Route 3 defeated
+2011	t	Bug Catcher Colton (Rematch 3) on Route 3 defeated
+2012	t	Swimmer♂ Matthew (Rematch 1) on Route 19 defeated
+2013	t	Swimmer♂ Tony (Rematch 1) on Route 19 defeated
+2014	t	Swimmer♀ Melissa (Rematch 1) on Route 20 defeated
+2015	t	Lorelei (Rematch 1) defeated
+2016	t	Bruno (Rematch 1) defeated
+2017	t	Agatha (Rematch 1) defeated
+2018	t	Lance (Rematch 1) defeated
+2019	t	Champion Blue (Rematch 1) defeated (Starter Charmander)
+2020	t	Champion Blue (Rematch 1) defeated (Starter Squirtle)
+2021	t	Champion Blue (Rematch 1) defeated (Starter Bulbasaur)
+2022	t	Cue Ball Paxton on Three Island defeated
+
+2048	m	Safari Zone Catch Mode active
+2049	m	Steps counter for disabling active VS Seeker rematches enabled
+
+2053	m	Strength active
+2054	m	Flash active
+2055	m	Is in static encounter battle
+
+2080	s	Received Boulder Badge
+2081	s	Received Cascade Badge
+2082	s	Received Thunder Badge
+2083	s	Received Rainbow Badge
+2084	s	Received Soul Badge
+2085	s	Received Marsh Badge
+2086	s	Received Volcano Badge
+2087	s	Received Earth Badge
+2088	*	Pokémon Menu Item Unlocked
+2089	*	Pokédex Menu Item Unlocked
+
+2092	s	Hall of Fame entered/Is Champion
+2093	m	Change Text of Girl in Pewter City Pokémon Center
+
+2095	*	Running Shoes received
+
+2100	s	Bill's PC unlocked
+
+2105	*	Enabled Mystery Gift
+
+2112	*	National Pokédex Upgrade received
+2113	s	PCs disabled (for First Sevii Islands Quest)
+
+2116	*	Restored Connectivity to Hoenn/Can challenge Elite Four again
+2117	*	Unlock Map View for One/Two/Three Island
+2118	*	Unlock Map View for Four/Five and Six/Seven Island
+2119	*	First Berry received; Can receive Powder Jar
+2120	r	Birth Island Puzzle solved
+2121	*	Tanoby Key puzzle solved/Unown set free
+2122	e	Can Travel to Navel Rock
+2123	e	Can Travel to Birth Island
+
+2192	f	Visited/Can Fly to Pallet Town
+2193	f	Visited/Can Fly to Viridian City
+2194	f	Visited/Can Fly to Pewter City
+2195	f	Visited/Can Fly to Cerulean City
+2196	f	Visited/Can Fly to Lavender Town
+2197	f	Visited/Can Fly to Vermilion City
+2198	f	Visited/Can Fly to Celadon City
+2199	f	Visited/Can Fly to Fuchsia City
+2200	f	Visited/Can Fly to Cinnabar Island
+2201	f	Visited/Can Fly to Indigo Plateau
+2202	f	Visited/Can Fly to Saffron City
+2203	f	Visited/Can Fly to One Island
+2204	f	Visited/Can Fly to Two Island
+2205	f	Visited/Can Fly to Three Island
+2206	f	Visited/Can Fly to Four Island
+2207	f	Visited/Can Fly to Five Island
+2208	f	Visited/Can Fly to Seven Island
+2209	f	Visited/Can Fly to Six Island
+2210	f	Visited/Can Fly to Mt. Moon Pokémon Center
+2211	f	Visited/Can Fly to Route 10 Pokémon Center
+2212	m	Visited Viridian Forest
+2213	m	Visited Mt. Moon
+2214	m	Visited S.S. Anne
+2215	m	Visited Underground Path
+2216	m	Visited Underground Path Celadon City - Lavender Town
+2217	m	Visited Diglett's Cave
+2218	m	Visited Victory Road
+2219	m	Visited Rocket Hideout
+2220	m	Visited Silph Co.
+2221	m	Visited Pokémon Mansion
+2222	m	Visited Safari Zone
+2223	m	Visited Elite Four
+2224	m	Visited Rock Tunnel
+2225	m	Visited Seafoam Islands
+2226	m	Visited Pokémon Tower
+2227	m	Visited Cerulean Cave
+2228	m	Visited Power Plant
+2229	m	Visited Navel Rock
+2230	m	Visited Mt. Ember
+2231	m	Visited Berry Forest
+2232	m	Visited Icefall Cave
+2233	m	Visited Rocket Warehouse
+2234	m	Visited Trainer Tower
+2235	m	Visited Dotted Hole
+2236	m	Visited Lost Cave
+2237	m	Visited Pattern Bush
+2238	m	Visited Altering Cave
+2239	m	Visited Monean Chamber
+2240	m	Visited Three Isle Path
+2241	m	Visited Tanoby Key
+2242	m	Visited Birth Island

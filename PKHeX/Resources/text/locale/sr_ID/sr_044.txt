@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,セントルシア,St. Lucia,Sainte-Lucie,St. Lucia,Santa Lucia,Santa Lucía,圣卢西亚,세인트루시아,

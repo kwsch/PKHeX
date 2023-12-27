@@ -1,0 +1,32 @@
+Forêt
+Ville
+Désert
+Savane
+Rochers
+Volcan
+Neige
+Grotte
+Plage
+Mer
+Rivière
+Ciel
+Centre Pokémon
+Métal
+Vichy
+Uni
+Spécial 1
+Spécial 2
+Spécial 3
+Spécial 4
+Spécial 5
+Spécial 6
+Spécial 7
+Spécial 8
+Spécial 9
+Spécial 10
+Spécial 11
+Spécial 12
+Spécial 13
+Spécial 14
+Spécial 15
+Spécial 16

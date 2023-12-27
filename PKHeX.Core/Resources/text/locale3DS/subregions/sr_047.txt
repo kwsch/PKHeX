@@ -1,0 +1,14 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ポート・オブ・スペイン	Port-of-Spain	Port d'Espagne	Port-of-Spain	Port of Spain	Puerto España	西班牙港市	포트오브스페인	西班牙港市
+003	アリマ	Arima	Arima	Arima	Arima	Arima	阿里马市	아리마	阿里馬市
+004	カロニ州	Caroni	Caroni	Caroni	Caroni	Caroni	卡罗尼郡	카로니 주	卡羅尼郡
+005	マジャロ州	Mayaro	Mayaro	Mayaro	Mayaro	Mayaro	马亚罗郡	마야로 주	馬亞羅郡
+006	ナリバ州	Nariva	Nariva	Nariva	Nariva	Nariva	纳里瓦郡	나리바 주	納裏瓦郡
+007	セント・アンドリュー州	Saint Andrew	Saint Andrew	Saint Andrew	Saint Andrew	Saint Andrew	圣安德鲁郡	세인트앤드루 주	聖安德魯郡
+008	セント・デビッド州	Saint David	Saint David	Saint David	Saint David	Saint David	圣戴维郡	세인트데이비드 주	聖戴維郡
+009	セント・ジョージ州	Saint George	Saint George	Saint George	Saint George	Saint George	圣乔治郡	세인트조지 주	聖佐治郡
+010	セント・パトリック州	Saint Patrick	Saint Patrick	Saint Patrick	Saint Patrick	Saint Patrick	圣帕特里克郡	세인트패트릭 주	聖帕特裏克郡
+011	サン・フェルナンド	San Fernando	San Fernando	San Fernando	San Fernando	San Fernando	圣费尔南多市	산페르난도	聖費爾南多市
+012	トバゴ島	Tobago	Tobago	Tobago	Tobago	Tobago	多巴哥岛	토바고 섬	多巴哥島
+013	ビクトリア州	Victoria	Victoria	Victoria	Victoria	Victoria	维多利亚郡	빅토리아 주	維多利亞郡
+014	ポイントフォーティン	Point Fortin	Point Fortin	Point Fortin	Point Fortin	Point Fortin	福廷岬市	포인트포르틴	福廷岬市

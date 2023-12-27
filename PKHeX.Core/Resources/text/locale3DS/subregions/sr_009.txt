@@ -1,0 +1,8 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	セント・ジョン	Saint John	Saint-Jean	Saint John's	Saint John	Saint John	圣约翰区	세인트존	聖約翰區
+003	バーブーダ島	Barbuda	Barbuda	Barbuda	Barbuda	Barbuda	巴布达岛	바부다	巴布達島
+004	セント・ジョージ	Saint George	Saint-Georges	Saint George	Saint George	Saint George	圣乔治区	세인트조지	聖佐治區
+005	セント・メアリー	Saint Mary	Sainte-Marie	Saint Mary	Saint Mary	Saint Mary	圣玛丽区	세인트메리	聖瑪麗區
+006	セント・ポール	Saint Paul	Saint-Paul	Saint Paul	Saint Paul	Saint Paul	圣保罗区	세인트폴	聖保羅區
+007	セント・ピーター	Saint Peter	Saint-Pierre	Saint Peter	Saint Peter	Saint Peter	圣彼得区	세인트피터	聖彼得區
+008	セント・フィリップ	Saint Philip	Saint-Philippe	Saint Philip	Saint Philip	Saint Philip	圣菲利普区	세인트필립	聖菲利普區

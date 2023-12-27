@@ -1,0 +1,164 @@
+RibbonChampionKalos	Kalos Champion
+RibbonChampionG3	Champion (Gen3)
+RibbonChampionSinnoh	Sinnoh Champion
+RibbonBestFriends	Beste Freunde
+RibbonTraining	Training
+RibbonBattlerSkillful	Erfahrener Kämpfer
+RibbonBattlerExpert	Experten Kämpfer
+RibbonEffort	Fleiß
+RibbonAlert	Wachsamkeit
+RibbonShock	Schock
+RibbonDowncast	Niederschlag
+RibbonCareless	Sorglosigkeit
+RibbonRelax	Entspannung
+RibbonSnooze	Schlafen
+RibbonSmile	Lächeln
+RibbonGorgeous	Hinreißend
+RibbonRoyal	Königlich
+RibbonGorgeousRoyal	Hinreißend Königl.
+RibbonArtist	Künstler
+RibbonFootprint	Fußabdruck
+RibbonRecord	Rekord
+RibbonLegend	Legende
+RibbonCountry	Land
+RibbonNational	Nation
+RibbonEarth	Erde
+RibbonWorld	Welt
+RibbonClassic	Klassisch
+RibbonPremier	Premier
+RibbonEvent	Geschichte
+RibbonBirthday	Geburtstag
+RibbonSpecial	Spezial
+RibbonSouvenir	Gedenk
+RibbonWishing	Wunsch
+RibbonChampionBattle	Kampfchampion
+RibbonChampionRegional	Regionaler Champion
+RibbonChampionNational	Nationaler Champion
+RibbonChampionWorld	Weltchampion
+RibbonCountMemoryContest	Verg. Wettbewerbsb.
+RibbonCountMemoryBattle	Verg. Kampfb.
+RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
+RibbonContestStar	Wettbewerbs-Star
+RibbonMasterCoolness	Coolness Meister
+RibbonMasterBeauty	Schönheit Meister
+RibbonMasterCuteness	Putzigkeit Meister
+RibbonMasterCleverness	Klugheit Meister
+RibbonMasterToughness	Stärke Meister
+RibbonG3Cool	Coolness (G3)
+RibbonG3CoolSuper	Coolness Super
+RibbonG3CoolHyper	Coolness Hyper
+RibbonG3CoolMaster	Coolness Master
+RibbonG3Beauty	Schönheit (G3)
+RibbonG3BeautySuper	Schönheit Super
+RibbonG3BeautyHyper	Schönheit Hyper
+RibbonG3BeautyMaster	Schönheit Master
+RibbonG3Cute	Anmut (G3)
+RibbonG3CuteSuper	Anmut Super
+RibbonG3CuteHyper	Anmut Hyper
+RibbonG3CuteMaster	Anmut Master
+RibbonG3Smart	Klugheit (G3)
+RibbonG3SmartSuper	Klugheit Super
+RibbonG3SmartHyper	Klugheit Hyper
+RibbonG3SmartMaster	Klugheit Master
+RibbonG3Tough	Stärke (G3)
+RibbonG3ToughSuper	Stärke Super
+RibbonG3ToughHyper	Stärke Hyper
+RibbonG3ToughMaster	Stärke Master
+RibbonG4Cool	Coolness (G4)
+RibbonG4CoolGreat	Coolness Mega
+RibbonG4CoolUltra	Coolness Ultra
+RibbonG4CoolMaster	Coolness Master
+RibbonG4Beauty	Schönheit (G4)
+RibbonG4BeautyGreat	Schönheit Mega
+RibbonG4BeautyUltra	Schönheit Ultra
+RibbonG4BeautyMaster	Schönheit Master
+RibbonG4Cute	Anmut (G4)
+RibbonG4CuteGreat	Anmut Mega
+RibbonG4CuteUltra	Anmut Ultra
+RibbonG4CuteMaster	Anmut Master
+RibbonG4Smart	Klugheit (G4)
+RibbonG4SmartGreat	Klugheit Mega
+RibbonG4SmartUltra	Klugheit Ultra
+RibbonG4SmartMaster	Klugheit Master
+RibbonG4Tough	Stärke (G4)
+RibbonG4ToughGreat	Stärke Mega
+RibbonG4ToughUltra	Stärke Ultra
+RibbonG4ToughMaster	Stärke Master
+RibbonWinning	Gewinner
+RibbonVictory	Sieger
+RibbonAbility	Fähigkeit
+RibbonAbilityGreat	Fähigkeit Groß
+RibbonAbilityDouble	Fähigkeit Doppel
+RibbonAbilityMulti	Fähigkeit Multi
+RibbonAbilityPair	Fähigkeit Paar
+RibbonAbilityWorld	Fähigkeit Welt
+RibbonCountG3Cool	Coolness
+RibbonCountG3Beauty	Schönheit
+RibbonCountG3Cute	Anmut
+RibbonCountG3Smart	Klugheit
+RibbonCountG3Tough	Stärke
+RibbonChampionAlola	Alola Champion
+RibbonBattleRoyale	Battle Royal Champion
+RibbonBattleTreeGreat	Battle Tree Great
+RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionGalar	Galar-Champs
+RibbonTowerMaster	Turmmeister
+RibbonMasterRank	Meisterrang
+RibbonMarkLunchtime	Mittags-Zeichen
+RibbonMarkSleepyTime	Mitternachts-Zeichen
+RibbonMarkDusk	Abenddämmerungs-Zeichen
+RibbonMarkDawn	Morgendämmerungs-Zeichen
+RibbonMarkCloudy	Wolken-Zeichen
+RibbonMarkRainy	Regen-Zeichen
+RibbonMarkStormy	Gewitter-Zeichen
+RibbonMarkSnowy	Schneefall-Zeichen
+RibbonMarkBlizzard	Schneesturm-Zeichen
+RibbonMarkDry	Dürre-Zeichen
+RibbonMarkSandstorm	Sandsturm-Zeichen
+RibbonMarkMisty	Nebel-Zeichen
+RibbonMarkDestiny	Schicksals-Zeichen
+RibbonMarkFishing	Angel-Zeichen
+RibbonMarkCurry	Curry-Zeichen
+RibbonMarkUncommon	Gängigkeits-Zeichen
+RibbonMarkRare	Raritäts-Zeichen
+RibbonMarkRowdy	Raufbold-Zeichen
+RibbonMarkAbsentMinded	Sorglos-Zeichen
+RibbonMarkJittery	Spannungs-Zeichen
+RibbonMarkExcited	Vorfreude-Zeichen
+RibbonMarkCharismatic	Charisma-Zeichen
+RibbonMarkCalmness	Gelassenheits-Zeichen
+RibbonMarkIntense	Hitzkopf-Zeichen
+RibbonMarkZonedOut	Achtlos-Zeichen
+RibbonMarkJoyful	Glücklichkeits-Zeichen
+RibbonMarkAngry	Wut-Zeichen
+RibbonMarkSmiley	Lächel-Zeichen
+RibbonMarkTeary	Trübsal-Zeichen
+RibbonMarkUpbeat	Heiterkeits-Zeichen
+RibbonMarkPeeved	Missmut-Zeichen
+RibbonMarkIntellectual	Verstands-Zeichen
+RibbonMarkFerocious	Impulsiv-Zeichen
+RibbonMarkCrafty	Listigkeits-Zeichen
+RibbonMarkScowling	Grimmig-Zeichen
+RibbonMarkKindly	Sanftmut-Zeichen
+RibbonMarkFlustered	Panik-Zeichen
+RibbonMarkPumpedUp	Ansporn-Zeichen
+RibbonMarkZeroEnergy	Lustlos-Zeichen
+RibbonMarkPrideful	Selbstvertrauens-Zeichen
+RibbonMarkUnsure	Selbstzweifel-Zeichen
+RibbonMarkHumble	Arglos-Zeichen
+RibbonMarkThorny	Scheinheilig-Zeichen
+RibbonMarkVigor	Elan-Zeichen
+RibbonMarkSlump	Formtief-Zeichen
+RibbonHisui	Hisui
+RibbonTwinklingStar	Glitzersternband
+RibbonChampionPaldea	Paldea-Champs
+RibbonMarkJumbo	Riesen-Zeichen
+RibbonMarkMini	Winzlings-Zeichen
+RibbonMarkItemfinder	Aufsammler-Zeichen
+RibbonMarkPartner	Partner-Zeichen
+RibbonMarkGourmand	Gourmet-Zeichen
+RibbonOnceInALifetime	Glückstrefferband
+RibbonMarkAlpha	Elite-Zeichen
+RibbonMarkMightiest	Titanen-Zeichen
+RibbonMarkTitan	Herrscher-Zeichen
+RibbonPartner	Partnerband

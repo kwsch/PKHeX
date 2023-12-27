@@ -1,0 +1,255 @@
+(None)
+Master Ball
+Ultra Ball
+Luminpolvere
+Mega Ball
+Poké Ball
+Teru-sama (0)
+Bicicletta
+Pietralunare
+Antidoto
+Antiscottatura
+Antigelo
+Sveglia
+Antiparalisi
+Ricarica Totale
+Pozione Max
+Iper Pozione
+Super Pozione
+Pozione
+Fune di Fuga
+Repellente
+Elisir Max
+Pietrafocaia
+Pietratuono
+Pietraidrica
+Teru-sama (1)
+PS Su
+Proteina
+Ferro
+Carburante
+Fortunpugno
+Calcio
+Caramella Rara
+Precisione X
+Pietrafoglia
+Metalpolvere
+Pepita
+Pokébambola
+Cura Totale
+Revitalizzante
+Revitalizz. Max
+Superguardia
+Super Repellente
+Repellente Max
+Supercolpo
+Teru-sama (2)
+Acqua Fresca
+Gassosa
+Lemonsucco
+Attacco X
+Teru-sama (3)
+Difesa X
+Velocità X
+Special X
+Salvadanaio
+Ricerca Strumenti
+Teru-sama (4)
+Condiv. Esp
+Amo Vecchio
+Amo Buono
+Fogliargento
+Super Amo
+PP-Su
+Etere
+Etere Max
+Elisir
+Squama Rossa
+Poz.Segreta
+Biglietto Nave
+Uovo Mistero
+Campana Chiara*
+Aladargento
+Latte Mumu
+Rapidartigli
+Baccantiveleno
+Fogliadoro
+Sabbiasoffice
+Beccaffilato
+Baccantipar.
+Bacca Bruc.
+Bacca Ghiac.
+Velenaculeo
+Roccia Di Re
+Bacca Amara
+Bacca Menta
+Ghicoc.Rossa
+Minifungo
+Grande Fungo
+Argenpolvere
+Ghicocca Blu
+Teru-sama (5)
+Monetamuleto
+Ghicoc.Gial.
+Ghicoc.Verde
+Velopuro
+Acquamagica
+Cucchiaiotorto
+Ghicoc.Bnca
+Cinturanera
+Ghicoc.Nera
+Teru-sama (6)
+Ghicoc.Rosa
+Occhialineri
+Codaslowpoke
+Fiocco Rosa
+Gambo
+Palla Fumo
+Gelomai
+Calamita
+Bacca Mirac.
+Perla
+Grande Perla
+Pietrastante
+Spettrotarga
+Iramella
+GS Ball*
+Carta Blu*
+Miracolseme
+Ossospesso
+Bandana
+Teru-sama (7)
+Polvenergia
+Radicenergia
+Polvocura
+Vitalerba
+Pietradura
+Fortunuovo
+Apriporta
+Pezzo macch.
+Bigl.Uovo*
+Strumento Perso
+Polvostella
+Pezzo Stella
+Chiave sotterr.
+Abbonamento
+Teru-sama (8)
+Teru-sama (9)
+Teru-sama (10)
+Carbonella
+Succodibacca
+Mirino
+Teru-sama (11)
+Teru-sama (12)
+Metalcoperta
+Dentedidrago
+Teru-sama (13)
+Avanzi
+Teru-sama (14)
+Teru-sama (15)
+Teru-sama (16)
+Bacca Mist. 
+Squama Drago
+Genefurioso
+Teru-sama (17)
+Teru-sama (18)
+Teru-sama (19)
+Ceneremagica
+Peso Ball
+Messaggio Fiore
+Level Ball
+Esca Ball
+Rapid Ball
+Teru-sama (20)
+Elettropalla
+Friend Ball
+Luna Ball
+Love Ball
+Scat. Normale 
+Scat. Lusso
+Pietrasolare
+Fiocco Pois
+Teru-sama (21)
+Upgrade
+Bacca
+Bacca Oro
+Annaffiatoio
+Teru-sama (22)
+Parco Ball
+Ala d'Iride
+Teru-sama (23)
+Mattoncino
+Messaggio Surf
+Messaggio Azzurro
+Messaggio Ritratto
+Messaggio Dolce
+Messaggio Eon
+Messaggio Morph
+Messaggio Cielo
+Messaggio Musica
+Messaggio Visione
+Teru-sama (24)
+MT01
+MT02
+MT03
+MT04
+MT04 (Unused)
+MT05
+MT06
+MT07
+MT08
+MT09
+MT10
+MT11
+MT12
+MT13
+MT14
+MT15
+MT16
+MT17
+MT18
+MT19
+MT20
+MT21
+MT22
+MT23
+MT24
+MT25
+MT26
+MT27
+MT28
+MT28 (Unused)
+MT29
+MT30
+MT31
+MT32
+MT33
+MT34
+MT35
+MT36
+MT37
+MT38
+MT39
+MT40
+MT41
+MT42
+MT43
+MT44
+MT45
+MT46
+MT47
+MT48
+MT49
+MT50
+MN01
+MN02
+MN03
+MN04
+MN05
+MN06
+MN07
+MN08 (Unused)
+MN09 (Unused)
+MN10 (Unused)
+MN11 (Unused)
+MN12 (Unused)

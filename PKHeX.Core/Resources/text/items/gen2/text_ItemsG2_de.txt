@@ -1,0 +1,255 @@
+(Keins)
+Meisterball
+Hyperball
+Blendpuder
+Superball
+Pokéball
+Teru-sama (0)
+Fahrrad
+Mondstein
+Gegengift
+Feuerheiler
+Eisheiler
+Aufwecker
+Para-Heiler
+Top-Genesung
+Top-Trank
+Hypertrank
+Supertrank
+Trank
+Fluchtseil
+Schutz
+Top-Elixier
+Feuerstein
+Donnerstein
+Wasserstein
+Teru-sama (1)
+KP-Plus
+Protein
+Eisen
+Carbon
+Lucky Punch
+Kalzium
+Sonderbonbon
+X-Treffer
+Blattstein
+Metallstaub
+Nugget
+Poképuppe
+Hyperheiler
+Beleber
+Top-Beleber
+Megablock
+Superschutz
+Top-Schutz
+Angriffplus
+Teru-sama (2)
+Tafelwasser
+Sprudel
+Limonade
+X-Angriff
+Teru-sama (3)
+X-Abwehr
+X-Tempo
+X-Spezial
+Münzkorb
+Detektor
+Teru-sama (4)
+EP-Teiler
+Angel
+Profiangel
+Silberblatt
+Superangel
+AP-Plus
+Äther
+Top-Äther
+Elixier
+Rote Haut
+Geheimtrank
+Bootsticket
+Rätsel-Ei
+Sanftglocke*
+Silberflügel
+Kuhmuh Milch
+Flinkklaue
+Gegengiftbeere
+Goldblatt
+Pudersand
+Hackattack
+Antiparbeere
+Brandbeere
+Eisbeere
+Giftstich
+King-Stein
+Bitterbeere
+Minzbeere
+Aprikoko Rot
+Minipilz
+Riesenpilz
+Silberstaub
+Aprikoko Blau
+Teru-sama (5)
+Münzamulett
+Aprikoko Gelb
+Aprikoko Grün
+Schutzband
+Zauberwasser
+Krummlöffel
+Aprikoko Weiß
+Schwarzgurt
+Aprikoko Schwarz
+Teru-sama (6)
+Aprikoko Pink
+Schattenglas
+Flegmon-Rute
+Rosa Band
+Lauchstange
+Rauchball
+Ewiges Eis
+Magnet
+Wunderbeere
+Perle
+Riesenperle
+Ewigstein
+Bannsticker
+Wutkeks
+GS-Ball*
+Blaue Karte*
+Wundersaat
+Kampfknochen
+Fokusband
+Teru-sama (7)
+Energiestaub
+Kraftwurzel
+Heilpuder
+Vitalkraut
+Granitstein
+Glücks-Ei
+Türöffner
+Spule
+Egg Ticket*
+Fundsache
+Sternenstaub
+Sternenstück
+Kelleröffner
+Fahrschein
+Teru-sama (8)
+Teru-sama (9)
+Teru-sama (10)
+Holzkohle
+Beerensaft
+Scope-Linse
+Teru-sama (11)
+Teru-sama (12)
+Metallmantel
+Drachenzahn
+Teru-sama (13)
+Überreste
+Teru-sama (14)
+Teru-sama (15)
+Teru-sama (16)
+Rätselbeere
+Drachenhaut
+Berserk-Gen
+Teru-sama (17)
+Teru-sama (18)
+Teru-sama (19)
+Zauberasche
+Schwerball
+Blumenbrief
+Levelball
+Köderball
+Turboball
+Teru-sama (20)
+Kugelblitz
+Freundesball
+Mondball
+Sympaball
+Schachtel
+Schatulle
+Sonnenstein
+Punkt-Band
+Teru-sama (21)
+Up-Grade
+Beere
+Goldbeere
+Schiggykanne
+Teru-sama (22)
+Parkball
+Buntschwinge
+Teru-sama (23)
+Ziegelstein
+Surferbrief
+Cyanbrief
+Abbildbrief
+Herzbrief
+Anara-Brief
+Morph-Brief
+Kobaltbrief
+Melodiebrief
+Trugbrief
+Teru-sama (24)
+TM01
+TM02
+TM03
+TM04
+TM04 (Unbenutzt)
+TM05
+TM06
+TM07
+TM08
+TM09
+TM10
+TM11
+TM12
+TM13
+TM14
+TM15
+TM16
+TM17
+TM18
+TM19
+TM20
+TM21
+TM22
+TM23
+TM24
+TM25
+TM26
+TM27
+TM28
+TM28 (Unbenutzt)
+TM29
+TM30
+TM31
+TM32
+TM33
+TM34
+TM35
+TM36
+TM37
+TM38
+TM39
+TM40
+TM41
+TM42
+TM43
+TM44
+TM45
+TM46
+TM47
+TM48
+TM49
+TM50
+VM01
+VM02
+VM03
+VM04
+VM05
+VM06
+VM07
+VM08 (Unbenutzt)
+VM09 (Unbenutzt)
+VM10 (Unbenutzt)
+VM11 (Unbenutzt)
+VM12 (Unbenutzt)

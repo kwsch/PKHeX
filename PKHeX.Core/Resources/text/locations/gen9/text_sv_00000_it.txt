@@ -1,0 +1,201 @@
+----------
+
+Zona misteriosa
+
+Luogo remoto
+
+Area 1 Sud
+
+Mesapoli
+
+Lega Pokémon
+
+Area 2 Sud
+
+Area 4 Sud
+
+Area 6 Sud
+
+Area 5 Sud
+
+Area 3 Sud
+
+Area 1 Ovest
+
+Deserto Alasar
+
+Area 2 Ovest
+
+Area 3 Ovest
+
+Boschetto dei Segni
+
+Area 3 Est
+
+Area 1 Est
+
+Area 2 Est
+
+Sierra Napada
+
+Lago Gran Caldero
+
+Sierra Napada
+
+Area 3 Nord
+
+Area 1 Nord
+
+Area 2 Nord
+
+Voragine di Paldea
+
+Varco Zero
+
+Varco Zero
+
+Mare di Paldea (sud)
+
+Mare di Paldea (ovest)
+
+Mare di Paldea (est)
+
+Mare di Paldea (nord)
+
+Grotta della Baia
+
+Area 6 Sud
+Caverna di Las Brasas
+Sierra Napada
+Passaggio Mescadia
+Sentiero di Dosilla
+
+Mesapoli
+
+Mesapoli
+
+Garrafopoli
+
+Leudapoli
+
+Dosilla
+
+Platia
+
+Moldulcia
+
+Los Tazones
+
+Marinada
+
+Mesturia
+
+Picadia
+
+Neveria
+
+Las Brasas
+
+Area 2 Nord
+Base della Banda Caph
+Area 1 Ovest
+Base della Banda Segin
+Area 3 Nord
+Base della Banda Ruchbah
+Area 1 Est
+Base della Banda Schedar
+Boschetto dei Segni
+Base della Banda Tsih
+Lago Gran Caldero
+Bosco Torrado
+Area Zero
+Stazione di Monitoraggio 1
+Area Zero
+Stazione di Monitoraggio 2
+Area Zero
+Stazione di Monitoraggio 3
+Area Zero
+Stazione di Monitoraggio 4
+Laboratorio Zero
+
+Laboratorio Zero
+
+Laboratorio Zero
+
+Area Zero
+
+Area Zero
+
+Area Zero
+
+Accademia Arancia
+Accademia Uva
+Via Nordivia
+
+Verdegiada
+
+Colle Mele
+
+Parco dei beniamici
+
+Sentiero del Tripudio
+
+Centro Nordivia
+
+Monte Orco
+
+Antro del Terrore
+Monte Orco
+Bocca dell’Orco
+Monte Orco
+Monte Orco
+
+Lago Cristallìo
+Vetta del Monte Orco
+Lago Cristallìo
+Vetta del Monte Orco
+Piana dei Glicini
+
+Piana Duefiumi
+
+Canyon del Corno
+
+Landa Paradisiaca
+
+Terre Primeve di Nordivia
+
+Foresta Perpetua
+Terre Primeve di Nordivia
+Pendio Infernale
+Monte Orco
+Grotta Doccia Fredda
+
+Istituto Mirtillo
+
+Settore Savana
+
+Settore Costa
+
+Settore Canyon
+
+Settore Ghiacciai
+
+Piazza Centrale
+
+Piazza della Savana
+
+Piazza della Costa
+
+Piazza del Canyon
+
+Piazza dei Ghiacciai
+
+Grotta Pietrelettrica
+
+Labirinto dei Lumi
+
+Grande Abisso Zero
+
+Grande Abisso Zero
+
+Bioterarium

@@ -1,0 +1,13 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ティラナ州	Tirana	Tirana	Tirana	Tirana	Tirana	地拉那州	티라나 주	地拉那州
+003	ベラト州	Berat	Berat	Berat	Berat	Berat	培拉特州	베라트 주	培拉特州
+004	ディブラ州	Dibër	Dibër	Dibra	Dibër	Dibër	迪勃拉州	디브라 주	迪勃拉州
+005	デュラス州	Durrës	Durrës	Durrës	Durazzo	Durrës	都拉斯州	두러스 주	都拉斯州
+006	エルバサン州	Elbasan	Elbasan	Elbasan	Elbasan	Elbasan	爱尔巴桑州	엘바산 주	愛爾巴桑州
+007	フィエル州	Fier	Fier	Fier	Fier	Fier	费里州	피에르 주	費裏州
+008	ギロカストラ州	Gjirokastër	Gjirokastër	Gjirokastra	Argirocastro	Gjirokastra	吉诺卡斯特州	지로카스터르 주	吉諾卡斯特州
+009	コルチャ州	Korçë	Korçë	Korça	Coriza	Korçë	科尔察州	코르처 주	科爾察州
+010	クケス州	Kukës	Kukës	Kukës	Kukës	Kukës	库克斯州	쿠커스 주	庫克斯州
+011	レジャ州	Lezhë	Lezhë	Lezha	Alessio	Lezhë	莱什州	레저 주	萊什州
+012	シュコドラ州	Shkodër	Shkodër	Shkodra	Scutari	Shkodër	斯库台州	슈코더르 주	斯庫台州
+013	ヴロラ州	Vlorë	Vlorë	Vlora	Valona	Vlorë	发罗拉州	블로러 주	發羅拉州

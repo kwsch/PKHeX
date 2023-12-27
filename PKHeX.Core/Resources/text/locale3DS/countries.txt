@@ -1,0 +1,123 @@
+﻿000	—	—	—	—	—	—	—	—	—
+001	日本	Japan	Japon	Japan	Giappone	Japón	日本	일본	日本
+008	アンギラ	Anguilla	Anguilla	Anguilla	Anguilla	Anguila	安圭拉	앵귈라	安圭拉
+009	アンティグア・バーブーダ	Antigua and Barbuda	Antigua-et-Barbuda	Antigua und Barbuda	Antigua e Barbuda	Antigua y Barbuda	安提瓜和巴布达	앤티가 바부다	安提瓜和巴布達
+010	アルゼンチン	Argentina	Argentine	Argentinien	Argentina	Argentina	阿根廷	아르헨티나	阿根廷
+011	アルバ	Aruba	Aruba	Aruba	Aruba	Aruba	阿鲁巴	아루바	阿魯巴
+012	バハマ	Bahamas	Bahamas	Bahamas	Bahamas	Bahamas	巴哈马	바하마	巴哈馬
+013	バルバドス	Barbados	Barbade	Barbados	Barbados	Barbados	巴巴多斯	바베이도스	巴巴多斯
+014	ベリーズ	Belize	Belize	Belize	Belize	Belice	伯利兹	벨리즈	伯利茲
+015	ボリビア	Bolivia	Bolivie	Bolivien	Bolivia	Bolivia	玻利维亚	볼리비아	玻利維亞
+016	ブラジル	Brazil	Brésil	Brasilien	Brasile	Brasil	巴西	브라질	巴西
+017	英領ヴァージン諸島	British Virgin Islands	Îles Vierges britanniques	Britische Jungferninseln	Isole Vergini Britanniche	Islas Vírgenes Británicas	英属维尔京群岛	영국령 버진아일랜드	英屬維爾京群島
+018	カナダ	Canada	Canada	Kanada	Canada	Canadá	加拿大	캐나다	加拿大
+019	ケイマン諸島	Cayman Islands	Îles Caïmans	Kaimaninseln	Isole Cayman	Islas Caimán	开曼群岛	케이맨 제도	開曼群島
+020	チリ	Chile	Chili	Chile	Cile	Chile	智利	칠레	智利
+021	コロンビア	Colombia	Colombie	Kolumbien	Colombia	Colombia	哥伦比亚	콜롬비아	哥倫比亞
+022	コスタリカ	Costa Rica	Costa Rica	Costa Rica	Costa Rica	Costa Rica	哥斯达黎加	코스타리카	哥斯達黎加
+023	ドミニカ国	Dominica	Dominique	Dominica	Dominica	Dominica	多米尼克	도미니카 연방	多米尼克
+024	ドミニカ共和国	Dominican Republic	République dominicaine	Dominikanische Republik	Repubblica Dominicana	República Dominicana	多米尼加共和国	도미니카 공화국	多米尼加共和國
+025	エクアドル	Ecuador	Équateur	Ecuador	Ecuador	Ecuador	厄瓜多尔	에콰도르	厄瓜多爾
+026	エルサルバドル	El Salvador	Salvador	El Salvador	El Salvador	El Salvador	萨尔瓦多	엘살바도르	薩爾瓦多
+027	フランス領ギアナ	French Guiana	Guyane	Französisch-Guyana	Guyana Francese	Guayana Francesa	法属圭亚那	프랑스령 기아나	法屬圭亞那
+028	グレナダ	Grenada	Grenade	Grenada	Grenada	Granada	格林纳达	그레나다	格林納達
+029	グアドループ	Guadeloupe	Guadeloupe	Guadeloupe	Guadalupa	Guadalupe	瓜德罗普	과들루프	瓜德羅普
+030	グアテマラ	Guatemala	Guatemala	Guatemala	Guatemala	Guatemala	危地马拉	과테말라	危地馬拉
+031	ガイアナ	Guyana	République coopérative de Guyana	Guyana	Guyana	Guyana	圭亚那	가이아나	圭亞那
+032	ハイチ	Haiti	Haïti	Haiti	Haiti	Haití	海地	아이티	海地
+033	ホンジュラス	Honduras	Honduras	Honduras	Honduras	Honduras	洪都拉斯	온두라스	洪都拉斯
+034	ジャマイカ	Jamaica	Jamaïque	Jamaika	Giamaica	Jamaica	牙买加	자메이카	牙買加
+035	マルティニーク	Martinique	Martinique	Martinique	Martinica	Martinica	马提尼克	마르티니크	馬提尼克
+036	メキシコ	Mexico	Mexique	Mexiko	Messico	México	墨西哥	멕시코	墨西哥
+037	モントセラト	Montserrat	Montserrat	Montserrat	Montserrat	Montserrat	蒙特塞拉特	몬트세랫	蒙特塞拉特
+038	オランダ領アンティル	Netherlands Antilles	Antilles néerlandaises	Niederländische Antillen	Antille Olandesi	Antillas Neerlandesas	荷属安的列斯	네덜란드령 앤틸리스	荷屬安的列斯
+039	ニカラグア	Nicaragua	Nicaragua	Nicaragua	Nicaragua	Nicaragua	尼加拉瓜	니카라과	尼加拉瓜
+040	パナマ	Panama	Panama	Panama	Panamá	Panamá	巴拿马	파나마	巴拿馬
+041	パラグアイ	Paraguay	Paraguay	Paraguay	Paraguay	Paraguay	巴拉圭	파라과이	巴拉圭
+042	ペルー	Peru	Pérou	Peru	Perù	Perú	秘鲁	페루	秘魯
+043	セントキッツ・ネイビス	St. Kitts and Nevis	Saint-Christophe-et-Niévès	St. Kitts und Nevis	Saint Kitts e Nevis	San Cristóbal y Nieves	圣基茨和尼维斯	세인트키츠네비스	聖基茨和尼維斯
+044	セントルシア	St. Lucia	Sainte-Lucie	St. Lucia	Santa Lucia	Santa Lucía	圣卢西亚	세인트루시아	聖盧西亞
+045	セントビンセント・グレナディーン	St. Vincent and the Grenadines	Saint-Vincent-et-les-Grenadines	St. Vincent und die Grenadinen	Saint Vincent e Grenadine	San Vicente y las Granadinas	圣文森特和格林纳丁斯	세인트빈센트 그레나딘	聖文森特和格林納丁斯
+046	スリナム	Suriname	Suriname	Suriname	Suriname	Surinam	苏里南	수리남	蘇裡南
+047	トリニダード・トバゴ	Trinidad and Tobago	Trinité-et-Tobago	Trinidad und Tobago	Trinidad e Tobago	Trinidad y Tobago	特立尼达和多巴哥	트리니다드토바고	特立尼達和多巴哥
+048	タークス・カイコス諸島	Turks and Caicos Islands	Îles Turques-et-Caïques	Turks- und Caicosinseln	Isole Turks e Caicos	Islas Turcas y Caicos	特克斯和凯科斯群岛	터크스 케이커스 제도	特克斯和凱科斯群島
+049	アメリカ	United States	États-Unis d’Amérique	Vereinigte Staaten	Stati Uniti d'America	Estados Unidos de América	美国	미국	美國
+050	ウルグアイ	Uruguay	Uruguay	Uruguay	Uruguay	Uruguay	乌拉圭	우루과이	烏拉圭
+051	米領バージン諸島	US Virgin Islands	Îles Vierges américaines	Amerikanische Jungferninseln	Isole Vergini Statunitensi	Islas Vírgenes de los EE. UU.	美属维尔京群岛	미국령 버진아일랜드	美屬維爾京群島
+052	ベネズエラ	Venezuela	Venezuela	Venezuela	Venezuela	Venezuela	委内瑞拉	베네수엘라	委內瑞拉
+064	アルバニア	Albania	Albanie	Albanien	Albania	Albania	阿尔巴尼亚	알바니아	阿爾巴尼亞
+065	オーストラリア	Australia	Australie	Australien	Australia	Australia	澳大利亚	오스트레일리아	澳洲
+066	オーストリア	Austria	Autriche	Österreich	Austria	Austria	奥地利	오스트리아	奧地利
+067	ベルギー	Belgium	Belgique	Belgien	Belgio	Bélgica	比利时	벨기에	比利時
+068	ボスニア・ヘルツェゴビナ	Bosnia and Herzegovina	Bosnie-Herzégovine	Bosnien-Herzegowina	Bosnia-Erzegovina	Bosnia-Herzegovina	波斯尼亚和黑塞哥维那	보스니아헤르체고비나	波斯尼亞和黑塞哥維那
+069	ボツワナ	Botswana	Botswana	Botsuana	Botswana	Botsuana	博茨瓦纳	보츠와나	博茨瓦納
+070	ブルガリア	Bulgaria	Bulgarie	Bulgarien	Bulgaria	Bulgaria	保加利亚	불가리아	保加利亞
+071	クロアチア	Croatia	Croatie	Kroatien	Croazia	Croacia	克罗地亚	크로아티아	克羅地亞
+072	キプロス	Cyprus	Chypre	Zypern	Cipro	Chipre	塞浦路斯	키프로스	塞浦路斯
+073	チェコ	Czech Republic	République tchèque	Tschechische Republik	Repubblica Ceca	República Checa	捷克共和国	체코	捷克共和國
+074	デンマーク	Denmark (Kingdom of)	Danemark (Royaume)	Dänemark (Königreich)	Danimarca (Regno di)	Dinamarca (Reino)	丹麦	덴마크	丹麥
+075	エストニア	Estonia	Estonie	Estland	Estonia	Estonia	爱沙尼亚	에스토니아	愛沙尼亞
+076	フィンランド	Finland	Finlande	Finnland	Finlandia	Finlandia	芬兰	핀란드	芬蘭
+077	フランス	France	France	Frankreich	Francia	Francia	法国	프랑스	法國
+078	ドイツ	Germany	Allemagne	Deutschland	Germania	Alemania	德国	독일	德國
+079	ギリシャ	Greece	Grèce	Griechenland	Grecia	Grecia	希腊	그리스	希臘
+080	ハンガリー	Hungary	Hongrie	Ungarn	Ungheria	Hungría	匈牙利	헝가리	匈牙利
+081	アイスランド	Iceland	Islande	Island	Islanda	Islandia	冰岛	아이슬란드	冰島
+082	アイルランド	Ireland	Irlande	Irland	Irlanda	Irlanda	爱尔兰	아일랜드	愛爾蘭
+083	イタリア	Italy	Italie	Italien	Italia	Italia	意大利	이탈리아	意大利
+084	ラトビア	Latvia	Lettonie	Lettland	Lettonia	Letonia	拉脱维亚	라트비아	拉脫維亞
+085	レソト	Lesotho	Lesotho	Lesotho	Lesotho	Lesoto	莱索托	레소토	萊索托
+086	リヒテンシュタイン	Liechtenstein	Liechtenstein	Liechtenstein	Liechtenstein	Liechtenstein	列支敦士登	리히텐슈타인	列支敦士登
+087	リトアニア	Lithuania	Lituanie	Litauen	Lituania	Lituania	立陶宛	리투아니아	立陶宛
+088	ルクセンブルク	Luxembourg	Luxembourg	Luxemburg	Lussemburgo	Luxemburgo	卢森堡	룩셈부르크	盧森堡
+089	マケドニア	Macedonia (Republic of)	Macédoine (République)	Mazedonien (Republik)	Macedonia (Repubblica di)	Macedonia (República)	马其顿	마케도니아 공화국	馬其頓
+090	マルタ	Malta	Malte	Malta	Malta	Malta	马耳他	몰타	馬耳他
+091	モンテネグロ	Montenegro	Monténégro	Montenegro	Montenegro	Montenegro	黑山	몬테네그로	黑山
+092	モザンビーク	Mozambique	Mozambique	Mosambik	Mozambico	Mozambique	莫桑比克	모잠비크	莫桑比克
+093	ナミビア	Namibia	Namibie	Namibia	Namibia	Namibia	纳米比亚	나미비아	納米比亞
+094	オランダ	Netherlands	Pays-Bas	Niederlande	Paesi Bassi	Países Bajos	荷兰	네덜란드	荷蘭
+095	ニュージーランド	New Zealand	Nouvelle-Zélande	Neuseeland	Nuova Zelanda	Nueva Zelanda	新西兰	뉴질랜드	紐西蘭
+096	ノルウェー	Norway	Norvège	Norwegen	Norvegia	Noruega	挪威	노르웨이	挪威
+097	ポーランド	Poland	Pologne	Polen	Polonia	Polonia	波兰	폴란드	波蘭
+098	ポルトガル	Portugal	Portugal	Portugal	Portogallo	Portugal	葡萄牙	포르투갈	葡萄牙
+099	ルーマニア	Romania	Roumanie	Rumänien	Romania	Rumanía	罗马尼亚	루마니아	羅馬尼亞
+100	ロシア	Russia	Russie	Russland	Russia	Rusia	俄罗斯	러시아	俄羅斯
+101	セルビア・コソヴォ	Serbia and Kosovo	Serbie et Kosovo	Serbien und Kosovo	Serbia e Kosovo	Serbia y Kosovo	塞尔维亚及科索沃	세르비아 코소보	塞爾維亞及科索沃
+102	スロバキア	Slovakia	Slovaquie	Slowakei	Slovacchia	Eslovaquia	斯洛伐克	슬로바키아	斯洛伐克
+103	スロベニア	Slovenia	Slovénie	Slowenien	Slovenia	Eslovenia	斯洛文尼亚	슬로베니아	斯洛文尼亞
+104	南アフリカ	South Africa	Afrique du Sud	Südafrika	Sudafrica	Sudáfrica	南非	남아프리카 공화국	南非
+105	スペイン	Spain	Espagne	Spanien	Spagna	España	西班牙	스페인	西班牙
+106	スワジランド	Swaziland	Swaziland	Swasiland	Swaziland	Suazilandia	斯威士兰	스와질란드	斯威士蘭
+107	スウェーデン	Sweden	Suède	Schweden	Svezia	Suecia	瑞典	스웨덴	瑞典
+108	スイス	Switzerland	Suisse	Schweiz	Svizzera	Suiza	瑞士	스위스	瑞士
+109	トルコ	Turkey	Turquie	Türkei	Turchia	Turquía	土耳其	터키	土耳其
+110	イギリス	United Kingdom	Royaume-Uni	Vereinigtes Königreich	Regno Unito	Reino Unido	英国	영국	英國
+111	ザンビア	Zambia	Zambie	Sambia	Zambia	Zambia	赞比亚	잠비아	贊比亞
+112	ジンバブエ	Zimbabwe	Zimbabwe	Simbabwe	Zimbabwe	Zimbabue	津巴布韦	짐바브웨	津巴布韋
+113	アゼルバイジャン	Azerbaijan	Azerbaïdjan	Aserbaidschan	Azerbaigian	Azerbaiyán	阿塞拜疆	아제르바이잔	阿塞拜疆
+114	モーリタニア	Mauritania	Mauritanie	Mauretanien	Mauritania	Mauritania	毛里塔尼亚	모리타니	毛裡塔尼亞
+115	マリ	Mali	Mali	Mali	Mali	Malí	马里	말리	馬裡
+116	ニジェール	Niger	Niger	Niger	Niger	Níger	尼日尔	니제르	尼日爾
+117	チャド	Chad	Tchad	Tschad	Ciad	Chad	乍得	차드	乍得
+118	スーダン	Sudan	Soudan	Sudan	Sudan	Sudán	苏丹	수단	蘇丹
+119	エリトリア	Eritrea	Érythrée	Eritrea	Eritrea	Eritrea	厄立特里亚	에리트레아	厄立特裡亞
+120	ジブチ	Djibouti	Djibouti	Dschibuti	Gibuti	Yibuti	吉布提	지부티	吉布提
+121	ソマリア	Somalia	Somalie	Somalia	Somalia	Somalia	索马里	소말리아	索馬裡
+122	アンドラ	Andorra	Andorre	Andorra	Andorra	Andorra	安道尔	안도라	安道爾
+123	ジブラルタル	Gibraltar	Gibraltar	Gibraltar	Gibilterra	Gibraltar	直布罗陀	지브롤터	直布羅陀
+124	ガーンジー島	Guernsey	Guernesey	Guernsey	Guernsey	Guernsey	根西	건지 섬	根西
+125	マン島	Isle of Man	Île de Man	Isle of Man	Isola di Man	Isla de Man	马恩岛	맨 섬	馬恩島
+126	ジャージー島	Jersey	Jersey	Jersey	Jersey	Jersey	泽西	저지 섬	澤西
+127	モナコ	Monaco	Monaco	Monaco	Monaco (Principato di)	Mónaco	摩纳哥	모나코	摩納哥
+128	台湾	Taiwan	Taïwan	Taiwan	Taiwan	Taiwán	中国 台湾	타이완	臺灣
+136	韓国	South Korea	Corée du Sud	Südkorea	Corea del Sud	Corea del Sur	韩国	대한민국	韓國
+144	ホンコン	Hong Kong	Hong Kong	Hongkong	Hong Kong	Hong Kong	中国 香港	홍콩	香港
+153	シンガポール	Singapore	Singapour	Singapur	Singapore	Singapur	新加坡	싱가포르	星加坡
+156	マレーシア	Malaysia	Malaisie	Malaysia	Malesia	Malasia	马来西亚	말레이시아	馬來西亞
+160	中国	China	Chine	China	Cina	China	中国	중국	中國大陸
+168	アラブ首長国連邦	U.A.E.	Émirats arabes unis	Vereinigte Arabische Emirate	Emirati Arabi Uniti	Emiratos Árabes Unidos	阿拉伯联合酋长国	아랍에미리트	阿拉伯聯合酋長國
+169	インド	India	Inde	Indien	India	India	印度	인도	印度
+174	サウジアラビア	Saudi Arabia	Arabie saoudite	Saudi-Arabien	Arabia Saudita	Arabia Saudí	沙特阿拉伯	사우디아라비아	沙特阿拉伯
+184	サンマリノ	San Marino	Saint-Marin	San Marino	San Marino	San Marino	圣马力诺	산마리노	聖馬力諾
+185	バチカン	Vatican City	Vatican	Vatikanstadt	Vaticano (Città del)	Vaticano	梵蒂冈	바티칸	梵蒂岡
+186	バーミューダ	Bermuda	Bermudes	Bermuda	Bermude	Bermudas	百慕大	버뮤다	百慕大

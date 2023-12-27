@@ -1,0 +1,22 @@
+0048	*	Incial	0:Sin Elegir,152:Chikorita,155:Cyndaquil,158:Totodile
+0299	r	Pichu Picoreja (Encinar)	0:No aparecido,1:Pendiente,2:Desaparecido
+0161	r	Bestias (Torre Quemada)	0:Aparecido,1:Errante/Escapado
+0304	s	Steven Stone Status	0:Clefairy Doll pending,1:Will meet in Vermilion (Lati@s Pending),2:Met (Lati@s Roamed),3:Asks to choose Hoenn Starter,4:Gave Hoenn Starter,5:Talked to at Pewter Museum,6:Wants to trade at Silph Co.,7:Traded for Beldum
+0067	e	Piedra Enigma	0:No Activa,1778:Activa
+0249	e	Torre Oculta	0:Sin recibir Inicial de Kanto,1:Obtenido Inicial de Kanto,2:Orbe Obtenida,3:Kyogre/Groudon Activado,4:Kyogre/Groudon Desaparecido,6:Rayquaza Activado,7:Rayquaza Capturado,9:Rayquaza Desaparecido
+0251	e	Ruinas Sinjoh	1:No entrado,4:Teleportado (1ra),5:Ido Afuera,6:Cynthia hablable (cabaña),7:Cynthia hablable,8:Antes de elegir Legendario,10:Obtenido Primer Legendario,13:Teleportado (2da),14:Obtenido Segundo Legendario
+0259	r	Legendario de Sinnoh (1er)	1:Dialga,2:Palkia,3:Giratina
+0258	r	Teleportable (2do) Arceus	1:Sala Origen,2:Encuentro Fatídico
+0305	r	Iniciales de Kanto	0:No Activado,1:Activado,2:Pendiente,3:Bulbasaur,4:Squirtle,5:Charmander,6:Completo
+0116	r	Togepi de Regalo	0:No Activado,1:Activado,2:Pendiente,3:Obtenido,4:Completo
+0254	r	Evento de Celebi	0:No Activado,5:Completado
+0314	a	Puntos de la Tarjeta Azul	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:11,12:12,13:13,14:14,15:15,16:16,17:17,18:18,19:19,20:20,21:21,22:22,23:23,24:24,25:25,26:26,27:27,28:28,29:29
+0069	r	Raikou Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0070	r	Entei Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0071	r	Roaming Latias Status (HG)	0:Pending,1:Caught,2:Fainted/Can Respawn
+0072	r	Roaming Latios Status (SS)	0:Pending,1:Caught,2:Fainted/Can Respawn
+0148	+	Total Week Siblings Met	0:0,1:1,2:2,3:3,4:4,5:5,6:6,7:7
+0151	s	Ace Trainer Sisters (Route 34)	0:Not Battled,1:Defeated Irene and Jenn,2:Power Herb Pending,3:Defeated Kate/Got Power Herb
+0253	r	Hoenn Starters	0:Not Activated,1:Activated
+0276	s	Mail Quest	0:Not Activated,1:Received Spearow with Mail,2:Delivered Mail on Route 31 (Bag Full),3:Delivered Mail on Route 31,5:Webster gave HP Up (Completed)
+0291	+	Catching Show Best Score

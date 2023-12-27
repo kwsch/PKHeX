@@ -1,0 +1,6 @@
+148	*	Inicial	00:Rowlet,01:Litten,02:Popplio
+432	r	Tapu Koko	03:Luchable,04:Derrotado,05:Capturado
+433	r	Tapu Lele	01:Luchable,02:Derrotado,03:Capturado
+434	r	Tapu Bulu	01:Luchable,02:Derrotado,03:Capturado
+404	r	Tapu Fini	03:Luchable,04:Derrotado,05:Capturado
+418	r	Solgaleo/Lunala Interaction	0:Travels to Ultra Space (Before Encounter),2:Travels to Ultra Space (Entered Ultra Space),3:Travels to Ultra Space (Found Guzma),4:Initiates Battle (Defeated Lusamine)

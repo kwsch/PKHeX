@@ -1,0 +1,28 @@
+0048	*	Starter	0:Not Chosen,387:Turtwig,390:Chimchar,393:Piplup
+0122	r	Togepi Egg	0:Visited Statue,1:Received HM01,2:Cynthia Disappeared,3:Cynthia Gives Egg,4:Egg Pending,5:Egg Received
+0196	r	Dialga	0:Battleable,1:Disappeared
+0197	r	Palkia	0:Battleable,1:Disappeared
+0085	r	Giratina (Distortion World)	13:Battleable,14:Disappeared
+0158	r	Heatran	00:Not Activated,01:Battleable,02:Disappeared
+0054	e	Fullmoon Island	0:Not Activated,520:On the Map
+0055	e	Newmoon Island	0:Not Activated,553:On the Map
+0056	e	Spring Path	0:Not appeared,786:Appeared
+0057	e	Seabreak Path	0:Not appeared,4136:Appeared
+0067	e	Member Card	0:Not Activated,4617:Activated
+0068	e	Oak's Letter	0:Not Activated,4370:Activated
+0069	e	Azure Flute	0:Not Activated,4387:Activated
+0070	e	Secret Key	0:Not Activated,4355:Activated
+0086	e	Arceus Event Hiker	0:Not Activated,1:In Oreburgh Mine,2:On Canalave Library 2F,3:Event Completed
+0087	e	Event Marley (Route 224)	0:Not Activated,1:Can be Activated,2:Activated
+0133	s	Marley (Route 224)	0:Not Activated,1:Activated,2:Appeared
+0105	r	Iron Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0106	r	Iceberg Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0107	r	Rock Peak Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0062	r	Spiritomb	0:Disappeared,32:Appeared
+0138	r	Hallowed Tower	0:Not Activated,1:Activated
+0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0096	r	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0095	r	Zapdos Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0094	r	Moltres Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0224	+	Catching Show Best Score

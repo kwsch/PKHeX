@@ -1,9 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-002,アブダビ,Abu Dhabi,Abu Dhabi,Abu Dhabi,Abu Dhabi,Abu Dabi,阿布扎比,아부다비,
-003,アジュマン,Ajman,Ajman,Adschman,Ajman,Ajmán,阿治曼,아지만,
-004,シャルジャ,Ash Shariqah,Sharjah,Schardscha,Sharjah,Sarja,沙迦,샤르자,
-005,ラアス・アル・カイマー,Ras al-Khaimah,Ras al-Khaïmah,Ras al-Chaima,Ras al-Khaimah,Ras el Jaima,哈伊马角,라스알카이마,
-006,ドゥバイ,Dubai,Dubaï,Dubai,Dubai,Dubái,迪拜,두바이,
-007,フジャイラー,Al Fujayrah,Fujaïrah,Fudschaira,Fujayrah,Fujaira,富查伊拉,알푸자이라,
-008,ウム・アル・カイワイン,Umm al Qaywayn,Umm al-Qaiwain,Umm al-Qaiwain,Umm al-Qaiwain,Um el Kaiwain,乌姆盖万,움알카이와인,

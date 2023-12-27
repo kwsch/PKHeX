@@ -1,0 +1,27 @@
+Esemplari catturati
+Volte che l’hai visto usare {0}
+Volte che l’hai sconfitto con mosse di tipo {0}
+Esemplari sconfitti
+Volte che l’hai fatto evolvere
+Esemplari alfa catturati
+Esemplari di grossa taglia catturati
+Esemplari di piccola taglia catturati
+Esemplari pesanti catturati
+Esemplari leggeri catturati
+Esemplari catturati durante il {0}
+Esemplari catturati mentre dormivano
+Esemplari catturati in aria
+Esemplari catturati senza farti notare
+Volte che gli hai dato del cibo
+Volte che ne hai rallentato i movimenti
+Esemplari spaventati con una Scoppiosfera
+Esemplari attirati con una Pokékokeshi
+Tecniche potenti viste
+Tecniche rapide viste
+Esemplari visti saltare fuori dalle piante
+Esemplari visti saltare fuori da mucchi di foglie
+Esemplari visti saltare fuori dalla neve
+Esemplari visti saltare fuori da depositi minerali
+Esemplari visti saltare fuori da cespugli di carice
+Variazioni di forma e aspetto accertate
+Ti è stata affidata una parte di Arceus

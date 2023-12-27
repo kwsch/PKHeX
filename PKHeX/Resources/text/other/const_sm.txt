@@ -1,5 +1,0 @@
-148	Starter	00:Rowlet,01:Litten,02:Popplio
-432	Tapu Koku	03:Battleable,04:Defeated,05:Captured
-433	Tapu Lele	01:Battleable,02:Defeated,03:Captured
-434	Tapu Bulu	01:Battleable,02:Defeated,03:Captured
-404	Tapu Fini	03:Battleable,04:Defeated,05:Captured

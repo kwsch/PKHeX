@@ -1,0 +1,15 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	サン・サルバドル県	San Salvador	San Salvador	San Salvador	San Salvador	San Salvador	圣萨尔瓦多省	산살바도르 주	聖薩爾瓦多省
+003	アワチャパン県	Ahuachapán	Ahuachapán	Ahuachapán	Ahuachapán	Ahuachapán	阿瓦查潘省	아우아차판 주	阿瓦查潘省
+004	カバニャス県	Cabañas	Cabañas	Cabañas	Cabañas	Cabañas	卡瓦尼亚斯省	카바냐스 주	卡瓦尼亞斯省
+005	チャラテナンゴ県	Chalatenango	Chalatenango	Chalatenango	Chalatenango	Chalatenango	查拉特南戈省	찰라테낭고 주	查拉特南戈省
+006	クスカトラン県	Cuscatlán	Cuscatlán	Cuscatlán	Cuscatlán	Cuscatlán	库斯卡特兰省	쿠스카틀란 주	庫斯卡特蘭省
+007	ラ・リベルター県	La Libertad	La Libertad	La Libertad	La Libertad	La Libertad	拉利伯塔德省	라리베르타드 주	拉利伯塔德省
+008	ラパス県	La Paz	La Paz	La Paz	La Paz	La Paz	拉巴斯省	라파스 주	拉巴斯省
+009	ラ・ウニオン県	La Unión	La Unión	La Unión	La Unión	La Unión	拉乌尼翁省	라우니온 주	拉烏尼翁省
+010	モラサン県	Morazán	Morazán	Morazán	Morazán	Morazán	莫拉桑省	모라산 주	莫拉桑省
+011	サン・ミゲル県	San Miguel	San Miguel	San Miguel	San Miguel	San Miguel	圣米格尔省	산미겔 주	聖米格爾省
+012	サンタ・アナ県	Santa Ana	Santa Ana	Santa Ana	Santa Ana	Santa Ana	圣安娜省	산타아나 주	聖安娜省
+013	サンビセンテ県	San Vicente	San Vicente	San Vicente	San Vicente	San Vicente	圣维森特省	산비센테 주	聖維森特省
+014	ソンソナテ県	Sonsonate	Sonsonate	Sonsonate	Sonsonate	Sonsonate	松索纳特省	손소나테 주	松索納特省
+015	ウスルタン県	Usulután	Usulután	Usulután	Usulután	Usulután	乌苏卢坦省	우술루탄 주	烏蘇盧坦省

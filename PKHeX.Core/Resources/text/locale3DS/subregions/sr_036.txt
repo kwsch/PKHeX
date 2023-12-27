@@ -1,0 +1,33 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ディストリト・フェデラル連邦区	Distrito Federal	District Fédéral	México D.F.	Distretto Federale	Distrito Federal	联邦区	멕시코 연방구	聯邦區
+003	アグアスカリエンテス州	Aguascalientes	Aguascalientes	Aguascalientes	Aguascalientes	Aguascalientes	阿瓜斯卡连特斯州	아과스칼리엔테스 주	阿瓜斯卡連特斯州
+004	バハ・カリフォルニア州	Baja California	Basse-Californie	Niederkalifornien	Bassa California	Baja California	下加里福尼亚州	바하칼리포르니아 주	下加裏福尼亞州
+005	バハ・カリフォルニア・スル州	Baja California Sur	Basse-Californie du Sud	Süd-Niederkalifornien	Bassa California del Sud	Baja California Sur	南下加里福尼亚州	바하칼리포르니아수르 주	南下加裏福尼亞州
+006	カンペチェ州	Campeche	Campeche	Campeche	Campeche	Campeche	坎佩切州	캄페체 주	坎佩切州
+007	チアパス州	Chiapas	Chiapas	Chiapas	Chiapas	Chiapas	恰帕斯州	치아파스 주	恰帕斯州
+008	チワワ州	Chihuahua	Chihuahua	Chihuahua	Chihuahua	Chihuahua	奇瓦瓦州	치와와 주	奇瓦瓦州
+009	コアウイラ州	Coahuila de Zaragoza	Coahuila	Coahuila de Zaragoza	Coahuila	Coahuila	科阿韦拉州	코아우일라 주	科阿韋拉州
+010	コリマ州	Colima	Colima	Colima	Colima	Colima	科利马州	콜리마 주	科利馬州
+011	ドゥランゴ州	Durango	Durango	Durango	Durango	Durango	杜兰戈州	두랑고 주	杜蘭戈州
+012	グアナフアト州	Guanajuato	Guanajuato	Guanajuato	Guanajuato	Guanajuato	瓜纳华托州	과나후아토 주	瓜納華託州
+013	ゲレロ州	Guerrero	Guerrero	Guerrero	Guerrero	Guerrero	格雷罗州	게레로 주	格雷羅州
+014	イダルゴ州	Hidalgo	Hidalgo	Hidalgo	Hidalgo	Hidalgo	伊达尔戈州	이달고 주	伊達爾戈州
+015	ハリスコ州	Jalisco	Jalisco	Jalisco	Jalisco	Jalisco	哈利斯科州	할리스코 주	哈利斯科州
+016	メヒコ州	México	Mexico	México	Messico	México	墨西哥州	메히코 주	墨西哥州
+017	ミチョアカン州	Michoacán de Ocampo	Michoacán	Michoacán	Michoacán de Ocampo	Michoacán	米却肯州	미초아칸 주	米卻肯州
+018	モレロス州	Morelos	Morelos	Morelos	Morelos	Morelos	莫雷洛斯州	모렐로스 주	莫雷洛斯州
+019	ナヤリット州	Nayarit	Nayarit	Nayarit	Nayarit	Nayarit	纳亚里特州	나야리트 주	納亞裏特州
+020	ヌエボ・レオン州	Nuevo León	Nuevo León	Nuevo León	Nuevo León	Nuevo León	新莱昂州	누에보레온 주	新萊昂州
+021	オアハカ州	Oaxaca	Oaxaca	Oaxaca	Oaxaca	Oaxaca	瓦哈卡州	오악사카 주	瓦哈卡州
+022	プエブラ州	Puebla	Puebla	Puebla	Puebla	Puebla	普埃布拉州	푸에블라 주	普埃布拉州
+023	ケレタロ州	Querétaro de Arteaga	Querétaro	Querétaro	Querétaro de Arteaga	Querétaro	克雷塔罗州	케레타로 주	克雷塔羅州
+024	キンタナ・ロー州	Quintana Roo	Quintana Roo	Quintana Roo	Quintana Roo	Quintana Roo	金塔纳罗奥州	킨타나로오 주	金塔納羅奧州
+025	サン・ルイス・ポトシ州	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí	San Luis Potosí	圣路易斯波托西州	산루이스포토시 주	聖路易斯波託西州
+026	シナロア州	Sinaloa	Sinaloa	Sinaloa	Sinaloa	Sinaloa	锡那罗亚州	시날로아 주	錫那羅亞州
+027	ソノラ州	Sonora	Sonora	Sonora	Sonora	Sonora	索诺拉州	소노라 주	索諾拉州
+028	タバスコ州	Tabasco	Tabasco	Tabasco	Tabasco	Tabasco	塔巴斯科州	타바스코 주	塔巴斯科州
+029	タマウリパス州	Tamaulipas	Tamaulipas	Tamaulipas	Tamaulipas	Tamaulipas	塔毛利帕斯州	타마울리파스 주	塔毛利帕斯州
+030	トラスカラ州	Tlaxcala	Tlaxcala	Tlaxcala	Tlaxcala	Tlaxcala	特拉斯卡拉州	틀락스칼라 주	特拉斯卡拉州
+031	ベラクルス州	Veracruz-Llave	Veracruz	Veracruz	Veracruz	Veracruz	韦拉克鲁斯州	베라크루스 주	韋拉克魯斯州
+032	ユカタン州	Yucatán	Yucatán	Yukatan	Yucatán	Yucatán	尤卡坦州	유카탄 주	尤卡坦州
+033	サカテカス州	Zacatecas	Zacatecas	Zacatecas	Zacatecas	Zacatecas	萨卡特卡斯州	사카테카스 주	薩卡特卡斯州

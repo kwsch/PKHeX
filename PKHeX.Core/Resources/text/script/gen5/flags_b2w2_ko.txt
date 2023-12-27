@@ -1,0 +1,44 @@
+0802	r	코바르온 사라짐
+0302	r	코바르온 (재대결, 레벨 +20)
+0810	r	테라키온 사라짐
+0329	r	테라키온 (재대결, 레벨 +20)
+0801	r	비리디온 사라짐
+0300	r	비리디온 (재대결, 레벨 +20)
+0928	r	Volcarona Disappeared
+0403	r	Volcarona Captured (Level 35/65)
+0404	r	Volcarona Defeated (Level 35)
+0667	r	레시라무/제크로무 사라짐
+1004	r	큐레무 사라짐
+0922	r	레지락 사라짐
+0921	r	레지아이스 사라짐
+0923	r	레지스틸 사라짐
+0918	r	유크시 사라짐
+0919	r	엠라이트 사라짐
+0920	r	아그놈 사라짐
+0900	r	히드런 사라짐
+0924	r	레지기가스 사라짐
+0897	r	크레세리아 사라짐
+0106	*	교환 기능 활성화됨 (포켓몬센터)
+2403	*	러닝슈즈 받음
+2400	s	Entered Hall of Fame
+0250	g	Purchased Magikarp
+0256	g	Traded for Gigalith on Route 7
+0259	g	Traded for Rotom on Route 15
+0289	g	Received N's Zorua
+0394	g	Received Eevee Gift
+0405	g	Traded for Tangrowth in Humilau City
+0412	g	Traded for Petilil/Cottonee on Route 4
+0426	g	Received Deerling Gift
+0431	g	Traded for Ambipom in Accumula Town
+0432	g	Traded for Alakazam in Accumula Town
+0433	g	Battled Lass Diana 1st Time (Can Trade for Alakazam)
+0434	s	Battled Lass Diana 2nd Time
+0437	g	Received Happiny Egg Gift
+0445	g	Chose Cover/Plume Fossil from Lenora
+0946	r	Shiny Haxorus in Nature Preserve disappeared
+0996	g	Benga with Shiny Gible/Dratini Gift disappeared from Alder's house
+2744	s	Rode Royal Unova (Today)
+2747	s	Received a Fossil from Twist Mountain Worker (Today)
+2774	r	Weekly Mandibuzz/Braviary on Route 4 disappeared
+2775	r	Weekly Jellicent in Undella Bay disappeared
+2442	r	N's Pokémon in the Wild

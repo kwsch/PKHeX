@@ -1,0 +1,41 @@
+0669	r	等離子隊 (聯盟寶可夢中心) 已消失
+0661	r	萊希拉姆/捷克羅姆(N的城堡) 已消失
+0766	r	萊希拉姆/捷克羅姆(龍螺旋之塔) 已消失
+0801	r	酋雷姆 已消失
+0810	r	火神蛾 已消失
+0649	r	勾帕路翁 已消失
+0650	r	代拉基翁 已消失
+0651	r	畢力吉翁 已消失
+0652	s	障礙 (冠軍之路) 已清除
+0653	s	障礙 (矢車森林) 已清除
+2403	*	得到跑步鞋
+0115	*	開啟交換功能 (寶可夢中心)
+2400	s	Defeated Ghetsis (First game clear)
+0145	s	Received Cover/Plume Fossil from Backpacker
+0148	g	Traded for Petilil/Cottonee
+0280	g	Traded for Basculin
+0315	g	Received Larvesta Egg Gift
+0352	t	Battled Youngster Kyle
+0355	t	Battled Lass Dana
+0339	g	Purchased Magikarp
+0347	g	Traded for Emolga
+0360	g	Traded for Rotom
+0663	g	Darmanitan (middle-left) disappeared from Desert Resort
+0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
+0665	g	Darmanitan (top-left) disappeared from Desert Resort
+0666	g	Darmanitan (middle-right) disappeared from Desert Resort
+0667	g	Darmanitan (top-right) disappeared from Desert Resort
+0729	s	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
+0730	s	Girl disappeared from GAME FREAK building 1F (Zorua event)
+0731	s	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
+2754	s	Rode Royal Unova (Today)
+2762	s	Received a Fossil from Twist Mountain Worker (Today)
+0683	a	Battle Subway: does not possess super single trophy
+0684	a	Battle Subway: does not possess super double trophy
+0685	a	Battle Subway: does not possess super multi trophy
+0767	r	Route 6	 Capture/Defeat Foongus
+0768	r	Route 6	 Capture/Defeat Foongus
+0769	r	Route 10 Capture/Defeat Amoongus
+0770	r	Route 10 Capture/Defeat Amoongus
+0771	r	Route 10 Capture/Defeat Foongus
+0772	r	Route 10 Capture/Defeat Foongus

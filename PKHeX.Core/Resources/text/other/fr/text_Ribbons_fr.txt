@@ -1,0 +1,164 @@
+RibbonChampionKalos	Maître Kalos
+RibbonChampionG3	Maître (Gen3)
+RibbonChampionSinnoh	Maître Sinnoh
+RibbonBestFriends	Affection
+RibbonTraining	Perfectionnement
+RibbonBattlerSkillful	Élite
+RibbonBattlerExpert	Génie
+RibbonEffort	Effort
+RibbonAlert	Alerte
+RibbonShock	Choc
+RibbonDowncast	Déprime
+RibbonCareless	Négligence
+RibbonRelax	Détente
+RibbonSnooze	Sieste
+RibbonSmile	Sourire
+RibbonGorgeous	Sublime
+RibbonRoyal	Royal
+RibbonGorgeousRoyal	Royal Sublime
+RibbonArtist	Artiste
+RibbonFootprint	Empreinte
+RibbonRecord	Record
+RibbonLegend	Légende
+RibbonCountry	Pays
+RibbonNational	National
+RibbonEarth	Terre
+RibbonWorld	Monde
+RibbonClassic	Classique
+RibbonPremier	Premier
+RibbonEvent	Événement
+RibbonBirthday	Anniversaire
+RibbonSpecial	Spécial
+RibbonSouvenir	Souvenir
+RibbonWishing	Souhait
+RibbonChampionBattle	Vainqueur Championnat
+RibbonChampionRegional	Champion Régional
+RibbonChampionNational	Champion National
+RibbonChampionWorld	Champion du Monde
+RibbonCountMemoryContest	Souvenir Concours
+RibbonCountMemoryBattle	Souvenir Combat
+RibbonChampionG6Hoenn	Maître de Hoenn (ORAS)
+RibbonContestStar	Star des Concours
+RibbonMasterCoolness	Maître Sang-Froid
+RibbonMasterBeauty	Maître Beauté
+RibbonMasterCuteness	Maître Grâce
+RibbonMasterCleverness	Maître Intelligence
+RibbonMasterToughness	Maître Robustesse
+RibbonChampionAlola	Maître d'Alola
+RibbonBattleRoyale	Champion Royal
+RibbonBattleTreeGreat	Élite de l'Arbre
+RibbonBattleTreeMaster	Maître de l'Arbre
+RibbonG3Cool	Sang-Froid (G3)
+RibbonG3CoolSuper	Sang-Froid Super
+RibbonG3CoolHyper	Sang-Froid Hyper
+RibbonG3CoolMaster	Sang-Froid Master
+RibbonG3Beauty	Beauté (G3)
+RibbonG3BeautySuper	Beauté Super
+RibbonG3BeautyHyper	Beauté Hyper
+RibbonG3BeautyMaster	Beauté Master
+RibbonG3Cute	Grâce (G3)
+RibbonG3CuteSuper	Grâce Super
+RibbonG3CuteHyper	Grâce Hyper
+RibbonG3CuteMaster	Grâce Master
+RibbonG3Smart	Intelligence (G3)
+RibbonG3SmartSuper	Intelligence Super
+RibbonG3SmartHyper	Intelligence Hyper
+RibbonG3SmartMaster	Intelligence Master
+RibbonG3Tough	Robustesse (G3)
+RibbonG3ToughSuper	Robustesse Super
+RibbonG3ToughHyper	Robustesse Hyper
+RibbonG3ToughMaster	Robustesse Master
+RibbonG4Cool	Sang-Froid (G4)
+RibbonG4CoolGreat	Sang-Froid Méga	
+RibbonG4CoolUltra	Sang-Froid Ultra
+RibbonG4CoolMaster	Sang-Froid Master
+RibbonG4Beauty	Beauté (G4)
+RibbonG4BeautyGreat	Beauté Méga
+RibbonG4BeautyUltra	Beauté Ultra
+RibbonG4BeautyMaster	Beauté Master
+RibbonG4Cute	Grâce (G4)
+RibbonG4CuteGreat	Grâce Méga
+RibbonG4CuteUltra	Grâce Ultra
+RibbonG4CuteMaster	Grâce Master
+RibbonG4Smart	Smart (G4)
+RibbonG4SmartGreat	Intelligence Méga
+RibbonG4SmartUltra	Intelligence Ultra
+RibbonG4SmartMaster	Intelligence Master
+RibbonG4Tough	Tough (G4)
+RibbonG4ToughGreat	Robustesse Méga
+RibbonG4ToughUltra	Robustesse Ultra
+RibbonG4ToughMaster	Robustesse Master
+RibbonWinning	Gagnant
+RibbonVictory	Victoire
+RibbonAbility	Aptitude
+RibbonAbilityGreat	Aptitude Méga
+RibbonAbilityDouble	Aptitude Duo
+RibbonAbilityMulti	Aptitude Multi
+RibbonAbilityPair	Aptitude Paire
+RibbonAbilityWorld	Aptitude Monde
+RibbonCountG3Cool	Sang-Froid
+RibbonCountG3Beauty	Beauté
+RibbonCountG3Cute	Grâce
+RibbonCountG3Smart	Intelligence
+RibbonCountG3Tough	Robustesse
+RibbonChampionGalar	Maître de Galar
+RibbonTowerMaster	Maître de la Tour
+RibbonMasterRank	Top du Classement
+RibbonMarkLunchtime	Insigne Appétit
+RibbonMarkSleepyTime	Insigne Minuit
+RibbonMarkDusk	Insigne Crépuscule
+RibbonMarkDawn	Insigne Aube
+RibbonMarkCloudy	Insigne Nuages
+RibbonMarkRainy	Insigne Pluie
+RibbonMarkStormy	Insigne Tonnerre
+RibbonMarkSnowy	Insigne Neige
+RibbonMarkBlizzard	Insigne Blizzard
+RibbonMarkDry	Insigne Sécheresse
+RibbonMarkSandstorm	Insigne Tempête de Sable
+RibbonMarkMisty	Insigne Brume
+RibbonMarkDestiny	Insigne Destin
+RibbonMarkFishing	Insigne Pêche
+RibbonMarkCurry	Insigne Curry
+RibbonMarkUncommon	Insigne Sociabilité
+RibbonMarkRare	Insigne Rareté
+RibbonMarkRowdy	Insigne Espièglerie
+RibbonMarkAbsentMinded	Insigne Insouciance
+RibbonMarkJittery	Insigne Nervosité
+RibbonMarkExcited	Insigne Enthousiasme
+RibbonMarkCharismatic	Insigne Charisme
+RibbonMarkCalmness	Insigne Sang-Froid
+RibbonMarkIntense	Insigne Sang Chaud
+RibbonMarkZonedOut	Insigne Inattention
+RibbonMarkJoyful	Insigne Bonheur
+RibbonMarkAngry	Insigne Colère
+RibbonMarkSmiley	Insigne Rire
+RibbonMarkTeary	Insigne Pleurs
+RibbonMarkUpbeat	Insigne Bonne Humeur
+RibbonMarkPeeved	Insigne Saute d’Humeur
+RibbonMarkIntellectual	Insigne Réflexion
+RibbonMarkFerocious	Insigne Impulsivité
+RibbonMarkCrafty	Insigne Ruse
+RibbonMarkScowling	Insigne Menace
+RibbonMarkKindly	Insigne Gentillesse
+RibbonMarkFlustered	Insigne Panique
+RibbonMarkPumpedUp	Insigne Entrain
+RibbonMarkZeroEnergy	Insigne Nonchalance
+RibbonMarkPrideful	Insigne Fierté
+RibbonMarkUnsure	Insigne Abattement
+RibbonMarkHumble	Insigne Discrétion
+RibbonMarkThorny	Insigne Frime
+RibbonMarkVigor	Insigne Énergie
+RibbonMarkSlump	Insigne Blessure
+RibbonHisui	Hisui
+RibbonTwinklingStar	Étoile Brillante
+RibbonChampionPaldea	Maître de Paldea
+RibbonMarkJumbo	Insigne Maxi
+RibbonMarkMini	Insigne Mini
+RibbonMarkItemfinder	Insigne Ramassage
+RibbonMarkPartner	Insigne Amitié
+RibbonMarkGourmand	Insigne Gourmet
+RibbonOnceInALifetime	Exceptionnel
+RibbonMarkAlpha	Insigne Baron
+RibbonMarkMightiest	Insigne Surpuissant
+RibbonMarkTitan	Insigne Dominant
+RibbonPartner	Partner Ribbon

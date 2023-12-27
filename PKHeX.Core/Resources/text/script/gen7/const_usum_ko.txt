@@ -1,0 +1,16 @@
+148	*	스타팅 포켓몬	00:나몰빼미,01:냐오불,02:누리공
+432	r	카푸꼬꼬꼭	03:배틀 가능,04:쓰러뜨림,05:잡음
+433	r	카푸나비나	01:배틀 가능,02:쓰러뜨림,03:잡음
+434	r	카푸브루루	01:배틀 가능,02:쓰러뜨림,03:잡음
+404	r	카푸느지느	03:배틀 가능,04:쓰러뜨림,05:잡음
+755	r	지가르데	01:배틀 가능,02:쓰러뜨림,05:잡음
+867	r	주인 포켓몬 선물	00:받지 않음,01:1마리 받음,02:2마리 받음,03:3마리 받음,04:4마리 받음,05:5마리 받음,06:모두 받음
+084	s	Pikachu Seen in Pikachu Valley
+078	+	Total Title Defenses
+083	+	Total Important NPC Battles
+750	s	League Fangirls	Event	0:0 Title Defenses,1:After 1 Title Defense (Sweet Heart x2 Pending),2:After 2 Title Defenses (Received Sweet Heart x2)
+756	s	Hypno Event (Hau'oli Police Station)	0:Not Activated,1:Activated,2:Completed
+769	s	Ditto Five Event	0:Disguised Officer Appeared,1:Defeated Disguised Officer (Reward Pending),2:Disguised Herb Seller Appeared,3:Defeated Disguised Herb Seller (Reward Pending),4:Disguised Chef Appeared,5:Defeated Disguised Chef (Reward Pending),6:Disguised Iomi Iomi Therapist Appeared,7:Defeated Disguised Iomi Iomi Therapist (Reward Pending),8:Disguised Olivia Appeared,9:Defeated Disguised Olivia (Reward Pending),10:Completed
+783	s	Hano Beach Youngster	0:Will Activate Seven Mysteries Event,1:Activated Seven Mysteries Event,2:Has Hyper Potion (Seven Mysteries Complete),3:Gave Hyper Potion
+784	r	Haunted Trainers' School Diary	0:Normal,5:Cursed (Drifloon Appeared)
+790	r	Haunted Trainers' School Gastly	6:Battleable,7:Battled

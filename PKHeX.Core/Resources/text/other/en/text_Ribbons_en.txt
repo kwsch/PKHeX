@@ -1,0 +1,164 @@
+RibbonChampionKalos	Kalos Champion
+RibbonChampionG3	Champion (Gen3)
+RibbonChampionSinnoh	Sinnoh Champion
+RibbonBestFriends	Best Friends
+RibbonTraining	Training
+RibbonBattlerSkillful	Skillful Battler
+RibbonBattlerExpert	Expert Battler
+RibbonEffort	Effort
+RibbonAlert	Alert
+RibbonShock	Shock
+RibbonDowncast	Downcast
+RibbonCareless	Careless
+RibbonRelax	Relax
+RibbonSnooze	Snooze
+RibbonSmile	Smile
+RibbonGorgeous	Gorgeous
+RibbonRoyal	Royal
+RibbonGorgeousRoyal	Gorgeous Royal
+RibbonArtist	Artist
+RibbonFootprint	Footprint
+RibbonRecord	Record
+RibbonLegend	Legend
+RibbonCountry	Country
+RibbonNational	National
+RibbonEarth	Earth
+RibbonWorld	World
+RibbonClassic	Classic
+RibbonPremier	Premier
+RibbonEvent	Event
+RibbonBirthday	Birthday
+RibbonSpecial	Special
+RibbonSouvenir	Souvenir
+RibbonWishing	Wishing
+RibbonChampionBattle	Battle Champion
+RibbonChampionRegional	Regional Champion
+RibbonChampionNational	National Champion
+RibbonChampionWorld	World Champion
+RibbonCountMemoryContest	Contest Memory
+RibbonCountMemoryBattle	Battle Memory
+RibbonChampionG6Hoenn	Hoenn Champion (ORAS)
+RibbonContestStar	Contest Star
+RibbonMasterCoolness	Coolness Master
+RibbonMasterBeauty	Beauty Master
+RibbonMasterCuteness	Cuteness Master
+RibbonMasterCleverness	Cleverness Master
+RibbonMasterToughness	Toughness Master
+RibbonG3Cool	Cool (G3)
+RibbonG3CoolSuper	Cool Super
+RibbonG3CoolHyper	Cool Hyper
+RibbonG3CoolMaster	Cool Master
+RibbonG3Beauty	Beauty (G3)
+RibbonG3BeautySuper	Beauty Super
+RibbonG3BeautyHyper	Beauty Hyper
+RibbonG3BeautyMaster	Beauty Master
+RibbonG3Cute	Cute (G3)
+RibbonG3CuteSuper	Cute Super
+RibbonG3CuteHyper	Cute Hyper
+RibbonG3CuteMaster	Cute Master
+RibbonG3Smart	Smart (G3)
+RibbonG3SmartSuper	Smart Super
+RibbonG3SmartHyper	Smart Hyper
+RibbonG3SmartMaster	Smart Master
+RibbonG3Tough	Tough (G3)
+RibbonG3ToughSuper	Tough Super
+RibbonG3ToughHyper	Tough Hyper
+RibbonG3ToughMaster	Tough Master
+RibbonG4Cool	Cool (G4)
+RibbonG4CoolGreat	Cool Great
+RibbonG4CoolUltra	Cool Ultra
+RibbonG4CoolMaster	Cool Master
+RibbonG4Beauty	Beauty (G4)
+RibbonG4BeautyGreat	Beauty Great
+RibbonG4BeautyUltra	Beauty Ultra
+RibbonG4BeautyMaster	Beauty Master
+RibbonG4Cute	Cute (G4)
+RibbonG4CuteGreat	Cute Great
+RibbonG4CuteUltra	Cute Ultra
+RibbonG4CuteMaster	Cute Master
+RibbonG4Smart	Smart (G4)
+RibbonG4SmartGreat	Smart Great
+RibbonG4SmartUltra	Smart Ultra
+RibbonG4SmartMaster	Smart Master
+RibbonG4Tough	Tough (G4)
+RibbonG4ToughGreat	Tough Great
+RibbonG4ToughUltra	Tough Ultra
+RibbonG4ToughMaster	Tough Master
+RibbonWinning	Winning
+RibbonVictory	Victory
+RibbonAbility	Ability
+RibbonAbilityGreat	Great Ability
+RibbonAbilityDouble	Double Ability
+RibbonAbilityMulti	Multi Ability
+RibbonAbilityPair	Pair Ability
+RibbonAbilityWorld	World Ability
+RibbonCountG3Cool	Cool
+RibbonCountG3Beauty	Beauty
+RibbonCountG3Cute	Cute
+RibbonCountG3Smart	Smart
+RibbonCountG3Tough	Tough
+RibbonChampionAlola	Alola Champion
+RibbonBattleRoyale	Battle Royal Champion
+RibbonBattleTreeGreat	Battle Tree Great
+RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionGalar	Galar Champion
+RibbonTowerMaster	Tower Master
+RibbonMasterRank	Master Rank
+RibbonMarkLunchtime	Lunchtime Mark
+RibbonMarkSleepyTime	Sleepy-Time Mark
+RibbonMarkDusk	Dusk Mark
+RibbonMarkDawn	Dawn Mark
+RibbonMarkCloudy	Cloudy Mark
+RibbonMarkRainy	Rainy Mark
+RibbonMarkStormy	Stormy Mark
+RibbonMarkSnowy	Snowy Mark
+RibbonMarkBlizzard	Blizzard Mark
+RibbonMarkDry	Dry Mark
+RibbonMarkSandstorm	Sandstorm Mark
+RibbonMarkMisty	Misty Mark
+RibbonMarkDestiny	Destiny Mark
+RibbonMarkFishing	Fishing Mark
+RibbonMarkCurry	Curry Mark
+RibbonMarkUncommon	Uncommon Mark
+RibbonMarkRare	Rare Mark
+RibbonMarkRowdy	Rowdy Mark
+RibbonMarkAbsentMinded	Absent-Minded Mark
+RibbonMarkJittery	Jittery Mark
+RibbonMarkExcited	Excited Mark
+RibbonMarkCharismatic	Charismatic Mark
+RibbonMarkCalmness	Calmness Mark
+RibbonMarkIntense	Intense Mark
+RibbonMarkZonedOut	Zoned-Out Mark
+RibbonMarkJoyful	Joyful Mark
+RibbonMarkAngry	Angry Mark
+RibbonMarkSmiley	Smiley Mark
+RibbonMarkTeary	Teary Mark
+RibbonMarkUpbeat	Upbeat Mark
+RibbonMarkPeeved	Peeved Mark
+RibbonMarkIntellectual	Intellectual Mark
+RibbonMarkFerocious	Ferocious Mark
+RibbonMarkCrafty	Crafty Mark
+RibbonMarkScowling	Scowling Mark
+RibbonMarkKindly	Kindly Mark
+RibbonMarkFlustered	Flustered Mark
+RibbonMarkPumpedUp	Pumped-Up Mark
+RibbonMarkZeroEnergy	Zero Energy Mark
+RibbonMarkPrideful	Prideful Mark
+RibbonMarkUnsure	Unsure Mark
+RibbonMarkHumble	Humble Mark
+RibbonMarkThorny	Thorny Mark
+RibbonMarkVigor	Vigor Mark
+RibbonMarkSlump	Slump Mark
+RibbonHisui	Hisui
+RibbonTwinklingStar	Twinkling Star
+RibbonChampionPaldea	Paldea Champion
+RibbonMarkJumbo	Jumbo Mark
+RibbonMarkMini	Mini Mark
+RibbonMarkItemfinder	Itemfinder Mark
+RibbonMarkPartner	Partner Mark
+RibbonMarkGourmand	Gourmand Mark
+RibbonOnceInALifetime	Once-in-a-Lifetime
+RibbonMarkAlpha	Alpha Mark
+RibbonMarkMightiest	Mightiest Mark
+RibbonMarkTitan	Titan Mark
+RibbonPartner	Partner Ribbon

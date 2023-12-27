@@ -1,0 +1,119 @@
+0646	s	在皮卡丘山谷见到谜拟丘
+4060	*	成为阿罗拉冠军/可以领取玛机雅娜
+4562	g	到达过阿卡拉岛/可以领取就决定是你了之帽子皮卡丘
+4563	g	已领取 就决定是你了之帽子皮卡丘
+0518	g	已领取 冲浪皮卡丘
+0443	g	已领取 礼物伊布蛋
+0493	g	已领取 礼物多边兽
+0504	g	已领取 礼物化石翼龙
+0654	g	已领取 礼物属性:空 (1)
+1101	g	已领取 礼物属性:空 (2)
+0503	g	已领取 礼物科斯莫古
+4447	g	已领取 礼物玛机雅娜
+0269	g	已领取 礼物毒贝比
+4420	r	已捕获 急冻鸟
+4421	r	已捕获 闪电鸟
+4422	r	已捕获 火焰鸟
+4423	r	已捕获 超梦
+4260	r	(US) 已捕獲 雷公
+4261	r	(UM) 已捕獲 炎帝
+4262	r	已捕獲 水君
+4263	r	(UM) 已捕獲 洛奇亞
+4264	r	(US) 已捕獲 鳳王
+4285	r	已捕獲 雷吉洛克
+4286	r	已捕獲 雷吉艾斯
+4287	r	已捕獲 雷吉斯奇魯
+4283	r	(UM) 已捕獲 拉帝亞斯
+4284	r	(US) 已捕獲 拉帝歐斯
+4289	r	(UM) 已捕獲 蓋歐卡
+4288	r	(US) 已捕獲 固拉多
+4290	r	已捕獲 烈空坐
+4265	r	已捕獲 由克希
+4266	r	已捕獲 艾姆利多
+4267	r	已捕獲 亞克諾姆
+4268	r	(US) 已捕獲 帝牙盧卡
+4269	r	(UM) 已捕獲 帕路奇亞
+4270	r	(US) 已捕獲 席多藍恩
+4271	r	(UM) 已捕獲 雷吉奇卡斯
+4272	r	已捕獲 騎拉帝納
+4273	r	已捕獲 克雷色利亞
+4274	r	已捕獲 勾帕路翁
+4275	r	已捕獲 代拉基翁
+4276	r	已捕獲 畢力吉翁
+4277	r	(US) 已捕獲 龍卷雲
+4278	r	(UM) 已捕獲 雷電雲
+4279	r	(US) 已捕獲 萊希拉姆
+4280	r	(UM) 已捕獲 捷克羅姆
+4281	r	已捕獲 土地雲
+4282	r	已捕獲 酋雷姆
+4424	r	(US) 已捕獲 哲爾尼亞斯
+4425	r	(UM) 已捕獲 伊裴爾塔爾
+1627	r	已捕獲 索爾迦雷歐/露娜雅拉
+1552	r	已捕獲 奈克洛茲瑪
+4370	r	(UM) 壘磊石在波尼樹林
+4371	r	(US) 砰頭小丑在波尼樹林
+4115	*	經已解鎖個體值評定能力
+4545	s	已解鎖 電燈魚360
+4546	s	已解鎖 西獅海壬側空翻
+4547	s	已解鎖 寶石海星龍卷
+4548	s	已解鎖 暴鯉龍大空翻
+4490	s	搖杆控制究極空間跳躍騎行
+4440	+	已習得對戰風格: 華麗風格
+4441	+	已習得對戰風格: 少女風格
+4442	+	已習得對戰風格: 祈禱風格
+4443	+	已習得對戰風格: 裝腔風格
+4444	+	已習得對戰風格: 左手風格
+4445	+	已習得對戰風格: 熱情風格
+4446	+	已習得對戰風格: 偶像風格
+4453	+	已習得對戰風格: 虛無風格
+4073	s	Received Ride Pager
+4074	s	已解鎖 肯泰羅衝撞
+4075	s	已解鎖 長毛狗搜尋
+4076	s	已解鎖 怪力猛推
+4077	s	已解鎖 重泥挽馬飛奔
+4078	s	已解鎖 拉普拉斯游泳
+4079	s	已解鎖 巨牙鯊噴射
+4080	s	已解鎖 噴火龍飛行
+0168	g	Traded for Hawlucha on Route 2
+0169	g	Traded for Noibat on Route 5
+0170	g	Traded for Barboach on Royal Avenue
+0171	g	Traded for Arbok on Route 8
+0172	g	Traded for Phantump in Tapu Village
+0173	g	Traded for Shellos in Seafolk Village
+0174	g	Traded for Tauros on Poni Gauntlet
+1592	r	(UM) Defeated Route 15 Sandygast
+0607	r	Defeated Route 14 Frillish
+0547	r	Defeated Bewear in Hau'oli City
+4564	s	Trainers' School is Haunted (Seven Mysteries Event)
+0211	s	Lusamine's Mansion is NOT Team Rocket's Castle
+1730	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)
+1731	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 11)
+1732	r	Electrode Disappeared (Team Rocket's Castle Southeast Wing, side room)
+0185	t	Had First Title Defense Battle
+0186	t	Encountered Hapu (Title Defense)
+3395	t	Defeated Hapu (Title Defense)
+0187	t	Encountered Gladion (Title Defense)
+3453	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
+3454	t	Defeated Gladion (Title Defense;Litten is Player Starter)
+3455	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
+0188	t	Encountered Ryuki (Title Defense)
+3445	t	Defeated Ryuki (Title Defense)
+0189	t	Encountered Lusamine (Title Defense)
+3680	t	Defeated Lusamine (Title Defense)
+0190	t	Encountered Hau (Title Defense)
+3392	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
+3393	t	Defeated Hau (Title Defense;Litten is Player Starter)
+3394	t	Defeated Hau (Title Defense;Popplio is Player Starter)
+0191	t	Encountered Sophocles (Title Defense)
+3441	t	Defeated Sophocles (Title Defense)
+0192	t	Encountered Guzma (Title Defense)
+3683	t	Defeated Guzma (Title Defense)
+0193	t	Encountered Kukui (Title Defense)
+3513	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
+3514	t	Defeated Kukui (Title Defense;Litten is Player Starter)
+3515	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
+0194	t	Encountered Plumeria (Title Defense)
+3437	t	Defeated Plumeria (Title Defense)
+0195	t	Encountered Tristan (Title Defense)
+3516	t	Defeated Tristan (Title Defense)
+1698	s	Aether Paradise Mohn Event Inactive

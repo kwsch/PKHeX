@@ -1,0 +1,245 @@
+0481	r	Uxie Disappeared
+0479	r	Mesprit (Verity Cavern) Disappeared
+0480	r	Azelf Disappeared
+0208	r	Dialga Captured
+0209	r	Palkia Captured
+0591	r	Cresselia (Fullmoon Island) Disappeared
+0476	r	Charon (Stark Mountain) Disappeared
+0293	r	Heatran Battleable
+0288	r	Heatran Disappeared
+0579	r	Regigigas Disappeared
+0306	r	Hall of Origin (Spear Pillar) Appeared
+0461	r	Cynthia (Spear Pillar) Disappeared
+0672	r	Cynthia (Sendoff Spring) Disappeared
+0592	r	Giratina Disappeared
+0344	r	Darkrai Disappeared
+0301	r	Professor Oak (Route 224) #1 Disappeared
+0594	r	Professor Oak (Route 224) #2 Disappeared
+0714	r	Marley (Route 224) Disappeared
+0604	r	Seabreak Path Appeared
+0291	r	Shaymin (Flower Paradise) Disappeared
+0286	r	Arceus Disappeared
+0307	r	Fullmoon Island Ferry Accessable
+0316	r	Newmoon Island Ferry Accessable
+0578	r	Professor Oak (Eterna City) Disappeared
+0281	r	Articuno/Zapdos/Moltres Roamed (1)
+0153	r	Articuno/Zapdos/Moltres Roamed (2)
+2404	a	Entered Hall of Fame (Trainer Card Upgrade)
+2408	a	Cool Contest Master
+2409	a	Beauty Contest Master
+2410	a	Cute Contest Master
+2411	a	Smart Contest Master
+2412	a	Tough Contest Master
+0329	r	Rotom Caught
+0635	s	Encountered Ghost Butler in Old Chateau
+0636	s	Encountered Ghost Girl in Old Chateau
+0897	s	Found Honey (hidden) in Old Chateau
+1036	s	Found Old Gateau in Old Chateau
+1261	s	Found Dread Plate in Old Chateau
+1262	s	Found TM90 in Old Chateau
+1281	s	Found Rare Candy in Old Chateau
+1282	s	Found Big Pearl in Old Chateau
+1337	s	Found Metal Coat in Iron Ruins
+1338	s	Found Never-Melt Ice in Iceberg Ruins
+1339	s	Found Hard Stone in Rock Peak Ruins
+0151	g	Received Porygon
+0305	g	Received Eevee
+2430	*	Unlocked Bebe's PC
+2728	r	Friday Drifloon Disappeared
+2722	r	Today's Trophy Garden Pokémon Known
+0710	*	Unlocked Rotom's Room
+0119	*	Changed Rotom Form Once
+0699	e	Microwave Oven Appliance Disappeared
+0700	e	Washing Machine Appliance Disappeared
+0701	e	Refrigerator Appliance Disappeared
+0702	e	Rotary Fan Appliance Disappeared
+0703	e	Lawn Mower Appliance Disappeared
+0133	g	Traded in Oreburgh City
+0134	g	Traded in Eterna City
+0244	g	Traded in Snowpoint City
+0245	g	Traded on Route 226
+0325	r	Dialga/Pakia rifts spawnable
+1051	s	Found Adamant Orb on Mt. Coronet
+1053	s	Found Lustrous Orb on Mt. Coronet
+2507	s	Entered Pal Park Catching Show
+1409	t	Defeated Jogger Richard (Morning)
+1448	t	Defeated Policeman Bobby (Night)
+1449	t	Defeated Policeman Alex (Night)
+1450	t	Defeated Policeman Dylan (Night)
+1462	t	Defeated Policeman Caleb (Night)
+1490	t	Defeated Jogger Scott (Morning)
+1666	t	Defeated Jogger Wyatt (Morning)
+1667	t	Defeated Jogger Craig (Morning)
+1668	t	Defeated Jogger Raul (Morning)
+1692	t	Defeated Policeman Danny (Night)
+1693	t	Defeated Policeman Thomas (Night)
+1987	t	Had Aroma Lady Elizabeth 1st Rematch
+1988	t	Had Aroma Lady Elizabeth 2nd Rematch
+1989	t	Had Aroma Lady Elizabeth 3rd Rematch
+1990	t	Had Artist William 1st Rematch
+1991	t	Had Artist William 2nd Rematch
+1992	t	Had Artist William 3rd Rematch
+1993	t	Had Battle Girl Helen 1st Rematch
+1994	t	Had Battle Girl Helen 2nd Rematch
+1995	t	Had Battle Girl Helen 3rd Rematch
+1996	t	Had Bird Keeper Brianna 1st Rematch
+1997	t	Had Bird Keeper Brianna 2nd Rematch
+1998	t	Had Bird Keeper Audrey Rematch
+1999	t	Had Pokémon Breeder Albert 1st Rematch
+2000	t	Had Pokémon Breeder Albert 2nd Rematch
+2001	t	Had Pokémon Breeder Albert 3rd Rematch
+2002	t	Had Pokémon Breeder Jennifer 1st Rematch
+2003	t	Had Pokémon Breeder Jennifer 2nd Rematch
+2004	t	Had Pokémon Breeder Jennifer 3rd Rematch
+2005	t	Had Camper Zackary 1st Rematch
+2006	t	Had Camper Zackary 2nd Rematch
+2007	t	Had Camper Zackary 3rd Rematch
+2008	t	Had Ace Trainer Dalton Rematch
+2009	t	Had Ace Trainer Olivia Rematch
+2010	t	Had Collector Ivan Rematch
+2013	t	Had Cyclist John 1st Rematch
+2014	t	Had Cyclist John 2nd Rematch
+2015	t	Had Cyclist John 3rd Rematch
+2016	t	Had Cyclist Kayla 1st Rematch
+2017	t	Had Cyclist Kayla 2nd Rematch
+2018	t	Had Cyclist Kayla 3rd Rematch
+2019	t	Had Dragon Tamer Patrick 1st Rematch
+2020	t	Had Dragon Tamer Patrick 2nd Rematch
+2021	t	Had Dragon Tamer Hayden Rematch
+2022	t	Had Dragon Tamer Geoffrey Rematch
+2023	t	Had Ace Trainer Jake Rematch
+2024	t	Had Ace Trainer Dennis 1st Rematch
+2025	t	Had Ace Trainer Dennis 2nd Rematch
+2026	t	Had Ace Trainer Rodolfo Rematch
+2027	t	Had Ace Trainer Saul Rematch
+2028	t	Had Ace Trainer Shannon Rematch
+2029	t	Had Ace Trainer Maya 1st Rematch
+2030	t	Had Ace Trainer Maya 2nd Rematch
+2031	t	Had Ace Trainer Deanna Rematch
+2032	t	Had Ace Trainer Moira Rematch
+2033	t	Had Psychic Mitchell 1st Rematch
+2034	t	Had Psychic Mitchell 2nd Rematch
+2035	t	Had Psychic Maxwell Rematch
+2036	t	Had Psychic Corbin Rematch
+2037	t	Had Psychic Abigail 1st Rematch
+2038	t	Had Psychic Abigail 2nd Rematch
+2039	t	Had Psychic Brittney Rematch
+2040	t	Had Psychic Daisy Rematch
+2041	t	Had Rancher Marco 1st Rematch
+2042	t	Had Rancher Marco 2nd Rematch
+2043	t	Had Fisherman Joseph 1st Rematch
+2044	t	Had Fisherman Joseph 2nd Rematch
+2045	t	Had Fisherman Miguel Rematch
+2046	t	Had Fisherman Alec Rematch
+2047	t	Had Twins Teri and Tia 1st Rematch
+2048	t	Had Twins Teri and Tia 2nd Rematch
+2049	t	Had PI Carlos 1st Rematch
+2050	t	Had PI Carlos 2nd Rematch
+2051	t	Had Gentleman Jeremy 1st Rematch
+2052	t	Had Gentleman Jeremy 2nd Rematch
+2053	t	Had Gentleman Jeremy 3rd Rematch
+2054	t	Had Guitarist Tony Rematch
+2055	t	Had Ruin Maniac Harry 1st Rematch
+2056	t	Had Ruin Maniac Harry 2nd Rematch
+2057	t	Had Jogger Craig 1st Rematch
+2058	t	Had Jogger Craig 2nd Rematch
+2059	t	Had Black Belt Philip Rematch
+2060	t	Had Black Belt Davon Rematch
+2061	t	Had Socialite Reina 1st Rematch
+2062	t	Had Socialite Reina 2nd Rematch
+2063	t	Had Lass Samantha 1st Rematch
+2064	t	Had Lass Samantha 2nd Rematch
+2065	t	Had Lass Samantha 3rd Rematch
+2066	t	Had Lass Madeline 1st Rematch
+2067	t	Had Lass Madeline 2nd Rematch
+2068	t	Had Lass Madeline 3rd Rematch
+2069	t	Had Hiker Theodore 1st Rematch
+2070	t	Had Hiker Theodore 2nd Rematch
+2071	t	Had Hiker Theodore 3rd Rematch
+2072	t	Had Bug Catcher Brandon 1st Rematch
+2073	t	Had Bug Catcher Brandon 2nd Rematch
+2074	t	Had Bug Catcher Brandon 3rd Rematch
+2075	t	Had Parasol Lady Alexa 1st Rematch
+2076	t	Had Parasol Lady Alexa 2nd Rematch
+2077	t	Had Parasol Lady Alexa 3rd Rematch
+2078	t	Had Picnicker Karina 1st Rematch
+2079	t	Had Picnicker Karina 2nd Rematch
+2080	t	Had Picnicker Karina 3rd Rematch
+2081	t	Had Poké Kid Danielle 1st Rematch
+2082	t	Had Poké Kid Danielle 2nd Rematch
+2083	t	Had Poké Kid Danielle 3rd Rematch
+2084	t	Had Policeman Danny 1st Rematch
+2085	t	Had Policeman Danny 2nd Rematch
+2086	t	Had Policeman Danny 3rd Rematch
+2087	t	Had Rich Boy Trey 1st Rematch
+2088	t	Had Rich Boy Trey 2nd Rematch
+2089	t	Had Lady Melissa 1st Rematch
+2090	t	Had Lady Melissa 2nd Rematch
+2091	t	Had Lady Melissa 3rd Rematch
+2092	t	Had Pokémon Ranger Taylor 1st Rematch
+2093	t	Had Pokémon Ranger Taylor 2nd Rematch
+2094	t	Had Pokémon Ranger Taylor 3rd Rematch
+2095	t	Had Pokémon Ranger Kyler Rematch
+2096	t	Had Pokémon Ranger Allison 1st Rematch
+2097	t	Had Pokémon Ranger Allison 2nd Rematch
+2098	t	Had Pokémon Ranger Allison 3rd Rematch
+2099	t	Had Pokémon Ranger Ashlee Rematch
+2100	t	Had Sailor Marc 1st Rematch
+2101	t	Had Sailor Marc 2nd Rematch
+2102	t	Had Sailor Zachariah Rematch
+2103	t	Had Scientist Shaun 1st Rematch
+2104	t	Had Scientist Shaun 2nd Rematch
+2105	t	Had Scientist Shaun 3rd Rematch
+2106	t	Had Ninja Boy Zach 1st Rematch
+2107	t	Had Ninja Boy Zach 2nd Rematch
+2108	t	Had Ninja Boy Zach 3rd Rematch
+2109	t	Had Beauty Cyndy 1st Rematch
+2110	t	Had Beauty Cyndy 2nd Rematch
+2111	t	Had Skier Edward 1st Rematch
+2112	t	Had Skier Edward 2nd Rematch
+2113	t	Had Skier Bjorn 1st Rematch
+2114	t	Had Skier Bjorn 2nd Rematch
+2115	t	Had Skier Andrea 1st Rematch
+2116	t	Had Skier Andrea 2nd Rematch
+2117	t	Had Skier Madison 1st Rematch
+2118	t	Had Skier Madison 2nd Rematch
+2119	t	Had Swimmer Wesley Rematch
+2120	t	Had Swimmer Francisco Rematch
+2121	t	Had Swimmer Glenn Rematch
+2122	t	Had Swimmer Miranda Rematch
+2123	t	Had Swimmer Crystal Rematch
+2124	t	Had Swimmer Joanna Rematch
+2125	t	Had Youngster Tristan 1st Rematch
+2126	t	Had Youngster Tristan 2nd Rematch
+2127	t	Had Youngster Tristan 3rd Rematch
+2128	t	Had Youngster Dallas 1st Rematch
+2129	t	Had Youngster Dallas 2nd Rematch
+2130	t	Had Youngster Dallas 3rd Rematch
+2131	t	Had Tuber Jared 1st Rematch
+2132	t	Had Tuber Jared 2nd Rematch
+2133	t	Had Tuber Chelsea 1st Rematch
+2135	t	Had Tuber Chelsea 2nd Rematch
+2134	t	Had Veteran Brian 1st Rematch
+2136	t	Had Veteran Brian 2nd Rematch
+2137	t	Had Veteran Armando Rematch
+2738	t	Defeated Rival in Survival Area (Current Saturday/Sunday)
+2744	t	Defeated Leader Roark in Battleground (Today)
+2745	t	Defeated Leader Gardenia in Battleground (Today)
+2746	t	Defeated Leader Wake in Battleground (Today)
+2747	t	Defeated Leader Maylene in Battleground (Today)
+2748	t	Defeated Idol Grace in PokéCenter (Today;non-Wednesday)
+2749	t	Defeated Reporter Kinsey in PokéCenter (Today)
+2750	t	Defeated Cameraman Tevin in PokéCenter (Today)
+2751	t	Defeated Clown Lee in PokéCenter (Today)
+2752	t	Defeated Interviewers Roxy and Oli in PokéCenter (Today)
+2753	t	Defeated Poké Kid Ariel in PokéCenter (Today)
+2754	t	Defeated Guitarist Artuno in PokéCenter (Today)
+2757	t	Defeated Leader Fantina in Battleground (Today)
+2758	t	Defeated Leader Candice in Battleground (Today)
+2759	t	Defeated Leader Byron in Battleground (Today)
+2760	t	Defeated Leader Volkner in Battleground (Today)
+2761	t	Defeated Pokémon Trainer Cheryl in Battleground (Today)
+2762	t	Defeated Pokémon Trainer Riley in Battleground (Today)
+2763	t	Defeated Pokémon Trainer Marley in Battleground (Today)
+2764	t	Defeated Pokémon Trainer Buck in Battleground (Today)
+2765	t	Defeated Pokémon Trainer Mira in Battleground (Today)

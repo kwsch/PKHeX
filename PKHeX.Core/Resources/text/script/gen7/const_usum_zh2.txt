@@ -1,0 +1,16 @@
+148	*	初始夥伴	00:木木梟,01:火斑喵,02:球球海獅
+432	r	卡璞鳴鳴	03:可對戰,04:已擊倒,05:已捕獲
+433	r	卡璞蝶蝶	01:可對戰,02:已擊倒,03:已捕獲
+434	r	卡璞哞哞	01:可對戰,02:已擊倒,03:已捕獲
+404	r	卡璞鰭鰭	03:可對戰,04:已擊倒,05:已捕獲
+755	r	基格爾德	01:可對戰,02:已擊倒,05:已捕獲
+867	r	霸主禮物	00:未領取,01:領取了1只,02:領取了2只,03:領取了3只,04:領取了4只,05:領取了5只,06:已全部領取
+084	s	在皮卡丘山谷見到皮卡丘
+078	+	Total Title Defenses
+083	+	Total Important NPC Battles
+750	s	League Fangirls	Event	0:0 Title Defenses,1:After 1 Title Defense (Sweet Heart x2 Pending),2:After 2 Title Defenses (Received Sweet Heart x2)
+756	s	Hypno Event (Hau'oli Police Station)	0:Not Activated,1:Activated,2:Completed
+769	s	Ditto Five Event	0:Disguised Officer Appeared,1:Defeated Disguised Officer (Reward Pending),2:Disguised Herb Seller Appeared,3:Defeated Disguised Herb Seller (Reward Pending),4:Disguised Chef Appeared,5:Defeated Disguised Chef (Reward Pending),6:Disguised Iomi Iomi Therapist Appeared,7:Defeated Disguised Iomi Iomi Therapist (Reward Pending),8:Disguised Olivia Appeared,9:Defeated Disguised Olivia (Reward Pending),10:Completed
+783	s	Hano Beach Youngster	0:Will Activate Seven Mysteries Event,1:Activated Seven Mysteries Event,2:Has Hyper Potion (Seven Mysteries Complete),3:Gave Hyper Potion
+784	r	Haunted Trainers' School Diary	0:Normal,5:Cursed (Drifloon Appeared)
+790	r	Haunted Trainers' School Gastly	6:Battleable,7:Battled

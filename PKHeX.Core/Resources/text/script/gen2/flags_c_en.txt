@@ -1,0 +1,146 @@
+0026	s	Starter Chosen
+0027	*	Starter is Cyndaquil
+0028	*	Starter is Totodile
+0029	*	Starter is Chikorita
+1600	s	Cyndaquil ball at Elm's disappeared
+1601	s	Totodile ball at Elm's disappeared
+1602	s	Chikorita ball at Elm's disappeared
+1784	r	Captured Sudowoodo
+0079	g	Received Eevee
+1867	*	Legendary Beasts Disappeared from Burned Tower
+0190	*	Kurt can check GS Ball
+0191	*	Kurt ready to return GS Ball (combine with above Flag)
+0192	*	GS Ball can be inserted into Ilex Forest Shrine
+1809	*	No Mystery Gift item is waiting in the Pokemon Center
+0672	*	SOLVED_HO_OH_PUZZLE
+0673	*	SOLVED_KABUTO_PUZZLE
+0674	*	SOLVED_OMANYTE_PUZZLE
+0675	*	SOLVED_AERODACTYL_PUZZLE
+0676	*	DECO_BED_1
+0677	*	DECO_BED_2
+0678	*	DECO_BED_3
+0679	*	DECO_BED_4
+0680	*	DECO_CARPET_1
+0681	*	DECO_CARPET_2
+0682	*	DECO_CARPET_3
+0683	*	DECO_CARPET_4
+0684	*	DECO_PLANT_1
+0685	*	DECO_PLANT_2
+0686	*	DECO_PLANT_3
+0687	*	DECO_PLANT_4
+0688	*	DECO_POSTER_1
+0689	*	DECO_POSTER_2
+0690	*	DECO_POSTER_3
+0691	*	DECO_FAMICOM
+0692	*	DECO_SNES
+0693	*	DECO_N64
+0694	*	DECO_VIRTUAL_BOY
+0695	*	DECO_PIKACHU_DOLL
+0696	*	DECO_SURFING_PIKACHU_DOLL
+0697	*	DECO_CLEFAIRY_DOLL
+0698	*	DECO_JIGGLYPUFF_DOLL
+0699	*	DECO_BULBASAUR_DOLL
+0700	*	DECO_CHARMANDER_DOLL
+0701	*	DECO_SQUIRTLE_DOLL
+0702	*	DECO_POLIWAG_DOLL
+0703	*	DECO_DIGLETT_DOLL
+0704	*	DECO_STARMIE_DOLL
+0705	*	DECO_MAGIKARP_DOLL
+0706	*	DECO_ODDISH_DOLL
+0707	*	DECO_GENGAR_DOLL
+0708	*	DECO_SHELLDER_DOLL
+0709	*	DECO_GRIMER_DOLL
+0710	*	DECO_VOLTORB_DOLL
+0711	*	DECO_WEEDLE_DOLL
+0712	*	DECO_UNOWN_DOLL
+0713	*	DECO_GEODUDE_DOLL
+0714	*	DECO_MACHOP_DOLL
+0715	*	DECO_TENTACOOL_DOLL
+0716	*	PLAYERS_ROOM_POSTER
+0717	*	DECO_GOLD_TROPHY
+0718	*	DECO_SILVER_TROPHY
+0719	*	DECO_BIG_SNORLAX_DOLL
+0720	*	DECO_BIG_ONIX_DOLL
+0721	*	DECO_BIG_LAPRAS_DOLL
+0791	r	Captured Ho-oh
+0792	r	Captured Lugia
+0830	r	Received Odd Egg
+0832	r	Received GS Ball
+1904	r	Captured Snorlax
+1873	r	Captured Red Gyarados
+0068	s	Beat Elite Four/Elm can give S.S. Ticket
+1890	*	Red disappeared on Mt. Silver
+0069	g	Received Shuckle from Mania
+0070	g	Shuckle Returned/Allowed Ownership
+0080	g	Received Spearow from Randy
+0081	s	Mail can be delivered on Route 31
+0082	s	Received HP Up from Randy
+0083	s	Randy Mail Delivered/Received TM50
+0084	s	Togepi Hatched
+0085	s	Showed Togepi to Elm
+0086	s	Received Everstone from Elm
+1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
+0097	g	Received Tyrogue
+0046	s	Unown appeared in Ruins of Alph
+0098	s	Met Frieda
+0099	s	Received Poison Barb from Frieda
+0100	s	Met Tuscany
+0101	s	Received Pink Bow from Tuscany
+0102	s	Met Arthur
+0103	s	Received Hard Stone from Arthur
+0104	s	Met Sunny
+0105	s	Received Magnet from Sunny
+0106	s	Met Wesley
+0107	s	Received Black Belt from Wesley
+0108	s	Met Santos
+0109	s	Received Spell Tag from Santos
+0110	s	Met to Monica
+0111	s	Received Sharp Beak from Monica
+0189	g	Received Dratini
+0193	g	Quiz answered wrong (Gift Dratini won't have Extremespeed)
+0205	s	Restored power to Kanto/Magnet Train useable
+0256	s	Gina gave Leaf Stone present
+0257	s	Alan gave Fire Stone present
+0258	s	Dana gave Thunderstone present
+0259	s	Tully gave Water Stone present
+0260	s	Tiffany gave Pink Bow present
+0613	s	Received Protein from Sailor Huey 3rd Rematch
+0614	s	Received HP Up from Youngster Joey 4th Rematch
+0615	s	Received Carbos from Bird Keeper Vance 2nd Rematch
+0616	s	Received Iron from Hiker Parry 3rd Rematch
+0617	s	Received Calcium from Picnicker Erin 2nd Rematch
+0823	s	Protein from Huey 3rd Rematch Pending
+0824	s	HP Up from Joey 4th Rematch Pending
+0825	s	Carbos from Vance 2nd Rematch Pending
+0826	s	Iron from Parry 2nd Rematch Pending
+0827	s	Calcium from Erin 2nd Rematch Pending
+0607	t	Asked Schoolboy Jack for Number once
+0609	t	Asked Pokéfan Beverly for Number once
+0611	t	Asked Sailor Huey for Number once
+0619	t	Asked Cooltrainer Gaven for Number once
+0621	t	Asked Cooltrainer Beth for Number once
+0623	t	Asked Bird Keeper Jose for Number once
+0625	t	Asked Cooltrainer Reena for Number once
+0627	t	Asked Youngster Joey for Number once
+0629	t	Asked Bug Catcher Wade for Number once
+0631	t	Asked Fisher Ralph for Number once
+0633	t	Asked Picnicker Liz for Number once
+0635	t	Asked Hiker Anthony for Number once
+0637	t	Asked Camper Todd for Number once
+0639	t	Asked Picnicker Gina for Number once
+0641	t	Asked Juggler Irwin for Number once
+0643	t	Asked Bug Catcher Arnie for Number once
+0645	t	Asked Schoolboy Alan for Number once
+0649	t	Asked Lass Dana for Number once
+0651	t	Asked Schoolboy Chad for Number once
+0653	t	Asked Pokéfan Derek for Number once
+0655	t	Asked Fisher Tully for Number once
+0657	t	Asked PokéManiac Brent for Number once
+0659	t	Asked Picnicker Tiffany for Number once
+0661	t	Asked Bird Keeper Vance for Number once
+0663	t	Asked Fisher Wilton for Number once
+0665	t	Asked Blackbelt Kenji for Number once
+0667	t	Asked Hiker Parry for Number once
+0669	t	Asked Picnicker Erin for Number once
+0828	t	Buena offered Phone Number once
+0670	t	Buena offered Phone Number (2nd time)

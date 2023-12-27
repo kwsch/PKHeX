@@ -1,6 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-002,ホホ,Hhohho,Hhohho,Hhohho,Hhohho,Hhohho,霍霍区,호호,
-003,ルボンボ,Lubombo,Lubombo,Lubombo,Lubombo,Lubombo,卢邦博区,로밤바,
-004,マンジニ,Manzini,Manzini,Manzini,Manzini,Manzini,曼齐尼区,만지니,
-005,シセルウェニ,Shiselweni,Shiselweni,Shiselweni,Shiselweni,Shiselweni,希塞卢韦尼区,시셀웨니,

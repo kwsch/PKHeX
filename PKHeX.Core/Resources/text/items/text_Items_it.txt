@@ -1,0 +1,2558 @@
+Niente
+Master Ball
+Ultra Ball
+Mega Ball
+Poké Ball
+Safari Ball
+Rete Ball
+Sub Ball
+Minor Ball
+Bis Ball
+Timer Ball
+Chic Ball
+Premier Ball
+Scuro Ball
+Cura Ball
+Velox Ball
+Pregio Ball
+Pozione
+Antidoto
+Antiscottatura
+Antigelo
+Sveglia
+Antiparalisi
+Ricarica totale
+Pozione max
+Iperpozione
+Superpozione
+Cura totale
+Revitalizzante
+Revitalizzante max
+Acqua fresca
+Gassosa
+Lemonsucco
+Latte Mumu
+Polvenergia
+Radicenergia
+Polvocura
+Vitalerba
+Etere
+Etere max
+Elisir
+Elisir max
+Lavottino
+Succo di bacca
+Cenere magica
+PS-su
+Proteina
+Ferro
+Carburante
+Calcio
+Caramella rara
+PP-su
+Zinco
+PP-max
+Dolce gateau
+Superguardia
+Supercolpo
+Attacco X
+Difesa X
+Velocità X
+Precisione X
+Attacco Speciale X
+Difesa Speciale X
+Pokébambola
+Coda Skitty
+Flauto blu
+Flauto giallo
+Flauto rosso
+Flauto nero
+Flauto bianco
+Sale ondoso
+Gusciondoso
+Coccio rosso
+Coccio blu
+Coccio giallo
+Coccio verde
+Superrepellente
+Repellente max
+Fune di fuga
+Repellente
+Pietrasolare
+Pietralunare
+Pietrafocaia
+Pietratuono
+Pietraidrica
+Pietrafoglia
+Minifungo
+Grande fungo
+Perla
+Grande perla
+Polvostella
+Pezzo stella
+Pepita
+Squama cuore
+Miele
+Fertilrapido
+Fertilidro
+Fertilsaldo
+Fertilcolla
+Radifossile
+Fossilunghia
+Helixfossile
+Domofossile
+Ambra antica
+Fossilscudo
+Fossilcranio
+Osso raro
+Pietrabrillo
+Neropietra
+Pietralbore
+Pietraovale
+Roccianima
+Grigiosfera
+Tè
+???
+Autografo
+Idromodulo
+Voltmodulo
+Piromodulo
+Gelomodulo
+???
+Box Pokémon
+Tasca rimedi
+Porta MT
+Portacaramelle
+Tasca potenziam.
+Valigia vestiti
+Tasca cattura
+Tasca lotta
+???
+???
+???
+???
+???
+Dolcecuore
+Adamasfera
+Splendisfera
+Messaggio Inizio
+Messaggio TVB
+Messaggio Invito
+Messaggio Grazie
+Messaggio Chiedi
+Messaggio Consiglio
+Messaggio Risposta
+Messaggio Ponte F
+Messaggio Ponte L
+Messaggio Ponte P
+Messaggio Ponte V
+Messaggio Ponte M
+Baccaliegia
+Baccastagna
+Baccapesca
+Baccafrago
+Baccaperina
+Baccamela
+Baccarancia
+Baccaki
+Baccaprugna
+Baccacedro
+Baccafico
+Baccakiwi
+Baccamango
+Baccaguava
+Baccapaia
+Baccalampon
+Baccamora
+Baccabana
+Baccapera
+Baccananas
+Baccagrana
+Baccalga
+Baccaloquat
+Baccamelon
+Baccauva
+Baccamodoro
+Baccavena
+Baccagostan
+Baccambutan
+Baccalemon
+Baccamelos
+Baccapalma
+Baccacomero
+Baccadurian
+Baccartillo
+Baccacao
+Baccapasflo
+Baccaparmen
+Baccarindo
+Baccamoya
+Baccarosmel
+Baccakebia
+Baccanaca
+Baccababa
+Baccapayapa
+Baccaitan
+Baccaciofo
+Baccacitrus
+Baccahaban
+Baccaxan
+Baccababiri
+Baccacinlan
+Baccalici
+Baccalongan
+Baccasalak
+Baccapitaya
+Baccacocca
+Baccalangsa
+Baccambola
+Baccaenigma
+Baccaracolo
+Baccacrela
+Baccajaba
+Baccaroam
+Luminpolvere
+Erbachiara
+Crescicappa
+Condividi esperienza
+Rapidartiglio
+Calmanella
+Mentalerba
+Bendascelta
+Roccia di re
+Argenpolvere
+Monetamuleto
+Velopuro
+Cuorugiada
+Dente abissi
+Squamabissi
+Palla fumo
+Pietrastante
+Bandana
+Fortunuovo
+Mirino
+Metalcopertura
+Avanzi
+Squama drago
+Elettropalla
+Sabbia soffice
+Pietradura
+Miracolseme
+Occhialineri
+Cintura nera
+Calamita
+Acqua magica
+Beccaffilato
+Velenaculeo
+Gelomai
+Spettrotarga
+Cucchiaio torto
+Carbonella
+Dente di drago
+Sciarpa seta
+Upgrade
+Conchinella
+Marearoma
+Distraroma
+Fortunpugno
+Metalpolvere
+Osso spesso
+Porro
+Fascia rossa
+Fascia blu
+Fascia rosa
+Fascia verde
+Fascia gialla
+Grandelente
+Muscolbanda
+Saviocchiali
+Abilcintura
+Creta luce
+Assorbisfera
+Vigorerba
+Tossicsfera
+Fiammosfera
+Velopolvere
+Focalnastro
+Zoomlente
+Plessimetro
+Ferropalla
+Rallentocoda
+Destincomune
+Fangopece
+Rocciafredda
+Roccialiscia
+Rocciacalda
+Rocciaumida
+Presartiglio
+Stolascelta
+Vischiopunta
+Vigorcerchio
+Vigorfascia
+Vigorlente
+Vigorbanda
+Vigorgliera
+Vigorpeso
+Disfoguscio
+Granradice
+Lentiscelta
+Lastrarogo
+Lastraidro
+Lastrasaetta
+Lastraprato
+Lastragelo
+Lastrapugno
+Lastrafiele
+Lastrageo
+Lastracielo
+Lastramente
+Lastrabaco
+Lastrapietra
+Lastratetra
+Lastradrakon
+Lastratimore
+Lastraferro
+Bizzoaroma
+Roccioaroma
+Gonfioaroma
+Ondaroma
+Rosaroma
+Fortunaroma
+Puroaroma
+Copertura
+Elettritore
+Magmatore
+Dubbiodisco
+Terrorpanno
+Affilartiglio
+Affilodente
+MT01
+MT02
+MT03
+MT04
+MT05
+MT06
+MT07
+MT08
+MT09
+MT10
+MT11
+MT12
+MT13
+MT14
+MT15
+MT16
+MT17
+MT18
+MT19
+MT20
+MT21
+MT22
+MT23
+MT24
+MT25
+MT26
+MT27
+MT28
+MT29
+MT30
+MT31
+MT32
+MT33
+MT34
+MT35
+MT36
+MT37
+MT38
+MT39
+MT40
+MT41
+MT42
+MT43
+MT44
+MT45
+MT46
+MT47
+MT48
+MT49
+MT50
+MT51
+MT52
+MT53
+MT54
+MT55
+MT56
+MT57
+MT58
+MT59
+MT60
+MT61
+MT62
+MT63
+MT64
+MT65
+MT66
+MT67
+MT68
+MT69
+MT70
+MT71
+MT72
+MT73
+MT74
+MT75
+MT76
+MT77
+MT78
+MT79
+MT80
+MT81
+MT82
+MT83
+MT84
+MT85
+MT86
+MT87
+MT88
+MT89
+MT90
+MT91
+MT92
+MN01
+MN02
+MN03
+MN04
+MN05
+MN06
+???
+???
+Esplorokit
+Bottinosacca
+Libro regole
+Poké Radar
+Scheda punti
+Note di viaggio
+Portabolli
+Scatola chic
+Bollosacca
+Blocco amici
+Chiave impianto
+Amuleto antico
+Chiave Galassia
+Catena rossa
+Mappa città
+Cercasfide
+Salvadanaio
+Canna da pesca usata
+Canna da pesca buona
+Canna da pesca super
+Sprayduck
+Portapoffin
+Bicicletta
+Chiave suite
+Lettera Oak
+Piumalunare
+Scheda soci
+Flauto cielo
+Biglietto nave
+Tessera Gare
+Magmapietra
+Pacco
+Coupon 1
+Coupon 2
+Coupon 3
+Chiave magazzino
+Rimedio segreto
+Registradati
+Gracidea
+Chiave segreta
+Ghicobox
+Registro Unown
+Piantabacche
+Ricerca strumenti
+Carta blu
+Coda Slowpoke
+Campana chiara
+Apriporta
+Chiave sotterr.
+Annaffiatoio
+Squama rossa
+Strumento perso
+Superpass
+Pezzo di macchinario
+Ala d’argento
+Ala d’iride
+Uovo mistero
+Ghicocca rossa
+Ghicocca blu
+Ghicocca gialla
+Ghicocca verde
+Ghicocca rosa
+Ghicocca bianca
+Ghicocca nera
+Rapid Ball
+Level Ball
+Esca Ball
+Peso Ball
+Love Ball
+Friend Ball
+Luna Ball
+Gara Ball
+Parco Ball
+Album
+Lettore GB
+Campana onda
+Iramella
+Scheda dati 01
+Scheda dati 02
+Scheda dati 03
+Scheda dati 04
+Scheda dati 05
+Scheda dati 06
+Scheda dati 07
+Scheda dati 08
+Scheda dati 09
+Scheda dati 10
+Scheda dati 11
+Scheda dati 12
+Scheda dati 13
+Scheda dati 14
+Scheda dati 15
+Scheda dati 16
+Scheda dati 17
+Scheda dati 18
+Scheda dati 19
+Scheda dati 20
+Scheda dati 21
+Scheda dati 22
+Scheda dati 23
+Scheda dati 24
+Scheda dati 25
+Scheda dati 26
+Scheda dati 27
+Sfera verde
+Capsula scrigno
+Gemma rossa
+Gemma blu
+Misticristal
+Squama bella
+Evolcondensa
+Pietralieve
+Bitorzolelmo
+Palloncino
+Cartelrosso
+Facilsaglio
+Legafascia
+Bulbo
+Ricaripila
+Pulsantefuga
+Bijoufuoco
+Bijouacqua
+Bijouelettro
+Bijouerba
+Bijoughiaccio
+Bijoulotta
+Bijouveleno
+Bijouterra
+Bijouvolante
+Bijoupsico
+Bijoucoleottero
+Bijouroccia
+Bijouspettro
+Bijoudrago
+Bijoubuio
+Bijouacciaio
+Bijounormale
+Piumsalute
+Piumpotenza
+Piumtutela
+Piumingegno
+Piumintuito
+Piumreazione
+Piumabella
+Fossiltappo
+Fossilpiuma
+Liberticket
+Passabilia
+Dream Ball
+Pokégingillo
+Portagadget
+Teschio
+Profumfungo
+Granpepita
+Trittiperla
+Pezzo cometa
+Soldantico
+Ducatantico
+Doblonantico
+Vasantico
+Bracciantico
+Statuantica
+Coronantica
+Conostropoli
+Supercolpo 2
+Velocità X-2
+Attacco Speciale X-2
+Difesa Speciale X-2
+Difesa X-2
+Attacco X-2
+Precisione X-2
+Velocità X-3
+Attacco Speciale X-3
+Difesa Speciale X-3
+Difesa X-3
+Attacco X-3
+Precisione X-3
+Velocità X-6
+Attacco Speciale X-6
+Difesa Speciale X-6
+Difesa X-6
+Attacco X-6
+Precisione X-6
+Chiamabilità
+Lascioggetto
+Chiamoggetto
+Ripristino
+Supercolpo 3
+Chiarolite
+Scurolite
+MT93
+MT94
+MT95
+Interpoké
+???
+Missiva 1
+Missiva 2
+Missiva 3
+Interpoké
+Box premi
+Cuneo DNA
+Cuneo DNA
+Permesso
+Ovamuleto
+Cromamuleto
+Carta Plasma
+Pezza sporca
+Acrocongegno
+Oggetto perso
+Oggetto perso
+Verispecchio
+Vulneropolizza
+Corpetto assalto
+Holovox
+Lettera del Prof
+Pattini
+Lastraspiritello
+Capsula abilità
+Dolcespuma
+Bustina aromi
+Muschioluce
+Palla di neve
+Visierantisabbia
+Pokéflauto
+Fertilflorido
+Fertilsorpresa
+Fertilcopioso
+Fertilprodigio
+Gengarite
+Gardevoirite
+Ampharosite
+Venusaurite
+Charizardite X
+Blastoisite
+Mewtwoite X
+Mewtwoite Y
+Blazikenite
+Medichamite
+Houndoomite
+Aggronite
+Banettite
+Tyranitarite
+Scizorite
+Pinsirite
+Aerodactylite
+Lucarite
+Abomasnowite
+Kangaskhanite
+Gyaradosite
+Absolite
+Charizardite Y
+Alakazamite
+Heracrossite
+Mawilite
+Manectricite
+Garchompite
+Latiasite
+Latiosite
+Baccarcadè
+Baccalighia
+Baccapane
+Irrigalotad
+MT96
+MT97
+MT98
+MT99
+MT100
+Pass centrale
+Megacerchio
+Sasso suggestivo
+Sasso qualsiasi
+Buono sconto
+Chiave ascensore
+Pass TMV
+Emblema di Kalos
+Guida avventura
+Strano ninnolo
+Portalenti
+Trousse
+Baule per abiti
+Pan di Lumi
+Yantafrollino
+Fossilmascella
+Fossilpinna
+Carta Bellocchio
+Bicicletta
+Holovox
+Bijoufolletto
+Megaciondolo
+Megaguanto
+Bici da corsa
+Bici da cross
+Vaso Wailmer
+Merce Devon
+Sacco cenere
+Chiave sotterr.
+Kit Pokémelle
+Lettera
+Biglietto Eone
+Scanner
+Occhialoni
+Meteorite
+Chiave stanza 1
+Chiave stanza 2
+Chiave stanza 4
+Chiave stanza 6
+Chiave magazzino
+Devonscopio
+Biglietto nave
+MN07
+Maschera Devon
+Costume Live
+Vestito Live
+Tuta Magma
+Tuta Idro
+Biglietto doppio
+Megabracciale
+Megapendente
+Megaocchiali
+Megaancora
+Megaspilla
+Megadiadema
+Megagambale
+Meteorite
+Swampertite
+Sceptilite
+Sableyite
+Altarite
+Galladite
+Audinite
+Metagrossite
+Sharpedite
+Slowbroite
+Steelixite
+Pidgeotite
+Glalite
+Diancite
+Vaso del vincolo
+Megapolsiera
+Cameruptite
+Lopunnite
+Salamencite
+Beedrillite
+Meteorite
+Meteorite
+Pietrachiave
+Framm. meteorite
+Flauto Eone
+Normium Z
+Pirium Z
+Idrium Z
+Electrium Z
+Herbium Z
+Glacium Z
+Luctium Z
+Venenium Z
+Terrium Z
+Volantium Z
+Psichium Z
+Insectium Z
+Petrium Z
+Spectrium Z
+Draconium Z
+Obscurium Z
+Metallium Z
+Follectium Z
+Pikacium Z
+Tappo d’argento
+Tappo d’oro
+Cerchio Z
+Deciduenium Z
+Incineronium Z
+Primarinium Z
+Tapium Z
+Marshadium Z
+Aloraicium Z
+Snorlactium Z
+Eevium Z
+Mewnium Z
+Normium Z
+Pirium Z
+Idrium Z
+Electrium Z
+Herbium Z
+Glacium Z
+Luctium Z
+Venenium Z
+Terrium Z
+Volantium Z
+Psichium Z
+Insectium Z
+Petrium Z
+Spectrium Z
+Draconium Z
+Obscurium Z
+Metallium Z
+Follectium Z
+Pikacium Z
+Deciduenium Z
+Incineronium Z
+Primarinium Z
+Tapium Z
+Marshadium Z
+Aloraicium Z
+Snorlactium Z
+Eevium Z
+Mewnium Z
+Ashpikacium Z
+Ashpikacium Z
+???
+???
+???
+???
+Portaingredienti
+Canna da pesca
+Maschera del Prof
+Festicket
+Pietra lucente
+Fifasfera
+Teca Zygarde
+???
+Pietragelo
+Chiamapassaggio
+UC Ball
+Malasada maxi
+Nettare rosso
+Nettare giallo
+Nettare rosa
+Nettare viola
+Flauto solare
+Flauto lunare
+???
+Lettera segreta
+Baccalampon argentata
+Baccalampon dorata
+Baccabana argentata
+Baccabana dorata
+Baccananas argentata
+Baccananas dorata
+???
+???
+???
+???
+???
+Chiave segreta
+Biglietto nave
+Spettrosonda
+Pacco
+Apriporta
+Denti d’oro
+Chiave ascensore
+Fissacampo
+Smorzaurti
+Elettroseme
+Psicoseme
+Nebbiaseme
+Erbaseme
+Molla elastica
+Gessetto
+Biglia
+Orecchino
+Vetro marino
+Fogliadoro
+Fogliargento
+Pallina di fango
+Tropiconchiglia
+Foglialettera
+Foglialettera
+Bouquet
+???
+???
+???
+Profumo invito
+Superprofumo
+Profumo max
+Plumbeosalatini
+ROM Lotta
+ROM Volante
+ROM Veleno
+ROM Terra
+ROM Roccia
+ROM Coleottero
+ROM Spettro
+ROM Acciaio
+ROM Fuoco
+ROM Acqua
+ROM Erba
+ROM Elettro
+ROM Psico
+ROM Ghiaccio
+ROM Drago
+ROM Buio
+ROM Folletto
+Solgaleium Z
+Lunalium Z
+Ultranecrozium Z
+Mimikyum Z
+Lycanrochium Z
+Kommonium Z
+Solgaleium Z
+Lunalium Z
+Ultranecrozium Z
+Mimikyum Z
+Lycanrochium Z
+Kommonium Z
+Supercerchio Z
+Petalo rosa
+Petalo arancione
+Petalo azzurro
+Petalo rosso
+Petalo verde
+Petalo giallo
+Petalo violetto
+Fiore arcobaleno
+Medaglia Tonante
+Necrosolix
+Necrolunix
+Necrosolix
+Necrolunix
+Normium Z Liam
+Poké Ball altrui
+Cova’n’roll
+Sconto’n’roll
+Soldi’n’roll
+Esp’n’roll
+Affetto’n’roll
+Incontra’n’roll
+Repelle’n’roll
+PS’n’roll
+PP’n’roll
+Stat’n’roll
+Acchiappa’n’roll
+Caramella vitalità S
+Caramella potenza S
+Caramella protezione S
+Caramella acume S
+Caramella intuito S
+Caramella rapidità S
+Caramella vitalità M
+Caramella potenza M
+Caramella protezione M
+Caramella acume M
+Caramella intuito M
+Caramella rapidità M
+Caramella vitalità L
+Caramella potenza L
+Caramella protezione L
+Caramella acume L
+Caramella intuito L
+Caramella rapidità L
+Caramella Bulbasaur
+Caramella Charmander
+Caramella Squirtle
+Caramella Caterpie
+Caramella Weedle
+Caramella Pidgey
+Caramella Rattata
+Caramella Spearow
+Caramella Ekans
+Caramella Pikachu
+Caramella Sandshrew
+Caramella Nidoran♀
+Caramella Nidoran♂
+Caramella Clefairy
+Caramella Vulpix
+Caramella Jigglypuff
+Caramella Zubat
+Caramella Oddish
+Caramella Paras
+Caramella Venonat
+Caramella Diglett
+Caramella Meowth
+Caramella Psyduck
+Caramella Mankey
+Caramella Growlithe
+Caramella Poliwag
+Caramella Abra
+Caramella Machop
+Caramella Bellsprout
+Caramella Tentacool
+Caramella Geodude
+Caramella Ponyta
+Caramella Slowpoke
+Caramella Magnemite
+Caramella Farfetch’d
+Caramella Doduo
+Caramella Seel
+Caramella Grimer
+Caramella Shellder
+Caramella Gastly
+Caramella Onix
+Caramella Drowzee
+Caramella Krabby
+Caramella Voltorb
+Caramella Exeggcute
+Caramella Cubone
+Caramella Hitmonlee
+Caramella Hitmonchan
+Caramella Lickitung
+Caramella Koffing
+Caramella Rhyhorn
+Caramella Chansey
+Caramella Tangela
+Caramella Kangaskhan
+Caramella Horsea
+Caramella Goldeen
+Caramella Staryu
+Caramella Mr. Mime
+Caramella Scyther
+Caramella Jynx
+Caramella Electabuzz
+Caramella Pinsir
+Caramella Tauros
+Caramella Magikarp
+Caramella Lapras
+Caramella Ditto
+Caramella Eevee
+Caramella Porygon
+Caramella Omanyte
+Caramella Kabuto
+Caramella Aerodactyl
+Caramella Snorlax
+Caramella Articuno
+Caramella Zapdos
+Caramella Moltres
+Caramella Dratini
+Caramella Mewtwo
+Caramella Mew
+Caramella Meltan
+Caramella Magmar
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+Referenze
+Box Pokémon
+Desiostella
+Polsino Dynamax
+???
+???
+Canna da pesca
+Bici Rotom
+???
+???
+Salsicce
+Lattina Gustavo
+Scatoletta Bach
+Lattina fagioli
+Pan carré
+Pasta
+Funghi
+Coda affumicata
+Grosso porro
+Mela prelibata
+Ossi sottili
+Patate
+Erbe acquatiche
+Verdure
+Fritto misto
+Uovo sodo
+Kit da campeggio
+???
+???
+Spada rovinata
+Scudo rovinato
+Ornitofossile
+Ittiofossile
+Dracofossile
+Plesiofossile
+Bonbonfragola
+Bonboncuore
+Bonbonbosco
+Bonbonfoglio
+Bonbonfiore
+Bonbonstella
+Bonbonfiocco
+Dolcepomo
+Aspropomo
+Spray gola
+Zainofuga
+Scarponi robusti
+Fiascopolizza
+Distorservizio
+Superombrello
+Caram. esp. XS
+Caram. esp. S
+Caram. esp. M
+Caram. esp. L
+Caram. esp. XL
+Caramella Dynamax
+DT00
+DT01
+DT02
+DT03
+DT04
+DT05
+DT06
+DT07
+DT08
+DT09
+DT10
+DT11
+DT12
+DT13
+DT14
+DT15
+DT16
+DT17
+DT18
+DT19
+DT20
+DT21
+DT22
+DT23
+DT24
+DT25
+DT26
+DT27
+DT28
+DT29
+DT30
+DT31
+DT32
+DT33
+DT34
+DT35
+DT36
+DT37
+DT38
+DT39
+DT40
+DT41
+DT42
+DT43
+DT44
+DT45
+DT46
+DT47
+DT48
+DT49
+DT50
+DT51
+DT52
+DT53
+DT54
+DT55
+DT56
+DT57
+DT58
+DT59
+DT60
+DT61
+DT62
+DT63
+DT64
+DT65
+DT66
+DT67
+DT68
+DT69
+DT70
+DT71
+DT72
+DT73
+DT74
+DT75
+DT76
+DT77
+DT78
+DT79
+DT80
+DT81
+DT82
+DT83
+DT84
+DT85
+DT86
+DT87
+DT88
+DT89
+DT90
+DT91
+DT92
+DT93
+DT94
+DT95
+DT96
+DT97
+DT98
+DT99
+MT00
+Menta Schiva
+Menta Decisa
+Menta Birbona
+Menta Audace
+Menta Sicura
+Menta Scaltra
+Menta Fiacca
+Menta Placida
+Menta Modesta
+Menta Mite
+Menta Ardente
+Menta Quieta
+Menta Calma
+Menta Gentile
+Menta Cauta
+Menta Vivace
+Menta Timida
+Menta Lesta
+Menta Allegra
+Menta Ingenua
+Menta Seria
+Desioblocco
+Teiera rotta
+Teiera crepata
+Supertappi
+Frutti
+Formaggio Mumu
+Spezie assortite
+Panna da cucina
+Curry precotto
+Latte di cocco
+Noodle precotti
+Hamburger
+Gigaspezia
+Desioframmento
+Bici Rotom
+Catturamuleto
+???
+Vecchia lettera
+Autografo band
+Libro di Sonia
+???
+???
+???
+???
+???
+???
+Catalogo Rotom
+★And458
+★And15
+★And337
+★And603
+★And390
+★Sgr6879
+★Sgr6859
+★Sgr6913
+★Sgr7348
+★Sgr7121
+★Sgr6746
+★Sgr7194
+★Sgr7337
+★Sgr7343
+★Sgr6812
+★Sgr7116
+★Sgr7264
+★Sgr7597
+★Del7882
+★Del7906
+★Del7852
+★Psc596
+★Psc361
+★Psc510
+★Psc437
+★Psc8773
+★Lep1865
+★Lep1829
+★Boo5340
+★Boo5506
+★Boo5435
+★Boo5602
+★Boo5733
+★Boo5235
+★Boo5351
+★Hya3748
+★Hya3903
+★Hya3418
+★Hya3482
+★Hya3845
+★Eri1084
+★Eri472
+★Eri1666
+★Eri897
+★Eri1231
+★Eri874
+★Eri1298
+★Eri1325
+★Eri984
+★Eri1464
+★Eri1393
+★Eri850
+★Tau1409
+★Tau1457
+★Tau1165
+★Tau1791
+★Tau1910
+★Tau1346
+★Tau1373
+★Tau1412
+★CMa2491
+★CMa2693
+★CMa2294
+★CMa2827
+★CMa2282
+★CMa2618
+★CMa2657
+★CMa2646
+★UMa4905
+★UMa4301
+★UMa5191
+★UMa5054
+★UMa4295
+★UMa4660
+★UMa4554
+★UMa4069
+★UMa3569
+★UMa3323
+★UMa4033
+★UMa4377
+★UMa4375
+★UMa4518
+★UMa3594
+★Vir5056
+★Vir4825
+★Vir4932
+★Vir4540
+★Vir4689
+★Vir5338
+★Vir4910
+★Vir5315
+★Vir5359
+★Vir5409
+★Vir5107
+★Ari617
+★Ari553
+★Ari546
+★Ari951
+★Ori1713
+★Ori2061
+★Ori1790
+★Ori1903
+★Ori1948
+★Ori2004
+★Ori1852
+★Ori1879
+★Ori1899
+★Ori1543
+★Cas21
+★Cas168
+★Cas403
+★Cas153
+★Cas542
+★Cas219
+★Cas265
+★Cnc3572
+★Cnc3208
+★Cnc3461
+★Cnc3449
+★Cnc3429
+★Cnc3627
+★Cnc3268
+★Cnc3249
+★Com4968
+★Crv4757
+★Crv4623
+★Crv4662
+★Crv4786
+★Aur1708
+★Aur2088
+★Aur1605
+★Aur2095
+★Aur1577
+★Aur1641
+★Aur1612
+★Pav7790
+★Cet911
+★Cet681
+★Cet188
+★Cet539
+★Cet804
+★Cep8974
+★Cep8162
+★Cep8238
+★Cep8417
+★Cen5267
+★Cen5288
+★Cen551
+★Cen5459
+★Cen5460
+★CMi2943
+★CMi2845
+★Equ8131
+★Vul7405
+★UMi424
+★UMi5563
+★UMi5735
+★UMi6789
+★Crt4287
+★Lyr7001
+★Lyr7178
+★Lyr7106
+★Lyr7298
+★Ara6585
+★Sco6134
+★Sco6527
+★Sco6553
+★Sco5953
+★Sco5984
+★Sco6508
+★Sco6084
+★Sco5944
+★Sco6630
+★Sco6027
+★Sco6247
+★Sco6252
+★Sco5928
+★Sco6241
+★Sco6165
+★Tri544
+★Leo3982
+★Leo4534
+★Leo4357
+★Leo4057
+★Leo4359
+★Leo4031
+★Leo3852
+★Leo3905
+★Leo3773
+★Gru8425
+★Gru8636
+★Gru8353
+★Lib5685
+★Lib5531
+★Lib5787
+★Lib5603
+★Pup3165
+★Pup3185
+★Pup3045
+★Cyg7924
+★Cyg7417
+★Cyg7796
+★Cyg8301
+★Cyg7949
+★Cyg7528
+★Oct7228
+★Col1956
+★Col2040
+★Col2177
+★Gem2990
+★Gem2891
+★Gem2421
+★Gem2473
+★Gem2216
+★Gem2777
+★Gem2650
+★Gem2286
+★Gem2484
+★Gem2930
+★Peg8775
+★Peg8781
+★Peg39
+★Peg8308
+★Peg8650
+★Peg8634
+★Peg8684
+★Peg8450
+★Peg8880
+★Peg8905
+★Oph6556
+★Oph6378
+★Oph6603
+★Oph6149
+★Oph6056
+★Oph6075
+★Ser5854
+★Ser7141
+★Ser5879
+★Her6406
+★Her6148
+★Her6410
+★Her6526
+★Her6117
+★Her6008
+★Per936
+★Per1017
+★Per1131
+★Per1228
+★Per834
+★Per941
+★Phe99
+★Phe338
+★Vel3634
+★Vel3485
+★Vel3734
+★Aqr8232
+★Aqr8414
+★Aqr8709
+★Aqr8518
+★Aqr7950
+★Aqr8499
+★Aqr8610
+★Aqr8264
+★Cru4853
+★Cru4730
+★Cru4763
+★Cru4700
+★Cru4656
+★PsA8728
+★TrA6217
+★Cap7776
+★Cap7754
+★Cap8278
+★Cap8322
+★Cap7773
+★Sge7479
+★Car2326
+★Car3685
+★Car3307
+★Car3699
+★Dra5744
+★Dra5291
+★Dra6705
+★Dra6536
+★Dra7310
+★Dra6688
+★Dra4434
+★Dra6370
+★Dra7462
+★Dra6396
+★Dra6132
+★Dra6636
+★CVn4915
+★CVn4785
+★CVn4846
+★Aql7595
+★Aql7557
+★Aql7525
+★Aql7602
+★Aql7235
+Mielemax
+Fungomax
+Ramo Galarnoce
+Fascia Galarnoce
+Tessera chic
+Pass Armatura
+Bici Rotom
+Bici Rotom
+Esperienzamuleto
+Rocciarmatura
+Emblemamuleto
+Briglie legame
+Briglie legame
+Corona Galarnoce
+Leggenda 1
+Leggenda 2
+Leggenda 3
+Leggenda ?
+Pass Corona
+Corona di legno
+Petalo lucente
+Crini bianchi
+Crini neri
+Carota algida
+Carota oscura
+Rocciamax
+Semi di carota
+Cerotto abilità
+Briglie legame
+Sferazen tempo
+Sferazen spazio
+Sferazen
+Filo dell’unione
+Muffin classico
+Bacca ghicocca
+Muffin Giubilo
+Multi extra
+Supercolpo
+Involtoscelta
+Doppiaceto
+Invertigratin
+Felcetonda
+Seme padronanza
+Poké Ball
+???
+Ghiaccio perenne
+Artiglio di Uxie
+Zanna di Azelf
+Piuma di Mesprit
+Ciottolo
+Flauto memordei
+Preparato
+Preparato buono
+Miele luccicante
+Spiga rigogliosa
+Fagiolo paffuto
+Fungo gommoso
+Minerale duro
+Legno
+Foglia regina
+Sferazen palude
+Poké Ball
+Mega Ball
+Ultra Ball
+Piuma Ball
+Pokékokeshi
+???
+Palla orba
+Scoppiosfera
+Sfera viscosa
+Pezzo stella
+Polpetta funghi
+Erba repellente
+Polpetta miele
+Polpetta spighe
+Polpetta fagioli
+Polpetta minerale
+Pozione
+Superpozione
+Iperpozione
+Pozione max
+Ricarica totale
+Preparato
+Preparato buono
+Preparato ottimo
+Dolce gateau
+Muffin Giubilo
+Cura totale
+Revitalizzante
+Revitalizzante max
+Tonico PP
+Tonico PP Max
+Furtivizzante
+???
+Offensiva extra
+Difensiva extra
+Supercolpo
+Elusione X
+Multi extra
+Sferazen foresta
+Pezzo di ferro
+???
+Ciottolo nero
+Ciottolo celeste
+???
+Palla di fango
+???
+Scoppiettalga
+Patata fumosa
+Ghicocca bacata
+Palla di neve
+Sfera viscosa
+Augite nera
+Blocco di torba
+Furtivizzante
+Porro officinale
+Revitalboccio
+Erba PP
+???
+???
+Amuleto Sostituto 2
+Amuleto Sostituto 3
+Danzaspaditola
+Ferroscudino
+Doppioteamillo
+Colpogone
+Rafano costiero
+Amuleto Sostituto 4
+Amuleto Sostituto 5
+Tartufo dolce
+Polpetta base
+Poké Ball
+Mega Ball
+Ultra Ball
+Piuma Ball
+???
+???
+Scoppiosfera
+Palla orba
+???
+???
+Pokékokeshi
+Sferazen vulcano
+Sferazen monte
+Sferazen neve
+Polpetta miele
+Polpetta spighe
+Polpetta fagioli
+Polpetta funghi
+Polpetta minerale
+Invertigratin
+Involtoscelta
+Doppiaceto
+Amuleto tutela 1
+Amuleto tutela 2
+Amuleto tutela 3
+Amuleto tutela 4
+Amuleto tutela 5
+Diario rovinato
+Amuleto salute 1
+Amuleto salute 2
+Amuleto salute 3
+Amuleto salute 4
+Amuleto salute 5
+Pezzo di lastra
+Esca Basculegion
+Vecchio diario
+Wing Ball
+Jet Ball
+Peso Ball
+Megaton Ball
+Gigaton Ball
+Wing Ball
+Jet Ball
+Peso Ball
+Baccaluppo
+Preparato ottimo
+Offensiva extra
+Difensiva extra
+Elusione X
+Sabbia impegno
+Ghiaia impegno
+Pietra impegno
+Roccia impegno
+Rimedio segreto
+Amuleto Sostituto 1
+Oggetto smarrito
+Oggetto smarrito
+Oggetto smarrito
+Oggetto smarrito
+Oggetto smarrito
+???
+Origin Ball
+???
+???
+???
+???
+Rocciorigine
+Adamasferoide
+Splendisferoide
+Grigiosferoide
+Lastraripristino
+???
+Kit faidaté
+Megaton Ball
+Gigaton Ball
+Strange Ball
+Pokédex
+Antica poesia 1
+Antica poesia 2
+Antica poesia 3
+Antica poesia 4
+???
+Antica poesia 5
+Antica poesia 6
+Antica poesia 7
+Antica poesia 8
+Antica poesia 9
+Antica poesia 10
+Antica poesia 11
+Antica poesia 12
+Antica poesia 13
+Antica poesia 14
+Antica poesia 15
+Antica poesia 16
+Antica poesia 17
+Antica poesia 18
+Antica poesia 19
+Antica poesia 20
+Frammento insolito S
+Frammento insolito L
+Trivella
+Piastra di Kanto
+Piastra di Johto
+Piastra del cuore
+Piastra arcobaleno
+Piastra dei venti
+Piastra dei mari
+Piastra delle terre
+Piastra dei cieli
+Piastra del gene
+Piastra degli esordi
+Piastra distorta
+Lettore DS
+
+
+
+
+
+Lastraleggenda
+Smart Rotom
+Panino
+Poké Ball Koraidon
+Poké Ball Miraidon
+Terasfera
+Libro scarlatto
+Libro violetto
+Portafogli di Algaro
+
+
+
+
+
+Minibambù
+Grande bambù
+
+
+
+
+
+
+
+
+
+
+
+
+
+Rotolo del Buio
+Rotolo dell’Acqua
+
+
+Armatura infausta
+Teralite Normale
+Teralite Fuoco
+Teralite Acqua
+Teralite Elettro
+Teralite Erba
+Teralite Ghiaccio
+Teralite Lotta
+Teralite Veleno
+Teralite Terra
+Teralite Volante
+Teralite Psico
+Teralite Coleottero
+Teralite Roccia
+Teralite Spettro
+Teralite Drago
+Teralite Buio
+Teralite Acciaio
+Teralite Folletto
+Capsula energetica
+Scudo abilità
+Ciondolochiaro
+Foglia carbone
+Guantone
+Anonimanto
+Dado truccato
+
+Filoncino
+Maionese
+Ketchup
+Senape
+Burro
+Burro di arachidi
+Salsa piccante
+Sale
+Pepe
+Yogurt
+Panna montata
+Formaggio cremoso
+Confettura di bosco
+Marmellata
+Olio d’oliva
+Aceto
+Spezia nascosta dolce
+Spezia nascosta salata
+Spezia nascosta aspra
+Spezia nascosta amara
+Spezia nascosta pepata
+Lattuga
+Pomodoro
+Pomodorino
+Cetriolo
+Sottaceto
+Cipolla
+Cipolla rossa
+Peperone verde
+Peperone rosso
+Peperone giallo
+Avocado
+Pancetta rosolata
+Prosciutto cotto
+Prosciutto crudo
+Chorizo rosolato
+Salsiccia alle erbe
+Hamburger grigliato
+Surimi di Klawf
+Filetto affumicato
+Filetto impanato
+Uovo bollito
+Tortilla
+Tofu
+Riso
+Noodle
+Insalata di patate
+Formaggio
+Banana
+Fragola
+Mela
+Kiwi
+Ananas
+Jalapeño
+Rafano
+Curry in polvere
+Wasabi
+Crescione
+Basilico
+
+
+
+
+
+
+
+
+
+Zanna di Venonat
+Terra di Diglett
+Pelo di Meowth
+Piuma di Psyduck
+Pelo di Mankey
+Pelo di Growlithe
+Artiglio di Slowpoke
+Vite di Magnemite
+Tossine di Grimer
+Perla di Shellder
+Gas di Gastly
+Pelo di Drowzee
+Elettricità di Voltorb
+Artiglio di Scyther
+Pelo di Tauros
+Squama di Magikarp
+Appiccicume di Ditto
+Pelo di Eevee
+Squama di Dratini
+Pelo di Pichu
+Pelo di Igglybuff
+Lana di Mareep
+Foglia di Hoppip
+Foglia di Sunkern
+Tesoro di Murkrow
+Lacrime di Misdreavus
+Pelo di Girafarig
+Guscio di Pineco
+Squama di Dunsparce
+Aculeo di Qwilfish
+Artiglio di Heracross
+Artiglio di Sneasel
+Artiglio di Teddiursa
+Scorte di Delibird
+Zanna di Houndour
+Unghia di Phanpy
+Pelo di Stantler
+Artiglio di Larvitar
+Penna di Wingull
+Oggetto di Ralts
+Sciroppo di Surskit
+Spore di Shroomish
+Pelo di Slakoth
+Sudore di Makuhita
+Pelo di Azurill
+Gemma di Sableye
+Sudore di Meditite
+Muco di Gulpin
+Lava di Numel
+Carbone di Torkoal
+Perla di Spoink
+Spina di Cacnea
+Piuma di Swablu
+Artiglio di Zangoose
+Zanna di Seviper
+Muco di Barboach
+Brandello di Shuppet
+Foglia di Tropius
+Pelo di Snorunt
+Squama di Luvdisc
+Squama di Bagon
+Penna di Starly
+Esuvia di Kricketot
+Zanna di Shinx
+Nettare di Combee
+Pelo di Pachirisu
+Pelo di Buizel
+Bava di Shellos
+Gas di Drifloon
+Pelo di Stunky
+Frammento di Bronzor
+Lacrime di Bonsly
+Oggetto di Happiny
+Frammento di Spiritomb
+Squama di Gible
+Pelo di Riolu
+Sabbia di Hippopotas
+Tossine di Croagunk
+Squama di Finneon
+Bacca di Snover
+Elettricità di Rotom
+Foglia di Petilil
+Dente di Basculin
+Artiglio di Sandile
+Pelo di Zorua
+Ciglia di Gothita
+Pelo di Deerling
+Spore di Foongus
+Muco di Alomomola
+Muco di Tynamo
+Squama di Axew
+Pelo di Cubchoo
+Ghiaccio di Cryogonal
+Lama di Pawniard
+Penna di Rufflet
+Squama di Deino
+Pelo di Larvesta
+Penna di Fletchling
+Polvere di Scatterbug
+Crine di Litleo
+Polline di Flabébé
+Foglia di Skiddo
+Alga di Skrelp
+Chela di Clauncher
+Piuma di Hawlucha
+Pelo di Dedenne
+Bava di Goomy
+Chiave di Klefki
+Ghiaccio di Bergmite
+Pelo di Noibat
+Pelo di Yungoos
+Carapace di Crabrawler
+Penna di Oricorio
+Roccia di Rockruff
+Aculeo di Mareanie
+Fango di Mudbray
+Foglia di Fomantis
+Gas di Salandit
+Sudore di Bounsweet
+Pelo di Oranguru
+Pelo di Passimian
+Sabbia di Sandygast
+Artiglio di Komala
+Brandello di Mimikyu
+Dente di Bruxish
+Unghia di Chewtle
+Pelo di Skwovet
+Squama di Arrokuda
+Penna di Rookidee
+Elettricità di Toxel
+Sudore di Falinks
+Ruggine di Cufant
+Carbone di Rolycoly
+Sabbia di Silicobra
+Pelo di Indeedee
+Aculeo di Pincurchin
+Filo di Snom
+Pelo di Impidimp
+Succo di Applin
+Coccio di Sinistea
+Oggetto di Hatenna
+Roccia di Stonjourner
+Piuma di Eiscue
+Polvere di Dreepy
+
+
+
+Pelo di Lechonk
+Filo di Tarountula
+Artiglio di Nymble
+Fango di Rellor
+Cera di Greavard
+Piuma di Flittle
+Sabbia di Wiglett
+Barbiglio di Dondozo
+Filetto di Veluza
+Muco di Finizen
+Olio di Smoliv
+Seme di Capsakid
+Muco di Tadbulb
+Gas di Varoom
+Ruggine di Orthworm
+Pelo di Tandemaus
+Grasso di Cetoddle
+Squama di Frigibax
+Squama di Tatsugiri
+Squama di Cyclizar
+Pelo di Pawmi
+
+
+Penna di Wattrel
+Penna di Bombirdier
+Penna di Squawkabilly
+Piuma di Flamigo
+Chela di Klawf
+Sale di Nacli
+Cristallo di Glimmet
+Inchiostro di Shroodle
+Pelo di Fidough
+Zanna di Maschiff
+Ramoscello di Bramblin
+Moneta di Gimmighoul
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pelo di Tinkatink
+Fuliggine di Charcadet
+Pieghe di Toedscool
+Muco di Wooper
+MT100
+MT101
+MT102
+MT103
+MT104
+MT105
+MT106
+MT107
+MT108
+MT109
+MT110
+MT111
+MT112
+MT113
+MT114
+MT115
+MT116
+MT117
+MT118
+MT119
+MT120
+MT121
+MT122
+MT123
+MT124
+MT125
+MT126
+MT127
+MT128
+MT129
+MT130
+MT131
+MT132
+MT133
+MT134
+MT135
+MT136
+MT137
+MT138
+MT139
+MT140
+MT141
+MT142
+MT143
+MT144
+MT145
+MT146
+MT147
+MT148
+MT149
+MT150
+MT151
+MT152
+MT153
+MT154
+MT155
+MT156
+MT157
+MT158
+MT159
+MT160
+MT161
+MT162
+MT163
+MT164
+MT165
+MT166
+MT167
+MT168
+MT169
+MT170
+MT171
+MT172
+MT173
+MT174
+MT175
+MT176
+MT177
+MT178
+MT179
+MT180
+MT181
+MT182
+MT183
+MT184
+MT185
+MT186
+MT187
+MT188
+MT189
+MT190
+MT191
+MT192
+MT193
+MT194
+MT195
+MT196
+MT197
+MT198
+MT199
+MT200
+MT201
+MT202
+MT203
+MT204
+MT205
+MT206
+MT207
+MT208
+MT209
+MT210
+MT211
+MT212
+MT213
+MT214
+MT215
+MT216
+MT217
+MT218
+MT219
+MT220
+MT221
+MT222
+MT223
+MT224
+MT225
+MT226
+MT227
+MT228
+MT229
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Set da picnic
+
+Borraccia accademia
+Borraccia accademia
+Borraccia a pois
+Borraccia a righe
+Borraccia a rombi
+Tazza accademia
+Tazza accademia
+Tazza a righe verticali
+Tazza a pois
+Tazza a fiori
+Tovaglia accademia
+Tovaglia accademia
+Tovaglia carina
+Tovaglia natura
+Tovaglia dispetto
+
+Palla accademia
+Palla accademia
+Palla Marill
+Palla gomitolo
+Palla gaming
+Stecchino oro
+Stecchino argento
+Bandierina rossa
+Bandierina blu
+Stecchino Pikachu
+Stecchino pikapika
+Stecchino Eevee
+Stecchino veevee
+Stecchino Ball blu
+
+Armatura fausta
+Simbolo del capo
+
+
+Borraccia rosa
+Borraccia celeste
+Borraccia gialla
+Borraccia inox R
+Borraccia inox G
+Borraccia inox B
+Borraccia argento
+Tazza a righe orizzontali
+Tazza a rombi
+Tazza con fiamme
+Tazza rosa
+Tazza celeste
+Tazza gialla
+Tazza Pikachu
+Tazza Eevee
+Tazza Slowpoke
+Tazza argento
+Palla fitness
+Tovaglia a quadri gialla
+Tovaglia a quadri viola
+Tovaglia a quadri rossa
+Tovaglia erba alta
+Tovaglia sfida
+Tovaglia mostruosa
+Tovaglia a righe
+Tovaglia a rombi
+Tovaglia a pois
+Tovaglia lilla
+Tovaglia menta
+Tovaglia pesca
+Tovaglia gialla
+Tovaglia blu
+Tovaglia rosa
+Borraccia oro
+Borraccia bronzo
+Tazza oro
+Tazza bronzo
+Stecchino Ball verde
+Stecchino Ball rosso
+Stecchino scintille
+Stecchino spadone
+Stecchino magistella
+Stecchino magicuore
+Ombrellino
+Stecchino fiore blu
+Stecchino fiore arancio
+Stecchino fiore rosso
+Piatto celeste
+Piatto verde
+Piatto arancione
+Piatto rosso
+Piatto bianco
+Piatto giallo
+Piuma fatata
+Sciroppomo
+Tazza dozzinale
+Tazza eccezionale
+Maschera Turchese
+Maschera Fondamenta
+Maschera Pozzo
+Maschera Focolare
+Tessera chic verde
+Pezzo di cristallo
+Mochi della salute
+Mochi della potenza
+Mochi della tutela
+Mochi dell’ingegno
+Mochi dell’intuito
+Mochi della reazione
+Sedie semplici
+Sedie accademia
+Sedie accademia
+Sedie carine
+Sedie natura
+Sedie dispetto
+Sedie a quadri gialle
+Sedie a quadri viola
+Sedie a quadri rosse
+Sedie erba alta
+Sedie sfida
+Sedie mostruose
+Sedie a righe
+Sedie a rombi
+Sedie a pois
+Sedie lilla
+Sedie menta
+Sedie pesca
+Sedie gialle
+Sedie blu
+Sedie rosa
+Zanna di Ekans
+Artiglio di Sandshrew
+Pelo di Cleffa
+Pelo di Vulpix
+Muco di Poliwag
+Viticcio di Bellsprout
+Frammento di Geodude
+Gas di Koffing
+Zanna di Munchlax
+Pelo di Sentret
+Penna di Hoothoot
+Filo di Spinarak
+Pelo di Aipom
+Aculeo di Yanma
+Zanna di Gligar
+Lava di Slugma
+Pelo di Swinub
+Zanna di Poochyena
+Foglia di Lotad
+Picciolo di Seedot
+Frammento di Nosepass
+Fluido di Volbeat
+Fluido di Illumise
+Carapace di Corphish
+Squama di Feebas
+Frammento di Duskull
+Frammento di Chingling
+Sudore di Timburr
+Foglia di Sewaddle
+Penna di Ducklett
+Fuliggine di Litwick
+Artiglio di Mienfoo
+Penna di Vullaby
+Gemma di Carbink
+Ramo di Phantump
+Filo di Grubbin
+Polvere di Cutiefly
+Squama di Jangmo-o
+Piuma di Cramorant
+Seme di Morpeko
+Polvere di Poltchageist
+Mochi del ripristino
+Bastone Rotoselfie
+Brillamuleto
+Metallo composito
+Tessera chic blu
+Foglia di Oddish
+Aculeo di Tentacool
+Piuma di Doduo
+Pelo di Seel
+Guscio di Exeggcute
+Sudore di Tyrogue
+Zanna di Rhyhorn
+Inchiostro di Horsea
+Pelo di Elekid
+Pelo di Magby
+Lacrime di Lapras
+Frammento di Porygon
+Elettricità di Chinchou
+Pelo di Snubbull
+Penna di Skarmory
+Pittura di Smeargle
+Pelo di Plusle
+Pelo di Minun
+Guscio di Trapinch
+Artiglio di Beldum
+Punta di Cranidos
+Artiglio di Shieldon
+Crine di Blitzle
+Artiglio di Drilbur
+Lanugine di Cottonee
+Sudore di Scraggy
+Pelo di Minccino
+Gel di Solosis
+Filo di Joltik
+Frammento di Golett
+Pelo di Espurr
+Inchiostro di Inkay
+Penna di Pikipek
+Filo di Dewpider
+Fiore di Comfey
+Guscio di Minior
+Panna di Milcery
+Ruggine di Duraludon
+Spuntino per Articuno
+Spuntino per Zapdos
+Spuntino per Moltres
+Spuntino per Raikou
+Spuntino per Entei
+Spuntino per Suicune
+Spuntino per Lugia
+Spuntino per Ho-Oh
+Spuntino per Latias
+Spuntino per Latios
+Spuntino per Kyogre
+Spuntino per Groudon
+Spuntino per Rayquaza
+Spuntino per Cobalion
+Spuntino per Terrakion
+Spuntino per Virizion
+Spuntino per Reshiram
+Spuntino per Zekrom
+Spuntino per Kyurem
+Spuntino per Solgaleo
+Spuntino per Lunala
+Spuntino per Necrozma
+Spuntino per Kubfu
+Spuntino per Glastrier
+Spuntino per Spectrier
+Disco indaco
+Stecchino infuocato
+Teralite Astrale
+Baccapesca misteriosa
+Tovaglia Mirtillo
+Sedie Mirtillo
+Sincronizzatore
+Meteorite
+Libro scarlatto
+Libro violetto
+Libro di Rea

@@ -1,0 +1,23 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	台北市	Taipei City	Taipei	Taipeh	Taipei	Taipéi	台北市	타이베이	臺北市
+003	高雄市	Kaohsiung City	Kaohsiung	Kaohsiung	Kaohsiung	Condado de Kaohsiung	高雄市	가오슝	高雄市
+004	基隆市	Keelung City	Keelung	Keelung	Keelung	Keelung	基隆市	지룽	基隆市
+005	新竹市	Hsinchu City	Hsinchu	Hsinchu	Hsinchu	Hsinchu	新竹市	신주	新竹市
+006	台中市	Taichung City	Taichung	Taichung	Taichung	Taichung	台中市	타이중	臺中市
+007	嘉義市	Chiayi City	Chiayi	Chiayi	Chiayi	Chiayi	嘉义市	자이	嘉義市
+008	台南市	Tainan City	Tainan	Tainan	Tainan	Tainan	台南市	타이난	臺南市
+009	新北市	New Taipei City	Nouveau Taipei	Xinbei	New Taipei	Nuevo Taipéi	新北市	신베이	新北市
+010	桃園市	Taoyuan City	Taoyuan	Taoyuan	Taoyuan	Ciudad de Taoyuan	桃园市	타오위안	桃園市
+011	新竹県	HsinChu County	Hsinchu (comté de)	Kreis Hsinchu	Contea di HsinChu	Condado de Hsinchu	新竹县	신주 현	新竹縣
+012	苗栗県	Miaoli County	Miaoli (comté de)	Kreis Miaoli	Contea di Miaoli	Distrito de Miaoli	苗栗县	먀오리 현	苗栗縣
+014	彰化県	Changhua County	Changhua (comté de)	Kreis Changhua	Contea di Changhua	Condado de Changhua	彰化县	장화 현	彰化縣
+015	南投県	Nantou County	Nantou (comté de)	Kreis Nantou	Contea di Nantou	Condado de Nantou	南投县	난터우 현	南投縣
+016	雲林県	Yunlin County	Yunlin (comté de)	Kreis Yunlin	Contea di Yunlin	Condado de Yunlin	云林县	윈린 현	雲林縣
+017	嘉義県	Chiayi County	Chiayi (comté de)	Kreis Chiayi	Contea di Chiayi	Condado de Chiayi	嘉义县	자이 현	嘉義縣
+020	屏東県	Pingtung County	Pingtung (comté de)	Kreis Pingtung	Contea di Pingtung	Condado de Pingtung	屏东县	핑둥 현	屏東縣
+021	宜蘭県	Yilan County	Ilan (comté de)	Kreis Yilan	Contea di Yilan	Condado de Yilan	宜兰县	이란 현	宜蘭縣
+022	花蓮県	Hualien County	Hualien (comté de)	Kreis Hualien	Contea di Hualien	Condado de Hualien	花莲县	화롄 현	花蓮縣
+023	台東県	Taitung County	Taitung (comté de)	Kreis Taitung	Contea di Taitung	Condado de Taitung	台东县	타이둥 현	臺東縣
+024	澎湖県	Penghu County	Penghu (comté de)	Kreis Penghu	Contea di Penghu	Islas Pescadores	澎湖县	펑후 현	澎湖縣
+025	金門県	Kinmen County	Kinmen (comté de)	Kreis Kinmen	Contea di Kinmen	Condado de Kinmen	金门县	진먼 현	金門縣
+026	連江県	Lienchiang County	Lienchiang (comté de)	Kreis Lienchiang	Contea di Lienchiang	Condado de Lienchiang	连江县	롄장 현	連江縣

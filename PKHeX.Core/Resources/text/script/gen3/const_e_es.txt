@@ -1,0 +1,34 @@
+0x4021	m	Contador de pasos Repel
+0x4023	*	Pokémon Inicial	00:Treecko,01:Torchic,02:Mudkip
+0x4024	r	Isla Espejismo RND (Alto)
+0x4025	r	Isla Espejismo RND (Bajo)
+0x4026	*	Base Secreta Actual
+
+0x402A	m	Contador de Pasos de Amistad
+0x402B	m	Contador de Pasos de Envenenamiento
+0x402C	*	Reiniciar el RTC	00:Desactivado,2336:Activado
+0x402D	*	Enigma Berry Disponible
+
+0x403E	r	Pokemon Salvaje en la Cueva de la Alteración	00:Zubat,01:Mareep,02:Pineco,03:Houndour,04:Teddiursa,05:Aipom,06:Shuckle,07:Stantler,08:Smeargle
+
+0x4040	*	Días transcurridos
+
+0x4043	m	Piso de los grandes almacenes	04:1F,05:2F,06:3F,07:4F,08:5F,15:Rooftop
+0x4045	s	Premio Pokelot
+0x4046	*	Nacional Dex Habilitado
+0x4047	+	Registro del tamaño de Seedot
+0x4048	*	Ceniza volcánica recogida
+0x4049	m	Profesor Birch State
+0x404A	s	Contador de pasos de marea S.S.
+0x404B	*	Pokelot RND (Alto)
+0x404C	*	Pokelot RND (Bajo)
+
+0x404F	+	Récord de tamaño de Lotad
+
+0068	s	Trick House	0:On Puzzle 1,1:On Puzzle 2,2:On Puzzle 3,3:On Puzzle 4,4:On Puzzle 5,5:On Puzzle 6,6:On Puzzle 7,7:On Puzzle 8,8:All Puzzles Completed
+0167	s	Trick House Scroll	0:Normal (Trick Master hiding),1:Can Enter,4:Read Note Affixed (Trick Master left),5:Just finished a Puzzle
+0094	s	Rayquaza Event	0:Not Activated,1:Groudon and Kyogre in Sootopolis,2:Saw Groudon and Kyogre Scene,3:Wallace at Sky Pillar,4:Wallace left Sky Pillar,5:Awakened,6:Defeated Juan
+0202	s	Rayquaza Cutscene	0:Not Awakened,1:Appeared in Sootopolis City,3:Occurred
+0203	s	Mirage Tower	0:Can Appear,2:Collapsed,3:Accessed Route 111 after Collapsed
+0211	s	Prof. Birch Quest	0:Pre-Champion,1:Will Get National Dex in Littleroot Town (Post-Champion),2:Got National Dex,3:Can choose Johto starter (If Hoenn Dex Completed),5:Asked to choose Johto starter,6:Chose Johto starter
+0213	r	TV Roamer Chosen	0:Latias (Latios in Southern Island),1:Latios (Latias in Southern Island)

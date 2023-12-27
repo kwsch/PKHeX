@@ -1,0 +1,22 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ストックホルム州	Stockholm County	Stockholm	Stockholms län	Stoccolma	Estocolmo	斯德哥尔摩省	스톡홀름 주	斯德哥爾摩省
+003	スコーネ州	Skåne County	Skåne	Skåne län	Scania	Escania	斯科耐省	스코네 주	斯科耐省
+004	ヴェストラ・イェータランド州	Västra Götaland County	Västra Götaland	Västra Götalands län	Västra Götaland	Västra Götaland	西约特兰省	베스트라예탈란드 주	西約特蘭省
+005	エステルイェトランド州	Östergötland County	Östergötland	Östergötlands län	Östergötland	Östergötland	东约特兰省	외스테르예틀란드 주	東約特蘭省
+006	セーデルマンランド州	Södermanland County	Södermanland	Södermanlands län	Södermanland	Södermanland	南曼兰省	쇠데르만란드 주	南曼蘭省
+007	ベルムランド州	Värmland County	Värmland	Värmlands län	Värmland	Värmland	韦姆兰省	베름란드 주	韋姆蘭省
+008	ウプサラ州	Uppsala County	Uppsala	Uppsala län	Uppsala	Uppsala	乌普萨拉省	웁살라 주	烏普薩拉省
+009	イェーブレボリ州	Gävleborg County	Gävleborg	Gävleborgs län	Gävleborg	Gävleborg	耶夫勒堡省	예블레보리 주	耶夫勒堡省
+010	ベステルボッテン州	Västerbotten County	Västerbotten	Västerbottens län	Västerbotten	Västerbotten	西博滕省	베스테르보텐 주	西博滕省
+011	ノルボッテン州	Norrbotten County	Norrbotten	Norrbottens län	Norrbotten	Norrbotten	北博滕省	노르보텐 주	北博滕省
+012	ゴトランド州	Gotland Island	Gotland	Gotlands Iän	Gotland	Gotland	哥得兰省	고틀란드 주	哥得蘭省
+013	イェムトランド州	Jämtland County	Jämtland	Jämtlands län	Jämtland	Jämtland	耶姆特兰省	옘틀란드 주	耶姆特蘭省
+014	ダーラナ州	Dalarna County	Dalarna	Dalarnas län	Dalarna	Dalarna	达拉纳省	달라르나 주	達拉納省
+015	ブレーキンゲ州	Blekinge County	Blekinge	Blekinge län	Blekinge	Blekinge	布莱金厄省	블레킹에 주	布萊金厄省
+016	エレブルー州	Örebro County	Örebro	Örebro län	Örebro	Örebro	厄勒布鲁省	외레브로 주	厄勒布魯省
+017	ベステルノルランド州	Västernorrland County	Västernorrland	Västernorrlands län	Västernorrland	Västernorrland	西诺尔兰省	베스테르노를란드 주	西諾爾蘭省
+018	イェンチェピング州	Jönköping County	Jönköping	Jönköpings län	Jönköping	Jönköping	延雪平省	옌셰핑 주	延雪平省
+019	クロノベリ州	Kronoberg County	Kronoberg	Kronobergs län	Kronoberg	Kronoberg	克鲁努贝里省	크로노베리 주	克魯努貝裏省
+020	カルマル州	Kalmar County	Kalmar	Kalmar län	Kalmar	Kalmar	卡尔马省	칼마르 주	卡爾馬省
+021	ベストマンランド州	Västmanland County	Västmanland	Västmanlands län	Västmanland	Västmanland	西曼兰省	베스트만란드 주	西曼蘭省
+022	ハランド州	Halland County	Halland	Hallands län	Halland	Halland	哈兰省	할란드 주	哈蘭省

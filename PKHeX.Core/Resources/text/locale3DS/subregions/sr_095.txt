@@ -1,0 +1,17 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ウェリントン	Wellington	Wellington	Wellington	Wellington	Región de Wellington	惠灵顿大区	웰링턴	惠靈頓大區
+003	オークランド	Auckland	Auckland	Auckland	Auckland	Región de Auckland	奥克兰大区	오클랜드	奧克蘭大區
+004	ベイ・オブ・プレンティ	Bay of Plenty	Bay of Plenty	Bay of Plenty	Bay of Plenty	Bahía de Plenty	普伦蒂湾大区	베이오브플렌티	普倫蒂灣大區
+005	カンタベリー	Canterbury	Canterbury	Canterbury	Canterbury	Canterbury	坎特伯雷大区	캔터베리	坎特伯雷大區
+006	ダニーデン	Otago	Otago	Otago	Otago	Otago	奥塔戈大区	오타고	奧塔戈大區
+007	ホークスベイ	Hawke's Bay	Hawke's Bay	Hawke's Bay	Hawke's Bay	Bahía de Hawke	霍克湾大区	호크스베이	霍克灣大區
+008	マナワツ・ワンガヌイ	Manawatu-Wanganui	Manawatu-Wanganui	Manawatu-Wanganui	Manawatu-Wanganui	Manawatu-Wanganui	玛纳瓦图-旺格努伊大区	마너와투-왕거누이	瑪納瓦圖-旺格努伊大區
+009	ネルソン・マールボロ	Nelson	Nelson	Nelson	Nelson	Región de Nelson	纳尔逊区	넬슨-말버러	納爾遜區
+010	ノースランド	Northland	Northland	Northland	Northland	Northland	北地大区	노스랜드	北地大區
+012	サウスランド	Southland	Southland	Southland	Southland	Southland	南地大区	사우스랜드	南地大區
+013	タラナキ	Taranaki	Taranaki	Taranaki	Taranaki	Taranaki	塔拉纳基大区	타라나키	塔拉納基大區
+014	ワイカト	Waikato	Waikato	Waikato	Waikato	Waikato	怀卡托大区	와이카토	懷卡託大區
+015	ギズボーン	Gisborne	Gisborne	Gisborne	Gisborne	Gisborne	吉斯伯恩大区	기즈번	吉斯伯恩大區
+016	ウェストコースト	West Coast	West Coast	West Coast	West Coast	Costa Oeste	西岸大区	웨스트코스트	西岸大區
+017	マールボロ	Marlborough	Marlborough	Marlborough	Marlborough	Marlborough	马尔伯勒大区	말버러	馬爾伯勒大區
+018	タスマン	Tasman	Tasman	Tasman	Tasman	Tasman	塔斯曼大区	태즈먼	塔斯曼大區

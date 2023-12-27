@@ -1,0 +1,4 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ブリュッセル首都地域圏	Brussels Region	Région de Bruxelles-Capitale	Region Brüssel-Hauptstadt	Regione di Bruxelles	Región de Bruselas-Capital	布鲁塞尔首都大区	브뤼셀 지역	布魯塞爾首都大區
+003	フランデレン地域圏	Flanders	Région flamande	Flandern	Fiandre	Región de Flandes	佛兰德大区	플랑드르 지역	佛蘭德大區
+004	ワロン地域圏	Wallonia	Région wallonne	Wallonien	Vallonia	Región de Valonia	瓦隆大区	왈롱 지역	瓦隆大區

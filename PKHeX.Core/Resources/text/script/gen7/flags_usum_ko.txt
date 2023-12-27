@@ -1,0 +1,119 @@
+0646	s	Seen Mimikyu in Pikachu Valley RV
+4060	*	알로라 챔피언 등극/마기아나 선물 수령 가능
+4562	g	아칼라섬 방문/너로정했다캡 피카츄 수령 가능
+4563	g	너로정했다캡 피카츄 받음
+0518	g	파도타기 피카츄 받음
+0443	g	Received Gift Eevee Egg
+0493	g	폴리곤 선물 받음
+0504	g	프테라 선물 받음
+0654	g	타입:널 선물 받음 (1)
+1101	g	타입:널 선물 받음 (2)
+0503	g	코스모그 선물 받음
+4447	g	마기아나 선물 받음
+0269	g	베베놈 선물 받음
+4420	r	프리져 잡음
+4421	r	썬더 잡음
+4422	r	파이어 잡음
+4423	r	뮤츠 잡음
+4260	r	(US) 라이코 잡음
+4261	r	(UM) 엔테이 잡음
+4262	r	스이쿤 잡음
+4263	r	(UM) 루기아 잡음
+4264	r	(US) 칠색조 잡음
+4285	r	레지락 잡음
+4286	r	레지아이스 잡음
+4287	r	레지스틸 잡음
+4283	r	(UM) 라티아스 잡음
+4284	r	(US) 라티오스 잡음
+4289	r	(UM) 가이오가 잡음
+4288	r	(US) 그란돈 잡음
+4290	r	레쿠쟈 잡음
+4265	r	유크시 잡음
+4266	r	엠라이트 잡음
+4267	r	아그놈 잡음
+4268	r	(US) 디아루가 잡음
+4269	r	(UM) 펄기아 잡음
+4270	r	(US) 히드런 잡음
+4271	r	(UM) 레지기가스 잡음
+4272	r	기라티나 잡음
+4273	r	크레세리아 잡음
+4274	r	코바르온 잡음
+4275	r	테라키온 잡음
+4276	r	비리디온 잡음
+4277	r	(US) 토네로스 잡음
+4278	r	(UM) 볼트로스 잡음
+4279	r	(US) 레시라무 잡음
+4280	r	(UM) 제크로무 잡음
+4281	r	랜드로스 잡음
+4282	r	큐레무 잡음
+4424	r	(US) 제르네아스 잡음
+4425	r	(UM) 이벨타르 잡음
+1627	r	솔가레오/루나아라 잡음
+1552	r	네크로즈마 잡음
+4370	r	(UM) 포니수림에 차곡차곡 등장
+4371	r	(US) 포니수림에 두파팡 등장
+4115	*	Unlocked IV Judge
+4545	s	랜턴360 해금됨
+4546	s	누리레느플립 해금됨
+4547	s	아쿠스타토네이도 해금됨
+4548	s	오버더갸라도스 해금됨
+4490	s	슬라이드 패드로 울트라워프라이드 조작
+4440	+	배틀 스타일 획득: 화려한 
+4441	+	배틀 스타일 획득: 소녀 
+4442	+	배틀 스타일 획득: 기도하는 
+4443	+	배틀 스타일 획득: 허세 
+4444	+	배틀 스타일 획득: 왼쪽 
+4445	+	배틀 스타일 획득: 불타는 
+4446	+	배틀 스타일 획득: 아이돌 
+4453	+	배틀 스타일 획득: 공허한 
+4073	s	Received Ride Pager
+4074	s	켄타로스 러시 해금됨
+4075	s	바랜드 서치 해금됨
+4076	s	괴력몬 푸시 해금됨
+4077	s	만마드 대시 해금됨
+4078	s	라프라스 스윔 해금됨
+4079	s	샤크니아 제트 해금됨
+4080	s	리자몽 플라이트 해금됨
+0168	g	Traded for Hawlucha on Route 2
+0169	g	Traded for Noibat on Route 5
+0170	g	Traded for Barboach on Royal Avenue
+0171	g	Traded for Arbok on Route 8
+0172	g	Traded for Phantump in Tapu Village
+0173	g	Traded for Shellos in Seafolk Village
+0174	g	Traded for Tauros on Poni Gauntlet
+1592	r	(UM) Defeated Route 15 Sandygast
+0607	r	Defeated Route 14 Frillish
+0547	r	Defeated Bewear in Hau'oli City
+4564	s	Trainers' School is Haunted (Seven Mysteries Event)
+0211	s	Lusamine's Mansion is NOT Team Rocket's Castle
+1730	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)
+1731	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 11)
+1732	r	Electrode Disappeared (Team Rocket's Castle Southeast Wing, side room)
+0185	t	Had First Title Defense Battle
+0186	t	Encountered Hapu (Title Defense)
+3395	t	Defeated Hapu (Title Defense)
+0187	t	Encountered Gladion (Title Defense)
+3453	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
+3454	t	Defeated Gladion (Title Defense;Litten is Player Starter)
+3455	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
+0188	t	Encountered Ryuki (Title Defense)
+3445	t	Defeated Ryuki (Title Defense)
+0189	t	Encountered Lusamine (Title Defense)
+3680	t	Defeated Lusamine (Title Defense)
+0190	t	Encountered Hau (Title Defense)
+3392	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
+3393	t	Defeated Hau (Title Defense;Litten is Player Starter)
+3394	t	Defeated Hau (Title Defense;Popplio is Player Starter)
+0191	t	Encountered Sophocles (Title Defense)
+3441	t	Defeated Sophocles (Title Defense)
+0192	t	Encountered Guzma (Title Defense)
+3683	t	Defeated Guzma (Title Defense)
+0193	t	Encountered Kukui (Title Defense)
+3513	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
+3514	t	Defeated Kukui (Title Defense;Litten is Player Starter)
+3515	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
+0194	t	Encountered Plumeria (Title Defense)
+3437	t	Defeated Plumeria (Title Defense)
+0195	t	Encountered Tristan (Title Defense)
+3516	t	Defeated Tristan (Title Defense)
+1698	s	Aether Paradise Mohn Event Inactive

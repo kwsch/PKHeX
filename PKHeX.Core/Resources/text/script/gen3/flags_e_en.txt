@@ -1,0 +1,1571 @@
+0137	s	Received HM01 Cut
+0110	s	Received HM02 Fly
+0122	s	Received HM03 Surf
+0106	s	Received HM04 Strength
+0109	s	Received HM05 Flash
+0107	s	Received HM06 Rock Smash
+0312	s	Received HM07 Waterfall
+0123	s	Received HM08 Dive
+0090	s	Received Mach Bike/Acro Bike
+
+2151	*	Received Stone Badge
+2152	*	Received Knuckle Badge
+2153	*	Received Dynamo Badge
+2154	*	Received Heat Badge
+2155	*	Received Balance Badge
+2156	*	Received Feather Badge
+2157	*	Received Mind Badge
+2158	*	Received Rain Badge
+
+0153	g	Traded in Rustboro City
+0154	g	Traded in Pacifidlog Town
+0155	g	Traded in Fortree City
+0156	g	Traded in Battle Frontier
+
+0151	g	Received Castform
+0266	g	Received Wynaut Egg
+0298	g	Received Beldum
+
+0314	e	Received Aurora Ticket from Mystery Gift
+0315	e	Received Mystic Ticket from Mystery Gift
+0316	e	Received Old Sea Map from Mystery Gift
+
+0430	e	Shown Eon Ticket
+0431	e	Shown Aurora Ticket
+0432	e	Shown Old Sea Map
+0475	e	Shown Mystic Ticket
+
+2227	e	Can Travel to Southern Island
+2261	e	Can Travel to Birth Island
+2262	e	Can Travel to Faraway Island
+2272	e	Can Travel to Navel Rock
+
+0255	r	Lati@s Roaming
+
+0455	r	Defeated Mew
+0458	r	Captured Mew
+0145	r	Captured Lugia
+0146	r	Captured Ho-Oh
+0476	r	Defeated Ho-Oh
+0477	r	Defeated Lugia
+0443	r	Captured/Defeated Regirock
+0444	r	Captured/Defeated Regice
+0445	r	Captured/Defeated Registeel
+0456	r	Defeated Lati@s on Southern Island
+0457	r	Captured Lati@s on Southern Island
+0446	r	Captured/Defeated Kyogre
+0447	r	Captured/Defeated Groudon
+0448	r	Captured/Defeated Rayquaza
+0428	r	Defeated Deoxys
+0429	r	Captured Deoxys
+
+0433	*	Used Move Tutor in Slateport City (Swagger)
+0434	*	Used Move Tutor in Mauville City (Rollout)
+0435	*	Used Move Tutor in Verdanturf Town (Fury Cutter)
+0436	*	Used Move Tutor in Lavaridge Town (Mimic)
+0437	*	Used Move Tutor in Fallarbor Town (Metronome)
+0438	*	Used Move Tutor in Fortree City (Sleep Talk)
+0439	*	Used Move Tutor in Lilycove City (Substitute)
+0440	*	Used Move Tutor in Mossdeep City (Dynamic Punch)
+0441	*	Used Move Tutor in Sootopolis City (Double-Edge)
+0442	*	Used Move Tutor in Pacifidlog Town (Explosion)
+
+2144	s	Unlock menu item POKéMON
+2145	s	Unlock menu item POKéDEX
+2146	s	Unlock menu item POKéNAV
+2148	s	Entered Hall of Fame
+2150	s	Met The Hipster
+2192	s	Watched TV at Home
+2196	s	Mixed Records
+2197	s	Set Clock
+2198	s	Received National Dex
+2202	s	Shoal Cave Tide
+2203	s	Received a Ribbon
+2219	s	Unlocked Lanette's PC
+2221	s	Used White Flute
+2222	s	Used Black Flute
+2223	s	Completed Sealed Chamber Puzzle (1)
+0228	s	Completed Sealed Chamber Puzzle (2)
+2224	s	Completed Regirock Puzzle
+2225	s	Completed Regice Puzzle
+2226	s	Completed Registeel Puzzle
+2239	s	Can Receive Shell Bell
+2240	*	Received Running Shoes
+2242	*	Reset RTC Enabled
+2267	*	Mystery Gift Enabled
+2276	s	Received Pokedex
+
+2244	a	Received Silver Ability Symbol (Battle Tower)
+2245	a	Received Gold Ability Symbol (Battle Tower)
+2246	a	Received Silver Tactics Symbol (Battle Dome)
+2247	a	Received Gold Tactics Symbol (Battle Dome)
+2248	a	Received Silver Spirits Symbol (Battle Palace)
+2249	a	Received Gold Spirits Symbol (Battle Palace)
+2250	a	Received Silver Guts Symbol (Battle Arena)
+2251	a	Received Gold Guts Symbol (Battle Arena)
+2252	a	Received Silver Knowledge Symbol (Battle Factory)
+2253	a	Received Gold Knowledge Symbol (Battle Factory)
+2254	a	Received Silver Luck Symbol (Battle Pike)
+2255	a	Received Gold Luck Symbol (Battle Pike)
+2256	a	Received Silver Brave Symbol (Battle Pyramid)
+2257	a	Received Gold Brave Symbol (Battle Pyramid)
+2258	*	Received Frontier Pass
+
+0335	s	Chose Root Fossil in Mirage Tower (Claw Fossil in Desert Underpass)
+0336	s	Chose Claw Fossil in Mirage Tower (Root Fossil in Desert Underpass)
+
+500	r	Ice Heal (hidden) in Lavaridge Town found
+501	r	Nugget (hidden) in Trick House Reward Room found (unused)
+502	r	Stardust (hidden) on Route 111 found
+503	r	Ether (hidden) on Route 113 found
+504	r	Carbos (hidden) on Route 114 found
+505	r	Calcium (hidden) on Route 119 found
+506	r	Ultra Ball (hidden) on Route 119 found
+507	r	Super Repel (hidden) on Route 123 found
+508	r	Carbos (hidden) on Route 124 (underwater) found
+509	r	Green Shard (hidden) on Route 124 (underwater) found
+510	r	Pearl (hidden) on Route 124 (underwater) found
+511	r	Big Pearl (hidden) on Route 124 (underwater) found
+512	r	Blue Shard (hidden) on Route 126 (underwater) found
+513	r	Heart Scale (hidden; single Dive Spot) on Route 124 (underwater) found
+514	r	Heart Scale  (hidden) on Route 126 (underwater) found
+515	r	Ultra Ball (hidden) on Route 126 (underwater) found
+516	r	Stardust (hidden) on Route 126 (underwater) found
+517	r	Pearl (hidden) on Route 126 (underwater) found
+518	r	Yellow Shard (hidden) on Route 126 (underwater) found
+519	r	Iron (hidden) on Route 126 (underwater) found
+520	r	Big Pearl (hidden) on Route 126 (underwater) found
+521	r	Star Piece (hidden) on Route 127 (underwater) found
+522	r	HP Up (hidden) on Route 127 (underwater) found
+523	r	Heart Scale (hidden) on Route 127 (underwater) found
+524	r	Red Shard (hidden) on Route 127 (underwater) found
+525	r	Protein (hidden) on Route 128 (underwater) found
+526	r	Pearl (hidden) on Route 128 (underwater) found
+527	r	Heart Scale (hidden) in Lilycove City found
+528	r	Nugget (hidden) in Fallarbor Town found
+529	r	Ultra Ball (hidden) on Mt. Pyre found
+530	r	TM32 (hidden) on Route 113 found
+531	r	Rm. 1 Key (hidden) on Abandoned Ship found
+532	r	Rm. 2 Key (hidden) on Abandoned Ship found
+533	r	Rm. 4 Key (hidden) on Abandoned Ship found
+534	r	Rm. 6 Key (hidden) on Abandoned Ship found
+535	r	Leftovers (hidden) on S.S. Tidal found
+536	r	Calcium (hidden) on Route 124 (underwater) found
+537	r	Potion (hidden) on Route 104 found
+538	r	Heart Scale (hidden; Dive Spot with path) on Route 124 (underwater) found
+539	r	HP Up (hidden) on Route 121 found
+540	r	Nugget (hidden) on Route 121 found
+541	r	Revive (hidden) on Route 123 found
+542	r	Revive (hidden) on Route 114 found
+543	r	PP Up (hidden) in Lilycove City found
+544	r	Super Potion (hidden) on Route 104 found
+545	r	Super Potion (hidden) on Route 116 found
+546	r	Stardust (hidden) on Route 106 found
+547	r	Heart Scale (hidden) on Route 106 found
+548	r	Everstone (hidden; requires Mach Bike) in Granite Cave found
+549	r	Everstone (hidden) in Granite Cave found
+550	r	Revive (hidden) on Route 109 found
+551	r	Great Ball (hidden) on Route 109 found
+552	r	Heart Scale (hidden; near old man) on Route 109 found
+553	r	Great Ball (hidden) on Route 110 found
+554	r	Revive (hidden) on Route 110 found
+555	r	Full Heal (hidden) on Route 110 found
+556	r	Protein (hidden) on Route 111 found
+557	r	Rare Candy (hidden) on Route 111 found
+558	r	Potion (hidden) in Petalburg Woods found
+559	r	Tiny Mushroom (hidden) in nothern section of Petalburg Woods found
+560	r	Tiny Mushroom (hidden) in eastern section of Petalburg Woods found
+561	r	Poké Ball (hidden) in Petalburg Woods found
+562	r	Poké Ball (hidden) on Route 104 found
+563	r	Poké Ball (hidden) on Route 106 found
+564	r	Ether (hidden) on Route 109 found
+565	r	Poké Ball (hidden) on Route 110 found
+566	r	Heart Scale (hidden) on Route 118 found
+567	r	Iron (hidden) on Route 118 found
+568	r	Full Heal (hidden) on Route 119 found
+569	r	Rare Candy (hidden; south) on Route 120 found
+570	r	Zinc (hidden) on Route 120 found
+571	r	Rare Candy (hidden; north) on Route 120 found
+572	r	Repel (hidden) on Route 117 found
+573	r	Full Heal (hidden) on Route 121 found
+574	r	Hyper Potion (hidden) on Route 123 found
+575	r	Poké Ball (hidden) in Lilycove City found
+576	r	Great Ball (hidden) on Jagged Pass found
+577	r	Full Heal (hidden) on Jagged Pass found
+578	r	Max Ether (hidden) on Mt. Pyre found
+579	r	Zinc (hidden) on Mt. Pyre found
+580	r	Rare Candy (hidden) on Mt. Pyre found
+581	r	Ultra Ball (hidden) in Victory Road found
+582	r	Elixir (hidden) in Victory Road found
+583	r	Max Repel (hidden) in Victory Road found
+584	r	Revive (hidden) on Route 120 found
+585	r	Antidote (hidden) on Route 104 found
+586	r	Rare Candy (hidden) on Route 108 found
+587	r	Max Ether (hidden) on Route 119 found
+588	r	Heart Scale (hidden) on Route 104 found
+589	r	Heart Scale (hidden) on Route 105 found
+590	r	Heart Scale (hidden; under umbrella) on Route 109 found
+591	r	Heart Scale (hidden; near couple) on Route 109 found
+592	r	Heart Scale (hidden; near Cooltrainer) on Route 128 found
+593	r	Heart Scale (hidden; near rock wall) on Route 128 found
+594	r	Heart Scale (hidden; southwest) on Route 128 found
+595	r	Rare Candy (hidden) in Petalburg City found
+596	r	Black Glasses (hidden) on Route 116 found
+597	r	Heart Scale (hidden) on Route 115 found
+598	r	Nugget (hidden) on Route 113 found
+599	r	PP Up (hidden) on Route 123 found
+600	r	Max Revive (hidden) on Route 121 found
+601	r	Calcium (hidden) in Artisan Cave found
+602	r	Zinc (hidden) in Artisan Cave found
+603	r	Protein (hidden) in Artisan Cave found
+604	r	Iron (hidden) in Artisan Cave found
+605	r	Full Restore (hidden) in Safari Zone found
+606	r	Rare Candy (hidden) in Safari Zone found
+607	r	Zinc (hidden) in Safari Zone found
+608	r	PP Up (hidden) in Safari Zone found
+609	r	Sacred Ash (hidden) on Navel Rock found
+610	r	Rare Candy (hidden) on Route 123 found
+611	r	Big Pearl (hidden) on Route 105 found
+
+700	r	Don't spawn Prof. Birch's bag on Route 101
+701	r	Don't spawn apprentice in Battle Tower
+702	r	Don't spawn Mystery Gift guy in Pokémon Center 2F
+
+717	r	Don't spawn Guards in Safari Zone blocking Safari Zone expansion
+718	r	Don't spawn Mew on Faraway Island
+719	r	Don't spawn Brendan/May on Route 104
+720	r	Don't spawn running Birch on Route 101
+721	r	Don't spawn Prof. Birch in his laboratory
+722	r	Don't spawn May in her house 2F
+723	r	Don't spawn Brendan/May on Route 103
+724	r	Don't spawn Devon Researcher in Petalburg Woods
+725	r	Don't spawn Team Aqua Grunt in Petalburg Woods
+726	r	Don't spawn Wally in Petalburg City
+727	r	Don't spawn letter in Steven's house (invisible)
+728	r	Don't spawn woman in Petalburg City
+
+730	r	Don't spawn man in Pokémon Trainer Fan Club
+731	r	Don't spawn Team Aqua Grunt in Rustboro City
+732	r	Don't spawn Devon Researcher in Rustboro City
+733	r	Don't spawn Kyogre in Seafloor Cavern
+734	r	Don't spawn Norman in Brendan's/May's house
+735	r	Don't spawn kid in Brendan's house
+736	r	Don't spawn kid in May's house
+737	r	Don't spawn Magma Letter in Mossdeep Space Center (invisible)
+738	r	Don't spawn Mr. Briney on Route 104
+739	r	Don't spawn Mr. Briney in his cottage
+740	r	Don't spawn Mr. Briney in Dewford Town
+741	r	Don't spawn Mr. Briney on Route 109
+742	r	Don't spawn Mr. Briney's ship on Route 104
+743	r	Don't spawn Mr. Briney's ship in Dewford Town
+744	r	Don't spawn Mr. Briney's ship on Route 109
+745	r	Don't spawn Brendan in his house 1F
+746	r	Don't spawn May in her house 1F
+747	r	Don't spawn Guard in Safari Zone Area 5
+748	r	Don't spawn Mr. Briney in Lilycove City Harbor
+749	r	Don't spawn Scott in Slateport City
+750	r	Don't spawn Zigzagoon on Route 101
+751	r	Don't spawn Wally in Victory Road (near exit)
+752	r	Don't spawn mother in Littleroot Town
+753	r	Don't spawn Steven in Mossdeep Space Center 1F
+754	r	Don't spawn Vigoroth in front of TV in Brendan's and May's house
+755	r	Don't spawn moving Vigoroth in Brendan's and May's house
+756	r	Don't spawn Team Magma Grunts in Mossdeep Space Center 1F
+757	r	Don't spawn mother in Brendan's/May's house 2F
+758	r	Don't spawn mother in Brendan's house
+759	r	Don't spawn mother in May's house
+760	r	Don't spawn Brendan in his house
+761	r	Don't spawn truck in front of Brendan's house
+762	r	Don't spawn truck in front of May's house
+
+764	r	Don't spawn triangle on Birth Island
+765	r	Don't spawn Scott in Mauville City
+766	r	Don't spawn Scott in Verdanturf Battle Tent
+767	r	Don't spawn Scott in Fallarbor Battle Tent
+768	r	Don't spawn Winstrate Victor on Route 111
+769	r	Don't spawn Winstrate Victoria on Route 111
+770	r	Don't spawn Winstrate Vivi on Route 111
+771	r	Don't spawn Winstrate Vicky on Route 111
+772	r	Don't spawn Norman in Petalburg Gym
+773	r	Don't spawn Rayquaza on Sky Pillar
+774	r	Don't spawn Artist in Lilycove Contest Hall (Left Door)
+775	r	Don't spawn Curator in Lilycove Museum 1F/Can receive paintings
+776	r	Don't spawn Girl in Lilycove Museum 1F
+777	r	Don't spawn Girl in Lilycove Museum 2F
+778	r	Don't spawn Boy in Lilycove Museum 1F
+779	r	Don't spawn Artist in Lilycove Museum 1F
+780	r	Don't spawn Fat Guy/Old Man/Boy in Lilycove Museum
+781	r	Don't spawn Gym Guide in Petalburg Gym
+782	r	Don't spawn Kyogre in Marine Cave
+783	r	Don't spawn Groudon in Terra Cave
+784	r	Don't spawn rival's mother in Brendan's house
+785	r	Don't spawn rival's mother in May's house
+786	r	Don't spawn Scott on Route 119
+787	r	Don't spawn Scott in Cove Lily Motel
+788	r	Don't spawn Scott in Mossdeep City
+789	r	Don't spawn old woman in Pokémon Trainer Fan Club
+790	r	Don't spawn man in Pokémon Trainer Fan Club
+791	r	Don't spawn kid in Pokémon Trainer Fan Club
+792	r	Don't spawn woman in Pokémon Trainer Fan Club
+793	r	Don't spawn Scott in Ever Grande Pokémon Center
+794	r	Don't spawn Brendan/May in Littleroot Town
+795	r	Don't spawn Birch in Littleroot Town
+796	r	Don't spawn Interviewer Gabby & Ty on Route 111
+797	r	Don't spawn Interviewer Gabby & Ty on Route 118 (for Rematch 1)
+798	r	Don't spawn Interviewer Gabby & Ty on Route 120 (for Rematch 2)
+799	r	Don't spawn Interviewer Gabby & Ty on Route 111 (for Rematch 3)
+800	r	Don't spawn Lugia in Navel Rock
+801	r	Don't spawn Ho-Oh on Navel Rock
+802	r	Don't spawn Interviewer in Lilycove Contest Hall
+
+804	r	Don't spawn Wally in Mauville City
+805	r	Don't spawn Wally's uncle in Mauville City
+806	r	Don't spawn Wally in Wanda's house
+807	r	Don't spawn Black Belt in Rusturf Tunnel
+808	r	Don't spawn Black Belt in Wanda's house
+809	r	Don't spawn Wally's uncle in Wanda's house
+810	r	Don't spawn Scott on Ship
+811	r	Don't spawn Poké Ball containing Cyndaquil in Birch's Lab
+812	r	Don't spawn Poké Ball containing Totodile in Birch's Lab
+813	r	Don't spawn black haired guy on Route 116
+814	r	Don't spawn Brendan/May in Rustboro City
+815	r	Don't spawn Swablu Doll in Brendan's house
+816	r	Don't spawn Wallace in Sootopolis City
+817	r	Don't spawn Pokéball in Brendan's house
+818	r	Don't spawn Pokéball in May's house
+819	r	Don't spawn Team Magma Grunts on Route 112
+820	r	Don't spawn Wallace in Cave of Origin
+821	r	Don't spawn left Team Aqua Grunt in Aqua Hideout
+822	r	Don't spawn right Team Aqua Grunt in Aqua Hideout
+823	r	Don't spawn Team Magma Grunts & Maxie in Mossdeep City
+824	r	Don't spawn Wally's dad in Petalburg Gym
+
+826	r	Don't spawn Archie in Sootopolis City
+827	r	Don't spawn Maxie in Sootopolis City
+
+830	r	Don't spawn Wally's dad in Petalburg City
+
+832	r	Don't spawn Blend Master and Spectators in Lilycove Contest Hall
+833	r	Don't spawn Steven in Granite Cave
+
+835	r	Don't spawn Interviewer in Slateport City
+836	r	Don't spawn Scott in Battle Frontier entrance
+837	r	Don't spawn Birch on Route 110
+838	r	Don't spawn Poké Ball containing Chikorita in Birch's Lab
+839	r	Don't spawn man in northern Sootopolis City
+840	r	Don't spawn Captain Stern in Slateport City
+841	r	Don't spawn Captain Stern in Slateport Harbor
+842	r	Don't spawn Sudowoodo in Battle Frontier
+843	r	Don't spawn fat guy on Route 111
+844	r	Don't spawn Devon Researcher (white coat) in Rustboro City
+845	r	Don't spawn Team Aqua Grunt in Slateport Harbor
+846	r	Don't spawn Team Aqua Leader Archie in Slateport Harbor
+847	r	Don't spawn Team Magma Grunt on Jagged Pass
+848	r	Don't spawn Submarine Shadow in Slateport Harbor
+849	r	Don't spawn Pichu doll in May's house
+850	r	Don't spawn Groudon (petrified) in Magma Hideout
+851	r	Don't spawn Brendan/May on Route 119
+852	r	Don't spawn Team Aqua Grunts in Lilycove City
+853	r	Don't spawn Groudon (awake) in Magma Hideout
+854	r	Don't spawn additional villagers in Sootopolis City
+855	r	Don't spawn Wallace in front of Sky Pillar
+856	r	Don't spawn Maxie on Mt. Pyre
+857	r	Don't spawn Team Magma in Magma Hideout
+858	r	Don't spawn Wally in Victory Road (near entrance)
+
+860	r	Don't spawn S.S. Tidal in Slateport Harbor
+861	r	Don't spawn S.S. Tidal in Lilycove Harbor
+862	r	Don't spawn Team Magma in Mossdeep Space Center 2F
+863	r	Don't spawn Steven in Mossdeep Space Center 2F
+
+866	r	Don't spawn Wally in Petalburg Gym
+
+868	r	Don't spawn fat man in Littleroot Town
+869	r	Don't spawnMr. Briney in Stern's Shipyard
+870	r	Don't spawn Lanette in her house
+871	r	Don't spawn Lanette in Fallarbor Pokémon Center
+872	r	Don't spawn Trick Master in Trick House Entrance
+873	r	Don't spawn Old Man in Lilycove Contest Hall
+874	r	Don't spawn Fossil in Desert Underpass
+875	r	Don't spawn Brendan/May on Route 111 Desert (unused?)
+876	r	Don't spawn Fossil on Route 111
+877	r	Don't spawn Trainers on Mt. Chimney
+878	r	Don't spawn Team Aqua Grunt in Rusturf Tunnel
+879	r	Don't spawn Mr. Briney in Rusturf Tunnel
+880	r	Don't spawn Peeko in Rusturf Tunnel
+881	r	Don't spawn Peeko in Mr. Briney's cottage
+882	r	Don't spawn Team Aqua Grunts in Slateport City
+883	r	Don't spawn Team Aqua Grunts in Oceanic Museum
+884	r	Don't spawn Team Aqua Grunt in Oceanic Museum 2F
+885	r	Don't spawn Team Aqua Grunt in Oceanic Museum 2F
+886	r	Don't spawn Archie in Oceanic Museum 2F
+887	r	Don't spawn Captain Stern in Oceanic Museum
+
+889	r	Don't spawn Brendan/May in Birch's lab
+890	r	Don't spawn Team Aqua in Weather Institute
+891	r	Don't spawn Mr. Briney on Route 116
+892	r	Don't spawn assistants in Weather Institute 1F
+893	r	Don't spawn assistants in Weather Institute 2F
+894	r	Don't spawn Black Belt on Route 116
+895	r	Don't spawn Artist in Lilycove Contest Hall (Right Door)
+
+897	r	Don't spawn Prof. Birch on Route 101
+898	r	Don't spawn Prof. Birch on Route 103
+899	r	Don't spawn Trick Master in Trick House Reward Room
+900	r	Don't spawn Team Aqua Grunts on Route 110
+901	r	Don't spawn Interviewer Gabby & Ty on Route 118 (for Rematch 4)
+902	r	Don't spawn Interviewer Gabby & Ty on Route 120 (for Rematch 5)
+903	r	Don't spawn Interviewer Gabby & Ty on Route 111 (for Rematch 5)
+904	r	Don't spawn Interviewer Gabby & Ty on Route 118 (Rematch 5)
+905	r	Don't spawn sailor and fat guy in Slateport Harbor
+906	r	Don't spawn girl on Route 104
+907	r	Don't spawn Azurill in Fallarbor Town
+908	r	Don't spawn Lady in Lilycove City Harbor
+909	r	Don't spawn Sailor in Lilycove City Harbor
+
+912	r	Don't spawn Wattson in Mauville City
+913	r	Don't spawn Wattson in Mauville Gym
+914	r	Don't spawn Team Aqua Grunts on Route 121
+
+916	r	Don't spawn Archie on Mt. Pyre
+917	r	Don't spawn Team Aqua Grunts on Mt. Pyre
+918	r	Don't spawn Interviewer in Battle Tower
+919	r	Don't spawn Brendan/May on Route 110
+
+922	r	Don't spawn Brendan/May (on bike) on Route 110 (unused?)
+923	r	Don't spawn Brendan/May (on bike) on Route 119 (unused?)
+924	r	Don't spawn Team Aqua in Aqua Hideout
+925	r	Don't spawn Game Freak Staff in Cove Lily Motel
+926	r	Don't spawn Team Aqua on Mt. Chimney
+927	r	Don't spawn Team Magma on Mt. Chimney
+928	r	Don't spawn Cozmo in his house
+929	r	Don't spawn Brendan/May in Lavaridge Town
+930	r	Don't spawn Brendan/May (on bike) in Lavaridge Town (unused?)
+931	r	Don't spawn bottom boulder in Rusturf Tunnel
+932	r	Don't spawn top boulder in Rusturf Tunnel
+933	r	Don't spawn Wingull in Fortree City
+934	r	Don't spawn Wingull in Mossdeep City
+935	r	Don't spawn Regirock in Desert Ruins
+	
+938	r	Don't spawn Team Aqua Grunts and Archie in Meteor Falls
+939	r	Don't spawn Team Magma Grunts in Meteor Falls
+940	r	Don't spawn black haired guy in Dewford Hall
+941	r	Don't spawn Team Aqua Grunt in Seafloor Cavern Entrance
+942	r	Don't spawn Cozmo in Meteor Falls
+943	r	Don't spawn submarine shadow in Aqua Hideout
+944	r	Don't spawn Archie above Seafloor Cavern
+945	r	Don't spawn Maxie above Seafloor Cavern
+946	r	Don't spawn Team Aqua in Seafloor Cavern
+947	r	Don't spawn Devon Researcher on Route 116
+948	r	Don't spawn Sells Guy in Slateport City
+949	r	Don't spawn Devon Researcher in Devon Corporation
+950	r	Don't spawn Mr. Briney and Pecko on S.S. Tidal
+
+952	r	Shoal Salt (inner room north) in Shoal Cave found
+953	r	Shoal Salt (inner room south) in Shoal Cave found
+954	r	Shoal Salt (stairs room) in Shoal Cave found
+955	r	Shoal Salt (lower room) in Shoal Cave found
+956	r	Shoal Shell (southeast) in Shoal Cave found
+957	r	Shoal Shell (northeast) in Shoal Cave found
+958	r	Shoal Shell (northwest) in Shoal Cave found
+959	r	Shoal Shell (near center) in Shoal Cave found
+960	r	Don't spawn boy that gives TM43 on Route 111
+961	r	Don't spawn visitors in Oceanic Museum
+962	r	Don't spawn Sales Guy on rooftop of Department Store
+963	r	Don't spawn Root Fossil in Mirage Tower
+964	r	Don't spawn Claw Fossil in Mirage Tower
+965	r	Don't spawn Team Aqua Grunt in Oceanic Museum 1F
+966	r	Don't spawn Steven on Route 118
+967	r	Don't spawn Steven in his own house
+968	r	Don't spawn Beldum (Pokéball) in Steven's house
+969	r	Don't spawn Kecleon in Fortree City
+970	r	Dont't spawn Kecleon on Route 120 (Bridge)
+971	r	Don't spawn Brendan/May in Lilycove City
+972	r	Don't spawn Steven on Route 120
+973	r	Don't spawn Steven in Sootopolis City
+974	r	Don't spawn Voltorb on green switch in New Mauville
+975	r	Don't spawn Voltorb on blue switch in New Mauville
+976	r	Don't spawn Voltorb on blue switch in New Mauville
+977	r	Don't spawn top Electrode in Aqua Hideout
+978	r	Don't spawn bottom Electrode in Aqua Hideout
+979	r	Don't spawn Brendan/May in Oldale Town
+980	r	Don't spawn submarine in Seafloor Cavern (invisible)
+981	r	Don't spawn Kecleon shadow on Route 120
+982	r	Don't spawn Kecleon on Route 120 (Stairs)
+983	r	Don't spawn Wanda in Rusturf Tunnel
+984	r	Don't spawn Wanda in Wanda's house
+985	r	Don't spawn Kecleon on Route 120 (Behind Sign)
+986	r	Don't spawn Kecleon on Route 120 (Behind Berry Trees)
+987	r	Don't spawn Kecleon on Route 120 (Left of Long Grass Maze)
+988	r	Don't spawn Kecleon on Route 120 (Behind Ancient Tomb)
+989	r	Don't spawn Kecleon on Route 119 (Right of Ninja Boy)
+990	r	Don't spawn Kecleon on Route 119 (Left of Ninja Boy)
+991	r	Don't spawn guy in grass on Route 101
+
+993	r	Don't spawn Guy named Handsome in Lilycove Pokémon Center
+994	r	Don't spawn old woman on Mt. Chimney
+
+996	r	Don't spawn Rayquaza in Sootopolis City
+997	r	Don't spawn Kyogre in Sootopolis City
+998	r	Don't spawn Groudon in Sootopolis City
+999	r	Don't spawn Scott in Pokémon Trainer's School
+1000	r	Potion on Route 102 found
+1001	r	X Sp. Atk on Route 116 found
+1002	r	PP Up on Route 104 found
+1003	r	Iron on Route 105 found
+1004	r	Protein on Route 106 found
+1005	r	PP Up on Route 109 found
+1006	r	Rare Candy on Route 110 found
+1007	r	Dire Hit on Route 110 found
+1008	r	TM37 on Route 111 found
+1009	r	Stardust on Route 111 found
+1010	r	HP Up on Route 111 found
+1011	r	Nugget on Route 112 found
+1012	r	Max Ether on Route 113 found
+1013	r	Super Repel on Route 113 found
+1014	r	Rare Candy on Route 114 found
+1015	r	Protein on Route 114 found
+1016	r	Super Potion on Route 115 found
+1017	r	TM01 on Route 115 found
+1018	r	Iron on Route 115 found
+1019	r	Ether on Route 116 found
+1020	r	Repel on Route 116 found
+1021	r	HP Up on Route 116 found
+1022	r	Great Ball on Route 117 found
+1023	r	Revive on Route 117 found
+1024	r	Super Repel on Route 119 found
+1025	r	Zinc on Route 119 found
+1026	r	Elixir (near tall grass) on Route 119 found
+1027	r	Leaf Stone on Route 119 found
+1028	r	Rare Candy on Route 119 found
+1029	r	Hyper Potion (large grass patch) on Route 119 found
+1030	r	Nugget on Route 120 found
+1031	r	Full Heal on Route 120 found
+1032	r	Calcium on Route 123 found
+
+1034	r	Zinc on Route 127 found
+1035	r	Carbos on Route 127 found
+1036	r	Rare Candy on Route 132 found
+1037	r	Big Pearl on Route 133 found
+1038	r	Star Piece on Route 133 found
+1039	r	Max Revive in Petalburg City found
+1040	r	Ether in Petalburg City found
+1041	r	X Defend in Rustboro City found
+1042	r	Max Repel in Lilycove City found
+1043	r	Net Ball in Mossdeep City found
+1044	r	TM23 in Meteor Falls found
+1045	r	Full Heal in Meteor Falls found
+1046	r	Moon Stone in Meteor Falls found
+1047	r	PP Up in Meteor Falls found
+1048	r	Poké Ball in Rusturf Tunnel found
+1049	r	Max Ether in Rusturf Tunnel found
+1050	r	Escape Rope in Granite Cave found
+1051	r	Poké Ball in Granite Cave found
+1052	r	Lax Incense in Mt. Pyre found
+1053	r	Repel in Granite Cave found
+1054	r	Rare Candy in Granite Cave found
+1055	r	X Attack in Petalburg Woods found
+1056	r	Great Ball in Petalburg Woods found
+1057	r	Poké Ball on Route 104 found
+1058	r	Ether in Petalburg Woods found
+1059	r	Escape Rope in Magma Hideout found
+1060	r	Orange Mail in Trick House Puzzle 1 found
+1061	r	Harbor Mail in Trick House Puzzle 2 found
+1062	r	Wave Mail in Trick House Puzzle 2 found
+1063	r	Shadow Mail in Trick House Puzzle 3 found
+1064	r	Wood Mail in Trick House Puzzle 3 found
+1065	r	Mech Mail in Trick House Puzzle 4 found
+1066	r	Yellow Shard on Route 124 found
+1067	r	Glitter Mail in Trick House Puzzle 6 found
+1068	r	Tropic Mail in Trick House Puzzle 7 found
+1069	r	Bead Mail in Trick House Puzzle 8 found
+1070	r	Burn Heal on Jagged Pass found
+1071	r	Max Elixir in Aqua Hideout found
+1072	r	Nest Ball in Aqua Hideout found
+1073	r	Max Potion on Mt. Pyre found
+1074	r	TM48 on Mt. Pyre found
+1075	r	Ultra Ball in New Mauville found
+1076	r	Escape Rope in New Mauville found
+1077	r	Luxury Ball on Abandoned Ship found
+1078	r	Scanner on Abandoned Ship found
+1079	r	TM11 in Scorched Slab found
+1080	r	TM02 in Meteor Falls found
+1081	r	Big Pearl in Shoal Cave found
+1082	r	Rare Candy in Shoal Cave found
+1083	r	Ice Heal in Shoal Cave found
+1084	r	Max Elixir in Victory Road found
+1085	r	PP Up in Victory Road found
+1086	r	TM29 in Victory Road found
+1087	r	Full Restore in Victory Road found
+1088	r	Full Heal in Victory Road found
+1089	r	TM30 in Mt. Pyre found
+1090	r	TM26 in Seafloor Cavern found
+1091	r	TM06 in Fiery Path found
+1092	r	Red Shard on Route 124 found
+1093	r	Blue Shard on Route 124 found
+1094	r	TM22 in Safari Zone found
+1095	r	Harbor Mail on Abandoned Ship found
+1096	r	Escape Rope on Abandoned Ship found
+1097	r	Dive Ball on Abandoned Ship found
+1098	r	TM13 on Abandoned Ship found
+1099	r	Revive on Abandoned Ship found
+1100	r	Storage Key on Abandoned Ship found
+1101	r	Water Stone on Abandoned Ship found
+1102	r	TM18 on Abandoned Ship found
+1103	r	Carbos on Route 121 found
+1104	r	Ultra Ball on Route 123 found
+1105	r	Green Shard on Route 126 found
+1106	r	Hyper Potion (near muddy slope) on Route 119 found
+1107	r	Hyper Potion on Route 120 found
+1108	r	Nest Ball on Route 120 found
+1109	r	Elixir on Route 123 found
+1110	r	Thunder Stone on New Mauville found
+1111	r	Fire Stone in Fiery Path found
+1112	r	TM07 in Shoal Cave found
+1113	r	Never-Melt Ice in Shoal Cave found
+1114	r	Guard Spec. on Route 103 found
+1115	r	X Accuracy on Route 104 found
+1116	r	X Speed in Mauville City found
+1117	r	Paralyze Heal in Petalburg Woods found
+1118	r	Great Ball on Route 115 found
+1119	r	Calcium in Safari Zone found
+1120	r	Super Repel in Mt. Pyre found
+1121	r	Hyper Potion on Route 118 found
+1122	r	Full Heal in New Mauville found
+1123	r	Paralyze Heal in New Mauville found
+1124	r	Master Ball in Aqua Hideout found
+
+1129	r	Ultra Ball in Mt. Pyre found
+1130	r	Sea Incense in Mt. Pyre found
+1131	r	Max Revive in Safari Zone found
+1132	r	Nugget in Aqua Hideout found
+
+1134	r	Nugget on Route 119 found
+1135	r	Potion on Route 104 found
+
+1137	r	PP Up on Route 103 found
+
+1139	r	Star Piece on Route 108 found
+1140	r	Potion on Route 109 found
+1141	r	Elixir on Route 110 found
+1142	r	Elixir on Route 111 found
+1143	r	Hyper Potion on Route 113 found
+1144	r	Heal Powder on Route 115 found
+
+1146	r	Potion on Route 116 found
+1147	r	Elixir (near water) on Route 119 found
+1148	r	Revive on Route 120 found
+1149	r	Revive on Route 121 found
+1150	r	Zinc on Route 121 found
+1151	r	Rare Candy in Magma Hideout found
+1152	r	PP Up on Route 123 found
+1153	r	Revival Herb on Route 123 found
+1154	r	Big Pearl on Route 125 found
+1155	r	Rare Candy on Route 127 found
+1156	r	Protein on Route 132 found
+1157	r	Max Revive on Route 133 found
+1158	r	Carbos on Route 134 found
+1159	r	Star Piece on Route 134 found
+1160	r	Energy Powder on Route 114 found
+1161	r	PP Up on Route 115 found
+1162	r	HP Up in Artisan Cave found
+1163	r	Carbos in Artisan Cave found
+1164	r	Max Elixir in Magma Hideout found
+1165	r	Full Restore in Magma Hideout found
+1166	r	Nugget in Magma Hideout found
+1167	r	PP Max in Magma Hideout found
+1168	r	Max Revive in Magma Hideout found
+1169	r	Nugget in Safari Zone found
+1170	r	Big Pearl in Safari Zone found
+
+1272	s	Change text of Pokémon Trainer Steven in Meteor Falls (Unset for rebattle)
+
+1281	t	Hiker Sawyer on Mt. Chimney defeated
+1282	t	Team Aqua Grunt (Male) in Aqua Hideout 1F defeated
+1283	t	Team Aqua Grunt (Male) in Aqua Hideout B1F defeated
+1284	t	Team Aqua Grunt (Male) in Aqua Hideout B1F defeated
+1285	t	Team Aqua Grunt (Male) in Aqua Hideout B2F defeated
+1286	t	Team Aqua Grunt (Male) in Seafloor Cavern Room 1 defeated
+1287	t	Team Aqua Grunt (Male) in Seafloor Cavern Room 1 defeated
+1288	t	Team Aqua Grunt (Male) in Seafloor Cavern Room 3 defeated
+1289	t	Pokémon Breeder Gabrielle in Mt. Pyre defeated
+1290	t	Team Aqua Grunt (Male) in Petalburg Woods defeated
+1291	t	Cooltrainer Marcel on Route 121 defeated
+1292	t	Bird Keeper Alberto on Route 123 defeated
+1293	t	Collector Ed on Route 123 defeated
+1294	t	Team Aqua Grunt (Female) in Seafloor Cavern Room 3 defeated
+1295	t	Swimmer Declan on Route 124 defeated
+1296	t	Team Aqua Grunt (Male) in Rusturf Tunnel defeated
+1297	t	Team Aqua Grunt (Male) in Weather Institute 1F defeated
+1298	t	Team Aqua Grunt (Male) in Weather Institute 2F defeated
+1299	t	Team Aqua Grunt (Male) in Weather Institute 2F defeated
+1300	t	Team Aqua Grunt (Male) in Oceanic Museum defeated
+1301	t	Team Aqua Grunt (Male) in Oceanic Museum defeated
+1302	t	Team Magma Grunt (Male) in Mossdeep Space Center 1F defeated
+1303	t	Team Aqua Grunt (Male) on Mt. Pyre defeated
+1304	t	Team Aqua Grunt (Male) on Mt. Pyre defeated
+1305	t	Team Aqua Grunt (Male) on Mt. Pyre defeated
+1306	t	Team Aqua Grunt (Female) in Weather Institute 1F defeated
+1307	t	Team Aqua Grunt (Female) in Aqua Hideout B1F defeated
+1308	t	Team Aqua Grunt (Female) in Aqua Hideout B2F defeated
+1309	t	Expert Fredrick on Route 123 defeated
+1310	t	Team Aqua Admin Matt in Aqua Hideout defeated
+1311	t	Black Belt Zander in Mt. Pyre defeated
+1312	t	Aqua Admin Shelly in Weather Institute defeated
+1313	t	Aqua Admin Shelly in Seafloor Cavern defeated
+1314	t	Aqua Leader Archie in Seafloor Cavern defeated
+1315	t	Hex Maniac Leah in Mt. Pyre defeated
+1316	t	Aroma Lady Daisy on Route 103 defeated
+1317	t	Aroma Lady Rose on Route 118 defeated
+1318	t	Cooltrainer Felix in Victory Road B2F defeated
+1319	t	Aroma Lady Violet on Route 123 defeated
+1320	t	Aroma Lady Violet (Rematch 1) on Route 123 defeated
+1321	t	Aroma Lady Violet (Rematch 2) on Route 123 defeated
+1322	t	Aroma Lady Violet (Rematch 3) on Route 123 defeated
+1323	t	Aroma Lady Violet (Rematch 4) on Route 123 defeated
+1324	t	Ruin Maniac Dusty on Route 111 defeated
+1325	t	Ruin Maniac Chip on Route 120 defeated
+1326	t	Ruin Maniac Foster on Route 105 defeated
+1327	t	Ruin Maniac Dusty (Rematch 1) on Route 111 defeated
+1328	t	Ruin Maniac Dusty (Rematch 2) on Route 111 defeated
+1329	t	Ruin Maniac Dusty (Rematch 3) on Route 111 defeated
+1330	t	Ruin Maniac Dusty (Rematch 4) on Route 111 defeated
+1331	t	Interviewer Gabby & Ty on Route 111 defeated
+1332	t	Interviewer Gabby & Ty on Route 118 defeated
+1333	t	Interviewer Gabby & Ty on Route 120 defeated
+1334	t	Interviewer Gabby & Ty on Route 111 defeated (Rematch 1)
+1335	t	Interviewer Gabby & Ty on Route 118 defeated (Rematch 2)
+1336	t	Interviewer Gabby & Ty defeated (Rematch 3)
+1337	t	Tuber Lola on Route 109 defeated
+1338	t	Tuber Austina on Route 109 defeated
+1339	t	Tuber Gwen on Route 109 defeated
+1340	t	Tuber Lola (Rematch 1) on Route 109 defeated
+1341	t	Tuber Lola (Rematch 2) on Route 109 defeated
+1342	t	Tuber Lola (Rematch 3) on Route 109 defeated
+1343	t	Tuber Lola (Rematch 4) on Route 109 defeated
+1344	t	Tuber Ricky on Route 109 defeated
+1345	t	Tuber Simon on Route 109 defeated
+1346	t	Tuber Charlie on Abandoned Ship defeated
+1347	t	Tuber Ricky (Rematch 1) on Route 109 defeated
+1348	t	Tuber Ricky (Rematch 2) on Route 109 defeated
+1349	t	Tuber Ricky (Rematch 3) on Route 109 defeated
+1350	t	Tuber Ricky (Rematch 4) on Route 109 defeated
+1351	t	Cooltrainer Randall in Petalburg Gym defeated
+1352	t	Cooltrainer Parker in Petalburg Gym defeated
+1353	t	Cooltrainer George in Petalburg Gym defeated
+1354	t	Cooltrainer Berke in Petalburg Gym defeated
+1355	t	Cooltrainer Braxton on Route 123 defeated
+1356	t	Cooltrainer Vincent in Trick House Puzzle 8 defeated
+1357	t	Cooltrainer Leroy in Trick House Puzzle 8 defeated
+1358	t	Cooltrainer Wilton on Route 111 defeated
+1359	t	Cooltrainer Edgar in Victory Road 1F defeated
+1360	t	Cooltrainer Albert in Victory Road 1F defeated
+1361	t	Cooltrainer Samuel in Victory Road B1F defeated
+1362	t	Cooltrainer Vito in Victory Road B2F defeated
+1363	t	Cooltrainer Owen in Victory Road B2F defeated
+1364	t	Cooltrainer Wilton (Rematch 1) on Route 111 defeated
+1365	t	Cooltrainer Wilton (Rematch 2) on Route 111 defeated
+1366	t	Cooltrainer Wilton (Rematch 3) on Route 111 defeated
+1367	t	Cooltrainer Wilton (Rematch 4) on Route 111 defeated
+1368	t	Cooltrainer Warren on Route 133 defeated
+1369	t	Cooltrainer Mary in Petalburg Gym defeated
+1370	t	Cooltrainer Alexia in Petalburg Gym defeated
+1371	t	Cooltrainer Jody in Petalburg Gym defeated
+1372	t	Cooltrainer Wendy on Route 123 defeated
+1373	t	Cooltrainer Keira in Trick House Puzzle 8 defeated
+1374	t	Cooltrainer Brooke on Route 111 defeated
+1375	t	Cooltrainer Jennifer on Route 120 defeated
+1376	t	Cooltrainer Hope in Victory Road 1F defeated
+1377	t	Cooltrainer Shannon in Victory Road B1F defeated
+1378	t	Cooltrainer Michelle in Victory Road B1F defeated
+1379	t	Cooltrainer Caroline in Victory Road B2F defeated
+1380	t	Cooltrainer Julie in Victory Road B2F defeated
+1381	t	Cooltrainer Brooke (Rematch 1) on Route 111 defeated
+1382	t	Cooltrainer Brooke (Rematch 2) on Route 111 defeated
+1383	t	Cooltrainer Brooke (Rematch 3) on Route 111 defeated
+1384	t	Cooltrainer Brooke (Rematch 4) on Route 111 defeated
+1385	t	Hex Maniac Patricia in Trick House Puzzle 7 defeated
+1386	t	Hex Maniac Kindra on Route 123 defeated
+1387	t	Hex Maniac Tammy on Route 121 defeated
+1388	t	Hex Maniac Valerie in Mt. Pyre defeated
+1389	t	Hex Maniac Tasha in Mt. Pyre defeated
+1390	t	Hex Maniac Valerie (Rematch 1) in Mt. Pyre defeated
+1391	t	Hex Maniac Valerie (Rematch 2) in Mt. Pyre defeated
+1392	t	Hex Maniac Valerie (Rematch 3) in Mt. Pyre defeated
+1393	t	Hex Maniac Valerie (Rematch 4) in Mt. Pyre defeated
+1394	t	Lady Cindy on Route 104 defeated
+1395	t	Lady Daphne in Sootopolis Gym defeated
+1396	t	Team Magma Grunt (Male) in Mossdeep Space Center 1F defeated
+
+1398	t	Lady Brianna in Sootopolis Gym defeated
+1399	t	Lady Naomi on S.S. Tidal defeated
+1400	t	Lady Cindy (Rematch 1) on Route 104 defeated
+1401	t	Lady Cindy (Rematch 2) on Route 104 defeated
+1402	t	Lady Cindy (Rematch 3) on Route 104 defeated
+1403	t	Lady Cindy (Rematch 4) on Route 104 defeated
+1404	t	Beauty Melissa on Mt. Chimney defeated
+1405	t	Beauty Sheila on Mt. Chimney defeated
+1406	t	Beauty Shirley on Mt. Chimney defeated
+1407	t	Beauty Jessica on Route 121 defeated
+1408	t	Beauty Connie in Sootopolis Gym defeated
+1409	t	Beauty Bridget in Sootopolis Gym defeated
+1410	t	Beauty Olivia in Sootopolis Gym defeated
+1411	t	Beauty Tiffany in Sootopolis Gym defeated
+1412	t	Beauty Jessica (Rematch 1) on Route 121 defeated
+1413	t	Beauty Jessica (Rematch 2) on Route 121 defeated
+1414	t	Beauty Jessica (Rematch 3) on Route 121 defeated
+1415	t	Beauty Jessica (Rematch 4) on Route 121 defeated
+1416	t	Rich Boy Winston on Route 104 defeated
+1417	t	Expert Mollie on Route 133 defeated
+1418	t	Rich Boy Garret on S.S. Tidal defeated
+1419	t	Rich Boy Winston (Rematch 1) on Route 104 defeated
+1420	t	Rich Boy Winston (Rematch 2) on Route 104 defeated
+1421	t	Rich Boy Winston (Rematch 3) on Route 104 defeated
+1422	t	Rich Boy Winston (Rematch 4) on Route 104 defeated
+1423	t	PokéManiac Steve on Route 114 defeated
+1424	t	Beauty Thalia on Abandoned Ship defeated
+1425	t	PokéManiac Mark in Mt. Pyre defeated
+1426	t	Team Magma Grunt (Female) on Mt. Chimney defeated
+1427	t	PokéManiac Steve (Rematch 1) on Route 114 defeated
+1428	t	PokéManiac Steve (Rematch 2) on Route 114 defeated
+1429	t	PokéManiac Steve (Rematch 3) on Route 114 defeated
+1430	t	PokéManiac Steve (Rematch 4) on Route 114 defeated
+1431	t	Swimmer Luis on Route 105 defeated
+1432	t	Swimmer Dominik on Route 105 defeated
+1433	t	Swimmer Douglas on Route 106 defeated
+1434	t	Swimmer Darrin on Route 107 defeated
+1435	t	Swimmer Tony on Route 107 defeated
+1436	t	Swimmer Jerome on Route 108 defeated
+1437	t	Swimmer Matthew on Route 108 defeated
+1438	t	Swimmer David on Route 109 defeated
+1439	t	Swimmer Spencer on Route 124 defeated
+1440	t	Swimmer Roland on Route 124 defeated
+1441	t	Swimmer Nolen on Route 125 defeated
+1442	t	Swimmer Stan on Route 125 defeated
+1443	t	Swimmer Barry on Route 126 defeated
+1444	t	Swimmer Dean on Route 126 defeated
+1445	t	Swimmer Rodney on Route 130 defeated
+1446	t	Swimmer Richard on Route 131 defeated
+1447	t	Swimmer Herman on Route 131 defeated
+1448	t	Swimmer Santiago on Route 130 defeated
+1449	t	Swimmer Gilbert on Route 132 defeated
+1450	t	Swimmer Franklin on Route 133 defeated
+1451	t	Swimmer Kevin on Route 131 defeated
+1452	t	Swimmer Jack on Route 134 defeated
+
+1454	t	Swimmer Chad on Route 124 defeated
+1455	t	Swimmer Tony (Rematch 1) on Route 107 defeated
+1456	t	Swimmer Tony (Rematch 2) on Route 107 defeated
+1457	t	Swimmer Tony (Rematch 3) on Route 107 defeated
+1458	t	Swimmer Tony (Rematch 4) on Route 107 defeated
+1459	t	Black Belt Takao in Dewford Gym defeated
+1460	t	Black Belt Hitoshi on Route 134 defeated
+1461	t	Black Belt Kiyo on Route 132 defeated
+1462	t	Black Belt Koichi on Route 115 defeated
+1463	t	Black Belt Nob on Route 115 defeated
+1464	t	Black Belt Nob (Rematch 1) on Route 115 defeated
+1465	t	Black Belt Nob (Rematch 2) on Route 115 defeated
+1466	t	Black Belt Nob (Rematch 3) on Route 115 defeated
+1467	t	Black Belt Nob (Rematch 4) on Route 115 defeated
+1468	t	Black Belt Yuji in Trick House Puzzle 4 defeated
+1469	t	Black Belt Daisuke on Route 111 defeated
+1470	t	Black Belt Atsushi in Mt. Pyre defeated
+1471	t	Guitarist Kirk in Mauville Gym defeated
+1472	t	Team Aqua Grunt (Female) in Aqua Hideout B1F defeated
+1473	t	Team Aqua Grunt (Male) in Aqua Hideout B2F defeated
+1474	t	Guitarist Shawn in Mauville Gym defeated
+1475	t	Guitarist Fernando on Route 123 defeated
+1476	t	Guitarist Dalton on Route 118 defeated
+1477	t	Guitarist Dalton (Rematch 1) on Route 118 defeated
+1478	t	Guitarist Dalton (Rematch 2) on Route 118 defeated
+1479	t	Guitarist Dalton (Rematch 3) on Route 118 defeated
+1480	t	Guitarist Dalton (Rematch 4) on Route 118 defeated
+1481	t	Kindler Coler in Lavaridge Gym defeated
+1482	t	Kindler Jeff in Lavaridge Gym defeated
+1483	t	Kindler Axle in Lavaridge Gym defeated
+1484	t	Kindler Jace in Lavaridge Gym defeated
+1485	t	Kindler Keegan in Lavaridge Gym defeated
+1486	t	Kindler Bernie on Route 114 defeated
+1487	t	Kindler Bernie (Rematch 1) on Route 114 defeated
+1488	t	Kindler Bernie (Rematch 2) on Route 114 defeated
+1489	t	Kindler Bernie (Rematch 3) on Route 114 defeated
+1490	t	Kindler Bernie (Rematch 4) on Route 114 defeated
+1491	t	Camper Drew on Route 111 defeated
+1492	t	Camper Beau on Route 111 defeated
+1493	t	Camper Larry on Route 112 defeated
+1494	t	Camper Shane on Route 114 defeated
+1495	t	Camper Justin in Trick House Puzzle 3 defeated
+1496	t	Camper Ethan on Jagged Pass defeated
+1497	t	Picnicker Autumn on Jagged Pass defeated
+1498	t	Camper Travis on Route 111 defeated
+1499	t	Camper Ethan (Rematch 1) on Jagged Pass defeated
+1500	t	Camper Ethan (Rematch 2) on Jagged Pass defeated
+1501	t	Camper Ethan (Rematch 3) on Jagged Pass defeated
+1502	t	Camper Ethan (Rematch 4) on Jagged Pass defeated
+1503	t	Bug Maniac Brent on Route 119 defeated
+1504	t	Bug Maniac Donald on Route 119 defeated
+1505	t	Bug Maniac Taylor on Route 119 defeated
+1506	t	Bug Maniac Jeffrey on Route 120 defeated
+1507	t	Bug Maniac Derek on Route 117 defeated
+1508	t	Bug Maniac Jeffrey (Rematch 1) on Route 120 defeated
+1509	t	Bug Maniac Jeffrey (Rematch 2) on Route 120 defeated
+1510	t	Bug Maniac Jeffrey (Rematch 3) on Route 120 defeated
+1511	t	Bug Maniac Jeffrey (Rematch 4) on Route 120 defeated
+1512	t	Psychic Edward on Route 110 defeated
+1513	t	Psychic Preston in Mossdeep Gym defeated
+1514	t	Psychic Virgil in Mossdeep Gym defeated
+1515	t	Psychic Blake in Mossdeep Gym defeated
+1516	t	Psychic William in Mt. Pyre defeated
+1517	t	Psychic Joshua in Trick House Puzzle 7 defeated
+1518	t	Psychic Cameron on Route 123 defeated
+1519	t	Psychic Cameron (Rematch 1) on Route 123 defeated
+1520	t	Psychic Cameron (Rematch 2) on Route 123 defeated
+1521	t	Psychic Cameron (Rematch 3) on Route 123 defeated
+1522	t	Psychic Cameron (Rematch 4) on Route 123 defeated
+1523	t	Psychic Jaclyn on Route 110 defeated
+1524	t	Psychic Hannah in Mossdeep Gym defeated
+1525	t	Psychic Samantha in Mossdeep Gym defeated
+1526	t	Psychic Maura in Mossdeep Gym defeated
+1527	t	Psychic Kayla in Mt. Pyre defeated
+1528	t	Psychic Alexis in Trick House Puzzle 7 defeated
+1529	t	Psychic Jacki on Route 123 defeated
+1530	t	Psychic Jacki (Rematch 1) on Route 123 defeated
+1531	t	Psychic Jacki (Rematch 2) on Route 123 defeated
+1532	t	Psychic Jacki (Rematch 3) on Route 123 defeated
+1533	t	Psychic Jacki (Rematch 4) on Route 123 defeated
+1534	t	Gentleman Walter on Route 121 defeated
+1535	t	Gentleman Micah on S.S. Tidal defeated
+1536	t	Gentleman Thomas on S.S. Tidal defeated
+1537	t	Gentleman Walter (Rematch 1) on Route 121 defeated
+1538	t	Gentleman Walter (Rematch 2) on Route 121 defeated
+1539	t	Gentleman Walter (Rematch 3) on Route 121 defeated
+1540	t	Gentleman Walter (Rematch 4) on Route 121 defeated
+1541	t	Elite Four Sidney defeated
+1542	t	Elite Four Phoebe defeated
+1543	t	Elite Four Glacia defeated
+1544	t	Elite Four Drake defeated
+1545	t	Gym Leader Roxanne defeated
+1546	t	Gym Leader Brawly defeated
+1547	t	Gym Leader Wattson defeated
+1548	t	Gym Leader Flannery defeated
+1549	t	Gym Leader Norman defeated
+1550	t	Gym Leader Winona defeated
+1551	t	Gym Leader Tate & Liza defeated
+1552	t	Gym Leader Juan defeated
+1553	t	School Kid Jerry on Route 116 defeated
+1554	t	School Kid Ted in Trick House Puzzle 2 defeated
+1555	t	School Kid Paul in Trick House Puzzle 2 defeated
+1556	t	School Kid Jerry (Rematch 1) on Route 116 defeated
+1557	t	School Kid Jerry (Rematch 2) on Route 116 defeated
+1558	t	School Kid Jerry (Rematch 3) on Route 116 defeated
+1559	t	School Kid Jerry (Rematch 4) on Route 116 defeated
+1560	t	School Kid Karen on Route 116 defeated
+1561	t	School Kid Georgia in Trick House Puzzle 2 defeated
+1562	t	School Kid Karen (Rematch 1) on Route 116 defeated
+1563	t	School Kid Karen (Rematch 2) on Route 116 defeated
+1564	t	School Kid Karen (Rematch 3) on Route 116 defeated
+1565	t	School Kid Karen (Rematch 4) on Route 116 defeated
+1566	t	Sr. And Jr. Kate & Joy on Route 121 defeated
+1567	t	Sr. And Jr. Anna & Meg on Route 117 defeated
+1568	t	Sr. And Jr. Anna & Meg (Rematch 1) on Route 117 defeated
+1569	t	Sr. And Jr. Anna & Meg (Rematch 2) on Route 117 defeated
+1570	t	Sr. And Jr. Anna & Meg (Rematch 3) on Route 117 defeated
+1571	t	Sr. And Jr. Anna & Meg (Rematch 4) on Route 117 defeated
+1572	t	Winstrate Victor on Route 111 defeated
+1573	t	Pokéfan Miguel on Route 103 defeated
+1574	t	Pokéfan Colton on S.S. Tidal defeated
+1575	t	Pokéfan Miguel (Rematch 1) on Route 103 defeated
+1576	t	Pokéfan Miguel (Rematch 2) on Route 103 defeated
+1577	t	Pokéfan Miguel (Rematch 3) on Route 103 defeated
+1578	t	Pokéfan Miguel (Rematch 4) on Route 103 defeated
+1579	t	Winstrate Victoria on Route 111 defeated
+1580	t	Pokéfan Vanessa on Route 121 defeated
+1581	t	Pokéfan Bethany in Sootopolis Gym defeated
+1582	t	Pokéfan Isabel on Route 110 defeated
+1583	t	Pokéfan Isabel (Rematch 1) on Route 110 defeated
+1584	t	Pokéfan Isabel (Rematch 2) on Route 110 defeated
+1585	t	Pokéfan Isabel (Rematch 3) on Route 110 defeated
+1586	t	Pokéfan Isabel (Rematch 4) on Route 110 defeated
+1587	t	Expert Timothy on Route 115 defeated
+1588	t	Expert Timothy (Rematch 1) on Route 115 defeated
+1589	t	Expert Timothy (Rematch 2) on Route 115 defeated
+1590	t	Expert Timothy (Rematch 3) on Route 115 defeated
+1591	t	Expert Timothy (Rematch 4) on Route 115 defeated
+1592	t	Winstrate Vicky on Route 111 defeated
+1593	t	Expert Shelby on Mt. Chimney defeated
+1594	t	Expert Shelby (Rematch 1) on Mt. Chimney defeated
+1595	t	Expert Shelby (Rematch 2) on Mt. Chimney defeated
+1596	t	Expert Shelby (Rematch 3) on Mt. Chimney defeated
+1597	t	Expert Shelby (Rematch 4) on Mt. Chimney defeated
+1598	t	Youngster Calvin on Route 102 defeated
+1599	t	Youngster Billy on Route 104 defeated
+1600	t	Youngster Josh in Rustboro Gym defeated
+1601	t	Youngster Tommy in Rustboro Gym defeated
+1602	t	Youngster Joey on Route 116 defeated
+1603	t	Youngster Ben in Mauville Gym defeated
+1604	t	Cooltrainer Quincy in Victory Road 1F defeated
+1605	t	Cooltrainer Katelynn in Victory Road 1F defeated
+1606	t	Youngster Jaylen on Route 113 defeated
+1607	t	Youngster Dillon on Route 113 defeated
+1608	t	Youngster Calvin (Rematch 1) on Route 102 defeated
+1609	t	Youngster Calvin (Rematch 2) on Route 102 defeated
+1610	t	Youngster Calvin (Rematch 3) on Route 102 defeated
+1611	t	Youngster Calvin (Rematch 4) on Route 102 defeated
+1612	t	Youngster Eddie in Trick House Puzzle 1 defeated
+1613	t	Youngster Allen on Route 102 defeated
+1614	t	Youngster Timmy on Route 110 defeated
+1615	t	Chamption Wallace defeated
+1616	t	Fisherman Andrew on Route 103 defeated
+1617	t	Fisherman Ivan on Route 104 defeated
+1618	t	Fisherman Claude on Route 114 defeated
+1619	t	Fisherman Elliot on Route 106 defeated
+1620	t	Fisherman Ned on Route 106 defeated
+1621	t	Fisherman Dale on Route 110 defeated
+1622	t	Fisherman Nolan on Route 114 defeated
+1623	t	Fisherman Barny on Route 118 defeated
+1624	t	Fisherman Wade on Route 118 defeated
+1625	t	Fisherman Carter on Route 109 defeated
+1626	t	Fisherman Elliot (Rematch 1) on Route 106 defeated
+1627	t	Fisherman Elliot (Rematch 2) on Route 106 defeated
+1628	t	Fisherman Elliot (Rematch 3) on Route 106 defeated
+1629	t	Fisherman Elliot (Rematch 4) on Route 106 defeated
+1630	t	Fisherman Ronald on Route 132 defeated
+1631	t	Triathlete Jacob on Route 110 defeated
+1632	t	Triathlete Anthony on Route 110 defeated
+1633	t	Triathlete Benjamin on Route 110 defeated
+1634	t	Triathlete Benjamin (Rematch 1) on Route 110 defeated
+1635	t	Triathlete Benjamin (Rematch 2) on Route 110 defeated
+1636	t	Triathlete Benjamin (Rematch 3) on Route 110 defeated
+1637	t	Triathlete Benjamin (Rematch 4) on Route 110 defeated
+1638	t	Triathlete Abigail on Route 110 defeated
+1639	t	Triathlete Jasmine on Route 110 defeated
+1640	t	Triathlete Abigail (Rematch 1) on Route 110 defeated
+1641	t	Triathlete Abigail (Rematch 2) on Route 110 defeated
+1642	t	Triathlete Abigail (Rematch 3) on Route 110 defeated
+1643	t	Triathlete Abigail (Rematch 4) on Route 110 defeated
+1644	t	Triathlete Dylan on Route 117 defeated
+1645	t	Triathlete Dylan (Rematch 1) on Route 117 defeated
+1646	t	Triathlete Dylan (Rematch 2) on Route 117 defeated
+1647	t	Triathlete Dylan (Rematch 3) on Route 117 defeated
+1648	t	Triathlete Dylan (Rematch 4) on Route 117 defeated
+1649	t	Triathlete Maria on Route 117 defeated
+1650	t	Triathlete Maria (Rematch 1) on Route 117 defeated
+1651	t	Triathlete Maria (Rematch 2) on Route 117 defeated
+1652	t	Triathlete Maria (Rematch 3) on Route 117 defeated
+1653	t	Triathlete Maria (Rematch 4) on Route 117 defeated
+1654	t	Triathlete Camden on Route 127 defeated
+1655	t	Youngster Demetrius on Abandoned Ship defeated
+1656	t	Triathlete Isaiah on Route 128 defeated
+1657	t	Triathlete Pablo on Route 126 defeated
+1658	t	Triathlete Chase on Route 129 defeated
+1659	t	Triathlete Isaiah (Rematch 1) on Route 128 defeated
+1660	t	Triathlete Isaiah (Rematch 2) on Route 128 defeated
+1661	t	Triathlete Isaiah (Rematch 3) on Route 128 defeated
+1662	t	Triathlete Isaiah (Rematch 4) on Route 128 defeated
+1663	t	Triathlete Isobel on Route 126 defeated
+1664	t	Triathlete Donny on Route 127 defeated
+1665	t	Triathlete Taila on Route 131 defeated
+1666	t	Triathlete Katelyn on Route 128 defeated
+1667	t	Triathlete Allison on Route 129 defeated
+1668	t	Triathlete Katelyn (Rematch 1) on Route 128 defeated
+1669	t	Triathlete Katelyn (Rematch 2) on Route 128 defeated
+1670	t	Triathlete Katelyn (Rematch 3) on Route 128 defeated
+1671	t	Triathlete Katelyn (Rematch 4) on Route 128 defeated
+1672	t	Dragon Tamer Nicolas in Meteor Falls defeated
+1673	t	Dragon Tamer Nicolas (Rematch 1) in Meteor Falls defeated
+1674	t	Dragon Tamer Nicolas (Rematch 2) in Meteor Falls defeated
+1675	t	Dragon Tamer Nicolas (Rematch 3) in Meteor Falls defeated
+1676	t	Dragon Tamer Nicolas (Rematch 4) in Meteor Falls defeated
+1677	t	Dragon Tamer Aaron on Route 134 defeated
+1678	t	Bird Keeper Perry on Route 118 defeated
+1679	t	Bird Keeper Hugh on Route 119 defeated
+1680	t	Bird Keeper Phil on Route 119 defeated
+1681	t	Bird Keeper Jared in Fortree Gym defeated
+1682	t	Bird Keeper Humberto in Fortree Gym defeated
+1683	t	Bird Keeper Presley on Route 125 defeated
+1684	t	Bird Keeper Edwardo in Fortree Gym defeated
+1685	t	Bird Keeper Colin on Route 120 defeated
+1686	t	Bird Keeper Robert on Route 120 defeated
+1687	t	Bird Keeper Benny in Trick House Puzzle 6 defeated
+1688	t	Bird Keeper Chester on Route 118 defeated
+1689	t	Bird Keeper Robert (Rematch 1) on Route 120 defeated
+1690	t	Bird Keeper Robert (Rematch 2) on Route 120 defeated
+1691	t	Bird Keeper Robert (Rematch 3) on Route 120 defeated
+1692	t	Bird Keeper Robert (Rematch 4) on Route 120 defeated
+1693	t	Bird Keeper Alex on Route 134 defeated
+1694	t	Bird Keeper Beck on Route 133 defeated
+1695	t	Ninja Boy Yasu on Route 119 defeated
+1696	t	Ninja Boy Takashi on Route 119 defeated
+1697	t	Cooltrainer Dianne in Victory Road B2F defeated
+1698	t	Tuber Jani on Abandoned Ship defeated
+1699	t	Ninja Boy Lao on Route 113 defeated
+1700	t	Ninja Boy Lung on Route 113 defeated
+1701	t	Ninja Boy Lao (Rematch 1) on Route 113 defeated
+1702	t	Ninja Boy Lao (Rematch 2) on Route 113 defeated
+1703	t	Ninja Boy Lao (Rematch 3) on Route 113 defeated
+1704	t	Ninja Boy Lao (Rematch 4) on Route 113 defeated
+1705	t	Battle Girl Jocelyn in Dewford Gym defeated
+1706	t	Battle Girl Laura in Dewford Gym defeated
+1707	t	Battle Girl Cyndy on Route 115 defeated
+1708	t	Battle Girl Cora in Trick House Puzzle 4 defeated
+1709	t	Battle Girl Paula in Trick House Puzzle 4 defeated
+1710	t	Battle Girl Cyndy (Rematch 1) on Route 115 defeated
+1711	t	Battle Girl Cyndy (Rematch 2) on Route 115 defeated
+1712	t	Battle Girl Cyndy (Rematch 3) on Route 115 defeated
+1713	t	Battle Girl Cyndy (Rematch 4) on Route 115 defeated
+1714	t	Parasol Lady Madeline on Route 113 defeated
+1715	t	Parasol Lady Clarissa on Route 120 defeated
+1716	t	Parasol Lady Angelica on Route 120 defeated
+1717	t	Parasol Lady Madeline (Rematch 1) on Route 113 defeated
+1718	t	Parasol Lady Madeline (Rematch 2) on Route 113 defeated
+1719	t	Parasol Lady Madeline (Rematch 3) on Route 113 defeated
+1720	t	Parasol Lady Madeline (Rematch 4) on Route 113 defeated
+1721	t	Swimmer Beverly on Route 105 defeated
+1722	t	Swimmer Imani on Route 105 defeated
+1723	t	Swimmer Kyla on Route 106  defeated
+1724	t	Swimmer Denise on Route 107 defeated
+1725	t	Swimmer Beth on Route 107 defeated
+1726	t	Swimmer Tara on Route 108 defeated
+1727	t	Swimmer Missy on Route 108 defeated
+1728	t	Swimmer Alice on Route 109 defeated
+1729	t	Swimmer Jenny on Route 124 defeated
+1730	t	Swimmer Grace on Route 124 defeated
+1731	t	Swimmer Tanya on Route 125 defeated
+1732	t	Swimmer Sharon on Route 125 defeated
+1733	t	Swimmer Nikki on Route 126 defeated
+1734	t	Swimmer Brenda on Route 126 defeated
+1735	t	Swimmer Katie on Route 130 defeated
+1736	t	Swimmer Susie on Route 131 defeated
+1737	t	Swimmer Kara on Route 131 defeated
+1738	t	Swimmer Dana on Route 132 defeated
+1739	t	Swimmer Sienna on Route 126 defeated
+1740	t	Swimmer Debra on Route 133 defeated
+1741	t	Swimmer Linda on Route 133 defeated
+
+1743	t	Swimmer Laurel on Route 134 defeated
+1744	t	Swimmer Carlee on Route 128 defeated
+1745	t	Swimmer Jenny (Rematch 1) on Route 124 defeated
+1746	t	Swimmer Jenny (Rematch 2) on Route 124 defeated
+1747	t	Swimmer Jenny (Rematch 3) on Route 124 defeated
+1748	t	Swimmer Jenny (Rematch 4) on Route 124 defeated
+1749	t	Picnicker Heidi on Route 111 defeated
+1750	t	Picnicker Becky on Route 111 defeated
+1751	t	Picnicker Carol on Route 112 defeated
+1752	t	Picnicker Nancy on Route 114 defeated
+1753	t	Picnicker Martha in Trick House Puzzle 3 defeated
+1754	t	Picnicker Diana on Jagged Pass defeated
+1755	t	Psychic Cedric in Mt. Pyre defeated
+1756	t	Picnicker Irene on Route 111 defeated
+1757	t	Picnicker Diana (Rematch 1) on Jagged Pass defeated
+1758	t	Picnicker Diana (Rematch 2) on Jagged Pass defeated
+1759	t	Picnicker Diana (Rematch 3) on Jagged Pass defeated
+1760	t	Picnicker Diana (Rematch 4) on Jagged Pass defeated
+1761	t	Twins Amy & Liv on Route 103 defeated
+1762	t	Twins Amy & Liv (Rematch 1) on Route 103 defeated
+1763	t	Twins Gina & Mia on Route 104 defeated
+1764	t	Twins Miu & Yuki on Route 123 defeated
+
+1767	t	Twins Amy & Liv (Rematch 2) on Route 103 defeated
+1768	t	Twins Amy & Liv (Rematch 3) on Route 103 defeated
+1769	t	Twins Amy & Liv (Rematch 4) on Route 103 defeated
+1770	t	Sailor Huey on Route 109 defeated
+1771	t	Sailor Edmond on Route 109 defeated
+1772	t	Sailor Ernest on Route 125 defeated
+1773	t	Sailor Dwayne on Route 109 defeated
+1774	t	Sailor Phillip on S.S. Tidal defeated
+1775	t	Sailor Leonard on S.S. Tidal defeated
+1776	t	Sailor Duncan on Abandoned Ship defeated
+1777	t	Sailor Ernest (Rematch 1) on Route 125 defeated
+1778	t	Sailor Ernest (Rematch 2) on Route 125 defeated
+1779	t	Sailor Ernest (Rematch 3) on Route 125 defeated
+1780	t	Sailor Ernest (Rematch 4) on Route 125 defeated
+1781	t	Hiker Eli in Lavaridge Gym defeated
+1782	t	Pokéfan Annika in Sootopolis Gym defeated
+1783	t	Cooltrainer Jazmyn on Route 123 defeated
+1784	t	Ninja Boy Jonas on Route 123 defeated
+1785	t	Parasol Lady Kayley on Route 123 defeated
+1786	t	Expert Auron on Route 125 defeated
+1787	t	Sailor Kelvin on Route 134 defeated
+1788	t	Cooltrainer Marley on Route 134 defeated
+1789	t	Battle Girl Reyna on Route 134 defeated
+1790	t	Sailor Hudson on Route 134 defeated
+1791	t	Expert Conor on Route 133 defeated
+1792	t	Collector Edwin on Route 110 defeated
+1793	t	Collector Hector on Route 115 defeated
+
+1795	t	Collector Edwin (Rematch 1) on Route 110 defeated
+1796	t	Collector Edwin (Rematch 2) on Route 110 defeated
+1797	t	Collector Edwin (Rematch 3) on Route 110 defeated
+1798	t	Collector Edwin (Rematch 4) on Route 110 defeated
+1799	t	Pokémon Trainer Wally in Victory Road defeated
+1800	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Mudkip)
+1801	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Mudkip)
+1802	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Mudkip)
+1803	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Treecko)
+1804	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Treecko)
+1805	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Treecko)
+1806	t	Pokémon Trainer Brendan on Route 103 defeated (Starter Torchic)
+1807	t	Pokémon Trainer Brendan on Route 110 defeated (Starter Torchic)
+1808	t	Pokémon Trainer Brendan on Route 119 defeated (Starter Torchic)
+1809	t	Pokémon Trainer May on Route 103 defeated (Starter Mudkip)
+1810	t	Pokémon Trainer May on Route 110 defeated (Starter Mudkip)
+1811	t	Pokémon Trainer May on Route 119 defeated (Starter Mudkip)
+1812	t	Pokémon Trainer May on Route 103 defeated (Starter Treecko)
+1813	t	Pokémon Trainer May on Route 110 defeated (Starter Treecko)
+1814	t	Pokémon Trainer May on Route 119 defeated (Starter Treecko)
+1815	t	Pokémon Trainer May on Route 103 defeated (Starter Torchic)
+1816	t	Pokémon Trainer May on Route 110 defeated (Starter Torchic)
+1817	t	Pokémon Trainer May on Route 119 defeated (Starter Torchic)
+1818	t	Pokémon Breeder Isaac on Route 117 defeated
+1819	t	Bug Catcher Davis on Route 123 defeated
+1820	t	Cooltrainer Mitchell in Victory Road B1F defeated
+1821	t	Pokémon Breeder Isaac (Rematch 1) on Route 117 defeated
+1822	t	Pokémon Breeder Isaac (Rematch 2) on Route 117 defeated
+1823	t	Pokémon Breeder Isaac (Rematch 3) on Route 117 defeated
+1824	t	Pokémon Breeder Isaac (Rematch 4) on Route 117 defeated
+1825	t	Pokémon Breeder Lydia on Route 117 defeated
+1826	t	Cooltrainer Halle in Victory Road B1F defeated
+1827	t	Ruin Maniac Garrison on Abandoned Ship defeated
+1828	t	Pokémon Breeder Lydia (Rematch 1) on Route 117 defeated
+1829	t	Pokémon Breeder Lydia (Rematch 2) on Route 117 defeated
+1830	t	Pokémon Breeder Lydia (Rematch 3) on Route 117 defeated
+1831	t	Pokémon Breeder Lydia (Rematch 4) on Route 117 defeated
+1832	t	Pokémon Ranger Jackson on Route 119 defeated
+1833	t	Pokémon Ranger Lorenzo on Route 120 defeated
+1834	t	Pokémon Ranger Sebastian in Trick House Puzzle 6 defeated
+1835	t	Pokémon Ranger Jackson (Rematch 1) on Route 119 defeated
+1836	t	Pokémon Ranger Jackson (Rematch 2) on Route 119 defeated
+1837	t	Pokémon Ranger Jackson (Rematch 3) on Route 119 defeated
+1838	t	Pokémon Ranger Jackson (Rematch 4) on Route 119 defeated
+1839	t	Pokémon Ranger Catherine on Route 119 defeated
+1840	t	Pokémon Ranger Jenna on Route 120 defeated
+1841	t	Pokémon Ranger Sophia in Trick House Puzzle 6 defeated
+1842	t	Pokémon Ranger Catherine (Rematch 1) on Route 119 defeated
+1843	t	Pokémon Ranger Catherine (Rematch 2) on Route 119 defeated
+1844	t	Pokémon Ranger Catherine (Rematch 3) on Route 119 defeated
+1845	t	Pokémon Ranger Catherine (Rematch 4) on Route 119 defeated
+1846	t	Triathlete Julio on Jagged Pass defeated
+1847	t	Team Aqua Grunt (Male) in Seafloor Cavern Room 7 defeated
+
+1849	t	Team Aqua Grunt (Female) on Mt. Pyre defeated
+1850	t	Team Magma Grunt on Jagged Pass defeated2
+1851	t	Hiker Marc in Rustboro Gym defeated
+1852	t	Sailor Brenden in Dewford Gym defeated
+1853	t	Battle Girl Lilith in Dewford Gym defeated
+1854	t	Black Belt Cristian in Dewford Gym defeated
+1855	t	Hex Maniac Sylvia in Mossdeep Gym defeated
+1856	t	Swimmer Leonardo on Route 126 defeated
+1857	t	Cooltrainer Athena on Route 127 defeated
+1858	t	Swimmer Harrison on Route 128 defeated
+1859	t	Team Magma Grunt (Male) on Mt. Chimney defeated
+1860	t	Swimmer Clarence on Route 129 defeated
+
+1862	t	Gentleman Nate in Mossdeep Gym defeated
+1863	t	Hex Maniac Kathleen in Mossdeep Gym defeated
+1864	t	Gentleman Clifford in Mossdeep Gym defeated
+1865	t	Psychic Nicholas in Mossdeep Gym defeated
+1866	t	Team Magma Grunt (Female) in Mossdeep Space Center 1F defeated
+1867	t	Team Magma Grunt (Male) in Mossdeep Space Center 1F defeated
+1868	t	Team Magma Grunt (Male) in Mossdeep Space Center 2F defeated
+1869	t	Team Magma Grunt (Male) in Mossdeep Space Center 2F defeated
+1870	t	Team Magma Grunt (Male) in Mossdeep Space Center 2F defeated
+1871	t	Psychic Macey in Mossdeep Gym defeated
+1872	t	Pokémon Trainer Brendan in Rustboro City or on Route 104 defeated (Starter Treecko)
+1873	t	Pokémon Trainer Brendan in Rustboro City or on Route 104 defeated (Starter Mudkip)
+1874	t	Expert Paxton on Route 132 defeated
+1875	t	Triathlete Isabella on Route 124 defeated
+1876	t	Team Aqua Grunt (Female) in Weather Institute 2F defeated
+1877	t	Team Magma Admin Tabitha on Mt. Chimney defeated
+1878	t	Cooltrainer Jonathan on Route 132 defeated
+1879	t	Pokémon Trainer Brendan in Rustboro City or on Route 104 defeated (Starter Torchic)
+1880	t	Pokémon Trainer May in Rustboro City or on Route 104 defeated (Starter Mudkip)
+1881	t	Team Magma Leader Maxie in Magma Hideout defeated
+1882	t	Team Magma Leader Maxie on Mt. Chimney defeated
+1883	t	Lass Tiana on Route 102 defeated
+1884	t	Lass Haley on Route 104 defeated
+1885	t	Lass Janice on Route 116 defeated
+1886	t	Winstrate Vivi on Route 111 defeated
+1887	t	Lass Haley (Rematch 1) on Route 104 defeated
+1888	t	Lass Haley (Rematch 2) on Route 104 defeated
+1889	t	Lass Haley (Rematch 3) on Route 104 defeated
+1890	t	Lass Haley (Rematch 4) on Route 104 defeated
+1891	t	Lass Sally in Trick House Puzzle 1 defeated
+1892	t	Lass Robin in Trick House Puzzle 1 defeated
+1893	t	Lass Andrea in Sootopolis Gym defeated
+1894	t	Lass Crissy in Sootopolis Gym defeated
+1895	t	Bug Catcher Rick on Route 102 defeated
+1896	t	Bug Catcher Lyle in Petalburg Woods defeated
+1897	t	Bug Catcher Jose on Route 116 defeated
+1898	t	Bug Catcher Doug on Route 119 defeated
+1899	t	Bug Catcher Greg on Route 119 defeated
+1900	t	Bug Catcher Kent on Route 119 defeated
+1901	t	Bug Catcher James in Petalburg Woods defeated
+1902	t	Bug Catcher James (Rematch 1) in Petalburg Woods defeated
+1903	t	Bug Catcher James (Rematch 2) in Petalburg Woods defeated
+1904	t	Bug Catcher James (Rematch 3) in Petalburg Woods defeated
+1905	t	Bug Catcher James (Rematch 4) in Petalburg Woods defeated
+1906	t	Hiker Brice on Route 112 defeated
+1907	t	Hiker Trent on Route 112 defeated
+1908	t	Hiker Lenny on Route 114 defeated
+1909	t	Hiker Lucas on Route 114 defeated
+1910	t	Hiker Alan in Trick House Puzzle 3 defeated
+1911	t	Hiker Clark on Route 116 defeated
+1912	t	Hiker Eric on Jagged Pass defeated
+
+1915	t	Hiker Mike in Rusturf Tunnel defeated
+1916	t	Hiker Trent (Rematch 1) on Route 112 defeated
+1917	t	Hiker Trent (Rematch 2) on Route 112 defeated
+1918	t	Hiker Trent (Rematch 3) on Route 112 defeated
+1919	t	Hiker Trent (Rematch 4) on Route 112 defeated
+1920	t	Young Couple Dez & Luke in Mt. Pyre defeated
+1921	t	Young Couple Lea & Jed on S.S. Tidal defeated
+1922	t	Young Couple Kira & Dan on Abandoned Ship defeated
+1923	t	Young Couple Kira & Dan (Rematch 1) on Abandoned Ship defeated
+1924	t	Young Couple Kira & Dan (Rematch 2) on Abandoned Ship defeated
+1925	t	Young Couple Kira & Dan (Rematch 3) on Abandoned Ship defeated
+1926	t	Young Couple Kira & Dan (Rematch 4) on Abandoned Ship defeated
+1927	t	Beauty Johanna on Route 109 defeated
+1928	t	Cooltrainer Gerald in Lavaridge Gym defeated
+1929	t	Battle Girl Vivian in Mauville Gym defeated
+1930	t	Battle Girl Danielle in Lavaridge Gym defeated
+1931	t	Ninja Boy Hideo on Route 119 defeated
+1932	t	Ninja Boy Keigo on Route 120 defeated
+1933	t	Ninja Boy Riley on Route 120 defeated
+1934	t	Camper Flint in Fortree Gym defeated
+1935	t	Picnicker Ashley in Fortree Gym defeated
+1936	t	Pokémon Trainer Wally in Mauville City defeated
+1937	t	Pokémon Trainer Wally (Rematch 1) in Victory Road defeated
+1938	t	Pokémon Trainer Wally (Rematch 2) in Victory Road defeated
+1939	t	Pokémon Trainer Wally (Rematch 3) in Victory Road defeated
+1940	t	Pokémon Trainer Wally (Rematch 4) in Victory Road defeated
+1941	t	Brendan in Lilycove City defeated (Starter Mudkip)
+1942	t	Brendan in Lilycove City defeated (Starter Treecko)
+1943	t	Brendan in Lilycove City defeated (Starter Torchic)
+1944	t	May in Lilycove City defeated (Starter Mudkip)
+1945	t	May in Lilycove City defeated (Starter Treecko)
+1946	t	May in Lilycove City defeated (Starter Torchic)
+1947	t	Fisherman Jonah on Route 127 defeated
+1948	t	Fisherman Henry on Route 127 defeated
+1949	t	Fisherman Roger on Route 127 defeated
+1950	t	Cooltrainer Alexa on Route 128 defeated
+1951	t	Cooltrainer Ruben on Route 128 defeated
+1952	t	Black Belt Koji on Route 127 defeated
+1953	t	Fisherman Wayne on Route 128 defeated
+1954	t	Bird Keeper Aidan on Route 127 defeated
+1955	t	Swimmer Reed on Route 129 defeated
+1956	t	Swimmer Tisha on Route 129 defeated
+1957	t	Twins Tori & Tia on Route 113 defeated
+1958	t	Sr. and Jr. Kim & Iris on Route 125 defeated
+1959	t	Sr. and Jr. Tyra & Ivy on Route 114 defeated
+1960	t	Young Couple Mel & Paul on Route 109 defeated
+1961	t	Old Couple John & Jay in Meteor Falls defeated
+1962	t	Old Couple John & Jay (Rematch 1) in Meteor Falls defeated
+1963	t	Old Couple John & Jay (Rematch 2) in Meteor Falls defeated
+1964	t	Old Couple John & Jay (Rematch 3) in Meteor Falls defeated
+1965	t	Old Couple John & Jay (Rematch 4) in Meteor Falls defeated
+1966	t	Sis and Bro Reli & Ian on Route 131 defeated
+1967	t	Sis and Bro Lila & Roy on Route 124 defeated
+1968	t	Sis and Bro Lila & Roy (Rematch 1) on Route 124 defeated
+1969	t	Sis and Bro Lila & Roy (Rematch 2) on Route 124 defeated
+1970	t	Sis and Bro Lila & Roy (Rematch 3) on Route 124 defeated
+1971	t	Sis and Bro Lila & Roy (Rematch 4) on Route 124 defeated
+1972	t	Sis and Bro Lisa & Ray on Route 107 defeated
+1973	t	Fisherman Chris on Route 119 defeated
+1974	t	Rich Boy Dawson on Route 116 defeated
+1975	t	Lady Sarah on Route 116 defeted
+1976	t	Fisherman Darian on Route 104 defeated
+1977	t	Tuber Hailey on Route 109 defeated
+1978	t	Tuber Chandler on Route 109 defeated
+1979	t	Pokéfan Kaleb on Route 110 defeated
+1980	t	Guitarist Joseph on Route 110 defeated
+1981	t	Triathlete Alyssa on Route 110 defeated
+1982	t	Guitarist Marcos on Route 103 defeated
+1983	t	Black Belt Rhett on Route 103 defeated
+1984	t	Camper Tyron on Route 111 defeated
+1985	t	Aroma Lady Celina on Route 111 defeated
+1986	t	Picnicker Bianca on Route 111 defeated
+1987	t	Kindler Hayden on Route 111 defeated
+1988	t	Picnicker Sophie on Route 113 defeated
+1989	t	Bird Keeper Coby on Route 113 defeated
+1990	t	Camper Lawrence on Route 113 defeated
+1991	t	PokéManiac Wyatt on Route 113 defeated
+1992	t	Picnicker Angelina on Route 114 defeated
+1993	t	Fisherman Kai on Route 114 defeated
+1994	t	Picnicker Charlotte on Route 114 defeated
+1995	t	Youngster Deandre on Route 118 defeated
+1996	t	Team Magma Grunt (Male) in Magma Hideout 1F defeated
+1997	t	Team Magma Grunt (Male) in Magma Hideout 1F defeated
+1998	t	Team Magma Grunt (Male) in Magma Hideout 2F defeated
+1999	t	Team Magma Grunt (Male) in Magma Hideout 2F defeated
+2000	t	Team Magma Grunt (Male) in Magma Hideout 2F defeated
+2001	t	Team Magma Grunt (Male) in Magma Hideout 8F defeated
+2002	t	Team Magma Grunt (Male) in Magma Hideout 8F defeated
+2003	t	Team Magma Grunt (Male) in Magma Hideout 8F defeated
+2004	t	Team Magma Grunt (Male) in Magma Hideout 3F defeated
+2005	t	Team Magma Grunt (Male) in Magma Hideout 7F defeated
+2006	t	Team Magma Grunt (Male) in Magma Hideout 4F defeated
+2007	t	Team Magma Grunt (Male) in Magma Hideout 4F defeated
+2008	t	Team Magma Grunt (Male) in Magma Hideout 4F defeated
+2009	t	Team Magma Grunt (Female) in Magma Hideout 2F defeated
+2010	t	Team Magma Grunt (Female) in Magma Hideout 8F defeated
+2011	t	Team Magma Grunt (Female) in Magma Hideout 3F defeated
+2012	t	Team Magma Admin Tabitha in Magma Hideout defeated
+2013	t	Cooltrainer Darcy on Route 132 defeated
+
+2015	t	Swimmer Pete on Route 103 defeated
+2016	t	Swimmer Isabelle on Route 103 defeated
+2017	t	Ruin Maniac Andres on Route 105 defeated
+2018	t	Bird Keeper Josue on Route 105 defeated
+2019	t	Triathlete Camron on Route 107 defeated
+2020	t	Sailor Cory on Route 108 defeated
+2021	t	Cooltrainer Carolina on Route 108 defeated
+2022	t	Bird Keeper Elijah on Route 109 defeated
+2023	t	Picnicker Celia on Route 111 defeated
+2024	t	Ruin Maniac Bryan on Route 111 defeated
+2025	t	Camper Branden on Route 111 defeated
+2026	t	Kindler Bryant on Route 112 defeated
+2027	t	Aroma Lady Shayla on Route 112 defeated
+2028	t	Triathlete Kyra on Route 115 defeated
+2029	t	Ninja Boy Jaiden on Route 115 defeated
+2030	t	Psychic Alix on Route 115 defeated
+2031	t	Battle Girl Helene on Route 115 defeated
+2032	t	Psychic Marlene on Route 115 defeated
+2033	t	Hiker Devan on Route 116 defeated
+2034	t	Youngster Johnson on Route 116 defeated
+2035	t	Triathlete Melina on Route 117 defeated
+2036	t	Psychic Brandi on Route 117 defeated
+2037	t	Battle Girl Aisha on Route 117 defeated
+2038	t	Expert Makayla on Route 132 defeated
+2039	t	Guitarist Fabian on Route 119 defeated
+2040	t	Kindler Dayton on Route 119 defeated
+2041	t	Parasol Lady Rachel on Route 119 defeated
+2042	t	Cooltrainer Leonel on Route 120 defeated
+2043	t	Battle Girl Callie on Route 120 defeated
+2044	t	Bug Maniac Cale on Route 121 defeated
+2045	t	Pokémon Breeder Myles on Route 121 defeated
+2046	t	Pokémon Breeder Pat on Route 121 defeated
+2047	t	Cooltrainer Cristin on Route 121 defeated
+2048	t	Pokémon Trainer May in Rustboro City or on Route 104 defeated (Starter Treecko)
+2049	t	Pokémon Trainer May in Rustboro City or on Route 104 defeated (Starter Torchic)
+2050	t	Gym Leader Roxanne (Rematch 1) defeated
+2051	t	Gym Leader Roxanne (Rematch 2) defeated
+2052	t	Gym Leader Roxanne (Rematch 3) defeated
+2053	t	Gym Leader Roxanne (Rematch 4) defeated
+2054	t	Gym Leader Brawly (Rematch 1) defeated
+2055	t	Gym Leader Brawly (Rematch 2) defeated
+2056	t	Gym Leader Brawly (Rematch 3) defeated
+2057	t	Gym Leader Brawly (Rematch 4) defeated
+2058	t	Gym Leader Wattson (Rematch 1) defeated
+2059	t	Gym Leader Wattson (Rematch 2) defeated
+2060	t	Gym Leader Wattson (Rematch 3) defeated
+2061	t	Gym Leader Wattson (Rematch 4) defeated
+2062	t	Gym Leader Flannery (Rematch 1) defeated
+2063	t	Gym Leader Flannery (Rematch 2) defeated
+2064	t	Gym Leader Flannery (Rematch 3) defeated
+2065	t	Gym Leader Flannery (Rematch 4) defeated
+2066	t	Gym Leader Norman (Rematch 1) defeated
+2067	t	Gym Leader Norman (Rematch 2) defeated
+2068	t	Gym Leader Norman (Rematch 3) defeated
+2069	t	Gym Leader Norman (Rematch 4) defeated
+2070	t	Gym Leader Winona (Rematch 1) defeated
+2071	t	Gym Leader Winona (Rematch 2) defeated
+2072	t	Gym Leader Winona (Rematch 3) defeated
+2073	t	Gym Leader Winona (Rematch 4) defeated
+2074	t	Gym Leader Tate & Liza (Rematch 1) defeated
+2075	t	Gym Leader Tate & Liza (Rematch 2) defeated
+2076	t	Gym Leader Tate & Liza (Rematch 3) defeated
+2077	t	Gym Leader Tate & Liza (Rematch 4) defeated
+2078	t	Gym Leader Juan (Rematch 1) defeated
+2079	t	Gym Leader Juan (Rematch 2) defeated
+2080	t	Gym Leader Juan (Rematch 3) defeated
+2081	t	Gym Leader Juan (Rematch 4) defeated
+2082	t	Bug Maniac Angelo in Mauville Gym defeated
+2083	t	Bird Keeper Darius in Fortree Gym defeated
+2084	t	Pokémon Trainer Steven in Meteor Falls defeated
+
+2092	t	Ruin Maniac Andres (Rematch 1) on Route 105 defeated
+2093	t	Ruin Maniac Andres (Rematch 2) on Route 105 defeated
+2094	t	Ruin Maniac Andres (Rematch 3) on Route 105 defeated
+2095	t	Ruin Maniac Andres (Rematch 4) on Route 105 defeated
+2096	t	Sailor Cory (Rematch 1) on Route 108 defeated
+2097	t	Sailor Cory (Rematch 2) on Route 108 defeated
+2098	t	Sailor Cory (Rematch 3) on Route 108 defeated
+2099	t	Sailor Cory (Rematch 4) on Route 108 defeated
+2100	t	Triathlete Pablo (Rematch 1) on Route 126 defeated
+2101	t	Triathlete Pablo (Rematch 2) on Route 126 defeated
+2102	t	Triathlete Pablo (Rematch 3) on Route 126 defeated
+2103	t	Triathlete Pablo (Rematch 4) on Route 126 defeated
+2104	t	Black Belt Koji (Rematch 1) on Route 127 defeated
+2105	t	Black Belt Koji (Rematch 2) on Route 127 defeated
+2106	t	Black Belt Koji (Rematch 3) on Route 127 defeated
+2107	t	Black Belt Koji (Rematch 4) on Route 127 defeated
+2108	t	Cooltrainer Cristin (Rematch 1) on Route 121 defeated
+2109	t	Cooltrainer Cristin (Rematch 2) on Route 121 defeated
+2110	t	Cooltrainer Cristin (Rematch 3) on Route 121 defeated
+2111	t	Cooltrainer Cristin (Rematch 4) on Route 121 defeated
+2112	t	Guitarist Fernando (Rematch 1) on Route 123 defeated
+2113	t	Guitarist Fernando (Rematch 2) on Route 123 defeated
+2114	t	Guitarist Fernando (Rematch 3) on Route 123 defeated
+2115	t	Guitarist Fernando (Rematch 4) on Route 123 defeated
+2116	t	Hiker Sawyer on (Rematch 1) Mt. Chimney defeated
+2117	t	Hiker Sawyer on (Rematch 2) Mt. Chimney defeated
+2118	t	Hiker Sawyer on (Rematch 3) Mt. Chimney defeated
+2119	t	Hiker Sawyer on (Rematch 4) Mt. Chimney defeated
+2120	t	Pokémon Breeder Gabrielle (Rematch 1) in Mt. Pyre defeated
+2121	t	Pokémon Breeder Gabrielle (Rematch 2) in Mt. Pyre defeated
+2122	t	Pokémon Breeder Gabrielle (Rematch 3) in Mt. Pyre defeated
+2123	t	Pokémon Breeder Gabrielle (Rematch 4) in Mt. Pyre defeated
+2124	t	Beauty Thalia (Rematch 1) on Abandoned Ship defeated
+2125	t	Beauty Thalia (Rematch 2) on Abandoned Ship defeated
+2126	t	Beauty Thalia (Rematch 3) on Abandoned Ship defeated
+2127	t	Beauty Thalia (Rematch 4) on Abandoned Ship defeated
+2128	t	Psychic Mariella in Trick House Puzzle 7 defeated
+2129	t	Psychic Alvaro in Trick House Puzzle 7 defeated
+2130	t	Gentleman Everett in Trick House Puzzle 7 defeated
+
+2186	m	Rain and Harsh Sunlight in Eastern Hoenn
+2159	f	Can Fly to Littleroot Town
+2160	f	Can Fly to Oldale Town
+2161	f	Can Fly to Dewford Town
+2162	f	Can Fly to Lavaridge Town
+2163	f	Can Fly to Fallarbor Town
+2164	f	Can Fly to Verdanturf Town
+2165	f	Can Fly to Pacifidlog Town
+2166	f	Can Fly to Petalburg City
+2167	f	Can Fly to Slateport City
+2168	f	Can Fly to Mauville City
+2169	f	Can Fly to Rustboro City
+2170	f	Can Fly to Fortree City
+2171	f	Can Fly to Lilycove City
+2172	f	Can Fly to Mossdeep City
+2173	f	Can Fly to Sootopolis City
+2174	f	Can Fly to Ever Grande City
+2216	f	Can Fly to Battle Frontier
+2204	m	Visited Flower Shop
+2205	m	Visited Mr. Briney's Cottage
+2206	m	Visited Abandoned Ship
+2207	m	Visited Seashore House
+2208	m	Visited New Mauville
+2209	m	Visited Old Lady's Rest Stop
+2210	m	Visited Trick House
+2211	m	Visited The Winstrate Family
+2212	m	Visited Glass Workshop
+2213	m	Visited Lanette's House
+2214	m	Visited Pokémon Day Care
+2215	m	Visited Seafloor Cavern
+2218	m	Visited Fiery Path
+2228	m	Visited Pokémon League
+2229	m	Visited Island Cave
+2230	m	Visited Desert Ruins
+2231	m	Visited Fossil Maniac's House
+2232	m	Visited Scorched Slab
+2233	m	Visited Ancient Tomb
+2234	m	Visited Tunneler's Rest House
+2235	m	Visited Hunter's House
+2236	m	Visited Sealed Chamber
+2238	m	Visited Sky Pillar
+2243	m	Visited Berry Master's House
+2268	m	Visited Mirage Tower
+2269	m	Visited Altering Cave
+2270	m	Visited Desert Underpass
+2274	m	Visited Trainer Hill

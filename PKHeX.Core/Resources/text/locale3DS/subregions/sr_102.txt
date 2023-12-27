@@ -1,0 +1,9 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ブラティスラバ	Bratislava	Bratislava	Bratislava	Bratislava	Bratislava	布拉迪斯拉发州	브라티슬라바	布拉迪斯拉發州
+003	バンスカ・ビストリツァ	Banská Bystrica	Banská Bystrica	Banská Bystrica	Banská Bystrica	Banská Bystrica	班斯卡-比斯特里察州	반스카비스트리차	班斯卡-比斯特裏察州
+004	コシツェ	Košice	Košice	Košice	Košice	Košice	科希策州	코시체	科希策州
+005	二トラ	Nitra	Nitra	Nitra	Nitra	Nitra	尼特拉州	니트라	尼特拉州
+006	プレショフ	Prešov	Prešov	Prešov	Prešov	Prešov	普雷绍夫州	프레쇼프	普雷紹夫州
+007	トレンチーン	Trencín	Trenčín	Trenčín	Trenčín	Trenčín	特伦钦州	트렌친	特倫欽州
+008	トルナバ	Trnava	Trnava	Trnava	Trnava	Trnava	特尔纳瓦州	트르나바	特爾納瓦州
+009	ジリナ	Žilina	Žilina	Žilina	Žilina	Žilina	日利纳州	질리나	日利納州

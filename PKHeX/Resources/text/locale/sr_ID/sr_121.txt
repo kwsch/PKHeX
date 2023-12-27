@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,ソマリア,Somalia,Somalie,Somalia,Somalia,Somalia,索马里,소말리아,

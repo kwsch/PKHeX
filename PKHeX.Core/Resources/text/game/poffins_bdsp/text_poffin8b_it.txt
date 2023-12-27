@@ -1,0 +1,31 @@
+
+Poffin pepato
+Poffin pepato agro
+Poffin pepato dolce
+Poffin pepato amaro
+Poffin pepato aspro
+Poffin agro
+Poffin agro pepato
+Poffin agro dolce
+Poffin agro amaro
+Poffin agro aspro
+Poffin dolce
+Poffin dolce pepato
+Poffin dolce agro
+Poffin dolce amaro
+Poffin dolce aspro
+Poffin amaro
+Poffin amaro pepato
+Poffin amaro agro
+Poffin amaro dolce
+Poffin amaro aspro
+Poffin aspro
+Poffin aspro pepato
+Poffin aspro agro
+Poffin aspro dolce
+Poffin aspro amaro
+Poffin ricco
+Poffin pesante
+Poffin cattivo
+Poffin equilibrato
+Poffin superequilibrato

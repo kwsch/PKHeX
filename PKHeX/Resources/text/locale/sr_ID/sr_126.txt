@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,ジャージー島,Jersey,Jersey,Jersey,Jersey,Jersey,泽西,저지 섬,

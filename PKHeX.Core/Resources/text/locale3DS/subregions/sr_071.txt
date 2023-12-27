@@ -1,0 +1,22 @@
+﻿000	—	—	—	—	—	—	—	—	—
+006	ザグレブ直轄市	Zagreb	Zagreb (ville)	Zagreb (Stadt)	Zagabria	Ciudad de Zagreb	萨格勒布市	자그레브	薩格勒布市
+007	ビェロヴァル＝ビロゴラ郡	Bjelovar-Bilogora County	Bjelovar-Bilogora	Bjelovar-Bilogora	Regione di Bjelovar e della Bilogora	Condado de Bjelovar-Bilogora	别洛瓦尔-比洛戈拉县	벨로바르-빌로고라 군	別洛瓦爾-比洛戈拉縣
+008	ブロド＝ポサヴィナ郡	Brod-Posavina County	Brod-Posavina	Brod-Posavina	Regione di Brod e della Posavina	Condado de Brod-Posavina	布罗德-波萨维纳县	브로드-포사비나 군	布羅德-波薩維納縣
+009	ドゥブロヴニク＝ネレトヴァ郡	Dubrovnik-Neretva County	Dubrovnik-Neretva	Dubrovnik-Neretva	Regione Raguseo-Narentana	Condado de Dubrovnik-Neretva	杜布罗夫斯克-内雷特瓦县	두브로브니크-네레트바 군	杜布羅夫斯克-內雷特瓦縣
+010	イストラ郡	Istria County	Istrie	Istrien	Regione Istriana	Condado de Istria	伊斯特拉县	이스트라 군	伊斯特拉縣
+011	カルロヴァツ郡	Karlovac County	Karlovac	Karlovac	Regione di Karlovac	Condado de Karlovac	卡尔洛瓦茨县	카를로바츠 군	卡爾洛瓦茨縣
+012	コプリヴニツァ＝クリジェヴツィ郡	Koprivnica-Križevci County	Koprivnica-Križevci	Koprivnica-Križevci	Regione di Koprivnica e Križevci	Condado de Koprivnica-Križevci	科普里夫尼察-克里热夫齐县	코프리브니차-크리제브치 군	科普裏夫尼察-克裏熱夫齊縣
+013	クラピナ＝ザゴリエ郡	Krapina-Zagorje County	Krapina-Zagorje	Krapina-Zagorje	Regione di Krapina e dello Zagorje	Condado de Krapina-Zagorje	克拉皮纳-扎戈列县	크라피나-자고례 군	克拉皮納-扎戈列縣
+014	リカ＝セニ郡	Lika-Senj County	Lika-Senj	Lika-Senj	Regione della Lika e di Segna	Condado de Lika-Senj	利卡-塞尼县	리카-센 군	利卡-塞尼縣
+015	メジムリェ郡	Međimurje County	Međimurje	Medimurje	Regione del Medjimurje	Condado de Medimurje	梅吉穆列县	메지무례 군	梅吉穆列縣
+016	オシエク＝バラニャ郡	Osijek-Baranja County	Osijek-Baranja	Osijek-Baranja	Regione di Osijek e della Baranja	Condado de Osijek-Baranja	奥西耶克-巴拉尼亚县	오시예크-바라냐 군	奧西耶克-巴拉尼亞縣
+017	ポジェガ＝スラヴォニア郡	Požega-Slavonia County	Požega-Slavonie	Požega-Slawonien	Regione di Požega e della Slavonia	Condado de Požega-Eslavonia	波热加-斯拉沃尼亚县	포제가-슬라보니아 군	波熱加-斯拉沃尼亞縣
+018	プリモリェ＝ゴルスキ・コタル郡	Primorje-Gorski Kotar County	Primorje-Gorski Kotar	Primorje-Gorski kotar	Regione Litoraneo-Montana	Condado de Primorje-Gorski Kotar	滨海和山区县	프리모례-고르스키코타르 군	濱海和山區縣
+019	シサク＝モスラヴィナ郡	Sisak-Moslavina County	Sisak-Moslavina	Sisak-Moslavina	Regione di Sisak e della Moslavina	Condado de Sisak-Moslavina	锡萨克-莫斯拉维纳县	시사크-모슬라비나 군	錫薩克-莫斯拉維納縣
+020	スプリト＝ダルマチア郡	Split-Dalmatia County	Split-Dalmatie	Split-Dalmatien	Regione Spalatino-Dalmata	Condado de Split-Dalmacia	斯普利特-达尔马提亚县	스플리트-달마티아 군	斯普利特-達爾馬提亞縣
+021	シベニク＝クニン郡	Šibenik-Knin County	Šibenik-Knin	Šibenik-Knin	Regione di Sebenico e Tenin	Condado de Šibenik-Knin	希贝尼克-克宁县	시베니크-크닌 군	希貝尼克-克寧縣
+022	ヴァラジュディン郡	Varaždin County	Varaždin	Varaždin	Regione di Varasdino	Condado de Varaždin	瓦拉日丁县	바라주딘 군	瓦拉日丁縣
+023	ヴィロヴィティツァ＝ポドラヴィナ郡	Virovitica-Podravina County	Virovitica-Podravina	Virovitica-Podravina	Regione di Virovitica e della Podravina	Condado de Virovitica-Podravina	维罗维蒂察-波德拉维纳县	비로비티차-포드라비나 군	維羅維蒂察-波德拉維納縣
+024	ヴコヴァル＝スリイェム郡	Vukovar-Syrmia County	Vukovar-Syrmie	Vukovar-Srijem	Regione di Vukovar e della Sirmia	Condado de Vukovar-Srijem	武科瓦尔-斯里耶姆县	부코바르-시르미아 군	武科瓦爾-斯裏耶姆縣
+025	ザダル郡	Zadar County	Zadar	Zadar	Regione Zaratina	Condado de Zadar	扎达尔县	자다르 군	扎達爾縣
+026	ザグレブ郡	Zagreb County	Zagreb (comitat)	Zagreb	Regione Zagabrese	Condado de Zagreb	萨格勒布县	자그레브 군	薩格勒布縣

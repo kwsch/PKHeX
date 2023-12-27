@@ -1,0 +1,48 @@
+Zellenschlüssel
+Liftschlüssel
+Steintafel
+V-Disc
+R-Disc
+L-Disc
+U-Disc
+O-Disc 
+Zugschlüssel
+Torschlüssel
+Schlüsselkarte
+Ug-Schlüssel
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+DNS-Probe
+CD-ROM 
+Zahnprothese
+Zahnrad
+Rote ID-Marke
+Grüne ID-Marke
+Blaue ID-Marke
+Gelbe ID-Marke 
+Zeitflöte 
+Culpa-Akte C-P
+Culpa-Akte F-M
+Culpa-Akte C
+Culpa-Akte C-E
+Essenz-Kiste
+Froh-E.
+Glücks-E.
+Paradies-E.
+Ersatzteil 
+Culpa-Akte A-B 

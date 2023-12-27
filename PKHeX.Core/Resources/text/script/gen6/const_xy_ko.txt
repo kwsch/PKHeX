@@ -1,0 +1,15 @@
+0048	*	스타팅 포켓몬	0:도치마론,1:푸호꼬,2:개구마르
+0059	g	Kanto Starter	0:Not Chosen,3:Bulbasaur,4:Charmander,5:Squirtle
+0117	s	Route 2 Event	0:Will Battle Static Wild Pidgey,1:Battled Static Wild Pidgey,2:Tutorial Complete
+0138	s	Cycle Shop	0:Bicycle Pending,1:Received Bicycle
+0204	g	Route 12 Breeder	0:Blocking further access,1:Has Lapras Gift,2:Gave Lapras
+0227	s	Lost Hotel Punk Guy	0:Blocking further access (Not learned all Tricks),1:Allows access (Learned all Tricks)
+0174	g	Hiker (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Asks to Trade,4:Trade Pending,5:Traded for Magikarp
+0175	s	Waiter (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Rage Candy Bar,5:Gave Rage Candy Bar
+0176	s	Madame (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Lava Cookie,5:Gave Lava Cookie
+0177	g	Maid (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Asks to Trade,4:Trade Pending,5:Traded for Eevee
+0178	s	Tourist (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:3rd Meeting,4:4th Meeting
+0179	s	Backpacker (Kalos Hotels)	0:Not Met,1:1st Meeting,2:2nd Meeting,3:Will give Strange Souvenir,5:Gave Strange Souvenir
+0220	s	Lumiose Station Event	0:Pre-Champion,1:Will get National Dex,2:Received National Dex,3:Received TMV Pass
+0228	s	Hex Maniac Ghost (Lumiose City)	0:Not Encountered,1:Encountered
+0330	+	Hotel Richissme Tasks Perfect

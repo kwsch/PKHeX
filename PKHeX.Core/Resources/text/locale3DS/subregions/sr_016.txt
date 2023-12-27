@@ -1,0 +1,28 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ディストリト・フェデラル州	Distrito Federal	District Fédéral	Distrito Federal	Distretto Federale	Distrito Federal	联邦区	브라질 연방구	聯邦區
+003	アクレ州	Acre	Acre	Acre	Acre	Acre	阿克里州	아크리 주	阿克裏州
+004	アラゴアス州	Alagoas	Alagoas	Alagoas	Alagoas	Alagoas	阿拉戈斯州	알라고아스 주	阿拉戈斯州
+005	アマパー州	Amapá	Amapá	Amapá	Amapá	Amapá	阿马帕州	아마파 주	阿馬帕州
+006	アマゾナス州	Amazonas	Amazonas	Amazonas	Amazonas	Amazonas	亚马孙州	아마조나스 주	亞馬孫州
+007	バイア州	Bahia	Bahia	Bahia	Bahia	Bahía	巴伊亚州	바이아 주	巴伊亞州
+008	セアラ州	Ceará	Ceará	Ceará	Ceará	Ceará	塞阿拉州	세아라 주	塞阿拉州
+009	エスピリト・サント州	Espírito Santo	Espírito Santo	Espírito Santo	Espírito Santo	Espírito Santo	圣埃斯皮里图州	이스피리투산투 주	聖埃斯皮裏圖州
+010	マット・グロッソ・ド・スル州	Mato Grosso do Sul	Mato Grosso do Sul	Mato Grosso do Sul	Mato Grosso do Sul	Mato Grosso do Sul	南马托格罗索州	마투그로수두술 주	南馬託格羅索州
+011	マラニョン州	Maranhão	Maranhão	Maranhão	Maranhão	Maranhão	马拉尼昂州	마라냥 주	馬拉尼昂州
+012	マット・グロッソ州	Mato Grosso	Mato Grosso	Mato Grosso	Mato Grosso	Mato Grosso	马托格罗索州	마투그로수 주	馬託格羅索州
+013	ミナス・ジェライス州	Minas Gerais	Minas Gerais	Minas Gerais	Minas Gerais	Minas Gerais	米纳斯吉拉斯州	미나스 제라이스 주	米納斯吉拉斯州
+014	パラー州	Pará	Pará	Pará	Pará	Pará	帕拉州	파라 주	帕拉州
+015	パライーバ州	Paraíba	Paraíba	Paraíba	Paraíba	Paraíba	帕拉伊巴州	파라이바 주	帕拉伊巴州
+016	パラナ州	Paraná	Paraná	Paraná	Paraná	Paraná	巴拉那州	파라나 주	巴拉那州
+017	ピアウイー州	Piauí	Piauí	Piauí	Piauí	Piauí	皮奥伊州	피아우이 주	皮奧伊州
+018	リオ・デ・ジャネイロ州	Rio de Janeiro	État de Rio de Janeiro	Rio de Janeiro	Rio de Janeiro	Río de Janeiro	里约热内卢州	리우데자네이루 주	裏約熱內盧州
+019	リオ・グランデ・ド・ノルテ州	Rio Grande do Norte	Rio Grande do Norte	Rio Grande do Norte	Rio Grande do Norte	Rio Grande do Norte	北里奥格兰德州	히우그란지두노르치 주	北裏奧格蘭德州
+020	リオ・グランデ・ド・スル州	Rio Grande do Sul	Rio Grande do Sul	Rio Grande do Sul	Rio Grande do Sul	Rio Grande do Sul	南里奥格兰德州	히우그란지두술 주	南裏奧格蘭德州
+021	ロンドニア州	Rondônia	Rondônia	Rondônia	Rondônia	Rondônia	朗多尼亚州	혼도니아 주	朗多尼亞州
+022	ロライマ州	Roraima	Roraima	Roraima	Roraima	Roraima	罗赖马州	호라이마 주	羅賴馬州
+023	サンタ・カタリーナ州	Santa Catarina	Santa Catarina	Santa Catarina	Santa Catarina	Santa Catarina	圣卡塔琳娜州	산타카타리나 주	聖卡塔琳娜州
+024	サン・パウロ州	São Paulo	État de São Paulo	São Paulo	San Paolo	São Paulo	圣保罗州	상파울루 주	聖保羅州
+025	セルジッペ州	Sergipe	Sergipe	Sergipe	Sergipe	Sergipe	塞尔希培州	세르지피 주	塞爾希培州
+026	ゴイアス州	Goiás	Goiás	Goiás	Goiás	Goiás	戈亚斯州	고이아스 주	戈亞斯州
+027	ペルナンブコ州	Pernambuco	Pernambouc	Pernambuco	Pernambuco	Pernambuco	伯南布哥州	페르남부쿠 주	伯南布哥州
+028	トカンティンス州	Tocantins	Tocantins	Tocantins	Tocantins	Tocantins	托坎廷斯州	토칸칭스 주	託坎廷斯州

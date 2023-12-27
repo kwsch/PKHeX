@@ -1,0 +1,145 @@
+0026	s	Inicial Elegido
+0027	*	Cyndaquil inicial
+0028	*	Totodile inicial
+0029	*	Chikorita inicial
+1600	s	La bola del Cyndaquil de Elm ha desaparecido 
+1601	s	La bola del Totodile de Elm ha desaparecido 
+1602	s	La bola del Chikorita de Elm ha desaparecido 
+1784	r	Sudowoodo Capturado
+0079	g	Eevee Recibido
+1867	*	Las Bestias Legendarias desaparecieron de la Torre Incendiada
+0190	*	Kurt puede ver la GS Ball
+0191	*	Kurt listo para regresar la GS Ball (combinar con la Marca de arriba)
+0192	*	GS Ball puede ser insertada en el Encinar
+0672	*	SOLVED_HO_OH_PUZZLE
+0673	*	SOLVED_KABUTO_PUZZLE
+0674	*	SOLVED_OMANYTE_PUZZLE
+0675	*	SOLVED_AERODACTYL_PUZZLE
+0676	*	DECO_BED_1
+0677	*	DECO_BED_2
+0678	*	DECO_BED_3
+0679	*	DECO_BED_4
+0680	*	DECO_CARPET_1
+0681	*	DECO_CARPET_2
+0682	*	DECO_CARPET_3
+0683	*	DECO_CARPET_4
+0684	*	DECO_PLANT_1
+0685	*	DECO_PLANT_2
+0686	*	DECO_PLANT_3
+0687	*	DECO_PLANT_4
+0688	*	DECO_POSTER_1
+0689	*	DECO_POSTER_2
+0690	*	DECO_POSTER_3
+0691	*	DECO_FAMICOM
+0692	*	DECO_SNES
+0693	*	DECO_N64
+0694	*	DECO_VIRTUAL_BOY
+0695	*	DECO_PIKACHU_DOLL
+0696	*	DECO_SURFING_PIKACHU_DOLL
+0697	*	DECO_CLEFAIRY_DOLL
+0698	*	DECO_JIGGLYPUFF_DOLL
+0699	*	DECO_BULBASAUR_DOLL
+0700	*	DECO_CHARMANDER_DOLL
+0701	*	DECO_SQUIRTLE_DOLL
+0702	*	DECO_POLIWAG_DOLL
+0703	*	DECO_DIGLETT_DOLL
+0704	*	DECO_STARMIE_DOLL
+0705	*	DECO_MAGIKARP_DOLL
+0706	*	DECO_ODDISH_DOLL
+0707	*	DECO_GENGAR_DOLL
+0708	*	DECO_SHELLDER_DOLL
+0709	*	DECO_GRIMER_DOLL
+0710	*	DECO_VOLTORB_DOLL
+0711	*	DECO_WEEDLE_DOLL
+0712	*	DECO_UNOWN_DOLL
+0713	*	DECO_GEODUDE_DOLL
+0714	*	DECO_MACHOP_DOLL
+0715	*	DECO_TENTACOOL_DOLL
+0716	*	PLAYERS_ROOM_POSTER
+0717	*	DECO_GOLD_TROPHY
+0718	*	DECO_SILVER_TROPHY
+0719	*	DECO_BIG_SNORLAX_DOLL
+0720	*	DECO_BIG_ONIX_DOLL
+0721	*	DECO_BIG_LAPRAS_DOLL
+0791	r	Ho-oh Capturado
+0792	r	Lugia Capturado
+0830	r	Recibido el Huevo Raro
+0832	r	Recibida la GS Ball
+1904	r	Snorlax Capturado
+1873	r	Gyarados Rojo Capturado
+0068	s	Derrotado el Alto Mando/Elm puede dar el Ticket Barco
+1890	*	Red desapareció en Monte Plateado
+0069	g	Recibido Shuckle de Klaus
+0070	g	Shuckle Regresado/Permitido quedárselo
+0080	g	Recibido Spearow de Randy
+0081	s	El correo puede sern entregado en la Ruta 31
+0082	s	Recibido PS Mas de Randy
+0083	s	Entregado correo de Randy/Recibida MT50
+0084	s	Togepi Eclosionado
+0085	s	Mostrado Togepi a Elm
+0086	s	Recibida Piedra Eterna de Elm
+1193	t	Defeated Blackbelt Kiyo (Can receive Tyrogue)
+0097	g	Received Tyrogue
+0046	s	Unown aparecido en Ruinas Alfa
+0098	s	Conocida Frieda
+0099	s	Recibida Flecha Venenosa de Frieda
+0100	s	Conocida Tuscany
+0101	s	Recibido Lazo Rosa de Tuscany
+0102	s	Conocido Arthur
+0103	s	Recbida Piedra Dura de Arthur
+0104	s	Conocido Sunny
+0105	s	Recibido Imán de Sunny
+0106	s	Conocido Wesley
+0107	s	Recibido Cinturón Negro de Wesley
+0108	s	Conocido Santos
+0109	s	Recibido Hechizo de Santos
+0110	s	Conocida Monica
+0111	s	Recibido Pico Afilado de Monica
+0189	g	Recibido Dratini
+0193	g	Quiz respondido mal (Dratini de regalo no tendrá Velocidad Extrema)
+0205	s	Restaurada energía a Kanto/Tren Imán usable
+0256	s	Gina regaló Piedra Hoja
+0257	s	Alan regaló Piedra Fuego
+0258	s	Dana regaló Piedra Trueno
+0259	s	Tully regaló Piedra Agua
+0260	s	Tiffany regaló Lazo Rosa
+0613	s	Recibida Proteina del Sailor Huey 3ra Batalla
+0614	s	Recibido PP Mas del Youngster Joey 4ta Batalla
+0615	s	Recibido Carburante de Bird Keeper Vance 2da Batalla
+0616	s	Recibido Hierro de Hiker Parry 3ra Batalla
+0617	s	Recibido Calcio del Picnicker Erin 2da Batalla
+0823	s	Proteina de Huey 3ra Batalla Pendiente
+0824	s	PP Mas de Joey 4ta Batalla Pendiente
+0825	s	Carburante de Vance 2da Batalla Pendiente
+0826	s	Hierro de Parry 2da Batalla Pendiente
+0827	s	Calcio de Erin 2da Batalla Pendiente
+0607	t	Preguntado Schoolboy Jack por su Número
+0609	t	Preguntado Pokéfan Beverly por su Número
+0611	t	Preguntado Sailor Huey por su Número
+0619	t	Preguntado Cooltrainer Gaven por su Número
+0621	t	Preguntado Cooltrainer Beth por su Número
+0623	t	Preguntado Bird Keeper Jose por su Número
+0625	t	Preguntado Cooltrainer Reena por su Número
+0627	t	Preguntado Youngster Joey por su Número
+0629	t	Preguntado Bug Catcher Wade por su Número
+0631	t	Preguntado Fisher Ralph por su Número
+0633	t	Preguntado Picnicker Liz por su Número
+0635	t	Preguntado Hiker Anthony por su Número
+0637	t	Preguntado Camper Todd por su Número
+0639	t	Preguntado Picnicker Gina por su Número
+0641	t	Preguntado Juggler Irwin por su Número
+0643	t	Preguntado Bug Catcher Arnie por su Número
+0645	t	Preguntado Schoolboy Alan por su Número
+0649	t	Preguntado Lass Dana por su Número
+0651	t	Preguntado Schoolboy Chad por su Número
+0653	t	Preguntado Pokéfan Derek por su Número
+0655	t	Preguntado Fisher Tully por su Número
+0657	t	Preguntado PokéManiac Brent por su Número
+0659	t	Preguntado Picnicker Tiffany por su Número
+0661	t	Preguntado Bird Keeper Vance por su Número
+0663	t	Preguntado Fisher Wilton for por su Número
+0665	t	Preguntado Blackbelt Kenji por su Número
+0667	t	Preguntado Hiker Parry por su Número
+0669	t	Preguntado Picnicker Erin por su Número
+0828	t	Buena ofreció Número Telefónico una vez
+0670	t	Buena ofreció Número Telefónico (2da vez)

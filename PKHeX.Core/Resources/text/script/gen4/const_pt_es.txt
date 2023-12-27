@@ -1,0 +1,28 @@
+0048	*	Inicial	0:Sin Elegir,387:Turtwig,390:Chimchar,393:Piplup
+0122	r	Huevo de Togepi	0:Estatua visitada,1:Recibido HM01,2:Cynthia Desaparecio,3:Cynthia da un huevo,4:Huevo Pendiente,5:Huevo Recibido
+0196	r	Dialga	0:Luchable,1:Desaparecido
+0197	r	Palkia	0:Luchable,1:Desaparecido
+0085	r	Giratina (Mundo Distorsión)	13:Luchable,14:Desaparecido
+0158	r	Heatran	00:No Activado,01:Luchable,02:Desaparecido
+0054	e	Isla Plenilunio	0:No Activado,520:En el Mapa
+0055	e	Isla Lunanueva	0:No Activado,553:En el Mapa
+0056	e	Vía Manantial	0:No aparecido,786:Aparecido
+0057	e	Vía Costera	0:No aparecido,4136:Aparecido
+0067	e	Carné Socio	0:No Activado,4617:Activado
+0068	e	Carta Prof Oak	0:No Activado,4370:Activado
+0069	e	Flauta Azur	0:No Activado,4387:Activado
+0070	e	Ll. Secreta	0:No Activado,4387:Activado
+0086	e	Arceus Event Hiker	0:No Activado,1:En la mina de Oreburgh,2:En la Biblioteca de Canalave 2F,3:Evento Completado
+0087	e	Evento de Sémola (Ruta 224)	0:No Activado,1:Puede ser activado,2:Activado
+0133	s	Sémola (Ruta 224)	0:No Activado,1:Activado,2:Aparecido
+0105	r	Estatua de las Ruinas de Hierro	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0106	r	Estatua de Ruinas de Iceberg 0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0107	r	Estatua de Ruinas de Pico Roca	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0062	r	Spiritomb	0:Desaparecido,32:Aparecido
+0138	r	Torre Sagrada	0:No Activado,1:Activado
+0089	r	Mesprit Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0088	r	Cresselia Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0096	r	Articuno Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0095	r	Zapdos Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0094	r	Moltres Status	0:Pending,1:Caught,2:Fainted/Can Respawn
+0224	+	Catching Show Best Score

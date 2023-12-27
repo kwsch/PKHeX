@@ -1,0 +1,52 @@
+﻿
+Saphir
+Rubin
+Smaragd
+Feuerrot
+Blattgrün
+
+HeartGold
+SoulSilver
+
+Diamant
+Perl
+Platin
+
+
+Kolosseum/XD
+
+
+
+
+Weiß
+Schwarz
+Weiß 2
+Schwarz 2
+X
+Y
+Alpha Saphir
+Omega Rubin
+
+
+Sonne
+Mond
+Ultrasonne
+Ultramond
+GO
+Rot
+Blau [INT]/Grün [JP]
+Blau [JP]
+Gelb
+Gold
+Silber
+Kristall
+Let's Go, Pikachu!
+Let's Go, Evoli!
+Schwert
+Schild
+
+Legenden: Arceus
+Strahlender Diamant
+Leuchtende Perle
+Karmesin
+Purpur

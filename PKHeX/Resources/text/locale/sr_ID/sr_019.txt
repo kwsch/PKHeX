@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,ケイマン諸島,Cayman Islands,Îles Caïmans,Kaimaninseln,Isole Cayman,Islas Caimán,开曼群岛,케이맨 제도,

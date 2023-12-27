@@ -1,0 +1,27 @@
+0x4031	*	Starter	00:Bulbasaur,1:Squirtle,2:Charmander
+0x4055	s	Oak's Lab Status	00:First Visit,01:Escorted to Lab,02:Starter Available,03:Rival Battle Ready,04:Pick Up Oak's Parcel,05:Deliver Oak's Parcel,06:Received Pokedex,08:Received National Dex,9:Completed all events
+0x4057	s	Oak's Parcel	00:Not Received,01:Received,02:Delivered
+0x4051	s	Old Man Blocking Route 2	01:Yes,02:No
+0x4054	s	Rival Status (Route 22)	00:Hidden,1:Battleable,02:Defeated,03:Battleable (8 Gym Badges),04:Defeated (8 Gym Badges)
+0x4052	s	Defeated Rival (Cerulean City)	0:No,1:Yes
+0x405B	s	Defeated Rival (S.S. Anne)	0:No,1:Yes
+0x405C	s	Defeated Rival (Silph Co.)	0:No,1:Yes
+0x405D	s	Defeated Rival (Pokemon Tower)	0:No,1:Yes
+0x4089	s	Rival Met (Six Island Pokemon Center)	0:No,1:Yes
+
+0x4024	r	Wild Pokemon in Altering Cave	00:Zubat,01:Mareep,02:Pineco,03:Houndour,04:Teddiursa,05:Aipom,06:Shuckle,07:Stantler,08:Smeargle
+
+0x4049	a	Hall of Fame Trainer Card Sticker	0:None,1:Level 1,2:Level 2,3:Level 3
+0x404A	a	Hatched Eggs Trainer Card Sticker	0:None,1:Level 1,2:Level 2,3:Level 3
+0x404B	a	Link Battles Trainer Card Sticker	0:None,1:Level 1,2:Level 2,3:Level 3
+
+0x408B	s	Fossils Super Nerd Defeated (Mt. Moon)	0:No,1:Yes
+0x407E	s	S.S. Anne Status	00:In Vermilion City,01:Ready to depart,03:Gone
+0x4059	s	Defeated Ghost of Marowak	0:No,1:Yes
+0x4062	s	Given Tea to Guards	0:No,1:Yes
+0x4060	s	Defeated Giovanni (Silph Co.)	0:No,1:Yes
+0x4058	*	Town Map Upgrades	01:Normal,02:Received Tri-Pass
+0x4076	*	Pokemon Network Center	0:First Visit,02:Meteorite Delivered,03:Linked Established with Kanto,04:Asked to Find Ruby,05:Received Rainbow Pass,06:Sapphire Delivered,07:Link Established with Hoenn
+0x407F	s	Mt. Ember Status	00:First Visit,01:Team Rocket Blocking Summit Path,02:Summit Path Open
+0x4080	s	Icefall Cave Status	00:First Visit,01:Lorelei Rescued
+0x4084	s	Lostelle's Status	00:In Berry Forest,1:In Joyful Game Corner,2:Returned Home

@@ -1,0 +1,311 @@
+-
+Puanteur
+Crachin
+Turbo
+Armurbaston
+Fermeté
+Moiteur
+Échauffement
+Voile Sable
+Statik
+Absorbe-Volt
+Absorbe-Eau
+Benêt
+Ciel Gris
+Œil Composé
+Insomnia
+Homochromie
+Vaccin
+Torche
+Écran Poudre
+Tempo Perso
+Ventouse
+Intimidation
+Marque Ombre
+Peau Dure
+Garde Mystik
+Lévitation
+Pose Spore
+Synchro
+Corps Sain
+Médic Nature
+Paratonnerre
+Sérénité
+Glissade
+Chlorophylle
+Luminescence
+Calque
+Coloforce
+Point Poison
+Attention
+Armumagma
+Ignifu-Voile
+Magnépiège
+Anti-Bruit
+Cuvette
+Sable Volant
+Pression
+Isograisse
+Matinal
+Corps Ardent
+Fuite
+Regard Vif
+Hyper Cutter
+Ramassage
+Absentéisme
+Agitation
+Joli Sourire
+Plus
+Moins
+Météo
+Glu
+Mue
+Cran
+Écaille Spéciale
+Suintement
+Engrais
+Brasier
+Torrent
+Essaim
+Tête de Roc
+Sécheresse
+Piège Sable
+Esprit Vital
+Écran Fumée
+Force Pure
+Coque Armure
+Air Lock
+Pieds Confus
+Motorisé
+Rivalité
+Impassible
+Rideau Neige
+Gloutonnerie
+Colérique
+Délestage
+Ignifugé
+Simple
+Peau Sèche
+Télécharge
+Poing de Fer
+Soin Poison
+Adaptabilité
+Multi-Coups
+Hydratation
+Force Soleil
+Pied Véloce
+Normalise
+Sniper
+Garde Magik
+Annule Garde
+Frein
+Technicien
+Feuille Garde
+Maladresse
+Brise Moule
+Chanceux
+Boom Final
+Anticipation
+Prédiction
+Inconscient
+Lentiteintée
+Filtre
+Début Calme
+Querelleur
+Lavabo
+Corps Gel
+Solide Roc
+Alerte Neige
+Cherche Miel
+Fouille
+Téméraire
+Multi-Type
+Don Floral
+Mauvais Rêve
+Pickpocket
+Sans Limite
+Contestation
+Tension
+Acharné
+Défaitiste
+Corps Maudit
+Cœur Soin
+Garde-Ami
+Armurouillée
+Heavy Metal
+Light Metal
+Multiécaille
+Rage Poison
+Rage Brûlure
+Récolte
+Télépathe
+Lunatique
+Envelocape
+Toxitouche
+Régé-Force
+Cœur de Coq
+Baigne Sable
+Peau Miracle
+Analyste
+Illusion
+Imposteur
+Infiltration
+Momie
+Impudence
+Cœur Noble
+Phobique
+Miroir Magik
+Herbivore
+Farceur
+Force Sable
+Épine de Fer
+Mode Transe
+Victorieux
+Turbo Brasier
+Téra-Voltage
+Aroma-Voile
+Flora-Voile
+Bajoues
+Protéen
+Toison Épaisse
+Magicien
+Pare-Balles
+Battant
+Prognathe
+Peau Gelée
+Gluco-Voile
+Déclic Tactique
+Ailes Bourrasque
+Méga Blaster
+Toison Herbue
+Symbiose
+Griffe Dure
+Peau Féérique
+Poisseux
+Peau Céleste
+Amour Filial
+Aura Ténébreuse
+Aura Féérique
+Aura Inversée
+Mer Primaire
+Terre Finale
+Souffle Delta
+Endurance
+Escampette
+Repli Tactique
+Sable Humide
+Cruauté
+Bouclier-Carcan
+Filature
+Aquabulle
+Expert Acier
+Folle Furie
+Chasse-Neige
+Longue Portée
+Hydrata-Son
+Prioguérison
+Peau Électrique
+Surf Caudal
+Banc
+Fantômasque
+Synergie
+Rassemblement
+Corrosion
+Hypersommeil
+Prestance Royale
+Expuls’Organes
+Danseuse
+Batterie
+Boule de Poils
+Corps Coloré
+Animacœur
+Mèche Rebelle
+Receveur
+Osmose
+Boost Chimère
+Système Alpha
+Créa-Élec
+Créa-Psy
+Créa-Brume
+Créa-Herbe
+Métallo-Garde
+Spectro-Bouclier
+Prisme-Armure
+Cérébro-Force
+Lame Indomptable
+Égide Inflexible
+Libéro
+Ramasse Ball
+Effilochage
+Propulseur
+Armure Miroir
+Dégobage
+Nerfs d’Acier
+Turbine
+Punk Rock
+Expul’Sable
+Écailles Glacées
+Mûrissement
+Tête de Gel
+Cercle d’Énergie
+Mimétisme
+Brise-Barrière
+Boost Acier
+Corps Condamné
+Âme Vagabonde
+Entêtement
+Gaz Inhibiteur
+Voile Pastel
+Déclic Fringale
+Tir Vif
+Poing Invisible
+Breuvage Suspect
+Transistor
+Dent de Dragon
+Blanche Ruade
+Sombre Ruade
+Osmose Équine
+Osmose Équine
+Odeur Tenace
+Semencier
+Thermodynamique
+Courroupace
+Sel Purificateur
+Bien Cuit
+Aéroporté
+Chien de Garde
+Porte-Roche
+Turbine Éolienne
+Supermutation
+Commandant
+Grecharge
+Paléosynthèse
+Charge Quantique
+Corps en Or
+Urne du Fléau
+Épée du Fléau
+Bois du Fléau
+Perles du Fléau
+Pouls Orichalque
+Moteur à Hadrons
+Opportuniste
+Ruminant
+Incisif
+Général Suprême
+Collab
+Dépôt Toxique
+Armure Caudale
+Absorbe-Terre
+Force Fongique
+Aux Petits Soins
+Œil Révélateur
+Force Mémorielle
+Force Mémorielle
+Force Mémorielle
+Force Mémorielle
+Chaîne Toxique
+Nectar Mielleux
+Téramorphose
+Téra-Carapace
+Téraformation 0
+Emprise Toxique

@@ -1,0 +1,119 @@
+0646	s	Visto Mimikyu en el Valle Pikachu RV
+4060	*	Es Campeón de Alola + Evento de Magearna Activo
+4562	g	Ha ido a Isla Akala/Puede recibir Pikachu con Gorro
+4563	g	Recibido Pikachu con Gorro
+0518	g	Recibido Pikachu con Surf
+0443	g	Received Gift Eevee Egg
+0493	g	Recibido Porygon de Regalo
+0504	g	Recibido Aerodactyl de Regalo
+0654	g	Recibido Código Cero de Regalo (1)
+1101	g	Recibido Código Cero de Regalo (2)
+0503	g	Recibido Cosmog de Regalo
+4447	g	Recibido Magearna de Regalo
+0269	g	Recibido Poipole de Regalo
+4420	r	Articuno Capturado
+4421	r	Zapdos Capturado
+4422	r	Moltres Capturado
+4423	r	Mewtwo Capturado
+4260	r	(US) Raikou Capturado
+4261	r	(UM) Entei Capturado
+4262	r	Suicune Capturado
+4263	r	(UM) Lugia Capturado
+4264	r	(US) Ho-Oh Capturado
+4285	r	Regirock Capturado
+4286	r	Regice Capturado
+4287	r	Registeel Capturado
+4283	r	(UM) Latias Capturada
+4284	r	(US) Latios Capturado
+4289	r	(UM) Kyogre Capturado
+4288	r	(US) Groudon Capturado
+4290	r	Rayquaza Capturado
+4265	r	Uxie Capturado
+4266	r	Mesprit Capturado
+4267	r	Azelf Capturado
+4268	r	(US) Dialga Capturado
+4269	r	(UM) Palkia Capturado
+4270	r	(US) Heatran Capturado
+4271	r	(UM) Regigigas Capturado
+4272	r	Giratina Capturado
+4273	r	Cresselia Capturada
+4274	r	Cobalion Capturado
+4275	r	Terrakion Capturado
+4276	r	Virizion Capturado
+4277	r	(US) Tornadus Capturado
+4278	r	(UM) Thundurus Capturado
+4279	r	(US) Reshiram Capturado
+4280	r	(UM) Zekrom Capturado
+4281	r	Landorus Capturado
+4282	r	Kyurem Capturado
+4424	r	(US) Xerneas Capturado
+4425	r	(UM) Yveltal Capturado
+1627	r	Solgaleo/Lunala Capturado
+1552	r	Necrozma Capturado
+4370	r	(UM) Stakataka en Bosque de Poni
+4371	r	(US) Blacephalon en Bosque de Poni
+4115	*	Desbloqueado Juez de IV
+4545	s	Debloqueado Lanturn 360
+4546	s	Debloqueado Primarina Twist
+4547	s	Debloqueado Starmie 720
+4548	s	Debloqueado Over-the-Gyarados
+4490	s	Usar Joystick para el Ultraviaje Dimensional
+4440	+	Estilo de Batalla Aprendido: Gracil 
+4441	+	Estilo de Batalla Aprendido: Cuco 
+4442	+	Estilo de Batalla Aprendido: Dual 
+4443	+	Estilo de Batalla Aprendido: Desafiante 
+4444	+	Estilo de Batalla Aprendido: Zurdo 
+4445	+	Estilo de Batalla Aprendido: Impetuoso 
+4446	+	Estilo de Batalla Aprendido: Tirabuzón 
+4453	+	Estilo de Batalla Aprendido: Arrogante
+4073	s	Received Ride Pager
+4074	s	Desbloqueado Carga Tauros
+4075	s	Desbloqueado Olfateo Stoutland
+4076	s	Desbloqueado Empuje Machamp
+4077	s	Desbloqueado Todoterreno Mudsdale
+4078	s	Desbloqueado Nado Lapras
+4079	s	Desbloqueado Propulsión Sharpedo
+4080	s	Desbloqueado Vuelo Charizard
+0168	g	Traded for Hawlucha on Route 2
+0169	g	Traded for Noibat on Route 5
+0170	g	Traded for Barboach on Royal Avenue
+0171	g	Traded for Arbok on Route 8
+0172	g	Traded for Phantump in Tapu Village
+0173	g	Traded for Shellos in Seafolk Village
+0174	g	Traded for Tauros on Poni Gauntlet
+1592	r	(UM) Defeated Route 15 Sandygast
+0607	r	Defeated Route 14 Frillish
+0547	r	Defeated Bewear in Hau'oli City
+4564	s	Trainers' School is Haunted (Seven Mysteries Event)
+0211	s	Lusamine's Mansion is NOT Team Rocket's Castle
+1730	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)
+1731	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 11)
+1732	r	Electrode Disappeared (Team Rocket's Castle Southeast Wing, side room)
+0185	t	Had First Title Defense Battle
+0186	t	Encountered Hapu (Title Defense)
+3395	t	Defeated Hapu (Title Defense)
+0187	t	Encountered Gladion (Title Defense)
+3453	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
+3454	t	Defeated Gladion (Title Defense;Litten is Player Starter)
+3455	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
+0188	t	Encountered Ryuki (Title Defense)
+3445	t	Defeated Ryuki (Title Defense)
+0189	t	Encountered Lusamine (Title Defense)
+3680	t	Defeated Lusamine (Title Defense)
+0190	t	Encountered Hau (Title Defense)
+3392	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
+3393	t	Defeated Hau (Title Defense;Litten is Player Starter)
+3394	t	Defeated Hau (Title Defense;Popplio is Player Starter)
+0191	t	Encountered Sophocles (Title Defense)
+3441	t	Defeated Sophocles (Title Defense)
+0192	t	Encountered Guzma (Title Defense)
+3683	t	Defeated Guzma (Title Defense)
+0193	t	Encountered Kukui (Title Defense)
+3513	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
+3514	t	Defeated Kukui (Title Defense;Litten is Player Starter)
+3515	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
+0194	t	Encountered Plumeria (Title Defense)
+3437	t	Defeated Plumeria (Title Defense)
+0195	t	Encountered Tristan (Title Defense)
+3516	t	Defeated Tristan (Title Defense)
+1698	s	Aether Paradise Mohn Event Inactive

@@ -1,0 +1,27 @@
+
+Pofiterole Sucrée
+Pofiterole Mentholée
+Pofiterole Aigre
+Pofiterole Amère
+Pofiterole Épicée
+Pofiterole Crème Sucrée
+Pofiterole Crème Mentholée
+Pofiterole Crème Aigre
+Pofiterole Crème Amère
+Pofiterole Crème Épicée
+Pofiterole Décorée Sucrée
+Pofiterole Décorée Mentholée
+Pofiterole Décorée Aigre
+Pofiterole Décorée Amère
+Pofiterole Décorée Épicée
+Pofiterole Deluxe Sucrée
+Pofiterole Deluxe Mentholée
+Pofiterole Deluxe Aigre
+Pofiterole Deluxe Amère
+Pofiterole Deluxe Épicée
+Pofiterole Anniversaire
+Pofiterole Célébration
+Pofiterole Printemps
+Pofiterole Été
+Pofiterole Automne
+Pofiterole Hiver

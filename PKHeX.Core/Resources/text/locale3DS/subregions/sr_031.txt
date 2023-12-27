@@ -1,0 +1,11 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	デメララ・マハイカ州	Demerara-Mahaica	Demerara-Mahaica	Demerara-Mahaica	Demerara-Mahaica	Demerara-Mahaica	德梅拉拉-马海卡区	데메라라-마하이카 주	德梅拉拉-馬海卡區
+003	バリマ・ワイニ州	Barima-Waini	Barima-Waini	Barima-Waini	Barima-Waini	Barima-Waini	巴里马-瓦伊尼区	바리마-와이니 주	巴裏馬-瓦伊尼區
+004	クユニ・マザルニ州	Cuyuni-Mazaruni	Cuyuni-Mazaruni	Cuyuni-Mazaruni	Cuyuni-Mazaruni	Cuyuni-Mazaruni	库尤尼-马扎鲁尼区	쿠유니-마자루니 주	庫尤尼-馬扎魯尼區
+005	東ベルビセ・コレンティネ州	East Berbice-Corentyne	Berbice Oriental-Courantyne	East Berbice-Corentyne	Berbice Orientale-Corentyne	Berbice Oriental-Corentyne	东伯比斯-科兰太因区	동부 버비스-코런타인 주	東伯比斯-科蘭太因區
+006	エセキボ諸島・西デメララ州	Essequibo Islands-West Demerara	Îles Essequibo-Demerara Occidental	Essequibo Islands-West Demerara	Isole Essequibo-Demerara Occidentale	Islas Essequibo-Demerara Occidental	埃塞奎博群岛-西德梅拉拉区	에세퀴보 섬-서부 데메라라 주	埃塞奎博羣島-西德梅拉拉區
+007	マハイカ・ベルビセ州	Mahaica-Berbice	Mahaica-Berbice	Mahaica-Berbice	Mahaica-Berbice	Mahaica-Berbice	马海卡-伯比斯区	마하이카-버비스 주	馬海卡-伯比斯區
+008	ポメローン・スペナーム州	Pomeroon-Supenaam	Pomeroon-Supenaam	Pomeroon-Supenaam	Pomeroon-Supenaam	Pomeroon-Supenaam	波默伦-苏佩纳姆区	포메룬-수페남 주	波默倫-蘇佩納姆區
+009	ポタロ・シパルニ州	Potaro-Siparuni	Potaro-Siparuni	Potaro-Siparuni	Potaro-Siparuni	Potaro-Siparuni	波塔罗-锡帕鲁尼区	포타로-시파루니 주	波塔羅-錫帕魯尼區
+010	アッパー・デメララ・ベルビセ州	Upper Demerara-Berbice	Haut-Demerara et Berbice	Upper Demerara-Berbice	Alto Demerara-Berbice	Alto Demerara-Berbice	上德梅拉拉-伯比斯区	북부 데메라라-버비스 주	上德梅拉拉-伯比斯區
+011	アッパー・タクトゥ・アッパー・エセキボ州	Upper Takutu-Upper Essequibo	Haut-Takutu et Haut-Essequibo	Upper Takutu-Upper Essequibo	Alto Takutu-Alto Essequibo	Alto Takutu-Alto Essequibo	上塔库图-上埃塞奎博区	북부 타쿠투-북부 에세퀴보 주	上塔庫圖-上埃塞奎博區

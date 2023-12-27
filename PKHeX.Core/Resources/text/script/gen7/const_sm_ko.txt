@@ -1,0 +1,6 @@
+148	*	스타팅 포켓몬	00:나몰빼미,01:냐오불,02:누리공
+432	r	카푸꼬꼬꼭	03:배틀 가능,04:쓰러뜨림,05:잡음
+433	r	카푸나비나	01:배틀 가능,02:쓰러뜨림,03:잡음
+434	r	카푸브루루	01:배틀 가능,02:쓰러뜨림,03:잡음
+404	r	카푸느지느	03:배틀 가능,04:쓰러뜨림,05:잡음
+418	r	Solgaleo/Lunala Interaction	0:Travels to Ultra Space (Before Encounter),2:Travels to Ultra Space (Entered Ultra Space),3:Travels to Ultra Space (Found Guzma),4:Initiates Battle (Defeated Lusamine)

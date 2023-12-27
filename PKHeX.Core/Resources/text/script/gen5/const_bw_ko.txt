@@ -1,0 +1,10 @@
+0048	*	스타팅 포켓몬	0:주리비얀,1:뚜꾸리,2:수댕이
+0182	r	N의 성	0:이벤트,1:이벤트,2:레시라무/제크로무 이전,3:N 이전,4:이벤트,5:게치스 이전
+0145	r	비크티니	0:이벤트,1:이벤트,2:배틀 가능,3:쓰러뜨림,4:잡음,5:이벤트 완료,6:사라짐
+0206	r	랜드로스	0:이벤트,1:이벤트,2:이벤트,3:배틀 가능,4:사라짐
+0056	r	Lostlorn Forest	0:Zoroark illusion (1),1032:Normal
+0131	g	Dreamyard girl	0:Not interacted,1:Elemental Monkey Pending,2:Received Elemental Monkey
+0199	r	Zorua Event	0:Disguised as little boy (1),1:Revealed/Catchable (2),3:Caught
+0201	r	Zoroark Event	0:Active (1),1:Defeated,2:Caught
+0202	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
+0218	g	Gorge (Undella Town)	0:Wants to trade,1:Traded for Munchlax,2:After trading

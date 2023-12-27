@@ -1,0 +1,20 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	マドリード州	Madrid	Madrid	Madrid	Madrid	Madrid	马德里自治区	마드리드 주	馬德裏自治區
+003	アンダルシーア州	Andalusia	Andalousie	Andalusien	Andalusia	Andalucía	安达卢西亚自治区	안달루시아 주	安達盧西亞自治區
+004	アラゴン州	Aragon	Aragon	Aragonien	Aragona	Aragón	阿拉贡自治区	아라곤 주	阿拉貢自治區
+005	アストゥーリアス州	Principality of Asturias	Asturies	Asturien	Principato delle Asturie	Asturias	阿斯图利亚斯自治区	아스투리아스 주	阿斯圖利亞斯自治區
+006	バレアーレス諸島	Balearic Islands	Îles Baléares	Balearische Inseln	Baleari	Illes Balears	巴利阿里自治区	발레아레스 제도	巴利阿里自治區
+007	カナリア諸島	Canary Islands	Îles Canaries	Kanarische Inseln	Canarie	Canarias	加那利自治区	카나리아 제도	加那利自治區
+008	カンタブリア州	Cantabria	Cantabrie	Kantabrien	Cantabria	Cantabria	坎塔布利亚自治区	칸타브리아 주	坎塔布利亞自治區
+009	カスティーリャ・ラ・マンチャ	Castile-La Mancha	Castille-La Manche	Kastilien-La Mancha	Castiglia-La Mancha	Castilla-La Mancha	卡斯蒂利亚-拉曼恰自治区	카스티야라만차	卡斯蒂利亞-拉曼恰自治區
+010	カスティーリャ・レオン	Castilla y León	Castille-et-León	Kastilien-León	Castiglia e León	Castilla y León	卡斯蒂利亚-莱昂自治区	카스티야이레온	卡斯蒂利亞-萊昂自治區
+011	カタルーニャ	Catalonia	Catalogne	Katalonien	Catalogna	Cataluña	加泰罗尼亚自治区	카탈루냐	加泰羅尼亞自治區
+012	バレンシア州	Valencia	Valence	Valencia	Comunità Valenciana	Comunitat Valenciana	巴伦西亚自治区	발렌시아 주	華倫西亞自治區
+013	エストレマドゥーラ	Extremadura	Estrémadure	Extremadura	Estremadura	Extremadura	埃斯特雷马杜拉自治区	에스트레마두라	埃斯特雷馬杜拉自治區
+014	ガリーシア	Galicia	Galice	Galicien	Galizia	Galicia	加利西亚自治区	갈리시아	加利西亞自治區
+015	ムルシア州	Murcia	Murcie	Murcia	Murcia	Murcia	穆尔西亚自治区	무르시아 주	穆爾西亞自治區
+016	ナバーラ州	Navarre	Navarre	Navarra	Navarra	Navarra	纳瓦拉自治区	나바라 주	納瓦拉自治區
+017	バスク	Basque Country	Pays basque	Baskenland	Paesi Baschi	País Vasco	巴斯克自治区	바스크	巴斯克自治區
+018	ラ・リオハ州	La Rioja	La Rioja	La Rioja	La Rioja	La Rioja	拉里奥哈自治区	라리오하	拉裏奧哈自治區
+019	セウタ	Ceuta	Ceuta	Ceuta	Ceuta	Ceuta	休达	세우타	休達
+020	メリラ	Melilla	Melilla	Melilla	Melilla	Melilla	梅利利亚	멜리야	梅利利亞

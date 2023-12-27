@@ -1,0 +1,66 @@
+230	*	FE_PC_SHINOU_ZUKAN_COMP
+
+1421	*	FE_BTLTW_N_SINGLE_SUSPENSION
+1422	*	FE_BTLTW_N_DOUBLE_SUSPENSION
+1423	*	FE_BTLTW_M_SINGLE_SUSPENSION
+1424	*	FE_BTLTW_M_DOUBLE_SUSPENSION
+
+1426	*	FE_TOWER_MASTER_WINED
+
+108	*	FE_HIDEN_01_GET
+109	*	FE_HIDEN_02_GET
+110	*	FE_HIDEN_03_GET
+111	*	FE_HIDEN_04_GET
+112	*	FE_HIDEN_05_GET
+113	*	FE_HIDEN_06_GET
+114	*	FE_HIDEN_07_GET
+115	*	FE_HIDEN_08_GET
+
+464	*	FV_D02_FUUSEN (Drifloon Oculto en Valle Eólico)
+249	*	FE_D27R0103_LEGEND_CLEAR (Mesprit Huyó de la Caverna Veraz)
+245	*	FE_D27R0103_LEGEND_CLEAR (Cresselia Huyó de la Isla Plenilunio)
+393	*	FV_D05R0114_SPPOKE_01 (Spear Pillar Dialga/Palkia is Hidden)
+
+262	g	FE_C05R0901_POKEMON_GET (Recibido Eevee de Regalo)
+286	r	FE_D25R0106_SPPOKE_CLEAR (Rotom Capturado)
+
+252	r	FE_D29R0103_LEGEND_CLEAR (Uxie Capturado)
+251	r	FE_D28R0103_LEGEND_CLEAR (Azelf Capturado)
+308	r	FE_D05R0114_SPPOKE_GET (Dialga/Palkia Capturado)
+246	r	FE_D16R0103_LEGEND_CLEAR (Heatran Capturado)
+241	r	FE_D20R0106_LEGEND_CLEAR (Regigigas Capturado)
+247	r	FE_D17R0104_LEGEND_CLEAR (Giratina Capturado)
+
+1143	*	FE_D31R0201_JUDGE_TALK (Desbloqueado Juez de IV)
+
+1246	*	FE_STAYLE_001 (Desbloqueado Estilo: Diario Pikachu)
+1247	*	FE_STAYLE_002 (Desbloqueado Estilo: Concurso)
+1248	*	FE_STAYLE_003 (Desbloqueado Estilo: Platino)
+1249	*	FE_STAYLE_004 (Desbloqueado Estilo: General)
+1250	*	FE_STAYLE_005 (Desbloqueado Estilo: Eevee)
+1251	*	FE_STAYLE_006 (Desbloqueado Estilo: Gengar)
+1252	*	FE_STAYLE_007 (Desbloqueado Estilo: Ciber)
+1253	*	FE_STAYLE_008 (Desbloqueado Estilo: Verano)
+1254	*	FE_STAYLE_009 (Desbloqueado Estilo: Invierno)
+1255	*	FE_STAYLE_010 (Desbloqueado Estilo: Primavera)
+1256	*	FE_STAYLE_011 (Desbloqueado Estilo: Casual)
+1257	*	FE_STAYLE_012 (Desbloqueado Estilo: Cuero)
+
+1283	r	FE_D10R0202POKE_01 (Capturado Regirock)
+1284	r	FE_D10R0202POKE_02 (Capturado Regice)
+1285	r	FE_D10R0202POKE_03 (Capturado Registeel)
+1286	r	FE_D10R0301POKE_01 (Capturado Articuno, SP)
+1287	r	FE_D10R0301POKE_02 (Capturado Zapdos, SP)
+1288	r	FE_D10R0301POKE_03 (Capturado Moltres, SP)
+1289	r	FE_D10R0302POKE_01 (Capturado Raikou, BD)
+1290	r	FE_D10R0302POKE_02 (Capturado Entei, BD)
+1291	r	FE_D10R0302POKE_03 (Capturado Suicune, BD)
+1292	r	FE_D10R0303POKE_01 (Capturado Latias)
+1293	r	FE_D10R0303POKE_02 (Capturado Latios)
+1295	r	FE_D10R0501POKE_01 (Capturado Ho-Oh, BD)
+1296	r	FE_D10R0502POKE_01 (Capturado Lugia, SP)
+1297	r	FE_D10R0401POKE_01 (Capturado Groudon)
+1298	r	FE_D10R0402POKE_01 (Capturado Kyogre)
+1299	r	FE_D10R0403POKE_01 (Capturado Rayquaza)
+1300	r	FE_D10R0601POKE_01 (Capturado Mewtwo)
+1301	r	FE_D10R0901POKE_01 (Derrotado Giratina de Sala de la Distorsión)

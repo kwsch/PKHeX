@@ -1,0 +1,25 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ピチンチャ	Pichincha	Pichincha	Pichincha	Pichincha	Pichincha	皮钦查省	피친차	皮欽查省
+003	ガラパゴス	Galápagos	Galápagos	Galapagosinseln	Galápagos	Galápagos	加拉帕戈斯省	갈라파고스	加拉帕戈斯省
+004	アスアイ	Azuay	Azuay	Azuay	Azuay	Azuay	阿苏艾省	아수아이	阿蘇艾省
+005	ボリーバル	Bolívar	Bolívar	Bolívar	Bolívar	Bolívar	玻利瓦尔省	볼리바르	玻利瓦爾省
+006	カニャル	Cañar	Cañar	Cañar	Cañar	Cañar	卡尼亚尔省	카냐르	卡尼亞爾省
+007	カルチ	Carchi	Carchi	Carchi	Carchi	Carchi	卡尔奇省	카르치	卡爾奇省
+008	チンボラソ	Chimborazo	Chimborazo	Chimborazo	Chimborazo	Chimborazo	钦博拉索省	침보라소	欽博拉索省
+009	コトパクシ	Cotopaxi	Cotopaxi	Cotopaxi	Cotopaxi	Cotopaxi	科托帕希省	코토팍시	科託帕希省
+010	エル・オロ	El Oro	El Oro	El Oro	El Oro	El Oro	埃尔奥罗省	엘오로	埃爾奧羅省
+011	エスメラルダス	Esmeraldas	Esmeraldas	Esmeraldas	Esmeraldas	Esmeraldas	埃斯梅拉尔达斯省	에스메랄다스	埃斯梅拉爾達斯省
+012	グアヤス	Guayas	Guayas	Guayas	Guayas	Guayas	瓜亚斯省	과야스	瓜亞斯省
+013	インバブラ	Imbabura	Imbabura	Imbabura	Imbabura	Imbabura	因巴布拉省	임바부라	因巴布拉省
+014	ロハ	Loja	Loja	Loja	Loja	Loja	洛哈省	로하	洛哈省
+015	ロス・リオス	Los Ríos	Los Ríos	Los Ríos	Los Ríos	Los Ríos	洛斯里奥斯省	로스 리오스	洛斯裏奧斯省
+016	マナビ	Manabí	Manabí	Manabí	Manabí	Manabí	马纳比省	마나비	馬納比省
+017	モロナ・サンティアゴ	Morona-Santiago	Morona-Santiago	Morona Santiago	Morona Santiago	Morona-Santiago	莫罗纳-圣地亚哥省	모로나 산티아고	莫羅納-聖地亞哥省
+018	パスタサ	Pastaza	Pastaza	Pastaza	Pastaza	Pastaza	帕斯塔萨省	파스타사	帕斯塔薩省
+019	トゥングラワ	Tungurahua	Tungurahua	Tungurahua	Tungurahua	Tungurahua	通古拉瓦省	퉁그라우아	通古拉瓦省
+020	サモラ・チンチペ	Zamora-Chinchipe	Zamora-Chinchipe	Zamora Chinchipe	Zamora Chinchipe	Zamora-Chinchipe	萨莫拉-钦奇佩省	사모라 친치페	薩莫拉-欽奇佩省
+021	スクンビオス	Sucumbios	Sucumbíos	Sucumbíos	Sucumbíos	Sucumbíos	苏昆毕奥斯省	스쿰비오스	蘇崑畢奧斯省
+022	ナポ	Napo	Napo	Napo	Napo	Napo	纳波省	나포	納波省
+023	オレリャナ	Orellana	Orellana	Orellana	Orellana	Orellana	奥雷利亚纳省	오렐라나	奧雷利亞納省
+024	サンタ・エレーナ	Santa Elena	Santa Elena	Santa Elena	Santa Elena	Santa Elena	圣埃伦娜省	산타엘레나	聖埃倫娜省
+025	サント・ドミンゴ・デ・ロス・ツァチラス	Santo Domingo de los Tsáchilas	Santo Domingo de los Tsáchilas	Santo Domingo de los Tsáchilas	Santo Domingo de los Tsáchilas	Santo Domingo de los Tsáchilas	圣多明各-德洛斯查奇拉斯省	산토도밍고델로스트사칠라스	聖多明各-德洛斯查奇拉斯省

@@ -1,0 +1,189 @@
+PKHeX - By Kaphotics
+http://projectpokemon.org/pkhex/
+
+23/12/22 - New Update:
+ - Legality: Updates for Scarlet & Violet 3.0.0 behaviors revised to fix inaccuracies.
+ - - Fixed: Recognition of marks, stellar fixed encounters, and underdepths encounters.
+ - - Gold Bottle Cap on flawless IVs in S/V is now flagged; upload to HOME & back to get the official fix.
+ - Fixed: Gen9 S/V 7-Star Raid records now can be edited with the revised raid block editor. Thanks @foohyfooh!
+ - Fixed: Other misc regressions too insignificant to note (but observed & reported by many -- thanks!)
+
+23/12/18 - New Update: (55399) [7929640]
+ - Changed: PKHeX now uses .NET 8 for its runtime (updated from .NET 7)!
+ - - Requires Windows 64bit operating system, with the .NET Desktop Runtime 8.0.x
+ - - https://dotnet.microsoft.com/en-us/download/dotnet/8.0
+ - Added support for Scarlet & Violet 3.0.0 (Indigo Disk)
+ - Legality: Added encounters / changes as per Indigo Disk DLC adjustments. 
+ - - Will still have issues with crossovers, Minior, and encounter locations. Will be addressed next release.
+ - - Fixed: Gen4 Manaphy PID rerolling behavior updated. Thanks @Lincoln-LM!
+ - Added: Hover preview now shows a custom preview tooltip. Old behavior can be reverted to via settings.
+ - Added: Gen6-9 map position/rotation editing. Thanks @abcboy101!
+ - Added: Gen6 XY Roamer editor. Thanks @foohyfooh!
+ - Added: Gen5 Musical Prop editor. Thanks @foohyfooh!
+ - Added: Gen4/5 Chatter editor. Thanks @abcboy101!
+ - Added: Gen4 KOR<->INT/JPN converter for save files. Thanks @abcboy101!
+ - Added: Gen2 Mystery Gift item / unlock flag editing. Thanks @RainingChain!
+ - Fixed: String conversion has been rewritten for easier maintenance. Future updates will handle Farfetch'd and other cases better.
+ - Fixed: Gen6/7 country/region names for the latest 3DS region manifest. Thanks @abcboy101!
+ - Fixed: Gen4 Pokétch Unlock cheat updates the total count of apps now. Thanks @foohyfooh!
+ - Fixed: Gen4 Complete Dex cheat updates female-only bitflags correctly now. Thanks @DeadSkullzJr!
+ - Fixed: Gen3 Colosseum Fateful Encounter flags now read/write correctly based on Japanese/International save file context.
+ - Fixed: Gen3 Mainline saves update party Mail indexes when lacking a mail held item (prevents invalid mail icon).
+ - Fixed: Gen1 RBY saves that have not yet received a starter now differentiate correctly. Thanks @fattard!
+
+23/10/11 - New Update: (294546) [7874241]
+ - Added support for Scarlet & Violet 2.0.2 save file sizes.
+ - Legality:
+ - - Badwords list has been updated to be more strict per latest Nintendo Switch 16.0.0 firmware. Thanks @Bl4ckSh4rk!
+ - - Gen9 Distribution Outbreaks now recognized. Thanks @Lusamine & @sora10pls!
+ - - Gen9 Crossover met location logic tweaked for better location identification in Kitakami.
+ - - Gen4 Pokéwalker IV spreads are now validated. Thanks @Lincoln-LM & @HappyLappy1!
+ - Added: Gen8 SW/SH adventure start date can now be changed in the Trainer Editor. Thanks @foohyfooh!
+ - Added: Gen4 Pokeathlon Points can now be edited via the Block Editor.
+ - Fixed: Initial program startup now notifies all plugins when a save is loaded on startup.
+
+23/09/25 - New Update: (100007) [7579695]
+ - Added support for more Scarlet & Violet 2.0.1 save file sizes.
+ - Legality: Added more Kitakami encounters (sub-zones) and basic weather mark recognition.
+ - Fixed: Encounter template recognition regressions resolved (Gen4 Pokewalker, Gen9 static encounter scale).
+ - Fixed: Gen9 S/V Pokédex for 2.0.1+ save files now references a new save file block & GUI editor.
+ - Added: Gen9 TM/Fly cheats now check for if a flag exists for pre-2.0.1 save files.
+ - Added: Gen9 Fashion unlock cheat now adds 2.0.1+ fashion if available.
+
+23/09/16 - New Update: (112092) [7479688]
+ - Added support for Scarlet & Violet 2.0.1 (Teal Mask)
+ - Legality: Added encounters / changes as per Teal Mask DLC adjustments. 
+ - - May still have issues with crossovers / hidden ability permissions.
+ - - Changed: Evolve-Knowing-Move criteria has been rewritten for better side-game checks & accuracy.
+ - - Changed: More encounter generator fixes implemented (missed a few properties).
+ - Fixed: Gen9 Pokédex clearing individual entries now only wipes the entry instead of everything that follows. Thanks @Alexander3a !
+ - Fixed: Gen5 CGear Skin importing now gives the correct error message when too many unique tiles are imported.
+
+23/08/23 - New Update: (160296) [7367596]
+ - Legality: Added realtime RNG correlation checks for most SW/SH raids. Thanks @SciresM & @Lusamine !
+ - - Note: Seed details do not trickle out to the verbose legality report at this time since seeds are 64bit (not 32bit).
+ - - Added: The encounter generator / matching API has been refactored for better performance and maintenance.
+ - - Fixed: More evotree edge cases have been resolved since the last update.
+ - - Fixed: Gen4 Move Tutor now permits correctly for alternate forms.
+ - - Fixed: Gen2 Union Cave B2F fishing slots are now recognized correctly.
+ - - Fixed: Gen1/2 SID check no longer indicates "Fishy" when SID is correctly zero.
+ - Added: Technical Record editor now indicates yellow for record indexes that can be legally learned by a previous evolution.
+ - Added: Gen9 origin Transfers back to PK9 format now regenerate with legal values that would be sourced from HOME.
+ - Fixed: Gen9 Hoopa-Unbound no longer sets a FormArgument value of 3 whenever set back to box slots.
+ - Fixed: Gen7 US/UM relearn moves now properly show in all PK7s when loaded to tabs.
+ - Fixed: Gen5 CGear Skin handling now behaves correctly for importing & saving skins.
+ - Fixed: Pokérus strains now indicate correctly again in the PKM Editor GUI.
+
+23/07/09 - New Update: (225659) [7207300]
+ - Legality: Updated evolution checking algorithms to better identify game visitation. Thanks @Lusamine & @sora10pls !
+ - - Added: HOME 3.0.0 move sharing logic for learning moves via HOME instead of in-game.
+ - - Added: HOME 3.0.0 ball inheritance logic for breeding encounters for/from Scarlet/Violet.
+ - - Added: GO Master Ball legality checks now allows Master Ball when encounter date & type permits.
+ - - Added: GO encounters outside the availability window now display a detailed illegal message.
+ - Added: Gen4/5 Geonet/Unity Tower editor. Thanks @abcboy101 !
+ - Changed: Gen9 Tera Type icons now use higher quality sprites from HOME. Thanks @sora10pls !
+ - Changed: Gen8a Move Shop editor GUI has been redesigned for a more visual experience.
+ - Changed: Gen7b+ Height/Weight now show as gray whenever Scale takes precedence in sizing determinations.
+ - Fixed: Batch Editor filters now work correctly for Box/Slot when using operators other than ! or =
+ - Fixed: Gen7b Randomize IV/AV buttons now center correctly within the form.
+ - Fixed: Gen7 Report grid now shows Resort (Poké Pelago) slots correctly.
+ - Fixed: Gen6/7 Memory Editor now shows Country/Region visitation correctly.
+ - Fixed: Gen6 Hall of Fame editor now keeps leading zeroes on the TID/SID entry fields.
+ - Fixed: Gen5 unused second Roamer block editor editing now reads from the correct offsets. Thanks SaltedNeos !
+ - Fixed: Gen4 Ranch checksums are now applied correctly again. Thanks @Zazsona !
+ - Fixed: Gen3 adding Ferry Tickets no longer causes the program to error when your Key Items bag is full.
+ - Fixed: Gen2 International Crystal saves now set the backup checksum to the correct offset. Thanks @Zazsona !
+
+23/06/03 - New Update: (178908) [6981641]
+ - Added: HOME 3.0.0 initial support. Legality analysis is still under research. Thanks @Lusamine & @sora10pls !
+ - - Lacks full support for cross-game transfers involving evolutions and moves. Please be patient, there's a lot of things to handle!
+ - Added: Tech Record editor GUI has been redesigned for a more visual experience. Can now sort alphabetically, owned, or move type.
+ - Added: Gen9 S/V clothing "cheats" have been added to the Trainer Editor window. Thanks @pasqualenardiello!
+ - Fixed: Small regressions in item list permissions.
+ - Changed: Gen7 Totem Form sprites now display with an Orange-colored glow, similar to Gen3 C/XD shadow purple.
+ - Changed: DPI scaling adjusted for better appearance on high resolution monitors.
+
+23/05/11 - New Update: (80094) [6802733]
+ - Legality:
+ - - Changed: Creating a new PKM from template will set current moves same as the games.
+ - - Changed: Pokérus strains 0 & 8 now permitted due to official implementation errors in Gen2 & Gen3.
+ - - Fixed: Encounters crossing over into Mesagoza (location 8) are no longer permitted (vertical distance).
+ - - Fixed: TSV=0 HOME accounts are now permitted to exist, and antishiny XOR for the fixed PID gifts now behaves correctly.
+ - Added: Batch Editor filter commands can now reference other property values (aka "property copy") like modify commands.
+ - - To copy a property, specify like so: `.Stat_ATK=*Stat_DEF`
+ - - To filter based on the value of another property, same way.
+ - Added: Moves that have changed elemental type over generations will now indicate their type per the save file context.
+ - Added: Gen9 Player Image visualizer now shows the profile photos in the Trainer Editor. Thanks @pasqualenardiello !
+ - Added: Gen7 LGPE can now unlock all fashion via the Trainer Editor.
+ - Added: Gen5 Block editor now shows both roamer objects (Thundurus and Tornadus).
+ - Fixed: Gen9 scale indicators now reflect the >=1.1.0 patch scale thresholds. Thanks iD3M0N1C!
+ - Fixed: Gen5 C-Gear Skin no longer retains a file lock on imported skin image files.
+ - Fixed: Gen3 Memory Cards can now be detected as the latest save file, as well as a backup-file source for the pkmdb.
+ - Fixed: Gen3 XD un-purified shadow Pokémon no longer flag w/o Ribbon if they have a Shadow Gauge of 0 (ready to purify).
+ - Changed: Sub-form scaling mode changed to "Inherit" -- added a Display setting to revert back to Form scaling (from Dpi).
+
+23/04/06 - New Update: (166321) [6722639]
+ - Legality:
+ - - Changed: Vivillon 3DS Region handling reworked to handle all regions. Thanks @abcboy101!
+ - - Fixed: BDSP footprint ribbon now checks correctly.
+ - - Fixed: Gen4 Pokéwalker course captures are now allowed for all versions.
+ - Added: PKM Editor now shows the elemental type for Moves.
+ - Added: PKM Editor now shows affixed ribbon (or if one can be affixed) on the cosmetic tab.
+ - Added: Click the affixed ribbon indicator to open the ribbon editor (same as button).
+ - Added: Click a ribbon sprite in the ribbon editor to quickly affix it.
+ - Added: SV enrollment date can now be changed via Block Editor. Thanks @foohyfooh!
+ - Added: More Gen3 Mystery Gift API functionality added. Thanks @Bl4ckSh4rk!
+ - Fixed: Importing Mystery Gifts to the SaveFile's Mystery Gift list GUI's 11th slot now works as intended.
+ - Fixed: Gen4 Manaphy Egg now generates correctly from the Encounter Database.
+ - Fixed: Gen4/5 Country/Region no longer throws an error for certain countries.
+ - Fixed: Gen1/2 stats now calc correctly (perfect square-root EVs)
+ - Changed: Updated handling to correctly generate and verify size of WC9 entities.
+ - Changed: More performance improvements reducing allocations.
+
+23/02/27 - New Update: (186209) [6556318]
+ - Added: Support for S/V 1.2.0
+ - Added: SV style menu sprites for all species/forms. Thanks @sora10pls & @SciresM!
+ - Added: Gen5 Black/White City data can now be imported/exported, and Roamer status can be reset. Thanks @frefire!
+ - Added: Gen4/5 Geonet Location save file settings can now be viewed/changed. Thanks @abcboy101!
+ - Added: Gen4 Ranch now supports Toys from the Platinum game update. Thanks @Zazsona!
+ - Fixed: PKMEditor sidebar tab scaling now works on operating systems with scaling > 1. Thanks @Manu098vm!
+ - Fixed: Batch Editor string screening (ex. requesting ".Species=Pikachu" instead of 25) now works again.
+ - Fixed: Nature stat amplification clicks on the Stats tab now alters the amps correctly.
+ - Fixed: Update Available link now works as intended on .NET 7
+ - Fixed: Gen6 X/Y Pokéflute is no longer removed from Key Items as it can temporarily exist.
+ - Fixed: Gen5 C-Gear Skins now read/write correctly (again).
+ - Fixed: Gen3 Colosseum save files now generate valid savedata hashes on export.
+ - Fixed: Gen2 OT Names now edit save correctly when edited. Thanks @Zazsona!
+ - Changed: Shiny Sprite icon now shows as a larger icon, with Xor0 being subtly different. Thanks @Lusamine!
+ - Changed: GUI Translations updated. Thanks @ppllouf, @wubinwww, @mi-ya1987, @Manu098vm!
+ - Accessibility:
+   A few changes have been made to assist screen readers, notably:
+   PictureBox slots representing data (Pokémon, Mystery Gifts, etc) now draw a focus border, and can be tabbed between.
+   The focus border can be disabled via settings by setting the indentation to -1.
+   Added accessibility narration strings for specific controls.
+
+23/01/30 - New Update: (153698) [6370109]
+ - Fixed: Mystery Gift files now recognize via extension correctly.
+ - Fixed: Gen9 Pokédex bitflag get/set fixed (remapped species ID).
+ - Changed: GUI translations updated. Thanks @ppllouf, @riruo, @mi-ya1987 !
+
+23/01/26 - New Update: (33425) [6216411]
+ - Changed: PKHeX now uses .NET 7 for its runtime (updated from .NET Framework 4.6)!
+ - - Requires Windows 64bit operating system, with the .NET Desktop Runtime 7.0.x
+ - - https://dotnet.microsoft.com/en-us/download/dotnet/7.0
+ - - For those wanting to run the program from a Mac/Linux machine, use a Windows VM. No more mono/wine support.
+ - - This change results in a faster program, and being able to write more modern & extensible C# code.
+ - Changed: The Main Window layout has been adjusted for better GUI scaling support:
+ - - PKM Editor now uses vertical tabs, and some controls have moved to more appropriate tabs.
+ - - PKM Editor now has a "Cosmetic" tab, which contains low significance values like Contest Stats.
+ - - PKM Editor now has a simple selector for Handling Trainer selection rather than the background highlights.
+ - Legality:
+ - - Fixed: A few recognition bugs have been fixed. Thanks @Lorenzooone!
+ - Batch Editor:
+ - - Added: Batch Editor can now filter with >/≥ and </≤ operators, improved from just != and =.
+ - - Added: Ribbon and Mark count properties added. Can now sort boxes by these counts!
+ - - Changed: TID/SID properties renamed; when using 16-bit trainer IDs, use TID16/SID16.
+ - Changed: Gen9 S/V no longer show the Square Shiny icon, as Xor0 no longer indicates differently in-game.
+ - Changed: Gen9 S/V raid parameter editor "Set All 6 Star" changed to "Copy current values to Other Raids".
+ - Changed: With the update to .NET 7, some features have been rewritten for better performance, or for better usage.
+ - Changed: GUI translations updated. Thanks @Manu098vm, @Kitcham, @easyworld, @jimmyorz, @Bl4ckSh4rk, @ppllouf, @butaneeeee!

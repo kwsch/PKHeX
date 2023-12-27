@@ -1,0 +1,25 @@
+0x4021	m	Repel Step Counter
+0x4023	*	Starter Pokemon	00:Treecko,01:Torchic,02:Mudkip
+0x4024	r	Mirage Island RND (High)
+0x4025	r	Mirage Island RND (Low)
+0x4026	*	Current Secret Base
+
+0x402A	m	Friendship Step Counter
+0x402B	m	Poison Step Counter
+0x402C	*	Reset RTC	00:Disabled,2336:Enabled
+
+0x4040	*	Days Passed
+
+0x4043	m	Department Store Floor	00:1F,01:2F,02:3F,03:4F,04:5F,15:Rooftop
+0x4045	s	Pokelot Prize Item
+0x4046	*	National Dex Enabled
+0x4047	+	Shroomish Size Record
+0x4048	*	Volcanic Ash Gathered
+0x4049	m	Professor Birch State
+0x404A	s	S.S. Tidal Step Counter
+0x404B	*	Pokelot RND (High)
+0x404C	*	Pokelot RND (Low)
+
+0x404F	+	Barboach Size Record
+0068	s	Trick House	0:On Puzzle 1,1:On Puzzle 2,2:On Puzzle 3,3:On Puzzle 4,4:On Puzzle 5,5:On Puzzle 6,6:On Puzzle 7,7:On Puzzle 8,8:All Puzzles Completed
+0167	s	Trick House Scroll	0:Normal (Trick Master hiding),1:Can Enter,4:Read Note Affixed (Trick Master left),5:Just finished a Puzzle

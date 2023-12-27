@@ -1,0 +1,21 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ラツィオ州	Lazio	Latium	Latium	Lazio	Lacio	拉齐奥大区	라치오 주	拉齊奧大區
+003	バッレ・ダオスタ州	Aosta Valley	Vallée d'Aoste	Aostatal	Valle d'Aosta	Valle de Aosta	瓦莱-达奥斯塔大区	발레다오스타 주	瓦萊-達奧斯塔大區
+004	ピエモンテ州	Piedmont	Piémont	Piemont	Piemonte	Piamonte	皮埃蒙特大区	피에몬테 주	皮埃蒙特大區
+005	リグリア州	Liguria	Ligurie	Ligurien	Liguria	Liguria	利古里亚大区	리구리아 주	利古裏亞大區
+006	ロンバルディア州	Lombardy	Lombardie	Lombardei	Lombardia	Lombardía	伦巴第大区	롬바르디아 주	倫巴第大區
+007	トレンティノ・アルト・アディジェ州	Trentino-Alto Adige	Trentin-Haut-Adige	Trentino-Südtirol	Trentino-Alto Adige	Trentino-Alto Adigio	特伦蒂诺-上阿迪杰大区	트렌티노알토아디제 주	特倫蒂諾-上阿迪傑大區
+008	ベネト州	Veneto	Vénétie	Venetien	Veneto	Véneto	威尼托大区	베네토 주	威尼託大區
+009	フリウリ・ベネチア・ジュリア州	Friuli Venezia Giulia	Frioul-Vénétie julienne	Friaul-Julisch Venetien	Friuli-Venezia Giulia	Friuli-Venecia Julia	弗留利-威尼斯朱利亚大区	프리울리베네치아줄리아 주	弗留利-威尼斯朱利亞大區
+010	エミリア・ロマーニャ州	Emilia-Romagna	Émilie-Romagne	Emilia-Romagna	Emilia-Romagna	Emilia-Romaña	艾米利亚-罗马涅大区	에밀리아로마냐 주	艾米利亞-羅馬涅大區
+011	トスカナ州	Tuscany	Toscane	Toskana	Toscana	Toscana	托斯卡纳大区	토스카나 주	託斯卡納大區
+012	ウンブリア州	Umbria	Ombrie	Umbrien	Umbria	Umbría	翁布里亚大区	움브리아 주	翁布裏亞大區
+013	マルケ州	Marche	Marches	Marken	Marche	Las Marcas	马尔凯大区	마르케 주	馬爾凱大區
+014	アブルッツィ州	Abruzzo	Abruzzes	Abruzzen	Abruzzo	Abruzos	阿布鲁佐大区	아브루초 주	阿布魯佐大區
+015	モリーゼ州	Molise	Molise	Molise	Molise	Molise	莫利塞大区	몰리세 주	莫利塞大區
+016	カンパニア州	Campania	Campanie	Kampanien	Campania	Campania	坎帕尼亚大区	캄파니아 주	坎帕尼亞大區
+017	プーリア州	Apulia	Pouilles	Apulien	Puglia	Apulia	普利亚大区	풀리아 주	普利亞大區
+018	バジリカータ州	Basilicata	Basilicate	Basilikata	Basilicata	Basilicata	巴西利卡塔大区	바실리카타 주	巴西利卡塔大區
+019	カラブリア州	Calabria	Calabre	Kalabrien	Calabria	Calabria	卡拉布里亚大区	칼라브리아 주	卡拉布裏亞大區
+020	シチリア州	Sicily	Sicile	Sizilien	Sicilia	Sicilia	西西里大区	시칠리아 주	西西里大區
+021	サルデーニャ州	Sardinia	Sardaigne	Sardinien	Sardegna	Cerdeña	撒丁大区	사르데냐 주	撒丁大區

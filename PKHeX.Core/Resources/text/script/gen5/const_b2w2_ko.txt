@@ -1,0 +1,23 @@
+0048	*	스타팅 포켓몬	0:주리비얀,1:뚜꾸리,2:수댕이
+0077	s	하일링크	6:튜토리얼 완료
+0143	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
+0268	r	라티아스/라티오스	5:배틀 가능,6:사라짐
+0291	s	N's Zoroark (Victory Road)	0:Blocks further access (Pre-Champion),1:Wants you to follow (Post-Champion),2:On the outside cliff,3:In front of N's Castle,4:Went into N's Castle
+0294	e	Yancy/Curtis Call (Nimbasa City)	0:Inactive,1:Active,2:Activated
+0295	e	Yancy/Curtis Call (Driftveil City)	0:Inactive,1:Active,2:Activated
+0296	e	Yancy/Curtis Call (Mistralton City)	0:Inactive,1:Active,2:Activated
+0297	e	Yancy/Curtis Call (Lacunosa Town)	0:Inactive,1:Active,2:Activated
+0298	e	Yancy/Curtis Call (Undella Town)	0:Inactive,1:Active,2:Activated
+0299	e	Yancy/Curtis Call (Lentimas Town)	0:Inactive,1:Active,2:Activated
+0300	e	Yancy/Curtis Call (Route 5)	0:Inactive,1:Active,2:Activated
+0301	e	Yancy/Curtis Call (Route 6)	0:Inactive,1:Active,2:Activated
+0302	e	Yancy/Curtis Call (Route 7)	0:Inactive,1:Active,2:Activated
+0303	e	Yancy/Curtis Call (Route 9)	0:Inactive,1:Active,2:Activated
+0304	e	Yancy/Curtis Call (Route 11)	0:Inactive,1:Active,2:Activated
+0305	e	Yancy/Curtis Call (Route 12)	0:Inactive,1:Active,2:Activated
+0306	e	Yancy/Curtis Call (Route 13)	0:Inactive,1:Active,2:Activated
+0307	e	Yancy/Curtis Call (Route 14)	0:Inactive,1:Active,2:Activated
+0308	e	Yancy/Curtis Call (Route 16)	0:Inactive,1:Active,2:Activated
+0392	e	Yancy/Curtis	0:Not met,1:Called via Dropped Item,2:Met in-person after 10 calls
+0396	t	Shadow Triad (Icirrus City)	0:Battleable (Current Season),1:Battled for Spring,2:Battled for Summer,3:Battled for Autumn,4:Battled for Winter
+0378	g	Fossil Available to Claim	99:Root Fossil (Lileep),100:Claw Fossil (Anorith),101:Helix Fossil (Omanyte),102:Dome Fossil (Kabuto),103:Old Amber (Aerodactyl),104:Armor Fossil (Shieldon),105:Skull Fossil (Cranidos),572:Cover Fossil (Tirtouga),573:Plume Fossil (Archen)

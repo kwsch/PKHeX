@@ -1,0 +1,34 @@
+﻿(None)
+Move Trap ↑
+Move Trap →
+Move Trap ↓
+Move Trap ←
+Hurl Trap ↑
+Hurl Trap →
+Hurl Trap ↓
+Hurl Trap ←
+Warp Trap
+Hi-Warp Trap
+Hole Trap
+Pit Trap
+Reverse Trap
+Confuse Trap
+Run Trap
+Fade Trap
+Slow Trap
+Smoke Trap
+Big Smoke Trap
+Rock Trap
+Rockfall Trap
+Foam Trap
+Bubble Trap
+Alert Trap 1
+Alert Trap 2
+Alert Trap 3
+Alert Trap 4
+Leaf Trap
+Flower Trap
+Ember Trap
+Fire Trap
+Radar Trap
+Digger Drill

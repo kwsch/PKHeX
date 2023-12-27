@@ -1,0 +1,2558 @@
+Kein
+Meisterball
+Hyperball
+Superball
+Pokéball
+Safariball
+Netzball
+Tauchball
+Nestball
+Wiederball
+Timerball
+Luxusball
+Premierball
+Finsterball
+Heilball
+Flottball
+Jubelball
+Trank
+Gegengift
+Feuerheiler
+Eisheiler
+Aufwecker
+Para-Heiler
+Top-Genesung
+Top-Trank
+Hypertrank
+Supertrank
+Hyperheiler
+Beleber
+Top-Beleber
+Tafelwasser
+Sprudel
+Limonade
+Kuhmuh-Milch
+Energiestaub
+Kraftwurzel
+Heilpuder
+Vitalkraut
+Äther
+Top-Äther
+Elixier
+Top-Elixier
+Lavakeks
+Beerensaft
+Zauberasche
+KP-Plus
+Protein
+Eisen
+Carbon
+Kalzium
+Sonderbonbon
+AP-Plus
+Zink
+AP-Top
+Spezialität
+Megablock
+X-Volltreffer
+X-Angriff
+X-Verteidigung
+X-Initiative
+X-Genauigkeit
+X-Sp.-Ang.
+X-Sp.-Vert.
+Poképuppe
+Eneco-Rute
+Blaue Flöte
+Gelbe Flöte
+Rote Flöte
+Schwarze Flöte
+Weiße Flöte
+Küstensalz
+Küstenschale
+Purpurstück
+Indigostück
+Gelbstück
+Grünstück
+Superschutz
+Top-Schutz
+Fluchtseil
+Schutz
+Sonnenstein
+Mondstein
+Feuerstein
+Donnerstein
+Wasserstein
+Blattstein
+Minipilz
+Riesenpilz
+Perle
+Riesenperle
+Sternenstaub
+Sternenstück
+Nugget
+Herzschuppe
+Honig
+Wachsmulch
+Feuchtmulch
+Stabilmulch
+Neumulch
+Wurzelfossil
+Klauenfossil
+Helixfossil
+Domfossil
+Altbernstein
+Panzerfossil
+Kopffossil
+Steinknochen
+Leuchtstein
+Finsterstein
+Funkelstein
+Ovaler Stein
+Spiritkern
+Platinum-Orb
+Tee
+???
+Autogramm
+Aquamodul
+Blitzmodul
+Flammenmodul
+Gefriermodul
+???
+Pokémon-Box
+Medizintasche
+TM-Box
+Bonbonglas
+Stärkungstasche
+Klamottenkoffer
+Fangtasche
+Kampftasche
+???
+???
+???
+???
+???
+Herzkonfekt
+Adamant-Orb
+Weiß-Orb
+Grußbrief
+Faiblebrief
+Einladebrief
+Dankesbrief
+Fragebrief
+Insiderbrief
+Rückbrief
+Brückbrief H
+Brückbrief M
+Brückbrief Z
+Brückbrief D
+Brückbrief W
+Amrenabeere
+Maronbeere
+Pirsifbeere
+Fragiabeere
+Wilbirbeere
+Jonagobeere
+Sinelbeere
+Persimbeere
+Prunusbeere
+Tsitrubeere
+Giefebeere
+Wikibeere
+Magobeere
+Gauvebeere
+Yapabeere
+Himmihbeere
+Morbbeere
+Nanabbeere
+Nirbebeere
+Sananabeere
+Granabeere
+Setangbeere
+Qualotbeere
+Honmelbeere
+Labrusbeere
+Tamotbeere
+Saimbeere
+Magostbeere
+Rabutabeere
+Tronzibeere
+Kiwanbeere
+Pallmbeere
+Wasmelbeere
+Durinbeere
+Myrtilbeere
+Koakobeere
+Foepasbeere
+Kerzalbeere
+Grindobeere
+Kiroyabeere
+Rospelbeere
+Grarzbeere
+Schukebeere
+Kobabeere
+Pyapabeere
+Tanigabeere
+Chiaribeere
+Zitarzbeere
+Terirobeere
+Burleobeere
+Babiribeere
+Latchibeere
+Lydzibeere
+Linganbeere
+Salkabeere
+Tahaybeere
+Apikobeere
+Lansatbeere
+Krambobeere
+Enigmabeere
+Wunfrubeere
+Eipfelbeere
+Jabocabeere
+Roselbeere
+Blendpuder
+Schlohkraut
+Machoschiene
+EP-Teiler
+Flinkklaue
+Sanftglocke
+Mentalkraut
+Wahlband
+King-Stein
+Silberstaub
+Münzamulett
+Schutzsticker
+Seelentau
+Abysszahn
+Abyssschuppe
+Rauchball
+Ewigstein
+Fokusband
+Glücks-Ei
+Scope-Linse
+Metallmantel
+Überreste
+Drachenschuppe
+Kugelblitz
+Pudersand
+Granitstein
+Wundersaat
+Schattenbrille
+Schwarzgurt
+Magnet
+Zauberwasser
+Spitzer Schnabel
+Giftstich
+Ewiges Eis
+Bannsticker
+Krummlöffel
+Holzkohle
+Drachenzahn
+Seidenschal
+Upgrade
+Muschelglocke
+Seerauch
+Laxrauch
+Lucky Punch
+Metallstaub
+Kampfknochen
+Lauchstange
+Roter Schal
+Blauer Schal
+Rosa Schal
+Grüner Schal
+Gelber Schal
+Großlinse
+Muskelband
+Schlaubrille
+Expertengurt
+Lichtlehm
+Leben-Orb
+Energiekraut
+Toxik-Orb
+Heiß-Orb
+Flottstaub
+Fokusgurt
+Zoomlinse
+Metronom
+Eisenkugel
+Schwerschweif
+Fatumknoten
+Giftschleim
+Eisbrocken
+Glattbrocken
+Heißbrocken
+Nassbrocken
+Griffklaue
+Wahlschal
+Klettdorn
+Machtreif
+Machtgurt
+Machtlinse
+Machtband
+Machtkette
+Machtgewicht
+Wechselhülle
+Großwurzel
+Wahlbrille
+Feuertafel
+Wassertafel
+Blitztafel
+Wiesentafel
+Frosttafel
+Fausttafel
+Gifttafel
+Erdtafel
+Wolkentafel
+Hirntafel
+Käfertafel
+Steintafel
+Spuktafel
+Dracotafel
+Furchttafel
+Eisentafel
+Schrägrauch
+Steinrauch
+Lahmrauch
+Wellenrauch
+Rosenrauch
+Glücksrauch
+Scheuchrauch
+Schützer
+Stromisierer
+Magmaisierer
+Dubiosdisc
+Düsterumhang
+Scharfklaue
+Scharfzahn
+TM01
+TM02
+TM03
+TM04
+TM05
+TM06
+TM07
+TM08
+TM09
+TM10
+TM11
+TM12
+TM13
+TM14
+TM15
+TM16
+TM17
+TM18
+TM19
+TM20
+TM21
+TM22
+TM23
+TM24
+TM25
+TM26
+TM27
+TM28
+TM29
+TM30
+TM31
+TM32
+TM33
+TM34
+TM35
+TM36
+TM37
+TM38
+TM39
+TM40
+TM41
+TM42
+TM43
+TM44
+TM45
+TM46
+TM47
+TM48
+TM49
+TM50
+TM51
+TM52
+TM53
+TM54
+TM55
+TM56
+TM57
+TM58
+TM59
+TM60
+TM61
+TM62
+TM63
+TM64
+TM65
+TM66
+TM67
+TM68
+TM69
+TM70
+TM71
+TM72
+TM73
+TM74
+TM75
+TM76
+TM77
+TM78
+TM79
+TM80
+TM81
+TM82
+TM83
+TM84
+TM85
+TM86
+TM87
+TM88
+TM89
+TM90
+TM91
+TM92
+VM01
+VM02
+VM03
+VM04
+VM05
+VM06
+???
+???
+Erkundungs-Set
+Beutesack
+Regelbuch
+Pokéradar
+Punktekarte
+Abenteuernotizen
+Stickerkoffer
+Modekoffer
+Stickertüte
+Adressbuch
+K-Schlüssel
+Talisman
+G-Schlüssel
+Rote Kette
+Karte
+Kampffahnder
+Münzkorb
+Angel
+Profiangel
+Superangel
+Enton-Kanne
+Knurspbox
+Fahrrad
+Hotelschlüssel
+Eichs Brief
+Lunarfeder
+Mitgliedskarte
+Azurflöte
+Bootsticket
+Wettbewerbskarte
+Magmastein
+Paket
+Coupon 1
+Coupon 2
+Coupon 3
+Lagerschlüssel
+Geheimmedizin
+Kampfkamera
+Gracidea
+Geheimschlüssel
+Aprikokobox
+Icognitoheft
+Pflanzset
+Itemradar
+Blaue Karte
+Flegmon-Rute
+Klarglocke
+Schlüsselkarte
+Kelleröffner
+Schiggykanne
+Rote Schuppe
+Fundsache
+Fahrschein
+Spule
+Silberflügel
+Buntschwinge
+Rätsel-Ei
+Aprikoko Rot
+Aprikoko Blau
+Aprikoko Gelb
+Aprikoko Grün
+Aprikoko Pink
+Aprikoko Weiß
+Aprikoko Schwarz
+Turboball
+Levelball
+Köderball
+Schwerball
+Sympaball
+Freundesball
+Mondball
+Turnierball
+Parkball
+Fotoalbum
+GB-Player
+Gischtglocke
+Wutkeks
+Datenkarte01
+Datenkarte02
+Datenkarte03
+Datenkarte04
+Datenkarte05
+Datenkarte06
+Datenkarte07
+Datenkarte08
+Datenkarte09
+Datenkarte10
+Datenkarte11
+Datenkarte12
+Datenkarte13
+Datenkarte14
+Datenkarte15
+Datenkarte16
+Datenkarte17
+Datenkarte18
+Datenkarte19
+Datenkarte20
+Datenkarte21
+Datenkarte22
+Datenkarte23
+Datenkarte24
+Datenkarte25
+Datenkarte26
+Datenkarte27
+Grüne Kugel
+Tresorkapsel
+Roter Edelstein
+Blauer Edelstein
+Mytokristall
+Schönschuppe
+Evolith
+Leichtstein
+Beulenhelm
+Luftballon
+Rote Karte
+Zielscheibe
+Klammerband
+Knolle
+Akku
+Fluchtknopf
+Feuerjuwel
+Wasserjuwel
+Elektrojuwel
+Pflanzenjuwel
+Eisjuwel
+Kampfjuwel
+Giftjuwel
+Bodenjuwel
+Flugjuwel
+Psychojuwel
+Käferjuwel
+Gesteinsjuwel
+Geisterjuwel
+Drakojuwel
+Unlichtjuwel
+Stahljuwel
+Normaljuwel
+Heilfeder
+Kraftfeder
+Abwehrfeder
+Geniefeder
+Espritfeder
+Flinkfeder
+Prachtfeder
+Schildfossil
+Federfossil
+Gartenpass
+Transfer-Orb
+Traumball
+Pokéwedel
+Deko-Box
+Drakoschädel
+Duftpilz
+Riesennugget
+Triperle
+Kometstück
+Alter Heller
+Alter Taler
+Alter Dukat
+Alte Vase
+Alter Reif
+Alte Statue
+Alte Krone
+Stratos-Eis
+X-Volltreffer 2
+X-Initiative 2
+X-Sp.-Ang. 2
+X-Sp.-Vert. 2
+X-Verteidigung 2
+X-Angriff 2
+X-Genauigkeit 2
+X-Initiative 3
+X-Sp.-Ang. 3
+X-Sp.-Vert. 3
+X-Verteidigung 3
+X-Angriff 3
+X-Genauigkeit 3
+X-Initiative 6
+X-Sp.-Ang. 6
+X-Sp.-Vert. 6
+X-Verteidigung 6
+X-Angriff 6
+X-Genauigkeit 6
+Fähigkeiten-Appell
+Itemabwurf
+Itemappell
+Umkehrappell
+X-Volltreffer 3
+Lichtstein
+Dunkelstein
+TM93
+TM94
+TM95
+Viso-Caster
+???
+Briefpost 1
+Briefpost 2
+Briefpost 3
+Viso-Caster
+Medaillenbox
+DNS-Keil
+DNS-Keil
+Genehmigung
+Ovalpin
+Schillerpin
+Plasmakarte
+Schnäuztuch
+Achromat
+Fundsache
+Fundsache
+Wahrspiegel
+Schwächenschutz
+Offensivweste
+Holo-Log
+Brief vom Prof
+Rollerskates
+Feentafel
+Fähigkeiten-Kapsel
+Sahnehäubchen
+Duftbeutel
+Leuchtmoos
+Schneeball
+Schutzbrille
+Pokéflöte
+Sprießmulch
+Wundermulch
+Wuchermulch
+Ultramulch
+Gengarnit
+Guardevoirnit
+Ampharosnit
+Bisaflornit
+Gluraknit X
+Turtoknit
+Mewtunit X
+Mewtunit Y
+Lohgocknit
+Meditalisnit
+Hundemonit
+Stollossnit
+Banetteonit
+Despotarnit
+Scheroxnit
+Pinsirnit
+Aerodactylonit
+Lucarionit
+Rexblisarnit
+Kangamanit
+Garadosnit
+Absolnit
+Gluraknit Y
+Simsalanit
+Skarabornit
+Flunkifernit
+Voltensonit
+Knakracknit
+Latiasnit
+Latiosnit
+Hibisbeere
+Akibeere
+Tarabeere
+Loturzelkanne
+TM96
+TM97
+TM98
+TM99
+TM100
+Kraftwerks-Pass
+Mega-Ring
+Kurioser Stein
+Normaler Stein
+Rabattmarke
+Liftschlüssel
+TMV-Pass
+Kalos-Emblem
+Abenteuerfibel
+Skurriloskulptur
+Linsenetui
+Kosmetiketui
+Kleiderkoffer
+Illumina-Galette
+Yantara-Sablé
+Kieferfossil
+Flossenfossil
+LeBelle-Ticket
+Fahrrad
+Holo-Log
+Feenjuwel
+Megaillon
+Mega-Handschuh
+Eilrad
+Kunstrad
+Wailmerkanne
+Devon-Waren
+Aschetasche
+Kelleröffner
+Pokériegel-Set
+Brief an Troy
+Äon-Ticket
+Scanner
+Wüstenbrille
+Meteorit
+R1-Schlüssel
+R2-Schlüssel
+R4-Schlüssel
+R6-Schlüssel
+Lagerschlüssel
+Devon-Scope
+Bootsticket
+VM07
+Devon-Atemgerät
+Live-Anzug
+Live-Kleid
+Magma-Anzug
+Aqua-Anzug
+Zweierticket
+Mega-Armreif
+Mega-Anhänger
+Mega-Brille
+Mega-Anker
+Mega-Anstecker
+Mega-Diadem
+Mega-Beinreif
+Meteorit
+Sumpexnit
+Gewaldronit
+Zobirisnit
+Altarianit
+Galagladinit
+Ohrdochnit
+Metagrossnit
+Tohaidonit
+Lahmusnit
+Stahlosnit
+Taubossnit
+Firnontornit
+Diancienit
+Banngefäß
+Mega-Armband
+Cameruptnit
+Schlapornit
+Brutalandanit
+Bibornit
+Meteorit
+Meteorit
+Schlüssel-Stein
+Meteoritenstück
+Äon-Flöte
+Normium Z
+Pyrium Z
+Aquium Z
+Voltium Z
+Botanium Z
+Glacium Z
+Battalium Z
+Toxium Z
+Terrium Z
+Aerium Z
+Psium Z
+Insectium Z
+Petrium Z
+Phantomium Z
+Dracium Z
+Noctium Z
+Metallium Z
+Sylphium Z
+Pikachium Z
+Silberkronkorken
+Goldkronkorken
+Z-Ring
+Silvarronium Z
+Fuegronium Z
+Primarenium Z
+Kapium Z
+Marshadownium Z
+A-Raichunium Z
+Relaxonium Z
+Evolium Z
+Mewnium Z
+Normium Z
+Pyrium Z
+Aquium Z
+Voltium Z
+Botanium Z
+Glacium Z
+Battalium Z
+Toxium Z
+Terrium Z
+Aerium Z
+Psium Z
+Insectium Z
+Petrium Z
+Phantomium Z
+Dracium Z
+Noctium Z
+Metallium Z
+Sylphium Z
+Pikachium Z
+Silvarronium Z
+Fuegronium Z
+Primarenium Z
+Kapium Z
+Marshadownium Z
+A-Raichunium Z
+Relaxonium Z
+Evolium Z
+Mewnium Z
+Ash-Pikachium Z
+Ash-Pikachium Z
+???
+???
+???
+???
+Zutatenbeutel
+Angel
+Maske des Profs
+Festival-Ticket
+Glitzerstein
+Zitter-Orb
+Zygarde-Würfel
+???
+Eisstein
+PokéMobil-Funk
+Ultraball
+Maxi-Malasada
+Roter Nektar
+Gelber Nektar
+Rosa Nektar
+Purpurner Nektar
+Sonnenflöte
+Mondflöte
+???
+Seltsame Karte
+Silberne Himmihbeere
+Goldene Himmihbeere
+Silberne Nanabbeere
+Goldene Nanabbeere
+Silberne Sananabeere
+Goldene Sananabeere
+???
+???
+???
+???
+???
+Geheimschlüssel
+Bootsticket
+Silph Scope
+Paket
+Schlüsselkarte
+Goldenes Gebiss
+Aufzugsschlüssel
+Feldbeschichtung
+Schutzpolster
+Elektro-Samen
+Psycho-Samen
+Nebel-Samen
+Gras-Samen
+Spiralfeder
+Kreidestein
+Glasmurmel
+Ohrring
+Strandscherbe
+Goldblatt
+Silberblatt
+Glanzkugel
+Tropenmuschel
+Blattbrief
+Blattbrief
+Ministrauß
+???
+???
+???
+Lockparfüm
+Super-Lockparfüm
+Top-Lockparfüm
+Marmoria-Kräcker
+Kampf-Disc
+Flug-Disc
+Gift-Disc
+Boden-Disc
+Gesteins-Disc
+Käfer-Disc
+Geister-Disc
+Stahl-Disc
+Feuer-Disc
+Wasser-Disc
+Pflanzen-Disc
+Elektro-Disc
+Psycho-Disc
+Eis-Disc
+Drachen-Disc
+Unlicht-Disc
+Feen-Disc
+Solgalium Z
+Lunalium Z
+Ultranecronium Z
+Mimigmium Z
+Wolwerockium Z
+Grandirasium Z
+Solgalium Z
+Lunalium Z
+Ultranecronium Z
+Mimigmium Z
+Wolwerockium Z
+Grandirasium Z
+Z-Kraftring
+Rosa Blatt
+Oranges Blatt
+Blaues Blatt
+Rotes Blatt
+Grünes Blatt
+Gelbes Blatt
+Violettes Blatt
+Regenbogenblüte
+Gewitterorden
+Necrosol
+Necrolun
+Necrosol
+Necrolun
+Elimas Normium Z
+Nachlassball
+Brutbon
+Schnäppchenbon
+Preisgeldbon
+EP-Bon
+Freundschaftsbon
+Lockbon
+Schutzbon
+KP-Bon
+AP-Bon
+Statuswertebon
+Fangbon
+Energiebonbon
+Stärkebonbon
+Robustbonbon
+Gripsbonbon
+Mentalbonbon
+Flottbonbon
+Energiebonbon+
+Stärkebonbon+
+Robustbonbon+
+Gripsbonbon+
+Mentalbonbon+
+Flottbonbon+
+Energiebonbon++
+Stärkebonbon++
+Robustbonbon++
+Gripsbonbon++
+Mentalbonbon++
+Flottbonbon++
+Bisasam-Bonbon
+Glumanda-Bonbon
+Schiggy-Bonbon
+Raupy-Bonbon
+Hornliu-Bonbon
+Taubsi-Bonbon
+Rattfratz-Bonbon
+Habitak-Bonbon
+Rettan-Bonbon
+Pikachu-Bonbon
+Sandan-Bonbon
+Nidoran♀-Bonbon
+Nidoran♂-Bonbon
+Piepi-Bonbon
+Vulpix-Bonbon
+Pummeluff-Bonbon
+Zubat-Bonbon
+Myrapla-Bonbon
+Paras-Bonbon
+Bluzuk-Bonbon
+Digda-Bonbon
+Mauzi-Bonbon
+Enton-Bonbon
+Menki-Bonbon
+Fukano-Bonbon
+Quapsel-Bonbon
+Abra-Bonbon
+Machollo-Bonbon
+Knofensa-Bonbon
+Tentacha-Bonbon
+Kleinstein-Bonbon
+Ponita-Bonbon
+Flegmon-Bonbon
+Magnetilo-Bonbon
+Porenta-Bonbon
+Dodu-Bonbon
+Jurob-Bonbon
+Sleima-Bonbon
+Muschas-Bonbon
+Nebulak-Bonbon
+Onix-Bonbon
+Traumato-Bonbon
+Krabby-Bonbon
+Voltobal-Bonbon
+Owei-Bonbon
+Tragosso-Bonbon
+Kicklee-Bonbon
+Nockchan-Bonbon
+Schlurp-Bonbon
+Smogon-Bonbon
+Rihorn-Bonbon
+Chaneira-Bonbon
+Tangela-Bonbon
+Kangama-Bonbon
+Seeper-Bonbon
+Goldini-Bonbon
+Sterndu-Bonbon
+Pantimos-Bonbon
+Sichlor-Bonbon
+Rossana-Bonbon
+Elektek-Bonbon
+Pinsir-Bonbon
+Tauros-Bonbon
+Karpador-Bonbon
+Lapras-Bonbon
+Ditto-Bonbon
+Evoli-Bonbon
+Porygon-Bonbon
+Amonitas-Bonbon
+Kabuto-Bonbon
+Aerodactyl-Bonbon
+Relaxo-Bonbon
+Arktos-Bonbon
+Zapdos-Bonbon
+Lavados-Bonbon
+Dratini-Bonbon
+Mewtu-Bonbon
+Mew-Bonbon
+Meltan-Bonbon
+Magmar-Bonbon
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+Empfehlungsbrief
+Pokémon-Box
+Wunschstern
+Dynamax-Band
+???
+???
+Angel
+Rotom-Rad
+???
+???
+Würstchen
+Pauls Feinkost
+Bachs Feinkost
+Dosenbohnen
+Toastbrot
+Spaghetti
+Pilzmix
+Röstrute
+Dicker Lauch
+Luxusapfel
+Feine Knochen
+Kartoffeln
+Uferkraut
+Gemüse
+Frittiertes
+Gekochtes Ei
+Camping-Set
+???
+???
+Rostiges Schwert
+Rostiger Schild
+Vogelfossil
+Fischfossil
+Drachenfossil
+Paddelfossil
+Zucker-Erdbeere
+Zucker-Herz
+Zucker-Beere
+Zucker-Kleeblatt
+Zucker-Blume
+Zucker-Stern
+Zucker-Schleife
+Süßer Apfel
+Saurer Apfel
+Halsspray
+Fluchttasche
+Plateauschuhe
+Fehlschlagschutz
+Bizarroservice
+Allzweckschirm
+EP-Bonbon XS
+EP-Bonbon S
+EP-Bonbon M
+EP-Bonbon L
+EP-Bonbon XL
+Dynamax-Bonbon
+TP00
+TP01
+TP02
+TP03
+TP04
+TP05
+TP06
+TP07
+TP08
+TP09
+TP10
+TP11
+TP12
+TP13
+TP14
+TP15
+TP16
+TP17
+TP18
+TP19
+TP20
+TP21
+TP22
+TP23
+TP24
+TP25
+TP26
+TP27
+TP28
+TP29
+TP30
+TP31
+TP32
+TP33
+TP34
+TP35
+TP36
+TP37
+TP38
+TP39
+TP40
+TP41
+TP42
+TP43
+TP44
+TP45
+TP46
+TP47
+TP48
+TP49
+TP50
+TP51
+TP52
+TP53
+TP54
+TP55
+TP56
+TP57
+TP58
+TP59
+TP60
+TP61
+TP62
+TP63
+TP64
+TP65
+TP66
+TP67
+TP68
+TP69
+TP70
+TP71
+TP72
+TP73
+TP74
+TP75
+TP76
+TP77
+TP78
+TP79
+TP80
+TP81
+TP82
+TP83
+TP84
+TP85
+TP86
+TP87
+TP88
+TP89
+TP90
+TP91
+TP92
+TP93
+TP94
+TP95
+TP96
+TP97
+TP98
+TP99
+TM00
+Solo-Minze
+Hart-Minze
+Frech-Minze
+Mutig-Minze
+Kühn-Minze
+Pfiffig-Minze
+Lasch-Minze
+Locker-Minze
+Mäßig-Minze
+Mild-Minze
+Hitzig-Minze
+Ruhig-Minze
+Still-Minze
+Zart-Minze
+Sacht-Minze
+Forsch-Minze
+Scheu-Minze
+Hastig-Minze
+Froh-Minze
+Naiv-Minze
+Ernst-Minze
+Wunschbrocken
+Rissige Kanne
+Löchrige Kanne
+Top-Ohrenstöpsel
+Früchte
+Kuhmuh-Käse
+Gewürzmix
+Frische Sahne
+Fertigcurry
+Kokosmilch
+Fertignudeln
+Frikadellen
+Giga-Pulver
+Wunschsplitter
+Rotom-Rad
+Superfangpin
+???
+Vergilbter Brief
+Band-Autogramm
+Sanias Buch
+???
+???
+???
+???
+???
+???
+Rotom-Katalog
+★And458
+★And15
+★And337
+★And603
+★And390
+★Sgr6879
+★Sgr6859
+★Sgr6913
+★Sgr7348
+★Sgr7121
+★Sgr6746
+★Sgr7194
+★Sgr7337
+★Sgr7343
+★Sgr6812
+★Sgr7116
+★Sgr7264
+★Sgr7597
+★Del7882
+★Del7906
+★Del7852
+★Psc596
+★Psc361
+★Psc510
+★Psc437
+★Psc8773
+★Lep1865
+★Lep1829
+★Boo5340
+★Boo5506
+★Boo5435
+★Boo5602
+★Boo5733
+★Boo5235
+★Boo5351
+★Hya3748
+★Hya3903
+★Hya3418
+★Hya3482
+★Hya3845
+★Eri1084
+★Eri472
+★Eri1666
+★Eri897
+★Eri1231
+★Eri874
+★Eri1298
+★Eri1325
+★Eri984
+★Eri1464
+★Eri1393
+★Eri850
+★Tau1409
+★Tau1457
+★Tau1165
+★Tau1791
+★Tau1910
+★Tau1346
+★Tau1373
+★Tau1412
+★CMa2491
+★CMa2693
+★CMa2294
+★CMa2827
+★CMa2282
+★CMa2618
+★CMa2657
+★CMa2646
+★UMa4905
+★UMa4301
+★UMa5191
+★UMa5054
+★UMa4295
+★UMa4660
+★UMa4554
+★UMa4069
+★UMa3569
+★UMa3323
+★UMa4033
+★UMa4377
+★UMa4375
+★UMa4518
+★UMa3594
+★Vir5056
+★Vir4825
+★Vir4932
+★Vir4540
+★Vir4689
+★Vir5338
+★Vir4910
+★Vir5315
+★Vir5359
+★Vir5409
+★Vir5107
+★Ari617
+★Ari553
+★Ari546
+★Ari951
+★Ori1713
+★Ori2061
+★Ori1790
+★Ori1903
+★Ori1948
+★Ori2004
+★Ori1852
+★Ori1879
+★Ori1899
+★Ori1543
+★Cas21
+★Cas168
+★Cas403
+★Cas153
+★Cas542
+★Cas219
+★Cas265
+★Cnc3572
+★Cnc3208
+★Cnc3461
+★Cnc3449
+★Cnc3429
+★Cnc3627
+★Cnc3268
+★Cnc3249
+★Com4968
+★Crv4757
+★Crv4623
+★Crv4662
+★Crv4786
+★Aur1708
+★Aur2088
+★Aur1605
+★Aur2095
+★Aur1577
+★Aur1641
+★Aur1612
+★Pav7790
+★Cet911
+★Cet681
+★Cet188
+★Cet539
+★Cet804
+★Cep8974
+★Cep8162
+★Cep8238
+★Cep8417
+★Cen5267
+★Cen5288
+★Cen551
+★Cen5459
+★Cen5460
+★CMi2943
+★CMi2845
+★Equ8131
+★Vul7405
+★UMi424
+★UMi5563
+★UMi5735
+★UMi6789
+★Crt4287
+★Lyr7001
+★Lyr7178
+★Lyr7106
+★Lyr7298
+★Ara6585
+★Sco6134
+★Sco6527
+★Sco6553
+★Sco5953
+★Sco5984
+★Sco6508
+★Sco6084
+★Sco5944
+★Sco6630
+★Sco6027
+★Sco6247
+★Sco6252
+★Sco5928
+★Sco6241
+★Sco6165
+★Tri544
+★Leo3982
+★Leo4534
+★Leo4357
+★Leo4057
+★Leo4359
+★Leo4031
+★Leo3852
+★Leo3905
+★Leo3773
+★Gru8425
+★Gru8636
+★Gru8353
+★Lib5685
+★Lib5531
+★Lib5787
+★Lib5603
+★Pup3165
+★Pup3185
+★Pup3045
+★Cyg7924
+★Cyg7417
+★Cyg7796
+★Cyg8301
+★Cyg7949
+★Cyg7528
+★Oct7228
+★Col1956
+★Col2040
+★Col2177
+★Gem2990
+★Gem2891
+★Gem2421
+★Gem2473
+★Gem2216
+★Gem2777
+★Gem2650
+★Gem2286
+★Gem2484
+★Gem2930
+★Peg8775
+★Peg8781
+★Peg39
+★Peg8308
+★Peg8650
+★Peg8634
+★Peg8684
+★Peg8450
+★Peg8880
+★Peg8905
+★Oph6556
+★Oph6378
+★Oph6603
+★Oph6149
+★Oph6056
+★Oph6075
+★Ser5854
+★Ser7141
+★Ser5879
+★Her6406
+★Her6148
+★Her6410
+★Her6526
+★Her6117
+★Her6008
+★Per936
+★Per1017
+★Per1131
+★Per1228
+★Per834
+★Per941
+★Phe99
+★Phe338
+★Vel3634
+★Vel3485
+★Vel3734
+★Aqr8232
+★Aqr8414
+★Aqr8709
+★Aqr8518
+★Aqr7950
+★Aqr8499
+★Aqr8610
+★Aqr8264
+★Cru4853
+★Cru4730
+★Cru4763
+★Cru4700
+★Cru4656
+★PsA8728
+★TrA6217
+★Cap7776
+★Cap7754
+★Cap8278
+★Cap8322
+★Cap7773
+★Sge7479
+★Car2326
+★Car3685
+★Car3307
+★Car3699
+★Dra5744
+★Dra5291
+★Dra6705
+★Dra6536
+★Dra7310
+★Dra6688
+★Dra4434
+★Dra6370
+★Dra7462
+★Dra6396
+★Dra6132
+★Dra6636
+★CVn4915
+★CVn4785
+★CVn4846
+★Aql7595
+★Aql7557
+★Aql7525
+★Aql7602
+★Aql7235
+Dyna-Honig
+Dyna-Pilz
+Galarnuss-Zweig
+Galarnuss-Reif
+Style-Karte
+Rüstungspass
+Rotom-Rad
+Rotom-Rad
+EP-Pin
+Rüstungserz
+Zeichenpin
+Zügel des Bundes
+Zügel des Bundes
+Galarnuss-Kranz
+Legenden-Notiz 1
+Legenden-Notiz 2
+Legenden-Notiz 3
+Legenden-Notiz X
+Kronenpass
+Holzkrone
+Kronblatt
+Helles Rosshaar
+Dunkles Rosshaar
+Polarkarotte
+Phantomkarotte
+Dyna-Erz
+Karottensamen
+Fähigkeiten-Pflaster
+Zügel des Bundes
+Zeitruhegabe
+Raumruhegabe
+Ruhegabe
+Verbindungsschnur
+Heimatmuffin
+Aprikoko
+Jubelmuffin
+Kombivitamine
+Treffervitamine
+Wahlreishappen
+Doppelrettich
+Umkehrbratling
+Rundblatt
+Meistersamen
+Pokéball
+???
+Perma-Eis
+Selfe-Kralle
+Tobutz-Fangzahn
+Vesprit-Feder
+Glanzstein
+Elysien-Flöte
+Arznei
+Superarznei
+Funkelhonig
+Munterreis
+Kullerbohne
+Zähpilz
+Knirschmineral
+Holz
+Königsblatt
+Moorruhegabe
+Pokéball
+Superball
+Hyperball
+Federball
+Pokémon-Kokeshi
+???
+Rauchkugel
+Knallkugel
+Klebkugel
+Sternenstück
+Pilzköder
+Schutzblume
+Honigköder
+Reisköder
+Bohnenköder
+Mineralköder
+Trank
+Supertrank
+Hypertrank
+Top-Trank
+Top-Genesung
+Arznei
+Superarznei
+Hyperarznei
+Spezialität
+Jubelmuffin
+Hyperheiler
+Beleber
+Top-Beleber
+Ätherpillen
+Elixierpillen
+Schleichspray
+???
+Offensivvitamine
+Defensivvitamine
+Treffervitamine
+Ausweichvitamine
+Kombivitamine
+Waldruhegabe
+Eisenbrocken
+???
+Schwarzglanzstein
+Azurglanzstein
+???
+Lehmball
+???
+Knallmoos
+Rauchknolle
+Löchrige Aprikoko
+Schneeball
+Klebkugel
+Schwarzaugit
+Torfblock
+Schleichspray
+Fitlauch
+Vitalknospe
+Ätherkraut
+???
+???
+Wahrungstalisman 2
+Wahrungstalisman 3
+Schwertling
+Schildling
+Flinkling
+Volltrefferling
+Strandrettich
+Wahrungstalisman 4
+Wahrungstalisman 5
+Süßtrüffel
+Köderteig
+Pokéball
+Superball
+Hyperball
+Federball
+???
+???
+Knallkugel
+Rauchkugel
+???
+???
+Pokémon-Kokeshi
+Vulkanruhegabe
+Bergruhegabe
+Schneeruhegabe
+Honigköder
+Reisköder
+Bohnenköder
+Pilzköder
+Mineralköder
+Umkehrbratling
+Wahlreishappen
+Doppelrettich
+Schutztalisman 1
+Schutztalisman 2
+Schutztalisman 3
+Schutztalisman 4
+Schutztalisman 5
+Kaputtes Journal
+Statustalisman 1
+Statustalisman 2
+Statustalisman 3
+Statustalisman 4
+Statustalisman 5
+Plattenfragment
+Salmagnis-Kloß
+Altes Journal
+Flügelball
+Düsenball
+Schwerball
+Zentnerball
+Tonnenball
+Flügelball
+Düsenball
+Schwerball
+Pfohbeere
+Hyperarznei
+Offensivvitamine
+Defensivvitamine
+Ausweichvitamine
+Leistungssand
+Leistungskies
+Leistungsstein
+Leistungsfels
+Geheimmedizin
+Wahrungstalisman 1
+Verlorene Items
+Verlorene Items
+Verlorene Items
+Verlorene Items
+Verlorene Items
+???
+Urball
+???
+???
+???
+???
+Urerz
+Adamantkristall
+Weißkristall
+Platinumkristall
+Neutraltafel
+???
+Handwerkskiste
+Zentnerball
+Tonnenball
+Rätselball
+Pokédex
+Altes Gedicht 1
+Altes Gedicht 2
+Altes Gedicht 3
+Altes Gedicht 4
+???
+Altes Gedicht 5
+Altes Gedicht 6
+Altes Gedicht 7
+Altes Gedicht 8
+Altes Gedicht 9
+Altes Gedicht 10
+Altes Gedicht 11
+Altes Gedicht 12
+Altes Gedicht 13
+Altes Gedicht 14
+Altes Gedicht 15
+Altes Gedicht 16
+Altes Gedicht 17
+Altes Gedicht 18
+Altes Gedicht 19
+Altes Gedicht 20
+Enigmafragment S
+Enigmafragment L
+Einwegbohrer
+Kanto-Platte
+Johto-Platte
+Gefühlsplatte
+Regenbogenplatte
+Sturmplatte
+Meeresplatte
+Kontinentplatte
+Himmelsplatte
+Genplatte
+Weisungsplatte
+Zerrplatte
+DS-Player
+
+
+
+
+
+Legendentafel
+Smart-Rotom
+Sandwich
+Koraidons Pokéball
+Miraidons Pokéball
+Terakristall-Orb
+Karmesinbuch
+Purpurbuch
+Kombus Geldbörse
+
+
+
+
+
+Minibambusspross
+Riesenbambusspross
+
+
+
+
+
+
+
+
+
+
+
+
+
+Unlicht-Schriftrolle
+Wasser-Schriftrolle
+
+
+Fluchrüstung
+Tera-Stück (Normal)
+Tera-Stück (Feuer)
+Tera-Stück (Wasser)
+Tera-Stück (Elektro)
+Tera-Stück (Pflanze)
+Tera-Stück (Eis)
+Tera-Stück (Kampf)
+Tera-Stück (Gift)
+Tera-Stück (Boden)
+Tera-Stück (Flug)
+Tera-Stück (Psycho)
+Tera-Stück (Käfer)
+Tera-Stück (Gestein)
+Tera-Stück (Geist)
+Tera-Stück (Drache)
+Tera-Stück (Unlicht)
+Tera-Stück (Stahl)
+Tera-Stück (Fee)
+Energiekapsel
+Fähigkeitenschild
+Neutralschmuck
+Kopierkraut
+Boxhandschuh
+Tarnumhang
+Gezinkter Würfel
+
+Baguette
+Mayonnaise
+Ketchup
+Senf
+Butter
+Erdnussbutter
+Chilisoße
+Salz
+Pfeffer
+Joghurt
+Schlagsahne
+Frischkäse
+Beerenkonfitüre
+Marmelade
+Olivenöl
+Essig
+Süßes Geheimgewürz
+Salziges Geheimgewürz
+Saures Geheimgewürz
+Bitteres Geheimgewürz
+Scharfes Geheimgewürz
+Salat
+Tomate
+Mini-Tomate
+Gurke
+Gewürzgurke
+Zwiebel
+Rote Zwiebel
+Grüne Paprika
+Rote Paprika
+Gelbe Paprika
+Avocado
+Gebratener Speck
+Kochschinken
+Roher Schinken
+Chorizo
+Kräuterwurst
+Frikadelle
+Klibbe-Stick
+Räucherfilet
+Frittierfilet
+Ei
+Tortilla
+Tofu
+Reis
+Nudeln
+Kartoffelsalat
+Scheibenkäse
+Banane
+Erdbeere
+Apfel
+Kiwi
+Ananas
+Jalapeño
+Meerrettich
+Currypulver
+Wasabi
+Kresse
+Basilikum
+
+
+
+
+
+
+
+
+
+Bluzuk-Zahn
+Digda-Erde
+Mauzi-Haar
+Enton-Daune
+Menki-Haar
+Fukano-Haar
+Flegmon-Kralle
+Magnetilo-Schraube
+Sleima-Toxin
+Muschas-Perle
+Nebulak-Gas
+Traumato-Haar
+Voltobal-Strom
+Sichlor-Kralle
+Tauros-Haar
+Karpador-Schuppe
+Ditto-Glibber
+Evoli-Haar
+Dratini-Schuppe
+Pichu-Haar
+Fluffeluff-Haar
+Voltilamm-Wolle
+Hoppspross-Blatt
+Sonnkern-Blatt
+Kramurx-Schatz
+Traunfugil-Träne
+Girafarig-Haar
+Tannza-Schale
+Dummisel-Schuppe
+Baldorfish-Stachel
+Skaraborn-Kralle
+Sniebel-Kralle
+Teddiursa-Kralle
+Botogel-Päckchen
+Hunduster-Zahn
+Phanpy-Kralle
+Damhirplex-Haar
+Larvitar-Kralle
+Wingull-Feder
+Trasla-Material
+Gehweiher-Nektar
+Knilz-Spore
+Bummelz-Haar
+Makuhita-Schweiß
+Azurill-Haar
+Zobiris-Edelstein
+Meditie-Schweiß
+Schluppuck-Schleim
+Camaub-Lava
+Qurtel-Kohle
+Spoink-Perle
+Tuska-Stachel
+Wablu-Feder
+Sengo-Kralle
+Vipitis-Zahn
+Schmerbe-Schleim
+Shuppet-Fetzen
+Tropius-Blatt
+Schneppke-Haar
+Liebiskus-Schuppe
+Kindwurm-Schuppe
+Staralili-Feder
+Zirpurze-Häutungsrest
+Sheinux-Zahn
+Wadribie-Honig
+Pachirisu-Haar
+Bamelin-Haar
+Schalellos-Schleim
+Driftlon-Gas
+Skunkapuh-Haar
+Bronzel-Splitter
+Mobai-Träne
+Wonneira-Material
+Kryppuk-Splitter
+Kaumalat-Schuppe
+Riolu-Haar
+Hippopotas-Sand
+Glibunkel-Toxin
+Finneon-Schuppe
+Shnebedeck-Beere
+Rotom-Strom
+Lilminip-Blatt
+Barschuft-Zahn
+Ganovil-Kralle
+Zorua-Haar
+Mollimorba-Wimper
+Sesokitz-Haar
+Tarnpignon-Spore
+Mamolida-Schleim
+Zapplardin-Schleim
+Milza-Schuppe
+Petznief-Haar
+Frigometri-Eis
+Gladiantri-Klinge
+Geronimatz-Feder
+Kapuno-Schuppe
+Ignivor-Haar
+Dartiri-Feder
+Purmel-Puder
+Leufeo-Mähnenhaar
+Flabébé-Pollen
+Mähikel-Blatt
+Algitt-Alge
+Scampisto-Schere
+Resladero-Daune
+Dedenne-Haar
+Viscora-Schleim
+Clavion-Schlüssel
+Arktip-Eis
+eF-eM-Haar
+Mangunior-Haar
+Krabbox-Schale
+Choreogel-Feder
+Wuffels-Stein
+Garstella-Stachel
+Pampuli-Schlamm
+Imantis-Blatt
+Molunk-Gas
+Frubberl-Schweiß
+Kommandutan-Haar
+Quartermak-Haar
+Sankabuh-Sand
+Koalelu-Kralle
+Mimigma-Fetzen
+Knirfish-Zahn
+Kamehaps-Kralle
+Raffel-Haar
+Pikuda-Schuppe
+Meikro-Feder
+Toxel-Strom
+Legios-Schweiß
+Kupfanti-Patina
+Klonkett-Kohle
+Salanga-Sand
+Servol-Haar
+Britzigel-Stachel
+Snomnom-Faden
+Bähmon-Haar
+Knapfel-Fruchtsaft
+Fatalitee-Splitter
+Brimova-Material
+Humanolith-Stein
+Kubuin-Daune
+Grolldra-Puder
+
+
+
+Ferkuli-Haar
+Tarundel-Faden
+Micrick-Kralle
+Relluk-Schlamm
+Gruff-Wachs
+Flattutu-Daune
+Schligda-Sand
+Heerashai-Bartel
+Agiluza-Filet
+Normifin-Schleim
+Olini-Öl
+Chilingel-Samen
+Blipp-Schleim
+Knattox-Gas
+Schlurm-Patina
+Zwieps-Haar
+Flaniwal-Fett
+Frospino-Schuppe
+Nigiragi-Schuppe
+Mopex-Schuppe
+Pamo-Haar
+
+
+Voltrel-Feder
+Adebom-Feder
+Krawalloro-Feder
+Flaminkno-Daune
+Klibbe-Schere
+Geosali-Salz
+Lumispross-Kristall
+Sproxi-Tinte
+Hefel-Haar
+Mobtiff-Zahn
+Weherba-Zweig
+Gierspenst-Münze
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Forgita-Haar
+Knarbon-Ruß
+Tentagra-Lamelle
+Felino-Schleim
+TM100
+TM101
+TM102
+TM103
+TM104
+TM105
+TM106
+TM107
+TM108
+TM109
+TM110
+TM111
+TM112
+TM113
+TM114
+TM115
+TM116
+TM117
+TM118
+TM119
+TM120
+TM121
+TM122
+TM123
+TM124
+TM125
+TM126
+TM127
+TM128
+TM129
+TM130
+TM131
+TM132
+TM133
+TM134
+TM135
+TM136
+TM137
+TM138
+TM139
+TM140
+TM141
+TM142
+TM143
+TM144
+TM145
+TM146
+TM147
+TM148
+TM149
+TM150
+TM151
+TM152
+TM153
+TM154
+TM155
+TM156
+TM157
+TM158
+TM159
+TM160
+TM161
+TM162
+TM163
+TM164
+TM165
+TM166
+TM167
+TM168
+TM169
+TM170
+TM171
+TM172
+TM173
+TM174
+TM175
+TM176
+TM177
+TM178
+TM179
+TM180
+TM181
+TM182
+TM183
+TM184
+TM185
+TM186
+TM187
+TM188
+TM189
+TM190
+TM191
+TM192
+TM193
+TM194
+TM195
+TM196
+TM197
+TM198
+TM199
+TM200
+TM201
+TM202
+TM203
+TM204
+TM205
+TM206
+TM207
+TM208
+TM209
+TM210
+TM211
+TM212
+TM213
+TM214
+TM215
+TM216
+TM217
+TM218
+TM219
+TM220
+TM221
+TM222
+TM223
+TM224
+TM225
+TM226
+TM227
+TM228
+TM229
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Picknick-Set
+Korb
+Akademie-Flasche
+Akademie-Flasche
+Punkte-Flasche
+Streifen-Flasche
+Rauten-Flasche
+Akademie-Tasse
+Akademie-Tasse
+Längsstreifen-Tasse
+Punkte-Tasse
+Blümchen-Tasse
+Akademie-Tischtuch
+Akademie-Tischtuch
+Zauber-Tischtuch
+Natur-Tischtuch
+Groll-Tischtuch
+
+Akademie-Ball
+Akademie-Ball
+Marill-Ball
+Woll-Ball
+Cyber-Ball
+Gold-Pikser
+Silber-Pikser
+Rotfahnen-Pikser
+Blaufahnen-Pikser
+Pikapika-Pikser
+Zwinker-Pika-Pikser
+Volivoli-Pikser
+Kicher-Voli-Pikser
+Blauball-Pikser
+
+Glorienrüstung
+Anführersymbol
+
+
+Pinke Flasche
+Blaue Flasche
+Gelbe Flasche
+Edelstahlflasche (R)
+Edelstahlflasche (G)
+Edelstahlflasche (B)
+Silber-Titanflasche
+Querstreifen-Tasse
+Rauten-Tasse
+Flammen-Tasse
+Pinke Tasse
+Blaue Tasse
+Gelbe Tasse
+Pikachu-Tasse
+Evoli-Tasse
+Flegmon-Tasse
+Silber-Titantasse
+Gymnastik-Ball
+Gelbkaro-Tischtuch
+Blaukaro-Tischtuch
+Rotkaro-Tischtuch
+Retro-Gras-Tischtuch
+Action-Tischtuch
+Ungeheuer-Tischtuch
+Streifen-Tischtuch
+Rauten-Tischtuch
+Punkte-Tischtuch
+Violettes Tischtuch
+Türkises Tischtuch
+Beiges Tischtuch
+Gelbes Tischtuch
+Blaues Tischtuch
+Pinkes Tischtuch
+Gold-Titanflasche
+Bronze-Titanflasche
+Gold-Titantasse
+Bronze-Titantasse
+Grünball-Pikser
+Rotball-Pikser
+Wunderkerzen-Pikser
+Heldenschwert-Pikser
+Zauberstern-Pikser
+Zauberherz-Pikser
+Schirmchen-Pikser
+Mittagsblumen-Pikser
+Abendblumen-Pikser
+Morgenblumen-Pikser
+Blauer Teller
+Grüner Teller
+Oranger Teller
+Roter Teller
+Weißer Teller
+Gelber Teller
+Feendaune
+Saftiger Apfel
+Simple Teeschale
+Edle Teeschale
+Türkisgrüne Maske
+Fundamentmaske
+Brunnenmaske
+Ofenmaske
+Grüne Style-Karte
+Kristallfragment
+Heil-Mochi
+Kraft-Mochi
+Abwehr-Mochi
+Genie-Mochi
+Esprit-Mochi
+Flink-Mochi
+Standard-Stühle
+Akademie-Stühle
+Akademie-Stühle
+Zauber-Stühle
+Natur-Stühle
+Groll-Stühle
+Gelbkaro-Stühle
+Blaukaro-Stühle
+Rotkaro-Stühle
+Retro-Gras-Stühle
+Action-Stühle
+Ungeheuer-Stühle
+Streifen-Stühle
+Rauten-Stühle
+Punkte-Stühle
+Violette Stühle
+Türkise Stühle
+Beige Stühle
+Gelbe Stühle
+Blaue Stühle
+Pinke Stühle
+Rettan-Zahn
+Sandan-Kralle
+Pii-Haar
+Vulpix-Haar
+Quapsel-Schleim
+Knofensa-Ranke
+Kleinstein-Splitter
+Smogon-Gas
+Mampfaxo-Zahn
+Wiesor-Haar
+Hoothoot-Feder
+Webarak-Faden
+Griffel-Haar
+Yanma-Stachel
+Skorgla-Zahn
+Schneckmag-Lava
+Quiekel-Haar
+Fiffyen-Zahn
+Loturzel-Blatt
+Samurzel-Zweig
+Nasgnet-Splitter
+Volbeat-Sekret
+Illumise-Sekret
+Krebscorps-Schale
+Barschwa-Schuppe
+Zwirrlicht-Splitter
+Klingplim-Splitter
+Praktibalk-Schweiß
+Strawickl-Blatt
+Piccolente-Feder
+Lichtel-Ruß
+Lin-Fu-Kralle
+Skallyk-Feder
+Rocara-Edelstein
+Paragoni-Zweig
+Mabula-Faden
+Wommel-Puder
+Miniras-Schuppe
+Urgl-Daune
+Morpeko-Samen
+Mortcha-Puder
+Neuanfangs-Mochi
+Rotom-Stick
+Glitzerpin
+Legierungsmetall
+Blaue Style-Karte
+Myrapla-Blatt
+Tentacha-Stachel
+Dodu-Daune
+Jurob-Haar
+Owei-Schale
+Rabauz-Schweiß
+Rihorn-Zahn
+Seeper-Tinte
+Elekid-Haar
+Magby-Haar
+Lapras-Träne
+Porygon-Splitter
+Lampi-Strom
+Snubbull-Haar
+Panzaeron-Feder
+Farbeagle-Tinte
+Plusle-Haar
+Minun-Haar
+Knacklion-Schale
+Tanhel-Kralle
+Koknodon-Stachel
+Schilterus-Kralle
+Elezeba-Mähnenhaar
+Rotomurf-Kralle
+Waumboll-Watte
+Zurrokex-Schweiß
+Picochilla-Haar
+Monozyto-Gel
+Wattzapf-Faden
+Golbit-Splitter
+Psiau-Haar
+Iscalar-Tinte
+Peppeck-Feder
+Araqua-Faden
+Curelei-Blüte
+Meteno-Schale
+Hokumil-Sahne
+Duraludon-Patina
+Arktos-Snack
+Zapdos-Snack
+Lavados-Snack
+Raikou-Snack
+Entei-Snack
+Suicune-Snack
+Lugia-Snack
+Ho-Oh-Snack
+Latias-Snack
+Latios-Snack
+Kyogre-Snack
+Groudon-Snack
+Rayquaza-Snack
+Kobalium-Snack
+Terrakium-Snack
+Viridium-Snack
+Reshiram-Snack
+Zekrom-Snack
+Kyurem-Snack
+Solgaleo-Snack
+Lunala-Snack
+Necrozma-Snack
+Dakuma-Snack
+Polaross-Snack
+Phantoross-Snack
+Indigoblaue Scheibe
+Flammen-Pikser
+Tera-Stück (Stellar)
+Mysteriöse Pirsifbeere
+Blaubeer-Tischtuch
+Blaubeer-Stühle
+Synchromaschine
+Meteorit
+Karmesinbuch
+Purpurbuch
+Briannas Buch

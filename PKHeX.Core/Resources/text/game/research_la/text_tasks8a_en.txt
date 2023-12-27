@@ -1,0 +1,27 @@
+Number caught
+Times you’ve seen it use {0}
+Number you’ve defeated with {0}-type moves
+Number defeated
+Number you’ve evolved
+Number of alpha specimens caught
+Number of large specimens you’ve caught
+Number of small specimens you’ve caught
+Number of heavy specimens you’ve caught
+Number of light specimens you’ve caught
+Number caught during {0}
+Number you’ve caught while they were sleeping
+Number you’ve caught while they were in the air
+Number you’ve caught without being spotted
+Times you’ve given it food
+Times you’ve stunned it by using items
+Times you’ve scared it off with a Scatter Bang
+Number you’ve lured with Pokéshi Dolls
+Times you’ve seen it use a strong style move
+Times you’ve seen it use an agile style move
+Number you’ve seen leap out of trees
+Number you’ve seen leap out from piles of leaves
+Number you’ve seen leap out of piles of snow
+Number you’ve seen leap out of ore deposits
+Number you’ve seen leap out of tussocks
+Number of different forms you’ve obtained
+Received a part of Arceus

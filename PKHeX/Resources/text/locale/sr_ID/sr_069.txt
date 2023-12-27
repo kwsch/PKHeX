@@ -1,3 +1,0 @@
-Subregion ID,JP,EN,FR,DE,IT,ES,ZH,KO
-000,—,—,—,—,—,—,—,—
-001,ボツワナ,Botswana,Botswana,Botsuana,Botswana,Botsuana,博茨瓦纳,보츠와나,

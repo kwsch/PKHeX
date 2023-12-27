@@ -1,0 +1,17 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	クアラ・ルンプール	Kuala Lumpur	Kuala Lumpur	Kuala Lumpur	Kuala Lumpur	Kuala Lumpur	吉隆坡联邦直辖区	쿠알라룸푸르	吉隆坡聯邦直轄區
+003	ジョホール州	Johor	Johor	Johor	Johor	Johor	柔佛州	조호르 주	柔佛州
+004	ケダ州	Kedah	Kedah	Kedah	Kedah	Kedah	吉打州	케다 주	吉打州
+005	ケランタン州	Kelantan	Kelantan	Kelantan	Kelantan	Kelantan	吉兰丹州	켈란탄 주	吉蘭丹州
+006	マラッカ州	Melaka	Malacca	Malakka	Malacca	Melaka	马六甲州	믈라카 주	馬六甲州
+007	ヌグリ・センビラン州	Negeri Sembilan	Negeri Sembilan	Negeri Sembilan	Negeri Sembilan	Negeri Sembilan	森美兰州	느그리슴빌란 주	森美蘭州
+008	パハン州	Pahang	Pahang	Pahang	Pahang	Pahang	彭亨州	파항 주	彭亨州
+009	ペラ州	Perak	Perak	Perak	Perak	Perak	霹雳州	페라크 주	霹靂州
+010	ペルリス州	Perlis	Perlis	Perlis	Perlis	Perlis	玻璃市州	페를리스 주	玻璃市州
+011	ピナン州	Penang	Penang	Penang	Penang	Penang	槟榔屿州	피낭 주	檳榔嶼州
+012	サラワク州	Sarawak	Sarawak	Sarawak	Sarawak	Sarawak	沙捞越州	사라왁 주	沙撈越州
+013	セランゴール州	Selangor	Selangor	Selangor	Selangor	Selangor	雪兰莪州	셀랑고르 주	雪蘭莪州
+014	トレンガヌ州	Terengganu	Terengganu	Terengganu	Terengganu	Terengganu	丁加奴州	트렝가누 주	丁加奴州
+015	ラブアン	Labuan	Labuan	Labuan	Labuan	Labuan	纳闽联邦直辖区	라부안	納閩聯邦直轄區
+016	サバ州	Sabah	Sabah	Sabah	Sabah	Sabah	沙巴州	사바 주	沙巴州
+017	プトラジャヤ	Putrajaya	Putrajaya	Putrajaya	Putrajaya	Putrajaya	布城联邦直辖区	푸트라자야	布城聯邦直轄區

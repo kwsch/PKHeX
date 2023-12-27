@@ -1,0 +1,54 @@
+3100	*	Es Campeón de Alola + Evento de Magearna Activo
+3487	g	Recibido Magearna de Regalo
+0443	g	Received Gift Eevee Egg
+0493	g	Recibido Porygon de Regalo
+0504	g	Recibido Aerodactyl de Regalo
+1216	g	Recibido Cosmog de Regalo
+0499	g	Recibido Código Cero de Regalo
+0160	*	Moone [0] / Sunne Portal [1]
+3155	*	Desbloqueado Juez de IV
+3113	s	Received Ride Pager
+3114	s	Desbloqueado Carga Tauros
+3115	s	Desbloqueado Olfateo Stoutland
+3116	s	Desbloqueado Empuje Machamp
+3117	s	Desbloqueado Todoterreno Mudsdale
+3118	s	Desbloqueado Nado Lapras
+3119	s	Desbloqueado Propulsión Sharpedo
+3120	s	Desbloqueado Vuelo Charizard
+0168	g	Traded for Machop on Route 2
+0169	g	Traded for Bounsweet on Route 5
+0170	g	Traded for Poliwhirl in Konikoni City
+0171	g	Traded for Happiny in Malie City
+0172	g	Traded for Graveler in Tapu Village
+0173	g	Traded for Steene in Seafolk Village
+0174	g	Traded for Talonflame on Poni Gauntlet
+0789	s	Lillie Disappeared from Altar
+0790	s	Solgaleo Disappeared from Altar
+0791	s	Lunala Disappeared from Altar
+0185	s	Had First Title Defense Battle
+0186	t	Encountered Hapu (Title Defense)
+2435	t	Defeated Hapu (Title Defense)
+0187	t	Encountered Gladion (Title Defense)
+2493	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
+2494	t	Defeated Gladion (Title Defense;Litten is Player Starter)
+2495	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
+0188	t	Encountered Ryuki (Title Defense)
+2485	t	Defeated Ryuki (Title Defense)
+0189	t	Encountered Faba (Title Defense)
+2436	t	Defeated Faba (Title Defense)
+0190	t	Encountered Hau (Title Defense)
+2432	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
+2433	t	Defeated Hau (Title Defense;Litten is Player Starter)
+2434	t	Defeated Hau (Title Defense;Popplio is Player Starter)
+0191	t	Encountered Sophocles (Title Defense)
+2481	t	Defeated Sophocles (Title Defense)
+0192	t	Encountered Molayne (Title Defense)
+2557	t	Defeated Molayne (Title Defense)
+0193	t	Encountered Kukui (Title Defense)
+2553	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
+2554	t	Defeated Kukui (Title Defense;Litten is Player Starter)
+2555	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
+0194	t	Encountered Plumeria (Title Defense)
+2477	t	Defeated Plumeria (Title Defense)
+0195	t	Encountered Youngster Tristan (Title Defense)
+2556	t	Defeated Youngster Tristan (Title Defense)

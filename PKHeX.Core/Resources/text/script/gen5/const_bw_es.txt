@@ -1,0 +1,10 @@
+0048	*	Inicial	0:Snivy,1:Tepig,2:Oshawott
+0182	r	Castillo de N	0:Evento,1:Evento,2:Antes de Reshiram/Zekrom,3:Antes de N,4:Evento,5:Antes de Ghetsis
+0145	r	Victini	0:Evento,1:Evento,2:Luchable,3:Derrotado,4:Capturado,5:Evento Completado,6:Desaparecido
+0206	r	Landorus	0:Evento,1:Evento,2:Evento,3:Luchable,4:Desaparecido
+0056	r	Lostlorn Forest	0:Zoroark illusion (1),1032:Normal
+0131	g	Dreamyard girl	0:Not interacted,1:Elemental Monkey Pending,2:Received Elemental Monkey
+0199	r	Zorua Event	0:Disguised as little boy (1),1:Revealed/Catchable (2),3:Caught
+0201	r	Zoroark Event	0:Active (1),1:Defeated,2:Caught
+0202	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
+0218	g	Gorge (Undella Town)	0:Wants to trade,1:Traded for Munchlax,2:After trading

@@ -1,0 +1,34 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	ディストリト・キャピタル	Distrito Capital	District Capital de Santa Fe de Bogotá	Bogotá D.C.	Distretto Capitale	Distrito Capital	波哥大首都区	콜롬비아 수도주	波哥大首都區
+003	クンディナマルカ県	Cundinamarca	Cundinamarca	Cundinamarca	Cundinamarca	Cundinamarca	昆迪纳马卡省	쿤디나마르카 주	昆迪納馬卡省
+004	アマソナス県	Amazonas	Amazone	Amazonas	Amazonas	Amazonas	亚马孙省	아마소나스 주	亞馬孫省
+005	アンティオキア県	Antioquia	Antioquia	Antioquia	Antioquia	Antioquia	安提奥基亚省	안티오키아 주	安提奧基亞省
+006	アラウカ県	Arauca	Arauca	Arauca	Arauca	Arauca	阿劳卡省	아라우카 주	阿勞卡省
+007	アトランティコ県	Atlántico	Atlantique	Atlántico	Atlántico	Atlántico	大西洋省	아틀란티코 주	大西洋省
+008	ボリーバル県	Bolívar	Bolívar	Bolívar	Bolívar	Bolívar	玻利瓦尔省	볼리바르 주	玻利瓦爾省
+009	ボヤカ県	Boyacá	Boyacá	Boyacá	Boyacá	Boyacá	博亚卡省	보야카 주	博亞卡省
+010	カルダス県	Caldas	Caldas	Caldas	Caldas	Caldas	卡尔达斯省	칼다스 주	卡爾達斯省
+011	カケタ県	Caquetá	Caquetá	Caquetá	Caquetá	Caquetá	卡克塔省	카케타 주	卡克塔省
+012	カウカ県	Cauca	Cauca	Cauca	Cauca	Cauca	考卡省	카우카 주	考卡省
+013	セサル県	Cesar	Cesar	Cesar	Cesar	Cesar	塞萨尔省	세사르 주	塞薩爾省
+014	チョコ県	Chocó	Chocó	Chocó	Chocó	Chocó	乔科省	초코 주	喬科省
+015	コルドバ県	Córdoba	Córdoba	Córdoba	Córdoba	Córdoba	科尔多瓦省	코르도바 주	科爾多瓦省
+016	グアビアレ県	Guaviare	Guaviare	Guaviare	Guaviare	Guaviare	瓜维亚雷省	과비아레 주	瓜維亞雷省
+017	グアイニア県	Guainía	Guainía	Guainía	Guainía	Guainía	瓜伊尼亚省	과이니아 주	瓜伊尼亞省
+018	ウィラ県	Huila	Huila	Huila	Huila	Huila	乌伊拉省	우일라 주	烏伊拉省
+019	グアヒーラ県	La Guajira	La Guajira	La Guajira	La Guajira	La Guajira	瓜希拉省	라과히라 주	瓜希拉省
+020	マグダレーナ県	Magdalena	Magdalena	Magdalena	Magdalena	Magdalena	马格达雷那省	마그달레나 주	馬格達雷那省
+021	メタ県	Meta	Meta	Meta	Meta	Meta	梅塔省	메타 주	梅塔省
+022	ナリーニョ県	Nariño	Nariño	Nariño	Nariño	Nariño	纳里尼奥省	나리뇨 주	納裏尼奧省
+023	ノルテ・デ・サンタンデル県	Norte de Santander	Norte de Santander	Norte de Santander	Norte de Santander	Norte de Santander	北桑坦德省	노르테데산탄데르 주	北桑坦德省
+024	プトゥマイオ県	Putumayo	Putumayo	Putumayo	Putumayo	Putumayo	普图马约省	푸투마요 주	普圖馬約省
+025	キンディオ県	Quindío	Quindío	Quindío	Quindío	Quindío	金迪奥省	킨디오 주	金迪奧省
+026	リサラルダ県	Risaralda	Risaralda	Risaralda	Risaralda	Risaralda	利萨拉尔达省	리사랄다 주	利薩拉爾達省
+027	サン・アンドレス・イ・プロビデンシア県	Archipiélago de San Andrés, Providencia y Santa Catalina	Îles de San Andrés, Providencia et Santa Cataline	San Andrés und Providencia	San Andrés e Providencia	Archipiélago de San Andrés, Providencia y Santa Catalina	圣安德烈斯-普罗维登西亚省	산안드레스 이 프로비덴시아 주	聖安德列斯-普羅維登西亞省
+028	サンタンデル県	Santander	Santander	Santander	Santander	Santander	桑坦德省	산탄데르 주	桑坦德省
+029	スクレ県	Sucre	Sucre	Sucre	Sucre	Sucre	苏克雷省	수크레 주	蘇克雷省
+030	トリマ県	Tolima	Tolima	Tolima	Tolima	Tolima	托利马省	톨리마 주	托利馬省
+031	バジェ・デル・カウカ県	Valle del Cauca	Valle del Cauca	Valle del Cauca	Valle del Cauca	Valle del Cauca	考卡山谷省	바예델카우카 주	考卡山谷省
+032	バウペス県	Vaupés	Vaupés	Vaupés	Vaupés	Vaupés	沃佩斯省	바우페스 주	沃佩斯省
+033	ビチャダ県	Vichada	Vichada	Vichada	Vichada	Vichada	维查达省	비차다 주	維查達省
+034	カサナレ県	Casanare	Casanare	Casanare	Casanare	Casanare	卡萨纳雷省	카사나레 주	卡薩納雷省

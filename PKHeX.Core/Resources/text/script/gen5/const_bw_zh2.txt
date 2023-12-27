@@ -1,0 +1,10 @@
+0048	*	禦三家	0:藤藤蛇,1:暖暖豬,2:水水獺
+0182	r	N的城堡	0:事件,1:事件,2:在萊希拉姆/捷克羅姆前,3:在N前,4:事件,5:在魁奇思前
+0145	r	比克提尼	0:,1:事件,2:可對戰,3:已擊倒,4:已捕獲,5:事件完成,6:消失
+0206	r	土地雲	0:事件,1:事件,2:事件,3:可對戰,4:消失
+0056	r	Lostlorn Forest	0:Zoroark illusion (1),1032:Normal
+0131	g	Dreamyard girl	0:Not interacted,1:Elemental Monkey Pending,2:Received Elemental Monkey
+0199	r	Zorua Event	0:Disguised as little boy (1),1:Revealed/Catchable (2),3:Caught
+0201	r	Zoroark Event	0:Active (1),1:Defeated,2:Caught
+0202	r	P2 Laboratory Event	0:Not Activated,1:Activated,2:Scientist Dudley Battle Pending,3:Received Drives
+0218	g	Gorge (Undella Town)	0:Wants to trade,1:Traded for Munchlax,2:After trading

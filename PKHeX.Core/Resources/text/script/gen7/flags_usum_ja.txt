@@ -1,0 +1,119 @@
+0646	s	Seen Mimikyu in Pikachu Valley RV
+4060	*	アローラチャンピオン / マギアナ受け取り可能
+4562	g	アーカラ島到着 / ピカチュウ(キミにきめたキャップ) 受け取り可能
+4563	g	ピカチュウ(キミにきめたキャップピカチュウ) 受け取り済み
+0518	g	なみのりピカチュウ 受け取り済み
+0443	g	Received Gift Eevee Egg
+0493	g	ポリゴン 受け取り済み
+0504	g	プテラ 受け取り済み
+0654	g	タイプ：ヌル 受け取り済み (1)
+1101	g	タイプ：ヌル 受け取り済み (2)
+0503	g	コスモッグ 受け取り済み
+4447	g	マギアナ 受け取り済み
+0269	g	ベベノム 受け取り済み
+4420	r	フリーザー 捕獲済み
+4421	r	サンダー 捕獲済み
+4422	r	ファイヤー 捕獲済み
+4423	r	ミュウツー 捕獲済み
+4260	r	(US) ライコウ 捕獲済み
+4261	r	(UM) エンテイ 捕獲済み
+4262	r	スイクン 捕獲済み
+4263	r	(UM) ルギア 捕獲済み
+4264	r	(US) ホウオウ 捕獲済み
+4285	r	レジロック 捕獲済み
+4286	r	レジアイス 捕獲済み
+4287	r	レジスチル 捕獲済み
+4283	r	(UM) ラティアス 捕獲済み
+4284	r	(US) ラティオス 捕獲済み
+4289	r	(UM) カイオーガ 捕獲済み
+4288	r	(US) グラードン 捕獲済み
+4290	r	レックウザ 捕獲済み
+4265	r	ユクシー 捕獲済み
+4266	r	エムリット 捕獲済み
+4267	r	アグノム 捕獲済み
+4268	r	(US) ディアルガ 捕獲済み
+4269	r	(UM) パルキア 捕獲済み
+4270	r	(US) ヒードラン 捕獲済み
+4271	r	(UM) レジギガス 捕獲済み
+4272	r	ギラティナ 捕獲済み
+4273	r	クレセリア 捕獲済み
+4274	r	コバルオン 捕獲済み
+4275	r	テラキオン 捕獲済み
+4276	r	ビリジオン 捕獲済み
+4277	r	(US) トルネロス 捕獲済み
+4278	r	(UM) ボルトロス 捕獲済み
+4279	r	(US) レシラム 捕獲済み
+4280	r	(UM) ゼクロム 捕獲済み
+4281	r	ランドロス 捕獲済み
+4282	r	キュレム 捕獲済み
+4424	r	(US) ゼルネアス 捕獲済み
+4425	r	(UM) イベルタル 捕獲済み
+1627	r	ソルガレオ / ルナアーラ 捕獲済み
+1552	r	ネクロズマ 捕獲済み
+4370	r	(UM) ツンデツンデ出現 (ポニの樹林)
+4371	r	(US) ズガドーン出現 (ポニの樹林)
+4115	*	Unlocked IV Judge
+4545	s	ランターン360 使用可能
+4546	s	アシレーヌフリップ 使用可能
+4547	s	スターミートルネード 使用可能
+4548	s	オーバーザギャラドス 使用可能
+4490	s	ウルトラワープライド (スライドパッドモード)
+4440	+	バトルスタイル (かれいなスタイル)
+4441	+	バトルスタイル (おとめなスタイル) 
+4442	+	バトルスタイル (いのりなスタイル) 
+4443	+	バトルスタイル (キザなスタイル) 
+4444	+	バトルスタイル (ひだりなスタイル) 
+4445	+	バトルスタイル (もえてるスタイル)
+4446	+	バトルスタイル (アイドルスタイル)
+4453	+	バトルスタイル (ニヒルなスタイル)
+4073	s	Received Ride Pager
+4074	s	ケンタロス　ラッシュ 使用可能
+4075	s	ムーランド サーチ 使用可能
+4076	s	カイリキー プッシュ 使用可能
+4077	s	バンバドロ ダッシュ 使用可能
+4078	s	ラプラス　スイム 使用可能
+4079	s	サメハダー　ジェット 使用可能
+4080	s	リザードン　フライト 使用可能
+0168	g	Traded for Hawlucha on Route 2
+0169	g	Traded for Noibat on Route 5
+0170	g	Traded for Barboach on Royal Avenue
+0171	g	Traded for Arbok on Route 8
+0172	g	Traded for Phantump in Tapu Village
+0173	g	Traded for Shellos in Seafolk Village
+0174	g	Traded for Tauros on Poni Gauntlet
+1592	r	(UM) Defeated Route 15 Sandygast
+0607	r	Defeated Route 14 Frillish
+0547	r	Defeated Bewear in Hau'oli City
+4564	s	Trainers' School is Haunted (Seven Mysteries Event)
+0211	s	Lusamine's Mansion is NOT Team Rocket's Castle
+1730	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 2)
+1731	r	Electrode Disappeared (Team Rocket's Castle Southwest Wing, side room 11)
+1732	r	Electrode Disappeared (Team Rocket's Castle Southeast Wing, side room)
+0185	t	Had First Title Defense Battle
+0186	t	Encountered Hapu (Title Defense)
+3395	t	Defeated Hapu (Title Defense)
+0187	t	Encountered Gladion (Title Defense)
+3453	t	Defeated Gladion (Title Defense;Rowlet is Player Starter)
+3454	t	Defeated Gladion (Title Defense;Litten is Player Starter)
+3455	t	Defeated Gladion (Title Defense;Popplio is Player Starter)
+0188	t	Encountered Ryuki (Title Defense)
+3445	t	Defeated Ryuki (Title Defense)
+0189	t	Encountered Lusamine (Title Defense)
+3680	t	Defeated Lusamine (Title Defense)
+0190	t	Encountered Hau (Title Defense)
+3392	t	Defeated Hau (Title Defense;Rowlet is Player Starter)
+3393	t	Defeated Hau (Title Defense;Litten is Player Starter)
+3394	t	Defeated Hau (Title Defense;Popplio is Player Starter)
+0191	t	Encountered Sophocles (Title Defense)
+3441	t	Defeated Sophocles (Title Defense)
+0192	t	Encountered Guzma (Title Defense)
+3683	t	Defeated Guzma (Title Defense)
+0193	t	Encountered Kukui (Title Defense)
+3513	t	Defeated Kukui (Title Defense;Rowlet is Player Starter)
+3514	t	Defeated Kukui (Title Defense;Litten is Player Starter)
+3515	t	Defeated Kukui (Title Defense;Popplio is Player Starter)
+0194	t	Encountered Plumeria (Title Defense)
+3437	t	Defeated Plumeria (Title Defense)
+0195	t	Encountered Tristan (Title Defense)
+3516	t	Defeated Tristan (Title Defense)
+1698	s	Aether Paradise Mohn Event Inactive

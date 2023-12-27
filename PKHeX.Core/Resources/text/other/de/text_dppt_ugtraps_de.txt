@@ -1,0 +1,34 @@
+(Kein)
+Bewegungsfal. ↑
+Bewegungsfal. →
+Bewegungsfal. ↓
+Bewegungsfal. ←
+Schleuderfal. ↑
+Schleuderfal. →
+Schleuderfal. ↓
+Schleuderfal. ←
+Warp-Falle
+XXL-Warp-Falle
+Loch-Falle
+Gruben-Falle
+Retour-Falle
+Chaos-Falle
+Sprint-Falle
+Tarn-Falle
+Lahm-Falle
+Dunst-Falle
+Rauch-Falle
+Fels-Falle
+Gestein-Falle
+Schaum-Falle
+Blasen-Falle
+Botsch.-Falle 1
+Botsch.-Falle 2
+Botsch.-Falle 3
+Botsch.-Falle 4
+Blätter-Falle
+Blumen-Falle
+Asche-Falle
+Feuer-Falle
+Radar-Falle
+Einweg-Bohrer

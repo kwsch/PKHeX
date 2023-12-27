@@ -1,0 +1,41 @@
+0669	r	Guía del Equipo Plasma Desaparecido (Centro Pokémon de la Liga Pokémon)
+0661	r	Reshiram/Zekrom Desaparecido (Castillo de N)
+0766	r	Reshiram/Zekrom Desaparecido (Torre Duodraco)
+0801	r	Kyurem Desaparecido
+0810	r	Volcarona Desaparecido
+0649	r	Cobalion Desaparecido
+0650	r	Terrakion Desaparecido
+0651	r	Virizion Desaparecido
+0652	s	Obstáculo Pasado (Camino Victoria)
+0653	s	Obstáculo Pasado (Bosque Azulejo)
+2403	*	Tiene las Deportivas
+0115	*	Funcionabilidad de Intercambio Habilitada (Centro Pokémon)
+2400	s	Defeated Ghetsis (First game clear)
+0145	s	Received Cover/Plume Fossil from Backpacker
+0148	g	Traded for Petilil/Cottonee
+0280	g	Traded for Basculin
+0315	g	Received Larvesta Egg Gift
+0352	t	Battled Youngster Kyle
+0355	t	Battled Lass Dana
+0339	g	Purchased Magikarp
+0347	g	Traded for Emolga
+0360	g	Traded for Rotom
+0663	g	Darmanitan (middle-left) disappeared from Desert Resort
+0664	g	Darmanitan (bottom-left) disappeared from Desert Resort
+0665	g	Darmanitan (top-left) disappeared from Desert Resort
+0666	g	Darmanitan (middle-right) disappeared from Desert Resort
+0667	g	Darmanitan (top-right) disappeared from Desert Resort
+0729	s	Zorua as little boy (1) disappeared from GAME FREAK building 1F (Zorua event)
+0730	s	Girl disappeared from GAME FREAK building 1F (Zorua event)
+0731	s	Zorua (2) disappeared from GAME FREAK building 1F (Zorua event)
+2754	s	Rode Royal Unova (Today)
+2762	s	Received a Fossil from Twist Mountain Worker (Today)
+0683	a	Battle Subway: does not possess super single trophy
+0684	a	Battle Subway: does not possess super double trophy
+0685	a	Battle Subway: does not possess super multi trophy
+0767	r	Route 6	 Capture/Defeat Foongus
+0768	r	Route 6	 Capture/Defeat Foongus
+0769	r	Route 10 Capture/Defeat Amoonguss
+0770	r	Route 10 Capture/Defeat Amoonguss
+0771	r	Route 10 Capture/Defeat Foongus
+0772	r	Route 10 Capture/Defeat Foongus

@@ -1,0 +1,69 @@
+1059	r	뮤츠 쓰러뜨림
+0211	r	뮤츠 잡음
+0210	r	지가르데 잡음
+0886	r	지가르데 쓰러뜨림
+0631	r	잠만보 사라짐
+0321	r	잠만보 잡음
+0381	+	싱글배틀 조각상
+0382	+	더블배틀 조각상
+0383	+	트리플배틀 조각상
+0384	+	로테이션배틀 조각상
+0385	+	멀티배틀 조각상
+0386	+	슈퍼싱글배틀 해금됨
+0387	+	슈퍼더블배틀 해금됨
+0388	+	슈퍼트리플배틀 해금됨
+0389	+	슈퍼로테이션배틀 해금됨
+0390	+	슈퍼멀티배틀 해금됨
+0771	+	50연승: 배틀샤를레느 격파
+2642	s	포켓몬 도감 수령 완료
+2640	s	Entered Hall of Fame/Zygarde Chamber Accessible
+2645	*	Roller Skates Enabled
+0162	s	Chose blue button in Lysandre Labs B3
+0185	g	Traded for Bisharp in Snowbelle City
+0190	g	Traded with Shauna
+0191	g	Traded for Steelix in Cyllage City
+0320	g	Traded with Diantha
+0426	g	Traded for Farfetch'd in Santalune City
+0319	g	Claimed Kanto Starter from Sycamore
+0949	g	Received Lucario Gift
+1060	s	Unknown Dungeon Accessible
+0299	g	Claimed Diancie via Mystery Gift (PokéCenter Event Completed)
+2666	*	Unlocked Cassius's PC
+2670	+	Useable Roller Skate Trick: parallel swizzle
+2671	+	Learned Roller Skate Trick: the backflip
+2672	+	Useable Roller Skate Trick: the backfilp
+2673	+	Useable Roller Skate Trick: the 360
+2674	+	Learned Roller Skate Trick: the 360
+2675	+	Useable Roller Stake Trick: cosmic flip
+2720	f	Can Fly to Vaniville Town
+2721	f	Can Fly to Aquacorde Town
+2722	f	Can Fly to Santalune City
+2724	f	Can Fly to Cyllage City
+2725	f	Can Fly to Shalour City
+2726	f	Can Fly to Coumarine City
+2727	f	Can Fly to Laverre City
+2728	f	Can Fly to Anistar City
+2729	f	Can Fly to Snowbelle City
+2730	f	Can Fly to Camphrier Town
+2731	f	Can Fly to Geosenge Town
+2732	f	Can Fly to Dendemille Town
+2733	f	Can Fly to Couriway Town
+2734	f	Can Fly to Ambrette Town
+2735	f	Can Fly to Pokémon League
+2736	f	Can Fly to Kiloude City
+2737	f	Can Fly to Lumiose City (South Boulevard)
+2738	f	Can Fly to Lumiose City (North Boulevard)
+2739	f	Can Fly to Lumiose City (Center)
+0487	+	Perfect Clear: Restaurant Le Nah Double Battle
+0488	+	Perfect Clear: Restaurant Le Yeah Triple Battle
+0489	+	Perfect Clear: Restaurant Le Yeah Rotation Battle
+0490	+	Perfect Clear: Restaurant Le Wow Double Battle
+0491	+	Perfect Clear: Restaurant Le Wow Triple Battle
+0492	+	Perfect Clear: Restaurant Le Wow Rotation Battle
+0493	+	Perfect Clear: Sushi High Roller Double Battle
+0494	+	Perfect Clear: Sushi High Roller Triple Battle
+0495	+	Perfect Clear: Sushi High Roller Rotation Battle
+0184	+	Perfect Clear: Making Beds Task on 5th Floor
+2984	m	Finished Room Service Task (Today)
+2985	m	Finished Making Beds Task (Today)
+2986	m	Finished Lost and Found Task (Today)

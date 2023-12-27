@@ -1,0 +1,27 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	イール・ド・フランス	Île-de-France	Île-de-France	Île-de-France	Île-de-France	Isla de Francia	法兰西岛大区	일드프랑스	法蘭西島大區
+003	アルザス	Alsace	Alsace	Elsass	Alsazia	Alsacia	阿尔萨斯大区	알자스	阿爾薩斯大區
+004	アキテーヌ	Aquitaine	Aquitaine	Aquitanien	Aquitania	Aquitania	阿基坦大区	아키텐	阿基坦大區
+005	オーベルニュ	Auvergne	Auvergne	Auvergne	Alvernia	Auvernia	奥弗涅大区	오베르뉴	奧弗涅大區
+006	バス・ノルマンディ	Lower Normandy	Basse-Normandie	Basse-Normandie	Bassa Normandia	Baja Normandía	下诺曼底大区	바스노르망디	下諾曼第大區
+007	ブルゴーニュ	Burgundy	Bourgogne	Burgund	Borgogna	Borgoña	勃艮第大区	부르고뉴	勃艮第大區
+008	ブルターニュ	Brittany	Bretagne	Bretagne	Bretagna	Bretaña	布列塔尼大区	브르타뉴	布列塔尼大區
+009	サントル	Centre	Centre	Centre	Centro	Centro	中央大区	상트르	中央大區
+010	シャンパーニュ・アルデンヌ	Champagne-Ardenne	Champagne-Ardenne	Champagne-Ardenne	Champagne-Ardenne	Champaña-Ardenas	香槟-阿登大区	샹파뉴아르덴	香檳-阿登大區
+011	コルシカ	Corsica	Corse	Korsika	Corsica	Córcega	科西嘉大区	코르스	科西嘉大區
+012	フランシュ・コンテ	Franche-Comté	Franche-Comté	Franche-Comté	Franca Contea	Franco Condado	弗朗什孔泰大区	프랑슈콩테	弗朗什孔泰大區
+013	オート・ノルマンディ	Upper Normandy	Haute-Normandie	Haute-Normandie	Alta Normandia	Alta Normandía	上诺曼底大区	오트노르망디	上諾曼第大區
+014	ラングドック・ルシヨン	Languedoc-Roussillon	Languedoc-Roussillon	Languedoc-Roussillon	Linguadoca-Rossiglione	Languedoc-Rosellón	朗格多克-鲁西永大区	랑그도크루시용	朗格多克-魯西永大區
+015	リムーザン	Limousin	Limousin	Limousin	Limosino	Lemosín	利穆赞大区	리무쟁	利穆贊大區
+016	ロレーヌ	Lorraine	Lorraine	Lothringen	Lorena	Lorena	洛林大区	로렌	洛林大區
+017	ミディ・ピレネー	Midi-Pyrénées	Midi-Pyrénées	Midi-Pyrénées	Mezzogiorno-Pirenei	Mediodía-Pirineos	南部-比利牛斯大区	미디피레네	南部-比利牛斯大區
+018	ノール・パ・ド・カレー	Nord-Pas-de-Calais	Nord-Pas de Calais	Nord-Pas-de-Calais	Nord-Passo di Calais	Norte-Paso de Calais	北部-加来海峡大区	노르파드칼레	北部-加來海峽大區
+019	ペイ・ド・ラ・ロワール	Pays de la Loire	Pays de la Loire	Pays de la Loire	Paesi della Loira	Países del Loira	卢瓦尔河地区	페이드라루아르	盧瓦爾河地區
+020	ピカルディー	Picardy	Picardie	Picardie	Piccardia	Picardía	皮卡第大区	피카르디	皮卡第大區
+021	ポワトゥー・シャラント	Poitou-Charentes	Poitou-Charentes	Poitou-Charentes	Poitou-Charentes	Poitou-Charentes	普瓦图-夏朗德大区	푸아투샤랑트	普瓦圖-夏朗德大區
+022	プロヴァンス・アルプ・コート・ダジュール	Provence-Alpes-Côte d'Azur	Provence-Alpes-Côte d'Azur	Provence-Alpes-Côte d'Azur	Provenza-Alpi-Costa Azzurra	Provenza-Alpes-Costa Azul	普罗旺斯-阿尔卑斯-蓝色海岸大区	프로방스알프코트다쥐르	普羅旺斯-阿爾卑斯-藍色海岸大區
+023	ローヌ・アルプ	Rhône-Alpes	Rhône-Alpes	Rhône-Alpes	Rodano-Alpi	Ródano-Alpes	罗讷-阿尔卑斯大区	론알프	羅訥-阿爾卑斯大區
+024	グアドループ	Guadeloupe	Guadeloupe	Guadeloupe	Guadalupa	Guadalupe	瓜德罗普省	과들루프	瓜德羅普省
+025	マルチニーク	Martinique	Martinique	Martinique	Martinica	Martinica	马提尼克省	마르티니크	馬提尼克省
+026	フランス領ギアナ	French Guiana	Guyane	Französisch-Guayana	Guyana Francese	Guayana Francesa	法属圭亚那省	프랑스령 기아나	法屬圭亞那省
+027	レユニオン	Réunion	Réunion	Réunion	Riunione	Reunión	留尼汪省	레위니옹	留尼汪省

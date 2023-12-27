@@ -1,0 +1,60 @@
+﻿(None)
+
+
+
+
+
+
+
+
+
+
+Oval Stone
+Odd Keystone
+Sun Stone
+Star Piece
+Moon Stone
+Hard Stone
+Thunderstone
+Everstone
+Fire Stone
+Water Stone
+Leaf Stone
+Nugget
+Helix Fossil
+Dome Fossil
+Claw Fossil
+Root Fossil
+Old Amber
+Rare Bone
+Revive
+Max Revive
+Red Shard
+Blue Shard
+Yellow Shard
+Green Shard
+Heart Scale
+Armor Fossil
+Skull Fossil
+Light Clay
+Iron Ball
+Icy Rock
+Smooth Rock
+Heat Rock
+Damp Rock
+Flame Plate
+Splash Plate
+Zap Plate
+Meadow Plate
+Icicle Plate
+Fist Plate
+Toxic Plate
+Earth Plate
+Sky Plate
+Mind Plate
+Insect Plate
+Stone Plate
+Spooky Plate
+Draco Plate
+Dread Plate
+Iron Plate

@@ -1,0 +1,940 @@
+
+Gema Roja S
+Gema Azul S
+Gema Verde S
+Gema Prisma S
+Gema Blanca S
+Gema Roja L
+Gema Azul L
+Gema Verde L
+Gema Prisma L
+Gema Blanca L
+Revivir
+Revivir Máximo
+Parte Roja
+Parte Azul
+Parte Amarilla
+Parte Verde
+Piedra Solar
+Piedra Lunar
+Piedra Fuego
+Piedra Trueno
+Piedra Agua
+Piedra Hoja
+Piedra Oval
+Piedra Eterna
+Piedra Espíritu
+Trozo Estrella
+Escama Corazón
+Fósil Raíz
+Fósil Garra
+Fósil Hélix
+Fósil Domo
+Ámbar Viejo
+Fósil Coraza
+Fósil Cráneo
+Hueso Raro
+Refleluz
+Bola Férrea
+Roca Helada
+Roca Suave
+Roca Calor
+Roca Lluvia
+Esquirla Extraña S
+Esquirla Extraña L
+Piedra Dura
+Tabla Llama
+Tabla Linfa
+Tabla Trueno
+Tabla Pradal
+Tabla Helada
+Tabla Fuerte
+Tabla Tóxica
+Tabla Terrax
+Tabla Cielo
+Tabla Mental
+Tabla Bicho
+Tabla Pétrea
+Tabla Terror
+Tabla Draco
+Tabla Oscura
+Tabla Acero
+Tabla Duende
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Peana Cuadrada XS
+Peana Cuadrada S
+Peana Cuadrada M
+Peana Cuadrada L
+Peana Circular XS
+Peana Circular M
+Peana Circular L
+Peana Trapezoidal XS
+Peana Trapezoidal S
+Peana Trapezoidal M
+Peana Trapezoidal L
+Peana Diáfana XS
+Peana Diáfana S
+Peana Diáfana M
+Peana Diáfana L
+Peana Alba L
+Peana Alba XL
+Peana Noche L
+Peana Noche XL
+Peana Diamante L
+Peana Diamante XL
+Peana Perla L
+Peana Perla XL
+Peana Dextrógira XS
+Peana Dextrógira M
+Peana Dextrógira L
+Peana Levógira XS
+Peana Levógira M
+Peana Levógira L
+Taladro
+MT01
+MT02
+MT03
+MT04
+MT05
+MT06
+MT07
+MT08
+MT09
+MT10
+MT11
+MT12
+MT13
+MT14
+MT15
+MT16
+MT17
+MT18
+MT19
+MT20
+MT21
+MT22
+MT23
+MT24
+MT25
+MT26
+MT27
+MT28
+MT29
+MT30
+MT31
+MT32
+MT33
+MT34
+MT35
+MT36
+MT37
+MT38
+MT39
+MT40
+MT41
+MT42
+MT43
+MT44
+MT45
+MT46
+MT47
+MT48
+MT49
+MT50
+MT51
+MT52
+MT53
+MT54
+MT55
+MT56
+MT57
+MT58
+MT59
+MT60
+MT61
+MT62
+MT63
+MT64
+MT65
+MT66
+MT67
+MT68
+MT69
+MT70
+MT71
+MT72
+MT73
+MT74
+MT75
+MT76
+MT77
+MT78
+MT79
+MT80
+MT81
+MT82
+MT83
+MT84
+MT85
+MT86
+MT87
+MT88
+MT89
+MT90
+MT91
+MT92
+Estatua de Bulbasaur
+Estatua de Ivysaur
+Estatua de Venusaur
+Estatua de Charmander
+Estatua de Charmeleon
+Estatua de Charizard
+Estatua de Squirtle
+Estatua de Wartortle
+Estatua de Blastoise
+Estatua de Pikachu
+Estatua de Nidoqueen
+Estatua de Nidoking
+Estatua de Clefairy
+Estatua de Vulpix
+Estatua de Jigglypuff
+Estatua de Oddish
+Estatua de Meowth
+Estatua de Psyduck
+Estatua de Arcanine
+Estatua de Poliwrath
+Estatua de Alakazam
+Estatua de Machamp
+Estatua de Tentacruel
+Estatua de Geodude
+Estatua de Rapidash
+Estatua de Slowpoke
+Estatua de Farfetch’d
+Estatua de Gengar
+Estatua de Cubone
+Estatua de Lickitung
+Estatua de Weezing
+Estatua de Chansey
+Estatua de Kangaskhan
+Estatua de Seaking
+Estatua de Mr. Mime
+Estatua de Tauros
+Estatua de Magikarp
+Estatua de Gyarados
+Estatua de Lapras
+Estatua de Ditto
+Estatua de Eevee
+Estatua de Vaporeon
+Estatua de Jolteon
+Estatua de Flareon
+Estatua de Porygon
+Estatua de Omastar
+Estatua de Snorlax
+Estatua de Dragonite
+Estatua de Chikorita
+Estatua de Bayleef
+Estatua de Meganium
+Estatua de Cyndaquil
+Estatua de Quilava
+Estatua de Typhlosion
+Estatua de Totodile
+Estatua de Croconaw
+Estatua de Feraligatr
+Estatua de Furret
+Estatua de Noctowl
+Estatua de Crobat
+Estatua de Togepi
+Estatua de Ampharos
+Estatua de Bellossom
+Estatua de Marill
+Estatua de Sudowoodo
+Estatua de Aipom
+Estatua de Sunkern
+Estatua de Quagsire
+Estatua de Espeon
+Estatua de Umbreon
+Estatua de Murkrow
+Estatua de Unown
+Estatua de Wobbuffet
+Estatua de Girafarig
+Estatua de Dunsparce
+Estatua de Steelix
+Estatua de Snubbull
+Estatua de Scizor
+Estatua de Heracross
+Estatua de Magcargo
+Estatua de Octillery
+Estatua de Mantine
+Estatua de Smeargle
+Estatua de Miltank
+Estatua de Tyranitar
+Estatua de Treecko
+Estatua de Grovyle
+Estatua de Sceptile
+Estatua de Torchic
+Estatua de Combusken
+Estatua de Blaziken
+Estatua de Mudkip
+Estatua de Marshtomp
+Estatua de Swampert
+Estatua de Beautifly
+Estatua de Dustox
+Estatua de Ludicolo
+Estatua de Pelipper
+Estatua de Gardevoir
+Estatua de Shroomish
+Estatua de Slaking
+Estatua de Ninjask
+Estatua de Exploud
+Estatua de Skitty
+Estatua de Sableye
+Estatua de Mawile
+Estatua de Aggron
+Estatua de Medicham
+Estatua de Manectric
+Estatua de Plusle
+Estatua de Minun
+Estatua de Volbeat
+Estatua de Illumise
+Estatua de Roselia
+Estatua de Sharpedo
+Estatua de Wailmer
+Estatua de Camerupt
+Estatua de Torkoal
+Estatua de Spinda
+Estatua de Flygon
+Estatua de Cacturne
+Estatua de Altaria
+Estatua de Zangoose
+Estatua de Seviper
+Estatua de Lunatone
+Estatua de Solrock
+Estatua de Whiscash
+Estatua de Claydol
+Estatua de Cradily
+Estatua de Milotic
+Estatua de Castform
+Estatua de Kecleon
+Estatua de Tropius
+Estatua de Chimecho
+Estatua de Absol
+Estatua de Spheal
+Estatua de Clamperl
+Estatua de Relicanth
+Estatua de Luvdisc
+Estatua de Salamence
+Estatua de Metagross
+Estatua de Turtwig
+Estatua de Grotle
+Estatua de Torterra
+Estatua de Chimchar
+Estatua de Monferno
+Estatua de Infernape
+Estatua de Piplup
+Estatua de Prinplup
+Estatua de Empoleon
+Estatua de Staraptor
+Estatua de Bibarel
+Estatua de Kricketot
+Estatua de Luxray
+Estatua de Budew
+Estatua de Roserade
+Estatua de Cranidos
+Estatua de Bastiodon
+Estatua de Burmy
+Estatua de Wormadam
+Estatua de Mothim
+Estatua de Vespiquen
+Estatua de Pachirisu
+Estatua de Floatzel
+Estatua de Cherubi
+Estatua de Gastrodon
+Estatua de Ambipom
+Estatua de Drifloon
+Estatua de Buneary
+Estatua de Mismagius
+Estatua de Honchkrow
+Estatua de Purugly
+Estatua de Skuntank
+Estatua de Bronzong
+Estatua de Happiny
+Estatua de Chatot
+Estatua de Spiritomb
+Estatua de Garchomp
+Estatua de Lucario
+Estatua de Hippowdon
+Estatua de Drapion
+Estatua de Croagunk
+Estatua de Carnivine
+Estatua de Lumineon
+Estatua de Abomasnow
+Estatua de Weavile
+Estatua de Magnezone
+Estatua de Rhyperior
+Estatua de Tangrowth
+Estatua de Electivire
+Estatua de Magmortar
+Estatua de Togekiss
+Estatua de Yanmega
+Estatua de Leafeon
+Estatua de Glaceon
+Estatua de Gliscor
+Estatua de Mamoswine
+Estatua de Porygon-Z
+Estatua de Gallade
+Estatua de Probopass
+Estatua de Dusknoir
+Estatua de Froslass
+Estatua de Rotom
+Estatua de Rotom
+Estatua de Rotom
+Estatua de Rotom
+Estatua de Rotom
+Estatua de Rotom
+Estatua de Articuno
+Estatua de Zapdos
+Estatua de Moltres
+Estatua de Mewtwo
+Estatua de Raikou
+Estatua de Entei
+Estatua de Suicune
+Estatua de Lugia
+Estatua de Ho-Oh
+Estatua de Regirock
+Estatua de Regice
+Estatua de Registeel
+Estatua de Latias
+Estatua de Latios
+Estatua de Kyogre
+Estatua de Groudon
+Estatua de Rayquaza
+Estatua de Bulbasaur 
+Estatua de Ivysaur 
+Estatua de Venusaur 
+Estatua de Charmander 
+Estatua de Charmeleon 
+Estatua de Charizard 
+Estatua de Squirtle 
+Estatua de Wartortle 
+Estatua de Blastoise 
+Estatua de Pikachu 
+Estatua de Nidoqueen 
+Estatua de Nidoking 
+Estatua de Clefairy 
+Estatua de Vulpix 
+Estatua de Jigglypuff 
+Estatua de Oddish 
+Estatua de Meowth 
+Estatua de Psyduck 
+Estatua de Arcanine 
+Estatua de Poliwrath 
+Estatua de Alakazam 
+Estatua de Machamp 
+Estatua de Tentacruel 
+Estatua de Geodude 
+Estatua de Rapidash 
+Estatua de Slowpoke 
+Estatua de Farfetch’d 
+Estatua de Gengar 
+Estatua de Cubone 
+Estatua de Lickitung 
+Estatua de Weezing 
+Estatua de Chansey 
+Estatua de Kangaskhan 
+Estatua de Seaking 
+Estatua de Mr. Mime 
+Estatua de Tauros 
+Estatua de Magikarp 
+Estatua de Gyarados 
+Estatua de Lapras 
+Estatua de Ditto 
+Estatua de Eevee 
+Estatua de Vaporeon 
+Estatua de Jolteon 
+Estatua de Flareon 
+Estatua de Porygon 
+Estatua de Omastar 
+Estatua de Snorlax 
+Estatua de Dragonite 
+Estatua de Chikorita 
+Estatua de Bayleef 
+Estatua de Meganium 
+Estatua de Cyndaquil 
+Estatua de Quilava 
+Estatua de Typhlosion 
+Estatua de Totodile 
+Estatua de Croconaw 
+Estatua de Feraligatr 
+Estatua de Furret 
+Estatua de Noctowl 
+Estatua de Crobat 
+Estatua de Togepi 
+Estatua de Ampharos 
+Estatua de Bellossom 
+Estatua de Marill 
+Estatua de Sudowoodo 
+Estatua de Aipom 
+Estatua de Sunkern 
+Estatua de Quagsire 
+Estatua de Espeon 
+Estatua de Umbreon 
+Estatua de Murkrow 
+Estatua de Unown 
+Estatua de Wobbuffet 
+Estatua de Girafarig 
+Estatua de Dunsparce 
+Estatua de Steelix 
+Estatua de Snubbull 
+Estatua de Scizor 
+Estatua de Heracross 
+Estatua de Magcargo 
+Estatua de Octillery 
+Estatua de Mantine 
+Estatua de Smeargle 
+Estatua de Miltank 
+Estatua de Tyranitar 
+Estatua de Treecko 
+Estatua de Grovyle 
+Estatua de Sceptile 
+Estatua de Torchic 
+Estatua de Combusken 
+Estatua de Blaziken 
+Estatua de Mudkip 
+Estatua de Marshtomp 
+Estatua de Swampert 
+Estatua de Beautifly 
+Estatua de Dustox 
+Estatua de Ludicolo 
+Estatua de Pelipper 
+Estatua de Gardevoir 
+Estatua de Shroomish 
+Estatua de Slaking 
+Estatua de Ninjask 
+Estatua de Exploud 
+Estatua de Skitty 
+Estatua de Sableye 
+Estatua de Mawile 
+Estatua de Aggron 
+Estatua de Medicham 
+Estatua de Manectric 
+Estatua de Plusle 
+Estatua de Minun 
+Estatua de Volbeat 
+Estatua de Illumise 
+Estatua de Roselia 
+Estatua de Sharpedo 
+Estatua de Wailmer 
+Estatua de Camerupt 
+Estatua de Torkoal 
+Estatua de Spinda 
+Estatua de Flygon 
+Estatua de Cacturne 
+Estatua de Altaria 
+Estatua de Zangoose 
+Estatua de Seviper 
+Estatua de Lunatone 
+Estatua de Solrock 
+Estatua de Whiscash 
+Estatua de Claydol 
+Estatua de Cradily 
+Estatua de Milotic 
+Estatua de Castform 
+Estatua de Kecleon 
+Estatua de Tropius 
+Estatua de Chimecho 
+Estatua de Absol 
+Estatua de Spheal 
+Estatua de Clamperl 
+Estatua de Relicanth 
+Estatua de Luvdisc 
+Estatua de Salamence 
+Estatua de Metagross 
+Estatua de Turtwig 
+Estatua de Grotle 
+Estatua de Torterra 
+Estatua de Chimchar 
+Estatua de Monferno 
+Estatua de Infernape 
+Estatua de Piplup 
+Estatua de Prinplup 
+Estatua de Empoleon 
+Estatua de Staraptor 
+Estatua de Bibarel 
+Estatua de Kricketot 
+Estatua de Luxray 
+Estatua de Budew 
+Estatua de Roserade 
+Estatua de Cranidos 
+Estatua de Bastiodon 
+Estatua de Burmy 
+Estatua de Wormadam 
+Estatua de Mothim 
+Estatua de Vespiquen 
+Estatua de Pachirisu 
+Estatua de Floatzel 
+Estatua de Cherubi 
+Estatua de Gastrodon 
+Estatua de Ambipom 
+Estatua de Drifloon 
+Estatua de Buneary 
+Estatua de Mismagius 
+Estatua de Honchkrow 
+Estatua de Purugly 
+Estatua de Skuntank 
+Estatua de Bronzong 
+Estatua de Happiny 
+Estatua de Chatot 
+Estatua de Spiritomb 
+Estatua de Garchomp 
+Estatua de Lucario 
+Estatua de Hippowdon 
+Estatua de Drapion 
+Estatua de Croagunk 
+Estatua de Carnivine 
+Estatua de Lumineon 
+Estatua de Abomasnow 
+Estatua de Weavile 
+Estatua de Magnezone 
+Estatua de Rhyperior 
+Estatua de Tangrowth 
+Estatua de Electivire 
+Estatua de Magmortar 
+Estatua de Togekiss 
+Estatua de Yanmega 
+Estatua de Leafeon 
+Estatua de Glaceon 
+Estatua de Gliscor 
+Estatua de Mamoswine 
+Estatua de Porygon-Z 
+Estatua de Gallade 
+Estatua de Probopass 
+Estatua de Dusknoir 
+Estatua de Froslass 
+Estatua de Rotom 
+Estatua de Rotom 
+Estatua de Rotom 
+Estatua de Rotom 
+Estatua de Rotom 
+Estatua de Rotom 
+MT93
+MT94
+MT95
+MT96
+MT97
+MT98
+MT99
+MT100
+Peana Cuadrada XL
+Peana Circular XL
+Peana Trapezoidal XL
+Peana Diáfana XL
+Peana Dextrógira XL
+Peana Levógira XL
+Giratina Origin Statue

@@ -1,0 +1,23 @@
+﻿000	—	—	—	—	—	—	—	—	—
+002	グアテマラ県	Guatemala	Guatemala	Guatemala	Guatemala	Guatemala	危地马拉省	과테말라 주	危地馬拉省
+003	アルタ・べラパス県	Alta Verapaz	Alta Verapaz	Alta Verapaz	Alta Verapaz	Alta Verapaz	上韦拉帕斯省	알타베라파스 주	上韋拉帕斯省
+004	バハ・べラパス県	Baja Verapaz	Baja Verapaz	Baja Verapaz	Baja Verapaz	Baja Verapaz	下韦拉帕斯省	바하베라파스 주	下韋拉帕斯省
+005	チマルテナンゴ県	Chimaltenango	Chimaltenango	Chimaltenango	Chimaltenango	Chimaltenango	奇马尔特南戈省	치말테낭고 주	奇馬爾特南戈省
+006	チキムラ県	Chiquimula	Chiquimula	Chiquimula	Chiquimula	Chiquimula	奇基穆拉省	치키물라 주	奇基穆拉省
+007	エル・プログレソ県	El Progreso	El Progreso	El Progreso	El Progreso	El Progreso	埃尔普罗格雷索省	엘프로그레소 주	埃爾普羅格雷索省
+008	エスクィントラ県	Escuintla	Escuintla	Escuintla	Escuintla	Escuintla	埃斯昆特拉省	에스쿠인틀라 주	埃斯昆特拉省
+009	ウェウェテナンゴ県	Huehuetenango	Huehuetenango	Huehuetenango	Huehuetenango	Huehuetenango	韦韦特南戈省	우에우에테낭고 주	韋韋特南戈省
+010	イザバル県	Izabal	Izabal	Izabal	Izabal	Izabal	伊萨瓦尔省	이사발 주	伊薩瓦爾省
+011	ハラパ県	Jalapa	Jalapa	Jalapa	Jalapa	Jalapa	哈拉帕省	할라파 주	哈拉帕省
+012	フティアパ県	Jutiapa	Jutiapa	Jutiapa	Jutiapa	Jutiapa	胡蒂亚帕省	후티아파 주	胡蒂亞帕省
+013	エル・ペテン県	Petén	El Petén	El Petén	Petén	Petén	佩滕省	페텐 주	佩滕省
+014	ケツァルテナンゴ県	Quetzaltenango	Quetzaltenango	Quetzaltenango	Quetzaltenango	Quetzaltenango	克萨尔特南戈省	케트살테낭고 주	克薩爾特南戈省
+015	エル・キチェ県	Quiché	El Quiché	El Quiché	Quiché	Quiché	基切省	키체 주	基切省
+016	レタルーレウ県	Retalhuleu	Retalhuleu	Retalhuleu	Retalhuleu	Retalhuleu	雷塔卢莱乌省	레탈룰레우 주	雷塔盧萊烏省
+017	サカテペケス県	Sacatepéquez	Sacatepéquez	Sacatepéquez	Sacatepéquez	Sacatepéquez	萨卡特佩克斯省	사카테페케스 주	薩卡特佩克斯省
+018	サン・マルコス県	San Marcos	San Marcos	San Marcos	San Marcos	San Marcos	圣马科斯省	산마르코스 주	聖馬科斯省
+019	サンタ・ローサ県	Santa Rosa	Santa Rosa	Santa Rosa	Santa Rosa	Santa Rosa	圣罗莎省	산타로사 주	聖羅莎省
+020	ソロラ県	Sololá	Sololá	Sololá	Sololá	Sololá	索洛拉省	솔롤라 주	索洛拉省
+021	スチテペケス県	Suchitepéquez	Suchitepéquez	Suchitepéquez	Suchitepéquez	Suchitepéquez	苏奇特佩克斯省	수치테페케스 주	蘇奇特佩克斯省
+022	トトニカパン県	Totonicapán	Totonicapán	Totonicapán	Totonicapán	Totonicapán	托托尼卡潘省	토토니카판 주	託託尼卡潘省
+023	サカパ県	Zacapa	Zacapa	Zacapa	Zacapa	Zacapa	萨卡帕省	사카파 주	薩卡帕省
