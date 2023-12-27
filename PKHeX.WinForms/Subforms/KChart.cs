@@ -107,7 +107,7 @@ public partial class KChart : Form
 
     private static bool IsAlolanNative(ushort species)
     {
-        if (species > 721)
+        if (species >= 721)
             return true;
         if (species == 720)
             return false;

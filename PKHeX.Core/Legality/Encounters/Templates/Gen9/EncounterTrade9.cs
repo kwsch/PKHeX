@@ -11,7 +11,7 @@ public sealed record EncounterTrade9
     public int Generation => 9;
     public EntityContext Context => EntityContext.Gen9;
     public int Location => Locations.LinkTrade6NPC;
-    public Shiny Shiny { get; init; }
+    public Shiny Shiny { get; init; } = Shiny.Never;
     public bool EggEncounter => false;
     public Ball FixedBall { get; init; }
     public bool IsShiny => false;
