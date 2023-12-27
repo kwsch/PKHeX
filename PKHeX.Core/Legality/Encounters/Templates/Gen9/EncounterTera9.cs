@@ -201,10 +201,7 @@ public sealed record EncounterTera9
         };
         SetPINGA(pk, criteria, pi);
 
-        if (Moves.HasMoves)
-            pk.SetMoves(Moves);
-        else // Beldum
-            EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        pk.SetMoves(Moves);
 
         pk.ResetPartyStats();
         return pk;

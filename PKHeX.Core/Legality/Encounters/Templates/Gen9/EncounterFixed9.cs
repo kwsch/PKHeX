@@ -20,7 +20,7 @@ public sealed record EncounterFixed9
     public Ball FixedBall => Ball.None;
     public bool IsShiny => false;
     public int EggLocation => 0;
-    public AbilityPermission Ability => Any12;
+    public AbilityPermission Ability { get; init; }
 
     public required ushort Species { get; init; }
     public required byte Form { get; init; }
@@ -54,7 +54,7 @@ public sealed record EncounterFixed9
         FlawlessIVCount = data[0x04],
         TeraType = (GemType)data[0x05],
         Gender = data[0x06],
-        // 1 byte reserved
+        Ability = (AbilityPermission)data[0x07],
         Moves = new Moveset(
             ReadUInt16LittleEndian(data[0x08..]),
             ReadUInt16LittleEndian(data[0x0A..]),
