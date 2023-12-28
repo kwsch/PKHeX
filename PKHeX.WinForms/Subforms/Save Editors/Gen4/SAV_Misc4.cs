@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static System.Buffers.Binary.BinaryPrimitives;
+using static PKHeX.WinForms.PoketchDotMatrix;
 
 namespace PKHeX.WinForms;
 
@@ -20,27 +20,31 @@ public partial class SAV_Misc4 : Form
     {
         InitializeComponent();
         WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-        int ofsFlag;
         SAV = (SAV4)(Origin = sav).Clone();
 
-        switch (SAV.Version)
+        StatNUDA = [NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3];
+        StatLabelA = [L_Stat0, L_Stat1, L_Stat2, L_Stat3]; // Current, Trade, Record, Trade
+        StatRBA = [RB_Stats3_01, RB_Stats3_02];
+        HallNUDA =
+        [
+            NUD_HallType01, NUD_HallType02, NUD_HallType03, NUD_HallType04, NUD_HallType05, NUD_HallType06,
+            NUD_HallType07, NUD_HallType08, NUD_HallType09, NUD_HallType10, NUD_HallType11, NUD_HallType12,
+            NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17,
+        ];
+        PrintButtonA = [BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade];
+
+        switch (sav)
         {
-            case GameVersion.D or GameVersion.P or GameVersion.DP:
-                ofsFlag = 0xFDC;
-                ofsBP = 0x65F8;
-                ofsUGFlagCount = 0x3A60;
+            case SAV4DP:
                 L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                 GB_Prints.Visible = GB_Prints.Enabled = GB_Hall.Visible = GB_Hall.Enabled = GB_Castle.Visible = GB_Castle.Enabled = false;
                 BFF = [
                     [0, 1, 0x5FCA, 0x04, 0x6601],
                 ];
                 break;
-            case GameVersion.Pt:
-                ofsFlag = 0xFEC;
-                ofsBP = 0x7234;
-                ofsUGFlagCount = 0x3CE8;
+            case SAV4Pt:
                 L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
-                ofsPrints = 0xE4A;
+                PrintIndexStart = 79;
                 BFF = [
                     [0, 1, 0x68E0, 0x04, 0x723D],
                     [1, 0, 0x68F4, 0x10, 0x7EF8],
@@ -50,13 +54,9 @@ public partial class SAV_Misc4 : Form
                 ];
                 Hall = SAV.GetHall();
                 break;
-            case GameVersion.HG or GameVersion.SS or GameVersion.HGSS:
-                ofsFlag = 0x10C4;
-                ofsBP = 0x5BB8;
-                L_UGFlags.Visible = NUD_UGFlags.Visible = false;
+            case SAV4HGSS:
                 GB_Poketch.Visible = false;
-                ofsMap = 0xBAE7;
-                ofsPrints = 0xE7E;
+                PrintIndexStart = 77;
                 BFF = [
                     // { BFV, BFT, addr, 1BFTlen, checkBit
                     [0, 1, 0x5264, 0x04, 0x5BC1],
@@ -67,9 +67,9 @@ public partial class SAV_Misc4 : Form
                 ];
                 Hall = SAV.GetHall();
                 break;
-            default: return;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(sav), sav, null);
         }
-        ofsFly = ofsFlag + 0x136;
         ReadMain();
         ReadBattleFrontier();
         if (SAV is SAV4Sinnoh s)
@@ -78,9 +78,9 @@ public partial class SAV_Misc4 : Form
             poffinCase4Editor1.Initialize(s);
             TC_Misc.Controls.Remove(Tab_PokeGear);
         }
-        else
+        else if (SAV is SAV4HGSS hgss)
         {
-            pokeGear4Editor1.Initialize((SAV4HGSS)SAV);
+            pokeGear4Editor1.Initialize(hgss);
             TC_Misc.Controls.Remove(Tab_Poffins);
         }
     }
@@ -98,119 +98,76 @@ public partial class SAV_Misc4 : Form
         Close();
     }
 
-    private void B_Cancel_Click(object sender, EventArgs e)
-    {
-        Close();
-    }
+    private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
-    private readonly int ofsFly;
-    private readonly int ofsBP;
-    private readonly int ofsMap = -1;
-    private readonly int ofsUGFlagCount = -1;
-    private int[] FlyDestC = null!;
+    private const int FlyFlagStart = 2480;
+    private static ReadOnlySpan<byte> FlyWorkFlagSinnoh => [000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017,   067, 068];
+    private static ReadOnlySpan<byte> LocationIDsSinnoh => [001, 002, 003, 004, 005, 082, 083, 006, 007, 008, 009, 010, 011, 012, 013, 014, 054, 081,   055, 015];
+    private static ReadOnlySpan<byte> FlyWorkFlagHGSS   => [000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022,   027, 030, 033, 035];
+    private static ReadOnlySpan<byte> LocationIDsHGSS   => [138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137,   229, 227, 221, 225];
 
     private void ReadMain()
     {
-        NUD_Coin.Value = SAV.Coin;
         NUD_Coin.Maximum = SAV.MaxCoins;
-        int[] FlyDestD;
-        IReadOnlyList<ComboItem> metLocationList;
-        switch (SAV)
-        {
-            case SAV4Sinnoh:
-                metLocationList = GameInfo.GetLocationList(GameVersion.Pt, EntityContext.Gen4, false);
-                FlyDestD = [001, 002, 006, 008, 003, 009, 010, 004, 012, 011, 005, 007, 014, 013, 054, 015, 081, 082, 083, 055];
-                FlyDestC = [000, 001, 007, 009, 002, 010, 011, 003, 013, 012, 004, 008, 015, 014, 016, 068, 017, 005, 006, 067];
-                break;
-            case SAV4HGSS:
-                metLocationList = GameInfo.GetLocationList(GameVersion.HG, EntityContext.Gen4, false);
-                FlyDestD = [126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225];
-                FlyDestC = [011, 012, 013, 014, 016, 018, 017, 015, 019, 020, 021, 030, 027, 022, 033, 009, 000, 001, 002, 003, 005, 004, 006, 010, 007, 008, 035];
-                break;
-            default: return;
-        }
-        uint valFly = ReadUInt32LittleEndian(SAV.General[ofsFly..]);
+        NUD_Coin.Value = Math.Clamp(SAV.Coin, 0, SAV.MaxCoins);
+        NUD_BP.Value = Math.Clamp(SAV.BP, 0, 9999);
+
+        var locations = SAV is SAV4Sinnoh ? LocationIDsSinnoh : LocationIDsHGSS;
+        var flags = SAV is SAV4Sinnoh ? FlyWorkFlagSinnoh : FlyWorkFlagHGSS;
+
         CLB_FlyDest.Items.Clear();
-        for (int i = 0; i < FlyDestD.Length; i++)
+        for (int i = 0; i < locations.Length; i++)
         {
-            var dest = FlyDestD[i];
-            var name = metLocationList.First(v => v.Value == dest).Text;
-            var state = FlyDestC[i] < 32
-                ? (valFly & (1u << FlyDestC[i])) != 0
-                : (SAV.General[ofsFly + (FlyDestC[i] >> 3)] & (1 << (FlyDestC[i] & 7))) != 0;
+            var flagIndex = FlyFlagStart + flags[i];
+            var state = SAV.GetEventFlag(flagIndex);
+
+            var locationID = locations[i];
+            var name = GameInfo.Strings.Gen4.Met0[locationID];
             CLB_FlyDest.Items.Add(name, state);
         }
-        uint valBP = ReadUInt16LittleEndian(SAV.General[ofsBP..]);
-        NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 
         if (SAV is SAV4Sinnoh sinnoh)
         {
             ReadPoketch(sinnoh);
+            NUD_UGFlags.Value = Math.Clamp(sinnoh.UG_Flags, 0, 999_999);
         }
         else if (SAV is SAV4HGSS hgss)
         {
             ReadWalker(hgss);
             ReadPokeathlon(hgss);
-        }
-
-        if (ofsUGFlagCount > 0)
-        {
-            uint flagCount = ReadUInt32LittleEndian(SAV.General[ofsUGFlagCount..]) & 0xFFFFF;
-            NUD_UGFlags.Value = Math.Clamp(flagCount, 0, 999_999);
-        }
-        if (ofsMap > 0)
-        {
-            string[] items = ["Map Johto", "Map Johto+", "Map Johto & Kanto"];
-            int index = (SAV.General[ofsMap] >> 3) & 3;
-            if (index > 2) index = 2;
-            CB_UpgradeMap.Items.AddRange(items);
-            CB_UpgradeMap.SelectedIndex = index;
+            L_UGFlags.Visible = NUD_UGFlags.Visible = false;
+            ReadOnlySpan<string> items = ["Map Johto", "Map Johto+", "Map Johto & Kanto"];
+            var index = hgss.MapUnlockState;
+            if (index >= MapUnlockState4.Invalid)
+                index = MapUnlockState4.JohtoKanto;
+            foreach (var item in items)
+                CB_UpgradeMap.Items.Add(item);
+            CB_UpgradeMap.SelectedIndex = (int)index;
         }
     }
 
     private void SaveMain()
     {
         SAV.Coin = (uint)NUD_Coin.Value;
-        uint valFly = ReadUInt32LittleEndian(SAV.General[ofsFly..]);
+        SAV.BP = (ushort)NUD_BP.Value;
+
+        var flags = SAV is SAV4Sinnoh ? FlyWorkFlagSinnoh : FlyWorkFlagHGSS;
         for (int i = 0; i < CLB_FlyDest.Items.Count; i++)
         {
-            if (FlyDestC[i] < 32)
-            {
-                if (CLB_FlyDest.GetItemChecked(i))
-                    valFly |= 1u << FlyDestC[i];
-                else
-                    valFly &= ~(1u << FlyDestC[i]);
-            }
-            else
-            {
-                var o = ofsFly + (FlyDestC[i] >> 3);
-                SAV.General[o] = (byte)((SAV.General[o] & ~(1 << (FlyDestC[i] & 7))) | (CLB_FlyDest.GetItemChecked(i) ? 1 << (FlyDestC[i] & 7) : 0));
-            }
+            var index = FlyFlagStart + flags[i];
+            SAV.SetEventFlag(index, CLB_FlyDest.GetItemChecked(i));
         }
-        WriteUInt32LittleEndian(SAV.General[ofsFly..], valFly);
-        WriteUInt16LittleEndian(SAV.General[ofsBP..], (ushort)NUD_BP.Value);
 
         if (SAV is SAV4Sinnoh sinnoh)
         {
             SavePoketch(sinnoh);
+            sinnoh.UG_Flags = (uint)NUD_UGFlags.Value;
         }
         else if (SAV is SAV4HGSS hgss)
         {
             SaveWalker(hgss);
             SavePokeathlon(hgss);
-        }
-
-        if (ofsUGFlagCount > 0)
-        {
-            var current = ReadUInt32LittleEndian(SAV.General[ofsUGFlagCount..]) & ~0xFFFFFu;
-            var update = current | (uint)NUD_UGFlags.Value;
-            WriteUInt32LittleEndian(SAV.General[ofsUGFlagCount..], update);
-        }
-        if (ofsMap > 0)
-        {
-            int valMap = CB_UpgradeMap.SelectedIndex;
-            if (valMap >= 0)
-                SAV.General[ofsMap] = (byte)((SAV.General[ofsMap] & 0xE7) | (valMap << 3));
+            hgss.MapUnlockState = (MapUnlockState4)CB_UpgradeMap.SelectedIndex;
         }
     }
 
@@ -221,30 +178,31 @@ public partial class SAV_Misc4 : Form
     }
 
     #region Poketch
-    private byte[] DotArtistByte = null!;
-    private static ReadOnlySpan<byte> ColorTable => [ 248, 168, 88, 8 ];
+    private byte[] DotArtistByte = [];
 
     private void ReadPoketch(SAV4Sinnoh s)
     {
-        string[] PoketchTitle = Enum.GetNames(typeof(PoketchApp));
-
-        CB_CurrentApp.Items.AddRange(PoketchTitle);
-        CB_CurrentApp.SelectedIndex = s.CurrentPoketchApp;
+        CB_CurrentApp.Items.Clear();
         CLB_Poketch.Items.Clear();
-        for (int i = 0; i < PoketchTitle.Length; i++)
+        for (PoketchApp i = 0; i <= PoketchApp.Alarm_Clock; i++)
         {
-            var title = $"{i:00} - {PoketchTitle[i]}";
-            var value = s.GetPoketchAppUnlocked((PoketchApp)i);
+            var name = i.ToString();
+            var title = $"{i:00} - {name}";
+            CB_CurrentApp.Items.Add(name);
+            var value = s.GetPoketchAppUnlocked(i);
             CLB_Poketch.Items.Add(title, value);
         }
+        CB_CurrentApp.SelectedIndex = s.CurrentPoketchApp;
 
         DotArtistByte = s.GetPoketchDotArtistData();
         SetPictureBoxFromFlags(DotArtistByte);
-        string tip = "Guide about D&D ImageFile Format";
-        tip += Environment.NewLine + " width = 24px";
-        tip += Environment.NewLine + " height = 20px";
-        tip += Environment.NewLine + " used color count <= 4";
-        tip += Environment.NewLine + " file size < 2058byte";
+        const string tip = """
+                           Guide about D&D ImageFile Format
+                            width = 24px
+                            height = 20px
+                            used color count <= 4
+                            file size < 2058byte
+                           """;
         tip1.SetToolTip(PB_DotArtist, tip);
         TAB_Main.AllowDrop = true;
     }
@@ -265,149 +223,33 @@ public partial class SAV_Misc4 : Form
 
     private void SetPictureBoxFromFlags(ReadOnlySpan<byte> inp)
     {
-        if (inp.Length != 120)
+        if (inp.Length != DotMatrixPixelCount / 4)
             return;
         PB_DotArtist.Image = GetDotArt(inp);
     }
 
-    private static Bitmap GetDotArt(ReadOnlySpan<byte> inp)
+    private void SetFlagsFromFileName(string fileName)
     {
-        byte[] dupbyte = new byte[23040];
-        for (int iy = 0; iy < 20; iy++)
-        {
-            for (int ix = 0; ix < 24; ix++)
-            {
-                var ib = ix + (24 * iy);
-                var ict = ColorTable[(inp[ib >> 2] >> ((ib % 4) << 1)) & 3];
-                var iz = (12 * ix) + (0x480 * iy);
-                for (int izy = 0; izy < 4; izy++)
-                {
-                    for (int izx = 0; izx < 4; izx++)
-                    {
-                        for (int ic = 0; ic < 3; ic++)
-                            dupbyte[ic + (3 * izx) + (0x120 * izy) + iz] = ict;
-                    }
-                }
-            }
-        }
-
-        Bitmap dabmp = new(96, 80);
-        BitmapData dabdata = dabmp.LockBits(new Rectangle(0, 0, dabmp.Width, dabmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-        System.Runtime.InteropServices.Marshal.Copy(dupbyte, 0, dabdata.Scan0, dupbyte.Length);
-        dabmp.UnlockBits(dabdata);
-        return dabmp;
-    }
-
-    private void SetFlagsFromFileName(string inpFileName)
-    {
-        if (FileUtil.GetFileSize(inpFileName) > 2058)
-            return; // 24*20*4(ARGB)=1920
-
-        using var bmp = (Bitmap)Image.FromFile(inpFileName);
-        if (bmp.Width != 24 || bmp.Height != 20)
-            return;
-
-        Span<byte> brightMap = stackalloc byte[480];
-        Span<byte> brightCount = stackalloc byte[0x100];
-        Span<byte> iBrightCount = stackalloc byte[0x100];
-        for (int iy = 0; iy < 20; iy++)
-        {
-            for (int ix = 0; ix < 24; ix++)
-            {
-                var ig = (byte)(0xFF * bmp.GetPixel(ix, iy).GetBrightness());
-                brightMap[ix + (24 * iy)] = ig;
-                brightCount[ig]++;
-            }
-        }
-
-        int colorCount = 0;
-        foreach (var value in brightCount)
-        {
-            if (value > 0)
-                ++colorCount;
-        }
-
-        if (colorCount is 0 or > 4)
-            return;
-        int errorsMin = int.MaxValue;
-        Span<byte> LCT = stackalloc byte[4];
-        Span<byte> mLCT = stackalloc byte[4];
-        for (int i = 0; i < 4; i++)
-            LCT[i] = (byte)(colorCount < i + 1 ? 4 : colorCount - i - 1);
-        int ee = 0;
-        while (++ee < 1000)
-        {
-            brightCount.CopyTo(iBrightCount);
-            for (int i = 0, j = 0; i < 0x100; i++)
-            {
-                if (iBrightCount[i] > 0)
-                    iBrightCount[i] = LCT[j++];
-            }
-
-            var errorsTotal = 0;
-            for (int i = 0; i < 480; i++)
-                errorsTotal += Math.Abs(brightMap[i] - ColorTable[iBrightCount[brightMap[i]]]);
-            if (errorsMin > errorsTotal)
-            {
-                errorsMin = errorsTotal;
-                LCT.CopyTo(mLCT);
-            }
-            GetNextLCT(LCT);
-            if (LCT[0] >= 4)
-                break;
-        }
-        for (int i = 0, j = 0; i < 0x100; i++)
-        {
-            if (brightCount[i] > 0)
-                brightCount[i] = mLCT[j++];
-        }
-
-        for (int i = 0; i < 480; i++)
-            brightMap[i] = brightCount[brightMap[i]];
-
-        Span<byte> ndab = stackalloc byte[120];
-        for (int i = 0; i < 480; i++)
-            ndab[i >> 2] |= (byte)((brightMap[i] & 3) << ((i % 4) << 1));
-
-        ndab.CopyTo(DotArtistByte.AsSpan(0));
-    }
-
-    private static void GetNextLCT(Span<byte> inp)
-    {
-        while (true)
-        {
-            if (++inp[0] < 4)
-                continue;
-
-            inp[0] = 0;
-            if (++inp[1] < 4)
-                continue;
-
-            inp[1] = 0;
-            if (++inp[2] < 4)
-                continue;
-
-            inp[2] = 0;
-            if (++inp[3] < 4)
-                continue;
-
-            inp[0] = 4;
-            return;
-        }
+        var dest = DotArtistByte;
+        PoketchDotMatrix.TryBuild(fileName, dest);
     }
 
     private void SetFlagsFromClickPoint(int inpX, int inpY)
     {
-        inpX = Math.Clamp(inpX, 0, 95);
-        inpY = Math.Clamp(inpY, 0, 79);
-        int i = (inpX >> 2) + (24 * (inpY >> 2));
-        byte[] ndab = new byte[120];
-        DotArtistByte.CopyTo(ndab, 0);
+        inpX = Math.Clamp(inpX, 0, (DotMatrixWidth * DotMatrixUpscaleFactor) - 1);
+        inpY = Math.Clamp(inpY, 0, (DotMatrixHeight * DotMatrixUpscaleFactor) - 1);
+        int i = (inpX >> 2) + (DotMatrixWidth * (inpY >> 2));
+        Span<byte> ndab = stackalloc byte[DotMatrixPixelCount / 4];
+        DotArtistByte.AsSpan().CopyTo(ndab);
+
         byte c = (byte)((ndab[i >> 2] >> ((i % 4) << 1)) & 3);
-        if (++c >= 4) c = 0;
+        if (++c >= 4)
+            c = 0;
+
         ndab[i >> 2] &= (byte)~(3 << ((i % 4) << 1));
         ndab[i >> 2] |= (byte)((c & 3) << ((i % 4) << 1));
-        ndab.CopyTo(DotArtistByte, 0);
+
+        ndab.CopyTo(DotArtistByte);
     }
 
     private void B_GiveAll_Click(object sender, EventArgs e)
@@ -446,19 +288,17 @@ public partial class SAV_Misc4 : Form
     #endregion
 
     #region BattleFrontier
-    private int[] Prints = null!;
-    private readonly int ofsPrints = -1;
-    private Color[] PrintColorA = null!;
-    private Button[] PrintButtonA = null!;
+    private readonly RadioButton[] StatRBA;
+    private readonly NumericUpDown[] StatNUDA;
+    private readonly Label[] StatLabelA;
+    private readonly NumericUpDown[] HallNUDA;
+    private readonly Button[] PrintButtonA;
+    private readonly int[][] BFF;
+    private readonly int PrintIndexStart;
+
     private bool editing;
-    private RadioButton[] StatRBA = null!;
-    private NumericUpDown[] StatNUDA = null!;
-    private Label[] StatLabelA = null!;
-    private readonly int[][] BFF = null!;
     private string[][] BFT = null!;
     private int[][] BFV = null!;
-    private string[] BFN = null!;
-    private NumericUpDown[] HallNUDA = null!;
     private bool HallStatUpdated;
 
     private void ReadBattleFrontier()
@@ -472,28 +312,13 @@ public partial class SAV_Misc4 : Form
             ["Singles", "Doubles", "Multi"],
             ["Singles", "Doubles", "Multi (Trainer)", "Multi (Friend)", "Wi-Fi"],
         ];
-        BFN = ["Tower", "Factory", "Hall", "Castle", "Arcade"];
-        if (SAV is SAV4DP) BFN = BFN.Take(1).ToArray();
-        StatNUDA = [NUD_Stat0, NUD_Stat1, NUD_Stat2, NUD_Stat3];
-        StatLabelA = [L_Stat0, L_Stat1, L_Stat2, L_Stat3];
-        StatRBA = [RB_Stats3_01, RB_Stats3_02];
 
-        if (ofsPrints > 0)
+        if (SAV is not SAV4DP)
         {
-            PrintColorA = [Color.Transparent, Color.Silver, Color.Gold];
-            PrintButtonA = [BTN_PrintTower, BTN_PrintFactory, BTN_PrintHall, BTN_PrintCastle, BTN_PrintArcade];
-            Prints = new int[PrintButtonA.Length];
-            for (int i = 0; i < Prints.Length; i++)
-                Prints[i] = 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General[(ofsPrints + (i << 1))..]) >> 1) - 1);
-            SetPrints();
+            SetPrintColors(PrintButtonA);
 
-            HallNUDA = [
-                NUD_HallType01, NUD_HallType02, NUD_HallType03, NUD_HallType04, NUD_HallType05, NUD_HallType06,
-                NUD_HallType07, NUD_HallType08, NUD_HallType09, NUD_HallType10, NUD_HallType11, NUD_HallType12,
-                NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17,
-            ];
-            string[] typeNames = GameInfo.Strings.types;
-            int[] typenameIndex = [0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8];
+            ReadOnlySpan<string> typeNames = GameInfo.Strings.types;
+            ReadOnlySpan<byte> typenameIndex = [0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8];
             for (int i = 0; i < HallNUDA.Length; i++)
                 tip2.SetToolTip(HallNUDA[i], typeNames[typenameIndex[i]]);
         }
@@ -502,8 +327,8 @@ public partial class SAV_Misc4 : Form
 
         editing = true;
         CB_Stats1.Items.Clear();
-        foreach (string t in BFN)
-            CB_Stats1.Items.Add(t);
+        for (BattleFrontierFacility4 i = 0; i <= SAV.MaxFacility; i++)
+            CB_Stats1.Items.Add(i.ToString());
         StatRBA[0].Checked = true;
 
         // Clear Listbox and ComboBox
@@ -521,25 +346,37 @@ public partial class SAV_Misc4 : Form
 
     private void SaveBattleFrontier()
     {
-        if (ofsPrints > 0)
-        {
-            for (int i = 0; i < Prints.Length; i++)
-            {
-                if (Prints[i] == 1 + Math.Sign((ReadUInt16LittleEndian(SAV.General[(ofsPrints + (i << 1))..]) >> 1) - 1))
-                    continue;
-                var value = Prints[i] << 1;
-                WriteInt32LittleEndian(SAV.General[(ofsPrints + (i << 1))..], value);
-            }
-        }
-
         if (HallStatUpdated)
             Hall?.RefreshChecksum();
     }
 
-    private void SetPrints()
+    private void SetPrintColors(ReadOnlySpan<Control> controls)
     {
-        for (int i = 0; i < PrintButtonA.Length; i++)
-            PrintButtonA[i].BackColor = PrintColorA[Prints[i]];
+        for (int i = 0; i < controls.Length; i++)
+        {
+            var pb = controls[i];
+            var workIndex = PrintIndexStart + i;
+            var value = SAV.GetWork(workIndex);
+            SetPrintColor(pb, (BattleFrontierPrintStatus4)value);
+        }
+    }
+
+    private static void SetPrintColor(Control pb, BattleFrontierPrintStatus4 value)
+    {
+        bool ready = value is BattleFrontierPrintStatus4.FirstReady or BattleFrontierPrintStatus4.SecondReady;
+        if (ready)
+            pb.ForeColor = Color.Red;
+        else if (value != 0)
+            pb.ForeColor = Color.Green;
+        else
+            pb.ResetForeColor();
+
+        if (value is BattleFrontierPrintStatus4.FirstReady or BattleFrontierPrintStatus4.FirstReceived)
+            pb.BackColor = Color.Silver;
+        else if (value is BattleFrontierPrintStatus4.SecondReady or BattleFrontierPrintStatus4.SecondReceived)
+            pb.BackColor = Color.Gold;
+        else
+            pb.ResetBackColor();
     }
 
     private void BTN_Print_Click(object sender, EventArgs e)
@@ -549,8 +386,14 @@ public partial class SAV_Misc4 : Form
         int index = Array.IndexOf(PrintButtonA, b);
         if (index < 0)
             return;
-        Prints[index] = (Prints[index] + 1) % 3;
-        SetPrints();
+        index += PrintIndexStart;
+        var current = SAV.GetWork(index);
+        current++;
+        if (current > (int)BattleFrontierPrintStatus4.SecondReceived)
+            current = 0;
+        SAV.SetWork(index, current);
+
+        SetPrintColor(b, (BattleFrontierPrintStatus4)current);
     }
 
     private void ChangeStat1(object sender, EventArgs e)
@@ -579,11 +422,16 @@ public partial class SAV_Misc4 : Form
         }
         else
         {
-            if (StatNUDA[1].Value > 9999) StatNUDA[1].Value = 9999;
+            if (StatNUDA[1].Value > 9999)
+                StatNUDA[1].Value = 9999;
             StatNUDA[1].Maximum = 9999;
         }
-        if (facility == 1) StatLabelA[1].Text = StatLabelA[3].Text = "Trade";
-        if (facility == 3) StatLabelA[1].Text = StatLabelA[3].Text = "CP";
+
+        if (facility == 1)
+            StatLabelA[1].Text = StatLabelA[3].Text = "Trade";
+        else if (facility == 3)
+            StatLabelA[1].Text = StatLabelA[3].Text = "CP";
+
         GB_Hall.Visible = facility == 2;
         GB_Castle.Visible = facility == 3;
 
@@ -624,19 +472,21 @@ public partial class SAV_Misc4 : Form
         byte maskFlag = (byte)(1 << (BattleType + (RBi << 2)));
         int TowerContinueCountOfs = SAV is SAV4DP ? 3 : 1;
 
+        var general = SAV.General;
         if (SetSavToVal)
         {
             editing = true;
             for (int i = 0; i < BFV[BFF[Facility][0]].Length; i++)
             {
-                if (BFV[BFF[Facility][0]][i] < 0) continue;
-                int vali = ReadUInt16LittleEndian(SAV.General[(addrVal + (i << 1))..]);
+                if (BFV[BFF[Facility][0]][i] < 0)
+                    continue;
+                int vali = ReadUInt16LittleEndian(general[(addrVal + (i << 1))..]);
                 StatNUDA[BFV[BFF[Facility][0]][i]].Value = vali > 9999 ? 9999 : vali;
             }
             CHK_Continue.Checked = (SAV.General[addrFlag] & maskFlag) != 0;
 
             if (Facility == 0) // tower continue count
-                StatNUDA[1].Value = ReadUInt16LittleEndian(SAV.General[(addrFlag + TowerContinueCountOfs + (BattleType << 1))..]);
+                StatNUDA[1].Value = ReadUInt16LittleEndian(general[(addrFlag + TowerContinueCountOfs + (BattleType << 1))..]);
 
             editing = false;
             return;
@@ -648,26 +498,27 @@ public partial class SAV_Misc4 : Form
             if (Facility == 0 && SetValToSav == 1) // tower continue count
             {
                 var offset = addrFlag + TowerContinueCountOfs + (BattleType << 1);
-                WriteUInt16LittleEndian(SAV.General[offset..], val);
+                WriteUInt16LittleEndian(general[offset..], val);
             }
 
             SetValToSav = Array.IndexOf(BFV[BFF[Facility][0]], SetValToSav);
             if (SetValToSav < 0)
                 return;
             var clamp = Math.Min((ushort)9999, val);
-            WriteUInt16LittleEndian(SAV.General[(addrVal + (SetValToSav << 1))..], clamp);
+            WriteUInt16LittleEndian(general[(addrVal + (SetValToSav << 1))..], clamp);
             return;
         }
         if (SetValToSav == -1)
         {
             if (CHK_Continue.Checked)
             {
-                SAV.General[addrFlag] |= maskFlag;
-                if (Facility == 3) SAV.General[addrFlag + 1] |= 0x01; // not found what this flag means
+                general[addrFlag] |= maskFlag;
+                if (Facility == 3)
+                    general[addrFlag + 1] |= 0x01; // not found what this flag means
             }
             else
             {
-                SAV.General[addrFlag] &= (byte)~maskFlag;
+                general[addrFlag] &= (byte)~maskFlag;
             }
         }
     }
@@ -676,24 +527,32 @@ public partial class SAV_Misc4 : Form
     {
         if (editing)
             return;
+
         int n = Array.IndexOf(StatNUDA, sender);
         if (n < 0)
             return;
+
         StatAddrControl(SetValToSav: n, SetSavToVal: false);
 
-        if (CB_Stats1.SelectedIndex == 0 && Math.Floor(StatNUDA[0].Value / 7) != StatNUDA[1].Value)
+        if (CB_Stats1.SelectedIndex != 0)
+            return;
+
+        const int bias = 7;
+        var n0 = StatNUDA[0];
+        var n1 = StatNUDA[1];
+        if (Math.Floor(n0.Value / bias) == n1.Value)
+            return;
+
+        if (n == 0)
         {
-            if (n == 0)
-            {
-                StatNUDA[1].Value = Math.Floor(StatNUDA[0].Value / 7);
-            }
-            else if (n == 1)
-            {
-                if (StatNUDA[0].Maximum > StatNUDA[1].Value * 7)
-                    StatNUDA[0].Value = StatNUDA[1].Value * 7;
-                else if (StatNUDA[0].Value < StatNUDA[0].Maximum)
-                    StatNUDA[0].Value = StatNUDA[0].Maximum;
-            }
+            n1.Value = Math.Floor(n0.Value / bias);
+        }
+        else if (n == 1)
+        {
+            if (n0.Maximum > n1.Value * bias)
+                n0.Value = n1.Value * bias;
+            else if (n0.Value < n0.Maximum)
+                n0.Value = n0.Maximum;
         }
     }
 
@@ -711,6 +570,7 @@ public partial class SAV_Misc4 : Form
         species = (ushort)WinFormsUtil.GetIndex(CB_Species);
         if (editing)
             return;
+
         editing = true;
         GetHallStat();
         editing = false;
@@ -747,7 +607,7 @@ public partial class SAV_Misc4 : Form
         CHK_HallCurrent.Checked = c;
         CHK_HallCurrent.Text = curspe > 0 && curspe <= SAV.MaxSpeciesID
             ? $"Current: {SpeciesName.GetSpeciesName(curspe, GameLanguage.GetLanguageIndex(Main.CurrentLanguage))}"
-            : "Current: (none)";
+            : "Current: (None)";
 
         int s = 0;
         for (int i = 0; i < HallNUDA.Length; i++)
@@ -801,34 +661,48 @@ public partial class SAV_Misc4 : Form
 
     private void ReadWalker(SAV4HGSS s)
     {
-        string[] walkercourses = GameInfo.Sources.Strings.walkercourses;
-        bool[] isChecked = s.GetPokewalkerCoursesUnlocked();
+        ReadOnlySpan<string> walkercourses = GameInfo.Sources.Strings.walkercourses;
         CLB_WalkerCourses.Items.Clear();
-        for (int i = 0; i < walkercourses.Length; i++)
-            CLB_WalkerCourses.Items.Add(walkercourses[i], isChecked[i]);
+        foreach (var name in walkercourses)
+            CLB_WalkerCourses.Items.Add(name);
+
+        ReadWalkerCourseUnlockFlags(s);
+
         NUD_Watts.Value = s.PokewalkerWatts;
         NUD_Steps.Value = s.PokewalkerSteps;
     }
 
+    private void ReadWalkerCourseUnlockFlags(SAV4HGSS s)
+    {
+        Span<bool> courses = stackalloc bool[SAV4HGSS.PokewalkerCourseFlagCount];
+        s.GetPokewalkerCoursesUnlocked(courses);
+        for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++)
+            CLB_WalkerCourses.SetItemChecked(i, courses[i]);
+    }
+
     private void SaveWalker(SAV4HGSS s)
     {
-        Span<bool> courses = stackalloc bool[32];
+        Span<bool> courses = stackalloc bool[SAV4HGSS.PokewalkerCourseFlagCount];
         for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++)
             courses[i] = CLB_WalkerCourses.GetItemChecked(i);
         s.SetPokewalkerCoursesUnlocked(courses);
+
         s.PokewalkerWatts = (uint)NUD_Watts.Value;
         s.PokewalkerSteps = (uint)NUD_Steps.Value;
     }
 
     private void B_AllWalkerCourses_Click(object sender, EventArgs e)
     {
-        for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++)
-            CLB_WalkerCourses.SetItemChecked(i, true);
+        if (SAV is not SAV4HGSS s)
+            throw new Exception("Invalid SAV type");
+        s.PokewalkerCoursesUnlockAll();
+        ReadWalkerCourseUnlockFlags(s);
     }
 
     private void OnBAllSealsLegalOnClick(object sender, EventArgs e)
     {
-        SAV.SetAllSeals(99, sender == B_AllSealsIllegal);
+        bool setUnreleasedIndexes = sender == B_AllSealsIllegal;
+        SAV.SetAllSeals(SAV4.SealMaxCount, setUnreleasedIndexes);
         System.Media.SystemSounds.Asterisk.Play();
     }
 
@@ -840,5 +714,145 @@ public partial class SAV_Misc4 : Form
     private void SavePokeathlon(SAV4HGSS s)
     {
         s.PokeathlonPoints = (uint)NUD_PokeathlonPoints.Value;
+    }
+}
+
+public static class PoketchDotMatrix
+{
+    public const int DotMatrixHeight = 20;
+    public const int DotMatrixWidth = 24;
+    public const int DotMatrixPixelCount = DotMatrixHeight * DotMatrixWidth;
+
+    public static ReadOnlySpan<byte> ColorTable => [248, 168, 88, 8];
+
+    public static bool TryBuild(string fileName, Span<byte> result)
+    {
+        if (FileUtil.GetFileSize(fileName) > 0x80A)
+            return false;
+
+        using var bmp = (Bitmap)Image.FromFile(fileName);
+        if (bmp.Width != DotMatrixWidth || bmp.Height != DotMatrixHeight)
+            return false;
+
+        Span<byte> brightMap = stackalloc byte[DotMatrixPixelCount];
+        Span<byte> brightCount = stackalloc byte[0x100];
+        if (!TryBuildBrightMap(bmp, brightMap, brightCount, out int colorCount))
+            return false;
+
+        Build(colorCount, brightCount, brightMap, result);
+        return true;
+    }
+
+    private static bool TryBuildBrightMap(Bitmap bmp, Span<byte> brightMap, Span<byte> brightCount, out int colorCount)
+    {
+        for (int iy = 0; iy < DotMatrixHeight; iy++) // Height
+        {
+            for (int ix = 0; ix < DotMatrixWidth; ix++) // Width
+            {
+                var ig = (byte)(0xFF * bmp.GetPixel(ix, iy).GetBrightness());
+                brightMap[ix + (DotMatrixWidth * iy)] = ig;
+                brightCount[ig]++;
+            }
+        }
+        colorCount = brightCount.Length - brightCount.Count<byte>(0);
+        return (colorCount - 1) <= 3; // 1-4
+    }
+
+    private static void Build(int colorCount, Span<byte> brightCount, Span<byte> brightMap, Span<byte> result)
+    {
+        int errorsMin = int.MaxValue;
+        Span<byte> LCT = stackalloc byte[4];
+        for (int i = 0; i < LCT.Length; i++)
+            LCT[i] = (byte)(colorCount < i + 1 ? 4 : colorCount - i - 1);
+
+        Span<byte> mLCT = stackalloc byte[4];
+        Span<byte> iBrightCount = stackalloc byte[0x100];
+        int ee = 0;
+        while (++ee < 1000)
+        {
+            brightCount.CopyTo(iBrightCount);
+            for (int i = 0, j = 0; i < iBrightCount.Length; i++)
+            {
+                if (iBrightCount[i] > 0)
+                    iBrightCount[i] = LCT[j++];
+            }
+
+            var errorsTotal = 0;
+            for (int i = 0; i < DotMatrixPixelCount; i++)
+                errorsTotal += Math.Abs(brightMap[i] - ColorTable[iBrightCount[brightMap[i]]]);
+            if (errorsMin > errorsTotal)
+            {
+                errorsMin = errorsTotal;
+                LCT.CopyTo(mLCT);
+            }
+            GetNextLCT(LCT);
+            if (LCT[0] >= 4)
+                break;
+        }
+        for (int i = 0, j = 0; i < brightCount.Length; i++)
+        {
+            if (brightCount[i] > 0)
+                brightCount[i] = mLCT[j++];
+        }
+
+        for (int i = 0; i < brightMap.Length; i++)
+            brightMap[i] = brightCount[brightMap[i]];
+
+        for (int i = 0; i < brightMap.Length; i++)
+            result[i >> 2] |= (byte)((brightMap[i] & 3) << ((i % 4) << 1));
+    }
+
+    private static void GetNextLCT(Span<byte> inp)
+    {
+        while (true)
+        {
+            if (++inp[0] < 4)
+                continue;
+
+            inp[0] = 0;
+            if (++inp[1] < 4)
+                continue;
+
+            inp[1] = 0;
+            if (++inp[2] < 4)
+                continue;
+
+            inp[2] = 0;
+            if (++inp[3] < 4)
+                continue;
+
+            inp[0] = 4;
+            return;
+        }
+    }
+
+    public const int DotMatrixUpscaleFactor = 4;
+
+    public static Bitmap GetDotArt(ReadOnlySpan<byte> inp)
+    {
+        byte[] dupbyte = new byte[23040];
+        for (int iy = 0; iy < DotMatrixHeight; iy++)
+        {
+            for (int ix = 0; ix < DotMatrixWidth; ix++)
+            {
+                var ib = ix + (DotMatrixWidth * iy);
+                var ict = ColorTable[(inp[ib >> 2] >> ((ib % 4) << 1)) & 3];
+                var iz = (12 * ix) + (0x480 * iy);
+                for (int izy = 0; izy < 4; izy++)
+                {
+                    for (int izx = 0; izx < 4; izx++)
+                    {
+                        for (int ic = 0; ic < 3; ic++)
+                            dupbyte[ic + (3 * izx) + (0x120 * izy) + iz] = ict;
+                    }
+                }
+            }
+        }
+
+        var dabmp = new Bitmap(DotMatrixWidth * DotMatrixUpscaleFactor, DotMatrixHeight * DotMatrixUpscaleFactor);
+        var dabdata = dabmp.LockBits(new Rectangle(0, 0, dabmp.Width, dabmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+        System.Runtime.InteropServices.Marshal.Copy(dupbyte, 0, dabdata.Scan0, dupbyte.Length);
+        dabmp.UnlockBits(dabdata);
+        return dabmp;
     }
 }

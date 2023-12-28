@@ -18,13 +18,16 @@ public sealed class FashionUnlock8(SAV8SWSH sav, SCBlock block) : SaveBlock<SAV8
     public const int REGION_LEGWEAR   = 13;
     public const int REGION_FOOTWEAR  = 14;
 
-    public bool[] GetArrayOwnedFlag(int region) => FlagUtil.GitBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), SIZE_ENTRY * 8);
-    public bool[] GetArrayNewFlag(int region) => FlagUtil.GitBitFlagArray(Data.AsSpan((region + REGIONS) * SIZE_ENTRY), SIZE_ENTRY * 8);
+    private Span<byte> GetOwnedRegion(int region) => Data.AsSpan(region * SIZE_ENTRY, SIZE_ENTRY);
+    private Span<byte> GetNewRegion(int region) => Data.AsSpan((region + REGIONS) * SIZE_ENTRY, SIZE_ENTRY);
+
+    public bool[] GetArrayOwnedFlag(int region) => FlagUtil.GetBitFlagArray(GetOwnedRegion(region), SIZE_ENTRY * 8);
+    public bool[] GetArrayNewFlag(int region) => FlagUtil.GetBitFlagArray(GetNewRegion(region), SIZE_ENTRY * 8);
     public int[] GetIndexesOwnedFlag(int region) => GetIndexes(GetArrayOwnedFlag(region));
     public int[] GetIndexesNewFlag(int region) => GetIndexes(GetArrayNewFlag(region));
 
-    public void SetArrayOwnedFlag(int region, Span<bool> value) => FlagUtil.SetBitFlagArray(Data.AsSpan(region * SIZE_ENTRY), value);
-    public void SetArrayNewFlag(int region, Span<bool> value) => FlagUtil.SetBitFlagArray(Data.AsSpan((region + REGIONS) * SIZE_ENTRY), value);
+    public void SetArrayOwnedFlag(int region, Span<bool> value) => FlagUtil.SetBitFlagArray(GetOwnedRegion(region), value);
+    public void SetArrayNewFlag(int region, Span<bool> value) => FlagUtil.SetBitFlagArray(GetNewRegion(region), value);
     public void SetIndexesOwnedFlag(int region, ReadOnlySpan<int> value) => SetArrayOwnedFlag(region, SetIndexes(value));
     public void SetIndexesNewFlag(int region, ReadOnlySpan<int> value) => SetArrayNewFlag(region, SetIndexes(value));
 

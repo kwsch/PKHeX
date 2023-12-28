@@ -3,16 +3,18 @@ using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
 
-public sealed class Hall4
+/// <summary>
+/// Extra-data block for Hall of Fame records.
+/// </summary>
+/// <param name="Raw">Chunk of memory storing the structure.</param>
+public sealed class Hall4(Memory<byte> Raw)
 {
     private const int SIZE = 0xBA0;
     private const int SIZE_FOOTER = 0x10;
-    private const int SIZE_BLOCK = 0x1000;
+    private const int SIZE_USED = SIZE + SIZE_FOOTER;
+    public const int SIZE_BLOCK = 0x1000;
 
-    private readonly byte[] Raw;
-    private readonly int Offset;
-    private Span<byte> Data => Raw.AsSpan(Offset, SIZE_BLOCK);
-    public Hall4(byte[] data, int offset) => (Raw, Offset) = (data, offset);
+    private Span<byte> Data => Raw.Span[..SIZE_USED];
 
     private const int SIZE_ARRAY = 0x3DE; // 493+(egg, bad-egg) species
 

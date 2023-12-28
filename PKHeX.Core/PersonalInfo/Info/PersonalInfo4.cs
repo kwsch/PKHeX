@@ -59,7 +59,7 @@ public sealed class PersonalInfo4(byte[] Data) : PersonalInfo, IPersonalAbility1
     public override byte FormCount { get => Data[0x29]; set {} }
     public override int FormStatsIndex { get => ReadUInt16LittleEndian(Data.AsSpan(0x2A)); set {} }
 
-    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = FlagUtil.GitBitFlagArray(data);
+    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = FlagUtil.GetBitFlagArray(data);
     public void CopyTypeTutors(PersonalInfo4 other) => TypeTutors = other.TypeTutors;
 
     /// <summary>

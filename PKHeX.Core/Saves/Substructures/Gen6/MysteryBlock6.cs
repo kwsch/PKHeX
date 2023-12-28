@@ -13,7 +13,7 @@ public sealed class MysteryBlock6 : SaveBlock<SAV6>
     public MysteryBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
     public MysteryBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
-    public bool[] GetReceivedFlags() => FlagUtil.GitBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
+    public bool[] GetReceivedFlags() => FlagUtil.GetBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
 
     public void SetReceivedFlags(ReadOnlySpan<bool> value)
     {

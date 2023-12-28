@@ -44,6 +44,7 @@ public sealed class SAV4DP : SAV4Sinnoh
 
     protected override int EventWork => 0xD9C;
     protected override int EventFlag => 0xFDC;
+    public override BattleFrontierFacility4 MaxFacility => BattleFrontierFacility4.Tower;
 
     private void GetSAVOffsets()
     {
@@ -165,6 +166,7 @@ public sealed class SAV4DP : SAV4Sinnoh
     public override uint SafariSeed { get => ReadUInt32LittleEndian(General[0x53C4..]); set => WriteUInt32LittleEndian(General[0x53C4..], value); }
     public override uint SwarmSeed { get => ReadUInt32LittleEndian(General[0x53C8..]); set => WriteUInt32LittleEndian(General[0x53C8..], value); }
     public override uint SwarmMaxCountModulo => 28;
+    public override int BP { get => ReadUInt16LittleEndian(General[0x65F8..]); set => WriteUInt16LittleEndian(General[0x65F8..], (ushort)value); }
 
     protected override ReadOnlySpan<ushort> TreeSpecies =>
     [

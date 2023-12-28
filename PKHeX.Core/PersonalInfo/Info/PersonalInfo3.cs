@@ -55,9 +55,9 @@ public sealed class PersonalInfo3(byte[] Data) : PersonalInfo, IPersonalAbility1
 
     public bool HasSecondAbility => Ability1 != Ability2;
 
-    public void AddTMHM(ReadOnlySpan<byte> data) => TMHM = FlagUtil.GitBitFlagArray(data);
+    public void AddTMHM(ReadOnlySpan<byte> data) => TMHM = FlagUtil.GetBitFlagArray(data);
 
-    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = FlagUtil.GitBitFlagArray(data);
+    public void AddTypeTutors(ReadOnlySpan<byte> data) => TypeTutors = FlagUtil.GetBitFlagArray(data);
 
     /// <summary>
     /// TM/HM learn compatibility flags for individual moves.

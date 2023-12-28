@@ -18,13 +18,10 @@ public sealed class Chatter4: SaveBlock<SAV4>, IChatter
 
     public Span<byte> Recording => SAV.General.Slice(Offset + sizeof(uint), IChatter.SIZE_PCM);
 
-    public int ConfusionChance
+    public int ConfusionChance => !Initialized ? 1 : (sbyte)Recording[15] switch
     {
-        get => !Initialized ? 1 : (sbyte)Recording[15] switch
-        {
-            < -30 => 11,
-            >= 30 => 31,
-            _ => 1,
-        };
-    }
+        < -30 => 11,
+        >= 30 => 31,
+        _ => 1,
+    };
 }

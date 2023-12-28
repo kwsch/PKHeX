@@ -18,9 +18,9 @@ public partial class SettingsEditor : Form
 
         if (obj is PKHeXSettings s)
         {
-            GameVersion[] noSelectVersions = [GameVersion.GO, 0];
+            static bool IsInvalidSaveFileVersion(GameVersion value) => value is 0 or GameVersion.GO;
             CB_Blank.InitializeBinding();
-            CB_Blank.DataSource = GameInfo.VersionDataSource.Where(z => !noSelectVersions.Contains((GameVersion)z.Value)).ToList();
+            CB_Blank.DataSource = GameInfo.VersionDataSource.Where(z => !IsInvalidSaveFileVersion((GameVersion)z.Value)).ToList();
             CB_Blank.SelectedValue = (int)s.Startup.DefaultSaveVersion;
             CB_Blank.SelectedValueChanged += (_, _) => s.Startup.DefaultSaveVersion = (GameVersion)WinFormsUtil.GetIndex(CB_Blank);
             CB_Blank.SelectedIndexChanged += (_, _) => BlankChanged = true;

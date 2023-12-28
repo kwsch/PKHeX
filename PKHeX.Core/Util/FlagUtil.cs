@@ -34,7 +34,7 @@ public static class FlagUtil
         arr[offset] = (byte)newValue;
     }
 
-    public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data, int count)
+    public static bool[] GetBitFlagArray(ReadOnlySpan<byte> data, int count)
     {
         var result = new bool[count];
         GetBitFlagArray(data, result);
@@ -47,7 +47,7 @@ public static class FlagUtil
             result[i] = (data[i >> 3] & (1 << (i & 7))) != 0;
     }
 
-    public static bool[] GitBitFlagArray(ReadOnlySpan<byte> data) => GitBitFlagArray(data, data.Length << 3);
+    public static bool[] GetBitFlagArray(ReadOnlySpan<byte> data) => GetBitFlagArray(data, data.Length << 3);
 
     public static void SetBitFlagArray(Span<byte> data, ReadOnlySpan<bool> value)
     {

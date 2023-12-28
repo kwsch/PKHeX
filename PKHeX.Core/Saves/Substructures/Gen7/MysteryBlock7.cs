@@ -15,7 +15,7 @@ public sealed class MysteryBlock7 : SaveBlock<SAV7>
     // Mystery Gift
     public bool[] MysteryGiftReceivedFlags
     {
-        get => FlagUtil.GitBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
+        get => FlagUtil.GetBitFlagArray(Data.AsSpan(Offset + FlagStart), MaxReceivedFlag);
         set
         {
             if (value.Length != MaxReceivedFlag)

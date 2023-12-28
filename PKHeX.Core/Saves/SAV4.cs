@@ -201,7 +201,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     {
         var block = ExtraBlocks[1];
         var active = GetActiveExtraBlock(block);
-        return active == -1 ? null : new Hall4(Data, (active == 0 ? 0 : PartitionSize) + block.Offset);
+        return active == -1 ? null : new Hall4(Data.AsMemory((active == 0 ? 0 : PartitionSize) + block.Offset, Hall4.SIZE_BLOCK));
     }
 
     protected int WondercardFlags = int.MinValue;
@@ -604,7 +604,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
     #endregion
 
     // Seals
-    private const byte SealMaxCount = 99;
+    public const byte SealMaxCount = 99;
 
     public Span<byte> GetSealCase() => General.Slice(Seal, (int)Seal4.MAX);
     public void SetSealCase(ReadOnlySpan<byte> value) => SetData(General.Slice(Seal, (int)Seal4.MAX), value);
@@ -652,4 +652,7 @@ public abstract class SAV4 : SaveFile, IEventFlag37
                 ++SwarmSeed;
         }
     }
+
+    public abstract int BP { get; set; }
+    public abstract BattleFrontierFacility4 MaxFacility { get; }
 }
