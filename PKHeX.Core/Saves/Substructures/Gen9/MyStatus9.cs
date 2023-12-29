@@ -45,11 +45,37 @@ public sealed class MyStatus9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav
                 return;
             Data[Offset + 0x07] = (byte)value;
 
-            // For runtime language, the game shifts all languages above Language 6 (unused) down one.
-            if (value >= 6)
-                value--;
-            SAV.SetValue(SaveBlockAccessor9SV.KGameLanguage, value); // Int32
+            // For runtime language, the game has different indexes (not even shifted like previous games, just different)
+            var runtimeLanguage = GetRuntimeLanguage((LanguageID)value);
+            SAV.SetValue(SaveBlockAccessor9SV.KGameLanguage, (int)runtimeLanguage); // Int32
         }
+    }
+
+    private static RuntimeLanguage GetRuntimeLanguage(LanguageID value) => value switch
+    {
+        LanguageID.Japanese => RuntimeLanguage.Japanese,
+        LanguageID.English => RuntimeLanguage.English,
+        LanguageID.Spanish => RuntimeLanguage.Spanish,
+        LanguageID.German => RuntimeLanguage.German,
+        LanguageID.French => RuntimeLanguage.French,
+        LanguageID.Italian => RuntimeLanguage.Italian,
+        LanguageID.Korean => RuntimeLanguage.Korean,
+        LanguageID.ChineseS => RuntimeLanguage.ChineseS,
+        LanguageID.ChineseT => RuntimeLanguage.ChineseT,
+        _ => RuntimeLanguage.English, // Default to English
+    };
+
+    private enum RuntimeLanguage
+    {
+        Japanese = 0,
+        English = 1,
+        Spanish = 2,
+        German = 3,
+        French = 4,
+        Italian = 5,
+        Korean = 6,
+        ChineseS = 7,
+        ChineseT = 8,
     }
 
     private Span<byte> OT_Trash => Data.AsSpan(0x10, 0x1A);
