@@ -71,6 +71,23 @@ public static class HiddenPower
     /// </summary>
     public const int TypeCount = 16;
 
+    /// <summary>
+    /// Gets the Type Name index of the input Hidden Power Type
+    /// </summary>
+    /// <param name="type">Fetched Hidden Power Type</param>
+    /// <param name="index">Type Name index</param>
+    /// <returns>True if the input Hidden Power Type is valid</returns>
+    public static bool TryGetTypeIndex(int type, out byte index)
+    {
+        if ((uint)type >= TypeCount)
+        {
+            index = default;
+            return false;
+        }
+        index = (byte)(type + 1); // Normal type is not a valid Hidden Power type
+        return true;
+    }
+
     private static ReadOnlySpan<byte> SixBitType =>
     [
         // (low-bit mash) * 15 / 63

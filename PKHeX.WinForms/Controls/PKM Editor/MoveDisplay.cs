@@ -23,8 +23,8 @@ public partial class MoveDisplay : UserControl
         var name = moves[move];
         if (move == (int)Core.Move.HiddenPower && pk.Context is not EntityContext.Gen8a)
         {
-            type = (byte)pk.HPType;
-            name = $"{name} ({GameInfo.Strings.types[type]}) [{pk.HPPower}]";
+            if (HiddenPower.TryGetTypeIndex(pk.HPType, out type))
+                name = $"{name} ({GameInfo.Strings.types[type]}) [{pk.HPPower}]";
         }
 
         var size = PokePreview.MeasureSize(name, L_Move.Font);
