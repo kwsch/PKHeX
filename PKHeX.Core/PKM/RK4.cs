@@ -25,7 +25,7 @@ public sealed class RK4 : G4PKM
 
     private static byte[] Decrypt(byte[] data)
     {
-        data = data[..PokeCrypto.SIZE_4STORED];
+        data = data[..PokeCrypto.SIZE_4RSTORED];
         PokeCrypto.DecryptIfEncrypted45(ref data);
         return data;
     }

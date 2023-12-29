@@ -294,6 +294,8 @@ public partial class SAV_FolderList : Form
             enumerator.Dispose();
         });
 
+        dgData.Sorted += (_, _) => GetFilterText(dgData);
+
         return list;
     }
 

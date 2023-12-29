@@ -187,7 +187,7 @@ internal static class GBRestrictions
     {
         foreach (var z in moves)
         {
-            if (z.Generation == enc.Generation || z.Generation > 2)
+            if (z.Generation == enc.Generation || z.Generation is not (1 or 2))
                 continue;
             if (pk is PK1 {Catch_Rate: not 0} g1 && !IsTradebackCatchRate(g1.Catch_Rate))
                 return BadCatchRate;
@@ -198,8 +198,8 @@ internal static class GBRestrictions
         {
             return enc.Generation switch
             {
-                2 when pk.VC2 => Transferred21,
-                1 when pk.VC1 => Transferred12,
+                1 when pk.VC2 => Transferred12,
+                2 when pk.VC1 => Transferred21,
                 _ => NotTransferred,
             };
         }
@@ -231,6 +231,7 @@ internal static class GBRestrictions
 
     private static bool IsCatchRateMatchEncounter(IEncounterTemplate enc, PK1 pk1) => enc switch
     {
+        EncounterGift1 g when g.GetMatchRating(pk1) < EncounterMatchRating.PartialMatch => true,
         EncounterStatic1 s when s.GetMatchRating(pk1) < EncounterMatchRating.PartialMatch => true,
         EncounterTrade1 => true,
         _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.Catch_Rate),
