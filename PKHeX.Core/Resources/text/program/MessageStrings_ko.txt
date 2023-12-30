@@ -81,6 +81,7 @@ MsgBackupSuccess = 백업 폴더를 만들었습니다!
 MsgDatabase = PKHeX 데이터베이스를 찾을 수 없습니다.
 MsgDatabaseAdvice = 세이브 파일의 모든 박스를 덤프하고 '{0}' 폴더가 있는지 확인하세요.
 MsgDatabaseExport = PKHeX 데이터베이스에 저장하시겠습니까?
+MsgDatabaseExportSeparate = Create separate folders for each Box?
 MsgDatabaseLoad = PKHeX 데이터베이스에서 불러오시겠습니까?
 MsgPKMLoadNull = null 파일을 불러오려고 시도했습니다.
 MsgPKMSuggestionFormat = 이 PKM 포맷에는 제안을 사용할 수 없습니다.

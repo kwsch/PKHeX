@@ -447,13 +447,16 @@ public partial class Main : Form
     private void MainMenuBoxDump(object sender, EventArgs e)
     {
         string? path = null;
+        bool separate = false;
         DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDatabaseExport);
         if (ld == DialogResult.Yes)
             path = DatabasePath;
         else if (ld != DialogResult.No)
             return;
+        if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDatabaseExportSeparate) == DialogResult.Yes)
+            separate = true;
 
-        if (C_SAV.DumpBoxes(out string result, path))
+        if (C_SAV.DumpBoxes(out string result, path, separate))
             WinFormsUtil.Alert(result);
     }
 

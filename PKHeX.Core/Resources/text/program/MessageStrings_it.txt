@@ -81,6 +81,7 @@ MsgBackupSuccess = Cartella di backup creata!
 MsgDatabase = Il Database di PKHeXnon è stato trovato.
 MsgDatabaseAdvice = Per favore, dumpa tutti i box da un file di salvataggio, poi assicurati che la cartella '{0}' esista.
 MsgDatabaseExport = Salvare nel database di PKHeX?
+MsgDatabaseExportSeparate = Create separate folders for each Box?
 MsgDatabaseLoad = Caricare dal Database di PKHeX?
 MsgPKMLoadNull = Rilevato caricamento di un file nullo.
 MsgPKMSuggestionFormat = I suggerimenti non sono abilitati in questo formato PKM.

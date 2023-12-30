@@ -81,6 +81,7 @@ MsgBackupSuccess = Backup Ordner wurde erstellt!
 MsgDatabase = Die PKHeX Datenbank wurde nicht gefunden.
 MsgDatabaseAdvice = Bitte exportiere alle Boxen von einem Spielstand, dann stelle sicher, dass der '{0}' Ordner existiert.
 MsgDatabaseExport = In der PKHeX Datenbank speichern?
+MsgDatabaseExportSeparate = Create separate folders for each Box?
 MsgDatabaseLoad = Von der PKHeX Datenbank laden?
 MsgPKMLoadNull = Es wurde versucht eine leere Datei zu laden.
 MsgPKMSuggestionFormat = Vorschläge sind für dieses PKM Format nicht aktiviert.

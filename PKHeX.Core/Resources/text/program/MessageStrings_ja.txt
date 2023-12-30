@@ -81,6 +81,7 @@ MsgBackupSuccess = Backup folder created!
 MsgDatabase = PKHeX's database was not found.
 MsgDatabaseAdvice = Please dump all boxes from a save file, then ensure the '{0}' folder exists.
 MsgDatabaseExport = Save to PKHeX's database?
+MsgDatabaseExportSeparate = Create separate folders for each Box?
 MsgDatabaseLoad = Load from PKHeX's database?
 MsgPKMLoadNull = Attempted to load a null file.
 MsgPKMSuggestionFormat = Suggestions are not enabled for this PKM format.

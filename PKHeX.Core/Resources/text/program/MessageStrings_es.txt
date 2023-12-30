@@ -81,6 +81,7 @@ MsgBackupSuccess = ¡Directorio de copias de seguridad creado!
 MsgDatabase = No se ha encontrado la base de datos de PKHeX.
 MsgDatabaseAdvice = Por favor, exporta todas las cajas del archivo de guardado, y asegúrate de que el directorio '{0}' exista.
 MsgDatabaseExport = ¿Guardar a la base de datos de PKHeX?
+MsgDatabaseExportSeparate = ¿Crear carpetas separadas por cada caja?
 MsgDatabaseLoad = ¿Cargar desde la base de datos de PKHeX?
 MsgPKMLoadNull = Se ha intentado cargar un archivo nulo.
 MsgPKMSuggestionFormat = Las sugerencias no están activadas para este formato de PKM.

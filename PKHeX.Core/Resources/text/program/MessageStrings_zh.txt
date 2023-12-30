@@ -81,6 +81,7 @@ MsgBackupSuccess = 备份文件夹已创建!
 MsgDatabase = 未找到 PKHeX 的数据库。
 MsgDatabaseAdvice = 请导出存档文件的所有盒子, 确保" {0} "文件夹存在。
 MsgDatabaseExport = 保存到 PKHeX 的数据库?
+MsgDatabaseExportSeparate = Create separate folders for each Box?
 MsgDatabaseLoad = 从 PKHeX 的数据库导入?
 MsgPKMLoadNull = 试图加载了一个空文件。
 MsgPKMSuggestionFormat = 对该宝可梦文件格式，建议模式未启用。

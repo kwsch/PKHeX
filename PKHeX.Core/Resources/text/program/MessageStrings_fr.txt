@@ -81,6 +81,7 @@ MsgBackupSuccess = Dossier créé.
 MsgDatabase = Base de Données PKHeX introuvable.
 MsgDatabaseAdvice = Extraire toutes les boîtes du fichier, puis s'assurer que le dossier '{0}' existe.
 MsgDatabaseExport = Sauvegarder vers la base de données de PKHeX ?
+MsgDatabaseExportSeparate = Create separate folders for each Box?
 MsgDatabaseLoad = Charger depuis la base de données de PKHeX ?
 MsgPKMLoadNull = Tentative de chargement de ce fichier échouée car vide.
 MsgPKMSuggestionFormat = Pas de Suggestions pour ce format PKM.

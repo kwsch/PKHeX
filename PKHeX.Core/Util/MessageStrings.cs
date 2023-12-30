@@ -112,6 +112,7 @@ public static class MessageStrings
     public static string MsgDatabase { get; set; } = "PKHeX's database was not found.";
     public static string MsgDatabaseAdvice { get; set; } = "Please dump all boxes from a save file, then ensure the '{0}' folder exists.";
     public static string MsgDatabaseExport { get; set; } = "Save to PKHeX's database?";
+    public static string MsgDatabaseExportSeparate { get; set; } = "Create separate folders for each Box?";
     public static string MsgDatabaseLoad { get; set; } = "Load from PKHeX's database?";
 
     #endregion
