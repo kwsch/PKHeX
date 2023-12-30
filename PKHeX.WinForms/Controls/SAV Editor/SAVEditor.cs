@@ -937,42 +937,6 @@ public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFile
         return slotSkipped;
     }
 
-    public bool DumpBoxes(out string result, string? path = null, bool separate = false)
-    {
-        if (path == null && !IsFolderPath(out path))
-        {
-            result = path;
-            return false;
-        }
-
-        Directory.CreateDirectory(path);
-
-        var count = SAV.DumpBoxes(path, separate);
-        if (count < 0)
-            result = MsgSaveBoxExportInvalid;
-        else
-            result = string.Format(MsgSaveBoxExportPathCount, count) + Environment.NewLine + path;
-        return true;
-    }
-
-    public bool DumpBox(out string result, string? path = null)
-    {
-        if (path == null && !IsFolderPath(out path))
-        {
-            result = path;
-            return false;
-        }
-
-        Directory.CreateDirectory(path);
-
-        var count = SAV.DumpBox(path, Box.CurrentBox);
-        if (count < 0)
-            result = MsgSaveBoxExportInvalid;
-        else
-            result = string.Format(MsgSaveBoxExportPathCount, count) + Environment.NewLine + path;
-        return true;
-    }
-
     public bool LoadBoxes(out string result, string? path = null)
     {
         result = string.Empty;

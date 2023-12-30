@@ -44,6 +44,9 @@ public sealed class PKHeXSettings
     public MysteryGiftDatabaseSettings MysteryDb { get; set; } = new();
     public BulkAnalysisSettings Bulk { get; set; } = new();
 
+    [Browsable(false)]
+    public SlotExportSettings SlotExport { get; set; } = new();
+
     private static PKHeXSettingsContext GetContext() => new(new()
     {
         WriteIndented = true,
@@ -450,4 +453,14 @@ public sealed class BulkAnalysisSettings : IBulkAnalysisSettings
 {
     [LocalizedDescription("Checks the save file data and Current Handler state to determine if the Pokémon's Current Handler does not match the expected value.")]
     public bool CheckActiveHandler { get; set; } = true;
+}
+
+[Serializable]
+public sealed class SlotExportSettings
+{
+    [LocalizedDescription("Settings to use for box exports.")]
+    public BoxExportSettings BoxExport { get; set; } = new();
+
+    [LocalizedDescription("Selected File namer to use for box exports for the GUI, if multiple are available.")]
+    public string DefaultBoxExportNamer { get; set; } = "";
 }

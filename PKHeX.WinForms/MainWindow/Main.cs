@@ -446,21 +446,24 @@ public partial class Main : Form
     /// </summary>
     private void MainMenuBoxDump(object sender, EventArgs e)
     {
-        string? path = null;
         DialogResult ld = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDatabaseExport);
         if (ld == DialogResult.Yes)
-            path = DatabasePath;
-        else if (ld != DialogResult.No)
+        {
+            BoxExport.Export(C_SAV.SAV, DatabasePath, BoxExportSettings.Default);
+            return;
+        }
+        if (ld != DialogResult.No)
             return;
 
-        if (C_SAV.DumpBoxes(out string result, path))
-            WinFormsUtil.Alert(result);
+        using var dumper = new BoxExporter(C_SAV.SAV, BoxExporter.ExportOverride.All);
+        dumper.ShowDialog();
     }
 
     private void MainMenuBoxDumpSingle(object sender, EventArgs e)
     {
-        if (C_SAV.DumpBox(out string result))
-            WinFormsUtil.Alert(result);
+        C_SAV.SAV.CurrentBox = C_SAV.CurrentBox; // double check
+        using var dumper = new BoxExporter(C_SAV.SAV, BoxExporter.ExportOverride.Current);
+        dumper.ShowDialog();
     }
 
     private void MainMenuBatchEditor(object sender, EventArgs e)
