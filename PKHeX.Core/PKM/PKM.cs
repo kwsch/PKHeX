@@ -916,10 +916,10 @@ public abstract class PKM : ISpeciesForm, ITrainerID32, IGeneration, IShiny, ILa
     public void SetRandomIVs(int minFlawless = 0) => SetRandomIVs(stackalloc int[6], minFlawless);
 
     /// <inheritdoc cref="SetRandomIVs(Span{int},int)"/>
-    public void SetRandomIVs(IndividualValueSet template) => SetRandomIVs(stackalloc int[6], template);
+    public void SetRandomIVs(in IndividualValueSet template) => SetRandomIVs(stackalloc int[6], template);
 
     /// <inheritdoc cref="SetRandomIVs(Span{int},int)"/>
-    public void SetRandomIVs(Span<int> ivs, IndividualValueSet template)
+    public void SetRandomIVs(Span<int> ivs, in IndividualValueSet template)
     {
         var rnd = Util.Rand;
         for (int i = 0; i < ivs.Length; i++)

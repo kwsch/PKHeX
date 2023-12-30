@@ -275,7 +275,7 @@ public sealed record EncounterCriteria : IFixedNature, IFixedGender, IFixedAbili
     /// </summary>
     /// <param name="pk">Entity to mutate.</param>
     /// <param name="template">Template to populate from</param>
-    public void SetRandomIVs(PKM pk, IndividualValueSet template)
+    public void SetRandomIVs(PKM pk, in IndividualValueSet template)
     {
         if (!template.IsSpecified)
         {

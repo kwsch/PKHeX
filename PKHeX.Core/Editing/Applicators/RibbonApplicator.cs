@@ -42,7 +42,7 @@ public static class RibbonApplicator
     /// <summary>
     /// Parses the Entity for all ribbons, then fixes any ribbon that was invalid.
     /// </summary>
-    public static void FixInvalidRibbons(RibbonVerifierArguments args)
+    public static void FixInvalidRibbons(in RibbonVerifierArguments args)
     {
         Span<RibbonResult> result = stackalloc RibbonResult[RibbonVerifier.MaxRibbonCount];
         var count = RibbonVerifier.GetRibbonResults(args, result);
@@ -50,7 +50,7 @@ public static class RibbonApplicator
             ribbon.Fix(args);
     }
 
-    private static void SetAllRibbonState(RibbonVerifierArguments args, bool desiredState)
+    private static void SetAllRibbonState(in RibbonVerifierArguments args, bool desiredState)
     {
         for (RibbonIndex3 r = 0; r < RibbonIndex3.MAX_COUNT; r++)
             r.Fix(args, desiredState);

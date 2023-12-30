@@ -41,7 +41,7 @@ public readonly record struct RibbonResult
     /// <summary>
     /// Updates the ribbon state depending on the <see cref="args"/> and <see cref="IsMissing"/> state.
     /// </summary>
-    public void Fix(RibbonVerifierArguments args)
+    public void Fix(in RibbonVerifierArguments args)
     {
         switch (Type)
         {

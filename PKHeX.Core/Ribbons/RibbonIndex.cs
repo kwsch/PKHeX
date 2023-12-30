@@ -265,7 +265,7 @@ public static class RibbonIndexExtensions
         };
     }
 
-    public static void Fix(this RibbonIndex r, RibbonVerifierArguments args, bool state)
+    public static void Fix(this RibbonIndex r, in RibbonVerifierArguments args, bool state)
     {
         var pk = args.Entity;
         var group = r.GetGroup();

@@ -246,7 +246,7 @@ public static class Legal
     /// <summary>
     /// Checks if the input <see cref="pk"/> has IVs that match the template <see cref="IVs"/>.
     /// </summary>
-    public static bool GetIsFixedIVSequenceValidSkipRand(IndividualValueSet IVs, PKM pk, int max = 31)
+    public static bool GetIsFixedIVSequenceValidSkipRand(in IndividualValueSet IVs, PKM pk, int max = 31)
     {
         // Template IVs not in the [0,max] range are random. Only check for IVs within the "specified" range.
         if ((uint)IVs.HP  <= max && IVs.HP  != pk.IV_HP ) return false;
@@ -261,7 +261,7 @@ public static class Legal
     /// <summary>
     /// Checks if the input <see cref="pk"/> has IVs that match the template <see cref="IVs"/>.
     /// </summary>
-    public static bool GetIsFixedIVSequenceValidNoRand(IndividualValueSet IVs, PKM pk)
+    public static bool GetIsFixedIVSequenceValidNoRand(in IndividualValueSet IVs, PKM pk)
     {
         if (IVs.HP  != pk.IV_HP ) return false;
         if (IVs.ATK != pk.IV_ATK) return false;

@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierMark9
 {
-    public static void Parse(this IRibbonSetMark9 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetMark9 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         if (!MarkRules.IsMarkValidAlpha(args.Encounter, args.Entity))
             list.Add(MarkAlpha, !r.RibbonMarkAlpha);

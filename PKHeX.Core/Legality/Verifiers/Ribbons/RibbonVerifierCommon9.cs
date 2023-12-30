@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierCommon9
 {
-    public static void Parse(this IRibbonSetCommon9 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetCommon9 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         if (r.RibbonChampionPaldea && !args.History.HasVisitedGen9)
             list.Add(ChampionPaldea);

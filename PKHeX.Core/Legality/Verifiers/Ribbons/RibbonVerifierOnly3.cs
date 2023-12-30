@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierOnly3
 {
-    public static void Parse(this IRibbonSetOnly3 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetOnly3 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         if (r.RibbonWorld)
             list.Add(RibbonIndex.World);

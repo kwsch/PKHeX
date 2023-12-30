@@ -37,7 +37,7 @@ public static class EncounterUtil1
         _ => tr.Language == 1 ? "GF" : tr.OT,
     };
 
-    public static ushort GetDV16(IndividualValueSet actual)
+    public static ushort GetDV16(in IndividualValueSet actual)
     {
         ushort result = 0;
         result |= (ushort)(actual.SPA << 0);

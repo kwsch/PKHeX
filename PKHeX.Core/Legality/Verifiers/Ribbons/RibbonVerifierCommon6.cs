@@ -7,7 +7,7 @@ namespace PKHeX.Core;
 /// </summary>
 public static class RibbonVerifierCommon6
 {
-    public static void Parse(this IRibbonSetCommon6 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    public static void Parse(this IRibbonSetCommon6 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         if (r is IRibbonSetMemory6 m)
             GetInvalidRibbons6Memory(m, args, ref list);
@@ -89,7 +89,7 @@ public static class RibbonVerifierCommon6
         FlagContest(r, ref list);
     }
 
-    private static void GetInvalidRibbons6Memory(IRibbonSetMemory6 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void GetInvalidRibbons6Memory(IRibbonSetMemory6 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var format = args.Entity.Format;
         (byte contest, byte battle) = RibbonRules.GetMaxMemoryCounts(args.History, args.Entity, args.Encounter);
@@ -138,7 +138,7 @@ public static class RibbonVerifierCommon6
             list.Add(MasterToughness);
     }
 
-    private static void CheckChampionMemory(RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void CheckChampionMemory(in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var pk = args.Entity;
         var enc = args.Encounter;
@@ -150,7 +150,7 @@ public static class RibbonVerifierCommon6
         list.Add(ribbon, true);
     }
 
-    private static void CheckMaisonRibbons(IRibbonSetCommon6 r, RibbonVerifierArguments args, ref RibbonResultList list)
+    private static void CheckMaisonRibbons(IRibbonSetCommon6 r, in RibbonVerifierArguments args, ref RibbonResultList list)
     {
         var pk = args.Entity;
         if (!RibbonRules.IsAllowedBattleFrontier(pk.Species))
