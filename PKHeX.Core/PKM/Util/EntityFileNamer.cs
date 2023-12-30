@@ -17,6 +17,12 @@ public static class EntityFileNamer
     /// <param name="pk">Input entity to create a file name for.</param>
     /// <returns>File name for the <see cref="pk"/> data</returns>
     public static string GetName(PKM pk) => Namer.GetName(pk);
+
+    /// <summary>
+    /// A list of all available <see cref="IFileNamer{PKM}"/> objects.
+    /// </summary>
+    /// <remarks>Used for UI display.</remarks>
+    public static readonly List<IFileNamer<PKM>> AvailableNamers = [Namer];
 }
 
 /// <summary>
@@ -24,6 +30,8 @@ public static class EntityFileNamer
 /// </summary>
 public sealed class DefaultEntityNamer : IFileNamer<PKM>
 {
+    public string Name => "Default";
+
     public string GetName(PKM obj)
     {
         if (obj is GBPKM gb)
@@ -60,6 +68,14 @@ public sealed class DefaultEntityNamer : IFileNamer<PKM>
 /// <typeparam name="T">Type that the implementer can create a file name for.</typeparam>
 public interface IFileNamer<in T>
 {
+    /// <summary>
+    /// Human-readable name of the <see cref="IFileNamer{T}"/> implementation.
+    /// </summary>
+    string Name { get; }
+
+    /// <summary>
+    /// Gets the file name (without extension) for the input <see cref="obj"/> data.
+    /// </summary>
     string GetName(T obj);
 }
 

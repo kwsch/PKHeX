@@ -174,6 +174,7 @@ public static class EntityConverter
         PB7 { Species: (int)Species.Eevee, Form: not 0 } => IncompatibleForm,
         PB8 { Species: (int)Species.Spinda } => IncompatibleSpecies, // Incorrect arrangement of spots (PID endianness)
         PB8 { Species: (int)Species.Nincada } => IncompatibleSpecies, // Clone paranoia with Shedinja
+        PK9 { Species: (int)Species.Koraidon or (int)Species.Miraidon, FormArgument: not 0 } => IncompatibleForm, // Ride
         _ => Success,
     };
 
