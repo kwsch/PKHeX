@@ -30,7 +30,8 @@ public interface IEvolutionForward
     /// <param name="currentMaxLevel">Maximum allowed level for the result</param>
     /// <param name="levelMin">Minimum level for the result</param>
     /// <param name="skipChecks">Skip evolution exclusion checks</param>
+    /// <param name="tweak">Rule tweaks to use when checking evolution criteria</param>
     /// <param name="result">Resulting evolution criteria</param>
     /// <returns>True if the evolution is possible and <see cref="result"/> is valid.</returns>
-    bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm;
+    bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak, out EvoCriteria result) where T : ISpeciesForm;
 }

@@ -8,6 +8,7 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves7;
     private const int Generation = 7;
     private static PersonalTable7 Personal => PersonalTable.USUM;
+    private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 
     public IEvolutionGroup? GetNext(PKM pk, EvolutionOrigin enc) => pk.Format > Generation ? EvolutionGroupHOME.Instance : null;
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc)
@@ -75,12 +76,12 @@ public sealed class EvolutionGroup7 : IEvolutionGroup
 
     public bool TryDevolve<T>(T head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
     {
-        return Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, out result);
+        return Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, Tweak, out result);
     }
 
     public bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
     {
-        var b = Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, out result);
+        var b = Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, Tweak, out result);
         return b && !IsEvolutionBanned(pk, result);
     }
 

@@ -6,6 +6,7 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
 {
     public static readonly EvolutionGroup1 Instance = new();
     private static readonly EvolutionTree Tree = EvolutionTree.Evolves1;
+    private static EvolutionRuleTweak Tweak => EvolutionRuleTweak.Default;
 
     public IEvolutionGroup GetNext(PKM pk, EvolutionOrigin enc) => EvolutionGroup2.Instance;
     public IEvolutionGroup? GetPrevious(PKM pk, EvolutionOrigin enc) => pk.Format == 1 && ParseSettings.AllowGen1Tradeback ? EvolutionGroup2.Instance : null;
@@ -43,9 +44,10 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
         return present;
     }
 
-    public bool TryDevolve<T>(T head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
+    public bool TryDevolve<T>(T head, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result)
+        where T : ISpeciesForm
     {
-        return Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, out result);
+        return Tree.Reverse.TryDevolve(head, pk, currentMaxLevel, levelMin, skipChecks, Tweak, out result);
     }
 
     public int Evolve(Span<EvoCriteria> result, PKM pk, EvolutionOrigin enc, EvolutionHistory history)
@@ -75,6 +77,6 @@ public sealed class EvolutionGroup1 : IEvolutionGroup, IEvolutionEnvironment
 
     public bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
     {
-        return Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, out result);
+        return Tree.Forward.TryEvolve(head, next, pk, currentMaxLevel, levelMin, skipChecks, Tweak, out result);
     }
 }

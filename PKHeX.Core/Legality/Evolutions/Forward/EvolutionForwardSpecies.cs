@@ -37,7 +37,8 @@ public sealed class EvolutionForwardSpecies(EvolutionMethod[][] Entries) : IEvol
         }
     }
 
-    public bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
+    public bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks,
+        EvolutionRuleTweak tweak, out EvoCriteria result) where T : ISpeciesForm
     {
         var methods = GetForward(head.Species, head.Form);
         foreach (var method in methods.Span)
@@ -48,7 +49,7 @@ public sealed class EvolutionForwardSpecies(EvolutionMethod[][] Entries) : IEvol
             if (next.Form != expectForm)
                 continue;
 
-            var chk = method.Check(pk, currentMaxLevel, levelMin, skipChecks);
+            var chk = method.Check(pk, currentMaxLevel, levelMin, skipChecks, tweak);
             if (chk != EvolutionCheckResult.Valid)
                 continue;
 
@@ -69,6 +70,6 @@ public sealed class EvolutionForwardSpecies(EvolutionMethod[][] Entries) : IEvol
 
         // Temporarily store these and overwrite them when we clean the list.
         LevelMin = Math.Max(min, method.Level),
-        LevelUpRequired = method.LevelUp,
+        LevelUpRequired = method.LevelUp, // No need to tweak this, all games of this Type have the same default behavior.
     };
 }

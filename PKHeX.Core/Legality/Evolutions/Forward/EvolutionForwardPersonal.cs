@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -36,7 +37,7 @@ public sealed class EvolutionForwardPersonal(EvolutionMethod[][] Entries, IPerso
         }
     }
 
-    public bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, out EvoCriteria result) where T : ISpeciesForm
+    public bool TryEvolve<T>(T head, ISpeciesForm next, PKM pk, byte currentMaxLevel, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak, out EvoCriteria result) where T : ISpeciesForm
     {
         var methods = GetForward(head.Species, head.Form);
         foreach (var method in methods.Span)
@@ -47,11 +48,11 @@ public sealed class EvolutionForwardPersonal(EvolutionMethod[][] Entries, IPerso
             if (next.Form != expectForm)
                 continue;
 
-            var chk = method.Check(pk, currentMaxLevel, levelMin, skipChecks);
+            var chk = method.Check(pk, currentMaxLevel, levelMin, skipChecks, tweak);
             if (chk != EvolutionCheckResult.Valid)
                 continue;
 
-            result = Create(next.Species, next.Form, method, currentMaxLevel, levelMin);
+            result = Create(next.Species, next.Form, method, currentMaxLevel, levelMin, tweak);
             return true;
         }
 
@@ -59,7 +60,7 @@ public sealed class EvolutionForwardPersonal(EvolutionMethod[][] Entries, IPerso
         return false;
     }
 
-    private static EvoCriteria Create(ushort species, byte form, EvolutionMethod method, byte currentMaxLevel, byte min) => new()
+    private static EvoCriteria Create(ushort species, byte form, EvolutionMethod method, byte currentMaxLevel, byte min, EvolutionRuleTweak tweak) => new()
     {
         Species = species,
         Form = form,
@@ -68,6 +69,20 @@ public sealed class EvolutionForwardPersonal(EvolutionMethod[][] Entries, IPerso
 
         // Temporarily store these and overwrite them when we clean the list.
         LevelMin = Math.Max(min, method.Level),
-        LevelUpRequired = method.LevelUp,
+        LevelUpRequired = GetLevelUp(method.LevelUp, currentMaxLevel, tweak),
     };
+
+    /// <summary>
+    /// Gets the level up requirement for the evolution.
+    /// </summary>
+    /// <seealso cref="EvolutionReversal.GetLevelUp"/>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static byte GetLevelUp(byte flag, byte currentMaxLevel, EvolutionRuleTweak tweak)
+    {
+        if (flag == 0)
+            return 0;
+        if (currentMaxLevel == 100 && tweak.AllowLevelUpEvolution100)
+            return 0;
+        return flag;
+    }
 }
