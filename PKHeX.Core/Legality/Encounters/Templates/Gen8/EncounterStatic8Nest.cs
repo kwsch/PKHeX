@@ -133,10 +133,6 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (pk is PK8 d && d.DynamaxLevel < DynamaxLevel)
             return false;
 
-        // Required Ability
-        if (Ability == OnlyHidden && pk.AbilityNumber != 4)
-            return false; // H
-
         if (Version != GameVersion.SWSH && pk.Version != (int)Version && pk.Met_Location != SharedNest)
             return false;
 
