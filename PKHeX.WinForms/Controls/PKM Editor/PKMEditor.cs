@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text;
 using PKHeX.Core;
 using PKHeX.Drawing;
 using PKHeX.Drawing.Misc;
 using PKHeX.Drawing.PokeSprite;
 using PKHeX.Drawing.PokeSprite.Properties;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Windows.Forms;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms.Controls;
@@ -43,6 +43,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
         // Legality Indicators
         relearnPB = [PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4];
+        BTN_NicknameWarn.Visible = BTN_OTNameWarn.Visible = false;
 
         // Validation of incompletely entered data fields
         bool Criteria(Control c) => c.BackColor == Draw.InvalidSelection && c is ComboBox { Items.Count: not 0 };
@@ -322,6 +323,7 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         UpdateLegality();
         UpdateSprite();
         LastData = PreparePKM().Data;
+        RefreshFontWarningButton();
     }
 
     public void UpdateLegality(LegalityAnalysis? la = null, UpdateLegalityArgs args = 0)
@@ -2198,6 +2200,28 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
         // reset focus back to the vertical tab selection rather than the inaccessible tab
         TC_Editor.Focus();
     }
+
+    private void RefreshFontWarningButton(object sender, EventArgs e) => RefreshFontWarningButton();
+    private void RefreshFontWarningButton()
+    {
+        BTN_NicknameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_Nickname.Text, Entity.Context, (LanguageID)WinFormsUtil.GetIndex(CB_Language), (LanguageID)RequestSaveFile.Language);
+        BTN_OTNameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_OT.Text, Entity.Context, (LanguageID)WinFormsUtil.GetIndex(CB_Language), (LanguageID)RequestSaveFile.Language);
+    }
+
+    private void FontWarn(string name, string message, Button button)
+    {
+        var displayed = StringFontUtil.ReplaceUndefinedCharacters(name, Entity.Context, (LanguageID)WinFormsUtil.GetIndex(CB_Language), (LanguageID)RequestSaveFile.Language);
+        if (displayed == name) // save language was changed
+        {
+            button.Visible = false;
+            return;
+        }
+        WinFormsUtil.Alert(string.Format(message, name, displayed));
+    }
+
+    private void BTN_NicknameWarn_Click(object sender, EventArgs e) => FontWarn(TB_Nickname.Text, MsgPKMNicknameWarn, BTN_NicknameWarn);
+
+    private void BTN_OTNameWarn_Click(object sender, EventArgs e) => FontWarn(TB_OT.Text, MsgPKMOTNameWarn, BTN_OTNameWarn);
 
     private void CHK_Nicknamed_Click(object? sender, EventArgs e) => CHK_NicknamedFlag.Checked ^= true;
 

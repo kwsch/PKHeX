@@ -127,6 +127,8 @@ public static class MessageStrings
     public static string MsgPKMSuggestionMetLocation { get; set; } = "Met Location:";
     public static string MsgPKMSuggestionMetLevel { get; set; } = "Met Level:";
     public static string MsgPKMSuggestionLevel { get; set; } = "Current Level:";
+    public static string MsgPKMNicknameWarn { get; set; } = "The nickname \"{0}\" will be displayed as \"{1}\" in-game.";
+    public static string MsgPKMOTNameWarn { get; set; } = "The OT name \"{0}\" will be displayed as \"{1}\" in-game.";
 
     #endregion
 

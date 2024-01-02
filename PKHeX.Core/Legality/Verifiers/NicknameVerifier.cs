@@ -171,6 +171,15 @@ public sealed class NicknameVerifier : Verifier
                 data.AddLine(GetInvalid(LNickInvalidChar));
                 return true;
             }
+            if (pk.Format >= 5 && StringFontUtil.HasUndefinedCharacters(nickname, data.Info.EncounterMatch.Context, (LanguageID)pk.Language))
+            {
+                // Can have undefined characters in origin game if nicknamed by non-OT in SWSH/SV
+                if (data.Info.Generation <= 7 || data.Info.Generation >= 8 && CanNicknameForeign8Plus(data, pk) && StringFontUtil.HasUndefinedCharacters(nickname, EntityContext.Gen8, (LanguageID)pk.Language))
+                {
+                    data.AddLine(GetInvalid(LNickCharNotInFont));
+                    return true;
+                }
+            }
             if (nickname.Length > Legal.GetMaxLengthNickname(data.Info.Generation, (LanguageID)pk.Language))
             {
                 int length = GetForeignNicknameLength(pk, data.Info.EncounterOriginal, data.Info.Generation);

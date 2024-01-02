@@ -404,6 +404,7 @@ public static class LegalityCheckStrings
     public static string LNickFlagEggNo { get; set; } = "Egg must be not nicknamed.";
     public static string LNickFlagEggYes { get; set; } = "Egg must be nicknamed.";
     public static string LNickInvalidChar { get; set; } = "Cannot be given this Nickname.";
+    public static string LNickCharNotInFont { get; set; } = "Nickname has character not in font.";
     public static string LNickLengthLong { get; set; } = "Nickname too long.";
     public static string LNickLengthShort { get; set; } = "Nickname is empty.";
     public static string LNickMatchLanguage { get; set; } = "Nickname matches species name.";
@@ -415,6 +416,7 @@ public static class LegalityCheckStrings
     public static string LNickMatchNoOthersFail { get; set; } = "Nickname matches another species name (+language).";
 
     public static string LOTLanguage { get; set; } = "Language ID should be {0}, not {1}.";
+    public static string LOTCharNotInFont { get; set; } = "OT Name has character not in font.";
     public static string LOTLong { get; set; } = "OT Name too long.";
     public static string LOTShort { get; set; } = "OT Name too short.";
     public static string LOTSuspicious { get; set; } = "Suspicious Original Trainer details.";
