@@ -54,7 +54,7 @@ public class ShowdownSetTests
     public void SimGetVivillonPostcardSV(byte form)
     {
         var pk9 = new PK9 { Species = (int)Species.Vivillon, Form = form };
-        ushort[] moves = [];
+        var moves = ReadOnlyMemory<ushort>.Empty;
         var encounters = EncounterMovesetGenerator.GenerateEncounters(pk9, moves, GameVersion.SL);
         encounters.OfType<EncounterSlot9>().Should().NotBeEmpty();
     }
