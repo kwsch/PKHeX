@@ -137,14 +137,19 @@ internal static class EggMovesExtensions
         if (species > baseIndex)
             return [];
 
-        if (form == 0)
+        if (form == 0 || baseIndex == species) // no form data if pointing to self
             return entry.Moves;
 
         // Jump to the associated form's entry within the table.
+        return table.GetFormEntry(form, baseIndex);
+    }
+
+    private static ReadOnlySpan<ushort> GetFormEntry(this EggMoves7[] table, byte form, ushort baseIndex)
+    {
         var index = form - 1u + baseIndex;
         if (index >= table.Length)
             return [];
-        entry = table[index];
+        var entry = table[index];
 
         // Double-check that the entry is still associated to the species.
         if (entry.FormTableIndex != baseIndex)
