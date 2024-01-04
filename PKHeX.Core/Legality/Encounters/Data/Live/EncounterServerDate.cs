@@ -192,7 +192,7 @@ public static class EncounterServerDate
         {1529, (new(2023, 12, 07), new(2023, 12, 22))}, // Darkrai
         {1530, (new(2023, 12, 07), new(2024, 01, 04))}, // Shiny Lucario
         {1527, (new(2023, 12, 13), new(2024, 12, 01))}, // Paldea Gimmighoul
-        {0036, (new(2023, 12, 15), new(2024, 02, 14))}, // コロコロ Roaring Moon and Iron Valiant
+        {0036, (new(2023, 12, 14), new(2024, 02, 14))}, // コロコロ Roaring Moon and Iron Valiant
         {1007, (new(2023, 12, 29), new(2024, 02, 11))}, // 윈터페스타 Baxcalibur
 
         {9021, HOME3_ML}, // Hidden Ability Sprigatito
