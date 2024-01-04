@@ -2204,6 +2204,11 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
     private void RefreshFontWarningButton(object sender, EventArgs e) => RefreshFontWarningButton();
     private void RefreshFontWarningButton()
     {
+        if (Entity.Generation < 5)
+        {
+            BTN_NicknameWarn.Visible = BTN_OTNameWarn.Visible = false;
+            return;
+        }
         BTN_NicknameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_Nickname.Text, Entity.Context, (LanguageID)WinFormsUtil.GetIndex(CB_Language), (LanguageID)RequestSaveFile.Language);
         BTN_OTNameWarn.Visible = StringFontUtil.HasUndefinedCharacters(TB_OT.Text, Entity.Context, (LanguageID)WinFormsUtil.GetIndex(CB_Language), (LanguageID)RequestSaveFile.Language);
     }
