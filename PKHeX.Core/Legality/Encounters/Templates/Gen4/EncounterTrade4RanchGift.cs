@@ -114,7 +114,7 @@ public sealed record EncounterTrade4RanchGift
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, actualLevel);
+            EncounterUtil.SetEncounterMoves(pk, version, actualLevel);
         SetPINGA(pk, criteria);
         pk.ResetPartyStats();
 

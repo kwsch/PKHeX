@@ -804,8 +804,21 @@ public sealed class TypePictureBox : PictureBox
     }
 }
 
+/// <summary>
+/// Stat display order for a stat editor.
+/// </summary>
 public enum StatEditorStatOrder
 {
-    Current,
+    /// <summary>
+    /// Stat order for everything after Generation 1.
+    /// </summary>
+    /// <remarks>
+    /// Default load state for a GUI.
+    /// </remarks>
+    Current = 0,
+
+    /// <summary>
+    /// Stat order for Generation 1; Speed before Special.
+    /// </summary>
     Gen1Special,
 }

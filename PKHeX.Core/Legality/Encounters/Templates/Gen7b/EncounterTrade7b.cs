@@ -75,7 +75,7 @@ public sealed record EncounterTrade7b(GameVersion Version) : IEncounterable, IEn
             HT_Friendship = pi.BaseFriendship,
         };
 
-        EncounterUtil1.SetEncounterMoves(pk, version, Level);
+        EncounterUtil.SetEncounterMoves(pk, version, Level);
         pk.ResetHeight();
         pk.ResetWeight();
         pk.ResetCP();

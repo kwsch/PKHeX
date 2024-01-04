@@ -2,8 +2,14 @@ using System;
 
 namespace PKHeX.Core;
 
-internal static class Locations8
+/// <summary>
+/// Locations for <see cref="GameVersion.SWSH"/>.
+/// </summary>
+public static class Locations8
 {
+    /// <summary>
+    /// Available location list for the 00000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<byte> Met0 =>
     [
              002, 004, 006, 008,
@@ -33,12 +39,18 @@ internal static class Locations8
         240, 242, 244, 246,
     ];
 
+    /// <summary>
+    /// Available location list for the 30000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met3 =>
     [
                30001, 30003, 30004, 30005, 30006, 30007, 30008, 30009,
         30010, 30011, 30012, 30013, 30014, 30015, 30016, 30017, 30018,
     ];
 
+    /// <summary>
+    /// Available location list for the 40000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met4 =>
     [
         40001, 40002, 40003, 40005, 40006, 40007, 40008, 40009,
@@ -52,5 +64,8 @@ internal static class Locations8
         40080, 40081, 40082, 40083, 40084, 40085, 40086,
     ];
 
+    /// <summary>
+    /// Available location list for the 60000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met6 => [/* X/Y */ 60001, 60003, /* OR/AS */ 60004];
 }

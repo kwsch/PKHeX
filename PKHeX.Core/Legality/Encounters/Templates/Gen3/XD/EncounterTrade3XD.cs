@@ -83,7 +83,7 @@ public sealed record EncounterTrade3XD : IEncounterable, IEncounterMatch, IEncou
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+            EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;

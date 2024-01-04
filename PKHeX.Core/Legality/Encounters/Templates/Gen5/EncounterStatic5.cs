@@ -73,7 +73,7 @@ public sealed record EncounterStatic5(GameVersion Version)
             pk.EggMetDate = pk.MetDate;
         }
 
-        EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
 
         SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();

@@ -67,14 +67,14 @@ public sealed record EncounterSlot5(EncounterArea5 Parent, ushort Species, byte 
         };
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         pk.ResetPartyStats();
         return pk;
     }
 
     private byte GetWildForm(byte form)
     {
-        if (form != EncounterUtil1.FormRandom)
+        if (form != EncounterUtil.FormRandom)
             return form;
         // flagged as totally random
         return (byte)Util.Rand.Next(PersonalTable.B2W2[Species].FormCount);

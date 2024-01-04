@@ -92,7 +92,7 @@ public sealed record EncounterStatic6(GameVersion Version)
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+            EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
         this.CopyContestStatsTo(pk);
 
         pk.SetRandomMemory6();

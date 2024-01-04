@@ -75,7 +75,7 @@ public sealed record EncounterGift3Colo : IEncounterable, IEncounterMatch, IEnco
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+            EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;

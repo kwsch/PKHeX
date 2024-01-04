@@ -16,8 +16,24 @@ public static class Experience
     public static int GetLevel(uint exp, byte growth)
     {
         var table = GetTable(growth);
+        return GetLevel(exp, table);
+    }
+
+    /// <summary>
+    /// Gets the current level of a species.
+    /// </summary>
+    /// <param name="exp">Experience points</param>
+    /// <param name="table">Experience growth table</param>
+    /// <returns>Current level of the species.</returns>
+    public static int GetLevel(uint exp, ReadOnlySpan<uint> table)
+    {
+        // Eagerly return 100 if the exp is at max
+        // Also avoids overflow issues with the table in the event EXP is out of bounds
         if (exp >= table[^1])
             return 100;
+
+        // Most will be below level 50, so start from the bottom
+        // Don't bother with binary search, as the table is small
         int tl = 1; // Initial Level. Iterate upwards to find the level
         while (exp >= table[tl])
             ++tl;
@@ -41,7 +57,13 @@ public static class Experience
         return table[level - 1];
     }
 
-    private static ReadOnlySpan<uint> GetTable(byte growth) => growth switch
+    /// <summary>
+    /// Gets the minimum Experience points for all levels possible.
+    /// </summary>
+    /// <param name="growth">Growth Rate type</param>
+    /// <returns>Experience points needed to have an indexed level.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static ReadOnlySpan<uint> GetTable(byte growth) => growth switch
     {
         0 => Growth0,
         1 => Growth1,

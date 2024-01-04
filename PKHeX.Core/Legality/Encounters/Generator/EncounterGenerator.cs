@@ -33,8 +33,17 @@ public static class EncounterGenerator
         _ => EncounterGeneratorDummy.Instance.GetEncounters(pk, info),
     };
 
+    /// <summary>
+    /// Gets the <see cref="IEncounterGenerator"/> for the given <see cref="GameVersion"/>.
+    /// </summary>
+    /// <param name="version">Original encounter version</param>
     public static IEncounterGenerator GetGenerator(GameVersion version) => GetGeneration(version, version.GetGeneration());
 
+    /// <summary>
+    /// Gets the <see cref="IEncounterGenerator"/> for the given <see cref="GameVersion"/>.
+    /// </summary>
+    /// <param name="version">Original encounter version</param>
+    /// <param name="generation">Generation group</param>
     public static IEncounterGenerator GetGeneration(GameVersion version, int generation) => generation switch
     {
         1 => EncounterGenerator1.Instance,

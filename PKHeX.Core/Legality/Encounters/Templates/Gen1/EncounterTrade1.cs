@@ -113,13 +113,13 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         var level = gsc ? LevelMinGSC : LevelMinRBY;
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
         var isJapanese = lang == (int)LanguageID.Japanese;
-        var pi = EncounterUtil1.GetPersonal1(Version, Species);
+        var pi = EncounterUtil.GetPersonal1(Version, Species);
         var pk = new PK1(isJapanese)
         {
             Species = Species,
             CurrentLevel = level,
-            Catch_Rate = EncounterUtil1.GetWildCatchRate(Version, Species),
-            DV16 = EncounterUtil1.GetRandomDVs(Util.Rand),
+            CatchRate = pi.CatchRate,
+            DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
 
             Nickname = Nicknames[lang],
             TID16 = tr.TID16,
@@ -128,7 +128,7 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         };
         pk.OT_Trash[0] = StringConverter12.G1TradeOTCode;
 
-        EncounterUtil1.SetEncounterMoves(pk, Version, level);
+        EncounterUtil.SetEncounterMoves(pk, Version, level);
         if (EvolveOnTrade)
             pk.Species++;
 
@@ -188,8 +188,8 @@ public sealed record EncounterTrade1 : IEncounterable, IEncounterMatch, IFixedTr
         if (pk is not PK1 pk1)
             return false;
 
-        var req = EncounterUtil1.GetWildCatchRate(Version, Species);
-        return req != pk1.Catch_Rate;
+        var req = EncounterUtil.GetPersonal1(Version, Species).CatchRate;
+        return req != pk1.CatchRate;
     }
 
     #endregion

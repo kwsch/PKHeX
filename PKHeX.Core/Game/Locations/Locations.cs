@@ -129,11 +129,7 @@ public static class Locations
 
     private const int SafariLocation_RSE = 57;
     private const int SafariLocation_FRLG = 136;
-    private const int SafariLocation_HGSS = 202;
-    private const int MarshLocation_DPPt = 52;
-    public static bool IsSafariZoneLocation3(int loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
-    public static bool IsSafariZoneLocation4(int loc) => loc is MarshLocation_DPPt or SafariLocation_HGSS;
-    public static bool IsSafariZoneLocation8b(int loc) => loc is (>= 219 and <= 224);
+    public static bool IsSafariZoneLocation3(byte loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
 
     public static bool IsEggLocationBred4(int loc, GameVersion ver)
     {

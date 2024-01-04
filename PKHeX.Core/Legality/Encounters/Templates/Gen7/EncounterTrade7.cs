@@ -103,7 +103,7 @@ public sealed record EncounterTrade7 : IEncounterable, IEncounterMatch, IFixedTr
         else
             pk.SetDefaultRegionOrigins(lang);
 
-        EncounterUtil1.SetEncounterMoves(pk, version, Level);
+        EncounterUtil.SetEncounterMoves(pk, version, Level);
         if (pk.IsShiny)
             pk.PID ^= 0x1000_0000;
         criteria.SetRandomIVs(pk, IVs);

@@ -370,48 +370,45 @@ public sealed class MiscVerifier : Verifier
 
     private void VerifyMiscG1CatchRate(LegalityAnalysis data, PK1 pk1)
     {
-        var catch_rate = pk1.Catch_Rate;
         var tradeback = GBRestrictions.IsTimeCapsuleTransferred(pk1, data.Info.Moves, data.EncounterMatch);
         var result = tradeback is TimeCapsuleEvaluation.NotTransferred or TimeCapsuleEvaluation.BadCatchRate
-            ? GetWasNotTradeback(tradeback)
-            : GetWasTradeback(tradeback);
+            ? GetWasNotTradeback(data, pk1, tradeback)
+            : GetWasTradeback(data, pk1, tradeback);
         data.AddLine(result);
+    }
 
-        CheckResult GetWasTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
+    private CheckResult GetWasTradeback(LegalityAnalysis data, PK1 pk1, TimeCapsuleEvaluation eval)
+    {
+        var rate = pk1.CatchRate;
+        if (PK1.IsCatchRateHeldItem(rate))
+            return GetValid(LG1CatchRateMatchTradeback);
+        return GetWasNotTradeback(data, pk1, eval);
+    }
+
+    private CheckResult GetWasNotTradeback(LegalityAnalysis data, PK1 pk1, TimeCapsuleEvaluation eval)
+    {
+        var rate = pk1.CatchRate;
+        if (MoveInfo.IsAnyFromGeneration(2, data.Info.Moves))
+            return GetInvalid(LG1CatchRateItem);
+        var e = data.EncounterMatch;
+        if (e is EncounterGift1 { Version: GameVersion.Stadium } or EncounterTrade1)
+            return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
+
+        ushort species = pk1.Species;
+        if (GBRestrictions.IsSpeciesNotAvailableCatchRate((byte)species) && rate == PersonalTable.RB[species].CatchRate)
         {
-            if (PK1.IsCatchRateHeldItem(catch_rate))
-                return GetValid(LG1CatchRateMatchTradeback);
-            if (timeCapsuleEvalution == TimeCapsuleEvaluation.BadCatchRate)
-                return GetInvalid(LG1CatchRateItem);
-
-            return GetWasNotTradeback(timeCapsuleEvalution);
+            if (species != (int)Species.Dragonite || rate != 45 || !(e.Version == GameVersion.BU || e.Version.Contains(GameVersion.YW)))
+                return GetInvalid(LG1CatchRateEvo);
         }
-
-        CheckResult GetWasNotTradeback(TimeCapsuleEvaluation timeCapsuleEvalution)
-        {
-            if (MoveInfo.IsAnyFromGeneration(2, data.Info.Moves))
-                return GetInvalid(LG1CatchRateItem);
-            var e = data.EncounterMatch;
-            if (e is EncounterGift1 {Version: GameVersion.Stadium} or EncounterTrade1)
-                return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
-
-            ushort species = pk1.Species;
-            if (GBRestrictions.IsSpeciesNotAvailableCatchRate((byte)species) && catch_rate == PersonalTable.RB[species].CatchRate)
-            {
-                if (species != (int) Species.Dragonite || catch_rate != 45 || !(e.Version == GameVersion.BU || e.Version.Contains(GameVersion.YW)))
-                    return GetInvalid(LG1CatchRateEvo);
-            }
-            if (!GBRestrictions.RateMatchesEncounter(e.Species, e.Version, catch_rate))
-                return GetInvalid(timeCapsuleEvalution == TimeCapsuleEvaluation.Transferred12 ? LG1CatchRateChain : LG1CatchRateNone);
-            return GetValid(LG1CatchRateMatchPrevious);
-        }
+        if (!GBRestrictions.RateMatchesEncounter(e.Species, e.Version, rate))
+            return GetInvalid(eval == TimeCapsuleEvaluation.Transferred12 ? LG1CatchRateChain : LG1CatchRateNone);
+        return GetValid(LG1CatchRateMatchPrevious);
     }
 
     private static void VerifyMiscFatefulEncounter(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        var enc = data.EncounterMatch;
-        switch (enc)
+        switch (data.EncounterMatch)
         {
             case WC3 {FatefulEncounter: true} w:
                 if (w.IsEgg)
@@ -420,7 +417,7 @@ public sealed class MiscVerifier : Verifier
                     // Hatching in Gen3 doesn't change the origin version.
                     if (pk.Format != 3)
                         return; // possible hatched in either game, don't bother checking
-                    if (pk.Met_Location <= 087) // hatched in RS or Emerald
+                    if (Locations.IsMetLocation3RS((ushort)pk.Met_Location)) // hatched in RS or Emerald
                         return; // possible hatched in either game, don't bother checking
                     // else, ensure fateful is active (via below)
                 }
@@ -484,7 +481,7 @@ public sealed class MiscVerifier : Verifier
     private static void VerifyMiscEggCommon(LegalityAnalysis data)
     {
         var pk = data.Entity;
-        if (pk.Move1_PPUps > 0 || pk.Move2_PPUps > 0 || pk.Move3_PPUps > 0 || pk.Move4_PPUps > 0)
+        if (pk.Move1_PPUps != 0 || pk.Move2_PPUps != 0 || pk.Move3_PPUps != 0 || pk.Move4_PPUps != 0)
             data.AddLine(GetInvalid(LEggPPUp, Egg));
         if (!IsZeroMovePP(pk))
             data.AddLine(GetInvalid(LEggPP, Egg));

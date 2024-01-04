@@ -107,7 +107,7 @@ public sealed record EncounterTrade9
             Obedience_Level = Level,
         };
 
-        EncounterUtil1.SetEncounterMoves(pk, version, Level);
+        EncounterUtil.SetEncounterMoves(pk, version, Level);
         SetPINGA(pk, criteria, pi);
         if (EvolveOnTrade)
             pk.Species++;

@@ -81,7 +81,7 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, Level);
+            EncounterUtil.SetEncounterMoves(pk, version, Level);
         pk.ResetPartyStats();
 
         return pk;
@@ -198,6 +198,8 @@ public abstract record EncounterStatic8Nest<T>(GameVersion Version)
             else if (Ability.IsSingleValue(out int index) && 1 << index != num) // Fixed regular ability
             {
                 if (Ability is OnlyFirst or OnlySecond && !AbilityVerifier.CanAbilityCapsule(8, PersonalTable.SWSH.GetFormEntry(Species, Form)))
+                    return EncounterMatchRating.DeferredErrors;
+                if (Ability is OnlyHidden) // Can't revert to hidden ability even if transferred from HOME and another game with HA reversion.
                     return EncounterMatchRating.DeferredErrors;
             }
         }

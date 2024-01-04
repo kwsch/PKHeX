@@ -19,7 +19,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public int EggLocation => 0;
-    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
@@ -91,7 +91,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
             // Form is only Unown and is derived from IVs.
             CurrentLevel = LevelMin,
             OT_Friendship = pi.BaseFriendship,
-            DV16 = EncounterUtil1.GetRandomDVs(Util.Rand),
+            DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
 
             Language = lang,
             OT_Name = tr.OT,
@@ -107,7 +107,7 @@ public sealed record EncounterSlot2(EncounterArea2 Parent, ushort Species, byte 
             pk.Met_TimeOfDay = GetRandomTime();
         }
 
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         if (IsHeadbutt)
         {
             var id = pk.TID16;

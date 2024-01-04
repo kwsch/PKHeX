@@ -142,7 +142,7 @@ public static class EncounterFinder
             {
                 if (!ParseSettings.AllowGen1Tradeback)
                     return false;
-                if (!PK1.IsCatchRateHeldItem(pk1.Catch_Rate))
+                if (!PK1.IsCatchRateHeldItem(pk1.CatchRate))
                     return false;
             }
         }

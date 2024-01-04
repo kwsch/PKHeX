@@ -122,7 +122,7 @@ public sealed record EncounterTrade4PID
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, Level);
+            EncounterUtil.SetEncounterMoves(pk, version, Level);
         criteria.SetRandomIVs(pk, IVs);
         pk.PID = PID;
         pk.Gender = Gender;

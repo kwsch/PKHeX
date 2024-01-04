@@ -84,7 +84,7 @@ public sealed record EncounterStatic5N(uint PID)
             HiddenAbility = Ability == AbilityPermission.OnlyHidden,
         };
 
-        EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
 
         pk.ResetPartyStats();
 

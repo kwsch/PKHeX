@@ -67,7 +67,7 @@ public sealed record EncounterArea2 : IEncounterArea<EncounterSlot2>, IAreaLocat
             byte min = entry[2];
             byte slotNum = entry[1];
             byte species = entry[0];
-            var form = species == (int)Species.Unown ? EncounterUtil1.FormRandom : (byte)0;
+            var form = species == (int)Species.Unown ? EncounterUtil.FormRandom : (byte)0;
             slots[i] = new EncounterSlot2(this, species, form, min, max, slotNum);
         }
         return slots;

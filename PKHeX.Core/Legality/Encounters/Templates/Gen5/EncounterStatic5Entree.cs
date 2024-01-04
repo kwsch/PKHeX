@@ -59,7 +59,7 @@ public sealed record EncounterStatic5Entree(GameVersion Version, ushort Species,
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, Level);
+            EncounterUtil.SetEncounterMoves(pk, version, Level);
 
         SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
