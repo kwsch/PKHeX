@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -54,8 +55,18 @@ public static class Experience
             level = 100;
 
         var table = GetTable(growth);
-        return table[level - 1];
+        return GetEXP(level, table);
     }
+
+    /// <summary>
+    /// Gets the minimum Experience points for the specified level.
+    /// </summary>
+    /// <param name="level">Current level</param>
+    /// <param name="table">Experience growth table</param>
+    /// <returns>Experience points needed to have specified level.</returns>
+    /// <remarks>No bounds checking is performed.</remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint GetEXP(int level, ReadOnlySpan<uint> table) => table[level - 1];
 
     /// <summary>
     /// Gets the minimum Experience points for all levels possible.
@@ -92,8 +103,8 @@ public static class Experience
         if ((uint)level >= 100)
             return 0;
         var table = GetTable(growth);
-        var current = table[level - 1];
-        var next = table[level];
+        var current = GetEXP(level, table);
+        var next = GetEXP(level + 1, table);
         return next - current;
     }
 
@@ -110,8 +121,8 @@ public static class Experience
             return 0;
 
         var table = GetTable(growth);
-        var current = table[level - 1];
-        var next = table[level];
+        var current = GetEXP(level, table);
+        var next = GetEXP(level + 1, table);
         var amount = next - current;
         double progress = exp - current;
         return progress / amount;

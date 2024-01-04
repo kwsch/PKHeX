@@ -173,7 +173,7 @@ public static class EncounterSuggestion
         // Find the first level that is illegal via searching downwards, and set it to the level above it.
         while (level != 0)
         {
-            pk.EXP = table[level];
+            pk.EXP = Experience.GetEXP(level, table);
             var la = new LegalityAnalysis(pk);
             var valid = la.Valid;
             if (valid)
@@ -190,7 +190,7 @@ public static class EncounterSuggestion
                 return false;
             }
 
-            pk.EXP = table[level];
+            pk.EXP = Experience.GetEXP(level, table);
             return true;
         }
 
