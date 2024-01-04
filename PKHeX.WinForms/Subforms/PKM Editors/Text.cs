@@ -109,6 +109,8 @@ public partial class TrashEditor : Form
             FLP_Hex.Controls.Add(l);
             FLP_Hex.Controls.Add(n);
             Bytes.Add(n);
+            if (i % 4 == 3)
+                FLP_Hex.SetFlowBreak(n, true);
         }
         TB_Text.TextChanged += (o, args) => UpdateString(TB_Text, args);
 
