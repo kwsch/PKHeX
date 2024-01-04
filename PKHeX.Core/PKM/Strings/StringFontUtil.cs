@@ -20,7 +20,7 @@ public static class StringFontUtil
     public static bool HasUndefinedCharacters(ReadOnlySpan<char> str, EntityContext context, LanguageID pkLanguage, LanguageID saveLanguage)
     {
         // Gen5/6/7 display names based on the save language, Gen7b/8/9 display names based on the name's language
-        var language = context is Gen5 or Gen6 or Gen7 ? saveLanguage : pkLanguage;
+        var language = context <= Gen7 ? saveLanguage : pkLanguage;
         foreach (var c in str)
         {
             if (!IsDefined(context, language, c))
@@ -52,7 +52,7 @@ public static class StringFontUtil
         // - For strings in the same language as the save file, an empty string is shown in place of text with any undefined characters 
         // - For strings in a different language from the save file, undefined characters fall back to the save language font before .notdef
 
-        var language = context is Gen5 or Gen6 or Gen7 ? saveLanguage : pkLanguage;
+        var language = context <= Gen7 ? saveLanguage : pkLanguage;
         var notdef = context switch
         {
             Gen7 => ' ',
@@ -82,9 +82,9 @@ public static class StringFontUtil
     /// <returns>True if the character is defined; otherwise, false.</returns>
     public static bool IsDefined(EntityContext context, LanguageID language, char c) => context switch
     {
-        Gen5 => GetFlag(G5Defined, c),
+        Gen5 or Gen3 or Gen4 => GetFlag(G5Defined, c),
         Gen6 => GetFlag(G6Defined, c),
-        Gen7 => IsDefined7(language, c),
+        Gen7 or Gen1 or Gen2 => IsDefined7(language, c),
         Gen7b or Gen8 or Gen8b or Gen9 => IsDefined8(language, c),
         Gen8a => IsDefined8a(language, c),
         _ => throw new ArgumentOutOfRangeException(nameof(context), context, null),
