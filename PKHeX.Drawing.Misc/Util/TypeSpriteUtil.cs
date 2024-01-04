@@ -22,6 +22,13 @@ public static class TypeSpriteUtil
         return Get($"type_icon_{type:00}");
     }
 
+    public static Bitmap? GetTypeSpriteIconSmall(byte type, int generation = PKX.Generation)
+    {
+        if (generation <= 2)
+            type = (byte)((MoveType)type).GetMoveTypeGeneration(generation);
+        return Get($"type_icon_s_{type:00}");
+    }
+
     public static Bitmap? GetTypeSpriteGem(byte type)
     {
         return Get($"gem_{type:00}");
