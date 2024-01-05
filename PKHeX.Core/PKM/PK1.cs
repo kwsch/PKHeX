@@ -165,6 +165,12 @@ public sealed class PK1 : GBPKML, IPersonalType
     {
         var rnd = Util.Rand;
         var lang = TransferLanguage(RecentTrainerCache.Language);
+        var version = (byte)EntityConverter.VirtualConsoleSourceGen1;
+        if ((lang == 1) != Japanese)
+            lang = Japanese ? 1 : 2;
+        if (version == (byte)GameVersion.BU && !Japanese)
+            version = (byte)GameVersion.RD;
+
         var pi = PersonalTable.SM[Species];
         int abil = TransporterLogic.IsHiddenDisallowedVC1(Species) ? 0 : 2; // Hidden
         var pk7 = new PK7
@@ -179,7 +185,7 @@ public sealed class PK1 : GBPKML, IPersonalType
             PID = rnd.Rand32(),
             Ball = 4,
             MetDate = EncounterDate.GetDate3DS(),
-            Version = (int)GameVersion.RD, // Default to red
+            Version = version,
             Move1 = Move1,
             Move2 = Move2,
             Move3 = Move3,
