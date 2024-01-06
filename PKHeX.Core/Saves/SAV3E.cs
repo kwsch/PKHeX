@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -21,7 +20,7 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     protected override int DaycareSlotSize => SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
     public override int DaycareSeedSize => 8; // 32bit
     protected override int EggEventFlag => 0x86;
-    protected override int BadgeFlagStart => 0x867;     
+    protected override int BadgeFlagStart => 0x867;
 
     public SAV3E(byte[] data) : base(data) => Initialize();
     public SAV3E(bool japanese = false) : base(japanese) => Initialize();
@@ -189,16 +188,25 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 
     protected override int ExternalEventData => 0x31B3;
 
-    /** Max RPM for 2, 3 and 4 players. Each value unit represents 0.01 RPM. Value 0 if no record. */
-    public Span<ushort> BerryBlenderRPMRecords
+    /// <summary>
+    /// Max RPM for 2, 3 and 4 players. Each value unit represents 0.01 RPM. Value 0 if no record.
+    /// </summary>
+    /// <remarks>2 players: index 0, 3 players: index 1, 4 players: index 2</remarks>
+    public const int BerryBlenderRPMRecordCount = 3;
+
+    private Span<byte> GetBlenderRPMSpan(int index)
     {
-        get => MemoryMarshal.Cast<byte, ushort>(Large.AsSpan(OFS_BerryBlenderRecord, 3 * 2));
-        set
-        {
-            if (value.Length != 3)
-                return;
-            SetData(Large.AsSpan(OFS_BerryBlenderRecord), MemoryMarshal.Cast<ushort, byte>(value));
-        }
+        if ((uint)index >= BerryBlenderRPMRecordCount)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return Large.AsSpan(OFS_BerryBlenderRecord + (index * 2));
+    }
+
+    public ushort GetBerryBlenderRPMRecord(int index) => ReadUInt16LittleEndian(GetBlenderRPMSpan(index));
+
+    public void SetBerryBlenderRPMRecord(int index, ushort value)
+    {
+        WriteUInt16LittleEndian(GetBlenderRPMSpan(index), value);
+        State.Edited = true;
     }
 
     public bool GetTrendyWordUnlocked(TrendyWord3E word)

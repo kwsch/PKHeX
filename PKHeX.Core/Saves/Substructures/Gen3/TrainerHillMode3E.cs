@@ -2,8 +2,8 @@ namespace PKHeX.Core;
 
 public enum TrainerHillMode3E : byte
 {
-    Normal,
-    Variety,
-    Unique,
-    Expert,
+    Normal = 0,
+    Variety = 1,
+    Unique = 2,
+    Expert = 3,
 }

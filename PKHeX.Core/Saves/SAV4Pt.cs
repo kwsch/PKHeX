@@ -55,7 +55,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
     private const int OFS_AccessoryMultiCount = 0x4E38; // 4 bits each
     private const int OFS_AccessorySingleCount = 0x4E58; // 1 bit each
     private const int OFS_Backdrop = 0x4E60;
-    private const int OFS_ThoughWord = 0xCEB4;
+    private const int OFS_ToughWord = 0xCEB4;
     private const int OFS_VillaFurniture = 0x111F;
 
     private void GetSAVOffsets()
@@ -202,20 +202,17 @@ public sealed class SAV4Pt : SAV4Sinnoh
         if (accessory < Accessory4.ColoredParasol)
         {
             byte enumIdx = (byte)accessory;
-            byte val = General[OFS_AccessoryMultiCount + enumIdx / 2];
+            byte val = General[OFS_AccessoryMultiCount + (enumIdx / 2)];
             if (enumIdx % 2 == 0)
-                val = (byte)(val & 0x0F);
-            else
-                val >>= 4;
-            return val;
+                return (byte)(val & 0x0F);
+            return (byte)(val >> 4);
         }
-        else
-        {
-            var flagIdx = accessory - Accessory4.ColoredParasol;
-            if (GetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7))
-                return 1;
-            return 0;
-        }
+
+        // Otherwise, it's a single-count accessory
+        var flagIdx = accessory - Accessory4.ColoredParasol;
+        if (GetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7))
+            return 1;
+        return 0;
     }
 
     public void SetAccessoryOwnedCount(Accessory4 accessory, byte count)
@@ -226,7 +223,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
                 count = 9;
 
             var enumIdx = (byte)accessory;
-            var addr = OFS_AccessoryMultiCount + enumIdx / 2;
+            var addr = OFS_AccessoryMultiCount + (enumIdx / 2);
 
             if (enumIdx % 2 == 0)
             {
@@ -242,7 +239,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
         else
         {
             var flagIdx = accessory - Accessory4.ColoredParasol;
-            SetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7, count > 0);
+            SetFlag(OFS_AccessorySingleCount + (flagIdx >> 3), flagIdx & 7, count != 0);
         }
 
         State.Edited = true;
@@ -250,6 +247,8 @@ public sealed class SAV4Pt : SAV4Sinnoh
 
     public byte GetBackdropPosition(Backdrop4 backdrop)
     {
+        if (backdrop > Backdrop4.Theater)
+            throw new ArgumentOutOfRangeException(nameof(backdrop), backdrop, null);
         return General[OFS_Backdrop + (byte)backdrop];
     }
 
@@ -258,40 +257,52 @@ public sealed class SAV4Pt : SAV4Sinnoh
         return GetBackdropPosition(backdrop) != BACKDROP_POSITION_IF_NOT_UNLOCKED;
     }
 
-    /** Every unlocked backdrop must have a different position. Use position 
-     *  BACKDROP_POSITION_IF_NOT_UNLOCKED to remove a backdrop. */
+    public void RemoveBackdrop(Backdrop4 backdrop) => SetBackdropPosition(backdrop, BACKDROP_POSITION_IF_NOT_UNLOCKED);
+
+    /// <summary>
+    /// Sets the position of a backdrop.
+    /// </summary>
+    /// <remarks>
+    /// Every unlocked backdrop must have a different position.
+    /// Use <see cref="RemoveBackdrop"/> to remove a backdrop.
+    /// </remarks>
     public void SetBackdropPosition(Backdrop4 backdrop, byte position)
     {
+        if (backdrop > Backdrop4.Theater)
+            throw new ArgumentOutOfRangeException(nameof(backdrop), backdrop, null);
         if (position > BACKDROP_POSITION_IF_NOT_UNLOCKED)
             position = BACKDROP_POSITION_IF_NOT_UNLOCKED;
         General[OFS_Backdrop + (byte)backdrop] = position;
         State.Edited = true;
     }
 
-    public bool GetThoughWordUnlocked(ThoughWord4 word)
+    public bool GetToughWordUnlocked(ToughWord4 word)
     {
-        return GetFlag(OFS_ThoughWord + ((byte)word >> 3), (byte)word & 7);
+        if (word > ToughWord4.REMSleep)
+            throw new ArgumentOutOfRangeException(nameof(word), word, null);
+        return GetFlag(OFS_ToughWord + ((byte)word >> 3), (byte)word & 7);
     }
 
-    public void SetThoughWordUnlocked(ThoughWord4 word, bool value)
+    public void SetToughWordUnlocked(ToughWord4 word, bool value)
     {
-        SetFlag(OFS_ThoughWord + ((byte)word >> 3), (byte)word & 7, value);
+        if (word > ToughWord4.REMSleep)
+            throw new ArgumentOutOfRangeException(nameof(word), word, null);
+        SetFlag(OFS_ToughWord + ((byte)word >> 3), (byte)word & 7, value);
         State.Edited = true;
     }
 
     public bool GetVillaFurniturePurchased(VillaFurniture4 index)
     {
-        if (index > VillaFurniture4.MAX)
+        if (index > VillaFurniture4.Chandelier)
             throw new ArgumentOutOfRangeException(nameof(index));
         return GetFlag(OFS_VillaFurniture + ((byte)index >> 3), (byte)index & 7);
     }
 
     public void SetVillaFurniturePurchased(VillaFurniture4 index, bool value = true)
     {
-        if (index > VillaFurniture4.MAX)
+        if (index > VillaFurniture4.Chandelier)
             throw new ArgumentOutOfRangeException(nameof(index));
         SetFlag(OFS_VillaFurniture + ((byte)index >> 3), (byte)index & 7, value);
         State.Edited = true;
     }
 }
-
