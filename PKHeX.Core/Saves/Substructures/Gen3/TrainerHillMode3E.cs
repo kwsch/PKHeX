@@ -6,5 +6,4 @@ public enum TrainerHillMode3E : byte
     Variety,
     Unique,
     Expert,
-    MAX = Expert,
 }

@@ -103,6 +103,4 @@ public enum Accessory4 : byte
     Crown,
     Tiara,
     Comet,
-    MAX = Comet,
 }
-

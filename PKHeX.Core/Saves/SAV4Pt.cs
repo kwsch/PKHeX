@@ -30,7 +30,7 @@ public sealed class SAV4Pt : SAV4Sinnoh
     public const int GeneralSize = 0xCF2C;
     private const int StorageSize = 0x121E4; // Start 0xCF2C, +4 starts box data
 
-    readonly public byte BACKDROP_POSITION_IF_NOT_UNLOCKED = 0x12;
+    public const byte BACKDROP_POSITION_IF_NOT_UNLOCKED = 0x12;
 
     protected override BlockInfo4[] ExtraBlocks =>
     [

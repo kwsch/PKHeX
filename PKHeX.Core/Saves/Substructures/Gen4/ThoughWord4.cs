@@ -34,5 +34,4 @@ public enum ThoughWord4 : byte
     Polyphenol,
     Ubiquitous,
     REMSleep,
-    MAX = REMSleep,
 }

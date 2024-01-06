@@ -35,5 +35,4 @@ public enum TrendyWord3E : byte
     OLD,
     YOUNG,
     UGLY,
-    MAX = UGLY,
 }

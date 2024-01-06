@@ -21,8 +21,7 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     protected override int DaycareSlotSize => SIZE_STORED + 0x3C; // 0x38 mail + 4 exp
     public override int DaycareSeedSize => 8; // 32bit
     protected override int EggEventFlag => 0x86;
-    protected override int BadgeFlagStart => 0x867;
-     
+    protected override int BadgeFlagStart => 0x867;     
 
     public SAV3E(byte[] data) : base(data) => Initialize();
     public SAV3E(bool japanese = false) : base(japanese) => Initialize();
@@ -198,7 +197,7 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
         {
             if (value.Length != 3)
                 return;
-            SetData(Large.AsSpan(0x9BC), MemoryMarshal.Cast<ushort, byte>(value));
+            SetData(Large.AsSpan(OFS_BerryBlenderRecord), MemoryMarshal.Cast<ushort, byte>(value));
         }
     }
 
