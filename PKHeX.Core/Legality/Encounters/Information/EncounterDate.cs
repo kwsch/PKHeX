@@ -40,6 +40,9 @@ public static class EncounterDate
         _ => throw new ArgumentOutOfRangeException(nameof(console), console, null),
     };
 
+    /// <summary>
+    /// Checks if the date is valid for the Nintendo DS.
+    /// </summary>
     public static bool IsValidDateNDS(DateOnly date)
     {
         if (date.Year is < 2000 or > 2099)
@@ -47,6 +50,9 @@ public static class EncounterDate
         return true;
     }
 
+    /// <summary>
+    /// Checks if the date is valid for the Nintendo 3DS.
+    /// </summary>
     public static bool IsValidDate3DS(DateOnly date)
     {
         if (date.Year is < 2000 or > 2050)
@@ -54,6 +60,9 @@ public static class EncounterDate
         return true;
     }
 
+    /// <summary>
+    /// Checks if the date is valid for the Nintendo Switch.
+    /// </summary>
     public static bool IsValidDateSwitch(DateOnly date)
     {
         if (date.Year is < 2000 or > 2050)
@@ -72,6 +81,7 @@ public sealed class DefaultTimeProvider : ITimeProvider
     /// </summary>
     public static readonly DefaultTimeProvider Instance = new();
 
+    /// <inheritdoc cref="DateTime.Now"/>
     public DateTime Now => DateTime.Now;
 }
 

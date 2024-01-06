@@ -39,7 +39,7 @@ public sealed record EncounterTera9
     public bool IsAvailableHostViolet => RandRateMinViolet != -1;
     public required TeraRaidMapParent Map { get; init; }
 
-    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Tera Raid Encounter [{(Index == 0 ? "Base" : Index)}] {Stars}★";
     public string LongName => Name;

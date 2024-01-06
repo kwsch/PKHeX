@@ -20,6 +20,10 @@ public static class Roaming8bRNG
         if (flawless == -1)
             flawless = 0;
 
+        // Since the inner methods do not set Gender (only fixed Genders are applicable) and Nature (assume Synchronize used), set them here.
+        pk.Gender = pk.Species == (int)Species.Cresselia ? 1 : 2; // Mesprit
+        pk.Nature = pk.StatNature = (int)criteria.GetNature();
+
         int ctr = 0;
         var rnd = Util.Rand;
         do

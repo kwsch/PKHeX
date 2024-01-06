@@ -15,7 +15,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public int EggLocation => 0;
-    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
@@ -82,7 +82,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
             pk.SetDefaultRegionOrigins(lang);
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         if (CanDexNav)
         {
             var eggMoves = GetDexNavMoves();
@@ -96,7 +96,7 @@ public sealed record EncounterSlot6AO(EncounterArea6AO Parent, ushort Species, b
 
     private byte GetWildForm(byte form)
     {
-        if (form != EncounterUtil1.FormRandom)
+        if (form != EncounterUtil.FormRandom)
             return form;
         // flagged as totally random
         return (byte)Util.Rand.Next(PersonalTable.AO[Species].FormCount);

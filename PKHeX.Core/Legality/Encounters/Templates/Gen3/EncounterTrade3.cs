@@ -110,7 +110,7 @@ public sealed record EncounterTrade3 : IEncounterable, IEncounterMatch, IFixedTr
         pk.Nickname = Nicknames[lang];
         pk.OT_Name = TrainerNames[lang];
 
-        EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+        EncounterUtil.SetEncounterMoves(pk, Version, Level);
         SetPINGA(pk, criteria);
 
         pk.ResetPartyStats();

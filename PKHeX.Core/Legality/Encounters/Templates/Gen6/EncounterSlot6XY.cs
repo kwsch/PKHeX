@@ -13,7 +13,7 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public int EggLocation => 0;
-    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     private PersonalInfo6XY PersonalInfo => PersonalTable.XY[Species];
     public byte FlawlessIVCount => PersonalInfo.EggGroup1 == 15 ? (byte)3 : IsFriendSafari ? (byte)2 : (byte)0;
@@ -76,11 +76,11 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
         else
             pk.SetDefaultRegionOrigins(lang);
 
-        if (IsRandomUnspecificForm && Form == EncounterUtil1.FormVivillon)
+        if (IsRandomUnspecificForm && Form == EncounterUtil.FormVivillon)
             pk.Form = Vivillon3DS.GetPattern(pk.Country, pk.Region);
 
         SetPINGA(pk, criteria);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         pk.SetRandomMemory6();
         pk.ResetPartyStats();
         return pk;
@@ -88,9 +88,9 @@ public sealed record EncounterSlot6XY(EncounterArea6XY Parent, ushort Species, b
 
     private byte GetWildForm(byte form)
     {
-        if (form < EncounterUtil1.FormDynamic)
+        if (form < EncounterUtil.FormDynamic)
             return form;
-        if (form == EncounterUtil1.FormVivillon)
+        if (form == EncounterUtil.FormVivillon)
             return 0; // rectify later
 
         // flagged as totally random

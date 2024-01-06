@@ -94,7 +94,7 @@ public sealed record EncounterTrade5B2W2 : IEncounterable, IEncounterMatch, IFix
             Nickname = IsFixedNickname ? Nicknames[lang] : SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        EncounterUtil1.SetEncounterMoves(pk, version, Level);
+        EncounterUtil.SetEncounterMoves(pk, version, Level);
         SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();
 

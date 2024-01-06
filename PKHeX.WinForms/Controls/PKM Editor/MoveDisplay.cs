@@ -30,7 +30,7 @@ public partial class MoveDisplay : UserControl
         var size = PokePreview.MeasureSize(name, L_Move.Font);
         var ctrlWidth = PB_Type.Width + PB_Type.Margin.Horizontal + size.Width + L_Move.Margin.Horizontal;
 
-        PB_Type.Image = TypeSpriteUtil.GetTypeSpriteIcon(type);
+        PB_Type.Image = TypeSpriteUtil.GetTypeSpriteIconSmall(type);
         L_Move.Text = name;
         if (valid)
             L_Move.ResetForeColor();

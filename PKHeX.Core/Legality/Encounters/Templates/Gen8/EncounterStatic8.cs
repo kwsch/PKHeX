@@ -105,7 +105,7 @@ public sealed record EncounterStatic8(GameVersion Version = GameVersion.SWSH)
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, Level);
+            EncounterUtil.SetEncounterMoves(pk, version, Level);
         pk.ResetPartyStats();
 
         return pk;

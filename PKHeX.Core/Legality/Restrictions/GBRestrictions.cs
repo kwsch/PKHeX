@@ -93,25 +93,25 @@ internal static class GBRestrictions
         return rate == PersonalTable.RB[species].CatchRate;
     }
 
-    private static bool RateMatchesEither(byte catch_rate, ushort rate)
+    private static bool RateMatchesEither(byte rate, ushort species)
     {
-        return catch_rate == PersonalTable.RB[rate].CatchRate || catch_rate == PersonalTable.Y[rate].CatchRate;
+        return rate == PersonalTable.RB[species].CatchRate || rate == PersonalTable.Y[species].CatchRate;
     }
 
-    private static bool GetCatchRateMatchesPreEvolution(PK1 pk, byte catch_rate)
+    private static bool GetCatchRateMatchesPreEvolution(PK1 pk, byte rate)
     {
         // For species catch rate, discard any species that has no valid encounters and a different catch rate than their pre-evolutions
         var head = new EvoCriteria { Species = pk.Species, Form = pk.Form, LevelMax = (byte)pk.CurrentLevel }; // as struct to avoid boxing
         do
         {
-            var s = head.Species;
-            if (!IsSpeciesNotAvailableCatchRate((byte)s) && RateMatchesEither(catch_rate, s))
+            var species = head.Species;
+            if (!IsSpeciesNotAvailableCatchRate((byte)species) && RateMatchesEither(rate, species))
                 return true;
         }
         while (EvolutionGroup1.Instance.TryDevolve(head, pk, head.LevelMax, 2, false, out head));
 
         // Account for oddities via special catch rate encounters
-        if (catch_rate is 167 or 168 && IsStadiumGiftSpecies((byte)head.Species))
+        if (rate is 167 or 168 && IsStadiumGiftSpecies((byte)head.Species))
             return true;
         return false;
     }
@@ -160,7 +160,7 @@ internal static class GBRestrictions
     }
 
     /// <summary>
-    /// Gets the Tradeback status depending on the <see cref="PK1.Catch_Rate"/>
+    /// Gets the Tradeback status depending on the <see cref="PK1.CatchRate"/>
     /// </summary>
     /// <param name="pk">Pokémon to guess the Tradeback status from.</param>
     private static PotentialGBOrigin GetTradebackStatusRBY(PK1 pk)
@@ -169,7 +169,7 @@ internal static class GBRestrictions
             return Gen1Only;
 
         // Detect Tradeback status by comparing the catch rate(Gen1)/held item(Gen2) to the species in the Pokémon's evolution chain.
-        var catch_rate = pk.Catch_Rate;
+        var catch_rate = pk.CatchRate;
         if (catch_rate == 0)
             return Either;
 
@@ -189,7 +189,7 @@ internal static class GBRestrictions
         {
             if (z.Generation == enc.Generation || z.Generation is not (1 or 2))
                 continue;
-            if (pk is PK1 {Catch_Rate: not 0} g1 && !IsTradebackCatchRate(g1.Catch_Rate))
+            if (pk is PK1 {CatchRate: not 0} g1 && !IsTradebackCatchRate(g1.CatchRate))
                 return BadCatchRate;
             return enc.Generation == 2 ? Transferred21 : Transferred12;
         }
@@ -217,7 +217,7 @@ internal static class GBRestrictions
 
         if (gb is PK1 pk1)
         {
-            var rate = pk1.Catch_Rate;
+            var rate = pk1.CatchRate;
             if (rate == 0)
                 return Transferred12;
 
@@ -234,7 +234,7 @@ internal static class GBRestrictions
         EncounterGift1 g when g.GetMatchRating(pk1) < EncounterMatchRating.PartialMatch => true,
         EncounterStatic1 s when s.GetMatchRating(pk1) < EncounterMatchRating.PartialMatch => true,
         EncounterTrade1 => true,
-        _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.Catch_Rate),
+        _ => RateMatchesEncounter(enc.Species, enc.Version, pk1.CatchRate),
     };
 
     public static bool IsTradebackCatchRate(byte rate) => Array.IndexOf(HeldItems_GSC, rate) != -1;

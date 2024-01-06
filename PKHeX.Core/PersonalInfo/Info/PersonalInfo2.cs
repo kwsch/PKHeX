@@ -20,7 +20,7 @@ public sealed class PersonalInfo2(byte[] Data) : PersonalInfo, IPersonalInfoTM, 
     public override int SPD { get => Data[0x06]; set => Data[0x06] = (byte)value; }
     public override byte Type1 { get => Data[0x07]; set => Data[0x07] = value; }
     public override byte Type2 { get => Data[0x08]; set => Data[0x08] = value; }
-    public override int CatchRate { get => Data[0x09]; set => Data[0x09] = (byte)value; }
+    public override byte CatchRate { get => Data[0x09]; set => Data[0x09] = value; }
     public override int BaseEXP { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
     public int Item1 { get => Data[0xB]; set => Data[0xB] = (byte)value; }
     public int Item2 { get => Data[0xC]; set => Data[0xC] = (byte)value; }

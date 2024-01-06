@@ -73,17 +73,17 @@ public sealed record EncounterTrade2 : IEncounterable, IEncounterMatch, IFixedTr
 
         if (IVs.IsSpecified)
         {
-            pk.DV16 = EncounterUtil1.GetDV16(IVs);
+            pk.DV16 = EncounterUtil.GetDV16(IVs);
             pk.OT_Gender = OTGender;
             pk.TID16 = TID16;
         }
         else
         {
-            pk.DV16 = EncounterUtil1.GetRandomDVs(Util.Rand);
+            pk.DV16 = EncounterUtil.GetRandomDVs(Util.Rand);
             pk.TID16 = tr.TID16;
         }
 
-        EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+        EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
 

@@ -39,8 +39,9 @@ public readonly record struct EvolutionMethod(ushort Species, ushort Argument, b
     /// <param name="lvl">Current level</param>
     /// <param name="levelMin">Minimum level to sanity check with</param>
     /// <param name="skipChecks">Option to skip some comparisons to return a 'possible' evolution.</param>
+    /// <param name="tweak"></param>
     /// <returns>True if the evolution criteria is valid.</returns>
-    public EvolutionCheckResult Check(PKM pk, byte lvl, byte levelMin, bool skipChecks)
+    public EvolutionCheckResult Check(PKM pk, byte lvl, byte levelMin, bool skipChecks, EvolutionRuleTweak tweak)
     {
         if (!Method.IsLevelUpRequired())
             return ValidNotLevelUp(pk, skipChecks);
@@ -57,7 +58,11 @@ public readonly record struct EvolutionMethod(ushort Species, ushort Argument, b
         if (Level == 0 && lvl < 2)
             return InsufficientLevel;
         if (lvl < levelMin + LevelUp && !skipChecks)
+        {
+            if (lvl == 100 && tweak.AllowLevelUpEvolution100)
+                return Valid;
             return InsufficientLevel;
+        }
 
         return Valid;
     }

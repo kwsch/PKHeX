@@ -136,7 +136,7 @@ public sealed record EncounterTrade8 : IEncounterable, IEncounterMatch, IFixedTr
             pk.PID ^= 0x1000_0000u;
         pk.SetRelearnMoves(Relearn);
 
-        EncounterUtil1.SetEncounterMoves(pk, version, Level);
+        EncounterUtil.SetEncounterMoves(pk, version, Level);
         SetPINGA(pk, criteria, pi);
 
         pk.ResetPartyStats();

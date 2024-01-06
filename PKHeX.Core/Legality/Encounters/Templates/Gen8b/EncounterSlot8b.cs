@@ -85,7 +85,7 @@ public sealed record EncounterSlot8b(EncounterArea8b Parent, ushort Species, byt
             OT_Friendship = pi.BaseFriendship,
         };
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         if (IsUnderground && GetBaseEggMove(out var move1, pi))
             pk.RelearnMove1 = move1;
         pk.ResetPartyStats();

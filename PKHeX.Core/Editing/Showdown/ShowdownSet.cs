@@ -373,7 +373,7 @@ public sealed class ShowdownSet : IBattleTemplate
             result.Add($"Ability: {Strings.Ability[Ability]}");
         if (Context == EntityContext.Gen9 && TeraType != MoveType.Any)
         {
-            if ((uint)TeraType <= (int)MoveType.Fairy)
+            if ((uint)TeraType <= TeraTypeUtil.MaxType) // Fairy
                 result.Add($"Tera Type: {Strings.Types[(int)TeraType]}");
             else if ((uint)TeraType == TeraTypeUtil.Stellar)
                 result.Add($"Tera Type: {Strings.Types[TeraTypeUtil.StellarTypeDisplayStringIndex]}");
@@ -740,7 +740,7 @@ public sealed class ShowdownSet : IBattleTemplate
             return type;
 
         if (type[0] == '(' && type[^1] == ')')
-             return type[1..^1].Trim();
+            return type[1..^1].Trim();
         if (type[0] == '[' && type[^1] == ']')
             return type[1..^1].Trim();
 

@@ -2,8 +2,18 @@ using System;
 
 namespace PKHeX.Core;
 
-internal static class Locations4
+/// <summary>
+/// Locations for <see cref="GameVersion.Gen4"/>.
+/// </summary>
+public static class Locations4
 {
+    private const int SafariLocation_HGSS = 202;
+    private const int MarshLocation_DPPt = 52;
+    public static bool IsSafariZoneLocation(ushort loc) => loc is MarshLocation_DPPt or SafariLocation_HGSS;
+
+    /// <summary>
+    /// Available location list for the 00000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<byte> Met0 =>
     [
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
@@ -32,13 +42,19 @@ internal static class Locations4
         230, 231, 232, 233, 234,
     ];
 
-    // Ignore the --- met location at index 7.
+    /// <summary>
+    /// Available location list for the 02000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met2 =>
     [
+        // Ignore the --- met location at index 7.
         2000, 2001, 2002, 2003, 2004, 2005, 2006,       2008, 2009,
         2010, 2011, 2012, 2013, 2014,
     ];
 
+    /// <summary>
+    /// Available location list for the 03000 set of location names.
+    /// </summary>
     public static ReadOnlySpan<ushort> Met3 =>
     [
         3000, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009,

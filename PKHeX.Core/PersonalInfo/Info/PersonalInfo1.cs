@@ -21,7 +21,7 @@ public sealed class PersonalInfo1(byte[] Data) : PersonalInfo, IPersonalInfoTM
     public override int SPD { get => SPC; set => SPC = value; }
     public override byte Type1 { get => Data[0x06]; set => Data[0x06] = value; }
     public override byte Type2 { get => Data[0x07]; set => Data[0x07] = value; }
-    public override int CatchRate { get => Data[0x08]; set => Data[0x08] = (byte)value; }
+    public override byte CatchRate { get => Data[0x08]; set => Data[0x08] = value; }
     public override int BaseEXP { get => Data[0x09]; set => Data[0x09] = (byte)value; }
     public byte Move1 { get => Data[0x0F]; set => Data[0x0F] = value; }
     public byte Move2 { get => Data[0x10]; set => Data[0x10] = value; }

@@ -16,7 +16,7 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
     public bool IsShiny => false;
     public int Location => 0;
 
-    private const int LightBallPikachuCatchRate = 0xA3; // 163
+    private const byte LightBallPikachuCatchRate = 0xA3; // 163 - Light Ball
     public byte Form => 0;
 
     public string Name => "Static Encounter";
@@ -25,15 +25,6 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
     public byte LevelMax => Level;
 
     public bool IsStarterPikachu => Version == GameVersion.YW && Species == (int)Core.Species.Pikachu && Level == 5;
-
-    private byte GetInitialCatchRate()
-    {
-        if (IsStarterPikachu)
-            return LightBallPikachuCatchRate; // Light Ball
-
-        // Encounters can have different Catch Rates (RBG vs Y)
-        return EncounterUtil1.GetWildCatchRate(Version, Species);
-    }
 
     #region Generating
     PKM IEncounterConvertible.ConvertToPKM(ITrainerInfo tr, EncounterCriteria criteria) => ConvertToPKM(tr, criteria);
@@ -45,22 +36,22 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
     {
         int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)tr.Language, Version);
         var isJapanese = lang == (int)LanguageID.Japanese;
-        var pi = EncounterUtil1.GetPersonal1(Version, Species);
+        var pi = EncounterUtil.GetPersonal1(Version, Species);
         var pk = new PK1(isJapanese)
         {
             Species = Species,
             CurrentLevel = LevelMin,
-            Catch_Rate = GetInitialCatchRate(),
-            DV16 = EncounterUtil1.GetRandomDVs(Util.Rand),
+            CatchRate = IsStarterPikachu ? LightBallPikachuCatchRate : pi.CatchRate,
+            DV16 = EncounterUtil.GetRandomDVs(Util.Rand),
 
-            OT_Name = EncounterUtil1.GetTrainerName(tr, lang),
+            OT_Name = EncounterUtil.GetTrainerName(tr, lang),
             TID16 = tr.TID16,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
             Type1 = pi.Type1,
             Type2 = pi.Type2,
         };
 
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;
@@ -113,20 +104,20 @@ public sealed record EncounterStatic1(ushort Species, byte Level, GameVersion Ve
     {
         if (pk is not PK1 pk1)
             return false;
-        return !IsCatchRateValid(pk1.Catch_Rate);
+        return !IsCatchRateValid(pk1.CatchRate);
     }
 
-    private bool IsCatchRateValid(byte catch_rate)
+    private bool IsCatchRateValid(byte rate)
     {
-        if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(catch_rate))
+        if (ParseSettings.AllowGen1Tradeback && PK1.IsCatchRateHeldItem(rate))
             return true;
 
         // Light Ball (Yellow) starter
         if (IsStarterPikachu)
-            return catch_rate == LightBallPikachuCatchRate;
+            return rate == LightBallPikachuCatchRate;
 
         // Encounters can have different Catch Rates (RBG vs Y)
-        return GBRestrictions.RateMatchesEncounter(Species, Version, catch_rate);
+        return GBRestrictions.RateMatchesEncounter(Species, Version, rate);
     }
 
     #endregion

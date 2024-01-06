@@ -111,7 +111,7 @@ public sealed record EncounterOutbreak9
         pk.Scale = !IsForcedScaleRange ? PokeSizeUtil.GetRandomScalar() : (byte)Util.Rand.Next(ScaleMin, ScaleMax + 1);
 
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, Level);
+        EncounterUtil.SetEncounterMoves(pk, Version, Level);
 
         pk.ResetPartyStats();
         return pk;

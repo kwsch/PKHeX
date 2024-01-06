@@ -16,7 +16,7 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
     public Shiny Shiny => Shiny.Random;
     public bool IsShiny => false;
     public int EggLocation => 0;
-    public bool IsRandomUnspecificForm => Form >= EncounterUtil1.FormDynamic;
+    public bool IsRandomUnspecificForm => Form >= EncounterUtil.FormDynamic;
 
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name}";
@@ -151,16 +151,16 @@ public sealed record EncounterSlot9(EncounterArea9 Parent, ushort Species, byte 
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         pk.ResetPartyStats();
         return pk;
     }
 
     private byte GetWildForm(byte form)
     {
-        if (form < EncounterUtil1.FormDynamic)
+        if (form < EncounterUtil.FormDynamic)
             return form;
-        if (form == EncounterUtil1.FormVivillon)
+        if (form == EncounterUtil.FormVivillon)
             return Vivillon3DS.FancyFormID; // Fancy Vivillon
         // flagged as totally random
         return (byte)Util.Rand.Next(PersonalTable.SV[Species].FormCount);

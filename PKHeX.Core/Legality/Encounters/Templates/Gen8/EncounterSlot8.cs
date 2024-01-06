@@ -69,7 +69,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
             OT_Friendship = pi.BaseFriendship,
         };
         SetPINGA(pk, criteria, pi);
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 
         bool symbol = Parent.PermitCrossover;
         if (!symbol && Location is 30 or 54 && (Weather & AreaWeather8.Fishing) == 0)
@@ -83,7 +83,7 @@ public sealed record EncounterSlot8(EncounterArea8 Parent, ushort Species, byte 
 
     private byte GetWildForm(byte form)
     {
-        if (form == EncounterUtil1.FormRandom) // flagged as totally random
+        if (form == EncounterUtil.FormRandom) // flagged as totally random
             return (byte)Util.Rand.Next(PersonalTable.SWSH[Species].FormCount);
         return form;
     }

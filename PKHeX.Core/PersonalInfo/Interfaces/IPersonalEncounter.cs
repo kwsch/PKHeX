@@ -18,7 +18,7 @@ public interface IPersonalEncounter
     /// <summary>
     /// Catch Rate
     /// </summary>
-    int CatchRate { get; set; }
+    byte CatchRate { get; set; }
 
     /// <summary>
     /// Initial Friendship when captured or received.

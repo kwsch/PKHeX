@@ -53,7 +53,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
             FatefulEncounter = FatefulEncounter,
 
             Language = lang,
-            OT_Name = tr.Language == lang ? tr.OT : lang == 1 ? "ゲーフリ" : "GF",
+            OT_Name = EncounterUtil.GetTrainerName(tr, lang),
             OT_Gender = tr.Gender,
             ID32 = tr.ID32,
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
@@ -72,7 +72,7 @@ public sealed record EncounterStatic3(ushort Species, byte Level, GameVersion Ve
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+            EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
 
         pk.ResetPartyStats();
         return pk;

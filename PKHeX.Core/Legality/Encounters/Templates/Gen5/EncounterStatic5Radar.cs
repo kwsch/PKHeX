@@ -52,7 +52,7 @@ public sealed record EncounterStatic5Radar(ushort Species, byte Form, AbilityPer
             Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation),
         };
 
-        EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
 
         SetPINGA(pk, criteria, pi);
         pk.ResetPartyStats();

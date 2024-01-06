@@ -111,7 +111,7 @@ public static class ReflectUtil
         if (type.IsEnum)
         {
             var str = value.ToString() ?? string.Empty;
-            if (int.TryParse(str, out var integer))
+            if (Enum.IsDefined(type, str) && int.TryParse(str, out var integer))
                 return Convert.ChangeType(integer, type);
             return Enum.Parse(type, str, true);
         }

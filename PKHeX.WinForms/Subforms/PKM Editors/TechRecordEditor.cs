@@ -59,7 +59,7 @@ public partial class TechRecordEditor : Form
                 row.Cells[ColumnName].Style.BackColor = Color.LightBlue;
 
             row.Cells[ColumnIndex].Value = i.ToString("000");
-            row.Cells[ColumnTypeIcon].Value = TypeSpriteUtil.GetTypeSpriteIcon(type);
+            row.Cells[ColumnTypeIcon].Value = TypeSpriteUtil.GetTypeSpriteIconSmall(type);
             row.Cells[ColumnType].Value = type.ToString("00") + (isValid ? 0 : 1) + names[move]; // type -> valid -> name sorting
             row.Cells[ColumnName].Value = names[move];
         }

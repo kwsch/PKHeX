@@ -53,7 +53,7 @@ public sealed record Frame(uint Seed, FrameType FrameType, LeadRequired Lead)
         }
 
         // Check Level Now
-        int lvl = SlotRange.GetLevel(slot, Lead, RandLevel);
+        var lvl = SlotRange.GetLevel(slot, Lead, RandLevel);
         if (pk.HasOriginalMetLocation)
         {
             if (lvl != pk.Met_Level)

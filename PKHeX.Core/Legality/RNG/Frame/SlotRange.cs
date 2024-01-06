@@ -72,6 +72,14 @@ public static class SlotRange
         };
     }
 
+    /// <summary>
+    /// Calculates the level for the given slot.
+    /// </summary>
+    /// <typeparam name="T">Slot type</typeparam>
+    /// <param name="slot">Slot reference</param>
+    /// <param name="lead">Player's lead Pokémon</param>
+    /// <param name="lvlrand">Random value to use for level calculation</param>
+    /// <returns>Actual level of the encounter</returns>
     public static int GetLevel<T>(T slot, LeadRequired lead, uint lvlrand) where T : ILevelRange
     {
         if ((lead & LeadRequired.PressureHustleSpiritFail) == LeadRequired.PressureHustleSpirit)

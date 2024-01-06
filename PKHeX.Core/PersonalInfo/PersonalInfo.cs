@@ -22,7 +22,7 @@ public abstract class PersonalInfo : IPersonalInfo
     public abstract byte Type2 { get; set; }
     public abstract int EggGroup1 { get; set; }
     public abstract int EggGroup2 { get; set; }
-    public abstract int CatchRate { get; set; }
+    public abstract byte CatchRate { get; set; }
     public virtual int EvoStage { get; set; }
     public abstract byte Gender { get; set; }
     public abstract int HatchCycles { get; set; }

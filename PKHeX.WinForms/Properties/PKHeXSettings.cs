@@ -25,6 +25,7 @@ public sealed class PKHeXSettings
 
     // General
     public LegalitySettings Legality { get; set; } = new();
+    public EntityConverterSettings Converter { get; set; } = new();
     public SetImportSettings Import { get; set; } = new();
     public SlotWriteSettings SlotWrite { get; set; } = new();
     public PrivacySettings Privacy { get; set; } = new();
@@ -237,7 +238,7 @@ public sealed class LegalitySettings : IParseSettings
 }
 
 [Serializable]
-public sealed class AdvancedSettings
+public sealed class EntityConverterSettings
 {
     [LocalizedDescription("Allow PKM file conversion paths that are not possible via official methods. Individual properties will be copied sequentially.")]
     public EntityCompatibilitySetting AllowIncompatibleConversion { get; set; } = EntityCompatibilitySetting.DisallowIncompatible;
@@ -245,6 +246,16 @@ public sealed class AdvancedSettings
     [LocalizedDescription("Allow PKM file conversion paths to guess the legal original encounter data that is not stored in the format that it was converted from.")]
     public EntityRejuvenationSetting AllowGuessRejuvenateHOME { get; set; } = EntityRejuvenationSetting.MissingDataHOME;
 
+    [LocalizedDescription("Default version to set when transferring from Generation 1 3DS Virtual Console to Generation 7.")]
+    public GameVersion VirtualConsoleSourceGen1 { get; set; } = GameVersion.RD;
+
+    [LocalizedDescription("Default version to set when transferring from Generation 2 3DS Virtual Console to Generation 7.")]
+    public GameVersion VirtualConsoleSourceGen2 { get; set; } = GameVersion.SI;
+}
+
+[Serializable]
+public sealed class AdvancedSettings
+{
     [LocalizedDescription("Folder path that contains dump(s) of block hash-names. If a specific dump file does not exist, only names defined within the program's code will be loaded.")]
     public string PathBlockKeyList { get; set; } = string.Empty;
 

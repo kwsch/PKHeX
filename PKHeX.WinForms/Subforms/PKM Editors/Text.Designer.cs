@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
             // 
             // TB_Text
             // 
-            TB_Text.Location = new System.Drawing.Point(107, 14);
+            TB_Text.Location = new System.Drawing.Point(114, 14);
             TB_Text.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             TB_Text.Name = "TB_Text";
             TB_Text.Size = new System.Drawing.Size(158, 23);
@@ -68,10 +68,10 @@ namespace PKHeX.WinForms
             // B_Cancel
             // 
             B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Cancel.Location = new System.Drawing.Point(388, 212);
+            B_Cancel.Location = new System.Drawing.Point(388, 208);
             B_Cancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Cancel.Name = "B_Cancel";
-            B_Cancel.Size = new System.Drawing.Size(89, 27);
+            B_Cancel.Size = new System.Drawing.Size(96, 32);
             B_Cancel.TabIndex = 37;
             B_Cancel.Text = "Cancel";
             B_Cancel.UseVisualStyleBackColor = true;
@@ -80,10 +80,10 @@ namespace PKHeX.WinForms
             // B_Save
             // 
             B_Save.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            B_Save.Location = new System.Drawing.Point(484, 212);
+            B_Save.Location = new System.Drawing.Point(490, 208);
             B_Save.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_Save.Name = "B_Save";
-            B_Save.Size = new System.Drawing.Size(89, 27);
+            B_Save.Size = new System.Drawing.Size(96, 32);
             B_Save.TabIndex = 38;
             B_Save.Text = "Save";
             B_Save.UseVisualStyleBackColor = true;
@@ -96,7 +96,7 @@ namespace PKHeX.WinForms
             FLP_Characters.Location = new System.Drawing.Point(14, 145);
             FLP_Characters.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             FLP_Characters.Name = "FLP_Characters";
-            FLP_Characters.Size = new System.Drawing.Size(356, 94);
+            FLP_Characters.Size = new System.Drawing.Size(368, 94);
             FLP_Characters.TabIndex = 39;
             // 
             // FLP_Hex
@@ -107,7 +107,7 @@ namespace PKHeX.WinForms
             FLP_Hex.Location = new System.Drawing.Point(14, 44);
             FLP_Hex.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             FLP_Hex.Name = "FLP_Hex";
-            FLP_Hex.Size = new System.Drawing.Size(356, 94);
+            FLP_Hex.Size = new System.Drawing.Size(368, 94);
             FLP_Hex.TabIndex = 40;
             FLP_Hex.Visible = false;
             // 
@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
             // B_ApplyTrash
             // 
             B_ApplyTrash.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            B_ApplyTrash.Location = new System.Drawing.Point(7, 149);
+            B_ApplyTrash.Location = new System.Drawing.Point(7, 153);
             B_ApplyTrash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_ApplyTrash.Name = "B_ApplyTrash";
             B_ApplyTrash.Size = new System.Drawing.Size(182, 27);
@@ -145,11 +145,11 @@ namespace PKHeX.WinForms
             GB_Trash.Controls.Add(CB_Species);
             GB_Trash.Controls.Add(B_ApplyTrash);
             GB_Trash.Controls.Add(CB_Language);
-            GB_Trash.Location = new System.Drawing.Point(377, 14);
+            GB_Trash.Location = new System.Drawing.Point(389, 14);
             GB_Trash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             GB_Trash.Name = "GB_Trash";
             GB_Trash.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            GB_Trash.Size = new System.Drawing.Size(196, 182);
+            GB_Trash.Size = new System.Drawing.Size(196, 188);
             GB_Trash.TabIndex = 43;
             GB_Trash.TabStop = false;
             GB_Trash.Text = "Trash Byte Layers";
@@ -158,7 +158,7 @@ namespace PKHeX.WinForms
             // B_ClearTrash
             // 
             B_ClearTrash.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            B_ClearTrash.Location = new System.Drawing.Point(7, 115);
+            B_ClearTrash.Location = new System.Drawing.Point(7, 119);
             B_ClearTrash.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             B_ClearTrash.Name = "B_ClearTrash";
             B_ClearTrash.Size = new System.Drawing.Size(182, 27);
@@ -180,7 +180,7 @@ namespace PKHeX.WinForms
             // 
             // NUD_Generation
             // 
-            NUD_Generation.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            NUD_Generation.Font = new System.Drawing.Font("Courier New", 8.25F);
             NUD_Generation.Location = new System.Drawing.Point(134, 81);
             NUD_Generation.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             NUD_Generation.Name = "NUD_Generation";
@@ -211,11 +211,10 @@ namespace PKHeX.WinForms
             // 
             // L_String
             // 
-            L_String.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             L_String.Location = new System.Drawing.Point(10, 10);
             L_String.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             L_String.Name = "L_String";
-            L_String.Size = new System.Drawing.Size(90, 27);
+            L_String.Size = new System.Drawing.Size(102, 27);
             L_String.TabIndex = 44;
             L_String.Text = "String";
             L_String.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -223,7 +222,7 @@ namespace PKHeX.WinForms
             // TrashEditor
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            ClientSize = new System.Drawing.Size(587, 253);
+            ClientSize = new System.Drawing.Size(599, 253);
             Controls.Add(L_String);
             Controls.Add(GB_Trash);
             Controls.Add(FLP_Hex);

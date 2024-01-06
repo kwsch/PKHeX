@@ -232,69 +232,68 @@ public sealed class MetDataSource(GameStrings s)
         return result;
     }
 
-    private IReadOnlyList<ComboItem> GetLocationListInternal(GameVersion version, EntityContext context)
+    private IReadOnlyList<ComboItem> GetLocationListInternal(GameVersion version, EntityContext context) => version switch
     {
-        return version switch
-        {
-            CXD when context == EntityContext.Gen3 => MetGen3CXD,
-            R or S when context == EntityContext.Gen3 => Partition1(MetGen3, IsMetLocation3RS),
-            E when context == EntityContext.Gen3 => Partition1(MetGen3, IsMetLocation3E),
-            FR or LG when context == EntityContext.Gen3 => Partition1(MetGen3, IsMetLocation3FRLG),
-            D or P when context == EntityContext.Gen4 => Partition2(MetGen4, IsMetLocation4DP, 4),
-            Pt when context == EntityContext.Gen4 => Partition2(MetGen4, IsMetLocation4Pt, 4),
-            HG or SS when context == EntityContext.Gen4 => Partition2(MetGen4, IsMetLocation4HGSS, 4),
+        CXD      when context == EntityContext.Gen3 => MetGen3CXD,
+        R or S   when context == EntityContext.Gen3 => Partition1(MetGen3, IsMetLocation3RS),
+        E        when context == EntityContext.Gen3 => Partition1(MetGen3, IsMetLocation3E),
+        FR or LG when context == EntityContext.Gen3 => Partition1(MetGen3, IsMetLocation3FRLG),
+        D or P   when context == EntityContext.Gen4 => Partition2(MetGen4, IsMetLocation4DP, 4),
+        Pt       when context == EntityContext.Gen4 => Partition2(MetGen4, IsMetLocation4Pt, 4),
+        HG or SS when context == EntityContext.Gen4 => Partition2(MetGen4, IsMetLocation4HGSS, 4),
 
-            B or W => Partition2(MetGen5, IsMetLocation5BW), // Abyssal Ruins
-            B2 or W2 => MetGen5,
-            X or Y => Partition2(MetGen6, IsMetLocation6XY),
-            OR or AS => Partition2(MetGen6, IsMetLocation6AO),
-            SN or MN => Partition2(MetGen7, IsMetLocation7SM),
-            US or UM
-                or RD or BU or GN or YW
-                or GD or SI or C => Partition2(MetGen7, IsMetLocation7USUM),
-            GP or GE or GO => Partition2(MetGen7GG, IsMetLocation7GG),
-            SW or SH => Partition2(MetGen8, IsMetLocation8SWSH),
-            BD or SP => Partition2(MetGen8b, IsMetLocation8BDSP),
-            PLA => Partition2(MetGen8a, IsMetLocation8LA),
-            SL or VL => Partition2(MetGen9, IsMetLocation9SV),
-            _ => GetLocationListModified(version, context),
-        };
+        B  or W  => Partition2(MetGen5, IsMetLocation5BW), // Abyssal Ruins
+        B2 or W2 => MetGen5,
 
-        static ComboItem[] Partition1(List<ComboItem> list, Func<ushort, bool> criteria)
+        X  or Y  => Partition2(MetGen6, IsMetLocation6XY),
+        OR or AS => Partition2(MetGen6, IsMetLocation6AO),
+        SN or MN => Partition2(MetGen7, IsMetLocation7SM),
+        US or UM
+           or RD or BU or GN or YW
+           or GD or SI or C => Partition2(MetGen7, IsMetLocation7USUM),
+
+        GP or GE or GO => Partition2(MetGen7GG, IsMetLocation7GG),
+        SW or SH => Partition2(MetGen8, IsMetLocation8SWSH),
+        BD or SP => Partition2(MetGen8b, IsMetLocation8BDSP),
+        PLA      => Partition2(MetGen8a, IsMetLocation8LA),
+        SL or VL => Partition2(MetGen9, IsMetLocation9SV),
+        _ => GetLocationListModified(version, context),
+    };
+
+    private static ComboItem[] Partition1(List<ComboItem> list, Func<ushort, bool> criteria)
+    {
+        var span = CollectionsMarshal.AsSpan(list);
+        var result = new ComboItem[list.Count];
+        ReorderList(span, result, criteria);
+        return result;
+    }
+
+    private static ComboItem[] Partition2(List<ComboItem> list, Func<ushort, bool> criteria, int keepFirst = 3)
+    {
+        var span = CollectionsMarshal.AsSpan(list);
+        var result = new ComboItem[span.Length];
+        for (int i = 0; i < keepFirst; i++)
+            result[i] = list[i];
+        ReorderList(span, result, criteria, keepFirst);
+        return result;
+    }
+
+    private static void ReorderList(Span<ComboItem> list, Span<ComboItem> result, Func<ushort, bool> criteria, int start = 0)
+    {
+        // store values that match criteria at the next available position of the array
+        // store non-matches starting at the end. reverse before returning
+        int end = list.Length - 1;
+        for (var index = start; index < list.Length; index++)
         {
-            var span = CollectionsMarshal.AsSpan(list);
-            var result = new ComboItem[list.Count];
-            ReorderList(span, result, criteria);
-            return result;
+            var item = list[index];
+            if (criteria((ushort)item.Value))
+                result[start++] = item;
+            else
+                result[end--] = item;
         }
 
-        static ComboItem[] Partition2(List<ComboItem> list, Func<ushort, bool> criteria, int keepFirst = 3)
-        {
-            var span = CollectionsMarshal.AsSpan(list);
-            var result = new ComboItem[span.Length];
-            for (int i = 0; i < keepFirst; i++)
-                result[i] = list[i];
-            ReorderList(span, result, criteria, keepFirst);
-            return result;
-        }
-
-        static void ReorderList(Span<ComboItem> list, Span<ComboItem> result, Func<ushort, bool> criteria, int start = 0)
-        {
-            // store values that match criteria at the next available position of the array
-            // store non-matches starting at the end. reverse before returning
-            int end = list.Length - 1;
-            for (var index = start; index < list.Length; index++)
-            {
-                var item = list[index];
-                if (criteria((ushort)item.Value))
-                    result[start++] = item;
-                else
-                    result[end--] = item;
-            }
-
-            // since the non-matches are reversed in order, we reverse that section.
-            result[start..].Reverse();
-        }
+        // since the non-matches are reversed in order, we reverse that section.
+        result[start..].Reverse();
     }
 
     /// <summary>

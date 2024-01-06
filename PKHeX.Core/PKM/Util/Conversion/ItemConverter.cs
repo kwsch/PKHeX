@@ -5,7 +5,7 @@ namespace PKHeX.Core;
 /// <summary>
 /// Logic for converting Item IDs between the generation specific value sets.
 /// </summary>
-internal static class ItemConverter
+public static class ItemConverter
 {
     /// <summary>Unused item ID, placeholder for item/sprite finding in Generations 2-4.</summary>
     private const ushort NaN = 128;
@@ -15,32 +15,32 @@ internal static class ItemConverter
     /// </summary>
     /// <param name="item">Generation 3 Item ID.</param>
     /// <returns>True if transferable, False if not transferable.</returns>
-    internal static bool IsItemTransferable34(ushort item) => item != NaN && item > 0;
+    public static bool IsItemTransferable34(ushort item) => item != NaN && item > 0;
 
     /// <summary>
     /// Converts a Generation 3 Item ID to Generation 4+ Item ID.
     /// </summary>
     /// <param name="item">Generation 3 Item ID.</param>
     /// <returns>Generation 4+ Item ID.</returns>
-    internal static ushort GetItemFuture3(ushort item) => item > arr3.Length ? NaN : arr3[item];
+    public static ushort GetItemFuture3(ushort item) => item > Item3to4.Length ? NaN : Item3to4[item];
 
     /// <summary>
     /// Converts a Generation 2 Item ID to Generation 4+ Item ID.
     /// </summary>
     /// <param name="item">Generation 2 Item ID.</param>
     /// <returns>Generation 4+ Item ID.</returns>
-    internal static ushort GetItemFuture2(byte item) => item > arr2.Length ? NaN : arr2[item];
+    public static ushort GetItemFuture2(byte item) => item > Item2to4.Length ? NaN : Item2to4[item];
 
     /// <summary>
     /// Converts a Generation 4+ Item ID to Generation 3 Item ID.
     /// </summary>
     /// <param name="item">Generation 4+ Item ID.</param>
     /// <returns>Generation 3 Item ID.</returns>
-    private static ushort GetItemOld3(ushort item)
+    public static ushort GetItemOld3(ushort item)
     {
         if (item == NaN)
             return 0;
-        int index = arr3.IndexOf(item);
+        int index = Item3to4.IndexOf(item);
         return (ushort)Math.Max(0, index);
     }
 
@@ -49,17 +49,17 @@ internal static class ItemConverter
     /// </summary>
     /// <param name="item">Generation 4+ Item ID.</param>
     /// <returns>Generation 2 Item ID.</returns>
-    private static byte GetItemOld2(ushort item)
+    public static byte GetItemOld2(ushort item)
     {
         if (item == NaN)
             return 0;
-        int index = arr2.IndexOf(item);
+        int index = Item2to4.IndexOf(item);
         return (byte)Math.Max(0, index);
     }
 
     #region Item Mapping Tables
     /// <summary> Gen2 items (index) and their corresponding Gen4 item ID (value) </summary>
-    private static ReadOnlySpan<ushort> arr2 =>
+    private static ReadOnlySpan<ushort> Item2to4 =>
     [
         000, 001, 002, 213, 003, 004, NaN, 450, 081, 018, // 0
         019, 020, 021, 022, 023, 024, 025, 026, 017, 078, // 1
@@ -90,7 +90,7 @@ internal static class ItemConverter
     ];
 
     /// <summary> Gen3 items (index) and their corresponding Gen4 item ID (value) </summary>
-    private static ReadOnlySpan<ushort> arr3 =>
+    private static ReadOnlySpan<ushort> Item3to4 =>
     [
         000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
         010, 011, 012, 017, 018, 019, 020, 021, 022, 023,
@@ -149,11 +149,11 @@ internal static class ItemConverter
     };
 
     /// <summary>
-    /// Converts a Gen1 <see cref="PK1.Catch_Rate"/> value to Gen2 Item.
+    /// Converts a Gen1 <see cref="PK1.CatchRate"/> value to Gen2 Item.
     /// </summary>
     /// <param name="value">Gen1 Item</param>
     /// <returns>Gen2 Item</returns>
-    internal static int GetItemFuture1(byte value)
+    public static int GetItemFuture1(byte value)
     {
         if (!IsItemTransferable12(value))
             return GetTeruSamaItem(value);
@@ -169,7 +169,7 @@ internal static class ItemConverter
     /// <param name="srcFormat">Format from importing</param>
     /// <param name="destFormat">Format required for holder</param>
     /// <returns>destItem</returns>
-    internal static int GetItemForFormat(int srcItem, EntityContext srcFormat, EntityContext destFormat)
+    public static int GetItemForFormat(int srcItem, EntityContext srcFormat, EntityContext destFormat)
     {
         if (srcItem <= 0)
             return 0;
@@ -208,7 +208,7 @@ internal static class ItemConverter
     /// <param name="item">Item ID</param>
     /// <param name="generation">Generation the <see cref="item"/> exists in</param>
     /// <returns>True if is an HM</returns>
-    internal static bool IsItemHM(ushort item, int generation) => generation switch
+    public static bool IsItemHM(ushort item, int generation) => generation switch
     {
         1 => item is (>= 196 and <= 200),
         2 => item is (>= 243 and <= 249),

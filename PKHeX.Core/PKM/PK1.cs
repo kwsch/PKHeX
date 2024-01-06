@@ -44,7 +44,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override int Status_Condition { get => Data[4]; set => Data[4] = (byte)value; }
     public byte Type1 { get => Data[5]; set => Data[5] = value; }
     public byte Type2 { get => Data[6]; set => Data[6] = value; }
-    public byte Catch_Rate { get => Data[7]; set => Data[7] = value; }
+    public byte CatchRate { get => Data[7]; set => Data[7] = value; }
     public override ushort Move1 { get => Data[8]; set => Data[8] = (byte)value; }
     public override ushort Move2 { get => Data[9]; set => Data[9] = (byte)value; }
     public override ushort Move3 { get => Data[10]; set => Data[10] = (byte)value; }
@@ -104,11 +104,11 @@ public sealed class PK1 : GBPKML, IPersonalType
         Type2 = pi.Type2;
 
         // Before updating catch rate, check if non-standard
-        if (IsValidCatchRateAnyPreEvo((byte)value, Catch_Rate))
+        if (IsValidCatchRateAnyPreEvo((byte)value, CatchRate))
             return;
 
         // Matches nothing possible; just reset to current Species' rate.
-        Catch_Rate = (byte)pi.CatchRate;
+        CatchRate = pi.CatchRate;
     }
 
     private static bool IsValidCatchRateAnyPreEvo(byte species, byte rate)
@@ -145,7 +145,7 @@ public sealed class PK1 : GBPKML, IPersonalType
     public override int MaxItemID => Legal.MaxItemID_1;
 
     // Extra
-    public int Gen2Item => ItemConverter.GetItemFuture1(Catch_Rate);
+    public int Gen2Item => ItemConverter.GetItemFuture1(CatchRate);
 
     public PK2 ConvertToPK2()
     {
@@ -165,6 +165,12 @@ public sealed class PK1 : GBPKML, IPersonalType
     {
         var rnd = Util.Rand;
         var lang = TransferLanguage(RecentTrainerCache.Language);
+        var version = (byte)EntityConverter.VirtualConsoleSourceGen1;
+        if ((lang == 1) != Japanese)
+            lang = Japanese ? 1 : 2;
+        if (version == (byte)GameVersion.BU && !Japanese)
+            version = (byte)GameVersion.RD;
+
         var pi = PersonalTable.SM[Species];
         int abil = TransporterLogic.IsHiddenDisallowedVC1(Species) ? 0 : 2; // Hidden
         var pk7 = new PK7
@@ -179,7 +185,7 @@ public sealed class PK1 : GBPKML, IPersonalType
             PID = rnd.Rand32(),
             Ball = 4,
             MetDate = EncounterDate.GetDate3DS(),
-            Version = (int)GameVersion.RD, // Default to red
+            Version = version,
             Move1 = Move1,
             Move2 = Move2,
             Move3 = Move3,

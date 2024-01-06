@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core;
 
@@ -16,8 +17,24 @@ public static class Experience
     public static int GetLevel(uint exp, byte growth)
     {
         var table = GetTable(growth);
+        return GetLevel(exp, table);
+    }
+
+    /// <summary>
+    /// Gets the current level of a species.
+    /// </summary>
+    /// <param name="exp">Experience points</param>
+    /// <param name="table">Experience growth table</param>
+    /// <returns>Current level of the species.</returns>
+    public static int GetLevel(uint exp, ReadOnlySpan<uint> table)
+    {
+        // Eagerly return 100 if the exp is at max
+        // Also avoids overflow issues with the table in the event EXP is out of bounds
         if (exp >= table[^1])
             return 100;
+
+        // Most will be below level 50, so start from the bottom
+        // Don't bother with binary search, as the table is small
         int tl = 1; // Initial Level. Iterate upwards to find the level
         while (exp >= table[tl])
             ++tl;
@@ -38,10 +55,26 @@ public static class Experience
             level = 100;
 
         var table = GetTable(growth);
-        return table[level - 1];
+        return GetEXP(level, table);
     }
 
-    private static ReadOnlySpan<uint> GetTable(byte growth) => growth switch
+    /// <summary>
+    /// Gets the minimum Experience points for the specified level.
+    /// </summary>
+    /// <param name="level">Current level</param>
+    /// <param name="table">Experience growth table</param>
+    /// <returns>Experience points needed to have specified level.</returns>
+    /// <remarks>No bounds checking is performed.</remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static uint GetEXP(int level, ReadOnlySpan<uint> table) => table[level - 1];
+
+    /// <summary>
+    /// Gets the minimum Experience points for all levels possible.
+    /// </summary>
+    /// <param name="growth">Growth Rate type</param>
+    /// <returns>Experience points needed to have an indexed level.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static ReadOnlySpan<uint> GetTable(byte growth) => growth switch
     {
         0 => Growth0,
         1 => Growth1,
@@ -70,8 +103,8 @@ public static class Experience
         if ((uint)level >= 100)
             return 0;
         var table = GetTable(growth);
-        var current = table[level - 1];
-        var next = table[level];
+        var current = GetEXP(level, table);
+        var next = GetEXP(level + 1, table);
         return next - current;
     }
 
@@ -88,8 +121,8 @@ public static class Experience
             return 0;
 
         var table = GetTable(growth);
-        var current = table[level - 1];
-        var next = table[level];
+        var current = GetEXP(level, table);
+        var next = GetEXP(level + 1, table);
         var amount = next - current;
         double progress = exp - current;
         return progress / amount;

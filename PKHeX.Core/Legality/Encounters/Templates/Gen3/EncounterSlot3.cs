@@ -7,6 +7,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     : IEncounterable, IEncounterMatch, IEncounterConvertible<PK3>, IMagnetStatic, INumberedSlot, ISlotRNGType, IRandomCorrelation
 {
     public int Generation => 3;
+    int ILocation.Location => Location;
     public EntityContext Context => EntityContext.Gen3;
     public bool EggEncounter => false;
     public Ball FixedBall => GetRequiredBall();
@@ -19,7 +20,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
     public string Name => $"Wild Encounter ({Version})";
     public string LongName => $"{Name} {Type.ToString().Replace('_', ' ')}";
     public GameVersion Version => Parent.Version;
-    public int Location => Parent.Location;
+    public byte Location => Parent.Location;
     public SlotType Type => Parent.Type;
 
     private Ball GetRequiredBall(Ball fallback = Ball.None) => Locations.IsSafariZoneLocation3(Location) ? Ball.Safari : fallback;
@@ -78,7 +79,7 @@ public record EncounterSlot3(EncounterArea3 Parent, ushort Species, byte Form, b
         }
     }
 
-    protected virtual void SetEncounterMoves(PKM pk) => EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+    protected virtual void SetEncounterMoves(PKM pk) => EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
     #endregion
 
     #region Matching

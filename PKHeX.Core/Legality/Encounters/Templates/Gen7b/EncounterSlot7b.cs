@@ -54,7 +54,7 @@ public sealed record EncounterSlot7b(EncounterArea7b Parent, ushort Species, byt
         pk.ResetHeight();
         pk.ResetWeight();
         pk.ResetCP();
-        EncounterUtil1.SetEncounterMoves(pk, Version, LevelMin);
+        EncounterUtil.SetEncounterMoves(pk, Version, LevelMin);
         pk.ResetPartyStats();
         return pk;
     }

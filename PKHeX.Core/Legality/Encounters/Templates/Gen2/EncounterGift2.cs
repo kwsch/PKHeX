@@ -89,7 +89,7 @@ public sealed record EncounterGift2(ushort Species, byte Level, GameVersion Vers
         if (Moves.HasMoves)
             pk.SetMoves(Moves);
         else
-            EncounterUtil1.SetEncounterMoves(pk, version, LevelMin);
+            EncounterUtil.SetEncounterMoves(pk, version, LevelMin);
 
         if (IVs.IsSpecified)
             criteria.SetRandomIVs(pk, IVs);

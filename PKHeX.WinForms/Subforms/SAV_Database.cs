@@ -402,18 +402,9 @@ public partial class SAV_Database : Form
 
         if (Main.Settings.EntityDb.FilterUnavailableSpecies)
         {
-            static bool IsPresentInGameSV(ISpeciesForm pk) => pk is PK9 || PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameSWSH(ISpeciesForm pk) => pk is PK8 || PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGameBDSP(ISpeciesForm pk) => pk is PB8 || PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form);
-            static bool IsPresentInGamePLA(ISpeciesForm pk) => pk is PA8 || PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form);
-            if (sav is SAV9SV)
-                result.RemoveAll(z => !IsPresentInGameSV(z.Entity));
-            else if (sav is SAV8SWSH)
-                result.RemoveAll(z => !IsPresentInGameSWSH(z.Entity));
-            else if (sav is SAV8BS)
-                result.RemoveAll(z => !IsPresentInGameBDSP(z.Entity));
-            else if (sav is SAV8LA)
-                result.RemoveAll(z => !IsPresentInGamePLA(z.Entity));
+            var filter = GetFilterForSaveFile(sav);
+            if (filter != null)
+                result.RemoveAll(z => !filter(z.Entity));
         }
 
         var sort = Main.Settings.EntityDb.InitialSortMode;
@@ -425,6 +416,15 @@ public partial class SAV_Database : Form
         // Finalize the Database
         return result;
     }
+
+    private static Func<PKM, bool>? GetFilterForSaveFile(SaveFile sav) => sav switch
+    {
+        SAV8SWSH => static pk => pk is PK8 || PersonalTable.SWSH.IsPresentInGame(pk.Species, pk.Form),
+        SAV8BS   => static pk => pk is PB8 || PersonalTable.BDSP.IsPresentInGame(pk.Species, pk.Form),
+        SAV8LA   => static pk => pk is PA8 || PersonalTable.LA.IsPresentInGame(pk.Species, pk.Form),
+        SAV9SV   => static pk => pk is PK9 || PersonalTable.SV.IsPresentInGame(pk.Species, pk.Form),
+        _ => null,
+    };
 
     private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<SlotCache> dbTemp, string file)
     {

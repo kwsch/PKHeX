@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using static PKHeX.Core.EntityConverterResult;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core;
 
@@ -28,6 +29,27 @@ public static class EntityConverter
     /// Responsible for converting a <see cref="PKM"/> to a <see cref="PKH"/> for HOME.
     /// </summary>
     public static IHomeStorage HOME { get; set; } = new HomeStorageFacade();
+
+    private static GameVersion _vc1 = RD;
+    private static GameVersion _vc2 = SI;
+
+    /// <summary>
+    /// Default source game for trading from PK2 to PK7.
+    /// </summary>
+    public static GameVersion VirtualConsoleSourceGen1
+    {
+        get => _vc1;
+        set => _vc1 = (value is RD or BU or GN or YW) ? value : RD;
+    }
+
+    /// <summary>
+    /// Default source game for trading from PK2 to PK7.
+    /// </summary>
+    public static GameVersion VirtualConsoleSourceGen2
+    {
+        get => _vc2;
+        set => _vc2 = (value is GD or SI or C) ? value : SI;
+    }
 
     /// <summary>
     /// Checks if the input <see cref="PKM"/> file is capable of being converted to the desired format.
