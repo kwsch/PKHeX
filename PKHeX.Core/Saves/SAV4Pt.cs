@@ -169,41 +169,50 @@ public sealed class SAV4Pt : SAV4Sinnoh
         return new Roamer4(mem);
     }
 
-    public bool GetVillaFurniturePurchased(VillaFurniture index)
+    public bool GetVillaFurniturePurchased(VillaFurniture4 index)
     {
         if (index > VillaFurniture.MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return FlagUtil.GetFlag(General, VillaFurnitureStart + ((byte)index >> 3), (byte)index & 7);
+        return FlagUtil.GetFlag(General, VillaFurnitureStart + (index >> 3), index & 7);
     }
 
-    public void SetVillaFurniturePurchased(VillaFurniture index, bool value = true)
+    public void SetVillaFurniturePurchased(VillaFurniture4 index, bool value = true)
     {
         if (index > VillaFurniture.MAX)
             throw new ArgumentOutOfRangeException(nameof(index));
-        FlagUtil.SetFlag(General, VillaFurnitureStart + ((byte)index >> 3), (byte)index & 7, value);
+        FlagUtil.SetFlag(General, VillaFurnitureStart + (index >> 3), index & 7, value);
+    }
+
+    public bool GetThoughWordUnlocked(ThoughWord4 word)
+    {
+        return FlagUtil.GetFlag(sav.General, 0xCEB4 + (word >> 3), word & 7);
+    }
+
+    public void SetThoughWordUnlocked(ThoughWord4 word, bool value)
+    {
+        FlagUtil.SetFlag(sav.General, 0xCEB4 + (word >> 3), word & 7, value);
+        State.Edited = true;
+    }
+
+    readonly public byte BACKDROP_POSITION_NOT_OBTAINED;
+    public bool GetBackdropPosition(Backdrop4 backdrop)
+    {
+        return sav.General[0x4E60 + backdrop];
+    }
+
+    public bool GetBackdropUnlocked(Backdrop4 backdrop)
+    {
+        return GetBackdropPosition(backdrop) != BACKDROP_POSITION_NOT_OBTAINED;
+    }
+
+    /** Every unlocked backdrop must have a different position. Use position 
+     *  BACKDROP_POSITION_NOT_OBTAINED to remove a backdrop. */
+    public void SetBackdropPosition(Backdrop4 backdrop, byte position)
+    {
+        if (position > BACKDROP_POSITION_NOT_OBTAINED)
+            position = BACKDROP_POSITION_NOT_OBTAINED;
+        sav.General[0x4E60 + backdrop] = value;
+        State.Edited = true;
     }
 }
 
-public enum VillaFurniture
-{
-    BigSofa,
-    SmallSofa,
-    Bed,
-    NightTable,
-    TV,
-    AudioSystem,
-    Bookshelf,
-    Rack,
-    Houseplant,
-    PCDesk,
-    MusicBox,
-    PokemonBust1,
-    PokemonBust2,
-    Piano,
-    GuestSet,
-    WallClock,
-    Masterpiece,
-    TeaSet,
-    Chandelier,
-    MAX = Chandelier,
-}

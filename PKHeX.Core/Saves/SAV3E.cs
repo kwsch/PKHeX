@@ -242,4 +242,38 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
         get => HasBattleVideo ? new BV3(BattleVideoData.ToArray()) : new BV3();
         set => SetData(BattleVideoData, value.Data);
     }
+
+    public bool GetTrendyWordUnlocked(TrendyWord3E word)
+    {
+        return FlagUtil.GetFlag(sav.Large, 0x2E20 + (word >> 3), word & 7);
+    }
+
+    public void SetTrendyWordUnlocked(TrendyWord3E word, bool value)
+    {
+        FlagUtil.SetFlag(sav.Large, 0x2E20 + (word >> 3), word & 7, value);
+        State.Edited = true;
+    }
+
+    /** The value is in 1/60th of second. 0 if there is no record. */
+    public uint GetTrainerHillRecord(TrainerHillMode3 mode)
+    {
+        return BinaryPrimitives.ReadUInt32LittleEndian(sav.Large.AsSpan(0x3718 + mode * 4));
+    }
+
+    public void SetTrainerHillRecord(TrainerHill3 mode, uint value)
+    {
+        BinaryPrimitives.WriteUInt32LittleEndian(sav.Large.AsSpan(0x3718 + mode * 4), value);
+        State.Edited = true;
+    }
+
+    public override Span<ushort> BerryBlenderRPMRecords
+    {
+        get => MemoryMarshal.Cast<byte, ushort>(sav.Large.AsSpan(0x9BC, 3 * 2));
+        set =>
+        {
+            if (value.Count != 3)
+                return;
+            SetData(sav.Large.AsSpan(0x9BC), MemoryMarshal.Cast<ushort, byte>(value));
+        }
+    }
 }
