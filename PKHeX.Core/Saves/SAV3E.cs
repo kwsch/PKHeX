@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using static System.Buffers.Binary.BinaryPrimitives;
 
 namespace PKHeX.Core;
@@ -21,6 +22,7 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     public override int DaycareSeedSize => 8; // 32bit
     protected override int EggEventFlag => 0x86;
     protected override int BadgeFlagStart => 0x867;
+     
 
     public SAV3E(byte[] data) : base(data) => Initialize();
     public SAV3E(bool japanese = false) : base(japanese) => Initialize();
@@ -128,6 +130,9 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     private const int OFS_PouchBalls = 0x0650;
     private const int OFS_PouchTMHM = 0x0690;
     private const int OFS_PouchBerry = 0x0790;
+    private const int OFS_BerryBlenderRecord = 0x9BC;
+    private const int OFS_TrendyWord = 0x2E20;
+    private const int OFS_TrainerHillRecord = 0x3718;
 
     protected override InventoryPouch3[] GetItems()
     {
@@ -185,6 +190,41 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
 
     protected override int ExternalEventData => 0x31B3;
 
+    /** Max RPM for 2, 3 and 4 players. Each value unit represents 0.01 RPM. Value 0 if no record. */
+    public Span<ushort> BerryBlenderRPMRecords
+    {
+        get => MemoryMarshal.Cast<byte, ushort>(Large.AsSpan(OFS_BerryBlenderRecord, 3 * 2));
+        set
+        {
+            if (value.Length != 3)
+                return;
+            SetData(Large.AsSpan(0x9BC), MemoryMarshal.Cast<ushort, byte>(value));
+        }
+    }
+
+    public bool GetTrendyWordUnlocked(TrendyWord3E word)
+    {
+        return GetFlag(OFS_TrendyWord + ((byte)word >> 3), (byte)word & 7);
+    }
+
+    public void SetTrendyWordUnlocked(TrendyWord3E word, bool value)
+    {
+        SetFlag(OFS_TrendyWord + ((byte)word >> 3), (byte)word & 7, value);
+        State.Edited = true;
+    }
+
+    /** Each value unit represents 1/60th of a second. Value 0 if no record. */
+    public uint GetTrainerHillRecord(TrainerHillMode3E mode)
+    {
+        return ReadUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4));
+    }
+
+    public void SetTrainerHillRecord(TrainerHillMode3E mode, uint value)
+    {
+        WriteUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4), value);
+        State.Edited = true;
+    }
+
     #region eBerry
     private const int OFFSET_EBERRY = 0x31F8;
     private const int SIZE_EBERRY = 0x34;
@@ -241,39 +281,5 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     {
         get => HasBattleVideo ? new BV3(BattleVideoData.ToArray()) : new BV3();
         set => SetData(BattleVideoData, value.Data);
-    }
-
-    public bool GetTrendyWordUnlocked(TrendyWord3E word)
-    {
-        return FlagUtil.GetFlag(sav.Large, 0x2E20 + (word >> 3), word & 7);
-    }
-
-    public void SetTrendyWordUnlocked(TrendyWord3E word, bool value)
-    {
-        FlagUtil.SetFlag(sav.Large, 0x2E20 + (word >> 3), word & 7, value);
-        State.Edited = true;
-    }
-
-    /** The value is in 1/60th of second. 0 if there is no record. */
-    public uint GetTrainerHillRecord(TrainerHillMode3 mode)
-    {
-        return BinaryPrimitives.ReadUInt32LittleEndian(sav.Large.AsSpan(0x3718 + mode * 4));
-    }
-
-    public void SetTrainerHillRecord(TrainerHill3 mode, uint value)
-    {
-        BinaryPrimitives.WriteUInt32LittleEndian(sav.Large.AsSpan(0x3718 + mode * 4), value);
-        State.Edited = true;
-    }
-
-    public override Span<ushort> BerryBlenderRPMRecords
-    {
-        get => MemoryMarshal.Cast<byte, ushort>(sav.Large.AsSpan(0x9BC, 3 * 2));
-        set =>
-        {
-            if (value.Count != 3)
-                return;
-            SetData(sav.Large.AsSpan(0x9BC), MemoryMarshal.Cast<ushort, byte>(value));
-        }
     }
 }

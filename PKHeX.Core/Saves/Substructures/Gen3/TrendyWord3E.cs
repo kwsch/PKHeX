@@ -1,6 +1,6 @@
 namespace PKHeX.Core;
 
-public enum TrendyWord : byte
+public enum TrendyWord3E : byte
 {
     KTHXBYE,
     YESSIR,

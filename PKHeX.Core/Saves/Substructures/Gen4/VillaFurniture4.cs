@@ -1,6 +1,6 @@
 namespace PKHeX.Core;
 
-public enum VillaFurniture : byte
+public enum VillaFurniture4 : byte
 {
     BigSofa,
     SmallSofa,
