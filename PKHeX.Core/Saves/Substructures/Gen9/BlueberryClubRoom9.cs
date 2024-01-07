@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core;
 
-public sealed class BlueberrySupportBoard9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
+public sealed class BlueberryClubRoom9(SAV9SV sav, SCBlock block) : SaveBlock<SAV9SV>(sav, block.Data)
 {
     private Span<byte> Span => Data.AsSpan();
 

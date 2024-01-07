@@ -31,7 +31,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     public RaidSevenStar9 RaidSevenStar { get; }
     public Epoch1900Value EnrollmentDate { get; }
     public BlueberryQuestRecord9 BlueberryQuestRecord { get; }
-    public BlueberrySupportBoard9 BlueberrySupportBoard { get; }
+    public BlueberryClubRoom9 BlueberryClubRoom { get; }
 
     public SaveBlockAccessor9SV(SAV9SV sav)
     {
@@ -75,7 +75,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
 
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
         BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));
-        BlueberrySupportBoard = new BlueberrySupportBoard9(sav, GetBlockSafe(KBlueberrySupportBoard));
+        BlueberryClubRoom = new BlueberryClubRoom9(sav, GetBlockSafe(KBlueberrySupportBoard));
     }
 
     // Arrays (Blocks)

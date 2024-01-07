@@ -84,7 +84,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
     public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
     public BlueberryQuestRecord9 BlueberryQuestRecord => Blocks.BlueberryQuestRecord;
-    public BlueberrySupportBoard9 BlueberrySupportBoard9 => Blocks.BlueberrySupportBoard;
+    public BlueberryClubRoom9 BlueberryClubRoom => Blocks.BlueberryClubRoom;
     #endregion
 
     protected override SAV9SV CloneInternal()
@@ -446,9 +446,9 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
         }
 
         // Update Support Board
-        BlueberrySupportBoard9.BaseballClub2Done = true;
-        BlueberrySupportBoard9.BaseballClub2Unread = false;
-        BlueberrySupportBoard9.BaseballClub3Done = true;
-        BlueberrySupportBoard9.BaseballClub3Unread = false;
+        BlueberryClubRoom.BaseballClub2Done = true;
+        BlueberryClubRoom.BaseballClub2Unread = false;
+        BlueberryClubRoom.BaseballClub3Done = true;
+        BlueberryClubRoom.BaseballClub3Unread = false;
     }
 }
