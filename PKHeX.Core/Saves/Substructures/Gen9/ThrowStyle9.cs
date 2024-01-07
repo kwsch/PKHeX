@@ -1,5 +1,3 @@
-using System;
-
 namespace PKHeX.Core;
 
 public enum ThrowStyle9: byte
@@ -12,5 +10,5 @@ public enum ThrowStyle9: byte
     DaintyStyle = 6,
     TwirlingStyle = 7,
     SmugStyle = 8,
-    GalarainStarStyle = 9,
+    GalarianStarStyle = 9,
 }
