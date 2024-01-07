@@ -158,6 +158,11 @@ public static class SpeciesName
             result[(indexSpace+1)..].CopyTo(result[indexSpace..]);
             result = result[..^1];
         }
+
+        // Gen1/2 uses a different period for MR.MIME than user input.
+        int indexDot = result.IndexOf('.');
+        if (indexDot != -1)
+            result[indexDot] = '․'; // U+2024, not U+002E
         return new string(result);
     }
 

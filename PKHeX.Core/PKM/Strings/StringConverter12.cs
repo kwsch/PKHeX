@@ -184,7 +184,7 @@ public static class StringConverter12
     private const char LPO = '@'; // Po
     private const char LKE = '#'; // Ke
     private const char LEA = '%'; // é for Box
-    private const char DOT = '․'; // Not .
+    private const char DOT = '․'; // . for MR.MIME (U+2024, not U+002E)
 
     public static ReadOnlySpan<char> TableEN =>
     [
@@ -202,8 +202,8 @@ public static class StringConverter12
         'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'à', 'è', 'é', 'ù', 'À', 'Á', // B0-BF
         'Ä', 'Ö', 'Ü', 'ä', 'ö', 'ü', 'È', 'É', 'Ì', 'Í', 'Ñ', 'Ò', 'Ó', 'Ù', 'Ú', 'á', // C0-CF
         'ì', 'í', 'ñ', 'ò', 'ó', 'ú', NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, '←', '\'', // D0-DF
-        '’', LPK, LMN, '-', NUL, NUL, '?', '!', '.', '&', LEA, '→', '▷', '▶', '▼', '♂', // E0-EF
-        MNY, '×', DOT, '/', ',', '♀', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', // F0-FF
+        '’', LPK, LMN, '-', NUL, NUL, '?', '!', DOT, '&', LEA, '→', '▷', '▶', '▼', '♂', // E0-EF
+        MNY, '×', '.', '/', ',', '♀', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', // F0-FF
     ];
 
     public static ReadOnlySpan<char> TableJP =>
