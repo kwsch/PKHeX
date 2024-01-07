@@ -167,7 +167,7 @@ Aroma Veil
 Flower Veil
 Cheek Pouch
 Protean
-Fur Coat
+Thick Coat
 Magician
 Bulletproof
 Competitive
@@ -183,7 +183,7 @@ Tough Claws
 Pixilate
 Gooey
 Aerilate
-Parental Bond
+Polynoötic
 Dark Aura
 Fairy Aura
 Aura Break
@@ -211,7 +211,7 @@ Disguise
 Battle Bond
 Power Construct
 Corrosion
-Comatose
+Unihemispheric
 Queenly Majesty
 Innards Out
 Dancer
