@@ -158,7 +158,7 @@ public static class StringConverter12
         for (; i < value.Length; i++)
         {
             char c = value[i];
-            var index = dict.IndexOf(c);
+            var index = dict.IndexOf(Hiragana.Contains(c) ? (char)(c + (char)0x60) : c);
             if (index is -1 or G1TerminatorCode)
                 break;
             destBuffer[i] = (byte)index;
@@ -170,6 +170,9 @@ public static class StringConverter12
         destBuffer[count] = G1TerminatorCode;
         return count + 1;
     }
+
+    // べ (U+3079), ぺ (U+307A), へ (U+3078), and り (U+308A)
+    private const string Hiragana = "べぺへり";
 
     #region Gen 1/2 Character Tables
 
@@ -217,7 +220,7 @@ public static class StringConverter12
         'チ', 'ツ', 'テ', 'ト', 'ナ', 'ニ', 'ヌ', 'ネ', 'ノ', 'ハ', 'ヒ', 'フ', 'ホ', 'マ', 'ミ', 'ム', // 90-9F
         'メ', 'モ', 'ヤ', 'ユ', 'ヨ', 'ラ', 'ル', 'レ', 'ロ', 'ワ', 'ヲ', 'ン', 'ッ', 'ャ', 'ュ', 'ョ', // A0-AF
         'ィ', 'あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', // B0-BF
-        'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', // C0-CF
+        'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'ヘ', 'ほ', 'ま', // C0-CF
         'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'リ', 'る', 'れ', 'ろ', 'わ', 'を', 'ん', 'っ', // D0-DF
         'ゃ', 'ゅ', 'ょ', 'ー', 'ﾟ', 'ﾞ', '？', '！', '。', 'ァ', 'ゥ', 'ェ', NUL, NUL, NUL, '♂', // E0-EF
         MNY, NUL, '．', '／', 'ォ', '♀', '０', '１', '２', '３', '４', '５', '６', '７', '８', '９', // F0-FF
