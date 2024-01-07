@@ -128,6 +128,9 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     private const int OFS_PouchBalls = 0x0650;
     private const int OFS_PouchTMHM = 0x0690;
     private const int OFS_PouchBerry = 0x0790;
+    private const int OFS_BerryBlenderRecord = 0x9BC;
+    private const int OFS_TrendyWord = 0x2E20;
+    private const int OFS_TrainerHillRecord = 0x3718;
 
     protected override InventoryPouch3[] GetItems()
     {
@@ -184,6 +187,50 @@ public sealed class SAV3E : SAV3, IGen3Hoenn, IGen3Joyful, IGen3Wonder
     public override void SetDaycareRNGSeed(int loc, string seed) => WriteUInt32LittleEndian(Large.AsSpan(GetDaycareEXPOffset(2)), Util.GetHexValue(seed));
 
     protected override int ExternalEventData => 0x31B3;
+
+    /// <summary>
+    /// Max RPM for 2, 3 and 4 players. Each value unit represents 0.01 RPM. Value 0 if no record.
+    /// </summary>
+    /// <remarks>2 players: index 0, 3 players: index 1, 4 players: index 2</remarks>
+    public const int BerryBlenderRPMRecordCount = 3;
+
+    private Span<byte> GetBlenderRPMSpan(int index)
+    {
+        if ((uint)index >= BerryBlenderRPMRecordCount)
+            throw new ArgumentOutOfRangeException(nameof(index));
+        return Large.AsSpan(OFS_BerryBlenderRecord + (index * 2));
+    }
+
+    public ushort GetBerryBlenderRPMRecord(int index) => ReadUInt16LittleEndian(GetBlenderRPMSpan(index));
+
+    public void SetBerryBlenderRPMRecord(int index, ushort value)
+    {
+        WriteUInt16LittleEndian(GetBlenderRPMSpan(index), value);
+        State.Edited = true;
+    }
+
+    public bool GetTrendyWordUnlocked(TrendyWord3E word)
+    {
+        return GetFlag(OFS_TrendyWord + ((byte)word >> 3), (byte)word & 7);
+    }
+
+    public void SetTrendyWordUnlocked(TrendyWord3E word, bool value)
+    {
+        SetFlag(OFS_TrendyWord + ((byte)word >> 3), (byte)word & 7, value);
+        State.Edited = true;
+    }
+
+    /** Each value unit represents 1/60th of a second. Value 0 if no record. */
+    public uint GetTrainerHillRecord(TrainerHillMode3E mode)
+    {
+        return ReadUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4));
+    }
+
+    public void SetTrainerHillRecord(TrainerHillMode3E mode, uint value)
+    {
+        WriteUInt32LittleEndian(Large.AsSpan(OFS_TrainerHillRecord + (byte)mode * 4), value);
+        State.Edited = true;
+    }
 
     #region eBerry
     private const int OFFSET_EBERRY = 0x31F8;
