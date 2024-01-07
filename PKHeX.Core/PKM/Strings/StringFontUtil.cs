@@ -30,15 +30,6 @@ public static class StringFontUtil
     }
 
     /// <summary>
-    /// Determines if a string contains undefined characters in the font for the given <see cref="EntityContext"/> and <see cref="LanguageID"/>.
-    /// </summary>
-    /// <param name="str">The input string to check for undefined characters.</param>
-    /// <param name="context">The context to get the font for.</param>
-    /// <param name="language">The language of the Pokémon.</param>
-    /// <returns>True if the input string contains undefined characters; otherwise, false.</returns>
-    public static bool HasUndefinedCharacters(ReadOnlySpan<char> str, EntityContext context, LanguageID language) => HasUndefinedCharacters(str, context, language, language);
-
-    /// <summary>
     /// Replaces any undefined characters in the font for the given <see cref="EntityContext"/> and <see cref="LanguageID"/> within a string with a fallback character.
     /// </summary>
     /// <param name="str">The input string to replace any undefined characters in.</param>

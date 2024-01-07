@@ -36,10 +36,6 @@ public sealed class TrainerNameVerifier : Verifier
         {
             VerifyOTGB(data);
         }
-        else if (pk.Format >= 5 && StringFontUtil.HasUndefinedCharacters(ot, enc.Context, (LanguageID)pk.Language))
-        {
-            data.AddLine(GetInvalid(LOTCharNotInFont));
-        }
         else if (ot.Length > Legal.GetMaxLengthOT(data.Info.Generation, (LanguageID)pk.Language))
         {
             if (!IsEdgeCaseLength(pk, data.EncounterOriginal, ot))
