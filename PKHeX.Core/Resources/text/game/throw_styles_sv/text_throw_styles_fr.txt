@@ -1,9 +1,9 @@
-Original Style
-Left-Handed Style
-Elegant Style
-Reverant Style
-Ninja Style
-Dainty Style
-Twirling Style
-Smug Style
-Galarain Star Style
+Le style Normal
+Le style Gaucher
+Le style Idéaliste
+Le style Élégant
+Le style Ninja
+Le style Pirouette
+Le style Mignon
+Le style Assuré
+Le style Star de Galar
