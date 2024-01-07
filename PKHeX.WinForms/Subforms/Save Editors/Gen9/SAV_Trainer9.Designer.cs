@@ -98,6 +98,7 @@ namespace PKHeX.WinForms
             B_MaxLP = new System.Windows.Forms.Button();
             L_LP = new System.Windows.Forms.Label();
             Tab_MiscValues = new System.Windows.Forms.TabPage();
+            B_UnlockThrowStyles = new System.Windows.Forms.Button();
             B_UnlockCoaches = new System.Windows.Forms.Button();
             B_ActivateSnacksworthLegendaries = new System.Windows.Forms.Button();
             B_UnlockClothing = new System.Windows.Forms.Button();
@@ -126,6 +127,8 @@ namespace PKHeX.WinForms
             L_BP = new System.Windows.Forms.Label();
             MT_BP = new System.Windows.Forms.MaskedTextBox();
             B_MaxBP = new System.Windows.Forms.Button();
+            L_ThrowStyle = new System.Windows.Forms.Label();
+            CB_ThrowStyle = new System.Windows.Forms.ComboBox();
             TC_Editor.SuspendLayout();
             Tab_Overview.SuspendLayout();
             Tab_MiscValues.SuspendLayout();
@@ -741,6 +744,7 @@ namespace PKHeX.WinForms
             // 
             // Tab_MiscValues
             // 
+            Tab_MiscValues.Controls.Add(B_UnlockThrowStyles);
             Tab_MiscValues.Controls.Add(B_UnlockCoaches);
             Tab_MiscValues.Controls.Add(B_ActivateSnacksworthLegendaries);
             Tab_MiscValues.Controls.Add(B_UnlockClothing);
@@ -758,9 +762,19 @@ namespace PKHeX.WinForms
             Tab_MiscValues.Text = "Misc";
             Tab_MiscValues.UseVisualStyleBackColor = true;
             // 
+            // B_UnlockThrowStyles
+            // 
+            B_UnlockThrowStyles.Location = new System.Drawing.Point(289, 175);
+            B_UnlockThrowStyles.Name = "B_UnlockThrowStyles";
+            B_UnlockThrowStyles.Size = new System.Drawing.Size(90, 45);
+            B_UnlockThrowStyles.TabIndex = 67;
+            B_UnlockThrowStyles.Text = "Unlock All Throw Styles";
+            B_UnlockThrowStyles.UseVisualStyleBackColor = true;
+            B_UnlockThrowStyles.Click += B_UnlockThrowStyles_Click;
+            // 
             // B_UnlockCoaches
             // 
-            B_UnlockCoaches.Location = new System.Drawing.Point(387, 124);
+            B_UnlockCoaches.Location = new System.Drawing.Point(387, 125);
             B_UnlockCoaches.Margin = new System.Windows.Forms.Padding(0);
             B_UnlockCoaches.Name = "B_UnlockCoaches";
             B_UnlockCoaches.Size = new System.Drawing.Size(90, 45);
@@ -771,7 +785,7 @@ namespace PKHeX.WinForms
             // 
             // B_ActivateSnacksworthLegendaries
             // 
-            B_ActivateSnacksworthLegendaries.Location = new System.Drawing.Point(289, 124);
+            B_ActivateSnacksworthLegendaries.Location = new System.Drawing.Point(289, 125);
             B_ActivateSnacksworthLegendaries.Margin = new System.Windows.Forms.Padding(0);
             B_ActivateSnacksworthLegendaries.Name = "B_ActivateSnacksworthLegendaries";
             B_ActivateSnacksworthLegendaries.Size = new System.Drawing.Size(90, 45);
@@ -793,7 +807,7 @@ namespace PKHeX.WinForms
             // 
             // B_UnlockBikeUpgrades
             // 
-            B_UnlockBikeUpgrades.Location = new System.Drawing.Point(387, 74);
+            B_UnlockBikeUpgrades.Location = new System.Drawing.Point(387, 75);
             B_UnlockBikeUpgrades.Margin = new System.Windows.Forms.Padding(0);
             B_UnlockBikeUpgrades.Name = "B_UnlockBikeUpgrades";
             B_UnlockBikeUpgrades.Size = new System.Drawing.Size(90, 45);
@@ -804,7 +818,7 @@ namespace PKHeX.WinForms
             // 
             // B_UnlockTMRecipes
             // 
-            B_UnlockTMRecipes.Location = new System.Drawing.Point(289, 74);
+            B_UnlockTMRecipes.Location = new System.Drawing.Point(289, 75);
             B_UnlockTMRecipes.Margin = new System.Windows.Forms.Padding(0);
             B_UnlockTMRecipes.Name = "B_UnlockTMRecipes";
             B_UnlockTMRecipes.Size = new System.Drawing.Size(90, 45);
@@ -999,6 +1013,8 @@ namespace PKHeX.WinForms
             // 
             // Tab_Blueberry
             // 
+            Tab_Blueberry.Controls.Add(CB_ThrowStyle);
+            Tab_Blueberry.Controls.Add(L_ThrowStyle);
             Tab_Blueberry.Controls.Add(NUD_BBQGroup);
             Tab_Blueberry.Controls.Add(NUD_BBQSolo);
             Tab_Blueberry.Controls.Add(L_BBQGroup);
@@ -1079,6 +1095,23 @@ namespace PKHeX.WinForms
             B_MaxBP.TabIndex = 78;
             B_MaxBP.Text = "+";
             B_MaxBP.UseVisualStyleBackColor = true;
+            // 
+            // L_ThrowStyle
+            // 
+            L_ThrowStyle.AutoSize = true;
+            L_ThrowStyle.Location = new System.Drawing.Point(140, 202);
+            L_ThrowStyle.Name = "L_ThrowStyle";
+            L_ThrowStyle.Size = new System.Drawing.Size(71, 15);
+            L_ThrowStyle.TabIndex = 86;
+            L_ThrowStyle.Text = "Throw Style:";
+            // 
+            // CB_ThrowStyle
+            // 
+            CB_ThrowStyle.FormattingEnabled = true;
+            CB_ThrowStyle.Location = new System.Drawing.Point(218, 199);
+            CB_ThrowStyle.Name = "CB_ThrowStyle";
+            CB_ThrowStyle.Size = new System.Drawing.Size(121, 23);
+            CB_ThrowStyle.TabIndex = 87;
             // 
             // SAV_Trainer9
             // 
@@ -1215,5 +1248,8 @@ namespace PKHeX.WinForms
         private System.Windows.Forms.Button B_MaxBP;
         private System.Windows.Forms.Button B_ActivateSnacksworthLegendaries;
         private System.Windows.Forms.Button B_UnlockCoaches;
+        private System.Windows.Forms.Button B_UnlockThrowStyles;
+        private System.Windows.Forms.ComboBox CB_ThrowStyle;
+        private System.Windows.Forms.Label L_ThrowStyle;
     }
 }
