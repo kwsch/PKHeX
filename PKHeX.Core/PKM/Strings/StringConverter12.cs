@@ -157,11 +157,9 @@ public static class StringConverter12
         int i = 0;
         for (; i < value.Length; i++)
         {
-            char c = value[i];
-            var index = dict.IndexOf(Hiragana.Contains(c) ? (char)(c + (char)0x60) : c);
-            if (index is -1 or G1TerminatorCode)
+            if (!TryGetIndex(dict, value[i], out var index))
                 break;
-            destBuffer[i] = (byte)index;
+            destBuffer[i] = index;
         }
 
         int count = i;
@@ -171,8 +169,33 @@ public static class StringConverter12
         return count + 1;
     }
 
+    private static bool TryGetIndex(in ReadOnlySpan<char> dict, char c, out byte result)
+    {
+        var index = dict.IndexOf(c);
+        if (index == -1)
+            return TryGetUserFriendlyRemap(dict, c, out result);
+        // \0 shouldn't really be user-entered, but just in case
+        result = (byte)index;
+        return index != default;
+    }
+
     // べ (U+3079), ぺ (U+307A), へ (U+3078), and り (U+308A)
     private const string Hiragana = "べぺへり";
+
+    /// <summary>
+    /// Tries to remap the user input to a valid character.
+    /// </summary>
+    private static bool TryGetUserFriendlyRemap(in ReadOnlySpan<char> dict, char c, out byte result)
+    {
+        if (Hiragana.Contains(c))
+        {
+            int index = dict.IndexOf((char)(c + (char)0x60));
+            result = (byte)index;
+            return true; // Valid Hiragana will always be found if it's in the table
+        }
+        result = default;
+        return false;
+    }
 
     #region Gen 1/2 Character Tables
 
@@ -184,7 +207,9 @@ public static class StringConverter12
     private const char LPO = '@'; // Po
     private const char LKE = '#'; // Ke
     private const char LEA = '%'; // é for Box
-    private const char DOT = '․'; // . for MR.MIME (U+2024, not U+002E)
+    public const char DOT = '․'; // . for MR.MIME (U+2024, not U+002E)
+    private const char SPF = '　'; // Full-width space (U+3000)
+    public const char SPH = ' '; // Half-width space
 
     public static ReadOnlySpan<char> TableEN =>
     [
@@ -195,7 +220,7 @@ public static class StringConverter12
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 40-4F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, TOT, NUL, NUL, // 50-5F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 60-6F
-        LPO, LKE, '“', '”', NUL, '…', NUL, NUL, NUL, '┌', '─', '┐', '│', '└', '┘', ' ', // 70-7F
+        LPO, LKE, '“', '”', NUL, '…', NUL, NUL, NUL, '┌', '─', '┐', '│', '└', '┘', SPH, // 70-7F
         'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', // 80-8F
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '(', ')', ':', ';', '[', ']', // 90-9F
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', // A0-AF
@@ -215,7 +240,7 @@ public static class StringConverter12
         'パ', 'ピ', 'プ', 'ポ', 'ぱ', 'ぴ', 'ぷ', 'ペ', 'ぽ', NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 40-4F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, TOT, NUL, NUL, // 50-5F
         NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, // 60-6F
-        '「', '」', '『', '』', '・', '⋯', NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, '　', // 70-7F
+        '「', '」', '『', '』', '・', '⋯', NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, NUL, SPF, // 70-7F
         'ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'キ', 'ク', 'ケ', 'コ', 'サ', 'シ', 'ス', 'セ', 'ソ', 'タ', // 80-8F
         'チ', 'ツ', 'テ', 'ト', 'ナ', 'ニ', 'ヌ', 'ネ', 'ノ', 'ハ', 'ヒ', 'フ', 'ホ', 'マ', 'ミ', 'ム', // 90-9F
         'メ', 'モ', 'ヤ', 'ユ', 'ヨ', 'ラ', 'ル', 'レ', 'ロ', 'ワ', 'ヲ', 'ン', 'ッ', 'ャ', 'ュ', 'ョ', // A0-AF
