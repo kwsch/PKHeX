@@ -75,7 +75,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
 
         EnrollmentDate = new Epoch1900Value(GetBlock(KEnrollmentDate));
         BlueberryQuestRecord = new BlueberryQuestRecord9(sav, GetBlockSafe(KBlueberryQuestRecords));
-        BlueberryClubRoom = new BlueberryClubRoom9(sav, GetBlockSafe(KBlueberrySupportBoard));
+        BlueberryClubRoom = new BlueberryClubRoom9(sav, GetBlockSafe(KBlueberryClubRoom));
     }
 
     // Arrays (Blocks)
@@ -2028,7 +2028,7 @@ public sealed class SaveBlockAccessor9SV : SCBlockAccessor, ISaveBlock9Main
     #region Sudachi 2
     private const uint KGameClearIndigoDisk = 0x0DDBBAAF; // FSYS_SCENARIO_GAME_CLEAR_SU2
 
-    private const uint KBlueberrySupportBoard = 0x08290F0F;
+    private const uint KBlueberryClubRoom = 0x08290F0F;
 
     public const uint KThrowStyle = 0xD86EB052;
 
