@@ -563,7 +563,7 @@ Dragon Gem
 Dark Gem
 Steel Gem
 Normal Gem
-Health Feather
+Restoration Wing
 Muscle Feather
 Resist Feather
 Genius Feather
@@ -770,7 +770,7 @@ Lopunnite
 Salamencite
 Beedrillite
 Meteorite
-Meteorite
+Imbued Meteorite
 Key Stone
 Meteorite Shard
 Eon Flute

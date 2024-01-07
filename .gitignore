@@ -264,3 +264,5 @@ pip-log.txt
 #################
 
 *.userprefs
+
+.fake
