@@ -83,4 +83,27 @@ public class StringTests
         var result = StringConverter12Transporter.GetString(b12[..len], true);
         result.Should().Be(g7);
     }
+
+    [Theory]
+    [InlineData(Species.MrMime, "MR․MIME")]
+    public static void ConvertStringG1(Species species, string expect)
+    {
+        const bool jp = false;
+        const int lang = (int)LanguageID.English;
+        // Ensure the API returns the correct Generation 1 name string.
+        var name = SpeciesName.GetSpeciesNameGeneration((ushort)species, lang, 1);
+        name.Should().Be(expect);
+
+        // Ensure the API converts it back and forth correctly.
+        Span<byte> convert = stackalloc byte[expect.Length + 1];
+        var len = StringConverter12.SetString(convert, name, name.Length, jp);
+        len.Should().Be(expect.Length + 1);
+        var gen1Name = StringConverter12.GetString(convert, jp);
+        gen1Name.Should().Be(expect);
+
+        // Truncated name transferred with Virtual Console rules isn't the same as the Generation 7 name.
+        var vcName = StringConverter12Transporter.GetString(convert[..len], jp);
+        var gen7Name = SpeciesName.GetSpeciesNameGeneration((ushort)species, lang, 7);
+        vcName.Should().NotBe(gen7Name);
+    }
 }
