@@ -138,6 +138,10 @@ public static class StringConverter12Transporter
         0x3000, 0x3000, 0x3000, 0x3000, 0x30A9, 0x2640, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, 0x3000, // F
     ];
 
+    /// <summary>
+    /// Gets the Trainer Name for a Generation 1 in-game trade (NPC).
+    /// </summary>
+    /// <param name="language">Language to localize with</param>
     public static string GetTradeNameGen1(int language) => language switch
     {
         1 => "トレーナー",
@@ -152,6 +156,11 @@ public static class StringConverter12Transporter
         _ => string.Empty,
     };
 
+    /// <summary>
+    /// Gets a "safe" Trainer Name for a Generation 1 or 2 trainer, in the event the original was naughty.
+    /// </summary>
+    /// <param name="language">Language to localize with</param>
+    /// <param name="version">Version transferred from to Bank</param>
     public static string GetFilteredOT(int language, int version) => version switch
     {
         (int)GameVersion.RD => language switch

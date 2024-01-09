@@ -11,7 +11,7 @@ public sealed class EncounterGeneratorGO : IEncounterGenerator
         var loc = pk.Met_Location;
         if (loc == Locations.GO7)
             return EncounterGenerator7GO.Instance.GetEncounters(pk, chain, info);
-        if (loc == Locations.GO8)
+        if (loc == Locations.GO8 && pk is not PB7)
             return EncounterGenerator8GO.Instance.GetEncounters(pk, chain, info);
         return [];
     }

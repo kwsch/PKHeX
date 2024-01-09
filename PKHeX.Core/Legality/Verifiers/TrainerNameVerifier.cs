@@ -122,8 +122,13 @@ public sealed class TrainerNameVerifier : Verifier
         var pk = data.Entity;
 
         // Filtered OT names use unavailable characters and can be too long
-        if (str.SequenceEqual(StringConverter12Transporter.GetFilteredOT(pk.Language, pk.Version)))
-            return;
+        if (pk.Format >= 7)
+        {
+            // Check if it was profanity filtered.
+            var filtered = StringConverter12Transporter.GetFilteredOT(pk.Language, pk.Version);
+            if (str.SequenceEqual(filtered))
+                return;
+        }
 
         if (pk.Japanese)
         {
