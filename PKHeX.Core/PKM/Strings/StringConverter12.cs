@@ -29,13 +29,14 @@ public static class StringConverter12
         foreach (var c in data)
         {
             var b = table[c];
-            if (b == G1Terminator && c is not (G1TerminatorCode or 0))
+            if (b == G1Terminator && c is not (G1TerminatorCode or G1TerminatorZero))
                 return false;
         }
         return true;
     }
 
     public const byte G1TerminatorCode = 0x50;
+    public const byte G1TerminatorZero = 0x00;
     public const char G1Terminator = '\0';
     public const byte G1TradeOTCode = 0x5D;
     public const char G1TradeOT = '*';
