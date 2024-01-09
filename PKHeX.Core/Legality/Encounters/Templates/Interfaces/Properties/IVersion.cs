@@ -22,11 +22,12 @@ public static partial class Extensions
         return ver.GetSingleVersion();
     }
 
-    private static GameVersion GetSingleVersion(this IVersion ver)
+    public static GameVersion GetSingleVersion(this IVersion ver)
     {
         const int max = (int)GameUtil.HighestGameID;
-        if ((int)ver.Version <= max)
-            return ver.Version;
+        var v = ver.Version;
+        if (v.IsValidSavedVersion())
+            return v;
         var rnd = Util.Rand;
         while (true) // this isn't optimal, but is low maintenance
         {
