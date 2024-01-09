@@ -1,4 +1,4 @@
-﻿namespace PKHeX.Core;
+namespace PKHeX.Core;
 
 /// <summary>
 /// Plugin interface used by an editor to notify third-party code providers.
@@ -25,6 +25,13 @@ public interface IPlugin
     /// Notifies the plugin that a save file was just loaded.
     /// </summary>
     void NotifySaveLoaded();
+
+    /// <summary>
+    /// Notifies the plugin that the display language has changed.
+    /// </summary>
+    /// <param name="language">Short code for language name</param>
+    /// <remarks>Useful to translate controls if any added.</remarks>
+    void NotifyDisplayLanguageChanged(string language) { }
 
     /// <summary>
     /// Attempts to load a file using the plugin.

@@ -974,6 +974,9 @@ public partial class Main : Form
             PKME_Tabs.PopulateFields(pk); // put data back in form
             Text = GetProgramTitle(sav);
         }
+
+        foreach (var plugin in Plugins)
+            plugin.NotifyDisplayLanguageChanged(lang);
     }
     #endregion
 
