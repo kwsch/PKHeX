@@ -615,6 +615,12 @@ public partial class StatEditor : UserControl
         if (order == StatOrder)
             return;
 
+        // https://stackoverflow.com/a/30219698
+        // WinForms hack to create the handles and avoid Z-order changing on visibility toggle.
+        // Otherwise, our stat ordering may be incorrect if we change it more than once.
+        foreach (Control ctrl in FLP_Stats.Controls)
+            _ = ctrl.Handle;
+
         // In Generation 1, Special Defense and Special Attack are combined.
         // Additionally, Speed is shown before Special.
         const int baseIndex = 1;
