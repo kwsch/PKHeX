@@ -114,11 +114,27 @@ public static class StringConverter8
             return TrashMatch.TooLongToTell;
         index++; // hop over the terminator
 
+        return GetTrashState(top, under, index);
+    }
+
+    private static TrashMatch GetTrashState(ReadOnlySpan<byte> top, ReadOnlySpan<char> under, int index)
+    {
         // Adjust our spans to the relevant sections
         under = under[index..];
         var relevantSection = top[(index * 2)..];
+        bool check = IsEqualsEncoded(relevantSection, under);
+        return check ? TrashMatch.Present : TrashMatch.NotPresent;
+    }
+
+    private static bool IsEqualsEncoded(ReadOnlySpan<byte> relevantSection, ReadOnlySpan<char> under)
+    {
+        if (BitConverter.IsLittleEndian)
+        {
+            var u16 = MemoryMarshal.Cast<char, byte>(under);
+            return relevantSection.SequenceEqual(u16);
+        }
         Span<byte> expect = stackalloc byte[relevantSection.Length];
         WriteCharacters(expect, under);
-        return relevantSection.SequenceEqual(expect) ? TrashMatch.Present : TrashMatch.NotPresent;
+        return relevantSection.SequenceEqual(expect);
     }
 }
