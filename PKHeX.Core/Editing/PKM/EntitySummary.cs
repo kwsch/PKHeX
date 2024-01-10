@@ -66,7 +66,6 @@ public class EntitySummary : IFatefulEncounterReadOnly // do NOT seal, allow inh
     public int Smart => pk is IContestStatsReadOnly s ? s.CNT_Smart : 0;
     public int Tough => pk is IContestStatsReadOnly s ? s.CNT_Tough : 0;
     public int Sheen => pk is IContestStatsReadOnly s ? s.CNT_Sheen : 0;
-    public int Markings => pk.MarkValue;
 
     public string NotOT => pk.Format > 5 ? pk.HT_Name : "N/A";
 

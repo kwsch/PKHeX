@@ -112,7 +112,7 @@ public sealed class GameDataPK8 : HomeOptional1, IGameDataSide<PK8>, IGigantamax
         AbilityNumber = (byte)pk.AbilityNumber;
         Ability = (ushort)pk.Ability;
 
-        pkh.MarkValue &= 0b1111_1111_1111;
+        pkh.MarkingValue &= 0b1111_1111_1111;
         if (!pk.IsNicknamed)
             pkh.Nickname = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, 8);
         if (FormInfo.IsTotemForm(pk.Species, pk.Form))

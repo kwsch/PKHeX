@@ -60,7 +60,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
         get => StringConverter3.GetString(OT_Trash, Japanese);
         set => StringConverter3.SetString(OT_Trash, value, 7, Japanese, StringConverterOption.None);
     }
-    public override int MarkValue { get => SwapBits(Data[0x1B], 1, 2); set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
+    public override byte MarkingValue { get => (byte)SwapBits(Data[0x1B], 1, 2); set => Data[0x1B] = (byte)SwapBits(value, 1, 2); }
     public ushort Checksum { get => ReadUInt16LittleEndian(Data.AsSpan(0x1C)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1C), value); }
     public ushort Sanity { get => ReadUInt16LittleEndian(Data.AsSpan(0x1E)); set => WriteUInt16LittleEndian(Data.AsSpan(0x1E), value); }
 
@@ -222,7 +222,7 @@ public sealed class PK3 : G3PKM, ISanityChecksum
             Form = Form,
             // IsEgg = false, -- already false
             OT_Friendship = 70,
-            MarkValue = MarkValue & 0b1111,
+            MarkingValue = (byte)(MarkingValue & 0b1111),
             Language = Language,
             EV_HP = EV_HP,
             EV_ATK = EV_ATK,

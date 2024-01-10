@@ -6,7 +6,7 @@ namespace PKHeX.Core;
 
 /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
 public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetMemory6, IRibbonSetRibbons,
-    IContestStats, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IGroundTile
+    IContestStats, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection, IGroundTile, IAppliedMarkings4
 {
     public override ReadOnlySpan<ushort> ExtraBytes =>
     [
@@ -112,7 +112,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public byte CNT_Smart  { get => Data[0x27]; set => Data[0x27] = value; }
     public byte CNT_Tough  { get => Data[0x28]; set => Data[0x28] = value; }
     public byte CNT_Sheen  { get => Data[0x29]; set => Data[0x29] = value; }
-    public override int MarkValue { get => Data[0x2A]; set => Data[0x2A] = (byte)value; }
+    public byte MarkingValue { get => Data[0x2A]; set => Data[0x2A] = value; }
     private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
     public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
     public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | (value << 4)); }
@@ -455,28 +455,35 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
     public override int MaxItemID => Legal.MaxItemID_6_AO;
     public override int MaxBallID => Legal.MaxBallID_6;
     public override int MaxGameID => Legal.MaxGameID_6; // OR
-    public override int MarkingCount => 6;
+    public int MarkingCount => 6;
 
-    public override int GetMarking(int index)
+    public bool GetMarking(int index)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        return (MarkValue >> index) & 1;
+        return ((MarkingValue >> index) & 1) != 0;
     }
 
-    public override void SetMarking(int index, int value)
+    public void SetMarking(int index, bool value)
     {
         if ((uint)index >= MarkingCount)
             throw new ArgumentOutOfRangeException(nameof(index));
-        MarkValue = (MarkValue & ~(1 << index)) | ((value & 1) << index);
+        MarkingValue = (byte)((MarkingValue & ~(1 << index)) | ((value ? 1 : 0) << index));
     }
+
+    public bool MarkingCircle   { get => GetMarking(0); set => SetMarking(0, value); }
+    public bool MarkingTriangle { get => GetMarking(1); set => SetMarking(1, value); }
+    public bool MarkingSquare   { get => GetMarking(2); set => SetMarking(2, value); }
+    public bool MarkingHeart    { get => GetMarking(3); set => SetMarking(3, value); }
+    public bool MarkingStar     { get => GetMarking(4); set => SetMarking(4, value); }
+    public bool MarkingDiamond  { get => GetMarking(5); set => SetMarking(5, value); }
 
     public PK7 ConvertToPK7()
     {
         PK7 pk7 = new((byte[])Data.Clone())
         {
             ResortEventStatus = 0, // Clears old Marking Value
-            MarkValue = 0, // Clears old Super Training Bag & Hits Remaining
+            MarkingValue = 0, // Clears old Super Training Bag & Hits Remaining
             FormArgument = 0, // Clears old style Form Argument
             DirtType = 0, // Clears old Form Argument byte
             DirtLocation = 0, // Clears old Form Argument byte
@@ -484,7 +491,7 @@ public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetC
 
         // Remap boolean markings to the dual-bit format -- set 1 if marked.
         for (int i = 0; i < 6; i++)
-            pk7.SetMarking(i, GetMarking(i));
+            pk7.SetMarking(i, GetMarking(i) ? MarkingColor.Blue : MarkingColor.None);
 
         var an = AbilityNumber;
         if (an is 1 or 2 or 4) // Valid Ability Numbers

@@ -80,12 +80,12 @@ public sealed class DrawConfig : IDisposable
         _ => TextColor,
     };
 
-    public bool GetMarkingColor(int markval, out Color c)
+    public bool GetMarkingColor(MarkingColor markval, out Color c)
     {
         switch (markval)
         {
-            case 1: c = MarkBlue; return true;
-            case 2: c = MarkPink; return true;
+            case MarkingColor.Blue: c = MarkBlue; return true;
+            case MarkingColor.Pink: c = MarkPink; return true;
             default: c = MarkDefault; return false; // recolor not required
         }
     }

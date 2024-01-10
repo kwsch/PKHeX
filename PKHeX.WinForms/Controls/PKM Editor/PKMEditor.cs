@@ -496,27 +496,30 @@ public sealed partial class PKMEditor : UserControl, IMainEditor
 
     private void SetMarkings()
     {
-        var pba = Markings;
-        var count = Entity.MarkingCount;
-        for (int i = 0; i < pba.Length; i++)
-            pba[i].Image = GetMarkSprite(pba[i], i < count && Entity.GetMarking(i) != 0);
-
         PB_MarkShiny.Image = GetMarkSprite(PB_MarkShiny, !BTN_Shinytize.Enabled);
         PB_MarkCured.Image = GetMarkSprite(PB_MarkCured, CHK_Cured.Checked);
 
         PB_Favorite.Image = GetMarkSprite(PB_Favorite, Entity is IFavorite { IsFavorite: true });
         PB_Origin.Image = GetOriginSprite(Entity);
 
-        // Colored Markings
-        if (Entity.Format < 7)
-            return;
-
-        for (int i = 0; i < count; i++)
+        var pba = Markings;
+        if (Entity is IAppliedMarkings<bool> b)
         {
-            if (!Draw.GetMarkingColor(Entity.GetMarking(i), out Color c))
-                continue;
-            var pb = pba[i];
-            pb.Image = ImageUtil.ChangeAllColorTo(pb.Image, c);
+            for (int i = 0; i < b.MarkingCount; i++)
+                pba[i].Image = GetMarkSprite(pba[i], b.GetMarking(i));
+        }
+        else if (Entity is IAppliedMarkings<MarkingColor> c)
+        {
+            for (int i = 0; i < pba.Length; i++)
+            {
+                var pb = pba[i];
+                var state = c.GetMarking(i);
+                var opaque = Draw.GetMarkingColor(state, out var color);
+                var img = GetMarkSprite(pb, opaque);
+                if (opaque)
+                    img = ImageUtil.ChangeAllColorTo(img, color);
+                pb.Image = img;
+            }
         }
     }
 
