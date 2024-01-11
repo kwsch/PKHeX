@@ -165,7 +165,6 @@ public static class MoveInfo
 
         // Unreleased
         (int)LightofRuin => false,
-        (int)MalignantChain => false,
 
         _ => IsMoveKnowable(move),
     };
