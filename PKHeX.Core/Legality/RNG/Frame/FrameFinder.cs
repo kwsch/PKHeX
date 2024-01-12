@@ -21,7 +21,7 @@ public static class FrameFinder
             return [];
 
         // Don't trust pk.Nature, just get the correct original via EncryptionConstant
-        var info = new FrameGenerator(pk) {Nature = pk.EncryptionConstant % 25};
+        var info = new FrameGenerator(pk) {Nature = (byte)(pk.EncryptionConstant % 25)};
         var seeds = GetSeeds(pidiv, info, pk);
         var frames = pidiv.Type == PIDType.CuteCharm
             ? FilterCuteCharm(seeds, info)

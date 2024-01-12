@@ -4,17 +4,17 @@ using static PKHeX.Core.GameVersion;
 namespace PKHeX.Core;
 
 /// <summary>
-/// Generator class for Gen3/4 Frame patterns
+/// Generator information for Gen3/4 Frame patterns
 /// </summary>
-public sealed class FrameGenerator
+public readonly struct FrameGenerator
 {
-    public uint Nature { get; init; }
-    public readonly bool Gendered;
-    public readonly int GenderHigh;
-    public readonly int GenderLow;
+    public required byte Nature { get; init; }
+    public readonly byte GenderHigh;
+    public readonly byte GenderLow;
+    public readonly FrameType FrameType;
     public readonly bool DPPt;
     public readonly bool AllowLeads;
-    public readonly FrameType FrameType;
+    public readonly bool Gendered;
     public readonly bool Safari3;
 
     public Frame GetFrame(uint seed, LeadRequired lead) => new(seed, FrameType, lead);
@@ -56,8 +56,7 @@ public sealed class FrameGenerator
 
                 var gr = pk.PersonalInfo.Gender;
                 Gendered = true;
-                GenderLow = GetGenderMinMax(gender, gr, false);
-                GenderHigh = GetGenderMinMax(gender, gr, true);
+                (GenderLow, GenderHigh) = GetGenderMinMax(gender, gr);
                 return;
 
             // Method J
@@ -83,18 +82,17 @@ public sealed class FrameGenerator
     /// </summary>
     /// <param name="gender">Gender</param>
     /// <param name="ratio">Gender Ratio</param>
-    /// <param name="max">Return Max (or Min)</param>
     /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
-    private static int GetGenderMinMax(int gender, int ratio, bool max) => ratio switch
+    private static (byte Min, byte Max) GetGenderMinMax(int gender, byte ratio) => ratio switch
     {
-        PersonalInfo.RatioMagicMale => max ? 255 : 0,
-        PersonalInfo.RatioMagicFemale => max ? 255 : 0,
-        PersonalInfo.RatioMagicGenderless => max ? 255 : 0,
+        PersonalInfo.RatioMagicMale => (0, 255),
+        PersonalInfo.RatioMagicFemale => (0, 255),
+        PersonalInfo.RatioMagicGenderless => (0, 255),
         _ => gender switch
         {
-            0 => max ? 255 : ratio, // male
-            1 => max ? ratio - 1 : 0, // female
-            _ => max ? 255 : 0,
+            0 => (ratio, 255), // male
+            1 => (0, --ratio), // female
+            _ => (0, 255),
         },
     };
 }

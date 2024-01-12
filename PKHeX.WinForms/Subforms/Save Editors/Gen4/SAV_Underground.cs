@@ -88,8 +88,8 @@ public partial class SAV_Underground : Form
             cell[0].Value = ugGoods[goods];
         }
 
-        // Spheres (split in two, first 40 positions are the sphere type, last 40 are their size)
-        for (int i = 0; i < (spheresList.Length / 2); i++)
+        // Spheres
+        for (int i = 0; i < spheresList.Length; i++)
         {
             var sphere = spheresList[i];
             var count = sphereCount[i];
@@ -97,7 +97,7 @@ public partial class SAV_Underground : Form
                 sphere = count = 0;
 
             var cell = DGV_UGSpheres.Rows[i].Cells;
-            cell[0].Value = sphere;
+            cell[0].Value = ugSpheres[sphere];
             cell[1].Value = count;
         }
 
@@ -109,7 +109,7 @@ public partial class SAV_Underground : Form
                 trap = 0;
 
             var cell = DGV_UGTraps.Rows[i].Cells;
-            cell[0].Value = trap;
+            cell[0].Value = ugTraps[trap];
         }
 
         // Treasures
@@ -119,7 +119,7 @@ public partial class SAV_Underground : Form
             if (treasure >= ugTreasures.Length)
                 treasure = 0;
             var cell = DGV_UGTreasures.Rows[i].Cells;
-            cell[0].Value = treasure;
+            cell[0].Value = ugTreasures[treasure];
         }
     }
 
