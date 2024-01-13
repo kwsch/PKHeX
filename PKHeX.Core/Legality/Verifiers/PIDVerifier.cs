@@ -1,4 +1,3 @@
-using System;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core;
@@ -105,19 +104,12 @@ public sealed class PIDVerifier : Verifier
         // Indicate the evolution for the user.
         uint evoVal = pk.EncryptionConstant % 100;
         bool rare = evoVal == 0;
-        var (species, form) = GetEvolvedSpeciesForm(encSpecies, rare);
+        var (species, form) = EvolutionRestrictions.GetEvolvedSpeciesFormEC100(encSpecies, rare);
         var str = GameInfo.Strings;
         var forms = FormConverter.GetFormList(species, str.Types, str.forms, GameInfo.GenderSymbolASCII, EntityContext.Gen9);
         var msg = string.Format(L_XRareFormEvo_0_1, forms[form], rare);
         data.AddLine(GetValid(msg, CheckIdentifier.EC));
     }
-
-    private static (ushort, int) GetEvolvedSpeciesForm(ushort species, bool rare) => species switch
-    {
-        (int)Species.Tandemaus => ((ushort)Species.Maushold,    rare ? 0 : 1),
-        (int)Species.Dunsparce => ((ushort)Species.Dudunsparce, rare ? 1 : 0),
-        _ => throw new ArgumentOutOfRangeException(nameof(species), species, "Incorrect EC%100 species."),
-    };
 
     private static void VerifyEC(LegalityAnalysis data)
     {
