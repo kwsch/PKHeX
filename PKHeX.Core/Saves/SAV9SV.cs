@@ -84,6 +84,7 @@ public sealed class SAV9SV : SaveFile, ISaveBlock9Main, ISCBlockArray, ISaveFile
     public RaidSevenStar9 RaidSevenStar => Blocks.RaidSevenStar;
     public Epoch1900Value EnrollmentDate => Blocks.EnrollmentDate;
     public BlueberryQuestRecord9 BlueberryQuestRecord => Blocks.BlueberryQuestRecord;
+    public BlueberryClubRoom9 BlueberryClubRoom => Blocks.BlueberryClubRoom;
     #endregion
 
     protected override SAV9SV CloneInternal()
